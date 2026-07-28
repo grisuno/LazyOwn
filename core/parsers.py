@@ -18,6 +18,22 @@ import yaml
 from core.console import print_error, print_msg
 
 
+def strip_ansi(text: str) -> str:
+    """Remove ANSI escape sequences from a string.
+
+    Handles standard escape codes (``\x1B[...m``), extended unicode
+    escape initiators (``\u001b``, ``\u009b``), and CSI sequences.
+
+    Args:
+        text: Raw terminal output.
+
+    Returns:
+        Clean text without ANSI codes.
+    """
+    ansi_regex = re.compile(r"[\u001b\u009b][\[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]")
+    return ansi_regex.sub("", text)
+
+
 def clean_output(output: str) -> str:
     """Remove ANSI escape sequences from a string.
 
@@ -27,8 +43,7 @@ def clean_output(output: str) -> str:
     Returns:
         Clean text without ANSI codes.
     """
-    ansi_escape = re.compile(r"\x1B[@-_][0-?]*[ -/]*[@-~]")
-    return ansi_escape.sub("", output)
+    return strip_ansi(output)
 
 
 def clean_html(html_string: str) -> str:

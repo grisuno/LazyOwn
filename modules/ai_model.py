@@ -1,10 +1,12 @@
 """Concrete language model backends for LazyOwn.
 
-This module exposes the abstract :class:`AIModel` together with two
-concrete implementations: :class:`GroqModel` (cloud) and
-:class:`OllamaModel` (local). Every implementation honours both the
-historical ``generate``/``stream_generate`` interface used by the
-existing AI agents and the :func:`complete` signature defined in
+This module exposes the abstract :class:`AIModel` together with five
+concrete implementations: :class:`GroqModel` (cloud),
+:class:`OllamaModel` (local), :class:`OpenAIModel` (cloud),
+:class:`AnthropicModel` (cloud), and :class:`DeepSeekModel` (cloud).
+Every implementation honours both the historical
+``generate``/``stream_generate`` interface used by the existing AI
+agents and the :func:`complete` signature defined in
 ``core.protocols.LLMBackend``. Callers depending on the abstract type
 remain decoupled from the concrete provider.
 
@@ -16,16 +18,21 @@ concrete classes from new code unless a test explicitly requires it.
 from __future__ import annotations
 
 import json
+import logging
 from abc import ABC, abstractmethod
 from collections.abc import Generator
 from typing import Union
 
 import requests
-from groq import Groq
+
+logger = logging.getLogger(__name__)
 
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
+DEFAULT_OPENAI_MODEL = "gpt-4o"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
 DEFAULT_COMPLETE_MAX_TOKENS = 1024
 DEFAULT_COMPLETE_TEMPERATURE = 0.2
 HTTP_OK = 200
@@ -83,6 +90,35 @@ class AIModel(ABC):
         return "".join(chunk for chunk in result if isinstance(chunk, str))
 
 
+class _LazyImporter:
+    """Deferred importer to avoid import errors when optional SDKs are unavailable."""
+
+    _GROQ_CLIENT = None
+    _OPENAI_CLIENT = None
+    _ANTHROPIC_CLIENT = None
+
+    @classmethod
+    def groq(cls):
+        if cls._GROQ_CLIENT is None:
+            from groq import Groq as _Groq
+            cls._GROQ_CLIENT = _Groq
+        return cls._GROQ_CLIENT
+
+    @classmethod
+    def openai(cls):
+        if cls._OPENAI_CLIENT is None:
+            from openai import OpenAI as _OpenAI
+            cls._OPENAI_CLIENT = _OpenAI
+        return cls._OPENAI_CLIENT
+
+    @classmethod
+    def anthropic(cls):
+        if cls._ANTHROPIC_CLIENT is None:
+            from anthropic import Anthropic as _Anthropic
+            cls._ANTHROPIC_CLIENT = _Anthropic
+        return cls._ANTHROPIC_CLIENT
+
+
 class GroqModel(AIModel):
     """Groq-hosted Llama backend.
 
@@ -92,7 +128,7 @@ class GroqModel(AIModel):
     """
 
     def __init__(self, api_key: str, model: str = DEFAULT_GROQ_MODEL) -> None:
-        self.client = Groq(api_key=api_key)
+        self.client = _LazyImporter.groq()(api_key=api_key)
         self.model = model
 
     def generate(self, prompt: str) -> str:
@@ -230,13 +266,197 @@ class OllamaModel(AIModel):
             yield f"Error streaming from Ollama: {exc}"
 
 
+class OpenAIModel(AIModel):
+    """OpenAI-hosted backend (GPT-4o, GPT-4, etc.).
+
+    Uses the ``openai`` SDK. Requires an OpenAI API key.
+    """
+
+    def __init__(self, api_key: str, model: str = DEFAULT_OPENAI_MODEL) -> None:
+        self.client = _LazyImporter.openai()(api_key=api_key)
+        self.model = model
+
+    def generate(self, prompt: str) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("OpenAI generate error: %s", exc)
+            return f"Error from OpenAI: {exc}"
+
+    def stream_generate(self, prompt: str) -> Generator[str, None, None]:
+        try:
+            stream = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+                stream=True,
+            )
+            for chunk in stream:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield content
+        except Exception as exc:
+            logger.warning("OpenAI stream error: %s", exc)
+            yield f"Error streaming from OpenAI: {exc}"
+
+    def complete(
+        self,
+        system: str,
+        user: str,
+        max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS,
+        temperature: float = DEFAULT_COMPLETE_TEMPERATURE,
+    ) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                model=self.model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("OpenAI complete error: %s", exc)
+            return f"Error from OpenAI: {exc}"
+
+
+class AnthropicModel(AIModel):
+    """Anthropic Claude backend.
+
+    Uses the ``anthropic`` SDK. Requires an Anthropic API key.
+    """
+
+    def __init__(self, api_key: str, model: str = DEFAULT_ANTHROPIC_MODEL) -> None:
+        self.client = _LazyImporter.anthropic()(api_key=api_key)
+        self.model = model
+
+    def generate(self, prompt: str) -> str:
+        try:
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=DEFAULT_COMPLETE_MAX_TOKENS,
+                messages=[{"role": "user", "content": prompt}],
+            )
+            return response.content[0].text.strip()
+        except Exception as exc:
+            logger.warning("Anthropic generate error: %s", exc)
+            return f"Error from Anthropic: {exc}"
+
+    def stream_generate(self, prompt: str) -> Generator[str, None, None]:
+        try:
+            with self.client.messages.stream(
+                model=self.model,
+                max_tokens=DEFAULT_COMPLETE_MAX_TOKENS,
+                messages=[{"role": "user", "content": prompt}],
+            ) as stream:
+                for text in stream.text_stream:
+                    if text:
+                        yield text
+        except Exception as exc:
+            logger.warning("Anthropic stream error: %s", exc)
+            yield f"Error streaming from Anthropic: {exc}"
+
+    def complete(
+        self,
+        system: str,
+        user: str,
+        max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS,
+        temperature: float = DEFAULT_COMPLETE_TEMPERATURE,
+    ) -> str:
+        try:
+            response = self.client.messages.create(
+                model=self.model,
+                max_tokens=max_tokens,
+                system=system,
+                messages=[{"role": "user", "content": user}],
+            )
+            return response.content[0].text.strip()
+        except Exception as exc:
+            logger.warning("Anthropic complete error: %s", exc)
+            return f"Error from Anthropic: {exc}"
+
+
+class DeepSeekModel(AIModel):
+    """DeepSeek cloud backend.
+
+    Uses the OpenAI-compatible API at api.deepseek.com.
+    Requires a DeepSeek API key.
+    """
+
+    def __init__(self, api_key: str, model: str = DEFAULT_DEEPSEEK_MODEL) -> None:
+        self.client = _LazyImporter.openai()(
+            api_key=api_key,
+            base_url="https://api.deepseek.com",
+        )
+        self.model = model
+
+    def generate(self, prompt: str) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("DeepSeek generate error: %s", exc)
+            return f"Error from DeepSeek: {exc}"
+
+    def stream_generate(self, prompt: str) -> Generator[str, None, None]:
+        try:
+            stream = self.client.chat.completions.create(
+                messages=[{"role": "user", "content": prompt}],
+                model=self.model,
+                stream=True,
+            )
+            for chunk in stream:
+                content = chunk.choices[0].delta.content
+                if content:
+                    yield content
+        except Exception as exc:
+            logger.warning("DeepSeek stream error: %s", exc)
+            yield f"Error streaming from DeepSeek: {exc}"
+
+    def complete(
+        self,
+        system: str,
+        user: str,
+        max_tokens: int = DEFAULT_COMPLETE_MAX_TOKENS,
+        temperature: float = DEFAULT_COMPLETE_TEMPERATURE,
+    ) -> str:
+        try:
+            response = self.client.chat.completions.create(
+                messages=[
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": user},
+                ],
+                model=self.model,
+                max_tokens=max_tokens,
+                temperature=temperature,
+            )
+            return response.choices[0].message.content.strip()
+        except Exception as exc:
+            logger.warning("DeepSeek complete error: %s", exc)
+            return f"Error from DeepSeek: {exc}"
+
+
 __all__ = [
     "AIModel",
+    "AnthropicModel",
+    "DEFAULT_ANTHROPIC_MODEL",
     "DEFAULT_COMPLETE_MAX_TOKENS",
     "DEFAULT_COMPLETE_TEMPERATURE",
+    "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
     "DEFAULT_OLLAMA_HOST",
     "DEFAULT_OLLAMA_MODEL",
+    "DEFAULT_OPENAI_MODEL",
+    "DeepSeekModel",
     "GroqModel",
     "OllamaModel",
+    "OpenAIModel",
 ]

@@ -8,10 +8,7 @@ RATE_LIMIT = 5
 SESSION_TIMEOUT = 1800
 
 
-def strip_ansi(text: str) -> str:
-    """Remove ANSI escape sequences from a string."""
-    ansi_regex = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-    return ansi_regex.sub('', text)
+from core.parsers import strip_ansi
 
 
 class SecureSessionManager:

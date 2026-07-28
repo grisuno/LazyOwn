@@ -91,14 +91,10 @@ class PaletteSuiteConfig:
         "from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig",
         "from cli.palette_command import render as _render_palette",
     )
-    expected_lazyown_methods: frozenset[str] = frozenset({"do_palette", "complete_palette"})
+    expected_lazyown_methods: frozenset[str] = frozenset({"complete_palette"})
     lazyown_shell_class_name: str = "LazyOwnShell"
-    known_duplicate_lines: dict[str, frozenset[int]] = field(
-        default_factory=lambda: {
-            "do_shellshock": frozenset({11623, 14970}),
-            "do_download_c2": frozenset({992, 25378, 26841}),
-        }
-    )
+    palette_command_module: str = "cli/commands/misc_migrated.py"
+    known_duplicate_lines: dict[str, frozenset[int]] = field(default_factory=dict)
     invalid_index_payload: str = "{not json"
     case_sensitive_invariant_phase_index: int = 0
     mcp_tool_name: str = "lazyown_palette"
@@ -1003,13 +999,22 @@ class TestLazyOwnWiring:
         """The full text of ``lazyown.py``."""
         return suite_config.lazyown_path.read_text(encoding="utf-8")
 
+    @pytest.fixture(scope="class")
+    def palette_src(self, suite_config: PaletteSuiteConfig) -> str:
+        """The full text of the module that now defines ``do_palette``.
+
+        The monolith split moved ``do_palette`` into a phase ``CommandSet``
+        while ``complete_palette`` stayed on ``LazyOwnShell``.
+        """
+        return (suite_config.repo_root / suite_config.palette_command_module).read_text(encoding="utf-8")
+
     def test_required_imports_present(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """Every import that the wiring depends on appears in the file."""
         for line in suite_config.required_lazyown_imports:
             assert line in src, f"missing import: {line}"
 
     def test_methods_defined_on_lazyown_shell(self, src: str, suite_config: PaletteSuiteConfig) -> None:
-        """``do_palette`` and ``complete_palette`` belong to ``LazyOwnShell``."""
+        """``complete_palette`` still belongs to ``LazyOwnShell``."""
         tree = ast.parse(src)
         defined: set[str] = set()
         for node in ast.walk(tree):
@@ -1020,15 +1025,15 @@ class TestLazyOwnWiring:
         for name in suite_config.expected_lazyown_methods:
             assert name in defined, f"{name} not defined on {suite_config.lazyown_shell_class_name}"
 
-    def test_do_palette_loads_index_and_renders(self, src: str) -> None:
+    def test_do_palette_loads_index_and_renders(self, palette_src: str) -> None:
         """``do_palette`` body delegates to the loader and the renderer."""
-        body = _extract_method_body(src, "do_palette")
+        body = _extract_method_body(palette_src, "do_palette")
         assert "_load_command_index(" in body
         assert "_render_palette(" in body
 
-    def test_do_palette_handles_index_error(self, src: str) -> None:
+    def test_do_palette_handles_index_error(self, palette_src: str) -> None:
         """``do_palette`` body recovers gracefully from a missing index."""
-        body = _extract_method_body(src, "do_palette")
+        body = _extract_method_body(palette_src, "do_palette")
         assert "_CommandIndexError" in body
 
     def test_complete_palette_uses_completer(self, src: str) -> None:

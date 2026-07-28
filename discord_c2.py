@@ -22,9 +22,7 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-def strip_ansi(s):
-    ansi_regex = re.compile(r'[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]')
-    return ansi_regex.sub('', s)
+from core.parsers import strip_ansi
 
 class SecureSessionManager:
     def __init__(self):

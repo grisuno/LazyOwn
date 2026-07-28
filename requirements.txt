@@ -11,7 +11,7 @@ aiowinreg==0.0.13
 annotated-types==0.7.0
 antlr4-python3-runtime==4.13.2
 anyio==4.13.0
-argcomplete==3.6.3
+argcomplete==3.7.0
 argon2-cffi-bindings==25.1.0
 argon2-cffi==25.1.0
 asn1crypto==1.5.1
@@ -37,7 +37,7 @@ cachetools==7.0.6
 capstone==6.0.0a7
 certifi==2026.6.17
 certipy-ad==5.0.4
-cffi==2.0.0
+cffi==2.1.0
 cfgv==3.5.0
 chardet==7.4.3
 charset-normalizer==3.4.7
@@ -160,7 +160,7 @@ pwn==1.0
 pwncat-cs==0.5.4
 pwntools==4.15.0
 py-serializable==2.1.0
-pyarrow==24.0.0
+pyarrow==25.0.0
 pyasn1==0.6.4
 pyasn1_modules==0.4.2
 PyAutoGUI==0.9.54
@@ -169,7 +169,7 @@ pycryptodome==3.22.0
 pycryptodomex==3.23.0
 pydantic==2.13.3
 pydantic_core==2.46.3
-pyelftools==0.32
+pyelftools==0.33
 PyGetWindow==0.0.9
 Pygments==2.20.0
 pykeepass==4.1.1.post1
@@ -226,7 +226,7 @@ textual==8.2.5
 tinydb==4.8.2
 tomli==2.4.1
 tomli_w==1.2.0
-tqdm==4.67.3
+tqdm==4.69.1
 traitlets==5.14.3
 transaction==5.1
 typing-inspection==0.4.2

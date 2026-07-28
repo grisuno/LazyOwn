@@ -32,14 +32,19 @@ def _load_yaml() -> dict[str, str]:
 
 
 def _legacy_alias_keys_from_lazyown() -> set[str]:
-    """Snapshot of the historical aliases dict keys.
+    """Canonical snapshot of the YAML alias keys.
 
     The inline dict in ``lazyown.py`` was replaced by a YAML-driven loader.
     This snapshot is embedded so the test does not depend on git or the
-    previous file revision.
+    previous file revision. The monolith split renamed three aliases that
+    collided with newly promoted commands (``loot`` -> ``loot2``,
+    ``trace`` -> ``trace_kernel``, ``lol`` -> ``lol_list``); the set below
+    reflects the post-split canonical alias names.
     """
     return {
+        "ae",
         "amnesiac",
+        "ap",
         "aslr",
         "asm",
         "atomic_update",
@@ -59,6 +64,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "coerce_plus",
         "control_dynamic_debug",
         "creds",
+        "dd",
         "diable_selinux",
         "disable_apparmor",
         "disable_aslr",
@@ -67,6 +73,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "discovery",
         "dolphin",
         "duckdns",
+        "ech",
         "ed",
         "empire_client",
         "empire_server",
@@ -78,6 +85,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "event_trace",
         "ftpd",
         "ftpsniff",
+        "full",
         "gdb",
         "get_all_domains",
         "halt",
@@ -90,9 +98,12 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "ipy",
         "kallsyms",
         "kvpn",
-        "loot",
+        "lol_list",
+        "loot2",
+        "lr",
         "ls",
         "lsof",
+        "luse",
         "man",
         "mitre_update",
         "moo",
@@ -116,6 +127,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "qq",
         "randomuser",
         "report",
+        "rt",
         "rtpflood",
         "rustrevmakerlin",
         "rustrevmakerwin",
@@ -125,6 +137,8 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "showmount",
         "smbd",
         "sniff",
+        "soff",
+        "son",
         "spiderfoot",
         "sshr",
         "start_apt",
@@ -143,7 +157,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "tcpdumpt",
         "tor",
         "touched_functions",
-        "trace",
+        "trace_kernel",
         "unshadow",
         "update",
         "venom",
@@ -170,8 +184,8 @@ class TestAliasYamlIntegrity:
         assert missing == set(), f"YAML lost legacy aliases: {sorted(missing)}"
         assert extra == set(), f"YAML introduced unknown aliases: {sorted(extra)}"
 
-    def test_yaml_count_is_114(self):
-        assert len(_load_yaml()) == 114
+    def test_yaml_count_is_125(self):
+        assert len(_load_yaml()) == 125
 
     def test_all_values_are_strings(self):
         for name, value in _load_yaml().items():
@@ -264,7 +278,7 @@ class TestAliasLoaderSubstitution:
         from core.config import load_payload
 
         aliases = load_aliases(load_payload(), lazy=False)
-        assert len(aliases) == 114
+        assert len(aliases) == 125
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
 
@@ -376,3 +390,67 @@ class TestRegisterCommandSets:
 class TestLazyOwnStillParses:
     def test_ast_parse(self):
         ast.parse(LAZYOWN_PATH.read_text(encoding="utf-8"))
+
+
+class TestPrivateHelperForwarding:
+    """LazyOwnCommandSet forwards single-underscore shell helpers.
+
+    The monolith split left several private helpers (``_scope_save``,
+    ``_load_adversaries``, ...) on ``LazyOwnShell`` while their ``do_*``
+    callers moved into CommandSets. ``__getattr__`` must forward those
+    single-underscore reads to the bound shell, stay inert before
+    registration, and still refuse dunder / ``complete_`` probes.
+    """
+
+    def _probe_class(self):
+        import cmd2
+
+        from cli.commands._base import LazyOwnCommandSet
+
+        class _Probe(LazyOwnCommandSet):
+            phase = "test"
+            category = "test"
+
+            @cmd2.with_category("test")
+            def do_probe(self, line):
+                return self._scope_helper()
+
+        return _Probe
+
+    def _shell_class(self):
+        import cmd2
+
+        class _Shell(cmd2.Cmd):
+            def __init__(self) -> None:
+                super().__init__(auto_load_commands=False)
+                self.params = {"scope": ["10.0.0.0/8"]}
+
+            def _scope_helper(self):
+                return list(self.params.get("scope", []))
+
+        return _Shell
+
+    def test_private_helper_inert_before_registration(self):
+        probe = self._probe_class()()
+        with pytest.raises(AttributeError):
+            probe._scope_helper()
+
+    def test_private_helper_forwards_after_registration(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        assert probe._scope_helper() == ["10.0.0.0/8"]
+
+    def test_dunder_still_refused_after_registration(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        with pytest.raises(AttributeError):
+            probe.__does_not_exist__
+
+    def test_missing_private_raises_not_utils_fallback(self):
+        probe = self._probe_class()()
+        shell = self._shell_class()()
+        shell.register_command_set(probe)
+        with pytest.raises(AttributeError):
+            probe._name_absent_everywhere

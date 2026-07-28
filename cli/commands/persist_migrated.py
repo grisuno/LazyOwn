@@ -1364,4 +1364,4 @@ class PersistMigratedCommandSet(PendingCommandSet):
 
         print_msg(f"Magic packet sent to {self.params['rhost']}:{rport}")
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["PersistMigratedCommandSet"]

@@ -2754,4 +2754,4 @@ class ScanMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["ScanMigratedCommandSet"]

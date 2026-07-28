@@ -2380,4 +2380,4 @@ class CommandAndControlMigratedCommandSet(PendingCommandSet):
 
         print_succ(f"Exported {exported} abilities to {caldera_path}")
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["CommandAndControlMigratedCommandSet"]

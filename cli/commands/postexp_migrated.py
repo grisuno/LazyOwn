@@ -2173,4 +2173,4 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["PostexpMigratedCommandSet"]

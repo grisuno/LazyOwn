@@ -715,4 +715,4 @@ class ReportMigratedCommandSet(PendingCommandSet):
             json.dump(all_data, f, indent=2)
         print_msg(f"Processed CSV files and saved data to '{output_file}'.")
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["ReportMigratedCommandSet"]

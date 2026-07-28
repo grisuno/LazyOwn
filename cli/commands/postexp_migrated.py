@@ -6,7 +6,15 @@ from __future__ import annotations
 
 import cmd2
 
-from cli.commands._dormancy import PendingCommandSet
+import glob
+import json
+import subprocess
+import sys
+import time
+
+import requests
+
+from cli.commands._base import LazyOwnCommandSet
 from utils import (
     GREEN,
     RESET,
@@ -18,10 +26,11 @@ from utils import (
 )
 
 
-class PostexpMigratedCommandSet(PendingCommandSet):
+class PostexpMigratedCommandSet(LazyOwnCommandSet):
     phase = "postexp"
-    category = "post_exploitation_category"
+    category = "04. Post-Exploitation"
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_find(self, line=""):
         """
         Automates command execution based on a list of aliases and commands.
@@ -289,6 +298,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error(f"An error occurred: {e}")
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_cports(self, line):
         """
         Generates a command to display TCP and UDP ports and copies it to the clipboard.
@@ -333,6 +343,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_rubeus(self, line):
         """
         Copies a command to the clipboard for downloading and running Rubeus.
@@ -372,6 +383,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         )
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_sessionsshstrace(self, line):
         """
         Attach strace to a running process and log output to a file.
@@ -422,6 +434,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         print_warn("Stopped strace...")
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_powershell_cmd_stager(self, line):
         """
         Generate and execute a PowerShell command stager to run a .ps1 script.
@@ -458,6 +471,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         copy2clip(cmd_stager)
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_shellcode_search(self, line):
         """
         Search the shell-storm API for shellcodes using the provided keywords.
@@ -505,6 +519,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred while performing the search: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_shellcode2sylk(self, line):
         """
         Converts shellcode to SYLK format and saves the result to a file.
@@ -549,6 +564,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             targets_file.write(shellcode)
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_pezorsh(self, line):
         """
         Executes the PEzor tool to pack executables or shellcode with custom configurations.
@@ -619,6 +635,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         print_msg(f"Generated command: {command}")
         self.cmd(command)
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_pip_repo(self, line):
         """
         Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet access.
@@ -703,6 +720,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         os.chdir(path)
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_apt_repo(self, line):
         """
         Creates a comprehensive local APT repository with enhanced dependency resolution.
@@ -853,6 +871,8 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             touch {repo}/dists/kali-rolling/main/cnf/Commands-amd64.xz
             """.replace('            ',''), shell=True, check=True)
             os.chdir(path)
+            username = ""
+            password = ""
             if not os.path.exists(credentials):
                 if not username:
                     print_error("Username not defined.")
@@ -888,6 +908,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error("Invalid arguments provided. Use '-h' for help or help apt_repo")
             return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_createpayload(self, line):
         """
         Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
@@ -937,6 +958,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error(f"Error: {e}")
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_bin2shellcode(self, line):
         """
         Converts a binary file to a shellcode string in C or Nim format.
@@ -1027,6 +1049,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"Error: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_exe2bin(self, line):
         """
         Trasnform file .exe into binary file.
@@ -1053,6 +1076,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"Error: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_exe2donutbin(self, line):
         """
         Trasnform file .exe into donut binary file.
@@ -1076,6 +1100,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"Error generating shellcode: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_issue_command_to_c2(self, line):
         """
         Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use download_c2 command
@@ -1099,6 +1124,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             line = input ("    [!] Enter the command: ") or 'whoami'
             self.issue_command_to_c2(line)
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_d3monizedshell(self, line):
         """
         Executes the D3m0n1z3dShell tool for persistence in Linux.
@@ -1131,6 +1157,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_scp(self, line):
         """
         Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
@@ -1212,6 +1239,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_apt_proxy(self, line):
         """
         Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
@@ -1268,6 +1296,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_pip_proxy(self, line):
         """
         Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
@@ -1323,6 +1352,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_internet_proxy(self, line):
         """
         Configures the local machine with internet access to act as a proxy for a machine without internet access.
@@ -1383,6 +1413,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"An error occurred: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_shellcode2elf(self, line):
         """
         Convert shellcode into an ELF file and infect it.
@@ -1465,6 +1496,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         copy2clip(command)
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_ssh_cmd(self, line):
         """
         Perform Remote Execution Command through SSH using configured start_user. See help grisun0 for backdoor user configuration.
@@ -1488,6 +1520,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         self.cmd(ssh)
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_service_ssh(self, line):
         """
         Creates a systemd service file for a specified binary and generates a script to enable and start the service.
@@ -1557,6 +1590,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         print_msg("Run the following command to enable and start the service:")
         self.onecmd(f"ssh_cmd {cmd}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_ofuscatesh(self, line):
         """
         Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
@@ -1586,6 +1620,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         cmd = f"echo '{base64_encoded}' | base64 -d | bash"
         copy2clip(cmd)
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_adversary(self, line):
         """
         LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
@@ -1606,7 +1641,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         lport = self.params['lport']
         USER = self.params['c2_user']
         PASS = self.params['c2_pass']
-        maleable = self.params['c2_maleable_route']
+        malleable = self.params['c2_malleable_route']
         path = self.path
         adversaries = load_adversary()
 
@@ -1666,7 +1701,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
                 print_warn(f"{path}/{adversary.output_path}/{adversary.name}")
                 with open(f"{path}/{adversary.output_path}/{adversary.name}") as f:
                     content = f.read()
-                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{self.params['lhost']}", self.params['lhost']).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{maleable}",maleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
+                    content = content.replace("{lport}", str(lport)).replace("{line}", line).replace("{self.params['lhost']}", self.params['lhost']).replace("{username}", USER).replace("{password}", PASS).replace("{platform}", adversary.target_os).replace("{sleep}", str(adversary.sleep)).replace("{malleable}",malleable).replace("{useragent}",user_agent).replace('{key}', AES_KEY_hex)
 
                 with open(f"{path}/{adversary.output_path}/{adversary.name}", 'w+') as f:
                     f.write(content)
@@ -1727,6 +1762,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         else:
             print_warn(f"No adversary found with id {line}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_ofuscate_string(self, line):
         """Ofuscate a string into Go code."""
 
@@ -1768,6 +1804,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
         print(Syntax(go_code, "go", theme="monokai", line_numbers=True))
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_path2hex(self, line: str) -> None:
         """
         Convert a binary path to x64 little-endian hex code for shellcode injection.
@@ -1814,6 +1851,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except UnicodeEncodeError:
             self.poutput("Error: Solo caracteres ASCII permitidos")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_hex2shellcode(self, line: str) -> None:
         """
         Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
@@ -1870,6 +1908,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             self.poutput(f"Critical error: {str(e)}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_create_synthetic(self, line):
         """
         Create a basic synthetic playbook from Nmap CSV when LLM fails.
@@ -1920,6 +1959,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error(f"[!] Error creating synthetic playbook: {str(e)}")
             print_error(traceback.format_exc())
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_extract_yaml(self, line):
         """
         Extract YAML from an existing debug file and try to create a playbook.
@@ -1980,6 +2020,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             print_error(f"[!] Error during extraction: {str(e)}")
             print_error(traceback.format_exc())
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_convert_remcomsvc_from_file(self, arg):
         """Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves it to sessions/remcomsvc.go. see lazyaddon GoPEInjection
         Usage: convert_remcomsvc_from_file
@@ -2011,6 +2052,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except Exception as e:
             print_error(f"Error saving the file: {e}")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_adversary_yaml(self, line):
         """
         Execute adversary from YAML in lazyadversaries/*.yaml
@@ -2044,9 +2086,9 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             "self.params['user_agent_1']": f"{self.params['user_agent_1']}",
             "self.params['user_agent_2']": f"{self.params['user_agent_2']}",
             "self.params['user_agent_3']": f"{self.params['user_agent_3']}",
-            "self.params['url_trafic_1']": f"{self.params['url_trafic_1']}",
-            "self.params['url_trafic_2']": f"{self.params['url_trafic_2']}",
-            "self.params['url_trafic_3']": f"{self.params['url_trafic_3']}",
+            "self.params['url_traffic_1']": f"{self.params['url_traffic_1']}",
+            "self.params['url_traffic_2']": f"{self.params['url_traffic_2']}",
+            "self.params['url_traffic_3']": f"{self.params['url_traffic_3']}",
             "{stealth}": "True",
         }
         replacements.update({
@@ -2055,7 +2097,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             "password": self.params['c2_pass'],
             "platform": adversary["target_os"],
             "sleep": str(adversary["sleep"]),
-            "maleable": self.params['c2_maleable_route'],
+            "malleable": self.params['c2_malleable_route'],
             "useragent": self.params['user_agent_lin'] if adversary['target_os'] == "linux" else self.params['user_agent_win'],
             "key": AES_KEY_hex
         })
@@ -2092,6 +2134,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
             self.issue_command_to_c2(f"upload:{output_filename}", self.c2_clientid)
             self.download_file_from_c2(output_filename, self.c2_clientid)
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_add2find(self, line=""):
         """
         Add a new custom command to the 'find' system, saved in user_commands.json.
@@ -2119,6 +2162,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
 
         self.save_user_command(alias, command)
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_rmfromfind(self, line):
         """
         Remove a custom command by index (as shown in 'find').
@@ -2147,6 +2191,7 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         except ValueError:
             print_error("Please enter a number.")
 
+    @cmd2.with_category("04. Post-Exploitation")
     def do_aes_pe(self, line):
         """Encrypt with AES and random key to PE EXE file, to usage with loaders.
 
@@ -2173,4 +2218,10 @@ class PostexpMigratedCommandSet(PendingCommandSet):
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
 
+
+import utils as _lazy_utils
+for _lazy_name in dir(_lazy_utils):
+    if not _lazy_name.startswith('_'):
+        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
+del _lazy_utils, _lazy_name
 __all__ = ["PostexpMigratedCommandSet"]

@@ -33,13 +33,34 @@ for _entry in (_PROJECT_ROOT, _MODULE_DIR):
         sys.path.insert(0, _entry)
 
 try:
-    from modules.ai_model import AIModel, GroqModel, OllamaModel
+    from modules.ai_model import (
+        AIModel,
+        AnthropicModel,
+        DeepSeekModel,
+        GroqModel,
+        OllamaModel,
+        OpenAIModel,
+    )
 except ModuleNotFoundError:
-    from ai_model import AIModel, GroqModel, OllamaModel  # type: ignore[no-redef]
+    from ai_model import (  # type: ignore[no-redef]
+        AIModel,
+        AnthropicModel,
+        DeepSeekModel,
+        GroqModel,
+        OllamaModel,
+        OpenAIModel,
+    )
 
+_BACKEND_CLASSES = {
+    "groq": GroqModel,
+    "ollama": OllamaModel,
+    "openai": OpenAIModel,
+    "anthropic": AnthropicModel,
+    "deepseek": DeepSeekModel,
+}
 
 _REQUIRED_LLM_BACKEND_METHODS = ("complete",)
-for _backend_class in (GroqModel, OllamaModel):
+for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, DeepSeekModel):
     for _method_name in _REQUIRED_LLM_BACKEND_METHODS:
         if not callable(getattr(_backend_class, _method_name, None)):
             raise RuntimeError(
@@ -50,23 +71,45 @@ for _backend_class in (GroqModel, OllamaModel):
 
 BACKEND_GROQ = "groq"
 BACKEND_OLLAMA = "ollama"
+BACKEND_OPENAI = "openai"
+BACKEND_ANTHROPIC = "anthropic"
+BACKEND_DEEPSEEK = "deepseek"
 BACKEND_AUTO = "auto"
 
-SUPPORTED_BACKENDS = (BACKEND_GROQ, BACKEND_OLLAMA, BACKEND_AUTO)
+SUPPORTED_BACKENDS = (
+    BACKEND_GROQ,
+    BACKEND_OLLAMA,
+    BACKEND_OPENAI,
+    BACKEND_ANTHROPIC,
+    BACKEND_DEEPSEEK,
+    BACKEND_AUTO,
+)
 
 CONFIG_KEY_BACKEND = "llm_backend"
 CONFIG_KEY_MODEL_GROQ = "llm_model_groq"
 CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
+CONFIG_KEY_MODEL_OPENAI = "llm_model_openai"
+CONFIG_KEY_MODEL_ANTHROPIC = "llm_model_anthropic"
+CONFIG_KEY_MODEL_DEEPSEEK = "llm_model_deepseek"
 CONFIG_KEY_OLLAMA_HOST = "ollama_host"
 CONFIG_KEY_API_KEY = "api_key"
 CONFIG_KEY_API_KEY_PLACEHOLDER = "api_key"
+CONFIG_KEY_OPENAI_API_KEY = "openai_api_key"
+CONFIG_KEY_ANTHROPIC_API_KEY = "anthropic_api_key"
+CONFIG_KEY_DEEPSEEK_API_KEY = "deepseek_api_key"
 
 DEFAULT_BACKEND = BACKEND_AUTO
 DEFAULT_GROQ_MODEL = "llama-3.3-70b-versatile"
 DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 DEFAULT_OLLAMA_HOST = "http://localhost:11434"
+DEFAULT_OPENAI_MODEL = "gpt-4o"
+DEFAULT_ANTHROPIC_MODEL = "claude-sonnet-4-20250514"
+DEFAULT_DEEPSEEK_MODEL = "deepseek-chat"
 
 ENV_GROQ_API_KEY = "GROQ_API_KEY"
+ENV_OPENAI_API_KEY = "OPENAI_API_KEY"
+ENV_ANTHROPIC_API_KEY = "ANTHROPIC_API_KEY"
+ENV_DEEPSEEK_API_KEY = "DEEPSEEK_API_KEY"
 
 
 class LLMBackendUnavailableError(RuntimeError):
@@ -121,6 +164,37 @@ def _resolve_api_key(config: Mapping[str, Any]) -> str | None:
     env_value = os.environ.get(ENV_GROQ_API_KEY)
     if env_value:
         return env_value
+    return None
+
+
+def _resolve_api_key_for_backend(
+    backend: str,
+    config: Mapping[str, Any],
+) -> str | None:
+    """Return a usable API key for a specific backend or ``None``.
+
+    Args:
+        backend: Normalized backend identifier (groq, openai, anthropic, deepseek).
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        API key string or ``None`` when no valid key is configured.
+    """
+    key_map = {
+        BACKEND_GROQ: (CONFIG_KEY_API_KEY, ENV_GROQ_API_KEY),
+        BACKEND_OPENAI: (CONFIG_KEY_OPENAI_API_KEY, ENV_OPENAI_API_KEY),
+        BACKEND_ANTHROPIC: (CONFIG_KEY_ANTHROPIC_API_KEY, ENV_ANTHROPIC_API_KEY),
+        BACKEND_DEEPSEEK: (CONFIG_KEY_DEEPSEEK_API_KEY, ENV_DEEPSEEK_API_KEY),
+    }
+    config_key, env_var = key_map.get(backend, (None, None))
+    if config_key:
+        candidate = config.get(config_key)
+        if isinstance(candidate, str) and candidate and candidate != CONFIG_KEY_API_KEY_PLACEHOLDER:
+            return candidate
+    if env_var:
+        env_value = os.environ.get(env_var)
+        if env_value:
+            return env_value
     return None
 
 
@@ -184,57 +258,70 @@ def _build_ollama(config: Mapping[str, Any]) -> AIModel:
     return OllamaModel(model=model_name, host=host)
 
 
-def get_llm_backend(
-    config: Mapping[str, Any] | None = None,
-    backend: str | None = None,
-) -> AIModel:
-    """Return a concrete :class:`AIModel` selected by configuration.
-
-    The selection order is:
-
-    1. Explicit ``backend`` argument when provided.
-    2. ``llm_backend`` key from ``config`` (or loaded ``payload.json``).
-    3. :data:`DEFAULT_BACKEND` (``"auto"``).
-
-    When the resolved backend is ``"auto"`` the factory tries Groq first
-    (if an API key is available) and falls back to Ollama. Any other
-    explicit selection is honoured strictly: callers receive
-    :class:`LLMBackendUnavailableError` rather than a silent fallback so
-    they can decide whether to degrade or raise.
+def _build_openai(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate an OpenAI backend or raise when no API key is available.
 
     Args:
-        config: Optional pre-loaded payload mapping. When ``None`` the
-            payload is read from disk.
-        backend: Optional override for the backend identifier. Takes
-            precedence over the configuration value.
+        config: A mapping derived from ``payload.json``.
 
     Returns:
-        A configured :class:`AIModel` instance that also structurally
-        satisfies :class:`core.protocols.LLMBackend`, ready for either
-        ``generate`` or ``complete`` calls.
+        A configured :class:`OpenAIModel` instance.
 
     Raises:
-        LLMBackendNotSupportedError: When an unsupported identifier is
-            requested.
-        LLMBackendUnavailableError: When the requested backend cannot be
-            constructed from the current environment (for example, Groq
-            selected with no API key).
+        LLMBackendUnavailableError: When no valid OpenAI API key is found.
     """
-    resolved_config: Mapping[str, Any] = config if config is not None else load_payload()
-    raw_backend = backend if backend is not None else resolved_config.get(CONFIG_KEY_BACKEND)
-    normalized = _normalize_backend(raw_backend)
+    api_key = _resolve_api_key_for_backend(BACKEND_OPENAI, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "OpenAI backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_OPENAI_API_KEY}' in payload.json or export {ENV_OPENAI_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_OPENAI) or DEFAULT_OPENAI_MODEL
+    return OpenAIModel(api_key=api_key, model=model_name)
 
-    if normalized == BACKEND_GROQ:
-        return _build_groq(resolved_config)
-    if normalized == BACKEND_OLLAMA:
-        return _build_ollama(resolved_config)
 
-    if _resolve_api_key(resolved_config):
-        try:
-            return _build_groq(resolved_config)
-        except LLMBackendUnavailableError:
-            pass
-    return _build_ollama(resolved_config)
+def _build_anthropic(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate an Anthropic backend or raise when no API key is available.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`AnthropicModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid Anthropic API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_ANTHROPIC, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "Anthropic backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_ANTHROPIC_API_KEY}' in payload.json or export {ENV_ANTHROPIC_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_ANTHROPIC) or DEFAULT_ANTHROPIC_MODEL
+    return AnthropicModel(api_key=api_key, model=model_name)
+
+
+def _build_deepseek(config: Mapping[str, Any]) -> AIModel:
+    """Instantiate a DeepSeek backend or raise when no API key is available.
+
+    Args:
+        config: A mapping derived from ``payload.json``.
+
+    Returns:
+        A configured :class:`DeepSeekModel` instance.
+
+    Raises:
+        LLMBackendUnavailableError: When no valid DeepSeek API key is found.
+    """
+    api_key = _resolve_api_key_for_backend(BACKEND_DEEPSEEK, config)
+    if not api_key:
+        raise LLMBackendUnavailableError(
+            "DeepSeek backend selected but no API key is configured. "
+            f"Set '{CONFIG_KEY_DEEPSEEK_API_KEY}' in payload.json or export {ENV_DEEPSEEK_API_KEY}."
+        )
+    model_name = config.get(CONFIG_KEY_MODEL_DEEPSEEK) or DEFAULT_DEEPSEEK_MODEL
+    return DeepSeekModel(api_key=api_key, model=model_name)
 
 
 def _resolve_model_identifier(
@@ -253,6 +340,12 @@ def _resolve_model_identifier(
         return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
     if backend_identifier == BACKEND_OLLAMA:
         return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
+    if backend_identifier == BACKEND_OPENAI:
+        return str(config.get(CONFIG_KEY_MODEL_OPENAI) or DEFAULT_OPENAI_MODEL)
+    if backend_identifier == BACKEND_ANTHROPIC:
+        return str(config.get(CONFIG_KEY_MODEL_ANTHROPIC) or DEFAULT_ANTHROPIC_MODEL)
+    if backend_identifier == BACKEND_DEEPSEEK:
+        return str(config.get(CONFIG_KEY_MODEL_DEEPSEEK) or DEFAULT_DEEPSEEK_MODEL)
     if _resolve_api_key(config):
         return str(config.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)
     return str(config.get(CONFIG_KEY_MODEL_OLLAMA) or DEFAULT_OLLAMA_MODEL)
@@ -368,6 +461,12 @@ def _build_backend(
         return _build_groq(resolved_config)
     if normalized == BACKEND_OLLAMA:
         return _build_ollama(resolved_config)
+    if normalized == BACKEND_OPENAI:
+        return _build_openai(resolved_config)
+    if normalized == BACKEND_ANTHROPIC:
+        return _build_anthropic(resolved_config)
+    if normalized == BACKEND_DEEPSEEK:
+        return _build_deepseek(resolved_config)
     if _resolve_api_key(resolved_config):
         try:
             return _build_groq(resolved_config)
@@ -423,19 +522,34 @@ def try_get_llm_backend(
 
 
 __all__ = [
+    "BACKEND_ANTHROPIC",
     "BACKEND_AUTO",
+    "BACKEND_DEEPSEEK",
     "BACKEND_GROQ",
     "BACKEND_OLLAMA",
+    "BACKEND_OPENAI",
+    "CONFIG_KEY_ANTHROPIC_API_KEY",
     "CONFIG_KEY_API_KEY",
     "CONFIG_KEY_BACKEND",
+    "CONFIG_KEY_DEEPSEEK_API_KEY",
+    "CONFIG_KEY_MODEL_ANTHROPIC",
+    "CONFIG_KEY_MODEL_DEEPSEEK",
     "CONFIG_KEY_MODEL_GROQ",
     "CONFIG_KEY_MODEL_OLLAMA",
+    "CONFIG_KEY_MODEL_OPENAI",
     "CONFIG_KEY_OLLAMA_HOST",
+    "CONFIG_KEY_OPENAI_API_KEY",
+    "DEFAULT_ANTHROPIC_MODEL",
     "DEFAULT_BACKEND",
+    "DEFAULT_DEEPSEEK_MODEL",
     "DEFAULT_GROQ_MODEL",
     "DEFAULT_OLLAMA_HOST",
     "DEFAULT_OLLAMA_MODEL",
+    "DEFAULT_OPENAI_MODEL",
+    "ENV_ANTHROPIC_API_KEY",
+    "ENV_DEEPSEEK_API_KEY",
     "ENV_GROQ_API_KEY",
+    "ENV_OPENAI_API_KEY",
     "LLMBackendNotSupportedError",
     "LLMBackendUnavailableError",
     "SUPPORTED_BACKENDS",

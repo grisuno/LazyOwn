@@ -680,9 +680,32 @@ def _enrich_commands_for_view(rows: Sequence[Mapping[str, Any]]) -> list[dict[st
         from cli.palette_telemetry import enrich_commands as telemetry_enrich_commands
         from cli.palette_telemetry import safe_load_telemetry
     except Exception:
-        return enriched
+        return _ensure_neighbour_keys(enriched)
     telemetry = safe_load_telemetry()
-    return telemetry_enrich_commands(telemetry, enriched)
+    return _ensure_neighbour_keys(telemetry_enrich_commands(telemetry, enriched))
+
+
+def _ensure_neighbour_keys(rows: Sequence[Mapping[str, Any]]) -> list[dict[str, Any]]:
+    """Guarantee every view row carries ``calls``/``related`` keys.
+
+    When neither graphify nor telemetry data is present the enrichment
+    passes rows through untouched, so this normaliser adds empty neighbour
+    lists to keep the view payload schema stable — matching the guarantee
+    ``render_json`` detail mode already makes for MCP consumers.
+
+    Args:
+        rows: Command view rows, possibly missing neighbour keys.
+
+    Returns:
+        A list of row dicts each carrying ``calls`` and ``related`` keys.
+    """
+    normalised: list[dict[str, Any]] = []
+    for row in rows:
+        entry = dict(row)
+        entry.setdefault("calls", [])
+        entry.setdefault("related", [])
+        normalised.append(entry)
+    return normalised
 
 
 def _load_recent_commands() -> list[str]:

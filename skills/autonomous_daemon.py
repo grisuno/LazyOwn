@@ -2846,19 +2846,80 @@ class EngageOrchestrator:
         return len(output.strip()) > 0
 
 
-def _engage_run_sync(target: str, max_switches_per_step: int = 3) -> dict[str, Any]:
-    """Synchronous helper used by all engage entry points."""
+def _maybe_generate_report() -> dict[str, Any]:
+    """Generate a client-ready report at the end of an auto engagement.
+
+    Best-effort: a report failure never fails the engagement, it only
+    downgrades the returned status. The report is a timestamped Markdown
+    file written to ``sessions/`` by ``modules.report_generator``.
+
+    Returns:
+        ``{"generated": True, "path": "..."}`` on success or
+        ``{"generated": False, "error": "..."}`` when generation failed.
+    """
+    try:
+        base = Path(__file__).resolve().parent.parent
+        modules_dir = base / "modules"
+        if str(modules_dir) not in sys.path:
+            sys.path.insert(0, str(modules_dir))
+        from report_generator import ReportGenerator
+
+        path = ReportGenerator(sessions_dir=base / "sessions").generate()
+        _emit("ENGAGE_REPORT", {"path": str(path)}, severity="info")
+        return {"generated": True, "path": str(path)}
+    except Exception as exc:
+        log.warning("auto engage report generation failed: %s", exc)
+        return {"generated": False, "error": str(exc)}
+
+
+def _engage_run_sync(
+    target: str,
+    max_switches_per_step: int = 3,
+    auto: bool = False,
+) -> dict[str, Any]:
+    """Synchronous helper used by all engage entry points.
+
+    Args:
+        target: IPv4 dotted-quad or hostname to engage.
+        max_switches_per_step: Maximum number of fallback tools per phase.
+        auto: When True the engagement runs fully unattended. The
+            orchestrator is wired with a ``ScopeBoundAutoGate`` (approves
+            in-scope steps, denies out-of-scope steps under ``enforce``,
+            never prompts a human) and a client-ready report is generated
+            once the run completes.
+
+    Returns:
+        The engagement summary from ``EngageOrchestrator.run()``. When auto
+        is True a ``report`` key is added with the report generation status.
+    """
+    gate: Any = None
+    if auto:
+        try:
+            from lazyown_policy import ScopeBoundAutoGate
+
+            gate = ScopeBoundAutoGate()
+        except Exception as exc:
+            log.warning(
+                "auto engage: ScopeBoundAutoGate unavailable (%s); "
+                "falling back to the default approval gate", exc,
+            )
+            gate = None
     orch = EngageOrchestrator(
         target=target,
         max_switches_per_step=max_switches_per_step,
+        approval_gate=gate,
     )
-    return orch.run()
+    summary = orch.run()
+    if auto:
+        summary["report"] = _maybe_generate_report()
+    return summary
 
 
 def mcp_engage_target(
     target: str,
     max_switches_per_step: int = 3,
     detach: bool = True,
+    auto: bool = False,
 ) -> str:
     """Public MCP / CLI entry point for the engage verb.
 
@@ -2870,6 +2931,12 @@ def mcp_engage_target(
                 id; the operator polls progress via lazyown_engage_status.
                 When False the call blocks until the kill-chain finishes
                 and returns the full summary JSON.
+        auto: When True the engagement runs fully unattended. Approval is
+                delegated to a ``ScopeBoundAutoGate`` that never prompts a
+                human: it approves in-scope steps, denies out-of-scope steps
+                when ``scope_enforcement`` is ``enforce`` (the single
+                fail-closed safety boundary), and a client-ready report is
+                generated when the run finishes.
 
     Returns:
         JSON string with ``engagement_id`` and ``status`` (started|done)
@@ -2890,7 +2957,7 @@ def mcp_engage_target(
 
     if not detach:
         try:
-            summary = _engage_run_sync(target, max_switches_per_step)
+            summary = _engage_run_sync(target, max_switches_per_step, auto=auto)
             return json.dumps({"status": "done", **summary}, indent=2, default=str)
         except Exception as exc:
             return json.dumps({"status": "error", "message": str(exc)})
@@ -2899,7 +2966,7 @@ def mcp_engage_target(
 
     def _worker() -> None:
         try:
-            _engage_run_sync(target, max_switches_per_step)
+            _engage_run_sync(target, max_switches_per_step, auto=auto)
         except Exception as exc:
             log.error("engage worker error: %s", exc)
             _emit("ENGAGE_WORKER_ERROR", {

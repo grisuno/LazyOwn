@@ -670,7 +670,8 @@ class TestMcpEntryPoints:
 
 class TestWiring:
     def test_do_engage_method_exists_in_lazyown(self):
-        src = (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
+        engage_module = REPO_ROOT / "cli" / "commands" / "misc_migrated.py"
+        src = engage_module.read_text(encoding="utf-8")
         tree = ast.parse(src)
         methods = [
             n.name for n in ast.walk(tree)

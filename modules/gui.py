@@ -536,7 +536,7 @@ class ImplantCard(ttk.Frame):
                         'user_agent': config_data.get('user_agent', 'N/A'),
                         'created': config_data.get('created', 'N/A'),
                         'sleep': config_data.get('sleep', 'N/A'),
-                        'maleable_route': config_data.get('maleable_route', 'N/A')
+                        'malleable_route': config_data.get('malleable_route', 'N/A')
                     })
             except Exception as e:
                 print(f"Error loading config from JSON for {self.client_id}: {e}")

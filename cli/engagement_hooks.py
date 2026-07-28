@@ -34,6 +34,7 @@ from __future__ import annotations
 import json
 import math
 import random
+import re
 import time
 from dataclasses import asdict, dataclass, field
 from pathlib import Path
@@ -52,6 +53,8 @@ MEAN_INTERVAL: int = 8
 _MAX_CURIOSITY_LABEL = 28
 _NOTIFICATIONS_RING_SIZE: int = 500
 _VRI_RETRY_LIMIT: int = 4
+
+_COMMAND_NAME_RE = re.compile(r"^do_[a-z][a-z0-9_]*$")
 
 KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
     (1000, "Noob"),
@@ -244,6 +247,7 @@ def _load_state() -> EngagementState:
             st.session_curiosity_shown = []
             st.session_start_ts = time.time()
             st.elo_session_delta = 0
+            st.commands_seen = _sanitize_seen(st.commands_seen)
             return st
     except Exception:
         pass
@@ -267,6 +271,99 @@ def _load_index() -> dict[str, Any]:
         return json.loads(INDEX_PATH.read_text(encoding="utf-8"))
     except Exception:
         return {}
+
+
+def _normalize_command(cmd: str) -> str:
+    """Return ``cmd`` with a single leading ``do_`` prefix."""
+    return cmd if cmd.startswith("do_") else f"do_{cmd}"
+
+
+def _is_recordable_command(cmd: str) -> bool:
+    """Return ``True`` when ``cmd`` is a syntactically valid command name.
+
+    The engagement telemetry must never score input-line noise: menu
+    selections (``1``), quoted script paths, mistyped emails, host names,
+    hyphenated or capitalised tokens, or empty input. This conservative
+    syntactic filter rejects all of those.
+
+    It deliberately does **not** consult the static command index: that index
+    can lag behind the live shell, so gating on it would silently drop real
+    commands. The authoritative membership test lives in the shell post-command
+    hook, which checks the token against the live registry via
+    ``get_all_commands()`` before ever calling in. This function is the
+    module-level safety net for direct callers and historical sanitisation.
+
+    Args:
+        cmd: Candidate command name, with or without the ``do_`` prefix.
+
+    Returns:
+        ``True`` when ``cmd`` matches ``^do_[a-z][a-z0-9_]*$`` once normalised.
+    """
+    if not cmd:
+        return False
+    return bool(_COMMAND_NAME_RE.match(_normalize_command(cmd)))
+
+
+def _sanitize_seen(names: list[str], known: set[str] | None = None) -> list[str]:
+    """Drop malformed entries left by the pre-gate telemetry bug.
+
+    Older state files accumulated tokens such as ``do_1``, ``do_./DEPLOY.sh``
+    and ``do_grisuno@gmail.com`` because every first input token was recorded.
+    This heals persisted state: an entry is kept only when it is syntactically
+    a command and, when an authoritative ``known`` roster is supplied, is a
+    member of it. Duplicates are collapsed preserving first-seen order.
+
+    Args:
+        names: The persisted ``commands_seen`` list.
+        known: Optional authoritative set of ``do_``-prefixed command names
+            (typically the live shell's ``get_all_commands()``). When ``None``
+            only the syntactic filter is applied so real-but-unindexed
+            commands are never dropped.
+
+    Returns:
+        A cleaned, de-duplicated list of command names.
+    """
+    out: list[str] = []
+    seen: set[str] = set()
+    for name in names:
+        if not isinstance(name, str) or name in seen:
+            continue
+        if not _is_recordable_command(name):
+            continue
+        if known is not None and _normalize_command(name) not in known:
+            continue
+        seen.add(name)
+        out.append(name)
+    return out
+
+
+def heal_commands_seen(known: set[str]) -> int:
+    """Purge non-command entries from persisted ``commands_seen`` in place.
+
+    Called once at shell startup with the live command roster so historical
+    pollution that survives the syntactic filter (real-looking but invalid
+    tokens such as ``do_against`` or ``do_como``) is removed against ground
+    truth. Idempotent: a clean state file is left untouched.
+
+    Args:
+        known: Authoritative set of ``do_``-prefixed command names, typically
+            ``{f"do_{c}" for c in shell.get_all_commands()}``.
+
+    Returns:
+        The number of entries removed. Zero when nothing changed or on error.
+    """
+    global _state
+    try:
+        if _state is None:
+            _state = _load_state()
+        before = len(_state.commands_seen)
+        _state.commands_seen = _sanitize_seen(_state.commands_seen, known)
+        removed = before - len(_state.commands_seen)
+        if removed:
+            _save_state(_state)
+        return removed
+    except Exception:
+        return 0
 
 
 def _next_threshold(current: int) -> int:
@@ -786,6 +883,9 @@ def render_engagement_hook(
             _state = _load_state()
         if _index is None:
             _index = _load_index()
+
+        if not _is_recordable_command(cmd):
+            return
 
         normalized = f"do_{cmd}" if not cmd.startswith("do_") else cmd
         first_time = normalized not in _state.commands_seen

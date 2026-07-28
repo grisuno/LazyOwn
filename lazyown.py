@@ -33,6 +33,7 @@ from cli.autosuggest import build_default_engine as _build_autosuggest_engine
 from cli.autosuggest import render_hint_line as _render_autosuggest_hint
 from cli.banner_config import banner_summary as _banner_summary
 from cli.banner_config import configure_banner_interactive as _configure_banner_interactive
+from cli.engagement_hooks import heal_commands_seen as _heal_engagement_history
 from cli.engagement_hooks import render_engagement_hook as _render_engagement_hook
 from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.fuzzy_picker import install_fuzzy_completion as _install_fuzzy_completion
@@ -318,6 +319,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.register_postcmd_hook(self._engagement_hook)
             self.register_postcmd_hook(self._recording_hook)
             _reset_engagement_session()
+            _heal_engagement_history({f"do_{c}" for c in self.get_all_commands()})
         except Exception as exc:
             print_warn(f"engagement hook not registered: {exc}")
         try:
@@ -882,8 +884,14 @@ class LazyOwnShell(cmd2.Cmd):
         """
         try:
             enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
-            cmd_str = str(getattr(data, "statement", "") or "")
-            cmd = cmd_str.split()[0] if cmd_str.split() else ""
+            statement = getattr(data, "statement", "")
+            cmd = str(getattr(statement, "command", "") or "").strip()
+            if not cmd:
+                cmd_str = str(statement or "")
+                tokens = cmd_str.split()
+                cmd = tokens[0] if tokens else ""
+            if cmd not in self.get_all_commands():
+                return data
             phase = ""
             try:
                 import json as _json

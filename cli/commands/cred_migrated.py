@@ -1261,4 +1261,4 @@ class CredMigratedCommandSet(PendingCommandSet):
         ProcessResults(results, output_file)
         return
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["CredMigratedCommandSet"]

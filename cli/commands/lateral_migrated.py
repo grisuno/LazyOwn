@@ -1284,4 +1284,4 @@ class LateralMigratedCommandSet(PendingCommandSet):
             line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
         self.c2_clientid = line.strip()
 
-__all__ = [f"{phase.title()}CommandSet"]
+__all__ = ["LateralMigratedCommandSet"]

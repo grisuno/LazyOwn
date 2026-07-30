@@ -25,6 +25,8 @@ import cmd2
 from cmd2 import with_argparser, with_argument_list, with_category
 from cmd2.plugin import PostcommandData as _PostcommandData
 
+from cli.aliases import empty_placeholders as _empty_alias_placeholders
+from cli.aliases import REQUIRED_PLACEHOLDERS as _REQUIRED_ALIAS_PLACEHOLDERS
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
 from cli.autosuggest import SKIP_TRIGGER_COMMANDS as _AUTOSUGGEST_SKIP
@@ -355,10 +357,12 @@ class _PayloadSettableProxy:
         params[name] = value
 
 
+_UI_HINTS_LEVELS = ("on", "minimal", "off")
+
+
 class LazyOwnShell(cmd2.Cmd):
     """
     A custom interactive shell for the LazyOwn Framework.
-
     This class extends the Cmd class to provide an interactive command-line
     interface for the LazyOwn Framework. It supports various commands and
     modules related to security and network operations. The shell is initialized
@@ -752,6 +756,16 @@ class LazyOwnShell(cmd2.Cmd):
                 onchange_cb=_persist,
             )
         )
+        self.add_settable(
+            Settable(
+                "ui_hints",
+                str,
+                "Ambient coaching level: on, minimal (autosuggest only) or off",
+                proxy,
+                onchange_cb=_persist,
+                choices=_UI_HINTS_LEVELS,
+            )
+        )
 
     def _load_extended_params(self) -> None:
         """Load extra parameters from ``params/*.yaml`` into ``self.params``.
@@ -879,6 +893,42 @@ class LazyOwnShell(cmd2.Cmd):
             )
         self.display_toastr(f"Not Found {line}", type="warning")
 
+    def do_set(self, line) -> None:
+        """Set a parameter — the unified ``set``/``assign`` surface.
+
+        Registered UX settables (``ui_hints``, ``tui_theme``,
+        ``enable_toasts``...) keep native cmd2 semantics. Any other key
+        delegates to ``assign`` so documentation and muscle memory that
+        predate the split (``set rhost 10.10.10.10``) work again. With a
+        single unknown key and no value, prints the current value.
+        """
+        tokens = shlex.split(line) if line else []
+        if tokens and not tokens[0].startswith("-") and tokens[0] not in self.settables:
+            if len(tokens) == 1:
+                key = tokens[0]
+                if key in self.params:
+                    print_msg(f"{key} = {self.params[key]}")
+                else:
+                    print_warn(
+                        f"Parameter '{key}' not supported (type 'set' for list of parameters). "
+                        f"Did you mean: assign {key} <value>?"
+                    )
+                return
+            self.onecmd(f"assign {line}")
+            return
+        super().do_set(line)
+
+    def _ui_hints_level(self) -> str:
+        """Return the ambient coaching level: ``on``, ``minimal`` or ``off``.
+
+        ``off`` suppresses every post-command coaching surface (toasts,
+        inline hints, protips, autosuggest and engagement flavour);
+        ``minimal`` keeps only the autosuggest accelerator. Any unset or
+        unknown value means full ``on``.
+        """
+        level = str(self.params.get("ui_hints", "on") or "on").strip().lower()
+        return level if level in _UI_HINTS_LEVELS else "on"
+
     def _toast_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Post-command hook that prints unseen JSONL events as toast lines.
 
@@ -893,6 +943,8 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             ``data`` unchanged.
         """
+        if self._ui_hints_level() != "on":
+            return data
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
             _render_toasts(payload=self.params, sessions_dir=sessions_dir)
@@ -914,6 +966,8 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             data unchanged — the hook must return PostcommandData.
         """
+        if self._ui_hints_level() != "on":
+            return data
         try:
             enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
             cmd_str = str(getattr(data, "statement", "") or "")
@@ -1024,6 +1078,8 @@ class LazyOwnShell(cmd2.Cmd):
         engine = getattr(self, "_autosuggest", None)
         if engine is None:
             return data
+        if self._ui_hints_level() == "off":
+            return data
         try:
             command_text = str(getattr(data, "statement", "") or "")
             first_token = command_text.strip().split()[:1]
@@ -1049,6 +1105,8 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             data unchanged.
         """
+        if self._ui_hints_level() != "on":
+            return data
         try:
             enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
             statement = getattr(data, "statement", "")
@@ -1266,6 +1324,20 @@ class LazyOwnShell(cmd2.Cmd):
             except Exception as e:
                 self.perror(f"[!] Error expanding alias '{cmd_name}': {e}")
                 return True
+
+            empty_keys = _empty_alias_placeholders(raw_command, context)
+            blocking = [key for key in empty_keys if key in _REQUIRED_ALIAS_PLACEHOLDERS]
+            if blocking:
+                print_warn(
+                    f"alias '{cmd_name}' requires {', '.join(blocking)} — "
+                    f"set it first: assign {blocking[0]} <value>"
+                )
+                return False
+            if empty_keys:
+                print_warn(
+                    f"alias '{cmd_name}': empty placeholder(s) {', '.join(empty_keys)} — "
+                    f"command may misbehave; assign {empty_keys[0]} <value> to fix"
+                )
 
             if isinstance(statement, str):
                 return super().onecmd_plus_hooks(expanded_command, add_to_history=add_to_history,
@@ -1861,7 +1933,7 @@ class LazyOwnShell(cmd2.Cmd):
         name = adv['name'].replace('.', '_')
         description = adv['description']
 
-        @cmd2.with_category("15. Adversary YAML.")
+        @cmd2.with_category("14. Adversary Emulation")
         def cmd_wrapper(_):
             return self.do_adversary_yaml(str(adv['id']) + ' l')
 
@@ -1884,6 +1956,10 @@ class LazyOwnShell(cmd2.Cmd):
         clean_message = message.strip()
         if not clean_message:
             clean_message = "Empty message"
+
+        if self._ui_hints_level() == "off":
+            self.console.print(f"[{type.upper()}] {clean_message}", style=style["text_style"])
+            return
 
         lines = clean_message.split('\n')
         max_line_length = max(len(line) for line in lines)
@@ -1922,7 +1998,7 @@ class LazyOwnShell(cmd2.Cmd):
         def show_toastr():
             self.console.print(panel, justify="center")
 
-        threading.Thread(target=show_toastr, daemon=True).start()
+        show_toastr()
 
     def _wrap_text(self, text, max_width):
         """Helper method to wrap text to fit within specified width."""
@@ -1939,9 +2015,6 @@ class LazyOwnShell(cmd2.Cmd):
                 wrapped_lines.extend(wrapped.split('\n'))
 
         return '\n'.join(wrapped_lines)
-
-    @cmd2.with_category(miscellaneous_category)
-
 
     @cmd2.with_category(miscellaneous_category)
 
@@ -1976,18 +2049,36 @@ class LazyOwnShell(cmd2.Cmd):
     def preloop(self):
         """Print a session-start pro tip and handle first-run setup.
 
-        If ``sessions/theone`` does not exist this is the operator's first
-        launch.  The shell will:
+        First-run detection lives in ``~/.config/lazyown/onboarded`` so
+        wiping ``sessions/`` (all campaign state) never re-triggers the
+        setup wizard on a veteran operator. The legacy ``sessions/theone``
+        sentinel is honoured and migrated transparently. On a first launch
+        the shell will:
           1. Run ``config_banner`` so the operator can customise the prompt.
           2. Run ``wizard`` to populate the essential payload keys.
           3. Print first-step suggestions (ping → lazynmap).
-          4. Create ``sessions/theone`` so subsequent launches skip setup.
+          4. Create the onboarded sentinel so later launches skip setup.
+        Non-interactive launches (piped stdin, containers) skip the wizard
+        silently — use ``wizard --non-interactive --rhost X --lhost Y``.
         """
         import os as _os
+        import sys as _sys
         _sessions = getattr(self, "sessions_dir", "sessions") or "sessions"
-        _theone   = _os.path.join(_sessions, "theone")
+        _legacy_sentinel = _os.path.join(_sessions, "theone")
+        _config_dir = _os.path.join(_os.path.expanduser("~"), ".config", "lazyown")
+        _sentinel = _os.path.join(_config_dir, "onboarded")
 
-        if not _os.path.exists(_theone):
+        if _os.path.exists(_legacy_sentinel) and not _os.path.exists(_sentinel):
+            try:
+                _os.makedirs(_config_dir, exist_ok=True)
+                open(_sentinel, "w").close()
+            except Exception:
+                pass
+
+        if not _os.path.exists(_sentinel) and not _sys.stdin.isatty():
+            return
+
+        if not _os.path.exists(_sentinel):
             # ── First run ────────────────────────────────────────────────────
             try:
                 from rich.console import Console as _SplashConsole
@@ -2027,8 +2118,8 @@ class LazyOwnShell(cmd2.Cmd):
             )
             # Mark as initialised so this block never runs again
             try:
-                _os.makedirs(_sessions, exist_ok=True)
-                open(_theone, "w").close()
+                _os.makedirs(_config_dir, exist_ok=True)
+                open(_sentinel, "w").close()
             except Exception:
                 pass
         else:
@@ -2076,23 +2167,9 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
 
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
     def complete_phase(self, text, line, begidx, endidx):
         """Tab-complete phase names."""
         return [p for p in _PHASES if p.startswith(text)]
-
-    @cmd2.with_category(miscellaneous_category)
 
     @cmd2.with_category(miscellaneous_category)
 
@@ -2106,14 +2183,6 @@ class LazyOwnShell(cmd2.Cmd):
     def complete_loot(self, text, line, begidx, endidx):
         """Tab-complete loot subcommands (delegates to l00t)."""
         return self.complete_l00t(text, line, begidx, endidx)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
 
     @cmd2.with_category(miscellaneous_category)
 
@@ -2132,8 +2201,6 @@ class LazyOwnShell(cmd2.Cmd):
         if index != 1:
             return []
         return sorted(key for key in self.params if key.startswith(text))
-
-    @cmd2.with_category(miscellaneous_category)
 
     @cmd2.with_category(miscellaneous_category)
 
@@ -2187,42 +2254,6 @@ class LazyOwnShell(cmd2.Cmd):
         for entry in entries:
             print_msg(f"    {GREEN}{entry}{RESET}")
 
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(recon_category)
-
-    @with_category("10. Command & Control")
-
-    @with_category("10. Command & Control")
-
     @with_category("10. Command & Control")
 
     def complete_palette(self, text, line, begidx, endidx):
@@ -2240,11 +2271,6 @@ class LazyOwnShell(cmd2.Cmd):
         except _CommandIndexError:
             return []
         return _PALETTE_COMPLETER.complete(text, line, endidx, index)
-
-    @cmd2.with_category(miscellaneous_category)
-
-
-    @cmd2.with_category(miscellaneous_category)
 
     @cmd2.with_category(recon_category)
     def run_lazysearch(self):
@@ -3878,54 +3904,6 @@ class LazyOwnShell(cmd2.Cmd):
 
     @cmd2.with_category(miscellaneous_category)
 
-    @cmd2.with_category(miscellaneous_category)
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(credential_access_category)
-
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
     def _render_chain_next(self, raw_args: str) -> None:
         """Render the chain's ``next`` view for the supplied verb (helper).
 
@@ -3959,510 +3937,11 @@ class LazyOwnShell(cmd2.Cmd):
         for step in steps:
             print_msg(f"  {step.name:<22} [{step.source}] {step.reason}")
 
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
     @cmd2.with_category(command_and_control_category)
 
     def get_output(self):
         """Devuelve la salida acumulada"""
         return self.output
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(credential_access_category)
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-
-    @cmd2.with_category(command_and_control_category)
-
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(lateral_movement_category)
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(credential_access_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(command_and_control_category)
-
-    @cmd2.with_category(exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
 
     @cmd2.with_category(lateral_movement_category)
     def upload_file_to_c2(self, file_path, clientid = None):
@@ -4648,39 +4127,6 @@ class LazyOwnShell(cmd2.Cmd):
             return [cmd for cmd in commands if cmd.startswith(current_word)]
 
 
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(lateral_movement_category)
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(recon_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(persistence_category)
-
-    @cmd2.with_category(persistence_category)
-
     @cmd2.with_category(reporting_category)
 
     def view_code(self, stdscr):
@@ -4793,20 +4239,6 @@ class LazyOwnShell(cmd2.Cmd):
             elif key == 27:
                 break
 
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(scanning_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(miscellaneous_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(lateral_movement_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
     @cmd2.with_category(post_exploitation_category)
 
 
@@ -4814,10 +4246,6 @@ class LazyOwnShell(cmd2.Cmd):
         """Returns a list of available actions using cmd2 introspection."""
         # Usa get_all_commands() para obtener todos los comandos definidos como do_*
         return self.get_all_commands()
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(post_exploitation_category)
 
     @cmd2.with_category(post_exploitation_category)
 
@@ -4894,14 +4322,6 @@ class LazyOwnShell(cmd2.Cmd):
         NEVER USE <think> TAGS.
         YOUR COMPLETE RESPONSE MUST BE VALID YAML AND NOTHING ELSE.
         """.strip().replace("        ","")
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(post_exploitation_category)
-
-    @cmd2.with_category(reporting_category)
-
-    @cmd2.with_category(post_exploitation_category)
 
     @cmd2.with_category(reporting_category)
 

@@ -217,7 +217,7 @@ def _keyword_route(prompt: str) -> RoutedCall | None:
     if ip_match:
         ip = ip_match.group(1)
         if best_tool == "lazyown_run_command" and best_arg in ("lazynmap", "lazygobuster"):
-            best_arg = f"set rhost {ip}\n{best_arg}"
+            best_arg = f"assign rhost {ip}\n{best_arg}"
         elif best_tool == "lazyown_set_config" and best_arg.startswith("rhost="):
             best_arg = f"rhost={ip}"
     return RoutedCall(

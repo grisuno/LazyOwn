@@ -34,6 +34,7 @@ coerce_plus: 'sh netexec smb {rhost} -u {start_user} -p ''{start_pass}'' -d {dom
 control_dynamic_debug: 'sh sudo cat /sys/kernel/debug/dynamic_debug/control'
 creds: 'sh cat sessions/credentials*'
 diable_selinux: 'sh sudo setenforce 0'
+disable_selinux: 'sh sudo setenforce 0'
 disable_apparmor: 'sh sudo systemctl stop apparmor'
 disable_aslr: 'sh echo 0 | sudo tee /proc/sys/kernel/randomize_va_space'
 disable_ftrace: 'sh sudo sysctl kernel.ftrace_enabled=0'

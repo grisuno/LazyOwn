@@ -9,10 +9,10 @@ Durable context for any Claude/agent touching this repo. Source of truth: `lazyo
 ## 0. What LazyOwn is
 
 Professional red-team / pentest framework:
-- **CLI** (`lazyown.py`): cmd2 shell, ~27k LOC, 333+ commands + 200+ aliases, kill-chain coverage.
+- **CLI** (`lazyown.py`): cmd2 shell, ~27k LOC, 606 commands + 126 aliases, kill-chain coverage.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 84+ routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
-- **Skills** (`skills/`): MCP server (~131 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
+- **Skills** (`skills/`): MCP server (148 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
 
 ## 0.1 Security contracts
 
@@ -367,7 +367,7 @@ When invoking Claude/Groq/Ollama (`lazyown_llm_ask`, `swan_run`, `hive_spawn`, `
    - Top-3 pivot candidates (`world_model.NetworkGraph.centrality()`).
    - Active objective (`objectives.jsonl`).
    - Relevant captured creds.
-3. **Tool catalogue** — filter bridge catalog to current phase + OS, never all 347 commands.
+3. **Tool catalogue** — filter bridge catalog to current phase + OS, never all 362 commands.
 4. **Output contract** — request `{"command": "...", "reasoning": "...", "mitre": "Txxx"}`. Reject prose.
 5. **Reward shaping** — Detection Oracle + OutcomeEvaluator score each step → propagated to RL Q-table + MoE weights. New selectors emit reward `∈ [0, 1]`.
 
@@ -673,7 +673,7 @@ structured object the JSON subcommand prints. Tests live in
 - `UTILS.md` — `utils.py` reference (auto-generated).
 - `CHANGELOG.md` — release history.
 - `skills/lazyown.md` — MCP playbook (mandatory before MCP session).
-- `skills/README.md` — skills architecture + 95 MCP tools.
+- `skills/README.md` — skills architecture + 148 MCP tools.
 - `<dir>/README.md` — every directory; read before editing.
 
 When in doubt: read `payload.json` → `sessions/` → directory's `README.md` → then write code.

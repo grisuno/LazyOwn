@@ -1307,6 +1307,34 @@ def clean_html(html_string):
     cleaned_string = re.sub(clean_pattern, '', html_string)
     return cleaned_string.strip()
 
+RUN_COMMAND_STATUS_MIN_SECONDS = 1.0
+_RUN_COMMAND_MAX_DISPLAY = 80
+
+
+def _print_run_command_status(command, elapsed, exit_code):
+    """Print a dim completion line (elapsed time + exit code) after a run.
+
+    Only shown on interactive terminals and only when the command took long
+    enough to matter (``RUN_COMMAND_STATUS_MIN_SECONDS``) or reported a
+    non-zero exit, so quick aliases stay silent while long scans and failed
+    tools always leave a visible trace. Never touches the returned output.
+    """
+    try:
+        if not sys.stdout.isatty():
+            return
+        if elapsed < RUN_COMMAND_STATUS_MIN_SECONDS and exit_code in (0, None):
+            return
+        label = command
+        if len(label) > _RUN_COMMAND_MAX_DISPLAY:
+            label = label[: _RUN_COMMAND_MAX_DISPLAY - 1] + "…"
+        code = "interrupted" if exit_code is None else f"exit={exit_code}"
+        color = BRIGHT_BLACK if exit_code in (0, None) else YELLOW
+        sys.stdout.write(f"{color}[done] {label}  {code}  {elapsed:.1f}s{RESET}\n")
+        sys.stdout.flush()
+    except Exception:
+        pass
+
+
 def run_command(command):
     """
     Run a command, print output in real-time, and store the output in a variable.
@@ -1327,6 +1355,8 @@ def run_command(command):
 
     output = ""
     command_tokens = shlex.split(command)
+    start_time = time.monotonic()
+    exit_code = None
     try:
         process = subprocess.Popen(
             command_tokens, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
@@ -1349,10 +1379,13 @@ def run_command(command):
         if stderr:
             sys.stdout.write(stderr)
             output += stderr
+        exit_code = process.returncode
     except KeyboardInterrupt:
         process.terminate()
         print_warn("\n[Interrupted] Process terminated")
         process.wait()
+    finally:
+        _print_run_command_status(command, time.monotonic() - start_time, exit_code)
     return output
 
 def generate_random_cve_id():

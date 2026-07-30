@@ -27,16 +27,26 @@ cd LazyOwn
 bash install.sh
 ```
 
-`install.sh` creates the virtualenv at `env/`, installs the pinned Python deps from `requirements.txt`, installs the local Ollama runtime, and generates `cert.pem` / `key.pem` for the C2. It is idempotent: re-running it updates in place.
-
-Flags for a lighter install:
+`install.sh` creates the virtualenv at `env/`, installs the pinned Python deps from `requirements.txt` (runtime-only lock), seeds `payload.json` from the example, and generates `cert.pem` / `key.pem` for the C2. It is idempotent: re-running it updates in place. The default install is light; heavy extras are opt-in:
 
 ```bash
-bash install.sh --no-ml       # skip the 2 GB torch/CUDA + scikit-learn stack (ML features degrade gracefully)
-bash install.sh --no-ollama   # skip the local Ollama runtime
+bash install.sh --with-ml       # add the 2 GB torch/CUDA + scikit-learn stack
+bash install.sh --with-ollama   # add the local Ollama runtime
+bash install.sh --with-tools    # apt-install gobuster, ffuf, enum4linux, seclists, responder, ...
 ```
 
 Dependencies are declared once in `pyproject.toml` and pinned in `requirements.txt` (cross-platform core) and `requirements-ml.txt` (optional ML). Developers can instead use `pip install -e .[ml,dev]`.
+
+### Zero-dependency evaluation with Docker
+
+```bash
+docker run -it ghcr.io/grisuno/lazyown:latest
+```
+
+The published image ships the framework ready to run — useful to evaluate
+LazyOwn or run a throwaway engagement without touching your host Python.
+Use `bash install.sh` on the host for day-to-day work; `lazyown-docker/`
+holds the legacy full-stack compose variant kept for reference.
 
 ---
 
@@ -77,11 +87,13 @@ Or run the config readiness check without changing anything:
 ```bash
 (LazyOwn) > ping           # confirm target is alive + detect OS
 (LazyOwn) > lazynmap       # full port scan → sessions/scan_<rhost>.nmap
-(LazyOwn) > auto_populate  # parse scan into world_model.json
+(LazyOwn) > auto_populate  # parse the scan XML into payload.json context
 (LazyOwn) > facts_show     # see what was discovered
 ```
 
-That is the core loop. Everything else is built on top of it.
+That is the core loop. Everything else is built on top of it. For a full
+end-to-end example with expected outputs, see the guided walkthrough:
+[`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md).
 
 ### Or run it all in one command
 
@@ -113,12 +125,11 @@ Or start it inline from the shell:
 (LazyOwn) > lazyc2
 ```
 
-The C2 starts at `https://<lhost>:<c2_port>` with the credentials from `payload.json` (`c2_user` / `c2_pass`, default `admin` / `admin`).
+The C2 starts at `https://<lhost>:<c2_port>` with the credentials from `payload.json` (`c2_user` / `c2_pass`). The setup `wizard` auto-rotates the factory `CHANGE_ME` placeholders into a generated random password — if you skipped the wizard, set your own with `assign c2_user <name>` and `assign c2_pass <strong-password>` before exposing the panel. On first boot the RBAC store also creates an initial web admin (`admin` / `LazyOwnAdmin2024!`) — change it immediately from the admin users panel.
 
 ---
 
 ## Step 5 — Get your first shell
-
 ```bash
 # Generate and deliver the Go beacon (two-stage, XOR-encoded)
 (LazyOwn) > lazymsfvenom
@@ -139,7 +150,7 @@ Once a beacon checks in, manage it from the C2 dashboard at `https://<lhost>:<c2
 bash scripts/setup_hermes_mcp.sh
 ```
 
-Then restart Hermes or run `/reload-mcp`. LazyOwn exposes ~131 MCP tools for AI-assisted operation.
+Then restart Hermes or run `/reload-mcp`. LazyOwn exposes 148 MCP tools for AI-assisted operation.
 
 See `AGENTS.md` for the Hermes integration guide.
 
@@ -162,7 +173,7 @@ Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/c
 | `ESSENTIALS.md` | You want the 18 core commands (start here after this doc) |
 | `CHEATSHEET.md` | You know the basics and need the next 40 frequent commands |
 | `skills/lazyown.md` | You are operating via MCP (AI operator) |
-| `COMMANDS.md` | You need the full 333-command reference |
+| `COMMANDS.md` | You need the full 606-command reference |
 | `CLAUDE.md` | You are developing or extending the framework |
 
 ---

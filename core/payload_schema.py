@@ -945,6 +945,21 @@ SCHEMA: dict[str, FieldSpec] = {
             category="misc",
         ),
         _spec(
+            "ui_hints",
+            FieldKind.STRING,
+            "on",
+            "Ambient coaching level: on (all surfaces), minimal (autosuggest only), off (professional mode).",
+            long_help=(
+                "Master switch for every post-command guidance surface. "
+                "'on' keeps toasts, inline hints, protips, autosuggest and engagement flavour. "
+                "'minimal' keeps only the autosuggest accelerator (press '.' to accept). "
+                "'off' silences all of them; notifications from display_toastr degrade to "
+                "single plain lines so no information is lost."
+            ),
+            allowed=("on", "minimal", "off"),
+            category="misc",
+        ),
+        _spec(
             "scope",
             FieldKind.OPAQUE,
             [],

@@ -29,7 +29,7 @@ ai_category                   = "16. Artificial Intelligence"
 # Lua/Addon/Adversary categories (string literals used in lazyown.py)
 lua_plugin_category    = "13. Lua Plugin"
 yaml_addon_category    = "14. Yaml Addon."
-adversary_category     = "15. Adversary YAML."
+adversary_category     = "14. Adversary Emulation"
 
 ALL_CATEGORIES = [
     recon_category,

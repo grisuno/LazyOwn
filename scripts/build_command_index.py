@@ -68,7 +68,7 @@ CATEGORY_TO_PHASE: dict[str, str] = {
     "12. Miscellaneous": "misc",
     "13. Lua Plugin": "plugin",
     "14. Yaml Addon.": "addon",
-    "15. Adversary YAML.": "adversary",
+    "14. Adversary Emulation": "adversary",
     "16. Artificial Intelligence": "ai",
     "Diagnostics": "diagnostics",
 }

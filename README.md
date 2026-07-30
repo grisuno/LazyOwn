@@ -32,7 +32,7 @@ See the LICENSE file for details about using this software.
 
  # LazyOwn
 
-LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 666 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
+LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 600 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
 
 ## Quickstart in three commands
 
@@ -44,7 +44,7 @@ bash install.sh        # virtualenv + pinned dependencies + C2 certificates
 ./run                  # launches the shell; first run offers the setup wizard
 ```
 
-Lighter install: `bash install.sh --no-ml` skips the heavy torch/CUDA stack, `--no-ollama` skips the local LLM runtime. Dependencies are pinned in `requirements.txt` (cross-platform core) and `requirements-ml.txt` (optional ML); `pyproject.toml` is the single source of truth.
+The default install is light; add `--with-ml` for the heavy torch/CUDA stack, `--with-ollama` for the local LLM runtime, `--with-tools` for the common external binaries. Dependencies are pinned in `requirements.txt` (cross-platform core) and `requirements-ml.txt` (optional ML); `pyproject.toml` is the single source of truth.
 
 ### Docker
 
@@ -85,13 +85,13 @@ LazyOwn integrates a command-line interface (CLI) built on cmd2 and a web-based 
 
 # LazyOwn Skills — MCP Integration
 
-Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 67 tools covering the full engagement lifecycle.
+Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 148 tools covering the full engagement lifecycle.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `skills/lazyown_mcp.py` | MCP server — exposes 67 LazyOwn tools to Claude |
+| `skills/lazyown_mcp.py` | MCP server — exposes 148 LazyOwn tools to Claude |
 | `skills/lazyown.md` | Claude Code skill / slash-command documentation |
 | `skills/autonomous_daemon.py` | Autonomous execution daemon (objective-driven, no Claude required between steps) |
 | `skills/hive_mind.py` | Multi-agent queen + drone system with ChromaDB memory |
@@ -104,7 +104,7 @@ Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP
 > Full guide: [`QUICKSTART.md`](QUICKSTART.md)
 
 ```bash
-# 1. Clone and install (add --no-ml to skip the 2 GB torch/CUDA stack, --no-ollama to skip the local LLM)
+# 1. Clone and install (light by default; add --with-ml for the 2 GB torch/CUDA stack, --with-ollama for the local LLM)
 git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn && bash install.sh
 
 # 2. Launch, verify the install, then run the wizard
@@ -257,7 +257,7 @@ Full setup: https://github.com/grisuno/LazyOwnOpenCodeAdapter
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (81 tools)
+## MCP Tool Groups (148 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|
@@ -774,8 +774,9 @@ pinned for reproducible installs:
 
 - `requirements.txt` — cross-platform core lock (no CUDA wheels).
 - `requirements-ml.txt` — optional, heavy ML stack (torch/CUDA, scikit-learn).
-- `install.sh` runs under strict mode, is idempotent, and accepts `--no-ml`
-  (skip the 2 GB ML stack) and `--no-ollama` (skip the local LLM runtime).
+- `install.sh` runs under strict mode and is idempotent. The default install
+  is light; opt into extras with `--with-ml` (2 GB ML stack), `--with-ollama`
+  (local LLM runtime) and `--with-tools` (common external binaries).
 - Developers: `pip install -e .[ml,dev]`.
 
 ## Key Features

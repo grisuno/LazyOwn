@@ -863,7 +863,7 @@ class ReactiveEngine:
         for sig in host_signals[:5]:
             decisions.append(ReactiveDecision(
                 action="add_host",
-                command=f"set rhost {sig.value}",
+                command=f"assign rhost {sig.value}",
                 reason=f"New internal host {sig.value} detected in output",
                 mitre_tactic="T1018",
                 priority=3,

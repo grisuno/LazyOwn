@@ -1,5 +1,10 @@
 # lazyown-docker
 
+> **Note:** the primary container path is the root [`Dockerfile`](../Dockerfile),
+> published as `ghcr.io/grisuno/lazyown:latest` (`docker run -it
+> ghcr.io/grisuno/lazyown:latest`). This directory holds the legacy
+> full-stack compose variant (tmux-orchestrated) kept for reference.
+
 Docker support for running LazyOwn in an isolated container. Built and tested on Python 3.12 (slim-bookworm).
 
 ## Directory structure

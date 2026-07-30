@@ -4101,6 +4101,80 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         for name, cmd in sorted(self.aliases.items()):
             print_msg(f"  {name:20} → {cmd}")
 
+    @cmd2.with_category("12. Miscellaneous")
+    def do_hunt(self, line):
+        """Run an autonomous exploitation chain against a target.
+
+        Profiles the target's attack surface, ranks exploit candidates by
+        confidence, and executes them in order until a shell is obtained or
+        the exploit limit is reached. Adapts strategy based on results.
+
+        The engine reads from ``sessions/world_model.json`` to understand
+        what services, versions, and vulnerabilities exist. No re-scanning.
+
+        Usage:
+            hunt <target_ip> [max_exploits]
+            hunt 10.10.11.5
+            hunt 10.10.11.5 10
+
+        :param line: Target IP and optional max exploit count.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if not parts or not parts[0]:
+            print_error("Usage: hunt <target_ip> [max_exploits]")
+            return
+
+        target = parts[0]
+        max_exploits = int(parts[1]) if len(parts) > 1 and parts[1].isdigit() else 5
+
+        try:
+            from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
+            engine = AutonomousExploitEngine()
+            print_msg(f"Profiling target: {target}")
+            profile = engine.profile(target)
+            print_msg(f"  OS: {profile.os_type} {profile.os_version}")
+            print_msg(f"  Ports: {profile.open_ports}")
+            print_msg(f"  Services: {len(profile.services)}")
+            print_msg(f"  Credentials available: {len(profile.credentials)}")
+            print_msg(f"  Access level: {profile.access_level}")
+
+            print_msg("Ranking exploit candidates...")
+            candidates = engine.rank_exploits(profile)
+            candidates = candidates[:max_exploits]
+            for i, c in enumerate(candidates):
+                print_msg(f"  [{i + 1}] {c.service}:{c.product} {c.version} "
+                          f"strategy={c.strategy} confidence={c.confidence:.2f} "
+                          f"{'CVE-' + c.cve_id if c.cve_id else ''}")
+
+            if not candidates:
+                print_msg("No exploit candidates found.")
+                return
+
+            print_msg(f"Executing up to {max_exploits} exploits...")
+            results = engine.hunt(target, max_exploits=max_exploits)
+
+            for r in results:
+                status = "SUCCESS" if r.success else "FAILED"
+                shell = " [SHELL OBTAINED]" if r.shell_obtained else ""
+                print_msg(f"  {status}: {r.candidate.service} "
+                          f"({r.candidate.strategy}) in {r.duration_ms:.0f}ms{shell}")
+                if r.shell_obtained:
+                    print_msg(f"    Session: {r.session_id}")
+                    self.display_toastr(f"Shell on {target} via {r.candidate.strategy}", type="success")
+                if r.error:
+                    print_error(f"    Error: {r.error}")
+
+            successes = sum(1 for r in results if r.success)
+            shells = sum(1 for r in results if r.shell_obtained)
+            print_msg(f"Hunt complete: {successes}/{len(results)} successful, {shells} shells")
+        except ImportError as exc:
+            print_error(f"autonomous_exploit_engine module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Hunt operation failed: {exc}")
+
 
 import utils as _lazy_utils
 for _lazy_name in dir(_lazy_utils):

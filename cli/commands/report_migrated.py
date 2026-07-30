@@ -739,6 +739,71 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
             json.dump(all_data, f, indent=2)
         print_msg(f"Processed CSV files and saved data to '{output_file}'.")
 
+    @cmd2.with_category("11. Reporting")
+    def do_lazyreport(self, line):
+        """Generate a professional red team report from session data.
+
+        Reads the world model, scan results, credentials, and session data
+        from ``sessions/`` and produces a client-ready report in HTML, PDF,
+        Markdown, or JSON format.
+
+        Usage:
+            lazyreport [format] [output_dir] [client_name]
+            lazyreport
+            lazyreport html reports/ AcmeCorp
+            lazyreport md reports/ "Client Inc"
+            lazyreport pdf
+
+        Formats: html (default), pdf, md, json.
+        Output: reports/lazyown_report_<timestamp>.<format>
+
+        :param line: Format, output directory, and optional client name.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        fmt = parts[0] if parts else "html"
+        output_dir = parts[1] if len(parts) > 1 else "reports"
+        client = " ".join(parts[2:]) if len(parts) > 2 else ""
+
+        if fmt not in ("html", "pdf", "md", "json"):
+            print_error(f"Unsupported format: {fmt}. Use: html, pdf, md, json")
+            return
+
+        try:
+            from modules.professional_report import RedTeamReportGenerator
+
+            gen = RedTeamReportGenerator()
+            print_msg("Collecting engagement data...")
+            data = gen.collect_data()
+            hosts = data.get("hosts", [])
+            print_msg(f"  Hosts: {len(hosts)}")
+            print_msg(f"  Credentials files: {len(data.get('credentials', []))}")
+            print_msg(f"  Sessions: {len(data.get('sessions', []))}")
+            print_msg(f"  Scan files: {len(data.get('scan_files', []))}")
+
+            print_msg("Classifying findings...")
+            findings = gen.classify_findings(data)
+            print_msg(f"  Findings: {len(findings)}")
+            for f in findings:
+                print_msg(f"    [{f.severity.upper():8s}] {f.title}")
+
+            print_msg(f"Generating {fmt.upper()} report...")
+            report_path = gen.generate(
+                output_dir=output_dir,
+                output_format=fmt,
+                client_name=client or "REDACTED",
+            )
+            if report_path:
+                print_msg(f"Report generated: {report_path}")
+                self.display_toastr(f"Report saved to {report_path}", type="success")
+            else:
+                print_error("Report generation failed.")
+        except ImportError as exc:
+            print_error(f"professional_report module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Report generation failed: {exc}")
+
 
 import utils as _lazy_utils
 for _lazy_name in dir(_lazy_utils):

@@ -280,6 +280,89 @@ class ShellErrorMatcher(AbstractSignalMatcher):
         return signals[:3]  # only the first few errors
 
 
+class LateralOpportunityMatcher(AbstractSignalMatcher):
+    """Detects opportunities for lateral movement in command output."""
+
+    _PATTERNS = [
+        (r"krbtgt|kerberos.*ticket|kirbi", "kerberos_ticket"),
+        (r"rdp|remote.*desktop.*session", "rdp_session"),
+        (r"smb.*share.*admin|\\\\\w+\\admin\$", "smb_admin_share"),
+        (r"winrm|wsman", "winrm_access"),
+        (r"ssh.*key.*found|authorized_keys", "ssh_key"),
+        (r"wmi.*enabled|wmi.*accessible", "wmi_access"),
+        (r"domain.*admin|dga.*admin", "domain_admin"),
+        (r"session.*token|steal.*token|sekurlsa.*tickets", "session_token"),
+    ]
+
+    def match(self, output: str, context: dict) -> list[Signal]:
+        signals: list[Signal] = []
+        for pattern, kind in self._PATTERNS:
+            m = re.search(pattern, output, re.IGNORECASE)
+            if m:
+                signals.append(Signal(
+                    kind="lateral_opportunity",
+                    value=kind,
+                    confidence=0.75,
+                    raw_match=m.group(),
+                ))
+        return signals
+
+
+class DataOfInterestMatcher(AbstractSignalMatcher):
+    """Detects data of interest for exfiltration in command output."""
+
+    _PII_PATTERNS = [
+        r"\b\d{3}-\d{2}-\d{4}\b",
+        r"\b\d{16}\b",
+        r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b",
+    ]
+
+    _SECRET_PATTERNS = [
+        r"api[_-]?key\s*[:=]\s*['\"]?[\w-]+['\"]?",
+        r"secret\s*[:=]\s*['\"]?[\w-]+['\"]?",
+        r"aws_secret_access_key\s*[:=]\s*['\"]?[\w/+]+['\"]?",
+        r"-----BEGIN [A-Z ]*PRIVATE KEY-----",
+        r"aws_access_key_id\s*[:=]\s*['\"]?[\w-]+['\"]?",
+    ]
+
+    _FILE_PATTERNS = [
+        r"\.env\b",
+        r"config\.json\b",
+        r"credentials\.json\b",
+        r"secrets\.json\b",
+        r"id_rsa\b",
+        r"id_ed25519\b",
+    ]
+
+    def match(self, output: str, context: dict) -> list[Signal]:
+        signals: list[Signal] = []
+        for pattern in self._PII_PATTERNS:
+            for m in re.finditer(pattern, output, re.IGNORECASE):
+                signals.append(Signal(
+                    kind="data_of_interest",
+                    value=f"pii:{m.group()[:50]}",
+                    confidence=0.85,
+                    raw_match=m.group(),
+                ))
+        for pattern in self._SECRET_PATTERNS:
+            for m in re.finditer(pattern, output, re.IGNORECASE):
+                signals.append(Signal(
+                    kind="data_of_interest",
+                    value=f"secret:{m.group()[:50]}",
+                    confidence=0.90,
+                    raw_match=m.group(),
+                ))
+        for pattern in self._FILE_PATTERNS:
+            for m in re.finditer(pattern, output, re.IGNORECASE):
+                signals.append(Signal(
+                    kind="data_of_interest",
+                    value=f"file:{m.group()[:50]}",
+                    confidence=0.70,
+                    raw_match=m.group(),
+                ))
+        return signals[:5]
+
+
 # ---------------------------------------------------------------------------
 # Parquet lookup (GTFOBins + LOLBas + Atomic Red Team techniques)
 # ---------------------------------------------------------------------------
@@ -718,6 +801,8 @@ class ReactiveEngine:
             NewHostMatcher(),
             ServiceVersionMatcher(),
             ShellErrorMatcher(),
+            LateralOpportunityMatcher(),
+            DataOfInterestMatcher(),
         ]
         self._evasion = evasion or EvasionAdvisor()
         self._privesc = privesc or PrivescAdvisor()
@@ -806,6 +891,30 @@ class ReactiveEngine:
                     priority=3,
                     signals=[sig],
                 ))
+
+        # Lateral movement opportunities
+        lateral_signals = [s for s in all_signals if s.kind == "lateral_opportunity"]
+        for sig in lateral_signals[:3]:
+            decisions.append(ReactiveDecision(
+                action="run_command",
+                command=f"crackmapexec {sig.value}",
+                reason=f"Lateral movement opportunity: {sig.value}",
+                mitre_tactic="T1570",
+                priority=2,
+                signals=[sig],
+            ))
+
+        # Data of interest found
+        data_signals = [s for s in all_signals if s.kind == "data_of_interest"]
+        for sig in data_signals[:3]:
+            decisions.append(ReactiveDecision(
+                action="run_command",
+                command="exfil",
+                reason=f"Data of interest found: {sig.value}",
+                mitre_tactic="T1030",
+                priority=1,
+                signals=[sig],
+            ))
 
         decisions.extend(
             self._semantic.suggest(output, command, platform, ctx)

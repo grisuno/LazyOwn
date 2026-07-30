@@ -1308,6 +1308,70 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
             line = input("    [!] Enter the client_id (default: no_priv): ") or 'no_priv'
         self.c2_clientid = line.strip()
 
+    @cmd2.with_category("08. Lateral Movement")
+    def do_dominion(self, line):
+        """Execute a fully automated Active Directory domain takeover.
+
+        Runs the complete AD kill-chain: domain enumeration, user discovery,
+        credential extraction (AS-REP roasting, Kerberoasting), lateral movement
+        via PsExec/WMIExec/Pass-the-Hash, DCSync privilege escalation, and
+        persistence mechanisms.
+
+        Usage:
+            dominion <domain> <dc_ip> [username] [password]
+            dominion corp.local 10.10.11.5
+            dominion corp.local 10.10.11.5 admin Password123!
+            dominion corp.local 10.10.11.5 admin :ntlm_hash
+
+        All credentials, sessions, and findings are persisted under
+        ``sessions/``. Use ``creds`` to view captured credentials afterwards.
+
+        :param line: Domain, DC IP, optional credentials.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if len(parts) < 2:
+            print_error("Usage: dominion <domain> <dc_ip> [username] [password]")
+            return
+
+        domain = parts[0]
+        dc_ip = parts[1]
+        username = parts[2] if len(parts) > 2 else ""
+        password = parts[3] if len(parts) > 3 else ""
+        ntlm_hash = parts[4] if len(parts) > 4 else ""
+
+        try:
+            from modules.domain_dominance import DomainDominance
+
+            dd = DomainDominance()
+            print_msg(f"Starting domain dominance operation against {domain} (DC: {dc_ip})")
+            print_msg("Phases: domain_recon -> user_enum -> credential_extraction -> lateral_movement -> privilege_escalation -> persistence")  # noqa: E501
+            result = dd.dominate(
+                domain=domain,
+                dc_ip=dc_ip,
+                username=username,
+                password=password,
+                ntlm_hash=ntlm_hash,
+            )
+            print_msg(f"Dominance complete for {result.domain}")
+            print_msg(f"  Compromised: {result.compromised}")
+            print_msg(f"  Domain Admin obtained: {result.domain_admin_obtained}")
+            print_msg(f"  DCSync performed: {result.dcsynced}")
+            print_msg(f"  Users enumerated: {result.users_extracted}")
+            print_msg(f"  Credentials stolen: {result.creds_stolen}")
+            print_msg(f"  Sessions obtained: {result.sessions_obtained}")
+            for phase, status in result.phase_results.items():
+                print_msg(f"  Phase [{phase}]: {status}")
+            if result.errors:
+                for err in result.errors:
+                    print_error(f"  Error: {err}")
+            self.display_toastr(f"Domain {domain} dominated: {result.domain_admin_obtained}", type="success")
+        except ImportError as exc:
+            print_error(f"domain_dominance module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Dominion operation failed: {exc}")
+
 
 import utils as _lazy_utils
 for _lazy_name in dir(_lazy_utils):

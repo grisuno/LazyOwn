@@ -1411,6 +1411,40 @@ class CommandCatalog:
             description="Live network map dashboard with phase progress",
             priority=3, tags=["dashboard", "visualization"]))
 
+        # ====================================================================
+        # 12. LATE-ARRIVING COMMANDS (migrated from unmigrated_batch.py)
+        # ====================================================================
+        add(CatalogEntry("cloud_enum", "recon", "T1591",
+            description="Cloud provider metadata, storage, and IAM enumeration",
+            priority=3, tags=["cloud", "osint", "metadata"]))
+        add(CatalogEntry("adcs_check", "exploit", "T1488",
+            description="Active Directory Certificate Services ESC1-ESC8 vulnerability check",
+            priority=2, requires_creds=True, tags=["ad", "certificates", "esc"]))
+        add(CatalogEntry("dominion", "lateral", "T1558",
+            description="Automated Active Directory domain takeover (recon -> DCSync -> persistence)",
+            priority=1, requires_creds=True, tags=["ad", "domain", "kerberos"]))
+        add(CatalogEntry("hunt", "exploit", "T1213",
+            description="Autonomous exploitation chain against target (profile -> rank -> execute)",
+            priority=2, arg_template="{target}", tags=["autonomous", "exploit"]))
+        add(CatalogEntry("phisher", "recon", "T1566",
+            description="Phishing campaign launcher with template selection and credential harvesting",
+            priority=3, arg_template="{domain} {template}", tags=["phishing", "initial_access"]))
+        add(CatalogEntry("lazyreport", "report", "T0000",
+            description="Professional red team report generator (HTML/PDF/MD/JSON)",
+            priority=2, tags=["reporting", "client"]))
+        add(CatalogEntry("evasive", "exploit", "T1027",
+            description="Detection-evading payload generator (PS/JS/VBA/shellcode/LOLBAS/polymorphic)",
+            priority=2, tags=["evasion", "obfuscation", "payload"]))
+        add(CatalogEntry("chain", "exploit", "T1203",
+            description="Autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit",
+            priority=2, arg_template="{target}", tags=["autonomous", "exploit"]))
+        add(CatalogEntry("beaconcfg", "c2", "T1095",
+            description="C2 beacon profile generator with traffic morphing and domain fronting",
+            priority=3, tags=["c2", "beacon", "traffic_morphing"]))
+        add(CatalogEntry("yara_scan", "postexp", "T1027",
+            description="YARA rule scanner for malware/IOC detection on compromised hosts",
+            priority=4, tags=["yara", "forensics", "ioc"]))
+
     def by_phase(self, phase: str) -> list[CatalogEntry]:
         return sorted(
             [e for e in self._entries if e.phase == phase],

@@ -328,8 +328,41 @@ class DetectionOracle(IDetectionOracle):
     6. Fall back to _CATEGORY_BASE_PROBABILITY when no rules matched.
     """
 
-    def __init__(self, rules: list[SigmaRule] | None = None) -> None:
+    def __init__(self, rules: list[SigmaRule] | None = None, feed: DetectionFeed | None = None) -> None:
         self._rules: list[SigmaRule] = rules if rules is not None else _SIGMA_RULES
+        self._feed = feed
+
+    def refresh(self) -> int:
+        """Update rules from the detection feed (if available).
+
+        Downloads new Sigma rules from the feed source, caches them locally,
+        and merges them with the existing static rules.  Also adjusts
+        probabilities based on historical detection feedback.
+
+        Returns:
+            Number of new rules added to the oracle.
+        """
+        if self._feed is None:
+            try:
+                from modules.detection_feed import get_feed
+                self._feed = get_feed()
+            except Exception as exc:
+                log.debug("DetectionOracle: feed unavailable: %s", exc)
+                return 0
+
+        new_rules = self._feed.update_rules()
+        if new_rules:
+            existing_ids = {r.rule_id for r in self._rules}
+            merged = [r for r in self._rules]
+            for rule in new_rules:
+                if rule.rule_id not in existing_ids:
+                    merged.append(rule)
+            self._rules = merged
+            log.info("DetectionOracle: %d rules added from feed", len(new_rules))
+
+        self._feed.adjust_from_feedback()
+
+        return len(new_rules)
 
     # IDetectionOracle --------------------------------------------------------
 

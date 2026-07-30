@@ -854,6 +854,18 @@ async def _h_dashboard_snapshot(arguments: dict, tool_name: str) -> list[types.T
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
 
+@register_handler("lazyown_unified_dashboard")
+async def _h_unified_dashboard(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    try:
+        from modules.unified_dashboard import UnifiedDashboard
+        dashboard = UnifiedDashboard(SESSIONS_DIR)
+        if arguments.get("format") == "json":
+            return _make_text(tool_name, dashboard.export_json())
+        return _make_text(tool_name, dashboard.render_unified())
+    except Exception as exc:
+        return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
+
+
 @register_handler("lazyown_get_beacons")
 async def _h_get_beacons(arguments: dict, tool_name: str) -> list[types.TextContent]:
     result = await asyncio.get_event_loop().run_in_executor(
@@ -2169,6 +2181,27 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": ["ip"],
+            },
+        ),
+        # ── Unified Dashboard ─────────────────────────────────────────────────────
+        types.Tool(
+            name="lazyown_unified_dashboard",
+            description=(
+                "Unified campaign dashboard combining world model, Hive Mind status, "
+                "policy engine status, autonomous daemon status, LiveSurface graph, "
+                "and GraphAdvisor pivot candidates into a single text or JSON snapshot. "
+                "Use format=json for structured data, or omit for a text dashboard."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "format": {
+                        "type": "string",
+                        "description": "Output format: 'text' (default) or 'json'.",
+                        "enum": ["text", "json"],
+                        "default": "text",
+                    }
+                },
             },
         ),
         # ── Master campaign SITREP ────────────────────────────────────────────

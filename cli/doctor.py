@@ -23,6 +23,7 @@ Design contract:
 from __future__ import annotations
 
 import importlib.util
+import json
 import sys
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
@@ -305,6 +306,36 @@ def check_seclists(
     )
 
 
+def check_command_index(root: Path) -> CheckResult:
+    try:
+        from scripts.build_command_index import build_index, render_document
+
+        fresh = render_document(build_index())
+        index_path = root / "cli" / "command_index.json"
+        on_disk = json.loads(index_path.read_text(encoding="utf-8"))
+        if fresh == on_disk:
+            return CheckResult("Command index", STATUS_OK, "command index matches AST")
+        return CheckResult(
+            "Command index",
+            STATUS_WARN,
+            "command index is stale",
+            hint="python scripts/build_command_index.py",
+        )
+    except FileNotFoundError:
+        return CheckResult(
+            "Command index",
+            STATUS_FAIL,
+            "cli/command_index.json not found",
+            hint="python scripts/build_command_index.py",
+        )
+    except ImportError as e:
+        return CheckResult(
+            "Command index",
+            STATUS_WARN,
+            f"cannot verify -- import error: {e}",
+        )
+
+
 def check_external_tools(
     checker: Callable[[], list[BinaryStatus]] = check_binaries,
 ) -> list[CheckResult]:
@@ -345,6 +376,7 @@ def gather_report(root: Path) -> DoctorReport:
     report.checks.append(check_payload(root))
     report.checks.append(check_certificates(root))
     report.checks.append(check_seclists())
+    report.checks.append(check_command_index(root))
     report.checks.extend(check_packages())
     report.checks.extend(check_external_tools())
     return report
@@ -425,6 +457,7 @@ __all__ = [
     "DoctorReport",
     "PackageSpec",
     "check_certificates",
+    "check_command_index",
     "check_external_tools",
     "check_packages",
     "check_payload",

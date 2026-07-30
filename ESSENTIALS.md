@@ -16,9 +16,9 @@ ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
 | 2 | `assign lhost 10.10.14.3` | Set your IP | Used by beacon callbacks, C2, payloads |
 | 3 | `ping` | ICMP TTL probe | TTL ~64 = Linux, ~128 = Windows. Sets `os_id` automatically |
 | 4 | `lazynmap` | Full port scan | Writes to `sessions/scan_<rhost>.nmap`. Never re-run if file exists |
-| 5 | `auto_populate` | Parse scan into structured data | Populates `sessions/world_model.json` with services, versions, OS |
-| 6 | `facts_show` | Display discovered facts | Quick read of what the scan found: ports, services, versions |
-| 7 | `recommend_next` | AI-ranked next steps | Groq suggests the 3-5 best commands for current phase |
+| 5 | `auto_populate` | Parse scan into payload context | Fills `domain`, `os_id`, services and first creds from the nmap XML into `payload.json` |
+| 6 | `facts_show` | Display discovered facts | Quick read of what the scan found: ports, services, versions (`--refresh` re-parses `sessions/`) |
+| 7 | `recommend_next` | Ranked next steps | Local engine fuses policy + recon plan + knowledge graph into the 3-5 best commands for the current phase — no API key needed |
 
 ---
 
@@ -44,6 +44,29 @@ for your go-ahead, so you stay in control. Useful flags:
 Every action is narrated to `sessions/engagement.log` and broadcast to
 connected teammates. Run the manual seven-step path above when you want to
 understand or control each step; reach for `engage` when you want speed.
+
+---
+
+## One goal — `orchestrate`
+
+`engage` walks a fixed chain. `orchestrate` hands a free-text goal to the
+autonomous backends and lets them plan the steps:
+
+```
+orchestrate "gain initial access and dump hashes"
+```
+
+| Form | Effect |
+|------|--------|
+| `orchestrate "<goal>"` | Auto-routes to the best backend (daemon, hive or swan) |
+| `orchestrate "<goal>" --mode daemon` | Force the objective-driven daemon (`auto_loop "<goal>"` is a shortcut for this) |
+| `orchestrate "<goal>" --mode hive` | Queen/drone swarm with shared memory |
+| `orchestrate "<goal>" --mode swan` | MoE+RL router, learns from outcomes |
+
+The daemon backend is fully local and works offline. LLM-backed reasoning
+uses `api_key` (Groq) when set and falls back to the local Ollama runtime
+when it is not — if neither is available the shell tells you at startup
+instead of failing silently.
 
 ---
 
@@ -121,7 +144,7 @@ understand or control each step; reach for `engage` when you want speed.
 | Need | File |
 |------|------|
 | 40 most frequent commands by goal | `CHEATSHEET.md` |
-| All 333 commands with descriptions | `COMMANDS.md` (auto-generated) |
-| All 200+ aliases | `COMMANDS.md` alias section |
-| Full MCP tool reference (131 tools) | `skills/lazyown.md` |
+| All 606 commands with descriptions | `COMMANDS.md` (auto-generated) |
+| All 126 aliases | `COMMANDS.md` alias section |
+| Full MCP tool reference (148 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |

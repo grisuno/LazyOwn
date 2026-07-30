@@ -2,6 +2,13 @@
 
 Provides a single point of logging configuration to replace the 61+
 scattered `logging.basicConfig()` calls across the codebase.
+
+Usage:
+    from modules.logging_config import configure, get_logger
+
+    configure(level=logging.INFO, log_dir="sessions/logs", console=True, file=True)
+    logger = get_logger(__name__)
+    logger.info("Framework started")
 """
 
 import logging
@@ -15,6 +22,32 @@ from typing import Optional
 LOG_FORMAT_CONSOLE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(message)s'
 LOG_FORMAT_FILE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(filename)s:%(lineno)d %(message)s'
 LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+
+_CONSOLE_COLORS: dict[int, str] = {
+    logging.DEBUG: "\033[36m",
+    logging.INFO: "\033[32m",
+    logging.WARNING: "\033[33m",
+    logging.ERROR: "\033[31m",
+    logging.CRITICAL: "\033[35m",
+}
+_CONSOLE_RESET = "\033[0m"
+
+
+class ColoredFormatter(logging.Formatter):
+    """ANSI-colored console formatter matching core.console.py style."""
+
+    def format(self, record: logging.LogRecord) -> str:
+        color = _CONSOLE_COLORS.get(record.levelno, "")
+        prefix_map = {
+            logging.DEBUG: "[.]",
+            logging.INFO: "[+]",
+            logging.WARNING: "[~]",
+            logging.ERROR: "[-]",
+            logging.CRITICAL: "[!]",
+        }
+        prefix = prefix_map.get(record.levelno, "[ ]")
+        msg = super().format(record)
+        return f"    {color}{prefix} {msg}{_CONSOLE_RESET}"
 
 
 _logger_cache: dict = {}
@@ -63,7 +96,8 @@ def configure(
     if console:
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(level)
-        console_handler.setFormatter(logging.Formatter(format_console, LOG_DATE_FORMAT))
+        fmt = format_console or LOG_FORMAT_CONSOLE
+        console_handler.setFormatter(ColoredFormatter(fmt, LOG_DATE_FORMAT))
         root_logger.addHandler(console_handler)
 
     if file:

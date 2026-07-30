@@ -9,7 +9,7 @@ from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import Groq, process_prompt_general
+from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
 from utils import Config, load_payload
 
 # === CONFIG ===

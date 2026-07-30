@@ -2218,6 +2218,78 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         self.display_toastr(f"The files cipher.bin and key.bin are witchcrafted in sessions directory for the file: {exe}", type="info")
         return
 
+    @cmd2.with_category("04. Post-Exploitation")
+    def do_yara_scan(self, line):
+        """Scan files or directories with YARA rules for malware/IOCs.
+
+        Usage: yara_scan <target_path> [--download-rules]
+
+        Scans the target path with default LazyOwn YARA rules covering
+        webshells, Cobalt Strike, reverse shells, credential theft, and
+        persistence mechanisms.  Auto-installs yara-python if missing.
+        """
+        args = line.strip().split()
+        if not args:
+            print_error("Usage: yara_scan <target_path> [--download-rules]")
+            return
+
+        target = args[0]
+        download_rules = "--download-rules" in args
+
+        if not os.path.exists(target):
+            print_error(f"Target not found: {target}")
+            return
+
+        try:
+            import yara  # noqa: F401
+        except ImportError:
+            print_msg("yara-python not found.  Installing...")
+            self.cmd(f"{sys.executable} -m pip install yara-python --quiet")
+            import yara  # noqa: F401, F811
+
+        from modules.yara_scanner import YaraScanner, create_default_rules
+
+        scanner = YaraScanner(auto_compile=False)
+
+        if download_rules:
+            print_msg("Downloading community YARA rules...")
+            scanner.download_community_rules()
+
+        print_msg("Compiling default YARA rules...")
+        create_default_rules()
+        scanner.compile_all()
+
+        if scanner.rule_count == 0:
+            print_error("No YARA rules loaded.")
+            return
+
+        print_msg(f"Scanning with {scanner.rule_count} rules...")
+
+        if os.path.isfile(target):
+            results = scanner.scan_file(target)
+            if results:
+                for match in results:
+                    print_msg(f"  Rule: {match.get('rule', '?')}")
+                    print_msg(f"  Tags: {match.get('tags', [])}")
+                    if "meta" in match:
+                        for k, v in match["meta"].items():
+                            print_msg(f"  {k}: {v}")
+                    print_msg("---")
+            else:
+                print_msg("No matches found.")
+        else:
+            results = scanner.scan_directory(target)
+            for file_result in results:
+                print_msg(f"\nFile: {file_result['file']}")
+                print_msg(f"  SHA256: {file_result['sha256']}")
+                for match in file_result.get("matches", []):
+                    print_msg(f"  Rule: {match.get('rule', '?')}")
+                    print_msg(f"  Tags: {match.get('tags', [])}")
+            if not results:
+                print_msg("No matches found.")
+
+        print_msg(f"\nScanned {len(results)} matches across target.")
+
 
 import utils as _lazy_utils
 for _lazy_name in dir(_lazy_utils):

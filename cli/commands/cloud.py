@@ -215,6 +215,64 @@ class CloudCommandSet(LazyOwnCommandSet):
             if ans == "y":
                 os.system(cmd)
 
+    @cmd2.with_category(CLOUD_CATEGORY)
+    def do_cloud_enum(self, line):
+        """Enumerate cloud provider metadata, storage, and IAM.
+
+        Usage: cloud_enum [provider]
+        Providers: aws, azure, gcp (auto-detect if omitted)
+
+        Performs full enumeration including IMDS metadata extraction,
+        storage bucket listing, IAM role enumeration, and privilege
+        escalation path detection.  Auto-installs dependencies if missing.
+        """
+        provider = line.strip() or "auto"
+        if provider not in ("aws", "azure", "gcp", "auto"):
+            print_error("Provider must be: aws, azure, gcp, or auto")
+            return
+
+        try:
+            import requests  # noqa: F401
+        except ImportError:
+            self.display_toastr("requests not found. Installing...", type="warning")
+            self.cmd(f"{sys.executable} -m pip install requests --quiet")
+
+        from modules.cloud_enum import CloudEnumerator
+
+        enumerator = CloudEnumerator(provider=provider)
+        detected = enumerator.detect_provider()
+        print_msg(f"Detected provider: {detected or 'None'}")
+
+        if not detected and provider == "auto":
+            print_warn("No cloud provider detected. Are you on a cloud instance?")
+            return
+
+        print_msg("Enumerating metadata...")
+        metadata = enumerator.enumerate_metadata()
+        for key, value in metadata.items():
+            if isinstance(value, dict):
+                print_msg(f"  {key}:")
+                for k, v in value.items():
+                    if "token" in k.lower() or "key" in k.lower() or "secret" in k.lower():
+                        v = str(v)[:30] + "...[redacted]"
+                    print_msg(f"    {k}: {v}")
+            else:
+                if "token" in key.lower() or "key" in key.lower() or "secret" in key.lower():
+                    value = str(value)[:30] + "...[redacted]"
+                print_msg(f"  {key}: {value}")
+
+        print_msg("Enumerating storage...")
+        storage = enumerator.enumerate_storage()
+        for bucket in storage:
+            print_msg(f"  {bucket}")
+
+        print_msg("Enumerating IAM...")
+        iam = enumerator.enumerate_iam()
+        for section, data in iam.items():
+            print_msg(f"  {section}: {len(data) if isinstance(data, list) else 'present'}")
+
+        print_msg("Enumeration complete.")
+
 
 import json
 

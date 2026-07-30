@@ -8,12 +8,24 @@ Extends LazyOwn's existing ``.ls`` script format with:
 - ``if <condition>`` / ``else`` / ``endif`` — conditional execution
 - ``while <condition>`` / ``endwhile`` — loop until condition is false
 - ``for <var> in <items>`` / ``endfor`` — iterate over space-separated items
+- ``break`` / ``continue`` — loop control inside while/for bodies
 - ``macro <name> <args>`` / ``endmacro`` / ``call <name> <args>`` — reusable blocks
 - ``spool <file>`` / ``spool off`` — log output to file
 - ``sleep <seconds>`` — pause execution
 - ``echo <message>`` — print a message
 - ``comment <text>`` — inline comment (also ``#`` lines)
 - Variable substitution: ``$var`` or ``${var}`` anywhere in command lines
+
+Conditions (``if`` / ``while``) support real expressions:
+
+- ``$a == $b`` / ``$a != $b`` — string equality after substitution
+- ``$a =~ pattern`` / ``$a !~ pattern`` — regex search / negated
+- ``$a > $b`` and friends (``>=``, ``<``, ``<=``) — numeric when both
+  operands parse as numbers, string order otherwise
+- ``$a contains text`` — substring test
+- ``defined $var`` — true when the variable exists and is non-empty
+- anything else falls back to truthiness: empty, ``false``, ``0``, ``no``
+  and ``off`` are false; every other value is true
 
 Built-in variables: ``$rhost``, ``$lhost``, ``$lport``, ``$domain``,
 ``$workspace``, ``$timestamp``.
@@ -51,6 +63,12 @@ _SPOOL_RE = re.compile(r"^\s*spool\s+(.+|off)", re.IGNORECASE)
 _ECHO_RE = re.compile(r"^\s*echo\s+(.+)", re.IGNORECASE)
 _SLEEP_RE = re.compile(r"^\s*sleep\s+(\d+)", re.IGNORECASE)
 _CALL_RE = re.compile(r"^\s*call\s+(\w+)\s*(.*)", re.IGNORECASE)
+_BREAK_RE = re.compile(r"^\s*break\s*$", re.IGNORECASE)
+_CONTINUE_RE = re.compile(r"^\s*continue\s*$", re.IGNORECASE)
+_DEFINED_RE = re.compile(r"^defined\s+(\$?\{?\w[\w.]*\}?)$", re.IGNORECASE)
+_CONDITION_OPS = ("=~", "!~", "==", "!=", ">=", "<=", ">", "<")
+_FALSY = ("", "false", "0", "no", "off")
+_UNRESOLVED_RE = re.compile(r"^\$\{.+\}$")
 
 
 class ScriptError(RuntimeError):
@@ -80,11 +98,13 @@ class ScriptContext:
         self._print_cb = on_print
         self._if_stack: list[bool] = []
         self._while_stack: list[tuple[str, int]] = []
-        self._for_stack: list[tuple[str, list[str], int]] = []
+        self._for_stack: list[tuple[str, list[str], int, int]] = []
+        self._loop_stack: list[str] = []
         self._skip_depth: int = 0
-        self._line_number: int = 0
+        self._line_number: Any = 0
         self._lines: list[str] = []
         self._pos: int = 0
+        self.dry_run: bool = False
 
         if shell_params:
             for k, v in shell_params.items():
@@ -122,6 +142,9 @@ class ScriptContext:
 
     def run_command(self, cmd: str) -> None:
         resolved = self._resolve(cmd)
+        if self.dry_run:
+            self.print(f"[dry-run] {resolved}")
+            return
         if self._command_cb:
             self._command_cb(resolved)
         elif resolved.strip():
@@ -129,6 +152,105 @@ class ScriptContext:
 
     def _skip(self) -> bool:
         return self._skip_depth > 0 or (self._if_stack and not self._if_stack[-1])
+
+    def _lookup(self, name: str) -> str | None:
+        """Return the raw (unresolved) value of ``name`` or ``None``."""
+        key = name.strip()
+        if key.startswith("${") and key.endswith("}"):
+            key = key[2:-1]
+        elif key.startswith("$"):
+            key = key[1:]
+        if key in self.vars:
+            return self.vars[key]
+        if key in self._builtins:
+            return self._builtins[key]
+        if key in self.globals:
+            return self.globals[key]
+        return os.environ.get(key)
+
+    def _resolve_operand(self, operand: str) -> str:
+        """Resolve one condition operand, treating unresolved vars as empty."""
+        text = operand.strip().strip("'\"")
+        resolved = self._resolve(text).strip()
+        if _UNRESOLVED_RE.match(resolved):
+            return ""
+        return resolved
+
+    def eval_condition(self, raw_condition: str) -> bool:
+        """Evaluate an ``if``/``while`` condition expression.
+
+        Supports ``==``, ``!=``, ``=~``, ``!~``, ``>``, ``>=``, ``<``,
+        ``<=``, ``contains`` and ``defined``; anything else falls back to
+        plain truthiness of the substituted text. Substitution happens per
+        operand so ``if $a == $b`` compares values instead of evaluating
+        the literal string ``"x == y"`` (which is always truthy).
+        """
+        cond = raw_condition.strip()
+        defined = _DEFINED_RE.match(cond)
+        if defined:
+            value = self._lookup(defined.group(1))
+            return bool(value and str(value).strip())
+
+        contains_parts = re.split(r"\s+contains\s+", cond, maxsplit=1, flags=re.IGNORECASE)
+        if len(contains_parts) == 2:
+            left, right = contains_parts
+            return self._resolve_operand(right) in self._resolve_operand(left)
+
+        for op in _CONDITION_OPS:
+            if op in cond:
+                left, _, right = cond.partition(op)
+                return self._compare(self._resolve_operand(left), op, self._resolve_operand(right))
+
+        resolved = self._resolve_operand(cond).lower()
+        return resolved not in _FALSY
+
+    @staticmethod
+    def _compare(left: str, op: str, right: str) -> bool:
+        """Apply one comparison operator to two resolved operands."""
+        if op == "==":
+            return left == right
+        if op == "!=":
+            return left != right
+        if op == "=~":
+            try:
+                return re.search(right, left) is not None
+            except re.error:
+                return False
+        if op == "!~":
+            try:
+                return re.search(right, left) is None
+            except re.error:
+                return True
+        try:
+            num_left, num_right = float(left), float(right)
+            pair: tuple[Any, Any] = (num_left, num_right)
+        except (TypeError, ValueError):
+            pair = (left, right)
+        if op == ">":
+            return pair[0] > pair[1]
+        if op == ">=":
+            return pair[0] >= pair[1]
+        if op == "<":
+            return pair[0] < pair[1]
+        if op == "<=":
+            return pair[0] <= pair[1]
+        return False
+
+    def _jump_past(self, open_res: tuple[re.Pattern, ...], close_re: re.Pattern) -> None:
+        """Move ``_pos`` past the matching close token, honouring nesting."""
+        depth = 0
+        pos = self._pos
+        while pos < len(self._lines):
+            text = self._lines[pos].strip()
+            if any(pattern.match(text) for pattern in open_res):
+                depth += 1
+            elif close_re.match(text):
+                if depth == 0:
+                    self._pos = pos + 1
+                    return
+                depth -= 1
+            pos += 1
+        self._pos = pos
 
 
 class ResourceScriptEngine:
@@ -248,11 +370,7 @@ class ResourceScriptEngine:
         # if <condition>
         m = _IF_RE.match(text)
         if m:
-            cond = self.ctx._resolve(m.group(1).strip()).lower()
-            truthy = cond in ("true", "1", "yes", "on", "") or (
-                not cond.startswith("false") and cond != "0" and cond != "no" and cond != "off"
-            )
-            self.ctx._if_stack.append(truthy)
+            self.ctx._if_stack.append(self.ctx.eval_condition(m.group(1)))
             return
 
         # else
@@ -272,20 +390,23 @@ class ResourceScriptEngine:
         if m:
             if not self.ctx._skip():
                 self.ctx._while_stack.append((m.group(1).strip(), self.ctx._pos))
+                self.ctx._loop_stack.append("while")
             return
 
         # endwhile
         if _ENDWHILE_RE.match(text):
             if self.ctx._while_stack and not self.ctx._skip():
                 cond_text, start_pos = self.ctx._while_stack[-1]
-                resolved_cond = self.ctx._resolve(cond_text).lower()
-                still_true = resolved_cond in ("true", "1", "yes", "on", "") and resolved_cond not in ("false", "0", "no", "off")
-                if still_true:
+                if self.ctx.eval_condition(cond_text):
                     self.ctx._pos = start_pos
                 else:
                     self.ctx._while_stack.pop()
+                    if self.ctx._loop_stack:
+                        self.ctx._loop_stack.pop()
             elif self.ctx._while_stack:
                 self.ctx._while_stack.pop()
+                if self.ctx._loop_stack:
+                    self.ctx._loop_stack.pop()
             return
 
         # for <var> in <items>
@@ -295,7 +416,8 @@ class ResourceScriptEngine:
                 var = m.group(1)
                 items_raw = self.ctx._resolve(m.group(2).strip())
                 items = shlex.split(items_raw) if items_raw else []
-                self.ctx._for_stack.append((var, items, self.ctx._pos))
+                self.ctx._for_stack.append((var, items, self.ctx._pos, 1))
+                self.ctx._loop_stack.append("for")
                 if items:
                     self.ctx.vars[var] = items[0]
             return
@@ -303,20 +425,55 @@ class ResourceScriptEngine:
         # endfor
         if _ENDFOR_RE.match(text):
             if self.ctx._for_stack and not self.ctx._skip():
-                var, items, start_pos = self.ctx._for_stack[-1]
-                current_val = self.ctx.vars.get(var, "")
-                try:
-                    idx = items.index(current_val) + 1
-                except ValueError:
-                    idx = len(items)
-                if idx < len(items):
-                    self.ctx.vars[var] = items[idx]
+                var, items, start_pos, next_idx = self.ctx._for_stack[-1]
+                if next_idx < len(items):
+                    self.ctx.vars[var] = items[next_idx]
+                    self.ctx._for_stack[-1] = (var, items, start_pos, next_idx + 1)
                     self.ctx._pos = start_pos
                 else:
                     self.ctx._for_stack.pop()
                     self.ctx.vars.pop(var, None)
+                    if self.ctx._loop_stack:
+                        self.ctx._loop_stack.pop()
             elif self.ctx._for_stack:
                 self.ctx._for_stack.pop()
+                if self.ctx._loop_stack:
+                    self.ctx._loop_stack.pop()
+            return
+
+        # break — exit the innermost loop
+        if _BREAK_RE.match(text):
+            if self.ctx._skip() or not self.ctx._loop_stack:
+                return
+            kind = self.ctx._loop_stack.pop()
+            if kind == "for" and self.ctx._for_stack:
+                var, _, _, _ = self.ctx._for_stack.pop()
+                self.ctx.vars.pop(var, None)
+                self.ctx._jump_past((_FOR_RE,), _ENDFOR_RE)
+            elif self.ctx._while_stack:
+                self.ctx._while_stack.pop()
+                self.ctx._jump_past((_WHILE_RE,), _ENDWHILE_RE)
+            return
+
+        # continue — advance the innermost loop to its next iteration
+        if _CONTINUE_RE.match(text):
+            if self.ctx._skip() or not self.ctx._loop_stack:
+                return
+            if self.ctx._loop_stack[-1] == "for" and self.ctx._for_stack:
+                var, items, start_pos, next_idx = self.ctx._for_stack[-1]
+                if next_idx < len(items):
+                    self.ctx.vars[var] = items[next_idx]
+                    self.ctx._for_stack[-1] = (var, items, start_pos, next_idx + 1)
+                    self.ctx._pos = start_pos
+                else:
+                    self.ctx._for_stack.pop()
+                    self.ctx._loop_stack.pop()
+                    self.ctx.vars.pop(var, None)
+                    self.ctx._jump_past((_FOR_RE,), _ENDFOR_RE)
+                return
+            if self.ctx._while_stack:
+                self.ctx._jump_past((_WHILE_RE,), _ENDWHILE_RE)
+                self.ctx._pos -= 1
             return
 
         # macro / endmacro (handled in extract pass, skip here)
@@ -383,7 +540,7 @@ class ResourceScriptEngine:
             inner_lines = body[:]
             i = 0
             while i < len(inner_lines):
-                self.ctx._line_number = -1  # macro line
+                self.ctx._line_number = f"macro {name}:{i + 1}"
                 self._execute_line(inner_lines[i])
                 i += 1
             self.ctx._pos = saved_pos

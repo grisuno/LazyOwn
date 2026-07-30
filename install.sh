@@ -3,19 +3,24 @@
 # LazyOwn installer.
 #
 # Provisions system packages (Debian/Kali via apt), a Python virtualenv with the
-# pinned dependency lock, optional machine-learning extras, the local Ollama
-# runtime, external storage and encoder modules, and self-signed TLS certs.
+# pinned dependency lock, external storage and encoder modules, and self-signed
+# TLS certs. The default install is intentionally light; heavy extras are
+# opt-in via flags.
 #
 # Dependencies are declared once in pyproject.toml and pinned in
 # requirements.txt / requirements-ml.txt. This script never duplicates the list.
 #
 # Usage:
-#   bash install.sh [--no-ml] [--no-ollama] [--help]
+#   bash install.sh [--with-ml] [--with-ollama] [--with-tools] [--no-ml] [--no-ollama] [--help]
 #
-#   --no-ml       Skip the heavy, platform-specific ML stack (torch/CUDA, sklearn).
-#                 ML-backed features degrade gracefully when absent.
-#   --no-ollama   Skip the local Ollama runtime install.
-#   --help        Show this help and exit.
+#   --with-ml       Also install the heavy, platform-specific ML stack
+#                   (torch/CUDA, sklearn ~2 GB). Skipped by default.
+#   --with-ollama   Also install the local Ollama runtime. Skipped by default.
+#   --with-tools    Also apt-install the common external pentest tools
+#                   (gobuster, ffuf, enum4linux, seclists, responder, ...).
+#   --no-ml         Accepted for backwards compatibility (ML is off by default).
+#   --no-ollama     Accepted for backwards compatibility (Ollama is off by default).
+#   --help          Show this help and exit.
 
 set -euo pipefail
 
@@ -23,8 +28,9 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
 VENV_DIR="$SCRIPT_DIR/env"
-WITH_ML=1
-WITH_OLLAMA=1
+WITH_ML=0
+WITH_OLLAMA=0
+WITH_TOOLS=0
 
 usage() {
     grep '^#' "$0" | grep -v '^#!' | sed 's/^# \{0,1\}//'
@@ -32,6 +38,9 @@ usage() {
 
 for arg in "$@"; do
     case "$arg" in
+        --with-ml) WITH_ML=1 ;;
+        --with-ollama) WITH_OLLAMA=1 ;;
+        --with-tools) WITH_TOOLS=1 ;;
         --no-ml) WITH_ML=0 ;;
         --no-ollama) WITH_OLLAMA=0 ;;
         -h | --help)
@@ -78,6 +87,21 @@ install_system_packages() {
     sudo apt-get install -y ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang
 }
 
+install_external_tools() {
+    if [[ "$WITH_TOOLS" -eq 0 ]]; then
+        return 0
+    fi
+    if ! command -v apt-get >/dev/null 2>&1; then
+        log warn "apt-get not found; skipping external tools. Run 'doctor' inside the shell to see what is missing."
+        return 0
+    fi
+    log info "Installing common external pentest tools (--with-tools)."
+    sudo apt-get install -y \
+        gobuster ffuf feroxbuster enum4linux seclists responder nikto \
+        hydra john hashcat smbclient exploitdb tmux \
+        || log warn "Some external tools failed to install; run 'doctor' to audit them."
+}
+
 install_python_environment() {
     if [[ ! -d "$VENV_DIR" ]]; then
         python3 -m venv "$VENV_DIR"
@@ -89,14 +113,14 @@ install_python_environment() {
     if [[ "$WITH_ML" -eq 1 ]]; then
         "$pip" install -r "$SCRIPT_DIR/requirements-ml.txt"
     else
-        log info "Skipping machine-learning dependencies (--no-ml)."
+        log info "Skipping machine-learning dependencies (default; use --with-ml to include)."
     fi
     "$pip" install -e "$SCRIPT_DIR" --no-deps || log warn "Editable install of the lazyown entry point failed; ./run still works."
 }
 
 install_ollama() {
     if [[ "$WITH_OLLAMA" -eq 0 ]]; then
-        log info "Skipping Ollama install (--no-ollama)."
+        log info "Skipping Ollama install (default; use --with-ollama to include)."
         return 0
     fi
     if command -v ollama >/dev/null 2>&1; then
@@ -146,6 +170,19 @@ generate_certificates() {
     bash "$SCRIPT_DIR/gen_cert.sh"
 }
 
+seed_payload_config() {
+    if [[ -f "$SCRIPT_DIR/payload.json" ]]; then
+        log info "payload.json already present; keeping existing configuration."
+        return 0
+    fi
+    if [[ -f "$SCRIPT_DIR/payload.example.json" ]]; then
+        cp "$SCRIPT_DIR/payload.example.json" "$SCRIPT_DIR/payload.json"
+        log info "Seeded payload.json from payload.example.json"
+    else
+        log warn "payload.example.json not found; the CLI will fall back to built-in defaults."
+    fi
+}
+
 verify_installation() {
     "$VENV_DIR/bin/python" - <<'PYCHECK'
 import importlib.util
@@ -163,13 +200,15 @@ PYCHECK
 main() {
     log info "[+] Starting the installation."
     install_system_packages
+    install_external_tools
     install_python_environment
     install_ollama
     install_external_storage
     install_encoder_module
     generate_certificates
+    seed_payload_config
     verify_installation
-    log info "[+] Installation complete. Next: ./run   then run 'doctor' for a health check."
+    log info "[+] Installation complete. Next steps: ./run  then 'doctor'  then 'wizard'."
 }
 
 main "$@"

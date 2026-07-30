@@ -66,6 +66,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "creds",
         "dd",
         "diable_selinux",
+        "disable_selinux",
         "disable_apparmor",
         "disable_aslr",
         "disable_ftrace",
@@ -185,7 +186,7 @@ class TestAliasYamlIntegrity:
         assert extra == set(), f"YAML introduced unknown aliases: {sorted(extra)}"
 
     def test_yaml_count_is_125(self):
-        assert len(_load_yaml()) == 125
+        assert len(_load_yaml()) == 126
 
     def test_all_values_are_strings(self):
         for name, value in _load_yaml().items():
@@ -278,7 +279,7 @@ class TestAliasLoaderSubstitution:
         from core.config import load_payload
 
         aliases = load_aliases(load_payload(), lazy=False)
-        assert len(aliases) == 125
+        assert len(aliases) == 126
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
 

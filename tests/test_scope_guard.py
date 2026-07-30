@@ -199,6 +199,6 @@ class TestOffensiveCategoryDrift:
             for name, value in vars(utils).items()
             if name.endswith("_category") and isinstance(value, str)
         }
-        known.add("15. Adversary YAML.")
+        known.add("14. Adversary Emulation")
         missing = OFFENSIVE_CATEGORIES - known
         assert not missing, f"offensive categories not defined in utils: {missing}"

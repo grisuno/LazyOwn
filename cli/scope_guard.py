@@ -56,7 +56,7 @@ OFFENSIVE_CATEGORIES: frozenset[str] = frozenset(
         "08. Lateral Movement",
         "09. Data Exfiltration",
         "15. Pwntomate Tools",
-        "15. Adversary YAML.",
+        "14. Adversary Emulation",
     }
 )
 """Kill-chain categories whose commands generate traffic to or act upon the

@@ -62,7 +62,7 @@ CATEGORY_TO_PHASE: dict[str, str] = {
     "miscellaneous_category": "misc",
     "exfiltration_category": "exfiltration",
     '"10. Command & Control"': "c2",
-    '"15. Adversary YAML."': "adversary",
+    '"14. Adversary Emulation"': "adversary",
     '"13. Lua Plugin"': "plugin",
 }
 

@@ -17,8 +17,8 @@ def check_rhost(rhost: Any) -> bool:
     """Return ``True`` if ``rhost`` is set, otherwise print an error and return ``False``."""
     if not rhost:
         print_error(
-            f"rhost must be set, {GREEN}Example: set rhost 10.10.10.10, "
-            f"{WHITE}more info see help set, or help <TOPIC> {RESET}"
+            f"rhost must be set, {GREEN}Example: assign rhost 10.10.10.10, "
+            f"{WHITE}more info see help assign, or help <TOPIC> {RESET}"
         )
         return False
     return True
@@ -28,8 +28,8 @@ def check_lhost(lhost: Any) -> bool:
     """Return ``True`` if ``lhost`` is set, otherwise print an error and return ``False``."""
     if not lhost:
         print_error(
-            f"lhost must be set, {GREEN}Example: set lhost 10.10.10.10, "
-            f"{WHITE}more info see help set, or help <TOPIC> {RESET}"
+            f"lhost must be set, {GREEN}Example: assign lhost 10.10.10.10, "
+            f"{WHITE}more info see help assign, or help <TOPIC> {RESET}"
         )
         return False
     return True
@@ -39,7 +39,7 @@ def check_lport(lport: Any) -> bool:
     """Return ``True`` if ``lport`` is set, otherwise print an error and return ``False``."""
     if not lport:
         print_error(
-            f"lport must be set, {GREEN}Example: set lport 5555, {WHITE}more info see help set, or help <TOPIC> {RESET}"
+            f"lport must be set, {GREEN}Example: assign lport 5555, {WHITE}more info see help assign, or help <TOPIC> {RESET}"
         )
         return False
     return True

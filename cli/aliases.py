@@ -15,12 +15,15 @@ Usage::
 
 from __future__ import annotations
 
+import string
 from pathlib import Path
 from typing import Any
 
 import yaml
 
 ALIASES_PATH = Path(__file__).resolve().parent / "aliases.yaml"
+
+REQUIRED_PLACEHOLDERS = frozenset({"rhost", "lhost", "lport"})
 
 
 class _SafeFormatDict(dict):
@@ -48,6 +51,31 @@ def _substitute(template: str, payload: dict[str, Any]) -> str:
         return template.format_map(safe)
     except (IndexError, ValueError):
         return template
+
+
+def template_placeholders(template: str) -> set[str]:
+    """Return the ``{name}`` placeholders referenced by ``template``.
+
+    Malformed templates (unbalanced braces from legacy strings) yield an
+    empty set — the same fail-safe spirit as :func:`_substitute`.
+    """
+    names: set[str] = set()
+    try:
+        for _, field_name, _, _ in string.Formatter().parse(template):
+            if field_name:
+                names.add(field_name.split(".")[0].split("[")[0])
+    except ValueError:
+        return set()
+    return names
+
+
+def empty_placeholders(template: str, context: dict[str, Any]) -> list[str]:
+    """Return placeholders whose rendered value against ``context`` is empty."""
+    return sorted(
+        name
+        for name in template_placeholders(template)
+        if not str(context.get(name) or "").strip()
+    )
 
 
 def load_aliases(
@@ -99,4 +127,10 @@ def load_aliases(
     return resolved
 
 
-__all__ = ["ALIASES_PATH", "load_aliases"]
+__all__ = [
+    "ALIASES_PATH",
+    "REQUIRED_PLACEHOLDERS",
+    "empty_placeholders",
+    "load_aliases",
+    "template_placeholders",
+]

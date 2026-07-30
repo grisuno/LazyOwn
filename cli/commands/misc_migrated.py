@@ -11,6 +11,7 @@ from cli.assign import apply_assign as _apply_assign
 import base64
 import glob
 import os
+import shlex
 import shutil
 import subprocess
 import sys
@@ -141,15 +142,18 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             ``wizard``            — start interactive setup
             ``wizard --tutorial`` — extended help text for first-time operators
             ``wizard --check``    — show readiness summary only, no prompts
+            ``wizard --non-interactive [--rhost X] [--lhost Y] [--domain Z]``
+                                  — apply values without prompting (Docker/CI)
 
         Both novice and experienced operators can use this:
         - Novices: step-by-step prompts with clear descriptions; pass
           ``--tutorial`` for in-depth explanations of every field.
         - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
         """
-        line_stripped = (line or "").strip()
-        check_only = line_stripped == "--check"
-        tutorial = line_stripped in ("--tutorial", "-t")
+        tokens = shlex.split(line or "")
+        check_only = "--check" in tokens
+        tutorial = "--tutorial" in tokens or "-t" in tokens
+        non_interactive = "--non-interactive" in tokens
 
         def _save(key, value):
             _apply_assign(self.params, key, value, save=_save_payload)
@@ -163,6 +167,19 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             items = _build_readiness(self.params)
             _print_readiness(items)
             _print_validation_summary(self.params)
+            return
+
+        if non_interactive:
+            from cli.wizard import run_non_interactive as _run_wizard_ni
+            values: dict = {}
+            flag_names = ("rhost", "lhost", "domain", "device", "os_id", "api_key")
+            for index, token in enumerate(tokens):
+                flag = token.lstrip("-")
+                if token.startswith("--") and flag in flag_names and index + 1 < len(tokens):
+                    values[flag] = tokens[index + 1]
+            result = _run_wizard_ni(self.params, save=_save, values=values)
+            if result and result.saved:
+                print_msg("wizard (non-interactive) applied — run 'sitrep' to review.")
             return
 
         result = _run_wizard(self.params, save=_save, tutorial=tutorial)
@@ -1376,7 +1393,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         if not positional:
             target = self.params.get("rhost", "")
             if not target:
-                print_error("engage: provide a target IP or set rhost in payload.json first")
+                print_error("engage: provide a target IP or assign rhost <ip> first")
                 return
         else:
             target = positional[0]

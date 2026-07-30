@@ -1,0 +1,10 @@
+cli
+core
+lazyaddons
+lazyc2
+lazyown-docker
+lazyscripts
+modules
+plugins
+profiles
+skills

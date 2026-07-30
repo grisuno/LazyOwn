@@ -119,6 +119,8 @@ extend-exclude = [
     "graphify-out",
     "sessions",
     "parquets",
+    "cli/commands/*_migrated.py",
+    "lazyown.py",
 ]
 
 [tool.ruff.lint]

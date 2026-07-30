@@ -350,8 +350,22 @@ class EpisodeReflectionEngine:
                             "topic":         lesson.topic,
                         },
                     )
-                except Exception as exc:
-                    log.debug("EpisodeReflectionEngine: hive store error: %s", exc)
+                 except Exception as exc:
+                     log.debug("EpisodeReflectionEngine: hive store error: %s", exc)
+
+        # Feed lessons back into MoE router + RL trainer so future campaigns
+        # prefer experts that previously succeeded for the same topic.
+        try:
+            from modules.lesson_ingestor import LessonIngestor
+            ingestor = LessonIngestor()
+            ingested = ingestor.ingest_all(lessons)
+            if ingested:
+                log.info(
+                    "EpisodeReflectionEngine: %d lessons fed back to MoE/RL router",
+                    ingested,
+                )
+        except Exception as exc:
+            log.debug("EpisodeReflectionEngine: lesson ingestion failed: %s", exc)
 
 
 # ─── Store ────────────────────────────────────────────────────────────────────

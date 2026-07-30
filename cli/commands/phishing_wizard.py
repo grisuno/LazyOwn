@@ -556,6 +556,69 @@ def _send_smtp_email(server: str, port: int, username: str, password: str, to_em
     except Exception:
         return False
 
+    @cmd2.with_category(PHISHING_CATEGORY)
+    def do_phisher(self, line):
+        """Launch a phishing campaign against a target domain.
+
+        Profiles targets, generates email templates, clones landing pages,
+        and tracks clicks and credential harvesting. Supports built-in
+        templates (microsoft_365_login, sharepoint_share, password_reset,
+        voicemail_notification, hr_policy_update) and custom templates.
+
+        Modes:
+            credential_harvest  - Clone login pages and collect credentials.
+            payload_delivery    - Send weaponized attachments.
+            callback_beacon     - Embed C2 callback URLs for initial access.
+
+        Usage:
+            phisher <domain> <template> [mode]
+            phisher target.com microsoft_365_login
+            phisher target.com password_reset credential_harvest
+            phisher target.com custom_template.json
+
+        Harvested credentials are saved to ``sessions/phishing_credentials.txt``.
+
+        :param line: Domain, template name, and optional mode.
+        :type line: str
+        :return: None
+        """
+        parts = line.strip().split()
+        if len(parts) < 2:
+            print_error("Usage: phisher <domain> <template> [mode]")
+            print_msg("Available templates: microsoft_365_login, sharepoint_share, password_reset, voicemail_notification, hr_policy_update")  # noqa: E501
+            return
+
+        target_domain = parts[0]
+        template_name = parts[1]
+        mode = parts[2] if len(parts) > 2 else "credential_harvest"
+
+        try:
+            from modules.phishing_orchestrator import PhishingOrchestrator
+
+            phish = PhishingOrchestrator()
+            print_msg(f"Launching phishing campaign against {target_domain}")
+            print_msg(f"  Template: {template_name}")
+            print_msg(f"  Mode: {mode}")
+
+            targets = phish.profile_targets(target_domain)
+            print_msg(f"  Targets profiled: {len(targets)}")
+            for t in targets[:10]:
+                print_msg(f"    {t.email} ({t.department})")
+
+            campaign_id = phish.launch(
+                target_domain=target_domain,
+                template=template_name,
+                mode=mode,
+            )
+            print_msg(f"Campaign launched: {campaign_id}")
+            print_msg(f"Campaign data: sessions/phishing_{campaign_id}/")
+            print_msg("Use the C2 dashboard to monitor clicks and credential captures.")
+            self.display_toastr(f"Phishing campaign {campaign_id} launched against {target_domain}", type="info")
+        except ImportError as exc:
+            print_error(f"phishing_orchestrator module not available: {exc}")
+        except Exception as exc:
+            print_error(f"Phisher operation failed: {exc}")
+
 
 def _extract_flag(args: list[str], flag: str) -> str | None:
     """Extract a ``--flag <value>`` pair from a list of arguments."""

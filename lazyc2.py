@@ -100,18 +100,23 @@ from lazyc2.security.validators import (
 )
 from lazyown import LazyOwnShell
 from modules.colors import retModel
-from modules.lazyagentAi import process_prompt_search
-from modules.lazydeepseekcli_local import process_prompt_local
-from modules.lazydeepseekcli_localreport import process_prompt_localreport
-from modules.lazygptcli2 import Groq, process_prompt
-from modules.lazygptcli3 import process_prompt_script
-from modules.lazygptcli4 import process_prompt_adversary
-from modules.lazygptcli5 import process_prompt_general
-from modules.lazygpttask import process_prompt_task
-from modules.lazygptvulns import process_prompt_vuln
-from modules.lazyphishingai import process_prompt_local_yaml
-from modules.lazyredopgpt import process_prompt_redop
+from modules.llm_adapter import (
+    Groq,
+    process_prompt,
+    process_prompt_adversary,
+    process_prompt_general,
+    process_prompt_local,
+    process_prompt_localreport,
+    process_prompt_local_yaml,
+    process_prompt_redop,
+    process_prompt_script,
+    process_prompt_search,
+    process_prompt_task,
+    process_prompt_vuln,
+    safe_groq_client,
+)
 from modules.listener_manager import ListenerManager
+from modules.logging_config import configure as _configure_logging
 from modules.live_surface import build_live_graph
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
@@ -402,9 +407,9 @@ def _resolve_bind_address(
 phishing_bp = Blueprint('phishing', __name__, template_folder='templates/phishing')
 
 if config.enable_c2_debug:
-    logging.basicConfig(filename='sessions/access.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+    _configure_logging(level=logging.INFO, log_dir="sessions", console=True, file=True)
 else:
-    logging.basicConfig(filename='sessions/access.log', level=logging.CRITICAL, format='%(asctime)s - %(levelname)s - %(message)s')
+    _configure_logging(level=logging.CRITICAL, log_dir="sessions", console=True, file=True)
 
 
 class _JsonLogFormatter(logging.Formatter):
@@ -2109,8 +2114,8 @@ def is_valid_url(url):
 
 def analyze_behavioral_data(behavioral_events):
     """Analyze behavioral events using Groq AI to generate risk scores."""
-    client = _safe_groq_client(GROQ_API_KEY)
-    if client is None:
+    groq_client = safe_groq_client(GROQ_API_KEY)
+    if groq_client is None:
         return []
     analysis_results = []
     for event in behavioral_events:
@@ -2123,7 +2128,7 @@ def analyze_behavioral_data(behavioral_events):
         - Timestamp: {event['timestamp']}
         Determine a risk score (0-100) based on suspicious behavior (e.g., rapid clicks, unusual IPs).
         """
-        response = client.chat.completions.create(
+        response = groq_client.chat.completions.create(
             model="llama3-70b-8192",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=100
@@ -2138,7 +2143,7 @@ def analyze_behavioral_data(behavioral_events):
 
 def analyze_campaign_progress(campaign_id, events):
     """Analyze campaign progress and suggest adaptations using Grok AI."""
-    client = _safe_groq_client(GROQ_API_KEY)
+    client = safe_groq_client(GROQ_API_KEY)
     if client is None:
         return {}
     prompt = f"""
@@ -2405,30 +2410,7 @@ reverse_shell_port = config.reverse_shell_port
 DIRECTORY_TO_WATCH = f"{BASE_DIR}"
 
 
-def _safe_groq_client(key):
-    """Instantiate a Groq client without aborting on a missing API key.
-
-    A missing or invalid ``api_key`` must never crash C2 startup or a request;
-    AI-backed endpoints degrade to a clear, logged error instead.
-
-    Args:
-        key: Groq API key from ``payload.json`` (``api_key``). May be empty.
-
-    Returns:
-        A ``Groq`` client instance, or ``None`` when no usable key is
-        configured or the SDK rejects the key.
-    """
-    if not key:
-        logger.warning("Groq api_key not configured; AI-backed C2 features are disabled")
-        return None
-    try:
-        return Groq(api_key=key)
-    except Exception as exc:
-        logger.warning("Groq client initialization failed (%s); AI features disabled", exc)
-        return None
-
-
-client = _safe_groq_client(api_key)
+client = safe_groq_client(api_key)
 env = Environment(loader=FileSystemLoader('templates'))
 env.filters['markdown'] = markdown_to_html
 
@@ -6219,6 +6201,16 @@ def health_check():
     except Exception as e:
         logger.error(f"Health check database failed: {e}")
         status["checks"]["database"] = "error"
+    try:
+        from skills.daemon_health import is_daemon_alive, daemon_status as _ds
+        if is_daemon_alive():
+            status["checks"]["autonomous_daemon"] = "ok"
+            status["daemon"] = _ds()
+        else:
+            status["checks"]["autonomous_daemon"] = "stopped"
+    except Exception as e:
+        logger.error(f"Health check autonomous_daemon failed: {e}")
+        status["checks"]["autonomous_daemon"] = "error"
     any_error = any(v != "ok" for v in status["checks"].values())
     code = 503 if any_error else 200
     if any_error:

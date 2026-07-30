@@ -12,7 +12,7 @@ from telegram import Update
 from telegram.ext import Application, CallbackContext, CommandHandler, MessageHandler, filters
 
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import Groq, process_prompt_general
+from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
 
 
 from core.parsers import strip_ansi

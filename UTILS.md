@@ -1,8 +1,5 @@
 # UTILS.md Documentation  by readmeneitor.py
 
-## check_go_tool_installed
-No description available.
-
 ## parse_ip_mac
 Extracts IP and MAC addresses from a formatted input string using a regular expression.
 
@@ -14,9 +11,6 @@ Args:
 
 Returns:
     tuple: A tuple containing the extracted IP address and MAC address. If the format is incorrect, returns (None, None).
-
-## strip_ansi
-No description available.
 
 ## create_arp_packet
 Constructs an ARP packet with the given source and destination IP and MAC addresses.
@@ -66,47 +60,6 @@ commands 'exit', 'q', or 'qa'.
 :type sig: int
 :param frame: The current stack frame.
 :type frame: frame
-:return: None
-
-## is_binary_present
-Internal function to verify if a binary is present on the operating system.
-
-This function checks if a specified binary is available in the system's PATH
-by using the `which` command. It returns True if the binary is found and False
-otherwise.
-
-The lookup is performed with :func:`shutil.which`, which resolves the name
-against ``PATH`` without spawning a shell. This avoids the command-injection
-surface of interpolating ``binary_name`` into a shell string and works on
-platforms that do not ship the ``which`` utility.
-
-:param binary_name: The name of the binary to be checked.
-:type binary_name: str
-:return: True if the binary is present, False otherwise.
-:rtype: bool
-
-## handle_multiple_rhosts
-Internal function to handle multiple remote hosts (rhost) for operations.
-
-This function is a decorator that allows an operation to be performed across
-multiple remote hosts specified in `self.params["rhost"]`. It converts a single
-remote host into a list if necessary, and then iterates over each host,
-performing the given function with each host. After the operation, it restores
-the original remote host value.
-
-:param func: The function to be decorated and executed for each remote host.
-:type func: function
-:return: The decorated function.
-:rtype: function
-
-## check_sudo
-Checks if the script is running with superuser (sudo) privileges, and if not,
-restarts the script with sudo privileges.
-
-This function verifies if the script is being executed with root privileges
-by checking the effective user ID. If the script is not running as root,
-it prints a warning message and restarts the script using sudo.
-
 :return: None
 
 ## activate_virtualenv
@@ -853,12 +806,6 @@ Returns:
 Example:
     banners = extract_banners('path/to/file.xml')
 
-## generate_xor_key
-Generate key XOR long specifyed
-
-:param length: Lenght of XOR key
-:return: Key XOR in hex.
-
 ## scrape_news
 Makes a request to the Hacker News page and extracts titles, links, and scores.
 
@@ -971,17 +918,8 @@ No description available.
 ## load_user_aliases
 Carga los aliases del archivo JSON si existe.
 
-## AESencrypt
-No description available.
-
-## dropFile
-No description available.
-
 ## _build_startup_parser
 Build the CLI argument parser for LazyOwn startup flags.
-
-## wrapper
-internal wrapper of internal function to implement multiples rhost to operate. 
 
 ## send_request
 No description available.

@@ -53,6 +53,7 @@ SESSIONS_DIR         = Path(__file__).parent.parent / "sessions"
 RAG_STATE_FILE       = SESSIONS_DIR / "rag_state.json"
 FALLBACK_INDEX_FILE  = SESSIONS_DIR / "keyword_fallback_index.json"
 CHROMA_DIR           = SESSIONS_DIR / "chromadb"
+CHROMA_VERSION_FILE   = CHROMA_DIR / ".version"
 COLLECTIONS          = {
     "sessions":  "lazyown_sessions",
     "knowledge": "lazyown_knowledge",
@@ -199,6 +200,24 @@ class SessionRAG:
             return
         try:
             CHROMA_DIR.mkdir(parents=True, exist_ok=True)
+            current_version = chromadb.__version__
+            stored_version = (
+                CHROMA_VERSION_FILE.read_text().strip()
+                if CHROMA_VERSION_FILE.exists()
+                else None
+            )
+            if stored_version and stored_version != current_version:
+                log.info(
+                    "session_rag: chromadb version changed (%s -> %s), "
+                    "clearing stale database",
+                    stored_version, current_version,
+                )
+                import shutil
+                for item_path in CHROMA_DIR.iterdir():
+                    if item_path.is_file():
+                        item_path.unlink()
+                    else:
+                        shutil.rmtree(item_path)
             self._client = chromadb.PersistentClient(
                 path=str(CHROMA_DIR),
             )
@@ -210,6 +229,7 @@ class SessionRAG:
                         name=name,
                         metadata={"hnsw:space": "cosine"},
                     )
+            CHROMA_VERSION_FILE.write_text(current_version)
             self._ready = True
             log.info("session_rag: ChromaDB backend ready with %d collections at %s",
                      len(self._collections), CHROMA_DIR)

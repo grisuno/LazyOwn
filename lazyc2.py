@@ -781,6 +781,14 @@ def load_banners():
         if config.enable_c2_debug:
             logger.info("Error: File banners.json not found")
         return
+    except json.JSONDecodeError:
+        if config.enable_c2_debug:
+            logger.info("Error: Invalid JSON in banners.json")
+        return
+    if isinstance(config_banner, dict) and "banners" in config_banner:
+        return config_banner.get("banners", [])
+    if isinstance(config_banner, list):
+        return config_banner
     return config_banner
 
 def load_mitre_data():
@@ -5056,11 +5064,11 @@ def banners():
 
     for banner in banners_json:
         html_table += '    <tr>\n'
-        html_table += f'      <td>{banner["hostname"]}</td>\n'
-        html_table += f'      <td>{banner["port"]}</td>\n'
-        html_table += f'      <td>{banner["protocol"]}</td>\n'
-        html_table += f'      <td>{banner["extra"]}</td>\n'
-        html_table += f'      <td>{banner["service"]}</td>\n'
+        html_table += f'      <td>{banner.get("hostname", "")}</td>\n'
+        html_table += f'      <td>{banner.get("port", "")}</td>\n'
+        html_table += f'      <td>{banner.get("protocol", "")}</td>\n'
+        html_table += f'      <td>{banner.get("extra", "")}</td>\n'
+        html_table += f'      <td>{banner.get("service", "")}</td>\n'
         html_table += '    </tr>\n'
 
     html_table += '  </tbody>\n'
@@ -5296,27 +5304,54 @@ def teamserver():
 @login_required
 def report():
     json_path = "sessions/sessionLazyOwn.json"
-    with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
-        report_data = json.load(json_file)
+    try:
+        with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
+            report_data = json.load(json_file)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        if config.enable_c2_debug:
+            logger.info(f"Error loading report data: {e}")
+        report_data = {}
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
-            tool_path = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path, 'r') as file:
-                tool_data = json.load(file)
-                tool_data['filename'] = filename
-                tools.append(tool_data)
+    try:
+        for filename in os.listdir(TOOLS_DIR):
+            if filename.endswith('.tool'):
+                tool_path = os.path.join(TOOLS_DIR, filename)
+                try:
+                    with open(tool_path, 'r') as file:
+                        tool_data = json.load(file)
+                        tool_data['filename'] = filename
+                        tools.append(tool_data)
+                except (FileNotFoundError, json.JSONDecodeError):
+                    if config.enable_c2_debug:
+                        logger.info(f"Error loading tool: {filename}")
+    except FileNotFoundError:
+        if config.enable_c2_debug:
+            logger.info("Error: TOOLS_DIR not found")
     tasks = load_tasks()
     cves = load_cves()
-    with open(json_path, 'r') as f:
-        session_data = json.load(f)
-
+    try:
+        with open(json_path, 'r') as f:
+            content = f.read().strip()
+            if content:
+                session_data = json.loads(content)
+            else:
+                session_data = {}
+    except FileNotFoundError:
+        session_data = {}
+    except json.JSONDecodeError:
+        if config.enable_c2_debug:
+            logger.info("Error: Invalid JSON in sessionLazyOwn.json")
+        session_data = {}
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
-    session_data['params'] = make_serializable(session_data.get('params', {}))
-    session_data['params']['api_key'] = 'Hidden conntent'
+    if isinstance(session_data, dict):
+        session_data['params'] = make_serializable(session_data.get('params', {}))
+        session_data['params']['api_key'] = 'Hidden conntent'
+    else:
+        session_data = {'params': {'api_key': 'Hidden conntent'}}
+
     implants_check()
     return render_template('report.html', report_data=report_data, tools=tools, tasks=tasks, cves=cves, session_data=session_data, implants=implants)
 
@@ -6349,11 +6384,15 @@ if __name__ == '__main__':
         print(f"[collab] Blueprint not loaded: {_cbp_err}")
 
     # ── Multi-listener bootstrap ─────────────────────────────────────────────
-    # Backwards compatibility: if no listeners are configured, create the
-    # legacy default listener on ``lport`` so existing workflows keep working.
-    if not listener_manager.listeners:
-        ssl_default = ENV == 'PROD' and os.path.exists('cert.pem') and os.path.exists('key.pem')
-        listener_manager.add(port=int(lport), ssl=ssl_default, listener_id='default')
+    # Backwards compatibility: ensure the default listener always exists
+    # and always uses SSL when the certificate pair is present.
+    ssl_default = os.path.exists('cert.pem') and os.path.exists('key.pem')
+    if not ssl_default:
+        print("[listener] cert.pem/key.pem not found — starting without SSL")
+    # Remove any stale persisted config so a fresh listener is always created
+    # with the current SSL setting (avoids cached ssl=False from previous runs).
+    listener_manager.remove("default")
+    listener_manager.add(port=int(lport), ssl=ssl_default, listener_id='default')
 
     listener_manager.start_all()
 

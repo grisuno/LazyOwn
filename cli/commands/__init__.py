@@ -4,8 +4,8 @@ Each submodule defines one or more ``cmd2.CommandSet`` subclasses grouping
 commands that share a kill-chain phase or attack domain. ``cli.registry``
 discovers and registers them onto ``LazyOwnShell`` at startup.
 
-Active CommandSets
-------------------
+Active CommandSets (23)
+-----------------------
 
 - ``cli.commands.recon`` — 12 commands (nmap, DNS, web fingerprinting)
 - ``cli.commands.enum``  — 10 commands (SMB, RPC, LDAP quick checks)
@@ -39,4 +39,6 @@ Active CommandSets
 - ``cli.commands.resource_scripting`` — Resource script commands
 - ``cli.commands.payload_generation`` — Payload generation
 - ``cli.commands.diagnostics`` — Diagnostics commands
+- ``cli.commands.lab`` — CTF lab management (lab list|start|stop|status)
+- ``cli.commands.marketplace`` — Plugin discovery & install (marketplace list|search|install|update|info)
 """

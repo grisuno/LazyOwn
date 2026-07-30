@@ -1,6 +1,6 @@
-# LazyOwn — Specifications & Architecture
+# LazyOwn -- Specifications & Architecture
 
-Version `release/0.2.156` — Last updated 2026-07-24
+Version `release/0.2.157` -- Last updated 2026-07-30
 
 ---
 
@@ -8,18 +8,22 @@ Version `release/0.2.156` — Last updated 2026-07-24
 
 LazyOwn is a red-team framework providing a unified CLI, C2 web dashboard, MCP
 server, and autonomous agent integration. It covers the full kill chain from
-reconnaissance through data exfiltration with 360+ CLI commands, 200+ aliases,
-and 120+ modules.
+reconnaissance through data exfiltration with 600+ CLI commands, 120+ aliases,
+and 100+ modules.
 
 | Component | File | Lines | Description |
 |-----------|------|-------|-------------|
-| CLI Shell | `lazyown.py` | ~24,900 | cmd2 shell with all commands |
-| C2 Server | `lazyc2.py` | ~6,360 | Flask + Socket.IO dashboard |
-| MCP Server | `skills/lazyown_mcp.py` | ~10,140 | 131 tools for AI agents |
-| Utils | `utils.py` | ~3,330 | Shared config, crypto, helpers |
-| DB | `modules/db.py` | SQLite | Workspaces, hosts, services |
-| Module Registry | `modules/module_registry.py` | ~540 | 120+ module catalog |
-| Payload Factory | `modules/payload_factory.py` | Native | Shellcode, PS, rev shells |
+| CLI Shell | `lazyown.py` | ~4,500 | cmd2 shell + cmd2 CommandSets |
+| C2 Server | `lazyc2.py` | ~6,400 | Flask + Socket.IO dashboard |
+| MCP Server | `skills/lazyown_mcp.py` | ~10,600 | 131+ tools for AI agents |
+| Utils | `utils.py` | ~3,400 | Shared config, crypto, helpers |
+| DB | `modules/db.py` | ~700 | SQLite workspace isolation |
+| Module Registry | `modules/module_registry.py` | ~540 | 100+ module catalog |
+| Payload Factory | `modules/payload_factory.py` | ~720 | Native shellcode, PS, rev shells |
+| CommandSets (active) | `cli/commands/*.py` | ~9,000 | Phase-scoped cmd2 CommandSets |
+| CommandSets (pending) | `cli/commands/*_migrated.py` | ~20,900 | Dormant migration copies |
+| Lab Manager | `cli/commands/lab.py` | ~200 | Docker CTF lab orchestration |
+| Marketplace | `cli/commands/marketplace.py` | ~250 | Plugin/addon discovery |
 
 ---
 
@@ -40,55 +44,38 @@ and 120+ modules.
           +---------------+---------------+
           |               |               |
    +------v------+ +-----v------+ +------v------+
-   | modules/     | | cli/        | | skills/     |
-   | db, llm,     | | commands/,  | | mcp, auto,  |
-   | registry,    | | aliases,    | | hive, etc.  |
-   | payload      | | registry    | |             |
+   | cli/commands/| | modules/    | | skills/     |
+   | 23 CommandSets| | db, llm,    | | mcp, auto,  |
+   | per-phase    | | registry,   | | hive, etc.  |
    +-------------+ +------------+ +-------------+
 ```
 
 ### 2.1 Shared Backend
 
-`utils.py` exports 292 public names: Config class, run_command wrapper,
+`utils.py` exports 150+ public names: Config class, run_command wrapper,
 color/format constants, crypto primitives, and re-exports of common stdlib
-modules (os, sys, json, re, subprocess, etc.). Both CLI and C2 import from it.
+modules. Both CLI and C2 import from it. Wildcard imports were replaced with
+66 explicit symbols (2026-06).
 
 ### 2.2 Configuration
 
 `payload.json` (82 keys) is the single source of truth. Always read at startup;
 never written except through `do_assign`, `do_set`, or `lazyown_set_config`.
-Schema is validated at module load by `core/config.py`.
+Schema validated at module load by `core/config.py`.
 
-### 2.3 CommandSet Deconstruction
+### 2.3 CommandSet Architecture
 
-The monolith `lazyown.py` (~24,900 lines, 369 `do_*` methods) is being
-deconstructed into `cli/commands/` CommandSet modules:
+The original monolith `lazyown.py` (~24,900 lines, 369 `do_*` methods) has been
+deconstructed into `cli/commands/` CommandSet modules. Currently:
 
-| Phase | Migrated | Active | Total |
-|-------|----------|--------|-------|
-| Recon | 28 | 12 | 40 |
-| Scan | 45 | 16 | 61 |
-| Enumeration | - | 10 | 10 |
-| Exploitation | 47 | 10 | 57 |
-| Post-exploitation | 35 | 8 | 43 |
-| Persistence | 23 | 6 | 29 |
-| Credential access | 22 | 9 | 31 |
-| Lateral movement | 20 | 8 | 28 |
-| Reporting | 16 | 8 | 24 |
-| C2 | 22 | 6 | 28 |
-| Exfiltration | - | 18 | 18 |
-| Misc / AI / Cloud / DB | 101 | 42 | 143 |
+- **23 active CommandSets** registered at boot via `cli/registry.py`
+- **10 migrated modules (`*_migrated.py`)** with 20,885 lines, using
+  `PendingCommandSet` from `_dormancy.py`. These are dormant copies waiting for
+  the originals to be deleted from `lazyown.py` before activation.
 
-**Migration mechanism**: Migrated copies live in `*_migrated.py` files inheriting
-from `PendingCommandSet` (dormant). When originals are deleted from
-`lazyown.py`, the base class is swapped to `LazyOwnCommandSet`. This is tracked
-by `cli/commands/_dormancy.py` and `cli/registry.py`.
-
-**Remaining work**: 359 methods are copied but still dormant; 10 commands
-(cloud_enum, adcs_check, dominion, hunt, phisher, lazyreport, evasive, chain,
-beaconcfg, yara_scan) were added after the last auto-migration and are staged in
-`cli/commands/unmigrated_batch.py`. Delete originals + swap base class to
-activate.
+Migration phases completed: recon (12 commands), enum (10), scan, exploit (10),
+postexp (8), persist (7), cred (9), lateral (8), report (8). Pending phases in
+migrated files: the remaining ~200 `do_*` methods.
 
 ### 2.4 CLI CommandSet Base Class
 
@@ -97,8 +84,7 @@ activate.
 - **`params` property**: Returns the live `payload.json` dict.
 - **`payload` property**: Returns the `Config` wrapper.
 - **`__getattr__` forwarding**: Unknown attribute access (e.g., `self.run_script`,
-  `self.c2_url`) is forwarded to the parent shell. This lets migrated methods run
-  verbatim without rewriting call sites.
+  `self.c2_url`) is forwarded to the parent shell.
 
 ---
 
@@ -107,23 +93,23 @@ activate.
 ### 3.1 CLI Session
 
 ```
-User input → cmd2 parsing → do_<name>(line) → run_command(cmd_str)
-    → subprocess execution → output capture → CSV logging → toast/stderr
+User input -> cmd2 parsing -> do_<name>(line) -> run_command(cmd_str)
+    -> subprocess execution -> output capture -> CSV logging -> toast/stderr
 ```
 
 ### 3.2 C2 Session
 
 ```
-Beacon → HTTPS POST /api/beacon → Flask → Socket.IO event
-    → operator dashboard → command queue → beacon poll → execute
+Beacon -> HTTPS POST /api/beacon -> Flask -> Socket.IO event
+    -> operator dashboard -> command queue -> beacon poll -> execute
 ```
 
 ### 3.3 MCP Session
 
 ```
-AI agent → MCP tool call → lazyown_mcp dispatch table (O(1))
-    → lazyown_set_config / lazyown_run_command → lazyown shell
-    → result → JSON response
+AI agent -> MCP tool call -> lazyown_mcp dispatch table (O(1))
+    -> lazyown_set_config / lazyown_run_command -> lazyown shell
+    -> result -> JSON response
 ```
 
 ---
@@ -134,7 +120,7 @@ AI agent → MCP tool call → lazyown_mcp dispatch table (O(1))
 |---|-------|----------|
 | 01 | Reconnaissance | lazynmap, dig, dnsenum, whatweb, gobuster |
 | 02 | Scanning & Enumeration | nmapscript, wfuzz, dirb, sslyze |
-| 03 | Exploitation | hunt, chain, exploit, searchsploit |
+| 03 | Exploitation | hunt, chain, exploit, searchsploit, auto_pwn |
 | 04 | Post-Exploitation | linpeas, winpeas, shell, upload, download |
 | 05 | Persistence | backdoor, cron, service, schtask |
 | 06 | Privilege Escalation | adcs_check, dominion, getsystem |
@@ -144,6 +130,9 @@ AI agent → MCP tool call → lazyown_mcp dispatch table (O(1))
 | 10 | Command & Control | srv, beaconcfg, phisher, listener |
 | 11 | Reporting | lazyreport, chain report |
 
+**Autonomous modes** -- `engage` (fixed chain) and `orchestrate` (daemon/hive/swan)
+can walk the full kill chain with optional human gating.
+
 ---
 
 ## 5. Module System
@@ -151,23 +140,33 @@ AI agent → MCP tool call → lazyown_mcp dispatch table (O(1))
 ### 5.1 Discovery
 
 `modules/module_registry.py` scans five sources:
-- `lazyaddons/` — YAML tool integrations (76 entries)
-- `plugins/` — Lua + YAML plugins
-- `modules/` — Python modules
-- `tools/` — pwntomate auto-jobs
-- `playbooks/` — Playbook definitions
+- `lazyaddons/` -- YAML tool integrations (96 entries)
+- `plugins/` -- Lua + YAML plugins (60+ entries)
+- `modules/` -- Python modules
+- `tools/` -- pwntomate auto-jobs (72 entries)
+- `marketplace` -- community plugin index (`lazyown-community-plugins`)
 
 ### 5.2 Classification
 
 Keyword-based auto-classification maps modules to kill-chain phases. Python
-modules are also classified by AST docstring scanning via
-`_classify_module_source()`.
+modules also classified by AST docstring scanning via `_classify_module_source()`.
+
+### 5.3 Marketplace
+
+`cli/commands/marketplace.py` provides `marketplace list|search|install|update|info`
+for discovering community plugins, lazyaddons, and tool integrations.
+
+### 5.4 Lab Manager
+
+`cli/commands/lab.py` provides `lab list|start|stop|status` for spinning up
+Docker-based CTF practice targets (DVWA, Metasploitable2, Juice Shop, vulnerable
+Tomcat, Struts2, AD lab, etc.).
 
 ---
 
 ## 6. Database Schema (SQLite)
 
-`modules/db.py` manages campaign state with migration system (v2→v4):
+`modules/db.py` manages campaign state with migration system (v2->v4):
 
 - **workspaces**: Campaign isolation
 - **hosts**: Discovered targets
@@ -202,35 +201,37 @@ modules are also classified by AST docstring scanning via
 
 ## 8. Hermes AI Integration
 
-### 8.1 MCP Tools (131 total)
+### 8.1 MCP Tools (131+ total)
 
 Essential tools for AI agents:
-- `lazyown_campaign_sitrep` — Aggregate all campaign state
-- `lazyown_session_init` — Initialize session, check scans
-- `lazyown_set_config` — Set target, attacker IP
-- `lazyown_run_command` — Execute any LazyOwn command
-- `lazyown_auto_populate` — Parse nmap XML into world model
-- `lazyown_facts_show` — Display discovered services
-- `lazyown_recommend_next` — Groq-ranked next commands
+- `lazyown_campaign_sitrep` -- Aggregate all campaign state
+- `lazyown_session_init` -- Initialize session, check scans
+- `lazyown_set_config` -- Set target, attacker IP
+- `lazyown_run_command` -- Execute any LazyOwn command
+- `lazyown_auto_populate` -- Parse nmap XML into world model
+- `lazyown_facts_show` -- Display discovered services
+- `lazyown_recommend_next` -- Groq-ranked next commands
 
 ### 8.2 Auto-Loop
 
-`lazyown_auto_loop()` runs autonomous kill-chain progression: recon → scan →
-auto_populate → recommend → execute → repeat. Self-healing recovers from stuck
-loops.
+Multiple autonomous backends:
+- **engage**: Fixed kill-chain walk with human gating
+- **daemon**: Objective-driven autonomous loop (local, offline)
+- **hive**: Queen/drone swarm with shared memory
+- **swan**: MoE+RL router that learns from outcomes
 
 ---
 
 ## 9. Code Quality Standards
 
-1. English only — identifiers, strings, logs, docstrings.
-2. No comments — self-explanatory names + docstrings only.
+1. English only -- identifiers, strings, logs, docstrings.
+2. No comments -- self-explanatory names + docstrings only.
 3. Docstrings on every public function/class (Args/Returns/Raises).
-4. No magic numbers — constants in Config or UPPER_SNAKE.
-5. No hardcoded paths/ports — use `payload.json`.
+4. No magic numbers -- constants in Config or UPPER_SNAKE.
+5. No hardcoded paths/ports -- use `payload.json`.
 6. SOLID: single responsibility, open for extension.
 7. Every directory gets `README.md`.
-8. Explicit imports only — no wildcards (`from utils import *` removed 2026-07-24).
+8. Explicit imports only -- no wildcards (phased out 2026-06/07).
 
 ---
 
@@ -243,7 +244,7 @@ loops.
 | `main` | Production releases, tagged only | Read-only |
 
 Agents operate on `dev`. Feature branches cut from `dev`. Hotfixes from `main`.
-PRs from `dev` → `pp` require human approval.
+PRs from `dev` -> `pp` require human approval.
 
 ---
 
@@ -258,3 +259,13 @@ PRs from `dev` → `pp` require human approval.
 - **dnslib**: DNS tunneling
 - **cryptography**: AES encryption
 - **networkx + pyvis**: Beacon graph visualization
+- **textual**: TUI dashboard and command palette
+
+---
+
+## 12. Deploy & Lab
+
+- **Docker**: `lazyown-docker/` with multi-stage build, OpenVPN integration, Docker Compose
+- **Kubernetes**: `deploy/k8s/lazyown-c2.yaml` for C2 deployment
+- **Lab**: `lab start metasploitable` spins up Docker-based practice targets
+- **Marketplace**: `marketplace install <plugin>` from community index

@@ -49,6 +49,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements-dev.txt
+          pip install textual
           pip install -e .
       - name: pytest
         run: pytest -q --tb=short -x -k "not slow and not integration" --cov=lazyown --cov=cli --cov=core --cov=lazyc2 --cov=modules --cov=skills --cov-report=term --cov-fail-under=1

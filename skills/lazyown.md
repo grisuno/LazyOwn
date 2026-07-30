@@ -79,7 +79,7 @@ Only use commands from the CURRENT phase. Don't run post-exploitation tools duri
 
 ## Complete Alias Table — All Short Forms
 
-The shell has **200+ aliases** (short forms that map to full commands):
+The shell has **126 aliases** (short forms that map to full commands):
 
 ### Phase 01 — Reconnaissance
 | Alias | Expands to | Uses payload keys |
@@ -191,7 +191,7 @@ The shell has **200+ aliases** (short forms that map to full commands):
 lazyown_phase_guide(phase='enum')
 lazyown_phase_guide(phase='enum', os_hint='windows', services=['smb', 'ldap'])
 
-# 2. Plain command list from bridge catalog (347 commands, 11 phases, MITRE-mapped)
+# 2. Plain command list from bridge catalog (362 commands, 11 phases, MITRE-mapped)
 lazyown_discover_commands(phase='exploit')
 
 # 3. Get full help for any specific command
@@ -201,7 +201,7 @@ lazyown_command_help(command='secretsdump')
 
 ---
 
-## Core MCP Tools (95)
+## Core MCP Tools (148)
 
 ### Campaign Intelligence (call at shift start)
 
@@ -278,7 +278,7 @@ lazyown_command_help(command='secretsdump')
 | Tool | Purpose |
 |------|---------|
 | `lazyown_reactive_suggest` | Parse raw output → prioritised decisions: AV/EDR evasion, privesc hints, creds, new hosts, switch-tool. Priority ≤2 auto-injected into next auto_loop step |
-| `lazyown_bridge_suggest` | Query the full command catalog (347 commands, 11 phases, MITRE-mapped). Modes: single, sequence, list_all, catalog_summary. Params: phase, services, os_hint, tag_hint |
+| `lazyown_bridge_suggest` | Query the full command catalog (362 commands, 11 phases, MITRE-mapped). Modes: single, sequence, list_all, catalog_summary. Params: phase, services, os_hint, tag_hint |
 
 ### Objectives & Planning
 
@@ -449,7 +449,7 @@ OS detection propagates through the full stack in this order:
    string from the implant) is written to `sessions/os.json` and `sessions/world_model.json`
    as ground truth, overriding TTL-based heuristics.
 4. **Bridge catalog**: `BridgeSelector` passes `os_hint` to `dispatcher.suggest()` so only
-   OS-appropriate commands are returned from the 347-command catalog.
+   OS-appropriate commands are returned from the 362-command catalog.
 5. **Fallback selector**: `_FALLBACK_MAP_LINUX` and `_FALLBACK_MAP_WINDOWS` ensure that
    `linpeas` is never dispatched against Windows, and `winpeas`/`evil-winrm` never against Linux.
 
@@ -652,7 +652,7 @@ lazyown_bridge_suggest(phase="lateral", sequence=True, has_creds=True)
 # Filter by technique tag
 lazyown_bridge_suggest(phase="enum", tag_hint="kerberos")
 
-# Show the full 347-command catalog summary
+# Show the full 362-command catalog summary
 lazyown_bridge_suggest(catalog_summary=True)
 
 # List all commands for a phase
@@ -802,7 +802,7 @@ lazyown_policy_status(target="10.10.11.78")
 # Launch unattended loop — 6-selector cascade per step:
 #   1. ReactiveSelector  — last output patterns (AV, privesc, creds, new hosts)
 #   2. ParquetSelector   — session_knowledge.parquet proven commands
-#   3. BridgeSelector    — 347-command catalog (MITRE-mapped, OS-filtered)
+#   3. BridgeSelector    — 362-command catalog (MITRE-mapped, OS-filtered)
 #   4. SWANSelector      — MoE+RL expert routing (AUTO_USE_SWAN=1)
 #   5. LLMSelector       — Groq/Ollama recommendation (AUTO_USE_LLM=1)
 #   6. FallbackSelector  — static OS-aware maps (always returns a result)
@@ -1026,7 +1026,7 @@ lazyown_autonomous_stop()
 **Autonomous daemon 6-selector cascade (in order):**
 1. **ReactiveSelector** — parses last output for AV/EDR evasion, privesc hints, creds, new hosts. Priority ≤2 auto-injected.
 2. **ParquetSelector** — queries `session_knowledge.parquet` for commands that succeeded in past sessions for this phase+target
-3. **BridgeSelector** — queries the 347-command catalog (11 phases, MITRE-mapped) with OS + service hints
+3. **BridgeSelector** — queries the 362-command catalog (11 phases, MITRE-mapped) with OS + service hints
 4. **SWANSelector** — routes to best MoE expert via Q-learning (enabled with `AUTO_USE_SWAN=1`)
 5. **LLMSelector** — calls Groq/Ollama for intelligent suggestion (enabled with `AUTO_USE_LLM=1`)
 6. **FallbackSelector** — OS-aware static maps (`_FALLBACK_MAP_LINUX` / `_FALLBACK_MAP_WINDOWS`)

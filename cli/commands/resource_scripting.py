@@ -49,29 +49,36 @@ class ResourceCommandSet(LazyOwnCommandSet):
     def do_resource(self, line):
         """Run an enhanced resource script.
 
-        Usage: resource <script.ls>
+        Usage: resource <script.ls> [--dry-run]
 
-        Supports variables ($var), conditionals (if/else/endif),
-        loops (while/endwhile, for/endfor), macros (macro/endmacro/call),
-        spool, sleep, echo, and comments (#).
+        Supports variables ($var), conditionals (if/else/endif with real
+        expressions: ==, !=, =~, >, contains, defined), loops
+        (while/endwhile, for/endfor with break/continue), macros
+        (macro/endmacro/call), spool, sleep, echo, and comments (#).
 
         Example:
             resource scripts/auto_recon.ls
+            resource scripts/auto_recon.ls --dry-run
         """
-        path = line.strip()
+        tokens = line.split()
+        dry_run = "--dry-run" in tokens
+        path_tokens = [t for t in tokens if t != "--dry-run"]
+        path = path_tokens[0].strip() if path_tokens else ""
         if not path:
-            print_error("Usage: resource <script.ls>")
+            print_error("Usage: resource <script.ls> [--dry-run]")
             return
         if not os.path.isfile(path):
             print_error(f"Script not found: {path}")
             return
 
         ctx = self._make_context()
+        ctx.dry_run = dry_run
         engine = ResourceScriptEngine(ctx)
 
         try:
             engine.execute(path)
-            print_msg(f"Resource script '{path}' completed.")
+            suffix = " (dry-run)" if dry_run else ""
+            print_msg(f"Resource script '{path}' completed{suffix}.")
         except ScriptError as e:
             print_error(f"Script error: {e}")
         except FileNotFoundError:
@@ -81,25 +88,35 @@ class ResourceCommandSet(LazyOwnCommandSet):
     def do_makerc(self, line):
         """Record session commands to a resource script.
 
-        Usage: makerc <script.ls>
-        Captures all commands executed during the session into the script
-        file. Use 'makerc off' to stop recording (not yet implemented).
+        Usage:
+            makerc <script.ls>  — start recording commands into the script
+            makerc off          — stop recording
         """
         path = line.strip()
         if not path:
-            print_error("Usage: makerc <script.ls>")
+            print_error("Usage: makerc <script.ls> | makerc off")
             return
 
         shell = self._resolve_shell()
-        if shell:
-            shell._resource_recording = path
-            shell._resource_recording_lines = []
-            os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
-            with open(path, "w") as f:
-                f.write(f"# LazyOwn recorded script — {datetime.now()}\n")
-            print_msg(f"Recording commands to {path}")
-        else:
+        if not shell:
             print_error("No shell context available.")
+            return
+
+        if path.lower() == "off":
+            active = getattr(shell, "_resource_recording", None)
+            if not active:
+                print_msg("No active makerc recording.")
+                return
+            shell._resource_recording = None
+            print_msg(f"Recording stopped — script saved to {active}")
+            return
+
+        shell._resource_recording = path
+        shell._resource_recording_lines = []
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        with open(path, "w") as f:
+            f.write(f"# LazyOwn recorded script — {datetime.now()}\n")
+        print_msg(f"Recording commands to {path} — stop with: makerc off")
 
     @cmd2.with_category(miscellaneous_category)
     def do_spool(self, line):

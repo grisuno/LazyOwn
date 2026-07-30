@@ -91,7 +91,7 @@ _CMD2_TO_PHASE: dict[str, str] = {
     "12. Miscellaneous":         "other",
     "13. Lua Plugin":            "other",
     "14. Yaml Addon.":           "other",
-    "15. Adversary YAML.":       "other",
+    "14. Adversary Emulation":       "other",
 }
 
 # Broad keyword → phase, for commands not decorated or from addons/plugins

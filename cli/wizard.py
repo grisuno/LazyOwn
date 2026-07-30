@@ -18,6 +18,7 @@ Design contract:
 from __future__ import annotations
 
 import re
+import secrets
 import shutil
 import subprocess
 from collections.abc import Callable, Iterable, Sequence
@@ -68,6 +69,13 @@ _WORDLIST_KEYS: dict[str, tuple[str, str]] = {
 _IP_RE = re.compile(r"^((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)$")
 
 _BINARY_NAME_RE = re.compile(r"\A[A-Za-z0-9_.+-]{1,64}\Z")
+
+_DEFAULT_SECRET_MARKERS = frozenset({"", "change_me"})
+_WEAK_SECRET_VALUES = frozenset({"admin", "password", "123456", "lazyown"})
+_C2_USER_KEY = "c2_user"
+_C2_PASS_KEY = "c2_pass"
+_GENERATED_C2_USER = "admin"
+_C2_PASS_BYTES = 18
 
 
 @dataclass(frozen=True)
@@ -181,6 +189,11 @@ def run(
         _console.print("\n[bold yellow]  Wizard cancelled — no changes saved.[/]")
         return result
 
+    rotated = _rotate_default_secrets(params, save)
+    if rotated:
+        _print_secret_rotation(rotated)
+        result.saved = True
+
     if not updates:
         _console.print("[dim]  Nothing changed.[/]")
         result.readiness = _build_readiness(params)
@@ -207,6 +220,136 @@ def run(
     _print_validation_summary(params)
     _print_next_steps(params)
     return result
+
+
+def run_non_interactive(
+    params: dict[str, Any],
+    save: Callable[[str, Any], None],
+    values: dict[str, Any],
+    *,
+    auto_detect: bool = True,
+) -> WizardResult:
+    """Apply configuration without prompts — Docker/CI/headless first runs.
+
+    Args:
+        params: Live params dict (in-memory mirror of payload.json).
+        save: Persistence callback, same contract as :func:`run`.
+        values: Keys to apply (``rhost``, ``lhost``, ``domain``, ``device``,
+            ``os_id``, ``api_key``). ``None`` values are ignored.
+        auto_detect: When ``True`` (default), fill still-empty ``lhost`` /
+            ``device`` from the routing table and wordlist paths from
+            SecLists, mirroring the interactive wizard's detected defaults.
+
+    Returns:
+        WizardResult with ``saved=True`` when at least one value was written.
+    """
+    result = WizardResult()
+    updates: dict[str, Any] = {}
+    for key in ("rhost", "lhost", "domain", "device", "os_id", "api_key"):
+        value = values.get(key)
+        if value is not None and str(value) != str(params.get(key, "")):
+            updates[key] = value
+    if auto_detect:
+        if "lhost" not in updates and not params.get("lhost"):
+            detected = _detect_lhost()
+            if detected:
+                updates["lhost"] = detected
+        if "device" not in updates and not params.get("device"):
+            detected_dev = _detect_device()
+            if detected_dev:
+                updates["device"] = detected_dev
+
+    for key, value in updates.items():
+        try:
+            coerced = coerce_value(key, value)
+            save(key, coerced)
+            params[key] = coerced
+            _ok(f"{key} = {coerced}")
+        except Exception as exc:
+            _console.print(f"[bold red]  Could not save {key}: {exc}[/]")
+
+    if auto_detect:
+        for key, value in _ask_wordlists(params).items():
+            try:
+                coerced = coerce_value(key, value)
+                save(key, coerced)
+                params[key] = coerced
+            except Exception as exc:
+                _console.print(f"[bold red]  Could not save {key}: {exc}[/]")
+
+    rotated = _rotate_default_secrets(params, save)
+    if rotated:
+        _print_secret_rotation(rotated)
+
+    result.saved = bool(updates) or bool(rotated)
+    result.updates = updates
+    result.readiness = _build_readiness(params)
+    _print_readiness(result.readiness)
+    return result
+
+
+def _rotate_default_secrets(
+    params: dict[str, Any],
+    save: Callable[[str, Any], None],
+) -> list[tuple[str, str]]:
+    """Replace factory-default C2 credentials with generated values.
+
+    The example payload ships ``CHANGE_ME`` placeholders; leaving them in
+    place means the C2 web console starts with publicly known credentials.
+    When the wizard runs, any ``c2_user``/``c2_pass`` still holding a
+    default marker is rotated: the user becomes ``admin`` and the password
+    a random URL-safe token. Weak but explicitly chosen values (``admin``,
+    ``password``...) are warned about, never silently replaced.
+
+    Args:
+        params: Live params dict, mutated in place on rotation.
+        save: Persistence callback, same contract as :func:`run`.
+
+    Returns:
+        List of ``(key, new_value)`` pairs that were rotated.
+    """
+    rotated: list[tuple[str, str]] = []
+
+    def _is_default(value: Any) -> bool:
+        return str(value or "").strip().lower() in _DEFAULT_SECRET_MARKERS
+
+    def _is_weak(value: Any) -> bool:
+        return str(value or "").strip().lower() in _WEAK_SECRET_VALUES
+
+    user = params.get(_C2_USER_KEY)
+    if _is_default(user):
+        save(_C2_USER_KEY, _GENERATED_C2_USER)
+        params[_C2_USER_KEY] = _GENERATED_C2_USER
+        rotated.append((_C2_USER_KEY, _GENERATED_C2_USER))
+    elif _is_weak(user):
+        _warn(f"{_C2_USER_KEY} is weak ({user!r}) — consider: assign {_C2_USER_KEY} <name>")
+
+    password = params.get(_C2_PASS_KEY)
+    if _is_default(password):
+        generated = secrets.token_urlsafe(_C2_PASS_BYTES)
+        save(_C2_PASS_KEY, generated)
+        params[_C2_PASS_KEY] = generated
+        rotated.append((_C2_PASS_KEY, generated))
+    elif _is_weak(password):
+        _warn(f"{_C2_PASS_KEY} is weak — consider: assign {_C2_PASS_KEY} <strong-password>")
+
+    return rotated
+
+
+def _print_secret_rotation(rotated: list[tuple[str, str]]) -> None:
+    """Tell the operator which credentials were auto-rotated and why."""
+    _console.print()
+    _console.print(
+        Panel(
+            "[bold yellow]Default C2 credentials detected and rotated[/]\n"
+            + "\n".join(f"  {key} = {value}" for key, value in rotated)
+            + "\n[dim]Stored in payload.json — change them anytime with "
+            "assign <key> <value>.[/]",
+            border_style="yellow",
+            padding=(0, 2),
+        )
+    )
+    _console.print()
 
 
 def _print_header(*, tutorial: bool = False) -> None:
@@ -751,4 +894,5 @@ __all__ = [
     "WizardResult",
     "check_binaries",
     "run",
+    "run_non_interactive",
 ]

@@ -177,8 +177,6 @@
 </header>
 <h1 id="utils.md-documentation-by-readmeneitor.py">UTILS.md
 Documentation by readmeneitor.py</h1>
-<h2 id="check_go_tool_installed">check_go_tool_installed</h2>
-<p>No description available.</p>
 <h2 id="parse_ip_mac">parse_ip_mac</h2>
 <p>Extracts IP and MAC addresses from a formatted input string using a
 regular expression.</p>
@@ -190,8 +188,6 @@ input.</p>
 MAC addresses.</p>
 <p>Returns: tuple: A tuple containing the extracted IP address and MAC
 address. If the format is incorrect, returns (None, None).</p>
-<h2 id="strip_ansi">strip_ansi</h2>
-<p>No description available.</p>
 <h2 id="create_arp_packet">create_arp_packet</h2>
 <p>Constructs an ARP packet with the given source and destination IP and
 MAC addresses.</p>
@@ -230,40 +226,6 @@ prints a warning message instructing the user on how to exit the program
 using the commands ‘exit’, ‘q’, or ‘qa’.</p>
 <p>:param sig: The signal number. :type sig: int :param frame: The
 current stack frame. :type frame: frame :return: None</p>
-<h2 id="is_binary_present">is_binary_present</h2>
-<p>Internal function to verify if a binary is present on the operating
-system.</p>
-<p>This function checks if a specified binary is available in the
-system’s PATH by using the <code>which</code> command. It returns True
-if the binary is found and False otherwise.</p>
-<p>The lookup is performed with :func:<code>shutil.which</code>, which
-resolves the name against <code>PATH</code> without spawning a shell.
-This avoids the command-injection surface of interpolating
-<code>binary_name</code> into a shell string and works on platforms that
-do not ship the <code>which</code> utility.</p>
-<p>:param binary_name: The name of the binary to be checked. :type
-binary_name: str :return: True if the binary is present, False
-otherwise. :rtype: bool</p>
-<h2 id="handle_multiple_rhosts">handle_multiple_rhosts</h2>
-<p>Internal function to handle multiple remote hosts (rhost) for
-operations.</p>
-<p>This function is a decorator that allows an operation to be performed
-across multiple remote hosts specified in
-<code>self.params["rhost"]</code>. It converts a single remote host into
-a list if necessary, and then iterates over each host, performing the
-given function with each host. After the operation, it restores the
-original remote host value.</p>
-<p>:param func: The function to be decorated and executed for each
-remote host. :type func: function :return: The decorated function.
-:rtype: function</p>
-<h2 id="check_sudo">check_sudo</h2>
-<p>Checks if the script is running with superuser (sudo) privileges, and
-if not, restarts the script with sudo privileges.</p>
-<p>This function verifies if the script is being executed with root
-privileges by checking the effective user ID. If the script is not
-running as root, it prints a warning message and restarts the script
-using sudo.</p>
-<p>:return: None</p>
 <h2 id="activate_virtualenv">activate_virtualenv</h2>
 <p>Activates a virtual environment and starts an interactive shell.</p>
 <p>This function activates a virtual environment located at
@@ -799,9 +761,6 @@ following keys: - hostname (str): The hostname of the host. - port
 udp). - banner (str): Extra information about the service. - service
 (str): The name of the service running on the port.</p>
 <p>Example: banners = extract_banners(‘path/to/file.xml’)</p>
-<h2 id="generate_xor_key">generate_xor_key</h2>
-<p>Generate key XOR long specifyed</p>
-<p>:param length: Lenght of XOR key :return: Key XOR in hex.</p>
 <h2 id="scrape_news">scrape_news</h2>
 <p>Makes a request to the Hacker News page and extracts titles, links,
 and scores.</p>
@@ -882,15 +841,8 @@ with better error handling and recovery attempts</p>
 <p>No description available.</p>
 <h2 id="load_user_aliases">load_user_aliases</h2>
 <p>Carga los aliases del archivo JSON si existe.</p>
-<h2 id="aesencrypt">AESencrypt</h2>
-<p>No description available.</p>
-<h2 id="dropfile">dropFile</h2>
-<p>No description available.</p>
 <h2 id="build_startup_parser">_build_startup_parser</h2>
 <p>Build the CLI argument parser for LazyOwn startup flags.</p>
-<h2 id="wrapper">wrapper</h2>
-<p>internal wrapper of internal function to implement multiples rhost to
-operate.</p>
 <h2 id="send_request">send_request</h2>
 <p>No description available.</p>
 <h2 id="handle_forms">handle_forms</h2>

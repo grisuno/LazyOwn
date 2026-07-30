@@ -3376,6 +3376,9 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
 
 async def heartbeat_loop() -> None:
     """Emit heartbeat and write status every HEARTBEAT_S seconds."""
+    health_file = SESSIONS_DIR / "daemon_health.json"
+    health_file.parent.mkdir(parents=True, exist_ok=True)
+    _start_time = time.time()
     while not _should_stop.is_set():
         await asyncio.sleep(HEARTBEAT_S)
         _daemon_stats["events_emitted"] += 1
@@ -3388,6 +3391,17 @@ async def heartbeat_loop() -> None:
             "current_objective": _daemon_stats["current_objective"],
         })
         _write_status()
+        try:
+            health_file.write_text(json.dumps({
+                "pid": os.getpid(),
+                "last_heartbeat_ts": time.time(),
+                "uptime_seconds": round(time.time() - _start_time, 1),
+                "cycles_completed": _daemon_stats["events_emitted"],
+                "error_count": _daemon_stats.get("errors", 0),
+                "phase": _daemon_stats["current_phase"],
+            }))
+        except OSError:
+            pass
         log.info("heartbeat — done=%d steps=%d drones=%d",
                  _daemon_stats["objectives_done"],
                  _daemon_stats["steps_run"],

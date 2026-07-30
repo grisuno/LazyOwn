@@ -232,10 +232,18 @@ def main() -> None:
     cleanup_temp_files()
 
 
-from modules.lazygptcli2 import process_prompt
-from modules.lazygptcli3 import process_prompt_script
-from modules.lazygptcli4 import process_prompt_adversary
-from modules.lazygptcli5 import process_prompt_deepseek, process_prompt_general
+from modules.legacy.lazygptcli_unified import (
+    Groq,
+    process_prompt,
+    process_prompt_adversary,
+    process_prompt_general,
+    process_prompt_redop,
+    process_prompt_script,
+    process_prompt_search,
+    process_prompt_task,
+    process_prompt_vuln,
+)
+from modules.legacy.lazygptcli_unified import _deepseek_fallback as process_prompt_deepseek
 
 __all__ = [
     "process_prompt",
@@ -243,11 +251,10 @@ __all__ = [
     "process_prompt_adversary",
     "process_prompt_deepseek",
     "process_prompt_general",
-    "load_knowledge_base",
-    "save_knowledge_base",
-    "add_to_knowledge_base",
-    "get_relevant_knowledge",
-    "transform_knowledge_base",
+    "process_prompt_search",
+    "process_prompt_task",
+    "process_prompt_vuln",
+    "process_prompt_redop",
 ]
 
 if __name__ == "__main__":

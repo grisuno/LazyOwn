@@ -10,7 +10,7 @@ import requests
 from discord.ext import commands
 
 from lazyown import LazyOwnShell
-from modules.lazygptcli5 import Groq, process_prompt_general
+from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
 
 """
 1333654599785119746 id

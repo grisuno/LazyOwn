@@ -16,6 +16,16 @@ repos:
       - id: detect-private-key
         exclude: '^(graphify-out/|sessions/|external/|tests/|modules_ext/)'
 
+  - repo: local
+    hooks:
+      - id: check-command-index
+        name: check command_index.json
+        entry: env/bin/python scripts/build_command_index.py --check
+        language: system
+        files: '^(lazyown\.py|cli/commands/.*\.py|cli/commands/.*\.yaml)$'
+        types_or: [python, yaml]
+        pass_filenames: false
+
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.15.12
     hooks:

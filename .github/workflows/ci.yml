@@ -27,6 +27,8 @@ jobs:
         run: ruff check --output-format=github .
       - name: ruff format check
         run: ruff format --check .
+      - name: check command_index.json
+        run: python scripts/build_command_index.py --check
       - name: mypy (core + cli)
         run: mypy --config-file pyproject.toml core cli setup.py
 

@@ -151,18 +151,26 @@ def load_notifications() -> list[dict]:
 # ── Banners ────────────────────────────────────────────────────────────────
 
 
-def load_banners() -> dict | None:
+def load_banners() -> list | None:
     """Load banners from ``sessions/banners.json``.
 
     Returns:
-        A banner config dict, or ``None`` when the file is absent.
+        A list of banner dicts, or ``None`` when the file is absent.
     """
     path = os.path.join(SESSION_DIR, "banners.json")
     try:
         with open(path) as f:
-            return json.load(f)
+            config_banner = json.load(f)
     except FileNotFoundError:
         return None
+    except json.JSONDecodeError:
+        logging.warning("Invalid JSON in %s", path)
+        return None
+    if isinstance(config_banner, dict) and "banners" in config_banner:
+        return config_banner.get("banners", [])
+    if isinstance(config_banner, list):
+        return config_banner
+    return None
 
 
 # ── Routes (dynamic template routes) ───────────────────────────────────────

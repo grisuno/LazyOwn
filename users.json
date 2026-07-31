@@ -7,7 +7,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 1550,
+        "elo": 1624,
         "tenant_id": "default"
     },
     {
@@ -24,7 +24,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 211,
+        "elo": 283,
         "tenant_id": "default"
     },
     {

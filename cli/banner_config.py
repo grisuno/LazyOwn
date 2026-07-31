@@ -283,6 +283,7 @@ class RenderContext:
     palette: ColorPalette
     elo: int = 0
     karma_name: str = ""
+    operator: str = ""
 
 
 def _bracketed(
@@ -527,7 +528,7 @@ class KarmaSegment(SegmentRenderer):
     spec = SegmentSpec(
         id="karma",
         label="karma",
-        description="ELO score and karma rank (Noob → Godlike)",
+        description="ELO score and karma rank (Noob → Godlike) — shows operator if logged in",
         group="top",
         default_enabled=True,
         order=50,
@@ -535,12 +536,22 @@ class KarmaSegment(SegmentRenderer):
     )
 
     def render(self, ctx, cfg, color, glyphs):
-        if not ctx.karma_name and ctx.elo <= 0:
-            return ""
-        label = f"{ctx.karma_name} " if ctx.karma_name else ""
-        if ctx.elo > 0:
-            label += f"{ctx.elo}ELO"
-        return _bracketed("", label.strip(), glyphs["bullet_primary"], color, ctx, glyphs)
+        if ctx.operator:
+            parts = [ctx.operator]
+            if ctx.karma_name:
+                parts.append(ctx.karma_name)
+            if ctx.elo > 0:
+                parts.append(f"{ctx.elo}ELO")
+            return _bracketed("", " ".join(parts), glyphs["bullet_primary"], color, ctx, glyphs)
+
+        return _bracketed(
+            "",
+            "anonymous",
+            glyphs["bullet_primary"],
+            "\033[90m",
+            ctx,
+            glyphs,
+        )
 
 
 class BatteryLoadSegment(SegmentRenderer):
@@ -735,6 +746,7 @@ class ContextResolver:
         hostname = socket.gethostname()
         iface_name, iface_ip = _select_iface(network, cfg.fallback_iface_ip_token)
         elo, karma_name = self._engagement_stats()
+        operator = self._operator_name()
         return RenderContext(
             user=user,
             hostname=hostname,
@@ -754,6 +766,7 @@ class ContextResolver:
             battery_or_load=_battery_or_load(),
             elo=elo,
             karma_name=karma_name,
+            operator=operator,
             palette=self._palette,
         )
 
@@ -807,24 +820,50 @@ class ContextResolver:
 
     @staticmethod
     def _engagement_stats() -> tuple[int, str]:
-        """Read ELO and karma name from engagement_state.json.
+        """Read ELO and karma — user's personal ELO if logged in, else engagement ELO.
 
         Returns:
             Tuple of (elo, karma_name).
         """
         try:
+            from cli.engagement_hooks import get_karma_name
+            from modules.cli_auth import get_current_operator
+
+            operator = get_current_operator()
+            if operator:
+                users_path = Path("users.json")
+                if users_path.exists():
+                    with users_path.open("r") as fh:
+                        users = json.load(fh)
+                    if isinstance(users, list):
+                        for u in users:
+                            if isinstance(u, dict) and u.get("username") == operator:
+                                elo = int(u.get("elo", 0))
+                                return elo, get_karma_name(elo)
+
             state_path = Path("sessions") / "engagement_state.json"
             if state_path.exists():
                 with state_path.open("r") as fh:
                     state = json.load(fh)
                 elo = state.get("elo", 0)
-                from cli.engagement_hooks import get_karma_name
-
-                karma = get_karma_name(elo)
-                return int(elo), karma
+                return int(elo), get_karma_name(elo)
         except Exception:
             pass
         return 0, ""
+
+    @staticmethod
+    def _operator_name() -> str:
+        """Read the current operator name from the CLI session.
+
+        Returns:
+            Operator username, or empty string if not logged in.
+        """
+        try:
+            from modules.cli_auth import get_current_operator
+
+            return get_current_operator() or ""
+        except Exception:
+            return ""
 
 
 def _read_network_info() -> dict[str, str]:

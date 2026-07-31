@@ -735,8 +735,9 @@ def _award_elo(cmd: str, first_time: bool, new_phase: bool, current_phase: str) 
 def _sync_user_elo(delta: int) -> bool:
     """Patch ``users.json`` so the C2 dashboard reflects terminal activity.
 
-    When RBAC is available, uses the RBACStore for atomic writes. Otherwise
-    falls back to direct JSON manipulation. Silent on any failure.
+    Priority order for identifying the operator:
+    1. Logged-in CLI operator (via ``modules.cli_auth.get_current_operator``)
+    2. ``c2_user`` field from ``payload.json`` (legacy bridge)
 
     Args:
         delta: ELO points to add (non-negative).
@@ -746,42 +747,54 @@ def _sync_user_elo(delta: int) -> bool:
     """
     if delta <= 0:
         return False
-    try:
-        if not PAYLOAD_PATH.exists() or not USERS_PATH.exists():
-            return False
-        payload = json.loads(PAYLOAD_PATH.read_text(encoding="utf-8"))
-        target = payload.get("c2_user")
-        if not target:
-            return False
 
+    target: str | None = None
+
+    try:
+        from modules.cli_auth import get_current_operator
+
+        target = get_current_operator()
+    except ImportError:
+        pass
+
+    if not target and PAYLOAD_PATH.exists():
         try:
-            from modules.lazy_rbac import get_rbac_store
-            store = get_rbac_store()
-            user = store.find_by_username(target)
-            if user:
-                user.elo = int(user.elo or 0) + int(delta)
-                store.save(user)
-                return True
-        except ImportError:
+            payload = json.loads(PAYLOAD_PATH.read_text(encoding="utf-8"))
+            target = payload.get("c2_user")
+        except Exception:
             pass
 
-        users = json.loads(USERS_PATH.read_text(encoding="utf-8"))
-        if not isinstance(users, list):
-            return False
-        modified = False
-        for user in users:
-            if isinstance(user, dict) and user.get("username") == target:
-                user["elo"] = int(user.get("elo", 0)) + int(delta)
-                modified = True
-                break
-        if not modified:
-            return False
-        tmp = USERS_PATH.with_suffix(".tmp")
-        tmp.write_text(json.dumps(users, indent=4), encoding="utf-8")
-        tmp.replace(USERS_PATH)
-        return True
-    except Exception:
+    if not target:
         return False
+
+    try:
+        from modules.lazy_rbac import get_rbac_store
+        store = get_rbac_store()
+        user = store.find_by_username(target)
+        if user:
+            user.elo = int(user.elo or 0) + int(delta)
+            store.save(user)
+            return True
+    except ImportError:
+        pass
+
+    if not USERS_PATH.exists():
+        return False
+    users = json.loads(USERS_PATH.read_text(encoding="utf-8"))
+    if not isinstance(users, list):
+        return False
+    modified = False
+    for user in users:
+        if isinstance(user, dict) and user.get("username") == target:
+            user["elo"] = int(user.get("elo", 0)) + int(delta)
+            modified = True
+            break
+    if not modified:
+        return False
+    tmp = USERS_PATH.with_suffix(".tmp")
+    tmp.write_text(json.dumps(users, indent=4), encoding="utf-8")
+    tmp.replace(USERS_PATH)
+    return True
 
 
 def _persist_notification(html: str) -> bool:

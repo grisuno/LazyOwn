@@ -749,6 +749,22 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
         None, lambda: _run_with_fallback(command, timeout)
     )
 
+    try:
+        from event_bus import EventCategory, EventSeverity, LazyEvent, get_event_bus
+        parts = command.strip().split(None, 1)
+        cmd_name = parts[0] if parts else command
+        cfg = _load_payload()
+        get_event_bus().publish(LazyEvent(
+            category=EventCategory.COMMAND,
+            event_type=cmd_name,
+            source="mcp",
+            payload={"command": command, "output_snippet": output[:500]},
+            target=cfg.get("rhost", ""),
+            operator=arguments.get("operator", "mcp"),
+        ))
+    except Exception:
+        pass
+
     if _POLICY_AVAILABLE and _policy is not None:
         _cfg = _load_payload()
         _target = _cfg.get("rhost", "") or _cfg.get("lhost", "127.0.0.1")

@@ -8380,12 +8380,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             engine = PlaybookEngine()
 
             # Resolve playbook path
+            PLAYS_DIRECTORY = LAZYOWN_DIR / "playbooks"
             if pb_path:
                 pb_file = Path(pb_path)
+                if not pb_file.exists() and PLAYS_DIRECTORY.is_dir():
+                    alt = PLAYS_DIRECTORY / pb_file.name
+                    if alt.exists():
+                        pb_file = alt
             else:
-                # Fall back to most recently modified playbook in sessions/
                 sessions_pb = sorted(
-                    (LAZYOWN_DIR / "sessions").glob("playbook_*.yaml"),
+                    list((LAZYOWN_DIR / "sessions").glob("playbook_*.yaml"))
+                    + list(PLAYS_DIRECTORY.glob("apt_*.yaml")),
                     key=lambda p: p.stat().st_mtime,
                     reverse=True,
                 )

@@ -396,15 +396,17 @@ def load_version():
     If the version key does not exist, it returns a default version 'release/v0.0.14'.
     If the file is not found, it also returns the default version.
 
+    The version.json is the single source of truth, updated by deploy.sh.
+
     Returns:
     - str: The version number from the file or the default version if the file is not found or the version key is missing.
     """
     try:
         with open('version.json', 'r') as f:
             data = json.load(f)
-            return data.get('version', 'release/v0.0.14')
+            return data.get('version', 'release/0.2.157')
     except FileNotFoundError:
-        return 'release/v0.0.14'
+        return 'release/0.2.157'
 
 version = load_version()
 url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"

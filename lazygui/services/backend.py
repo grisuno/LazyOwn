@@ -119,3 +119,46 @@ class Backend(QObject):
     def known_listeners(self) -> Sequence[Listener]:
         """Return the most recent snapshot of listeners, never ``None``."""
         return ()
+
+    def request_world_model(self) -> dict:
+        """Request the current world model state as a dict. Returns empty dict on failure."""
+        try:
+            import json
+            from pathlib import Path
+            sessions_dir = Path("sessions")
+            wm_path = sessions_dir / "world_model.json"
+            if wm_path.exists():
+                return json.loads(wm_path.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+        return {}
+
+    def request_session_state(self) -> dict:
+        """Request the current session state (creds, hashes, loot) as a dict."""
+        result: dict[str, list] = {"credentials": [], "hashes": [], "loot": []}
+        try:
+            from pathlib import Path
+            sessions_dir = Path("sessions")
+            for fpath in sorted(sessions_dir.glob("credentials*.txt")):
+                for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
+                    line = line.strip()
+                    if line and not line.startswith("#"):
+                        parts = line.split(":", 2)
+                        result["credentials"].append({
+                            "username": parts[0] if parts else "",
+                            "type": parts[1] if len(parts) > 1 else "password",
+                            "source": fpath.name,
+                        })
+            for fpath in sorted(sessions_dir.glob("hash*")):
+                for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
+                    line = line.strip()
+                    if line:
+                        result["hashes"].append(line)
+            loot_dir = sessions_dir / "loot"
+            if loot_dir.exists():
+                for fpath in sorted(loot_dir.iterdir()):
+                    if fpath.is_file():
+                        result["loot"].append({"name": fpath.name, "size": str(fpath.stat().st_size)})
+        except Exception:
+            pass
+        return result

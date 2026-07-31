@@ -245,14 +245,16 @@ class ModernTreeview(ttk.Frame):
 
     def refresh_data(self):
         if self.data_loader:
-            # Limpiar datos existentes
             for item in self.tree.get_children():
                 self.tree.delete(item)
-
-            # Cargar nuevos datos
             data = self.data_loader()
             for item in data:
-                values = [item.get(col, "") for col in self.tree["columns"]]
+                if isinstance(item, dict):
+                    values = [item.get(col, "") for col in self.tree["columns"]]
+                elif isinstance(item, str):
+                    values = [item] + [""] * (len(self.tree["columns"]) - 1)
+                else:
+                    values = [str(item)] + [""] * (len(self.tree["columns"]) - 1)
                 self.tree.insert("", tk.END, values=values)
 
     def set_title(self, title):

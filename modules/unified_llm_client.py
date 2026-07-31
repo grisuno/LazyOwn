@@ -396,3 +396,158 @@ def create_llm_client(
     if task != 'general':
         client.set_task(task)
     return client
+
+
+class LLMBridge:
+    """Backward-compatible adapter wrapping UnifiedLLMClient with the legacy LLMClient API.
+
+    Use this as a drop-in replacement for the old ``modules.llm_client.LLMClient``
+    while still benefiting from the unified backend selection and task specialization
+    of ``UnifiedLLMClient``.
+
+    Usage::
+
+        from modules.unified_llm_client import LLMBridge
+
+        client = LLMBridge(api_key="gsk_...")
+        answer = client.ask("What is port 445?", provider="groq")
+        verdict = client.classify(output, question="Did it succeed?")
+        summary = client.summarize(nmap_output)
+
+    Args:
+        api_key: Groq API key. Falls back to GROQ_API_KEY env var.
+        backend: Preferred backend ('groq', 'ollama', 'openai').
+        model: Override default model name.
+    """
+
+    def __init__(
+        self,
+        api_key: str = "",
+        backend: str = "groq",
+        model: Optional[str] = None,
+        timeout: int = 90,
+        max_tokens: int = 1024,
+    ) -> None:
+        self._api_key = api_key or os.environ.get("GROQ_API_KEY", "")
+        self._backend = backend
+        self._model = model
+        self._timeout = timeout
+        self._max_tokens = max_tokens
+
+    def _get_client(self, provider: str = "auto") -> UnifiedLLMClient:
+        backend = self._backend
+        if provider == "ollama":
+            backend = "ollama"
+        elif provider == "groq":
+            backend = "groq"
+        return UnifiedLLMClient(
+            backend=backend,
+            api_key=self._api_key,
+            model=self._model,
+            max_tokens=self._max_tokens,
+        )
+
+    def ask(
+        self,
+        prompt: str,
+        *,
+        provider: str = "auto",
+        model: Optional[str] = None,
+        system: str = "You are a helpful penetration testing assistant.",
+        temperature: float = 0.7,
+    ) -> str:
+        if provider == "auto" and not self._api_key:
+            provider = "ollama"
+
+        try:
+            client = self._get_client(provider)
+            client.system_prompt = system
+            client.temperature = temperature
+            if model:
+                client._model = model
+            response, _, _ = client.chat([{"role": "user", "content": prompt}])
+            return response
+        except Exception as exc:
+            return f"[LLM error] {exc}"
+
+    def classify(
+        self,
+        output: str,
+        *,
+        question: str = "Did this command succeed? Answer only: success, failure, or partial.",
+        provider: str = "auto",
+        model: Optional[str] = None,
+    ) -> str:
+        prompt = f"{question}\n\nOUTPUT:\n{output[:2000]}"
+        raw = self.ask(
+            prompt,
+            provider=provider,
+            model=model,
+            system="You are a command output classifier. Reply with one word only.",
+            temperature=0.0,
+        )
+        raw_lower = raw.strip().lower()
+        if "success" in raw_lower:
+            return "success"
+        if "partial" in raw_lower:
+            return "partial"
+        if "failure" in raw_lower or "fail" in raw_lower:
+            return "failure"
+        return raw.strip()[:50]
+
+    def summarize(
+        self,
+        text: str,
+        *,
+        max_chars: int = 6000,
+        provider: str = "auto",
+        model: Optional[str] = None,
+    ) -> str:
+        prompt = (
+            f"Summarize the following penetration testing output in 3-5 bullet points. "
+            f"Focus on security-relevant findings (open ports, credentials, vulnerabilities):\n\n"
+            f"{text[:max_chars]}"
+        )
+        return self.ask(prompt, provider=provider, model=model)
+
+
+def get_llm_client(
+    api_key: Optional[str] = None,
+    backend: str = "groq",
+    model: Optional[str] = None,
+    timeout: int = 90,
+    max_tokens: int = 1024,
+) -> LLMBridge:
+    """Convenience function returning a LLMBridge with auto-detected config.
+
+    Reads ``payload.json`` for ``api_key``, ``llm_backend``, and
+    ``llm_model`` when arguments are not explicitly provided.
+
+    Args:
+        api_key: API key. Auto-reads from payload.json if not set.
+        backend: Preferred backend. Auto-reads from payload.json.
+        model: Model name override.
+        timeout: HTTP timeout in seconds.
+        max_tokens: Max response tokens.
+
+    Returns:
+        Configured LLMBridge instance.
+    """
+    if api_key is None:
+        try:
+            from core.config import load_payload
+            payload = load_payload()
+            api_key = payload.get("api_key", "")
+            if not backend:
+                backend = payload.get("llm_backend", "groq")
+            if not model:
+                model = payload.get("llm_model")
+        except Exception:
+            pass
+    return LLMBridge(
+        api_key=api_key or "",
+        backend=backend or "groq",
+        model=model,
+        timeout=timeout,
+        max_tokens=max_tokens,
+    )

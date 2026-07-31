@@ -1,0 +1,40 @@
+apt_name: Azure/Entra ID Graph API Attacks
+description: Post-compromise abuse of Microsoft Graph API and Azure/Entra ID
+target: ""
+phase: cloud
+steps:
+  - atomic_id: T1527.001
+    technique_id: T1527
+    tactic: discovery
+    name: Enumerate Entra ID Users via Graph
+    description: Enumerate Entra ID users, groups, roles via Graph API.
+    command: echo "[T1527] Enumerate Entra ID Users via Microsoft Graph API — azuread_enum_users"
+    platform: azure-ad
+  - atomic_id: T1098.003
+    technique_id: T1098.003
+    tactic: persistence
+    name: Register Malicious App in Entra ID
+    description: Register a malicious OAuth application for persistent API access.
+    command: echo "[T1098.003] Register malicious app registration in Entra ID — azuread_register_app"
+    platform: azure-ad
+  - atomic_id: T1528.001
+    technique_id: T1528
+    tactic: credential_access
+    name: Extract Azure CLI Tokens
+    description: Dump OAuth tokens from Azure CLI cache for lateral movement.
+    command: echo "[T1528] Dump Azure CLI tokens — azure_token_steal"
+    platform: azure-ad
+  - atomic_id: T1534.001
+    technique_id: T1534
+    tactic: lateral_movement
+    name: Enumerate Azure VMs via Compromised Credential
+    description: List VMs, Key Vault secrets, and Storage accounts via stolen tokens.
+    command: echo "[T1534] Enumerate Azure resources — azure_list_vms; azure_keyvault_dump"
+    platform: azure-ad
+  - atomic_id: T1537.001
+    technique_id: T1537
+    tactic: exfiltration
+    name: Exfiltrate to External Azure Storage
+    description: Copy blobs to attacker-controlled storage account or share via SAS.
+    command: echo "[T1537] Exfiltrate data to external Azure Storage — azure_storage_exfil"
+    platform: azure-ad

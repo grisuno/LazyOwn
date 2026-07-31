@@ -1,0 +1,40 @@
+apt_name: SCCM / MECM Attack Path
+description: Attacks against Microsoft Configuration Manager (SCCM/MECM) for site server takeover and NAA credential extraction.
+target: ""
+phase: lateral
+steps:
+  - atomic_id: T1601.001
+    technique_id: T1601.001
+    tactic: discovery
+    name: Enumerate SCCM Sites via LDAP
+    description: Identify SCCM site servers, MPs, and DPs through LDAP and SMB.
+    command: echo "[T1601.001] Enumerate SCCM sites via LDAP — sccm_ldap_enum"
+    platform: windows
+  - atomic_id: T1555.005
+    technique_id: T1555.005
+    tactic: credential_access
+    name: Extract Network Access Account (NAA)
+    description: Dump NAA credentials cached on SCCM clients via DPAPI or policy.
+    command: echo "[T1555.005] Extract SCCM NAA credentials — sccm_naa_extract"
+    platform: windows
+  - atomic_id: T1601.002
+    technique_id: T1601.002
+    tactic: privilege_escalation
+    name: Trigger Client Push Installation
+    description: Force SCCM client push from compromised MP to deploy agent as SYSTEM.
+    command: echo "[T1601.002] Trigger SCCM client push — sccm_client_push_trigger"
+    platform: windows
+  - atomic_id: T1072.001
+    technique_id: T1072
+    tactic: lateral_movement
+    name: Deploy Malicious Application via SCCM
+    description: Deploy weaponized application to targeted device collections.
+    command: echo "[T1072] Deploy malicious application via SCCM — sccm_deploy_app"
+    platform: windows
+  - atomic_id: T1543.003
+    technique_id: T1543.003
+    tactic: persistence
+    name: Inject Boot Image Payload
+    description: Inject attacker code into SCCM boot images for OSD persistence.
+    command: echo "[T1543.003] Inject boot image payload — sccm_boot_image_inject"
+    platform: windows

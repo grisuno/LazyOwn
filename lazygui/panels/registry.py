@@ -15,7 +15,9 @@ from PySide6.QtWidgets import QWidget
 
 from lazygui.config.constants import AppConstants
 from lazygui.panels.base import PanelBase
+from lazygui.panels.credentials_panel import CredentialsPanel
 from lazygui.panels.event_log_panel import EventLogPanel
+from lazygui.panels.killchain_panel import KillChainPanel
 from lazygui.panels.listeners_panel import ListenersPanel
 from lazygui.panels.sessions_panel import SessionsPanel
 from lazygui.panels.terminal_panel import TerminalPanel
@@ -34,6 +36,8 @@ class PanelRegistry:
     listeners: ListenersPanel
     event_log_panel: EventLogPanel
     terminal: TerminalPanel
+    killchain: KillChainPanel
+    credentials: CredentialsPanel
 
     @classmethod
     def build(
@@ -57,11 +61,13 @@ class PanelRegistry:
                 parent=parent,
             ),
             terminal=TerminalPanel(constants=constants, backend=backend, parent=parent),
+            killchain=KillChainPanel(constants=constants, backend=backend, parent=parent),
+            credentials=CredentialsPanel(constants=constants, backend=backend, parent=parent),
         )
 
     def all_panels(self) -> tuple[PanelBase, ...]:
         """Return panels in canonical layout order."""
-        return (self.sessions, self.listeners, self.terminal, self.event_log_panel)
+        return (self.sessions, self.listeners, self.killchain, self.credentials, self.terminal, self.event_log_panel)
 
     def by_identifier(self, identifier: str) -> PanelBase:
         """Look up a panel by its stable identifier."""

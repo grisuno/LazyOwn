@@ -14,6 +14,27 @@
       "output_tokens": 0,
       "cost_usd": 5.4869999999999995e-05,
       "timestamp": "2026-07-31T01:39:41.133959+00:00"
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "input_tokens": 170,
+      "output_tokens": 0,
+      "cost_usd": 0.0001003,
+      "timestamp": "2026-07-31T05:18:52.650607+00:00"
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "input_tokens": 170,
+      "output_tokens": 0,
+      "cost_usd": 0.0001003,
+      "timestamp": "2026-07-31T05:24:07.978680+00:00"
+    },
+    {
+      "model": "llama-3.3-70b-versatile",
+      "input_tokens": 170,
+      "output_tokens": 0,
+      "cost_usd": 0.0001003,
+      "timestamp": "2026-07-31T05:29:40.733150+00:00"
     }
   ]
 }

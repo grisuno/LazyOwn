@@ -224,7 +224,10 @@ def refresh() -> dict:
     """Build state and persist to sessions/session_state.json."""
     SESSIONS.mkdir(exist_ok=True)
     state = build_state()
-    STATE_FILE.write_text(json.dumps(state, indent=2))
+    try:
+        STATE_FILE.write_text(json.dumps(state, indent=2))
+    except (PermissionError, OSError):
+        pass
     return state
 
 

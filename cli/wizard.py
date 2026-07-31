@@ -436,6 +436,9 @@ def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[s
     wordlist_updates = _ask_wordlists(params)
     updates.update(wordlist_updates)
 
+    operator_updates = _ask_operator_login(params, tutorial=tutorial)
+    updates.update(operator_updates)
+
     return updates
 
 
@@ -620,6 +623,71 @@ def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
 
     _console.print()
     return updates
+
+
+def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
+    """Prompt the operator to log in (mandatory).
+
+    Args:
+        params: Live params dict.
+        tutorial: Whether to show extended help.
+
+    Returns:
+        Dict with cli_auto_login / cli_remember_token if saved.
+    """
+    _console.print("[bold white]Step 8 of 8 — Operator identity (required)[/]")
+    _console.print(
+        "  [dim]The CLI needs to know who you are to track ELO, karma, gym progress,[/]\n"
+        "  [dim]and collaboration sessions. Uses the same credentials as the C2 dashboard.[/]"
+    )
+    _console.print("  [dim]If you skip this, the prompt will show [anonymous] until you 'login'.[/]")
+    _console.print()
+
+    from getpass import getpass
+
+    username = _prompt("  Username: ").strip()
+    if not username:
+        _warn("No username provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return {}
+
+    password = getpass("  Password: ")
+    if not password:
+        _warn("No password provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return {}
+
+    try:
+        from modules.cli_auth import login
+
+        result = login(username, password, remember=False)
+        if not result.get("success"):
+            _warn(f"Login failed: {result.get('error', 'unknown')}")
+            _info("Use 'login' later to retry.")
+            return {}
+    except ImportError:
+        _warn("Auth module not available — session will be anonymous.")
+        return {}
+
+    _ok(f"Authenticated as {username} ({result.get('role')}, {result.get('elo')} ELO)")
+
+    remember = _prompt("  Remember this login? (Y/n): ").strip().lower()
+    if remember in ("", "y", "yes"):
+        try:
+            from modules.cli_auth import login
+
+            login(username, password, remember=True)
+            _ok("Remember-me token saved. Auto-login enabled for future sessions.")
+            _console.print(
+                "  [dim]To disable: assign cli_auto_login \"\" && assign cli_remember_token \"\"[/]"
+            )
+            return {"cli_auto_login": username}
+        except Exception:
+            _warn("Could not persist remember-me token.")
+    else:
+        _info("Login saved for this session only. You'll need to login again next time.")
+
+    return {}
 
 
 def _build_readiness(params: dict[str, Any]) -> list[ReadinessItem]:

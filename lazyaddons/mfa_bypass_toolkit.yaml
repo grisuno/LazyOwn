@@ -1,0 +1,33 @@
+name: mfa_bypass_toolkit
+description: >
+  Multi-factor authentication bypass toolkit. Enumerates viable bypass techniques
+  for a target by identifying IDP type (Azure AD, Okta, Duo), available protocols
+  (SAML, OAuth2, OIDC, legacy IMAP/POP3/SMTP), and MFA method (push, TOTP, FIDO2).
+  Provides automated MFA fatigue/push bombing scripts, session token theft and
+  replay modules, conditional access policy gap enumeration, SAML golden ticket
+  forging commands, device code phishing templates, and legacy protocol scanners.
+  MITRE: T1621 MFA Request Generation, T1556 Modify Authentication Process,
+  T1528 Steal Application Access Token, T1539 Steal Web Session Cookie.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: domain
+    type: string
+    required: true
+    description: Target domain for MFA analysis
+  - name: idp_type
+    type: string
+    required: false
+    description: Identity provider type (azure, okta, duo, onelogin)
+    default: auto
+os: any
+trigger: []
+tool:
+  name: MFA Bypass Toolkit
+  install_path: modules/
+  lazycommand: mfa_bypass
+  env:
+    DOMAIN: "{domain}"
+    IDP_TYPE: "{idp_type}"
+category: "12. Credential Access & Bypass"

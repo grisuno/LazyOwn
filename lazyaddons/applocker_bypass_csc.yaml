@@ -1,0 +1,26 @@
+name: applocker_bypass_csc
+description: >
+  Bypass AppLocker/WDAC using csc.exe (C# compiler, signed Microsoft binary).
+  Compile C# payload from a file or URL and execute. csc.exe is allowed by
+  default in WDAC policies that allow MSBuild. MITRE: T1027.004 Compile After
+  Delivery, T1218 Signed Binary Proxy Execution.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host
+  - name: lport
+    type: integer
+    required: false
+    description: Listener port
+    default: 4444
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — csc.exe
+  install_path: modules/
+  lazycommand: applocker_csc
+category: "04. Evasion & Bypass"

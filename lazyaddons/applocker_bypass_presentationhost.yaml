@@ -1,0 +1,26 @@
+name: applocker_bypass_presentationhost
+description: >
+  Bypass AppLocker/WDAC using PresentationHost.exe (.NET Framework WPF host).
+  Executes XAML Browser Application (.xbap) files. PresentationHost.exe is
+  signed by Microsoft and often overlooked in WDAC policies.
+  MITRE: T1218 Signed Binary Proxy Execution.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host
+  - name: lport
+    type: integer
+    required: false
+    description: Listener port
+    default: 8080
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — PresentationHost
+  install_path: modules/
+  lazycommand: applocker_presentation
+category: "04. Evasion & Bypass"

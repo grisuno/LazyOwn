@@ -334,5 +334,16 @@
         "recovery_codes": [],
         "elo": 0,
         "tenant_id": "default"
+    },
+    {
+        "id": 32,
+        "username": "operator_js9gollt",
+        "password_hash": "scrypt:32768:8:1$twxqEAIqpoNKYlST$0c53cfa4a698a94c5736f82974f54dc6d21278ecdbcd92e59317a52260b7deace760879133a8df302df7fca88ecb2b549b21f49531a9480cbd4d99d817fdbc5e",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
     }
 ]

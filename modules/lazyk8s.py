@@ -690,10 +690,293 @@ except ImportError:
     HAS_REQUESTS = False
 
 
+class ContainerRuntimeDetector:
+    """Auto-detect container runtime and available escape primitives.
+
+    Supports: Docker, containerd, CRI-O, Podman, LXC/LXD, systemd-nspawn.
+    """
+
+    RUNTIME_SIGNATURES = {
+        "docker": {
+            "files": ["/.dockerenv", "/var/run/docker.sock"],
+            "cgroup": "docker",
+            "env_var": ("container", "docker"),
+        },
+        "containerd": {
+            "files": ["/run/containerd/containerd.sock"],
+            "cgroup": "containerd",
+            "mounts": ["/run/containerd"],
+        },
+        "crio": {
+            "files": ["/var/run/crio/crio.sock"],
+            "cgroup": "crio",
+            "mounts": ["/var/run/crio"],
+        },
+        "podman": {
+            "files": ["/run/podman/podman.sock", "/run/user/*/podman/podman.sock"],
+            "cgroup": "libpod",
+            "processes": ["podman", "conmon"],
+        },
+        "lxc": {
+            "files": ["/dev/lxd/sock"],
+            "cgroup": "lxc",
+            "env_var": ("container", "lxc"),
+        },
+        "kubernetes": {
+            "files": ["/var/run/secrets/kubernetes.io/serviceaccount/token"],
+            "cgroup": "kubepods",
+            "mounts": ["/var/run/secrets/kubernetes.io"],
+        },
+        "systemd_nspawn": {
+            "cgroup": "nspawn",
+            "env_var": ("container", "systemd-nspawn"),
+        },
+    }
+
+    @staticmethod
+    def detect_runtime() -> dict[str, Any]:
+        """Detect container runtime from multiple indicators.
+
+        Returns:
+            Dict with runtime info including name, confidence, and indicators.
+        """
+        scores: dict[str, int] = {}
+        indicators: dict[str, list[str]] = {}
+
+        for runtime, sigs in ContainerRuntimeDetector.RUNTIME_SIGNATURES.items():
+            scores[runtime] = 0
+            indicators[runtime] = []
+
+            for file_pattern in sigs.get("files", []):
+                import glob
+                matches = glob.glob(file_pattern)
+                if matches:
+                    scores[runtime] += 2
+                    indicators[runtime].append(f"file:{matches[0]}")
+
+            try:
+                with open("/proc/1/cgroup") as f:
+                    cgroup_data = f.read()
+                if sigs.get("cgroup", "").lower() in cgroup_data.lower():
+                    scores[runtime] += 3
+                    indicators[runtime].append(f"cgroup:{sigs['cgroup']}")
+            except Exception:
+                pass
+
+            for mount_hint in sigs.get("mounts", []):
+                try:
+                    with open("/proc/mounts") as f:
+                        mounts = f.read()
+                    if mount_hint in mounts:
+                        scores[runtime] += 1
+                        indicators[runtime].append(f"mount:{mount_hint}")
+                except Exception:
+                    pass
+
+            for env_var_value in sigs.get("env_var", []):
+                env_val = os.environ.get(env_var_value[0], "")
+                if env_var_value[1] in env_val.lower():
+                    scores[runtime] += 1
+                    indicators[runtime].append(f"env:{env_var_value[0]}={env_val[:50]}")
+
+            for proc_hint in sigs.get("processes", []):
+                try:
+                    result = subprocess.run(
+                        ["pgrep", "-f", proc_hint],
+                        capture_output=True, text=True, timeout=3,
+                    )
+                    if result.stdout.strip():
+                        scores[runtime] += 1
+                        indicators[runtime].append(f"process:{proc_hint}")
+                except Exception:
+                    pass
+
+        ranked = sorted(scores.items(), key=lambda x: x[1], reverse=True)
+        best_runtime, best_score = ranked[0]
+
+        return {
+            "runtime": best_runtime if best_score > 0 else "unknown",
+            "confidence": "high" if best_score >= 5 else ("medium" if best_score >= 2 else "low"),
+            "indicators": indicators.get(best_runtime, []),
+            "all_scores": {k: v for k, v in ranked if v > 0},
+        }
+
+    @staticmethod
+    def detect_mounts() -> dict[str, list[str]]:
+        """Detect dangerous mounts in the current container.
+
+        Returns:
+            Dict with categories of dangerous mounts found.
+        """
+        dangerous: dict[str, list[str]] = {
+            "host_filesystem": [],
+            "docker_socket": [],
+            "proc_sys": [],
+            "host_root": [],
+            "ssh_keys": [],
+            "cloud_credentials": [],
+            "k8s_credentials": [],
+        }
+
+        try:
+            with open("/proc/mounts") as f:
+                mounts = f.read()
+        except Exception:
+            return dangerous
+
+        for line in mounts.splitlines():
+            parts = line.split()
+            if len(parts) < 2:
+                continue
+            src, dst = parts[0], parts[1]
+
+            if "docker.sock" in src or "containerd.sock" in src or "crio.sock" in src:
+                dangerous["docker_socket"].append(f"{src} -> {dst}")
+            elif src in ("/", "/host", "/host-root"):
+                dangerous["host_root"].append(f"{src} -> {dst}")
+            elif any(h in src.lower() for h in ("/root", "/home", "/etc", "/var/log", "/opt")):
+                dangerous["host_filesystem"].append(f"{src} -> {dst}")
+            elif "/proc" in src and src != "/proc":
+                dangerous["proc_sys"].append(f"{src} -> {dst}")
+            elif "authorized_keys" in src or "id_rsa" in src:
+                dangerous["ssh_keys"].append(f"{src} -> {dst}")
+            elif any(c in src.lower() for c in (".aws", ".config/gcloud", ".azure")):
+                dangerous["cloud_credentials"].append(f"{src} -> {dst}")
+            elif "kubernetes.io" in src or "serviceaccount" in src:
+                dangerous["k8s_credentials"].append(f"{src} -> {dst}")
+
+        dangerous = {k: v for k, v in dangerous.items() if v}
+        return dangerous
+
+    @staticmethod
+    def detect_dangerous_capabilities() -> list[str]:
+        """Detect dangerous Linux capabilities in the current container.
+
+        Returns:
+            List of dangerous capabilities found.
+        """
+        dangerous_caps = {
+            "CAP_SYS_ADMIN": "Mount, pivot_root, nsenter, cgroup release_agent escape",
+            "CAP_SYS_PTRACE": "ptrace inject into host process",
+            "CAP_SYS_MODULE": "Load kernel modules for privesc",
+            "CAP_SYS_RAWIO": "Direct hardware access, kernel memory read/write",
+            "CAP_SYS_BOOT": "Reboot the system",
+            "CAP_NET_ADMIN": "Network stack manipulation, ARP spoofing",
+            "CAP_NET_RAW": "Raw socket creation for packet injection",
+            "CAP_DAC_READ_SEARCH": "Read any file bypassing permissions",
+            "CAP_DAC_OVERRIDE": "Bypass file permission checks",
+            "CAP_SYS_CHROOT": "chroot into host filesystem if mounted",
+            "CAP_SYSLOG": "Read kernel message buffer for cred leaks",
+            "CAP_FSETID": "Set SUID/SGID bits on arbitrary files",
+        }
+
+        found: list[str] = []
+        try:
+            result = subprocess.run(
+                ["capsh", "--print"], capture_output=True, text=True, timeout=5,
+            )
+            current_caps = set()
+            for line in result.stdout.splitlines():
+                if "cap_" in line.lower():
+                    cap_name = "CAP_" + line.split("cap_")[-1].split(",")[0].split("=")[0].upper()
+                    current_caps.add(cap_name)
+
+            for cap_name, desc in dangerous_caps.items():
+                if cap_name in current_caps:
+                    found.append(f"{cap_name} ({desc})")
+        except Exception:
+            try:
+                result = subprocess.run(
+                    ["cat", "/proc/self/status"], capture_output=True, text=True, timeout=2,
+                )
+                for line in result.stdout.splitlines():
+                    if "CapEff:" in line:
+                        cap_hex = line.split(":")[1].strip()
+                        cap_int = int(cap_hex, 16)
+                        bit_index: dict[str, int] = {
+                            "CAP_SYS_ADMIN": 21, "CAP_SYS_PTRACE": 19,
+                            "CAP_DAC_READ_SEARCH": 2, "CAP_DAC_OVERRIDE": 1,
+                            "CAP_NET_ADMIN": 12, "CAP_NET_RAW": 13,
+                            "CAP_SYS_CHROOT": 18, "CAP_SYSLOG": 34,
+                            "CAP_SYS_MODULE": 16, "CAP_SYS_RAWIO": 17,
+                        }
+                        for cap_name, bit in bit_index.items():
+                            if cap_int & (1 << bit):
+                                found.append(f"{cap_name} ({dangerous_caps.get(cap_name, '')})")
+                        break
+            except Exception:
+                pass
+        return found
+
+    @staticmethod
+    def auto_detect_all() -> dict[str, Any]:
+        """Run comprehensive container escape auto-detection.
+
+        Combines runtime detection, environment detection, mount analysis,
+        and capability enumeration into a single report.
+
+        Returns:
+            Comprehensive assessment dict.
+        """
+        runtime = ContainerRuntimeDetector.detect_runtime()
+        env = ContainerEscapeTechniques.detect_current_environment()
+        mounts = ContainerRuntimeDetector.detect_mounts()
+        caps = ContainerRuntimeDetector.detect_dangerous_capabilities()
+
+        applicable_techniques = []
+        for tech in ContainerEscapeTechniques.ESCAPE_TECHNIQUES:
+            requires = set(tech.get("requires", []))
+            satisfied = True
+            for req in requires:
+                if req == "privileged" and not env.get("privileged"):
+                    satisfied = False
+                elif req == "docker_socket" and not env.get("docker_socket_accessible"):
+                    satisfied = False
+                elif req == "SYS_ADMIN" and not any("SYS_ADMIN" in c for c in caps):
+                    satisfied = False
+                elif req == "SYS_PTRACE" and not any("SYS_PTRACE" in c for c in caps):
+                    satisfied = False
+                elif req == "host_pid" and not env.get("host_pid_namespace"):
+                    satisfied = False
+                elif req == "k8s_sa_token" and not env.get("is_kubernetes"):
+                    satisfied = False
+            if satisfied:
+                applicable_techniques.append(tech)
+
+        escape_possible = len(applicable_techniques) > 0
+        score = len(applicable_techniques) * 20
+        if env.get("privileged"):
+            score = 100
+        elif mounts.get("docker_socket"):
+            score = 90
+        elif any("SYS_ADMIN" in c for c in caps):
+            score = max(score, 85)
+        elif mounts.get("host_filesystem"):
+            score = max(score, 60)
+
+        return {
+            "runtime": runtime,
+            "environment": env,
+            "dangerous_mounts": mounts,
+            "dangerous_capabilities": caps,
+            "applicable_techniques": applicable_techniques,
+            "escape_possible": escape_possible,
+            "escape_score": min(score, 100),
+            "assessment_summary": (
+                "CRITICAL: Immediate escape possible" if score >= 90
+                else "HIGH: Multiple escape vectors detected" if score >= 70
+                else "MEDIUM: Potential escape vectors found" if score >= 30
+                else "LOW: Limited escape opportunities detected" if score > 0
+                else "NONE: No obvious escape vectors found"
+            ),
+        }
+
+
 __all__ = [
     "DockerEnumerator",
     "K8sEnumerator",
     "ContainerEscapeTechniques",
+    "ContainerRuntimeDetector",
     "ContainerResource",
     "ContainerFinding",
 ]

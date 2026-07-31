@@ -1,0 +1,36 @@
+name: dns_exfil_server
+description: >
+  DNS exfiltration listener that receives encoded data via DNS subdomain queries.
+  Listens on UDP port 53, decodes incoming queries, and reconstructs exfiltrated
+  files. Supports A, TXT, and AAAA query encoding. Outputs files to sessions/
+  directory with SHA256 verification. MITRE: T1048 Exfiltration Over Alternative
+  Protocol.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: domain
+    type: string
+    required: true
+    description: DNS domain controlled by the operator
+  - name: port
+    type: integer
+    required: false
+    description: UDP port to listen on
+    default: 53
+  - name: output_dir
+    type: string
+    required: false
+    description: Directory for reconstructed files
+    default: sessions/dns_exfil
+os: linux
+trigger: []
+tool:
+  name: DNS Exfil Listener
+  install_path: modules/
+  lazycommand: dns_exfil_listen
+  env:
+    DOMAIN: "{domain}"
+    PORT: "{port}"
+    OUTPUT_DIR: "{output_dir}"
+category: "09. Data Exfiltration"

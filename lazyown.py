@@ -2107,6 +2107,31 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception:
             pass
 
+        try:
+            from core.credential_vault import check_dangerous_defaults
+            from core.credential_vault import seal_payload, seal_value
+            from core.config import save_payload
+            payload = load_payload()
+            warnings = check_dangerous_defaults(payload)
+            if warnings:
+                print_warn(
+                    f"\n  Security: {len(warnings)} credential(s) still use default values."
+                )
+                for w in warnings[:3]:
+                    print_warn(f"    {w}")
+                if len(warnings) > 3:
+                    print_warn(f"    ... and {len(warnings) - 3} more. Run 'configure_credentials' to fix.")
+                if "CHANGE_ME" in str(payload.get("aes_key", "")):
+                    print_msg("    AES key is default; sealing credentials now for safety.")
+                    try:
+                        sealed = seal_payload(payload)
+                        save_payload(sealed)
+                        print_msg("    Credentials sealed. Re-encrypted with fresh AES key.")
+                    except Exception:
+                        pass
+        except Exception:
+            pass
+
         if not _os.path.exists(_sentinel):
             # ── First run ────────────────────────────────────────────────────
             try:

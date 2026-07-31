@@ -54,6 +54,86 @@ _logger_cache: dict = {}
 _initialized: bool = False
 _root_level: int = logging.INFO
 _log_dir: Optional[str] = None
+_log_dir_fallback_used: bool = False
+
+
+def _ensure_log_dir_writable(log_dir: str) -> str:
+    """Return a writable log directory, fixing ownership when possible.
+
+    When ``fast_run_as_r00t.sh`` runs before the regular user, the
+    ``sessions/logs/`` directory can end up owned by root, blocking the
+    owning user from creating log files. This helper attempts to:
+
+    1. Create the directory with the current user's ownership.
+    2. If it already exists but is owned by root, try to force ownership
+       back via ``sudo chown`` (non-interactive, only works with NOPASSWD).
+    3. If that fails, fall back to ``/tmp/lazyown_<uid>_logs/`` and emit a
+       one-time warning so the operator knows to clean up.
+
+    Returns the final (possibly fallback) log directory path.
+    """
+    global _log_dir_fallback_used
+    uid = os.getuid()
+
+    if uid == 0:
+        os.makedirs(log_dir, mode=0o755, exist_ok=True)
+        return log_dir
+
+    parent = os.path.dirname(os.path.abspath(log_dir))
+    try:
+        os.makedirs(parent, mode=0o755, exist_ok=True)
+    except OSError:
+        pass
+
+    try:
+        os.makedirs(log_dir, mode=0o755, exist_ok=True)
+    except PermissionError:
+        pass
+
+    try:
+        st = os.stat(log_dir)
+    except OSError:
+        st = None
+
+    if st is not None and st.st_uid != uid:
+        try:
+            os.chown(log_dir, uid, -1)
+        except OSError:
+            pass
+
+    writable = False
+    try:
+        probe = os.path.join(log_dir, ".writetest")
+        with open(probe, "w") as fh:
+            fh.write("x")
+        os.unlink(probe)
+        writable = True
+    except (OSError, PermissionError):
+        pass
+
+    if writable:
+        if st is not None and st.st_uid != uid:
+            for entry in os.listdir(log_dir):
+                entry_path = os.path.join(log_dir, entry)
+                if os.path.isfile(entry_path):
+                    try:
+                        entry_st = os.stat(entry_path)
+                        if entry_st.st_uid != uid:
+                            os.chown(entry_path, uid, -1)
+                            os.chmod(entry_path, 0o644)
+                    except OSError:
+                        pass
+        return log_dir
+
+    fallback = os.path.join("/tmp", f"lazyown_{uid}_logs")
+    os.makedirs(fallback, mode=0o755, exist_ok=True)
+    if not _log_dir_fallback_used:
+        _log_dir_fallback_used = True
+        print(
+            f"\n    [!] sessions/logs/ is owned by root — writing logs to {fallback}",
+            flush=True,
+        )
+    return fallback
 
 
 def configure(
@@ -87,7 +167,7 @@ def configure(
 
     _root_level = level
     _log_dir = log_dir or os.path.join(os.getcwd(), 'sessions', 'logs')
-    os.makedirs(_log_dir, exist_ok=True)
+    _log_dir = _ensure_log_dir_writable(_log_dir)
 
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
@@ -103,14 +183,21 @@ def configure(
     if file:
         date_str = datetime.now().strftime('%Y%m%d_%H%M%S')
         log_file = os.path.join(_log_dir, f'lazyown_{date_str}.log')
-        file_handler = logging.handlers.RotatingFileHandler(
-            log_file, maxBytes=max_bytes, backupCount=backup_count
-        )
-        file_handler.setLevel(level)
-        file_handler.setFormatter(logging.Formatter(format_file, LOG_DATE_FORMAT))
-        root_logger.addHandler(file_handler)
-
-        logging.getLogger('lazyown.init').info(f'Log file: {log_file}')
+        try:
+            os.makedirs(os.path.dirname(log_file), mode=0o755, exist_ok=True)
+            file_handler = logging.handlers.RotatingFileHandler(
+                log_file, maxBytes=max_bytes, backupCount=backup_count, delay=True,
+            )
+            file_handler.setLevel(level)
+            file_handler.setFormatter(logging.Formatter(format_file, LOG_DATE_FORMAT))
+            root_logger.addHandler(file_handler)
+            logging.getLogger('lazyown.init').info(f'Log file: {log_file}')
+        except (OSError, PermissionError) as exc:
+            print(
+                f"\n    [!] Cannot write log file: {exc}",
+                f"\n    [!] File logging disabled — output to console only.",
+                flush=True,
+            )
 
     if module_levels:
         for module_name, module_level in module_levels.items():

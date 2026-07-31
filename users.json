@@ -24,7 +24,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 0,
+        "elo": 211,
         "tenant_id": "default"
     },
     {

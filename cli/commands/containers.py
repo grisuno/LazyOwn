@@ -328,6 +328,87 @@ class ContainerCommandSet(LazyOwnCommandSet):
 
         print_succ(f"\nCredentials written to {creds_file}")
 
+    @cmd2.with_category(CONTAINER_CATEGORY)
+    def do_container_detect(self, _line):
+        """Auto-detect container runtime and escape primitives.
+
+        Detects the container runtime (Docker, containerd, CRI-O, Podman,
+        LXC, Kubernetes, systemd-nspawn), then enumerates dangerous mounts,
+        capabilities, and applicable escape techniques.
+
+        Usage: container_detect
+        """
+        try:
+            from modules.lazyk8s import ContainerRuntimeDetector
+        except ImportError as exc:
+            print_error(f"Container module not available: {exc}")
+            return
+
+        print_msg(f"{BLUE}[*] Auto-detecting container environment...{RESET}")
+        results = ContainerRuntimeDetector.auto_detect_all()
+
+        runtime = results["runtime"]
+        env = results["environment"]
+
+        print_msg(f"{'='*70}")
+        print_msg(f"  Container Auto-Detection Report")
+        print_msg(f"{'='*70}")
+        print_msg(f"  Runtime detected   : {runtime['runtime']} (confidence: {runtime['confidence']})")
+        print_msg(f"  Indicators         : {', '.join(runtime['indicators'][:5])}")
+        if runtime.get("all_scores") and len(runtime["all_scores"]) > 1:
+            others = {k: v for k, v in runtime["all_scores"].items() if k != runtime["runtime"]}
+            if others:
+                print_msg(f"  Other runtimes     : {others}")
+
+        print_msg(f"\n  In container       : {env.get('in_container', False)}")
+        print_msg(f"  Privileged         : {env.get('privileged', False)}")
+        print_msg(f"  Host PID namespace : {env.get('host_pid_namespace', False)}")
+        print_msg(f"  Docker socket      : {env.get('docker_socket_accessible', False)}")
+        print_msg(f"  Is Kubernetes      : {env.get('is_kubernetes', False)}")
+
+        mounts = results.get("dangerous_mounts", {})
+        if mounts:
+            print_warn(f"\n{YELLOW}[!] DANGEROUS MOUNTS:{RESET}")
+            for category, entries in mounts.items():
+                for entry in entries:
+                    print_msg(f"  [{category}] {entry}")
+
+        caps = results.get("dangerous_capabilities", [])
+        if caps:
+            print_warn(f"\n{YELLOW}[!] DANGEROUS CAPABILITIES:{RESET}")
+            for cap in caps:
+                print_msg(f"  {cap}")
+
+        techniques = results.get("applicable_techniques", [])
+        if techniques:
+            print_succ(f"\n{GREEN}[+] APPLICABLE ESCAPE TECHNIQUES ({len(techniques)}):{RESET}")
+            for tech in techniques:
+                print_succ(f"  {GREEN}{tech['name']}{RESET}")
+                print_msg(f"    {tech['description']}")
+                print_msg(f"    MITRE: {tech['mitre']}")
+                print_msg(f"    Command: {tech['command']}")
+        else:
+            print_warn("\n  No applicable escape techniques automatically detected.")
+
+        print_msg(f"\n{YELLOW}Escape Score: {results['escape_score']}/100{RESET}")
+        severity_color = RED if results['escape_score'] >= 90 else YELLOW if results['escape_score'] >= 50 else RESET
+        print_msg(f"  {severity_color}{results['assessment_summary']}{RESET}")
+
+        sessions_dir = self.params.get("sessions_dir", "sessions")
+        os.makedirs(sessions_dir, exist_ok=True)
+        out_path = os.path.join(sessions_dir, "container_detect.json")
+        with open(out_path, "w") as f:
+            json.dump({
+                "runtime": results["runtime"],
+                "environment": results["environment"],
+                "mounts": {k: v for k, v in results["dangerous_mounts"].items()},
+                "capabilities": results["dangerous_capabilities"],
+                "techniques": [t["name"] for t in techniques],
+                "score": results["escape_score"],
+                "summary": results["assessment_summary"],
+            }, f, indent=2, default=str)
+        print_msg(f"\nResults saved to {out_path}")
+
 
 import json
 

@@ -1,0 +1,26 @@
+name: applocker_bypass_rundll32
+description: >
+  Bypass AppLocker/WDAC using rundll32.exe (signed Microsoft binary).
+  Executes JavaScript/VBScript from a .sct file (scriptlet) either from
+  local disk or a remote URL. Supports DLL proxying for additional stealth.
+  MITRE: T1218.011 Rundll32.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host
+  - name: lport
+    type: integer
+    required: false
+    description: Port for SCT delivery
+    default: 8080
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — Rundll32
+  install_path: modules/
+  lazycommand: applocker_rundll32
+category: "04. Evasion & Bypass"

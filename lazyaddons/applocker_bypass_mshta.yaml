@@ -1,0 +1,26 @@
+name: applocker_bypass_mshta
+description: >
+  Bypass AppLocker/WDAC using mshta.exe (Microsoft HTML Application Host).
+  Executes HTA/JavaScript payloads from local files or remote URLs.
+  mshta.exe is signed by Microsoft and commonly allowlisted.
+  MITRE: T1218.005 Mshta.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host serving the HTA payload
+  - name: lport
+    type: integer
+    required: false
+    description: Port for HTA delivery
+    default: 8080
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — mshta
+  install_path: modules/
+  lazycommand: applocker_mshta
+category: "04. Evasion & Bypass"

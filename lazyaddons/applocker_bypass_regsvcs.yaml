@@ -1,0 +1,26 @@
+name: applocker_bypass_regsvcs_regasm
+description: >
+  Bypass AppLocker via Regsvcs.exe/Regasm.exe (signed Microsoft binaries).
+  These binaries load .NET assemblies and are in the default WDAC allowlist.
+  Compile a .NET assembly and execute via Regsvcs.exe with /tlb: argument.
+  MITRE: T1218.009 Regsvcs/Regasm.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host
+  - name: lport
+    type: integer
+    required: false
+    description: Listener port
+    default: 4444
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — Regsvcs/Regasm
+  install_path: modules/
+  lazycommand: applocker_regsvcs
+category: "04. Evasion & Bypass"

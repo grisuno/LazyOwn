@@ -2868,6 +2868,21 @@ def receive_result(client_id):
                             user=_user,
                             platform=_platform,
                         )
+                        try:
+                            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
+                            get_event_bus().publish(LazyEvent(
+                                category=EventCategory.BEACON,
+                                event_type="beacon_registered",
+                                source="c2",
+                                payload={
+                                    "client_id": _cid, "ip": _ip,
+                                    "hostname": _host, "user": _user,
+                                    "platform": _platform,
+                                },
+                                target=_ip,
+                            ))
+                        except Exception:
+                            pass
                     except Exception as _exc:
                         logging.debug(f"[engagement] publish_shell_obtained failed: {_exc}")
 
@@ -3815,6 +3830,22 @@ def run_command():
             )
             return jsonify({"error": generic_error}), 500
         serializable_output = _sanitize_command_output(output)
+        try:
+            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
+            parts = command.strip().split(None, 1)
+            cmd_name = parts[0] if parts else command
+            get_event_bus().publish(LazyEvent(
+                category=EventCategory.COMMAND,
+                event_type=cmd_name,
+                source="c2_api",
+                payload={
+                    "command": command,
+                    "output_snippet": str(serializable_output)[:500],
+                },
+                target=config.rhost if hasattr(config, 'rhost') else "",
+            ))
+        except Exception:
+            pass
         return jsonify({"result": serializable_output}), 200
     except BaseException:
         logger.exception("Unhandled error in /api/run")
@@ -6385,6 +6416,13 @@ if __name__ == '__main__':
     # with the current SSL setting (avoids cached ssl=False from previous runs).
     listener_manager.remove("default")
     listener_manager.add(port=int(lport), ssl=ssl_default, listener_id='default')
+
+    try:
+        from modules.event_consumers import wire_all_consumers as _wire_consumers
+        _wire_consumers()
+        print("[c2] Event consumers wired")
+    except Exception as _ew_err:
+        print(f"[c2] Event consumers not wired: {_ew_err}")
 
     listener_manager.start_all()
 

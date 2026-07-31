@@ -260,31 +260,30 @@ def _save_leaderboard(board: dict[str, dict[str, Any]]) -> None:
 
 
 def _get_username() -> str:
-    """Get the current operator username from the ELO system.
+    """Get the current operator username from the CLI auth session.
 
     Returns:
-        Username string.
+        Username string, falling back to 'anonymous'.
     """
+    try:
+        from modules.cli_auth import get_current_operator
+
+        op = get_current_operator()
+        if op:
+            return op
+    except ImportError:
+        pass
+
     try:
         state_path = SESSIONS_DIR / "engagement_state.json"
         if state_path.exists():
             with open(state_path) as f:
                 state = json.load(f)
-            return state.get("operator", "operator")
+            return state.get("operator", "anonymous")
     except Exception:
         pass
 
-    try:
-        users_path = BASE_DIR / "users.json"
-        if users_path.exists():
-            with open(users_path) as f:
-                users = json.load(f)
-            if isinstance(users, list) and users:
-                return users[0].get("username", "operator")
-    except Exception:
-        pass
-
-    return "operator"
+    return "anonymous"
 
 
 def list_challenges() -> dict[str, dict[str, Any]]:

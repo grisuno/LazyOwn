@@ -2078,17 +2078,8 @@ class LazyOwnShell(cmd2.Cmd):
     def preloop(self):
         """Print a session-start pro tip and handle first-run setup.
 
-        First-run detection lives in ``~/.config/lazyown/onboarded`` so
-        wiping ``sessions/`` (all campaign state) never re-triggers the
-        setup wizard on a veteran operator. The legacy ``sessions/theone``
-        sentinel is honoured and migrated transparently. On a first launch
-        the shell will:
-          1. Run ``config_banner`` so the operator can customise the prompt.
-          2. Run ``wizard`` to populate the essential payload keys.
-          3. Print first-step suggestions (ping → lazynmap).
-          4. Create the onboarded sentinel so later launches skip setup.
-        Non-interactive launches (piped stdin, containers) skip the wizard
-        silently — use ``wizard --non-interactive --rhost X --lhost Y``.
+        Also attempts auto-login via remember-me token.
+        If no session exists, warns the operator to use ``login``.
         """
         import os as _os
         import sys as _sys
@@ -2106,6 +2097,15 @@ class LazyOwnShell(cmd2.Cmd):
 
         if not _os.path.exists(_sentinel) and not _sys.stdin.isatty():
             return
+
+        try:
+            from modules.cli_auth import try_auto_login
+
+            auto_result = try_auto_login()
+            if auto_result.get("success"):
+                self.operator_name = auto_result["username"]
+        except Exception:
+            pass
 
         if not _os.path.exists(_sentinel):
             # ── First run ────────────────────────────────────────────────────
@@ -2145,6 +2145,17 @@ class LazyOwnShell(cmd2.Cmd):
                 "    lazynmap      — full port + service scan\n"
                 "  Run  recommend_next  at any time for phase-aware guidance.\n"
             )
+            try:
+                from modules.cli_auth import needs_login
+
+                if needs_login():
+                    print_warn(
+                        "\n  You are not logged in. The prompt shows [anonymous].\n"
+                        "  ELO, karma, and gym progress won't be tracked until you login.\n"
+                        "  Use: login --remember <username>"
+                    )
+            except Exception:
+                pass
             # Mark as initialised so this block never runs again
             try:
                 _os.makedirs(_config_dir, exist_ok=True)
@@ -2153,6 +2164,15 @@ class LazyOwnShell(cmd2.Cmd):
                 pass
         else:
             # ── Normal session tip ───────────────────────────────────────────
+            try:
+                from modules.cli_auth import needs_login
+
+                if needs_login():
+                    print_warn(
+                        "Not logged in — prompt shows [anonymous]. Use 'login --remember <username>' to identify yourself."
+                    )
+            except Exception:
+                pass
             try:
                 enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
                 if enabled:
@@ -2167,6 +2187,32 @@ class LazyOwnShell(cmd2.Cmd):
                     _print_session_tip(ctx)
             except Exception:
                 pass
+
+    def postparsing_precmd(self, statement):
+        """Gate unauthenticated commands — anonymous operators can only
+        run ``login``, ``logout``, ``whoami``, ``help``, ``exit``, ``quit``,
+        and ``set`` until they identify themselves.
+
+        Returns:
+            The original statement to allow execution, or a statement with
+            an empty command string to block execution.
+        """
+        allowed = frozenset({"login", "logout", "whoami", "help", "exit", "quit", "set", "eof", "eos"})
+        cmd_name = (statement.command or "").lower()
+
+        if cmd_name in allowed:
+            return statement
+
+        try:
+            from modules.cli_auth import needs_login
+            if not needs_login():
+                return statement
+        except ImportError:
+            return statement
+
+        from utils import print_warn
+        print_warn("Authentication required. Use: login --remember <username>")
+        return ""
 
     def postloop(self):
         """

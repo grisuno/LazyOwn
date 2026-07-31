@@ -281,6 +281,8 @@ class RenderContext:
     public_ip: str
     battery_or_load: str
     palette: ColorPalette
+    elo: int = 0
+    karma_name: str = ""
 
 
 def _bracketed(
@@ -521,6 +523,26 @@ class VersionSegment(SegmentRenderer):
         return _middle(cfg.fallback_label_version, ctx.version, color, ctx, glyphs)
 
 
+class KarmaSegment(SegmentRenderer):
+    spec = SegmentSpec(
+        id="karma",
+        label="karma",
+        description="ELO score and karma rank (Noob → Godlike)",
+        group="top",
+        default_enabled=True,
+        order=50,
+        default_color="bright_cyan",
+    )
+
+    def render(self, ctx, cfg, color, glyphs):
+        if not ctx.karma_name and ctx.elo <= 0:
+            return ""
+        label = f"{ctx.karma_name} " if ctx.karma_name else ""
+        if ctx.elo > 0:
+            label += f"{ctx.elo}ELO"
+        return _bracketed("", label.strip(), glyphs["bullet_primary"], color, ctx, glyphs)
+
+
 class BatteryLoadSegment(SegmentRenderer):
     spec = SegmentSpec(
         id="battery_load",
@@ -574,6 +596,7 @@ def build_default_registry() -> SegmentRegistry:
         RhostSegment(),
         DomainSegment(),
         PublicIpSegment(),
+        KarmaSegment(),
         CwdSegment(),
         GitSegment(),
         VenvSegment(),
@@ -711,6 +734,7 @@ class ContextResolver:
         user = "root" if os.geteuid() == 0 else (os.getenv("USER") or cfg.fallback_user)
         hostname = socket.gethostname()
         iface_name, iface_ip = _select_iface(network, cfg.fallback_iface_ip_token)
+        elo, karma_name = self._engagement_stats()
         return RenderContext(
             user=user,
             hostname=hostname,
@@ -728,6 +752,8 @@ class ContextResolver:
             version=self._version(),
             public_ip=self._public_ip(payload),
             battery_or_load=_battery_or_load(),
+            elo=elo,
+            karma_name=karma_name,
             palette=self._palette,
         )
 
@@ -778,6 +804,27 @@ class ContextResolver:
             text = ""
         ContextResolver._version_cache = (time.time(), text)
         return text
+
+    @staticmethod
+    def _engagement_stats() -> tuple[int, str]:
+        """Read ELO and karma name from engagement_state.json.
+
+        Returns:
+            Tuple of (elo, karma_name).
+        """
+        try:
+            state_path = Path("sessions") / "engagement_state.json"
+            if state_path.exists():
+                with state_path.open("r") as fh:
+                    state = json.load(fh)
+                elo = state.get("elo", 0)
+                from cli.engagement_hooks import get_karma_name
+
+                karma = get_karma_name(elo)
+                return int(elo), karma
+        except Exception:
+            pass
+        return 0, ""
 
 
 def _read_network_info() -> dict[str, str]:

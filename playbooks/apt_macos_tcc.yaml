@@ -1,0 +1,40 @@
+apt_name: macOS TCC Bypass & Persistence
+description: macOS Transparency Consent and Control (TCC) bypass via database manipulation, LaunchDaemon persistence, and Keychain dump.
+target: ""
+phase: persist
+steps:
+  - atomic_id: T1543.001
+    technique_id: T1543.001
+    tactic: persistence
+    name: Write Malicious LaunchAgent Plist
+    description: Install a LaunchAgent for user-level persistence after reboot.
+    command: echo "[T1543.001] LaunchAgent persistence — macos_launchagent_persist"
+    platform: macos
+  - atomic_id: T1543.004
+    technique_id: T1543.004
+    tactic: persistence
+    name: Write Malicious LaunchDaemon Plist
+    description: Install a LaunchDaemon (requires root) for system-wide persistence.
+    command: echo "[T1543.004] LaunchDaemon persistence — macos_launchdaemon_persist"
+    platform: macos
+  - atomic_id: T1548.004
+    technique_id: T1548.004
+    tactic: defense_evasion
+    name: Insert TCC Database Entry
+    description: Modify TCC.db to grant arbitrary app camera/mic/Accessibility access.
+    command: echo "[T1548.004] Insert TCC database entry — macos_tcc_db_insert"
+    platform: macos
+  - atomic_id: T1555.001
+    technique_id: T1555.001
+    tactic: credential_access
+    name: Dump Login Keychain
+    description: Extract user Keychain secrets after obtaining login password.
+    command: echo "[T1555.001] Dump Login Keychain — macos_keychain_dump"
+    platform: macos
+  - atomic_id: T1113.001
+    technique_id: T1113
+    tactic: collection
+    name: Screenshot via TCC Bypass
+    description: Capture screen via TCC-bypassed session using spoofed app bundle.
+    command: echo "[T1113] Screenshot via TCC bypass — macos_screen_capture_bypass"
+    platform: macos

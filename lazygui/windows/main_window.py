@@ -104,7 +104,11 @@ class MainWindow(QMainWindow):
         """Place dock widgets in their default positions."""
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.sessions)
         self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.listeners)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.killchain)
+        self.addDockWidget(Qt.DockWidgetArea.LeftDockWidgetArea, self._panels.credentials)
         self.tabifyDockWidget(self._panels.sessions, self._panels.listeners)
+        self.tabifyDockWidget(self._panels.listeners, self._panels.killchain)
+        self.tabifyDockWidget(self._panels.killchain, self._panels.credentials)
         self._panels.sessions.raise_()
         self.addDockWidget(Qt.DockWidgetArea.RightDockWidgetArea, self._panels.terminal)
         self.addDockWidget(Qt.DockWidgetArea.BottomDockWidgetArea, self._panels.event_log_panel)
@@ -198,6 +202,8 @@ class MainWindow(QMainWindow):
             (self._constants.keys.toggle_sessions_panel, self._panels.sessions),
             (self._constants.keys.toggle_listeners_panel, self._panels.listeners),
             (self._constants.keys.toggle_event_log_panel, self._panels.event_log_panel),
+            (self._constants.keys.toggle_killchain_panel, self._panels.killchain),
+            (self._constants.keys.toggle_credentials_panel, self._panels.credentials),
         ):
             action = QAction(self)
             action.setShortcut(QKeySequence(shortcut))

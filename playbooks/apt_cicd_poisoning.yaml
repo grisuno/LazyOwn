@@ -1,0 +1,47 @@
+apt_name: CI/CD Pipeline Poisoning
+description: Compromise of CI/CD pipelines (GitHub Actions, GitLab CI, Jenkins, ArgoCD) to inject malicious code and steal secrets.
+target: ""
+phase: exploit
+steps:
+  - atomic_id: T1195.001
+    technique_id: T1195.001
+    tactic: initial_access
+    name: Dependency Confusion Attack
+    description: Inject malicious package into private registry consumed by CI pipeline.
+    command: echo "[T1195.001] Dependency confusion attack — supply_chain_dependency_confusion"
+    platform: linux
+  - atomic_id: T1578.003
+    technique_id: T1578.003
+    tactic: initial_access
+    name: Backdoor Terraform State
+    description: Modify Terraform state files or build caches to inject backdoors.
+    command: echo "[T1578.003] Backdoor Terraform state — terraform_state_backdoor"
+    platform: linux
+  - atomic_id: T1053.007
+    technique_id: T1053.007
+    tactic: execution
+    name: Malicious Pipeline Workflow
+    description: Submit poisoned GitHub Actions workflow or Jenkins pipeline script.
+    command: echo "[T1053.007] Malicious pipeline workflow — github_actions_poison"
+    platform: linux
+  - atomic_id: T1552.004
+    technique_id: T1552.004
+    tactic: credential_access
+    name: Dump CI/CD Environment Secrets
+    description: Extract secrets from pipeline env vars, Vault, or K8s secrets.
+    command: echo "[T1552.004] Dump CI/CD secrets — cicd_secret_dump; k8s_secret_dump"
+    platform: linux
+  - atomic_id: T1613.001
+    technique_id: T1613
+    tactic: lateral_movement
+    name: Deploy Privileged Pod via Build Account
+    description: Pivot from compromised CI runner to production Kubernetes cluster.
+    command: echo "[T1613] Deploy privileged pod — k8s_deploy_priv_pod"
+    platform: linux
+  - atomic_id: T1070.008
+    technique_id: T1070.008
+    tactic: defense_evasion
+    name: Force-Push to Wipe Evidence
+    description: Squash commit history or delete pipeline run logs to hide tracks.
+    command: echo "[T1070.008] Wipe CI history — git_history_wipe"
+    platform: linux

@@ -1,0 +1,72 @@
+name: audit
+# Runs pip-audit on every push to detect known vulnerabilities in dependencies.
+# Runs detect-secrets to prevent credential leaks.
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  schedule:
+    - cron: "0 6 * * 1"  # every Monday at 06:00 UTC
+
+permissions:
+  contents: read
+
+jobs:
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          pip install pip-audit
+          pip install -e .
+      - name: Audit dependencies
+        run: pip-audit --strict
+
+  detect-secrets:
+    name: detect-secrets
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: Install detect-secrets
+        run: pip install detect-secrets
+      - name: Scan for secrets
+        run: detect-secrets scan --all-files --exclude-files '\.secrets\.baseline' --exclude-files 'payload\.json' --exclude-files '\.env\.example'
+
+  version-check:
+    name: version check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify version.json matches pyproject.toml
+        run: |
+          pip install tomli 2>/dev/null || pip install tomli
+          PYPROJECT_VERSION=$(python3 -c "
+          import sys
+          if sys.version_info >= (3,11):
+              import tomllib
+          else:
+              import tomli as tomllib
+          with open('pyproject.toml','rb') as f:
+              print(tomllib.load(f)['project']['version'])
+          ")
+          JSON_VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['version'])")
+          echo "pyproject.toml: $PYPROJECT_VERSION"
+          echo "version.json:   $JSON_VERSION"
+          if [ "$PYPROJECT_VERSION" != "$JSON_VERSION" ]; then
+            echo "ERROR: version mismatch between pyproject.toml ($PYPROJECT_VERSION) and version.json ($JSON_VERSION)"
+            exit 1
+          fi
+          echo "Version check passed."

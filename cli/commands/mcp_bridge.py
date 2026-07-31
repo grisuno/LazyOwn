@@ -411,11 +411,17 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             return
 
         pb_path = (args.path or "").strip()
+        PLAYS_DIR = Path("playbooks")
         if pb_path:
             pb_file = Path(pb_path)
+            if not pb_file.exists() and PLAYS_DIR.is_dir():
+                alt = PLAYS_DIR / pb_file.name
+                if alt.exists():
+                    pb_file = alt
         else:
             candidates = sorted(
-                Path(SESSIONS_DIR).glob(PLAYBOOK_GLOB),
+                list(Path(SESSIONS_DIR).glob(PLAYBOOK_GLOB))
+                + list(PLAYS_DIR.glob("apt_*.yaml")),
                 key=lambda p: p.stat().st_mtime,
                 reverse=True,
             )
@@ -440,7 +446,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             effective = host or target
             cmd = command.replace("{target}", effective) if effective else command
             if shell is not None:
-                shell.onecmd(cmd)
+                shell.cmd(cmd)
             return ""
 
         try:

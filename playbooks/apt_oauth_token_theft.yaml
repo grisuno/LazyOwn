@@ -1,0 +1,47 @@
+apt_name: OAuth Token Theft & Consent Phishing
+description: OAuth 2.0 token theft, illicit consent grants, and cross-tenant token replay against Microsoft 365, Google Workspace, and Okta.
+target: ""
+phase: cred
+steps:
+  - atomic_id: T1566.002
+    technique_id: T1566.002
+    tactic: initial_access
+    name: Craft Illicit Consent URL
+    description: Phish users into granting broad OAuth scopes to a malicious app.
+    command: echo "[T1566.002] Illicit consent phishing — oauth_consent_phish_url --scopes Mail.Read Files.ReadWrite.All"
+    platform: office-365
+  - atomic_id: T1528.001
+    technique_id: T1528
+    tactic: credential_access
+    name: Dump Browser Refresh Tokens
+    description: Extract OAuth refresh tokens from browser storage or Electron apps.
+    command: echo "[T1528] Dump OAuth refresh tokens — oauth_token_dump_browser"
+    platform: office-365
+  - atomic_id: T1098.003
+    technique_id: T1098.003
+    tactic: persistence
+    name: Add Client Secret to Existing App
+    description: Add a new client secret to an existing app for persistent access.
+    command: echo "[T1098.003] Add secret to existing app — oauth_add_app_secret"
+    platform: office-365
+  - atomic_id: T1534.001
+    technique_id: T1534
+    tactic: lateral_movement
+    name: Cross-Tenant Token Replay
+    description: Replay refresh token across tenants where user has guest access.
+    command: echo "[T1534] Cross-tenant token replay — oauth_cross_tenant_replay"
+    platform: office-365
+  - atomic_id: T1114.001
+    technique_id: T1114
+    tactic: collection
+    name: Exfiltrate Mail via Graph API
+    description: Use Mail.Read scope to read and forward email from compromised mailbox.
+    command: echo "[T1114] Exfiltrate mail via Graph API — oauth_mail_exfil"
+    platform: office-365
+  - atomic_id: T1070.001
+    technique_id: T1070
+    tactic: defense_evasion
+    name: Delete Malicious App Registration
+    description: Remove the malicious app and its OAuth grants to erase evidence.
+    command: echo "[T1070] Delete malicious app — oauth_delete_app_registration"
+    platform: office-365

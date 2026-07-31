@@ -40,6 +40,7 @@ class TimingConstants:
     statusbar_clock_interval_ms: int = 1_000
     toast_duration_ms: int = 4_000
     fuzzy_debounce_ms: int = 60
+    panel_refresh_interval_ms: int = 5_000
 
 
 @dataclass(frozen=True, slots=True)
@@ -107,6 +108,8 @@ class KeybindingConstants:
     toggle_sessions_panel: str = "Ctrl+1"
     toggle_listeners_panel: str = "Ctrl+2"
     toggle_event_log_panel: str = "Ctrl+3"
+    toggle_killchain_panel: str = "Ctrl+4"
+    toggle_credentials_panel: str = "Ctrl+5"
     toggle_terminal_focus: str = "Ctrl+`"
     quit_application: str = "Ctrl+Q"
     refresh_data: str = "F5"
@@ -162,10 +165,14 @@ class PanelConstants:
     listeners_id: str = "panel.listeners"
     event_log_id: str = "panel.event_log"
     terminal_id: str = "panel.terminal"
+    killchain_panel_id: str = "panel.killchain"
+    credentials_panel_id: str = "panel.credentials"
     sessions_label: str = "Sessions"
     listeners_label: str = "Listeners"
     event_log_label: str = "Event Log"
     terminal_label: str = "Console"
+    killchain_label: str = "Kill-Chain"
+    credentials_label: str = "Credentials"
 
 
 @dataclass(frozen=True, slots=True)
@@ -210,4 +217,6 @@ class AppConstants:
             self.panel.listeners_id: self.panel.listeners_label,
             self.panel.event_log_id: self.panel.event_log_label,
             self.panel.terminal_id: self.panel.terminal_label,
+            self.panel.killchain_panel_id: self.panel.killchain_label,
+            self.panel.credentials_panel_id: self.panel.credentials_label,
         }

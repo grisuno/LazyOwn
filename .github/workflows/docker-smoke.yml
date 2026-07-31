@@ -1,0 +1,23 @@
+name: docker-build
+# Build the Docker image on every push to main/dev to ensure containerization
+# does not regress. Does not push to a registry.
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: docker build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t lazyown:ci .
+      - name: Smoke test
+        run: docker run --rm lazyown:ci python -c "from utils import version; print(f'LazyOwn {version}')"

@@ -1,0 +1,47 @@
+apt_name: Entra ID Connect & Federation Attacks
+description: Compromise of Entra ID Connect (Azure AD Connect) servers for directory synchronization backdoors and Golden SAML federation attacks.
+target: ""
+phase: cred
+steps:
+  - atomic_id: T1087.002
+    technique_id: T1087.002
+    tactic: discovery
+    name: Locate AADC Server via AD
+    description: Find Entra ID Connect server through AD attributes and SCP enumeration.
+    command: echo "[T1087.002] Locate AADC server — aadc_discover_server"
+    platform: windows
+  - atomic_id: T1552.004
+    technique_id: T1552.004
+    tactic: credential_access
+    name: Extract MSOL Password from SQL LocalDB
+    description: Dump the MSOL sync account password from AADC local database.
+    command: echo "[T1552.004] Extract MSOL password from SQL LocalDB — aadc_extract_msol_password"
+    platform: windows
+  - atomic_id: T1606.001
+    technique_id: T1606.001
+    tactic: persistence
+    name: Add Custom Sync Rule for Shadow Account
+    description: Modify sync rules to add attacker-controlled attributes to Entra ID.
+    command: echo "[T1606.001] Add custom sync rule — aadc_add_sync_rule"
+    platform: windows
+  - atomic_id: T1606.002
+    technique_id: T1606.002
+    tactic: credential_access
+    name: Extract Seamless SSO Kerberos Key
+    description: Extract AZUREADSSOACC computer account key to forge SSO tickets.
+    command: echo "[T1606.002] Extract Seamless SSO key — aadc_seamless_sso_key"
+    platform: windows
+  - atomic_id: T1556.007
+    technique_id: T1556.007
+    tactic: defense_evasion
+    name: Golden SAML via Federation Trust
+    description: Steal token-signing cert from ADFS server to forge SAML assertions.
+    command: echo "[T1556.007] Golden SAML export — aadc_golden_saml_export"
+    platform: windows
+  - atomic_id: T1021.002
+    technique_id: T1021.002
+    tactic: lateral_movement
+    name: Intercept PTA Credentials
+    description: Hook Pass-Through Authentication agent to intercept clear-text passwords.
+    command: echo "[T1021.002] Intercept PTA traffic — aadc_pta_intercept"
+    platform: windows

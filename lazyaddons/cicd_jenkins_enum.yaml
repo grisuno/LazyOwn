@@ -1,0 +1,25 @@
+name: cicd_jenkins_enum
+description: >
+  Jenkins CI/CD enumeration and credential extraction. Checks for unauthenticated
+  script console access, exposed credential stores, build agent secrets,
+  pipeline script extraction, and known CVE verification. Generates a
+  comprehensive attack matrix for Jenkins exploitation. MITRE: T1190 Exploit
+  Public-Facing Application, T1552 Unsecured Credentials, T1213 Data from
+  Information Repositories.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: Jenkins base URL (e.g., http://jenkins.target.com:8080)
+os: any
+trigger: []
+tool:
+  name: CI/CD — Jenkins Enum
+  install_path: modules/
+  lazycommand: jenkins_enum
+  env:
+    URL: "{url}"
+category: "20. CI/CD Pipeline Attacks"

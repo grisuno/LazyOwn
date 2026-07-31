@@ -1,0 +1,25 @@
+name: applocker_bypass_msbuild
+description: >
+  Bypass AppLocker/WDAC by abusing MSBuild.exe (signed Microsoft binary)
+  to compile and execute inline C# code. MSBuild is in the default WDAC
+  allowlist on most Windows 10/11 and Server builds. MITRE: T1127.001 MSBuild.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host
+  - name: lport
+    type: integer
+    required: false
+    description: Listener port
+    default: 4444
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — MSBuild
+  install_path: modules/
+  lazycommand: applocker_msbuild
+category: "04. Evasion & Bypass"

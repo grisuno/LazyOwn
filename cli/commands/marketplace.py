@@ -13,6 +13,11 @@ from pathlib import Path
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from cli.marketplace_config import (
+    AddonRegistry,
+    configure_marketplace_interactive,
+    marketplace_summary,
+)
 from modules.module_registry import ModuleRegistry
 from utils import (
     miscellaneous_category,
@@ -89,15 +94,17 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             marketplace install <name> — install a plugin by name
             marketplace update         — refresh community plugin index
             marketplace info <name>    — show details about a plugin
+            marketplace config         — interactive enable/disable wizard
 
         Examples:
             marketplace list
             marketplace search c2
             marketplace install phantom2
+            marketplace config
         """
         args = line.strip().split()
         if not args:
-            print_msg("Usage: marketplace [list|search|install|update|info] [name]")
+            print_msg("Usage: marketplace [list|search|install|update|info|config] [name]")
             print_msg("Try: marketplace list")
             return
 
@@ -123,8 +130,10 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
                 print_error("Specify a plugin name. Try: marketplace list")
                 return
             self._mp_info(name)
+        elif action == "config":
+            self._mp_interactive_config()
         else:
-            print_error(f"Unknown action: {action}. Use list, search, install, update, or info.")
+            print_error(f"Unknown action: {action}. Use list, search, install, update, info, or config.")
 
     def _mp_list(self):
         """Display installed plugins grouped by category."""
@@ -205,17 +214,17 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         except Exception:
             pass
 
-        MARKEPLACE_CACHE.mkdir(parents=True, exist_ok=True)
+        MARKETPLACE_CACHE.mkdir(parents=True, exist_ok=True)
 
-        if not (MARKEPLACE_CACHE / "community").exists():
+        if not (MARKETPLACE_CACHE / "community").exists():
             print_msg("Pulling community plugin index ...")
-            ok = _safe_git_clone(COMMUNITY_REPO, MARKEPLACE_CACHE / "community")
+            ok = _safe_git_clone(COMMUNITY_REPO, MARKETPLACE_CACHE / "community")
             if not ok:
                 print_error("Failed to fetch community index. Check your network.")
                 print_error(f"Repo: {COMMUNITY_REPO}")
                 return
 
-        community_dir = MARKEPLACE_CACHE / "community"
+        community_dir = MARKETPLACE_CACHE / "community"
 
         for src, dest_dir, ext in [
             ("lazyaddons", LAZYADDONS_DIR, ".yaml"),
@@ -244,9 +253,9 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
 
     def _mp_update(self):
         """Refresh the community plugin index."""
-        MARKEPLACE_CACHE.mkdir(parents=True, exist_ok=True)
+        MARKETPLACE_CACHE.mkdir(parents=True, exist_ok=True)
 
-        community_path = MARKEPLACE_CACHE / "community"
+        community_path = MARKETPLACE_CACHE / "community"
         if community_path.exists():
             print_msg("Updating community plugin index ...")
             try:
@@ -308,3 +317,75 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         if not found:
             print_error(f"Plugin '{name}' is not installed.")
             print_msg("Use: marketplace search <name>")
+
+    def _mp_interactive_config(self):
+        """Launch the interactive marketplace configurator (curses TUI)."""
+        result = configure_marketplace_interactive()
+        if result is None:
+            print_warn("marketplace configuration cancelled, no changes made")
+            return
+        enabled_count = sum(len(v) for v in result.enabled.values())
+        total = sum(1 for tab in ("lazyaddons", "plugins", "tools") for _ in result.enabled.get(tab, set()))
+        print_msg(f"marketplace config saved: {enabled_count}/{total} addons enabled")
+        print_msg(marketplace_summary())
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_marketplace_config(self, line):
+        """Interactive marketplace manager (curses TUI).
+
+        Opens a Powerlevel10k-style wizard to browse, enable/disable,
+        edit (``e``), and create (``c``) lazyaddons, plugins, and tools.
+
+        Usage:
+            marketplace_config            — open the interactive wizard
+            marketplace_config show       — print a text summary
+            marketplace_config enable <n> — enable a plugin by name
+            marketplace_config disable <n> — disable a plugin by name
+
+        The wizard mirrors ``config_banner``: Arrow keys move, Space
+        toggles, ``a``/``n`` enable/disable all, ``e`` edits in $EDITOR,
+        ``c`` creates a new lazyaddon from template, Enter saves, Escape
+        cancels.
+        """
+        args = (line or "").strip().split()
+        action = args[0].lower() if args else ""
+
+        if action in {"show", "list", "status"}:
+            print_msg(marketplace_summary())
+            return
+
+        if action == "enable" and len(args) > 1:
+            self._mp_toggle_addon(args[1], True)
+            return
+
+        if action == "disable" and len(args) > 1:
+            self._mp_toggle_addon(args[1], False)
+            return
+
+        if action in {"enable", "disable"} and len(args) == 1:
+            print_error("Specify an addon name. Try: marketplace_config show")
+            return
+
+        if action and action not in {"show", "list", "status"}:
+            print_msg(f"Opening wizard directly. Use 'marketplace_config show' for a text summary.")
+            print_msg(f"Use 'marketplace_config enable/disable <name>' for quick toggles.")
+
+        self._mp_interactive_config()
+
+    def _mp_toggle_addon(self, name: str, enable_state: bool):
+        """Enable or disable an addon by name across all directories."""
+        registry = AddonRegistry()
+        found = False
+        for tab in ("lazyaddons", "plugins", "tools"):
+            for addon in registry.scan(tab):
+                if addon.name == name:
+                    if addon.enabled != enable_state:
+                        addon.set_enabled(enable_state)
+                    state = "enabled" if enable_state else "disabled"
+                    print_msg(f"'{name}': {state}")
+                    found = True
+                    break
+            if found:
+                break
+        if not found:
+            print_error(f"Addon '{name}' not found. Try: marketplace list")

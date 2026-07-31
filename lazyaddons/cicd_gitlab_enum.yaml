@@ -1,0 +1,25 @@
+name: cicd_gitlab_enum
+description: >
+  GitLab CI/CD enumeration and runner token extraction. Checks for public
+  project API exposure, CI lint API for YAML injection, runner registration
+  token leakage, GraphQL endpoint accessibility, and .gitlab-ci.yml exposure.
+  Also scans for hardcoded CI/CD variables and credential leakage in pipeline
+  definitions. MITRE: T1552 Unsecured Credentials, T1190 Exploit Public-Facing
+  Application, T1548 Abuse Elevation Control Mechanism.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: url
+    type: string
+    required: true
+    description: GitLab base URL (e.g., https://gitlab.target.com)
+os: any
+trigger: []
+tool:
+  name: CI/CD — GitLab Enum
+  install_path: modules/
+  lazycommand: gitlab_enum
+  env:
+    URL: "{url}"
+category: "20. CI/CD Pipeline Attacks"

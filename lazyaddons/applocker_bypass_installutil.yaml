@@ -1,0 +1,26 @@
+name: applocker_bypass_installutil
+description: >
+  Bypass AppLocker/Device Guard by abusing InstallUtil.exe (signed Microsoft
+  binary) to execute unsigned .NET assemblies. InstallUtil is in the default
+  AppLocker allowlist. Compile a .NET assembly with the required Installer
+  class and execute. MITRE: T1218.004 InstallUtil.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: false
+    description: Attacker host for reverse shell callback
+  - name: lport
+    type: integer
+    required: false
+    description: Listener port
+    default: 4444
+os: windows
+trigger: []
+tool:
+  name: AppLocker Bypass — InstallUtil
+  install_path: modules/
+  lazycommand: applocker_installutil
+category: "04. Evasion & Bypass"

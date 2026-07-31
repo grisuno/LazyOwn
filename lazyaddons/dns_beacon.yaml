@@ -1,0 +1,40 @@
+name: dns_beacon
+description: >
+  DNS tunneling beacon for covert C2 communication. Uses A/AAAA/TXT record
+  queries to encode heartbeats, commands, and results. Ideal for environments
+  where only DNS egress is permitted. Supports base32/base64/hex encoding with
+  configurable jitter and sleep intervals. MITRE: T1572 Protocol Tunneling,
+  T1048 Exfiltration Over Alternative Protocol.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: domain
+    type: string
+    required: true
+    description: DNS domain controlled by the operator for C2
+  - name: dns_type
+    type: string
+    required: false
+    description: DNS record type (A, TXT, AAAA)
+    default: A
+  - name: sleep
+    type: integer
+    required: false
+    description: Sleep interval between check-ins (seconds)
+    default: 5
+  - name: jitter
+    type: integer
+    required: false
+    description: Jitter percentage for sleep randomization
+    default: 30
+os: any
+trigger: []
+tool:
+  name: DNS Beacon
+  install_path: modules/
+  lazycommand: dns_beacon
+  env:
+    DOMAIN: "{domain}"
+    DNS_TYPE: "{dns_type}"
+category: "10. Command & Control"

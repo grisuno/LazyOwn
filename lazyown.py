@@ -87,6 +87,10 @@ from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
 from modules.db import LazyOwnDB as _LazyOwnDB
+from modules.event_bus import EventCategory as _EventCategory
+from modules.event_bus import EventSeverity as _EventSeverity
+from modules.event_bus import LazyEvent as _LazyEvent
+from modules.event_bus import get_event_bus as _get_event_bus
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.logging_config import configure as _configure_logging
 from modules.metrics import get_recorder as _get_metrics_recorder
@@ -667,6 +671,11 @@ class LazyOwnShell(cmd2.Cmd):
             self._register_ux_settables()
         except Exception as exc:
             print_warn(f"ux settables not registered: {exc}")
+        try:
+            from modules.event_consumers import wire_all_consumers as _wire_consumers
+            _wire_consumers()
+        except Exception as exc:
+            print_warn(f"event consumers not wired: {exc}")
 
     def _register_ux_settables(self) -> None:
         """Expose the new UX flags through cmd2's ``set`` command.
@@ -1198,6 +1207,17 @@ class LazyOwnShell(cmd2.Cmd):
             duration_ms=duration_ms,
         )
         self.onecmd("rrhost")
+        try:
+            rhost = self.params.get("rhost", "")
+            _get_event_bus().publish(_LazyEvent(
+                category=_EventCategory.COMMAND,
+                event_type=cmd_name,
+                source="cli",
+                payload={"command": command, "args": cmd_args, "duration_ms": duration_ms},
+                target=rhost,
+            ))
+        except Exception:
+            pass
 
     def cmd(self, line):
         """
@@ -1258,6 +1278,22 @@ class LazyOwnShell(cmd2.Cmd):
             )
         except Exception as exc:
             print_warn(f"metrics record failed: {exc}")
+        try:
+            rhost = self.params.get("rhost", "")
+            _get_event_bus().publish(_LazyEvent(
+                category=_EventCategory.COMMAND,
+                event_type=cmd_name,
+                source="cli",
+                payload={
+                    "command": command, "args": cmd_args,
+                    "duration_ms": duration_ms, "exit_code": exit_code,
+                    "output_snippet": self.output[:500] if self.output else "",
+                },
+                target=rhost,
+                severity=_EventSeverity.INFO if exit_code == 0 else _EventSeverity.WARNING,
+            ))
+        except Exception:
+            pass
         return
 
     def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None):
@@ -4457,6 +4493,89 @@ class LazyOwnShell(cmd2.Cmd):
                 subprocess.Popen(['xclip', '-selection', 'clipboard'], stdin=subprocess.PIPE).communicate(input=cmd.encode())
                 print_msg(f"Command copied: {cmd}")
             print_warn("Execution cancelled.")
+
+    @cmd2.with_category("Event Bus")
+    def do_event_log(self, line: str) -> None:
+        """Show recent EventBus events. Usage: event_log [N] [category]"""
+        args = line.strip().split()
+        n = 20
+        category = None
+        for a in args:
+            if a.isdigit():
+                n = int(a)
+            else:
+                category = a
+        try:
+            from modules.event_bus import EventCategory, get_event_bus
+            bus = get_event_bus()
+            if category:
+                events = bus.history(n, EventCategory(category))
+            else:
+                events = bus.history(n)
+            print_msg(f"{'='*70}")
+            print_msg(f"  EventBus Log (last {len(events)})")
+            print_msg(f"{'='*70}")
+            for ev in events:
+                ts = ev.ts if hasattr(ev, 'ts') else ''
+                ts_str = time.strftime('%H:%M:%S', time.localtime(ts)) if ts else ''
+                print_msg(f"  [{ts_str}] [{ev.category.value}] {ev.event_type} from {ev.source} target={ev.target}")
+            print_msg(f"{'='*70}")
+        except Exception as e:
+            print_error(f"event_log failed: {e}")
+
+    @cmd2.with_category("State Manager")
+    def do_state_snapshot(self, line: str) -> None:
+        """Show unified StateManager snapshot (DB + JSON caches)."""
+        try:
+            from modules.state_manager import get_state_manager
+            sm = get_state_manager()
+            snap = sm.session_snapshot()
+            print_msg(f"{'='*60}")
+            print_msg(f"  Campaign Snapshot")
+            print_msg(f"{'='*60}")
+            print_msg(f"  Phase:  {snap.phase}")
+            print_msg(f"  Target: {snap.active_target}")
+            print_msg(f"  LHOST:  {snap.lhost}")
+            print_msg(f"  Domain: {snap.domain}")
+            print_msg(f"  Hosts:  {snap.total_hosts} | Services: {snap.total_services} | Vulns: {snap.total_vulns} | Creds: {snap.total_creds}")
+            print_msg(f"  Pending objectives: {snap.pending_objectives}")
+            if snap.hosts:
+                print_msg(f"  --- Hosts ---")
+                for h in snap.hosts:
+                    print_msg(f"    {h.address} [{h.state}] {h.hostname} ({h.os}) svc={h.services_count} creds={h.creds_count} vulns={h.vulns_count}")
+            if snap.credentials:
+                print_msg(f"  --- Credentials ({len(snap.credentials)}) ---")
+                for c in snap.credentials[:10]:
+                    print_msg(f"    {c.get('username','')}@{c.get('host','')} [{c.get('type','')}] via {c.get('origin','')}")
+            if snap.vulnerabilities:
+                print_msg(f"  --- Vulnerabilities ({len(snap.vulnerabilities)}) ---")
+                for v in snap.vulnerabilities[:10]:
+                    print_msg(f"    {v.get('name','')} [{v.get('severity','')}] on {v.get('host','')}")
+            print_msg(f"{'='*60}")
+        except Exception as e:
+            print_error(f"state_snapshot failed: {e}")
+
+    @cmd2.with_category("Unified Bridge")
+    def do_route(self, line: str) -> None:
+        """Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>"""
+        if not line.strip():
+            print_warn("Usage: route <natural language prompt>")
+            return
+        try:
+            from modules.unified_bridge import UnifiedBridge
+            bridge = UnifiedBridge.get()
+            result = bridge.route(line.strip())
+            print_msg(f"{'='*50}")
+            print_msg(f"  Prompt:     {result.prompt}")
+            print_msg(f"  Tool:       {result.tool}")
+            print_msg(f"  Command:    {result.command}")
+            print_msg(f"  Backend:    {result.backend}")
+            print_msg(f"  Confidence: {result.confidence:.2f}")
+            print_msg(f"  Phase:      {result.phase}")
+            print_msg(f"  Error:      {result.error}")
+            print_msg(f"{'='*50}")
+        except Exception as e:
+            print_error(f"route failed: {e}")
 
 
 def main():

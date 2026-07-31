@@ -3419,6 +3419,13 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
     ).isoformat()
     _write_status()
 
+    try:
+        from modules.event_consumers import wire_all_consumers as _wire_consumers
+        _wire_consumers()
+        log.info("Event consumers wired for autonomous daemon")
+    except Exception:
+        pass
+
     loop = asyncio.get_event_loop()
 
     _emit("DAEMON_START", {

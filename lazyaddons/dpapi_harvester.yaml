@@ -1,0 +1,27 @@
+name: dpapi_harvester
+description: >
+  DPAPI credential harvester and decryption engine. Extracts master keys,
+  decrypts Credential Manager entries, harvests Chrome/Edge saved passwords
+  and cookies, recovers Wi-Fi WPA2 keys, parses RDP credential cache, and
+  enumerates Windows Vault entries. Supports local Windows execution (ctypes
+  CryptUnprotectData) and remote extraction via dploot integration.
+  MITRE: T1555.003 Credentials from Web Browsers, T1555.004 Windows Credential
+  Manager, T1003.001 LSASS Memory, T1539 Steal Web Session Cookie.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: sessions_dir
+    type: string
+    required: false
+    description: Output directory for harvested credentials
+    default: sessions
+os: windows
+trigger: []
+tool:
+  name: DPAPI Harvester
+  install_path: modules/
+  lazycommand: dpapi_harvest
+  env:
+    SESSIONS_DIR: "{sessions_dir}"
+category: "09. Data Exfiltration"

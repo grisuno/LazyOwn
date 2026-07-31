@@ -1,0 +1,36 @@
+name: edr_detector
+description: >
+  Comprehensive EDR/AV detection module. Fingerprints 17 security products
+  including CrowdStrike, Defender, SentinelOne, Carbon Black, Cylance, McAfee,
+  Symantec, Trend Micro, Sophos, Elastic, Cortex XDR, Bitdefender, Kaspersky,
+  ESET, Malwarebytes, FireEye, and FortiEDR. Generates tailored bypass
+  recommendations based on detected products. Supports local and remote
+  (WMI/SMB/WinRM) detection modes. MITRE: T1518.001 Security Software Discovery.
+author: LazyOwn Team
+version: '0.1.0'
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: false
+    description: Target IP for remote detection
+  - name: remote_type
+    type: string
+    required: false
+    description: Remote execution method (wmi, smb, winrm, ssh)
+    default: wmi
+  - name: output
+    type: string
+    required: false
+    description: Output file for detection results
+    default: sessions/edr_profile.json
+os: any
+trigger: []
+tool:
+  name: EDR Detector
+  install_path: modules/
+  lazycommand: edr_detect
+  env:
+    RHOST: "{rhost}"
+    OUTPUT: "{output}"
+category: "02. Scanning & Enumeration"

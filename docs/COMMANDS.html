@@ -241,6 +241,30 @@ the class by attempting to find a corresponding method. If the command
 or alias is not found, it prints an error message.</p>
 <p>:param line: The command or alias to be handled. :type line: str
 :return: None</p>
+<h2 id="scripts">scripts</h2>
+<p>Auto-discovered list of runnable script names.</p>
+<p>Dynamically scans the shell for <code>run_&lt;name&gt;</code>
+methods, excluding internal plumbing helpers (<code>run_script</code>,
+<code>run_command</code>). The result is cached until the next shell
+restart.</p>
+<p>Returns: List of script name strings available via
+<code>run &lt;name&gt;</code>.</p>
+<h2 id="set">set</h2>
+<p>Set a parameter — the unified <code>set</code>/<code>assign</code>
+surface.</p>
+<p>Registered UX settables (<code>ui_hints</code>,
+<code>tui_theme</code>, <code>enable_toasts</code>…) keep native cmd2
+semantics. Any other key delegates to <code>assign</code> so
+documentation and muscle memory that predate the split
+(<code>set rhost 10.10.10.10</code>) work again. With a single unknown
+key and no value, prints the current value.</p>
+<h2 id="ui_hints_level">_ui_hints_level</h2>
+<p>Return the ambient coaching level: <code>on</code>,
+<code>minimal</code> or <code>off</code>.</p>
+<p><code>off</code> suppresses every post-command coaching surface
+(toasts, inline hints, protips, autosuggest and engagement flavour);
+<code>minimal</code> keeps only the autosuggest accelerator. Any unset
+or unknown value means full <code>on</code>.</p>
 <h2 id="toast_hook">_toast_hook</h2>
 <p>Post-command hook that prints unseen JSONL events as toast lines.</p>
 <p>Reads the <code>enable_toasts</code> flag from
@@ -251,55 +275,29 @@ the shell.</p>
 <p>Args: data: cmd2 PostcommandData containing the executed
 statement.</p>
 <p>Returns: <code>data</code> unchanged.</p>
-<h2 id="inline_hint_hook">_inline_hint_hook</h2>
-<p>Post-command hook that prints a dim next-step hint line.</p>
-<p>Registered via <code>register_postcmd_hook</code> during
-<code>__init__</code>. Reads the <code>enable_inline_hints</code> flag
-from <code>self.params</code> (default True) so the operator can disable
-hints with <code>set enable_inline_hints false</code> without restarting
-the shell.</p>
+<h2 id="unified_tips_hook">_unified_tips_hook</h2>
+<p>Unified post-command hook: hints + protips + curiosity + autosuggest
++ ELO + VRI.</p>
+<p>Replaces the five fragmented hooks (inline hints, engagement,
+autosuggest, toasts, recording) with a single coordination point via
+:class:<code>cli.tips_engine.TipsEngine</code>.</p>
 <p>Args: data: cmd2 PostcommandData containing the executed
 statement.</p>
-<p>Returns: data unchanged — the hook must return PostcommandData.</p>
+<p>Returns: data unchanged.</p>
+<h2 id="run_auto_decrypt">_run_auto_decrypt</h2>
+<p>Decrypt session data automatically on authenticated startup.</p>
+<h2 id="run_auto_encrypt">_run_auto_encrypt</h2>
+<p>Encrypt session data automatically on application close.</p>
 <h2
 id="read_recent_commands_for_autosuggest">_read_recent_commands_for_autosuggest</h2>
 <p>Return the last <code>limit</code> first-tokens from the session
 transcript.</p>
-<p>The transcript lives at
-<code>sessions/LazyOwn_session_report.csv</code>. Newest entries appear
-last in the returned list.</p>
 <p>Args: limit: Maximum number of distinct command names to return.</p>
 <p>Returns: A list of command first-tokens. Empty when the file is
-absent or unreadable.</p>
+absent.</p>
 <h2 id="refresh_autosuggest">_refresh_autosuggest</h2>
 <p>Recompute the active suggestion from the engine’s provider chain.</p>
-<p>Reads <code>enable_autosuggest</code> from <code>self.params</code>
-so the operator can toggle the feature with
-<code>set enable_autosuggest false</code> without restarting the shell.
-Commands listed in the engine’s skip set are passed through unchanged so
-help/exit do not poison the context.</p>
-<p>Args: executed_command: First-line of the command that just executed.
-The engine drops it into
-:class:<code>cli.autosuggest.SuggestionContext.last_command</code>.</p>
-<h2 id="autosuggest_hook">_autosuggest_hook</h2>
-<p>Refresh the next-command suggestion and print one dim hint line.</p>
-<p>The hint is printed below the command output, never injected into
-<code>self.prompt</code>, so readline column accounting stays intact and
-the prompt itself remains clean. Failure inside the hook is swallowed —
-at worst the operator sees no hint.</p>
-<p>Args: data: cmd2 PostcommandData containing the executed
-statement.</p>
-<p>Returns: <code>data</code> unchanged. cmd2 expects the hook to return
-the same PostcommandData reference.</p>
-<h2 id="engagement_hook">_engagement_hook</h2>
-<p>Post-command hook: biological curiosity reveal + VRI reward.</p>
-<p>Registered via <code>register_postcmd_hook</code> during
-<code>__init__</code>. Respects <code>enable_inline_hints</code> so
-operators can silence all engagement output with
-<code>set enable_inline_hints false</code>.</p>
-<p>Args: data: cmd2 PostcommandData containing the executed
-statement.</p>
-<p>Returns: data unchanged.</p>
+<p>Args: executed_command: Raw string of the command that just ran.</p>
 <h2 id="recording_hook">_recording_hook</h2>
 <p>Post-command hook: record commands when <code>makerc</code> is
 active.</p>
@@ -457,12 +455,15 @@ sizing.</p>
 commands.</p>
 <h2 id="preloop">preloop</h2>
 <p>Print a session-start pro tip and handle first-run setup.</p>
-<p>If <code>sessions/theone</code> does not exist this is the operator’s
-first launch. The shell will: 1. Run <code>config_banner</code> so the
-operator can customise the prompt. 2. Run <code>wizard</code> to
-populate the essential payload keys. 3. Print first-step suggestions
-(ping → lazynmap). 4. Create <code>sessions/theone</code> so subsequent
-launches skip setup.</p>
+<p>Also attempts auto-login via remember-me token. If no session exists,
+warns the operator to use <code>login</code>.</p>
+<h2 id="postparsing_precmd">postparsing_precmd</h2>
+<p>Gate unauthenticated commands — anonymous operators can only run
+<code>login</code>, <code>logout</code>, <code>whoami</code>,
+<code>help</code>, <code>exit</code>, <code>quit</code>, and
+<code>set</code> until they identify themselves.</p>
+<p>Returns: The original statement to allow execution, or a statement
+with an empty command string to block execution.</p>
 <h2 id="postloop">postloop</h2>
 <p>Handle operations to perform after exiting the command loop.</p>
 <p>This method is called after the command loop terminates, typically
@@ -592,7 +593,7 @@ current working directory and the <code>rhost</code> parameter from the
 <p>:return: None</p>
 <h2 id="lazywerkzeugdebug">lazywerkzeugdebug</h2>
 <p>Run the internal module located at
-<code>modules/lazywerkzeug.py</code> in debug mode.</p>
+<code>modules/legacy/lazywerkzeug.py</code> in debug mode.</p>
 <p>This method executes the <code>lazywerkzeug.py</code> script with the
 specified parameters for remote and local hosts and ports. It is used to
 test Werkzeug in debug mode.</p>
@@ -614,9 +615,9 @@ and the specified parameters.</li>
 <p>Manual execution: 1. Ensure that <code>rhost</code>,
 <code>lhost</code>, <code>rport</code>, and <code>lport</code> are
 assign in <code>self.params</code>. 2. The script
-<code>modules/lazywerkzeug.py</code> should be present in the
+<code>modules/legacy/lazywerkzeug.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazywerkzeug.py &lt;rhost&gt; &lt;rport&gt; &lt;lhost&gt; &lt;lport&gt;</code></p>
+<code>python3 modules/legacy/lazywerkzeug.py &lt;rhost&gt; &lt;rport&gt; &lt;lhost&gt; &lt;lport&gt;</code></p>
 <p>Example: To run <code>lazywerkzeug.py</code> with <code>rhost</code>
 assign to <code>"127.0.0.1"</code>, <code>rport</code> to
 <code>5000</code>, <code>lhost</code> to <code>"localhost"</code>, and
@@ -626,8 +627,8 @@ assign to <code>"127.0.0.1"</code>, <code>rport</code> to
 <code>self.params["lhost"] = "localhost"</code>
 <code>self.params["lport"] = 8000</code> Then call:
 <code>run_lazywerkzeugdebug()</code></p>
-<p>Note: - Ensure that <code>modules/lazywerkzeug.py</code> has the
-appropriate permissions and dependencies to run. - Verify that the
+<p>Note: - Ensure that <code>modules/legacy/lazywerkzeug.py</code> has
+the appropriate permissions and dependencies to run. - Verify that the
 specified hosts and ports are correct and available.</p>
 <h2 id="lazygath">lazygath</h2>
 <p>Run the internal module located at <code>modules/lazygat.sh</code>.
@@ -658,7 +659,8 @@ mode. It uses the current working directory for locating the script.</p>
 <p>:return: None</p>
 <h2 id="lazysniff">lazysniff</h2>
 <p>Run the sniffer internal module located at
-<code>modules/lazysniff.py</code> with the specified parameters.</p>
+<code>modules/legacy/lazysniff.py</code> with the specified
+parameters.</p>
 <p>This method executes the script with the following arguments:</p>
 <ul>
 <li><code>device</code>: The network interface to be used for sniffing,
@@ -679,19 +681,20 @@ device: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>device</code> is assign in
 <code>self.params</code>. 2. The script
-<code>modules/lazysniff.py</code> should be present in the
+<code>modules/legacy/lazysniff.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazysniff.py -i &lt;device&gt;</code></p>
+<code>python3 modules/legacy/lazysniff.py -i &lt;device&gt;</code></p>
 <p>Example: To run <code>lazysniff</code> with <code>device</code>
 assign to <code>"eth0"</code>, set:
 <code>self.params["device"] = "eth0"</code> Then call:
 <code>run_lazysniff()</code></p>
-<p>Note: - Ensure that <code>modules/lazysniff.py</code> has the
+<p>Note: - Ensure that <code>modules/legacy/lazysniff.py</code> has the
 appropriate permissions and dependencies to run. - Ensure that the
 network interface specified is valid and properly configured.</p>
 <h2 id="lazyftpsniff">lazyftpsniff</h2>
 <p>Run the sniffer ftp internal module located at
-<code>modules/lazyftpsniff.py</code> with the specified parameters.</p>
+<code>modules/legacy/lazyftpsniff.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>device</code>: The network interface to be used for sniffing,
@@ -712,19 +715,20 @@ device: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>device</code> is assign in
 <code>self.params</code>. 2. The script
-<code>modules/lazyftpsniff.py</code> should be present in the
+<code>modules/legacy/lazyftpsniff.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazyftpsniff.py -i &lt;device&gt;</code></p>
+<code>python3 modules/legacy/lazyftpsniff.py -i &lt;device&gt;</code></p>
 <p>Example: To run <code>lazyftpsniff</code> with <code>device</code>
 assign to <code>"eth0"</code>, set:
 <code>self.params["device"] = "eth0"</code> Then call:
 <code>run_lazyftpsniff()</code></p>
-<p>Note: - Ensure that <code>modules/lazyftpsniff.py</code> has the
-appropriate permissions and dependencies to run. - Ensure that the
+<p>Note: - Ensure that <code>modules/legacy/lazyftpsniff.py</code> has
+the appropriate permissions and dependencies to run. - Ensure that the
 network interface specified is valid and properly configured.</p>
 <h2 id="lazynetbios">lazynetbios</h2>
 <p>Run the internal module to search netbios vuln victims, located at
-<code>modules/lazynetbios.py</code> with the specified parameters.</p>
+<code>modules/legacy/lazynetbios.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>startip</code>: The starting IP address for the NetBIOS scan,
@@ -751,9 +755,9 @@ spoof_ip: str</p>
 <p>Manual execution: 1. Ensure that <code>startip</code>,
 <code>endip</code>, and <code>spoof_ip</code> are assign in
 <code>self.params</code>. 2. The script
-<code>modules/lazynetbios.py</code> should be present in the
+<code>modules/legacy/lazynetbios.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazynetbios.py &lt;startip&gt; &lt;endip&gt; &lt;spoof_ip&gt;</code></p>
+<code>python3 modules/legacy/lazynetbios.py &lt;startip&gt; &lt;endip&gt; &lt;spoof_ip&gt;</code></p>
 <p>Example: To run <code>lazynetbios</code> with <code>startip</code>
 assign to <code>"192.168.1.1"</code>, <code>endip</code> assign to
 <code>"192.168.1.10"</code>, and <code>spoof_ip</code> assign to
@@ -762,12 +766,13 @@ assign to <code>"192.168.1.1"</code>, <code>endip</code> assign to
 <code>self.params["endip"] = "192.168.1.10"</code>
 <code>self.params["spoof_ip"] = "192.168.1.100"</code> Then call:
 <code>run_lazynetbios()</code></p>
-<p>Note: - Ensure that <code>modules/lazynetbios.py</code> has the
-appropriate permissions and dependencies to run. - Ensure that the IP
-addresses are correctly set and valid for the NetBIOS scan.</p>
+<p>Note: - Ensure that <code>modules/legacy/lazynetbios.py</code> has
+the appropriate permissions and dependencies to run. - Ensure that the
+IP addresses are correctly set and valid for the NetBIOS scan.</p>
 <h2 id="lazyhoneypot">lazyhoneypot</h2>
 <p>Run the internal module located at
-<code>modules/lazyhoneypot.py</code> with the specified parameters.</p>
+<code>modules/legacy/lazyhoneypot.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>email_from</code>: The email address from which messages will
@@ -799,9 +804,9 @@ email_password: str</p>
 <p>Manual execution: 1. Ensure that <code>email_from</code>,
 <code>email_to</code>, <code>email_username</code>, and
 <code>email_password</code> are assign in <code>self.params</code>. 2.
-The script <code>modules/lazyhoneypot.py</code> should be present in the
-<code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazyhoneypot.py --email_from &lt;email_from&gt; --email_to &lt;email_to&gt; --email_username &lt;email_username&gt; --email_password &lt;email_password&gt;</code></p>
+The script <code>modules/legacy/lazyhoneypot.py</code> should be present
+in the <code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/legacy/lazyhoneypot.py --email_from &lt;email_from&gt; --email_to &lt;email_to&gt; --email_username &lt;email_username&gt; --email_password &lt;email_password&gt;</code></p>
 <p>Example: To run <code>lazyhoneypot</code> with
 <code>email_from</code> assign to <code>"sender@example.com"</code>,
 <code>email_to</code> assign to <code>"recipient@example.com"</code>,
@@ -812,13 +817,13 @@ The script <code>modules/lazyhoneypot.py</code> should be present in the
 <code>self.params["email_username"] = "user"</code>
 <code>self.params["email_password"] = "pass"</code> Then call:
 <code>run_lazyhoneypot()</code></p>
-<p>Note: - Ensure that <code>modules/lazyhoneypot.py</code> has the
-appropriate permissions and dependencies to run. - Ensure that the email
-credentials are correctly set for successful authentication and
+<p>Note: - Ensure that <code>modules/legacy/lazyhoneypot.py</code> has
+the appropriate permissions and dependencies to run. - Ensure that the
+email credentials are correctly set for successful authentication and
 operation.</p>
 <h2 id="lazysearch_bot">lazysearch_bot</h2>
 <p>Run the internal module GROQ AI located at
-<code>modules/lazysearch_bot.py</code> with the specified
+<code>modules/legacy/lazysearch_bot.py</code> with the specified
 parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
@@ -848,19 +853,19 @@ str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>prompt</code> and
 <code>api_key</code> are assign in <code>self.params</code>. 2. The
-script <code>modules/lazysearch_bot.py</code> should be present in the
-<code>modules</code> directory. 3. Set the environment variable
+script <code>modules/legacy/lazysearch_bot.py</code> should be present
+in the <code>modules</code> directory. 3. Set the environment variable
 <code>GROQ_API_KEY</code> with the API key value. 4. Run the script
 with:
-<code>python3 modules/lazysearch_bot.py --prompt &lt;prompt&gt;</code></p>
+<code>python3 modules/legacy/lazysearch_bot.py --prompt &lt;prompt&gt;</code></p>
 <p>Example: To run <code>lazysearch_bot</code> with <code>prompt</code>
 assign to <code>"Search query"</code> and <code>api_key</code> assign to
 <code>"your_api_key"</code>, assign:
 <code>self.params["prompt"] = "Search query"</code>
 <code>self.params["api_key"] = "your_api_key"</code> Then call:
 <code>run_lazysearch_bot()</code></p>
-<p>Note: - Ensure that <code>modules/lazysearch_bot.py</code> has the
-appropriate permissions and dependencies to run. - The environment
+<p>Note: - Ensure that <code>modules/legacy/lazysearch_bot.py</code> has
+the appropriate permissions and dependencies to run. - The environment
 variable <code>GROQ_API_KEY</code> must be correctly assign for the
 script to function.</p>
 <h2 id="lazymetaextract0r">lazymetaextract0r</h2>
@@ -983,8 +988,9 @@ set to <code>192.168.1.10</code>, <code>rport</code> assign to
 <p>Note: - Ensure that <code>modules/lazyownserver.py</code> has the
 appropriate permissions and dependencies to run.</p>
 <h2 id="lazybotnet">lazybotnet</h2>
-<p>Run the internal module located at <code>modules/lazybotnet.py</code>
-with the specified parameters.</p>
+<p>Run the internal module located at
+<code>modules/legacy/lazybotnet.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>rhost</code>: The IP address of the remote host, hardcoded to
@@ -1010,19 +1016,20 @@ message and returns.</li>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rport</code> and
 <code>rat_key</code> are assign in <code>self.params</code>. 2. The
-script <code>modules/lazybotnet.py</code> should be present in the
-<code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazybotnet.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
+script <code>modules/legacy/lazybotnet.py</code> should be present in
+the <code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/legacy/lazybotnet.py --host &lt;rhost&gt; --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
 <p>Example: To run <code>lazybotnet</code> with <code>rport</code>
 assign to <code>1234</code> and <code>rat_key</code> assign to
 <code>my_key</code>, assign: <code>self.params["rport"] = 1234</code>
 <code>self.params["rat_key"] = "my_key"</code> Then call:
 <code>run_lazybotnet()</code></p>
-<p>Note: - Ensure that <code>modules/lazybotnet.py</code> has the
+<p>Note: - Ensure that <code>modules/legacy/lazybotnet.py</code> has the
 appropriate permissions and dependencies to run.</p>
 <h2 id="lazylfi2rce">lazylfi2rce</h2>
 <p>Run the internal module located at
-<code>modules/lazylfi2rce.py</code> with the specified parameters.</p>
+<code>modules/legacy/lazylfi2rce.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>rhost</code>: The IP address of the remote host, specified in
@@ -1059,9 +1066,9 @@ path to the wordlist file. :type wordlist: str</p>
 <code>rport</code>, <code>lhost</code>, <code>lport</code>,
 <code>field</code>, and <code>wordlist</code> are assign in
 <code>self.params</code>. 2. The script
-<code>modules/lazylfi2rce.py</code> should be present in the
+<code>modules/legacy/lazylfi2rce.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazylfi2rce.py --rhost &lt;rhost&gt; --rport &lt;rport&gt; --lhost &lt;lhost&gt; --lport &lt;lport&gt; --field &lt;field&gt; --wordlist &lt;wordlist&gt;</code></p>
+<code>python3 modules/legacy/lazylfi2rce.py --rhost &lt;rhost&gt; --rport &lt;rport&gt; --lhost &lt;lhost&gt; --lport &lt;lport&gt; --field &lt;field&gt; --wordlist &lt;wordlist&gt;</code></p>
 <p>Example: To run the lazylfi2rce with <code>rhost</code> assign to
 <code>192.168.1.1</code>, <code>rport</code> assign to <code>80</code>,
 <code>lhost</code> assign to <code>192.168.1.2</code>,
@@ -1075,11 +1082,11 @@ assign to <code>file</code>, and <code>wordlist</code> assign to
 <code>self.params["field"] = "file"</code>
 <code>self.params["wordlist"] = "path/to/wordlist.txt"</code> Then call:
 <code>run_lazylfi2rce()</code></p>
-<p>Note: - Ensure that <code>modules/lazylfi2rce.py</code> has the
-appropriate permissions and dependencies to run.</p>
+<p>Note: - Ensure that <code>modules/legacy/lazylfi2rce.py</code> has
+the appropriate permissions and dependencies to run.</p>
 <h2 id="lazylogpoisoning">lazylogpoisoning</h2>
 <p>Run the internal module located at
-<code>modules/lazylogpoisoning.py</code> with the specified
+<code>modules/legacy/lazylogpoisoning.py</code> with the specified
 parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
@@ -1106,20 +1113,21 @@ lhost: str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rhost</code> and
 <code>lhost</code> are assign in <code>self.params</code>. 2. The script
-<code>modules/lazylogpoisoning.py</code> should be present in the
+<code>modules/legacy/lazylogpoisoning.py</code> should be present in the
 <code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazylogpoisoning.py --rhost &lt;rhost&gt; --lhost &lt;lhost&gt;</code></p>
+<code>python3 modules/legacy/lazylogpoisoning.py --rhost &lt;rhost&gt; --lhost &lt;lhost&gt;</code></p>
 <p>Example: To run the lazylogpoisoning with <code>rhost</code> assign
 to <code>192.168.1.1</code> and <code>lhost</code> assign to
 <code>192.168.1.2</code>, set:
 <code>self.params["rhost"] = "192.168.1.1"</code>
 <code>self.params["lhost"] = "192.168.1.2"</code> Then call:
 <code>run_lazylogpoisoning()</code></p>
-<p>Note: - Ensure that <code>modules/lazylogpoisoning.py</code> has the
-appropriate permissions and dependencies to run.</p>
+<p>Note: - Ensure that <code>modules/legacy/lazylogpoisoning.py</code>
+has the appropriate permissions and dependencies to run.</p>
 <h2 id="lazybotcli">lazybotcli</h2>
-<p>Run the internal module located at <code>modules/lazybotcli.py</code>
-with the specified parameters.</p>
+<p>Run the internal module located at
+<code>modules/legacy/lazybotcli.py</code> with the specified
+parameters.</p>
 <p>This function executes the script with the following arguments:</p>
 <ul>
 <li><code>rhost</code>: The IP address of the remote host (default is
@@ -1146,14 +1154,14 @@ str</p>
 <p>:returns: None</p>
 <p>Manual execution: 1. Ensure that <code>rport</code> and
 <code>rat_key</code> are assign in <code>self.params</code>. 2. The
-script <code>modules/lazybotcli.py</code> should be present in the
-<code>modules</code> directory. 3. Run the script with:
-<code>python3 modules/lazybotcli.py --host 0.0.0.0 --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
+script <code>modules/legacy/lazybotcli.py</code> should be present in
+the <code>modules</code> directory. 3. Run the script with:
+<code>python3 modules/legacy/lazybotcli.py --host 0.0.0.0 --port &lt;rport&gt; --key &lt;rat_key&gt;</code></p>
 <p>Example: To run the lazybotcli with port <code>12345</code> and key
 <code>mysecretkey</code>, set: <code>self.params["rport"] = 12345</code>
 <code>self.params["rat_key"] = "mysecretkey"</code> Then call:
 <code>run_lazybotcli()</code></p>
-<p>Note: - Ensure that <code>modules/lazybotcli.py</code> has the
+<p>Note: - Ensure that <code>modules/legacy/lazybotcli.py</code> has the
 appropriate permissions and dependencies to run.</p>
 <h2 id="lazyssh77enum">lazyssh77enum</h2>
 <p>Run the internal module located at
@@ -1313,7 +1321,7 @@ necessary permissions to execute. - Parameters must be assign before
 calling this function.</p>
 <h2 id="lazyarpspoofing">lazyarpspoofing</h2>
 <p>Run the internal module located at
-<code>modules/lazyarpspoofing.py</code> with the specified
+<code>modules/legacy/lazyarpspoofing.py</code> with the specified
 parameters.</p>
 <p>The script will be executed with the following arguments: -
 <code>--device</code>: The network interface to use for ARP spoofing. -
@@ -1338,10 +1346,10 @@ Must be assign in <code>self.params</code>. :type device: str</p>
 <p>Manual execution: 1. Ensure that <code>lhost</code>,
 <code>rhost</code>, and <code>device</code> are assign in
 <code>self.params</code>. 2. Run the script
-<code>modules/lazyarpspoofing.py</code> with the appropriate
+<code>modules/legacy/lazyarpspoofing.py</code> with the appropriate
 arguments.</p>
-<p>Dependencies: - <code>modules/lazyarpspoofing.py</code> must be
-present in the <code>modules</code> directory and must be
+<p>Dependencies: - <code>modules/legacy/lazyarpspoofing.py</code> must
+be present in the <code>modules</code> directory and must be
 executable.</p>
 <p>Example: To execute ARP spoofing with local host
 <code>192.168.1.2</code>, remote host <code>192.168.1.1</code>, and
@@ -1350,9 +1358,9 @@ device <code>eth0</code>, set:
 <code>self.params["rhost"] = "192.168.1.1"</code>
 <code>self.params["device"] = "eth0"</code> Then call:
 <code>run_lazyarpspoofing()</code></p>
-<p>Note: - Ensure that <code>modules/lazyarpspoofing.py</code> has the
-necessary permissions to execute. - Parameters must be assign before
-calling this function.</p>
+<p>Note: - Ensure that <code>modules/legacy/lazyarpspoofing.py</code>
+has the necessary permissions to execute. - Parameters must be assign
+before calling this function.</p>
 <h2 id="lazyattack">lazyattack</h2>
 <p>Run the internal module located at <code>modules/lazyatack.sh</code>
 with the specified parameters.</p>
@@ -1565,6 +1573,13 @@ any narrative text</p>
 <p>No description available.</p>
 <h2 id="execute_commands">_execute_commands</h2>
 <p>No description available.</p>
+<h2 id="event_log">event_log</h2>
+<p>Show recent EventBus events. Usage: event_log [N] [category]</p>
+<h2 id="state_snapshot">state_snapshot</h2>
+<p>Show unified StateManager snapshot (DB + JSON caches).</p>
+<h2 id="route">route</h2>
+<p>Route a natural-language prompt to a LazyOwn tool. Usage: route
+<prompt></p>
 <h2 id="persist">_persist</h2>
 <p>No description available.</p>
 <h2 id="wrapper">wrapper</h2>

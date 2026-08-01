@@ -279,7 +279,9 @@ _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 config = _load_payload()
 
 try:
-    _validated, _issues = _load_and_validate()
+    _result = _load_and_validate()
+    _validated = _result["payload"]
+    _issues = _result["issues"]
     _errs = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "error"]
     _warns = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "warning"]
     if _errs:

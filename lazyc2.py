@@ -615,9 +615,9 @@ def clean_expired_tokens():
     conn.commit()
     conn.close()
 
-def clean_json(texto):
+def clean_json(text):
     """Extract only the JSON content between ```json and ```, discarding everything else."""
-    match = re.search(r'```json\n(.*?)\n```', texto, re.DOTALL)
+    match = re.search(r'```json\n(.*?)\n```', text, re.DOTALL)
     if match:
         return match.group(1).strip()
     return ""
@@ -1191,7 +1191,7 @@ def check_auth(username: str, password: str) -> bool:
     return username == USERNAME and password == PASSWORD
 
 def authenticate():
-    """Solicita autenticación"""
+    """Requests authentication."""
     return Response(
         'Invalid credentials. Please provide valid username and password.\n',
         401,
@@ -2756,7 +2756,8 @@ def receive_result(client_id):
         try:
             decrypted_data = decrypt_data(encrypted_data)
             client_id = decrypted_data.decode().strip()
-        except:
+        except Exception as exc:
+            logging.warning("Failed to decrypt client data in result receive: %s", exc)
             pass
         decrypted_data = decrypt_data(encrypted_data)
         data = json.loads(decrypted_data)

@@ -163,7 +163,13 @@ class Application:
 
     def _configure_logging(self) -> None:
         """Install a basic log configuration directing INFO+ to stderr."""
-        logging.basicConfig(
-            level=logging.INFO,
-            format="%(asctime)s %(levelname)s %(name)s: %(message)s",
-        )
+        logger = logging.getLogger()
+        logger.setLevel(logging.INFO)
+        if not logger.handlers:
+            handler = logging.StreamHandler(sys.stderr)
+            handler.setFormatter(
+                logging.Formatter(
+                    "%(asctime)s %(levelname)s %(name)s: %(message)s"
+                )
+            )
+            logger.addHandler(handler)

@@ -47,8 +47,8 @@ def auth():
     try:
         if host_up.status_code == 200:
             print('[+] Host Up! ...')
-    except:
-        print('[+] This host seems to be down :( ')
+    except (requests.RequestException, AttributeError) as exc:
+        print(f'[+] This host seems to be down :( ({exc})')
         sys.exit(0)
 
     print('[+] Trying to authenticate with credentials '+user+':'+password+'')

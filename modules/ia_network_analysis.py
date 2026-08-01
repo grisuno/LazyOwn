@@ -23,8 +23,9 @@ from rich.markdown import Markdown
 from scapy.all import ICMP, IP, TCP, UDP, Raw, sniff
 from scapy.layers.tls.record import TLS
 
-# Configuración de logging
-logging.basicConfig(filename='network_monitor.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
@@ -150,5 +151,6 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
     start_monitoring(interface=args.interface, timeout=args.timeout, mode=args.mode)

@@ -35,8 +35,9 @@ except ImportError as e:
     print("Please install with: pip install langchain langchain-community chromadb ollama cachetools rich")
     exit(1)
 
-# Logging configuration
-logging.basicConfig(filename='lazysentinel.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
@@ -726,6 +727,7 @@ class App(cmd2.Cmd):
         return [d for d in dirs if d.startswith(text)]
 
 if __name__ == '__main__':
+    configure(level=logging.INFO, console=True, file=False)
     app = App()
     app.poutput("LazySentinel with RAG and CAG capabilities initialized.")
     app.poutput("New RAG commands available:")

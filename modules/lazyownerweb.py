@@ -4,8 +4,9 @@ import urllib.parse
 import requests
 from requests.exceptions import RequestException
 
-# Configuración de logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 # Configuración
 TARGET_URL = 'http://127.0.0.1'  # URL objetivo
@@ -74,4 +75,5 @@ def main():
             continue
 
 if __name__ == '__main__':
+    configure(level=logging.INFO, console=True, file=False)
     main()

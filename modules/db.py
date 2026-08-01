@@ -10,6 +10,7 @@ from __future__ import annotations
 import csv
 import io
 import sqlite3
+import threading
 import xml.etree.ElementTree as ET
 from collections.abc import Iterator
 from contextlib import contextmanager
@@ -158,11 +159,19 @@ class LazyOwnDB:
             db_dir.mkdir(parents=True, exist_ok=True)
             db_path = str(db_dir / "lazyown.db")
         self._db_path = db_path
-        self._conn = sqlite3.connect(db_path, check_same_thread=False)
-        self._conn.row_factory = sqlite3.Row
-        self._conn.execute("PRAGMA journal_mode=WAL")
-        self._conn.execute("PRAGMA foreign_keys=ON")
+        self._local = threading.local()
+        self._closed = False
         self._init_schema()
+
+    def _get_conn(self) -> sqlite3.Connection:
+        """Return a per-thread SQLite connection, creating it on first access."""
+        if not hasattr(self._local, "conn") or self._local.conn is None:
+            conn = sqlite3.connect(self._db_path)
+            conn.row_factory = sqlite3.Row
+            conn.execute("PRAGMA journal_mode=WAL")
+            conn.execute("PRAGMA foreign_keys=ON")
+            self._local.conn = conn
+        return self._local.conn
 
     @property
     def db_path(self) -> str:
@@ -170,12 +179,13 @@ class LazyOwnDB:
         return self._db_path
 
     def _init_schema(self) -> None:
-        self._conn.executescript(SCHEMA_SQL)
-        self._conn.commit()
+        conn = self._get_conn()
+        conn.executescript(SCHEMA_SQL)
+        conn.commit()
         self._run_migrations()
 
     def _current_version(self) -> int:
-        cur = self._conn.execute(
+        cur = self._get_conn().execute(
             "SELECT MAX(version) FROM schema_version"
         )
         row = cur.fetchone()
@@ -192,16 +202,17 @@ class LazyOwnDB:
         for version, sql in MIGRATIONS:
             if version <= current:
                 continue
+            conn = self._get_conn()
             try:
-                self._conn.executescript(sql)
-                self._conn.execute(
+                conn.executescript(sql)
+                conn.execute(
                     "INSERT OR REPLACE INTO schema_version (version) VALUES (?)",
                     (version,),
                 )
-                self._conn.commit()
+                conn.commit()
                 applied.append(version)
             except Exception:
-                self._conn.rollback()
+                conn.rollback()
                 raise
         return applied
 
@@ -219,15 +230,46 @@ class LazyOwnDB:
 
     @contextmanager
     def _cursor(self) -> Iterator[sqlite3.Cursor]:
-        cur = self._conn.cursor()
+        conn = self._get_conn()
+        cur = conn.cursor()
         try:
             yield cur
-            self._conn.commit()
+            conn.commit()
         except Exception:
-            self._conn.rollback()
+            conn.rollback()
             raise
         finally:
             cur.close()
+
+    # ------------------------------------------------------------------
+    # Credential encryption helpers
+    # ------------------------------------------------------------------
+
+    def _maybe_encrypt(self, value: str) -> str:
+        """Encrypt a credential value if the crypto module is available."""
+        if not value:
+            return value
+        try:
+            from core.crypto import AESencrypt
+            from core.config import resolve_aes_key
+            key = resolve_aes_key({}, sessions_dir=Path("sessions"))
+            ct, _ = AESencrypt(value.encode("utf-8"), key)
+            return ct.hex()
+        except ImportError:
+            return value
+
+    def _maybe_decrypt(self, value: str) -> str:
+        """Decrypt a credential value, falling back to plaintext on error."""
+        if not value:
+            return value
+        try:
+            from core.crypto import AESdecrypt
+            from core.config import resolve_aes_key
+            key = resolve_aes_key({}, sessions_dir=Path("sessions"))
+            ct = bytes.fromhex(value)
+            return AESdecrypt(ct, key).decode("utf-8")
+        except (ImportError, ValueError, Exception):
+            return value
 
     # ------------------------------------------------------------------
     # Workspaces
@@ -449,17 +491,18 @@ class LazyOwnDB:
         origin: str = "manual",
         **kwargs: Any,
     ) -> int:
-        """Add a credential."""
+        """Add a credential (password encrypted at rest)."""
+        encrypted = self._maybe_encrypt(password)
         with self._cursor() as cur:
             cur.execute(
                 """INSERT INTO creds (host_id, username, password, realm, cred_type, origin)
                    VALUES (?, ?, ?, ?, ?, ?)""",
-                (host_id, username, password, realm, cred_type, origin),
+                (host_id, username, encrypted, realm, cred_type, origin),
             )
             return cur.lastrowid
 
     def cred_list(self, workspace_id: int) -> list[dict[str, Any]]:
-        """List all creds in workspace."""
+        """List all creds in workspace (passwords decrypted)."""
         with self._cursor() as cur:
             cur.execute(
                 """SELECT c.*, h.address FROM creds c
@@ -468,7 +511,10 @@ class LazyOwnDB:
                    ORDER BY c.created_at DESC""",
                 (workspace_id,),
             )
-            return [dict(r) for r in cur.fetchall()]
+            results = [dict(r) for r in cur.fetchall()]
+            for r in results:
+                r["password"] = self._maybe_decrypt(r["password"])
+            return results
 
     # ------------------------------------------------------------------
     # Loot
@@ -551,6 +597,8 @@ class LazyOwnDB:
         counts: dict[str, int] = {"hosts": 0, "services": 0, "os": 0}
         root = ET.parse(xml_path).getroot()
 
+        service_rows: list[tuple[int, int, str, str, str, str, str]] = []
+
         for host_elem in root.findall("host"):
             status = host_elem.find("status")
             if status is None or status.get("state") != "up":
@@ -605,10 +653,17 @@ class LazyOwnDB:
                 state = state_elem.get("state", "open") if state_elem is not None else "open"
 
                 if port and svc_name:
-                    self.service_add(hid, port, protocol, state, svc_name, product, version)
+                    service_rows.append((hid, port, protocol, state, svc_name, product, version))
                     counts["services"] += 1
 
-        self._conn.commit()
+        if service_rows:
+            with self._cursor() as cur:
+                cur.executemany(
+                    """INSERT INTO services (host_id, port, protocol, state, name, product, version)
+                       VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                    service_rows,
+                )
+
         return counts
 
     def export_csv(self, table: str, workspace_id: int | None = None) -> str:
@@ -670,8 +725,20 @@ class LazyOwnDB:
             return counts
 
     def close(self) -> None:
-        """Close the database connection."""
-        self._conn.close()
+        """Close the database connection for the current thread.
+        
+        Idempotent — safe to call multiple times.
+        """
+        if self._closed:
+            return
+        self._closed = True
+        if hasattr(self._local, "conn") and self._local.conn is not None:
+            try:
+                self._local.conn.close()
+            except Exception:
+                pass
+            finally:
+                self._local.conn = None
 
 
 def get_db(db_path: str | None = None) -> LazyOwnDB:

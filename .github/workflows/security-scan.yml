@@ -1,0 +1,116 @@
+name: security-scan
+
+on:
+  schedule:
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  security-events: write
+
+env:
+  ARTIFACT_NAME: security-scan-results
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  bandit:
+    name: bandit full scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Run bandit (full scan)
+        run: bandit -c pyproject.toml -r . --format json --output bandit-results.json
+        continue-on-error: true
+      - name: Upload bandit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-bandit
+          path: bandit-results.json
+          retention-days: 30
+
+  pip-audit:
+    name: pip-audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Run pip-audit
+        run: pip-audit --strict --skip-editable --format json --output pip-audit-results.json
+        continue-on-error: true
+      - name: Upload pip-audit results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-pip-audit
+          path: pip-audit-results.json
+          retention-days: 30
+
+  detect-secrets:
+    name: detect-secrets audit
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+      - name: Install dependencies
+        run: pip install --upgrade pip && pip install -r requirements-dev.txt
+      - name: Audit repository for secrets
+        run: |
+          if [ -f .secrets.baseline ]; then
+            detect-secrets audit .secrets.baseline --report --json > detect-secrets-audit.json
+          else
+            detect-secrets scan --exclude-files 'graphify-out/.*|sessions/.*|external/.*|modules_ext/.*|payload\.json' > detect-secrets-results.json
+          fi
+        continue-on-error: true
+      - name: Upload detect-secrets results
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.ARTIFACT_NAME }}-detect-secrets
+          path: |
+            detect-secrets-results.json
+            detect-secrets-audit.json
+          retention-days: 30
+
+  gitleaks:
+    name: gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Run gitleaks
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE || '' }}
+        continue-on-error: true
+
+  notify:
+    name: notify
+    needs: [bandit, pip-audit, detect-secrets, gitleaks]
+    runs-on: ubuntu-latest
+    if: always()
+    steps:
+      - name: Summary
+        run: |
+          echo "## Security Scan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Tool | Status | Artifact |" >> $GITHUB_STEP_SUMMARY
+          echo "|------|--------|----------|" >> $GITHUB_STEP_SUMMARY
+          echo "| bandit | ${{ needs.bandit.result }} | ${{ env.ARTIFACT_NAME }}-bandit |" >> $GITHUB_STEP_SUMMARY
+          echo "| pip-audit | ${{ needs.pip-audit.result }} | ${{ env.ARTIFACT_NAME }}-pip-audit |" >> $GITHUB_STEP_SUMMARY
+          echo "| detect-secrets | ${{ needs.detect-secrets.result }} | ${{ env.ARTIFACT_NAME }}-detect-secrets |" >> $GITHUB_STEP_SUMMARY
+          echo "| gitleaks | ${{ needs.gitleaks.result }} | built-in |" >> $GITHUB_STEP_SUMMARY

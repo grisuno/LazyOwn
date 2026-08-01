@@ -13,7 +13,8 @@ Design (SOLID)
 - Interface Segregation : subscribe/unsubscribe/publish are the only surface.
 - Dependency Inversion  : bus depends on abstract Sink, not concrete backends.
 
-Thread-safe. Async-compatible. Persists to sessions/events.jsonl.
+Thread-safe. Async-compatible. Worker-based dispatch with backpressure via
+a bounded queue. Persists to sessions/events.jsonl.
 """
 
 from __future__ import annotations
@@ -39,6 +40,7 @@ _EVENTS_FILE = _SESSIONS_DIR / "events.jsonl"
 
 MAX_HISTORY = 1000
 MAX_QUEUE_PER_SUB = 500
+DISPATCH_QUEUE_SIZE = 500
 
 
 class EventCategory(str, Enum):
@@ -218,6 +220,11 @@ class EngagementSink(Sink):
 class UnifiedEventBus:
     """Central event bus for all LazyOwn components.
 
+    Events are queued on a bounded ``queue.Queue`` (backpressure) and
+    dispatched by a dedicated worker thread. This decouples publish()
+    latency from subscriber execution speed and provides natural
+    backpressure when subscribers fall behind.
+
     Usage::
 
         bus = get_event_bus()
@@ -233,6 +240,8 @@ class UnifiedEventBus:
     _instance: Optional["UnifiedEventBus"] = None
     _instance_lock = threading.Lock()
 
+    _SHUTDOWN_SENTINEL = "__event_bus_shutdown__"
+
     def __init__(self) -> None:
         self._lock = threading.RLock()
         self._subscribers: dict[str, list[Subscriber]] = defaultdict(list)
@@ -241,8 +250,15 @@ class UnifiedEventBus:
         self._history: list[LazyEvent] = []
         self._sinks: list[Sink] = []
         self._running = True
+        self._dispatch_queue: queue.Queue = queue.Queue(maxsize=DISPATCH_QUEUE_SIZE)
         self._worker: Optional[threading.Thread] = None
         self._init_sinks()
+        self._worker = threading.Thread(
+            target=self._dispatch_loop,
+            daemon=True,
+            name="lazyown-eventbus-worker",
+        )
+        self._worker.start()
 
     def _init_sinks(self) -> None:
         self._sinks.append(JsonlSink())
@@ -264,6 +280,16 @@ class UnifiedEventBus:
                 if cls._instance is None:
                     cls._instance = cls()
         return cls._instance
+
+    @property
+    def subscriber_count(self) -> int:
+        """Return the number of active subscribers across all registration types."""
+        with self._lock:
+            return (
+                len(self._subscribers)
+                + len(self._topic_subscribers)
+                + len(self._async_queues)
+            )
 
     def subscribe(self, subscriber_id: str, callback: Subscriber) -> None:
         """Register a callback for all events."""
@@ -303,16 +329,116 @@ class UnifiedEventBus:
             self._async_queues.pop(subscriber_id, None)
 
     def publish(self, event: LazyEvent) -> None:
-        """Publish an event to all subscribers, topic listeners, and sinks.
+        """Publish an event via the bounded dispatch queue.
 
-        Thread-safe. Non-blocking for subscribers (exceptions are caught).
-        Blocking for sinks (JSONL write must complete).
+        Appends to history immediately. The event is then placed on the
+        internal dispatch queue for worker-thread delivery to subscribers
+        and sinks.  When the queue is full this call blocks, providing
+        natural backpressure.
+
+        Args:
+            event: The event to publish.
         """
         with self._lock:
             self._history.append(event)
             if len(self._history) > MAX_HISTORY:
                 self._history = self._history[-MAX_HISTORY:]
 
+        self._dispatch_queue.put(event)
+
+    def drain(self) -> None:
+        """Consume and drop all pending events from the dispatch queue.
+
+        Already-delivered events that were dispatched before the drain
+        call are not affected.  History is preserved so post-drain
+        queries can still see what was published.
+        """
+        dropped = 0
+        while not self._dispatch_queue.empty():
+            try:
+                self._dispatch_queue.get_nowait()
+                self._dispatch_queue.task_done()
+                dropped += 1
+            except queue.Empty:
+                break
+        if dropped:
+            log.info("Drained %d pending events from dispatch queue", dropped)
+
+    def shutdown(self) -> None:
+        """Shut down the event bus cleanly.
+
+        1. Marks the bus as stopped.
+        2. Sends a shutdown sentinel through the dispatch queue so the
+           worker thread can notify all subscribers and exit.
+        3. Joins the worker thread (with a timeout).
+        4. Closes all sinks and clears subscriber registrations.
+
+        Thread-safe. Idempotent.
+        """
+        if not self._running:
+            return
+        self._running = False
+
+        shutdown_event = LazyEvent(
+            category=EventCategory.SYSTEM,
+            event_type=self._SHUTDOWN_SENTINEL,
+            source="event_bus",
+            payload={"action": "shutdown"},
+        )
+        try:
+            self._dispatch_queue.put(shutdown_event, timeout=2)
+        except queue.Full:
+            log.warning("Dispatch queue full during shutdown; draining first")
+            self.drain()
+            try:
+                self._dispatch_queue.put(shutdown_event, timeout=2)
+            except queue.Full:
+                log.error("Could not enqueue shutdown sentinel; forcing stop")
+
+        if self._worker and self._worker.is_alive():
+            self._worker.join(timeout=5)
+
+        with self._lock:
+            for sink in self._sinks:
+                try:
+                    sink.close()
+                except Exception:
+                    pass
+            self._subscribers.clear()
+            self._topic_subscribers.clear()
+            self._async_queues.clear()
+
+    def _dispatch_loop(self) -> None:
+        """Worker loop consuming events from ``_dispatch_queue``.
+
+        Processes events one at a time, delivering to all subscribers,
+        topic subscribers, async queues, and sinks. Stops when the
+        shutdown sentinel is received or ``_running`` becomes ``False``.
+        """
+        while self._running:
+            try:
+                event = self._dispatch_queue.get(timeout=0.5)
+            except queue.Empty:
+                continue
+
+            try:
+                if (
+                    event.category == EventCategory.SYSTEM
+                    and event.event_type == self._SHUTDOWN_SENTINEL
+                ):
+                    self._notify_shutdown()
+                    self._dispatch_queue.task_done()
+                    break
+
+                self._dispatch_event(event)
+            except Exception:
+                log.exception("Unhandled exception in dispatch loop")
+            finally:
+                self._dispatch_queue.task_done()
+
+    def _dispatch_event(self, event: LazyEvent) -> None:
+        """Deliver a single event to every registered consumer."""
+        with self._lock:
             subs = list(self._subscribers.items())
             topic_subs = list(self._topic_subscribers.items())
             async_qs = list(self._async_queues.items())
@@ -347,6 +473,44 @@ class UnifiedEventBus:
                 sink.write(event)
             except Exception:
                 log.debug("Sink write failed", exc_info=True)
+
+    def _notify_shutdown(self) -> None:
+        """Notify all subscribers that the bus is shutting down."""
+        shutdown_notice = LazyEvent(
+            category=EventCategory.SYSTEM,
+            event_type="shutdown",
+            source="event_bus",
+            payload={"action": "shutdown"},
+        )
+        with self._lock:
+            subs = list(self._subscribers.items())
+            topic_subs = list(self._topic_subscribers.items())
+            async_qs = list(self._async_queues.items())
+
+        for sid, callbacks in subs:
+            for cb in callbacks:
+                try:
+                    cb(shutdown_notice)
+                except Exception:
+                    log.debug("Shutdown notify %s failed", sid, exc_info=True)
+
+        for key, callbacks in topic_subs:
+            parts = key.split(":", 1)
+            if len(parts) != 2:
+                continue
+            _, topic = parts
+            if self._match_topic(topic, shutdown_notice):
+                for cb in callbacks:
+                    try:
+                        cb(shutdown_notice)
+                    except Exception:
+                        log.debug("Shutdown topic notify %s failed", key, exc_info=True)
+
+        for sid, q in async_qs:
+            try:
+                q.put_nowait(shutdown_notice)
+            except queue.Full:
+                log.debug("Async queue full during shutdown notify for %s", sid)
 
     def _match_topic(self, topic: str, event: LazyEvent) -> bool:
         """Match a dotted topic pattern against an event.
@@ -399,19 +563,6 @@ class UnifiedEventBus:
         """Return all events since a given timestamp."""
         with self._lock:
             return [e for e in self._history if e.ts >= since_ts]
-
-    def shutdown(self) -> None:
-        """Close all sinks and clear subscribers."""
-        self._running = False
-        with self._lock:
-            for sink in self._sinks:
-                try:
-                    sink.close()
-                except Exception:
-                    pass
-            self._subscribers.clear()
-            self._topic_subscribers.clear()
-            self._async_queues.clear()
 
 
 def get_event_bus() -> UnifiedEventBus:

@@ -703,7 +703,8 @@ def get_router(api_key: str = "") -> MoERouter:
 if __name__ == "__main__":
     import argparse
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    from modules.logging_config import configure, get_logger
+    configure(level=logging.INFO, console=True, file=False)
 
     parser = argparse.ArgumentParser(description="LazyOwn MoE Router CLI")
     sub = parser.add_subparsers(dest="cmd")

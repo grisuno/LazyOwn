@@ -52,8 +52,9 @@ TEXT_LOG_FILES_PATTERNS = [
 ]
 # --- End Configuration ---
 
-# Logging configuration
-logging.basicConfig(filename=LOG_FILE, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 console = Console()
 HOSTNAME = socket.gethostname()
@@ -439,6 +440,7 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
 
     if args.search:

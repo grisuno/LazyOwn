@@ -8,6 +8,7 @@ import zlib
 from concurrent.futures import ThreadPoolExecutor
 
 from Crypto.Cipher import AES
+from modules.logging_config import configure, get_logger
 from Crypto.Util.Padding import pad, unpad
 
 
@@ -130,8 +131,8 @@ def main():
     parser.add_argument('-l', '--log', default='icmp_server.log', help='Archivo de log')
     args = parser.parse_args()
 
-    logging.basicConfig(filename=args.log, level=logging.INFO,
-                        format='%(asctime)s - %(levelname)s - %(message)s')
+    log_dir = os.path.dirname(args.log) or os.getcwd()
+    configure(level=logging.INFO, log_dir=log_dir, console=True, file=True)
 
     key = hashlib.sha256(args.password.encode()).digest()
 

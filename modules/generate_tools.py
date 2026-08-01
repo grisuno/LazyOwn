@@ -12,7 +12,7 @@ def extract_cmd2_tools(script_path="lazyown.py"):
         if isinstance(node, ast.FunctionDef):
             if node.name.startswith("do_") and node.name != "do_exit":
                 name = node.name[3:]
-                desc = ast.get_docstring(node) or "Sin descripción"
+                desc = ast.get_docstring(node) or "No description"
                 tools.append({
                     "type": "function",
                     "function": {
@@ -21,7 +21,7 @@ def extract_cmd2_tools(script_path="lazyown.py"):
                         "parameters": {
                             "type": "object",
                             "properties": {
-                                "line": {"type": "string", "description": "Argumentos del comando"}
+                                "line": {"type": "string", "description": "Command arguments"}
                             },
                             "required": ["line"]
                         }
@@ -34,4 +34,4 @@ if __name__ == "__main__":
     tools = extract_cmd2_tools()
     with open("tools.json", "w") as f:
         json.dump(tools, f, indent=2)
-    print("[+] tools.json generado con éxito")
+    print("[+] tools.json generated successfully")

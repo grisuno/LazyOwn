@@ -626,7 +626,7 @@ def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
 
 
 def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
-    """Prompt the operator to log in (mandatory).
+    """Prompt the operator to register or log in, then optionally configure marketplace.
 
     Args:
         params: Live params dict.
@@ -645,16 +645,15 @@ def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> di
 
     from getpass import getpass
 
-    username = _prompt("  Username: ").strip()
-    if not username:
-        _warn("No username provided — session will be anonymous.")
-        _info("Use 'login' later to identify yourself and enable ELO tracking.")
-        return {}
+    choice = _prompt("  Do you already have an account? (Y/n): ").strip().lower()
+    has_account = choice not in ("n", "no")
 
-    password = getpass("  Password: ")
-    if not password:
-        _warn("No password provided — session will be anonymous.")
-        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+    if has_account:
+        username, password = _wizard_login_flow()
+    else:
+        username, password = _wizard_register_flow()
+
+    if not username or not password:
         return {}
 
     try:
@@ -681,13 +680,104 @@ def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> di
             _console.print(
                 "  [dim]To disable: assign cli_auto_login \"\" && assign cli_remember_token \"\"[/]"
             )
-            return {"cli_auto_login": username}
         except Exception:
             _warn("Could not persist remember-me token.")
     else:
         _info("Login saved for this session only. You'll need to login again next time.")
 
-    return {}
+    _console.print()
+    _ask_marketplace_config()
+
+    return {"cli_auto_login": username} if remember in ("", "y", "yes") else {}
+
+
+def _wizard_login_flow() -> tuple[str | None, str | None]:
+    """Handle the login path in the wizard.
+
+    Returns:
+        Tuple of (username, password) or (None, None) on skip.
+    """
+    from getpass import getpass
+
+    username = _prompt("  Username: ").strip()
+    if not username:
+        _warn("No username provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return None, None
+
+    password = getpass("  Password: ")
+    if not password:
+        _warn("No password provided — session will be anonymous.")
+        _info("Use 'login' later to identify yourself and enable ELO tracking.")
+        return None, None
+
+    return username, password
+
+
+def _wizard_register_flow() -> tuple[str | None, str | None]:
+    """Handle the register path in the wizard.
+
+    Returns:
+        Tuple of (username, password) or (None, None) on skip or failure.
+    """
+    from getpass import getpass
+
+    username = _prompt("  Choose a username: ").strip()
+    if not username:
+        _warn("No username provided — session will be anonymous.")
+        _info("Use 'register' later to create an account.")
+        return None, None
+
+    password = getpass("  Choose a password (min 12 chars): ")
+    if not password:
+        _warn("No password provided — session will be anonymous.")
+        _info("Use 'register' later to create an account.")
+        return None, None
+
+    confirm = getpass("  Confirm password: ")
+    if password != confirm:
+        _warn("Passwords do not match — session will be anonymous.")
+        _info("Use 'register' later to retry.")
+        return None, None
+
+    try:
+        from modules.cli_auth import register
+    except ImportError:
+        _warn("Auth module not available — session will be anonymous.")
+        return None, None
+
+    reg_result = register(username, password)
+    if not reg_result.get("success"):
+        _warn(f"Registration failed: {reg_result.get('error', 'unknown')}")
+        _info("Use 'register' later to retry.")
+        return None, None
+
+    _ok(f"Registered as {username} ({reg_result.get('role')})")
+    _console.print()
+    return username, password
+
+
+def _ask_marketplace_config() -> None:
+    """Optionally launch the interactive marketplace configurator."""
+    choice = _prompt("  Review and configure marketplace plugins? (Y/n): ").strip().lower()
+    if choice not in ("", "y", "yes"):
+        _info("You can configure marketplace plugins later with: marketplace config")
+        return
+
+    try:
+        from cli.marketplace_config import configure_marketplace_interactive
+
+        _console.print()
+        result = configure_marketplace_interactive()
+        if result is not None:
+            enabled_count = sum(len(v) for v in result.enabled.values())
+            _ok(f"Marketplace configured: {enabled_count} addon(s) enabled")
+        else:
+            _info("Marketplace configuration cancelled.")
+    except ImportError:
+        _info("Marketplace configurator not available — run 'marketplace config' later.")
+    except Exception:
+        _info("Marketplace configurator could not start — run 'marketplace config' later.")
 
 
 def _build_readiness(params: dict[str, Any]) -> list[ReadinessItem]:

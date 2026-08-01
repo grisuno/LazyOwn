@@ -563,6 +563,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.c2_auth = (c2_user, c2_pass)
         self.c2_clientid = "no_priv"
         self.path = os.getcwd()
+        self._sync_c2_credentials()
         self.url_download = url_download
         self.version = version
         self.sessions_dir = f"{self.path}/sessions"
@@ -4098,6 +4099,36 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Failed to download file {file_name}. Status code: {response.status_code}")
 
     @cmd2.with_category(post_exploitation_category)
+    def _sync_c2_credentials(self):
+        """Sync CLI credentials with C2 auto-generated credentials if available.
+
+        Reads .c2_credentials.txt and updates self.c2_auth + payload.json
+        when the C2 has generated stronger credentials than the defaults.
+        """
+        import re
+        creds_file = os.path.join(self.path, ".c2_credentials.txt")
+        if not os.path.isfile(creds_file):
+            return
+        try:
+            with open(creds_file, "r") as f:
+                content = f.read()
+            user_match = re.search(r"USERNAME=(\S+)", content)
+            pass_match = re.search(r"PASSWORD=(\S+)", content)
+            if user_match and pass_match:
+                new_user = user_match.group(1)
+                new_pass = pass_match.group(1)
+                if new_user != self.c2_auth[0] or new_pass != self.c2_auth[1]:
+                    self.c2_auth = (new_user, new_pass)
+                    self.params["c2_user"] = new_user
+                    self.params["c2_pass"] = new_pass
+                    from core.config import save_payload
+                    payload = load_payload()
+                    payload["c2_user"] = new_user
+                    payload["c2_pass"] = new_pass
+                    save_payload(payload)
+        except Exception:
+            pass
+
     def issue_command_to_c2(self, command, client_id=""):
         """
         Ejecuta un comando en el cliente usando el C2.

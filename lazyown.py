@@ -1848,7 +1848,7 @@ class LazyOwnShell(cmd2.Cmd):
                             install_hint = tool.get('install_command', f"git clone {tool.get('repo_url','')}")
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
-                        command_replaced = replace_command_placeholders(execute_command, self.params)
+                        command_replaced = replace_command_placeholders(execute_command, self.params).strip()
                         if args:
                             final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
                         else:

@@ -1,6 +1,6 @@
 # LazyOwn -- Specifications & Architecture
 
-Version `release/0.2.157` -- Last updated 2026-07-30
+Version `release/0.2.158` -- Last updated 2026-07-31
 
 ---
 
@@ -8,22 +8,23 @@ Version `release/0.2.157` -- Last updated 2026-07-30
 
 LazyOwn is a red-team framework providing a unified CLI, C2 web dashboard, MCP
 server, and autonomous agent integration. It covers the full kill chain from
-reconnaissance through data exfiltration with 600+ CLI commands, 120+ aliases,
-and 100+ modules.
+reconnaissance through data exfiltration with 606+ CLI commands, 126 aliases,
+and 120+ modules.
 
 | Component | File | Lines | Description |
 |-----------|------|-------|-------------|
 | CLI Shell | `lazyown.py` | ~4,500 | cmd2 shell + cmd2 CommandSets |
 | C2 Server | `lazyc2.py` | ~6,400 | Flask + Socket.IO dashboard |
-| MCP Server | `skills/lazyown_mcp.py` | ~10,600 | 131+ tools for AI agents |
+| MCP Server | `skills/lazyown_mcp.py` | ~10,600 | 148 tools for AI agents |
 | Utils | `utils.py` | ~3,400 | Shared config, crypto, helpers |
 | DB | `modules/db.py` | ~700 | SQLite workspace isolation |
-| Module Registry | `modules/module_registry.py` | ~540 | 100+ module catalog |
+| Module Registry | `modules/module_registry.py` | ~540 | 120+ module catalog |
 | Payload Factory | `modules/payload_factory.py` | ~720 | Native shellcode, PS, rev shells |
 | CommandSets (active) | `cli/commands/*.py` | ~9,000 | Phase-scoped cmd2 CommandSets |
 | CommandSets (pending) | `cli/commands/*_migrated.py` | ~20,900 | Dormant migration copies |
-| Lab Manager | `cli/commands/lab.py` | ~200 | Docker CTF lab orchestration |
-| Marketplace | `cli/commands/marketplace.py` | ~250 | Plugin/addon discovery |
+| Marketplace | `cli/commands/marketplace.py` | ~350 | YARA + Nuclei + addon marketplace |
+| Tips Engine | `cli/tips_engine.py` | ~300 | Post-command tips + ELO + badges |
+| Auto Crypto | `cli/auto_crypto.py` | ~200 | Session encryption/decryption |
 
 ---
 
@@ -151,16 +152,50 @@ can walk the full kill chain with optional human gating.
 Keyword-based auto-classification maps modules to kill-chain phases. Python
 modules also classified by AST docstring scanning via `_classify_module_source()`.
 
-### 5.3 Marketplace
+### 5.3 Marketplace (v0.2.158)
 
-`cli/commands/marketplace.py` provides `marketplace list|search|install|update|info`
-for discovering community plugins, lazyaddons, and tool integrations.
+`cli/commands/marketplace.py` provides:
+- `marketplace list|search|install|update|info` -- community plugins, addons, tools
+- `yara_marketplace list|search|install|info|update` -- 10 built-in YARA rules (ransomware, C2, webshells, obfuscation, privesc) + community rules
+- `nuclei_marketplace list|search|install|info|update` -- 500+ templates from `~/nuclei-templates` with severity and CVE filtering
 
-### 5.4 Lab Manager
+### 5.4 Tips Engine (v0.2.158)
+
+`cli/tips_engine.py` coordinates all post-command suggestion surfaces into a unified
+hook. Includes kill-chain hints, protips, curiosity rewards, autosuggest, and
+ELO/VRI-based engagement tracking with 10 badges.
+
+### 5.5 Auto Crypto (v0.2.158)
+
+`cli/auto_crypto.py` encrypts sensitive session files on app close and decrypts on
+authenticated startup using PBKDF2HMAC + Fernet. Transparent to the operator.
+
+### 5.6 Lab Manager
 
 `cli/commands/lab.py` provides `lab list|start|stop|status` for spinning up
 Docker-based CTF practice targets (DVWA, Metasploitable2, Juice Shop, vulnerable
 Tomcat, Struts2, AD lab, etc.).
+
+### 5.7 New v0.2.158 Modules
+
+| Module | Description |
+|--------|-------------|
+| `cli/tips_engine.py` | Unified post-command tips + ELO + badges |
+| `cli/auto_crypto.py` | Session file encryption (PBKDF2HMAC + Fernet) |
+| `cli/marketplace_config.py` | Curses TUI config for marketplace tabs |
+| `modules/bitm_engine.py` | BITM (Browser In The Middle) attack engine |
+| `modules/cicd_enumerator.py` | CI/CD pipeline enumeration |
+| `modules/dns_beacon.py` | DNS-based beacon communication |
+| `modules/dpapi_harvester.py` | Windows DPAPI credential harvesting |
+| `modules/edr_detector.py` | EDR/XDR presence detection |
+| `modules/hash_cracker.py` | Multi-mode hash cracking engine |
+| `modules/mfa_bypass.py` | MFA bypass toolkit |
+| `modules/opsec_scorer.py` | OPSEC safety scoring |
+| `modules/playbook_executor.py` | YAML playbook execution engine |
+| `modules/privesc_predictor.py` | ML-based privilege escalation prediction |
+| `modules/redteam_gym.py` | Gamified red team training environment |
+| `yara_rules/` | 5 built-in YARA rule files |
+| `playbooks/apt_*.yaml` | 7 new APT adversary profiles |
 
 ---
 
@@ -201,7 +236,7 @@ Tomcat, Struts2, AD lab, etc.).
 
 ## 8. Hermes AI Integration
 
-### 8.1 MCP Tools (131+ total)
+### 8.1 MCP Tools (148 total)
 
 Essential tools for AI agents:
 - `lazyown_campaign_sitrep` -- Aggregate all campaign state

@@ -22,6 +22,8 @@ rather lose a tick than mislead an operator.
 | macOS beacon | yes (Go) | yes | no | yes | partial | yes | yes |
 | **Linux BOF support** | **yes (ELF dlopen)** | **no** | **no** | **no** | **no** | **no** | **no** |
 | Windows BOF support | partial (via beacon.yaml addon) | yes (COFF loader) | yes | yes (apollo, athena) | partial | no | no |
+| YARA rules marketplace | **yes (built-in + community)** | no | no | no | no | no | no |
+| Nuclei template marketplace | **yes (500+ templates)** | no | no | no | no | no | no |
 | Malleable C2 HTTP profile | yes | yes | yes | yes (via containers) | partial | partial | yes (advanced) |
 | DNS C2 | yes (built-in resolver) | yes | partial | yes | yes | no | yes |
 | TLS / mTLS | yes (self-signed + mTLS-ready) | yes | yes | yes | yes | partial | yes |
@@ -128,10 +130,10 @@ Tracked in GitHub issues, summarised here:
 
 - Windows COFF loader parity with Sliver inside the Go beacon.
 - ARM/IoT beacon (`blackzincbeacon`) for embedded targets.
-- Operator handbook with screenshots and a guided demo engagement.
-- Reproducible end-to-end demo video pinned to the README.
 - Signed releases (cosign) and SBOM publication.
 - Plugin marketplace index at addons.lazyown.io.
+- YARA rules community contributions pipeline.
+- Nuclei template auto-sync with upstream ProjectDiscovery.
 
 ---
 

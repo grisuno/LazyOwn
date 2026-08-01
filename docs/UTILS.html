@@ -175,764 +175,3052 @@
 <header id="title-block-header">
 <h1 class="title">LazyOwn Framework Doc: UTILS.md</h1>
 </header>
-<h1 id="utils.md-documentation-by-readmeneitor.py">UTILS.md
-Documentation by readmeneitor.py</h1>
-<h2 id="parse_ip_mac">parse_ip_mac</h2>
-<p>Extracts IP and MAC addresses from a formatted input string using a
-regular expression.</p>
-<p>The input string is expected to be in the format: ‘IP:
-(192.168.1.222) MAC: ec:c3:02:b0:4c:96’. The function uses a regular
-expression to match and extract the IP address and MAC address from the
-input.</p>
-<p>Args: input_string (str): The formatted string containing the IP and
-MAC addresses.</p>
-<p>Returns: tuple: A tuple containing the extracted IP address and MAC
-address. If the format is incorrect, returns (None, None).</p>
-<h2 id="create_arp_packet">create_arp_packet</h2>
-<p>Constructs an ARP packet with the given source and destination IP and
-MAC addresses.</p>
-<p>The function creates both Ethernet and ARP headers, combining them
-into a complete ARP packet.</p>
-<p>Args: src_mac (str): Source MAC address in the format
-‘xx:xx:xx:xx:xx:xx’. src_ip (str): Source IP address in dotted decimal
-format (e.g., ‘192.168.1.1’). dst_ip (str): Destination IP address in
-dotted decimal format (e.g., ‘192.168.1.2’). dst_mac (str): Destination
-MAC address in the format ‘xx:xx:xx:xx:xx:xx’.</p>
-<p>Returns: bytes: The constructed ARP packet containing the Ethernet
-and ARP headers.</p>
-<h2 id="send_packet">send_packet</h2>
-<p>Sends a raw ARP packet over the specified network interface.</p>
-<p>The function creates a raw socket, binds it to the specified network
-interface, and sends the given packet.</p>
-<p>Args: packet (bytes): The ARP packet to be sent. iface (str): The
-name of the network interface to use for sending the packet (e.g.,
-‘eth0’).</p>
-<p>Raises: OSError: If an error occurs while creating the socket or
-sending the packet.</p>
-<h2 id="load_version">load_version</h2>
-<p>Load the version number from the ‘version.json’ file.</p>
-<p>This function attempts to open the ‘version.json’ file and load its
-contents. If the file is found, it retrieves the version number from the
-JSON data. If the version key does not exist, it returns a default
-version ‘release/v0.0.14’. If the file is not found, it also returns the
-default version.</p>
-<p>The version.json is the single source of truth, updated by
-deploy.sh.</p>
-<p>Returns: - str: The version number from the file or the default
-version if the file is not found or the version key is missing.</p>
-<h2 id="signal_handler">signal_handler</h2>
-<p>Handles signals such as Control + C and shows a message on how to
-exit.</p>
-<p>This function is used to handle signals like Control + C (SIGINT) and
-prints a warning message instructing the user on how to exit the program
-using the commands ‘exit’, ‘q’, or ‘qa’.</p>
-<p>:param sig: The signal number. :type sig: int :param frame: The
-current stack frame. :type frame: frame :return: None</p>
-<h2 id="activate_virtualenv">activate_virtualenv</h2>
-<p>Activates a virtual environment and starts an interactive shell.</p>
-<p>This function activates a virtual environment located at
-<code>venv_path</code> and then launches an interactive bash shell with
-the virtual environment activated.</p>
-<p>:param venv_path: The path to the virtual environment directory.
-:type venv_path: str :return: None</p>
-<h2 id="parse_proc_net_file">parse_proc_net_file</h2>
-<p>Internal function to parse a /proc/net file and extract network
-ports.</p>
-<p>This function reads a file specified by <code>file_path</code>,
-processes each line to extract local addresses and ports, and converts
-them from hexadecimal to decimal. The IP addresses are converted from
-hexadecimal format to standard dot-decimal notation. The function
-returns a list of tuples, each containing an IP address and a port
-number.</p>
-<p>:param file_path: The path to the /proc/net file to be parsed. :type
-file_path: str :return: A list of tuples, each containing an IP address
-and a port number. :rtype: list of tuple</p>
-<h2 id="get_open_ports">get_open_ports</h2>
-<p>Internal function to get open TCP and UDP ports on the operating
-system.</p>
-<p>This function uses the <code>parse_proc_net_file</code> function to
-extract open TCP and UDP ports from the corresponding /proc/net files.
-It returns two lists: one for TCP ports and one for UDP ports.</p>
-<p>:return: A tuple containing two lists: the first list with open TCP
-ports and the second list with open UDP ports. :rtype: tuple of (list of
-tuple, list of tuple)</p>
-<h2 id="find_credentials">find_credentials</h2>
-<p>Searches for potential credentials in files within the specified
-directory.</p>
-<p>This function uses a regular expression to find possible credentials
-such as passwords, secrets, API keys, and tokens in files within the
-given directory. It iterates through all files in the directory and
-prints any matches found.</p>
-<p>:param directory: The directory to search for files containing
-credentials. :type directory: str :return: None</p>
-<h2 id="rotate_char">rotate_char</h2>
-<p>Internal function to rotate characters for ROT cipher.</p>
-<p>This function takes a character and a shift value, and rotates the
-character by the specified shift amount. It only affects alphabetical
-characters, leaving non-alphabetical characters unchanged.</p>
-<p>:param c: The character to be rotated. :type c: str :param shift: The
-number of positions to shift the character. :type shift: int :return:
-The rotated character. :rtype: str</p>
-<h2 id="get_network_info">get_network_info</h2>
-<p>Retrieves network interface information with their associated IP
-addresses.</p>
-<p>This function executes a shell command to gather network interface
-details, parses the output to extract interface names and their
-corresponding IP addresses, and returns this information in a dictionary
-format. The dictionary keys are interface names, and the values are IP
-addresses.</p>
-<p>:return: A dictionary where the keys are network interface names and
-the values are their associated IP addresses. :rtype: dict</p>
-<h2 id="get_git_info">get_git_info</h2>
-<p>No description available.</p>
-<h2 id="get_venv_info">get_venv_info</h2>
-<p>No description available.</p>
-<h2 id="load_prompt_payload">_load_prompt_payload</h2>
-<p>Read <code>payload.json</code> defensively for the prompt
-renderer.</p>
-<p>The prompt is rendered before the shell finishes wiring its
-parameters, so direct attribute access on the shell would race. Reading
-the file each time keeps the prompt in sync with operator-driven updates
-without coupling the renderer to the shell’s lifecycle.</p>
-<h2 id="getprompt">getprompt</h2>
-<p>Render the configurable Neon Box prompt for the cmd2 shell.</p>
-<p>Delegates to :func:<code>cli.banner_config.render_prompt</code> so
-the entire segment registry, color palette, and toggling logic live in a
-single self-contained module. Failure to import the renderer falls back
-to a minimal single-line prompt so the shell stays usable.</p>
-<p>Returns: str: The fully styled multi-line prompt string ready for
-cmd2.</p>
-<h2 id="copy2clip">copy2clip</h2>
-<p>Copia el texto proporcionado al portapapeles usando xclip.</p>
-<p>Args: text (str): El texto que se desea copiar al portapapeles.</p>
-<p>Example: copy2clip(“Hello, World!”)</p>
-<h2 id="clean_output">clean_output</h2>
-<p>Removes color escape sequences and other non-printable
-characters.</p>
-<h2 id="teclado_usuario">teclado_usuario</h2>
-<p>Processes a file to extract and display characters from specific
-write sequences.</p>
-<p>Args: filename (str): El nombre del archivo a leer.</p>
-<p>Raises: FileNotFoundError: Si el archivo no se encuentra. Exception:
-Para otros errores que puedan ocurrir.</p>
-<h2 id="salida_strace">salida_strace</h2>
-<p>Lee un archivo, extrae texto desde secuencias de escritura y muestra
-el contenido reconstruido.</p>
-<p>Args: filename (str): El nombre del archivo a leer.</p>
-<p>Raises: FileNotFoundError: Si el archivo no se encuentra. Exception:
-Para otros errores que puedan ocurrir.</p>
-<h2 id="exploitalert">exploitalert</h2>
-<p>Process and display results from ExploitAlert.</p>
-<p>This function checks if the provided content contains any results. If
-results are present, it prints the title and link for each exploit
-found, and appends the results to a predata list. If no results are
-found, it prints an error message.</p>
-<p>Parameters: - content (list): A list of dictionaries containing
-exploit information.</p>
-<p>Returns: None Thanks to Sicat 🐈 An excellent tool for CVE detection,
-I implemented only the keyword search as I had to change some libraries.
-Soon also for XML generated by nmap :) Total thanks to justakazh.
-https://github.com/justakazh/sicat/</p>
-<h2 id="packetstormsecurity">packetstormsecurity</h2>
-<p>Process and display results from PacketStorm Security.</p>
-<p>This function extracts exploit data from the provided content using
-regex. If any results are found, it prints the title and link for each
-exploit, and appends the results to a predata list. If no results are
-found, it prints an error message.</p>
-<p>Parameters: - content (str): The HTML content from PacketStorm
-Security.</p>
-<p>Returns: None Thanks to Sicat 🐈 An excellent tool for CVE detection,
-I implemented only the keyword search as I had to change some libraries.
-Soon also for XML generated by nmap :) Total thanks to justakazh.
-https://github.com/justakazh/sicat/</p>
-<h2 id="nvddb">nvddb</h2>
-<p>Process and display results from the National Vulnerability
-Database.</p>
-<p>This function checks if there are any vulnerabilities in the provided
-content. If vulnerabilities are present, it prints the ID, description,
-and link for each CVE found, and appends the results to a predata list.
-If no results are found, it prints an error message.</p>
-<p>Parameters: - content (dict): A dictionary containing vulnerability
-data.</p>
-<p>Returns: None Thanks to Sicat 🐈 An excellent tool for CVE detection,
-I implemented only the keyword search as I had to change some libraries.
-Soon also for XML generated by nmap :) Total thanks to justakazh.
-https://github.com/justakazh/sicat/</p>
-<h2 id="find_ss">find_ss</h2>
-<p>Find CVEs in the National Vulnerability Database based on a
-keyword.</p>
-<p>This function takes a keyword, formats it for the API request, and
-sends a GET request to the NVD API. If the request is successful, it
-returns the JSON response containing CVE data; otherwise, it returns
-False.</p>
-<p>Parameters: - keyword (str): The keyword to search for in CVEs.</p>
-<p>Returns: - dict or bool: The JSON response containing CVE data or
-False on failure. Thanks to Sicat 🐈 An excellent tool for CVE
-detection, I implemented only the keyword search as I had to change some
-libraries. Soon also for XML generated by nmap :) Total thanks to
-justakazh. https://github.com/justakazh/sicat/</p>
-<h2 id="find_ea">find_ea</h2>
-<p>Find exploits in ExploitAlert based on a keyword.</p>
-<p>This function takes a keyword, formats it for the API request, and
-sends a GET request to the ExploitAlert API. If the request is
-successful, it returns the JSON response containing exploit data;
-otherwise, it returns False.</p>
-<p>Parameters: - keyword (str): The keyword to search for exploits.</p>
-<p>Returns: - dict or bool: The JSON response containing exploit data or
-False on failure. Thanks to Sicat 🐈 An excellent tool for CVE
-detection, I implemented only the keyword search as I had to change some
-libraries. Soon also for XML generated by nmap :) Total thanks to
-justakazh. https://github.com/justakazh/sicat/</p>
-<h2 id="find_ps">find_ps</h2>
-<p>Find exploits in PacketStorm Security based on a keyword.</p>
-<p>This function takes a keyword, formats it for the search request, and
-sends a GET request to the PacketStorm Security website. If the request
-is successful, it returns the HTML response; otherwise, it returns
-False.</p>
-<p>Parameters: - keyword (str): The keyword to search for exploits.</p>
-<p>Returns: - str or bool: The HTML response containing exploit data or
-False on failure. Thanks to Sicat 🐈 An excellent tool for CVE
-detection, I implemented only the keyword search as I had to change some
-libraries. Soon also for XML generated by nmap :) Total thanks to
-justakazh. https://github.com/justakazh/sicat/</p>
-<h2 id="run">run</h2>
-<p>Executes a shell command using the subprocess module, capturing its
-output.</p>
-<p>Parameters: command (str): The command to execute.</p>
-<p>Returns: str: The output of the command if successful, or an error
-message if an exception occurs.</p>
-<p>Exceptions: - FileNotFoundError: Raised if the command is not found.
-- subprocess.CalledProcessError: Raised if the command exits with a
-non-zero status. - subprocess.TimeoutExpired: Raised if the command
-times out. - Exception: Catches any other unexpected exceptions.</p>
-<p>Example: output = run(“ls -la”) print(output)</p>
-<p>Additional Notes: The function attempts to execute the provided
-command, capturing its output. It also handles common exceptions that
-may occur during command execution.</p>
-<h2 id="is_exist">is_exist</h2>
-<p>Check if a file exists.</p>
-<p>This function checks whether a given file exists on the filesystem.
-If the file does not exist, it prints an error message and returns
-False. Otherwise, it returns True.</p>
-<p>Arguments: file (str): The path to the file that needs to be
-checked.</p>
-<p>Returns: bool: Returns True if the file exists, False otherwise.</p>
-<p>Example: &gt;&gt;&gt; is_exist(‘/path/to/file.txt’) True &gt;&gt;&gt;
-is_exist(‘/non/existent/file.txt’) False</p>
-<p>Notes: This function uses os.path.isfile to determine the existence
-of the file. Ensure that the provided path is correct and
-accessible.</p>
-<h2 id="get_domain">get_domain</h2>
-<p>Extracts the domain from a given URL.</p>
-<p>Parameters: url (str): The full URL from which to extract the
+<h1 id="lazyown-command-reference">LazyOwn Command Reference</h1>
+<p>Auto-generated by readmeneitor.py from source docstrings and
+cli/command_index.json.</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ul>
+<li><a href="#01-reconnaissance">01. Reconnaissance</a> (34
+commands)</li>
+<li><a href="#02-scanning-&amp;-enumeration">02. Scanning &amp;
+Enumeration</a> (74 commands)</li>
+<li><a href="#03-exploitation">03. Exploitation</a> (66 commands)</li>
+<li><a href="#04-post-exploitation">04. Post-Exploitation</a> (44
+commands)</li>
+<li><a href="#05-persistence">05. Persistence</a> (33 commands)</li>
+<li><a href="#06-privilege-escalation">06. Privilege Escalation</a> (11
+commands)</li>
+<li><a href="#07-credential-access">07. Credential Access</a> (31
+commands)</li>
+<li><a href="#08-lateral-movement">08. Lateral Movement</a> (30
+commands)</li>
+<li><a href="#09-data-exfiltration">09. Data Exfiltration</a> (35
+commands)</li>
+<li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
+(28 commands)</li>
+<li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (165
+commands)</li>
+<li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (91 commands)</li>
+</ul>
+<hr />
+<h2 id="reconnaissance">01. Reconnaissance</h2>
+<h3 id="alterx"><code>alterx</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the ‘alterx’ command for subdomain enumeration on the
+provided self.params[‘domain’]. If ‘alterx’</p>
+<h3 id="apache_users"><code>apache_users</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Performs enumeration of users from a target system using
+<code>apache-users</code>.</p>
+<h3 id="binarycheck"><code>binarycheck</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Performs various checks on a selected binary to gather information
+and protections.</p>
+<h3 id="cve"><code>cve</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Search for a CVE using the CIRCL API.</p>
+<h3 id="dig"><code>dig</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Executes the <code>dig</code> command to query DNS information.</p>
+<h3 id="dnschef"><code>dnschef</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the DNSChef tool to monitor DNS queries and intercept
+responses.</p>
+<h3 id="dnsenum"><code>dnsenum</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Performs DNS enumeration using <code>dnsenum</code> to identify
+subdomains for a given domain.</p>
+<h3 id="dnsmap"><code>dnsmap</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Performs DNS enumeration using <code>dnsmap</code> to discover
+subdomains for a specified domain.</p>
+<h3 id="dnstool_py"><code>dnstool_py</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the dnstool.py tool to modify Active Directory-integrated
+DNS records.</p>
+<h3 id="finalrecon"><code>finalrecon</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Runs the <code>finalrecon</code> tool to perform a web server
+vulnerability scan against the specified target host.</p>
+<h3 id="getcap"><code>getcap</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Retrieve and display file capabilities on the system.</p>
+<h3 id="gospider"><code>gospider</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Try gospider for web spidering.</p>
+<h3 id="graudit"><code>graudit</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the graudit command to perform a static code analysis with
+the specified options.</p>
+<h3 id="httprobe"><code>httprobe</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the httprobe tool to probe domains for working HTTP and
+HTTPS servers.</p>
+<h3 id="ipinfo"><code>ipinfo</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Retrieves detailed information about an IP address using the ARIN
+API.</p>
+<h3 id="launchpad"><code>launchpad</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Searches for packages on Launchpad based on the provided search term
+and extracts codenames from the results. The distribution is extracted
+from the search term.</p>
+<h3 id="metabigor"><code>metabigor</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes Metabigor commands for OSINT and scanning tasks with guided
+input or predefined arguments.</p>
+<h3 id="openssl_sclient"><code>openssl_sclient</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Uses <code>openssl s_client</code> to connect to a specified host and
+port, allowing for testing and debugging of SSL/TLS connections.</p>
+<h3 id="ping"><code>ping</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Perform a ping to check host availability and infer the operating
+system based on TTL values.</p>
+<h3 id="ports"><code>ports</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Lists all open TCP and UDP ports on the local system.</p>
+<h3 id="proxy"><code>proxy</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Runs a small proxy server to modify HTTP requests on the fly.</p>
+<h3 id="recon"><code>recon</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Performs reconnaissance on a specified self.params[‘domain’] using
+crt.sh (the target must be visible on internet), pup, httprobe, and
+EyeWitness.</p>
+<h3 id="serveralive2"><code>serveralive2</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Command serveralive2: Uses Impacket to connect to a remote MSRPC
+interface and retrieves the server bindings.</p>
+<h3 id="sherlock"><code>sherlock</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes the Sherlock tool to find usernames across social
+networks.</p>
+<h3 id="sslscan"><code>sslscan</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Run an SSL scan on the specified remote host.</p>
+<h3 id="surface"><code>surface</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Render the network surface graph in the terminal.</p>
+<h3 id="tcpdump_capture"><code>tcpdump_capture</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Starts packet capture using <code>tcpdump</code> on the specified
+interface.</p>
+<h3 id="tcpdump_icmp"><code>tcpdump_icmp</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Starts <code>tcpdump</code> to capture ICMP traffic on the specified
+interface.</p>
+<h3 id="trace"><code>trace</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Traces the DNS information for a given self.params[‘domain’] using
+the FreeDNS service. (using freedns IP Not your IP)</p>
+<h3 id="trufflehog"><code>trufflehog</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Executes trufflehog to search for secrets in a given Git repository
+URL.</p>
+<h3 id="tshark_analyze"><code>tshark_analyze</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Analyzes a packet capture file using <code>tshark</code> based on the
+provided remote host IP.</p>
+<h3 id="waybackmachine"><code>waybackmachine</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Fetch URLs from the Wayback Machine for a given website.</p>
+<h3 id="whatweb"><code>whatweb</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Performs a web technology fingerprinting scan using
+<code>whatweb</code>.</p>
+<h3
+id="windapsearchscrapeusers"><code>windapsearchscrapeusers</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/recon_migrated.py</code></p>
+<p>Extracts usernames from a JSON output generated by go-windapsearch
+and appends them</p>
+<h2 id="scanning-enumeration">02. Scanning &amp; Enumeration</h2>
+<h3 id="ad_ldap_enum"><code>ad_ldap_enum</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes ad-ldap-enum to enumerate Active Directory objects (users,
+groups, computers)</p>
+<h3 id="allin"><code>allin</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Execute the AlliN.py tool with various scan modes and parameters.</p>
+<h3 id="amass"><code>amass</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Executes Amass to perform a passive enumeration on a given
 domain.</p>
-<p>Returns: str: The extracted domain from the URL, or None if it cannot
-be extracted.</p>
-<h2 id="generate_certificates">generate_certificates</h2>
+<h3 id="arjun"><code>arjun</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes an Arjun scan on the specified URL for parameter
+discovery.</p>
+<h3 id="arpscan"><code>arpscan</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Executes an ARP scan using <code>arp-scan</code>.</p>
+<h3 id="batchnmap"><code>batchnmap</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> for
+multiple Nmap scans.</p>
+<h3 id="bbot"><code>bbot</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Executes a BBOT scan to perform various reconnaissance tasks.</p>
+<h3 id="blazy"><code>blazy</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command blazy: Installs and runs blazy for multi-vulnerability web
+application scanning.</p>
+<h3 id="bloodhound"><code>bloodhound</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Perform LDAP enumeration using bloodhound-python with credentials
+from a file.</p>
+<h3 id="breacher"><code>breacher</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command breacher: Installs and runs Breacher for finding admin login
+pages and EAR vulnerabilities.</p>
+<h3 id="certipy"><code>certipy</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the Certipy tool to interact with Active Directory
+Certificate Services.</p>
+<h3 id="certipy_ad"><code>certipy_ad</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Run certipy-ad against Active Directory Certificate Services.</p>
+<h3 id="changeme"><code>changeme</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes a changeme scan on a specified target URL or host.</p>
+<h3 id="cme"><code>cme</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Execute CrackMapExec (CME) for SMB enumeration and authentication
+attempts against a target.</p>
+<h3 id="davtest"><code>davtest</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Tests WebDAV server configurations using <code>davtest</code>.</p>
+<h3 id="dirsearch"><code>dirsearch</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Runs the <code>dirsearch</code> tool to perform directory and file
+enumeration on a specified URL.</p>
+<h3 id="dmitry"><code>dmitry</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>This function constructs and executes a command for the ‘dmitry’
+tool.</p>
+<h3 id="enum4linux"><code>enum4linux</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Performs enumeration of information from a target Linux/Unix system
+using <code>enum4linux</code>.</p>
+<h3 id="enum4linux_ng"><code>enum4linux_ng</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Performs enumeration of information from a target system using
+<code>enum4linux-ng</code>.</p>
+<h3 id="evil_ssdp"><code>evil_ssdp</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Runs evil-ssdp with various options and user-selected templates.</p>
+<h3 id="feroxbuster"><code>feroxbuster</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Command feroxbuster: Installs and runs Feroxbuster for performing
+forced browsing and directory brute-forcing.</p>
+<h3 id="finger_user_enum"><code>finger_user_enum</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the <code>finger-user-enum</code> tool for enumerating users
+on the target host.</p>
+<h3 id="fuzz"><code>fuzz</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes a web server fuzzing script with user-provided
+parameters.</p>
+<h3 id="getnpusers"><code>getnpusers</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>sudo impacket-GetNPUsers mist.htb/ -no-pass -usersfile
+sessions/users.txt</p>
+<h3 id="gobuster"><code>gobuster</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Uses <code>gobuster</code> for directory and virtual host fuzzing
+based on provided parameters. Supports directory enumeration and virtual
+host discovery.</p>
+<h3 id="hostdiscover"><code>hostdiscover</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Discover active hosts in a subnet by performing a ping sweep.</p>
+<h3 id="hound"><code>hound</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the hound tool for Hound is a simple and light tool for
+information gathering and capture exact GPS coordinates</p>
+<h3 id="kerbrute"><code>kerbrute</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the Kerbrute tool to enumerate user accounts against a
+specified target self.params[‘domain’] controller.</p>
+<h3 id="lazynmap"><code>lazynmap</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Runs the internal module <code>modules/lazynmap.sh</code> with target
+mode.</p>
+<h3 id="ldapdomaindump"><code>ldapdomaindump</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Dumps LDAP information using <code>ldapdomaindump</code> with
+credentials from a file.</p>
+<h3 id="ldapsearch"><code>ldapsearch</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes an LDAP search against a target remote host
+(self.params[‘rhost’]) and saves the results.</p>
+<h3 id="lookupsid"><code>lookupsid</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the Impacket lookupsid tool to enumerate SIDs on a target
+system.</p>
+<h3 id="lookupsid_py"><code>lookupsid_py</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the LookupSID tool to perform SID enumeration on a target
+system.</p>
+<h3 id="loxs"><code>loxs</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command loxs: Installs and runs Loxs for multi-vulnerability web
+application scanning.</p>
+<h3 id="lynis"><code>lynis</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Performs a Lynis audit on the specified remote system.</p>
+<h3 id="magicrecon"><code>magicrecon</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Command magicrecon: Automates the setup and usage of MagicRecon to
+perform various types of reconnaissance and vulnerability scanning on
+specified targets.</p>
+<h3 id="mqtt_check_py"><code>mqtt_check_py</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the MQTT check tool to verify credentials on a target system
+with optional SSL.</p>
+<h3 id="nbtscan"><code>nbtscan</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Performs network scanning using <code>nbtscan</code> to discover
+NetBIOS names and addresses in a specified range.</p>
+<h3 id="net_rpc_addmem"><code>net_rpc_addmem</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the net rpc group addmem command to add a user to a
+specified group in Active Directory.</p>
+<h3 id="netexec"><code>netexec</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes netexec with various options for network protocol
+operations.</p>
+<h3 id="netview"><code>netview</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the Impacket netview tool to list network shares on a
+specified target.</p>
+<h3 id="nikto"><code>nikto</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Runs the <code>nikto</code> tool to perform a web server
+vulnerability scan against the specified target host.</p>
+<h3 id="nmapscript"><code>nmapscript</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Perform an Nmap scan using a specified script and port.</p>
+<h3 id="nuclei"><code>nuclei</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Executes a Nuclei scan on a specified target URL or host.</p>
+<h3 id="odat"><code>odat</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on
+a target Oracle database.</p>
+<h3 id="openredirex"><code>openredirex</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command openredirex: Clones, installs, and runs OpenRedirex for
+testing open redirection vulnerabilities.</p>
+<h3 id="osmedeus"><code>osmedeus</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Executes Osmedeus scans with guided input for various scanning
+scenarios.</p>
+<h3 id="parsero"><code>parsero</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes a parsero scan on a specified target URL or host.</p>
+<h3 id="parth"><code>parth</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command parth: Installs and runs Parth for discovering vulnerable
+URLs and parameters.</p>
+<h3 id="portdiscover"><code>portdiscover</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Scan all ports on a specified host to identify open ports.</p>
+<h3 id="portservicediscover"><code>portservicediscover</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Scan all ports on a specified host to identify open ports and
+associated services.</p>
+<h3 id="pre2k"><code>pre2k</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the pre2k tool to query the self.params[‘domain’] for
+pre-Windows 2000 machine accounts or to pass a list of hostnames to test
+authentication.</p>
+<h3 id="pykerbrute"><code>pykerbrute</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command pykerbrute: Automates the installation and execution of
+PyKerbrute for bruteforcing Active Directory accounts using Kerberos
+pre-authentication.</p>
+<h3 id="rdp_check_py"><code>rdp_check_py</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the RDP check tool to verify credentials or hash-based
+authentication on a target system.</p>
+<h3 id="rpcclient"><code>rpcclient</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Executes the <code>rpcclient</code> command to interact with a remote
+Windows system over RPC (Remote Procedure Call) using anonymous
+credentials.</p>
+<h3 id="rpcdump"><code>rpcdump</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Executes the <code>rpcdump.py</code> script to dump RPC services from
+a target host.</p>
+<h3 id="rpcmap_py"><code>rpcmap_py</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC
+interfaces.</p>
+<h3 id="samrdump"><code>samrdump</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Run <code>impacket-samrdump</code> to dump SAM data from specified
+ports.</p>
+<h3 id="sawks"><code>sawks</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Executes the Swaks (Swiss Army Knife for SMTP) tool to send test
+emails for phishing simulations.</p>
+<h3 id="sessionssh"><code>sessionssh</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Execute a command to list active SSH connections.</p>
+<h3 id="skipfish"><code>skipfish</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>This function executes the web security scanning tool Skipfish</p>
+<h3 id="smbattack"><code>smbattack</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Scans for hosts with SMB service open on port 445 in the specified
+target network.</p>
+<h3 id="smbclient"><code>smbclient</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Interacts with SMB shares using the <code>smbclient</code> command to
+perform the following operations:</p>
+<h3 id="smbclient_impacket"><code>smbclient_impacket</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Interacts with SMB shares using the <code>smbclient</code> command to
+perform the following operations:</p>
+<h3 id="smbclient_py"><code>smbclient_py</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Interacts with SMB shares using the <code>smbclient.py</code> command
+to perform the following operations:</p>
+<h3 id="smbmap"><code>smbmap</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>smbmap -H 10.10.10.3 [OPTIONS]</p>
+<h3 id="smtpuserenum"><code>smtpuserenum</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Enumerates SMTP users using the <code>smtp-user-enum</code> tool with
+the VRFY method.</p>
+<h3 id="snmpcheck"><code>snmpcheck</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Performs an SNMP check on the specified target host.</p>
+<h3 id="snmpwalk"><code>snmpwalk</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Performs an SNMP check on the specified target host.</p>
+<h3 id="swaks"><code>swaks</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Sends an email using <code>swaks</code> (Swiss Army Knife for
+SMTP).</p>
+<h3 id="vscan"><code>vscan</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan.py</code></p>
+<p>Perform port scanning using vscan with the provided parameters.</p>
+<h3 id="wfuzz"><code>wfuzz</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Uses <code>wfuzz</code> to perform fuzzing based on provided
+parameters. This function supports various options for directory and
+file fuzzing.</p>
+<h3 id="windapsearch"><code>windapsearch</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Execute the windapsearch tool to perform Active Directory Domain
+enumeration through LDAP queries.</p>
+<h3 id="wpscan"><code>wpscan</code></h3>
+<p><strong>Phase:</strong> enum | <strong>Source:</strong>
+<code>cli/commands/scan_migrated.py</code></p>
+<p>Command wpscan: Installs and runs WPScan to perform WordPress
+vulnerability scanning.</p>
+<h2 id="exploitation">03. Exploitation</h2>
+<h3 id="aclpwn_py"><code>aclpwn_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the aclpwn.py tool to find and exploit ACL paths for
+privilege escalation in an Active Directory environment.</p>
+<h3 id="adcs_check"><code>adcs_check</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Check Active Directory Certificate Services for ESC1-ESC8
+vulnerabilities.</p>
+<h3 id="addspn_py"><code>addspn_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the addspn.py tool to manage Service Principal Names (SPNs)
+on Active Directory accounts via LDAP.</p>
+<h3 id="auto_pwn"><code>auto_pwn</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>Run the full autonomous exploitation chain against the target.</p>
+<h3 id="autoblody"><code>autoblody</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the autobloody tool for automating Active Directory
+privilege escalation paths.</p>
+<h3 id="cacti_exploit"><code>cacti_exploit</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Automates the exploitation of the Cacti version 1.2.26
+vulnerability</p>
+<h3 id="chain"><code>chain</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Run autonomous exploitation chain: recon -&gt; vuln -&gt; exploit
+-&gt; post-exploit.</p>
+<h3 id="commix"><code>commix</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Runs commix for command injection testing.</p>
+<h3 id="cp"><code>cp</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Copies a file from the ExploitDB directory to the sessions
+directory.</p>
+<h3 id="createcookie"><code>createcookie</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Creates a <code>cookie.txt</code> file in the <code>sessions</code>
+directory with the specified cookie value.</p>
+<h3 id="createdll"><code>createdll</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Create a Windows DLL file using MinGW-w64 or a Blazor DLL for
+Linux.</p>
+<h3 id="digdug"><code>digdug</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes Dig Dug to inflate the size of an executable file,
+leveraging pre-configured settings</p>
+<h3 id="download_exploit"><code>download_exploit</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Downloads and sets up an exploit, optionally serving via HTTP.</p>
+<h3 id="downloader"><code>downloader</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Generate a downloader command for files in the sessions
+directory.</p>
+<h3 id="eternal"><code>eternal</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Automates the EternalBlue (MS17-010) exploitation process using
+Metasploit.</p>
+<h3 id="excelntdonut"><code>excelntdonut</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Generates an Excel 4.0 (XLM) macro from a provided C# source file
+using EXCELntDonut.</p>
+<h3 id="exploit_chain"><code>exploit_chain</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>AI-driven multi-step exploit chaining with fallback strategies.</p>
+<h3 id="exploit_recommend"><code>exploit_recommend</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>AI-powered exploit recommendation — matches discovered services to
+CVEs.</p>
+<h3 id="filtering"><code>filtering</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Applies various filtering techniques to the given command line by
+modifying each character or word appropriately.</p>
+<h3 id="gets4uticket_py"><code>gets4uticket_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the gets4uticket.py tool from PKINITtools to request an
+S4U2Self service ticket using Kerberos.</p>
+<h3 id="gettgtpkinit_py"><code>gettgtpkinit_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the gettgtpkinit.py tool from PKINITtools to request a TGT
+using Kerberos PKINIT with a PFX or PEM certificate.</p>
+<h3 id="greatsct"><code>greatSCT</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the GreatSCT tool for generating payloads that bypass
+antivirus and application whitelisting solutions.</p>
+<h3 id="img2cookie"><code>img2cookie</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Generates an XSS payload that steals cookies via an image tag.</p>
+<h3 id="jwt_tool"><code>jwt_tool</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens
+(JWTs).</p>
+<h3 id="krbrelayx_py"><code>krbrelayx_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the krbrelayx.py tool for Kerberos relaying or unconstrained
+delegation abuse.</p>
+<h3 id="kusa"><code>kusa</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Runs the Kusanagi payload generator.</p>
+<h3 id="lazypwn"><code>lazypwn</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Executes the LazyPwn automated exploitation script.</p>
+<h3 id="lfi"><code>lfi</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Exploits a potential Local File Inclusion (LFI) vulnerability by
+crafting</p>
+<h3 id="lol"><code>lol</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Exploits a target by injecting a malicious payload and collecting
+admin information.</p>
+<h3 id="lolbas_use"><code>lolbas_use</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>Execute a specific LOLBAS technique.</p>
+<h3 id="ms08_067_netapi"><code>ms08_067_netapi</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of
+metasploit</p>
+<h3 id="ntpdate"><code>ntpdate</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Synchronizes the system clock with a specified NTP server.</p>
+<h3 id="owneredit"><code>owneredit</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the Impacket owneredit tool for manipulating ownership of
+Active Directory objects.</p>
+<h3 id="padbuster"><code>padbuster</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Execute the PadBuster command for padding oracle attacks.</p>
+<h3 id="powerserver"><code>powerserver</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>This function generates a PowerShell script that retrieves reverse
+shell over http on a Windows system.</p>
+<h3 id="printerbug_py"><code>printerbug_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the printerbug.py tool to trigger the SpoolService bug via
+RPC backconnect.</p>
+<h3 id="psexec"><code>psexec</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Executes the Impacket PSExec tool to attempt remote execution on the
+specified target.</p>
+<h3 id="psexec_py"><code>psexec_py</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/enum.py</code></p>
+<p>Executes the Impacket PSExec tool to attempt remote execution on the
+specified target.</p>
+<h3 id="py3ttyup"><code>py3ttyup</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Copies a Python reverse shell command to the clipboard.</p>
+<h3 id="pyautomate"><code>pyautomate</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Automates the execution of pwntomate tools on XML configuration
+files.</p>
+<h3 id="pyoracle2"><code>pyoracle2</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the pyOracle2 tool for performing padding oracle
+attacks.</p>
+<h3 id="pywhisker"><code>pywhisker</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the pyWhisker tool for manipulating the
+msDS-KeyCredentialLink attribute of a target user or computer.</p>
+<h3 id="rejetto_hfs_exec"><code>rejetto_hfs_exec</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>HttpFileServer version 2.3. Vulnerable using the module
+rejetto_hfs_exec of metasploit</p>
+<h3 id="rev"><code>rev</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Copies a reverse shell one-liner to the clipboard.</p>
+<h3 id="seo"><code>seo</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Performs a web seo fingerprinting scan using
+<code>lazyseo.py</code>.</p>
+<h3 id="sharpshooter"><code>sharpshooter</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes a payload creation framework for the retrieval and execution
+of arbitrary CSharp source code.</p>
+<h3 id="shellfire"><code>shellfire</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Runs Shellfire with various options and allows generating
+payloads.</p>
+<h3 id="shellshock"><code>shellshock</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes a Shellshock attack against a target.</p>
+<h3 id="sireprat"><code>sireprat</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Command sireprat: Automates the setup and usage of SirepRAT to
+perform various attacks on a Windows IoT Core device.</p>
+<h3 id="sqli"><code>sqli</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Asks the user for the URL, database, table, and columns, and then
+executes the Python script</p>
+<h3 id="sqli_mssql_test"><code>sqli_mssql_test</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Initiates a reverse MSSQL shell by starting an HTTP server to handle
+incoming connections and exfiltrate data.</p>
+<h3 id="sqlmap"><code>sqlmap</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Runs SQLMap against the target URL for SQL injection testing.</p>
+<h3 id="sqsh"><code>sqsh</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the Impacket sqsh tool for manipulating ownership of Active
+Directory objects.</p>
+<h3 id="ss"><code>ss</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/recon.py</code></p>
+<p>Search all exploit sources and map findings to the next LazyOwn
+command.</p>
+<h3 id="sshexploit"><code>sshexploit</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature
+of the ssh-agent.</p>
+<h3 id="stealth_on"><code>stealth_on</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>Enable stealth mode for subsequent operations.</p>
+<h3
+id="template_helper_serializer"><code>template_helper_serializer</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Handles the creation and serialization of a template helper.</p>
+<h3 id="ticketer"><code>ticketer</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Runs Impacket ticketer for golden/silver ticket creation.</p>
+<h3 id="unicode_wafbypass"><code>unicode_WAFbypass</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>We open a Netcat listener on port 443 and attempt to exploit NodeJS
+deserialization by sending the</p>
+<h3 id="upload_bypass"><code>upload_bypass</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Command upload_bypass: Automates the installation and execution of
+Upload_Bypass for performing file upload bypass tests.</p>
+<h3 id="utf"><code>utf</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Encode a given payload into UTF-16 escape sequences.</p>
+<h3 id="winbase64payload"><code>winbase64payload</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Creates a base64 encoded payload specifically for Windows to execute
+a PowerShell command or download a file using
+<code>self.params['lhost']</code>.</p>
+<h3 id="wrapper"><code>wrapper</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Copies LFI php-wrapper payloads to the clipboard.</p>
+<h3 id="www"><code>www</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit.py</code></p>
+<p>Starts a simple HTTP server on the configured port to serve
+payloads.</p>
+<h3 id="xss"><code>xss</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Executes the XSS (Cross-Site Scripting) vulnerability testing
+procedure</p>
+<h3 id="xsstrike"><code>xsstrike</code></h3>
+<p><strong>Phase:</strong> exploit | <strong>Source:</strong>
+<code>cli/commands/exploit_migrated.py</code></p>
+<p>Command xsstrike: Installs and runs XSStrike for finding XSS
+vulnerabilities.</p>
+<h2 id="post-exploitation">04. Post-Exploitation</h2>
+<h3 id="add2find"><code>add2find</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Add a new custom command to the ‘find’ system, saved in
+user_commands.json.</p>
+<h3 id="adversary"><code>adversary</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>LazyOwn RedTeam Adversary Emulator, you can configure your own
+adversaries in adversary.json</p>
+<h3 id="adversary_yaml"><code>adversary_yaml</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Execute adversary from YAML in lazyadversaries/*.yaml</p>
+<h3 id="aes_pe"><code>aes_pe</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Encrypt with AES and random key to PE EXE file, to usage with
+loaders.</p>
+<h3 id="apt_proxy"><code>apt_proxy</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Configures the local machine with internet access to act as an APT
+proxy for a machine without internet access.</p>
+<h3 id="apt_repo"><code>apt_repo</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Creates a comprehensive local APT repository with enhanced dependency
+resolution.</p>
+<h3 id="atomic_lazyown"><code>atomic_lazyown</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Execute atomic red-team tests via LazyOwn.</p>
+<h3 id="bin2shellcode"><code>bin2shellcode</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Converts a binary file to a shellcode string in C or Nim format.</p>
+<h3
+id="convert_remcomsvc_from_file"><code>convert_remcomsvc_from_file</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang
+byte slice format, prints a sample, and saves it to
+sessions/remcomsvc.go. see lazyaddon GoPEInjection</p>
+<h3 id="cports"><code>cports</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Generates a command to display TCP and UDP ports and copies it to the
+clipboard.</p>
+<h3 id="create_synthetic"><code>create_synthetic</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Create a basic synthetic playbook from Nmap CSV when LLM fails.</p>
+<h3 id="createpayload"><code>createpayload</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Generates an obfuscated payload to evade AV detection using the
+payloadGenerator tool. thanks to smokeme</p>
+<h3 id="d3monizedshell"><code>d3monizedshell</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Executes the D3m0n1z3dShell tool for persistence in Linux.</p>
+<h3 id="disableav"><code>disableav</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Create a VBS script to attempt disabling Windows Defender.</p>
+<h3 id="exe2bin"><code>exe2bin</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Trasnform file .exe into binary file.</p>
+<h3 id="exe2donutbin"><code>exe2donutbin</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Trasnform file .exe into donut binary file.</p>
+<h3 id="extract_yaml"><code>extract_yaml</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Extract YAML from an existing debug file and try to create a
+playbook.</p>
+<h3 id="find"><code>find</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Automates command execution based on a list of aliases and
+commands.</p>
+<h3 id="follina"><code>follina</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Run the Follina (CVE-2022-30190) exploit setup.</p>
+<h3 id="hex2shellcode"><code>hex2shellcode</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Convert raw hex payload from msfvenom into NASM-compatible shellcode
+format.</p>
+<h3 id="internet_proxy"><code>internet_proxy</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Configures the local machine with internet access to act as a proxy
+for a machine without internet access.</p>
+<h3 id="issue_command_to_c2"><code>issue_command_to_c2</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Exec command in the client using the C2. download: command you must
+put the file in sessions/temp_upload or use download_c2 command</p>
+<h3 id="lazywebshell"><code>lazywebshell</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Run LazyOwn webshell server on port 8888.</p>
+<h3 id="mimikatzpy"><code>mimikatzpy</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Run Mimikatz over Python (impacket style).</p>
+<h3 id="ofuscate_string"><code>ofuscate_string</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Ofuscate a string into Go code.</p>
+<h3 id="ofuscatesh"><code>ofuscatesh</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Obfuscates a shell script by encoding it in Base64 and prepares a
+command to decode and execute it.</p>
+<h3 id="ofuscatorps1"><code>ofuscatorps1</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Obfuscate a PowerShell script.</p>
+<h3 id="path2hex"><code>path2hex</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Convert a binary path to x64 little-endian hex code for shellcode
+injection.</p>
+<h3 id="pezorsh"><code>pezorsh</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Executes the PEzor tool to pack executables or shellcode with custom
+configurations.</p>
+<h3 id="pip_proxy"><code>pip_proxy</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Configures the local machine with internet access to act as a pip
+proxy for a machine without internet access.</p>
+<h3 id="pip_repo"><code>pip_repo</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Sets up a local pip repository to serve Python packages for
+installation on a compromised machine without internet access.</p>
+<h3 id="powershell_cmd_stager"><code>powershell_cmd_stager</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Generate and execute a PowerShell command stager to run a .ps1
+script.</p>
+<h3 id="rmfromfind"><code>rmfromfind</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Remove a custom command by index (as shown in ‘find’).</p>
+<h3 id="rubeus"><code>rubeus</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Copies a command to the clipboard for downloading and running
+Rubeus.</p>
+<h3 id="scavenger"><code>scavenger</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Run the Scavenger post-exploitation data collector.</p>
+<h3 id="scp"><code>scp</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Copies the local “sessions” directory to a remote host using scp,
+leveraging sshpass for automated authentication.</p>
+<h3 id="service_ssh"><code>service_ssh</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Creates a systemd service file for a specified binary and generates a
+script to enable and start the service.</p>
+<h3 id="sessionsshstrace"><code>sessionsshstrace</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Attach strace to a running process and log output to a file.</p>
+<h3 id="shellcode"><code>shellcode</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp.py</code></p>
+<p>Generate and manage shellcode.</p>
+<h3 id="shellcode2elf"><code>shellcode2elf</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Convert shellcode into an ELF file and infect it.</p>
+<h3 id="shellcode2sylk"><code>shellcode2sylk</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Converts shellcode to SYLK format and saves the result to a file.</p>
+<h3 id="shellcode_search"><code>shellcode_search</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Search the shell-storm API for shellcodes using the provided
+keywords.</p>
+<h3 id="ssh_cmd"><code>ssh_cmd</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Perform Remote Execution Command through SSH using configured
+start_user. See help grisun0 for backdoor user configuration.</p>
+<h3 id="yara_scan"><code>yara_scan</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Scan files or directories with YARA rules for malware/IOCs.</p>
+<h2 id="persistence">05. Persistence</h2>
+<h3 id="asprevbase64"><code>asprevbase64</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates a base64 encoded ASP reverse shell payload and copies it to
+the clipboard.</p>
+<h3 id="backdoor_factory"><code>backdoor_factory</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates a backdoored executable using
+<code>backdoor-factory</code>.</p>
+<h3 id="beaconcfg"><code>beaconcfg</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generate a C2 beacon profile with traffic morphing and domain
+fronting.</p>
+<h3 id="conptyshell"><code>conptyshell</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Download ConPtyShell and prepare a PowerShell run command.</p>
+<h3 id="createrevshell"><code>createrevshell</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create a bash reverse shell script in sessions/.</p>
+<h3 id="createwebshell"><code>createwebshell</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create web shells (JPG-disguised PHP, p0wny-shell, ASP).</p>
+<h3 id="createwinrevshell"><code>createwinrevshell</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create a Windows reverse shell (PowerShell).</p>
+<h3 id="darkarmour"><code>darkarmour</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Uses the darkarmour tool to generate an undetectable version of a PE
+executable.</p>
+<h3 id="dr0p1t"><code>dr0p1t</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Execute the Dr0p1t tool to create a stealthy malware dropper.</p>
+<h3 id="ftp"><code>ftp</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Connects to an ftp host using credentials from a file and a specified
+port.</p>
+<h3 id="generate_revshell"><code>generate_revshell</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generate a reverse shell in various programming languages.</p>
+<h3 id="grisun0"><code>grisun0</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates and copies a shell command to add a new user, assign a
+password, add the user to the sudo group, and switch to the user.</p>
+<h3 id="grisun0w"><code>grisun0w</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates and copies a PowerShell command to add a new user, assign a
+password, add the user to the Administrators group, and switch to the
+user.</p>
+<h3 id="ivy"><code>ivy</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generates payloads using Ivy with various options. Ivy is a payload
+creation framework for the execution of arbitrary VBA (macro) source
+code directly in memory. Ivy’s loader does this by utilizing
+programmatical access in the VBA object environment to load, decrypt and
+execute shellcode.</p>
+<h3 id="knokknok"><code>knokknok</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Send special string to trigger a reverse shell, with the command ‘c2
+client_name’</p>
+<h3 id="listener_go"><code>listener_go</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Configures and starts a listener for a specified victim.</p>
+<h3 id="listener_py"><code>listener_py</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Configures and starts a listener for a specified victim.</p>
+<h3 id="msfpc"><code>msfpc</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generates payloads using MSFvenom Payload Creator (MSFPC).</p>
+<h3 id="paranoid_meterpreter"><code>paranoid_meterpreter</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates and deploys a paranoid Meterpreter payload and listener with
+SSL/TLS pinning and UUID tracking.</p>
+<h3 id="pwncat"><code>pwncat</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Runs <code>pwncat</code> with the specified port for listening.
+SELFINJECT</p>
+<h3 id="pwncatcs"><code>pwncatcs</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Start a pwncat-cs reverse shell listener.</p>
+<h3 id="rdp"><code>rdp</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Reads credentials from a file, encrypts the password, and executes
+the RDP connection command.</p>
+<h3 id="revwin"><code>revwin</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create a Windows reverse shell executable.</p>
+<h3 id="scarecrow"><code>scarecrow</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Executes ScareCrow with various options for bypassing EDR solutions
+and executing shellcode.</p>
+<h3 id="service"><code>service</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Creates a systemd service file for a specified binary and generates a
+script to enable and start the service.</p>
+<h3 id="setoolkits"><code>setoolKits</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Executes the SEToolKit workflow to generate a Meterpreter payload</p>
+<h3 id="toctoc"><code>toctoc</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Sends a magic packet to the Chinese malware.</p>
+<h3 id="veil"><code>veil</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generates payloads using Veil-Evasion with various options.
+Veil-Evasion is a payload creation framework</p>
+<h3 id="weevely"><code>weevely</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Connect to PHP backdoor using Weevely, protected with the given
+password.</p>
+<h3 id="weevelygen"><code>weevelygen</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist_migrated.py</code></p>
+<p>Generate a PHP backdoor using Weevely, protected with the given
+password.</p>
+<h3 id="wmi_lateral"><code>wmi_lateral</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Execute a command on a remote host via WMI.</p>
+<h3 id="wmi_persist"><code>wmi_persist</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create WMI Event Subscription persistence (fileless, no disk
+write).</p>
+<h3 id="wmi_scheduled_task"><code>wmi_scheduled_task</code></h3>
+<p><strong>Phase:</strong> persist | <strong>Source:</strong>
+<code>cli/commands/persist.py</code></p>
+<p>Create a scheduled task for persistence via WMI.</p>
+<h2 id="privilege-escalation">06. Privilege Escalation</h2>
+<h3 id="crystal_ball"><code>crystal_ball</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/crystal_ball.py</code></p>
+<p>Analyze linpeas/winpeas output and rank privesc vectors with exact
+commands.</p>
+<h3 id="gtfo"><code>gtfo</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Look up a binary in GTFOBins and LOLBas parquet knowledge bases.</p>
+<h3 id="les"><code>les</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Run Linux Exploit Suggester against a kernel version.</p>
+<h3 id="linpeas"><code>linpeas</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Serve <code>linpeas.sh</code> over HTTP and print the target
+one-liner.</p>
+<h3 id="privesc_suggest"><code>privesc_suggest</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/crystal_ball.py</code></p>
+<p>Quick alias for crystal_ball –auto.</p>
+<h3 id="pspy"><code>pspy</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Serve the <code>pspy</code> process monitor over HTTP.</p>
+<h3 id="responder"><code>responder</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Run Responder on the configured <code>device</code> with elevated
+privileges.</p>
+<h3 id="smbserver"><code>smbserver</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Stand up an Impacket SMB server with three relay variants.</p>
+<h3 id="sudo"><code>sudo</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Re-launch the framework with root privileges when missing.</p>
+<h3 id="suid_check"><code>suid_check</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Print SUID/SGID enumeration commands ready to paste on the
+target.</p>
+<h3 id="winpeas"><code>winpeas</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Serve a winPEAS variant over HTTP and print the target one-liner.</p>
+<h2 id="credential-access">07. Credential Access</h2>
+<h3 id="addusers"><code>addusers</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Opens or creates the users.txt file in the sessions directory for
+editing using nano.</p>
+<h3 id="adsso_spray"><code>adsso_spray</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Performs a password spray attack on Azure Active Directory Seamless
+Single Sign-On (SSO) using a specified list of users.</p>
+<h3 id="cewl"><code>cewl</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Generate a wordlist from a website with cewl.</p>
+<h3 id="crack_cisco_7_password"><code>crack_cisco_7_password</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Crack a Cisco Type 7 password hash and display the plaintext.</p>
+<h3 id="createcredentials"><code>createcredentials</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Creates a <code>credentials.txt</code> file in the
+<code>sessions</code> directory with the specified username and
+password.</p>
+<h3 id="createhash"><code>createhash</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Creates a <code>hash.txt</code> file in the <code>sessions</code>
+directory with the specified hash value and analyzes it using
+<code>Name-the-hash</code>.</p>
+<h3 id="createmail"><code>createmail</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Generate email permutations based on a full name and
+self.params[‘domain’], then save them to a file.</p>
+<h3 id="createusers_and_hashs"><code>createusers_and_hashs</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Command createusers_and_hashs: Extracts usernames and hashes from a
+dump file.</p>
+<h3 id="cred"><code>cred</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Display the credentials stored in the <code>credentials.txt</code>
+file and copy the password to the clipboard.</p>
+<h3 id="creds_py"><code>creds_py</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Extract credentials from a file or command output.</p>
+<h3 id="crunch"><code>crunch</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Generate wordlists with crunch.</p>
+<h3 id="cubespraying"><code>cubespraying</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Command cubespraying: Automates the installation and usage of
+CubeSpraying for performing credential spraying attacks.</p>
+<h3 id="dacledit"><code>dacledit</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Execute the dacledit.py command for a specific user or all users
+listed in the users.txt file.</p>
+<h3 id="generatedic"><code>generatedic</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Generates a wordlist based on a target name and a list of characters,
+with various combinations.</p>
+<h3 id="hashcat"><code>hashcat</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Run hashcat password cracking.</p>
+<h3 id="hydra"><code>hydra</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Run Hydra for online password attacks.</p>
+<h3 id="john2hash"><code>john2hash</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Convert a hash to John the Ripper format.</p>
+<h3 id="john2keepas"><code>john2keepas</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>List all .kdbx files in the ‘sessions’ directory, let the user select
+one, and run the</p>
+<h3 id="john2zip"><code>john2zip</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>List all .zip files in the ‘sessions’ directory, let the user select
+one, and run the command</p>
+<h3 id="keepass"><code>keepass</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Open a .kdbx file and print the titles and contents of all entries.
+The password can be provided through</p>
+<h3 id="medusa"><code>medusa</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Run Medusa for online password attacks.</p>
+<h3 id="passtightvnc"><code>passtightvnc</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Decrypts TightVNC passwords using Metasploit.</p>
+<h3 id="passwordspray"><code>passwordspray</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Perform password spraying using crackmapexec with the provided
+parameters.</p>
+<h3 id="refill_password"><code>refill_password</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Generate a list of possible passwords by filling each asterisk in the
+input with user-specified characters.</p>
+<h3 id="rocky"><code>rocky</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Reduces a wordlist based on the specified password length.</p>
+<h3 id="searchhash"><code>searchhash</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Helps to find hash types in Hashcat by searching through its help
+output.</p>
+<h3 id="smalldic"><code>smalldic</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Handles the creation of temporary files for users and passwords based
+on a small dictionary.</p>
+<h3 id="spraykatz"><code>spraykatz</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Run SprayKatz for credential spraying.</p>
+<h3 id="sshkey"><code>sshkey</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred.py</code></p>
+<p>Generate an SSH key pair.</p>
+<h3 id="transform"><code>transform</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Transforms the input string based on user-defined casing style.</p>
+<h3 id="username_anarchy"><code>username_anarchy</code></h3>
+<p><strong>Phase:</strong> cred | <strong>Source:</strong>
+<code>cli/commands/cred_migrated.py</code></p>
+<p>Generate usernames using the username-anarchy tool based on user
+input.</p>
+<h2 id="lateral-movement">08. Lateral Movement</h2>
+<h3 id="addcli"><code>addcli</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Add a client to execute c2 commands</p>
+<h3 id="bitm"><code>bitm</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/bitm.py</code></p>
+<p>Browser-in-the-Middle attack manager.</p>
+<h3 id="bloodyad"><code>bloodyAD</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Execute the bloodyAD.py command for a specific user or all users
+listed in the users.txt file.</p>
+<h3 id="chisel"><code>chisel</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Run chisel for quick tunneling.</p>
+<h3 id="dcomexec"><code>dcomexec</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Executes the Impacket dcomexec tool to run commands on a remote
+system using DCOM.</p>
+<h3 id="dominion"><code>dominion</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Execute a fully automated Active Directory domain takeover.</p>
+<h3 id="gettgt"><code>getTGT</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Requests a Ticket Granting Ticket (TGT) using the Impacket tool with
+provided credentials.</p>
+<h3 id="gospherus"><code>gospherus</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Command gospherus: Clones and uses the Gopherus tool to generate
+gopher payloads for various services.</p>
+<h3 id="id_rsa"><code>id_rsa</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Create an SSH private key file and connect to a remote host using
+SSH.</p>
+<h3 id="lateral_mov_lin"><code>lateral_mov_lin</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Perform lateral movement by downloading and installing LazyOwn on a
+remote Linux machine.</p>
+<h3 id="ligolo"><code>ligolo</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Run Ligolo-ng for advanced pivoting.</p>
+<h3 id="mssqlcli"><code>mssqlcli</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Attempts to connect to an MSSQL server using the mssqlclient.py tool
+with Windows authentication.</p>
+<h3 id="nc"><code>nc</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Netcat listener or connect.</p>
+<h3 id="ngrok"><code>ngrok</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Start ngrok tunnel.</p>
+<h3 id="penelope"><code>penelope</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Command penelope: Installs and runs Penelope for handling reverse and
+bind shells.</p>
+<h3 id="regeorg"><code>regeorg</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Executes the reGeorg tool for HTTP(s) tunneling through a SOCKS
+proxy.</p>
+<h3 id="rnc"><code>rnc</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Runs <code>nc</code> with rlwrap the specified port for
+listening.</p>
+<h3 id="set_proxychains"><code>set_proxychains</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Configure proxychains for the current session.</p>
+<h3 id="shadowsocks"><code>shadowsocks</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Execute the Shadowsocks tool to create a secure tunnel for network
+traffic.</p>
+<h3 id="socat"><code>socat</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Run socat for port forwarding.</p>
+<h3 id="ssh"><code>ssh</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>SSH to a remote host (custom port).</p>
+<h3 id="sshd"><code>sshd</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Starts the SSH service and displays its status.</p>
+<h3 id="stormbreaker"><code>stormbreaker</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Command stormbreaker: Automates the installation and usage of
+Storm-Breaker for performing various network attacks.</p>
+<h3 id="targetedkerberoas"><code>targetedKerberoas</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Executes the targetedKerberoast tool for extracting Kerberos service
+tickets.</p>
+<h3 id="tord"><code>tord</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Execute the tor.sh script with the specified port or default to port
+80 if no port is provided.</p>
+<h3 id="upload_c2"><code>upload_c2</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>upload command in the client using the C2 to upload a file</p>
+<h3 id="vpn"><code>vpn</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Connect to a VPN by selecting from available .ovpn files.</p>
+<h3 id="wifipass"><code>wifipass</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>This function generates a PowerShell script that retrieves saved
+Wi-Fi passwords on a Windows system.</p>
+<h3 id="wmiexec"><code>wmiexec</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral.py</code></p>
+<p>Execute commands via WMI.</p>
+<h3 id="wmiexecpro"><code>wmiexecpro</code></h3>
+<p><strong>Phase:</strong> lateral | <strong>Source:</strong>
+<code>cli/commands/lateral_migrated.py</code></p>
+<p>Executes wmiexec-pro with various options for WMI operations.</p>
+<h2 id="data-exfiltration">09. Data Exfiltration</h2>
+<h3 id="adgetpass"><code>adgetpass</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Generate a PowerShell script to extract Azure AD Connect
+credentials.</p>
+<h3 id="decrypt"><code>decrypt</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Decrypt an XOR-encrypted file using the matching key.</p>
+<h3 id="dns_beacon"><code>dns_beacon</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Start a DNS tunneling beacon.</p>
+<h3 id="dns_beacon_status"><code>dns_beacon_status</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Show status of all DNS beacons.</p>
+<h3 id="dns_exfil_listen"><code>dns_exfil_listen</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Start a DNS exfiltration listener on UDP port 53.</p>
+<h3 id="download_c2"><code>download_c2</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Download a file from the C2 implant via the upload command.</p>
+<h3 id="dpapi_blob"><code>dpapi_blob</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dpapi.py</code></p>
+<p>Decrypt a DPAPI blob offline.</p>
+<h3 id="dpapi_harvest"><code>dpapi_harvest</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dpapi.py</code></p>
+<p>Harvest all DPAPI-protected credentials from the local machine.</p>
+<h3 id="dpapi_masterkeys"><code>dpapi_masterkeys</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dpapi.py</code></p>
+<p>List and extract DPAPI master keys.</p>
+<h3 id="dploot"><code>dploot</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run dploot to loot DPAPI-protected secrets.</p>
+<h3 id="encrypt"><code>encrypt</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Encrypt a file with XOR using a caller-supplied key.</p>
+<h3 id="evidence"><code>evidence</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Encode the <code>sessions/</code> tree into a video file or decode
+one back.</p>
+<h3 id="evilwinrm"><code>evilwinrm</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Drive Evil-WinRM through password, hash or kerberos-only auth.</p>
+<h3 id="exfil_auto"><code>exfil_auto</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Auto-detect flags and sensitive files, then exfiltrate.</p>
+<h3 id="exfil_discord"><code>exfil_discord</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Exfiltrate a file via Discord webhook.</p>
+<h3 id="exfil_dns"><code>exfil_dns</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Exfiltrate data via DNS tunneling.</p>
+<h3 id="exfil_gcs"><code>exfil_gcs</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Upload a file to Google Cloud Storage.</p>
+<h3 id="exfil_http"><code>exfil_http</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Exfiltrate a file via HTTP POST to a controlled server.</p>
+<h3 id="exfil_s3"><code>exfil_s3</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Upload a file to an AWS S3 bucket.</p>
+<h3 id="exfil_start_server"><code>exfil_start_server</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Start all required exfiltration listeners.</p>
+<h3 id="exfil_telegram"><code>exfil_telegram</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Exfiltrate a file via Telegram Bot API.</p>
+<h3 id="getadusers"><code>getadusers</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run impacket-GetADUsers to enumerate AD accounts on the DC.</p>
+<h3 id="getnthash_py"><code>getnthash_py</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Recover the NT hash from a Kerberos U2U TGS via PKINITtools.</p>
+<h3 id="getuserspns"><code>getuserspns</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run impacket-GetUserSPNs to request roastable service tickets.</p>
+<h3 id="gitdumper"><code>gitdumper</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Install <code>git-dumper</code> if missing and pull a remote
+<code>.git</code> tree.</p>
+<h3 id="gmsadumper"><code>gmsadumper</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run gMSADumper to read gMSA password blobs visible to the user.</p>
+<h3 id="http_exfil_server"><code>http_exfil_server</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Start a minimal HTTP exfiltration receiver.</p>
+<h3 id="reg_py"><code>reg_py</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Query a remote registry hive with impacket-reg.py over hash auth.</p>
+<h3 id="rsync"><code>rsync</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Push the <code>sessions/</code> tree to <code>rhost</code> over SCP
+with sshpass.</p>
+<h3 id="samdump2"><code>samdump2</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run samdump2 against <code>sessions/SYSTEM</code> and
+<code>sessions/SAM</code>.</p>
+<h3 id="secretsdump"><code>secretsdump</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Run impacket-secretsdump for SAM, credentials, or NTDS payloads.</p>
+<h3 id="smb_exfil"><code>smb_exfil</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/dns_exfil.py</code></p>
+<p>Exfiltrate files to an SMB share on the attacker machine.</p>
+<h3 id="stage"><code>stage</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Stage data for exfiltration: compress, encrypt, and split.</p>
+<h3 id="unzip"><code>unzip</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Extract a zip archive located under <code>sessions/</code>.</p>
+<h3 id="upload_gofile"><code>upload_gofile</code></h3>
+<p><strong>Phase:</strong> exfil | <strong>Source:</strong>
+<code>cli/commands/exfiltration.py</code></p>
+<p>Upload a file from <code>sessions/</code> to Gofile via its HTTP
+API.</p>
+<h2 id="command-control">10. Command &amp; Control</h2>
+<h3 id="apt_playbook"><code>apt_playbook</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>List, validate, and run APT playbooks based on public threat
+reports.</p>
+<h3 id="atomic_agent"><code>atomic_agent</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Generates and synchronizes atomic agent scripts.</p>
+<h3 id="atomic_gen"><code>atomic_gen</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Generates test and cleanup scripts for a given Atomic Red Team
+technique ID.</p>
+<h3 id="atomic_tests"><code>atomic_tests</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Executes Atomic Red Team tests based on user-selected platform and
+test.</p>
+<h3 id="attack_plan"><code>attack_plan</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Executes a multi-step APT simulation plan based on Atomic Red Team
+test IDs.</p>
+<h3 id="automsf"><code>automsf</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Try to check if Vulnerable using the module passed by argument of
+lazyown example automsf exploit/windows/iis/iis_webdav_upload_asp to use
+in metasploit</p>
+<h3 id="c2"><code>c2</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Handle C2 server setup and agent compilation.</p>
+<h3 id="c2_beacon_cmd"><code>c2_beacon_cmd</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>Queue a command for execution on a connected beacon.</p>
+<h3 id="c2_beacons"><code>c2_beacons</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>List all active beacon sessions with their last-seen timestamps.</p>
+<h3 id="c2_implant"><code>c2_implant</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>Generate a compiled implant payload for the target platform.</p>
+<h3 id="c2_keygen"><code>c2_keygen</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>Generate a fresh AES-256 key for beacon encryption.</p>
+<h3 id="c2_quickstart"><code>c2_quickstart</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>Quick C2 setup: generate key, prepare implant dir, print beacon
+commands.</p>
+<h3 id="c2_status"><code>c2_status</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control.py</code></p>
+<p>Show consolidated C2 status: listeners, beacons, implants, and
+sessions.</p>
+<h3 id="caldera"><code>caldera</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Installs and starts the Caldera server.</p>
+<h3 id="caldera_export"><code>caldera_export</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Export a LazyOwn playbook to CALDERA ability YAML.</p>
+<h3 id="caldera_import"><code>caldera_import</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Import CALDERA abilities into LazyOwn playbooks.</p>
+<h3 id="duckyspark"><code>duckyspark</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>duckyspark Compiles and uploads an .ino sketch to a Digispark device
+using Arduino CLI and Micronucleus.</p>
+<h3 id="emp3r0r"><code>emp3r0r</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Command emp3r0r Downloads and sets up the Emperor server for local
+exploitation.</p>
+<h3 id="empire"><code>empire</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Generates payloads using PowerShell Empire with various options.</p>
+<h3 id="generate_playbook"><code>generate_playbook</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Generates a playbook that integrates Atomic Red Team tests and MITRE
+ATT&amp;CK techniques.</p>
+<h3 id="iis_webdav_upload_asp"><code>iis_webdav_upload_asp</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>(CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of
+metasploit</p>
+<h3 id="listener"><code>listener</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Manage C2 listeners: list, add, start, stop, remove.</p>
+<h3 id="mitre_test"><code>mitre_test</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Interacts with the MITRE ATT&amp;CK framework using the STIX 2.0
+format.</p>
+<h3 id="msf"><code>msf</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Automates various Metasploit tasks including scanning for
+vulnerabilities, setting up reverse shells, and creating payloads.</p>
+<h3 id="msfrpc"><code>msfrpc</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Connects to the msfrpcd daemon and allows remote control of
+Metasploit.</p>
+<h3 id="my_playbook"><code>my_playbook</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Generates a playbook from your custom technique database.</p>
+<h3 id="sandbox"><code>sandbox</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Toggle or query Docker sandbox mode.</p>
+<h3 id="sliver_server"><code>sliver_server</code></h3>
+<p><strong>Phase:</strong> c2 | <strong>Source:</strong>
+<code>cli/commands/command_and_control_migrated.py</code></p>
+<p>Starts the Sliver server and generates a client configuration file
+for connecting clients.</p>
+<h2 id="reporting">11. Reporting</h2>
+<h3 id="apropos"><code>apropos</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Search for commands matching the given parameter in the cmd interface
+and optionally extend the search using the system’s <code>apropos</code>
+command.</p>
+<h3 id="banners"><code>banners</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Manage custom banners for the framework.</p>
+<h3 id="c2asm"><code>c2asm</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Display C and ASM code side by side in a curses-based interface.</p>
+<h3 id="camphish"><code>camphish</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Executes the camphish tool for Grab cam shots from target’s phone
+front camera or PC webcam just sending a link.</p>
+<h3 id="create_session_json"><code>create_session_json</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Create the session JSON report file.</p>
+<h3 id="createjsonmachine"><code>createjsonmachine</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Create a new JSON payload file based on the template provided in
+payload.json.</p>
+<h3
+id="createjsonmachine_batch"><code>createjsonmachine_batch</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Create multiple JSON payload files based on a CSV input file from
+HackerOne.</p>
+<h3 id="createtargets"><code>createtargets</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Create targets file from nmap scan.</p>
+<h3 id="download_malwarebazar"><code>download_malwarebazar</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Download a malware sample from MalwareBazaar using its SHA256
+hash.</p>
+<h3 id="extract_ports"><code>extract_ports</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Extracts open ports and IP address information from a specified
+file.</p>
+<h3 id="eyewitness"><code>eyewitness</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Run EyeWitness for web screenshot capture.</p>
+<h3 id="eyewitness_py"><code>eyewitness_py</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Automates EyeWitness installation and execution without requiring
+user input.</p>
+<h3 id="gen_report"><code>gen_report</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_enhanced.py</code></p>
+<p>Generate enhanced professional penetration test reports.</p>
+<h3 id="get_avaible_actions"><code>get_avaible_actions</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Get list de supported acctions.</p>
+<h3 id="gowitness"><code>gowitness</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Run gowitness for web screenshot capture.</p>
+<h3 id="gpt"><code>gpt</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Query GPT/Groq AI for analysis and reporting.</p>
+<h3 id="img2vid"><code>img2vid</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Generates an MP4 video from PNG images found in the
+sessions/captured_images directory.</p>
+<h3 id="lazyreport"><code>lazyreport</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Generate a professional red team report from session data.</p>
+<h3 id="malwarebazar"><code>malwarebazar</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Search Malware Bazaar for malware samples.</p>
+<h3 id="morse"><code>morse</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Interactive Morse Code Converter.</p>
+<h3 id="name_the_hash"><code>name_the_hash</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Identify hash type using nth after retrieving it with get_hash().</p>
+<h3 id="nmapscripthelp"><code>nmapscripthelp</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Provides help to find and display information about Nmap scripts.</p>
+<h3 id="process_scans"><code>process_scans</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Processes CSV files with scan results and vulnerability data to
+generate a Shodan-like JSON database.</p>
+<h3 id="pth_net"><code>pth_net</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Executes the Pass-the-Hash (PTH) Net tool to change the password of
+an Active Directory account.</p>
+<h3 id="pup"><code>pup</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report_migrated.py</code></p>
+<p>Processes HTML content from a specified URL using the pup utility and
+a default CSS selector.</p>
+<h3 id="vulns"><code>vulns</code></h3>
+<p><strong>Phase:</strong> report | <strong>Source:</strong>
+<code>cli/commands/report.py</code></p>
+<p>Display or manage vulnerabilities.</p>
+<h2 id="miscellaneous">12. Miscellaneous</h2>
+<h3 id="eof"><code>EOF</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Handle the end-of-file (EOF) condition.</p>
+<h3 id="acknowledgearp"><code>acknowledgearp</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Configures the system to acknowledge ARP requests by setting a kernel
+parameter.</p>
+<h3 id="acknowledgeicmp"><code>acknowledgeicmp</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Configures the system to respond to ICMP echo requests by setting a
+kernel parameter.</p>
+<h3 id="addalias"><code>addalias</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Add a new alias with support for placeholders like {rhost}, {lhost},
+{lport}, etc.</p>
+<h3 id="addhosts"><code>addhosts</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Adds an entry to the <code>/etc/hosts</code> file, mapping an IP
+address to a domain name.</p>
+<h3 id="aliass"><code>aliass</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Prints all configured aliases and their associated commands.</p>
+<h3 id="assign"><code>assign</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>assign a parameter value, persist to payload.json and refresh
+aliases.</p>
+<h3 id="back"><code>back</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/module_manager.py</code></p>
+<p>Leave the current module context.</p>
+<h3 id="banner"><code>banner</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show the banner</p>
+<h3 id="base64decode"><code>base64decode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Decodes a Base64 encoded string.</p>
+<h3 id="base64encode"><code>base64encode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Encodes a given string into Base64 format.</p>
+<h3 id="browse"><code>browse</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open the sessions/ TUI browser.</p>
+<h3 id="campaign"><code>campaign</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/campaign.py</code></p>
+<p>Export or import an entire campaign as a portable package.</p>
+<h3 id="check_update"><code>check_update</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Checks for updates by comparing the local version with the remote
+version.</p>
+<h3 id="clean"><code>clean</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Deletes files and directories in the <code>sessions</code> directory,
+excluding specified files and directories.</p>
+<h3 id="clock"><code>clock</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Displays the current date and time, and runs a custom shell
+script.</p>
+<h3 id="clone_site"><code>clone_site</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Clone a website and serve the files in sessions/{url_cloned}.</p>
+<h3 id="collab_join"><code>collab_join</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Print the multi-operator collaboration join URL and SSE endpoint.</p>
+<h3 id="config_banner"><code>config_banner</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open a Powerlevel10k-style wizard to toggle prompt segments.</p>
+<h3 id="cred_mark_failed"><code>cred_mark_failed</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Mark a credential as failed against a host.</p>
+<h3 id="cred_reuse"><code>cred_reuse</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Analyze captured credentials and suggest spray targets.</p>
+<h3 id="cron"><code>cron</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Schedules a command to run at a specified time.</p>
+<h3 id="ctx"><code>ctx</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Print a single-line operator context: rhost, lhost, domain, phase,
+os, creds.</p>
+<h3 id="daemon_approve"><code>daemon_approve</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Approve or veto the daemon’s currently-pending action.</p>
+<h3 id="daemon_focus"><code>daemon_focus</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Restrict the autonomous daemon to a set of focus targets.</p>
+<h3 id="daemon_mode"><code>daemon_mode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Switch the autonomous daemon between auto, approval and paused
+modes.</p>
+<h3 id="daemon_pause"><code>daemon_pause</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Pause the autonomous daemon before its next step.</p>
+<h3 id="daemon_resume"><code>daemon_resume</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Resume the autonomous daemon (switch mode to auto).</p>
+<h3 id="daemon_veto"><code>daemon_veto</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Add or clear vetoed command first-tokens for the autonomous
+daemon.</p>
+<h3 id="dashboard"><code>dashboard</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Launch the full-screen LazyOwn operator dashboard (Textual TUI).</p>
+<h3 id="db_creds"><code>db_creds</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List or add credentials.</p>
+<h3 id="db_export"><code>db_export</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Export database table to CSV.</p>
+<h3 id="db_hosts"><code>db_hosts</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List or add hosts in the active workspace.</p>
+<h3 id="db_import"><code>db_import</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Import scan results into the database.</p>
+<h3 id="db_init"><code>db_init</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Initialize the database (creates schema if not exists).</p>
+<h3 id="db_loot"><code>db_loot</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List or add loot items.</p>
+<h3 id="db_notes"><code>db_notes</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List or add notes.</p>
+<h3 id="db_services"><code>db_services</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List all services in the active workspace.</p>
+<h3 id="db_status"><code>db_status</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Show entity counts for the active workspace.</p>
+<h3 id="db_vulns"><code>db_vulns</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>List or add vulnerabilities.</p>
+<h3 id="db_workspace"><code>db_workspace</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/database.py</code></p>
+<p>Manage workspaces (list, create, switch, delete).</p>
+<h3 id="decode"><code>decode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Decode a string using the specified shift value and substitution
+key.</p>
+<h3 id="doctor"><code>doctor</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Preflight environment health check — verify the install is ready.</p>
+<h3 id="download_resources"><code>download_resources</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Downloads resources into the <code>sessions</code> directory.</p>
+<h3 id="encode"><code>encode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Encodes a string using the specified shift value and substitution
+key.</p>
+<h3 id="encoderpayload"><code>encoderpayload</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Applies various obfuscations to a given command line string to create
+multiple obfuscated versions.</p>
+<h3 id="encodewinbase64"><code>encodewinbase64</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Encodes a given payload into a Base64 encoded string suitable for
+Windows PowerShell execution.</p>
+<h3 id="engage"><code>engage</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Drive a single target through the full kill-chain in one command.</p>
+<h3 id="exit"><code>exit</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Exit the command line interface.</p>
+<h3 id="explore"><code>explore</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show exploration coverage and addon/tool suggestions per service.</p>
+<h3 id="fixel"><code>fixel</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Fixes file permissions and line endings in the project
+directories.</p>
+<h3 id="fixperm"><code>fixperm</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Fix permissions for LazyOwn shell scripts.</p>
+<h3 id="gencert"><code>gencert</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
 <p>Generates a certificate authority (CA), client certificate, and
 client key.</p>
-<p>Returns: str: Paths to the generated CA certificate, client
-certificate, and client key.</p>
-<h2 id="generate_emails">generate_emails</h2>
-<p>Generate email permutations based on the provided full name and
-domain.</p>
-<p>This function takes a full name and domain as input, splits the full
-name into components, and creates a list of potential email
-addresses.</p>
-<p>Parameters: full_name (str): The full name to base the email
-addresses on. domain (str): The domain to use for the generated email
-addresses.</p>
-<p>Internal Variables: names (list): A list of the name components
-extracted from the full name. first_name (str): The first name
-component. last_name (str): The last name component. first_initial
-(str): The first initial of the first name. last_initial (str): The
-first initial of the last name.</p>
-<p>Returns: list: A list of generated email permutations.</p>
-<p>Note: - At least two parts of the name are required to generate valid
-email addresses.</p>
-<h2 id="clean_url">clean_url</h2>
-<p>Checks if the last character is a slash and removes it if so.</p>
-<h2 id="random_string">random_string</h2>
-<p>Generates a random alphanumeric string.</p>
-<h2 id="generate_http_req">generate_http_req</h2>
-<p>Generates an HTTP request with the Shellshock payload.</p>
-<h2 id="format_openssh_key">format_openssh_key</h2>
-<p>Formats a raw OpenSSH private key string to the correct OpenSSH
-format.</p>
-<p>This function takes a raw OpenSSH private key string, cleans it by
-removing any unnecessary characters (such as newlines, spaces, and
-headers/footers), splits the key content into lines of 64 characters,
-and then reassembles the key with the standard OpenSSH header and
-footer. It ensures the key follows the correct OpenSSH format.</p>
-<p>Parameters: raw_key (str): The raw OpenSSH private key string to
-format.</p>
-<p>Returns: str: The formatted OpenSSH private key with proper headers,
-footers, and 64-character lines.</p>
-<h2 id="format_rsa_key">format_rsa_key</h2>
-<p>Formats a raw RSA private key string to the correct PEM format.</p>
-<p>This function takes a raw RSA private key string, cleans it by
-removing any unnecessary characters (such as newlines, spaces, and
-headers/footers), splits the key content into lines of 64 characters,
-and then reassembles the key with the standard PEM header and footer. It
-ensures the key follows the correct RSA format.</p>
-<p>Parameters: raw_key (str): The raw RSA private key string to
-format.</p>
-<p>Returns: str: The formatted RSA private key with proper headers,
-footers, and 64-character lines.</p>
-<h2 id="is_package_installed">is_package_installed</h2>
-<p>Check if a Python package is installed.</p>
-<p>:param package_name: Name of the package to check. :returns: True if
-installed, False otherwise.</p>
-<h2 id="extract">extract</h2>
-<p>Extracts and processes specific hexadecimal sequences from a string
-based on a flag.</p>
-<p>If the <code>extract_flag</code> is set to True, the function
-extracts all sequences of the form ‘x[a-f0-9][a-f0-9]’ (where ‘x’ is
-followed by two hexadecimal digits), removes the ‘x’ from the extracted
-sequences, and returns the processed string. If
-<code>extract_flag</code> is False, the function returns the original
-string.</p>
-<p>Parameters: string (str): The input string from which hexadecimal
-sequences are to be extracted. extract_flag (bool): A flag indicating
-whether to perform the extraction (True) or not (False).</p>
-<p>Returns: str: The processed string with the extracted hexadecimal
-sequences if <code>extract_flag</code> is True, or the original string
-if <code>extract_flag</code> is False.</p>
-<h2 id="clean_html">clean_html</h2>
-<p>Remove HTML tags from a string.</p>
-<p>This function uses a regular expression to strip HTML tags and return
-plain text.</p>
-<p>:param html_string: A string containing HTML content. :returns: A
-cleaned string with HTML tags removed.</p>
-<h2 id="print_run_command_status">_print_run_command_status</h2>
-<p>Print a dim completion line (elapsed time + exit code) after a
-run.</p>
-<p>Only shown on interactive terminals and only when the command took
-long enough to matter (<code>RUN_COMMAND_STATUS_MIN_SECONDS</code>) or
-reported a non-zero exit, so quick aliases stay silent while long scans
-and failed tools always leave a visible trace. Never touches the
-returned output.</p>
-<h2 id="command">command</h2>
-<p>Run a command, print output in real-time, and store the output in a
-variable.</p>
-<p>This method executes a given command using
-<code>subprocess.Popen</code>, streams both the standard output and
-standard error to the console in real-time, and stores the full output
-(stdout and stderr) in a variable. If interrupted, the process is
-terminated gracefully.</p>
-<p>:param command: The command to be executed as a string. :type
-command: str</p>
-<p>:returns: The full output of the command (stdout and stderr). :rtype:
-str</p>
-<p>Example: To execute a command, call
-<code>run_command("ls -l")</code>.</p>
-<h2 id="generate_random_cve_id">generate_random_cve_id</h2>
-<p>Generates a random CVE (Common Vulnerabilities and Exposures) ID.</p>
-<p>This function creates a random CVE ID by selecting a random year
-between 2020 and 2024, and a random code between 1000 and 9999. The CVE
-ID is returned in the format ‘CVE-{year}-{code}’.</p>
-<p>Returns: str: A randomly generated CVE ID in the format
-‘CVE-{year}-{code}’.</p>
-<h2 id="get_credentials">get_credentials</h2>
-<p>Searches for credential files with the pattern ’credentials*.txt’ and
-allows the user to select one.</p>
-<p>The function lists all matching files and prompts the user to select
-one. It then reads the selected file and returns a list of tuples with
-the format (username, password) for each line in the file.</p>
-<p>Parameters: ncred (int, optional): If provided, automatically selects
-the credential file with the given number.</p>
-<p>Returns: list of tuples: A list containing tuples with (username,
-password) for each credential found in the file. If no files are found
-or an invalid selection is made, an empty list is returned.</p>
-<h2 id="obfuscate_payload">obfuscate_payload</h2>
-<p>Obfuscates a payload string by converting its characters into
-hexadecimal format, with additional comments for every third
-character.</p>
-<p>For every character in the payload, the function converts it to its
-hexadecimal representation. Every third character (after the first) is
-enclosed in a comment <code>/*hex_value*/</code>, while the rest are
-prefixed with <code>\x</code>.</p>
-<p>Parameters: payload (str): The input string that needs to be
-obfuscated.</p>
-<p>Returns: str: The obfuscated string where characters are replaced by
-their hexadecimal representations, with every third character wrapped in
-a comment.</p>
-<h2 id="read_payloads">read_payloads</h2>
-<p>Reads a file containing payloads and returns a list of properly
-formatted strings.</p>
-<p>This function opens a specified file, reads each line, and checks if
-the line starts with a double quote. If it does not, it adds double
-quotes around the line. Each line is stripped of leading and trailing
-whitespace before being added to the list.</p>
-<p>Parameters: file_path (str): The path to the file containing
-payloads.</p>
-<p>Returns: list: A list of strings, each representing a payload from
-the file, formatted with leading and trailing double quotes if
-necessary.</p>
-<h2 id="inject_payloads">inject_payloads</h2>
-<p>Sends HTTP requests to a list of URLs with injected payloads for
-testing XSS vulnerabilities.</p>
-<p>This function reads payloads from a specified file and sends GET
-requests to the provided URLs, injecting obfuscated payloads into the
-query parameters or form fields to test for cross-site scripting (XSS)
-vulnerabilities. It handles both URLs with existing query parameters and
-those without. If forms are found in the response, it submits them with
-the payloads as well.</p>
-<p>Parameters: urls (list): A list of URLs to test for XSS
-vulnerabilities. payload_url (str): A placeholder string within the
-payloads that will be replaced with the actual URL for testing.
-request_timeout (int, optional): The timeout for each request in
-seconds. Defaults to 15.</p>
-<p>Returns: None: This function does not return any value but prints the
-status of each request and form submission to the console.</p>
-<p>Raises: requests.RequestException: Raises an exception if any HTTP
-request fails, which is handled by printing a warning message.</p>
-<h2 id="prompt">prompt</h2>
-<p>Return the prompt in the function do_xss</p>
-<h2 id="is_lower">is_lower</h2>
-<p>Checks if a character is lowercase.</p>
-<p>Parameters: char (str): The character to check.</p>
-<p>Returns: bool: True if the character is lowercase, False
-otherwise.</p>
-<h2 id="is_upper">is_upper</h2>
-<p>Checks if a character is uppercase.</p>
-<p>Parameters: char (str): The character to check.</p>
-<p>Returns: bool: True if the character is uppercase, False
-otherwise.</p>
-<h2 id="is_mixed">is_mixed</h2>
-<p>Determines if a string contains both lowercase and uppercase
-characters.</p>
-<p>Parameters: s (str): The string to check.</p>
-<p>Returns: bool: True if the string has mixed casing, False
-otherwise.</p>
-<h2 id="add">add</h2>
-<p>Adds a delimiter between string parts if it’s not the first part.</p>
-<p>Parameters: str_part (str): The string part to add. delimiter (str):
-The delimiter to insert between parts. i (int): The index of the
-part.</p>
-<p>Returns: str: The string part with delimiter if applicable.</p>
-<h2 id="detect_delimiter">detect_delimiter</h2>
-<p>Detects the delimiter used in the input string (e.g., “-”,
-“_“,”.”).</p>
-<p>Parameters: foo_bar (str): The input string.</p>
-<p>Returns: str: The detected delimiter.</p>
-<h2 id="transform">transform</h2>
-<p>Transforms a list of string parts based on the chosen casing
-style.</p>
-<p>Parameters: parts (list): List of string parts. delimiter (str):
-Delimiter to use between parts. casing (str): Casing style (‘l’, ‘u’,
-‘c’, ‘p’).</p>
-<p>Returns: str: The transformed string.</p>
-<h2 id="handle">handle</h2>
-<p>Splits the input string into parts based on delimiters or mixed
-casing.</p>
-<p>Parameters: input_str (str): The input string to split.</p>
-<p>Returns: list: A list of string parts.</p>
-<h2 id="get_users_dic">get_users_dic</h2>
-<p>List all .txt files in the ‘sessions/’ directory and prompt the user
-to select one by number.</p>
-<p>:returns: The path of the selected .txt file.</p>
-<h2 id="get_hash">get_hash</h2>
-<p>Searches for hash files with the pattern ’hash*.txt’ and allows the
-user to select one.</p>
-<p>The function lists all matching files and prompts the user to select
-one. It then reads the selected file and returns the hash content as a
-single string, without any newline characters or extra formatting.</p>
-<p>Returns: str: The hash content from the selected file as a single
-string. If no files are found or an invalid selection is made, an empty
-string is returned.</p>
-<h2 id="is_digit">is_digit</h2>
-<p>Check if the given character is a digit.</p>
-<p>Args: the_digit (str): The character to check.</p>
-<p>Returns: bool: True if the character is a digit, False otherwise.</p>
-<h2 id="crack_password">crack_password</h2>
-<p>Crack a Cisco Type 7 password.</p>
-<p>Args: crypttext (str): The encrypted password in Type 7 format.</p>
-<p>Returns: str: The cracked plaintext password or an empty string if
-invalid.</p>
-<h2 id="get_terminal_size">get_terminal_size</h2>
+<h3 id="generate"><code>generate</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/payload_generation.py</code></p>
+<p>Generate a payload.</p>
+<h3 id="getseclist"><code>getseclist</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Get the SecLists wordlist from GitHub.</p>
+<h3 id="god_nodes"><code>god_nodes</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show the most-connected nodes (“god nodes”) from the graph.</p>
+<h3 id="graph"><code>graph</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Generates a graph from JSON payload files containing URL, RHOST, and
+RPORT.</p>
+<h3 id="graph_overlay"><code>graph_overlay</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open the graph overlay over the graphify knowledge graph.</p>
+<h3 id="graph_search"><code>graph_search</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Fuzzy search the graphify knowledge graph for nodes by label.</p>
+<h3 id="gym"><code>gym</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/redteam_gym.py</code></p>
+<p>Red Team Gym — gamified pentest training with ELO scoring.</p>
+<h3 id="h"><code>h</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open a new window within a tmux session using the LazyOwn RedTeam
+Framework.</p>
+<h3 id="hex_to_plaintext"><code>hex_to_plaintext</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Converts hexadecimal data from a file to plain text.</p>
+<h3 id="hooks"><code>hooks</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Conditional hooks management — list, enable, disable, add, remove
+rules.</p>
+<h3 id="hooks_add"><code>hooks_add</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Add a new conditional hook rule (JSON string).</p>
+<h3 id="hooks_enable"><code>hooks_enable</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Enable or disable a hook rule.</p>
+<h3 id="hooks_fire"><code>hooks_fire</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Manually fire a hook event for testing.</p>
+<h3 id="hooks_list"><code>hooks_list</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>List all conditional hook rules.</p>
+<h3 id="hooks_remove"><code>hooks_remove</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Remove a hook rule by name.</p>
+<h3 id="hunt"><code>hunt</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Run an autonomous exploitation chain against a target.</p>
+<h3 id="ignorearp"><code>ignorearp</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Configures the system to ignore ARP requests by setting a kernel
+parameter.</p>
+<h3 id="ignoreicmp"><code>ignoreicmp</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Configures the system to ignore ICMP echo requests by setting a
+kernel parameter.</p>
+<h3 id="ip"><code>ip</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Displays IP addresses of network interfaces and copies the IP address
+from the <code>tun0</code> interface to the clipboard.</p>
+<h3 id="ip2asn"><code>ip2asn</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Command to get ASN for a given IP address.</p>
+<h3 id="ip2hex"><code>ip2hex</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Convert an IPv4 address into its hexadecimal representation.</p>
+<h3 id="ipp"><code>ipp</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Displays IP addresses of network interfaces and prints the IP address
+from the <code>tun0</code> interface.</p>
+<h3 id="karma"><code>karma</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show ELO score, karma rank and exploration progress for this
+operator.</p>
+<h3 id="kick"><code>kick</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Handles the process of sending a spoofed ARP packet to a specified IP
+address with a given MAC address.</p>
+<h3 id="l00t"><code>l00t</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Unified loot: show, search, reuse, graph, and mark credentials.</p>
+<h3 id="lab"><code>lab</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/lab.py</code></p>
+<p>Manage local CTF practice labs.</p>
+<h3 id="lazyscript"><code>lazyscript</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Executes commands defined in a lazyscript file.</p>
+<h3 id="links"><code>links</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Displays a list of useful links and allows the user to select and
+copy a link to the clipboard.</p>
+<h3 id="list"><code>list</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Lists all available scripts in the modules directory.</p>
+<h3 id="listaliases"><code>listaliases</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>List all available aliases.</p>
+<h3 id="load_session"><code>load_session</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Load the session from the sessionLazyOwn.json file and display the
+status of various parameters.</p>
+<h3 id="lock_target"><code>lock_target</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/collaboration.py</code></p>
+<p>Acquire an advisory lock on a target to prevent tool collisions.</p>
+<h3 id="login"><code>login</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/cli_auth.py</code></p>
+<p>Authenticate against users.json (same users as lazyc2.py).</p>
+<h3 id="logout"><code>logout</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/cli_auth.py</code></p>
+<p>Log out the current CLI operator and clear the remember-me token.</p>
+<h3 id="lolbas_list"><code>lolbas_list</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>List available LOLBAS (Living Off The Land) techniques from
+plugins.</p>
+<h3 id="loot"><code>loot</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Alias for <code>l00t</code> — unified loot
+(show/search/reuse/graph/mark).</p>
+<h3 id="makerc"><code>makerc</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/resource_scripting.py</code></p>
+<p>Record session commands to a resource script.</p>
+<h3 id="marketplace"><code>marketplace</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/marketplace.py</code></p>
+<p>Discover and install community plugins, addons, and tools.</p>
+<h3 id="marketplace_config"><code>marketplace_config</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/marketplace.py</code></p>
+<p>Interactive marketplace manager (curses TUI).</p>
+<h3 id="mkrc"><code>mkrc</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/resource_scripting.py</code></p>
+<p>Alias for makerc — record commands to a script.</p>
+<h3 id="msfshellcoder"><code>msfshellcoder</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Generate shellcode in C format using msfvenom for either a custom
+command or a reverse shell payload.</p>
+<h3 id="nano"><code>nano</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Opens or creates the file using line in the sessions directory for
+editing using nano.</p>
+<h3 id="neighbors"><code>neighbors</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show graph neighbors of a node or command from the graphify
+graph.</p>
+<h3 id="news"><code>news</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show the Hacker News in the terminal.</p>
+<h3 id="next"><code>next</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show next-step recommendations or execute the active autosuggest.</p>
+<h3 id="note"><code>note</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Capture a quick operator note attached to the current target and
+phase.</p>
+<h3 id="notify"><code>notify</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Command to trigger a toastr-like notification.</p>
+<h3 id="op_create"><code>op_create</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Create a new planned operation.</p>
+<h3 id="op_list"><code>op_list</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>List all operations.</p>
+<h3 id="op_pause"><code>op_pause</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Pause a running operation.</p>
+<h3 id="op_plan"><code>op_plan</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Populate operation steps from a playbook YAML or via MITRE
+derive.</p>
+<h3 id="op_report"><code>op_report</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Generate a full report for an operation.</p>
+<h3 id="op_resume"><code>op_resume</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Resume a paused operation.</p>
+<h3 id="op_start"><code>op_start</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Start (or resume) an operation.</p>
+<h3 id="op_status"><code>op_status</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Show the status of an operation.</p>
+<h3 id="op_stop"><code>op_stop</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Stop a running operation.</p>
+<h3 id="op_timeline"><code>op_timeline</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Show the event timeline of an operation.</p>
+<h3 id="operator_create"><code>operator_create</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Create a new operator profile.</p>
+<h3 id="operator_delete"><code>operator_delete</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Delete an operator profile.</p>
+<h3 id="operator_load"><code>operator_load</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>Load effective config for an operator (team baseline +
+overrides).</p>
+<h3 id="operators"><code>operators</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/automation.py</code></p>
+<p>List all operator profiles.</p>
+<h3 id="palette"><code>palette</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Browse the operator command catalogue grouped by kill-chain
+phase.</p>
+<h3 id="palette_k"><code>palette_k</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open the fuzzy Command-K palette overlay.</p>
+<h3 id="payload"><code>payload</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Load parameters from a specified payload JSON file.</p>
+<h3 id="phase"><code>phase</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Get or set the current kill-chain phase.</p>
+<h3 id="pipeline"><code>pipeline</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Declarative composition layer: run a YAML pipeline of LazyOwn
+commands.</p>
+<h3 id="pivot"><code>pivot</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Record a newly discovered pivot target or show the pivot chain.</p>
+<h3 id="plan"><code>plan</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Pick the next best technique to run for a target.</p>
+<h3 id="plan_apply"><code>plan_apply</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Run the planner, then auto-create and start an operation.</p>
+<h3 id="plan_detail"><code>plan_detail</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Show the full ranked plan (all candidates) for a target.</p>
+<h3 id="pop"><code>pop</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open a centered popup in the current tmux session to execute a shell
+command.</p>
+<h3 id="prev"><code>prev</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show prerequisite commands for a verb (the chain’s <code>prev</code>
+arrow).</p>
+<h3 id="pwd"><code>pwd</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Displays the current working directory and lists files, and copies
+the current directory path to the clipboard.</p>
+<h3 id="qa"><code>qa</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Exits the application quickly without confirmation.</p>
+<h3 id="recommend_next"><code>recommend_next</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Recommend the next action via the unified recommendation engine.</p>
+<h3 id="resource"><code>resource</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/resource_scripting.py</code></p>
+<p>Run an enhanced resource script.</p>
+<h3 id="rhost"><code>rhost</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Copies the remote host (self.params[‘rhost’]) to the clipboard and
+updates the command prompt.</p>
+<h3 id="rich_tui"><code>rich_tui</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>Launch the Rich-based live dashboard TUI.</p>
+<h3 id="rot"><code>rot</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Apply a ROT (rotation) substitution cipher to the given string.</p>
+<h3 id="rotf"><code>rotf</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Apply a ROT (rotation) substitution cipher to the given
+extension.</p>
+<h3 id="rrhost"><code>rrhost</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Updates the command prompt to include the remote host
+(self.params[‘rhost’]) and current working directory.</p>
+<h3 id="run"><code>run</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Runs a specific LazyOwn script or active module.</p>
+<h3 id="scans"><code>scans</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>List nmap scan files in sessions/ with age, size, and open ports.</p>
+<h3 id="scope"><code>scope</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Manage the authorized engagement scope and the scope-guard
+posture.</p>
+<h3 id="search"><code>search</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/module_manager.py</code></p>
+<p>Search for modules by name, description, or author.</p>
+<h3 id="sh"><code>sh</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Executes a shell command directly from the LazyOwn interface.</p>
+<h3 id="share_finding"><code>share_finding</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/collaboration.py</code></p>
+<p>Share a finding or credential discovery with the team.</p>
+<h3 id="show"><code>show</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show params, modules, payloads, or active module options.</p>
+<h3 id="sitrep"><code>sitrep</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Print a unified operational situation report.</p>
+<h3 id="spool"><code>spool</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/resource_scripting.py</code></p>
+<p>Log session output to a file.</p>
+<h3 id="stealth_off"><code>stealth_off</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/pwn.py</code></p>
+<p>Disable stealth mode.</p>
+<h3 id="suggest_next"><code>suggest_next</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Suggest next commands by walking the graph from recent activity.</p>
+<h3 id="sys"><code>sys</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Executes a shell command directly from the LazyOwn interface.</p>
+<h3 id="tab"><code>tab</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Executes the <code>lazypyautogui.py</code> script with optional
+arguments.</p>
+<h3 id="tasks"><code>tasks</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>View and manage the task queue from sessions/tasks.json.</p>
+<h3 id="team_chat"><code>team_chat</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/collaboration.py</code></p>
+<p>Send a message to all connected operators.</p>
+<h3 id="team_status"><code>team_status</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/collaboration.py</code></p>
+<p>Show active operators and target locks.</p>
+<h3 id="tenant"><code>tenant</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Manage multi-tenancy: list, switch, or create engagement tenants.</p>
+<h3 id="tgrep"><code>tgrep</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Search across all previous command outputs and session logs.</p>
+<h3 id="timeline_browser"><code>timeline_browser</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open the timeline scrubber over the session report CSV.</p>
+<h3 id="toast_clear"><code>toast_clear</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Mark every pending toast event as seen without printing them.</p>
+<h3 id="ttp_matrix"><code>ttp_matrix</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Render the MITRE ATT&amp;CK coverage matrix across all
+operations.</p>
+<h3 id="ttp_rebuild"><code>ttp_rebuild</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Re-walk the operations directory to refresh the coverage matrix.</p>
+<h3 id="ttp_show"><code>ttp_show</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/caldera.py</code></p>
+<p>Show details for a single MITRE technique.</p>
+<h3 id="tui_theme"><code>tui_theme</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Switch the TUI colour theme used by the splash and styled output.</p>
+<h3 id="unlock_target"><code>unlock_target</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/collaboration.py</code></p>
+<p>Release an advisory lock on a target.</p>
+<h3 id="urldecode"><code>urldecode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Decode a URL-encoded string.</p>
+<h3 id="urlencode"><code>urlencode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Encode a string for URL.</p>
+<h3 id="use"><code>use</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/module_manager.py</code></p>
+<p>Select a module to work with.</p>
+<h3 id="v"><code>v</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Open a new window within a tmux session using the LazyOwn RedTeam
+Framework.</p>
+<h3 id="whoami"><code>whoami</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/cli_auth.py</code></p>
+<p>Show the currently logged-in CLI operator.</p>
+<h3 id="wizard"><code>wizard</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Guided first-run setup wizard — configure rhost, lhost, domain,
+wordlists and more.</p>
+<h2 id="diagnostics">13. Diagnostics</h2>
+<h3 id="lazy_payload_keys"><code>lazy_payload_keys</code></h3>
+<p><strong>Phase:</strong> diagnostics | <strong>Source:</strong>
+<code>cli/commands/diagnostics.py</code></p>
+<p>List the keys currently present in the parent shell’s payload.</p>
+<h3 id="lazy_runtime"><code>lazy_runtime</code></h3>
+<p><strong>Phase:</strong> diagnostics | <strong>Source:</strong>
+<code>cli/commands/diagnostics.py</code></p>
+<p>Print interpreter, platform and core LazyOwn paths.</p>
+<h2 id="uncategorized">Uncategorized</h2>
+<h3 id="get"><code>GET</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
 <p>No description available.</p>
-<h2 id="halp">halp</h2>
-<p>Display the help panel for the LazyOwn RedTeam Framework.</p>
-<p>This function prints usage instructions, options, and descriptions
-for running the LazyOwn framework. It provides users with an overview of
-command-line options that can be used when executing the
-<code>./run</code> command.</p>
-<p>The output includes the current version of the framework and various
-options available for users, along with a brief description of each
-option.</p>
-<p>Options include: - <code>--help</code>: Displays the help panel. -
-<code>-v</code>: Shows the version of the framework. -
-<code>-p &lt;payloadN.json&gt;</code>: Executes the framework with a
-specified payload JSON file. This option is particularly useful for Red
-Teams. - <code>-c &lt;command&gt;</code>: Executes a specific command
-using LazyOwn, for example, <code>ping</code>. -
-<code>--no-banner</code>: Runs the framework without displaying the
-banner. - <code>-s</code>: Runs the framework with root privileges. -
-<code>--old-banner</code>: Displays the old banner.</p>
-<p>Example: To see the help panel, call the function as follows:</p>
-<pre><code>&gt;&gt;&gt; halp()</code></pre>
-<p>Note: - This function exits the program after displaying the help
-information, using <code>sys.exit(0)</code>.</p>
-<h2 id="ensure_tmux_session">ensure_tmux_session</h2>
-<p>Ensure that a tmux session is active.</p>
-<p>This function checks whether a specified tmux session is currently
-running. If the session does not exist, it creates a new tmux session
-with the specified name and executes the command to run the LazyOwn
-RedTeam Framework script.</p>
-<p>The function uses the <code>tmux has-session</code> command to check
-for the existence of the session. If the session is not found (i.e., the
-return code is not zero), it will create a new tmux session in detached
-mode and run the command <code>./run --no-banner</code> within that
-session.</p>
-<p>Args: session_name (str): The name of the tmux session to check or
-create.</p>
-<p>Example: To ensure that a tmux session named ‘lazyown_sessions’ is
-active, call the function as follows:</p>
-<pre><code>&gt;&gt;&gt; ensure_tmux_session(&#39;lazyown_sessions&#39;)</code></pre>
-<p>Note: - Ensure that tmux is installed and properly configured on the
-system. - The command executed within the tmux session must be valid and
-accessible in the current environment.</p>
-<h2 id="get_xml">get_xml</h2>
-<p>Retrieves a list of XML files from the specified directory.</p>
-<p>Args: directory (str): The directory to search for XML files.</p>
-<p>Returns: list: A list of XML filenames found in the specified
-directory.</p>
-<h2 id="get_domain_from_xml">get_domain_from_xml</h2>
-<p>Extracts the first domain or IP address from an Nmap scan XML
-file.</p>
-<h2 id="shellcode_to_sylk">shellcode_to_sylk</h2>
+<h3 id="options"><code>OPTIONS</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
 <p>No description available.</p>
-<h2 id="get_banner">get_banner</h2>
+<h3 id="post"><code>POST</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
 <p>No description available.</p>
-<h2 id="list_binaries">list_binaries</h2>
-<p>List all executable binaries in the specified directory.</p>
-<p>Parameters: directory (str): The directory to search for binaries.
-Defaults to ‘sessions’.</p>
-<p>Returns: list: A list of paths to executable binaries.</p>
-<h2 id="select_binary">select_binary</h2>
-<p>Prompt the user to select a binary from a list.</p>
-<p>Parameters: binaries (list): A list of binary paths.</p>
-<p>Returns: str: The path of the selected binary.</p>
-<h2 id="decode">decode</h2>
-<p>Decodes base64 data received from the server output.</p>
-<p>Parameters: data (str): Encoded base64 data from the server.</p>
-<p>Returns: str: Decoded string output, or an error message if decoding
-fails.</p>
-<h2 id="get_command">get_command</h2>
-<p>Reads a command from standard input and initiates a thread to send
-the command to the target server.</p>
-<h2 id="send_command">send_command</h2>
-<p>Constructs and sends an SQL payload with xp_cmdshell and certutil for
-command execution and exfiltration.</p>
-<p>Parameters: cmd (str): Command to be executed on the remote MSSQL
-server.</p>
-<h2 id="activate_server">activate_server</h2>
-<p>Activates the HTTP server and fetches the first command from the
-user.</p>
-<p>Parameters: httpd (HTTPServer): The server instance to activate.</p>
-<h2 id="spray">Spray</h2>
-<p>No description available.</p>
-<h2 id="processresults">ProcessResults</h2>
-<p>No description available.</p>
-<h2 id="generate_index">generate_index</h2>
-<p>Generates an APT repository structure and index files for proper
-compatibility.</p>
-<p>Parameters: repo_dir (str): Path to the repository directory.</p>
-<p>Returns: None</p>
-<h2 id="replace_variables">replace_variables</h2>
-<p>Replace variables in a command string with their corresponding
-values.</p>
-<p>This function takes a command string and a dictionary of variables
-and their values. It replaces each occurrence of a variable in the
-command string with its corresponding value.</p>
-<p>Args: command (str): The command string containing variables to be
-replaced. variables (dict): A dictionary where the keys are the
-variables to be replaced and the values are the corresponding values to
-replace them with.</p>
-<p>Returns: str: The command string with all variables replaced by their
-corresponding values.</p>
-<h2 id="create_caldera_config">create_caldera_config</h2>
-<p>Creates a Caldera configuration file with the specified content at
-the given file path.</p>
-<p>Parameters: file_path (str): The path where the configuration file
-will be created.</p>
-<p>Returns: None</p>
-<h2 id="extract_banners">extract_banners</h2>
-<p>Extract banner information from an XML file.</p>
-<p>This function parses an XML file and extracts banner information for
-each host and port. The banner information includes the hostname, port,
-protocol, extra details, and service.</p>
-<p>Args: xml_file (str): The path to the XML file to be parsed.</p>
-<p>Returns: list: A list of dictionaries, where each dictionary contains
-banner information for a specific host and port. Each dictionary has the
-following keys: - hostname (str): The hostname of the host. - port
-(str): The port number. - protocol (str): The protocol used (e.g., tcp,
-udp). - banner (str): Extra information about the service. - service
-(str): The name of the service running on the port.</p>
-<p>Example: banners = extract_banners(‘path/to/file.xml’)</p>
-<h2 id="scrape_news">scrape_news</h2>
-<p>Makes a request to the Hacker News page and extracts titles, links,
-and scores.</p>
-<p>Returns: tuple: Three lists containing the titles, links and scores
-of the news items respectively.</p>
-<h2 id="display_news">display_news</h2>
-<p>Creates a pandas DataFrame and prints it, showing titles, links, and
-scores.</p>
-<p>Args: titles (list): List of news titles. links (list): List of news
-links. scores (list): List of news scores.</p>
-<h2 id="htmlify">htmlify</h2>
-<p>Wrap C2 comms in html and html2 code to make requests look more
-legitimate</p>
-<h2 id="de_htmlify">de_htmlify</h2>
-<p>Cleant wrap C2 comms of html and html2 code to get the command from
-request</p>
-<h2 id="is_port_in_use">is_port_in_use</h2>
-<p>No description available.</p>
-<h2 id="return_creds">return_creds</h2>
-<p>No description available.</p>
-<h2 id="query_arin_ip">query_arin_ip</h2>
-<p>Queries ARIN whois API for organization information of an IP
-address.</p>
-<p>Args: ip: The IP address to query.</p>
-<p>Returns: A dictionary containing IP information or None on
-failure.</p>
-<h2 id="get_org">get_org</h2>
-<p>Extracts organization name from ARIN whois response data.</p>
-<p>Args: data: The JSON data from the ARIN whois API response.</p>
-<p>Returns: The organization name or “null” if not found.</p>
-<h2 id="load_adversary">load_adversary</h2>
-<p>No description available.</p>
-<h2 id="replace_placeholders">replace_placeholders</h2>
-<p>Replace placeholders in a template string with values from a
-dictionary.</p>
-<p>Parameters: template (str): The template string containing
-placeholders. replacements (dict): A dictionary where keys are
-placeholders and values are replacements.</p>
-<p>Returns: str: The template string with placeholders replaced.</p>
-<h2 id="replace_command_placeholders">replace_command_placeholders</h2>
-<p>Replace placeholders in a command string with values from a params
-dictionary, handling spaces within placeholders.</p>
-<p>The function looks for placeholders in curly braces (e.g., {url} or {
-url }) within the command string and replaces them with corresponding
-values from the params dictionary, ignoring any spaces inside the curly
-braces.</p>
-<p>Args: command (str): The command string containing placeholders.
-params (dict): A dictionary containing key-value pairs for
-replacement.</p>
-<p>Returns: str: The command string with placeholders replaced by their
-corresponding values.</p>
-<h2 id="parse_nmap_csv">parse_nmap_csv</h2>
-<p>No description available.</p>
-<h2 id="query_ollama">query_ollama</h2>
-<p>Sends query to Ollama and returns model response.</p>
-<h2 id="preprocess_llm_response">preprocess_llm_response</h2>
-<p>Pre-process LLM response to handle common issues before YAML
-parsing</p>
-<h2 id="manual_yaml_extraction">manual_yaml_extraction</h2>
-<p>Fallback method to manually extract YAML data from malformed
-content</p>
-<h2 id="create_synthetic_yaml">create_synthetic_yaml</h2>
-<p>Create a basic synthetic YAML playbook when all else fails</p>
-<h2 id="parse_yaml_response">parse_yaml_response</h2>
-<p>Improved function to extract and parse YAML content from LLM response
-with better error handling and recovery attempts</p>
-<h2 id="fix_common_yaml_issues">fix_common_yaml_issues</h2>
-<p>Fixes common YAML formatting issues</p>
-<h2 id="aggressive_yaml_fix">aggressive_yaml_fix</h2>
-<p>More aggressive YAML fixing for recovery attempts</p>
-<h2 id="save_playbook">save_playbook</h2>
-<p>Guarda el playbook generado en disco</p>
-<h2 id="load_knowledge_base">load_knowledge_base</h2>
-<p>Carga la base de conocimientos personalizada.</p>
-<h2 id="anti_debug">anti_debug</h2>
-<p>No description available.</p>
-<h2 id="create_msfshellcoder_parser">create_msfshellcoder_parser</h2>
-<p>No description available.</p>
-<h2 id="load_user_aliases">load_user_aliases</h2>
-<p>Carga los aliases del archivo JSON si existe.</p>
-<h2 id="build_startup_parser">_build_startup_parser</h2>
-<p>Build the CLI argument parser for LazyOwn startup flags.</p>
-<h2 id="send_request">send_request</h2>
-<p>No description available.</p>
-<h2 id="handle_forms">handle_forms</h2>
-<p>No description available.</p>
-<h2 id="replace_match">replace_match</h2>
-<p>No description available.</p>
-<h2 id="log_request">log_request</h2>
-<p>No description available.</p>
-<h2 id="log_message">log_message</h2>
-<p>No description available.</p>
-<h2 id="get">GET</h2>
-<p>No description available.</p>
-<h2 id="init"><strong>init</strong></h2>
-<p>No description available.</p>
-<h2 id="open_file">open_file</h2>
-<p>Open and parse the IP-to-ASN file.</p>
-<h2 id="open_reader">open_reader</h2>
-<p>Parse the reader stream, handling both regular and gzipped files.</p>
-<h2 id="parse_file">_parse_file</h2>
-<p>Parse the TSV data and load it into memory.</p>
-<h2 id="as_of_ip">as_of_ip</h2>
-<p>Return the ASN associated with the given IP address.</p>
-<h2 id="rec_index_has_ip">_rec_index_has_ip</h2>
-<p>Check if the given index contains the IP.</p>
-<h2 id="as_name">as_name</h2>
-<p>Get the AS name by ASN.</p>
-<h2 id="as_country">as_country</h2>
-<p>Get the country by ASN.</p>
-<h2 id="init-1"><strong>init</strong></h2>
-<p>Initialize the scanner with configurable network and storage
-knobs.</p>
-<p>Args: user_agent: HTTP <code>User-Agent</code> header sent to the NVD
-and cvedetails.com. When <code>None</code> the default desktop UA is
-used so every NVD request remains identifiable. max_workers: Upper bound
-on concurrent cvedetails enrichment requests. Higher values shorten
-wall-clock time at the cost of being rate-limited. sessions_dir:
-Directory where JSON reports are persisted. Defaults to
-<code>&lt;cwd&gt;/sessions</code>. description_language: ISO 639-1
-language code used to pick the human-readable CVE description from the
-NVD payload.</p>
-<h2 id="search_cves">search_cves</h2>
-<p>Return CVE records matching the supplied service banner.</p>
-<p>Each record contains <code>cve_id</code>, <code>description</code>,
-<code>cvss</code> and <code>url</code> keys. CVSS data is fetched
-concurrently from cvedetails.com using a bounded thread pool.</p>
-<p>Args: service: The service banner or keyword to query (for example
-<code>"ProFTPD 1.3.5"</code>).</p>
-<p>Returns: A list of CVE dictionaries. Empty when the upstream API is
-unreachable or returns no matches.</p>
-<h2 id="enrich_cve">_enrich_cve</h2>
-<p>Populate <code>cvss</code> for an in-place CVE record from
-cvedetails.com.</p>
-<p>Args: cve_info: A CVE record produced by
-:meth:<code>search_cves</code>. The record is mutated in place. Network
-or parsing errors are swallowed so a single failure does not abort the
-pool.</p>
-<h2 id="persist">persist</h2>
-<p>Persist <code>cves</code> to
-<code>sessions/vulns_&lt;target&gt;.json</code>.</p>
-<p>The schema is intentionally stable so reactive engines and report
-generators can rely on the field names without re-deriving them from CLI
-output. When the file already exists the latest report supersedes the
-previous one — callers that need history should retain the prior file
-out of band.</p>
-<p>Args: service: The original service banner that produced the
-findings. Stored under <code>service</code> so consumers can attribute
-results to a recon step. target: The target identifier (typically
-<code>rhost</code>). Used both as the filename component and the
-<code>target</code> field. cves: The CVE records returned by
-:meth:<code>search_cves</code>.</p>
-<p>Returns: The absolute path of the JSON document written.</p>
-<h2 id="pretty_print">pretty_print</h2>
-<p>Render <code>cves_details</code> as semicolon-separated rows in the
-shell.</p>
-<p>Sorts the records by ascending CVSS so the operator sees the
-lowest-impact rows first and the most dangerous CVEs sit at the bottom
-of the scroll buffer, closest to the prompt.</p>
-<p>Args: cves_details: CVE records produced by
-:meth:<code>search_cves</code>.</p>
-<h2 id="cvss_sort_key">_cvss_sort_key</h2>
-<p>No description available.</p>
+<h3 id="ai_playbook"><code>ai_playbook</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Generate an offensive playbook from Nmap CSV + KB + Ollama.</p>
+<h3 id="ai_toggle"><code>ai_toggle</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Toggle the in-process AI assistant on or off.</p>
+<h3 id="android_apk"><code>android_apk</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mobile_macos.py</code></p>
+<p>Generate a malicious APK with reverse shell payload.</p>
+<h3 id="android_enum"><code>android_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mobile_macos.py</code></p>
+<p>Enumerate an Android device connected via ADB.</p>
+<h3 id="applocker_csc"><code>applocker_csc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate a csc.exe compile-and-execute AppLocker bypass.</p>
+<h3 id="applocker_installutil"><code>applocker_installutil</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate an InstallUtil.exe AppLocker bypass payload.</p>
+<h3 id="applocker_msbuild"><code>applocker_msbuild</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate an MSBuild.exe AppLocker bypass payload.</p>
+<h3 id="applocker_mshta"><code>applocker_mshta</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate an mshta.exe AppLocker bypass payload.</p>
+<h3 id="applocker_presentation"><code>applocker_presentation</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate a PresentationHost.exe AppLocker bypass reference.</p>
+<h3 id="applocker_regsvcs"><code>applocker_regsvcs</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate a Regsvcs.exe/Regasm.exe AppLocker bypass payload.</p>
+<h3 id="applocker_rundll32"><code>applocker_rundll32</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/applocker_bypass.py</code></p>
+<p>Generate a rundll32.exe AppLocker bypass via SCT scriptlet.</p>
+<h3 id="ask"><code>ask</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Ask the AI a question with current session context pre-loaded.</p>
+<h3 id="attack_surface"><code>attack_surface</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/reporting.py</code></p>
+<p>Generate an attack surface summary from recon data.</p>
+<h3 id="audit_complete_keys"><code>audit_complete_keys</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Print payload-aware completion suggestions for a partial command.</p>
+<h3 id="auto_loop"><code>auto_loop</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Run a goal through the autonomous daemon orchestrator backend.</p>
+<h3 id="auto_populate"><code>auto_populate</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Parse the latest nmap XML scan and auto-populate payload context.</p>
+<h3 id="autopivot"><code>autopivot</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/pivoting.py</code></p>
+<p>Auto-detect internal networks and set up pivot tunnels.</p>
+<h3 id="campaign_sitrep"><code>campaign_sitrep</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Alias of <code>sitrep</code> kept for MCP verb parity
+(lazyown_campaign_sitrep).</p>
+<h3 id="cicd_scan"><code>cicd_scan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cicd.py</code></p>
+<p>Scan CI/CD platform for security misconfigurations.</p>
+<h3 id="cicd_secrets"><code>cicd_secrets</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cicd.py</code></p>
+<p>Scan build log for leaked secrets.</p>
+<h3 id="clean_ad"><code>clean_ad</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Clear Active Directory event logs and cached Kerberos tickets.</p>
+<h3 id="cloud_buckets"><code>cloud_buckets</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud.py</code></p>
+<p>Enumerate cloud storage buckets for a given prefix.</p>
+<h3 id="cloud_enum"><code>cloud_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud.py</code></p>
+<p>Enumerate cloud provider metadata, storage, and IAM.</p>
+<h3 id="cloud_iam"><code>cloud_iam</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud.py</code></p>
+<p>Enumerate cloud IAM roles and policies.</p>
+<h3 id="cloud_metadata"><code>cloud_metadata</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud.py</code></p>
+<p>Harvest cloud instance metadata (AWS IMDS, Azure, GCP).</p>
+<h3 id="cloud_scan"><code>cloud_scan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud.py</code></p>
+<p>Full cloud security scan: metadata + buckets + IAM enumeration.</p>
+<h3 id="container_detect"><code>container_detect</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>Auto-detect container runtime and escape primitives.</p>
+<h3 id="container_escape"><code>container_escape</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>Check current container for known escape vectors.</p>
+<h3 id="cover_tracks"><code>cover_tracks</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Run all anti-forensics operations in sequence.</p>
+<h3 id="crack_hashes"><code>crack_hashes</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/security.py</code></p>
+<p>Crack password hashes from a file using John the Ripper or
+Hashcat.</p>
+<h3 id="depconfuse"><code>depconfuse</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/supply_chain.py</code></p>
+<p>Scan a requirements.txt for dependency confusion candidates.</p>
+<h3 id="depscan"><code>depscan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/supply_chain.py</code></p>
+<p>Scan a directory tree for dependency files and flag risks.</p>
+<h3 id="detect_edr"><code>detect_edr</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/evasive_payload.py</code></p>
+<p>Generate commands to detect EDR/AV on the target.</p>
+<h3 id="docker_enum"><code>docker_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>Enumerate Docker host: containers, images, privileges, mounts.</p>
+<h3 id="edr_detect"><code>edr_detect</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/edr_detect.py</code></p>
+<p>Detect EDR/AV products on the target.</p>
+<h3 id="edr_profile"><code>edr_profile</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/edr_detect.py</code></p>
+<p>Generate an evasion profile based on detected EDR.</p>
+<h3 id="edr_script"><code>edr_script</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/edr_detect.py</code></p>
+<p>Generate a PowerShell EDR detection script.</p>
+<h3 id="evasion"><code>evasion</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/evasive_payload.py</code></p>
+<p>Generate and manage C2 evasion profiles.</p>
+<h3 id="evasive"><code>evasive</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/evasive_payload.py</code></p>
+<p>Generate detection-evading payloads with multiple obfuscation
+strategies.</p>
+<h3 id="evasive_payload"><code>evasive_payload</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/evasive_payload.py</code></p>
+<p>Generate an evasive payload with automatic AV/EDR bypass.</p>
+<h3 id="event_log"><code>event_log</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>lazyown.py</code></p>
+<p>Show recent EventBus events. Usage: event_log [N] [category]</p>
+<h3 id="facts_show"><code>facts_show</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Show structured facts extracted from nmap scans and tool output.</p>
+<h3 id="form"><code>form</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Open an interactive form for a known command. Usage: form
+<command>.</p>
+<h3 id="fz"><code>fz</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Fuzzy command finder. Usage: fz [query]. Empty lists every
+command.</p>
+<h3 id="gitlab_enum"><code>gitlab_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cicd.py</code></p>
+<p>Enumerate a GitLab instance.</p>
+<h3 id="grep_log"><code>grep_log</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Grep recent command outputs. Usage: grep_log <pattern> [–cmd
+<name>].</p>
+<h3 id="groq"><code>groq</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Send a prompt to the Groq API using the configured
+<code>api_key</code>.</p>
+<h3 id="jenkins_enum"><code>jenkins_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cicd.py</code></p>
+<p>Enumerate a Jenkins instance.</p>
+<h3 id="k8s_enum"><code>k8s_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.</p>
+<h3 id="k8s_pods"><code>k8s_pods</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>List Kubernetes pods with security-relevant details.</p>
+<h3 id="k8s_secrets"><code>k8s_secrets</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/containers.py</code></p>
+<p>List and decode Kubernetes secrets.</p>
+<h3 id="llm_budget"><code>llm_budget</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/ai.py</code></p>
+<p>Show the LLM daily cost budget, per call token cap, and current
+spend.</p>
+<h3 id="macos_keychain"><code>macos_keychain</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mobile_macos.py</code></p>
+<p>Extract secrets from the macOS Keychain.</p>
+<h3 id="macos_persist"><code>macos_persist</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mobile_macos.py</code></p>
+<p>Generate macOS persistence via LaunchAgent.</p>
+<h3 id="macos_tcc"><code>macos_tcc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mobile_macos.py</code></p>
+<p>Generate macOS TCC (Transparency, Consent, Control) bypass.</p>
+<h3 id="mfa_bypass"><code>mfa_bypass</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cicd.py</code></p>
+<p>Enumerate and test MFA bypass techniques.</p>
+<h3 id="mutate_shellcode"><code>mutate_shellcode</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/evasive_payload.py</code></p>
+<p>Apply polymorphic mutation to shellcode for signature evasion.</p>
+<h3 id="opsec"><code>opsec</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/security.py</code></p>
+<p>Score OPSEC risk for a LazyOwn command before execution.</p>
+<h3 id="orchestrate"><code>orchestrate</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/orchestration.py</code></p>
+<p>Route a goal through the unified orchestrator and print the
+result.</p>
+<h3 id="package_squat"><code>package_squat</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/supply_chain.py</code></p>
+<p>Generate a malicious PyPI package for dependency confusion.</p>
+<h3 id="parquet_query"><code>parquet_query</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&amp;CK,
+sessions).</p>
+<h3 id="pentest_report"><code>pentest_report</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/reporting.py</code></p>
+<p>Generate a professional penetration test report.</p>
+<h3 id="phish_report"><code>phish_report</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
+<p>Show campaign results and captured credentials.</p>
+<h3 id="phish_serve"><code>phish_serve</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
+<p>Start a lightweight HTTP server for phishing landing pages.</p>
+<h3 id="phish_wizard"><code>phish_wizard</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/phishing_wizard.py</code></p>
+<p>Interactive end-to-end phishing campaign wizard.</p>
+<h3 id="pivot_kill"><code>pivot_kill</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/pivoting.py</code></p>
+<p>Kill all pivot tunnels and clean up.</p>
+<h3 id="pivot_proxy"><code>pivot_proxy</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/pivoting.py</code></p>
+<p>Start a local SOCKS proxy through the pivot chain.</p>
+<h3 id="pivot_scan"><code>pivot_scan</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/pivoting.py</code></p>
+<p>Scan internal networks through the current pivot chain.</p>
+<h3 id="pivot_status"><code>pivot_status</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/pivoting.py</code></p>
+<p>Show the current pivot chain state.</p>
+<h3 id="playbook_run"><code>playbook_run</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Execute a generated YAML playbook step by step through the shell.</p>
+<h3 id="rag_query"><code>rag_query</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Semantic search over session artefacts (scans, logs, notes).</p>
+<h3 id="reload_addons"><code>reload_addons</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Re-scan lazyaddons/ and plugins/ for changes; reloads what’s new.</p>
+<h3 id="rotate_aes"><code>rotate_aes</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/security.py</code></p>
+<p>Generate a new AES key and re-encrypt all sealed credentials.</p>
+<h3 id="route"><code>route</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>lazyown.py</code></p>
+<p>Route a natural-language prompt to a LazyOwn tool. Usage: route
+<prompt></p>
+<h3 id="seal_credentials"><code>seal_credentials</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/security.py</code></p>
+<p>Encrypt all sensitive values in payload.json using AES-256-GCM.</p>
+<h3 id="session_state"><code>session_state</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Alias of <code>sitrep</code> kept for MCP verb parity
+(lazyown_session_state).</p>
+<h3 id="set"><code>set</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>lazyown.py</code></p>
+<p>Set a parameter — the unified <code>set</code>/<code>assign</code>
+surface.</p>
+<h3 id="shred"><code>shred</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Securely delete files by overwriting before removal.</p>
+<h3 id="state_snapshot"><code>state_snapshot</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>lazyown.py</code></p>
+<p>Show unified StateManager snapshot (DB + JSON caches).</p>
+<h3 id="status_bar"><code>status_bar</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/orchestration.py</code></p>
+<p>Inspect, toggle and refresh the prompt status bar.</p>
+<h3 id="status_tail"><code>status_tail</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/audit.py</code></p>
+<p>Print live progress from the latest sessions/scan_*.partial file.</p>
+<h3 id="threat_model"><code>threat_model</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Build or inspect the threat model derived from session events.</p>
+<h3 id="timeline"><code>timeline</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/mcp_bridge.py</code></p>
+<p>Alias of <code>timeline_browser</code> kept for MCP verb parity
+(lazyown_timeline).</p>
+<h3 id="unseal_credentials"><code>unseal_credentials</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/security.py</code></p>
+<p>Decrypt sealed credential values in payload.json for inspection.</p>
+<h3 id="vuln_list"><code>vuln_list</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/reporting.py</code></p>
+<p>List discovered vulnerabilities from the sessions database.</p>
+<h3 id="wipe_free"><code>wipe_free</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Wipe free disk space to prevent forensic file recovery.</p>
+<h3 id="wipe_logs"><code>wipe_logs</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Clear system log files on the remote target.</p>
+<h3 id="wipe_timeline"><code>wipe_timeline</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/anti_forensics.py</code></p>
+<p>Scrub file timestamps and shell history on the target.</p>
 </body>
 </html>

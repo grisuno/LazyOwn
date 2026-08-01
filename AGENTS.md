@@ -176,3 +176,86 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `skills/lazyown.md` | ~1600 | Complete 148-tool MCP playbook |
 | `COMMANDS.md` | ~1600 | Full 333-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
+
+---
+
+## Connectivity Contracts (v2 — unified ecosystem)
+
+These modules were created to close the gaps between kill-chain phases,
+suggestion surfaces, and operational state as part of the connectivity
+improvement initiative. Each file is autonomous with a single contract.
+
+### `cli/tips_engine.py` — Unified post-command tips engine
+
+**Contract:** Coordinate all suggestion surfaces (kill-chain hints, protips,
+curiosity, autosuggest, ELO/VRI rewards) into ONE postcmd hook. Replaces the
+five fragmented hooks that previously competed for operator attention.
+
+**Key types:**
+- `TipsConfig` — Centralised config (paths, tables, thresholds, tip registries)
+- `EngagementState` — Persisted cross-session metrics (ELO, badges, commands_seen)
+- `TipsEngine` — Coordination engine. Constructor injects config + autosuggest handle.
+
+**Usage:** `TipsEngine(config, autosuggest_engine).render(cmd, phase)`
+
+**Tests:** `tests/test_tips_engine.py` (49 tests, 6 mutation-killed)
+
+### `cli/auto_crypto.py` — Automatic session data encryption
+
+**Contract:** Encrypt sensitive session files on app close and decrypt on authenticated
+startup. Uses PBKDF2HMAC + Fernet (same as lazyenc.py). Never blocks the shell.
+
+**Key types:**
+- `AutoCryptoConfig` — protect_globs, sessions_dir, password_provider, auto_enabled
+- `AutoCryptoEngine` — encrypt_session(), decrypt_session(), is_encrypted property
+
+**Usage:** `engine.encrypt_session()` on exit, `engine.decrypt_session()` on startup
+
+**Tests:** `tests/test_auto_crypto.py` (7 tests, 2 mutation-killed)
+
+### `cli/reactive_hints.py` — Expanded kill-chain adjacency tables
+
+**Contract:** `_KILL_CHAIN_NEXT` and `_PHASE_PRIORITY` now cover 60+ commands (was 20).
+Missing commands added: auto_pwn, chain, hunt, nuclei, lazynuclei, yara_scan,
+playbook_generate, playbook_run, campaign, collab_join, dashboard, encrypt, decrypt.
+
+### `cli/protips.py` — Expanded tip registry with 6 categories
+
+**Categories:** privesc, ai, ops, ecosystem, automation, security, collab, discovery.
+New tips surface: auto_pwn, chain, hunt, nuclei, playbook_generate, encrypt, decrypt,
+yara_scan, yara_marketplace, campaign, collab_join, dashboard, marketplace config,
+nuclei_marketplace, palette.
+
+### `cli/engagement_hooks.py` — Badges and expanded ELO coverage
+
+**Badges awarded:** arsenal_master (100 commands), arsenal_legend (250), arsenal_god (500),
+deep_recon (50/session), hacker_rank (3000 ELO), elite_rank (5000 ELO),
+first_blood (5 commands), kill_chain_master (6 phases).
+
+**ELO bonuses added:** auto_pwn (+30), chain (+20), hunt (+25), nuclei (+18),
+yara_scan (+15), playbook_run (+15), playbook_generate (+12), collab_join (+8),
+campaign (+10), encrypt/decrypt (+12), lazynuclei (+15), dashboard/marketplace (+5).
+
+### `cli/recommendation_signals.py` — PlaybookSignal integration
+
+**Contract:** New `PlaybookSignal` adapts `AptPlaybookEngine.list_playbooks()` into
+concrete `Proposal` objects. Registered in `build_default_engine()` after the recon
+signal, before the kill-chain fallback.
+
+### `cli/commands/marketplace.py` — YARA + Nuclei marketplace
+
+**New commands:** `yara_marketplace list|search|install|info|update|download-community`
+and `nuclei_marketplace list|search|install|info|update [--severity <level>] [--cve <id>]`.
+Both follow the same pattern as the existing addon marketplace.
+
+### `lazyown.py` — Wiring (single unified hook + auto-crypto)
+
+**Changes:**
+1. Import `TipsEngine`, `AutoCryptoEngine`, `AutoCryptoConfig` at module level.
+2. Initialise `self._tips_engine` and `self._auto_crypto` in `__init__`.
+3. Register ONE postcmd hook: `self._unified_tips_hook` (replaces 5 hooks).
+4. Register `atexit` handler for `self._run_auto_encrypt`.
+5. `_run_auto_decrypt()` called at startup (after login).
+6. `self._autosuggest` wired into tips_engine via `_tips_engine._autosuggest`.
+7. Keep `_refresh_autosuggest` and `_read_recent_commands_for_autosuggest` for
+   `do_next` and chain command compatibility.

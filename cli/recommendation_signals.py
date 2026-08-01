@@ -40,6 +40,7 @@ _TRANSCRIPT_COLUMNS = ("command", "tool", "name")
 _DEFAULT_RECENT_WINDOW = 10
 _RANK_FLOOR = 0.2
 _KIND_BY_RECON = {"addon": KIND_ADDON, "tool": KIND_TOOL, "command": KIND_COMMAND}
+SOURCE_PLAYBOOK = "playbook"
 
 
 def _rank_weight(index: int, total: int) -> float:
@@ -288,6 +289,60 @@ def build_context(
         limit=limit,
     )
 
+class PlaybookSignal:
+    """Adapt APT playbook suggestions into concrete proposals.
+
+    When nmap services match a known playbook profile (APT group, attack
+    surface pattern), this signal suggests relevant playbook commands.
+    """
+
+    name = SOURCE_PLAYBOOK
+
+    def __init__(self, playbook_engine: Any = None) -> None:
+        """Store an optional playbook engine facade.
+
+        Args:
+            playbook_engine: Object exposing ``list_playbooks()`` returning
+                a list of playbook summary dicts.
+        """
+        self._engine = playbook_engine
+
+    def propose(self, ctx: RecommendationContext) -> list[Proposal]:
+        """Return playbook-based proposals for the current context."""
+        if self._engine is None:
+            return []
+        try:
+            available = self._engine.list_playbooks()
+        except Exception:
+            available = []
+        if not available:
+            return []
+        proposals: list[Proposal] = []
+        for index, pb in enumerate(available[:ctx.limit]):
+            name = pb.get("name", "")
+            desc = pb.get("description", "")[:80]
+            if not name:
+                continue
+            proposals.append(
+                Proposal(
+                    action=f"playbook_run {name}",
+                    kind=KIND_COMMAND,
+                    weight=_rank_weight(index, len(available)),
+                    reason=f"APT playbook: {desc}",
+                    command_preview=f"playbook_run {name}",
+                )
+            )
+        return proposals
+
+
+def _try_build_playbook_signal() -> PlaybookSignal | None:
+    """Build a :class:`PlaybookSignal` when the APT playbook engine imports."""
+    try:
+        from modules.apt_playbooks import AptPlaybookEngine
+        return PlaybookSignal(AptPlaybookEngine())
+    except Exception:
+        return None
+
 
 def build_default_engine(
     payload: Mapping[str, Any] | None = None,
@@ -314,6 +369,7 @@ def build_default_engine(
     Returns:
         A ready :class:`RecommendationEngine`.
     """
+
     payload = payload or {}
     signals: list[Any] = []
 
@@ -328,6 +384,10 @@ def build_default_engine(
     recon_signal = _try_build_recon_signal(payload)
     if recon_signal is not None:
         signals.append(recon_signal)
+
+    playbook_signal = _try_build_playbook_signal()
+    if playbook_signal is not None:
+        signals.append(playbook_signal)
 
     signals.append(_build_killchain_signal())
 
@@ -387,6 +447,8 @@ __all__ = [
     "PolicySignal",
     "ReconPlanSignal",
     "KillChainSignal",
+    "PlaybookSignal",
+    "SOURCE_PLAYBOOK",
     "read_recent_commands",
     "build_context",
     "build_default_engine",

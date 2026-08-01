@@ -86,6 +86,12 @@ from cli.wizard import run as _run_wizard
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
+from cli.auto_crypto import AutoCryptoEngine as _AutoCryptoEngine
+from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
+from cli.auto_crypto import build_password_provider_from_cli_login as _build_crypto_password_provider
+from cli.tips_engine import TipsEngine as _TipsEngine
+from cli.tips_engine import TipsConfig as _TipsConfig
+from cli.tips_engine import build_default_tips_config as _build_default_tips_config
 from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.event_bus import EventCategory as _EventCategory
 from modules.event_bus import EventSeverity as _EventSeverity
@@ -489,20 +495,35 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_warn(f"fuzzy completion not installed: {exc}")
         try:
-            self.register_postcmd_hook(self._inline_hint_hook)
+            self._tips_engine = _TipsEngine(
+                config=_build_default_tips_config(),
+                autosuggest_engine=None,
+            )
         except Exception as exc:
-            print_warn(f"inline hints hook not registered: {exc}")
+            print_warn(f"tips engine not initialised: {exc}")
+            self._tips_engine = None
         try:
-            self.register_postcmd_hook(self._engagement_hook)
-            self.register_postcmd_hook(self._recording_hook)
-            _reset_engagement_session()
-            _heal_engagement_history({f"do_{c}" for c in self.get_all_commands()})
+            self._auto_crypto = _AutoCryptoEngine(
+                config=_AutoCryptoConfig(
+                    sessions_dir="sessions",
+                    auto_enabled=True,
+                    password_provider=_build_crypto_password_provider(),
+                )
+            )
         except Exception as exc:
-            print_warn(f"engagement hook not registered: {exc}")
+            print_warn(f"auto crypto not initialised: {exc}")
+            self._auto_crypto = None
         try:
-            self.register_postcmd_hook(self._toast_hook)
-        except Exception as exc:
-            print_warn(f"toast hook not registered: {exc}")
+            self._run_auto_decrypt()
+        except Exception:
+            pass
+        import atexit as _atexit
+        _atexit.register(self._run_auto_encrypt)
+        self.register_postcmd_hook(self._unified_tips_hook)
+        self.register_postcmd_hook(self._recording_hook)
+        self.register_postcmd_hook(self._toast_hook)
+        _reset_engagement_session()
+        _heal_engagement_history({f"do_{c}" for c in self.get_all_commands()})
         self._scope_offensive = frozenset()
         try:
             self._scope_offensive = self._build_scope_offensive()
@@ -525,7 +546,8 @@ class LazyOwnShell(cmd2.Cmd):
                 phase_priority=_AUTOSUGGEST_PHASE_PRIORITY,
                 enabled=initial_autosuggest_enabled,
             )
-            self.register_postcmd_hook(self._autosuggest_hook)
+            if self._tips_engine is not None:
+                self._tips_engine._autosuggest = self._autosuggest
         except Exception as exc:
             print_warn(f"autosuggest engine not initialised: {exc}")
             self._autosuggest = None
@@ -954,60 +976,72 @@ class LazyOwnShell(cmd2.Cmd):
             pass
         return data
 
-    def _inline_hint_hook(self, data: _PostcommandData) -> _PostcommandData:
-        """Post-command hook that prints a dim next-step hint line.
 
-        Registered via ``register_postcmd_hook`` during ``__init__``. Reads the
-        ``enable_inline_hints`` flag from ``self.params`` (default True) so the
-        operator can disable hints with ``set enable_inline_hints false`` without
-        restarting the shell.
+    def _unified_tips_hook(self, data: _PostcommandData) -> _PostcommandData:
+        """Unified post-command hook: hints + protips + curiosity + autosuggest + ELO + VRI.
+
+        Replaces the five fragmented hooks (inline hints, engagement,
+        autosuggest, toasts, recording) with a single coordination point
+        via :class:`cli.tips_engine.TipsEngine`.
 
         Args:
             data: cmd2 PostcommandData containing the executed statement.
 
         Returns:
-            data unchanged — the hook must return PostcommandData.
+            data unchanged.
         """
         if self._ui_hints_level() != "on":
             return data
         try:
-            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
-            cmd_str = str(getattr(data, "statement", "") or "")
-            phase   = self.params.get("phase") or ""
-            if enabled:
-                _render_command_hints(
-                    last_command=cmd_str,
-                    phase=phase,
-                    sessions_dir=getattr(self, "sessions_dir", "sessions") or "sessions",
-                    limit=3,
-                    enabled=True,
-                )
-                ctx = {
-                    "last_cmd": cmd_str,
-                    "phase":    phase,
-                    "os_id":    str(self.params.get("os_id") or ""),
-                    "rhost":    self.params.get("rhost") or "",
-                    "domain":   self.params.get("domain") or "",
-                    "api_key":  self.params.get("api_key") or "",
-                    "lhost":    self.params.get("lhost") or "",
-                }
-                _render_contextual_tip(cmd_str, ctx)
+            engine = getattr(self, "_tips_engine", None)
+            if engine is None:
+                return data
+            statement = getattr(data, "statement", "")
+            cmd = str(getattr(statement, "command", "") or "").strip()
+            if not cmd:
+                cmd_str = str(statement or "")
+                tokens = cmd_str.split()
+                cmd = tokens[0] if tokens else ""
+            if cmd not in self.get_all_commands():
+                return data
+            phase = self.params.get("phase") or ""
+            engine.render(cmd=cmd, phase=phase)
         except Exception:
             pass
         return data
 
+    def _run_auto_decrypt(self) -> None:
+        """Decrypt session data automatically on authenticated startup."""
+        crypto = getattr(self, "_auto_crypto", None)
+        if crypto is None or not crypto.enabled:
+            return
+        try:
+            decrypted = crypto.decrypt_session()
+            if decrypted:
+                print("Session data decrypted successfully.", flush=True)
+        except Exception:
+            pass
+
+    def _run_auto_encrypt(self) -> None:
+        """Encrypt session data automatically on application close."""
+        crypto = getattr(self, "_auto_crypto", None)
+        if crypto is None or not crypto.enabled:
+            return
+        try:
+            encrypted = crypto.encrypt_session()
+            if encrypted:
+                print("Session data encrypted for at-rest protection.", flush=True)
+        except Exception:
+            pass
+
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         """Return the last ``limit`` first-tokens from the session transcript.
-
-        The transcript lives at ``sessions/LazyOwn_session_report.csv``.
-        Newest entries appear last in the returned list.
 
         Args:
             limit: Maximum number of distinct command names to return.
 
         Returns:
-            A list of command first-tokens. Empty when the file is
-            absent or unreadable.
+            A list of command first-tokens. Empty when the file is absent.
         """
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
@@ -1030,16 +1064,8 @@ class LazyOwnShell(cmd2.Cmd):
     def _refresh_autosuggest(self, executed_command: str) -> None:
         """Recompute the active suggestion from the engine's provider chain.
 
-        Reads ``enable_autosuggest`` from ``self.params`` so the
-        operator can toggle the feature with ``set enable_autosuggest
-        false`` without restarting the shell. Commands listed in the
-        engine's skip set are passed through unchanged so help/exit
-        do not poison the context.
-
         Args:
-            executed_command: First-line of the command that just
-                executed. The engine drops it into
-                :class:`cli.autosuggest.SuggestionContext.last_command`.
+            executed_command: Raw string of the command that just ran.
         """
         engine = getattr(self, "_autosuggest", None)
         if engine is None:
@@ -1060,76 +1086,6 @@ class LazyOwnShell(cmd2.Cmd):
             os_hint=str(self.params.get("os_id") or "unknown"),
         )
         engine.refresh(context)
-
-    def _autosuggest_hook(self, data: _PostcommandData) -> _PostcommandData:
-        """Refresh the next-command suggestion and print one dim hint line.
-
-        The hint is printed below the command output, never injected
-        into ``self.prompt``, so readline column accounting stays
-        intact and the prompt itself remains clean. Failure inside the
-        hook is swallowed — at worst the operator sees no hint.
-
-        Args:
-            data: cmd2 PostcommandData containing the executed
-                statement.
-
-        Returns:
-            ``data`` unchanged. cmd2 expects the hook to return the
-            same PostcommandData reference.
-        """
-        engine = getattr(self, "_autosuggest", None)
-        if engine is None:
-            return data
-        if self._ui_hints_level() == "off":
-            return data
-        try:
-            command_text = str(getattr(data, "statement", "") or "")
-            first_token = command_text.strip().split()[:1]
-            first = first_token[0] if first_token else ""
-            if first in _AUTOSUGGEST_SKIP:
-                return data
-            self._refresh_autosuggest(command_text)
-            _render_autosuggest_hint(engine)
-        except Exception:
-            pass
-        return data
-
-    def _engagement_hook(self, data: _PostcommandData) -> _PostcommandData:
-        """Post-command hook: biological curiosity reveal + VRI reward.
-
-        Registered via ``register_postcmd_hook`` during ``__init__``.
-        Respects ``enable_inline_hints`` so operators can silence all
-        engagement output with ``set enable_inline_hints false``.
-
-        Args:
-            data: cmd2 PostcommandData containing the executed statement.
-
-        Returns:
-            data unchanged.
-        """
-        if self._ui_hints_level() != "on":
-            return data
-        try:
-            enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
-            statement = getattr(data, "statement", "")
-            cmd = str(getattr(statement, "command", "") or "").strip()
-            if not cmd:
-                cmd_str = str(statement or "")
-                tokens = cmd_str.split()
-                cmd = tokens[0] if tokens else ""
-            if cmd not in self.get_all_commands():
-                return data
-            phase = ""
-            try:
-                import json as _json
-                wm = _json.loads(open("sessions/world_model.json").read())
-                phase = (wm.get("phase") or wm.get("current_phase") or "").lower()
-            except Exception:
-                pass
-            _render_engagement_hook(cmd=cmd, phase=phase, enabled=enabled)
-        except Exception:
-            pass
-        return data
 
     def _recording_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Post-command hook: record commands when ``makerc`` is active."""

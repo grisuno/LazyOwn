@@ -798,6 +798,35 @@ pinned for reproducible installs:
 
 ---
 
+
+![image](https://github.com/user-attachments/assets/4e114c5c-d28d-4570-9e02-6868bb838dd2)
+
+## **Available beacon commands**:
+ - **stealth_off** stop being stealthy, Disables stealth mode, allowing normal operations.
+ - **stealth_on** enter ninja mode, Enables stealth mode, minimizing activity to avoid detection.
+ - **download:** download:[filename] Downloads a file from the C2 to the compromised host.
+ - **upload:** [filename]: Uploads a file from the compromised host to the C2.
+ - **rev:** Establishes a reverse shell to the C2 using the configured port.
+ - **exfil:** Exfiltrates sensitive data (e.g., SSH keys, AWS credentials, command histories).
+ - **download_exec:** download_exec:[url]: Downloads and executes a binary from a URL (Linux only, stored in /dev/shm).
+ - **obfuscate:** [filename]: Obfuscates file timestamps to hinder forensic analysis.
+ - **cleanlogs:** Clears system logs (e.g., /var/log/syslog on Linux, event logs on Windows).
+ - **discover:** Performs network discovery, identifying live hosts via ping.
+ - **adversary:**[id_atomic]: Executes an adversary emulation test (MITRE ATT&CK) using downloaded atomic redteam framework scripts.
+ - **softenum:** Enumerates useful software on the host (e.g., docker, nc, python).
+ - **netconfig:** Captures and exfiltrates network configuration (e.g., ipconfig on Windows, ifconfig on Linux).
+ - **escalatelin:** Attempts privilege escalation on Linux (e.g., via sudo -n or SUID binaries).
+ - **proxy:**[listenip]:[listenport]:[targetip]:[targetport] Starts a TCP proxy redirecting traffic from listenAddr to targetAddr.
+ - **stop_proxy:**[listenaddr] Stops a TCP proxy on the specified address.
+ - **portscan:** Scans ports on discovered hosts and the configured rhost.
+ - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
+ - **sandbox:** Get info about the system if it's a sandbox or not.
+ - **isvm:** Get info about the system if it's a virtual machine or not.
+ - **debug:** Get info about the system if the target is debugged or not.
+ - **persist:** Try to persist mechanism in the target system.
+
+---
+
 ## v0.2.158 Highlights
 
 ### Marketplace (YARA + Nuclei)
@@ -952,7 +981,7 @@ Extending the LazyOwn RedTeam Framework's capabilities has never been so easy, e
 
 Declarative command creation through YAML configuration files.
 
-## 📂 File Structure
+## File Structure
 lazyaddons/
 ├── addon1.yaml
 ├── addon2.yaml
@@ -985,7 +1014,7 @@ params:
     required: false
     default: 4
 ```
-✨ Features
+Features
 Auto-Installation
 Tools clone from Git when missing:
 
@@ -1005,7 +1034,7 @@ Replaces {param} in commands with values from:
 
 help <command> displays the YAML description.
 
-🧩 Template
+Template
 
 ```yaml
 name: ""
@@ -1588,22 +1617,22 @@ The use of Lazynmap provides us with an automated script for a target, in this c
 
 Discover the revolution in automating pentesting tasks with the LazyOwn GPT One Liner CLI Assistant! This incredible script is part of the LazyOwn tool suite, designed to make your life as a pentester more efficient and productive.
 
-🚀 Key Features:
+Key Features:
 
 Intelligent Automation: Leverages the power of Groq and advanced natural language models to generate precise and efficient commands based on your specific needs.
 User-Friendly Interface: With a simple prompt, the assistant generates and executes one-liner scripts, drastically reducing the time and effort involved in creating complex commands.
 Continuous Improvement: Continuously transforms and optimizes its knowledge base to provide you with the best solutions, adapting to each situation.
 Simplified Debugging: Enable debug mode to obtain detailed information at every step, facilitating the identification and correction of errors.
 Seamless Integration: Works effortlessly within your workspace, harnessing the power of the Groq API to deliver quick and accurate responses.
-🔒 Security and Control:
+Security and Control:
 
 Safe Error Handling: Intelligently detects and responds to execution errors, ensuring you maintain full control over each generated command.
 Controlled Execution: Before executing any command, it requests your confirmation, giving you peace of mind knowing exactly what is being executed on your system.
-🌐 Easy Configuration:
+Easy Configuration:
 
 Set up your API key in seconds and start enjoying all the benefits offered by the LazyOwn GPT One Liner CLI Assistant. A quick start guide is available to help you configure and maximize the potential of this powerful tool.
 
-🎯 Ideal for Pentesters and Developers:
+Ideal for Pentesters and Developers:
 
 Optimize Your Processes: Simplify and accelerate command generation in your security audits.
 Continuous Learning: The knowledge base is constantly updated and improved, always providing you with the latest best practices and solutions.

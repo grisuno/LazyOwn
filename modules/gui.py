@@ -854,7 +854,6 @@ def create_intel_tab(parent, client_id):
 
         # Make the columns expand
         for i in range(max_cols * 2):
-        for i in range(max_cols * 2):
             details_frame.columnconfigure(i, weight=1 if i % 2 == 1 else 0)
 def create_section_header(parent, title):
     """Creates a section header for the Intel tab."""

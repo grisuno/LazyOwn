@@ -2441,6 +2441,12 @@ Run EyeWitness for web screenshot capture.
 
 Automates EyeWitness installation and execution without requiring user input.
 
+### `gen_report`
+
+**Phase:** report | **Source:** `cli/commands/report_enhanced.py`
+
+Generate enhanced professional penetration test reports.
+
 ### `get_avaible_actions`
 
 **Phase:** report | **Source:** `cli/commands/report_migrated.py`
@@ -2512,12 +2518,6 @@ Executes the Pass-the-Hash (PTH) Net tool to change the password of an Active Di
 **Phase:** report | **Source:** `cli/commands/report_migrated.py`
 
 Processes HTML content from a specified URL using the pup utility and a default CSS selector.
-
-### `report`
-
-**Phase:** report | **Source:** `cli/commands/report_enhanced.py`
-
-Generate enhanced professional penetration test reports.
 
 ### `vulns`
 

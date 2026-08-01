@@ -46,6 +46,8 @@ If the file is found, it retrieves the version number from the JSON data.
 If the version key does not exist, it returns a default version 'release/v0.0.14'.
 If the file is not found, it also returns the default version.
 
+The version.json is the single source of truth, updated by deploy.sh.
+
 Returns:
 - str: The version number from the file or the default version if the file is not found or the version key is missing.
 
@@ -435,6 +437,14 @@ This function uses a regular expression to strip HTML tags and return plain text
 
 :param html_string: A string containing HTML content.
 :returns: A cleaned string with HTML tags removed.
+
+## _print_run_command_status
+Print a dim completion line (elapsed time + exit code) after a run.
+
+Only shown on interactive terminals and only when the command took long
+enough to matter (``RUN_COMMAND_STATUS_MIN_SECONDS``) or reported a
+non-zero exit, so quick aliases stay silent while long scans and failed
+tools always leave a visible trace. Never touches the returned output.
 
 ## command
 Run a command, print output in real-time, and store the output in a variable.

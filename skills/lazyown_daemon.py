@@ -63,12 +63,14 @@ for _p in (str(SKILLS_DIR), str(MODULES_DIR)):
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="[daemon] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("lazyown_daemon")
+log = get_logger("lazyown_daemon")
 
 # ── Import shared logic from existing modules ─────────────────────────────────
 

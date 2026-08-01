@@ -38,12 +38,14 @@ from typing import Any
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("lazyown.campaign")
+log = get_logger("lazyown.campaign")
 
 # ─── Paths ────────────────────────────────────────────────────────────────────
 

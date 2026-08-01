@@ -11,11 +11,13 @@ Usage:
     logger.info("Framework started")
 """
 
+import contextvars
+import json
 import logging
 import logging.handlers
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 
 
@@ -48,6 +50,73 @@ class ColoredFormatter(logging.Formatter):
         prefix = prefix_map.get(record.levelno, "[ ]")
         msg = super().format(record)
         return f"    {color}{prefix} {msg}{_CONSOLE_RESET}"
+
+
+class JsonFormatter(logging.Formatter):
+    """JSON-line formatter for structured log output.
+
+    Outputs each log record as a JSON object with timestamp, level, logger,
+    message, and optional ``correlation_id``, ``command``, and ``module``.
+    """
+
+    JSON_FORMAT_KEYS = (
+        "timestamp",
+        "level",
+        "logger",
+        "message",
+        "correlation_id",
+        "command",
+        "module",
+        "filename",
+        "lineno",
+    )
+
+    def format(self, record: logging.LogRecord) -> str:
+        log_entry: dict = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "level": record.levelname,
+            "logger": record.name,
+            "message": record.getMessage(),
+        }
+        for key in ("correlation_id", "command", "module"):
+            value = getattr(record, key, None)
+            if value is not None:
+                log_entry[key] = value
+        if record.exc_info and record.exc_info[1]:
+            log_entry["exception"] = str(record.exc_info[1])
+        return json.dumps(log_entry, ensure_ascii=False)
+
+
+_correlation_id_var: contextvars.ContextVar[str | None] = (
+    contextvars.ContextVar("correlation_id", default=None)
+)
+
+
+class CorrelationFilter(logging.Filter):
+    """Injects ``correlation_id`` from a ``ContextVar`` into log records."""
+
+    def filter(self, record: logging.LogRecord) -> bool:
+        cid = _correlation_id_var.get(None)
+        if cid is not None:
+            record.correlation_id = cid
+        else:
+            record.correlation_id = None
+        return True
+
+
+def set_correlation_id(cid: str) -> None:
+    """Set the correlation ID for the current async/task context."""
+    _correlation_id_var.set(cid)
+
+
+def get_correlation_id() -> str | None:
+    """Return the current correlation ID, or None."""
+    return _correlation_id_var.get(None)
+
+
+def clear_correlation_id() -> None:
+    """Reset the correlation ID for the current context."""
+    _correlation_id_var.set(None)
 
 
 _logger_cache: dict = {}
@@ -136,6 +205,15 @@ def _ensure_log_dir_writable(log_dir: str) -> str:
     return fallback
 
 
+def _use_json_format() -> bool:
+    """Determine whether to use JSON-line logging.
+
+    Checks the ``LAZYOWN_LOG_FORMAT`` environment variable. Accepts ``json``
+    as a value; anything else falls back to ColoredFormatter.
+    """
+    return os.environ.get("LAZYOWN_LOG_FORMAT", "").strip().lower() == "json"
+
+
 def configure(
     level: int = logging.INFO,
     log_dir: Optional[str] = None,
@@ -169,15 +247,23 @@ def configure(
     _log_dir = log_dir or os.path.join(os.getcwd(), 'sessions', 'logs')
     _log_dir = _ensure_log_dir_writable(_log_dir)
 
+    json_fmt = _use_json_format()
+
     root_logger = logging.getLogger()
     root_logger.setLevel(level)
     root_logger.handlers.clear()
 
+    correlation_filter = CorrelationFilter()
+    root_logger.addFilter(correlation_filter)
+
     if console:
         console_handler = logging.StreamHandler(sys.stdout)
         console_handler.setLevel(level)
-        fmt = format_console or LOG_FORMAT_CONSOLE
-        console_handler.setFormatter(ColoredFormatter(fmt, LOG_DATE_FORMAT))
+        if json_fmt:
+            console_handler.setFormatter(JsonFormatter())
+        else:
+            fmt = format_console or LOG_FORMAT_CONSOLE
+            console_handler.setFormatter(ColoredFormatter(fmt, LOG_DATE_FORMAT))
         root_logger.addHandler(console_handler)
 
     if file:
@@ -189,7 +275,10 @@ def configure(
                 log_file, maxBytes=max_bytes, backupCount=backup_count, delay=True,
             )
             file_handler.setLevel(level)
-            file_handler.setFormatter(logging.Formatter(format_file, LOG_DATE_FORMAT))
+            if json_fmt:
+                file_handler.setFormatter(JsonFormatter())
+            else:
+                file_handler.setFormatter(logging.Formatter(format_file, LOG_DATE_FORMAT))
             root_logger.addHandler(file_handler)
             logging.getLogger('lazyown.init').info(f'Log file: {log_file}')
         except (OSError, PermissionError) as exc:

@@ -24,8 +24,9 @@ from rich.markdown import Markdown
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-# Logging configuration
-logging.basicConfig(filename='log_monitor.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
@@ -162,5 +163,6 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
     start_monitoring(log_dir=args.log_dir, mode=args.mode)

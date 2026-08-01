@@ -19,12 +19,14 @@ import logging
 import sys
 from pathlib import Path
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="[knowledge] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("update_knowledge")
+log = get_logger("update_knowledge")
 
 SKILLS_DIR = Path(__file__).parent
 BASE_DIR   = SKILLS_DIR.parent

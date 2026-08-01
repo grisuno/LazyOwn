@@ -473,7 +473,8 @@ def get_exporter() -> MISPExporter:
 # ---------------------------------------------------------------------------
 
 def _main() -> None:
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    from modules.logging_config import configure, get_logger
+    configure(level=logging.INFO, console=True, file=False)
     parser = argparse.ArgumentParser(
         description="Export LazyOwn session findings as a MISP event"
     )

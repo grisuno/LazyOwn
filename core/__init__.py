@@ -73,6 +73,19 @@ from core.credentials import (
 )
 from core.crypto import AESdecrypt, AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt
 from core.dependencies import MissingDependencyError, optional_attr, optional_import
+from core.errors import (  # noqa: F401
+    AuthError,
+    ConfigError,
+    DatabaseError,
+    ErrorCode,
+    LazyOwnError,
+    NetworkError,
+    PayloadError,
+    PermissionError as LazyPermissionError,
+    TargetError,
+    ToolError,
+    ValidationError,
+)
 from core.http import (
     display_news,
     exploitalert,

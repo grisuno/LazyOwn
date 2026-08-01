@@ -516,7 +516,8 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.WARNING)
+    from modules.logging_config import configure, get_logger
+    configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "ask":
         bridge = LLMBridge(backend=args.backend, model=args.model)

@@ -1,6 +1,6 @@
 # LazyOwn Essentials — The Commands You Actually Need
 
-This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md`.
+This is the 80/20 reference. 18 commands cover the majority of engagements. Everything else lives in `CHEATSHEET.md` and `COMMANDS.md` (606+ commands).
 
 ---
 
@@ -139,12 +139,30 @@ instead of failing silently.
 
 ---
 
+## New in v0.2.158 — Commands you should know
+
+| Command | What it does | Why it matters |
+|---------|--------------|----------------|
+| `yara_marketplace list` | Browse 10 built-in YARA rules (ransomware, C2, webshells, privesc) | Signature-based threat detection |
+| `nuclei_marketplace list` | Browse 500+ Nuclei templates | Automated vulnerability scanning |
+| `auto_pwn` | Autonomous kill-chain walk | Recon to exploitation without manual steps |
+| `hunt` | Threat-informed discovery | Maps known TTPs to discovered services |
+| `yara_scan <file>` | Scan files/dirs with YARA rules | Malware and IoC detection |
+| `nuclei` | Run Nuclei templates against rhost | CVD/CVE vulnerability scanning |
+| `marketplace update` | Update all addons/plugins/tools/rules | Keep your toolkit current |
+| `collab_join handle` | Print team dashboard URL | Multi-operator collaboration |
+| `encrypt` / `decrypt` | PBKDF2HMAC + Fernet file crypto | Secure session data |
+| `campaign_sitrep` | Full situation report | Current state at a glance |
+
+---
+
 ## Where the full lists live
 
 | Need | File |
 |------|------|
-| 40 most frequent commands by goal | `CHEATSHEET.md` |
-| All 606 commands with descriptions | `COMMANDS.md` (auto-generated) |
+| 50 frequent commands by goal | `CHEATSHEET.md` |
+| All 606+ commands with descriptions | `COMMANDS.md` (auto-generated) |
 | All 126 aliases | `COMMANDS.md` alias section |
 | Full MCP tool reference (148 tools) | `skills/lazyown.md` |
 | Architecture and dev reference | `CLAUDE.md` |
+| Honest framework comparison | `COMPARISON.md` |

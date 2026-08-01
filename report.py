@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-🚀 LazyOwn Security Intelligence Report
+LazyOwn Security Intelligence Report
 Executive metrics generator for Cybersecurity Management
 KPIs, OKRs, threat detection and forensic analysis
 """
@@ -161,7 +161,7 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 STATIC.mkdir(exist_ok=True)
 AI_MODEL_DIR.mkdir(exist_ok=True)
 
-# 📊 Command categories (expanded)
+# Command categories (expanded)
 COMMAND_CATEGORIES = {
     'nmap': 'recon', 'gobuster': 'recon', 'dirb': 'recon', 'nikto': 'recon',
     'sqlmap': 'exploit', 'hydra': 'brute_force', 'john': 'brute_force',
@@ -179,13 +179,13 @@ COMMAND_CATEGORIES = {
     'evil-winrm': 'remote_access', 'crackmapexec': 'lateral_movement'
 }
 
-# ⚠ Palabras clave de comandos peligrosos
+# [~] Palabras clave de comandos peligrosos
 DANGEROUS_KEYWORDS = [
     'rm -rf', 'chmod 777', 'mkfs', 'dd if=', 'format', 'delete', 'del ',
     'rmdir', 'shutdown', 'poweroff', 'iptables -F'
 ]
 
-# 🎯 C2 and post-exploitation patterns
+# C2 and post-exploitation patterns
 C2_INDICATORS = [
     r'bash -i.*>& /dev/tcp',  # Reverse shell
     r'nc .* -e',              # Netcat reverse shell
@@ -226,7 +226,7 @@ def train_ai_model(df):
         return None, None
 
     # Vectorization
-    print("\n🔄 Vectorizing text (TF-IDF)...")
+    print("\nVectorizing text (TF-IDF)...")
     vectorizer = TfidfVectorizer(
         max_features=1000,
         ngram_range=(1, 2),
@@ -245,22 +245,22 @@ def train_ai_model(df):
     print(f"   - Test: {X_test.shape[0]} commands")
 
     # Training
-    print("\n🧠 Training Random Forest model...")
+    print("\nTraining Random Forest model...")
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
 
     # Evaluation
-    print("\n📊 MODEL EVALUATION")
+    print("\nMODEL EVALUATION")
     y_pred = model.predict(X_test)
     acc = accuracy_score(y_test, y_pred)
-    print(f"🎯 Accuracy: {acc:.2%}")
-    print("\n📋 Classification report:")
+    print(f"Accuracy: {acc:.2%}")
+    print("\nClassification report:")
     print(classification_report(y_test, y_pred, target_names=['Benign', 'Malicious']))
 
     # Guardar modelo
     joblib.dump(model, AI_MODEL_DIR / "malicious_command_model.pkl")
     joblib.dump(vectorizer, AI_MODEL_DIR / "tfidf_vectorizer.pkl")
-    print(f"💾 Model saved to: {AI_MODEL_DIR}/")
+    print(f"Model saved to: {AI_MODEL_DIR}/")
 
     # Confusion matrix
     cm = confusion_matrix(y_test, y_pred)
@@ -289,13 +289,13 @@ def load_or_train_model(df):
     y_true = df_text['es_malicioso']
 
     if model_path.exists() and vectorizer_path.exists():
-        print("🔁 Loading previous model...")
+        print("Loading previous model...")
         model = joblib.load(model_path)
         vectorizer = joblib.load(vectorizer_path)
 
         try:
             X_vec = vectorizer.transform(X_text)
-            print(f"🔄 Retraining with {len(X_text)} new commands...")
+            print(f"Retraining with {len(X_text)} new commands...")
             model.fit(X_vec, y_true)
             joblib.dump(model, model_path)
             print("Model updated and saved.")
@@ -303,7 +303,7 @@ def load_or_train_model(df):
             print(f"Error adjusting model: {e}. Retraining from scratch.")
             return train_ai_model(df)
     else:
-        print("🧠 Model not found. Training from scratch...")
+        print("Model not found. Training from scratch...")
         return train_ai_model(df)
 
     return model, vectorizer
@@ -340,7 +340,7 @@ def analyze_ia_vs_rules(df):
     print(f"False negatives (rules detected, AI missed): {len(fallo_ia)}")
 
     if len(nuevos_ia) > 0:
-        print("\n💡 NEW AI FINDINGS:")
+        print("\nNEW AI FINDINGS:")
         for _, row in nuevos_ia.head(5).iterrows():
             print(f"  [{row['domain']}] {row['command']} {row['args']} (score: {row['ia_malicious_score']:.3f})")
 
@@ -357,7 +357,7 @@ def analyze_ia_vs_rules(df):
     }
 def load_and_clean_data_robust(filepath):
     """Cargar y limpiar los datos de forma robusta"""
-    print("🔄 Loading data in a robust way...")
+    print("Loading data in a robust way...")
 
     try:
         df = pd.read_csv(filepath, on_bad_lines='skip')
@@ -473,7 +473,7 @@ def strategic_okrs(df, kpis):
     print("STRATEGIC SECURITY OKRs")
     print("="*60)
     for okr, data in okrs.items():
-        print(f"📌 {okr}")
+        print(f"{okr}")
         for k, v in data.items():
             print(f"   • {k}: {v}")
         print()
@@ -510,7 +510,7 @@ def generate_visualizations(df, kpis):
     plt.tight_layout()
     plt.savefig(OUTPUT_DIR / "security_dashboard.png", dpi=150, bbox_inches='tight')
     plt.savefig(STATIC / "security_dashboard.png", dpi=150, bbox_inches='tight')
-    print(f"📊 Chart saved: {OUTPUT_DIR}/security_dashboard.png")
+    print(f"Chart saved: {OUTPUT_DIR}/security_dashboard.png")
 
 def export_report(df, kpis, okrs, ia_analysis):
     report = {
@@ -551,14 +551,24 @@ def export_report(df, kpis, okrs, ia_analysis):
     output_path = OUTPUT_DIR / "executive_report.json"
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, default=str)
-    print(f"💾 JSON report exported: {output_path}")
-    os.system(f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format")
+    print(f"JSON report exported: {output_path}")
+    import subprocess
+    import shutil
+    if shutil.which("gum"):
+        subprocess.run(
+            f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format",
+            shell=True
+        )
+    else:
+        subprocess.run(
+            ["python3", "modules/vuln_bot_cli.py", "--file", output_path, "--provider", "groq", "--mode", "console"]
+        )
 
 
 
 # Analysis functions (kept as-is)
 def basic_statistics(df):
-    print("\n📈 BASIC STATISTICS")
+    print("\nBASIC STATISTICS")
     print("-"*60)
     print(f"Total records: {len(df):,}")
     print(f"Total unique commands: {df['command'].nunique():,}")
@@ -571,7 +581,7 @@ def basic_statistics(df):
         print("Could not calculate dates")
 
 def command_analysis(df):
-    print("\n🖥  COMMAND ANALYSIS")
+    print("\nCOMMAND ANALYSIS")
     print("-"*60)
     top_commands = df['command'].value_counts().head(15)
     print("Top 15 most used commands:")
@@ -584,7 +594,7 @@ def command_analysis(df):
         print(f"  {cat:<20} {count:,} ({percentage:.1f}%)")
 
 def network_analysis(df):
-    print("\n🌐 NETWORK ANALYSIS")
+    print("\nNETWORK ANALYSIS")
     print("-"*60)
     top_ips = df['source_ip'].value_counts().head(10)
     print("Top 10 most active source IPs:")
@@ -596,7 +606,7 @@ def network_analysis(df):
         print(f"  {domain:<30} ({count:,} commands)")
 
 def temporal_analysis(df):
-    print("\n⏰ TEMPORAL ANALYSIS")
+    print("\nTEMPORAL ANALYSIS")
     print("-"*60)
     hourly_activity = df['hour'].value_counts().sort_index()
     print("Activity distribution by hour:")
@@ -604,7 +614,7 @@ def temporal_analysis(df):
         print(f"  {hour:02d}:00 - {hour:02d}:59  {count:,} commands")
 
 def statistical_analysis(df):
-    print("\n📊 STATISTICAL ANALYSIS")
+    print("\nSTATISTICAL ANALYSIS")
     print("-"*60)
     duration_stats = df['duration'].describe()
     print("Command duration statistics (seconds):")
@@ -612,7 +622,7 @@ def statistical_analysis(df):
         print(f"  {stat:<10} {value:.4f}")
 
 def security_insights(df):
-    print("\n🛡  SECURITY INSIGHTS")
+    print("\nSECURITY INSIGHTS")
     print("-"*60)
     creds_df = df[df['contains_creds']]
     if len(creds_df) > 0:
@@ -635,7 +645,7 @@ def security_insights(df):
 
 def main():
     filepath = "sessions/LazyOwn_session_report.csv"
-    print(f"📁 Analyzing: {filepath}")
+    print(f"Analyzing: {filepath}")
 
     if not os.path.exists(filepath):
         print("ERROR: CSV file not found.")
@@ -677,7 +687,7 @@ def main():
     print("\n" + "="*60)
     print("SECURITY REPORT COMPLETED")
     print("="*60)
-    print(f"📄 Artifacts generated in: ./{OUTPUT_DIR}/")
+    print(f"Artifacts generated in: ./{OUTPUT_DIR}/")
     print("   • security_dashboard.png")
     print("   • confusion_matrix.png")
     print("   • executive_report.json")

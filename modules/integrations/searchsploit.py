@@ -344,8 +344,8 @@ def search_service(name: str, version: str = "") -> list[ExploitEntry]:
 # ---------------------------------------------------------------------------
 
 def _main() -> None:
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         description="Search ExploitDB via searchsploit or the web API"
     )

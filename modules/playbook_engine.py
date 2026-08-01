@@ -661,8 +661,8 @@ def get_engine(api_key: str = "") -> PlaybookEngine:
 if __name__ == "__main__":
     import argparse
 
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Playbook Engine")
     sub = p.add_subparsers(dest="cmd")

@@ -1021,10 +1021,11 @@ def get_swan(api_key: str = "") -> SwanOrchestrator:
 if __name__ == "__main__":
     import argparse
 
-    logging.basicConfig(
+    from modules.logging_config import configure, get_logger
+    configure(
         level=logging.INFO,
-        format="%(asctime)s [%(levelname)s] %(name)s — %(message)s",
-        datefmt="%H:%M:%S",
+        console=True,
+        file=False,
     )
 
     parser = argparse.ArgumentParser(

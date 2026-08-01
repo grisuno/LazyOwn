@@ -86,18 +86,10 @@ for _p in [str(_MODULES_DIR), str(_SKILLS_DIR)]:
 
 # ── Logging ────────────────────────────────────────────────────────────────────
 
-_LOG_FILE = _SESSIONS_DIR / "toposwarm_autonomous.log"
-_SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
+from modules.logging_config import configure, get_logger
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-    datefmt="%H:%M:%S",
-    handlers=[
-        logging.StreamHandler(sys.stdout),
-        logging.FileHandler(str(_LOG_FILE), encoding="utf-8"),
-    ],
-)
+configure(level=logging.INFO, log_dir=str(_SESSIONS_DIR))
+logger = get_logger(__name__)
 log = logging.getLogger("toposwarm_auto")
 
 # ANSI colours for terminal output

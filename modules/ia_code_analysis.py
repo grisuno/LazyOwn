@@ -8,28 +8,29 @@ import requests
 from rich.console import Console
 from rich.markdown import Markdown
 
-# Configuración de logging
-logging.basicConfig(filename='code_analyzer.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from modules.logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
 
 console = Console()
 
-# Lista de extensiones de archivos a monitorear
+# List of file extensions to monitor
 SOURCE_FILE_EXTENSIONS = [".py", ".c", ".go", ".rs"]
 
 class CodeAnalyzer:
     """
-    Analiza el código fuente en un directorio y sus subdirectorios.
+    Analyzes source code in a directory and its subdirectories.
     """
     def __init__(self, mode='console'):
         self.mode = mode
-        self.processed_files = set()  # Rastrear archivos procesados para evitar duplicados
+        self.processed_files = set()  # Track processed files to avoid duplicates
 
     def analyze_directory(self, directory):
         """
-        Analiza recursivamente todos los archivos de código fuente en el directorio especificado.
+        Recursively analyzes all source code files in the specified directory.
         """
         for root, _, files in os.walk(directory):
             for file_name in files:
@@ -41,7 +42,7 @@ class CodeAnalyzer:
 
     def analyze_code_file(self, file_path):
         """
-        Analiza el contenido del archivo de código fuente.
+        Analyzes the content of the source code file.
         """
         try:
             with open(file_path, 'r') as file:
@@ -57,7 +58,7 @@ class CodeAnalyzer:
 
 def analyze_with_deepseek(code_content, file_path, mode='console'):
     """
-    Envía el contenido del código a DeepSeek para su análisis.
+    Sends the code content to DeepSeek for analysis.
     Devuelve la respuesta del modelo en fragmentos.
     """
     try:
@@ -102,7 +103,7 @@ def analyze_with_deepseek(code_content, file_path, mode='console'):
                 console.print(rich_markdown)
             logging.info(f"DeepSeek Analysis Results:\n{full_response}")
 
-            # Guardar los resultados en archivos JSON
+            # Save the results to JSON files
             save_results_to_json(full_response, file_path)
         else:
             logging.error(f"Error communicating with DeepSeek API: {response.status_code}")
@@ -113,7 +114,7 @@ def analyze_with_deepseek(code_content, file_path, mode='console'):
 
 def save_results_to_json(results, file_path):
     """
-    Guarda los resultados del análisis en archivos JSON.
+    Saves the analysis results to JSON files.
     """
     try:
         results_data = json.loads(results)
@@ -126,7 +127,7 @@ def save_results_to_json(results, file_path):
             improved_function = result.get("improved_function")
             explanation = result.get("explanation")
 
-            # Guardar el código original y mejorado en archivos de texto
+            # Save the original and improved code to text files
             original_file_path = f"code_snippets/{os.path.basename(file_path)}_{function_name}_original.txt"
             improved_file_path = f"code_snippets/{os.path.basename(file_path)}_{function_name}_improved.txt"
 
@@ -158,7 +159,7 @@ def save_results_to_json(results, file_path):
 
 def start_analysis(code_dir='/path/to/code', mode='console'):
     """
-    Inicia el análisis del directorio de código especificado.
+    Starts the analysis of the specified code directory.
     """
     console.print(f"Starting code analysis in {code_dir}...")
     analyzer = CodeAnalyzer(mode)
@@ -171,5 +172,6 @@ def parse_args():
     return parser.parse_args()
 
 if __name__ == "__main__":
+    configure(level=logging.INFO, console=True, file=False)
     args = parse_args()
     start_analysis(code_dir=args.code_dir, mode=args.mode)

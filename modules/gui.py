@@ -1,5 +1,6 @@
 import csv
 import json
+import logging
 import os
 import queue
 import re
@@ -37,7 +38,7 @@ PASSWORD = os.environ.get("LAZYOWN_C2_PASS", _PAYLOAD.get("c2_pass", "lazyown"))
 SESSIONS_DIR = os.path.join(_LAZYOWN_BASE, "sessions")
 LOG_DIR = SESSIONS_DIR
 
-# === VARIABLES GLOBALES ===
+# === GLOBAL VARIABLES ===
 polling = False
 root = None
 canvas = None
@@ -52,12 +53,12 @@ events_text = None
 processes_tree = None
 status_label = None
 connection_status = False
-# === NUEVAS VARIABLES PARA VISTA TABLA ===
+# === NEW VARIABLES FOR TABLE VIEW ===
 global_view_mode = "card"  # 'card' o 'table'
 toggle_view_btn = None
 implants_frame = None
 main_container = None
-# === COLORES Y TEMA ===
+# === COLORS AND THEME ===
 COLORS = {
     'bg_primary': '#1a1a1a',
     'bg_secondary': '#2d2d2d',
@@ -74,12 +75,12 @@ COLORS = {
     'border': '#404040'
 }
 
-# === ESTILOS MEJORADOS ===
+# === ENHANCED STYLES ===
 def setup_modern_theme():
     style = ttk.Style()
     style.theme_use("clam")
 
-    # Configuraciones base
+    # Base configurations
     style.configure("Modern.TFrame",
                    background=COLORS['bg_primary'],
                    relief='flat',
@@ -173,13 +174,13 @@ def setup_modern_theme():
                    font=('Segoe UI', 9, 'bold'))
 
 
-# === WIDGETS PERSONALIZADOS ===
+# === CUSTOM WIDGETS ===
 class StatusBar(ttk.Frame):
     def __init__(self, parent):
         super().__init__(parent, style="Modern.TFrame")
         self.pack(side=tk.BOTTOM, fill=tk.X, padx=5, pady=2)
 
-        self.status_label = ttk.Label(self, text="Desconectado", style="Status.TLabel")
+        self.status_label = ttk.Label(self, text="Disconnected", style="Status.TLabel")
         self.status_label.pack(side=tk.LEFT, padx=5)
 
         self.connection_indicator = tk.Canvas(self, width=12, height=12, bg=COLORS['bg_primary'], highlightthickness=0)
@@ -209,11 +210,11 @@ class ModernTreeview(ttk.Frame):
         header_frame = ttk.Frame(self, style="Modern.TFrame")
         header_frame.pack(fill=tk.X, padx=10, pady=(10, 5))
 
-        self.title_label = ttk.Label(header_frame, text="Datos", style="Title.TLabel")
+        self.title_label = ttk.Label(header_frame, text="Data", style="Title.TLabel")
         self.title_label.pack(side=tk.LEFT)
 
-        self.refresh_btn = ttk.Button(header_frame, text="⟳ Actualizar",
-                                     style="Modern.TButton",
+        self.refresh_btn = ttk.Button(header_frame, text="⟳ Refresh",
+                                      style="Modern.TButton",
                                      command=self.refresh_data)
         self.refresh_btn.pack(side=tk.RIGHT)
 
@@ -264,9 +265,9 @@ class ModernConsole(ttk.Frame):
     def __init__(self, parent, client_id=None):
         super().__init__(parent, style="Modern.TFrame")
         self.client_id = client_id
-        self.command_history = []  # Lista de comandos históricos
-        self.history_index = -1    # Índice actual en el historial (-1 = escribiendo un nuevo comando)
-        self.load_command_history() # Cargar historial desde el archivo .log
+        self.command_history = []  # Command history list
+        self.history_index = -1    # Current history index (-1 = typing a new command)
+        self.load_command_history() # Load history from .log file
 
         # Output area con mejor formato
         self.output = scrolledtext.ScrolledText(
@@ -282,7 +283,7 @@ class ModernConsole(ttk.Frame):
         )
         self.output.pack(fill=tk.BOTH, expand=True, padx=5, pady=(5, 0))
 
-        # Input frame con mejor diseño
+        # Input frame with improved design
         input_frame = ttk.Frame(self, style="Modern.TFrame")
         input_frame.pack(fill=tk.X, padx=5, pady=5)
 
@@ -296,7 +297,7 @@ class ModernConsole(ttk.Frame):
         self.entry.pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(0, 5))
 
         # Send button
-        self.send_btn = ttk.Button(input_frame, text="Enviar",
+        self.send_btn = ttk.Button(input_frame, text="Send",
                                   style="Primary.TButton",
                                   command=lambda: self.send_command(client_id))
         self.send_btn.pack(side=tk.RIGHT)
@@ -308,14 +309,14 @@ class ModernConsole(ttk.Frame):
         self.entry.bind('<Up>', self.navigate_history_up)
         self.entry.bind('<Down>', self.navigate_history_down)
 
-        # Configurar tags para colores
+        # Configure tags for colors
         self.output.tag_config("command", foreground=COLORS['accent_blue'])
         self.output.tag_config("response", foreground=COLORS['text_success'])
         self.output.tag_config("error", foreground=COLORS['text_error'])
         self.output.tag_config("warning", foreground=COLORS['text_warning'])
 
     def load_command_history(self):
-        """Carga el historial de comandos desde el archivo .log del cliente"""
+        """Loads the command history from the client's .log file."""
         if not self.client_id:
             return
 
@@ -326,12 +327,12 @@ class ModernConsole(ttk.Frame):
         try:
             with open(log_file_path, 'r', encoding='utf-8') as f:
                 reader = csv.reader(f)
-                next(reader, None)  # Saltar la cabecera
+                next(reader, None)  # Skip header
                 for row in reader:
-                    if len(row) > 9:  # Asegurarse de que la columna 'command' existe (índice 9)
+                    if len(row) > 9:  # Ensure the 'command' column exists (index 9)
                         command = row[9].strip()
                         if command and command.lower() not in ['none', 'null', '']:
-                            # Evitar duplicados consecutivos
+                            # Avoid consecutive duplicates
                             if not self.command_history or self.command_history[-1] != command:
                                 self.command_history.append(command)
         except Exception as e:
@@ -342,30 +343,30 @@ class ModernConsole(ttk.Frame):
         if not cmd:
             return
 
-        # Agregar el comando al historial si no es un duplicado del último
+        # Add command to history if not a duplicate of the last
         if not self.command_history or self.command_history[-1] != cmd:
             self.command_history.append(cmd)
-        self.history_index = len(self.command_history)  # Resetear índice al final
+        self.history_index = len(self.command_history)  # Reset index to end
 
         try:
-            # Mostrar comando en la consola
+            # Show command in the console
             self.add_text(f"> {cmd}", "command")
 
-            # Enviar comando al servidor
+            # Send command to server
             if client_id != "GLOBAL":
                 requests.post(f"{API_BASE}/issue_command",
                             data={"client_id": client_id, "command": cmd}, verify=False)
 
-            # Limpiar el campo de entrada
+            # Clear the input field
             self.entry.delete(0, tk.END)
 
         except Exception as e:
             self.add_text(f"[ERROR] {str(e)}", "error")
 
     def navigate_history_up(self, event):
-        """Navegar hacia arriba en el historial de comandos"""
+        """Navigate up in the command history."""
         if not self.command_history:
-            return "break"  # Evitar que la tecla haga algo más
+            return "break"  # Prevent the key from doing anything else
 
         if self.history_index <= 0:
             self.history_index = 0
@@ -374,16 +375,16 @@ class ModernConsole(ttk.Frame):
         self.history_index -= 1
         self.entry.delete(0, tk.END)
         self.entry.insert(0, self.command_history[self.history_index])
-        return "break"  # Prevenir el comportamiento por defecto de la tecla
+        return "break"  # Prevent default key behavior
 
     def navigate_history_down(self, event):
-        """Navegar hacia abajo en el historial de comandos"""
+        """Navigate down in the command history."""
         if not self.command_history:
             return "break"
 
         if self.history_index >= len(self.command_history) - 1:
             self.history_index = len(self.command_history)
-            self.entry.delete(0, tk.END)  # Limpiar para escribir un nuevo comando
+            self.entry.delete(0, tk.END)  # Clear for new command
             return "break"
 
         self.history_index += 1
@@ -434,7 +435,7 @@ class ImplantCard(ttk.Frame):
         self.status_canvas.pack(side=tk.RIGHT)
         self.update_status_indicator()
 
-        # --- Información Detallada (NUEVO) ---
+        # --- Detailed Information (NEW) ---
         info_frame = ttk.Frame(content_frame, style="Modern.TFrame")
         info_frame.pack(fill=tk.X, pady=(5, 10))
 
@@ -443,7 +444,7 @@ class ImplantCard(ttk.Frame):
         ttk.Label(info_frame, text=f"💻 Host: {hostname}",
                  style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
 
-        # IP y Usuario en la misma línea
+        # IP and User on the same line
         ip_user_frame = ttk.Frame(info_frame, style="Modern.TFrame")
         ip_user_frame.pack(fill=tk.X)
         ip = self.latest_info.get('ips', 'N/A')
@@ -453,7 +454,7 @@ class ImplantCard(ttk.Frame):
         ttk.Label(ip_user_frame, text=f"👤 User: {user}",
                  style="Status.TLabel", foreground=COLORS['text_secondary']).pack(side=tk.LEFT, padx=(10, 0))
 
-        # PID y Directorio de Trabajo
+        # PID and Working Directory
         pid = self.latest_info.get('pid', 'N/A')
         pwd = self.latest_info.get('result_pwd', 'N/A')
         ttk.Label(info_frame, text=f"🆔 PID: {pid}",
@@ -461,43 +462,43 @@ class ImplantCard(ttk.Frame):
         ttk.Label(info_frame, text=f"📁 PWD: {pwd}",
                  style="Status.TLabel", foreground=COLORS['accent_green']).pack(anchor=tk.W)
 
-        # --- Última Actividad ---
-        last_activity = self.latest_info.get('last_activity', 'Desconocido')
-        ttk.Label(info_frame, text=f"⏱️ Última actividad: {last_activity}",
+        # --- Last Activity ---
+        last_activity = self.latest_info.get('last_activity', 'Unknown')
+        ttk.Label(info_frame, text=f"⏱️ Last activity: {last_activity}",
                  style="Status.TLabel", foreground=COLORS['text_warning']).pack(anchor=tk.W)
-        # --- Información del Implant (desde JSON) ---
+        # --- Implant Information (from JSON) ---
         implant_id = self.latest_info.get('implant_id', 'N/A')
         created = self.latest_info.get('created', 'N/A')
         ttk.Label(info_frame, text=f"🆔 ID Implant: {implant_id}",
                 style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
-        ttk.Label(info_frame, text=f"📅 Creado: {created}",
+        ttk.Label(info_frame, text=f"📅 Created: {created}",
          style="Status.TLabel", foreground=COLORS['text_secondary']).pack(anchor=tk.W)
-        # --- Botones de acción ---
+        # --- Action buttons ---
         button_frame = ttk.Frame(content_frame, style="Modern.TFrame")
         button_frame.pack(fill=tk.X)
-        ttk.Button(button_frame, text="Consola", style="Primary.TButton",
+        ttk.Button(button_frame, text="Console", style="Primary.TButton",
                   command=self.open_console).pack(side=tk.LEFT, padx=(0, 5))
-        ttk.Button(button_frame, text="Archivos", style="Modern.TButton",
+        ttk.Button(button_frame, text="Files", style="Modern.TButton",
                   command=self.open_files).pack(side=tk.LEFT, padx=(0, 5))
-        ttk.Button(button_frame, text="Procesos", style="Modern.TButton",
+        ttk.Button(button_frame, text="Processes", style="Modern.TButton",
                   command=self.open_processes).pack(side=tk.LEFT)
-        self.view_mode = "card"  # inicialmente en modo tarjeta
-        self.toggle_btn = ttk.Button(button_frame, text="📋 Tabla",
+        self.view_mode = "card"  # initially in card mode
+        self.toggle_btn = ttk.Button(button_frame, text="📋 Table",
                                     style="Modern.TButton",
                                     command=self.toggle_view)
         print(f"[DEBUG] Toggle view: {self.view_mode} -> {'table' if self.view_mode == 'card' else 'card'}")
         self.toggle_btn.pack(side=tk.RIGHT)
-        # Click en toda la card
+        # Click on the entire card
         self.bind("<Button-1>", self.on_card_click)
         content_frame.bind("<Button-1>", self.on_card_click)
         for child in content_frame.winfo_children():
             child.bind("<Button-1>", self.on_card_click)
 
     def load_latest_client_info(self):
-        """Carga la información más reciente del cliente desde su archivo .log Y su archivo .json de configuración."""
-        self.latest_info = {}  # Reiniciar
+        """Loads the latest client info from its .log file AND its JSON config file."""
+        self.latest_info = {}  # Reset
 
-        # --- Primero, cargar info del .log (como antes) ---
+        # --- First, load info from .log (as before) ---
         log_file_path = os.path.join(LOG_DIR, f"{self.client_id}.log")
         if os.path.exists(log_file_path):
             try:
@@ -523,7 +524,7 @@ class ImplantCard(ttk.Frame):
             except Exception as e:
                 print(f"Error loading latest info from .log for {self.client_id}: {e}")
 
-        # --- SEGUNDO, cargar info del archivo JSON de configuración ---
+        # --- SECOND, load info from JSON config file ---
         config_file_path = os.path.join(LOG_DIR, f"implant_config_{self.client_id}.json")
         if os.path.exists(config_file_path):
             try:
@@ -544,8 +545,8 @@ class ImplantCard(ttk.Frame):
                 print(f"Error loading config from JSON for {self.client_id}: {e}")
 
     def update_status_indicator(self):
-        """Actualiza el indicador de estado basado en la última actividad"""
-        # Lógica simple: si el archivo se modificó en los últimos 60 segundos, está activo
+        """Updates the status indicator based on last activity."""
+        # Simple logic: if file was modified in the last 60 seconds, it is active
         log_file_path = os.path.join(LOG_DIR, f"{self.client_id}.log")
         if os.path.exists(log_file_path):
             last_modified = os.path.getmtime(log_file_path)
@@ -587,39 +588,39 @@ class ImplantCard(ttk.Frame):
             else:
                 image_path = "client.png"
 
-            # Debug: verificar la ruta
-            print(f"Intentando cargar: {image_path}")
-            print(f"Archivo existe: {os.path.exists(image_path)}")
+            # Debug: check the path
+            print(f"Attempting to load: {image_path}")
+            print(f"File exists: {os.path.exists(image_path)}")
 
-            # Verificar si el archivo existe
+            # Check if the file exists
             if os.path.exists(image_path):
-                # Cargar y redimensionar imagen
+                # Load and resize image
                 img = Image.open(image_path)
                 img = img.resize((32, 32), Image.Resampling.LANCZOS)
-                print(f"Imagen cargada exitosamente: {image_path}")
+                print(f"Image loaded successfully: {image_path}")
                 return ImageTk.PhotoImage(img)
             else:
-                print(f"Archivo no encontrado: {image_path}")
+                print(f"File not found: {image_path}")
                 return None
         except Exception as e:
-            print(f"Error cargando imagen: {e}")
+            print(f"Error loading image: {e}")
             return None
 
     def toggle_view(self):
         if self.view_mode == "card":
             self.show_table_view()
             self.view_mode = "table"
-            self.toggle_btn.config(text="🖼️ Tarjeta")
+            self.toggle_btn.config(text="🖼️ Card")
         else:
             self.show_card_view()
             self.view_mode = "card"
-            self.toggle_btn.config(text="📋 Tabla")
+            self.toggle_btn.config(text="📋 Table")
 
     def show_table_view(self):
-        # 1. Ocultar tarjeta
+        # 1. Hide card
         self.card_content.pack_forget()
 
-        # 2. Crear tabla solo una vez
+        # 2. Create table only once
         if not hasattr(self, 'table_frame'):
             self.table_frame = ttk.Frame(self, style="Card.TFrame")
             self.tree = ttk.Treeview(
@@ -634,7 +635,7 @@ class ImplantCard(ttk.Frame):
             self.tree.heading("Url", text="Url")
             self.tree.heading("Rhost", text="Rhost")
             self.tree.heading("Created", text="Created")
-            # Colores visibles
+            # Visible colors
             style = ttk.Style()
             style.configure("Table.Treeview",
                             background=COLORS['bg_secondary'],
@@ -644,7 +645,7 @@ class ImplantCard(ttk.Frame):
 
             self.tree.pack(fill=tk.X, padx=10, pady=10)
 
-        # 3. Limpiar e insertar fila
+        # 3. Clear and insert row
         for item in self.tree.get_children():
             self.tree.delete(item)
         self.tree.insert("", tk.END, values=(
@@ -656,16 +657,16 @@ class ImplantCard(ttk.Frame):
             self.latest_info.get('created', 'N/A')
         ))
 
-        # 4. ¡Mostrar frame!
+        # 4. Show frame!
         self.table_frame.pack(fill=tk.X)
-        self.table_frame.update()  # <- fuerza renderizado
+        self.table_frame.update()  # <- force render
 
     def show_card_view(self):
         if hasattr(self, 'table_frame'):
             self.table_frame.pack_forget()
         self.card_content.pack(fill=tk.BOTH, expand=True)
 
-# === FUNCIONES DE API MEJORADAS ===
+# === IMPROVED API FUNCTIONS ===
 def login():
     global connection_status, status_bar
     try:
@@ -674,21 +675,21 @@ def login():
                            verify=False, timeout=5)
         if resp.status_code == 200:
             connection_status = True
-            status_bar.update_status("Conectado al C2", True)
-            show_notification("✓ Conectado al C2 exitosamente", "success")
+            status_bar.update_status("Connected to C2", True)
+            show_notification("✓ Connected to C2 successfully", "success")
             refresh_clients()
             start_polling()
         else:
             connection_status = False
-            status_bar.update_status("Login fallido", False)
-            show_notification("✗ Error en login", "error")
+            status_bar.update_status("Login failed", False)
+            show_notification("✗ Login error", "error")
     except Exception as e:
         connection_status = False
-        status_bar.update_status(f"Error de conexión: {str(e)}", False)
-        show_notification(f"✗ No se pudo conectar: {str(e)}", "error")
+        status_bar.update_status(f"Connection error: {str(e)}", False)
+        show_notification(f"✗ Could not connect: {str(e)}", "error")
 
 def show_notification(message, type="info"):
-    """Mostrar notificación en el sistema"""
+    """Show system notification."""
     colors = {
         "success": COLORS['text_success'],
         "error": COLORS['text_error'],
@@ -704,7 +705,7 @@ def show_notification(message, type="info"):
         events_text.see(tk.END)
 
 def refresh_clients():
-    # Limpiar solo el contenido
+    # Clear only the content
     for widget in implants_frame.winfo_children():
         widget.destroy()
 
@@ -717,51 +718,51 @@ def refresh_clients():
             card = ImplantCard(implants_frame, client, select_client)
             card.pack(fill=tk.X, padx=5, pady=5)
 
-        show_notification(f"✓ {len(clients)} implantes activos", "success")
+        show_notification(f"✓ {len(clients)} active implants", "success")
 
     except Exception as e:
-        show_notification(f"✗ Error actualizando clientes: {str(e)}", "error")
+        show_notification(f"✗ Error refreshing clients: {str(e)}", "error")
 
 def select_client(client_id):
     global current_beacon
     current_beacon = client_id
 
-    # Crear o seleccionar pestaña del beacon
+    # Create or select beacon tab
     if client_id not in beacon_tabs:
         create_beacon_tab(client_id)
 
     console_notebook.select(beacon_tabs[client_id])
-    show_notification(f"→ Beacon seleccionado: {client_id}", "info")
+    show_notification(f"→ Beacon selected: {client_id}", "info")
 
 def create_beacon_tab(client_id):
-    """Crea una nueva pestaña para un beacon, con subpestañas de Consola e Intel."""
+    """Creates a new tab for a beacon, with Console and Intel sub-tabs."""
     frame = ttk.Frame(console_notebook, style="Modern.TFrame")
     console_notebook.add(frame, text=f"🔗 {client_id}")
 
-    # Crear un notebook interno para este beacon específico
+    # Create an inner notebook for this specific beacon
     beacon_inner_notebook = ttk.Notebook(frame, style="Modern.TNotebook")
     beacon_inner_notebook.pack(fill=tk.BOTH, expand=True)
 
-    # Pestaña 1: Consola
+    # Tab 1: Console
     console_frame = ttk.Frame(beacon_inner_notebook, style="Modern.TFrame")
     console = ModernConsole(console_frame, client_id)
     console.pack(fill=tk.BOTH, expand=True)
-    beacon_inner_notebook.add(console_frame, text="💬 Consola")
+    beacon_inner_notebook.add(console_frame, text="💬 Console")
 
-    # Pestaña 2: Intel (¡NUEVO!)
+    # Tab 2: Intel (NEW!)
     intel_frame = ttk.Frame(beacon_inner_notebook, style="Modern.TFrame")
     create_intel_tab(intel_frame, client_id)
     beacon_inner_notebook.add(intel_frame, text="🔍 Intel")
 
-    # Guardar referencias
+    # Save references
     beacon_tabs[client_id] = frame
-    frame.console = console  # Mantener referencia a la consola
-    frame.intel_frame = intel_frame  # Referencia a la pestaña de intel (opcional)
+    frame.console = console  # Keep reference to the console
+    frame.intel_frame = intel_frame  # Reference to the intel tab (optional)
 
     return frame
 
 def load_implant_config(client_id):
-    """Carga la configuración del implant desde el archivo JSON."""
+    """Loads the implant configuration from the JSON file."""
     config_file_path = os.path.join(LOG_DIR, f"implant_config_{client_id}.json")
     if not os.path.exists(config_file_path):
         return None
@@ -774,8 +775,8 @@ def load_implant_config(client_id):
         return None
 
 def create_intel_tab(parent, client_id):
-    """Crea la pestaña de Inteligencia/Recon para un beacon específico."""
-    # Frame principal con scroll
+    """Creates the Intelligence/Recon tab for a specific beacon."""
+    # Main frame with scroll
     canvas = tk.Canvas(parent, bg=COLORS['bg_primary'], highlightthickness=0)
     scrollbar = ttk.Scrollbar(parent, orient="vertical", command=canvas.yview)
     scrollable_frame = ttk.Frame(canvas, style="Modern.TFrame")
@@ -791,48 +792,48 @@ def create_intel_tab(parent, client_id):
     canvas.pack(side="left", fill="both", expand=True)
     scrollbar.pack(side="right", fill="y")
 
-    # Cargar datos del log
+    # Load log data
     intel_data = load_intel_data(client_id)
 
-    # Sección: Hosts Descubiertos
+    # Section: Discovered Hosts
     if intel_data.get('discovered_ips'):
-        create_section_header(scrollable_frame, "🌐 Hosts Descubiertos")
+        create_section_header(scrollable_frame, "🌐 Discovered Hosts")
         for ip in intel_data['discovered_ips']:
             ttk.Label(scrollable_frame, text=f"• {ip}", style="Modern.TLabel").pack(anchor=tk.W, padx=20, pady=2)
 
-    # Sección: Escaneo de Puertos
+    # Section: Port Scan
     if intel_data.get('portscan_results'):
-        create_section_header(scrollable_frame, "🚪 Puertos Abiertos")
+        create_section_header(scrollable_frame, "🚪 Open Ports")
         for host, ports in intel_data['portscan_results'].items():
             ttk.Label(scrollable_frame, text=f"{host}:", style="Title.TLabel", font=('Segoe UI', 10, 'bold')).pack(anchor=tk.W, padx=20, pady=(5, 0))
             for port, status in ports.items():
                 color = COLORS['text_success'] if status == 'open' else COLORS['text_error']
                 ttk.Label(scrollable_frame, text=f"  • {port}: {status}", foreground=color, style="Modern.TLabel").pack(anchor=tk.W, padx=40)
 
-    # Sección: Software Útil
+    # Section: Useful Software
     if intel_data.get('useful_software'):
-        create_section_header(scrollable_frame, "🛠️ Software Detectado")
+        create_section_header(scrollable_frame, "🛠️ Detected Software")
         for sw in intel_data['useful_software']:
             ttk.Label(scrollable_frame, text=f"• {sw}", style="Modern.TLabel").pack(anchor=tk.W, padx=20, pady=2)
 
-    # Sección: Configuración de Red
+    # Section: Network Configuration
     if intel_data.get('netconfig'):
-        create_section_header(scrollable_frame, "📡 Configuración de Red")
+        create_section_header(scrollable_frame, "📡 Network Configuration")
         net_text = scrolledtext.ScrolledText(scrollable_frame, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'], font=('Consolas', 9), height=10, wrap=tk.NONE)
         net_text.insert(tk.END, intel_data['netconfig'])
         net_text.config(state=tk.DISABLED)
         net_text.pack(fill=tk.BOTH, expand=True, padx=20, pady=5)
-    # Sección: Configuración del Implant (desde JSON)
-    config_data = load_implant_config(client_id)  # <-- NUEVA FUNCIÓN QUE DEFINIREMOS
+    # Section: Implant Configuration (from JSON)
+    config_data = load_implant_config(client_id)  # <-- NEW FUNCTION DEFINED BELOW
     if config_data:
-        create_section_header(scrollable_frame, "⚙️ Configuración del Implant")
+        create_section_header(scrollable_frame, "⚙️ Implant Configuration")
         details_frame = ttk.Frame(scrollable_frame, style="Modern.TFrame")
         details_frame.pack(fill=tk.X, padx=20, pady=5)
 
-        # Crear una grilla de 2 columnas para los pares clave-valor
+        # Create a 2-column grid for key-value pairs
         row = 0
         col = 0
-        max_cols = 2  # Número de columnas
+        max_cols = 2  # Number of columns
         for key, value in config_data.items():
             if key in ['binary', 'url_binary', 'user_agent', 'payload']:  # Campos largos
                 ttk.Label(details_frame, text=f"{key}:", style="Modern.TLabel", font=('Segoe UI', 9, 'bold')).grid(row=row, column=col, sticky=tk.W, padx=(0, 5), pady=2)
@@ -851,18 +852,19 @@ def create_intel_tab(parent, client_id):
                     col = 0
                     row += 1
 
-        # Hacer que las columnares se expandan
+        # Make the columns expand
+        for i in range(max_cols * 2):
         for i in range(max_cols * 2):
             details_frame.columnconfigure(i, weight=1 if i % 2 == 1 else 0)
 def create_section_header(parent, title):
-    """Crea un encabezado de sección para la pestaña de Intel."""
+    """Creates a section header for the Intel tab."""
     frame = ttk.Frame(parent, style="Modern.TFrame")
     frame.pack(fill=tk.X, pady=(15, 5))
     ttk.Label(frame, text=title, style="Title.TLabel", font=('Segoe UI', 11, 'bold')).pack(side=tk.LEFT)
     ttk.Separator(frame, orient='horizontal').pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(10, 0))
 
 def load_intel_data(client_id):
-    """Extrae y parsea datos de inteligencia del archivo .log del cliente."""
+    """Extracts and parses intelligence data from the client's .log file."""
     data = {
         'discovered_ips': set(),
         'portscan_results': {},
@@ -877,7 +879,7 @@ def load_intel_data(client_id):
     try:
         with open(log_file_path, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
-            next(reader, None)  # Saltar cabecera
+            next(reader, None)  # Skip header
 
             for row in reader:
                 if len(row) < 11:
@@ -886,12 +888,12 @@ def load_intel_data(client_id):
                 command = row[9].strip().lower()
                 output = row[10].strip()
 
-                # Parsear discovered_ips (del campo row[6])
+                # Parse discovered_ips (from row[6])
                 if len(row) > 6 and row[6]:
                     ips = [ip.strip() for ip in row[6].split(',')]
                     data['discovered_ips'].update(ips)
 
-                # Parsear result_portscan (del campo row[7])
+                # Parse result_portscan (from row[7])
                 if len(row) > 7 and row[7]:
                     # Suponiendo formato "port:status" o "ip:port:status"
                     entries = row[7].split(',')
@@ -899,7 +901,7 @@ def load_intel_data(client_id):
                         if ':' in entry:
                             parts = entry.split(':')
                             if len(parts) >= 2:
-                                # Asignar al host actual (row[4]) o a 'localhost'
+                                # Assign to current host (row[4]) or 'localhost'
                                 host = row[4] if len(row) > 4 and row[4] else 'localhost'
                                 port = parts[0]
                                 status = parts[1] if len(parts) > 1 else 'unknown'
@@ -907,20 +909,20 @@ def load_intel_data(client_id):
                                     data['portscan_results'][host] = {}
                                 data['portscan_results'][host][port] = status
 
-                # Detectar software útil desde el comando 'softenum'
+                # Detect useful software from 'softenum' command
                 if command == 'softenum:' and 'Useful software:' in output:
                     software_list = output.split('Useful software: ')[-1]
                     sw_items = [sw.strip() for sw in software_list.split(',')]
                     data['useful_software'].update(sw_items)
 
-                # Guardar la última configuración de red
+                # Save the last network configuration
                 if command == 'netconfig:':
                     data['netconfig'] = output
 
     except Exception as e:
         print(f"Error loading intel data for {client_id}: {e}")
 
-    # Convertir sets a listas ordenadas para la UI
+    # Convert sets to sorted lists for the UI
     data['discovered_ips'] = sorted(list(data['discovered_ips']))
     data['useful_software'] = sorted(list(data['useful_software']))
 
@@ -951,7 +953,8 @@ def load_latest_client_info_dict(client_id):
                         'pid': row[2],
                         'result_pwd': row[8],
                     })
-        except:
+        except (FileNotFoundError, IndexError, StopIteration, csv.Error) as exc:
+            logging.warning("Failed to parse log file %s: %s", log_path, exc)
             pass
 
     if os.path.exists(json_path):
@@ -962,7 +965,8 @@ def load_latest_client_info_dict(client_id):
                     'url_binary': data.get('url_binary', 'N/A'),
                     'created': data.get('created', 'N/A'),
                 })
-        except:
+        except (FileNotFoundError, json.JSONDecodeError, KeyError) as exc:
+            logging.warning("Failed to parse JSON file %s: %s", json_path, exc)
             pass
 
     return info
@@ -978,7 +982,7 @@ def refresh_table_view(tree):
 
         for client_id in clients:
             info = load_latest_client_info_dict(client_id)
-            status = "🟢 Activo" if is_client_active(client_id) else "🟡 Inactivo"
+            status = "🟢 Active" if is_client_active(client_id) else "🟡 Inactive"
             tree.insert("", tk.END, values=(
                 info.get('hostname', 'N/A'),
                 info.get('ips', 'N/A'),
@@ -989,10 +993,10 @@ def refresh_table_view(tree):
                 status
             ))
     except Exception as e:
-        show_notification(f"Error actualizando tabla: {str(e)}", "error")
+        show_notification(f"Error refreshing table: {str(e)}", "error")
 
 def create_table_view_frame(parent):
-    # Crear frame fresco CADA vez
+    # Create fresh frame EVERY time
     frame = ttk.Frame(parent, style="Card.TFrame")
     frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
@@ -1028,33 +1032,33 @@ def create_table_view_frame(parent):
 def toggle_global_view():
     global global_view_mode
 
-    # Limpiar TODO el contenido de implants_frame (sin destruir el frame)
+    # Clear ALL content of implants_frame (without destroying the frame)
     for widget in implants_frame.winfo_children():
         widget.destroy()
 
     if global_view_mode == "card":
-        # → Cambiar a vista tabla
-        create_table_view_frame(implants_frame)  # Crear tabla fresca
+        # -> Switch to table view
+        create_table_view_frame(implants_frame)  # Create fresh table
         if toggle_view_btn and toggle_view_btn.winfo_exists():
-            toggle_view_btn.config(text="🖼️ Vista Tarjetas")
+            toggle_view_btn.config(text="🖼️ Card View")
         global_view_mode = "table"
 
     else:
-        # → Cambiar a vista tarjetas
-        refresh_clients()  # Recrea las tarjetas
+        # -> Switch to card view
+        refresh_clients()  # Recreates cards
         if toggle_view_btn and toggle_view_btn.winfo_exists():
-            toggle_view_btn.config(text="📋 Vista Tabla")
+            toggle_view_btn.config(text="📋 Table View")
         global_view_mode = "card"
 
 def create_section_header(parent, title):
-    """Crea un encabezado de sección para la pestaña de Intel."""
+    """Creates a section header for the Intel tab."""
     frame = ttk.Frame(parent, style="Modern.TFrame")
     frame.pack(fill=tk.X, pady=(15, 5))
     ttk.Label(frame, text=title, style="Title.TLabel", font=('Segoe UI', 11, 'bold')).pack(side=tk.LEFT)
     ttk.Separator(frame, orient='horizontal').pack(side=tk.LEFT, fill=tk.X, expand=True, padx=(10, 0))
 
 def load_intel_data(client_id):
-    """Extrae y parsea datos de inteligencia del archivo .log del cliente."""
+    """Extracts and parses intelligence data from the client's .log file."""
     data = {
         'discovered_ips': set(),
         'portscan_results': {},
@@ -1069,7 +1073,7 @@ def load_intel_data(client_id):
     try:
         with open(log_file_path, 'r', encoding='utf-8') as f:
             reader = csv.reader(f)
-            next(reader, None)  # Saltar cabecera
+            next(reader, None)  # Skip header
 
             for row in reader:
                 if len(row) < 11:
@@ -1078,14 +1082,14 @@ def load_intel_data(client_id):
                 command = row[9].strip().lower()
                 output = row[10].strip()
 
-                # Parsear discovered_ips (del campo row[6])
+                # Parse discovered_ips (from row[6])
                 if len(row) > 6 and row[6]:
                     ips = [ip.strip() for ip in row[6].split(',')]
                     data['discovered_ips'].update(ips)
 
-                # Parsear result_portscan (del campo row[7])
+                # Parse result_portscan (from row[7])
                 if len(row) > 7 and row[7]:
-                    # Suponiendo formato "ip:port:status" o "port:status"
+                    # Assuming format "ip:port:status" or "port:status"
                     entries = row[7].split(',')
                     for entry in entries:
                         if ':' in entry:
@@ -1093,32 +1097,32 @@ def load_intel_data(client_id):
                             if len(parts) >= 2:
                                 port = parts[0]
                                 status = parts[1]
-                                # Asignar al host actual (row[4]) o a 'localhost'
+                                # Assign to current host (row[4]) or 'localhost'
                                 host = row[4] if len(row) > 4 else 'localhost'
                                 if host not in data['portscan_results']:
                                     data['portscan_results'][host] = {}
                                 data['portscan_results'][host][port] = status
 
-                # Detectar software útil desde el comando 'softenum'
+                # Detect useful software from 'softenum' command
                 if command == 'softenum:' and 'Useful software:' in output:
                     software_list = output.split('Useful software: ')[-1]
                     sw_items = [sw.strip() for sw in software_list.split(',')]
                     data['useful_software'].update(sw_items)
 
-                # Guardar la última configuración de red
+                # Save the last network configuration
                 if command == 'netconfig:':
                     data['netconfig'] = output
 
     except Exception as e:
         print(f"Error loading intel data for {client_id}: {e}")
 
-    # Convertir sets a listas ordenadas para la UI
+    # Convert sets to sorted lists for the UI
     data['discovered_ips'] = sorted(list(data['discovered_ips']))
     data['useful_software'] = sorted(list(data['useful_software']))
 
     return data
 
-# === HANDLERS DE ARCHIVOS ===
+# === FILE HANDLERS ===
 class LogHandler(FileSystemEventHandler):
     def __init__(self, log_dir):
         self.log_dir = log_dir
@@ -1151,11 +1155,11 @@ class LogHandler(FileSystemEventHandler):
                     if len(row) > 10:
                         output = row[10].strip()
                         row[9].strip() if len(row) > 9 else "N/A"
-                        # ... (condición para evitar outputs vacíos)
+                        # ... (condition to avoid empty outputs)
                         event_queue.put({
                             'type': 'command_output',
                             'client_id': client_id,
-                            'command': row[9].strip() if len(row) > 9 else "N/A",  # <-- AÑADIR ESTA LÍNEA
+                            'command': row[9].strip() if len(row) > 9 else "N/A",  # <-- ADD THIS LINE
                             'output': output
                         })
 
@@ -1164,7 +1168,7 @@ class LogHandler(FileSystemEventHandler):
         except Exception as e:
             event_queue.put({
                 'type': 'error',
-                'message': f"Error procesando {log_path}: {e}"
+                'message': f"Error processing {log_path}: {e}"
             })
 
 def process_queue():
@@ -1172,10 +1176,10 @@ def process_queue():
         event = event_queue.get_nowait()
 
         if event['type'] == 'command_output':
-            # Mostrar en Event Log
+            # Show in Event Log
             show_notification(f"[{event['client_id']}] << {event['command']} -> {event['output']}", "info")
 
-            # Mostrar en pestaña del beacon
+            # Show in beacon tab
             if event['client_id'] in beacon_tabs:
                 console = beacon_tabs[event['client_id']].console
                 console.add_text(f"<< {event['output']}", "response")
@@ -1203,13 +1207,13 @@ def stop_polling():
 
 def auto_refresh_clients():
     while polling:
-        time.sleep(60)  # Refresh cada 10 segundos
+        time.sleep(60)  # Refresh every 60 seconds
         if root.winfo_exists():
             root.after(0, refresh_clients)
         else:
             break
 
-# === FUNCIONES DE CARGA DE DATOS ===
+# === DATA LOADING FUNCTIONS ===
 def load_implants_data():
     implants = []
     try:
@@ -1219,7 +1223,7 @@ def load_implants_data():
                     data = json.load(f)
                     implants.append(data)
     except Exception as e:
-        show_notification(f"Error cargando implantes: {e}", "error")
+        show_notification(f"Error loading implants: {e}", "error")
     return implants
 
 def load_banners_data():
@@ -1227,7 +1231,7 @@ def load_banners_data():
         with open(os.path.join(SESSIONS_DIR, "banners.json"), 'r') as f:
             return json.load(f)
     except Exception as e:
-        show_notification(f"Error cargando banners: {e}", "error")
+        show_notification(f"Error loading banners: {e}", "error")
         return []
 
 def load_access_log():
@@ -1245,13 +1249,13 @@ def load_access_log():
                             'message': match.group(3)
                         })
     except Exception as e:
-        show_notification(f"Error cargando access log: {e}", "error")
+        show_notification(f"Error loading access log: {e}", "error")
     return entries
 
 def upload_file():
     file_path = filedialog.askopenfilename()
     if not file_path or not current_beacon:
-        show_notification("Selecciona un archivo y un beacon", "warning")
+        show_notification("Select a file and a beacon", "warning")
         return
 
     try:
@@ -1261,17 +1265,17 @@ def upload_file():
             resp = requests.post(f"{API_BASE}/upload", files=files, data=data, verify=False)
 
             if resp.status_code == 200:
-                show_notification(f"✓ Archivo {os.path.basename(file_path)} subido a {current_beacon}", "success")
+                show_notification(f"✓ File {os.path.basename(file_path)} uploaded to {current_beacon}", "success")
             else:
-                show_notification(f"✗ Error subiendo archivo: {resp.status_code}", "error")
+                show_notification(f"✗ Error uploading file: {resp.status_code}", "error")
 
     except Exception as e:
-        show_notification(f"✗ Error subiendo archivo: {str(e)}", "error")
+        show_notification(f"✗ Error uploading file: {str(e)}", "error")
 
-# === INTERFAZ PRINCIPAL MEJORADA ===
+# === ENHANCED MAIN INTERFACE ===
 def create_modern_ui():
     global root, console_notebook, events_text, status_bar, implants_container, beacon_tabs
-    global implants_frame, toggle_view_btn, main_container  # <- AGREGADO
+    global implants_frame, toggle_view_btn, main_container  # <- ADDED
 
 
     root = tk.Tk()
@@ -1280,13 +1284,13 @@ def create_modern_ui():
     root.configure(bg=COLORS['bg_primary'])
     root.minsize(1200, 800)
 
-    # Configurar tema moderno
+    # Configure modern theme
     setup_modern_theme()
 
-    # === BARRA DE ESTADO ===
+    # === STATUS BAR ===
     status_bar = StatusBar(root)
 
-    # === CONTENEDOR PRINCIPAL CON SCROLL VERTICAL ===
+    # === MAIN CONTAINER WITH VERTICAL SCROLL ===
     main_canvas = tk.Canvas(root, bg=COLORS['bg_primary'], highlightthickness=0)
     main_scrollbar = ttk.Scrollbar(root, orient="vertical", command=main_canvas.yview)
     main_container = ttk.Frame(main_canvas, style="Modern.TFrame")
@@ -1305,32 +1309,32 @@ def create_modern_ui():
 
     main_canvas.pack(side="left", fill="both", expand=True)
     main_scrollbar.pack(side="right", fill="y")
-    # Scroll con el mouse
+    # Scroll with mouse
     main_canvas.bind_all("<MouseWheel>", lambda e: main_canvas.yview_scroll(int(-1*(e.delta/120)), "units"))
-    # === HEADER SUPERIOR (título + botón) ===
+    # === TOP HEADER (title + button) ===
     header_frame = ttk.Frame(main_container, style="Modern.TFrame")
     header_frame.pack(fill=tk.X, pady=(0, 5))
 
-    title_label = ttk.Label(header_frame, text="🎯 Implantes Activos", style="Title.TLabel")
+    title_label = ttk.Label(header_frame, text="🎯 Active Implants", style="Title.TLabel")
     title_label.pack(side=tk.LEFT)
 
-    toggle_view_btn = ttk.Button(header_frame, text="📋 Vista Tabla",
+    toggle_view_btn = ttk.Button(header_frame, text="📋 Table View",
                             style="Modern.TButton",
                             command=toggle_global_view)
     toggle_view_btn.pack(side=tk.RIGHT, padx=(0, 10))
-    # Contenedor fijo para implantes (siempre arriba)
+    # Fixed container for implants (always on top)
     implants_frame = ttk.Frame(main_container, style="Card.TFrame")
     implants_frame.pack(side=tk.TOP, fill=tk.BOTH, expand=False, pady=(0, 10))
 
-    # Contenedor fijo para la consola (siempre abajo)
+    # Fixed container for console (always at bottom)
     console_frame = ttk.Frame(main_container, style="Modern.TFrame")
     console_frame.pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
-    # Botón para alternar vista global
-    toggle_view_btn = ttk.Button(implants_frame, text="📋 Vista Tabla",
+    # Global view toggle button
+    toggle_view_btn = ttk.Button(implants_frame, text="📋 Table View",
                                 style="Modern.TButton",
                                 command=toggle_global_view)
     toggle_view_btn.pack(side=tk.RIGHT, padx=(0, 10))
-    # Scrollable frame para implantes
+    # Scrollable frame for implants
     canvas_frame = ttk.Frame(implants_frame, style="Modern.TFrame")
     canvas_frame.pack(fill=tk.X, padx=10, pady=10)
 
@@ -1351,18 +1355,18 @@ def create_modern_ui():
 
     implants_container.bind("<Configure>", configure_scroll_region)
 
-    # === PANEL PRINCIPAL - NOTEBOOK ===
+    # === MAIN PANEL - NOTEBOOK ===
     main_notebook = ttk.Notebook(main_container, style="Modern.TNotebook")
     main_notebook.pack(fill=tk.BOTH, expand=True)
 
-    # --- Pestaña: Consolas ---
+    # --- Tab: Consoles ---
     console_frame = ttk.Frame(main_notebook, style="Modern.TFrame")
-    main_notebook.add(console_frame, text="💻 Consolas")
+    main_notebook.add(console_frame, text="💻 Consoles")
 
     console_notebook = ttk.Notebook(console_frame, style="Modern.TNotebook")
     console_notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-    # Event Log como primera pestaña
+    # Event Log as first tab
     event_frame = ttk.Frame(console_notebook, style="Modern.TFrame")
     console_notebook.add(event_frame, text="📋 Event Log")
 
@@ -1370,183 +1374,183 @@ def create_modern_ui():
     events_console.pack(fill=tk.BOTH, expand=True)
     events_text = events_console.output
 
-    # --- Pestaña: Datos ---
+    # --- Tab: Data ---
     data_frame = ttk.Frame(main_notebook, style="Modern.TFrame")
-    main_notebook.add(data_frame, text="📊 Datos")
+    main_notebook.add(data_frame, text="📊 Data")
 
     data_notebook = ttk.Notebook(data_frame, style="Modern.TNotebook")
     data_notebook.pack(fill=tk.BOTH, expand=True, padx=5, pady=5)
 
-    # Subpestaña: Banners
+    # Sub-tab: Banners
     banner_tree = ModernTreeview(data_notebook,
                                 ("hostname", "port", "protocol", "service", "extra"),
                                 load_banners_data)
     banner_tree.set_title("🌐 Banner Grabbing")
     data_notebook.add(banner_tree, text="Banners")
 
-    # Subpestaña: Implantes
+    # Sub-tab: Implants
     implant_tree = ModernTreeview(data_notebook,
                                  ("name", "os", "rhost", "sleep", "created"),
                                  load_implants_data)
-    implant_tree.set_title("🔧 Configuración de Implantes")
-    data_notebook.add(implant_tree, text="Implantes")
+    implant_tree.set_title("🔧 Implant Configuration")
+    data_notebook.add(implant_tree, text="Implants")
 
-    # Subpestaña: Access Log
+    # Sub-tab: Access Log
     access_tree = ModernTreeview(data_notebook,
                                 ("timestamp", "level", "message"),
                                 load_access_log)
-    access_tree.set_title("📝 Registro de Accesos")
+    access_tree.set_title("📝 Access Log")
     data_notebook.add(access_tree, text="Access Log")
 
-    # --- Pestaña: Herramientas ---
+    # --- Tab: Tools ---
     tools_frame = ttk.Frame(main_notebook, style="Modern.TFrame")
-    main_notebook.add(tools_frame, text="🛠️ Herramientas")
+    main_notebook.add(tools_frame, text="🛠️ Tools")
 
     tools_container = ttk.Frame(tools_frame, style="Modern.TFrame")
     tools_container.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    # Grid de herramientas
+    # Tools grid
     create_tools_grid(tools_container)
 
-    # === MENÚ MEJORADO ===
+    # === ENHANCED MENU ===
     create_modern_menu()
 
-    # === ATAJOS DE TECLADO ===
+    # === KEYBOARD SHORTCUTS ===
     setup_keyboard_shortcuts()
 
-    # === INICIALIZACIÓN ===
+    # === INITIALIZATION ===
     beacon_tabs = {}
 
-    # Mostrar mensaje de bienvenida
-    show_notification("🚀 LazyOwn C2 iniciado - Presiona Ctrl+L para conectar", "info")
+    # Show welcome message
+    show_notification("🚀 LazyOwn C2 started - Press Ctrl+L to connect", "info")
 
-    # Intentar conexión automática
+    # Attempt auto-connection
     root.after(1000, login)
 
-    # Iniciar procesamiento de eventos
+    # Start event processing
     root.after(100, process_queue)
 
-    # Configurar cierre
+    # Configure close
     root.protocol("WM_DELETE_WINDOW", on_closing)
 
     return root
 
 def create_tools_grid(parent):
-    """Crear grid de herramientas"""
+    """Create tools grid."""
 
-    # Herramientas principales
+    # Main tools
     tools = [
         {
-            "name": "📁 Subir Archivo",
-            "desc": "Subir archivo al beacon seleccionado",
+            "name": "📁 Upload File",
+            "desc": "Upload file to selected beacon",
             "command": upload_file,
             "style": "Primary.TButton"
         },
         {
-            "name": "🔄 Actualizar",
-            "desc": "Actualizar lista de beacons",
+            "name": "🔄 Refresh",
+            "desc": "Refresh beacon list",
             "command": refresh_clients,
             "style": "Success.TButton"
         },
         {
-            "name": "🔌 Reconectar",
-            "desc": "Reconectar al servidor C2",
+            "name": "🔌 Reconnect",
+            "desc": "Reconnect to C2 server",
             "command": login,
             "style": "Modern.TButton"
         },
         {
-            "name": "💾 Exportar Logs",
-            "desc": "Exportar logs de sesión",
+            "name": "💾 Export Logs",
+            "desc": "Export session logs",
             "command": export_logs,
             "style": "Modern.TButton"
         },
         {
-            "name": "🗂️ Gestionar Payloads",
-            "desc": "Generar y gestionar payloads",
+            "name": "🗂️ Manage Payloads",
+            "desc": "Generate and manage payloads",
             "command": manage_payloads,
             "style": "Modern.TButton"
         },
         {
-            "name": "📊 Estadísticas",
-            "desc": "Ver estadísticas del C2",
+            "name": "📊 Statistics",
+            "desc": "View C2 statistics",
             "command": show_statistics,
             "style": "Modern.TButton"
         }
     ]
 
-    # Crear cards para cada herramienta
+    # Create cards for each tool
     for i, tool in enumerate(tools):
         card = create_tool_card(parent, tool)
         card.grid(row=i//3, column=i%3, padx=10, pady=10, sticky="ew")
 
-    # Configurar columnas
+    # Configure columns
     for i in range(3):
         parent.columnconfigure(i, weight=1)
 
 def create_tool_card(parent, tool):
-    """Crear card de herramienta"""
+    """Create tool card."""
     card = ttk.Frame(parent, style="Card.TFrame")
 
     content = ttk.Frame(card, style="Modern.TFrame")
     content.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
 
-    # Título
+    # Title
     title_label = ttk.Label(content, text=tool["name"],
                            style="Title.TLabel", font=('Segoe UI', 11, 'bold'))
     title_label.pack(anchor=tk.W, pady=(0, 5))
 
-    # Descripción
+    # Description
     desc_label = ttk.Label(content, text=tool["desc"],
                           style="Status.TLabel", wraplength=200)
     desc_label.pack(anchor=tk.W, pady=(0, 10))
 
-    # Botón
-    button = ttk.Button(content, text="Ejecutar",
+    # Button
+    button = ttk.Button(content, text="Execute",
                        style=tool["style"], command=tool["command"])
     button.pack(anchor=tk.W)
 
     return card
 
 def create_modern_menu():
-    """Crear menú moderno"""
+    """Create modern menu."""
     menubar = tk.Menu(root, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'],
                       activebackground=COLORS['accent_blue'], activeforeground=COLORS['text_primary'])
     root.config(menu=menubar)
 
-    # Menú Archivo
+    # File Menu
     file_menu = tk.Menu(menubar, tearoff=0, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'],
                         activebackground=COLORS['accent_blue'])
-    menubar.add_cascade(label="📁 Archivo", menu=file_menu)
-    file_menu.add_command(label="📤 Subir Archivo", command=upload_file, accelerator="Ctrl+U")
-    file_menu.add_command(label="💾 Exportar Logs", command=export_logs, accelerator="Ctrl+E")
+    menubar.add_cascade(label="📁 File", menu=file_menu)
+    file_menu.add_command(label="📤 Upload File", command=upload_file, accelerator="Ctrl+U")
+    file_menu.add_command(label="💾 Export Logs", command=export_logs, accelerator="Ctrl+E")
     file_menu.add_separator()
-    file_menu.add_command(label="❌ Salir", command=on_closing, accelerator="Ctrl+Q")
+    file_menu.add_command(label="❌ Exit", command=on_closing, accelerator="Ctrl+Q")
 
-    # Menú Conexión
+    # Connection Menu
     conn_menu = tk.Menu(menubar, tearoff=0, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'],
                         activebackground=COLORS['accent_blue'])
-    menubar.add_cascade(label="🔌 Conexión", menu=conn_menu)
-    conn_menu.add_command(label="🔗 Conectar", command=login, accelerator="Ctrl+L")
-    conn_menu.add_command(label="🔄 Actualizar Beacons", command=refresh_clients, accelerator="F5")
-    conn_menu.add_command(label="⏹️ Detener Polling", command=stop_polling)
+    menubar.add_cascade(label="🔌 Connection", menu=conn_menu)
+    conn_menu.add_command(label="🔗 Connect", command=login, accelerator="Ctrl+L")
+    conn_menu.add_command(label="🔄 Refresh Beacons", command=refresh_clients, accelerator="F5")
+    conn_menu.add_command(label="⏹️ Stop Polling", command=stop_polling)
 
-    # Menú Herramientas
+    # Tools Menu
     tools_menu = tk.Menu(menubar, tearoff=0, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'],
                          activebackground=COLORS['accent_blue'])
-    menubar.add_cascade(label="🛠️ Herramientas", menu=tools_menu)
-    tools_menu.add_command(label="🗂️ Gestionar Payloads", command=manage_payloads)
-    tools_menu.add_command(label="📊 Estadísticas", command=show_statistics)
-    tools_menu.add_command(label="🔧 Configuración", command=show_settings)
+    menubar.add_cascade(label="🛠️ Tools", menu=tools_menu)
+    tools_menu.add_command(label="🗂️ Manage Payloads", command=manage_payloads)
+    tools_menu.add_command(label="📊 Statistics", command=show_statistics)
+    tools_menu.add_command(label="🔧 Settings", command=show_settings)
 
-    # Menú Ayuda
+    # Help Menu
     help_menu = tk.Menu(menubar, tearoff=0, bg=COLORS['bg_secondary'], fg=COLORS['text_primary'],
                         activebackground=COLORS['accent_blue'])
-    menubar.add_cascade(label="❓ Ayuda", menu=help_menu)
-    help_menu.add_command(label="📖 Manual de Usuario", command=show_help)
-    help_menu.add_command(label="ℹ️ Acerca de", command=show_about)
+    menubar.add_cascade(label="❓ Help", menu=help_menu)
+    help_menu.add_command(label="📖 User Manual", command=show_help)
+    help_menu.add_command(label="ℹ️ About", command=show_about)
 
 def setup_keyboard_shortcuts():
-    """Configurar atajos de teclado"""
+    """Configure keyboard shortcuts."""
     root.bind('<Control-l>', lambda e: login())
     root.bind('<Control-u>', lambda e: upload_file())
     root.bind('<Control-e>', lambda e: export_logs())
@@ -1554,9 +1558,9 @@ def setup_keyboard_shortcuts():
     root.bind('<F5>', lambda e: refresh_clients())
     root.bind('<Control-r>', lambda e: refresh_clients())
 
-# === FUNCIONES DE HERRAMIENTAS ===
+# === TOOL FUNCTIONS ===
 def export_logs():
-    """Exportar logs a archivo"""
+    """Export logs to file."""
     try:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = filedialog.asksaveasfilename(
@@ -1568,17 +1572,17 @@ def export_logs():
         if filename:
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write("=== LAZYOWN C2 LOGS ===\n")
-                f.write(f"Exportado: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
+                f.write(f"Exported: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write("="*50 + "\n\n")
 
-                # Exportar contenido del event log
+                # Export event log content
                 if events_text:
                     f.write("EVENT LOG:\n")
                     f.write("-"*20 + "\n")
                     f.write(events_text.get(1.0, tk.END))
                     f.write("\n" + "="*50 + "\n\n")
 
-                # Exportar logs de cada beacon
+                # Export logs from each beacon
                 for client_id, tab_frame in beacon_tabs.items():
                     if hasattr(tab_frame, 'console'):
                         f.write(f"BEACON {client_id}:\n")
@@ -1586,54 +1590,54 @@ def export_logs():
                         f.write(tab_frame.console.output.get(1.0, tk.END))
                         f.write("\n" + "="*50 + "\n\n")
 
-            show_notification(f"✓ Logs exportados a {filename}", "success")
+            show_notification(f"✓ Logs exported to {filename}", "success")
     except Exception as e:
-        show_notification(f"✗ Error exportando logs: {str(e)}", "error")
+        show_notification(f"✗ Error exporting logs: {str(e)}", "error")
 
 def manage_payloads():
-    """Ventana de gestión de payloads"""
+    """Payload management window."""
     payload_window = tk.Toplevel(root)
-    payload_window.title("🗂️ Gestión de Payloads")
+    payload_window.title("🗂️ Payload Management")
     payload_window.geometry("800x600")
     payload_window.configure(bg=COLORS['bg_primary'])
 
-    # Aplicar tema
+    # Apply theme
     payload_window.transient(root)
     payload_window.grab_set()
 
-    # Contenido
+    # Content
     main_frame = ttk.Frame(payload_window, style="Modern.TFrame")
     main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    title_label = ttk.Label(main_frame, text="🗂️ Gestión de Payloads", style="Title.TLabel")
+    title_label = ttk.Label(main_frame, text="🗂️ Payload Management", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
 
-    # Notebook para diferentes tipos de payloads
+    # Notebook for different payload types
     payload_notebook = ttk.Notebook(main_frame, style="Modern.TNotebook")
     payload_notebook.pack(fill=tk.BOTH, expand=True)
 
-    # Pestaña Windows
+    # Windows tab
     windows_frame = ttk.Frame(payload_notebook, style="Modern.TFrame")
     payload_notebook.add(windows_frame, text="🖥️ Windows")
 
-    # Pestaña Linux
+    # Linux tab
     linux_frame = ttk.Frame(payload_notebook, style="Modern.TFrame")
     payload_notebook.add(linux_frame, text="🐧 Linux")
 
-    # Botones de acción
+    # Action buttons
     button_frame = ttk.Frame(main_frame, style="Modern.TFrame")
     button_frame.pack(fill=tk.X, pady=(20, 0))
 
-    ttk.Button(button_frame, text="Generar Payload",
+    ttk.Button(button_frame, text="Generate Payload",
               style="Primary.TButton").pack(side=tk.LEFT, padx=(0, 10))
-    ttk.Button(button_frame, text="Cerrar",
+    ttk.Button(button_frame, text="Close",
               style="Modern.TButton",
               command=payload_window.destroy).pack(side=tk.RIGHT)
 
 def show_statistics():
-    """Mostrar ventana de estadísticas"""
+    """Show statistics window."""
     stats_window = tk.Toplevel(root)
-    stats_window.title("📊 Estadísticas del C2")
+    stats_window.title("📊 C2 Statistics")
     stats_window.geometry("600x400")
     stats_window.configure(bg=COLORS['bg_primary'])
 
@@ -1643,39 +1647,39 @@ def show_statistics():
     main_frame = ttk.Frame(stats_window, style="Modern.TFrame")
     main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    title_label = ttk.Label(main_frame, text="📊 Estadísticas del Sistema", style="Title.TLabel")
+    title_label = ttk.Label(main_frame, text="📊 System Statistics", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
 
-    # Estadísticas básicas
+    # Basic statistics
     stats_frame = ttk.Frame(main_frame, style="Card.TFrame")
     stats_frame.pack(fill=tk.BOTH, expand=True)
 
     content_frame = ttk.Frame(stats_frame, style="Modern.TFrame")
     content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    # Calcular estadísticas
+    # Calculate statistics
     total_beacons = len(beacon_tabs)
-    uptime = "Calculando..."
+    uptime = "Calculating..."
 
     stats_text = f"""
-    🎯 Beacons Activos: {total_beacons}
-    ⏱️ Tiempo Activo: {uptime}
-    🔌 Estado Conexión: {'Conectado' if connection_status else 'Desconectado'}
-    📁 Directorio Logs: {LOG_DIR}
-    🌐 Servidor C2: {API_BASE}
+    🎯 Active Beacons: {total_beacons}
+    ⏱️ Uptime: {uptime}
+    🔌 Connection Status: {'Connected' if connection_status else 'Disconnected'}
+    📁 Logs Directory: {LOG_DIR}
+    🌐 C2 Server: {API_BASE}
     """
 
     stats_label = ttk.Label(content_frame, text=stats_text, style="Modern.TLabel")
     stats_label.pack(anchor=tk.W)
 
-    ttk.Button(main_frame, text="Cerrar",
+    ttk.Button(main_frame, text="Close",
               style="Modern.TButton",
               command=stats_window.destroy).pack(pady=(20, 0))
 
 def show_settings():
-    """Mostrar ventana de configuración"""
+    """Show settings window."""
     settings_window = tk.Toplevel(root)
-    settings_window.title("🔧 Configuración")
+    settings_window.title("🔧 Settings")
     settings_window.geometry("500x400")
     settings_window.configure(bg=COLORS['bg_primary'])
 
@@ -1685,50 +1689,50 @@ def show_settings():
     main_frame = ttk.Frame(settings_window, style="Modern.TFrame")
     main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    title_label = ttk.Label(main_frame, text="🔧 Configuración", style="Title.TLabel")
+    title_label = ttk.Label(main_frame, text="🔧 Settings", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
 
-    # Configuraciones
+    # Settings
     config_frame = ttk.Frame(main_frame, style="Card.TFrame")
     config_frame.pack(fill=tk.BOTH, expand=True)
 
     content_frame = ttk.Frame(config_frame, style="Modern.TFrame")
     content_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    # Servidor C2
-    ttk.Label(content_frame, text="Servidor C2:", style="Modern.TLabel").grid(row=0, column=0, sticky=tk.W, pady=5)
+    # C2 Server
+    ttk.Label(content_frame, text="C2 Server:", style="Modern.TLabel").grid(row=0, column=0, sticky=tk.W, pady=5)
     server_entry = ttk.Entry(content_frame, style="Modern.TEntry", width=30)
     server_entry.insert(0, API_BASE)
     server_entry.grid(row=0, column=1, sticky=tk.EW, padx=(10, 0), pady=5)
 
-    # Usuario
-    ttk.Label(content_frame, text="Usuario:", style="Modern.TLabel").grid(row=1, column=0, sticky=tk.W, pady=5)
+    # Username
+    ttk.Label(content_frame, text="Username:", style="Modern.TLabel").grid(row=1, column=0, sticky=tk.W, pady=5)
     user_entry = ttk.Entry(content_frame, style="Modern.TEntry", width=30)
     user_entry.insert(0, USERNAME)
     user_entry.grid(row=1, column=1, sticky=tk.EW, padx=(10, 0), pady=5)
 
-    # Directorio de sesiones
-    ttk.Label(content_frame, text="Dir. Sesiones:", style="Modern.TLabel").grid(row=2, column=0, sticky=tk.W, pady=5)
+    # Sessions directory
+    ttk.Label(content_frame, text="Sessions Dir:", style="Modern.TLabel").grid(row=2, column=0, sticky=tk.W, pady=5)
     sessions_entry = ttk.Entry(content_frame, style="Modern.TEntry", width=30)
     sessions_entry.insert(0, SESSIONS_DIR)
     sessions_entry.grid(row=2, column=1, sticky=tk.EW, padx=(10, 0), pady=5)
 
     content_frame.columnconfigure(1, weight=1)
 
-    # Botones
+    # Buttons
     button_frame = ttk.Frame(main_frame, style="Modern.TFrame")
     button_frame.pack(fill=tk.X, pady=(20, 0))
 
-    ttk.Button(button_frame, text="Guardar",
+    ttk.Button(button_frame, text="Save",
               style="Primary.TButton").pack(side=tk.LEFT, padx=(0, 10))
-    ttk.Button(button_frame, text="Cancelar",
+    ttk.Button(button_frame, text="Cancel",
               style="Modern.TButton",
               command=settings_window.destroy).pack(side=tk.RIGHT)
 
 def show_help():
-    """Mostrar ayuda"""
+    """Show help."""
     help_window = tk.Toplevel(root)
-    help_window.title("📖 Manual de Usuario")
+    help_window.title("📖 User Manual")
     help_window.geometry("700x500")
     help_window.configure(bg=COLORS['bg_primary'])
 
@@ -1738,7 +1742,7 @@ def show_help():
     main_frame = ttk.Frame(help_window, style="Modern.TFrame")
     main_frame.pack(fill=tk.BOTH, expand=True, padx=10, pady=10)
 
-    title_label = ttk.Label(main_frame, text="📖 Manual de Usuario", style="Title.TLabel")
+    title_label = ttk.Label(main_frame, text="📖 User Manual", style="Title.TLabel")
     title_label.pack(pady=(0, 20))
 
     help_text = scrolledtext.ScrolledText(
@@ -1751,66 +1755,66 @@ def show_help():
     help_text.pack(fill=tk.BOTH, expand=True)
 
     help_content = """
-LAZYOWN C2 BLACK BASALT - MANUAL DE USUARIO
+LAZYOWN C2 BLACK BASALT - USER MANUAL
 
-ATAJOS DE TECLADO:
-• Ctrl+L: Conectar al servidor C2
-• Ctrl+U: Subir archivo
-• Ctrl+E: Exportar logs
-• Ctrl+Q: Salir
-• F5: Actualizar beacons
+KEYBOARD SHORTCUTS:
+- Ctrl+L: Connect to C2 server
+- Ctrl+U: Upload file
+- Ctrl+E: Export logs
+- Ctrl+Q: Exit
+- F5: Refresh beacons
 
-FUNCIONES PRINCIPALES:
+MAIN FEATURES:
 
-1. GESTIÓN DE BEACONS
-   - Los beacons aparecen como cards en la parte superior
-   - Haz clic en un beacon para abrir su consola
-   - El indicador verde muestra beacons activos
+1. BEACON MANAGEMENT
+   - Beacons appear as cards at the top
+   - Click a beacon to open its console
+   - Green indicator shows active beacons
 
-2. CONSOLAS
-   - Cada beacon tiene su propia pestaña de consola
-   - Usa el Event Log para ver toda la actividad
-   - Los comandos se muestran en azul, las respuestas en verde
+2. CONSOLES
+   - Each beacon has its own console tab
+   - Use the Event Log to see all activity
+   - Commands are shown in blue, responses in green
 
-3. DATOS
-   - Pestaña Banners: Información de servicios detectados
-   - Pestaña Implantes: Configuración de implantes
-   - Pestaña Access Log: Registro de accesos al sistema
+3. DATA
+   - Banners tab: Information about detected services
+   - Implants tab: Implant configuration
+   - Access Log tab: System access log
 
-4. HERRAMIENTAS
-   - Subir Archivo: Transfiere archivos a beacons
-   - Gestionar Payloads: Genera nuevos payloads
-   - Estadísticas: Ver información del sistema
+4. TOOLS
+   - Upload File: Transfer files to beacons
+   - Manage Payloads: Generate new payloads
+   - Statistics: View system information
 
-COLORES:
-• Verde: Éxito/Activo
-• Rojo: Error/Inactivo
-• Azul: Comandos/Acciones
-• Amarillo: Advertencias
+COLORS:
+- Green: Success/Active
+- Red: Error/Inactive
+- Blue: Commands/Actions
+- Yellow: Warnings
     """
 
     help_text.insert(1.0, help_content)
     help_text.config(state=tk.DISABLED)
 
-    ttk.Button(main_frame, text="Cerrar",
+    ttk.Button(main_frame, text="Close",
               style="Modern.TButton",
               command=help_window.destroy).pack(pady=(20, 0))
 
 def show_about():
-    """Mostrar información del programa"""
+    """Show program information."""
     messagebox.showinfo(
-        "Acerca de LazyOwn C2 Black Basalt GUI",
+        "About LazyOwn C2 Black Basalt GUI",
         "LazyOwn C2 - Black Basalt Modern Interface\n\n"
-        "Versión: 2.0\n"
-        "Desarrollado por: LazyOwn Team\n\n"
-        "Una interfaz moderna para el LazyOwn RedTeam Framework\n"
-        "LazyOwn Command & Control BLACK BASALT ©.\n\n"
-        "© 2025 LazyOwn RedTeam Framework Project"
+        "Version: 2.0\n"
+        "Developed by: LazyOwn Team\n\n"
+        "A modern interface for the LazyOwn RedTeam Framework\n"
+        "LazyOwn Command & Control BLACK BASALT (c).\n\n"
+        "(c) 2025 LazyOwn RedTeam Framework Project"
     )
 
 def on_closing():
-    """Manejar cierre de aplicación"""
-    if messagebox.askokcancel("Salir", "¿Estás seguro de que quieres salir?"):
+    """Handle application close."""
+    if messagebox.askokcancel("Exit", "Are you sure you want to exit?"):
         stop_polling()
         root.destroy()
 

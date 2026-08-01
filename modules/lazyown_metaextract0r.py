@@ -33,13 +33,13 @@ BANNER = """
 ██║     ██╔══██║ ███╔╝    ╚██╔╝  ██║   ██║██║███╗██║██║╚██╗██║
 ███████╗██║  ██║███████╗   ██║   ╚██████╔╝╚███╔███╔╝██║ ╚████║
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
-[*] Iniciando: LazyMeta extract0r [;,;]
+[*] Starting: LazyMeta extract0r [;,;]
 """
 print(BANNER)
 
 def signal_handler(sig, frame):
     global should_exit
-    print("\n [<-] Saliendo...")
+    print("\n [<-] Exiting...")
     should_exit = True
 
 signal.signal(signal.SIGINT, signal_handler)
@@ -119,10 +119,10 @@ def find_and_extract_metadata(directory, output_file):
 
 def parse_arguments():
     """
-    Parsear los argumentos de la línea de comandos.
+    Parse command-line arguments.
     """
     parser = argparse.ArgumentParser(description='Script Meta Extract0r [;,;]')
-    parser.add_argument('--path', required=True, help='Path para realizar la búsqueda')
+    parser.add_argument('--path', required=True, help='Path to perform the search')
 
     return parser.parse_args()
 

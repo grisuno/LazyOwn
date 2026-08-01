@@ -7,9 +7,8 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 7331,
-        "tenant_id": "default",
-        "cli_remember_token": "kT12qKk0_LNOyjsO5M4N7UYoivwqDynv7z2vw8MzEyGY4RF3nv18r5bVAeZp0-Sv"
+        "elo": 7861,
+        "tenant_id": "default"
     },
     {
         "id": 2,

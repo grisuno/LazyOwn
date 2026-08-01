@@ -32,19 +32,19 @@ response = requests.get(url)
 if response.status_code == 200:
     html_content = response.text
 else:
-    print("Error al obtener el HTML del servidor")
+    print("Error getting HTML from server")
     exit()
 
-# Parsear el contenido HTML con Beautiful Soup
+# Parse HTML content with Beautiful Soup
 soup = BeautifulSoup(html_content, 'html.parser')
 
 # Encontrar el contenedor de la tabla
 table_wrapper = soup.find('div', id='bin-table-wrapper')
 
-# Inicializar una lista para almacenar la información
+# Initialize a list to store the information
 data = []
 
-# Recorrer todas las filas de la tabla
+# Iterate over all table rows
 for row in table_wrapper.find_all('tr'):
     bin_name = row.find('a', class_='bin-name')
     if bin_name:
@@ -57,10 +57,10 @@ for row in table_wrapper.find_all('tr'):
                 function_name = function_link.text.strip()
                 functions.append({'name': function_name, 'href': function_href})
 
-        # Añadir la información a la lista de datos
+        # Add the information to the data list
         data.append({'binary': bin_name_text, 'functions': functions})
 
-# Guardar la información en un archivo CSV
+# Save the information to a CSV file
 csv_file = "csv/bin_data.csv"
 with open(csv_file, mode='w', newline='') as file:
     writer = csv.writer(file)
@@ -70,4 +70,4 @@ with open(csv_file, mode='w', newline='') as file:
         for func in entry['functions']:
             writer.writerow([binary, func['name'], func['href']])
 
-print(f"Datos guardados en {csv_file}")
+print(f"Data saved to {csv_file}")

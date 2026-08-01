@@ -10,9 +10,12 @@ category, description, params) for ``show exploits`` / ``search`` /
 from __future__ import annotations
 
 import json
+import logging
 from collections import OrderedDict
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
 
 try:
     import yaml
@@ -123,6 +126,9 @@ class ModuleInfo:
         params: List of parameter dicts (name, type, required, default,
             description).
         enabled: Whether the module is active.
+        deprecated: Whether the module is superseded.
+        replaced_by: Name of the replacement module.
+        deprecation_message: Human-readable migration guidance.
     """
 
     def __init__(
@@ -137,6 +143,9 @@ class ModuleInfo:
         source: str = "yaml",
         params: list[dict[str, Any]] | None = None,
         enabled: bool = True,
+        deprecated: bool = False,
+        replaced_by: str = "",
+        deprecation_message: str = "",
     ) -> None:
         self.name = name
         self.module_type = module_type
@@ -148,6 +157,9 @@ class ModuleInfo:
         self.source = source
         self.params = params or []
         self.enabled = enabled
+        self.deprecated = deprecated
+        self.replaced_by = replaced_by
+        self.deprecation_message = deprecation_message
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -161,6 +173,9 @@ class ModuleInfo:
             "source": self.source,
             "params": self.params,
             "enabled": self.enabled,
+            "deprecated": self.deprecated,
+            "replaced_by": self.replaced_by,
+            "deprecation_message": self.deprecation_message,
         }
 
     def __repr__(self) -> str:
@@ -225,6 +240,7 @@ class ModuleRegistry:
         module_type: str | None = None,
         category: str | None = None,
         enabled_only: bool = True,
+        include_deprecated: bool = False,
     ) -> list[ModuleInfo]:
         """Search indexed modules.
 
@@ -233,6 +249,7 @@ class ModuleRegistry:
             module_type: Filter by type (``exploit``, ``scanner``, ...).
             category: Filter by kill-chain category.
             enabled_only: Only return enabled modules.
+            include_deprecated: Include deprecated modules in results.
 
         Returns:
             List of matching :class:`ModuleInfo`.
@@ -243,6 +260,8 @@ class ModuleRegistry:
         results: list[ModuleInfo] = []
         for m in self._modules.values():
             if enabled_only and not m.enabled:
+                continue
+            if not include_deprecated and m.deprecated:
                 continue
             if module_type and m.module_type != module_type:
                 continue
@@ -258,6 +277,12 @@ class ModuleRegistry:
             else:
                 results.append(m)
         return results
+
+    def deprecated_modules(self) -> list[ModuleInfo]:
+        """Return all deprecated modules."""
+        if not self._scanned:
+            self.scan()
+        return [m for m in self._modules.values() if m.deprecated]
 
     def by_type(self, module_type: str) -> list[ModuleInfo]:
         """Shorthand for ``search(module_type=module_type)``."""
@@ -289,6 +314,16 @@ class ModuleRegistry:
                 cat = data.get("category", "12. Miscellaneous")
                 mtype = _classify(cat)
                 data.get("tool", {})
+                deprecated = data.get("deprecated", False)
+                replaced_by = data.get("replaced_by", "")
+                deprecation_message = data.get("deprecation_message", "")
+                if deprecated:
+                    logger.warning(
+                        "Module %r is deprecated%s%s",
+                        name,
+                        f" — replaced by {replaced_by!r}" if replaced_by else "",
+                        f": {deprecation_message}" if deprecation_message else "",
+                    )
                 self._modules[name] = ModuleInfo(
                     name=name,
                     module_type=mtype,
@@ -300,6 +335,9 @@ class ModuleRegistry:
                     source="yaml",
                     params=data.get("params", []),
                     enabled=data.get("enabled", True),
+                    deprecated=deprecated,
+                    replaced_by=replaced_by,
+                    deprecation_message=deprecation_message,
                 )
             except Exception:
                 continue
@@ -316,6 +354,16 @@ class ModuleRegistry:
                 name = data.get("name", fpath.stem)
                 cat = data.get("category", "12. Miscellaneous")
                 mtype = _classify(cat)
+                deprecated = data.get("deprecated", False)
+                replaced_by = data.get("replaced_by", "")
+                deprecation_message = data.get("deprecation_message", "")
+                if deprecated:
+                    logger.warning(
+                        "Plugin %r is deprecated%s%s",
+                        name,
+                        f" — replaced by {replaced_by!r}" if replaced_by else "",
+                        f": {deprecation_message}" if deprecation_message else "",
+                    )
                 self._modules[name] = ModuleInfo(
                     name=name,
                     module_type=mtype,
@@ -327,6 +375,9 @@ class ModuleRegistry:
                     source="lua",
                     params=data.get("params", []),
                     enabled=True,
+                    deprecated=deprecated,
+                    replaced_by=replaced_by,
+                    deprecation_message=deprecation_message,
                 )
             except Exception:
                 continue
@@ -476,7 +527,7 @@ def format_module_table(
             if col == "id":
                 row.append(str(i))
             elif col == "name":
-                row.append(m.name)
+                row.append(f"[DEPRECATED] {m.name}" if m.deprecated else m.name)
             elif col == "type":
                 row.append(m.module_type)
             elif col == "author":
@@ -510,8 +561,14 @@ def format_module_detail(m: ModuleInfo) -> str:
         f"Source     : {m.source}",
         f"Path       : {m.path}",
         f"Enabled    : {'yes' if m.enabled else 'no'}",
-        f"Description: {m.description.replace(chr(10), ' ').strip()}",
     ]
+    if m.deprecated:
+        lines.append(f"Deprecated : yes")
+        if m.replaced_by:
+            lines.append(f"Replaced by: {m.replaced_by}")
+        if m.deprecation_message:
+            lines.append(f"Message    : {m.deprecation_message}")
+    lines.append(f"Description: {m.description.replace(chr(10), ' ').strip()}")
     if m.params:
         lines.append("")
         lines.append("Options:")

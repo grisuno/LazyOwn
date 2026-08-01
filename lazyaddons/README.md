@@ -4,7 +4,7 @@ Declarative tool integration layer for LazyOwn. Each YAML file in this
 directory registers an external tool as a first-class CLI command, a pwntomate
 job, and an MCP-accessible tool — without touching any Python source.
 
-There are currently 76 addons covering C2 frameworks, shellcode loaders,
+There are currently 124 addons covering C2 frameworks, shellcode loaders,
 exploitation tools, scanners, AI agents, and post-exploitation utilities.
 
 ## How it works

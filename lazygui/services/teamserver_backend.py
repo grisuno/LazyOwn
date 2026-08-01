@@ -234,7 +234,11 @@ class TeamserverBackend(Backend):
             last_command = ""
             entries = history.get(client_id, [])
             if entries:
-                last_command = entries[-1].get("command", "")
+                entry = entries[-1]
+                if isinstance(entry, dict):
+                    last_command = entry.get("command", "")
+                else:
+                    last_command = str(entry)
             new_sessions.append(
                 Session(
                     identifier=str(client_id),

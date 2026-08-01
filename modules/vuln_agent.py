@@ -12,7 +12,10 @@ from agent_tool import AgentTool
 from ai_model import AIModel
 from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,
@@ -60,7 +63,7 @@ class LazyOwnShellWrapper:
                     # Verificar si tiene métodos do_ (cmd2)
                     if any(m.startswith('do_') for m in dir(attr) if m != 'do_exit'):
                         self.shell = attr()
-                        logging.info(f"✅ CLI cargada exitosamente: {attr_name}")
+                        logging.info(f"CLI loaded successfully: {attr_name}")
                         break
 
             if not self.shell:
@@ -186,14 +189,14 @@ REGLAS DE EJECUCIÓN:
         """Registra la herramienta principal para ejecutar comandos"""
 
         if not self.shell_wrapper.shell:
-            logging.warning("⚠️ CLI no disponible, usando herramientas de fallback")
+            logging.warning("CLI not available, using fallback tools")
             self._register_fallback_tools()
             return
 
         # Herramienta principal: ejecutar cualquier comando
         def run_cli_command(command: str) -> str:
             """Ejecuta un comando directamente en la CLI de pentesting"""
-            logging.info(f"  🔥 EJECUTANDO COMANDO REAL: {command}")
+            logging.info(f"  [>] EXECUTING REAL COMMAND: {command}")
             return self.shell_wrapper.execute_command(command)
 
         run_tool = AgentTool(

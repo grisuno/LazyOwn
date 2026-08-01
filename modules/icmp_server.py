@@ -8,7 +8,10 @@ import zlib
 from concurrent.futures import ThreadPoolExecutor
 
 from Crypto.Cipher import AES
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 from Crypto.Util.Padding import pad, unpad
 
 

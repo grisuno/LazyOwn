@@ -4,7 +4,10 @@ import urllib.parse
 import requests
 from requests.exceptions import RequestException
 
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 logger = get_logger(__name__)
 

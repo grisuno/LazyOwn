@@ -22,7 +22,6 @@ import logging
 import os
 import re
 import tempfile
-from base64 import b64encode
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
@@ -171,22 +170,6 @@ def _log_config_change(key: str, old_value: Any, new_value: Any) -> None:
         logger.warning("Failed to write config audit log: %s", exc)
 
 
-def _needs_sealing(payload: dict[str, Any]) -> bool:
-    """Return ``True`` when any sensitive field is still plaintext.
-
-    Sensitive fields that already begin with the vault marker are
-    considered already sealed.
-    """
-    from core.credential_vault import SENSITIVE_KEYS, _VAULT_MARKER
-
-    marker = b64encode(_VAULT_MARKER).decode("ascii")
-    for k in SENSITIVE_KEYS:
-        v = payload.get(k)
-        if isinstance(v, str) and v and not v.startswith(marker):
-            return True
-    return False
-
-
 def _collect_validation_warnings(payload: dict[str, Any]) -> list[str]:
     """Inspect the payload for non-schema warnings.
 
@@ -314,7 +297,7 @@ _EXAMPLE_FILENAME = "payload.example.json"
 
 
 def _load_raw_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]:
-    """Load JSON from *path*, unseal sensitive fields, return dict.
+    """Load JSON from *path* and return dict.
 
     Does **not** apply environment variable overrides. Used internally
     by :func:`load_payload` and for audit comparison in
@@ -333,12 +316,7 @@ def _load_raw_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[s
             shutil.copy(str(example), str(target))
     with open(target, encoding="utf-8") as fh:
         raw = json.load(fh)
-    try:
-        from core.credential_vault import unseal_payload as _unseal
-
-        return _unseal(raw)
-    except Exception:
-        return raw
+    return raw
 
 
 def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, Any]:
@@ -348,8 +326,7 @@ def load_payload(path: str | os.PathLike[str] = PAYLOAD_FILENAME) -> dict[str, A
     example file is copied to ``path`` automatically so a fresh clone never
     leaves the operator without a starting configuration.
 
-    Sensitive fields are transparently decrypted at load time so in-memory
-    callers always see plaintext. Environment variable overrides
+    Environment variable overrides
     (``LAZYOWN_<KEY>``) are applied on top of the file contents.
 
     Raises:
@@ -417,9 +394,7 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
     Uses a sibling ``*.tmp`` file plus ``os.replace`` so a crash mid-write
     cannot leave the operator with a half-written payload.
 
-    Before writing, sensitive fields are transparently encrypted so secrets
-    are never stored as plaintext on disk. Configuration changes are
-    audited to ``sessions/config_changes.jsonl``.
+    Configuration changes are audited to ``sessions/config_changes.jsonl``.
     """
     target = Path(path)
 
@@ -435,15 +410,7 @@ def save_payload(payload: dict[str, Any], path: str | os.PathLike[str] = PAYLOAD
             if key not in previous or old_val != new_val:
                 _log_config_change(key, old_val, new_val)
 
-    if _needs_sealing(payload):
-        try:
-            from core.credential_vault import seal_payload as _seal
-            disk_payload = _seal(payload)
-        except Exception as exc:
-            logger.warning("Failed to seal sensitive fields: %s", exc)
-            disk_payload = payload
-    else:
-        disk_payload = payload
+    disk_payload = payload
 
     target.parent.mkdir(parents=True, exist_ok=True)
     fd, tmp_name = tempfile.mkstemp(

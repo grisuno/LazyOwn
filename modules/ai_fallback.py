@@ -55,7 +55,7 @@ _QUOTA_ERRORS = (
 )
 
 _HELP_MESSAGE = """\
-⚠️  No AI backend available.
+[!] No AI backend available.
 
 ── Option 1: Add a Groq API key (free tier, 14,400 req/day) ──
   1. Create a free account at https://console.groq.com

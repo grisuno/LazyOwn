@@ -1,0 +1,23 @@
+name: QuantumVault
+description: 'LazyOwn RedTeam released QuantumVault as free software so that journalists, activists, and ordinary people can communicate with hybrid post-quantum end-to-end encryption, free from surveillance, censorship, or any single point of control over their right to private communication and free expression.
+
+  USAGE: QuantumVault
+  '
+author: QuantumVault
+version: '1.0'
+enabled: true
+params:
+- name: url
+  type: string
+  required: true
+  description: URL objetivo.
+
+os: network
+trigger: []
+tool:
+  name: QuantumVault
+  repo_url: https://github.com/grisuno/QuantumVault.git
+  install_path: external/.exploit/QuantumVault
+  install_command: make setup && make venv && make deps && make env  && make redis-up 
+  execute_command: openssl req -x509 -newkey rsa:2048 -nodes -keyout key.pem -out cert.pem -days 365 -subj '/CN=localhost' && make serve
+category: 10. Command & Control

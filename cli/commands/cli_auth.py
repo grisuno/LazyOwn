@@ -113,6 +113,80 @@ class CliAuthCommandSet(LazyOwnCommandSet):
             print_error(result.get("error", "Authentication failed."))
 
     @cmd2.with_category(miscellaneous_category)
+    def do_register(self, line):
+        """Register a new operator account in users.json.
+
+        Usage:
+            register                          — prompt for username and password
+            register <username>               — register with specified username
+
+        First registered user becomes admin; subsequent users get the
+        user role. Password must be at least 12 characters.
+
+        After registration you can login immediately with the same
+        credentials, or use ``login --remember`` for persistent sessions.
+
+        Examples:
+            register
+            register newoperator
+        """
+        import shlex
+
+        args = shlex.split(line)
+        username = ""
+
+        for arg in args:
+            if not arg.startswith("-") and not username:
+                username = arg
+
+        if not username:
+            try:
+                username = input(f"  {WHITE}Username:{RESET} ").strip()
+            except (EOFError, KeyboardInterrupt):
+                print_warn("Registration cancelled.")
+                return
+
+        if not username:
+            print_error("Username is required.")
+            return
+
+        try:
+            password = getpass.getpass(f"  {WHITE}Password (min 12 chars):{RESET} ")
+        except (EOFError, KeyboardInterrupt):
+            print_warn("Registration cancelled.")
+            return
+
+        if not password:
+            print_error("Password is required.")
+            return
+
+        try:
+            confirm = getpass.getpass(f"  {WHITE}Confirm password:{RESET} ")
+        except (EOFError, KeyboardInterrupt):
+            print_warn("Registration cancelled.")
+            return
+
+        if password != confirm:
+            print_error("Passwords do not match.")
+            return
+
+        try:
+            from modules.cli_auth import register
+        except ImportError as exc:
+            print_error(f"Auth module not available: {exc}")
+            return
+
+        print_msg(f"Registering {username}...")
+        result = register(username, password)
+
+        if result.get("success"):
+            print_succ(f"Registered as {username} ({result.get('role')})")
+            print_msg("Use 'login' to authenticate with your new credentials.")
+            print_msg("Tip: use 'login --remember' to skip login next time.")
+        else:
+            print_error(result.get("error", "Registration failed."))
+
+    @cmd2.with_category(miscellaneous_category)
     def do_logout(self, line):
         """Log out the current CLI operator and clear the remember-me token.
 

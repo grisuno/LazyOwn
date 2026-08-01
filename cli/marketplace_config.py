@@ -35,6 +35,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 LAZYADDONS_DIR = BASE_DIR / "lazyaddons"
 PLUGINS_DIR = BASE_DIR / "plugins"
 TOOLS_DIR = BASE_DIR / "tools"
+YARA_DIR = BASE_DIR / "yara_rules"
+
+_NUCLEI_CANDIDATES = [
+    BASE_DIR.parent / "nuclei-templates",
+    Path.home() / "nuclei-templates",
+    Path.home() / ".local" / "nuclei-templates",
+    BASE_DIR / "external" / ".exploit" / "nuclei-templates",
+]
 EDITOR = os.environ.get("EDITOR", os.environ.get("VISUAL", "vim"))
 
 
@@ -181,7 +189,7 @@ class AddonInfo:
 
 
 class AddonRegistry:
-    """Scans lazyaddons/, plugins/, tools/ and builds the addon list."""
+    """Scans lazyaddons/, plugins/, tools/, yara_rules/, nuclei-templates/ and builds the addon list."""
 
     _TAB_SOURCES = {
         "lazyaddons": LAZYADDONS_DIR,
@@ -192,21 +200,42 @@ class AddonRegistry:
         "lazyaddons": ("*.yaml",),
         "plugins": ("*.yaml", "*.lua"),
         "tools": ("*.tool",),
+        "yara": ("*.yar", "*.yara"),
+        "nuclei": ("*.yaml",),
     }
     _TAB_LABELS = {
         "lazyaddons": "YAML Addons",
         "plugins": "Plugins",
         "tools": "Tools",
+        "yara": "YARA Rules",
+        "nuclei": "Nuclei",
     }
 
     def __init__(self) -> None:
         self._addons: dict[str, list[AddonInfo]] = {}
 
+    def _nuclei_dir(self) -> Path | None:
+        for candidate in _NUCLEI_CANDIDATES:
+            if candidate.exists() and candidate.is_dir():
+                yaml_files = list(candidate.glob("*.yaml"))
+                if not yaml_files:
+                    for sub in candidate.iterdir():
+                        if sub.is_dir() and list(sub.glob("*.yaml")):
+                            return candidate
+                else:
+                    return candidate
+        return None
+
     def scan(self, tab: str) -> list[AddonInfo]:
-        if tab not in self._TAB_SOURCES:
-            return []
         if tab in self._addons:
             return self._addons[tab]
+
+        if tab == "yara":
+            return self._scan_yara()
+        if tab == "nuclei":
+            return self._scan_nuclei()
+        if tab not in self._TAB_SOURCES:
+            return []
 
         source = self._TAB_SOURCES[tab]
         extensions = self._TAB_EXTENSIONS[tab]
@@ -221,12 +250,82 @@ class AddonRegistry:
         self._addons[tab] = addons
         return addons
 
+    def _scan_yara(self) -> list[AddonInfo]:
+        addons: list[AddonInfo] = []
+        if not YARA_DIR.exists():
+            YARA_DIR.mkdir(parents=True, exist_ok=True)
+        for ext in self._TAB_EXTENSIONS.get("yara", ("*.yar",)):
+            for fpath in sorted(YARA_DIR.glob(ext)):
+                info = AddonInfo(
+                    name=fpath.stem,
+                    path=fpath,
+                    kind="yara",
+                    enabled=True,
+                    description=self._parse_yara_meta(fpath),
+                    author="",
+                    version="",
+                )
+                addons.append(info)
+        self._addons["yara"] = addons
+        return addons
+
+    def _scan_nuclei(self) -> list[AddonInfo]:
+        addons: list[AddonInfo] = []
+        nuc_dir = self._nuclei_dir()
+        if nuc_dir is None:
+            self._addons["nuclei"] = addons
+            return addons
+        templates = sorted(nuc_dir.glob("**/*.yaml"))[:500]
+        for fpath in templates:
+            severity, cve_id = self._parse_nuclei_info(fpath)
+            label = f"{fpath.stem} [{severity}]"
+            info = AddonInfo(
+                name=label[:80],
+                path=fpath,
+                kind="nuclei",
+                enabled=True,
+                description=f"CVE: {cve_id}" if cve_id else f"{severity} severity",
+                author="nuclei-templates",
+                version=severity,
+            )
+            addons.append(info)
+        self._addons["nuclei"] = addons
+        return addons
+
+    @staticmethod
+    def _parse_yara_meta(path: Path) -> str:
+        try:
+            content = path.read_text(encoding="utf-8", errors="replace")
+            for line in content.splitlines()[:30]:
+                stripped = line.strip()
+                if "description" in stripped.lower() and "=" in stripped:
+                    return stripped.split("=", 1)[-1].strip().strip('"').strip("'")[:100]
+        except Exception:
+            pass
+        return ""
+
+    @staticmethod
+    def _parse_nuclei_info(path: Path) -> tuple[str, str]:
+        severity = "info"
+        cve_id = ""
+        try:
+            content = path.read_text(encoding="utf-8", errors="replace")
+            for line in content.splitlines()[:40]:
+                stripped = line.strip()
+                if stripped.startswith("severity:"):
+                    severity = stripped.split(":", 1)[-1].strip()
+                if stripped.lower().startswith("cve:") or stripped.lower().startswith("cve-id:"):
+                    cve_id = stripped.split(":", 1)[-1].strip()
+        except Exception:
+            pass
+        return severity, cve_id
+
     def rescan(self, tab: str) -> list[AddonInfo]:
         self._addons.pop(tab, None)
         return self.scan(tab)
 
     def tab_order(self) -> list[str]:
-        return ["lazyaddons", "plugins", "tools"]
+        return ["lazyaddons", "plugins", "tools", "yara", "nuclei"]
 
     def tab_label(self, tab: str) -> str:
         return self._TAB_LABELS.get(tab, tab)
@@ -268,8 +367,6 @@ class MarketplaceSettings:
 class MarketplaceConfigurator:
     """Curses-driven p10k-style wizard for marketplace management."""
 
-    _TAB_ORDER = ("lazyaddons", "plugins", "tools")
-
     def __init__(
         self,
         config: MarketplaceConfig,
@@ -279,15 +376,17 @@ class MarketplaceConfigurator:
         self._cfg = config
         self._registry = registry
         self._settings = initial
-        self._current_tab = "lazyaddons"
-        self._cursor: dict[str, int] = {tab: 0 for tab in self._TAB_ORDER}
-        self._scroll_offset: dict[str, int] = {tab: 0 for tab in self._TAB_ORDER}
+        self._current_tab = self._registry.tab_order()[0]
+        self._cursor: dict[str, int] = {tab: 0 for tab in self._registry.tab_order()}
+        self._scroll_offset: dict[str, int] = {tab: 0 for tab in self._registry.tab_order()}
         self._saved = False
 
-    def run(self) -> MarketplaceSettings | None:
+    def run(self, start_tab: str = "") -> MarketplaceSettings | None:
         if not self._tty_available():
             return None
         try:
+            if start_tab and start_tab in self._registry.tab_order():
+                self._active_tab = self._registry.tab_order().index(start_tab)
             return curses.wrapper(self._loop)
         except curses.error:
             return None
@@ -353,8 +452,9 @@ class MarketplaceConfigurator:
                 self._create_addon(stdscr)
 
     def _cycle_tab(self, direction: int) -> None:
-        idx = self._TAB_ORDER.index(self._current_tab)
-        self._current_tab = self._TAB_ORDER[(idx + direction) % len(self._TAB_ORDER)]
+        tab_order = self._registry.tab_order()
+        idx = tab_order.index(self._current_tab)
+        self._current_tab = tab_order[(idx + direction) % len(tab_order)]
 
     def _edit_addon(self, addon: AddonInfo) -> None:
         curses.endwin()
@@ -412,8 +512,8 @@ class MarketplaceConfigurator:
         except OSError:
             return
 
-        self._registry.rescan("lazyaddons")
-        self._current_tab = "lazyaddons"
+        self._registry.rescan(self._current_tab)
+        self._current_tab = self._registry.tab_order()[0]
 
     def _init_colors(self) -> None:
         if not curses.has_colors():
@@ -519,7 +619,7 @@ class MarketplaceConfigurator:
     def _draw_tabs(self, stdscr, row_y: int, left: int, width: int) -> None:
         cfg = self._cfg
         x = left + cfg.wizard_padding_x
-        for tab in self._TAB_ORDER:
+        for tab in self._registry.tab_order():
             label_tab = self._registry.tab_label(tab)
             count = self._registry.tab_count(tab)
             label = f"  {label_tab} ({count})  "
@@ -626,8 +726,14 @@ class MarketplaceConfigurator:
 
 def configure_marketplace_interactive(
     config: MarketplaceConfig | None = None,
+    start_tab: str = "",
 ) -> MarketplaceSettings | None:
     """Open the multi-tab curses wizard for marketplace management.
+
+    Args:
+        config: Optional custom configuration.
+        start_tab: Optional tab pre-selection (\"lazyaddons\", \"plugins\",
+            \"tools\", \"yara\", \"nuclei\").
 
     Returns ``None`` when the operator cancels or the environment cannot
     host a curses session.

@@ -16,30 +16,16 @@
                         <li class="nav-item">
                             <a class="nav-link" onclick="window.location.href = '{{ url_for('index') }}';">Home</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('profile') }}';">Profile</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="opsDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">Ops</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="opsDropdown" style="z-index:99999;position:absolute;">
+                                <li><a class="dropdown-item" href="{{ url_for('index') }}">Dashboard</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('phishing.list_campaigns') }}">Phishing</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('tasks') }}">Tasks</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('list_tools') }}">Tools</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('connect') }}">Reverse Shell</a></li>
+                            </ul>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('phishing.list_campaigns') }}';">Phishing</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('edit_notes') }}';">Notes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('get_event_config_view') }}';">Events</a>
-                        </li>     
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('list_tools') }}';">Tools</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('tasks') }}';">Tasks</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('cves') }}';">CVE'S</a>
-                        </li> 
-                        <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('report') }}';">Report</a>
-                        </li>    
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="intelDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">Intel</a>
                             <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="intelDropdown" style="z-index:99999;position:absolute;">
@@ -47,14 +33,24 @@
                                 <li><a class="dropdown-item" href="{{ url_for('killchain_view') }}">Kill-Chain</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('mitre') }}">Mitre</a></li>
                                 <li><a class="dropdown-item" href="{{ url_for('graph') }}">Atomic</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('palette_view') }}">Palette</a></li>
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="dataDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="cursor:pointer;">Data</a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dataDropdown" style="z-index:99999;position:absolute;">
+                                <li><a class="dropdown-item" href="{{ url_for('edit_notes') }}">Notes</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('cves') }}">CVEs</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('report') }}">Report</a></li>
+                                <li><a class="dropdown-item" href="{{ url_for('get_event_config_view') }}">Events</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" onclick="window.location.href = '{{ url_for('connect') }}';">Reverse</a>
-                        </li>                                 
+                            <a class="nav-link" onclick="window.location.href = '{{ url_for('profile') }}';">Profile</a>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" onclick="window.location.href = '{{ url_for('banners') }}';">Target</a>
-                        </li>                                                                     
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" onclick="window.location.href = '{{ url_for('logout') }}';">Logout</a>
                         </li>

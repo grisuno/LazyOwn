@@ -2206,8 +2206,8 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         """
         try:
             exe = get_users_dic("exe")
-        except:
-            self.display_toastr(f"Failed geting file: {exe}", type="error")
+        except Exception as exc:
+            self.display_toastr(f"Failed getting file: {exc}", type="error")
             return
 
         file = open(exe, "rb")

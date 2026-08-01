@@ -1983,7 +1983,8 @@ def _cli() -> None:  # noqa: C901
     p_fg.add_argument("--topic", default="")
 
     args = parser.parse_args()
-    logging.basicConfig(level=logging.WARNING)
+    from modules.logging_config import configure, get_logger
+    configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "spawn":
         role = args.role if args.role != "auto" else "generic"

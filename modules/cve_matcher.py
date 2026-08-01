@@ -211,7 +211,10 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(message)s")
+    from modules.logging_config import configure, get_logger
+    configure(level=logging.INFO, console=True, file=False)
+
+    logger = get_logger(__name__)
 
     p = argparse.ArgumentParser(description="LazyOwn CVE Matcher")
     p.add_argument("--product",  required=True,          help="Product name (e.g. openssh)")

@@ -100,12 +100,14 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_SMALL_MODEL", "qwen3.5:0.8b")
 POLL_INTERVAL_S   = float(os.environ.get("WATCHER_POLL_INTERVAL", "3"))
 MAX_PLAN_CHARS    = int(os.environ.get("WATCHER_MAX_PLAN_CHARS", "6000"))
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="[watcher] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("sessions_watcher")
+log = get_logger("sessions_watcher")
 
 # ── Event helper ──────────────────────────────────────────────────────────────
 

@@ -37,7 +37,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 - `skills/`: MCP server, autonomous daemon, hive mind, SWAN (MoE+RL), policy engine, parquet DB.
 - `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
-- `lazyaddons/`: 76 YAML tool integrations. `plugins/`: Lua plugins. `tools/`: pwntomate auto-jobs.
+- `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
 - `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---

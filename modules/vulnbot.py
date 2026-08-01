@@ -7,6 +7,7 @@ from agent_runner import AgentRunner
 from ai_model import AIModel
 from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+from modules.logging_config import configure, get_logger
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,
@@ -233,8 +234,3 @@ class VulnBotCLI:
         kb[prompt] = response
         self.save_knowledge_base(kb)
         logging.info("Respuesta guardada en base de conocimiento.")
-
-
-def configure_logging(debug: bool):
-    level = logging.DEBUG if debug else logging.INFO
-    logging.basicConfig(level=level, format='%(asctime)s - %(levelname)s - %(message)s')

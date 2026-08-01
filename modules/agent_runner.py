@@ -18,6 +18,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
+from modules.logging_config import configure, get_logger
+
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH
 try:
@@ -50,11 +52,7 @@ MAX_HISTORY_MSGS = 15      # Ventana de memoria (mensajes)
 
 def configure_logging(debug: bool = False):
     level = logging.DEBUG if debug else logging.INFO
-    logging.basicConfig(
-        level=level,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        datefmt='%H:%M:%S'
-    )
+    configure(level=level, console=True, file=False)
 
 # ===== AGENT TOOL ROBUSTO =====
 class AgentTool:
@@ -320,7 +318,8 @@ Si ya tienes la info, responde al usuario."""
             # Ejecución normal
             try:
                 args = json.loads(tool_call.function.arguments)
-            except:
+            except (json.JSONDecodeError, TypeError) as exc:
+                logging.warning("Failed to parse tool call arguments for %s: %s", tool_name, exc)
                 args = {}
 
             # Verificar duplicado exacto

@@ -88,12 +88,14 @@ TASKS_FILE  = SESSIONS_DIR / "tasks.json"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
-logging.basicConfig(
+from modules.logging_config import configure, get_logger
+
+configure(
     level=logging.INFO,
-    format="[auto] %(asctime)s %(levelname)s %(message)s",
-    datefmt="%H:%M:%S",
+    console=True,
+    file=False,
 )
-log = logging.getLogger("autonomous_daemon")
+log = get_logger("autonomous_daemon")
 
 # ── Config (env-overridable) ──────────────────────────────────────────────────
 

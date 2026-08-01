@@ -666,8 +666,9 @@ class FactStore:
 
     def __init__(self, cfg: Config | None = None) -> None:
         self._cfg = cfg or Config.default()
-        logging.basicConfig(level=getattr(logging, self._cfg.log_level, logging.WARNING))
-        self._log = logging.getLogger(self.__class__.__name__)
+        from modules.logging_config import configure, get_logger
+        configure(level=getattr(logging, self._cfg.log_level, logging.WARNING), console=True, file=False)
+        self._log = get_logger(self.__class__.__name__)
         self._xml_parser = INmapXmlParser()
         self._text_parsers: list[ITextOutputParser] = [
             CrackMapExecParser(),

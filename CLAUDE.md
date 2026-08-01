@@ -70,7 +70,7 @@ bash skills/mcp_restart.sh                                   # after editing MCP
 | `sessions/` | Campaign state — **gitignored**, never delete w/o confirmation. `git add -f` to stage. |
 | `parquets/` | Columnar KBs: GTFOBins, LOLBas, MITRE ATT&CK (6 `.parquet`). |
 | `plugins/` | Lua plugins (lupa). Each `.lua` + `.yaml` metadata. |
-| `lazyaddons/` | 76 YAML tool integrations. Auto-discovered. |
+| `lazyaddons/` | 124 YAML tool integrations. Auto-discovered. |
 | `tools/` | 69 pwntomate `.tool` files; auto-trigger on nmap services. |
 | `external/` `modules_ext/` `vpn/` | **Gitignored**; `git add -f` required. Never commit creds. |
 | `lazyscripts/` `playbooks/` `lazyadversaries/` | `.ls` recipes, YAML APT playbooks (7 actors), threat profiles. |

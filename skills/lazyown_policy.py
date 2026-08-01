@@ -1934,10 +1934,11 @@ class HistoryBootstrapper:
 
 
 def _setup_logging(cfg: Config) -> None:
-    logging.basicConfig(
+    from modules.logging_config import configure, get_logger
+    configure(
         level=getattr(logging, cfg.log_level.upper(), logging.INFO),
-        format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
-        stream=sys.stderr,
+        console=True,
+        file=False,
     )
 
 

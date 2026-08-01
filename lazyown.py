@@ -1833,14 +1833,16 @@ class LazyOwnShell(cmd2.Cmd):
                         self.display_toastr(f"Error: Parameter '{param_name}' is missing and no default value is provided.", type='warning')
                         return
                 try:
-                    install_path = os.path.join(os.getcwd(), tool['install_path'])
-                    if not os.path.exists(install_path):
-                        self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
-                        self.cmd(f"git clone {tool['repo_url']} {install_path}")
-                        if 'install_command' in tool:
-                            cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
-                            self.cmd(f"cd {install_path} && {cmdinstall}")
-                            self.cmd("sleep 2")
+                    install_path = None
+                    if 'install_path' in tool:
+                        install_path = os.path.join(os.getcwd(), tool['install_path'])
+                        if not os.path.exists(install_path):
+                            self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
+                            self.cmd(f"git clone {tool['repo_url']} {install_path}")
+                            if 'install_command' in tool:
+                                cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
+                                self.cmd(f"cd {install_path} && {cmdinstall}")
+                                self.cmd("sleep 2")
 
                     if 'execute_command' in tool:
                         binary = execute_command.split()[0] if execute_command else ''
@@ -1849,10 +1851,16 @@ class LazyOwnShell(cmd2.Cmd):
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
                         command_replaced = replace_command_placeholders(execute_command, self.params).strip()
-                        if args:
-                            final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
+                        if install_path:
+                            if args:
+                                final_command = f"cd {install_path} && {command_replaced} {' '.join(args)}"
+                            else:
+                                final_command = f"cd {install_path} && {command_replaced}"
                         else:
-                            final_command = f"cd {install_path} && {command_replaced}"
+                            if args:
+                                final_command = f"{command_replaced} {' '.join(args)}"
+                            else:
+                                final_command = command_replaced
                         self.cmd(final_command)
 
                     if 'upload_file' in tool:
@@ -1896,8 +1904,11 @@ class LazyOwnShell(cmd2.Cmd):
             + (f"\nTags: {', '.join(tags)}" if tags else "")
         )
         cmd2.utils.categorize(wrapper_yaml, addon_category)
-        setattr(self, f'do_{name}', wrapper_yaml)
-        print_msg(f"Command '{name}' registered [{addon_category}] from YAML.")
+        if hasattr(self, f'do_{name}'):
+            print_msg(f"Command '{name}' already exists as built-in — YAML registered as trigger-only [{addon_category}].")
+        else:
+            setattr(self, f'do_{name}', wrapper_yaml)
+            print_msg(f"Command '{name}' registered [{addon_category}] from YAML.")
 
     def register_all_adversary_commands(self):
         for file in glob.glob("lazyadversaries/*.yaml"):

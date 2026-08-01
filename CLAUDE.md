@@ -30,6 +30,18 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
 
+### C2 Transport & Evasion contracts
+
+Each module is a single-file contract for one transport or evasion concern. All ship with 94%+ mutation-killed coverage.
+
+| Contract | Module | Tests |
+|----------|--------|-------|
+| Extended malleable C2 (TLS, DNS, SMB, WebSocket) | `modules/c2_profile_engine.py` | `test_c2_profile_engine.py` |
+| BOF catalog, marketplace, registry | `modules/bof_registry.py` | `test_bof_registry.py` |
+| Sleep obfuscation engine (9 techniques) | `modules/sleep_obfuscation.py` | `test_sleep_obfuscation.py` |
+| SOCKS5 proxy spec engine | `modules/socks_proxy.py` | `test_socks_proxy.py` |
+| HTTP malleable profiles (base) | `modules/c2_profile.py` | (built-in CLI) |
+
 Compat: PROD fail-fast on missing C2 keys, DEV warn-and-default. AES key is `payload.json:aes_key` (64 hex) → `self.aes_key` (bytes) + `self.params['aes_key']` (hex). Lazyaddons use `{{aes_key}}` or `{aes_key}` for substitution.
 - **Extensions**: `lazyaddons/*.yaml` (declarative tools), `plugins/*.lua` (lupa), `tools/*.tool` (pwntomate auto-jobs).
 - **lazyaddons**: `lazyaddons/*.yaml` — extendthe framework with yamls.

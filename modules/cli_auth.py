@@ -101,6 +101,93 @@ def _save_payload(payload: dict) -> bool:
         return False
 
 
+def user_exists(username: str) -> bool:
+    """Check if a username already exists in users.json or RBAC store.
+
+    Args:
+        username: Username to check.
+
+    Returns:
+        True if the username already exists.
+    """
+    try:
+        from modules.lazy_rbac import get_rbac_store, _RBAC_AVAILABLE as RBAC
+        if RBAC:
+            store = get_rbac_store()
+            return store.find_by_username(username) is not None
+    except ImportError:
+        pass
+
+    users = _load_users()
+    return any(isinstance(u, dict) and u.get("username") == username for u in users)
+
+
+def register(username: str, password: str) -> dict[str, Any]:
+    """Register a new operator in users.json.
+
+    Follows the same logic as the lowazyc2.py /register endpoint.
+    First user becomes admin; subsequent users get the default role.
+    Minimum 12-character password.
+
+    Args:
+        username: Desired username.
+        password: Cleartext password.
+
+    Returns:
+        Dict with ``success``, ``username``, ``role`` keys.
+    """
+    if not username or not password:
+        return {"success": False, "error": "Username and password are required."}
+
+    if len(password) < 12:
+        return {"success": False, "error": "Password must be at least 12 characters."}
+
+    if user_exists(username):
+        return {"success": False, "error": "Username already exists."}
+
+    try:
+        from werkzeug.security import generate_password_hash
+    except ImportError:
+        return {"success": False, "error": "werkzeug not available — install with: pip install werkzeug"}
+
+    try:
+        from modules.lazy_rbac import get_rbac_store, _RBAC_AVAILABLE as RBAC, Role
+
+        if RBAC:
+            store = get_rbac_store()
+            role = Role.ADMIN.value if not any(
+                u.role == Role.ADMIN.value for u in store.load_all()
+            ) else Role.OPERATOR.value
+            store.create_user(
+                username=username,
+                password_hash=generate_password_hash(password),
+                role=role,
+            )
+            return {"success": True, "username": username, "role": role}
+    except ImportError:
+        pass
+
+    users = _load_users()
+    role = "admin" if not users else "user"
+
+    new_user = {
+        "id": len(users) + 1,
+        "username": username,
+        "password_hash": generate_password_hash(password),
+        "elo": 0,
+        "role": role,
+        "mfa_enabled": False,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "tenant_id": "default",
+    }
+    users.append(new_user)
+    if not _save_users(users):
+        return {"success": False, "error": "Could not save users.json."}
+
+    return {"success": True, "username": username, "role": role}
+
+
 def verify_password(username: str, password: str) -> bool:
     """Verify a username/password against users.json using werkzeug.
 
@@ -386,7 +473,9 @@ def needs_login() -> bool:
 __all__ = [
     "login",
     "logout",
+    "register",
     "try_auto_login",
+    "user_exists",
     "whoami",
     "needs_login",
     "verify_password",

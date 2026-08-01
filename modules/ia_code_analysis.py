@@ -8,7 +8,10 @@ import requests
 from rich.console import Console
 from rich.markdown import Markdown
 
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 logger = get_logger(__name__)
 

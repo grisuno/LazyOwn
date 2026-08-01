@@ -437,8 +437,8 @@ def get_trainer(config: RLConfig | None = None) -> RLTrainer:
 if __name__ == "__main__":
     import argparse
 
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser(description="LazyOwn RL Trainer CLI")
     sub = parser.add_subparsers(dest="cmd")

@@ -825,7 +825,7 @@
       "do_process_scans",
       "do_pth_net",
       "do_pup",
-      "do_report",
+      "do_gen_report",
       "do_vulns"
     ]
   },
@@ -1440,7 +1440,7 @@
       "do_process_scans",
       "do_pth_net",
       "do_pup",
-      "do_report",
+      "do_gen_report",
       "do_vulns"
     ],
     "Event Bus": [
@@ -7775,7 +7775,7 @@
       "duplicate_of": null
     },
     {
-      "name": "do_report",
+      "name": "do_gen_report",
       "line": 186,
       "summary": "Generate enhanced professional penetration test reports.",
       "category": "11. Reporting",

@@ -7,7 +7,12 @@ from agent_runner import AgentRunner
 from ai_model import AIModel
 from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
+
+logger = get_logger(__name__)
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,
@@ -16,7 +21,7 @@ _PROVIDER_ALIAS = {
 }
 
 BANNER = """
-[*] Iniciando: LazyOwn GPT One Liner Cli Assistant [;,;]
+[*] Starting: LazyOwn GPT One Liner CLI Assistant [;,;]
 """
 
 class VulnBotCLI:
@@ -28,13 +33,12 @@ class VulnBotCLI:
         self.script_dir = os.getcwd()
         self.knowledge_base_file = f"{self.script_dir}/knowledge_base_vuln.json"
 
-        # Cargar modelo
+        level = logging.DEBUG if debug else logging.INFO
+        configure(level=level, console=True, file=False)
+
         self.model = self._load_model()
 
-        # Setup agente
         self._setup_agent(script_path)
-
-        configure_logging(debug)
 
     def _load_model(self) -> AIModel:
         """Instantiate the LLM backend mapped to ``self.provider``.
@@ -112,16 +116,18 @@ class VulnBotCLI:
             for attr_name in dir(module):
                 attr = getattr(module, attr_name)
                 if isinstance(attr, type) and 'cmd' in attr.__module__:
-                    instance = attr()
-                    # Registrar cada método do_ como herramienta
+                    try:
+                        instance = attr()
+                    except (TypeError, ValueError):
+                        continue
                     for method_name in dir(instance):
                         if method_name.startswith('do_') and method_name != 'do_exit':
                             method = getattr(instance, method_name)
                             self.agent.register_tool_from_instance(method)
-                    logging.info(f"✅ Herramientas de {script_path} cargadas")
+                    logger.info(f"Tools from {script_path} loaded")
                     break
         except Exception as e:
-            logging.warning(f"⚠️ No se pudieron cargar herramientas externas: {e}")
+            logger.warning(f"Could not load external tools: {e}")
 
     def process_with_context(self, file_path: str, event: str = None) -> str:
         """Procesa archivo en modo agente"""

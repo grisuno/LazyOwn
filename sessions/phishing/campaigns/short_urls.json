@@ -10,9 +10,9 @@
     "created_at": "2025-08-15T09:53:46.014792"
   },
   "linux": {
-    "original_url": "https://10.10.14.91/s/linux",
+    "original_url": "https://10.10.14.141/s/linux",
     "active": true,
-    "created_at": "2025-08-28T05:44:17.644194"
+    "created_at": "2026-08-01T18:03:21.147543"
   },
   "windows": {
     "original_url": "https://10.10.14.91/s/windows.exe",
@@ -23,5 +23,20 @@
     "original_url": "https://10.10.14.98/s/beacon_id.exe",
     "active": true,
     "created_at": "2025-10-26T15:04:56.290542"
+  },
+  "stub": {
+    "original_url": "https://10.10.14.141/s/stub",
+    "active": true,
+    "created_at": "2026-08-01T18:03:21.147561"
+  },
+  "beacon.enc": {
+    "original_url": "https://10.10.14.141/s/beacon.enc",
+    "active": true,
+    "created_at": "2026-08-01T18:03:21.147572"
+  },
+  "r": {
+    "original_url": "https://10.10.14.141/s/r",
+    "active": true,
+    "created_at": "2026-08-01T18:03:21.147582"
   }
 }

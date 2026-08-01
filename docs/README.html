@@ -291,7 +291,7 @@ Public License v3. See the LICENSE file for details about using this
 software.</p>
 <p># LazyOwn</p>
 <p>LazyOwn is a professional red team framework for penetration testers
-and security researchers. It provides over 666 attack techniques for
+and security researchers. It provides over 600 attack techniques for
 Linux, Unix, BSD, macOS, and Windows environments, and integrates the
 Atomic Red Team attack library.</p>
 <h2 id="quickstart-in-three-commands">Quickstart in three commands</h2>
@@ -301,8 +301,9 @@ href="QUICKSTART.md"><code>QUICKSTART.md</code></a>.</p>
 class="sourceCode bash"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/grisuno/LazyOwn.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> LazyOwn</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> install.sh        <span class="co"># virtualenv + pinned dependencies + C2 certificates</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">./run</span>                  <span class="co"># launches the shell; first run offers the setup wizard</span></span></code></pre></div>
-<p>Lighter install: <code>bash install.sh --no-ml</code> skips the heavy
-torch/CUDA stack, <code>--no-ollama</code> skips the local LLM runtime.
+<p>The default install is light; add <code>--with-ml</code> for the
+heavy torch/CUDA stack, <code>--with-ollama</code> for the local LLM
+runtime, <code>--with-tools</code> for the common external binaries.
 Dependencies are pinned in <code>requirements.txt</code> (cross-platform
 core) and <code>requirements-ml.txt</code> (optional ML);
 <code>pyproject.toml</code> is the single source of truth.</p>
@@ -355,7 +356,7 @@ href="CONTRIBUTING.md">CONTRIBUTING.md</a> for details.</h1>
 <h1 id="lazyown-skills-mcp-integration">LazyOwn Skills — MCP
 Integration</h1>
 <p>Connect Claude Code to the LazyOwn framework via the Model Context
-Protocol (MCP). The MCP server exposes 67 tools covering the full
+Protocol (MCP). The MCP server exposes 148 tools covering the full
 engagement lifecycle.</p>
 <h2 id="files">Files</h2>
 <table>
@@ -372,7 +373,7 @@ engagement lifecycle.</p>
 <tbody>
 <tr>
 <td><code>skills/lazyown_mcp.py</code></td>
-<td>MCP server — exposes 67 LazyOwn tools to Claude</td>
+<td>MCP server — exposes 148 LazyOwn tools to Claude</td>
 </tr>
 <tr>
 <td><code>skills/lazyown.md</code></td>
@@ -409,7 +410,7 @@ first shell)</h2>
 href="QUICKSTART.md"><code>QUICKSTART.md</code></a></p>
 </blockquote>
 <div class="sourceCode" id="cb5"><pre
-class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Clone and install (add --no-ml to skip the 2 GB torch/CUDA stack, --no-ollama to skip the local LLM)</span></span>
+class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 1. Clone and install (light by default; add --with-ml for the 2 GB torch/CUDA stack, --with-ollama for the local LLM)</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/grisuno/LazyOwn.git <span class="kw">&amp;&amp;</span> <span class="bu">cd</span> LazyOwn <span class="kw">&amp;&amp;</span> <span class="fu">bash</span> install.sh</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co"># 2. Launch, verify the install, then run the wizard</span></span>
@@ -609,7 +610,7 @@ OpenCode-native prompts and workflows.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="mcp-tool-groups-81-tools">MCP Tool Groups (81 tools)</h2>
+<h2 id="mcp-tool-groups-148-tools">MCP Tool Groups (148 tools)</h2>
 <table>
 <colgroup>
 <col style="width: 25%" />
@@ -1696,9 +1697,11 @@ source of truth) and pinned for reproducible installs:</p>
 wheels).</li>
 <li><code>requirements-ml.txt</code> — optional, heavy ML stack
 (torch/CUDA, scikit-learn).</li>
-<li><code>install.sh</code> runs under strict mode, is idempotent, and
-accepts <code>--no-ml</code> (skip the 2 GB ML stack) and
-<code>--no-ollama</code> (skip the local LLM runtime).</li>
+<li><code>install.sh</code> runs under strict mode and is idempotent.
+The default install is light; opt into extras with
+<code>--with-ml</code> (2 GB ML stack), <code>--with-ollama</code>
+(local LLM runtime) and <code>--with-tools</code> (common external
+binaries).</li>
 <li>Developers: <code>pip install -e .[ml,dev]</code>.</li>
 </ul>
 <h2 id="key-features">Key Features</h2>

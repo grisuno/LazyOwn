@@ -30,9 +30,11 @@
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
 
- # LazyOwn
+ # LazyOwn RedTeam Framework v0.2.158
 
-LazyOwn is a professional red team framework for penetration testers and security researchers. It provides over 600 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, and integrates the Atomic Red Team attack library.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 606+ CLI commands, 126 aliases, 148 MCP tools for AI agents, a multi-operator web C2 dashboard, and 120+ YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+
+**New in v0.2.158:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
 
 ## Quickstart in three commands
 
@@ -781,137 +783,69 @@ pinned for reproducible installs:
 
 ## Key Features
 
-1. **Comprehensive Attack Library**: Over 500 attack techniques for Linux, Unix, BSD, macOS, and Windows environments, augmented by the Atomic Red Team Framework library.
-2. **Interactive CLI**: Based on cmd2, offering an intuitive and efficient command-line experience.
+1. **606+ Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
+3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
+4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
+5. **Unified Post-Command Tips Engine**: Smart suggestions (kill-chain hints, protips, curiosity, autosuggest) with ELO rating, badges (First Blood, Arsenal Master, Kill Chain Master), and VRI rewards — gamified operator experience.
+6. **Automatic Session Crypto**: `auto_crypto` encrypts sensitive session files on exit and decrypts on startup (PBKDF2HMAC + Fernet), transparent to the operator.
+7. **AI-Native Architecture**: MoE (Mixture of Experts) router, RL training, SWAN orchestrator, Hive Mind multi-agent system, ACI (Autonomous Campaign Intelligence) planner — the first C2 that plans, executes, and learns autonomously.
+8. **Multi-Stage Obfuscated Go Implants**: Two-stage XOR-encoded beacon delivery with C stubs, AES-256 encrypted C2 channels, VM/sandbox/debugger evasion, polymorphism, and LOLBAS-based stagers. Tested on Kernel 6.12 and Windows 10.0.20348.
+9. **Linux BOF (Beacon Object Files)**: First open-source C2 framework with BOF support for Linux via ELF `dlopen` runtime. Source-compatible `datap` API with Windows BOF contract. Direct syscalls and `io_uring` support.
+10. **Decoy Blue Team Trap**: Flask decoy website records video/audio and captures images of unauthorized visitors (blue team operators probing the C2), stored in `sessions/captured_images`.
+11. **Bloodhound Attack Surface**: Upload Bloodhound ZIP data to render interactive attack surface graphs with filtering and search, augmented by `lazynmap` discovery data.
+12. **AI-Powered Phishing Engine**: Groq/DeepSeek AI-generated email templates with dynamic URL generation, tracking pixels, URL shortening, and test endpoint creation.
 
-![image](https://github.com/user-attachments/assets/bac38447-1ab9-40f0-babb-7afa3cbe6a25)
+---
 
-3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
+## v0.2.158 Highlights
 
-![image](https://github.com/user-attachments/assets/17f36120-3a17-4ee3-9358-8f4f6caa07bf)
+### Marketplace (YARA + Nuclei)
+Browse, search, and install from a unified marketplace TUI:
+- `yara_marketplace list|search|install|info` -- 10 built-in rules (ransomware, C2, webshells, obfuscation, privesc)
+- `nuclei_marketplace list|search|install|info` -- 500+ templates from `~/nuclei-templates`
+- `marketplace list|search|install|update` -- 120+ YAML addons, 56 plugins, 69 tools
 
+### auto_pwn & hunt
+- `auto_pwn` -- autonomous kill-chain walk from recon to exploitation
+- `hunt` -- threat-informed recon: maps known TTPs to discovered services
 
-4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
+### Reactive Intelligence
+- Post-command tips engine: kill-chain hints, protips, curiosity rewards
+- ELO rating, badges (First Blood, Arsenal Master, Kill Chain Master)
+- Inline reactive hints: "next command" suggestions after every action
 
-![adversay emulator](https://github.com/user-attachments/assets/dc6e3ca2-c70d-46c5-9240-488bbea409ce)
+### Auto Crypto
+Transparent session encryption on exit / decryption on startup via PBKDF2HMAC + Fernet.
 
-5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
-6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
-7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
-8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
-![image](https://github.com/user-attachments/assets/f0b61d32-a67d-4036-809e-1d6f5e872057)
+### New Playbooks
+7 APT profiles: Azure Graph API, CICD Poisoning, Entra Connect, macOS TCC, OAuth Token Theft, SCCM/MECM, VDI Breakout.
 
-![vulnbot](https://github.com/user-attachments/assets/86ae6384-f61b-41be-8b87-222399bf2b77)
-
-
-9. **Undetectable, Obfuscated, and Malleable GO Implants**: The command with the payload comes obfuscated by default. Instead of directly downloading the beacon, it downloads a stub created in C to download the beacon, which is XOR-encoded with a key. It is then decoded in memory and executed in a temporary path with a unique name to evade detection, using svchost in Windows and lazyservice in Linux. This performs a two-stage implant, which has been tested on Kernel 6.12 and Windows [Version 10.0.20348.3807]. Additionally, an alternative Windows stub using LOLBAS PS1 and Csharp has been added, along with a version of ebird3 in LOLBAS that uses the same technologies. The Go beacon is a multi-platform, undetectable, and highly obfuscated implant tailored for advanced red teaming operations. It features polymorphism, operates in a configurable stealth mode, and secures communications with AES-256 encrypted channels. The beacon blends into environments by simulating legitimate network traffic and evades detection by identifying virtual machines, sandboxes, containers, and debuggers, dynamically adjusting its behavior. With a minimal footprint, it supports robust network discovery through ping-based host enumeration and port scanning of configured targets. The implant excels at exfiltrating sensitive data, including private keys, AWS credentials, browser credentials, and system logs. It offers dynamic TCP proxying for traffic redirection, privilege escalation attempts, and system log cleaning. Persistence is achieved across Windows, Linux, and macOS via scheduled tasks, systemd, crontab, and LaunchAgents. Additional capabilities include adversary emulation (MITRE ATT&CK), file timestamp obfuscation, and directory compression for exfiltration. Built with Go vet for code health, the implant integrates seamlessly with Dockerized environments and AWS Firecracker microVMs, making it a cornerstone of modern red team infrastructure, Built with Go vet for code integrity, the implant leverages Cloudflare for traffic obfuscation, routing communications through secure, high-performance redirectors to conceal C2 infrastructure. The Go binary is hardened with Garble obfuscation, thwarting reverse engineering and signature-based detection. On Windows, the implant employs extension camouflage to masquerade as benign files (e.g., `.pdfx`) and embeds custom icons via `rsrc` for convincing social engineering.
-
-![image](https://github.com/user-attachments/assets/4e114c5c-d28d-4570-9e02-6868bb838dd2)
-
-- **Available beacon commands**:
- - **stealth_off** stop being stealthy, Disables stealth mode, allowing normal operations.
- - **stealth_on** enter ninja mode, Enables stealth mode, minimizing activity to avoid detection.
- - **download:** download:[filename] Downloads a file from the C2 to the compromised host.
- - **upload:** [filename]: Uploads a file from the compromised host to the C2.
- - **rev:** Establishes a reverse shell to the C2 using the configured port.
- - **exfil:** Exfiltrates sensitive data (e.g., SSH keys, AWS credentials, command histories).
- - **download_exec:** download_exec:[url]: Downloads and executes a binary from a URL (Linux only, stored in /dev/shm).
- - **obfuscate:** [filename]: Obfuscates file timestamps to hinder forensic analysis.
- - **cleanlogs:** Clears system logs (e.g., /var/log/syslog on Linux, event logs on Windows).
- - **discover:** Performs network discovery, identifying live hosts via ping.
- - **adversary:**[id_atomic]: Executes an adversary emulation test (MITRE ATT&CK) using downloaded atomic redteam framework scripts.
- - **softenum:** Enumerates useful software on the host (e.g., docker, nc, python).
- - **netconfig:** Captures and exfiltrates network configuration (e.g., ipconfig on Windows, ifconfig on Linux).
- - **escalatelin:** Attempts privilege escalation on Linux (e.g., via sudo -n or SUID binaries).
- - **proxy:**[listenip]:[listenport]:[targetip]:[targetport] Starts a TCP proxy redirecting traffic from listenAddr to targetAddr.
- - **stop_proxy:**[listenaddr] Stops a TCP proxy on the specified address.
- - **portscan:** Scans ports on discovered hosts and the configured rhost.
- - **compressdir:**[directory]: Compresses a directory into a .tar.gz file and exfiltrates it.
- - **sandbox:** Get info about the system if it's a sandbox or not.
- - **isvm:** Get info about the system if it's a virtual machine or not.
- - **debug:** Get info about the system if the target is debugged or not.
- - **persist:** Try to persist mechanism in the target system.
- - **simulate:** Execute a simulation of a legit web page like youtube.
- - **migrate:** Inject a payload into a suspended process and resume it. If no payload is specified, the current process is injected (self-migration).
- - **shellcode:** Download and execute a shellcode in memory. Supports multiple operative systems and formats msfvenom friendly (in windows the technique used is Early brid APC Injection).
- - **amsi:** Bypass AMSI (Anti-Malware Scan Interface) on Windows systems to evade detection by PowerShell, WMI, and other scripting engines.
- - **terminate:** Terminates the implant or beacon, removing files and persistence mechanisms.
-
-![winimp](https://github.com/user-attachments/assets/4d892bfa-f067-483d-b087-0afea628c00c)
-
-
-10. **Rootkit**: Linux rootkit and Windows Malware to ensure persistence and undetectable.
-11. **Surface attack**: We are pleased to document the new surface attack functionality. This feature allows the operator to upload a ZIP archive of Bloodhound capture data (validated with bloodhound.py) at any time via the main page. Upon upload, the system will render the complete attack surface, augmented with identified machines discovered through automated methods or system commands such as **lazynmap** (At WebCli can you click at the Host Icon and will paste the command to discover that host.), **nmap**, **discovery**, and **run lazynmapdiscovery**. These supplementary data sources will enrich the graphical representation, populating nodes within the attack surface. The interface will provide integrated controls for searching, filtering, enumerating, and correlating the various attack vectors. It is crucial to note that this feature is not intended as a replacement for Bloodhound. Its scope is limited to providing a rapid overview and efficient filtering of collected information to facilitate attack phase planning. For detailed attack guidance and exploitation, the operator is directed to the established Bloodhound toolset.
-
-![image](https://github.com/user-attachments/assets/747773c6-4eb0-4dba-a51d-113cdffca959)
-
-12. **Phishing campaigns**: The phishing module in the LazyOwn RedTeam Framework is a sophisticated component designed for simulating advanced phishing campaigns in ethical red teaming and security awareness training. It integrates artificial intelligence (AI), dynamic URL generation, comprehensive tracking, and behavioral analysis to create realistic and evasive phishing simulations. The module is built on a Flask-based backend with a Jinja2 frontend, leveraging SQLite for data persistence, YAML for configuration, and Groq AI for content generation and analysis. Below is a detailed enumeration of its features, technical implementation, and usage instructions.
-- **Description**: The module uses the Groq AI (e.g., Mixtral-8x7b model) to generate context-aware phishing email templates tailored to specific campaigns. Templates are dynamically created based on user-defined parameters, such as target audience, theme (e.g., corporate, financial), and desired tone (e.g., urgent, professional).
-- **Technical Implementation**: Templates are generated via Bot (Local Deepseek) and API calls to Groq (Remote), with prompts specifying template structure, language, and embedded placeholders (e.g., {name}, {beacon_url} and {tracking_pixel}).
-- Generated templates are stored as HTML or plain text in the templates directory with unique identifiers (e.g., ai_template_1749691010.0413928).
-- Integration with the campaign configuration allows embedding obfuscated URLs and tracking beacons.
-- Automated creation of a short url for every beacon created
-![image](https://github.com/user-attachments/assets/fdc0e32a-be7d-4c98-a5e5-c80cbbf79f93)
-![image](https://github.com/user-attachments/assets/6b9c576e-182a-4d0d-8b70-f11109be005f)
-![image](https://github.com/user-attachments/assets/1065efbd-6c72-4eba-b7be-a188f1ec8dbb)
-- **Testing Endpoints Feature**
-To facilitate rapid testing and verification of generated phishing templates, the LazyOwn RedTeam Framework now includes the capability to create arbitrary test endpoints. This feature allows users to quickly deploy and preview their phishing email templates directly within the framework.
-
-Description: This enhancement introduces a user-friendly method to create new web endpoints that serve specific HTML templates. This is particularly useful for immediately inspecting the rendering and content of AI-generated templates without needing to integrate them into a full campaign.
-
-Technical Implementation:
-
-A new Flask route (/mkendpoint) and a corresponding HTML form have been added.
-
-The form allows users to specify two key parameters:
-
-Endpoint Name: The desired name for the new URL endpoint (e.g., landing). The full URL will be /your_app_root/{endpoint_name}.
-
-Template File: The filename of the HTML template (located within the templates directory, e.g., ai_template_1749691010.0413928).
-
-Upon submission, the framework dynamically registers a new route in the Flask application that, when accessed, renders the specified template.
-
-Usage Instructions:
-
-Navigate to the /mkendpoint URL in your LazyOwn RedTeam Framework instance.
-
-Fill out the form with the desired Endpoint Name and the Template File you wish to test. Ensure the template file name is correct and exists in the templates directory.
-
-Click the "Create Route" button.
-
-Once created, you can access your test endpoint by navigating to the URL constructed using the specified Endpoint Name (e.g., /landing). This will display the content of the chosen template.
-
-Further Capabilities (Implicit from Provided Code):
-
-While the current implementation focuses on serving the template, the underlying Flask routing allows for future expansion to handle information sent to these test endpoints. Similar to regular campaign endpoints, you could potentially:
-
-Capture Information: Modify the test_endpoint_view function to capture data submitted via GET or POST requests to the test endpoint. This data could be logged or displayed for testing purposes.
-
-Access Session ID: The Flask session is available within the view function, allowing you to track and utilize session identifiers if needed for more complex testing scenarios.
-
-This feature streamlines the testing process and provides a convenient way to quickly preview and verify your AI-powered phishing templates.
-
+---
 
 ## Command Capabilities
 
-LazyOwn provides a rich set of commands available from both the CLI and web interface:
+LazyOwn provides 606+ commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
-- **addhosts**: Add the domain and rhost to /etc/hosts file to route the attacks.
-- **aliass**: Show all documented commands alias (use 'help -v' for verbose/'help <topic>' for details or use aliass)
-- **list**: Enumerates all available LazyOwn Modules within the framework, providing a comprehensive overview of the toolkit's capabilities.
-- **assign**: Configures specific parameters for the operation, such as `assign rhost 192.168.1.1` to define the target IP address, ensuring precise and tailored attacks.
-- **createcredentials**: Add credentials exfiltrated to be used in the attacks or tests. `createcredentials admin:adminpassword`
-- **show**: Displays the current values of all configured parameters, offering a clear and concise view of the operational setup.
-- **run** : Executes specific scripts available in the framework, such as `run lazysniff` to initiate packet sniffing, enabling dynamic and responsive security assessments.
-- **cron**: Schedules tasks to run at specified intervals, ensuring persistent and automated threat simulations that mimic the relentless nature of advanced cyber adversaries.
-- **exit**: Gracefully exits the CLI, concluding the session with elegance and finality.
-- **auto**: Execute all tools files enabled in the tool directory that are relevant to the Nmap scan report.
-- **help**: Documented commands (use 'help -v' for verbose/'help <topic>' for details)
-- **history**: show the history of the commands in the cli.
-- **edit**: An vim to edit files
-- **ipy**: An Ipython3 interpreter
+| Phase | Highlight Commands |
+|-------|-------------------|
+| Recon | `lazynmap`, `ping`, `whatweb`, `gobuster`, `ffuf`, `dig`, `dnsenum`, `finalrecon` |
+| Enum | `enum4linux`, `cme`, `bloodhound`, `nuclei`, `kerbrute`, `ldapdomaindump` |
+| Exploit | `auto_pwn`, `hunt`, `ss` (searchsploit), `venom`, `lazymsfvenom`, `searchhash` |
+| Post-Exploit | `linpeas`, `winpeas`, `blacksandbeacon`, `mimikatzpy`, `disableav` |
+| Persistence | `persist`, `backdoor`, `cron`, `schtask`, `createwebshell` |
+| PrivEsc | `getcap`, `sudo`, `adcs_check`, `privesc_predictor` |
+| Cred Access | `secretsdump`, `evil`, `getnpusers`, `hashcat`, `john`, `spraykatz` |
+| Lateral | `psexec`, `wmiexec`, `ssh_cmd`, `chisel`, `ligolo`, `bloodhound` |
+| Exfil | `exfil`, `upload_gofile`, `encrypt`/`decrypt`, `compressdir` |
+| C2 | `lazyc2`, `blacksandbeacon`, `createrevshell`, `listener_go` |
+| Reporting | `report`, `lazyreport`, `campaign_sitrep`, `timeline`, `dashboard` |
+| AI/Agents | `auto_loop`, `recommend_next`, `playbook_generate`, `playbook_run`, `orchestrate` |
+| Marketplace | `yara_marketplace`, `nuclei_marketplace`, `marketplace`, `lab` |
 
-Originally designed to automate the search and analysis of binaries with special permissions on Linux and Windows systems, LazyOwn has evolved to encompass a broader range of functionalities. The project includes scripts that extract information from GTFOBins, analyze binaries on the system, and generate options based on the collected data.
+Core management: `assign`, `show`, `doctor`, `wizard`, `scope`, `collab_join`, `config_banner`, `palette`, `fz`.
+
+See [`COMMANDS.md`](COMMANDS.md) for the full 606-command reference and [`ESSENTIALS.md`](ESSENTIALS.md) for the 18 commands that cover 80% of engagements.
 
 # Extending LazyOwnShell with Lua Plugins
 
@@ -2159,12 +2093,14 @@ Usage of LazyOwn RedTeam Framework for attacking targets without prior mutual co
 
 | Document | Contents |
 |----------|----------|
-| [`COMMANDS.md`](COMMANDS.md) | Full 333+ command reference (auto-generated) |
-| [`CHEATSHEET.md`](CHEATSHEET.md) | ~40 frequent commands by user goal |
-| [`ESSENTIALS.md`](ESSENTIALS.md) | 18 core commands for 80% of use |
-| [`CHANGELOG.md`](CHANGELOG.md) | Full project changelog |
-| [`QUICKSTART.md`](QUICKSTART.md) | First-time setup and onboarding |
-| [`CLAUDE.md`](CLAUDE.md) | Architecture and developer reference |
+| [`COMMANDS.md`](COMMANDS.md) | Full 606+ command reference (auto-generated) |
+| [`CHEATSHEET.md`](CHEATSHEET.md) | ~50 frequent commands by user goal |
+| [`ESSENTIALS.md`](ESSENTIALS.md) | 18 core commands for 80% of engagements |
+| [`QUICKSTART.md`](QUICKSTART.md) | 5-minute setup and onboarding |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history (v0.0.1 to v0.2.158) |
+| [`COMPARISON.md`](COMPARISON.md) | Honest comparison vs Sliver, Havoc, Mythic, Empire, Caldera, Metasploit |
+| [`specs.md`](specs.md) | Architecture and specifications |
+| [`CLAUDE.md`](CLAUDE.md) | Developer reference |
 | [`AGENTS.md`](AGENTS.md) | AI agent context for Hermes/Claude |
 | [`soul.md`](soul.md) | Operating philosophy |
 

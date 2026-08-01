@@ -1,6 +1,6 @@
 # LazyOwn Cheatsheet — Frequent Commands by Goal
 
-This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 606-command catalog, see `COMMANDS.md`.
+This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 606+ command catalog, see `COMMANDS.md`.
 
 ---
 
@@ -117,6 +117,37 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 
 ---
 
+## Marketplace, YARA & Nuclei
+
+| Goal | Command |
+|------|---------|
+| Browse YARA rules | `yara_marketplace list` |
+| Search YARA rules | `yara_marketplace search ransomware` |
+| Install YARA rule | `yara_marketplace install ransomware_detection` |
+| YARA rule info | `yara_marketplace info c2_framework_detection` |
+| Browse Nuclei templates | `nuclei_marketplace list` |
+| Search Nuclei by CVE | `nuclei_marketplace search --cve CVE-2024-xxxx` |
+| Search Nuclei by severity | `nuclei_marketplace search --severity critical` |
+| Install Nuclei template | `nuclei_marketplace install cve-2024-xxxx` |
+| Scan target with YARA | `yara_scan /path/to/file` |
+| Run Nuclei against rhost | `nuclei` |
+| Browse community addons | `marketplace list` |
+| Install community addon | `marketplace install <name>` |
+| Update all marketplace items | `marketplace update` |
+
+## Autonomous & Threat-Informed
+
+| Goal | Command |
+|------|---------|
+| Autonomous kill chain | `auto_pwn` |
+| Threat-informed recon | `hunt` |
+| Chain commands | `chain` |
+| Auto attack loop | `auto_loop` |
+| Generate playbook | `playbook_generate` |
+| Run playbook | `playbook_run` |
+
+---
+
 ## C2 / Implant Management
 
 | Goal | Command |
@@ -155,9 +186,24 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Query knowledge base | `parquet_query` |
 | Semantic search sessions | `rag_query` |
 | Threat model | `threat_model` |
-| LLM daily cost cap and per call token cap | `llm_budget` |
-| LLM budget as JSON for scripts | `llm_budget json` |
-| Reset LLM ledger after confirmation | `llm_budget reset` |
+| LLM daily cost cap | `llm_budget` |
+
+---
+
+## Security & Crypto
+
+| Goal | Command |
+|------|---------|
+| Encrypt file | `encrypt <path> <key>` |
+| Decrypt file | `decrypt <path> <key>` |
+| YARA scan | `yara_scan <file>` |
+| YARA marketplace | `yara_marketplace list` |
+| Nuclei scan | `nuclei` |
+| Nuclei marketplace | `nuclei_marketplace list` |
+| AppLocker bypass | `applocker_bypass_csc` |
+| EDR detection | `edr_detect` |
+| DPAPI harvest | `dpapi_harvest` |
+| MFA bypass toolkit | `mfa_bypass` |
 
 ---
 
@@ -188,6 +234,6 @@ The framework reads `rhost`, `wordlist`, `lhost`, `lport`, `domain`, `start_user
 | 1 | `ESSENTIALS.md` | ~120 | You are new or need the golden path |
 | 2 | `CHEATSHEET.md` | ~300 | You know the basics, need the next layer |
 | 3 | `QUICKSTART.md` | ~200 | Setting up for the first time |
-| 4 | `COMMANDS.md` | ~1600 | You need the complete 606-command reference |
+| 4 | `COMMANDS.md` | ~1600 | You need the complete 606+ command reference |
 | 5 | `skills/lazyown.md` | ~1600 | You are an AI operator using MCP tools |
 | 6 | `CLAUDE.md` | ~540 | You are developing or extending the framework |

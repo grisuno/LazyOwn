@@ -842,7 +842,7 @@ class ContainerRuntimeDetector:
                 dangerous["ssh_keys"].append(f"{src} -> {dst}")
             elif any(c in src.lower() for c in (".aws", ".config/gcloud", ".azure")):
                 dangerous["cloud_credentials"].append(f"{src} -> {dst}")
-            elif "kubernetes.io" in src or "serviceaccount" in src:
+            elif any(comp in ("kubernetes.io", "serviceaccount") for comp in src.split("/")):
                 dangerous["k8s_credentials"].append(f"{src} -> {dst}")
 
         dangerous = {k: v for k, v in dangerous.items() if v}

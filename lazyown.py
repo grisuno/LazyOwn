@@ -2133,7 +2133,7 @@ class LazyOwnShell(cmd2.Cmd):
                     print_warn(
                         "\n  You are not logged in. The prompt shows [anonymous].\n"
                         "  ELO, karma, and gym progress won't be tracked until you login.\n"
-                        "  Use: login --remember <username>"
+                        "  Use: register <username>  (first time)  or  login --remember <username>"
                     )
             except Exception:
                 pass
@@ -2150,7 +2150,7 @@ class LazyOwnShell(cmd2.Cmd):
 
                 if needs_login():
                     print_warn(
-                        "Not logged in — prompt shows [anonymous]. Use 'login --remember <username>' to identify yourself."
+                        "Not logged in — prompt shows [anonymous]. Use 'register' to create an account or 'login --remember <username>'."
                     )
             except Exception:
                 pass
@@ -2171,14 +2171,14 @@ class LazyOwnShell(cmd2.Cmd):
 
     def postparsing_precmd(self, statement):
         """Gate unauthenticated commands — anonymous operators can only
-        run ``login``, ``logout``, ``whoami``, ``help``, ``exit``, ``quit``,
+        run ``register``, ``login``, ``logout``, ``whoami``, ``help``, ``exit``, ``quit``,
         and ``set`` until they identify themselves.
 
         Returns:
             The original statement to allow execution, or a statement with
             an empty command string to block execution.
         """
-        allowed = frozenset({"login", "logout", "whoami", "help", "exit", "quit", "set", "eof", "eos"})
+        allowed = frozenset({"login", "logout", "register", "whoami", "help", "exit", "quit", "set", "eof", "eos"})
         cmd_name = (statement.command or "").lower()
 
         if cmd_name in allowed:
@@ -2192,7 +2192,7 @@ class LazyOwnShell(cmd2.Cmd):
             return statement
 
         from utils import print_warn
-        print_warn("Authentication required. Use: login --remember <username>")
+        print_warn("Authentication required. Use: register  (first time)  or  login --remember <username>")
         return ""
 
     def postloop(self):

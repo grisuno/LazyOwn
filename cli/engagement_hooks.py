@@ -103,6 +103,20 @@ ELO_HIGH_VALUE_CMDS: dict[str, int] = {
     "tasks": 5,
     "sitrep": 5,
     "ctx": 3,
+    "auto_pwn": 30,
+    "chain": 20,
+    "hunt": 25,
+    "nuclei": 18,
+    "yara_scan": 15,
+    "playbook_run": 15,
+    "playbook_generate": 12,
+    "collab_join": 8,
+    "campaign": 10,
+    "encrypt": 12,
+    "decrypt": 12,
+    "lazynuclei": 15,
+    "dashboard": 5,
+    "marketplace": 5,
 }
 
 ELO_PHASE_BONUS: dict[str, int] = {
@@ -236,6 +250,7 @@ class EngagementState:
     elo: int = 0
     last_karma_name: str = "Noob"
     elo_session_delta: int = 0
+    badges: list[str] = field(default_factory=list)
 
 
 def _load_state() -> EngagementState:
@@ -248,6 +263,8 @@ def _load_state() -> EngagementState:
             st.session_start_ts = time.time()
             st.elo_session_delta = 0
             st.commands_seen = _sanitize_seen(st.commands_seen)
+            if not isinstance(st.badges, list):
+                st.badges = []
             return st
     except Exception:
         pass
@@ -920,6 +937,8 @@ def render_engagement_hook(
         _state.elo_session_delta += elo_delta
         _sync_user_elo(elo_delta)
 
+        _check_badges(cmd, first_time)
+
         total_in_index = sum(len(v) for v in _index.get("phase_to_commands", {}).values())
 
         ctx: dict[str, Any] = {
@@ -956,7 +975,7 @@ def get_state_snapshot() -> dict[str, Any]:
     Returns:
         Plain dict with keys ``elo``, ``karma_name``, ``commands_seen``,
         ``phases_entered``, ``total_commands``, ``session_commands``,
-        ``elo_session_delta``, ``next_reward_at``.
+        ``elo_session_delta``, ``next_reward_at``, ``badges``.
     """
     global _state
     if _state is None:
@@ -970,7 +989,65 @@ def get_state_snapshot() -> dict[str, Any]:
         "session_commands": _state.session_commands,
         "elo_session_delta": _state.elo_session_delta,
         "next_reward_at": _state.next_reward_at,
+        "badges": list(_state.badges) if hasattr(_state, "badges") and isinstance(_state.badges, list) else [],
     }
+
+
+def _check_badges(cmd: str, first_time: bool) -> None:
+    """Award operator badges for milestone achievements.
+
+    Badges are persistent across sessions and only awarded once.
+    This runs after every command, in-band with the engagement hook
+    so the operator sees the reward immediately.
+    """
+    global _state
+    if not hasattr(_state, "badges") or not isinstance(_state.badges, list):
+        _state.badges = []
+    badges = _state.badges
+    cmd_lower = cmd.lower().replace("do_", "")
+    seen_count = len(_state.commands_seen)
+    if seen_count >= 100 and "arsenal_master" not in badges:
+        badges.append("arsenal_master")
+        _print_badge("Arsenal Master", "Discovered 100+ unique commands")
+        _save_state(_state)
+    if seen_count >= 250 and "arsenal_legend" not in badges:
+        badges.append("arsenal_legend")
+        _print_badge("Arsenal Legend", "Discovered 250+ unique commands")
+        _save_state(_state)
+    if seen_count >= 500 and "arsenal_god" not in badges:
+        badges.append("arsenal_god")
+        _print_badge("Arsenal God", "Discovered 500+ unique commands")
+        _save_state(_state)
+    if _state.session_commands >= 50 and "deep_recon" not in badges:
+        badges.append("deep_recon")
+        _print_badge("Deep Recon", "50+ commands in a single session")
+        _save_state(_state)
+    if _state.elo >= 3000 and "hacker_rank" not in badges:
+        badges.append("hacker_rank")
+        _print_badge("Hacker", "Reached 3000 ELO - Hacker rank")
+        _save_state(_state)
+    if _state.elo >= 5000 and "elite_rank" not in badges:
+        badges.append("elite_rank")
+        _print_badge("Elite", "Reached 5000 ELO - Elite rank")
+        _save_state(_state)
+    if first_time and _state.session_commands >= 5 and "first_blood" not in badges:
+        badges.append("first_blood")
+        _print_badge("First Blood", "5+ commands executed in your first session")
+        _save_state(_state)
+    if len(_state.phases_entered) >= 6 and "kill_chain_master" not in badges:
+        badges.append("kill_chain_master")
+        _print_badge("Kill Chain Master", "Entered 6+ kill-chain phases")
+        _save_state(_state)
+
+
+def _print_badge(name: str, description: str) -> None:
+    """Print an unlocked-badge banner to stdout."""
+    print()
+    print(f"    \033[2m{'─' * 45}\033[0m")
+    print(f"    \033[1;35m  BADGE UNLOCKED  \033[0m\033[1;37m{name}\033[0m")
+    print(f"    \033[2m  {description}\033[0m")
+    print(f"    \033[2m{'─' * 45}\033[0m")
+    print()
 
 
 def reset_session() -> None:

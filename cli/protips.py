@@ -195,19 +195,123 @@ TIPS: list[ProTip] = [
         trigger=lambda ctx: _phase_in(ctx, "exploit", "c2"),
         category="ecosystem",
     ),
+    # Automation
+    ProTip(
+        text="After recon, auto_pwn fully exploits the target autonomously from scan to shell.",
+        command="auto_pwn",
+        trigger=lambda ctx: _after(ctx, "lazynmap", "auto_populate", "nmap") and _has_rhost(ctx),
+        category="automation",
+    ),
+    ProTip(
+        text="Build an exploit chain with chain <target> — maps nmap services to CVEs automatically.",
+        command="chain",
+        trigger=lambda ctx: _after(ctx, "lazynmap", "nmap", "rustscan") and _has_rhost(ctx),
+        category="automation",
+    ),
+    ProTip(
+        text="hunt <target> profiles and auto-exploits the most promising vulnerability.",
+        command="hunt",
+        trigger=lambda ctx: _phase_in(ctx, "exploit", "enum") and _has_rhost(ctx),
+        category="automation",
+    ),
+    ProTip(
+        text="Run Nuclei templates against the web target: nuclei <url> or lazynuclei.",
+        command="nuclei",
+        trigger=lambda ctx: _after(ctx, "gobuster", "ffuf", "whatweb", "lazynmap"),
+        category="automation",
+    ),
+    ProTip(
+        text="Generate a playbook from scan results: playbook_generate <target>.",
+        command="playbook_generate",
+        trigger=lambda ctx: _after(ctx, "lazynmap", "nmap") and _has_rhost(ctx),
+        category="automation",
+    ),
+    # Security
+    ProTip(
+        text="Encrypt sensitive session data when stepping away: encrypt.",
+        command="encrypt",
+        trigger=lambda ctx: _after(ctx, "secretsdump", "mimikatz", "l00t", "hashcat"),
+        category="security",
+    ),
+    ProTip(
+        text="Scan for malware and backdoors on the compromised host: yara_scan <path>.",
+        command="yara_scan",
+        trigger=lambda ctx: _phase_in(ctx, "postexp", "privesc") and _has_rhost(ctx),
+        category="security",
+    ),
+    ProTip(
+        text="Browse community YARA rules: yara_marketplace search ransomware.",
+        command="yara_marketplace search",
+        trigger=lambda ctx: _after(ctx, "yara_scan"),
+        category="security",
+    ),
+    ProTip(
+        text="Unlock your session data when resuming: decrypt.",
+        command="decrypt",
+        trigger=lambda ctx: True,  # always relevant at session start
+        category="security",
+    ),
+    # Collaboration
+    ProTip(
+        text="Working with a team? Start a tracked campaign: campaign new <name> --scope <CIDR>.",
+        command="campaign new",
+        trigger=lambda ctx: _after(ctx, "ping", "arpscan", "lazynmap") and _has_rhost(ctx),
+        category="collab",
+    ),
+    ProTip(
+        text="Share your session in real-time with the team: collab_join.",
+        command="collab_join",
+        trigger=lambda ctx: _has_rhost(ctx),
+        category="collab",
+    ),
+    ProTip(
+        text="Open the live dashboard with topology and engagement stats: dashboard.",
+        command="dashboard",
+        trigger=lambda ctx: _phase_in(ctx, "exploit", "lateral", "privesc"),
+        category="collab",
+    ),
+    ProTip(
+        text="Browse community plugins and YARA/Nuclei templates: marketplace config.",
+        command="marketplace config",
+        trigger=lambda ctx: True,
+        category="collab",
+    ),
+    # Discovery
+    ProTip(
+        text="Discover all available Nuclei templates: nuclei_marketplace list.",
+        command="nuclei_marketplace list",
+        trigger=lambda ctx: _after(ctx, "lazynmap", "nuclei", "lazynuclei"),
+        category="discovery",
+    ),
+    ProTip(
+        text="Browse the full command palette for this phase: palette <phase>.",
+        command="palette",
+        trigger=lambda ctx: True,
+        category="discovery",
+    ),
 ]
 
 # Session-start tips (shown once at boot, independent of trigger)
 _SESSION_TIPS: list[str] = [
     "Run [bold]sitrep[/] at the start of every shift for a unified operational picture.",
     "Use [bold]phase <name>[/] to advance the kill chain — the dashboard updates in real time.",
+    "Use [bold]auto_pwn <target>[/] for fully-automated exploitation from recon to shell.",
+    "Use [bold]chain <target>[/] to build an exploit chain from your nmap scan results.",
+    "Use [bold]hunt <target>[/] to auto-exploit the most promising vulnerability rank.",
     "Use [bold]tgrep <pattern>[/] to search everything you've run this session. Try: tgrep password",
-    "Use [bold]ask <question>[/] to query the AI with your live session context pre-loaded.",
+    "Use [bold]nuclei <url>[/] to run vulnerability templates against a web service.",
+    "Use [bold]yara_scan <path>[/] to scan for malware and backdoors on compromised hosts.",
+    "Use [bold]encrypt[/] to lock sensitive session data when you step away.",
+    "Use [bold]collab_join[/] to work with your team in real time via shared events.",
+    "Use [bold]campaign new <name> --scope <CIDR>[/] to start a tracked operation.",
+    "Use [bold]dashboard[/] for a live Textual TUI with topology and engagement stats.",
+    "Use [bold]marketplace config[/] to browse and enable 76+ YAML addons interactively.",
+    "Use [bold]nuclei_marketplace list[/] to browse installable Nuclei vulnerability templates.",
+    "Use [bold]yara_marketplace list[/] to browse and install community malware detection rules.",
+    "Use [bold]playbook_generate <target>[/] to derive an attack playbook from your scans.",
+    "Use [bold]palette privesc[/] to browse all privilege escalation commands.",
     "Use [bold]l00t[/] to see all captured credentials across all sessions files at once.",
     "Use [bold]note <text>[/] to capture findings with rhost+phase context — survives restarts.",
-    "Use [bold]tasks[/] to see the autonomous agent's task queue and add your own.",
-    "Use [bold]palette privesc[/] to browse all privilege escalation commands.",
-    "Use [bold]gtfo <binary>[/] to look up GTFOBins for any binary you find with SUID.",
     "Use [bold]wizard --check[/] to see your current readiness score at any time.",
 ]
 

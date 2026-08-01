@@ -18,7 +18,10 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any
 
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH
@@ -102,19 +105,19 @@ class AgentTool:
             if len(result_str) > MAX_OUTPUT_LENGTH:
                 cut_len = len(result_str) - MAX_OUTPUT_LENGTH
                 result_str = result_str[:MAX_OUTPUT_LENGTH] + \
-                             f"\n\n[... SALIDA TRUNCADA: Se omitieron {cut_len} caracteres para ahorrar memoria ...]"
+                             f"\n\n[... OUTPUT TRUNCATED: {cut_len} chars omitted to save memory ...]"
 
-            output = f"""✅ COMANDO EJECUTADO: {self.name}
-RESULTADO:
+            output = f"""[*] COMMAND EXECUTED: {self.name}
+RESULT:
 {result_str}
 
-[FIN DEL RESULTADO]"""
+[END OF RESULT]"""
 
-            logging.debug(f"✅ {self.name} ejecutado correctamente")
+            logging.debug(f"[*] {self.name} executed successfully")
             return output
 
         except Exception as e:
-            error_msg = f"❌ ERROR DE EJECUCIÓN en {self.name}: {str(e)}"
+            error_msg = f"[!] EXECUTION ERROR in {self.name}: {str(e)}"
             logging.error(error_msg)
             return error_msg
 
@@ -133,7 +136,7 @@ class ASTToolExtractor:
     @staticmethod
     def extract_commands_from_file(file_path: str, prefix: str = "do_") -> list[CommandMetadata]:
         if not os.path.exists(file_path):
-            logging.warning(f"⚠️ Archivo no encontrado: {file_path}")
+            logging.warning(f"File not found: {file_path}")
             return []
 
         try:
@@ -164,7 +167,7 @@ class ASTToolExtractor:
                     has_args=has_args
                 ))
 
-        logging.info(f"✅ Extraídos {len(commands)} comandos del shell.")
+        logging.info(f"Extracted {len(commands)} commands from shell.")
         return commands
 
 
@@ -259,7 +262,7 @@ class AgentRunner:
         while iteration < self.max_iterations:
             iteration += 1
             self._manage_memory()
-            logging.info(f"🔄 PASO {iteration}/{self.max_iterations}")
+            logging.info(f"STEP {iteration}/{self.max_iterations}")
 
             response = self._call_model()
             tool_calls = getattr(response.choices[0].message, 'tool_calls', None)
@@ -325,7 +328,7 @@ Si ya tienes la info, responde al usuario."""
             # Verificar duplicado exacto
             cmd_key = f"{tool_name}:{json.dumps(args, sort_keys=True)}"
             if cmd_key in self.executed_commands:
-                result = "⚠️ ERROR: Ya ejecutaste este comando EXACTO. No lo repitas."
+                result = "[!] ERROR: Command already executed exactly. Do not repeat."
             else:
                 self.executed_commands.add(cmd_key)
                 if tool_name in self.tools:
@@ -373,7 +376,7 @@ class LazyOwnShellWrapper:
                 # Buscamos una clase que tenga métodos do_*
                 if isinstance(attr, type) and any(m.startswith('do_') for m in dir(attr)):
                     self.shell = attr()
-                    logging.info(f"✅ Shell cargado exitosamente: {attr_name}")
+                    logging.info(f"Shell loaded successfully: {attr_name}")
                     break
         except Exception as e:
             logging.error(f"❌ Error cargando módulo del shell: {e}")
@@ -422,7 +425,7 @@ class LazyOwnShellWrapper:
         try:
             return result_queue.get_nowait() or "✓ Comando ejecutado (sin salida visual)"
         except queue.Empty:
-            return "⚠️ Error desconocido: No se obtuvo respuesta del hilo."
+            return "[!] Unknown error: No response from thread."
 
     def get_commands_summary(self) -> str:
         # Resumen simplificado para el Prompt
@@ -489,7 +492,7 @@ Si el resultado es muy largo, céntrate en los puertos abiertos o vulnerabilidad
                 self.shell_wrapper.execute_command
             )
         else:
-            logging.warning("⚠️ No se detectaron comandos en el archivo provisto.")
+            logging.warning("No commands detected in provided file.")
 
     def process_request(self, user_input: str) -> str:
         return self.agent.run(user_input)
@@ -508,7 +511,7 @@ def interactive_mode(bot: VulnBotCLI):
             if not u_input: continue
 
             response = bot.process_request(u_input)
-            print(f"\n🤖 AGENTE:\n{response}\n")
+            print(f"\n[*] AGENT:\n{response}\n")
             print("-" * 60)
 
         except KeyboardInterrupt:

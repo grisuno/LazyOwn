@@ -23,7 +23,10 @@ from rich.markdown import Markdown
 from scapy.all import ICMP, IP, TCP, UDP, Raw, sniff
 from scapy.layers.tls.record import TLS
 
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 logger = get_logger(__name__)
 

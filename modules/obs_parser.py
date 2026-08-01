@@ -479,8 +479,8 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Observation Parser")
     p.add_argument("--file", help="Read tool output from file (else read stdin)")

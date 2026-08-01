@@ -183,14 +183,14 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         return sorted(events, key=lambda e: str(e.get("timestamp", "")))
 
     @cmd2.with_category(reporting_category)
-    def do_report(self, line):
+    def do_gen_report(self, line):
         """Generate enhanced professional penetration test reports.
 
         Usage:
-            report generate [name]           — full report (HTML + MD + JSON)
-            report mitre                      — MITRE ATT&CK coverage matrix
-            report findings                   — vulnerability findings summary
-            report timeline                   — engagement event timeline
+            gen_report generate [name]         — full report (HTML + MD + JSON)
+            gen_report mitre                    — MITRE ATT&CK coverage matrix
+            gen_report findings                 — vulnerability findings summary
+            gen_report timeline                 — engagement event timeline
 
         Formats:
             HTML  — Dark-mode professional report with MITRE matrix
@@ -198,16 +198,16 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
             JSON  — Machine-readable for automation
 
         Examples:
-            report generate
-            report generate htb_machine
-            report mitre
-            report findings
-            report timeline
+            gen_report generate
+            gen_report generate htb_machine
+            gen_report mitre
+            gen_report findings
+            gen_report timeline
         """
         args = line.strip().split()
         if not args:
-            print_msg("Usage: report [generate|mitre|findings|timeline] [name]")
-            print_msg("Try: report generate")
+            print_msg("Usage: gen_report [generate|mitre|findings|timeline] [name]")
+            print_msg("Try: gen_report generate")
             return
 
         action = args[0].lower()

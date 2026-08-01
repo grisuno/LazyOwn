@@ -886,8 +886,8 @@ class ReportGenerator:
 if __name__ == "__main__":
     import argparse
 
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Report Generator")
     p.add_argument("--sessions", default=str(_SESSIONS_DIR),

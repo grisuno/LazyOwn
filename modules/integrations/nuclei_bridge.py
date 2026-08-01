@@ -445,8 +445,8 @@ def get_bridge() -> NucleiBridge:
 # ---------------------------------------------------------------------------
 
 def _main() -> None:
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.INFO, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.INFO)
     parser = argparse.ArgumentParser(
         description="Select and run Nuclei templates from LazyOwn findings"
     )

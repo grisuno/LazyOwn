@@ -652,8 +652,8 @@ if __name__ == "__main__":
     import argparse
     import json as _json
 
-    from modules.logging_config import configure, get_logger
-    configure(level=logging.WARNING, console=True, file=False)
+    import logging
+    logging.basicConfig(level=logging.WARNING)
 
     ap = argparse.ArgumentParser(
         description="LazyOwn C2 Profile Manager",

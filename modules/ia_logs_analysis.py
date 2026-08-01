@@ -24,7 +24,10 @@ from rich.markdown import Markdown
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
 
-from modules.logging_config import configure, get_logger
+try:
+    from .logging_config import configure, get_logger
+except ImportError:
+    from logging_config import configure, get_logger
 
 logger = get_logger(__name__)
 

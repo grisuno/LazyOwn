@@ -103,6 +103,24 @@ class AppSettings:
     def last_operator_name(self, value: str) -> None:
         self.set(self.constants.ids.last_operator_name_setting_key, value)
 
+    @property
+    def last_teamserver_password(self) -> str:
+        """Last teamserver password (stored in settings, derived from credentials file)."""
+        return str(self.get(self.constants.ids.last_teamserver_password_setting_key, ""))
+
+    @last_teamserver_password.setter
+    def last_teamserver_password(self, value: str) -> None:
+        self.set(self.constants.ids.last_teamserver_password_setting_key, value)
+
+    @property
+    def c2_credentials_loaded(self) -> bool:
+        """Whether the last credentials were loaded from the C2 auto-generated file."""
+        return bool(self.get(self.constants.ids.c2_credentials_loaded_key, False))
+
+    @c2_credentials_loaded.setter
+    def c2_credentials_loaded(self, value: bool) -> None:
+        self.set(self.constants.ids.c2_credentials_loaded_key, value)
+
     def snapshot(self) -> Mapping[str, Any]:
         """Return a defensive read-only copy of the underlying document."""
         return dict(self._document)

@@ -318,8 +318,12 @@ class MainWindow(QMainWindow):
         """Surface the most recent event as a transient status bar message."""
 
     def _on_theme_changed(self, tokens: ThemeTokens) -> None:
-        """Update the theme label when a new palette is applied."""
+        """Update the theme label and graph colours when a new palette is applied."""
         self._theme_label.setText(f"theme: {tokens.display_name}")
+        self._panels.graph.graph_view.set_theme_colors(
+            bg_color=tokens.background_base,
+            edge_color=tokens.border_subtle,
+        )
 
     def _on_theme_menu_action(self) -> None:
         """Apply the theme stored in the triggering action's data field."""

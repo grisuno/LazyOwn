@@ -179,11 +179,17 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 
 ---
 
-## Connectivity Contracts (v2 — unified ecosystem)
+## Connectivity Contracts (v3 — unified killchain)
 
 These modules were created to close the gaps between kill-chain phases,
-suggestion surfaces, and operational state as part of the connectivity
-improvement initiative. Each file is autonomous with a single contract.
+suggestion surfaces, and operational state. Each file is autonomous with a
+single contract.
+
+### `modules/killchain.py` — Single Source of Truth for Kill-Chain (NEW v3)
+
+**Contract:** ``KillChain`` is the canonical authority for kill-chain data — phases,
+progress, mapping, and atomic updates. Every display surface imports from here.
+No other file defines its own phases. See ``CLAUDE.md`` Section 16 for full details.
 
 ### `cli/tips_engine.py` — Unified post-command tips engine
 

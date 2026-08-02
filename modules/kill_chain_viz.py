@@ -1,6 +1,6 @@
 """SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
 
-Reads world_model.json to determine current and completed phases.
+Reads ``modules.killchain.KillChain`` as the single source of truth.
 """
 
 from __future__ import annotations
@@ -11,36 +11,23 @@ import os
 from pathlib import Path
 from typing import Any
 
+from modules.killchain import KillChain as _KC
+
 _LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(Path(__file__).resolve().parent.parent)))
 SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 
-_PHASES = [
-    ("recon", "Reconnaissance", "#a371f7"),
-    ("scan", "Scanning", "#58a6ff"),
-    ("enum", "Enumeration", "#56d364"),
-    ("exploit", "Exploitation", "#f85149"),
-    ("privesc", "Privilege Esc", "#d2991d"),
-    ("lateral", "Lateral Move", "#db61a2"),
-    ("exfil", "Exfiltration", "#7c3aed"),
-    ("report", "Reporting", "#3fb950"),
-]
-
 
 def _load_phases(sessions: Path) -> list[dict[str, Any]]:
-    current = "recon"
-    completed: set = set()
+    """Return a list of phase dicts suitable for SVG/HTML rendering."""
+    wm_path = sessions / "world_model.json"
     try:
-        wm = json.loads((sessions / "world_model.json").read_text(encoding="utf-8"))
-        current = str(wm.get("current_phase", wm.get("phase", "recon"))).strip().lower()
-        completed_raw = wm.get("completed_phases", [])
-        completed = {str(p).strip().lower() for p in (completed_raw if isinstance(completed_raw, list) else [])}
+        progress = _KC.get_progress(world_model_path=wm_path)
     except Exception:
-        pass
-    phases = []
-    for ph_id, ph_label, ph_color in _PHASES:
-        status = "active" if ph_id == current else ("complete" if ph_id in completed else "pending")
-        phases.append({"id": ph_id, "label": ph_label, "color": ph_color, "status": status})
-    return phases
+        progress = _KC.get_progress(world_model_path=wm_path)
+    return [
+        {"id": p.key, "label": p.label, "color": p.color, "status": p.status}
+        for p in progress
+    ]
 
 
 def _read_target() -> str:
@@ -59,16 +46,16 @@ def _build_svg(phases: list[dict[str, Any]]) -> str:
     for i, ph in enumerate(phases):
         x = 20 + i * ((total_w - 40) / num)
         y = 30
-        opacity = 1.0 if ph["status"] in ("active", "complete") else 0.3
-        stroke = "#3fb950" if ph["status"] == "complete" else ("#58a6ff" if ph["status"] == "active" else "#30363d")
-        fill_opacity = 0.15 if ph["status"] == "active" else (0.25 if ph["status"] == "complete" else 0.05)
+        opacity = 1.0 if ph["status"] in ("active", "done") else 0.3
+        stroke = "#3fb950" if ph["status"] == "done" else ("#58a6ff" if ph["status"] == "active" else "#30363d")
+        fill_opacity = 0.15 if ph["status"] == "active" else (0.25 if ph["status"] == "done" else 0.05)
         glow = ' filter="url(#glow)"' if ph["status"] == "active" else ""
         sw = 2.5 if ph["status"] == "active" else 1
         rects.append(f'<rect x="{x:.0f}" y="{y}" width="{bw:.0f}" height="60" rx="4" fill="{ph["color"]}" fill-opacity="{fill_opacity}" stroke="{stroke}" stroke-width="{sw}"{glow}/>')
-        txt_color = ph["color"] if ph["status"] in ("active", "complete") else "#484f58"
+        txt_color = ph["color"] if ph["status"] in ("active", "done") else "#484f58"
         texts.append(f'<text x="{x + bw/2:.0f}" y="{y + 22}" text-anchor="middle" fill="{txt_color}" font-family="sans-serif" font-size="11" font-weight="bold" opacity="{opacity}">{ph["label"]}</text>')
-        status_text = "DONE" if ph["status"] == "complete" else ("ACTIVE" if ph["status"] == "active" else "PENDING")
-        texts.append(f'<text x="{x + bw/2:.0f}" y="{y + 44}" text-anchor="middle" fill="{"#c9d1d9" if ph["status"] in ("active", "complete") else "#484f58"}" font-family="sans-serif" font-size="9" opacity="{opacity}">{status_text}</text>')
+        status_text = "DONE" if ph["status"] == "done" else ("ACTIVE" if ph["status"] == "active" else "PENDING")
+        texts.append(f'<text x="{x + bw/2:.0f}" y="{y + 44}" text-anchor="middle" fill="{"#c9d1d9" if ph["status"] in ("active", "done") else "#484f58"}" font-family="sans-serif" font-size="9" opacity="{opacity}">{status_text}</text>')
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {total_w} 120" width="{total_w}" height="120">
 <defs><filter id="glow"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#161b22"/></linearGradient></defs>
@@ -88,7 +75,7 @@ def generate_html(target: str = "", sessions: Path | None = None) -> str:
 
     phase_cards = []
     for ph in phases:
-        cls = "active" if ph["status"] == "active" else ("complete" if ph["status"] == "complete" else "")
+        cls = "active" if ph["status"] == "active" else ("complete" if ph["status"] == "done" else "")
         phase_cards.append(f'<div class="phase-card {cls}"><div class="phase-label" style="color:{ph["color"]}">{ph["label"]}</div><div class="phase-status">{ph["status"].upper()}</div></div>')
 
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LazyOwn Kill-Chain — {target}</title><style>

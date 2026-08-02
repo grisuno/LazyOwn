@@ -92,6 +92,16 @@ SKIP_COMMANDS: frozenset[str] = frozenset(
     }
 )
 
+_FULL_KILLCHAIN_TRIGGERS: frozenset[str] = frozenset(
+    {
+        "lazynmap",
+        "auto_populate",
+        "auto_pwn",
+        "hunt",
+        "pwntomate",
+    }
+)
+
 DEFAULT_SESSIONS_DIR: str = "sessions"
 DEFAULT_COMMAND_INDEX: str = "cli/command_index.json"
 DEFAULT_USERS_PATH: str = "users.json"
@@ -239,6 +249,7 @@ class TipsEngine:
 
         resolved_phase = self._resolve_phase(first, phase)
         self._render_kill_chain_hints(first, resolved_phase)
+        self._maybe_show_full_killchain(first)
         self._render_contextual_tip(first, resolved_phase)
         self._run_curiosity_reveal(first, resolved_phase)
         self._refresh_autosuggest(cmd, resolved_phase)
@@ -268,12 +279,30 @@ class TipsEngine:
         return fallback or "recon"
 
     def _read_world_model_phase(self) -> str:
-        """Read the current phase from sessions/world_model.json."""
+        """Read the current phase from the unified killchain module."""
         try:
+            from modules.killchain import KillChain as _KC
             wm_path = Path(self.config.sessions_dir) / "world_model.json"
-            if wm_path.exists():
-                data = json.loads(wm_path.read_text(encoding="utf-8"))
-                return (data.get("phase") or data.get("current_phase") or "").lower()
+            return _KC.current_phase(world_model_path=wm_path)
+        except Exception:
+            return ""
+
+    def _read_os_id_from_session(self) -> str:
+        """Read the detected OS identifier from sessions/os.json.
+
+        Returns:
+            ``"1"`` for Linux, ``"2"`` for Windows, ``""`` if unknown.
+        """
+        try:
+            os_path = Path(self.config.sessions_dir) / "os.json"
+            if os_path.exists():
+                data = json.loads(os_path.read_text(encoding="utf-8"))
+                if isinstance(data, list) and data:
+                    os_name = (data[0].get("os") or "").lower()
+                    if "linux" in os_name:
+                        return "1"
+                    elif "windows" in os_name:
+                        return "2"
         except Exception:
             pass
         return ""
@@ -345,6 +374,42 @@ class TipsEngine:
         hint.append("  \u21b3 ", style="bold dim cyan")
         hint.append(" \u00b7 ".join(hints), style="dim white italic")
         self._console.print(hint)
+        self._render_killchain_progress(phase)
+
+    def _render_killchain_progress(self, current_phase: str) -> None:
+        """Render a compact kill-chain progress bar."""
+        phases = ("recon", "enum", "exploit", "privesc", "lateral")
+        labels = {"recon": "R", "enum": "E", "exploit": "X", "privesc": "P", "lateral": "L"}
+        try:
+            wm_phase_raw = self._read_world_model_phase()
+            derived = wm_phase_raw if wm_phase_raw and wm_phase_raw != "recon" else ""
+            active_phase = derived or (self._state.phases_entered[-1] if self._state and self._state.phases_entered else current_phase)
+        except Exception:
+            active_phase = current_phase
+        progress = Text()
+        progress.append("  [", style="dim")
+        for i, p in enumerate(phases):
+            label = labels.get(p, p[0].upper())
+            if p == active_phase:
+                progress.append(label, style="bold cyan")
+            elif self._state and p in self._state.phases_entered:
+                progress.append(label, style="green")
+            else:
+                progress.append(label, style="dim")
+            if i < len(phases) - 1:
+                progress.append(">", style="dim")
+        progress.append("]", style="dim")
+        self._console.print(progress)
+
+    def _maybe_show_full_killchain(self, cmd: str) -> None:
+        """Show the full killchain progress bar after high-impact commands."""
+        if cmd not in _FULL_KILLCHAIN_TRIGGERS:
+            return
+        try:
+            from cli.ops_commands import print_phase as _print_phase
+            _print_phase()
+        except Exception:
+            pass
 
     def _compute_command_hints(self, cmd: str, phase: str) -> list[str]:
         already_run = self._read_run_commands()
@@ -388,6 +453,9 @@ class TipsEngine:
             )
         except Exception:
             pass
+
+        if not context.get("os_id"):
+            context["os_id"] = self._read_os_id_from_session()
 
         matched = [t for t in self.config.tips_registry if self._safe_tip_trigger(t, context)]
         if not matched:
@@ -578,6 +646,17 @@ class TipsEngine:
         if self._state.session_commands >= 50 and "deep_recon" not in badges:
             badges.append("deep_recon")
             self._print_badge("Deep Recon", "50+ commands in a single session")
+        if cmd.lower() in {"linpeas", "winpeas", "crystal_ball"} and "first_owned" not in badges:
+            try:
+                wm_path = Path(self.config.sessions_dir) / "world_model.json"
+                if wm_path.exists():
+                    wm = json.loads(wm_path.read_text(encoding="utf-8"))
+                    hosts = wm.get("hosts", {})
+                    if any(isinstance(h, dict) and h.get("state") == "owned" for h in hosts.values()):
+                        badges.append("first_owned")
+                        self._print_badge("First Owned", "Achieved root/System on a target host")
+            except Exception:
+                pass
 
     def _print_badge(self, name: str, description: str) -> None:
         self._console.print()
@@ -989,6 +1068,10 @@ def build_default_tips_config() -> TipsConfig:
         "winpeas": 25,
         "pspy64": 15,
         "printspoofer": 20,
+        "juicypotato": 20,
+        "sudo_privesc": 20,
+        "whoami_priv": 10,
+        "crystal_ball": 18,
         "searchsploit": 10,
         "sqlmap": 20,
         "burpsuite": 15,

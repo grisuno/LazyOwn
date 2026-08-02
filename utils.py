@@ -3290,7 +3290,7 @@ def _build_startup_parser() -> argparse.ArgumentParser:
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-h", "--help", action="store_true", default=False)
-    parser.add_argument("-v", "--version", action="store_true", default=False)
+    parser.add_argument("-V", "--version", action="store_true", default=False)
     parser.add_argument("-p", "--payload", metavar="payloadN.json", default=None)
     parser.add_argument("-c", "--command", metavar="command", default=None)
     parser.add_argument("--no-banner", action="store_true", dest="no_banner", default=False)

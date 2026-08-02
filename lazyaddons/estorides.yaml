@@ -1,21 +1,27 @@
 name: estorides
-description: 'estorides is a next-generation osint palantir tool like.
-
-  '
+description: 'Passive OSINT aggregator & correlation engine. 99+ sources, knowledge graph, STIX/MISP export. Integrated bidirectional feedback loop with LazyOwn: hosts from lazynmap feed into estorides for passive discovery; estorides-discovered entities (IPs, domains, CVEs) import back into LazyOwn DB and scope.'
 author: LazyOwn RedTeam
-version: '1.0'
+version: '2.0'
 enabled: true
 params:
 - name: lhost
   type: string
   required: true
-  description: lhost target.
+  description: Listener/attacker IP for web UI binding.
+- name: rhost
+  type: string
+  required: false
+  description: Target IP/host for initial OSINT seed.
+- name: domain
+  type: string
+  required: false
+  description: Target domain for passive discovery seed.
 os: any
 trigger: []
 tool:
   name: estorides
   repo_url: https://github.com/grisuno/estorides.git
   install_path: external/.exploit/estorides
-  install_command: git pull && python3 -m pip install flask networkx requests pyyaml aiohttp
-  execute_command: python3 estorides_cli.py serve --port 5050  
+  install_command: git pull && python3 -m pip install flask networkx requests pyyaml aiohttp kuzu
+  execute_command: python3 estorides_cli.py serve --port 5050
 category: 01. Reconnaissance

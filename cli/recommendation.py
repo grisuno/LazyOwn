@@ -50,6 +50,7 @@ SOURCE_GRAPH = "graph"
 SOURCE_POLICY = "policy"
 SOURCE_RECON = "recon"
 SOURCE_KILLCHAIN = "killchain"
+SOURCE_GAP = "gap"
 
 KIND_COMMAND = "command"
 KIND_ADDON = "addon"
@@ -85,6 +86,7 @@ class EngineWeights:
     signal_weights: Mapping[str, float] = field(
         default_factory=lambda: {
             SOURCE_RECON: 1.0,
+            SOURCE_GAP: 0.8,
             SOURCE_GRAPH: 0.6,
             SOURCE_KILLCHAIN: 0.5,
         }

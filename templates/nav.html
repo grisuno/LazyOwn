@@ -125,30 +125,6 @@
         <button type="submit" class="btn btn-primary">Upload File</button>
     </form>
 </div>
-<!--
-<div id="run-shellcode" class="section">
-    <h2>Run Shellcode</h2>
-    <form method="POST" action="{{ url_for('run_shellcode') }}">
-        <div class="form-group">
-            <label for="client_id">Client ID:</label>
-            <select id="client_id" name="client_id" class="form-control" required>
-                {% if connected_clients %}
-                    {% for client_id in connected_clients %}
-                        <option value="{{ client_id }}">{{ client_id }}</option>
-                    {% endfor %}
-                {% else %}
-                    <option value="" disabled>No clients available</option>
-                {% endif %}
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="shellcode">Shellcode: (Opcode Base64 encoded)</label>
-            <textarea id="shellcode" placeholder="Base 64 Encode Shellcode" name="shellcode" rows="10" class="form-control" required></textarea>
-        </div>
-        <button type="submit" class="btn btn-primary">Run Shellcode</button>
-    </form>
-</div>
--->
 <div id="port-forward" class="section">
     <h2>Port Forward</h2>
     <form method="POST" action="/start_bridge">

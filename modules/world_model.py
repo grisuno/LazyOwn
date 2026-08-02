@@ -384,6 +384,7 @@ class WorldModel:
         self._vulns:   list[VulnerabilityEntry]   = []
         self._graph:   NetworkGraph               = NetworkGraph()
         self._deriver: _PhaseDeriver              = _PhaseDeriver()
+        self._passthrough: dict[str, Any] = {}
         self._load()
 
     # ── Host management ───────────────────────────────────────────────────────
@@ -427,6 +428,41 @@ class WorldModel:
             if note not in host.notes:
                 host.notes.append(note)
                 self._save()
+
+    def set_os_hint(self, ip: str, os_hint: str) -> None:
+        """Set the operating system hint for a host.
+
+        Args:
+            ip: Target host IP address.
+            os_hint: OS name hint (``"linux"``, ``"windows"``, or ``""``).
+        """
+        with self._lock:
+            host = self._hosts.get(ip) or self.add_host(ip)
+            if host.os_hint != os_hint:
+                host.os_hint = os_hint
+                host.last_updated = datetime.now().isoformat()
+                self._save()
+
+    def get_host(self, ip: str) -> HostEntry | None:
+        """Return a host entry by IP, or None if not found.
+
+        Args:
+            ip: Target host IP address.
+
+        Returns:
+            :class:`HostEntry` if found, otherwise ``None``.
+        """
+        with self._lock:
+            return self._hosts.get(ip)
+
+    def get_hosts_summary(self) -> dict[str, str]:
+        """Return a mapping of IP -> state for all tracked hosts.
+
+        Returns:
+            Dict of ``{ip: state_value}`` for every host in the model.
+        """
+        with self._lock:
+            return {ip: h.state.value for ip, h in self._hosts.items()}
 
     # ── Credential / vulnerability tracking ───────────────────────────────────
 
@@ -656,12 +692,14 @@ class WorldModel:
         tmp = self._path.with_suffix(".json.tmp")
         try:
             data = {
-                "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":     [vars(c) for c in self._creds],
-                "vulnerabilities": [vars(v) for v in self._vulns],
-                "network_graph":   self._graph.to_dict(),
-                "saved_at":        datetime.now().isoformat(),
+                "hosts":            {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials":      [vars(c) for c in self._creds],
+                "vulnerabilities":  [vars(v) for v in self._vulns],
+                "network_graph":    self._graph.to_dict(),
+                "saved_at":         datetime.now().isoformat(),
             }
+            if self._passthrough:
+                data.update(self._passthrough)
             tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
             tmp.replace(self._path)
         except Exception as exc:
@@ -679,12 +717,30 @@ class WorldModel:
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]
             if "network_graph" in data:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
+            self._passthrough = {}
+            for key in ("completed_phases", "phase", "current_phase", "notes"):
+                if key in data:
+                    self._passthrough[key] = data[key]
             log.info("WorldModel: loaded %d hosts, %d creds from %s",
                      len(self._hosts), len(self._creds), self._path)
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
     # ── Convenience ───────────────────────────────────────────────────────────
+
+    def reload(self) -> None:
+        """Discard in-memory state and re-read from the persisted file.
+
+        Safe to call from any thread. Acquires the write lock during the
+        load to guarantee a consistent snapshot.
+        """
+        with self._lock:
+            self._hosts.clear()
+            self._creds.clear()
+            self._vulns.clear()
+            self._graph = NetworkGraph()
+            self._passthrough = {}
+            self._load()
 
     def reset(self) -> None:
         """Clear all state and delete the persisted file."""

@@ -1,21 +1,11 @@
 """Self-populating kill-chain progress derived from the daemon event stream.
 
-The dashboard kill-chain used to depend on ``world_model.json`` carrying a
-``completed_phases`` / ``phase`` pair, but the autonomous daemon never writes
-those keys, so the panel stayed empty during a live run. This module computes
-kill-chain progress from the authoritative source instead: the structured
-events the daemon appends to ``sessions/autonomous_events.jsonl``.
+This module exists for backward compatibility. The canonical phase definitions
+and progress computation now live in ``modules.killchain.KillChain``, which already
+wraps ``WorldModel`` and raw ``world_model.json``. Consumers should migrate there.
 
-Each step the daemon takes carries a ``phase`` field, and phase transitions are
-emitted as ``PHASE_ADVANCE`` / ``PHASE_CHANGE`` events. From that signal we can
-mark every phase the engagement has passed through as *done*, the current phase
-as *active*, and the rest as *pending*, while also surfacing per-phase activity
-counts and accumulated reward. The result is a kill chain that fills itself as
-the daemon works.
-
-The module imports nothing from ``lazyown.py`` / ``lazyc2.py`` and performs no
-rendering, so it stays unit-testable and reusable across the Textual dashboard
-and the web dashboard.
+For daemon-event-stream-based progress that includes per-phase activity and
+reward statistics, the :func:`compute_killchain` function remains.
 """
 
 from __future__ import annotations
@@ -23,15 +13,10 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any
 
-DEFAULT_PHASES: tuple[tuple[str, str], ...] = (
-    ("recon", "Recon"),
-    ("scan", "Scan"),
-    ("enum", "Enum"),
-    ("exploit", "Exploit"),
-    ("privesc", "PrivEsc"),
-    ("lateral", "Lateral"),
-    ("exfil", "Exfil"),
-    ("report", "Report"),
+from modules.killchain import KillChain as _KC
+
+DEFAULT_PHASES: tuple[tuple[str, str], ...] = tuple(
+    (p[0], p[1]) for p in _KC.phases_for_display()
 )
 
 STATE_DONE: str = "done"

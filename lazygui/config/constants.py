@@ -36,6 +36,7 @@ class TimingConstants:
 
     pty_poll_interval_ms: int = 30
     teamserver_poll_interval_ms: int = 5_000
+    beacon_results_poll_interval_ms: int = 3_000
     websocket_reconnect_delay_ms: int = 3_000
     statusbar_clock_interval_ms: int = 1_000
     toast_duration_ms: int = 4_000
@@ -129,6 +130,7 @@ class KeybindingConstants:
     toggle_killchain_panel: str = "Ctrl+4"
     toggle_credentials_panel: str = "Ctrl+5"
     toggle_terminal_focus: str = "Ctrl+`"
+    beacon_command: str = "Ctrl+J"
     quit_application: str = "Ctrl+Q"
     refresh_data: str = "F5"
     open_connect_dialog: str = "Ctrl+Shift+C"

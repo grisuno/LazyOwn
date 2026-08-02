@@ -35,7 +35,7 @@ class TimingConstants:
     """Timer intervals expressed in milliseconds."""
 
     pty_poll_interval_ms: int = 30
-    teamserver_poll_interval_ms: int = 2_000
+    teamserver_poll_interval_ms: int = 5_000
     websocket_reconnect_delay_ms: int = 3_000
     statusbar_clock_interval_ms: int = 1_000
     toast_duration_ms: int = 4_000
@@ -56,9 +56,27 @@ class NetworkConstants:
     http_user_agent: str = "LazyOwnOperatorConsole/2.0"
     websocket_path: str = "/socket.io/"
     api_data_path: str = "/api/data"
+    api_dashboard_path: str = "/api/dashboard"
     api_issue_command_path: str = "/issue_command"
     api_run_path: str = "/api/run"
     api_output_path: str = "/api/output"
+    api_listeners_path: str = "/api/listeners"
+    api_surface_live_path: str = "/api/surface_live"
+    api_palette_path: str = "/api/palette"
+    api_config_path: str = "/config.json"
+    get_results_path: str = "/get_results"
+    get_connected_clients_path: str = "/get_connected_clients"
+    socketio_namespace_pty: str = "/pty"
+    socketio_namespace_terminal: str = "/terminal"
+    socketio_namespace_listener: str = "/listener"
+    socketio_namespace_default: str = "/"
+    socketio_reconnect_max_attempts: int = 100
+    socketio_event_pty_output: str = "pty-output"
+    socketio_event_pty_input: str = "pty-input"
+    socketio_event_resize: str = "resize"
+    socketio_event_output: str = "output"
+    socketio_event_response: str = "response"
+    socketio_event_input: str = "input"
 
 
 @dataclass(frozen=True, slots=True)
@@ -129,6 +147,8 @@ class IdentifierConstants:
     last_backend_setting_key: str = "connection/last_backend"
     last_teamserver_url_setting_key: str = "connection/last_teamserver_url"
     last_operator_name_setting_key: str = "connection/last_operator_name"
+    last_teamserver_password_setting_key: str = "connection/last_teamserver_password"
+    c2_credentials_loaded_key: str = "connection/c2_credentials_loaded"
     geometry_setting_key: str = "ui/geometry"
     state_setting_key: str = "ui/state"
 
@@ -167,12 +187,14 @@ class PanelConstants:
     terminal_id: str = "panel.terminal"
     killchain_panel_id: str = "panel.killchain"
     credentials_panel_id: str = "panel.credentials"
+    graph_panel_id: str = "panel.graph"
     sessions_label: str = "Sessions"
     listeners_label: str = "Listeners"
     event_log_label: str = "Event Log"
     terminal_label: str = "Console"
     killchain_label: str = "Kill-Chain"
     credentials_label: str = "Credentials"
+    graph_label: str = "Topology"
 
 
 @dataclass(frozen=True, slots=True)
@@ -219,4 +241,5 @@ class AppConstants:
             self.panel.terminal_id: self.panel.terminal_label,
             self.panel.killchain_panel_id: self.panel.killchain_label,
             self.panel.credentials_panel_id: self.panel.credentials_label,
+            self.panel.graph_panel_id: self.panel.graph_label,
         }

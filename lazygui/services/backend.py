@@ -18,7 +18,16 @@ from enum import StrEnum
 
 from PySide6.QtCore import QObject, Signal
 
-from lazygui.services.models import EventRecord, Listener, Operator, Session
+from lazygui.services.models import (
+    BeaconResult,
+    CampaignSummary,
+    DashboardPayload,
+    EventRecord,
+    Listener,
+    Operator,
+    Session,
+    Topology,
+)
 
 
 class BackendStatus(StrEnum):
@@ -64,6 +73,10 @@ class Backend(QObject):
     listeners_changed = Signal(list)
     operator_changed = Signal(Operator)
     event_logged = Signal(EventRecord)
+    topology_changed = Signal(Topology)
+    dashboard_updated = Signal(DashboardPayload)
+    beacon_result = Signal(BeaconResult)
+    campaign_changed = Signal(list)
 
     def __init__(self, descriptor: BackendDescriptor, parent: QObject | None = None) -> None:
         """Store the descriptor that uniquely identifies this backend."""
@@ -118,6 +131,14 @@ class Backend(QObject):
 
     def known_listeners(self) -> Sequence[Listener]:
         """Return the most recent snapshot of listeners, never ``None``."""
+        return ()
+
+    def known_topology(self) -> Topology:
+        """Return the most recent graph topology."""
+        return Topology.empty()
+
+    def known_campaigns(self) -> Sequence[CampaignSummary]:
+        """Return the most recent snapshot of campaigns."""
         return ()
 
     def request_world_model(self) -> dict:

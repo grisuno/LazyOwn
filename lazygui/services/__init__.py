@@ -14,11 +14,17 @@ from lazygui.services.factory import BackendFactory
 from lazygui.services.local_backend import LocalPtyBackend
 from lazygui.services.models import (
     BackendKind,
+    BeaconResult,
+    CampaignSummary,
+    DashboardPayload,
     EventLevel,
     EventRecord,
+    GraphEdge,
+    GraphNode,
     Listener,
     Operator,
     Session,
+    Topology,
 )
 from lazygui.services.teamserver_backend import TeamserverBackend
 
@@ -27,12 +33,18 @@ __all__ = [
     "BackendStatus",
     "BackendKind",
     "BackendFactory",
+    "BeaconResult",
+    "CampaignSummary",
+    "DashboardPayload",
     "EventLevel",
     "EventLog",
     "EventRecord",
+    "GraphEdge",
+    "GraphNode",
     "Listener",
     "LocalPtyBackend",
     "Operator",
     "Session",
     "TeamserverBackend",
+    "Topology",
 ]

@@ -15,6 +15,7 @@ from collections.abc import Sequence
 from PySide6.QtCore import QCoreApplication, Qt
 from PySide6.QtWidgets import QApplication, QDialog, QMessageBox
 
+from lazygui.config.c2_credentials import C2Credentials, load_c2_credentials
 from lazygui.config.constants import AppConstants
 from lazygui.config.paths import AppPaths
 from lazygui.config.settings import AppSettings
@@ -38,6 +39,7 @@ class Application:
         self._paths = AppPaths(constants=self._constants)
         self._paths.ensure_config_dir()
         self._settings = AppSettings.load(constants=self._constants, paths=self._paths)
+        self._c2_credentials: C2Credentials = self._discover_credentials()
         self._configure_logging()
         self._configure_qt_attributes()
         self._qt_app = QApplication(list(argv or sys.argv))
@@ -66,6 +68,33 @@ class Application:
         self._start_backend(self._backend)
         return self._qt_app.exec()
 
+    # --- Credential discovery ---------------------------------------------
+
+    def _discover_credentials(self) -> C2Credentials:
+        """Attempt to load auto-generated credentials from the project root.
+
+        ``lazyc2.py`` writes ``.c2_credentials.txt`` at startup with strong
+        auto-generated credentials. When the file exists and the operator
+        has not already manually configured teamserver credentials, those
+        values are used for the initial connection.
+        """
+        creds = load_c2_credentials(self._paths.project_root)
+        if not creds.loaded:
+            return C2Credentials.empty()
+        if self._settings.c2_credentials_loaded:
+            return C2Credentials.empty()
+        _logger.info("Discovered C2 credentials for user %s", creds.username)
+        return creds
+
+    def _sync_credentials_to_settings(self, credentials: C2Credentials) -> None:
+        """Persist auto-discovered credentials into settings."""
+        if not credentials.loaded:
+            return
+        self._settings.last_operator_name = credentials.username
+        self._settings.last_teamserver_password = credentials.password
+        self._settings.c2_credentials_loaded = True
+        self._settings.save()
+
     # --- Backend management ----------------------------------------------
 
     def show_connect_dialog(self) -> None:
@@ -73,6 +102,7 @@ class Application:
         dialog = ConnectDialog(
             constants=self._constants,
             settings=self._settings,
+            paths=self._paths,
             parent=self._main_window,
         )
         if dialog.exec() != QDialog.DialogCode.Accepted:
@@ -87,22 +117,52 @@ class Application:
         self._swap_backend(new_backend)
 
     def _build_initial_backend(self) -> Backend:
-        """Instantiate the backend remembered in settings (or local default)."""
-        identifier = self._settings.last_backend_id
-        if identifier == self._constants.backend.teamserver_id:
-            try:
-                from lazygui.services.teamserver_backend import TeamserverCredentials
+        """Instantiate the backend remembered in settings or auto-discovered.
 
-                credentials = TeamserverCredentials(
-                    base_url=self._settings.last_teamserver_url,
-                    username=self._settings.last_operator_name,
-                    password="",
-                    verify_tls=False,
-                )
-                return self._backend_factory.create_teamserver(credentials=credentials)
-            except Exception as exc:
-                _logger.warning("Falling back to local backend: %s", exc)
+        When the last backend is ``teamserver``, credentials are resolved in
+        this order:
+        1. Auto-generated ``.c2_credentials.txt`` (if present and fresh)
+        2. Persisted settings (operator name + password)
+        3. Fall back to local backend (never connect with empty credentials)
+        """
+        identifier = self._settings.last_backend_id
+        if identifier != self._constants.backend.teamserver_id:
+            return self._backend_factory.create_local()
+        try:
+            from lazygui.services.teamserver_backend import TeamserverCredentials
+
+            username, password = self._resolve_teamserver_credentials()
+            if not username or not password:
+                _logger.info("No teamserver credentials available, falling back to local backend")
+                return self._backend_factory.create_local()
+
+            credentials = TeamserverCredentials(
+                base_url=self._settings.last_teamserver_url,
+                username=username,
+                password=password,
+                verify_tls=False,
+            )
+            return self._backend_factory.create_teamserver(credentials=credentials)
+        except Exception as exc:
+            _logger.warning("Falling back to local backend: %s", exc)
         return self._backend_factory.create_local()
+
+    def _resolve_teamserver_credentials(self) -> tuple[str, str]:
+        """Return ``(username, password)`` from the best available source.
+
+        Priority:
+        1. Auto-discovered ``.c2_credentials.txt`` (fresh, not yet consumed)
+        2. Persisted settings (previously used credentials)
+        3. Empty tuple (triggers local fallback)
+        """
+        if self._c2_credentials.loaded:
+            self._sync_credentials_to_settings(self._c2_credentials)
+            return (self._c2_credentials.username, self._c2_credentials.password)
+        stored_username = self._settings.last_operator_name
+        stored_password = self._settings.last_teamserver_password
+        if stored_username and stored_password:
+            return (stored_username, stored_password)
+        return ("", "")
 
     def _build_backend_from_request(self, request: ConnectionRequest) -> Backend:
         """Instantiate a backend based on the dialog return value."""

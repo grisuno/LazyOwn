@@ -505,6 +505,8 @@ class GraphView(QGraphicsView):
     def __init__(self, constants: AppConstants, parent: QWidget | None = None) -> None:
         super().__init__(parent)
         self._constants = constants
+        self._bg_color = QColor("#0d1117")
+        self._edge_color = QColor("#30363d")
         self._scene = GraphScene(constants, self)
         self._scene.node_selected.connect(self.node_selected.emit)
         self._scene.node_context_menu.connect(self.node_context_menu.emit)
@@ -513,10 +515,18 @@ class GraphView(QGraphicsView):
         self.setDragMode(QGraphicsView.DragMode.ScrollHandDrag)
         self.setViewportUpdateMode(QGraphicsView.ViewportUpdateMode.BoundingRectViewportUpdate)
         self.setTransformationAnchor(QGraphicsView.ViewportAnchor.AnchorUnderMouse)
-        self.setBackgroundBrush(QBrush(QColor("#0d1117")))
+        self.setBackgroundBrush(QBrush(self._bg_color))
         self.setMinimumSize(400, 300)
         self._physics_timer: Any = None
         self._install_physics_timer()
+
+    def set_theme_colors(self, bg_color: str, edge_color: str) -> None:
+        """Update graph background and default edge colour from theme tokens."""
+        self._bg_color = QColor(bg_color)
+        self._edge_color = QColor(edge_color)
+        self.setBackgroundBrush(QBrush(self._bg_color))
+        for item in self._scene._edge_items:
+            item.setPen(QPen(self._edge_color, 2.0))
 
     def set_topology(self, topology: Topology) -> None:
         """Render a new graph topology."""

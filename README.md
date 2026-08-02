@@ -829,6 +829,17 @@ pinned for reproducible installs:
 
 ## v0.2.158 Highlights
 
+### Unified kill-chain (single source of truth)
+- `modules/killchain.py` computes the phase; every surface (CLI `/killchain`,
+  `/api/killchain`, C2 `/api/data`+`/api/dashboard`, GUI2 panel) renders its
+  `snapshot()`.
+- Beacon command history per implant: `/api/beacon_results/<client_id>`,
+  backed by `modules/beacon_history.py` (JSONL, path-safe).
+- CLI `/killchain auto on|off|N` live auto-refresh; flags
+  `killchain_auto_every` / `killchain_auto_on_phase_change`.
+- C2 decrypts session state on boot and re-encrypts on clean exit, so beacons
+  and the kill-chain reflect real values while the server runs.
+
 ### Marketplace (YARA + Nuclei)
 Browse, search, and install from a unified marketplace TUI:
 - `yara_marketplace list|search|install|info` -- 10 built-in rules (ransomware, C2, webshells, obfuscation, privesc)

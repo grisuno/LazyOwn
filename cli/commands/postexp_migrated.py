@@ -1627,6 +1627,35 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         copy2clip(cmd)
 
     @cmd2.with_category("04. Post-Exploitation")
+    def do_ofuscate_payload(self, line):
+        """
+        Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+
+        This function reads the content of a shell script file, encodes it in Base64, and constructs a command
+        that can be used to decode and execute the encoded script using `echo` and `base64 -d`.
+
+        Args:
+            line (str): The path to the shell script file to be obfuscated. If not provided, a default
+                        path is obtained from the `get_users_dic` function.
+
+        Returns:
+            None
+
+        Example:
+            >>> ofuscatesh /path/to/script.sh or just ofuscatesh
+            # This will read the script, encode it in Base64, and prepare a command to decode and execute it.
+        """
+        if not line:
+            line = input('payload: ')
+
+        
+
+        utf8_encoded = line.encode("utf-8")
+        base64_encoded = base64.b64encode(utf8_encoded).decode('utf-8')
+        cmd = f"echo '{base64_encoded}' | base64 -d | bash"
+        copy2clip(cmd)
+
+    @cmd2.with_category("04. Post-Exploitation")
     def do_adversary(self, line):
         """
         LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json

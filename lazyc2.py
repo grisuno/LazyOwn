@@ -6538,9 +6538,23 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import operations_bp, auth_bp
+    from lazyc2.blueprints import operations_bp, auth_bp, beacon_bp, redirect_bp, api_bp, init_beacon_bp
+    init_beacon_bp(
+        commands=commands,
+        results=results,
+        commands_history=commands_history,
+        connected_clients=connected_clients,
+        encrypt_fn=encrypt_data,
+        decrypt_fn=decrypt_data,
+        config=config,
+        sessions_dir=SESSIONS_DIR,
+        route_malleable=route_malleable,
+    )
     app.register_blueprint(operations_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(beacon_bp)
+    app.register_blueprint(redirect_bp)
+    app.register_blueprint(api_bp)
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 

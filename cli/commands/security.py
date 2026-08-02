@@ -21,6 +21,9 @@ from cli.commands._base import LazyOwnCommandSet
 class SecurityCommandSet(LazyOwnCommandSet):
     """OPSEC scoring, credential vault, and hash cracking commands."""
 
+    phase = "security"
+    category = "09. Security / OPSEC"
+
     def do_opsec(self, line: str) -> None:
         """Score OPSEC risk for a LazyOwn command before execution.
 

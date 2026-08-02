@@ -118,9 +118,9 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         This function serves as an interface for converting text to Morse code and vice versa.
         It provides a menu with the following options:
 
-        1️⃣  Convert text to Morse code.
-        2️⃣  Convert Morse code to text.
-        0️⃣  Exit the program.
+        [1] Convert text to Morse code.
+        [2] Convert Morse code to text.
+        [0] Exit the program.
 
         When the function is called, it runs an external script (`morse.py`) that handles
         the conversion processes. The function also manages keyboard interruptions

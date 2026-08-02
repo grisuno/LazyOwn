@@ -1,10 +1,7 @@
-"""Reporting command set (pending).
+"""Report tools command set.
 
-Phase 11 — commands for reporting: AI summaries, screenshot capture,
+Phase 11 — reporting tooling: AI summaries, screenshot capture,
 machine JSON generation, vulnerability tracking, and evidence gathering.
-
-Pending status: inherits from :class:`PendingCommandSet`. Promote to
-:class:`LazyOwnCommandSet` once originals are deleted from ``lazyown.py``.
 """
 
 from __future__ import annotations
@@ -21,8 +18,8 @@ from utils import (
 )
 
 
-class ReportingCommandSet(LazyOwnCommandSet):
-    """Reporting phase commands (pending)."""
+class ReportToolsCommandSet(LazyOwnCommandSet):
+    """Reporting tool commands."""
 
     phase = "report"
     category = "11. Reporting"

@@ -2498,7 +2498,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that `tmux` and `openvpn` are installed and running for their respective commands to have an effect.
         """
-        print_error(f"Exit {BG_BLACK}[👽]{RESET}")
+        print_error(f"Exit {BG_BLACK}[*]{RESET}")
         self.cmd("tmux kill-session -t lazyown_sessions 2>/dev/null")
         self.cmd("killall openvpn 2>/dev/null")
         self.cmd("killall openvpn 2>/dev/null")
@@ -4043,7 +4043,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         if 'TMUX' not in os.environ:
             self.display_toastr("[!] Error: Not inside a tmux session.", type="error")
-            self.display_toastr("    [💡] Hint: Run this inside a tmux session (e.g. `v` or `h`).", type="info")
+            self.display_toastr("    Hint: Run this inside a tmux session (e.g. `v` or `h`).", type="info")
             return
 
         try:
@@ -4112,7 +4112,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             self.display_toastr("[*] No aliases defined.")
             return
 
-        self.display_toastr("🔐 Custom and built-in aliases:")
+        self.display_toastr("Custom and built-in aliases:")
         for name, cmd in sorted(self.aliases.items()):
             print_msg(f"  {name:20} → {cmd}")
 

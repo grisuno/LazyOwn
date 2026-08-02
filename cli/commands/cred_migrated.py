@@ -323,9 +323,9 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         os.getcwd()
         users_txt = get_users_dic()
         domain = get_domain(url)
-        ca = self.params['domain'].split(".")
-        base_domain = ca[0].upper()
-        ext = ca[1].upper()
+        ca = self.params['domain'].split(".") if self.params['domain'] else []
+        base_domain = ca[0].upper() if len(ca) > 0 else ""
+        ext = ca[1].upper() if len(ca) > 1 else ""
         if not check_rhost(self.params['rhost']):
             return
         if not line:

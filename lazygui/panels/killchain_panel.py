@@ -1,8 +1,8 @@
 """Kill-chain visualization panel for the operator console.
 
 Displays the current engagement phase and completed phases as a
-horizontal progress bar. Auto-advances when beacons connect (foothold)
-and when port scans complete.
+horizontal progress bar. Reads from ``modules.killchain.KillChain``
+as the single source of truth.
 """
 
 from __future__ import annotations
@@ -11,7 +11,6 @@ from PySide6.QtCore import Qt, QTimer
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QLabel,
-    QScrollArea,
     QVBoxLayout,
     QWidget,
 )
@@ -20,17 +19,14 @@ from lazygui.config.constants import AppConstants
 from lazygui.panels.base import PanelBase
 from lazygui.services.backend import Backend
 
-_PHASES = [
-    ("recon", "Recon", "#a371f7"),
-    ("scan", "Scan", "#58a6ff"),
-    ("enum", "Enum", "#56d364"),
-    ("exploit", "Exploit", "#f85149"),
-    ("privesc", "PrivEsc", "#d2991d"),
-    ("lateral", "Lateral", "#db61a2"),
-    ("exfil", "Exfil", "#7c3aed"),
-    ("report", "Report", "#3fb950"),
-]
 
+def _get_phases():
+    """Import the unified killchain phase definitions lazily."""
+    from modules.killchain import KillChain as _KC
+    return _KC.phases_for_display()
+
+
+_PHASES = _get_phases()
 _PHASE_NAMES: dict[str, str] = {ph[0]: ph[1] for ph in _PHASES}
 _PHASE_ORDER: tuple[str, ...] = tuple(ph[0] for ph in _PHASES)
 

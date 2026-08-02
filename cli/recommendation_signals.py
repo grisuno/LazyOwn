@@ -16,6 +16,7 @@ CLI verb, the inline push hints, the MCP tool) should call.
 from __future__ import annotations
 
 import csv
+import json
 from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
@@ -25,6 +26,7 @@ from cli.recommendation import (
     KIND_COMMAND,
     KIND_TOOL,
     SOURCE_GRAPH,
+    SOURCE_GAP,
     SOURCE_KILLCHAIN,
     SOURCE_POLICY,
     SOURCE_RECON,
@@ -335,6 +337,138 @@ class PlaybookSignal:
         return proposals
 
 
+class KillchainGapSignal:
+    """Detect missing steps in the kill chain from world model and session state.
+
+    Inspects ``sessions/world_model.json`` host states and session artefacts
+    to identify gaps where the operator has not progressed. Each detected gap
+    produces a high-confidence :class:`Proposal` for the most impactful next
+    action.
+
+    Gap detection rules (ordered by priority):
+        - Host in EXPLOITED state without privesc output: recommend
+          linpeas/winpeas.
+        - Host in OWNED state without credential dump: recommend
+          mimikatz/secretsdump/lazydump.
+        - Scan XML exists but no enumeration: recommend gobuster/ffuf/enum4linux.
+        - Credentials exist but no lateral movement: recommend
+          crackmapexec/psexec.
+    """
+
+    name = SOURCE_GAP
+
+    def __init__(self, sessions_dir: str = "sessions") -> None:
+        self._sessions_dir = Path(sessions_dir)
+
+    def propose(self, ctx: RecommendationContext) -> list[Proposal]:
+        """Return gap-detection proposals for ``ctx``."""
+        proposals: list[Proposal] = []
+        try:
+            wm_data = self._read_world_model()
+            if not wm_data:
+                return proposals
+            hosts: dict[str, dict] = wm_data.get("hosts", {})
+            proposals.extend(self._gap_exploited_no_privesc(hosts))
+            proposals.extend(self._gap_owned_no_creds(hosts, wm_data))
+            proposals.extend(self._gap_scan_no_enum(hosts, ctx.recent_commands))
+            proposals.extend(self._gap_creds_no_lateral(wm_data, hosts))
+        except Exception:
+            pass
+        return proposals
+
+    def _read_world_model(self) -> dict | None:
+        wm_path = self._sessions_dir / "world_model.json"
+        if not wm_path.exists():
+            return None
+        try:
+            return json.loads(wm_path.read_text(encoding="utf-8"))
+        except Exception:
+            return None
+
+    def _gap_exploited_no_privesc(self, hosts: dict[str, dict]) -> list[Proposal]:
+        proposals: list[Proposal] = []
+        for ip, host in hosts.items():
+            if not isinstance(host, dict):
+                continue
+            if host.get("state") != "exploited":
+                continue
+            os_hint = host.get("os_hint", "").lower()
+            if "windows" in os_hint:
+                proposals.append(Proposal(
+                    action="winpeas", kind=KIND_COMMAND, weight=0.95,
+                    reason=f"Host {ip} has foothold but no privesc. Run winpeas.",
+                    category="privesc",
+                ))
+            elif "linux" in os_hint:
+                proposals.append(Proposal(
+                    action="linpeas", kind=KIND_COMMAND, weight=0.95,
+                    reason=f"Host {ip} has foothold but no privesc. Run linpeas.",
+                    category="privesc",
+                ))
+            else:
+                proposals.append(Proposal(
+                    action="linpeas", kind=KIND_COMMAND, weight=0.90,
+                    reason=f"Host {ip} has foothold but no privesc. Enumerate with linpeas/winpeas.",
+                    category="privesc",
+                ))
+        return proposals
+
+    def _gap_owned_no_creds(self, hosts: dict[str, dict], wm_data: dict) -> list[Proposal]:
+        proposals: list[Proposal] = []
+        owned_ips = [ip for ip, h in hosts.items()
+                     if isinstance(h, dict) and h.get("state") == "owned"]
+        if not owned_ips:
+            return proposals
+        credentials = wm_data.get("credentials", [])
+        if credentials:
+            return proposals
+        for ip in owned_ips[:2]:
+            proposals.append(Proposal(
+                action="lazydump", kind=KIND_COMMAND, weight=0.95,
+                reason=f"Host {ip} is owned but no credentials dumped. Run lazydump.",
+                category="cred",
+            ))
+        return proposals
+
+    def _gap_scan_no_enum(self, hosts: dict[str, dict], recent: Sequence[str]) -> list[Proposal]:
+        proposals: list[Proposal] = []
+        run_set = set(recent) if recent else set()
+        has_scan = any(
+            isinstance(h, dict) and h.get("state") in ("scanned", "enumerated", "exploited", "owned")
+            for h in hosts.values()
+        )
+        if not has_scan:
+            return proposals
+        enum_commands = {"gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"}
+        if run_set & enum_commands:
+            return proposals
+        proposals.append(Proposal(
+            action="gobuster", kind=KIND_COMMAND, weight=0.85,
+            reason="Nmap scan exists but no enumeration done. Start with gobuster.",
+            category="enum",
+        ))
+        return proposals
+
+    def _gap_creds_no_lateral(self, wm_data: dict, hosts: dict[str, dict]) -> list[Proposal]:
+        proposals: list[Proposal] = []
+        credentials = wm_data.get("credentials", [])
+        if not credentials:
+            return proposals
+        has_lateral = any(
+            isinstance(h, dict) and h.get("state") == "owned"
+            for ip, h in hosts.items()
+            if ip not in (c.get("host", "") for c in credentials if isinstance(c, dict))
+        )
+        if has_lateral:
+            return proposals
+        proposals.append(Proposal(
+            action="crackmapexec", kind=KIND_COMMAND, weight=0.90,
+            reason="Credentials captured but no lateral movement. Test with crackmapexec.",
+            category="lateral",
+        ))
+        return proposals
+
+
 def _try_build_playbook_signal() -> PlaybookSignal | None:
     """Build a :class:`PlaybookSignal` when the APT playbook engine imports."""
     try:
@@ -384,6 +518,8 @@ def build_default_engine(
     recon_signal = _try_build_recon_signal(payload)
     if recon_signal is not None:
         signals.append(recon_signal)
+
+    signals.append(KillchainGapSignal(sessions_dir=sessions_dir))
 
     playbook_signal = _try_build_playbook_signal()
     if playbook_signal is not None:

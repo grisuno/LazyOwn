@@ -33,6 +33,7 @@ from lazygui.theme.manager import ThemeManager
 from lazygui.theme.tokens import ThemeTokens
 from lazygui.widgets.command_palette_list import CommandPaletteAction
 from lazygui.widgets.status_badge import StatusBadge
+from lazygui.widgets.beacon_command_modal import BeaconCommandModal
 from lazygui.windows.command_palette_window import CommandPaletteWindow
 
 
@@ -79,6 +80,10 @@ class MainWindow(QMainWindow):
         self._command_palette = CommandPaletteWindow(
             constants=constants,
             actions=self._build_palette_actions(),
+            parent=self,
+        )
+        self._beacon_modal = BeaconCommandModal(
+            backend=backend,
             parent=self,
         )
 
@@ -134,6 +139,10 @@ class MainWindow(QMainWindow):
         connect_action.setShortcut(QKeySequence(self._constants.keys.open_connect_dialog))
         connect_action.triggered.connect(self._emit_request_connect)
         file_menu.addAction(connect_action)
+        beacon_cmd_action = QAction("&Beacon Command...", self)
+        beacon_cmd_action.setShortcut(QKeySequence(self._constants.keys.beacon_command))
+        beacon_cmd_action.triggered.connect(self._show_beacon_command_modal)
+        file_menu.addAction(beacon_cmd_action)
         file_menu.addSeparator()
         quit_action = QAction("&Quit", self)
         quit_action.setShortcut(QKeySequence(self._constants.keys.quit_application))
@@ -181,6 +190,9 @@ class MainWindow(QMainWindow):
         palette_action = QAction("Command palette", self)
         palette_action.triggered.connect(self._show_command_palette)
         toolbar.addAction(palette_action)
+        beacon_cmd_tb = QAction("Beacon Cmd", self)
+        beacon_cmd_tb.triggered.connect(self._show_beacon_command_modal)
+        toolbar.addAction(beacon_cmd_tb)
         self.addToolBar(Qt.ToolBarArea.TopToolBarArea, toolbar)
 
     def _install_statusbar(self) -> None:
@@ -341,6 +353,13 @@ class MainWindow(QMainWindow):
     def _on_dashboard_updated(self, dashboard) -> None:
         """Update status bar from dashboard payload."""
         self._beacon_count_label.setText(f"beacons: {dashboard.beacon_count}")
+
+    def _show_beacon_command_modal(self) -> None:
+        """Open the beacon command dialog."""
+        self._beacon_modal.show()
+        self._beacon_modal.raise_()
+        self._beacon_modal.activateWindow()
+        self._beacon_modal.focus_input()
 
     def _show_command_palette(self) -> None:
         """Show and centre the command palette."""

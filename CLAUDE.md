@@ -629,7 +629,141 @@ Run: `python3 -m pytest tests/test_lazygui_*.py -v`
 
 ---
 
-## 16. Read next
+## 16. Killchain Gap Contracts (v3 — unified killchain)
+
+Closing the gap between kill-chain phases so suggesters are effective and friction is eliminated. Each file is a single contract.
+
+### `modules/killchain.py` — Single Source of Truth for Kill-Chain (NEW v3)
+
+**Contract:** ``KillChain`` is the canonical authority for kill-chain data. Every display surface (CLI, Flask dashboard, GUI2, Textual TUI, tips engine, recommendation signals, MCP) imports from here. No other file defines its own phases.
+
+**Key types:**
+- ``KillChainConfig`` — Centralised constants: ``phases`` (8-tuple), ``phase_labels``, ``phase_colors`` (hex), ``phase_rich_colors``, ``engagement_to_cli`` mapping, ``cli_to_host_state`` mapping, ``compact_phases`` (5-tuple).
+- ``PhaseStatus`` — Immutable ``(key, label, color, status)`` tuple for UI renderers.
+- ``KillChain`` — Stateless class: ``current_phase()``, ``advance_phase()``, ``get_progress()``, ``phases_for_display()``.
+
+**Phase resolution order:**
+1. ``WorldModel.get_phase()`` (host states — canonical).
+2. Raw JSON ``current_phase`` (operator override, only when higher rank).
+3. Raw JSON ``phase`` (legacy fallback).
+4. ``"recon"`` as safe default.
+
+**``advance_phase()``** atomically writes ``current_phase``, ``phase``, and ``completed_phases`` into ``world_model.json`` AND advances all WorldModel hosts to the matching ``HostState``. Called by CLI ``phase`` command, C2 beacon handler, and autonomous daemon.
+
+**6 consumers refactored:** ``cli/ops_commands.py``, ``modules/kill_chain_viz.py``, ``cli/killchain.py``, ``lazygui/panels/killchain_panel.py``, ``cli/tips_engine.py``, ``cli/dashboard_tui.py``.
+
+**Tests:** ``tests/test_killchain_unified_v2.py`` (33 tests, 10/10 mutants killed).
+
+### `lazygui/services/teamserver_backend.py` — Auto-Poll Beacon Results (NEW v3)
+
+**Contract:** ``_results_timer`` polls ``/get_results`` every 3s. On new or changed output, emits ``beacon_result`` signal to ``TerminalPanel`` and ``BeaconCommandModal``.
+
+**New timing constant:** ``beacon_results_poll_interval_ms: int = 3000``.
+
+**Dead code removed:** ``_http_post_json()``, ``_post_global_command()``, ``_poll_command_output()`` (never called). Also removed ``read_and_forward_pty_output_c2()`` from ``lazyc2.py`` and commented-out shellcode form from ``templates/nav.html``.
+
+### `lazygui/widgets/beacon_command_modal.py` — Beacon Command Modal (NEW v3)
+
+**Contract:** ``Ctrl+J`` or ``File > Beacon Command`` opens a modal with beacon selector, command input, history list, and output viewer. Auto-updates via ``beacon_result`` signal.
+
+### `cli/tips_engine.py` — Full Killchain Auto-Display (NEW v3)
+
+**Contract:** After ``lazynmap``, ``auto_populate``, ``auto_pwn``, ``hunt``, or ``pwntomate``, shows the full killchain progress bar via ``_print_phase()`` (not just the compact 5-phase bar). Defined in ``_FULL_KILLCHAIN_TRIGGERS``.
+
+### `modules/world_model.py` — Engagement State Tracking
+
+**Contract:** Persist host states (UNSCANNED → OWNED), credentials, vulnerabilities, and network graph. Derive engagement phase from aggregate host states. Thread-safe with RLock.
+
+**New methods (v2):**
+- `set_os_hint(ip, os_hint)` — Set OS hint for a host (auto-called by C2 on beacon connect and by `do_ping`).
+- `get_host(ip)` → `HostEntry | None` — Query a single host entry.
+- `get_hosts_summary()` → `dict[str, str]` — IP → state mapping for all hosts.
+
+**Phase derivation:** `max(host.state)` → engagement phase. All OWNED → COMPLETE.
+
+**Tests:** `tests/test_world_model_extended.py` (7 tests)
+
+### `modules/conditional_hooks.py` — Beacon Automation Triggers
+
+**Contract:** Match events against operator-defined rules and execute actions (run_command, run_local, notify, credential_reuse_check). Supports platform filtering and cooldown.
+
+**New in v2:**
+- `_contains` suffix keys for substring matching (case-insensitive).
+- Case-insensitive exact matching for string trigger values.
+- Case-insensitive list matching.
+- `run_local` action type — executes commands on the C2 server (subprocess).
+- Hook action handler wiring in `lazyc2.py` — queues beacon commands via `cmd_<client_id>.json`.
+
+**New default rules:**
+| Rule | Trigger | Action |
+|------|---------|--------|
+| `auto-privesc-on-beacon-linux` | beacon_connected + linux | Queues linpeas download+exec |
+| `auto-privesc-on-beacon-windows` | beacon_connected + windows | Queues winPEAS download+exec |
+| `auto-crystal-ball-on-peas-output` | command_executed containing linpeas | Notifies to run crystal_ball |
+| `auto-crystal-ball-on-winpeas-output` | command_executed containing winpeas | Notifies to run crystal_ball |
+| `auto-loot-on-owned` | host_owned | Queues lazydump + netstat + arp |
+
+**Tests:** `tests/test_conditional_hooks_extended.py` (11 tests)
+
+### `cli/recommendation_signals.py` — KillchainGapSignal
+
+**Contract:** `KillchainGapSignal` inspects `world_model.json` host states and detects missing steps in the kill chain. Returns `Proposal` objects with high confidence (0.85-0.95 weight).
+
+**Gap detection rules:**
+| Condition | Recommendation | Category |
+|-----------|---------------|----------|
+| Host EXPLOITED, no privesc | linpeas / winpeas (OS-aware) | privesc |
+| Host OWNED, no credentials | lazydump | cred |
+| Scan exists, no enumeration | gobuster | enum |
+| Credentials exist, no lateral | crackmapexec | lateral |
+
+**Weight:** 0.8 in `EngineWeights.signal_weights` (second only to RECON at 1.0).
+
+**Tests:** `tests/test_killchain_gap_signal.py` (12 tests)
+
+### `cli/tips_engine.py` — Phase Derivation + OS Hint (v3 refactored)
+
+**Contract:** ``_resolve_phase()`` now derives phase from ``modules.killchain.KillChain.current_phase()`` as canonical source. ``_read_os_id_from_session()`` reads OS from ``sessions/os.json`` as fallback when ``payload.json`` has no ``os_id``. ``_derive_phase_from_hosts()`` removed (dead code — replaced by KillChain).
+
+**New methods:**
+- ``_read_os_id_from_session()`` — Reads ``os.json`` for Linux/Windows detection.
+- ``_render_killchain_progress()`` — Compact killchain progress bar ``[R>E>X>P>L]``.
+- ``_maybe_show_full_killchain(cmd)`` — Shows full killchain after ``lazynmap``, ``auto_populate``, ``auto_pwn``, ``hunt``, ``pwntomate``.
+- ``_check_badges()`` — ``first_owned`` badge when world_model contains OWNED hosts.
+
+### `lazyc2.py` — World Model + Killchain Advancement on Beacon Events (v3 refactored)
+
+**Contract:** On ``beacon_connected`` → advance host to ``EXPLOITED`` + call ``KillChain.advance_phase("exploit")``. On privesc detection (uid=0/root/System) → advance to ``OWNED`` + call ``KillChain.advance_phase("privesc")`` + fire ``host_owned`` event.
+
+**Detection patterns:** ``uid=0(root)``, ``NT AUTHORITY\SYSTEM``, ``user == "root"``.
+
+**Dead code removed:** ``read_and_forward_pty_output_c2()`` (never started as background task).
+
+### `cli/commands/privilege_escalation.py` — New Commands
+
+| Command | Purpose |
+|---------|---------|
+| `whoami_priv` | OS-aware privilege enumeration (id, sudo -l, whoami /priv) |
+| `sudo_privesc` | Analyse sudo -l output with GTFOBins parquet |
+| `printspoofer` | Serve PrintSpoofer64.exe over HTTP |
+| `juicypotato` | Serve JuicyPotato.exe over HTTP |
+
+### `cli/reactive_hints.py` — Updated Tables
+
+`_KILL_CHAIN_NEXT` extended with entries for `whoami_priv`, `sudo_privesc`, `printspoofer`, `juicypotato`, `crystal_ball`.
+`_PHASE_PRIORITY["privesc"]` includes all new commands.
+
+### `cli/command_chain.py` — Updated Prerequisites
+
+Added prerequisites: `whoami_priv:(ssh,)`, `crystal_ball:(linpeas,)`, `printspoofer:(evil-winrm,)`, `juicypotato:(evil-winrm,)`.
+
+### `cli/tips_engine.py` — Updated ELO Table
+
+ELO bonuses: `juicypotato:20`, `sudo_privesc:20`, `whoami_priv:10`, `crystal_ball:18`.
+
+---
+
+## 17. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.
 - `README.md` — public feature list (auto-regenerated by `DEPLOY.sh`).

@@ -324,7 +324,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         This function generates a PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
         Usage:
-        ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
+        ┌─[LazyOwn 127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
         └╼ $ weevelygen s3cr3t
 
         Parameters:
@@ -364,7 +364,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         This function Connect to PHP backdoor file using the specified password. It ensures that Weevely is installed on the system before attempting to generate the backdoor. If Weevely is not present, it will be installed automatically.
 
         Usage:
-        ┌─[LazyOwn👽127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
+        ┌─[LazyOwn 127.0.0.1 ~/LazyOwn][10.10.10.10][http://victim.local/]
         └╼ $ weevely http://victim.local/weevely.php s3cr3t
 
         Parameters:

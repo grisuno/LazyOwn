@@ -340,6 +340,27 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             print_error("Failed to write phase to sessions/world_model.json")
 
     @cmd2.with_category("12. Miscellaneous")
+    def do_killchain(self, line):
+        """Show the unified kill-chain progress from the world model.
+
+        Displays every kill-chain phase with its status derived from host
+        states in the WorldModel (the single source of truth), plus the
+        operator-set override when it differs.
+
+        Usage:
+            ``killchain``           — show unified kill-chain progress bar
+        """
+        del line
+        _print_phase()
+        try:
+            from modules.world_model import get_world_model
+            wm = get_world_model()
+            ctx = wm.to_context_string()
+            print(ctx, flush=True)
+        except Exception:
+            pass
+
+    @cmd2.with_category("12. Miscellaneous")
     def do_note(self, line):
         """Capture a quick operator note attached to the current target and phase.
 

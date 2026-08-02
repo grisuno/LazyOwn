@@ -23,20 +23,12 @@ from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
+from modules.killchain import KillChain as _KC
+
 _console = Console(highlight=False, soft_wrap=True)
 
-PHASES: tuple[str, ...] = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
-
-_PHASE_COLORS: dict[str, str] = {
-    "recon": "cyan",
-    "scan": "blue",
-    "enum": "magenta",
-    "exploit": "bold red",
-    "privesc": "bold yellow",
-    "lateral": "orange3",
-    "exfil": "dark_orange",
-    "report": "green",
-}
+PHASES: tuple[str, ...] = _KC.phases()
+_PHASE_COLORS: dict[str, str] = _KC.phase_rich_colors()
 
 _WORLD_MODEL = "sessions/world_model.json"
 _SESSION_CSV = "sessions/LazyOwn_session_report.csv"
@@ -285,13 +277,33 @@ def _highlight_match(line: str, rx: re.Pattern) -> Text:
 
 
 def read_phase() -> str:
-    """Return the current kill-chain phase from world_model.json."""
-    world = _read_json(_WORLD_MODEL)
-    return (world.get("phase") or world.get("current_phase") or "unknown").lower()
+    """Return the current kill-chain phase from the unified killchain module."""
+    try:
+        return _KC.current_phase(world_model_path=Path(_WORLD_MODEL))
+    except Exception:
+        return "recon"
+
+
+def _phase_rank(phase: str) -> int:
+    """Return the positional index of a phase in the kill chain."""
+    return _KC.phase_index(phase)
+
+
+def _engagement_phase_to_cli(phase_value: str) -> str:
+    """Map a WorldModel EngagementPhase to a CLI PHASES value."""
+    return _KC.engagement_phase_to_cli(phase_value)
+
+
+def _cli_phase_to_host_state(phase: str) -> str:
+    """Map a CLI phase to a WorldModel HostState value."""
+    return _KC.cli_phase_to_host_state(phase)
 
 
 def write_phase(phase: str) -> bool:
-    """Set the current kill-chain phase in world_model.json.
+    """Set the current kill-chain phase via the unified killchain module.
+
+    Delegates to ``KillChain.advance_phase`` which atomically writes
+    ``world_model.json`` and advances all WorldModel hosts.
 
     Args:
         phase: One of the PHASES values.
@@ -299,40 +311,29 @@ def write_phase(phase: str) -> bool:
     Returns:
         True on success, False if the phase name is invalid.
     """
-    if phase not in PHASES:
-        return False
-    world = _read_json(_WORLD_MODEL)
-    old_phase = (world.get("phase") or world.get("current_phase") or "").lower()
-    world["phase"] = phase
-    world["current_phase"] = phase
-
-    completed: list[str] = world.get("completed_phases") or []
-    if old_phase and old_phase in PHASES and old_phase not in completed:
-        old_idx = PHASES.index(old_phase)
-        new_idx = PHASES.index(phase)
-        if new_idx > old_idx:
-            for p in PHASES[old_idx:new_idx]:
-                if p not in completed:
-                    completed.append(p)
-    world["completed_phases"] = completed
-
-    _write_json_atomic(_WORLD_MODEL, world)
-    return True
+    return _KC.advance_phase(phase, world_model_path=Path(_WORLD_MODEL))
 
 
 def print_phase() -> None:
-    """Print the current phase and the full kill-chain progress bar."""
+    """Print the current phase and the full kill-chain progress bar.
+
+    Reads data from the unified killchain module and renders a rich
+    progress display.
+    """
     current = read_phase()
     world = _read_json(_WORLD_MODEL)
-    completed: list[str] = world.get("completed_phases") or []
+    kc_progress = _KC.get_progress(world_model_path=Path(_WORLD_MODEL))
+
+    status_map: dict[str, str] = {ps.key: ps.status for ps in kc_progress}
 
     t = Text()
     t.append("  Kill chain: ", style="dim white")
     for i, phase in enumerate(PHASES):
-        if phase in completed:
+        status = status_map.get(phase, "pending")
+        if status == "done":
             style = "bold green"
             icon = "✔"
-        elif phase == current:
+        elif status == "active":
             style = f"bold {_PHASE_COLORS.get(phase, 'white')}"
             icon = "▶"
         else:

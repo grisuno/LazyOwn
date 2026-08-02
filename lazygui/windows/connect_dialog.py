@@ -4,6 +4,9 @@ The dialog lets the operator choose between the local console and a remote
 teamserver. Picked values are returned as :class:`ConnectionRequest` so the
 caller decides what to do (e.g. instantiate a backend, persist last
 selection, hand it off to the main window).
+
+Auto-discovered credentials from ``.c2_credentials.txt`` are pre-filled
+when available so the operator doesn't need to type them manually.
 """
 
 from __future__ import annotations
@@ -24,7 +27,9 @@ from PySide6.QtWidgets import (
     QWidget,
 )
 
+from lazygui.config.c2_credentials import load_c2_credentials
 from lazygui.config.constants import AppConstants
+from lazygui.config.paths import AppPaths
 from lazygui.config.settings import AppSettings
 from lazygui.services.models import BackendKind
 from lazygui.services.teamserver_backend import TeamserverCredentials
@@ -49,12 +54,14 @@ class ConnectDialog(QDialog):
         self,
         constants: AppConstants,
         settings: AppSettings,
+        paths: AppPaths,
         parent: QWidget | None = None,
     ) -> None:
-        """Build the form and pre-fill from persisted settings."""
+        """Build the form and pre-fill from persisted settings + credentials file."""
         super().__init__(parent)
         self._constants = constants
         self._settings = settings
+        self._paths = paths
         self.setWindowTitle("Connect")
         self.setModal(True)
         self.setFixedSize(constants.window.connect_dialog_width, constants.window.connect_dialog_height)
@@ -120,6 +127,8 @@ class ConnectDialog(QDialog):
             self._settings.last_backend_id = self._constants.backend.teamserver_id
             self._settings.last_teamserver_url = self._url_edit.text().strip()
             self._settings.last_operator_name = self._username_edit.text().strip()
+            self._settings.last_teamserver_password = self._password_edit.text()
+            self._settings.c2_credentials_loaded = True
         self._settings.save()
 
     # --- Page builders ----------------------------------------------------
@@ -158,7 +167,7 @@ class ConnectDialog(QDialog):
     # --- Internals --------------------------------------------------------
 
     def _restore_last_choice(self) -> None:
-        """Pre-fill the form from persisted settings."""
+        """Pre-fill the form from persisted settings and auto-discovered credentials."""
         last_id = self._settings.last_backend_id
         if last_id == self._constants.backend.teamserver_id:
             self._kind_combo.setCurrentIndex(_TEAMSERVER_PAGE_INDEX)
@@ -166,6 +175,14 @@ class ConnectDialog(QDialog):
             self._kind_combo.setCurrentIndex(_LOCAL_PAGE_INDEX)
         self._url_edit.setText(self._settings.last_teamserver_url)
         self._username_edit.setText(self._settings.last_operator_name)
+        self._password_edit.setText(self._settings.last_teamserver_password)
+        if not self._settings.c2_credentials_loaded:
+            creds = load_c2_credentials(self._paths.project_root)
+            if creds.loaded:
+                self._username_edit.setText(creds.username)
+                self._password_edit.setText(creds.password)
+                self._kind_combo.setCurrentIndex(_TEAMSERVER_PAGE_INDEX)
+                self._url_edit.setText(self._settings.last_teamserver_url)
 
     def _on_kind_changed(self, index: int) -> None:
         """Switch the stacked widget to match the selected kind."""

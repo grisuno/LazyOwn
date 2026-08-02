@@ -1,12 +1,18 @@
-"""Panel that lists active sessions reported by the backend."""
+"""Panel that lists active sessions reported by the backend.
+
+Supports right-click context menus for beacon interaction: spawn shell,
+port scan, screenshot, keylog, migrate, upload/download.
+"""
 
 from __future__ import annotations
 
 from collections.abc import Sequence
 
 from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QAction
 from PySide6.QtWidgets import (
     QHeaderView,
+    QMenu,
     QTreeWidget,
     QTreeWidgetItem,
     QVBoxLayout,
@@ -32,9 +38,10 @@ _ID_COLUMN: int = 0
 
 
 class SessionsPanel(PanelBase):
-    """Reactive list of :class:`Session` rows."""
+    """Reactive list of :class:`Session` rows with context menus."""
 
     session_selected = Signal(Session)
+    session_context_menu = Signal(Session, str)
 
     def __init__(
         self,
@@ -62,6 +69,7 @@ class SessionsPanel(PanelBase):
         self._tree.setAlternatingRowColors(True)
         self._tree.setUniformRowHeights(True)
         self._tree.setSelectionMode(QTreeWidget.SelectionMode.SingleSelection)
+        self._tree.setContextMenuPolicy(Qt.ContextMenuPolicy.CustomContextMenu)
         self._tree.header().setSectionResizeMode(QHeaderView.ResizeMode.ResizeToContents)
         self._tree.header().setStretchLastSection(True)
         layout.addWidget(self._filter_bar)
@@ -70,6 +78,8 @@ class SessionsPanel(PanelBase):
         self.setWidget(container)
         self._filter_bar.filter_changed.connect(self._on_filter_changed)
         self._tree.itemSelectionChanged.connect(self._on_selection_changed)
+        self._tree.itemDoubleClicked.connect(self._on_item_double_clicked)
+        self._tree.customContextMenuRequested.connect(self._on_context_menu)
         backend.sessions_changed.connect(self._on_sessions_changed)
         self._refresh_initial()
 
@@ -99,6 +109,61 @@ class SessionsPanel(PanelBase):
             if session.identifier == identifier:
                 self.session_selected.emit(session)
                 return
+
+    def _on_item_double_clicked(self, item: QTreeWidgetItem) -> None:
+        """Double-click sets the terminal target to this session."""
+        identifier = item.text(_ID_COLUMN)
+        self.session_selected.emit(
+            next((s for s in self._sessions if s.identifier == identifier),
+                 Session(identifier=identifier, hostname="", operating_system="", process_id="", user="", ip_addresses="", discovered_ips="", last_command=""))
+        )
+
+    def _on_context_menu(self, position) -> None:
+        """Show right-click context menu for beacon interaction."""
+        item = self._tree.itemAt(position)
+        if item is None:
+            return
+        identifier = item.text(_ID_COLUMN)
+        session = next((s for s in self._sessions if s.identifier == identifier), None)
+        if session is None:
+            return
+
+        menu = QMenu(self)
+        info = menu.addAction(f"Beacon: {session.hostname} ({session.operating_system})")
+        info.setEnabled(False)
+        menu.addSeparator()
+
+        shell_action = menu.addAction("Spawn Shell (Set Target)")
+        shell_action.triggered.connect(lambda: self.session_selected.emit(session))
+
+        scan_action = menu.addAction("Port Scan")
+        scan_action.triggered.connect(lambda: self._backend.send_command(f"lazynmap {session.ip_addresses}", target_session=identifier))
+
+        menu.addSeparator()
+
+        screenshot_action = menu.addAction("Screenshot")
+        screenshot_action.triggered.connect(lambda: self._backend.send_command("screenshot", target_session=identifier))
+
+        keylog_action = menu.addAction("Keylog")
+        keylog_action.triggered.connect(lambda: self._backend.send_command("keylog", target_session=identifier))
+
+        menu.addSeparator()
+
+        migrate_action = menu.addAction("Migrate")
+        migrate_action.triggered.connect(lambda: self._backend.send_command("migrate", target_session=identifier))
+
+        download_action = menu.addAction("Download")
+        download_action.triggered.connect(lambda: self._backend.send_command("download", target_session=identifier))
+
+        upload_action = menu.addAction("Upload")
+        upload_action.triggered.connect(lambda: self._backend.send_command("upload", target_session=identifier))
+
+        menu.addSeparator()
+
+        kill_action = menu.addAction("Kill Beacon")
+        kill_action.triggered.connect(lambda: self._backend.send_command("kill", target_session=identifier))
+
+        menu.exec_(self._tree.viewport().mapToGlobal(position))
 
     def _populate_visible(self) -> None:
         """Rebuild the tree applying the active filter."""

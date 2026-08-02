@@ -55,6 +55,21 @@ class AppPaths:
         """Absolute path to the Flask backend ``lazyc2.py``."""
         return self.project_root / "lazyc2.py"
 
+    @property
+    def c2_credentials_path(self) -> Path:
+        """Absolute path to the C2 auto-generated credentials file.
+
+        ``lazyc2.py`` writes ``.c2_credentials.txt`` at startup when it
+        generates strong credentials. The operator console reads this file
+        to auto-discover the username and password.
+        """
+        return self.project_root / ".c2_credentials.txt"
+
+    @property
+    def sessions_dir(self) -> Path:
+        """Absolute path to the sessions directory."""
+        return self.project_root / "sessions"
+
     def ensure_config_dir(self) -> Path:
         """Create the config directory if missing and return it."""
         self.config_dir.mkdir(parents=True, exist_ok=True)

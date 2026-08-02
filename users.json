@@ -7,7 +7,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 13253,
+        "elo": 14905,
         "tenant_id": "default"
     },
     {
@@ -823,6 +823,50 @@
         "id": 76,
         "username": "operator_1der3i2p",
         "password_hash": "scrypt:32768:8:1$R9vNU74JOnttFo1O$3e7d86fc520d8600330bc4525fa9c897e84a3e0c2d6c7b225691efbc7172e2bd1cb6dbfa8dfe2fd154ace2f8b6ec0b84aa7bf72e42b124be604ce88b1f009dda",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 77,
+        "username": "operator_mkq0fhwl",
+        "password_hash": "scrypt:32768:8:1$YAmzXMK1Xnwif5nE$c1ce06c07abe5deb4c8f043e7916ab867c2f7741fed1707cdbe4286c4b5121f79f98f610bf7de9c5085ab8e44b7e9089d66d94659d74fd401348c8672dd9e180",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 78,
+        "username": "operator_ern7bctq",
+        "password_hash": "scrypt:32768:8:1$Sp2hdQA1XjhufFlb$c6d775d55ecf09ddfd5d0dfa0175db879072af7eaabaf35544c737d03fa7a60b8f8d28fce74fd3e589f39007187d0a55d0f3ab3bf3c6321ed750f8408026ed73",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 79,
+        "username": "operator_lwnh7f2k",
+        "password_hash": "scrypt:32768:8:1$GxsABnl41Nvru0fD$07d604c8d612cc38e6e294115b1c7cc8f8d60cfaa8c0795cb9a931d82dad631075bf1f46d382a9d0bf2578480008a2ea311f5f7e87e546518d3feb8175666e7b",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 80,
+        "username": "operator_iw8rfycm",
+        "password_hash": "scrypt:32768:8:1$QRDnwBWxI9bkehBj$a4fed7bd202b02f99b4edf24db1baa0033fb056005059e88f07b563e5c6f37a6ef971dab987da62c8fb754c30742b22ccedfa66eb652d26c87cada0be239ed24",
         "role": "admin",
         "mfa_enabled": false,
         "mfa_secret": "",

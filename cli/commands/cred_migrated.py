@@ -608,7 +608,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             if regex_input:
                 char_list.extend(expand_regex(regex_input))
         total_passwords = 0
-        print_warn("Generating dictionary... this might take a while, so why not grab a coffee and come back to a freshly brewed wordlist? ☕")
+        print_warn("Generating dictionary... this might take a while, brew some coffee and come back to a freshly brewed wordlist.")
         with open(wordlist_name, 'w') as f:
             total_passwords = single_combo(target_name, char_list, f, total_passwords, True)
             total_passwords = double_combo(target_name, char_list, f, total_passwords, True)
@@ -1030,7 +1030,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
         crypttext = line.strip()
         plaintext = crack_password(crypttext)
         if plaintext:
-            print_msg(f'[+] Plaintext: {plaintext} [👽]')
+            print_msg(f'[+] Plaintext: {plaintext}')
         else:
             print_warn('[-] Invalid input.')
 

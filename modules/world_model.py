@@ -36,6 +36,8 @@ from __future__ import annotations
 
 import json
 import logging
+import os
+import base64
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -47,6 +49,97 @@ log = logging.getLogger("world_model")
 _BASE_DIR     = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
+ENCRYPTED_SUFFIX: str = ".encrypted"
+_SALT_RELATIVE: str = ".auto_crypto_salt"
+
+
+def _derive_crypto_key(password: str, salt: bytes) -> bytes:
+    """Derive a Fernet key from a password and salt (PBKDF2HMAC/SHA256)."""
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100_000
+    )
+    return base64.urlsafe_b64encode(kdf.derive(password.encode()))
+
+
+def _master_password() -> str | None:
+    """Return the shared master password for state-at-rest protection."""
+    return os.environ.get("LAZYOWN_MASTER_PASSWORD")
+
+
+def read_state_dict(path: str | Path) -> dict:
+    """Read a world-model state dict, transparently decrypting at rest.
+
+    Priority:
+        1. Plain ``world_model.json``.
+        2. Auto-encrypted ``world_model.json.encrypted`` (decrypted with
+           ``LAZYOWN_MASTER_PASSWORD`` and the persisted ``.auto_crypto_salt``).
+
+    Returns an empty dict when no readable state exists.
+
+    Args:
+        path: Path to the plain state file.
+
+    Returns:
+        The decoded JSON document as a dict.
+    """
+    plain = Path(path)
+    if plain.exists():
+        try:
+            return json.loads(plain.read_text(encoding="utf-8"))
+        except Exception as exc:
+            log.warning("world_model.read_state_dict: %s", exc)
+            return {}
+    encrypted = Path(str(plain) + ENCRYPTED_SUFFIX)
+    if encrypted.is_file():
+        password = _master_password()
+        if not password:
+            log.warning("world_model: %s encrypted but no LAZYOWN_MASTER_PASSWORD set", encrypted)
+            return {}
+        try:
+            salt_path = plain.parent / _SALT_RELATIVE
+            salt = salt_path.read_bytes()[:16] if salt_path.is_file() else b""
+            if not salt:
+                log.warning("world_model: no salt available to decrypt state")
+                return {}
+            from cryptography.fernet import Fernet
+            cipher = Fernet(_derive_crypto_key(password, salt))
+            decrypted = cipher.decrypt(encrypted.read_bytes())
+            return json.loads(decrypted.decode("utf-8"))
+        except Exception as exc:
+            log.warning("world_model: failed to decrypt encrypted state: %s", exc)
+            return {}
+    return {}
+
+
+def write_state_dict(path: str | Path, data: dict) -> bool:
+    """Atomically write a world-model state dict as plaintext.
+
+    Writing always produces a plain file while the operator is working;
+    at-rest encryption is applied on application close by
+    ``modules.auto_crypto.AutoCryptoEngine``.
+
+    Args:
+        path: Destination plain state file path.
+        data: State document to serialise.
+
+    Returns:
+        True when the write succeeded, False otherwise.
+    """
+    plain = Path(path)
+    try:
+        plain.parent.mkdir(parents=True, exist_ok=True)
+        tmp = plain.with_suffix(".json.tmp")
+        tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        tmp.replace(plain)
+        return True
+    except Exception as exc:
+        log.warning("world_model.write_state_dict: %s", exc)
+        if tmp.exists():
+            tmp.unlink(missing_ok=True)
+        return False
 
 
 # ---------------------------------------------------------------------------
@@ -689,7 +782,6 @@ class WorldModel:
     def _save(self) -> None:
         """Write state to disk. Caller must hold _lock."""
         self._path.parent.mkdir(parents=True, exist_ok=True)
-        tmp = self._path.with_suffix(".json.tmp")
         try:
             data = {
                 "hosts":            {ip: h.to_dict() for ip, h in self._hosts.items()},
@@ -700,18 +792,15 @@ class WorldModel:
             }
             if self._passthrough:
                 data.update(self._passthrough)
-            tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
-            tmp.replace(self._path)
+            write_state_dict(self._path, data)
         except Exception as exc:
             log.warning("WorldModel._save failed: %s", exc)
-            if tmp.exists():
-                tmp.unlink(missing_ok=True)
 
     def _load(self) -> None:
-        if not self._path.exists():
+        if not self._path.exists() and not Path(str(self._path) + ENCRYPTED_SUFFIX).is_file():
             return
         try:
-            data = json.loads(self._path.read_text(encoding="utf-8"))
+            data = read_state_dict(self._path)
             self._hosts = {ip: HostEntry.from_dict(h) for ip, h in data.get("hosts", {}).items()}
             self._creds = [CredentialEntry(**c) for c in data.get("credentials", [])]
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]

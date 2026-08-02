@@ -513,6 +513,14 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"tips engine not initialised: {exc}")
             self._tips_engine = None
         try:
+            if self._tips_engine is not None:
+                self._tips_engine.on_killchain_display = _print_phase
+                cfg = self._tips_engine.config
+                cfg.killchain_auto_every = int(self.params.get('killchain_auto_every', 0) or 0)
+                cfg.killchain_auto_on_phase_change = bool(self.params.get('killchain_auto_on_phase_change', True))
+        except Exception as exc:
+            print_warn(f"killchain auto-refresh not wired: {exc}")
+        try:
             self._auto_crypto = _AutoCryptoEngine(
                 config=_AutoCryptoConfig(
                     sessions_dir="sessions",

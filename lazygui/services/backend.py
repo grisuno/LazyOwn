@@ -154,6 +154,20 @@ class Backend(QObject):
             pass
         return {}
 
+    def request_beacon_history(self, client_id: str) -> list[dict]:
+        """Return the persistent command/result history for a beacon.
+
+        Default implementation returns an empty list; backends that can reach
+        the teamserver override this to fetch from the REST API.
+
+        Args:
+            client_id: The beacon id whose history is requested.
+
+        Returns:
+            An ordered list of record dicts (oldest first).
+        """
+        return []
+
     def request_session_state(self) -> dict:
         """Request the current session state (creds, hashes, loot) as a dict."""
         result: dict[str, list] = {"credentials": [], "hashes": [], "loot": []}

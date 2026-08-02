@@ -58,6 +58,8 @@ class NetworkConstants:
     websocket_path: str = "/socket.io/"
     api_data_path: str = "/api/data"
     api_dashboard_path: str = "/api/dashboard"
+    api_killchain_path: str = "/api/killchain"
+    api_beacon_results_path: str = "/api/beacon_results"
     api_issue_command_path: str = "/issue_command"
     api_run_path: str = "/api/run"
     api_output_path: str = "/api/output"

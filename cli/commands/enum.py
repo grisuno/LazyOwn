@@ -579,8 +579,8 @@ class EnumCommandSet(LazyOwnCommandSet):
             return
         rhost = self.params["rhost"]
         domain = self.params["domain"]
-        adomain = domain.split(".")
-        machine = adomain[0]
+        adomain = domain.split(".") if domain else []
+        machine = adomain[0] if len(adomain) > 0 else ""
         if not line:
             path_cred = "sessions/credentials.txt"
 

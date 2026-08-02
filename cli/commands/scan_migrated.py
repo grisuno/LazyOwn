@@ -1386,9 +1386,11 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             print_warn("ldapsearch not found installing...")
             self.cmd("sudo apt install ldapsearch -y")
         log = f"sessions/ldapsearch_{self.params['rhost']}.txt"
-        args = self.params['domain'].split(".")
+        args = self.params['domain'].split(".") if self.params['domain'] else []
+        dc0 = args[0] if len(args) > 0 else ""
+        dc1 = args[1] if len(args) > 1 else ""
         if not os.path.exists(f"{path}/sessions/credentials.txt"):
-            command = f"ldapsearch -x -H ldap://{self.params['rhost']} -b 'dc={args[0]},dc={args[1]}' -s sub > {log}"
+            command = f"ldapsearch -x -H ldap://{self.params['rhost']} -b 'dc={dc0},dc={dc1}' -s sub > {log}"
         else:
             if line:
                 credentials = get_credentials(ncred=int(line))
@@ -1398,7 +1400,7 @@ class ScanMigratedCommandSet(LazyOwnCommandSet):
             if not credentials:
                 return
             for username, password in credentials:
-                command = "ldapsearch -x -H ldap://{self.params['rhost']} -D \"{username}@{self.params['domain']}\" -w \"{password}\" -b 'dc={args[0]},dc={args[1]}' \"(objectClass=user)\" sAMAccountName | grep \"sAMAccountName\" | awk '{print $2}' > sessions/ldapsearch_{self.params['rhost']}.txt".replace("{self.params['rhost']}",self.params['rhost']).replace("{username}",username).replace("{password}",password).replace("{self.params['domain']}",self.params['domain']).replace("{args[0]}",args[0]).replace("{args[1]}",args[1])
+                command = "ldapsearch -x -H ldap://{self.params['rhost']} -D \"{username}@{self.params['domain']}\" -w \"{password}\" -b 'dc={dc0},dc={dc1}' \"(objectClass=user)\" sAMAccountName | grep \"sAMAccountName\" | awk '{print $2}' > sessions/ldapsearch_{self.params['rhost']}.txt".replace("{self.params['rhost']}",self.params['rhost']).replace("{username}",username).replace("{password}",password).replace("{self.params['domain']}",self.params['domain']).replace("{dc0}",dc0).replace("{dc1}",dc1)
 
         self.cmd(command)
         self.cmd(f"cat {log} |  sed 's/requesting://' >> sessions/users.txt")

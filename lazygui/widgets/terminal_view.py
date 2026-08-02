@@ -1,13 +1,8 @@
 """ANSI-aware terminal viewer.
 
-The widget is a write-only ``QPlainTextEdit`` that strips a small set of
-ANSI control sequences before appending text. Real terminal emulation is
-out of scope; the widget exists to surface cmd2 prompts, command output
-and teamserver streams without rendering escape codes literally.
-
-Keystrokes typed inside the widget are emitted as ``input_typed`` so the
-backend can choose whether to feed them to a PTY or queue them as a
-command.
+Strips ANSI escape codes and control characters before appending text.
+Handles cmd2 prompt rendering, colour codes, cursor positioning, and
+carriage-return semantics.
 """
 
 from __future__ import annotations
@@ -20,10 +15,19 @@ from PySide6.QtWidgets import QPlainTextEdit, QWidget
 
 from lazygui.config.constants import AppConstants
 
-_ANSI_CSI_PATTERN = re.compile(r"\x1b\[[0-9;?]*[ -/]*[@-~]")
-_ANSI_OSC_PATTERN = re.compile(r"\x1b\][^\x07\x1b]*(?:\x07|\x1b\\)")
-_BACKSPACE_PATTERN = re.compile(r"[^\b]\b")
-_CARRIAGE_RETURN_PATTERN = re.compile(r"^.*\r(?!\n)", re.MULTILINE)
+_ANSI_ESCAPE = re.compile(
+    r"\x1b"                         # ESC
+    r"(?:"
+    r"\[[0-9;?]*[ -/]*[@-~]"       # CSI: ESC [ params... letter
+    r"|\][^\x07\x1b]*(?:\x07|\x1b\\)"  # OSC: ESC ] ... BEL or ST
+    r"|[()][AB012]"                 # charset select
+    r"|[#>78=]"                     # keyboard/mode changes
+    r"|[DP\]X^_]"                   # other single-char ESC sequences
+    r")"
+)
+_CTRL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")
+_CR_LF = re.compile(r"\r\n")
+_CR = re.compile(r"\r(?!\n)")
 
 
 class TerminalView(QPlainTextEdit):
@@ -47,12 +51,10 @@ class TerminalView(QPlainTextEdit):
         font.setPointSize(self._constants.font.monospace_pt)
         self.setFont(font)
 
-    # --- Output side -------------------------------------------------------
-
     def append_output(self, text: str) -> None:
-        """Append ``text`` after stripping ANSI control codes."""
+        """Append ``text`` after stripping ANSI control codes and control chars."""
         sanitized = self._sanitize(text)
-        if not sanitized:
+        if not sanitized.strip():
             return
         cursor = self.textCursor()
         cursor.movePosition(QTextCursor.MoveOperation.End)
@@ -62,18 +64,13 @@ class TerminalView(QPlainTextEdit):
 
     @staticmethod
     def _sanitize(raw: str) -> str:
-        """Strip a pragmatic subset of ANSI controls and resolve simple CR."""
-        text = _ANSI_OSC_PATTERN.sub("", raw)
-        text = _ANSI_CSI_PATTERN.sub("", text)
-        while True:
-            replaced = _BACKSPACE_PATTERN.sub("", text)
-            if replaced == text:
-                break
-            text = replaced
-        text = _CARRIAGE_RETURN_PATTERN.sub("", text)
-        return text
-
-    # --- Input side --------------------------------------------------------
+        text = _ANSI_ESCAPE.sub("", raw)
+        text = _CR_LF.sub("\n", text)
+        text = _CR.sub("\n", text)
+        text = _CTRL_CHARS.sub("", text)
+        lines = [line.strip() for line in text.split("\n")]
+        lines = [line for line in lines if line]
+        return "\n".join(lines)
 
     def keyPressEvent(self, event: QKeyEvent) -> None:
         """Forward keystrokes to listeners instead of mutating the buffer."""

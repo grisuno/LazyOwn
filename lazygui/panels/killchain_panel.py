@@ -51,10 +51,10 @@ class KillChainPanel(PanelBase):
         self._completed: set[str] = set()
         self._current: str = "recon"
         self._build_ui()
-        backend.sessions_changed.connect(self._on_sessions_changed)
+        backend.sessions_changed.connect(self._refresh)
         self._refresh_timer = QTimer(self)
         self._refresh_timer.setInterval(constants.timing.panel_refresh_interval_ms)
-        self._refresh_timer.timeout.connect(self._apply_visuals)
+        self._refresh_timer.timeout.connect(self._refresh)
         self._refresh_timer.start()
         self._refresh()
 
@@ -95,32 +95,36 @@ class KillChainPanel(PanelBase):
         self.setWidget(container)
 
     def _refresh(self) -> None:
+        """Pull the kill-chain snapshot and drive visuals exclusively from it.
+
+        The single source of truth is the unified ``KillChain.snapshot``
+        (served by the backend over HTTP for the teamserver backend); the
+        panel never derives phases locally so it cannot diverge.
+        """
         try:
-            world = self._backend.request_world_model()
+            snapshot = self._backend.request_world_model()
         except Exception:
-            world = {}
-        model_phase = world.get("current_phase", world.get("phase", ""))
-        model_completed = set(world.get("completed_phases", []))
-        if model_phase:
-            self._current = model_phase
-        if model_completed:
-            self._completed = model_completed
-        self._apply_visuals()
+            snapshot = {}
+        if not isinstance(snapshot, dict):
+            snapshot = {}
 
-    def _on_sessions_changed(self, sessions: list) -> None:
-        if sessions:
-            self._advance_phase("recon")
-            self._advance_phase("scan")
-            self._advance_phase("enum")
-            self._advance_phase("exploit")
+        progress = snapshot.get("progress") or []
+        current = str(snapshot.get("current_phase", "") or "")
+        completed = set()
+        for p in (snapshot.get("completed_phases") or []):
+            completed.add(str(p).strip().lower())
+        for item in progress:
+            if isinstance(item, dict):
+                status = str(item.get("status", "")).lower()
+                key = str(item.get("key", "")).strip().lower()
+                if status == "active":
+                    current = key
+                elif status == "done":
+                    completed.add(key)
+        if current:
+            self._current = current
+        self._completed = completed
         self._apply_visuals()
-
-    def _advance_phase(self, phase: str) -> None:
-        idx = _PHASE_ORDER.index(phase) if phase in _PHASE_ORDER else -1
-        if idx < 0:
-            return
-        for i in range(idx + 1):
-            self._completed.add(_PHASE_ORDER[i])
 
     def _apply_visuals(self) -> None:
         for ph_id, widget in self._phase_widgets.items():

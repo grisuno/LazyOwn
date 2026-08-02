@@ -1166,6 +1166,91 @@ def _sanitize_csv_field(value: str, maxlen: int = 1000) -> str:
         value = "'" + value
     return value
 
+
+def datetime_now_iso() -> str:
+    """Return the current UTC timestamp as an ISO-8601 string."""
+    return datetime.now(timezone.utc).isoformat()
+
+
+def _beacon_records_path(client_id: str) -> str:
+    """Return the JSONL history file path for a sanitised beacon client id."""
+    from modules.beacon_history import sanitize_client_id
+    return os.path.join(ALLOWED_DIRECTORY, "sessions", f"{sanitize_client_id(client_id)}{'.records.jsonl'}")
+
+
+def _append_beacon_record(record: dict) -> bool:
+    """Append one beacon result record to the persistent JSONL history.
+
+    Keeps the full command/result timeline for a beacon so both the Flask
+    GUI and GUI2 can replay history instead of only the latest result.
+
+    Args:
+        record: The normalised beacon record dict (already sanitised).
+
+    Returns:
+        True when the append succeeded, False otherwise.
+    """
+    cid = str(record.get("client_id", ""))
+    if not cid:
+        return False
+    try:
+        from modules.beacon_history import append_record
+        return append_record(record)
+    except Exception:
+        try:
+            safe = _beacon_records_path(cid)
+            os.makedirs(os.path.dirname(safe), exist_ok=True)
+            with open(safe, "a", encoding="utf-8") as fh:
+                fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+            return True
+        except Exception:
+            return False
+
+
+def _read_beacon_records(client_id: str) -> list[dict]:
+    """Read the ordered JSONL history for a sanitised beacon client id.
+
+    Args:
+        client_id: The beacon id used to locate its history file.
+
+    Returns:
+        A list of record dicts in chronological order (oldest first).
+    """
+    try:
+        from modules.beacon_history import read_records
+        return read_records(client_id)
+    except Exception:
+        path = _beacon_records_path(client_id)
+        records: list[dict] = []
+        if not os.path.isfile(path):
+            return records
+        try:
+            with open(path, "r", encoding="utf-8") as fh:
+                for line in fh:
+                    line = line.strip()
+                    if not line:
+                        continue
+                    try:
+                        records.append(json.loads(line))
+                    except json.JSONDecodeError:
+                        continue
+        except Exception:
+            pass
+        return records
+    try:
+        with open(path, "r", encoding="utf-8") as fh:
+            for line in fh:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    records.append(json.loads(line))
+                except json.JSONDecodeError:
+                    continue
+    except Exception as exc:
+        logging.warning("[c2] beacon history read failed: %s", exc)
+    return records
+
 def escape_js_string(value):
     """Escape special characters in a string for JavaScript."""
     if isinstance(value, str):
@@ -1197,6 +1282,25 @@ def authenticate():
         401,
         {'WWW-Authenticate': 'Basic realm="Login Required"'}
     )
+
+
+def requires_auth_or_session(f):
+    """Require Basic auth credentials or a valid Flask-Login session.
+
+    Used on endpoints that are driven both by the CLI (which sends HTTP
+    Basic credentials) and by the GUI dashboard deep the operator has
+    already authenticated through ``/login`` (session cookie). Either
+    channel satisfies the gate.
+    """
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if auth and check_auth(auth.username, auth.password):
+            return f(*args, **kwargs)
+        if current_user.is_authenticated:
+            return f(*args, **kwargs)
+        return authenticate()
+    return decorated
 
 def requires_auth(f):
     @wraps(f)
@@ -2855,7 +2959,8 @@ def receive_result(client_id):
                 ]
                 writer.writerow(safe_data)
 
-            results[sanitized_client_id] = {
+            _record = {
+                "client_id": sanitized_client_id,
                 "output": output,
                 "client": client,
                 "pid": pid,
@@ -2865,8 +2970,11 @@ def receive_result(client_id):
                 "discovered_ips": discovered_ips,
                 "result_portscan": result_portscan,
                 "result_pwd": result_pwd,
-                "command": command
+                "command": command,
+                "timestamp": datetime_now_iso(),
             }
+            results[sanitized_client_id] = _record
+            _append_beacon_record(_record)
 
             logging.info(f"Received output from {sanitized_client_id}: {output[:100]} Platform: {client}")
             _was_new_beacon = sanitized_client_id not in connected_clients
@@ -3015,17 +3123,18 @@ def receive_result(client_id):
 
                 if _was_new:
                     _hook_engine.fire("beacon_connected", _hctx)
-                    try:
-                        from modules.world_model import HostState as _HS, get_world_model as _get_wm
-                        _wm = _get_wm()
-                        _wm.advance_host(_primary_ip, _HS.EXPLOITED)
-                        _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
-                        logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
-                        from modules.killchain import KillChain as _KC
-                        _KC.advance_phase("exploit")
-                        logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
-                    except Exception as _wme:
-                        logging.debug("[world_model] advance failed: %s", _wme)
+
+                try:
+                    from modules.world_model import HostState as _HS, get_world_model as _get_wm
+                    _wm = _get_wm()
+                    _wm.advance_host(_primary_ip, _HS.EXPLOITED)
+                    _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
+                    logging.info("[world_model] Advanced %s to EXPLOITED (foothold)", _primary_ip)
+                    from modules.killchain import KillChain as _KC
+                    _KC.advance_phase("exploit")
+                    logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
+                except Exception as _wme:
+                    logging.debug("[world_model] advance failed: %s", _wme)
 
                 _hook_engine.fire("command_executed", _hctx)
 
@@ -3216,7 +3325,7 @@ def receive_result(client_id):
 
 
 @app.route('/issue_command', methods=['POST'])
-@requires_auth
+@requires_auth_or_session
 @csrf_protect
 @limiter.limit("20 per minute")
 def issue_command():
@@ -3736,10 +3845,30 @@ def _api_data_inner():
     karma_name = get_karma_name(current_user.elo)
     connected_hosts = get_discovered_hosts()
 
+    try:
+        from modules.killchain import KillChain as _KC
+        killchain_snapshot = _KC.snapshot()
+    except Exception:
+        killchain_snapshot = {
+            "current_phase": "recon", "completed_phases": [], "progress": [],
+            "host_states": {}, "compact": "", "updated_at": "",
+        }
+
+    beacon_records: dict[str, list[dict]] = {}
+    for cid in connected_clients_list:
+        records = _read_beacon_records(cid)
+        if records:
+            beacon_records[str(cid)] = records
+        elif str(cid) in results:
+            beacon_records[str(cid)] = [results[str(cid)]]
+
     return jsonify({
         'connected_clients': connected_clients_list,
         'connected_hosts': connected_hosts,
         'results': results,
+        'beacon_records': beacon_records,
+        'killchain': killchain_snapshot,
+        'current_phase': killchain_snapshot.get("current_phase", "recon"),
         'session_data': session_data,
         'commands_history': commands_history,
         'os_data': os_data,
@@ -5556,6 +5685,46 @@ def killchain_view():
             {% endblock %}'''
         )
 
+@app.route('/api/killchain', methods=['GET'])
+@requires_auth
+@limiter.limit("60 per minute")
+def api_killchain():
+    """Return the unified kill-chain snapshot consumed by every surface.
+
+    Delegates entirely to ``modules.killchain.KillChain.snapshot`` so the
+    web dashboard, /killchain page, GUI2 and the CLI all render identical
+    state derived from the single source of truth (world_model.json).
+    """
+    try:
+        from modules.killchain import KillChain as _KC
+        snapshot = _KC.snapshot()
+        snapshot["c2_route"] = route_malleable
+        return jsonify(snapshot), 200
+    except Exception as exc:
+        logging.error("api_killchain failed: %s", exc, exc_info=True)
+        return jsonify({"error": "Internal server error", "current_phase": "recon",
+                        "completed_phases": [], "progress": [], "host_states": {},
+                        "compact": "", "updated_at": ""}), 200
+
+
+@app.route('/api/beacon_results/<client_id>', methods=['GET'])
+@requires_auth
+@limiter.limit("120 per minute")
+def api_beacon_results(client_id):
+    """Return the full ordered command/result history for one beacon.
+
+    Falls back to the in-memory latest result when the on-disk JSONL
+    history is missing so GUI2 always has something to render.
+    """
+    safe_id = ''.join(c for c in str(client_id) if c.isalnum() or c in '-_')
+    if not safe_id or safe_id != str(client_id):
+        return jsonify({"error": "Invalid client_id"}), 400
+    records = _read_beacon_records(safe_id)
+    if not records and safe_id in results:
+        records = [results[safe_id]]
+    return jsonify({"client_id": safe_id, "records": records}), 200
+
+
 def _render_enhanced_report():
     try:
         from modules.report_templates import ReportGenerator
@@ -6572,6 +6741,11 @@ def api_dashboard():
         "campaign":        campaign_summary,
         "facts_by_host":   facts_summary,
     }
+    try:
+        from modules.killchain import KillChain as _KC
+        payload["killchain"] = _KC.snapshot()
+    except Exception:
+        payload["killchain"] = {}
     return jsonify(payload)
 
 
@@ -6651,8 +6825,30 @@ thread.start()
 
 if __name__ == '__main__':
 
-    path = os.getcwd().replace("modules", "sessions" )
+    path = os.getcwd().replace("modules", "sessions")
     uploads = f"{path}/uploads"
+
+    # ── Session at-rest crypto ──────────────────────────────────────────────
+    # The C2 must operate on plaintext session files (world_model.json,
+    # key.aes, credentials) while running. Decrypt on boot and re-encrypt on
+    # a clean shutdown with the same derived key as the CLI, so a session
+    # shared between either surface stays decryptable by the other.
+    _auto_crypto_engine = None
+    try:
+        from cli.auto_crypto import AutoCryptoConfig as _ACC
+        from cli.auto_crypto import AutoCryptoEngine as _ACE
+        from cli.auto_crypto import build_password_provider_from_cli_login
+        _provider = build_password_provider_from_cli_login() or (lambda: None)
+        _auto_crypto_engine = _ACE(config=_ACC(
+            sessions_dir="sessions", auto_enabled=True, password_provider=_provider,
+        ))
+        _auto_crypto_engine.decrypt_session()
+        import atexit as _c2_atexit
+        _c2_atexit.register(_auto_crypto_engine.encrypt_session)
+        print("[crypto] Session state restored for the run (re-encrypted on clean exit).")
+    except Exception as crypto_err:
+        print(f"[crypto] auto-encrypt/decrypt init failed: {crypto_err}")
+
     dns_thread = threading.Thread(target=start_dns_server, daemon=True)
     dns_thread.start()
     watching_thread = threading.Thread(target=start_watching, daemon=True)

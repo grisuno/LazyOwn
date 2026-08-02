@@ -19,12 +19,14 @@ Contracts:
 
 from __future__ import annotations
 
-import json
+import datetime
 import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from modules.world_model import read_state_dict, write_state_dict
 
 _log = logging.getLogger(__name__)
 
@@ -210,7 +212,8 @@ class KillChain:
         wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
         cli_phase = "recon"
         try:
-            from modules.world_model import get_world_model
+            from modules.world_model import get_world_model, read_state_dict
+            wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
             wm = get_world_model(path=wm_path)
             wm_phase = wm.get_phase().value
             cli_phase = KillChain.engagement_phase_to_cli(wm_phase)
@@ -218,7 +221,7 @@ class KillChain:
             _log.debug("WorldModel phase read failed: %s", exc)
 
         try:
-            raw = json.loads(wm_path.read_text(encoding="utf-8"))
+            raw = read_state_dict(wm_path)
             explicit = (raw.get("current_phase") or "").strip().lower()
             if explicit and _DEFAULT_CONFIG.is_valid_phase(explicit):
                 explicit_rank = _DEFAULT_CONFIG.phase_index(explicit)
@@ -258,7 +261,7 @@ class KillChain:
 
         wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
         try:
-            raw = json.loads(wm_path.read_text(encoding="utf-8"))
+            raw = read_state_dict(wm_path)
         except Exception:
             raw = {}
 
@@ -278,10 +281,7 @@ class KillChain:
         raw["completed_phases"] = completed
 
         try:
-            tmp = wm_path.with_suffix(".json.tmp")
-            tmp.parent.mkdir(parents=True, exist_ok=True)
-            tmp.write_text(json.dumps(raw, indent=2), encoding="utf-8")
-            tmp.replace(wm_path)
+            write_state_dict(wm_path, raw)
             _log.info("KillChain advanced to %s (completed: %s)", new_phase, completed)
         except Exception as exc:
             _log.error("Failed to write world_model.json: %s", exc)
@@ -319,7 +319,7 @@ class KillChain:
         current = KillChain.current_phase(world_model_path=wm_path)
         completed: set[str] = set()
         try:
-            raw = json.loads(wm_path.read_text(encoding="utf-8"))
+            raw = read_state_dict(wm_path)
             raw_completed = raw.get("completed_phases", [])
             if isinstance(raw_completed, list):
                 completed = {str(p).strip().lower() for p in raw_completed if _DEFAULT_CONFIG.is_valid_phase(str(p).strip().lower())}
@@ -378,6 +378,49 @@ class KillChain:
     def phase_index(phase: str) -> int:
         """Return the zero-based index of a canonical phase."""
         return _DEFAULT_CONFIG.phase_index(phase)
+
+    @staticmethod
+    def snapshot(world_model_path: Path | None = None) -> dict:
+        """Return a single, render-agnostic snapshot of the whole kill-chain.
+
+        This is the one payload every surface (CLI, Flask dashboard, GUI2,
+        Textual TUI, tips engine, REST API) consumes. It centralises the
+        current phase, the completed set, per-phase progress, host states and
+        a compact progress glyph so surfaces cannot diverge.
+
+        Args:
+            world_model_path: Optional override path for the world model file.
+
+        Returns:
+            A JSON-serialisable dict with keys: ``current_phase``,
+            ``completed_phases``, ``progress``, ``host_states``,
+            ``compact`` and ``updated_at``.
+        """
+        wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
+        progress = KillChain.get_progress(world_model_path=wm_path)
+        current = KillChain.current_phase(world_model_path=wm_path)
+        raw = read_state_dict(wm_path)
+        completed: list[str] = []
+        for p in (raw.get("completed_phases") or []):
+            key = str(p).strip().lower()
+            if _DEFAULT_CONFIG.is_valid_phase(key) and key not in completed:
+                completed.append(key)
+        phases_entered = (raw.get("phases_entered") or []) or completed
+        host_states: dict[str, str] = {}
+        for ip, host in (raw.get("hosts") or {}).items():
+            if isinstance(host, dict):
+                host_states[str(ip)] = str(host.get("state") or "unscanned")
+        return {
+            "current_phase": current,
+            "completed_phases": completed,
+            "progress": [
+                {"key": p.key, "label": p.label, "color": p.color, "status": p.status}
+                for p in progress
+            ],
+            "host_states": host_states,
+            "compact": KillChain.compact_progress(current, phases_entered=phases_entered),
+            "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        }
 
 
 def get_killchain() -> type[KillChain]:

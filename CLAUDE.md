@@ -763,6 +763,51 @@ ELO bonuses: `juicypotato:20`, `sudo_privesc:20`, `whoami_priv:10`, `crystal_bal
 
 ---
 
+## 16.1 Unified kill-chain contract (single source of truth)
+
+**Canonical state:** `modules/killchain.py` is the only component that computes the
+kill-chain. Every display surface (CLI `/killchain`, Flask `/api/killchain`,
+C2 `/api/data`, `/api/dashboard`, GUI2 `KillChainPanel`) consumes
+`KillChain.snapshot()` — a single render-agnostic, JSON-serializable payload:
+
+```python
+{
+  "current_phase": "recon",
+  "completed_phases": [],
+  "progress": [{"key": "recon", "label": "Recon", "color": "...", "status": "..."}],
+  "host_states": [], "compact": "...", "updated_at": "ISO8601"
+}
+```
+
+**I/O transport:** `modules/world_model.py` owns all session state reads/writes.
+`read_state_dict()` transparently decrypts `sessions/world_model.json.encrypted`
+(left as plaintext `.json` while a surface is running), so the snapshot always
+reflects the real persisted state — no surface should ever guess a phase.
+
+**Beacon history:** `modules/beacon_history.py` appends one JSONL record per
+beacon result to `sessions/<client>.records.jsonl` (pathworld-safe). `lazyc2`
+delegates all beacon record I/O to this single module.
+
+**HTTP surface:**
+- `GET /api/killchain` — snapshot (auth + limiter).
+- `GET /api/beacon_results/<client_id>` — JSONL beacon history (auth + limiter).
+- `GET /api/data` and `GET /api/dashboard` — include both `killchain` and
+  `beacon_records`.
+
+**CLI command:** `/killchain` prints the snapshot; `/killchain auto on|off|N`
+toggles live auto-refresh. Flags `killchain_auto_every` and
+`killchain_auto_on_phase_change` live in `payload.json`.
+
+**C2 run-time state:** `lazyc2.py` decrypts session files on boot and re-encrypts
+on clean exit (same derived key as the CLI), so beacons can decrypt `key.aes`
+and the kill-chain reflects the true phase while the server runs.
+
+**Test contract:** `tests/test_killchain_snapshot.py`,
+`tests/test_beacon_history.py`, `tests/test_killchain_auto_refresh.py`.
+Mutation gate: `tests/run_mutation_killchain.py` (no surviving mutants).
+
+---
+
 ## 17. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

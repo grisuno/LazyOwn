@@ -1670,7 +1670,6 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         Returns:
             None
         """
-        # TODO: implement the data-upload stage and the exfiltration stage (for example HackTheBox flags).
         self.params['c2_port']
         lhost = self.params['lhost']
         lport = self.params['lport']
@@ -2220,7 +2219,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                 filepath = "user_commands.json"
                 with open(filepath, 'w') as f:
                     json.dump(user_commands, f, indent=4)
-                print_msg(f"🗑️ Removed: {removed[0]}")
+                print_msg(f"Removed: {removed[0]}")
             else:
                 print_error("Invalid index.")
         except ValueError:

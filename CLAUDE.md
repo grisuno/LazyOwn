@@ -30,6 +30,39 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
 
+## 0.2 Non-negotiable: user input is hostile
+
+**Every byte of user-controlled input MUST be treated as malicious — no exceptions, ever.**
+
+This is not a guideline. It is the single most important security rule in this codebase.
+
+| Rule | What it means |
+|------|---------------|
+| Never trust user input | Every `request.args`, `request.form`, `request.json`, `request.headers`, `request.cookies`, route parameter, `sys.argv`, `input()`, file upload name, and any other external input is assumed to be a deliberate attack until proven otherwise. |
+| Sanitize before use | User input must be sanitized *before* it touches any filesystem path, SQL query, shell command, system call, template render, or serialization. No exceptions, not even for "internal" or "trusted" endpoints. |
+| Path traversal is the #1 vector | Any user input that ends up in `os.path.join`, `open()`, or any filesystem operation MUST go through a whitelist character filter AND an `os.path.realpath` prefix check against an explicit allowed directory. Even a single character of uncontrolled path input is unacceptable. |
+| Defense in depth | A sanitization function is not enough. Always add a second layer: `os.path.realpath()` + `.startswith(allowed_dir + os.sep)` before any file I/O. If the path does not resolve within the allowed directory, reject with 403. |
+| Log and reject | When user input fails validation, log the rejection event and return a generic error. Never reflect the rejected input back to the user (information leak). |
+| CodeQL path-expression alerts are blockers | Any CodeQL "Uncontrolled data used in path expression" alert is a critical security bug and must be fixed before merge. No exceptions, no suppressions. |
+
+### Implementation pattern
+
+```python
+import os
+
+def safe_path(user_input: str, allowed_dir: str, prefix: str = "") -> str:
+    sanitized = ''.join(c for c in str(user_input) if c.isalnum() or c in '-_.')
+    if not sanitized:
+        raise ValueError("Invalid input")
+    allowed = os.path.realpath(allowed_dir)
+    candidate = os.path.realpath(os.path.join(allowed, f"{prefix}{sanitized}"))
+    if not candidate.startswith(allowed + os.sep):
+        raise PermissionError("Path traversal blocked")
+    return candidate
+```
+
+This pattern MUST be used whenever user input contributes to a filesystem path. Copy-paste it. Do not "improve" it without peer review.
+
 ### C2 Transport & Evasion contracts
 
 Each module is a single-file contract for one transport or evasion concern. All ship with 94%+ mutation-killed coverage.

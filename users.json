@@ -7,7 +7,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 12711,
+        "elo": 12754,
         "tenant_id": "default"
     },
     {
@@ -801,6 +801,17 @@
         "id": 74,
         "username": "operator_nyodvanp",
         "password_hash": "scrypt:32768:8:1$WFtfaFMObFkpJSLg$05e7a7c274204ce09868e871b4285e83001bcbd83fb37c6e922b91925cad47b8600cf3dbc9996b3dc86d002be27fedb0da42d3ba50f88acaff163440b32a9b97",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 75,
+        "username": "operator_m30mf4oc",
+        "password_hash": "scrypt:32768:8:1$KzliI6MFtc2XWt64$d5575a3f039a019da131f051e66495d359be40566e954cb9d330aefd24302a47895a611bb537dbc28f7a515abcf3537197be81faf797e90e595d7bbb3eb2f6eb",
         "role": "admin",
         "mfa_enabled": false,
         "mfa_secret": "",

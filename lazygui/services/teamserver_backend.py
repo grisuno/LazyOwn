@@ -68,6 +68,8 @@ class TeamserverBackend(Backend):
         self._sio_thread: threading.Thread | None = None
         self._poll_timer: QTimer | None = None
         self._graph_timer: QTimer | None = None
+        self._results_timer: QTimer | None = None
+        self._last_results_state: dict[str, Any] = {}
         self._sessions: tuple[Session, ...] = ()
         self._listeners: tuple[Listener, ...] = ()
         self._topology: Topology = Topology.empty()
@@ -94,7 +96,7 @@ class TeamserverBackend(Backend):
 
     def stop(self) -> None:
         """Tear down all timers and Socket.IO connection."""
-        for attr in ("_poll_timer", "_graph_timer"):
+        for attr in ("_poll_timer", "_graph_timer", "_results_timer"):
             timer: QTimer | None = getattr(self, attr, None)
             if timer is not None:
                 timer.stop()
@@ -205,6 +207,45 @@ class TeamserverBackend(Backend):
         except Exception as exc:
             self._emit_event(EventLevel.WARNING, f"Results fetch failed for {client_id}: {exc}")
 
+    def _poll_beacon_results(self) -> None:
+        """Periodically poll ``/get_results`` and emit ``beacon_result`` for new data.
+
+        Compares each client_id's last command against a cached snapshot
+        to avoid re-emitting stale data on every poll cycle.
+        """
+        try:
+            payload = self._http_get_json(self._constants.network.get_results_path)
+        except Exception:
+            return
+        if not isinstance(payload, Mapping):
+            return
+        for client_id, result_data in payload.items():
+            if not isinstance(result_data, Mapping):
+                continue
+            cached = self._last_results_state.get(client_id, {}) if isinstance(self._last_results_state, Mapping) else {}
+            current_command = str(result_data.get("command", ""))
+            if cached.get("command") == current_command and cached.get("output") == str(result_data.get("output", "")):
+                continue
+            self._last_results_state[str(client_id)] = {
+                "command": current_command,
+                "output": str(result_data.get("output", "")),
+            }
+            self.beacon_result.emit(
+                BeaconResult(
+                    client_id=str(client_id),
+                    output=str(result_data.get("output", "")),
+                    command=current_command,
+                    operating_system=str(result_data.get("client", "")),
+                    hostname=str(result_data.get("hostname", "")),
+                    user=str(result_data.get("user", "")),
+                    ips=str(result_data.get("ips", "")),
+                    pid=str(result_data.get("pid", "")),
+                    discovered_ips=str(result_data.get("discovered_ips", "")),
+                    result_portscan=str(result_data.get("result_portscan", "")),
+                    result_pwd=str(result_data.get("result_pwd", "")),
+                )
+            )
+
     # --- HTTP plumbing -----------------------------------------------------
 
     def _establish_flask_session(self) -> None:
@@ -268,29 +309,6 @@ class TeamserverBackend(Backend):
             return response.json()
         return {}
 
-    def _http_post_json(self, path: str, payload: Mapping[str, Any]) -> Any:
-        response = self._http.post(
-            self._build_url(path),
-            json=payload,
-            timeout=(
-                self._constants.network.http_connect_timeout_seconds,
-                self._constants.network.http_read_timeout_seconds,
-            ),
-        )
-        response.raise_for_status()
-        if response.headers.get("content-type", "").startswith("application/json"):
-            return response.json()
-        return {}
-
-    def _post_global_command(self, command: str) -> None:
-        """Send a command via Socket.IO PTY instead of ``/api/run``.
-
-        ``/api/run`` requires CSRF which is not available to the desktop
-        GUI. Socket.IO ``/pty`` bypasses CSRF entirely because auth is
-        handled at connection time.
-        """
-        self._send_command_via_pty(command)
-
     def _post_session_command(self, command: str, client_id: str) -> None:
         try:
             self._http_post_form(
@@ -330,15 +348,6 @@ class TeamserverBackend(Backend):
             stripped = line.strip()
             if stripped:
                 self._send_command_via_pty(stripped)
-
-    def _poll_command_output(self) -> None:
-        try:
-            payload = self._http_get_json(self._constants.network.api_output_path)
-        except Exception:
-            return
-        output = payload.get("output", "") if isinstance(payload, Mapping) else ""
-        if output:
-            self.terminal_output.emit(output)
 
     def _refresh_topology(self) -> None:
         """Rebuild topology from the last known payload.
@@ -388,6 +397,12 @@ class TeamserverBackend(Backend):
         self._graph_timer.setInterval(interval)
         self._graph_timer.timeout.connect(self._refresh_topology)
         self._graph_timer.start()
+        results_interval = self._constants.timing.beacon_results_poll_interval_ms
+        self._results_timer = QTimer(self)
+        self._results_timer.setInterval(results_interval)
+        self._results_timer.timeout.connect(self._poll_beacon_results)
+        self._results_timer.start()
+        self._last_results_state: dict[str, Any] = {}
 
     # --- Socket.IO client ----------------------------------------------------
 

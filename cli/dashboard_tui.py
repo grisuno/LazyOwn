@@ -28,17 +28,21 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Footer, Header, Static
 
+from modules.killchain import KillChain as _KC
+
 try:
-    from cli.ops_commands import PHASES as _PHASES
     from cli.ops_commands import write_phase as _write_phase
 except ImportError:
-    _PHASES = ("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
 
     def _write_phase(phase: str) -> bool:  # type: ignore[misc]
         return False
 
+_PHASES: tuple[str, ...] = _KC.phases()
+KILL_CHAIN_PHASES: tuple[tuple[str, str], ...] = tuple(
+    (p[0], p[1]) for p in _KC.phases_for_display()
+)
 
-from cli.killchain import DEFAULT_PHASES as KILL_CHAIN_PHASES
+
 from cli.killchain import (
     STATE_ACTIVE,
     STATE_DONE,
@@ -67,6 +71,19 @@ def _read_json(path: str) -> dict[str, Any]:
             return json.load(fh)
     except (OSError, json.JSONDecodeError):
         return {}
+
+
+def _engagement_to_cli_phase(engagement_phase: str) -> str:
+    """Map a WorldModel EngagementPhase value to a CLI phase name."""
+    mapping: dict[str, str] = {
+        "recon": "recon",
+        "scanning": "scan",
+        "enumeration": "enum",
+        "exploitation": "exploit",
+        "post_exploitation": "privesc",
+        "complete": "report",
+    }
+    return mapping.get(engagement_phase, "recon")
 
 
 def _count_lines_in_glob(pattern: str) -> int:
@@ -157,7 +174,13 @@ class TargetPanel(Static):
         domain = payload.get("domain") or "—"
         os_id = payload.get("os_id", 0)
         os_label = "Linux" if str(os_id) == "1" else ("Windows" if str(os_id) == "2" else "?")
-        phase = (world.get("phase") or world.get("current_phase") or "unknown").upper()
+        try:
+            from modules.world_model import get_world_model
+            wm_phase = get_world_model().get_phase().value
+            cli_phase = _engagement_to_cli_phase(wm_phase)
+            phase = cli_phase.upper()
+        except Exception:
+            phase = (world.get("phase") or world.get("current_phase") or "unknown").upper()
 
         t = Text()
         t.append(" TARGET ", style="bold white on dark_red")

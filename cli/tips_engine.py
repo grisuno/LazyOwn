@@ -170,6 +170,9 @@ class TipsConfig:
 
     enabled: bool = True
 
+    killchain_auto_every: int = 0
+    killchain_auto_on_phase_change: bool = True
+
 
 @dataclass
 class EngagementState:
@@ -217,6 +220,9 @@ class TipsEngine:
         self._console: Console = Console(stderr=False, highlight=False, soft_wrap=True)
         self._last_tip_shown: str = ""
         self._session_tip_idx: int = -1
+        self._killchain_counter: int = 0
+        self._last_auto_phase: str = ""
+        self.on_killchain_display = getattr(config, "killchain_display", None) or (lambda: None)
 
     @property
     def enabled(self) -> bool:
@@ -254,6 +260,33 @@ class TipsEngine:
         self._run_curiosity_reveal(first, resolved_phase)
         self._refresh_autosuggest(cmd, resolved_phase)
         self._update_engagement_state(first, resolved_phase)
+        self._maybe_auto_show_killchain(resolved_phase)
+
+    def _maybe_auto_show_killchain(self, phase: str) -> None:
+        """Periodically re-surface the current phase without user prompt.
+
+        Shows the unified kill-chain bar after every ``killchain_auto_every``
+        commands and immediately whenever the active phase changes. Bounded
+        by the injected display callable so the engine stays UI-agnostic.
+
+        Args:
+            phase: The resolved phase for the command that just executed.
+        """
+        if not self.config.enabled:
+            return
+        phase_changed = phase and phase != self._last_auto_phase
+        every = int(self.config.killchain_auto_every or 0)
+        self._killchain_counter += 1
+        should_show = (every > 0 and self._killchain_counter % every == 0) or (
+            phase_changed and self.config.killchain_auto_on_phase_change
+        )
+        if phase:
+            self._last_auto_phase = phase
+        if should_show:
+            try:
+                self.on_killchain_display()
+            except Exception:
+                pass
 
     def _resolve_phase(self, cmd: str, fallback: str) -> str:
         """Resolve the current engagement phase with progressive degradation.

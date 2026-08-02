@@ -20,10 +20,7 @@ SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 def _load_phases(sessions: Path) -> list[dict[str, Any]]:
     """Return a list of phase dicts suitable for SVG/HTML rendering."""
     wm_path = sessions / "world_model.json"
-    try:
-        progress = _KC.get_progress(world_model_path=wm_path)
-    except Exception:
-        progress = _KC.get_progress(world_model_path=wm_path)
+    progress = _KC.get_progress(world_model_path=wm_path)
     return [
         {"id": p.key, "label": p.label, "color": p.color, "status": p.status}
         for p in progress

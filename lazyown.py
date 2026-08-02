@@ -471,6 +471,14 @@ class LazyOwnShell(cmd2.Cmd):
             include_ipy=True,
         )
         try:
+            _mode = getattr(self.config, "history_search_mode", None)
+            if _mode is None or _mode:
+                import readline
+                readline.parse_and_bind('"\\e[A": history-search-backward')
+                readline.parse_and_bind('"\\e[B": history-search-forward')
+        except Exception:
+            pass
+        try:
             self.aliases.update(_load_aliases(load_payload(), lazy=True))
         except Exception as exc:
             print_warn(f"failed to load cli/aliases.yaml: {exc}")

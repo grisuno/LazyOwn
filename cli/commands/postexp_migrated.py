@@ -58,9 +58,10 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         url = self.params['url']
         domain = self.params['domain']
         subdomain = self.params['subdomain']
-        asub = self.params['domain'].split(".")
-        name = asub[0]
-        ext = asub[1]
+        domain = self.params['domain']
+        asub = domain.split(".") if domain else []
+        name = asub[0] if len(asub) > 0 else ""
+        ext = asub[1] if len(asub) > 1 else ""
         if not check_lhost(self.params['lhost']):
             return
         commands_list = [

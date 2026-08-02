@@ -189,7 +189,12 @@ single contract.
 
 **Contract:** ``KillChain`` is the canonical authority for kill-chain data — phases,
 progress, mapping, and atomic updates. Every display surface imports from here.
-No other file defines its own phases. See ``CLAUDE.md`` Section 16 for full details.
+No other file defines its own phases. See ``CLAUDE.md`` Sections 16 and 16.1.
+
+**Transport:** state is read/written only via ``modules/world_model`` (transparent
+decrypt of the ``world_model.json.encrypted`` sibling). Beacon history is owned by
+``modules/beacon_history.py``. Exposed over HTTP at ``/api/killchain`` and
+``/api/beacon_results/<client_id>``. C2 decrypts on boot and re-encrypts on exit.
 
 ### `cli/tips_engine.py` — Unified post-command tips engine
 

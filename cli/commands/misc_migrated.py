@@ -341,16 +341,27 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
     @cmd2.with_category("12. Miscellaneous")
     def do_killchain(self, line):
-        """Show the unified kill-chain progress from the world model.
+        """Show the unified kill-chain progress and control auto-refresh.
 
-        Displays every kill-chain phase with its status derived from host
-        states in the WorldModel (the single source of truth), plus the
-        operator-set override when it differs.
+        Displays every kill-chain phase with its status derived from the
+        WorldModel (the single source of truth), plus the operator-set
+        override when it differs.
+
+        A compact progress bar can also be surfaced automatically after
+        commands. Use ``killchain auto on|off|N`` to enable it every N
+        commands, or set the phase-change trigger that fires whenever the
+        active phase advances.
 
         Usage:
-            ``killchain``           — show unified kill-chain progress bar
+            ``killchain``            — show unified kill-chain progress bar
+            ``killchain auto on``    — show bar periodically after commands
+            ``killchain auto off``   — disable auto-refresh
+            ``killchain auto 5``     — show bar every 5 commands
         """
-        del line
+        arg = (line or "").strip()
+        if arg.lower().startswith("auto"):
+            self._handle_killchain_auto(arg[len("auto"):])
+            return
         _print_phase()
         try:
             from modules.world_model import get_world_model
@@ -359,6 +370,32 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             print(ctx, flush=True)
         except Exception:
             pass
+
+    def _handle_killchain_auto(self, spec: str) -> None:
+        """Set the kill-chain auto-refresh cadence for the current session."""
+        shell = self._resolve_shell()
+        engine = getattr(shell, "_tips_engine", None)
+        value = (spec or "").strip().lower()
+        current = int(getattr(engine.config, "killchain_auto_every", 0) or 0) if engine else 0
+        if value in ("on", "yes"):
+            current = current or 3
+            if engine:
+                engine.config.killchain_auto_every = current
+                engine.config.killchain_auto_on_phase_change = True
+            print_msg(f"Kill-chain auto-refresh enabled (every {current} commands, on phase change)")
+        elif value in ("off", "no", "0"):
+            if engine:
+                engine.config.killchain_auto_every = 0
+                engine.config.killchain_auto_on_phase_change = False
+            print_msg("Kill-chain auto-refresh disabled")
+        elif value.isdigit() and int(value) > 0:
+            if engine:
+                engine.config.killchain_auto_every = int(value)
+                engine.config.killchain_auto_on_phase_change = True
+            print_msg(f"Kill-chain auto-refresh set to every {value} commands")
+        else:
+            state = f"enabled (every {current})" if current else "disabled"
+            print_msg(f"Kill-chain auto-refresh: {state}  (phase-change trigger: {getattr(engine.config, 'killchain_auto_on_phase_change', True) if engine else True})")
 
     @cmd2.with_category("12. Miscellaneous")
     def do_note(self, line):

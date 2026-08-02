@@ -207,6 +207,40 @@ class TeamserverBackend(Backend):
         except Exception as exc:
             self._emit_event(EventLevel.WARNING, f"Results fetch failed for {client_id}: {exc}")
 
+    def request_world_model(self) -> dict:
+        """Fetch the unified kill-chain snapshot from the teamserver REST API.
+
+        Overrides the base local-file implementation so the remote state is
+        the single source of truth for the GUI kill-chain panel.
+        """
+        try:
+            payload = self._http_get_json(self._constants.network.api_killchain_path)
+            if isinstance(payload, Mapping):
+                return payload
+        except Exception as exc:
+            self._emit_event(EventLevel.WARNING, f"killchain fetch failed: {exc}")
+        return {}
+
+    def request_beacon_history(self, client_id: str) -> list[dict]:
+        """Fetch the persistent ordered command/result history for a beacon.
+
+        Args:
+            client_id: The beacon id whose history is requested.
+
+        Returns:
+            A list of record dicts (oldest first), or [] on failure.
+        """
+        safe_id = "".join(c for c in str(client_id) if c.isalnum() or c in "-_")
+        try:
+            payload = self._http_get_json(
+                f"{self._constants.network.api_beacon_results_path}/{safe_id}"
+            )
+            records = payload.get("records", []) if isinstance(payload, Mapping) else []
+            return [r for r in records if isinstance(r, Mapping)]
+        except Exception as exc:
+            self._emit_event(EventLevel.WARNING, f"History fetch failed for {client_id}: {exc}")
+            return []
+
     def _poll_beacon_results(self) -> None:
         """Periodically poll ``/get_results`` and emit ``beacon_result`` for new data.
 

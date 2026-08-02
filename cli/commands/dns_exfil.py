@@ -241,9 +241,21 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                 safe_name = _sanitize_filename(file_name)
 
                 if chunk_idx is not None and chunk_total is not None:
-                    stage_dir = os.path.join(output_dir, f".staging_{safe_name}")
+                    stage_dir = os.path.realpath(
+                        os.path.join(output_dir, f".staging_{safe_name}")
+                    )
+                    if not stage_dir.startswith(output_dir + os.sep):
+                        self.send_response(403)
+                        self.end_headers()
+                        return
                     os.makedirs(stage_dir, exist_ok=True)
-                    chunk_path = os.path.join(stage_dir, f"chunk_{int(chunk_idx):04d}")
+                    chunk_path = os.path.realpath(
+                        os.path.join(stage_dir, f"chunk_{int(chunk_idx):04d}")
+                    )
+                    if not chunk_path.startswith(stage_dir + os.sep):
+                        self.send_response(403)
+                        self.end_headers()
+                        return
                     with open(chunk_path, "wb") as f:
                         f.write(data)
 
@@ -251,9 +263,12 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                     if written >= int(chunk_total):
                         full_data = b""
                         for i in range(int(chunk_total)):
-                            cp = os.path.join(stage_dir, f"chunk_{i:04d}")
+                            cp = os.path.realpath(os.path.join(stage_dir, f"chunk_{i:04d}"))
+                            if not cp.startswith(stage_dir + os.sep):
+                                continue
                             if os.path.exists(cp):
-                                full_data += open(cp, "rb").read()
+                                with open(cp, "rb") as chunk_f:
+                                    full_data += chunk_f.read()
                         out_path = os.path.realpath(os.path.join(output_dir, safe_name))
                         if not out_path.startswith(output_dir + os.sep):
                             self.send_response(403)

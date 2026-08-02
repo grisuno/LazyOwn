@@ -2184,7 +2184,10 @@ app = Flask(__name__, static_folder='static')
 limiter = Limiter(
     app=app,
     key_func=get_remote_address,
-    default_limits=[config.c2_daily_limit, config.c2_hour_limit]
+    default_limits=[
+        config.c2_daily_limit or "1000 per day",
+        config.c2_hour_limit or "200 per hour",
+    ]
 )
 
 @app.before_request

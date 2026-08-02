@@ -2750,14 +2750,27 @@ def send_command(client_id):
         encrypted_command = encrypt_data(command.encode())
         return Response(encrypted_command)
     else:
-        cmd_queue_file = os.path.join(ALLOWED_DIRECTORY, f"cmd_{client_id}.json")
-        if os.path.isfile(cmd_queue_file):
+        sanitized_client_id = ''.join(c for c in str(client_id) if c.isalnum() or c in '-_')
+        if not sanitized_client_id:
+            logging.info("Rejected invalid client_id in send_command")
+            encrypted_response = encrypt_data(b'')
+            return Response(encrypted_response, mimetype='application/octet-stream')
+
+        cmd_queue_file = os.path.join(ALLOWED_DIRECTORY, f"cmd_{sanitized_client_id}.json")
+        cmd_queue_file_real = os.path.realpath(cmd_queue_file)
+        allowed_dir_real = os.path.realpath(ALLOWED_DIRECTORY)
+        if not cmd_queue_file_real.startswith(allowed_dir_real + os.sep):
+            logging.info("Rejected path traversal attempt in send_command")
+            encrypted_response = encrypt_data(b'')
+            return Response(encrypted_response, mimetype='application/octet-stream')
+
+        if os.path.isfile(cmd_queue_file_real):
             try:
-                with open(cmd_queue_file, "r") as f:
+                with open(cmd_queue_file_real, "r") as f:
                     cmds = json.load(f)
                 if cmds:
                     command = cmds.pop(0)
-                    with open(cmd_queue_file, "w") as f:
+                    with open(cmd_queue_file_real, "w") as f:
                         json.dump(cmds, f)
                     encrypted_command = encrypt_data(command.encode())
                     return Response(encrypted_command)

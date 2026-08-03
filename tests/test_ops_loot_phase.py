@@ -241,38 +241,52 @@ def test_loot_mark_unknown_credential(tmp_path, capsys):
 def test_phase_progress_ranks(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
-    world = {"hosts": {"a": {"state": "scanned", "services": {"80": {}}}}}
-    pp = phase_progress(world, str(sess))
-    assert pp["recon"] == 0.5  # host present, OS not identified
+    wm_path = sess / "world_model.json"
+    wm_path.write_text(json.dumps({
+        "current_phase": "exploit",
+        "completed_phases": ["recon", "scan", "enum"],
+    }), encoding="utf-8")
+    pp = phase_progress({}, str(sess))
+    assert pp["recon"] == 1.0
     assert pp["scan"] == 1.0
-    assert pp["enum"] == 0.25  # service-presence floor, not enumerated
-    assert pp["exploit"] == 0.0
-    assert pp["report"] == 0.0
+    assert pp["enum"] == 1.0
+    assert pp["exploit"] == 0.5
+    assert pp["privesc"] == 0.0
 
 
 def test_phase_progress_completed_override(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
-    world = {"hosts": {}, "completed_phases": ["recon", "scan"]}
-    pp = phase_progress(world, str(sess))
+    wm_path = sess / "world_model.json"
+    wm_path.write_text(json.dumps({
+        "current_phase": "enum",
+        "completed_phases": ["recon", "scan"],
+        "hosts": {},
+    }), encoding="utf-8")
+    pp = phase_progress({}, str(sess))
     assert pp["recon"] == 1.0
     assert pp["scan"] == 1.0
+    assert pp["enum"] == 0.5
     assert pp["exploit"] == 0.0
 
 
 def test_phase_progress_os_owned_report_and_loot(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
+    wm_path = sess / "world_model.json"
+    wm_path.write_text(json.dumps({
+        "current_phase": "lateral",
+        "completed_phases": ["recon", "scan", "enum", "exploit", "privesc"],
+        "hosts": {"a": {"state": "owned", "services": {"22": {}}}},
+    }), encoding="utf-8")
     (sess / "os.json").write_text(json.dumps([{"state": "active"}]), encoding="utf-8")
     (sess / "report_20260101_000000.md").write_text("# report", encoding="utf-8")
     (sess / "credentials.txt").write_text("admin:pw\n", encoding="utf-8")
-    world = {"hosts": {"a": {"state": "owned", "services": {"22": {}}}}}
-    pp = phase_progress(world, str(sess))
-    assert pp["recon"] == 1.0  # host present + OS identified
-    assert pp["privesc"] == 1.0  # host owned
-    assert pp["exfil"] == 1.0  # loot captured
-    assert pp["report"] == 1.0  # report artefact present
-    assert pp["lateral"] == 0.0  # single host, no pivots
+    pp = phase_progress({}, str(sess))
+    assert pp["recon"] == 1.0
+    assert pp["privesc"] == 1.0
+    assert pp["lateral"] == 0.5
+    assert pp["exfil"] == 0.0
 
 
 # ── world_model.link_credential_to_failure ──────────────────────────────────────

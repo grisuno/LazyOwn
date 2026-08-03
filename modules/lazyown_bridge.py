@@ -1654,12 +1654,20 @@ class ContextEnricher:
 # ---------------------------------------------------------------------------
 
 class PhaseMapper:
-    """Maps WorldModel EngagementPhase values to bridge phase strings."""
+    """Maps WorldModel EngagementPhase values to bridge phase strings.
 
-    # Bridge-native phase names (pass-through)
+    Delegates core engagement-to-CLI mapping to :class:`modules.killchain.KillChain`
+    as the single source of truth for canonical phases. The bridge maintains its
+    own extended namespace (postexp, cred, persist, c2) for tool categorization
+    that extends beyond the canonical 8-phase kill chain.
+    """
+
     _NATIVE: set[str] = {"recon", "enum", "exploit", "postexp", "cred",
                          "lateral", "privesc", "persist", "exfil", "c2", "report"}
 
+    # Bridge-specific mapping that extends the canonical KillChain phases.
+    # Where KillChain maps ``post_exploitation`` to ``privesc``, the bridge
+    # keeps ``postexp`` as a distinct tool-categorisation phase.
     _MAP: dict[str, str] = {
         "recon":             "recon",
         "scanning":          "recon",
@@ -1675,7 +1683,6 @@ class PhaseMapper:
         "command_and_control": "c2",
         "completed":         "report",
         "unknown":           "recon",
-        # lazyown policy category names
         "intrusion":         "exploit",
         "credential":        "cred",
         "privesc":           "privesc",
@@ -1685,11 +1692,23 @@ class PhaseMapper:
         "report":            "report",
     }
 
+    @staticmethod
+    def canonical_kill_chain_order() -> list[str]:
+        """Return the canonical 8-phase order from KillChain (single source of truth)."""
+        from modules.killchain import KillChain
+        return list(KillChain.phases())
+
     def to_bridge_phase(self, wm_phase: str) -> str:
         lower = wm_phase.lower()
         if lower in self._NATIVE:
             return lower
-        return self._MAP.get(lower, "recon")
+        if lower in self._MAP:
+            return self._MAP[lower]
+        from modules.killchain import KillChain
+        canonical = KillChain.engagement_phase_to_cli(lower)
+        if canonical != "recon":
+            return canonical
+        return "recon"
 
     def kill_chain_order(self) -> list[str]:
         """Ordered list of bridge phases following the kill chain."""

@@ -146,7 +146,7 @@ pluggy==1.6.0
 plumbum==1.10.0
 premailer==3.10.0
 prettytable==3.17.0
-prompt_toolkit==3.0.52
+prompt_toolkit==3.0.53
 psutil==7.2.2
 ptyprocess==0.7.0
 pure_eval==0.2.3

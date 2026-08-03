@@ -64,6 +64,7 @@ class BeaconCommandModal(QDialog):
         super().__init__(parent)
         self._backend = backend
         self._entries: list[_HistoryEntry] = []
+        self._history: list[_HistoryEntry] = []
         self.setWindowTitle("Beacon Command")
         self.setMinimumSize(860, 640)
         self.setModal(True)

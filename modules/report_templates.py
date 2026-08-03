@@ -218,22 +218,23 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
 
     @staticmethod
     def _read_kill_chain() -> list[dict[str, str]]:
-        phases = [
-            ("recon", "Reconnaissance"), ("scan", "Scanning"), ("enum", "Enumeration"),
-            ("exploit", "Exploitation"), ("privesc", "Privilege Escalation"),
-            ("lateral", "Lateral Movement"), ("exfil", "Exfiltration"),
-            ("report", "Reporting"),
-        ]
+        from modules.killchain import KillChain as _KC
+        phases = [(p[0], p[1]) for p in _KC.phases_for_display()]
         try:
-            wm = json.loads((SESSIONS_DIR / "world_model.json").read_text(encoding="utf-8"))
-            current = wm.get("current_phase", "recon")
-            completed = set(wm.get("completed_phases", []))
+            current = _KC.current_phase()
+            progress = _KC.get_progress()
+            completed = {p.key for p in progress if p.status == "done"}
         except Exception:
             current = "recon"
             completed = set()
         result = []
         for ph_id, ph_name in phases:
-            status = "complete" if ph_id in completed else ("active" if ph_id == current else "future")
+            if ph_id in completed:
+                status = "complete"
+            elif ph_id == current:
+                status = "active"
+            else:
+                status = "future"
             result.append({"name": ph_name, "id": ph_id, "status": status})
         return result
 

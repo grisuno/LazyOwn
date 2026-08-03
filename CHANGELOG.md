@@ -6,6 +6,132 @@
 
 ### Otros
 
+  *   * feature(feat): new world model like source of truth of kill chain to trigger distinct phases \n\n Version: release/0.2.160 \n\n with love to marketplace dashboards, gui2 new graph, yara rules, nucleis rules implements, etc \n\n Modified file(s):\n- .coverage - AGENTS.md - CLAUDE.md - README.md - cli/command_chain.py - cli/commands/bof_registry.py - cli/commands/c2_profile.py - cli/commands/cred_migrated.py - cli/commands/dns_exfil.py - cli/commands/enum.py - cli/commands/estorides.py - cli/commands/exploit_migrated.py - cli/commands/lateral_migrated.py - cli/commands/misc_migrated.py - cli/commands/persist_migrated.py - cli/commands/postexp_migrated.py - cli/commands/privilege_escalation.py - cli/commands/report.py - cli/commands/report_migrated.py - cli/commands/scan_migrated.py - cli/commands/security.py - cli/commands/sleep_obfuscation.py - cli/commands/socks_proxy.py - cli/dashboard_tui.py - cli/engagement_hooks.py - cli/killchain.py - cli/ops_commands.py - cli/reactive_hints.py - cli/recommendation.py - cli/recommendation_signals.py - cli/tips_engine.py - config.json - fast_run_as_r00t.sh - lazyaddons/blacksandbeacon.yaml - lazyaddons/estorides.yaml - lazyc2.py - lazygui/app.py - lazygui/config/c2_credentials.py - lazygui/config/constants.py - lazygui/config/paths.py - lazygui/config/settings.py - lazygui/panels/__init__.py - lazygui/panels/campaign_panel.py - lazygui/panels/cve_panel.py - lazygui/panels/graph_panel.py - lazygui/panels/history_panel.py - lazygui/panels/killchain_panel.py - lazygui/panels/marketplace_panel.py - lazygui/panels/registry.py - lazygui/panels/sessions_panel.py - lazygui/panels/terminal_panel.py - lazygui/services/__init__.py - lazygui/services/backend.py - lazygui/services/models.py - lazygui/services/teamserver_backend.py - lazygui/widgets/__init__.py - lazygui/widgets/beacon_command_modal.py - lazygui/widgets/graph_view.py - lazygui/widgets/terminal_view.py - lazygui/windows/connect_dialog.py - lazygui/windows/main_window.py - lazyown.py - modules/beacon_config_builder.py - modules/beacon_history.py - modules/bof_registry.py - modules/c2_builder.py - modules/c2_profile_engine.py - modules/conditional_hooks.py - modules/estorides_importer.py - modules/gui.py - modules/kill_chain_viz.py - modules/killchain.py - modules/lazyown_bridge.py - modules/report_templates.py - modules/sessions/llm_budget.json - modules/sleep_obfuscation.py - modules/socks_proxy.py - modules/world_model.py - sessions/implant/implant_crypt.go - sessions/implant/stub.c - sessions/implant/stub_lin.c - sessions/phishing/campaigns/short_urls.json - skills/hermes-lazyown/constants.py - templates/index.html - templates/nav.html - tests/run_mutation_killchain.py - tests/test_beacon_config_builder.py - tests/test_beacon_history.py - tests/test_bof_registry.py - tests/test_c2_profile_engine.py - tests/test_categories.py - tests/test_command_set_migration.py - tests/test_conditional_hooks_extended.py - tests/test_killchain_auto_refresh.py - tests/test_killchain_gap_signal.py - tests/test_killchain_snapshot.py - tests/test_killchain_unified.py - tests/test_killchain_unified_v2.py - tests/test_lazygui_backend.py - tests/test_lazygui_graph_widget.py - tests/test_lazygui_models.py - tests/test_ops_loot_phase.py - tests/test_sleep_obfuscation.py - tests/test_socks_proxy.py - tests/test_world_model_extended.py - users.json - utils.py\nCreated file(s):\n- .coverage - cli/commands/bof_registry.py - cli/commands/c2_profile.py - cli/commands/estorides.py - cli/commands/sleep_obfuscation.py - cli/commands/socks_proxy.py - lazygui/config/c2_credentials.py - lazygui/panels/campaign_panel.py - lazygui/panels/cve_panel.py - lazygui/panels/graph_panel.py - lazygui/panels/history_panel.py - lazygui/panels/marketplace_panel.py - lazygui/widgets/beacon_command_modal.py - lazygui/widgets/graph_view.py - modules/beacon_config_builder.py - modules/beacon_history.py - modules/bof_registry.py - modules/c2_profile_engine.py - modules/estorides_importer.py - modules/killchain.py - modules/sleep_obfuscation.py - modules/socks_proxy.py - tests/run_mutation_killchain.py - tests/test_beacon_config_builder.py - tests/test_beacon_history.py - tests/test_bof_registry.py - tests/test_c2_profile_engine.py - tests/test_categories.py - tests/test_conditional_hooks_extended.py - tests/test_killchain_auto_refresh.py - tests/test_killchain_gap_signal.py - tests/test_killchain_snapshot.py - tests/test_killchain_unified.py - tests/test_killchain_unified_v2.py - tests/test_lazygui_backend.py - tests/test_lazygui_graph_widget.py - tests/test_lazygui_models.py - tests/test_sleep_obfuscation.py - tests/test_socks_proxy.py - tests/test_world_model_extended.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: lun 03 ago 2026 00:02:10 -04 \n\n Hora: 1785729730
+
+
+### Otros
+
+### Otros
+
+  *   * privesc command :D
+
+
+### Otros
+
+### Otros
+
+  *   * phase of killchain with one source of truth
+
+
+### Otros
+
+### Otros
+
+  *   * phase of killchain with one source of truth
+
+
+### Otros
+
+### Otros
+
+  *   * 1. src/page_view.c — the whitespace between </td> and <td> (a text node whose parent is <tr>/<tbody>/<table>) was emitted as a stray
+
+
+### Otros
+
+### Otros
+
+  *   * phase of killchain with one source of truth
+
+
+### Otros
+
+### Otros
+
+  *   * a awesome gui2 cobalt strike like with themes :D
+
+
+### Otros
+
+### Otros
+
+  *   * a awesome gui2 cobalt strike like with themes :D
+
+
+### Otros
+
+### Otros
+
+  *   * some refactoring and love
+
+
+### Otros
+
+### Otros
+
+  *   * some in blacksandbeacon
+
+
+### Otros
+
+### Otros
+
+  *   * some improvementent in security
+
+
+### Otros
+
+### Otros
+
+  *   * some improvementent in security
+
+
+### Otros
+
+### Otros
+
+  *   * stub linux hotfix download chain was broken, now works perfectly
+
+
+### Otros
+
+### Otros
+
+  *   * zsh style search commands with up arrow :D wnjoy
+
+
+### Otros
+
+### Otros
+
+  *   * estorides intel into lazyown redteam framework
+
+
+### Otros
+
+### Otros
+
+  *   * Update README.md
+
+
+### Otros
+
+### Otros
+
+  *   * docs: restore auto-generated sections (UTILS, COMMANDS, CHANGELOG) to README.md
+
+
+### Otros
+
+### Otros
+
+  *   * some implat mantain and refactor
+
+
+### Otros
+
+### Otros
+
   *   * feature(feat): some love, marketplace config, security issues, and bugfixing, refactoring \n\n Version: release/0.2.159 \n\n with love \n\n Modified file(s):\n- .github/workflows/ci.yml - .github/workflows/security-scan.yml - AGENTS.md - CHANGELOG.md - CHEATSHEET.md - CLAUDE.md - COMMANDS.md - COMPARISON.md - ESSENTIALS.md - QUICKSTART.md - README.md - cli/aliases.yaml - cli/command_index.json - cli/commands/cli_auth.py - cli/commands/dns_exfil.py - cli/commands/postexp_migrated.py - cli/commands/report_enhanced.py - cli/wizard.py - core/__init__.py - core/command_bridge.py - core/config.py - core/errors.py - core/executor.py - core/scheduler.py - docs/COMMANDS.html - external/README.md - lazy_sentinel4.py - lazyaddons/README.md - lazyc2.py - lazygui/app.py - lazyown.py - modules/49803.py - modules/agent_runner.py - modules/ai_fallback.py - modules/c2_profile.py - modules/cli_auth.py - modules/cve_matcher.py - modules/db.py - modules/event_bus.py - modules/generate_tools.py - modules/gui.py - modules/ia_code_analysis.py - modules/ia_logs_analysis.py - modules/ia_network_analysis.py - modules/icmp_server.py - modules/integrations/misp_export.py - modules/integrations/nuclei_bridge.py - modules/integrations/searchsploit.py - modules/lazyk8s.py - modules/lazyown_metaextract0r.py - modules/lazyownerweb.py - modules/lilsplunky.py - modules/logging_config.py - modules/module_registry.py - modules/moe_router.py - modules/obs_parser.py - modules/playbook_engine.py - modules/report_generator.py - modules/rl_trainer.py - modules/search.py - modules/vuln_agent.py - modules/vulnbot.py - modules/world_model.py - payloads/README.md - readmeneitor.py - report.py - skills/aci_planner.py - skills/autonomous_daemon.py - skills/hive_mind.py - skills/lazyown_campaign.py - skills/lazyown_daemon.py - skills/lazyown_facts.py - skills/lazyown_llm.py - skills/lazyown_parquet_db.py - skills/lazyown_policy.py - skills/mcp_generated_tools.py - skills/mcp_tool_generator.py - skills/sessions_watcher.py - skills/swan_agent.py - skills/toposwarm_autonomous.py - skills/update_knowledge.py - specs.md - static/security_dashboard.png - templates/phishing/emails/README.md - templates/phishing/landing_pages/README.md - tests/test_core_command_bridge.py - tests/test_core_config.py - tests/test_core_executor.py - tools/README.md - users.json\nCreated file(s):\n- .github/workflows/security-scan.yml - core/command_bridge.py - core/errors.py - core/executor.py - core/scheduler.py - external/README.md - payloads/README.md - skills/mcp_generated_tools.py - skills/mcp_tool_generator.py - templates/phishing/emails/README.md - templates/phishing/landing_pages/README.md - tests/test_core_command_bridge.py - tests/test_core_config.py - tests/test_core_executor.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 01 ago 2026 03:20:32 -04 \n\n Hora: 1785568832
 
 

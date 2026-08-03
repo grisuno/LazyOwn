@@ -69,12 +69,29 @@ else
 	--align center --width 50 --margin "1 2" --padding "2 4" \
 	"Cloudflared already exists."
 fi
+JSON_FILE="payload.json"
+if command -v jq &>/dev/null; then
+    C2_BIND=$(jq -r '.c2_bind_address // ""' "$JSON_FILE" 2>/dev/null)
+    LHOST=$(jq -r '.lhost // ""' "$JSON_FILE" 2>/dev/null)
+else
+    C2_BIND=""
+    LHOST=""
+fi
+
+if [ -n "$C2_BIND" ] && [ "$C2_BIND" != "null" ] && [ "$C2_BIND" != "0.0.0.0" ] && [ "$C2_BIND" != "::" ]; then
+    BIND_ADDR="$C2_BIND"
+elif [ -n "$LHOST" ] && [ "$LHOST" != "null" ] && [ "$LHOST" != "0.0.0.0" ] && [ "$LHOST" != "::" ]; then
+    BIND_ADDR="$LHOST"
+else
+    BIND_ADDR="127.0.0.1"
+fi
+
 gum log --time rfc822 --level info "    [+] Starting the tunnel."
 gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
-	"Starting Cloudflare tunnel for port $port using HTTPS with TLS verification disabled..."
-./cloudflared tunnel -url "https://localhost:$port" --no-tls-verify  --logfile cf.log
+	"Starting Cloudflare tunnel for $BIND_ADDR:$port using HTTPS with TLS verification disabled..."
+./cloudflared tunnel -url "https://$BIND_ADDR:$port" --no-tls-verify --logfile cf.log
 
 gum style \
 	--foreground 212 --border-foreground 212 --border double \

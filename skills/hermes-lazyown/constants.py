@@ -57,24 +57,35 @@ class Defaults:
 
 
 class PhaseNames:
-    """Kill-chain phase identifiers."""
+    """Kill-chain phase identifiers.
+
+    Canonical phases are sourced from ``modules.killchain.KillChain``.
+    Hermes-specific extensions (postexp, persist, cred, c2) are added
+    for agent reasoning beyond the core engagement phases.
+    """
+
+    from modules.killchain import KillChain as _KC
+    _CANONICAL = _KC.phases()
 
     RECON = "recon"
+    SCAN = "scan"
     ENUM = "enum"
     EXPLOIT = "exploit"
-    POSTEXP = "postexp"
-    PERSIST = "persist"
     PRIVESC = "privesc"
-    CRED = "cred"
     LATERAL = "lateral"
     EXFIL = "exfil"
-    C2 = "c2"
     REPORT = "report"
+    POSTEXP = "postexp"
+    PERSIST = "persist"
+    CRED = "cred"
+    C2 = "c2"
 
     ALL = [
-        RECON, ENUM, EXPLOIT, POSTEXP, PERSIST,
-        PRIVESC, CRED, LATERAL, EXFIL, C2, REPORT,
+        RECON, SCAN, ENUM, EXPLOIT, PRIVESC, LATERAL, EXFIL, REPORT,
+        POSTEXP, PERSIST, CRED, C2,
     ]
+
+    CANONICAL = list(_CANONICAL)
 
 
 class Paths:

@@ -119,6 +119,10 @@ ELO_HIGH_VALUE_CMDS: dict[str, int] = {
     "marketplace": 5,
 }
 
+# Engagement ELO and label tables. Canonical kill-chain phases are defined
+# in ``modules.killchain.KillChain`` (single source of truth). The tables
+# below add engagement-specific categories (cred, postexp, persist, c2, ai)
+# for rewards, hints, and aliases that extend beyond the core kill-chain.
 ELO_PHASE_BONUS: dict[str, int] = {
     "recon": 5,
     "enum": 8,

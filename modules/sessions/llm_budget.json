@@ -1,96 +1,12 @@
 {
-  "day": "2026-08-02",
+  "day": "2026-08-03",
   "entries": [
     {
       "model": "llama-3.3-70b-versatile",
       "input_tokens": 170,
       "output_tokens": 0,
       "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T01:46:45.710730+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T01:57:41.718375+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T02:37:21.926068+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 190,
-      "output_tokens": 0,
-      "cost_usd": 0.0001121,
-      "timestamp": "2026-08-02T04:48:40.118680+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 173,
-      "output_tokens": 0,
-      "cost_usd": 0.00010206999999999999,
-      "timestamp": "2026-08-02T06:07:01.091617+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 173,
-      "output_tokens": 0,
-      "cost_usd": 0.00010206999999999999,
-      "timestamp": "2026-08-02T07:11:22.967024+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 173,
-      "output_tokens": 0,
-      "cost_usd": 0.00010206999999999999,
-      "timestamp": "2026-08-02T07:30:50.800356+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T20:15:51.056708+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T20:18:42.612373+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T20:37:33.513111+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T20:55:53.890622+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T21:23:40.114691+00:00"
-    },
-    {
-      "model": "llama-3.3-70b-versatile",
-      "input_tokens": 170,
-      "output_tokens": 0,
-      "cost_usd": 0.0001003,
-      "timestamp": "2026-08-02T22:22:37.197095+00:00"
+      "timestamp": "2026-08-03T00:37:46.952805+00:00"
     }
   ]
 }

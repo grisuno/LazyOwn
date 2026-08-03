@@ -390,60 +390,31 @@ def _count_pivots(sessions_dir: str) -> int:
 
 
 def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dict[str, float]:
-    """Estimate per-phase completion in [0, 1] from world-model state.
+    """Return per-phase completion ratios from the unified kill-chain progress.
 
-    Signals are data-driven: host state ranks, nmap scan files, discovered
-    services, captured loot, recorded pivots, and report artefacts. Any phase
-    listed in ``completed_phases`` is forced to 1.0.
+    Delegates entirely to ``KillChain.get_progress`` — no filesystem heuristics,
+    no side-channel counts. The world model IS the progress.
 
     Args:
-        world: Parsed world_model.json document.
-        sessions_dir: Base sessions directory for filesystem signals.
+        world: Parsed world_model.json document (unused; kept for backward compat).
+        sessions_dir: Base sessions directory. Used to resolve the world_model path
+            when it is a relative path under this directory.
 
     Returns:
-        A mapping of each :data:`PHASES` value to a completion ratio.
+        A mapping of each :data:`PHASES` value to a completion ratio in [0, 1].
     """
-    hosts = world.get("hosts", {}) or {}
-    ranks = [_HOST_STATE_RANK.get((h.get("state") or "unscanned"), 0) for h in hosts.values()]
-    n_hosts = len(ranks)
-    n_services = sum(len(h.get("services", {}) or {}) for h in hosts.values())
-    n_loot = _glob_count(sessions_dir, "credentials*.txt") + _glob_count(sessions_dir, "hash*.txt")
-    n_owned = sum(1 for r in ranks if r >= _HOST_STATE_RANK["owned"])
-    n_pivots = _count_pivots(sessions_dir)
-    has_scan_files = _glob_count(sessions_dir, "scan_*.nmap") > 0
-
-    def frac_at_least(min_rank: int) -> float:
-        if n_hosts == 0:
-            return 0.0
-        return sum(1 for r in ranks if r >= min_rank) / n_hosts
-
-    recon = (_RECON_HOST_WEIGHT if n_hosts else 0.0) + (_RECON_OS_WEIGHT if _os_identified(sessions_dir) else 0.0)
-    scan = frac_at_least(_HOST_STATE_RANK["scanned"]) if n_hosts else (0.5 if has_scan_files else 0.0)
-    enum = max(frac_at_least(_HOST_STATE_RANK["enumerated"]), _ENUM_SERVICE_FLOOR if n_services else 0.0)
-    exploit = frac_at_least(_HOST_STATE_RANK["exploited"])
-    privesc = frac_at_least(_HOST_STATE_RANK["owned"])
-    lateral = (
-        0.0 if n_owned == 0 else min(1.0, n_pivots / max(n_hosts - 1, 1)) if n_hosts > 1 else (1.0 if n_pivots else 0.0)
-    )
-    exfil = 1.0 if n_loot else 0.0
-    report = 1.0 if _report_artifact_exists(sessions_dir) else 0.0
-
-    progress = {
-        "recon": recon,
-        "scan": scan,
-        "enum": enum,
-        "exploit": exploit,
-        "privesc": privesc,
-        "lateral": lateral,
-        "exfil": exfil,
-        "report": report,
-    }
-
-    for phase in world.get("completed_phases") or []:
-        if phase in progress:
-            progress[phase] = 1.0
-
-    return {phase: round(progress.get(phase, 0.0), 4) for phase in PHASES}
+    from modules.killchain import KillChain as _KC
+    wm_path = Path(sessions_dir) / _WORLD_MODEL_NAME if sessions_dir else Path(_WORLD_MODEL)
+    kc_progress = _KC.get_progress(world_model_path=wm_path)
+    result: dict[str, float] = {}
+    for ps in kc_progress:
+        if ps.status == "done":
+            result[ps.key] = 1.0
+        elif ps.status == "active":
+            result[ps.key] = 0.5
+        else:
+            result[ps.key] = 0.0
+    return {phase: round(result.get(phase, 0.0), 4) for phase in PHASES}
 
 
 # ── shared helpers ────────────────────────────────────────────────────────────

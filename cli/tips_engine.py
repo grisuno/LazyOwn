@@ -411,8 +411,10 @@ class TipsEngine:
 
     def _render_killchain_progress(self, current_phase: str) -> None:
         """Render a compact kill-chain progress bar."""
-        phases = ("recon", "enum", "exploit", "privesc", "lateral")
-        labels = {"recon": "R", "enum": "E", "exploit": "X", "privesc": "P", "lateral": "L"}
+        from modules.killchain import KillChain as _KC
+        _cfg = _KC.config()
+        phases = _cfg.compact_phases
+        labels = _cfg.compact_labels
         try:
             wm_phase_raw = self._read_world_model_phase()
             derived = wm_phase_raw if wm_phase_raw and wm_phase_raw != "recon" else ""

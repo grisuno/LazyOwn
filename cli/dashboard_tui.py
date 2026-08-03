@@ -42,12 +42,32 @@ KILL_CHAIN_PHASES: tuple[tuple[str, str], ...] = tuple(
     (p[0], p[1]) for p in _KC.phases_for_display()
 )
 
+STATE_DONE: str = "done"
+STATE_ACTIVE: str = "active"
+STATE_PENDING: str = "pending"
+
+
+def _get_killchain_for_tui() -> list:
+    """Return kill-chain progress as :class:`PhaseProgress`-compatible list.
+
+    Derives state exclusively from ``KillChain.get_progress`` (world model)
+    so the dashboard TUI, Flask `/killchain`, and CLI agree on every phase.
+    """
+    progress = _KC.get_progress()
+    result = []
+    for ps in progress:
+        result.append(PhaseProgress(
+            key=ps.key,
+            label=ps.label,
+            state=ps.status,
+            activity=0,
+            reward=0.0,
+        ))
+    return result
+
 
 from cli.killchain import (
-    STATE_ACTIVE,
-    STATE_DONE,
     PhaseProgress,
-    compute_killchain,
 )
 from cli.reasoning_stream import ReasoningEntry, latest_reasoning, read_raw_events
 
@@ -74,16 +94,12 @@ def _read_json(path: str) -> dict[str, Any]:
 
 
 def _engagement_to_cli_phase(engagement_phase: str) -> str:
-    """Map a WorldModel EngagementPhase value to a CLI phase name."""
-    mapping: dict[str, str] = {
-        "recon": "recon",
-        "scanning": "scan",
-        "enumeration": "enum",
-        "exploitation": "exploit",
-        "post_exploitation": "privesc",
-        "complete": "report",
-    }
-    return mapping.get(engagement_phase, "recon")
+    """Map a WorldModel EngagementPhase value to a CLI phase name.
+
+    Delegates to the single source of truth in :class:`modules.killchain.KillChain`.
+    """
+    from modules.killchain import KillChain
+    return KillChain.engagement_phase_to_cli(engagement_phase)
 
 
 def _count_lines_in_glob(pattern: str) -> int:
@@ -168,6 +184,19 @@ class TargetPanel(Static):
     }
     """
 
+    def get_selection(self, selection: Any) -> list[str] | None:
+        """Override to prevent IndexError when selection offsets exceed text length.
+
+        Rich ``Text`` objects may produce ``Content`` whose plain-text length is
+        shorter than the character offsets derived by the framework, leading to
+        a crash in ``Selection.extract``. This override safely returns ``None``
+        when the selection is invalid.
+        """
+        try:
+            return super().get_selection(selection)
+        except IndexError:
+            return None
+
     def render_content(self, payload: dict, world: dict) -> Text:
         rhost = payload.get("rhost") or "—"
         lhost = payload.get("lhost") or "—"
@@ -200,7 +229,7 @@ class TargetPanel(Static):
 
 
 class KillChainPanel(Static):
-    """Left panel: kill chain phase progress."""
+    """Left panel: kill chain phase progress — single source of truth via KillChain."""
 
     DEFAULT_CSS = """
     KillChainPanel {
@@ -212,7 +241,7 @@ class KillChainPanel(Static):
     """
 
     def update_data(self, progress: list[PhaseProgress]) -> None:
-        """Render kill-chain progress derived from the daemon event stream."""
+        """Render kill-chain progress. ``progress`` comes from KillChain.get_progress()."""
         lines = Text()
         lines.append(" Kill Chain\n", style="bold cyan underline")
         for phase in progress:
@@ -518,7 +547,7 @@ class LazyOwnDashboard(App):
         beacons = _beacon_count()
         hints = _graph_hints()
         reasoning = latest_reasoning(EVENTS_PATH, REASONING_WINDOW)
-        killchain = compute_killchain(read_raw_events(EVENTS_PATH, KILLCHAIN_EVENT_WINDOW), world)
+        killchain = _get_killchain_for_tui()
 
         self.query_one("#top-bar", TargetPanel).update_data(payload, world)
         self.query_one("#kill-chain", KillChainPanel).update_data(killchain)

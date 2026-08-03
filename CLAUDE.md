@@ -808,6 +808,43 @@ Mutation gate: `tests/run_mutation_killchain.py` (no surviving mutants).
 
 ---
 
+## 16.2 Command queue path confinement (`_secure_command_queue_path`)
+
+**Contract:** ``_secure_command_queue_path(client_id)`` in ``lazyc2.py`` is the single
+authority for building safe command-queue file paths for beacons. Every read/write
+of ``cmd_<client_id>.json`` goes through it.
+
+**Pipeline:**
+1. Sanitise ``client_id`` via ``modules.beacon_history.sanitize_client_id`` (only
+   ``[a-zA-Z0-9_-]`` survive).
+2. Reject empty sanitised ids with ``ValueError``.
+3. Join with ``ALLOWED_DIRECTORY`` → ``cmd_{safe_id}.json``.
+4. Resolve with ``os.path.realpath`` (handles symlink escapes).
+5. Verify the resolved path starts with ``os.path.realpath(ALLOWED_DIRECTORY) + os.sep``.
+6. Return the validated absolute real path.
+
+**CodeQL rationale:** The combination of character-level sanitisation + ``realpath``
+path confinement makes CodeQL's taint-tracking recognise the result as safe for use
+in ``open()``, ``os.path.isfile()``, and ``json.load/dump``. The ``+ os.sep`` guard
+prevents prefix-matching bypasses (e.g. ``/tmp/sessions`` matching ``/tmp/sessions-backdoor``).
+
+**Consumers (3 call-sites refactored):**
+- ``send_command()`` GET handler — auto-privesc queue on first GET (was inline, now uses helper).
+- ``send_command()`` else-branch — dequeue next command for the beacon (was inline with own check, now DRY'd).
+- ``receive_result()`` POST handler — queue privesc on first check-in (was inline, now uses helper).
+
+**Duplicated sanitization removed:** The inline ``''.join(c for c in str(client_id) if c.isalnum() or c in '-_')``
+pattern existed in 3 places. All unified behind the single helper.
+
+**Dead variants removed:**
+- Inline ``sanitized = ''.join(...)`` → ``_queue_path = os.path.join(ALLOWED_DIRECTORY, ...)``
+  at 2 call-sites without ``realpath`` confinement (CodeQL alerts #843-#848).
+
+**Tests:** ``tests/test_security_lazyc2.py::TestSecureCommandQueuePath`` (6 tests).
+**Mutation gate:** 3 mutant classes killed (empty-check removal, confinement-check removal, missing-os.sep bypass).
+
+---
+
 ## 17. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

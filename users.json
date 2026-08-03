@@ -7,7 +7,7 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
-        "elo": 18738,
+        "elo": 18943,
         "tenant_id": "default"
     },
     {
@@ -1032,6 +1032,28 @@
         "id": 95,
         "username": "operator_y4xlmaha",
         "password_hash": "scrypt:32768:8:1$d26jZg108GmL551X$64a6fced2a3326788cf851f6245e1e13dea643ad35086799104390e2d843ad528f4d5c253ca65ba494277de10d834d3c4279dcf7b3f2333e3dd3f846ff1f5a27",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 96,
+        "username": "operator_1odywbxk",
+        "password_hash": "scrypt:32768:8:1$YUF8fes2xtfxxyuG$ed11f3005e1873e80f9059a589b8ade6a1b16d5a876213493f9f0b1d8d8fd527a536ec453ab5d5cbd6705cde85db24bfc8cad3c2f6446e7b53e12f94ac49252d",
+        "role": "admin",
+        "mfa_enabled": false,
+        "mfa_secret": "",
+        "recovery_codes": [],
+        "elo": 0,
+        "tenant_id": "default"
+    },
+    {
+        "id": 97,
+        "username": "operator_jazmq6n6",
+        "password_hash": "scrypt:32768:8:1$3IrwAzAC2DIdBSM0$b2814a9656394cf2cecea262192bd7d519a8ae39933a3a80580255336f1f0bbaa4fd87a26559c571d09712e694358408fa94d301d9c832f06dbfca85fd22db3f",
         "role": "admin",
         "mfa_enabled": false,
         "mfa_secret": "",

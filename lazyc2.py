@@ -1172,6 +1172,35 @@ def datetime_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
 
 
+def _secure_command_queue_path(client_id: str) -> str:
+    """Return a sanitised, path-confined command queue file path for a beacon.
+
+    Sanitises the client_id, builds the queue path relative to ALLOWED_DIRECTORY,
+    and verifies via os.path.realpath that the resolved path does not escape the
+    allowed base directory.
+
+    Args:
+        client_id: Raw beacon id from the request.
+
+    Returns:
+        The validated absolute real path to the cmd_<safe_id>.json queue file.
+
+    Raises:
+        ValueError: If the sanitised client_id is empty or the resolved path
+            escapes the allowed directory.
+    """
+    from modules.beacon_history import sanitize_client_id
+    safe_id = sanitize_client_id(client_id)
+    if not safe_id:
+        raise ValueError(f"Invalid client_id after sanitization: {client_id}")
+    candidate = os.path.join(ALLOWED_DIRECTORY, f"cmd_{safe_id}.json")
+    resolved = os.path.realpath(candidate)
+    allowed = os.path.realpath(ALLOWED_DIRECTORY)
+    if not resolved.startswith(allowed + os.sep):
+        raise ValueError(f"Queue path escapes allowed directory: {resolved}")
+    return resolved
+
+
 def _beacon_records_path(client_id: str) -> str:
     """Return the JSONL history file path for a sanitised beacon client id."""
     from modules.beacon_history import sanitize_client_id
@@ -2866,8 +2895,7 @@ def send_command(client_id):
             logging.info("[killchain] Phase advanced to privesc via beacon GET %s", client_id)
             _privesc_cmd = _build_privesc_command(_platform)
             if _privesc_cmd:
-                sanitized = ''.join(c for c in str(client_id) if c.isalnum() or c in '-_')
-                _queue_path = os.path.join(ALLOWED_DIRECTORY, f"cmd_{sanitized}.json")
+                _queue_path = _secure_command_queue_path(client_id)
                 _cmds = []
                 if os.path.isfile(_queue_path):
                     with open(_queue_path) as _qf:
@@ -2886,17 +2914,10 @@ def send_command(client_id):
         encrypted_command = encrypt_data(command.encode())
         return Response(encrypted_command)
     else:
-        sanitized_client_id = ''.join(c for c in str(client_id) if c.isalnum() or c in '-_')
-        if not sanitized_client_id:
+        try:
+            cmd_queue_file_real = _secure_command_queue_path(client_id)
+        except ValueError:
             logging.info("Rejected invalid client_id in send_command")
-            encrypted_response = encrypt_data(b'')
-            return Response(encrypted_response, mimetype='application/octet-stream')
-
-        cmd_queue_file = os.path.join(ALLOWED_DIRECTORY, f"cmd_{sanitized_client_id}.json")
-        cmd_queue_file_real = os.path.realpath(cmd_queue_file)
-        allowed_dir_real = os.path.realpath(ALLOWED_DIRECTORY)
-        if not cmd_queue_file_real.startswith(allowed_dir_real + os.sep):
-            logging.info("Rejected path traversal attempt in send_command")
             encrypted_response = encrypt_data(b'')
             return Response(encrypted_response, mimetype='application/octet-stream')
 
@@ -3252,8 +3273,7 @@ def receive_result(client_id):
                         _platform = _normalise_platform(str(client))
                         _privesc_cmd = _build_privesc_command(_platform)
                         if _privesc_cmd:
-                            _queue_path = os.path.join(ALLOWED_DIRECTORY,
-                                                       f"cmd_{sanitized_client_id}.json")
+                            _queue_path = _secure_command_queue_path(sanitized_client_id)
                             _cmds = []
                             if os.path.isfile(_queue_path):
                                 with open(_queue_path) as _qf:

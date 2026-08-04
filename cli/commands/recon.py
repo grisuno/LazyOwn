@@ -125,6 +125,18 @@ class ReconCommandSet(LazyOwnCommandSet):
         except Exception as _post_exc:
             print_warn(f"recon plan post-processing failed: {_post_exc}")
 
+        print_msg("\n[lazynmap] running intelligence cycle...")
+        try:
+            from modules.intelligence_engine import get_intelligence_engine
+            engine = get_intelligence_engine()
+            result = engine.run_full_cycle(line)
+            ingested = result.get("facts_ingested", 0)
+            assessments = result.get("assessments_count", 0)
+            counter = result.get("counter_intel_count", 0)
+            print_msg(f"Intelligence cycle: {ingested} facts, {assessments} assessments, {counter} counter-intel findings")
+        except Exception as _ie_exc:
+            print_warn(f"Intelligence cycle failed: {_ie_exc}")
+
         if (self.params.get("api_key") or "").strip():
             self.onecmd("vulnbot_groq")
         else:

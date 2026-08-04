@@ -12,7 +12,7 @@
   "linux": {
     "original_url": "https://10.10.14.141/s/linux",
     "active": true,
-    "created_at": "2026-08-02T22:23:56.376599"
+    "created_at": "2026-08-03T20:03:21.014633"
   },
   "windows": {
     "original_url": "https://10.10.14.91/s/windows.exe",
@@ -25,18 +25,18 @@
     "created_at": "2025-10-26T15:04:56.290542"
   },
   "stub": {
-    "original_url": "https://foreign-divide-fin-changed.trycloudflare.com/s/stub",
+    "original_url": "https://10.10.14.141/s/stub",
     "active": true,
-    "created_at": "2026-08-02T23:41:28.061965"
+    "created_at": "2026-08-03T20:03:21.014647"
   },
   "beacon.enc": {
-    "original_url": "https://foreign-divide-fin-changed.trycloudflare.com/s/beacon.enc",
+    "original_url": "https://10.10.14.141/s/beacon.enc",
     "active": true,
-    "created_at": "2026-08-02T23:41:28.061976"
+    "created_at": "2026-08-03T20:03:21.014657"
   },
   "r": {
-    "original_url": "https://foreign-divide-fin-changed.trycloudflare.com/s/r",
+    "original_url": "https://10.10.14.141/s/r",
     "active": true,
-    "created_at": "2026-08-02T23:41:28.061983"
+    "created_at": "2026-08-03T20:03:21.014665"
   }
 }

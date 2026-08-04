@@ -228,6 +228,25 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
         else:
             print_msg("No changes — payload already populated.")
 
+        try:
+            from modules.intelligence_engine import get_intelligence_engine
+            engine = get_intelligence_engine()
+            result = engine.run_full_cycle(target)
+            ingested = result.get("facts_ingested", 0)
+            if ingested:
+                print_msg(f"Intelligence: {ingested} facts ingested, "
+                          f"{result.get('assessments_count', 0)} assessments")
+        except Exception:
+            pass
+
+        try:
+            from modules.world_model import get_world_model
+            ingested = get_world_model().consume_policy_facts()
+            if ingested:
+                print_msg(f"World model: ingested {ingested} facts from policy_facts.json")
+        except Exception:
+            pass
+
     @with_category(ai_category)
     @with_argparser(_build_facts_show_parser())
     def do_facts_show(self, args: argparse.Namespace) -> None:

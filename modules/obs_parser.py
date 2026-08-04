@@ -36,6 +36,7 @@ import re
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from enum import StrEnum
+from typing import Any
 
 log = logging.getLogger("obs_parser")
 
@@ -63,9 +64,10 @@ class FindingType(StrEnum):
 class Finding:
     type:       FindingType
     value:      str
-    host:       str   = ""
-    confidence: float = 1.0
-    raw:        str   = ""
+    host:       str          = ""
+    confidence: float        = 1.0
+    raw:        str          = ""
+    metadata:   dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
@@ -174,18 +176,21 @@ class _CredentialExtractor(Extractor):
 class _ServiceVersionExtractor(Extractor):
     """Extracts service name + version from nmap-style output."""
     _PATTERN = re.compile(
-        r'(\d+)/(?:tcp|udp)\s+open\s+([\w/-]+)(?:\s+([\w/. -]+))?'
+        r'(\d+)/(tcp|udp)[ \t]+open[ \t]+([\w/-]+)(?:[ \t]+([\w/. -]+))?'
     )
 
     def extract(self, text: str, host: str) -> list[Finding]:
         results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
-            name    = m.group(2).strip()
-            version = (m.group(3) or "").strip()
-            value   = f"{name} {version}".strip()
+            port     = int(m.group(1))
+            protocol = m.group(2)
+            name     = m.group(3).strip()
+            version  = (m.group(4) or "").strip()
+            value    = f"{name} {version}".strip()
             results.append(Finding(
                 FindingType.SERVICE_VERSION, value,
-                host=host, confidence=0.95, raw=m.group()
+                host=host, confidence=0.95, raw=m.group(),
+                metadata={"port": port, "protocol": protocol},
             ))
         return results
 
@@ -291,6 +296,26 @@ class _DomainExtractor(Extractor):
                 results.append(Finding(
                     FindingType.DOMAIN, domain,
                     host=host, confidence=0.7
+                ))
+        return results
+
+
+class _EmailExtractor(Extractor):
+    """Extracts email addresses from tool output."""
+    _PATTERN = re.compile(
+        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+    )
+
+    def extract(self, text: str, host: str) -> list[Finding]:
+        seen: set = set()
+        results: list[Finding] = []
+        for m in self._PATTERN.finditer(text):
+            email = m.group().lower()
+            if email not in seen:
+                seen.add(email)
+                results.append(Finding(
+                    FindingType.EMAIL, email,
+                    host=host, confidence=0.9, raw=m.group()
                 ))
         return results
 
@@ -404,6 +429,7 @@ class ObsParser:
             _PathExtractor(),
             _UsernameExtractor(),
             _DomainExtractor(),
+            _EmailExtractor(),
             _ErrorExtractor(),
             _CloudIdentityExtractor(),
         ]:

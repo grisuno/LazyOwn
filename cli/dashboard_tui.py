@@ -204,12 +204,10 @@ class TargetPanel(Static):
         os_id = payload.get("os_id", 0)
         os_label = "Linux" if str(os_id) == "1" else ("Windows" if str(os_id) == "2" else "?")
         try:
-            from modules.world_model import get_world_model
-            wm_phase = get_world_model().get_phase().value
-            cli_phase = _engagement_to_cli_phase(wm_phase)
-            phase = cli_phase.upper()
+            from modules.killchain import KillChain
+            phase = KillChain.current_phase().upper()
         except Exception:
-            phase = (world.get("phase") or world.get("current_phase") or "unknown").upper()
+            phase = "RECON"
 
         t = Text()
         t.append(" TARGET ", style="bold white on dark_red")
@@ -522,9 +520,9 @@ class LazyOwnDashboard(App):
         self._cycle_phase(direction=-1)
 
     def _cycle_phase(self, direction: int) -> None:
-        world = _read_json(WORLD_MODEL_PATH)
-        current = (world.get("phase") or world.get("current_phase") or "recon").lower()
-        phases = list(_PHASES)
+        from modules.killchain import KillChain
+        phases = list(KillChain.phase_order())
+        current = KillChain.current_phase()
         try:
             idx = phases.index(current)
         except ValueError:

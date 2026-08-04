@@ -257,7 +257,11 @@ class OpsecScorer:
             except Exception:
                 pass
         if phase is None:
-            phase = self._payload.get("current_phase", "recon")
+            try:
+                from modules.killchain import KillChain
+                phase = KillChain.current_phase()
+            except Exception:
+                phase = self._payload.get("current_phase", "recon")
         phase_noise = PHASE_NOISE.get(phase, 3)
         tool_noise = PHASE_NOISE.get(tool_phase, 5)
         if tool_noise > phase_noise + 2 and phase_noise < 5:

@@ -70,10 +70,12 @@ class PwnCommandSet(LazyOwnCommandSet):
 
         profile = engine.profile(target)
         if not profile.open_ports:
-            print_warn(f"No open ports discovered for {target}.")
-            print_warn("Reconnaissance needed before auto-pwn.")
-            print_msg("Suggested: lazynmap && auto_populate")
-            return
+            print_warn(f"No open ports discovered for {target} — running lazynmap first.")
+            self.onecmd(f"lazynmap {target}")
+            profile = engine.profile(target)
+            if not profile.open_ports:
+                print_error(f"Still no open ports after scan. Target {target} may be unreachable.")
+                return
 
         print_msg(f"\n[*] Target: {target}  Pivot: {enable_pivot}  PrivEsc: {enable_privesc}  Stealth: {stealth}")
 

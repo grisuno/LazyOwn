@@ -845,6 +845,139 @@ pattern existed in 3 places. All unified behind the single helper.
 
 ---
 
+## 16.3 Phase 1 Data-Gap Closure Contracts (NEW)
+
+Closing five critical data-flow gaps where information was collected but not
+consumed. Each contract is a single file or a targeted fix in an existing module.
+
+### ``modules/obs_parser.py`` — Finding.metadata + _ServiceVersionExtractor + _EmailExtractor
+
+**Contract:** ``Finding`` carries an optional ``metadata: dict[str, Any]`` so
+extractors can pass structured data (port, protocol) alongside the string
+``value``. ``_ServiceVersionExtractor`` now captures ``port`` and ``protocol``
+in metadata (was lost before — only ``name version`` string was stored).
+``_EmailExtractor`` is a new extractor that finds email addresses in tool output
+and emits ``FindingType.EMAIL`` findings. Registered in ``ObsParser.__init__``.
+
+**Before:** NMAP service port/protocol lost on ObsParser output; emails ignored.
+**After:** Structured service data flows through Finding -> WorldModel.add_service();
+emails flow through Finding -> WorldModel.add_email().
+
+**Tests:** ``tests/test_phase1_data_gaps.py::TestFindingMetadata`` (2),
+``TestServiceVersionExtractor`` (4), ``TestEmailExtractor`` (4),
+``TestObsParserIncludesEmailExtractor`` (2).
+
+### ``modules/world_model.py`` — EmailEntry, DomainEntry, Corrected Handlers, consume_policy_facts
+
+**Contract:** Three new value objects: ``EmailEntry``, ``DomainEntry``. Three
+new public methods: ``add_email()``, ``add_domain()``, ``consume_policy_facts()``.
+``update_from_findings()`` corrected:
+
+| Finding type | Before (broken) | After (fixed) |
+|---|---|---|
+| ``service_version`` | Extracted parts to local variables, stored as unstructured note | Calls ``add_service(host, port, name, version, protocol)`` using port/protocol from ``metadata`` |
+| ``domain`` | Silently dropped | Calls ``add_domain(value, host=host)`` |
+| ``email`` | Silently dropped | Calls ``add_email(value, host=host)`` |
+| ``error`` | Silently dropped | Calls ``add_note(host, f"error: {value}")`` or sentinel host for global errors |
+
+**``consume_policy_facts()``** reads ``sessions/policy_facts.json`` (FactStore output)
+and ingests hosts, services, credentials, vulnerabilities, domains, and emails into
+the WorldModel, closing the FactStore-WorldModel divergence gap. Returns ingested
+count. Thread-safe.
+
+**Persistence:** ``_save()``, ``_load()``, ``reset()``, ``snapshot()``, and
+``to_context_string()`` all updated to carry emails and domains through the
+full lifecycle.
+
+**Tests:** ``tests/test_phase1_data_gaps.py::TestEmailAndDomainEntries`` (2),
+``TestWorldModelEmailDomain`` (3), ``TestUpdateFromFindings`` (6),
+``TestConsumePolicyFacts`` (4), ``TestWorldModelPersistence`` (4).
+
+### ``cli/recommendation_signals.py`` — GraphTopologySignal
+
+**Contract:** ``GraphTopologySignal`` reads ``pivot_candidates`` (degree centrality
+from WorldModel NetworkGraph) and emits lateral-movement / credential-spray
+``Proposal`` objects. Previously the ``pivot_candidates()`` data was computed
+but never consumed by the recommendation engine. Now it feeds directly into
+``build_default_engine()``.
+
+**Node handling:**
+- ``host:<ip>`` → ``crackmapexec smb <ip>`` proposals (category: lateral)
+- ``cred:<prefix>`` → ``credential_spray`` proposals (category: lateral)
+- ``service:<name>`` → ``enum_<name>`` proposals (category: enum)
+
+**Fallback centrality computation:** When no precomputed ``pivot_candidates``
+exist in the snapshot but ``network_graph`` data is available, computes
+degree centrality independently.
+
+**Tests:** ``tests/test_phase1_data_gaps.py::TestGraphTopologySignal`` (5).
+
+### ``modules/autonomous_exploit_engine.py`` — Credential-Aware Exploit Retry
+
+**Contract:** ``AutonomousExploitEngine.retry_with_credentials(target, credentials)``
+re-executes the exploit chain using newly-captured credentials. When credentials
+are discovered and stored in the WorldModel, this method re-ranks exploit
+candidates via ``_credential_aware_rank()`` which boosts strategies usable with
+available credentials:
+
+| Credential type | Strategy boost |
+|---|---|
+| Plaintext (user+pass) | ``brute_force`` ×2.5, ``credential_reuse`` ×3.0, ``null_session`` ×2.2 |
+| Hash only | ``brute_force`` ×1.8 |
+| Any | All ``requires_auth`` candidates ×2.0 |
+
+**Before:** Credentials stored in WorldModel but never triggered re-exploitation.
+**After:** When credentials arrive via ``update_from_findings`` or
+``consume_policy_facts``, the engine can re-attempt previously-failed exploits
+with authentication.
+
+**Tests:** ``tests/test_phase1_data_gaps.py::TestCredentialAwareRetry`` (4).
+
+### Mutation Gate
+
+**Runner:** ``tests/run_mutation_phase1.py`` — 8 mutants covering all four gaps.
+Each mutant reverts the fix (e.g., ``service_version`` back to ``add_note``,
+domain handler removed, credential boost neutralized) and verifies at least
+one test fails.
+
+**Results:** 8/8 mutants killed (0 survived).
+
+---
+
+## 16.4 Killchain Unification — Single Source Enforcement (NEW)
+
+**Contract:** Every consumer that needs the current kill-chain phase MUST call
+``KillChain.current_phase()`` or ``KillChain.snapshot()``. Reading raw
+``world_model.json`` keys (``"phase"``, ``"current_phase"``) directly is
+**forbidden** — it produces inconsistent values across surfaces because those
+keys can carry either EngagementPhase or CLI-phase vocabulary.
+
+**Consumers fixed (6 files, 8 locations):**
+
+| File | Before | After |
+|------|--------|-------|
+| ``cli/ops_commands.py:render_target_bar`` | ``world.get("phase") \|\| world.get("current_phase")`` | ``read_phase()`` (delegates to KillChain) |
+| ``cli/dashboard_tui.py:render_content`` | ``get_world_model().get_phase()`` + raw JSON fallback | ``KillChain.current_phase()`` |
+| ``cli/dashboard_tui.py:_cycle_phase`` | Raw JSON + ``_PHASES`` | ``KillChain.current_phase()`` + ``KillChain.phase_order()`` |
+| ``skills/lazyown_mcp.py`` (2x) | Raw ``wm.get("current_phase")`` | ``KillChain.current_phase(world_model_path=...)`` |
+| ``cli/commands/ai.py`` | Raw ``world.get("phase")`` | ``KillChain.current_phase()`` |
+| ``cli/recon_plan.py:_resolve_phase`` | ``payload.get("phase")`` | ``KillChain.current_phase()`` with payload fallback |
+| ``modules/opsec_scorer.py`` | Raw ``payload.get("current_phase")`` | ``KillChain.current_phase()`` with payload fallback |
+
+**Also wired into runtime:**
+
+| Contract | Where | Trigger |
+|----------|-------|---------|
+| ``consume_policy_facts()`` | ``cli/commands/mcp_bridge.py:auto_populate`` | After nmap XML parsing |
+| ``retry_with_credentials()`` | ``skills/lazyown_mcp.py`` (2x) | After ``update_from_findings`` detects credential/hash findings |
+
+**Security fix:** ``/push_notification`` route now has ``@requires_auth``,
+input size limit (4096 bytes), HTML sanitization via ``sanitize_html``,
+atomic writes via ``os.replace``, and ``try/except`` around file I/O.
+``load_notifications()`` handles corrupted/malformed JSON.
+
+---
+
 ## 17. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

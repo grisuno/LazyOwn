@@ -4208,6 +4208,13 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             engine = AutonomousExploitEngine()
             print_msg(f"Profiling target: {target}")
             profile = engine.profile(target)
+            if not profile.open_ports:
+                print_warn(f"No open ports discovered for {target} — running lazynmap first.")
+                self.onecmd(f"lazynmap {target}")
+                profile = engine.profile(target)
+                if not profile.open_ports:
+                    print_error(f"Still no open ports after scan. Target {target} may be unreachable.")
+                    return
             print_msg(f"  OS: {profile.os_type} {profile.os_version}")
             print_msg(f"  Ports: {profile.open_ports}")
             print_msg(f"  Services: {len(profile.services)}")

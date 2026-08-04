@@ -43,6 +43,7 @@ _DEFAULT_RECENT_WINDOW = 10
 _RANK_FLOOR = 0.2
 _KIND_BY_RECON = {"addon": KIND_ADDON, "tool": KIND_TOOL, "command": KIND_COMMAND}
 SOURCE_PLAYBOOK = "playbook"
+SOURCE_TOPOLOGY = "topology"
 
 
 def _rank_weight(index: int, total: int) -> float:
@@ -469,6 +470,114 @@ class KillchainGapSignal:
         return proposals
 
 
+class GraphTopologySignal:
+    """Adapt WorldModel network graph pivot_candidates into lateral movement proposals.
+
+    Reads the degree-centrality pivot candidates computed by the WorldModel's
+    NetworkGraph and emits high-confidence proposals for lateral movement,
+    credential spraying, and network topology exploration — data that was
+    previously computed but never consumed by the recommendation engine.
+    """
+
+    name = SOURCE_TOPOLOGY
+
+    def __init__(self, sessions_dir: str = "sessions") -> None:
+        self._sessions_dir = Path(sessions_dir)
+
+    def propose(self, ctx: RecommendationContext) -> list[Proposal]:
+        """Return lateral movement and topology proposals from network graph."""
+        proposals: list[Proposal] = []
+        try:
+            wm_data = self._read_world_model()
+            if not wm_data:
+                return proposals
+
+            candidates = wm_data.get("pivot_candidates", [])
+            if not candidates:
+                graph_data = wm_data.get("network_graph", {})
+                if graph_data:
+                    candidates = self._compute_centrality(graph_data)
+
+            for index, candidate in enumerate(candidates[:ctx.limit]):
+                node = candidate.get("node", "")
+                centrality = candidate.get("centrality", 0.0)
+                neighbors = candidate.get("neighbors", [])
+
+                if "host:" in node:
+                    target_ip = node.replace("host:", "")
+                    proposals.append(Proposal(
+                        action=f"crackmapexec smb {target_ip}",
+                        kind=KIND_COMMAND,
+                        weight=min(centrality * 2.0, 1.0),
+                        reason=f"High-centrality pivot host {target_ip} (deg={centrality:.2f}, {len(neighbors)} neighbors)",
+                        category="lateral",
+                        command_preview=f"crackmapexec smb {target_ip}",
+                    ))
+                elif "cred:" in node:
+                    cred_prefix = node.replace("cred:", "")
+                    proposals.append(Proposal(
+                        action="credential_spray",
+                        kind=KIND_COMMAND,
+                        weight=min(centrality * 1.5, 1.0),
+                        reason=f"Credential {cred_prefix} authenticates to multiple hosts — spray",
+                        category="lateral",
+                    ))
+                elif "service:" in node:
+                    svc_name = node.replace("service:", "")
+                    proposals.append(Proposal(
+                        action=f"enum_{svc_name}",
+                        kind=KIND_TOOL,
+                        weight=min(centrality, 1.0),
+                        reason=f"Service {svc_name} is a network hub (deg={centrality:.2f}) — enumerate for lateral paths",
+                        category="enum",
+                    ))
+        except Exception:
+            pass
+        return proposals
+
+    def _read_world_model(self) -> dict | None:
+        wm_path = self._sessions_dir / "world_model.json"
+        if not wm_path.exists():
+            return None
+        try:
+            return json.loads(wm_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
+
+    @staticmethod
+    def _compute_centrality(graph_data: dict) -> list[dict]:
+        nodes = set(graph_data.get("nodes", []))
+        relations = graph_data.get("relations", [])
+        if not nodes or len(nodes) <= 1:
+            return []
+        adjacency: dict[str, tuple[int, list[str]]] = {}
+        for rel in relations:
+            src = rel.get("source", "")
+            tgt = rel.get("target", "")
+            if src not in adjacency:
+                adjacency[src] = (0, [])
+            out_count, out_neighbors = adjacency[src]
+            adjacency[src] = (out_count + 1, out_neighbors + [tgt])
+            nodes.add(src)
+            nodes.add(tgt)
+        n = len(nodes)
+        denominator = 2.0 * (n - 1)
+        results: list[dict] = []
+        for node in nodes:
+            out_deg, out_nbrs = adjacency.get(node, (0, []))
+            in_deg = sum(1 for r in relations if r.get("target") == node)
+            centrality = round((in_deg + out_deg) / denominator, 4) if denominator > 0 else 0.0
+            results.append({
+                "node": node,
+                "centrality": centrality,
+                "out_degree": out_deg,
+                "in_degree": in_deg,
+                "neighbors": out_nbrs[:8],
+            })
+        results.sort(key=lambda x: -x["centrality"])
+        return results
+
+
 def _try_build_playbook_signal() -> PlaybookSignal | None:
     """Build a :class:`PlaybookSignal` when the APT playbook engine imports."""
     try:
@@ -524,6 +633,9 @@ def build_default_engine(
     playbook_signal = _try_build_playbook_signal()
     if playbook_signal is not None:
         signals.append(playbook_signal)
+
+    topology_signal = GraphTopologySignal(sessions_dir=sessions_dir)
+    signals.append(topology_signal)
 
     signals.append(_build_killchain_signal())
 
@@ -584,7 +696,15 @@ __all__ = [
     "ReconPlanSignal",
     "KillChainSignal",
     "PlaybookSignal",
+    "GraphTopologySignal",
+    "KillchainGapSignal",
+    "SOURCE_GRAPH",
+    "SOURCE_POLICY",
+    "SOURCE_RECON",
+    "SOURCE_KILLCHAIN",
+    "SOURCE_GAP",
     "SOURCE_PLAYBOOK",
+    "SOURCE_TOPOLOGY",
     "read_recent_commands",
     "build_context",
     "build_default_engine",

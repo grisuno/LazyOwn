@@ -811,10 +811,18 @@ def load_event_config():
 def load_notifications():
     JSON_FILE_PATH = 'sessions/notifications.json'
     if not os.path.exists(JSON_FILE_PATH):
-        with open(JSON_FILE_PATH, 'w') as f:
+        os.makedirs(os.path.dirname(JSON_FILE_PATH), exist_ok=True)
+        tmp = JSON_FILE_PATH + ".tmp"
+        with open(tmp, 'w') as f:
             json.dump([], f)
-    with open(JSON_FILE_PATH, 'r') as f:
-        notifications = json.load(f)
+        os.replace(tmp, JSON_FILE_PATH)
+    try:
+        with open(JSON_FILE_PATH, 'r') as f:
+            notifications = json.load(f)
+    except (OSError, json.JSONDecodeError):
+        notifications = [{"html": "Notification store reset due to corruption"}]
+    if not isinstance(notifications, list):
+        notifications = [{"html": "Notification store reset — expected list"}]
     return notifications
 
 def implants_check():
@@ -4828,16 +4836,29 @@ def view_note():
     return render_template('view_note.html', note=note)
 
 @app.route('/push_notification', methods=['POST'])
+@requires_auth
 def push_notification():
     html_content = request.form.get('html')
     if not html_content:
         return jsonify({"error": "HTML content is required"}), 400
-    notifications = load_notifications()
-    notifications.append({"html": html_content})
+    if len(html_content) > 4096:
+        return jsonify({"error": "HTML content too large"}), 413
+    sanitized = _lazyc2_sanitize_html(html_content)
+    try:
+        notifications = load_notifications()
+    except (OSError, json.JSONDecodeError) as exc:
+        logging.getLogger(__name__).warning("push_notification: failed to load: %s", exc)
+        return jsonify({"error": "Failed to read notification store"}), 500
+    notifications.append({"html": sanitized})
     JSON_FILE_PATH = "sessions/notifications.json"
-    with open(JSON_FILE_PATH, 'w') as f:
-        json.dump(notifications, f, indent=4)
-
+    try:
+        tmp = JSON_FILE_PATH + ".tmp"
+        with open(tmp, 'w') as f:
+            json.dump(notifications, f, indent=4)
+        os.replace(tmp, JSON_FILE_PATH)
+    except OSError as exc:
+        logging.getLogger(__name__).warning("push_notification: failed to write: %s", exc)
+        return jsonify({"error": "Failed to persist notification"}), 500
     return jsonify({"message": "Notification saved successfully"}), 200
 
 

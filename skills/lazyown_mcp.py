@@ -5523,7 +5523,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             if wm_path.exists():
                 wm = _json.loads(wm_path.read_text())
-                phase   = wm.get("current_phase", "recon")
+                from modules.killchain import KillChain
+                phase = KillChain.current_phase(world_model_path=wm_path)
                 h       = wm.get("hosts", {}).get(rhost, {})
                 wm_host_state = h.get("state", "unscanned")
                 for svc in h.get("services", {}).values():
@@ -6727,8 +6728,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if wm_file.exists():
                 try:
                     wm = json.loads(wm_file.read_text())
+                    from modules.killchain import KillChain
                     sitrep_struct["world_model"] = {
-                        "phase": wm.get("current_phase"),
+                        "phase": KillChain.current_phase(world_model_path=wm_file),
                         "host_count": len(wm.get("hosts", {})),
                         "credentials": [
                             {**c,
@@ -7725,6 +7727,41 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     try:
                         obs = _obs_parser.parse(output, host=target, tool=t_cmd)
                         _wm.update_from_findings(obs.findings)
+                        from modules.intelligence_engine import get_intelligence_engine
+                        ie = get_intelligence_engine()
+                        ie.collect_from_tool(output, tool=t_cmd, host=target)
+                        cred_findings = obs.by_type("credential")
+                        hash_findings = obs.by_type("hash")
+                        if cred_findings or hash_findings:
+                            try:
+                                from modules.autonomous_exploit_engine import AutonomousExploitEngine
+                                _PLACEHOLDER_PATTERNS = (
+                                    "CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE",
+                                    "admin", "root", "user", "password", "pass",
+                                    "test", "guest", "anonymous",
+                                )
+                                def _is_placeholder(val: str) -> bool:
+                                    lower = val.lower().strip()
+                                    return any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5) or lower in _PLACEHOLDER_PATTERNS
+                                engine = AutonomousExploitEngine.get_instance()
+                                creds: list[dict[str, str]] = []
+                                for cf in cred_findings:
+                                    if _is_placeholder(cf.value):
+                                        continue
+                                    parts = cf.value.split(":", 1)
+                                    if len(parts) == 2:
+                                        if _is_placeholder(parts[0]) and _is_placeholder(parts[1]):
+                                            continue
+                                        creds.append({"username": parts[0], "password": parts[1]})
+                                    else:
+                                        creds.append({"value": cf.value})
+                                for hf in hash_findings:
+                                    if not _is_placeholder(hf.value):
+                                        creds.append({"hash": hf.value})
+                                if creds:
+                                    engine.retry_with_credentials(target, credentials=creds)
+                            except Exception:
+                                pass
                     except Exception:
                         pass
 
@@ -7955,6 +7992,41 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     obs = _obs_parser.parse(output, host=target, tool=resolved_cmd)
                     _wm.update_from_findings(obs.findings)
+                    from modules.intelligence_engine import get_intelligence_engine
+                    ie = get_intelligence_engine()
+                    ie.collect_from_tool(output, tool=resolved_cmd, host=target)
+                    cred_findings = obs.by_type("credential")
+                    hash_findings = obs.by_type("hash")
+                    if cred_findings or hash_findings:
+                        try:
+                            from modules.autonomous_exploit_engine import AutonomousExploitEngine
+                            _PLACEHOLDER_PATTERNS = (
+                                "CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE",
+                                "admin", "root", "user", "password", "pass",
+                                "test", "guest", "anonymous",
+                            )
+                            def _is_placeholder(val: str) -> bool:
+                                lower = val.lower().strip()
+                                return any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5) or lower in _PLACEHOLDER_PATTERNS
+                            engine = AutonomousExploitEngine.get_instance()
+                            creds: list[dict[str, str]] = []
+                            for cf in cred_findings:
+                                if _is_placeholder(cf.value):
+                                    continue
+                                parts = cf.value.split(":", 1)
+                                if len(parts) == 2:
+                                    if _is_placeholder(parts[0]) and _is_placeholder(parts[1]):
+                                        continue
+                                    creds.append({"username": parts[0], "password": parts[1]})
+                                else:
+                                    creds.append({"value": cf.value})
+                            for hf in hash_findings:
+                                if not _is_placeholder(hf.value):
+                                    creds.append({"hash": hf.value})
+                            if creds:
+                                engine.retry_with_credentials(target, credentials=creds)
+                        except Exception:
+                            pass
                     # Auto-complete objectives satisfied by findings
                     if _OBJECTIVES_AVAILABLE and obs.findings:
                         try:

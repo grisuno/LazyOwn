@@ -113,7 +113,11 @@ class AiCommandSet(LazyOwnCommandSet):
                     world = json.load(handle)
             except (OSError, json.JSONDecodeError):
                 world = {}
-        phase = (world.get("phase") or world.get("current_phase") or UNKNOWN_LABEL).upper()
+        from modules.killchain import KillChain
+        try:
+            phase = KillChain.current_phase().upper()
+        except Exception:
+            phase = UNKNOWN_LABEL
         hosts = list(world.get("hosts", {}).keys())
         vulnerabilities = world.get("vulnerabilities") or []
         recent_commands: list[str] = []

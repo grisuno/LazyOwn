@@ -43,6 +43,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import Any
 
 log = logging.getLogger("world_model")
 
@@ -196,6 +197,22 @@ class VulnerabilityEntry:
     cve:         str  = ""
     severity:    str  = "UNKNOWN"
     found_at:    str  = field(default_factory=lambda: datetime.now().isoformat())
+
+
+@dataclass
+class EmailEntry:
+    address:  str
+    host:     str  = ""
+    context:  str  = ""
+    found_at: str  = field(default_factory=lambda: datetime.now().isoformat())
+
+
+@dataclass
+class DomainEntry:
+    domain:   str
+    host:     str  = ""
+    context:  str  = ""
+    found_at: str  = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
@@ -475,6 +492,8 @@ class WorldModel:
         self._hosts:   dict[str, HostEntry]       = {}
         self._creds:   list[CredentialEntry]      = []
         self._vulns:   list[VulnerabilityEntry]   = []
+        self._emails:  list[EmailEntry]           = []
+        self._domains: list[DomainEntry]          = []
         self._graph:   NetworkGraph               = NetworkGraph()
         self._deriver: _PhaseDeriver              = _PhaseDeriver()
         self._passthrough: dict[str, Any] = {}
@@ -489,6 +508,16 @@ class WorldModel:
                 log.debug("WorldModel: new host %s", ip)
                 self._save()
             return self._hosts[ip]
+
+    def reset_host(self, ip: str) -> None:
+        """Clear a single host's state back to UNSCANNED for a fresh scan. Retains other hosts.
+
+        Args:
+            ip: Target host IP address.
+        """
+        with self._lock:
+            self._hosts[ip] = HostEntry(ip=ip)
+            self._save()
 
     def advance_host(self, ip: str, new_state: HostState) -> bool:
         with self._lock:
@@ -560,6 +589,10 @@ class WorldModel:
     # ── Credential / vulnerability tracking ───────────────────────────────────
 
     def add_credential(self, value: str, host: str = "", service: str = "") -> None:
+        _PLACEHOLDER_TOKENS = ("CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE", "YOUR_API_KEY")
+        upper_value = value.upper()
+        if any(t.upper() in upper_value for t in _PLACEHOLDER_TOKENS):
+            return
         with self._lock:
             if not any(c.value == value for c in self._creds):
                 self._creds.append(CredentialEntry(value=value, host=host, service=service))
@@ -637,6 +670,24 @@ class WorldModel:
             self._vulns.append(entry)
             self._save()
 
+    def add_email(self, address: str, host: str = "", context: str = "") -> None:
+        with self._lock:
+            if not any(e.address == address for e in self._emails):
+                self._emails.append(EmailEntry(address=address, host=host, context=context))
+                self._save()
+
+    def add_domain(self, domain: str, host: str = "", context: str = "") -> None:
+        with self._lock:
+            if not any(d.domain == domain for d in self._domains):
+                self._domains.append(DomainEntry(domain=domain, host=host, context=context))
+                if host:
+                    existing = self._hosts.get(host)
+                    if existing:
+                        note = f"domain: {domain}" + (f" ({context})" if context else "")
+                        if note not in existing.notes:
+                            existing.notes.append(note)
+                self._save()
+
     # ── Finding integration ───────────────────────────────────────────────────
 
     def update_from_findings(self, findings: list) -> None:
@@ -648,6 +699,7 @@ class WorldModel:
             ftype = getattr(f, "type", "")
             value = getattr(f, "value", "")
             host  = getattr(f, "host",  "")
+            meta  = getattr(f, "metadata", {}) or {}
             if not value:
                 continue
             try:
@@ -657,10 +709,16 @@ class WorldModel:
                     self.add_credential(value, host=host)
                 elif ftype == "service_version":
                     if host:
-                        parts = value.split(" ", 1)
-                        parts[0]
-                        parts[1] if len(parts) > 1 else ""
-                        self.add_note(host, f"service: {value}")
+                        name, _, version = value.partition(" ")
+                        port = meta.get("port", 0)
+                        protocol = meta.get("protocol", "tcp")
+                        self.add_service(
+                            host,
+                            port=int(port) if port else 0,
+                            name=name.strip(),
+                            version=version.strip(),
+                            protocol=str(protocol),
+                        )
                 elif ftype == "cve":
                     self.add_vulnerability(value, host=host, cve=value)
                 elif ftype == "hash":
@@ -671,6 +729,21 @@ class WorldModel:
                 elif ftype == "username":
                     if host:
                         self.add_note(host, f"user: {value}")
+                elif ftype == "domain":
+                    if host:
+                        self.add_domain(value, host=host)
+                    else:
+                        self.add_domain(value)
+                elif ftype == "email":
+                    if host:
+                        self.add_email(value, host=host)
+                    else:
+                        self.add_email(value)
+                elif ftype == "error":
+                    if host:
+                        self.add_note(host, f"error: {value}")
+                    else:
+                        self.add_note("0.0.0.0", f"global_error: {value}")
                 elif ftype == "cloud_role":
                     if host:
                         h = self._hosts.get(host) or self.add_host(host)
@@ -686,6 +759,96 @@ class WorldModel:
                         h.cloud_metadata["k8s_resource"] = value
             except Exception as exc:
                 log.debug("WorldModel.update_from_findings: %s", exc)
+
+    def consume_policy_facts(self, facts_path: str | Path | None = None) -> int:
+        """Ingest structured facts from FactStore's ``policy_facts.json``.
+
+        Reads hosts, services, credentials, and vulnerabilities discovered by
+        the FactStore parser and merges them into the world model. Returns the
+        total number of new facts ingested.
+
+        Args:
+            facts_path: Path to ``policy_facts.json``. Defaults to
+                ``sessions/policy_facts.json``.
+
+        Returns:
+            Count of newly ingested fact entries.
+        """
+        if facts_path is None:
+            facts_path = _SESSIONS_DIR / "policy_facts.json"
+        facts_file = Path(facts_path)
+        if not facts_file.exists():
+            log.debug("consume_policy_facts: %s not found", facts_file)
+            return 0
+
+        try:
+            data = json.loads(facts_file.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            log.warning("consume_policy_facts: failed to read %s: %s", facts_file, exc)
+            return 0
+
+        ingested = 0
+        with self._lock:
+            for host_ip, host_data in data.get("hosts", {}).items():
+                if not isinstance(host_data, dict):
+                    continue
+                self.add_host(host_ip)
+
+                for svc in host_data.get("services", []):
+                    if isinstance(svc, dict):
+                        self.add_service(
+                            ip=host_ip,
+                            port=int(svc.get("port", 0)),
+                            name=str(svc.get("name", "")),
+                            version=str(svc.get("version", "")),
+                            protocol=str(svc.get("protocol", "tcp")),
+                        )
+                        ingested += 1
+
+                if host_data.get("os_hint"):
+                    self.set_os_hint(host_ip, str(host_data["os_hint"]))
+
+            for cred in data.get("credentials", []):
+                if isinstance(cred, dict) and cred.get("value"):
+                    self.add_credential(
+                        value=str(cred["value"]),
+                        host=str(cred.get("host", "")),
+                        service=str(cred.get("service", "")),
+                    )
+                    ingested += 1
+
+            for vuln in data.get("vulnerabilities", []):
+                if isinstance(vuln, dict) and vuln.get("description"):
+                    self.add_vulnerability(
+                        description=str(vuln["description"]),
+                        host=str(vuln.get("host", "")),
+                        cve=str(vuln.get("cve", "")),
+                        severity=str(vuln.get("severity", "UNKNOWN")),
+                    )
+                    ingested += 1
+
+            for domain in data.get("domains", []):
+                if isinstance(domain, dict) and domain.get("domain"):
+                    self.add_domain(
+                        domain=str(domain["domain"]),
+                        host=str(domain.get("host", "")),
+                    )
+                elif isinstance(domain, str):
+                    self.add_domain(domain)
+                    ingested += 1
+
+            for email in data.get("emails", []):
+                if isinstance(email, dict) and email.get("address"):
+                    self.add_email(
+                        address=str(email["address"]),
+                        host=str(email.get("host", "")),
+                    )
+                elif isinstance(email, str):
+                    self.add_email(email)
+                    ingested += 1
+
+        log.info("consume_policy_facts: ingested %d facts from %s", ingested, facts_file)
+        return ingested
 
     # ── Network graph ─────────────────────────────────────────────────────────
 
@@ -741,7 +904,9 @@ class WorldModel:
                 f"Phase: {phase.value}",
                 f"Hosts: {len(self._hosts)}  "
                 f"Credentials: {len(self._creds)}  "
-                f"Vulnerabilities: {len(self._vulns)}",
+                f"Vulnerabilities: {len(self._vulns)}  "
+                f"Emails: {len(self._emails)}  "
+                f"Domains: {len(self._domains)}",
                 "",
             ]
             for ip, host in self._hosts.items():
@@ -762,6 +927,16 @@ class WorldModel:
                 for v in self._vulns[-5:]:
                     sev = f"[{v.severity}]" if v.severity != "UNKNOWN" else ""
                     lines.append(f"  {v.host or 'unknown'} {sev} {v.cve or ''} {v.description[:80]}")
+
+            if self._emails:
+                lines.append("\nDiscovered emails (latest 5):")
+                for e in self._emails[-5:]:
+                    lines.append(f"  {e.address}  host={e.host or 'unknown'}")
+
+            if self._domains:
+                lines.append("\nDiscovered domains (latest 10):")
+                for d in self._domains[-10:]:
+                    lines.append(f"  {d.domain}  host={d.host or 'unknown'}")
 
             lines.append(f"\nSuggested tools for {phase.value}: "
                          + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
@@ -787,6 +962,8 @@ class WorldModel:
                 "hosts":            {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials":      [vars(c) for c in self._creds],
                 "vulnerabilities":  [vars(v) for v in self._vulns],
+                "emails":           [vars(e) for e in self._emails],
+                "domains":          [vars(d) for d in self._domains],
                 "network_graph":    self._graph.to_dict(),
                 "saved_at":         datetime.now().isoformat(),
             }
@@ -804,14 +981,16 @@ class WorldModel:
             self._hosts = {ip: HostEntry.from_dict(h) for ip, h in data.get("hosts", {}).items()}
             self._creds = [CredentialEntry(**c) for c in data.get("credentials", [])]
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]
+            self._emails = [EmailEntry(**e) for e in data.get("emails", [])]
+            self._domains = [DomainEntry(**d) for d in data.get("domains", [])]
             if "network_graph" in data:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
             self._passthrough = {}
             for key in ("completed_phases", "phase", "current_phase", "notes"):
                 if key in data:
                     self._passthrough[key] = data[key]
-            log.info("WorldModel: loaded %d hosts, %d creds from %s",
-                     len(self._hosts), len(self._creds), self._path)
+            log.info("WorldModel: loaded %d hosts, %d creds, %d emails, %d domains from %s",
+                     len(self._hosts), len(self._creds), len(self._emails), len(self._domains), self._path)
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
@@ -827,6 +1006,8 @@ class WorldModel:
             self._hosts.clear()
             self._creds.clear()
             self._vulns.clear()
+            self._emails.clear()
+            self._domains.clear()
             self._graph = NetworkGraph()
             self._passthrough = {}
             self._load()
@@ -837,6 +1018,8 @@ class WorldModel:
             self._hosts.clear()
             self._creds.clear()
             self._vulns.clear()
+            self._emails.clear()
+            self._domains.clear()
             if self._path.exists():
                 self._path.unlink()
 
@@ -848,6 +1031,8 @@ class WorldModel:
                 "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials":     [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
+                "emails":          [vars(e) for e in self._emails],
+                "domains":         [vars(d) for d in self._domains],
                 "pivot_candidates": self._graph.pivot_candidates(top_k=5),
             }
 

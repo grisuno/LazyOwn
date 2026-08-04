@@ -442,8 +442,8 @@ PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
     EngagementPhase.EXPLOITATION:      ["TA0001 - Initial Access", "TA0002 - Execution"],
     EngagementPhase.POST_EXPLOITATION: ["TA0004 - Privilege Escalation", "TA0008 - Lateral Movement",
-                                        "TA0010 - Exfiltration"],
-    EngagementPhase.COMPLETE:          ["TA0040 - Impact"],
+                                        "TA0010 - Exfiltration", "TA0003 - Persistence"],
+    EngagementPhase.COMPLETE:          ["TA0040 - Impact", "TA0003 - Persistence", "TA0010 - Exfiltration"],
 }
 
 # Phase → MCP tool names that are most relevant
@@ -451,25 +451,39 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
         "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
         "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
+        "entra_attack", "saas_enum", "opsec_score",
     ],
     EngagementPhase.SCANNING: [
         "lazyown_tool_enum_smb", "lazyown_tool_enum4linux_tool",
         "lazyown_tool_ffuf_tool", "lazyown_tool_nikto_host",
         "lazyown_tool_showmount_tool", "lazyown_tool_enum_rpcbind",
+        "aws_privesc", "gcp_privesc", "k8s_attack", "cross_cloud",
     ],
     EngagementPhase.ENUMERATION: [
         "lazyown_tool_ldapsearch_tool", "lazyown_tool_smbclient_list",
         "lazyown_tool_kerbrute_tool_user", "lazyown_tool_nxc_ldap",
         "lazyown_tool_gobuster_web",
+        "delegation_enum", "delegation_attack", "kerberoast",
+        "dacl_abuse", "gpo_abuse", "adcs_check",
     ],
     EngagementPhase.EXPLOITATION: [
         "lazyown_tool_evil_winrm_tool", "lazyown_tool_hydrardp_tool",
         "lazyown_tool_kerberoasting_tool", "lazyown_tool_asrep_roast",
         "lazyown_plugin_generate_reverse_shell",
+        "kerberos_ticket", "dotnet_payload", "staged_delivery",
+        "polymorphic", "macos_payload", "linux_advanced_payload",
     ],
     EngagementPhase.POST_EXPLOITATION: [
         "lazyown_c2_command", "lazyown_c2_adversary",
         "lazyown_tool_bloodhound-python", "lazyown_tool_crackmapexec_smb",
+        "opsec_score", "log_tamper", "forensic_clean",
+        "timestomp", "memory_clean", "network_opsec",
+        "kerberos_ticket", "dacl_abuse", "gpo_abuse",
+    ],
+    EngagementPhase.COMPLETE: [
+        "opsec_score", "log_tamper", "forensic_clean",
+        "timestomp", "memory_clean", "network_opsec",
+        "sitrep", "note", "encrypt", "report",
     ],
 }
 

@@ -97,6 +97,32 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
     "collab_join": ["sitrep", "note"],
     "dashboard": ["sitrep", "phase", "tasks"],
     "phase": ["lazynmap", "auto_pwn", "sitrep"],
+    "dotnet_payload": ["staged_delivery", "polymorphic", "payload"],
+    "staged_delivery": ["dotnet_payload", "polymorphic", "createrevshell"],
+    "polymorphic": ["dotnet_payload", "evasive_payload", "mutate_shellcode"],
+    "macos_payload": ["timestomp", "log_tamper", "memory_clean"],
+    "linux_advanced_payload": ["log_tamper", "timestomp", "forensic_clean"],
+    "kerberos_ticket": ["kerberoast", "delegation_enum", "dacl_abuse"],
+    "delegation_enum": ["delegation_attack", "kerberos_ticket", "dacl_abuse"],
+    "delegation_attack": ["kerberos_ticket", "secretsdump", "evil-winrm"],
+    "dacl_abuse": ["delegation_enum", "gpo_abuse", "kerberoast"],
+    "gpo_abuse": ["dacl_abuse", "delegation_enum", "forensic_clean"],
+    "kerberoast": ["hashcat", "kerberos_ticket", "secretsdump"],
+    "adcs_check": ["kerberos_ticket", "certipy_ad", "delegation_attack"],
+    "entra_attack": ["cross_cloud", "saas_enum", "opsec_score"],
+    "aws_privesc": ["cross_cloud", "entra_attack", "opsec_score"],
+    "gcp_privesc": ["cross_cloud", "aws_privesc", "entra_attack"],
+    "k8s_attack": ["cross_cloud", "container_escape", "opsec_score"],
+    "cross_cloud": ["aws_privesc", "entra_attack", "gcp_privesc"],
+    "saas_enum": ["entra_attack", "cross_cloud", "sitrep"],
+    "opsec_score": ["log_tamper", "forensic_clean", "memory_clean"],
+    "log_tamper": ["forensic_clean", "timestomp", "memory_clean"],
+    "forensic_clean": ["log_tamper", "timestomp", "memory_clean"],
+    "timestomp": ["forensic_clean", "log_tamper", "memory_clean"],
+    "memory_clean": ["forensic_clean", "log_tamper", "timestomp"],
+    "network_opsec": ["opsec_score", "log_tamper", "timestomp"],
+    "auditd_disable": ["log_tamper", "forensic_clean", "network_opsec"],
+    "sysmon_disable": ["log_tamper", "forensic_clean", "network_opsec"],
 }
 
 _PHASE_PRIORITY: dict[str, list[str]] = {
@@ -109,21 +135,29 @@ _PHASE_PRIORITY: dict[str, list[str]] = {
         "searchsploit", "crackmapexec", "sqlmap", "burpsuite", "evil-winrm",
         "auto_pwn", "chain", "hunt", "exploit_db", "hydra",
     ],
-    "privesc": ["linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer", "juicypotato", "whoami_priv", "gtfo", "les", "crystal_ball"],
+    "privesc": ["linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer", "juicypotato", "whoami_priv", "gtfo", "les", "crystal_ball", "kerberos_ticket", "adcs_check"],
     "lateral": [
         "crackmapexec", "evil-winrm", "chisel", "secretsdump", "psexec",
-        "ssh", "xfreerdp", "collab_join",
+        "ssh", "xfreerdp", "collab_join", "kerberos_ticket", "delegation_attack",
     ],
     "cred": [
         "hashcat", "john", "responder", "kerbrute", "secretsdump",
-        "l00t", "mimikatz", "lazagne",
+        "l00t", "mimikatz", "lazagne", "kerberoast", "dacl_abuse",
     ],
     "postexp": [
         "linpeas", "winpeas", "mimikatz", "secretsdump", "whoami_priv",
         "yara_scan", "note", "sitrep", "dashboard", "encrypt",
+        "opsec_score", "log_tamper", "forensic_clean", "timestomp", "memory_clean",
     ],
-    "exfil": ["download_c2", "nc", "curl", "scp", "rsync", "l00t", "encrypt"],
-    "persist": ["campaign", "sitrep", "note", "encrypt"],
+    "exfil": ["download_c2", "nc", "curl", "scp", "rsync", "l00t", "encrypt", "network_opsec"],
+    "persist": [
+        "campaign", "sitrep", "note", "encrypt", "gpo_abuse", "dacl_abuse",
+        "macos_payload", "linux_advanced_payload", "dotnet_payload",
+    ],
+    "cloud": [
+        "entra_attack", "aws_privesc", "gcp_privesc", "k8s_attack",
+        "cross_cloud", "saas_enum", "opsec_score",
+    ],
 }
 
 _MAX_LABEL_LEN: int = 24

@@ -474,6 +474,7 @@ class ModuleRegistry:
             r"def\s+run\s*\(.*\)\s*(?:->.*)?\s*:",
             r"def\s+execute\s*\(.*\)\s*(?:->.*)?\s*:",
             r"class\s+\w+\(.*\)\s*:",
+            r"class\s+\w+\s*:",
         ]
         return any(re.search(m, source, re.MULTILINE) for m in markers)
 

@@ -1,0 +1,15 @@
+
+[ OPSEC Assessment: <command ]
+    Noise Score     : 2/10
+    Risk Level      : LOW
+    Gate Action     : ALLOW
+    Detection       : unknown
+    Explanation     : Command '<command' scored 2/10 noise. Detectable by: unknown. Operation within safe risk thresholds.
+
+    Mitigations:
+        - Operation within acceptable noise parameters
+
+    Session Trend   : insufficient_data (avg noise ?)
+[1;2;36m  ↳ [0m[2;3;37mlog_tamper · forensic_clean · memory_clean[0m
+[2m  [[0m[32mR[0m[2m>[0m[32mE[0m[2m>[0m[32mX[0m[2m>[0m[32mP[0m[2m>[0m[32mL[0m[2m][0m
+[2;36m  >> [0m[2;3;37mpress '.' to run: log_tamper  (adjacency from opsec_score)[0m

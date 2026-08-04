@@ -1,0 +1,17 @@
+
+[ Timestomp — LINUX ]
+    Reference: /etc/passwd
+    # Clone timestamps from reference file
+    touch -r "/etc/passwd" /path/to/target/file
+    # Set specific timestamp (YYYYMMDDHHMM.SS):
+    touch -t 202301010101.01 /path/to/target
+    # Batch timestomp directory recursively:
+    find /tmp/staged -type f -exec touch -r "/etc/passwd" {} \;
+[1;2;36m  ↳ [0m[2;3;37mforensic_clean · log_tamper · memory_clean[0m
+[2m  [[0m[32mR[0m[2m>[0m[32mE[0m[2m>[0m[32mX[0m[2m>[0m[32mP[0m[2m>[0m[32mL[0m[2m][0m
+[2;36m  >> [0m[2;3;37mpress '.' to run: forensic_clean  (adjacency from timestomp)[0m
+
+    [2m────────────────────────────────────────────────────────────[0m
+    [2m  hidden feature  [0m[1;35myara_marketplace              [0m[2mBrowse and install community YARA rules[0m
+    [2m────────────────────────────────────────────────────────────[0m
+

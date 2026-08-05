@@ -1,0 +1,21 @@
+name: OVSwrap
+description: ' OVSwrap (CVE-2026-64531) is a non-universal (but broad) Linux LPE found by giving LLMs the tools to reason through memory safety issues’ geometry (coupled with CIFSwitch-discovery-style graph reasoning tools). Read on for affected distros, mitigations, and vulnerability details.
+
+  '
+author: manizada
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: OVSwrap
+  repo_url: https://github.com/manizada/OVSwrap.git
+  install_path: external/.exploit/OVSwrap
+  install_command: git pull
+  execute_command: chmod +x *.py && python3 ovswrap-poc.py
+category: 03. Exploitation

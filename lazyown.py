@@ -303,6 +303,7 @@ rhost = config.get("rhost")
 lhost = config.get("lhost")
 c2_user = config.get("c2_user")
 c2_pass = config.get("c2_pass")
+email_password = config.get("email_password")
 c2_port = config.get("c2_port")
 start_user = config.get("start_user")
 start_pass = config.get("start_pass")
@@ -512,14 +513,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_warn(f"tips engine not initialised: {exc}")
             self._tips_engine = None
-        try:
-            if self._tips_engine is not None:
-                self._tips_engine.on_killchain_display = _print_phase
-                cfg = self._tips_engine.config
-                cfg.killchain_auto_every = int(self.params.get('killchain_auto_every', 0) or 0)
-                cfg.killchain_auto_on_phase_change = bool(self.params.get('killchain_auto_on_phase_change', True))
-        except Exception as exc:
-            print_warn(f"killchain auto-refresh not wired: {exc}")
+
         try:
             self._auto_crypto = _AutoCryptoEngine(
                 config=_AutoCryptoConfig(
@@ -644,7 +638,7 @@ class LazyOwnShell(cmd2.Cmd):
             "email_from": "email@gmail.com",
             "email_to": "email@gmail.com",
             "email_username": "email@gmail.com",
-            "email_password": "pa$$w0rd",
+            "email_password": email_password,
             "smtp_server": "smtp.server.com",
             "smtp_port": "587",
             "field": "page",
@@ -663,6 +657,14 @@ class LazyOwnShell(cmd2.Cmd):
             "tui_theme": "default",
         }
         self._load_extended_params()
+        try:
+            if self._tips_engine is not None:
+                self._tips_engine.on_killchain_display = _print_phase
+                cfg = self._tips_engine.config
+                cfg.killchain_auto_every = int(self.params.get('killchain_auto_every', 0) or 0)
+                cfg.killchain_auto_on_phase_change = bool(self.params.get('killchain_auto_on_phase_change', True))
+        except Exception as exc:
+            print_warn(f"killchain auto-refresh not wired: {exc}")
         from modules.payload_factory import PayloadFactory as _PF
         self._lazyown_db: Any = None
         self._module_registry: Any = None

@@ -29,6 +29,9 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | Safe subprocess runner | `core/safe_subprocess.py` | `test_safe_subprocess*.py` |
 | AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
+| Tenant-bound API authorization | `core/api_authz.py` | `test_api_authz.py`, `run_mutation_api_authz.py` |
+| Structured JSON-lines logging | `core/logging.py` | `test_structured_logging.py` |
+| C2 health-check endpoint | `lazyc2/blueprints/api.py` | `test_api_authz.py` (decorator) |
 
 ## 0.2 Non-negotiable: user input is hostile
 
@@ -975,6 +978,79 @@ keys can carry either EngagementPhase or CLI-phase vocabulary.
 input size limit (4096 bytes), HTML sanitization via ``sanitize_html``,
 atomic writes via ``os.replace``, and ``try/except`` around file I/O.
 ``load_notifications()`` handles corrupted/malformed JSON.
+
+---
+
+## 16.5 API Authorization & Health Contracts (NEW)
+
+### `core/api_authz.py` — Tenant-Bound API Key Authorization
+
+**Contract:** ``ApiKeyStore`` manages SHA-256-hashed API keys scoped to tenants.
+``require_api_auth`` decorator enforces key validation, permission checks, and
+tenant membership on Flask routes. Keys are never stored in plaintext; the
+one-time secret is returned only at creation.
+
+**Key types:**
+- ``ApiAuthzConfig`` — centralised settings: token header name, query param,
+  default bytes, max keys per tenant, rotation grace period.
+- ``ApiKey`` — immutable record: hash, tenant_id, label, permissions (frozenset),
+  expiration, last_used. ``has_permission()`` / ``has_all_permissions()`` for
+  set-based checks. ``is_expired()`` for TTL enforcement.
+- ``ApiKeyStore`` — persistence with atomic ``.tmp + os.replace`` writes.
+  ``create_key`` returns ``(ApiKey, plaintext_token)`` — caller displays token once.
+  ``validate_key`` hashes input, looks up record, checks expiration, updates
+  ``last_used_at``. ``revoke_key`` / ``rotate_key`` / ``list_keys`` for lifecycle.
+- ``require_api_auth`` — decorator extracts key from ``Authorization: Bearer``,
+  ``X-API-Key`` header, or ``api_key`` query param. Sets ``g.api_key_record``
+  and ``g.api_tenant_id`` on success. Returns 401/403 on failure.
+
+**Security properties:**
+- SHA-256 hashing with ``hmac.compare_digest`` for constant-time verification.
+- Atomic writes prevent corrupted key stores.
+- Max-keys-per-tenant prevents DoS via key exhaustion.
+- Password field redaction via ``[REDACTED]`` marker.
+
+**Tests:** ``tests/test_api_authz.py`` (29 tests). **Mutation gate:**
+``tests/run_mutation_api_authz.py`` (5/5 mutants killed).
+
+### `core/logging.py` — Structured JSON-Lines Logging
+
+**Contract:** Drop-in replacement for ``core.console.print_msg`` / ``print_warn`` /
+``print_error``. Every call produces both ANSI-coloured console output AND a
+machine-parseable JSON line written to a rotating file. ``StructuredLogConfig``
+centralises every tunable; no magic values elsewhere.
+
+**Key types:**
+- ``StructuredLogConfig`` — level, json_output toggle, log directory, rotation
+  size/count, console/file enablement, redacted fields (frozenset).
+- ``_JsonLineFormatter`` — emits ``{"timestamp": "...", "level": "...", "logger":
+  "...", "message": "...", ...extra_kwargs}``. Sensitive fields in
+  ``redacted_fields`` are replaced with ``[REDACTED]``. Includes exception
+  traceback when ``exc_info`` is set.
+- ``_ConsoleFormatter`` — ANSI-coloured output matching ``core.console`` style
+  for operator CLIs.
+- ``StructuredLogger`` — subclass of ``logging.Logger`` that promotes ``extra``
+  kwargs to top-level JSON fields via ``_extra_`` prefixed record attributes.
+- ``get_logger(name)`` — cached factory; subsequent calls return the same instance.
+- ``install_json_handler(name, config)`` — one-time wiring for app startup.
+- ``reconfigure(config)`` — replaces global config and refreshes all cached loggers.
+
+**Usage pattern:** ``_log = get_logger("lazyc2.api"); _log.info("beacon checked in", extra={"client_id": "abc", "rhost": "10.0.0.5"})``
+
+**Tests:** ``tests/test_structured_logging.py`` (10 tests). **Mutation gate:**
+killed via ``run_mutation_api_authz.py`` (redaction bypass killed).
+
+### `lazyc2/blueprints/api.py` — Health-Check Endpoint
+
+**Contract:** ``/api/health`` returns JSON subsystem status (database, listeners,
+beacons, uptime). ``/api/ping`` is a liveness probe. ``/api/health/tenant``
+returns tenant-scoped metrics when called with a valid API key.
+
+**Health states:** ``healthy`` (all components ok), ``degraded`` (beacon count at
+threshold), ``unhealthy`` (any required component unavailable).
+
+**Config:** ``HealthConfig`` dataclass with ``required_components`` tuple and
+``degraded_threshold_beacons`` integer.
 
 ---
 

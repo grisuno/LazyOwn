@@ -2442,6 +2442,7 @@ counter_events = 0
 
 socketio = SocketIO(app, cors_allowed_origins=_cors_policy.origins_for_socketio(), async_mode='threading', transports=['websocket'])
 listener_manager = ListenerManager(app, sessions_dir='sessions', payload=_payload_snapshot)
+app.config["listener_manager"] = listener_manager
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'

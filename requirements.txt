@@ -159,7 +159,7 @@ pyasn1==0.6.4
 pyasn1_modules==0.4.2
 PyAutoGUI==0.9.54
 pycparser==3.0
-pycryptodome==3.22.0
+pycryptodome==3.23.0
 pycryptodomex==3.23.0
 pydantic==2.13.3
 pydantic_core==2.46.3

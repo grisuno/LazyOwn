@@ -1,0 +1,23 @@
+name: Zapscape
+description: 'Zapscape is a use-after-free vulnerability in the shadow MMU emulation of KVM/x86, specifically in the recursive zap path that runs when shadow pages are reclaimed. It can trigger the bug with guest-side actions alone to corrupt the host kernel shadow page, and it can threaten the guest-host isolation of KVM/x86 hosts that accept untrusted guests and expose nested virtualization, particularly multi-tenant x86 public clouds.
+
+  USAGE: Zapscape
+  '
+author: V4bel
+version: '1.0'
+enabled: true
+params:
+- name: url
+  type: string
+  required: true
+  description: URL objetivo.
+
+os: network
+trigger: []
+tool:
+  name: Zapscape
+  repo_url: https://github.com/V4bel/Zapscape.git
+  install_path: external/.exploit/Zapscape
+  install_command: gcc -O2 -g -static -pthread poc.c -o poc
+  execute_command: ./poc
+category: 10. Command & Control

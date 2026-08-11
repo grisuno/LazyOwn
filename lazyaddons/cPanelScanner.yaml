@@ -1,0 +1,23 @@
+name: cPanelScanner
+description: 'A fast, multi-threaded cPanel detection tool written in Go. It scans IP addresses, CIDR ranges, or target lists from a file to identify cPanel services running on ports 2082, 2083, and 2087.
+
+  USAGE: cPanelScanner
+  '
+author: K3ysTr0K3R
+version: '1.0'
+enabled: true
+params:
+- name: rhost
+  type: string
+  required: true
+  description: rhost objetivo.
+
+os: network
+trigger: []
+tool:
+  name: cPanelScanner
+  repo_url: https://git.churchofmalware.org/K3ysTr0K3R/cPanelScanner.git
+  install_path: external/.exploit/cPanelScanner
+  install_command: go build -o cpanel-scanner .
+  execute_command: ./cpanel-scanner -ip {rhost}
+category: 02. Scanning & Enumeration

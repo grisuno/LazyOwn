@@ -926,6 +926,20 @@ SCHEMA: dict[str, FieldSpec] = {
             category="misc",
         ),
         _spec(
+            "hint_evidence",
+            FieldKind.BOOL,
+            True,
+            "Show inline next-step hints with their justification and confidence.",
+            long_help=(
+                "When enabled, the post-command hint fuses every 'what next' signal "
+                "(recon plan, kill-chain gaps, graph proximity, learned policy) and "
+                "renders each suggestion with a one-line reason and a 0-100 confidence "
+                "instead of a bare list of command names. Disable to fall back to the "
+                "terse name-only hints."
+            ),
+            category="misc",
+        ),
+        _spec(
             "enable_operator_presence",
             FieldKind.BOOL,
             False,

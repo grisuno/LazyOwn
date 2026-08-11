@@ -149,6 +149,8 @@ class TipsConfig:
     hints_limit: int = 3
     tip_limit: int = 1
 
+    evidence_hints: bool = True
+
     kill_chain_next: Mapping[str, Sequence[str]] = field(default_factory=dict)
     phase_priority: Mapping[str, Sequence[str]] = field(default_factory=dict)
 
@@ -222,6 +224,8 @@ class TipsEngine:
         self._session_tip_idx: int = -1
         self._killchain_counter: int = 0
         self._last_auto_phase: str = ""
+        self._rec_engine: Any = None
+        self._rec_engine_tried: bool = False
         self.on_killchain_display = getattr(config, "killchain_display", None) or (lambda: None)
 
     @property
@@ -400,6 +404,13 @@ class TipsEngine:
     # ── internal: kill-chain hints ──────────────────────────────────────────
 
     def _render_kill_chain_hints(self, cmd: str, phase: str) -> None:
+        evidence = self._compute_evidence_hints(cmd, phase)
+        if evidence:
+            from cli.reactive_hints import render_evidence_hints
+
+            render_evidence_hints(evidence)
+            self._render_killchain_progress(phase)
+            return
         hints = self._compute_command_hints(cmd, phase)
         if not hints:
             return
@@ -408,6 +419,91 @@ class TipsEngine:
         hint.append(" \u00b7 ".join(hints), style="dim white italic")
         self._console.print(hint)
         self._render_killchain_progress(phase)
+
+    def _load_payload(self) -> dict[str, Any]:
+        """Read ``payload.json`` returning an empty mapping on any failure.
+
+        Returns:
+            The parsed payload mapping, or ``{}`` when the file is missing or
+            malformed. Never raises so callers stay non-blocking.
+        """
+        try:
+            data = json.loads(Path(self.config.payload_path).read_text(encoding="utf-8"))
+            return data if isinstance(data, dict) else {}
+        except Exception:
+            return {}
+
+    def _get_rec_engine(self) -> Any:
+        """Return the shared recommendation engine, building it once and caching.
+
+        The fused :class:`cli.recommendation.RecommendationEngine` is stateless
+        across calls, so it is constructed lazily on first use and reused for the
+        rest of the session \u2014 the graph, policy and recon backends are the
+        expensive part and must not be rebuilt after every command. A build
+        failure caches ``None`` so the evidence path degrades to the static
+        bare-name hints without retrying each step.
+
+        Returns:
+            The engine instance, or ``None`` when construction failed.
+        """
+        if self._rec_engine_tried:
+            return self._rec_engine
+        self._rec_engine_tried = True
+        try:
+            from cli.recommendation_signals import build_default_engine
+
+            self._rec_engine = build_default_engine(
+                payload=self._load_payload(), sessions_dir=self.config.sessions_dir
+            )
+        except Exception:
+            self._rec_engine = None
+        return self._rec_engine
+
+    def _compute_evidence_hints(self, cmd: str, phase: str) -> list[Any]:
+        """Return evidence-backed hints for the next step, or an empty list.
+
+        Fuses every "what next" signal via the shared engine and enriches the
+        top results with their justification and confidence. Returns empty when
+        evidence hints are disabled, the engine is unavailable, or no signal
+        produces a proposal \u2014 in every such case the caller falls back to the
+        static bare-name hints so behaviour never regresses.
+
+        Args:
+            cmd: The command that just executed (first token).
+            phase: The resolved kill-chain phase.
+
+        Returns:
+            A list of :class:`cli.reactive_hints.EvidenceHint`, at most
+            ``config.hints_limit`` long.
+        """
+        if not self.config.evidence_hints:
+            return []
+        engine = self._get_rec_engine()
+        if engine is None:
+            return []
+        try:
+            from cli.reactive_hints import build_evidence_hints
+            from cli.recommendation_signals import recommend_with_evidence
+
+            payload = self._load_payload()
+            target = (payload.get("rhost") or "").strip() or None
+            recommendations = recommend_with_evidence(
+                payload=payload,
+                sessions_dir=self.config.sessions_dir,
+                target=target,
+                phase=phase,
+                limit=max(self.config.hints_limit * 2, self.config.hints_limit),
+                engine=engine,
+            )
+            already_run = self._read_run_commands()
+            forward = [
+                rec
+                for rec in recommendations
+                if (str(getattr(rec, "action", "")).split() or [""])[0] not in already_run
+            ]
+            return build_evidence_hints(forward, self.config.hints_limit)
+        except Exception:
+            return []
 
     def _render_killchain_progress(self, current_phase: str) -> None:
         """Render a compact kill-chain progress bar."""
@@ -475,19 +571,16 @@ class TipsEngine:
             "domain": "",
             "api_key": "",
         }
-        try:
-            payload = json.loads(Path(self.config.payload_path).read_text(encoding="utf-8"))
-            context.update(
-                {
-                    "rhost": payload.get("rhost", ""),
-                    "domain": payload.get("domain", ""),
-                    "api_key": payload.get("api_key", ""),
-                    "lhost": payload.get("lhost", ""),
-                    "os_id": str(payload.get("os_id", "")),
-                }
-            )
-        except Exception:
-            pass
+        payload = self._load_payload()
+        context.update(
+            {
+                "rhost": payload.get("rhost", ""),
+                "domain": payload.get("domain", ""),
+                "api_key": payload.get("api_key", ""),
+                "lhost": payload.get("lhost", ""),
+                "os_id": str(payload.get("os_id", "")),
+            }
+        )
 
         if not context.get("os_id"):
             context["os_id"] = self._read_os_id_from_session()
@@ -880,11 +973,7 @@ class TipsEngine:
         except ImportError:
             pass
         if not target:
-            try:
-                payload = json.loads(Path(self.config.payload_path).read_text(encoding="utf-8"))
-                target = payload.get("c2_user")
-            except Exception:
-                pass
+            target = self._load_payload().get("c2_user")
         if not target:
             return False
         try:
@@ -1137,11 +1226,19 @@ def build_default_tips_config() -> TipsConfig:
         "c2": 12,
     }
 
+    evidence_hints = True
+    try:
+        payload = json.loads(Path(DEFAULT_PAYLOAD_PATH).read_text(encoding="utf-8"))
+        evidence_hints = bool(payload.get("hint_evidence", True))
+    except Exception:
+        evidence_hints = True
+
     return TipsConfig(
         kill_chain_next=_KILL_CHAIN_NEXT,
         phase_priority=_PHASE_PRIORITY,
         high_value_cmds=high_value_cmds,
         phase_bonus=phase_bonus,
+        evidence_hints=evidence_hints,
         vri_rewards=list(_DEFAULT_VRI_REWARDS),
         hidden_features=list(_DEFAULT_HIDDEN_FEATURES),
         arsenal_tips=list(_DEFAULT_ARSENAL_TIPS),

@@ -18,6 +18,7 @@ from __future__ import annotations
 import csv
 import json
 from collections.abc import Mapping, Sequence
+from dataclasses import replace
 from pathlib import Path
 from typing import Any
 
@@ -33,6 +34,7 @@ from cli.recommendation import (
     CategoryResolver,
     EngineWeights,
     Proposal,
+    Recommendation,
     RecommendationContext,
     RecommendationEngine,
 )
@@ -643,6 +645,43 @@ def build_default_engine(
     return RecommendationEngine(signals=signals, resolver=resolver, weights=weights)
 
 
+def recommend_with_evidence(
+    payload: Mapping[str, Any],
+    sessions_dir: str = "sessions",
+    target: str | None = None,
+    phase: str = "",
+    limit: int = 3,
+    engine: RecommendationEngine | None = None,
+) -> list[Recommendation]:
+    """Return fused, ranked recommendations carrying reason and score for display.
+
+    Thin convenience over :func:`build_default_engine` and :func:`build_context`
+    for the evidence-backed inline hints. An already-built ``engine`` may be
+    injected so a caller on a hot path (the post-command hook) constructs the
+    engine once and reuses it across commands instead of rebuilding every step.
+
+    Args:
+        payload: ``payload.json`` mapping used to resolve OS and target.
+        sessions_dir: Path to ``sessions/`` for transcript and world-model reads.
+        target: Explicit target; falls back to ``payload['rhost']``.
+        phase: Caller-resolved kill-chain phase. When non-empty it overrides the
+            phase :func:`build_context` derives from the payload, letting the
+            hint reuse the shell's authoritative :class:`modules.killchain.KillChain`
+            resolution.
+        limit: Maximum number of recommendations to return.
+        engine: Optional pre-built engine to reuse.
+
+    Returns:
+        Up to ``limit`` :class:`cli.recommendation.Recommendation` objects,
+        best first. Empty when no signal produces a proposal.
+    """
+    active_engine = engine or build_default_engine(payload=payload, sessions_dir=sessions_dir)
+    ctx = build_context(payload=payload, sessions_dir=sessions_dir, target=target, limit=limit)
+    if phase:
+        ctx = replace(ctx, phase=phase)
+    return active_engine.recommend(ctx)
+
+
 def _try_build_graph_signal(graph_path: str | None) -> GraphSignal | None:
     """Build a :class:`GraphSignal` when the graphify index is loadable."""
     try:
@@ -708,4 +747,5 @@ __all__ = [
     "read_recent_commands",
     "build_context",
     "build_default_engine",
+    "recommend_with_evidence",
 ]

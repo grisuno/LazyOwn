@@ -14,7 +14,9 @@ Design notes:
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from collections.abc import Sequence
+from dataclasses import dataclass
+from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
 from rich.text import Text
@@ -232,6 +234,142 @@ def _render(labels: list[str]) -> None:
     _HINT_CONSOLE.print(hint)
 
 
+_CONFIDENCE_HALF_SCORE: float = 1.0
+_EVIDENCE_VERB_MAX: int = 22
+_EVIDENCE_REASON_MAX: int = 54
+_CONFIDENCE_HIGH_THRESHOLD: int = 50
+_SOURCE_SEP: str = "+"
+
+
+@dataclass(frozen=True)
+class EvidenceHint:
+    """A next-step suggestion enriched with its justification and confidence.
+
+    The bare inline hint prints only command names, forcing the operator to
+    trust an unexplained list. This value object carries the *why* and *how
+    sure* so the hint line reads like advice rather than a menu.
+
+    Attributes:
+        verb: The command (or copy-paste preview) to run next.
+        confidence: Display confidence in ``[0, 100]`` derived from the fused
+            recommendation score via :func:`confidence_from_score`.
+        reason: One-line English justification, stripped of the ``[source]``
+            provenance tag and truncated for the inline hint line.
+        sources: Names of the signals that agreed on this action.
+    """
+
+    verb: str
+    confidence: int
+    reason: str
+    sources: tuple[str, ...]
+
+
+def confidence_from_score(score: float) -> int:
+    """Map an unbounded fused recommendation score to a 0-100 display confidence.
+
+    :class:`cli.recommendation.RecommendationEngine` produces scores that are
+    unbounded above because multiple agreeing signals add up, so a raw
+    percentage would be meaningless. This applies a saturating map
+    ``100 * s / (s + K)`` where ``K`` (:data:`_CONFIDENCE_HALF_SCORE`) is the
+    score at which confidence reaches 50%. The map is monotonic — more signal
+    agreement yields higher confidence — and never reaches a dishonest 100%.
+
+    Args:
+        score: The fused recommendation score. Negative values are floored at
+            zero.
+
+    Returns:
+        Integer confidence in ``[0, 100]``.
+    """
+    positive = score if score > 0.0 else 0.0
+    return int(round(100.0 * positive / (positive + _CONFIDENCE_HALF_SCORE)))
+
+
+def _clean_reason(reasons: Sequence[str]) -> str:
+    """Return the primary reason without its ``[source]`` tag, truncated.
+
+    Args:
+        reasons: The ordered provenance lines from a fused recommendation, each
+            shaped ``"[signal] justification"`` by the engine accumulator.
+
+    Returns:
+        The first justification with any leading ``[signal] `` tag removed and
+        truncated to :data:`_EVIDENCE_REASON_MAX`. Empty when no reason exists.
+    """
+    if not reasons:
+        return ""
+    first = reasons[0]
+    if first.startswith("[") and "] " in first:
+        first = first.split("] ", 1)[1]
+    return _truncate(first.strip(), _EVIDENCE_REASON_MAX)
+
+
+def build_evidence_hints(recommendations: Sequence[Any], limit: int) -> list[EvidenceHint]:
+    """Convert fused recommendations into display-ready evidence hints.
+
+    A recommendation without a usable verb or without a justification is
+    skipped so the operator never sees a bare, unexplained suggestion — an
+    explained shorter list beats a padded opaque one.
+
+    Args:
+        recommendations: Ranked objects exposing ``action``, ``score``,
+            ``reasons``, ``sources`` and optional ``command_preview`` (a
+            :class:`cli.recommendation.Recommendation` or any duck-typed
+            equivalent), best first.
+        limit: Maximum number of hints to return.
+
+    Returns:
+        Up to ``limit`` :class:`EvidenceHint` items preserving input order.
+    """
+    out: list[EvidenceHint] = []
+    for rec in recommendations:
+        verb_raw = str(
+            getattr(rec, "command_preview", "") or getattr(rec, "action", "") or ""
+        ).strip()
+        if not verb_raw:
+            continue
+        reason = _clean_reason(tuple(getattr(rec, "reasons", ()) or ()))
+        if not reason:
+            continue
+        out.append(
+            EvidenceHint(
+                verb=_truncate(verb_raw, _EVIDENCE_VERB_MAX),
+                confidence=confidence_from_score(float(getattr(rec, "score", 0.0) or 0.0)),
+                reason=reason,
+                sources=tuple(getattr(rec, "sources", ()) or ()),
+            )
+        )
+        if len(out) >= limit:
+            break
+    return out
+
+
+def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None:
+    """Print evidence-backed hint lines: verb, confidence, reason, provenance.
+
+    The first hint carries the ``↳`` arrow; the rest are indented to align, so
+    a glance reads as one ranked block of advice.
+
+    Args:
+        hints: The hints to render, already truncated and ranked.
+
+    Returns:
+        None — writes one dim line per hint to stdout.
+    """
+    for index, hint in enumerate(hints):
+        line = Text()
+        line.append("  ↳ " if index == 0 else "    ", style="bold dim cyan")
+        line.append(hint.verb, style="cyan")
+        confidence_style = (
+            "dim green" if hint.confidence >= _CONFIDENCE_HIGH_THRESHOLD else "dim yellow"
+        )
+        line.append(f"  {hint.confidence}%  ", style=confidence_style)
+        line.append(hint.reason, style="dim white italic")
+        if hint.sources:
+            line.append(f"  {_SOURCE_SEP.join(hint.sources)}", style="dim")
+        _HINT_CONSOLE.print(line)
+
+
 def _read_run_commands(sessions_dir: str = "sessions") -> set[str]:
     """Return the set of command names already executed this session."""
     import csv
@@ -349,4 +487,13 @@ def command_hints(
     return candidates[:limit]
 
 
-__all__ = ["SKIP_COMMANDS", "render_inline_hints", "render_command_hints", "command_hints"]
+__all__ = [
+    "SKIP_COMMANDS",
+    "render_inline_hints",
+    "render_command_hints",
+    "command_hints",
+    "EvidenceHint",
+    "confidence_from_score",
+    "build_evidence_hints",
+    "render_evidence_hints",
+]

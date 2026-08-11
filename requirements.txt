@@ -187,7 +187,7 @@ python-engineio==4.13.3
 python-libnmap==0.7.3
 python-magic==0.4.27
 python-rapidjson==1.23
-python-socketio==5.16.2
+python-socketio==5.16.3
 python3-xlib==0.15
 pytweening==1.2.0
 pytz==2026.1.post1

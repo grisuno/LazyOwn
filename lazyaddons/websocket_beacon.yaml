@@ -4,6 +4,8 @@ author: LazyOwn
 version: "1.0.0"
 category: "10. Command & Control"
 module_type: payload
+os: any
+trigger: [https]
 enabled: true
 params:
   - name: server_url

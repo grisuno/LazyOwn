@@ -798,6 +798,30 @@ pinned for reproducible installs:
 
 ---
 
+<<<<<<< HEAD
+=======
+3. **Decoy**: if the ip addres not match with 127.0.0.1 or lhost flask will show a decoy website this decoy site will record a video with audio and take pictures from the intruder (sessions/captured_images) like a small versión of storm breaker to know who is the blueteam operator
+
+![image](https://github.com/user-attachments/assets/17f36120-3a17-4ee3-9358-8f4f6caa07bf)
+
+
+4. **Adversary Simulation**: Advanced capabilities for generating red team operation sessions, ensuring meticulous and effective simulations.
+
+![adversay emulator](https://github.com/user-attachments/assets/dc6e3ca2-c70d-46c5-9240-488bbea409ce)
+
+5. **Task Scheduling**: Utilize the `cron` command to schedule and automate tasks, enabling persistent threat simulations.
+6. **Real-Time Results**: Obtain immediate feedback and results from security assessments, ensuring timely and accurate insights.
+7. **RAT and Botnet Capabilities**: Includes features for remote access and control, allowing for the management of botnets and persistent threats.
+8. **C2 Framework IA Powered**: Acts as a command and control (C2) framework, enabling covert communication and control over compromised systems. and many IA bots to improve your opsec, Developed in Flask, providing a user-friendly interface for seamless interaction. Now with network discovery capabilities, allowing us to see the attack surface on our client map clearly and intuitively with filters and a search panel. New functionalities are coming soon.
+![image](https://github.com/user-attachments/assets/f0b61d32-a67d-4036-809e-1d6f5e872057)
+
+![vulnbot](https://github.com/user-attachments/assets/86ae6384-f61b-41be-8b87-222399bf2b77)
+
+- **C2 LazyAddon Creator**: Guided `/addons` pages in the C2 dashboard to author `lazyaddons/*.yaml` integrations without touching YAML by hand. One form exposes every addon option (name, description, author, version, enabled, target OS, trigger services, category, module type, install type, parameters, tool block, C2 extras, environment variables) with tooltips, placeholders, and per-field help. Placeholder chips (`{rhost}`, `{url}`, declared params, and every payload.json key) are drag-and-drop into command boxes. Server-side validation rejects unsafe names, path traversal, unknown placeholders, and malformed URLs before the file is written atomically; the list and YAML preview pages complete the lifecycle. Every mutating route is CSRF-protected. Contract: `lazyc2/addon_creator.py` + `lazyc2/blueprints/addons.py`, covered by `tests/test_addon_creator.py` and the `tests/run_mutation_addon_creator.py` mutation gate.
+
+
+9. **Undetectable, Obfuscated, and Malleable GO Implants**: The command with the payload comes obfuscated by default. Instead of directly downloading the beacon, it downloads a stub created in C to download the beacon, which is XOR-encoded with a key. It is then decoded in memory and executed in a temporary path with a unique name to evade detection, using svchost in Windows and lazyservice in Linux. This performs a two-stage implant, which has been tested on Kernel 6.12 and Windows [Version 10.0.20348.3807]. Additionally, an alternative Windows stub using LOLBAS PS1 and Csharp has been added, along with a version of ebird3 in LOLBAS that uses the same technologies. The Go beacon is a multi-platform, undetectable, and highly obfuscated implant tailored for advanced red teaming operations. It features polymorphism, operates in a configurable stealth mode, and secures communications with AES-256 encrypted channels. The beacon blends into environments by simulating legitimate network traffic and evades detection by identifying virtual machines, sandboxes, containers, and debuggers, dynamically adjusting its behavior. With a minimal footprint, it supports robust network discovery through ping-based host enumeration and port scanning of configured targets. The implant excels at exfiltrating sensitive data, including private keys, AWS credentials, browser credentials, and system logs. It offers dynamic TCP proxying for traffic redirection, privilege escalation attempts, and system log cleaning. Persistence is achieved across Windows, Linux, and macOS via scheduled tasks, systemd, crontab, and LaunchAgents. Additional capabilities include adversary emulation (MITRE ATT&CK), file timestamp obfuscation, and directory compression for exfiltration. Built with Go vet for code health, the implant integrates seamlessly with Dockerized environments and AWS Firecracker microVMs, making it a cornerstone of modern red team infrastructure, Built with Go vet for code integrity, the implant leverages Cloudflare for traffic obfuscation, routing communications through secure, high-performance redirectors to conceal C2 infrastructure. The Go binary is hardened with Garble obfuscation, thwarting reverse engineering and signature-based detection. On Windows, the implant employs extension camouflage to masquerade as benign files (e.g., `.pdfx`) and embeds custom icons via `rsrc` for convincing social engineering.
+>>>>>>> dev
 
 ![image](https://github.com/user-attachments/assets/4e114c5c-d28d-4570-9e02-6868bb838dd2)
 

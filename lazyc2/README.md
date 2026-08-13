@@ -13,6 +13,101 @@ server.
 | Directory | Contents |
 |-----------|---------|
 | `security/` | Input validation, path safety, CORS, CSRF, HTTPS, command allowlist, HTML sanitization, trusted-proxy parsing, and shell-runner policies used by C2 routes. |
+| `blueprints/` | Flask blueprints registered from `lazyc2.py` (auth, operations, api, addons). |
+| `extensions/` | Shared helpers for blueprints: decoy response, storage, short URLs. |
+
+## Root modules
+
+| File | Purpose |
+|------|---------|
+| `addon_creator.py` | LazyAddon creator contract: `AddonCreatorConfig`, `ParamSpec`, `AddonDraft`, `AddonValidator`, `AddonYamlRenderer`, `AddonStore`, `parse_addon_form`. Single source of truth for authoring `lazyaddons/*.yaml` from the `/addons` dashboard form. |
+
+### LazyAddon creator contract spec
+
+The guided form exposes every addon schema option: name, description,
+author, version, enabled, target OS, trigger services, category,
+module type, install type, tool block (name, repo_url, install_path,
+install_command, execute_command), post-exploitation extras
+(upload_file, remote_command, download_file, lazycommand), environment
+variables, and dynamic parameter rows (name, type, required, default,
+description).
+
+Class contracts:
+
+| Class | Responsibility |
+|-------|----------------|
+| `AddonCreatorConfig` | Every regex pattern, whitelist, length limit, option list, and the payload.json placeholder set |
+| `ParamSpec` / `AddonDraft` | Value objects for one param and the full form state |
+| `AddonValidator` | Pure validation returning field-specific `ValidationIssue` instances |
+| `AddonYamlRenderer` | Canonical document matching the CLI loader schema plus `yaml.safe_dump` |
+| `AddonStore` | Path-safe, atomic persistence inside the addons directory |
+| `parse_addon_form` | Adapter from `request.form` (indexed `params-<i>-*` rows) to `AddonDraft` |
+
+Security invariants:
+
+- New addon names pass `^[a-z][a-z0-9_]{0,63}$` so path traversal
+  through the generated filename is impossible by construction.
+  Lookups of pre-existing files (view and delete) use the looser
+  `filename_pattern` instead, so legacy addons such as `AdaptixC2.yaml`
+  or `copy-fail-CVE-2026-31431.yaml` keep working while path separators
+  and traversal sequences remain rejected.
+- `AddonStore` re-checks realpath containment on every read, write,
+  and delete, which also rejects symlink escapes planted inside the
+  addons directory.
+- Writes are atomic (temp file plus `os.replace`, chmod 0644); a
+  crashed request never leaves a half-written addon or `.tmp` file.
+- Command placeholders must be declared params or known payload.json
+  keys; double-brace `{{x}}` tokens are rejected because the CLI
+  replacement engine only honours single braces.
+- Mutating routes enforce the CSRF policy: `_issue_csrf` binds the
+  token to a stable random client id cookie (HttpOnly) so the Flask
+  session re-signing caused by flash consumption never invalidates
+  it; the token travels inside the form field; invalid tokens answer
+  403 JSON.
+- Every route runs `decoy_response()` like the rest of the dashboard.
+- The list page links the view and delete actions by file stem
+  (`filename`) rather than the YAML-declared name, because 15 shipped
+  addons declare a name that differs from their filename.
+
+Routes:
+
+| Endpoint | Method | Behaviour |
+|----------|--------|-----------|
+| `/addons` | GET | List page; issues the CSRF cookie and token |
+| `/addons/create` | GET/POST | Form; POST validates, saves atomically, redirects to the preview |
+| `/addons/<name>/view` | GET | Canonical YAML preview |
+| `/addons/<name>/delete` | POST | CSRF-protected delete |
+
+Definition of Done gate:
+
+1. `pytest tests/test_addon_creator.py` green (71 tests).
+2. `python3 tests/run_mutation_addon_creator.py` reports
+   `10 killed, 0 survived`.
+3. `ruff check lazyc2/addon_creator.py lazyc2/blueprints/addons.py
+   tests/test_addon_creator.py` clean under the repo ruff rules.
+
+Wiring and boy scout notes:
+
+- Registered in the `lazyc2.py` blueprint try block; the addons
+  directory is exposed via `app.config["LAZYOWN_ADDONS_DIR"]` and the
+  decoy `lhost` default via `app.config.setdefault("lhost", lhost)`.
+- Nav entry in `templates/base.html` next to Tools.
+- Fixed broken JavaScript in `templates/create_tool.html` while
+  building this contract: undefined variables (`triggerSelect`,
+  `customTriggerInput`, `description`), a malformed
+  `"microsoft-ds"endif %}` option tag, a fetch that duplicated the
+  form submission, and console spam. The event-config creation flow
+  the page intended is preserved and now actually runs.
+
+## lazyc2/blueprints
+
+| File | Purpose |
+|------|---------|
+| `addons.py` | LazyAddon lifecycle under `/addons`: list, guided create form, YAML preview, delete. All mutating routes enforce the per-session CSRF token issued on the form page (`_issue_csrf` binds the token to a stable client id cookie so flash-message session re-signing never invalidates it). |
+| `auth.py` | Login, logout, registration, MFA, profile, and admin user/tenant management. |
+| `operations.py` | Tasks, CVEs, notes, and event management CRUD. |
+| `api.py` | API and health-check endpoints. |
+| `phishing.py` | Redirect blueprint for phishing campaigns. |
 
 ## lazyc2/security
 

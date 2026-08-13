@@ -15,11 +15,10 @@ Usage::
 from __future__ import annotations
 
 import json
-import logging
 import os
 import uuid
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 from flask import Flask
 from flask_limiter import Limiter

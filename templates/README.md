@@ -25,6 +25,9 @@ and follow the naming convention validated by `validate_template_name`
 | `campaigns.html` | `/campaigns` | Phishing campaign list and status overview. |
 | `cve.html` / `cves.html` | `/cve`, `/cves` | CVE detail and CVE search views. |
 | `tasks.html` | — | Campaign task list driven by `sessions/tasks.json`. |
+| `addons.html` | `/addons` | LazyAddon list with enabled state, view, and CSRF-protected delete. |
+| `addon_creator.html` | `/addons/create` | Guided LazyAddon form: every schema option, tooltips, placeholders, per-field help, drag-and-drop placeholder chips, and dynamic parameter rows. |
+| `addon_view.html` | `/addons/<name>/view` | Rendered YAML preview of a persisted addon. |
 | `notes.html` / `edit_note.html` | — | Operator notes CRUD. |
 | `collab.html` | `/collab/` | Multi-operator team dashboard: SSE event feed, operator presence, target locking, chat broadcast. |
 | `teamserver.html` | `/teamserver` | Engagement metadata form (assessment info, objectives, executive summary). Data written to `static/body_report.json`. |

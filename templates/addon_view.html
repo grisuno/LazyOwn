@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card bg-secondary text-light p-4 mb-4">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="mb-0">Addon: {{ name }}</h1>
+            <a class="btn btn-outline-light" href="{{ url_for('addons.list_addons') }}">Back to Addons</a>
+        </div>
+        <p class="text-muted">
+            Rendered YAML stored under the addons directory. Run reload in the
+            CLI shell to register the command.
+        </p>
+        <pre class="bg-dark text-light p-3 rounded" style="white-space: pre-wrap;">{{ yaml_text }}</pre>
+    </div>
+</div>
+
+{% endblock %}

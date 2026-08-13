@@ -32,10 +32,12 @@ Usage
     # Called automatically after ObsParser runs:
     wm.update_from_findings(obs.findings)
 """
+
 from __future__ import annotations
 
 import json
 import logging
+import os
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -44,7 +46,7 @@ from pathlib import Path
 
 log = logging.getLogger("world_model")
 
-_BASE_DIR     = Path(__file__).parent.parent
+_BASE_DIR = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
 
@@ -53,13 +55,15 @@ _DEFAULT_PATH = _SESSIONS_DIR / "world_model.json"
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 class HostState(StrEnum):
     """Ordered engagement states for a single host."""
-    UNSCANNED   = "unscanned"
-    SCANNED     = "scanned"       # nmap completed
-    ENUMERATED  = "enumerated"    # services enumerated (gobuster, smb, ldap…)
-    EXPLOITED   = "exploited"     # initial foothold obtained
-    OWNED       = "owned"         # privilege escalation successful
+
+    UNSCANNED = "unscanned"
+    SCANNED = "scanned"  # nmap completed
+    ENUMERATED = "enumerated"  # services enumerated (gobuster, smb, ldap…)
+    EXPLOITED = "exploited"  # initial foothold obtained
+    OWNED = "owned"  # privilege escalation successful
 
     def rank(self) -> int:
         return list(HostState).index(self)
@@ -70,39 +74,40 @@ class HostState(StrEnum):
 
 class EngagementPhase(StrEnum):
     """Derived from the aggregate host state across all targets."""
-    RECON            = "recon"
-    SCANNING         = "scanning"
-    ENUMERATION      = "enumeration"
-    EXPLOITATION     = "exploitation"
+
+    RECON = "recon"
+    SCANNING = "scanning"
+    ENUMERATION = "enumeration"
+    EXPLOITATION = "exploitation"
     POST_EXPLOITATION = "post_exploitation"
-    COMPLETE         = "complete"
+    COMPLETE = "complete"
 
 
 @dataclass
 class ServiceInfo:
-    port:     int
-    protocol: str  = "tcp"
-    name:     str  = ""
-    version:  str  = ""
-    state:    str  = "open"
+    port: int
+    protocol: str = "tcp"
+    name: str = ""
+    version: str = ""
+    state: str = "open"
 
 
 @dataclass
 class CredentialEntry:
-    value:     str                     # "user:pass" or hash
-    host:      str  = ""
-    service:   str  = ""
+    value: str  # "user:pass" or hash
+    host: str = ""
+    service: str = ""
     confirmed: bool = False
-    found_at:  str  = field(default_factory=lambda: datetime.now().isoformat())
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
 class VulnerabilityEntry:
     description: str
-    host:        str  = ""
-    cve:         str  = ""
-    severity:    str  = "UNKNOWN"
-    found_at:    str  = field(default_factory=lambda: datetime.now().isoformat())
+    host: str = ""
+    cve: str = ""
+    severity: str = "UNKNOWN"
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
@@ -115,10 +120,11 @@ class NetworkRelation:
         service:<name>     — a running service (e.g. service:smb)
         cred:<hash>        — a captured credential (first 12 chars)
     """
-    source:     str
-    target:     str
-    relation:   str             # e.g. has_session, runs_service, shares_cred_with
-    weight:     float = 1.0
+
+    source: str
+    target: str
+    relation: str  # e.g. has_session, runs_service, shares_cred_with
+    weight: float = 1.0
     attributes: dict[str, str] = field(default_factory=dict)
 
 
@@ -161,10 +167,7 @@ class NetworkGraph:
         """Add a directed edge. Duplicate edges accumulate (multi-graph)."""
         self._nodes.add(relation.source)
         self._nodes.add(relation.target)
-        self._adjacency \
-            .setdefault(relation.source, {}) \
-            .setdefault(relation.target, []) \
-            .append(relation)
+        self._adjacency.setdefault(relation.source, {}).setdefault(relation.target, []).append(relation)
 
     # ── Queries ───────────────────────────────────────────────────────────────
 
@@ -174,9 +177,7 @@ class NetworkGraph:
 
     def in_degree(self, node: str) -> int:
         """Count edges pointing INTO *node*."""
-        return sum(
-            1 for targets in self._adjacency.values() if node in targets
-        )
+        return sum(1 for targets in self._adjacency.values() if node in targets)
 
     def out_degree(self, node: str) -> int:
         """Count edges leaving *node*."""
@@ -205,16 +206,16 @@ class NetworkGraph:
         """
         centrality = dict(self.degree_centrality())
         candidates: list[dict] = []
-        for node, score in sorted(
-            centrality.items(), key=lambda kv: -kv[1]
-        )[:top_k]:
-            candidates.append({
-                "node":       node,
-                "centrality": score,
-                "out_degree": self.out_degree(node),
-                "in_degree":  self.in_degree(node),
-                "neighbors":  self.neighbors(node)[:8],
-            })
+        for node, score in sorted(centrality.items(), key=lambda kv: -kv[1])[:top_k]:
+            candidates.append(
+                {
+                    "node": node,
+                    "centrality": score,
+                    "out_degree": self.out_degree(node),
+                    "in_degree": self.in_degree(node),
+                    "neighbors": self.neighbors(node)[:8],
+                }
+            )
         return candidates
 
     # ── Serialization ─────────────────────────────────────────────────────────
@@ -224,38 +225,42 @@ class NetworkGraph:
         for _src, targets in self._adjacency.items():
             for _tgt, rels in targets.items():
                 for r in rels:
-                    relations.append({
-                        "source":     r.source,
-                        "target":     r.target,
-                        "relation":   r.relation,
-                        "weight":     r.weight,
-                        "attributes": r.attributes,
-                    })
+                    relations.append(
+                        {
+                            "source": r.source,
+                            "target": r.target,
+                            "relation": r.relation,
+                            "weight": r.weight,
+                            "attributes": r.attributes,
+                        }
+                    )
         return {"nodes": list(self._nodes), "relations": relations}
 
     @classmethod
     def from_dict(cls, data: dict) -> NetworkGraph:
         g = cls()
         for r in data.get("relations", []):
-            g.add_relation(NetworkRelation(
-                source=r["source"],
-                target=r["target"],
-                relation=r["relation"],
-                weight=r.get("weight", 1.0),
-                attributes=r.get("attributes", {}),
-            ))
+            g.add_relation(
+                NetworkRelation(
+                    source=r["source"],
+                    target=r["target"],
+                    relation=r["relation"],
+                    weight=r.get("weight", 1.0),
+                    attributes=r.get("attributes", {}),
+                )
+            )
         return g
 
 
 @dataclass
 class HostEntry:
-    ip:              str
-    state:           HostState              = HostState.UNSCANNED
-    os_hint:         str                    = ""
-    services:        dict[int, ServiceInfo] = field(default_factory=dict)
-    notes:           list[str]              = field(default_factory=list)
-    cloud_metadata:  dict[str, str]         = field(default_factory=dict)
-    last_updated:    str                    = field(default_factory=lambda: datetime.now().isoformat())
+    ip: str
+    state: HostState = HostState.UNSCANNED
+    os_hint: str = ""
+    services: dict[int, ServiceInfo] = field(default_factory=dict)
+    notes: list[str] = field(default_factory=list)
+    cloud_metadata: dict[str, str] = field(default_factory=dict)
+    last_updated: str = field(default_factory=lambda: datetime.now().isoformat())
 
     def add_service(self, svc: ServiceInfo) -> None:
         self.services[svc.port] = svc
@@ -264,31 +269,31 @@ class HostEntry:
     def advance(self, new_state: HostState) -> bool:
         """Advance state only if new_state is the next valid step. Returns True if changed."""
         if new_state.rank() > self.state.rank():
-            self.state        = new_state
+            self.state = new_state
             self.last_updated = datetime.now().isoformat()
             return True
         return False
 
     def to_dict(self) -> dict:
         return {
-            "ip":             self.ip,
-            "state":          self.state.value,
-            "os_hint":        self.os_hint,
-            "services":       {str(p): vars(s) for p, s in self.services.items()},
-            "notes":          self.notes,
+            "ip": self.ip,
+            "state": self.state.value,
+            "os_hint": self.os_hint,
+            "services": {str(p): vars(s) for p, s in self.services.items()},
+            "notes": self.notes,
             "cloud_metadata": self.cloud_metadata,
-            "last_updated":   self.last_updated,
+            "last_updated": self.last_updated,
         }
 
     @classmethod
     def from_dict(cls, d: dict) -> HostEntry:
         h = cls(
-            ip             = d["ip"],
-            state          = HostState(d.get("state", HostState.UNSCANNED.value)),
-            os_hint        = d.get("os_hint", ""),
-            notes          = d.get("notes", []),
-            cloud_metadata = d.get("cloud_metadata", {}),
-            last_updated   = d.get("last_updated", ""),
+            ip=d["ip"],
+            state=HostState(d.get("state", HostState.UNSCANNED.value)),
+            os_hint=d.get("os_hint", ""),
+            notes=d.get("notes", []),
+            cloud_metadata=d.get("cloud_metadata", {}),
+            last_updated=d.get("last_updated", ""),
         )
         for port_str, svc in d.get("services", {}).items():
             h.services[int(port_str)] = ServiceInfo(**svc)
@@ -299,6 +304,7 @@ class HostEntry:
 # Phase derivation
 # ---------------------------------------------------------------------------
 
+
 class _PhaseDeriver:
     """
     Derives the current EngagementPhase from the aggregate host states.
@@ -306,11 +312,11 @@ class _PhaseDeriver:
     """
 
     _STATE_TO_PHASE: dict[str, EngagementPhase] = {
-        HostState.UNSCANNED.value:  EngagementPhase.RECON,
-        HostState.SCANNED.value:    EngagementPhase.SCANNING,
+        HostState.UNSCANNED.value: EngagementPhase.RECON,
+        HostState.SCANNED.value: EngagementPhase.SCANNING,
         HostState.ENUMERATED.value: EngagementPhase.ENUMERATION,
-        HostState.EXPLOITED.value:  EngagementPhase.EXPLOITATION,
-        HostState.OWNED.value:      EngagementPhase.POST_EXPLOITATION,
+        HostState.EXPLOITED.value: EngagementPhase.EXPLOITATION,
+        HostState.OWNED.value: EngagementPhase.POST_EXPLOITATION,
     }
 
     def derive(self, hosts: dict[str, HostEntry]) -> EngagementPhase:
@@ -327,39 +333,53 @@ class _PhaseDeriver:
 # ---------------------------------------------------------------------------
 
 PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
-    EngagementPhase.RECON:             ["TA0043 - Reconnaissance"],
-    EngagementPhase.SCANNING:          ["TA0007 - Discovery"],
-    EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
-    EngagementPhase.EXPLOITATION:      ["TA0001 - Initial Access", "TA0002 - Execution"],
-    EngagementPhase.POST_EXPLOITATION: ["TA0004 - Privilege Escalation", "TA0008 - Lateral Movement",
-                                        "TA0010 - Exfiltration"],
-    EngagementPhase.COMPLETE:          ["TA0040 - Impact"],
+    EngagementPhase.RECON: ["TA0043 - Reconnaissance"],
+    EngagementPhase.SCANNING: ["TA0007 - Discovery"],
+    EngagementPhase.ENUMERATION: ["TA0007 - Discovery", "TA0006 - Credential Access"],
+    EngagementPhase.EXPLOITATION: ["TA0001 - Initial Access", "TA0002 - Execution"],
+    EngagementPhase.POST_EXPLOITATION: [
+        "TA0004 - Privilege Escalation",
+        "TA0008 - Lateral Movement",
+        "TA0010 - Exfiltration",
+    ],
+    EngagementPhase.COMPLETE: ["TA0040 - Impact"],
 }
 
 # Phase → MCP tool names that are most relevant
 PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
-        "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
-        "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
+        "lazyown_tool_dig_any",
+        "lazyown_tool_dig_reverse",
+        "lazyown_tool_gobuster_dns",
+        "lazyown_tool_dnsrecon_axfr",
     ],
     EngagementPhase.SCANNING: [
-        "lazyown_tool_enum_smb", "lazyown_tool_enum4linux_tool",
-        "lazyown_tool_ffuf_tool", "lazyown_tool_nikto_host",
-        "lazyown_tool_showmount_tool", "lazyown_tool_enum_rpcbind",
+        "lazyown_tool_enum_smb",
+        "lazyown_tool_enum4linux_tool",
+        "lazyown_tool_ffuf_tool",
+        "lazyown_tool_nikto_host",
+        "lazyown_tool_showmount_tool",
+        "lazyown_tool_enum_rpcbind",
     ],
     EngagementPhase.ENUMERATION: [
-        "lazyown_tool_ldapsearch_tool", "lazyown_tool_smbclient_list",
-        "lazyown_tool_kerbrute_tool_user", "lazyown_tool_nxc_ldap",
+        "lazyown_tool_ldapsearch_tool",
+        "lazyown_tool_smbclient_list",
+        "lazyown_tool_kerbrute_tool_user",
+        "lazyown_tool_nxc_ldap",
         "lazyown_tool_gobuster_web",
     ],
     EngagementPhase.EXPLOITATION: [
-        "lazyown_tool_evil_winrm_tool", "lazyown_tool_hydrardp_tool",
-        "lazyown_tool_kerberoasting_tool", "lazyown_tool_asrep_roast",
+        "lazyown_tool_evil_winrm_tool",
+        "lazyown_tool_hydrardp_tool",
+        "lazyown_tool_kerberoasting_tool",
+        "lazyown_tool_asrep_roast",
         "lazyown_plugin_generate_reverse_shell",
     ],
     EngagementPhase.POST_EXPLOITATION: [
-        "lazyown_c2_command", "lazyown_c2_adversary",
-        "lazyown_tool_bloodhound-python", "lazyown_tool_crackmapexec_smb",
+        "lazyown_c2_command",
+        "lazyown_c2_adversary",
+        "lazyown_tool_bloodhound-python",
+        "lazyown_tool_crackmapexec_smb",
     ],
 }
 
@@ -367,6 +387,7 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
 # ---------------------------------------------------------------------------
 # WorldModel
 # ---------------------------------------------------------------------------
+
 
 class WorldModel:
     """
@@ -377,13 +398,13 @@ class WorldModel:
     """
 
     def __init__(self, path: str | Path = _DEFAULT_PATH) -> None:
-        self._path:    Path                       = Path(path)
-        self._lock:    threading.RLock             = threading.RLock()
-        self._hosts:   dict[str, HostEntry]       = {}
-        self._creds:   list[CredentialEntry]      = []
-        self._vulns:   list[VulnerabilityEntry]   = []
-        self._graph:   NetworkGraph               = NetworkGraph()
-        self._deriver: _PhaseDeriver              = _PhaseDeriver()
+        self._path: Path = Path(path)
+        self._lock: threading.RLock = threading.RLock()
+        self._hosts: dict[str, HostEntry] = {}
+        self._creds: list[CredentialEntry] = []
+        self._vulns: list[VulnerabilityEntry] = []
+        self._graph: NetworkGraph = NetworkGraph()
+        self._deriver: _PhaseDeriver = _PhaseDeriver()
         self._load()
 
     # ── Host management ───────────────────────────────────────────────────────
@@ -405,20 +426,21 @@ class WorldModel:
                 self._save()
             return changed
 
-    def add_service(self, ip: str, port: int, name: str = "", version: str = "",
-                    protocol: str = "tcp") -> None:
+    def add_service(self, ip: str, port: int, name: str = "", version: str = "", protocol: str = "tcp") -> None:
         with self._lock:
             host = self._hosts.get(ip) or self.add_host(ip)
             host.add_service(ServiceInfo(port=port, name=name, version=version, protocol=protocol))
             if host.state == HostState.UNSCANNED:
                 host.advance(HostState.SCANNED)
             if name:
-                self._graph.add_relation(NetworkRelation(
-                    source=f"host:{ip}",
-                    target=f"service:{name}",
-                    relation="runs_service",
-                    attributes={"port": str(port), "version": version},
-                ))
+                self._graph.add_relation(
+                    NetworkRelation(
+                        source=f"host:{ip}",
+                        target=f"service:{name}",
+                        relation="runs_service",
+                        attributes={"port": str(port), "version": version},
+                    )
+                )
             self._save()
 
     def add_note(self, ip: str, note: str) -> None:
@@ -437,21 +459,25 @@ class WorldModel:
                 log.info("WorldModel: credential captured for %s", host or "unknown")
                 cred_node = f"cred:{value[:12]}"
                 if host:
-                    self._graph.add_relation(NetworkRelation(
-                        source=f"host:{host}",
-                        target=cred_node,
-                        relation="exposes_credential",
-                        attributes={"service": service},
-                    ))
+                    self._graph.add_relation(
+                        NetworkRelation(
+                            source=f"host:{host}",
+                            target=cred_node,
+                            relation="exposes_credential",
+                            attributes={"service": service},
+                        )
+                    )
                     # Credential potentially grants access to other hosts
                     for other_ip in self._hosts:
                         if other_ip != host:
-                            self._graph.add_relation(NetworkRelation(
-                                source=cred_node,
-                                target=f"host:{other_ip}",
-                                relation="may_authenticate_to",
-                                weight=0.5,
-                            ))
+                            self._graph.add_relation(
+                                NetworkRelation(
+                                    source=cred_node,
+                                    target=f"host:{other_ip}",
+                                    relation="may_authenticate_to",
+                                    weight=0.5,
+                                )
+                            )
                 self._save()
 
     def link_credential_to_success(self, value: str, host: str) -> None:
@@ -461,12 +487,14 @@ class WorldModel:
         with self._lock:
             cred_node = f"cred:{value[:12]}"
             host_node = f"host:{host}"
-            self._graph.add_relation(NetworkRelation(
-                source=cred_node,
-                target=host_node,
-                relation="authenticates_to",
-                weight=1.0,
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=cred_node,
+                    target=host_node,
+                    relation="authenticates_to",
+                    weight=1.0,
+                )
+            )
             # Also find the CredentialEntry and mark as confirmed
             for c in self._creds:
                 if c.value == value:
@@ -490,19 +518,20 @@ class WorldModel:
         with self._lock:
             cred_node = f"cred:{value[:12]}"
             host_node = f"host:{host}"
-            self._graph.add_relation(NetworkRelation(
-                source=cred_node,
-                target=host_node,
-                relation="rejected_by",
-                weight=0.0,
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=cred_node,
+                    target=host_node,
+                    relation="rejected_by",
+                    weight=0.0,
+                )
+            )
             for c in self._creds:
                 if c.value == value:
                     c.confirmed = False
             self._save()
 
-    def add_vulnerability(self, description: str, host: str = "",
-                           cve: str = "", severity: str = "UNKNOWN") -> None:
+    def add_vulnerability(self, description: str, host: str = "", cve: str = "", severity: str = "UNKNOWN") -> None:
         with self._lock:
             entry = VulnerabilityEntry(description=description, host=host, cve=cve, severity=severity)
             self._vulns.append(entry)
@@ -518,7 +547,7 @@ class WorldModel:
         for f in findings:
             ftype = getattr(f, "type", "")
             value = getattr(f, "value", "")
-            host  = getattr(f, "host",  "")
+            host = getattr(f, "host", "")
             if not value:
                 continue
             try:
@@ -546,11 +575,13 @@ class WorldModel:
                     if host:
                         h = self._hosts.get(host) or self.add_host(host)
                         h.cloud_metadata["iam_role"] = value
-                        self._graph.add_relation(NetworkRelation(
-                            source=f"host:{host}",
-                            target=f"cloud:{value}",
-                            relation="has_role",
-                        ))
+                        self._graph.add_relation(
+                            NetworkRelation(
+                                source=f"host:{host}",
+                                target=f"cloud:{value}",
+                                relation="has_role",
+                            )
+                        )
                 elif ftype == "k8s_resource":
                     if host:
                         h = self._hosts.get(host) or self.add_host(host)
@@ -570,13 +601,15 @@ class WorldModel:
     ) -> None:
         """Add an arbitrary directed relationship to the network graph."""
         with self._lock:
-            self._graph.add_relation(NetworkRelation(
-                source=source,
-                target=target,
-                relation=relation,
-                weight=weight,
-                attributes=dict(attributes),
-            ))
+            self._graph.add_relation(
+                NetworkRelation(
+                    source=source,
+                    target=target,
+                    relation=relation,
+                    weight=weight,
+                    attributes=dict(attributes),
+                )
+            )
             self._save()
 
     def pivot_candidates(self, top_k: int = 5) -> list[dict]:
@@ -610,17 +643,13 @@ class WorldModel:
             phase = self._deriver.derive(self._hosts)
             lines: list[str] = [
                 f"Phase: {phase.value}",
-                f"Hosts: {len(self._hosts)}  "
-                f"Credentials: {len(self._creds)}  "
-                f"Vulnerabilities: {len(self._vulns)}",
+                f"Hosts: {len(self._hosts)}  Credentials: {len(self._creds)}  Vulnerabilities: {len(self._vulns)}",
                 "",
             ]
             for ip, host in self._hosts.items():
-                svc_summary = ", ".join(
-                    f"{p}/{s.name}" for p, s in sorted(host.services.items())
-                ) or "no services"
+                svc_summary = ", ".join(f"{p}/{s.name}" for p, s in sorted(host.services.items())) or "no services"
                 lines.append(f"  [{host.state.value:11s}] {ip}  {host.os_hint or ''}  | {svc_summary}")
-                for note in host.notes[-3:]:          # last 3 notes per host
+                for note in host.notes[-3:]:  # last 3 notes per host
                     lines.append(f"             note: {note}")
 
             if self._creds:
@@ -634,16 +663,16 @@ class WorldModel:
                     sev = f"[{v.severity}]" if v.severity != "UNKNOWN" else ""
                     lines.append(f"  {v.host or 'unknown'} {sev} {v.cve or ''} {v.description[:80]}")
 
-            lines.append(f"\nSuggested tools for {phase.value}: "
-                         + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
+            lines.append(
+                f"\nSuggested tools for {phase.value}: " + ", ".join(self.get_suggested_tools()[:5] or ["(any)"])
+            )
 
             pivots = self._graph.pivot_candidates(top_k=3)
             if pivots:
                 lines.append("\nTop pivot candidates (by network centrality):")
                 for p in pivots:
                     lines.append(
-                        f"  {p['node']}  centrality={p['centrality']:.3f}  "
-                        f"out={p['out_degree']} in={p['in_degree']}"
+                        f"  {p['node']}  centrality={p['centrality']:.3f}  out={p['out_degree']} in={p['in_degree']}"
                     )
 
             return "\n".join(lines)
@@ -656,11 +685,11 @@ class WorldModel:
         tmp = self._path.with_suffix(".json.tmp")
         try:
             data = {
-                "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":     [vars(c) for c in self._creds],
+                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials": [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
-                "network_graph":   self._graph.to_dict(),
-                "saved_at":        datetime.now().isoformat(),
+                "network_graph": self._graph.to_dict(),
+                "saved_at": datetime.now().isoformat(),
             }
             tmp.write_text(json.dumps(data, indent=2), encoding="utf-8")
             tmp.replace(self._path)
@@ -679,8 +708,7 @@ class WorldModel:
             self._vulns = [VulnerabilityEntry(**v) for v in data.get("vulnerabilities", [])]
             if "network_graph" in data:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
-            log.info("WorldModel: loaded %d hosts, %d creds from %s",
-                     len(self._hosts), len(self._creds), self._path)
+            log.info("WorldModel: loaded %d hosts, %d creds from %s", len(self._hosts), len(self._creds), self._path)
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
@@ -699,9 +727,9 @@ class WorldModel:
         """Return a plain-dict snapshot (for JSON serialisation)."""
         with self._lock:
             return {
-                "phase":           self.get_phase().value,
-                "hosts":           {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":     [vars(c) for c in self._creds],
+                "phase": self.get_phase().value,
+                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials": [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
                 "pivot_candidates": self._graph.pivot_candidates(top_k=5),
             }
@@ -722,6 +750,47 @@ def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
     return _default_wm
 
 
+def read_state_dict(path: str | Path) -> dict:
+    """Read a world-model state document as a plain dict.
+
+    Args:
+        path: Path to the world model JSON file.
+
+    Returns:
+        The decoded document as a dict, or an empty dict when the file
+        is missing or unreadable.
+    """
+    state_path = Path(path)
+    try:
+        return json.loads(state_path.read_text(encoding="utf-8"))
+    except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
+        log.debug("world_model.read_state_dict: %s", exc)
+        return {}
+
+
+def write_state_dict(path: str | Path, data: dict) -> bool:
+    """Atomically write a world-model state document.
+
+    Args:
+        path: Path to the world model JSON file.
+        data: The document to persist.
+
+    Returns:
+        True when the write succeeded, False otherwise.
+    """
+    state_path = Path(path)
+    temp_path = state_path.with_name(state_path.name + ".tmp")
+    try:
+        state_path.parent.mkdir(parents=True, exist_ok=True)
+        temp_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
+        os.replace(temp_path, state_path)
+        return True
+    except OSError as exc:
+        log.error("world_model.write_state_dict: %s", exc)
+        temp_path.unlink(missing_ok=True)
+        return False
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -734,7 +803,7 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="LazyOwn World Model CLI")
     sub = p.add_subparsers(dest="cmd")
 
-    sub.add_parser("show",  help="Print current world model context")
+    sub.add_parser("show", help="Print current world model context")
     sub.add_parser("reset", help="Clear world model")
     add_p = sub.add_parser("add-host", help="Add a host")
     add_p.add_argument("ip")

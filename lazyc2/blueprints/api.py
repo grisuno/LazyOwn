@@ -6,7 +6,7 @@ dashboard data. Registered under the ``/api`` prefix.
 
 from __future__ import annotations
 
-from flask import Blueprint, jsonify, request
+from flask import Blueprint, jsonify
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 

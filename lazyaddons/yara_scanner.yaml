@@ -4,6 +4,8 @@ author: LazyOwn
 version: "1.0.0"
 category: "03. Exploitation"
 module_type: auxiliary
+os: any
+trigger: []
 enabled: true
 params:
   - name: rules_dir

@@ -29,7 +29,18 @@ try:
     from modules.lazy_rbac import Role, require_role
 except ImportError:
     Role = None
-    require_role = lambda role: lambda f: f  # no-op fallback
+
+    def require_role(role: object) -> object:
+        """Return a pass-through decorator when RBAC is unavailable.
+
+        Args:
+            role: The required role name, ignored in the fallback.
+
+        Returns:
+            A decorator that returns the wrapped view unchanged.
+        """
+        return lambda view: view
+
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -48,6 +59,7 @@ def _get_rbac_store():
         return None
     try:
         from lazyc2 import get_rbac_store as _get_store
+
         return _get_store()
     except (ImportError, AttributeError):
         return None
@@ -57,6 +69,7 @@ def _get_rbac_user_obj(flask_user) -> object | None:
     """Resolve the RBAC user object for a Flask-Login user."""
     try:
         from lazyc2 import _get_rbac_user_obj
+
         return _get_rbac_user_obj(flask_user)
     except (ImportError, AttributeError):
         return None
@@ -66,6 +79,7 @@ def _get_tenant_manager():
     """Resolve the tenant manager from the C2 monolith."""
     try:
         from lazyc2 import get_tenant_manager
+
         return get_tenant_manager()
     except (ImportError, AttributeError):
         return None
@@ -90,14 +104,13 @@ def register():
             return redirect(url_for("auth.register"))
 
         if _rbac_available():
-            from modules.lazy_rbac import Role, ROLE_DEFAULT
+            from modules.lazy_rbac import ROLE_DEFAULT, Role
+
             store = _get_rbac_store()
             if store and store.find_by_username(username):
                 flash("Username already exists.", "error")
                 return redirect(url_for("auth.register"))
-            role = Role.ADMIN.value if not any(
-                u.role == Role.ADMIN.value for u in store.load_all()
-            ) else ROLE_DEFAULT
+            role = Role.ADMIN.value if not any(u.role == Role.ADMIN.value for u in store.load_all()) else ROLE_DEFAULT
             store.create_user(
                 username=username,
                 password_hash=generate_password_hash(password),
@@ -107,6 +120,7 @@ def register():
             return redirect(url_for("auth.login"))
 
         from lazyc2.extensions.users import load_users, save_users
+
         users = load_users()
         if any(u["username"] == username for u in users):
             flash("Username already exists.", "error")
@@ -144,6 +158,7 @@ def login():
 
         if _rbac_available():
             from lazyc2 import User
+
             store = _get_rbac_store()
             rbac_user = store.find_by_username(username) if store else None
             if rbac_user and check_password_hash(rbac_user.password_hash, password):
@@ -160,10 +175,12 @@ def login():
             return render_template("login.html")
 
         from lazyc2.extensions.users import load_users
+
         users = load_users()
         user_data = next((u for u in users if u["username"] == username), None)
         if user_data and check_password_hash(user_data["password_hash"], password):
             from lazyc2 import User
+
             login_user(User(user_data))
             flash("Welcome to LazyOwn.", "success")
             return redirect(url_for("auth.profile"))
@@ -178,6 +195,7 @@ def login():
 @login_required
 def mfa_setup():
     import pyotp
+
     if not _rbac_available():
         flash("RBAC module not available.", "error")
         return redirect(url_for("auth.profile"))
@@ -232,6 +250,7 @@ def mfa_setup():
     if secret:
         try:
             from modules.lazy_rbac import generate_mfa_qr_url
+
             qr_url = generate_mfa_qr_url(secret, rbac_user.username)
         except Exception:
             pass
@@ -249,8 +268,10 @@ def mfa_setup():
 @login_required
 def mfa_qr(username):
     import pyotp
+
     try:
         from modules.lazy_rbac import generate_qr_svg
+
         store = _get_rbac_store()
         if not store:
             return Response("RBAC not available", status=500)
@@ -258,9 +279,7 @@ def mfa_qr(username):
         if not user or not user.mfa_secret:
             return Response("User or MFA secret not found", status=404)
         MFA_ISSUER = current_app.config.get("MFA_ISSUER", "LazyOwn")
-        uri = pyotp.totp.TOTP(user.mfa_secret).provisioning_uri(
-            name=user.username, issuer_name=MFA_ISSUER
-        )
+        uri = pyotp.totp.TOTP(user.mfa_secret).provisioning_uri(name=user.username, issuer_name=MFA_ISSUER)
         svg = generate_qr_svg(uri)
         return Response(svg, mimetype="image/svg+xml")
     except Exception as e:
@@ -318,6 +337,7 @@ def profile():
     if decoy:
         return decoy
     from lazyc2 import get_karma_name
+
     ROLE_DEFAULT = current_app.config.get("ROLE_DEFAULT", "user")
     karma_name = get_karma_name(current_user.elo)
     user_role = getattr(current_user, "role", ROLE_DEFAULT)
@@ -361,6 +381,7 @@ def admin_users():
         flash("RBAC module not available.", "error")
         return redirect(url_for("auth.profile"))
     from modules.lazy_rbac import Role
+
     decoy = decoy_response()
     if decoy:
         return decoy
@@ -376,6 +397,7 @@ def admin_set_role(user_id):
     if not _rbac_available():
         return jsonify({"error": "RBAC not available"}), 500
     from modules.lazy_rbac import Role
+
     new_role = request.form.get("role", "").strip()
     if new_role not in Role.valid_roles():
         flash("Invalid role.", "error")
@@ -427,7 +449,6 @@ def admin_tenants():
     if not _rbac_available():
         flash("RBAC module not available.", "error")
         return redirect(url_for("auth.profile"))
-    from modules.lazy_rbac import Role
     decoy = decoy_response()
     if decoy:
         return decoy

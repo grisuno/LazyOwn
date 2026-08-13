@@ -6,7 +6,7 @@ Breaking the circular dependency between lazyc2.py and blueprints.
 from flask_login import UserMixin
 
 try:
-    from modules.lazy_rbac import _RBAC_AVAILABLE, get_rbac_store, ROLE_DEFAULT
+    from modules.lazy_rbac import _RBAC_AVAILABLE, ROLE_DEFAULT, get_rbac_store
 except ImportError:
     _RBAC_AVAILABLE = False
     get_rbac_store = None

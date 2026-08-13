@@ -28,12 +28,12 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 
-from modules.security_sanitizers import SessionPathResolver
 from lazyc2.extensions.short_urls import (
     is_valid_url,
     load_short_urls,
     save_short_urls,
 )
+from modules.security_sanitizers import SessionPathResolver
 
 redirect_bp = Blueprint("redirect", __name__)
 

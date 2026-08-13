@@ -47,7 +47,12 @@ class ReportGenerator:
 
         lines = []
         if standalone:
+<<<<<<< HEAD
             lines.append("""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>%s</title><style>
+=======
+            lines.append(
+                """<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>%s</title><style>
+>>>>>>> dev
 :root{--bg:#0d1117;--fg:#c9d1d9;--accent:#58a6ff;--border:#30363d;--card:#161b22;--red:#f85149;--green:#3fb950;--amber:#d2991d}
 *{box-sizing:border-box;margin:0;padding:0}body{background:var(--bg);color:var(--fg);font-family:system-ui,sans-serif;line-height:1.6;padding:2rem}
 h1{color:var(--accent);border-bottom:2px solid var(--border);padding-bottom:.5rem;margin-bottom:1rem}
@@ -56,48 +61,107 @@ h2{color:var(--amber);margin:2rem 0 1rem}h3{color:var(--accent);margin:1.5rem 0 
 table{width:100%%;border-collapse:collapse}th,td{text-align:left;padding:.5rem;border-bottom:1px solid var(--border)}th{color:var(--accent)}
 .severity-critical{color:var(--red);font-weight:bold}.severity-high{color:var(--red)}.severity-medium{color:var(--amber)}.severity-low{color:var(--green)}
 pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:.8rem;overflow-x:auto;font-size:.85rem}
+<<<<<<< HEAD
 </style></head><body>""" % esc(ctx["title"]))
             lines.append(f"<h1>{esc(ctx['title'])}</h1>")
         lines.append(f"<div class='card'><p><strong>Target:</strong> {esc(ctx['target'])}</p><p><strong>Generated:</strong> {esc(ctx['generated'])}</p><p><strong>Engine:</strong> LazyOwn RedTeam Framework {esc(ctx['version'])}</p></div>")
+=======
+</style></head><body>"""
+                % esc(ctx["title"])
+            )  # noqa: UP031
+            lines.append(f"<h1>{esc(ctx['title'])}</h1>")
+        lines.append(
+            f"<div class='card'><p><strong>Target:</strong> {esc(ctx['target'])}</p><p><strong>Generated:</strong> {esc(ctx['generated'])}</p><p><strong>Engine:</strong> LazyOwn RedTeam Framework {esc(ctx['version'])}</p></div>"
+        )
+>>>>>>> dev
 
         # Kill-chain
         lines.append("<h2>Kill-Chain Progress</h2><div style='display:flex;gap:.5rem;flex-wrap:wrap;margin:1rem 0'>")
         for ph in ctx["kill_chain"]:
+<<<<<<< HEAD
             cls = "background:rgba(63,185,80,.1);border-color:#3fb950" if ph["status"] == "complete" else ("background:rgba(88,166,255,.1);border-color:#58a6ff" if ph["status"] == "active" else "")
             lines.append(f"<span style='padding:.5rem 1rem;border-radius:4px;background:var(--card);border:1px solid var(--border);font-size:.8rem;{cls}'>{esc(ph['name'])}</span>")
+=======
+            cls = (
+                "background:rgba(63,185,80,.1);border-color:#3fb950"
+                if ph["status"] == "complete"
+                else ("background:rgba(88,166,255,.1);border-color:#58a6ff" if ph["status"] == "active" else "")
+            )
+            lines.append(
+                f"<span style='padding:.5rem 1rem;border-radius:4px;background:var(--card);border:1px solid var(--border);font-size:.8rem;{cls}'>{esc(ph['name'])}</span>"
+            )
+>>>>>>> dev
         lines.append("</div>")
 
         # Hosts
         hosts = ctx["hosts"]
         if hosts:
+<<<<<<< HEAD
             lines.append("<h2>Discovered Hosts</h2><table><tr><th>IP</th><th>Hostname</th><th>OS</th><th>Open Ports</th><th>Services</th></tr>")
             for h in hosts:
                 lines.append(f"<tr><td>{esc(h['ip'])}</td><td>{esc(h.get('hostname') or 'N/A')}</td><td>{esc(h.get('os') or 'Unknown')}</td><td>{esc(', '.join(map(str, h.get('ports', []))))}</td><td>{esc(', '.join(h.get('services', [])))}</td></tr>")
+=======
+            lines.append(
+                "<h2>Discovered Hosts</h2><table><tr><th>IP</th><th>Hostname</th><th>OS</th><th>Open Ports</th><th>Services</th></tr>"
+            )
+            for h in hosts:
+                lines.append(
+                    f"<tr><td>{esc(h['ip'])}</td><td>{esc(h.get('hostname') or 'N/A')}</td><td>{esc(h.get('os') or 'Unknown')}</td><td>{esc(', '.join(map(str, h.get('ports', []))))}</td><td>{esc(', '.join(h.get('services', [])))}</td></tr>"
+                )
+>>>>>>> dev
             lines.append("</table>")
 
         # Vulns
         vulns = ctx["vulns"]
         if vulns:
+<<<<<<< HEAD
             lines.append("<h2>Vulnerabilities</h2><table><tr><th>CVE/ID</th><th>Service</th><th>Severity</th><th>Description</th></tr>")
             for v in vulns:
                 sev = str(v.get("severity", "")).lower()
                 lines.append(f"<tr><td>{esc(v.get('id',''))}</td><td>{esc(v.get('service',''))}</td><td class='severity-{sev}'>{esc(v.get('severity',''))}</td><td>{esc(v.get('description',''))}</td></tr>")
+=======
+            lines.append(
+                "<h2>Vulnerabilities</h2><table><tr><th>CVE/ID</th><th>Service</th><th>Severity</th><th>Description</th></tr>"
+            )
+            for v in vulns:
+                sev = str(v.get("severity", "")).lower()
+                lines.append(
+                    f"<tr><td>{esc(v.get('id', ''))}</td><td>{esc(v.get('service', ''))}</td><td class='severity-{sev}'>{esc(v.get('severity', ''))}</td><td>{esc(v.get('description', ''))}</td></tr>"
+                )
+>>>>>>> dev
             lines.append("</table>")
 
         # Creds
         creds = ctx["creds"]
         if creds:
+<<<<<<< HEAD
             lines.append("<h2>Compromised Credentials</h2><table><tr><th>Username</th><th>Type</th><th>Source</th></tr>")
             for c in creds:
                 lines.append(f"<tr><td>{esc(c['username'])}</td><td>{esc(c['type'])}</td><td>{esc(c['source'])}</td></tr>")
+=======
+            lines.append(
+                "<h2>Compromised Credentials</h2><table><tr><th>Username</th><th>Type</th><th>Source</th></tr>"
+            )
+            for c in creds:
+                lines.append(
+                    f"<tr><td>{esc(c['username'])}</td><td>{esc(c['type'])}</td><td>{esc(c['source'])}</td></tr>"
+                )
+>>>>>>> dev
             lines.append("</table>")
 
         # Loot
         loot = ctx["loot"]
         if loot:
             lines.append("<h2>Exfiltrated Loot</h2><table><tr><th>File</th><th>Size</th><th>Source</th></tr>")
+<<<<<<< HEAD
             for l in loot:
                 lines.append(f"<tr><td>{esc(l['name'])}</td><td>{esc(l['size'])}</td><td>{esc(l['source'])}</td></tr>")
+=======
+            for entry in loot:
+                lines.append(
+                    f"<tr><td>{esc(entry['name'])}</td><td>{esc(entry['size'])}</td><td>{esc(entry['source'])}</td></tr>"
+                )
+>>>>>>> dev
             lines.append("</table>")
 
         # Commands
@@ -108,7 +172,13 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
             for i, c in enumerate(shown, 1):
                 lines.append(f"<tr><td>{i}</td><td><code>{esc(c['cmd'])}</code></td><td>{esc(c['ts'])}</td></tr>")
             if len(cmds) > 50:
+<<<<<<< HEAD
                 lines.append(f"<tr><td colspan='3' style='color:#484f58;font-style:italic'>... and {len(cmds) - 50} more</td></tr>")
+=======
+                lines.append(
+                    f"<tr><td colspan='3' style='color:#484f58;font-style:italic'>... and {len(cmds) - 50} more</td></tr>"
+                )
+>>>>>>> dev
             lines.append("</table>")
 
         # Notes
@@ -143,14 +213,26 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         if hosts:
             lines.append("## Discovered Hosts\n\n| IP | Hostname | OS | Open Ports | Services |\n|---|---|---|---|---|")
             for h in hosts:
+<<<<<<< HEAD
                 lines.append(f"| {h['ip']} | {h.get('hostname') or 'N/A'} | {h.get('os') or 'Unknown'} | {', '.join(map(str, h.get('ports', [])))} | {', '.join(h.get('services', []))} |")
+=======
+                lines.append(
+                    f"| {h['ip']} | {h.get('hostname') or 'N/A'} | {h.get('os') or 'Unknown'} | {', '.join(map(str, h.get('ports', [])))} | {', '.join(h.get('services', []))} |"
+                )
+>>>>>>> dev
             lines.append("")
 
         vulns = ctx["vulns"]
         if vulns:
             lines.append("## Vulnerabilities\n\n| CVE/ID | Service | Severity | Description |\n|---|---|---|---|")
             for v in vulns:
+<<<<<<< HEAD
                 lines.append(f"| {v.get('id','')} | {v.get('service','')} | {v.get('severity','')} | {v.get('description','')} |")
+=======
+                lines.append(
+                    f"| {v.get('id', '')} | {v.get('service', '')} | {v.get('severity', '')} | {v.get('description', '')} |"
+                )
+>>>>>>> dev
             lines.append("")
 
         creds = ctx["creds"]
@@ -163,8 +245,13 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         loot = ctx["loot"]
         if loot:
             lines.append("## Exfiltrated Loot\n\n| File | Size | Source |\n|---|---|---|")
+<<<<<<< HEAD
             for l in loot:
                 lines.append(f"| {l['name']} | {l['size']} | {l['source']} |")
+=======
+            for entry in loot:
+                lines.append(f"| {entry['name']} | {entry['size']} | {entry['source']} |")
+>>>>>>> dev
             lines.append("")
 
         cmds = ctx["commands"]
@@ -219,6 +306,10 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
     @staticmethod
     def _read_kill_chain() -> list[dict[str, str]]:
         from modules.killchain import KillChain as _KC
+<<<<<<< HEAD
+=======
+
+>>>>>>> dev
         phases = [(p[0], p[1]) for p in _KC.phases_for_display()]
         try:
             current = _KC.current_phase()
@@ -248,13 +339,31 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         result = []
         for ip, info in hosts.items():
             if isinstance(info, dict):
+<<<<<<< HEAD
                 result.append({"ip": ip, "hostname": info.get("hostname", ""), "os": info.get("os", ""), "ports": info.get("ports", []), "services": info.get("services", [])})
+=======
+                result.append(
+                    {
+                        "ip": ip,
+                        "hostname": info.get("hostname", ""),
+                        "os": info.get("os", ""),
+                        "ports": info.get("ports", []),
+                        "services": info.get("services", []),
+                    }
+                )
+>>>>>>> dev
         return result
 
     @staticmethod
     def _read_vulns(sessions: Path) -> list[dict[str, Any]]:
         try:
+<<<<<<< HEAD
             return json.loads((sessions / "world_model.json").read_text(encoding="utf-8")).get("vulnerabilities", []) or []
+=======
+            return (
+                json.loads((sessions / "world_model.json").read_text(encoding="utf-8")).get("vulnerabilities", []) or []
+            )
+>>>>>>> dev
         except Exception:
             return []
 
@@ -268,7 +377,17 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
                     if not line or line.startswith("#"):
                         continue
                     parts = line.split(":", 2)
+<<<<<<< HEAD
                     result.append({"username": parts[0] if parts else "", "type": parts[1] if len(parts) > 1 else "password", "source": fpath.name})
+=======
+                    result.append(
+                        {
+                            "username": parts[0] if parts else "",
+                            "type": parts[1] if len(parts) > 1 else "password",
+                            "source": fpath.name,
+                        }
+                    )
+>>>>>>> dev
             except OSError:
                 pass
         return result
@@ -304,7 +423,15 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         if not notes_path.exists():
             return []
         try:
+<<<<<<< HEAD
             return [{"ts": "", "text": line.strip()} for line in notes_path.read_text(encoding="utf-8", errors="ignore").splitlines() if line.strip()]
+=======
+            return [
+                {"ts": "", "text": line.strip()}
+                for line in notes_path.read_text(encoding="utf-8", errors="ignore").splitlines()
+                if line.strip()
+            ]
+>>>>>>> dev
         except OSError:
             return []
 

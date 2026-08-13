@@ -24,7 +24,11 @@
         "mfa_enabled": false,
         "mfa_secret": "",
         "recovery_codes": [],
+<<<<<<< HEAD
         "elo": 283,
+=======
+        "elo": 815,
+>>>>>>> dev
         "tenant_id": "default"
     },
     {

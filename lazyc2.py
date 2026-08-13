@@ -2231,6 +2231,9 @@ app.jinja_env.filters['fromjson'] = fromjson
 app.jinja_env.filters['markdown'] = markdown_to_html
 BASE_DIR = os.getcwd()
 TOOLS_DIR = f'{BASE_DIR}/tools'
+LAZYADDONS_DIR = os.path.join(BASE_DIR, 'lazyaddons')
+app.config.setdefault('LAZYOWN_ADDONS_DIR', LAZYADDONS_DIR)
+app.config.setdefault('lhost', str(getattr(config, "lhost", "127.0.0.1")))
 
 
 @app.errorhandler(404)
@@ -5285,30 +5288,104 @@ def teamserver():
 @app.route('/report', methods=['GET'])
 @login_required
 def report():
+    return _render_legacy_report()
+
+@app.route('/lazyreport', methods=['GET'])
+@login_required
+def lazyreport_view():
+    return _render_enhanced_report()
+
+def _render_enhanced_report():
+    try:
+        from modules.report_templates import ReportGenerator
+        gen = ReportGenerator()
+        report_html = gen.generate(fmt="html", standalone=False)
+        return render_template_string(
+            '''{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text mb-4">LazyReport</h1>
+            {{ report_html | safe }}
+            {% endblock %}''',
+            report_html=report_html,
+        )
+    except Exception as exc:
+        if config.enable_c2_debug:
+            logger.info(f"Enhanced report failed: {exc}")
+        return _render_legacy_report()
+
+def _render_legacy_report():
     json_path = "sessions/sessionLazyOwn.json"
-    with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
-        report_data = json.load(json_file)
+    try:
+        with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
+            report_data = json.load(json_file)
+    except (FileNotFoundError, json.JSONDecodeError) as exc:
+        if config.enable_c2_debug:
+            logger.info(f"Error loading report data: {exc}")
+        report_data = {}
     tools = []
-    for filename in os.listdir(TOOLS_DIR):
-        if filename.endswith('.tool'):
-            tool_path = os.path.join(TOOLS_DIR, filename)
-            with open(tool_path, 'r') as file:
-                tool_data = json.load(file)
-                tool_data['filename'] = filename
-                tools.append(tool_data)
+    try:
+        for filename in os.listdir(TOOLS_DIR):
+            if filename.endswith('.tool'):
+                tool_path = os.path.join(TOOLS_DIR, filename)
+                try:
+                    with open(tool_path, 'r') as file:
+                        tool_data = json.load(file)
+                        tool_data['filename'] = filename
+                        tools.append(tool_data)
+                except (FileNotFoundError, json.JSONDecodeError):
+                    if config.enable_c2_debug:
+                        logger.info(f"Error loading tool: {filename}")
+    except FileNotFoundError:
+        if config.enable_c2_debug:
+            logger.info("Error: TOOLS_DIR not found")
     tasks = load_tasks()
     cves = load_cves()
-    with open(json_path, 'r') as f:
-        session_data = json.load(f)
-
+    try:
+        with open(json_path, 'r') as f:
+            content = f.read().strip()
+            session_data = json.loads(content) if content else {}
+    except FileNotFoundError:
+        session_data = {}
+    except json.JSONDecodeError:
+        if config.enable_c2_debug:
+            logger.info("Error: Invalid JSON in sessionLazyOwn.json")
+        session_data = {}
 
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
-    session_data['params'] = make_serializable(session_data.get('params', {}))
-    session_data['params']['api_key'] = 'Hidden conntent'
+    if isinstance(session_data, dict):
+        session_data['params'] = make_serializable(session_data.get('params', {}))
+        session_data['params']['api_key'] = 'Hidden conntent'
     implants_check()
     return render_template('report.html', report_data=report_data, tools=tools, tasks=tasks, cves=cves, session_data=session_data, implants=implants)
+
+@app.route('/killchain', methods=['GET'])
+@login_required
+def killchain_view():
+    try:
+        from modules.kill_chain_viz import generate_html
+        kc_html = generate_html()
+        return render_template_string(
+            '''{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text mb-4">Kill-Chain</h1>
+            <div class="card bg-secondary text-light p-4">
+            {{ kc_html | safe }}
+            </div>
+            {% endblock %}''',
+            kc_html=kc_html,
+        )
+    except Exception as exc:
+        if config.enable_c2_debug:
+            logger.info(f"Kill-chain failed: {exc}")
+        return render_template_string(
+            '''{% extends "base.html" %}
+            {% block content %}
+            <h1 class="neon-text">Kill-Chain</h1>
+            <p class="text-warning">Kill-chain unavailable.</p>
+            {% endblock %}'''
+        )
 
 @app.route('/connect')
 @login_required
@@ -6298,9 +6375,10 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import operations_bp, auth_bp
+    from lazyc2.blueprints import operations_bp, auth_bp, addons_bp
     app.register_blueprint(operations_bp)
     app.register_blueprint(auth_bp)
+    app.register_blueprint(addons_bp)
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 

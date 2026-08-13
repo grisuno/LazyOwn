@@ -4,6 +4,8 @@ author: LazyOwn
 version: "1.0.0"
 category: "06. Privilege Escalation"
 module_type: exploit
+os: windows
+trigger: [ldap, microsoft-ds]
 enabled: true
 params:
   - name: username

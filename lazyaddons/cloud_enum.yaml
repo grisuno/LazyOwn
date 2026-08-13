@@ -4,6 +4,8 @@ author: LazyOwn
 version: "1.0.0"
 category: "02. Scanning & Enumeration"
 module_type: scanner
+os: iaas
+trigger: [https]
 enabled: true
 params:
   - name: provider

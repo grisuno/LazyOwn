@@ -2171,6 +2171,55 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
                 pass
 
     @cmd2.with_category("12. Miscellaneous")
+    def do_chainmode(self, line):
+        """Toggle interactive kill-chain chaining after every command.
+
+        Usage:
+            chainmode on          Start the chain flow.
+            chainmode off         Stop the chain flow.
+            chainmode status      Show whether chaining is active.
+
+        When on, every executed command is followed by a world-model-driven
+        prompt listing the next kill-chain step(s). Press Enter to run the
+        top suggestion, type ``1..N`` to pick a ranked alternative, type
+        any command to override the suggestion and keep chaining from it,
+        ``skip`` to continue manually, or ``off`` to exit. The state is
+        persisted to ``sessions/chain_mode.json``.
+
+        Args:
+            line: Whitespace-stripped sub-command (on/off/status).
+
+        Returns:
+            None.
+        """
+        argument = (line or "").strip().lower()
+        engine = getattr(self, "_chain_prompt", None)
+        if engine is None:
+            print_error("chain mode is not initialised")
+            return
+        if argument in ("", "status", "show"):
+            from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
+
+            state = "on" if engine.enabled else "off"
+            steps = int(getattr(engine, "steps_run", 0))
+            max_steps = int(getattr(engine.config, "max_steps", _CHAIN_MAX_STEPS))
+            print_msg(f"chainmode: {state} (auto-pause after {max_steps} chained steps, {steps} run so far)")
+            return
+        if argument in ("on", "enable", "1", "yes"):
+            engine.set_enabled(True)
+            print_msg(
+                "chainmode on — after each command you will be prompted with the "
+                "next kill-chain step. Enter=top suggestion, 1..N=alternative, "
+                "type any command to override, 'skip' to pass, 'off' to exit."
+            )
+            return
+        if argument in ("off", "disable", "0", "no"):
+            engine.set_enabled(False)
+            print_msg("chainmode off")
+            return
+        print_warn("usage: chainmode [on|off|status]")
+
+    @cmd2.with_category("12. Miscellaneous")
     def do_daemon_mode(self, line):
         """Switch the autonomous daemon between auto, approval and paused modes.
 

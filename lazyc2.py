@@ -5823,6 +5823,7 @@ def teamserver():
 @app.route('/report', methods=['GET'])
 @login_required
 def report():
+
     return _render_legacy_report()
 
 @app.route('/lazyreport', methods=['GET'])
@@ -5830,7 +5831,6 @@ def report():
 def lazyreport_view():
     return _render_enhanced_report()
 
-<<<<<<< HEAD
 @app.route('/killchain', methods=['GET'])
 @login_required
 def killchain_view():
@@ -5898,8 +5898,6 @@ def api_beacon_results(client_id):
     return jsonify({"client_id": safe_id, "records": records}), 200
 
 
-=======
->>>>>>> dev
 def _render_enhanced_report():
     try:
         from modules.report_templates import ReportGenerator
@@ -5920,18 +5918,13 @@ def _render_enhanced_report():
 
 def _render_legacy_report():
     json_path = "sessions/sessionLazyOwn.json"
+
     try:
         with open(JSON_FILE_PATH_REPORT, 'r') as json_file:
             report_data = json.load(json_file)
-<<<<<<< HEAD
     except (FileNotFoundError, json.JSONDecodeError) as e:
         if config.enable_c2_debug:
             logger.info(f"Error loading report data: {e}")
-=======
-    except (FileNotFoundError, json.JSONDecodeError) as exc:
-        if config.enable_c2_debug:
-            logger.info(f"Error loading report data: {exc}")
->>>>>>> dev
         report_data = {}
     tools = []
     try:
@@ -5951,17 +5944,14 @@ def _render_legacy_report():
             logger.info("Error: TOOLS_DIR not found")
     tasks = load_tasks()
     cves = load_cves()
+
     try:
         with open(json_path, 'r') as f:
             content = f.read().strip()
-<<<<<<< HEAD
             if content:
                 session_data = json.loads(content)
             else:
                 session_data = {}
-=======
-            session_data = json.loads(content) if content else {}
->>>>>>> dev
     except FileNotFoundError:
         session_data = {}
     except json.JSONDecodeError:
@@ -5972,44 +5962,14 @@ def _render_legacy_report():
     if isinstance(session_data, list):
         session_data = session_data[0] if session_data else {}
 
+
     if isinstance(session_data, dict):
         session_data['params'] = make_serializable(session_data.get('params', {}))
         session_data['params']['api_key'] = 'Hidden conntent'
-<<<<<<< HEAD
     else:
         session_data = {'params': {'api_key': 'Hidden conntent'}}
-
-=======
->>>>>>> dev
     implants_check()
     return render_template('report.html', report_data=report_data, tools=tools, tasks=tasks, cves=cves, session_data=session_data, implants=implants)
-
-@app.route('/killchain', methods=['GET'])
-@login_required
-def killchain_view():
-    try:
-        from modules.kill_chain_viz import generate_html
-        kc_html = generate_html()
-        return render_template_string(
-            '''{% extends "base.html" %}
-            {% block content %}
-            <h1 class="neon-text mb-4">Kill-Chain</h1>
-            <div class="card bg-secondary text-light p-4">
-            {{ kc_html | safe }}
-            </div>
-            {% endblock %}''',
-            kc_html=kc_html,
-        )
-    except Exception as exc:
-        if config.enable_c2_debug:
-            logger.info(f"Kill-chain failed: {exc}")
-        return render_template_string(
-            '''{% extends "base.html" %}
-            {% block content %}
-            <h1 class="neon-text">Kill-Chain</h1>
-            <p class="text-warning">Kill-chain unavailable.</p>
-            {% endblock %}'''
-        )
 
 @app.route('/connect')
 @login_required
@@ -7014,7 +6974,7 @@ def api_listeners_delete(listener_id):
 
 
 try:
-<<<<<<< HEAD
+    from lazyc2.blueprints import addons_bp
     from lazyc2.blueprints import operations_bp, auth_bp, beacon_bp, redirect_bp, api_bp, init_beacon_bp
     init_beacon_bp(
         commands=commands,
@@ -7029,15 +6989,11 @@ try:
     )
     app.register_blueprint(operations_bp)
     app.register_blueprint(auth_bp)
+
     app.register_blueprint(beacon_bp)
     app.register_blueprint(redirect_bp)
     app.register_blueprint(api_bp)
-=======
-    from lazyc2.blueprints import operations_bp, auth_bp, addons_bp
-    app.register_blueprint(operations_bp)
-    app.register_blueprint(auth_bp)
     app.register_blueprint(addons_bp)
->>>>>>> dev
 except Exception as _obp_err:
     print(f"[c2] Blueprint not loaded: {_obp_err}")
 

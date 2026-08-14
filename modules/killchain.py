@@ -1,3 +1,4 @@
+
 """Unified kill-chain — single source of truth consumed by all surfaces.
 
 This module is the canonical authority for kill-chain phases, progress
@@ -24,10 +25,7 @@ import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-<<<<<<< HEAD
 from typing import Any
-=======
->>>>>>> dev
 
 from modules.world_model import read_state_dict, write_state_dict
 
@@ -45,7 +43,6 @@ class KillChainConfig:
     Every colour, label, and mapping lives here. No magic values anywhere.
     """
 
-<<<<<<< HEAD
     phases: tuple[str, ...] = field(default=(
         "recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report"
     ))
@@ -105,77 +102,6 @@ class KillChainConfig:
     compact_labels: dict[str, str] = field(default_factory=lambda: {
         "recon": "R", "enum": "E", "exploit": "X", "privesc": "P", "lateral": "L"
     })
-=======
-    phases: tuple[str, ...] = field(
-        default=("recon", "scan", "enum", "exploit", "privesc", "lateral", "exfil", "report")
-    )
-    phase_labels: dict[str, str] = field(
-        default_factory=lambda: {
-            "recon": "Reconnaissance",
-            "scan": "Scanning",
-            "enum": "Enumeration",
-            "exploit": "Exploitation",
-            "privesc": "Privilege Escalation",
-            "lateral": "Lateral Movement",
-            "exfil": "Exfiltration",
-            "report": "Reporting",
-        }
-    )
-    phase_colors: dict[str, str] = field(
-        default_factory=lambda: {
-            "recon": "#a371f7",
-            "scan": "#58a6ff",
-            "enum": "#56d364",
-            "exploit": "#f85149",
-            "privesc": "#d2991d",
-            "lateral": "#db61a2",
-            "exfil": "#7c3aed",
-            "report": "#3fb950",
-        }
-    )
-    phase_rich_colors: dict[str, str] = field(
-        default_factory=lambda: {
-            "recon": "cyan",
-            "scan": "blue",
-            "enum": "magenta",
-            "exploit": "bold red",
-            "privesc": "bold yellow",
-            "lateral": "orange3",
-            "exfil": "dark_orange",
-            "report": "green",
-        }
-    )
-    engagement_to_cli: dict[str, str] = field(
-        default_factory=lambda: {
-            "recon": "recon",
-            "scanning": "scan",
-            "enumeration": "enum",
-            "exploitation": "exploit",
-            "post_exploitation": "privesc",
-            "complete": "report",
-        }
-    )
-    cli_to_host_state: dict[str, str] = field(
-        default_factory=lambda: {
-            "recon": "",
-            "scan": "scanned",
-            "enum": "enumerated",
-            "exploit": "exploited",
-            "privesc": "owned",
-            "lateral": "owned",
-            "exfil": "owned",
-            "report": "owned",
-            "cred": "owned",
-            "postexp": "owned",
-            "persist": "owned",
-            "c2": "owned",
-        }
-    )
-    compact_phases: tuple[str, ...] = field(default=("recon", "enum", "exploit", "privesc", "lateral"))
-    compact_labels: dict[str, str] = field(
-        default_factory=lambda: {"recon": "R", "enum": "E", "exploit": "X", "privesc": "P", "lateral": "L"}
-    )
->>>>>>> dev
     sessions_dir: Path = field(default=_SESSIONS_DIR)
     world_model_filename: str = field(default="world_model.json")
 
@@ -288,10 +214,6 @@ class KillChain:
         cli_phase = "recon"
         try:
             from modules.world_model import get_world_model, read_state_dict
-<<<<<<< HEAD
-=======
-
->>>>>>> dev
             wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
             wm = get_world_model(path=wm_path)
             wm_phase = wm.get_phase().value
@@ -370,10 +292,6 @@ class KillChain:
         if target_state:
             try:
                 from modules.world_model import HostState, get_world_model
-<<<<<<< HEAD
-=======
-
->>>>>>> dev
                 wm = get_world_model(path=wm_path)
                 wm.reload()
                 for ip in wm.get_hosts_summary():
@@ -405,15 +323,7 @@ class KillChain:
             raw = read_state_dict(wm_path)
             raw_completed = raw.get("completed_phases", [])
             if isinstance(raw_completed, list):
-<<<<<<< HEAD
                 completed = {str(p).strip().lower() for p in raw_completed if _DEFAULT_CONFIG.is_valid_phase(str(p).strip().lower())}
-=======
-                completed = {
-                    str(p).strip().lower()
-                    for p in raw_completed
-                    if _DEFAULT_CONFIG.is_valid_phase(str(p).strip().lower())
-                }
->>>>>>> dev
         except Exception:
             pass
 
@@ -426,23 +336,12 @@ class KillChain:
                 status = "done"
             else:
                 status = "pending"
-<<<<<<< HEAD
             result.append(PhaseStatus(
                 key=phase_key,
                 label=_DEFAULT_CONFIG.phase_labels.get(phase_key, phase_key),
                 color=_DEFAULT_CONFIG.phase_colors.get(phase_key, "#484f58"),
                 status=status,
             ))
-=======
-            result.append(
-                PhaseStatus(
-                    key=phase_key,
-                    label=_DEFAULT_CONFIG.phase_labels.get(phase_key, phase_key),
-                    color=_DEFAULT_CONFIG.phase_colors.get(phase_key, "#484f58"),
-                    status=status,
-                )
-            )
->>>>>>> dev
         return result
 
     @staticmethod
@@ -503,11 +402,7 @@ class KillChain:
         current = KillChain.current_phase(world_model_path=wm_path)
         raw = read_state_dict(wm_path)
         completed: list[str] = []
-<<<<<<< HEAD
         for p in (raw.get("completed_phases") or []):
-=======
-        for p in raw.get("completed_phases") or []:
->>>>>>> dev
             key = str(p).strip().lower()
             if _DEFAULT_CONFIG.is_valid_phase(key) and key not in completed:
                 completed.append(key)
@@ -519,7 +414,6 @@ class KillChain:
         return {
             "current_phase": current,
             "completed_phases": completed,
-<<<<<<< HEAD
             "progress": [
                 {"key": p.key, "label": p.label, "color": p.color, "status": p.status}
                 for p in progress
@@ -527,12 +421,6 @@ class KillChain:
             "host_states": host_states,
             "compact": KillChain.compact_progress(current, phases_entered=phases_entered),
             "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-=======
-            "progress": [{"key": p.key, "label": p.label, "color": p.color, "status": p.status} for p in progress],
-            "host_states": host_states,
-            "compact": KillChain.compact_progress(current, phases_entered=phases_entered),
-            "updated_at": datetime.datetime.now(datetime.UTC).isoformat(),
->>>>>>> dev
         }
 
 

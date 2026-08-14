@@ -1,3 +1,4 @@
+
 """SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.
 
 Reads ``modules.killchain.KillChain`` as the single source of truth.
@@ -21,14 +22,10 @@ def _load_phases(sessions: Path) -> list[dict[str, Any]]:
     """Return a list of phase dicts suitable for SVG/HTML rendering."""
     wm_path = sessions / "world_model.json"
     progress = _KC.get_progress(world_model_path=wm_path)
-<<<<<<< HEAD
     return [
         {"id": p.key, "label": p.label, "color": p.color, "status": p.status}
         for p in progress
     ]
-=======
-    return [{"id": p.key, "label": p.label, "color": p.color, "status": p.status} for p in progress]
->>>>>>> dev
 
 
 def _read_target() -> str:
@@ -52,36 +49,18 @@ def _build_svg(phases: list[dict[str, Any]]) -> str:
         fill_opacity = 0.15 if ph["status"] == "active" else (0.25 if ph["status"] == "done" else 0.05)
         glow = ' filter="url(#glow)"' if ph["status"] == "active" else ""
         sw = 2.5 if ph["status"] == "active" else 1
-<<<<<<< HEAD
         rects.append(f'<rect x="{x:.0f}" y="{y}" width="{bw:.0f}" height="60" rx="4" fill="{ph["color"]}" fill-opacity="{fill_opacity}" stroke="{stroke}" stroke-width="{sw}"{glow}/>')
         txt_color = ph["color"] if ph["status"] in ("active", "done") else "#484f58"
         texts.append(f'<text x="{x + bw/2:.0f}" y="{y + 22}" text-anchor="middle" fill="{txt_color}" font-family="sans-serif" font-size="11" font-weight="bold" opacity="{opacity}">{ph["label"]}</text>')
         status_text = "DONE" if ph["status"] == "done" else ("ACTIVE" if ph["status"] == "active" else "PENDING")
         texts.append(f'<text x="{x + bw/2:.0f}" y="{y + 44}" text-anchor="middle" fill="{"#c9d1d9" if ph["status"] in ("active", "done") else "#484f58"}" font-family="sans-serif" font-size="9" opacity="{opacity}">{status_text}</text>')
-=======
-        rects.append(
-            f'<rect x="{x:.0f}" y="{y}" width="{bw:.0f}" height="60" rx="4" fill="{ph["color"]}" fill-opacity="{fill_opacity}" stroke="{stroke}" stroke-width="{sw}"{glow}/>'
-        )
-        txt_color = ph["color"] if ph["status"] in ("active", "done") else "#484f58"
-        texts.append(
-            f'<text x="{x + bw / 2:.0f}" y="{y + 22}" text-anchor="middle" fill="{txt_color}" font-family="sans-serif" font-size="11" font-weight="bold" opacity="{opacity}">{ph["label"]}</text>'
-        )
-        status_text = "DONE" if ph["status"] == "done" else ("ACTIVE" if ph["status"] == "active" else "PENDING")
-        texts.append(
-            f'<text x="{x + bw / 2:.0f}" y="{y + 44}" text-anchor="middle" fill="{"#c9d1d9" if ph["status"] in ("active", "done") else "#484f58"}" font-family="sans-serif" font-size="9" opacity="{opacity}">{status_text}</text>'
-        )
->>>>>>> dev
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {total_w} 120" width="{total_w}" height="120">
 <defs><filter id="glow"><feGaussianBlur stdDeviation="3"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter>
 <linearGradient id="bg" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#0d1117"/><stop offset="100%" stop-color="#161b22"/></linearGradient></defs>
 <rect width="100%" height="100%" fill="url(#bg)" rx="8"/>
 {"".join(rects)}
 {"".join(texts)}
-<<<<<<< HEAD
 <text x="{total_w-20}" y="110" text-anchor="end" fill="#484f58" font-family="monospace" font-size="9">LazyOwn Kill-Chain</text>
-=======
-<text x="{total_w - 20}" y="110" text-anchor="end" fill="#484f58" font-family="monospace" font-size="9">LazyOwn Kill-Chain</text>
->>>>>>> dev
 </svg>"""
 
 
@@ -95,13 +74,7 @@ def generate_html(target: str = "", sessions: Path | None = None) -> str:
     phase_cards = []
     for ph in phases:
         cls = "active" if ph["status"] == "active" else ("complete" if ph["status"] == "done" else "")
-<<<<<<< HEAD
         phase_cards.append(f'<div class="phase-card {cls}"><div class="phase-label" style="color:{ph["color"]}">{ph["label"]}</div><div class="phase-status">{ph["status"].upper()}</div></div>')
-=======
-        phase_cards.append(
-            f'<div class="phase-card {cls}"><div class="phase-label" style="color:{ph["color"]}">{ph["label"]}</div><div class="phase-status">{ph["status"].upper()}</div></div>'
-        )
->>>>>>> dev
 
     return f"""<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>LazyOwn Kill-Chain — {target}</title><style>
 :root{{--bg:#0d1117;--fg:#c9d1d9;--accent:#58a6ff;--border:#30363d;--card:#161b22}}

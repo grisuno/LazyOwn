@@ -71,7 +71,7 @@
     "cli/commands/supply_chain.py"
   ],
   "source_sha256": {
-    "lazyown.py": "d4855f9b1b024077f347efc7c9f6c504689410a7d2418c7677069f9faa1f1dd5",
+    "lazyown.py": "42bc3620d0b952a014ef3fc6dcc765632cf27254d1e697b979eae36297934131",
     "cli/commands/active_directory.py": "a699e1292a49cf3448a42c5a9fba337f5671106ee12cda66cbdea035432d7786",
     "cli/commands/ai.py": "38655ab074273a4a2d0a4e8770d253adf4b99ceef93fc273bcdfcdbc0be5c665",
     "cli/commands/anti_forensics.py": "be69578c113e1e4a940945c11ccf863ccc501af96a9cfab91e87ab82cceeb937",
@@ -110,7 +110,7 @@
     "cli/commands/lateral_migrated.py": "758be1f85d6a73c19fddfc6abec1069f1a5d9d4834c04349936d671867479bff",
     "cli/commands/marketplace.py": "60df6ff947fe4617bd4122635eba5d850b19ea9456054af4ac7a2132f7330c2d",
     "cli/commands/mcp_bridge.py": "88a0d4f25112364491201cbea0420e2258502073ff4fff9d3f63f0141a2ad8e9",
-    "cli/commands/misc_migrated.py": "d55477a45080349b9cc8e74480a5b8a2f74a205ecd94ed31627647ee3457e805",
+    "cli/commands/misc_migrated.py": "4251a0c5bf2bcb236d093a610df99b29aa5cc59a3c1d26ed0b796b886277bc10",
     "cli/commands/mobile_macos.py": "4c1926b784a2d18a46d97a4a5efe1e3a00d4890f6ca1445c2d09edae427ab478",
     "cli/commands/module_manager.py": "181bcbb971745ad3a506a39c69989cb69145a2a2172ad9cd3672c4b3e1c23d81",
     "cli/commands/opsec_cleanup.py": "2525e087afa7d9e5ce07cc2ff985aed675cd4b19238ec406db1b39ebe4aca4c9",
@@ -5840,7 +5840,7 @@
     },
     {
       "name": "do_daemon_mode",
-      "line": 2223,
+      "line": 2242,
       "summary": "Switch the autonomous daemon between auto, approval and paused modes.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5851,7 +5851,7 @@
     },
     {
       "name": "do_daemon_pause",
-      "line": 2260,
+      "line": 2279,
       "summary": "Pause the autonomous daemon before its next step.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5862,7 +5862,7 @@
     },
     {
       "name": "do_daemon_resume",
-      "line": 2278,
+      "line": 2297,
       "summary": "Resume the autonomous daemon (switch mode to auto).",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5873,7 +5873,7 @@
     },
     {
       "name": "do_daemon_veto",
-      "line": 2292,
+      "line": 2311,
       "summary": "Add or clear vetoed command first-tokens for the autonomous daemon.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5884,7 +5884,7 @@
     },
     {
       "name": "do_daemon_focus",
-      "line": 2335,
+      "line": 2354,
       "summary": "Restrict the autonomous daemon to a set of focus targets.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5895,7 +5895,7 @@
     },
     {
       "name": "do_daemon_approve",
-      "line": 2368,
+      "line": 2387,
       "summary": "Approve or veto the daemon's currently-pending action.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5906,7 +5906,7 @@
     },
     {
       "name": "do_banner",
-      "line": 2418,
+      "line": 2437,
       "summary": "Show the banner",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5917,7 +5917,7 @@
     },
     {
       "name": "do_config_banner",
-      "line": 2430,
+      "line": 2449,
       "summary": "Open a Powerlevel10k-style wizard to toggle prompt segments.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5928,7 +5928,7 @@
     },
     {
       "name": "do_sh",
-      "line": 2474,
+      "line": 2493,
       "summary": "Executes a shell command directly from the LazyOwn interface.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5939,7 +5939,7 @@
     },
     {
       "name": "do_sys",
-      "line": 2506,
+      "line": 2525,
       "summary": "Executes a shell command directly from the LazyOwn interface.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5950,7 +5950,7 @@
     },
     {
       "name": "do_pwd",
-      "line": 2538,
+      "line": 2557,
       "summary": "Displays the current working directory and lists files, and copies the current directory path to the clipboard.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5961,7 +5961,7 @@
     },
     {
       "name": "do_qa",
-      "line": 2576,
+      "line": 2595,
       "summary": "Exits the application quickly without confirmation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5972,7 +5972,7 @@
     },
     {
       "name": "do_ignorearp",
-      "line": 2617,
+      "line": 2636,
       "summary": "Configures the system to ignore ARP requests by setting a kernel parameter.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5983,7 +5983,7 @@
     },
     {
       "name": "do_ignoreicmp",
-      "line": 2654,
+      "line": 2673,
       "summary": "Configures the system to ignore ICMP echo requests by setting a kernel parameter.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5994,7 +5994,7 @@
     },
     {
       "name": "do_acknowledgearp",
-      "line": 2691,
+      "line": 2710,
       "summary": "Configures the system to acknowledge ARP requests by setting a kernel parameter.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6005,7 +6005,7 @@
     },
     {
       "name": "do_acknowledgeicmp",
-      "line": 2728,
+      "line": 2747,
       "summary": "Configures the system to respond to ICMP echo requests by setting a kernel parameter.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6016,7 +6016,7 @@
     },
     {
       "name": "do_clock",
-      "line": 2765,
+      "line": 2784,
       "summary": "Displays the current date and time, and runs a custom shell script.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6027,7 +6027,7 @@
     },
     {
       "name": "do_urlencode",
-      "line": 2813,
+      "line": 2832,
       "summary": "Encode a string for URL.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6038,7 +6038,7 @@
     },
     {
       "name": "do_urldecode",
-      "line": 2842,
+      "line": 2861,
       "summary": "Decode a URL-encoded string.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6049,7 +6049,7 @@
     },
     {
       "name": "do_encode",
-      "line": 2871,
+      "line": 2890,
       "summary": "Encodes a string using the specified shift value and substitution key.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6060,7 +6060,7 @@
     },
     {
       "name": "do_decode",
-      "line": 2911,
+      "line": 2930,
       "summary": "Decode a string using the specified shift value and substitution key.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6071,7 +6071,7 @@
     },
     {
       "name": "do_rot",
-      "line": 2949,
+      "line": 2968,
       "summary": "Apply a ROT (rotation) substitution cipher to the given string.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6082,7 +6082,7 @@
     },
     {
       "name": "do_rotf",
-      "line": 2989,
+      "line": 3008,
       "summary": "Apply a ROT (rotation) substitution cipher to the given extension.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6093,7 +6093,7 @@
     },
     {
       "name": "do_encoderpayload",
-      "line": 3036,
+      "line": 3055,
       "summary": "Applies various obfuscations to a given command line string to create multiple obfuscated versions.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6104,7 +6104,7 @@
     },
     {
       "name": "do_clean",
-      "line": 3137,
+      "line": 3156,
       "summary": "Deletes files and directories in the `sessions` directory, excluding specified files and directories.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6115,7 +6115,7 @@
     },
     {
       "name": "do_aliass",
-      "line": 3224,
+      "line": 3243,
       "summary": "Prints all configured aliases and their associated commands.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6126,7 +6126,7 @@
     },
     {
       "name": "do_base64encode",
-      "line": 3254,
+      "line": 3273,
       "summary": "Encodes a given string into Base64 format.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6137,7 +6137,7 @@
     },
     {
       "name": "do_base64decode",
-      "line": 3282,
+      "line": 3301,
       "summary": "Decodes a Base64 encoded string.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6148,7 +6148,7 @@
     },
     {
       "name": "do_encodewinbase64",
-      "line": 3313,
+      "line": 3332,
       "summary": "Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6159,7 +6159,7 @@
     },
     {
       "name": "do_lazyscript",
-      "line": 3372,
+      "line": 3391,
       "summary": "Executes commands defined in a lazyscript file.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6170,7 +6170,7 @@
     },
     {
       "name": "do_kick",
-      "line": 3404,
+      "line": 3423,
       "summary": "Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6181,7 +6181,7 @@
     },
     {
       "name": "do_gencert",
-      "line": 3451,
+      "line": 3470,
       "summary": "Generates a certificate authority (CA), client certificate, and client key.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6192,7 +6192,7 @@
     },
     {
       "name": "do_graph",
-      "line": 3463,
+      "line": 3482,
       "summary": "Generates a graph from JSON payload files containing URL, RHOST, and RPORT.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6203,7 +6203,7 @@
     },
     {
       "name": "do_nano",
-      "line": 3518,
+      "line": 3537,
       "summary": "Opens or creates the file using line in the sessions directory for editing using nano.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6214,7 +6214,7 @@
     },
     {
       "name": "do_ip2hex",
-      "line": 3542,
+      "line": 3561,
       "summary": "Convert an IPv4 address into its hexadecimal representation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6225,7 +6225,7 @@
     },
     {
       "name": "do_h",
-      "line": 3568,
+      "line": 3587,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6236,7 +6236,7 @@
     },
     {
       "name": "do_v",
-      "line": 3607,
+      "line": 3626,
       "summary": "Open a new window within a tmux session using the LazyOwn RedTeam Framework.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6247,7 +6247,7 @@
     },
     {
       "name": "do_hex_to_plaintext",
-      "line": 3646,
+      "line": 3665,
       "summary": "Converts hexadecimal data from a file to plain text.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6258,7 +6258,7 @@
     },
     {
       "name": "do_cron",
-      "line": 3689,
+      "line": 3708,
       "summary": "Schedules a command to run at a specified time.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6269,7 +6269,7 @@
     },
     {
       "name": "do_ip2asn",
-      "line": 3735,
+      "line": 3754,
       "summary": "Command to get ASN for a given IP address.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6280,7 +6280,7 @@
     },
     {
       "name": "do_tab",
-      "line": 3765,
+      "line": 3784,
       "summary": "Executes the `lazypyautogui.py` script with optional arguments.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6291,7 +6291,7 @@
     },
     {
       "name": "do_links",
-      "line": 3789,
+      "line": 3808,
       "summary": "Displays a list of useful links and allows the user to select and copy a link to the clipboard.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6302,7 +6302,7 @@
     },
     {
       "name": "do_news",
-      "line": 3852,
+      "line": 3871,
       "summary": "Show the Hacker News in the terminal.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6313,7 +6313,7 @@
     },
     {
       "name": "do_check_update",
-      "line": 3865,
+      "line": 3884,
       "summary": "Checks for updates by comparing the local version with the remote version.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6324,7 +6324,7 @@
     },
     {
       "name": "do_clone_site",
-      "line": 3910,
+      "line": 3929,
       "summary": "Clone a website and serve the files in sessions/{url_cloned}.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6335,7 +6335,7 @@
     },
     {
       "name": "do_load_session",
-      "line": 3954,
+      "line": 3973,
       "summary": "Load the session from the sessionLazyOwn.json file and display the status of various parameters.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6346,7 +6346,7 @@
     },
     {
       "name": "do_msfshellcoder",
-      "line": 4005,
+      "line": 4024,
       "summary": "Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6357,7 +6357,7 @@
     },
     {
       "name": "do_pop",
-      "line": 4130,
+      "line": 4149,
       "summary": "Open a centered popup in the current tmux session to execute a shell command.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6368,7 +6368,7 @@
     },
     {
       "name": "do_addalias",
-      "line": 4167,
+      "line": 4186,
       "summary": "Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, etc.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6379,7 +6379,7 @@
     },
     {
       "name": "do_listaliases",
-      "line": 4216,
+      "line": 4235,
       "summary": "List all available aliases.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6390,7 +6390,7 @@
     },
     {
       "name": "do_hunt",
-      "line": 4227,
+      "line": 4246,
       "summary": "Run an autonomous exploitation chain against a target.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -9525,7 +9525,7 @@
     },
     {
       "name": "do_set",
-      "line": 954,
+      "line": 957,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -9536,7 +9536,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4697,
+      "line": 4730,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -9547,7 +9547,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4726,
+      "line": 4759,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -9558,7 +9558,7 @@
     },
     {
       "name": "do_route",
-      "line": 4758,
+      "line": 4791,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

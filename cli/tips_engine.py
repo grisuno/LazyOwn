@@ -46,7 +46,7 @@ import math
 import random
 import re
 import time
-from collections.abc import Callable, Mapping, Sequence
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -89,6 +89,7 @@ SKIP_COMMANDS: frozenset[str] = frozenset(
         "tasks",
         "scans",
         "wizard",
+        "chainmode",
     }
 )
 

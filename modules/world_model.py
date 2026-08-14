@@ -37,11 +37,9 @@ from __future__ import annotations
 
 import json
 import logging
+
 import os
-<<<<<<< HEAD
 import base64
-=======
->>>>>>> dev
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -445,7 +443,7 @@ class _PhaseDeriver:
 # ---------------------------------------------------------------------------
 
 PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
-<<<<<<< HEAD
+
     EngagementPhase.RECON:             ["TA0043 - Reconnaissance"],
     EngagementPhase.SCANNING:          ["TA0007 - Discovery"],
     EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
@@ -453,47 +451,22 @@ PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.POST_EXPLOITATION: ["TA0004 - Privilege Escalation", "TA0008 - Lateral Movement",
                                         "TA0010 - Exfiltration", "TA0003 - Persistence"],
     EngagementPhase.COMPLETE:          ["TA0040 - Impact", "TA0003 - Persistence", "TA0010 - Exfiltration"],
-=======
-    EngagementPhase.RECON: ["TA0043 - Reconnaissance"],
-    EngagementPhase.SCANNING: ["TA0007 - Discovery"],
-    EngagementPhase.ENUMERATION: ["TA0007 - Discovery", "TA0006 - Credential Access"],
-    EngagementPhase.EXPLOITATION: ["TA0001 - Initial Access", "TA0002 - Execution"],
-    EngagementPhase.POST_EXPLOITATION: [
-        "TA0004 - Privilege Escalation",
-        "TA0008 - Lateral Movement",
-        "TA0010 - Exfiltration",
-    ],
-    EngagementPhase.COMPLETE: ["TA0040 - Impact"],
->>>>>>> dev
 }
 
 # Phase → MCP tool names that are most relevant
 PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
-<<<<<<< HEAD
+
         "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
         "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
         "entra_attack", "saas_enum", "opsec_score",
     ],
     EngagementPhase.SCANNING: [
+
         "lazyown_tool_enum_smb", "lazyown_tool_enum4linux_tool",
         "lazyown_tool_ffuf_tool", "lazyown_tool_nikto_host",
         "lazyown_tool_showmount_tool", "lazyown_tool_enum_rpcbind",
         "aws_privesc", "gcp_privesc", "k8s_attack", "cross_cloud",
-=======
-        "lazyown_tool_dig_any",
-        "lazyown_tool_dig_reverse",
-        "lazyown_tool_gobuster_dns",
-        "lazyown_tool_dnsrecon_axfr",
-    ],
-    EngagementPhase.SCANNING: [
-        "lazyown_tool_enum_smb",
-        "lazyown_tool_enum4linux_tool",
-        "lazyown_tool_ffuf_tool",
-        "lazyown_tool_nikto_host",
-        "lazyown_tool_showmount_tool",
-        "lazyown_tool_enum_rpcbind",
->>>>>>> dev
     ],
     EngagementPhase.ENUMERATION: [
         "lazyown_tool_ldapsearch_tool",
@@ -514,7 +487,7 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
         "polymorphic", "macos_payload", "linux_advanced_payload",
     ],
     EngagementPhase.POST_EXPLOITATION: [
-<<<<<<< HEAD
+
         "lazyown_c2_command", "lazyown_c2_adversary",
         "lazyown_tool_bloodhound-python", "lazyown_tool_crackmapexec_smb",
         "opsec_score", "log_tamper", "forensic_clean",
@@ -525,12 +498,6 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
         "opsec_score", "log_tamper", "forensic_clean",
         "timestomp", "memory_clean", "network_opsec",
         "sitrep", "note", "encrypt", "report",
-=======
-        "lazyown_c2_command",
-        "lazyown_c2_adversary",
-        "lazyown_tool_bloodhound-python",
-        "lazyown_tool_crackmapexec_smb",
->>>>>>> dev
     ],
 }
 
@@ -549,7 +516,7 @@ class WorldModel:
     """
 
     def __init__(self, path: str | Path = _DEFAULT_PATH) -> None:
-<<<<<<< HEAD
+
         self._path:    Path                       = Path(path)
         self._lock:    threading.RLock             = threading.RLock()
         self._hosts:   dict[str, HostEntry]       = {}
@@ -560,15 +527,6 @@ class WorldModel:
         self._graph:   NetworkGraph               = NetworkGraph()
         self._deriver: _PhaseDeriver              = _PhaseDeriver()
         self._passthrough: dict[str, Any] = {}
-=======
-        self._path: Path = Path(path)
-        self._lock: threading.RLock = threading.RLock()
-        self._hosts: dict[str, HostEntry] = {}
-        self._creds: list[CredentialEntry] = []
-        self._vulns: list[VulnerabilityEntry] = []
-        self._graph: NetworkGraph = NetworkGraph()
-        self._deriver: _PhaseDeriver = _PhaseDeriver()
->>>>>>> dev
         self._load()
 
     # ── Host management ───────────────────────────────────────────────────────
@@ -778,12 +736,9 @@ class WorldModel:
         for f in findings:
             ftype = getattr(f, "type", "")
             value = getattr(f, "value", "")
-<<<<<<< HEAD
+
             host  = getattr(f, "host",  "")
             meta  = getattr(f, "metadata", {}) or {}
-=======
-            host = getattr(f, "host", "")
->>>>>>> dev
             if not value:
                 continue
             try:
@@ -990,15 +945,12 @@ class WorldModel:
             phase = self._deriver.derive(self._hosts)
             lines: list[str] = [
                 f"Phase: {phase.value}",
-<<<<<<< HEAD
+
                 f"Hosts: {len(self._hosts)}  "
                 f"Credentials: {len(self._creds)}  "
                 f"Vulnerabilities: {len(self._vulns)}  "
                 f"Emails: {len(self._emails)}  "
                 f"Domains: {len(self._domains)}",
-=======
-                f"Hosts: {len(self._hosts)}  Credentials: {len(self._creds)}  Vulnerabilities: {len(self._vulns)}",
->>>>>>> dev
                 "",
             ]
             for ip, host in self._hosts.items():
@@ -1018,7 +970,7 @@ class WorldModel:
                     sev = f"[{v.severity}]" if v.severity != "UNKNOWN" else ""
                     lines.append(f"  {v.host or 'unknown'} {sev} {v.cve or ''} {v.description[:80]}")
 
-<<<<<<< HEAD
+
             if self._emails:
                 lines.append("\nDiscovered emails (latest 5):")
                 for e in self._emails[-5:]:
@@ -1031,11 +983,6 @@ class WorldModel:
 
             lines.append(f"\nSuggested tools for {phase.value}: "
                          + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
-=======
-            lines.append(
-                f"\nSuggested tools for {phase.value}: " + ", ".join(self.get_suggested_tools()[:5] or ["(any)"])
-            )
->>>>>>> dev
 
             pivots = self._graph.pivot_candidates(top_k=3)
             if pivots:
@@ -1054,7 +1001,7 @@ class WorldModel:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         try:
             data = {
-<<<<<<< HEAD
+
                 "hosts":            {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials":      [vars(c) for c in self._creds],
                 "vulnerabilities":  [vars(v) for v in self._vulns],
@@ -1062,13 +1009,6 @@ class WorldModel:
                 "domains":          [vars(d) for d in self._domains],
                 "network_graph":    self._graph.to_dict(),
                 "saved_at":         datetime.now().isoformat(),
-=======
-                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials": [vars(c) for c in self._creds],
-                "vulnerabilities": [vars(v) for v in self._vulns],
-                "network_graph": self._graph.to_dict(),
-                "saved_at": datetime.now().isoformat(),
->>>>>>> dev
             }
             if self._passthrough:
                 data.update(self._passthrough)
@@ -1088,16 +1028,13 @@ class WorldModel:
             self._domains = [DomainEntry(**d) for d in data.get("domains", [])]
             if "network_graph" in data:
                 self._graph = NetworkGraph.from_dict(data["network_graph"])
-<<<<<<< HEAD
+
             self._passthrough = {}
             for key in ("completed_phases", "phase", "current_phase", "notes"):
                 if key in data:
                     self._passthrough[key] = data[key]
             log.info("WorldModel: loaded %d hosts, %d creds, %d emails, %d domains from %s",
                      len(self._hosts), len(self._creds), len(self._emails), len(self._domains), self._path)
-=======
-            log.info("WorldModel: loaded %d hosts, %d creds from %s", len(self._hosts), len(self._creds), self._path)
->>>>>>> dev
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
@@ -1157,47 +1094,6 @@ def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
     if _default_wm is None:
         _default_wm = WorldModel(path=path)
     return _default_wm
-
-
-def read_state_dict(path: str | Path) -> dict:
-    """Read a world-model state document as a plain dict.
-
-    Args:
-        path: Path to the world model JSON file.
-
-    Returns:
-        The decoded document as a dict, or an empty dict when the file
-        is missing or unreadable.
-    """
-    state_path = Path(path)
-    try:
-        return json.loads(state_path.read_text(encoding="utf-8"))
-    except (FileNotFoundError, json.JSONDecodeError, OSError) as exc:
-        log.debug("world_model.read_state_dict: %s", exc)
-        return {}
-
-
-def write_state_dict(path: str | Path, data: dict) -> bool:
-    """Atomically write a world-model state document.
-
-    Args:
-        path: Path to the world model JSON file.
-        data: The document to persist.
-
-    Returns:
-        True when the write succeeded, False otherwise.
-    """
-    state_path = Path(path)
-    temp_path = state_path.with_name(state_path.name + ".tmp")
-    try:
-        state_path.parent.mkdir(parents=True, exist_ok=True)
-        temp_path.write_text(json.dumps(data, indent=2), encoding="utf-8")
-        os.replace(temp_path, state_path)
-        return True
-    except OSError as exc:
-        log.error("world_model.write_state_dict: %s", exc)
-        temp_path.unlink(missing_ok=True)
-        return False
 
 
 # ---------------------------------------------------------------------------

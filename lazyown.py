@@ -521,11 +521,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         self._chain_prompt_busy = False
         self._command_chain = None
-        try:
-            self._chain_prompt = self._build_chain_prompt_engine()
-        except Exception as exc:
-            print_warn(f"chain mode not initialised: {exc}")
-            self._chain_prompt = None
+        self._chain_prompt = None
 
         try:
             self._auto_crypto = _AutoCryptoEngine(
@@ -666,10 +662,16 @@ class LazyOwnShell(cmd2.Cmd):
             "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
             "enable_toasts": True,
             "toast_max_per_tick": 5,
+            "enable_chainmode": bool(load_payload().get("enable_chainmode", False)),
             "enable_operator_presence": False,
             "tui_theme": "default",
         }
         self._load_extended_params()
+        try:
+            self._chain_prompt = self._build_chain_prompt_engine()
+        except Exception as exc:
+            print_warn(f"chain mode not initialised: {exc}")
+            self._chain_prompt = None
         try:
             if self._tips_engine is not None:
                 self._tips_engine.on_killchain_display = _print_phase
@@ -732,6 +734,7 @@ class LazyOwnShell(cmd2.Cmd):
             _wire_consumers()
         except Exception as exc:
             print_warn(f"event consumers not wired: {exc}")
+        self._chain_boot_prompt()
 
     def _register_ux_settables(self) -> None:
         """Expose the new UX flags through cmd2's ``set`` command.
@@ -1012,11 +1015,13 @@ class LazyOwnShell(cmd2.Cmd):
 
 
     def _unified_tips_hook(self, data: _PostcommandData) -> _PostcommandData:
-        """Unified post-command hook: hints + protips + curiosity + autosuggest + ELO + VRI.
+        """Unified post-command hook: chain prompt + hints + ELO + VRI.
 
-        Replaces the five fragmented hooks (inline hints, engagement,
-        autosuggest, toasts, recording) with a single coordination point
-        via :class:`cli.tips_engine.TipsEngine`.
+        The interactive chain prompt runs first and is independent of the
+        ``ui_hints`` coaching level — it is a workflow, not a hint. When
+        chain mode is active the other suggestion surfaces (inline hints,
+        curiosity, autosuggest ghost) are suppressed so the operator sees
+        exactly one suggestion flow.
 
         Args:
             data: cmd2 PostcommandData containing the executed statement.
@@ -1024,12 +1029,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             data unchanged.
         """
-        if self._ui_hints_level() != "on":
-            return data
         try:
-            engine = getattr(self, "_tips_engine", None)
-            if engine is None:
-                return data
             statement = getattr(data, "statement", "")
             cmd = str(getattr(statement, "command", "") or "").strip()
             if not cmd:
@@ -1039,11 +1039,44 @@ class LazyOwnShell(cmd2.Cmd):
             if cmd not in self.get_all_commands():
                 return data
             phase = self.params.get("phase") or ""
-            engine.render(cmd=cmd, phase=phase)
             self._maybe_chain_prompt(cmd, phase)
+            engine = getattr(self, "_tips_engine", None)
+            if engine is None or self._ui_hints_level() != "on":
+                return data
+            self._sync_chain_active(engine)
+            engine.render(cmd=cmd, phase=phase)
         except Exception:
             pass
         return data
+
+    def _sync_chain_active(self, tips_engine: _TipsEngine) -> None:
+        """Mirror the chain-mode toggle into the tips engine suppression flag.
+
+        Args:
+            tips_engine: The unified tips engine whose ``chain_active``
+                config flag controls the competing suggestion surfaces.
+        """
+        try:
+            chain_engine = getattr(self, "_chain_prompt", None)
+            active = bool(chain_engine is not None and chain_engine.enabled)
+            tips_engine.config.chain_active = active
+        except Exception:
+            pass
+
+    def _chain_boot_prompt(self) -> None:
+        """Offer the first chain step right after the banner.
+
+        Runs exactly once per shell session (from ``__init__``) so the
+        operator sees the world-model-driven chain immediately, before
+        typing any command. Skipped silently for non-interactive shells.
+        """
+        engine = getattr(self, "_chain_prompt", None)
+        if engine is None or not engine.enabled or not engine.interactive:
+            return
+        try:
+            self._maybe_chain_prompt("", self.params.get("phase") or "")
+        except Exception:
+            pass
 
     def _build_chain_prompt_engine(self) -> _ChainPromptEngine:
         """Construct the interactive chain-mode engine wired to the shell.
@@ -1059,7 +1092,7 @@ class LazyOwnShell(cmd2.Cmd):
             A ready-to-use :class:`cli.chain_mode.ChainPromptEngine`.
         """
         sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
-        payload_default = str(load_payload().get("enable_chainmode", False)).lower() in (
+        payload_default = str(self.params.get("enable_chainmode", False)).lower() in (
             "true",
             "1",
             "yes",
@@ -1134,7 +1167,7 @@ class LazyOwnShell(cmd2.Cmd):
                 guard += 1
         except KeyboardInterrupt:
             try:
-                engine.set_enabled(False)
+                engine.set_enabled(False, persist=True)
             except Exception:
                 pass
             print_warn("chainmode interrupted — chainmode off")

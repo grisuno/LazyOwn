@@ -12,8 +12,6 @@ Covers:
 
 from __future__ import annotations
 
-import json
-import os
 import tempfile
 from pathlib import Path
 
@@ -24,7 +22,6 @@ from cli.tips_engine import (
     ELO_BASE,
     ELO_FIRST_TIME_BONUS,
     ELO_NEW_PHASE_BONUS,
-    MEAN_INTERVAL,
     SKIP_COMMANDS,
     EngagementState,
     TipsConfig,
@@ -147,6 +144,54 @@ class TestKillChainHints:
     def test_auto_pwn_suggests_hunt(self, engine):
         hints = engine._compute_command_hints("auto_pwn", "exploit")
         assert any(h in hints for h in ("hunt", "l00t"))
+
+
+class TestChainActiveSuppression:
+    def _render_with_surfaces_stubbed(self, engine):
+        calls = {
+            "hints": [],
+            "contextual": [],
+            "curiosity": [],
+            "autosuggest": [],
+            "full_killchain": [],
+            "engagement": [],
+            "auto_killchain": [],
+        }
+
+        def stub(name):
+            def record(*_args, **_kwargs):
+                calls[name].append(True)
+
+            return record
+
+        engine._render_kill_chain_hints = stub("hints")
+        engine._render_contextual_tip = stub("contextual")
+        engine._run_curiosity_reveal = stub("curiosity")
+        engine._refresh_autosuggest = stub("autosuggest")
+        engine._maybe_show_full_killchain = stub("full_killchain")
+        engine._update_engagement_state = stub("engagement")
+        engine._maybe_auto_show_killchain = stub("auto_killchain")
+        return calls
+
+    def test_chain_active_suppresses_competing_suggestion_surfaces(self, engine):
+        engine.config.chain_active = True
+        calls = self._render_with_surfaces_stubbed(engine)
+        engine.render("ping", "recon")
+        assert not calls["hints"]
+        assert not calls["contextual"]
+        assert not calls["curiosity"]
+        assert not calls["autosuggest"]
+        assert calls["full_killchain"]
+        assert calls["engagement"]
+
+    def test_chain_inactive_keeps_all_surfaces(self, engine):
+        engine.config.chain_active = False
+        calls = self._render_with_surfaces_stubbed(engine)
+        engine.render("ping", "recon")
+        assert calls["hints"]
+        assert calls["contextual"]
+        assert calls["curiosity"]
+        assert calls["autosuggest"]
 
 
 class TestELOScoring:

@@ -267,6 +267,12 @@ class DynamicNextResolver:
         steps: list[NextStep] = []
         seen: set[str] = set()
 
+        if not verb:
+            for verb_p in self.static_registry.phase_priority(phase):
+                self._append(steps, seen, verb_p, SOURCE_PHASE, f"phase {phase or 'recon'}", history)
+                if len(steps) >= bound:
+                    return steps
+
         for static_next in self.static_registry.next_for(verb):
             self._append(steps, seen, static_next, SOURCE_STATIC, f"after {verb}", history)
             if len(steps) >= bound:

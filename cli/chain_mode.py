@@ -14,7 +14,9 @@ next steps and may:
 * type **any command** to override the suggestion ("no, run nmap
   instead") — that command executes and the chain continues from it,
 * type ``skip`` to step out of the chain while keeping chain mode on,
-* type ``off`` to disable chain mode entirely.
+* press **ESC**, **Ctrl+C** or type ``exit``/``quit``/``off`` to leave
+  chain mode entirely (persisted, so it stays off until the operator
+  runs ``chainmode on`` again).
 
 Design (SOLID):
 
@@ -23,15 +25,16 @@ Design (SOLID):
   ``sessions/chain_mode.json`` (same pattern as ``daemon_control.json``).
 * ``ChainPromptEngine`` is pure coordination: it receives suggestions
   from an injected ``resolver`` callable, renders via an injected
-  ``print_fn``, reads operator input via an injected ``input_fn`` and
-  returns a :class:`ChainOutcome` — it never executes commands itself and
-  has zero coupling to ``cmd2`` or ``lazyown.py``.
+  ``print_fn``, reads operator input (TTY-aware, with ESC/Ctrl+C
+  support) and returns a :class:`ChainOutcome` — it never executes
+  commands itself and has zero coupling to ``cmd2`` or ``lazyown.py``.
 """
 
 from __future__ import annotations
 
 import json
 import os
+import sys
 import tempfile
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
@@ -50,6 +53,112 @@ OUTCOME_NONE: str = "none"
 
 EXIT_WORDS: frozenset[str] = frozenset({"off", "stop", "exit", "quit", "end", "disable"})
 SKIP_WORDS: frozenset[str] = frozenset({"skip", "none", "later", "s"})
+
+
+class _ChainEscExit(Exception):
+    """Internal signal: the operator pressed ESC at the chain prompt."""
+
+
+def _read_line_unix(prompt: str) -> str:
+    """Read one line in raw TTY mode, honouring ESC, Ctrl+C and backspace.
+
+    Raw mode is required because canonical terminal input does not
+    deliver a lone ESC byte until Enter is pressed. The original termios
+    settings are restored in ``finally`` so the cmd2 readline prompt is
+    unaffected.
+
+    Args:
+        prompt: Text printed before reading.
+
+    Returns:
+        The typed line without the trailing newline.
+
+    Raises:
+        _ChainEscExit: The operator pressed ESC.
+        KeyboardInterrupt: The operator pressed Ctrl+C.
+        EOFError: End of input with an empty line.
+    """
+    import termios
+    import tty
+
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    chars: list[str] = []
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    try:
+        tty.setraw(fd)
+        while True:
+            chunk = os.read(fd, 1)
+            if not chunk:
+                raise EOFError
+            code = chunk[0]
+            if code == 0x1B:
+                raise _ChainEscExit
+            if code == 0x03:
+                raise KeyboardInterrupt
+            if code in (0x0D, 0x0A):
+                sys.stdout.write("\r\n")
+                sys.stdout.flush()
+                break
+            if code in (0x7F, 0x08):
+                if chars:
+                    chars.pop()
+                    sys.stdout.write("\b \b")
+                    sys.stdout.flush()
+                continue
+            if code == 0x04 and not chars:
+                raise EOFError
+            if 0x20 <= code <= 0x7E:
+                chars.append(chr(code))
+                sys.stdout.write(chr(code))
+                sys.stdout.flush()
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return "".join(chars)
+
+
+def _read_line_windows(prompt: str) -> str:
+    """Read one line on Windows, honouring ESC, Ctrl+C and backspace.
+
+    Args:
+        prompt: Text printed before reading.
+
+    Returns:
+        The typed line without the trailing newline.
+
+    Raises:
+        _ChainEscExit: The operator pressed ESC.
+        KeyboardInterrupt: The operator pressed Ctrl+C.
+        EOFError: End of input with an empty line.
+    """
+    import msvcrt
+
+    sys.stdout.write(prompt)
+    sys.stdout.flush()
+    chars: list[str] = []
+    while True:
+        ch = msvcrt.getwch()
+        if ch == "\x1b":
+            raise _ChainEscExit
+        if ch == "\x03":
+            raise KeyboardInterrupt
+        if ch in ("\r", "\n"):
+            sys.stdout.write("\r\n")
+            sys.stdout.flush()
+            break
+        if ch in ("\x08", "\x7f"):
+            if chars:
+                chars.pop()
+                sys.stdout.write("\b \b")
+                sys.stdout.flush()
+            continue
+        if ch == "\x04" and not chars:
+            raise EOFError
+        chars.append(ch)
+        sys.stdout.write(ch)
+        sys.stdout.flush()
+    return "".join(chars)
 
 CHAIN_SKIP_VERBS: frozenset[str] = frozenset(
     {
@@ -236,6 +345,7 @@ class ChainPromptEngine:
         self.resolver = resolver
         self._input_fn = input_fn
         self._print_fn = print_fn
+        self._menu_prompt = "  chain> "
         self.interactive = interactive
         self.store = ChainModeStore(self.config.sessions_dir)
         persisted = self.store.load()
@@ -286,9 +396,11 @@ class ChainPromptEngine:
         if not self._enabled or not self.interactive:
             return ChainOutcome(OUTCOME_NONE)
         if self._paused:
-            return self._disable(
-                f"chainmode paused after {self._steps_run} chained steps — "
-                "run 'chainmode on' to resume"
+            self.set_enabled(False, persist=False)
+            return ChainOutcome(
+                OUTCOME_OFF,
+                reason=f"chainmode paused after {self._steps_run} chained steps — "
+                "run 'chainmode on' to resume",
             )
         verb = (last_cmd or "").strip().split()[0] if last_cmd else ""
         if verb in self.config.skip_verbs:
@@ -296,10 +408,36 @@ class ChainPromptEngine:
         suggestions = self._suggest(verb, phase)
         self._render_menu(verb, suggestions)
         try:
-            raw = (self._input_fn("  chain> ") or "").strip()
-        except (KeyboardInterrupt, EOFError):
-            return self._disable("chainmode interrupted — chainmode off")
+            raw = self._prompt_line().strip()
+        except _ChainEscExit:
+            return self._disable("chainmode off — exited with ESC")
+        except KeyboardInterrupt:
+            return self._disable("chainmode off — interrupted")
+        except EOFError:
+            return self._disable("chainmode off — end of input")
         return self._interpret(raw, suggestions)
+
+    def _prompt_line(self) -> str:
+        """Read one chain-prompt line with ESC/Ctrl+C support on real TTYs.
+
+        Uses the raw terminal readers when stdin is an interactive TTY so
+        ESC and Ctrl+C work without pressing Enter. Falls back to the
+        injected ``input_fn`` (tests, pipes) or the builtin ``input`` for
+        non-TTY interactive streams.
+
+        Returns:
+            The operator's line, or raises ``_ChainEscExit`` /
+            ``KeyboardInterrupt`` / ``EOFError``.
+        """
+        if self.interactive:
+            try:
+                if sys.stdin.isatty():
+                    if os.name == "nt":
+                        return _read_line_windows(self._menu_prompt)
+                    return _read_line_unix(self._menu_prompt)
+            except (ImportError, OSError):
+                pass
+        return self._input_fn(self._menu_prompt)
 
     def _suggest(self, verb: str, phase: str) -> list[ChainSuggestion]:
         if self.resolver is None:
@@ -319,11 +457,12 @@ class ChainPromptEngine:
         return suggestions[: self.config.max_options]
 
     def _render_menu(self, verb: str, suggestions: list[ChainSuggestion]) -> None:
-        label = verb or "this command"
+        label = verb or "the engagement"
+        self._print_fn("    " + "\u2500" * 8 + " chain " + "\u2500" * 8)
         if not suggestions:
             self._print_fn(
                 f"  chain: no suggestions after '{label}' — type any command to "
-                "keep chaining, Enter or 'skip' to continue manually, 'off' to exit"
+                "keep chaining, Enter or 'skip' to continue manually, ESC/exit to leave"
             )
             return
         self._print_fn(f"  chain: {len(suggestions)} next step(s) after '{label}':")
@@ -331,7 +470,8 @@ class ChainPromptEngine:
             tail = f"  [{suggestion.source}] {suggestion.reason}" if suggestion.source else ""
             self._print_fn(f"    [{index}] {suggestion.name}{tail}")
         self._print_fn(
-            "  chain> [Enter=1] [1-N] [skip] [off] — or type any command to override"
+            "  chain> [Enter=1] [1-N] [skip] [ESC/Ctrl-C/exit/quit = leave]"
+            " — or type any command to override"
         )
 
     def _interpret(self, raw: str, suggestions: list[ChainSuggestion]) -> ChainOutcome:
@@ -359,7 +499,7 @@ class ChainPromptEngine:
         return ChainOutcome(OUTCOME_RUN, command=command.strip())
 
     def _disable(self, reason: str) -> ChainOutcome:
-        self.set_enabled(False)
+        self.set_enabled(False, persist=True)
         return ChainOutcome(OUTCOME_OFF, reason=reason)
 
 

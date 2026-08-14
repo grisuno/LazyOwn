@@ -142,6 +142,15 @@ def test_dynamic_next_resolver_filters_history() -> None:
     assert all(s.name not in {"enum4linux", "gobuster"} for s in steps)
 
 
+def test_dynamic_next_resolver_empty_verb_prefers_phase_priority() -> None:
+    engine = _FakeEngine(services=[_svc("http", 80)], history=set())
+    resolver = DynamicNextResolver(exploration_engine=engine)
+    steps = resolver.resolve("", phase="recon", limit=5)
+    assert steps, "expected boot suggestions"
+    assert steps[0].source == SOURCE_PHASE
+    assert steps[0].name in ("ping", "lazynmap", "rustscan", "arpscan", "whois", "hosts_discovery", "auto_populate")
+
+
 def test_dynamic_next_resolver_includes_unexplored_addons_and_tools() -> None:
     addon = AddonEntry(
         name="my_addon", description="", category="14",

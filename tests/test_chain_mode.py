@@ -67,6 +67,10 @@ def _engine(
         except StopIteration:
             return ""
 
+    if config is None:
+        import tempfile
+
+        config = ChainModeConfig(sessions_dir=tempfile.mkdtemp(prefix="chain_mode_test_"))
     engine = ChainPromptEngine(
         config=config,
         resolver=resolver,
@@ -160,12 +164,12 @@ def test_invalid_number_skips() -> None:
     assert engine.enabled
 
 
-def test_keyboard_interrupt_disables() -> None:
+def test_keyboard_interrupt_disables(tmp_path: Path) -> None:
     def raise_ki(prompt: str) -> str:
         raise KeyboardInterrupt
 
     engine = ChainPromptEngine(
-        config=ChainModeConfig(),
+        config=ChainModeConfig(sessions_dir=str(tmp_path)),
         resolver=_resolver(_Step("lazynmap")),
         input_fn=raise_ki,
         print_fn=lambda _s: None,
@@ -177,11 +181,12 @@ def test_keyboard_interrupt_disables() -> None:
     assert not engine.enabled
 
 
-def test_auto_pause_after_max_steps() -> None:
+def test_auto_pause_after_max_steps(tmp_path: Path) -> None:
+    store_path = tmp_path / "chain_mode.json"
     engine, _ = _engine(
         _resolver(_Step("lazynmap")),
         answers=["", ""],
-        config=ChainModeConfig(max_steps=2),
+        config=ChainModeConfig(sessions_dir=str(tmp_path), max_steps=2),
     )
     engine.set_enabled(True, persist=False)
     assert engine.step("ping").state == OUTCOME_RUN
@@ -189,6 +194,7 @@ def test_auto_pause_after_max_steps() -> None:
     outcome = engine.step("ping")
     assert outcome.state == OUTCOME_OFF
     assert "paused" in outcome.reason
+    assert not store_path.exists()
 
 
 def test_resolver_failure_degrades_to_no_suggestions() -> None:
@@ -244,4 +250,16 @@ def test_persist_toggle_writes_state_file(tmp_path: Path) -> None:
     engine.set_enabled(True, persist=True)
     assert json.loads(store_path.read_text(encoding="utf-8"))["enabled"] is True
     engine.set_enabled(False, persist=True)
+    assert json.loads(store_path.read_text(encoding="utf-8"))["enabled"] is False
+
+
+def test_prompt_exit_words_persist_off(tmp_path: Path) -> None:
+    store_path = tmp_path / "chain_mode.json"
+    engine, _ = _engine(
+        _resolver(_Step("lazynmap")),
+        answers=["off"],
+        config=ChainModeConfig(sessions_dir=str(tmp_path)),
+    )
+    assert engine.step("ping").state == OUTCOME_OFF
+    assert not engine.enabled
     assert json.loads(store_path.read_text(encoding="utf-8"))["enabled"] is False

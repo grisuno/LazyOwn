@@ -176,6 +176,8 @@ class TipsConfig:
     killchain_auto_every: int = 0
     killchain_auto_on_phase_change: bool = True
 
+    chain_active: bool = False
+
 
 @dataclass
 class EngagementState:
@@ -259,11 +261,12 @@ class TipsEngine:
             return
 
         resolved_phase = self._resolve_phase(first, phase)
-        self._render_kill_chain_hints(first, resolved_phase)
+        if not self.config.chain_active:
+            self._render_kill_chain_hints(first, resolved_phase)
+            self._render_contextual_tip(first, resolved_phase)
+            self._run_curiosity_reveal(first, resolved_phase)
+            self._refresh_autosuggest(cmd, resolved_phase)
         self._maybe_show_full_killchain(first)
-        self._render_contextual_tip(first, resolved_phase)
-        self._run_curiosity_reveal(first, resolved_phase)
-        self._refresh_autosuggest(cmd, resolved_phase)
         self._update_engagement_state(first, resolved_phase)
         self._maybe_auto_show_killchain(resolved_phase)
 

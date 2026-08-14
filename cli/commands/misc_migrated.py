@@ -2207,6 +2207,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             return
         if argument in ("on", "enable", "1", "yes"):
             engine.set_enabled(True)
+            self._persist_chainmode(engine.enabled)
             print_msg(
                 "chainmode on — after each command you will be prompted with the "
                 "next kill-chain step. Enter=top suggestion, 1..N=alternative, "
@@ -2215,9 +2216,27 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             return
         if argument in ("off", "disable", "0", "no"):
             engine.set_enabled(False)
+            self._persist_chainmode(engine.enabled)
             print_msg("chainmode off")
             return
         print_warn("usage: chainmode [on|off|status]")
+
+    def _persist_chainmode(self, enabled: bool) -> None:
+        """Persist the chain-mode toggle through the sanctioned assign path.
+
+        Keeps ``payload.json`` and the runtime session state in agreement
+        so the choice survives future boots and payload rewrites.
+
+        Args:
+            enabled: New chain-mode state to persist.
+
+        Returns:
+            None.
+        """
+        try:
+            _apply_assign(self.params, "enable_chainmode", enabled, save=_save_payload)
+        except Exception:
+            pass
 
     @cmd2.with_category("12. Miscellaneous")
     def do_daemon_mode(self, line):

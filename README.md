@@ -815,7 +815,7 @@ pinned for reproducible installs:
 
 ![vulnbot](https://github.com/user-attachments/assets/86ae6384-f61b-41be-8b87-222399bf2b77)
 
-- **C2 LazyAddon Creator**: Guided `/addons` pages in the C2 dashboard to author `lazyaddons/*.yaml` integrations without touching YAML by hand. One form exposes every addon option (name, description, author, version, enabled, target OS, trigger services, category, module type, install type, parameters, tool block, C2 extras, environment variables) with tooltips, placeholders, and per-field help. Placeholder chips (`{rhost}`, `{url}`, declared params, and every payload.json key) are drag-and-drop into command boxes. Server-side validation rejects unsafe names, path traversal, unknown placeholders, and malformed URLs before the file is written atomically; the list and YAML preview pages complete the lifecycle. Every mutating route is CSRF-protected. Contract: `lazyc2/addon_creator.py` + `lazyc2/blueprints/addons.py`, covered by `tests/test_addon_creator.py` and the `tests/run_mutation_addon_creator.py` mutation gate.
+- **C2 LazyAddon Creator**: Guided `/addons` pages in the C2 dashboard to author `lazyaddons/*.yaml` integrations without touching YAML by hand. One form exposes every addon option (name, description, author, version, enabled, target OS, trigger services, category, module type, install type, parameters, tool block, C2 extras, environment variables) with tooltips, placeholders, and per-field help. Placeholder chips (`{rhost}`, `{url}`, declared params, and every payload.json key) are drag-and-drop into command boxes. Server-side validation rejects unsafe names, path traversal, unknown placeholders, and malformed URLs before the file is written; writes are atomic and secure (temp file created with restrictive permissions via `mkstemp` + `fchmod`, flushed and fsynced, then promoted with `os.replace`). The list and YAML preview pages complete the lifecycle. Every mutating route is CSRF-protected. Contract: `lazyc2/addon_creator.py` + `lazyc2/blueprints/addons.py`, covered by `tests/test_addon_creator.py` and the `tests/run_mutation_addon_creator.py` mutation gate.
 
 
 9. **Undetectable, Obfuscated, and Malleable GO Implants**: The command with the payload comes obfuscated by default. Instead of directly downloading the beacon, it downloads a stub created in C to download the beacon, which is XOR-encoded with a key. It is then decoded in memory and executed in a temporary path with a unique name to evade detection, using svchost in Windows and lazyservice in Linux. This performs a two-stage implant, which has been tested on Kernel 6.12 and Windows [Version 10.0.20348.3807]. Additionally, an alternative Windows stub using LOLBAS PS1 and Csharp has been added, along with a version of ebird3 in LOLBAS that uses the same technologies. The Go beacon is a multi-platform, undetectable, and highly obfuscated implant tailored for advanced red teaming operations. It features polymorphism, operates in a configurable stealth mode, and secures communications with AES-256 encrypted channels. The beacon blends into environments by simulating legitimate network traffic and evades detection by identifying virtual machines, sandboxes, containers, and debuggers, dynamically adjusting its behavior. With a minimal footprint, it supports robust network discovery through ping-based host enumeration and port scanning of configured targets. The implant excels at exfiltrating sensitive data, including private keys, AWS credentials, browser credentials, and system logs. It offers dynamic TCP proxying for traffic redirection, privilege escalation attempts, and system log cleaning. Persistence is achieved across Windows, Linux, and macOS via scheduled tasks, systemd, crontab, and LaunchAgents. Additional capabilities include adversary emulation (MITRE ATT&CK), file timestamp obfuscation, and directory compression for exfiltration. Built with Go vet for code health, the implant integrates seamlessly with Dockerized environments and AWS Firecracker microVMs, making it a cornerstone of modern red team infrastructure, Built with Go vet for code integrity, the implant leverages Cloudflare for traffic obfuscation, routing communications through secure, high-performance redirectors to conceal C2 infrastructure. The Go binary is hardened with Garble obfuscation, thwarting reverse engineering and signature-based detection. On Windows, the implant employs extension camouflage to masquerade as benign files (e.g., `.pdfx`) and embeds custom icons via `rsrc` for convincing social engineering.
@@ -881,6 +881,34 @@ Transparent session encryption on exit / decryption on startup via PBKDF2HMAC + 
 
 ### New Playbooks
 7 APT profiles: Azure Graph API, CICD Poisoning, Entra Connect, macOS TCC, OAuth Token Theft, SCCM/MECM, VDI Breakout.
+
+### Interactive Chain Mode
+`chainmode on` starts a world-model-driven chaining flow: after every command
+the shell offers ranked next steps (Enter = top suggestion, `1..N` = ranked
+alternative, any command = override, `skip` = manual, ESC/Ctrl+C/`off` =
+leave). Invalid picks re-prompt instead of silently skipping, and the flow
+auto-pauses after `max_steps` chained commands. State persists in
+`sessions/chain_mode.json` (atomic writes). Contract: `cli/chain_mode.py` +
+`cli/command_chain.py`.
+
+### Feature Polish (UX + security hardening)
+- Evidence-backed inline hints: every suggestion carries verb, confidence
+  (`[0, 99]`, never a dishonest 100%), reason, and provenance. Contract:
+  `cli/reactive_hints.py` + `cli/recommendation_signals.py`.
+- Unified tips engine rendered entirely through rich (no raw ANSI escapes);
+  registry tip text can never break markup rendering. Contract:
+  `cli/tips_engine.py`.
+- `cli/noise_verbs.py` is the single source of truth for the non-actionable
+  verb lists shared by hints, tips, and chain mode.
+- Tenant-bound API keys: `core/api_authz.py` now implements the documented
+  rotation grace window, copies permissions from the rotated key (regression
+  fixed), returns JSON 401/403 (safe with `TRAP_HTTP_EXCEPTIONS`), and the
+  C2 `/api/health/tenant` endpoint is actually enforced. Mutation gate:
+  `tests/run_mutation_api_authz.py` (7/7 killed).
+- `core/logging.py` `install_json_handler` preserves pre-existing handlers
+  and is idempotent.
+- Structured ELO sync honours redirected user-store paths and tests are
+  host-login independent.
 
 ---
 

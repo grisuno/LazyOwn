@@ -27,6 +27,21 @@ REPO = Path(__file__).parent.parent
 sys.path.insert(0, str(REPO))
 
 
+@pytest.fixture(autouse=True)
+def _no_cli_operator(monkeypatch):
+    """Stub the CLI operator lookup so tests do not depend on host login state.
+
+    ``_sync_user_elo`` prefers the logged-in CLI operator when one exists,
+    which would route ELO writes at the real ``users.json`` on developer
+    machines with an active ``sessions/cli_session.json``. These tests
+    exercise the ``payload.json`` ``c2_user`` fallback, so the lookup must
+    be deterministic regardless of environment.
+    """
+    import modules.cli_auth as cli_auth
+
+    monkeypatch.setattr(cli_auth, "get_current_operator", lambda: None)
+
+
 # ── helpers ───────────────────────────────────────────────────────────────────
 
 def _redirect_paths(tmp_path: Path) -> dict[str, Path]:

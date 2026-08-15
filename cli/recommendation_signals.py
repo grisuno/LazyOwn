@@ -47,6 +47,42 @@ _KIND_BY_RECON = {"addon": KIND_ADDON, "tool": KIND_TOOL, "command": KIND_COMMAN
 SOURCE_PLAYBOOK = "playbook"
 SOURCE_TOPOLOGY = "topology"
 
+_PLAYBOOK_DESCRIPTION_MAX = 80
+_GAP_WEIGHT_PRIVESC = 0.95
+_GAP_WEIGHT_PRIVESC_UNKNOWN_OS = 0.90
+_GAP_WEIGHT_CRED_DUMP = 0.95
+_GAP_WEIGHT_ENUM = 0.85
+_GAP_WEIGHT_LATERAL = 0.90
+_GAP_OWNED_CRED_CAP = 2
+_TOPOLOGY_HOST_MULTIPLIER = 2.0
+_TOPOLOGY_CRED_MULTIPLIER = 1.5
+_TOPOLOGY_NEIGHBOR_CAP = 8
+
+_ENUM_COMMANDS = frozenset({"gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"})
+
+
+def _load_world_model(sessions_dir: str | Path) -> dict | None:
+    """Read ``world_model.json`` from ``sessions_dir``, or ``None``.
+
+    Shared by every signal that inspects world-model state. Returns
+    ``None`` when the file is missing or malformed so signals degrade to
+    an empty proposal list instead of raising.
+
+    Args:
+        sessions_dir: Directory containing ``world_model.json``.
+
+    Returns:
+        The parsed mapping, or ``None`` when unavailable.
+    """
+    wm_path = Path(sessions_dir) / "world_model.json"
+    if not wm_path.exists():
+        return None
+    try:
+        data = json.loads(wm_path.read_text(encoding="utf-8"))
+        return data if isinstance(data, dict) else None
+    except (OSError, json.JSONDecodeError):
+        return None
+
 
 def _rank_weight(index: int, total: int) -> float:
     """Map a zero-based rank to a descending weight in ``(_RANK_FLOOR, 1]``.
@@ -324,8 +360,10 @@ class PlaybookSignal:
             return []
         proposals: list[Proposal] = []
         for index, pb in enumerate(available[:ctx.limit]):
-            name = pb.get("name", "")
-            desc = pb.get("description", "")[:80]
+            if not isinstance(pb, dict):
+                continue
+            name = str(pb.get("name") or "").strip()
+            desc = str(pb.get("description") or "")[: _PLAYBOOK_DESCRIPTION_MAX]
             if not name:
                 continue
             proposals.append(
@@ -367,7 +405,7 @@ class KillchainGapSignal:
         """Return gap-detection proposals for ``ctx``."""
         proposals: list[Proposal] = []
         try:
-            wm_data = self._read_world_model()
+            wm_data = _load_world_model(self._sessions_dir)
             if not wm_data:
                 return proposals
             hosts: dict[str, dict] = wm_data.get("hosts", {})
@@ -379,15 +417,6 @@ class KillchainGapSignal:
             pass
         return proposals
 
-    def _read_world_model(self) -> dict | None:
-        wm_path = self._sessions_dir / "world_model.json"
-        if not wm_path.exists():
-            return None
-        try:
-            return json.loads(wm_path.read_text(encoding="utf-8"))
-        except Exception:
-            return None
-
     def _gap_exploited_no_privesc(self, hosts: dict[str, dict]) -> list[Proposal]:
         proposals: list[Proposal] = []
         for ip, host in hosts.items():
@@ -398,19 +427,19 @@ class KillchainGapSignal:
             os_hint = host.get("os_hint", "").lower()
             if "windows" in os_hint:
                 proposals.append(Proposal(
-                    action="winpeas", kind=KIND_COMMAND, weight=0.95,
+                    action="winpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC,
                     reason=f"Host {ip} has foothold but no privesc. Run winpeas.",
                     category="privesc",
                 ))
             elif "linux" in os_hint:
                 proposals.append(Proposal(
-                    action="linpeas", kind=KIND_COMMAND, weight=0.95,
+                    action="linpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC,
                     reason=f"Host {ip} has foothold but no privesc. Run linpeas.",
                     category="privesc",
                 ))
             else:
                 proposals.append(Proposal(
-                    action="linpeas", kind=KIND_COMMAND, weight=0.90,
+                    action="linpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC_UNKNOWN_OS,
                     reason=f"Host {ip} has foothold but no privesc. Enumerate with linpeas/winpeas.",
                     category="privesc",
                 ))
@@ -425,9 +454,9 @@ class KillchainGapSignal:
         credentials = wm_data.get("credentials", [])
         if credentials:
             return proposals
-        for ip in owned_ips[:2]:
+        for ip in owned_ips[:_GAP_OWNED_CRED_CAP]:
             proposals.append(Proposal(
-                action="lazydump", kind=KIND_COMMAND, weight=0.95,
+                action="lazydump", kind=KIND_COMMAND, weight=_GAP_WEIGHT_CRED_DUMP,
                 reason=f"Host {ip} is owned but no credentials dumped. Run lazydump.",
                 category="cred",
             ))
@@ -442,11 +471,10 @@ class KillchainGapSignal:
         )
         if not has_scan:
             return proposals
-        enum_commands = {"gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute"}
-        if run_set & enum_commands:
+        if run_set & _ENUM_COMMANDS:
             return proposals
         proposals.append(Proposal(
-            action="gobuster", kind=KIND_COMMAND, weight=0.85,
+            action="gobuster", kind=KIND_COMMAND, weight=_GAP_WEIGHT_ENUM,
             reason="Nmap scan exists but no enumeration done. Start with gobuster.",
             category="enum",
         ))
@@ -465,7 +493,7 @@ class KillchainGapSignal:
         if has_lateral:
             return proposals
         proposals.append(Proposal(
-            action="crackmapexec", kind=KIND_COMMAND, weight=0.90,
+            action="crackmapexec", kind=KIND_COMMAND, weight=_GAP_WEIGHT_LATERAL,
             reason="Credentials captured but no lateral movement. Test with crackmapexec.",
             category="lateral",
         ))
@@ -490,7 +518,7 @@ class GraphTopologySignal:
         """Return lateral movement and topology proposals from network graph."""
         proposals: list[Proposal] = []
         try:
-            wm_data = self._read_world_model()
+            wm_data = _load_world_model(self._sessions_dir)
             if not wm_data:
                 return proposals
 
@@ -510,7 +538,7 @@ class GraphTopologySignal:
                     proposals.append(Proposal(
                         action=f"crackmapexec smb {target_ip}",
                         kind=KIND_COMMAND,
-                        weight=min(centrality * 2.0, 1.0),
+                        weight=min(centrality * _TOPOLOGY_HOST_MULTIPLIER, 1.0),
                         reason=f"High-centrality pivot host {target_ip} (deg={centrality:.2f}, {len(neighbors)} neighbors)",
                         category="lateral",
                         command_preview=f"crackmapexec smb {target_ip}",
@@ -520,7 +548,7 @@ class GraphTopologySignal:
                     proposals.append(Proposal(
                         action="credential_spray",
                         kind=KIND_COMMAND,
-                        weight=min(centrality * 1.5, 1.0),
+                        weight=min(centrality * _TOPOLOGY_CRED_MULTIPLIER, 1.0),
                         reason=f"Credential {cred_prefix} authenticates to multiple hosts — spray",
                         category="lateral",
                     ))
@@ -536,15 +564,6 @@ class GraphTopologySignal:
         except Exception:
             pass
         return proposals
-
-    def _read_world_model(self) -> dict | None:
-        wm_path = self._sessions_dir / "world_model.json"
-        if not wm_path.exists():
-            return None
-        try:
-            return json.loads(wm_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError):
-            return None
 
     @staticmethod
     def _compute_centrality(graph_data: dict) -> list[dict]:
@@ -574,7 +593,7 @@ class GraphTopologySignal:
                 "centrality": centrality,
                 "out_degree": out_deg,
                 "in_degree": in_deg,
-                "neighbors": out_nbrs[:8],
+                "neighbors": out_nbrs[:_TOPOLOGY_NEIGHBOR_CAP],
             })
         results.sort(key=lambda x: -x["centrality"])
         return results

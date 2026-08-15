@@ -191,3 +191,65 @@ class TestReconfigure:
         log_b = get_logger("reconfig_test")
         assert log_b.level == logging.DEBUG
         assert log_b.level != first_level
+
+
+class TestInstallJsonHandler:
+    """Contract: install_json_handler preserves pre-existing handlers."""
+
+    def test_cold_logger_gets_console_and_file_wiring(self, tmp_path):
+        from core.logging import (
+            StructuredLogConfig,
+            install_json_handler,
+            get_logger,
+        )
+        import logging
+
+        cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="cold.log")
+        install_json_handler("cold_wire", cfg)
+        log = get_logger("cold_wire")
+        kinds = {type(h) for h in log.handlers}
+        assert logging.StreamHandler in kinds
+        from logging.handlers import RotatingFileHandler
+        assert RotatingFileHandler in kinds
+
+    def test_warm_logger_keeps_custom_handler_and_appends_json_file(self, tmp_path):
+        from core.logging import (
+            StructuredLogConfig,
+            install_json_handler,
+        )
+        import logging
+        from logging.handlers import RotatingFileHandler
+
+        logger = logging.getLogger("warm_wire")
+        custom = logging.StreamHandler()
+        logger.handlers = [custom]
+
+        cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="warm.log")
+        install_json_handler("warm_wire", cfg)
+
+        assert custom in logger.handlers
+        assert any(
+            isinstance(h, RotatingFileHandler) for h in logger.handlers
+        )
+
+    def test_second_install_is_idempotent(self, tmp_path):
+        from core.logging import (
+            StructuredLogConfig,
+            install_json_handler,
+        )
+        from logging.handlers import RotatingFileHandler
+
+        cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="once.log")
+        install_json_handler("idem_wire", cfg)
+        from core.logging import get_logger
+        log = get_logger("idem_wire")
+        before = sum(
+            1 for h in log.handlers
+            if isinstance(h, RotatingFileHandler)
+        )
+        install_json_handler("idem_wire", cfg)
+        after = sum(
+            1 for h in log.handlers
+            if isinstance(h, RotatingFileHandler)
+        )
+        assert before == after == 1

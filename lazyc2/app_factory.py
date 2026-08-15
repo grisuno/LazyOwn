@@ -39,6 +39,25 @@ def _load_payload_config() -> dict[str, Any]:
         return {}
 
 
+def _build_api_key_store(payload: dict[str, Any]) -> object:
+    """Build the tenant-scoped API key store from payload configuration.
+
+    Args:
+        payload: ``payload.json`` contents. ``api_keys_path`` overrides
+            the default store location when present.
+
+    Returns:
+        A configured :class:`core.api_authz.ApiKeyStore`.
+    """
+    from core.api_authz import ApiAuthzConfig, ApiKeyStore
+
+    config = ApiAuthzConfig()
+    override = str(payload.get("api_keys_path") or "").strip()
+    if override:
+        config.api_keys_path = override
+    return ApiKeyStore(config=config)
+
+
 def _load_or_create_secret_key(sessions_dir: str = "sessions") -> str:
     """Resolve the Flask secret key from env or disk."""
     env_key = os.environ.get("LAZYOWN_SECRET_KEY")
@@ -117,6 +136,7 @@ def create_app() -> Flask:
     app.config["SESSIONS_DIR"] = "sessions"
     app.config["DB_PATH"] = "sessions/c2.db"
     app.config["ALLOWED_EXTENSIONS"] = {"txt", "enc", "exe"}
+    app.config["lazyown_api_key_store"] = _build_api_key_store(payload)
 
     # ── Extensions ────────────────────────────────────────────────────────
     short_urls_ext.configure("sessions/phishing")

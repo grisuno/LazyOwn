@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from typing import Any
 
-from flask import Blueprint, current_app, g, jsonify, request
+from flask import Blueprint, current_app, g, jsonify
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -53,7 +53,6 @@ def _health_status(config: HealthConfig | None = None) -> dict[str, Any]:
     }
 
     try:
-        from modules.db import LazyOwnDB
         db = current_app.config.get("lazyown_db")
         if db is not None:
             db.conn.execute("SELECT 1")
@@ -123,7 +122,34 @@ def ping():
     return jsonify({"status": "ok"})
 
 
+def require_api_auth_with_store(view):
+    """Protect a view with the app-scoped API key store.
+
+    Resolves the store from the Flask app config at request time so the
+    route stays decoupled from application construction order.
+
+    Args:
+        view: The Flask view function to protect.
+
+    Returns:
+        The view wrapped by :func:`core.api_authz.require_api_auth`.
+    """
+    from functools import wraps
+
+    from core.api_authz import ApiAuthzConfig, ApiKeyStore, require_api_auth
+
+    @wraps(view)
+    def guarded(*args, **kwargs):
+        store = current_app.config.get("lazyown_api_key_store")
+        if store is None:
+            store = ApiKeyStore(config=ApiAuthzConfig())
+        return require_api_auth(store=store)(view)(*args, **kwargs)
+
+    return guarded
+
+
 @api_bp.route("/health/tenant", methods=["GET"])
+@require_api_auth_with_store
 def health_tenant():
     """Health-check scoped to the current authenticated tenant.
 
@@ -132,10 +158,9 @@ def health_tenant():
 
     Returns:
         200 with health data plus ``tenant_id`` and tenant-scoped
-        beacon/listener counts.
+        beacon/listener counts. 401 when the API key is missing or
+        invalid, 403 when the key is not tenant-scoped.
     """
-    from core.api_authz import require_api_auth
-
     tenant_id = getattr(g, "api_tenant_id", "unknown")
     base = _health_status()
     base["tenant_id"] = tenant_id

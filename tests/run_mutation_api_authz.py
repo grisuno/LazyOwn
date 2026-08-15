@@ -38,9 +38,21 @@ _MUTATIONS: dict[str, dict] = {
     },
     "api_authz_skip_invalid_key_check": {
         "file": "core/api_authz.py",
-        "line": "            if api_key is None:\n                abort(401, description=\"Invalid or expired API key\")",
-        "mutation": "            if False:\n                abort(401, description=\"Invalid or expired API key\")",
+        "line": '            if api_key is None:\n                return jsonify({"error": "Invalid or expired API key"}), 401',
+        "mutation": '            if False:\n                return jsonify({"error": "Invalid or expired API key"}), 401',
         "test": "tests/test_api_authz.py::TestRequireApiAuth::test_rejects_invalid_key_with_401",
+    },
+    "api_authz_skip_rotation_retire": {
+        "file": "core/api_authz.py",
+        "line": "            for record in active:\n                record[\"retired_at\"] = now",
+        "mutation": "            for record in active:\n                record[\"retired_at\"] = None",
+        "test": "tests/test_api_authz.py::TestApiKeyStore::test_old_key_rejected_after_rotation_grace_expires",
+    },
+    "api_authz_rotation_permissions_from_wrong_record": {
+        "file": "core/api_authz.py",
+        "line": "                permissions=frozenset(source.get(\"permissions\", [])),",
+        "mutation": "                permissions=frozenset(),",
+        "test": "tests/test_api_authz.py::TestApiKeyStore::test_rotation_copies_permissions_from_the_rotated_key",
     },
     "logging_skip_redaction": {
         "file": "core/logging.py",

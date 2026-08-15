@@ -59,3 +59,28 @@ python scripts/build_command_index.py
 
 Run this after adding a new `do_*` command, alias, addon, or plugin so Tab
 completion and `fz` reflect the change immediately.
+
+
+## Operator UX contracts (relocated from CLAUDE.md)
+
+## 15b. Operator UX
+
+### Inline reactive hints — `cli/reactive_hints.py`
+`register_postcmd_hook` prints one dim line after each `do_*`:
+```
+  ↳ do_gobuster · do_enum4linux · do_ffuf
+```
+- Suggestions from `GraphAdvisor.suggest_next()`.
+- `SKIP_COMMANDS` (help/exit/dashboard/set/palette/…) never produce hints.
+- Toggle: `enable_inline_hints` in `payload.json` (default `true`).
+- Missing graph → no-op. Latency < 1 ms after first load.
+- Public surface: `render_inline_hints(advisor, last_command, limit, enabled)`. Output via `rich.console.Console`. Hook returns `data` unchanged (cmd2 passes `PostcommandData` by reference).
+
+### Dashboard TUI — `cli/dashboard_tui.py`
+`dashboard` cmd launches Textual app (blocking, **Q** quits). `LazyOwnDashboard(App)` accepts `payload_path` + `sessions_dir`. Widgets: `TargetPanel` → `KillChainPanel` + `ConfigPanel` → `CommandsPanel` → `OpsPanel` → `HintBar`. `_do_refresh()` on mount + every `REFRESH_INTERVAL` (5s) via `set_interval`. Entry: `launch(payload_path, sessions_dir)`. Requires `pip install textual`.
+
+Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_count_lines_in_glob`, `_beacon_count`, `_graph_hints`.
+
+---
+
+

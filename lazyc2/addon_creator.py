@@ -58,6 +58,7 @@ from __future__ import annotations
 import os
 import re
 import stat
+import tempfile
 from collections.abc import Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -79,6 +80,7 @@ class AddonCreatorConfig:
     file_suffix: str = ".yaml"
     tmp_suffix: str = ".tmp"
     file_mode: int = stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH
+    yaml_width: int = 88
 
     name_pattern: re.Pattern[str] = re.compile(r"^[a-z][a-z0-9_]{0,63}$")
     filename_pattern: re.Pattern[str] = re.compile(r"^[A-Za-z0-9][A-Za-z0-9_.\-]{0,127}$")
@@ -697,7 +699,7 @@ class AddonYamlRenderer:
             sort_keys=False,
             allow_unicode=True,
             default_flow_style=False,
-            width=88,
+            width=self.config.yaml_width,
         )
 
     def to_document(self, draft: AddonDraft) -> dict[str, object]:
@@ -853,6 +855,11 @@ class AddonStore:
     def save(self, name: str, yaml_text: str) -> Path:
         """Persist the YAML document atomically.
 
+        The temp file is created with the store file mode from the first
+        byte, so no reader can ever observe a permissive partial document.
+        The write is flushed and fsynced before ``os.replace`` promotes it
+        into place, and any failure removes the temp file.
+
         Args:
             name: The addon name (without extension).
             yaml_text: The rendered YAML document.
@@ -866,15 +873,38 @@ class AddonStore:
         """
         target = self.resolve_path(name)
         target.parent.mkdir(parents=True, exist_ok=True)
-        temp_path = target.with_name(target.name + self.config.tmp_suffix)
-        temp_path.write_text(yaml_text, encoding="utf-8")
-        try:
-            os.chmod(temp_path, self.config.file_mode)
-            os.replace(temp_path, target)
-        except OSError:
-            temp_path.unlink(missing_ok=True)
-            raise
+        self._atomic_write(target, yaml_text)
         return target
+
+    def _atomic_write(self, target: Path, text: str) -> None:
+        """Write ``text`` to ``target`` through a securely created temp file.
+
+        Args:
+            target: The final file path inside the addons directory.
+            text: The content to persist.
+
+        Raises:
+            OSError: When the temp file cannot be created, written, or
+                promoted.
+        """
+        fd, tmp_name = tempfile.mkstemp(
+            dir=str(target.parent),
+            prefix=f".{target.name}.",
+            suffix=self.config.tmp_suffix,
+        )
+        try:
+            os.fchmod(fd, self.config.file_mode)
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(text)
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(tmp_name, target)
+        except OSError:
+            try:
+                os.unlink(tmp_name)
+            except OSError:
+                pass
+            raise
 
     def load(self, name: str) -> dict[str, Any]:
         """Return the parsed addon document for a name.

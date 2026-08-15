@@ -191,6 +191,69 @@ class TestApiKeyStore:
         assert len(keys) == 1
         assert keys[0].label == "rotator"
 
+    def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path):
+        store = self._make_store(tmp_path)
+        store.create_key("acme", "worker", permissions=frozenset({"read"}))
+        store.create_key("acme", "admin", permissions=frozenset({"admin"}))
+        new_token = store.rotate_key("worker", "acme")
+        assert new_token is not None
+        rotated = store.validate_key(new_token)
+        assert rotated is not None
+        assert rotated.permissions == frozenset({"read"})
+        assert "admin" not in rotated.permissions
+
+    def test_old_key_stays_valid_during_rotation_grace(self, tmp_path):
+        store = self._make_store(tmp_path)
+        _, old_token = store.create_key("acme", "graceful", permissions=frozenset({"read"}))
+        new_token = store.rotate_key("graceful", "acme")
+        assert new_token is not None
+        assert store.validate_key(old_token) is not None
+        assert store.validate_key(new_token) is not None
+
+    def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path):
+        from core.api_authz import ApiAuthzConfig, ApiKeyStore
+
+        store = ApiKeyStore(config=ApiAuthzConfig(
+            api_keys_path=str(tmp_path / "api_keys.json"),
+            key_rotation_grace_seconds=0,
+        ))
+        _, old_token = store.create_key("acme", "short-grace", permissions=frozenset({"read"}))
+        new_token = store.rotate_key("short-grace", "acme")
+        assert new_token is not None
+        assert store.validate_key(new_token) is not None
+        assert store.validate_key(old_token) is None
+
+    def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path):
+        from core.api_authz import ApiAuthzConfig, ApiKeyStore
+
+        store = ApiKeyStore(config=ApiAuthzConfig(
+            api_keys_path=str(tmp_path / "api_keys.json"),
+            key_rotation_grace_seconds=0,
+        ))
+        store.create_key("acme", "k1")
+        store.rotate_key("k1", "acme")
+        records_before = store._read()
+        assert any(r.get("retired_at") is not None for r in records_before)
+        store.create_key("other", "k2")
+        records_after = store._read()
+        assert all(r.get("retired_at") is None for r in records_after)
+        assert len([r for r in records_after if r.get("tenant_id") == "acme"]) == 1
+
+    def test_rotation_does_not_grow_active_key_count(self, tmp_path):
+        from core.api_authz import ApiAuthzConfig, ApiKeyStore
+
+        store = ApiKeyStore(config=ApiAuthzConfig(
+            api_keys_path=str(tmp_path / "api_keys.json"),
+            max_keys_per_tenant=2,
+            key_rotation_grace_seconds=0,
+        ))
+        store.create_key("acme", "k1")
+        store.create_key("acme", "k2")
+        store.rotate_key("k1", "acme")
+        keys = store.list_keys(tenant_id="acme")
+        assert len(keys) == 2
+        assert {k.label for k in keys} == {"k1", "k2"}
+
     def test_never_stores_plaintext_token_on_disk(self, tmp_path):
         from core.api_authz import _hash_secret
 

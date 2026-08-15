@@ -46,7 +46,7 @@ import math
 import random
 import re
 import time
-from collections.abc import Mapping, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -54,44 +54,9 @@ from typing import Any
 from rich.console import Console
 from rich.text import Text
 
-SKIP_COMMANDS: frozenset[str] = frozenset(
-    {
-        "help",
-        "?",
-        "exit",
-        "quit",
-        "history",
-        "shell",
-        "dashboard",
-        "next",
-        ".",
-        ",",
-        "set",
-        "assign",
-        "show",
-        "palette",
-        "palette_k",
-        "browse",
-        "timeline_browser",
-        "form",
-        "graph_overlay",
-        "toast_clear",
-        "edit",
-        "run_script",
-        "shortcuts",
-        "_relative_run",
-        "sitrep",
-        "ctx",
-        "phase",
-        "note",
-        "l00t",
-        "pivot",
-        "tasks",
-        "scans",
-        "wizard",
-        "chainmode",
-    }
-)
+from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
+
+SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
 
 _FULL_KILLCHAIN_TRIGGERS: frozenset[str] = frozenset(
     {
@@ -111,14 +76,19 @@ DEFAULT_PAYLOAD_PATH: str = "payload.json"
 HINT_MAX_LABEL: int = 28
 TIP_TEXT_MAX: int = 80
 CURIOSITY_MAX_LABEL: int = 28
+CURIOSITY_SUMMARY_MAX: int = 70
+EVIDENCE_OVERSCAN_FACTOR: int = 2
 
 MEAN_INTERVAL: int = 8
 VRI_RETRY_LIMIT: int = 4
-NOTIFICATIONS_RING_SIZE: int = 500
+VRI_RECENT_REWARDS_WINDOW: int = 20
 
 ELO_BASE: int = 5
 ELO_FIRST_TIME_BONUS: int = 25
 ELO_NEW_PHASE_BONUS: int = 50
+
+SEPARATOR_NARROW: int = 40
+SEPARATOR_WIDE: int = 60
 
 KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
     (1000, "Noob"),
@@ -131,6 +101,34 @@ KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
 KARMA_TOP: str = "Godlike"
 
 COMMAND_NAME_RE: re.Pattern[str] = re.compile(r"^do_[a-z][a-z0-9_]*$")
+
+PHASE_LABELS: dict[str, str] = {
+    "recon": "Reconnaissance",
+    "enum": "Enumeration",
+    "exploit": "Exploitation",
+    "privesc": "Privilege Escalation",
+    "lateral": "Lateral Movement",
+    "cred": "Credential Access",
+    "postexp": "Post-Exploitation",
+    "exfil": "Exfiltration",
+    "c2": "Command & Control",
+}
+
+STREAK_LABELS: tuple[tuple[tuple[int, int], str], ...] = (
+    ((1, 3), "warming up"),
+    ((4, 9), "finding your rhythm"),
+    ((10, 19), "in the zone"),
+    ((20, 49), "on a roll"),
+    ((50, 99), "deep recon mode"),
+    ((100, 10000), "elite operator"),
+)
+STREAK_DEFAULT_LABEL: str = "going strong"
+
+_AUX_CONSOLE: Console = Console(stderr=False, highlight=False, soft_wrap=True)
+
+
+def _noop() -> None:
+    """Empty display callback used when no killchain surface is wired."""
 
 
 @dataclass
@@ -177,6 +175,8 @@ class TipsConfig:
     killchain_auto_on_phase_change: bool = True
 
     chain_active: bool = False
+
+    killchain_display: Callable[[], None] | None = None
 
 
 @dataclass
@@ -229,7 +229,7 @@ class TipsEngine:
         self._last_auto_phase: str = ""
         self._rec_engine: Any = None
         self._rec_engine_tried: bool = False
-        self.on_killchain_display = getattr(config, "killchain_display", None) or (lambda: None)
+        self.on_killchain_display = self.config.killchain_display or _noop
 
     @property
     def enabled(self) -> bool:
@@ -300,7 +300,7 @@ class TipsEngine:
         """Resolve the current engagement phase with progressive degradation.
 
         Priority: world_model.json > command_index lookup > past phases > fallback.
-        Never returns \"recon\" once the operator has advanced beyond it.
+        Never returns ``recon`` once the operator has advanced beyond it.
         """
         wm_phase = self._read_world_model_phase()
         if wm_phase and wm_phase != "recon":
@@ -351,6 +351,10 @@ class TipsEngine:
     def render_session_start(self, phase: str = "", os_id: str = "", **ctx: Any) -> None:
         """Print a single tip at session start (once per boot).
 
+        Registry tips render as plain text so a trigger-authored message
+        containing markup brackets can never break the render pass; the
+        curated ``session_tips`` keep their rich markup.
+
         Args:
             phase: Current engagement phase.
             os_id: Detected OS identifier (``"1"`` = Linux, ``"2"`` = Windows).
@@ -362,14 +366,20 @@ class TipsEngine:
         matched = [t for t in self.config.tips_registry if self._safe_tip_trigger(t, context)]
         if matched:
             tip = random.choice(matched)
-            msg = f"[bold]tip:[/] {tip.get('text', '')}  [dim bold]→ {tip.get('command', '')}[/]"
+            line = Text("tip: ", style="bold")
+            line.append(str(tip.get("text", "")))
+            command = str(tip.get("command", ""))
+            if command:
+                line.append(f"  \u2192 {command}", style="dim bold")
+            self._console.print("    ", line)
         else:
             if self.config.session_tips:
                 self._session_tip_idx = (self._session_tip_idx + 1) % len(self.config.session_tips)
-                msg = f"[bold]tip:[/] {self.config.session_tips[self._session_tip_idx]}"
+                self._console.print(
+                    f"    [bold]tip:[/] {self.config.session_tips[self._session_tip_idx]}"
+                )
             else:
                 return
-        self._console.print(f"    {msg}")
         self._console.print()
 
     def get_state_snapshot(self) -> dict[str, Any]:
@@ -496,7 +506,7 @@ class TipsEngine:
                 sessions_dir=self.config.sessions_dir,
                 target=target,
                 phase=phase,
-                limit=max(self.config.hints_limit * 2, self.config.hints_limit),
+                limit=self.config.hints_limit * EVIDENCE_OVERSCAN_FACTOR,
                 engine=engine,
             )
             already_run = self._read_run_commands()
@@ -557,7 +567,7 @@ class TipsEngine:
             for c in self.config.phase_priority.get(phase_key, []):
                 if c not in already_run and c not in candidates and c != cmd:
                     candidates.append(c)
-                if len(candidates) >= self.config.hints_limit * 2:
+                if len(candidates) >= self.config.hints_limit:
                     break
         return [
             self._truncate(c, HINT_MAX_LABEL)
@@ -632,10 +642,12 @@ class TipsEngine:
             self._state.session_curiosity_shown.append(pick)
             label = pick.replace("do_", "")[:CURIOSITY_MAX_LABEL]
             summary = self._summary_for_exploration_cmd(pick)
-            line = f"    \033[2;36m  explore:\033[0m \033[1;36m{label:<{CURIOSITY_MAX_LABEL}}\033[0m"
+            line = Text()
+            line.append("  explore: ", style="dim cyan")
+            line.append(f"{label:<{CURIOSITY_MAX_LABEL}}", style="bold cyan")
             if summary:
-                line += f"  \033[2m{summary[:70]}\033[0m"
-            print(line, flush=True)
+                line.append(f"  {summary[:CURIOSITY_SUMMARY_MAX]}", style="dim")
+            self._console.print(line)
         except Exception:
             pass
 
@@ -653,7 +665,7 @@ class TipsEngine:
         if isinstance(cmds, list):
             for entry in cmds:
                 if isinstance(entry, dict) and entry.get("name") in (normalized, cmd):
-                    return (entry.get("summary") or "")[:80]
+                    return (entry.get("summary") or "")[:TIP_TEXT_MAX]
         return ""
 
     # ── internal: autosuggest ───────────────────────────────────────────────
@@ -728,7 +740,7 @@ class TipsEngine:
                 "total_seen": len(self._state.commands_seen),
                 "total_commands_in_index": max(total_in_index, 1),
                 "current_phase": resolved_phase,
-                "rewards_given": list(self._state.rewards_given[-20:]),
+                "rewards_given": list(self._state.rewards_given[-VRI_RECENT_REWARDS_WINDOW:]),
                 "elo": self._state.elo,
                 "karma_name": self._get_karma_name(self._state.elo),
                 "elo_session_delta": self._state.elo_session_delta,
@@ -755,13 +767,19 @@ class TipsEngine:
         old = self._state.last_karma_name
         self._state.last_karma_name = new_karma
         self._console.print()
-        self._console.print(f"    \033[2m{'─' * 60}\033[0m")
-        self._console.print(
-            f"    \033[1;33m  KARMA UP  \033[0m\033[2m{old}\033[0m\033[1;33m → "
-            f"\033[0m\033[1;32m{new_karma}\033[0m\033[2m  ({self._state.elo} ELO)\033[0m",
-        )
-        self._console.print(f"    \033[2m{'─' * 60}\033[0m")
+        self._print_separator(SEPARATOR_WIDE)
+        line = Text("  KARMA UP  ", style="bold yellow")
+        line.append(old, style="dim")
+        line.append(" \u2192 ", style="bold yellow")
+        line.append(new_karma, style="bold green")
+        line.append(f"  ({self._state.elo} ELO)", style="dim")
+        self._console.print(line)
+        self._print_separator(SEPARATOR_WIDE)
         self._console.print()
+
+    def _print_separator(self, width: int) -> None:
+        """Print one dim horizontal separator line of ``width`` dashes."""
+        self._console.print(Text("\u2500" * width, style="dim"))
 
     def _check_badges(self, cmd: str, first_time: bool) -> None:
         badges = self._state.badges
@@ -792,22 +810,24 @@ class TipsEngine:
 
     def _print_badge(self, name: str, description: str) -> None:
         self._console.print()
-        self._console.print(f"    \033[2m{'─' * 40}\033[0m")
-        self._console.print(f"    \033[1;35m  BADGE UNLOCKED  \033[0m\033[1;37m{name}\033[0m")
-        self._console.print(f"    \033[2m  {description}\033[0m")
-        self._console.print(f"    \033[2m{'─' * 40}\033[0m")
+        self._print_separator(SEPARATOR_NARROW)
+        line = Text("  BADGE UNLOCKED  ", style="bold magenta")
+        line.append(name, style="bold white")
+        self._console.print(line)
+        self._console.print(Text(f"  {description}", style="dim"))
+        self._print_separator(SEPARATOR_NARROW)
         self._console.print()
 
     def _fire_vri_reward(self, ctx: dict[str, Any]) -> None:
         rewards = list(self.config.vri_rewards) if self.config.vri_rewards else _DEFAULT_VRI_REWARDS
-        weights = [r.get("weight", 1) for r in rewards]
+        weights = [int(r.get("weight", 1)) for r in rewards]
         self._console.print()
-        self._console.print(f"    \033[2m{'─' * 60}\033[0m")
+        self._print_separator(SEPARATOR_WIDE)
         rendered = False
         chosen_id = ""
         tried: set[str] = set()
         for _ in range(VRI_RETRY_LIMIT):
-            reward = random.choices(rewards, weights=weights, k=1)[0]
+            reward = self._pick_weighted(rewards, weights)
             if reward["id"] in tried:
                 continue
             tried.add(reward["id"])
@@ -821,11 +841,29 @@ class TipsEngine:
         if not rendered:
             _render_streak(ctx, state=self._state, config=self.config)
             chosen_id = "streak"
-        self._console.print(f"    \033[2m{'─' * 60}\033[0m")
+        self._print_separator(SEPARATOR_WIDE)
         self._console.print()
         if chosen_id:
             self._state.rewards_given.append(chosen_id)
         self._state.next_reward_at = self._next_threshold(self._state.total_commands)
+
+    @staticmethod
+    def _pick_weighted(rewards: Sequence[dict[str, Any]], weights: Sequence[int]) -> dict[str, Any]:
+        """Pick one reward by weight, degrading to uniform when weights are void.
+
+        ``random.choices`` rejects an all-zero weight vector, so a broken
+        reward table must never take the whole post-command hook down.
+
+        Args:
+            rewards: The reward entries carrying at least an ``id`` key.
+            weights: Weight per entry, same length as ``rewards``.
+
+        Returns:
+            One reward entry.
+        """
+        if rewards and sum(weights) > 0:
+            return random.choices(rewards, weights=weights, k=1)[0]
+        return random.choice(rewards)
 
     # ── helpers ─────────────────────────────────────────────────────────────
 
@@ -905,22 +943,9 @@ class TipsEngine:
         return out
 
     def _read_run_commands(self) -> set[str]:
-        path = Path(self.config.sessions_dir) / "LazyOwn_session_report.csv"
-        seen: set[str] = set()
-        if not path.exists():
-            return seen
-        try:
-            with path.open("r", encoding="utf-8", errors="ignore") as fh:
-                reader = csv.DictReader(fh)
-                for row in reader:
-                    for col in ("tool", "command", "name"):
-                        val = (row.get(col) or "").strip().split()[0]
-                        if val:
-                            seen.add(val)
-                            break
-        except Exception:
-            pass
-        return seen
+        from cli.reactive_hints import read_run_commands
+
+        return read_run_commands(self.config.sessions_dir)
 
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         path = Path(self.config.sessions_dir) / "LazyOwn_session_report.csv"
@@ -1019,26 +1044,18 @@ def _render_streak(
     config: TipsConfig | None = None,
 ) -> bool:
     n = ctx.get("session_commands", 0) if ctx else 0
-    labels = {
-        (1, 3): "warming up",
-        (4, 9): "finding your rhythm",
-        (10, 19): "in the zone",
-        (20, 49): "on a roll",
-        (50, 99): "deep recon mode",
-        (100, 10000): "elite operator",
-    }
-    label = "going strong"
-    for (lo, hi), candidate_label in labels.items():
+    label = STREAK_DEFAULT_LABEL
+    for (lo, hi), candidate_label in STREAK_LABELS:
         if lo <= n <= hi:
             label = candidate_label
             break
     karma = ctx.get("karma_name", "")
     elo_val = ctx.get("elo", 0)
-    karma_tail = f"  \033[2m· \033[0m\033[1;33m{karma}\033[0m\033[2m {elo_val} ELO\033[0m" if karma else ""
-    print(
-        f"    \033[2m  {n} commands this session \033[0m\033[1;32m{label}\033[0m{karma_tail}",
-        flush=True,
-    )
+    line = Text(f"  {n} commands this session ", style="dim")
+    line.append(label, style="bold green")
+    if karma:
+        line.append(f" \u00b7 {karma} {elo_val} ELO", style="dim")
+    _AUX_CONSOLE.print(line)
     return True
 
 
@@ -1053,10 +1070,11 @@ def _render_exploration(
     bar_len = 20
     filled = int(bar_len * pct / 100)
     bar = "\u2588" * filled + "\u2591" * (bar_len - filled)
-    print(
-        f"    \033[2m  arsenal explored  \033[0m\033[36m{bar}\033[0m\033[1m  {pct}%\033[0m\033[2m  ({seen}/{total} commands)\033[0m",
-        flush=True,
-    )
+    line = Text("  arsenal explored  ", style="dim")
+    line.append(bar, style="cyan")
+    line.append(f"  {pct}%", style="bold")
+    line.append(f"  ({seen}/{total} commands)", style="dim")
+    _AUX_CONSOLE.print(line)
     return True
 
 
@@ -1065,25 +1083,16 @@ def _render_phase_badge(
     state: EngagementState | None = None,
     config: TipsConfig | None = None,
 ) -> bool:
-    _PHASE_LABEL: dict[str, str] = {
-        "recon": "Reconnaissance",
-        "enum": "Enumeration",
-        "exploit": "Exploitation",
-        "privesc": "Privilege Escalation",
-        "lateral": "Lateral Movement",
-        "cred": "Credential Access",
-        "postexp": "Post-Exploitation",
-        "exfil": "Exfiltration",
-        "c2": "Command & Control",
-    }
     phase = (ctx.get("current_phase") if ctx else "").lower()
     if not phase:
         return False
-    label = _PHASE_LABEL.get(phase, phase.title())
-    print(
-        f"    \033[2m  phase \033[0m\033[1;37;41m {label} \033[0m\033[2m  — run \033[0m\033[1;36mpalette {phase}\033[0m\033[2m to see all commands in this stage\033[0m",
-        flush=True,
-    )
+    label = PHASE_LABELS.get(phase, phase.title())
+    line = Text("  phase ", style="dim")
+    line.append(f" {label} ", style="bold white on red")
+    line.append(f"  \u2014 run ", style="dim")
+    line.append(f"palette {phase}", style="bold cyan")
+    line.append(" to see all commands in this stage", style="dim")
+    _AUX_CONSOLE.print(line)
     return True
 
 
@@ -1100,10 +1109,10 @@ def _render_hidden_feature(
     if not candidates:
         return False
     cmd_label, description = random.choice(candidates)
-    print(
-        f"    \033[2m  hidden feature  \033[0m\033[1;35m{cmd_label:<30}\033[0m\033[2m{description}\033[0m",
-        flush=True,
-    )
+    line = Text("  hidden feature  ", style="dim")
+    line.append(f"{cmd_label:<30}", style="bold magenta")
+    line.append(description, style="dim")
+    _AUX_CONSOLE.print(line)
     return True
 
 
@@ -1116,7 +1125,9 @@ def _render_arsenal_tip(
     if not tips:
         return False
     tip = random.choice(tips)
-    print(f"    \033[2m  tip  {tip}\033[0m", flush=True)
+    line = Text("  tip  ", style="dim")
+    line.append(tip, style="dim")
+    _AUX_CONSOLE.print(line)
     return True
 
 

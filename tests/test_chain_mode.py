@@ -157,11 +157,22 @@ def test_no_suggestions_enter_skips_custom_command_runs() -> None:
     assert outcome.command == "nmap"
 
 
-def test_invalid_number_skips() -> None:
-    engine, _ = _engine(_resolver(_Step("lazynmap")), answers=["9"])
+def test_invalid_number_re_prompts_then_skips() -> None:
+    engine, printed = _engine(_resolver(_Step("lazynmap")), answers=["9", "skip"])
     outcome = engine.step("ping")
     assert outcome.state == OUTCOME_SKIP
     assert engine.enabled
+    assert any("no option 9" in line for line in printed)
+
+
+def test_invalid_number_re_prompts_then_accepts_valid_pick() -> None:
+    engine, _ = _engine(
+        _resolver(_Step("lazynmap"), _Step("arpscan")),
+        answers=["9", "2"],
+    )
+    outcome = engine.step("ping")
+    assert outcome.state == OUTCOME_RUN
+    assert outcome.command == "arpscan"
 
 
 def test_keyboard_interrupt_disables(tmp_path: Path) -> None:

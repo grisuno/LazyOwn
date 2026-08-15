@@ -789,8 +789,9 @@ def _sync_user_elo(delta: int) -> bool:
         return False
 
     try:
-        from modules.lazy_rbac import get_rbac_store
-        store = get_rbac_store()
+        from modules.lazy_rbac import RBACStore
+
+        store = RBACStore(users_path=str(USERS_PATH))
         user = store.find_by_username(target)
         if user:
             user.elo = int(user.elo or 0) + int(delta)

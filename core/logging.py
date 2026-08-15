@@ -31,8 +31,7 @@ import json
 import logging
 import os
 import sys
-import time
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Any
@@ -227,20 +226,50 @@ def install_json_handler(
     name: str = "lazyown",
     config: StructuredLogConfig | None = None,
 ) -> None:
-    """One-time wiring that installs a JSON-lines file handler on *name*.
+    """Install a JSON-lines file handler on *name*, preserving existing handlers.
 
-    Existing handlers are preserved so the console output is not
-    disturbed. Call this once during app startup.
+    When the logger already owns handlers (a custom console sink, a
+    library-configured appender) they are left untouched and only the
+    JSON file handler is appended. When the logger is cold it receives
+    the standard console plus file wiring from :func:`_log_factory`.
+    The operation is idempotent: a second call with the same name and
+    configuration adds nothing.
 
     Args:
         name: The logger name to wire.
-        config: Optional configuration override.
+        config: Optional configuration override, cached for future
+            :func:`get_logger` calls.
     """
     global _CACHED_CONFIG, _LOGGER_CACHE
     if config is not None:
         _CACHED_CONFIG = config
-    _LOGGER_CACHE.pop(name, None)
-    get_logger(name)
+    cfg = _CACHED_CONFIG or StructuredLogConfig()
+    if not cfg.file_enabled or not cfg.json_output:
+        return
+    logging.setLoggerClass(StructuredLogger)
+    logger = logging.getLogger(name)
+    if not logger.handlers:
+        _LOGGER_CACHE[name] = _log_factory(name, cfg)
+        return
+    if any(
+        isinstance(handler, RotatingFileHandler)
+        and isinstance(handler.formatter, _JsonLineFormatter)
+        for handler in logger.handlers
+    ):
+        return
+    Path(cfg.log_dir).mkdir(parents=True, exist_ok=True)
+    file_path = os.path.join(cfg.log_dir, cfg.log_filename)
+    file_handler = RotatingFileHandler(
+        file_path,
+        maxBytes=cfg.max_bytes,
+        backupCount=cfg.backup_count,
+        encoding="utf-8",
+    )
+    file_handler.setLevel(cfg.level)
+    file_handler.setFormatter(_JsonLineFormatter(cfg.redacted_fields))
+    logger.addHandler(file_handler)
+    logger.setLevel(cfg.level)
+    _LOGGER_CACHE[name] = logger
 
 
 def reconfigure(config: StructuredLogConfig) -> None:

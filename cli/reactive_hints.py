@@ -14,45 +14,22 @@ Design notes:
 
 from __future__ import annotations
 
+import csv
+import math
 from collections.abc import Sequence
 from dataclasses import dataclass
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 from rich.console import Console
 from rich.text import Text
 
+from cli.noise_verbs import BASE_NOISE_VERBS, HINTS_EXTRA_VERBS
+
 if TYPE_CHECKING:
     from cli.graph_advisor import GraphAdvisor
 
-SKIP_COMMANDS: frozenset[str] = frozenset(
-    {
-        "help",
-        "?",
-        "exit",
-        "quit",
-        "history",
-        "shell",
-        "dashboard",
-        "suggest_next",
-        "graph_search",
-        "neighbors",
-        "god_nodes",
-        "set",
-        "show",
-        "palette",
-        "palette_k",
-        "browse",
-        "timeline_browser",
-        "form",
-        "graph_overlay",
-        "toast_clear",
-        "assign",
-        "edit",
-        "run_script",
-        "shortcuts",
-        "_relative_run",
-    }
-)
+SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | HINTS_EXTRA_VERBS
 
 # Ordered kill-chain: after running X, suggest Y (phase-agnostic sensible defaults)
 _KILL_CHAIN_NEXT: dict[str, list[str]] = {
@@ -272,17 +249,18 @@ def confidence_from_score(score: float) -> int:
     percentage would be meaningless. This applies a saturating map
     ``100 * s / (s + K)`` where ``K`` (:data:`_CONFIDENCE_HALF_SCORE`) is the
     score at which confidence reaches 50%. The map is monotonic — more signal
-    agreement yields higher confidence — and never reaches a dishonest 100%.
+    agreement yields higher confidence — and floors at 99 so the display never
+    claims a dishonest 100%.
 
     Args:
         score: The fused recommendation score. Negative values are floored at
             zero.
 
     Returns:
-        Integer confidence in ``[0, 100]``.
+        Integer confidence in ``[0, 99]``.
     """
     positive = score if score > 0.0 else 0.0
-    return int(round(100.0 * positive / (positive + _CONFIDENCE_HALF_SCORE)))
+    return min(math.floor(100.0 * positive / (positive + _CONFIDENCE_HALF_SCORE)), 99)
 
 
 def _clean_reason(reasons: Sequence[str]) -> str:
@@ -370,11 +348,21 @@ def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None:
         _HINT_CONSOLE.print(line)
 
 
-def _read_run_commands(sessions_dir: str = "sessions") -> set[str]:
-    """Return the set of command names already executed this session."""
-    import csv
-    from pathlib import Path
+def read_run_commands(sessions_dir: str = "sessions") -> set[str]:
+    """Return the set of command names already executed this session.
 
+    Reads the CSV transcript and extracts the first token of the first
+    populated column (``tool``, ``command``, or ``name``). Shared by the
+    inline hint renderer, the tips engine, and any other surface that must
+    filter already-run commands out of its suggestions.
+
+    Args:
+        sessions_dir: Directory containing ``LazyOwn_session_report.csv``.
+
+    Returns:
+        A set of command verbs, empty when the transcript is missing or
+        unreadable.
+    """
     path = Path(sessions_dir) / "LazyOwn_session_report.csv"
     seen: set[str] = set()
     if not path.exists():
@@ -391,6 +379,44 @@ def _read_run_commands(sessions_dir: str = "sessions") -> set[str]:
     except Exception:
         pass
     return seen
+
+
+def _collect_command_hints(
+    cmd: str,
+    phase: str,
+    already_run: set[str],
+    limit: int,
+) -> list[str]:
+    """Collect forward-looking hint verbs from adjacency then phase priority.
+
+    Kill-chain adjacency (``_KILL_CHAIN_NEXT``) feeds the list first; when it
+    falls short of ``limit`` the phase-priority table fills the remainder.
+    Commands already executed this session and the predecessor itself are
+    excluded so the hint always looks forward.
+
+    Args:
+        cmd: The command that just ran. Empty disables the adjacency lookup
+            and collects phase priority only.
+        phase: Current engagement phase identifier.
+        already_run: Set of verbs already present in the transcript.
+        limit: Maximum number of verbs to return.
+
+    Returns:
+        Ordered candidate verbs, length at most ``limit``.
+    """
+    candidates: list[str] = []
+    if cmd:
+        candidates = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
+    if len(candidates) < limit:
+        phase_key = phase.lower().strip() if phase else "recon"
+        priority = _PHASE_PRIORITY.get(phase_key) or _PHASE_PRIORITY.get("recon", [])
+        for verb in priority:
+            if verb == cmd or verb in already_run or verb in candidates:
+                continue
+            candidates.append(verb)
+            if len(candidates) >= limit:
+                break
+    return candidates[:limit]
 
 
 def render_command_hints(
@@ -422,21 +448,8 @@ def render_command_hints(
     if not cmd or cmd in SKIP_COMMANDS:
         return
 
-    already_run = _read_run_commands(sessions_dir)
-
-    # 1. Kill-chain adjacency: known follow-up for this specific command
-    candidates: list[str] = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
-
-    # 2. Phase priority fallback
-    if len(candidates) < limit:
-        phase_key = phase.lower() if phase else "recon"
-        for c in _PHASE_PRIORITY.get(phase_key, _PHASE_PRIORITY.get("recon", [])):
-            if c not in already_run and c not in candidates and c != cmd:
-                candidates.append(c)
-            if len(candidates) >= limit * 2:
-                break
-
-    labels = [_truncate(c, _MAX_LABEL_LEN) for c in candidates[:limit]]
+    candidates = _collect_command_hints(cmd, phase, read_run_commands(sessions_dir), limit)
+    labels = [_truncate(c, _MAX_LABEL_LEN) for c in candidates]
     if labels:
         _render(labels)
 
@@ -456,7 +469,9 @@ def command_hints(
 
     Args:
         last_command: Raw command string that most recently executed.
-            Only the first token is considered.
+            Only the first token is considered. When empty or in
+            :data:`SKIP_COMMANDS` the adjacency lookup is skipped and the
+            phase priority table feeds the result.
         phase: Current engagement phase identifier. Falls back to
             ``recon`` when empty.
         sessions_dir: Path to ``sessions/`` used to filter out commands
@@ -465,26 +480,12 @@ def command_hints(
 
     Returns:
         Ordered list of suggested command verbs, length ``<= limit``.
-        Returns an empty list when ``last_command`` is empty, falls in
-        :data:`SKIP_COMMANDS`, or no candidates remain after filtering.
+        Returns an empty list when no candidates remain after filtering.
     """
     cmd = _first_token(last_command)
     if not cmd or cmd in SKIP_COMMANDS:
         cmd = ""
-    already_run = _read_run_commands(sessions_dir)
-    candidates: list[str] = []
-    if cmd:
-        candidates = [c for c in _KILL_CHAIN_NEXT.get(cmd, []) if c not in already_run]
-    if len(candidates) < limit:
-        phase_key = phase.lower().strip() if phase else "recon"
-        priority = _PHASE_PRIORITY.get(phase_key) or _PHASE_PRIORITY.get("recon", [])
-        for verb in priority:
-            if verb == cmd or verb in already_run or verb in candidates:
-                continue
-            candidates.append(verb)
-            if len(candidates) >= limit:
-                break
-    return candidates[:limit]
+    return _collect_command_hints(cmd, phase, read_run_commands(sessions_dir), limit)
 
 
 __all__ = [
@@ -492,6 +493,7 @@ __all__ = [
     "render_inline_hints",
     "render_command_hints",
     "command_hints",
+    "read_run_commands",
     "EvidenceHint",
     "confidence_from_score",
     "build_evidence_hints",

@@ -33,6 +33,7 @@ Design (SOLID):
 from __future__ import annotations
 
 import json
+import logging
 import os
 import sys
 import tempfile
@@ -40,6 +41,8 @@ from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
+
+from cli.noise_verbs import BASE_NOISE_VERBS, CHAIN_EXTRA_VERBS
 
 STATE_FILE_NAME: str = "chain_mode.json"
 MAX_STEPS_DEFAULT: int = 12
@@ -53,6 +56,18 @@ OUTCOME_NONE: str = "none"
 
 EXIT_WORDS: frozenset[str] = frozenset({"off", "stop", "exit", "quit", "end", "disable"})
 SKIP_WORDS: frozenset[str] = frozenset({"skip", "none", "later", "s"})
+
+KEY_ESC: int = 0x1B
+KEY_CTRL_C: int = 0x03
+KEY_CTRL_D: int = 0x04
+KEY_CARRIAGE_RETURN: int = 0x0D
+KEY_LINE_FEED: int = 0x0A
+KEY_BACKSPACE: int = 0x08
+KEY_DELETE: int = 0x7F
+KEY_SPACE: int = 0x20
+KEY_TILDE: int = 0x7E
+
+_log = logging.getLogger(__name__)
 
 
 class _ChainEscExit(Exception):
@@ -93,23 +108,23 @@ def _read_line_unix(prompt: str) -> str:
             if not chunk:
                 raise EOFError
             code = chunk[0]
-            if code == 0x1B:
+            if code == KEY_ESC:
                 raise _ChainEscExit
-            if code == 0x03:
+            if code == KEY_CTRL_C:
                 raise KeyboardInterrupt
-            if code in (0x0D, 0x0A):
+            if code in (KEY_CARRIAGE_RETURN, KEY_LINE_FEED):
                 sys.stdout.write("\r\n")
                 sys.stdout.flush()
                 break
-            if code in (0x7F, 0x08):
+            if code in (KEY_DELETE, KEY_BACKSPACE):
                 if chars:
                     chars.pop()
                     sys.stdout.write("\b \b")
                     sys.stdout.flush()
                 continue
-            if code == 0x04 and not chars:
+            if code == KEY_CTRL_D and not chars:
                 raise EOFError
-            if 0x20 <= code <= 0x7E:
+            if KEY_SPACE <= code <= KEY_TILDE:
                 chars.append(chr(code))
                 sys.stdout.write(chr(code))
                 sys.stdout.flush()
@@ -139,69 +154,28 @@ def _read_line_windows(prompt: str) -> str:
     chars: list[str] = []
     while True:
         ch = msvcrt.getwch()
-        if ch == "\x1b":
+        if ch == chr(KEY_ESC):
             raise _ChainEscExit
-        if ch == "\x03":
+        if ch == chr(KEY_CTRL_C):
             raise KeyboardInterrupt
         if ch in ("\r", "\n"):
             sys.stdout.write("\r\n")
             sys.stdout.flush()
             break
-        if ch in ("\x08", "\x7f"):
+        if ch in (chr(KEY_DELETE), chr(KEY_BACKSPACE)):
             if chars:
                 chars.pop()
                 sys.stdout.write("\b \b")
                 sys.stdout.flush()
             continue
-        if ch == "\x04" and not chars:
+        if ch == chr(KEY_CTRL_D) and not chars:
             raise EOFError
         chars.append(ch)
         sys.stdout.write(ch)
         sys.stdout.flush()
     return "".join(chars)
 
-CHAIN_SKIP_VERBS: frozenset[str] = frozenset(
-    {
-        "help",
-        "?",
-        "exit",
-        "quit",
-        "history",
-        "shell",
-        "dashboard",
-        "next",
-        ".",
-        ",",
-        "set",
-        "assign",
-        "show",
-        "palette",
-        "palette_k",
-        "browse",
-        "timeline_browser",
-        "form",
-        "graph_overlay",
-        "toast_clear",
-        "edit",
-        "run_script",
-        "shortcuts",
-        "_relative_run",
-        "sitrep",
-        "ctx",
-        "phase",
-        "note",
-        "l00t",
-        "pivot",
-        "tasks",
-        "scans",
-        "wizard",
-        "prev",
-        "chainmode",
-        "recommend_next",
-        "suggest_next",
-        "explore",
-    }
-)
+CHAIN_SKIP_VERBS: frozenset[str] = BASE_NOISE_VERBS | CHAIN_EXTRA_VERBS
 
 
 @dataclass
@@ -260,11 +234,17 @@ class ChainModeConfig:
     max_steps: int = MAX_STEPS_DEFAULT
     max_options: int = MAX_OPTIONS_DEFAULT
     enabled_default: bool = False
+    menu_prompt: str = "  chain> "
     skip_verbs: frozenset[str] = field(default_factory=lambda: frozenset(CHAIN_SKIP_VERBS))
 
 
 class ChainModeStore:
-    """Atomic persistence of the chain-mode toggle in the sessions dir."""
+    """Atomic persistence of the chain-mode toggle in the sessions dir.
+
+    Persistence is best-effort by design: a read-only sessions directory
+    must never break the interactive chain flow. Failures are logged so
+    operators and developers can see them instead of failing silently.
+    """
 
     def __init__(self, sessions_dir: str = "sessions") -> None:
         """Store the sessions directory that owns the state file.
@@ -287,8 +267,8 @@ class ChainModeStore:
             data = json.loads(self.path.read_text(encoding="utf-8"))
             if isinstance(data, dict) and isinstance(data.get("enabled"), bool):
                 return bool(data["enabled"])
-        except Exception:
-            pass
+        except (OSError, ValueError, TypeError) as exc:
+            _log.warning("Chain mode state read failed at %s: %s", self.path, exc)
         return None
 
     def save(self, enabled: bool) -> None:
@@ -312,8 +292,8 @@ class ChainModeStore:
                 except OSError:
                     pass
                 raise
-        except Exception:
-            pass
+        except OSError as exc:
+            _log.warning("Chain mode state write failed at %s: %s", self.path, exc)
 
 
 class ChainPromptEngine:
@@ -345,7 +325,6 @@ class ChainPromptEngine:
         self.resolver = resolver
         self._input_fn = input_fn
         self._print_fn = print_fn
-        self._menu_prompt = "  chain> "
         self.interactive = interactive
         self.store = ChainModeStore(self.config.sessions_dir)
         persisted = self.store.load()
@@ -407,15 +386,49 @@ class ChainPromptEngine:
             return ChainOutcome(OUTCOME_NONE)
         suggestions = self._suggest(verb, phase)
         self._render_menu(verb, suggestions)
-        try:
-            raw = self._prompt_line().strip()
-        except _ChainEscExit:
-            return self._disable("chainmode off — exited with ESC")
-        except KeyboardInterrupt:
-            return self._disable("chainmode off — interrupted")
-        except EOFError:
-            return self._disable("chainmode off — end of input")
-        return self._interpret(raw, suggestions)
+        return self._prompt_loop(suggestions)
+
+    def _prompt_loop(self, suggestions: list[ChainSuggestion]) -> ChainOutcome:
+        """Read and interpret operator input, re-prompting on invalid picks.
+
+        The loop keeps the operator inside the chain flow: an out-of-range
+        numeric choice prints a hint and asks again instead of silently
+        skipping. ESC, Ctrl+C, EOF, and every exit word leave chain mode.
+
+        Args:
+            suggestions: The ranked suggestions currently on offer.
+
+        Returns:
+            A :class:`ChainOutcome` describing the operator's decision.
+        """
+        while True:
+            try:
+                raw = self._prompt_line().strip()
+            except _ChainEscExit:
+                return self._disable("chainmode off — exited with ESC")
+            except KeyboardInterrupt:
+                return self._disable("chainmode off — interrupted")
+            except EOFError:
+                return self._disable("chainmode off — end of input")
+            lowered = raw.lower()
+            if lowered in EXIT_WORDS:
+                return self._disable("chainmode off")
+            if lowered in SKIP_WORDS:
+                return ChainOutcome(OUTCOME_SKIP)
+            if not raw:
+                if not suggestions:
+                    return ChainOutcome(OUTCOME_SKIP)
+                return self._run(suggestions[0].name)
+            if raw.isdigit():
+                index = int(raw) - 1
+                if 0 <= index < len(suggestions):
+                    return self._run(suggestions[index].name)
+                self._print_fn(
+                    f"    no option {raw} — pick 1-{len(suggestions)}, 'skip', "
+                    "or ESC/exit to leave"
+                )
+                continue
+            return self._run(raw)
 
     def _prompt_line(self) -> str:
         """Read one chain-prompt line with ESC/Ctrl+C support on real TTYs.
@@ -433,11 +446,11 @@ class ChainPromptEngine:
             try:
                 if sys.stdin.isatty():
                     if os.name == "nt":
-                        return _read_line_windows(self._menu_prompt)
-                    return _read_line_unix(self._menu_prompt)
+                        return _read_line_windows(self.config.menu_prompt)
+                    return _read_line_unix(self.config.menu_prompt)
             except (ImportError, OSError):
                 pass
-        return self._input_fn(self._menu_prompt)
+        return self._input_fn(self.config.menu_prompt)
 
     def _suggest(self, verb: str, phase: str) -> list[ChainSuggestion]:
         if self.resolver is None:
@@ -473,24 +486,6 @@ class ChainPromptEngine:
             "  chain> [Enter=1] [1-N] [skip] [ESC/Ctrl-C/exit/quit = leave]"
             " — or type any command to override"
         )
-
-    def _interpret(self, raw: str, suggestions: list[ChainSuggestion]) -> ChainOutcome:
-        lowered = raw.lower()
-        if lowered in EXIT_WORDS:
-            return self._disable("chainmode off")
-        if lowered in SKIP_WORDS:
-            return ChainOutcome(OUTCOME_SKIP)
-        if not raw:
-            if not suggestions:
-                return ChainOutcome(OUTCOME_SKIP)
-            return self._run(suggestions[0].name)
-        if raw.isdigit():
-            index = int(raw) - 1
-            if 0 <= index < len(suggestions):
-                return self._run(suggestions[index].name)
-            self._print_fn(f"    no option {raw} — run 'skip' or pick 1-{len(suggestions)}")
-            return ChainOutcome(OUTCOME_SKIP)
-        return self._run(raw)
 
     def _run(self, command: str) -> ChainOutcome:
         self._steps_run += 1

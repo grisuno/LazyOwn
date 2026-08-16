@@ -218,7 +218,7 @@ tinydb==4.8.2
 tomli==2.4.1
 tomli_w==1.2.0
 tqdm==4.69.1
-traitlets==5.14.3
+traitlets==5.16.1
 transaction==5.1
 typing-inspection==0.4.2
 typing_extensions==4.16.0

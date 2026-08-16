@@ -29,7 +29,7 @@ bcrypt==5.0.0
 beautifulsoup4==4.13.5
 bidict==0.23.1
 blinker==1.9.0
-bloodyAD==2.5.4
+bloodyAD==2.5.5
 boolean.py==5.0
 bs4==0.0.2
 BTrees==6.4

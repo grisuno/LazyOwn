@@ -53,6 +53,8 @@ users.json
 *.egg-info/
 lazysentinel.db
 parquets/session_knowledge.parquet
+persistent_chroma_db/
+sessions/phishing/tracking.db
 prompt.md
 knowledge_base_vuln.json
 graphify-out/cache/

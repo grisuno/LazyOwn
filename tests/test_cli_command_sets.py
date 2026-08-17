@@ -359,7 +359,7 @@ class TestRegisterCommandSets:
         class _Bare(cmd2.Cmd):
             pass
 
-        shell = _Bare()
+        shell = _Bare(auto_load_commands=False)
         registered = register_command_sets(shell)
         assert any(c.__class__.__name__ == "DiagnosticsCommandSet" for c in registered)
 
@@ -369,7 +369,7 @@ class TestRegisterCommandSets:
         from cli import registry
 
         class _ExplosiveCommandSet(cmd2.CommandSet):
-            def __init__(self):
+            def __init__(self, *args, **kwargs):
                 raise RuntimeError("boom")
 
         def fake_iter():
@@ -383,7 +383,7 @@ class TestRegisterCommandSets:
         class _Bare(cmd2.Cmd):
             pass
 
-        shell = _Bare()
+        shell = _Bare(auto_load_commands=False)
         registered = registry.register_command_sets(shell)
         assert any(c.__class__.__name__ == "DiagnosticsCommandSet" for c in registered)
 

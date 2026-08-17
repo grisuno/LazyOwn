@@ -1357,7 +1357,7 @@ def _print_run_command_status(command, elapsed, exit_code):
         pass
 
 
-def run_command(command):
+def run_command(command, timeout=None):
     """
     Run a command, print output in real-time, and store the output in a variable.
 
@@ -1365,8 +1365,14 @@ def run_command(command):
     output and standard error to the console in real-time, and stores the full output (stdout
     and stderr) in a variable. If interrupted, the process is terminated gracefully.
 
+    stderr is drained on a worker thread so a chatty process can never fill
+    the pipe buffer and deadlock the read loop.
+
     :param command: The command to be executed as a string.
     :type command: str
+    :param timeout: Optional per-command timeout in seconds. When exceeded the
+        process is killed and the partial output is returned.
+    :type timeout: float or None
 
     :returns: The full output of the command (stdout and stderr).
     :rtype: str
@@ -1379,34 +1385,47 @@ def run_command(command):
     command_tokens = shlex.split(command)
     start_time = time.monotonic()
     exit_code = None
+    process = None
     try:
         process = subprocess.Popen(
             command_tokens, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
         )
-        while True:
-            stdout_line = process.stdout.readline()
-            if stdout_line:
-                sys.stdout.write(stdout_line)
-                output += stdout_line
-            stderr_line = process.stderr.readline()
-            if stderr_line:
-                sys.stdout.write(stderr_line)
-                output += stderr_line
-            if not stdout_line and not stderr_line and process.poll() is not None:
-                break
-        stdout, stderr = process.communicate()
-        if stdout:
-            sys.stdout.write(stdout)
-            output += stdout
-        if stderr:
-            sys.stdout.write(stderr)
-            output += stderr
-        exit_code = process.returncode
+    except FileNotFoundError:
+        print_error(f"Command not found: {command_tokens[0] if command_tokens else command}")
+        _print_run_command_status(command, time.monotonic() - start_time, 127)
+        return output
+
+    stderr_chunks = []
+
+    def _drain_stderr():
+        if process is None or process.stderr is None:
+            return
+        for line in iter(process.stderr.readline, ""):
+            stderr_chunks.append(line)
+            sys.stdout.write(line)
+        sys.stdout.flush()
+
+    stderr_thread = threading.Thread(target=_drain_stderr, daemon=True)
+    stderr_thread.start()
+    try:
+        if process.stdout is not None:
+            for line in iter(process.stdout.readline, ""):
+                sys.stdout.write(line)
+                output += line
+        stderr_thread.join()
+        try:
+            process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait()
+            print_error(f"Command timed out: {command}")
     except KeyboardInterrupt:
         process.terminate()
         print_warn("\n[Interrupted] Process terminated")
         process.wait()
     finally:
+        exit_code = process.returncode
+        output += "".join(stderr_chunks)
         _print_run_command_status(command, time.monotonic() - start_time, exit_code)
     return output
 
@@ -3304,13 +3323,14 @@ class VulnerabilityScanner:
 
 def _build_startup_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser for LazyOwn startup flags."""
+    prog_name = os.path.basename(sys.argv[0]) if sys.argv and sys.argv[0] else "lazyown"
     parser = argparse.ArgumentParser(
-        prog="./run",
+        prog=prog_name,
         add_help=False,
         formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-h", "--help", action="store_true", default=False)
-    parser.add_argument("-V", "--version", action="store_true", default=False)
+    parser.add_argument("-v", "-V", "--version", action="store_true", default=False)
     parser.add_argument("-p", "--payload", metavar="payloadN.json", default=None)
     parser.add_argument("-c", "--command", metavar="command", default=None)
     parser.add_argument("--no-banner", action="store_true", dest="no_banner", default=False)

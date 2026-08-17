@@ -8,6 +8,8 @@ compatibility with the historical import path ``from utils import print_msg``.
 
 from __future__ import annotations
 
+import os
+
 RESET = "\033[0m"
 BOLD = "\033[1m"
 UNDERLINE = "\033[4m"
@@ -63,10 +65,26 @@ INFO_PREFIX = "[+]"
 WARN_PREFIX = "[~]"
 SUCCESS_PREFIX = "[*]"
 
-ERROR_GLYPH = "[☠]"
-INFO_GLYPH = "[\U0001f47d]"
-WARN_GLYPH = "[⚠]"
-SUCCESS_GLYPH = "[✓]"
+ASCII_ERROR_GLYPH = "[X]"
+ASCII_INFO_GLYPH = "[+]"
+ASCII_WARN_GLYPH = "[!]"
+ASCII_SUCCESS_GLYPH = "[OK]"
+
+_EMOJI_ERROR_GLYPH = "[\u2620]"
+_EMOJI_INFO_GLYPH = "[\U0001f47d]"
+_EMOJI_WARN_GLYPH = "[\u26a0]"
+_EMOJI_SUCCESS_GLYPH = "[\u2713]"
+
+if os.environ.get("LAZYOWN_EMOJI_GLYPHS") == "1":
+    ERROR_GLYPH = _EMOJI_ERROR_GLYPH
+    INFO_GLYPH = _EMOJI_INFO_GLYPH
+    WARN_GLYPH = _EMOJI_WARN_GLYPH
+    SUCCESS_GLYPH = _EMOJI_SUCCESS_GLYPH
+else:
+    ERROR_GLYPH = ASCII_ERROR_GLYPH
+    INFO_GLYPH = ASCII_INFO_GLYPH
+    WARN_GLYPH = ASCII_WARN_GLYPH
+    SUCCESS_GLYPH = ASCII_SUCCESS_GLYPH
 
 
 def _sanitize(text: object) -> str:
@@ -76,7 +94,7 @@ def _sanitize(text: object) -> str:
 
 def print_error(error: object) -> None:
     """Print a red error message to stdout."""
-    print(f"    {YELLOW}{ERROR_PREFIX}{RED} {_sanitize(error)}{RESET} {ERROR_GLYPH}")
+    print(f"    {RED}{ERROR_PREFIX}{RED} {_sanitize(error)}{RESET} {ERROR_GLYPH}")
 
 
 def print_msg(msg: object) -> None:

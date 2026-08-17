@@ -47,6 +47,7 @@ LazyOwn_history.dat
 */__pycache__
 cloudflared
 users.json
+.c2_credentials.txt
 .coverage
 .coverage.*
 *.egg-info/

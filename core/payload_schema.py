@@ -606,6 +606,13 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
         _spec(
+            "enable_chainmode",
+            FieldKind.BOOL,
+            False,
+            "Allow the interactive chain-mode menu in the CLI.",
+            category="cli",
+        ),
+        _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
         ),
         _spec(
@@ -669,6 +676,19 @@ SCHEMA: dict[str, FieldSpec] = {
             FieldKind.STRING,
             "5 per minute",
             "Flask-Limiter rate applied to the /register endpoint.",
+            category="c2",
+        ),
+        _spec(
+            "c2_open_registration",
+            FieldKind.BOOL,
+            "False",
+            "Allow new operator accounts to self-register on the C2 web UI.",
+            long_help=(
+                "Disabled by default: new operators are created by an admin "
+                "through the user management panel. When enabled, new "
+                "registrants always get the default operator role."
+            ),
+            example="False",
             category="c2",
         ),
         _spec(

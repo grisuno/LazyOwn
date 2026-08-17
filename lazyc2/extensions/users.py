@@ -63,3 +63,4 @@ def save_users(users: list[dict]) -> None:
         pass
     with open(USER_DATA_PATH, "w") as f:
         json.dump(users, f, indent=4)
+    os.chmod(USER_DATA_PATH, 0o600)

@@ -606,6 +606,26 @@ SCHEMA: dict[str, FieldSpec] = {
         ),
         _spec("enable_c2_implant_debug", FieldKind.BOOL, "True", "Verbose beacon logging.", category="c2"),
         _spec(
+            "enable_chainmode",
+            FieldKind.BOOL,
+            False,
+            "Allow the interactive chain-mode menu in the CLI.",
+            category="cli",
+        ),
+        _spec(
+            "debug",
+            FieldKind.BOOL,
+            False,
+            "Enable DEBUG-level logging so silently swallowed UX failures are visible.",
+            long_help=(
+                "When enabled, exceptions swallowed by post-command hooks, "
+                "first-run setup, and auto-crypto are written to the session "
+                "log files with full tracebacks."
+            ),
+            example="False",
+            category="cli",
+        ),
+        _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
         ),
         _spec(
@@ -669,6 +689,45 @@ SCHEMA: dict[str, FieldSpec] = {
             FieldKind.STRING,
             "5 per minute",
             "Flask-Limiter rate applied to the /register endpoint.",
+            category="c2",
+        ),
+        _spec(
+            "c2_open_registration",
+            FieldKind.BOOL,
+            "False",
+            "Allow new operator accounts to self-register on the C2 web UI.",
+            long_help=(
+                "Disabled by default: new operators are created by an admin "
+                "through the user management panel. When enabled, new "
+                "registrants always get the default operator role."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
+            "c2_decoy_mode",
+            FieldKind.STRING,
+            "page",
+            "Behaviour for requests coming from non-operator IPs: page, deny or off.",
+            long_help=(
+                "page (default) serves a fake decoy page, deny returns HTTP "
+                "403, off disables the check entirely so operators can reach "
+                "the dashboard from any machine."
+            ),
+            example="page",
+            category="c2",
+        ),
+        _spec(
+            "c2_require_beacon_hmac",
+            FieldKind.BOOL,
+            "False",
+            "Require a valid HMAC (X-Signature) on every beacon result POST.",
+            long_help=(
+                "When enabled, /command/<client_id> POSTs without a valid "
+                "X-Signature header derived from rat_key are rejected, "
+                "preventing result forgery from hosts that reach the C2."
+            ),
+            example="False",
             category="c2",
         ),
         _spec(

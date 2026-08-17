@@ -213,10 +213,26 @@ def test_misp_export(tmp_path):
 def test_dashboard_endpoints():
     from dashboard_bp import dashboard_bp
     from flask import Flask
+    from flask_login import LoginManager, UserMixin
+
+    class _User(UserMixin):
+        def __init__(self, uid):
+            self.id = uid
+
     app = Flask(__name__)
     app.config["TESTING"] = True
+    app.secret_key = "test-secret"
+    login_manager = LoginManager(app)
+
+    @login_manager.user_loader
+    def load_user(user_id):
+        return _User(user_id)
+
     app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
     c = app.test_client()
+    with c.session_transaction() as sess:
+        sess["_user_id"] = "1"
+        sess["_fresh"] = True
     assert c.get("/dashboard/").status_code == 200
     r = c.get("/dashboard/api/data")
     assert r.status_code == 200

@@ -61,6 +61,16 @@ def save_users(users: list[dict]) -> None:
             return
     except (ImportError, AttributeError):
         pass
-    with open(USER_DATA_PATH, "w") as f:
+    if not users and os.path.exists(USER_DATA_PATH):
+        return
+    tmp = USER_DATA_PATH + ".tmp"
+    with open(tmp, "w") as f:
         json.dump(users, f, indent=4)
+    os.chmod(tmp, 0o600)
+    previous_owner = None
+    if os.path.exists(USER_DATA_PATH):
+        previous_owner = os.stat(USER_DATA_PATH).st_uid
+    os.replace(tmp, USER_DATA_PATH)
     os.chmod(USER_DATA_PATH, 0o600)
+    if os.geteuid() == 0 and previous_owner is not None:
+        os.chown(USER_DATA_PATH, previous_owner, -1)

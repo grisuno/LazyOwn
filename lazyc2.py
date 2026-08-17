@@ -2550,7 +2550,10 @@ if _RBAC_AVAILABLE:
     set_tenant_manager(_tenant_mgr)
     _tenant_mgr.ensure_default_tenant()
 
-_bootstrap_initial_admin()
+_RUN_MAIN = __name__ == "__main__"
+
+if _RUN_MAIN:
+    _bootstrap_initial_admin()
 
 DATA_FILE = BASE_DIR + 'surface_attack.json'
 LOG_DIR = os.path.join('sessions', 'logs', 'c2')
@@ -2650,7 +2653,7 @@ implants_check()
 create_report()
 local_ips = get_local_ip_addresses()
 
-if len(sys.argv) > 3:
+if _RUN_MAIN and len(sys.argv) > 3:
 
     lport = sys.argv[1]
     USERNAME = sys.argv[2].strip()
@@ -2706,19 +2709,19 @@ if len(sys.argv) > 3:
         logger.info(f"    [!] Launch C2 at: {local_ips}")
         logger.info(f"    [!] Launch C2 at: {lport}")
 
-else:
+elif _RUN_MAIN:
     if config.enable_c2_debug:
         logger.info("    [!] Need pass the port, user & pass as argument")
         print("    [!] Need pass the port, user & pass as argument")
     sys.exit(2)
 
-if not api_key:
+if _RUN_MAIN and not api_key:
     logging.error("Error: La API key no está configurada en el archivo payload.json")
     print("Error: La API key no está configurada en el archivo payload.json")
     shell.onecmd('BlackObsidianC2')
     exit(1)
 
-if not route_malleable:
+if _RUN_MAIN and not route_malleable:
     logging.error("Error: c2_malleable_route not found on payload.json add, Ex:\"c2_malleable_route\": \"/gmail/v1/users/\",")
     logging.error("Error: c2_malleable_route not found on payload.json")
     sys.exit(1)

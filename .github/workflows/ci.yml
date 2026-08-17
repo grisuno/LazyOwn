@@ -46,10 +46,9 @@ jobs:
       - name: Install project
         run: pip install -e ".[dev]"
       - name: Run tests
-        run: python -m pytest tests/ -x -v --tb=short --timeout=60 -p no:cacheprovider 2>&1 | head -200
+        run: python -m pytest tests/ -x --tb=short --timeout=300 -p no:cacheprovider
         env:
           LAZYOWN_TEST_MODE: "1"
-        continue-on-error: true
 
   security:
     needs: lint
@@ -80,4 +79,4 @@ jobs:
           pip install types-requests types-PyYAML types-tabulate 2>/dev/null || true
       - name: mypy type check
         continue-on-error: true
-        run: mypy --config-file pyproject.toml --no-strict-optional .
+        run: mypy --config-file pyproject.toml --no-strict-optional --explicit-package-bases core cli setup.py

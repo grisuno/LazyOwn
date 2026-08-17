@@ -46,6 +46,10 @@ firefox.dmp
 LazyOwn_history.dat
 */__pycache__
 cloudflared
+users.json
+.coverage
+.coverage.*
+*.egg-info/
 lazysentinel.db
 parquets/session_knowledge.parquet
 prompt.md

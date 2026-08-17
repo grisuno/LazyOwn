@@ -6,7 +6,7 @@ category: "10. Command & Control"
 module_type: payload
 os: any
 trigger: [https]
-enabled: true
+enabled: false
 params:
   - name: server_url
     description: WebSocket server URL (ws:// or wss://)

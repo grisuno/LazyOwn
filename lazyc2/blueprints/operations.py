@@ -9,6 +9,7 @@ from __future__ import annotations
 import markdown
 from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 
+from lazyc2.blueprints.session_auth import require_operator_session
 from lazyc2.extensions.decoy import decoy_response
 from lazyc2.extensions.storage import (
     load_cves,
@@ -21,6 +22,8 @@ from lazyc2.extensions.storage import (
 )
 
 operations_bp = Blueprint("operations", __name__)
+
+require_operator_session(operations_bp)
 
 _TASK_VALID_STATUSES = ["New", "Refined", "Started", "Review", "Qa", "Done", "Blocked"]
 _CVE_VALID_RISKS = ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFORMATIONAL"]

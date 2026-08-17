@@ -2487,40 +2487,61 @@ ENV = _env_tag()
 
 
 def _bootstrap_initial_admin() -> None:
-    """Create the initial admin account when the user store is empty.
+    """Create the initial admin account only on a truly fresh install.
 
     A cryptographically random one-time password is generated and printed
     exactly once; the account is flagged with ``must_change_password`` so
     the operator is forced to rotate it on first login.
+
+    If ``users.json`` exists but is empty or unreadable, the store is left
+    untouched: overwriting an existing operator database is never acceptable.
     """
     one_time_password = secrets.token_urlsafe(16)
     if _RBAC_AVAILABLE:
-        if not _rbac_store.load_all():
-            logger.info("[rbac] No users found; creating initial admin account")
-            admin = _rbac_store.ensure_admin(
-                username="admin",
-                password_hash=generate_password_hash(one_time_password),
-            )
-            admin.must_change_password = True
-            _rbac_store.save(admin)
-            print("[rbac] Initial admin created with a random one-time password:")
-            print(f"[rbac]     admin / {one_time_password}")
-            print("[rbac] You will be forced to change it on first login.")
-        else:
-            _migrated = False
-            for u in _rbac_store.load_all():
-                if not u.role or u.role not in Role.valid_roles():
-                    u.role = ROLE_DEFAULT
-                    _rbac_store.save(u)
-                    _migrated = True
-            if _migrated:
-                logger.info("[rbac] Migrated existing users to RBAC schema")
-            _rbac_store.ensure_admin(
-                "admin", generate_password_hash(one_time_password)
-            )
+        store_path = Path(USER_DATA_PATH)
+        if store_path.exists():
+            existing = _rbac_store.load_all()
+            if not existing:
+                logger.critical(
+                    "[rbac] users.json exists but is empty or unreadable; "
+                    "refusing to overwrite it with a bootstrap admin"
+                )
+                print(
+                    "[rbac] WARNING: users.json exists but could not be read. "
+                    "It will NOT be overwritten."
+                )
+            else:
+                _migrated = False
+                for u in existing:
+                    if not u.role or u.role not in Role.valid_roles():
+                        u.role = ROLE_DEFAULT
+                        _rbac_store.save(u)
+                        _migrated = True
+                if _migrated:
+                    logger.info("[rbac] Migrated existing users to RBAC schema")
+                _rbac_store.ensure_admin(
+                    "admin", generate_password_hash(one_time_password)
+                )
+            return
+        logger.info("[rbac] No users.json found; creating initial admin account")
+        admin = _rbac_store.ensure_admin(
+            username="admin",
+            password_hash=generate_password_hash(one_time_password),
+        )
+        admin.must_change_password = True
+        _rbac_store.save(admin)
+        print("[rbac] Initial admin created with a random one-time password:")
+        print(f"[rbac]     admin / {one_time_password}")
+        print("[rbac] You will be forced to change it on first login.")
         return
     from lazyc2.extensions.users import load_users, save_users
     if load_users():
+        return
+    if Path(USER_DATA_PATH).exists():
+        logger.critical(
+            "[users] users.json exists but is empty or unreadable; refusing "
+            "to overwrite it with a bootstrap admin"
+        )
         return
     logger.info("[users] No users found; creating initial admin account")
     save_users(
@@ -2696,7 +2717,7 @@ if _RUN_MAIN and len(sys.argv) > 3:
             existing.password_hash = generate_password_hash(PASSWORD)
             store.save(existing)
             logger.info("[rbac] Updated CLI user password in RBAC store")
-        else:
+        elif not store.load_all():
             store.create_user(
                 username=USERNAME,
                 password_hash=generate_password_hash(PASSWORD),
@@ -2704,6 +2725,11 @@ if _RUN_MAIN and len(sys.argv) > 3:
             )
             logger.info("[rbac] Registered CLI user in RBAC store as admin")
             print(f"[rbac] CLI user '{USERNAME}' registered in RBAC store")
+        else:
+            print(
+                f"[rbac] Existing user store found; skipping creation of "
+                f"'{USERNAME}'. Authenticate with an existing operator."
+            )
 
     if config.enable_c2_debug:
         logger.info(f"    [!] Launch C2 at: {local_ips}")

@@ -15,6 +15,7 @@ Design notes:
 from __future__ import annotations
 
 import csv
+import logging
 import math
 from collections.abc import Sequence
 from dataclasses import dataclass
@@ -30,6 +31,8 @@ if TYPE_CHECKING:
     from cli.graph_advisor import GraphAdvisor
 
 SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | HINTS_EXTRA_VERBS
+
+_log = logging.getLogger(__name__)
 
 # Ordered kill-chain: after running X, suggest Y (phase-agnostic sensible defaults)
 _KILL_CHAIN_NEXT: dict[str, list[str]] = {
@@ -114,7 +117,10 @@ _PHASE_PRIORITY: dict[str, list[str]] = {
         "searchsploit", "crackmapexec", "sqlmap", "burpsuite", "evil-winrm",
         "auto_pwn", "chain", "hunt", "exploit_db", "hydra",
     ],
-    "privesc": ["linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer", "juicypotato", "whoami_priv", "gtfo", "les", "crystal_ball", "kerberos_ticket", "adcs_check"],
+    "privesc": [
+        "linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer", "juicypotato",
+        "whoami_priv", "gtfo", "les", "crystal_ball", "kerberos_ticket", "adcs_check",
+    ],
     "lateral": [
         "crackmapexec", "evil-winrm", "chisel", "secretsdump", "psexec",
         "ssh", "xfreerdp", "collab_join", "kerberos_ticket", "delegation_attack",
@@ -174,7 +180,8 @@ def render_inline_hints(
         return
     try:
         suggestions = advisor.suggest_next(recent_commands=[cmd], limit=limit)
-    except Exception:
+    except Exception as exc:
+        _log.warning("Graph advisor hints failed for '%s': %s", cmd, exc)
         return
     if not suggestions:
         return

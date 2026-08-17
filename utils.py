@@ -410,6 +410,26 @@ def load_version():
 
 version = load_version()
 url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"
+
+
+def parse_bool(value):
+    """
+    Interpret a configuration value as a boolean.
+
+    Accepts the canonical truthy strings used across payload.json and
+    form surfaces (``true``, ``1``, ``yes``, ``on``, case-insensitive).
+    Anything else evaluates to False so a missing or typo'd flag can
+    never silently enable a feature.
+
+    Args:
+        value: The raw value; converted to string before inspection.
+
+    Returns:
+        bool: True only for the canonical truthy strings.
+    """
+    return str(value).strip().lower() in ("true", "1", "yes", "on")
+
+
 def signal_handler(sig, frame):
     """
     Handles signals such as Control + C and shows a message on how to exit.

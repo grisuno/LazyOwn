@@ -104,6 +104,7 @@ from modules.event_bus import LazyEvent as _LazyEvent
 from modules.event_bus import get_event_bus as _get_event_bus
 from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.logging_config import configure as _configure_logging
+from modules.logging_config import get_logger as _get_logger
 from modules.metrics import get_recorder as _get_metrics_recorder
 from modules.module_registry import ModuleRegistry as _ModuleRegistry
 from modules.module_registry import format_module_detail as _format_module_detail
@@ -283,6 +284,16 @@ _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
 _PALETTE_COMPLETER = _PaletteCompleter(_PALETTE_RENDER_CONFIG)
 
 config = _load_payload()
+
+
+def _ux_debug(context: str, exc: Exception) -> None:
+    """Log a swallowed UX-path exception at DEBUG level.
+
+    Args:
+        context: Human-readable description of the failed step.
+        exc: The exception that was caught.
+    """
+    _get_logger("lazyown.ux").debug("%s: %s", context, exc, exc_info=True)
 
 try:
     _result = _load_and_validate()
@@ -476,6 +487,7 @@ class LazyOwnShell(cmd2.Cmd):
             persistent_history_file='LazyOwn_history.dat',
             startup_script='lazyscripts/startup.ls',
             include_ipy=True,
+            allow_redirection=False,
         )
         try:
             _mode = getattr(self.config, "history_search_mode", None)
@@ -996,8 +1008,8 @@ class LazyOwnShell(cmd2.Cmd):
 
         Reads the ``enable_toasts`` flag from ``self.params`` (default
         True) so operators can disable transient notifications with
-        ``set enable_toasts false`` without restarting. Any failure is
-        swallowed — toasts must never block the shell.
+        ``set enable_toasts false`` without restarting. Failures are
+        logged at DEBUG level instead of being silently swallowed.
 
         Args:
             data: cmd2 PostcommandData containing the executed statement.
@@ -1010,8 +1022,10 @@ class LazyOwnShell(cmd2.Cmd):
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
             _render_toasts(payload=self.params, sessions_dir=sessions_dir)
-        except Exception:
-            pass
+        except Exception as exc:
+            _get_logger("lazyown.ux").debug(
+                "toast hook failed silently: %s", exc, exc_info=True
+            )
         return data
 
 
@@ -1046,8 +1060,10 @@ class LazyOwnShell(cmd2.Cmd):
                 return data
             self._sync_chain_active(engine)
             engine.render(cmd=cmd, phase=phase)
-        except Exception:
-            pass
+        except Exception as exc:
+            _get_logger("lazyown.ux").debug(
+                "tips hook failed silently: %s", exc, exc_info=True
+            )
         return data
 
     def _sync_chain_active(self, tips_engine: _TipsEngine) -> None:
@@ -1179,8 +1195,8 @@ class LazyOwnShell(cmd2.Cmd):
             decrypted = crypto.decrypt_session()
             if decrypted:
                 print("Session data decrypted successfully.", flush=True)
-        except Exception:
-            pass
+        except Exception as exc:
+            _ux_debug("auto-crypto session decryption failed", exc)
 
     def _run_auto_encrypt(self) -> None:
         """Encrypt session data automatically on application close."""
@@ -1191,8 +1207,8 @@ class LazyOwnShell(cmd2.Cmd):
             encrypted = crypto.encrypt_session()
             if encrypted:
                 print("Session data encrypted for at-rest protection.", flush=True)
-        except Exception:
-            pass
+        except Exception as exc:
+            _ux_debug("auto-crypto session encryption failed", exc)
 
     def _read_recent_commands_for_autosuggest(self, limit: int = 5) -> list:
         """Return the last ``limit`` first-tokens from the session transcript.
@@ -2219,8 +2235,8 @@ class LazyOwnShell(cmd2.Cmd):
             try:
                 _os.makedirs(_config_dir, exist_ok=True)
                 open(_sentinel, "w").close()
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("onboarding sentinel migration failed", exc)
 
         if not _os.path.exists(_sentinel) and not _sys.stdin.isatty():
             return
@@ -2231,8 +2247,8 @@ class LazyOwnShell(cmd2.Cmd):
             auto_result = try_auto_login()
             if auto_result.get("success"):
                 self.operator_name = auto_result["username"]
-        except Exception:
-            pass
+        except Exception as exc:
+            _ux_debug("auto-login failed", exc)
 
         try:
             from core.credential_vault import check_dangerous_defaults
@@ -2254,10 +2270,10 @@ class LazyOwnShell(cmd2.Cmd):
                         sealed = seal_payload(payload)
                         save_payload(sealed)
                         print_msg("    Credentials sealed. Re-encrypted with fresh AES key.")
-                    except Exception:
-                        pass
-        except Exception:
-            pass
+                    except Exception as exc:
+                        _ux_debug("credential sealing failed", exc)
+        except Exception as exc:
+            _ux_debug("credential default check failed", exc)
 
         if not _os.path.exists(_sentinel):
             # ── First run ────────────────────────────────────────────────────
@@ -2270,8 +2286,8 @@ class LazyOwnShell(cmd2.Cmd):
                     ["LazyOwn", "RedTeam Framework"],
                     payload=self.params,
                 )
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("splash render failed", exc)
             print_msg(
                 "\n  Welcome to LazyOwn — it looks like this is your first launch.\n"
                 "  We will walk you through two quick setup steps:\n"
@@ -2283,14 +2299,14 @@ class LazyOwnShell(cmd2.Cmd):
                 self.do_config_banner("")
             except KeyboardInterrupt:
                 print_warn("config_banner skipped.")
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("first-run config_banner failed", exc)
             try:
                 self.do_wizard("--tutorial")
             except KeyboardInterrupt:
                 print_warn("wizard skipped.")
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("first-run wizard failed", exc)
             print_msg(
                 "\n  Setup complete. Suggested first commands:\n"
                 "    ping          — verify connectivity to rhost (sets os_id)\n"
@@ -2306,14 +2322,14 @@ class LazyOwnShell(cmd2.Cmd):
                         "  ELO, karma, and gym progress won't be tracked until you login.\n"
                         "  Use: register <username>  (first time)  or  login --remember <username>"
                     )
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("needs_login check failed", exc)
             # Mark as initialised so this block never runs again
             try:
                 _os.makedirs(_config_dir, exist_ok=True)
                 open(_sentinel, "w").close()
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("onboarding sentinel write failed", exc)
         else:
             # ── Normal session tip ───────────────────────────────────────────
             try:
@@ -2323,8 +2339,8 @@ class LazyOwnShell(cmd2.Cmd):
                     print_warn(
                         "Not logged in — prompt shows [anonymous]. Use 'register' to create an account or 'login --remember <username>'."
                     )
-            except Exception:
-                pass
+            except Exception as exc:
+                _ux_debug("needs_login check failed", exc)
             try:
                 enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
                 if enabled:
@@ -2549,30 +2565,27 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(scanning_category)
     def run_lazyown(self):
         """
-        Run the internal module located at `modules/lazyown.py`.
+        Run the internal module located at `modules/lazyown_parquet_tool.py`.
 
-        This method executes the `lazyown.py` script, which is a core component of the LazyOwn framework.
+        This method executes the `lazyown_parquet_tool.py` script, which is a
+        parquet search component of the LazyOwn framework.
 
         The function performs the following steps:
 
-        1. Calls `self.run_script` with `lazyown.py` to execute the script.
+        1. Calls `self.run_script` with `lazyown_parquet_tool.py` to execute the script.
 
         :returns: None
 
         Manual execution:
-        1. Ensure that the `modules/lazyown.py` script is present in the `modules` directory.
+        1. Ensure that the `modules/lazyown_parquet_tool.py` script is present in the `modules` directory.
         2. Run the script with:
-            `python3 modules/lazyown.py`
-
-        Example:
-            To run `lazyown.py` directly, execute:
-            `python3 modules/lazyown.py`
+            `python3 modules/lazyown_parquet_tool.py`
 
         Note:
             - Ensure that the script has the appropriate permissions and dependencies to run.
         """
 
-        self.run_script("modules/lazyown.py")
+        self.run_script("modules/lazyown_parquet_tool.py")
         return
 
     @cmd2.with_category(miscellaneous_category)
@@ -4807,7 +4820,12 @@ class LazyOwnShell(cmd2.Cmd):
 
 
 def main():
-    _configure_logging(level=logging.INFO, console=False, file=True)
+    _debug_enabled = bool(config.get("debug", False))
+    _configure_logging(
+        level=logging.DEBUG if _debug_enabled else logging.INFO,
+        console=False,
+        file=True,
+    )
     if HEADLESS:
         from cli.headless import EXIT_CONFIG, HeadlessRunner
 
@@ -4874,7 +4892,10 @@ def main():
         p.onecmd("rhost clean")
     p.onecmd('p')
     p.onecmd('ipp')
-    p.onecmd("createcredentials")
+    _start_user = str(config.get("start_user", "") or "").strip()
+    _start_pass = str(config.get("start_pass", "") or "").strip()
+    if _start_user and _start_user != "CHANGE_ME" and _start_pass and _start_pass != "CHANGE_ME":
+        p.onecmd("createcredentials")
     p.cmdloop()
 
 

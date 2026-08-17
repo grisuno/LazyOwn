@@ -18,7 +18,7 @@ You are operating the LazyOwn professional red-team framework via its MCP server
 
 - **Repo**: `/home/grisun0/LazyOwn`
 - **MCP entry**: `skills/lazyown_mcp.py` (~131 tools)
-- **Shell**: `./run` → `lazyown.py` (333+ commands, 200+ aliases)
+- **Shell**: `./run` → `lazyown.py` (724+ commands, 126 aliases)
 - **State**: `payload.json` (config) + `sessions/` (campaign artefacts)
 
 ---

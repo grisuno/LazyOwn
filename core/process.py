@@ -12,6 +12,7 @@ import shlex
 import shutil
 import subprocess
 import sys
+import threading
 from collections.abc import Callable
 from typing import Any
 
@@ -148,20 +149,26 @@ def is_package_installed(package_name: str) -> bool:
     return importlib.util.find_spec(package_name) is not None
 
 
-def run_command(command: str) -> str:
+def run_command(command: str, timeout: float | None = None) -> str:
     """Run a command, streaming output in real time.
 
     Uses ``subprocess.Popen`` to execute ``command``, printing stdout and
     stderr as they arrive and returning the complete output string.
 
+    stderr is drained on a worker thread so a chatty process writing to
+    stderr while stdout is quiet can never deadlock the read loop.
+
     Args:
         command: The command string to execute.
+        timeout: Optional per-command timeout in seconds. When exceeded the
+            process is killed and the partial output is returned.
 
     Returns:
         Combined stdout + stderr output.
     """
     output = ""
     command_tokens = shlex.split(command)
+    process = None
     try:
         process = subprocess.Popen(
             command_tokens,
@@ -169,28 +176,42 @@ def run_command(command: str) -> str:
             stderr=subprocess.PIPE,
             text=True,
         )
-        while True:
-            stdout_line = process.stdout.readline()
-            if stdout_line:
-                sys.stdout.write(stdout_line)
-                output += stdout_line
-            stderr_line = process.stderr.readline()
-            if stderr_line:
-                sys.stdout.write(stderr_line)
-                output += stderr_line
-            if not stdout_line and not stderr_line and process.poll() is not None:
-                break
-        stdout, stderr = process.communicate()
-        if stdout:
-            sys.stdout.write(stdout)
-            output += stdout
-        if stderr:
-            sys.stdout.write(stderr)
-            output += stderr
+    except FileNotFoundError:
+        print_error(
+            f"Command not found: {command_tokens[0] if command_tokens else command}"
+        )
+        return output
+
+    stderr_chunks: list[str] = []
+
+    def _drain_stderr() -> None:
+        if process is None or process.stderr is None:
+            return
+        for line in iter(process.stderr.readline, ""):
+            stderr_chunks.append(line)
+            sys.stdout.write(line)
+        sys.stdout.flush()
+
+    stderr_thread = threading.Thread(target=_drain_stderr, daemon=True)
+    stderr_thread.start()
+    try:
+        if process.stdout is not None:
+            for line in iter(process.stdout.readline, ""):
+                sys.stdout.write(line)
+                output += line
+        stderr_thread.join()
+        try:
+            process.wait(timeout=timeout)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            process.wait()
+            print_error(f"Command timed out: {command}")
     except KeyboardInterrupt:
         process.terminate()
         print_warn("\n[Interrupted] Process terminated")
         process.wait()
+    finally:
+        output += "".join(stderr_chunks)
     return output
 
 

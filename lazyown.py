@@ -2565,30 +2565,27 @@ class LazyOwnShell(cmd2.Cmd):
     @cmd2.with_category(scanning_category)
     def run_lazyown(self):
         """
-        Run the internal module located at `modules/lazyown.py`.
+        Run the internal module located at `modules/lazyown_parquet_tool.py`.
 
-        This method executes the `lazyown.py` script, which is a core component of the LazyOwn framework.
+        This method executes the `lazyown_parquet_tool.py` script, which is a
+        parquet search component of the LazyOwn framework.
 
         The function performs the following steps:
 
-        1. Calls `self.run_script` with `lazyown.py` to execute the script.
+        1. Calls `self.run_script` with `lazyown_parquet_tool.py` to execute the script.
 
         :returns: None
 
         Manual execution:
-        1. Ensure that the `modules/lazyown.py` script is present in the `modules` directory.
+        1. Ensure that the `modules/lazyown_parquet_tool.py` script is present in the `modules` directory.
         2. Run the script with:
-            `python3 modules/lazyown.py`
-
-        Example:
-            To run `lazyown.py` directly, execute:
-            `python3 modules/lazyown.py`
+            `python3 modules/lazyown_parquet_tool.py`
 
         Note:
             - Ensure that the script has the appropriate permissions and dependencies to run.
         """
 
-        self.run_script("modules/lazyown.py")
+        self.run_script("modules/lazyown_parquet_tool.py")
         return
 
     @cmd2.with_category(miscellaneous_category)

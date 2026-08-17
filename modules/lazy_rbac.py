@@ -123,6 +123,7 @@ class RBACUser:
     recovery_codes: list[str] = field(default_factory=list)
     elo: int = 0
     tenant_id: str = "default"
+    must_change_password: bool = False
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -136,6 +137,7 @@ class RBACUser:
             "recovery_codes": [],
             "elo": 0,
             "tenant_id": "default",
+            "must_change_password": False,
         }
         merged = {**defaults, **data}
         return cls(
@@ -148,6 +150,7 @@ class RBACUser:
             recovery_codes=merged["recovery_codes"],
             elo=merged["elo"],
             tenant_id=merged["tenant_id"],
+            must_change_password=merged["must_change_password"],
         )
 
     def get_role(self) -> Role:
@@ -218,7 +221,9 @@ class RBACStore:
         self._users_path.parent.mkdir(parents=True, exist_ok=True)
         tmp = self._users_path.with_suffix(".tmp")
         tmp.write_text(json.dumps(users, indent=4, default=str), encoding="utf-8")
+        os.chmod(tmp, 0o600)
         tmp.replace(self._users_path)
+        os.chmod(self._users_path, 0o600)
 
     def load_all(self) -> list[RBACUser]:
         with self._lock:

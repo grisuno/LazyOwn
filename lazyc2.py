@@ -2338,12 +2338,46 @@ def _enforce_https_redirect():
     return _https_redirect_policy.evaluate(request)
 
 
+_PASSWORD_CHANGE_EXEMPT_ENDPOINTS = {
+    'change_password', 'logout', 'mfa_verify', 'static', 'mfa_setup',
+}
+
+
+@app.before_request
+def _enforce_password_rotation():
+    """Redirect users flagged with ``must_change_password`` to the
+    rotation form until they set a strong password."""
+    if not current_user.is_authenticated:
+        return None
+    if request.endpoint in _PASSWORD_CHANGE_EXEMPT_ENDPOINTS:
+        return None
+    flagged = False
+    if _RBAC_AVAILABLE:
+        rbac_user = _get_rbac_user_obj(current_user)
+        flagged = bool(rbac_user and rbac_user.must_change_password)
+    else:
+        user_data = next(
+            (u for u in load_users() if u['username'] == current_user.username),
+            None,
+        )
+        flagged = bool(user_data and user_data.get('must_change_password'))
+    if flagged:
+        return redirect(url_for('change_password'))
+    return None
+
+
 @app.after_request
 def _add_security_headers(response):
     response.headers['X-Content-Type-Options'] = 'nosniff'
     response.headers['X-Frame-Options'] = 'SAMEORIGIN'
     response.headers['X-XSS-Protection'] = '1; mode=block'
     response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; img-src 'self' data: https://upload.wikimedia.org; "
+        "style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
+        "script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; "
+        "connect-src 'self'"
+    )
     return response
 
 SESSION_ID = str(uuid.uuid4())
@@ -2451,24 +2485,27 @@ login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
 ENV = _env_tag()
 
-DEFAULT_ADMIN_PASSWORD = "LazyOwnAdmin2024!"
-
 
 def _bootstrap_initial_admin() -> None:
     """Create the initial admin account when the user store is empty.
 
-    The default credentials are printed once so a fresh deployment can
-    log in; operators must change the password immediately afterwards.
+    A cryptographically random one-time password is generated and printed
+    exactly once; the account is flagged with ``must_change_password`` so
+    the operator is forced to rotate it on first login.
     """
+    one_time_password = secrets.token_urlsafe(16)
     if _RBAC_AVAILABLE:
         if not _rbac_store.load_all():
             logger.info("[rbac] No users found; creating initial admin account")
-            _rbac_store.ensure_admin(
+            admin = _rbac_store.ensure_admin(
                 username="admin",
-                password_hash=generate_password_hash(DEFAULT_ADMIN_PASSWORD),
+                password_hash=generate_password_hash(one_time_password),
             )
-            print("[rbac] Initial admin created: admin / LazyOwnAdmin2024!")
-            print("[rbac] Change this password immediately via 'profile' page.")
+            admin.must_change_password = True
+            _rbac_store.save(admin)
+            print("[rbac] Initial admin created with a random one-time password:")
+            print(f"[rbac]     admin / {one_time_password}")
+            print("[rbac] You will be forced to change it on first login.")
         else:
             _migrated = False
             for u in _rbac_store.load_all():
@@ -2479,7 +2516,7 @@ def _bootstrap_initial_admin() -> None:
             if _migrated:
                 logger.info("[rbac] Migrated existing users to RBAC schema")
             _rbac_store.ensure_admin(
-                "admin", generate_password_hash(DEFAULT_ADMIN_PASSWORD)
+                "admin", generate_password_hash(one_time_password)
             )
         return
     from lazyc2.extensions.users import load_users, save_users
@@ -2491,17 +2528,19 @@ def _bootstrap_initial_admin() -> None:
             {
                 "id": 1,
                 "username": "admin",
-                "password_hash": generate_password_hash(DEFAULT_ADMIN_PASSWORD),
+                "password_hash": generate_password_hash(one_time_password),
                 "role": "admin",
                 "mfa_enabled": False,
                 "mfa_secret": "",
                 "recovery_codes": [],
                 "tenant_id": "default",
+                "must_change_password": True,
             }
         ]
     )
-    print("[users] Initial admin created: admin / LazyOwnAdmin2024!")
-    print("[users] Change this password immediately via 'profile' page.")
+    print("[users] Initial admin created with a random one-time password:")
+    print(f"[users]     admin / {one_time_password}")
+    print("[users] You will be forced to change it on first login.")
 
 
 if _RBAC_AVAILABLE:
@@ -2533,6 +2572,7 @@ if _RBAC_AVAILABLE:
         app.config['SESSIONS_DIR'] = os.path.realpath(SESSIONS_DIR)
 GROQ_API_KEY = config.api_key
 ALLOWED_EXTENSIONS = {'txt', 'enc', 'exe', 'sh'}
+IMPLANT_STAGE_FILES = {'stub', 'stub.exe', 'r', 'beacon.enc'}
 app.config['ALLOWED_EXTENSIONS'] = ALLOWED_EXTENSIONS
 BINARY_HEADERS = [
     b'\x7fELF',
@@ -2635,6 +2675,7 @@ if len(sys.argv) > 3:
                 f.write(f"# LazyOwn C2 Credentials - Generated {datetime.now()}\n")
                 f.write(f"USERNAME={strong_user}\n")
                 f.write(f"PASSWORD={strong_pass}\n")
+            os.chmod(".c2_credentials.txt", 0o600)
             print("[+] Credentials saved to .c2_credentials.txt")
         except Exception as e:
             print(f"[!] Could not save credentials file: {e}")
@@ -4228,7 +4269,13 @@ def webserver_report(filename='index2.html'):
 
 @app.route('/s/<filename>')
 def download_files(filename):
-    """Serve a session file by name, enforcing strict basename containment."""
+    """Serve implant stage files by name, enforcing strict containment.
+
+    Only files explicitly registered in the operator-controlled short URL
+    registry (implant delivery) or the fixed implant stage names are
+    served. Captured credentials, hashes, loot and other session files are
+    never exposed through this unauthenticated route.
+    """
     access_denied = "Access denied or invalid file"
     if not filename or not isinstance(filename, str):
         abort(403, description=access_denied)
@@ -4252,11 +4299,7 @@ def download_files(filename):
     except ValueError:
         abort(403, description=access_denied)
 
-    file_extension = safe_filename.rsplit('.', 1)[-1].lower() if '.' in safe_filename else ''
-    is_allowed_extension = file_extension in ALLOWED_EXTENSIONS
-
     is_existing_file = os.path.isfile(candidate_real)
-    is_binary_file = is_binary(safe_filename) if is_existing_file else False
 
     short_urls = load_short_urls()
     for _short_url, data in short_urls.items():
@@ -4269,7 +4312,7 @@ def download_files(filename):
                 return send_from_directory(sessions_real, safe_filename)
             abort(404, description="File not found")
 
-    if is_existing_file and (is_allowed_extension or is_binary_file):
+    if safe_filename in IMPLANT_STAGE_FILES and is_existing_file:
         return send_from_directory(sessions_real, safe_filename)
 
     abort(403, description=access_denied)
@@ -4486,7 +4529,11 @@ def send_lcommand(ip, port):
         return jsonify({"error": str("audio")}), 500
 
 @app.route('/chatbot', methods=['POST'])
+@login_required
 def chatbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     prompt = data.get('prompt')
     debug = data.get('debug', False)
@@ -4497,7 +4544,11 @@ def chatbot():
     return jsonify({"response": response})
 
 @app.route('/vuln', methods=['POST'])
+@login_required
 def vuln():
+    response = decoy()
+    if response:
+        return response
     global events
     data = request.json
     file = f"{path}/sessions/vulns_{rhost}.nmap"
@@ -4534,7 +4585,11 @@ def vuln():
     return jsonify({"response": response})
 
 @app.route('/taskbot', methods=['POST'])
+@login_required
 def taskbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     file = f"{path}/sessions/tasks.json"
     debug = data.get('debug', True)
@@ -4545,7 +4600,11 @@ def taskbot():
     return jsonify({"response": response})
 
 @app.route('/search', methods=['POST'])
+@login_required
 def search():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     prompt = data.get('prompt')
     debug = data.get('debug', False)
@@ -4556,7 +4615,11 @@ def search():
     return jsonify({"response": response})
 
 @app.route('/script', methods=['POST'])
+@login_required
 def script():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     prompt = data.get('prompt')
     debug = data.get('debug', False)
@@ -4567,7 +4630,11 @@ def script():
     return jsonify({"response": response})
 
 @app.route('/redop', methods=['POST'])
+@login_required
 def redop():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     file = f"{path}/sessions/sessionLazyOwn.json"
     debug = data.get('debug', True)
@@ -4581,7 +4648,11 @@ def redop():
     return jsonify({"response": response})
 
 @app.route('/adversary', methods=['POST'])
+@login_required
 def adversary():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     prompt = data.get('prompt')
     debug = data.get('debug', False)
@@ -4592,7 +4663,11 @@ def adversary():
     return jsonify({"response": response})
 
 @app.route('/generalbot', methods=['POST'])
+@login_required
 def generalbot():
+    response = decoy()
+    if response:
+        return response
     data = request.json
     prompt = data.get('prompt')
     debug = data.get('debug', False)
@@ -4603,6 +4678,7 @@ def generalbot():
     return jsonify({"response": response})
 
 @app.route('/csv_to_html', methods=['POST'])
+@login_required
 def csv_to_html():
     response = decoy()
     if response:
@@ -4640,12 +4716,12 @@ def csv_to_html():
             rows = list(reader)
 
             html = '<table border="1"><tr>'
-            html += ''.join(f'<th>{header}</th>' for header in headers)
+            html += ''.join(f'<th>{escape(header)}</th>' for header in headers)
             html += '</tr>'
 
             for row in rows:
                 html += '<tr>'
-                html += ''.join(f'<td>{cell}</td>' for cell in row)
+                html += ''.join(f'<td>{escape(cell)}</td>' for cell in row)
                 html += '</tr>'
 
             html += '</table>'
@@ -4653,9 +4729,10 @@ def csv_to_html():
             return html
 
     except Exception:
-        return jsonify({"error": str("audio")}), 500
+        return jsonify({"error": "Failed to parse CSV file"}), 500
 
 @app.route('/search_results', methods=['POST'])
+@login_required
 def search_results():
     response = decoy()
     if response:
@@ -4663,10 +4740,11 @@ def search_results():
 
     term = request.form.get('input')
     if not term:
-        return render_template_string(
+        return Response(
             render_template('header2.html') +
             "# Error\n- **Please enter a search term.**\n" +
-            render_template('footer.html')
+            render_template('footer.html'),
+            mimetype='text/html',
         )
 
     # Lista de todos los archivos Parquet a buscar
@@ -4689,7 +4767,7 @@ def search_results():
             print(f"[!] Error searching {path}: {e}")
 
     if not combined_md_content.strip():
-        combined_md_content = f"No Results found for: '{term}'\n"
+        combined_md_content = f"No Results found for: '{escape(term)}'\n"
 
     # Convertir a HTML
     html_content = markdown.markdown(combined_md_content)
@@ -4698,7 +4776,7 @@ def search_results():
     headers_content = render_template('header2.html')
     footer = render_template('footer.html')
 
-    return render_template_string(headers_content + html_content + footer)
+    return Response(headers_content + html_content + footer, mimetype='text/html')
 @app.route('/graph')
 def graph():
     response = decoy()
@@ -4975,7 +5053,11 @@ def get_event_config_view():
     return render_template('event_config_view.html', event_config=event_config)
 
 @app.route('/aicmd', methods=['GET'])
+@login_required
 def aicmd_view():
+    response = decoy()
+    if response:
+        return response
     cmd = request.args.get('arg')
 
     INVALID = "Unknown command"
@@ -5189,6 +5271,9 @@ def register():
     response = decoy()
     if response:
         return response
+    if not bool(getattr(config, "c2_open_registration", False)):
+        flash('Registration is disabled on this server.', 'error')
+        return redirect(url_for('login'))
     if request.method == 'POST':
         username = request.form.get('username', '').strip()
         password = request.form.get('password', '').strip()
@@ -5206,9 +5291,7 @@ def register():
             if store.find_by_username(username):
                 flash('Username already exists.', 'error')
                 return redirect(url_for('register'))
-            role = Role.ADMIN.value if not any(
-                u.role == Role.ADMIN.value for u in store.load_all()
-            ) else ROLE_DEFAULT
+            role = ROLE_DEFAULT
             store.create_user(
                 username=username,
                 password_hash=generate_password_hash(password),
@@ -5261,6 +5344,9 @@ def login():
                     return redirect(url_for('mfa_verify'))
                 session.pop('mfa_user_id', None)
                 session['mfa_verified'] = True
+                if rbac_user.must_change_password:
+                    flash('You must change your one-time password before continuing.', 'warning')
+                    return redirect(url_for('change_password'))
                 flash('Welcome to LazyOwn.', 'success')
                 return redirect(url_for('profile'))
             else:
@@ -5273,6 +5359,9 @@ def login():
         if user_data and check_password_hash(user_data['password_hash'], password):
             user = User(user_data)
             login_user(user)
+            if user_data.get('must_change_password'):
+                flash('You must change your one-time password before continuing.', 'warning')
+                return redirect(url_for('change_password'))
             flash('Welcome to LazyOwn.', 'success')
             return redirect(url_for('profile'))
         else:
@@ -5582,6 +5671,73 @@ def logout():
     logout_user()
     flash('Successfully logged out.', 'success')
     return redirect(url_for('index'))
+
+@app.route('/profile/change_password', methods=['GET', 'POST'])
+@login_required
+def change_password():
+    """Force rotation of the initial one-time admin password.
+
+    Both the RBAC store and the legacy JSON store are updated. The
+    ``must_change_password`` flag is cleared once a strong password
+    is set.
+    """
+    response = decoy()
+    if response:
+        return response
+    if request.method == 'POST':
+        current_password = request.form.get('current_password', '')
+        new_password = request.form.get('new_password', '')
+        confirm_password = request.form.get('confirm_password', '')
+
+        if not current_password or not new_password:
+            flash('All fields are mandatory.', 'error')
+            return redirect(url_for('change_password'))
+
+        if new_password != confirm_password:
+            flash('New passwords do not match.', 'error')
+            return redirect(url_for('change_password'))
+
+        if len(new_password) < 12:
+            flash('Password must be at least 12 chars.', 'error')
+            return redirect(url_for('change_password'))
+
+        username = current_user.username
+        if is_insecure_credential(username, new_password):
+            flash('Password is too weak or matches a default.', 'error')
+            return redirect(url_for('change_password'))
+
+        if _RBAC_AVAILABLE:
+            store = get_rbac_store()
+            rbac_user = store.find_by_id(int(current_user.id))
+            if not rbac_user:
+                flash('User not found.', 'error')
+                return redirect(url_for('login'))
+            if not check_password_hash(rbac_user.password_hash, current_password):
+                flash('Current password is incorrect.', 'error')
+                return redirect(url_for('change_password'))
+            rbac_user.password_hash = generate_password_hash(new_password)
+            rbac_user.must_change_password = False
+            store.save(rbac_user)
+            flash('Password updated successfully.', 'success')
+            return redirect(url_for('profile'))
+
+        users = load_users()
+        user_data = next(
+            (u for u in users if u['username'] == username), None
+        )
+        if not user_data:
+            flash('User not found.', 'error')
+            return redirect(url_for('login'))
+        if not check_password_hash(user_data['password_hash'], current_password):
+            flash('Current password is incorrect.', 'error')
+            return redirect(url_for('change_password'))
+        user_data['password_hash'] = generate_password_hash(new_password)
+        user_data['must_change_password'] = False
+        save_users(users)
+        flash('Password updated successfully.', 'success')
+        return redirect(url_for('profile'))
+
+    return render_template('change_password.html')
 
 @app.route('/aumentar_elo/<int:user_id>', methods=['POST'])
 @login_required

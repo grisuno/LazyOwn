@@ -574,39 +574,6 @@ def is_binary(safe_filename):
         return False
     return any(header.startswith(b_header) for b_header in BINARY_HEADERS)
 
-def get_request_details():
-    """Extract and return request details as a dictionary."""
-    return {
-        'method': request.method,
-        'headers': dict(request.headers),
-        'args': request.args.to_dict(),
-        'form': request.form.to_dict(),
-        'json': request.get_json(silent=True),
-        'remote_addr': request.remote_addr,
-        'url': request.url,
-        'timestamp': str(uuid.uuid4())
-    }
-
-def save_to_log(details):
-    """Save request details to JSON log file with safe permissions."""
-    try:
-        ensure_sessions_dir()
-        log_file = 'sessions/request_log.json'
-        logs = []
-        if os.path.exists(log_file):
-            with open(log_file, 'r') as f:
-                logs = json.load(f)
-        logs.append(details)
-        temp_file = 'sessions/request_log.json.tmp'
-        with open(temp_file, 'w') as f:
-            json.dump(logs, f, indent=2)
-        os.rename(temp_file, log_file)
-        os.chmod(log_file, stat.S_IRUSR | stat.S_IWUSR)  # 600: Owner read/write only
-        return {'status': 'logged', 'id': details['timestamp']}
-    except Exception as e:
-        logger.error(f"Failed to save log: {e}")
-        return {'error': 'Log save failed'}, 500
-
 
 def clean_expired_tokens():
     conn = sqlite3.connect(DB_PATH)
@@ -6225,7 +6192,7 @@ def listener():
 
 @socketio.on('connect', namespace='/listener')
 @login_required
-def handle_connect():
+def listener_connect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6235,7 +6202,7 @@ def handle_connect():
 
 @socketio.on('disconnect', namespace='/listener')
 @login_required
-def handle_disconnect():
+def listener_disconnect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6269,7 +6236,7 @@ def resize(data):
 
 @socketio.on("connect", namespace="/pty")
 @login_required
-def connect():
+def pty_connect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6332,7 +6299,7 @@ def handle_input(data):
 
 @socketio.on('command', namespace='/listener')
 @login_required
-def handle_command(msg):
+def listener_command(msg):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6356,7 +6323,7 @@ def terminal():
 
 @socketio.on('connect', namespace='/terminal')
 @login_required
-def handle_connect():
+def terminal_connect():
     if not current_user.is_authenticated:
         disconnect()
         return False
@@ -6366,7 +6333,7 @@ def handle_connect():
 
 @socketio.on('disconnect', namespace='/terminal')
 @login_required
-def handle_disconnect():
+def terminal_disconnect():
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6375,7 +6342,7 @@ def handle_disconnect():
 
 @socketio.on('input', namespace='/terminal')
 @login_required
-def handle_input(data):
+def terminal_input(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6390,7 +6357,7 @@ def handle_input(data):
 
 @socketio.on('command', namespace='/terminal')
 @login_required
-def handle_command(data):
+def terminal_command(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False
@@ -6404,7 +6371,7 @@ def handle_command(data):
 
 @socketio.on('resize', namespace='/terminal')
 @login_required
-def handle_resize(data):
+def terminal_resize(data):
     if not current_user.is_authenticated:
         print(f"[!] Error. {request.remote_addr}")
         return False

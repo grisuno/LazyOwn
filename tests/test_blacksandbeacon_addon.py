@@ -159,15 +159,15 @@ class TestBeaconParams:
 
 
 class TestBeaconCommandTemplates:
-    """Commands must reference {lhost} and {lport} for dynamic substitution."""
+    """Commands must reference {lhost} and the C2 download port for substitution."""
 
     def test_beacon_lazycommand_has_lhost(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
         assert "{lhost}" in cmd, "lazycommand must include {lhost} placeholder"
 
-    def test_beacon_lazycommand_has_lport(self, beacon):
+    def test_beacon_lazycommand_has_c2_port(self, beacon):
         cmd = beacon["tool"].get("lazycommand", "")
-        assert "{lport}" in cmd, "lazycommand must include {lport} placeholder"
+        assert "{c2_port}" in cmd, "lazycommand must include {c2_port} placeholder"
 
     def test_bof_lazycommand_has_lhost(self, bof):
         cmd = bof["tool"].get("lazycommand", "")
@@ -179,7 +179,7 @@ class TestBeaconCommandTemplates:
 
     def test_beacon_execute_stages_to_sessions(self, beacon):
         cmd = beacon["tool"]["execute_command"]
-        assert "sessions/blacksandbeacon" in cmd
+        assert "sessions/temp_uploads/blacksandbeacon" in cmd
 
     def test_bof_execute_stages_to_sessions(self, bof):
         assert "sessions/bof_loader" in bof["tool"]["execute_command"]

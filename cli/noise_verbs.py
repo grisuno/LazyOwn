@@ -69,21 +69,8 @@ TIPS_EXTRA_VERBS: frozenset[str] = frozenset(
     }
 )
 
-CHAIN_EXTRA_VERBS: frozenset[str] = frozenset(
+CHAIN_EXTRA_VERBS: frozenset[str] = TIPS_EXTRA_VERBS | frozenset(
     {
-        "next",
-        ".",
-        ",",
-        "sitrep",
-        "ctx",
-        "phase",
-        "note",
-        "l00t",
-        "pivot",
-        "tasks",
-        "scans",
-        "wizard",
-        "chainmode",
         "prev",
         "recommend_next",
         "suggest_next",

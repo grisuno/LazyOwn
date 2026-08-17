@@ -6,7 +6,7 @@ category: "03. Exploitation"
 module_type: auxiliary
 os: any
 trigger: []
-enabled: true
+enabled: false
 params:
   - name: rules_dir
     description: Directory containing YARA rule files

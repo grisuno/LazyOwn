@@ -48,10 +48,13 @@ from lazyc2.addon_creator import (
     ValidationIssue,
     parse_addon_form,
 )
+from lazyc2.blueprints.session_auth import require_operator_session
 from lazyc2.extensions.decoy import decoy_response
 from lazyc2.security.csrf import CSRFPolicy
 
 addons_bp = Blueprint("addons", __name__)
+
+require_operator_session(addons_bp)
 
 _CSRF_EXTENSION = "lazyown_addons_csrf"
 _BP_CONFIG = AddonCreatorConfig()
@@ -72,9 +75,8 @@ def init_addons_bp(base_dir: str | None = None) -> None:
 
 def _store() -> AddonStore:
     """Return an AddonStore bound to the configured addons directory."""
-    config = AddonCreatorConfig()
-    base_dir = _BP_BASE_DIR or current_app.config.get("LAZYOWN_ADDONS_DIR") or config.addons_dir
-    return AddonStore(config=config, base_dir=base_dir)
+    base_dir = _BP_BASE_DIR or current_app.config.get("LAZYOWN_ADDONS_DIR") or _BP_CONFIG.addons_dir
+    return AddonStore(config=_BP_CONFIG, base_dir=base_dir)
 
 
 def _csrf_policy() -> CSRFPolicy:

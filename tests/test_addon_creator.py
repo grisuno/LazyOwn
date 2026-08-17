@@ -24,6 +24,7 @@ from pathlib import Path
 import pytest
 import yaml
 from flask import Flask
+from flask_login import LoginManager, UserMixin, current_user
 
 from lazyc2.addon_creator import (
     AddonCreatorConfig,
@@ -522,6 +523,7 @@ def _build_test_app(tmp_path: Path) -> Flask:
 
     The base layout references many monolith endpoints; stub rules are
     registered so template rendering never depends on ``lazyc2.py``.
+    Flask-Login is wired in so the session guard can be exercised.
 
     Args:
         tmp_path: The directory that receives addon files.
@@ -561,20 +563,42 @@ def _build_test_app(tmp_path: Path) -> Flask:
     for endpoint in stub_endpoints:
         app.add_url_rule(f"/__stub__/{endpoint}", endpoint=endpoint, view_func=lambda: "stub")
 
-    class _AnonymousUser:
-        is_authenticated = False
+    class _FakeOperator(UserMixin):
+        """Minimal Flask-Login user for session simulation."""
 
-    app.context_processor(lambda: {"current_user": _AnonymousUser()})
+    login_manager = LoginManager(app)
+    login_manager.login_view = "login"
+
+    @login_manager.user_loader
+    def _load_user(user_id: str):
+        return _FakeOperator() if user_id == "1" else None
+
+    app.context_processor(lambda: {"current_user": current_user})
     app.register_blueprint(addons_bp)
     return app
+
+
+def _login(client: object) -> None:
+    """Log the test client in through the Flask session."""
+    with client.session_transaction() as session:
+        session["_user_id"] = "1"
 
 
 class TestBlueprint:
     """BDD: the C2 endpoints guard against CSRF and persist valid forms."""
 
+    def test_unauthenticated_access_redirects_to_login(self, tmp_path: Path) -> None:
+        app = _build_test_app(tmp_path)
+        client = app.test_client()
+        for path in ("/addons", "/addons/create", "/addons/web_enum/view"):
+            response = client.get(path)
+            assert response.status_code == 302
+            assert "/__stub__/login" in response.headers["Location"]
+
     def test_create_form_issues_csrf_cookie(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.get("/addons/create")
         assert response.status_code == 200
         assert b"Create LazyAddon" in response.data
@@ -584,12 +608,14 @@ class TestBlueprint:
     def test_post_without_csrf_is_rejected(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.post("/addons/create", data={"name": "sneaky_tool"})
         assert response.status_code == 403
 
     def test_delete_without_csrf_is_rejected(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.post("/addons/some_tool/delete")
         assert response.status_code == 403
 
@@ -630,6 +656,7 @@ class TestBlueprint:
     def test_valid_post_creates_addon_and_redirects(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         response = client.post("/addons/create", data=data)
@@ -642,6 +669,7 @@ class TestBlueprint:
     def test_invalid_post_rerenders_with_field_errors(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["name"] = "BAD NAME"
         data["xsrf_token"] = self._csrf_token(client)
@@ -653,6 +681,7 @@ class TestBlueprint:
     def test_duplicate_name_rerenders_with_error(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         assert client.post("/addons/create", data=data).status_code == 302
@@ -665,6 +694,7 @@ class TestBlueprint:
     def test_view_page_renders_yaml(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         client.post("/addons/create", data=data)
@@ -676,6 +706,7 @@ class TestBlueprint:
     def test_list_page_shows_created_addon(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         client.post("/addons/create", data=data)
@@ -687,6 +718,7 @@ class TestBlueprint:
     def test_delete_removes_addon(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         client.post("/addons/create", data=data)
@@ -698,6 +730,7 @@ class TestBlueprint:
     def test_delete_unknown_addon_flashes_and_redirects(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.post(
             "/addons/ghost_tool/delete",
             data={"xsrf_token": self._csrf_token(client)},
@@ -707,6 +740,7 @@ class TestBlueprint:
     def test_view_unknown_addon_redirects_to_list(self, tmp_path: Path) -> None:
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.get("/addons/ghost_tool/view")
         assert response.status_code == 302
 
@@ -717,6 +751,7 @@ class TestBlueprint:
         )
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.get("/addons/AdaptixC2/view")
         assert response.status_code == 200
         assert b"AdaptixC2" in response.data
@@ -726,6 +761,7 @@ class TestBlueprint:
         (tmp_path / "AdaptixC2.yaml").write_text("name: adaptixc2\nenabled: true\n", encoding="utf-8")
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.get("/addons")
         assert response.status_code == 200
         assert b"/addons/AdaptixC2/view" in response.data
@@ -735,6 +771,7 @@ class TestBlueprint:
         (tmp_path / "AdaptixC2.yaml").write_text("name: AdaptixC2\nenabled: true\n", encoding="utf-8")
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         response = client.post(
             "/addons/AdaptixC2/delete",
             data={"xsrf_token": self._csrf_token(client)},
@@ -746,6 +783,7 @@ class TestBlueprint:
         """The file produced through HTTP satisfies the CLI loader schema."""
         app = _build_test_app(tmp_path)
         client = app.test_client()
+        _login(client)
         data = self._form_data()
         data["xsrf_token"] = self._csrf_token(client)
         client.post("/addons/create", data=data)

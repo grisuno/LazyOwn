@@ -1012,6 +1012,19 @@ def _first_value(form: Mapping[str, Any], key: str) -> str:
     return values[0] if values else ""
 
 
+def _parse_bool(value: str) -> bool:
+    """Interpret a form value as a boolean.
+
+    Args:
+        value: The raw form string.
+
+    Returns:
+        True for ``true``/``1``/``on``/``yes`` (case-insensitive),
+        False otherwise.
+    """
+    return value.strip().lower() in ("true", "1", "on", "yes")
+
+
 def parse_addon_form(form: Mapping[str, Any]) -> AddonDraft:
     """Adapt raw form data into an AddonDraft.
 
@@ -1031,7 +1044,7 @@ def parse_addon_form(form: Mapping[str, Any]) -> AddonDraft:
         description=_first_value(form, "description").strip(),
         author=_first_value(form, "author").strip(),
         version=_first_value(form, "version").strip(),
-        enabled=_first_value(form, "enabled").strip().lower() in ("true", "1", "on", "yes"),
+        enabled=_parse_bool(_first_value(form, "enabled")),
         os=_first_value(form, "os").strip().lower() or "any",
         triggers=triggers,
         category=_first_value(form, "category").strip(),
@@ -1069,7 +1082,7 @@ def _parse_param_rows(form: Mapping[str, Any]) -> list[ParamSpec]:
             ParamSpec(
                 name=_first_value(form, f"params-{index}-name").strip(),
                 type=_first_value(form, f"params-{index}-type").strip() or "string",
-                required=_first_value(form, f"params-{index}-required").strip().lower() in ("true", "1", "on", "yes"),
+                required=_parse_bool(_first_value(form, f"params-{index}-required")),
                 description=_first_value(form, f"params-{index}-description").strip(),
                 default=default_value or None,
             )

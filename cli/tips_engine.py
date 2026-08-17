@@ -42,6 +42,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import math
 import random
 import re
@@ -82,6 +83,8 @@ EVIDENCE_OVERSCAN_FACTOR: int = 2
 MEAN_INTERVAL: int = 8
 VRI_RETRY_LIMIT: int = 4
 VRI_RECENT_REWARDS_WINDOW: int = 20
+
+EXPLORATION_BAR_WIDTH: int = 20
 
 ELO_BASE: int = 5
 ELO_FIRST_TIME_BONUS: int = 25
@@ -125,6 +128,8 @@ STREAK_LABELS: tuple[tuple[tuple[int, int], str], ...] = (
 STREAK_DEFAULT_LABEL: str = "going strong"
 
 _AUX_CONSOLE: Console = Console(stderr=False, highlight=False, soft_wrap=True)
+
+_log = logging.getLogger(__name__)
 
 
 def _noop() -> None:
@@ -257,7 +262,8 @@ class TipsEngine:
             self._ensure_state_and_index()
             if not self._is_recordable_command(first):
                 return
-        except Exception:
+        except Exception as exc:
+            _log.warning("Tips engine state bootstrap failed for '%s': %s", first, exc)
             return
 
         resolved_phase = self._resolve_phase(first, phase)
@@ -528,7 +534,11 @@ class TipsEngine:
         try:
             wm_phase_raw = self._read_world_model_phase()
             derived = wm_phase_raw if wm_phase_raw and wm_phase_raw != "recon" else ""
-            active_phase = derived or (self._state.phases_entered[-1] if self._state and self._state.phases_entered else current_phase)
+            active_phase = derived or (
+                self._state.phases_entered[-1]
+                if self._state and self._state.phases_entered
+                else current_phase
+            )
         except Exception:
             active_phase = current_phase
         progress = Text()
@@ -1067,9 +1077,8 @@ def _render_exploration(
     seen = ctx.get("total_seen", 0)
     total = ctx.get("total_commands_in_index", 1)
     pct = min(100, round(100 * seen / total, 1))
-    bar_len = 20
-    filled = int(bar_len * pct / 100)
-    bar = "\u2588" * filled + "\u2591" * (bar_len - filled)
+    filled = int(EXPLORATION_BAR_WIDTH * pct / 100)
+    bar = "\u2588" * filled + "\u2591" * (EXPLORATION_BAR_WIDTH - filled)
     line = Text("  arsenal explored  ", style="dim")
     line.append(bar, style="cyan")
     line.append(f"  {pct}%", style="bold")

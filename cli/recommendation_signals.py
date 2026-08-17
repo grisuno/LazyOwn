@@ -17,6 +17,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 from collections.abc import Mapping, Sequence
 from dataclasses import replace
 from pathlib import Path
@@ -38,6 +39,8 @@ from cli.recommendation import (
     RecommendationContext,
     RecommendationEngine,
 )
+
+_log = logging.getLogger(__name__)
 
 _TRANSCRIPT_FILE = "LazyOwn_session_report.csv"
 _TRANSCRIPT_COLUMNS = ("command", "tool", "name")
@@ -354,7 +357,8 @@ class PlaybookSignal:
             return []
         try:
             available = self._engine.list_playbooks()
-        except Exception:
+        except Exception as exc:
+            _log.debug("Playbook signal failed: %s", exc)
             available = []
         if not available:
             return []
@@ -413,8 +417,8 @@ class KillchainGapSignal:
             proposals.extend(self._gap_owned_no_creds(hosts, wm_data))
             proposals.extend(self._gap_scan_no_enum(hosts, ctx.recent_commands))
             proposals.extend(self._gap_creds_no_lateral(wm_data, hosts))
-        except Exception:
-            pass
+        except Exception as exc:
+            _log.debug("Killchain gap signal failed: %s", exc)
         return proposals
 
     def _gap_exploited_no_privesc(self, hosts: dict[str, dict]) -> list[Proposal]:
@@ -561,8 +565,8 @@ class GraphTopologySignal:
                         reason=f"Service {svc_name} is a network hub (deg={centrality:.2f}) — enumerate for lateral paths",
                         category="enum",
                     ))
-        except Exception:
-            pass
+        except Exception as exc:
+            _log.debug("Topology signal failed: %s", exc)
         return proposals
 
     @staticmethod
@@ -604,7 +608,8 @@ def _try_build_playbook_signal() -> PlaybookSignal | None:
     try:
         from modules.apt_playbooks import AptPlaybookEngine
         return PlaybookSignal(AptPlaybookEngine())
-    except Exception:
+    except Exception as exc:
+        _log.debug("Playbook signal unavailable: %s", exc)
         return None
 
 
@@ -710,7 +715,8 @@ def _try_build_graph_signal(graph_path: str | None) -> GraphSignal | None:
         if not advisor.is_available():
             return None
         return GraphSignal(advisor)
-    except Exception:
+    except Exception as exc:
+        _log.debug("Graph signal unavailable: %s", exc)
         return None
 
 
@@ -725,7 +731,8 @@ def _try_build_policy_signal() -> PolicySignal | None:
         from lazyown_policy import LazyOwnPolicyIntegration
 
         return PolicySignal(LazyOwnPolicyIntegration())
-    except Exception:
+    except Exception as exc:
+        _log.debug("Policy signal unavailable: %s", exc)
         return None
 
 
@@ -737,7 +744,8 @@ def _try_build_recon_signal(payload: Mapping[str, Any]) -> ReconPlanSignal | Non
 
         engine = ExplorationEngine(current_os=resolve_current_os(payload))
         return ReconPlanSignal(engine=engine, builder=build_recon_plan)
-    except Exception:
+    except Exception as exc:
+        _log.debug("Recon signal unavailable: %s", exc)
         return None
 
 

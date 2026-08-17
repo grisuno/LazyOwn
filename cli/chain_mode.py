@@ -381,7 +381,7 @@ class ChainPromptEngine:
                 reason=f"chainmode paused after {self._steps_run} chained steps — "
                 "run 'chainmode on' to resume",
             )
-        verb = (last_cmd or "").strip().split()[0] if last_cmd else ""
+        verb = last_cmd.strip().split()[0] if last_cmd and last_cmd.strip() else ""
         if verb in self.config.skip_verbs:
             return ChainOutcome(OUTCOME_NONE)
         suggestions = self._suggest(verb, phase)
@@ -457,7 +457,8 @@ class ChainPromptEngine:
             return []
         try:
             steps = self.resolver(verb, phase) or []
-        except Exception:
+        except Exception as exc:
+            _log.warning("Chain resolver failed for verb '%s': %s", verb, exc)
             return []
         suggestions: list[ChainSuggestion] = []
         seen: set[str] = set()

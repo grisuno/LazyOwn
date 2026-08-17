@@ -178,6 +178,7 @@ from utils import (  # noqa: E402
     curses,
     date,
     datetime,
+    parse_bool,
     decode,
     detect_delimiter,
     display_news,
@@ -1075,8 +1076,8 @@ class LazyOwnShell(cmd2.Cmd):
             return
         try:
             self._maybe_chain_prompt("", self.params.get("phase") or "")
-        except Exception:
-            pass
+        except Exception as exc:
+            print_warn(f"chain prompt failed at boot: {exc}")
 
     def _build_chain_prompt_engine(self) -> _ChainPromptEngine:
         """Construct the interactive chain-mode engine wired to the shell.
@@ -1092,12 +1093,7 @@ class LazyOwnShell(cmd2.Cmd):
             A ready-to-use :class:`cli.chain_mode.ChainPromptEngine`.
         """
         sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
-        payload_default = str(self.params.get("enable_chainmode", False)).lower() in (
-            "true",
-            "1",
-            "yes",
-            "on",
-        )
+        payload_default = parse_bool(self.params.get("enable_chainmode", False))
         interactive = bool(sys.stdin.isatty())
         return _ChainPromptEngine(
             config=_ChainModeConfig(
@@ -1159,8 +1155,8 @@ class LazyOwnShell(cmd2.Cmd):
                 print_msg(f"chain: running '{outcome.command}'")
                 try:
                     self.onecmd_plus_hooks(outcome.command)
-                except Exception:
-                    pass
+                except Exception as exc:
+                    print_warn(f"chain: '{outcome.command}' failed: {exc}")
                 tokens = outcome.command.split()
                 last_cmd = tokens[0] if tokens else ""
                 phase = self.params.get("phase") or phase

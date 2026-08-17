@@ -2451,30 +2451,67 @@ login_manager.login_view = 'login'
 USER_DATA_PATH = 'users.json'
 ENV = _env_tag()
 
+DEFAULT_ADMIN_PASSWORD = "LazyOwnAdmin2024!"
+
+
+def _bootstrap_initial_admin() -> None:
+    """Create the initial admin account when the user store is empty.
+
+    The default credentials are printed once so a fresh deployment can
+    log in; operators must change the password immediately afterwards.
+    """
+    if _RBAC_AVAILABLE:
+        if not _rbac_store.load_all():
+            logger.info("[rbac] No users found; creating initial admin account")
+            _rbac_store.ensure_admin(
+                username="admin",
+                password_hash=generate_password_hash(DEFAULT_ADMIN_PASSWORD),
+            )
+            print("[rbac] Initial admin created: admin / LazyOwnAdmin2024!")
+            print("[rbac] Change this password immediately via 'profile' page.")
+        else:
+            _migrated = False
+            for u in _rbac_store.load_all():
+                if not u.role or u.role not in Role.valid_roles():
+                    u.role = ROLE_DEFAULT
+                    _rbac_store.save(u)
+                    _migrated = True
+            if _migrated:
+                logger.info("[rbac] Migrated existing users to RBAC schema")
+            _rbac_store.ensure_admin(
+                "admin", generate_password_hash(DEFAULT_ADMIN_PASSWORD)
+            )
+        return
+    from lazyc2.extensions.users import load_users, save_users
+    if load_users():
+        return
+    logger.info("[users] No users found; creating initial admin account")
+    save_users(
+        [
+            {
+                "id": 1,
+                "username": "admin",
+                "password_hash": generate_password_hash(DEFAULT_ADMIN_PASSWORD),
+                "role": "admin",
+                "mfa_enabled": False,
+                "mfa_secret": "",
+                "recovery_codes": [],
+                "tenant_id": "default",
+            }
+        ]
+    )
+    print("[users] Initial admin created: admin / LazyOwnAdmin2024!")
+    print("[users] Change this password immediately via 'profile' page.")
+
+
 if _RBAC_AVAILABLE:
     _rbac_store = RBACStore(USER_DATA_PATH)
     set_rbac_store(_rbac_store)
     _tenant_mgr = TenantManager()
     set_tenant_manager(_tenant_mgr)
     _tenant_mgr.ensure_default_tenant()
-    if not _rbac_store.load_all():
-        logger.info("[rbac] No users found; creating initial admin account")
-        _rbac_store.ensure_admin(
-            username="admin",
-            password_hash=generate_password_hash("LazyOwnAdmin2024!"),
-        )
-        print("[rbac] Initial admin created: admin / LazyOwnAdmin2024!")
-        print("[rbac] Change this password immediately via 'profile' page.")
-    else:
-        _migrated = False
-        for u in _rbac_store.load_all():
-            if not u.role or u.role not in Role.valid_roles():
-                u.role = ROLE_DEFAULT
-                _rbac_store.save(u)
-                _migrated = True
-        if _migrated:
-            logger.info("[rbac] Migrated existing users to RBAC schema")
-        _rbac_store.ensure_admin("admin", generate_password_hash("LazyOwnAdmin2024!"))
+
+_bootstrap_initial_admin()
 
 DATA_FILE = BASE_DIR + 'surface_attack.json'
 LOG_DIR = os.path.join('sessions', 'logs', 'c2')

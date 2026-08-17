@@ -51,17 +51,31 @@ def _load_users() -> list[dict]:
 def _save_users(users: list[dict]) -> bool:
     """Atomically write the users.json database.
 
+    Refuses to overwrite an existing database with an empty list (a read
+    failure upstream must never wipe the store), keeps the file readable
+    only by its owner, and preserves the previous owner when running as
+    root so mixed root / operator processes never lock each other out.
+
     Args:
         users: List of user dicts to persist.
 
     Returns:
         True on success.
     """
+    if not users and USERS_PATH.exists():
+        return False
     try:
         tmp = USERS_PATH.with_suffix(".tmp")
         with open(tmp, "w") as f:
             json.dump(users, f, indent=4)
+        os.chmod(tmp, 0o600)
+        previous_owner = None
+        if USERS_PATH.exists():
+            previous_owner = USERS_PATH.stat().st_uid
         os.replace(tmp, USERS_PATH)
+        os.chmod(USERS_PATH, 0o600)
+        if os.geteuid() == 0 and previous_owner is not None:
+            os.chown(USERS_PATH, previous_owner, -1)
         return True
     except Exception:
         return False

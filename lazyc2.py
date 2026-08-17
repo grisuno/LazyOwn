@@ -2500,15 +2500,27 @@ def _bootstrap_initial_admin() -> None:
     if _RBAC_AVAILABLE:
         store_path = Path(USER_DATA_PATH)
         if store_path.exists():
-            existing = _rbac_store.load_all()
-            if not existing:
+            try:
+                existing = _rbac_store.load_all()
+            except Exception as exc:
                 logger.critical(
-                    "[rbac] users.json exists but is empty or unreadable; "
-                    "refusing to overwrite it with a bootstrap admin"
+                    "[rbac] users.json exists but is unreadable; refusing to "
+                    "overwrite it: %s",
+                    exc,
                 )
                 print(
                     "[rbac] WARNING: users.json exists but could not be read. "
                     "It will NOT be overwritten."
+                )
+                return
+            if not existing:
+                logger.critical(
+                    "[rbac] users.json exists but is empty; refusing to "
+                    "overwrite it with a bootstrap admin"
+                )
+                print(
+                    "[rbac] WARNING: users.json exists but is empty. It will "
+                    "NOT be overwritten."
                 )
             else:
                 _migrated = False
@@ -2712,12 +2724,18 @@ if _RUN_MAIN and len(sys.argv) > 3:
 
     if _RBAC_AVAILABLE:
         store = get_rbac_store()
-        existing = store.find_by_username(USERNAME)
+        try:
+            existing = store.find_by_username(USERNAME)
+        except Exception as exc:
+            logger.error(
+                "[rbac] users.json is unreadable; leaving it untouched: %s", exc
+            )
+            existing = None
         if existing:
             existing.password_hash = generate_password_hash(PASSWORD)
             store.save(existing)
             logger.info("[rbac] Updated CLI user password in RBAC store")
-        elif not store.load_all():
+        elif not Path(USER_DATA_PATH).exists():
             store.create_user(
                 username=USERNAME,
                 password_hash=generate_password_hash(PASSWORD),
@@ -5310,7 +5328,7 @@ def register():
     response = decoy()
     if response:
         return response
-    if not bool(getattr(config, "c2_open_registration", False)):
+    if not bool(getattr(config, "c2_open_registration", True)):
         flash('Registration is disabled on this server.', 'error')
         return redirect(url_for('login'))
     if request.method == 'POST':

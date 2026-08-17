@@ -112,6 +112,14 @@ _ROLE_HIERARCHY: dict[Role, list[Role]] = {
 }
 
 
+class _UsersFileUnreadable(Exception):
+    """Raised when users.json exists but cannot be read (permissions, etc.).
+
+    Callers must never treat this condition as an empty store; overwriting
+    an existing operator database based on a read failure would destroy it.
+    """
+
+
 @dataclass
 class RBACUser:
     id: int
@@ -124,7 +132,6 @@ class RBACUser:
     elo: int = 0
     tenant_id: str = "default"
     must_change_password: bool = False
-
     def to_dict(self) -> dict:
         return asdict(self)
 
@@ -213,17 +220,29 @@ class RBACStore:
             return []
         try:
             return json.loads(self._users_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            log.warning("Failed to read users.json: %s", exc)
+        except json.JSONDecodeError as exc:
+            log.warning("Failed to parse users.json: %s", exc)
             return []
+        except OSError as exc:
+            log.warning(
+                "users.json exists but is unreadable (%s); refusing to treat "
+                "it as empty",
+                exc,
+            )
+            raise _UsersFileUnreadable(exc) from exc
 
     def _write_users(self, users: list) -> None:
         self._users_path.parent.mkdir(parents=True, exist_ok=True)
         tmp = self._users_path.with_suffix(".tmp")
         tmp.write_text(json.dumps(users, indent=4, default=str), encoding="utf-8")
         os.chmod(tmp, 0o600)
+        previous_owner = None
+        if self._users_path.exists():
+            previous_owner = self._users_path.stat().st_uid
         tmp.replace(self._users_path)
         os.chmod(self._users_path, 0o600)
+        if os.geteuid() == 0 and previous_owner is not None:
+            os.chown(self._users_path, previous_owner, -1)
 
     def load_all(self) -> list[RBACUser]:
         with self._lock:

@@ -324,8 +324,9 @@ class AiCommandSet(LazyOwnCommandSet):
             print_msg(json.dumps(status, indent=2))
             return
         if subcommand == "reset":
-            confirm = input("Reset LLM budget ledger for today? Type 'yes' to confirm: ")
-            if confirm.strip().lower() != "yes":
+            from cli.confirm import confirm
+
+            if not confirm("Reset LLM budget ledger for today?", default=False):
                 print_warn("Reset cancelled.")
                 return
             config = load_budget_config(payload=payload, sessions_dir=sessions_dir)

@@ -1,6 +1,7 @@
 ruff>=0.6.0
 pytest>=7.0
 pytest-cov>=4.0
+pytest-timeout>=2.3
 mypy>=1.10
 bandit>=1.7
 detect-secrets>=1.5

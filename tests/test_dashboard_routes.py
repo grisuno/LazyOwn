@@ -8,20 +8,38 @@ from pathlib import Path
 
 import pytest
 from flask import Flask
+from flask_login import LoginManager, UserMixin
 
 from modules.dashboard_bp import dashboard_bp
 
 
+class _TestUser(UserMixin):
+    def __init__(self, user_id: str):
+        self.id = user_id
+
+
 @pytest.fixture
 def client(tmp_path: Path):
-    """Create a Flask test client with dashboard_bp registered and tmp_path as sessions dir."""
+    """Create a Flask test client with dashboard_bp registered, a LoginManager
+    configured, and an authenticated operator session active."""
     import modules.dashboard_bp as bp_module
 
     bp_module._SESSIONS_DIR = tmp_path
     app = Flask(__name__)
     app.config["TESTING"] = True
+    app.secret_key = "test-secret"
+    login_manager = LoginManager(app)
+
+    @login_manager.user_loader
+    def load_user(user_id: str):
+        return _TestUser(user_id)
+
     app.register_blueprint(dashboard_bp)
-    return app.test_client(), tmp_path
+    test_client = app.test_client()
+    with test_client.session_transaction() as sess:
+        sess["_user_id"] = "1"
+        sess["_fresh"] = True
+    return test_client, tmp_path
 
 
 def _write_credentials_file(sessions_dir: Path, filename: str, lines: list[str]) -> None:

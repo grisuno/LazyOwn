@@ -16,12 +16,21 @@ import json
 from datetime import UTC, datetime
 from pathlib import Path
 
-from flask import Blueprint, jsonify, render_template_string
+from flask import Blueprint, jsonify, redirect, render_template_string, url_for
+from flask_login import current_user
 
 # ---------------------------------------------------------------------------
 # Blueprint definition
 # ---------------------------------------------------------------------------
 dashboard_bp = Blueprint("dashboard", __name__, url_prefix="/dashboard")
+
+
+@dashboard_bp.before_request
+def _require_login():
+    """Reject unauthenticated access to every dashboard route."""
+    if not current_user.is_authenticated:
+        return redirect(url_for("login"))
+    return None
 
 # ---------------------------------------------------------------------------
 # Session file paths

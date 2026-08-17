@@ -47,11 +47,14 @@ LazyOwn_history.dat
 */__pycache__
 cloudflared
 users.json
+.c2_credentials.txt
 .coverage
 .coverage.*
 *.egg-info/
 lazysentinel.db
 parquets/session_knowledge.parquet
+persistent_chroma_db/
+sessions/phishing/tracking.db
 prompt.md
 knowledge_base_vuln.json
 graphify-out/cache/

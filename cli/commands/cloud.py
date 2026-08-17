@@ -211,8 +211,9 @@ class CloudCommandSet(LazyOwnCommandSet):
         for provider, cmd in methods:
             print_succ(f"\n{GREEN}[+] {provider.upper()} credentials detected{RESET}")
             print_msg(f"  Command: {cmd}")
-            ans = input(f"  Run {provider} IAM enumeration? [y/N]: ").strip().lower()
-            if ans == "y":
+            from cli.confirm import confirm
+
+            if confirm(f"Run {provider} IAM enumeration?"):
                 os.system(cmd)
 
     @cmd2.with_category(CLOUD_CATEGORY)

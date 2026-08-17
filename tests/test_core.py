@@ -82,7 +82,19 @@ class TestCoreConsole:
         print_warn("careful")
         out = capsys.readouterr().out
         assert "careful" in out
-        assert "[⚠]" in out
+        assert "[!]" in out
+
+    def test_ascii_glyphs_by_default_emoji_opt_in(self, capsys, monkeypatch):
+        sys.path.insert(0, str(REPO_ROOT))
+        monkeypatch.delenv("LAZYOWN_EMOJI_GLYPHS", raising=False)
+        import importlib
+        import core.console as console
+
+        importlib.reload(console)
+        console.print_msg("plain")
+        out = capsys.readouterr().out
+        assert console.INFO_GLYPH == "[+]"
+        assert "[\U0001f47d]" not in out
 
     def test_surrogate_chars_are_stripped(self, capsys):
         sys.path.insert(0, str(REPO_ROOT))

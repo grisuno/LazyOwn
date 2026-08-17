@@ -48,7 +48,7 @@ class MitigationSuiteConfig:
     handler_module_paths: dict[str, str] = field(
         default_factory=lambda: {
             "lazyc2.py": "lazyc2.py",
-            "lazyphishingai.py": "modules/lazyphishingai.py",
+            "lazyphishingai.py": "modules/legacy/lazyphishingai.py",
         }
     )
     sentinel_path: str = "lazy_sentinel4.py"

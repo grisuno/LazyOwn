@@ -718,6 +718,19 @@ SCHEMA: dict[str, FieldSpec] = {
             category="c2",
         ),
         _spec(
+            "c2_require_beacon_hmac",
+            FieldKind.BOOL,
+            "False",
+            "Require a valid HMAC (X-Signature) on every beacon result POST.",
+            long_help=(
+                "When enabled, /command/<client_id> POSTs without a valid "
+                "X-Signature header derived from rat_key are rejected, "
+                "preventing result forgery from hosts that reach the C2."
+            ),
+            example="False",
+            category="c2",
+        ),
+        _spec(
             "c2_api_command_allowlist",
             FieldKind.STRING,
             "ping,set,show,help,status,sessions,sitrep,gets,get,downloader,getosession,osession,setar,getar,session,clean",

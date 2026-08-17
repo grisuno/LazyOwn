@@ -24,6 +24,7 @@
   "c2_pass": "CHANGE_ME",
   "c2_open_registration": false,
   "c2_decoy_mode": "page",
+  "c2_require_beacon_hmac": false,
   "enable_c2_implant_debug": false,
   "start_user": "CHANGE_ME",
   "start_pass": "CHANGE_ME",

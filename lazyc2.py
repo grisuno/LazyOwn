@@ -1872,9 +1872,42 @@ def handle_client(client_socket, remote_host, remote_port):
     client_socket.close()
 
 def decoy():
+    """Serve a decoy page to non-operator IPs when decoy mode is enabled.
+
+    Behaviour is driven by ``c2_decoy_mode`` in payload.json:
+
+    - ``"off"``: disabled; every request proceeds to normal handling.
+    - ``"page"`` (default): requests from IPs outside the operator allowlist
+      receive a fake decoy page. This preserves the legacy honeypot look.
+    - ``"deny"``: requests from non-operator IPs receive HTTP 403 instead
+      of a misleading page. Use this when the decoy is not wanted.
+
+    The operator allowlist is ``lhost``, ``127.0.0.1`` and the entries of
+    ``c2_operator_ip_allowlist``.
+    """
+    mode = str(getattr(config, "c2_decoy_mode", "page") or "page").strip().lower()
+    if mode == "off":
+        return None
     client_ip = request.remote_addr
-    logging.info(f"[INFO]: IP {client_ip}")
-    if (client_ip != lhost) and (client_ip != '127.0.0.1'):
+    allowed_ips = {str(lhost), "127.0.0.1"}
+    allowed_ips.update(
+        ip.strip()
+        for ip in str(
+            getattr(config, "c2_operator_ip_allowlist", "127.0.0.1")
+            or "127.0.0.1"
+        )
+        .replace("{lhost}", str(getattr(config, "lhost", "127.0.0.1")))
+        .split(",")
+        if ip.strip()
+    )
+    if client_ip not in allowed_ips:
+        logging.warning(
+            "[decoy] Request from non-operator IP %s served decoy (%s mode)",
+            client_ip,
+            mode,
+        )
+        if mode == "deny":
+            abort(403, description="Access denied")
         return render_template('decoy.html')
     return None
 

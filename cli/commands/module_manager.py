@@ -26,6 +26,7 @@ from modules.module_registry import (
 from utils import (
     GREEN,
     RESET,
+    YELLOW,
     miscellaneous_category,
     print_error,
     print_msg,
@@ -132,18 +133,26 @@ class ModuleManagerCommandSet(LazyOwnCommandSet):
         if shell is not None:
             shell._active_module = module
             shell._active_module_options = {}
+            shell._module_param_snapshot = {}
+            base = getattr(shell, "custom_prompt", None) or shell.prompt
+            shell._pre_module_prompt = shell.prompt
+            shell.prompt = f"{base}{YELLOW}[module:{module.name}]{RESET}"
 
         print_msg(f"Using module: {module.name}")
         print(format_module_detail(module))
         print_msg(f"\nRun '{GREEN}run{RESET}' to execute or '{GREEN}show options{RESET}' to view params.")
 
-        # Load default params into shell params for convenience
+        # Load default params into shell params for convenience, recording
+        # the previous values so `back` can restore them untouched.
         if shell is not None:
             for p in module.params:
                 pname = p.get("name", "")
                 default = p.get("default", "")
-                if pname and default is not None and pname not in shell.params:
-                    shell.params[pname] = str(default)
+                if pname and default is not None:
+                    if pname not in shell._module_param_snapshot:
+                        shell._module_param_snapshot[pname] = shell.params.get(pname)
+                    if pname not in shell.params:
+                        shell.params[pname] = str(default)
 
     # ------------------------------------------------------------------
     # back
@@ -158,8 +167,19 @@ class ModuleManagerCommandSet(LazyOwnCommandSet):
         shell = self._resolve_shell()
         if shell is not None and getattr(shell, "_active_module", None):
             name = shell._active_module.name
+            snapshot = getattr(shell, "_module_param_snapshot", {})
+            for pname, old_value in snapshot.items():
+                if old_value is None:
+                    shell.params.pop(pname, None)
+                else:
+                    shell.params[pname] = old_value
             shell._active_module = None
             shell._active_module_options = {}
-            print_msg(f"Left module '{name}'.")
+            shell._module_param_snapshot = {}
+            pre = getattr(shell, "_pre_module_prompt", None)
+            if pre is not None:
+                shell.prompt = pre
+                shell._pre_module_prompt = None
+            print_msg(f"Left module '{name}'. Module params restored.")
         else:
             print_msg("No active module.")

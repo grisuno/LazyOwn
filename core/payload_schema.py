@@ -613,6 +613,19 @@ SCHEMA: dict[str, FieldSpec] = {
             category="cli",
         ),
         _spec(
+            "debug",
+            FieldKind.BOOL,
+            False,
+            "Enable DEBUG-level logging so silently swallowed UX failures are visible.",
+            long_help=(
+                "When enabled, exceptions swallowed by post-command hooks, "
+                "first-run setup, and auto-crypto are written to the session "
+                "log files with full tracebacks."
+            ),
+            example="False",
+            category="cli",
+        ),
+        _spec(
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
         ),
         _spec(
@@ -689,6 +702,19 @@ SCHEMA: dict[str, FieldSpec] = {
                 "registrants always get the default operator role."
             ),
             example="False",
+            category="c2",
+        ),
+        _spec(
+            "c2_decoy_mode",
+            FieldKind.STRING,
+            "page",
+            "Behaviour for requests coming from non-operator IPs: page, deny or off.",
+            long_help=(
+                "page (default) serves a fake decoy page, deny returns HTTP "
+                "403, off disables the check entirely so operators can reach "
+                "the dashboard from any machine."
+            ),
+            example="page",
             category="c2",
         ),
         _spec(

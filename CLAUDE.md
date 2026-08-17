@@ -9,7 +9,7 @@ Durable context for any Claude/agent touching this repo. Source of truth: `lazyo
 ## 0. What LazyOwn is
 
 Professional red-team / pentest framework:
-- **CLI** (`lazyown.py`): cmd2 shell, ~4,700 LOC, 606 commands + 126 aliases driven by 63 ``CommandSet`` modules under ``cli/commands/``.
+- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 724 source-counted commands + 126 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 121 routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
 - **Skills** (`skills/`): MCP server (148 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.

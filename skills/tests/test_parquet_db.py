@@ -20,7 +20,7 @@ if str(_SKILLS_DIR) not in sys.path:
 
 try:
     import pandas as pd
-    import pyarrow as pa
+    import pyarrow  # noqa: F401 as pa
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
@@ -29,7 +29,7 @@ pytestmark = pytest.mark.skipif(
     not _PANDAS_OK, reason="pandas and pyarrow not installed"
 )
 
-from lazyown_parquet_db import ParquetDB, _stable_id
+from lazyown_parquet_db import ParquetDB, _stable_id  # noqa: E402
 
 SCHEMA_COLS = ParquetDB.SCHEMA_COLS
 

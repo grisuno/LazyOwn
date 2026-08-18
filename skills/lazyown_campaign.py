@@ -37,7 +37,6 @@ from pathlib import Path
 from typing import Any
 
 # ─── Logging ──────────────────────────────────────────────────────────────────
-
 from modules.logging_config import configure, get_logger
 
 configure(
@@ -352,8 +351,8 @@ class EpisodeReflectionEngine:
                             "topic":         lesson.topic,
                         },
                     )
-                 except Exception as exc:
-                     log.debug("EpisodeReflectionEngine: hive store error: %s", exc)
+                except Exception as exc:
+                    log.debug("EpisodeReflectionEngine: hive store error: %s", exc)
 
         # Feed lessons back into MoE router + RL trainer so future campaigns
         # prefer experts that previously succeeded for the same topic.

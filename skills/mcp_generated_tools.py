@@ -9,9 +9,6 @@ This file is imported by lazyown_mcp.py to close the coverage gap between the 14
 
 from __future__ import annotations
 
-from typing import Any
-
-
 _COMMAND_MAP: dict[str, str] = {
     "lazyown_EOF": "Handle the end-of-file (EOF) condition",
     "lazyown_GET": "Execute the GET command",

@@ -63,7 +63,7 @@ class GraphPanel(PanelBase):
         interact.triggered.connect(lambda: self._backend.send_command("shell", target_session=node_id))
 
         portscan = menu.addAction("Port Scan")
-        portscan.triggered.connect(lambda: self._backend.send_command(f"lazynmap", target_session=node_id))
+        portscan.triggered.connect(lambda: self._backend.send_command("lazynmap", target_session=node_id))
 
         menu.addSeparator()
 

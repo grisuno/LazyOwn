@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import json
 import os
-from typing import Optional
 
 import cmd2
 
@@ -29,13 +28,11 @@ from modules.estorides_importer import (
     extract_seeds_from_scope,
     extract_seeds_from_world_model,
     run_estorides_discover,
-    run_estorides_run,
 )
 from utils import (
     GREEN,
     RESET,
     YELLOW,
-    print_error,
     print_msg,
     print_warn,
     recon_category,
@@ -98,7 +95,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
         args = line.strip().split()
         max_depth = 2
         max_steps = 10
-        sources: Optional[str] = None
+        sources: str | None = None
         manual_seeds: list[str] = []
 
         i = 0
@@ -127,6 +124,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
         if manual_seeds:
             for s in manual_seeds:
                 from modules.estorides_importer import ipaddress as _ip
+
                 try:
                     _ip.ip_address(s)
                     seeds.append(("ipv4", s))
@@ -154,9 +152,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
         total_entities = 0
 
         for seed_type, seed_value in seeds:
-            out_path = os.path.join(
-                "sessions", f"estorides_seed_{seed_value.replace('/', '_').replace(':', '_')}.json"
-            )
+            out_path = os.path.join("sessions", f"estorides_seed_{seed_value.replace('/', '_').replace(':', '_')}.json")
             surface = run_estorides_discover(
                 seed_type=seed_type,
                 seed_value=seed_value,
@@ -176,10 +172,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
             total_domains += len(domains)
             total_entities += entities
 
-            print_msg(
-                f"  {_green(seed_value):<30}  +{len(domains)} domains  "
-                f"+{entities} entities  case={case_id}"
-            )
+            print_msg(f"  {_green(seed_value):<30}  +{len(domains)} domains  +{entities} entities  case={case_id}")
 
         print_msg(f"\n{_green('Done.')} {len(cases_created)} cases created.")
         print_msg(f"  Total domains discovered:  {total_domains}")
@@ -221,7 +214,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
 
         args = line.strip().split()
         source = "all"
-        case_id: Optional[str] = None
+        case_id: str | None = None
         add_scope = True
         add_db = True
         preview = False
@@ -252,10 +245,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
             reader = EstoridesCaseReader()
             if reader.available:
                 stats = reader.stats()
-                print_msg(
-                    f"Case store: {stats.get('cases', 0)} cases, "
-                    f"{stats.get('entities', 0)} entities"
-                )
+                print_msg(f"Case store: {stats.get('cases', 0)} cases, {stats.get('entities', 0)} entities")
                 entities = reader.get_host_entities(case_id=case_id)
                 all_entities.extend(entities)
                 reader.close()
@@ -286,7 +276,9 @@ class EstoridesCommandSet(LazyOwnCommandSet):
 
         bridge = EstoridesToLazyOwnBridge()
         result = bridge.import_entities(
-            all_entities, add_to_scope=add_scope, add_to_db=add_db,
+            all_entities,
+            add_to_scope=add_scope,
+            add_to_db=add_db,
         )
 
         print_msg(f"\n{_green('Import complete:')}")
@@ -304,7 +296,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
                 print_warn(f"  Error: {err}")
 
         if result.hosts_added > 0 or result.scope_entries_added > 0:
-            print_msg(f"\nNext: 'scope' to review, 'lazynmap' or 'nuclei' on new targets.")
+            print_msg("\nNext: 'scope' to review, 'lazynmap' or 'nuclei' on new targets.")
 
     def _preview_entities(self, entities) -> None:
         """Show a preview of entities grouped by type."""
@@ -406,8 +398,12 @@ class EstoridesCommandSet(LazyOwnCommandSet):
             )
 
         if auto_scan and surface.get("from_scope"):
-            new_ips = [e for e in surface["from_scope"]
-                       if not e.startswith("*") and not any(c.isalpha() for c in e.replace(".", "").replace("/", "").replace(":", ""))]
+            new_ips = [
+                e
+                for e in surface["from_scope"]
+                if not e.startswith("*")
+                and not any(c.isalpha() for c in e.replace(".", "").replace("/", "").replace(":", ""))
+            ]
             if new_ips:
                 print_msg(f"\n{_yellow('Auto-scan:')} {len(new_ips)} new IPs for lazynmap")
                 for ip in new_ips[:10]:
@@ -448,7 +444,7 @@ class EstoridesCommandSet(LazyOwnCommandSet):
         """
         args = line.strip().split()
         output_json = False
-        export_path: Optional[str] = None
+        export_path: str | None = None
 
         i = 0
         while i < len(args):

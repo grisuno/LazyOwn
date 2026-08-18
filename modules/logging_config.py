@@ -17,9 +17,7 @@ import logging
 import logging.handlers
 import os
 import sys
-from datetime import datetime, timezone
-from typing import Optional
-
+from datetime import UTC, datetime
 
 LOG_FORMAT_CONSOLE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(message)s'
 LOG_FORMAT_FILE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(filename)s:%(lineno)d %(message)s'
@@ -73,7 +71,7 @@ class JsonFormatter(logging.Formatter):
 
     def format(self, record: logging.LogRecord) -> str:
         log_entry: dict = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "level": record.levelname,
             "logger": record.name,
             "message": record.getMessage(),
@@ -122,7 +120,7 @@ def clear_correlation_id() -> None:
 _logger_cache: dict = {}
 _initialized: bool = False
 _root_level: int = logging.INFO
-_log_dir: Optional[str] = None
+_log_dir: str | None = None
 _log_dir_fallback_used: bool = False
 
 
@@ -216,14 +214,14 @@ def _use_json_format() -> bool:
 
 def configure(
     level: int = logging.INFO,
-    log_dir: Optional[str] = None,
+    log_dir: str | None = None,
     console: bool = True,
     file: bool = True,
     format_console: str = LOG_FORMAT_CONSOLE,
     format_file: str = LOG_FORMAT_FILE,
     max_bytes: int = 10 * 1024 * 1024,
     backup_count: int = 5,
-    module_levels: Optional[dict] = None,
+    module_levels: dict | None = None,
 ) -> None:
     """Configure LazyOwn's centralized logging system.
 
@@ -284,7 +282,7 @@ def configure(
         except (OSError, PermissionError) as exc:
             print(
                 f"\n    [!] Cannot write log file: {exc}",
-                f"\n    [!] File logging disabled — output to console only.",
+                "\n    [!] File logging disabled — output to console only.",
                 flush=True,
             )
 
@@ -295,7 +293,7 @@ def configure(
     _initialized = True
 
 
-def get_logger(name: str, level: Optional[int] = None) -> logging.Logger:
+def get_logger(name: str, level: int | None = None) -> logging.Logger:
     """Get a logger with the given name.
 
     Ensures all loggers use the centralized configuration without

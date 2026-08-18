@@ -188,7 +188,7 @@ def main():
             content = path.read_text()
 
             if info["old"] not in content:
-                print(f"    SKIP: Target text not found (already mutated?)")
+                print("    SKIP: Target text not found (already mutated?)")
                 errors += 1
                 continue
 
@@ -200,10 +200,10 @@ def main():
             path.write_text(content)
 
             if not tests_pass:
-                print(f"    KILLED: Mutant detected.")
+                print("    KILLED: Mutant detected.")
                 killed += 1
             else:
-                print(f"    SURVIVED: Mutant NOT detected - tests too weak!")
+                print("    SURVIVED: Mutant NOT detected - tests too weak!")
                 print(f"    Expected: {info['expected']}")
                 survived += 1
 

@@ -1983,7 +1983,7 @@ def _cli() -> None:  # noqa: C901
     p_fg.add_argument("--topic", default="")
 
     args = parser.parse_args()
-    from modules.logging_config import configure, get_logger
+    from modules.logging_config import configure
     configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "spawn":

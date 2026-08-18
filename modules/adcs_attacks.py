@@ -7,9 +7,7 @@ via certificate templates and AD CS misconfigurations.
 import os
 import re
 import subprocess
-import tempfile
 from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple
 
 
 @dataclass
@@ -21,12 +19,12 @@ class CertificateTemplate:
     oid: str = ""
     schema_version: int = 1
     flags: int = 0
-    ekus: List[str] = field(default_factory=list)
+    ekus: list[str] = field(default_factory=list)
     subject_name: str = ""
     requires_manager_approval: bool = False
     authorized_signatures_required: int = 0
     ra_signatures: int = 0
-    enrollment_rights: List[str] = field(default_factory=list)
+    enrollment_rights: list[str] = field(default_factory=list)
     enrollee_supplies_subject: bool = False
     client_authentication_eku: bool = False
     any_purpose_eku: bool = False
@@ -34,7 +32,7 @@ class CertificateTemplate:
     ca_name: str = ""
 
     @property
-    def esc_vulnerabilities(self) -> List[str]:
+    def esc_vulnerabilities(self) -> list[str]:
         """Determine which ESC attack paths apply to this template.
 
         Returns:
@@ -79,7 +77,7 @@ class ADCSCertipyWrapper:
         timeout: Default timeout for subprocess calls in seconds.
     """
 
-    def __init__(self, certipy_path: Optional[str] = None, timeout: int = 120):
+    def __init__(self, certipy_path: str | None = None, timeout: int = 120):
         self.certipy_path = certipy_path or self._find_certipy()
         self.timeout = timeout
 
@@ -94,7 +92,7 @@ class ADCSCertipyWrapper:
                 return candidate.strip()
         return 'certipy'
 
-    def _run(self, args: List[str], capture: bool = True) -> Tuple[int, str, str]:
+    def _run(self, args: list[str], capture: bool = True) -> tuple[int, str, str]:
         """Execute a certipy command and return exit code, stdout, stderr.
 
         Args:
@@ -120,8 +118,8 @@ class ADCSCertipyWrapper:
         password: str,
         domain: str,
         dc_ip: str,
-        hashes: Optional[str] = None,
-    ) -> List[Dict]:
+        hashes: str | None = None,
+    ) -> list[dict]:
         """Enumerate certificate authorities in an Active Directory domain.
 
         Args:
@@ -154,7 +152,7 @@ class ADCSCertipyWrapper:
         return cas
 
     @staticmethod
-    def _parse_ca_output(output: str) -> List[Dict]:
+    def _parse_ca_output(output: str) -> list[dict]:
         """Parse certipy find output for certificate authorities."""
         cas = []
         current_ca = {}
@@ -192,8 +190,8 @@ class ADCSCertipyWrapper:
         password: str,
         domain: str,
         dc_ip: str,
-        hashes: Optional[str] = None,
-    ) -> List[CertificateTemplate]:
+        hashes: str | None = None,
+    ) -> list[CertificateTemplate]:
         """Enumerate vulnerable certificate templates.
 
         Args:
@@ -225,7 +223,7 @@ class ADCSCertipyWrapper:
 
         return self._parse_template_output(stdout)
 
-    def _parse_template_output(self, output: str) -> List[CertificateTemplate]:
+    def _parse_template_output(self, output: str) -> list[CertificateTemplate]:
         """Parse certipy JSON output into CertificateTemplate objects."""
         import json
         try:
@@ -279,7 +277,7 @@ class ADCSCertipyWrapper:
         ca_name: str,
         template_name: str,
         target_user: str,
-        output_file: Optional[str] = None,
+        output_file: str | None = None,
     ) -> bool:
         """ESC1: Request a certificate with a user-supplied subject alternative name.
 
@@ -327,7 +325,7 @@ class ADCSCertipyWrapper:
         dc_ip: str,
         ca_server: str,
         template_name: str = 'SubCA',
-        output_file: Optional[str] = None,
+        output_file: str | None = None,
     ) -> bool:
         """ESC8: HTTP-based certificate enrollment (NTLM relay to AD CS).
 
@@ -365,8 +363,8 @@ class ADCSCertipyWrapper:
         cert_file: str,
         domain: str,
         dc_ip: str,
-        username: Optional[str] = None,
-    ) -> Optional[str]:
+        username: str | None = None,
+    ) -> str | None:
         """Authenticate to the domain using a certificate and retrieve NT hash.
 
         Args:
@@ -405,8 +403,8 @@ class ADCSCertipyWrapper:
         password: str,
         domain: str,
         dc_ip: str,
-        hashes: Optional[str] = None,
-    ) -> Dict[str, List[Dict]]:
+        hashes: str | None = None,
+    ) -> dict[str, list[dict]]:
         """Run a full AD CS vulnerability assessment.
 
         Enumerates all certificate templates and maps them to
@@ -425,7 +423,7 @@ class ADCSCertipyWrapper:
         templates = self.enumerate_templates(username, password, domain, dc_ip, hashes)
         cas = self.find_certificate_authorities(username, password, domain, dc_ip, hashes)
 
-        results: Dict[str, List[Dict]] = {
+        results: dict[str, list[dict]] = {
             'ESC1': [], 'ESC2': [], 'ESC3': [], 'ESC4': [],
             'ESC5': [], 'ESC6': [], 'ESC7': [], 'ESC8': [],
         }

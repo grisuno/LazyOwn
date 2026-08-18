@@ -40,11 +40,12 @@ import hmac
 import json
 import secrets
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import wraps
 from pathlib import Path
 from threading import RLock
-from typing import Any, Callable
+from typing import Any
 
 # ── Config ───────────────────────────────────────────────────────────────────
 

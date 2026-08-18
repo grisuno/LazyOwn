@@ -8,7 +8,7 @@ Supports drag, zoom, selection highlighting and context menus.
 from __future__ import annotations
 
 import math
-from collections.abc import Callable, Sequence
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any

@@ -22,12 +22,12 @@ import logging
 import os
 import re
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from core.payload_schema import ValidationIssue
+    pass
 
 PAYLOAD_FILENAME = "payload.json"
 PAYLOAD_PATH = Path(PAYLOAD_FILENAME)
@@ -158,7 +158,7 @@ def _log_config_change(key: str, old_value: Any, new_value: Any) -> None:
     try:
         _CONFIG_AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)
         entry = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "key": key,
             "old_value": _mask_if_sensitive(key, old_value),
             "new_value": _mask_if_sensitive(key, new_value),

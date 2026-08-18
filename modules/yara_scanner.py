@@ -4,14 +4,11 @@ Provides file scanning, process memory scanning, and rule management
 within the LazyOwn framework.
 """
 
-import os
-import json
 import hashlib
+import os
 import subprocess
 from datetime import datetime
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple, Union
-
+from typing import Union
 
 try:
     import yara
@@ -30,12 +27,12 @@ class YaraScanner:
         auto_compile: Automatically compile rules on initialization.
     """
 
-    def __init__(self, rules_dir: Optional[str] = None, auto_compile: bool = True):
+    def __init__(self, rules_dir: str | None = None, auto_compile: bool = True):
         self.rules_dir = rules_dir or YARA_RULES_DIR
-        self._compiled_rules: Optional[yara.Rules] = None
-        self.compiled_sources: Dict[str, str] = {}
+        self._compiled_rules: yara.Rules | None = None
+        self.compiled_sources: dict[str, str] = {}
         self.rule_count: int = 0
-        self.last_compile: Optional[datetime] = None
+        self.last_compile: datetime | None = None
 
         if auto_compile and HAS_YARA:
             self.compile_all()
@@ -44,7 +41,7 @@ class YaraScanner:
         """Create the YARA rules directory if it does not exist."""
         os.makedirs(self.rules_dir, exist_ok=True)
 
-    def _load_external_vars(self) -> Dict[str, Union[str, int, bool]]:
+    def _load_external_vars(self) -> dict[str, Union[str, int, bool]]:
         """Return external variables for YARA rules."""
         return {
             'filename': '',
@@ -63,7 +60,7 @@ class YaraScanner:
             return False
 
         self.ensure_directory()
-        sources: Dict[str, str] = {}
+        sources: dict[str, str] = {}
         rule_namespace = 'default'
 
         for root, _, files in os.walk(self.rules_dir):
@@ -97,7 +94,7 @@ class YaraScanner:
         except Exception as e:
             raise RuntimeError(f"YARA compilation failed: {e}")
 
-    def scan_file(self, filepath: str, timeout: int = 60) -> List[Dict]:
+    def scan_file(self, filepath: str, timeout: int = 60) -> list[dict]:
         """Scan a single file with all compiled YARA rules.
 
         Args:
@@ -129,7 +126,7 @@ class YaraScanner:
 
         return [self._format_match(m) for m in matches]
 
-    def _scan_with_timeout(self, filepath: str, externals: Dict, timeout: int):
+    def _scan_with_timeout(self, filepath: str, externals: dict, timeout: int):
         """Internal scan with timeout using threading for isolation."""
         if timeout > 0:
             import threading
@@ -162,7 +159,7 @@ class YaraScanner:
         except Exception:
             return []
 
-    def _format_match(self, match) -> Dict:
+    def _format_match(self, match) -> dict:
         """Format a YARA match object into a dictionary.
 
         Args:
@@ -187,8 +184,8 @@ class YaraScanner:
         }
 
     def scan_directory(self, directory: str, recursive: bool = True,
-                       extensions: Optional[List[str]] = None,
-                       max_files: int = 10000) -> List[Dict]:
+                       extensions: list[str] | None = None,
+                       max_files: int = 10000) -> list[dict]:
         """Scan all files in a directory recursively.
 
         Args:
@@ -274,7 +271,7 @@ class YaraScanner:
 
         return filepath
 
-    def list_rules(self) -> List[Dict[str, str]]:
+    def list_rules(self) -> list[dict[str, str]]:
         """List all YARA rules in the rules directory.
 
         Returns:
@@ -327,7 +324,7 @@ class YaraScanner:
         self.compile_all()
         return True
 
-    def ioc_scan(self, target_path: str, iocs: List[Dict]) -> List[Dict]:
+    def ioc_scan(self, target_path: str, iocs: list[dict]) -> list[dict]:
         """Scan for IOCs (hashes, strings, registry keys) in a file/directory.
 
         Args:
@@ -366,7 +363,7 @@ class YaraScanner:
         return results
 
 
-def create_default_rules() -> List[str]:
+def create_default_rules() -> list[str]:
     """Create a set of default YARA rules for common threats.
 
     Returns:

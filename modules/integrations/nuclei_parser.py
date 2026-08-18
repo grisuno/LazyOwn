@@ -26,7 +26,6 @@ import json
 import logging
 import re
 from dataclasses import dataclass, field
-from datetime import datetime
 from pathlib import Path
 from typing import Any
 
@@ -350,7 +349,6 @@ class NucleiParser:
         from modules.integrations.nuclei_bridge import (
             LocalTemplateIndex,
             NucleiRunner,
-            get_bridge,
         )
 
         idx = LocalTemplateIndex()

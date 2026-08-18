@@ -750,7 +750,7 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
     )
 
     try:
-        from event_bus import EventCategory, EventSeverity, LazyEvent, get_event_bus
+        from event_bus import EventCategory, LazyEvent, get_event_bus
         parts = command.strip().split(None, 1)
         cmd_name = parts[0] if parts else command
         cfg = _load_payload()

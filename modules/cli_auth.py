@@ -111,7 +111,8 @@ def user_exists(username: str) -> bool:
         True if the username already exists.
     """
     try:
-        from modules.lazy_rbac import get_rbac_store, _RBAC_AVAILABLE as RBAC
+        from modules.lazy_rbac import _RBAC_AVAILABLE as RBAC
+        from modules.lazy_rbac import get_rbac_store
         if RBAC:
             store = get_rbac_store()
             return store.find_by_username(username) is not None
@@ -151,7 +152,8 @@ def register(username: str, password: str) -> dict[str, Any]:
         return {"success": False, "error": "werkzeug not available — install with: pip install werkzeug"}
 
     try:
-        from modules.lazy_rbac import get_rbac_store, _RBAC_AVAILABLE as RBAC, Role
+        from modules.lazy_rbac import _RBAC_AVAILABLE as RBAC
+        from modules.lazy_rbac import Role, get_rbac_store
 
         if RBAC:
             store = get_rbac_store()

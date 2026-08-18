@@ -6,7 +6,6 @@ for secrets, and abusing pipeline misconfigurations.
 
 from __future__ import annotations
 
-import json
 import os
 
 import cmd2
@@ -20,7 +19,6 @@ from utils import (
     print_error,
     print_msg,
     print_succ,
-    print_warn,
 )
 
 CICD_CATEGORY = "20. CI/CD Pipeline Attacks"
@@ -45,6 +43,7 @@ class CICDCommandSet(LazyOwnCommandSet):
         - Unauthenticated access vectors
         """
         import shlex
+
         args = shlex.split(line) if line else []
 
         url = self._extract(args, "--url")
@@ -105,6 +104,7 @@ class CICDCommandSet(LazyOwnCommandSet):
         connection strings, and package registry tokens.
         """
         import shlex
+
         args = shlex.split(line) if line else []
 
         try:
@@ -147,6 +147,7 @@ class CICDCommandSet(LazyOwnCommandSet):
         with potential secret leakage.
         """
         import shlex
+
         args = shlex.split(line) if line else []
 
         url = self._extract(args, "--url") or self.params.get("url", "")
@@ -176,7 +177,9 @@ class CICDCommandSet(LazyOwnCommandSet):
 
         output_dir = self.params.get("sessions_dir", "sessions")
         os.makedirs(output_dir, exist_ok=True)
-        self.cmd(f"python3 modules/jenkins-cli/jenkins-cli.py -s {url} -g -o {output_dir}/jenkins_config.xml 2>/dev/null || echo ''")
+        self.cmd(
+            f"python3 modules/jenkins-cli/jenkins-cli.py -s {url} -g -o {output_dir}/jenkins_config.xml 2>/dev/null || echo ''"
+        )
 
     @cmd2.with_category(CICD_CATEGORY)
     def do_gitlab_enum(self, line=""):
@@ -188,6 +191,7 @@ class CICDCommandSet(LazyOwnCommandSet):
         runner enumeration, GraphQL API, version disclosure.
         """
         import shlex
+
         args = shlex.split(line) if line else []
 
         url = self._extract(args, "--url") or self.params.get("url", "")
@@ -238,6 +242,7 @@ class CICDCommandSet(LazyOwnCommandSet):
         - Device code phishing templates
         """
         import shlex
+
         args = shlex.split(line) if line else []
 
         domain = self._extract(args, "--domain") or self.params.get("domain", "")
@@ -248,7 +253,7 @@ class CICDCommandSet(LazyOwnCommandSet):
             return
 
         try:
-            from modules.mfa_bypass import MFABypassEngine, MFATarget, MFA_TECHNIQUES
+            from modules.mfa_bypass import MFABypassEngine, MFATarget
         except ImportError as exc:
             print_error(f"MFA bypass module not available: {exc}")
             return

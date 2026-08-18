@@ -28,9 +28,10 @@ import json
 import logging
 import threading
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 log = logging.getLogger("conditional_hooks")
 

@@ -387,7 +387,10 @@ class PaletteRenderer:
         names = [str(r.get("name", "")) for r in rows]
         summaries = [cfg.truncate_summary(r.get("summary")) for r in rows]
         name_width = max(cfg.name_column_min_width, max(len(n) for n in names))
-        body = [f"{name.ljust(name_width)}{cfg.column_separator}{summary}" for name, summary in zip(names, summaries, strict=False)]
+        body = [
+            f"{name.ljust(name_width)}{cfg.column_separator}{summary}"
+            for name, summary in zip(names, summaries, strict=False)
+        ]
         return cfg.line_separator.join([header, *body])
 
 

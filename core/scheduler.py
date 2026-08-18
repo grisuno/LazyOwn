@@ -23,8 +23,9 @@ import logging
 import sched
 import threading
 import time
-from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
 
 log = logging.getLogger("core.scheduler")
 
@@ -53,22 +54,22 @@ class TaskScheduler:
     ``sched.scheduler`` and ``threading.Timer`` otherwise.
     """
 
-    _instance: Optional["TaskScheduler"] = None
+    _instance: TaskScheduler | None = None
     _instance_lock = threading.Lock()
 
     def __init__(self) -> None:
         self._lock = threading.RLock()
         self._tasks: dict[str, _TaskInfo] = {}
         self._running = False
-        self._std_event: Optional[threading.Event] = None
-        self._std_thread: Optional[threading.Thread] = None
+        self._std_event: threading.Event | None = None
+        self._std_thread: threading.Thread | None = None
         if _HAS_APSCHEDULER:
             self._backend: Any = _apbg.BackgroundScheduler(daemon=True)
         else:
             self._backend = sched.scheduler(time.time, time.sleep)
 
     @classmethod
-    def instance(cls) -> "TaskScheduler":
+    def instance(cls) -> TaskScheduler:
         """Return the singleton ``TaskScheduler`` instance."""
         if cls._instance is None:
             with cls._instance_lock:

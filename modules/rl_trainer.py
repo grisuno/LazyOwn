@@ -436,7 +436,6 @@ def get_trainer(config: RLConfig | None = None) -> RLTrainer:
 
 if __name__ == "__main__":
     import argparse
-
     import logging
     logging.basicConfig(level=logging.INFO)
 

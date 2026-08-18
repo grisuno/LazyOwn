@@ -209,9 +209,8 @@ def search(product: str, version: str = "", max_results: int = 10) -> list[CVERe
 
 if __name__ == "__main__":
     import argparse
-    import sys
-
     import logging
+    import sys
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn CVE Matcher")

@@ -702,7 +702,6 @@ def get_router(api_key: str = "") -> MoERouter:
 
 if __name__ == "__main__":
     import argparse
-
     import logging
     logging.basicConfig(level=logging.INFO)
 

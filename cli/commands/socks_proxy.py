@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 
 import cmd2
+
 from cli.commands._base import LazyOwnCommandSet
 from utils import GREEN, RED, RESET, YELLOW, print_msg
 

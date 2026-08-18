@@ -42,12 +42,9 @@ from __future__ import annotations
 import hashlib
 import json
 import logging
-import os
-import re
 import shutil
-import subprocess
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from enum import Enum
 from pathlib import Path
 from typing import Any
@@ -240,7 +237,7 @@ class BofCatalog:
         """Serialize the entire catalog to a dictionary."""
         return {
             "entries": {name: entry.to_dict() for name, entry in self.entries.items()},
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
         }
 
     @classmethod
@@ -607,7 +604,7 @@ class BofRegistry:
             "version": entry.min_beacon_version,
             "url": entry.url,
             "platform": entry.platform.value,
-            "installed_at": datetime.now(timezone.utc).isoformat(),
+            "installed_at": datetime.now(UTC).isoformat(),
             "sha256": entry.sha256,
             "category": entry.category.value,
         }

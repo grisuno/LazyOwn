@@ -7,8 +7,9 @@ behavioural contracts.
 
 from __future__ import annotations
 
-import pytest
 from datetime import UTC, datetime
+
+import pytest
 
 from lazygui.services.models import (
     BackendKind,
@@ -19,8 +20,6 @@ from lazygui.services.models import (
     EventRecord,
     GraphEdge,
     GraphNode,
-    Listener,
-    Operator,
     Session,
     Topology,
 )

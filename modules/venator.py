@@ -213,7 +213,7 @@ def parseAgentsDaemons(item,path):
             plist = plistlib.readPlistFromString(plist_string)
     else:
         plist = plistlib.readPlist(plist_file)
-  except (ValueError, TypeError, KeyError, IOError, OSError) as exc:
+  except (ValueError, TypeError, KeyError, OSError) as exc:
     parsedPlist.update({'plist_format_error': f"Error parsing {plist_file}: {exc}"})
     return parsedPlist
 
@@ -226,7 +226,7 @@ def parseAgentsDaemons(item,path):
       if os.path.exists(progExecutable):
         try:
           progExecutableHash, progVTResult = getHash(progExecutable)
-        except (IOError, OSError, ValueError) as exc:
+        except (OSError, ValueError) as exc:
           progExecutableHash = f"Error hashing {progExecutable}: {exc}"
           progVTResult = "No VT result"
     elif plist.get("Program"):
@@ -402,7 +402,7 @@ def getFirefoxExtensions(path,output_file):
   try:
     with open(path+"profiles.ini",'r') as profile_data:
       profile_dump = profile_data.read()
-  except (IOError, OSError) as exc:
+  except OSError as exc:
     print(f"[-] Could not read Firefox profiles: {exc}")
     return
 
@@ -490,7 +490,7 @@ def getKext(sipStatus,kextPath,output_file,ignoreVFlag):
         if name == ("Info.plist"):
           try:
             kextPlist = plistlib.readPlist(os.path.join(root, name))
-          except (ValueError, TypeError, IOError, OSError) as exc:
+          except (ValueError, TypeError, OSError) as exc:
             kextDict.update({"Plist_parsing_error": f"Unable to parse plist for {kextPath}: {exc}"})
 
           if (kextPlist):

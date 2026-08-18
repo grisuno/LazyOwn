@@ -6,13 +6,13 @@ against the same ``users.json`` as lazyc2.py.
 
 from __future__ import annotations
 
-import cmd2
 import getpass
+
+import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
     GREEN,
-    RED,
     RESET,
     WHITE,
     YELLOW,
@@ -96,7 +96,7 @@ class CliAuthCommandSet(LazyOwnCommandSet):
             print_succ(f"Logged in as {username} ({result.get('role')}, {result.get('elo')} ELO)")
             if result.get("remember"):
                 print_succ("Remember-me token saved. Auto-login enabled for future sessions.")
-                print_warn("To disable: assign cli_auto_login \"\" && assign cli_remember_token \"\"")
+                print_warn('To disable: assign cli_auto_login "" && assign cli_remember_token ""')
             else:
                 print_msg("Tip: use 'login --remember' to skip login next time.")
 
@@ -105,6 +105,7 @@ class CliAuthCommandSet(LazyOwnCommandSet):
                 shell.operator_name = username
                 try:
                     from utils import getprompt
+
                     shell.custom_prompt = getprompt()
                     shell.prompt = shell.custom_prompt
                 except Exception:
@@ -211,6 +212,7 @@ class CliAuthCommandSet(LazyOwnCommandSet):
                 shell.operator_name = None
                 try:
                     from utils import getprompt
+
                     shell.custom_prompt = getprompt()
                     shell.prompt = shell.custom_prompt
                 except Exception:

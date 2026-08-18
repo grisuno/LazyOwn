@@ -357,7 +357,7 @@ def start_challenge(challenge_id: str) -> dict[str, Any]:
         "message": f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target.",
         "next_steps": [
             f"lab start {chal['scenario']}",
-            f"assign rhost 127.0.0.1",
+            "assign rhost 127.0.0.1",
             "lazynmap",
         ],
     }

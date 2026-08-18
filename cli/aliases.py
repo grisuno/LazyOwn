@@ -71,11 +71,7 @@ def template_placeholders(template: str) -> set[str]:
 
 def empty_placeholders(template: str, context: dict[str, Any]) -> list[str]:
     """Return placeholders whose rendered value against ``context`` is empty."""
-    return sorted(
-        name
-        for name in template_placeholders(template)
-        if not str(context.get(name) or "").strip()
-    )
+    return sorted(name for name in template_placeholders(template) if not str(context.get(name) or "").strip())
 
 
 def load_aliases(

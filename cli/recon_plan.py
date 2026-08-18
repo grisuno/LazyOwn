@@ -474,6 +474,7 @@ def _payload_target(payload: Mapping[str, Any], config: ReconPlanConfig) -> str:
 def _resolve_phase(payload: Mapping[str, Any], config: ReconPlanConfig) -> str:
     try:
         from modules.killchain import KillChain
+
         return KillChain.current_phase()
     except Exception:
         raw = payload.get("phase") or payload.get("current_phase") or ""

@@ -38,10 +38,10 @@ import os
 import sqlite3
 import subprocess
 import sys
-import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Dict, Iterable, List, Optional, Set, Tuple
+from typing import Any
 
 log = logging.getLogger("estorides_importer")
 
@@ -57,7 +57,7 @@ ESTORIDES_CASES_DB = ESTORIDES_DATA / "estorides_cases.sqlite"
 ESTORIDES_STIX = ESTORIDES_DATA / "estorides_stix_bundle.json"
 ESTORIDES_GRAPHML = ESTORIDES_DATA / "estorides_graph.graphml"
 
-ENTITY_TYPE_MAP: Dict[str, str] = {
+ENTITY_TYPE_MAP: dict[str, str] = {
     "ipv4": "ipv4",
     "ipv6": "ipv6",
     "domain": "domain",
@@ -88,7 +88,7 @@ class EstoridesEntity:
     value: str
     source: str = ""
     confidence: float = 1.0
-    sources: List[str] = field(default_factory=list)
+    sources: list[str] = field(default_factory=list)
     case_id: str = ""
 
 
@@ -104,13 +104,13 @@ class ImportResult:
     cves_found: int = 0
     emails_found: int = 0
     scope_entries_added: int = 0
-    errors: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
 
     @property
     def success(self) -> bool:
         return len(self.errors) == 0
 
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "entities_total": self.entities_total,
             "hosts_added": self.hosts_added,
@@ -129,18 +129,18 @@ class SeedResult:
     """Result of seeding estorides with LazyOwn hosts."""
 
     seeds_sent: int = 0
-    cases_created: List[str] = field(default_factory=list)
+    cases_created: list[str] = field(default_factory=list)
     entities_discovered: int = 0
-    domains_discovered: List[str] = field(default_factory=list)
-    ips_discovered: List[str] = field(default_factory=list)
-    errors: List[str] = field(default_factory=list)
+    domains_discovered: list[str] = field(default_factory=list)
+    ips_discovered: list[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
 
     @property
-    def new_assets(self) -> List[str]:
+    def new_assets(self) -> list[str]:
         return self.domains_discovered + self.ips_discovered
 
 
-def extract_seeds_from_world_model(world_model_path: Optional[Path] = None) -> List[Tuple[str, str]]:
+def extract_seeds_from_world_model(world_model_path: Path | None = None) -> list[tuple[str, str]]:
     """Extract IPs and domains from world_model.json as estorides seeds.
 
     Returns list of (type, value) tuples suitable for estorides discover.
@@ -149,8 +149,8 @@ def extract_seeds_from_world_model(world_model_path: Optional[Path] = None) -> L
 
     if world_model_path is None:
         world_model_path = Path("sessions") / "world_model.json"
-    seeds: List[Tuple[str, str]] = []
-    seen: Set[str] = set()
+    seeds: list[tuple[str, str]] = []
+    seen: set[str] = set()
 
     if not world_model_path.exists():
         return seeds
@@ -172,15 +172,15 @@ def extract_seeds_from_world_model(world_model_path: Optional[Path] = None) -> L
     return seeds
 
 
-def extract_seeds_from_hosts_file(path: Optional[Path] = None) -> List[Tuple[str, str]]:
+def extract_seeds_from_hosts_file(path: Path | None = None) -> list[tuple[str, str]]:
     """Extract IPs/domains from hostsdiscovery.txt or similar.
 
     Returns list of (type, value) tuples.
     """
     if path is None:
         path = Path("sessions") / "hostsdiscovery.txt"
-    seeds: List[Tuple[str, str]] = []
-    seen: Set[str] = set()
+    seeds: list[tuple[str, str]] = []
+    seen: set[str] = set()
 
     if not path.exists():
         return seeds
@@ -200,15 +200,15 @@ def extract_seeds_from_hosts_file(path: Optional[Path] = None) -> List[Tuple[str
     return seeds
 
 
-def extract_seeds_from_db(db_path: Optional[str] = None) -> List[Tuple[str, str]]:
+def extract_seeds_from_db(db_path: str | None = None) -> list[tuple[str, str]]:
     """Extract hosts from LazyOwn database.
 
     Returns list of (type, value) tuples.
     """
     if db_path is None:
         db_path = os.path.join("sessions", "db", "lazyown.db")
-    seeds: List[Tuple[str, str]] = []
-    seen: Set[str] = set()
+    seeds: list[tuple[str, str]] = []
+    seen: set[str] = set()
 
     if not os.path.isfile(db_path):
         return seeds
@@ -238,7 +238,7 @@ def extract_seeds_from_db(db_path: Optional[str] = None) -> List[Tuple[str, str]
     return seeds
 
 
-def extract_seeds_from_scope(scope_entries: Optional[List[str]] = None) -> List[Tuple[str, str]]:
+def extract_seeds_from_scope(scope_entries: list[str] | None = None) -> list[tuple[str, str]]:
     """Extract scoped IPs/domains from payload.json scope list.
 
     Returns list of (type, value) tuples.
@@ -253,8 +253,8 @@ def extract_seeds_from_scope(scope_entries: Optional[List[str]] = None) -> List[
         except (json.JSONDecodeError, OSError):
             return []
 
-    seeds: List[Tuple[str, str]] = []
-    seen: Set[str] = set()
+    seeds: list[tuple[str, str]] = []
+    seen: set[str] = set()
     for entry in (scope_entries or []):
         entry = str(entry).strip()
         if not entry or entry in seen:
@@ -273,9 +273,9 @@ def run_estorides_discover(
     seed_value: str,
     max_depth: int = 2,
     max_steps: int = 15,
-    out_json: Optional[str] = None,
+    out_json: str | None = None,
     timeout: float = 120.0,
-) -> Optional[Dict[str, Any]]:
+) -> dict[str, Any] | None:
     """Run estorides discover on a single seed.
 
     Returns the surface JSON dict on success, None on failure.
@@ -326,9 +326,9 @@ def run_estorides_discover(
 
 def run_estorides_run(
     query: str,
-    out_json: Optional[str] = None,
+    out_json: str | None = None,
     timeout: float = 60.0,
-) -> Optional[Dict[str, Any]]:
+) -> dict[str, Any] | None:
     """Run estorides run (single fan-out) on a query.
 
     Returns the result JSON dict on success, None on failure.
@@ -377,9 +377,9 @@ def run_estorides_run(
 class EstoridesCaseReader:
     """Read entities from the estorides case store (SQLite)."""
 
-    def __init__(self, db_path: Optional[Path] = None) -> None:
+    def __init__(self, db_path: Path | None = None) -> None:
         self.db_path = Path(db_path) if db_path else ESTORIDES_CASES_DB
-        self._conn: Optional[sqlite3.Connection] = None
+        self._conn: sqlite3.Connection | None = None
 
     @property
     def available(self) -> bool:
@@ -391,7 +391,7 @@ class EstoridesCaseReader:
             self._conn.row_factory = sqlite3.Row
         return self._conn
 
-    def list_cases(self, limit: int = 20) -> List[Dict[str, Any]]:
+    def list_cases(self, limit: int = 20) -> list[dict[str, Any]]:
         if not self.available:
             return []
         conn = self._ensure_conn()
@@ -405,10 +405,10 @@ class EstoridesCaseReader:
 
     def get_entities(
         self,
-        case_id: Optional[str] = None,
-        entity_types: Optional[Iterable[str]] = None,
+        case_id: str | None = None,
+        entity_types: Iterable[str] | None = None,
         limit: int = 500,
-    ) -> List[EstoridesEntity]:
+    ) -> list[EstoridesEntity]:
         """Fetch entities from the case store.
 
         If case_id is None, fetches from all cases.
@@ -426,7 +426,7 @@ class EstoridesCaseReader:
             ).fetchall()
         else:
             where = ""
-            params: List[Any] = []
+            params: list[Any] = []
             if entity_types:
                 placeholders = ",".join("?" for _ in entity_types)
                 where = f"WHERE type IN ({placeholders})"
@@ -439,7 +439,7 @@ class EstoridesCaseReader:
                 params,
             ).fetchall()
 
-        entities: List[EstoridesEntity] = []
+        entities: list[EstoridesEntity] = []
         for r in rows:
             sources = []
             try:
@@ -458,14 +458,14 @@ class EstoridesCaseReader:
             )
         return entities
 
-    def get_host_entities(self, case_id: Optional[str] = None) -> List[EstoridesEntity]:
+    def get_host_entities(self, case_id: str | None = None) -> list[EstoridesEntity]:
         """Get entities of host-related types (ipv4, ipv6, domain, url, asn)."""
         return self.get_entities(case_id=case_id, entity_types=HOST_ENTITY_TYPES)
 
-    def get_all_entities(self, case_id: Optional[str] = None) -> List[EstoridesEntity]:
+    def get_all_entities(self, case_id: str | None = None) -> list[EstoridesEntity]:
         return self.get_entities(case_id=case_id)
 
-    def stats(self) -> Dict[str, Any]:
+    def stats(self) -> dict[str, Any]:
         if not self.available:
             return {"available": False}
         conn = self._ensure_conn()
@@ -487,7 +487,7 @@ class EstoridesCaseReader:
 class EstoridesStixParser:
     """Parse STIX 2.1 bundles produced by estorides."""
 
-    STIX_TO_ENTITY: Dict[str, str] = {
+    STIX_TO_ENTITY: dict[str, str] = {
         "ipv4-addr": "ipv4",
         "ipv6-addr": "ipv6",
         "domain-name": "domain",
@@ -500,14 +500,14 @@ class EstoridesStixParser:
         "crypto-wallet": "crypto",
     }
 
-    def __init__(self, stix_path: Optional[Path] = None) -> None:
+    def __init__(self, stix_path: Path | None = None) -> None:
         self.stix_path = Path(stix_path) if stix_path else ESTORIDES_STIX
 
     @property
     def available(self) -> bool:
         return self.stix_path.exists()
 
-    def parse(self) -> List[EstoridesEntity]:
+    def parse(self) -> list[EstoridesEntity]:
         """Parse a STIX 2.1 bundle into EstoridesEntity objects."""
         if not self.available:
             return []
@@ -515,7 +515,7 @@ class EstoridesStixParser:
         with open(self.stix_path, encoding="utf-8") as fh:
             bundle = json.load(fh)
 
-        entities: List[EstoridesEntity] = []
+        entities: list[EstoridesEntity] = []
         if bundle.get("type") != "bundle":
             return entities
 
@@ -541,10 +541,10 @@ class EstoridesStixParser:
             )
         return entities
 
-    def parse_by_type(self, entity_types: Optional[Iterable[str]] = None) -> Dict[str, List[str]]:
+    def parse_by_type(self, entity_types: Iterable[str] | None = None) -> dict[str, list[str]]:
         """Parse STIX and group values by entity type."""
         all_entities = self.parse()
-        result: Dict[str, Set[str]] = {}
+        result: dict[str, set[str]] = {}
         for ent in all_entities:
             if entity_types and ent.entity_type not in entity_types:
                 continue
@@ -552,7 +552,7 @@ class EstoridesStixParser:
         return {k: sorted(v) for k, v in result.items()}
 
     @staticmethod
-    def _extract_value(obj: Dict[str, Any], stix_type: str) -> Optional[str]:
+    def _extract_value(obj: dict[str, Any], stix_type: str) -> str | None:
         if stix_type in ("ipv4-addr", "ipv6-addr", "domain-name", "url", "email-addr", "mac-addr"):
             return obj.get("value")
         if stix_type == "vulnerability":
@@ -579,8 +579,8 @@ class EstoridesToLazyOwnBridge:
 
     def __init__(
         self,
-        db_path: Optional[str] = None,
-        config_path: Optional[str] = None,
+        db_path: str | None = None,
+        config_path: str | None = None,
     ) -> None:
         self.db_path = db_path or os.path.join("sessions", "db", "lazyown.db")
         self.config_path = config_path or "payload.json"
@@ -607,7 +607,7 @@ class EstoridesToLazyOwnBridge:
         entity_list = list(entities)
         result.entities_total = len(entity_list)
 
-        imports: List[Tuple[str, str, str]] = []  # (type, value, source)
+        imports: list[tuple[str, str, str]] = []  # (type, value, source)
 
         for ent in entity_list:
             if ent.entity_type == "cve":
@@ -630,7 +630,7 @@ class EstoridesToLazyOwnBridge:
         return result
 
     def _import_to_db(
-        self, imports: List[Tuple[str, str, str]], result: ImportResult,
+        self, imports: list[tuple[str, str, str]], result: ImportResult,
     ) -> None:
         try:
             from modules.db import LazyOwnDB
@@ -674,14 +674,14 @@ class EstoridesToLazyOwnBridge:
             log.error("DB import failed: %s", e)
 
     def _import_to_scope(
-        self, imports: List[Tuple[str, str, str]], result: ImportResult,
+        self, imports: list[tuple[str, str, str]], result: ImportResult,
     ) -> None:
         try:
             cfg = {}
             if os.path.isfile(self.config_path):
                 cfg = json.loads(open(self.config_path, encoding="utf-8").read())
 
-            current_scope: List[str] = list(cfg.get("scope") or [])
+            current_scope: list[str] = list(cfg.get("scope") or [])
             scope_set = set(current_scope)
 
             for ent_type, value, _source in imports:
@@ -704,9 +704,9 @@ class EstoridesToLazyOwnBridge:
         except (json.JSONDecodeError, OSError) as e:
             result.errors.append(f"Scope update error: {e}")
 
-    def get_combined_surface(self) -> Dict[str, Any]:
+    def get_combined_surface(self) -> dict[str, Any]:
         """Get the combined attack surface from LazyOwn DB + scope."""
-        surface: Dict[str, List[str]] = {
+        surface: dict[str, list[str]] = {
             "from_db": [],
             "from_scope": [],
             "from_world_model": [],
@@ -775,9 +775,9 @@ class FeedbackLoop:
         self.bridge = EstoridesToLazyOwnBridge()
         self.case_reader = EstoridesCaseReader()
         self.stix_parser = EstoridesStixParser()
-        self.history: List[Dict[str, Any]] = []
+        self.history: list[dict[str, Any]] = []
 
-    def run(self, seed_methods: Optional[List[str]] = None) -> Dict[str, Any]:
+    def run(self, seed_methods: list[str] | None = None) -> dict[str, Any]:
         """Run the feedback loop.
 
         Args:
@@ -791,12 +791,12 @@ class FeedbackLoop:
         if seed_methods is None:
             seed_methods = ["world_model", "hosts_file"]
 
-        all_seeds: List[Tuple[str, str]] = []
-        seen_seeds: Set[str] = set()
+        all_seeds: list[tuple[str, str]] = []
+        seen_seeds: set[str] = set()
         total_discovered_entities = 0
 
         for iteration in range(1, self.max_iterations + 1):
-            iter_result: Dict[str, Any] = {
+            iter_result: dict[str, Any] = {
                 "iteration": iteration,
                 "seeds_processed": 0,
                 "entities_discovered": 0,
@@ -830,7 +830,7 @@ class FeedbackLoop:
                 domains = surface.get("domains", [])
                 entities = self.case_reader.get_host_entities(case_id=case_id) if case_id else []
 
-                new_for_iter: List[str] = []
+                new_for_iter: list[str] = []
                 for d in domains:
                     d = str(d).strip()
                     if d and d not in seen_seeds:
@@ -870,11 +870,11 @@ class FeedbackLoop:
 
     def _gather_seeds(
         self,
-        methods: List[str],
-        seen: Set[str],
-    ) -> List[Tuple[str, str]]:
+        methods: list[str],
+        seen: set[str],
+    ) -> list[tuple[str, str]]:
         """Gather seeds from specified sources, filtering already-seen."""
-        all_raw: List[Tuple[str, str]] = []
+        all_raw: list[tuple[str, str]] = []
 
         if "all" in methods or "world_model" in methods:
             all_raw.extend(extract_seeds_from_world_model())
@@ -885,7 +885,7 @@ class FeedbackLoop:
         if "all" in methods or "scope" in methods:
             all_raw.extend(extract_seeds_from_scope())
 
-        fresh: List[Tuple[str, str]] = []
+        fresh: list[tuple[str, str]] = []
         for stype, sval in all_raw:
             key = f"{stype}:{sval}"
             if key not in seen:
@@ -894,7 +894,7 @@ class FeedbackLoop:
         return fresh
 
 
-def export_combined_graph(output_path: Optional[str] = None) -> Optional[Path]:
+def export_combined_graph(output_path: str | None = None) -> Path | None:
     """Export the combined (Estorides + LazyOwn) graph as GraphML."""
     if output_path is None:
         output_path = os.path.join("sessions", "combined_graph.graphml")

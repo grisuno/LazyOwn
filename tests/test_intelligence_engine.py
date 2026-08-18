@@ -3,14 +3,12 @@
 from __future__ import annotations
 
 import json
-import tempfile
 from pathlib import Path
 
 import pytest
 
 from modules.intelligence_engine import (
     CollectedFact,
-    CounterIntelFinding,
     IntelligenceAssessment,
     IntelligenceConfig,
     IntelligenceEngine,

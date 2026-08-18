@@ -643,8 +643,6 @@ def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> di
     _console.print("  [dim]If you skip this, the prompt will show [anonymous] until you 'login'.[/]")
     _console.print()
 
-    from getpass import getpass
-
     choice = _prompt("  Do you already have an account? (Y/n): ").strip().lower()
     has_account = choice not in ("n", "no")
 
@@ -677,9 +675,7 @@ def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> di
 
             login(username, password, remember=True)
             _ok("Remember-me token saved. Auto-login enabled for future sessions.")
-            _console.print(
-                "  [dim]To disable: assign cli_auto_login \"\" && assign cli_remember_token \"\"[/]"
-            )
+            _console.print('  [dim]To disable: assign cli_auto_login "" && assign cli_remember_token ""[/]')
         except Exception:
             _warn("Could not persist remember-me token.")
     else:

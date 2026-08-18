@@ -5,7 +5,6 @@ structured error reporting and programmatic error handling.
 """
 
 from enum import IntEnum
-from typing import Optional
 
 
 class ErrorCode(IntEnum):
@@ -59,7 +58,7 @@ _ERROR_TYPE_MAP: dict[ErrorCode, str] = {
 class LazyOwnError(Exception):
     """Base exception for all LazyOwn framework errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message)
         self.message = message
         self.error_code = error_code or ErrorCode.INTERNAL_ERROR
@@ -81,61 +80,61 @@ class LazyOwnError(Exception):
 class ConfigError(LazyOwnError):
     """Configuration-related errors (missing/invalid payload.json, etc.)."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.CONFIG_INVALID)
 
 
 class TargetError(LazyOwnError):
     """Target connectivity or access errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.TARGET_UNREACHABLE)
 
 
 class AuthError(LazyOwnError):
     """Authentication or authorisation failures."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.AUTH_FAILED)
 
 
 class ToolError(LazyOwnError):
     """External tool execution errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.TOOL_FAILED)
 
 
 class PayloadError(LazyOwnError):
     """Payload generation or deployment errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.INTERNAL_ERROR)
 
 
 class DatabaseError(LazyOwnError):
     """Database operation errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.DB_QUERY)
 
 
 class NetworkError(LazyOwnError):
     """Network-level errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.NETWORK_TIMEOUT)
 
 
 class PermissionError(LazyOwnError):
     """Insufficient-permission errors (wraps OS-level PermissionError)."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.INTERNAL_ERROR)
 
 
 class ValidationError(LazyOwnError):
     """Input validation / sanitisation errors."""
 
-    def __init__(self, message: str, error_code: Optional[int] = None) -> None:
+    def __init__(self, message: str, error_code: int | None = None) -> None:
         super().__init__(message, error_code or ErrorCode.VALIDATION_TYPE)

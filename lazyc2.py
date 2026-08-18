@@ -100,14 +100,15 @@ from lazyc2.security.validators import (
 )
 from lazyown import LazyOwnShell
 from modules.colors import retModel
+from modules.listener_manager import ListenerManager
+from modules.live_surface import build_live_graph
 from modules.llm_adapter import (
-    Groq,
     process_prompt,
     process_prompt_adversary,
     process_prompt_general,
     process_prompt_local,
-    process_prompt_localreport,
     process_prompt_local_yaml,
+    process_prompt_localreport,
     process_prompt_redop,
     process_prompt_script,
     process_prompt_search,
@@ -115,9 +116,7 @@ from modules.llm_adapter import (
     process_prompt_vuln,
     safe_groq_client,
 )
-from modules.listener_manager import ListenerManager
 from modules.logging_config import configure as _configure_logging
-from modules.live_surface import build_live_graph
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
     BindAddressResolver,
@@ -1264,6 +1263,7 @@ def escape_js_string(value):
     return value
 
 from core.parsers import strip_ansi
+
 
 def check_auth(username: str, password: str) -> bool:
     """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
@@ -2978,7 +2978,8 @@ def send_command(client_id):
                 _primary_ip = (_raw_ips.split(",")[0].strip().strip("[]'\"") if _raw_ips else "")
             if not _primary_ip:
                 _primary_ip = str(client_id)
-            from modules.world_model import HostState as _HS, get_world_model as _get_wm
+            from modules.world_model import HostState as _HS
+            from modules.world_model import get_world_model as _get_wm
             _wm = _get_wm()
             _wm.advance_host(_primary_ip, _HS.EXPLOITED)
             _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
@@ -3354,7 +3355,8 @@ def receive_result(client_id):
                     _hook_engine.fire("beacon_connected", _hctx)
 
                 try:
-                    from modules.world_model import HostState as _HS, get_world_model as _get_wm
+                    from modules.world_model import HostState as _HS
+                    from modules.world_model import get_world_model as _get_wm
                     _wm = _get_wm()
                     _wm.advance_host(_primary_ip, _HS.EXPLOITED)
                     _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
@@ -3400,7 +3402,8 @@ def receive_result(client_id):
                         or str(user).lower() == "nt authority\\system"
                     )
                     if _owns:
-                        from modules.world_model import HostState as _HS2, get_world_model as _get_wm2
+                        from modules.world_model import HostState as _HS2
+                        from modules.world_model import get_world_model as _get_wm2
                         _wm2 = _get_wm2()
                         _wm2.advance_host(_primary_ip, _HS2.OWNED)
                         _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
@@ -7042,7 +7045,8 @@ def health_check():
         logger.error(f"Health check database failed: {e}")
         status["checks"]["database"] = "error"
     try:
-        from skills.daemon_health import is_daemon_alive, daemon_status as _ds
+        from skills.daemon_health import daemon_status as _ds
+        from skills.daemon_health import is_daemon_alive
         if is_daemon_alive():
             status["checks"]["autonomous_daemon"] = "ok"
             status["daemon"] = _ds()
@@ -7180,8 +7184,7 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import addons_bp
-    from lazyc2.blueprints import operations_bp, auth_bp, beacon_bp, redirect_bp, api_bp, init_beacon_bp
+    from lazyc2.blueprints import addons_bp, api_bp, auth_bp, beacon_bp, init_beacon_bp, operations_bp, redirect_bp
     init_beacon_bp(
         commands=commands,
         results=results,

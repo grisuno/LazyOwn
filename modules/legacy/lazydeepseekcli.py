@@ -20,7 +20,6 @@ from typing import Any
 import requests
 from flask import Response, jsonify, stream_with_context
 
-
 BANNER = """
 [*] Iniciando: LazyOwn DeepSeek Assistant [;,;]
 """

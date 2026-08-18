@@ -2,7 +2,6 @@ import csv
 import json
 import os
 import random
-import re
 import time
 
 import discord
@@ -23,6 +22,7 @@ intents.message_content = True
 bot = commands.Bot(command_prefix='!', intents=intents)
 
 from core.parsers import strip_ansi
+
 
 class SecureSessionManager:
     def __init__(self):

@@ -28,7 +28,7 @@ import logging
 import os
 from base64 import b64decode, b64encode
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from core.crypto import AESdecrypt, AESencrypt
 

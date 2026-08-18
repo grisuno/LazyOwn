@@ -44,9 +44,8 @@ from __future__ import annotations
 import ipaddress
 import logging
 import socket
-import struct
 from dataclasses import dataclass, field
-from enum import Enum, IntEnum
+from enum import IntEnum
 from typing import Any
 
 log = logging.getLogger("socks_proxy")

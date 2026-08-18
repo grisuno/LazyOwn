@@ -90,10 +90,7 @@ class CalderaCommandSet(LazyOwnCommandSet):
         print_msg(f"{'ID':<10} {'Name':<25} {'Target':<18} {'Status':<12} {'Created'}")
         print_msg("-" * 80)
         for op in ops:
-            print_msg(
-                f"{op.id:<10} {op.name[:24]:<25} {op.target[:17]:<18} "
-                f"{op.status:<12} {op.created_at[:19]}"
-            )
+            print_msg(f"{op.id:<10} {op.name[:24]:<25} {op.target[:17]:<18} {op.status:<12} {op.created_at[:19]}")
 
     @cmd2.with_category(miscellaneous_category)
     def do_op_create(self, line):
@@ -240,8 +237,7 @@ class CalderaCommandSet(LazyOwnCommandSet):
         print_msg(f"  Finished     : {st['finished_at'] or '-'}")
         s = st["steps"]
         print_msg(
-            f"  Steps        : {s['completed']}/{s['total']} completed, "
-            f"{s['failed']} failed, {s['pending']} pending"
+            f"  Steps        : {s['completed']}/{s['total']} completed, {s['failed']} failed, {s['pending']} pending"
         )
         print_msg(f"  Facts        : {st['facts_produced']}")
         if st["ttp_coverage"]:
@@ -379,8 +375,9 @@ class CalderaCommandSet(LazyOwnCommandSet):
         if not result.candidates:
             print_warn(f"no candidates for {target} — populate facts first")
             return
-        print_msg(f"Plan for {target} ({len(result.candidates)} candidates, "
-                  f"{len(result.facts_observed)} facts observed):")
+        print_msg(
+            f"Plan for {target} ({len(result.candidates)} candidates, {len(result.facts_observed)} facts observed):"
+        )
         print_msg(f"  {'Rank':<5} {'TechID':<10} {'Name':<35} {'Score':<7} {'Risk':<7} {'Matched'}")
         print_msg("-" * 95)
         for i, c in enumerate(result.candidates, 1):
@@ -413,18 +410,21 @@ class CalderaCommandSet(LazyOwnCommandSet):
         mgr = _resolve_manager()
         op = mgr.create(name=op_name, target=target, apt_name=apt_name)
         from modules.playbook_engine import PlaybookEngine
+
         engine = PlaybookEngine()
         try:
             pb = engine.derive(target, phase=None, apt_name=apt_name)
             for i, st in enumerate(pb.steps):
-                op.steps.append(OperationStep(
-                    step_index=i,
-                    name=st.name,
-                    technique_id=st.technique_id,
-                    tactic=st.tactic,
-                    command=st.command,
-                    description=st.description,
-                ))
+                op.steps.append(
+                    OperationStep(
+                        step_index=i,
+                        name=st.name,
+                        technique_id=st.technique_id,
+                        tactic=st.tactic,
+                        command=st.command,
+                        description=st.description,
+                    )
+                )
             for s in op.steps:
                 op.ttp_coverage[s.technique_id] = "pending"
             op.save()

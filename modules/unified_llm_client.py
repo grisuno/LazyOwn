@@ -5,10 +5,8 @@ factory-based client supporting Groq, OpenAI, local models (Ollama/LM Studio),
 and task-specific specializations.
 """
 
-import json
 import os
-from typing import Any, Dict, List, Optional, Tuple
-
+from typing import Any
 
 try:
     from groq import Groq
@@ -45,12 +43,12 @@ class UnifiedLLMClient:
     def __init__(
         self,
         backend: str = 'groq',
-        api_key: Optional[str] = None,
-        model: Optional[str] = None,
-        base_url: Optional[str] = None,
+        api_key: str | None = None,
+        model: str | None = None,
+        base_url: str | None = None,
         temperature: float = 0.7,
         max_tokens: int = 4096,
-        system_prompt: Optional[str] = None,
+        system_prompt: str | None = None,
     ):
         if backend not in self.BACKENDS:
             raise ValueError(f"Backend must be one of {self.BACKENDS}")
@@ -63,7 +61,7 @@ class UnifiedLLMClient:
         self._model = model or self._default_model(backend)
         self._client = self._create_client(backend, api_key, base_url)
 
-        self._task_prompts: Dict[str, str] = {
+        self._task_prompts: dict[str, str] = {
             'redop': self._redop_system_prompt(),
             'vuln': self._vuln_system_prompt(),
             'phish': self._phish_system_prompt(),
@@ -82,7 +80,7 @@ class UnifiedLLMClient:
         return models.get(backend, 'llama3.2')
 
     def _create_client(
-        self, backend: str, api_key: Optional[str], base_url: Optional[str]
+        self, backend: str, api_key: str | None, base_url: str | None
     ) -> Any:
         """Create the appropriate client for the backend."""
         if backend == 'groq':
@@ -178,10 +176,10 @@ class UnifiedLLMClient:
 
     def chat(
         self,
-        messages: List[Dict[str, str]],
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-    ) -> Tuple[str, int, int]:
+        messages: list[dict[str, str]],
+        temperature: float | None = None,
+        max_tokens: int | None = None,
+    ) -> tuple[str, int, int]:
         """Send a chat completion request.
 
         Args:
@@ -204,8 +202,8 @@ class UnifiedLLMClient:
             return self._chat_openai_compatible(messages, temp, max_tok)
 
     def _chat_groq(
-        self, messages: List[Dict], temperature: float, max_tokens: int
-    ) -> Tuple[str, int, int]:
+        self, messages: list[dict], temperature: float, max_tokens: int
+    ) -> tuple[str, int, int]:
         """Chat completion via Groq API."""
         response = self._client.chat.completions.create(
             model=self._model,
@@ -221,8 +219,8 @@ class UnifiedLLMClient:
         )
 
     def _chat_openai_compatible(
-        self, messages: List[Dict], temperature: float, max_tokens: int
-    ) -> Tuple[str, int, int]:
+        self, messages: list[dict], temperature: float, max_tokens: int
+    ) -> tuple[str, int, int]:
         """Chat completion via OpenAI or compatible API."""
         response = self._client.chat.completions.create(
             model=self._model,
@@ -240,8 +238,8 @@ class UnifiedLLMClient:
     def prompt(
         self,
         user_prompt: str,
-        task: Optional[str] = None,
-        context: Optional[str] = None,
+        task: str | None = None,
+        context: str | None = None,
     ) -> str:
         """Send a single prompt and return the response.
 
@@ -377,7 +375,7 @@ class UnifiedLLMClient:
 
 def create_llm_client(
     backend: str = 'groq',
-    api_key: Optional[str] = None,
+    api_key: str | None = None,
     task: str = 'general',
     **kwargs,
 ) -> UnifiedLLMClient:
@@ -424,7 +422,7 @@ class LLMBridge:
         self,
         api_key: str = "",
         backend: str = "groq",
-        model: Optional[str] = None,
+        model: str | None = None,
         timeout: int = 90,
         max_tokens: int = 1024,
     ) -> None:
@@ -452,7 +450,7 @@ class LLMBridge:
         prompt: str,
         *,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
         system: str = "You are a helpful penetration testing assistant.",
         temperature: float = 0.7,
     ) -> str:
@@ -476,7 +474,7 @@ class LLMBridge:
         *,
         question: str = "Did this command succeed? Answer only: success, failure, or partial.",
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         prompt = f"{question}\n\nOUTPUT:\n{output[:2000]}"
         raw = self.ask(
@@ -501,7 +499,7 @@ class LLMBridge:
         *,
         max_chars: int = 6000,
         provider: str = "auto",
-        model: Optional[str] = None,
+        model: str | None = None,
     ) -> str:
         prompt = (
             f"Summarize the following penetration testing output in 3-5 bullet points. "
@@ -512,9 +510,9 @@ class LLMBridge:
 
 
 def get_llm_client(
-    api_key: Optional[str] = None,
+    api_key: str | None = None,
     backend: str = "groq",
-    model: Optional[str] = None,
+    model: str | None = None,
     timeout: int = 90,
     max_tokens: int = 1024,
 ) -> LLMBridge:

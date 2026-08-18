@@ -14,8 +14,7 @@ from __future__ import annotations
 import json
 import os
 import re
-from dataclasses import dataclass, field
-from typing import Any
+from dataclasses import dataclass
 
 SECRET_PATTERNS: list[tuple[str, str, str]] = [
     (r"(?i)(password|passwd|pwd)\s*[:=]\s*['\"]?([^'\"&\s\n]+)['\"]?", "credential", "password"),

@@ -13,13 +13,12 @@ suggestion ranking, and opsec trend tracking.
 
 from __future__ import annotations
 
-import json
 import logging
 import time
 from dataclasses import dataclass, field
 from enum import IntEnum
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -205,12 +204,12 @@ class OpsecScorerV2:
         "exfil_icmp": {"base_noise": 7, "detects": ["netflow", "IDS"], "phase": "exfiltration"},
     }
 
-    def __init__(self, context: Optional[OpsecContext] = None):
+    def __init__(self, context: OpsecContext | None = None):
         self.context = context or OpsecContext()
         self.score_history: list[OpsecScore] = []
         self.risk_threshold = RiskLevel.HIGH
 
-    def assess(self, command: str, extra_context: Optional[dict[str, Any]] = None) -> OpsecScore:
+    def assess(self, command: str, extra_context: dict[str, Any] | None = None) -> OpsecScore:
         """Assess OPSEC risk for a command in the current context.
 
         Args:

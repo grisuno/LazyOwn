@@ -8,8 +8,6 @@ test is too weak and must be hardened.
 from __future__ import annotations
 
 import importlib
-import os
-import re
 import subprocess
 import sys
 from pathlib import Path

@@ -14,8 +14,6 @@ import json
 import os
 from pathlib import Path
 
-import pytest
-
 
 def load_banners(path: str) -> list | None:
     """Mirrors the fixed load_banners() from lazyc2.py and storage.py.

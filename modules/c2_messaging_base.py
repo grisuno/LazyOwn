@@ -1,14 +1,11 @@
-import re
 import time
-from typing import Any, Dict, Optional
-
+from typing import Any
 
 MAX_FAILED_ATTEMPTS = 3
 RATE_LIMIT = 5
 SESSION_TIMEOUT = 1800
 
 
-from core.parsers import strip_ansi
 
 
 class SecureSessionManager:
@@ -35,9 +32,9 @@ class SecureSessionManager:
         self.lockout_duration = lockout_duration
         self._rate_limit = rate_limit
         self._session_timeout = session_timeout
-        self.sessions: Dict[int, Dict[str, Any]] = {}
-        self.failed_attempts: Dict[int, Dict[str, Any]] = {}
-        self.command_timestamps: Dict[int, list] = {}
+        self.sessions: dict[int, dict[str, Any]] = {}
+        self.failed_attempts: dict[int, dict[str, Any]] = {}
+        self.command_timestamps: dict[int, list] = {}
 
     def register_failed_attempt(self, user_id: int) -> None:
         """Record a failed authentication attempt for a user."""
@@ -83,7 +80,7 @@ class SecureSessionManager:
         self.command_timestamps[user_id].append(now)
         return True
 
-    def create_session(self, user_id: int, client_id: Optional[str] = None) -> None:
+    def create_session(self, user_id: int, client_id: str | None = None) -> None:
         """Create a new authenticated session for a user."""
         now = time.time()
         self.sessions[user_id] = {
@@ -115,7 +112,7 @@ class SecureSessionManager:
         if user_id in self.sessions:
             self.sessions[user_id]['client_id'] = client_id
 
-    def get_client(self, user_id: int) -> Optional[str]:
+    def get_client(self, user_id: int) -> str | None:
         """Get the target C2 client assigned to a user session."""
         session = self.sessions.get(user_id)
         return session.get('client_id') if session else None
@@ -128,7 +125,7 @@ class PayloadConfigAdapter:
         config_dict: The loaded payload.json dictionary.
     """
 
-    def __init__(self, config_dict: Dict[str, Any]):
+    def __init__(self, config_dict: dict[str, Any]):
         self._config = config_dict
         for key, value in config_dict.items():
             setattr(self, key, value)

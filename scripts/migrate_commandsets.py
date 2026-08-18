@@ -17,9 +17,7 @@ from __future__ import annotations
 import argparse
 import ast
 import os
-import re
 import sys
-
 
 CLI_COMMANDS_DIR = os.path.join(os.path.dirname(__file__), "..", "cli", "commands")
 

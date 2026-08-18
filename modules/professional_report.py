@@ -27,12 +27,9 @@ Usage:
 from __future__ import annotations
 
 import json
-import os
 import subprocess
-import textwrap
-import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -272,8 +269,8 @@ class RedTeamReportGenerator:
         self._metadata = ReportMetadata(
             client=client_name or "REDACTED",
             engagement_type=engagement_type or "External Penetration Test",
-            start_date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
-            end_date=datetime.now(timezone.utc).strftime("%Y-%m-%d"),
+            start_date=datetime.now(UTC).strftime("%Y-%m-%d"),
+            end_date=datetime.now(UTC).strftime("%Y-%m-%d"),
             scope=self._extract_scope(data),
         )
 
@@ -457,7 +454,7 @@ class RedTeamReportGenerator:
             "",
             f"**Engagement Type:** {self._metadata.engagement_type}",
             f"**Date:** {self._metadata.start_date}",
-            f"**Classification:** CONFIDENTIAL",
+            "**Classification:** CONFIDENTIAL",
             "",
             "---",
             "",
@@ -468,11 +465,11 @@ class RedTeamReportGenerator:
         for finding in self._findings:
             lines.extend([
                 f"### {finding.title}",
-                f"",
+                "",
                 f"**Severity:** {finding.severity.upper()}",
-                f"",
+                "",
                 finding.description,
-                f"",
+                "",
             ])
             if finding.cvss_score:
                 lines.append(f"**CVSS Score:** {finding.cvss_score}")

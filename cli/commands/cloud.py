@@ -6,16 +6,16 @@ bucket discovery, and IAM reconnaissance across AWS, Azure, and GCP.
 
 from __future__ import annotations
 
+import json
 import os
+import sys
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
-from modules.categories import miscellaneous_category
 from utils import (
     BLUE,
     GREEN,
-    RED,
     RESET,
     YELLOW,
     print_error,
@@ -36,6 +36,7 @@ class CloudCommandSet(LazyOwnCommandSet):
     def _get_cloud_scanner(self):
         try:
             from modules.lazycloud import CloudScanner
+
             return CloudScanner(
                 target_domain=self.params.get("domain", ""),
                 timeout=float(self.params.get("cloud_timeout", 5.0)),
@@ -128,11 +129,11 @@ class CloudCommandSet(LazyOwnCommandSet):
         public = [r for r in results if r.get("public")]
         accessible = [r for r in results if r.get("accessible")]
 
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Buckets checked : {len(results)}")
         print_msg(f"  Accessible      : {len(accessible)}")
         print_msg(f"  Public          : {len(public)}")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
 
         if public:
             print_succ(f"\n{GREEN}[+] PUBLIC BUCKETS:{RESET}")
@@ -170,16 +171,16 @@ class CloudCommandSet(LazyOwnCommandSet):
         )
 
         summary = results.get("summary", {})
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Cloud Scan Summary — {results.get('timestamp', '')}")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Buckets checked        : {summary.get('total_buckets_checked', 0)}")
         print_msg(f"  Accessible buckets     : {summary.get('accessible_buckets', 0)}")
         print_msg(f"  Public buckets         : {summary.get('public_buckets', 0)}")
         print_msg(f"  Metadata providers     : {summary.get('metadata_providers_found', 0)}")
         print_msg(f"  Credentials harvested  : {summary.get('credentials_harvested', False)}")
         print_msg(f"  MITRE techniques       : {', '.join(summary.get('mitre_techniques', []))}")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
         print_succ(f"Full results saved to sessions/cloud_scan_{prefix}.json")
 
     @cmd2.with_category(CLOUD_CATEGORY)
@@ -196,16 +197,26 @@ class CloudCommandSet(LazyOwnCommandSet):
         methods: list[tuple[str, str]] = []
 
         import os as _os
+
         if _os.environ.get("AWS_ACCESS_KEY_ID") and _os.environ.get("AWS_SECRET_ACCESS_KEY"):
             methods.append(("aws", "aws iam list-users && aws iam list-roles && aws iam list-policies --scope Local"))
         if _os.environ.get("AZURE_CLIENT_ID") and _os.environ.get("AZURE_CLIENT_SECRET"):
-            methods.append(("azure", "az ad user list --query '[].{User:userPrincipalName}' -o table && az role definition list --query '[].{Role:roleName}' -o table"))
-        if _os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or _os.path.exists(_os.path.expanduser("~/.config/gcloud/application_default_credentials.json")):
+            methods.append(
+                (
+                    "azure",
+                    "az ad user list --query '[].{User:userPrincipalName}' -o table && az role definition list --query '[].{Role:roleName}' -o table",
+                )
+            )
+        if _os.environ.get("GOOGLE_APPLICATION_CREDENTIALS") or _os.path.exists(
+            _os.path.expanduser("~/.config/gcloud/application_default_credentials.json")
+        ):
             methods.append(("gcp", "gcloud projects list && gcloud iam service-accounts list"))
 
         if not methods:
             print_warn("No cloud credentials found in environment.")
-            print_msg("Set AWS_ACCESS_KEY_ID / AZURE_CLIENT_ID / GOOGLE_APPLICATION_CREDENTIALS to enable IAM enumeration.")
+            print_msg(
+                "Set AWS_ACCESS_KEY_ID / AZURE_CLIENT_ID / GOOGLE_APPLICATION_CREDENTIALS to enable IAM enumeration."
+            )
             return
 
         for provider, cmd in methods:
@@ -273,9 +284,6 @@ class CloudCommandSet(LazyOwnCommandSet):
             print_msg(f"  {section}: {len(data) if isinstance(data, list) else 'present'}")
 
         print_msg("Enumeration complete.")
-
-
-import json
 
 
 __all__ = ["CloudCommandSet"]

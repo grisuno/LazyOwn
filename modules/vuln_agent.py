@@ -12,10 +12,11 @@ from agent_tool import AgentTool
 from ai_model import AIModel
 from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+
 try:
     from .logging_config import configure, get_logger
 except ImportError:
-    from logging_config import configure, get_logger
+    from logging_config import configure
 
 _PROVIDER_ALIAS = {
     "groq": BACKEND_GROQ,

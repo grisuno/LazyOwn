@@ -1,7 +1,7 @@
 import argparse
 import time
 
-from pwn import *
+from pwn import *  # noqa: F403
 
 
 def connect(host, port):

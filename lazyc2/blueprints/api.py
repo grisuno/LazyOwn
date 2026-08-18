@@ -9,7 +9,6 @@ tenant-bound API authorization via ``core.api_authz.require_api_auth``.
 
 from __future__ import annotations
 
-
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -69,7 +68,7 @@ def _health_status(config: HealthConfig | None = None) -> dict[str, Any]:
             listeners = getattr(lm, "listeners", {})
             result["components"]["listeners"] = {
                 "count": len(listeners),
-                "active": [n for n, l in listeners.items() if _listener_alive(l)],
+                "active": [n for n, listener in listeners.items() if _listener_alive(listener)],
             }
             beacon_count = getattr(lm, "beacon_count", 0)
             result["components"]["beacons"] = beacon_count

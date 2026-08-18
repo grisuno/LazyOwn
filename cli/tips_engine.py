@@ -329,6 +329,7 @@ class TipsEngine:
         """Read the current phase from the unified killchain module."""
         try:
             from modules.killchain import KillChain as _KC
+
             wm_path = Path(self.config.sessions_dir) / "world_model.json"
             return _KC.current_phase(world_model_path=wm_path)
         except Exception:
@@ -381,9 +382,7 @@ class TipsEngine:
         else:
             if self.config.session_tips:
                 self._session_tip_idx = (self._session_tip_idx + 1) % len(self.config.session_tips)
-                self._console.print(
-                    f"    [bold]tip:[/] {self.config.session_tips[self._session_tip_idx]}"
-                )
+                self._console.print(f"    [bold]tip:[/] {self.config.session_tips[self._session_tip_idx]}")
             else:
                 return
         self._console.print()
@@ -472,9 +471,7 @@ class TipsEngine:
         try:
             from cli.recommendation_signals import build_default_engine
 
-            self._rec_engine = build_default_engine(
-                payload=self._load_payload(), sessions_dir=self.config.sessions_dir
-            )
+            self._rec_engine = build_default_engine(payload=self._load_payload(), sessions_dir=self.config.sessions_dir)
         except Exception:
             self._rec_engine = None
         return self._rec_engine
@@ -528,6 +525,7 @@ class TipsEngine:
     def _render_killchain_progress(self, current_phase: str) -> None:
         """Render a compact kill-chain progress bar."""
         from modules.killchain import KillChain as _KC
+
         _cfg = _KC.config()
         phases = _cfg.compact_phases
         labels = _cfg.compact_labels
@@ -535,9 +533,7 @@ class TipsEngine:
             wm_phase_raw = self._read_world_model_phase()
             derived = wm_phase_raw if wm_phase_raw and wm_phase_raw != "recon" else ""
             active_phase = derived or (
-                self._state.phases_entered[-1]
-                if self._state and self._state.phases_entered
-                else current_phase
+                self._state.phases_entered[-1] if self._state and self._state.phases_entered else current_phase
             )
         except Exception:
             active_phase = current_phase
@@ -562,6 +558,7 @@ class TipsEngine:
             return
         try:
             from cli.ops_commands import print_phase as _print_phase
+
             _print_phase()
         except Exception:
             pass
@@ -579,10 +576,7 @@ class TipsEngine:
                     candidates.append(c)
                 if len(candidates) >= self.config.hints_limit:
                     break
-        return [
-            self._truncate(c, HINT_MAX_LABEL)
-            for c in candidates[: self.config.hints_limit]
-        ]
+        return [self._truncate(c, HINT_MAX_LABEL) for c in candidates[: self.config.hints_limit]]
 
     # ── internal: contextual tips ───────────────────────────────────────────
 
@@ -643,8 +637,7 @@ class TipsEngine:
             shown_set = set(self._state.session_curiosity_shown)
             normalized = f"do_{cmd}" if not cmd.startswith("do_") else cmd
             never_run = [
-                c for c in phase_cmds
-                if c not in seen_set and c not in shown_set and c != normalized and c != cmd
+                c for c in phase_cmds if c not in seen_set and c not in shown_set and c != normalized and c != cmd
             ]
             if not never_run:
                 return
@@ -1008,6 +1001,7 @@ class TipsEngine:
         target: str | None = None
         try:
             from modules.cli_auth import get_current_operator
+
             target = get_current_operator()
         except ImportError:
             pass
@@ -1017,6 +1011,7 @@ class TipsEngine:
             return False
         try:
             from modules.lazy_rbac import get_rbac_store
+
             store = get_rbac_store()
             user = store.find_by_username(target)
             if user:
@@ -1098,7 +1093,7 @@ def _render_phase_badge(
     label = PHASE_LABELS.get(phase, phase.title())
     line = Text("  phase ", style="dim")
     line.append(f" {label} ", style="bold white on red")
-    line.append(f"  \u2014 run ", style="dim")
+    line.append("  \u2014 run ", style="dim")
     line.append(f"palette {phase}", style="bold cyan")
     line.append(" to see all commands in this stage", style="dim")
     _AUX_CONSOLE.print(line)

@@ -1,5 +1,6 @@
 import base64
 import csv
+import dataclasses
 import errno
 import fcntl
 import glob
@@ -100,14 +101,15 @@ from lazyc2.security.validators import (
 )
 from lazyown import LazyOwnShell
 from modules.colors import retModel
+from modules.listener_manager import ListenerManager
+from modules.live_surface import build_live_graph
 from modules.llm_adapter import (
-    Groq,
     process_prompt,
     process_prompt_adversary,
     process_prompt_general,
     process_prompt_local,
-    process_prompt_localreport,
     process_prompt_local_yaml,
+    process_prompt_localreport,
     process_prompt_redop,
     process_prompt_script,
     process_prompt_search,
@@ -115,9 +117,7 @@ from modules.llm_adapter import (
     process_prompt_vuln,
     safe_groq_client,
 )
-from modules.listener_manager import ListenerManager
 from modules.logging_config import configure as _configure_logging
-from modules.live_surface import build_live_graph
 from modules.metrics import REGISTRY
 from modules.security_sanitizers import (
     BindAddressResolver,
@@ -144,12 +144,12 @@ try:
         RBACUser,
         Role,
         TenantManager,
-        check_cli_permission,
+        check_cli_permission,  # noqa: F401
         generate_mfa_qr_url,
         get_rbac_store,
         get_tenant_manager,
-        get_user_role,
-        require_mfa,
+        get_user_role,  # noqa: F401
+        require_mfa,  # noqa: F401
         require_permission,
         require_role,
         set_rbac_store,
@@ -1263,7 +1263,8 @@ def escape_js_string(value):
         value = re.sub(r'\r', r'\\r', value)
     return value
 
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
+
 
 def check_auth(username: str, password: str) -> bool:
     """Verify credentials. Checks RBACStore first, falls back to CLI creds."""
@@ -3022,7 +3023,8 @@ def send_command(client_id):
                 _primary_ip = (_raw_ips.split(",")[0].strip().strip("[]'\"") if _raw_ips else "")
             if not _primary_ip:
                 _primary_ip = str(client_id)
-            from modules.world_model import HostState as _HS, get_world_model as _get_wm
+            from modules.world_model import HostState as _HS
+            from modules.world_model import get_world_model as _get_wm
             _wm = _get_wm()
             _wm.advance_host(_primary_ip, _HS.EXPLOITED)
             _wm.add_note(_primary_ip, f"Foothold via beacon {client_id}")
@@ -3398,7 +3400,8 @@ def receive_result(client_id):
                     _hook_engine.fire("beacon_connected", _hctx)
 
                 try:
-                    from modules.world_model import HostState as _HS, get_world_model as _get_wm
+                    from modules.world_model import HostState as _HS
+                    from modules.world_model import get_world_model as _get_wm
                     _wm = _get_wm()
                     _wm.advance_host(_primary_ip, _HS.EXPLOITED)
                     _wm.add_note(_primary_ip, f"Foothold: {str(user)} via {str(client)}")
@@ -3444,7 +3447,8 @@ def receive_result(client_id):
                         or str(user).lower() == "nt authority\\system"
                     )
                     if _owns:
-                        from modules.world_model import HostState as _HS2, get_world_model as _get_wm2
+                        from modules.world_model import HostState as _HS2
+                        from modules.world_model import get_world_model as _get_wm2
                         _wm2 = _get_wm2()
                         _wm2.advance_host(_primary_ip, _HS2.OWNED)
                         _wm2.add_note(_primary_ip, "Privilege escalation successful: root/System obtained")
@@ -3466,7 +3470,7 @@ def receive_result(client_id):
                             if _candidates:
                                 _summary = _cre.get_summary(_candidates)
                                 logging.info("[cred_reuse]\n%s", _summary)
-                        _thr.Thread(target=_bg_cred_reuse, daemon=True).start()
+                        threading.Thread(target=_bg_cred_reuse, daemon=True).start()
                     except Exception:
                         pass
 
@@ -3696,9 +3700,9 @@ def download_file():
     else:
         return jsonify({"status": "error", "message": "No file selected"}), 400
 
-import os
+import os  # noqa: E402
 
-from flask import Flask
+from flask import Flask  # noqa: E402
 
 _DOWNLOAD_SAFE_SERVICE = _SafeFileService(
     Path(os.path.join(os.getcwd(), 'sessions', 'temp_uploads'))
@@ -4773,12 +4777,12 @@ def csv_to_html():
             rows = list(reader)
 
             html = '<table border="1"><tr>'
-            html += ''.join(f'<th>{escape(header)}</th>' for header in headers)
+            html += ''.join(f'<th>{html.escape(header)}</th>' for header in headers)
             html += '</tr>'
 
             for row in rows:
                 html += '<tr>'
-                html += ''.join(f'<td>{escape(cell)}</td>' for cell in row)
+                html += ''.join(f'<td>{html.escape(cell)}</td>' for cell in row)
                 html += '</tr>'
 
             html += '</table>'
@@ -4824,7 +4828,7 @@ def search_results():
             print(f"[!] Error searching {path}: {e}")
 
     if not combined_md_content.strip():
-        combined_md_content = f"No Results found for: '{escape(term)}'\n"
+        combined_md_content = f"No Results found for: '{html.escape(term)}'\n"
 
     # Convertir a HTML
     html_content = markdown.markdown(combined_md_content)
@@ -5914,7 +5918,7 @@ def compliance_dashboard():
     if response:
         return response
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding
+        from modules.compliance import ComplianceEngine, ComplianceFinding  # noqa: F401
         engine = ComplianceEngine("sessions")
         report = engine.generate_compliance_report(include_evidence_chain=True)
         return render_template(
@@ -5935,7 +5939,7 @@ def compliance_report():
     if response:
         return response
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf
+        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf  # noqa: F401
         engine = ComplianceEngine("sessions")
         report = engine.generate_compliance_report(
             include_evidence_chain=True,
@@ -6004,10 +6008,15 @@ def compliance_verify_evidence():
 @require_permission(Permission.REPORT_GENERATE.value)
 def compliance_export(format):
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding, export_to_cef, export_to_elastic_ndjson
+        from modules.compliance import (  # noqa: F401
+            ComplianceEngine,
+            ComplianceFinding,
+            export_to_cef,
+            export_to_elastic_ndjson,
+        )
         engine = ComplianceEngine("sessions")
         findings = engine._load_findings()
-        finding_dicts = [asdict(f) for f in findings]
+        finding_dicts = [dataclasses.asdict(f) for f in findings]
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         if format == "elastic":
@@ -7086,7 +7095,8 @@ def health_check():
         logger.error(f"Health check database failed: {e}")
         status["checks"]["database"] = "error"
     try:
-        from skills.daemon_health import is_daemon_alive, daemon_status as _ds
+        from skills.daemon_health import daemon_status as _ds
+        from skills.daemon_health import is_daemon_alive
         if is_daemon_alive():
             status["checks"]["autonomous_daemon"] = "ok"
             status["daemon"] = _ds()
@@ -7224,8 +7234,7 @@ def api_listeners_delete(listener_id):
 
 
 try:
-    from lazyc2.blueprints import addons_bp
-    from lazyc2.blueprints import operations_bp, auth_bp, beacon_bp, redirect_bp, api_bp, init_beacon_bp
+    from lazyc2.blueprints import addons_bp, api_bp, auth_bp, beacon_bp, init_beacon_bp, operations_bp, redirect_bp
     init_beacon_bp(
         commands=commands,
         results=results,

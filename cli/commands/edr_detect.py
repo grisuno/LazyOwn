@@ -14,13 +14,11 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
     GREEN,
-    RED,
     RESET,
     YELLOW,
     print_error,
     print_msg,
     print_succ,
-    print_warn,
 )
 
 EDR_CATEGORY = "02. Scanning & Enumeration"
@@ -44,12 +42,13 @@ class EDRDetectCommandSet(LazyOwnCommandSet):
         Fingerprints 17 EDR/AV products and generates tailored bypass recommendations.
         """
         import shlex
+
         args = shlex.split(line)
         remote_type = self._extract(args, "--type") or "wmi"
         output_file = self._extract(args, "--output") or "sessions/edr_profile.json"
 
         try:
-            from modules.edr_detector import EDRDetector, EDRProfile
+            from modules.edr_detector import EDRDetector
         except ImportError as exc:
             print_error(f"EDR detector module not available: {exc}")
             return
@@ -91,6 +90,7 @@ class EDRDetectCommandSet(LazyOwnCommandSet):
         techniques. With no arguments, shows bypasses for common EDRs.
         """
         import shlex
+
         args = shlex.split(line)
         product = self._extract(args, "--product")
 
@@ -100,13 +100,11 @@ class EDRDetectCommandSet(LazyOwnCommandSet):
             print_error(f"EDR detector module not available: {exc}")
             return
 
-        from modules.edr_detector import EDRProfile, EDRFinding
+        from modules.edr_detector import EDRFinding, EDRProfile
 
         if product:
             profile = EDRProfile()
-            profile.detected = [EDRFinding(
-                product=product, confidence="user_specified", source="manual", details=""
-            )]
+            profile.detected = [EDRFinding(product=product, confidence="user_specified", source="manual", details="")]
         else:
             profile = EDRDetector.detect_local()
 
@@ -129,8 +127,7 @@ class EDRDetectCommandSet(LazyOwnCommandSet):
         os.makedirs("sessions", exist_ok=True)
         result = {
             "detected": [
-                {"product": f.product, "confidence": f.confidence, "details": f.details}
-                for f in profile.detected
+                {"product": f.product, "confidence": f.confidence, "details": f.details} for f in profile.detected
             ],
             "severity": EDRDetector._severity(profile),
             "recommendations": recommendations,
@@ -150,6 +147,7 @@ class EDRDetectCommandSet(LazyOwnCommandSet):
         Saves to sessions/edr_detect.ps1 by default.
         """
         import shlex
+
         args = shlex.split(line)
 
         try:

@@ -16,7 +16,7 @@ import json
 import time
 from collections import defaultdict
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -255,7 +255,7 @@ class DashboardEngine:
             "recommendations": recommendations,
             "pivots": pivots,
             "beacons": beacons,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
 
     def render_text_map(self, snapshot: dict[str, Any] | None = None) -> str:
@@ -286,7 +286,7 @@ class DashboardEngine:
         )
         lines.append("")
 
-        for i, node in enumerate(snapshot.get("nodes", [])):
+        for node in snapshot.get("nodes", []):
             phase_icon = self._phase_icon(node.get("phase", "unscanned"))
             color = node.get("phase_color", "white")
             lines.append(

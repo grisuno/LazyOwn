@@ -26,7 +26,6 @@ from modules.world_model import (
     DomainEntry,
     EmailEntry,
     HostState,
-    VulnerabilityEntry,
     WorldModel,
 )
 
@@ -399,8 +398,8 @@ class TestGraphTopologySignal:
 
     def test_produces_lateral_proposals_from_host_nodes(self, tmp_path):
         from cli.recommendation_signals import (
-            GraphTopologySignal,
             KIND_COMMAND,
+            GraphTopologySignal,
             RecommendationContext,
         )
         sessions = tmp_path / "sessions"
@@ -515,7 +514,6 @@ class TestCredentialAwareRetry:
     def test_credential_aware_rank_boosts_brute_force(self):
         from modules.autonomous_exploit_engine import (
             AutonomousExploitEngine,
-            ExploitCandidate,
             TargetProfile,
         )
         engine = AutonomousExploitEngine()
@@ -544,7 +542,6 @@ class TestCredentialAwareRetry:
     def test_credential_aware_rank_boosts_credential_reuse(self):
         from modules.autonomous_exploit_engine import (
             AutonomousExploitEngine,
-            ExploitCandidate,
             TargetProfile,
         )
         engine = AutonomousExploitEngine()

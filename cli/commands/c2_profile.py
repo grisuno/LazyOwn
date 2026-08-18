@@ -8,6 +8,7 @@ from __future__ import annotations
 import json
 
 import cmd2
+
 from cli.commands._base import LazyOwnCommandSet
 from utils import GREEN, RESET, YELLOW, print_msg
 
@@ -58,7 +59,7 @@ class C2ProfileCommandSet(LazyOwnCommandSet):
         print_msg(f"JA3 library  : {profile.ja3_fingerprint_library}")
         print_msg(f"GREASE       : {profile.grease_extensions}")
         print_msg(f"ALPN         : {profile.alpn_protocols}")
-        print_msg(f"Cipher suites:")
+        print_msg("Cipher suites:")
         for cs in profile.get_cipher_suites():
             print_msg(f"  - {cs}")
         if "--ja3" in line:

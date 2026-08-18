@@ -2,9 +2,6 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-
-import pytest
 
 from modules.unified_dashboard import UnifiedDashboard, get_unified_dashboard
 

@@ -13,7 +13,8 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-import sys
+import sys  # noqa: E402
+
 sys.path.insert(0, str(REPO_ROOT))
 
 
@@ -271,7 +272,7 @@ class TestRequireApiAuth:
     """Behaviour of the require_api_auth Flask decorator."""
 
     def _make_app(self, tmp_path):
-        from core.api_authz import ApiAuthzConfig, ApiKeyStore, require_api_auth
+        from core.api_authz import ApiAuthzConfig, ApiKeyStore
 
         store = ApiKeyStore(config=ApiAuthzConfig(
             api_keys_path=str(tmp_path / "api_keys.json"),
@@ -280,6 +281,7 @@ class TestRequireApiAuth:
 
     def _build_client(self, tmp_path, store=None):
         from flask import Flask, g, jsonify
+
         from core.api_authz import require_api_auth
 
         if store is None:
@@ -402,8 +404,9 @@ class TestEdgeCases:
         ))
 
     def test_constant_time_comparison_rejects_wrong_secrets(self):
-        from core.api_authz import _verify_secret
         import hashlib
+
+        from core.api_authz import _verify_secret
         real = hashlib.sha256(b"realsecret").hexdigest()
         assert _verify_secret("realsecret", real) is True
         assert _verify_secret("wrong", real) is False

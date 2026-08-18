@@ -58,8 +58,8 @@ from typing import Any
 
 try:
     import pandas as pd
-    import pyarrow as pa
-    import pyarrow.parquet as pq
+    import pyarrow  # noqa: F401 as pa
+    import pyarrow.parquet  # noqa: F401 as pq
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
@@ -641,7 +641,7 @@ class ParquetDB:
             mask = pd.Series([False] * len(df_bin), index=df_bin.index)
             for fkw in fn_kws:
                 mask = mask | df_bin.apply(
-                    lambda r: fkw.lower() in str(r).lower(), axis=1
+                    lambda r, _f=fkw: _f.lower() in str(r).lower(), axis=1
                 )
             gtf = df_bin[mask].head(5).to_dict(orient="records")
         except Exception:
@@ -725,7 +725,6 @@ class ParquetDB:
         """
         try:
             import joblib
-
             from sklearn.ensemble import RandomForestClassifier
             from sklearn.model_selection import train_test_split
             from sklearn.preprocessing import LabelEncoder

@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 try:
-    import numpy as np
+    import numpy as np  # noqa: F401
     _NUMPY_AVAILABLE = True
 except ImportError:
     _NUMPY_AVAILABLE = False

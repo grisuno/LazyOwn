@@ -175,6 +175,7 @@ def _read_line_windows(prompt: str) -> str:
         sys.stdout.flush()
     return "".join(chars)
 
+
 CHAIN_SKIP_VERBS: frozenset[str] = BASE_NOISE_VERBS | CHAIN_EXTRA_VERBS
 
 
@@ -279,9 +280,7 @@ class ChainModeStore:
         """
         try:
             self.path.parent.mkdir(parents=True, exist_ok=True)
-            tmp_fd, tmp_name = tempfile.mkstemp(
-                dir=str(self.path.parent), prefix=f".{STATE_FILE_NAME}.", suffix=".tmp"
-            )
+            tmp_fd, tmp_name = tempfile.mkstemp(dir=str(self.path.parent), prefix=f".{STATE_FILE_NAME}.", suffix=".tmp")
             try:
                 with os.fdopen(tmp_fd, "w", encoding="utf-8") as fh:
                     json.dump({"enabled": bool(enabled)}, fh)
@@ -378,8 +377,7 @@ class ChainPromptEngine:
             self.set_enabled(False, persist=False)
             return ChainOutcome(
                 OUTCOME_OFF,
-                reason=f"chainmode paused after {self._steps_run} chained steps — "
-                "run 'chainmode on' to resume",
+                reason=f"chainmode paused after {self._steps_run} chained steps — run 'chainmode on' to resume",
             )
         verb = last_cmd.strip().split()[0] if last_cmd and last_cmd.strip() else ""
         if verb in self.config.skip_verbs:
@@ -423,10 +421,7 @@ class ChainPromptEngine:
                 index = int(raw) - 1
                 if 0 <= index < len(suggestions):
                     return self._run(suggestions[index].name)
-                self._print_fn(
-                    f"    no option {raw} — pick 1-{len(suggestions)}, 'skip', "
-                    "or ESC/exit to leave"
-                )
+                self._print_fn(f"    no option {raw} — pick 1-{len(suggestions)}, 'skip', or ESC/exit to leave")
                 continue
             return self._run(raw)
 
@@ -484,8 +479,7 @@ class ChainPromptEngine:
             tail = f"  [{suggestion.source}] {suggestion.reason}" if suggestion.source else ""
             self._print_fn(f"    [{index}] {suggestion.name}{tail}")
         self._print_fn(
-            "  chain> [Enter=1] [1-N] [skip] [ESC/Ctrl-C/exit/quit = leave]"
-            " — or type any command to override"
+            "  chain> [Enter=1] [1-N] [skip] [ESC/Ctrl-C/exit/quit = leave] — or type any command to override"
         )
 
     def _run(self, command: str) -> ChainOutcome:

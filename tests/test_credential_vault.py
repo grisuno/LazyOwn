@@ -3,10 +3,8 @@
 from __future__ import annotations
 
 import os
-from pathlib import Path
 
 from core.credential_vault import (
-    DANGEROUS_DEFAULTS,
     SENSITIVE_KEYS,
     check_dangerous_defaults,
     generate_secure_defaults,

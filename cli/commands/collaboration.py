@@ -224,6 +224,7 @@ class CollaborationCommandSet(LazyOwnCommandSet):
         print_msg(f"[shared] {operator}: {line.strip()}")
         try:
             from modules.db import LazyOwnDB
+
             db = LazyOwnDB()
             ws_id = getattr(self._resolve_shell(), "_db_workspace_id", None)
             db.note_add(f"[{operator}] {line.strip()}", "finding", ws_id)

@@ -2,16 +2,11 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
-
-import pytest
 
 from modules.detection_feed import (
-    DetectionFeed,
-    FeedResult,
     _CATEGORY_MAP,
     _DEFAULT_PROBABILITY,
-    _FEED_SOURCES,
+    DetectionFeed,
 )
 
 

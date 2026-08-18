@@ -35,11 +35,10 @@ Usage
 
 from __future__ import annotations
 
+import base64
 import json
 import logging
-
 import os
-import base64
 import threading
 from dataclasses import dataclass, field
 from datetime import datetime
@@ -1102,7 +1101,6 @@ def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
 
 if __name__ == "__main__":
     import argparse
-
     import logging
     logging.basicConfig(level=logging.INFO)
 

@@ -660,7 +660,6 @@ def get_engine(api_key: str = "") -> PlaybookEngine:
 
 if __name__ == "__main__":
     import argparse
-
     import logging
     logging.basicConfig(level=logging.INFO)
 

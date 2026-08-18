@@ -8,12 +8,8 @@ A surviving mutant means the test is too weak — it should catch the mutation.
 
 from __future__ import annotations
 
-import importlib
-import os
-import shutil
 import subprocess
 import sys
-import tempfile
 from pathlib import Path
 
 MUTATIONS = {
@@ -129,7 +125,7 @@ def main():
             content = path.read_text()
 
             if info["old"] not in content:
-                print(f"    SKIP: Target text not found (already mutated?)")
+                print("    SKIP: Target text not found (already mutated?)")
                 errors += 1
                 continue
 
@@ -143,10 +139,10 @@ def main():
             path.write_text(content)
 
             if not tests_pass:
-                print(f"    KILLED: Mutant detected by tests.")
+                print("    KILLED: Mutant detected by tests.")
                 killed += 1
             else:
-                print(f"    SURVIVED: Mutant NOT detected — tests are too weak!")
+                print("    SURVIVED: Mutant NOT detected — tests are too weak!")
                 print(f"    Expected: {info['expected']}")
                 survived += 1
 

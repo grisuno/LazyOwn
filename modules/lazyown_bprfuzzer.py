@@ -33,7 +33,7 @@ _PROJECT_ROOT = os.path.dirname(_MODULE_DIR)
 if _PROJECT_ROOT not in sys.path:
     sys.path.insert(0, _PROJECT_ROOT)
 
-from modules.security_sanitizers import (
+from modules.security_sanitizers import (  # noqa: E402
     HeaderValueSanitizer,
     build_default_config,
 )
@@ -61,7 +61,7 @@ _HEADER_SANITIZER = HeaderValueSanitizer(_SECURITY_CONFIG)
 # Forzar UTF-8 encoding
 os.environ["PYTHONIOENCODING"] = "utf-8"
 
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer  # noqa: E402
 
 # Global flag for graceful shutdown
 should_exit = False

@@ -45,6 +45,7 @@ from dataclasses import asdict, dataclass
 from enum import StrEnum
 from pathlib import Path
 from types import MappingProxyType
+from typing import Any
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
@@ -1934,7 +1935,7 @@ class HistoryBootstrapper:
 
 
 def _setup_logging(cfg: Config) -> None:
-    from modules.logging_config import configure, get_logger
+    from modules.logging_config import configure
     configure(
         level=getattr(logging, cfg.log_level.upper(), logging.INFO),
         console=True,

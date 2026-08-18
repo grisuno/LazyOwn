@@ -4,8 +4,6 @@ from __future__ import annotations
 
 from modules.opsec_scorer import (
     COMMAND_NOISE,
-    MITIGATIONS,
-    PHASE_NOISE,
     OpsecScore,
     OpsecScorer,
     score_command,

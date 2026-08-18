@@ -12,8 +12,8 @@ notes for blue team awareness.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 K8S_PRIVESC_METHODS = [
     "privileged_pod",
@@ -84,7 +84,7 @@ class K8SAttackEngine:
         config: K8sConfig with cluster and auth details.
     """
 
-    def __init__(self, config: Optional[K8sConfig] = None):
+    def __init__(self, config: K8sConfig | None = None):
         self.config = config or K8sConfig()
 
     def enumerate_rbac(self) -> dict[str, Any]:

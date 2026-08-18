@@ -9,8 +9,6 @@ Covers:
 
 from __future__ import annotations
 
-import pytest
-
 
 class TestKillChainNextExpanded:
     def test_auto_pwn_in_lazynmap_followups(self):

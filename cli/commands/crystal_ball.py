@@ -10,12 +10,6 @@ import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
-    GREEN,
-    RED,
-    RESET,
-    WHITE,
-    YELLOW,
-    miscellaneous_category,
     print_error,
     print_msg,
     print_succ,
@@ -80,7 +74,7 @@ class CrystalBallCommandSet(LazyOwnCommandSet):
             print_msg(f"Analysing: {filepath}")
         elif not raw_text:
             print_error("Specify a file, --text, or --auto.")
-            print_msg("Usage: crystal_ball <file> | crystal_ball --text \"output\" | crystal_ball --auto")
+            print_msg('Usage: crystal_ball <file> | crystal_ball --text "output" | crystal_ball --auto')
             return
 
         try:

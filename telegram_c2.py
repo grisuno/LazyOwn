@@ -3,7 +3,6 @@ import csv
 import json
 import os
 import random
-import re
 import time
 
 import nest_asyncio
@@ -11,11 +10,10 @@ import requests
 from telegram import Update
 from telegram.ext import Application, CallbackContext, CommandHandler, MessageHandler, filters
 
+from core.parsers import strip_ansi
 from lazyown import LazyOwnShell
 from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
 
-
-from core.parsers import strip_ansi
 
 class SecureSessionManager:
     def __init__(self):

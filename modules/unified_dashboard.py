@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import json
 import logging
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -85,7 +85,7 @@ class UnifiedDashboard:
             "live_graph": self._collect_live_graph(),
             "graph_advice": self._collect_graph_advice(),
             "dashboard": self._collect_dashboard(),
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
         }
         return snapshot
 

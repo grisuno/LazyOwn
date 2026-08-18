@@ -12,10 +12,6 @@ Covers:
 
 from __future__ import annotations
 
-import json
-
-import pytest
-
 from modules.beacon_config_builder import (
     BeaconConfig,
     BeaconConfigBuilder,

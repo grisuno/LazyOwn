@@ -11,10 +11,8 @@ from __future__ import annotations
 
 import json
 import socket
-import subprocess
-import time
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -32,8 +30,8 @@ class PivotNode:
     status: str  # "active", "stale", "dead"
     discovered_subnets: list[str] = field(default_factory=list)
     reachable_hosts: list[str] = field(default_factory=list)
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
-    last_seen: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
+    last_seen: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     route_priority: int = 50
 
 
@@ -43,7 +41,7 @@ class PivotChain:
     nodes: list[PivotNode] = field(default_factory=list)
     entry_point: str = ""
     target_subnet: str = ""
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
 
 class AutoPivotEngine:
@@ -229,10 +227,10 @@ class AutoPivotEngine:
             sock.close()
             if result == 0:
                 node.status = "active"
-                node.last_seen = datetime.now(timezone.utc).isoformat()
+                node.last_seen = datetime.now(UTC).isoformat()
             else:
                 node.status = "stale"
-        except (socket.gaierror, socket.timeout, ConnectionRefusedError, OSError):
+        except (TimeoutError, socket.gaierror, ConnectionRefusedError, OSError):
             node.status = "dead"
 
         self._persist_state()
@@ -279,7 +277,7 @@ class AutoPivotEngine:
     def _persist_state(self) -> Path:
         self._sessions_dir.mkdir(parents=True, exist_ok=True)
         payload = {
-            "updated_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(UTC).isoformat(),
             "nodes": {
                 ip: {
                     "ip": n.ip,

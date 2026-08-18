@@ -40,11 +40,12 @@ import hmac
 import json
 import secrets
 import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from functools import wraps
 from pathlib import Path
 from threading import RLock
-from typing import Any, Callable
+from typing import Any
 
 # ── Config ───────────────────────────────────────────────────────────────────
 
@@ -208,11 +209,9 @@ class ApiKeyStore:
         """
         now = time.time()
         return [
-            record for record in records
-            if not (
-                record.get("retired_at") is not None
-                and now > self._grace_deadline(record["retired_at"])
-            )
+            record
+            for record in records
+            if not (record.get("retired_at") is not None and now > self._grace_deadline(record["retired_at"]))
         ]
 
     def list_keys(self, tenant_id: str | None = None) -> list[ApiKey]:
@@ -222,11 +221,7 @@ class ApiKeyStore:
         """
         with self._lock:
             records = self._read()
-        keys = [
-            ApiKey.from_dict(record)
-            for record in records
-            if record.get("retired_at") is None
-        ]
+        keys = [ApiKey.from_dict(record) for record in records if record.get("retired_at") is None]
         if tenant_id is not None:
             keys = [k for k in keys if k.tenant_id == tenant_id]
         return keys
@@ -254,13 +249,10 @@ class ApiKeyStore:
         """
         with self._lock:
             records = self._prune_retired(self._read())
-            tenant_keys = [
-                r for r in records if r.get("tenant_id") == tenant_id
-            ]
+            tenant_keys = [r for r in records if r.get("tenant_id") == tenant_id]
             if len(tenant_keys) >= self._config.max_keys_per_tenant:
                 raise ValueError(
-                    f"Tenant '{tenant_id}' has reached the maximum of "
-                    f"{self._config.max_keys_per_tenant} API keys"
+                    f"Tenant '{tenant_id}' has reached the maximum of {self._config.max_keys_per_tenant} API keys"
                 )
             plaintext = _generate_token_bytes(self._config.default_token_bytes)
             key_hash = _hash_secret(plaintext)
@@ -286,14 +278,7 @@ class ApiKeyStore:
         """
         with self._lock:
             records = self._read()
-            new_records = [
-                r
-                for r in records
-                if not (
-                    r.get("tenant_id") == tenant_id
-                    and r.get("label") == label
-                )
-            ]
+            new_records = [r for r in records if not (r.get("tenant_id") == tenant_id and r.get("label") == label)]
             if len(new_records) == len(records):
                 return False
             self._write(new_records)
@@ -331,7 +316,8 @@ class ApiKeyStore:
         with self._lock:
             records = self._prune_retired(self._read())
             active = [
-                record for record in records
+                record
+                for record in records
                 if record.get("tenant_id") == tenant_id
                 and record.get("label") == label
                 and record.get("retired_at") is None
@@ -358,10 +344,7 @@ class ApiKeyStore:
         """Remove the retired record identified by *key_hash*."""
         with self._lock:
             records = self._read()
-            kept = [
-                record for record in records
-                if not hmac.compare_digest(record.get("key_hash", ""), key_hash)
-            ]
+            kept = [record for record in records if not hmac.compare_digest(record.get("key_hash", ""), key_hash)]
             if len(kept) != len(records):
                 self._write(kept)
 
@@ -411,12 +394,10 @@ def require_api_auth(
         prefix = store.config.token_bearer_prefix
         auth_header = request_obj.headers.get("Authorization", "")
         if auth_header.startswith(prefix):
-            bearer_token = auth_header[len(prefix):].strip()
+            bearer_token = auth_header[len(prefix) :].strip()
             if bearer_token:
                 return bearer_token
-        header_val = request_obj.headers.get(
-            store.config.token_header, ""
-        )
+        header_val = request_obj.headers.get(store.config.token_header, "")
         if header_val:
             return header_val.strip()
         return request_obj.args.get(store.config.token_query_param, "").strip()
@@ -440,9 +421,7 @@ def require_api_auth(
             if permissions and not api_key.has_all_permissions(permissions):
                 missing = permissions - api_key.permissions
                 return (
-                    jsonify(
-                        {"error": f"Missing permissions: {', '.join(sorted(missing))}"}
-                    ),
+                    jsonify({"error": f"Missing permissions: {', '.join(sorted(missing))}"}),
                     403,
                 )
 

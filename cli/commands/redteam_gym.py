@@ -7,9 +7,9 @@ and skill progression.
 
 from __future__ import annotations
 
-import cmd2
 import shlex
-import time
+
+import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
@@ -242,7 +242,7 @@ class RedTeamGymCommandSet(LazyOwnCommandSet):
 
         print(f"\n  {BRIGHT_GREEN}Red Team Gym Leaderboard{RESET}")
         print(f"  {'Rank':<6} {'Operator':<20} {'Score':<10} {'Challenges':<12} {'ELO':<8}")
-        print(f"  {'-'*6} {'-'*20} {'-'*10} {'-'*12} {'-'*8}")
+        print(f"  {'-' * 6} {'-' * 20} {'-' * 10} {'-' * 12} {'-' * 8}")
 
         for entry in board:
             rank = entry["rank"]

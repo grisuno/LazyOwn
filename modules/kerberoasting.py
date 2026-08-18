@@ -10,18 +10,13 @@ Integrates with KerberosCore for native ticket requests and hash extraction.
 
 from __future__ import annotations
 
-import base64
-import hashlib
-import struct
 import time
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 from modules.kerberos_core import (
-    KerberosCore,
-    KerberosCrypto,
     ENCRYPTION_TYPES,
-    TGSRequest,
+    KerberosCore,
 )
 
 HASHCAT_MODES = {
@@ -181,7 +176,7 @@ class KerberoastingEngine:
 
         self._targets.sort(key=priority)
 
-    def request_tgs_aes_only(self, user_spn: str) -> Optional[KerberoastHash]:
+    def request_tgs_aes_only(self, user_spn: str) -> KerberoastHash | None:
         """Request a TGS ticket using only AES encryption (evades RC4 detection).
 
         AES-only Kerberoasting avoids triggering detection rules that
@@ -202,7 +197,7 @@ class KerberoastingEngine:
                 continue
         return None
 
-    def request_tgs_rc4(self, user_spn: str) -> Optional[KerberoastHash]:
+    def request_tgs_rc4(self, user_spn: str) -> KerberoastHash | None:
         """Request a TGS ticket using RC4-HMAC (mode 13100 for Hashcat).
 
         Args:
@@ -213,7 +208,7 @@ class KerberoastingEngine:
         """
         return self.request_tgs(user_spn, 23)
 
-    def request_tgs(self, user_spn: str, etype: int = 23) -> Optional[KerberoastHash]:
+    def request_tgs(self, user_spn: str, etype: int = 23) -> KerberoastHash | None:
         """Request a TGS service ticket for kerberoasting.
 
         Args:

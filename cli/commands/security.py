@@ -12,7 +12,6 @@ Provides commands:
 
 from __future__ import annotations
 
-import os
 from pathlib import Path
 
 from cli.commands._base import LazyOwnCommandSet
@@ -27,21 +26,21 @@ class SecurityCommandSet(LazyOwnCommandSet):
     def do_opsec(self, line: str) -> None:
         """Score OPSEC risk for a LazyOwn command before execution.
 
-Usage: opsec <command>
+        Usage: opsec <command>
 
-Examples:
-    opsec secretsdump
-    opsec psexec
-    opsec lazynmap
-"""
+        Examples:
+            opsec secretsdump
+            opsec psexec
+            opsec lazynmap
+        """
         if not line.strip():
             self._cmd.perror("Usage: opsec <command>")
             return
 
         command = line.strip().split()[0]
         try:
-            from rich.table import Table
             from rich.console import Console
+            from rich.table import Table
 
             from core.config import load_payload
             from modules.opsec_scorer import OpsecScorer
@@ -73,14 +72,13 @@ Examples:
             console.print(table)
 
             if score.mitigation:
-                console.print(f"\n[bold yellow]Mitigations:[/bold yellow]")
+                console.print("\n[bold yellow]Mitigations:[/bold yellow]")
                 for m in score.mitigation[:5]:
                     console.print(f"  - {m}")
 
             console.print(f"\n[bold]{score.recommendation}[/bold]\n")
 
         except ImportError:
-            from cli.style import print_warn
             try:
                 from core.config import load_payload
                 from modules.opsec_scorer import OpsecScorer
@@ -98,22 +96,23 @@ Examples:
                 if score.detectable_by:
                     print(f"    Detectable: {', '.join(score.detectable_by)}")
                 if score.mitigation:
-                    print(f"    Mitigations:")
+                    print("    Mitigations:")
                     for m in score.mitigation[:5]:
                         print(f"      - {m}")
                 print(f"    {score.recommendation}\n")
             except Exception as exc:
                 from cli.style import print_error
+
                 print_error(f"OPSEC scoring failed: {exc}")
 
     def do_seal_credentials(self, _line: str) -> None:
         """Encrypt all sensitive values in payload.json using AES-256-GCM.
 
-Usage: seal_credentials
+        Usage: seal_credentials
 
-After sealing, payload.json will contain encrypted values for passwords,
-API keys, and other secrets. They are transparently decrypted at runtime.
-"""
+        After sealing, payload.json will contain encrypted values for passwords,
+        API keys, and other secrets. They are transparently decrypted at runtime.
+        """
         try:
             from core.config import load_payload, save_payload
             from core.credential_vault import seal_payload
@@ -130,12 +129,12 @@ API keys, and other secrets. They are transparently decrypted at runtime.
     def do_rotate_aes(self, _line: str) -> None:
         """Generate a new AES key and re-encrypt all sealed credentials.
 
-Usage: rotate_aes
+        Usage: rotate_aes
 
-Use this when you need to rotate the encryption key for operational security.
-All existing sealed values are decrypted with the old key and re-encrypted
-with a fresh key.
-"""
+        Use this when you need to rotate the encryption key for operational security.
+        All existing sealed values are decrypted with the old key and re-encrypted
+        with a fresh key.
+        """
         try:
             from core.config import load_payload, save_payload
             from core.credential_vault import rotate_aes_key
@@ -144,8 +143,8 @@ with a fresh key.
             new_payload, new_key = rotate_aes_key(payload)
             save_payload(new_payload)
             self._cmd.poutput("AES key rotated successfully.")
-            self._cmd.poutput(f"  New key saved to sessions/key.aes")
-            self._cmd.poutput(f"  Credentials re-encrypted under fresh key.")
+            self._cmd.poutput("  New key saved to sessions/key.aes")
+            self._cmd.poutput("  Credentials re-encrypted under fresh key.")
             self._cmd.poutput("  Restart the shell to pick up changes.")
         except Exception as exc:
             self._cmd.perror(f"Failed to rotate AES key: {exc}")
@@ -153,11 +152,11 @@ with a fresh key.
     def do_unseal_credentials(self, _line: str) -> None:
         """Decrypt sealed credential values in payload.json for inspection.
 
-Usage: unseal_credentials
+        Usage: unseal_credentials
 
-Warning: this writes plaintext credentials back to payload.json.
-Use seal_credentials to re-encrypt them.
-"""
+        Warning: this writes plaintext credentials back to payload.json.
+        Use seal_credentials to re-encrypt them.
+        """
         try:
             from core.config import load_payload, save_payload
             from core.credential_vault import unseal_payload
@@ -173,15 +172,15 @@ Use seal_credentials to re-encrypt them.
     def do_crack_hashes(self, line: str) -> None:
         """Crack password hashes from a file using John the Ripper or Hashcat.
 
-Usage: crack_hashes <filepath> [--wordlist <path>]
+        Usage: crack_hashes <filepath> [--wordlist <path>]
 
-Parses hashes from the file (e.g., secretsdump output), identifies hash types,
-and runs John or Hashcat. Cracked passwords are imported into the DB.
+        Parses hashes from the file (e.g., secretsdump output), identifies hash types,
+        and runs John or Hashcat. Cracked passwords are imported into the DB.
 
-Examples:
-    crack_hashes sessions/hashes_10.10.11.5.txt
-    crack_hashes sessions/ntds.dit --wordlist /usr/share/wordlists/rockyou.txt
-"""
+        Examples:
+            crack_hashes sessions/hashes_10.10.11.5.txt
+            crack_hashes sessions/ntds.dit --wordlist /usr/share/wordlists/rockyou.txt
+        """
         args = line.strip().split()
         if not args:
             self._cmd.perror("Usage: crack_hashes <filepath> [--wordlist <path>]")
@@ -199,8 +198,8 @@ Examples:
                 wordlist = args[idx + 1]
 
         try:
-            from rich.table import Table
             from rich.console import Console
+            from rich.table import Table
 
             from modules.hash_cracker import HashCracker
 
@@ -271,12 +270,12 @@ Examples:
         words = line[:begidx].split()
         if len(words) <= 2:
             from modules.opsec_scorer import COMMAND_NOISE
+
             candidates = list(COMMAND_NOISE.keys())
             return [c for c in candidates if c.lower().startswith(text.lower())]
         return []
 
     def complete_crack_hashes(self, text: str, line: str, begidx: int, endidx: int) -> list[str]:
-        import glob
         sessions_path = Path("sessions")
         candidates = list(sessions_path.glob("hash*")) + list(sessions_path.glob("*hash*"))
         return [str(p) for p in candidates if p.name.startswith(text)]

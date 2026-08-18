@@ -15,19 +15,21 @@ import hmac
 import struct
 import time
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 try:
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives import hmac as crypto_hmac  # noqa: F401
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-    from cryptography.hazmat.primitives import hashes, hmac as crypto_hmac
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     HAS_CRYPTO = True
 except ImportError:
     HAS_CRYPTO = False
 
 try:
-    from pyasn1.codec.der import decoder as der_decoder, encoder as der_encoder
-    from pyasn1.type import univ, namedtype, tag
+    from pyasn1.codec.der import decoder as der_decoder  # noqa: F401
+    from pyasn1.codec.der import encoder as der_encoder  # noqa: F401
+    from pyasn1.type import namedtype, tag, univ  # noqa: F401
     HAS_PYASN1 = True
 except ImportError:
     HAS_PYASN1 = False
@@ -189,7 +191,7 @@ class KerberosTicket:
     realm: str = ""
     sname: str = ""
     flags: int = 0
-    key: Optional[EncryptedData] = None
+    key: EncryptedData | None = None
     crealm: str = ""
     cname: str = ""
     transited: bytes = b""
@@ -198,7 +200,7 @@ class KerberosTicket:
     endtime: int = 0
     renew_till: int = 0
     authorization_data: list[dict[str, Any]] = field(default_factory=list)
-    enc_part: Optional[EncryptedData] = None
+    enc_part: EncryptedData | None = None
 
     def has_flag(self, flag_name: str) -> bool:
         mask = KERB_TICKET_FLAGS.get(flag_name, 0)
@@ -235,8 +237,8 @@ class PACInfo:
 
     logon_info: dict[str, Any] = field(default_factory=dict)
     client_info: dict[str, Any] = field(default_factory=dict)
-    server_checksum: Optional[PACSignature] = None
-    privsvr_checksum: Optional[PACSignature] = None
+    server_checksum: PACSignature | None = None
+    privsvr_checksum: PACSignature | None = None
     upn_dns_info: dict[str, Any] = field(default_factory=dict)
     attributes: dict[str, Any] = field(default_factory=dict)
 
@@ -348,7 +350,7 @@ class KerberosCrypto:
         result = bytearray()
         xor_block = bytes(16)
         for block in padded:
-            encrypted = encryptor.update(bytes(a ^ b for a, b in zip(block, xor_block)))
+            encrypted = encryptor.update(bytes(a ^ b for a, b in zip(block, xor_block, strict=False)))
             result.extend(encrypted)
             xor_block = encrypted
 
@@ -375,7 +377,7 @@ class KerberosCrypto:
         xor_block = bytes(16)
         for i in range(0, len(ciphertext), 16):
             block = ciphertext[i : i + 16]
-            decrypted = bytes(a ^ b for a, b in zip(decryptor.update(block), xor_block))
+            decrypted = bytes(a ^ b for a, b in zip(decryptor.update(block), xor_block, strict=False))
             result.extend(decrypted)
             xor_block = block
 
@@ -661,7 +663,7 @@ class KerberosCore:
 
     @staticmethod
     def _rc4_encrypt(key: bytes, data: bytes, usage: int) -> bytes:
-        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+        from cryptography.hazmat.primitives.ciphers import Cipher, algorithms
 
         k1 = hashlib.new("md5", key + struct.pack("<I", usage)[:4]).digest()
         cipher = Cipher(algorithms.ARC4(k1), mode=None)

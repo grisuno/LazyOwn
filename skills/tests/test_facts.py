@@ -17,7 +17,7 @@ _SKILLS_DIR = Path(__file__).parent.parent
 if str(_SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(_SKILLS_DIR))
 
-from lazyown_facts import (
+from lazyown_facts import (  # noqa: E402
     Config,
     CrackMapExecParser,
     CredentialFact,

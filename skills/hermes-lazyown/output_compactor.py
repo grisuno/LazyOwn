@@ -104,7 +104,7 @@ class EnumCompaction(CompactionStrategy):
 
         if not kept:
             # Fallback: keep first 20 lines if no findings matched
-            kept = [l for l in lines[:20] if l.strip()]
+            kept = [ln for ln in lines[:20] if ln.strip()]
 
         summary = f"# {tool_name or 'enum'} findings: {len(kept)} lines\n"
         compacted = summary + "\n".join(kept)

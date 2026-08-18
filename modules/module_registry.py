@@ -564,7 +564,7 @@ def format_module_detail(m: ModuleInfo) -> str:
         f"Enabled    : {'yes' if m.enabled else 'no'}",
     ]
     if m.deprecated:
-        lines.append(f"Deprecated : yes")
+        lines.append("Deprecated : yes")
         if m.replaced_by:
             lines.append(f"Replaced by: {m.replaced_by}")
         if m.deprecation_message:

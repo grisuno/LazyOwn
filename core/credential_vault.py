@@ -28,7 +28,7 @@ import logging
 import os
 from base64 import b64decode, b64encode
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from core.crypto import AESdecrypt, AESencrypt
 
@@ -86,6 +86,7 @@ def _get_aes_key(payload: dict[str, Any] | None = None) -> bytes:
         32-byte AES key.
     """
     from core.config import resolve_aes_key
+
     return resolve_aes_key(payload or {}, sessions_dir=Path("sessions"))
 
 
@@ -127,7 +128,7 @@ def unseal_value(sealed: str, key: bytes | None = None) -> str:
     if not sealed.startswith(marker):
         return sealed
     k = key or _get_aes_key()
-    encoded = sealed[len(marker):]
+    encoded = sealed[len(marker) :]
     try:
         ct = b64decode(encoded)
         plaintext = AESdecrypt(ct, k)
@@ -218,6 +219,7 @@ def generate_secure_defaults() -> dict[str, str]:
     Use this to bootstrap a new ``payload.json`` with secure defaults.
     """
     import secrets
+
     defaults: dict[str, str] = {}
     for key in ("c2_pass", "backdoor_password", "backdoor_username", "rat_key"):
         defaults[key] = secrets.token_hex(16)

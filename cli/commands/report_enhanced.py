@@ -9,8 +9,7 @@ with consistent output formats.
 from __future__ import annotations
 
 import json
-import os
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import cmd2
@@ -18,10 +17,8 @@ import cmd2
 from cli.commands._base import LazyOwnCommandSet
 from modules.db import LazyOwnDB
 from utils import (
-    miscellaneous_category,
     print_error,
     print_msg,
-    print_warn,
     reporting_category,
 )
 
@@ -36,11 +33,20 @@ def _render_mitre_matrix_html(coverage_data: dict, techniques: list[dict]) -> st
         return "<p>No MITRE ATT&CK techniques recorded for this engagement.</p>"
 
     tactics_order = [
-        "reconnaissance", "resource-development", "initial-access",
-        "execution", "persistence", "privilege-escalation",
-        "defense-evasion", "credential-access", "discovery",
-        "lateral-movement", "collection", "command-and-control",
-        "exfiltration", "impact",
+        "reconnaissance",
+        "resource-development",
+        "initial-access",
+        "execution",
+        "persistence",
+        "privilege-escalation",
+        "defense-evasion",
+        "credential-access",
+        "discovery",
+        "lateral-movement",
+        "collection",
+        "command-and-control",
+        "exfiltration",
+        "impact",
     ]
 
     tactics_present: dict[str, list[dict]] = {}
@@ -76,13 +82,11 @@ def _render_mitre_matrix_html(coverage_data: dict, techniques: list[dict]) -> st
         return "<p>No MITRE ATT&CK techniques recorded for this engagement.</p>"
 
     return (
-        f"<h2>MITRE ATT&CK Coverage</h2>\n"
-        f"<p>Techniques tested or available for this engagement:</p>\n"
-        f"<table class='mitre-matrix'>\n"
-        f"<thead><tr><th>Tactic</th><th>ID</th><th>Technique</th><th>Status</th></tr></thead>\n"
-        f"<tbody>\n"
-        + "\n".join(rows)
-        + f"\n</tbody>\n</table>"
+        "<h2>MITRE ATT&CK Coverage</h2>\n"
+        "<p>Techniques tested or available for this engagement:</p>\n"
+        "<table class='mitre-matrix'>\n"
+        "<thead><tr><th>Tactic</th><th>ID</th><th>Technique</th><th>Status</th></tr></thead>\n"
+        "<tbody>\n" + "\n".join(rows) + "\n</tbody>\n</table>"
     )
 
 
@@ -105,16 +109,18 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
                 key = v.get("cve_id") or v.get("name", str(v))
                 if key and key not in seen:
                     seen.add(key)
-                    findings.append({
-                        "title": v.get("name", "Unknown"),
-                        "severity": v.get("severity", "medium"),
-                        "description": v.get("description", ""),
-                        "cve_id": v.get("cve_id", ""),
-                        "cvss_score": v.get("cvss_score"),
-                        "affected_hosts": [v.get("host", "target")],
-                        "remediation": v.get("remediation", ""),
-                        "source": "db",
-                    })
+                    findings.append(
+                        {
+                            "title": v.get("name", "Unknown"),
+                            "severity": v.get("severity", "medium"),
+                            "description": v.get("description", ""),
+                            "cve_id": v.get("cve_id", ""),
+                            "cvss_score": v.get("cvss_score"),
+                            "affected_hosts": [v.get("host", "target")],
+                            "remediation": v.get("remediation", ""),
+                            "source": "db",
+                        }
+                    )
         except Exception:
             pass
 
@@ -126,16 +132,18 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
                     cve = vuln.get("cve", vuln.get("id", ""))
                     if cve and cve not in seen:
                         seen.add(cve)
-                        findings.append({
-                            "title": vuln.get("name", vuln.get("description", cve)),
-                            "severity": vuln.get("severity", "medium"),
-                            "description": vuln.get("description", ""),
-                            "cve_id": cve,
-                            "cvss_score": vuln.get("cvss"),
-                            "affected_hosts": [wm.get("target", "target")],
-                            "remediation": "",
-                            "source": "world_model",
-                        })
+                        findings.append(
+                            {
+                                "title": vuln.get("name", vuln.get("description", cve)),
+                                "severity": vuln.get("severity", "medium"),
+                                "description": vuln.get("description", ""),
+                                "cve_id": cve,
+                                "cvss_score": vuln.get("cvss"),
+                                "affected_hosts": [wm.get("target", "target")],
+                                "remediation": "",
+                                "source": "world_model",
+                            }
+                        )
         except Exception:
             pass
 
@@ -146,18 +154,21 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         techniques: list[dict] = []
         try:
             from modules.ttp_coverage import TTPCoverage
+
             coverage = TTPCoverage()
             coverage.rebuild_from_operations()
             rows = coverage.matrix().splitlines() if hasattr(coverage, "matrix") else []
             for row in rows:
                 parts = row.split()
                 if len(parts) >= 2:
-                    techniques.append({
-                        "technique_id": parts[0],
-                        "name": " ".join(parts[1:]),
-                        "tactic": "",
-                        "status": "tested",
-                    })
+                    techniques.append(
+                        {
+                            "technique_id": parts[0],
+                            "name": " ".join(parts[1:]),
+                            "tactic": "",
+                            "status": "tested",
+                        }
+                    )
         except Exception:
             pass
 
@@ -227,7 +238,7 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
     def _report_generate(self, name: str):
         """Generate a unified multi-format report."""
         REPORTS_DIR.mkdir(parents=True, exist_ok=True)
-        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         safe_name = (name or "engagement").replace(" ", "_")
         base_name = f"report_{safe_name}_{timestamp}"
 
@@ -278,9 +289,7 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
             ts = ev.get("timestamp", "")
             etype = ev.get("type", ev.get("event", "?"))
             msg = ev.get("message", ev.get("description", str(ev)))
-            timeline_html += (
-                f"<tr><td>{ts}</td><td>{etype}</td><td>{str(msg)[:120]}</td></tr>\n"
-            )
+            timeline_html += f"<tr><td>{ts}</td><td>{etype}</td><td>{str(msg)[:120]}</td></tr>\n"
 
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -319,7 +328,7 @@ th {{ background: #161b22; color: #8b949e; font-weight: 600; text-transform: upp
 <h1>LazyOwn Red Team Report</h1>
 <div class="meta">
 <p>Target: {target}</p>
-<p>Report generated: {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}</p>
+<p>Report generated: {datetime.now(UTC).strftime("%Y-%m-%d %H:%M UTC")}</p>
 <p>Operator: {operator}</p>
 <p>Findings: {len(findings)} | Techniques: {len(techniques)} | Events: {len(timeline)}</p>
 </div>
@@ -339,12 +348,12 @@ attempts, and privilege escalation analysis.</p>
 </table>
 
 <h2>Detailed Findings</h2>
-{findings_html or '<p>No vulnerabilities found. The target may be well-hardened or the scan was incomplete.</p>'}
+{findings_html or "<p>No vulnerabilities found. The target may be well-hardened or the scan was incomplete.</p>"}
 
 {mitre_html}
 
 <h2>Engagement Timeline</h2>
-{('<table><thead><tr><th>Timestamp</th><th>Event</th><th>Details</th></tr></thead><tbody>' + timeline_html + '</tbody></table>') if timeline_html else '<p>No timeline events recorded.</p>'}
+{("<table><thead><tr><th>Timestamp</th><th>Event</th><th>Details</th></tr></thead><tbody>" + timeline_html + "</tbody></table>") if timeline_html else "<p>No timeline events recorded.</p>"}
 
 <h2>Recommendations</h2>
 <div class="finding">
@@ -373,7 +382,7 @@ Generated by LazyOwn Red Team Framework | This report is confidential.
             "metadata": {
                 "target": target,
                 "operator": operator,
-                "generated_at": datetime.now(timezone.utc).isoformat(),
+                "generated_at": datetime.now(UTC).isoformat(),
                 "finding_count": len(findings),
                 "technique_count": len(techniques),
             },
@@ -388,7 +397,7 @@ Generated by LazyOwn Red Team Framework | This report is confidential.
         md_lines = [
             f"# LazyOwn Red Team Report — {target}",
             "",
-            f"**Generated:** {datetime.now(timezone.utc).strftime('%Y-%m-%d %H:%M UTC')}",
+            f"**Generated:** {datetime.now(UTC).strftime('%Y-%m-%d %H:%M UTC')}",
             f"**Operator:** {operator}",
             f"**Findings:** {len(findings)} | **MITRE Techniques:** {len(techniques)}",
             "",

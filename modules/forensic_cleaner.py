@@ -12,9 +12,9 @@ modification, and unified log pruning.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -64,7 +64,7 @@ class ForensicCleaner:
         config: ForensicCleanerConfig for target and artifact selection.
     """
 
-    def __init__(self, config: Optional[ForensicCleanerConfig] = None):
+    def __init__(self, config: ForensicCleanerConfig | None = None):
         self.config = config or ForensicCleanerConfig()
 
     def windows_cleanup(self) -> dict[str, Any]:

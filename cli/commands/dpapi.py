@@ -6,7 +6,6 @@ decryption, browser data harvesting, and offline DPAPI blob attacks.
 
 from __future__ import annotations
 
-import json
 import os
 
 import cmd2
@@ -101,7 +100,6 @@ class DPAPICommandSet(LazyOwnCommandSet):
         print_succ(f"Master key report written to {output}")
         print_msg(f"Key directory: {mk_path}")
 
-        import shlex
         dploot_path = os.path.join(self.params.get("path", "."), "external", ".exploit", "dploot")
         if os.path.exists(dploot_path):
             domain = input("Domain (for dploot): ").strip() or self.params.get("domain", "")
@@ -121,13 +119,8 @@ class DPAPICommandSet(LazyOwnCommandSet):
         Format: hex string of the raw DPAPI ciphertext.
         """
         import shlex
-        args = shlex.split(line)
 
-        try:
-            from modules.dpapi_harvester import DPAPIHarvester
-        except ImportError:
-            print_error("DPAPI module not available.")
-            return
+        args = shlex.split(line)
 
         if not args or args[0].startswith("--"):
             print_error("Usage: dpapi_blob <blob_hex> [--mk <masterkey_hex>] [--entropy <entropy_hex>]")

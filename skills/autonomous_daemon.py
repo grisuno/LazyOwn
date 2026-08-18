@@ -88,7 +88,7 @@ TASKS_FILE  = SESSIONS_DIR / "tasks.json"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
-from modules.logging_config import configure, get_logger
+from modules.logging_config import configure, get_logger  # noqa: E402
 
 configure(
     level=logging.INFO,
@@ -2589,8 +2589,8 @@ class EngageOrchestrator:
         self._fallback = fallback_resolver or BridgeFallbackResolver()
         self._shell = shell_detector or _ShellDetector(self._narrator)
         self._plan = plan or tuple(
-            EnginePhaseStep(phase=p, primary=c, label=l)
-            for p, c, l in _ENGAGE_PHASE_ORDER
+            EnginePhaseStep(phase=p, primary=c, label=_label)
+            for p, c, _label in _ENGAGE_PHASE_ORDER
         )
         self._max_switches = max(0, int(max_switches_per_step))
         self._engagement_id = uuid.uuid4().hex[:8]

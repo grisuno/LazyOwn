@@ -516,7 +516,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    from modules.logging_config import configure, get_logger
+    from modules.logging_config import configure
     configure(level=logging.WARNING, console=True, file=False)
 
     if args.cmd == "ask":

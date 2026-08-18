@@ -23,9 +23,9 @@ from __future__ import annotations
 import logging
 import subprocess
 import time
-from dataclasses import dataclass, field
+from collections.abc import Callable
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable, Optional
 
 log = logging.getLogger("command_executor")
 
@@ -53,13 +53,13 @@ class CommandExecutor:
         print(result.output[:200])
     """
 
-    _instance: Optional["CommandExecutor"] = None
+    _instance: CommandExecutor | None = None
 
     def __init__(self) -> None:
         self._hooks: list[Callable[[ExecutionResult], None]] = []
 
     @classmethod
-    def instance(cls) -> "CommandExecutor":
+    def instance(cls) -> CommandExecutor:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance

@@ -357,7 +357,7 @@ def start_challenge(challenge_id: str) -> dict[str, Any]:
         "message": f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target.",
         "next_steps": [
             f"lab start {chal['scenario']}",
-            f"assign rhost 127.0.0.1",
+            "assign rhost 127.0.0.1",
             "lazynmap",
         ],
     }
@@ -659,7 +659,7 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         challenges = list_challenges()
-        for cid, chal in sorted(challenges.items()):
+        for _cid, chal in sorted(challenges.items()):
             print(f"  {chal['name']} [{chal['difficulty']}] — {chal['description']}")
     else:
         board = show_leaderboard()

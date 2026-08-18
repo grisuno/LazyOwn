@@ -135,6 +135,7 @@ class LazyOwnCommandSet(CommandSet):
             raise AttributeError(name)
         try:
             import utils as _utils
+
             return getattr(_utils, name)
         except AttributeError:
             raise AttributeError(name)

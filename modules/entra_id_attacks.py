@@ -10,12 +10,10 @@ Requires requests and msal libraries for Graph API operations.
 
 from __future__ import annotations
 
-import base64
-import json
 import time
 import uuid
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 try:
     import requests
@@ -90,7 +88,7 @@ class EntraIDAttackEngine:
         session: Requests session with bearer token.
     """
 
-    def __init__(self, config: Optional[EntraIDConfig] = None):
+    def __init__(self, config: EntraIDConfig | None = None):
         self.config = config or EntraIDConfig()
         self.session = requests.Session() if HAS_REQUESTS else None
 

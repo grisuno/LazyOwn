@@ -7,7 +7,6 @@ in both the CLI header and the C2 web dashboard. Extracted from
 
 from __future__ import annotations
 
-import json
 import os
 import subprocess
 from pathlib import Path
@@ -42,11 +41,15 @@ def get_git_info() -> str:
     try:
         branch = subprocess.run(
             ["git", "rev-parse", "--abbrev-ref", "HEAD"],
-            capture_output=True, text=True, timeout=3,
+            capture_output=True,
+            text=True,
+            timeout=3,
         ).stdout.strip()
         status = subprocess.run(
             ["git", "status", "--porcelain"],
-            capture_output=True, text=True, timeout=3,
+            capture_output=True,
+            text=True,
+            timeout=3,
         ).stdout.strip()
         dirty = "*" if status else ""
         return f"{branch}{dirty}"
@@ -66,6 +69,7 @@ def get_kernel() -> str:
     """Return the running kernel version (short form)."""
     try:
         import platform
+
         return platform.release()
     except Exception:
         return "unknown"
@@ -83,8 +87,10 @@ def get_terminal_size() -> tuple[int, int]:
 def get_local_ips() -> str:
     """Return a comma-separated string of non-loopback IPv4 addresses."""
     import socket
+
     try:
         import netifaces
+
         ips = []
         for iface in netifaces.interfaces():
             addrs = netifaces.ifaddresses(iface)
@@ -108,7 +114,10 @@ def copy2clip(text: str) -> bool:
     try:
         proc = subprocess.run(
             ["xclip", "-selection", "clipboard"],
-            input=text, text=True, capture_output=True, timeout=3,
+            input=text,
+            text=True,
+            capture_output=True,
+            timeout=3,
         )
         return proc.returncode == 0
     except Exception:

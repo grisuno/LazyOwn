@@ -12,7 +12,6 @@ from cli.ops_commands import (
     _cli_phase_to_host_state,
     _engagement_phase_to_cli,
     _phase_rank,
-    read_phase,
     write_phase,
 )
 
@@ -62,7 +61,6 @@ class TestWritePhaseWithWorldModel:
                 import cli.ops_commands as mod
                 old_wm = mod._WORLD_MODEL
                 mod._WORLD_MODEL = str(sdir / "world_model.json")
-                from modules.world_model import WorldModel, get_world_model
                 import modules.world_model as wm_mod
                 old_default = wm_mod._default_wm
                 wm_mod._default_wm = None
@@ -78,8 +76,8 @@ class TestWritePhaseWithWorldModel:
                     pass
 
     def test_write_phase_advances_hosts(self, sessions_dir):
-        from modules.world_model import WorldModel, get_world_model
         import modules.world_model as wm_mod
+        from modules.world_model import get_world_model
         wm_mod._default_wm = None
         wm_mod._DEFAULT_PATH = sessions_dir / "world_model.json"
         wm = get_world_model()

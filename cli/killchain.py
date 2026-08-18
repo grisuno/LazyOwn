@@ -15,9 +15,7 @@ from typing import Any
 
 from modules.killchain import KillChain as _KC
 
-DEFAULT_PHASES: tuple[tuple[str, str], ...] = tuple(
-    (p[0], p[1]) for p in _KC.phases_for_display()
-)
+DEFAULT_PHASES: tuple[tuple[str, str], ...] = tuple((p[0], p[1]) for p in _KC.phases_for_display())
 
 STATE_DONE: str = "done"
 STATE_ACTIVE: str = "active"

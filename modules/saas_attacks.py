@@ -11,11 +11,11 @@ tokens or credentials — no vulnerability exploitation required.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 try:
-    import requests
+    import requests  # noqa: F401
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -74,10 +74,10 @@ class SaaSEnumerationTools:
     def microsoft365_commands() -> dict[str, Any]:
         return {
             "mail_access": [
-                f"# Enumerate mail folders via Graph API:",
+                "# Enumerate mail folders via Graph API:",
                 f"curl -H 'Authorization: Bearer TOKEN' '{M365_GRAPH_URL}/me/mailFolders'",
                 f"curl -H 'Authorization: Bearer TOKEN' '{M365_GRAPH_URL}/me/messages?$top=10&$search=\"password OR credential OR secret OR key\"'",
-                f"# Search all mailboxes with eDiscovery:",
+                "# Search all mailboxes with eDiscovery:",
                 f"curl -H 'Authorization: Bearer TOKEN' '{M365_GRAPH_URL}/security/cases/ediscoveryCases'",
             ],
             "sharepoint_access": [
@@ -159,7 +159,7 @@ class SaaSAttackEngine:
         config: SaaSConfig with platform and authentication tokens.
     """
 
-    def __init__(self, config: Optional[SaaSConfig] = None):
+    def __init__(self, config: SaaSConfig | None = None):
         self.config = config or SaaSConfig()
 
     def enumerate_all(self) -> dict[str, Any]:

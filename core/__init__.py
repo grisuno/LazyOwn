@@ -81,7 +81,6 @@ from core.errors import (  # noqa: F401
     LazyOwnError,
     NetworkError,
     PayloadError,
-    PermissionError as LazyPermissionError,
     TargetError,
     ToolError,
     ValidationError,

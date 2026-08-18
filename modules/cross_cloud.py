@@ -11,8 +11,8 @@ identities, expanding compromise radius across multi-cloud environments.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 CROSS_CLOUD_ATTACKS = [
     "azure_saml_to_aws",
@@ -61,7 +61,7 @@ class CrossCloudAttackEngine:
         config: CrossCloudConfig with federation parameters.
     """
 
-    def __init__(self, config: Optional[CrossCloudConfig] = None):
+    def __init__(self, config: CrossCloudConfig | None = None):
         self.config = config or CrossCloudConfig()
 
     def azure_saml_to_aws(self) -> dict[str, Any]:

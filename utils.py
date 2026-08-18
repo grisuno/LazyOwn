@@ -128,6 +128,7 @@ from core.process import (  # noqa: F401
     check_sudo,
     handle_multiple_rhosts,
     is_binary_present,
+    run_command,
 )
 from core.validators import check_lhost, check_lport, check_port, check_rhost  # noqa: F401
 from modules.lazyencoder_decoder import encode  # noqa: F401
@@ -1306,107 +1307,7 @@ def clean_html(html_string):
     cleaned_string = re.sub(clean_pattern, '', html_string)
     return cleaned_string.strip()
 
-RUN_COMMAND_STATUS_MIN_SECONDS = 1.0
-_RUN_COMMAND_MAX_DISPLAY = 80
 
-
-def _print_run_command_status(command, elapsed, exit_code):
-    """Print a dim completion line (elapsed time + exit code) after a run.
-
-    Only shown on interactive terminals and only when the command took long
-    enough to matter (``RUN_COMMAND_STATUS_MIN_SECONDS``) or reported a
-    non-zero exit, so quick aliases stay silent while long scans and failed
-    tools always leave a visible trace. Never touches the returned output.
-    """
-    try:
-        if not sys.stdout.isatty():
-            return
-        if elapsed < RUN_COMMAND_STATUS_MIN_SECONDS and exit_code in (0, None):
-            return
-        label = command
-        if len(label) > _RUN_COMMAND_MAX_DISPLAY:
-            label = label[: _RUN_COMMAND_MAX_DISPLAY - 1] + "…"
-        code = "interrupted" if exit_code is None else f"exit={exit_code}"
-        color = BRIGHT_BLACK if exit_code in (0, None) else YELLOW
-        sys.stdout.write(f"{color}[done] {label}  {code}  {elapsed:.1f}s{RESET}\n")
-        sys.stdout.flush()
-    except Exception:
-        pass
-
-
-def run_command(command, timeout=None):
-    """
-    Run a command, print output in real-time, and store the output in a variable.
-
-    This method executes a given command using `subprocess.Popen`, streams both the standard
-    output and standard error to the console in real-time, and stores the full output (stdout
-    and stderr) in a variable. If interrupted, the process is terminated gracefully.
-
-    stderr is drained on a worker thread so a chatty process can never fill
-    the pipe buffer and deadlock the read loop.
-
-    :param command: The command to be executed as a string.
-    :type command: str
-    :param timeout: Optional per-command timeout in seconds. When exceeded the
-        process is killed and the partial output is returned.
-    :type timeout: float or None
-
-    :returns: The full output of the command (stdout and stderr).
-    :rtype: str
-
-    Example:
-        To execute a command, call `run_command("ls -l")`.
-    """
-
-    output = ""
-    command_tokens = shlex.split(command)
-    start_time = time.monotonic()
-    exit_code = None
-    process = None
-    try:
-        process = subprocess.Popen(
-            command_tokens, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
-    except FileNotFoundError:
-        print_error(f"Command not found: {command_tokens[0] if command_tokens else command}")
-        _print_run_command_status(command, time.monotonic() - start_time, 127)
-        return output
-
-    stderr_chunks = []
-
-    def _drain_stderr():
-        if process is None or process.stderr is None:
-            return
-        for line in iter(process.stderr.readline, ""):
-            stderr_chunks.append(line)
-            sys.stdout.write(line)
-        sys.stdout.flush()
-
-    stderr_thread = threading.Thread(target=_drain_stderr, daemon=True)
-    stderr_thread.start()
-    try:
-        if process.stdout is not None:
-            for line in iter(process.stdout.readline, ""):
-                sys.stdout.write(line)
-                output += line
-        stderr_thread.join()
-        try:
-            process.wait(timeout=timeout)
-        except subprocess.TimeoutExpired:
-            process.kill()
-            process.wait()
-            print_error(f"Command timed out: {command}")
-    except KeyboardInterrupt:
-        process.terminate()
-        print_warn("\n[Interrupted] Process terminated")
-        process.wait()
-    finally:
-        exit_code = process.returncode
-        output += "".join(stderr_chunks)
-        _print_run_command_status(command, time.monotonic() - start_time, exit_code)
-    return output
-
-def generate_random_cve_id():
     """
     Generates a random CVE (Common Vulnerabilities and Exposures) ID.
 

@@ -90,11 +90,7 @@ class CatalogCommandSet(LazyOwnCommandSet):
         kw = keyword.lower()
         if not kw:
             return list(commands)
-        return [
-            c for c in commands
-            if kw in c.get("name", "").lower()
-            or kw in (c.get("summary") or "").lower()
-        ]
+        return [c for c in commands if kw in c.get("name", "").lower() or kw in (c.get("summary") or "").lower()]
 
     def _print_hits(self, hits: list[dict], label: str) -> None:
         """Print *hits* (grouped by category) under *label*."""

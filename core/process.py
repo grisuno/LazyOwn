@@ -13,10 +13,18 @@ import shutil
 import subprocess
 import sys
 import threading
+import time
 from collections.abc import Callable
 from typing import Any
 
-from core.console import print_error, print_msg, print_warn
+from core.console import (
+    BRIGHT_BLACK,
+    RESET,
+    YELLOW,
+    print_error,
+    print_msg,
+    print_warn,
+)
 from core.safe_subprocess import SafeRunner
 from core.validators import check_rhost
 
@@ -142,6 +150,34 @@ def is_package_installed(package_name: str) -> bool:
     return importlib.util.find_spec(package_name) is not None
 
 
+RUN_COMMAND_STATUS_MIN_SECONDS = 1.0
+_RUN_COMMAND_MAX_DISPLAY = 80
+
+
+def _print_run_command_status(command: str, elapsed: float, exit_code: int | None) -> None:
+    """Print a dim completion line (elapsed time + exit code) after a run.
+
+    Only shown on interactive terminals and only when the command took long
+    enough to matter (``RUN_COMMAND_STATUS_MIN_SECONDS``) or reported a
+    non-zero exit, so quick aliases stay silent while long scans and failed
+    tools always leave a visible trace. Never touches the returned output.
+    """
+    try:
+        if not sys.stdout.isatty():
+            return
+        if elapsed < RUN_COMMAND_STATUS_MIN_SECONDS and exit_code in (0, None):
+            return
+        label = command
+        if len(label) > _RUN_COMMAND_MAX_DISPLAY:
+            label = label[: _RUN_COMMAND_MAX_DISPLAY - 1] + "…"
+        code = "interrupted" if exit_code is None else f"exit={exit_code}"
+        color = BRIGHT_BLACK if exit_code in (0, None) else YELLOW
+        sys.stdout.write(f"{color}[done] {label}  {code}  {elapsed:.1f}s{RESET}\n")
+        sys.stdout.flush()
+    except Exception:
+        pass
+
+
 def run_command(command: str, timeout: float | None = None) -> str:
     """Run a command, streaming output in real time.
 
@@ -161,6 +197,8 @@ def run_command(command: str, timeout: float | None = None) -> str:
     """
     output = ""
     command_tokens = shlex.split(command)
+    start_time = time.monotonic()
+    exit_code: int | None = None
     process = None
     try:
         process = subprocess.Popen(
@@ -171,6 +209,7 @@ def run_command(command: str, timeout: float | None = None) -> str:
         )
     except FileNotFoundError:
         print_error(f"Command not found: {command_tokens[0] if command_tokens else command}")
+        _print_run_command_status(command, time.monotonic() - start_time, 127)
         return output
 
     stderr_chunks: list[str] = []
@@ -202,7 +241,9 @@ def run_command(command: str, timeout: float | None = None) -> str:
         print_warn("\n[Interrupted] Process terminated")
         process.wait()
     finally:
+        exit_code = process.returncode
         output += "".join(stderr_chunks)
+        _print_run_command_status(command, time.monotonic() - start_time, exit_code)
     return output
 
 

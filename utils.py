@@ -1061,6 +1061,18 @@ def get_domain(url):
         return match.group(1)
     return None
 
+def generate_random_cve_id():
+    """
+    Generate a random CVE identifier in the form CVE-{year}-{code}.
+
+    Returns:
+        str: A randomly generated CVE ID between 2020-2024 and 1000-9999.
+    """
+    year = random.randint(2020, 2024)
+    code = random.randint(1000, 9999)
+    return f"CVE-{year}-{code}"
+
+
 def generate_certificates():
     """
     Generates a certificate authority (CA), client certificate, and client key.

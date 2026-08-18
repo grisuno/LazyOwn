@@ -23,7 +23,7 @@ import sys
 import time
 
 from impacket.nmb import NetBIOS, NetBIOSError
-from scapy.all import *
+from scapy.all import *  # noqa: F403
 from scapy.layers.netbios import NBNSQueryRequest, NBNSQueryResponse
 
 

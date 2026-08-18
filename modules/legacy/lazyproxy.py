@@ -7,7 +7,7 @@ import tempfile
 import threading
 
 import keyboard
-from colors import *
+from colors import *  # noqa: F403
 
 BANNER = f"""{GREEN}{BG_BLACK}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣠⡤⠴⠶⠖⠒⠛⠛⠀⠀⠀⠒⠒⢰⠖⢠⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀

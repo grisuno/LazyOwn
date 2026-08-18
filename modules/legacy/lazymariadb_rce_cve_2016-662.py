@@ -49,11 +49,11 @@ http://legalhackers.com
 
 """
 
-import argparse
-import binascii
-import subprocess
+import argparse  # noqa: E402
+import binascii  # noqa: E402
+import subprocess  # noqa: E402
 
-import mysql.connector
+import mysql.connector  # noqa: E402
 
 
 def info(str):
@@ -66,9 +66,9 @@ def errmsg(str):
 
 def shutdown(code):
     if code == 0:
-        info("Exiting (code: %d)\n" % code)
+        info(f"Exiting (code: {code})\n")
     else:
-        errmsg("Exiting (code: %d)\n" % code)
+        errmsg(f"Exiting (code: {code})\n")
     exit(code)
 
 

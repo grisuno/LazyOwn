@@ -2,16 +2,12 @@
 from __future__ import annotations
 
 import json
-from pathlib import Path
 from unittest.mock import MagicMock
 
-import pytest
-
 from modules.lesson_ingestor import (
-    LessonLearned,
-    LessonIngestor,
     _LESSON_TO_EXPERT,
-    ingest_campaign_lessons,
+    LessonIngestor,
+    LessonLearned,
 )
 
 

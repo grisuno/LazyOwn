@@ -9,11 +9,9 @@ from __future__ import annotations
 
 import json
 import os
-import re
-import socket
 import time
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 try:
     import requests
@@ -93,7 +91,7 @@ class CloudMetadataHarvester:
             self._session.timeout = self.timeout
         return self._session
 
-    def _get(self, url: str, headers: Optional[dict] = None) -> Optional[str]:
+    def _get(self, url: str, headers: dict | None = None) -> str | None:
         if self.session is None:
             try:
                 import urllib.request
@@ -201,7 +199,7 @@ class CloudMetadataHarvester:
     def harvest_all(self) -> list[dict[str, Any]]:
         """Try all three cloud providers sequentially."""
         results: list[dict[str, Any]] = []
-        for harvester, name in [
+        for harvester, _name in [
             (self.harvest_aws, "aws"),
             (self.harvest_azure, "azure"),
             (self.harvest_gcp, "gcp"),
@@ -229,7 +227,7 @@ class CloudBucketEnumerator:
             self._session.timeout = self.timeout
         return self._session
 
-    def _check_url(self, url: str) -> Optional[dict[str, Any]]:
+    def _check_url(self, url: str) -> dict[str, Any] | None:
         if self.session is None:
             try:
                 import urllib.request
@@ -244,7 +242,7 @@ class CloudBucketEnumerator:
         except Exception as e:
             return {"error": str(e)}
 
-    def enumerate_s3(self, prefix: str, buckets: Optional[list[str]] = None) -> list[dict[str, Any]]:
+    def enumerate_s3(self, prefix: str, buckets: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate S3 buckets derived from a prefix."""
         findings: list[dict[str, Any]] = []
         candidates = buckets if buckets else [
@@ -271,7 +269,7 @@ class CloudBucketEnumerator:
 
         return findings
 
-    def enumerate_azure_storage(self, prefix: str, accounts: Optional[list[str]] = None) -> list[dict[str, Any]]:
+    def enumerate_azure_storage(self, prefix: str, accounts: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate Azure Blob Storage accounts."""
         findings: list[dict[str, Any]] = []
         candidates = accounts if accounts else [
@@ -291,7 +289,7 @@ class CloudBucketEnumerator:
 
         return findings
 
-    def enumerate_gcp_storage(self, prefix: str, buckets: Optional[list[str]] = None) -> list[dict[str, Any]]:
+    def enumerate_gcp_storage(self, prefix: str, buckets: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate GCP Storage buckets."""
         findings: list[dict[str, Any]] = []
         candidates = buckets if buckets else [

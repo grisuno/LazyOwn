@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import curses
 import os
-import shutil
 import subprocess
 import sys
 from dataclasses import dataclass, field
@@ -486,11 +485,19 @@ class MarketplaceConfigurator:
                     if name_bytes:
                         name_bytes.pop()
                         stdscr.addnstr(prompt_y, 2, " " * (width - 12), width - 12, 0)
-                        stdscr.addnstr(prompt_y, 2, f"New addon name: {name_bytes.decode('utf-8', 'replace')}", width - 12, curses.A_BOLD)
+                        stdscr.addnstr(
+                            prompt_y,
+                            2,
+                            f"New addon name: {name_bytes.decode('utf-8', 'replace')}",
+                            width - 12,
+                            curses.A_BOLD,
+                        )
                 elif 32 <= ch <= 126:
                     name_bytes.append(ch)
                 stdscr.addnstr(prompt_y, 2, " " * (width - 12), width - 12, 0)
-                stdscr.addnstr(prompt_y, 2, f"New addon name: {name_bytes.decode('utf-8', 'replace')}", width - 12, curses.A_BOLD)
+                stdscr.addnstr(
+                    prompt_y, 2, f"New addon name: {name_bytes.decode('utf-8', 'replace')}", width - 12, curses.A_BOLD
+                )
                 stdscr.refresh()
         except curses.error:
             pass
@@ -602,8 +609,11 @@ class MarketplaceConfigurator:
         sub_attr = self._color(cfg.color_pair_help)
         try:
             stdscr.addnstr(
-                top + 1, left + cfg.wizard_padding_x, cfg.wizard_title,
-                width - cfg.wizard_padding_x * 2, title_attr,
+                top + 1,
+                left + cfg.wizard_padding_x,
+                cfg.wizard_title,
+                width - cfg.wizard_padding_x * 2,
+                title_attr,
             )
             subtitle_x = left + width - len(cfg.wizard_subtitle) - cfg.wizard_padding_x
             stdscr.addnstr(
@@ -711,7 +721,9 @@ class MarketplaceConfigurator:
         cfg = self._cfg
         attr = self._color(cfg.color_pair_help)
         try:
-            stdscr.addnstr(row_y, left + cfg.wizard_padding_x, cfg.wizard_footer, width - cfg.wizard_padding_x * 2, attr)
+            stdscr.addnstr(
+                row_y, left + cfg.wizard_padding_x, cfg.wizard_footer, width - cfg.wizard_padding_x * 2, attr
+            )
         except curses.error:
             pass
 

@@ -19,9 +19,9 @@ from dataclasses import dataclass
 from typing import Any
 
 try:
-    from .logging_config import configure, get_logger
+    from .logging_config import configure, get_logger  # noqa: F401
 except ImportError:
-    from logging_config import configure, get_logger
+    from logging_config import configure
 
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH
@@ -250,7 +250,8 @@ class AgentRunner:
             self.register_tool(tool)
 
     def get_tools_for_api(self) -> list[dict[str, Any]] | None:
-        if not self.tools: return None
+        if not self.tools:
+            return None
         return [tool.to_api_format() for tool in self.tools.values()]
 
     def run(self, user_input: str) -> str:
@@ -507,8 +508,10 @@ def interactive_mode(bot: VulnBotCLI):
     while True:
         try:
             u_input = input("LazyOwn > ").strip()
-            if u_input.lower() in ('salir', 'exit'): break
-            if not u_input: continue
+            if u_input.lower() in ('salir', 'exit'):
+                break
+            if not u_input:
+                continue
 
             response = bot.process_request(u_input)
             print(f"\n[*] AGENT:\n{response}\n")

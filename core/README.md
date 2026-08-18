@@ -26,8 +26,8 @@ from core import Config
 from core.validators import check_rhost, check_lhost
 
 cfg = Config({"rhost": "10.10.11.5", "lhost": "10.10.14.3"})
-print(cfg.rhost)          # "10.10.11.5"
-print(cfg["nonexistent"]) # None
+print(cfg.rhost)  # "10.10.11.5"
+print(cfg["nonexistent"])  # None
 
 if not check_rhost(cfg.rhost):
     print("rhost is not set")
@@ -57,10 +57,10 @@ if not check_rhost(cfg.rhost):
 ```python
 from core.dependencies import optional_attr, optional_import
 
-AES = optional_attr("Crypto.Cipher", "AES")   # real class when installed
-pandas = optional_import("pandas")             # deferred proxy when missing
+AES = optional_attr("Crypto.Cipher", "AES")  # real class when installed
+pandas = optional_import("pandas")  # deferred proxy when missing
 
-if pandas:                                     # proxy is falsy
+if pandas:  # proxy is falsy
     frame = pandas.DataFrame(rows)
 ```
 

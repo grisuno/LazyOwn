@@ -13,13 +13,8 @@ Integrates with phishing_orchestrator.py for automated campaigns.
 
 from __future__ import annotations
 
-import base64
-import hashlib
 import json
 import os
-import re
-import time
-import urllib.parse
 from dataclasses import dataclass, field
 from typing import Any
 
@@ -206,7 +201,7 @@ class MFABypassEngine:
         templates.append({
             "name": f"legacy_auth_check_{target.domain}",
             "type": "legacy_protocol",
-            "description": f"Test IMAP (993), POP3 (995), SMTP (587) for legacy auth support. If MFA not enforced on legacy, basic auth bypasses MFA entirely.",
+            "description": "Test IMAP (993), POP3 (995), SMTP (587) for legacy auth support. If MFA not enforced on legacy, basic auth bypasses MFA entirely.",
         })
 
         return templates
@@ -227,8 +222,8 @@ class MFABypassEngine:
             "domain": domain,
             "tools": {
                 "roadrecon": f"roadrecon auth -u user@{domain} && roadrecon gather && roadrecon gui",
-                "aadinternals": f"Get-AADIntConditionalAccessPolicies | Where-Object {{$_.State -eq 'enabled'}} | Format-List DisplayName,IncludeApplications,ExcludeApplications,GrantControls",
-                "graphrunner": f"Import-Module GraphRunner; Invoke-GraphRecon -PermissionTest",
+                "aadinternals": "Get-AADIntConditionalAccessPolicies | Where-Object {$_.State -eq 'enabled'} | Format-List DisplayName,IncludeApplications,ExcludeApplications,GrantControls",
+                "graphrunner": "Import-Module GraphRunner; Invoke-GraphRecon -PermissionTest",
                 "azurehound": f"azurehound list -u user@{domain} -p password az-tenants",
             },
             "indicators": [

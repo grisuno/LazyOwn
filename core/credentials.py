@@ -28,20 +28,14 @@ def get_credentials(file: bool | None = None, ncred: int | None = None) -> Any:
     credential_files = glob.glob(f"{path}/sessions/credentials*.txt")
 
     if not credential_files:
-        print_error(
-            "No credential files found. "
-            "Please create one using: createcredentials admin:admin"
-        )
+        print_error("No credential files found. Please create one using: createcredentials admin:admin")
         return []
 
     if ncred is not None:
         if 1 <= ncred <= len(credential_files):
             selected_file = credential_files[ncred - 1]
         else:
-            print_error(
-                f"Invalid ncred value: {ncred}. "
-                f"It should be between 1 and {len(credential_files)}."
-            )
+            print_error(f"Invalid ncred value: {ncred}. It should be between 1 and {len(credential_files)}.")
             return []
     else:
         print_msg("The following credential files were found:")
@@ -51,9 +45,7 @@ def get_credentials(file: bool | None = None, ncred: int | None = None) -> Any:
             selected_file = credential_files[0]
         else:
             try:
-                file_choice = int(
-                    input("    [!] Select the credential file to use (enter the number): ")
-                )
+                file_choice = int(input("    [!] Select the credential file to use (enter the number): "))
                 selected_file = credential_files[file_choice - 1]
             except (ValueError, IndexError):
                 print_error("Invalid selection.")
@@ -81,7 +73,7 @@ def get_domain(url: str) -> str:
     Returns:
         Domain string (e.g. ``www.example.com``).
     """
-    pattern = r'^(?:https?://)?(?:www\.)?([^/]+)'
+    pattern = r"^(?:https?://)?(?:www\.)?([^/]+)"
     match = re.search(pattern, url)
     return match.group(1) if match else url
 
@@ -198,10 +190,19 @@ def crack_password(crypttext: str) -> str | None:
         Cracked password or None.
     """
     import crypt
+
     # Common password list for quick checks
     common = [
-        "password", "123456", "12345678", "admin", "root",
-        "toor", "qwerty", "letmein", "welcome", "monkey",
+        "password",
+        "123456",
+        "12345678",
+        "admin",
+        "root",
+        "toor",
+        "qwerty",
+        "letmein",
+        "welcome",
+        "monkey",
     ]
     for candidate in common:
         try:
@@ -226,17 +227,18 @@ def find_ea(keyword: str = "") -> list[str]:
         List of matching file paths.
     """
     import subprocess
+
     results: list[str] = []
     try:
-        output = subprocess.check_output(
-            ["locate", keyword], stderr=subprocess.DEVNULL, text=True
-        )
+        output = subprocess.check_output(["locate", keyword], stderr=subprocess.DEVNULL, text=True)
         results = output.strip().split("\n")
     except (subprocess.CalledProcessError, FileNotFoundError):
         try:
             output = subprocess.check_output(
                 ["find", "/", "-name", f"*{keyword}*", "-type", "f"],
-                stderr=subprocess.DEVNULL, text=True, timeout=30,
+                stderr=subprocess.DEVNULL,
+                text=True,
+                timeout=30,
             )
             results = output.strip().split("\n")
         except (subprocess.CalledProcessError, FileNotFoundError, subprocess.TimeoutExpired):
@@ -306,18 +308,18 @@ def Spray(
             f'xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" '
             f'xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" '
             f'xmlns:wst="http://schemas.xmlsoap.org/ws/2005/02/trust">'
-            f'<s:Header>'
+            f"<s:Header>"
             f'<wsse:Security s:mustUnderstand="1">'
             f'<wsse:UsernameToken wsu:Id="user">'
-            f'<wsse:Username>{domain}\\{user}</wsse:Username>'
-            f'<wsse:Password>{password}</wsse:Password>'
+            f"<wsse:Username>{domain}\\{user}</wsse:Username>"
+            f"<wsse:Password>{password}</wsse:Password>"
             f"</wsse:UsernameToken>"
             f"</wsse:Security>"
             f"</s:Header>"
-            f'<s:Body>'
-            f'<wst:RequestSecurityToken>'
-            f'<wst:TokenType>urn:ietf:params:oauth:token-type:jwt</wst:TokenType>'
-            f'<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType>'
+            f"<s:Body>"
+            f"<wst:RequestSecurityToken>"
+            f"<wst:TokenType>urn:ietf:params:oauth:token-type:jwt</wst:TokenType>"
+            f"<wst:RequestType>http://schemas.xmlsoap.org/ws/2005/02/trust/Issue</wst:RequestType>"
             f"</wst:RequestSecurityToken>"
             f"</s:Body>"
             f"</s:Envelope>"

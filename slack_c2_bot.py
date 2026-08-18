@@ -1,6 +1,5 @@
 # slack_c2_bot_socket.py
 import io
-import re
 import sys
 import time
 
@@ -86,7 +85,7 @@ class SecureSessionManager:
     def get_client(self, user_id: str) -> str:
         session = self.sessions.get(user_id)
         return session['target_client'] if session else None
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
 
 session_manager = SecureSessionManager()
 

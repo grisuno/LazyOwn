@@ -86,7 +86,7 @@ for _p in [str(_MODULES_DIR), str(_SKILLS_DIR)]:
 
 # ── Logging ────────────────────────────────────────────────────────────────────
 
-from modules.logging_config import configure, get_logger
+from modules.logging_config import configure, get_logger  # noqa: E402
 
 configure(level=logging.INFO, log_dir=str(_SESSIONS_DIR))
 logger = get_logger(__name__)
@@ -350,8 +350,8 @@ class AutonomousAgent:
         else:
             # Print first meaningful line
             first = next(
-                (l.strip() for l in output.splitlines() if l.strip()
-                 and not l.startswith("2026") and not l.startswith("INFO")),
+                (ln.strip() for ln in output.splitlines() if ln.strip()
+                 and not ln.startswith("2026") and not ln.startswith("INFO")),
                 output[:120],
             )
             log.info("  └─ %s", first[:120])

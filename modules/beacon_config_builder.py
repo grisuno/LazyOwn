@@ -29,12 +29,8 @@ Usage:
 
 from __future__ import annotations
 
-import hashlib
-import json
 import logging
-import os
 from dataclasses import dataclass, field
-from pathlib import Path
 from typing import Any
 
 log = logging.getLogger("beacon_config_builder")
@@ -324,11 +320,11 @@ class BeaconConfigBuilder:
         """Hydrate TLS, DNS, SMB, WebSocket configs from ProfileEngine."""
         try:
             from modules.c2_profile_engine import (
+                DnsProfile,  # noqa: F401
                 ProfileEngine,
-                TlsProfile,
-                DnsProfile,
-                SmbProfile,
-                WebSocketProfile,
+                SmbProfile,  # noqa: F401
+                TlsProfile,  # noqa: F401
+                WebSocketProfile,  # noqa: F401
             )
         except ImportError:
             return

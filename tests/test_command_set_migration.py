@@ -23,8 +23,6 @@ from __future__ import annotations
 
 import ast
 import re
-import sys
-import unicodedata
 from pathlib import Path
 
 import pytest
@@ -180,7 +178,6 @@ class TestDormancyMechanism:
         )
 
     def test_active_sets_excluded_when_pending_skipped(self) -> None:
-        from cli.commands._dormancy import is_pending
         from cli.registry import iter_command_sets
 
         active = {c.__name__ for c in iter_command_sets(include_pending=False)}

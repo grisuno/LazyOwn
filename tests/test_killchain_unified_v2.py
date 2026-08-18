@@ -25,10 +25,9 @@ os.environ.setdefault("LAZYOWN_DIR", str(_ROOT))
 
 
 from modules.killchain import (  # noqa: E402
-    KillChain,
-    KillChainConfig,
-    PhaseStatus,
     _DEFAULT_CONFIG,
+    KillChain,
+    PhaseStatus,
     get_killchain,
 )
 
@@ -131,7 +130,7 @@ class TestKillChainCurrentPhase:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
-            from modules.world_model import WorldModel, get_world_model
+            from modules.world_model import get_world_model
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             wm.advance_host("10.0.0.1", wm_mod.HostState.EXPLOITED)

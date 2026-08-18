@@ -7,13 +7,11 @@ and nuclei-templates/*.yaml. Supports search, filter, and run actions.
 from __future__ import annotations
 
 from collections.abc import Mapping
-from typing import Any
 
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import (
     QHBoxLayout,
     QHeaderView,
-    QLabel,
     QLineEdit,
     QPushButton,
     QTabWidget,
@@ -162,6 +160,7 @@ class MarketplacePanel(PanelBase):
         addons: list[dict[str, str]] = []
         try:
             from pathlib import Path
+
             import yaml as _yaml
             addons_dir = Path("lazyaddons")
             if addons_dir.is_dir():

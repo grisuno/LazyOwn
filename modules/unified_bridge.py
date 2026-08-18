@@ -24,9 +24,10 @@ import json
 import logging
 import time
 from abc import ABC, abstractmethod
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 log = logging.getLogger("unified_bridge")
 
@@ -117,7 +118,7 @@ class LazyownBridgeBackend(RouteBackend):
 
     def available(self) -> bool:
         try:
-            from modules.lazyown_bridge import BridgeDispatcher
+            from modules.lazyown_bridge import BridgeDispatcher  # noqa: F401
             return True
         except ImportError:
             return False
@@ -195,11 +196,11 @@ class UnifiedBridge:
         delegate = bridge.delegate("Analyze CVE-2023-1234", backend="groq")
     """
 
-    _instance: Optional["UnifiedBridge"] = None
+    _instance: UnifiedBridge | None = None
 
     def __init__(self) -> None:
         self._backends: list[RouteBackend] = []
-        self._publish_callback: Optional[Callable[[str, str, dict], None]] = None
+        self._publish_callback: Callable[[str, str, dict], None] | None = None
         self._init_backends()
 
     def _init_backends(self) -> None:
@@ -208,7 +209,7 @@ class UnifiedBridge:
         self._backends.append(KeywordBackend())
 
     @classmethod
-    def get(cls) -> "UnifiedBridge":
+    def get(cls) -> UnifiedBridge:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance
@@ -236,7 +237,7 @@ class UnifiedBridge:
     def route(
         self,
         prompt: str,
-        context: Optional[dict[str, Any]] = None,
+        context: dict[str, Any] | None = None,
     ) -> RouteResult:
         """Route a natural-language prompt to the best LazyOwn tool.
 
@@ -351,7 +352,7 @@ class UnifiedBridge:
             return ""
 
 
-def route_prompt(prompt: str, context: Optional[dict[str, Any]] = None) -> RouteResult:
+def route_prompt(prompt: str, context: dict[str, Any] | None = None) -> RouteResult:
     """Convenience: route a prompt without instantiating UnifiedBridge."""
     return UnifiedBridge.get().route(prompt, context)
 

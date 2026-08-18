@@ -5,11 +5,8 @@ and privilege escalation detection for major cloud providers.
 """
 
 import json
-import os
-import re
 import subprocess
-from typing import Any, Dict, List, Optional, Tuple
-
+from typing import Any
 
 IMDS_ENDPOINTS = {
     'aws': 'http://169.254.169.254/latest/meta-data/',
@@ -44,9 +41,9 @@ class CloudEnumerator:
         self.provider = provider
         self.session = session or requests.Session()
         self.timeout = timeout
-        self._detected_provider: Optional[str] = None
+        self._detected_provider: str | None = None
 
-    def detect_provider(self) -> Optional[str]:
+    def detect_provider(self) -> str | None:
         """Auto-detect which cloud provider the host is running on.
 
         Returns:
@@ -74,14 +71,14 @@ class CloudEnumerator:
 
         return None
 
-    def enumerate_metadata(self) -> Dict[str, Any]:
+    def enumerate_metadata(self) -> dict[str, Any]:
         """Enumerate cloud instance metadata (IMDS).
 
         Returns:
             Dict with provider, instance_id, region, and metadata fields.
         """
         provider = self.provider if self.provider != 'auto' else (self.detect_provider() or 'aws')
-        metadata: Dict[str, Any] = {
+        metadata: dict[str, Any] = {
             'provider': provider,
             'endpoint': IMDS_ENDPOINTS.get(provider, ''),
         }
@@ -95,9 +92,9 @@ class CloudEnumerator:
 
         return metadata
 
-    def _enumerate_aws_metadata(self) -> Dict[str, Any]:
+    def _enumerate_aws_metadata(self) -> dict[str, Any]:
         """Enumerate AWS EC2 instance metadata."""
-        result: Dict[str, Any] = {}
+        result: dict[str, Any] = {}
 
         imds_fields = [
             'ami-id', 'instance-id', 'instance-type', 'local-ipv4',
@@ -136,9 +133,9 @@ class CloudEnumerator:
 
         return result
 
-    def _enumerate_azure_metadata(self) -> Dict[str, Any]:
+    def _enumerate_azure_metadata(self) -> dict[str, Any]:
         """Enumerate Azure VM instance metadata."""
-        result: Dict[str, Any] = {}
+        result: dict[str, Any] = {}
 
         try:
             url = IMDS_ENDPOINTS['azure']
@@ -178,9 +175,9 @@ class CloudEnumerator:
 
         return result
 
-    def _enumerate_gcp_metadata(self) -> Dict[str, Any]:
+    def _enumerate_gcp_metadata(self) -> dict[str, Any]:
         """Enumerate GCP Compute Engine instance metadata."""
-        result: Dict[str, Any] = {}
+        result: dict[str, Any] = {}
         headers = IMDS_HEADERS['gcp']
         base_url = IMDS_ENDPOINTS['gcp']
 
@@ -230,7 +227,7 @@ class CloudEnumerator:
 
         return result
 
-    def enumerate_storage(self, target_bucket: Optional[str] = None) -> List[Dict]:
+    def enumerate_storage(self, target_bucket: str | None = None) -> list[dict]:
         """Enumerate cloud storage buckets and objects.
 
         Uses CLI tools (aws, az, gcloud) if available on the host.
@@ -241,7 +238,7 @@ class CloudEnumerator:
         Returns:
             List of dicts with bucket names and access levels.
         """
-        results: List[Dict] = []
+        results: list[dict] = []
         provider = self.detect_provider() or self.provider
 
         if provider == 'aws':
@@ -253,9 +250,9 @@ class CloudEnumerator:
 
         return results
 
-    def _enumerate_s3(self, target_bucket: Optional[str] = None) -> List[Dict]:
+    def _enumerate_s3(self, target_bucket: str | None = None) -> list[dict]:
         """Enumerate AWS S3 buckets."""
-        results: List[Dict] = []
+        results: list[dict] = []
 
         try:
             cmd = ['aws', 's3', 'ls', '--no-sign-request']
@@ -291,9 +288,9 @@ class CloudEnumerator:
 
         return results
 
-    def _enumerate_azure_storage(self, target_bucket: Optional[str] = None) -> List[Dict]:
+    def _enumerate_azure_storage(self, target_bucket: str | None = None) -> list[dict]:
         """Enumerate Azure storage accounts."""
-        results: List[Dict] = []
+        results: list[dict] = []
 
         try:
             cmd = ['az', 'storage', 'account', 'list', '--query', '[].{Name:name, ResourceGroup:resourceGroup, Location:location}']
@@ -316,9 +313,9 @@ class CloudEnumerator:
 
         return results
 
-    def _enumerate_gcs(self, target_bucket: Optional[str] = None) -> List[Dict]:
+    def _enumerate_gcs(self, target_bucket: str | None = None) -> list[dict]:
         """Enumerate GCP Cloud Storage buckets."""
-        results: List[Dict] = []
+        results: list[dict] = []
 
         try:
             cmd = ['gsutil', 'ls']
@@ -336,13 +333,13 @@ class CloudEnumerator:
 
         return results
 
-    def enumerate_iam(self) -> Dict[str, Any]:
+    def enumerate_iam(self) -> dict[str, Any]:
         """Enumerate IAM roles, users, and policies.
 
         Returns:
             Dict with users, roles, policies, and privilege escalation paths.
         """
-        results: Dict[str, Any] = {}
+        results: dict[str, Any] = {}
         provider = self.detect_provider() or self.provider
 
         if provider == 'aws':
@@ -354,9 +351,9 @@ class CloudEnumerator:
 
         return results
 
-    def _enumerate_aws_iam(self) -> Dict[str, Any]:
+    def _enumerate_aws_iam(self) -> dict[str, Any]:
         """Enumerate AWS IAM."""
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
 
         try:
             caller = json.loads(subprocess.run(
@@ -388,9 +385,9 @@ class CloudEnumerator:
         data['privesc_paths'] = self._check_aws_privesc(data)
         return data
 
-    def _enumerate_azure_iam(self) -> Dict[str, Any]:
+    def _enumerate_azure_iam(self) -> dict[str, Any]:
         """Enumerate Azure IAM (Entra ID)."""
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
 
         try:
             proc = subprocess.run(
@@ -424,9 +421,9 @@ class CloudEnumerator:
 
         return data
 
-    def _enumerate_gcp_iam(self) -> Dict[str, Any]:
+    def _enumerate_gcp_iam(self) -> dict[str, Any]:
         """Enumerate GCP IAM."""
-        data: Dict[str, Any] = {}
+        data: dict[str, Any] = {}
 
         try:
             proc = subprocess.run(
@@ -462,7 +459,7 @@ class CloudEnumerator:
         return data
 
     @staticmethod
-    def _check_aws_privesc(data: Dict[str, Any]) -> List[Dict]:
+    def _check_aws_privesc(data: dict[str, Any]) -> list[dict]:
         """Check AWS IAM for common privilege escalation paths.
 
         Args:
@@ -471,7 +468,7 @@ class CloudEnumerator:
         Returns:
             List of potential privesc paths found.
         """
-        paths: List[Dict] = []
+        paths: list[dict] = []
         roles = data.get('roles', [])
 
         dangerous_actions = [
@@ -502,7 +499,7 @@ class CloudEnumerator:
 
         return paths
 
-    def full_enumeration(self) -> Dict[str, Any]:
+    def full_enumeration(self) -> dict[str, Any]:
         """Run full cloud enumeration: metadata + storage + IAM.
 
         Returns:

@@ -7,6 +7,7 @@ from agent_runner import AgentRunner
 from ai_model import AIModel
 from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
+
 try:
     from .logging_config import configure, get_logger
 except ImportError:
@@ -128,38 +129,6 @@ class VulnBotCLI:
                     break
         except Exception as e:
             logger.warning(f"Could not load external tools: {e}")
-
-    def process_with_context(self, file_path: str, event: str = None) -> str:
-        """Procesa archivo en modo agente"""
-        content = self.read_file_content(file_path)
-        knowledge = self.get_relevant_knowledge(content)
-
-        # Leer historial previo
-        plan_file = "sessions/plan.txt"
-        if os.path.isfile(plan_file):
-            self.read_file_content(plan_file)
-
-        prompt = f"""
-        ANALIZA ESTE OUTPUT DE NMAP:
-        ```
-        {content}
-        ```
-
-        CONTEXTO:
-        - Archivo: {file_path}
-        - Evento: {event or 'General'}
-        - Conocimiento: {knowledge}
-
-        ACCIONES REQUERIDAS:
-        1. Ejecuta reconocimiento con tus herramientas
-        2. Guarda resultados en sessions/plan.txt
-        3. Proporciona un plan de acción claro
-        """
-
-        if self.mode == "web":
-            return self._stream_agent_response(prompt)
-        else:
-            return self.agent.run(prompt)
 
     def _stream_agent_response(self, prompt: str) -> Response:
         """Versión streaming para web (simplificada)"""

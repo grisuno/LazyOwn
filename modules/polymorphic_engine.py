@@ -156,7 +156,7 @@ class PolymorphicEngine:
 
     __slots__ = ("config", "audit_log")
 
-    def __init__(self, config: Optional[MutationConfig] = None):
+    def __init__(self, config: MutationConfig | None = None):
         self.config = config or MutationConfig()
         self.audit_log: list[MutationResult] = []
 

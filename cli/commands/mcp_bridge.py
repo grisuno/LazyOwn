@@ -230,17 +230,18 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
 
         try:
             from modules.intelligence_engine import get_intelligence_engine
+
             engine = get_intelligence_engine()
             result = engine.run_full_cycle(target)
             ingested = result.get("facts_ingested", 0)
             if ingested:
-                print_msg(f"Intelligence: {ingested} facts ingested, "
-                          f"{result.get('assessments_count', 0)} assessments")
+                print_msg(f"Intelligence: {ingested} facts ingested, {result.get('assessments_count', 0)} assessments")
         except Exception:
             pass
 
         try:
             from modules.world_model import get_world_model
+
             ingested = get_world_model().consume_policy_facts()
             if ingested:
                 print_msg(f"World model: ingested {ingested} facts from policy_facts.json")
@@ -285,6 +286,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             return
         try:
             from modules.session_rag import get_rag
+
             rag = get_rag()
             rag.index_new()
             hits = rag.query(query, args.n)
@@ -312,6 +314,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
         """
         try:
             from skills.lazyown_parquet_db import get_pdb
+
             pdb = get_pdb()
         except Exception as exc:
             print_error(f"ParquetDB unavailable: {exc}. Run: pip install pandas pyarrow")
@@ -332,9 +335,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                 if not args.keyword:
                     print_error("keyword mode requires --keyword")
                     return
-                rows_by_parquet = pdb.query_knowledge(
-                    args.keyword, args.parquet or None, limit=args.limit
-                )
+                rows_by_parquet = pdb.query_knowledge(args.keyword, args.parquet or None, limit=args.limit)
                 if not rows_by_parquet:
                     result = f"No results for keyword '{args.keyword}'."
                 else:
@@ -342,9 +343,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                     for stem, rows in rows_by_parquet.items():
                         parts.append(f"-- {stem} ({len(rows)} matches) --")
                         for row in rows[:MAX_KEYWORD_ROWS]:
-                            parts.append(
-                                json.dumps({k: str(v)[:100] for k, v in row.items()}, ensure_ascii=False)
-                            )
+                            parts.append(json.dumps({k: str(v)[:100] for k, v in row.items()}, ensure_ascii=False))
                     result = "\n".join(parts)
             elif args.mode == "session":
                 rows = pdb.query_session(
@@ -377,6 +376,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
         """
         try:
             from modules.threat_model import get_builder
+
             builder = get_builder()
             if args.action == "load":
                 model = builder.load()
@@ -401,8 +401,12 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
 
         summary = model.get("summary", {})
         print_msg(f"Threat Model  generated_at={model.get('generated_at', '')}")
-        print_msg(f"  Assets:          {len(model.get('assets', []))}  (highest risk: {summary.get('highest_risk_asset', '')})")
-        print_msg(f"  TTPs:            {len(model.get('ttps', []))}  (dominant tactic: {summary.get('dominant_tactic', '')})")
+        print_msg(
+            f"  Assets:          {len(model.get('assets', []))}  (highest risk: {summary.get('highest_risk_asset', '')})"
+        )
+        print_msg(
+            f"  TTPs:            {len(model.get('ttps', []))}  (dominant tactic: {summary.get('dominant_tactic', '')})"
+        )
         print_msg(f"  IOCs:            {len(model.get('ioc_registry', []))}")
         print_msg(f"  Detection rules: {len(model.get('detection_rules', []))}")
         print_msg(f"  Total events:    {summary.get('total_events', 0)}")
@@ -439,8 +443,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
                     pb_file = alt
         else:
             candidates = sorted(
-                list(Path(SESSIONS_DIR).glob(PLAYBOOK_GLOB))
-                + list(PLAYS_DIR.glob("apt_*.yaml")),
+                list(Path(SESSIONS_DIR).glob(PLAYBOOK_GLOB)) + list(PLAYS_DIR.glob("apt_*.yaml")),
                 key=lambda p: p.stat().st_mtime,
                 reverse=True,
             )
@@ -456,8 +459,8 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             print_error(f"Could not load playbook {pb_file}: {exc}")
             return
 
-        target = (args.target or "").strip() or getattr(playbook, "target", "") or str(
-            self.params.get("rhost", "") or ""
+        target = (
+            (args.target or "").strip() or getattr(playbook, "target", "") or str(self.params.get("rhost", "") or "")
         )
         shell = self._resolve_shell()
 
@@ -522,6 +525,7 @@ class McpBridgeCommandSet(LazyOwnCommandSet):
             return
         try:
             from cli.aliases import load_aliases
+
             shell.aliases.update(load_aliases(self.params))
         except Exception as exc:
             print_warn(f"aliases refresh failed after auto_populate: {exc}")

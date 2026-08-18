@@ -23,6 +23,7 @@ from .models import (
     CicleStateFile,
     Contract,
     Severity,
+    Spec,
     Stage,
     write_jsonl,
 )

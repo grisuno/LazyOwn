@@ -45,6 +45,7 @@ from dataclasses import asdict, dataclass
 from enum import StrEnum
 from pathlib import Path
 from types import MappingProxyType
+from typing import Any
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 

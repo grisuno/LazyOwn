@@ -21,7 +21,7 @@ import json
 import os
 import threading
 import time
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 DEFAULT_HEALTH_FILE = "sessions/daemon_health.json"
@@ -81,7 +81,7 @@ def daemon_status(timeout: int = DEFAULT_TIMEOUT) -> dict:
 
     return {
         "alive": alive,
-        "last_heartbeat": datetime.fromtimestamp(last, tz=timezone.utc).isoformat() if last else None,
+        "last_heartbeat": datetime.fromtimestamp(last, tz=UTC).isoformat() if last else None,
         "age_seconds": round(age, 1),
         "uptime_seconds": round(data.get("uptime_seconds", 0), 1),
         "pid": data.get("pid"),

@@ -6,9 +6,7 @@ rendering and force layout behaviour.
 
 from __future__ import annotations
 
-import pytest
-
-from PySide6.QtCore import QPointF, Qt
+from PySide6.QtCore import QPointF
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QApplication
 
@@ -27,7 +25,6 @@ from lazygui.widgets.graph_view import (
     _resolve_node_color,
     _resolve_node_radius,
 )
-
 
 _QAPP: QApplication | None = None
 

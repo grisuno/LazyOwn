@@ -1,6 +1,5 @@
 # slack_c2_bot_socket.py
 import io
-import re
 import sys
 import time
 

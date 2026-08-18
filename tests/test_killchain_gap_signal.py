@@ -15,8 +15,8 @@ from pathlib import Path
 
 import pytest
 
-from cli.recommendation import KIND_COMMAND, RecommendationContext
-from cli.recommendation_signals import KillchainGapSignal, SOURCE_GAP
+from cli.recommendation import RecommendationContext
+from cli.recommendation_signals import SOURCE_GAP, KillchainGapSignal
 
 
 @pytest.fixture

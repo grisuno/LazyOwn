@@ -885,7 +885,6 @@ class ReportGenerator:
 
 if __name__ == "__main__":
     import argparse
-
     import logging
     logging.basicConfig(level=logging.INFO)
 

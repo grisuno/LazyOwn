@@ -88,6 +88,7 @@ class TestCoreConsole:
         sys.path.insert(0, str(REPO_ROOT))
         monkeypatch.delenv("LAZYOWN_EMOJI_GLYPHS", raising=False)
         import importlib
+
         import core.console as console
 
         importlib.reload(console)

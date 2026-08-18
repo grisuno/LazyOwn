@@ -11,7 +11,6 @@ import datetime
 import json
 import os
 import shlex
-import time
 
 import cmd2
 
@@ -19,7 +18,6 @@ from cli.commands._base import LazyOwnCommandSet
 from utils import (
     print_error,
     print_msg,
-    print_warn,
 )
 
 REPORTING_CATEGORY = "12. Reporting"
@@ -254,35 +252,41 @@ def _default_findings() -> list[dict]:
     """Generate default findings from available scan data."""
     findings = []
     try:
-        for root, _, files in os.walk("sessions"):
+        for _root, _, files in os.walk("sessions"):
             for fname in files:
                 if "nmap" in fname and fname.endswith((".nmap", ".xml")):
-                    findings.append({
-                        "title": "Full TCP Port Scan",
-                        "severity": "info",
-                        "description": f"Nmap scan results available in sessions/{fname}",
-                        "mitre_technique": "T1046",
-                        "remediation": "Close unnecessary ports and services",
-                    })
+                    findings.append(
+                        {
+                            "title": "Full TCP Port Scan",
+                            "severity": "info",
+                            "description": f"Nmap scan results available in sessions/{fname}",
+                            "mitre_technique": "T1046",
+                            "remediation": "Close unnecessary ports and services",
+                        }
+                    )
                     break
             break
     except Exception:
         pass
 
-    findings.append({
-        "title": "Credential Harvesting Opportunity",
-        "severity": "high",
-        "description": "Credential files found in sessions/ directory",
-        "mitre_technique": "T1003",
-        "remediation": "Use strong, unique passwords with MFA",
-    })
-    findings.append({
-        "title": "Service Enumeration",
-        "severity": "medium",
-        "description": "Multiple services identified through enumeration",
-        "mitre_technique": "T1046",
-        "remediation": "Disable unnecessary services and restrict access",
-    })
+    findings.append(
+        {
+            "title": "Credential Harvesting Opportunity",
+            "severity": "high",
+            "description": "Credential files found in sessions/ directory",
+            "mitre_technique": "T1003",
+            "remediation": "Use strong, unique passwords with MFA",
+        }
+    )
+    findings.append(
+        {
+            "title": "Service Enumeration",
+            "severity": "medium",
+            "description": "Multiple services identified through enumeration",
+            "mitre_technique": "T1046",
+            "remediation": "Disable unnecessary services and restrict access",
+        }
+    )
     return findings
 
 
@@ -472,7 +476,7 @@ def _collect_web_apps() -> list[dict]:
 def _collect_services() -> list[dict]:
     """Collect service information."""
     services = []
-    for root, _, files in os.walk("sessions"):
+    for _root, _, files in os.walk("sessions"):
         for f in files:
             if any(k in f.lower() for k in ("smb", "ldap", "rpc", "enum4linux", "snmp")):
                 services.append({"file": f})
@@ -482,7 +486,7 @@ def _collect_services() -> list[dict]:
 def _collect_apis() -> list[dict]:
     """Collect exposed API endpoints."""
     apis = []
-    for root, _, files in os.walk("sessions"):
+    for _root, _, files in os.walk("sessions"):
         for f in files:
             if any(k in f.lower() for k in ("api", "swagger", "graphql", "endpoint")):
                 apis.append({"file": f})
@@ -509,7 +513,7 @@ def _collect_subdomains() -> list[str]:
 def _collect_tools() -> str:
     """List tools used during the engagement."""
     tools = set()
-    for root, _, files in os.walk("sessions"):
+    for _root, _, files in os.walk("sessions"):
         for f in files:
             name = f.lower()
             if "nmap" in name:
@@ -553,6 +557,7 @@ def _md_to_html(md_content: str, title: str) -> str:
     """Convert Markdown report to basic HTML."""
     try:
         import markdown
+
         body = markdown.markdown(md_content, extensions=["tables", "fenced_code"])
     except ImportError:
         body = f"<pre>{md_content}</pre>"

@@ -16,10 +16,6 @@ Covers:
 
 from __future__ import annotations
 
-import time
-
-import pytest
-
 from modules.socks_proxy import (
     SOCKS_DEFAULT_BIND_ADDRESS,
     SOCKS_DEFAULT_BIND_PORT,

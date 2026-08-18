@@ -110,38 +110,106 @@ _KILL_CHAIN_NEXT: dict[str, list[str]] = {
 _PHASE_PRIORITY: dict[str, list[str]] = {
     "recon": ["ping", "lazynmap", "rustscan", "arpscan", "whois", "hosts_discovery", "auto_populate"],
     "enum": [
-        "gobuster", "ffuf", "enum4linux", "nikto", "whatweb", "feroxbuster", "kerbrute",
-        "nuclei", "lazynuclei", "wfuzz", "dnsenum", "snmpwalk",
+        "gobuster",
+        "ffuf",
+        "enum4linux",
+        "nikto",
+        "whatweb",
+        "feroxbuster",
+        "kerbrute",
+        "nuclei",
+        "lazynuclei",
+        "wfuzz",
+        "dnsenum",
+        "snmpwalk",
     ],
     "exploit": [
-        "searchsploit", "crackmapexec", "sqlmap", "burpsuite", "evil-winrm",
-        "auto_pwn", "chain", "hunt", "exploit_db", "hydra",
+        "searchsploit",
+        "crackmapexec",
+        "sqlmap",
+        "burpsuite",
+        "evil-winrm",
+        "auto_pwn",
+        "chain",
+        "hunt",
+        "exploit_db",
+        "hydra",
     ],
     "privesc": [
-        "linpeas", "winpeas", "pspy64", "sudo_privesc", "printspoofer", "juicypotato",
-        "whoami_priv", "gtfo", "les", "crystal_ball", "kerberos_ticket", "adcs_check",
+        "linpeas",
+        "winpeas",
+        "pspy64",
+        "sudo_privesc",
+        "printspoofer",
+        "juicypotato",
+        "whoami_priv",
+        "gtfo",
+        "les",
+        "crystal_ball",
+        "kerberos_ticket",
+        "adcs_check",
     ],
     "lateral": [
-        "crackmapexec", "evil-winrm", "chisel", "secretsdump", "psexec",
-        "ssh", "xfreerdp", "collab_join", "kerberos_ticket", "delegation_attack",
+        "crackmapexec",
+        "evil-winrm",
+        "chisel",
+        "secretsdump",
+        "psexec",
+        "ssh",
+        "xfreerdp",
+        "collab_join",
+        "kerberos_ticket",
+        "delegation_attack",
     ],
     "cred": [
-        "hashcat", "john", "responder", "kerbrute", "secretsdump",
-        "l00t", "mimikatz", "lazagne", "kerberoast", "dacl_abuse",
+        "hashcat",
+        "john",
+        "responder",
+        "kerbrute",
+        "secretsdump",
+        "l00t",
+        "mimikatz",
+        "lazagne",
+        "kerberoast",
+        "dacl_abuse",
     ],
     "postexp": [
-        "linpeas", "winpeas", "mimikatz", "secretsdump", "whoami_priv",
-        "yara_scan", "note", "sitrep", "dashboard", "encrypt",
-        "opsec_score", "log_tamper", "forensic_clean", "timestomp", "memory_clean",
+        "linpeas",
+        "winpeas",
+        "mimikatz",
+        "secretsdump",
+        "whoami_priv",
+        "yara_scan",
+        "note",
+        "sitrep",
+        "dashboard",
+        "encrypt",
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
     ],
     "exfil": ["download_c2", "nc", "curl", "scp", "rsync", "l00t", "encrypt", "network_opsec"],
     "persist": [
-        "campaign", "sitrep", "note", "encrypt", "gpo_abuse", "dacl_abuse",
-        "macos_payload", "linux_advanced_payload", "dotnet_payload",
+        "campaign",
+        "sitrep",
+        "note",
+        "encrypt",
+        "gpo_abuse",
+        "dacl_abuse",
+        "macos_payload",
+        "linux_advanced_payload",
+        "dotnet_payload",
     ],
     "cloud": [
-        "entra_attack", "aws_privesc", "gcp_privesc", "k8s_attack",
-        "cross_cloud", "saas_enum", "opsec_score",
+        "entra_attack",
+        "aws_privesc",
+        "gcp_privesc",
+        "k8s_attack",
+        "cross_cloud",
+        "saas_enum",
+        "opsec_score",
     ],
 }
 
@@ -308,9 +376,7 @@ def build_evidence_hints(recommendations: Sequence[Any], limit: int) -> list[Evi
     """
     out: list[EvidenceHint] = []
     for rec in recommendations:
-        verb_raw = str(
-            getattr(rec, "command_preview", "") or getattr(rec, "action", "") or ""
-        ).strip()
+        verb_raw = str(getattr(rec, "command_preview", "") or getattr(rec, "action", "") or "").strip()
         if not verb_raw:
             continue
         reason = _clean_reason(tuple(getattr(rec, "reasons", ()) or ()))
@@ -345,9 +411,7 @@ def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None:
         line = Text()
         line.append("  ↳ " if index == 0 else "    ", style="bold dim cyan")
         line.append(hint.verb, style="cyan")
-        confidence_style = (
-            "dim green" if hint.confidence >= _CONFIDENCE_HIGH_THRESHOLD else "dim yellow"
-        )
+        confidence_style = "dim green" if hint.confidence >= _CONFIDENCE_HIGH_THRESHOLD else "dim yellow"
         line.append(f"  {hint.confidence}%  ", style=confidence_style)
         line.append(hint.reason, style="dim white italic")
         if hint.sources:

@@ -21,7 +21,7 @@ from typing import Any
 try:
     from .logging_config import configure, get_logger
 except ImportError:
-    from logging_config import configure, get_logger
+    from logging_config import configure
 
 # ===== IMPORTS DE TUS MODELOS =====
 # Asegúrate de que ai_model.py esté en el mismo directorio o en el PYTHONPATH

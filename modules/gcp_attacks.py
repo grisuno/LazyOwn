@@ -10,8 +10,8 @@ Uses google-cloud-* libraries when available; provides raw REST API commands.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 GCP_PRIVESC_METHODS = [
     "iam_service_accounts_actas",
@@ -87,7 +87,7 @@ class GCPAttackEngine:
 
     GCP_API_BASE = "https://www.googleapis.com"
 
-    def __init__(self, config: Optional[GCPConfig] = None):
+    def __init__(self, config: GCPConfig | None = None):
         self.config = config or GCPConfig()
 
     def enumerate_iam_policy(self, resource: str = "") -> dict[str, Any]:
@@ -210,7 +210,7 @@ class GCPAttackEngine:
                 f"gcloud storage buckets list --project={self.config.project_id}",
             ],
             "public_access_check": [
-                f"curl -s https://storage.googleapis.com/BUCKET_NAME",
+                "curl -s https://storage.googleapis.com/BUCKET_NAME",
                 "gsutil defacl get gs://BUCKET_NAME",
             ],
             "sensitive_patterns": [

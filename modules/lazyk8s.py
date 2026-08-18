@@ -10,11 +10,10 @@ from __future__ import annotations
 
 import json
 import os
-import re
 import subprocess
 import time
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 
 @dataclass
@@ -49,7 +48,7 @@ class DockerEnumerator:
         """Check if the Docker socket is readable/writable."""
         return os.path.exists(self.socket_path) and os.access(self.socket_path, os.R_OK | os.W_OK)
 
-    def _docker_api(self, endpoint: str) -> Optional[dict]:
+    def _docker_api(self, endpoint: str) -> dict | None:
         """Make a raw HTTP request to the Docker Unix socket."""
         import http.client
         import socket
@@ -112,7 +111,7 @@ class DockerEnumerator:
         data = self._docker_api("/images/json")
         return data if isinstance(data, list) else []
 
-    def inspect_container(self, container_id: str) -> Optional[dict[str, Any]]:
+    def inspect_container(self, container_id: str) -> dict[str, Any] | None:
         """Get detailed configuration of a container (privileged, mounts, capabilities)."""
         if not self.is_socket_accessible():
             try:
@@ -242,7 +241,7 @@ class K8sEnumerator:
         self._session: Any = None
         self._verify_ssl = False
 
-    def _load_kubeconfig(self) -> Optional[dict[str, Any]]:
+    def _load_kubeconfig(self) -> dict[str, Any] | None:
         if os.path.exists(self.kubeconfig):
             try:
                 import yaml
@@ -252,7 +251,7 @@ class K8sEnumerator:
                 pass
         return None
 
-    def _get_k8s_api(self, path: str) -> Optional[dict[str, Any]]:
+    def _get_k8s_api(self, path: str) -> dict[str, Any] | None:
         if self.api_server and self.token:
             if not HAS_REQUESTS:
                 return None
@@ -295,6 +294,7 @@ class K8sEnumerator:
 
             import base64
             import tempfile
+
             import requests
 
             verify = True

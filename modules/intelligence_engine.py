@@ -39,7 +39,6 @@ from __future__ import annotations
 
 import json
 import logging
-import re
 import xml.etree.ElementTree as ET
 from collections import defaultdict
 from dataclasses import dataclass, field
@@ -242,7 +241,7 @@ class IntelligenceEngine:
         """
         new_facts: list[CollectedFact] = []
         try:
-            from modules.obs_parser import FindingType, ObsParser
+            from modules.obs_parser import ObsParser
 
             parser = ObsParser()
             obs = parser.parse(output, host=host, tool=tool)
@@ -588,7 +587,7 @@ class IntelligenceEngine:
 
     def _detect_killchain_gaps(self) -> None:
         try:
-            from modules.world_model import HostState, get_world_model
+            from modules.world_model import get_world_model
 
             wm = get_world_model()
             hosts = wm.get_hosts_summary()

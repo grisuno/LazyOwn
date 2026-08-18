@@ -15,16 +15,9 @@ Covers:
 
 from __future__ import annotations
 
-import hashlib
-import time
-from pathlib import Path
-
 import pytest
 
 from modules.c2_profile_engine import (
-    DEFAULT_ROTATION_COOLDOWN_S,
-    DNS_ENCODINGS,
-    JA3_GREASE_CANDIDATES,
     LIBRARY_CIPHER_SUITES,
     DnsProfile,
     ProfileEngine,

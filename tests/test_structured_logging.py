@@ -3,11 +3,8 @@
 from __future__ import annotations
 
 import json
-import os
 import sys
 from pathlib import Path
-
-import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(REPO_ROOT))
@@ -17,8 +14,9 @@ class TestStructuredLogConfig:
     """Behaviour of StructuredLogConfig."""
 
     def test_defaults_are_production_ready(self):
-        from core.logging import StructuredLogConfig
         import logging
+
+        from core.logging import StructuredLogConfig
 
         cfg = StructuredLogConfig()
         assert cfg.level == logging.INFO
@@ -29,8 +27,9 @@ class TestStructuredLogConfig:
         assert "token" in cfg.redacted_fields
 
     def test_custom_override_preserves_other_defaults(self):
-        from core.logging import StructuredLogConfig
         import logging
+
+        from core.logging import StructuredLogConfig
 
         cfg = StructuredLogConfig(
             level=logging.DEBUG,
@@ -49,8 +48,9 @@ class TestJsonLineFormatter:
     """Behaviour of _JsonLineFormatter."""
 
     def test_formats_record_as_valid_json_line(self):
-        from core.logging import _JsonLineFormatter
         import logging
+
+        from core.logging import _JsonLineFormatter
 
         fmt = _JsonLineFormatter()
         record = logging.LogRecord(
@@ -67,8 +67,9 @@ class TestJsonLineFormatter:
         assert data["rhost"] == "10.0.0.1"
 
     def test_redacts_sensitive_extra_fields(self):
-        from core.logging import _JsonLineFormatter
         import logging
+
+        from core.logging import _JsonLineFormatter
 
         fmt = _JsonLineFormatter(redacted_fields={"password", "token"})
         record = logging.LogRecord(
@@ -85,8 +86,9 @@ class TestJsonLineFormatter:
         assert data.get("public") == "visible"
 
     def test_includes_exception_traceback_when_present(self):
-        from core.logging import _JsonLineFormatter
         import logging
+
+        from core.logging import _JsonLineFormatter
 
         fmt = _JsonLineFormatter()
         try:
@@ -123,15 +125,16 @@ class TestGetLogger:
     """Behaviour of get_logger and install_json_handler."""
 
     def test_first_call_creates_and_configures_logger(self):
-        from core.logging import get_logger
         import logging
+
+        from core.logging import get_logger
 
         log_a = get_logger("unit_test_a")
         assert isinstance(log_a, logging.Logger)
         assert log_a.level == logging.INFO
 
     def test_same_name_returns_cached_instance(self):
-        from core.logging import get_logger, _LOGGER_CACHE
+        from core.logging import _LOGGER_CACHE, get_logger
 
         _LOGGER_CACHE.clear()
         log_a = get_logger("unit_test_cc")
@@ -143,8 +146,8 @@ class TestGetLogger:
     def test_writes_json_lines_to_file(self, tmp_path):
         from core.logging import (
             StructuredLogConfig,
-            install_json_handler,
             get_logger,
+            install_json_handler,
         )
 
         cfg = StructuredLogConfig(
@@ -171,12 +174,13 @@ class TestReconfigure:
     """Behaviour of reconfigure."""
 
     def test_reconfigure_resets_cache_and_applies_new_config(self, tmp_path):
+        import logging
+
         from core.logging import (
             StructuredLogConfig,
             get_logger,
             reconfigure,
         )
-        import logging
 
         log_a = get_logger("reconfig_test")
         first_level = log_a.level
@@ -197,12 +201,13 @@ class TestInstallJsonHandler:
     """Contract: install_json_handler preserves pre-existing handlers."""
 
     def test_cold_logger_gets_console_and_file_wiring(self, tmp_path):
+        import logging
+
         from core.logging import (
             StructuredLogConfig,
-            install_json_handler,
             get_logger,
+            install_json_handler,
         )
-        import logging
 
         cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="cold.log")
         install_json_handler("cold_wire", cfg)
@@ -213,12 +218,13 @@ class TestInstallJsonHandler:
         assert RotatingFileHandler in kinds
 
     def test_warm_logger_keeps_custom_handler_and_appends_json_file(self, tmp_path):
+        import logging
+        from logging.handlers import RotatingFileHandler
+
         from core.logging import (
             StructuredLogConfig,
             install_json_handler,
         )
-        import logging
-        from logging.handlers import RotatingFileHandler
 
         logger = logging.getLogger("warm_wire")
         custom = logging.StreamHandler()
@@ -233,11 +239,12 @@ class TestInstallJsonHandler:
         )
 
     def test_second_install_is_idempotent(self, tmp_path):
+        from logging.handlers import RotatingFileHandler
+
         from core.logging import (
             StructuredLogConfig,
             install_json_handler,
         )
-        from logging.handlers import RotatingFileHandler
 
         cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="once.log")
         install_json_handler("idem_wire", cfg)

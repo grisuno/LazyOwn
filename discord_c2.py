@@ -21,7 +21,7 @@ intents.message_content = True
 
 bot = commands.Bot(command_prefix='!', intents=intents)
 
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
 
 
 class SecureSessionManager:

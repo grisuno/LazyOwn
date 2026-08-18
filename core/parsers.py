@@ -10,10 +10,10 @@ import csv
 import json
 import os
 import re
-import xml.etree.ElementTree as ET
 from typing import Any
 
 import yaml
+from defusedxml import ElementTree as ET
 
 from core.console import print_error, print_msg
 
@@ -21,7 +21,7 @@ from core.console import print_error, print_msg
 def strip_ansi(text: str) -> str:
     """Remove ANSI escape sequences from a string.
 
-    Handles standard escape codes (``\x1B[...m``), extended unicode
+    Handles standard escape codes (``\x1b[...m``), extended unicode
     escape initiators (``\u001b``, ``\u009b``), and CSI sequences.
 
     Args:
@@ -82,12 +82,7 @@ def htmlify(data: str) -> str:
     Returns:
         HTML-encoded string.
     """
-    return (
-        data.replace("&", "&amp;")
-        .replace("<", "&lt;")
-        .replace(">", "&gt;")
-        .replace('"', "&quot;")
-    )
+    return data.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace('"', "&quot;")
 
 
 def de_htmlify(data: str) -> str:

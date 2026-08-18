@@ -37,7 +37,7 @@ def anti_debug() -> None:
 
     if tracer_pid > 0:
         try:
-            PR_SET_PTRACER = 0x59616d61
+            PR_SET_PTRACER = 0x59616D61
             libc = ctypes.CDLL("libc.so.6")
             libc.prctl(PR_SET_PTRACER, 0, 0, 0, 0)
         except Exception:
@@ -80,13 +80,21 @@ def generate_certificates(output_dir: str | None = None) -> tuple[str, str]:
     try:
         subprocess.run(
             [
-                "openssl", "req", "-new", "-x509",
-                "-days", "3650",
+                "openssl",
+                "req",
+                "-new",
+                "-x509",
+                "-days",
+                "3650",
                 "-nodes",
-                "-newkey", "rsa:4096",
-                "-subj", subj,
-                "-keyout", str(key_path),
-                "-out", str(cert_path),
+                "-newkey",
+                "rsa:4096",
+                "-subj",
+                subj,
+                "-keyout",
+                str(key_path),
+                "-out",
+                str(cert_path),
             ],
             capture_output=True,
             check=True,

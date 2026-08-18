@@ -67,9 +67,7 @@ class LazyOwnError(Exception):
         """Return a serialisable dict with code, type, and message."""
         return {
             "code": self.error_code,
-            "type": _ERROR_TYPE_MAP.get(
-                ErrorCode(self.error_code), self.__class__.__name__
-            ),
+            "type": _ERROR_TYPE_MAP.get(ErrorCode(self.error_code), self.__class__.__name__),
             "message": self.message,
         }
 

@@ -13,11 +13,9 @@ from __future__ import annotations
 
 import os
 import random
-import struct
-import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -105,7 +103,7 @@ class Timestomper:
         "/bin/bash",
     ]
 
-    def __init__(self, config: Optional[TimestompConfig] = None):
+    def __init__(self, config: TimestompConfig | None = None):
         self.config = config or TimestompConfig()
         self._modified_files: list[FileTimestamps] = []
 
@@ -256,7 +254,7 @@ int main(int argc, char *argv[]) {{
             "commands": [
                 f"touch -r \"{reference}\" /path/to/target",
                 "SetFile -d '01/01/2023 01:01:01' /path/to/target",
-                f"SetFile -m '01/01/2023 01:01:01' /path/to/target",
+                "SetFile -m '01/01/2023 01:01:01' /path/to/target",
                 "# Batch timestomp:",
                 f"find /tmp/staged -type f -exec touch -r \"{reference}\" {{}} \\;",
                 "# Remove quarantine extended attribute:",

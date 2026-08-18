@@ -15,16 +15,11 @@ Falls back to mimikatz-style masterkey extraction when available.
 from __future__ import annotations
 
 import base64
-import hashlib
-import hmac
 import json
 import os
-import struct
 import subprocess
 import sys
-from dataclasses import dataclass, field
-from pathlib import Path
-from typing import Any
+from dataclasses import dataclass
 
 WINDOWS = sys.platform == "win32"
 
@@ -339,7 +334,7 @@ class DPAPIHarvester:
         """
         output_path = os.path.join(self.sessions_dir, "dpapi_credentials.txt")
         with open(output_path, "w") as f:
-            f.write(f"=== DPAPI Harvested Credentials ===\n\n")
+            f.write("=== DPAPI Harvested Credentials ===\n\n")
             for cred in self.credentials:
                 f.write(f"Source:     {cred.source}\n")
                 f.write(f"Resource:   {cred.resource}\n")
@@ -358,7 +353,7 @@ class DPAPIHarvester:
         """
         report = os.path.join(self.sessions_dir, "dpapi_masterkeys.txt")
         with open(report, "w") as f:
-            f.write(f"=== DPAPI Master Key Report ===\n")
+            f.write("=== DPAPI Master Key Report ===\n")
             f.write(f"Path: {self.masterkey_path}\n")
             f.write(f"Found: {len(self.master_keys)} keys\n\n")
             for mk in self.master_keys:

@@ -7,25 +7,17 @@ BackendDescriptor, and backend signal contracts.
 from __future__ import annotations
 
 import pytest
-
 from PySide6.QtCore import QObject
 
 from lazygui.config.constants import AppConstants
 from lazygui.services.backend import Backend, BackendDescriptor, BackendStatus
 from lazygui.services.models import (
-    BeaconResult,
-    CampaignSummary,
-    DashboardPayload,
-    EventLevel,
-    EventRecord,
     GraphEdge,
     GraphNode,
     Operator,
-    Session,
     Topology,
 )
-from lazygui.services.teamserver_backend import TeamserverCredentials, TeamserverBackend
-from lazygui.services.models import Listener as ListenerModel
+from lazygui.services.teamserver_backend import TeamserverBackend, TeamserverCredentials
 
 
 class TestBackendDescriptor:
@@ -148,7 +140,7 @@ class TestBackendSignals:
         assert "loot" in state
 
     @staticmethod
-    def _make_backend() -> "ConcreteBackend":
+    def _make_backend() -> ConcreteBackend:
         desc = BackendDescriptor(identifier="test", display_name="Test", summary="...")
         return ConcreteBackend(desc)
 

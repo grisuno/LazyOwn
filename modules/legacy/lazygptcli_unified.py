@@ -20,7 +20,6 @@ from __future__ import annotations
 import json
 import logging
 import os
-import sys
 
 try:
     from groq import Groq
@@ -30,7 +29,6 @@ except ImportError:
     Groq = None
 
 from typing import Any
-
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 

@@ -7,7 +7,6 @@ in both the CLI header and the C2 web dashboard. Extracted from
 
 from __future__ import annotations
 
-import json
 import os
 import subprocess
 from pathlib import Path

@@ -9,7 +9,6 @@ tenant-bound API authorization via ``core.api_authz.require_api_auth``.
 
 from __future__ import annotations
 
-
 import time
 from dataclasses import dataclass
 from typing import Any

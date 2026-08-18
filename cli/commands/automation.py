@@ -64,6 +64,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             from modules.credential_reuse import get_credential_reuse_engine
+
             engine = get_credential_reuse_engine()
             engine.mark_failed(parts[0], parts[1], parts[2])
             self.print(f"[+] Marked {parts[0]}:*** as FAILED against {parts[2]}")
@@ -79,6 +80,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         """
         try:
             from modules.conditional_hooks import get_hook_engine
+
             engine = get_hook_engine()
             rules = engine.list_rules()
 
@@ -88,10 +90,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 trigger = r["trigger"].get("event", "?")
                 actions = len(r.get("actions", []))
                 cooldown = r.get("cooldown_seconds", 0)
-                self.print(
-                    f"  [{status}] {r['name']} | trigger={trigger} | "
-                    f"actions={actions} | cooldown={cooldown}s"
-                )
+                self.print(f"  [{status}] {r['name']} | trigger={trigger} | actions={actions} | cooldown={cooldown}s")
 
         except Exception as exc:
             self.print(f"[!] hooks_list failed: {exc}")
@@ -114,6 +113,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 enabled = False
 
             from modules.conditional_hooks import get_hook_engine
+
             engine = get_hook_engine()
             if engine.enable_rule(name, enabled):
                 self.print(f"[+] Rule '{name}': {'ENABLED' if enabled else 'DISABLED'}")
@@ -134,6 +134,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
 
             rule_dict = json.loads(line)
             from modules.conditional_hooks import get_hook_engine
+
             engine = get_hook_engine()
             rule = engine.add_rule(rule_dict)
             self.print(f"[+] Rule '{rule.name}' added")
@@ -155,6 +156,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             from modules.conditional_hooks import get_hook_engine
+
             engine = get_hook_engine()
             if engine.remove_rule(line.strip()):
                 self.print(f"[+] Rule '{line.strip()}' removed")
@@ -184,6 +186,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                     context[k] = v
 
             from modules.conditional_hooks import get_hook_engine
+
             engine = get_hook_engine()
             results = engine.fire(event, context)
             self.print(f"[+] Fired '{event}' -> {len(results)} actions triggered")
@@ -201,6 +204,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
         """
         try:
             from modules.operator_profiles import get_operator_profile_manager
+
             mgr = get_operator_profile_manager()
             profiles = mgr.list_profiles()
 
@@ -242,6 +246,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                         kwargs[k] = v
 
             from modules.operator_profiles import get_operator_profile_manager
+
             mgr = get_operator_profile_manager()
             profile = mgr.create_profile(username, display_name=username, **kwargs)
             self.print(f"[+] Created operator profile: {profile.username}")
@@ -265,6 +270,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             from modules.operator_profiles import get_operator_profile_manager
+
             mgr = get_operator_profile_manager()
             config = mgr.effective_config(line.strip())
 
@@ -273,8 +279,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             self.print(f"\nEffective config for {line.strip()}\n{'=' * 50}")
-            key_fields = ["lhost", "lport", "c2_port", "c2_malleable_route",
-                          "rhost", "domain", "user_agent_lin"]
+            key_fields = ["lhost", "lport", "c2_port", "c2_malleable_route", "rhost", "domain", "user_agent_lin"]
             for k in key_fields:
                 self.print(f"  {k}: {config.get(k, 'N/A')}")
 
@@ -293,6 +298,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             from modules.operator_profiles import get_operator_profile_manager
+
             mgr = get_operator_profile_manager()
             if mgr.delete_profile(line.strip()):
                 self.print(f"[+] Deleted operator profile: {line.strip()}")

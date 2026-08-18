@@ -62,7 +62,7 @@ class LessonLearned:
     derived_at:    str = ""
 
     @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> "LessonLearned":
+    def from_dict(cls, d: dict[str, Any]) -> LessonLearned:
         return cls(
             campaign_id=d.get("campaign_id", ""),
             campaign_name=d.get("campaign_name", ""),

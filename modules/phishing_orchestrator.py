@@ -31,14 +31,10 @@ Usage:
 
 from __future__ import annotations
 
-import base64
-import html as _html
 import json
-import os
 import random
 import smtplib
 import ssl
-import string
 import subprocess
 import time
 import uuid
@@ -463,7 +459,7 @@ acknowledge these changes.</p>
                 capture_output=True, text=True, timeout=15,
             )
             page_id = str(uuid.uuid4())[:8]
-            clone_path = SESSIONS_DIR / f"phishing_clones" / f"{page_id}.html"
+            clone_path = SESSIONS_DIR / "phishing_clones" / f"{page_id}.html"
             clone_path.parent.mkdir(parents=True, exist_ok=True)
 
             html = result.stdout

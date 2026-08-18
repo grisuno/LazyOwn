@@ -11,12 +11,10 @@ covert C2 communication.
 
 from __future__ import annotations
 
-import json
 import random
-import socket
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -82,7 +80,7 @@ class NetworkOpsecEngine:
         "thinkst",
     ]
 
-    def __init__(self, config: Optional[NetworkOpsecConfig] = None):
+    def __init__(self, config: NetworkOpsecConfig | None = None):
         self.config = config or NetworkOpsecConfig()
         self.active_proxies: list[str] = []
 
@@ -188,8 +186,8 @@ class NetworkOpsecEngine:
         Returns:
             Dict with traffic analysis results.
         """
-        import ssl
         import socket as sock
+        import ssl
 
         results: dict[str, Any] = {
             "target": f"{target_host}:{target_port}",
@@ -247,7 +245,7 @@ class NetworkOpsecEngine:
                 "dns.query.https(q, '{provider}')"
             ).format(provider=self.config.doh_provider),
             "systemd_resolved": [
-                f"echo 'DNSOverTLS=yes' >> /etc/systemd/resolved.conf",
+                "echo 'DNSOverTLS=yes' >> /etc/systemd/resolved.conf",
                 f"echo 'DNS={self.config.doh_provider}' >> /etc/systemd/resolved.conf",
             ],
             "fallback_providers": [

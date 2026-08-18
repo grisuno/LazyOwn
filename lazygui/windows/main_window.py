@@ -13,13 +13,10 @@ from collections.abc import Iterable
 from PySide6.QtCore import QByteArray, QSize, Qt, QTimer
 from PySide6.QtGui import QAction, QKeySequence
 from PySide6.QtWidgets import (
-    QHBoxLayout,
     QLabel,
     QMainWindow,
-    QSplitter,
     QStatusBar,
     QToolBar,
-    QVBoxLayout,
     QWidget,
 )
 
@@ -31,9 +28,9 @@ from lazygui.services.event_log import EventLog
 from lazygui.services.models import EventLevel, EventRecord, Operator
 from lazygui.theme.manager import ThemeManager
 from lazygui.theme.tokens import ThemeTokens
+from lazygui.widgets.beacon_command_modal import BeaconCommandModal
 from lazygui.widgets.command_palette_list import CommandPaletteAction
 from lazygui.widgets.status_badge import StatusBadge
-from lazygui.widgets.beacon_command_modal import BeaconCommandModal
 from lazygui.windows.command_palette_window import CommandPaletteWindow
 
 

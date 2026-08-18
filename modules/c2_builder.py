@@ -662,7 +662,7 @@ with open('sessions/beacon.enc', 'wb') as f:
             }
         with open(json_file, "w") as f:
             json.dump(short_urls, f, indent=2)
-        print_msg(f"Created entries in shorts urls")
+        print_msg("Created entries in shorts urls")
 
         # --- C2 server ---
         self.onecmd("create_session_json")

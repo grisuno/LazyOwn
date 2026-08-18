@@ -404,6 +404,7 @@ def phase_progress(world: dict[str, Any], sessions_dir: str = "sessions") -> dic
         A mapping of each :data:`PHASES` value to a completion ratio in [0, 1].
     """
     from modules.killchain import KillChain as _KC
+
     wm_path = Path(sessions_dir) / _WORLD_MODEL_NAME if sessions_dir else Path(_WORLD_MODEL)
     kc_progress = _KC.get_progress(world_model_path=wm_path)
     result: dict[str, float] = {}

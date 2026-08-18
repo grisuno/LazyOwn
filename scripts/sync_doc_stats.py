@@ -67,16 +67,10 @@ def _count_do_methods() -> int:
     sources = [REPO_ROOT / "lazyown.py"]
     commands_dir = REPO_ROOT / "cli" / "commands"
     if commands_dir.is_dir():
-        sources.extend(
-            path for path in sorted(commands_dir.glob("*.py")) if not path.name.startswith("_")
-        )
+        sources.extend(path for path in sorted(commands_dir.glob("*.py")) if not path.name.startswith("_"))
     for path in sources:
         tree = ast.parse(path.read_text(encoding="utf-8"))
-        total += sum(
-            1
-            for node in ast.walk(tree)
-            if isinstance(node, ast.FunctionDef) and node.name.startswith("do_")
-        )
+        total += sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("do_"))
     return total
 
 

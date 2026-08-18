@@ -27,8 +27,8 @@ from cli.recommendation import (
     KIND_ADDON,
     KIND_COMMAND,
     KIND_TOOL,
-    SOURCE_GRAPH,
     SOURCE_GAP,
+    SOURCE_GRAPH,
     SOURCE_KILLCHAIN,
     SOURCE_POLICY,
     SOURCE_RECON,
@@ -333,6 +333,7 @@ def build_context(
         limit=limit,
     )
 
+
 class PlaybookSignal:
     """Adapt APT playbook suggestions into concrete proposals.
 
@@ -363,11 +364,11 @@ class PlaybookSignal:
         if not available:
             return []
         proposals: list[Proposal] = []
-        for index, pb in enumerate(available[:ctx.limit]):
+        for index, pb in enumerate(available[: ctx.limit]):
             if not isinstance(pb, dict):
                 continue
             name = str(pb.get("name") or "").strip()
-            desc = str(pb.get("description") or "")[: _PLAYBOOK_DESCRIPTION_MAX]
+            desc = str(pb.get("description") or "")[:_PLAYBOOK_DESCRIPTION_MAX]
             if not name:
                 continue
             proposals.append(
@@ -430,40 +431,55 @@ class KillchainGapSignal:
                 continue
             os_hint = host.get("os_hint", "").lower()
             if "windows" in os_hint:
-                proposals.append(Proposal(
-                    action="winpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC,
-                    reason=f"Host {ip} has foothold but no privesc. Run winpeas.",
-                    category="privesc",
-                ))
+                proposals.append(
+                    Proposal(
+                        action="winpeas",
+                        kind=KIND_COMMAND,
+                        weight=_GAP_WEIGHT_PRIVESC,
+                        reason=f"Host {ip} has foothold but no privesc. Run winpeas.",
+                        category="privesc",
+                    )
+                )
             elif "linux" in os_hint:
-                proposals.append(Proposal(
-                    action="linpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC,
-                    reason=f"Host {ip} has foothold but no privesc. Run linpeas.",
-                    category="privesc",
-                ))
+                proposals.append(
+                    Proposal(
+                        action="linpeas",
+                        kind=KIND_COMMAND,
+                        weight=_GAP_WEIGHT_PRIVESC,
+                        reason=f"Host {ip} has foothold but no privesc. Run linpeas.",
+                        category="privesc",
+                    )
+                )
             else:
-                proposals.append(Proposal(
-                    action="linpeas", kind=KIND_COMMAND, weight=_GAP_WEIGHT_PRIVESC_UNKNOWN_OS,
-                    reason=f"Host {ip} has foothold but no privesc. Enumerate with linpeas/winpeas.",
-                    category="privesc",
-                ))
+                proposals.append(
+                    Proposal(
+                        action="linpeas",
+                        kind=KIND_COMMAND,
+                        weight=_GAP_WEIGHT_PRIVESC_UNKNOWN_OS,
+                        reason=f"Host {ip} has foothold but no privesc. Enumerate with linpeas/winpeas.",
+                        category="privesc",
+                    )
+                )
         return proposals
 
     def _gap_owned_no_creds(self, hosts: dict[str, dict], wm_data: dict) -> list[Proposal]:
         proposals: list[Proposal] = []
-        owned_ips = [ip for ip, h in hosts.items()
-                     if isinstance(h, dict) and h.get("state") == "owned"]
+        owned_ips = [ip for ip, h in hosts.items() if isinstance(h, dict) and h.get("state") == "owned"]
         if not owned_ips:
             return proposals
         credentials = wm_data.get("credentials", [])
         if credentials:
             return proposals
         for ip in owned_ips[:_GAP_OWNED_CRED_CAP]:
-            proposals.append(Proposal(
-                action="lazydump", kind=KIND_COMMAND, weight=_GAP_WEIGHT_CRED_DUMP,
-                reason=f"Host {ip} is owned but no credentials dumped. Run lazydump.",
-                category="cred",
-            ))
+            proposals.append(
+                Proposal(
+                    action="lazydump",
+                    kind=KIND_COMMAND,
+                    weight=_GAP_WEIGHT_CRED_DUMP,
+                    reason=f"Host {ip} is owned but no credentials dumped. Run lazydump.",
+                    category="cred",
+                )
+            )
         return proposals
 
     def _gap_scan_no_enum(self, hosts: dict[str, dict], recent: Sequence[str]) -> list[Proposal]:
@@ -477,11 +493,15 @@ class KillchainGapSignal:
             return proposals
         if run_set & _ENUM_COMMANDS:
             return proposals
-        proposals.append(Proposal(
-            action="gobuster", kind=KIND_COMMAND, weight=_GAP_WEIGHT_ENUM,
-            reason="Nmap scan exists but no enumeration done. Start with gobuster.",
-            category="enum",
-        ))
+        proposals.append(
+            Proposal(
+                action="gobuster",
+                kind=KIND_COMMAND,
+                weight=_GAP_WEIGHT_ENUM,
+                reason="Nmap scan exists but no enumeration done. Start with gobuster.",
+                category="enum",
+            )
+        )
         return proposals
 
     def _gap_creds_no_lateral(self, wm_data: dict, hosts: dict[str, dict]) -> list[Proposal]:
@@ -496,11 +516,15 @@ class KillchainGapSignal:
         )
         if has_lateral:
             return proposals
-        proposals.append(Proposal(
-            action="crackmapexec", kind=KIND_COMMAND, weight=_GAP_WEIGHT_LATERAL,
-            reason="Credentials captured but no lateral movement. Test with crackmapexec.",
-            category="lateral",
-        ))
+        proposals.append(
+            Proposal(
+                action="crackmapexec",
+                kind=KIND_COMMAND,
+                weight=_GAP_WEIGHT_LATERAL,
+                reason="Credentials captured but no lateral movement. Test with crackmapexec.",
+                category="lateral",
+            )
+        )
         return proposals
 
 
@@ -532,39 +556,45 @@ class GraphTopologySignal:
                 if graph_data:
                     candidates = self._compute_centrality(graph_data)
 
-            for index, candidate in enumerate(candidates[:ctx.limit]):
+            for _index, candidate in enumerate(candidates[: ctx.limit]):
                 node = candidate.get("node", "")
                 centrality = candidate.get("centrality", 0.0)
                 neighbors = candidate.get("neighbors", [])
 
                 if "host:" in node:
                     target_ip = node.replace("host:", "")
-                    proposals.append(Proposal(
-                        action=f"crackmapexec smb {target_ip}",
-                        kind=KIND_COMMAND,
-                        weight=min(centrality * _TOPOLOGY_HOST_MULTIPLIER, 1.0),
-                        reason=f"High-centrality pivot host {target_ip} (deg={centrality:.2f}, {len(neighbors)} neighbors)",
-                        category="lateral",
-                        command_preview=f"crackmapexec smb {target_ip}",
-                    ))
+                    proposals.append(
+                        Proposal(
+                            action=f"crackmapexec smb {target_ip}",
+                            kind=KIND_COMMAND,
+                            weight=min(centrality * _TOPOLOGY_HOST_MULTIPLIER, 1.0),
+                            reason=f"High-centrality pivot host {target_ip} (deg={centrality:.2f}, {len(neighbors)} neighbors)",
+                            category="lateral",
+                            command_preview=f"crackmapexec smb {target_ip}",
+                        )
+                    )
                 elif "cred:" in node:
                     cred_prefix = node.replace("cred:", "")
-                    proposals.append(Proposal(
-                        action="credential_spray",
-                        kind=KIND_COMMAND,
-                        weight=min(centrality * _TOPOLOGY_CRED_MULTIPLIER, 1.0),
-                        reason=f"Credential {cred_prefix} authenticates to multiple hosts — spray",
-                        category="lateral",
-                    ))
+                    proposals.append(
+                        Proposal(
+                            action="credential_spray",
+                            kind=KIND_COMMAND,
+                            weight=min(centrality * _TOPOLOGY_CRED_MULTIPLIER, 1.0),
+                            reason=f"Credential {cred_prefix} authenticates to multiple hosts — spray",
+                            category="lateral",
+                        )
+                    )
                 elif "service:" in node:
                     svc_name = node.replace("service:", "")
-                    proposals.append(Proposal(
-                        action=f"enum_{svc_name}",
-                        kind=KIND_TOOL,
-                        weight=min(centrality, 1.0),
-                        reason=f"Service {svc_name} is a network hub (deg={centrality:.2f}) — enumerate for lateral paths",
-                        category="enum",
-                    ))
+                    proposals.append(
+                        Proposal(
+                            action=f"enum_{svc_name}",
+                            kind=KIND_TOOL,
+                            weight=min(centrality, 1.0),
+                            reason=f"Service {svc_name} is a network hub (deg={centrality:.2f}) — enumerate for lateral paths",
+                            category="enum",
+                        )
+                    )
         except Exception as exc:
             _log.debug("Topology signal failed: %s", exc)
         return proposals
@@ -592,13 +622,15 @@ class GraphTopologySignal:
             out_deg, out_nbrs = adjacency.get(node, (0, []))
             in_deg = sum(1 for r in relations if r.get("target") == node)
             centrality = round((in_deg + out_deg) / denominator, 4) if denominator > 0 else 0.0
-            results.append({
-                "node": node,
-                "centrality": centrality,
-                "out_degree": out_deg,
-                "in_degree": in_deg,
-                "neighbors": out_nbrs[:_TOPOLOGY_NEIGHBOR_CAP],
-            })
+            results.append(
+                {
+                    "node": node,
+                    "centrality": centrality,
+                    "out_degree": out_deg,
+                    "in_degree": in_deg,
+                    "neighbors": out_nbrs[:_TOPOLOGY_NEIGHBOR_CAP],
+                }
+            )
         results.sort(key=lambda x: -x["centrality"])
         return results
 
@@ -607,6 +639,7 @@ def _try_build_playbook_signal() -> PlaybookSignal | None:
     """Build a :class:`PlaybookSignal` when the APT playbook engine imports."""
     try:
         from modules.apt_playbooks import AptPlaybookEngine
+
         return PlaybookSignal(AptPlaybookEngine())
     except Exception as exc:
         _log.debug("Playbook signal unavailable: %s", exc)

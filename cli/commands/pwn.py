@@ -6,19 +6,17 @@ exploit_chain, stealth.
 
 from __future__ import annotations
 
-import json
-import os
 from pathlib import Path
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
+    exploitation_category,
+    miscellaneous_category,
     print_error,
     print_msg,
     print_warn,
-    miscellaneous_category,
-    exploitation_category,
 )
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -90,7 +88,9 @@ class PwnCommandSet(LazyOwnCommandSet):
         success = [e for e in exploits if e.get("success")]
         shell = [e for e in exploits if e.get("shell_obtained")]
         shell_flag = result.get("shell_obtained", False)
-        print_msg(f"\n  [+] DONE  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}")
+        print_msg(
+            f"\n  [+] DONE  exploits={len(exploits)}  success={len(success)}  shells={len(shell)}  shell={'YES' if shell_flag else 'no'}"
+        )
         if shell_flag and result.get("best_session_id"):
             print_msg(f"  [+] Session: {result.get('best_session_id')}", flush=True)
 
@@ -156,10 +156,7 @@ class PwnCommandSet(LazyOwnCommandSet):
         """
         try:
             from modules.ai_exploit_chain import AIExploitChainer, ExploitChainContext
-            from modules.autonomous_exploit_engine import (
-                AutonomousExploitEngine,
-                TargetProfile,
-            )
+            from modules.autonomous_exploit_engine import AutonomousExploitEngine
         except ImportError as exc:
             print_error(f"Failed to load exploit chain modules: {exc}")
             return
@@ -179,7 +176,16 @@ class PwnCommandSet(LazyOwnCommandSet):
             profile=profile,
             attempted=[],
             available_strategies=chainer.build_chain_plan(
-                ExploitChainContext(target=target, profile=profile, attempted=[], available_strategies=[], failed_strategies=[], success_strategies=[], current_phase="recon", chain_score=0.0)
+                ExploitChainContext(
+                    target=target,
+                    profile=profile,
+                    attempted=[],
+                    available_strategies=[],
+                    failed_strategies=[],
+                    success_strategies=[],
+                    current_phase="recon",
+                    chain_score=0.0,
+                )
             ),
             failed_strategies=[],
             success_strategies=[],
@@ -190,12 +196,14 @@ class PwnCommandSet(LazyOwnCommandSet):
         plan = chainer.build_chain_plan(ctx)
         print_msg(f"[*] AI Exploit Chain plan for {target}:")
         for step in plan:
-            print_msg(f"    Phase: {step.get('phase', '?')} | Strategy: {step.get('strategy', '?')} | Confidence: {step.get('confidence', 0):.0%}")
+            print_msg(
+                f"    Phase: {step.get('phase', '?')} | Strategy: {step.get('strategy', '?')} | Confidence: {step.get('confidence', 0):.0%}"
+            )
 
         max_steps = min(len(plan), 8)
         for i, step in enumerate(plan[:max_steps]):
             strategy = step.get("strategy", "direct")
-            print_msg(f"\n[*] Step {i+1}/{max_steps}: {strategy}")
+            print_msg(f"\n[*] Step {i + 1}/{max_steps}: {strategy}")
 
             candidate = chainer.reason(ctx)
             if candidate is None:
@@ -240,8 +248,13 @@ class PwnCommandSet(LazyOwnCommandSet):
             return
 
         import yaml
+
         for plugin_file in sorted(PLUGINS_DIR.glob("*.yaml")):
-            if "bypass" not in plugin_file.stem and "obfuscation" not in plugin_file.stem and "reflection" not in plugin_file.stem:
+            if (
+                "bypass" not in plugin_file.stem
+                and "obfuscation" not in plugin_file.stem
+                and "reflection" not in plugin_file.stem
+            ):
                 continue
             try:
                 data = yaml.safe_load(plugin_file.read_text())
@@ -251,13 +264,15 @@ class PwnCommandSet(LazyOwnCommandSet):
             if filter_cat != "all" and filter_cat not in cat.lower() and filter_cat not in plugin_file.stem.lower():
                 continue
             for tech in data.get("techniques", []):
-                techniques.append({
-                    "plugin": plugin_file.stem,
-                    "name": tech.get("name", ""),
-                    "description": tech.get("description", ""),
-                    "requires_admin": tech.get("requires_admin", False),
-                    "platforms": data.get("platforms", []),
-                })
+                techniques.append(
+                    {
+                        "plugin": plugin_file.stem,
+                        "name": tech.get("name", ""),
+                        "description": tech.get("description", ""),
+                        "requires_admin": tech.get("requires_admin", False),
+                        "platforms": data.get("platforms", []),
+                    }
+                )
 
         if not techniques:
             print_warn(f"No LOLBAS techniques found matching '{filter_cat}'.")
@@ -298,6 +313,7 @@ class PwnCommandSet(LazyOwnCommandSet):
             return
 
         import yaml
+
         try:
             data = yaml.safe_load(plugin_path.read_text())
         except Exception as exc:
@@ -337,6 +353,7 @@ class PwnCommandSet(LazyOwnCommandSet):
         print_msg(f"[*] Executing: {resolved_cmd[:200]}")
 
         import subprocess
+
         try:
             result = subprocess.run(
                 resolved_cmd,
@@ -371,6 +388,7 @@ class PwnCommandSet(LazyOwnCommandSet):
         self.params["stealth_mode"] = level
         try:
             from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
             engine = AutonomousExploitEngine.get_instance()
             config = engine.enable_stealth(level)
             print_msg(f"[*] Stealth mode: {level}")
@@ -386,6 +404,7 @@ class PwnCommandSet(LazyOwnCommandSet):
         self.params["stealth_mode"] = "off"
         try:
             from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
             engine = AutonomousExploitEngine.get_instance()
             engine.enable_stealth("low")
         except Exception:

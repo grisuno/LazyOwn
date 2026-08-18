@@ -29,7 +29,7 @@ from typing import Any
 log = logging.getLogger(__name__)
 
 try:
-    import numpy as np
+    import numpy as np  # noqa: F401
     import pandas as pd
     _PANDAS_OK = True
 except ImportError:
@@ -81,7 +81,7 @@ def _parse_scope(name: str) -> str:
 
 
 def _parse_complexity(command: str) -> str:
-    lines = [l for l in str(command).splitlines() if l.strip()]
+    lines = [line for line in str(command).splitlines() if line.strip()]
     n = len(lines)
     if n >= _COMPLEXITY_HIGH:
         return "high"

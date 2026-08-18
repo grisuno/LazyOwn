@@ -71,74 +71,74 @@
     "cli/commands/supply_chain.py"
   ],
   "source_sha256": {
-    "lazyown.py": "42bc3620d0b952a014ef3fc6dcc765632cf27254d1e697b979eae36297934131",
-    "cli/commands/active_directory.py": "a699e1292a49cf3448a42c5a9fba337f5671106ee12cda66cbdea035432d7786",
-    "cli/commands/ai.py": "38655ab074273a4a2d0a4e8770d253adf4b99ceef93fc273bcdfcdbc0be5c665",
-    "cli/commands/anti_forensics.py": "be69578c113e1e4a940945c11ccf863ccc501af96a9cfab91e87ab82cceeb937",
-    "cli/commands/applocker_bypass.py": "eb4eec4563e4967d739bcbb93a859aa1fe5e52599e7797215bbede3a2b47d084",
+    "lazyown.py": "192cad972a835bd0acff6486d7a63feabe15a8827f0fe9f1bbd05d0dc0f6df5a",
+    "cli/commands/active_directory.py": "37c6332360d53dbe30c0bc12bdf838ee0dbde424e1a23aad1a1b507ab46f3166",
+    "cli/commands/ai.py": "5be17a68e11d464e65a068f5ee821e517b7c37c9954c61640e25a80ff380be2f",
+    "cli/commands/anti_forensics.py": "0484da55c35f4b57f630d5b03d7390cd9576e422b84164deab28843c988a07bd",
+    "cli/commands/applocker_bypass.py": "b8338d5a39be0d9424409d9e5e2dc83f966a1ec4bf829bdf380c471fcea7ec40",
     "cli/commands/audit.py": "f374f86060903ce1ca64333f191ee9a68f05588aa064e8fe02c18e2e5240d47b",
-    "cli/commands/automation.py": "907d3322a052c5c32b66a1bf84a9ca06fca94cf02137301f0eeb3b730ba5c252",
-    "cli/commands/bitm.py": "1644c3610c2b8dd41cadb0a3738b16da6871fdf2ce7da3b5334698847a2af0fb",
-    "cli/commands/bof_registry.py": "3513fffaf6e4bf76ae0a992b1b2b702bcd5ebba89f930bdeb1b71000be7c9c84",
-    "cli/commands/c2_profile.py": "e7240ad99da63c503a893b39a203d72b012e541a9de8fa53ddae9f080eecfba6",
-    "cli/commands/caldera.py": "537ea738a49d15dd74dfd9918e856082f4bcd4eb2c8d7c17750315e42eecd366",
-    "cli/commands/campaign.py": "0cd175c925bdf5e01eca1ce6eecd48a2422676715ce470d67de1a3dd9089d8fa",
-    "cli/commands/cicd.py": "1d62290650b104edc2138979ea477b9ece48f63839e2322952f37ef9ff975403",
-    "cli/commands/cli_auth.py": "816d152fd460119fbf8bea9af29dc3eded97229e397843e1667cd8f3443c7904",
-    "cli/commands/cloud.py": "44889e4a596e93511542da7682bbc547c52897b88a545b952e80dde02b150979",
-    "cli/commands/cloud_attacks.py": "f5273172469a0598ef581fc331934c0bd51a9fbe6b1929719ebb7daf6ac365f4",
-    "cli/commands/collaboration.py": "585b4354c101c396461a836dda5353398ad7ae3fd8056c205f30b30e3d0a20e9",
-    "cli/commands/command_and_control.py": "c7807d28e229e6b2c4f439f6c63612e246b0076498340b0df8f61d0ea072915d",
+    "cli/commands/automation.py": "51886ed2711529c4c5cc0372b4b67ce30f4f6ea3f65be5e2ffe3fbfcdc1c0ff7",
+    "cli/commands/bitm.py": "254d77ee1ff099769a0639f90c25e2e9329b74624341cb52849c64fde65880cc",
+    "cli/commands/bof_registry.py": "6f2b7c601103df78a373812c97374c804ae9b3fb365cbd7a309fa44dcbc8e4f2",
+    "cli/commands/c2_profile.py": "7dabe5e299e81deaf6ceab5930e7c5ca22302f7edfe07906bc9d059c72294b07",
+    "cli/commands/caldera.py": "a3e4c78b02bcc84d14f42a7f688401565a3b8246b81239fc4f65d8c6711951ce",
+    "cli/commands/campaign.py": "36faf3db903c479defad01954d588bd33cc473b832b8a0bf3128b0a80487ca6c",
+    "cli/commands/cicd.py": "475cfb7f35fabc9a8768ae69bc52ee266f463902fb75b56e4b1ea3287ef874dd",
+    "cli/commands/cli_auth.py": "96a824c854dbda87367397e555431f1b19afcb34eb2e54d73064b73a3453e519",
+    "cli/commands/cloud.py": "1054a78500ce0a78655889589fc4b60be7a9372e5238f79d9b63175fc695cb44",
+    "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
+    "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
+    "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
     "cli/commands/command_and_control_migrated.py": "d229c1b52fbb089c6506f38062c82353d4327dd772e5514c4b14f152dd1e62d0",
-    "cli/commands/containers.py": "0c7c14e3ec8e3b449a2e87432d82533e5aacdb8dd66d77b604218e0af300be06",
+    "cli/commands/containers.py": "568632938ed52ae040b94c031bb5d653ddc103f42221e9e3da5023e08765d2b0",
     "cli/commands/cred.py": "ec230e5bc167bbb40c58dbd8dbdf0c9e9a3da1fde773345167f1bd357b2ed054",
     "cli/commands/cred_migrated.py": "a8c53ba41904ea52666c202fa683fc67e8b8ed210fc3669cafc36da5e5dfd801",
-    "cli/commands/crystal_ball.py": "c1521a5cd88c1f7e6309b916b88e288508ad9bedcc8769d636c3b8b230082161",
-    "cli/commands/database.py": "8858b9634e06235884f5b18cc65a733daf51a0b1af4c2803de8b71bfe50efd2d",
+    "cli/commands/crystal_ball.py": "2a8849f7155c42704d1fe3ae777f109b1e4dc1d1fb2fd0d99e459c008231fe35",
+    "cli/commands/database.py": "b32e6e43c57978706dea0dc7552c454057be85aa0077ba9ef5392c1fe7d756fc",
     "cli/commands/diagnostics.py": "34bb5b9aad97539669cfeeaeaf0400c978d8eb92e1a3e044de00f076677cceca",
-    "cli/commands/dns_exfil.py": "27e8b76ebe3f6499adac6d828d27a00623aa922d1aaa6c6e5a9d1add622c08e3",
-    "cli/commands/dpapi.py": "de6e8fa9ecece0baa6dd9066ec9ed19106d7ffcc573dbc16f2c52b7e77dff9fe",
-    "cli/commands/edr_detect.py": "0a0cee8461f9374c3c522366dcbe4f2be30af445e3fa4e4e7aa936dbbf05de9c",
+    "cli/commands/dns_exfil.py": "2f16e44eff16af5180e8021ee128b168521881913c591bd840a84c2a99b5ae0e",
+    "cli/commands/dpapi.py": "77336f297f732a628c6f7f1b116632b0108d4fc914e8a23b1e9cb4225ba21ba8",
+    "cli/commands/edr_detect.py": "bf4950ddb62228f63fed84fee5b5662051f1230229dfea642ec03269a85775e6",
     "cli/commands/enum.py": "87d2d1fc4abcfb4483a0e87827ecee632bba9574cfe3306a35d4c863c234760d",
-    "cli/commands/estorides.py": "0c497f0866936db751ecb010c5c546e6d8a335a922bebeee3baf155672292b36",
-    "cli/commands/evasive_payload.py": "0a945bb45e36d1d22d44bbe72c0b273adb12126a37efb8dfc0173a7b01fb54d8",
-    "cli/commands/exfiltration.py": "65fb2c26ca1121cddecff5034c278562dfaf13b4c089ccaefa270cc908f85c5a",
+    "cli/commands/estorides.py": "248418fe22b4a6e811f3acfdc884e810a7de80ed347cc800398ee1db0c4f1a1c",
+    "cli/commands/evasive_payload.py": "2a5b7919ce2c665bdf4fdaf43681704c11b7e794c2944d18b76aedc9ed754e0b",
+    "cli/commands/exfiltration.py": "dea1db1f95399922a39203ff09834ab42650207d7ef982a8d27ca2f986dc58cf",
     "cli/commands/exploit.py": "008a79702a5adb4e26736a369fe52508dfb02932bc8e4971f5017e88d27567a7",
     "cli/commands/exploit_migrated.py": "b7e442a7dc6c8a671ee1075ab059a05156aebf712719fb8e18ad3b424da2ea69",
-    "cli/commands/lab.py": "c86fc69599bf4faefb25169c0cf29468cff6fd20b9c8fe8faed141c4ebb06507",
+    "cli/commands/lab.py": "594928d573fe819dc76e1725c3b58701ff06a120a7c7461aac559f1a55cb4834",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "758be1f85d6a73c19fddfc6abec1069f1a5d9d4834c04349936d671867479bff",
-    "cli/commands/marketplace.py": "60df6ff947fe4617bd4122635eba5d850b19ea9456054af4ac7a2132f7330c2d",
-    "cli/commands/mcp_bridge.py": "88a0d4f25112364491201cbea0420e2258502073ff4fff9d3f63f0141a2ad8e9",
+    "cli/commands/marketplace.py": "2a1041703f5c89ab4e48f206a5d0bf9d4ccdb802c95bb059dd685c9e053734d5",
+    "cli/commands/mcp_bridge.py": "160504537463897d74d8c93e2d2b22a69537f661d75d2cca64f2feb012ad2a7e",
     "cli/commands/misc_migrated.py": "4251a0c5bf2bcb236d093a610df99b29aa5cc59a3c1d26ed0b796b886277bc10",
-    "cli/commands/mobile_macos.py": "4c1926b784a2d18a46d97a4a5efe1e3a00d4890f6ca1445c2d09edae427ab478",
-    "cli/commands/module_manager.py": "181bcbb971745ad3a506a39c69989cb69145a2a2172ad9cd3672c4b3e1c23d81",
-    "cli/commands/opsec_cleanup.py": "2525e087afa7d9e5ce07cc2ff985aed675cd4b19238ec406db1b39ebe4aca4c9",
+    "cli/commands/mobile_macos.py": "be24548feadaaf9db4387d160d11ffce2049bef3c7e8ff6aeb19860d6d9ca7fa",
+    "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
+    "cli/commands/opsec_cleanup.py": "ffd2dc1235b36805ad8330466a3183bc7f3611b5911d449ced381bb85f9119f3",
     "cli/commands/orchestration.py": "4b2dba308dfec1d7d14d7335ff4a05d9ca975488423aa7f42166de68e4c830b0",
-    "cli/commands/payload_arsenal.py": "7f035820c0ed0c47c09d69d3d5d044565e31cda05f582a588be265c20cdb4681",
+    "cli/commands/payload_arsenal.py": "194cb64b3a2aea266ebc4a5312fc49710a173f174e822940870b914142a7bf92",
     "cli/commands/payload_generation.py": "21682bd07aa0915faf5c2657bdd810e09601817c57f6aa1417738a7b7372f242",
-    "cli/commands/persist.py": "f2e7edb25e8e9b87c87dd5915477b7a9f597e4d8ecaebb6d385c7453477d1c65",
+    "cli/commands/persist.py": "890f81693f4cf2910b1733348c9ad11b20db1276e65665560a19102981917e47",
     "cli/commands/persist_migrated.py": "3a1a67dffc068584e18b0cdf5a605db275bb14c14883aac36382351055b09783",
-    "cli/commands/phishing_wizard.py": "001a31cbbf61865033e703214ad9d1ca27ec3ff7ff47dc4c10d14bc968cea185",
-    "cli/commands/pivoting.py": "d28f51dff062bde21b3c8c377ecb053d0aff793a985fd4e8d79bdeec6db03249",
+    "cli/commands/phishing_wizard.py": "3fd19734fb0f8dceeb6f9423ff768217b308531a1fb01cef9532254907278a2a",
+    "cli/commands/pivoting.py": "ae388cd84a37e1a44cc9312108c64a82ee6e8b253a0777690ceead45bbacc3d9",
     "cli/commands/postexp.py": "74d90e8a841532ca7ad19ebbc7c2090989f50b735b78624b34d03bbdc87804c6",
     "cli/commands/postexp_migrated.py": "a461875d6248943b11186997e812d494ed23682ed409abf3b862c9e0f68e9ead",
-    "cli/commands/privilege_escalation.py": "7400997a3d1e3e2a62ffa692baf834ebeb39636784a7dfab2fc7769c23358125",
-    "cli/commands/pwn.py": "d1a6def05ece861e4eceba750b2303bc5c2bdf39736ddc8a3d4d0ea7d498cf59",
-    "cli/commands/recon.py": "17132342a83a7ab09f30c754f347a46e8ffdac1ff125fa6d459d297533cda046",
+    "cli/commands/privilege_escalation.py": "0ea9231ffb06a6993eea66a2582c609661455410e4d6f099caf4982cd0b7fb3f",
+    "cli/commands/pwn.py": "410730fdad3be8dfc7375e200af53454f52ca07948fa89880c5ce7ed709f21b7",
+    "cli/commands/recon.py": "da8e0f5d27af385c8fc299d18aac8ad89466b29b0dc6efb13553ae01dadc2349",
     "cli/commands/recon_migrated.py": "445dcb68451bcc40497eb962b5f4390ce5e00e6fa9f0545c5d94170f371da13c",
-    "cli/commands/redteam_gym.py": "c5d3cd5c0e7b3d7363bcadd53cbe2217b23ff26a9cf81642333f2e156a2ee7d5",
+    "cli/commands/redteam_gym.py": "22b381e84675516b594fe53120eb29919e80b90e22b461bde15546d9859ed393",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
-    "cli/commands/report_enhanced.py": "f752fa22b143ff77659ef905b29d7f06bfe513656f58e2cdfd14723e02f3709f",
+    "cli/commands/report_enhanced.py": "93a5676fcc5f7069bb983a6fc2035f7e6f1a4014b1b284e2a0e676e175215563",
     "cli/commands/report_migrated.py": "a177cb9fef4e1c3ced2b9344af00ddad2a291ba4b2201c5cc91fd7b5f6e26c55",
-    "cli/commands/reporting.py": "33af3ecedd3f0159230494ad7970c064fa0a04345b0df9c0a086ae84f64dd570",
-    "cli/commands/resource_scripting.py": "7231a5766e992321a70c551d836666d3328fa8b22d5dc363e348cd4df8e86379",
+    "cli/commands/reporting.py": "a16780bbcffb4105e8c3d47c6ce3a16a4079311ca45af0369b97ffb7fe47a34b",
+    "cli/commands/resource_scripting.py": "d5ae946b5a429043c6fe4e781fd6f14eed3b7d3bf8bb650595e8bb1c40a44bba",
     "cli/commands/scan.py": "1b747af884eaa9dfa950bc8625517667448456dce9bc2b901ea2b8476e50a0d9",
     "cli/commands/scan_migrated.py": "fe3bef9a039e26905e089c710865b77dab721f530deb074ea1d83514fec45d99",
-    "cli/commands/security.py": "9f737ecc2c7c20e9244c5b511af1988270ca08b8eb124407579a8f8a265dbcfe",
-    "cli/commands/sleep_obfuscation.py": "6b20123e6f855196bf3c4df38e7c50dbdd830fc13106e03d1db624150e440eaa",
-    "cli/commands/socks_proxy.py": "74c8d9b916c2f48d59b1f0c1ce844b7dfcb745b33fcc550995c5a530ba0a6124",
-    "cli/commands/supply_chain.py": "dbd618c610a43dc7d8a4fd7b64815ecee90519bb1433348d42138d6a29d765f9"
+    "cli/commands/security.py": "f41bf9c271f382ff7babbeea9529b27a68a1d69c8b9b79a6b7a6bec32e4c0bb9",
+    "cli/commands/sleep_obfuscation.py": "5f2a212857eb38a2e9143f8498d54d7b35f7d8f92ad0a0cf40830b2151adedde",
+    "cli/commands/socks_proxy.py": "e99a7a2b9659faa77c93932118fcd4798ca09fbacc85a69c4e01046cc098dc1f",
+    "cli/commands/supply_chain.py": "a9f97411e937e90f9ea87f3ba10853f6dc0ae4500a086babe256224206efdc2f"
   },
   "totals": {
     "method_definitions": 728,
@@ -1546,12 +1546,12 @@
       "name": "do_POST",
       "occurrences": [
         {
-          "line": 232,
+          "line": 228,
           "source_file": "cli/commands/dns_exfil.py",
           "class_name": "ExfilHandler"
         },
         {
-          "line": 372,
+          "line": 400,
           "source_file": "cli/commands/phishing_wizard.py",
           "class_name": "PhishingHandler"
         }
@@ -1561,7 +1561,7 @@
   "commands": [
     {
       "name": "do_kerberos_ticket",
-      "line": 26,
+      "line": 24,
       "summary": "Forge Kerberos tickets for persistence and lateral movement.",
       "category": null,
       "phase": "uncategorized",
@@ -1572,7 +1572,7 @@
     },
     {
       "name": "do_delegation_enum",
-      "line": 135,
+      "line": 139,
       "summary": "Enumerate Kerberos delegation configurations.",
       "category": null,
       "phase": "uncategorized",
@@ -1583,7 +1583,7 @@
     },
     {
       "name": "do_delegation_attack",
-      "line": 171,
+      "line": 175,
       "summary": "Display computed delegation attack paths with exploitation commands.",
       "category": null,
       "phase": "uncategorized",
@@ -1594,7 +1594,7 @@
     },
     {
       "name": "do_dacl_abuse",
-      "line": 195,
+      "line": 199,
       "summary": "Enumerate and exploit dangerous AD DACL/SACL entries.",
       "category": null,
       "phase": "uncategorized",
@@ -1605,7 +1605,7 @@
     },
     {
       "name": "do_gpo_abuse",
-      "line": 229,
+      "line": 233,
       "summary": "Enumerate and exploit Group Policy Objects.",
       "category": null,
       "phase": "uncategorized",
@@ -1616,7 +1616,7 @@
     },
     {
       "name": "do_kerberoast",
-      "line": 272,
+      "line": 277,
       "summary": "Advanced Kerberoasting — AES-only mode, targeted SPN enumeration.",
       "category": null,
       "phase": "uncategorized",
@@ -1627,7 +1627,7 @@
     },
     {
       "name": "do_adcs_esc",
-      "line": 319,
+      "line": 324,
       "summary": "Check Active Directory Certificate Services for ESC1-ESC13 vulnerabilities.",
       "category": null,
       "phase": "uncategorized",
@@ -1649,7 +1649,7 @@
     },
     {
       "name": "do_groq",
-      "line": 147,
+      "line": 148,
       "summary": "Send a prompt to the Groq API using the configured ``api_key``.",
       "category": null,
       "phase": "uncategorized",
@@ -1660,7 +1660,7 @@
     },
     {
       "name": "do_ai_playbook",
-      "line": 167,
+      "line": 168,
       "summary": "Generate an offensive playbook from Nmap CSV + KB + Ollama.",
       "category": null,
       "phase": "uncategorized",
@@ -1671,7 +1671,7 @@
     },
     {
       "name": "do_ai_toggle",
-      "line": 274,
+      "line": 275,
       "summary": "Toggle the in-process AI assistant on or off.",
       "category": null,
       "phase": "uncategorized",
@@ -1682,7 +1682,7 @@
     },
     {
       "name": "do_llm_budget",
-      "line": 291,
+      "line": 292,
       "summary": "Show the LLM daily cost budget, per call token cap, and current spend.",
       "category": null,
       "phase": "uncategorized",
@@ -1693,7 +1693,7 @@
     },
     {
       "name": "do_wipe_logs",
-      "line": 37,
+      "line": 35,
       "summary": "Clear system log files on the remote target.",
       "category": null,
       "phase": "uncategorized",
@@ -1715,7 +1715,7 @@
     },
     {
       "name": "do_shred",
-      "line": 132,
+      "line": 128,
       "summary": "Securely delete files by overwriting before removal.",
       "category": null,
       "phase": "uncategorized",
@@ -1726,7 +1726,7 @@
     },
     {
       "name": "do_wipe_free",
-      "line": 176,
+      "line": 172,
       "summary": "Wipe free disk space to prevent forensic file recovery.",
       "category": null,
       "phase": "uncategorized",
@@ -1737,7 +1737,7 @@
     },
     {
       "name": "do_clean_ad",
-      "line": 204,
+      "line": 200,
       "summary": "Clear Active Directory event logs and cached Kerberos tickets.",
       "category": null,
       "phase": "uncategorized",
@@ -1748,7 +1748,7 @@
     },
     {
       "name": "do_cover_tracks",
-      "line": 253,
+      "line": 249,
       "summary": "Run all anti-forensics operations in sequence.",
       "category": null,
       "phase": "uncategorized",
@@ -1770,7 +1770,7 @@
     },
     {
       "name": "do_applocker_msbuild",
-      "line": 142,
+      "line": 146,
       "summary": "Generate an MSBuild.exe AppLocker bypass payload.",
       "category": null,
       "phase": "uncategorized",
@@ -1781,7 +1781,7 @@
     },
     {
       "name": "do_applocker_regsvcs",
-      "line": 169,
+      "line": 173,
       "summary": "Generate a Regsvcs.exe/Regasm.exe AppLocker bypass payload.",
       "category": null,
       "phase": "uncategorized",
@@ -1792,7 +1792,7 @@
     },
     {
       "name": "do_applocker_csc",
-      "line": 201,
+      "line": 209,
       "summary": "Generate a csc.exe compile-and-execute AppLocker bypass.",
       "category": null,
       "phase": "uncategorized",
@@ -1803,7 +1803,7 @@
     },
     {
       "name": "do_applocker_mshta",
-      "line": 230,
+      "line": 240,
       "summary": "Generate an mshta.exe AppLocker bypass payload.",
       "category": null,
       "phase": "uncategorized",
@@ -1814,7 +1814,7 @@
     },
     {
       "name": "do_applocker_rundll32",
-      "line": 259,
+      "line": 269,
       "summary": "Generate a rundll32.exe AppLocker bypass via SCT scriptlet.",
       "category": null,
       "phase": "uncategorized",
@@ -1825,7 +1825,7 @@
     },
     {
       "name": "do_applocker_presentation",
-      "line": 288,
+      "line": 298,
       "summary": "Generate a PresentationHost.exe AppLocker bypass reference.",
       "category": null,
       "phase": "uncategorized",
@@ -1924,7 +1924,7 @@
     },
     {
       "name": "do_hooks_list",
-      "line": 75,
+      "line": 76,
       "summary": "List all conditional hook rules.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -1935,7 +1935,7 @@
     },
     {
       "name": "do_hooks_enable",
-      "line": 100,
+      "line": 99,
       "summary": "Enable or disable a hook rule.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -1957,7 +1957,7 @@
     },
     {
       "name": "do_hooks_remove",
-      "line": 147,
+      "line": 148,
       "summary": "Remove a hook rule by name.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -1968,7 +1968,7 @@
     },
     {
       "name": "do_hooks_fire",
-      "line": 168,
+      "line": 170,
       "summary": "Manually fire a hook event for testing.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -1979,7 +1979,7 @@
     },
     {
       "name": "do_operators",
-      "line": 197,
+      "line": 200,
       "summary": "List all operator profiles.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -1990,7 +1990,7 @@
     },
     {
       "name": "do_operator_create",
-      "line": 223,
+      "line": 227,
       "summary": "Create a new operator profile.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2001,7 +2001,7 @@
     },
     {
       "name": "do_operator_load",
-      "line": 257,
+      "line": 262,
       "summary": "Load effective config for an operator (team baseline + overrides).",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2012,7 +2012,7 @@
     },
     {
       "name": "do_operator_delete",
-      "line": 285,
+      "line": 290,
       "summary": "Delete an operator profile.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2023,7 +2023,7 @@
     },
     {
       "name": "do_hooks",
-      "line": 306,
+      "line": 312,
       "summary": "Conditional hooks management — list, enable, disable, add, remove rules.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2034,7 +2034,7 @@
     },
     {
       "name": "do_bitm",
-      "line": 35,
+      "line": 31,
       "summary": "Browser-in-the-Middle attack manager.",
       "category": "08. Lateral Movement",
       "phase": "lateral",
@@ -2045,7 +2045,7 @@
     },
     {
       "name": "do_bof_search",
-      "line": 136,
+      "line": 141,
       "summary": "Search the BOF catalog by keyword.",
       "category": null,
       "phase": "uncategorized",
@@ -2056,7 +2056,7 @@
     },
     {
       "name": "do_bof_info",
-      "line": 157,
+      "line": 162,
       "summary": "Show detailed information about a BOF.",
       "category": null,
       "phase": "uncategorized",
@@ -2067,7 +2067,7 @@
     },
     {
       "name": "do_bof_install",
-      "line": 190,
+      "line": 195,
       "summary": "Install and compile a BOF, staging it for beacon delivery.",
       "category": null,
       "phase": "uncategorized",
@@ -2078,7 +2078,7 @@
     },
     {
       "name": "do_bof_run",
-      "line": 220,
+      "line": 225,
       "summary": "Execute a BOF on a connected beacon.",
       "category": null,
       "phase": "uncategorized",
@@ -2089,7 +2089,7 @@
     },
     {
       "name": "do_bof_uninstall",
-      "line": 261,
+      "line": 266,
       "summary": "Uninstall a BOF and remove its staged file.",
       "category": null,
       "phase": "uncategorized",
@@ -2100,7 +2100,7 @@
     },
     {
       "name": "do_bof_list",
-      "line": 283,
+      "line": 288,
       "summary": "List all installed and staged BOFs.",
       "category": null,
       "phase": "uncategorized",
@@ -2111,7 +2111,7 @@
     },
     {
       "name": "do_bof_catalog",
-      "line": 315,
+      "line": 320,
       "summary": "List all BOFs available in the curated catalog.",
       "category": null,
       "phase": "uncategorized",
@@ -2122,7 +2122,7 @@
     },
     {
       "name": "do_c2_profiles",
-      "line": 24,
+      "line": 25,
       "summary": "List all available C2 transport profiles.",
       "category": null,
       "phase": "uncategorized",
@@ -2133,7 +2133,7 @@
     },
     {
       "name": "do_c2_tls",
-      "line": 49,
+      "line": 50,
       "summary": "Display the current TLS C2 profile.",
       "category": null,
       "phase": "uncategorized",
@@ -2144,7 +2144,7 @@
     },
     {
       "name": "do_c2_dns",
-      "line": 68,
+      "line": 69,
       "summary": "Configure or display the DNS beacon profile.",
       "category": null,
       "phase": "uncategorized",
@@ -2155,7 +2155,7 @@
     },
     {
       "name": "do_c2_rotate",
-      "line": 89,
+      "line": 90,
       "summary": "Rotate to the next C2 transport profile in the rotation queue.",
       "category": null,
       "phase": "uncategorized",
@@ -2177,7 +2177,7 @@
     },
     {
       "name": "do_op_create",
-      "line": 99,
+      "line": 96,
       "summary": "Create a new planned operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2188,7 +2188,7 @@
     },
     {
       "name": "do_op_plan",
-      "line": 117,
+      "line": 114,
       "summary": "Populate operation steps from a playbook YAML or via MITRE derive.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2199,7 +2199,7 @@
     },
     {
       "name": "do_op_start",
-      "line": 144,
+      "line": 141,
       "summary": "Start (or resume) an operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2210,7 +2210,7 @@
     },
     {
       "name": "do_op_pause",
-      "line": 169,
+      "line": 166,
       "summary": "Pause a running operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2221,7 +2221,7 @@
     },
     {
       "name": "do_op_resume",
-      "line": 186,
+      "line": 183,
       "summary": "Resume a paused operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2232,7 +2232,7 @@
     },
     {
       "name": "do_op_stop",
-      "line": 203,
+      "line": 200,
       "summary": "Stop a running operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2243,7 +2243,7 @@
     },
     {
       "name": "do_op_status",
-      "line": 220,
+      "line": 217,
       "summary": "Show the status of an operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2254,7 +2254,7 @@
     },
     {
       "name": "do_op_timeline",
-      "line": 253,
+      "line": 249,
       "summary": "Show the event timeline of an operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2265,7 +2265,7 @@
     },
     {
       "name": "do_op_report",
-      "line": 276,
+      "line": 272,
       "summary": "Generate a full report for an operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2276,7 +2276,7 @@
     },
     {
       "name": "do_ttp_matrix",
-      "line": 294,
+      "line": 290,
       "summary": "Render the MITRE ATT&CK coverage matrix across all operations.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2287,7 +2287,7 @@
     },
     {
       "name": "do_ttp_rebuild",
-      "line": 303,
+      "line": 299,
       "summary": "Re-walk the operations directory to refresh the coverage matrix.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2298,7 +2298,7 @@
     },
     {
       "name": "do_ttp_show",
-      "line": 313,
+      "line": 309,
       "summary": "Show details for a single MITRE technique.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2309,7 +2309,7 @@
     },
     {
       "name": "do_plan",
-      "line": 340,
+      "line": 336,
       "summary": "Pick the next best technique to run for a target.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2320,7 +2320,7 @@
     },
     {
       "name": "do_plan_detail",
-      "line": 368,
+      "line": 364,
       "summary": "Show the full ranked plan (all candidates) for a target.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2331,7 +2331,7 @@
     },
     {
       "name": "do_plan_apply",
-      "line": 394,
+      "line": 391,
       "summary": "Run the planner, then auto-create and start an operation.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2342,7 +2342,7 @@
     },
     {
       "name": "do_campaign",
-      "line": 44,
+      "line": 43,
       "summary": "Export or import an entire campaign as a portable package.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2353,7 +2353,7 @@
     },
     {
       "name": "do_cicd_scan",
-      "line": 36,
+      "line": 34,
       "summary": "Scan CI/CD platform for security misconfigurations.",
       "category": null,
       "phase": "uncategorized",
@@ -2364,7 +2364,7 @@
     },
     {
       "name": "do_cicd_secrets",
-      "line": 98,
+      "line": 97,
       "summary": "Scan build log for leaked secrets.",
       "category": null,
       "phase": "uncategorized",
@@ -2386,7 +2386,7 @@
     },
     {
       "name": "do_gitlab_enum",
-      "line": 182,
+      "line": 185,
       "summary": "Enumerate a GitLab instance.",
       "category": null,
       "phase": "uncategorized",
@@ -2397,7 +2397,7 @@
     },
     {
       "name": "do_mfa_bypass",
-      "line": 227,
+      "line": 231,
       "summary": "Enumerate and test MFA bypass techniques.",
       "category": null,
       "phase": "uncategorized",
@@ -2419,7 +2419,7 @@
     },
     {
       "name": "do_register",
-      "line": 116,
+      "line": 117,
       "summary": "Register a new operator account in users.json.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2430,7 +2430,7 @@
     },
     {
       "name": "do_logout",
-      "line": 190,
+      "line": 191,
       "summary": "Log out the current CLI operator and clear the remember-me token.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2441,7 +2441,7 @@
     },
     {
       "name": "do_whoami",
-      "line": 222,
+      "line": 224,
       "summary": "Show the currently logged-in CLI operator.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -2452,7 +2452,7 @@
     },
     {
       "name": "do_cloud_metadata",
-      "line": 48,
+      "line": 49,
       "summary": "Harvest cloud instance metadata (AWS IMDS, Azure, GCP).",
       "category": null,
       "phase": "uncategorized",
@@ -2463,7 +2463,7 @@
     },
     {
       "name": "do_cloud_buckets",
-      "line": 97,
+      "line": 98,
       "summary": "Enumerate cloud storage buckets for a given prefix.",
       "category": null,
       "phase": "uncategorized",
@@ -2474,7 +2474,7 @@
     },
     {
       "name": "do_cloud_scan",
-      "line": 147,
+      "line": 148,
       "summary": "Full cloud security scan: metadata + buckets + IAM enumeration.",
       "category": null,
       "phase": "uncategorized",
@@ -2485,7 +2485,7 @@
     },
     {
       "name": "do_cloud_iam",
-      "line": 186,
+      "line": 187,
       "summary": "Enumerate cloud IAM roles and policies.",
       "category": null,
       "phase": "uncategorized",
@@ -2496,7 +2496,7 @@
     },
     {
       "name": "do_cloud_enum",
-      "line": 219,
+      "line": 231,
       "summary": "Enumerate cloud provider metadata, storage, and IAM.",
       "category": null,
       "phase": "uncategorized",
@@ -2507,7 +2507,7 @@
     },
     {
       "name": "do_entra_attack",
-      "line": 25,
+      "line": 23,
       "summary": "Microsoft Entra ID / Azure AD attack operations.",
       "category": null,
       "phase": "uncategorized",
@@ -2518,7 +2518,7 @@
     },
     {
       "name": "do_aws_privesc",
-      "line": 120,
+      "line": 125,
       "summary": "AWS privilege escalation and enumeration.",
       "category": null,
       "phase": "uncategorized",
@@ -2529,7 +2529,7 @@
     },
     {
       "name": "do_gcp_privesc",
-      "line": 210,
+      "line": 215,
       "summary": "GCP privilege escalation and enumeration.",
       "category": null,
       "phase": "uncategorized",
@@ -2540,7 +2540,7 @@
     },
     {
       "name": "do_k8s_attack",
-      "line": 289,
+      "line": 302,
       "summary": "Kubernetes attack — RBAC enumeration, pod escape, etcd, persistence.",
       "category": null,
       "phase": "uncategorized",
@@ -2551,7 +2551,7 @@
     },
     {
       "name": "do_cross_cloud",
-      "line": 374,
+      "line": 387,
       "summary": "Cross-cloud identity federation attacks.",
       "category": null,
       "phase": "uncategorized",
@@ -2562,7 +2562,7 @@
     },
     {
       "name": "do_saas_enum",
-      "line": 457,
+      "line": 470,
       "summary": "Enumerate SaaS platforms — M365, Google Workspace, Salesforce, Slack, ServiceNow.",
       "category": null,
       "phase": "uncategorized",
@@ -2661,7 +2661,7 @@
     },
     {
       "name": "do_c2_quickstart",
-      "line": 150,
+      "line": 151,
       "summary": "Quick C2 setup: generate key, prepare implant dir, print beacon commands.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -2672,7 +2672,7 @@
     },
     {
       "name": "do_c2_beacon_cmd",
-      "line": 192,
+      "line": 198,
       "summary": "Queue a command for execution on a connected beacon.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -2683,7 +2683,7 @@
     },
     {
       "name": "do_c2_implant",
-      "line": 227,
+      "line": 233,
       "summary": "Generate a compiled implant payload for the target platform.",
       "category": "10. Command & Control",
       "phase": "c2",
@@ -2947,7 +2947,7 @@
     },
     {
       "name": "do_k8s_enum",
-      "line": 99,
+      "line": 101,
       "summary": "Enumerate Kubernetes cluster: pods, secrets, SAs, RBAC.",
       "category": null,
       "phase": "uncategorized",
@@ -2958,7 +2958,7 @@
     },
     {
       "name": "do_container_escape",
-      "line": 167,
+      "line": 169,
       "summary": "Check current container for known escape vectors.",
       "category": null,
       "phase": "uncategorized",
@@ -2969,7 +2969,7 @@
     },
     {
       "name": "do_k8s_pods",
-      "line": 237,
+      "line": 239,
       "summary": "List Kubernetes pods with security-relevant details.",
       "category": null,
       "phase": "uncategorized",
@@ -2980,7 +2980,7 @@
     },
     {
       "name": "do_k8s_secrets",
-      "line": 281,
+      "line": 283,
       "summary": "List and decode Kubernetes secrets.",
       "category": null,
       "phase": "uncategorized",
@@ -2991,7 +2991,7 @@
     },
     {
       "name": "do_container_detect",
-      "line": 332,
+      "line": 334,
       "summary": "Auto-detect container runtime and escape primitives.",
       "category": null,
       "phase": "uncategorized",
@@ -3343,7 +3343,7 @@
     },
     {
       "name": "do_crystal_ball",
-      "line": 33,
+      "line": 27,
       "summary": "Analyze linpeas/winpeas output and rank privesc vectors with exact commands.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -3354,7 +3354,7 @@
     },
     {
       "name": "do_privesc_suggest",
-      "line": 116,
+      "line": 110,
       "summary": "Quick alias for crystal_ball --auto.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -3387,7 +3387,7 @@
     },
     {
       "name": "do_db_hosts",
-      "line": 124,
+      "line": 122,
       "summary": "List or add hosts in the active workspace.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3398,7 +3398,7 @@
     },
     {
       "name": "do_db_services",
-      "line": 191,
+      "line": 183,
       "summary": "List all services in the active workspace.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3409,7 +3409,7 @@
     },
     {
       "name": "do_db_vulns",
-      "line": 219,
+      "line": 211,
       "summary": "List or add vulnerabilities.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3420,7 +3420,7 @@
     },
     {
       "name": "do_db_creds",
-      "line": 277,
+      "line": 265,
       "summary": "List or add credentials.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3431,7 +3431,7 @@
     },
     {
       "name": "do_db_loot",
-      "line": 321,
+      "line": 309,
       "summary": "List or add loot items.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3442,7 +3442,7 @@
     },
     {
       "name": "do_db_notes",
-      "line": 361,
+      "line": 349,
       "summary": "List or add notes.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3453,7 +3453,7 @@
     },
     {
       "name": "do_db_import",
-      "line": 401,
+      "line": 387,
       "summary": "Import scan results into the database.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3464,7 +3464,7 @@
     },
     {
       "name": "do_db_export",
-      "line": 439,
+      "line": 425,
       "summary": "Export database table to CSV.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3475,7 +3475,7 @@
     },
     {
       "name": "do_db_status",
-      "line": 473,
+      "line": 459,
       "summary": "Show entity counts for the active workspace.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -3508,7 +3508,7 @@
     },
     {
       "name": "do_dns_beacon",
-      "line": 57,
+      "line": 51,
       "summary": "Start a DNS tunneling beacon.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3519,7 +3519,7 @@
     },
     {
       "name": "do_dns_exfil_listen",
-      "line": 102,
+      "line": 97,
       "summary": "Start a DNS exfiltration listener on UDP port 53.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3530,7 +3530,7 @@
     },
     {
       "name": "do_dns_beacon_status",
-      "line": 188,
+      "line": 183,
       "summary": "Show status of all DNS beacons.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3541,7 +3541,7 @@
     },
     {
       "name": "do_http_exfil_server",
-      "line": 209,
+      "line": 204,
       "summary": "Start a minimal HTTP exfiltration receiver.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3552,7 +3552,7 @@
     },
     {
       "name": "do_POST",
-      "line": 232,
+      "line": 228,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -3563,7 +3563,7 @@
     },
     {
       "name": "do_smb_exfil",
-      "line": 311,
+      "line": 304,
       "summary": "Exfiltrate files to an SMB share on the attacker machine.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3574,7 +3574,7 @@
     },
     {
       "name": "do_exfil_start_server",
-      "line": 342,
+      "line": 338,
       "summary": "Start all required exfiltration listeners.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3585,7 +3585,7 @@
     },
     {
       "name": "do_dpapi_harvest",
-      "line": 31,
+      "line": 30,
       "summary": "Harvest all DPAPI-protected credentials from the local machine.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3596,7 +3596,7 @@
     },
     {
       "name": "do_dpapi_masterkeys",
-      "line": 67,
+      "line": 66,
       "summary": "List and extract DPAPI master keys.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3607,7 +3607,7 @@
     },
     {
       "name": "do_dpapi_blob",
-      "line": 115,
+      "line": 113,
       "summary": "Decrypt a DPAPI blob offline.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3618,7 +3618,7 @@
     },
     {
       "name": "do_edr_detect",
-      "line": 36,
+      "line": 34,
       "summary": "Detect EDR/AV products on the target.",
       "category": null,
       "phase": "uncategorized",
@@ -3629,7 +3629,7 @@
     },
     {
       "name": "do_edr_profile",
-      "line": 85,
+      "line": 84,
       "summary": "Generate an evasion profile based on detected EDR.",
       "category": null,
       "phase": "uncategorized",
@@ -3640,7 +3640,7 @@
     },
     {
       "name": "do_edr_script",
-      "line": 143,
+      "line": 140,
       "summary": "Generate a PowerShell EDR detection script.",
       "category": null,
       "phase": "uncategorized",
@@ -3761,7 +3761,7 @@
     },
     {
       "name": "do_estorides_seed",
-      "line": 75,
+      "line": 72,
       "summary": "Feed LazyOwn hosts/domains into Estorides for passive OSINT discovery.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3772,7 +3772,7 @@
     },
     {
       "name": "do_estorides_import",
-      "line": 195,
+      "line": 188,
       "summary": "Import Estorides-discovered entities into LazyOwn database and scope.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3783,7 +3783,7 @@
     },
     {
       "name": "do_estorides_loop",
-      "line": 327,
+      "line": 319,
       "summary": "Run the bidirectional Estorides <-> LazyOwn feedback loop.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3794,7 +3794,7 @@
     },
     {
       "name": "do_estorides_surface",
-      "line": 427,
+      "line": 423,
       "summary": "Show the combined active + passive attack surface.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -3805,7 +3805,7 @@
     },
     {
       "name": "do_evasive_payload",
-      "line": 76,
+      "line": 255,
       "summary": "Generate an evasive payload with automatic AV/EDR bypass.",
       "category": null,
       "phase": "uncategorized",
@@ -3816,7 +3816,7 @@
     },
     {
       "name": "do_mutate_shellcode",
-      "line": 128,
+      "line": 307,
       "summary": "Apply polymorphic mutation to shellcode for signature evasion.",
       "category": null,
       "phase": "uncategorized",
@@ -3827,7 +3827,7 @@
     },
     {
       "name": "do_detect_edr",
-      "line": 181,
+      "line": 360,
       "summary": "Generate commands to detect EDR/AV on the target.",
       "category": null,
       "phase": "uncategorized",
@@ -3838,7 +3838,7 @@
     },
     {
       "name": "do_evasive",
-      "line": 218,
+      "line": 415,
       "summary": "Generate detection-evading payloads with multiple obfuscation strategies.",
       "category": null,
       "phase": "uncategorized",
@@ -3849,7 +3849,7 @@
     },
     {
       "name": "do_evasion",
-      "line": 336,
+      "line": 533,
       "summary": "Generate and manage C2 evasion profiles.",
       "category": null,
       "phase": "uncategorized",
@@ -3860,7 +3860,7 @@
     },
     {
       "name": "do_encrypt",
-      "line": 327,
+      "line": 334,
       "summary": "Encrypt a file with XOR using a caller-supplied key.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3871,7 +3871,7 @@
     },
     {
       "name": "do_decrypt",
-      "line": 354,
+      "line": 361,
       "summary": "Decrypt an XOR-encrypted file using the matching key.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3882,7 +3882,7 @@
     },
     {
       "name": "do_evilwinrm",
-      "line": 382,
+      "line": 389,
       "summary": "Drive Evil-WinRM through password, hash or kerberos-only auth.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3893,7 +3893,7 @@
     },
     {
       "name": "do_secretsdump",
-      "line": 453,
+      "line": 460,
       "summary": "Run impacket-secretsdump for SAM, credentials, or NTDS payloads.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3904,7 +3904,7 @@
     },
     {
       "name": "do_getuserspns",
-      "line": 527,
+      "line": 534,
       "summary": "Run impacket-GetUserSPNs to request roastable service tickets.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3915,7 +3915,7 @@
     },
     {
       "name": "do_gitdumper",
-      "line": 561,
+      "line": 568,
       "summary": "Install ``git-dumper`` if missing and pull a remote ``.git`` tree.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3926,7 +3926,7 @@
     },
     {
       "name": "do_evidence",
-      "line": 586,
+      "line": 593,
       "summary": "Encode the ``sessions/`` tree into a video file or decode one back.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3937,7 +3937,7 @@
     },
     {
       "name": "do_getadusers",
-      "line": 666,
+      "line": 673,
       "summary": "Run impacket-GetADUsers to enumerate AD accounts on the DC.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3948,7 +3948,7 @@
     },
     {
       "name": "do_adgetpass",
-      "line": 727,
+      "line": 734,
       "summary": "Generate a PowerShell script to extract Azure AD Connect credentials.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3959,7 +3959,7 @@
     },
     {
       "name": "do_samdump2",
-      "line": 792,
+      "line": 799,
       "summary": "Run samdump2 against ``sessions/SYSTEM`` and ``sessions/SAM``.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3970,7 +3970,7 @@
     },
     {
       "name": "do_reg_py",
-      "line": 817,
+      "line": 824,
       "summary": "Query a remote registry hive with impacket-reg.py over hash auth.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3981,7 +3981,7 @@
     },
     {
       "name": "do_unzip",
-      "line": 844,
+      "line": 851,
       "summary": "Extract a zip archive located under ``sessions/``.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -3992,7 +3992,7 @@
     },
     {
       "name": "do_getnthash_py",
-      "line": 866,
+      "line": 873,
       "summary": "Recover the NT hash from a Kerberos U2U TGS via PKINITtools.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4003,7 +4003,7 @@
     },
     {
       "name": "do_upload_gofile",
-      "line": 898,
+      "line": 905,
       "summary": "Upload a file from ``sessions/`` to Gofile via its HTTP API.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4014,7 +4014,7 @@
     },
     {
       "name": "do_rsync",
-      "line": 960,
+      "line": 967,
       "summary": "Push the ``sessions/`` tree to ``rhost`` over SCP with sshpass.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4025,7 +4025,7 @@
     },
     {
       "name": "do_gmsadumper",
-      "line": 993,
+      "line": 1000,
       "summary": "Run gMSADumper to read gMSA password blobs visible to the user.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4036,7 +4036,7 @@
     },
     {
       "name": "do_dploot",
-      "line": 1032,
+      "line": 1039,
       "summary": "Run dploot to loot DPAPI-protected secrets.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4047,7 +4047,7 @@
     },
     {
       "name": "do_download_c2",
-      "line": 1153,
+      "line": 1160,
       "summary": "Download a file from the C2 implant via the upload command.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4058,7 +4058,7 @@
     },
     {
       "name": "do_exfil_s3",
-      "line": 1170,
+      "line": 1177,
       "summary": "Upload a file to an AWS S3 bucket.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4069,7 +4069,7 @@
     },
     {
       "name": "do_exfil_telegram",
-      "line": 1219,
+      "line": 1222,
       "summary": "Exfiltrate a file via Telegram Bot API.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4080,7 +4080,7 @@
     },
     {
       "name": "do_exfil_discord",
-      "line": 1264,
+      "line": 1267,
       "summary": "Exfiltrate a file via Discord webhook.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4091,7 +4091,7 @@
     },
     {
       "name": "do_exfil_gcs",
-      "line": 1307,
+      "line": 1310,
       "summary": "Upload a file to Google Cloud Storage.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4102,7 +4102,7 @@
     },
     {
       "name": "do_exfil_dns",
-      "line": 1348,
+      "line": 1352,
       "summary": "Exfiltrate data via DNS tunneling.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4113,7 +4113,7 @@
     },
     {
       "name": "do_exfil_http",
-      "line": 1406,
+      "line": 1411,
       "summary": "Exfiltrate a file via HTTP POST to a controlled server.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4124,7 +4124,7 @@
     },
     {
       "name": "do_exfil_auto",
-      "line": 1471,
+      "line": 1481,
       "summary": "Auto-detect flags and sensitive files, then exfiltrate.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4135,7 +4135,7 @@
     },
     {
       "name": "do_stage",
-      "line": 1526,
+      "line": 1539,
       "summary": "Stage data for exfiltration: compress, encrypt, and split.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -5125,7 +5125,7 @@
     },
     {
       "name": "do_marketplace",
-      "line": 88,
+      "line": 82,
       "summary": "Discover and install community plugins, addons, and tools.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -5158,7 +5158,7 @@
     },
     {
       "name": "do_facts_show",
-      "line": 252,
+      "line": 253,
       "summary": "Show structured facts extracted from nmap scans and tool output.",
       "category": null,
       "phase": "uncategorized",
@@ -5169,7 +5169,7 @@
     },
     {
       "name": "do_rag_query",
-      "line": 277,
+      "line": 278,
       "summary": "Semantic search over session artefacts (scans, logs, notes).",
       "category": null,
       "phase": "uncategorized",
@@ -5180,7 +5180,7 @@
     },
     {
       "name": "do_parquet_query",
-      "line": 306,
+      "line": 308,
       "summary": "Query the parquet knowledge bases (GTFOBins, LOLBas, ATT&CK, sessions).",
       "category": null,
       "phase": "uncategorized",
@@ -5191,7 +5191,7 @@
     },
     {
       "name": "do_threat_model",
-      "line": 371,
+      "line": 370,
       "summary": "Build or inspect the threat model derived from session events.",
       "category": null,
       "phase": "uncategorized",
@@ -5202,7 +5202,7 @@
     },
     {
       "name": "do_playbook_run",
-      "line": 419,
+      "line": 423,
       "summary": "Execute a generated YAML playbook step by step through the shell.",
       "category": null,
       "phase": "uncategorized",
@@ -5213,7 +5213,7 @@
     },
     {
       "name": "do_auto_loop",
-      "line": 478,
+      "line": 481,
       "summary": "Run a goal through the autonomous daemon orchestrator backend.",
       "category": null,
       "phase": "uncategorized",
@@ -5224,7 +5224,7 @@
     },
     {
       "name": "do_session_state",
-      "line": 496,
+      "line": 499,
       "summary": "Alias of ``sitrep`` kept for MCP verb parity (lazyown_session_state).",
       "category": null,
       "phase": "uncategorized",
@@ -5235,7 +5235,7 @@
     },
     {
       "name": "do_campaign_sitrep",
-      "line": 501,
+      "line": 504,
       "summary": "Alias of ``sitrep`` kept for MCP verb parity (lazyown_campaign_sitrep).",
       "category": null,
       "phase": "uncategorized",
@@ -5246,7 +5246,7 @@
     },
     {
       "name": "do_timeline",
-      "line": 506,
+      "line": 509,
       "summary": "Alias of ``timeline_browser`` kept for MCP verb parity (lazyown_timeline).",
       "category": null,
       "phase": "uncategorized",
@@ -6423,7 +6423,7 @@
     },
     {
       "name": "do_macos_persist",
-      "line": 194,
+      "line": 191,
       "summary": "Generate macOS persistence via LaunchAgent.",
       "category": null,
       "phase": "uncategorized",
@@ -6434,7 +6434,7 @@
     },
     {
       "name": "do_macos_keychain",
-      "line": 252,
+      "line": 247,
       "summary": "Extract secrets from the macOS Keychain.",
       "category": null,
       "phase": "uncategorized",
@@ -6445,7 +6445,7 @@
     },
     {
       "name": "do_macos_tcc",
-      "line": 291,
+      "line": 286,
       "summary": "Generate macOS TCC (Transparency, Consent, Control) bypass.",
       "category": null,
       "phase": "uncategorized",
@@ -6456,7 +6456,7 @@
     },
     {
       "name": "do_search",
-      "line": 70,
+      "line": 71,
       "summary": "Search for modules by name, description, or author.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6467,7 +6467,7 @@
     },
     {
       "name": "do_use",
-      "line": 110,
+      "line": 111,
       "summary": "Select a module to work with.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6478,7 +6478,7 @@
     },
     {
       "name": "do_back",
-      "line": 153,
+      "line": 162,
       "summary": "Leave the current module context.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -6489,7 +6489,7 @@
     },
     {
       "name": "do_opsec_score",
-      "line": 27,
+      "line": 25,
       "summary": "Real-time OPSEC risk assessment with contextual action gating (v2).",
       "category": null,
       "phase": "uncategorized",
@@ -6511,7 +6511,7 @@
     },
     {
       "name": "do_forensic_clean",
-      "line": 153,
+      "line": 162,
       "summary": "Clean forensic artifacts — Prefetch, Shimcache, Amcache, Jump Lists, etc.",
       "category": null,
       "phase": "uncategorized",
@@ -6522,7 +6522,7 @@
     },
     {
       "name": "do_timestomp",
-      "line": 210,
+      "line": 219,
       "summary": "Manipulate file MACB timestamps to evade forensic timeline analysis.",
       "category": null,
       "phase": "uncategorized",
@@ -6533,7 +6533,7 @@
     },
     {
       "name": "do_memory_clean",
-      "line": 279,
+      "line": 288,
       "summary": "Clean memory artifacts — Kerberos tickets, clipboard, env vars, credentials.",
       "category": null,
       "phase": "uncategorized",
@@ -6544,7 +6544,7 @@
     },
     {
       "name": "do_network_opsec",
-      "line": 333,
+      "line": 342,
       "summary": "Network OPSEC — proxy chains, DoH, canary detection, traffic analysis.",
       "category": null,
       "phase": "uncategorized",
@@ -6555,7 +6555,7 @@
     },
     {
       "name": "do_auditd_disable",
-      "line": 436,
+      "line": 445,
       "summary": "Generate commands to disable Linux auditd.",
       "category": null,
       "phase": "uncategorized",
@@ -6566,7 +6566,7 @@
     },
     {
       "name": "do_sysmon_disable",
-      "line": 459,
+      "line": 468,
       "summary": "Generate commands to disable Windows Sysmon.",
       "category": null,
       "phase": "uncategorized",
@@ -6621,7 +6621,7 @@
     },
     {
       "name": "do_staged_delivery",
-      "line": 167,
+      "line": 172,
       "summary": "Generate staged delivery artifacts (HTA, VBA, LNK, ISO, VHD).",
       "category": null,
       "phase": "uncategorized",
@@ -6632,7 +6632,7 @@
     },
     {
       "name": "do_polymorphic",
-      "line": 256,
+      "line": 261,
       "summary": "Apply polymorphic mutation to shellcode.",
       "category": null,
       "phase": "uncategorized",
@@ -6643,7 +6643,7 @@
     },
     {
       "name": "do_macos_payload",
-      "line": 321,
+      "line": 328,
       "summary": "Generate macOS payloads (.app bundles, persistence, TCC bypass).",
       "category": null,
       "phase": "uncategorized",
@@ -6654,7 +6654,7 @@
     },
     {
       "name": "do_linux_advanced_payload",
-      "line": 394,
+      "line": 401,
       "summary": "Generate advanced Linux payloads (LD_PRELOAD, eBPF, PAM, kernel module).",
       "category": null,
       "phase": "uncategorized",
@@ -6676,7 +6676,7 @@
     },
     {
       "name": "do_createwebshell",
-      "line": 32,
+      "line": 33,
       "summary": "Create web shells (JPG-disguised PHP, p0wny-shell, ASP).",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6687,7 +6687,7 @@
     },
     {
       "name": "do_createrevshell",
-      "line": 46,
+      "line": 47,
       "summary": "Create a bash reverse shell script in sessions/.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6698,7 +6698,7 @@
     },
     {
       "name": "do_createwinrevshell",
-      "line": 60,
+      "line": 61,
       "summary": "Create a Windows reverse shell (PowerShell).",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6709,7 +6709,7 @@
     },
     {
       "name": "do_conptyshell",
-      "line": 72,
+      "line": 73,
       "summary": "Download ConPtyShell and prepare a PowerShell run command.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6720,7 +6720,7 @@
     },
     {
       "name": "do_pwncatcs",
-      "line": 86,
+      "line": 89,
       "summary": "Start a pwncat-cs reverse shell listener.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6731,7 +6731,7 @@
     },
     {
       "name": "do_revwin",
-      "line": 96,
+      "line": 99,
       "summary": "Create a Windows reverse shell executable.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6742,7 +6742,7 @@
     },
     {
       "name": "do_wmi_persist",
-      "line": 109,
+      "line": 112,
       "summary": "Create WMI Event Subscription persistence (fileless, no disk write).",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6753,7 +6753,7 @@
     },
     {
       "name": "do_wmi_lateral",
-      "line": 166,
+      "line": 170,
       "summary": "Execute a command on a remote host via WMI.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -6764,7 +6764,7 @@
     },
     {
       "name": "do_wmi_scheduled_task",
-      "line": 198,
+      "line": 209,
       "summary": "Create a scheduled task for persistence via WMI.",
       "category": "05. Persistence",
       "phase": "persist",
@@ -7039,7 +7039,7 @@
     },
     {
       "name": "do_phish_wizard",
-      "line": 168,
+      "line": 183,
       "summary": "Interactive end-to-end phishing campaign wizard.",
       "category": null,
       "phase": "uncategorized",
@@ -7050,7 +7050,7 @@
     },
     {
       "name": "do_phish_serve",
-      "line": 326,
+      "line": 354,
       "summary": "Start a lightweight HTTP server for phishing landing pages.",
       "category": null,
       "phase": "uncategorized",
@@ -7061,7 +7061,7 @@
     },
     {
       "name": "do_GET",
-      "line": 357,
+      "line": 385,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -7072,7 +7072,7 @@
     },
     {
       "name": "do_POST",
-      "line": 372,
+      "line": 400,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -7083,7 +7083,7 @@
     },
     {
       "name": "do_OPTIONS",
-      "line": 390,
+      "line": 420,
       "summary": "",
       "category": null,
       "phase": "uncategorized",
@@ -7094,7 +7094,7 @@
     },
     {
       "name": "do_phish_report",
-      "line": 406,
+      "line": 436,
       "summary": "Show campaign results and captured credentials.",
       "category": null,
       "phase": "uncategorized",
@@ -7105,7 +7105,7 @@
     },
     {
       "name": "do_autopivot",
-      "line": 44,
+      "line": 43,
       "summary": "Auto-detect internal networks and set up pivot tunnels.",
       "category": null,
       "phase": "uncategorized",
@@ -7116,7 +7116,7 @@
     },
     {
       "name": "do_pivot_status",
-      "line": 101,
+      "line": 100,
       "summary": "Show the current pivot chain state.",
       "category": null,
       "phase": "uncategorized",
@@ -7127,7 +7127,7 @@
     },
     {
       "name": "do_pivot_kill",
-      "line": 118,
+      "line": 119,
       "summary": "Kill all pivot tunnels and clean up.",
       "category": null,
       "phase": "uncategorized",
@@ -7138,7 +7138,7 @@
     },
     {
       "name": "do_pivot_scan",
-      "line": 146,
+      "line": 147,
       "summary": "Scan internal networks through the current pivot chain.",
       "category": null,
       "phase": "uncategorized",
@@ -7149,7 +7149,7 @@
     },
     {
       "name": "do_pivot_proxy",
-      "line": 188,
+      "line": 186,
       "summary": "Start a local SOCKS proxy through the pivot chain.",
       "category": null,
       "phase": "uncategorized",
@@ -7776,7 +7776,7 @@
     },
     {
       "name": "do_printspoofer",
-      "line": 602,
+      "line": 604,
       "summary": "Serve PrintSpoofer over HTTP for Windows privilege escalation.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -7787,7 +7787,7 @@
     },
     {
       "name": "do_juicypotato",
-      "line": 621,
+      "line": 626,
       "summary": "Serve JuicyPotato over HTTP for Windows privilege escalation.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -7798,7 +7798,7 @@
     },
     {
       "name": "do_privesc_cmd_by_os",
-      "line": 740,
+      "line": 748,
       "summary": "Prepare and send a linpeas/winpeas command to a C2 client.",
       "category": "06. Privilege Escalation",
       "phase": "privesc",
@@ -7809,7 +7809,7 @@
     },
     {
       "name": "do_auto_pwn",
-      "line": 36,
+      "line": 34,
       "summary": "Run the full autonomous exploitation chain against the target.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -7842,7 +7842,7 @@
     },
     {
       "name": "do_lolbas_list",
-      "line": 226,
+      "line": 234,
       "summary": "List available LOLBAS (Living Off The Land) techniques from plugins.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7853,7 +7853,7 @@
     },
     {
       "name": "do_lolbas_use",
-      "line": 276,
+      "line": 291,
       "summary": "Execute a specific LOLBAS technique.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -7864,7 +7864,7 @@
     },
     {
       "name": "do_stealth_on",
-      "line": 357,
+      "line": 374,
       "summary": "Enable stealth mode for subsequent operations.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -7875,7 +7875,7 @@
     },
     {
       "name": "do_stealth_off",
-      "line": 384,
+      "line": 402,
       "summary": "Disable stealth mode.",
       "category": "12. Miscellaneous",
       "phase": "misc",
@@ -7908,7 +7908,7 @@
     },
     {
       "name": "do_dig",
-      "line": 151,
+      "line": 154,
       "summary": "Executes the `dig` command to query DNS information.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7919,7 +7919,7 @@
     },
     {
       "name": "do_dnsenum",
-      "line": 183,
+      "line": 186,
       "summary": "Performs DNS enumeration using `dnsenum` to identify subdomains for a given domain.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7930,7 +7930,7 @@
     },
     {
       "name": "do_dnsmap",
-      "line": 219,
+      "line": 222,
       "summary": "Performs DNS enumeration using `dnsmap` to discover subdomains for a specified domain.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7941,7 +7941,7 @@
     },
     {
       "name": "do_whatweb",
-      "line": 252,
+      "line": 255,
       "summary": "Performs a web technology fingerprinting scan using `whatweb`.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7952,7 +7952,7 @@
     },
     {
       "name": "do_nbtscan",
-      "line": 289,
+      "line": 292,
       "summary": "Performs network scanning using `nbtscan` to discover NetBIOS names and addresses in a specified range.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -7963,7 +7963,7 @@
     },
     {
       "name": "do_nikto",
-      "line": 317,
+      "line": 320,
       "summary": "Runs the `nikto` tool to perform a web server vulnerability scan against the specified target host.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -7974,7 +7974,7 @@
     },
     {
       "name": "do_finalrecon",
-      "line": 426,
+      "line": 429,
       "summary": "Runs the `finalrecon` tool to perform a web server vulnerability scan against the specified target host.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7985,7 +7985,7 @@
     },
     {
       "name": "do_openssl_sclient",
-      "line": 458,
+      "line": 461,
       "summary": "Uses `openssl s_client` to connect to a specified host and port, allowing for testing and debugging of SSL/TLS connections.",
       "category": "01. Reconnaissance",
       "phase": "recon",
@@ -7996,7 +7996,7 @@
     },
     {
       "name": "do_ss",
-      "line": 488,
+      "line": 491,
       "summary": "Search all exploit sources and map findings to the next LazyOwn command.",
       "category": "03. Exploitation",
       "phase": "exploit",
@@ -8007,7 +8007,7 @@
     },
     {
       "name": "do_wfuzz",
-      "line": 605,
+      "line": 608,
       "summary": "Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",
@@ -8425,7 +8425,7 @@
     },
     {
       "name": "do_gen_report",
-      "line": 186,
+      "line": 197,
       "summary": "Generate enhanced professional penetration test reports.",
       "category": "11. Reporting",
       "phase": "report",
@@ -8623,7 +8623,7 @@
     },
     {
       "name": "do_pentest_report",
-      "line": 112,
+      "line": 110,
       "summary": "Generate a professional penetration test report.",
       "category": null,
       "phase": "uncategorized",
@@ -8634,7 +8634,7 @@
     },
     {
       "name": "do_vuln_list",
-      "line": 174,
+      "line": 172,
       "summary": "List discovered vulnerabilities from the sessions database.",
       "category": null,
       "phase": "uncategorized",
@@ -8645,7 +8645,7 @@
     },
     {
       "name": "do_attack_surface",
-      "line": 196,
+      "line": 194,
       "summary": "Generate an attack surface summary from recon data.",
       "category": null,
       "phase": "uncategorized",
@@ -9371,7 +9371,7 @@
     },
     {
       "name": "do_opsec",
-      "line": 27,
+      "line": 26,
       "summary": "Score OPSEC risk for a LazyOwn command before execution.",
       "category": null,
       "phase": "uncategorized",
@@ -9382,7 +9382,7 @@
     },
     {
       "name": "do_seal_credentials",
-      "line": 109,
+      "line": 108,
       "summary": "Encrypt all sensitive values in payload.json using AES-256-GCM.",
       "category": null,
       "phase": "uncategorized",
@@ -9393,7 +9393,7 @@
     },
     {
       "name": "do_rotate_aes",
-      "line": 130,
+      "line": 129,
       "summary": "Generate a new AES key and re-encrypt all sealed credentials.",
       "category": null,
       "phase": "uncategorized",
@@ -9404,7 +9404,7 @@
     },
     {
       "name": "do_unseal_credentials",
-      "line": 153,
+      "line": 152,
       "summary": "Decrypt sealed credential values in payload.json for inspection.",
       "category": null,
       "phase": "uncategorized",
@@ -9415,7 +9415,7 @@
     },
     {
       "name": "do_crack_hashes",
-      "line": 173,
+      "line": 172,
       "summary": "Crack password hashes from a file using John the Ripper or Hashcat.",
       "category": null,
       "phase": "uncategorized",
@@ -9426,7 +9426,7 @@
     },
     {
       "name": "do_sleep_list",
-      "line": 22,
+      "line": 23,
       "summary": "List available sleep obfuscation techniques.",
       "category": null,
       "phase": "uncategorized",
@@ -9437,7 +9437,7 @@
     },
     {
       "name": "do_sleep_info",
-      "line": 47,
+      "line": 50,
       "summary": "Show detailed information about a sleep obfuscation technique.",
       "category": null,
       "phase": "uncategorized",
@@ -9448,7 +9448,7 @@
     },
     {
       "name": "do_sleep_configure",
-      "line": 79,
+      "line": 82,
       "summary": "Configure the active sleep obfuscation technique.",
       "category": null,
       "phase": "uncategorized",
@@ -9459,7 +9459,7 @@
     },
     {
       "name": "do_socks_config",
-      "line": 24,
+      "line": 25,
       "summary": "Show or configure the SOCKS5 proxy.",
       "category": null,
       "phase": "uncategorized",
@@ -9470,7 +9470,7 @@
     },
     {
       "name": "do_socks_sessions",
-      "line": 74,
+      "line": 75,
       "summary": "List active SOCKS proxy sessions.",
       "category": null,
       "phase": "uncategorized",
@@ -9481,7 +9481,7 @@
     },
     {
       "name": "do_socks_export",
-      "line": 93,
+      "line": 94,
       "summary": "Export SOCKS5 proxy specification for beacon delivery.",
       "category": null,
       "phase": "uncategorized",
@@ -9492,7 +9492,7 @@
     },
     {
       "name": "do_depconfuse",
-      "line": 97,
+      "line": 95,
       "summary": "Scan a requirements.txt for dependency confusion candidates.",
       "category": null,
       "phase": "uncategorized",
@@ -9503,7 +9503,7 @@
     },
     {
       "name": "do_package_squat",
-      "line": 142,
+      "line": 140,
       "summary": "Generate a malicious PyPI package for dependency confusion.",
       "category": null,
       "phase": "uncategorized",
@@ -9514,7 +9514,7 @@
     },
     {
       "name": "do_depscan",
-      "line": 218,
+      "line": 216,
       "summary": "Scan a directory tree for dependency files and flag risks.",
       "category": null,
       "phase": "uncategorized",
@@ -9525,7 +9525,7 @@
     },
     {
       "name": "do_set",
-      "line": 957,
+      "line": 970,
       "summary": "Set a parameter — the unified ``set``/``assign`` surface.",
       "category": null,
       "phase": "uncategorized",
@@ -9536,7 +9536,7 @@
     },
     {
       "name": "do_event_log",
-      "line": 4730,
+      "line": 4739,
       "summary": "Show recent EventBus events. Usage: event_log [N] [category]",
       "category": "Event Bus",
       "phase": "uncategorized",
@@ -9547,7 +9547,7 @@
     },
     {
       "name": "do_state_snapshot",
-      "line": 4759,
+      "line": 4768,
       "summary": "Show unified StateManager snapshot (DB + JSON caches).",
       "category": "State Manager",
       "phase": "uncategorized",
@@ -9558,7 +9558,7 @@
     },
     {
       "name": "do_route",
-      "line": 4791,
+      "line": 4800,
       "summary": "Route a natural-language prompt to a LazyOwn tool. Usage: route <prompt>",
       "category": "Unified Bridge",
       "phase": "uncategorized",

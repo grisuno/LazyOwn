@@ -123,7 +123,7 @@ def generate_module(
 
     # Determine which commands need generation
     needs_generation: list[tuple[str, str]] = []  # (tool_name, cmd_name)
-    for cmd_name, summary in sorted_cmds:
+    for cmd_name, _summary in sorted_cmds:
         tool_name = f"lazyown_{cmd_name}"
         if tool_name in existing_handlers:
             continue
@@ -220,21 +220,21 @@ def generate_module(
             f"_cmd={cmd_name!r}) -> list:"
         )
         lines.append(
-            f'        cmd = arguments.get("args", "")'
+            '        cmd = arguments.get("args", "")'
         )
         lines.append(
-            f"        output = run_lazyown_cmd_fn("
-            f'f"{{_cmd}} {{cmd}}".strip())'
+            "        output = run_lazyown_cmd_fn("
+            'f"{_cmd} {cmd}".strip())'
         )
         lines.append(
-            f"        return make_text_fn(tool_name, output)"
+            "        return make_text_fn(tool_name, output)"
         )
         lines.append("")
         lines.append(
             f"    register_handler_fn({tool_name!r})({handler_name})"
         )
         lines.append(
-            f"    _reg += 1"
+            "    _reg += 1"
         )
         lines.append("")
 

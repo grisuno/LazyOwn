@@ -9,13 +9,11 @@ Uses boto3 for API operations when available; falls back to curl/HTTP commands.
 
 from __future__ import annotations
 
-import json
-import re
-from dataclasses import dataclass, field
-from typing import Any, Optional
+from dataclasses import dataclass
+from typing import Any
 
 try:
-    import boto3
+    import boto3  # noqa: F401
     HAS_BOTO3 = True
 except ImportError:
     HAS_BOTO3 = False
@@ -89,7 +87,7 @@ class AWSAttackEngine:
         client_cache: Cached boto3 clients.
     """
 
-    def __init__(self, config: Optional[AWSConfig] = None):
+    def __init__(self, config: AWSConfig | None = None):
         self.config = config or AWSConfig()
         self._client_cache: dict[str, Any] = {}
 
@@ -228,7 +226,7 @@ class AWSAttackEngine:
                 "*-cloudformation-*", "*-cf-templates-*",
             ],
             "public_access_check": [
-                f"curl -s http://BUCKET_NAME.s3.amazonaws.com/",
+                "curl -s http://BUCKET_NAME.s3.amazonaws.com/",
                 "aws s3api get-public-access-block --bucket BUCKET_NAME",
             ],
         }

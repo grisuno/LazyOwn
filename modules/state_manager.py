@@ -27,7 +27,7 @@ import threading
 import time
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 log = logging.getLogger("state_manager")
 
@@ -101,15 +101,15 @@ class StateManager:
         snapshot = sm.session_snapshot()
     """
 
-    _instance: Optional["StateManager"] = None
+    _instance: StateManager | None = None
     _instance_lock = threading.Lock()
 
     def __init__(
         self,
-        db_path: Optional[Path] = None,
-        sessions_dir: Optional[Path] = None,
-        world_model_path: Optional[Path] = None,
-        facts_path: Optional[Path] = None,
+        db_path: Path | None = None,
+        sessions_dir: Path | None = None,
+        world_model_path: Path | None = None,
+        facts_path: Path | None = None,
     ) -> None:
         self._lock = threading.RLock()
         self._sessions_dir = sessions_dir or _SESSIONS_DIR
@@ -123,10 +123,10 @@ class StateManager:
         self._db_path = db_path or (self._sessions_dir / "db" / "lazyown.db")
 
         self._payload: dict[str, Any] = {}
-        self._workspace_id: Optional[int] = None
+        self._workspace_id: int | None = None
 
     @classmethod
-    def instance(cls) -> "StateManager":
+    def instance(cls) -> StateManager:
         if cls._instance is None:
             with cls._instance_lock:
                 if cls._instance is None:
@@ -167,7 +167,7 @@ class StateManager:
 
     def _publish(self, category: str, event_type: str, payload: dict[str, Any]) -> None:
         try:
-            from modules.event_bus import EventCategory, EventSeverity, LazyEvent, get_event_bus
+            from modules.event_bus import EventCategory, LazyEvent, get_event_bus
             get_event_bus().publish(LazyEvent(
                 category=EventCategory(category),
                 event_type=event_type,
@@ -177,7 +177,7 @@ class StateManager:
         except Exception:
             pass
 
-    def _find_host(self, address: str) -> Optional[dict[str, Any]]:
+    def _find_host(self, address: str) -> dict[str, Any] | None:
         """Find a host by exact address match."""
         results = self.db.host_find(self.workspace_id, address)
         for r in results:
@@ -222,7 +222,7 @@ class StateManager:
             self._sync_world_model_cache()
             return host_id
 
-    def get_host(self, address: str) -> Optional[dict[str, Any]]:
+    def get_host(self, address: str) -> dict[str, Any] | None:
         with self._lock:
             host = self._find_host(address)
             if host:
@@ -272,7 +272,7 @@ class StateManager:
         product: str = "",
         version: str = "",
         state: str = "open",
-    ) -> Optional[int]:
+    ) -> int | None:
         with self._lock:
             host = self._find_host(host_address)
             if not host:
@@ -304,7 +304,7 @@ class StateManager:
         realm: str = "",
         cred_type: str = "password",
         origin: str = "",
-    ) -> Optional[int]:
+    ) -> int | None:
         with self._lock:
             host = self._find_host(host_address)
             if not host:
@@ -319,7 +319,7 @@ class StateManager:
             self._sync_world_model_cache()
             return cred_id
 
-    def list_credentials(self, host_address: Optional[str] = None) -> list[dict[str, Any]]:
+    def list_credentials(self, host_address: str | None = None) -> list[dict[str, Any]]:
         with self._lock:
             if host_address:
                 host = self._find_host(host_address)
@@ -337,7 +337,7 @@ class StateManager:
         severity: str = "unknown",
         description: str = "",
         refs: str = "",
-    ) -> Optional[int]:
+    ) -> int | None:
         with self._lock:
             host = self._find_host(host_address)
             if not host:
@@ -350,7 +350,7 @@ class StateManager:
             return vuln_id
 
     def list_vulnerabilities(
-        self, host_address: Optional[str] = None, severity: Optional[str] = None,
+        self, host_address: str | None = None, severity: str | None = None,
     ) -> list[dict[str, Any]]:
         with self._lock:
             all_vulns = self.db.vuln_list(self.workspace_id, severity)
@@ -367,7 +367,7 @@ class StateManager:
         path: str = "",
         notes: str = "",
         host_address: str = "",
-    ) -> Optional[int]:
+    ) -> int | None:
         with self._lock:
             host_id = None
             if host_address:
@@ -390,7 +390,7 @@ class StateManager:
 
     def add_note(
         self, data: str, note_type: str = "general", host_address: str = "",
-    ) -> Optional[int]:
+    ) -> int | None:
         with self._lock:
             host_id = None
             if host_address:

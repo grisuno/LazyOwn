@@ -16,7 +16,7 @@ _SKILLS_DIR = Path(__file__).parent.parent
 if str(_SKILLS_DIR) not in sys.path:
     sys.path.insert(0, str(_SKILLS_DIR))
 
-from lazyown_objective import (
+from lazyown_objective import (  # noqa: E402
     DEFAULT_SOUL,
     OBJECTIVE_TTL_HOURS,
     ObjectiveStore,
@@ -289,7 +289,7 @@ class TestSoulUpdater:
         su.update_phase("exploit")
         content = su._path.read_text()
         # Should not have TWO Phase: lines with different values
-        phase_lines = [l for l in content.splitlines() if l.strip().startswith("Phase:")]
+        phase_lines = [line for line in content.splitlines() if line.strip().startswith("Phase:")]
         assert len(phase_lines) == 1, f"Expected 1 Phase: line, got {phase_lines}"
         assert "exploit" in phase_lines[0]
 

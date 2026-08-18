@@ -16,9 +16,7 @@ import subprocess
 import tempfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
-
-from modules.payload_factory import OUTPUT_FORMATS
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -331,13 +329,13 @@ class DotNetPayloadFactory:
         output_dir: Directory for compiled payloads.
     """
 
-    def __init__(self, output_dir: Optional[Path] = None):
+    def __init__(self, output_dir: Path | None = None):
         self.output_dir = Path(output_dir) if output_dir else SESSIONS_DIR / "payloads" / "dotnet"
         self.output_dir.mkdir(parents=True, exist_ok=True)
         self.compiler, self.compiler_type = self._detect_compiler()
 
     @staticmethod
-    def _detect_compiler() -> tuple[Optional[str], Optional[str]]:
+    def _detect_compiler() -> tuple[str | None, str | None]:
         for name, args in [
             ("csc", ["-version"]),
             ("mcs", ["--version"]),
@@ -407,7 +405,7 @@ class DotNetPayloadFactory:
         """
         return self._resolve_template(config)
 
-    def compile(self, config: DotNetPayloadConfig, source_code: Optional[str] = None) -> Optional[Path]:
+    def compile(self, config: DotNetPayloadConfig, source_code: str | None = None) -> Path | None:
         """Compile C# source to an assembly.
 
         Args:
@@ -443,7 +441,7 @@ class DotNetPayloadFactory:
         ]
 
         if config.framework and self.compiler_type in ("csc", "mcs"):
-            args.extend([f"-r:System.dll", f"-r:System.Core.dll"])
+            args.extend(["-r:System.dll", "-r:System.Core.dll"])
 
         try:
             result = subprocess.run(args, capture_output=True, text=True, timeout=30)

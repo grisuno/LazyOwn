@@ -199,7 +199,7 @@ def _groq_call(
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
-def _toposwarm_call(prompt: str, system: str) -> Optional[AIResult]:
+def _toposwarm_call(prompt: str, system: str) -> AIResult | None:
     """
     Try TopoSwarm local brain as a last-resort fallback.
     Returns an AIResult if TopoSwarm is available, else None.

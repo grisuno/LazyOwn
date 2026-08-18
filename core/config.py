@@ -22,12 +22,12 @@ import logging
 import os
 import re
 import tempfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
-    from core.payload_schema import ValidationIssue
+    pass
 
 PAYLOAD_FILENAME = "payload.json"
 PAYLOAD_PATH = Path(PAYLOAD_FILENAME)
@@ -41,9 +41,7 @@ LAZYOWN_ENV_PREFIX = "LAZYOWN_"
 
 _CONFIG_AUDIT_LOG = Path("sessions/config_changes.jsonl")
 
-_UNRESOLVED_PLACEHOLDER_RE = re.compile(
-    r"\{\{[^}]+\}\}|<\w+>|YOUR_|CHANGE_ME|REPLACE_ME|INSERT_|__\w+__"
-)
+_UNRESOLVED_PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}|<\w+>|YOUR_|CHANGE_ME|REPLACE_ME|INSERT_|__\w+__")
 
 _DEFAULT_VALUE_MARKERS = {
     "CHANGE_ME",
@@ -86,7 +84,7 @@ def _apply_env_overrides(payload: dict[str, Any]) -> dict[str, Any]:
     for env_key, env_val in os.environ.items():
         if not env_key.startswith(LAZYOWN_ENV_PREFIX):
             continue
-        cfg_key = env_key[len(LAZYOWN_ENV_PREFIX):].lower()
+        cfg_key = env_key[len(LAZYOWN_ENV_PREFIX) :].lower()
         existing = result.get(cfg_key)
         coerced = _coerce_env_value(env_val, existing)
         if cfg_key in result and result[cfg_key] == coerced:
@@ -158,7 +156,7 @@ def _log_config_change(key: str, old_value: Any, new_value: Any) -> None:
     try:
         _CONFIG_AUDIT_LOG.parent.mkdir(parents=True, exist_ok=True)
         entry = {
-            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "timestamp": datetime.now(UTC).isoformat(),
             "key": key,
             "old_value": _mask_if_sensitive(key, old_value),
             "new_value": _mask_if_sensitive(key, new_value),
@@ -186,14 +184,10 @@ def _collect_validation_warnings(payload: dict[str, Any]) -> list[str]:
     for key, val in payload.items():
         str_val = str(val) if val is not None else ""
         if _UNRESOLVED_PLACEHOLDER_RE.search(str_val):
-            warnings.append(
-                f"{key}: value contains unresolved placeholder — {str_val[:60]}"
-            )
+            warnings.append(f"{key}: value contains unresolved placeholder — {str_val[:60]}")
         for marker in _DEFAULT_VALUE_MARKERS:
             if isinstance(val, str) and marker in val and val.strip() not in {"", "null"}:
-                warnings.append(
-                    f"{key}: value looks like an unchanged default — {val[:60]}"
-                )
+                warnings.append(f"{key}: value looks like an unchanged default — {val[:60]}")
                 break
     return warnings
 

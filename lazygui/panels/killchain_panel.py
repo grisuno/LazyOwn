@@ -73,13 +73,13 @@ class KillChainPanel(PanelBase):
         bar_layout.setContentsMargins(4, 4, 4, 4)
         bar_layout.setSpacing(6)
 
-        for ph_id, ph_name, ph_color in _PHASES:
+        for ph_id, _ph_name, _ph_color in _PHASES:
             phase_widget = QLabel(self._bar)
             phase_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
             phase_widget.setMinimumWidth(60)
             phase_widget.setFixedHeight(52)
             phase_widget.setStyleSheet(
-                f"border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;"
+                "border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;"
             )
             bar_layout.addWidget(phase_widget)
             self._phase_widgets[ph_id] = phase_widget

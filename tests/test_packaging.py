@@ -19,7 +19,7 @@ import yaml
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
-import tomllib
+import tomllib  # noqa: E402
 
 
 def _read_text(path: Path) -> str:

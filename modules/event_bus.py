@@ -27,10 +27,11 @@ import time
 import uuid
 from abc import ABC, abstractmethod
 from collections import defaultdict
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from enum import Enum
 from pathlib import Path
-from typing import Any, Callable, Optional
+from typing import Any
 
 log = logging.getLogger("event_bus")
 
@@ -43,7 +44,7 @@ MAX_QUEUE_PER_SUB = 500
 DISPATCH_QUEUE_SIZE = 500
 
 
-class EventCategory(str, Enum):
+class EventCategory(str, Enum):  # noqa: UP042
     COMMAND = "command"
     RECON = "recon"
     SCAN = "scan"
@@ -69,7 +70,7 @@ class EventCategory(str, Enum):
     REPORT = "report"
 
 
-class EventSeverity(str, Enum):
+class EventSeverity(str, Enum):  # noqa: UP042
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"
@@ -110,7 +111,7 @@ class LazyEvent:
         return json.dumps(self.to_dict(), ensure_ascii=False)
 
     @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> "LazyEvent":
+    def from_dict(cls, d: dict[str, Any]) -> LazyEvent:
         return cls(
             id=d.get("id", uuid.uuid4().hex[:12]),
             ts=d.get("ts", time.time()),
@@ -168,7 +169,7 @@ class CollabBusSink(Sink):
     def _bus(self):
         if self._collab_bus is None:
             try:
-                from collab_bp import get_event_bus, ColabEvent
+                from collab_bp import ColabEvent, get_event_bus
                 self._collab_bus = get_event_bus()
                 self._ColabEvent = ColabEvent
             except ImportError:
@@ -237,7 +238,7 @@ class UnifiedEventBus:
         ))
     """
 
-    _instance: Optional["UnifiedEventBus"] = None
+    _instance: UnifiedEventBus | None = None
     _instance_lock = threading.Lock()
 
     _SHUTDOWN_SENTINEL = "__event_bus_shutdown__"
@@ -251,7 +252,7 @@ class UnifiedEventBus:
         self._sinks: list[Sink] = []
         self._running = True
         self._dispatch_queue: queue.Queue = queue.Queue(maxsize=DISPATCH_QUEUE_SIZE)
-        self._worker: Optional[threading.Thread] = None
+        self._worker: threading.Thread | None = None
         self._init_sinks()
         self._worker = threading.Thread(
             target=self._dispatch_loop,
@@ -274,7 +275,7 @@ class UnifiedEventBus:
             log.debug("EngagementSink not available")
 
     @classmethod
-    def instance(cls) -> "UnifiedEventBus":
+    def instance(cls) -> UnifiedEventBus:
         if cls._instance is None:
             with cls._instance_lock:
                 if cls._instance is None:
@@ -551,7 +552,7 @@ class UnifiedEventBus:
 
         return ti == len(topic_parts) and ei == len(event_parts)
 
-    def history(self, n: int = 50, category: Optional[EventCategory] = None) -> list[LazyEvent]:
+    def history(self, n: int = 50, category: EventCategory | None = None) -> list[LazyEvent]:
         """Return recent events, optionally filtered by category."""
         with self._lock:
             events = list(self._history[-n:])

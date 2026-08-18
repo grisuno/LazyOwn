@@ -43,7 +43,7 @@ def getUUID():
             ]
   objc.loadBundleFunctions(IOKit_bundle, globals(), functions)
   def io_key(keyname):
-    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching(b"IOPlatformExpertDevice")), keyname, None, 0)
+    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching(b"IOPlatformExpertDevice")), keyname, None, 0)  # noqa: F821
 
   #return the system's unique identifier
   return str(io_key(b"IOPlatformUUID"))
@@ -124,7 +124,7 @@ def checkSignature(file, bundle=None):
   kSecCSSigningInformation = 0x2
   kSecCodeInfoCertificates = 'certificates'
 
-	#return dictionary
+    #return dictionary
   signingInfo = {}
   sigCheckFlags = kSecCSStrictValidate_kSecCSCheckAllArchitectures_kSecCSCheckNestedCode
   securityFramework = ctypes.cdll.LoadLibrary(SECURITY_FRAMEWORK)
@@ -213,7 +213,7 @@ def parseAgentsDaemons(item,path):
             plist = plistlib.readPlistFromString(plist_string)
     else:
         plist = plistlib.readPlist(plist_file)
-  except (ValueError, TypeError, KeyError, IOError, OSError) as exc:
+  except (ValueError, TypeError, KeyError, OSError) as exc:
     parsedPlist.update({'plist_format_error': f"Error parsing {plist_file}: {exc}"})
     return parsedPlist
 
@@ -226,7 +226,7 @@ def parseAgentsDaemons(item,path):
       if os.path.exists(progExecutable):
         try:
           progExecutableHash, progVTResult = getHash(progExecutable)
-        except (IOError, OSError, ValueError) as exc:
+        except (OSError, ValueError) as exc:
           progExecutableHash = f"Error hashing {progExecutable}: {exc}"
           progVTResult = "No VT result"
     elif plist.get("Program"):
@@ -386,8 +386,6 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
 
       json.dump(download,output_file)
       output_file.write("\n")
-  except sqlite3.OperationalError:
-    print("[-] Unable to connect to the chrome history database")
   except (sqlite3.OperationalError, sqlite3.DatabaseError, IndexError, KeyError, binascii.Error) as exc:
     print(f"[-] Error parsing chrome history database: {exc}")
   finally:
@@ -402,7 +400,7 @@ def getFirefoxExtensions(path,output_file):
   try:
     with open(path+"profiles.ini",'r') as profile_data:
       profile_dump = profile_data.read()
-  except (IOError, OSError) as exc:
+  except OSError as exc:
     print(f"[-] Could not read Firefox profiles: {exc}")
     return
 
@@ -490,7 +488,7 @@ def getKext(sipStatus,kextPath,output_file,ignoreVFlag):
         if name == ("Info.plist"):
           try:
             kextPlist = plistlib.readPlist(os.path.join(root, name))
-          except (ValueError, TypeError, IOError, OSError) as exc:
+          except (ValueError, TypeError, OSError) as exc:
             kextDict.update({"Plist_parsing_error": f"Unable to parse plist for {kextPath}: {exc}"})
 
           if (kextPlist):
@@ -907,10 +905,7 @@ __     __               _
     getEnv(outfile),getPeriodicScripts(outfile), getCronJobs(lst_of_users,outfile),getEmond(outfile),getLaunchAgents('/Library/LaunchAgents',outfile,ignoreVT),getShellStartupScripts(lst_of_users,outfile),
     getLaunchDaemons('/Library/LaunchDaemons',outfile,ignoreVT),getKext(sipStatus,'/Library/Extensions',outfile,ignoreVT),getApps('/Applications',outfile,ignoreVT),getEventTaps(outfile),getBashHistory(outfile,lst_of_users)]
 
-    for module in modules:
-      module
-
-    #user specific modules
+    # user specific modules
     for user in lst_of_users:
       userLaunchAgent = '/Users/'+user+'/Library/LaunchAgents'
       chromeEx = '/Users/'+user+'/Library/Application Support/Google/Chrome/Default/Extensions/'

@@ -13,7 +13,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -102,7 +102,7 @@ class LogTamper:
         config: LogTamperConfig for target platform and operations.
     """
 
-    def __init__(self, config: Optional[LogTamperConfig] = None):
+    def __init__(self, config: LogTamperConfig | None = None):
         self.config = config or LogTamperConfig()
 
     def windows_clear_commands(self) -> dict[str, Any]:

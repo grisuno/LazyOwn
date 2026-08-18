@@ -387,12 +387,12 @@ class ParquetAdvisor:
         try:
             import pandas as pd
             b = self._root / "parquets" / "binarios.parquet"
-            l = self._root / "parquets" / "lolbas_index.parquet"
+            lolbas_path = self._root / "parquets" / "lolbas_index.parquet"
             t = self._root / "parquets" / "techniques.parquet"
             if b.exists():
                 self._binarios = pd.read_parquet(b)
-            if l.exists():
-                self._lolbas = pd.read_parquet(l)
+            if lolbas_path.exists():
+                self._lolbas = pd.read_parquet(lolbas_path)
             if t.exists():
                 self._techniques = pd.read_parquet(t)
         except Exception as exc:

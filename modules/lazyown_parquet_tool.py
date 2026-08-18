@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-#_*_ coding: utf8 _*_
 """
 main.py
 
@@ -59,7 +58,7 @@ def buscar_binarios(args):
         print("[+] Ejecutando búsqueda de binarios con permisos especiales en Linux...")
         try:
             # Execute the find command for Linux
-            result = subprocess.run(['find', '/', '-perm', '4000', '-ls'], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run(['find', '/', '-perm', '4000', '-ls'], capture_output=True, text=True)
             output = result.stdout
 
             # Extract found binaries
@@ -91,7 +90,7 @@ def buscar_binarios(args):
             """
 
             # Execute the PowerShell script
-            result = subprocess.run(['powershell', '-Command', powershell_script], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            result = subprocess.run(['powershell', '-Command', powershell_script], capture_output=True, text=True)
             output = result.stdout
 
             # Extract found binaries
@@ -115,7 +114,7 @@ def buscar_binarios(args):
                 print(f"[**] Buscando resultados para '{binario}'")
                 if not result.empty:
                     result_str = result.astype(str)
-                    highlighted_result = result_str.applymap(lambda x: highlight_term(x, binario))
+                    highlighted_result = result_str.applymap(lambda x, _b=binario: highlight_term(x, _b))
 
                     print(f"Resultados encontrados para '{binario}':")
                     print(tabulate(highlighted_result, headers='keys', tablefmt='psql', showindex=False))

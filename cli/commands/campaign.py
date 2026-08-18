@@ -8,11 +8,10 @@ into a new workspace so engagements can be shared, archived, or replayed.
 from __future__ import annotations
 
 import json
-import os
 import shutil
 import tempfile
 import zipfile
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 
 import cmd2
@@ -88,7 +87,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
 
     def _gather_campaign_manifest(self, name: str) -> dict:
         """Build a manifest describing the current campaign state."""
-        now = datetime.now(timezone.utc).isoformat()
+        now = datetime.now(UTC).isoformat()
 
         db = LazyOwnDB()
         status = db.status()
@@ -133,7 +132,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
         EXPORTS_DIR.mkdir(parents=True, exist_ok=True)
 
         manifest = self._gather_campaign_manifest(name)
-        timestamp = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+        timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         safe_name = (name or "campaign").replace(" ", "_").replace("/", "_")
         archive_name = f"{safe_name}_{timestamp}.zip"
         archive_path = EXPORTS_DIR / archive_name
@@ -141,7 +140,6 @@ class CampaignCommandSet(LazyOwnCommandSet):
         print_msg(f"Packaging campaign '{safe_name}' ...")
 
         with zipfile.ZipFile(archive_path, "w", zipfile.ZIP_DEFLATED) as zf:
-
             zf.writestr("manifest.json", json.dumps(manifest, indent=2, default=str))
 
             if DB_PATH.exists():
@@ -170,10 +168,12 @@ class CampaignCommandSet(LazyOwnCommandSet):
         archive_size = archive_path.stat().st_size
         print_msg(f"Campaign exported: {archive_path}")
         print_msg(f"  Size: {archive_size / 1024:.1f} KB")
-        print_msg(f"  Hosts: {manifest['host_count']}  "
-                  f"Services: {manifest['service_count']}  "
-                  f"Vulns: {manifest['vuln_count']}  "
-                  f"Creds: {manifest['cred_count']}")
+        print_msg(
+            f"  Hosts: {manifest['host_count']}  "
+            f"Services: {manifest['service_count']}  "
+            f"Vulns: {manifest['vuln_count']}  "
+            f"Creds: {manifest['cred_count']}"
+        )
         print_msg(f"  Share with: campaign import {archive_path}")
 
     def _campaign_import(self, package_path: str):
@@ -222,7 +222,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                 )
 
             name = manifest.get("name", "imported")
-            now = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S")
+            now = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
             workspace_name = f"{name}_{now}"
 
             db_path = tmp / "lazyown.db"
@@ -233,6 +233,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                 workspace_id = ws["id"] if ws else None
 
                 import sqlite3
+
                 try:
                     src_conn = sqlite3.connect(str(db_path))
                     src_conn.row_factory = sqlite3.Row
@@ -241,9 +242,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                     imported = 0
                     for table in tables:
                         try:
-                            rows = src_conn.execute(
-                                f"SELECT * FROM {table}"
-                            ).fetchall()
+                            rows = src_conn.execute(f"SELECT * FROM {table}").fetchall()
                         except sqlite3.OperationalError:
                             continue
 
@@ -264,8 +263,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                                 values[idx] = None
 
                             db._cursor(
-                                f"INSERT OR IGNORE INTO {table} ({col_str}) "
-                                f"VALUES ({placeholders})",
+                                f"INSERT OR IGNORE INTO {table} ({col_str}) VALUES ({placeholders})",
                                 *values,
                             )
                             imported += 1
@@ -273,8 +271,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
                     src_conn.close()
 
                     if imported:
-                        print_msg(f"  + {imported} database rows imported "
-                                  f"into workspace '{workspace_name}'")
+                        print_msg(f"  + {imported} database rows imported into workspace '{workspace_name}'")
                 except Exception as exc:
                     print_warn(f"Database import skipped: {exc}")
             else:
@@ -301,7 +298,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
 
         print_msg(f"Campaign imported into workspace: {workspace_name}")
         print_msg(f"  Switch: db_workspace {workspace_name}")
-        print_msg(f"  Verify: facts_show --refresh")
+        print_msg("  Verify: facts_show --refresh")
 
     def _campaign_list(self):
         """List exported campaign packages."""
@@ -331,9 +328,6 @@ class CampaignCommandSet(LazyOwnCommandSet):
                 hosts = "?"
                 phase = "?"
 
-            print_msg(
-                f"  {pkg.name:<45} {size_kb:>6.0f} KB  "
-                f"{hosts} hosts  phase={phase}  {mtime}"
-            )
+            print_msg(f"  {pkg.name:<45} {size_kb:>6.0f} KB  {hosts} hosts  phase={phase}  {mtime}")
         print_msg("")
         print_msg("Use: campaign import <filename>")

@@ -112,7 +112,7 @@
     "cli/commands/lateral_migrated.py": "758be1f85d6a73c19fddfc6abec1069f1a5d9d4834c04349936d671867479bff",
     "cli/commands/marketplace.py": "2a1041703f5c89ab4e48f206a5d0bf9d4ccdb802c95bb059dd685c9e053734d5",
     "cli/commands/mcp_bridge.py": "160504537463897d74d8c93e2d2b22a69537f661d75d2cca64f2feb012ad2a7e",
-    "cli/commands/misc_migrated.py": "4251a0c5bf2bcb236d093a610df99b29aa5cc59a3c1d26ed0b796b886277bc10",
+    "cli/commands/misc_migrated.py": "6e82b77ccc69cd950f92dba3ed15cfaf909c4cd7ce25165974ddfbb7b6859da4",
     "cli/commands/mobile_macos.py": "be24548feadaaf9db4387d160d11ffce2049bef3c7e8ff6aeb19860d6d9ca7fa",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
     "cli/commands/opsec_cleanup.py": "ffd2dc1235b36805ad8330466a3183bc7f3611b5911d449ced381bb85f9119f3",

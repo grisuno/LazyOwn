@@ -100,7 +100,7 @@ OLLAMA_MODEL = os.environ.get("OLLAMA_SMALL_MODEL", "qwen3.5:0.8b")
 POLL_INTERVAL_S   = float(os.environ.get("WATCHER_POLL_INTERVAL", "3"))
 MAX_PLAN_CHARS    = int(os.environ.get("WATCHER_MAX_PLAN_CHARS", "6000"))
 
-from modules.logging_config import configure, get_logger
+from modules.logging_config import configure, get_logger  # noqa: E402
 
 configure(
     level=logging.INFO,
@@ -111,8 +111,8 @@ log = get_logger("sessions_watcher")
 
 # ── Event helper ──────────────────────────────────────────────────────────────
 
-import datetime as _datetime
-import uuid as _uuid
+import datetime as _datetime  # noqa: E402
+import uuid as _uuid  # noqa: E402
 
 
 def _emit(event_type: str, severity: str, suggest: str, source: dict) -> None:
@@ -332,7 +332,7 @@ def _extract_target_from_filename(name: str) -> str:
 
 # ── Watchdog handler ─────────────────────────────────────────────────────────
 
-from collections import OrderedDict as _OrderedDict
+from collections import OrderedDict as _OrderedDict  # noqa: E402
 
 _SEEN: _OrderedDict = _OrderedDict()  # debounce LRU — max 500 entries
 _SEEN_MAX = 500

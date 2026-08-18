@@ -233,7 +233,7 @@ class LazyOwnExecutor:
     def _has_pty(self) -> bool:
         """Return True if the platform supports PTY subprocesses."""
         try:
-            import pty as _pty_test
+            import pty as _pty_test  # noqa: F401
             return True
         except ImportError:
             return False

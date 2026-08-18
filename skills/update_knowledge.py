@@ -28,8 +28,9 @@ configure(
 )
 log = get_logger("update_knowledge")
 
-SKILLS_DIR = Path(__file__).parent
-BASE_DIR   = SKILLS_DIR.parent
+SKILLS_DIR   = Path(__file__).parent
+LAZYOWN_DIR = SKILLS_DIR.parent
+BASE_DIR    = LAZYOWN_DIR
 
 for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
     if _p not in sys.path:

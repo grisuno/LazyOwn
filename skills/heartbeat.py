@@ -27,7 +27,7 @@ _hp = str(LAZYOWN_DIR / "modules")
 if _hp not in sys.path:
     sys.path.insert(0, _hp)
 
-from event_engine import process_new_rows, read_events
+from event_engine import process_new_rows, read_events  # noqa: E402
 
 try:
     from session_state import refresh as _state_refresh

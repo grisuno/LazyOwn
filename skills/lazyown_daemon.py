@@ -63,7 +63,7 @@ for _p in (str(SKILLS_DIR), str(MODULES_DIR)):
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
-from modules.logging_config import configure, get_logger
+from modules.logging_config import configure, get_logger  # noqa: E402
 
 configure(
     level=logging.INFO,

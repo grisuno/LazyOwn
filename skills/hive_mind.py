@@ -88,7 +88,7 @@ log = logging.getLogger("hive_mind")
 
 try:
     import chromadb
-    from chromadb.config import Settings as _ChromaSettings
+    from chromadb.config import Settings  # noqa: F401 as _ChromaSettings
     _CHROMA_OK = True
 except ImportError:
     _CHROMA_OK = False
@@ -128,7 +128,7 @@ def _get_embed_model():
 # ── Optional numpy ────────────────────────────────────────────────────────────
 
 try:
-    import numpy as np
+    import numpy  # noqa: F401 as np
     _NUMPY_OK = True
 except ImportError:
     _NUMPY_OK = False

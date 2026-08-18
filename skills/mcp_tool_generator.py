@@ -123,7 +123,7 @@ def generate_module(
 
     # Determine which commands need generation
     needs_generation: list[tuple[str, str]] = []  # (tool_name, cmd_name)
-    for cmd_name, summary in sorted_cmds:
+    for cmd_name, _summary in sorted_cmds:
         tool_name = f"lazyown_{cmd_name}"
         if tool_name in existing_handlers:
             continue

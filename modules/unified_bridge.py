@@ -118,7 +118,7 @@ class LazyownBridgeBackend(RouteBackend):
 
     def available(self) -> bool:
         try:
-            from modules.lazyown_bridge import BridgeDispatcher
+            from modules.lazyown_bridge import BridgeDispatcher  # noqa: F401
             return True
         except ImportError:
             return False

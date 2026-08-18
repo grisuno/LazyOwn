@@ -13,7 +13,7 @@ from dataclasses import dataclass
 from typing import Any
 
 try:
-    import boto3
+    import boto3  # noqa: F401
     HAS_BOTO3 = True
 except ImportError:
     HAS_BOTO3 = False

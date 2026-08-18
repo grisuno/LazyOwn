@@ -56,7 +56,7 @@ class DNSBeacon:
 
     def _ensure_dnspython(self):
         try:
-            import dns.resolver
+            import dns.resolver  # noqa: F401
         except ImportError:
             subprocess.check_call(["pip3", "install", "dnspython", "-q"])
 

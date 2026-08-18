@@ -1,5 +1,7 @@
 import ast
 
+from modules.agent_tool import AgentTool
+
 
 def extract_tools_from_source(file_path: str, class_name: str = None,
                                prefix: str = "do_") -> list[AgentTool]:

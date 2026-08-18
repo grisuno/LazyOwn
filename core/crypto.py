@@ -6,14 +6,62 @@ extracted from ``utils.py``.
 
 from __future__ import annotations
 
+import base64
 import os
 import random
+import secrets
 from typing import Union
 
 ByteLike = Union[bytes, bytearray]
 
 _AES_GCM_NONCE_LENGTH = 12
 _AES_GCM_TAG_LENGTH = 16
+
+_FERNET_KEY_LENGTH = 32
+_PBKDF2_ITERATIONS = 100_000
+
+
+def generate_salt(length: int = 16) -> bytes:
+    """Generate a cryptographically random salt.
+
+    Args:
+        length: Salt length in bytes.
+
+    Returns:
+        Random bytes suitable for PBKDF2 key derivation.
+    """
+    return secrets.token_bytes(length)
+
+
+def derive_key(password: str, salt: bytes) -> bytes:
+    """Derive a Fernet-compatible key from a password using PBKDF2HMAC.
+
+    Uses SHA-256 with 100000 iterations over ``password`` + ``salt`` and
+    returns a URL-safe Base64 key accepted by ``cryptography.Fernet``.
+
+    Args:
+        password: The user-provided password.
+        salt: Salt bytes (see ``generate_salt``). Callers persisting
+            encrypted data must store the salt alongside it.
+
+    Returns:
+        Base64-encoded Fernet key bytes.
+
+    Raises:
+        ValueError: if ``password`` is empty.
+    """
+    from cryptography.hazmat.primitives import hashes
+    from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
+    if not password:
+        raise ValueError("derive_key requires a non-empty password")
+    kdf = PBKDF2HMAC(
+        algorithm=hashes.SHA256(),
+        length=_FERNET_KEY_LENGTH,
+        salt=salt,
+        iterations=_PBKDF2_ITERATIONS,
+    )
+    return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
 
 def xor_encrypt_decrypt(data: ByteLike, key: str) -> bytearray:

@@ -286,7 +286,7 @@ class DashboardEngine:
         )
         lines.append("")
 
-        for i, node in enumerate(snapshot.get("nodes", [])):
+        for node in snapshot.get("nodes", []):
             phase_icon = self._phase_icon(node.get("phase", "unscanned"))
             color = node.get("phase_color", "white")
             lines.append(

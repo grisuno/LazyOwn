@@ -281,7 +281,7 @@ class LockManager:
 
     def _expire(self) -> None:
         now = time.time()
-        expired = [t for t, l in self._locks.items() if now - l.acquired > l.ttl_secs]
+        expired = [t for t, lock in self._locks.items() if now - lock.acquired > lock.ttl_secs]
         for t in expired:
             log.debug("Lock on %s expired", t)
             del self._locks[t]
@@ -490,9 +490,9 @@ def locks():
     all_locks = _locks.all_locks()
     return jsonify({
         "count": len(all_locks),
-        "locks": [{"target": l.target, "operator": l.operator,
-                   "acquired": l.acquired, "ttl_secs": l.ttl_secs}
-                  for l in all_locks],
+        "locks": [{"target": lock.target, "operator": lock.operator,
+                   "acquired": lock.acquired, "ttl_secs": lock.ttl_secs}
+                  for lock in all_locks],
     })
 
 

@@ -19,7 +19,7 @@ from typing import Any
 
 try:
     from cryptography.hazmat.primitives import hashes
-    from cryptography.hazmat.primitives import hmac as crypto_hmac
+    from cryptography.hazmat.primitives import hmac as crypto_hmac  # noqa: F401
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
     HAS_CRYPTO = True
@@ -27,9 +27,9 @@ except ImportError:
     HAS_CRYPTO = False
 
 try:
-    from pyasn1.codec.der import decoder as der_decoder
-    from pyasn1.codec.der import encoder as der_encoder
-    from pyasn1.type import namedtype, tag, univ
+    from pyasn1.codec.der import decoder as der_decoder  # noqa: F401
+    from pyasn1.codec.der import encoder as der_encoder  # noqa: F401
+    from pyasn1.type import namedtype, tag, univ  # noqa: F401
     HAS_PYASN1 = True
 except ImportError:
     HAS_PYASN1 = False
@@ -350,7 +350,7 @@ class KerberosCrypto:
         result = bytearray()
         xor_block = bytes(16)
         for block in padded:
-            encrypted = encryptor.update(bytes(a ^ b for a, b in zip(block, xor_block)))
+            encrypted = encryptor.update(bytes(a ^ b for a, b in zip(block, xor_block, strict=False)))
             result.extend(encrypted)
             xor_block = encrypted
 
@@ -377,7 +377,7 @@ class KerberosCrypto:
         xor_block = bytes(16)
         for i in range(0, len(ciphertext), 16):
             block = ciphertext[i : i + 16]
-            decrypted = bytes(a ^ b for a, b in zip(decryptor.update(block), xor_block))
+            decrypted = bytes(a ^ b for a, b in zip(decryptor.update(block), xor_block, strict=False))
             result.extend(decrypted)
             xor_block = block
 

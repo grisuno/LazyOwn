@@ -337,7 +337,7 @@ def parse(fd):
     in_script_line = False
     script = ''
 
-    lines = [l.rstrip() for l in fd.readlines()]
+    lines = [ln.rstrip() for ln in fd.readlines()]
     for line in lines:
 
         # 1st case:     Nmap Normal Output

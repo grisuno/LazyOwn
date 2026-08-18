@@ -58,14 +58,14 @@ DEFAULT_CATALOG_URL = "https://github.com/trustedsec/CS-Situational-Awareness-BO
 CATALOG_CACHE_TTL_S = 86400
 
 
-class BofPlatform(str, Enum):
+class BofPlatform(str, Enum):  # noqa: UP042
     """Target platform for a Beacon Object File."""
 
     WINDOWS = "windows"
     LINUX = "linux"
 
 
-class BofCategory(str, Enum):
+class BofCategory(str, Enum):  # noqa: UP042
     """Functional category of a BOF."""
 
     RECON = "reconnaissance"

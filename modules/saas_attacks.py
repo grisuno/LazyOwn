@@ -15,7 +15,7 @@ from dataclasses import dataclass
 from typing import Any
 
 try:
-    import requests
+    import requests  # noqa: F401
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False

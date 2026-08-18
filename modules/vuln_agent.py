@@ -14,7 +14,7 @@ from flask import Response, stream_with_context
 from llm_factory import BACKEND_GROQ, BACKEND_OLLAMA, get_llm_backend
 
 try:
-    from .logging_config import configure, get_logger
+    from .logging_config import configure, get_logger  # noqa: F401
 except ImportError:
     from logging_config import configure
 

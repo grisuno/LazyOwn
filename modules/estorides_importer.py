@@ -684,7 +684,7 @@ class EstoridesToLazyOwnBridge:
             current_scope: list[str] = list(cfg.get("scope") or [])
             scope_set = set(current_scope)
 
-            for ent_type, value, _source in imports:
+            for _ent_type, value, _source in imports:
                 entry = value.strip()
                 if not entry:
                     continue

@@ -684,7 +684,7 @@ class ContainerEscapeTechniques:
 
 
 try:
-    import requests as _requests
+    import requests as _requests  # noqa: F401
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False

@@ -657,8 +657,7 @@ SCHEMA: dict[str, FieldSpec] = {
             custom_validator=lambda v: (
                 None
                 if (
-                    isinstance(v, str)
-                    and (v == "" or (len(v) == 64 and all(c in "0123456789abcdefABCDEF" for c in v)))
+                    isinstance(v, str) and (v == "" or (len(v) == 64 and all(c in "0123456789abcdefABCDEF" for c in v)))
                 )
                 else "aes_key must be 64 hex characters (32 bytes) or empty"
             ),

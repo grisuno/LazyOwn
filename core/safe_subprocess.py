@@ -128,8 +128,7 @@ class SafeRunner:
         if not allow:
             self._audit({"allowed": False, "command": command, "reason": reason})
             raise ShellNotAllowedError(
-                "SafeRunner.run_shell requires allow=True; "
-                "pass a free-text reason explaining the call site."
+                "SafeRunner.run_shell requires allow=True; pass a free-text reason explaining the call site."
             )
         if not reason or not reason.strip():
             raise ValueError("SafeRunner.run_shell requires a non-empty reason")

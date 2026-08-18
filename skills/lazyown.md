@@ -232,6 +232,7 @@ lazyown_command_help(command='secretsdump')
 | `lazyown_phase_guide` | **FULL PHASE GUIDE** — commands + payload keys + aliases + kill-chain for a phase. Use at phase start. |
 | `lazyown_discover_commands` | List commands by pentest phase (use `phase='recon'`/`'enum'`/etc) OR all shell commands |
 | `lazyown_command_help` | Get full docs for any command: `help <command>` |
+| `lazyown_db` | Read/write the SQLite campaign DB (status, workspaces, hosts, services, vulns, creds, loot, notes, nmap import, CSV export) |
 
 ### Target Management
 

@@ -13,6 +13,7 @@
     "cli/commands/c2_profile.py",
     "cli/commands/caldera.py",
     "cli/commands/campaign.py",
+    "cli/commands/catalog.py",
     "cli/commands/cicd.py",
     "cli/commands/cli_auth.py",
     "cli/commands/cloud.py",
@@ -83,6 +84,7 @@
     "cli/commands/c2_profile.py": "7dabe5e299e81deaf6ceab5930e7c5ca22302f7edfe07906bc9d059c72294b07",
     "cli/commands/caldera.py": "a3e4c78b02bcc84d14f42a7f688401565a3b8246b81239fc4f65d8c6711951ce",
     "cli/commands/campaign.py": "36faf3db903c479defad01954d588bd33cc473b832b8a0bf3128b0a80487ca6c",
+    "cli/commands/catalog.py": "9d1d3ec99c884127d1551f053f0a37b1ad44184f8d12a19e3950806ef2480976",
     "cli/commands/cicd.py": "475cfb7f35fabc9a8768ae69bc52ee266f463902fb75b56e4b1ea3287ef874dd",
     "cli/commands/cli_auth.py": "96a824c854dbda87367397e555431f1b19afcb34eb2e54d73064b73a3453e519",
     "cli/commands/cloud.py": "1054a78500ce0a78655889589fc4b60be7a9372e5238f79d9b63175fc695cb44",
@@ -141,8 +143,8 @@
     "cli/commands/supply_chain.py": "a9f97411e937e90f9ea87f3ba10853f6dc0ae4500a086babe256224206efdc2f"
   },
   "totals": {
-    "method_definitions": 728,
-    "unique_commands": 727,
+    "method_definitions": 729,
+    "unique_commands": 728,
     "duplicates": 1,
     "phases": 14,
     "categories": 17
@@ -299,6 +301,7 @@
       "do_base64encode",
       "do_browse",
       "do_campaign",
+      "do_catalog",
       "do_chainmode",
       "do_check_update",
       "do_clean",
@@ -927,6 +930,7 @@
       "do_base64encode",
       "do_browse",
       "do_campaign",
+      "do_catalog",
       "do_chainmode",
       "do_check_update",
       "do_clean",
@@ -2348,6 +2352,17 @@
       "phase": "misc",
       "source_file": "cli/commands/campaign.py",
       "class_name": "CampaignCommandSet",
+      "community": null,
+      "duplicate_of": null
+    },
+    {
+      "name": "do_catalog",
+      "line": 33,
+      "summary": "Browse the command catalog.",
+      "category": "12. Miscellaneous",
+      "phase": "misc",
+      "source_file": "cli/commands/catalog.py",
+      "class_name": "CatalogCommandSet",
       "community": null,
       "duplicate_of": null
     },

@@ -646,6 +646,116 @@ def _h_get_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
     return _make_text(tool_name, json.dumps(cfg, indent=2))
 
 
+@register_handler("lazyown_db")
+def _h_db(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Read/write the LazyOwn SQLite campaign database.
+
+    Args:
+        arguments: Tool arguments with an ``operation`` key.
+        tool_name: MCP tool name for permission/transcript context.
+
+    Returns:
+        A ``TextContent`` payload with the operation result as JSON.
+    """
+    from modules.db import get_db
+
+    operation = str(arguments.get("operation", "")).strip().lower()
+    if not operation:
+        return _make_text(tool_name, "Missing required 'operation' argument.")
+
+    db = get_db()
+    ws_name = arguments.get("workspace") or "default"
+    wid = arguments.get("workspace_id") or db.workspace_get(ws_name)["id"]
+
+    def _result(payload: Any) -> list[types.TextContent]:
+        return _make_text(tool_name, json.dumps(payload, indent=2, default=str))
+
+    try:
+        if operation == "status":
+            return _result({"db_path": db.db_path, "counts": db.status(wid)})
+        if operation == "workspace_list":
+            return _result(db.workspace_list())
+        if operation == "workspace_create":
+            return _result({"workspace_id": db.workspace_create(
+                ws_name, arguments.get("description", ""))})
+        if operation == "host_list":
+            return _result(db.host_list(wid))
+        if operation == "host_find":
+            return _result(db.host_find(wid, arguments.get("query", "")))
+        if operation == "host_add":
+            return _result({"host_id": db.host_add(
+                wid,
+                arguments["address"],
+                arguments.get("mac", ""),
+                arguments.get("hostname", ""),
+                arguments.get("os", ""),
+                arguments.get("state", "unknown"),
+            )})
+        if operation == "service_list":
+            return _result(db.service_list(int(arguments.get("host_id", 0))))
+        if operation == "service_add":
+            return _result({"service_id": db.service_add(
+                int(arguments["host_id"]),
+                int(arguments["port"]),
+                arguments.get("protocol", "tcp"),
+                arguments.get("state", "open"),
+                arguments.get("name", ""),
+                arguments.get("product", ""),
+                arguments.get("version", ""),
+            )})
+        if operation == "vuln_list":
+            return _result(db.vuln_list(wid, arguments.get("severity") or None))
+        if operation == "vuln_add":
+            return _result({"vuln_id": db.vuln_add(
+                int(arguments["host_id"]),
+                arguments["name"],
+                arguments.get("severity", "unknown"),
+                arguments.get("description", ""),
+                arguments.get("refs", ""),
+            )})
+        if operation == "cred_list":
+            return _result(db.cred_list(wid))
+        if operation == "cred_add":
+            return _result({"cred_id": db.cred_add(
+                int(arguments["host_id"]),
+                arguments.get("username", ""),
+                arguments.get("password", ""),
+                arguments.get("realm", ""),
+                arguments.get("cred_type", "password"),
+                arguments.get("origin", "manual"),
+            )})
+        if operation == "loot_list":
+            return _result(db.loot_list(wid))
+        if operation == "loot_add":
+            return _result({"loot_id": db.loot_add(
+                wid,
+                arguments["name"],
+                arguments.get("loot_type", "file"),
+                arguments.get("path", ""),
+                arguments.get("notes", ""),
+                int(arguments["host_id"]) if arguments.get("host_id") else None,
+            )})
+        if operation == "note_list":
+            return _result(db.note_list(wid))
+        if operation == "note_add":
+            return _result({"note_id": db.note_add(
+                wid,
+                arguments.get("notes", arguments.get("data", "")),
+                arguments.get("note_type", "general"),
+                int(arguments["host_id"]) if arguments.get("host_id") else None,
+            )})
+        if operation == "import_nmap":
+            return _result(db.import_nmap_xml(wid, arguments.get("xml_path", "")))
+        if operation == "export_csv":
+            return _result({"csv": db.export_csv(
+                arguments.get("table", ""), wid)})
+        return _make_text(tool_name, f"Unknown operation '{operation}'.")
+    except KeyError as error:
+        return _make_text(tool_name, f"Missing required argument for {operation}: {error}")
+    except Exception as error:
+        return _make_text(tool_name, f"lazyown_db {operation} failed: {error}")
+
+
 @register_handler("lazyown_get_llm_budget")
 def _h_get_llm_budget(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:

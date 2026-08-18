@@ -337,7 +337,7 @@ class ThreatModelBuilder:
             asset_map[ip]["_commands"].append(cmd)
 
         assets = []
-        for ip, data in asset_map.items():
+        for _ip, data in asset_map.items():
             cmds      = data.pop("_commands")
             risk      = self._risk_score(cmds, data["ports"])
             indicators = self._compromise_indicators(cmds)

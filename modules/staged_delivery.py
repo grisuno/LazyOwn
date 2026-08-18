@@ -379,7 +379,7 @@ End Sub
         file_set_id = b"                                "
         pvd[190:222] = file_set_id[:32]
 
-        for name, content in files.items():
+        for name, _content in files.items():
             name_upper = name.upper().encode()
             name_part = name_upper.split(b".")[0][:8].ljust(8, b"0")
             ext_part = name_upper.split(b".")[-1][:3].ljust(3).rjust(3, b"0") if b"." in name_upper else b"   "

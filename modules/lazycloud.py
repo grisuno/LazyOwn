@@ -199,7 +199,7 @@ class CloudMetadataHarvester:
     def harvest_all(self) -> list[dict[str, Any]]:
         """Try all three cloud providers sequentially."""
         results: list[dict[str, Any]] = []
-        for harvester, name in [
+        for harvester, _name in [
             (self.harvest_aws, "aws"),
             (self.harvest_azure, "azure"),
             (self.harvest_gcp, "gcp"),

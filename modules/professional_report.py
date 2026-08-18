@@ -322,7 +322,7 @@ class RedTeamReportGenerator:
                 )
 
         findings_html = ""
-        for idx, finding in enumerate(self._findings):
+        for finding in self._findings:
             cvss_html = ""
             if finding.cvss_score > 0:
                 cvss_html = f'<div style="margin-top:0.5rem;"><strong>CVSS:</strong> {finding.cvss_score}</div>'

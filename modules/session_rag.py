@@ -41,7 +41,7 @@ log = logging.getLogger(__name__)
 # ---------------------------------------------------------------------------
 try:
     import chromadb
-    from chromadb.config import Settings as _ChromaSettings
+    from chromadb.config import Settings as _ChromaSettings  # noqa: F401
     _CHROMA_OK = True
 except ImportError:
     _CHROMA_OK = False

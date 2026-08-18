@@ -273,8 +273,10 @@ class GroqAgentWorker:
                 args = json.loads(tc.function.arguments) if tc.function.arguments else {}
                 cmd  = args.get("command", "")
                 out  = "⚠️ Duplicate." if cmd in self.executed else self.run_cmd(cmd)
-                if cmd: self.executed.add(cmd)
-                if len(out) > 2000: out = out[:2000] + "\n...[truncated]"
+                if cmd:
+                    self.executed.add(cmd)
+                if len(out) > 2000:
+                    out = out[:2000] + "\n...[truncated]"
                 _write_log(self.agent_id, {"type":"action","step":step,
                     "tool":tc.function.name,"args":args,"output":out,"ts":datetime.now().isoformat()})
                 self.history.append({"role":"tool","tool_call_id":tc.id,
@@ -362,8 +364,10 @@ class OllamaReActWorker:
                 return
 
             out = "⚠️ Duplicate." if action in self.executed else self.run_cmd(action)
-            if action: self.executed.add(action)
-            if len(out) > 1500: out = out[:1500] + "\n...[truncated]"
+            if action:
+                self.executed.add(action)
+            if len(out) > 1500:
+                out = out[:1500] + "\n...[truncated]"
 
             _write_log(self.agent_id, {"type":"action","step":step,
                 "tool":"run_lazyown_command","args":{"command":action},

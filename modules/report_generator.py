@@ -295,10 +295,10 @@ class DOCXExporter:
         """
         try:
             from docx import Document  # type: ignore
-            from docx.enum.text import WD_ALIGN_PARAGRAPH  # type: ignore
-            from docx.oxml import OxmlElement  # type: ignore
-            from docx.oxml.ns import qn  # type: ignore
-            from docx.shared import Pt, RGBColor  # type: ignore
+            from docx.enum.text import WD_ALIGN_PARAGRAPH  # type: ignore  # noqa: F401
+            from docx.oxml import OxmlElement  # type: ignore  # noqa: F401
+            from docx.oxml.ns import qn  # type: ignore  # noqa: F401
+            from docx.shared import Pt, RGBColor  # type: ignore  # noqa: F401
         except ImportError:
             log.warning(
                 "python-docx is not installed; DOCX export skipped. "
@@ -739,7 +739,7 @@ class ReportGenerator:
         creds = cred_file.read_text(encoding="utf-8", errors="replace").strip()
         if not creds:
             return ""
-        count = len([l for l in creds.splitlines() if l.strip()])
+        count = len([line for line in creds.splitlines() if line.strip()])
         return (
             "## 3. Credentials Captured\n\n"
             f"**Total:** {count}\n\n"

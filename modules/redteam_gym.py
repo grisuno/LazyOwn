@@ -659,7 +659,7 @@ def main():
 
     if len(sys.argv) > 1 and sys.argv[1] == "list":
         challenges = list_challenges()
-        for cid, chal in sorted(challenges.items()):
+        for _cid, chal in sorted(challenges.items()):
             print(f"  {chal['name']} [{chal['difficulty']}] — {chal['description']}")
     else:
         board = show_leaderboard()

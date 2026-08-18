@@ -44,7 +44,7 @@ MAX_QUEUE_PER_SUB = 500
 DISPATCH_QUEUE_SIZE = 500
 
 
-class EventCategory(str, Enum):
+class EventCategory(str, Enum):  # noqa: UP042
     COMMAND = "command"
     RECON = "recon"
     SCAN = "scan"
@@ -70,7 +70,7 @@ class EventCategory(str, Enum):
     REPORT = "report"
 
 
-class EventSeverity(str, Enum):
+class EventSeverity(str, Enum):  # noqa: UP042
     DEBUG = "debug"
     INFO = "info"
     WARNING = "warning"

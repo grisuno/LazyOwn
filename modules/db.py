@@ -726,7 +726,7 @@ class LazyOwnDB:
 
     def close(self) -> None:
         """Close the database connection for the current thread.
-        
+
         Idempotent — safe to call multiple times.
         """
         if self._closed:

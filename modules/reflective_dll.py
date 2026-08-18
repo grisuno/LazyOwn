@@ -483,7 +483,7 @@ class ReflectiveLoader:
         "_imports", "_relocations", "_exports", "_config",
     )
 
-    def __init__(self, pe_data: bytes, config: Optional[ReflectiveLoaderConfig] = None):
+    def __init__(self, pe_data: bytes, config: ReflectiveLoaderConfig | None = None):
         self._parser = PEParser(pe_data)
         self._file_header = self._parser.parse_file_header()
         self._sections = self._parser.parse_sections(self._file_header.number_of_sections)

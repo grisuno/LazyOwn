@@ -11,7 +11,7 @@ if _script_dir not in sys.path:
     sys.path.insert(0, _script_dir)
 
 try:
-    from ai_model import AIModel
+    from ai_model import AIModel  # noqa: F401
     from llm_factory import try_get_llm_backend
 except ImportError:
     print("Failed to import ai_model or llm_factory. Ensure modules/ai_model.py exists.")

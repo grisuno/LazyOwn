@@ -85,9 +85,6 @@ from core.errors import (  # noqa: F401
     ToolError,
     ValidationError,
 )
-from core.errors import (
-    PermissionError as LazyPermissionError,
-)
 from core.http import (
     display_news,
     exploitalert,

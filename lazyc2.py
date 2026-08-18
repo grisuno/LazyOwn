@@ -1,5 +1,6 @@
 import base64
 import csv
+import dataclasses
 import errno
 import fcntl
 import glob
@@ -143,12 +144,12 @@ try:
         RBACUser,
         Role,
         TenantManager,
-        check_cli_permission,
+        check_cli_permission,  # noqa: F401
         generate_mfa_qr_url,
         get_rbac_store,
         get_tenant_manager,
-        get_user_role,
-        require_mfa,
+        get_user_role,  # noqa: F401
+        require_mfa,  # noqa: F401
         require_permission,
         require_role,
         set_rbac_store,
@@ -1262,7 +1263,7 @@ def escape_js_string(value):
         value = re.sub(r'\r', r'\\r', value)
     return value
 
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
 
 
 def check_auth(username: str, password: str) -> bool:
@@ -3425,7 +3426,7 @@ def receive_result(client_id):
                             if _candidates:
                                 _summary = _cre.get_summary(_candidates)
                                 logging.info("[cred_reuse]\n%s", _summary)
-                        _thr.Thread(target=_bg_cred_reuse, daemon=True).start()
+                        threading.Thread(target=_bg_cred_reuse, daemon=True).start()
                     except Exception:
                         pass
 
@@ -3655,9 +3656,9 @@ def download_file():
     else:
         return jsonify({"status": "error", "message": "No file selected"}), 400
 
-import os
+import os  # noqa: E402
 
-from flask import Flask
+from flask import Flask  # noqa: E402
 
 _DOWNLOAD_SAFE_SERVICE = _SafeFileService(
     Path(os.path.join(os.getcwd(), 'sessions', 'temp_uploads'))
@@ -4732,12 +4733,12 @@ def csv_to_html():
             rows = list(reader)
 
             html = '<table border="1"><tr>'
-            html += ''.join(f'<th>{escape(header)}</th>' for header in headers)
+            html += ''.join(f'<th>{html.escape(header)}</th>' for header in headers)
             html += '</tr>'
 
             for row in rows:
                 html += '<tr>'
-                html += ''.join(f'<td>{escape(cell)}</td>' for cell in row)
+                html += ''.join(f'<td>{html.escape(cell)}</td>' for cell in row)
                 html += '</tr>'
 
             html += '</table>'
@@ -4783,7 +4784,7 @@ def search_results():
             print(f"[!] Error searching {path}: {e}")
 
     if not combined_md_content.strip():
-        combined_md_content = f"No Results found for: '{escape(term)}'\n"
+        combined_md_content = f"No Results found for: '{html.escape(term)}'\n"
 
     # Convertir a HTML
     html_content = markdown.markdown(combined_md_content)
@@ -5873,7 +5874,7 @@ def compliance_dashboard():
     if response:
         return response
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding
+        from modules.compliance import ComplianceEngine, ComplianceFinding  # noqa: F401
         engine = ComplianceEngine("sessions")
         report = engine.generate_compliance_report(include_evidence_chain=True)
         return render_template(
@@ -5894,7 +5895,7 @@ def compliance_report():
     if response:
         return response
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf
+        from modules.compliance import ComplianceEngine, ComplianceFinding, export_pdf  # noqa: F401
         engine = ComplianceEngine("sessions")
         report = engine.generate_compliance_report(
             include_evidence_chain=True,
@@ -5963,10 +5964,15 @@ def compliance_verify_evidence():
 @require_permission(Permission.REPORT_GENERATE.value)
 def compliance_export(format):
     try:
-        from modules.compliance import ComplianceEngine, ComplianceFinding, export_to_cef, export_to_elastic_ndjson
+        from modules.compliance import (  # noqa: F401
+            ComplianceEngine,
+            ComplianceFinding,
+            export_to_cef,
+            export_to_elastic_ndjson,
+        )
         engine = ComplianceEngine("sessions")
         findings = engine._load_findings()
-        finding_dicts = [asdict(f) for f in findings]
+        finding_dicts = [dataclasses.asdict(f) for f in findings]
         ts = datetime.now().strftime("%Y%m%d_%H%M%S")
 
         if format == "elastic":

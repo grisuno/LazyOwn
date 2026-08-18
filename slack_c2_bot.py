@@ -85,7 +85,7 @@ class SecureSessionManager:
     def get_client(self, user_id: str) -> str:
         session = self.sessions.get(user_id)
         return session['target_client'] if session else None
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
 
 session_manager = SecureSessionManager()
 

@@ -57,9 +57,7 @@ class CommandBridge:
             except Exception as exc:
                 self._error = str(exc)
                 self._ready = False
-                raise RuntimeError(
-                    f"Failed to initialize LazyOwn shell: {exc}"
-                ) from exc
+                raise RuntimeError(f"Failed to initialize LazyOwn shell: {exc}") from exc
         return self._shell
 
     def onecmd(self, command: str) -> str:

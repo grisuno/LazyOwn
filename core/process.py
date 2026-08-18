@@ -33,8 +33,7 @@ def check_go_tool_installed(tool_name: str) -> bool:
     try:
         process = subprocess.run(
             [tool_name, "help"],
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
+            capture_output=True,
             check=False,
         )
         return process.returncode == 0
@@ -91,11 +90,9 @@ def check_sudo() -> None:
     Exits the current process and replaces it with a sudo invocation.
     """
     if os.geteuid() != 0:
-        print_warn(
-            "This script requires superuser permissions. Relaunching with sudo..."
-        )
+        print_warn("This script requires superuser permissions. Relaunching with sudo...")
         args = ["sudo", sys.executable] + sys.argv
-        os.execvpe("sudo", args, os.environ)
+        os.execvpe("sudo", args, os.environ)  # noqa: S606
 
 
 def run(command: str) -> str:
@@ -115,9 +112,7 @@ def run(command: str) -> str:
             reason="legacy utils.run call site; requires opt-in at every invocation",
         )
         if result.returncode != 0:
-            print_error(
-                f"Command failed with exit code {result.returncode}: {command}"
-            )
+            print_error(f"Command failed with exit code {result.returncode}: {command}")
             return result.stderr or f"exit={result.returncode}"
         print_msg(result.stdout)
         return result.stdout.strip()
@@ -125,9 +120,7 @@ def run(command: str) -> str:
         print_error(f"Command not found: {command}")
         return str(fnf_error)
     except subprocess.CalledProcessError as cpe_error:
-        print_error(
-            f"Command failed with exit code {cpe_error.returncode}: {command}"
-        )
+        print_error(f"Command failed with exit code {cpe_error.returncode}: {command}")
         return str(cpe_error)
     except subprocess.TimeoutExpired as te_error:
         print_error(f"Command timed out: {command}")
@@ -177,9 +170,7 @@ def run_command(command: str, timeout: float | None = None) -> str:
             text=True,
         )
     except FileNotFoundError:
-        print_error(
-            f"Command not found: {command_tokens[0] if command_tokens else command}"
-        )
+        print_error(f"Command not found: {command_tokens[0] if command_tokens else command}")
         return output
 
     stderr_chunks: list[str] = []
@@ -223,7 +214,7 @@ def ensure_tmux_session(session_name: str) -> None:
     """
     result = subprocess.run(
         ["tmux", "has-session", "-t", session_name],
-        stdout=subprocess.PIPE,
+        capture_output=True,
         stderr=subprocess.PIPE,
     )
     if result.returncode != 0:
@@ -251,7 +242,6 @@ __all__ = [
     "is_binary_present",
     "handle_multiple_rhosts",
     "check_sudo",
-    "activate_virtualenv",
     "run",
     "is_package_installed",
     "run_command",

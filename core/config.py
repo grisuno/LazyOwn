@@ -41,9 +41,7 @@ LAZYOWN_ENV_PREFIX = "LAZYOWN_"
 
 _CONFIG_AUDIT_LOG = Path("sessions/config_changes.jsonl")
 
-_UNRESOLVED_PLACEHOLDER_RE = re.compile(
-    r"\{\{[^}]+\}\}|<\w+>|YOUR_|CHANGE_ME|REPLACE_ME|INSERT_|__\w+__"
-)
+_UNRESOLVED_PLACEHOLDER_RE = re.compile(r"\{\{[^}]+\}\}|<\w+>|YOUR_|CHANGE_ME|REPLACE_ME|INSERT_|__\w+__")
 
 _DEFAULT_VALUE_MARKERS = {
     "CHANGE_ME",
@@ -86,7 +84,7 @@ def _apply_env_overrides(payload: dict[str, Any]) -> dict[str, Any]:
     for env_key, env_val in os.environ.items():
         if not env_key.startswith(LAZYOWN_ENV_PREFIX):
             continue
-        cfg_key = env_key[len(LAZYOWN_ENV_PREFIX):].lower()
+        cfg_key = env_key[len(LAZYOWN_ENV_PREFIX) :].lower()
         existing = result.get(cfg_key)
         coerced = _coerce_env_value(env_val, existing)
         if cfg_key in result and result[cfg_key] == coerced:
@@ -186,14 +184,10 @@ def _collect_validation_warnings(payload: dict[str, Any]) -> list[str]:
     for key, val in payload.items():
         str_val = str(val) if val is not None else ""
         if _UNRESOLVED_PLACEHOLDER_RE.search(str_val):
-            warnings.append(
-                f"{key}: value contains unresolved placeholder — {str_val[:60]}"
-            )
+            warnings.append(f"{key}: value contains unresolved placeholder — {str_val[:60]}")
         for marker in _DEFAULT_VALUE_MARKERS:
             if isinstance(val, str) and marker in val and val.strip() not in {"", "null"}:
-                warnings.append(
-                    f"{key}: value looks like an unchanged default — {val[:60]}"
-                )
+                warnings.append(f"{key}: value looks like an unchanged default — {val[:60]}")
                 break
     return warnings
 

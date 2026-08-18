@@ -13,7 +13,7 @@ from pathlib import Path
 import pytest
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-import sys
+import sys  # noqa: E402
 
 sys.path.insert(0, str(REPO_ROOT))
 

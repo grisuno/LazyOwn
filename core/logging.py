@@ -53,9 +53,16 @@ class StructuredLogConfig:
     backup_count: int = 5
     console_enabled: bool = True
     file_enabled: bool = True
-    redacted_fields: frozenset[str] = frozenset({
-        "password", "pass", "secret", "token", "api_key", "aes_key",
-    })
+    redacted_fields: frozenset[str] = frozenset(
+        {
+            "password",
+            "pass",
+            "secret",
+            "token",
+            "api_key",
+            "aes_key",
+        }
+    )
     default_component: str = "lazyown"
     trace_id_provider: Any = None
 
@@ -75,8 +82,16 @@ class _JsonLineFormatter(logging.Formatter):
             "message": record.getMessage(),
         }
         for attr in (
-            "component", "phase", "tenant_id", "rhost", "lhost",
-            "command", "client_id", "trace_id", "user", "duration_ms",
+            "component",
+            "phase",
+            "tenant_id",
+            "rhost",
+            "lhost",
+            "command",
+            "client_id",
+            "trace_id",
+            "user",
+            "duration_ms",
         ):
             val = getattr(record, attr, None)
             if val is not None:
@@ -84,7 +99,7 @@ class _JsonLineFormatter(logging.Formatter):
 
         for key, value in record.__dict__.items():
             if key.startswith("_extra_"):
-                clean_key = key[len("_extra_"):]
+                clean_key = key[len("_extra_") :]
                 if clean_key in self._redact:
                     entry[clean_key] = "[REDACTED]"
                 elif isinstance(value, (str, int, float, bool, type(None), list, dict)):
@@ -92,6 +107,7 @@ class _JsonLineFormatter(logging.Formatter):
 
         if record.exc_info and record.exc_info[0]:
             import traceback
+
             entry["exception"] = traceback.format_exception(
                 record.exc_info[0],
                 record.exc_info[1],
@@ -105,10 +121,10 @@ class _ConsoleFormatter(logging.Formatter):
     """ANSI-coloured console formatter matching ``core.console`` style."""
 
     PREFIXES = {
-        logging.DEBUG: "\033[36m[?]\033[0m",     # cyan
-        logging.INFO: "\033[32m[+]\033[0m",      # green
-        logging.WARNING: "\033[35m[~]\033[0m",   # magenta
-        logging.ERROR: "\033[31m[-]\033[0m",     # red
+        logging.DEBUG: "\033[36m[?]\033[0m",  # cyan
+        logging.INFO: "\033[32m[+]\033[0m",  # green
+        logging.WARNING: "\033[35m[~]\033[0m",  # magenta
+        logging.ERROR: "\033[31m[-]\033[0m",  # red
         logging.CRITICAL: "\033[91m[!]\033[0m",  # bright red
     }
 
@@ -142,7 +158,16 @@ class StructuredLogger(logging.Logger):
         sinfo: bool = False,
     ) -> logging.LogRecord:
         record = super().makeRecord(
-            name, level, fn, lno, msg, args, exc_info, func, extra, sinfo,
+            name,
+            level,
+            fn,
+            lno,
+            msg,
+            args,
+            exc_info,
+            func,
+            extra,
+            sinfo,
         )
         if extra:
             for key, value in extra.items():
@@ -252,8 +277,7 @@ def install_json_handler(
         _LOGGER_CACHE[name] = _log_factory(name, cfg)
         return
     if any(
-        isinstance(handler, RotatingFileHandler)
-        and isinstance(handler.formatter, _JsonLineFormatter)
+        isinstance(handler, RotatingFileHandler) and isinstance(handler.formatter, _JsonLineFormatter)
         for handler in logger.handlers
     ):
         return

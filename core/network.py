@@ -23,21 +23,14 @@ def parse_ip_mac(input_string: str) -> tuple[str | None, str | None]:
     Returns:
         ``(ip, mac)`` tuple or ``(None, None)`` on failure.
     """
-    match = re.match(
-        r"IP:\s*\(([\d.]+)\)\s*MAC:\s*([\da-f:]+)", input_string.strip()
-    )
+    match = re.match(r"IP:\s*\(([\d.]+)\)\s*MAC:\s*([\da-f:]+)", input_string.strip())
     if match:
         return match.groups()
-    print_error(
-        "Error: Input must be in the format "
-        "'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'."
-    )
+    print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
     return None, None
 
 
-def create_arp_packet(
-    src_mac: str, src_ip: str, dst_ip: str, dst_mac: str
-) -> bytes:
+def create_arp_packet(src_mac: str, src_ip: str, dst_ip: str, dst_mac: str) -> bytes:
     """Build a raw ARP request/reply packet.
 
     Args:
@@ -77,9 +70,7 @@ def send_packet(packet: bytes, iface: str) -> None:
         packet: Raw frame bytes.
         iface: Interface name (e.g. ``eth0``).
     """
-    with socket.socket(
-        socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0806)
-    ) as sock:
+    with socket.socket(socket.AF_PACKET, socket.SOCK_RAW, socket.htons(0x0806)) as sock:
         sock.bind((iface, 0))
         sock.send(packet)
 
@@ -102,10 +93,7 @@ def parse_proc_net_file(file_path: str) -> list[tuple[str, int]]:
                     continue
                 local_address = parts[1]
                 ip_hex, port_hex = local_address.split(":")
-                ip_parts = [
-                    int(ip_hex[i : i + 2], 16)
-                    for i in range(0, len(ip_hex), 2)
-                ]
+                ip_parts = [int(ip_hex[i : i + 2], 16) for i in range(0, len(ip_hex), 2)]
                 ip_address = ".".join(str(p) for p in ip_parts)
                 port = int(port_hex, 16)
                 entries.append((ip_address, port))
@@ -124,7 +112,7 @@ def get_open_ports() -> list[tuple[str, int]]:
     for net_file in ["/proc/net/tcp", "/proc/net/tcp6"]:
         entries = parse_proc_net_file(net_file)
         for ip, port in entries:
-            if ip == "0.0.0.0" or ip == "::" or ip.startswith("127"):
+            if ip == "0.0.0.0" or ip == "::" or ip.startswith("127"):  # noqa: S104
                 open_ports.append((ip, port))
     return open_ports
 
@@ -170,6 +158,7 @@ def get_network_info() -> dict[str, Any]:
         Dict with keys ``hostname``, ``ips``, ``interfaces``.
     """
     import netifaces
+
     info: dict[str, Any] = {"hostname": socket.gethostname(), "ips": [], "interfaces": {}}
     try:
         info["ips"].append(socket.gethostbyname(socket.gethostname()))
@@ -178,10 +167,7 @@ def get_network_info() -> dict[str, Any]:
     try:
         for iface in netifaces.interfaces():
             addrs = netifaces.ifaddresses(iface)
-            info["interfaces"][iface] = {
-                k: [a.get("addr") for a in v if a.get("addr")]
-                for k, v in addrs.items()
-            }
+            info["interfaces"][iface] = {k: [a.get("addr") for a in v if a.get("addr")] for k, v in addrs.items()}
             if netifaces.AF_INET in addrs:
                 for a in addrs[netifaces.AF_INET]:
                     ip = a.get("addr")

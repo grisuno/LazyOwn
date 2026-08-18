@@ -5,7 +5,7 @@ import lazyencoder_decoder as ed
 
 shift_value = 3
 substitution_key = "clave"
-from impacket.smbconnection import SMBConnection
+from impacket.smbconnection import SMBConnection  # noqa: E402
 
 
 def parse_hash_file(file_path):

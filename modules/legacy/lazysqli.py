@@ -4,10 +4,10 @@
 import requests
 
 requests.packages.urllib3.disable_warnings()
-import argparse
-import sys
-import time
-from concurrent.futures import ProcessPoolExecutor, as_completed
+import argparse  # noqa: E402
+import sys  # noqa: E402
+import time  # noqa: E402
+from concurrent.futures import ProcessPoolExecutor, as_completed  # noqa: E402
 
 
 def send_payload(payload, url, s, sql_time):

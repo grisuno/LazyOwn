@@ -4,7 +4,7 @@ import os
 import signal
 import sys
 
-from scapy.all import *
+from scapy.all import *  # noqa: F403
 
 BANNER = """
 ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗

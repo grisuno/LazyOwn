@@ -2,7 +2,7 @@ import signal
 import sys
 
 import requests
-from pwn import *
+from pwn import *  # noqa: F403
 
 
 def def_handler(sig, frame):

@@ -780,7 +780,9 @@ def _sync_user_elo(delta: int) -> bool:
 
     if not target and PAYLOAD_PATH.exists():
         try:
-            payload = json.loads(PAYLOAD_PATH.read_text(encoding="utf-8"))
+            from core.config import load_payload
+
+            payload = load_payload(PAYLOAD_PATH)
             target = payload.get("c2_user")
         except Exception:
             pass

@@ -656,7 +656,7 @@ class TestDroneStateStore:
         from hive_mind import DroneStateStore
         return DroneStateStore(db_path=self.tmp / "test_drone_states.db")
 
-    def _make_state(self, status: str = "queued") -> DroneState:
+    def _make_state(self, status: str = "queued") -> DroneState:  # noqa: F821
         from hive_mind import DroneState
         return DroneState(
             drone_id=f"test-{uuid.uuid4().hex[:6]}",

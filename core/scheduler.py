@@ -23,13 +23,15 @@ import logging
 import sched
 import threading
 import time
-from dataclasses import dataclass, field
-from typing import Any, Callable, Optional
+from collections.abc import Callable
+from dataclasses import dataclass
+from typing import Any
 
 log = logging.getLogger("core.scheduler")
 
 try:
     import apscheduler.schedulers.background as _apbg
+
     _HAS_APSCHEDULER = True
 except ImportError:
     _HAS_APSCHEDULER = False
@@ -53,22 +55,22 @@ class TaskScheduler:
     ``sched.scheduler`` and ``threading.Timer`` otherwise.
     """
 
-    _instance: Optional["TaskScheduler"] = None
+    _instance: TaskScheduler | None = None
     _instance_lock = threading.Lock()
 
     def __init__(self) -> None:
         self._lock = threading.RLock()
         self._tasks: dict[str, _TaskInfo] = {}
         self._running = False
-        self._std_event: Optional[threading.Event] = None
-        self._std_thread: Optional[threading.Thread] = None
+        self._std_event: threading.Event | None = None
+        self._std_thread: threading.Thread | None = None
         if _HAS_APSCHEDULER:
             self._backend: Any = _apbg.BackgroundScheduler(daemon=True)
         else:
             self._backend = sched.scheduler(time.time, time.sleep)
 
     @classmethod
-    def instance(cls) -> "TaskScheduler":
+    def instance(cls) -> TaskScheduler:
         """Return the singleton ``TaskScheduler`` instance."""
         if cls._instance is None:
             with cls._instance_lock:
@@ -91,9 +93,7 @@ class TaskScheduler:
                 log.info("Scheduler started (apscheduler)")
             else:
                 self._std_event = threading.Event()
-                self._std_thread = threading.Thread(
-                    target=self._run_stdlib_loop, daemon=True, name="lazyown-scheduler"
-                )
+                self._std_thread = threading.Thread(target=self._run_stdlib_loop, daemon=True, name="lazyown-scheduler")
                 self._std_thread.start()
                 log.info("Scheduler started (stdlib fallback)")
 
@@ -120,9 +120,7 @@ class TaskScheduler:
             self._tasks.clear()
             log.info("Scheduler stopped")
 
-    def schedule_task(
-        self, name: str, interval_seconds: int, func: Callable[[], None]
-    ) -> None:
+    def schedule_task(self, name: str, interval_seconds: int, func: Callable[[], None]) -> None:
         """Register a recurring task to run every ``interval_seconds``.
 
         If a task with the same ``name`` already exists it is cancelled and
@@ -156,9 +154,7 @@ class TaskScheduler:
                 self._schedule_recurring_stdlib(info)
             log.debug("Scheduled recurring task %s (interval=%ds)", name, interval_seconds)
 
-    def schedule_once(
-        self, name: str, delay_seconds: int, func: Callable[[], None]
-    ) -> None:
+    def schedule_once(self, name: str, delay_seconds: int, func: Callable[[], None]) -> None:
         """Register a one-shot task to run after ``delay_seconds``.
 
         If a task with the same ``name`` already exists it is cancelled and
@@ -188,9 +184,7 @@ class TaskScheduler:
                     id=name,
                 )
             else:
-                timer = threading.Timer(
-                    delay_seconds, self._run_once_wrapper(name, func)
-                )
+                timer = threading.Timer(delay_seconds, self._run_once_wrapper(name, func))
                 timer.daemon = True
                 timer.start()
             log.debug("Scheduled one-shot task %s (delay=%ds)", name, delay_seconds)
@@ -222,9 +216,7 @@ class TaskScheduler:
                     "interval_seconds": t.interval_seconds,
                     "recurring": t.recurring,
                     "active": t.active,
-                    "next_run_iso": time.strftime(
-                        "%Y-%m-%dT%H:%M:%S", time.localtime(t.next_run)
-                    ),
+                    "next_run_iso": time.strftime("%Y-%m-%dT%H:%M:%S", time.localtime(t.next_run)),
                 }
                 for t in self._tasks.values()
             ]
@@ -245,6 +237,7 @@ class TaskScheduler:
 
     def _schedule_recurring_stdlib(self, info: _TaskInfo) -> None:
         """Schedule a recurring task using ``sched.scheduler``."""
+
         def _wrapper() -> None:
             if not info.active or not self._running:
                 return
@@ -258,9 +251,7 @@ class TaskScheduler:
 
         self._backend.enter(info.interval_seconds, 0, _wrapper)
 
-    def _run_once_wrapper(
-        self, name: str, func: Callable[[], None]
-    ) -> Callable[[], None]:
+    def _run_once_wrapper(self, name: str, func: Callable[[], None]) -> Callable[[], None]:
         """Return a callable that invokes ``func`` once and removes the task."""
 
         def _wrapper() -> None:

@@ -28,6 +28,8 @@ from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.widgets import Footer, Header, Static
 
+from cli.killchain import PhaseProgress
+from cli.reasoning_stream import ReasoningEntry, latest_reasoning
 from modules.killchain import KillChain as _KC
 
 try:
@@ -37,10 +39,9 @@ except ImportError:
     def _write_phase(phase: str) -> bool:  # type: ignore[misc]
         return False
 
+
 _PHASES: tuple[str, ...] = _KC.phases()
-KILL_CHAIN_PHASES: tuple[tuple[str, str], ...] = tuple(
-    (p[0], p[1]) for p in _KC.phases_for_display()
-)
+KILL_CHAIN_PHASES: tuple[tuple[str, str], ...] = tuple((p[0], p[1]) for p in _KC.phases_for_display())
 
 STATE_DONE: str = "done"
 STATE_ACTIVE: str = "active"
@@ -56,20 +57,17 @@ def _get_killchain_for_tui() -> list:
     progress = _KC.get_progress()
     result = []
     for ps in progress:
-        result.append(PhaseProgress(
-            key=ps.key,
-            label=ps.label,
-            state=ps.status,
-            activity=0,
-            reward=0.0,
-        ))
+        result.append(
+            PhaseProgress(
+                key=ps.key,
+                label=ps.label,
+                state=ps.status,
+                activity=0,
+                reward=0.0,
+            )
+        )
     return result
 
-
-from cli.killchain import (
-    PhaseProgress,
-)
-from cli.reasoning_stream import ReasoningEntry, latest_reasoning, read_raw_events
 
 __all__ = ["KILL_CHAIN_PHASES", "LazyOwnDashboard", "launch"]
 
@@ -99,6 +97,7 @@ def _engagement_to_cli_phase(engagement_phase: str) -> str:
     Delegates to the single source of truth in :class:`modules.killchain.KillChain`.
     """
     from modules.killchain import KillChain
+
     return KillChain.engagement_phase_to_cli(engagement_phase)
 
 
@@ -205,6 +204,7 @@ class TargetPanel(Static):
         os_label = "Linux" if str(os_id) == "1" else ("Windows" if str(os_id) == "2" else "?")
         try:
             from modules.killchain import KillChain
+
             phase = KillChain.current_phase().upper()
         except Exception:
             phase = "RECON"
@@ -521,6 +521,7 @@ class LazyOwnDashboard(App):
 
     def _cycle_phase(self, direction: int) -> None:
         from modules.killchain import KillChain
+
         phases = list(KillChain.phase_order())
         current = KillChain.current_phase()
         try:

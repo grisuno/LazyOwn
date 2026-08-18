@@ -85,9 +85,7 @@ def _validate_timeout(timeout: int) -> int:
         ValueError: If timeout is outside valid range.
     """
     if not isinstance(timeout, int) or timeout < _VALID_TIMEOUT_RANGE[0]:
-        raise ValueError(
-            f"timeout must be >= {_VALID_TIMEOUT_RANGE[0]} seconds, got {timeout}"
-        )
+        raise ValueError(f"timeout must be >= {_VALID_TIMEOUT_RANGE[0]} seconds, got {timeout}")
     if timeout > _VALID_TIMEOUT_RANGE[1]:
         log.warning("timeout %d exceeds max, clamping to %d", timeout, _VALID_TIMEOUT_RANGE[1])
         timeout = _VALID_TIMEOUT_RANGE[1]
@@ -100,9 +98,7 @@ def safe_run(command: str, *, timeout: int = 300) -> subprocess.CompletedProcess
 def safe_run(command: list[str], *, timeout: int = 300) -> subprocess.CompletedProcess[str]: ...
 
 
-def safe_run(
-    command: str | list[str], *, timeout: int = 300
-) -> subprocess.CompletedProcess[str]:
+def safe_run(command: str | list[str], *, timeout: int = 300) -> subprocess.CompletedProcess[str]:
     """Execute a command via the system shell with logging and timeout.
 
     Intended as a drop-in replacement for :func:`os.system` calls.
@@ -172,9 +168,7 @@ def run_shell(cmd: str, *, timeout: int = 300) -> str:
             cmd[:120],
             result.stderr[:500] if result.stderr else "",
         )
-        raise subprocess.CalledProcessError(
-            result.returncode, cmd, output=result.stdout, stderr=result.stderr
-        )
+        raise subprocess.CalledProcessError(result.returncode, cmd, output=result.stdout, stderr=result.stderr)
     return result.stdout.strip()
 
 

@@ -10,10 +10,6 @@ rule obfuscated_powershell {
         $enc3 = "-e" nocase wide ascii
         $from_base = "[System.Convert]::FromBase64String" nocase wide ascii
         $to_base = "[System.Text.Encoding]::UTF8.GetString" nocase wide ascii
-        $xor = "-bxor" nocase wide ascii
-        $compress = "[System.IO.Compression" nocase wide ascii
-        $deflate = "DeflateStream" nocase wide ascii
-        $gzip = "GZipStream" nocase wide ascii
         $invoke_expr = "IEX" nocase wide ascii
         $invoke_expr2 = "Invoke-Expression" nocase wide ascii
         $download = "DownloadString" nocase ascii
@@ -42,7 +38,6 @@ rule obfuscated_bash {
         $pipe_exec = "| /bin/bash" nocase ascii
         $pipe_sh = "| /bin/sh" nocase ascii
         $eval_variable = "${" ascii
-        $if_variable = "$()" ascii
         $curl_pipe = "curl -s" nocase ascii
         $wget_pipe = "wget -qO-" nocase ascii
     condition:

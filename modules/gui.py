@@ -1824,9 +1824,9 @@ def main():
 
     # Verificar dependencias
     try:
-        from PIL import Image, ImageTk
-        from watchdog.events import FileSystemEventHandler
-        from watchdog.observers import Observer
+        from PIL import Image, ImageTk  # noqa: F401
+        from watchdog.events import FileSystemEventHandler  # noqa: F401
+        from watchdog.observers import Observer  # noqa: F401
     except ImportError as e:
         messagebox.showerror("Error", f"Dependencia faltante: {e}")
         return

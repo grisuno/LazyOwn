@@ -61,9 +61,9 @@ class ContainerCommandSet(LazyOwnCommandSet):
         with open(os.path.join(sessions_dir, "docker_enum.json"), "w") as f:
             json.dump(results, f, indent=2, default=str)
 
-        print_msg(f"{'='*70}")
-        print_msg(f"  Docker Enumeration Results")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
+        print_msg("  Docker Enumeration Results")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Docker socket     : {'ACCESSIBLE' if results.get('docker_socket_accessible') else 'not found'}")
         print_msg(f"  Containers        : {results.get('containers_count', 0)}")
         print_msg(f"  Images            : {results.get('images_count', 0)}")
@@ -78,7 +78,9 @@ class ContainerCommandSet(LazyOwnCommandSet):
         if mounts:
             print_warn(f"\n{YELLOW}[!] SENSITIVE MOUNTS:{RESET}")
             for m in mounts:
-                print_msg(f"  {m.get('container_name', '?')}: {m.get('mount_source', '?')} -> {m.get('mount_dest', '?')}")
+                print_msg(
+                    f"  {m.get('container_name', '?')}: {m.get('mount_source', '?')} -> {m.get('mount_dest', '?')}"
+                )
 
         socket_mounts = results.get("docker_socket_mounts", [])
         if socket_mounts:
@@ -93,7 +95,7 @@ class ContainerCommandSet(LazyOwnCommandSet):
             for c in caps:
                 print_msg(f"  {c.get('container_name', '?')}: {', '.join(c.get('dangerous_capabilities', []))}")
 
-        print_succ(f"\nResults saved to sessions/docker_enum.json")
+        print_succ("\nResults saved to sessions/docker_enum.json")
 
     @cmd2.with_category(CONTAINER_CATEGORY)
     def do_k8s_enum(self, _line):
@@ -120,9 +122,9 @@ class ContainerCommandSet(LazyOwnCommandSet):
             sessions_dir=self.params.get("sessions_dir", "sessions"),
         )
 
-        print_msg(f"{'='*70}")
-        print_msg(f"  Kubernetes Enumeration Results")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
+        print_msg("  Kubernetes Enumeration Results")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Namespaces        : {len(results.get('namespaces', []))}")
         print_msg(f"  Pods total        : {results.get('pods_total', 0)}")
         print_msg(f"  Secrets found     : {len(results.get('secrets', []))}")
@@ -185,9 +187,9 @@ class ContainerCommandSet(LazyOwnCommandSet):
 
         env = ContainerEscapeTechniques.detect_current_environment()
 
-        print_msg(f"{'='*70}")
-        print_msg(f"  Container Escape Assessment")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
+        print_msg("  Container Escape Assessment")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  In container      : {env.get('in_container', False)}")
         print_msg(f"  Kubernetes        : {env.get('is_kubernetes', False)}")
         print_msg(f"  Privileged        : {env.get('privileged', False)}")
@@ -196,13 +198,13 @@ class ContainerCommandSet(LazyOwnCommandSet):
 
         caps = env.get("capabilities", [])
         if caps:
-            print_msg(f"\n  Capabilities:")
+            print_msg("\n  Capabilities:")
             for cap in caps:
                 print_msg(f"    {cap}")
 
-        print_msg(f"\n{'='*70}")
-        print_msg(f"  Applicable Escape Techniques")
-        print_msg(f"{'='*70}")
+        print_msg(f"\n{'=' * 70}")
+        print_msg("  Applicable Escape Techniques")
+        print_msg(f"{'=' * 70}")
 
         applicable: list[dict] = []
         for tech in ContainerEscapeTechniques.ESCAPE_TECHNIQUES:
@@ -259,7 +261,7 @@ class ContainerCommandSet(LazyOwnCommandSet):
             return
 
         print_msg(f"{'NAME':<50} {'NAMESPACE':<20} {'STATUS':<12} {'HOSTNET':<8} {'HOSTPID':<8}")
-        print_msg(f"{'-'*50} {'-'*20} {'-'*12} {'-'*8} {'-'*8}")
+        print_msg(f"{'-' * 50} {'-' * 20} {'-' * 12} {'-' * 8} {'-' * 8}")
 
         for pod in pods:
             metadata = pod.get("metadata", {})
@@ -350,9 +352,9 @@ class ContainerCommandSet(LazyOwnCommandSet):
         runtime = results["runtime"]
         env = results["environment"]
 
-        print_msg(f"{'='*70}")
-        print_msg(f"  Container Auto-Detection Report")
-        print_msg(f"{'='*70}")
+        print_msg(f"{'=' * 70}")
+        print_msg("  Container Auto-Detection Report")
+        print_msg(f"{'=' * 70}")
         print_msg(f"  Runtime detected   : {runtime['runtime']} (confidence: {runtime['confidence']})")
         print_msg(f"  Indicators         : {', '.join(runtime['indicators'][:5])}")
         if runtime.get("all_scores") and len(runtime["all_scores"]) > 1:
@@ -391,26 +393,28 @@ class ContainerCommandSet(LazyOwnCommandSet):
             print_warn("\n  No applicable escape techniques automatically detected.")
 
         print_msg(f"\n{YELLOW}Escape Score: {results['escape_score']}/100{RESET}")
-        severity_color = RED if results['escape_score'] >= 90 else YELLOW if results['escape_score'] >= 50 else RESET
+        severity_color = RED if results["escape_score"] >= 90 else YELLOW if results["escape_score"] >= 50 else RESET
         print_msg(f"  {severity_color}{results['assessment_summary']}{RESET}")
 
         sessions_dir = self.params.get("sessions_dir", "sessions")
         os.makedirs(sessions_dir, exist_ok=True)
         out_path = os.path.join(sessions_dir, "container_detect.json")
         with open(out_path, "w") as f:
-            json.dump({
-                "runtime": results["runtime"],
-                "environment": results["environment"],
-                "mounts": {k: v for k, v in results["dangerous_mounts"].items()},
-                "capabilities": results["dangerous_capabilities"],
-                "techniques": [t["name"] for t in techniques],
-                "score": results["escape_score"],
-                "summary": results["assessment_summary"],
-            }, f, indent=2, default=str)
+            json.dump(
+                {
+                    "runtime": results["runtime"],
+                    "environment": results["environment"],
+                    "mounts": {k: v for k, v in results["dangerous_mounts"].items()},
+                    "capabilities": results["dangerous_capabilities"],
+                    "techniques": [t["name"] for t in techniques],
+                    "score": results["escape_score"],
+                    "summary": results["assessment_summary"],
+                },
+                f,
+                indent=2,
+                default=str,
+            )
         print_msg(f"\nResults saved to {out_path}")
-
-
-import json
 
 
 __all__ = ["ContainerCommandSet"]

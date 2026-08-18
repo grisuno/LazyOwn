@@ -159,7 +159,7 @@ class TestAllCategories:
 
     def test_all_categories_non_empty(self) -> None:
         for category in ALL_CATEGORIES:
-            assert category, f"ALL_CATEGORIES contains an empty string"
+            assert category, "ALL_CATEGORIES contains an empty string"
 
     def test_no_duplicate_all_categories(self) -> None:
         assert len(ALL_CATEGORIES) == len(set(ALL_CATEGORIES))

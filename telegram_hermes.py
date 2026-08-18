@@ -27,7 +27,6 @@ import fcntl
 import json
 import os
 import pty
-import re
 import select
 import ssl
 import struct
@@ -55,7 +54,8 @@ SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
 # ── Helper: strip ANSI escape codes ───────────────────────────────────────────
-from core.parsers import strip_ansi
+from core.parsers import strip_ansi  # noqa: E402
+
 
 # ── Helper: run LazyOwn shell command via PTY (from MCP _run_lazyown_command) ──
 def run_lazyown_command(command: str, timeout: int = 30) -> str:

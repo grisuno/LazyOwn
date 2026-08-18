@@ -552,8 +552,8 @@ def export_report(df, kpis, okrs, ia_analysis):
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(report, f, indent=2, default=str)
     print(f"JSON report exported: {output_path}")
-    import subprocess
     import shutil
+    import subprocess
     if shutil.which("gum"):
         subprocess.run(
             f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format",

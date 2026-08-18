@@ -54,14 +54,14 @@ from typing import Any
 log = logging.getLogger("sleep_obfuscation")
 
 
-class OsPlatform(str, Enum):
+class OsPlatform(str, Enum):  # noqa: UP042
     """Operating system platform."""
 
     WINDOWS = "windows"
     LINUX = "linux"
 
 
-class TechniqueRisk(str, Enum):
+class TechniqueRisk(str, Enum):  # noqa: UP042
     """Risk classification for a sleep obfuscation technique."""
 
     LOW = "low"

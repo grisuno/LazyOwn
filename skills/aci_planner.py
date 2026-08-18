@@ -979,7 +979,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def main(argv: list[str] | None = None) -> int:
     """Entry point for CLI usage."""
-    from modules.logging_config import configure, get_logger
+    from modules.logging_config import configure
     configure(level=logging.WARNING, console=True, file=False)
     parser = _build_parser()
     args = parser.parse_args(argv)

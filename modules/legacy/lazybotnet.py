@@ -33,11 +33,11 @@ from pynput import keyboard
 
 # Asegúrate de instalar pywin32 si estás en Windows
 try:
-    import ctypes
+    import ctypes  # noqa: F401
 
-    import win32api
+    import win32api  # noqa: F401
     import win32com.client
-    import win32con
+    import win32con  # noqa: F401
 except ImportError:
     win32com = None
 

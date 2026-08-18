@@ -1,14 +1,10 @@
 """Tests for new reactive engine matchers."""
 from __future__ import annotations
 
-import pytest
-
 from modules.reactive_engine import (
     DataOfInterestMatcher,
     LateralOpportunityMatcher,
     ReactiveEngine,
-    ReactiveDecision,
-    Signal,
 )
 
 

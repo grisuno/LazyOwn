@@ -4,14 +4,16 @@ import os
 import socket
 import struct
 import subprocess
+import sys
 import zlib
 from concurrent.futures import ThreadPoolExecutor
 
 from Crypto.Cipher import AES
+
 try:
-    from .logging_config import configure, get_logger
+    from .logging_config import configure, get_logger  # noqa: F401
 except ImportError:
-    from logging_config import configure, get_logger
+    from logging_config import configure
 from Crypto.Util.Padding import pad, unpad
 
 

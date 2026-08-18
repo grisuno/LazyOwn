@@ -47,7 +47,7 @@ class TestLoadPayload:
 
     def test_copies_from_example_when_payload_missing(self, tmp_path):
         """When payload.json is missing but payload.example.json exists, copy from the example."""
-        from core.config import load_payload, save_payload, _EXAMPLE_FILENAME
+        from core.config import _EXAMPLE_FILENAME, load_payload, save_payload
 
         example = tmp_path / _EXAMPLE_FILENAME
         save_payload({"rhost": "10.10.10.10", "lport": 1234, "lhost": "127.0.0.1", "target_os": "1"}, example)

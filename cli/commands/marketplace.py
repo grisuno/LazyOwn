@@ -6,7 +6,6 @@ payload generators from local and remote sources.
 
 from __future__ import annotations
 
-import os
 import subprocess
 from pathlib import Path
 
@@ -70,18 +69,13 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             "tools": [],
         }
         if LAZYADDONS_DIR.exists():
-            installed["lazyaddons"] = sorted(
-                [f.stem for f in LAZYADDONS_DIR.glob("*.yaml")]
-            )
+            installed["lazyaddons"] = sorted([f.stem for f in LAZYADDONS_DIR.glob("*.yaml")])
         if PLUGINS_DIR.exists():
             installed["plugins"] = sorted(
-                [f.stem for f in PLUGINS_DIR.glob("*.yaml")]
-                + [f.stem for f in PLUGINS_DIR.glob("*.lua")]
+                [f.stem for f in PLUGINS_DIR.glob("*.yaml")] + [f.stem for f in PLUGINS_DIR.glob("*.lua")]
             )
         if TOOLS_DIR.exists():
-            installed["tools"] = sorted(
-                [f.stem for f in TOOLS_DIR.glob("*.tool")]
-            )
+            installed["tools"] = sorted([f.stem for f in TOOLS_DIR.glob("*.tool")])
         return installed
 
     @cmd2.with_category(miscellaneous_category)
@@ -234,6 +228,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             candidate = community_dir / src / f"{name}{ext}"
             if candidate.exists():
                 import shutil
+
                 dest_dir.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(candidate, dest_dir / f"{name}{ext}")
                 print_msg(f"Installed: {name}{ext} -> {src}/")
@@ -242,6 +237,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             candidate_lua = community_dir / src / f"{name}.lua"
             if candidate_lua.exists():
                 import shutil
+
                 dest_dir.mkdir(parents=True, exist_ok=True)
                 shutil.copy2(candidate_lua, dest_dir / f"{name}.lua")
                 print_msg(f"Installed: {name}.lua -> {src}/")
@@ -305,7 +301,11 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
                             content = path.read_text(encoding="utf-8", errors="replace")
                             lines = content.splitlines()
                             description = next(
-                                (l.strip().lstrip("# ").lstrip("- ") for l in lines[:10] if l.strip() and not l.strip().startswith("---")),
+                                (
+                                    line.strip().lstrip("# ").lstrip("- ")
+                                    for line in lines[:10]
+                                    if line.strip() and not line.strip().startswith("---")
+                                ),
                                 "",
                             )
                             if description:
@@ -367,8 +367,8 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             return
 
         if action and action not in {"show", "list", "status"}:
-            print_msg(f"Opening wizard directly. Use 'marketplace_config show' for a text summary.")
-            print_msg(f"Use 'marketplace_config enable/disable <name>' for quick toggles.")
+            print_msg("Opening wizard directly. Use 'marketplace_config show' for a text summary.")
+            print_msg("Use 'marketplace_config enable/disable <name>' for quick toggles.")
 
         self._mp_interactive_config()
 

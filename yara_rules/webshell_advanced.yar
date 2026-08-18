@@ -15,7 +15,7 @@ rule php_webshell_advanced {
         $filter_wrapper = "php://filter" nocase ascii
         $rotate = "str_rot13" nocase ascii
         $gzinflate = "gzinflate" nocase ascii
-        $gzuncompress = "gzuncompress" nocase ascii
+
         $rawdeflate = "gzinflate(base64_decode" nocase ascii
     condition:
         (any of ($assert, $create_func, $preg, $backtick)) or
@@ -38,7 +38,6 @@ rule asp_webshell {
         $exec_4 = "Scripting.FileSystemObject" nocase ascii
         $exec_5 = "Microsoft.XMLHTTP" nocase ascii
         $proc = "Process.Start" nocase ascii
-        $out = "StandardOutput" nocase ascii
     condition:
         2 of ($exec*) and ($cmd_exe or $powershell or $proc)
 }
@@ -55,8 +54,6 @@ rule jsp_webshell {
         $jsp3 = "getInputStream()" nocase ascii
         $jsp4 = "BufferedReader" nocase ascii
         $jsp5 = "InputStreamReader" nocase ascii
-        $class_loader = "Class.forName" nocase ascii
-        $reflect = "getMethod" nocase ascii
     condition:
         $jsp1 and any of ($jsp*)
 }

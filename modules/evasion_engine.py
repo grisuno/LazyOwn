@@ -13,9 +13,8 @@ import json
 import random
 import secrets
 import time
-from copy import deepcopy
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -47,7 +46,7 @@ class MalleableProfile:
     tls_ciphers: list[str]
     cert_fingerprint: str
     domain_front: str
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
 
 
 class EvasionEngine:

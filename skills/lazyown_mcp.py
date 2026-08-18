@@ -356,8 +356,8 @@ _auto_start = _auto_stop = _auto_status = _auto_inject = _auto_events = None
 _aci_plan = _aci_status = _aci_replan = None
 process_new_rows = read_events = ack_event = add_rule = load_rules = _hb_is_running = None
 start_agent = get_agent_status = get_agent_result = list_agents = None
-from mcp import types
-from mcp.server.stdio import stdio_server
+from mcp import types  # noqa: E402
+from mcp.server.stdio import stdio_server  # noqa: E402
 
 # ── Harness layer singletons (lazy — depend on SESSIONS_DIR set below) ────────
 _perm_system        = None   # PermissionSystem
@@ -432,9 +432,11 @@ SKILLS_DIR   = Path(__file__).parent
 LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
+BASE_DIR     = LAZYOWN_DIR
+MODULES_DIR  = LAZYOWN_DIR / "modules"
 
 # ── Helper module (pure-function logic for new high-impact tools) ─────────────
-from lazyown_mcp_helpers import (
+from lazyown_mcp_helpers import (  # noqa: E402
     DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
     JobStore,
     audit_tasks,
@@ -518,6 +520,11 @@ def _load_payload() -> dict:
             return json.load(f)
     except Exception as e:
         return {"_error": str(e)}
+
+
+def _has_data(path: Path) -> bool:
+    """Return True when a session file exists and holds content."""
+    return path.is_file() and path.stat().st_size > 0
 
 
 def _save_payload(data: dict) -> str:
@@ -750,7 +757,7 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
     )
 
     try:
-        from event_bus import EventCategory, EventSeverity, LazyEvent, get_event_bus
+        from event_bus import EventCategory, LazyEvent, get_event_bus
         parts = command.strip().split(None, 1)
         cmd_name = parts[0] if parts else command
         cfg = _load_payload()
@@ -1044,7 +1051,7 @@ async def _h_lolbas_use(arguments: dict, tool_name: str) -> list[types.TextConte
     cfg = _load_payload()
     command = technique.get("command", "")
     resolved = command.replace("{rhost}", cfg.get("rhost", "")).replace("{lhost}", cfg.get("lhost", "")).replace("{lport}", str(cfg.get("lport", "")))
-    output = _run_cmd(resolved, timeout=30, cwd=str(BASE_DIR))
+    output = _run_lazyown_command(resolved, 30)
     return _make_text(
         tool_name,
         json.dumps({
@@ -6228,7 +6235,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         current_group = "General"
         # Skip banner/startup noise — only parse after "Documented commands" header
         start_idx = next(
-            (i for i, l in enumerate(lines) if "Documented commands" in l), 0
+            (i for i, line in enumerate(lines) if "Documented commands" in line), 0
         )
         lines = lines[start_idx:]
         i = 0
@@ -6375,11 +6382,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # Find existing or create new
         existing = next((t for t in targets if t.get("ip") == ip), None)
         if existing:
-            if "domain" in arguments: existing["domain"]  = arguments["domain"]
-            if "ports"  in arguments: existing["ports"]   = arguments["ports"]
-            if "status" in arguments: existing["status"]  = arguments["status"]
-            if "notes"  in arguments: existing["notes"]   = arguments["notes"]
-            if "tags"   in arguments: existing["tags"]    = arguments["tags"]
+            if "domain" in arguments:
+                existing["domain"] = arguments["domain"]
+            if "ports" in arguments:
+                existing["ports"] = arguments["ports"]
+            if "status" in arguments:
+                existing["status"] = arguments["status"]
+            if "notes" in arguments:
+                existing["notes"] = arguments["notes"]
+            if "tags" in arguments:
+                existing["tags"] = arguments["tags"]
             existing["updated_at"] = _dt.now().isoformat()
             action = "updated"
         else:
@@ -6657,7 +6669,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         obj_file = SESSIONS_DIR / "objectives.jsonl"
         if obj_file.exists():
             try:
-                objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                objs = [json.loads(line) for line in obj_file.read_text().splitlines() if line.strip()]
                 pending = [o for o in objs if o.get("status") == "pending"]
                 done = [o for o in objs if o.get("status") == "done"]
                 lines.append(f"\n[OBJECTIVES] total={len(objs)} pending={len(pending)} done={len(done)}")
@@ -6681,8 +6693,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
         if lessons_file.exists():
             try:
-                lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
-                lines.append(f"\n[LESSONS] {len(lessons)} lessons from {len(set(l.get('campaign_id') for l in lessons))} campaigns")
+                lessons = [json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()]
+                lines.append(f"\n[LESSONS] {len(lessons)} lessons from {len(set(line.get('campaign_id') for line in lessons))} campaigns")
                 for les in lessons[-3:]:
                     lines.append(f"  [{les.get('topic','?')}] {les.get('lesson','')[:120]}")
             except Exception as e:
@@ -6701,7 +6713,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         aut_events = SESSIONS_DIR / "autonomous_events.jsonl"
         if aut_events.exists():
             try:
-                evts = [json.loads(l) for l in aut_events.read_text().splitlines() if l.strip()]
+                evts = [json.loads(line) for line in aut_events.read_text().splitlines() if line.strip()]
                 lines.append(f"\n[AUTO EVENTS] last {min(5, len(evts))}")
                 for ev in evts[-5:]:
                     p = ev.get("payload", {})
@@ -6783,7 +6795,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             obj_file = SESSIONS_DIR / "objectives.jsonl"
             if obj_file.exists():
                 try:
-                    objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                    objs = [json.loads(line) for line in obj_file.read_text().splitlines() if line.strip()]
                     sitrep_struct["objectives"] = {
                         "total": len(objs),
                         "pending": [o for o in objs if o.get("status") == "pending"][:10],
@@ -6802,7 +6814,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if lessons_file.exists():
                 try:
                     sitrep_struct["lessons"] = [
-                        json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()
+                        json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()
                     ][-10:]
                 except Exception as exc:
                     sitrep_struct["lessons"] = {"error": str(exc)}
@@ -6817,7 +6829,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             aut_events = SESSIONS_DIR / "autonomous_events.jsonl"
             if aut_events.exists():
                 try:
-                    evts = [json.loads(l) for l in aut_events.read_text().splitlines() if l.strip()]
+                    evts = [json.loads(line) for line in aut_events.read_text().splitlines() if line.strip()]
                     sitrep_struct["auto_events"] = evts[-10:]
                 except Exception as exc:
                     sitrep_struct["auto_events"] = [{"error": str(exc)}]
@@ -6918,7 +6930,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             obj_file = SESSIONS_DIR / "objectives.jsonl"
             if obj_file.exists():
                 try:
-                    objs = [json.loads(l) for l in obj_file.read_text().splitlines() if l.strip()]
+                    objs = [json.loads(line) for line in obj_file.read_text().splitlines() if line.strip()]
                     done = [o for o in objs if o.get("status") == "done"]
                     summary_parts.append(f"Objectives completed: {len(done)}/{len(objs)}")
                 except Exception:
@@ -6926,7 +6938,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             lessons_file = SESSIONS_DIR / "campaign_lessons.jsonl"
             if lessons_file.exists():
                 try:
-                    lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
+                    lessons = [json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()]
                     for les in lessons[-5:]:
                         summary_parts.append(f"- [{les.get('topic','?')}] {les.get('lesson','')[:100]}")
                 except Exception:
@@ -6947,11 +6959,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not lessons_file.exists():
             return text("No campaign lessons found. Run a campaign with milestones to generate lessons.")
         try:
-            lessons = [json.loads(l) for l in lessons_file.read_text().splitlines() if l.strip()]
+            lessons = [json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()]
         except Exception as e:
             return text(f"Error reading lessons: {e}")
         if topic_filter:
-            lessons = [l for l in lessons if l.get("topic","") == topic_filter]
+            lessons = [lesson for lesson in lessons if lesson.get("topic","") == topic_filter]
         lessons = lessons[-last_n:]
         if not lessons:
             return text(f"No lessons found{' for topic=' + topic_filter if topic_filter else ''}.")
@@ -10662,7 +10674,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 # Sending SIGHUP re-execs the process in-place keeping the same PID visible
 # to Claude Code — no reconnect needed.
 
-import signal
+import signal  # noqa: E402
 
 
 def _handle_sighup(signum, frame):

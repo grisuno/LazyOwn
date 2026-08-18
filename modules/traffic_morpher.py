@@ -8,14 +8,11 @@ morphing for popular protocols (HTTP/2, WebSocket, DNS, ICMP).
 
 from __future__ import annotations
 
-import json
 import os
 import random
-import socket
-import ssl
 import struct
 import time
-from typing import Any, Callable
+from typing import Any
 
 
 class TrafficMorpher:

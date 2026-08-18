@@ -250,8 +250,8 @@ class LazyOwnDB:
         if not value:
             return value
         try:
-            from core.crypto import AESencrypt
             from core.config import resolve_aes_key
+            from core.crypto import AESencrypt
             key = resolve_aes_key({}, sessions_dir=Path("sessions"))
             ct, _ = AESencrypt(value.encode("utf-8"), key)
             return ct.hex()
@@ -263,8 +263,8 @@ class LazyOwnDB:
         if not value:
             return value
         try:
-            from core.crypto import AESdecrypt
             from core.config import resolve_aes_key
+            from core.crypto import AESdecrypt
             key = resolve_aes_key({}, sessions_dir=Path("sessions"))
             ct = bytes.fromhex(value)
             return AESdecrypt(ct, key).decode("utf-8")
@@ -726,7 +726,7 @@ class LazyOwnDB:
 
     def close(self) -> None:
         """Close the database connection for the current thread.
-        
+
         Idempotent — safe to call multiple times.
         """
         if self._closed:

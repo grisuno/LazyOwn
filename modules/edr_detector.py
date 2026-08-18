@@ -15,7 +15,6 @@ Generates an evasion profile recommending bypass techniques based on detected de
 
 from __future__ import annotations
 
-import os
 import subprocess
 import sys
 from dataclasses import dataclass, field

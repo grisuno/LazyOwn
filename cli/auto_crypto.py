@@ -36,7 +36,6 @@ import secrets
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 SALT_FILE: str = ".auto_crypto_salt"
 ENCRYPTED_SUFFIX: str = ".encrypted"
@@ -93,7 +92,7 @@ class AutoCryptoEngine:
     @property
     def is_encrypted(self) -> bool:
         """Check whether session data appears encrypted.
-        
+
         Returns True when at least one protected file has the encrypted
         suffix marker applied. A directory with no protected files at all
         returns False (nothing to protect).
@@ -269,12 +268,14 @@ def build_password_provider_from_cli_login() -> Callable[[], str | None]:
     Returns:
         A zero-argument callable returning the operator's password or None.
     """
+
     def _provider() -> str | None:
         master_pass = os.environ.get("LAZYOWN_MASTER_PASSWORD")
         if master_pass:
             return master_pass
         try:
             from modules.cli_auth import get_current_operator
+
             username = get_current_operator()
             if username:
                 return f"lazyown:{username}"

@@ -232,8 +232,8 @@ def main() -> None:
     cleanup_temp_files()
 
 
-from modules.legacy.lazygptcli_unified import (
-    Groq,
+from modules.legacy.lazygptcli_unified import (  # noqa: E402
+    Groq,  # noqa: F811
     process_prompt,
     process_prompt_adversary,
     process_prompt_general,
@@ -243,7 +243,7 @@ from modules.legacy.lazygptcli_unified import (
     process_prompt_task,
     process_prompt_vuln,
 )
-from modules.legacy.lazygptcli_unified import _deepseek_fallback as process_prompt_deepseek
+from modules.legacy.lazygptcli_unified import _deepseek_fallback as process_prompt_deepseek  # noqa: E402
 
 __all__ = [
     "process_prompt",

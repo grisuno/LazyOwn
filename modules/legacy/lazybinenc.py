@@ -3,7 +3,7 @@ import binascii
 import os
 
 from Crypto.Cipher import AES
-from pwn import *
+from pwn import *  # noqa: F403
 from rich.console import Console
 from rich.prompt import Confirm
 

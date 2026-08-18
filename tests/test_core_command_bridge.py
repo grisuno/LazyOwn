@@ -114,11 +114,11 @@ class TestCommandBridgeOneCmdAlias:
         assert result == ""
 
     def test_nonexistent_lazy_loaded_cmd_returns_error(self):
-        """one_cmd returns an error string when shell initialization fails."""
+        """one_cmd reports an unknown command to the operator."""
         from core.command_bridge import CommandBridge
 
         bridge = CommandBridge()
         result = bridge.one_cmd("nonexistent_cmd_12345_xyz")
         assert isinstance(result, str)
         assert len(result) > 0
-        assert "error" in result.lower()
+        assert "not found" in result.lower()

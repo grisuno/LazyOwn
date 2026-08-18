@@ -1,6 +1,6 @@
 import subprocess
 
-from pwn import *
+from pwn import *  # noqa: F403
 
 BANNER = """
                                                                                               L.

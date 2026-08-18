@@ -7,7 +7,7 @@ from time import sleep
 
 import requests
 from bs4 import BeautifulSoup
-from colors import *
+from colors import *  # noqa: F403
 
 
 class Config:

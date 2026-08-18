@@ -6,7 +6,7 @@ import subprocess
 import threading
 import time
 
-from scapy.all import *
+from scapy.all import *  # noqa: F403
 
 
 def get_mac(ip):

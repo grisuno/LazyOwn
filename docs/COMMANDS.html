@@ -184,15 +184,15 @@
 cli/command_index.json.</p>
 <h2 id="table-of-contents">Table of Contents</h2>
 <ul>
-<li><a href="#01-reconnaissance">01. Reconnaissance</a> (34
+<li><a href="#01-reconnaissance">01. Reconnaissance</a> (38
 commands)</li>
 <li><a href="#02-scanning-&amp;-enumeration">02. Scanning &amp;
 Enumeration</a> (74 commands)</li>
 <li><a href="#03-exploitation">03. Exploitation</a> (66 commands)</li>
-<li><a href="#04-post-exploitation">04. Post-Exploitation</a> (44
+<li><a href="#04-post-exploitation">04. Post-Exploitation</a> (45
 commands)</li>
 <li><a href="#05-persistence">05. Persistence</a> (33 commands)</li>
-<li><a href="#06-privilege-escalation">06. Privilege Escalation</a> (11
+<li><a href="#06-privilege-escalation">06. Privilege Escalation</a> (16
 commands)</li>
 <li><a href="#07-credential-access">07. Credential Access</a> (31
 commands)</li>
@@ -203,10 +203,10 @@ commands)</li>
 <li><a href="#10-command-&amp;-control">10. Command &amp; Control</a>
 (28 commands)</li>
 <li><a href="#11-reporting">11. Reporting</a> (26 commands)</li>
-<li><a href="#12-miscellaneous">12. Miscellaneous</a> (165
+<li><a href="#12-miscellaneous">12. Miscellaneous</a> (169
 commands)</li>
 <li><a href="#13-diagnostics">13. Diagnostics</a> (2 commands)</li>
-<li><a href="#uncategorized">Uncategorized</a> (91 commands)</li>
+<li><a href="#uncategorized">Uncategorized</a> (135 commands)</li>
 </ul>
 <hr />
 <h2 id="reconnaissance">01. Reconnaissance</h2>
@@ -253,6 +253,24 @@ subdomains for a specified domain.</p>
 <code>cli/commands/recon_migrated.py</code></p>
 <p>Executes the dnstool.py tool to modify Active Directory-integrated
 DNS records.</p>
+<h3 id="estorides_import"><code>estorides_import</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/estorides.py</code></p>
+<p>Import Estorides-discovered entities into LazyOwn database and
+scope.</p>
+<h3 id="estorides_loop"><code>estorides_loop</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/estorides.py</code></p>
+<p>Run the bidirectional Estorides &lt;-&gt; LazyOwn feedback loop.</p>
+<h3 id="estorides_seed"><code>estorides_seed</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/estorides.py</code></p>
+<p>Feed LazyOwn hosts/domains into Estorides for passive OSINT
+discovery.</p>
+<h3 id="estorides_surface"><code>estorides_surface</code></h3>
+<p><strong>Phase:</strong> recon | <strong>Source:</strong>
+<code>cli/commands/estorides.py</code></p>
+<p>Show the combined active + passive attack surface.</p>
 <h3 id="finalrecon"><code>finalrecon</code></h3>
 <p><strong>Phase:</strong> recon | <strong>Source:</strong>
 <code>cli/commands/recon.py</code></p>
@@ -1158,6 +1176,11 @@ put the file in sessions/temp_upload or use download_c2 command</p>
 <p><strong>Phase:</strong> postexp | <strong>Source:</strong>
 <code>cli/commands/postexp.py</code></p>
 <p>Run Mimikatz over Python (impacket style).</p>
+<h3 id="ofuscate_payload"><code>ofuscate_payload</code></h3>
+<p><strong>Phase:</strong> postexp | <strong>Source:</strong>
+<code>cli/commands/postexp_migrated.py</code></p>
+<p>Obfuscates a shell script by encoding it in Base64 and prepares a
+command to decode and execute it.</p>
 <h3 id="ofuscate_string"><code>ofuscate_string</code></h3>
 <p><strong>Phase:</strong> postexp | <strong>Source:</strong>
 <code>cli/commands/postexp_migrated.py</code></p>
@@ -1414,6 +1437,10 @@ commands.</p>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/privilege_escalation.py</code></p>
 <p>Look up a binary in GTFOBins and LOLBas parquet knowledge bases.</p>
+<h3 id="juicypotato"><code>juicypotato</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Serve JuicyPotato over HTTP for Windows privilege escalation.</p>
 <h3 id="les"><code>les</code></h3>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/privilege_escalation.py</code></p>
@@ -1423,6 +1450,14 @@ commands.</p>
 <code>cli/commands/privilege_escalation.py</code></p>
 <p>Serve <code>linpeas.sh</code> over HTTP and print the target
 one-liner.</p>
+<h3 id="printspoofer"><code>printspoofer</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Serve PrintSpoofer over HTTP for Windows privilege escalation.</p>
+<h3 id="privesc_cmd_by_os"><code>privesc_cmd_by_os</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Prepare and send a linpeas/winpeas command to a C2 client.</p>
 <h3 id="privesc_suggest"><code>privesc_suggest</code></h3>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/crystal_ball.py</code></p>
@@ -1444,11 +1479,19 @@ privileges.</p>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/privilege_escalation.py</code></p>
 <p>Re-launch the framework with root privileges when missing.</p>
+<h3 id="sudo_privesc"><code>sudo_privesc</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Analyse sudo -l output and cross-reference with GTFOBins.</p>
 <h3 id="suid_check"><code>suid_check</code></h3>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/privilege_escalation.py</code></p>
 <p>Print SUID/SGID enumeration commands ready to paste on the
 target.</p>
+<h3 id="whoami_priv"><code>whoami_priv</code></h3>
+<p><strong>Phase:</strong> privesc | <strong>Source:</strong>
+<code>cli/commands/privilege_escalation.py</code></p>
+<p>Print privilege enumeration commands for the target OS.</p>
 <h3 id="winpeas"><code>winpeas</code></h3>
 <p><strong>Phase:</strong> privesc | <strong>Source:</strong>
 <code>cli/commands/privilege_escalation.py</code></p>
@@ -2186,6 +2229,14 @@ aliases.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/campaign.py</code></p>
 <p>Export or import an entire campaign as a portable package.</p>
+<h3 id="catalog"><code>catalog</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/catalog.py</code></p>
+<p>Browse the command catalog.</p>
+<h3 id="chainmode"><code>chainmode</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Toggle interactive kill-chain chaining after every command.</p>
 <h3 id="check_update"><code>check_update</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
@@ -2463,6 +2514,10 @@ operator.</p>
 <code>cli/commands/misc_migrated.py</code></p>
 <p>Handles the process of sending a spoofed ARP packet to a specified IP
 address with a given MAC address.</p>
+<h3 id="killchain"><code>killchain</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/misc_migrated.py</code></p>
+<p>Show the unified kill-chain progress and control auto-refresh.</p>
 <h3 id="l00t"><code>l00t</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
@@ -2682,6 +2737,10 @@ the current directory path to the clipboard.</p>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/misc_migrated.py</code></p>
 <p>Recommend the next action via the unified recommendation engine.</p>
+<h3 id="register"><code>register</code></h3>
+<p><strong>Phase:</strong> misc | <strong>Source:</strong>
+<code>cli/commands/cli_auth.py</code></p>
+<p>Register a new operator account in users.json.</p>
 <h3 id="resource"><code>resource</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
 <code>cli/commands/resource_scripting.py</code></p>
@@ -2860,6 +2919,11 @@ wordlists and more.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/phishing_wizard.py</code></p>
 <p>No description available.</p>
+<h3 id="adcs_esc"><code>adcs_esc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Check Active Directory Certificate Services for ESC1-ESC13
+vulnerabilities.</p>
 <h3 id="ai_playbook"><code>ai_playbook</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/ai.py</code></p>
@@ -2904,6 +2968,10 @@ wordlists and more.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/applocker_bypass.py</code></p>
 <p>Generate a rundll32.exe AppLocker bypass via SCT scriptlet.</p>
+<h3 id="arsenal_show"><code>arsenal_show</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Show payload arsenal items.</p>
 <h3 id="ask"><code>ask</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/ai.py</code></p>
@@ -2916,6 +2984,10 @@ wordlists and more.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/audit.py</code></p>
 <p>Print payload-aware completion suggestions for a partial command.</p>
+<h3 id="auditd_disable"><code>auditd_disable</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Generate commands to disable Linux auditd.</p>
 <h3 id="auto_loop"><code>auto_loop</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -2928,6 +3000,54 @@ wordlists and more.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/pivoting.py</code></p>
 <p>Auto-detect internal networks and set up pivot tunnels.</p>
+<h3 id="aws_privesc"><code>aws_privesc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>AWS privilege escalation and enumeration.</p>
+<h3 id="bof_catalog"><code>bof_catalog</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>List all BOFs available in the curated catalog.</p>
+<h3 id="bof_info"><code>bof_info</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Show detailed information about a BOF.</p>
+<h3 id="bof_install"><code>bof_install</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Install and compile a BOF, staging it for beacon delivery.</p>
+<h3 id="bof_list"><code>bof_list</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>List all installed and staged BOFs.</p>
+<h3 id="bof_run"><code>bof_run</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Execute a BOF on a connected beacon.</p>
+<h3 id="bof_search"><code>bof_search</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Search the BOF catalog by keyword.</p>
+<h3 id="bof_uninstall"><code>bof_uninstall</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/bof_registry.py</code></p>
+<p>Uninstall a BOF and remove its staged file.</p>
+<h3 id="c2_dns"><code>c2_dns</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_profile.py</code></p>
+<p>Configure or display the DNS beacon profile.</p>
+<h3 id="c2_profiles"><code>c2_profiles</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_profile.py</code></p>
+<p>List all available C2 transport profiles.</p>
+<h3 id="c2_rotate"><code>c2_rotate</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_profile.py</code></p>
+<p>Rotate to the next C2 transport profile in the rotation queue.</p>
+<h3 id="c2_tls"><code>c2_tls</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/c2_profile.py</code></p>
+<p>Display the current TLS C2 profile.</p>
 <h3 id="campaign_sitrep"><code>campaign_sitrep</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -2982,6 +3102,23 @@ wordlists and more.</p>
 <code>cli/commands/security.py</code></p>
 <p>Crack password hashes from a file using John the Ripper or
 Hashcat.</p>
+<h3 id="cross_cloud"><code>cross_cloud</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>Cross-cloud identity federation attacks.</p>
+<h3 id="dacl_abuse"><code>dacl_abuse</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Enumerate and exploit dangerous AD DACL/SACL entries.</p>
+<h3 id="delegation_attack"><code>delegation_attack</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Display computed delegation attack paths with exploitation
+commands.</p>
+<h3 id="delegation_enum"><code>delegation_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Enumerate Kerberos delegation configurations.</p>
 <h3 id="depconfuse"><code>depconfuse</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/supply_chain.py</code></p>
@@ -2998,6 +3135,10 @@ Hashcat.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/containers.py</code></p>
 <p>Enumerate Docker host: containers, images, privileges, mounts.</p>
+<h3 id="dotnet_payload"><code>dotnet_payload</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Generate a .NET/C# payload.</p>
 <h3 id="edr_detect"><code>edr_detect</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/edr_detect.py</code></p>
@@ -3010,6 +3151,10 @@ Hashcat.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/edr_detect.py</code></p>
 <p>Generate a PowerShell EDR detection script.</p>
+<h3 id="entra_attack"><code>entra_attack</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>Microsoft Entra ID / Azure AD attack operations.</p>
 <h3 id="evasion"><code>evasion</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/evasive_payload.py</code></p>
@@ -3031,6 +3176,11 @@ strategies.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
 <p>Show structured facts extracted from nmap scans and tool output.</p>
+<h3 id="forensic_clean"><code>forensic_clean</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Clean forensic artifacts — Prefetch, Shimcache, Amcache, Jump Lists,
+etc.</p>
 <h3 id="form"><code>form</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/audit.py</code></p>
@@ -3041,10 +3191,18 @@ strategies.</p>
 <code>cli/commands/audit.py</code></p>
 <p>Fuzzy command finder. Usage: fz [query]. Empty lists every
 command.</p>
+<h3 id="gcp_privesc"><code>gcp_privesc</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>GCP privilege escalation and enumeration.</p>
 <h3 id="gitlab_enum"><code>gitlab_enum</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/cicd.py</code></p>
 <p>Enumerate a GitLab instance.</p>
+<h3 id="gpo_abuse"><code>gpo_abuse</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Enumerate and exploit Group Policy Objects.</p>
 <h3 id="grep_log"><code>grep_log</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/audit.py</code></p>
@@ -3059,6 +3217,11 @@ command.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/cicd.py</code></p>
 <p>Enumerate a Jenkins instance.</p>
+<h3 id="k8s_attack"><code>k8s_attack</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>Kubernetes attack — RBAC enumeration, pod escape, etcd,
+persistence.</p>
 <h3 id="k8s_enum"><code>k8s_enum</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/containers.py</code></p>
@@ -3071,15 +3234,36 @@ command.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/containers.py</code></p>
 <p>List and decode Kubernetes secrets.</p>
+<h3 id="kerberoast"><code>kerberoast</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Advanced Kerberoasting — AES-only mode, targeted SPN enumeration.</p>
+<h3 id="kerberos_ticket"><code>kerberos_ticket</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/active_directory.py</code></p>
+<p>Forge Kerberos tickets for persistence and lateral movement.</p>
+<h3 id="linux_advanced_payload"><code>linux_advanced_payload</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Generate advanced Linux payloads (LD_PRELOAD, eBPF, PAM, kernel
+module).</p>
 <h3 id="llm_budget"><code>llm_budget</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/ai.py</code></p>
 <p>Show the LLM daily cost budget, per call token cap, and current
 spend.</p>
+<h3 id="log_tamper"><code>log_tamper</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Cross-platform log clearing commands.</p>
 <h3 id="macos_keychain"><code>macos_keychain</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mobile_macos.py</code></p>
 <p>Extract secrets from the macOS Keychain.</p>
+<h3 id="macos_payload"><code>macos_payload</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Generate macOS payloads (.app bundles, persistence, TCC bypass).</p>
 <h3 id="macos_persist"><code>macos_persist</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mobile_macos.py</code></p>
@@ -3088,6 +3272,11 @@ spend.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mobile_macos.py</code></p>
 <p>Generate macOS TCC (Transparency, Consent, Control) bypass.</p>
+<h3 id="memory_clean"><code>memory_clean</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Clean memory artifacts — Kerberos tickets, clipboard, env vars,
+credentials.</p>
 <h3 id="mfa_bypass"><code>mfa_bypass</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/cicd.py</code></p>
@@ -3096,10 +3285,20 @@ spend.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/evasive_payload.py</code></p>
 <p>Apply polymorphic mutation to shellcode for signature evasion.</p>
+<h3 id="network_opsec"><code>network_opsec</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Network OPSEC — proxy chains, DoH, canary detection, traffic
+analysis.</p>
 <h3 id="opsec"><code>opsec</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/security.py</code></p>
 <p>Score OPSEC risk for a LazyOwn command before execution.</p>
+<h3 id="opsec_score"><code>opsec_score</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Real-time OPSEC risk assessment with contextual action gating
+(v2).</p>
 <h3 id="orchestrate"><code>orchestrate</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/orchestration.py</code></p>
@@ -3150,6 +3349,10 @@ sessions).</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
 <p>Execute a generated YAML playbook step by step through the shell.</p>
+<h3 id="polymorphic"><code>polymorphic</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Apply polymorphic mutation to shellcode.</p>
 <h3 id="rag_query"><code>rag_query</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -3167,6 +3370,11 @@ sessions).</p>
 <code>lazyown.py</code></p>
 <p>Route a natural-language prompt to a LazyOwn tool. Usage: route
 <prompt></p>
+<h3 id="saas_enum"><code>saas_enum</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/cloud_attacks.py</code></p>
+<p>Enumerate SaaS platforms — M365, Google Workspace, Salesforce, Slack,
+ServiceNow.</p>
 <h3 id="seal_credentials"><code>seal_credentials</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/security.py</code></p>
@@ -3185,6 +3393,34 @@ surface.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/anti_forensics.py</code></p>
 <p>Securely delete files by overwriting before removal.</p>
+<h3 id="sleep_configure"><code>sleep_configure</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/sleep_obfuscation.py</code></p>
+<p>Configure the active sleep obfuscation technique.</p>
+<h3 id="sleep_info"><code>sleep_info</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/sleep_obfuscation.py</code></p>
+<p>Show detailed information about a sleep obfuscation technique.</p>
+<h3 id="sleep_list"><code>sleep_list</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/sleep_obfuscation.py</code></p>
+<p>List available sleep obfuscation techniques.</p>
+<h3 id="socks_config"><code>socks_config</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/socks_proxy.py</code></p>
+<p>Show or configure the SOCKS5 proxy.</p>
+<h3 id="socks_export"><code>socks_export</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/socks_proxy.py</code></p>
+<p>Export SOCKS5 proxy specification for beacon delivery.</p>
+<h3 id="socks_sessions"><code>socks_sessions</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/socks_proxy.py</code></p>
+<p>List active SOCKS proxy sessions.</p>
+<h3 id="staged_delivery"><code>staged_delivery</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/payload_arsenal.py</code></p>
+<p>Generate staged delivery artifacts (HTA, VBA, LNK, ISO, VHD).</p>
 <h3 id="state_snapshot"><code>state_snapshot</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>lazyown.py</code></p>
@@ -3197,6 +3433,10 @@ surface.</p>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/audit.py</code></p>
 <p>Print live progress from the latest sessions/scan_*.partial file.</p>
+<h3 id="sysmon_disable"><code>sysmon_disable</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Generate commands to disable Windows Sysmon.</p>
 <h3 id="threat_model"><code>threat_model</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/mcp_bridge.py</code></p>
@@ -3206,6 +3446,11 @@ surface.</p>
 <code>cli/commands/mcp_bridge.py</code></p>
 <p>Alias of <code>timeline_browser</code> kept for MCP verb parity
 (lazyown_timeline).</p>
+<h3 id="timestomp"><code>timestomp</code></h3>
+<p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
+<code>cli/commands/opsec_cleanup.py</code></p>
+<p>Manipulate file MACB timestamps to evade forensic timeline
+analysis.</p>
 <h3 id="unseal_credentials"><code>unseal_credentials</code></h3>
 <p><strong>Phase:</strong> uncategorized | <strong>Source:</strong>
 <code>cli/commands/security.py</code></p>

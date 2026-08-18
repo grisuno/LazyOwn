@@ -392,7 +392,7 @@ def wire_all_consumers(bus=None) -> int:
         from modules.event_bus import get_event_bus
         bus = get_event_bus()
 
-    for i, consumer in enumerate(_CONSUMERS):
+    for consumer in _CONSUMERS:
         name = type(consumer).__name__
         bus.subscribe(f"consumer_{name}", consumer)
         log.info("[consumers] Wired %s", name)

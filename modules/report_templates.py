@@ -57,7 +57,7 @@ h2{color:var(--amber);margin:2rem 0 1rem}h3{color:var(--accent);margin:1.5rem 0 
 table{width:100%%;border-collapse:collapse}th,td{text-align:left;padding:.5rem;border-bottom:1px solid var(--border)}th{color:var(--accent)}
 .severity-critical{color:var(--red);font-weight:bold}.severity-high{color:var(--red)}.severity-medium{color:var(--amber)}.severity-low{color:var(--green)}
 pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:.8rem;overflow-x:auto;font-size:.85rem}
-</style></head><body>""" % esc(ctx["title"]))
+</style></head><body>""" % esc(ctx["title"]))  # noqa: UP031
             lines.append(f"<h1>{esc(ctx['title'])}</h1>")
         lines.append(f"<div class='card'><p><strong>Target:</strong> {esc(ctx['target'])}</p><p><strong>Generated:</strong> {esc(ctx['generated'])}</p><p><strong>Engine:</strong> LazyOwn RedTeam Framework {esc(ctx['version'])}</p></div>")
 
@@ -97,8 +97,8 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         loot = ctx["loot"]
         if loot:
             lines.append("<h2>Exfiltrated Loot</h2><table><tr><th>File</th><th>Size</th><th>Source</th></tr>")
-            for l in loot:
-                lines.append(f"<tr><td>{esc(l['name'])}</td><td>{esc(l['size'])}</td><td>{esc(l['source'])}</td></tr>")
+            for item in loot:
+                lines.append(f"<tr><td>{esc(item['name'])}</td><td>{esc(item['size'])}</td><td>{esc(item['source'])}</td></tr>")
             lines.append("</table>")
 
         # Commands
@@ -164,8 +164,8 @@ pre{background:var(--bg);border:1px solid var(--border);border-radius:4px;paddin
         loot = ctx["loot"]
         if loot:
             lines.append("## Exfiltrated Loot\n\n| File | Size | Source |\n|---|---|---|")
-            for l in loot:
-                lines.append(f"| {l['name']} | {l['size']} | {l['source']} |")
+            for item in loot:
+                lines.append(f"| {item['name']} | {item['size']} | {item['source']} |")
             lines.append("")
 
         cmds = ctx["commands"]

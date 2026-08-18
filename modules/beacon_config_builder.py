@@ -320,11 +320,11 @@ class BeaconConfigBuilder:
         """Hydrate TLS, DNS, SMB, WebSocket configs from ProfileEngine."""
         try:
             from modules.c2_profile_engine import (
-                DnsProfile,
+                DnsProfile,  # noqa: F401
                 ProfileEngine,
-                SmbProfile,
-                TlsProfile,
-                WebSocketProfile,
+                SmbProfile,  # noqa: F401
+                TlsProfile,  # noqa: F401
+                WebSocketProfile,  # noqa: F401
             )
         except ImportError:
             return

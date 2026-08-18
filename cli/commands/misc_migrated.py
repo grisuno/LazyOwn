@@ -3956,7 +3956,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             web_request = requests.get(url, headers={'User-Agent': useragent}, verify=False)
             if web_request.status_code != 200 or len(web_request.content) < 1:
                 print_error("Unable to clone the site. Status Code: {}".format(web_request.status_code))
-                sys.exit()
+                return
 
             with open(os.path.join(session_path, "index.html"), 'wb') as fh:
                 fh.write(web_request.content)

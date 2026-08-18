@@ -16,7 +16,6 @@ from __future__ import annotations
 import ast
 import sys
 from pathlib import Path
-from typing import Any
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 CLI_COMMANDS = BASE_DIR / "cli" / "commands"

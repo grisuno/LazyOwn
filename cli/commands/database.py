@@ -92,9 +92,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 print_msg("-" * 70)
                 for ws in workspaces:
                     marker = "*" if ws["name"] == current else " "
-                    print_msg(
-                        f"{ws['id']:<4} {marker}{ws['name']:<19} {ws['description']:<30} {ws['created_at']}"
-                    )
+                    print_msg(f"{ws['id']:<4} {marker}{ws['name']:<19} {ws['description']:<30} {ws['created_at']}")
             return
         if args[0] == "-d" and len(args) >= 2:
             name = args[1]
@@ -141,14 +139,10 @@ class DatabaseCommandSet(LazyOwnCommandSet):
             if not hosts:
                 print_msg("No hosts in this workspace.")
             else:
-                print_msg(
-                    f"{'ID':<4} {'Address':<16} {'Hostname':<25} {'OS':<15} {'State':<10}"
-                )
+                print_msg(f"{'ID':<4} {'Address':<16} {'Hostname':<25} {'OS':<15} {'State':<10}")
                 print_msg("-" * 75)
                 for h in hosts:
-                    print_msg(
-                        f"{h['id']:<4} {h['address']:<16} {h['hostname']:<25} {h['os']:<15} {h['state']:<10}"
-                    )
+                    print_msg(f"{h['id']:<4} {h['address']:<16} {h['hostname']:<25} {h['os']:<15} {h['state']:<10}")
             return
 
         if args[0] == "-a" and len(args) >= 2:
@@ -176,9 +170,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 print_msg("No matching hosts.")
             else:
                 for h in results:
-                    print_msg(
-                        f"  {h['address']:<16} {h['hostname']:<25} {h['os']:<15} {h['state']}"
-                    )
+                    print_msg(f"  {h['address']:<16} {h['hostname']:<25} {h['os']:<15} {h['state']}")
             return
 
         print_error("Usage: db_hosts [-a <ip> [hostname] [os]] [-d <id>] [-s <query>]")
@@ -235,14 +227,12 @@ class DatabaseCommandSet(LazyOwnCommandSet):
             if not vulns:
                 print_msg("No vulnerabilities recorded.")
             else:
-                print_msg(
-                    f"{'ID':<4} {'Host':<16} {'Severity':<10} {'Name':<35} {'Refs'}"
-                )
+                print_msg(f"{'ID':<4} {'Host':<16} {'Severity':<10} {'Name':<35} {'Refs'}")
                 print_msg("-" * 80)
                 for v in vulns:
                     print_msg(
-                        f"{v['id']:<4} {v.get('address','?'):<16} {v['severity']:<10} "
-                        f"{v['name']:<35} {v.get('refs','')[:25]}"
+                        f"{v['id']:<4} {v.get('address', '?'):<16} {v['severity']:<10} "
+                        f"{v['name']:<35} {v.get('refs', '')[:25]}"
                     )
             return
 
@@ -262,9 +252,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 print_msg(f"No {args[1]} severity vulnerabilities.")
             else:
                 for v in vulns:
-                    print_msg(
-                        f"  {v.get('address','?'):<16} [{v['severity']:<8}] {v['name']}"
-                    )
+                    print_msg(f"  {v.get('address', '?'):<16} [{v['severity']:<8}] {v['name']}")
             return
 
         print_error("Usage: db_vulns [-a <host_id> <name>] [-s <severity>]")
@@ -296,7 +284,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 print_msg("-" * 80)
                 for c in creds:
                     print_msg(
-                        f"{c['id']:<4} {c.get('address','?'):<16} {c['username']:<20} "
+                        f"{c['id']:<4} {c.get('address', '?'):<16} {c['username']:<20} "
                         f"{'*' * len(c['password']):<25} {c['cred_type']:<12}"
                     )
             return
@@ -341,7 +329,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 for item in loot:
                     print_msg(
                         f"{item['id']:<4} {item['name']:<25} {item['loot_type']:<12} "
-                        f"{item['path']:<40} {item.get('notes','')[:20]}"
+                        f"{item['path']:<40} {item.get('notes', '')[:20]}"
                     )
             return
 
@@ -380,9 +368,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
                 print_msg("-" * 70)
                 for n in notes:
                     host = n.get("address", "") or "workspace"
-                    print_msg(
-                        f"{n['id']:<4} {host:<16} {n['note_type']:<12} {n['data'][:50]}"
-                    )
+                    print_msg(f"{n['id']:<4} {host:<16} {n['note_type']:<12} {n['data'][:50]}")
             return
 
         if args[0] == "-a" and len(args) >= 2:
@@ -490,6 +476,7 @@ class DatabaseCommandSet(LazyOwnCommandSet):
 def shlex_split(text: str) -> list:
     """Split text like shlex.split but handle empty strings gracefully."""
     import shlex
+
     try:
         return shlex.split(text)
     except Exception:

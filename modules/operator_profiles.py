@@ -22,7 +22,7 @@ import os
 import subprocess
 import threading
 from dataclasses import dataclass, field
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
@@ -41,7 +41,7 @@ class OperatorProfile:
     username: str
     display_name: str = ""
     role: str = "operator"
-    created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+    created_at: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
     last_active: str = ""
     lhost: str = ""
     lport: int = 0
@@ -291,7 +291,7 @@ class OperatorProfileManager:
         """Update last_active timestamp."""
         self.update_profile(
             username,
-            last_active=datetime.now(timezone.utc).isoformat(),
+            last_active=datetime.now(UTC).isoformat(),
         )
 
     def set_attribute(self, username: str, key: str, value: Any) -> bool:
@@ -328,7 +328,7 @@ class OperatorProfileManager:
         audit_path.parent.mkdir(parents=True, exist_ok=True)
 
         entry = {
-            "ts": datetime.now(timezone.utc).isoformat(),
+            "ts": datetime.now(UTC).isoformat(),
             "operator": username,
             "action": action,
             "details": details or {},

@@ -1021,7 +1021,7 @@ def get_swan(api_key: str = "") -> SwanOrchestrator:
 if __name__ == "__main__":
     import argparse
 
-    from modules.logging_config import configure, get_logger
+    from modules.logging_config import configure
     configure(
         level=logging.INFO,
         console=True,

@@ -52,6 +52,8 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from pathlib import Path
 
+from core.parsers import strip_ansi
+
 
 @dataclass(frozen=True)
 class BannerConfig:
@@ -952,9 +954,6 @@ def default_palette() -> ColorPalette:
         danger="\033[91m",
         success="\033[92m",
     )
-
-
-from core.parsers import strip_ansi
 
 
 class BannerRenderer:

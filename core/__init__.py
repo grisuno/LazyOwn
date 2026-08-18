@@ -81,10 +81,12 @@ from core.errors import (  # noqa: F401
     LazyOwnError,
     NetworkError,
     PayloadError,
-    PermissionError as LazyPermissionError,
     TargetError,
     ToolError,
     ValidationError,
+)
+from core.errors import (
+    PermissionError as LazyPermissionError,
 )
 from core.http import (
     display_news,

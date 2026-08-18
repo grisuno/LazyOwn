@@ -25,7 +25,6 @@ import logging
 import os
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any
 
 from modules.world_model import read_state_dict, write_state_dict
 
@@ -420,7 +419,7 @@ class KillChain:
             ],
             "host_states": host_states,
             "compact": KillChain.compact_progress(current, phases_entered=phases_entered),
-            "updated_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+            "updated_at": datetime.datetime.now(datetime.UTC).isoformat(),
         }
 
 

@@ -97,7 +97,7 @@ def main() -> int:
     print(f"\n{'='*40}")
     print(f"Results: {PASSED}/{total} passed")
     if FAILED:
-        print(f"Failures:")
+        print("Failures:")
         for f in FAILURES:
             print(f"  - {f}")
     return 1 if FAILED else 0

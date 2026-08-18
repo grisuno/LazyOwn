@@ -7,16 +7,12 @@ from target machines on the local network.
 
 from __future__ import annotations
 
-import cmd2
 import shlex
+
+import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
-    GREEN,
-    RED,
-    RESET,
-    WHITE,
-    YELLOW,
     lateral_movement_category,
     print_error,
     print_msg,
@@ -162,7 +158,7 @@ class BitMCommandSet(LazyOwnCommandSet):
             print_msg(f"  Gateway:   {state.get('gateway_ip')}")
             print_msg(f"  Interface: {state.get('interface')}")
             print_msg(f"  Payloads:  {', '.join(state.get('payloads', []))}")
-            print_msg(f"  Harvest:   sessions/bitm/bitm_harvest.log")
+            print_msg("  Harvest:   sessions/bitm/bitm_harvest.log")
             print_msg("")
             print_msg("Monitor with: tail -f sessions/bitm/bitm_harvest.log")
             print_msg("Stop with:    bitm stop")

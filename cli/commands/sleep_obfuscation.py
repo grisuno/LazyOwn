@@ -6,6 +6,7 @@ Exposes ``modules/sleep_obfuscation`` through the LazyOwn CLI.
 from __future__ import annotations
 
 import cmd2
+
 from cli.commands._base import LazyOwnCommandSet
 from utils import GREEN, RED, RESET, YELLOW, print_msg
 
@@ -38,7 +39,9 @@ class SleepObfuscationCommandSet(LazyOwnCommandSet):
                 "medium": YELLOW,
                 "high": RED,
             }.get(tech.risk.value, RESET)
-            print_msg(f"  {YELLOW}{tech.name}{RESET} [{risk_color}{tech.risk.value}{RESET}] score={tech.detection_resistance}")
+            print_msg(
+                f"  {YELLOW}{tech.name}{RESET} [{risk_color}{tech.risk.value}{RESET}] score={tech.detection_resistance}"
+            )
             print_msg(f"    {tech.description[:120]}")
             if tech.stability_note:
                 print_msg(f"    {RED}Note:{RESET} {tech.stability_note[:100]}")
@@ -71,7 +74,7 @@ class SleepObfuscationCommandSet(LazyOwnCommandSet):
         if tech.stability_note:
             print_msg(f"  {RED}Stability note    :{RESET} {tech.stability_note}")
         if tech.params:
-            print_msg(f"  Parameters:")
+            print_msg("  Parameters:")
             for pname, pdef in tech.params.items():
                 print_msg(f"    --{pname} ({pdef['type']}, default={pdef['default']})")
 

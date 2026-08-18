@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import os
 import shutil
+
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
@@ -61,7 +62,7 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
         for candidate in candidates:
             if os.path.isfile(candidate):
                 return candidate
-        for root, dirs, files in os.walk("external/.exploit"):
+        for root, _dirs, files in os.walk("external/.exploit"):
             for f in files:
                 if f == f"{bof_name}.o" or f == f"{bof_name}.x64.o":
                     return os.path.join(root, f)
@@ -93,26 +94,30 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
 
         Returns True on success, False on failure.
         """
-        import urllib.request
-        import urllib.error
         import base64
         import ssl
+        import urllib.error
+        import urllib.request
 
         payload = load_payload()
         c2_port = payload.get("c2_port", "4444")
         c2_user = payload.get("c2_user", "LazyOwn")
         c2_pass = payload.get("c2_pass", "LazyOwn")
         url = f"https://127.0.0.1:{c2_port}/issue_command"
-        data = urllib.parse.urlencode({
-            "client_id": client_id,
-            "command": command,
-        }).encode()
+        data = urllib.parse.urlencode(
+            {
+                "client_id": client_id,
+                "command": command,
+            }
+        ).encode()
         auth = base64.b64encode(f"{c2_user}:{c2_pass}".encode()).decode()
         ssl_ctx = ssl.create_default_context()
         ssl_ctx.check_hostname = False
         ssl_ctx.verify_mode = ssl.CERT_NONE
         req = urllib.request.Request(
-            url, data=data, method="POST",
+            url,
+            data=data,
+            method="POST",
             headers={
                 "Authorization": f"Basic {auth}",
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -240,8 +245,8 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
         client_id = parts[1]
         bof_args = parts[2:] if len(parts) > 2 else None
 
-        from modules.bof_registry import BofMarketplace
         from modules.beacon_config_builder import generate_bof_execution_command
+        from modules.bof_registry import BofMarketplace
 
         mp = BofMarketplace(sessions_dir="sessions")
         if not mp.registry.is_installed(bof_name):

@@ -114,6 +114,7 @@ class AiCommandSet(LazyOwnCommandSet):
             except (OSError, json.JSONDecodeError):
                 world = {}
         from modules.killchain import KillChain
+
         try:
             phase = KillChain.current_phase().upper()
         except Exception:

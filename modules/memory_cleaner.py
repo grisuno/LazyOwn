@@ -11,9 +11,9 @@ from recovering attacker tools, commands, or credentials.
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Optional
+from typing import Any
 
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
@@ -58,7 +58,7 @@ class MemoryCleaner:
         config: MemoryCleanerConfig for target platform and artifact selection.
     """
 
-    def __init__(self, config: Optional[MemoryCleanerConfig] = None):
+    def __init__(self, config: MemoryCleanerConfig | None = None):
         self.config = config or MemoryCleanerConfig()
 
     def windows_memory_cleanup(self) -> dict[str, Any]:

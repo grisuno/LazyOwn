@@ -201,12 +201,12 @@ class LabCommandSet(LazyOwnCommandSet):
                 print_msg(f"  {host_port} -> {container_port}")
 
             if scenario == "metasploitable":
-                print_msg(f"\n[*] Assign target: assign rhost 127.0.0.1")
-                print_msg(f"[*] Quick start: assign rhost 127.0.0.1 && lazynmap")
+                print_msg("\n[*] Assign target: assign rhost 127.0.0.1")
+                print_msg("[*] Quick start: assign rhost 127.0.0.1 && lazynmap")
             elif scenario in ("wordpress", "juice-shop", "tomcat", "struts"):
                 port = list(ports.values())[0]
                 print_msg(f"\n[*] Assign target: assign rhost 127.0.0.1 && assign url http://127.0.0.1:{port}")
-                print_msg(f"[*] Quick start: ww && gobuster")
+                print_msg("[*] Quick start: ww && gobuster")
         else:
             print_error(f"Failed to start lab '{scenario}': {result.stderr}")
 

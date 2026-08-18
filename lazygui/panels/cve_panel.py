@@ -6,9 +6,7 @@ search. Supports lookup and exploitation suggestions.
 
 from __future__ import annotations
 
-from typing import Any
-
-from PySide6.QtCore import Qt, QTimer
+from PySide6.QtCore import QTimer
 from PySide6.QtWidgets import (
     QComboBox,
     QHBoxLayout,
@@ -103,8 +101,8 @@ class CVEPanel(PanelBase):
 
     def _refresh(self) -> None:
         try:
-            from pathlib import Path
             import json
+            from pathlib import Path
 
             cve_files = (
                 Path("knowledge_base_vuln.json"),

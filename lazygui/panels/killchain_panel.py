@@ -79,7 +79,7 @@ class KillChainPanel(PanelBase):
             phase_widget.setMinimumWidth(60)
             phase_widget.setFixedHeight(52)
             phase_widget.setStyleSheet(
-                f"border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;"
+                "border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;"
             )
             bar_layout.addWidget(phase_widget)
             self._phase_widgets[ph_id] = phase_widget

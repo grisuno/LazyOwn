@@ -152,5 +152,3 @@ class ResourceCommandSet(LazyOwnCommandSet):
     def do_mkrc(self, line):
         """Alias for makerc — record commands to a script."""
         self.do_makerc(line)
-
-

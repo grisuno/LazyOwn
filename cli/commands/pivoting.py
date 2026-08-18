@@ -10,7 +10,6 @@ import json
 import os
 import shlex
 import subprocess
-import tempfile
 import time
 
 import cmd2
@@ -109,8 +108,10 @@ class PivotingCommandSet(LazyOwnCommandSet):
             return
 
         for i, hop in enumerate(chain["hops"]):
-            print_msg(f"Hop {i+1}: {hop.get('pivot_host')} -> {hop.get('lhost')} "
-                       f"({hop.get('method')}, port {hop.get('port')})")
+            print_msg(
+                f"Hop {i + 1}: {hop.get('pivot_host')} -> {hop.get('lhost')} "
+                f"({hop.get('method')}, port {hop.get('port')})"
+            )
             for net in hop.get("networks", []):
                 print_msg(f"  Network: {net}")
 
@@ -170,10 +171,7 @@ class PivotingCommandSet(LazyOwnCommandSet):
         print_msg(f"Scanning {network} via proxy 127.0.0.1:{proxy_port}")
         output_file = f"sessions/pivot_scan_{network.replace('/', '_')}.txt"
 
-        cmd = (
-            f"proxychains4 -q nmap -sT -Pn --open -p {ports} "
-            f"--min-rate {rate} {network} -oN {output_file}"
-        )
+        cmd = f"proxychains4 -q nmap -sT -Pn --open -p {ports} --min-rate {rate} {network} -oN {output_file}"
         print_msg(f"  {cmd}")
         try:
             result = subprocess.run(cmd, shell=True, timeout=300, capture_output=True, text=True)
@@ -274,10 +272,7 @@ def _setup_chisel_pivot(rhost: str, lhost: str, port: int, networks: list[str]) 
     server_cmd = f"chisel server -p {port} --reverse &"
     subprocess.run(server_cmd, shell=True, timeout=5, stderr=subprocess.DEVNULL)
 
-    client_cmd = (
-        f"ssh -o StrictHostKeyChecking=no root@{rhost} "
-        f"\"chisel client {lhost}:{port} R:socks 2>/dev/null &\""
-    )
+    client_cmd = f'ssh -o StrictHostKeyChecking=no root@{rhost} "chisel client {lhost}:{port} R:socks 2>/dev/null &"'
     subprocess.run(client_cmd, shell=True, timeout=10, stderr=subprocess.DEVNULL)
     time.sleep(2)
 
@@ -292,10 +287,7 @@ def _setup_ssh_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> 
         networks: Internal networks to route.
     """
     print_msg("Setting up SSH SOCKS proxy...")
-    cmd = (
-        f"ssh -D {port} -N -f -o StrictHostKeyChecking=no "
-        f"-o ServerAliveInterval=60 root@{rhost}"
-    )
+    cmd = f"ssh -D {port} -N -f -o StrictHostKeyChecking=no -o ServerAliveInterval=60 root@{rhost}"
     subprocess.run(cmd, shell=True, timeout=10, stderr=subprocess.DEVNULL)
     time.sleep(1)
 
@@ -312,12 +304,16 @@ def _setup_socat_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -
     print_msg("Setting up Socat relay...")
     subprocess.run(
         f"socat TCP-LISTEN:{port},fork,reuseaddr TCP4:{rhost}:{port} &",
-        shell=True, timeout=5, stderr=subprocess.DEVNULL,
+        shell=True,
+        timeout=5,
+        stderr=subprocess.DEVNULL,
     )
     subprocess.run(
         f"ssh -o StrictHostKeyChecking=no root@{rhost} "
-        f"\"socat TCP4-LISTEN:{port},fork,reuseaddr SOCKS4A:{lhost}:{rhost}:{port},socksport={DEFAULT_PROXY_PORT} &\"",
-        shell=True, timeout=10, stderr=subprocess.DEVNULL,
+        f'"socat TCP4-LISTEN:{port},fork,reuseaddr SOCKS4A:{lhost}:{rhost}:{port},socksport={DEFAULT_PROXY_PORT} &"',
+        shell=True,
+        timeout=10,
+        stderr=subprocess.DEVNULL,
     )
 
 
@@ -331,6 +327,7 @@ def _find_free_port(start: int) -> int:
         An available port number.
     """
     import socket
+
     for p in range(start, start + 100):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             try:

@@ -7,8 +7,6 @@ beacon id.
 
 from __future__ import annotations
 
-import json
-
 from modules.beacon_history import (
     BeaconHistoryConfig,
     append_record,

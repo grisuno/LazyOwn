@@ -30,7 +30,6 @@ Design contract (SOLID):
 
 from __future__ import annotations
 
-import base64
 import os
 import secrets
 from collections.abc import Callable, Sequence
@@ -243,17 +242,9 @@ class AutoCryptoEngine:
 
     @staticmethod
     def _derive_key(password: str, salt: bytes) -> bytes:
-        from cryptography.hazmat.primitives import hashes
-        from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+        from core.crypto import derive_key
 
-        kdf = PBKDF2HMAC(
-            algorithm=hashes.SHA256(),
-            length=32,
-            salt=salt,
-            iterations=100_000,
-        )
-        key = base64.urlsafe_b64encode(kdf.derive(password.encode()))
-        return key
+        return derive_key(password, salt)
 
 
 def build_password_provider_from_cli_login() -> Callable[[], str | None]:

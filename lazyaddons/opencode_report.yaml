@@ -1,7 +1,7 @@
 name: opencode_report
 description: |
   Autonomous reporting agent. Launches opencode with the local
-  ollama/qwen3.8:27b model and drives the LazyOwn MCP to produce a professional
+  ollama/qwen3.8:27b-c16k model and drives the LazyOwn MCP to produce a professional
   engagement report from the evidence in sessions/: world model, objectives,
   credentials, loot, notes and command logs. Writes sessions/report.md and a
   sessions/report.json structured summary. Extra CLI arguments are appended to the
@@ -18,7 +18,7 @@ trigger: []
 tool:
   name: opencode_report
   execute_command: >
-    opencode run --model ollama/qwen3.8:27b --auto
+    opencode run --model ollama/qwen3.8:27b-c16k --auto
     "You are the LazyOwn autonomous reporting operator. Start with
     lazyown_campaign_sitrep to aggregate the full engagement state. Read
     sessions/world_model.json, objectives.jsonl, credentials files and notes.

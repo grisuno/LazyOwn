@@ -1,7 +1,7 @@
 name: opencode_recon
 description: |
   Autonomous reconnaissance agent. Launches opencode with the local
-  ollama/qwen3.8:27b model and drives the LazyOwn MCP to perform the full recon
+  ollama/qwen3.8:27b-c16k model and drives the LazyOwn MCP to perform the full recon
   cycle: sitrep, session init, nmap scanning of {rhost}, parsing results into the
   world model, and surfacing discovered ports, services and versions. Extra CLI
   arguments are appended to the agent prompt (e.g. target hints, scan flags).
@@ -18,7 +18,7 @@ trigger:
 tool:
   name: opencode_recon
   execute_command: >
-    opencode run --model ollama/qwen3.8:27b --auto
+    opencode run --model ollama/qwen3.8:27b-c16k --auto
     "You are the LazyOwn autonomous reconnaissance operator. Start with
     lazyown_campaign_sitrep and lazyown_session_init. Never re-run an existing scan:
     check sessions/scan_*.nmap* first. Run nmap through lazyown_run_command, then

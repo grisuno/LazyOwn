@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "model": "ollama/qwen3.8:27b",
+  "model": "ollama/qwen3.8:27b-c16k",
   "provider": {
     "ollama": {
       "name": "Ollama",
@@ -11,6 +11,9 @@
       "models": {
         "qwen3.8:27b": {
           "name": "qwen3.8:27b"
+        },
+        "qwen3.8:27b-c16k": {
+          "name": "qwen3.8:27b-c16k"
         }
       }
     }
@@ -18,7 +21,7 @@
   "mcp": {
     "lazyown": {
       "type": "local",
-      "command": ["python3", "/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
+      "command": ["python3", "/home/grisun0/LazyOwn/skills/lazyown_mcp_opencode.py"],
       "environment": {
         "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
       },

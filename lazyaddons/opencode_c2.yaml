@@ -1,0 +1,28 @@
+name: opencode_c2
+description: |
+  Autonomous C2 operations agent. Launches opencode with the local
+  ollama/qwen3.8:27b model and drives the LazyOwn MCP plus lazyc2 to manage
+  beacon lifecycle: start handlers, stage and deliver payloads, check beacon
+  health, pivot, and perform post-exploitation through the C2 dashboard. Extra
+  CLI arguments are appended to the agent prompt.
+
+  Examples:
+    opencode_c2 "stage the beacon and verify callback"
+    opencode_c2 "review active beacons and run post-exploitation tasks"
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+os: any
+trigger: []
+tool:
+  name: opencode_c2
+  execute_command: >
+    opencode run --model ollama/qwen3.8:27b --auto
+    "You are the LazyOwn autonomous C2 operator. Start with lazyown_campaign_sitrep
+    and lazyown_session_init. Verify lhost, lport and c2_port are set in payload.json
+    before starting any handler. Manage the beacon lifecycle via lazyown_run_command
+    and the C2 endpoints exposed by the MCP: stage payloads, deliver them, confirm
+    callbacks, and track beacon health. Maintain persistence and post-exploitation
+    discipline, and log every action for the next shift. Execute the C2 task
+    appended below now."
+category: 10. Command & Control

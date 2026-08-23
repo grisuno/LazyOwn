@@ -1,0 +1,31 @@
+name: opencode_agent
+description: |
+  Launch the opencode autonomous agent with the local ollama/qwen3.8:27b-c16k model,
+  driving the LazyOwn MCP server (148 lazyown_* tools) to execute a red-team task
+  end to end. The operator task is passed as CLI arguments and appended to the
+  agent prompt. Runs non-interactively with --auto so permission prompts are
+  auto-approved.
+
+  Examples:
+    opencode_agent "recon 10.10.10.5 and report findings"
+    opencode_agent "check beacon health and re-stage the payload"
+    opencode_agent "assess current campaign state and recommend next phase"
+
+  Requirements: opencode CLI in PATH, ollama serving qwen3.8:27b-c16k on localhost:11434.
+author: LazyOwn RedTeam
+version: '1.0'
+enabled: true
+os: any
+trigger: []
+tool:
+  name: opencode_agent
+  execute_command: >
+    opencode run --model ollama/qwen3.8:27b-c16k --auto
+    "You are the LazyOwn autonomous red-team operator. You have access to the LazyOwn
+    MCP server exposing the lazyown_* tool family. Begin every task with
+    lazyown_campaign_sitrep and lazyown_session_init. Read sessions/world_model.json
+    and payload.json before acting. Execute LazyOwn shell commands through
+    lazyown_run_command and persist evidence to sessions/. Follow the soul.md
+    philosophy: evidence over assumption, phase discipline, document for the next
+    shift. Execute the operator task appended below now."
+category: 10. Command & Control

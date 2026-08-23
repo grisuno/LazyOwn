@@ -133,6 +133,42 @@ Current beacon addons:
 - `blacksandbeacon.yaml` — Linux C beacon with ELF dlopen BOF support (unique to LazyOwn)
 - `blacksandbeacon_bof.yaml` — Linux BOF loader companion
 
+## OpenCode autonomous agent addons
+
+The `opencode_*` family launches the opencode CLI non-interactively
+(`opencode run --auto`) with the local `ollama/qwen3.8:27b-c16k` model to drive
+the LazyOwn MCP server autonomously. Each addon is a phase-focused agent; the
+operator task is appended to the agent prompt as CLI arguments.
+
+```
+(LazyOwn) > opencode_agent "recon 10.10.10.5 and report findings"
+(LazyOwn) > opencode_recon
+(LazyOwn) > opencode_exploit "target the web service on 8080"
+(LazyOwn) > opencode_c2 "stage the beacon and verify callback"
+(LazyOwn) > opencode_report
+```
+
+Infrastructure required (already configured in this repo):
+
+- `opencode.json` (project root) — registers the `lazyown` MCP server for
+  opencode. `minios` is disabled project-wide so autonomous runs are not slowed
+  by its timeout.
+- `skills/lazyown_mcp_opencode.py` — curated 15-tool MCP bridge with short names
+  (`sitrep`, `run`, `facts`, ...) proxying to the full 148-tool server. Local
+  models mishandle the long `lazyown_lazyown_*` names and large catalogs.
+- `qwen3.8:27b-c16k` — ollama variant of `qwen3.8:27b` with `num_ctx 16384`.
+  The stock 4096-token context truncates the opencode system prompt and drops
+  the MCP tools from the model's view. Create it with a Modelfile:
+
+  ```dockerfile
+  FROM qwen3.8:27b
+  PARAMETER num_ctx 16384
+  ```
+  then `ollama create qwen3.8:27b-c16k -f Modelfile`.
+
+The local 27B model runs mostly on CPU: expect minutes per step, and warm the
+model with a first call before long autonomous tasks.
+
 ## Category reference
 
 ```

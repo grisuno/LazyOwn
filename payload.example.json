@@ -82,5 +82,13 @@
   "cloud_region": "us-east-1",
   "region": "us-east-1",
   "scan_type": "fs",
-  "report_output_path": ""
+  "report_output_path": "",
+  "exploitgym_path": "",
+  "exploitgym_model": "",
+  "exploitgym_openai_key": "",
+  "exploitgym_anthropic_key": "",
+  "exploitgym_admin_key": "",
+  "exploitgym_server_salt": "",
+  "exploitgym_flag_seed": "",
+  "exploitgym_server_api_key": ""
 }

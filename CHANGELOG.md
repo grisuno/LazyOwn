@@ -2,6 +2,566 @@
 # Changelog
 
 
+### Nuevas características
+
+### Otros
+
+  *   * feat(feat): wholea mini feat shipped between versions xD \n\n Version: release/0.2.161 \n\n with love \n\n Modified file(s):\n- .coverage - .github/workflows/ci.yml - .gitignore - .readmenator_cache/analysis_cache.json - .readmenator_cache/file_hashes.json - AGENTS.md - CHEATSHEET.md - CLAUDE.md - COMMANDS.md - KNOWLEDGE_BASE.md - README.md - UTILS.md - cli/README.md - cli/aliases.py - cli/auto_crypto.py - cli/banner_config.py - cli/chain_mode.py - cli/command_chain.py - cli/command_index.json - cli/commands/_base.py - cli/commands/active_directory.py - cli/commands/ai.py - cli/commands/anti_forensics.py - cli/commands/applocker_bypass.py - cli/commands/automation.py - cli/commands/bitm.py - cli/commands/bof_registry.py - cli/commands/c2_profile.py - cli/commands/caldera.py - cli/commands/campaign.py - cli/commands/catalog.py - cli/commands/cicd.py - cli/commands/cli_auth.py - cli/commands/cloud.py - cli/commands/cloud_attacks.py - cli/commands/collaboration.py - cli/commands/command_and_control.py - cli/commands/containers.py - cli/commands/crystal_ball.py - cli/commands/database.py - cli/commands/dns_exfil.py - cli/commands/dpapi.py - cli/commands/edr_detect.py - cli/commands/estorides.py - cli/commands/evasive_payload.py - cli/commands/exfiltration.py - cli/commands/exploit_migrated.py - cli/commands/exploitgym.py - cli/commands/lab.py - cli/commands/marketplace.py - cli/commands/mcp_bridge.py - cli/commands/misc_migrated.py - cli/commands/mobile_macos.py - cli/commands/module_manager.py - cli/commands/opsec_cleanup.py - cli/commands/payload_arsenal.py - cli/commands/persist.py - cli/commands/phishing_wizard.py - cli/commands/pivoting.py - cli/commands/privilege_escalation.py - cli/commands/pwn.py - cli/commands/recon.py - cli/commands/redteam_gym.py - cli/commands/report_enhanced.py - cli/commands/reporting.py - cli/commands/resource_scripting.py - cli/commands/security.py - cli/commands/sleep_obfuscation.py - cli/commands/socks_proxy.py - cli/commands/supply_chain.py - cli/confirm.py - cli/dashboard_tui.py - cli/engagement_hooks.py - cli/killchain.py - cli/marketplace_config.py - cli/noise_verbs.py - cli/ops_commands.py - cli/palette_command.py - cli/reactive_hints.py - cli/recommendation_signals.py - cli/recon_plan.py - cli/tips_engine.py - cli/wizard.py - core/README.md - core/__init__.py - core/api_authz.py - core/command_bridge.py - core/config.py - core/console.py - core/credential_vault.py - core/credentials.py - core/crypto.py - core/errors.py - core/executor.py - core/http.py - core/logging.py - core/network.py - core/parsers.py - core/payload_schema.py - core/process.py - core/prompt.py - core/safe_subprocess.py - core/scheduler.py - core/security.py - discord_c2.py - docs/COMMANDS.html - docs/index.html.bak - docs/killchain_contracts.md - gen_cert.sh - gg.py - gui.py - lazyaddons/CompressLoader.yaml - lazyaddons/OVSwrap.yaml - lazyaddons/README.md - lazyaddons/Zapscape.yaml - lazyaddons/adcs_attacks.yaml - lazyaddons/cPanelScanner.yaml - lazyaddons/cloud_enum.yaml - lazyaddons/exploitgym.yaml - lazyaddons/gui.yaml - lazyaddons/lazyexploit.yaml - lazyaddons/opencode_agent.yaml - lazyaddons/opencode_c2.yaml - lazyaddons/opencode_exploit.yaml - lazyaddons/opencode_recon.yaml - lazyaddons/opencode_report.yaml - lazyaddons/websocket_beacon.yaml - lazyaddons/yara_scanner.yaml - lazyc2.py - lazyc2/README.md - lazyc2/addon_creator.py - lazyc2/app_factory.py - lazyc2/blueprints/__init__.py - lazyc2/blueprints/addons.py - lazyc2/blueprints/api.py - lazyc2/blueprints/auth.py - lazyc2/blueprints/beacon.py - lazyc2/blueprints/operations.py - lazyc2/blueprints/phishing.py - lazyc2/blueprints/session_auth.py - lazyc2/extensions/users.py - lazyc2/models.py - lazyc2/security/trusted_proxy.py - lazyenc.py - lazygui/README.md - lazygui/panels/campaign_panel.py - lazygui/panels/cve_panel.py - lazygui/panels/graph_panel.py - lazygui/panels/history_panel.py - lazygui/panels/killchain_panel.py - lazygui/panels/marketplace_panel.py - lazygui/panels/sessions_panel.py - lazygui/widgets/beacon_command_modal.py - lazygui/widgets/graph_view.py - lazygui/windows/main_window.py - lazyown.egg-info/PKG-INFO - lazyown.egg-info/SOURCES.txt - lazyown.egg-info/dependency_links.txt - lazyown.egg-info/entry_points.txt - lazyown.egg-info/requires.txt - lazyown.egg-info/top_level.txt - lazyown.py - modules/README.md - modules/adcs_attacks.py - modules/agent_runner.py - modules/ai_fallback.py - modules/atomic_enricher.py - modules/auto_pivot.py - modules/autonomous_exploit_engine.py - modules/aws_attacks.py - modules/beacon_config_builder.py - modules/beacon_history.py - modules/bitm_engine.py - modules/bof_registry.py - modules/c2_builder.py - modules/c2_messaging_base.py - modules/c2_profile.py - modules/cicd_enumerator.py - modules/cli_auth.py - modules/cloud_enum.py - modules/collab_bp.py - modules/command_executor.py - modules/conditional_hooks.py - modules/credential_reuse.py - modules/cross_cloud.py - modules/cve_matcher.py - modules/dacl_abuse.py - modules/dashboard_bp.py - modules/dashboard_engine.py - modules/db.py - modules/delegation_attacks.py - modules/detection_feed.py - modules/detection_oracle.py - modules/dns_beacon.py - modules/domain_dominance.py - modules/dotnet_payload.py - modules/dpapi_harvester.py - modules/edr_detector.py - modules/entra_id_attacks.py - modules/estorides_importer.py - modules/evasion_engine.py - modules/evasive_payloads.py - modules/event_bus.py - modules/event_consumers.py - modules/exploit_chain.py - modules/exploit_recommender.py - modules/exploitgym_gym.py - modules/forensic_cleaner.py - modules/gcp_attacks.py - modules/gpo_abuse.py - modules/gui.py - modules/hash_cracker.py - modules/icmp_server.py - modules/integrations/nuclei_parser.py - modules/intelligence_engine.py - modules/k8s_attacks.py - modules/kerberoasting.py - modules/kerberos_core.py - modules/kerberos_tickets.py - modules/kill_chain_viz.py - modules/killchain.py - modules/lazy_rbac.py - modules/lazycloud.py - modules/lazyk8s.py - modules/lazyown_bprfuzzer.py - modules/lazyown_bridge.py - modules/lazyown_parquet_tool.py - modules/legacy/lazy_packet_image_sniffer.py - modules/legacy/lazybinenc.py - modules/legacy/lazybotnet.py - modules/legacy/lazydeepseekcli.py - modules/legacy/lazyftpsniff.py - modules/legacy/lazygptcli.py - modules/legacy/lazygptcli_unified.py - modules/legacy/lazyllmchat.py - modules/legacy/lazymariadb_rce_cve_2016-662.py - modules/legacy/lazymidm.py - modules/legacy/lazynetbios.py - modules/legacy/lazyproxy.py - modules/legacy/lazypwn.py - modules/legacy/lazyreversentlmv2.py - modules/legacy/lazyseo.py - modules/legacy/lazysqli.py - modules/legacy/lazyvsftp.py - modules/legacy/lazywerkzeug.py - modules/legacy/sql.py - modules/lesson_ingestor.py - modules/linux_advanced_payloads.py - modules/log_tamper.py - modules/logging_config.py - modules/macos_payloads.py - modules/mcp_agent_bridge.py - modules/memory_cleaner.py - modules/memory_store.py - modules/mfa_bypass.py - modules/mkcloudflaretunnel.sh - modules/module_registry.py - modules/moe_router.py - modules/network_opsec.py - modules/nmap2csv.py - modules/obs_parser.py - modules/operator_profiles.py - modules/opsec_scorer.py - modules/opsec_scorer_v2.py - modules/phishing_orchestrator.py - modules/playbook_engine.py - modules/polymorphic_engine.py - modules/privesc_predictor.py - modules/professional_report.py - modules/reactive_engine.py - modules/redteam_gym.py - modules/reflective_dll.py - modules/report_generator.py - modules/report_templates.py - modules/rl_trainer.py - modules/saas_attacks.py - modules/session_rag.py - modules/sessions/llm_budget.json - modules/sleep_obfuscation.py - modules/socks_proxy.py - modules/staged_delivery.py - modules/state_manager.py - modules/sudo_tiocsti.py - modules/threat_model.py - modules/timestomper.py - modules/tool_extractor.py - modules/traffic_morpher.py - modules/unified_bridge.py - modules/unified_dashboard.py - modules/unified_llm_client.py - modules/venator.py - modules/vuln_agent.py - modules/vulnbot.py - modules/websocket_beacon.py - modules/world_model.py - modules/yara_scanner.py - opencode.json - payload.example.json - pyproject.toml - readmenator-rules/readmenator_all.yml - readmenator-rules/readmenator_multi.yml - readmenator-rules/readmenator_python.yml - report.py - requirements-dev.txt - requirements-ml.txt - requirements.txt - run_topoexploit_agent.sh - scripts/activate_migrations.py - scripts/migrate_commandsets.py - scripts/sync_doc_stats.py - search.py - sessions/phishing/campaigns/short_urls.json - skills/aci_planner.py - skills/autonomous_daemon.py - skills/claude_md_orchestrator/orchestrator.py - skills/daemon_health.py - skills/heartbeat.py - skills/hermes-lazyown/executor.py - skills/hermes-lazyown/output_compactor.py - skills/hive_mind.py - skills/lazyown.md - skills/lazyown/SKILL.md - skills/lazyown_campaign.py - skills/lazyown_daemon.py - skills/lazyown_llm.py - skills/lazyown_mcp.py - skills/lazyown_mcp_opencode.py - skills/lazyown_parquet_db.py - skills/lazyown_policy.py - skills/mcp_generated_tools.py - skills/mcp_tool_generator.py - skills/sessions_watcher.py - skills/swan_agent.py - skills/tests/test_facts.py - skills/tests/test_hive_mind.py - skills/tests/test_mcp_smoke.py - skills/tests/test_objectives.py - skills/tests/test_parquet_db.py - skills/toposwarm_autonomous.py - skills/update_knowledge.py - slack_c2_bot.py - telegram_c2.py - telegram_hermes.py - templates/README.md - templates/addon_creator.html - templates/addon_view.html - templates/addons.html - templates/base.html - templates/change_password.html - templates/create_tool.html - templates/profile.html - tests/run_mutation_addon_creator.py - tests/run_mutation_api_authz.py - tests/run_mutation_killchain.py - tests/run_mutation_phase1.py - tests/run_mutation_tests.py - tests/test_addon_creator.py - tests/test_api_authz.py - tests/test_beacon_config_builder.py - tests/test_beacon_history.py - tests/test_blacksandbeacon_addon.py - tests/test_c2_profile_engine.py - tests/test_categories.py - tests/test_chain_mode.py - tests/test_cli_command_sets.py - tests/test_command_chain.py - tests/test_command_set_migration.py - tests/test_core.py - tests/test_core_command_bridge.py - tests/test_core_config.py - tests/test_core_modules.py - tests/test_credential_vault.py - tests/test_dashboard_routes.py - tests/test_detection_feed.py - tests/test_engagement_elo_and_methodology.py - tests/test_evidence_hints.py - tests/test_exploitgym_gym.py - tests/test_intelligence_engine.py - tests/test_killchain_auto_refresh.py - tests/test_killchain_gap_signal.py - tests/test_killchain_snapshot.py - tests/test_killchain_unified.py - tests/test_killchain_unified_v2.py - tests/test_lazygui_backend.py - tests/test_lazygui_graph_widget.py - tests/test_lazygui_models.py - tests/test_lesson_ingestor.py - tests/test_opsec_scorer.py - tests/test_packaging.py - tests/test_phase1_data_gaps.py - tests/test_reactive_hints_expanded.py - tests/test_reactive_lateral_data.py - tests/test_report_banners_endpoints.py - tests/test_security_lazyc2.py - tests/test_socks_proxy.py - tests/test_structured_logging.py - tests/test_tips_engine.py - tests/test_unified_dashboard.py - tests/test_vuln_mitigations.py - user_aliases.json - users.example.json - users.tmp - utils.py - yara_rules/A310Logger.yar - yara_rules/AAR.yar - yara_rules/APT27.yar - yara_rules/ARCrypt.yar - yara_rules/AbubasbanditBot.yar - yara_rules/AcidRain.yar - yara_rules/ActionRAT.yar - yara_rules/AdaptixBeacon.yar - yara_rules/Adfind.yar - yara_rules/Adzok.yar - yara_rules/AgentRacoon.yar - yara_rules/AgentTesla.yar - yara_rules/AgnianeStealer.yar - yara_rules/Agrius.yar - yara_rules/Akira.yar - yara_rules/Alfonso.yar - yara_rules/AlienCrypter.yar - yara_rules/AlienSpy.yar - yara_rules/Alkhal.yar - yara_rules/AllaKore.yar - yara_rules/Amadey.yar - yara_rules/Amatera.yar - yara_rules/Andromeda.yar - yara_rules/Ap0calypse.yar - yara_rules/Apocalypse.yar - yara_rules/Arcom.yar - yara_rules/Arechclient2.yar - yara_rules/Arkei.yar - yara_rules/ArrowRAT.yar - yara_rules/Aspire.yar - yara_rules/AsyncRAT.yar - yara_rules/Atlas.yar - yara_rules/AuraStealer.yar - yara_rules/Aurora.yar - yara_rules/AuroraStealer.yar - yara_rules/Avaddon.yar - yara_rules/Avalon.yar - yara_rules/AvosLocker.yar - yara_rules/AxolotlLoader.yar - yara_rules/Azer.yar - yara_rules/Azorult.yar - yara_rules/BACKSPACE.yar - yara_rules/BHunt.yar - yara_rules/Babuk.yar - yara_rules/BackNet.yar - yara_rules/BackOffLoader.yar - yara_rules/BackOffPOS.yar - yara_rules/BadJoke.yar - yara_rules/BadRabbit.yar - yara_rules/Bagle.yar - yara_rules/Baldr.yar - yara_rules/Bandit.yar - yara_rules/Bandook.yar - yara_rules/Banload.yar - yara_rules/Bazar.yar - yara_rules/BazarLoader.yar - yara_rules/BazarLoaderNim.yar - yara_rules/Beastdoor.yar - yara_rules/BetaBot.yar - yara_rules/BioPass.yar - yara_rules/BitCoinGrabber.yar - yara_rules/BitPaymer.yar - yara_rules/BitRAT.yar - yara_rules/BitterRAT.yar - yara_rules/BlackByte.yar - yara_rules/BlackByteGo.yar - yara_rules/BlackCat.yar - yara_rules/BlackDropper.yar - yara_rules/BlackHunt.yar - yara_rules/BlackMatter.yar - yara_rules/BlackNET.yar - yara_rules/BlackNix.yar - yara_rules/BlackShades.yar - yara_rules/BlackshadesRAT.yar - yara_rules/BlankStealer.yar - yara_rules/Blister.yar - yara_rules/BlitzGrabber.yar - yara_rules/BlueBanana.yar - yara_rules/BlueBot.yar - yara_rules/Bobik.yar - yara_rules/BoxCaon.yar - yara_rules/Bozok.yar - yara_rules/BrbBot.yar - yara_rules/BreakStaf.yar - yara_rules/BreakWin.yar - yara_rules/BroEx.yar - yara_rules/BruteRatel.yar - yara_rules/BubbleLoader.yar - yara_rules/BuerLoader.yar - yara_rules/BumbleBee.yar - yara_rules/Buran.yar - yara_rules/ButeRAT.yar - yara_rules/CRAT.yar - yara_rules/Caliber.yar - yara_rules/Carbanak.yar - yara_rules/CargoBayLoader.yar - yara_rules/CasperTroy.yar - yara_rules/Cerber.yar - yara_rules/ChChes.yar - yara_rules/ChaChaDDoS.yar - yara_rules/Chaos.yar - yara_rules/ChaosBot.yar - yara_rules/Chinotto.yar - yara_rules/Chuwi.yar - yara_rules/Cicada.yar - yara_rules/ClientMesh.yar - yara_rules/ClipBanker.yar - yara_rules/Clop.yar - yara_rules/CobaltStrikeBeacon.yar - yara_rules/CobaltStrikeStager.yar - yara_rules/CobianRAT.yar - yara_rules/Codoso.yar - yara_rules/CoinMiners.yar - yara_rules/CoinMiningBot.yar - yara_rules/CommonMagic.yar - yara_rules/Confucius_B.yar - yara_rules/Conti.yar - yara_rules/CookieStealer.yar - yara_rules/CoreBot.yar - yara_rules/Covenant.yar - yara_rules/CrimsonRAT.yar - yara_rules/Crown.yar - yara_rules/CryLock.yar - yara_rules/CryptBot.yar - yara_rules/CryptoLocker.yar - yara_rules/CryptoStealerGo.yar - yara_rules/Cryptoshield.yar - yara_rules/Cuba.yar - yara_rules/Cutlet.yar - yara_rules/CyberGate.yar - yara_rules/CyberStealer.yar - yara_rules/DCRat.yar - yara_rules/DECAF.yar - yara_rules/DTstealer.yar - yara_rules/DanaBot.yar - yara_rules/DarkCloud.yar - yara_rules/DarkComet.yar - yara_rules/DarkEye.yar - yara_rules/DarkGate.yar - yara_rules/DarkRAT.yar - yara_rules/DarksideV1.yar - yara_rules/DeathRansom.yar - yara_rules/DecryptMyFiles.yar - yara_rules/DeepRats.yar - yara_rules/Dharma.yar - yara_rules/Diavol.yar - yara_rules/DiscoNightClub.yar - yara_rules/DocConnect.yar - yara_rules/DoejoCrypt.yar - yara_rules/DoomedLoader.yar - yara_rules/DoppelPaymer.yar - yara_rules/Downloaders.yar - yara_rules/Dreambot.yar - yara_rules/Dridex.yar - yara_rules/DridexLoader.yar - yara_rules/DridexV4.yar - yara_rules/DuckTail.yar - yara_rules/Duke.yar - yara_rules/Echelon.yar - yara_rules/Egregor.yar - yara_rules/Ekans.yar - yara_rules/Emotet.yar - yara_rules/EmotetLoader.yar - yara_rules/Enfal.yar - yara_rules/EnigmaStub.yar - yara_rules/EpicenterRAT.yar - yara_rules/Epsilon.yar - yara_rules/EspioLoader.yar - yara_rules/EternalRomance.yar - yara_rules/EvilGrab.yar - yara_rules/ExMatter.yar - yara_rules/Exaramel.yar - yara_rules/ExpressCMS.yar - yara_rules/FPSpy.yar - yara_rules/FYAnti.yar - yara_rules/Fabookie.yar - yara_rules/FakeWMI.yar - yara_rules/Fareit.yar - yara_rules/Farfli.yar - yara_rules/FatalRAT.yar - yara_rules/Fiber.yar - yara_rules/Ficker.yar - yara_rules/FirebirdRAT.yar - yara_rules/Flagpro.yar - yara_rules/FloodFix.yar - yara_rules/FoggyWeb.yar - yara_rules/Fonix.yar - yara_rules/Formbook.yar - yara_rules/Foxgrabber.yar - yara_rules/FujinamaRAT.yar - yara_rules/G0Crypt.yar - yara_rules/GDriveRAT.yar - yara_rules/Gandcrab.yar - yara_rules/GarrantDecrypt.yar - yara_rules/Gasket.yar - yara_rules/Gaudox.yar - yara_rules/Gelsemium.yar - yara_rules/GetCrypt.yar - yara_rules/GhostEmperor.yar - yara_rules/GloomaneStealer.yar - yara_rules/GoBrut.yar - yara_rules/Godzilla.yar - yara_rules/GoldenAxe.yar - yara_rules/GoldenSpy.yar - yara_rules/Gootkit.yar - yara_rules/GraphicalProton.yar - yara_rules/GravityRAT.yar - yara_rules/Greame.yar - yara_rules/GreetingGhoul.yar - yara_rules/Guidlma.yar - yara_rules/Guloader.yar - yara_rules/Gulpix.yar - yara_rules/HDLocker.yar - yara_rules/HakunaMatata.yar - yara_rules/Hancitor.yar - yara_rules/HawkEye.yar - yara_rules/HawkEyeV9.yar - yara_rules/Hello.yar - yara_rules/Heracles.yar - yara_rules/Hermes.yar - yara_rules/HiddenVNC.yar - yara_rules/HiddenWasp.yar - yara_rules/HijackLoader.yar - yara_rules/Hive.yar - yara_rules/HorusEyesRAT.yar - yara_rules/Houdini.yar - yara_rules/HttpBrowser.yar - yara_rules/HyperBro.yar - yara_rules/IAmTheKing.yar - yara_rules/IAmTheKingKeylogger.yar - yara_rules/IAmTheKingKingOfHearts.yar - yara_rules/IAmTheKingQueenOfClubs.yar - yara_rules/IAmTheKingQueenOfHearts.yar - yara_rules/IAmTheKingScrCap.yar - yara_rules/IRCBot.yar - yara_rules/ISRStealer.yar - yara_rules/IcedID.yar - yara_rules/IcedIDLoader.yar - yara_rules/Imminent.yar - yara_rules/Impacket.yar - yara_rules/Infinity.yar - yara_rules/InfinityLock.yar - yara_rules/InvalidPrinter.yar - yara_rules/JSSLoader.yar - yara_rules/Jaff.yar - yara_rules/JanelaRAT.yar - yara_rules/JavaDropper.yar - yara_rules/JennLog.yar - yara_rules/JesterStealer.yar - yara_rules/JoeGo.yar - yara_rules/Jupyter.yar - yara_rules/KLogExe.yar - yara_rules/KPortScan.yar - yara_rules/KTLVdoor.yar - yara_rules/Karagany.yar - yara_rules/Karkoff.yar - yara_rules/KdcSponge.yar - yara_rules/KeyBase.yar - yara_rules/Khonsari.yar - yara_rules/KillMBR.yar - yara_rules/Kimsuky.yar - yara_rules/Kinsing.yar - yara_rules/Kitty.yar - yara_rules/KlingonRAT.yar - yara_rules/KoadicBAT.yar - yara_rules/KoadicDOC.yar - yara_rules/KoadicJS.yar - yara_rules/KoiLoader.yar - yara_rules/Konni.yar - yara_rules/Kovter.yar - yara_rules/Koxic.yar - yara_rules/Kpot.yar - yara_rules/KrakenStealer.yar - yara_rules/Kronos.yar - yara_rules/Kutaki.yar - yara_rules/LCPDot.yar - yara_rules/LOLKEK.yar - yara_rules/LaZagne.yar - yara_rules/LapLas.yar - yara_rules/LastConn.yar - yara_rules/Latrodectus.yar - yara_rules/Laturo.yar - yara_rules/LegionLocker.yar - yara_rules/Leivion.yar - yara_rules/LightHand.yar - yara_rules/LilithRAT.yar - yara_rules/LimeRAT.yar - yara_rules/LockDown.yar - yara_rules/LockFile.yar - yara_rules/Lockbit.yar - yara_rules/Locked.yar - yara_rules/Locky.yar - yara_rules/LokiBot.yar - yara_rules/LokiLocker.yar - yara_rules/Lorenz.yar - yara_rules/LostDoor.yar - yara_rules/Lu0Bot.yar - yara_rules/LuminosityLink.yar - yara_rules/Lumma.yar - yara_rules/LuxNet.yar - yara_rules/M00nD3v.yar - yara_rules/MB150.yar - yara_rules/Macoute.yar - yara_rules/Magniber.yar - yara_rules/Maktub.yar - yara_rules/Mangzamel.yar - yara_rules/MargulasRAT.yar - yara_rules/MarkiRAT.yar - yara_rules/MassLogger.yar - yara_rules/MatanbuchusLoader.yar - yara_rules/Matiex.yar - yara_rules/Maze.yar - yara_rules/MediaPI.yar - yara_rules/MedusaLocker.yar - yara_rules/MegaCortex.yar - yara_rules/Megumin.yar - yara_rules/Mercurial.yar - yara_rules/Meteorite.yar - yara_rules/Meterpreter.yar - yara_rules/Milan.yar - yara_rules/Mimikatz.yar - yara_rules/MiniTor.yar - yara_rules/MoDiRAT.yar - yara_rules/ModiLoader.yar - yara_rules/Mole.yar - yara_rules/MonsterV2.yar - yara_rules/Motocos.yar - yara_rules/MountLocker.yar - yara_rules/MyKings.yar - yara_rules/Mystic.yar - yara_rules/NGLite.yar - yara_rules/NLBrute.yar - yara_rules/NPPSpy.yar - yara_rules/NWorm.yar - yara_rules/NanoCore.yar - yara_rules/NanoLocker.yar - yara_rules/Nefilim.yar - yara_rules/Nemty.yar - yara_rules/Neptune.yar - yara_rules/Nermer.yar - yara_rules/Neshta.yar - yara_rules/NetSupport.yar - yara_rules/NetTraveler.yar - yara_rules/NetWire.yar - yara_rules/Neteagle.yar - yara_rules/Netwalker.yar - yara_rules/Nighthawk.yar - yara_rules/NightshadeC2.yar - yara_rules/Niribu.yar - yara_rules/Nitol.yar - yara_rules/Nitro.yar - yara_rules/NitroBunnyDownloader.yar - yara_rules/NitrogenLoader.yar - yara_rules/Njrat.yar - yara_rules/Nodachi.yar - yara_rules/Obfuscar.yar - yara_rules/ObliqueRAT.yar - yara_rules/Octopus.yar - yara_rules/OnlyLogger.yar - yara_rules/OrcaRAT.yar - yara_rules/OrcusRAT.yar - yara_rules/Origin.yar - yara_rules/Orion.yar - yara_rules/Osno.yar - yara_rules/Owowa.yar - yara_rules/Oyster.yar - yara_rules/OysterBed.yar - yara_rules/OysterShell.yar - yara_rules/OzoneRAT.yar - yara_rules/PCRat.yar - yara_rules/PLEAD.yar - yara_rules/PWSHCUMII.yar - yara_rules/PYSA.yar - yara_rules/Pafish.yar - yara_rules/PandaStealer.yar - yara_rules/Pandora.yar - yara_rules/Paradox.yar - yara_rules/Parallax.yar - yara_rules/PatchWork.yar - yara_rules/PetrWrap.yar - yara_rules/Petya.yar - yara_rules/PhantomStealer.yar - yara_rules/PhemedroneStealer.yar - yara_rules/Phobos.yar - yara_rules/Phoenix.yar - yara_rules/Phorpiex.yar - yara_rules/PikaBot.yar - yara_rules/PillowMint.yar - yara_rules/PingBack.yar - yara_rules/PirateStealer.yar - yara_rules/Plasma.yar - yara_rules/Plurox.yar - yara_rules/PoisonIvy.yar - yara_rules/Polar.yar - yara_rules/PondRAT.yar - yara_rules/PoolRAT.yar - yara_rules/PoshKeylogger.yar - yara_rules/Poullight.yar - yara_rules/PovertyStealer.yar - yara_rules/PowerPool.yar - yara_rules/PredatorPain.yar - yara_rules/ProLock.yar - yara_rules/Prometei.yar - yara_rules/ProtonBot.yar - yara_rules/Prynt.yar - yara_rules/Punisher.yar - yara_rules/PureLoader.yar - yara_rules/Purge.yar - yara_rules/PurpleWave.yar - yara_rules/Pyrogenic.yar - yara_rules/PythoRAT.yar - yara_rules/QRat.yar - yara_rules/QakBot.yar - yara_rules/QiwxxRAT.yar - yara_rules/QnapCrypt.yar - yara_rules/Quantum.yar - yara_rules/QuasarRAT.yar - yara_rules/QuasarStealer.yar - yara_rules/Quickbind.yar - yara_rules/QuilClipper.yar - yara_rules/QuiteRAT.yar - yara_rules/Qulab.yar - yara_rules/R77.yar - yara_rules/RCSession.yar - yara_rules/RDPWrap.yar - yara_rules/REvil.yar - yara_rules/RHttpCtrl.yar - yara_rules/Raccoon.yar - yara_rules/RageStealer.yar - yara_rules/RagnarLocker.yar - yara_rules/Ramnit.yar - yara_rules/RansomEXX.yar - yara_rules/RanumBot.yar - yara_rules/RanzyLocker.yar - yara_rules/Rapid.yar - yara_rules/Rasftuby.yar - yara_rules/Ratty.yar - yara_rules/RedLeaf.yar - yara_rules/RedLine.yar - yara_rules/Redsip.yar - yara_rules/Remcos.yar - yara_rules/RemoteUtilitiesRAT.yar - yara_rules/Renamer.yar - yara_rules/Responder.yar - yara_rules/Retefe.yar - yara_rules/RevCodeRAT.yar - yara_rules/RevengeRAT.yar - yara_rules/ReverseRAT.yar - yara_rules/Rhadamanthys.yar - yara_rules/Rhysida.yar - yara_rules/Rietspoof.yar - yara_rules/RisePro.yar - yara_rules/Robbinhood.yar - yara_rules/RokRat.yar - yara_rules/RomCom.yar - yara_rules/RootTeamStealer.yar - yara_rules/Rozena.yar - yara_rules/Rsjon.yar - yara_rules/RunningRAT.yar - yara_rules/RustyBuer.yar - yara_rules/RustyLoader.yar - yara_rules/RustyStealer.yar - yara_rules/Ryuk.yar - yara_rules/S05Kitty.yar - yara_rules/SNAKEImplant.yar - yara_rules/STEALDEAL.yar - yara_rules/STOP.yar - yara_rules/STXRat.yar - yara_rules/Salat.yar - yara_rules/Salfram.yar - yara_rules/SapphireStealer.yar - yara_rules/Satan.yar - yara_rules/Satana.yar - yara_rules/Scarab.yar - yara_rules/ScoutElite.yar - yara_rules/SectopRAT.yar - yara_rules/Sedreco.yar - yara_rules/Seduploader.yar - yara_rules/Sfile.yar - yara_rules/ShadowTech.yar - yara_rules/SideWalk.yar - yara_rules/SilentMoon.yar - yara_rules/Simda.yar - yara_rules/SimplePacker.yar - yara_rules/SlackBot.yar - yara_rules/Sliver.yar - yara_rules/SlothfulMedia.yar - yara_rules/SmallNet.yar - yara_rules/SmokeLoader.yar - yara_rules/Sn0wLogger.yar - yara_rules/Snake.yar - yara_rules/Snatch.yar - yara_rules/Socks5Systemz.yar - yara_rules/SoftCNApp.yar - yara_rules/SolarMarker.yar - yara_rules/SoranoStealer.yar - yara_rules/Spacecolon.yar - yara_rules/SparkRAT.yar - yara_rules/Spectre.yar - yara_rules/SpyEye.yar - yara_rules/SpyGate.yar - yara_rules/Spyro.yar - yara_rules/SquirrelWaffle.yar - yara_rules/Stealc.yar - yara_rules/Stealerium.yar - yara_rules/SteamHook.yar - yara_rules/StormKitty.yar - yara_rules/StrelaStealer.yar - yara_rules/StrifeWater.yar - yara_rules/StrongPity.yar - yara_rules/Strrat.yar - yara_rules/Sub7Nation.yar - yara_rules/SunCrypt.yar - yara_rules/SunShuttle.yar - yara_rules/Surtr.yar - yara_rules/SweetyStealer.yar - yara_rules/SystemBC.yar - yara_rules/T5000.yar - yara_rules/TClient.yar - yara_rules/TJKeylogger.yar - yara_rules/TManager.yar - yara_rules/TOITOIN.yar - yara_rules/TRAT.yar - yara_rules/TSCookie.yar - yara_rules/TWarBot.yar - yara_rules/TYRAT.yar - yara_rules/Taidoor.yar - yara_rules/Tardigrade.yar - yara_rules/Taurus.yar - yara_rules/Tefosteal.yar - yara_rules/TeslaRevenge.yar - yara_rules/Thanos.yar - yara_rules/TigerRAT.yar - yara_rules/TimeTime.yar - yara_rules/Tofsee.yar - yara_rules/Tomiris.yar - yara_rules/Torisma.yar - yara_rules/ToxicEye.yar - yara_rules/TreasureHunter.yar - yara_rules/TrickBot.yar - yara_rules/TrickbotModule.yar - yara_rules/TrueBot.yar - yara_rules/TrustConnect.yar - yara_rules/Turian.yar - yara_rules/UDPRat.yar - yara_rules/UNKInfostealer.yar - yara_rules/UltraSurf.yar - yara_rules/UmbralStealer.yar - yara_rules/Underground.yar - yara_rules/Unicorn.yar - yara_rules/UnlockYourFiles.yar - yara_rules/Unrecom.yar - yara_rules/Ursnif.yar - yara_rules/UrsnifV3.yar - yara_rules/VIPKeyLogger.yar - yara_rules/VSSDestroy.yar - yara_rules/ValidAlpha.yar - yara_rules/VanillaRAT.yar - yara_rules/Varenyky.yar - yara_rules/VenomRAT.yar - yara_rules/Vertex.yar - yara_rules/Vidar.yar - yara_rules/VirLock.yar - yara_rules/VirusRat.yar - yara_rules/Vovalex.yar - yara_rules/Vulturi.yar - yara_rules/W1RAT.yar - yara_rules/WCE.yar - yara_rules/WSHRAT.yar - yara_rules/WanaCry.yar - yara_rules/Warezov.yar - yara_rules/WarzoneRAT.yar - yara_rules/WellMess.yar - yara_rules/WhiffyRecon.yar - yara_rules/WinDealer.yar - yara_rules/WinGo.yar - yara_rules/WinosStager.yar - yara_rules/WobbyChipMBR.yar - yara_rules/WorldWind.yar - yara_rules/XFiles.yar - yara_rules/XWorm.yar - yara_rules/XenoRAT.yar - yara_rules/XiaoBa.yar - yara_rules/XorStringsNET.yar - yara_rules/Xorist.yar - yara_rules/XpertRAT.yar - yara_rules/Xtreme.yar - yara_rules/ZXShell.yar - yara_rules/Zegost.yar - yara_rules/Zeoticus.yar - yara_rules/Zeppelin.yar - yara_rules/ZeroT.yar - yara_rules/ZeusPanda.yar - yara_rules/Ziggy.yar - yara_rules/Zloader.yar - yara_rules/ZombieBoy.yar - yara_rules/adWind.yar - yara_rules/c2_framework_detection.yar - yara_rules/iTranslator.yar - yara_rules/jRat.yar - yara_rules/obfuscation_detection.yar - yara_rules/webshell_advanced.yar - yara_rules/xRAT.yar\nDeleted file(s):\n- UTILS.md - docs/index.html.bak - gg.py - gui.py - lazyenc.py - lazyown.egg-info/PKG-INFO - lazyown.egg-info/SOURCES.txt - lazyown.egg-info/dependency_links.txt - lazyown.egg-info/entry_points.txt - lazyown.egg-info/requires.txt - lazyown.egg-info/top_level.txt - modules/gui.py - search.py\nCreated file(s):\n- .readmenator_cache/analysis_cache.json - .readmenator_cache/file_hashes.json - cli/chain_mode.py - cli/commands/active_directory.py - cli/commands/catalog.py - cli/commands/cloud_attacks.py - cli/commands/exploitgym.py - cli/commands/opsec_cleanup.py - cli/commands/payload_arsenal.py - cli/confirm.py - cli/noise_verbs.py - core/api_authz.py - core/logging.py - docs/killchain_contracts.md - lazyaddons/CompressLoader.yaml - lazyaddons/OVSwrap.yaml - lazyaddons/Zapscape.yaml - lazyaddons/cPanelScanner.yaml - lazyaddons/exploitgym.yaml - lazyaddons/lazyexploit.yaml - lazyaddons/opencode_agent.yaml - lazyaddons/opencode_c2.yaml - lazyaddons/opencode_exploit.yaml - lazyaddons/opencode_recon.yaml - lazyaddons/opencode_report.yaml - lazyc2/addon_creator.py - lazyc2/blueprints/addons.py - lazyc2/blueprints/session_auth.py - modules/aws_attacks.py - modules/cross_cloud.py - modules/dacl_abuse.py - modules/delegation_attacks.py - modules/dotnet_payload.py - modules/entra_id_attacks.py - modules/exploitgym_gym.py - modules/forensic_cleaner.py - modules/gcp_attacks.py - modules/gpo_abuse.py - modules/intelligence_engine.py - modules/k8s_attacks.py - modules/kerberoasting.py - modules/kerberos_core.py - modules/kerberos_tickets.py - modules/linux_advanced_payloads.py - modules/log_tamper.py - modules/macos_payloads.py - modules/memory_cleaner.py - modules/network_opsec.py - modules/opsec_scorer_v2.py - modules/polymorphic_engine.py - modules/reflective_dll.py - modules/saas_attacks.py - modules/staged_delivery.py - modules/sudo_tiocsti.py - modules/timestomper.py - opencode.json - readmenator-rules/readmenator_all.yml - readmenator-rules/readmenator_multi.yml - readmenator-rules/readmenator_python.yml - run_topoexploit_agent.sh - skills/lazyown_mcp_opencode.py - templates/addon_creator.html - templates/addon_view.html - templates/addons.html - templates/change_password.html - tests/run_mutation_addon_creator.py - tests/run_mutation_api_authz.py - tests/run_mutation_phase1.py - tests/test_addon_creator.py - tests/test_api_authz.py - tests/test_chain_mode.py - tests/test_evidence_hints.py - tests/test_exploitgym_gym.py - tests/test_intelligence_engine.py - tests/test_phase1_data_gaps.py - tests/test_structured_logging.py - users.example.json - users.tmp - yara_rules/A310Logger.yar - yara_rules/AAR.yar - yara_rules/APT27.yar - yara_rules/ARCrypt.yar - yara_rules/AbubasbanditBot.yar - yara_rules/AcidRain.yar - yara_rules/ActionRAT.yar - yara_rules/AdaptixBeacon.yar - yara_rules/Adfind.yar - yara_rules/Adzok.yar - yara_rules/AgentRacoon.yar - yara_rules/AgentTesla.yar - yara_rules/AgnianeStealer.yar - yara_rules/Agrius.yar - yara_rules/Akira.yar - yara_rules/Alfonso.yar - yara_rules/AlienCrypter.yar - yara_rules/AlienSpy.yar - yara_rules/Alkhal.yar - yara_rules/AllaKore.yar - yara_rules/Amadey.yar - yara_rules/Amatera.yar - yara_rules/Andromeda.yar - yara_rules/Ap0calypse.yar - yara_rules/Apocalypse.yar - yara_rules/Arcom.yar - yara_rules/Arechclient2.yar - yara_rules/Arkei.yar - yara_rules/ArrowRAT.yar - yara_rules/Aspire.yar - yara_rules/AsyncRAT.yar - yara_rules/Atlas.yar - yara_rules/AuraStealer.yar - yara_rules/Aurora.yar - yara_rules/AuroraStealer.yar - yara_rules/Avaddon.yar - yara_rules/Avalon.yar - yara_rules/AvosLocker.yar - yara_rules/AxolotlLoader.yar - yara_rules/Azer.yar - yara_rules/Azorult.yar - yara_rules/BACKSPACE.yar - yara_rules/BHunt.yar - yara_rules/Babuk.yar - yara_rules/BackNet.yar - yara_rules/BackOffLoader.yar - yara_rules/BackOffPOS.yar - yara_rules/BadJoke.yar - yara_rules/BadRabbit.yar - yara_rules/Bagle.yar - yara_rules/Baldr.yar - yara_rules/Bandit.yar - yara_rules/Bandook.yar - yara_rules/Banload.yar - yara_rules/Bazar.yar - yara_rules/BazarLoader.yar - yara_rules/BazarLoaderNim.yar - yara_rules/Beastdoor.yar - yara_rules/BetaBot.yar - yara_rules/BioPass.yar - yara_rules/BitCoinGrabber.yar - yara_rules/BitPaymer.yar - yara_rules/BitRAT.yar - yara_rules/BitterRAT.yar - yara_rules/BlackByte.yar - yara_rules/BlackByteGo.yar - yara_rules/BlackCat.yar - yara_rules/BlackDropper.yar - yara_rules/BlackHunt.yar - yara_rules/BlackMatter.yar - yara_rules/BlackNET.yar - yara_rules/BlackNix.yar - yara_rules/BlackShades.yar - yara_rules/BlackshadesRAT.yar - yara_rules/BlankStealer.yar - yara_rules/Blister.yar - yara_rules/BlitzGrabber.yar - yara_rules/BlueBanana.yar - yara_rules/BlueBot.yar - yara_rules/Bobik.yar - yara_rules/BoxCaon.yar - yara_rules/Bozok.yar - yara_rules/BrbBot.yar - yara_rules/BreakStaf.yar - yara_rules/BreakWin.yar - yara_rules/BroEx.yar - yara_rules/BruteRatel.yar - yara_rules/BubbleLoader.yar - yara_rules/BuerLoader.yar - yara_rules/BumbleBee.yar - yara_rules/Buran.yar - yara_rules/ButeRAT.yar - yara_rules/CRAT.yar - yara_rules/Caliber.yar - yara_rules/Carbanak.yar - yara_rules/CargoBayLoader.yar - yara_rules/CasperTroy.yar - yara_rules/Cerber.yar - yara_rules/ChChes.yar - yara_rules/ChaChaDDoS.yar - yara_rules/Chaos.yar - yara_rules/ChaosBot.yar - yara_rules/Chinotto.yar - yara_rules/Chuwi.yar - yara_rules/Cicada.yar - yara_rules/ClientMesh.yar - yara_rules/ClipBanker.yar - yara_rules/Clop.yar - yara_rules/CobaltStrikeBeacon.yar - yara_rules/CobaltStrikeStager.yar - yara_rules/CobianRAT.yar - yara_rules/Codoso.yar - yara_rules/CoinMiners.yar - yara_rules/CoinMiningBot.yar - yara_rules/CommonMagic.yar - yara_rules/Confucius_B.yar - yara_rules/Conti.yar - yara_rules/CookieStealer.yar - yara_rules/CoreBot.yar - yara_rules/Covenant.yar - yara_rules/CrimsonRAT.yar - yara_rules/Crown.yar - yara_rules/CryLock.yar - yara_rules/CryptBot.yar - yara_rules/CryptoLocker.yar - yara_rules/CryptoStealerGo.yar - yara_rules/Cryptoshield.yar - yara_rules/Cuba.yar - yara_rules/Cutlet.yar - yara_rules/CyberGate.yar - yara_rules/CyberStealer.yar - yara_rules/DCRat.yar - yara_rules/DECAF.yar - yara_rules/DTstealer.yar - yara_rules/DanaBot.yar - yara_rules/DarkCloud.yar - yara_rules/DarkComet.yar - yara_rules/DarkEye.yar - yara_rules/DarkGate.yar - yara_rules/DarkRAT.yar - yara_rules/DarksideV1.yar - yara_rules/DeathRansom.yar - yara_rules/DecryptMyFiles.yar - yara_rules/DeepRats.yar - yara_rules/Dharma.yar - yara_rules/Diavol.yar - yara_rules/DiscoNightClub.yar - yara_rules/DocConnect.yar - yara_rules/DoejoCrypt.yar - yara_rules/DoomedLoader.yar - yara_rules/DoppelPaymer.yar - yara_rules/Downloaders.yar - yara_rules/Dreambot.yar - yara_rules/Dridex.yar - yara_rules/DridexLoader.yar - yara_rules/DridexV4.yar - yara_rules/DuckTail.yar - yara_rules/Duke.yar - yara_rules/Echelon.yar - yara_rules/Egregor.yar - yara_rules/Ekans.yar - yara_rules/Emotet.yar - yara_rules/EmotetLoader.yar - yara_rules/Enfal.yar - yara_rules/EnigmaStub.yar - yara_rules/EpicenterRAT.yar - yara_rules/Epsilon.yar - yara_rules/EspioLoader.yar - yara_rules/EternalRomance.yar - yara_rules/EvilGrab.yar - yara_rules/ExMatter.yar - yara_rules/Exaramel.yar - yara_rules/ExpressCMS.yar - yara_rules/FPSpy.yar - yara_rules/FYAnti.yar - yara_rules/Fabookie.yar - yara_rules/FakeWMI.yar - yara_rules/Fareit.yar - yara_rules/Farfli.yar - yara_rules/FatalRAT.yar - yara_rules/Fiber.yar - yara_rules/Ficker.yar - yara_rules/FirebirdRAT.yar - yara_rules/Flagpro.yar - yara_rules/FloodFix.yar - yara_rules/FoggyWeb.yar - yara_rules/Fonix.yar - yara_rules/Formbook.yar - yara_rules/Foxgrabber.yar - yara_rules/FujinamaRAT.yar - yara_rules/G0Crypt.yar - yara_rules/GDriveRAT.yar - yara_rules/Gandcrab.yar - yara_rules/GarrantDecrypt.yar - yara_rules/Gasket.yar - yara_rules/Gaudox.yar - yara_rules/Gelsemium.yar - yara_rules/GetCrypt.yar - yara_rules/GhostEmperor.yar - yara_rules/GloomaneStealer.yar - yara_rules/GoBrut.yar - yara_rules/Godzilla.yar - yara_rules/GoldenAxe.yar - yara_rules/GoldenSpy.yar - yara_rules/Gootkit.yar - yara_rules/GraphicalProton.yar - yara_rules/GravityRAT.yar - yara_rules/Greame.yar - yara_rules/GreetingGhoul.yar - yara_rules/Guidlma.yar - yara_rules/Guloader.yar - yara_rules/Gulpix.yar - yara_rules/HDLocker.yar - yara_rules/HakunaMatata.yar - yara_rules/Hancitor.yar - yara_rules/HawkEye.yar - yara_rules/HawkEyeV9.yar - yara_rules/Hello.yar - yara_rules/Heracles.yar - yara_rules/Hermes.yar - yara_rules/HiddenVNC.yar - yara_rules/HiddenWasp.yar - yara_rules/HijackLoader.yar - yara_rules/Hive.yar - yara_rules/HorusEyesRAT.yar - yara_rules/Houdini.yar - yara_rules/HttpBrowser.yar - yara_rules/HyperBro.yar - yara_rules/IAmTheKing.yar - yara_rules/IAmTheKingKeylogger.yar - yara_rules/IAmTheKingKingOfHearts.yar - yara_rules/IAmTheKingQueenOfClubs.yar - yara_rules/IAmTheKingQueenOfHearts.yar - yara_rules/IAmTheKingScrCap.yar - yara_rules/IRCBot.yar - yara_rules/ISRStealer.yar - yara_rules/IcedID.yar - yara_rules/IcedIDLoader.yar - yara_rules/Imminent.yar - yara_rules/Impacket.yar - yara_rules/Infinity.yar - yara_rules/InfinityLock.yar - yara_rules/InvalidPrinter.yar - yara_rules/JSSLoader.yar - yara_rules/Jaff.yar - yara_rules/JanelaRAT.yar - yara_rules/JavaDropper.yar - yara_rules/JennLog.yar - yara_rules/JesterStealer.yar - yara_rules/JoeGo.yar - yara_rules/Jupyter.yar - yara_rules/KLogExe.yar - yara_rules/KPortScan.yar - yara_rules/KTLVdoor.yar - yara_rules/Karagany.yar - yara_rules/Karkoff.yar - yara_rules/KdcSponge.yar - yara_rules/KeyBase.yar - yara_rules/Khonsari.yar - yara_rules/KillMBR.yar - yara_rules/Kimsuky.yar - yara_rules/Kinsing.yar - yara_rules/Kitty.yar - yara_rules/KlingonRAT.yar - yara_rules/KoadicBAT.yar - yara_rules/KoadicDOC.yar - yara_rules/KoadicJS.yar - yara_rules/KoiLoader.yar - yara_rules/Konni.yar - yara_rules/Kovter.yar - yara_rules/Koxic.yar - yara_rules/Kpot.yar - yara_rules/KrakenStealer.yar - yara_rules/Kronos.yar - yara_rules/Kutaki.yar - yara_rules/LCPDot.yar - yara_rules/LOLKEK.yar - yara_rules/LaZagne.yar - yara_rules/LapLas.yar - yara_rules/LastConn.yar - yara_rules/Latrodectus.yar - yara_rules/Laturo.yar - yara_rules/LegionLocker.yar - yara_rules/Leivion.yar - yara_rules/LightHand.yar - yara_rules/LilithRAT.yar - yara_rules/LimeRAT.yar - yara_rules/LockDown.yar - yara_rules/LockFile.yar - yara_rules/Lockbit.yar - yara_rules/Locked.yar - yara_rules/Locky.yar - yara_rules/LokiBot.yar - yara_rules/LokiLocker.yar - yara_rules/Lorenz.yar - yara_rules/LostDoor.yar - yara_rules/Lu0Bot.yar - yara_rules/LuminosityLink.yar - yara_rules/Lumma.yar - yara_rules/LuxNet.yar - yara_rules/M00nD3v.yar - yara_rules/MB150.yar - yara_rules/Macoute.yar - yara_rules/Magniber.yar - yara_rules/Maktub.yar - yara_rules/Mangzamel.yar - yara_rules/MargulasRAT.yar - yara_rules/MarkiRAT.yar - yara_rules/MassLogger.yar - yara_rules/MatanbuchusLoader.yar - yara_rules/Matiex.yar - yara_rules/Maze.yar - yara_rules/MediaPI.yar - yara_rules/MedusaLocker.yar - yara_rules/MegaCortex.yar - yara_rules/Megumin.yar - yara_rules/Mercurial.yar - yara_rules/Meteorite.yar - yara_rules/Meterpreter.yar - yara_rules/Milan.yar - yara_rules/Mimikatz.yar - yara_rules/MiniTor.yar - yara_rules/MoDiRAT.yar - yara_rules/ModiLoader.yar - yara_rules/Mole.yar - yara_rules/MonsterV2.yar - yara_rules/Motocos.yar - yara_rules/MountLocker.yar - yara_rules/MyKings.yar - yara_rules/Mystic.yar - yara_rules/NGLite.yar - yara_rules/NLBrute.yar - yara_rules/NPPSpy.yar - yara_rules/NWorm.yar - yara_rules/NanoCore.yar - yara_rules/NanoLocker.yar - yara_rules/Nefilim.yar - yara_rules/Nemty.yar - yara_rules/Neptune.yar - yara_rules/Nermer.yar - yara_rules/Neshta.yar - yara_rules/NetSupport.yar - yara_rules/NetTraveler.yar - yara_rules/NetWire.yar - yara_rules/Neteagle.yar - yara_rules/Netwalker.yar - yara_rules/Nighthawk.yar - yara_rules/NightshadeC2.yar - yara_rules/Niribu.yar - yara_rules/Nitol.yar - yara_rules/Nitro.yar - yara_rules/NitroBunnyDownloader.yar - yara_rules/NitrogenLoader.yar - yara_rules/Njrat.yar - yara_rules/Nodachi.yar - yara_rules/Obfuscar.yar - yara_rules/ObliqueRAT.yar - yara_rules/Octopus.yar - yara_rules/OnlyLogger.yar - yara_rules/OrcaRAT.yar - yara_rules/OrcusRAT.yar - yara_rules/Origin.yar - yara_rules/Orion.yar - yara_rules/Osno.yar - yara_rules/Owowa.yar - yara_rules/Oyster.yar - yara_rules/OysterBed.yar - yara_rules/OysterShell.yar - yara_rules/OzoneRAT.yar - yara_rules/PCRat.yar - yara_rules/PLEAD.yar - yara_rules/PWSHCUMII.yar - yara_rules/PYSA.yar - yara_rules/Pafish.yar - yara_rules/PandaStealer.yar - yara_rules/Pandora.yar - yara_rules/Paradox.yar - yara_rules/Parallax.yar - yara_rules/PatchWork.yar - yara_rules/PetrWrap.yar - yara_rules/Petya.yar - yara_rules/PhantomStealer.yar - yara_rules/PhemedroneStealer.yar - yara_rules/Phobos.yar - yara_rules/Phoenix.yar - yara_rules/Phorpiex.yar - yara_rules/PikaBot.yar - yara_rules/PillowMint.yar - yara_rules/PingBack.yar - yara_rules/PirateStealer.yar - yara_rules/Plasma.yar - yara_rules/Plurox.yar - yara_rules/PoisonIvy.yar - yara_rules/Polar.yar - yara_rules/PondRAT.yar - yara_rules/PoolRAT.yar - yara_rules/PoshKeylogger.yar - yara_rules/Poullight.yar - yara_rules/PovertyStealer.yar - yara_rules/PowerPool.yar - yara_rules/PredatorPain.yar - yara_rules/ProLock.yar - yara_rules/Prometei.yar - yara_rules/ProtonBot.yar - yara_rules/Prynt.yar - yara_rules/Punisher.yar - yara_rules/PureLoader.yar - yara_rules/Purge.yar - yara_rules/PurpleWave.yar - yara_rules/Pyrogenic.yar - yara_rules/PythoRAT.yar - yara_rules/QRat.yar - yara_rules/QakBot.yar - yara_rules/QiwxxRAT.yar - yara_rules/QnapCrypt.yar - yara_rules/Quantum.yar - yara_rules/QuasarRAT.yar - yara_rules/QuasarStealer.yar - yara_rules/Quickbind.yar - yara_rules/QuilClipper.yar - yara_rules/QuiteRAT.yar - yara_rules/Qulab.yar - yara_rules/R77.yar - yara_rules/RCSession.yar - yara_rules/RDPWrap.yar - yara_rules/REvil.yar - yara_rules/RHttpCtrl.yar - yara_rules/Raccoon.yar - yara_rules/RageStealer.yar - yara_rules/RagnarLocker.yar - yara_rules/Ramnit.yar - yara_rules/RansomEXX.yar - yara_rules/RanumBot.yar - yara_rules/RanzyLocker.yar - yara_rules/Rapid.yar - yara_rules/Rasftuby.yar - yara_rules/Ratty.yar - yara_rules/RedLeaf.yar - yara_rules/RedLine.yar - yara_rules/Redsip.yar - yara_rules/Remcos.yar - yara_rules/RemoteUtilitiesRAT.yar - yara_rules/Renamer.yar - yara_rules/Responder.yar - yara_rules/Retefe.yar - yara_rules/RevCodeRAT.yar - yara_rules/RevengeRAT.yar - yara_rules/ReverseRAT.yar - yara_rules/Rhadamanthys.yar - yara_rules/Rhysida.yar - yara_rules/Rietspoof.yar - yara_rules/RisePro.yar - yara_rules/Robbinhood.yar - yara_rules/RokRat.yar - yara_rules/RomCom.yar - yara_rules/RootTeamStealer.yar - yara_rules/Rozena.yar - yara_rules/Rsjon.yar - yara_rules/RunningRAT.yar - yara_rules/RustyBuer.yar - yara_rules/RustyLoader.yar - yara_rules/RustyStealer.yar - yara_rules/Ryuk.yar - yara_rules/S05Kitty.yar - yara_rules/SNAKEImplant.yar - yara_rules/STEALDEAL.yar - yara_rules/STOP.yar - yara_rules/STXRat.yar - yara_rules/Salat.yar - yara_rules/Salfram.yar - yara_rules/SapphireStealer.yar - yara_rules/Satan.yar - yara_rules/Satana.yar - yara_rules/Scarab.yar - yara_rules/ScoutElite.yar - yara_rules/SectopRAT.yar - yara_rules/Sedreco.yar - yara_rules/Seduploader.yar - yara_rules/Sfile.yar - yara_rules/ShadowTech.yar - yara_rules/SideWalk.yar - yara_rules/SilentMoon.yar - yara_rules/Simda.yar - yara_rules/SimplePacker.yar - yara_rules/SlackBot.yar - yara_rules/Sliver.yar - yara_rules/SlothfulMedia.yar - yara_rules/SmallNet.yar - yara_rules/SmokeLoader.yar - yara_rules/Sn0wLogger.yar - yara_rules/Snake.yar - yara_rules/Snatch.yar - yara_rules/Socks5Systemz.yar - yara_rules/SoftCNApp.yar - yara_rules/SolarMarker.yar - yara_rules/SoranoStealer.yar - yara_rules/Spacecolon.yar - yara_rules/SparkRAT.yar - yara_rules/Spectre.yar - yara_rules/SpyEye.yar - yara_rules/SpyGate.yar - yara_rules/Spyro.yar - yara_rules/SquirrelWaffle.yar - yara_rules/Stealc.yar - yara_rules/Stealerium.yar - yara_rules/SteamHook.yar - yara_rules/StormKitty.yar - yara_rules/StrelaStealer.yar - yara_rules/StrifeWater.yar - yara_rules/StrongPity.yar - yara_rules/Strrat.yar - yara_rules/Sub7Nation.yar - yara_rules/SunCrypt.yar - yara_rules/SunShuttle.yar - yara_rules/Surtr.yar - yara_rules/SweetyStealer.yar - yara_rules/SystemBC.yar - yara_rules/T5000.yar - yara_rules/TClient.yar - yara_rules/TJKeylogger.yar - yara_rules/TManager.yar - yara_rules/TOITOIN.yar - yara_rules/TRAT.yar - yara_rules/TSCookie.yar - yara_rules/TWarBot.yar - yara_rules/TYRAT.yar - yara_rules/Taidoor.yar - yara_rules/Tardigrade.yar - yara_rules/Taurus.yar - yara_rules/Tefosteal.yar - yara_rules/TeslaRevenge.yar - yara_rules/Thanos.yar - yara_rules/TigerRAT.yar - yara_rules/TimeTime.yar - yara_rules/Tofsee.yar - yara_rules/Tomiris.yar - yara_rules/Torisma.yar - yara_rules/ToxicEye.yar - yara_rules/TreasureHunter.yar - yara_rules/TrickBot.yar - yara_rules/TrickbotModule.yar - yara_rules/TrueBot.yar - yara_rules/TrustConnect.yar - yara_rules/Turian.yar - yara_rules/UDPRat.yar - yara_rules/UNKInfostealer.yar - yara_rules/UltraSurf.yar - yara_rules/UmbralStealer.yar - yara_rules/Underground.yar - yara_rules/Unicorn.yar - yara_rules/UnlockYourFiles.yar - yara_rules/Unrecom.yar - yara_rules/Ursnif.yar - yara_rules/UrsnifV3.yar - yara_rules/VIPKeyLogger.yar - yara_rules/VSSDestroy.yar - yara_rules/ValidAlpha.yar - yara_rules/VanillaRAT.yar - yara_rules/Varenyky.yar - yara_rules/VenomRAT.yar - yara_rules/Vertex.yar - yara_rules/Vidar.yar - yara_rules/VirLock.yar - yara_rules/VirusRat.yar - yara_rules/Vovalex.yar - yara_rules/Vulturi.yar - yara_rules/W1RAT.yar - yara_rules/WCE.yar - yara_rules/WSHRAT.yar - yara_rules/WanaCry.yar - yara_rules/Warezov.yar - yara_rules/WarzoneRAT.yar - yara_rules/WellMess.yar - yara_rules/WhiffyRecon.yar - yara_rules/WinDealer.yar - yara_rules/WinGo.yar - yara_rules/WinosStager.yar - yara_rules/WobbyChipMBR.yar - yara_rules/WorldWind.yar - yara_rules/XFiles.yar - yara_rules/XWorm.yar - yara_rules/XenoRAT.yar - yara_rules/XiaoBa.yar - yara_rules/XorStringsNET.yar - yara_rules/Xorist.yar - yara_rules/XpertRAT.yar - yara_rules/Xtreme.yar - yara_rules/ZXShell.yar - yara_rules/Zegost.yar - yara_rules/Zeoticus.yar - yara_rules/Zeppelin.yar - yara_rules/ZeroT.yar - yara_rules/ZeusPanda.yar - yara_rules/Ziggy.yar - yara_rules/Zloader.yar - yara_rules/ZombieBoy.yar - yara_rules/adWind.yar - yara_rules/iTranslator.yar - yara_rules/jRat.yar - yara_rules/xRAT.yar\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: dom 23 ago 2026 03:21:43 -04 \n\n Hora: 1787469703
+
+
+### Otros
+
+### Otros
+
+  *   * first commit :D TopoExploit on ExploitGym fixing paths
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' into dev
+
+
+### Otros
+
+### Otros
+
+  *   * KNOWLEDGE_BASE.md
+
+
+### Otros
+
+### Otros
+
+  *   * exploitgym :D
+
+
+### Otros
+
+### Otros
+
+  *   * some testing on qwen 3.8 27b driving lazyown mcp, mcp dedicated to local llm like qwen
+
+
+### Otros
+
+### Otros
+
+  *   * some testing on qwen 3.8 27b driving lazyown mcp
+
+
+### Otros
+
+### Otros
+
+  *   * refactoring gui
+
+
+### Otros
+
+### Otros
+
+  *   * refactoring gui
+
+
+### Otros
+
+### Otros
+
+  *   * chore: resync command_index.json sha256 after misc_migrated.py edit
+
+
+### Otros
+
+### Otros
+
+  *   * feat: UX fixes (Fase 2)
+
+
+### Otros
+
+### Otros
+
+  *   * feat: lazyown_db MCP tool and catalog CLI command (Fase 3)
+
+
+### Otros
+
+### Otros
+
+  *   * fix: restore report.py and slack_c2_bot.py, repoint gui addon to lazygui
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: delete dead code, green the legacy lint, restore generate_random_cve_id (Fase 1.7)
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: route payload reads through core.config (Fase 1.4)
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: unify PBKDF2/Fernet key derivation into core/crypto (Fase 1.3)
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: unify run_command into core/process.py (Fase 1.2)
+
+
+### Otros
+
+### Otros
+
+  *   * Merge dev into main: operator UX hygiene + lint cleanup + yara fixes
+
+
+### Otros
+
+### Otros
+
+  *   * fix: yara_scan duplicated identifier error in AsyncRAT.yar
+
+
+### Otros
+
+### Otros
+
+  *   * chore: ruff format core/ scripts/, regenerate command_index.json, noqa tests
+
+
+### Otros
+
+### Otros
+
+  *   * fix: yara_scan crash - remove unreferenced strings in yara_rules
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: clean skills/ lint, fix real F821 bugs, campaign.py syntax error
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: clean modules/ lint, move dead sql.py to legacy, fix B007/E741/E701/B905/UP022/UP031
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: de-god utils.py shadowing, fix F821/F823 lint bugs, boy-scout ruff cleanup
+
+
+### Otros
+
+### Otros
+
+  *   * bug fixing
+
+
+### Otros
+
+### Otros
+
+  *   * fix: users.json can no longer be clobbered by mixed root/operator writers
+
+
+### Otros
+
+### Otros
+
+  *   * bug fixing
+
+
+### Otros
+
+### Otros
+
+  *   * fix: never overwrite an existing users.json on C2 boot
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #237 from grisuno/dev
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #236 from grisuno/feature/security-hygiene
+
+
+### Otros
+
+### Otros
+
+  *   * fix: gate lazyc2 module-level side effects behind __main__
+
+
+### Otros
+
+### Otros
+
+  *   * refactor: deduplicate lazyc2 request-log helpers and socket handlers
+
+
+### Otros
+
+### Otros
+
+  *   * security: beacon HMAC enforcement flag, gen_cert.sh random passphrase
+
+
+### Otros
+
+### Otros
+
+  *   * ci: fix test suite collection and order-dependent failures
+
+
+### Otros
+
+### Otros
+
+  *   * ux: disable cmd2 redirection, ascii console glyphs, hardened run_command
+
+
+### Otros
+
+### Otros
+
+  *   * security: random first-boot admin password, forced rotation, auth on exposed routes
+
+
+### Otros
+
+### Otros
+
+  *   * more refactoring
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #234 from grisuno/dependabot/pip/markdown-3.10.3
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #233 from grisuno/dependabot/pip/traitlets-5.16.1
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #232 from grisuno/dependabot/pip/bloodyad-2.5.5
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #231 from grisuno/dependabot/pip/cffi-2.1.1
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #230 from grisuno/dependabot/pip/textual-8.2.8
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump markdown from 3.10.2 to 3.10.3
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump traitlets from 5.14.3 to 5.16.1
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump bloodyad from 2.5.4 to 2.5.5
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump cffi from 2.1.0 to 2.1.1
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump textual from 8.2.5 to 8.2.8
+
+
+### Otros
+
+### Otros
+
+  *   * cli/chain_mode.py: invalid numeric pick re-prompts instead of silently skipping; terminal control bytes are named constants; menu prompt lives in ChainModeConfig; store failures are logged (no silent swallows), writes stay atomic. cli/tips_engine.py: all raw ANSI output (curiosity, karma, badges, VRI rewards) replaced with rich Text; killchain_display is a real config field; registry tip text can no longer break markup rendering; VRI reward pick degrades safely on void weights. cli/reactive_hints.py: confidence is floored to [0,99]
+
+
+### Otros
+
+### Otros
+
+  *   * CompressLoader Top Stealth gamma loader from LazyOwn, it's time to the blueTeam know how the apts do
+
+
+### Otros
+
+### Otros
+
+  *   * chain mode ctrl + c
+
+
+### Otros
+
+### Otros
+
+  *   * chain mode
+
+
+### Otros
+
+### Otros
+
+  *   * now can add lazyaddons from the web cli
+
+
+### Otros
+
+### Otros
+
+  *   * now can add lazyaddons from the web cli
+
+
+### Otros
+
+### Otros
+
+  *   * was printing bare names from static tables and ignoring the RecommendationEngine that already fuses reasons +   score. Now it feeds that fused output into the hint.
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #227 from grisuno/dependabot/pip/pypdf-6.15.0
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump pypdf from 6.14.2 to 6.15.0
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #224 from grisuno/dependabot/pip/nodeenv-gte-1.10.0
+
+
+### Otros
+
+### Otros
+
+  *   * Merge branch 'main' into dependabot/pip/nodeenv-gte-1.10.0
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #222 from grisuno/dependabot/pip/coverage-gte-7.15.4
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #225 from grisuno/dependabot/pip/python-socketio-5.16.3
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #223 from grisuno/dependabot/pip/pycryptodome-3.23.0
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #226 from grisuno/dependabot/pip/idna-3.18
+
+
+### Otros
+
+### Otros
+
+  *   * A fast, multi-threaded cPanel detection tool written in Go. It scans IP addresses, CIDR ranges, or target lists from a file to identify cPanel services running on ports 2082, 2083, and 2087.
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump idna from 3.15 to 3.18
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump python-socketio from 5.16.2 to 5.16.3
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps-dev): update nodeenv requirement from >=1.8 to >=1.10.0
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump pycryptodome from 3.22.0 to 3.23.0
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps-dev): update coverage requirement from >=7.0 to >=7.15.4
+
+
+### Otros
+
+### Otros
+
+  *   * Zapscape is a use-after-free vulnerability in the shadow MMU emulation of KVM/x86, specifically in the recursive zap path that runs when shadow pages are reclaimed. It can trigger the bug with guest-side actions alone to corrupt the host kernel's shadow page, and it can threaten the guest-host isolation of KVM/x86 hosts that accept untrusted guests and expose nested virtualization, particularly multi-tenant x86 public clouds.
+
+
+### Otros
+
+### Otros
+
+  *   * some improvements in security
+
+
+### Otros
+
+### Otros
+
+  *   * cryptography actualizado de 44.0.2 a 50.0.0 y requirements.txt corregido. La vulnerabilidad está mitigada.
+
+
+### Otros
+
+### Otros
+
+  *   * OVSwrap (CVE-2026-64531) is a non-universal (but broad) Linux LPE found by giving LLMs the tools to reason through memory safety issues’ geometry (coupled with CIFSwitch-discovery-style graph reasoning tools). Read on for affected distros, mitigations, and vulnerability details.
+
+
+### Otros
+
+### Otros
+
+  *   * # Payload Arsenal dotnet_payload reverse_tcp LHOST=10.0.0.1 LPORT=4444 arsenal_show dotnet_templates staged_delivery hta LHOST=10.0.0.1 LPORT=8443 polymorphic fc4883e4f0e8c000 --passes 1 macos_payload app_bundle LHOST=10.0.0.1 LPORT=4444 linux_advanced_payload ld_preload LHOST=10.0.0.1 LPORT=4444
+
+
+### Otros
+
+### Otros
+
+  *   * some things like IntelligenceEngine
+
+
+### Otros
+
+### Otros
+
+  *   * cloudflared refactorized
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #219 from grisuno/dependabot/pip/prompt-toolkit-3.0.53
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #218 from grisuno/dependabot/pip/fpdf2-2.8.7
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #217 from grisuno/dependabot/pip/nvidia-nvjitlink-13.3.33
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #216 from grisuno/dependabot/pip/nvidia-cusparselt-cu13-0.9.1
+
+
+### Otros
+
+### Otros
+
+  *   * Merge pull request #215 from grisuno/dependabot/pip/nvidia-cublas-13.6.0.2
+
+
 ### Otros
 
 ### Otros
@@ -42,6 +602,41 @@
 ### Otros
 
   *   * phase of killchain with one source of truth
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump prompt-toolkit from 3.0.52 to 3.0.53
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump fpdf2 from 2.7.9 to 2.8.7
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump nvidia-nvjitlink from 13.0.88 to 13.3.33
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump nvidia-cusparselt-cu13 from 0.8.0 to 0.9.1
+
+
+### Otros
+
+### Otros
+
+  *   * chore(deps): bump nvidia-cublas from 13.1.0.3 to 13.6.0.2
 
 
 ### Otros
@@ -1372,13 +1967,6 @@
 ### Otros
 
   *   * refactor(refactor): some improvements in the code and graphify \n\n Version: release/0.2.148 \n\n with love \n\n Modified file(s):\n- CLAUDE.md - COMMANDS.md - QUICKSTART.md - README.md - cli/README.md - cli/command_index.json - cli/scope_guard.py - core/payload_schema.py - docs/COMMANDS.html - graphify-out/GRAPH_REPORT.md - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - graphify-out/cost.json - graphify-out/graph.json - graphify-out/manifest.json - install.sh - lazyc2.py - lazyown.py - modules/jwtexploit.py - modules/venator.py - payload.json - pwntomate.py - pyproject.toml - requirements-ml.txt - requirements.txt - setup.py - skills/aci_planner.py - telegram_hermes.py - tests/test_aci_planner.py - tests/test_autonomous_replay.py - tests/test_autosuggest.py - tests/test_banner_config.py - tests/test_blacksandbeacon_addon.py - tests/test_collab_and_onboarding.py - tests/test_command_chain.py - tests/test_command_form.py - tests/test_command_palette.py - tests/test_daemon_control.py - tests/test_engage_orchestrator.py - tests/test_engagement_and_ping.py - tests/test_engagement_elo_and_methodology.py - tests/test_fuzzy_picker.py - tests/test_improvements_spec.py - tests/test_metrics.py - tests/test_metrics_aware_selector.py - tests/test_moe_rl_swan.py - tests/test_moe_router_check_regression.py - tests/test_packaging.py - tests/test_palette_overlay.py - tests/test_payload_schema.py - tests/test_pipeline_engine.py - tests/test_reactive_engine_semantic.py - tests/test_scope_guard.py - tests/test_scope_guard_integration.py - tests/test_security_sanitizers.py - tests/test_sessions_browser.py - tests/test_surface_graph.py - tests/test_timeline_browser.py - tests/test_toast_bus.py - utils.py\nCreated file(s):\n- cli/scope_guard.py - graphify-out/cache/01702100c0971042314c03d56fff92cb25988d38c432a42fecc61c786bc8ade6.json - graphify-out/cache/032c16c926dfb9ca396b8ad6a0e3a90242faa5255f45ba81633645d1bcad47d2.json - graphify-out/cache/04645e2e40ed867c620396c786c886965ce85dc0fa31f4810fe47fc440faa14f.json - graphify-out/cache/0629fca57b461f18881d90550cafae11789e45d50b5a59a1c90cc281bf629edc.json - graphify-out/cache/07de6a9f9d0654633dd3a76d3807a1347328e13ef77f4dc7e5a0f89fd1354d30.json - graphify-out/cache/083ce22dd3b6c00d45e3f54a378bfd741d15263d149dc7514d42f28cccb84e20.json - graphify-out/cache/08fefb331b7de4cead158721c8ec6ec430b920afbea4757912fc34657ab9abb6.json - graphify-out/cache/09cd042a93c9bf9ed60a6c8d930b86358f21f334b9e356cd51e87e52ab43d0bb.json - graphify-out/cache/0abad2644a5f511f96d078ff2a01781d69f1abdae30017998a9a42aa95a18147.json - graphify-out/cache/0c9ae1e0169642d6b4d2d1651593143763105b71ac178261421724227c344d1d.json - graphify-out/cache/0d76b6b608eb14bbe5ae7aea9f6c9437c4adecedac1becff937a53c194d9725f.json - graphify-out/cache/0de7abbb28d167d385adb5dd6c40d99c6b86158bc6c4b188043c244025b0dabc.json - graphify-out/cache/0f3ff7b3a03d44dd45fa7190c64678587a43e3cd6490f157db914d6fe512e875.json - graphify-out/cache/0fbaab041e40558ee9af714137294f1d754d7b06cd8b4062ba4ec1981ed3b0c4.json - graphify-out/cache/10329627ec939c8b33e2f5ad77e9899343f6c7e75ccd777fea5b6bf39543c504.json - graphify-out/cache/115b3c9a01e927ccbb7622d251aa15ba6c688f43245671fa5ee557926f5f1b82.json - graphify-out/cache/117e8a6e6898720deb979a8c69db0fe2f631487cd631fd5c9ec5383604d2851f.json - graphify-out/cache/11ec92d92b7022932e78a3c107c931606034d00708715a32347eb82139f6efb6.json - graphify-out/cache/128fb0e4b6c348f78fc80fc6f0e9d122608298e3bca713fa6588f3485c07061d.json - graphify-out/cache/12c9035dd419ffe143299ae803cde3d88d9cca4e6a0485b7e55bb0b18270263e.json - graphify-out/cache/15bde2576b1b79f628e4c0411e168884bcfcc5d9deaa827addce26d405ad8c8c.json - graphify-out/cache/15eb590c0b6a406aaf11216d2c39eb939721a91e9da4a3cf4e5ad8d35df88930.json - graphify-out/cache/15f1f3292a40bd89d9580e511d8e26957c73af8c60b3d691412706284c99405d.json - graphify-out/cache/18ec83e69c0ecb8deebacdf718852b43f030bf133a27c6e99af66b7ec3c7d261.json - graphify-out/cache/19f72a55569c1a0c1a19fc606c457fce89a776b345c834efe34f392e0858f537.json - graphify-out/cache/1b7a65dfeadf5e7413ea3ebceb5813accdccec0193b301296024aaba2b775ede.json - graphify-out/cache/1d58ee8529e84340e47ce550c2088c1ea7463ee7d624e29824c259a360166262.json - graphify-out/cache/1d9d24f4f55222d937e86530610cee03b6d9467e2d03f12a2b52637ce85eab9d.json - graphify-out/cache/1db495b3bdcfbc5249ba3159094dc6d88792c7b0547b6f28dcd57933d989425c.json - graphify-out/cache/1db9c68eb77f73743502e55e41c19b9af452da595bbbe08ab923c57c96b29c59.json - graphify-out/cache/1de903d04f7aed4682f2e400eb6a28a2e568e9b061f092b8920d135834998c58.json - graphify-out/cache/2215aeead25c908aed1785416a9200d6af066fa3e1bff8eb57daf26692849859.json - graphify-out/cache/2269cdce4fb325091323992d5202e390b41f97c76b6f6536f6fb46982acffd0b.json - graphify-out/cache/25292c8ca8c9e5407034e2c91ab117b07f39266be1074da382c0302b7a84afa6.json - graphify-out/cache/256d246842bfc729572735cd854291a17533b8eefc34fdfe3b4d442b24ca7f2d.json - graphify-out/cache/25ff66852ecc88c62a2011fc1b59465bac20a43e5fffac3f1c67908c2476e72c.json - graphify-out/cache/271b7711420b188d6878f90313da72bc0b48e82e55b2df989cbb613076fe31f0.json - graphify-out/cache/2f68ac69d528b76845a7f3b10c4174fceb1dd0348cb06f6d899b6208c2cda3a5.json - graphify-out/cache/300b685c12744bf7c5403e73c3bff81d4ba25cec95d90d55afdab71808014b00.json - graphify-out/cache/347c27437ba5c91c2706bee43334c417b6e9a263ffe42c2831f8a3524ab4e553.json - graphify-out/cache/37fc9e243d3896e8b0f1b435dc2ce618320fbd252623e8e64f31f0b152068134.json - graphify-out/cache/392cdab303e7e80a5fe8358b25559aa10ed656eb13b8d39d947979989e76e6bd.json - graphify-out/cache/408e7c1e504d10d2bf33bd653ba6133fdcb749925d1848f949e4473ca4613c99.json - graphify-out/cache/40e4b86fe67692815473ced3fb598169432e316878a2f4cddf4a993309e30586.json - graphify-out/cache/424695bfc707f41e2cc8dc2cb57b315b62148aae2d0a6d357027962ac91ec20a.json - graphify-out/cache/44c3fc77eae424f0abb137a6991c84d334bfc8539ad693557b4f925f664015d9.json - graphify-out/cache/455cfea567b4590c6b1570b7423ff3c8667cf7b79e4c0a6e94ddb7ee79c27693.json - graphify-out/cache/4843db8d635223c6907571d0372ef2648f0d9387d74b6c4f44d98ae162219860.json - graphify-out/cache/48b65c5eefb116fd93102c6dbd06929333312fb1a75d47ed437327869de9267c.json - graphify-out/cache/49acc92a7f586cd49fe54a24d10661f7b59dfb95a6dcd85e765cb51531e53675.json - graphify-out/cache/519c1d2a794a50aa21ab1cea24fe3a5a8744295b077a710492df63f6532b729a.json - graphify-out/cache/523511a7f88afb32c821893114b3d9ec1ad05defbb079370b0dadf16f639c701.json - graphify-out/cache/5297d09071f7b77e9c59fa7e6f904a407afe236dd21cb8c0b437c695af77fb55.json - graphify-out/cache/5518a1face7b2361f8a29602bb132f2b9fb158428388998116385598f1b0eddd.json - graphify-out/cache/56361d4805444fcf4ac449a438664006dfa97ac2d40b0c4a9c7946722e8b27d1.json - graphify-out/cache/596ec9e22667773a8108035cc3354ce316d29a80373c4006541a12c0b2d23f7b.json - graphify-out/cache/59e339c5356706f391166ec10845bfa7142c9a21269edb3b272c03849445f1be.json - graphify-out/cache/5a7705cd1c5ad17e7d3524c4935e76866e8efe7afb335e743bab35c2822624a7.json - graphify-out/cache/5ab54e33b730d9972f9a8e9f2073ae983f229856e3791983720814d5e16bc0ce.json - graphify-out/cache/5bbabe5cad30d0b487f32577fef73f8ad8d3f3b30af5123cf231d967ef943707.json - graphify-out/cache/5ca7a1eab3bf6c6b542f370f55a00a8c7070f4f6422ac9887a92cb7e08cc21f2.json - graphify-out/cache/5e299d3c4a00e40c5476a3f4fcc3645150e35f6075bc890a9ba96bd60fcf0249.json - graphify-out/cache/5e40d3a876e88a6215a577a833bd45892bf7458014e603ee49faeb6b410bfafd.json - graphify-out/cache/5eb28a5bdb1b712df0dd9f1210a0b573ea8209119ded8045e8c280402cb200ef.json - graphify-out/cache/610226dc077931032837ac63a9eb22c272eccf5d1e30dc7a720ee7e73757dc75.json - graphify-out/cache/6149d328b2cb87a78e32b4781aa653d6465ac8f08795d7f24c9ad4bd876ccb21.json - graphify-out/cache/63a7f5b9fbedeb17de029d37b1dab347034694639b0562f49709141964651fe3.json - graphify-out/cache/648794ccd4c48278593fb617e0f3f6704e3e87e0928fbe754e1ba060f4fc699c.json - graphify-out/cache/650c4c741380c95aec2759e24a4abd71d159f97bd4d460de60d69e9bd6e910ae.json - graphify-out/cache/652ad2c1df69b08d5ac7051fa283692d4a8e324da1438aafefd4a207f0f34261.json - graphify-out/cache/654c3cb2f378c13e2f3df7bd87fb0248bae422e702bc6c2e9bca6ae246f03297.json - graphify-out/cache/65a2af17a21b70e9e849a0c3361a19279418baef0fd7900d44859c2fc85e20e9.json - graphify-out/cache/67ab27c3cf3282ed1b0c2354b7b52d3a71e2f8cacca1efb051ebb6ae501d8214.json - graphify-out/cache/688d0778ac1f7836fde9565adcfa5790cb6f287cb26bfd391244bf1bde0f5915.json - graphify-out/cache/6c76d0a6cde48506ef080a11fae4a99064f10d184e389b6038598ccdd5de21fa.json - graphify-out/cache/6cbac2d25c0f9b14d7aebcd7e8f4733dffc56110429129a411899ff1296431b3.json - graphify-out/cache/6d0078009f4f29843e4e5979275604dcf3203ef0761a9066cdcfff76a9e8421e.json - graphify-out/cache/6d763be713cb2c2a35cc02b97a12732ecc2785d6bb750eea94b3d63c860227bc.json - graphify-out/cache/6db505d2bded4f307cdce7c5f7fa41f1db940f483128404b5c2a5bf8bb77946b.json - graphify-out/cache/6dbf25516b90cdb3b910f6cfd2661ad4c534518e9189521e2a0984f5a1e9ce11.json - graphify-out/cache/6e63869a00db4362b33a19bb7cd8b4bdb0c4d65f9b39cb5edb697f8ceb58ae08.json - graphify-out/cache/72d3ed9bcfc03c6ed448722ed15ae13a4f6f77a40f1bd58d08b8a300e613f7a5.json - graphify-out/cache/72db8141db58f32c39641ab4af977b8805dbc2b87f61e326ee6ee05b92ad0a95.json - graphify-out/cache/74496dcc741f1412e461836d5ba53be2bdf836a4af4598c8a6123e7212b81091.json - graphify-out/cache/758f98a4415eb4a4f12a3ecede52de1091b911f54413b0464f4522f25c1e87fa.json - graphify-out/cache/75a23cafb8bd52edbe5ae9612b84e0fa0908b28156694f510e0d606b9342bafc.json - graphify-out/cache/75fa0e9cdfc19923a6cd87e55be71b85cd241203fce02360413f5aa345f18429.json - graphify-out/cache/76019e6576c2457aa7a5fa6d3af8be80856bc6f3e2102c72639729afae07ebe2.json - graphify-out/cache/772a0581157ac8df64c14f727b443b36f2b69bb366348ae530667cd794610f20.json - graphify-out/cache/78cdc8659c2a8bee24c77113741aad8ce89f0b1a14586bed37d07c4c581a2a31.json - graphify-out/cache/7af5fada3d3cf6f9ea0ec9afca518b63f635e3dc21a65d3817f10231cce9b342.json - graphify-out/cache/7b4fcf66f36afa750c842032b9e5dde969dacacd89fc0bdb7aec4743c490ab3c.json - graphify-out/cache/7c837ca90fb753b92d87eda673d769105ba227f35d11fd112995af7c7cd8bde3.json - graphify-out/cache/7f14172f9a85dba26aa150bc04bb005fc0790cce4ebb012f2c53b26baf78e992.json - graphify-out/cache/818aa28d83366172e5b410ad6a9f89f6a5eba022b1f0053397ccddd2f09e813d.json - graphify-out/cache/832f13be1fb0d224223566bc8b00eecfff7682d0238b765a2fd5a935df16d9fb.json - graphify-out/cache/85b7d1b9b14c40900f260460c6471e721afe8007e4d131d9095aa10a7d815f53.json - graphify-out/cache/85de3983a391780cd02a85e02eb748440fc6379135621eb860ec65585b58491b.json - graphify-out/cache/85ffe30e333c540f22937ac2b46c71b2901a733af345114c15246a9b2407f829.json - graphify-out/cache/863f35a4a4c2b917f7cd70ac440837035ae07646fb9083786e67f001962203a5.json - graphify-out/cache/877589726f6a31ea7f2e0839991d036b82d3ad9c81603ca3123ea12f65ae13fc.json - graphify-out/cache/87edc10f9650638f9df76ef94d115b9b47f625d709e4d9429e035b5576e92fe6.json - graphify-out/cache/88541b916612ad612f59ae32ccfd1a96a4ef7c629aba8bf84e2e018788ca6f78.json - graphify-out/cache/88670d15dddde9bb9c8a749065d2fe776b1a73e40c1e3ba4e5254d2280355d71.json - graphify-out/cache/888499886043c428534537ab1493bd85be1b86f7a846c1bbeddb4e2674609494.json - graphify-out/cache/89570cb50d62b24919b8c8f656f52eb501390e0820a83c94ff9cbd6f7a773d63.json - graphify-out/cache/8af13873454d6b5b6adfeb762d5754f5d6f71077ab476fc4485142440a5b4f87.json - graphify-out/cache/8b4db482c44af313c11ce3549f4b5001b13a0d4420e70aca0dd4a4a08172d960.json - graphify-out/cache/8bf517a0fe6c29abc3180eb359871c5c8578a22b111f3f021b6a9d3249727a15.json - graphify-out/cache/8c134e78289df6edcd8ee455a228b10d6814940022f0609f6a692365888816ec.json - graphify-out/cache/9221073d0a5522d6d5dd5a4c8a251ac0a3034c01903b5c2eeb62314e73bf0ef1.json - graphify-out/cache/926af35c13b2ed8d545b27a772d239cbf196d99762082bf6b7448e303e0573d5.json - graphify-out/cache/92938ca8b8b610ecfaf0d1925a2a1501a5515ab15de3f2ac5e99826f1db54334.json - graphify-out/cache/9766508e5a013c3d3cbb2602719391199e90af5720c9782a77ca71565aa346b1.json - graphify-out/cache/995ec404eb7df19b21640501ecafc4a5c15d3762fe9e7a88bb0b67aa8e7dafea.json - graphify-out/cache/9a94ffb85ac22f1ba82b0eaf3bd268b494d5956314c9a02e012edcb9cb130486.json - graphify-out/cache/9b2ca6440a459440a053a90437b413cc95a7b2e1c53b90cec8629385593fdd33.json - graphify-out/cache/9b7b1e0cb8e2df5a78268469a0ff106c3908d23113b5cc0dd25e994d4241b728.json - graphify-out/cache/9c8039414e9f3feddca8aa7ced2f76fcc68db4ee3b475146624d48b61b6866b8.json - graphify-out/cache/9cf5905b3f2646ebe0a8da5c41d89cc0cc3a880f1240aee3060ce9e93979113f.json - graphify-out/cache/9f518fa0f56b0165915770482510eeec504f3f15a7fd0d8557cebd0e6aa130db.json - graphify-out/cache/a0d4d47a1ea8bbb2428ff0fcd38aa837a79edd4ff74ec119dfb57342859fdc9a.json - graphify-out/cache/a0e8eb46a5fcd28d29b09b8e55f1a7897348cb51de3e77ce2969b7d04037168b.json - graphify-out/cache/a2583f05f3d84dcfaaf9d9a42bc1a3555444f237e826b46b6b64f72d0190bfbe.json - graphify-out/cache/a2d2dc68968569f6d80ae2be4d51cc2c5b093b0e508b4589eff40818f16dedc6.json - graphify-out/cache/a40d157d0d52882d2d143bb875891a954928e2721fec3e01bfcae33ea6d4209a.json - graphify-out/cache/a429f958add5997da4cdb3a1f9c1052c1f93bfec34cda7427a304613bccc15c1.json - graphify-out/cache/a52e6537d0c6ac0fa16ff4e951f64dd74947220645ca9f5ffca8b4c568c388dd.json - graphify-out/cache/a78e573247edad4e15a9a32eb53dc1cd767bbc84a9155c95b20cbc1aa36526e7.json - graphify-out/cache/ab3d248abcfe440c68812815b26f4003d727ce3d7161b474c1188bfb7c41a919.json - graphify-out/cache/ab4e7c3b64919c20f45d1d077b7c10d6741a9702800b6f3aff1075986c43f306.json - graphify-out/cache/ae5faefc5425c6d990adf79bcc0c6bd15524881ce606fd2775dd8b29fafde6aa.json - graphify-out/cache/aeeb3ad4c850f760ff80101ecea25a01afbfee21d3042d6cdbd5bd2ea1b42b14.json - graphify-out/cache/aefa801e91073e64c3f201813fb62dd9bd68063e52f438a3a8db46eef5ac547a.json - graphify-out/cache/b07d4946247ab741891fe6ad2c7e9510c74ee239d76bd30d3241e9e54ace29c9.json - graphify-out/cache/b5097bef68d5f438263bdbb8c4c713b06b5d505209530384df66cc9f19070c4b.json - graphify-out/cache/b613cd84bc8925389460beb6e544556078454c03150547513f11eb21ffd7ed38.json - graphify-out/cache/b9872512ddb7ee0059df881af07f116a85529afa1e6355af1f9f92b9940423b7.json - graphify-out/cache/bb44196a47ff45b19e2080af1f536bf5ce9b901c9ed49032fc5cdceb3e43b836.json - graphify-out/cache/bea4163e24cca7994a3f9d6fca6ebc080f5011c549c93f2f31b999a4f46267dc.json - graphify-out/cache/becd3f1ade4d59b6352e99f2d8d9a81a48dd40299cfe21e4bb2bbcd52a26f359.json - graphify-out/cache/bf10badc48f7637b486595ff0f46c444b9fac7f33b511f278b655e61a589669d.json - graphify-out/cache/bff401a076d22f98e0879dc00e97112cbc6880b1f649859ba24c67b8098ea93d.json - graphify-out/cache/c01414d269f76729b537548c5c7694959fa3140582877c4eb68547707c54e1bc.json - graphify-out/cache/c21958cc0ddcd669ea09f3686144e61be8e1e552d8e7cd43d820e0cb7f318bd9.json - graphify-out/cache/c27474cdb49c97823cf14e4a03063bcb70e689adedaf1b766e974e6bbcdb4ab4.json - graphify-out/cache/c2cbc5951d0cea7f71174c2380b64b3551e21a8b3a67ef8102efe9bcce07dc44.json - graphify-out/cache/c2f59cfa7f5b0446c0a98ee26eecefd0e1fe4d6cfe92c35b28091d0773fdd52b.json - graphify-out/cache/c3cc9078ec8d11637e942f6a310779395cde8f9c3be0cce66c67b7ddd591ad33.json - graphify-out/cache/c443e01a8d0e7833e04d086064ba835e460e9cfa113a9c24a66950d1ffc7c4dc.json - graphify-out/cache/c6473ab75666867a3f1b2e79369f3190400401ab7d1baf7cb256169352e5c97c.json - graphify-out/cache/c69b687a84d62da00b8770839e32d717f95be997d2bbe158627edebd308755fb.json - graphify-out/cache/c79b29ea7700bc17192ca06233912b7c7aaf4c19f0af408adff479fd9dfff5e6.json - graphify-out/cache/c824fa38c1da3248d8b520fc9527b8e7168ef3b664a7dc5c2a4660d99c8d8ca0.json - graphify-out/cache/c9c4c9abb353ea55c3a7bc268d0f54c55495bd69586b684b6306d58f37d30f41.json - graphify-out/cache/cb5d232748546d8e4ed4373c6f76b4f09bffc1ffe4191db4ddb2ff5cc0305bb7.json - graphify-out/cache/cbd2ce3419b9b3477a5140a3135478b500bba9cf3f1bea463b2665947d598e92.json - graphify-out/cache/cbef6add1f1c9eea0a5025d794c4ebf0cb3e613b78019ec2b2dcdca50e75d923.json - graphify-out/cache/d07d7983ef26719f801558bc44a3b0badc72262e363dcd99cd305457f1172b02.json - graphify-out/cache/d19b3b870dec9cf3e7c54271f10b7768939d90af4cd976c0f17822e5e50b640a.json - graphify-out/cache/d4a867a77f9878e0f5267319ee107a189c9810d60ff683cb5f900369f2f97f44.json - graphify-out/cache/d5e28cfa14053a1a565f219cda01761f34e90b046e1fd0e2eace80a4607afec4.json - graphify-out/cache/d6bcc60b82a67dbcc28ca450d90da7878e77cd236862f732c85e9e196ef973eb.json - graphify-out/cache/d6c76f45844eab11e006d1bf3d1c92d220bc3158e658110ef133751e95d12eac.json - graphify-out/cache/d770a3b716f10394eb597cafd13ddcab0084ae5291565cea789da7c56a79934c.json - graphify-out/cache/d8d5134ff18bdbfb996240ae5227632001ca403926164934918c3aa0e7696c10.json - graphify-out/cache/da503603ceb5972ece8f6e915fbc573e7f1b926129a51b938ad82e117d48c919.json - graphify-out/cache/da98b4e277429a781df1c8e82cf2ebd672e0117138714556afe51cffb2db0f03.json - graphify-out/cache/db7db008efc9d38360f44af05cb3594c68adb2d33bdeb7c7ecec4284e0e211f9.json - graphify-out/cache/db995cf6eb791ef0fbdbcd4f070211c13514445897b7b2a204a421d3b8ea06f1.json - graphify-out/cache/dbd0be8a71146ad169114c8627d0e1fa903b7c74461835a7018b878769d06c93.json - graphify-out/cache/debfb245c2d633b8042993d4d9a12e4b5ea9cc2ce95a6b23243e8b8baec858ee.json - graphify-out/cache/e0c2acd7a473d958b13c18212816f28b0424f51e996a1aab64dd5e52f5695f7f.json - graphify-out/cache/e15fe234e61a012f607518e5b33ad056b47b53f6da957f7dd517ab305a389fe8.json - graphify-out/cache/e1c9b6bd15be95be00bad53be5a795d15113182d092f6beb6b43549fc751a4d8.json - graphify-out/cache/e20c2d7f21a9baaa47544d8cbe0fb349998255837aeb3e0cd9584dd0cac255ba.json - graphify-out/cache/e41bcd5111ae33e6b99d9b7744a670a84c32184d5b664e562dfc2b75f71d2e54.json - graphify-out/cache/e4f15d7542d4a87b2d5125854f22016d016d0b5eb38135f64d3c50d36f5324ec.json - graphify-out/cache/e8f0a7a3418de506b34cf98dcd66123fdf8676df257939133f99b7fca105e218.json - graphify-out/cache/ea00ce760eefd8c8b49b0c601dde610de820374f5c280971921a47c8836bb815.json - graphify-out/cache/ecd7b7152170fdf40c6c098588eaefb4abac29ec55786b6b6446eae53737ebc2.json - graphify-out/cache/ee0359cb4687a10436dac485d2681a38613671867aeb6f6955ae27e3082516de.json - graphify-out/cache/ef330e83f7740b16d0168174eadefa14585907e41cbebfc972c765ecdbed893b.json - graphify-out/cache/ef39c6d498f19a9ef495c8fc82cd7abc0ac52ed97bb81ceb00cf4456c5d25404.json - graphify-out/cache/ef49c52dbf431ab2d70b9aed1b4a384e3435fdfc8324d8405fa453096e7d8a9b.json - graphify-out/cache/efc50a848ee2b3fb86e29f9e4578de5be10b77af5d3e468cb757db526877ebf5.json - graphify-out/cache/f02006ba8be67b4ec2d3f5aa035c058f199f2206d915bd0b2aa0e09276b441ea.json - graphify-out/cache/f14fb2e3d52422224b2f6830a9931715b64b3218226b439c0e1dbe25dce2a5ce.json - graphify-out/cache/f204ffc6ff8762b63fb901d96755f240f4db3578b14ee6e05c827a38ca308665.json - graphify-out/cache/f2081897600a660e97e8cfdd541a055a2952e32567e01713c60d30861a733ebe.json - graphify-out/cache/f2f3186fe479650bc8fd20b014e256a68a89bb334d45de2c5bc48bfeb1dff655.json - graphify-out/cache/f4523778cf895cbef6bcdbcf8080a1cb757438280a9e7461b855dbc924df378f.json - graphify-out/cache/f5885206484985e3559b93506b8440446556ef96aefe691483c759723b449389.json - graphify-out/cache/f636ca779bb9981f1f7b970134cf6d60756b3c0663547dd96ab0107708c2d0c0.json - graphify-out/cache/f79858c802ba2f0e1d784f1babc3fe40f4c13c6e7265744177b1b8a9d6d03279.json - graphify-out/cache/f98d03401a04fcd6279b5f0d8884918e0300826bbc800c4825a6b2b40911e86c.json - graphify-out/cache/fad6f7ec769bb1aacf11ae891ce8a6d39960ff5c8546d03a09df0d44baebe294.json - graphify-out/cache/fb6d6b96decc9d8fa8c425d47e1e1f83bfde36074a248510fc9dfccfa1355cc1.json - graphify-out/cache/fc571dc7c97731951dbac601713355171d64db237a6edf96326076fef23d8087.json - graphify-out/cache/fcaca6274055f064513b1038a780b96c7279519193d0b313f638451e4c7497d7.json - graphify-out/cache/fd406a64d86541cc1e91e78ff9820510a3503c346aadd5e699a4017f8b586b77.json - graphify-out/cache/fee32e06cc5dafb9047245a7a3772120b3c79d66fb184a83a3c7adb24a1c425c.json - graphify-out/cache/ff8cc9d97a8d6c6c4dfb1e0ccaaae5b5f28e22943f28b80e8ee7fa72613e216f.json - graphify-out/cache/ffbe455ef52e7909f91068fde89c81c6ad2bc373ccd5c742c33eb95049dafc83.json - requirements-ml.txt - tests/test_scope_guard.py - tests/test_scope_guard_integration.py\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: sáb 06 jun 2026 13:08:27 -04 \n\n Hora: 1780765707
-
-
-### Otros
-
-### Otros
-
-  *   * update dev
 
 
 ### Otros
@@ -2883,13 +3471,6 @@
 
 ### Otros
 
-  *   * bugfixing and new phishing module :D
-
-
-### Otros
-
-### Otros
-
   *   * feature(feature): new phishing module \n\n Version: release/0.2.43 \n\n and bug fixing \n\n Modified file(s):\n- README.md - UTILS.md - docs/README.html - docs/UTILS.html\n  LazyOwn on HackTheBox: https://app.hackthebox.com/teams/overview/6429 \n\n  LazyOwn/   https://grisuno.github.io/LazyOwn/ \n\n \n\n Fecha: Thu Jun 12 01:00:43 2025 -0400 \n\n Hora: 1749704443
 
 
@@ -3591,13 +4172,6 @@
 ### Otros
 
   *   * feat History enabled, multiline commands and startup script
-
-
-### Otros
-
-### Otros
-
-  *   * second
 
 
 ### Otros
@@ -5354,13 +5928,6 @@
 
 ### Otros
 
-  *   * 👽 new machine magic gardens insane machine because resource was pwned and sea not was released yet
-
-
-### Otros
-
-### Otros
-
   *   * 👽 bug fixing in createhash, new wrappers, chisel command updated now can choice the payload, img2cookie new payloads
 
 
@@ -5473,13 +6040,6 @@
 
 ### Otros
 
-  *   * 👽 new machine compiled :)
-
-
-### Otros
-
-### Otros
-
   *   * 👽 new command disableav to create a aav.vbs to disable av if it's possible :)
 
 
@@ -5488,13 +6048,6 @@
 ### Otros
 
   *   * 👽 changing the command in venom :)
-
-
-### Otros
-
-### Otros
-
-  *   * 👽 holly jissus mist.htb now pwned with my user :P its rally insane amount of work to pwn
 
 
 ### Otros
@@ -5837,13 +6390,6 @@
 
 ### Otros
 
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 was banned from htb to spoiler jajjajaj xD
-
-
-### Otros
-
-### Otros
-
   *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 msf command
 
 
@@ -5970,13 +6516,6 @@
 
 ### Otros
 
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine solarlab :D
-
-
-### Otros
-
-### Otros
-
   *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new revshell.c and machine powned xD axlle hard
 
 
@@ -6019,13 +6558,6 @@
 
 ### Otros
 
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Blazorized.htb
-
-
-### Otros
-
-### Otros
-
   *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new machine Greenhorn.htb pwned
 
 
@@ -6047,20 +6579,6 @@
 
 ### Otros
 
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine Blazorized.htb :)
-
-
-### Otros
-
-### Otros
-
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 new MAchine :)
-
-
-### Otros
-
-### Otros
-
   *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command to copy the exploits from exploitdb use cp relative/path/show/in/searchexploit when you use the flag -x :)
 
 
@@ -6069,13 +6587,6 @@
 ### Otros
 
   *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New command dsnmap :)
-
-
-### Otros
-
-### Otros
-
-  *   * HackTheBox https://app.hackthebox.com/teams/overview/6429 New machine Runner.htb
 
 
 ### Otros
@@ -6390,13 +6901,6 @@
 
 ### Otros
 
-  *   * payload.json to play on hackthebox :D
-
-
-### Otros
-
-### Otros
-
   *   * port a python del exploit archiconocido de meta exploit vsftpd 3.0.3
 
 
@@ -6433,13 +6937,6 @@
 ### Otros
 
   *   * new comand arpscan
-
-
-### Otros
-
-### Otros
-
-  *   * new path to diccionary to run by default in parrot
 
 
 ### Otros

@@ -18278,3 +18278,18 @@ Scrub file timestamps and shell history on the target.
 | [`soul.md`](soul.md) | Operating philosophy |
 
 *README auto-generated sections (UTILS, COMMANDS, CHANGELOG) have been moved to standalone files for maintainability.*
+
+<!-- readmenator-kb-link -->
+## Knowledge Base
+
+This project has been analyzed by [ReadMenator](https://github.com/grisuno/ReadMenator),
+a zero-token polyglot static analysis tool. A comprehensive knowledge base is available:
+
+- **[KNOWLEDGE_BASE.md](./KNOWLEDGE_BASE.md)** -- Architecture reference with all
+  classes, functions, imports, dependency graphs, UML class diagrams, security
+  audit findings, community analysis, and more.
+
+AI agents and developers: Read `KNOWLEDGE_BASE.md` for full project context
+without LLM token cost.
+<!-- /readmenator-kb-link -->
+

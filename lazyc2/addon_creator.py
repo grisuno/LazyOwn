@@ -266,6 +266,8 @@ class AddonCreatorConfig:
             "target",
             "toast_max_per_tick",
             "toolname",
+            "topoexploit_path",
+            "topoexploit_port",
             "tui_theme",
             "url",
             "url_traffic_1",

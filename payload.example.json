@@ -85,6 +85,8 @@
   "report_output_path": "",
   "exploitgym_path": "",
   "exploitgym_model": "",
+  "topoexploit_path": "",
+  "topoexploit_port": "",
   "exploitgym_openai_key": "",
   "exploitgym_anthropic_key": "",
   "exploitgym_admin_key": "",

@@ -1322,6 +1322,75 @@ async def _h_facts_show(arguments: dict, tool_name: str) -> list[types.TextConte
     return _make_text(tool_name, summary or "No facts found. Run with refresh=true to ingest sessions/ files.")
 
 
+@register_handler("lazyown_exploitgym_status")
+def _h_exploitgym_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Report ExploitGym harness readiness without installing anything."""
+    try:
+        from modules.exploitgym_gym import check_readiness
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"ready": False, "reason": str(error)}))
+    try:
+        status = check_readiness(_load_payload())
+        return _make_text(tool_name, json.dumps(status, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"ready": False, "reason": str(error)}))
+
+
+@register_handler("lazyown_exploitgym_list")
+def _h_exploitgym_list(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """List ExploitGym tasks, optionally filtered by domain."""
+    try:
+        from modules.exploitgym_gym import list_tasks
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    domain = arguments.get("domain") or None
+    limit = int(arguments.get("limit", 20))
+    try:
+        tasks = list_tasks(_load_payload(), domain=domain, limit=limit)
+        return _make_text(tool_name, json.dumps(tasks, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_exploitgym_run")
+def _h_exploitgym_run(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Run the agent against an ExploitGym task (containerised only)."""
+    task_id = arguments.get("task_id") or arguments.get("task")
+    if not task_id:
+        return _make_text(tool_name, "task_id is required")
+    model = arguments.get("model")
+    mitigations = bool(arguments.get("mitigations", True))
+    timeout = int(arguments.get("timeout", 3600))
+    try:
+        from modules.exploitgym_gym import run_task
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        result = run_task(task_id, _load_payload(), model=model, mitigations=mitigations, timeout=timeout)
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
+@register_handler("lazyown_exploitgym_score")
+def _h_exploitgym_score(arguments: dict, tool_name: str) -> list[types.TextContent]:
+    """Award Red Team Gym ELO for an ExploitGym task outcome."""
+    task_id = arguments.get("task_id") or arguments.get("task")
+    if not task_id:
+        return _make_text(tool_name, "task_id is required")
+    success = bool(arguments.get("success", True))
+    techniques = arguments.get("techniques") or []
+    try:
+        from modules.exploitgym_gym import score_task
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+    try:
+        result = score_task(task_id, success=success, techniques=techniques, params=_load_payload())
+        return _make_text(tool_name, json.dumps(result, indent=2))
+    except Exception as error:
+        return _make_text(tool_name, json.dumps({"error": str(error)}))
+
+
 def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     """
     Execute one or more LazyOwn shell commands non-interactively.
@@ -4332,6 +4401,100 @@ async def list_tools() -> list[types.Tool]:
                     },
                 },
                 "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_exploitgym_status",
+            description=(
+                "Report ExploitGym harness readiness: toolchain (uv/docker/gdb/socat/nc), "
+                "repo presence, and which config secrets are set. Does not install anything."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {},
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_exploitgym_list",
+            description=(
+                "List ExploitGym tasks, optionally filtered by domain (userspace|v8|kernel). "
+                "Each task is a real-world vulnerability with a containerised runtime."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "domain": {
+                        "type": "string",
+                        "enum": ["userspace", "v8", "kernel"],
+                        "description": "Optional domain filter.",
+                    },
+                    "limit": {
+                        "type": "integer",
+                        "description": "Maximum number of tasks (default 20).",
+                        "default": 20,
+                    },
+                },
+                "required": [],
+            },
+        ),
+        types.Tool(
+            name="lazyown_exploitgym_run",
+            description=(
+                "Run the agent against an ExploitGym task inside its isolated container. "
+                "Turns a provided PoV into a working exploit to capture a flag. "
+                "Dual-use: runs only against ExploitGym's own task environments."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {
+                        "type": "string",
+                        "description": "ExploitGym task identifier.",
+                    },
+                    "model": {
+                        "type": "string",
+                        "description": "LLM model to use (falls back to exploitgym_model).",
+                    },
+                    "mitigations": {
+                        "type": "boolean",
+                        "description": "Keep system defenses enabled (default true).",
+                        "default": True,
+                    },
+                    "timeout": {
+                        "type": "integer",
+                        "description": "Max seconds for the run (default 3600).",
+                        "default": 3600,
+                    },
+                },
+                "required": ["task_id"],
+            },
+        ),
+        types.Tool(
+            name="lazyown_exploitgym_score",
+            description=(
+                "Award Red Team Gym ELO and leaderboard points for an ExploitGym task "
+                "outcome, reusing the existing karma progression system."
+            ),
+            inputSchema={
+                "type": "object",
+                "properties": {
+                    "task_id": {
+                        "type": "string",
+                        "description": "ExploitGym task identifier.",
+                    },
+                    "success": {
+                        "type": "boolean",
+                        "description": "Whether the flag was captured (default true).",
+                        "default": True,
+                    },
+                    "techniques": {
+                        "type": "array",
+                        "items": {"type": "string"},
+                        "description": "Technique identifiers used.",
+                    },
+                },
+                "required": ["task_id"],
             },
         ),
         types.Tool(

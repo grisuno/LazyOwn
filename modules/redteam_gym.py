@@ -653,6 +653,60 @@ def get_active_challenge() -> dict[str, Any] | None:
         return None
 
 
+def record_external_attempt(
+    challenge_id: str,
+    success: bool,
+    elo_bonus: int = 150,
+    techniques: list[str] | None = None,
+) -> dict[str, Any]:
+    """Record a scored attempt for a challenge not defined in the catalog.
+
+    Lets external modules (for example the ExploitGym integration) feed the
+    shared ELO/leaderboard pipeline without requiring a challenge
+    definition or an active in-flight challenge.
+
+    Args:
+        challenge_id: Identifier recorded on the leaderboard (e.g.
+            ``exploitgym:<task_id>``).
+        success: Whether the attempt succeeded.
+        elo_bonus: ELO delta to award on success (``0`` on failure).
+        techniques: Technique identifiers used.
+
+    Returns:
+        Dict with ``success``, ``challenge``, ``completed``, ``elo_awarded``
+        and ``rank``.
+    """
+    username = _get_username()
+    elapsed = 0.0
+    total = elo_bonus if success else 0
+
+    attempt = GymAttempt(
+        challenge_id=challenge_id,
+        username=username,
+        started_at=time.time(),
+        completed_at=time.time(),
+        success=success,
+        speed_score=0,
+        stealth_score=0,
+        technique_score=0,
+        total_score=total,
+        techniques_used=techniques or [],
+        elo_awarded=elo_bonus if success else 0,
+    )
+
+    _update_leaderboard(attempt)
+    _award_gym_elo(username, elo_bonus if success else 0)
+
+    return {
+        "success": True,
+        "challenge": challenge_id,
+        "completed": success,
+        "elapsed_seconds": int(elapsed),
+        "elo_awarded": elo_bonus if success else 0,
+        "rank": _get_rank(username),
+    }
+
+
 def main():
     """CLI entry point — show gym leaderboard from command line."""
     import sys
@@ -680,5 +734,6 @@ __all__ = [
     "submit_challenge",
     "show_leaderboard",
     "get_active_challenge",
+    "record_external_attempt",
     "GYM_CHALLENGE_DEFINITIONS",
 ]

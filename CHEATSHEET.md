@@ -88,6 +88,10 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Start metasploit handler | `msf` |
 | Generate + deliver beacon | `lazymsfvenom` |
 | Linux C beacon (BOF) | `blacksandbeacon` |
+| ExploitGym harness readiness | `egym status` |
+| List ExploitGym tasks | `egym list kernel --limit 5` |
+| Run exploit benchmark task | `egym run cve-XXXX --model claude` |
+| Score ExploitGym result (ELO) | `egym score cve-XXXX` |
 
 ---
 

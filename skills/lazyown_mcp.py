@@ -10136,6 +10136,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── soul ────────────────────────────────────────────────────────────────────
     elif name == "lazyown_soul":
+        if not _ensure_objectives():
+            return text("Objective store unavailable.")
         action  = arguments.get("action", "read")
         if action == "write":
             content = arguments.get("content", "")

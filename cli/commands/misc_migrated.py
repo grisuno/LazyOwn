@@ -57,6 +57,7 @@ from modules.module_registry import ModuleRegistry as _ModuleRegistry
 from modules.module_registry import format_module_detail as _format_module_detail
 from modules.module_registry import format_module_table as _format_module_table
 from modules.payload_factory import format_payload_table as _format_payload_table
+from rich.table import Table as _Table
 from utils import (
     BLUE,
     BOLD,
@@ -192,6 +193,164 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             _c.print("  [bold cyan]recommend_next[/]            AI-powered command suggestion")
             _c.rule()
             _c.print()
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_tutorial(self, line):
+        """Interactive tutorial that walks you through the golden path.
+
+        Guides a new operator step-by-step through:
+            ping -> lazynmap -> auto_populate -> facts_show -> recommend_next
+
+        Usage:
+            ``tutorial``         — run the tutorial (skips if already completed)
+            ``tutorial --force`` — replay even if already completed
+        """
+        from cli.tutorial import run as _run_tutorial
+        tokens = shlex.split(line or "")
+        force = "--force" in tokens
+        try:
+            _run_tutorial(
+                params=self.params,
+                command_runner=self.cmd,
+                force=force,
+            )
+        except Exception as exc:
+            print_error(f"tutorial failed: {exc}")
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_help_phase(self, line):
+        """List all commands for a given kill-chain phase.
+
+        Usage:
+            ``help_phase recon``       — list recon commands
+            ``help_phase exploit``     — list exploit commands
+            ``help_phase``             — list all available phases
+
+        Available phases: recon, enum, exploit, postexp, persist, privesc,
+        cred, lateral, exfil, c2, report, misc.
+        """
+        from cli.contextual_help import ContextualHelp, PHASE_LABELS
+        ch = ContextualHelp(aliases=self.aliases, params=self.params)
+        phase = (line or "").strip().lower()
+
+        if not phase:
+            table = _Table(title="Kill-chain phases", show_header=True, header_style="bold")
+            table.add_column("Phase", style="green")
+            table.add_column("Label")
+            for p, label in PHASE_LABELS.items():
+                table.add_row(p, label)
+            from rich.console import Console as _C
+            _C(highlight=False, soft_wrap=True).print(table)
+            return
+
+        if phase not in PHASE_LABELS:
+            print_error(f"Unknown phase '{phase}'. Valid: {', '.join(PHASE_LABELS)}")
+            return
+        ch.render_phase_commands(phase)
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_help_status(self, line):
+        """Show which session requirements are met (rhost, creds, domain, OS).
+
+        Useful to quickly check what is configured before running a command.
+
+        Usage: ``help_status``
+        """
+        from cli.contextual_help import ContextualHelp
+        ch = ContextualHelp(aliases=self.aliases, params=self.params)
+        ch.render_requirements_status()
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_ctx_help(self, line):
+        """Show contextual help for a command: description, phase, requirements, tips.
+
+        Unlike plain 'help', this shows whether the command needs rhost,
+        credentials, or domain, and gives phase-specific tips.
+
+        Usage:
+            ``ctx_help lazynmap``     — contextual help for lazynmap
+            ``ctx_help evil``         — contextual help for evil-winrm
+        """
+        from cli.contextual_help import ContextualHelp
+        cmd_name = (line or "").strip()
+        if not cmd_name:
+            print_warn("Usage: ctx_help <command>")
+            return
+        ch = ContextualHelp(aliases=self.aliases, params=self.params)
+        if not ch.render_command_help(cmd_name):
+            print_error(f"Command '{cmd_name}' not found in the index.")
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_resume(self, line):
+        """Browse previous sessions and load a target from a past engagement.
+
+        Scans sessions/ for IP directories with scan data, credentials, or
+        world model state, and presents them for quick resume.
+
+        Usage:
+            ``resume``      — show the session selector panel
+        """
+        from cli.session_resumer import SessionResumer
+        resumer = SessionResumer()
+        target = resumer.render_startup_panel()
+        if target:
+            from cli.assign import apply_assign as _apply
+            _apply(self.params, "rhost", target, save=_save_payload)
+            print_msg(f"Resumed session for [bold]{target}[/]. Run 'sitrep' to review.")
+        else:
+            print_msg("No session selected. Use 'assign rhost <IP>' to start fresh.")
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_explore(self, line):
+        """Interactive command explorer organized by goals and phases.
+
+        Browse commands by what you want to accomplish, not by category.
+        Shows command names, descriptions, and aliases for quick discovery.
+
+        Usage:
+            ``explore``            — show all goals
+            ``explore web``        — show web-related commands
+            ``explore smb_windows`` — show SMB/Windows commands
+            ``explore search nmap`` — search commands by keyword
+        """
+        from cli.command_explorer import CommandExplorer, GOALS
+        explorer = CommandExplorer(aliases=self.aliases, params=self.params)
+        args = (line or "").strip().split()
+
+        if not args:
+            explorer.render_goals_overview()
+            return
+
+        query = args[0].lower()
+        if query in ("search", "find", "s", "grep"):
+            if len(args) < 2:
+                print_warn("Usage: explore search <keyword>")
+                return
+            explorer.render_search(" ".join(args[1:]))
+        elif query in GOALS:
+            explorer.render_goal_commands(query)
+        else:
+            explorer.render_search(query)
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_config_status(self, line):
+        """Show configuration status grouped by category with set/missing indicators.
+
+        Replaces the raw 'get' (payload.json dump) with a human-friendly
+        overview showing which fields are configured, which need attention,
+        and how to set them.
+
+        Usage:
+            ``config_status``           — full grouped status
+            ``config_status --quick``   — show only missing required fields
+        """
+        from cli.config_status import ConfigStatus
+        tokens = shlex.split(line or "")
+        status = ConfigStatus(params=self.params)
+        if "--quick" in tokens:
+            status.render_quick_check()
+        else:
+            status.render_status()
 
     @cmd2.with_category("12. Miscellaneous")
     def do_tui_theme(self, line):

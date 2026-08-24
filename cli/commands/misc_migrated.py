@@ -211,7 +211,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         try:
             _run_tutorial(
                 params=self.params,
-                command_runner=self.cmd,
+                command_runner=self.one_cmd,
                 force=force,
             )
         except Exception as exc:

@@ -389,7 +389,7 @@ class _PayloadSettableProxy:
         params[name] = value
 
 
-_UI_HINTS_LEVELS = ("on", "minimal", "off")
+_UI_HINTS_LEVELS = ("on", "panel", "minimal", "off")
 
 
 class LazyOwnShell(cmd2.Cmd):
@@ -1017,7 +1017,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             ``data`` unchanged.
         """
-        if self._ui_hints_level() != "on":
+        if self._ui_hints_level() not in ("on", "panel"):
             return data
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
@@ -1056,7 +1056,7 @@ class LazyOwnShell(cmd2.Cmd):
             phase = self.params.get("phase") or ""
             self._maybe_chain_prompt(cmd, phase)
             engine = getattr(self, "_tips_engine", None)
-            if engine is None or self._ui_hints_level() != "on":
+            if engine is None or self._ui_hints_level() not in ("on", "panel"):
                 return data
             self._sync_chain_active(engine)
             engine.render(cmd=cmd, phase=phase)

@@ -30,7 +30,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from rich.console import Console
+from rich.console import Console, Group
+from rich.panel import Panel
 from rich.text import Text
 
 from cli.themes import Theme, theme_from_payload
@@ -342,6 +343,11 @@ class ToastBus:
     def render(self, enabled: bool = True) -> int:
         """Collect, render and persist offsets in a single call.
 
+        When multiple toasts arrive in one tick they are wrapped in a
+        Rich Panel with the theme's ``warning`` border so the operator
+        can visually separate them from command output. A single toast
+        renders as a plain line to avoid unnecessary visual weight.
+
         Args:
             enabled: When ``False`` the call is a no-op and returns 0.
 
@@ -357,8 +363,20 @@ class ToastBus:
         budget = max(1, self._config.max_per_tick_default)
         filtered = [event for event in events if event.event_type not in self._config.skip_event_types]
         to_show = filtered[-budget:]
-        for event in to_show:
-            self._console.print(self._formatter.format(event))
+        lines = [self._formatter.format(event) for event in to_show]
+        if len(lines) > 1:
+            border_style = getattr(self._formatter._theme, "warning", "yellow")
+            panel = Panel(
+                Group(*lines),
+                title="[dim]notifications[/dim]",
+                border_style=border_style,
+                padding=(0, 1),
+                width=min(self._console.width, 120),
+            )
+            self._console.print(panel)
+        else:
+            for line in lines:
+                self._console.print(line)
         self._state.flush()
         return len(to_show)
 

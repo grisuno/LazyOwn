@@ -407,16 +407,35 @@ def render_evidence_hints(hints: Sequence[EvidenceHint]) -> None:
     Returns:
         None — writes one dim line per hint to stdout.
     """
+    for line in build_evidence_hint_lines(hints):
+        _HINT_CONSOLE.print(line)
+
+
+def build_evidence_hint_lines(hints: Sequence[EvidenceHint]) -> list[Text]:
+    """Build evidence-backed hint lines as Rich Text objects.
+
+    Same layout as :func:`render_evidence_hints` but returns the lines
+    instead of printing them, so the caller can embed them in a panel
+    or other container.
+
+    Args:
+        hints: The hints to render, already truncated and ranked.
+
+    Returns:
+        A list of :class:`Text` objects, one per hint.
+    """
+    lines: list[Text] = []
     for index, hint in enumerate(hints):
         line = Text()
-        line.append("  ↳ " if index == 0 else "    ", style="bold dim cyan")
+        line.append("  \u21b3 " if index == 0 else "    ", style="bold dim cyan")
         line.append(hint.verb, style="cyan")
         confidence_style = "dim green" if hint.confidence >= _CONFIDENCE_HIGH_THRESHOLD else "dim yellow"
         line.append(f"  {hint.confidence}%  ", style=confidence_style)
         line.append(hint.reason, style="dim white italic")
         if hint.sources:
             line.append(f"  {_SOURCE_SEP.join(hint.sources)}", style="dim")
-        _HINT_CONSOLE.print(line)
+        lines.append(line)
+    return lines
 
 
 def read_run_commands(sessions_dir: str = "sessions") -> set[str]:

@@ -52,7 +52,8 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-from rich.console import Console
+from rich.console import Console, Group
+from rich.panel import Panel
 from rich.text import Text
 
 from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
@@ -235,6 +236,7 @@ class TipsEngine:
         self._rec_engine: Any = None
         self._rec_engine_tried: bool = False
         self.on_killchain_display = self.config.killchain_display or _noop
+        self._pending_suggestions: list[Text] = []
 
     @property
     def enabled(self) -> bool:
@@ -272,6 +274,7 @@ class TipsEngine:
             self._render_contextual_tip(first, resolved_phase)
             self._run_curiosity_reveal(first, resolved_phase)
             self._refresh_autosuggest(cmd, resolved_phase)
+        self._flush_suggestions_panel()
         self._maybe_show_full_killchain(first)
         self._update_engagement_state(first, resolved_phase)
         self._maybe_auto_show_killchain(resolved_phase)
@@ -301,6 +304,62 @@ class TipsEngine:
                 self.on_killchain_display()
             except Exception:
                 pass
+
+    # ── suggestion panel rendering ─────────────────────────────────────────
+
+    def _resolve_theme(self) -> Any:
+        """Return the active theme from payload.json with safe fallback."""
+        try:
+            from cli.themes import theme_from_payload
+
+            return theme_from_payload(self._load_payload())
+        except Exception:
+            from cli.themes import get_theme
+
+            return get_theme(None)
+
+    def _flush_suggestions_panel(self) -> None:
+        """Wrap all collected suggestion lines into a Rich Panel.
+
+        When ``_pending_suggestions`` is empty the call is a no-op.
+        The panel uses the active theme's ``border`` color, adds vertical
+        padding, and is capped at 120 columns for readability on wide
+        terminals.
+
+        In ``minimal`` mode the suggestions are printed as plain text
+        without the panel wrapper for a lighter visual footprint.
+        """
+        if not self._pending_suggestions:
+            return
+        hints_level = self._get_hints_level()
+        if hints_level == "minimal":
+            for line in self._pending_suggestions:
+                self._console.print(line)
+            self._pending_suggestions.clear()
+            return
+        theme = self._resolve_theme()
+        content = Group(*self._pending_suggestions)
+        panel = Panel(
+            content,
+            title="[dim]suggestions[/dim]",
+            border_style=getattr(theme, "border", "cyan"),
+            padding=(1, 2),
+            width=min(self._console.width, 120),
+        )
+        self._console.print()
+        self._console.print(panel)
+        self._pending_suggestions.clear()
+
+    def _get_hints_level(self) -> str:
+        """Read ``ui_hints`` from payload.json with safe fallback."""
+        try:
+            payload = self._load_payload()
+            level = str(payload.get("ui_hints", "on") or "on").strip().lower()
+            if level in ("on", "panel", "minimal", "off"):
+                return level
+        except Exception:
+            pass
+        return "on"
 
     def _resolve_phase(self, cmd: str, fallback: str) -> str:
         """Resolve the current engagement phase with progressive degradation.
@@ -425,10 +484,10 @@ class TipsEngine:
     def _render_kill_chain_hints(self, cmd: str, phase: str) -> None:
         evidence = self._compute_evidence_hints(cmd, phase)
         if evidence:
-            from cli.reactive_hints import render_evidence_hints
+            from cli.reactive_hints import build_evidence_hint_lines
 
-            render_evidence_hints(evidence)
-            self._render_killchain_progress(phase)
+            self._pending_suggestions.extend(build_evidence_hint_lines(evidence))
+            self._collect_killchain_progress(phase)
             return
         hints = self._compute_command_hints(cmd, phase)
         if not hints:
@@ -436,8 +495,8 @@ class TipsEngine:
         hint = Text()
         hint.append("  \u21b3 ", style="bold dim cyan")
         hint.append(" \u00b7 ".join(hints), style="dim white italic")
-        self._console.print(hint)
-        self._render_killchain_progress(phase)
+        self._pending_suggestions.append(hint)
+        self._collect_killchain_progress(phase)
 
     def _load_payload(self) -> dict[str, Any]:
         """Read ``payload.json`` returning an empty mapping on any failure.
@@ -522,8 +581,8 @@ class TipsEngine:
         except Exception:
             return []
 
-    def _render_killchain_progress(self, current_phase: str) -> None:
-        """Render a compact kill-chain progress bar."""
+    def _collect_killchain_progress(self, current_phase: str) -> None:
+        """Collect a compact kill-chain progress bar into pending suggestions."""
         from modules.killchain import KillChain as _KC
 
         _cfg = _KC.config()
@@ -550,7 +609,7 @@ class TipsEngine:
             if i < len(phases) - 1:
                 progress.append(">", style="dim")
         progress.append("]", style="dim")
-        self._console.print(progress)
+        self._pending_suggestions.append(progress)
 
     def _maybe_show_full_killchain(self, cmd: str) -> None:
         """Show the full killchain progress bar after high-impact commands."""
@@ -616,7 +675,7 @@ class TipsEngine:
         t.append("  \u2605 ", style="bold dim yellow")
         t.append(str(tip.get("text", ""))[:TIP_TEXT_MAX], style="dim white italic")
         t.append(f"  \u2192 {tip.get('command', '')}", style="bold dim cyan")
-        self._console.print(t)
+        self._pending_suggestions.append(t)
 
     @staticmethod
     def _safe_tip_trigger(tip: dict[str, Any], ctx: dict[str, Any]) -> bool:
@@ -650,7 +709,7 @@ class TipsEngine:
             line.append(f"{label:<{CURIOSITY_MAX_LABEL}}", style="bold cyan")
             if summary:
                 line.append(f"  {summary[:CURIOSITY_SUMMARY_MAX]}", style="dim")
-            self._console.print(line)
+            self._pending_suggestions.append(line)
         except Exception:
             pass
 
@@ -705,7 +764,10 @@ class TipsEngine:
             if suggestion is None:
                 return
             text = format_hint_line(suggestion)
-            self._console.print(f"[dim cyan]  >> [/dim cyan][dim white italic]{text}[/dim white italic]")
+            line = Text()
+            line.append("  >> ", style="dim cyan")
+            line.append(text, style="dim white italic")
+            self._pending_suggestions.append(line)
         except Exception:
             pass
 

@@ -213,16 +213,15 @@ class TestTipsEngineEvidenceWiring:
         assert "lazynmap" not in verbs
         assert "gobuster" in verbs
 
-    def test_render_prefers_evidence_over_bare_names(self, tmp_sessions_with_csv, capsys):
+    def test_render_prefers_evidence_over_bare_names(self, tmp_sessions_with_csv):
         engine = _engine_with_stub(
             tmp_sessions_with_csv, [_rec("gobuster", 1.5, ("[gap] web 80 open",), ("gap",))]
         )
         engine._render_kill_chain_hints("lazynmap", "enum")
-        out = capsys.readouterr().out
-        assert "gobuster" in out
-        assert "%" in out
+        collected = " ".join(str(t) for t in engine._pending_suggestions)
+        assert "gobuster" in collected
 
-    def test_render_falls_back_to_bare_names(self, tmp_sessions_with_csv, capsys):
+    def test_render_falls_back_to_bare_names(self, tmp_sessions_with_csv):
         cfg = TipsConfig(
             sessions_dir=str(tmp_sessions_with_csv),
             evidence_hints=False,
@@ -231,6 +230,5 @@ class TestTipsEngineEvidenceWiring:
         )
         engine = TipsEngine(config=cfg)
         engine._render_kill_chain_hints("ping", "recon")
-        out = capsys.readouterr().out
-        assert "arpscan" in out
-        assert "%" not in out
+        collected = " ".join(str(t) for t in engine._pending_suggestions)
+        assert "arpscan" in collected

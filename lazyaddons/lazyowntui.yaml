@@ -1,0 +1,16 @@
+name: LazyOwnTUI
+description: >
+  Launch the native Textual TUI shell — a full-screen interactive interface
+  with live dashboard sidebar, accumulated output log, command browser, and
+  tab completion. Uses the real cmd2 shell as backend, zero migration needed.
+author: LazyOwn RedTeam
+version: '2.0'
+enabled: true
+params: []
+os: any
+trigger: []
+tool:
+  name: LazyOwnTUI
+  install_path: poc_tui/
+  execute_command: python3 app.py --base-dir ..
+category: 17. Interface

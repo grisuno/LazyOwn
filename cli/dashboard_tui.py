@@ -170,6 +170,43 @@ def _beacon_count() -> int:
     return 0
 
 
+def _read_credential_lines(pattern: str) -> list[str]:
+    """Read actual credential lines from credential files."""
+    import glob as _glob
+    lines: list[str] = []
+    for fpath in sorted(_glob.glob(pattern)):
+        try:
+            with open(fpath, encoding="utf-8", errors="ignore") as fh:
+                for line in fh:
+                    stripped = line.strip()
+                    if stripped and not stripped.startswith("#"):
+                        lines.append(stripped[:50])
+        except OSError:
+            pass
+    return lines
+
+
+def _get_recommendations() -> list[dict]:
+    """Get next-step recommendations from the recommendation engine."""
+    try:
+        from cli.recommendation import RecommendationEngine
+        engine = RecommendationEngine()
+        payload = _read_json(PAYLOAD_PATH)
+        world = _read_json(WORLD_MODEL_PATH)
+        recs = engine.recommend(
+            rhost=payload.get("rhost", ""),
+            phase=world.get("phase", "recon"),
+            os_id=str(payload.get("os_id", "")),
+            services=list(world.get("services", {}).keys()),
+        )
+        return [
+            {"command": r.command, "confidence": int(r.confidence * 100), "reason": r.reason}
+            for r in recs[:5]
+        ]
+    except Exception:
+        return []
+
+
 class TargetPanel(Static):
     """Top info bar: target, domain, phase, OS."""
 
@@ -379,6 +416,7 @@ class OpsPanel(Static):
         creds: int,
         hashes: int,
         beacons: int,
+        cred_lines: list[str] | None = None,
     ) -> None:
         t = Text()
         t.append(" Ops\n", style="bold cyan underline")
@@ -404,6 +442,13 @@ class OpsPanel(Static):
         t.append("  Beacons: ", style="dim white")
         t.append(f"{beacons}\n", style="bold magenta" if beacons else "dim white")
 
+        if cred_lines:
+            t.append("\n  Found credentials:\n", style="bold green")
+            for line in cred_lines[:5]:
+                t.append(f"    {line[:36]}\n", style="dim green")
+            if len(cred_lines) > 5:
+                t.append(f"    ... and {len(cred_lines) - 5} more\n", style="dim")
+
         self.update(t)
 
 
@@ -421,10 +466,42 @@ class HintBar(Static):
 
     def update_data(self, hints: list[str]) -> None:
         t = Text()
-        t.append("  ↳ next: ", style="bold dim cyan")
+        t.append("  next: ", style="bold dim cyan")
         t.append(
-            " · ".join(h[:22] for h in hints) if hints else "(run /graphify . to enable)", style="dim white italic"
+            " . ".join(h[:22] for h in hints) if hints else "(run /graphify . to enable)", style="dim white italic"
         )
+        self.update(t)
+
+
+class NextStepsPanel(Static):
+    """Right panel: AI-ranked next-step recommendations."""
+
+    DEFAULT_CSS = """
+    NextStepsPanel {
+        height: auto;
+        border: round $warning;
+        padding: 1 2;
+        margin: 0 0 1 0;
+    }
+    """
+
+    def update_data(self, recommendations: list[dict]) -> None:
+        t = Text()
+        t.append(" Next Steps\n", style="bold yellow underline")
+        if not recommendations:
+            t.append("  (no recommendations available)\n", style="dim italic")
+            t.append("  Run 'recommend_next' to generate\n", style="dim")
+        else:
+            for rec in recommendations[:5]:
+                cmd = rec.get("command", "?")
+                confidence = rec.get("confidence", 0)
+                reason = rec.get("reason", "")
+                conf_style = "bold green" if confidence >= 70 else ("yellow" if confidence >= 40 else "dim")
+                t.append(f"  {cmd:<20}", style="bold cyan")
+                t.append(f"{confidence:>3}%", style=conf_style)
+                if reason:
+                    t.append(f"  {reason[:28]}", style="dim white")
+                t.append("\n")
         self.update(t)
 
 
@@ -500,6 +577,7 @@ class LazyOwnDashboard(App):
                 yield CommandsPanel(id="commands-panel")
                 yield ReasoningPanel(id="reasoning-panel")
             with Vertical(id="right-col"):
+                yield NextStepsPanel(id="next-steps")
                 yield OpsPanel(id="ops-panel")
         yield HintBar(id="hint-bar")
         yield Footer()
@@ -548,12 +626,16 @@ class LazyOwnDashboard(App):
         reasoning = latest_reasoning(EVENTS_PATH, REASONING_WINDOW)
         killchain = _get_killchain_for_tui()
 
+        cred_lines = _read_credential_lines(f"{self._sessions_dir}/credentials*.txt")
+        recommendations = _get_recommendations()
+
         self.query_one("#top-bar", TargetPanel).update_data(payload, world)
         self.query_one("#kill-chain", KillChainPanel).update_data(killchain)
         self.query_one("#config-panel", ConfigPanel).update_data(payload)
         self.query_one("#commands-panel", CommandsPanel).update_data(commands)
         self.query_one("#reasoning-panel", ReasoningPanel).update_data(reasoning)
-        self.query_one("#ops-panel", OpsPanel).update_data(world, tasks, creds, hashes, beacons)
+        self.query_one("#next-steps", NextStepsPanel).update_data(recommendations)
+        self.query_one("#ops-panel", OpsPanel).update_data(world, tasks, creds, hashes, beacons, cred_lines)
         self.query_one("#hint-bar", HintBar).update_data(hints)
 
 

@@ -1581,8 +1581,18 @@ class LazyOwnShell(cmd2.Cmd):
                 return True
             if decision.mode is _ScopeMode.WARN:
                 print_warn(decision.reason)
+                self.console.print(
+                    f"  [dim]Tip:[/] Use [bold cyan]scope add {target}[/] to authorize this target, "
+                    f"or [bold cyan]scope mode off[/] to disable the scope guard."
+                )
                 return True
             print_error(decision.reason)
+            self.console.print(
+                f"  [bold yellow]To fix this:[/]\n"
+                f"    1. Add the target to scope:  [bold cyan]scope add {target}[/]\n"
+                f"    2. Or switch to warn mode:    [bold cyan]scope mode warn[/]\n"
+                f"    3. Or disable scope guard:    [bold cyan]scope mode off[/]"
+            )
             if self._scope_confirm(decision):
                 return True
             print_warn("Command blocked: target is outside the authorized scope.")

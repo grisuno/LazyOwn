@@ -12,5 +12,6 @@ tool:
   name: lazyownbt
   repo_url: https://github.com/grisuno/LazyOwnBT.git
   install_path: external/.exploit/LazyOwnBT
-  execute_command: chmod +x app.py ; rlwrap --always-readline ./app.py
+  install_command: bash install.sh
+  execute_command: rlwrap --always-readline ./env/bin/python3 app.py
 category: 12. Miscellaneous

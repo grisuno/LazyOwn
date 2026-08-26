@@ -634,6 +634,51 @@ credential access (LSASS, SAM, DCSync), lateral movement (PsExec, WMI, evil-winr
 
 Probability aggregation: `P(detect) = 1 - ∏(1 - P_i)` across all triggered rules.
 
+### Purple Team Closed Loop — `modules/auto_purple.py`
+
+Automated red-vs-blue measurement loop that executes offensive actions, queries LazyOwnBT for detection, and feeds results back to the Detection Oracle for calibration.
+
+```bash
+(LazyOwn) > purple_exec nmap -sV 10.10.11.5 recon    # execute + detect
+(LazyOwn) > purple_score                              # show detection rates
+(LazyOwn) > purple_report                             # export CSV + JSON
+(LazyOwn) > purple_dashboard                          # Textual TUI
+```
+
+**Detection methods:**
+
+| Method | What it checks |
+|--------|----------------|
+| `ai_test` | LazyOwnBT ML model prediction |
+| `proc_scan` | Suspicious process names |
+| `net_scan` | Unusual connections/ports |
+| `log_analyze` | Auth/syslog anomalies |
+| `fim_scan` | File integrity changes |
+| `redteam_hunt` | Threat hunting patterns |
+| `sigma_rules` | 10 Sigma rules (mimikatz, reverse shell, privesc, nmap, webshell, /etc/shadow, cron, SMB, exfil, injection) |
+
+**Sigma rules detection engine** (LazyOwnBT `lazyownbt/detection.py`):
+
+| ID | Rule | Level |
+|----|------|-------|
+| LAZYOWN-001 | Mimikatz Credential Dump | critical |
+| LAZYOWN-002 | Reverse Shell Pattern | critical |
+| LAZYOWN-003 | Privilege Escalation via Sudo | high |
+| LAZYOWN-004 | Nmap Scan Detected | medium |
+| LAZYOWN-005 | Webshell Execution | critical |
+| LAZYOWN-006 | Process Injection | high |
+| LAZYOWN-007 | /etc/shadow Access | critical |
+| LAZYOWN-008 | Cron Persistence | high |
+| LAZYOWN-009 | Lateral Movement SMB | high |
+| LAZYOWN-010 | Data Exfiltration | high |
+
+**Output files:**
+- `sessions/purple_dataset.csv` — ML training dataset
+- `sessions/purple_audit.jsonl` — full audit log
+- `sessions/detection_feedback.jsonl` — oracle calibration
+
+**Note:** For production use, integrate with a real SIEM (Wazuh, Elastic SIEM, Splunk) via auditd log forwarding. The built-in Sigma rules are for offline testing only.
+
 ### Hive Mind — `skills/hive_mind.py`
 
 Multi-agent queen+drone architecture with shared memory:

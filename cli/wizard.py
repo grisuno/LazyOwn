@@ -107,6 +107,7 @@ _REQUIRED_BINARIES: tuple[BinarySpec, ...] = (
     BinarySpec("nmap", "recon", "Port and service discovery", "sudo apt install nmap"),
     BinarySpec("curl", "recon", "HTTP probing and beacon delivery", "sudo apt install curl"),
     BinarySpec("ip", "recon", "Routing and interface introspection", "sudo apt install iproute2"),
+    BinarySpec("rlwrap", "recon", "Readline wrapper for interactive shells (LazyOwnBT)", "sudo apt install rlwrap"),
     BinarySpec("gobuster", "web", "Directory and DNS brute-forcing", "sudo apt install gobuster"),
     BinarySpec("ffuf", "web", "Web fuzzing and parameter discovery", "sudo apt install ffuf"),
     BinarySpec("feroxbuster", "web", "Recursive content discovery", "cargo install feroxbuster"),

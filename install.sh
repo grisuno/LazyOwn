@@ -78,13 +78,13 @@ ensure_gum() {
 
 install_system_packages() {
     if ! command -v apt-get >/dev/null 2>&1; then
-        log warn "apt-get not found; skipping system packages. Install manually: golang nmap xsltproc moreutils ltrace python3-venv gum"
+        log warn "apt-get not found; skipping system packages. Install manually: golang nmap xsltproc moreutils ltrace rlwrap python3-venv gum"
         return 0
     fi
     sudo apt-get update
-    sudo apt-get install -y golang
+    sudo apt-get install -y golang rlwrap
     ensure_gum
-    sudo apt-get install -y ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang
+    sudo apt-get install -y ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang rlwrap
 }
 
 install_external_tools() {
@@ -103,15 +103,34 @@ install_external_tools() {
 }
 
 install_python_environment() {
+    # Recreate venv if broken (no pip, wrong python version, etc.)
+    if [[ -d "$VENV_DIR" ]]; then
+        if ! "$VENV_DIR/bin/pip" --version >/dev/null 2>&1; then
+            log warn "Virtualenv is broken (pip missing). Recreating..."
+            rm -rf "$VENV_DIR"
+        fi
+    fi
     if [[ ! -d "$VENV_DIR" ]]; then
         python3 -m venv "$VENV_DIR"
+        log info "Created fresh virtualenv at $VENV_DIR"
     fi
     local pip="$VENV_DIR/bin/pip"
-    "$pip" install --upgrade pip
+    "$pip" install --upgrade pip setuptools wheel
     mkdir -p "$SCRIPT_DIR/vpn" "$SCRIPT_DIR/banners" "$SCRIPT_DIR/sessions/logs"
-    "$pip" install -r "$SCRIPT_DIR/requirements.txt"
+    "$pip" install -r "$SCRIPT_DIR/requirements.txt" --resolver=backtrack || {
+        log warn "Full install failed; installing core packages only..."
+        "$pip" install \
+            cmd2 pyyaml requests beautifulsoup4 rich tabulate psutil watchdog \
+            defusedxml lupa Pillow textual flask flask-socketio flask-login \
+            flask-limiter flask-sock flask-unsign markupsafe jinja2 werkzeug \
+            itsdangerous click blinker pycryptodome pycryptodomex \
+            impacket scapy netaddr pyotp pyopenssl paramiko bcrypt \
+            lxml pyarrow pandas numpy groq netifaces \
+            simplejson jsonpickle websocket-client mcp mcp-types seaborn \
+            && log info "Core packages installed successfully."
+    }
     if [[ "$WITH_ML" -eq 1 ]]; then
-        "$pip" install -r "$SCRIPT_DIR/requirements-ml.txt"
+        "$pip" install -r "$SCRIPT_DIR/requirements-ml.txt" || log warn "ML install failed; non-critical."
     else
         log info "Skipping machine-learning dependencies (default; use --with-ml to include)."
     fi
@@ -141,6 +160,26 @@ install_external_storage() {
     if [[ -f "$ext_dir/install.sh" ]]; then
         chmod +x "$ext_dir/install.sh"
     fi
+}
+
+install_lazyownbt() {
+    local bt_dir="$SCRIPT_DIR/external/.exploit/LazyOwnBT"
+    if [[ -d "$bt_dir/.git" ]]; then
+        log info "LazyOwnBT present; updating."
+        git -C "$bt_dir" pull --ff-only || log warn "Could not update LazyOwnBT."
+    else
+        log info "Cloning LazyOwnBT..."
+        mkdir -p "$SCRIPT_DIR/external/.exploit"
+        git clone https://github.com/grisuno/LazyOwnBT.git "$bt_dir" || {
+            log warn "Could not clone LazyOwnBT; purple team features will be unavailable."
+            return 0
+        }
+    fi
+    if [[ -f "$bt_dir/requirements.txt" ]]; then
+        "$VENV_DIR/bin/pip" install -r "$bt_dir/requirements.txt" --resolver=backtrack || \
+            log warn "LazyOwnBT dependencies had conflicts; install manually if needed."
+    fi
+    log info "LazyOwnBT installed at $bt_dir"
 }
 
 download_file() {
@@ -188,7 +227,8 @@ verify_installation() {
 import importlib.util
 import sys
 
-required = ["cmd2", "flask", "rich", "scapy", "impacket"]
+required = ["cmd2", "flask", "rich", "scapy", "impacket", "yaml", "psutil",
+            "defusedxml", "lupa", "PIL", "requests", "bs4", "tabulate"]
 missing = [name for name in required if importlib.util.find_spec(name) is None]
 if missing:
     print("[!] Missing core modules: " + ", ".join(missing))
@@ -204,6 +244,7 @@ main() {
     install_python_environment
     install_ollama
     install_external_storage
+    install_lazyownbt
     install_encoder_module
     generate_certificates
     seed_payload_config

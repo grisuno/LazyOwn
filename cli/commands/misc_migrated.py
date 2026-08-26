@@ -389,7 +389,9 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         tooling.
 
         Usage:
-            ``doctor``   — run every check and print a status table
+            ``doctor``       — run every check and print a status table
+            ``doctor --fix`` — interactively offer to install missing packages
+            ``doctor -y``    — auto-fix all issues without prompting
 
         Blocking failures (missing required packages, payload.json, or an
         unsupported Python) are highlighted in red; warnings cover optional
@@ -397,9 +399,18 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         """
         from pathlib import Path as _Path
 
-        from cli.doctor import run as _run_doctor
+        from cli.doctor import fix_report, gather_report, render_report
 
-        _run_doctor(root=_Path(__file__).resolve().parent)
+        root = _Path(__file__).resolve().parent
+        args = line.strip().split()
+        auto_yes = "-y" in args or "--yes" in args
+        do_fix = "--fix" in args or auto_yes
+
+        report = gather_report(root)
+        render_report(report)
+
+        if do_fix:
+            fix_report(report, root=root, auto_yes=auto_yes)
 
     @cmd2.with_category("12. Miscellaneous")
     def do_ctx(self, line):

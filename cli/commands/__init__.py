@@ -4,7 +4,7 @@ Each submodule defines one or more ``cmd2.CommandSet`` subclasses grouping
 commands that share a kill-chain phase or attack domain. ``cli.registry``
 discovers and registers them onto ``LazyOwnShell`` at startup.
 
-Active CommandSets (26)
+Active CommandSets (27)
 -----------------------
 
 - ``cli.commands.recon`` — 12 commands (nmap, DNS, web fingerprinting)
@@ -44,4 +44,5 @@ Active CommandSets (26)
 - ``cli.commands.campaign`` — Campaign export/import as portable archives (campaign export|import|list)
 - ``cli.commands.collaboration`` — Multi-operator team commands (lock_target, unlock_target, team_status, team_chat, share_finding)
 - ``cli.commands.report_enhanced`` — Professional multi-format reports with MITRE ATT&CK matrix (report generate|mitre|findings|timeline)
+- ``cli.commands.purple_team`` — Purple team closed-loop: exec+measure, score, report, dashboard (purple_exec, purple_test, purple_score, purple_report, purple_dashboard)
 """

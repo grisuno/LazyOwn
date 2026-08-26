@@ -24,12 +24,12 @@ atpublic==7.0.0
 attrs==26.1.0
 autobloody==1.1.0
 badauth==0.1.6
-badldap==0.7.5
+badldap>=0.7.6
 bcrypt==5.0.0
 beautifulsoup4==4.13.5
 bidict==0.23.1
 blinker==1.9.0
-bloodyAD==2.5.5
+bloodyAD>=2.5.0
 boolean.py==5.0
 bs4==0.0.2
 BTrees==6.4
@@ -43,13 +43,13 @@ cfgv==3.5.0
 chardet==7.4.3
 charset-normalizer==3.5.1
 click==8.3.3
-cmd2==3.5.1
+cmd2>=3.5.0
 colorama==0.4.6
 colored-traceback==0.4.2
 commonmark==0.9.1
 construct==2.10.70
 contourpy==1.3.3
-cryptography==50.0.0
+cryptography>=44.0.0
 cssselect==1.4.0
 cssutils==2.15.0
 cycler==0.12.1
@@ -111,6 +111,8 @@ matplotlib-inline==0.2.1
 matplotlib==3.10.9
 mdit-py-plugins==0.6.0
 mdurl==0.1.2
+mcp>=2.0.0
+mcp-types>=1.0.0
 minidump==0.0.24
 minikerberos==0.4.9
 more-itertools==11.0.2
@@ -123,7 +125,7 @@ neo4j==6.1.0
 nest-asyncio==1.6.0
 netaddr==1.3.0
 netifaces==0.11.0
-networkx==3.6.1
+networkx>=3.0
 numpy==2.4.4
 olefile==0.47
 ordered-set==4.1.0
@@ -199,6 +201,7 @@ rich==15.0.0
 ROPGadget==7.7
 rpyc==6.0.2
 scapy==2.7.0
+seaborn>=0.13.0
 setuptools==83.0.0
 simple-websocket==1.1.0
 simplejson==4.1.1

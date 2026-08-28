@@ -12,9 +12,9 @@ from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
 from utils import Config, load_payload
 
 # === CONFIG ===
-SLACK_BOT_TOKEN = "xoxb-bot-token-aqui"
-SLACK_APP_TOKEN = "xapp-app-token-aqui"
-SLACK_SIGNING_SECRET = "app-token-aqui"
+SLACK_BOT_TOKEN = config.slack_bot_token or ""
+SLACK_APP_TOKEN = config.slack_app_token or ""
+SLACK_SIGNING_SECRET = config.slack_signing_secret or ""
 
 # === INICIALIZACIÓN ===
 config = Config(load_payload())

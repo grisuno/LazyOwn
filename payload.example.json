@@ -92,5 +92,6 @@
   "exploitgym_admin_key": "",
   "exploitgym_server_salt": "",
   "exploitgym_flag_seed": "",
-  "exploitgym_server_api_key": ""
+  "exploitgym_server_api_key": "",
+  "cert_pass": "CHANGE_ME"
 }

@@ -145,8 +145,8 @@ class SafeRunner:
             return SafeRunResult(returncode=-1, stdout="", stderr="empty command", duration_seconds=0.0)
         start = time.monotonic()
         completed = subprocess.run(
-            command,
-            shell=True,
+            argv,
+            shell=False,
             capture_output=True,
             text=True,
             timeout=timeout,

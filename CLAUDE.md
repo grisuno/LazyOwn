@@ -28,10 +28,33 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | HTML sanitizer (bleach) | `lazyc2/security/html_sanitizer.py` | `test_html_sanitizer.py` |
 | Safe subprocess runner | `core/safe_subprocess.py` | `test_safe_subprocess*.py` |
 | AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
+| SQL injection prevention | `modules/db.py` | `test_security_hardening.py` |
+| Timing-safe auth | `lazyc2.py` | `test_security_hardening.py` |
+| LIKE escape prevention | `modules/db.py` | `test_security_hardening.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
 | Tenant-bound API authorization | `core/api_authz.py` | `test_api_authz.py`, `run_mutation_api_authz.py` |
 | Structured JSON-lines logging | `core/logging.py` | `test_structured_logging.py` |
 | C2 health-check endpoint | `lazyc2/blueprints/api.py` | `test_api_authz.py` (decorator) |
+
+### Security hardening sprint (SDD+TDD+BDD)
+
+Applied 10 security fixes with 24 BDD-style tests + 5 mutation verification tests.
+All 48 tests pass. Run with: `pytest tests/test_security_hardening.py tests/test_mutation_verification.py -v`
+
+| Fix | File | What changed |
+|-----|------|-------------|
+| SQL injection prevention | `modules/db.py` | `VALID_TABLES` frozenset; `export_csv` rejects unknown table names |
+| LIKE escape injection | `modules/db.py` | `host_find` escapes `%`, `_`, `\` with `ESCAPE '\\'` |
+| Timing-safe auth | `lazyc2.py` | `check_auth` uses `hmac.compare_digest` instead of `==` |
+| SafeRunner shell=False | `core/safe_subprocess.py` | `run_shell` now uses `subprocess.run(argv, shell=False)` |
+| pickle removed | `utils.py` | `import pickle` deleted (RCE vector) |
+| Hardcoded secrets removed | `utils.py` | Caldera config uses `secrets.token_hex` / `secrets.token_urlsafe` |
+| OPENSSL_CONF safe default | `utils.py` | `os.environ.setdefault` instead of overwrite |
+| Slack tokens from config | `slack_c2_bot.py` | Tokens loaded from `config.*` not hardcoded |
+| Duplicate constants consolidated | `modules/ai_fallback.py`, `cli/commands/ai.py` | Import from `modules/llm_factory` (single source of truth) |
+| Credential encryption logging | `modules/db.py` | `_maybe_encrypt`/`_maybe_decrypt` log warnings instead of silent fallback |
+| CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` for xterm.js WebSocket |
+| Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
 
 ## 0.2 Non-negotiable: user input is hostile
 

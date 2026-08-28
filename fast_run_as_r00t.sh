@@ -19,8 +19,7 @@ SESSION="lazyown_sessions"
 VPN=1
 VENV_PATH="env"
 JSON_FILE="payload.json"
-NO_ATTACH=0   # set to 1 by --no-attach (MCP mode — skip tmux attach at the end)
-CERTPASS="LazyOwn"
+NO_ATTACH=0   # set to 1 by --no-attach (MCP mode -- skip tmux attach at the end)
 TARGET_UID=1000
 TARGET_GID=1000
 CHOWN_INTERVAL=30
@@ -39,7 +38,15 @@ ENABLE_DISCORD_C2=$(_jq enable_discord_c2)
 ENABLE_DEEPSEEK=$(_jq enable_deepseek)
 ENABLE_NC=$(_jq enable_nc)
 ENABLE_CF=$(_jq enable_cloudflare)
+CERTPASS=$(_jq cert_pass)
 TUNNEL=""
+
+if [[ -z "$CERTPASS" || "$CERTPASS" == "null" ]]; then
+    CERTPASS=$(openssl rand -hex 16)
+    log "Generated random cert password (stored in payload.json cert_pass)"
+    tmp=$(mktemp)
+    jq --arg v "$CERTPASS" '.cert_pass = $v' "$JSON_FILE" > "$tmp" && mv "$tmp" "$JSON_FILE"
+fi
 
 # ── Pretty-print helpers ──────────────────────────────────────────────────────
 log()    { gum log --time rfc822 --level info "    [+] $*"; }

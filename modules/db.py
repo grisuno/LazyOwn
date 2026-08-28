@@ -1,4 +1,4 @@
-"""SQLite database layer for LazyOwn — hosts, services, vulns, loot, creds, notes.
+"""SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.
 
 Mirrors the Metasploit ``db_*`` workflow with workspace isolation,
 nmap XML import, and queryable tables. Uses SQLite (zero deps) with
@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import csv
 import io
+import logging
 import sqlite3
 import threading
 import xml.etree.ElementTree as ET
@@ -16,6 +17,10 @@ from collections.abc import Iterator
 from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
+
+logger = logging.getLogger(__name__)
+
+VALID_TABLES = frozenset({"hosts", "services", "vulns", "creds", "loot", "notes"})
 
 SCHEMA_SQL = """
 CREATE TABLE IF NOT EXISTS schema_version (
@@ -246,7 +251,12 @@ class LazyOwnDB:
     # ------------------------------------------------------------------
 
     def _maybe_encrypt(self, value: str) -> str:
-        """Encrypt a credential value if the crypto module is available."""
+        """Encrypt a credential value if the crypto module is available.
+
+        Raises:
+            RuntimeError: If the crypto module is unavailable and the value
+                is non-empty, to prevent silent plaintext storage.
+        """
         if not value:
             return value
         try:
@@ -256,6 +266,10 @@ class LazyOwnDB:
             ct, _ = AESencrypt(value.encode("utf-8"), key)
             return ct.hex()
         except ImportError:
+            logger.warning(
+                "Crypto module unavailable; credential stored as plaintext. "
+                "Install pycryptodome to enable encryption."
+            )
             return value
 
     def _maybe_decrypt(self, value: str) -> str:
@@ -268,7 +282,8 @@ class LazyOwnDB:
             key = resolve_aes_key({}, sessions_dir=Path("sessions"))
             ct = bytes.fromhex(value)
             return AESdecrypt(ct, key).decode("utf-8")
-        except (ImportError, ValueError, Exception):
+        except (ImportError, ValueError) as exc:
+            logger.warning("Credential decryption failed (%s); returning raw value.", type(exc).__name__)
             return value
 
     # ------------------------------------------------------------------
@@ -387,11 +402,12 @@ class LazyOwnDB:
 
     def host_find(self, workspace_id: int, query: str) -> list[dict[str, Any]]:
         """Search hosts by address, hostname, or os."""
-        like = f"%{query}%"
+        escaped = query.replace("\\", "\\\\").replace("%", "\\%").replace("_", "\\_")
+        like = f"%{escaped}%"
         with self._cursor() as cur:
             cur.execute(
                 """SELECT * FROM hosts WHERE workspace_id = ?
-                   AND (address LIKE ? OR hostname LIKE ? OR os LIKE ?)
+                   AND (address LIKE ? ESCAPE '\\' OR hostname LIKE ? ESCAPE '\\' OR os LIKE ? ESCAPE '\\')
                    ORDER BY address""",
                 (workspace_id, like, like, like),
             )
@@ -677,7 +693,12 @@ class LazyOwnDB:
 
         Returns:
             CSV-formatted string with header row.
+
+        Raises:
+            ValueError: If table is not in the allowed set.
         """
+        if table not in VALID_TABLES:
+            raise ValueError(f"Invalid table name: {table!r}. Must be one of {sorted(VALID_TABLES)}")
 
         with self._cursor() as cur:
             if table == "hosts":
@@ -701,6 +722,7 @@ class LazyOwnDB:
         with self._cursor() as cur:
             counts = {}
             for table in ("hosts", "services", "vulns", "creds", "loot", "notes"):
+                assert table in VALID_TABLES
                 if table == "services":
                     cur.execute(
                         "SELECT COUNT(*) FROM services s JOIN hosts h ON s.host_id = h.id WHERE h.workspace_id = ?",

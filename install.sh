@@ -111,8 +111,8 @@ install_python_environment() {
         fi
     fi
     if [[ ! -d "$VENV_DIR" ]]; then
-        python3 -m venv "$VENV_DIR"
-        log info "Created fresh virtualenv at $VENV_DIR"
+        python3 -m venv --system-site-packages "$VENV_DIR"
+        log info "Created fresh virtualenv at $VENV_DIR (with --system-site-packages)"
     fi
     local pip="$VENV_DIR/bin/pip"
     "$pip" install --upgrade pip setuptools wheel
@@ -127,6 +127,7 @@ install_python_environment() {
             impacket scapy netaddr pyotp pyopenssl paramiko bcrypt \
             lxml pyarrow pandas numpy groq netifaces \
             simplejson jsonpickle websocket-client mcp mcp-types seaborn \
+            markdown yagmail dnslib validators bleach \
             && log info "Core packages installed successfully."
     }
     if [[ "$WITH_ML" -eq 1 ]]; then
@@ -228,7 +229,8 @@ import importlib.util
 import sys
 
 required = ["cmd2", "flask", "rich", "scapy", "impacket", "yaml", "psutil",
-            "defusedxml", "lupa", "PIL", "requests", "bs4", "tabulate"]
+            "defusedxml", "lupa", "PIL", "requests", "bs4", "tabulate",
+            "markdown", "yagmail", "dnslib", "validators"]
 missing = [name for name in required if importlib.util.find_spec(name) is None]
 if missing:
     print("[!] Missing core modules: " + ", ".join(missing))

@@ -472,7 +472,7 @@ class ReportMigratedCommandSet(LazyOwnCommandSet):
         None
         """
         target_account = input("    [!] Enter the target account (default: ca_operator): ") or 'ca_operator'
-        new_password = input("    [!] Enter the new password (default: newP@ssword2022): ") or 'newP@ssword2022'
+        new_password = input("    [!] Enter the new password: ")
         domain = self.params['domain']
         hash_value = input("    [!] Enter the NTLM hash for Pass-the-Hash authentication: ")
         rhost = self.params['rhost']

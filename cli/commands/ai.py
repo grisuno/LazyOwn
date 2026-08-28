@@ -23,6 +23,11 @@ import traceback
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from modules.llm_factory import (
+    CONFIG_KEY_API_KEY,
+    CONFIG_KEY_MODEL_OLLAMA,
+    DEFAULT_OLLAMA_MODEL,
+)
 from utils import (
     ai_category,
     load_knowledge_base,
@@ -36,10 +41,6 @@ from utils import (
     query_ollama,
     save_playbook,
 )
-
-CONFIG_KEY_API_KEY = "api_key"
-CONFIG_KEY_MODEL_OLLAMA = "llm_model_ollama"
-DEFAULT_OLLAMA_MODEL = "deepseek-r1:1.5b"
 
 SESSIONS_DIRECTORY_NAME = "sessions"
 WORLD_MODEL_FILENAME = "world_model.json"

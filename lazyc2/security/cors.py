@@ -185,8 +185,9 @@ class CorsPolicy:
     def _dev_fallback_origins(self) -> list[str]:
         host = self._lhost.strip() or "127.0.0.1"
         aliases = [host]
-        if host == "127.0.0.1" and "localhost" not in aliases:
-            aliases.append("localhost")
+        for extra in ("127.0.0.1", "localhost"):
+            if extra not in aliases:
+                aliases.append(extra)
         return [f"http://{alias}" for alias in aliases] + [
             f"https://{alias}" for alias in aliases
         ]

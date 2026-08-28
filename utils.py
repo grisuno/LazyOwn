@@ -31,7 +31,6 @@ import io  # noqa: F401
 import itertools  # noqa: F401
 import json
 import os
-import pickle  # noqa: F401
 import random
 import re
 import readline
@@ -181,7 +180,7 @@ RUN_AS_ROOT = False
 USER_ALIASES_FILE = "user_aliases.json"
 HEADLESS = False
 
-os.environ['OPENSSL_CONF'] = '/usr/lib/ssl/openssl.cnf'
+os.environ.setdefault('OPENSSL_CONF', '/etc/ssl/openssl.cnf')
 REQUIRED_KEYS = [
     "id", "name", "description", "technique_name", "target_os", "binary",
     "lang", "output_path", "path_src", "target_path", "command", "payload",
@@ -2233,10 +2232,17 @@ def create_caldera_config(file_path):
     Returns:
     None
     """
-    config_content = """
+    import secrets
+    api_key_blue = secrets.token_hex(16)
+    api_key_red = secrets.token_hex(16)
+    encryption_key = secrets.token_hex(16)
+    crypt_salt = secrets.token_hex(16)
+    ftp_password = secrets.token_urlsafe(16)
+
+    config_content = f"""
 ability_refresh: 60
-api_key_blue: LAZYOWNBLUEADMIN123
-api_key_red: LAZYOWNREDADMIN123
+api_key_blue: {api_key_blue}
+api_key_red: {api_key_red}
 app.contact.dns.domain: mycaldera.caldera
 app.contact.dns.socket: 0.0.0.0:8853
 app.contact.gist: API_KEY
@@ -2252,7 +2258,7 @@ app.contact.tunnel.ssh.user_name: CHANGE_ME
 app.contact.tunnel.ssh.user_password: CHANGE_ME
 app.contact.ftp.host: 0.0.0.0
 app.contact.ftp.port: 2222
-app.contact.ftp.pword: lazyown
+app.contact.ftp.pword: {ftp_password}
 app.contact.ftp.server.dir: ftp_dir
 app.contact.ftp.user: lazyown_user
 app.contact.tcp: 0.0.0.0:7010
@@ -2260,8 +2266,8 @@ app.contact.udp: 0.0.0.0:7011
 app.contact.websocket: 0.0.0.0:7012
 app.frontend.api_base_url: http://localhost:8888
 objects.planners.default: atomic
-crypt_salt: REPLACE_WITH_RANDOM_VALUE
-encryption_key: LAZYOWNADMIN123
+crypt_salt: {crypt_salt}
+encryption_key: {encryption_key}
 exfil_dir: /tmp/lazyown
 reachable_host_traits:
 - remote.host.fqdn

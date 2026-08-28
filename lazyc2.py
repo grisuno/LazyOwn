@@ -129,6 +129,8 @@ from utils import Config, anti_debug, getprompt, load_payload
 
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
 
+import hmac
+
 
 anti_debug()
 logger = logging.getLogger(__name__)
@@ -1275,10 +1277,16 @@ def check_auth(username: str, password: str) -> bool:
         user = store.find_by_username(username)
         if user and check_password_hash(user.password_hash, password):
             return True
-        if username == USERNAME and password == PASSWORD:
+        if (
+            hmac.compare_digest(username, USERNAME)
+            and hmac.compare_digest(password, PASSWORD)
+        ):
             return True
         return False
-    return username == USERNAME and password == PASSWORD
+    return (
+        hmac.compare_digest(username, USERNAME)
+        and hmac.compare_digest(password, PASSWORD)
+    )
 
 def authenticate():
     """Requests authentication."""

@@ -38,6 +38,25 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 - `modules/`: LLM clients, blueprints, world model, playbook engine, **db (SQLite)**, **module_registry (120+ modules)**, **payload_factory (native payloads)**.
 - `parquets/`: columnar knowledge bases (GTFOBins, LOLBas, MITRE ATT&CK).
 - `lazyaddons/`: 124 YAML tool integrations. `plugins/`: Lua + YAML plugins. `tools/`: pwntomate auto-jobs.
+
+---
+
+## Security hardening (SDD+TDD+BDD)
+
+Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_mutation_verification.py -v`
+
+| Fix | File | Contract |
+|-----|------|----------|
+| SQL injection prevention | `modules/db.py` | Table name allowlist via `VALID_TABLES` frozenset |
+| LIKE escape injection | `modules/db.py` | Special LIKE chars escaped with `ESCAPE '\\'` |
+| Timing-safe auth | `lazyc2.py` | `hmac.compare_digest` replaces `==` in `check_auth` |
+| SafeRunner shell=False | `core/safe_subprocess.py` | `subprocess.run(argv, shell=False)` |
+| pickle removed | `utils.py` | RCE vector eliminated |
+| Hardcoded secrets removed | `utils.py` | `secrets.token_hex`/`secrets.token_urlsafe` at runtime |
+| Config constants consolidated | `modules/ai_fallback.py`, `cli/commands/ai.py` | Import from `modules/llm_factory` |
+| Credential encryption logging | `modules/db.py` | Warnings instead of silent plaintext fallback |
+| CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` |
+| Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
 - `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---

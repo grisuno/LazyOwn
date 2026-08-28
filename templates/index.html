@@ -242,6 +242,7 @@
                 term = new Terminal({
                     cursorBlink: true,
                     fontFamily: 'monospace',
+                    scrollback: 5000,
                     theme: {
                         background: '#000000',
                         foreground: '#00FF00'
@@ -250,17 +251,18 @@
                 fitAddon = new FitAddon.FitAddon();
                 term.loadAddon(fitAddon);
                 term.open(document.getElementById('terminal'));
-                term.writeln("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋");
+                term.write("Welcome to LazyOwn RedTeam Framework: CRIMEN 👋\r\n");
                 fitAddon.fit();
                 termSocket = io("/pty", { transports: ["websocket"] });
                 termSocket.on("connect", () => {
-                    term.writeln("\r\n\x1b[32m[ws] connected to /pty (id=" + termSocket.id + ")\x1b[0m");
+                    term.write("[ws] connected to /pty (id=" + termSocket.id + ")\r\n");
+                    termSocket.emit("resize", { rows: term.rows, cols: term.cols });
                 });
                 termSocket.on("connect_error", (err) => {
-                    term.writeln("\r\n\x1b[31m[ws] connect_error: " + err.message + "\x1b[0m");
+                    term.write("[ws] connect_error: " + err.message + "\r\n");
                 });
                 termSocket.on("disconnect", (reason) => {
-                    term.writeln("\r\n\x1b[33m[ws] disconnect: " + reason + "\x1b[0m");
+                    term.write("[ws] disconnect: " + reason + "\r\n");
                 });
                 termSocket.on("pty-output", (data) => {
                     term.write(data.output);

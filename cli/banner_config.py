@@ -1348,6 +1348,30 @@ class BannerConfigurator:
             return curses.A_NORMAL
 
 
+def _readline_safe(prompt: str) -> str:
+    """Wrap ANSI escape sequences and newlines for readline compatibility.
+
+    Readline calculates cursor position by counting visible characters.
+    ANSI escape codes and newlines are non-printing but occupy bytes in
+    the prompt string, causing readline to miscalculate the cursor position.
+    This results in extra blank lines between the prompt and the cursor.
+
+    ``\\001`` (SOH) and ``\\002`` (STX) are readline's prompt start/end
+    ignore markers. Everything between them is excluded from the visible
+    width calculation.
+    """
+    import re
+    ansi_re = re.compile(r'(\033\[[0-9;]*m)')
+    parts = ansi_re.split(prompt)
+    result = []
+    for part in parts:
+        if ansi_re.match(part):
+            result.append(f'\001{part}\002')
+        else:
+            result.append(part.replace('\n', '\001\n\002'))
+    return ''.join(result)
+
+
 def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> str:
     """Render the Neon Box prompt from a payload dictionary.
 
@@ -1362,7 +1386,8 @@ def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> s
     glyphs = GlyphRegistry()
     settings = BannerSettings.from_payload(registry, payload, cfg.payload_key, colors, glyphs)
     ctx = ContextResolver(cfg, default_palette()).resolve(payload)
-    return BannerRenderer(cfg, registry, colors, glyphs).render(settings, ctx)
+    raw = BannerRenderer(cfg, registry, colors, glyphs).render(settings, ctx)
+    return _readline_safe(raw)
 
 
 def configure_banner_interactive(

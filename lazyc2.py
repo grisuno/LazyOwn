@@ -6322,11 +6322,9 @@ def pty_connect():
             ], check=True)
         else:
 
+            set_winsize(fd, 25, 120)
             app.config["fd"] = fd
             app.config["child_pid"] = child_pid
-
-
-            set_winsize(fd, 80, 140)
 
 
             socketio.start_background_task(read_and_forward_pty_output)

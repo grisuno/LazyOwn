@@ -43,8 +43,22 @@ Each security control is a single contract in its own file. Full specs in `docs/
 
 ### Security hardening sprint (SDD+TDD+BDD)
 
-Applied 15 security fixes with 55 BDD-style tests. All tests pass.
-Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py -v`
+Applied security fixes with BDD-style tests. Two test suites cover the hardening.
+Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py -v`
+Mutation testing: `mutmut run` (122/228 killed, 53.5% kill rate on `core/hardening.py`)
+
+**v3 — Centralized security module** (`core/hardening.py`):
+- `safe_subprocess_run` — shell=False enforced, null-byte rejection, timeout propagation
+- `safe_clipboard_copy` — XSS sanitization, subprocess list-form (no shell=True)
+- `set_sshpass_env` / `build_sshpass_command` — sshpass -e via env var (no -p credentials)
+- `escape_html_content` — HTML entity escaping for C2 banner and templates
+- `safe_path_join` — joins components, raises ValueError if result escapes base
+- `validate_network_cidr` — CIDR format whitelist
+- `validate_port_spec` — port specification validation
+- `validate_host` — hostname/IP validation
+- `require_encryption_key` — ENCRYPTION_KEY env var required, no fallback
+- `defused_xml_parse` — defused XML parsing wrapper
+- `sanitize_filename` — path-traversal-safe filename generation
 
 | Fix | File | What changed |
 |-----|------|-------------|
@@ -54,17 +68,14 @@ Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening
 | SafeRunner shell=False | `core/safe_subprocess.py` | `run_shell` now uses `subprocess.run(argv, shell=False)` |
 | pickle removed | `utils.py` | `import pickle` deleted (RCE vector) |
 | Hardcoded secrets removed | `utils.py` | Caldera config uses `secrets.token_hex` / `secrets.token_urlsafe` |
-| OPENSSL_CONF safe default | `utils.py` | `os.environ.setdefault` instead of overwrite |
-| Slack tokens from config | `slack_c2_bot.py` | Tokens loaded from `config.*` not hardcoded |
-| Duplicate constants consolidated | `modules/ai_fallback.py`, `cli/commands/ai.py` | Import from `modules/llm_factory` (single source of truth) |
-| Credential encryption logging | `modules/db.py` | `_maybe_encrypt`/`_maybe_decrypt` log warnings instead of silent fallback |
-| CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` for xterm.js WebSocket |
-| Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
-| Command injection in AI module | `cli/commands/ai.py` | `os.system` replaced with `subprocess.run` list-form; API key passed via env var only |
-| SSH credential injection | `cli/commands/postexp_migrated.py` | `sshpass -p` replaced with `sshpass -e` + `SSHPASS` env var; 5 call sites fixed |
-| DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + `_DNS_MAX_DECODED_LENGTH` cap; unknown commands rejected |
-| Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with `capture_output=True`; `do_banner` uses list-form |
-| Credential encryption at rest | `modules/phishing_orchestrator.py` | Passwords encrypted via AES-256-GCM before JSON write; audit log uses truncated SHA-256 hash |
+| Credential encryption at rest | `modules/phishing_orchestrator.py` | Passwords encrypted via AES-256-GCM; ENCRYPTION_KEY mandatory (no fallback) |
+| XSS in C2 banner | `lazyc2.py` | `html.escape()` applied to banner table data |
+| SSH credential injection | `cli/commands/command_and_control_migrated.py`, `lateral_migrated.py`, `exfiltration.py`, `persist_migrated.py` | All `sshpass -p` replaced with `sshpass -e` + `SSHPASS` env var |
+| shell=True eliminated | `cli/commands/anti_forensics.py`, `cli/commands/pivoting.py` | subprocess list-form + `validate_host()` for remote targets |
+| ICMP command injection | `modules/icmp_server.py` | `subprocess.run(cmd, shell=True)` replaced with `shlex.split` + `shell=False` |
+| Resource script injection | `modules/resource_script.py` | `shell=True` replaced with `subprocess.run(shlex.split(...), shell=False)` |
+| os.system clipboard XSS | `cli/commands/persist_migrated.py` | `os.system("xsel")` replaced with `safe_clipboard_copy()` |
+| os.system cloud injection | `cli/commands/cloud.py` | `os.system(cmd)` replaced with `safe_subprocess_run()` |
 
 ## 0.2 Non-negotiable: user input is hostile
 

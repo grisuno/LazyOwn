@@ -144,8 +144,8 @@ class TestOffensiveClassificationIsBuilt:
         def _do_benign():
             pass
 
-        setattr(_do_offensive, cmd2.constants.CMD_ATTR_HELP_CATEGORY, "02. Scanning & Enumeration")
-        setattr(_do_benign, cmd2.constants.CMD_ATTR_HELP_CATEGORY, "11. Reporting")
+        setattr(_do_offensive, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, "02. Scanning & Enumeration")
+        setattr(_do_benign, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, "11. Reporting")
         stub.do_lazynmap = _do_offensive
         stub.do_report = _do_benign
         result = Shell._build_scope_offensive(stub)

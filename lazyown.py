@@ -1530,7 +1530,7 @@ class LazyOwnShell(cmd2.Cmd):
         for name in self.get_all_commands():
             func = getattr(self, f"do_{name}", None)
             categories[name] = getattr(
-                func, cmd2.constants.CMD_ATTR_HELP_CATEGORY, None
+                func, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, None
             )
         return _build_offensive_commands(categories)
 

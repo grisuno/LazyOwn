@@ -1,4 +1,4 @@
-#!/home/grisun0/LazyOwn/venv_telegram/bin/python3
+#!/usr/bin/env python3
 """
 telegram_hermes.py
 LazyOwn Telegram Bot with Hermes Gateway Integration

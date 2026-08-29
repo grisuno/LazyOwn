@@ -16,6 +16,7 @@ import argparse
 import json
 import logging
 import os
+import subprocess
 import time
 
 import requests
@@ -129,7 +130,7 @@ def analyze_with_deepseek(log_content, mode='console'):
 
             if mode == 'console':
                 rich_markdown = Markdown(full_response)
-                os.system('clear')
+                subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
                 console.print(rich_markdown)
             logging.info(f"DeepSeek Analysis Results:\n{full_response}")
         else:

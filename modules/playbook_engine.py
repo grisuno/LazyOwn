@@ -702,6 +702,8 @@ if __name__ == "__main__":
             try:
                 r = subprocess.run(
                     command, shell=True, capture_output=True, text=True, timeout=60
+                    # shell=True required: Atomic Red Team commands use pipes, globs,
+                    # and shell operators (&&, ||, >) that need a shell to parse.
                 )
                 return (r.stdout + r.stderr).strip()
             except Exception as exc:

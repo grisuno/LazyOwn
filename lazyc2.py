@@ -1635,9 +1635,11 @@ def search_database(term, data_path="parquets/techniques.parquet"):
 
 def execute_command(command):
     try:
+        import shlex
+        argv = shlex.split(command)
         result = subprocess.run(
-            command,
-            shell=True,
+            argv,
+            shell=False,
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,

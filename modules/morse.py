@@ -1,4 +1,4 @@
-import os
+import subprocess
 
 MORSE_CODE = {
     "A": ".-",
@@ -109,8 +109,8 @@ def morseToText(morseCode):
 if __name__ == "__main__":
     while True:
         # Get user's choice
-        os.system("clear")
-        value = int(
+                subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
+                value = int(
             input(
                 """\n*********************** Welcome to Morse Code Convertor 🔄️ ***********************\n
             \t\tEnter 1️⃣  to convert text to Morse code
@@ -121,7 +121,7 @@ if __name__ == "__main__":
         )
 
         while value != 1 and value != 2 and value != 0:
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(
                 """\n*********************** Welcome to Morse Code Convertor 🔄️ ***********************\n
             \t\tEnter 1️⃣  to convert text to Morse code
@@ -134,32 +134,32 @@ if __name__ == "__main__":
             value = int(input("\nEnter the currect choice: "))
 
         if value == 0:
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(
                 "\n******************* Thanks for using The Morse Code Convertor 🔄️ Program 👋 *******************\n\n"
             )
             exit(0)
 
         elif value == 1:
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(
                 "\n*********************** Welcome to Morse Code Convertor 🔄️ ***********************\n"
             )
             print("\nWelcome to the Text ➡️ Morse Code\n")
             text = input("\nEnter the text: ")
             morseCode = textToMorse(text)
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(f"\n✔️  Morse Code of {text} is: {morseCode}")
             input("\n\nPress 'Enter Key' to continue !\n\n")
 
         elif value == 2:
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(
                 "\n*********************** Welcome to Morse Code Convertor ***********************\n"
             )
             print("\nWelcome to the Morse Code ➡️ Text\n")
             morseCode = input("\nEnter the Morse code: ")
             text = morseToText(morseCode)
-            os.system("clear")
+            subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
             print(f"\n✔️  Text of {morseCode} is: {text}")
             input("\n\nPress 'Enter Key' to continue !\n\n")

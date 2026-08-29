@@ -577,21 +577,63 @@ class ReconCommandSet(LazyOwnCommandSet):
         # ── Manual mode: existing multi-source search + next-step table ───
         query = line.strip()
         print_msg("Searching in searchsploit")
-        self.cmd(f"searchsploit {query}")
-        getnvd = find_ss(query)
-        nvddb(getnvd)
-        getnvd = find_ea(query)
-        exploitalert(getnvd)
-        getnvd = find_ps(query)
-        packetstormsecurity(getnvd)
-        self.cmd(f'msfconsole -q -x "search {query}; exit"')
+        try:
+            self.cmd(f"searchsploit {query}")
+        except Exception as exc:
+            print_error(f"searchsploit failed: {exc}")
+        try:
+            getnvd = find_ss(query)
+            nvddb(getnvd)
+        except Exception as exc:
+            print_error(f"NVD search failed: {exc}")
+        try:
+            getnvd = find_ea(query)
+            exploitalert(getnvd)
+        except Exception as exc:
+            print_error(f"ExploitAlert search failed: {exc}")
+        try:
+            getnvd = find_ps(query)
+            packetstormsecurity(getnvd)
+        except Exception as exc:
+            print_error(f"PacketStorm search failed: {exc}")
+        try:
+            self.cmd(f'msfconsole -q -x "search {query}; exit"')
+        except Exception as exc:
+            print_error(f"msfconsole search failed: {exc}")
         q_url = query.replace(" ", "+")
-        if not is_binary_present("pompem"):
-            self.display_toastr("Not Found pompem, installing", type="warning")
-            self.cmd("sudo apt install pompem -y")
-        self.cmd(f"cd sessions && pompem -s {q_url} --txt")
-        self.onecmd(f"creds_py '{query}'")
-        self.onecmd(f"pompem -s '{query}'")
+        if is_binary_present("pompem"):
+            import socket as _sock
+            _tor_alive = False
+            try:
+                _s = _sock.socket(_sock.AF_INET, _sock.SOCK_STREAM)
+                _s.settimeout(1)
+                _s.connect(("127.0.0.1", 9050))
+                _s.close()
+                _tor_alive = True
+            except Exception:
+                pass
+            import subprocess as _sp
+            import os as _os
+            _env = _os.environ.copy()
+            if _tor_alive:
+                _env["HTTPS_PROXY"] = "socks5h://127.0.0.1:9050"
+                _env["HTTP_PROXY"] = "socks5h://127.0.0.1:9050"
+                print_msg("Tor detected, pompem will use SOCKS proxy")
+            else:
+                print_msg("Tor not detected, pompem clearnet searches only")
+            try:
+                _sp.run(
+                    ["pompem", "-s", q_url, "--txt"],
+                    cwd="sessions",
+                    env=_env,
+                    capture_output=True, text=True, timeout=60,
+                )
+            except Exception as exc:
+                print_error(f"pompem search failed: {exc}")
+        try:
+            self.onecmd(f"creds_py '{query}'")
+        except Exception as exc:
+            print_error(f"creds_py search failed: {exc}")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://sploitus.com/?query={q_url}#exploits")
         print_msg(f"To open use Ctrl + Click: {BLUE}{UNDERLINE}https://exploits.shodan.io/?q={q_url}")
         # infer service from query first token and show next-step table

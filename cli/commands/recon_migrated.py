@@ -907,18 +907,25 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             print_warn("alterx not found. Installing...")
             command = "cd && mkdir alterx && cd alterx && wget https://github.com/projectdiscovery/alterx/releases/download/v0.0.4/alterx_0.0.4_linux_amd64.zip && unzip alterx_0.0.4_linux_amd64.zip"
             self.cmd(command)
-            command = """
-            bash -c '
-            if [[ "$SHELL" == */bash ]]; then
-                echo "    [!] Bash"
-                echo "export PATH=$PATH:~/alterx" >> ~/.bashrc
-            elif [[ "$SHELL" == */zsh ]]; then
-                echo "    [!] Zsh"
-                echo "export PATH=$PATH:~/alterx" >> ~/.zshrc
-            fi
-            '
-            """.replace("            ", "")
-            os.system(command)
+            import os as _os
+            shell = _os.environ.get("SHELL", "")
+            rc_file = None
+            if "zsh" in shell:
+                rc_file = Path.home() / ".zshrc"
+            elif "bash" in shell:
+                rc_file = Path.home() / ".bashrc"
+            if rc_file and rc_file.exists():
+                try:
+                    content = rc_file.read_text(encoding="utf-8")
+                    path_entry = 'export PATH=$PATH:~/alterx'
+                    if path_entry not in content:
+                        rc_file.write_text(
+                            content.rstrip() + "\n" + path_entry + "\n",
+                            encoding="utf-8",
+                        )
+                        print_msg("Added ~/alterx to PATH in " + rc_file.name)
+                except OSError as exc:
+                    print_warn(f"Failed to update {rc_file}: {exc}")
 
         url = self.params['url']
         domain = get_domain(url)

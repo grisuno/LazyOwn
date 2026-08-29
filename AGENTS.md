@@ -43,7 +43,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 ## Security hardening (SDD+TDD+BDD)
 
-Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py -v`
+Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py tests/test_security_hardening_v4.py -v`
 
 | Fix | File | Contract |
 |-----|------|----------|
@@ -62,7 +62,13 @@ Critical security fixes applied with full test coverage. Run: `pytest tests/test
 | DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + length cap |
 | Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with output capture |
 | Credential encryption at rest | `modules/phishing_orchestrator.py` | AES-256-GCM encryption for harvested passwords |
+| URL injection prevention | `poc_tui/plugin_loader.py` | `_validate_clone_url` rejects metacharacters; git clone uses subprocess list-form |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/bot.py`, `modules/ia_*.py` | Replaced with subprocess.run or Python-native operations |
+| shell=False enforced | `lazyc2.py` | `execute_command` uses `shlex.split` + `shell=False` |
+| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py` | Replaced with Path.home() or shutil.which |
+| Placeholder injection prevention | `modules/conditional_hooks.py` | `shlex.quote` applied to all placeholder values before shell insertion |
 - `core/hardening.py`: Centralized security primitives — `safe_subprocess_run`, `safe_clipboard_copy`, `set_sshpass_env`, `escape_html_content`, `safe_path_join`, `validate_host`, `validate_network_cidr`, `validate_port_spec`, `require_encryption_key`, `defused_xml_parse`, `sanitize_filename`.
+- `core/safe_exec.py`: Safe command execution — `safe_system`, `safe_run_argv`, `safe_run_shell`, `safe_clear_screen`, `validate_url`, `safe_git_clone`, `safe_ip_show`, `safe_find_tool`, `safe_file_read`.
 - `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---

@@ -6,6 +6,8 @@ import glob
 import json
 import os
 import re
+import shlex
+import subprocess
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Callable
@@ -18,6 +20,9 @@ except ImportError:
     LuaRuntime = None  # type: ignore[assignment,misc]
 
 from config import PayloadConfig
+
+_SHELL_META_RE = re.compile(r"[;&|`$(){}!\n\r]")
+_URL_RE = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
 
 @dataclass
@@ -42,6 +47,30 @@ def _replace_placeholders(command: str, params: dict[str, Any]) -> str:
         return str(val)
 
     return re.sub(r"\{([^}]+)\}", _subst, command)
+
+
+def _validate_clone_url(url: str) -> str:
+    """Validate a git clone URL, rejecting shell metacharacters.
+
+    Args:
+        url: The repository URL to validate.
+
+    Returns:
+        The validated URL.
+
+    Raises:
+        ValueError: If the URL contains shell metacharacters or is invalid.
+    """
+    if not url or not url.strip():
+        raise ValueError("Repository URL must not be empty")
+    url = url.strip()
+    if _SHELL_META_RE.search(url):
+        raise ValueError(
+            f"Shell metacharacters rejected in URL: {url[:80]}"
+        )
+    if not _URL_RE.match(url):
+        raise ValueError(f"Invalid repository URL format: {url[:80]}")
+    return url
 
 
 class PluginLoader:
@@ -138,19 +167,33 @@ class PluginLoader:
             if install_path:
                 full_install = self.base_dir / install_path
                 if not full_install.exists() and repo_url:
-                    os.system(f"git clone {repo_url} {full_install}")
+                    validated_url = _validate_clone_url(repo_url)
+                    subprocess.run(
+                        ["git", "clone", validated_url, str(full_install)],
+                        shell=False,
+                        capture_output=True,
+                        text=True,
+                        timeout=120,
+                    )
                     if install_cmd:
                         ic = _replace_placeholders(install_cmd, params)
-                        os.system(f"cd {full_install} && {ic}")
+                        subprocess.run(
+                            ic,
+                            shell=True,
+                            capture_output=True,
+                            text=True,
+                            timeout=300,
+                            cwd=str(full_install),
+                        )
 
             if execute_cmd:
                 cmd = _replace_placeholders(execute_cmd, params)
-                if install_path:
-                    cmd = f"cd {self.base_dir / install_path} && {cmd}"
-                import subprocess
-
                 result = subprocess.run(
-                    cmd, shell=True, capture_output=True, text=True, timeout=300
+                    cmd,
+                    shell=True,
+                    capture_output=True,
+                    text=True,
+                    timeout=300,
                 )
                 output = result.stdout + result.stderr
                 return output.strip() if output.strip() else None
@@ -218,10 +261,12 @@ class PluginLoader:
         def wrapper(arg: str = "") -> str | None:
             params = dict(self.config._data)
             cmd = _replace_placeholders(command, params)
-            import subprocess
-
             result = subprocess.run(
-                cmd, shell=True, capture_output=True, text=True, timeout=300
+                cmd,
+                shell=True,
+                capture_output=True,
+                text=True,
+                timeout=300,
             )
             output = result.stdout + result.stderr
             return output.strip() if output.strip() else None
@@ -246,6 +291,9 @@ class _LuaAppProxy:
         return self._config._data
 
     def one_cmd(self, cmd: str) -> None:
-        import subprocess
-
-        subprocess.run(cmd, shell=True, timeout=300)
+        subprocess.run(
+            cmd,
+            shell=True,
+            capture_output=True,
+            timeout=300,
+        )

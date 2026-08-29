@@ -2107,16 +2107,37 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             Ensure that the `tun0` interface exists and has an IP address assigned. If `tun0` is not present or has no IP address, the clipboard will not be updated.
         """
 
-        os.system(
-            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-        )
-        os.system(
-            "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1 | xclip -sel clip"
-        )
+        try:
+            result = subprocess.run(
+                ["ip", "a", "show", "scope", "global"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            current_iface = ""
+            for line in result.stdout.splitlines():
+                stripped = line.strip()
+                if stripped and stripped[0].isdigit() and ":" in stripped:
+                    parts = stripped.split(":", 2)
+                    if len(parts) >= 2:
+                        current_iface = parts[1].strip().rstrip("@")
+                elif stripped.startswith("inet ") and current_iface:
+                    addr = stripped.split()[1].split("/")[0]
+                    print(f"    [\033[96m{current_iface}\033[0m] {addr}")
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
 
         try:
-            clipboard_ip = subprocess.check_output('xclip -o -sel clip', shell=True).decode().strip()
-        except subprocess.CalledProcessError:
+            result = subprocess.run(
+                ["ip", "a", "show", "tun0"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            for line in result.stdout.splitlines():
+                stripped = line.strip()
+                if stripped.startswith("inet "):
+                    clipboard_ip = stripped.split()[1].split("/")[0]
+                    break
+            else:
+                clipboard_ip = ""
+        except (FileNotFoundError, subprocess.TimeoutExpired):
             clipboard_ip = ""
 
         print_msg(f"IP from tun0 copied to clipboard :) {RESET}")
@@ -2162,17 +2183,35 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             Ensure that the `tun0` interface exists and has an IP address assigned. If `tun0` is not present or has no IP address, the address will not be displayed.
         """
 
-        # Display IP addresses for all network interfaces
-        os.system(
-            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-        )
-
-        # Print the IP address of the `tun0` interface
         try:
-            ip_address = subprocess.check_output(
-                "ip a show tun0 | grep 'inet ' | awk '{print $2}' | cut -d'/' -f1",
-                shell=True
-            ).decode().strip()
+            result = subprocess.run(
+                ["ip", "a", "show", "scope", "global"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            current_iface = ""
+            for line in result.stdout.splitlines():
+                stripped = line.strip()
+                if stripped and stripped[0].isdigit() and ":" in stripped:
+                    parts = stripped.split(":", 2)
+                    if len(parts) >= 2:
+                        current_iface = parts[1].strip().rstrip("@")
+                elif stripped.startswith("inet ") and current_iface:
+                    addr = stripped.split()[1].split("/")[0]
+                    print(f"    [\033[96m{current_iface}\033[0m] {addr}")
+        except (FileNotFoundError, subprocess.TimeoutExpired):
+            pass
+
+        try:
+            result = subprocess.run(
+                ["ip", "a", "show", "tun0"],
+                capture_output=True, text=True, timeout=5, check=False,
+            )
+            ip_address = ""
+            for line in result.stdout.splitlines():
+                stripped = line.strip()
+                if stripped.startswith("inet "):
+                    ip_address = stripped.split()[1].split("/")[0]
+                    break
 
 
         except subprocess.CalledProcessError:
@@ -3706,7 +3745,11 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         with open("sessions/graph.dot", 'w') as dot_file:
             dot_file.write(graph_content)
 
-        os.system("dot -Tpng sessions/graph.dot -o sessions/graph.png -Gbgcolor=lightgrey -Ecolor=blue")
+        subprocess.run(
+            ["dot", "-Tpng", "sessions/graph.dot", "-o", "sessions/graph.png",
+             "-Gbgcolor=lightgrey", "-Ecolor=blue"],
+            capture_output=True, timeout=30, check=False,
+        )
 
         return
 

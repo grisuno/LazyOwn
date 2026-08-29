@@ -60,15 +60,23 @@ def _derive_credential_key() -> bytes:
 
     Returns:
         32-byte key for AES-256-GCM encryption.
+
+    Raises:
+        RuntimeError: If no encryption key is configured.
     """
-    from core.crypto import derive_key, generate_salt
-    secret = os.environ.get("LAZYOWN_SECRET_KEY", "")
-    if not secret:
-        secret_file = SESSIONS_DIR / ".secret_key"
-        if secret_file.exists():
-            secret = secret_file.read_text().strip()
-    if not secret:
-        secret = "lazyown-default-credential-encryption-key"
+    from core.crypto import derive_key
+    from core.hardening import require_encryption_key
+    try:
+        secret = require_encryption_key(
+            env_key="LAZYOWN_SECRET_KEY",
+            secret_file=SESSIONS_DIR / ".secret_key",
+        )
+    except Exception as exc:
+        raise RuntimeError(
+            "Credential encryption key not configured. "
+            "Set LAZYOWN_SECRET_KEY env var or create sessions/.secret_key. "
+            f"Details: {exc}"
+        ) from exc
     salt = hashlib.sha256(_CREDENTIAL_SALT).digest()
     return derive_key(secret, salt)
 

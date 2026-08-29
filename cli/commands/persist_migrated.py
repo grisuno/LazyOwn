@@ -123,9 +123,12 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
                 return
 
             for user, passwd in credentials:
-                command = f"sshpass -p '{passwd}' ftp {user}@{self.params['rhost']}"
-                print_msg(command)
-                self.cmd(command)
+                import os as _os
+                from core.hardening import set_sshpass_env
+                _env = set_sshpass_env(passwd)
+                command_args = ["sshpass", "-e", "ftp", f"{user}@{self.params['rhost']}"]
+                print_msg(f"sshpass -e ftp {user}@{self.params['rhost']}")
+                subprocess.run(command_args, shell=False, env=_env, check=False)
         return
 
     @cmd2.with_category("05. Persistence")
@@ -231,9 +234,12 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             f"sudo usermod -aG sudo {username} && "
             f"su - {username}"
         )
-        print_msg(f"printf \"{cmd}\" | xclip -sel clip")
-        os.system(f"printf \"{cmd}\" | xclip -sel clip")
-        print_warn("Copied to clip ;)")
+        from core.hardening import safe_clipboard_copy
+        print_msg(f"Command ready: {cmd[:80]}...")
+        if safe_clipboard_copy(cmd):
+            print_warn("Copied to clipboard")
+        else:
+            print_error("Failed to copy to clipboard (install xclip or xsel)")
         return
 
     @cmd2.with_category("05. Persistence")

@@ -1581,31 +1581,39 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
         win_drop_path = self.params.get("backdoor_win_service_path", "C:/Users/lazyown/Documents")
         win_atomic_path = f"{win_drop_path}/lazyown_atomic_test"
         print_msg("Deploying agent.")
+        import os as _os
+        from core.hardening import set_sshpass_env
+        _env = set_sshpass_env(password)
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh'"
+            scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test"]
+            ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", f"cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_agent.sh"]
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs\""
+            scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:{win_drop_path}/"]
+            ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", "powershell.exe", "-Command", f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_agent.ps1' -Verb RunAs"]
 
-        exit_code = self.cmd(rsync_command)
+        subprocess.run(scp_args, shell=False, env=_env, check=False)
+        exit_code = subprocess.run(ssh_args, shell=False, env=_env, check=False).returncode
         if line.startswith("web"):
             print_warn("Executing from web. avoid interaction.")
         else:
             input("    [!] Press enter to clean Red Operation: ")
         if extension == ".sh":
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/tmp/lazyown_atomic_test && sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh'"
+            clean_scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:/tmp/lazyown_atomic_test"]
+            clean_ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", f"cd /tmp/lazyown_atomic_test/ && chmod +x /tmp/lazyown_atomic_test/* && echo \"{sudo_pass}\" | sudo -S /tmp/lazyown_atomic_test/atomic_clean_agent.sh"]
         else:
-            rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:{win_drop_path}/ && sshpass -p '{password}' ssh {username}@{self.params['rhost']} powershell.exe -Command \"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs\""
+            clean_scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{self.params['rhost']}:{win_drop_path}/"]
+            clean_ssh_args = ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}", "powershell.exe", "-Command", f"Start-Process powershell.exe -ArgumentList '-File', '{win_atomic_path}/atomic_clean_agent.ps1' -Verb RunAs"]
 
-
-        exit_code = self.cmd(rsync_command)
+        subprocess.run(clean_scp_args, shell=False, env=_env, check=False)
+        exit_code = subprocess.run(clean_ssh_args, shell=False, env=_env, check=False).returncode
 
         # Transfer logs back to C2
         log_path = f"{tmp_path}/*.log"
         if extension == ".sh":
-            scp_command = f"sshpass -p '{password}' scp {username}@{self.params['rhost']}:{log_path} {sessions_path}/"
+            log_scp_args = ["sshpass", "-e", "scp", f"{username}@{self.params['rhost']}:{log_path}", f"{sessions_path}/"]
         else:
-            scp_command = f"sshpass -p '{password}' scp {username}@{self.params['rhost']}:{win_atomic_path}/*.log {sessions_path}/"
-        self.cmd(scp_command)
+            log_scp_args = ["sshpass", "-e", "scp", f"{username}@{self.params['rhost']}:{win_atomic_path}/*.log", f"{sessions_path}/"]
+        subprocess.run(log_scp_args, shell=False, env=_env, check=False)
 
         if exit_code == 0:
             print_msg("Agent deployed and executed successfully.")

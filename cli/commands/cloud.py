@@ -225,7 +225,13 @@ class CloudCommandSet(LazyOwnCommandSet):
             from cli.confirm import confirm
 
             if confirm(f"Run {provider} IAM enumeration?"):
-                os.system(cmd)
+                import shlex as _shlex
+                from core.hardening import safe_subprocess_run
+                try:
+                    parts = _shlex.split(cmd)
+                    safe_subprocess_run(parts, reason=f"cloud IAM enum {provider}")
+                except Exception as exc:
+                    print_error(f"Failed to run {provider} enumeration: {exc}")
 
     @cmd2.with_category(CLOUD_CATEGORY)
     def do_cloud_enum(self, line):

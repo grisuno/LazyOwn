@@ -5867,11 +5867,11 @@ def banners():
 
     for banner in banners_json:
         html_table += '    <tr>\n'
-        html_table += f'      <td>{banner.get("hostname", "")}</td>\n'
-        html_table += f'      <td>{banner.get("port", "")}</td>\n'
-        html_table += f'      <td>{banner.get("protocol", "")}</td>\n'
-        html_table += f'      <td>{banner.get("extra", "")}</td>\n'
-        html_table += f'      <td>{banner.get("service", "")}</td>\n'
+        html_table += f'      <td>{html.escape(str(banner.get("hostname", "")))}</td>\n'
+        html_table += f'      <td>{html.escape(str(banner.get("port", "")))}</td>\n'
+        html_table += f'      <td>{html.escape(str(banner.get("protocol", "")))}</td>\n'
+        html_table += f'      <td>{html.escape(str(banner.get("extra", "")))}</td>\n'
+        html_table += f'      <td>{html.escape(str(banner.get("service", "")))}</td>\n'
         html_table += '    </tr>\n'
 
     html_table += '  </tbody>\n'
@@ -6000,10 +6000,11 @@ def compliance_add_evidence():
         description = request.form.get('description', '').strip()
         if not filepath:
             return jsonify({"error": "File not found"}), 400
-        safe_parts = [p for p in filepath.replace('\\', '/').split('/') if p and p not in ('.', '..')]
-        if not safe_parts:
+        from core.hardening import safe_path_join
+        try:
+            safe_path = safe_path_join("sessions", filepath)
+        except (PermissionError, ValueError):
             return jsonify({"error": "Invalid path"}), 400
-        safe_path = os.path.join("sessions", *safe_parts)
         if not os.path.exists(safe_path):
             return jsonify({"error": "File not found"}), 400
         entry = engine.add_evidence(safe_path, operator, description)

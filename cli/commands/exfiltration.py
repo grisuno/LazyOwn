@@ -992,9 +992,12 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
                 username, password = credential
         rhost = self.params["rhost"]
         print_msg("Deploying sessions directory.")
-        rsync_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{rhost}:{RSYNC_REMOTE_DROP_PATH}"
-        print_msg(rsync_command)
-        self.cmd(rsync_command)
+        import os as _os
+        from core.hardening import set_sshpass_env
+        _env = set_sshpass_env(password)
+        scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{rhost}:{RSYNC_REMOTE_DROP_PATH}"]
+        print_msg(" ".join(scp_args[:4]) + " [credentials redacted]")
+        subprocess.run(scp_args, shell=False, env=_env, check=False)
 
     @cmd2.with_category(exfiltration_category)
     def do_gmsadumper(self, line):

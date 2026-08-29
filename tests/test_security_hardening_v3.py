@@ -316,8 +316,11 @@ class TestPhishingOrchestratorKey:
     def test_raises_without_key(self):
         with patch.dict(os.environ, {}, clear=True):
             from modules.phishing_orchestrator import _derive_credential_key
-            with pytest.raises(RuntimeError, match="not configured"):
-                _derive_credential_key()
+            from unittest.mock import patch as mock_patch
+            from pathlib import Path
+            with mock_patch.object(Path, "exists", return_value=False):
+                with pytest.raises(RuntimeError, match="not configured"):
+                    _derive_credential_key()
 
     def test_works_with_env_key(self):
         with patch.dict(os.environ, {"LAZYOWN_SECRET_KEY": "test-key-123"}):

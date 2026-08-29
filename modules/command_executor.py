@@ -102,14 +102,26 @@ class CommandExecutor:
 
         return result
 
+    def _needs_shell(self, command: str) -> bool:
+        """Check if command needs bash -c due to shell operators."""
+        return any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$('))
+
     def _run_capture(self, command: str, timeout: int) -> ExecutionResult:
-        proc = subprocess.run(
-            command,
-            shell=True,
-            capture_output=True,
-            text=True,
-            timeout=timeout,
-        )
+        import shlex
+        if self._needs_shell(command):
+            proc = subprocess.run(
+                ["bash", "-c", command],
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
+        else:
+            proc = subprocess.run(
+                shlex.split(command),
+                capture_output=True,
+                text=True,
+                timeout=timeout,
+            )
         output = (proc.stdout or "") + (proc.stderr or "")
         return ExecutionResult(
             command=command,
@@ -119,13 +131,21 @@ class CommandExecutor:
         )
 
     def _run_stream(self, command: str, timeout: int) -> ExecutionResult:
-        proc = subprocess.Popen(
-            command,
-            shell=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-        )
+        import shlex
+        if self._needs_shell(command):
+            proc = subprocess.Popen(
+                ["bash", "-c", command],
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+        else:
+            proc = subprocess.Popen(
+                shlex.split(command),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
         output_parts: list[str] = []
         try:
             for line in iter(proc.stdout.readline, ""):
@@ -148,19 +168,39 @@ class CommandExecutor:
 
     def run_with_tee(self, command: str, output_path: str, timeout: int = 120) -> ExecutionResult:
         """Execute a command and tee output to a file."""
+        import shlex
         start = time.monotonic()
         try:
-            exit_code = subprocess.call(
-                f"{command} 2>&1 | tee {output_path}",
-                shell=True,
-                timeout=timeout,
-            )
-            output = ""
-            try:
-                with open(output_path, "r", encoding="utf-8", errors="replace") as fh:
-                    output = fh.read()
-            except OSError:
-                pass
+            with open(output_path, "w") as log_file:
+                if self._needs_shell(command):
+                    proc = subprocess.Popen(
+                        ["bash", "-c", command],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                    )
+                else:
+                    proc = subprocess.Popen(
+                        shlex.split(command),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                    )
+                output_parts = []
+                for line in proc.stdout:
+                    sys.stdout.write(line)
+                    sys.stdout.flush()
+                    log_file.write(line)
+                    log_file.flush()
+                    output_parts.append(line)
+                try:
+                    proc.wait(timeout=timeout)
+                except subprocess.TimeoutExpired:
+                    proc.kill()
+                    proc.wait()
+                    raise
+            exit_code = proc.returncode
+            output = "".join(output_parts)
             result = ExecutionResult(
                 command=command,
                 output=output,

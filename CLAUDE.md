@@ -31,6 +31,11 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | SQL injection prevention | `modules/db.py` | `test_security_hardening.py` |
 | Timing-safe auth | `lazyc2.py` | `test_security_hardening.py` |
 | LIKE escape prevention | `modules/db.py` | `test_security_hardening.py` |
+| Command injection prevention (AI) | `cli/commands/ai.py` | `test_security_hardening_v2.py` |
+| SSH credential injection prevention | `cli/commands/postexp_migrated.py` | `test_security_hardening_v2.py` |
+| DNS command allowlist | `lazyc2.py` | `test_security_hardening_v2.py` |
+| Safe shell execution | `cli/commands/misc_migrated.py` | `test_security_hardening_v2.py` |
+| Credential encryption at rest | `modules/phishing_orchestrator.py` | `test_security_hardening_v2.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
 | Tenant-bound API authorization | `core/api_authz.py` | `test_api_authz.py`, `run_mutation_api_authz.py` |
 | Structured JSON-lines logging | `core/logging.py` | `test_structured_logging.py` |
@@ -38,8 +43,8 @@ Each security control is a single contract in its own file. Full specs in `docs/
 
 ### Security hardening sprint (SDD+TDD+BDD)
 
-Applied 10 security fixes with 24 BDD-style tests + 5 mutation verification tests.
-All 48 tests pass. Run with: `pytest tests/test_security_hardening.py tests/test_mutation_verification.py -v`
+Applied 15 security fixes with 55 BDD-style tests. All tests pass.
+Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py -v`
 
 | Fix | File | What changed |
 |-----|------|-------------|
@@ -55,6 +60,11 @@ All 48 tests pass. Run with: `pytest tests/test_security_hardening.py tests/test
 | Credential encryption logging | `modules/db.py` | `_maybe_encrypt`/`_maybe_decrypt` log warnings instead of silent fallback |
 | CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` for xterm.js WebSocket |
 | Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
+| Command injection in AI module | `cli/commands/ai.py` | `os.system` replaced with `subprocess.run` list-form; API key passed via env var only |
+| SSH credential injection | `cli/commands/postexp_migrated.py` | `sshpass -p` replaced with `sshpass -e` + `SSHPASS` env var; 5 call sites fixed |
+| DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + `_DNS_MAX_DECODED_LENGTH` cap; unknown commands rejected |
+| Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with `capture_output=True`; `do_banner` uses list-form |
+| Credential encryption at rest | `modules/phishing_orchestrator.py` | Passwords encrypted via AES-256-GCM before JSON write; audit log uses truncated SHA-256 hash |
 
 ## 0.2 Non-negotiable: user input is hostile
 

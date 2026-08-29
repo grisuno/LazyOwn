@@ -43,7 +43,7 @@ Hermes Agent -> MCP -> skills/lazyown_mcp.py -> lazyown.py (CLI) / lazyc2.py (C2
 
 ## Security hardening (SDD+TDD+BDD)
 
-Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_mutation_verification.py -v`
+Critical security fixes applied with full test coverage. Run: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py -v`
 
 | Fix | File | Contract |
 |-----|------|----------|
@@ -57,6 +57,11 @@ Critical security fixes applied with full test coverage. Run: `pytest tests/test
 | Credential encryption logging | `modules/db.py` | Warnings instead of silent plaintext fallback |
 | CORS dev fallback expanded | `lazyc2/security/cors.py` | Always includes `127.0.0.1` + `localhost` + `lhost` |
 | Hardcoded credentials removed | `cli/commands/postexp_migrated.py`, `cli/commands/report_migrated.py`, `cli/commands/exploit_migrated.py`, `templates/index.html` | All passwords read from config or require explicit input |
+| Command injection in AI module | `cli/commands/ai.py` | `os.system` replaced with `subprocess.run` list-form; API key via env var |
+| SSH credential injection | `cli/commands/postexp_migrated.py` | `sshpass -e` + `SSHPASS` env var replaces `sshpass -p` |
+| DNS command allowlist | `lazyc2.py` | `_DNS_COMMAND_ALLOWLIST` frozenset + length cap |
+| Safe shell execution | `cli/commands/misc_migrated.py` | `do_sys` uses `subprocess.run` with output capture |
+| Credential encryption at rest | `modules/phishing_orchestrator.py` | AES-256-GCM encryption for harvested passwords |
 - `cli/commands/`: CommandSets for **db_***, **search/use/back**, **generate**, **resource** — auto-registered at boot.
 
 ---

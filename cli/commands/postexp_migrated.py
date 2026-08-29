@@ -883,13 +883,25 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                 if not password:
                     print_error("Password not defined.")
                     password = input("    [!] Enter the password: ")
-                subprocess.run(f"sshpass -p '{password}' scp {repo}/public.key {username}@{self.params['rhost']}:/tmp/public.key", shell=True, check=True)
+                env = os.environ.copy()
+                env["SSHPASS"] = password
+                subprocess.run(
+                    ["sshpass", "-e", "scp", f"{repo}/public.key",
+                     f"{username}@{self.params['rhost']}:/tmp/public.key"],
+                    env=env, check=True,
+                )
             else:
                 credentials = get_credentials()
                 if not credentials:
                     return
                 for username, passwd in credentials:
-                    subprocess.run(f"sshpass -p '{passwd}' scp {repo}/public.key {username}@{self.params['rhost']}:/tmp/public.key", shell=True, check=True)
+                    env = os.environ.copy()
+                    env["SSHPASS"] = passwd
+                    subprocess.run(
+                        ["sshpass", "-e", "scp", f"{repo}/public.key",
+                         f"{username}@{self.params['rhost']}:/tmp/public.key"],
+                        env=env, check=True,
+                    )
             generate_index(repo)
             print_msg("Starting web server to serve the APT repository...")
             command = f"""
@@ -1232,12 +1244,21 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
                 target_os = "lin"
 
         if target_os == "win":
-            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:C:/Users/grisun0/Documents/ "
+            env = os.environ.copy()
+            env["SSHPASS"] = password
+            subprocess.run(
+                ["sshpass", "-e", "scp", "-r", f"{tmp_path}/",
+                 f"{username}@{self.params['rhost']}:C:/Users/grisun0/Documents/"],
+                env=env, check=True,
+            )
         else:
-            scp_command = f"sshpass -p '{password}' scp -r {tmp_path}/ {username}@{self.params['rhost']}:/home/.grisun0"
-
-        print_msg(scp_command)
-        self.cmd(scp_command)
+            env = os.environ.copy()
+            env["SSHPASS"] = password
+            subprocess.run(
+                ["sshpass", "-e", "scp", "-r", f"{tmp_path}/",
+                 f"{username}@{self.params['rhost']}:/home/.grisun0"],
+                env=env, check=True,
+            )
 
         return
 
@@ -1518,8 +1539,13 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
             print_error("start_user and start_pass must be configured in payload.json")
             return
         print_msg(f"Executing ... {line}")
-        ssh = f"""sshpass -p '{password}' ssh {username}@{self.params['rhost']} 'echo "{password}" | sudo -S {line}'"""
-        self.cmd(ssh)
+        env = os.environ.copy()
+        env["SSHPASS"] = password
+        subprocess.run(
+            ["sshpass", "-e", "ssh", f"{username}@{self.params['rhost']}",
+             f'echo "{password}" | sudo -S {line}'],
+            env=env, check=False,
+        )
         return
 
     @cmd2.with_category("04. Post-Exploitation")

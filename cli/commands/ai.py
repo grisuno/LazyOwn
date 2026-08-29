@@ -18,6 +18,8 @@ from __future__ import annotations
 import csv
 import json
 import os
+import subprocess
+import sys
 import traceback
 
 import cmd2
@@ -143,7 +145,13 @@ class AiCommandSet(LazyOwnCommandSet):
         full_prompt = f"Session context:\n{context}\n\nOperator question: {question}"
         print_msg(f"Asking AI with session context ({len(recent_commands)} recent commands)...")
         cli_script = os.path.join(self.path, LAZYGPT_CLI_RELATIVE_PATH)
-        os.system(f"export {GROQ_API_KEY_ENV}=\"{api_key}\" && python3 {cli_script} --prompt '{full_prompt}'")
+        env = os.environ.copy()
+        env[GROQ_API_KEY_ENV] = api_key
+        subprocess.run(
+            [sys.executable, cli_script, "--prompt", full_prompt],
+            env=env,
+            check=False,
+        )
 
     @cmd2.with_category(ai_category)
     def do_groq(self, line):
@@ -163,7 +171,13 @@ class AiCommandSet(LazyOwnCommandSet):
         prompt = self.prompt if not line else line.strip()
         cli_script = os.path.join(self.path, LAZYGPT_CLI_RELATIVE_PATH)
         print_msg(f"Executing... python3 {cli_script} --prompt '{prompt}'")
-        os.system(f"export {GROQ_API_KEY_ENV}=\"{api_key}\" && python3 {cli_script} --prompt '{prompt}'")
+        env = os.environ.copy()
+        env[GROQ_API_KEY_ENV] = api_key
+        subprocess.run(
+            [sys.executable, cli_script, "--prompt", prompt],
+            env=env,
+            check=False,
+        )
 
     @cmd2.with_category(ai_category)
     def do_ai_playbook(self, line):

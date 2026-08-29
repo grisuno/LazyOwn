@@ -26,6 +26,7 @@ from __future__ import annotations
 
 import json
 import logging
+import shlex
 import threading
 import time
 from collections.abc import Callable
@@ -405,13 +406,17 @@ class HookEngine:
         return True
 
     def _resolve_placeholders(self, text: str, context: dict[str, Any]) -> str:
-        """Replace {key} placeholders with values from context or globals."""
+        """Replace {key} placeholders with shell-safe values from context or globals.
+
+        Values are wrapped with shlex.quote() to prevent shell injection
+        when the resolved command is executed with shell=True.
+        """
         result = text
         for key, val in self._placeholders.items():
-            result = result.replace("{" + key + "}", str(val))
+            result = result.replace("{" + key + "}", shlex.quote(str(val)))
         for key, val in context.items():
             if isinstance(val, (str, int, float)):
-                result = result.replace("{" + key + "}", str(val))
+                result = result.replace("{" + key + "}", shlex.quote(str(val)))
         return result
 
     def _execute_action(self, action: dict[str, Any], context: dict[str, Any]) -> Any:
@@ -478,6 +483,9 @@ class HookEngine:
         try:
             result = subprocess.run(
                 command, shell=True, capture_output=True, text=True, timeout=30
+                # shell=True required: hook commands use pipes (|), OR (||),
+                # and shell operators. Placeholder values are sanitized via
+                # shlex.quote() in _resolve_placeholders to prevent injection.
             )
             log.info(
                 "[hook] local command: %s -> exit=%d", command, result.returncode

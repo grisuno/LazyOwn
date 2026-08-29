@@ -1647,6 +1647,20 @@ def execute_command(command):
     except Exception:
         return str("audio")
 
+
+_DNS_COMMAND_ALLOWLIST = frozenset({
+    "status",
+    "whoami",
+    "ip",
+    "hostname",
+    "uptime",
+    "ls",
+    "pwd",
+    "cat /etc/hostname",
+})
+
+_DNS_MAX_DECODED_LENGTH = 256
+
 class CustomDNSResolver(BaseResolver):
     def resolve(self, request, handler):
         reply = request.reply()
@@ -1712,11 +1726,18 @@ class CustomDNSResolver(BaseResolver):
                     command = base64.urlsafe_b64decode(subdomain + "==").decode('utf-8')
                     logger.info(f"Comando recibido: {command}")
 
-
-                    if command.startswith("exec:"):
-                        output = f"Ejecutado: {command[5:]}"
-                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
-                        logger.info(f"Respuesta enviada: {output}")
+                    if len(command) > _DNS_MAX_DECODED_LENGTH:
+                        reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Command too long"), ttl=60))
+                        logger.warning(f"DNS command rejected: length {len(command)} exceeds limit")
+                    elif command.startswith("exec:"):
+                        exec_payload = command[5:]
+                        if exec_payload not in _DNS_COMMAND_ALLOWLIST:
+                            reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Command not allowed"), ttl=60))
+                            logger.warning(f"DNS command not in allowlist: {exec_payload}")
+                        else:
+                            output = f"Ejecutado: {exec_payload}"
+                            reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT(output), ttl=60))
+                            logger.info(f"Respuesta enviada: {output}")
                     else:
                         reply.add_answer(RR(qname, QTYPE.TXT, rdata=TXT("Comando no reconocido"), ttl=60))
                         logger.warning(f"Comando no reconocido: {command}")

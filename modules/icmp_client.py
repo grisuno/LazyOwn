@@ -1,5 +1,6 @@
 import hashlib
 import os
+import secrets
 import socket
 import struct
 import sys
@@ -7,7 +8,47 @@ import time
 import zlib
 
 from Crypto.Cipher import AES
-from Crypto.Util.Padding import pad, unpad
+
+ICMP_ECHO_REQUEST = 8
+ICMP_BUFFER_SIZE = 4096
+AES_NONCE_LENGTH = 12
+AES_TAG_LENGTH = 16
+
+def encrypt_data(data, key):
+    """Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
+
+    Args:
+        data: Plaintext bytes to encrypt.
+        key: 32-byte AES-256 key.
+
+    Returns:
+        Concatenated nonce, ciphertext and authentication tag.
+    """
+    nonce = secrets.token_bytes(AES_NONCE_LENGTH)
+    cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+    ciphertext, tag = cipher.encrypt_and_digest(data)
+    return nonce + ciphertext + tag
+
+def decrypt_data(data, key):
+    """Decrypt bytes produced by ``encrypt_data`` after authenticating them.
+
+    Args:
+        data: ``nonce || ciphertext || tag`` payload.
+        key: 32-byte AES-256 key.
+
+    Returns:
+        Decrypted plaintext bytes.
+
+    Raises:
+        ValueError: If the payload is malformed or the tag fails to verify.
+    """
+    if len(data) < AES_NONCE_LENGTH + AES_TAG_LENGTH:
+        raise ValueError("payload too short to contain nonce and tag")
+    nonce = data[:AES_NONCE_LENGTH]
+    tag = data[-AES_TAG_LENGTH:]
+    ciphertext = data[AES_NONCE_LENGTH:-AES_TAG_LENGTH]
+    cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+    return cipher.decrypt_and_verify(ciphertext, tag)
 
 
 # Verificar y relanzar con sudo si es necesario
@@ -16,18 +57,6 @@ def check_sudo():
         print("[S] Este script necesita permisos de superusuario. Relanzando con sudo...")
         args = ['sudo', sys.executable] + sys.argv
         os.execvpe('sudo', args, os.environ)
-
-check_sudo()
-
-ICMP_ECHO_REQUEST = 8
-
-def encrypt_data(data, key):
-    cipher = AES.new(key, AES.MODE_ECB)
-    return cipher.encrypt(pad(data.encode(), AES.block_size))
-
-def decrypt_data(data, key):
-    cipher = AES.new(key, AES.MODE_ECB)
-    return unpad(cipher.decrypt(data), AES.block_size)
 
 def checksum(source_string):
     sum = 0
@@ -57,7 +86,7 @@ def send_icmp_packet(dest_addr, data, key):
 
     # Compress and encrypt data
     compressed_data = zlib.compress(data.encode())
-    encrypted_data = encrypt_data(compressed_data.decode('latin-1'), key)
+    encrypted_data = encrypt_data(compressed_data, key)
 
     header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, 0, packet_id, 1)
     my_checksum = checksum(header + encrypted_data)
@@ -82,7 +111,7 @@ def send_icmp_packet(dest_addr, data, key):
 
 def receive_icmp_reply(sock):
     try:
-        reply, addr = sock.recvfrom(1024)
+        reply, addr = sock.recvfrom(ICMP_BUFFER_SIZE)
         icmp_header = reply[20:28]
         icmp_type, code, checksum, packet_id, sequence = struct.unpack('bbHHh', icmp_header)
         if icmp_type == 0:  # ICMP echo reply
@@ -116,4 +145,5 @@ def main():
         print("\nPrograma terminado por el usuario.")
 
 if __name__ == "__main__":
+    check_sudo()
     main()

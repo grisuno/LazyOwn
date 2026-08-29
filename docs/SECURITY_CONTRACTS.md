@@ -196,3 +196,55 @@ key as the C2.
 - Replaced `/register` rate limit with `c2_register_limit` (was
   sharing `c2_login_limit`).
 - Imported the new policy objects at module top of `lazyc2.py`.
+
+## Contract 9: CodeQL batch — weak crypto, clear-text secrets, TLS, injection
+
+Test suite: `tests/test_security_hardening_v5.py` (31 tests).
+Mutation validation: `mutmut run` over `modules/icmp_server.py` — 29 mutants
+killed; the 5 survivors are equivalent `<`/`<=` boundary mutants in the
+length guard.
+
+| CodeQL | File | Fix |
+|--------|------|-----|
+| #895 weak crypto algo | `modules/icmp_server.py`, `modules/icmp_client.py` | `MODE_ECB` replaced with `MODE_GCM`; every payload carries a random nonce and authentication tag; `decrypt_and_verify` rejects tampering; nonce/tag/buffer lengths are module constants; `check_sudo()` moved under `__main__` |
+| #867 weak hashing on sensitive data | `modules/phishing_orchestrator.py` | `_hash_credential_for_log` keyed with `hmac.new(derived_key, ...)` instead of salted plain SHA-256 |
+| #865 clear-text storage | `utils.py` | `create_caldera_config` no longer embeds `lazyownblueadmin`/`lazyownredteam*`; all user passwords generated via `secrets`; file chmod 0600 |
+| #864 clear-text logging | `utils.py` | `Spray` success output no longer prints the sprayed password |
+| #863 clear-text storage | `cli/commands/phishing_wizard.py` | `_log_credentials` encrypts the password (`_encrypt_credential`) and hashes it for the audit log; `do_phish_report` decrypts (`_decrypt_credential`); `_ensure_session_key` provisions `sessions/.secret_key` |
+| #862 / #861 clear-text logging | `lazyc2.py` | one-time admin password written to `sessions/{rbac,users}_initial_admin.txt` (0600) via `_persist_bootstrap_password`, never printed |
+| #851 insecure TLS version | `modules/network_opsec.py` | `context.minimum_version = ssl.TLSVersion.TLSv1_2` before `wrap_socket` |
+| #859 cookie injection | `lazyc2/blueprints/addons.py` | reflected CSRF `client_id` cookie must match `^[A-Za-z0-9_-]{43}$` before reuse, else a fresh token is issued |
+| #858 / #857 exception exposure | `lazyc2/blueprints/api.py` | health responses return generic `"error"`; exception details logged server-side via `logger.exception`, never serialized to clients |
+
+**Invariants:**
+
+1. C2 tunnel payloads are authenticated with AES-256-GCM; unauthenticated
+   ECB is forbidden anywhere in `modules/icmp_*.py`.
+2. Credential log fingerprints are keyed HMACs, never unsalted/salted fast
+   hashes of the plaintext.
+3. No bootstrap admin password, sprayed password, or captured credential is
+   written to stdout or stored in clear text.
+
+## v4 reference — command execution hardening details
+
+`core/safe_exec.py`:
+- `safe_system` — rejects shell metacharacters (`;`, `|`, backtick, `$()`) before execution
+- `safe_run_argv` — shell=False enforced, null-byte rejection
+- `safe_run_shell` — gated by `allow=True` + reason, audited
+- `safe_clear_screen` — tput/ANSI escapes, never os.system
+- `validate_url` — rejects shell metacharacters in URLs, enforces http/https scheme
+- `safe_git_clone` — validates URL + subprocess list-form (no os.system)
+- `safe_ip_show` — parses `ip a show` output in Python (no shell pipes)
+- `safe_find_tool` — replaces hardcoded paths with shutil.which
+- `safe_file_read` — size-limited file reading
+
+Files hardened (v4):
+
+| Fix | File |
+|-----|------|
+| URL injection prevention | `poc_tui/plugin_loader.py` |
+| os.system eliminated | `modules/morse.py`, `modules/c2_builder.py`, `modules/bot.py`, `modules/ia_*.py`, `cli/commands/recon_migrated.py`, `cli/commands/misc_migrated.py` |
+| shell=False enforced | `lazyc2.py` `execute_command` |
+| shell=True eliminated | `modules/dpapi_harvester.py`, `modules/edr_detector.py` |
+| Injection prevention | `modules/conditional_hooks.py` (`shlex.quote`) |
+| Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py`, `cli/commands/persist_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/postexp_migrated.py` |

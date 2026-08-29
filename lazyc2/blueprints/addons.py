@@ -18,6 +18,7 @@ Design (SOLID):
 
 from __future__ import annotations
 
+import re
 import secrets
 from collections.abc import Callable
 from functools import wraps
@@ -59,6 +60,7 @@ require_operator_session(addons_bp)
 _CSRF_EXTENSION = "lazyown_addons_csrf"
 _BP_CONFIG = AddonCreatorConfig()
 _BP_BASE_DIR: str | None = None
+_SAFE_CLIENT_ID = re.compile(r"^[A-Za-z0-9_-]{43}$")
 
 
 def init_addons_bp(base_dir: str | None = None) -> None:
@@ -128,7 +130,7 @@ def _issue_csrf(response: Response, policy: CSRFPolicy) -> str:
         The token string to embed in the form.
     """
     client_id = request.cookies.get(policy.cookie_name)
-    if not client_id:
+    if not client_id or not _SAFE_CLIENT_ID.fullmatch(client_id):
         client_id = secrets.token_urlsafe(32)
     token = policy.issue(client_id)
     response.set_cookie(

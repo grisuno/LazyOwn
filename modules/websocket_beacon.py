@@ -219,9 +219,11 @@ class WebSocketBeacon:
                         output, exit_code = command_handler(cmd)
                     else:
                         try:
-                            result = os.popen(cmd)
-                            output = result.read()
-                            exit_code = result.close() or 0
+                            import shlex
+                            from core.hardening import safe_subprocess_run
+                            result = safe_subprocess_run(shlex.split(cmd))
+                            output = result.stdout
+                            exit_code = result.returncode
                         except Exception as e:
                             output = str(e)
                             exit_code = 1

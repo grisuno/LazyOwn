@@ -1,4 +1,4 @@
-import os
+import subprocess
 import sys
 import time
 
@@ -84,4 +84,15 @@ if __name__ == "__main__":
         print(f"   📄 Licence: {repo['licencia']}")
         print("-" * 60)
     sys.stdout.close()
-    os.system("cat output.txt | gum format")
+    sys.stdout = sys.__stdout__
+    try:
+        output_content = Path("output.txt").read_text(encoding="utf-8")
+        subprocess.run(
+            ["gum", "format"],
+            input=output_content,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    except (FileNotFoundError, subprocess.TimeoutExpired, OSError) as exc:
+        print(f"Format error: {exc}")

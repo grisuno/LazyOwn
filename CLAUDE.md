@@ -27,6 +27,7 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | Trusted proxy parser | `lazyc2/security/trusted_proxy.py` | `test_trusted_proxy.py` |
 | HTML sanitizer (bleach) | `lazyc2/security/html_sanitizer.py` | `test_html_sanitizer.py` |
 | Safe subprocess runner | `core/safe_subprocess.py` | `test_safe_subprocess*.py` |
+| Safe command execution | `core/safe_exec.py` | `test_security_hardening_v4.py` |
 | AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
 | SQL injection prevention | `modules/db.py` | `test_security_hardening.py` |
 | Timing-safe auth | `lazyc2.py` | `test_security_hardening.py` |
@@ -36,6 +37,9 @@ Each security control is a single contract in its own file. Full specs in `docs/
 | DNS command allowlist | `lazyc2.py` | `test_security_hardening_v2.py` |
 | Safe shell execution | `cli/commands/misc_migrated.py` | `test_security_hardening_v2.py` |
 | Credential encryption at rest | `modules/phishing_orchestrator.py` | `test_security_hardening_v2.py` |
+| URL injection prevention | `poc_tui/plugin_loader.py` | `test_security_hardening_v4.py` |
+| Hardcoded path elimination | `cli/commands/anti_forensics.py`, `modules/c2_builder.py` | `test_security_hardening_v4.py` |
+| Placeholder injection prevention | `modules/conditional_hooks.py` | `test_security_hardening_v4.py` |
 | Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
 | Tenant-bound API authorization | `core/api_authz.py` | `test_api_authz.py`, `run_mutation_api_authz.py` |
 | Structured JSON-lines logging | `core/logging.py` | `test_structured_logging.py` |
@@ -44,38 +48,40 @@ Each security control is a single contract in its own file. Full specs in `docs/
 ### Security hardening sprint (SDD+TDD+BDD)
 
 Applied security fixes with BDD-style tests. Two test suites cover the hardening.
-Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py -v`
+Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py tests/test_security_hardening_v4.py -v`
 Mutation testing: `mutmut run` (122/228 killed, 53.5% kill rate on `core/hardening.py`)
 
-**v3 — Centralized security module** (`core/hardening.py`):
-- `safe_subprocess_run` — shell=False enforced, null-byte rejection, timeout propagation
-- `safe_clipboard_copy` — XSS sanitization, subprocess list-form (no shell=True)
-- `set_sshpass_env` / `build_sshpass_command` — sshpass -e via env var (no -p credentials)
-- `escape_html_content` — HTML entity escaping for C2 banner and templates
-- `safe_path_join` — joins components, raises ValueError if result escapes base
-- `validate_network_cidr` — CIDR format whitelist
-- `validate_port_spec` — port specification validation
-- `validate_host` — hostname/IP validation
-- `require_encryption_key` — ENCRYPTION_KEY env var required, no fallback
-- `defused_xml_parse` — defused XML parsing wrapper
-- `sanitize_filename` — path-traversal-safe filename generation
+**v4 — Command execution hardening** (`core/safe_exec.py`):
+- `safe_system` — rejects shell metacharacters (`;`, `|`, `` ` ``, `$()`) before execution
+- `safe_run_argv` — shell=False enforced, null-byte rejection
+- `safe_run_shell` — gated by `allow=True` + reason, audited
+- `safe_clear_screen` — tput/ANSI escapes, never os.system
+- `validate_url` — rejects shell metacharacters in URLs, enforces http/https scheme
+- `safe_git_clone` — validates URL + subprocess list-form (no os.system)
+- `safe_ip_show` — parses `ip a show` output in Python (no shell pipes)
+- `safe_find_tool` — replaces hardcoded paths with shutil.which
+- `safe_file_read` — size-limited file reading
+
+**v4 — Files hardened:**
 
 | Fix | File | What changed |
 |-----|------|-------------|
-| SQL injection prevention | `modules/db.py` | `VALID_TABLES` frozenset; `export_csv` rejects unknown table names |
-| LIKE escape injection | `modules/db.py` | `host_find` escapes `%`, `_`, `\` with `ESCAPE '\\'` |
-| Timing-safe auth | `lazyc2.py` | `check_auth` uses `hmac.compare_digest` instead of `==` |
-| SafeRunner shell=False | `core/safe_subprocess.py` | `run_shell` now uses `subprocess.run(argv, shell=False)` |
-| pickle removed | `utils.py` | `import pickle` deleted (RCE vector) |
-| Hardcoded secrets removed | `utils.py` | Caldera config uses `secrets.token_hex` / `secrets.token_urlsafe` |
-| Credential encryption at rest | `modules/phishing_orchestrator.py` | Passwords encrypted via AES-256-GCM; ENCRYPTION_KEY mandatory (no fallback) |
-| XSS in C2 banner | `lazyc2.py` | `html.escape()` applied to banner table data |
-| SSH credential injection | `cli/commands/command_and_control_migrated.py`, `lateral_migrated.py`, `exfiltration.py`, `persist_migrated.py` | All `sshpass -p` replaced with `sshpass -e` + `SSHPASS` env var |
-| shell=True eliminated | `cli/commands/anti_forensics.py`, `cli/commands/pivoting.py` | subprocess list-form + `validate_host()` for remote targets |
-| ICMP command injection | `modules/icmp_server.py` | `subprocess.run(cmd, shell=True)` replaced with `shlex.split` + `shell=False` |
-| Resource script injection | `modules/resource_script.py` | `shell=True` replaced with `subprocess.run(shlex.split(...), shell=False)` |
-| os.system clipboard XSS | `cli/commands/persist_migrated.py` | `os.system("xsel")` replaced with `safe_clipboard_copy()` |
-| os.system cloud injection | `cli/commands/cloud.py` | `os.system(cmd)` replaced with `safe_subprocess_run()` |
+| URL injection prevention | `poc_tui/plugin_loader.py` | `_validate_clone_url` rejects metacharacters; git clone uses subprocess list-form |
+| os.system eliminated | `modules/morse.py` | 7x `os.system("clear")` replaced with `subprocess.run(["tput", "reset"])` |
+| os.system eliminated | `modules/c2_builder.py` | Beacon encryption uses Python-native file I/O; tunnel URL uses regex |
+| os.system eliminated | `modules/bot.py` | `os.system("cat ... | gum format")` replaced with subprocess |
+| os.system eliminated | `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py` | `os.system("clear")` replaced with tput |
+| shell=False enforced | `lazyc2.py` | `execute_command` uses `shlex.split` + `shell=False` |
+| os.system eliminated | `cli/commands/recon_migrated.py` | PATH setup uses Python file operations |
+| os.system eliminated | `cli/commands/misc_migrated.py` | IP display uses subprocess list-form; graphviz uses subprocess list-form |
+| shell=True eliminated | `modules/dpapi_harvester.py` | 4x `shell=True` removed from Windows commands |
+| shell=True eliminated | `modules/edr_detector.py` | 3x `shell=True` removed from Windows commands |
+| Injection prevention | `modules/conditional_hooks.py` | `shlex.quote` applied to all placeholder values before shell insertion |
+| Hardcoded paths removed | `telegram_hermes.py` | Shebang changed to `#!/usr/bin/env python3` |
+| Hardcoded paths removed | `modules/c2_builder.py` | Go binary found via `Path.home()` instead of hardcoded paths |
+| Hardcoded paths removed | `cli/commands/anti_forensics.py` | 8x `/root/.*` replaced with `Path.home() / ".*"` |
+| Hardcoded paths removed | `cli/commands/persist_migrated.py` | `/home/grisun0/` replaced with `/tmp/` |
+| Hardcoded paths removed | `cli/commands/exfiltration.py`, `cli/commands/postexp_migrated.py` | `/root/root.txt` replaced with relative path |
 
 ## 0.2 Non-negotiable: user input is hostile
 

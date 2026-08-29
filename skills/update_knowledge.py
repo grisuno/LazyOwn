@@ -9,7 +9,7 @@ Usage:
     python3 skills/update_knowledge.py [--train] [--min-rows N]
 
 Suitable for cron / post-op automation:
-    0 * * * * python3 /opt/LazyOwn/skills/update_knowledge.py --train 2>&1
+    0 * * * * python3 $(dirname "$0")/update_knowledge.py --train 2>&1
 """
 
 from __future__ import annotations

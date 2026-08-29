@@ -588,22 +588,23 @@ def get_network_info():
              are their associated IP addresses.
     :rtype: dict
     """
-    command = (
-        'ip a show scope global | '
-        'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
-        '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
-    )
-    result = subprocess.run(command, shell=True, capture_output=True, text=True)
+    command = ['ip', 'a', 'show', 'scope', 'global']
+    result = subprocess.run(command, capture_output=True, text=True)
     output = result.stdout.strip()
     network_info = {}
+    current_iface = None
 
     for line in output.split('\n'):
-        parts = line.split(maxsplit=1)
-        if len(parts) == 2:
-            iface, ip = parts
-            network_info[iface] = ip
-        else:
-            print_error(f"Unexpected format in line: '{line}'")
+        import re
+        iface_match = re.match(r'^[0-9]+:\s+(\S+?):', line)
+        if iface_match:
+            current_iface = iface_match.group(1)
+            continue
+        if current_iface and line.strip().startswith('inet '):
+            parts = line.strip().split()
+            if len(parts) >= 2:
+                addr = parts[1].split('/')[0]
+                network_info[current_iface] = addr
 
     return network_info
 
@@ -1888,9 +1889,18 @@ def ensure_tmux_session(session_name):
 
     if result.returncode != 0:
         q = shlex.quote(session_name)
-        command = f"tmux has-session -t {q} 2>/dev/null || tmux new-session -d -s {q} './run --no-banner' && tmux attach -t {q}"
-        print_msg(command)
-        subprocess.run(command, shell=True, check=False)
+        subprocess.run(
+            ["tmux", "has-session", "-t", session_name],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        )
+        subprocess.run(
+            ["tmux", "new-session", "-d", "-s", session_name, "./run --no-banner"],
+            check=False
+        )
+        subprocess.run(
+            ["tmux", "attach", "-t", session_name],
+            check=False
+        )
 
 def get_xml(directory):
     """

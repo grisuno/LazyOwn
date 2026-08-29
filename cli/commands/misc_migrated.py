@@ -2607,7 +2607,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
     def do_banner(self, line):
         """Show the banner"""
         if NOBANNER is False:
-            os.system("python3 banner.py")
+            subprocess.run(["python3", "banner.py"], check=False)
             print_msg(
                 f"    {BG_BLACK}{RED}{BANNER}{MAGENTA}Autor: {CYAN}grisUN0{RESET}"
             )
@@ -2698,7 +2698,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
         It checks if a command is provided, prints a message indicating the command being executed, and then
-        runs the command using `os.system`.
+        runs the command using subprocess.run with output capture.
 
         Usage:
             sh <command>
@@ -2720,7 +2720,13 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             print_error("You must pass the command linke argument")
             return
 
-        os.system(f"{line}")
+        result = subprocess.run(
+            line, shell=True, capture_output=True, text=True,
+        )
+        if result.stdout:
+            print_msg(result.stdout)
+        if result.stderr:
+            print_error(result.stderr)
         return
 
     @cmd2.with_category("12. Miscellaneous")

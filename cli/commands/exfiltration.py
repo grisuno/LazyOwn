@@ -1172,7 +1172,7 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
             None.
         """
         if not line:
-            print_error("Need pass the remote path to file to use this command example: download_c2 /root/root.txt")
+            print_error("Need pass the remote path to file to use this command example: download_c2 root.txt")
             return
         self.download_file_from_c2(line)
 

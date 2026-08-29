@@ -112,15 +112,24 @@ def _decrypt_credential(encrypted_b64: str) -> str:
 
 
 def _hash_credential_for_log(plaintext: str) -> str:
-    """Return a truncated SHA-256 hash suitable for audit logs.
+    """Return a keyed HMAC-SHA-256 fingerprint truncated for audit logs.
+
+    Uses the derived credential key as the HMAC secret so the digest is
+    stable per engagement but cannot be brute-forced without the key.
 
     Args:
         plaintext: The plaintext credential.
 
     Returns:
         Truncated hex digest for logging without exposing the credential.
+
+    Raises:
+        RuntimeError: If no encryption key is configured.
     """
-    digest = hashlib.sha256(_CREDENTIAL_SALT + plaintext.encode("utf-8")).hexdigest()
+    import hmac
+
+    key = _derive_credential_key()
+    digest = hmac.new(key, plaintext.encode("utf-8"), hashlib.sha256).hexdigest()
     return digest[:_CREDENTIAL_HASH_LENGTH]
 
 

@@ -9,6 +9,7 @@ tenant-bound API authorization via ``core.api_authz.require_api_auth``.
 
 from __future__ import annotations
 
+import logging
 import time
 from dataclasses import dataclass
 from typing import Any
@@ -16,6 +17,8 @@ from typing import Any
 from flask import Blueprint, current_app, g, jsonify
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
+
+logger = logging.getLogger("lazyc2.blueprints.api")
 
 
 @dataclass
@@ -59,7 +62,8 @@ def _health_status(config: HealthConfig | None = None) -> dict[str, Any]:
         else:
             result["components"]["database"] = "unavailable"
     except Exception as exc:
-        result["components"]["database"] = f"error: {exc}"
+        logger.exception("health check: database probe failed")
+        result["components"]["database"] = "error"
 
     beacon_count = 0
     try:
@@ -76,7 +80,8 @@ def _health_status(config: HealthConfig | None = None) -> dict[str, Any]:
             result["components"]["listeners"] = "unavailable"
             result["components"]["beacons"] = "unavailable"
     except Exception as exc:
-        result["components"]["listeners"] = f"error: {exc}"
+        logger.exception("health check: listener probe failed")
+        result["components"]["listeners"] = "error"
         result["components"]["beacons"] = "unavailable"
 
     if beacon_count <= config.degraded_threshold_beacons:

@@ -2518,6 +2518,26 @@ USER_DATA_PATH = 'users.json'
 ENV = _env_tag()
 
 
+def _persist_bootstrap_password(prefix: str, password: str) -> None:
+    """Persist the one-time admin password to an owner-only file.
+
+    Writes the credential to ``sessions/<prefix>_initial_admin.txt`` with
+    restrictive permissions instead of echoing it to the console, which may
+    be captured by terminal scrollback or process logging.
+
+    Args:
+        prefix: Logging/identifier prefix (``rbac`` or ``users``).
+        password: The one-time admin password to persist.
+    """
+    ensure_sessions_dir()
+    path = Path("sessions") / f"{prefix}_initial_admin.txt"
+    path.write_text(f"admin / {password}\n", encoding="utf-8")
+    os.chmod(path, stat.S_IRUSR | stat.S_IWUSR)
+    logger.info("[%s] Initial admin password persisted to %s", prefix, path)
+    print(f"[{prefix}] Initial admin created; password written to: {path}")
+    print(f"[{prefix}] You will be forced to change it on first login.")
+
+
 def _bootstrap_initial_admin() -> None:
     """Create the initial admin account only on a truly fresh install.
 
@@ -2574,9 +2594,7 @@ def _bootstrap_initial_admin() -> None:
         )
         admin.must_change_password = True
         _rbac_store.save(admin)
-        print("[rbac] Initial admin created with a random one-time password:")
-        print(f"[rbac]     admin / {one_time_password}")
-        print("[rbac] You will be forced to change it on first login.")
+        _persist_bootstrap_password("rbac", one_time_password)
         return
     from lazyc2.extensions.users import load_users, save_users
     if load_users():
@@ -2603,9 +2621,7 @@ def _bootstrap_initial_admin() -> None:
             }
         ]
     )
-    print("[users] Initial admin created with a random one-time password:")
-    print(f"[users]     admin / {one_time_password}")
-    print("[users] You will be forced to change it on first login.")
+    _persist_bootstrap_password("users", one_time_password)
 
 
 if _RBAC_AVAILABLE:

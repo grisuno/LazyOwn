@@ -955,6 +955,25 @@ auto-pauses after `max_steps` chained commands. State persists in
 - Structured ELO sync honours redirected user-store paths and tests are
   host-login independent.
 
+### Security Hardening (SDD+TDD+BDD)
+
+Centralized security primitives in `core/hardening.py` with 48 BDD-style tests
+(`tests/test_security_hardening_v3.py`). Run with:
+```bash
+pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py -v
+mutmut run  # 122/228 killed, 53.5% kill rate on core/hardening.py
+```
+
+**Key fixes applied:**
+- `shell=True` eliminated from `anti_forensics.py`, `pivoting.py`, `icmp_server.py`, `resource_script.py`, `command_executor.py`, `postexp_migrated.py` (22 instances)
+- `os.system()` eliminated from `persist_migrated.py`, `cloud.py`, `lazyown.py` (4 instances), `misc_migrated.py`
+- `os.popen()` eliminated from `websocket_beacon.py`, `evasive_payload.py`
+- `sshpass -p` replaced with `sshpass -e` + env var across 4 files (C2, lateral, exfil, persist)
+- Hardcoded encryption key removed from `phishing_orchestrator.py` (ENCRYPTION_KEY mandatory)
+- XSS in C2 banner fixed with `html.escape()`
+- Command injection via rhost in clipboard fixed with `safe_clipboard_copy()`
+- cmd2 `CMD_ATTR_HELP_CATEGORY` renamed to `COMMAND_ATTR_HELP_CATEGORY` (cmd2 4.2.2 compat)
+
 ---
 
 ## Command Capabilities

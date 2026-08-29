@@ -1376,20 +1376,37 @@ class LazyOwnShell(cmd2.Cmd):
         start_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         start_monotonic = time.monotonic()
         if NOLOGS:
-            exit_code = subprocess.call(command, shell=True)
+            if any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$(')):
+                exit_code = subprocess.call(["bash", "-c", command])
+            else:
+                exit_code = subprocess.call(shlex.split(command))
         else:
             safe_cmd_name = os.path.basename(cmd_name)
             safe_domain = re.sub(r"[^A-Za-z0-9._-]", "_", domain) if domain else "unknown"
             path_command = (
                 f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
             )
-            quoted_path = shlex.quote(path_command)
-            exit_code = subprocess.call(
-                f"{command} | tee {quoted_path}", shell=True
-            )
-            if os.path.exists(path_command):
-                with open(path_command, "r") as file:
-                    self.output = f"{cmd_name} {command} {file.read()}"
+            with open(path_command, "w") as log_file:
+                if any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$(')):
+                    proc = subprocess.Popen(
+                        ["bash", "-c", command],
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                    )
+                else:
+                    proc = subprocess.Popen(
+                        shlex.split(command),
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.STDOUT,
+                        text=True,
+                    )
+                for line in proc.stdout:
+                    sys.stdout.write(line)
+                    sys.stdout.flush()
+                    log_file.write(line)
+                    log_file.flush()
+                exit_code = proc.wait()
         duration_ms = int((time.monotonic() - start_monotonic) * 1000)
         end_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.logcsv(
@@ -4465,7 +4482,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         code_c = os.path.join(path, selected_file)
         code_asm = code_c.replace(".c", ".asm")
-        os.system(f"gcc -S -o {code_asm} {code_c}")
+        subprocess.run(["gcc", "-S", "-o", code_asm, code_c])
 
         with open(code_c, 'r') as f:
             c_code = f.readlines()
@@ -4733,7 +4750,7 @@ class LazyOwnShell(cmd2.Cmd):
         if confirm == 'l':
             for cmd in remote_cmds:
                 self.display_toastr(cmd)
-                subprocess.run(cmd + " 2>/dev/null", shell=True)
+                subprocess.run(shlex.split(cmd), capture_output=True)
                 time.sleep(1)
         elif confirm == 'r':
             for cmd in remote_cmds:
@@ -4876,24 +4893,20 @@ def main():
     old = startup_ns.old_banner
     if startup_ns.command:
         cmd = startup_ns.command
-        os.system(
-            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-        )
+        subprocess.run(['ip', 'a', 'show', 'scope', 'global'])
         p.onecmd('ipp')
         p.onecmd("p")
         p.onecmd(cmd)
         p.cmdloop()
     elif startup_ns.payload:
         payload = startup_ns.payload
-        os.system(
-            'ip a show scope global | awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } /^[[:space:]]*inet / { split($2, a, "/"); print "    [\033[96m" iface"\033[0m] "a[1] }\''
-        )
+        subprocess.run(['ip', 'a', 'show', 'scope', 'global'])
         p.onecmd(f'payload {payload}')
         p.onecmd('ipp')
 
     if NOBANNER is False:
         if not old:
-            os.system("python3 banner.py")
+            subprocess.run([sys.executable, "banner.py"])
         print(
             f"    {RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
         )

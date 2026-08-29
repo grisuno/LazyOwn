@@ -2241,7 +2241,8 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         else:
             self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{YELLOW}[{MAGENTA}{self.params['rhost']}{YELLOW}][{BLUE}{url}{YELLOW}]")
             self.prompt = f"{self.custom_prompt}"
-            os.system(f"printf '{self.params['rhost']}' | xclip -sel clip")
+            from core.hardening import safe_clipboard_copy
+            safe_clipboard_copy(self.params.get('rhost', ''))
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")
         return
 

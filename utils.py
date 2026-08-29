@@ -2161,7 +2161,7 @@ def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
         if r.status_code == 200:
             results.append([user + '@' + domain, 'Success', password])
             if verbose:
-                print(user + "@" + domain + "\t\t:: " + password)
+                print(user + "@" + domain + "\t\t:: success")
             continue
 
         for code in AD_codes:
@@ -2288,6 +2288,9 @@ def create_caldera_config(file_path):
     encryption_key = secrets.token_hex(16)
     crypt_salt = secrets.token_hex(16)
     ftp_password = secrets.token_urlsafe(16)
+    blue_password = secrets.token_urlsafe(16)
+    red_admin_password = secrets.token_urlsafe(16)
+    red_password = secrets.token_urlsafe(16)
 
     config_content = f"""
 ability_refresh: 60
@@ -2349,15 +2352,16 @@ requirements:
     version: 3.12.7
 users:
   blue:
-    blue: lazyownblueadmin
+    blue: {blue_password}
   red:
-    admin: lazyownredteamtheadmin
-    red: lazyownredteamadmin
+    admin: {red_admin_password}
+    red: {red_password}
 """
 
     try:
         with open(file_path, 'w') as file:
             file.write(config_content)
+        os.chmod(file_path, 0o600)
         print_msg(f"Configuration file created successfully at {file_path}")
     except Exception as e:
         print_error(f"Error creating configuration file: {e}")

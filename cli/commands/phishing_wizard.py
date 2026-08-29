@@ -10,6 +10,7 @@ from __future__ import annotations
 import datetime
 import json
 import os
+import secrets
 import shlex
 import smtplib
 import time
@@ -20,6 +21,12 @@ from email.mime.text import MIMEText
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from modules.phishing_orchestrator import (
+    SESSIONS_DIR,
+    _decrypt_credential,
+    _encrypt_credential,
+    _hash_credential_for_log,
+)
 from utils import (
     print_error,
     print_msg,
@@ -479,7 +486,11 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
                 creds = json.load(f)
         print_msg(f"\nCredentials captured: {len(creds)}")
         for c in creds[:20]:
-            print_msg(f"  {c.get('email')} : {c.get('password')}")
+            try:
+                password = _decrypt_credential(c.get("password", ""))
+            except (ValueError, RuntimeError):
+                password = "<undecryptable>"
+            print_msg(f"  {c.get('email')} : {password}")
 
         if creds:
             use = input("\n    [!] Use first captured credential for further attacks? (y/N): ").strip().lower()
@@ -487,9 +498,13 @@ class PhishingWizardCommandSet(LazyOwnCommandSet):
                 first = creds[0]
                 from utils import lazyown_set_config
 
+                try:
+                    plain_password = _decrypt_credential(first.get("password", ""))
+                except (ValueError, RuntimeError):
+                    plain_password = ""
                 lazyown_set_config("domain_user", first.get("email", ""))
-                lazyown_set_config("domain_pass", first.get("password", ""))
-                print_msg(f"Set domain_user={first.get('email')} domain_pass={first.get('password')}")
+                lazyown_set_config("domain_pass", plain_password)
+                print_msg(f"Set domain_user={first.get('email')} domain_pass={plain_password}")
 
 
 def _profile_targets(domain: str) -> list[str]:
@@ -533,8 +548,26 @@ def _log_click(campaign_dir: str, ip: str, user_agent: str) -> None:
         json.dump(clicks, f, indent=2)
 
 
+def _ensure_session_key() -> None:
+    """Provision a machine-local secret key for credential encryption.
+
+    Creates ``sessions/.secret_key`` with owner-only permissions when it is
+    absent so the CLI campaign can encrypt harvested credentials without a
+    pre-existing C2 bootstrap.
+
+    Returns:
+        None
+    """
+    secret_path = SESSIONS_DIR / ".secret_key"
+    if secret_path.exists():
+        return
+    secret_path.parent.mkdir(parents=True, exist_ok=True)
+    secret_path.write_text(secrets.token_hex(64), encoding="utf-8")
+    os.chmod(secret_path, 0o600)
+
+
 def _log_credentials(campaign_dir: str, email: str, password: str, ip: str) -> None:
-    """Log captured credentials.
+    """Log captured credentials encrypted at rest and hashed in the audit log.
 
     Args:
         campaign_dir: Campaign directory path.
@@ -542,19 +575,28 @@ def _log_credentials(campaign_dir: str, email: str, password: str, ip: str) -> N
         password: Captured password.
         ip: Source IP address.
     """
+    _ensure_session_key()
     creds_path = os.path.join(campaign_dir, "credentials.json")
     creds = []
     if os.path.exists(creds_path):
         with open(creds_path) as f:
             creds = json.load(f)
-    creds.append({"email": email, "password": password, "ip": ip, "timestamp": datetime.datetime.now().isoformat()})
+    creds.append(
+        {
+            "email": email,
+            "password": _encrypt_credential(password),
+            "ip": ip,
+            "timestamp": datetime.datetime.now().isoformat(),
+        }
+    )
     with open(creds_path, "w") as f:
         json.dump(creds, f, indent=2)
+    os.chmod(creds_path, 0o600)
 
-    global_creds_path = "sessions/phishing_credentials.txt"
+    global_creds_path = os.path.join(SESSIONS_DIR, "phishing_credentials.txt")
     with open(global_creds_path, "a") as f:
         f.write(
-            f"{datetime.datetime.now().isoformat()} | {email} | {password} | {campaign_dir.split('_')[-1] if '_' in campaign_dir else campaign_dir}\n"
+            f"{datetime.datetime.now().isoformat()} | {email} | {_hash_credential_for_log(password)} | {campaign_dir.split('_')[-1] if '_' in campaign_dir else campaign_dir}\n"
         )
 
 

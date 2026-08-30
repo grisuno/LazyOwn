@@ -12,7 +12,7 @@ aiosmtpd==1.4.6
 aiowinreg==0.0.13
 annotated-types==0.7.0
 antlr4-python3-runtime==4.13.2
-anyio==4.13.0
+anyio==4.14.2
 argcomplete==3.7.2
 argon2-cffi-bindings==25.1.0
 argon2-cffi==25.1.0

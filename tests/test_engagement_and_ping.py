@@ -27,6 +27,29 @@ sys.path.insert(0, str(REPO))
 sys.path.insert(0, str(REPO / "skills"))
 
 
+def _command_location(name: str) -> tuple[str, str]:
+    """Return ``(fragment, module_source)`` for a ``do_<name>`` command.
+
+    Commands may live in ``lazyown.py`` or any migrated module under
+    ``cli/commands/``, so the lookup scans every CLI source in 1st party
+    order.
+    """
+    sources = [REPO / "lazyown.py"]
+    sources.extend(sorted((REPO / "cli" / "commands").glob("*.py")))
+    for path in sources:
+        if not path.is_file():
+            continue
+        src = path.read_text(encoding="utf-8")
+        start = src.find(f"def {name}(self")
+        if start == -1:
+            continue
+        end = src.find("\n    @cmd2", start)
+        if end == -1:
+            end = len(src)
+        return src[start:end], src
+    return "", ""
+
+
 # ══════════════════════════════════════════════════════════════════════════════
 # Engagement hooks
 # ══════════════════════════════════════════════════════════════════════════════
@@ -299,11 +322,7 @@ class TestPingOsId:
 
     def test_ping_persists_via_apply_assign(self):
         """do_ping must call _apply_assign so os_id survives restart."""
-        with open("lazyown.py") as f:
-            src = f.read()
-        start = src.find("def do_ping(self, line):")
-        end = src.find("\n    @cmd2", start)
-        fragment = src[start:end]
+        fragment, _ = _command_location("do_ping")
         assert "_apply_assign" in fragment, "do_ping must use _apply_assign to persist os_id"
         assert "_save_payload" in fragment, "do_ping must pass _save_payload to persist"
         assert 'id": \'2\'' not in fragment or "Windows" in fragment, \
@@ -440,21 +459,13 @@ class TestRecommendNextCommandIndex:
 
     def test_rule_not_used_without_import(self):
         """Rule from rich must be imported if used in do_recommend_next."""
-        with open("lazyown.py") as f:
-            src = f.read()
-        start = src.find("def do_recommend_next(self, line):")
-        end = src.find("\n    @cmd2", start)
-        fragment = src[start:end]
+        fragment, src = _command_location("do_recommend_next")
         if "Rule(" in fragment:
             assert "from rich.rule import Rule" in src or "from rich import" in src, \
                 "Rule is used in do_recommend_next but not imported"
 
     def test_fallback_message_present(self):
         """When no data: must show a useful fallback, not crash."""
-        with open("lazyown.py") as f:
-            src = f.read()
-        start = src.find("def do_recommend_next(self, line):")
-        end = src.find("\n    @cmd2", start)
-        fragment = src[start:end]
+        fragment, _ = _command_location("do_recommend_next")
         assert "No recommendations" in fragment or "lazynmap" in fragment, \
             "do_recommend_next must have a fallback message"

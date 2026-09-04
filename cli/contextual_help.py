@@ -102,23 +102,64 @@ def _build_command_lookup(index: dict[str, Any]) -> dict[str, dict[str, Any]]:
     return lookup
 
 
-_CREDS_COMMANDS = frozenset({
-    "evil", "psexec", "secretsdump", "bloodhound", "cme", "enum4linux",
-    "hashcat", "john", "hydra", "medusa", "spraykatz", "ssh_cmd",
-    "wmiexec", "getnpusers", "kerberoasting",
-})
+_CREDS_COMMANDS = frozenset(
+    {
+        "evil",
+        "psexec",
+        "secretsdump",
+        "bloodhound",
+        "cme",
+        "enum4linux",
+        "hashcat",
+        "john",
+        "hydra",
+        "medusa",
+        "spraykatz",
+        "ssh_cmd",
+        "wmiexec",
+        "getnpusers",
+        "kerberoasting",
+    }
+)
 
-_RHOST_REQUIRED = frozenset({
-    "lazynmap", "batchnmap", "auto_populate", "facts_show", "gobuster",
-    "ffuf", "nikto", "dirsearch", "nuclei", "nmap", "masscan",
-    "enum4linux", "cme", "evil", "psexec", "ssh_cmd", "scp",
-    "linpeas", "winpeas", "ss", "ww", "finalrecon", "sqlmap",
-})
+_RHOST_REQUIRED = frozenset(
+    {
+        "lazynmap",
+        "batchnmap",
+        "auto_populate",
+        "facts_show",
+        "gobuster",
+        "ffuf",
+        "nikto",
+        "dirsearch",
+        "nuclei",
+        "nmap",
+        "masscan",
+        "enum4linux",
+        "cme",
+        "evil",
+        "psexec",
+        "ssh_cmd",
+        "scp",
+        "linpeas",
+        "winpeas",
+        "ss",
+        "ww",
+        "finalrecon",
+        "sqlmap",
+    }
+)
 
-_DOMAIN_REQUIRED = frozenset({
-    "bloodhound", "cme", "ldapdomaindump", "getnpusers",
-    "nxcridbrute", "enum4linux",
-})
+_DOMAIN_REQUIRED = frozenset(
+    {
+        "bloodhound",
+        "cme",
+        "ldapdomaindump",
+        "getnpusers",
+        "nxcridbrute",
+        "enum4linux",
+    }
+)
 
 
 class ContextualHelp:
@@ -148,9 +189,7 @@ class ContextualHelp:
         if info is None:
             return None
 
-        aliases = tuple(
-            a for a, target in self._aliases.items() if target == name
-        )
+        aliases = tuple(a for a, target in self._aliases.items() if target == name)
 
         return CommandInfo(
             name=name,
@@ -208,11 +247,13 @@ class ContextualHelp:
             for tip in tips:
                 parts.append(f"  [dim]-[/] {tip}")
 
-        _console.print(Panel(
-            "\n".join(parts),
-            title=f"[bold cyan]{name}[/]",
-            border_style="cyan",
-        ))
+        _console.print(
+            Panel(
+                "\n".join(parts),
+                title=f"[bold cyan]{name}[/]",
+                border_style="cyan",
+            )
+        )
         return True
 
     def render_phase_commands(self, phase: str) -> None:

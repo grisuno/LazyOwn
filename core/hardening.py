@@ -24,7 +24,6 @@ import html
 import logging
 import os
 import re
-import shlex
 import subprocess
 from collections.abc import Sequence
 from pathlib import Path
@@ -100,9 +99,7 @@ def safe_clipboard_copy(content: str) -> bool:
         SecurityViolation: If content exceeds MAX_CLIPBOARD_CONTENT_LENGTH.
     """
     if len(content) > MAX_CLIPBOARD_CONTENT_LENGTH:
-        raise SecurityViolation(
-            f"Clipboard content exceeds {MAX_CLIPBOARD_CONTENT_LENGTH} bytes"
-        )
+        raise SecurityViolation(f"Clipboard content exceeds {MAX_CLIPBOARD_CONTENT_LENGTH} bytes")
     for tool, args in [
         ("xclip", ["-sel", "clip"]),
         ("xsel", ["--clipboard", "--input"]),
@@ -208,9 +205,7 @@ def safe_path_join(base_dir: str, user_path: str) -> str:
     allowed = os.path.realpath(base_dir)
     candidate = os.path.realpath(os.path.join(allowed, user_path))
     if not candidate.startswith(allowed + os.sep) and candidate != allowed:
-        raise SecurityViolation(
-            f"Path traversal blocked: {user_path} resolves outside {base_dir}"
-        )
+        raise SecurityViolation(f"Path traversal blocked: {user_path} resolves outside {base_dir}")
     return candidate
 
 
@@ -308,10 +303,7 @@ def defused_xml_parse(source: str | Path) -> Any:
     try:
         import defusedxml.ElementTree as ET
     except ImportError:
-        raise ImportError(
-            "defusedxml is required for safe XML parsing. "
-            "Install with: pip install defusedxml"
-        )
+        raise ImportError("defusedxml is required for safe XML parsing. Install with: pip install defusedxml")
     if isinstance(source, (str, Path)) and os.path.isfile(source):
         return ET.parse(source)
     return ET.fromstring(str(source))

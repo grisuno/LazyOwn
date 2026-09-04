@@ -123,11 +123,7 @@ class ConfigStatus:
             _console.print(table)
             _console.print()
 
-        summary = (
-            f"[green]{total_ok} set[/] | "
-            f"[yellow]{total_warn} recommended[/] | "
-            f"[red]{total_unset} unset[/]"
-        )
+        summary = f"[green]{total_ok} set[/] | [yellow]{total_warn} recommended[/] | [red]{total_unset} unset[/]"
         _console.print(Panel(summary, title="[bold]Configuration summary[/]", border_style="cyan"))
 
     def render_quick_check(self) -> None:
@@ -142,10 +138,12 @@ class ConfigStatus:
                         missing.append(f"  [red]{key}[/] -- {hint}")
 
         if missing:
-            _console.print(Panel(
-                "\n".join(missing),
-                title="[bold red]Required fields not set[/]",
-                border_style="red",
-            ))
+            _console.print(
+                Panel(
+                    "\n".join(missing),
+                    title="[bold red]Required fields not set[/]",
+                    border_style="red",
+                )
+            )
         else:
             _console.print("[green]All required fields are configured.[/]")

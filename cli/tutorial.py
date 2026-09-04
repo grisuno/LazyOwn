@@ -149,17 +149,14 @@ def run_step(
     """
     rhost = params.get("rhost", "")
     _console.print()
-    _console.print(
-        f"[bold yellow]Step {index}/5[/] -- [bold green]{command}[/]"
-    )
+    _console.print(f"[bold yellow]Step {index}/5[/] -- [bold green]{command}[/]")
     _console.print(f"  {description}")
     _console.print(f"  [dim]{why}[/]")
     _console.print()
 
     if command in ("ping", "lazynmap", "auto_populate") and not rhost:
         _console.print(
-            "  [bold red]rhost is not set.[/] Run [bold cyan]assign rhost <IP>[/] "
-            "before continuing the tutorial."
+            "  [bold red]rhost is not set.[/] Run [bold cyan]assign rhost <IP>[/] before continuing the tutorial."
         )
         _console.print()
         return True

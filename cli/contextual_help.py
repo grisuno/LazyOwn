@@ -20,25 +20,11 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
+from cli.phase_labels import PHASE_LABELS
+
 _console = Console(highlight=False, soft_wrap=True)
 
 COMMAND_INDEX_PATH = Path("cli/command_index.json")
-
-PHASE_LABELS: dict[str, str] = {
-    "recon": "Reconnaissance",
-    "enum": "Enumeration",
-    "exploit": "Exploitation",
-    "postexp": "Post-Exploitation",
-    "persist": "Persistence",
-    "privesc": "Privilege Escalation",
-    "cred": "Credential Access",
-    "lateral": "Lateral Movement",
-    "exfil": "Exfiltration",
-    "c2": "Command & Control",
-    "report": "Reporting",
-    "misc": "Miscellaneous",
-    "uncategorized": "Uncategorized",
-}
 
 PHASE_TIPS: dict[str, tuple[str, ...]] = {
     "recon": (

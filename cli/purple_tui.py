@@ -15,9 +15,6 @@ Layout:
 from __future__ import annotations
 
 import json
-import os
-import sys
-from dataclasses import asdict
 from pathlib import Path
 from typing import Any
 
@@ -39,8 +36,7 @@ def _load_score() -> dict[str, Any]:
             return json.loads(_SCORE_FILE.read_text())
         except Exception:
             pass
-    return {"total": 0, "detected": 0, "missed": 0, "score": 0.0,
-            "by_category": {}, "by_method": {}}
+    return {"total": 0, "detected": 0, "missed": 0, "score": 0.0, "by_category": {}, "by_method": {}}
 
 
 def _load_recent_results(n: int = 15) -> list[dict[str, Any]]:
@@ -177,16 +173,18 @@ class PurpleDashboard(App):
     def _render_actions(self, results: list) -> None:
         panel = self.query_one("#actions-panel")
         if not results:
-            panel.update(Text.from_markup(
-                "[bold]RECENT ACTIONS[/bold]\n\n"
-                "  [dim]No actions recorded yet.[/dim]\n"
-                "  Run 'purple_exec <command>' to start.\n"
-            ))
+            panel.update(
+                Text.from_markup(
+                    "[bold]RECENT ACTIONS[/bold]\n\n"
+                    "  [dim]No actions recorded yet.[/dim]\n"
+                    "  Run 'purple_exec <command>' to start.\n"
+                )
+            )
             return
 
         lines = ["[bold]RECENT ACTIONS[/bold]\n"]
         lines.append(f"  {'Time':8s}  {'Command':35s}  {'Cat':12s}  {'Oracle':7s}  {'BT':6s}")
-        lines.append(f"  {'-'*72}")
+        lines.append(f"  {'-' * 72}")
 
         for r in reversed(results):
             ts = r.get("timestamp", "")[11:19]
@@ -200,9 +198,7 @@ class PurpleDashboard(App):
             bt_label = "[green]HIT[/green]" if detected else "[dim]miss[/dim]"
             oracle_str = f"{oracle:.0%}"
 
-            lines.append(
-                f"  {ts:8s}  {full_cmd:35s}  {cat:12s}  {oracle_str:7s}  {bt_label}"
-            )
+            lines.append(f"  {ts:8s}  {full_cmd:35s}  {cat:12s}  {oracle_str:7s}  {bt_label}")
 
         panel.update(Text.from_markup("\n".join(lines)))
 
@@ -226,10 +222,10 @@ class PurpleDashboard(App):
 
         lines.append("")
         lines.append("[bold]FILES[/bold]")
-        lines.append(f"  sessions/purple_dataset.csv")
-        lines.append(f"  sessions/purple_audit.jsonl")
-        lines.append(f"  sessions/purple_score.json")
-        lines.append(f"  sessions/detection_feedback.jsonl")
+        lines.append("  sessions/purple_dataset.csv")
+        lines.append("  sessions/purple_audit.jsonl")
+        lines.append("  sessions/purple_score.json")
+        lines.append("  sessions/detection_feedback.jsonl")
 
         panel.update(Text.from_markup("\n".join(lines)))
 

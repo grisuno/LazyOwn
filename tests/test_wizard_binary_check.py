@@ -179,7 +179,7 @@ class TestRunIntegratesBinaryCheck:
         monkeypatch.setattr(wizard, "_print_validation_summary", lambda params: [])
 
         saved: list[tuple] = []
-        params: dict = {}
+        params = {"c2_user": "alice", "c2_pass": "STRONGPASS"}
         result = wizard.run(params, save=lambda k, v: saved.append((k, v)))
         assert captured.get("called") is True
         assert result.saved is True

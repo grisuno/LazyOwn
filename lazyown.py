@@ -94,8 +94,10 @@ from cli.chain_mode import ChainModeConfig as _ChainModeConfig
 from cli.chain_mode import ChainPromptEngine as _ChainPromptEngine
 from cli.chain_mode import LOOP_GUARD_MARGIN as _CHAIN_GUARD_MARGIN
 from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
+from cli.tips_engine import HINTS_LEVEL_ON as _HINTS_LEVEL_ON
 from cli.tips_engine import TipsEngine as _TipsEngine
 from cli.tips_engine import TipsConfig as _TipsConfig
+from cli.tips_engine import UI_HINTS_LEVELS as _UI_HINTS_LEVELS
 from cli.tips_engine import build_default_tips_config as _build_default_tips_config
 from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.event_bus import EventCategory as _EventCategory
@@ -387,9 +389,6 @@ class _PayloadSettableProxy:
     def __setattr__(self, name: str, value: Any) -> None:
         params = object.__getattribute__(self, "_params")
         params[name] = value
-
-
-_UI_HINTS_LEVELS = ("on", "panel", "minimal", "off")
 
 
 class LazyOwnShell(cmd2.Cmd):
@@ -1017,7 +1016,7 @@ class LazyOwnShell(cmd2.Cmd):
         Returns:
             ``data`` unchanged.
         """
-        if self._ui_hints_level() not in ("on", "panel"):
+        if self._ui_hints_level() != _HINTS_LEVEL_ON:
             return data
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
@@ -1056,9 +1055,10 @@ class LazyOwnShell(cmd2.Cmd):
             phase = self.params.get("phase") or ""
             self._maybe_chain_prompt(cmd, phase)
             engine = getattr(self, "_tips_engine", None)
-            if engine is None or self._ui_hints_level() not in ("on", "panel"):
+            if engine is None:
                 return data
             self._sync_chain_active(engine)
+            engine.config.hints_level = self._ui_hints_level()
             engine.render(cmd=cmd, phase=phase)
         except Exception as exc:
             _get_logger("lazyown.ux").debug(

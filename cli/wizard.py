@@ -636,12 +636,12 @@ def _ask_operator_login(params: dict[str, Any], *, tutorial: bool = False) -> di
     Returns:
         Dict with cli_auto_login / cli_remember_token if saved.
     """
-    _console.print("[bold white]Step 8 of 8 — Operator identity (required)[/]")
+    _console.print("[bold white]Step 8 of 8 — Operator identity (optional)[/]")
     _console.print(
-        "  [dim]The CLI needs to know who you are to track ELO, karma, gym progress,[/]\n"
-        "  [dim]and collaboration sessions. Uses the same credentials as the C2 dashboard.[/]"
+        "  [dim]Identify yourself to track ELO, karma, gym progress, and[/]\n"
+        "  [dim]collaboration sessions. Uses the same credentials as the C2 dashboard.[/]"
     )
-    _console.print("  [dim]If you skip this, the prompt will show [anonymous] until you 'login'.[/]")
+    _console.print("  [dim]Skip with Enter to run anonymously — the prompt shows [anonymous] until you 'login'.[/]")
     _console.print()
 
     choice = _prompt("  Do you already have an account? (Y/n): ").strip().lower()
@@ -910,6 +910,7 @@ def _print_next_steps(params: dict[str, Any]) -> None:
     rhost = params.get("rhost")
     _console.print()
     _console.print("[bold cyan]  Suggested next steps:[/]")
+    _console.print("    0. [bold]doctor[/]                     verify the environment is ready")
     if not rhost:
         _console.print("    1. [bold]assign rhost <target-IP>[/]   set your target")
         _console.print("    2. [bold]lazynmap[/]                  full port + service scan")

@@ -84,3 +84,12 @@ Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_co
 ---
 
 
+
+## Usability contracts (ambient coaching, phase labels, doc counts)
+
+- **Coaching levels** — `cli/tips_engine.py` owns `HINTS_LEVEL_ON`/`HINTS_LEVEL_MINIMAL`/`HINTS_LEVEL_OFF` plus `UI_HINTS_LEVELS` and `DEFAULT_UI_HINTS`. `TipsConfig.hints_level` is the engine's state; the shell mirrors `payload.json["ui_hints"]` into it before every `render()`. Semantics: `off` suppresses every surface, `minimal` runs only the autosuggest accelerator (press `.`), `on` runs everything (killchain hints, contextual tips, curiosity reveal, ELO/karma/badges). Unknown values fold to `on`; there is no fourth level. Tests: `tests/test_tips_engine.py::TestHintsLevelGating`.
+- **Phase labels** — `cli/phase_labels.py` owns the canonical `PHASE_LABELS` mapping (keys are the `phase_to_commands` buckets of `cli/command_index.json`) and the `phase_label()` helper. `cli/contextual_help.py` and `cli/tips_engine.py` import it and must never define a divergent local map. Tests: `tests/test_phase_labels.py`.
+- **Doc counts** — `scripts/sync_doc_stats.py` is the doc-number guardian. `canonical_command_count()` reads `cli/command_index.json["totals"]["unique_commands"]` (never re-count the AST independently). `--print` is read-only and returns before writing; `--check` is wired into `.github/workflows/lint.yml`. Tests: `tests/test_sync_doc_stats.py`.
+- **Command index hygiene** — `scripts/build_command_index.py` skips `BaseHTTPRequestHandler` subclasses so exfiltration HTTP verbs (`do_GET`, `do_POST`, `do_OPTIONS`) never surface as operator commands. The goal-oriented discoverability command is `do_command_explorer` (the accidental duplicate `do_explore` was renamed). Tests: `tests/test_command_palette.py`.
+- **Onboarding** — operator identity in `cli/wizard.py` is optional (skip → anonymous); `wizard --quick` auto-detects defaults without prompts; post-wizard next-steps list `doctor` first.
+- **Mutation gate** — `tests/run_mutation_ux_usability.py` reverts each fix above and asserts the matching test kills the mutant.

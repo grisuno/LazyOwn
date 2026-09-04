@@ -27,9 +27,7 @@ from pathlib import Path
 
 log = logging.getLogger("core.safe_exec")
 
-_URL_SAFE_PATTERN = re.compile(
-    r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$"
-)
+_URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
 _SHELL_META_PATTERN = re.compile(r"[;&|`$(){}!\n\r]")
 
@@ -70,9 +68,7 @@ def safe_system(command: str, *, reason: str = "") -> int:
     if not command or not command.strip():
         raise ValueError("command must not be empty")
     if _SHELL_META_PATTERN.search(command):
-        raise CommandInjectionError(
-            f"Shell metacharacters rejected in safe_system: {command[:80]}"
-        )
+        raise CommandInjectionError(f"Shell metacharacters rejected in safe_system: {command[:80]}")
     log.debug("safe_system: %s reason=%s", command[:80], reason)
     result = subprocess.run(
         command,
@@ -147,9 +143,7 @@ def safe_run_shell(
         ValueError: When allow is True but reason is empty.
     """
     if not allow:
-        raise PermissionError(
-            "safe_run_shell requires allow=True with a reason"
-        )
+        raise PermissionError("safe_run_shell requires allow=True with a reason")
     if not reason or not reason.strip():
         raise ValueError("safe_run_shell requires a non-empty reason")
     if not command or not command.strip():
@@ -198,14 +192,10 @@ def validate_url(url: str) -> str:
         raise ValueError("URL must not be empty")
     url = url.strip()
     if _SHELL_META_PATTERN.search(url):
-        raise UrlValidationError(
-            f"Shell metacharacters rejected in URL: {url[:80]}"
-        )
+        raise UrlValidationError(f"Shell metacharacters rejected in URL: {url[:80]}")
     parsed = urllib.parse.urlparse(url)
     if parsed.scheme not in ("http", "https"):
-        raise UrlValidationError(
-            f"URL scheme must be http or https, got: {parsed.scheme}"
-        )
+        raise UrlValidationError(f"URL scheme must be http or https, got: {parsed.scheme}")
     if not parsed.netloc:
         raise UrlValidationError("URL must have a valid hostname")
     return url
@@ -290,6 +280,7 @@ def safe_find_tool(name: str) -> str | None:
         Absolute path to the tool, or None if not found.
     """
     import shutil
+
     return shutil.which(name)
 
 
@@ -312,9 +303,7 @@ def safe_file_read(path: str | Path, *, max_bytes: int = 10 * 1024 * 1024) -> st
         raise FileNotFoundError(f"File not found: {path}")
     size = p.stat().st_size
     if size > max_bytes:
-        raise ValueError(
-            f"File {path} is {size} bytes, exceeds limit {max_bytes}"
-        )
+        raise ValueError(f"File {path} is {size} bytes, exceeds limit {max_bytes}")
     return p.read_text(encoding="utf-8")
 
 

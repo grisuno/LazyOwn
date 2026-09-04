@@ -19,19 +19,22 @@ from core.console import print_error, print_msg
 
 
 def strip_ansi(text: str) -> str:
-    """Remove ANSI escape sequences from a string.
+    """Remove ANSI escape sequences and readline markers from a string.
 
     Handles standard escape codes (``\x1b[...m``), extended unicode
-    escape initiators (``\u001b``, ``\u009b``), and CSI sequences.
+    escape initiators (``\u001b``, ``\u009b``), CSI sequences, and the
+    ``\x01``/``\x02`` (SOH/STX) delimiters that ``render_prompt`` emits
+    so readline can measure prompt width.
 
     Args:
         text: Raw terminal output.
 
     Returns:
-        Clean text without ANSI codes.
+        Clean text without ANSI codes or readline control markers.
     """
     ansi_regex = re.compile(r"[\u001b\u009b][\[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]")
-    return ansi_regex.sub("", text)
+    cleaned = ansi_regex.sub("", text)
+    return cleaned.replace("\x01", "").replace("\x02", "")
 
 
 def clean_output(output: str) -> str:

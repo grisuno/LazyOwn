@@ -75,13 +75,14 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
         if target:
             from core.hardening import validate_host
+
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
             ssh_cmd = ["ssh", f"{user}@{target}"]
             for cmd in commands:
                 full_args = ssh_cmd + [cmd]
-                print_msg(f"  ssh {user}@{target} \"{cmd}\"")
+                print_msg(f'  ssh {user}@{target} "{cmd}"')
                 try:
                     subprocess.run(full_args, shell=False, timeout=15, stderr=subprocess.DEVNULL)
                 except subprocess.TimeoutExpired:
@@ -117,6 +118,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
         if target:
             from core.hardening import validate_host
+
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
@@ -157,7 +159,8 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             if not file_path.startswith("/"):
                 print_error("Remote file paths must be absolute")
                 return
-            from core.hardening import validate_host, SecurityViolation
+            from core.hardening import validate_host
+
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
@@ -199,6 +202,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
         if target:
             from core.hardening import validate_host
+
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
@@ -262,6 +266,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             for cmd in dc_cmds:
                 if auth:
                     from core.hardening import set_sshpass_env
+
                     _env = set_sshpass_env(password)
                     full_args = ["crackmapexec", "smb", target, "-u", user, "-p", password, "-x", cmd]
                 else:

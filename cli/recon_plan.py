@@ -472,15 +472,15 @@ def _payload_target(payload: Mapping[str, Any], config: ReconPlanConfig) -> str:
 
 
 def _resolve_phase(payload: Mapping[str, Any], config: ReconPlanConfig) -> str:
+    raw = payload.get("phase") or payload.get("current_phase") or ""
+    if isinstance(raw, str) and raw.strip():
+        return config.phase_aliases.get(raw.strip().lower(), config.default_phase)
     try:
         from modules.killchain import KillChain
 
         return KillChain.current_phase()
     except Exception:
-        raw = payload.get("phase") or payload.get("current_phase") or ""
-        if not isinstance(raw, str):
-            return config.default_phase
-        return config.phase_aliases.get(raw.strip().lower(), config.default_phase)
+        return config.default_phase
 
 
 def _safe_filename_component(value: str) -> str:

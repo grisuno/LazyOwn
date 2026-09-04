@@ -1361,15 +1361,16 @@ def _readline_safe(prompt: str) -> str:
     width calculation.
     """
     import re
-    ansi_re = re.compile(r'(\033\[[0-9;]*m)')
+
+    ansi_re = re.compile(r"(\033\[[0-9;]*m)")
     parts = ansi_re.split(prompt)
     result = []
     for part in parts:
         if ansi_re.match(part):
-            result.append(f'\001{part}\002')
+            result.append(f"\001{part}\002")
         else:
-            result.append(part.replace('\n', '\001\n\002'))
-    return ''.join(result)
+            result.append(part.replace("\n", "\001\n\002"))
+    return "".join(result)
 
 
 def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> str:

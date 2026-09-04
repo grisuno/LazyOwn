@@ -19,10 +19,15 @@ import pytest
 
 from cli.tips_engine import (
     COMMAND_NAME_RE,
+    DEFAULT_UI_HINTS,
     ELO_BASE,
     ELO_FIRST_TIME_BONUS,
     ELO_NEW_PHASE_BONUS,
+    HINTS_LEVEL_MINIMAL,
+    HINTS_LEVEL_OFF,
+    HINTS_LEVEL_ON,
     SKIP_COMMANDS,
+    UI_HINTS_LEVELS,
     EngagementState,
     TipsConfig,
     TipsEngine,
@@ -192,6 +197,86 @@ class TestChainActiveSuppression:
         assert calls["contextual"]
         assert calls["curiosity"]
         assert calls["autosuggest"]
+
+
+class TestHintsLevelGating:
+    def _stub_surfaces(self, engine):
+        calls = {
+            "hints": [],
+            "contextual": [],
+            "curiosity": [],
+            "autosuggest": [],
+            "full_killchain": [],
+            "engagement": [],
+        }
+
+        def stub(name):
+            def record(*_args, **_kwargs):
+                calls[name].append(True)
+
+            return record
+
+        engine._render_kill_chain_hints = stub("hints")
+        engine._render_contextual_tip = stub("contextual")
+        engine._run_curiosity_reveal = stub("curiosity")
+        engine._refresh_autosuggest = stub("autosuggest")
+        engine._maybe_show_full_killchain = stub("full_killchain")
+        engine._update_engagement_state = stub("engagement")
+        return calls
+
+    def test_hints_level_constants(self):
+        assert HINTS_LEVEL_ON == "on"
+        assert HINTS_LEVEL_MINIMAL == "minimal"
+        assert HINTS_LEVEL_OFF == "off"
+        assert UI_HINTS_LEVELS == ("on", "minimal", "off")
+        assert DEFAULT_UI_HINTS == "on"
+
+    def test_default_config_is_on(self):
+        assert TipsConfig().hints_level == HINTS_LEVEL_ON
+
+    def test_off_suppresses_all_surfaces(self, engine):
+        calls = self._stub_surfaces(engine)
+        engine.render("ping", "recon", hints_level=HINTS_LEVEL_OFF)
+        assert not calls["hints"]
+        assert not calls["contextual"]
+        assert not calls["curiosity"]
+        assert not calls["autosuggest"]
+        assert not calls["full_killchain"]
+        assert not calls["engagement"]
+
+    def test_minimal_runs_autosuggest_only(self, engine):
+        calls = self._stub_surfaces(engine)
+        engine.render("ping", "recon", hints_level=HINTS_LEVEL_MINIMAL)
+        assert not calls["hints"]
+        assert not calls["contextual"]
+        assert not calls["curiosity"]
+        assert calls["autosuggest"]
+        assert not calls["full_killchain"]
+        assert not calls["engagement"]
+
+    def test_on_runs_every_surface(self, engine):
+        calls = self._stub_surfaces(engine)
+        engine.render("ping", "recon", hints_level=HINTS_LEVEL_ON)
+        assert calls["hints"]
+        assert calls["contextual"]
+        assert calls["curiosity"]
+        assert calls["autosuggest"]
+        assert calls["engagement"]
+
+    def test_invalid_level_falls_back_to_on(self, engine):
+        calls = self._stub_surfaces(engine)
+        engine.render("ping", "recon", hints_level="panel")
+        assert calls["hints"]
+        assert calls["engagement"]
+        assert engine.config.hints_level == HINTS_LEVEL_ON
+
+    def test_get_hints_level_reads_config(self, engine):
+        engine.config.hints_level = HINTS_LEVEL_MINIMAL
+        assert engine._get_hints_level() == HINTS_LEVEL_MINIMAL
+
+    def test_get_hints_level_defaults_for_invalid(self, engine):
+        engine.config.hints_level = "bogus"
+        assert engine._get_hints_level() == DEFAULT_UI_HINTS
 
 
 class TestELOScoring:

@@ -33,7 +33,7 @@ rather lose a tick than mislead an operator.
 | Automated kill-chain loop | yes (`autonomous_daemon`) | no | no | no | no | yes (operations) | no |
 | LLM-assisted operator (built-in) | **yes** (Groq, Ollama, Claude via MCP) | no | no | no | no | no | no |
 | Multi-agent AI (hive-mind / MoE) | **yes** (SWAN + hive_mind) | no | no | no | no | no | no |
-| MCP server for Claude / agents | **yes (148 tools)** | no | no | no | no | no | no |
+| MCP server for Claude / agents | **yes (153 tools)** | no | no | no | no | no | no |
 | Knowledge graph navigation | yes (`graphify-out/`) | no | no | no | no | no | no |
 | Knowledge bases (GTFOBins, LOLBas, ATT&CK) | yes (parquet) | no | no | no | no | partial | yes (modules db) |
 | Plugin system | yes (YAML addons + Lua + .tool) | yes (armory + extensions) | yes (modules) | yes (containers) | yes (modules) | yes (plugins) | yes (modules) |
@@ -64,7 +64,7 @@ IDs and references published CTI. Replay one with `playbook_run apt_apt28`.
 LazyOwn the model orchestrates the engagement: `autonomous_daemon` drives a
 reward-shaped kill chain, `swan_ensemble` routes tasks through a mixture of
 experts, and `hive_spawn` runs role-specialised drones in parallel. The MCP
-server exposes 148 tools to Claude Code so the operator can drive the whole
+server exposes 153 tools to Claude Code so the operator can drive the whole
 framework from a conversational interface.
 
 **Breadth in a single repo.** Recon, exploitation, lateral movement,

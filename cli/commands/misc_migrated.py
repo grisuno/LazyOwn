@@ -141,6 +141,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             ``wizard``            — start interactive setup
             ``wizard --tutorial`` — extended help text for first-time operators
             ``wizard --check``    — show readiness summary only, no prompts
+            ``wizard --quick``    — auto-detect defaults without any prompts
             ``wizard --non-interactive [--rhost X] [--lhost Y] [--domain Z]``
                                   — apply values without prompting (Docker/CI)
 
@@ -153,6 +154,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         check_only = "--check" in tokens
         tutorial = "--tutorial" in tokens or "-t" in tokens
         non_interactive = "--non-interactive" in tokens
+        quick = "--quick" in tokens
 
         def _save(key, value):
             _apply_assign(self.params, key, value, save=_save_payload)
@@ -179,6 +181,12 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             result = _run_wizard_ni(self.params, save=_save, values=values)
             if result and result.saved:
                 print_msg("wizard (non-interactive) applied — run 'sitrep' to review.")
+            return
+
+        if quick:
+            from cli.wizard import run_non_interactive as _run_wizard_ni
+            _run_wizard_ni(self.params, save=_save, values={})
+            print_msg("wizard (quick) auto-detected defaults — run 'doctor' to verify, then 'sitrep'.")
             return
 
         result = _run_wizard(self.params, save=_save, tutorial=tutorial)
@@ -301,17 +309,17 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             print_msg("No session selected. Use 'assign rhost <IP>' to start fresh.")
 
     @cmd2.with_category("12. Miscellaneous")
-    def do_explore(self, line):
+    def do_command_explorer(self, line):
         """Interactive command explorer organized by goals and phases.
 
         Browse commands by what you want to accomplish, not by category.
         Shows command names, descriptions, and aliases for quick discovery.
 
         Usage:
-            ``explore``            — show all goals
-            ``explore web``        — show web-related commands
-            ``explore smb_windows`` — show SMB/Windows commands
-            ``explore search nmap`` — search commands by keyword
+            ``command_explorer``            — show all goals
+            ``command_explorer web``        — show web-related commands
+            ``command_explorer smb_windows`` — show SMB/Windows commands
+            ``command_explorer search nmap`` — search commands by keyword
         """
         from cli.command_explorer import CommandExplorer, GOALS
         explorer = CommandExplorer(aliases=self.aliases, params=self.params)

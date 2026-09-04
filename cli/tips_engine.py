@@ -57,8 +57,21 @@ from rich.panel import Panel
 from rich.text import Text
 
 from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
+from cli.phase_labels import PHASE_LABELS
 
 SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
+
+HINTS_LEVEL_ON = "on"
+HINTS_LEVEL_MINIMAL = "minimal"
+HINTS_LEVEL_OFF = "off"
+
+UI_HINTS_LEVELS: tuple[str, ...] = (
+    HINTS_LEVEL_ON,
+    HINTS_LEVEL_MINIMAL,
+    HINTS_LEVEL_OFF,
+)
+
+DEFAULT_UI_HINTS: str = HINTS_LEVEL_ON
 
 _FULL_KILLCHAIN_TRIGGERS: frozenset[str] = frozenset(
     {
@@ -105,18 +118,6 @@ KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
 KARMA_TOP: str = "Godlike"
 
 COMMAND_NAME_RE: re.Pattern[str] = re.compile(r"^do_[a-z][a-z0-9_]*$")
-
-PHASE_LABELS: dict[str, str] = {
-    "recon": "Reconnaissance",
-    "enum": "Enumeration",
-    "exploit": "Exploitation",
-    "privesc": "Privilege Escalation",
-    "lateral": "Lateral Movement",
-    "cred": "Credential Access",
-    "postexp": "Post-Exploitation",
-    "exfil": "Exfiltration",
-    "c2": "Command & Control",
-}
 
 STREAK_LABELS: tuple[tuple[tuple[int, int], str], ...] = (
     ((1, 3), "warming up"),
@@ -181,6 +182,8 @@ class TipsConfig:
     killchain_auto_on_phase_change: bool = True
 
     chain_active: bool = False
+
+    hints_level: str = DEFAULT_UI_HINTS
 
     killchain_display: Callable[[], None] | None = None
 
@@ -247,14 +250,21 @@ class TipsEngine:
         """Toggle rendering without dropping state."""
         self.config.enabled = bool(value)
 
-    def render(self, cmd: str, phase: str = "") -> None:
+    def render(self, cmd: str, phase: str = "", *, hints_level: str | None = None) -> None:
         """Run all surfaces for the given command.
 
         Args:
             cmd: The command name that just executed (e.g. ``lazynmap``).
             phase: Current engagement phase (e.g. ``recon``) from payload.json.
+            hints_level: Overrides :attr:`TipsConfig.hints_level` for this
+                render. ``off`` suppresses every surface; ``minimal`` keeps
+                only the autosuggest accelerator; ``on`` renders everything.
         """
         if not self.config.enabled or not cmd:
+            return
+        level = hints_level if hints_level is not None else self.config.hints_level
+        self.config.hints_level = level if level in UI_HINTS_LEVELS else DEFAULT_UI_HINTS
+        if self.config.hints_level == HINTS_LEVEL_OFF:
             return
         first = (cmd or "").split()[0]
         if not first or first in SKIP_COMMANDS:
@@ -269,6 +279,10 @@ class TipsEngine:
             return
 
         resolved_phase = self._resolve_phase(first, phase)
+        if self.config.hints_level == HINTS_LEVEL_MINIMAL:
+            self._refresh_autosuggest(cmd, resolved_phase)
+            self._flush_suggestions_panel()
+            return
         if not self.config.chain_active:
             self._render_kill_chain_hints(first, resolved_phase)
             self._render_contextual_tip(first, resolved_phase)
@@ -351,15 +365,15 @@ class TipsEngine:
         self._pending_suggestions.clear()
 
     def _get_hints_level(self) -> str:
-        """Read ``ui_hints`` from payload.json with safe fallback."""
-        try:
-            payload = self._load_payload()
-            level = str(payload.get("ui_hints", "on") or "on").strip().lower()
-            if level in ("on", "panel", "minimal", "off"):
-                return level
-        except Exception:
-            pass
-        return "on"
+        """Return the engine's active hints level from its config.
+
+        The level is the single source of truth for ambient coaching: the
+        shell mirrors ``payload.json["ui_hints"]`` into
+        :attr:`TipsConfig.hints_level` before each render, so this method
+        never re-reads the payload and every surface agrees on one value.
+        """
+        level = self.config.hints_level
+        return level if level in UI_HINTS_LEVELS else DEFAULT_UI_HINTS
 
     def _resolve_phase(self, cmd: str, fallback: str) -> str:
         """Resolve the current engagement phase with progressive degradation.

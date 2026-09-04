@@ -29,6 +29,8 @@ jobs:
         run: ruff format --check .
       - name: check command_index.json
         run: python scripts/build_command_index.py --check
+      - name: check doc stats
+        run: python scripts/sync_doc_stats.py --check
 
   mypy:
     name: mypy

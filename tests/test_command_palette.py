@@ -235,12 +235,32 @@ def _iter_command_modules(config: PaletteSuiteConfig) -> Iterable[Path]:
 
 
 def _collect_do_method_names(path: Path, prefix: str) -> set[str]:
-    """Return every direct ``do_*`` method name in any class in ``path``."""
+    """Return every direct ``do_*`` method name in any class in ``path``.
+
+    Nested ``http.server`` request handlers expose ``do_GET``/``do_POST``
+    style methods that are not operator commands, so their classes are
+    skipped to mirror the production ``scripts/build_command_index.py``
+    scanner.
+    """
+    handler_bases = frozenset(
+        {
+            "BaseHTTPRequestHandler",
+            "SimpleHTTPRequestHandler",
+            "CGIHTTPRequestHandler",
+            "StreamRequestHandler",
+        }
+    )
     src = path.read_text(encoding="utf-8")
     tree = ast.parse(src, filename=str(path))
     out: set[str] = set()
     for node in ast.walk(tree):
         if not isinstance(node, ast.ClassDef):
+            continue
+        if any(
+            (isinstance(base, ast.Name) and base.id in handler_bases)
+            or (isinstance(base, ast.Attribute) and base.attr in handler_bases)
+            for base in node.bases
+        ):
             continue
         for child in node.body:
             if isinstance(child, (ast.FunctionDef, ast.AsyncFunctionDef)) and child.name.startswith(prefix):

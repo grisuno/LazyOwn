@@ -21,7 +21,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
-import ast
+import json
 import re
 import sys
 from pathlib import Path
@@ -31,22 +31,27 @@ import yaml
 REPO_ROOT = Path(__file__).resolve().parent.parent
 
 REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
-    ("ESSENTIALS.md", r"All \d+ commands with descriptions", "All {cli_commands} commands with descriptions"),
+    ("ESSENTIALS.md", r"\(\d+\+? commands\)", "({cli_commands} commands)"),
+    ("ESSENTIALS.md", r"All \d+\+? commands with descriptions", "All {cli_commands} commands with descriptions"),
     ("ESSENTIALS.md", r"All \d+\+? aliases", "All {aliases} aliases"),
     ("ESSENTIALS.md", r"\(\d+ tools\)", "({mcp_tools} tools)"),
-    ("CHEATSHEET.md", r"full \d+-command catalog", "full {cli_commands}-command catalog"),
-    ("CHEATSHEET.md", r"complete \d+-command reference", "complete {cli_commands}-command reference"),
+    ("CHEATSHEET.md", r"full \d+\+?[- ]?command catalog", "full {cli_commands}-command catalog"),
+    ("CHEATSHEET.md", r"complete \d+\+?[- ]?command reference", "complete {cli_commands}-command reference"),
     ("CHEATSHEET.md", r"`COMMANDS\.md` \| ~\d+", "`COMMANDS.md` | ~1600"),
+    ("QUICKSTART.md", r"full \d+\+?[- ]?command reference", "full {cli_commands}-command reference"),
     ("QUICKSTART.md", r"~\d+ MCP tools", "{mcp_tools} MCP tools"),
-    ("QUICKSTART.md", r"full \d+-command reference", "full {cli_commands}-command reference"),
+    ("QUICKSTART.md", r"exposes \d+ MCP tools", "exposes {mcp_tools} MCP tools"),
     ("COMPARISON.md", r"yes \(\d+\+? tools\)", "yes ({mcp_tools} tools)"),
     ("COMPARISON.md", r"exposes \d+\+? tools", "exposes {mcp_tools} tools"),
-    ("AGENTS.md", r"\d+\+ commands and \d+\+ aliases", "{cli_commands} commands and {aliases} aliases"),
+    ("AGENTS.md", r"\d+\+? commands and \d+\+? aliases", "{cli_commands} commands and {aliases} aliases"),
     ("AGENTS.md", r"~\d+ tools exposing", "{mcp_tools} tools exposing"),
+    ("AGENTS.md", r"\d+ tools exposing the framework", "{mcp_tools} tools exposing the framework"),
     ("AGENTS.md", r"full \d+-tool reference", "full {mcp_tools}-tool reference"),
     ("AGENTS.md", r"Complete \d+-tool MCP playbook", "Complete {mcp_tools}-tool MCP playbook"),
+    ("AGENTS.md", r"Full \d+\+?[- ]?command reference", "Full {cli_commands}-command reference"),
     ("AGENTS.md", r"`COMMANDS\.md` \| ~\d+", "`COMMANDS.md` | ~1600"),
-    ("CLAUDE.md", r"\d+\+ commands \+ \d+\+ aliases", "{cli_commands} commands + {aliases} aliases"),
+    ("CLAUDE.md", r"\d+\+? commands \+ \d+\+? aliases", "{cli_commands} commands + {aliases} aliases"),
+    ("CLAUDE.md", r"MCP server \(\d+ tools\)", "MCP server ({mcp_tools} tools)"),
     ("CLAUDE.md", r"~\d+ tools\)", "{mcp_tools} tools)"),
     ("CLAUDE.md", r"never all \d+ commands", "never all {bridge_catalog} commands"),
     ("CLAUDE.md", r"\d+ MCP tools\.", "{mcp_tools} MCP tools."),
@@ -61,34 +66,38 @@ REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
 )
 
 
-def _count_do_methods() -> int:
-    """Count ``do_`` function definitions in the shell and CommandSets."""
-    total = 0
-    sources = [REPO_ROOT / "lazyown.py"]
-    commands_dir = REPO_ROOT / "cli" / "commands"
-    if commands_dir.is_dir():
-        sources.extend(path for path in sorted(commands_dir.glob("*.py")) if not path.name.startswith("_"))
-    for path in sources:
-        tree = ast.parse(path.read_text(encoding="utf-8"))
-        total += sum(1 for node in ast.walk(tree) if isinstance(node, ast.FunctionDef) and node.name.startswith("do_"))
-    return total
+def canonical_command_count(root: Path = REPO_ROOT) -> int:
+    """Read the canonical command count from the committed command index.
+
+    The command index (``cli/command_index.json``) is the single source of
+    truth produced by ``scripts/build_command_index.py``. Re-counting the
+    AST here would reintroduce a second counting method and cause the same
+    drift this module exists to eliminate.
+    """
+    index_path = root / "cli" / "command_index.json"
+    document = json.loads(index_path.read_text(encoding="utf-8"))
+    return int(document["totals"]["unique_commands"])
 
 
-def measure_stats() -> dict[str, int]:
-    """Measure every published count from the live tree."""
-    mcp_source = (REPO_ROOT / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
-    bridge_source = (REPO_ROOT / "modules" / "lazyown_bridge.py").read_text(encoding="utf-8")
-    aliases = yaml.safe_load((REPO_ROOT / "cli" / "aliases.yaml").read_text(encoding="utf-8"))
-    cli_commands = _count_do_methods()
+def measure_stats(root: Path = REPO_ROOT) -> dict[str, int]:
+    """Measure every published count from the live tree.
+
+    Args:
+        root: Repository root. Injectable so tests can point at a fixture.
+    """
+    mcp_source = (root / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
+    bridge_source = (root / "modules" / "lazyown_bridge.py").read_text(encoding="utf-8")
+    aliases = yaml.safe_load((root / "cli" / "aliases.yaml").read_text(encoding="utf-8"))
+    cli_commands = canonical_command_count(root)
     return {
         "cli_commands": cli_commands,
         "cli_hundreds": (cli_commands // 100) * 100,
         "bridge_catalog": bridge_source.count("CatalogEntry("),
         "mcp_tools": len(re.findall(r'name="lazyown_', mcp_source)),
         "aliases": len(aliases or {}),
-        "addons": len(list((REPO_ROOT / "lazyaddons").glob("*.yaml"))),
-        "plugins": len(list((REPO_ROOT / "plugins").glob("*.lua"))),
-        "playbooks": len(list((REPO_ROOT / "playbooks").glob("*.yaml"))),
+        "addons": len(list((root / "lazyaddons").glob("*.yaml"))),
+        "plugins": len(list((root / "plugins").glob("*.lua"))),
+        "playbooks": len(list((root / "playbooks").glob("*.yaml"))),
     }
 
 
@@ -97,11 +106,17 @@ def render(template: str, stats: dict[str, int]) -> str:
     return template.format(**stats)
 
 
-def sync(check: bool, stats: dict[str, int]) -> list[str]:
-    """Apply or verify every replacement; return the list of stale spots."""
+def sync(check: bool, stats: dict[str, int], root: Path = REPO_ROOT) -> list[str]:
+    """Apply or verify every replacement; return the list of stale spots.
+
+    Args:
+        check: When ``True`` verify without writing, returning stale spots.
+        stats: Measured counts produced by :func:`measure_stats`.
+        root: Repository root. Injectable so tests can point at a fixture.
+    """
     stale: list[str] = []
     for doc, pattern, template in REPLACEMENTS:
-        path = REPO_ROOT / doc
+        path = root / doc
         if not path.is_file():
             stale.append(f"{doc}: missing file for pattern {pattern!r}")
             continue
@@ -126,6 +141,7 @@ def main() -> int:
     if args.print_only:
         for key, value in stats.items():
             print(f"{key}={value}")
+        return 0
 
     stale = sync(check=args.check, stats=stats)
     if args.check and stale:

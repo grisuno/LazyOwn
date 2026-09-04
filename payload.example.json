@@ -74,6 +74,7 @@
   "dnswordlist": "/usr/share/wordlists/SecLists-master/Discovery/DNS/subdomains-top1million-110000.txt",
   "enable_toasts": true,
   "toast_max_per_tick": 5,
+  "ui_hints": "on",
   "enable_operator_presence": false,
   "tui_theme": "default",
   "sandboxed": false,

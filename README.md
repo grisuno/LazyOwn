@@ -87,13 +87,13 @@ LazyOwn integrates a command-line interface (CLI) built on cmd2 and a web-based 
 
 # LazyOwn Skills — MCP Integration
 
-Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 148 tools covering the full engagement lifecycle.
+Connect Claude Code to the LazyOwn framework via the Model Context Protocol (MCP). The MCP server exposes 153 tools covering the full engagement lifecycle.
 
 ## Files
 
 | File | Purpose |
 |------|---------|
-| `skills/lazyown_mcp.py` | MCP server — exposes 148 LazyOwn tools to Claude |
+| `skills/lazyown_mcp.py` | MCP server — exposes 153 LazyOwn tools to Claude |
 | `skills/lazyown.md` | Claude Code skill / slash-command documentation |
 | `skills/autonomous_daemon.py` | Autonomous execution daemon (objective-driven, no Claude required between steps) |
 | `skills/hive_mind.py` | Multi-agent queen + drone system with ChromaDB memory |
@@ -259,7 +259,7 @@ Full setup: https://github.com/grisuno/LazyOwnOpenCodeAdapter
 | `LAZYOWN_C2_USER` | `payload.json c2_user` | C2 username |
 | `LAZYOWN_C2_PASS` | `payload.json c2_pass` | C2 password |
 
-## MCP Tool Groups (148 tools)
+## MCP Tool Groups (153 tools)
 
 | Group | Tools | Description |
 |-------|-------|-------------|

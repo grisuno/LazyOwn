@@ -102,6 +102,39 @@ class CorrelationFilter(logging.Filter):
         return True
 
 
+class ResilientRotatingFileHandler(logging.handlers.RotatingFileHandler):
+    """RotatingFileHandler that degrades gracefully when the log file becomes
+    unwritable mid-session.
+
+    ``fast_run_as_r00t.sh`` runs the framework as root while the chown
+    watcher periodically re-owns the tree to the operator UID, so the log
+    file can flip ownership and start raising ``PermissionError``. The base
+    ``BaseRotatingHandler.emit`` catches that failure and calls
+    ``handleError``, which by default prints a full traceback for every log
+    record. This subclass overrides ``handleError`` to emit a single stderr
+    notice instead, and skips every subsequent record.
+    """
+
+    def emit(self, record: logging.LogRecord) -> None:
+        """Write one record, no-op after the file has become unwritable."""
+        if getattr(self, "_detached", False):
+            return
+        super().emit(record)
+
+    def handleError(self, record: logging.LogRecord) -> None:
+        """Suppress the default per-record traceback; notify once via stderr."""
+        self._detached = True
+        if getattr(self, "_notified", False):
+            return
+        self._notified = True
+        try:
+            sys.stderr.write(
+                "Log file became unwritable — file logging disabled for this session.\n"
+            )
+        except Exception:
+            pass
+
+
 def set_correlation_id(cid: str) -> None:
     """Set the correlation ID for the current async/task context."""
     _correlation_id_var.set(cid)
@@ -269,7 +302,7 @@ def configure(
         log_file = os.path.join(_log_dir, f'lazyown_{date_str}.log')
         try:
             os.makedirs(os.path.dirname(log_file), mode=0o755, exist_ok=True)
-            file_handler = logging.handlers.RotatingFileHandler(
+            file_handler = ResilientRotatingFileHandler(
                 log_file, maxBytes=max_bytes, backupCount=backup_count, delay=True,
             )
             file_handler.setLevel(level)

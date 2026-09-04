@@ -603,6 +603,7 @@ class ReconCommandSet(LazyOwnCommandSet):
         q_url = query.replace(" ", "+")
         if is_binary_present("pompem"):
             import socket as _sock
+
             _tor_alive = False
             try:
                 _s = _sock.socket(_sock.AF_INET, _sock.SOCK_STREAM)
@@ -612,8 +613,9 @@ class ReconCommandSet(LazyOwnCommandSet):
                 _tor_alive = True
             except Exception:
                 pass
-            import subprocess as _sp
             import os as _os
+            import subprocess as _sp
+
             _env = _os.environ.copy()
             if _tor_alive:
                 _env["HTTPS_PROXY"] = "socks5h://127.0.0.1:9050"
@@ -626,7 +628,9 @@ class ReconCommandSet(LazyOwnCommandSet):
                     ["pompem", "-s", q_url, "--txt"],
                     cwd="sessions",
                     env=_env,
-                    capture_output=True, text=True, timeout=60,
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
                 )
             except Exception as exc:
                 print_error(f"pompem search failed: {exc}")

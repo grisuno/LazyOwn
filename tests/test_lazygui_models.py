@@ -11,6 +11,8 @@ from datetime import UTC, datetime
 
 import pytest
 
+pytest.importorskip("PySide6")
+
 from lazygui.services.models import (
     BackendKind,
     BeaconResult,

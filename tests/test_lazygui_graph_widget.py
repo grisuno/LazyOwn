@@ -6,6 +6,10 @@ rendering and force layout behaviour.
 
 from __future__ import annotations
 
+import pytest
+
+pytest.importorskip("PySide6")
+
 from PySide6.QtCore import QPointF
 from PySide6.QtGui import QColor
 from PySide6.QtWidgets import QApplication

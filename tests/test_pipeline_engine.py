@@ -656,13 +656,16 @@ class TestMcpEntryPoints:
 
 class TestWiring:
     def test_do_pipeline_exists_in_lazyown(self):
-        src = (REPO_ROOT / "lazyown.py").read_text(encoding="utf-8")
-        tree = ast.parse(src)
-        methods = [
-            n.name for n in ast.walk(tree)
-            if isinstance(n, ast.FunctionDef) and n.name == "do_pipeline"
-        ]
-        assert len(methods) == 1
+        sources = [REPO_ROOT / "lazyown.py"]
+        sources.extend(sorted((REPO_ROOT / "cli" / "commands").glob("*.py")))
+        found: list[str] = []
+        for path in sources:
+            tree = ast.parse(path.read_text(encoding="utf-8"))
+            found.extend(
+                n.name for n in ast.walk(tree)
+                if isinstance(n, ast.FunctionDef) and n.name == "do_pipeline"
+            )
+        assert len(found) == 1, f"expected one do_pipeline command, found {found}"
 
     def test_mcp_exposes_four_pipeline_tools(self):
         src = (REPO_ROOT / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")

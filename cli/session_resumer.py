@@ -71,9 +71,19 @@ class SessionResumer:
             name = entry.name
             if name.startswith(".") or name.startswith("__"):
                 continue
-            if name in ("captured_images", "c2_profiles", "db", "ai_model",
-                        "bofs", "cve_cache", "chromadb", "delivery",
-                        "detection_cache", "default_engagement", "sessions"):
+            if name in (
+                "captured_images",
+                "c2_profiles",
+                "db",
+                "ai_model",
+                "bofs",
+                "cve_cache",
+                "chromadb",
+                "delivery",
+                "detection_cache",
+                "default_engagement",
+                "sessions",
+            ):
                 continue
 
             scan_files = list(entry.glob(self._config.scan_pattern))
@@ -100,17 +110,19 @@ class SessionResumer:
 
             if name not in seen and (scan_files or creds_files or file_count > 2):
                 seen.add(name)
-                summaries.append(SessionSummary(
-                    target=name,
-                    phase=phase,
-                    scan_exists=bool(scan_files),
-                    creds_exist=bool(creds_files),
-                    last_modified=mtime,
-                    file_count=file_count,
-                ))
+                summaries.append(
+                    SessionSummary(
+                        target=name,
+                        phase=phase,
+                        scan_exists=bool(scan_files),
+                        creds_exist=bool(creds_files),
+                        last_modified=mtime,
+                        file_count=file_count,
+                    )
+                )
 
         summaries.sort(key=lambda s: s.last_modified, reverse=True)
-        return summaries[:self._config.max_targets]
+        return summaries[: self._config.max_targets]
 
     def render_startup_panel(self) -> str | None:
         """Render the resume panel and return the selected target IP, or None."""
@@ -119,6 +131,7 @@ class SessionResumer:
             return None
 
         import time
+
         table = Table(show_header=True, header_style="bold cyan")
         table.add_column("#", style="dim", width=3)
         table.add_column("Target", style="green")
@@ -148,12 +161,14 @@ class SessionResumer:
             )
 
         _console.print()
-        _console.print(Panel(
-            table,
-            title="[bold]Previous sessions found[/]",
-            subtitle="[dim]Type a number to resume, or press Enter to start fresh[/]",
-            border_style="cyan",
-        ))
+        _console.print(
+            Panel(
+                table,
+                title="[bold]Previous sessions found[/]",
+                subtitle="[dim]Type a number to resume, or press Enter to start fresh[/]",
+                border_style="cyan",
+            )
+        )
 
         try:
             choice = input("  Resume which session? [number/Enter]: ").strip()

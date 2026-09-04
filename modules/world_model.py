@@ -1087,11 +1087,16 @@ class WorldModel:
 _default_wm: WorldModel | None = None
 
 
-def get_world_model(path: str | Path = _DEFAULT_PATH) -> WorldModel:
-    """Return (or create) the module-level singleton WorldModel."""
+def get_world_model(path: str | Path | None = None) -> WorldModel:
+    """Return (or create) the module-level singleton WorldModel.
+
+    ``path`` defaults to the module's live :data:`_DEFAULT_PATH` at call
+    time rather than a captured import-time value, so callers (and tests)
+    that reassign ``_DEFAULT_PATH`` to redirect state get the redirect.
+    """
     global _default_wm
     if _default_wm is None:
-        _default_wm = WorldModel(path=path)
+        _default_wm = WorldModel(path=path if path is not None else _DEFAULT_PATH)
     return _default_wm
 
 

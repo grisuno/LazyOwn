@@ -77,7 +77,7 @@
     "lazyown.py": "4df0f5673e303396f252b098e6b95dbc1f80505d857e6c091f2597fd8ad5a6aa",
     "cli/commands/active_directory.py": "37c6332360d53dbe30c0bc12bdf838ee0dbde424e1a23aad1a1b507ab46f3166",
     "cli/commands/ai.py": "1332538f91e5558e6e849030dc9415e62c3a2390caf36e57e28cd250c99a4764",
-    "cli/commands/anti_forensics.py": "9fae474e721ee892d7e16ae46da4238828f26a90cb02db664c2c5f09635d63d4",
+    "cli/commands/anti_forensics.py": "d33c0d8a897bb04394660fee4ebf92cd11b4df310f79c61fe2f7b9439752e552",
     "cli/commands/applocker_bypass.py": "b8338d5a39be0d9424409d9e5e2dc83f966a1ec4bf829bdf380c471fcea7ec40",
     "cli/commands/audit.py": "f374f86060903ce1ca64333f191ee9a68f05588aa064e8fe02c18e2e5240d47b",
     "cli/commands/automation.py": "51886ed2711529c4c5cc0372b4b67ce30f4f6ea3f65be5e2ffe3fbfcdc1c0ff7",
@@ -89,7 +89,7 @@
     "cli/commands/catalog.py": "4ceddffc526e753495dfa1fc25e3bb858cb2579121630c6ef6c6bde5f7571ce6",
     "cli/commands/cicd.py": "475cfb7f35fabc9a8768ae69bc52ee266f463902fb75b56e4b1ea3287ef874dd",
     "cli/commands/cli_auth.py": "96a824c854dbda87367397e555431f1b19afcb34eb2e54d73064b73a3453e519",
-    "cli/commands/cloud.py": "79fed2dfd53d9b6491606149e563b84734e0c13127ee98e47053a7b0a15ddb19",
+    "cli/commands/cloud.py": "cca5669e3b89df2ced0dc4f933c87bcfa734008af6414b9cafb8a287308d9df6",
     "cli/commands/cloud_attacks.py": "5c3ab1d2b36d1ef3c3ee0f801d67553b03d09f26e965ad9000036b18877271f4",
     "cli/commands/collaboration.py": "08f90c0114b6e8ebbf29e89bf41b65177cb03f5a60a10f6d85c208dbfae7ff93",
     "cli/commands/command_and_control.py": "2365e0b58449ae07116bc3df991c64cb0dff23f8d5ef954936b1bfcb7efeabb5",
@@ -105,11 +105,11 @@
     "cli/commands/edr_detect.py": "bf4950ddb62228f63fed84fee5b5662051f1230229dfea642ec03269a85775e6",
     "cli/commands/enum.py": "87d2d1fc4abcfb4483a0e87827ecee632bba9574cfe3306a35d4c863c234760d",
     "cli/commands/estorides.py": "248418fe22b4a6e811f3acfdc884e810a7de80ed347cc800398ee1db0c4f1a1c",
-    "cli/commands/evasive_payload.py": "9d35ebeb1bbc19749b0d10e1807c4378b2d33af4f419b0be32741335c80cfe71",
-    "cli/commands/exfiltration.py": "e1f5332d7597cb8d0ad72d436352bee9b5e2a7c3203e93b341a12d7f5f809180",
+    "cli/commands/evasive_payload.py": "d78334c93cb13ca95acc03776c6e37c242a94ba676d9064c109dda752c3c2b81",
+    "cli/commands/exfiltration.py": "7827063ebf33e0ab47ff2ba1f6c6802a9d5bbbd73c63d87ea63bb49a54235edc",
     "cli/commands/exploit.py": "008a79702a5adb4e26736a369fe52508dfb02932bc8e4971f5017e88d27567a7",
     "cli/commands/exploit_migrated.py": "58f6d8a9c5033318507d8373397cdd992ae8cec26c9a4df2fa80bc36cf753063",
-    "cli/commands/exploitgym.py": "65974e5767fa94e03d624b84798cd09144180c910a58dc92836363ac5931132e",
+    "cli/commands/exploitgym.py": "365c98a1002f589c8d2143f605e0ed8d6d8668417fe14a5b1f8fd475d4398831",
     "cli/commands/lab.py": "594928d573fe819dc76e1725c3b58701ff06a120a7c7461aac559f1a55cb4834",
     "cli/commands/lateral.py": "1d42361ff3341c33ff2a3761e5516822f2de672d824f5aa592750355b7b380e8",
     "cli/commands/lateral_migrated.py": "13b097f71511d9c64add437942afa3e80a9490525b811b1cad9818e83ce20212",
@@ -125,13 +125,13 @@
     "cli/commands/persist.py": "890f81693f4cf2910b1733348c9ad11b20db1276e65665560a19102981917e47",
     "cli/commands/persist_migrated.py": "4a5ace96fc07eee087cd682aa866413d99fb747b166bc4cae4447b1e59213ee4",
     "cli/commands/phishing_wizard.py": "e5d2e08608402ab53fa3d99fd3e2513b10fbcd9e2405ec573356c61e2bc83055",
-    "cli/commands/pivoting.py": "3984fd872cd9859c92f26a30fc5ad5e8c33fe03e4447e3f568b3256d94ebe84c",
+    "cli/commands/pivoting.py": "9f2a6ef58677a54767a4921a817f53de61285d569ade7e439a1ed84db8f6d063",
     "cli/commands/postexp.py": "74d90e8a841532ca7ad19ebbc7c2090989f50b735b78624b34d03bbdc87804c6",
     "cli/commands/postexp_migrated.py": "885669be27209b0d6deb38b04f59af7cc3e1197d3c0a6a1054b7a7ee5e17e33f",
     "cli/commands/privilege_escalation.py": "0ea9231ffb06a6993eea66a2582c609661455410e4d6f099caf4982cd0b7fb3f",
-    "cli/commands/purple_team.py": "7879b382739e876f8e46c1a2bacda3b13e5517a4bf1af03315025fe00be884bc",
+    "cli/commands/purple_team.py": "c94742dca374ba5c5dfa1409f6abbe0712e19721cd04dee2a428011ae83e2d9b",
     "cli/commands/pwn.py": "410730fdad3be8dfc7375e200af53454f52ca07948fa89880c5ce7ed709f21b7",
-    "cli/commands/recon.py": "4631965d065e83b5861c02fbfb3914d964e89a1c423079d224ee38e97211d95e",
+    "cli/commands/recon.py": "963408382c270a281f18712f3a3c34c379210de92208648b6bcb7b7c10e46b1a",
     "cli/commands/recon_migrated.py": "778b4ae327a78d5dc3406eca282aa8f9a3362067e429a2334c1bd3a81008ebfb",
     "cli/commands/redteam_gym.py": "22b381e84675516b594fe53120eb29919e80b90e22b461bde15546d9859ed393",
     "cli/commands/report.py": "4045e672ec29aa8840ade8ba5e53cfa61a99a90d4e65c82bbd63b912c32a5415",
@@ -1717,7 +1717,7 @@
     },
     {
       "name": "do_wipe_timeline",
-      "line": 96,
+      "line": 97,
       "summary": "Scrub file timestamps and shell history on the target.",
       "category": null,
       "phase": "uncategorized",
@@ -1728,7 +1728,7 @@
     },
     {
       "name": "do_shred",
-      "line": 138,
+      "line": 140,
       "summary": "Securely delete files by overwriting before removal.",
       "category": null,
       "phase": "uncategorized",
@@ -1739,7 +1739,7 @@
     },
     {
       "name": "do_wipe_free",
-      "line": 187,
+      "line": 190,
       "summary": "Wipe free disk space to prevent forensic file recovery.",
       "category": null,
       "phase": "uncategorized",
@@ -1750,7 +1750,7 @@
     },
     {
       "name": "do_clean_ad",
-      "line": 219,
+      "line": 223,
       "summary": "Clear Active Directory event logs and cached Kerberos tickets.",
       "category": null,
       "phase": "uncategorized",
@@ -1761,7 +1761,7 @@
     },
     {
       "name": "do_cover_tracks",
-      "line": 275,
+      "line": 280,
       "summary": "Run all anti-forensics operations in sequence.",
       "category": null,
       "phase": "uncategorized",
@@ -2520,7 +2520,7 @@
     },
     {
       "name": "do_cloud_enum",
-      "line": 237,
+      "line": 239,
       "summary": "Enumerate cloud provider metadata, storage, and IAM.",
       "category": null,
       "phase": "uncategorized",
@@ -4038,7 +4038,7 @@
     },
     {
       "name": "do_gmsadumper",
-      "line": 1003,
+      "line": 1004,
       "summary": "Run gMSADumper to read gMSA password blobs visible to the user.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4049,7 +4049,7 @@
     },
     {
       "name": "do_dploot",
-      "line": 1042,
+      "line": 1043,
       "summary": "Run dploot to loot DPAPI-protected secrets.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4060,7 +4060,7 @@
     },
     {
       "name": "do_download_c2",
-      "line": 1163,
+      "line": 1164,
       "summary": "Download a file from the C2 implant via the upload command.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4071,7 +4071,7 @@
     },
     {
       "name": "do_exfil_s3",
-      "line": 1180,
+      "line": 1181,
       "summary": "Upload a file to an AWS S3 bucket.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4082,7 +4082,7 @@
     },
     {
       "name": "do_exfil_telegram",
-      "line": 1225,
+      "line": 1226,
       "summary": "Exfiltrate a file via Telegram Bot API.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4093,7 +4093,7 @@
     },
     {
       "name": "do_exfil_discord",
-      "line": 1270,
+      "line": 1271,
       "summary": "Exfiltrate a file via Discord webhook.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4104,7 +4104,7 @@
     },
     {
       "name": "do_exfil_gcs",
-      "line": 1313,
+      "line": 1314,
       "summary": "Upload a file to Google Cloud Storage.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4115,7 +4115,7 @@
     },
     {
       "name": "do_exfil_dns",
-      "line": 1355,
+      "line": 1356,
       "summary": "Exfiltrate data via DNS tunneling.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4126,7 +4126,7 @@
     },
     {
       "name": "do_exfil_http",
-      "line": 1414,
+      "line": 1415,
       "summary": "Exfiltrate a file via HTTP POST to a controlled server.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4137,7 +4137,7 @@
     },
     {
       "name": "do_exfil_auto",
-      "line": 1484,
+      "line": 1485,
       "summary": "Auto-detect flags and sensitive files, then exfiltrate.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -4148,7 +4148,7 @@
     },
     {
       "name": "do_stage",
-      "line": 1542,
+      "line": 1543,
       "summary": "Stage data for exfiltration: compress, encrypt, and split.",
       "category": "09. Data Exfiltration",
       "phase": "exfil",
@@ -7206,7 +7206,7 @@
     },
     {
       "name": "do_pivot_scan",
-      "line": 152,
+      "line": 153,
       "summary": "Scan internal networks through the current pivot chain.",
       "category": null,
       "phase": "uncategorized",
@@ -7217,7 +7217,7 @@
     },
     {
       "name": "do_pivot_proxy",
-      "line": 191,
+      "line": 206,
       "summary": "Start a local SOCKS proxy through the pivot chain.",
       "category": null,
       "phase": "uncategorized",
@@ -7877,7 +7877,7 @@
     },
     {
       "name": "do_purple_exec",
-      "line": 111,
+      "line": 144,
       "summary": "Execute a red action and measure if LazyOwnBT detects it.",
       "category": null,
       "phase": "uncategorized",
@@ -7888,7 +7888,7 @@
     },
     {
       "name": "do_purple_test",
-      "line": 160,
+      "line": 203,
       "summary": "Test if LazyOwnBT would detect a command (no execution).",
       "category": null,
       "phase": "uncategorized",
@@ -7899,7 +7899,7 @@
     },
     {
       "name": "do_purple_score",
-      "line": 180,
+      "line": 223,
       "summary": "Show current engagement detection score.",
       "category": null,
       "phase": "uncategorized",
@@ -7910,7 +7910,7 @@
     },
     {
       "name": "do_purple_report",
-      "line": 228,
+      "line": 271,
       "summary": "Generate full engagement report with datasets.",
       "category": null,
       "phase": "uncategorized",
@@ -7921,7 +7921,7 @@
     },
     {
       "name": "do_purple_methods",
-      "line": 242,
+      "line": 285,
       "summary": "List available LazyOwnBT detection methods.",
       "category": null,
       "phase": "uncategorized",
@@ -7932,7 +7932,7 @@
     },
     {
       "name": "do_purple_config",
-      "line": 254,
+      "line": 297,
       "summary": "Show or update purple team configuration (payload.json).",
       "category": null,
       "phase": "uncategorized",
@@ -7943,7 +7943,7 @@
     },
     {
       "name": "do_purple_dashboard",
-      "line": 303,
+      "line": 350,
       "summary": "Launch the Purple Team TUI dashboard.",
       "category": null,
       "phase": "uncategorized",
@@ -7954,7 +7954,7 @@
     },
     {
       "name": "do_purple_history",
-      "line": 319,
+      "line": 367,
       "summary": "Show recent purple team action results.",
       "category": null,
       "phase": "uncategorized",
@@ -8163,7 +8163,7 @@
     },
     {
       "name": "do_wfuzz",
-      "line": 650,
+      "line": 654,
       "summary": "Uses `wfuzz` to perform fuzzing based on provided parameters. This function supports various options for directory and file fuzzing.",
       "category": "02. Scanning & Enumeration",
       "phase": "enum",

@@ -173,6 +173,7 @@ def _beacon_count() -> int:
 def _read_credential_lines(pattern: str) -> list[str]:
     """Read actual credential lines from credential files."""
     import glob as _glob
+
     lines: list[str] = []
     for fpath in sorted(_glob.glob(pattern)):
         try:
@@ -190,6 +191,7 @@ def _get_recommendations() -> list[dict]:
     """Get next-step recommendations from the recommendation engine."""
     try:
         from cli.recommendation import RecommendationEngine
+
         engine = RecommendationEngine()
         payload = _read_json(PAYLOAD_PATH)
         world = _read_json(WORLD_MODEL_PATH)
@@ -199,10 +201,7 @@ def _get_recommendations() -> list[dict]:
             os_id=str(payload.get("os_id", "")),
             services=list(world.get("services", {}).keys()),
         )
-        return [
-            {"command": r.command, "confidence": int(r.confidence * 100), "reason": r.reason}
-            for r in recs[:5]
-        ]
+        return [{"command": r.command, "confidence": int(r.confidence * 100), "reason": r.reason} for r in recs[:5]]
     except Exception:
         return []
 

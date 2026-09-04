@@ -395,7 +395,7 @@ def test_audit_fz_command_emits_results(tmp_path):
     from cli.commands.audit import AuditCommandSet
 
     cs = AuditCommandSet()
-    cs._CommandSet__cmd_internal = _MiniShell(tmp_path)
+    cs._cmd_internal = _MiniShell(tmp_path)
     cs.do_fz("nmap")
     out = "\n".join(cs._cmd.outputs)
     assert "lazynmap" in out
@@ -405,7 +405,7 @@ def test_audit_status_tail_reports_no_evidence(tmp_path):
     from cli.commands.audit import AuditCommandSet
 
     cs = AuditCommandSet()
-    cs._CommandSet__cmd_internal = _MiniShell(tmp_path)
+    cs._cmd_internal = _MiniShell(tmp_path)
     cs.do_status_tail("")
     out = "\n".join(cs._cmd.outputs)
     assert "no scan output" in out
@@ -415,7 +415,7 @@ def test_audit_grep_log_handles_empty_store(tmp_path):
     from cli.commands.audit import AuditCommandSet
 
     cs = AuditCommandSet()
-    cs._CommandSet__cmd_internal = _MiniShell(tmp_path)
+    cs._cmd_internal = _MiniShell(tmp_path)
     cs.do_grep_log("admin")
     out = "\n".join(cs._cmd.outputs)
     assert "no matches" in out
@@ -425,7 +425,7 @@ def test_audit_form_unknown_lists_known(tmp_path):
     from cli.commands.audit import AuditCommandSet
 
     cs = AuditCommandSet()
-    cs._CommandSet__cmd_internal = _MiniShell(tmp_path)
+    cs._cmd_internal = _MiniShell(tmp_path)
     cs.do_form("totally_unknown_command")
     out = "\n".join(cs._cmd.outputs)
     assert "no form" in out

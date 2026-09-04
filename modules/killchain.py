@@ -212,9 +212,10 @@ class KillChain:
         wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
         cli_phase = "recon"
         try:
-            from modules.world_model import get_world_model, read_state_dict
+            from modules.world_model import WorldModel, read_state_dict
+
             wm_path = world_model_path or _DEFAULT_CONFIG.world_model_path()
-            wm = get_world_model(path=wm_path)
+            wm = WorldModel(path=wm_path)
             wm_phase = wm.get_phase().value
             cli_phase = KillChain.engagement_phase_to_cli(wm_phase)
         except Exception as exc:

@@ -992,8 +992,9 @@ class ExfiltrationCommandSet(LazyOwnCommandSet):
                 username, password = credential
         rhost = self.params["rhost"]
         print_msg("Deploying sessions directory.")
-        import os as _os
+
         from core.hardening import set_sshpass_env
+
         _env = set_sshpass_env(password)
         scp_args = ["sshpass", "-e", "scp", "-r", f"{tmp_path}/", f"{username}@{rhost}:{RSYNC_REMOTE_DROP_PATH}"]
         print_msg(" ".join(scp_args[:4]) + " [credentials redacted]")

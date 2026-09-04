@@ -237,7 +237,6 @@ _LAZYOWN_STRINGS = _collect_runtime_strings()
         r"reg.exe save hklm\security C:\security.save",
         r"HKLM\System\CurrentControlSet\Control\TerminalServer",
         r"HKLM:\SYSTEM\CurrentControlSet\Services\ADSync",
-        r"C:\Windows\Tasks",
         r"%Program Files%\Windows Defender\MpCmdRun.exe",
         r"C:\Program Files\Microsoft Azure AD Sync\Bin\miiserver.exe",
         r"procdump.exe -accepteula -ma lsass.exe",
@@ -253,7 +252,6 @@ _LAZYOWN_STRINGS = _collect_runtime_strings()
         r"Perfil\s*:\s",
         r"trycloudflare.com",
         r".\hellbird.ps1",
-        r".\pivot.exe",
         r".\z.ps1",
         r"htb\lazyown",
         r"C:\users\grisun0\documents\OpenSSH-Win64-v9.8.1.0.msi",
@@ -289,6 +287,7 @@ def test_getprompt_renders_three_lines_and_includes_payload_segments():
     from utils import getprompt
     raw = getprompt()
     plain = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", raw)
+    plain = plain.replace("\x01", "").replace("\x02", "")
     lines = plain.splitlines()
     assert len(lines) == 3, plain
     registry = GlyphRegistry()

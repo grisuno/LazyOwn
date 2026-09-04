@@ -474,8 +474,6 @@ def fix_report(
     Returns:
         A fresh :class:`DoctorReport` after attempted fixes.
     """
-    import subprocess
-    import shutil
 
     out = console or Console(highlight=False, soft_wrap=True)
     resolved_root = root if root is not None else Path(__file__).resolve().parent.parent
@@ -501,9 +499,9 @@ def fix_report(
 
         success = _apply_fix(check, resolved_root, venv_pip, out)
         if success:
-            out.print(f"    [green]Fixed.[/]\n")
+            out.print("    [green]Fixed.[/]\n")
         else:
-            out.print(f"    [red]Fix failed — you may need to install manually.[/]\n")
+            out.print("    [red]Fix failed — you may need to install manually.[/]\n")
 
     out.print("[bold]Re-checking environment...[/]\n")
     new_report = gather_report(resolved_root)
@@ -519,7 +517,6 @@ def _apply_fix(
 ) -> bool:
     """Execute the remediation for a single check. Returns True on success."""
     import subprocess
-    import shutil
 
     hint = check.hint
     if not hint:
@@ -531,13 +528,13 @@ def _apply_fix(
         pkg = _PACKAGE_FIX_MAP[check.name]
         cmd = [pip_bin, "install", pkg]
     elif hint.startswith("pip install "):
-        pkg = hint[len("pip install "):].strip()
+        pkg = hint[len("pip install ") :].strip()
         cmd = [pip_bin, "install", pkg]
     elif hint.startswith("pipx install "):
-        pkg = hint[len("pipx install "):].strip()
+        pkg = hint[len("pipx install ") :].strip()
         cmd = ["pipx", "install", pkg]
     elif hint.startswith("sudo apt install "):
-        pkg = hint[len("sudo apt install "):].strip()
+        pkg = hint[len("sudo apt install ") :].strip()
         cmd = ["sudo", "apt-get", "install", "-y", pkg]
     elif hint.startswith("bash gen_cert.sh"):
         cmd = ["bash", str(root / "gen_cert.sh")]
@@ -554,7 +551,10 @@ def _apply_fix(
 
     try:
         result = subprocess.run(
-            cmd, capture_output=True, text=True, timeout=300,
+            cmd,
+            capture_output=True,
+            text=True,
+            timeout=300,
         )
         return result.returncode == 0
     except FileNotFoundError:

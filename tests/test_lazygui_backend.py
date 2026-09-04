@@ -7,6 +7,9 @@ BackendDescriptor, and backend signal contracts.
 from __future__ import annotations
 
 import pytest
+
+pytest.importorskip("PySide6")
+
 from PySide6.QtCore import QObject
 
 from lazygui.config.constants import AppConstants

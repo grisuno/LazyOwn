@@ -35,9 +35,9 @@ def test_obs_parser_error():
     assert any(f.type == FindingType.ERROR for f in obs.findings)
 
 # world_model
-def test_world_model_basic():
+def test_world_model_basic(tmp_path):
     from world_model import EngagementPhase, WorldModel
-    wm = WorldModel()
+    wm = WorldModel(path=str(tmp_path / "wm.json"))
     wm.add_host("10.0.0.1")
     wm.add_service("10.0.0.1", 22, "ssh", "OpenSSH 8.4")
     assert wm.get_phase() in (EngagementPhase.RECON, EngagementPhase.SCANNING)

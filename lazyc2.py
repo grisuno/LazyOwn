@@ -4886,6 +4886,7 @@ def search_results():
 
     return Response(headers_content + html_content + footer, mimetype='text/html')
 @app.route('/graph')
+@requires_auth_or_session
 def graph():
     response = decoy()
     if response:
@@ -4893,6 +4894,7 @@ def graph():
     return render_template('graph.html')
 
 @app.route('/task/<int:task_id>')
+@requires_auth_or_session
 def task(task_id):
     response = decoy()
     if response:
@@ -4906,6 +4908,7 @@ def task(task_id):
     return render_template('task.html', task=task, task_description=task_description)
 
 @app.route('/gettasks', methods=['GET'])
+@requires_auth_or_session
 def get_tasks():
     response = decoy()
     if response:
@@ -4914,6 +4917,7 @@ def get_tasks():
     return jsonify(tasks)
 
 @app.route('/tasks', methods=['GET'])
+@requires_auth_or_session
 def tasks():
     response = decoy()
     if response:
@@ -4922,6 +4926,7 @@ def tasks():
     return render_template('tasks.html', tasks=tasks)
 
 @app.route('/task/<int:task_id>/edit', methods=['GET', 'POST'])
+@requires_auth_or_session
 def edit_task(task_id):
     response = decoy()
     if response:
@@ -4955,6 +4960,7 @@ def edit_task(task_id):
 
 
 @app.route('/cves', methods=['GET', 'POST'])
+@requires_auth_or_session
 def cves():
     response = decoy()
     cves = load_cves()
@@ -4985,6 +4991,7 @@ def cves():
     return render_template('cves.html', cves=cves)
 
 @app.route('/cve/<int:cve_id>')
+@requires_auth_or_session
 def cve(cve_id):
     response = decoy()
     if response:
@@ -4998,6 +5005,7 @@ def cve(cve_id):
     return render_template('cve.html', cve=cve, cve_description=cve_description)
 
 @app.route('/cve/<int:cve_id>/edit', methods=['GET', 'POST'])
+@requires_auth_or_session
 def edit_cve(cve_id):
     response = decoy()
     if response:
@@ -5031,6 +5039,7 @@ def edit_cve(cve_id):
 
 
 @app.route('/notes', methods=['GET', 'POST'])
+@requires_auth_or_session
 def edit_notes():
     response = decoy()
     if response:
@@ -5047,6 +5056,7 @@ def edit_notes():
     return render_template('edit_note.html', note=notes)
 
 @app.route('/getnotes', methods=['GET'])
+@requires_auth_or_session
 def get_notes():
     response = decoy()
     if response:
@@ -5055,6 +5065,7 @@ def get_notes():
     return jsonify(notes)
 
 @app.route('/view_note')
+@requires_auth_or_session
 def view_note():
     response = decoy()
     if response:
@@ -5090,6 +5101,7 @@ def push_notification():
 
 
 @app.route('/edit_event/<event_name>', methods=['GET', 'POST'])
+@requires_auth_or_session
 def edit_event(event_name):
     response = decoy()
     if response:
@@ -5122,11 +5134,13 @@ def edit_event(event_name):
     return render_template('edit_event.html', event=event)
 
 @app.route('/event_config', methods=['GET'])
+@requires_auth_or_session
 def get_event_config():
     event_config = load_event_config()
     return jsonify(event_config)
 
 @app.route('/event_config_view', methods=['GET', 'POST'])
+@requires_auth_or_session
 def get_event_config_view():
     response = decoy()
     if response:
@@ -5185,6 +5199,7 @@ def aicmd_view():
         return jsonify({"error": "Arg not allowed"}), 400
 
 @app.route('/events', methods=['GET'])
+@requires_auth_or_session
 def get_events():
     client_ip = request.remote_addr
     if current_user.is_authenticated:
@@ -5221,6 +5236,7 @@ def get_events():
 
 
 @app.route('/tools', methods=['GET'])
+@requires_auth_or_session
 def list_tools():
     response = decoy()
     if response:
@@ -5230,6 +5246,7 @@ def list_tools():
 
 
 @app.route('/tools/create', methods=['GET', 'POST'])
+@requires_auth_or_session
 def create_tool():
     response = decoy()
     config = load_payload()
@@ -5260,6 +5277,7 @@ def create_tool():
     return render_template('create_tool.html', config=config, current_user=current_user)
 
 @app.route('/tools/<toolname>', methods=['GET'])
+@requires_auth_or_session
 def view_tool(toolname):
     response = decoy()
     if response:
@@ -5289,6 +5307,7 @@ def view_tool(toolname):
     return render_template('view_tool.html', tool=tool_data)
 
 @app.route('/tools/<toolname>/update', methods=['GET', 'POST'])
+@requires_auth_or_session
 def update_tool(toolname):
     response = decoy()
     config = load_payload()
@@ -5340,6 +5359,7 @@ def update_tool(toolname):
     return render_template('edit_tool.html', tool=tool_data, config=config)
 
 @app.route('/tools/<toolname>/delete', methods=['POST'])
+@requires_auth_or_session
 def delete_tool(toolname):
     response = decoy()
     if response:
@@ -6554,6 +6574,7 @@ def internal_server_error(e):
     return render_template('500.html'), 500
 
 @app.route('/config.json')
+@requires_auth_or_session
 def get_config():
     """
     Lee el archivo payload.json, lo manipula y lo expone como /config.json.
@@ -6617,11 +6638,13 @@ def capture_audio():
         return jsonify({"error": str("audio")}), 500
 
 @app.route('/surface')
+@requires_auth_or_session
 def surface():
     return render_template('surface.html')
 
 
 @app.route('/surface_live')
+@requires_auth_or_session
 def surface_live():
     """Render the live attack-surface graph page.
 
@@ -6636,6 +6659,7 @@ def surface_live():
 
 
 @app.route('/api/surface_live')
+@requires_auth_or_session
 def api_surface_live():
     """Return the live attack-surface graph derived from the world model.
 
@@ -6659,6 +6683,7 @@ def api_surface_live():
     return jsonify(build_live_graph(world))
 
 @app.route('/data')
+@requires_auth_or_session
 def get_data():
     shell.onecmd('process_scans')
     data = load_data()
@@ -6812,6 +6837,7 @@ def create_campaign():
     return render_template('phishing/new_campaign.html', templates=templates)
 
 @app.route('/lazyphishingai', methods=['POST'])
+@requires_auth_or_session
 def lazyphishingai():
     data = request.json
     prompt = data.get('prompt')

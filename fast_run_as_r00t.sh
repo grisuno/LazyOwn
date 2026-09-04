@@ -23,6 +23,9 @@ NO_ATTACH=0   # set to 1 by --no-attach (MCP mode -- skip tmux attach at the end
 TARGET_UID=1000
 TARGET_GID=1000
 CHOWN_INTERVAL=30
+# Seconds to wait for the LazyOwn shell to finish loading plugins and reach
+# its prompt before typed follow-up commands are sent into the pane.
+STARTUP_WAIT=25
 
 # ── Read payload.json ─────────────────────────────────────────────────────────
 _jq() { jq -r ".$1" "$JSON_FILE"; }
@@ -115,7 +118,11 @@ t_lazyown() {
     local split=$1 delay=$2 flags=$3; shift 3
     tmux split-window "-${split}"
     t_send "sleep ${delay} && bash -c './run ${flags}'"
-    for cmd in "$@"; do t_send "$cmd"; done
+    [[ "$#" -gt 0 ]] && sleep "${STARTUP_WAIT}"
+    for cmd in "$@"; do
+        t_send "$cmd"
+        sleep 2
+    done
 }
 
 # Open a new pane running a command as unprivileged user 1000 (with venv).
@@ -179,7 +186,7 @@ log "Chown watcher armed (interval ${CHOWN_INTERVAL}s)."
 tmux new-session -d -s "$SESSION"
 
 # [0] Recon — full nmap scan
-t_send "sleep 5 && bash -c './run'" "nmap"
+t_send "sleep 5 && bash -c './run -c nmap'"
 
 # [1] Network — add hosts to /etc/hosts + ping sweep
 t_lazyown v 5 "-c ping" "addhosts $DOMAIN"
@@ -193,10 +200,10 @@ t_lazyown v 5 "-c ping" "addhosts $DOMAIN"
     t_priv_user v "python3 -W ignore discord_c2.py"
 
 # [2] C2 implant — generate credentials then launch implant
-t_lazyown v 5 "" "createcredentials" "$(printf 'c2 no_priv %s' "$OS_ID") $TUNNEL"
+t_lazyown v 5 "-c createcredentials" "c2 no_priv $OS_ID $TUNNEL"
 
 # [3] Auto-loop — waits SLEEP_START seconds so C2 server is up before starting
-t_lazyown h "$SLEEP_START" "" "auto"
+t_lazyown h "$SLEEP_START" "-c auto"
 
 # [4] lazyc2 — Flask C2 server (runs as unprivileged user 1000)
 tmux split-window -h
@@ -210,11 +217,11 @@ tmux select-pane -t 0
 
 # [5] HTTP file server + certs (www)
 tmux split-window -h
-t_send "bash -c './run'" "www" "$CERTPASS"
+t_send "bash -c './run -c www'"
 
 # [6] VPN — bring up tun interface
 tmux split-window -h
-t_send "bash -c './run'" "vpn $VPN"
+t_send "bash -c './run -c \"vpn ${VPN}\"'"
 
 # [opt] Netcat reverse shell listener
 if [[ "$ENABLE_NC" == "true" ]]; then

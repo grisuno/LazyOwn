@@ -1,0 +1,212 @@
+# Subsystem: rootkit
+
+## modules/rootkit/mr.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `get_ld_preload` (function, line 83) `char *get_ld_preload()`
+  - `set_ld_preload` (function, line 87) `void set_ld_preload(const char *ld_preload)`
+  - `ensure_ld_preload` (function, line 100) `void ensure_ld_preload()`
+  - `ensure_pid_file_exists` (function, line 117) `void ensure_pid_file_exists()`
+  - `check_elevate` (function, line 135) `int check_elevate()`
+  - `write_file` (function, line 144) `void write_file(const char *path, const char *content, mode_t mode)`
+  - `crontab` (function, line 155) `void crontab(const char *path)`
+  - `generate_random_string` (function, line 167) `char *generate_random_string()`
+  - `xdg` (function, line 177) `void xdg(const char *path, int admin)`
+  - `kde_plasma` (function, line 199) `void kde_plasma(const char *path)`
+  - `copy_binary` (function, line 214) `void copy_binary(const char *source, const char *destination)`
+  - `persist` (function, line 233) `void persist(const char *path)`
+  - `ensure_key_file_exists` (function, line 250) `void ensure_key_file_exists()`
+  - `ensure_hide_file_exists` (function, line 271) `void ensure_hide_file_exists()`
+  - `infect_command` (function, line 289) `void infect_command()`
+  - `load_rootkit` (function, line 303) `void load_rootkit()`
+  - `unload_rootkit` (function, line 313) `void unload_rootkit()`
+  - `handle_client` (function, line 321) `void *handle_client(void *client_socket)`
+  - `mon_shell` (function, line 520) `void *mon_shell(void *data)`
+  - `signal_handler` (function, line 608) `void signal_handler(int signum)`
+  - `reboot_system` (function, line 614) `void reboot_system()`
+  - `main` (function, line 638) `int main()`
+  - `PORT` (macro, line 30)
+  - `BUFFER_SIZE` (macro, line 32)
+  - `MAX_COMMANDS` (macro, line 33)
+  - `DESIRED_LD_PRELOAD` (macro, line 34)
+  - `PID_FILE` (macro, line 35)
+  - `HIDE_FILE` (macro, line 36)
+  - `KEY_FILE` (macro, line 37)
+  - `PASSWORD` (macro, line 39)
+  - `PATH_MAX` (macro, line 41)
+
+## modules/rootkit/mrhyde.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `linux_dirent64` (struct, line 548)
+  - `load_hidden_pids` (function, line 72) `void load_hidden_pids()`
+  - `load_hidden_files` (function, line 92) `void load_hidden_files()`
+  - `unlink` (function, line 112) `int unlink(const char *pathname)`
+  - `kill` (function, line 124) `int kill(pid_t pid, int sig)`
+  - `remove` (function, line 144) `int remove(const char *pathname)`
+  - `unlinkat` (function, line 156) `int unlinkat(int dirfd, const char *pathname, int flags)`
+  - `get_username_from_pid` (function, line 177) `char* get_username_from_pid(pid_t pid)`
+  - `should_hide_pid` (function, line 196) `int should_hide_pid(const char* pid)`
+  - `should_hide_file` (function, line 211) `int should_hide_file(const char* filename)`
+  - `readdir` (function, line 221) `struct dirent* readdir(DIR* dirp)`
+  - `fopen` (function, line 283) `FILE *fopen(const char *pathname, const char *mode)`
+  - `my_open` (function, line 327) `int my_open(const char *pathname, int flags, mode_t mode)`
+  - `my_openat` (function, line 371) `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
+  - `stat` (function, line 415) `int stat(const char *pathname, struct stat *statbuf)`
+  - `lstat` (function, line 459) `int lstat(const char *pathname, struct stat *statbuf)`
+  - `fstat` (function, line 503) `int fstat(int fd, struct stat *statbuf)`
+  - `getdents` (function, line 557) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+  - `getdents64` (function, line 618) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+  - `main` (function, line 677) `int main()`
+  - `HIDDEN_DIR` (macro, line 32)
+  - `HIDDEN_FILE` (macro, line 34)
+  - `HIDDEN_FILE1` (macro, line 35)
+  - `HIDDEN_FILE2` (macro, line 36)
+  - `HIDDEN_FILE3` (macro, line 37)
+  - `HIDDEN_FILE4` (macro, line 38)
+  - `HIDDEN_FILE5` (macro, line 39)
+  - `HIDDEN_FILE6` (macro, line 40)
+  - `HIDDEN_FILE7` (macro, line 41)
+  - `HIDDEN_FILE8` (macro, line 42)
+  - `HIDDEN_FILE9` (macro, line 43)
+  - `PATHMRHYDE` (macro, line 44)
+  - `HIDE_DIR` (macro, line 45)
+  - `HIDE_USER` (macro, line 47)
+  - `MAX_HIDE_PIDS` (macro, line 48)
+  - `PID_FILE_PATH` (macro, line 49)
+  - `FILE_HIDE_PATH` (macro, line 50)
+
+## modules/rootkit/mrhyde2.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `linux_dirent64` (struct, line 461)
+  - `load_hidden_pids` (function, line 62) `void load_hidden_pids()`
+  - `unlink` (function, line 82) `int unlink(const char *pathname)`
+  - `kill` (function, line 94) `int kill(pid_t pid, int sig)`
+  - `remove` (function, line 114) `int remove(const char *pathname)`
+  - `unlinkat` (function, line 126) `int unlinkat(int dirfd, const char *pathname, int flags)`
+  - `get_username_from_pid` (function, line 147) `char* get_username_from_pid(pid_t pid)`
+  - `should_hide_pid` (function, line 166) `int should_hide_pid(const char* pid)`
+  - `readdir` (function, line 181) `struct dirent* readdir(DIR* dirp)`
+  - `fopen` (function, line 238) `FILE *fopen(const char *pathname, const char *mode)`
+  - `my_open` (function, line 275) `int my_open(const char *pathname, int flags, mode_t mode)`
+  - `my_openat` (function, line 312) `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
+  - `stat` (function, line 349) `int stat(const char *pathname, struct stat *statbuf)`
+  - `lstat` (function, line 386) `int lstat(const char *pathname, struct stat *statbuf)`
+  - `fstat` (function, line 423) `int fstat(int fd, struct stat *statbuf)`
+  - `getdents` (function, line 470) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+  - `getdents64` (function, line 527) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+  - `main` (function, line 582) `int main()`
+  - `HIDDEN_DIR` (macro, line 30)
+  - `HIDDEN_FILE` (macro, line 32)
+  - `HIDDEN_FILE1` (macro, line 33)
+  - `HIDDEN_FILE2` (macro, line 34)
+  - `HIDDEN_FILE3` (macro, line 35)
+  - `HIDDEN_FILE4` (macro, line 36)
+  - `HIDDEN_FILE5` (macro, line 37)
+  - `HIDDEN_FILE6` (macro, line 38)
+  - `HIDDEN_FILE7` (macro, line 39)
+  - `HIDDEN_FILE8` (macro, line 40)
+  - `HIDDEN_FILE9` (macro, line 41)
+  - `PATHMRHYDE` (macro, line 42)
+  - `HIDE_DIR` (macro, line 43)
+  - `HIDE_USER` (macro, line 45)
+  - `MAX_HIDE_PIDS` (macro, line 46)
+  - `PID_FILE_PATH` (macro, line 47)
+
+## modules/rootkit/mrhyde3.c
+- Layer: utility
+- Language: c
+- Symbols:
+  - `io_uring_sq` (struct, line 57)
+  - `io_uring_cq` (struct, line 61)
+  - `io_uring` (struct, line 65)
+  - `linux_dirent64` (struct, line 560)
+  - `__io_uring_setup` (function, line 73) `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)`
+  - `__io_uring_enter` (function, line 76) `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,
+   ...`
+  - `__io_uring_register` (function, line 80) `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...`
+  - `uring_queue_init` (function, line 85) `static int uring_queue_init(unsigned int entries, struct io_uring *ring)`
+  - `uring_get_sqe` (function, line 130) `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)`
+  - `uring_submit` (function, line 141) `static int uring_submit(struct io_uring *ring)`
+  - `uring_wait_cqe_timeout` (function, line 149) `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...`
+  - `uring_cqe_seen` (function, line 162) `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
+  - `init_root_ring` (function, line 176) `static int init_root_ring(void)`
+  - `uring_read_whole_file` (function, line 197) `static char *uring_read_whole_file(const char *path)`
+  - `traditional_read_file` (function, line 253) `static char *traditional_read_file(const char *path)`
+  - `load_hidden_pids` (function, line 268) `void load_hidden_pids(void)`
+  - `load_hidden_files` (function, line 281) `void load_hidden_files(void)`
+  - `get_username_from_pid` (function, line 297) `char* get_username_from_pid(pid_t pid)`
+  - `should_hide_pid` (function, line 319) `int should_hide_pid(const char* pid)`
+  - `should_hide_file` (function, line 329) `int should_hide_file(const char* filename)`
+  - `readdir` (function, line 335) `struct dirent* readdir(DIR* dirp)`
+  - `unlink` (function, line 366) `int unlink(const char *pathname)`
+  - `kill` (function, line 373) `int kill(pid_t pid, int sig)`
+  - `remove` (function, line 383) `int remove(const char *pathname)`
+  - `unlinkat` (function, line 389) `int unlinkat(int dirfd, const char *pathname, int flags)`
+  - `fopen` (function, line 407) `FILE *fopen(const char *pathname, const char *mode)`
+  - `open` (function, line 429) `int open(const char *pathname, int flags, ...)`
+  - `openat` (function, line 457) `int openat(int dirfd, const char *pathname, int flags, ...)`
+  - `stat` (function, line 487) `int stat(const char *pathname, struct stat *statbuf)`
+  - `lstat` (function, line 511) `int lstat(const char *pathname, struct stat *statbuf)`
+  - `fstat` (function, line 535) `int fstat(int fd, struct stat *statbuf)`
+  - `getdents` (function, line 569) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
+  - `getdents64` (function, line 604) `ssize_t getdents64(int fd, void *dirp, size_t count)`
+  - `_GNU_SOURCE` (macro, line 6)
+  - `HIDDEN_DIR` (macro, line 33)
+  - `HIDDEN_FILE` (macro, line 34)
+  - `HIDDEN_FILE1` (macro, line 35)
+  - `HIDDEN_FILE2` (macro, line 36)
+  - `HIDDEN_FILE3` (macro, line 37)
+  - `HIDDEN_FILE4` (macro, line 38)
+  - `HIDDEN_FILE5` (macro, line 39)
+  - `HIDDEN_FILE6` (macro, line 40)
+  - `HIDDEN_FILE7` (macro, line 41)
+  - `HIDDEN_FILE8` (macro, line 42)
+  - `HIDDEN_FILE9` (macro, line 43)
+  - `PATHMRHYDE` (macro, line 44)
+  - `HIDE_DIR` (macro, line 45)
+  - `HIDE_USER` (macro, line 46)
+  - `MAX_HIDE_PIDS` (macro, line 47)
+  - `PID_FILE_PATH` (macro, line 48)
+  - `FILE_HIDE_PATH` (macro, line 49)
+  - `IO_URING_QUEUE_DEPTH` (macro, line 50)
+  - `IO_URING_BUFFER_SIZE` (macro, line 51)
+  - `C2_SERVER_IP` (macro, line 52)
+  - `C2_PORT` (macro, line 53)
+  - `CQE_TIMEOUT_MS` (macro, line 54)
+
+## modules/rootkit/rootkit.asm
+- Layer: utility
+- Language: asm
+- Symbols:
+  - `_start` (function, line 4)
+
+## modules/rootkit/rootkit.c
+- Layer: utility
+- Doc: include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> include <linux/dirent.h> include <linux/uacces
+- Language: c
+- Symbols:
+  - `regs_override_return` (function, line 43) `static inline void regs_override_return(struct pt_regs *regs, long new_ret)`
+  - `hooked_getdents` (function, line 75) `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)`
+  - `hooked_getdents64` (function, line 101) `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)`
+  - `hooked_read` (function, line 127) `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)`
+  - `disable_module_signature_verification` (function, line 181) `static void disable_module_signature_verification(void)`
+  - `hook_syscalls` (function, line 195) `static int __init hook_syscalls(void)`
+  - `unhook_syscalls` (function, line 208) `static void __exit unhook_syscalls(void)`
+  - `HIDDEN_PROCESS_NAME` (macro, line 26)
+  - `HIDDEN_FILE_NAME` (macro, line 27)
+  - `LISTENER_IP` (macro, line 28)
+  - `LISTENER_PORT` (macro, line 29)
+  - `SPECIAL_STRING` (macro, line 31)
+  - `SPECIAL_STRING_PORT` (macro, line 34)
+
+## modules/rootkit/rootkit.mod.c
+- Layer: utility
+- Doc: include <linux/module.h> define INCLUDE_VERMAGIC include <linux/build-salt.h> include <linux/elfnote-lto.h> include <lin
+- Language: c
+- Symbols:
+  - `INCLUDE_VERMAGIC` (macro, line 2)

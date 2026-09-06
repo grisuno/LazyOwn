@@ -603,7 +603,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.use_ai = use_ai
         self.params = {
             "binary_name": "gzip",
-            "api_key": None,
+            "api_key": api_key,
             "prompt": None,
             "url": None,
             "os_id":"2",

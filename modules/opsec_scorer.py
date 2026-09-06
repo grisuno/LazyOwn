@@ -1,34 +1,43 @@
-"""OPSEC scoring engine — evaluates command risk before execution.
+"""OPSEC scoring engine — pre-execution noise assessment and gated scoring.
 
-Scores commands on noise level, detection likelihood, evasion coverage,
-and operational context. Integrates with the EventBus and PolicyEngine
-to provide pre-execution warnings and auto-recommend mitigations.
+Single contract module for every OPSEC evaluation in the framework. It
+exposes two complementary scorers that share one set of risk primitives:
 
-Design (SOLID):
-- Single Responsibility: OpsecScorer only scores commands.
-- Open/Closed: new noise rules added via NOISE_RULES dict.
-- Liskov: all scorers return OpsecScore.
-- Interface Segregation: score() and suggest_mitigations() are the surface.
-- Dependency Inversion: depends on abstract config dict, not concrete shell.
+- :class:`OpsecScorer` — lightweight pre-execution noise assessment that
+  returns a :class:`OpsecScore` with a plain-text risk label. Used for
+  advisory warnings before running a command.
+
+- :class:`OpsecScorerV2` — real-time, context-aware scoring with action
+  gating (allow / warn / confirm / block) and session trend tracking.
+  Returns a :class:`GatedOpsecScore`.
+
+Both share the risk-threshold mapping (see :func:`_risk_bucket`), so the
+noise-to-risk translation is defined exactly once. The two command tables
+— :data:`COMMAND_NOISE` and :data:`COMMAND_RISK_PROFILES` — remain distinct
+by design: the former drives advisory noise scoring while the latter drives
+gating with its own threat model and extra exfiltration payload profiles.
 
 Usage:
-    from modules.opsec_scorer import OpsecScorer
+    from modules.opsec_scorer import OpsecScorer, OpsecScorerV2, OpsecContext
 
-    scorer = OpsecScorer(payload, world_model)
+    scorer = OpsecScorer(payload)
     score = scorer.score("secretsdump", rhost="10.10.11.5")
-    if score.risk_level == "critical":
-        print(score.recommendation)
+
+    gated = OpsecScorerV2(context=OpsecContext(killchain_phase="credential_access"))
+    assessment = gated.assess("mimikatz")
 """
 
 from __future__ import annotations
 
 import logging
+import time
 from dataclasses import dataclass, field
+from enum import IntEnum
 from typing import Any
 
 log = logging.getLogger("opsec_scorer")
 
-PHASE_NOISE = {
+PHASE_NOISE: dict[str, int] = {
     "recon": 2,
     "scanning": 3,
     "enumeration": 3,
@@ -42,6 +51,22 @@ PHASE_NOISE = {
     "c2": 6,
     "evasion": 4,
     "reporting": 1,
+}
+
+PHASE_BASE_NOISE: dict[str, int] = {
+    "recon": 1,
+    "scanning": 3,
+    "enumeration": 3,
+    "exploitation": 5,
+    "post_exploitation": 7,
+    "privesc": 7,
+    "credential_access": 8,
+    "lateral_movement": 8,
+    "persistence": 6,
+    "exfiltration": 9,
+    "c2": 5,
+    "evasion": 4,
+    "reporting": 0,
 }
 
 COMMAND_NOISE: dict[str, dict[str, Any]] = {
@@ -77,6 +102,31 @@ COMMAND_NOISE: dict[str, dict[str, Any]] = {
     "createrevshell": {"noise": 4, "phase": "c2", "detectable_by": ["none"]},
 }
 
+COMMAND_RISK_PROFILES: dict[str, dict[str, Any]] = {
+    "ping": {"base_noise": 1, "detects": [], "phase": "recon"},
+    "nmap": {"base_noise": 5, "detects": ["IDS", "firewall_logs", "netflow"], "phase": "scanning"},
+    "lazynmap": {"base_noise": 4, "detects": ["IDS", "firewall_logs"], "phase": "scanning"},
+    "gobuster": {"base_noise": 5, "detects": ["WAF", "web_logs"], "phase": "enumeration"},
+    "ffuf": {"base_noise": 5, "detects": ["WAF", "web_logs"], "phase": "enumeration"},
+    "nikto": {"base_noise": 6, "detects": ["WAF", "IDS", "web_logs"], "phase": "enumeration"},
+    "nuclei": {"base_noise": 5, "detects": ["WAF", "IDS"], "phase": "scanning"},
+    "mimikatz": {"base_noise": 10, "detects": ["EDR", "AV", "SIEM", "windows_event_logs"], "phase": "credential_access"},
+    "secretsdump": {"base_noise": 9, "detects": ["EDR", "windows_event_logs", "SIEM"], "phase": "credential_access"},
+    "psexec": {"base_noise": 8, "detects": ["EDR", "windows_event_logs", "SIEM"], "phase": "lateral_movement"},
+    "wmiexec": {"base_noise": 8, "detects": ["EDR", "SIEM"], "phase": "lateral_movement"},
+    "bloodhound": {"base_noise": 7, "detects": ["EDR", "windows_event_logs", "SIEM"], "phase": "enumeration"},
+    "kerberoast": {"base_noise": 5, "detects": ["windows_event_logs"], "phase": "credential_access"},
+    "asreproast": {"base_noise": 5, "detects": ["windows_event_logs"], "phase": "credential_access"},
+    "smbmap": {"base_noise": 4, "detects": ["windows_event_logs"], "phase": "enumeration"},
+    "enum4linux": {"base_noise": 4, "detects": ["windows_event_logs"], "phase": "enumeration"},
+    "chisel": {"base_noise": 5, "detects": ["firewall_logs", "netflow"], "phase": "lateral_movement"},
+    "payload_generate": {"base_noise": 2, "detects": [], "phase": "c2"},
+    "payload_deliver": {"base_noise": 7, "detects": ["EDR", "AV", "SIEM"], "phase": "c2"},
+    "exfil_http": {"base_noise": 6, "detects": ["proxy_logs", "DLP"], "phase": "exfiltration"},
+    "exfil_dns": {"base_noise": 8, "detects": ["DNS_logs", "SIEM"], "phase": "exfiltration"},
+    "exfil_icmp": {"base_noise": 7, "detects": ["netflow", "IDS"], "phase": "exfiltration"},
+}
+
 TARGET_SENSITIVITY_BONUS: dict[str, int] = {
     "dc": 3,
     "domain_controller": 3,
@@ -102,8 +152,122 @@ MITIGATIONS: dict[str, list[str]] = {
     "auditd": ["use LD_PRELOAD evasion", "use statically linked tools", "clear bash history"],
 }
 
+RISK_THRESHOLD_LOW = 2
+RISK_THRESHOLD_MEDIUM = 4
+RISK_THRESHOLD_HIGH = 7
+
+RISK_LABELS = ("low", "medium", "high", "critical")
+
+
+class RiskLevel(IntEnum):
+    """OPSEC risk levels ordered by severity."""
+
+    NONE = 0
+    LOW = 1
+    MEDIUM = 2
+    HIGH = 3
+    CRITICAL = 4
+
+
+class GateAction(IntEnum):
+    """Action gating decisions for command execution."""
+
+    ALLOW = 0
+    WARN = 1
+    CONFIRM = 2
+    BLOCK = 3
+
+
+def _risk_bucket(noise: int) -> int:
+    """Return a zero-based severity bucket (0..3) for a 0-10 noise score.
+
+    Args:
+        noise: A clamped 0-10 noise value.
+
+    Returns:
+        0 for low, 1 for medium, 2 for high, 3 for critical.
+    """
+    if noise <= RISK_THRESHOLD_LOW:
+        return 0
+    if noise <= RISK_THRESHOLD_MEDIUM:
+        return 1
+    if noise <= RISK_THRESHOLD_HIGH:
+        return 2
+    return 3
+
+
+def _risk_label(noise: int) -> str:
+    """Return the human-readable risk label for a noise score.
+
+    Args:
+        noise: A clamped 0-10 noise value.
+
+    Returns:
+        One of ``low``, ``medium``, ``high``, ``critical``.
+    """
+    return RISK_LABELS[_risk_bucket(noise)]
+
+
+def _risk_level(noise: int) -> RiskLevel:
+    """Return the :class:`RiskLevel` enum value for a noise score.
+
+    Args:
+        noise: A clamped 0-10 noise value.
+
+    Returns:
+        The matching :class:`RiskLevel`, never ``NONE`` for a scored command.
+    """
+    return RiskLevel(_risk_bucket(noise) + 1)
+
+
+@dataclass
+class OpsecContext:
+    """Real-time operational context for gated OPSEC scoring.
+
+    Attributes:
+        killchain_phase: Current phase (recon, scan, enum, exploit, etc.).
+        rhost: Target IP address.
+        target_environment: Target environment type.
+        access_level: Current access level on target.
+        edr_detected: Whether EDR/AV was detected on target.
+        siem_detected: Whether SIEM/correlation was observed.
+        time_window: Operation time window.
+        credential_type: Type of credentials in use.
+        is_privileged: Whether running as privileged user on target.
+        evasion_active: Whether evasion measures are active.
+        artifacts_created: Count of artifacts left so far.
+        session_uptime_minutes: Minutes since session start.
+    """
+
+    killchain_phase: str = "recon"
+    rhost: str = ""
+    target_environment: str = "unknown"
+    access_level: str = "none"
+    edr_detected: bool = False
+    siem_detected: bool = False
+    time_window: str = "business_hours"
+    credential_type: str = "none"
+    is_privileged: bool = False
+    evasion_active: bool = False
+    artifacts_created: int = 0
+    session_uptime_minutes: int = 0
+
+
 @dataclass
 class OpsecScore:
+    """Advisory OPSEC assessment for a single command.
+
+    Attributes:
+        command: Command being assessed.
+        noise_score: 0-10 noise rating.
+        detection_risk: Human-readable detection risk label.
+        risk_level: Plain-text risk label (low/medium/high/critical).
+        confidence: 0-1 confidence in the assessment.
+        detectable_by: Detection systems that may observe the command.
+        mitigation: Suggested mitigations.
+        recommendation: Human-readable guidance.
+    """
+
     command: str
     noise_score: int
     detection_risk: str
@@ -114,6 +278,7 @@ class OpsecScore:
     recommendation: str = ""
 
     def to_dict(self) -> dict[str, Any]:
+        """Return the score serialized as a plain dictionary."""
         return {
             "command": self.command,
             "noise_score": self.noise_score,
@@ -126,15 +291,40 @@ class OpsecScore:
         }
 
 
+@dataclass
+class GatedOpsecScore:
+    """Context-aware, gated OPSEC assessment for a single command.
+
+    Attributes:
+        command: Command being assessed.
+        risk_level: Numeric risk level.
+        risk_label: Human-readable risk label.
+        noise_score: 0-10 noise rating.
+        detection_surface: Detection systems triggered.
+        gate_action: Whether to allow, warn, confirm, or block.
+        mitigations: Suggested mitigations ranked by effectiveness.
+        alternative_commands: Lower-noise alternatives if available.
+        explanation: Human-readable rationale for the score.
+        timestamp: Unix timestamp of the assessment.
+    """
+
+    command: str = ""
+    risk_level: RiskLevel = RiskLevel.LOW
+    risk_label: str = "LOW"
+    noise_score: int = 0
+    detection_surface: list[str] = field(default_factory=list)
+    gate_action: GateAction = GateAction.ALLOW
+    mitigations: list[str] = field(default_factory=list)
+    alternative_commands: list[str] = field(default_factory=list)
+    explanation: str = ""
+    timestamp: float = 0.0
+
+
 class OpsecScorer:
     """Pre-execution OPSEC evaluator for LazyOwn commands.
 
-    Scores commands on:
-    - Base noise from COMMAND_NOISE mappings
-    - Phase-appropriate tool usage
-    - Target sensitivity (DC > workstation)
-    - Evasion status (sleep, user-agent, traffic morphing)
-    - Detection tool coverage (EDR, AV, SIEM)
+    Scores commands on base noise, phase-appropriate tool usage, target
+    sensitivity, evasion status, and detection tool coverage.
 
     Attributes:
         payload: Configuration dict from payload.json.
@@ -325,13 +515,8 @@ class OpsecScorer:
 
     @staticmethod
     def _noise_to_risk(noise: int) -> str:
-        if noise <= 2:
-            return "low"
-        if noise <= 4:
-            return "medium"
-        if noise <= 7:
-            return "high"
-        return "critical"
+        """Return the plain-text risk label for a noise score."""
+        return _risk_label(noise)
 
     @staticmethod
     def _detection_risk_label(detectable: list[str], noise: int) -> str:
@@ -361,6 +546,237 @@ class OpsecScorer:
         return base
 
 
+class OpsecScorerV2:
+    """Real-time OPSEC scoring engine with action gating.
+
+    Evaluates each command against the current operational context,
+    producing a :class:`RiskLevel` and :class:`GateAction`.
+
+    Attributes:
+        context: Current operational context.
+        score_history: Chronological list of past scores for trend analysis.
+        risk_threshold: Maximum allowed risk before blocking.
+        environment_profiles: Predefined risk profiles per target type.
+    """
+
+    ENVIRONMENT_PROFILES: dict[str, dict[str, Any]] = {
+        "enterprise": {
+            "edr_likely": True,
+            "siem_likely": True,
+            "base_noise": 3,
+            "threat_hunting_likely": True,
+            "description": "Well-defended enterprise with EDR + SIEM",
+        },
+        "smb": {
+            "edr_likely": False,
+            "siem_likely": False,
+            "base_noise": 1,
+            "threat_hunting_likely": False,
+            "description": "Small business with little security",
+        },
+        "government": {
+            "edr_likely": True,
+            "siem_likely": True,
+            "base_noise": 5,
+            "threat_hunting_likely": True,
+            "description": "Government/military with aggressive monitoring",
+        },
+        "critical_infrastructure": {
+            "edr_likely": True,
+            "siem_likely": True,
+            "base_noise": 4,
+            "threat_hunting_likely": True,
+            "description": "OT/ICS environment with segregation",
+        },
+        "cloud": {
+            "edr_likely": True,
+            "siem_likely": True,
+            "base_noise": 3,
+            "threat_hunting_likely": False,
+            "description": "Cloud-native environment (AWS/Azure/GCP)",
+        },
+        "dark_web": {
+            "edr_likely": False,
+            "siem_likely": False,
+            "base_noise": 0,
+            "threat_hunting_likely": False,
+            "description": "Anonymous/dark web target - low monitoring",
+        },
+    }
+
+    def __init__(self, context: OpsecContext | None = None):
+        self.context = context or OpsecContext()
+        self.score_history: list[GatedOpsecScore] = []
+        self.risk_threshold = RiskLevel.HIGH
+
+    def assess(self, command: str, extra_context: dict[str, Any] | None = None) -> GatedOpsecScore:
+        """Assess OPSEC risk for a command in the current context.
+
+        Args:
+            command: The command string to evaluate.
+            extra_context: Additional context overrides.
+
+        Returns:
+            GatedOpsecScore with risk assessment and gating decision.
+        """
+        cmd_base = command.split()[0].lower() if command else ""
+        profile = COMMAND_RISK_PROFILES.get(cmd_base, {"base_noise": 3, "detects": ["unknown"], "phase": "unknown"})
+
+        env_profile = self.ENVIRONMENT_PROFILES.get(
+            self.context.target_environment, self.ENVIRONMENT_PROFILES["enterprise"]
+        )
+
+        base_noise = profile.get("base_noise", 3)
+        phase_noise = PHASE_BASE_NOISE.get(self.context.killchain_phase, 3)
+        env_modifier = env_profile.get("base_noise", 3)
+        edr_mod = 2 if self.context.edr_detected else 0
+        siem_mod = 2 if self.context.siem_detected else 0
+        priv_mod = -1 if self.context.is_privileged else 0
+        evasion_mod = -2 if self.context.evasion_active else 1
+        artifact_mod = min(self.context.artifacts_created // 10, 3)
+        uptime_mod = min(self.context.session_uptime_minutes // 60, 4)
+
+        noise_score = max(0, min(10, (
+            base_noise + phase_noise + env_modifier +
+            edr_mod + siem_mod + priv_mod + evasion_mod +
+            artifact_mod + uptime_mod
+        ) // 3))
+
+        detection_surface = list(profile.get("detects", []))
+        if self.context.edr_detected and "EDR" not in detection_surface:
+            detection_surface.append("EDR")
+        if self.context.siem_detected and "SIEM" not in detection_surface:
+            detection_surface.append("SIEM")
+
+        risk_level = self._noise_to_risk(noise_score)
+        gate_action = self._risk_to_gate(risk_level)
+        mitigations = self._generate_mitigations(noise_score, detection_surface)
+        alternatives = self._find_alternatives(cmd_base)
+        explanation = self._build_explanation(cmd_base, noise_score, detection_surface, gate_action)
+
+        score = GatedOpsecScore(
+            command=command,
+            risk_level=risk_level,
+            risk_label=risk_level.name,
+            noise_score=noise_score,
+            detection_surface=detection_surface,
+            gate_action=gate_action,
+            mitigations=mitigations,
+            alternative_commands=alternatives,
+            explanation=explanation,
+            timestamp=time.time(),
+        )
+
+        self.score_history.append(score)
+        return score
+
+    def should_allow(self, command: str) -> tuple[bool, GatedOpsecScore]:
+        """Quick gating check - returns (allowed, score).
+
+        Args:
+            command: Command string to check.
+
+        Returns:
+            Tuple of (is_allowed: bool, assessment: GatedOpsecScore).
+        """
+        score = self.assess(command)
+        allowed = score.gate_action == GateAction.ALLOW
+        return allowed, score
+
+    def get_trend(self) -> dict[str, Any]:
+        """Analyze OPSEC risk trend over the session.
+
+        Returns:
+            Dict with trend data: escalating, stable, or improving.
+        """
+        if len(self.score_history) < 3:
+            return {"trend": "insufficient_data", "sample_count": len(self.score_history)}
+
+        recent = self.score_history[-5:]
+        avg_recent = sum(s.noise_score for s in recent) / max(len(recent), 1)
+        avg_overall = sum(s.noise_score for s in self.score_history) / max(len(self.score_history), 1)
+
+        if avg_recent > avg_overall + 2:
+            trend = "escalating"
+        elif avg_recent < avg_overall - 2:
+            trend = "improving"
+        else:
+            trend = "stable"
+
+        return {
+            "trend": trend,
+            "recent_avg_noise": round(avg_recent, 1),
+            "overall_avg_noise": round(avg_overall, 1),
+            "total_operations": len(self.score_history),
+            "high_risk_ops": sum(1 for s in self.score_history if s.risk_level >= RiskLevel.HIGH),
+            "critical_risk_ops": sum(1 for s in self.score_history if s.risk_level >= RiskLevel.CRITICAL),
+        }
+
+    @staticmethod
+    def _noise_to_risk(noise: int) -> RiskLevel:
+        """Return the RiskLevel enum for a noise score."""
+        return _risk_level(noise)
+
+    def _risk_to_gate(self, risk: RiskLevel) -> GateAction:
+        if risk < RiskLevel.HIGH:
+            return GateAction.ALLOW
+        if risk == RiskLevel.HIGH:
+            return GateAction.WARN
+        if risk == RiskLevel.CRITICAL:
+            return GateAction.CONFIRM
+        return GateAction.BLOCK
+
+    @staticmethod
+    def _generate_mitigations(noise: int, detects: list[str]) -> list[str]:
+        mitigations = []
+
+        if noise >= 7:
+            mitigations.append("Consider spacing operations over longer intervals (10+ min between commands)")
+            mitigations.append("Use lower-noise enumeration before noisy operations")
+        if "EDR" in detects:
+            mitigations.append("Enable evasion measures (syscall direct, API unhooking) before execution")
+            mitigations.append("Verify payload obfuscation and padding before delivery")
+        if "SIEM" in detects:
+            mitigations.append("Use multiple source IPs or rotate through proxies")
+            mitigations.append("Avoid command patterns that trigger common SIEM correlation rules")
+        if "windows_event_logs" in detects:
+            mitigations.append("Plan log cleanup immediately after operation")
+        if "WAF" in detects:
+            mitigations.append("Rate-limit requests and randomize User-Agent headers")
+        if "netflow" in detects:
+            mitigations.append("Randomize beacon intervals and add jitter")
+        if not mitigations:
+            mitigations.append("Operation within acceptable noise parameters")
+
+        return mitigations
+
+    @staticmethod
+    def _find_alternatives(cmd: str) -> list[str]:
+        alternatives: dict[str, list[str]] = {
+            "mimikatz": ["Use procdump + pypykatz", "Use handle duplication + lsass minidump", "Use nanodump (loader)"],
+            "secretsdump": ["Use reg save + pypykatz locally", "Use ntdsutil locally", "Use Volume Shadow Copy + esentutl"],
+            "psexec": ["Use wmiexec (less detection)", "Use dcomexec", "Use schtasks_exec"],
+            "nmap": ["Use masscan (faster, less signature)", "Use zmap (stateless)", "Use lazynmap (custom timing)"],
+            "bloodhound": ["Use SharpHound stealth options", "Use ldapsearch + manual mapping", "Use recon only (no data collection)"],
+        }
+        return alternatives.get(cmd, [])
+
+    @staticmethod
+    def _build_explanation(cmd: str, noise: int, detects: list[str], gate: GateAction) -> str:
+        parts = [f"Command '{cmd}' scored {noise}/10 noise."]
+        if detects:
+            parts.append(f"Detectable by: {', '.join(detects)}.")
+        if gate == GateAction.ALLOW:
+            parts.append("Operation within safe risk thresholds.")
+        elif gate == GateAction.WARN:
+            parts.append("WARNING: Elevated detection risk. Review mitigations.")
+        elif gate == GateAction.CONFIRM:
+            parts.append("HIGH RISK: Operator confirmation required before execution.")
+        elif gate == GateAction.BLOCK:
+            parts.append("BLOCKED: Operation exceeds maximum risk threshold.")
+        return " ".join(parts)
+
+
 def score_command(
     command: str,
     payload: dict[str, Any] | None = None,
@@ -388,9 +804,17 @@ def score_command(
 
 __all__ = [
     "OpsecScorer",
+    "OpsecScorerV2",
     "OpsecScore",
+    "GatedOpsecScore",
+    "OpsecContext",
+    "RiskLevel",
+    "GateAction",
     "score_command",
     "COMMAND_NOISE",
+    "COMMAND_RISK_PROFILES",
     "PHASE_NOISE",
+    "PHASE_BASE_NOISE",
     "MITIGATIONS",
+    "TARGET_SENSITIVITY_BONUS",
 ]

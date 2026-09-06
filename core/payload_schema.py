@@ -43,6 +43,17 @@ from dataclasses import dataclass
 from enum import StrEnum
 from typing import Any
 
+from modules.llm_factory import (
+    DEFAULT_ANTHROPIC_MODEL,
+    DEFAULT_BACKEND,
+    DEFAULT_DEEPSEEK_MODEL,
+    DEFAULT_GROQ_MODEL,
+    DEFAULT_OLLAMA_HOST,
+    DEFAULT_OLLAMA_MODEL,
+    DEFAULT_OPENAI_MODEL,
+    SUPPORTED_BACKENDS,
+)
+
 IPV4_REGEX = re.compile(r"\A((25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}(25[0-5]|2[0-4]\d|[01]?\d\d?)\Z")
 INTERFACE_REGEX = re.compile(r"\A[A-Za-z0-9._@:-]{1,32}\Z")
 HOSTNAME_REGEX = re.compile(
@@ -801,13 +812,106 @@ SCHEMA: dict[str, FieldSpec] = {
             "your_api_key_here",
             "Groq API key (free tier available at console.groq.com).",
             long_help=(
-                "Enables AI-powered command suggestions, the phishing copy "
-                "generator, and the vulnerability analyst. The framework "
-                "degrades gracefully when missing — only AI features turn off."
+                "Key slot used by the groq backend and by the cloud leg of "
+                "the auto backend. Enables AI-powered command suggestions, "
+                "the phishing copy generator, and the vulnerability analyst. "
+                "The framework degrades gracefully when missing — only "
+                "cloud AI features turn off."
             ),
             example="gsk_********************************",
             category="ai",
             sensitive=True,
+        ),
+        _spec(
+            "llm_backend",
+            FieldKind.STRING,
+            DEFAULT_BACKEND,
+            "LLM provider used by every AI assistant in the framework.",
+            long_help=(
+                "Single source of truth for provider selection. Every bot "
+                "(C2 dashboard, Slack, Telegram, Discord) and the ai CLI "
+                "command resolve their backend through "
+                "modules.llm_factory from this key. Use auto to try the "
+                "cloud provider first and fall back to local Ollama."
+            ),
+            example="ollama",
+            category="ai",
+            allowed=tuple(SUPPORTED_BACKENDS),
+        ),
+        _spec(
+            "llm_model_groq",
+            FieldKind.STRING,
+            DEFAULT_GROQ_MODEL,
+            "Model identifier used by the groq backend.",
+            example=DEFAULT_GROQ_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_ollama",
+            FieldKind.STRING,
+            DEFAULT_OLLAMA_MODEL,
+            "Model identifier used by the ollama backend.",
+            example=DEFAULT_OLLAMA_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_openai",
+            FieldKind.STRING,
+            DEFAULT_OPENAI_MODEL,
+            "Model identifier used by the openai backend.",
+            example=DEFAULT_OPENAI_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_anthropic",
+            FieldKind.STRING,
+            DEFAULT_ANTHROPIC_MODEL,
+            "Model identifier used by the anthropic backend.",
+            example=DEFAULT_ANTHROPIC_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "llm_model_deepseek",
+            FieldKind.STRING,
+            DEFAULT_DEEPSEEK_MODEL,
+            "Model identifier used by the deepseek backend.",
+            example=DEFAULT_DEEPSEEK_MODEL,
+            category="ai",
+        ),
+        _spec(
+            "openai_api_key",
+            FieldKind.STRING,
+            "",
+            "OpenAI API key used by the openai backend.",
+            example="sk-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "anthropic_api_key",
+            FieldKind.STRING,
+            "",
+            "Anthropic API key used by the anthropic backend.",
+            example="sk-ant-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "deepseek_api_key",
+            FieldKind.STRING,
+            "",
+            "DeepSeek API key used by the deepseek backend.",
+            example="sk-********************************",
+            category="ai",
+            sensitive=True,
+        ),
+        _spec(
+            "ollama_host",
+            FieldKind.STRING,
+            DEFAULT_OLLAMA_HOST,
+            "Base URL of the local Ollama daemon.",
+            example=DEFAULT_OLLAMA_HOST,
+            category="ai",
         ),
         _spec(
             "prompt",

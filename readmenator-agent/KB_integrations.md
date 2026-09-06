@@ -1,0 +1,145 @@
+# Subsystem: integrations
+
+## modules/integrations/__init__.py
+- Layer: utility
+- Language: py
+- Depends on: `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/searchsploit.py`
+
+## modules/integrations/misp_export.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MISPAttribute` (class, line 56) `class MISPAttribute`
+  - `MISPEvent` (class, line 66) `class MISPEvent`
+  - `FindingMapper` (class, line 80) `class FindingMapper(ABC)`
+  - `IPMapper` (class, line 96) `class IPMapper(FindingMapper)`
+  - `CredentialMapper` (class, line 116) `class CredentialMapper(FindingMapper)`
+  - `CVEMapper` (class, line 136) `class CVEMapper(FindingMapper)`
+  - `DomainMapper` (class, line 156) `class DomainMapper(FindingMapper)`
+  - `HashMapper` (class, line 176) `class HashMapper(FindingMapper)`
+  - `ServiceMapper` (class, line 211) `class ServiceMapper(FindingMapper)`
+  - `MISPExporter` (class, line 246) `class MISPExporter`
+  - `_DictFinding` (class, line 445) `class _DictFinding`
+  - `get_exporter` (method, line 463) `def get_exporter()`
+  - `_main` (method, line 475) `def _main()`
+  - `map` (method, line 84) `def map(self, finding)`
+  - `map` (method, line 99) `def map(self, finding)`
+  - `_is_ip` (method, line 111) `def _is_ip(finding)`
+  - `map` (method, line 119) `def map(self, finding)`
+  - `_is_credential` (method, line 131) `def _is_credential(finding)`
+  - `map` (method, line 139) `def map(self, finding)`
+  - `_is_cve` (method, line 151) `def _is_cve(finding)`
+  - `map` (method, line 159) `def map(self, finding)`
+  - `_is_domain` (method, line 171) `def _is_domain(finding)`
+  - `map` (method, line 185) `def map(self, finding)`
+  - `_is_hash` (method, line 199) `def _is_hash(finding)`
+  - `_detect_type` (method, line 204) `def _detect_type(value)`
+  - `map` (method, line 214) `def map(self, finding)`
+  - `_is_service` (method, line 226) `def _is_service(finding)`
+  - `__init__` (method, line 255) `def __init__(self, mappers)`
+  - `export_session` (method, line 260) `def export_session(self, sessions_dir, target)`
+  - `to_json` (method, line 291) `def to_json(self, event)`
+  - `save` (method, line 314) `def save(self, event, path)`
+  - `push_to_misp` (method, line 322) `def push_to_misp(self, event, url, api_key)`
+  - `_load_findings` (method, line 359) `def _load_findings(self, sdir)`
+  - `_load_policy_facts` (method, line 366) `def _load_policy_facts(self, sdir)`
+  - `_load_events` (method, line 377) `def _load_events(self, sdir)`
+  - `_dict_to_findings` (method, line 397) `def _dict_to_findings(data)`
+  - `_map_finding` (method, line 437) `def _map_finding(self, finding)`
+  - `__init__` (method, line 448) `def __init__(self, data)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/integrations/__init__.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+
+## modules/integrations/nuclei_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NucleiTemplate` (class, line 68) `class NucleiTemplate`
+  - `TemplateSelector` (class, line 82) `class TemplateSelector(ABC)`
+  - `LocalTemplateIndex` (class, line 98) `class LocalTemplateIndex(TemplateSelector)`
+  - `NucleiRunner` (class, line 272) `class NucleiRunner`
+  - `NucleiBridge` (class, line 381) `class NucleiBridge`
+  - `get_bridge` (method, line 435) `def get_bridge()`
+  - `_main` (method, line 447) `def _main()`
+  - `select` (method, line 86) `def select(self, services, cves)`
+  - `__init__` (method, line 108) `def __init__(self, templates_dir)`
+  - `select` (method, line 115) `def select(self, services, cves)`
+  - `build` (method, line 135) `def build(self)`
+  - `_ensure_built` (method, line 152) `def _ensure_built(self)`
+  - `_parse_template` (method, line 156) `def _parse_template(self, path)`
+  - `_parse_yaml` (method, line 166) `def _parse_yaml(self, text, path)`
+  - `_parse_regex` (method, line 195) `def _parse_regex(self, text, path)`
+  - `_normalise_tags` (method, line 232) `def _normalise_tags(raw)`
+  - `_extract_cve_from_tags` (method, line 240) `def _extract_cve_from_tags(tags)`
+  - `_extract_cve_from_text` (method, line 247) `def _extract_cve_from_text(text)`
+  - `_matches` (method, line 252) `def _matches(tmpl, service_lower, cve_upper)`
+  - `__init__` (method, line 281) `def __init__(self)`
+  - `run` (method, line 286) `def run(self, target, templates, output_dir)`
+  - `run_for_findings` (method, line 319) `def run_for_findings(self, target, findings, output_dir, selector)`
+  - `_build_command` (method, line 336) `def _build_command(self, target, templates, output_dir)`
+  - `_extract_context` (method, line 363) `def _extract_context(findings)`
+  - `__init__` (method, line 388) `def __init__(self, selector, runner)`
+  - `scan` (method, line 396) `def scan(self, target, findings, dry_run)`
+  - `list_templates` (method, line 419) `def list_templates(self, services, cves)`
+  - `_F` (class, line 475) `class _F`
+  - `__init__` (method, line 476) `def __init__(self, ftype, value)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/integrations/__init__.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`
+
+## modules/integrations/nuclei_parser.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `NucleiFinding` (class, line 71) `class NucleiFinding`
+  - `NucleiParser` (class, line 99) `class NucleiParser`
+  - `mitre_tactic` (method, line 87) `def mitre_tactic(self)`
+  - `exploit_probability` (method, line 95) `def exploit_probability(self)`
+  - `__init__` (method, line 109) `def __init__(self, sessions_dir)`
+  - `parse_text` (method, line 115) `def parse_text(self, text)`
+  - `parse_json` (method, line 134) `def parse_json(self, json_text)`
+  - `parse_file` (method, line 177) `def parse_file(self, filepath)`
+  - `import_to_db` (method, line 196) `def import_to_db(self, findings, rhost, workspace_name)`
+  - `enrich_world_model` (method, line 261) `def enrich_world_model(self, findings, rhost)`
+  - `generate_recommendations` (method, line 298) `def generate_recommendations(self, findings, rhost)`
+  - `scan_and_import` (method, line 326) `def scan_and_import(self, target, templates, services, cves, workspace_name)`
+  - `_parse_line` (method, line 390) `def _parse_line(self, line)`
+  - `_parse_json_obj` (method, line 409) `def _parse_json_obj(self, obj)`
+  - `_recommend_for_finding` (method, line 465) `def _recommend_for_finding(self, finding, rhost)`
+  - `_finding_to_dict` (method, line 501) `def _finding_to_dict(finding)`
+  - `_summarize` (method, line 514) `def _summarize(findings)`
+- Depends on: `core/logging.py`, `modules/db.py`, `modules/integrations/nuclei_bridge.py`, `modules/world_model.py`
+- Imported by: `modules/intelligence_engine.py`, `mutants/tests/test_nuclei_parser.py`, `tests/test_nuclei_parser.py`
+
+## modules/integrations/searchsploit.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitEntry` (class, line 60) `class ExploitEntry`
+  - `ExploitSource` (class, line 74) `class ExploitSource(ABC)`
+  - `SearchsploitCLI` (class, line 90) `class SearchsploitCLI(ExploitSource)`
+  - `ExploitDBAPI` (class, line 191) `class ExploitDBAPI(ExploitSource)`
+  - `SearchsploitClient` (class, line 262) `class SearchsploitClient`
+  - `get_client` (method, line 324) `def get_client()`
+  - `search_cve` (method, line 332) `def search_cve(cve_id)`
+  - `search_service` (method, line 337) `def search_service(name, version)`
+  - `_main` (method, line 346) `def _main()`
+  - `search_cve` (method, line 78) `def search_cve(self, cve_id)`
+  - `search_service` (method, line 82) `def search_service(self, name, version)`
+  - `__init__` (method, line 99) `def __init__(self)`
+  - `search_cve` (method, line 108) `def search_cve(self, cve_id)`
+  - `search_service` (method, line 111) `def search_service(self, name, version)`
+  - `_run` (method, line 117) `def _run(self, query)`
+  - `_parse` (method, line 132) `def _parse(self, raw)`
+  - `_row_to_entry` (method, line 161) `def _row_to_entry(self, row)`
+  - `_extract_cve` (method, line 182) `def _extract_cve(text)`
+  - `__init__` (method, line 199) `def __init__(self)`
+  - `search_cve` (method, line 207) `def search_cve(self, cve_id)`
+  - `search_service` (method, line 210) `def search_service(self, name, version)`
+  - `_query` (method, line 218) `def _query(self, cve_id)`
+  - `_rate_limit` (method, line 250) `def _rate_limit()`
+  - `__init__` (method, line 269) `def __init__(self, primary, fallback)`
+  - `search_cve` (method, line 277) `def search_cve(self, cve_id)`
+  - `search_service` (method, line 284) `def search_service(self, name, version)`
+  - `enrich_findings` (method, line 291) `def enrich_findings(self, findings)`
+- Depends on: `core/logging.py`
+- Imported by: `modules/integrations/__init__.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`

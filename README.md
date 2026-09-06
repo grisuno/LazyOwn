@@ -62,7 +62,7 @@ Then, inside the `(LazyOwn) >` shell:
 
 ```text
 doctor          # preflight: verifies Python, venv, packages, certs, SecLists, tools
-wizard          # guided config (auto-detects lhost, walks 7 steps)
+wizard          # guided config (auto-detects lhost, walks 8 steps incl. LLM provider)
 ping            # confirm the target is up and detect its OS
 lazynmap        # full port + service scan
 ```
@@ -112,7 +112,7 @@ git clone https://github.com/grisuno/LazyOwn.git && cd LazyOwn && bash install.s
 # 2. Launch, verify the install, then run the wizard
 ./run
 (LazyOwn) > doctor   # preflight: Python, venv, packages, certs, SecLists, tools
-(LazyOwn) > wizard   # auto-detects lhost, walks 7 config steps
+(LazyOwn) > wizard   # auto-detects lhost, walks 8 config steps incl. LLM provider
 
 # Heavy optional dependencies (pycryptodome, python-libnmap, impacket, ...) are
 # imported lazily: a missing package degrades only its feature instead of

@@ -273,3 +273,55 @@ class TestAssignIntegration:
         params = {"rhost": "10.10.10.10"}
         assert apply_assign(params, "made_up_key", "x") is False
         assert "made_up_key" not in params
+
+
+class TestLlmBackendSchema:
+    def test_llm_backend_enum_validated(self):
+        spec = field_for("llm_backend")
+        assert spec is not None
+        assert spec.kind is FieldKind.STRING
+        assert set(spec.allowed or ()) == {
+            "groq",
+            "ollama",
+            "openai",
+            "anthropic",
+            "deepseek",
+            "auto",
+        }
+
+    def test_llm_backend_rejects_unknown(self):
+        assert validate_value("llm_backend", "watson") is not None
+
+    def test_llm_backend_accepts_supported(self):
+        from cli.assign import apply_assign
+
+        params: dict = {"llm_backend": "auto"}
+        assert apply_assign(params, "llm_backend", "ollama") is True
+        assert params["llm_backend"] == "ollama"
+
+    def test_model_slots_registered_with_factory_defaults(self):
+        import modules.llm_factory as factory
+
+        for key, default in (
+            ("llm_model_groq", factory.DEFAULT_GROQ_MODEL),
+            ("llm_model_ollama", factory.DEFAULT_OLLAMA_MODEL),
+            ("llm_model_openai", factory.DEFAULT_OPENAI_MODEL),
+            ("llm_model_anthropic", factory.DEFAULT_ANTHROPIC_MODEL),
+            ("llm_model_deepseek", factory.DEFAULT_DEEPSEEK_MODEL),
+        ):
+            spec = field_for(key)
+            assert spec is not None, f"missing spec for {key}"
+            assert spec.default == default, f"wrong default for {key}"
+
+    def test_provider_key_slots_sensitive(self):
+        for key in ("api_key", "openai_api_key", "anthropic_api_key", "deepseek_api_key"):
+            spec = field_for(key)
+            assert spec is not None, f"missing spec for {key}"
+            assert spec.sensitive is True, f"{key} must be sensitive"
+
+    def test_ollama_host_registered(self):
+        import modules.llm_factory as factory
+
+        spec = field_for("ollama_host")
+        assert spec is not None
+        assert spec.default == factory.DEFAULT_OLLAMA_HOST

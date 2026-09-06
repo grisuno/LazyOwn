@@ -12,7 +12,7 @@ from telegram.ext import Application, CallbackContext, CommandHandler, MessageHa
 
 from core.parsers import strip_ansi
 from lazyown import LazyOwnShell
-from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
+from modules.llm_adapter import ask_general
 
 
 class SecureSessionManager:
@@ -178,7 +178,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
             output2 = ""
         output = strip_ansi(output)
         if ENTABLEIA:
-            response = process_prompt_general(client, output, False)
+            response = ask_general(output)
             print(response)
         else:
             response = ""
@@ -293,12 +293,10 @@ telegram_token = config.telegram_token
 enable_telegram_c2 = config.enable_telegram_c2
 
 rhost = config.rhost
-api_key = config.api_key
 ENTABLEIA = config.enable_ia
 lhost = config.lhost
 c2_port = config.c2_port
 c2_pass = config.c2_pass
-client = Groq(api_key=api_key)
 shell = LazyOwnShell()
 shell.onecmd('p')
 shell.onecmd('create_session_json')

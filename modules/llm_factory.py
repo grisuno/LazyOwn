@@ -120,6 +120,113 @@ class LLMBackendNotSupportedError(ValueError):
     """Raised when the requested backend identifier is unknown."""
 
 
+_MODEL_CONFIG_KEYS = {
+    BACKEND_GROQ: CONFIG_KEY_MODEL_GROQ,
+    BACKEND_OLLAMA: CONFIG_KEY_MODEL_OLLAMA,
+    BACKEND_OPENAI: CONFIG_KEY_MODEL_OPENAI,
+    BACKEND_ANTHROPIC: CONFIG_KEY_MODEL_ANTHROPIC,
+    BACKEND_DEEPSEEK: CONFIG_KEY_MODEL_DEEPSEEK,
+}
+
+_DEFAULT_MODELS = {
+    BACKEND_GROQ: DEFAULT_GROQ_MODEL,
+    BACKEND_OLLAMA: DEFAULT_OLLAMA_MODEL,
+    BACKEND_OPENAI: DEFAULT_OPENAI_MODEL,
+    BACKEND_ANTHROPIC: DEFAULT_ANTHROPIC_MODEL,
+    BACKEND_DEEPSEEK: DEFAULT_DEEPSEEK_MODEL,
+}
+
+_API_KEY_CONFIG_KEYS = {
+    BACKEND_GROQ: CONFIG_KEY_API_KEY,
+    BACKEND_OPENAI: CONFIG_KEY_OPENAI_API_KEY,
+    BACKEND_ANTHROPIC: CONFIG_KEY_ANTHROPIC_API_KEY,
+    BACKEND_DEEPSEEK: CONFIG_KEY_DEEPSEEK_API_KEY,
+}
+
+
+def default_model_for(backend: str | None) -> str:
+    """Return the default model identifier for a backend.
+
+    ``"auto"`` resolves to the Groq default because the auto chain tries
+    the Groq cloud leg first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Default model identifier.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_AUTO:
+        return DEFAULT_GROQ_MODEL
+    return _DEFAULT_MODELS[normalized]
+
+
+def model_config_key(backend: str | None) -> str:
+    """Return the ``payload.json`` key holding a backend's model override.
+
+    ``"auto"`` maps to the Groq model slot because the auto chain tries
+    the Groq cloud leg first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Config key for the model override.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_AUTO:
+        return CONFIG_KEY_MODEL_GROQ
+    return _MODEL_CONFIG_KEYS[normalized]
+
+
+def api_key_config_key(backend: str | None) -> str | None:
+    """Return the ``payload.json`` key holding a backend's API key slot.
+
+    Returns ``None`` for Ollama (keyless local daemon). ``"auto"`` maps
+    to the Groq key slot because the auto chain tries Groq first.
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        Config key for the API key, or None when no key is needed.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    normalized = _normalize_backend(backend)
+    if normalized == BACKEND_OLLAMA:
+        return None
+    if normalized == BACKEND_AUTO:
+        return CONFIG_KEY_API_KEY
+    return _API_KEY_CONFIG_KEYS[normalized]
+
+
+def backend_requires_api_key(backend: str | None) -> bool:
+    """Report whether a backend needs an API key to operate.
+
+    Only Ollama runs keyless. ``"auto"`` reports True because its cloud
+    leg needs a key (it still degrades to keyless Ollama without one).
+
+    Args:
+        backend: Backend identifier or None (treated as ``"auto"``).
+
+    Returns:
+        True when an API key is required, False for Ollama.
+
+    Raises:
+        LLMBackendNotSupportedError: When the identifier is not supported.
+    """
+    return api_key_config_key(backend) is not None
+
+
 def load_payload(payload_path: str | None = None) -> dict[str, Any]:
     """Read ``payload.json`` from disk and return it as a dictionary.
 
@@ -553,6 +660,10 @@ __all__ = [
     "LLMBackendNotSupportedError",
     "LLMBackendUnavailableError",
     "SUPPORTED_BACKENDS",
+    "api_key_config_key",
+    "backend_requires_api_key",
+    "default_model_for",
+    "model_config_key",
     "get_llm_backend",
     "get_llm_backend_raw",
     "load_payload",

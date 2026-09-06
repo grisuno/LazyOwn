@@ -37,6 +37,13 @@ from core.payload_schema import (
     field_for,
     validate_value,
 )
+from modules.llm_factory import (
+    DEFAULT_BACKEND,
+    SUPPORTED_BACKENDS,
+    api_key_config_key,
+    default_model_for,
+    model_config_key,
+)
 
 _console = Console(highlight=False, soft_wrap=True)
 
@@ -376,7 +383,8 @@ def _print_glossary_panel() -> None:
         "[bold]domain[/] — virtual host name; needed for vhost-based webapps.\n"
         "[bold]device[/] — the interface that reaches the target (tun0, eth0).\n"
         "[bold]os_id[/]  — target OS (1 = Linux, 2 = Windows).\n"
-        "[bold]api_key[/] — optional Groq key; unlocks the AI assistants.\n"
+        "[bold]llm_backend[/] — AI provider used by every assistant (groq, ollama, openai, anthropic, deepseek, auto).\n"
+        "[bold]llm_model_*[/] — model per provider; provider keys live in api_key (Groq), openai_api_key, and friends.\n"
         "[bold]wordlists[/] — SecLists paths used by gobuster/ffuf/hydra.\n"
         "Everything is stored in [bold]payload.json[/]. You can change any "
         "value later with [bold]assign <key> <value>[/]."
@@ -430,9 +438,8 @@ def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[s
     if os_id is not None and str(os_id) != str(params.get("os_id", "2")):
         updates["os_id"] = os_id
 
-    api_key = _ask_api_key(params.get("api_key"), tutorial=tutorial)
-    if api_key is not None and api_key != params.get("api_key"):
-        updates["api_key"] = api_key
+    llm_updates = _ask_llm(params, tutorial=tutorial)
+    updates.update(llm_updates)
 
     wordlist_updates = _ask_wordlists(params)
     updates.update(wordlist_updates)
@@ -444,7 +451,7 @@ def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[s
 
 
 def _ask_rhost(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 1 of 7 — Target IP (rhost)[/]")
+    _console.print("[bold white]Step 1 of 8 — Target IP (rhost)[/]")
     _console.print("  [dim]The IP address of the machine you are testing.  Example: 10.10.11.5 or 192.168.1.100[/]")
     if tutorial:
         _print_long_help("rhost")
@@ -473,7 +480,7 @@ def _ask_rhost(current: Any, *, tutorial: bool = False) -> str | None:
 def _ask_lhost(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_lhost()
     effective_default = current or detected
-    _console.print("[bold white]Step 2 of 7 — Attacker IP (lhost)[/]")
+    _console.print("[bold white]Step 2 of 8 — Attacker IP (lhost)[/]")
     _console.print("  [dim]Your machine's IP on the VPN or target network (tun0, eth0, etc.)[/]")
     if tutorial:
         _print_long_help("lhost")
@@ -502,7 +509,7 @@ def _ask_lhost(current: Any, *, tutorial: bool = False) -> str | None:
 
 
 def _ask_domain(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 3 of 7 — Target domain (optional)[/]")
+    _console.print("[bold white]Step 3 of 8 — Target domain (optional)[/]")
     _console.print(
         "  [dim]Virtual host or DNS name of the target. Example: target.htb[/]\n"
         "  [dim]Leave blank to skip — needed for vhost-based web apps.[/]"
@@ -526,7 +533,7 @@ def _ask_domain(current: Any, *, tutorial: bool = False) -> str | None:
 def _ask_device(current: Any, *, tutorial: bool = False) -> str | None:
     detected = _detect_device()
     effective_default = current or detected
-    _console.print("[bold white]Step 4 of 7 — Network interface (device)[/]")
+    _console.print("[bold white]Step 4 of 8 — Network interface (device)[/]")
     _console.print("  [dim]Interface facing the target network.  Example: tun0, eth0, ens33[/]")
     if tutorial:
         _print_long_help("device")
@@ -550,7 +557,7 @@ def _ask_device(current: Any, *, tutorial: bool = False) -> str | None:
 
 
 def _ask_os_id(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 5 of 7 — Target OS[/]")
+    _console.print("[bold white]Step 5 of 8 — Target OS[/]")
     _console.print("  [dim]1 = Linux, 2 = Windows.  Affects which commands the framework recommends.[/]")
     if tutorial:
         _print_long_help("os_id")
@@ -571,31 +578,115 @@ def _ask_os_id(current: Any, *, tutorial: bool = False) -> str | None:
     return raw.strip()
 
 
-def _ask_api_key(current: Any, *, tutorial: bool = False) -> str | None:
-    _console.print("[bold white]Step 6 of 7 — Groq API key (optional)[/]")
+def _normalize_provider_answer(raw: str) -> str | None:
+    """Map a wizard answer to a backend id, or None when blank/invalid.
+
+    Args:
+        raw: Raw operator input (provider name or menu number).
+
+    Returns:
+        Backend identifier, or None when the input is blank or invalid.
+    """
+    cleaned = raw.strip().lower()
+    if not cleaned:
+        return None
+    backends = list(SUPPORTED_BACKENDS)
+    if cleaned.isdigit():
+        index = int(cleaned) - 1
+        if 0 <= index < len(backends):
+            return backends[index]
+        return None
+    return cleaned if cleaned in backends else None
+
+
+def _mask_secret(value: Any) -> str:
+    """Mask a secret for display, keeping only the last four characters.
+
+    Args:
+        value: Secret value or None.
+
+    Returns:
+        Masked representation, or "not set" when empty.
+    """
+    text = str(value or "")
+    if not text:
+        return "not set"
+    return "*" * 8 + text[-4:]
+
+
+def _ask_llm(params: dict[str, Any], *, tutorial: bool = False) -> dict[str, Any]:
+    """Run the provider-agnostic LLM setup step and return payload updates.
+
+    Args:
+        params: Live params dict (in-memory mirror of payload.json).
+        tutorial: Whether to show extended help.
+
+    Returns:
+        Dict with llm_backend, the provider model slot, and the provider
+        key slot when the operator changed them.
+    """
+    updates: dict[str, Any] = {}
+    _console.print("[bold white]Step 6 of 8 — LLM provider (optional)[/]")
     _console.print(
-        "  [dim]Used by AI agents, vuln analysis, and the phishing module.\n"
-        "  Get a free key at https://console.groq.com — leave blank to skip.[/]"
+        "  [dim]Every AI assistant (C2 chat, Slack, Telegram, Discord, ai command)[/]\n"
+        "  [dim]resolves its provider from here. Pick any backend — no Groq lock-in.[/]"
     )
     if tutorial:
-        _print_long_help("api_key")
-    masked = ("*" * 8 + current[-4:]) if (current and len(current) > 8) else (current or "not set")
-    prompt = f"  api_key [{masked}]: "
-    raw = _prompt(prompt)
-    if not raw:
-        if current:
-            _ok("Keeping existing api_key")
+        _print_long_help("llm_backend")
+    backends = list(SUPPORTED_BACKENDS)
+    current = str(params.get("llm_backend") or DEFAULT_BACKEND)
+    if current not in backends:
+        current = DEFAULT_BACKEND
+    for index, name in enumerate(backends, start=1):
+        marker = "  <-- current" if name == current else ""
+        _console.print(f"  [dim]{index}. {name}{marker}[/]")
+    raw = _prompt(f"  llm_backend [{current}]: ")
+    if raw.strip():
+        chosen = _normalize_provider_answer(raw)
+        if chosen is None:
+            _warn(f"{raw.strip()!r} is not a listed provider — keeping {current}")
         else:
-            _info("api_key not set — AI features will be disabled")
-        _console.print()
-        return None
-    _ok("api_key updated")
+            if chosen != current:
+                _ok(f"llm_backend = {chosen}")
+                updates["llm_backend"] = chosen
+                current = chosen
+            else:
+                _ok(f"Keeping llm_backend = {current}")
+    else:
+        _ok(f"Keeping llm_backend = {current}")
+
+    model_slot = model_config_key(current)
+    model_default = str(params.get(model_slot) or default_model_for(current))
+    if tutorial:
+        _print_long_help(model_slot)
+    raw_model = _prompt(f"  {model_slot} [{model_default}]: ")
+    if raw_model.strip():
+        updates[model_slot] = raw_model.strip()
+        _ok(f"{model_slot} = {raw_model.strip()}")
+    else:
+        _ok(f"Keeping {model_slot} = {model_default}")
+
+    key_slot = api_key_config_key(current)
+    if key_slot is None:
+        _info("ollama needs no API key — using the local daemon")
+    else:
+        if tutorial:
+            _print_long_help(key_slot)
+        stored = params.get(key_slot)
+        raw_key = _prompt(f"  {key_slot} [{_mask_secret(stored)}]: ")
+        if raw_key.strip():
+            updates[key_slot] = raw_key.strip()
+            _ok(f"{key_slot} updated")
+        elif stored:
+            _ok(f"Keeping existing {key_slot}")
+        else:
+            _info(f"{key_slot} not set — cloud features for {current} will be disabled")
     _console.print()
-    return raw.strip()
+    return updates
 
 
 def _ask_wordlists(params: dict[str, Any]) -> dict[str, Any]:
-    _console.print("[bold white]Step 7 of 7 — Wordlists (SecLists)[/]")
+    _console.print("[bold white]Step 7 of 8 — Wordlists (SecLists)[/]")
     base = _find_seclists_root()
     if base:
         _console.print(f"  [dim cyan]SecLists found at: {base}[/]")
@@ -782,16 +873,47 @@ def _build_readiness(params: dict[str, Any]) -> list[ReadinessItem]:
 
     def _check(key: str, label: str, hint: str) -> None:
         val = params.get(key)
+        spec = field_for(key)
         if val:
-            items.append(ReadinessItem(label, str(val)[:48], "ok"))
+            shown = _mask_secret(val) if (spec is not None and spec.sensitive) else str(val)[:48]
+            items.append(ReadinessItem(label, shown, "ok"))
         else:
             items.append(ReadinessItem(label, "not set", "missing", hint))
+
+    def _check_llm() -> None:
+        backend = str(params.get("llm_backend") or DEFAULT_BACKEND)
+        if backend not in SUPPORTED_BACKENDS:
+            items.append(
+                ReadinessItem(
+                    "LLM backend",
+                    backend,
+                    "missing",
+                    "assign llm_backend <groq|ollama|openai|anthropic|deepseek|auto>",
+                )
+            )
+            return
+        model_slot = model_config_key(backend)
+        model = str(params.get(model_slot) or default_model_for(backend))
+        slot = api_key_config_key(backend)
+        if slot is None:
+            items.append(ReadinessItem("LLM backend", f"{backend} / {model} (keyless)", "ok"))
+        elif params.get(slot):
+            items.append(ReadinessItem("LLM backend", f"{backend} / {model}", "ok"))
+        else:
+            items.append(
+                ReadinessItem(
+                    "LLM backend",
+                    f"{backend} / {model}",
+                    "missing",
+                    f"assign {slot} <key>  (optional)",
+                )
+            )
 
     _check("rhost", "Target IP (rhost)", "assign rhost <IP>")
     _check("lhost", "Attacker IP (lhost)", "assign lhost <IP>")
     _check("domain", "Domain", "assign domain <name>  (optional)")
     _check("device", "Interface (device)", "assign device eth0")
-    _check("api_key", "Groq API key", "assign api_key <key>  (optional)")
+    _check_llm()
     _check("dirwordlist", "Dir wordlist", "install seclists")
     _check("usrwordlist", "User wordlist", "install seclists")
 

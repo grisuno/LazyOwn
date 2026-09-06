@@ -8,7 +8,7 @@ from slack_bolt import App
 from slack_bolt.adapter.socket_mode import SocketModeHandler
 
 from lazyown import LazyOwnShell
-from modules.legacy.lazygptcli_unified import Groq, process_prompt_general
+from modules.llm_adapter import ask_general
 from utils import Config, load_payload
 
 # === CONFIG ===
@@ -19,7 +19,6 @@ SLACK_SIGNING_SECRET = config.slack_signing_secret or ""
 # === INICIALIZACIÓN ===
 config = Config(load_payload())
 ENTABLEIA = config.enable_ia
-client_groq = Groq(api_key=config.api_key)
 shell = LazyOwnShell()
 shell.onecmd('p')
 shell.onecmd('create_session_json')
@@ -157,7 +156,7 @@ def handle_message(event, say, logger):
         output = strip_ansi(output)
 
         if ENTABLEIA:
-            ai_response = process_prompt_general(client_groq, output, False)
+            ai_response = ask_general(output)
             response_text = f"🧠 AI:\n{ai_response}\n\n📋 Output:\n```{output[:3000]}...```"
         else:
             response_text = f"```{output[:4000]}```"

@@ -111,3 +111,60 @@ class TestSupportModulesContract:
         factory = _import("modules.llm_factory")
         assert fallback._GROQ_MODEL == factory.DEFAULT_GROQ_MODEL
         assert fallback._OLLAMA_HOST == factory.DEFAULT_OLLAMA_HOST
+
+
+class TestBackendMetadataContract:
+    def test_metadata_helpers_exposed(self):
+        factory = _import("modules.llm_factory")
+        for name in (
+            "default_model_for",
+            "model_config_key",
+            "api_key_config_key",
+            "backend_requires_api_key",
+        ):
+            assert callable(getattr(factory, name, None)), f"llm_factory missing {name}"
+
+    def test_default_models_match_constants(self):
+        factory = _import("modules.llm_factory")
+        assert factory.default_model_for("groq") == factory.DEFAULT_GROQ_MODEL
+        assert factory.default_model_for("ollama") == factory.DEFAULT_OLLAMA_MODEL
+        assert factory.default_model_for("openai") == factory.DEFAULT_OPENAI_MODEL
+        assert factory.default_model_for("anthropic") == factory.DEFAULT_ANTHROPIC_MODEL
+        assert factory.default_model_for("deepseek") == factory.DEFAULT_DEEPSEEK_MODEL
+        assert factory.default_model_for("auto") == factory.DEFAULT_GROQ_MODEL
+        assert factory.default_model_for(None) == factory.DEFAULT_GROQ_MODEL
+
+    def test_model_config_keys_match_constants(self):
+        factory = _import("modules.llm_factory")
+        assert factory.model_config_key("groq") == factory.CONFIG_KEY_MODEL_GROQ
+        assert factory.model_config_key("ollama") == factory.CONFIG_KEY_MODEL_OLLAMA
+        assert factory.model_config_key("openai") == factory.CONFIG_KEY_MODEL_OPENAI
+        assert factory.model_config_key("anthropic") == factory.CONFIG_KEY_MODEL_ANTHROPIC
+        assert factory.model_config_key("deepseek") == factory.CONFIG_KEY_MODEL_DEEPSEEK
+        assert factory.model_config_key("auto") == factory.CONFIG_KEY_MODEL_GROQ
+
+    def test_api_key_slots(self):
+        factory = _import("modules.llm_factory")
+        assert factory.api_key_config_key("groq") == factory.CONFIG_KEY_API_KEY
+        assert factory.api_key_config_key("openai") == factory.CONFIG_KEY_OPENAI_API_KEY
+        assert factory.api_key_config_key("anthropic") == factory.CONFIG_KEY_ANTHROPIC_API_KEY
+        assert factory.api_key_config_key("deepseek") == factory.CONFIG_KEY_DEEPSEEK_API_KEY
+        assert factory.api_key_config_key("ollama") is None
+        assert factory.api_key_config_key("auto") == factory.CONFIG_KEY_API_KEY
+
+    def test_requires_api_key_only_for_cloud(self):
+        factory = _import("modules.llm_factory")
+        assert factory.backend_requires_api_key("ollama") is False
+        for backend in ("groq", "openai", "anthropic", "deepseek", "auto"):
+            assert factory.backend_requires_api_key(backend) is True
+
+    def test_unknown_backend_rejected(self):
+        factory = _import("modules.llm_factory")
+        for helper in (
+            factory.default_model_for,
+            factory.model_config_key,
+            factory.api_key_config_key,
+            factory.backend_requires_api_key,
+        ):
+            with pytest.raises(factory.LLMBackendNotSupportedError):
+                helper("nonsense_backend")

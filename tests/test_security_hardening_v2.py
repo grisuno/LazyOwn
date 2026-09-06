@@ -32,9 +32,10 @@ def _read(relpath: str) -> str:
 
 class TestAICommandInjectionPrevention:
     """CONTRACT: The do_ask and do_groq methods must NEVER pass api_key or
-    user prompts through os.system() or shell string interpolation.
-    They must use subprocess.run() with list-form arguments and pass
-    the API key via environment variable only."""
+    user prompts through os.system(), shell string interpolation, or a
+    spawned Python subprocess. They resolve the backend in-process through
+    modules.llm_factory / modules.llm_adapter, so secrets never cross a
+    process boundary and prompts are never shell-quoted."""
 
     SOURCE = _read("cli/commands/ai.py")
 
@@ -44,17 +45,33 @@ class TestAICommandInjectionPrevention:
         Then none must exist."""
         assert "os.system(" not in self.SOURCE
 
-    def test_uses_subprocess_run(self):
-        """BDD: Given the ai module source is loaded,
-        When I check for subprocess usage,
-        Then subprocess.run must be present."""
-        assert "subprocess.run" in self.SOURCE
+    def test_no_subprocess_in_ai_module(self):
+        """BDD: Given do_ask/do_groq answer in-process,
+        When I scan for subprocess usage,
+        Then no subprocess import or call must exist."""
+        assert "import subprocess" not in self.SOURCE
+        assert "subprocess.run" not in self.SOURCE
+        assert "subprocess.Popen" not in self.SOURCE
 
-    def test_api_key_passed_via_env_dict(self):
-        """BDD: Given the api_key contains shell metacharacters,
-        When do_ask or do_groq execute,
-        Then the api_key must only appear in an env dict, never in a command string."""
-        assert 'env[GROQ_API_KEY_ENV] = api_key' in self.SOURCE
+    def test_no_shell_true_in_ai_module(self):
+        """BDD: Given the ai module source is loaded,
+        When I scan for shell execution,
+        Then shell=True must not appear."""
+        assert "shell=True" not in self.SOURCE
+
+    def test_api_key_never_leaves_factory_path(self):
+        """BDD: Given the api_key must stay inside backend construction,
+        When I scan for env-dict or CLI-arg key passing,
+        Then neither pattern must exist."""
+        assert "GROQ_API_KEY_ENV" not in self.SOURCE
+        assert "LAZYGPT_CLI_RELATIVE_PATH" not in self.SOURCE
+
+    def test_answers_through_canonical_backend(self):
+        """BDD: Given do_ask/do_groq must use the single source of truth,
+        When I scan the module,
+        Then the canonical adapter and factory entry points must be used."""
+        assert "ask_general" in self.SOURCE
+        assert "get_llm_backend" in self.SOURCE
 
     def test_no_fstring_with_api_key_in_command(self):
         """BDD: Given the source is scanned for f-string command construction,
@@ -67,12 +84,6 @@ class TestAICommandInjectionPrevention:
         for line in fstring_lines:
             if "api_key" in line and ("sshpass" in line or "scp" in line or "&&" in line):
                 pytest.fail(f"api_key in shell f-string: {line.strip()}")
-
-    def test_do_ask_uses_sys_executable(self):
-        """BDD: Given do_ask spawns a Python subprocess,
-        When it constructs the command,
-        Then it must use sys.executable, not hardcoded 'python3'."""
-        assert "sys.executable" in self.SOURCE
 
 
 # ---------------------------------------------------------------------------

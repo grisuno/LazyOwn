@@ -1,0 +1,1410 @@
+# Subsystem: commands
+
+## cli/commands/__init__.py
+- Layer: utility
+- Language: py
+- Imported by: `mutants/tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`
+
+## cli/commands/_base.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOwnCommandSet` (class, line 32) `class LazyOwnCommandSet(CommandSet)`
+  - `_resolve_shell` (method, line 46) `def _resolve_shell(self)`
+  - `params` (method, line 67) `def params(self)`
+  - `payload` (method, line 78) `def payload(self)`
+  - `__getattr__` (method, line 91) `def __getattr__(self, name)`
+- Depends on: `utils.py`
+- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/database.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `mutants/tests/test_cli_command_sets.py`, `mutants/tests/test_cli_command_sets.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`
+
+## cli/commands/_dormancy.py
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `PendingCommandSet` (class, line 30) `class PendingCommandSet(LazyOwnCommandSet)`
+  - `is_pending` (method, line 52) `def is_pending(cs_class)`
+- Depends on: `cli/commands/_base.py`
+- Imported by: `cli/registry.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_command_set_migration.py`, `mutants/tests/test_improvements_spec.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`, `tests/test_command_set_migration.py`, `tests/test_improvements_spec.py`
+
+## cli/commands/active_directory.py
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ActiveDirectoryCommandSet` (class, line 18) `class ActiveDirectoryCommandSet(LazyOwnCommandSet)`
+  - `do_kerberos_ticket` (method, line 24) `def do_kerberos_ticket(self, line)`
+  - `do_delegation_enum` (method, line 139) `def do_delegation_enum(self, line)`
+  - `do_delegation_attack` (method, line 175) `def do_delegation_attack(self, line)`
+  - `do_dacl_abuse` (method, line 199) `def do_dacl_abuse(self, line)`
+  - `do_gpo_abuse` (method, line 233) `def do_gpo_abuse(self, line)`
+  - `do_kerberoast` (method, line 277) `def do_kerberoast(self, line)`
+  - `do_adcs_esc` (method, line 324) `def do_adcs_esc(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/dacl_abuse.py`, `modules/delegation_attacks.py`, `modules/gpo_abuse.py`, `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
+
+## cli/commands/ai.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AiCommandSet` (class, line 70) `class AiCommandSet(LazyOwnCommandSet)`
+  - `do_ask` (method, line 77) `def do_ask(self, line)`
+  - `do_groq` (method, line 157) `def do_groq(self, line)`
+  - `do_ai_playbook` (method, line 183) `def do_ai_playbook(self, line)`
+  - `do_ai_toggle` (method, line 290) `def do_ai_toggle(self, _arg)`
+  - `do_llm_budget` (method, line 307) `def do_llm_budget(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+
+## cli/commands/anti_forensics.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AntiForensicsCommandSet` (class, line 29) `class AntiForensicsCommandSet(LazyOwnCommandSet)`
+  - `_extract_flag` (method, line 314) `def _extract_flag(args, flag)`
+  - `do_wipe_logs` (method, line 36) `def do_wipe_logs(self, line)`
+  - `do_wipe_timeline` (method, line 97) `def do_wipe_timeline(self, line)`
+  - `do_shred` (method, line 140) `def do_shred(self, line)`
+  - `do_wipe_free` (method, line 190) `def do_wipe_free(self, line)`
+  - `do_clean_ad` (method, line 223) `def do_clean_ad(self, line)`
+  - `do_cover_tracks` (method, line 280) `def do_cover_tracks(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
+
+## cli/commands/applocker_bypass.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AppLockerBypassCommandSet` (class, line 99) `class AppLockerBypassCommandSet(LazyOwnCommandSet)`
+  - `_get_lh` (method, line 105) `def _get_lh(self)`
+  - `do_applocker_installutil` (method, line 109) `def do_applocker_installutil(self, line)`
+  - `do_applocker_msbuild` (method, line 146) `def do_applocker_msbuild(self, line)`
+  - `do_applocker_regsvcs` (method, line 173) `def do_applocker_regsvcs(self, line)`
+  - `do_applocker_csc` (method, line 209) `def do_applocker_csc(self, line)`
+  - `do_applocker_mshta` (method, line 240) `def do_applocker_mshta(self, line)`
+  - `do_applocker_rundll32` (method, line 269) `def do_applocker_rundll32(self, line)`
+  - `do_applocker_presentation` (method, line 298) `def do_applocker_presentation(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/audit.py
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `AuditCommandSet` (class, line 92) `class AuditCommandSet(LazyOwnCommandSet)`
+  - `_read_credentials` (method, line 304) `def _read_credentials(shell)`
+  - `__init__` (method, line 101) `def __init__(self)`
+  - `_ensure_fuzzy` (method, line 110) `def _ensure_fuzzy(self)`
+  - `_ensure_completer` (method, line 117) `def _ensure_completer(self)`
+  - `_ensure_transcript` (method, line 138) `def _ensure_transcript(self)`
+  - `_ensure_hot_reloader` (method, line 145) `def _ensure_hot_reloader(self)`
+  - `do_fz` (method, line 160) `def do_fz(self, statement)`
+  - `do_form` (method, line 178) `def do_form(self, statement)`
+  - `do_status_tail` (method, line 196) `def do_status_tail(self, statement)`
+  - `do_grep_log` (method, line 234) `def do_grep_log(self, statement)`
+  - `do_reload_addons` (method, line 263) `def do_reload_addons(self, _statement)`
+  - `do_audit_complete_keys` (method, line 288) `def do_audit_complete_keys(self, statement)`
+- Depends on: `cli/cli_enhancements.py`, `cli/commands/_base.py`
+- Imported by: `mutants/tests/test_cli_enhancements.py`, `mutants/tests/test_cli_enhancements.py`, `mutants/tests/test_cli_enhancements.py`, `mutants/tests/test_cli_enhancements.py`, `tests/test_cli_enhancements.py`, `tests/test_cli_enhancements.py`, `tests/test_cli_enhancements.py`, `tests/test_cli_enhancements.py`
+
+## cli/commands/automation.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AutomationCommandSet` (class, line 15) `class AutomationCommandSet(LazyOwnCommandSet)`
+  - `do_cred_reuse` (method, line 22) `def do_cred_reuse(self, line)`
+  - `do_cred_mark_failed` (method, line 55) `def do_cred_mark_failed(self, line)`
+  - `do_hooks_list` (method, line 76) `def do_hooks_list(self, line)`
+  - `do_hooks_enable` (method, line 99) `def do_hooks_enable(self, line)`
+  - `do_hooks_add` (method, line 127) `def do_hooks_add(self, line)`
+  - `do_hooks_remove` (method, line 148) `def do_hooks_remove(self, line)`
+  - `do_hooks_fire` (method, line 170) `def do_hooks_fire(self, line)`
+  - `do_operators` (method, line 200) `def do_operators(self, line)`
+  - `do_operator_create` (method, line 227) `def do_operator_create(self, line)`
+  - `do_operator_load` (method, line 262) `def do_operator_load(self, line)`
+  - `do_operator_delete` (method, line 290) `def do_operator_delete(self, line)`
+  - `do_hooks` (method, line 312) `def do_hooks(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/operator_profiles.py`, `modules/state_manager.py`
+
+## cli/commands/bitm.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BitMCommandSet` (class, line 24) `class BitMCommandSet(LazyOwnCommandSet)`
+  - `do_bitm` (method, line 31) `def do_bitm(self, line)`
+  - `_bitm_start` (method, line 94) `def _bitm_start(self, args)`
+  - `_bitm_stop` (method, line 168) `def _bitm_stop(self)`
+  - `_bitm_status` (method, line 191) `def _bitm_status(self)`
+  - `_bitm_inject` (method, line 214) `def _bitm_inject(self, args)`
+  - `_bitm_harvest` (method, line 239) `def _bitm_harvest(self)`
+  - `_bitm_cleanup` (method, line 257) `def _bitm_cleanup(self)`
+- Depends on: `cli/commands/_base.py`, `modules/bitm_engine.py`, `utils.py`
+
+## cli/commands/bof_registry.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BofMarketplaceCommandSet` (class, line 29) `class BofMarketplaceCommandSet(LazyOwnCommandSet)`
+  - `_ensure_staging_dir` (method, line 36) `def _ensure_staging_dir()`
+  - `_find_bof_object` (method, line 42) `def _find_bof_object(bof_name)`
+  - `_stage_bof` (method, line 71) `def _stage_bof(self, bof_name)`
+  - `_queue_command_on_c2` (method, line 89) `def _queue_command_on_c2(self, client_id, command)`
+  - `do_bof_search` (method, line 141) `def do_bof_search(self, line)`
+  - `do_bof_info` (method, line 162) `def do_bof_info(self, line)`
+  - `do_bof_install` (method, line 195) `def do_bof_install(self, line)`
+  - `do_bof_run` (method, line 225) `def do_bof_run(self, line)`
+  - `do_bof_uninstall` (method, line 266) `def do_bof_uninstall(self, line)`
+  - `do_bof_list` (method, line 288) `def do_bof_list(self, line)`
+  - `do_bof_catalog` (method, line 320) `def do_bof_catalog(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/config.py`, `modules/beacon_config_builder.py`, `modules/bof_registry.py`, `utils.py`
+
+## cli/commands/c2_profile.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `C2ProfileCommandSet` (class, line 18) `class C2ProfileCommandSet(LazyOwnCommandSet)`
+  - `do_c2_profiles` (method, line 25) `def do_c2_profiles(self, line)`
+  - `do_c2_tls` (method, line 50) `def do_c2_tls(self, line)`
+  - `do_c2_dns` (method, line 69) `def do_c2_dns(self, line)`
+  - `do_c2_rotate` (method, line 90) `def do_c2_rotate(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/c2_profile_engine.py`, `utils.py`
+
+## cli/commands/caldera.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_resolve_manager` (function, line 49) `def _resolve_manager()`
+  - `_resolve_coverage` (function, line 53) `def _resolve_coverage()`
+  - `_resolve_planner` (function, line 59) `def _resolve_planner(shell)`
+  - `CalderaCommandSet` (class, line 66) `class CalderaCommandSet(LazyOwnCommandSet)`
+  - `_shell` (method, line 72) `def _shell(self)`
+  - `do_op_list` (method, line 80) `def do_op_list(self, line)`
+  - `do_op_create` (method, line 96) `def do_op_create(self, line)`
+  - `do_op_plan` (method, line 114) `def do_op_plan(self, line)`
+  - `do_op_start` (method, line 141) `def do_op_start(self, line)`
+  - `do_op_pause` (method, line 166) `def do_op_pause(self, line)`
+  - `do_op_resume` (method, line 183) `def do_op_resume(self, line)`
+  - `do_op_stop` (method, line 200) `def do_op_stop(self, line)`
+  - `do_op_status` (method, line 217) `def do_op_status(self, line)`
+  - `do_op_timeline` (method, line 249) `def do_op_timeline(self, line)`
+  - `do_op_report` (method, line 272) `def do_op_report(self, line)`
+  - `do_ttp_matrix` (method, line 290) `def do_ttp_matrix(self, line)`
+  - `do_ttp_rebuild` (method, line 299) `def do_ttp_rebuild(self, line)`
+  - `do_ttp_show` (method, line 309) `def do_ttp_show(self, line)`
+  - `do_plan` (method, line 336) `def do_plan(self, line)`
+  - `do_plan_detail` (method, line 364) `def do_plan_detail(self, line)`
+  - `do_plan_apply` (method, line 391) `def do_plan_apply(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/ttp_coverage.py`, `utils.py`
+
+## cli/commands/campaign.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CampaignCommandSet` (class, line 36) `class CampaignCommandSet(LazyOwnCommandSet)`
+  - `do_campaign` (method, line 43) `def do_campaign(self, line)`
+  - `_gather_campaign_manifest` (method, line 88) `def _gather_campaign_manifest(self, name)`
+  - `_campaign_export` (method, line 130) `def _campaign_export(self, name)`
+  - `_campaign_import` (method, line 179) `def _campaign_import(self, package_path)`
+  - `_campaign_list` (method, line 303) `def _campaign_list(self)`
+- Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
+
+## cli/commands/catalog.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CatalogCommandSet` (class, line 19) `class CatalogCommandSet(LazyOwnCommandSet)`
+  - `shlex_split` (method, line 111) `def shlex_split(text)`
+  - `_index` (method, line 25) `def _index(self)`
+  - `do_catalog` (method, line 33) `def do_catalog(self, line)`
+  - `_filter_commands` (method, line 88) `def _filter_commands(self, commands, keyword)`
+  - `_print_hits` (method, line 95) `def _print_hits(self, hits, label)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/cicd.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CICDCommandSet` (class, line 27) `class CICDCommandSet(LazyOwnCommandSet)`
+  - `do_cicd_scan` (method, line 34) `def do_cicd_scan(self, line)`
+  - `do_cicd_secrets` (method, line 97) `def do_cicd_secrets(self, line)`
+  - `do_jenkins_enum` (method, line 140) `def do_jenkins_enum(self, line)`
+  - `do_gitlab_enum` (method, line 185) `def do_gitlab_enum(self, line)`
+  - `do_mfa_bypass` (method, line 231) `def do_mfa_bypass(self, line)`
+  - `_extract` (method, line 290) `def _extract(args, flag)`
+- Depends on: `cli/commands/_base.py`, `modules/cicd_enumerator.py`, `modules/mfa_bypass.py`, `utils.py`
+
+## cli/commands/cli_auth.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CliAuthCommandSet` (class, line 27) `class CliAuthCommandSet(LazyOwnCommandSet)`
+  - `do_login` (method, line 34) `def do_login(self, line)`
+  - `do_register` (method, line 117) `def do_register(self, line)`
+  - `do_logout` (method, line 191) `def do_logout(self, line)`
+  - `do_whoami` (method, line 224) `def do_whoami(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/cli_auth.py`, `utils.py`
+
+## cli/commands/cloud.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudCommandSet` (class, line 30) `class CloudCommandSet(LazyOwnCommandSet)`
+  - `_get_cloud_scanner` (method, line 36) `def _get_cloud_scanner(self)`
+  - `do_cloud_metadata` (method, line 49) `def do_cloud_metadata(self, _line)`
+  - `do_cloud_buckets` (method, line 98) `def do_cloud_buckets(self, line)`
+  - `do_cloud_scan` (method, line 148) `def do_cloud_scan(self, line)`
+  - `do_cloud_iam` (method, line 187) `def do_cloud_iam(self, _line)`
+  - `do_cloud_enum` (method, line 239) `def do_cloud_enum(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/hardening.py`, `modules/cloud_enum.py`, `modules/lazycloud.py`, `utils.py`
+- Imported by: `cli/commands/exfiltration.py`
+
+## cli/commands/cloud_attacks.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CloudAttackCommandSet` (class, line 17) `class CloudAttackCommandSet(LazyOwnCommandSet)`
+  - `do_entra_attack` (method, line 23) `def do_entra_attack(self, line)`
+  - `do_aws_privesc` (method, line 125) `def do_aws_privesc(self, line)`
+  - `do_gcp_privesc` (method, line 215) `def do_gcp_privesc(self, line)`
+  - `do_k8s_attack` (method, line 302) `def do_k8s_attack(self, line)`
+  - `do_cross_cloud` (method, line 387) `def do_cross_cloud(self, line)`
+  - `do_saas_enum` (method, line 470) `def do_saas_enum(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/aws_attacks.py`, `modules/cross_cloud.py`, `modules/entra_id_attacks.py`, `modules/gcp_attacks.py`, `modules/k8s_attacks.py`, `modules/saas_attacks.py`
+
+## cli/commands/collaboration.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CollaborationCommandSet` (class, line 20) `class CollaborationCommandSet(LazyOwnCommandSet)`
+  - `_get_collab` (method, line 26) `def _get_collab(self)`
+  - `_resolve_target` (method, line 38) `def _resolve_target(self, target)`
+  - `do_lock_target` (method, line 48) `def do_lock_target(self, line)`
+  - `do_unlock_target` (method, line 89) `def do_unlock_target(self, line)`
+  - `do_team_status` (method, line 114) `def do_team_status(self, line)`
+  - `do_team_chat` (method, line 169) `def do_team_chat(self, line)`
+  - `do_share_finding` (method, line 199) `def do_share_finding(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/collab_bp.py`, `modules/db.py`, `utils.py`
+
+## cli/commands/command_and_control.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandAndControlCommandSet` (class, line 34) `class CommandAndControlCommandSet(LazyOwnCommandSet)`
+  - `do_c2_status` (method, line 41) `def do_c2_status(self, _line)`
+  - `do_c2_beacons` (method, line 98) `def do_c2_beacons(self, _line)`
+  - `do_c2_keygen` (method, line 134) `def do_c2_keygen(self, _line)`
+  - `do_c2_quickstart` (method, line 151) `def do_c2_quickstart(self, _line)`
+  - `do_c2_beacon_cmd` (method, line 198) `def do_c2_beacon_cmd(self, line)`
+  - `do_c2_implant` (method, line 233) `def do_c2_implant(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/command_and_control_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandAndControlMigratedCommandSet` (class, line 35) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_msf` (method, line 40) `def do_msf(self, line)`
+  - `do_c2` (method, line 368) `def do_c2(self, line)`
+  - `do_listener` (method, line 483) `def do_listener(self, line)`
+  - `do_sandbox` (method, line 611) `def do_sandbox(self, line)`
+  - `do_msfrpc` (method, line 653) `def do_msfrpc(self, line)`
+  - `do_sliver_server` (method, line 677) `def do_sliver_server(self, line)`
+  - `do_empire` (method, line 794) `def do_empire(self, line)`
+  - `do_automsf` (method, line 844) `def do_automsf(self, line)`
+  - `do_iis_webdav_upload_asp` (method, line 880) `def do_iis_webdav_upload_asp(self, line)`
+  - `do_duckyspark` (method, line 915) `def do_duckyspark(self, line)`
+  - `do_emp3r0r` (method, line 1116) `def do_emp3r0r(self, line)`
+  - `do_atomic_tests` (method, line 1180) `def do_atomic_tests(self, line)`
+  - `do_atomic_gen` (method, line 1340) `def do_atomic_gen(self, line)`
+  - `do_atomic_agent` (method, line 1524) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1624) `def do_attack_plan(self, line)`
+  - `do_apt_playbook` (method, line 1748) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 1868) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 1971) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2150) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2207) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2256) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2348) `def do_caldera_export(self, line)`
+  - `_api` (method, line 510) `def _api(method, endpoint, payload)`
+  - `_load_ability` (method, line 2280) `def _load_ability(ability_file)`
+  - `_ability_to_step` (method, line 2287) `def _ability_to_step(ability)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/c2_builder.py`, `modules/listener_manager.py`, `utils.py`
+
+## cli/commands/containers.py
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ContainerCommandSet` (class, line 30) `class ContainerCommandSet(LazyOwnCommandSet)`
+  - `do_docker_enum` (method, line 37) `def do_docker_enum(self, _line)`
+  - `do_k8s_enum` (method, line 101) `def do_k8s_enum(self, _line)`
+  - `do_container_escape` (method, line 169) `def do_container_escape(self, _line)`
+  - `do_k8s_pods` (method, line 239) `def do_k8s_pods(self, line)`
+  - `do_k8s_secrets` (method, line 283) `def do_k8s_secrets(self, line)`
+  - `do_container_detect` (method, line 334) `def do_container_detect(self, _line)`
+- Depends on: `cli/commands/_base.py`, `modules/lazyk8s.py`, `utils.py`
+- Imported by: `cli/command_form.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/purple_tui.py`, `cli/sessions_browser.py`, `cli/surface_tui.py`, `cli/timeline_browser.py`, `poc_tui/app.py`
+
+## cli/commands/cred.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CredentialAccessCommandSet` (class, line 23) `class CredentialAccessCommandSet(LazyOwnCommandSet)`
+  - `do_hashcat` (method, line 30) `def do_hashcat(self, line)`
+  - `do_john2hash` (method, line 39) `def do_john2hash(self, line)`
+  - `do_hydra` (method, line 47) `def do_hydra(self, line)`
+  - `do_medusa` (method, line 59) `def do_medusa(self, line)`
+  - `do_crunch` (method, line 67) `def do_crunch(self, line)`
+  - `do_cewl` (method, line 75) `def do_cewl(self, line)`
+  - `do_sshkey` (method, line 87) `def do_sshkey(self, line)`
+  - `do_creds_py` (method, line 93) `def do_creds_py(self, line)`
+  - `do_spraykatz` (method, line 98) `def do_spraykatz(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/cred_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CredMigratedCommandSet` (class, line 29) `class CredMigratedCommandSet(LazyOwnCommandSet)`
+  - `_rotate_existing_credentials` (method, line 33) `def _rotate_existing_credentials(self, credentials_file_path)`
+  - `do_createhash` (method, line 61) `def do_createhash(self, line)`
+  - `do_createcredentials` (method, line 115) `def do_createcredentials(self, line)`
+  - `do_cred` (method, line 163) `def do_cred(self, line)`
+  - `do_searchhash` (method, line 216) `def do_searchhash(self, line)`
+  - `do_smalldic` (method, line 252) `def do_smalldic(self, list)`
+  - `do_dacledit` (method, line 290) `def do_dacledit(self, line)`
+  - `do_generatedic` (method, line 360) `def do_generatedic(self, line)`
+  - `do_createmail` (method, line 625) `def do_createmail(self, line)`
+  - `do_passwordspray` (method, line 673) `def do_passwordspray(self, line)`
+  - `do_addusers` (method, line 705) `def do_addusers(self, line)`
+  - `do_passtightvnc` (method, line 727) `def do_passtightvnc(self, line)`
+  - `do_transform` (method, line 774) `def do_transform(self, line)`
+  - `do_username_anarchy` (method, line 802) `def do_username_anarchy(self, line)`
+  - `do_john2keepas` (method, line 903) `def do_john2keepas(self, line)`
+  - `do_keepass` (method, line 952) `def do_keepass(self, line)`
+  - `do_crack_cisco_7_password` (method, line 1016) `def do_crack_cisco_7_password(self, line)`
+  - `do_cubespraying` (method, line 1038) `def do_cubespraying(self, line)`
+  - `do_john2zip` (method, line 1100) `def do_john2zip(self, line)`
+  - `do_createusers_and_hashs` (method, line 1161) `def do_createusers_and_hashs(self, line)`
+  - `do_refill_password` (method, line 1204) `def do_refill_password(self, line)`
+  - `do_rocky` (method, line 1240) `def do_rocky(self, line)`
+  - `do_adsso_spray` (method, line 1276) `def do_adsso_spray(self, line)`
+  - `single_combo` (method, line 385) `def single_combo(name, characters, file, total, flag)`
+  - `double_combo` (method, line 408) `def double_combo(name, characters, file, total, flag)`
+  - `triple_combo` (method, line 432) `def triple_combo(name, characters, file, total, flag)`
+  - `fourth_combo` (method, line 457) `def fourth_combo(name, characters, file, total, flag)`
+  - `fifth_combo` (method, line 483) `def fifth_combo(name, characters, file, total, flag)`
+  - `sixth_combo` (method, line 510) `def sixth_combo(name, characters, file, total, flag)`
+  - `intercalate_combo` (method, line 535) `def intercalate_combo(name, characters, file, total, flag)`
+  - `expand_regex` (method, line 567) `def expand_regex(regex)`
+  - `alternate_case` (method, line 551) `def alternate_case(s)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+- Imported by: `mutants/tests/test_credentials_rotation.py`, `tests/test_credentials_rotation.py`
+
+## cli/commands/crystal_ball.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CrystalBallCommandSet` (class, line 20) `class CrystalBallCommandSet(LazyOwnCommandSet)`
+  - `_auto_detect_enum_file` (method, line 119) `def _auto_detect_enum_file()`
+  - `_safe_filename` (method, line 151) `def _safe_filename(name)`
+  - `do_crystal_ball` (method, line 27) `def do_crystal_ball(self, line)`
+  - `do_privesc_suggest` (method, line 110) `def do_privesc_suggest(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/privesc_predictor.py`, `utils.py`
+
+## cli/commands/database.py
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `DatabaseCommandSet` (class, line 24) `class DatabaseCommandSet(LazyOwnCommandSet)`
+  - `shlex_split` (method, line 476) `def shlex_split(text)`
+  - `_get_db` (method, line 30) `def _get_db(self)`
+  - `_active_workspace` (method, line 38) `def _active_workspace(self)`
+  - `do_db_init` (method, line 55) `def do_db_init(self, line)`
+  - `do_db_workspace` (method, line 73) `def do_db_workspace(self, line)`
+  - `do_db_hosts` (method, line 122) `def do_db_hosts(self, line)`
+  - `do_db_services` (method, line 183) `def do_db_services(self, line)`
+  - `do_db_vulns` (method, line 211) `def do_db_vulns(self, line)`
+  - `do_db_creds` (method, line 265) `def do_db_creds(self, line)`
+  - `do_db_loot` (method, line 309) `def do_db_loot(self, line)`
+  - `do_db_notes` (method, line 349) `def do_db_notes(self, line)`
+  - `do_db_import` (method, line 387) `def do_db_import(self, line)`
+  - `do_db_export` (method, line 425) `def do_db_export(self, line)`
+  - `do_db_status` (method, line 459) `def do_db_status(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
+
+## cli/commands/diagnostics.py
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `DiagnosticsCommandSet` (class, line 23) `class DiagnosticsCommandSet(LazyOwnCommandSet)`
+  - `do_lazy_runtime` (method, line 30) `def do_lazy_runtime(self, _statement)`
+  - `do_lazy_payload_keys` (method, line 41) `def do_lazy_payload_keys(self, _statement)`
+- Depends on: `cli/commands/_base.py`
+- Imported by: `mutants/tests/test_cli_command_sets.py`, `mutants/tests/test_cli_command_sets.py`, `mutants/tests/test_cli_command_sets.py`, `mutants/tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`
+
+## cli/commands/dns_exfil.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sanitize_filename` (function, line 36) `def _sanitize_filename(name)`
+  - `DNSExfilCommandSet` (class, line 44) `class DNSExfilCommandSet(LazyOwnCommandSet)`
+  - `do_dns_beacon` (method, line 51) `def do_dns_beacon(self, line)`
+  - `do_dns_exfil_listen` (method, line 97) `def do_dns_exfil_listen(self, line)`
+  - `do_dns_beacon_status` (method, line 183) `def do_dns_beacon_status(self, line)`
+  - `do_http_exfil_server` (method, line 204) `def do_http_exfil_server(self, line)`
+  - `do_smb_exfil` (method, line 304) `def do_smb_exfil(self, line)`
+  - `do_exfil_start_server` (method, line 338) `def do_exfil_start_server(self, line)`
+  - `_extract` (method, line 384) `def _extract(args, flag)`
+  - `ExfilHandler` (class, line 227) `class ExfilHandler(BaseHTTPRequestHandler)`
+  - `do_POST` (method, line 228) `def do_POST(self)`
+  - `log_message` (method, line 289) `def log_message(self, fmt)`
+- Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/dns_beacon.py`, `utils.py`
+
+## cli/commands/dpapi.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `DPAPICommandSet` (class, line 23) `class DPAPICommandSet(LazyOwnCommandSet)`
+  - `do_dpapi_harvest` (method, line 30) `def do_dpapi_harvest(self, line)`
+  - `do_dpapi_masterkeys` (method, line 66) `def do_dpapi_masterkeys(self, line)`
+  - `do_dpapi_blob` (method, line 113) `def do_dpapi_blob(self, line)`
+  - `_extract` (method, line 151) `def _extract(args, flag)`
+- Depends on: `cli/commands/_base.py`, `modules/dpapi_harvester.py`, `utils.py`
+
+## cli/commands/edr_detect.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EDRDetectCommandSet` (class, line 27) `class EDRDetectCommandSet(LazyOwnCommandSet)`
+  - `do_edr_detect` (method, line 34) `def do_edr_detect(self, line)`
+  - `do_edr_profile` (method, line 84) `def do_edr_profile(self, line)`
+  - `do_edr_script` (method, line 140) `def do_edr_script(self, line)`
+  - `_extract` (method, line 173) `def _extract(args, flag)`
+- Depends on: `cli/commands/_base.py`, `modules/edr_detector.py`, `utils.py`
+
+## cli/commands/enum.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EnumCommandSet` (class, line 31) `class EnumCommandSet(LazyOwnCommandSet)`
+  - `do_smbclient` (method, line 38) `def do_smbclient(self, line)`
+  - `do_smbclient_impacket` (method, line 108) `def do_smbclient_impacket(self, line)`
+  - `do_smbclient_py` (method, line 178) `def do_smbclient_py(self, line)`
+  - `do_smbmap` (method, line 225) `def do_smbmap(self, line)`
+  - `do_getnpusers` (method, line 345) `def do_getnpusers(self, line)`
+  - `do_psexec` (method, line 390) `def do_psexec(self, line)`
+  - `do_psexec_py` (method, line 446) `def do_psexec_py(self, line)`
+  - `do_rpcdump` (method, line 502) `def do_rpcdump(self, line)`
+  - `do_enum4linux` (method, line 528) `def do_enum4linux(self, line)`
+  - `do_rpcclient` (method, line 558) `def do_rpcclient(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
+- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+
+## cli/commands/estorides.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_yellow` (function, line 42) `def _yellow(text)`
+  - `_green` (function, line 46) `def _green(text)`
+  - `EstoridesCommandSet` (class, line 50) `class EstoridesCommandSet(LazyOwnCommandSet)`
+  - `_check_estorides` (method, line 56) `def _check_estorides(self)`
+  - `do_estorides_seed` (method, line 72) `def do_estorides_seed(self, line)`
+  - `do_estorides_import` (method, line 188) `def do_estorides_import(self, line)`
+  - `_preview_entities` (method, line 301) `def _preview_entities(self, entities)`
+  - `do_estorides_loop` (method, line 319) `def do_estorides_loop(self, line)`
+  - `do_estorides_surface` (method, line 423) `def do_estorides_surface(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/estorides_importer.py`, `utils.py`
+
+## cli/commands/evasive_payload.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvasivePayloadCommandSet` (class, line 248) `class EvasivePayloadCommandSet(LazyOwnCommandSet)`
+  - `_generate_shellcode` (method, line 586) `def _generate_shellcode(lhost, lport, target_os, arch)`
+  - `_apply_bypass` (method, line 615) `def _apply_bypass(shellcode, technique, target_os)`
+  - `_format_payload` (method, line 665) `def _format_payload(shellcode, fmt, lhost, lport)`
+  - `_auto_select_bypass` (method, line 717) `def _auto_select_bypass(target_os)`
+  - `_format_ext` (method, line 731) `def _format_ext(fmt)`
+  - `_extract_flag` (method, line 736) `def _extract_flag(args, flag)`
+  - `do_evasive_payload` (method, line 255) `def do_evasive_payload(self, line)`
+  - `do_mutate_shellcode` (method, line 307) `def do_mutate_shellcode(self, line)`
+  - `do_detect_edr` (method, line 360) `def do_detect_edr(self, line)`
+  - `do_evasive` (method, line 415) `def do_evasive(self, line)`
+  - `_print_usage` (method, line 514) `def _print_usage(self, fmt, path, lhost, lport)`
+  - `do_evasion` (method, line 533) `def do_evasion(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/evasion_engine.py`, `modules/evasive_payloads.py`, `utils.py`
+
+## cli/commands/exfiltration.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sessions_path` (function, line 142) `def _sessions_path(base_path)`
+  - `_read_first_credential` (function, line 147) `def _read_first_credential(credentials_file)`
+  - `_extract_flag` (function, line 170) `def _extract_flag(args, flag)`
+  - `_split_file` (function, line 187) `def _split_file(file_path, output_dir, chunk_size)`
+  - `_send_telegram_file` (function, line 208) `def _send_telegram_file(file_path, bot_token, chat_id, caption)`
+  - `_send_discord_file` (function, line 231) `def _send_discord_file(file_path, webhook_url, filename)`
+  - `_upload_s3_presigned` (function, line 251) `def _upload_s3_presigned(file_path, bucket, object_key, access_key, secret_key, region)`
+  - `ExfiltrationCommandSet` (class, line 327) `class ExfiltrationCommandSet(LazyOwnCommandSet)`
+  - `_sign` (method, line 296) `def _sign(key, msg)`
+  - `do_encrypt` (method, line 334) `def do_encrypt(self, line)`
+  - `do_decrypt` (method, line 361) `def do_decrypt(self, line)`
+  - `do_evilwinrm` (method, line 389) `def do_evilwinrm(self, line)`
+  - `do_secretsdump` (method, line 460) `def do_secretsdump(self, line)`
+  - `do_getuserspns` (method, line 534) `def do_getuserspns(self, line)`
+  - `do_gitdumper` (method, line 568) `def do_gitdumper(self, line)`
+  - `do_evidence` (method, line 593) `def do_evidence(self, line)`
+  - `do_getadusers` (method, line 673) `def do_getadusers(self, line)`
+  - `do_adgetpass` (method, line 734) `def do_adgetpass(self, line)`
+  - `do_samdump2` (method, line 799) `def do_samdump2(self, line)`
+  - `do_reg_py` (method, line 824) `def do_reg_py(self, line)`
+  - `do_unzip` (method, line 851) `def do_unzip(self, line)`
+  - `do_getnthash_py` (method, line 873) `def do_getnthash_py(self, line)`
+  - `do_upload_gofile` (method, line 905) `def do_upload_gofile(self, line)`
+  - `do_rsync` (method, line 967) `def do_rsync(self, line)`
+  - `do_gmsadumper` (method, line 1004) `def do_gmsadumper(self, line)`
+  - `do_dploot` (method, line 1043) `def do_dploot(self, line)`
+  - `_resolve_dploot_args` (method, line 1089) `def _resolve_dploot_args(self, action, domain)`
+  - `download_file_from_c2` (method, line 1125) `def download_file_from_c2(self, file_name, clientid)`
+  - `do_download_c2` (method, line 1164) `def do_download_c2(self, line)`
+  - `do_exfil_s3` (method, line 1181) `def do_exfil_s3(self, line)`
+  - `do_exfil_telegram` (method, line 1226) `def do_exfil_telegram(self, line)`
+  - `do_exfil_discord` (method, line 1271) `def do_exfil_discord(self, line)`
+  - `do_exfil_gcs` (method, line 1314) `def do_exfil_gcs(self, line)`
+  - `do_exfil_dns` (method, line 1356) `def do_exfil_dns(self, line)`
+  - `do_exfil_http` (method, line 1415) `def do_exfil_http(self, line)`
+  - `do_exfil_auto` (method, line 1485) `def do_exfil_auto(self, line)`
+  - `do_stage` (method, line 1543) `def do_stage(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/commands/cloud.py`, `core/crypto.py`, `core/hardening.py`, `utils.py`
+
+## cli/commands/exploit.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitCommandSet` (class, line 29) `class ExploitCommandSet(LazyOwnCommandSet)`
+  - `do_sqlmap` (method, line 39) `def do_sqlmap(self, line)`
+  - `do_lazypwn` (method, line 64) `def do_lazypwn(self, line)`
+  - `do_rev` (method, line 69) `def do_rev(self, line)`
+  - `do_commix` (method, line 86) `def do_commix(self, line)`
+  - `do_download_exploit` (method, line 105) `def do_download_exploit(self, line)`
+  - `do_img2cookie` (method, line 126) `def do_img2cookie(self, line)`
+  - `do_wrapper` (method, line 150) `def do_wrapper(self, line)`
+  - `do_kusa` (method, line 168) `def do_kusa(self, line)`
+  - `do_ticketer` (method, line 178) `def do_ticketer(self, line)`
+  - `do_www` (method, line 192) `def do_www(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/exploit_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitMigratedCommandSet` (class, line 36) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_cp` (method, line 41) `def do_cp(self, line)`
+  - `do_createcookie` (method, line 82) `def do_createcookie(self, line)`
+  - `do_py3ttyup` (method, line 128) `def do_py3ttyup(self, line)`
+  - `do_pyautomate` (method, line 166) `def do_pyautomate(self, line)`
+  - `do_winbase64payload` (method, line 207) `def do_winbase64payload(self, line)`
+  - `do_createdll` (method, line 336) `def do_createdll(self, line)`
+  - `do_seo` (method, line 392) `def do_seo(self, line)`
+  - `do_padbuster` (method, line 427) `def do_padbuster(self, line)`
+  - `do_cacti_exploit` (method, line 471) `def do_cacti_exploit(self, line)`
+  - `do_shellshock` (method, line 556) `def do_shellshock(self, line)`
+  - `do_powerserver` (method, line 619) `def do_powerserver(self, line)`
+  - `do_sqli` (method, line 682) `def do_sqli(self, line)`
+  - `do_sharpshooter` (method, line 719) `def do_sharpshooter(self, line)`
+  - `do_shellfire` (method, line 761) `def do_shellfire(self, line)`
+  - `do_downloader` (method, line 865) `def do_downloader(self, line)`
+  - `do_eternal` (method, line 952) `def do_eternal(self, line)`
+  - `do_rejetto_hfs_exec` (method, line 997) `def do_rejetto_hfs_exec(self, line)`
+  - `do_ms08_067_netapi` (method, line 1032) `def do_ms08_067_netapi(self, line)`
+  - `do_xss` (method, line 1067) `def do_xss(self, line)`
+  - `do_template_helper_serializer` (method, line 1109) `def do_template_helper_serializer(self, line)`
+  - `do_xsstrike` (method, line 1154) `def do_xsstrike(self, line)`
+  - `do_sireprat` (method, line 1224) `def do_sireprat(self, line)`
+  - `do_upload_bypass` (method, line 1336) `def do_upload_bypass(self, line)`
+  - `do_pywhisker` (method, line 1397) `def do_pywhisker(self, line)`
+  - `do_owneredit` (method, line 1447) `def do_owneredit(self, line)`
+  - `do_gettgtpkinit_py` (method, line 1493) `def do_gettgtpkinit_py(self, line)`
+  - `do_gets4uticket_py` (method, line 1544) `def do_gets4uticket_py(self, line)`
+  - `do_aclpwn_py` (method, line 1591) `def do_aclpwn_py(self, line)`
+  - `do_addspn_py` (method, line 1641) `def do_addspn_py(self, line)`
+  - `do_printerbug_py` (method, line 1685) `def do_printerbug_py(self, line)`
+  - `do_krbrelayx_py` (method, line 1732) `def do_krbrelayx_py(self, line)`
+  - `do_autoblody` (method, line 1776) `def do_autoblody(self, line)`
+  - `do_unicode_WAFbypass` (method, line 1828) `def do_unicode_WAFbypass(self, line)`
+  - `do_sqli_mssql_test` (method, line 1882) `def do_sqli_mssql_test(self, line)`
+  - `do_pyoracle2` (method, line 1918) `def do_pyoracle2(self, line)`
+  - `do_lfi` (method, line 2000) `def do_lfi(self, line)`
+  - `do_greatSCT` (method, line 2042) `def do_greatSCT(self, line)`
+  - `do_sqsh` (method, line 2087) `def do_sqsh(self, line)`
+  - `do_jwt_tool` (method, line 2132) `def do_jwt_tool(self, line)`
+  - `do_filtering` (method, line 2174) `def do_filtering(self, line)`
+  - `do_lol` (method, line 2200) `def do_lol(self, line)`
+  - `do_utf` (method, line 2287) `def do_utf(self, line)`
+  - `do_digdug` (method, line 2326) `def do_digdug(self, line)`
+  - `do_sshexploit` (method, line 2384) `def do_sshexploit(self, line)`
+  - `do_excelntdonut` (method, line 2454) `def do_excelntdonut(self, line)`
+  - `do_ntpdate` (method, line 2510) `def do_ntpdate(self, line)`
+  - `do_adcs_check` (method, line 2534) `def do_adcs_check(self, line)`
+  - `do_chain` (method, line 2590) `def do_chain(self, line)`
+  - `do_exploit_recommend` (method, line 2685) `def do_exploit_recommend(self, line)`
+  - `setup_handler` (method, line 501) `def setup_handler(config_file, lhost, lport)`
+  - `cacti_exploit` (method, line 524) `def cacti_exploit(config_file, host)`
+- Depends on: `cli/commands/_base.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
+
+## cli/commands/exploitgym.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitGymCommandSet` (class, line 36) `class ExploitGymCommandSet(LazyOwnCommandSet)`
+  - `do_exploitgym` (method, line 43) `def do_exploitgym(self, line)`
+  - `_egym_status` (method, line 90) `def _egym_status(self, _args)`
+  - `_egym_setup` (method, line 120) `def _egym_setup(self, args)`
+  - `_egym_list` (method, line 149) `def _egym_list(self, args)`
+  - `_egym_pull` (method, line 181) `def _egym_pull(self, args)`
+  - `_egym_run` (method, line 198) `def _egym_run(self, args)`
+  - `_egym_verify` (method, line 245) `def _egym_verify(self, args)`
+  - `_egym_score` (method, line 258) `def _egym_score(self, args)`
+  - `_egym_docs` (method, line 289) `def _egym_docs(self, _args)`
+- Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
+- Imported by: `mutants/tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`
+
+## cli/commands/lab.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LabCommandSet` (class, line 68) `class LabCommandSet(LazyOwnCommandSet)`
+  - `_docker_available` (method, line 74) `def _docker_available(self)`
+  - `_running_containers` (method, line 87) `def _running_containers(self)`
+  - `_container_name` (method, line 101) `def _container_name(self, scenario)`
+  - `do_lab` (method, line 106) `def do_lab(self, line)`
+  - `_lab_list` (method, line 150) `def _lab_list(self)`
+  - `_lab_start` (method, line 164) `def _lab_start(self, scenario)`
+  - `_lab_stop` (method, line 213) `def _lab_stop(self, scenario)`
+  - `_lab_status` (method, line 231) `def _lab_status(self)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/lateral.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LateralMovementCommandSet` (class, line 24) `class LateralMovementCommandSet(LazyOwnCommandSet)`
+  - `do_socat` (method, line 31) `def do_socat(self, line)`
+  - `do_chisel` (method, line 43) `def do_chisel(self, line)`
+  - `do_set_proxychains` (method, line 59) `def do_set_proxychains(self, line)`
+  - `do_ngrok` (method, line 72) `def do_ngrok(self, line)`
+  - `do_ligolo` (method, line 79) `def do_ligolo(self, line)`
+  - `do_nc` (method, line 91) `def do_nc(self, line)`
+  - `do_wmiexec` (method, line 106) `def do_wmiexec(self, line)`
+  - `do_ssh` (method, line 114) `def do_ssh(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/lateral_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LateralMigratedCommandSet` (class, line 24) `class LateralMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_vpn` (method, line 29) `def do_vpn(self, line)`
+  - `do_id_rsa` (method, line 101) `def do_id_rsa(self, line)`
+  - `do_sshd` (method, line 172) `def do_sshd(self, line)`
+  - `do_wifipass` (method, line 199) `def do_wifipass(self, line)`
+  - `do_bloodyAD` (method, line 229) `def do_bloodyAD(self, line)`
+  - `do_getTGT` (method, line 321) `def do_getTGT(self, line)`
+  - `do_tord` (method, line 369) `def do_tord(self, line)`
+  - `do_shadowsocks` (method, line 404) `def do_shadowsocks(self, line)`
+  - `do_rnc` (method, line 477) `def do_rnc(self, line)`
+  - `do_gospherus` (method, line 543) `def do_gospherus(self, line)`
+  - `do_mssqlcli` (method, line 613) `def do_mssqlcli(self, line)`
+  - `do_penelope` (method, line 666) `def do_penelope(self, line)`
+  - `do_stormbreaker` (method, line 777) `def do_stormbreaker(self, line)`
+  - `do_regeorg` (method, line 823) `def do_regeorg(self, line)`
+  - `do_targetedKerberoas` (method, line 871) `def do_targetedKerberoas(self, line)`
+  - `do_dcomexec` (method, line 931) `def do_dcomexec(self, line)`
+  - `do_upload_c2` (method, line 1002) `def do_upload_c2(self, line)`
+  - `do_wmiexecpro` (method, line 1031) `def do_wmiexecpro(self, line)`
+  - `do_lateral_mov_lin` (method, line 1247) `def do_lateral_mov_lin(self, line)`
+  - `do_addcli` (method, line 1302) `def do_addcli(self, line)`
+  - `do_dominion` (method, line 1317) `def do_dominion(self, line)`
+  - `install_wmiexecpro` (method, line 1070) `def install_wmiexecpro()`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_dominance.py`, `utils.py`
+
+## cli/commands/marketplace.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_safe_git_clone` (function, line 37) `def _safe_git_clone(repo_url, dest, depth)`
+  - `MarketplaceCommandSet` (class, line 52) `class MarketplaceCommandSet(LazyOwnCommandSet)`
+  - `_registry` (method, line 58) `def _registry(self)`
+  - `_installed_plugins` (method, line 64) `def _installed_plugins(self)`
+  - `do_marketplace` (method, line 82) `def do_marketplace(self, line)`
+  - `_mp_list` (method, line 132) `def _mp_list(self)`
+  - `_mp_search` (method, line 154) `def _mp_search(self, query)`
+  - `_mp_install` (method, line 191) `def _mp_install(self, name)`
+  - `_mp_update` (method, line 250) `def _mp_update(self)`
+  - `_mp_info` (method, line 283) `def _mp_info(self, name)`
+  - `_mp_interactive_config` (method, line 321) `def _mp_interactive_config(self)`
+  - `do_marketplace_config` (method, line 333) `def do_marketplace_config(self, line)`
+  - `_mp_toggle_addon` (method, line 375) `def _mp_toggle_addon(self, name, enable_state)`
+- Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `modules/module_registry.py`, `utils.py`
+
+## cli/commands/mcp_bridge.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_auto_populate_parser` (function, line 50) `def _build_auto_populate_parser()`
+  - `_build_facts_show_parser` (function, line 67) `def _build_facts_show_parser()`
+  - `_build_rag_query_parser` (function, line 84) `def _build_rag_query_parser()`
+  - `_build_parquet_query_parser` (function, line 92) `def _build_parquet_query_parser()`
+  - `_build_threat_model_parser` (function, line 111) `def _build_threat_model_parser()`
+  - `_build_playbook_run_parser` (function, line 124) `def _build_playbook_run_parser()`
+  - `McpBridgeCommandSet` (class, line 138) `class McpBridgeCommandSet(LazyOwnCommandSet)`
+  - `do_auto_populate` (method, line 146) `def do_auto_populate(self, args)`
+  - `do_facts_show` (method, line 253) `def do_facts_show(self, args)`
+  - `do_rag_query` (method, line 278) `def do_rag_query(self, args)`
+  - `do_parquet_query` (method, line 308) `def do_parquet_query(self, args)`
+  - `do_threat_model` (method, line 370) `def do_threat_model(self, args)`
+  - `do_playbook_run` (method, line 423) `def do_playbook_run(self, args)`
+  - `do_auto_loop` (method, line 481) `def do_auto_loop(self, line)`
+  - `do_session_state` (method, line 499) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 504) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 509) `def do_timeline(self, line)`
+  - `_delegate` (method, line 513) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 521) `def _refresh_aliases(self)`
+  - `_executor` (method, line 467) `def _executor(command, host)`
+- Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+
+## cli/commands/misc_migrated.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `MiscMigratedCommandSet` (class, line 81) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
+  - `__getattr__` (method, line 4565) `def __getattr__(name)`
+  - `do_notify` (method, line 86) `def do_notify(self, arg)`
+  - `do_EOF` (method, line 105) `def do_EOF(self, line)`
+  - `do_wizard` (method, line 133) `def do_wizard(self, line)`
+  - `do_tutorial` (method, line 206) `def do_tutorial(self, line)`
+  - `do_help_phase` (method, line 229) `def do_help_phase(self, line)`
+  - `do_help_status` (method, line 260) `def do_help_status(self, line)`
+  - `do_ctx_help` (method, line 272) `def do_ctx_help(self, line)`
+  - `do_resume` (method, line 292) `def do_resume(self, line)`
+  - `do_command_explorer` (method, line 312) `def do_command_explorer(self, line)`
+  - `do_config_status` (method, line 344) `def do_config_status(self, line)`
+  - `do_tui_theme` (method, line 364) `def do_tui_theme(self, line)`
+  - `do_doctor` (method, line 389) `def do_doctor(self, line)`
+  - `do_ctx` (method, line 424) `def do_ctx(self, line)`
+  - `do_karma` (method, line 436) `def do_karma(self, line)`
+  - `do_tgrep` (method, line 470) `def do_tgrep(self, line)`
+  - `do_phase` (method, line 487) `def do_phase(self, line)`
+  - `do_killchain` (method, line 521) `def do_killchain(self, line)`
+  - `_handle_killchain_auto` (method, line 552) `def _handle_killchain_auto(self, spec)`
+  - `do_note` (method, line 579) `def do_note(self, line)`
+  - `do_l00t` (method, line 604) `def do_l00t(self, line)`
+  - `do_loot` (method, line 655) `def do_loot(self, line)`
+  - `do_pivot` (method, line 663) `def do_pivot(self, line)`
+  - `do_tasks` (method, line 688) `def do_tasks(self, line)`
+  - `do_scans` (method, line 721) `def do_scans(self, line)`
+  - `do_sitrep` (method, line 738) `def do_sitrep(self, line)`
+  - `do_assign` (method, line 755) `def do_assign(self, line)`
+  - `do_tenant` (method, line 797) `def do_tenant(self, line)`
+  - `do_scope` (method, line 870) `def do_scope(self, line)`
+  - `do_show` (method, line 936) `def do_show(self, line)`
+  - `do_palette` (method, line 1010) `def do_palette(self, line)`
+  - `do_graph_search` (method, line 1035) `def do_graph_search(self, line)`
+  - `do_neighbors` (method, line 1063) `def do_neighbors(self, line)`
+  - `do_god_nodes` (method, line 1090) `def do_god_nodes(self, line)`
+  - `do_suggest_next` (method, line 1109) `def do_suggest_next(self, line)`
+  - `do_recommend_next` (method, line 1235) `def do_recommend_next(self, line)`
+  - `do_explore` (method, line 1292) `def do_explore(self, line)`
+  - `do_prev` (method, line 1323) `def do_prev(self, line)`
+  - `do_dashboard` (method, line 1358) `def do_dashboard(self, line)`
+  - `do_palette_k` (method, line 1395) `def do_palette_k(self, line)`
+  - `do_browse` (method, line 1424) `def do_browse(self, line)`
+  - `do_timeline_browser` (method, line 1446) `def do_timeline_browser(self, line)`
+  - `do_graph_overlay` (method, line 1465) `def do_graph_overlay(self, line)`
+  - `do_toast_clear` (method, line 1485) `def do_toast_clear(self, line)`
+  - `do_collab_join` (method, line 1505) `def do_collab_join(self, line)`
+  - `do_engage` (method, line 1538) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 1666) `def do_pipeline(self, line)`
+  - `do_list` (method, line 1759) `def do_list(self, line)`
+  - `do_run` (method, line 1794) `def do_run(self, line)`
+  - `do_payload` (method, line 1833) `def do_payload(self, line)`
+  - `do_exit` (method, line 1884) `def do_exit(self, arg)`
+  - `do_fixperm` (method, line 1927) `def do_fixperm(self, line)`
+  - `do_getseclist` (method, line 1960) `def do_getseclist(self, line)`
+  - `do_addhosts` (method, line 1998) `def do_addhosts(self, line)`
+  - `do_fixel` (method, line 2022) `def do_fixel(self, line)`
+  - `do_download_resources` (method, line 2055) `def do_download_resources(self, line)`
+  - `do_ip` (method, line 2088) `def do_ip(self, line)`
+  - `do_ipp` (method, line 2164) `def do_ipp(self, line)`
+  - `do_rhost` (method, line 2240) `def do_rhost(self, line)`
+  - `do_rrhost` (method, line 2297) `def do_rrhost(self, line)`
+  - `do_next` (method, line 2348) `def do_next(self, line)`
+  - `do_chainmode` (method, line 2392) `def do_chainmode(self, line)`
+  - `_persist_chainmode` (method, line 2442) `def _persist_chainmode(self, enabled)`
+  - `do_daemon_mode` (method, line 2460) `def do_daemon_mode(self, line)`
+  - `do_daemon_pause` (method, line 2497) `def do_daemon_pause(self, line)`
+  - `do_daemon_resume` (method, line 2515) `def do_daemon_resume(self, line)`
+  - `do_daemon_veto` (method, line 2529) `def do_daemon_veto(self, line)`
+  - `do_daemon_focus` (method, line 2572) `def do_daemon_focus(self, line)`
+  - `do_daemon_approve` (method, line 2605) `def do_daemon_approve(self, line)`
+  - `do_banner` (method, line 2655) `def do_banner(self, line)`
+  - `do_config_banner` (method, line 2667) `def do_config_banner(self, line)`
+  - `do_sh` (method, line 2711) `def do_sh(self, line)`
+  - `do_sys` (method, line 2743) `def do_sys(self, line)`
+  - `do_pwd` (method, line 2781) `def do_pwd(self, line)`
+  - `do_qa` (method, line 2819) `def do_qa(self, line)`
+  - `do_ignorearp` (method, line 2860) `def do_ignorearp(self, line)`
+  - `do_ignoreicmp` (method, line 2897) `def do_ignoreicmp(self, line)`
+  - `do_acknowledgearp` (method, line 2934) `def do_acknowledgearp(self, line)`
+  - `do_acknowledgeicmp` (method, line 2971) `def do_acknowledgeicmp(self, line)`
+  - `do_clock` (method, line 3008) `def do_clock(self, line)`
+  - `do_urlencode` (method, line 3056) `def do_urlencode(self, line)`
+  - `do_urldecode` (method, line 3085) `def do_urldecode(self, line)`
+  - `do_encode` (method, line 3114) `def do_encode(self, line)`
+  - `do_decode` (method, line 3154) `def do_decode(self, line)`
+  - `do_rot` (method, line 3192) `def do_rot(self, line)`
+  - `do_rotf` (method, line 3232) `def do_rotf(self, line)`
+  - `do_encoderpayload` (method, line 3279) `def do_encoderpayload(self, line)`
+  - `do_clean` (method, line 3380) `def do_clean(self, line)`
+  - `do_aliass` (method, line 3467) `def do_aliass(self, line)`
+  - `do_base64encode` (method, line 3497) `def do_base64encode(self, line)`
+  - `do_base64decode` (method, line 3525) `def do_base64decode(self, line)`
+  - `do_encodewinbase64` (method, line 3556) `def do_encodewinbase64(self, line)`
+  - `do_lazyscript` (method, line 3615) `def do_lazyscript(self, line)`
+  - `do_kick` (method, line 3647) `def do_kick(self, line)`
+  - `do_gencert` (method, line 3694) `def do_gencert(self, line)`
+  - `do_graph` (method, line 3706) `def do_graph(self, line)`
+  - `do_nano` (method, line 3765) `def do_nano(self, line)`
+  - `do_ip2hex` (method, line 3789) `def do_ip2hex(self, line)`
+  - `do_h` (method, line 3815) `def do_h(self, arg)`
+  - `do_v` (method, line 3854) `def do_v(self, arg)`
+  - `do_hex_to_plaintext` (method, line 3893) `def do_hex_to_plaintext(self, line)`
+  - `do_cron` (method, line 3936) `def do_cron(self, line)`
+  - `do_ip2asn` (method, line 3982) `def do_ip2asn(self, line)`
+  - `do_tab` (method, line 4012) `def do_tab(self, line)`
+  - `do_links` (method, line 4036) `def do_links(self, line)`
+  - `do_news` (method, line 4099) `def do_news(self, line)`
+  - `do_check_update` (method, line 4112) `def do_check_update(self, line)`
+  - `do_clone_site` (method, line 4157) `def do_clone_site(self, line)`
+  - `do_load_session` (method, line 4201) `def do_load_session(self, line)`
+  - `do_msfshellcoder` (method, line 4252) `def do_msfshellcoder(self, line)`
+  - `do_pop` (method, line 4377) `def do_pop(self, line)`
+  - `do_addalias` (method, line 4414) `def do_addalias(self, arglist)`
+  - `do_listaliases` (method, line 4463) `def do_listaliases(self, _)`
+  - `do_hunt` (method, line 4474) `def do_hunt(self, line)`
+  - `_save` (method, line 159) `def _save(key, value)`
+  - `_flag_value` (method, line 1602) `def _flag_value(flag_name)`
+  - `_flag_value` (method, line 1717) `def _flag_value(flag_name)`
+  - `double_base64_encode` (method, line 3300) `def double_base64_encode(cmd)`
+  - `apply_obfuscations` (method, line 3328) `def apply_obfuscations(cmd)`
+  - `lazyrun_command` (method, line 3971) `def lazyrun_command()`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/chain_mode.py`, `cli/command_chain.py`, `cli/command_explorer.py`, `cli/commands/_base.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/dashboard_tui.py`, `cli/doctor.py`, `cli/engagement_hooks.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/session_resumer.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `cli/tutorial.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/hardening.py`, `modules/autonomous_exploit_engine.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/world_model.py`, `skills/autonomous_daemon.py`, `skills/daemon_control.py`, `utils.py`
+
+## cli/commands/mobile_macos.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MobileMacOSCommandSet` (class, line 92) `class MobileMacOSCommandSet(LazyOwnCommandSet)`
+  - `_extract_flag` (method, line 314) `def _extract_flag(args, flag)`
+  - `_adb_base` (method, line 323) `def _adb_base(serial)`
+  - `is_binary_present` (method, line 330) `def is_binary_present(name)`
+  - `do_android_enum` (method, line 99) `def do_android_enum(self, line)`
+  - `do_android_apk` (method, line 156) `def do_android_apk(self, line)`
+  - `do_macos_persist` (method, line 191) `def do_macos_persist(self, line)`
+  - `do_macos_keychain` (method, line 247) `def do_macos_keychain(self, line)`
+  - `do_macos_tcc` (method, line 286) `def do_macos_tcc(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/module_manager.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ModuleManagerCommandSet` (class, line 36) `class ModuleManagerCommandSet(LazyOwnCommandSet)`
+  - `_get_registry` (method, line 42) `def _get_registry(self)`
+  - `_get_active_module` (method, line 50) `def _get_active_module(self)`
+  - `_get_active_options` (method, line 56) `def _get_active_options(self)`
+  - `do_search` (method, line 71) `def do_search(self, line)`
+  - `do_use` (method, line 111) `def do_use(self, line)`
+  - `do_back` (method, line 162) `def do_back(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
+
+## cli/commands/opsec_cleanup.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OpsecCleanupCommandSet` (class, line 19) `class OpsecCleanupCommandSet(LazyOwnCommandSet)`
+  - `do_opsec_score` (method, line 25) `def do_opsec_score(self, line)`
+  - `do_log_tamper` (method, line 97) `def do_log_tamper(self, line)`
+  - `do_forensic_clean` (method, line 162) `def do_forensic_clean(self, line)`
+  - `do_timestomp` (method, line 219) `def do_timestomp(self, line)`
+  - `do_memory_clean` (method, line 288) `def do_memory_clean(self, line)`
+  - `do_network_opsec` (method, line 342) `def do_network_opsec(self, line)`
+  - `do_auditd_disable` (method, line 445) `def do_auditd_disable(self, line)`
+  - `do_sysmon_disable` (method, line 468) `def do_sysmon_disable(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log_tamper.py`, `modules/memory_cleaner.py`, `modules/network_opsec.py`, `modules/opsec_scorer.py`, `modules/timestomper.py`
+
+## cli/commands/orchestration.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OrchestrationConfig` (class, line 37) `class OrchestrationConfig`
+  - `_build_status_bar_parser` (method, line 57) `def _build_status_bar_parser()`
+  - `_build_orchestrate_parser` (method, line 70) `def _build_orchestrate_parser()`
+  - `OrchestrationCommandSet` (class, line 117) `class OrchestrationCommandSet(LazyOwnCommandSet)`
+  - `do_status_bar` (method, line 125) `def do_status_bar(self, args)`
+  - `do_orchestrate` (method, line 151) `def do_orchestrate(self, args)`
+  - `_resolve_shell` (method, line 177) `def _resolve_shell(self)`
+  - `_status_manager` (method, line 192) `def _status_manager(self)`
+  - `_orchestrator` (method, line 198) `def _orchestrator(self)`
+  - `_status_bar_show` (method, line 204) `def _status_bar_show(self, manager)`
+  - `_status_bar_refresh` (method, line 209) `def _status_bar_refresh(self, manager)`
+  - `_status_bar_toggle` (method, line 219) `def _status_bar_toggle(self, manager, enabled)`
+  - `_format_text` (method, line 228) `def _format_text(result)`
+- Depends on: `cli/commands/_base.py`
+- Imported by: `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`
+
+## cli/commands/payload_arsenal.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PayloadArsenalCommandSet` (class, line 23) `class PayloadArsenalCommandSet(LazyOwnCommandSet)`
+  - `do_dotnet_payload` (method, line 29) `def do_dotnet_payload(self, line)`
+  - `do_arsenal_show` (method, line 114) `def do_arsenal_show(self, line)`
+  - `do_staged_delivery` (method, line 172) `def do_staged_delivery(self, line)`
+  - `do_polymorphic` (method, line 261) `def do_polymorphic(self, line)`
+  - `do_macos_payload` (method, line 328) `def do_macos_payload(self, line)`
+  - `do_linux_advanced_payload` (method, line 401) `def do_linux_advanced_payload(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/dotnet_payload.py`, `modules/linux_advanced_payloads.py`, `modules/macos_payloads.py`, `modules/polymorphic_engine.py`, `modules/staged_delivery.py`
+
+## cli/commands/payload_generation.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PayloadCommandSet` (class, line 24) `class PayloadCommandSet(LazyOwnCommandSet)`
+  - `_get_factory` (method, line 30) `def _get_factory(self)`
+  - `do_generate` (method, line 37) `def do_generate(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/payload_factory.py`, `utils.py`
+
+## cli/commands/persist.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PersistenceCommandSet` (class, line 26) `class PersistenceCommandSet(LazyOwnCommandSet)`
+  - `do_createwebshell` (method, line 33) `def do_createwebshell(self, line)`
+  - `do_createrevshell` (method, line 47) `def do_createrevshell(self, line)`
+  - `do_createwinrevshell` (method, line 61) `def do_createwinrevshell(self, line)`
+  - `do_conptyshell` (method, line 73) `def do_conptyshell(self, line)`
+  - `do_pwncatcs` (method, line 89) `def do_pwncatcs(self, line)`
+  - `do_revwin` (method, line 99) `def do_revwin(self, line)`
+  - `do_wmi_persist` (method, line 112) `def do_wmi_persist(self, line)`
+  - `do_wmi_lateral` (method, line 170) `def do_wmi_lateral(self, line)`
+  - `do_wmi_scheduled_task` (method, line 209) `def do_wmi_scheduled_task(self, line)`
+  - `_extract` (method, line 275) `def _extract(args, flag)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/persist_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PersistMigratedCommandSet` (class, line 27) `class PersistMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_pwncat` (method, line 32) `def do_pwncat(self, line)`
+  - `do_ftp` (method, line 76) `def do_ftp(self, line)`
+  - `do_rdp` (method, line 135) `def do_rdp(self, line)`
+  - `do_grisun0` (method, line 200) `def do_grisun0(self, line)`
+  - `do_grisun0w` (method, line 246) `def do_grisun0w(self, line)`
+  - `do_asprevbase64` (method, line 288) `def do_asprevbase64(self, line)`
+  - `do_weevelygen` (method, line 326) `def do_weevelygen(self, line)`
+  - `do_weevely` (method, line 366) `def do_weevely(self, line)`
+  - `do_backdoor_factory` (method, line 412) `def do_backdoor_factory(self, line)`
+  - `do_msfpc` (method, line 458) `def do_msfpc(self, line)`
+  - `do_ivy` (method, line 539) `def do_ivy(self, line)`
+  - `do_veil` (method, line 639) `def do_veil(self, line)`
+  - `do_scarecrow` (method, line 713) `def do_scarecrow(self, line)`
+  - `do_generate_revshell` (method, line 831) `def do_generate_revshell(self, line)`
+  - `do_dr0p1t` (method, line 897) `def do_dr0p1t(self, line)`
+  - `do_paranoid_meterpreter` (method, line 960) `def do_paranoid_meterpreter(self, line)`
+  - `do_setoolKits` (method, line 1048) `def do_setoolKits(self, line)`
+  - `do_darkarmour` (method, line 1081) `def do_darkarmour(self, line)`
+  - `do_knokknok` (method, line 1149) `def do_knokknok(self, line)`
+  - `do_listener_go` (method, line 1184) `def do_listener_go(self, line)`
+  - `do_listener_py` (method, line 1251) `def do_listener_py(self, line)`
+  - `do_service` (method, line 1318) `def do_service(self, line)`
+  - `do_toctoc` (method, line 1391) `def do_toctoc(self, line)`
+  - `do_beaconcfg` (method, line 1414) `def do_beaconcfg(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
+
+## cli/commands/phishing_wizard.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PhishingWizardCommandSet` (class, line 183) `class PhishingWizardCommandSet(LazyOwnCommandSet)`
+  - `_profile_targets` (method, line 510) `def _profile_targets(domain)`
+  - `_save_targets` (method, line 522) `def _save_targets(campaign_dir, targets)`
+  - `_log_click` (method, line 533) `def _log_click(campaign_dir, ip, user_agent)`
+  - `_ensure_session_key` (method, line 551) `def _ensure_session_key()`
+  - `_log_credentials` (method, line 569) `def _log_credentials(campaign_dir, email, password, ip)`
+  - `_send_smtp_email` (method, line 603) `def _send_smtp_email(server, port, username, password, to_email, from_addr, subject, html_body)`
+  - `_extract_flag` (method, line 702) `def _extract_flag(args, flag)`
+  - `do_phish_wizard` (method, line 190) `def do_phish_wizard(self, line)`
+  - `do_phish_serve` (method, line 361) `def do_phish_serve(self, line)`
+  - `do_phish_report` (method, line 443) `def do_phish_report(self, line)`
+  - `do_phisher` (method, line 637) `def do_phisher(self, line)`
+  - `PhishingHandler` (class, line 388) `class PhishingHandler(BaseHTTPRequestHandler)`
+  - `log_message` (method, line 389) `def log_message(self, format)`
+  - `do_GET` (method, line 392) `def do_GET(self)`
+  - `do_POST` (method, line 407) `def do_POST(self)`
+  - `do_OPTIONS` (method, line 427) `def do_OPTIONS(self)`
+- Depends on: `cli/commands/_base.py`, `modules/backdoor/server.c`, `modules/phishing_orchestrator.py`, `utils.py`
+
+## cli/commands/pivoting.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PivotingCommandSet` (class, line 36) `class PivotingCommandSet(LazyOwnCommandSet)`
+  - `_discover_internal_networks` (method, line 244) `def _discover_internal_networks(rhost)`
+  - `_setup_chisel_pivot` (method, line 290) `def _setup_chisel_pivot(rhost, lhost, port, networks)`
+  - `_setup_ssh_pivot` (method, line 314) `def _setup_ssh_pivot(rhost, lhost, port, networks)`
+  - `_setup_socat_pivot` (method, line 340) `def _setup_socat_pivot(rhost, lhost, port, networks)`
+  - `_find_free_port` (method, line 370) `def _find_free_port(start)`
+  - `_load_pivot_chain` (method, line 391) `def _load_pivot_chain()`
+  - `_save_pivot_chain` (method, line 399) `def _save_pivot_chain(chain)`
+  - `_extract_flag` (method, line 406) `def _extract_flag(args, flag)`
+  - `do_autopivot` (method, line 43) `def do_autopivot(self, line)`
+  - `do_pivot_status` (method, line 100) `def do_pivot_status(self, line)`
+  - `do_pivot_kill` (method, line 119) `def do_pivot_kill(self, line)`
+  - `do_pivot_scan` (method, line 153) `def do_pivot_scan(self, line)`
+  - `do_pivot_proxy` (method, line 206) `def do_pivot_proxy(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
+
+## cli/commands/postexp.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostExploitationCommandSet` (class, line 25) `class PostExploitationCommandSet(LazyOwnCommandSet)`
+  - `do_lazywebshell` (method, line 32) `def do_lazywebshell(self, line)`
+  - `do_disableav` (method, line 38) `def do_disableav(self, line)`
+  - `do_mimikatzpy` (method, line 52) `def do_mimikatzpy(self, line)`
+  - `do_scavenger` (method, line 57) `def do_scavenger(self, line)`
+  - `do_follina` (method, line 62) `def do_follina(self, line)`
+  - `do_shellcode` (method, line 67) `def do_shellcode(self, line)`
+  - `do_ofuscatorps1` (method, line 75) `def do_ofuscatorps1(self, line)`
+  - `do_atomic_lazyown` (method, line 80) `def do_atomic_lazyown(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+
+## cli/commands/postexp_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostexpMigratedCommandSet` (class, line 31) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_find` (method, line 36) `def do_find(self, line)`
+  - `do_cports` (method, line 305) `def do_cports(self, line)`
+  - `do_rubeus` (method, line 350) `def do_rubeus(self, line)`
+  - `do_sessionsshstrace` (method, line 390) `def do_sessionsshstrace(self, line)`
+  - `do_powershell_cmd_stager` (method, line 441) `def do_powershell_cmd_stager(self, line)`
+  - `do_shellcode_search` (method, line 478) `def do_shellcode_search(self, line)`
+  - `do_shellcode2sylk` (method, line 526) `def do_shellcode2sylk(self, line)`
+  - `do_pezorsh` (method, line 571) `def do_pezorsh(self, line)`
+  - `do_pip_repo` (method, line 642) `def do_pip_repo(self, line)`
+  - `do_apt_repo` (method, line 727) `def do_apt_repo(self, line)`
+  - `do_createpayload` (method, line 925) `def do_createpayload(self, line)`
+  - `do_bin2shellcode` (method, line 975) `def do_bin2shellcode(self, line)`
+  - `do_exe2bin` (method, line 1066) `def do_exe2bin(self, line)`
+  - `do_exe2donutbin` (method, line 1093) `def do_exe2donutbin(self, line)`
+  - `do_issue_command_to_c2` (method, line 1117) `def do_issue_command_to_c2(self, line)`
+  - `do_d3monizedshell` (method, line 1141) `def do_d3monizedshell(self, line)`
+  - `do_scp` (method, line 1174) `def do_scp(self, line)`
+  - `do_apt_proxy` (method, line 1265) `def do_apt_proxy(self, line)`
+  - `do_pip_proxy` (method, line 1322) `def do_pip_proxy(self, line)`
+  - `do_internet_proxy` (method, line 1378) `def do_internet_proxy(self, line)`
+  - `do_shellcode2elf` (method, line 1439) `def do_shellcode2elf(self, line)`
+  - `do_ssh_cmd` (method, line 1522) `def do_ssh_cmd(self, line)`
+  - `do_service_ssh` (method, line 1551) `def do_service_ssh(self, line)`
+  - `do_ofuscatesh` (method, line 1625) `def do_ofuscatesh(self, line)`
+  - `do_ofuscate_payload` (method, line 1655) `def do_ofuscate_payload(self, line)`
+  - `do_adversary` (method, line 1684) `def do_adversary(self, line)`
+  - `do_ofuscate_string` (method, line 1825) `def do_ofuscate_string(self, line)`
+  - `do_path2hex` (method, line 1867) `def do_path2hex(self, line)`
+  - `do_hex2shellcode` (method, line 1914) `def do_hex2shellcode(self, line)`
+  - `do_create_synthetic` (method, line 1971) `def do_create_synthetic(self, line)`
+  - `do_extract_yaml` (method, line 2022) `def do_extract_yaml(self, line)`
+  - `do_convert_remcomsvc_from_file` (method, line 2083) `def do_convert_remcomsvc_from_file(self, arg)`
+  - `do_adversary_yaml` (method, line 2115) `def do_adversary_yaml(self, line)`
+  - `do_add2find` (method, line 2197) `def do_add2find(self, line)`
+  - `do_rmfromfind` (method, line 2225) `def do_rmfromfind(self, line)`
+  - `do_aes_pe` (method, line 2254) `def do_aes_pe(self, line)`
+  - `do_yara_scan` (method, line 2281) `def do_yara_scan(self, line)`
+  - `resolve_and_download_dependencies` (method, line 773) `def resolve_and_download_dependencies(package_name)`
+- Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
+
+## cli/commands/privilege_escalation.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sessions_directory` (function, line 101) `def _sessions_directory(base_path)`
+  - `_serve_via_http` (function, line 113) `def _serve_via_http(shell, binary_name, sessions_path, lport)`
+  - `PrivilegeEscalationCommandSet` (class, line 126) `class PrivilegeEscalationCommandSet(LazyOwnCommandSet)`
+  - `do_smbserver` (method, line 133) `def do_smbserver(self, line)`
+  - `do_responder` (method, line 191) `def do_responder(self, line)`
+  - `do_sudo` (method, line 216) `def do_sudo(self, line)`
+  - `do_linpeas` (method, line 229) `def do_linpeas(self, line)`
+  - `do_winpeas` (method, line 265) `def do_winpeas(self, line)`
+  - `do_les` (method, line 304) `def do_les(self, line)`
+  - `do_suid_check` (method, line 344) `def do_suid_check(self, line)`
+  - `do_pspy` (method, line 363) `def do_pspy(self, line)`
+  - `do_gtfo` (method, line 397) `def do_gtfo(self, line)`
+  - `do_whoami_priv` (method, line 444) `def do_whoami_priv(self, line)`
+  - `_whoami_priv_linux` (method, line 474) `def _whoami_priv_linux(self)`
+  - `_whoami_priv_windows` (method, line 490) `def _whoami_priv_windows(self)`
+  - `do_sudo_privesc` (method, line 506) `def do_sudo_privesc(self, line)`
+  - `do_printspoofer` (method, line 604) `def do_printspoofer(self, line)`
+  - `do_juicypotato` (method, line 626) `def do_juicypotato(self, line)`
+  - `_serve_windows_tool` (method, line 650) `def _serve_windows_tool(self, binary, label, description, args)`
+  - `_detect_os_for_privesc` (method, line 689) `def _detect_os_for_privesc(self)`
+  - `do_privesc_cmd_by_os` (method, line 748) `def do_privesc_cmd_by_os(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/purple_team.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_exec_parser` (function, line 29) `def _build_exec_parser()`
+  - `_build_test_parser` (function, line 67) `def _build_test_parser()`
+  - `_build_config_parser` (function, line 92) `def _build_config_parser()`
+  - `_build_history_parser` (function, line 106) `def _build_history_parser()`
+  - `PurpleTeamCommandSet` (class, line 124) `class PurpleTeamCommandSet(LazyOwnCommandSet)`
+  - `_get_loop` (method, line 130) `def _get_loop(self)`
+  - `do_purple_exec` (method, line 144) `def do_purple_exec(self, line)`
+  - `do_purple_test` (method, line 203) `def do_purple_test(self, args)`
+  - `do_purple_score` (method, line 223) `def do_purple_score(self, line)`
+  - `do_purple_report` (method, line 271) `def do_purple_report(self, line)`
+  - `do_purple_methods` (method, line 285) `def do_purple_methods(self, line)`
+  - `do_purple_config` (method, line 297) `def do_purple_config(self, args)`
+  - `do_purple_dashboard` (method, line 350) `def do_purple_dashboard(self, line)`
+  - `do_purple_history` (method, line 367) `def do_purple_history(self, args)`
+- Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `modules/auto_purple.py`
+
+## cli/commands/pwn.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PwnCommandSet` (class, line 27) `class PwnCommandSet(LazyOwnCommandSet)`
+  - `do_auto_pwn` (method, line 34) `def do_auto_pwn(self, line)`
+  - `do_rich_tui` (method, line 98) `def do_rich_tui(self, line)`
+  - `do_exploit_chain` (method, line 147) `def do_exploit_chain(self, line)`
+  - `do_lolbas_list` (method, line 234) `def do_lolbas_list(self, line)`
+  - `do_lolbas_use` (method, line 291) `def do_lolbas_use(self, line)`
+  - `do_stealth_on` (method, line 374) `def do_stealth_on(self, line)`
+  - `do_stealth_off` (method, line 402) `def do_stealth_off(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
+- Imported by: `modules/legacy/lazybinenc.py`, `modules/legacy/lazypwn.py`, `modules/legacy/lazyvsftp.py`, `modules/legacy/sql.py`
+
+## cli/commands/recon.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReconCommandSet` (class, line 40) `class ReconCommandSet(LazyOwnCommandSet)`
+  - `do_batchnmap` (method, line 47) `def do_batchnmap(self, line)`
+  - `do_lazynmap` (method, line 74) `def do_lazynmap(self, line)`
+  - `do_dig` (method, line 154) `def do_dig(self, line)`
+  - `do_dnsenum` (method, line 186) `def do_dnsenum(self, line)`
+  - `do_dnsmap` (method, line 222) `def do_dnsmap(self, line)`
+  - `do_whatweb` (method, line 255) `def do_whatweb(self, line)`
+  - `do_nbtscan` (method, line 292) `def do_nbtscan(self, line)`
+  - `do_nikto` (method, line 320) `def do_nikto(self, line)`
+  - `do_finalrecon` (method, line 429) `def do_finalrecon(self, line)`
+  - `do_openssl_sclient` (method, line 461) `def do_openssl_sclient(self, line)`
+  - `do_ss` (method, line 491) `def do_ss(self, line)`
+  - `do_wfuzz` (method, line 654) `def do_wfuzz(self, line)`
+  - `_run_single_search` (method, line 521) `def _run_single_search(query)`
+- Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
+
+## cli/commands/recon_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReconMigratedCommandSet` (class, line 38) `class ReconMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_surface` (method, line 43) `def do_surface(self, line)`
+  - `do_getcap` (method, line 97) `def do_getcap(self, line)`
+  - `do_launchpad` (method, line 131) `def do_launchpad(self, line)`
+  - `do_ping` (method, line 177) `def do_ping(self, line)`
+  - `do_gospider` (method, line 275) `def do_gospider(self, line)`
+  - `do_proxy` (method, line 363) `def do_proxy(self, line)`
+  - `do_ports` (method, line 401) `def do_ports(self, line)`
+  - `do_tcpdump_icmp` (method, line 443) `def do_tcpdump_icmp(self, line)`
+  - `do_tcpdump_capture` (method, line 476) `def do_tcpdump_capture(self, line)`
+  - `do_tshark_analyze` (method, line 517) `def do_tshark_analyze(self, line)`
+  - `do_waybackmachine` (method, line 583) `def do_waybackmachine(self, line)`
+  - `do_sslscan` (method, line 623) `def do_sslscan(self, line)`
+  - `do_graudit` (method, line 664) `def do_graudit(self, line)`
+  - `do_sherlock` (method, line 695) `def do_sherlock(self, line)`
+  - `do_trufflehog` (method, line 736) `def do_trufflehog(self, line)`
+  - `do_apache_users` (method, line 774) `def do_apache_users(self, line)`
+  - `do_trace` (method, line 821) `def do_trace(self, line)`
+  - `do_alterx` (method, line 864) `def do_alterx(self, line)`
+  - `do_windapsearchscrapeusers` (method, line 941) `def do_windapsearchscrapeusers(self, line)`
+  - `do_cve` (method, line 977) `def do_cve(self, line)`
+  - `do_serveralive2` (method, line 1026) `def do_serveralive2(self, line)`
+  - `do_binarycheck` (method, line 1060) `def do_binarycheck(self, line)`
+  - `do_dnstool_py` (method, line 1105) `def do_dnstool_py(self, line)`
+  - `do_metabigor` (method, line 1151) `def do_metabigor(self, line)`
+  - `do_httprobe` (method, line 1227) `def do_httprobe(self, line)`
+  - `do_recon` (method, line 1270) `def do_recon(self, line)`
+  - `do_dnschef` (method, line 1324) `def do_dnschef(self, line)`
+  - `do_ipinfo` (method, line 1359) `def do_ipinfo(self, line)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/surface_tui.py`, `core/config.py`, `utils.py`
+
+## cli/commands/redteam_gym.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RedTeamGymCommandSet` (class, line 32) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
+  - `do_gym` (method, line 39) `def do_gym(self, line)`
+  - `_gym_list` (method, line 83) `def _gym_list(self)`
+  - `_gym_start` (method, line 117) `def _gym_start(self, args)`
+  - `_gym_submit` (method, line 154) `def _gym_submit(self, args)`
+  - `_gym_status` (method, line 198) `def _gym_status(self)`
+  - `_gym_leaderboard` (method, line 223) `def _gym_leaderboard(self, args)`
+  - `_gym_hint` (method, line 257) `def _gym_hint(self)`
+- Depends on: `cli/commands/_base.py`, `modules/redteam_gym.py`, `utils.py`
+
+## cli/commands/resource_scripting.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ResourceCommandSet` (class, line 25) `class ResourceCommandSet(LazyOwnCommandSet)`
+  - `_make_context` (method, line 31) `def _make_context(self)`
+  - `do_resource` (method, line 49) `def do_resource(self, line)`
+  - `do_makerc` (method, line 88) `def do_makerc(self, line)`
+  - `do_spool` (method, line 122) `def do_spool(self, line)`
+  - `do_mkrc` (method, line 152) `def do_mkrc(self, line)`
+  - `on_cmd` (method, line 35) `def on_cmd(cmd)`
+  - `on_print` (method, line 39) `def on_print(msg)`
+- Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
+
+## cli/commands/scan.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScanCommandSet` (class, line 49) `class ScanCommandSet(LazyOwnCommandSet)`
+  - `do_gobuster` (method, line 56) `def do_gobuster(self, line)`
+  - `do_arpscan` (method, line 129) `def do_arpscan(self, line)`
+  - `do_dirsearch` (method, line 170) `def do_dirsearch(self, line)`
+  - `do_dmitry` (method, line 213) `def do_dmitry(self, line)`
+  - `do_feroxbuster` (method, line 248) `def do_feroxbuster(self, line)`
+  - `do_nmapscript` (method, line 316) `def do_nmapscript(self, line)`
+  - `do_nuclei` (method, line 350) `def do_nuclei(self, line)`
+  - `do_amass` (method, line 392) `def do_amass(self, line)`
+  - `do_bbot` (method, line 422) `def do_bbot(self, line)`
+  - `do_osmedeus` (method, line 473) `def do_osmedeus(self, line)`
+  - `do_magicrecon` (method, line 548) `def do_magicrecon(self, line)`
+  - `do_hostdiscover` (method, line 606) `def do_hostdiscover(self, line)`
+  - `do_portdiscover` (method, line 664) `def do_portdiscover(self, line)`
+  - `do_portservicediscover` (method, line 724) `def do_portservicediscover(self, line)`
+  - `do_skipfish` (method, line 789) `def do_skipfish(self, line)`
+  - `do_vscan` (method, line 839) `def do_vscan(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/scan_migrated.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScanMigratedCommandSet` (class, line 28) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_cme` (method, line 33) `def do_cme(self, line)`
+  - `do_ldapdomaindump` (method, line 159) `def do_ldapdomaindump(self, line)`
+  - `do_bloodhound` (method, line 206) `def do_bloodhound(self, line)`
+  - `do_swaks` (method, line 255) `def do_swaks(self, line)`
+  - `do_samrdump` (method, line 300) `def do_samrdump(self, line)`
+  - `do_lynis` (method, line 355) `def do_lynis(self, line)`
+  - `do_snmpcheck` (method, line 384) `def do_snmpcheck(self, line)`
+  - `do_snmpwalk` (method, line 411) `def do_snmpwalk(self, line)`
+  - `do_smtpuserenum` (method, line 438) `def do_smtpuserenum(self, line)`
+  - `do_sessionssh` (method, line 477) `def do_sessionssh(self, line)`
+  - `do_smbattack` (method, line 501) `def do_smbattack(self, line)`
+  - `do_parsero` (method, line 632) `def do_parsero(self, line)`
+  - `do_changeme` (method, line 664) `def do_changeme(self, line)`
+  - `do_enum4linux_ng` (method, line 695) `def do_enum4linux_ng(self, line)`
+  - `do_fuzz` (method, line 733) `def do_fuzz(self, line)`
+  - `do_kerbrute` (method, line 778) `def do_kerbrute(self, line)`
+  - `do_davtest` (method, line 864) `def do_davtest(self, line)`
+  - `do_evil_ssdp` (method, line 906) `def do_evil_ssdp(self, line)`
+  - `do_netexec` (method, line 952) `def do_netexec(self, line)`
+  - `do_allin` (method, line 1172) `def do_allin(self, line)`
+  - `do_windapsearch` (method, line 1245) `def do_windapsearch(self, line)`
+  - `do_ldapsearch` (method, line 1359) `def do_ldapsearch(self, line)`
+  - `do_arjun` (method, line 1411) `def do_arjun(self, line)`
+  - `do_finger_user_enum` (method, line 1476) `def do_finger_user_enum(self, line)`
+  - `do_wpscan` (method, line 1524) `def do_wpscan(self, line)`
+  - `do_loxs` (method, line 1580) `def do_loxs(self, line)`
+  - `do_blazy` (method, line 1624) `def do_blazy(self, line)`
+  - `do_parth` (method, line 1674) `def do_parth(self, line)`
+  - `do_breacher` (method, line 1733) `def do_breacher(self, line)`
+  - `do_openredirex` (method, line 1795) `def do_openredirex(self, line)`
+  - `do_odat` (method, line 1858) `def do_odat(self, line)`
+  - `do_rpcmap_py` (method, line 1971) `def do_rpcmap_py(self, line)`
+  - `do_pykerbrute` (method, line 2015) `def do_pykerbrute(self, line)`
+  - `do_netview` (method, line 2080) `def do_netview(self, line)`
+  - `do_rdp_check_py` (method, line 2144) `def do_rdp_check_py(self, line)`
+  - `do_mqtt_check_py` (method, line 2209) `def do_mqtt_check_py(self, line)`
+  - `do_lookupsid_py` (method, line 2264) `def do_lookupsid_py(self, line)`
+  - `do_lookupsid` (method, line 2335) `def do_lookupsid(self, line)`
+  - `do_certipy_ad` (method, line 2397) `def do_certipy_ad(self, line)`
+  - `do_certipy` (method, line 2462) `def do_certipy(self, line)`
+  - `do_sawks` (method, line 2545) `def do_sawks(self, line)`
+  - `do_ad_ldap_enum` (method, line 2582) `def do_ad_ldap_enum(self, line)`
+  - `do_net_rpc_addmem` (method, line 2636) `def do_net_rpc_addmem(self, line)`
+  - `do_pre2k` (method, line 2682) `def do_pre2k(self, line)`
+  - `do_hound` (method, line 2778) `def do_hound(self, line)`
+  - `find_tgts` (method, line 530) `def find_tgts(subnet)`
+  - `setup_handler` (method, line 551) `def setup_handler(config_file, lhost, lport)`
+  - `conficker_exploit` (method, line 571) `def conficker_exploit(config_file, host, lhost, lport)`
+  - `smb_brute` (method, line 591) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
+  - `install_netexec` (method, line 978) `def install_netexec()`
+  - `install_netexec_pipx` (method, line 983) `def install_netexec_pipx()`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/security.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SecurityCommandSet` (class, line 20) `class SecurityCommandSet(LazyOwnCommandSet)`
+  - `do_opsec` (method, line 26) `def do_opsec(self, line)`
+  - `do_seal_credentials` (method, line 108) `def do_seal_credentials(self, _line)`
+  - `do_rotate_aes` (method, line 129) `def do_rotate_aes(self, _line)`
+  - `do_unseal_credentials` (method, line 152) `def do_unseal_credentials(self, _line)`
+  - `do_crack_hashes` (method, line 172) `def do_crack_hashes(self, line)`
+  - `complete_opsec` (method, line 269) `def complete_opsec(self, text, line, begidx, endidx)`
+  - `complete_crack_hashes` (method, line 278) `def complete_crack_hashes(self, text, line, begidx, endidx)`
+- Depends on: `cli/commands/_base.py`, `cli/style.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `modules/hash_cracker.py`, `modules/opsec_scorer.py`
+
+## cli/commands/sleep_obfuscation.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SleepObfuscationCommandSet` (class, line 16) `class SleepObfuscationCommandSet(LazyOwnCommandSet)`
+  - `do_sleep_list` (method, line 23) `def do_sleep_list(self, line)`
+  - `do_sleep_info` (method, line 50) `def do_sleep_info(self, line)`
+  - `do_sleep_configure` (method, line 82) `def do_sleep_configure(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
+
+## cli/commands/socks_proxy.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SocksProxyCommandSet` (class, line 18) `class SocksProxyCommandSet(LazyOwnCommandSet)`
+  - `do_socks_config` (method, line 25) `def do_socks_config(self, line)`
+  - `do_socks_sessions` (method, line 75) `def do_socks_sessions(self, line)`
+  - `do_socks_export` (method, line 94) `def do_socks_export(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/socks_proxy.py`, `utils.py`
+
+## cli/commands/supply_chain.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SupplyChainCommandSet` (class, line 88) `class SupplyChainCommandSet(LazyOwnCommandSet)`
+  - `_parse_requirements` (method, line 282) `def _parse_requirements(filepath)`
+  - `_parse_package_json` (method, line 307) `def _parse_package_json(filepath)`
+  - `_parse_gemfile` (method, line 328) `def _parse_gemfile(filepath)`
+  - `_parse_cargo_toml` (method, line 348) `def _parse_cargo_toml(filepath)`
+  - `_parse_go_mod` (method, line 377) `def _parse_go_mod(filepath)`
+  - `_parse_pom_xml` (method, line 397) `def _parse_pom_xml(filepath)`
+  - `_pypi_exists` (method, line 425) `def _pypi_exists(package_name)`
+  - `is_internal_name` (method, line 450) `def is_internal_name(name)`
+  - `_extract_flag` (method, line 475) `def _extract_flag(args, flag)`
+  - `do_depconfuse` (method, line 95) `def do_depconfuse(self, line)`
+  - `do_package_squat` (method, line 140) `def do_package_squat(self, line)`
+  - `do_depscan` (method, line 216) `def do_depscan(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`

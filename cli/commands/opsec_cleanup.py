@@ -44,7 +44,7 @@ class OpsecCleanupCommandSet(LazyOwnCommandSet):
             opsec_score nmap --phase scanning
             opsec_score psexec --env enterprise --edr
         """
-        from modules.opsec_scorer_v2 import OpsecContext, OpsecScorerV2
+        from modules.opsec_scorer import OpsecContext, OpsecScorerV2
 
         if not line.strip():
             self._cmd.perror("Usage: opsec_score <command> [options]")

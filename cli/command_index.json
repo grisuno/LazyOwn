@@ -74,7 +74,7 @@
     "cli/commands/supply_chain.py"
   ],
   "source_sha256": {
-    "lazyown.py": "4df0f5673e303396f252b098e6b95dbc1f80505d857e6c091f2597fd8ad5a6aa",
+    "lazyown.py": "c5ce0892bfdbb0d14ad56c18127f40a7114612e2a4d9eb74c0d2930330a7b95b",
     "cli/commands/active_directory.py": "37c6332360d53dbe30c0bc12bdf838ee0dbde424e1a23aad1a1b507ab46f3166",
     "cli/commands/ai.py": "1332538f91e5558e6e849030dc9415e62c3a2390caf36e57e28cd250c99a4764",
     "cli/commands/anti_forensics.py": "d33c0d8a897bb04394660fee4ebf92cd11b4df310f79c61fe2f7b9439752e552",
@@ -118,7 +118,7 @@
     "cli/commands/misc_migrated.py": "c33b4eee6ee30f3cb92abfd1001fcd154138946c8284c64d8ec0ab64bf7ecf3a",
     "cli/commands/mobile_macos.py": "be24548feadaaf9db4387d160d11ffce2049bef3c7e8ff6aeb19860d6d9ca7fa",
     "cli/commands/module_manager.py": "fa8687f605e6bd4bbf6632366d0a0d5bc0aadfbfb53688d8007b2c999b277e49",
-    "cli/commands/opsec_cleanup.py": "ffd2dc1235b36805ad8330466a3183bc7f3611b5911d449ced381bb85f9119f3",
+    "cli/commands/opsec_cleanup.py": "9e178c8acf8c55a23f8dcd5ce33768f25c02ca04106b4e1d285a9ad78336d878",
     "cli/commands/orchestration.py": "4b2dba308dfec1d7d14d7335ff4a05d9ca975488423aa7f42166de68e4c830b0",
     "cli/commands/payload_arsenal.py": "194cb64b3a2aea266ebc4a5312fc49710a173f174e822940870b914142a7bf92",
     "cli/commands/payload_generation.py": "21682bd07aa0915faf5c2657bdd810e09601817c57f6aa1417738a7b7372f242",

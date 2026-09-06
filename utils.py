@@ -2567,12 +2567,12 @@ def replace_placeholders(template, replacements):
 
 def replace_command_placeholders(command, params):
     """
-    Replace placeholders in a command string with values from a params dictionary,
-    handling spaces within placeholders.
+    Replace placeholders in a command string with values from a params dictionary.
 
-    The function looks for placeholders in curly braces (e.g., {url} or { url }) within
-    the command string and replaces them with corresponding values from the params dictionary,
-    ignoring any spaces inside the curly braces.
+    Supports both single-brace ``{key}`` and double-brace ``{{key}}`` placeholder
+    syntax, with optional whitespace inside the braces (``{ key }``). Addons are
+    documented to emit ``{{key}}`` (see ``modules/yaml_generator.py``). Unknown
+    keys are left intact so an unresolved placeholder is easy to spot.
 
     Args:
         command (str): The command string containing placeholders.
@@ -2584,10 +2584,11 @@ def replace_command_placeholders(command, params):
     import re
 
     def replace_match(match):
-        key = match.group(1).strip()  # Remove any spaces from the captured key
-        return str(params.get(key, match.group(0)))  # Return replacement or original if not found
+        token = match.group(0)
+        key = token.strip("{}").strip()
+        return str(params.get(key, token))
 
-    return re.sub(r'\{([^}]+)\}', replace_match, command)
+    return re.sub(r'(\{\{[^{}]*?\}\}|\{[^{}]*?\})', replace_match, command)
 
 def parse_nmap_csv(csv_path):
     df = pd.read_csv(csv_path, delimiter=";", on_bad_lines='skip')

@@ -1,0 +1,287 @@
+# Subsystem: misc
+
+## external/install_external.sh
+- Layer: utility
+- Doc: Nombre del script: download_resources.sh Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fech
+- Language: sh
+- Symbols:
+  - `download` (function, line 18)
+  - `ctrl_c` (function, line 13)
+
+## modules/scripts/clean_history.sh.sh
+- Layer: utility
+- Language: sh
+
+## mutants/core/hardening.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SecurityViolation` (class, line 49) `class SecurityViolation(PermissionError)`
+  - `safe_subprocess_run` (method, line 55) `def safe_subprocess_run(argv)`
+  - `x_safe_subprocess_run__mutmut_orig` (method, line 93) `def x_safe_subprocess_run__mutmut_orig(argv)`
+  - `x_safe_subprocess_run__mutmut_1` (method, line 131) `def x_safe_subprocess_run__mutmut_1(argv)`
+  - `x_safe_subprocess_run__mutmut_2` (method, line 169) `def x_safe_subprocess_run__mutmut_2(argv)`
+  - `x_safe_subprocess_run__mutmut_3` (method, line 207) `def x_safe_subprocess_run__mutmut_3(argv)`
+  - `x_safe_subprocess_run__mutmut_4` (method, line 245) `def x_safe_subprocess_run__mutmut_4(argv)`
+  - `x_safe_subprocess_run__mutmut_5` (method, line 283) `def x_safe_subprocess_run__mutmut_5(argv)`
+  - `x_safe_subprocess_run__mutmut_6` (method, line 321) `def x_safe_subprocess_run__mutmut_6(argv)`
+  - `x_safe_subprocess_run__mutmut_7` (method, line 359) `def x_safe_subprocess_run__mutmut_7(argv)`
+  - `x_safe_subprocess_run__mutmut_8` (method, line 397) `def x_safe_subprocess_run__mutmut_8(argv)`
+  - `x_safe_subprocess_run__mutmut_9` (method, line 435) `def x_safe_subprocess_run__mutmut_9(argv)`
+  - `x_safe_subprocess_run__mutmut_10` (method, line 473) `def x_safe_subprocess_run__mutmut_10(argv)`
+  - `x_safe_subprocess_run__mutmut_11` (method, line 511) `def x_safe_subprocess_run__mutmut_11(argv)`
+  - `x_safe_subprocess_run__mutmut_12` (method, line 549) `def x_safe_subprocess_run__mutmut_12(argv)`
+  - `x_safe_subprocess_run__mutmut_13` (method, line 587) `def x_safe_subprocess_run__mutmut_13(argv)`
+  - `x_safe_subprocess_run__mutmut_14` (method, line 625) `def x_safe_subprocess_run__mutmut_14(argv)`
+  - `x_safe_subprocess_run__mutmut_15` (method, line 663) `def x_safe_subprocess_run__mutmut_15(argv)`
+  - `x_safe_subprocess_run__mutmut_16` (method, line 701) `def x_safe_subprocess_run__mutmut_16(argv)`
+  - `x_safe_subprocess_run__mutmut_17` (method, line 739) `def x_safe_subprocess_run__mutmut_17(argv)`
+  - `x_safe_subprocess_run__mutmut_18` (method, line 777) `def x_safe_subprocess_run__mutmut_18(argv)`
+  - `x_safe_subprocess_run__mutmut_19` (method, line 815) `def x_safe_subprocess_run__mutmut_19(argv)`
+  - `x_safe_subprocess_run__mutmut_20` (method, line 853) `def x_safe_subprocess_run__mutmut_20(argv)`
+  - `x_safe_subprocess_run__mutmut_21` (method, line 891) `def x_safe_subprocess_run__mutmut_21(argv)`
+  - `x_safe_subprocess_run__mutmut_22` (method, line 929) `def x_safe_subprocess_run__mutmut_22(argv)`
+  - `x_safe_subprocess_run__mutmut_23` (method, line 967) `def x_safe_subprocess_run__mutmut_23(argv)`
+  - `x_safe_subprocess_run__mutmut_24` (method, line 1005) `def x_safe_subprocess_run__mutmut_24(argv)`
+  - `x_safe_subprocess_run__mutmut_25` (method, line 1043) `def x_safe_subprocess_run__mutmut_25(argv)`
+  - `x_safe_subprocess_run__mutmut_26` (method, line 1081) `def x_safe_subprocess_run__mutmut_26(argv)`
+  - `x_safe_subprocess_run__mutmut_27` (method, line 1119) `def x_safe_subprocess_run__mutmut_27(argv)`
+  - `x_safe_subprocess_run__mutmut_28` (method, line 1157) `def x_safe_subprocess_run__mutmut_28(argv)`
+  - `x_safe_subprocess_run__mutmut_29` (method, line 1194) `def x_safe_subprocess_run__mutmut_29(argv)`
+  - `x_safe_subprocess_run__mutmut_30` (method, line 1231) `def x_safe_subprocess_run__mutmut_30(argv)`
+  - `x_safe_subprocess_run__mutmut_31` (method, line 1268) `def x_safe_subprocess_run__mutmut_31(argv)`
+  - `x_safe_subprocess_run__mutmut_32` (method, line 1305) `def x_safe_subprocess_run__mutmut_32(argv)`
+  - `x_safe_subprocess_run__mutmut_33` (method, line 1342) `def x_safe_subprocess_run__mutmut_33(argv)`
+  - `x_safe_subprocess_run__mutmut_34` (method, line 1379) `def x_safe_subprocess_run__mutmut_34(argv)`
+  - `x_safe_subprocess_run__mutmut_35` (method, line 1417) `def x_safe_subprocess_run__mutmut_35(argv)`
+  - `x_safe_subprocess_run__mutmut_36` (method, line 1455) `def x_safe_subprocess_run__mutmut_36(argv)`
+  - `x_safe_subprocess_run__mutmut_37` (method, line 1493) `def x_safe_subprocess_run__mutmut_37(argv)`
+  - `safe_clipboard_copy` (method, line 1572) `def safe_clipboard_copy(content)`
+  - `x_safe_clipboard_copy__mutmut_orig` (method, line 1613) `def x_safe_clipboard_copy__mutmut_orig(content)`
+  - `x_safe_clipboard_copy__mutmut_1` (method, line 1654) `def x_safe_clipboard_copy__mutmut_1(content)`
+  - `x_safe_clipboard_copy__mutmut_2` (method, line 1695) `def x_safe_clipboard_copy__mutmut_2(content)`
+  - `x_safe_clipboard_copy__mutmut_3` (method, line 1736) `def x_safe_clipboard_copy__mutmut_3(content)`
+  - `x_safe_clipboard_copy__mutmut_4` (method, line 1777) `def x_safe_clipboard_copy__mutmut_4(content)`
+  - `x_safe_clipboard_copy__mutmut_5` (method, line 1818) `def x_safe_clipboard_copy__mutmut_5(content)`
+  - `x_safe_clipboard_copy__mutmut_6` (method, line 1859) `def x_safe_clipboard_copy__mutmut_6(content)`
+  - `x_safe_clipboard_copy__mutmut_7` (method, line 1900) `def x_safe_clipboard_copy__mutmut_7(content)`
+  - `x_safe_clipboard_copy__mutmut_8` (method, line 1941) `def x_safe_clipboard_copy__mutmut_8(content)`
+  - `x_safe_clipboard_copy__mutmut_9` (method, line 1982) `def x_safe_clipboard_copy__mutmut_9(content)`
+  - `x_safe_clipboard_copy__mutmut_10` (method, line 2023) `def x_safe_clipboard_copy__mutmut_10(content)`
+  - `x_safe_clipboard_copy__mutmut_11` (method, line 2064) `def x_safe_clipboard_copy__mutmut_11(content)`
+  - `x_safe_clipboard_copy__mutmut_12` (method, line 2105) `def x_safe_clipboard_copy__mutmut_12(content)`
+  - `x_safe_clipboard_copy__mutmut_13` (method, line 2146) `def x_safe_clipboard_copy__mutmut_13(content)`
+  - `x_safe_clipboard_copy__mutmut_14` (method, line 2187) `def x_safe_clipboard_copy__mutmut_14(content)`
+  - `x_safe_clipboard_copy__mutmut_15` (method, line 2228) `def x_safe_clipboard_copy__mutmut_15(content)`
+  - `x_safe_clipboard_copy__mutmut_16` (method, line 2263) `def x_safe_clipboard_copy__mutmut_16(content)`
+  - `x_safe_clipboard_copy__mutmut_17` (method, line 2304) `def x_safe_clipboard_copy__mutmut_17(content)`
+  - `x_safe_clipboard_copy__mutmut_18` (method, line 2345) `def x_safe_clipboard_copy__mutmut_18(content)`
+  - `x_safe_clipboard_copy__mutmut_19` (method, line 2386) `def x_safe_clipboard_copy__mutmut_19(content)`
+  - `x_safe_clipboard_copy__mutmut_20` (method, line 2427) `def x_safe_clipboard_copy__mutmut_20(content)`
+  - `x_safe_clipboard_copy__mutmut_21` (method, line 2468) `def x_safe_clipboard_copy__mutmut_21(content)`
+  - `x_safe_clipboard_copy__mutmut_22` (method, line 2508) `def x_safe_clipboard_copy__mutmut_22(content)`
+  - `x_safe_clipboard_copy__mutmut_23` (method, line 2548) `def x_safe_clipboard_copy__mutmut_23(content)`
+  - `x_safe_clipboard_copy__mutmut_24` (method, line 2588) `def x_safe_clipboard_copy__mutmut_24(content)`
+  - `x_safe_clipboard_copy__mutmut_25` (method, line 2628) `def x_safe_clipboard_copy__mutmut_25(content)`
+  - `x_safe_clipboard_copy__mutmut_26` (method, line 2668) `def x_safe_clipboard_copy__mutmut_26(content)`
+  - `x_safe_clipboard_copy__mutmut_27` (method, line 2709) `def x_safe_clipboard_copy__mutmut_27(content)`
+  - `x_safe_clipboard_copy__mutmut_28` (method, line 2750) `def x_safe_clipboard_copy__mutmut_28(content)`
+  - `x_safe_clipboard_copy__mutmut_29` (method, line 2791) `def x_safe_clipboard_copy__mutmut_29(content)`
+  - `x_safe_clipboard_copy__mutmut_30` (method, line 2832) `def x_safe_clipboard_copy__mutmut_30(content)`
+  - `x_safe_clipboard_copy__mutmut_31` (method, line 2873) `def x_safe_clipboard_copy__mutmut_31(content)`
+  - `x_safe_clipboard_copy__mutmut_32` (method, line 2914) `def x_safe_clipboard_copy__mutmut_32(content)`
+  - `x_safe_clipboard_copy__mutmut_33` (method, line 2955) `def x_safe_clipboard_copy__mutmut_33(content)`
+  - `x_safe_clipboard_copy__mutmut_34` (method, line 2996) `def x_safe_clipboard_copy__mutmut_34(content)`
+  - `x_safe_clipboard_copy__mutmut_35` (method, line 3037) `def x_safe_clipboard_copy__mutmut_35(content)`
+  - `x_safe_clipboard_copy__mutmut_36` (method, line 3078) `def x_safe_clipboard_copy__mutmut_36(content)`
+  - `x_safe_clipboard_copy__mutmut_37` (method, line 3119) `def x_safe_clipboard_copy__mutmut_37(content)`
+  - `x_safe_clipboard_copy__mutmut_38` (method, line 3160) `def x_safe_clipboard_copy__mutmut_38(content)`
+  - `x_safe_clipboard_copy__mutmut_39` (method, line 3201) `def x_safe_clipboard_copy__mutmut_39(content)`
+  - `x_safe_clipboard_copy__mutmut_40` (method, line 3242) `def x_safe_clipboard_copy__mutmut_40(content)`
+  - `x_safe_clipboard_copy__mutmut_41` (method, line 3283) `def x_safe_clipboard_copy__mutmut_41(content)`
+  - `x_safe_clipboard_copy__mutmut_42` (method, line 3324) `def x_safe_clipboard_copy__mutmut_42(content)`
+  - `x_safe_clipboard_copy__mutmut_43` (method, line 3365) `def x_safe_clipboard_copy__mutmut_43(content)`
+  - `x_safe_clipboard_copy__mutmut_44` (method, line 3406) `def x_safe_clipboard_copy__mutmut_44(content)`
+  - `x_safe_clipboard_copy__mutmut_45` (method, line 3447) `def x_safe_clipboard_copy__mutmut_45(content)`
+  - `x_safe_clipboard_copy__mutmut_46` (method, line 3488) `def x_safe_clipboard_copy__mutmut_46(content)`
+  - `x_safe_clipboard_copy__mutmut_47` (method, line 3529) `def x_safe_clipboard_copy__mutmut_47(content)`
+  - `x_safe_clipboard_copy__mutmut_48` (method, line 3570) `def x_safe_clipboard_copy__mutmut_48(content)`
+  - `x_safe_clipboard_copy__mutmut_49` (method, line 3611) `def x_safe_clipboard_copy__mutmut_49(content)`
+  - `build_sshpass_command` (method, line 3705) `def build_sshpass_command(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_orig` (method, line 3734) `def x_build_sshpass_command__mutmut_orig(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_1` (method, line 3763) `def x_build_sshpass_command__mutmut_1(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_2` (method, line 3792) `def x_build_sshpass_command__mutmut_2(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_3` (method, line 3821) `def x_build_sshpass_command__mutmut_3(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_4` (method, line 3850) `def x_build_sshpass_command__mutmut_4(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_5` (method, line 3879) `def x_build_sshpass_command__mutmut_5(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_6` (method, line 3908) `def x_build_sshpass_command__mutmut_6(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_7` (method, line 3937) `def x_build_sshpass_command__mutmut_7(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_8` (method, line 3966) `def x_build_sshpass_command__mutmut_8(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_9` (method, line 3995) `def x_build_sshpass_command__mutmut_9(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_10` (method, line 4024) `def x_build_sshpass_command__mutmut_10(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_11` (method, line 4053) `def x_build_sshpass_command__mutmut_11(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_12` (method, line 4082) `def x_build_sshpass_command__mutmut_12(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_13` (method, line 4111) `def x_build_sshpass_command__mutmut_13(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_14` (method, line 4140) `def x_build_sshpass_command__mutmut_14(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_15` (method, line 4169) `def x_build_sshpass_command__mutmut_15(password, ssh_args)`
+  - `x_build_sshpass_command__mutmut_16` (method, line 4198) `def x_build_sshpass_command__mutmut_16(password, ssh_args)`
+  - `set_sshpass_env` (method, line 4247) `def set_sshpass_env(password)`
+  - `x_set_sshpass_env__mutmut_orig` (method, line 4266) `def x_set_sshpass_env__mutmut_orig(password)`
+  - `x_set_sshpass_env__mutmut_1` (method, line 4285) `def x_set_sshpass_env__mutmut_1(password)`
+  - `x_set_sshpass_env__mutmut_2` (method, line 4304) `def x_set_sshpass_env__mutmut_2(password)`
+  - `x_set_sshpass_env__mutmut_3` (method, line 4323) `def x_set_sshpass_env__mutmut_3(password)`
+  - `x_set_sshpass_env__mutmut_4` (method, line 4342) `def x_set_sshpass_env__mutmut_4(password)`
+  - `x_set_sshpass_env__mutmut_5` (method, line 4361) `def x_set_sshpass_env__mutmut_5(password)`
+  - `x_set_sshpass_env__mutmut_6` (method, line 4380) `def x_set_sshpass_env__mutmut_6(password)`
+  - `x_set_sshpass_env__mutmut_7` (method, line 4399) `def x_set_sshpass_env__mutmut_7(password)`
+  - `x_set_sshpass_env__mutmut_8` (method, line 4418) `def x_set_sshpass_env__mutmut_8(password)`
+  - `x_set_sshpass_env__mutmut_9` (method, line 4437) `def x_set_sshpass_env__mutmut_9(password)`
+  - `x_set_sshpass_env__mutmut_10` (method, line 4456) `def x_set_sshpass_env__mutmut_10(password)`
+  - `escape_html_content` (method, line 4489) `def escape_html_content(value)`
+  - `x_escape_html_content__mutmut_orig` (method, line 4501) `def x_escape_html_content__mutmut_orig(value)`
+  - `x_escape_html_content__mutmut_1` (method, line 4513) `def x_escape_html_content__mutmut_1(value)`
+  - `x_escape_html_content__mutmut_2` (method, line 4525) `def x_escape_html_content__mutmut_2(value)`
+  - `x_escape_html_content__mutmut_3` (method, line 4537) `def x_escape_html_content__mutmut_3(value)`
+  - `x_escape_html_content__mutmut_4` (method, line 4549) `def x_escape_html_content__mutmut_4(value)`
+  - `x_escape_html_content__mutmut_5` (method, line 4561) `def x_escape_html_content__mutmut_5(value)`
+  - `x_escape_html_content__mutmut_6` (method, line 4573) `def x_escape_html_content__mutmut_6(value)`
+  - `safe_path_join` (method, line 4595) `def safe_path_join(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_orig` (method, line 4623) `def x_safe_path_join__mutmut_orig(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_1` (method, line 4651) `def x_safe_path_join__mutmut_1(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_2` (method, line 4679) `def x_safe_path_join__mutmut_2(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_3` (method, line 4707) `def x_safe_path_join__mutmut_3(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_4` (method, line 4735) `def x_safe_path_join__mutmut_4(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_5` (method, line 4763) `def x_safe_path_join__mutmut_5(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_6` (method, line 4791) `def x_safe_path_join__mutmut_6(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_7` (method, line 4819) `def x_safe_path_join__mutmut_7(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_8` (method, line 4847) `def x_safe_path_join__mutmut_8(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_9` (method, line 4875) `def x_safe_path_join__mutmut_9(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_10` (method, line 4903) `def x_safe_path_join__mutmut_10(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_11` (method, line 4931) `def x_safe_path_join__mutmut_11(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_12` (method, line 4959) `def x_safe_path_join__mutmut_12(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_13` (method, line 4987) `def x_safe_path_join__mutmut_13(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_14` (method, line 5015) `def x_safe_path_join__mutmut_14(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_15` (method, line 5043) `def x_safe_path_join__mutmut_15(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_16` (method, line 5071) `def x_safe_path_join__mutmut_16(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_17` (method, line 5099) `def x_safe_path_join__mutmut_17(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_18` (method, line 5127) `def x_safe_path_join__mutmut_18(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_19` (method, line 5155) `def x_safe_path_join__mutmut_19(base_dir, user_path)`
+  - `x_safe_path_join__mutmut_20` (method, line 5183) `def x_safe_path_join__mutmut_20(base_dir, user_path)`
+  - `validate_network_cidr` (method, line 5235) `def validate_network_cidr(cidr)`
+  - `x_validate_network_cidr__mutmut_orig` (method, line 5247) `def x_validate_network_cidr__mutmut_orig(cidr)`
+  - `x_validate_network_cidr__mutmut_1` (method, line 5259) `def x_validate_network_cidr__mutmut_1(cidr)`
+  - `x_validate_network_cidr__mutmut_2` (method, line 5271) `def x_validate_network_cidr__mutmut_2(cidr)`
+  - `validate_port_spec` (method, line 5289) `def validate_port_spec(ports)`
+  - `x_validate_port_spec__mutmut_orig` (method, line 5305) `def x_validate_port_spec__mutmut_orig(ports)`
+  - `x_validate_port_spec__mutmut_1` (method, line 5321) `def x_validate_port_spec__mutmut_1(ports)`
+  - `x_validate_port_spec__mutmut_2` (method, line 5337) `def x_validate_port_spec__mutmut_2(ports)`
+  - `x_validate_port_spec__mutmut_3` (method, line 5353) `def x_validate_port_spec__mutmut_3(ports)`
+  - `x_validate_port_spec__mutmut_4` (method, line 5369) `def x_validate_port_spec__mutmut_4(ports)`
+  - `x_validate_port_spec__mutmut_5` (method, line 5385) `def x_validate_port_spec__mutmut_5(ports)`
+  - `x_validate_port_spec__mutmut_6` (method, line 5401) `def x_validate_port_spec__mutmut_6(ports)`
+  - `validate_host` (method, line 5427) `def validate_host(host)`
+  - `x_validate_host__mutmut_orig` (method, line 5449) `def x_validate_host__mutmut_orig(host)`
+  - `x_validate_host__mutmut_1` (method, line 5471) `def x_validate_host__mutmut_1(host)`
+  - `x_validate_host__mutmut_2` (method, line 5493) `def x_validate_host__mutmut_2(host)`
+  - `x_validate_host__mutmut_3` (method, line 5515) `def x_validate_host__mutmut_3(host)`
+  - `x_validate_host__mutmut_4` (method, line 5537) `def x_validate_host__mutmut_4(host)`
+  - `x_validate_host__mutmut_5` (method, line 5559) `def x_validate_host__mutmut_5(host)`
+  - `x_validate_host__mutmut_6` (method, line 5581) `def x_validate_host__mutmut_6(host)`
+  - `x_validate_host__mutmut_7` (method, line 5603) `def x_validate_host__mutmut_7(host)`
+  - `x_validate_host__mutmut_8` (method, line 5625) `def x_validate_host__mutmut_8(host)`
+  - `x_validate_host__mutmut_9` (method, line 5642) `def x_validate_host__mutmut_9(host)`
+  - `x_validate_host__mutmut_10` (method, line 5661) `def x_validate_host__mutmut_10(host)`
+  - `x_validate_host__mutmut_11` (method, line 5683) `def x_validate_host__mutmut_11(host)`
+  - `x_validate_host__mutmut_12` (method, line 5705) `def x_validate_host__mutmut_12(host)`
+  - `x_validate_host__mutmut_13` (method, line 5727) `def x_validate_host__mutmut_13(host)`
+  - `x_validate_host__mutmut_14` (method, line 5749) `def x_validate_host__mutmut_14(host)`
+  - `x_validate_host__mutmut_15` (method, line 5771) `def x_validate_host__mutmut_15(host)`
+  - `x_validate_host__mutmut_16` (method, line 5793) `def x_validate_host__mutmut_16(host)`
+  - `x_validate_host__mutmut_17` (method, line 5815) `def x_validate_host__mutmut_17(host)`
+  - `x_validate_host__mutmut_18` (method, line 5837) `def x_validate_host__mutmut_18(host)`
+  - `x_validate_host__mutmut_19` (method, line 5859) `def x_validate_host__mutmut_19(host)`
+  - `require_encryption_key` (method, line 5904) `def require_encryption_key(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_orig` (method, line 5932) `def x_require_encryption_key__mutmut_orig(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_1` (method, line 5960) `def x_require_encryption_key__mutmut_1(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_2` (method, line 5988) `def x_require_encryption_key__mutmut_2(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_3` (method, line 6016) `def x_require_encryption_key__mutmut_3(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_4` (method, line 6044) `def x_require_encryption_key__mutmut_4(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_5` (method, line 6072) `def x_require_encryption_key__mutmut_5(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_6` (method, line 6100) `def x_require_encryption_key__mutmut_6(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_7` (method, line 6128) `def x_require_encryption_key__mutmut_7(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_8` (method, line 6156) `def x_require_encryption_key__mutmut_8(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_9` (method, line 6184) `def x_require_encryption_key__mutmut_9(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_10` (method, line 6212) `def x_require_encryption_key__mutmut_10(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_11` (method, line 6240) `def x_require_encryption_key__mutmut_11(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_12` (method, line 6268) `def x_require_encryption_key__mutmut_12(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_13` (method, line 6296) `def x_require_encryption_key__mutmut_13(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_14` (method, line 6324) `def x_require_encryption_key__mutmut_14(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_15` (method, line 6350) `def x_require_encryption_key__mutmut_15(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_16` (method, line 6378) `def x_require_encryption_key__mutmut_16(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_17` (method, line 6406) `def x_require_encryption_key__mutmut_17(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_18` (method, line 6434) `def x_require_encryption_key__mutmut_18(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_19` (method, line 6462) `def x_require_encryption_key__mutmut_19(env_key, secret_file)`
+  - `x_require_encryption_key__mutmut_20` (method, line 6490) `def x_require_encryption_key__mutmut_20(env_key, secret_file)`
+  - `defused_xml_parse` (method, line 6542) `def defused_xml_parse(source)`
+  - `x_defused_xml_parse__mutmut_orig` (method, line 6567) `def x_defused_xml_parse__mutmut_orig(source)`
+  - `x_defused_xml_parse__mutmut_1` (method, line 6592) `def x_defused_xml_parse__mutmut_1(source)`
+  - `x_defused_xml_parse__mutmut_2` (method, line 6616) `def x_defused_xml_parse__mutmut_2(source)`
+  - `x_defused_xml_parse__mutmut_3` (method, line 6641) `def x_defused_xml_parse__mutmut_3(source)`
+  - `x_defused_xml_parse__mutmut_4` (method, line 6666) `def x_defused_xml_parse__mutmut_4(source)`
+  - `x_defused_xml_parse__mutmut_5` (method, line 6691) `def x_defused_xml_parse__mutmut_5(source)`
+  - `x_defused_xml_parse__mutmut_6` (method, line 6716) `def x_defused_xml_parse__mutmut_6(source)`
+  - `x_defused_xml_parse__mutmut_7` (method, line 6741) `def x_defused_xml_parse__mutmut_7(source)`
+  - `x_defused_xml_parse__mutmut_8` (method, line 6766) `def x_defused_xml_parse__mutmut_8(source)`
+  - `x_defused_xml_parse__mutmut_9` (method, line 6791) `def x_defused_xml_parse__mutmut_9(source)`
+  - `x_defused_xml_parse__mutmut_10` (method, line 6816) `def x_defused_xml_parse__mutmut_10(source)`
+  - `x_defused_xml_parse__mutmut_11` (method, line 6841) `def x_defused_xml_parse__mutmut_11(source)`
+  - `x_defused_xml_parse__mutmut_12` (method, line 6866) `def x_defused_xml_parse__mutmut_12(source)`
+  - `sanitize_filename` (method, line 6907) `def sanitize_filename(filename, max_length)`
+  - `x_sanitize_filename__mutmut_orig` (method, line 6927) `def x_sanitize_filename__mutmut_orig(filename, max_length)`
+  - `x_sanitize_filename__mutmut_1` (method, line 6947) `def x_sanitize_filename__mutmut_1(filename, max_length)`
+  - `x_sanitize_filename__mutmut_2` (method, line 6967) `def x_sanitize_filename__mutmut_2(filename, max_length)`
+  - `x_sanitize_filename__mutmut_3` (method, line 6987) `def x_sanitize_filename__mutmut_3(filename, max_length)`
+  - `x_sanitize_filename__mutmut_4` (method, line 7007) `def x_sanitize_filename__mutmut_4(filename, max_length)`
+  - `x_sanitize_filename__mutmut_5` (method, line 7027) `def x_sanitize_filename__mutmut_5(filename, max_length)`
+  - `x_sanitize_filename__mutmut_6` (method, line 7047) `def x_sanitize_filename__mutmut_6(filename, max_length)`
+  - `x_sanitize_filename__mutmut_7` (method, line 7067) `def x_sanitize_filename__mutmut_7(filename, max_length)`
+  - `x_sanitize_filename__mutmut_8` (method, line 7087) `def x_sanitize_filename__mutmut_8(filename, max_length)`
+  - `x_sanitize_filename__mutmut_9` (method, line 7107) `def x_sanitize_filename__mutmut_9(filename, max_length)`
+  - `x_sanitize_filename__mutmut_10` (method, line 7127) `def x_sanitize_filename__mutmut_10(filename, max_length)`
+  - `x_sanitize_filename__mutmut_11` (method, line 7147) `def x_sanitize_filename__mutmut_11(filename, max_length)`
+  - `x_sanitize_filename__mutmut_12` (method, line 7167) `def x_sanitize_filename__mutmut_12(filename, max_length)`
+  - `x_sanitize_filename__mutmut_13` (method, line 7187) `def x_sanitize_filename__mutmut_13(filename, max_length)`
+  - `x_sanitize_filename__mutmut_14` (method, line 7207) `def x_sanitize_filename__mutmut_14(filename, max_length)`
+  - `x_sanitize_filename__mutmut_15` (method, line 7227) `def x_sanitize_filename__mutmut_15(filename, max_length)`
+  - `x_sanitize_filename__mutmut_16` (method, line 7247) `def x_sanitize_filename__mutmut_16(filename, max_length)`
+  - `x_sanitize_filename__mutmut_17` (method, line 7267) `def x_sanitize_filename__mutmut_17(filename, max_length)`
+  - `x_sanitize_filename__mutmut_18` (method, line 7287) `def x_sanitize_filename__mutmut_18(filename, max_length)`
+  - `x_sanitize_filename__mutmut_19` (method, line 7307) `def x_sanitize_filename__mutmut_19(filename, max_length)`
+  - `x_sanitize_filename__mutmut_20` (method, line 7327) `def x_sanitize_filename__mutmut_20(filename, max_length)`
+  - `x_sanitize_filename__mutmut_21` (method, line 7347) `def x_sanitize_filename__mutmut_21(filename, max_length)`
+  - `x_sanitize_filename__mutmut_22` (method, line 7367) `def x_sanitize_filename__mutmut_22(filename, max_length)`
+  - `x_sanitize_filename__mutmut_23` (method, line 7387) `def x_sanitize_filename__mutmut_23(filename, max_length)`
+  - `x_sanitize_filename__mutmut_24` (method, line 7407) `def x_sanitize_filename__mutmut_24(filename, max_length)`
+  - `x_sanitize_filename__mutmut_25` (method, line 7427) `def x_sanitize_filename__mutmut_25(filename, max_length)`
+  - `x_sanitize_filename__mutmut_26` (method, line 7447) `def x_sanitize_filename__mutmut_26(filename, max_length)`
+  - `x_sanitize_filename__mutmut_27` (method, line 7467) `def x_sanitize_filename__mutmut_27(filename, max_length)`
+  - `x_sanitize_filename__mutmut_28` (method, line 7487) `def x_sanitize_filename__mutmut_28(filename, max_length)`
+  - `x_sanitize_filename__mutmut_29` (method, line 7507) `def x_sanitize_filename__mutmut_29(filename, max_length)`
+  - `x_sanitize_filename__mutmut_30` (method, line 7527) `def x_sanitize_filename__mutmut_30(filename, max_length)`
+  - `x_sanitize_filename__mutmut_31` (method, line 7547) `def x_sanitize_filename__mutmut_31(filename, max_length)`
+- Depends on: `core/logging.py`
+
+## mutants/testmeneitor.py
+- Layer: testing
+- Language: py
+- Symbols:
+  - `extract_functions` (function, line 12) `def extract_functions(script_path)`
+  - `run_tests_with_script` (function, line 28) `def run_tests_with_script(script_path, functions)`
+  - `run_command_with_timeout` (function, line 51) `def run_command_with_timeout(command, timeout)`
+  - `run_tests_with_bash` (function, line 68) `def run_tests_with_bash(script_path, functions)`
+  - `TestFunctions` (class, line 33) `class TestFunctions(TestCase)`
+
+## source/conf.py
+- Layer: utility
+- Doc: Configuration file for the Sphinx documentation builder.  For the full list of built-in configuration values, see the do
+- Language: py

@@ -225,7 +225,7 @@ traitlets==5.16.1
 transaction==5.1
 typing-inspection==0.4.2
 typing_extensions==4.16.0
-ua-parser-builtins==202603
+ua-parser-builtins==202606
 ua-parser==1.0.2
 uc-micro-py==2.0.0
 unicorn==2.1.2

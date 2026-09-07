@@ -73,7 +73,7 @@
 - Defined: `cli/assign.py:36`
 - Doc: Validate, mutate and persist a single payload assignment.
 - Depends on: `core/payload_schema.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `lazyown.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `lazyown.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`
 
 ## cli/auto_crypto.py
 
@@ -1379,27 +1379,32 @@
 ### do_ask `def do_ask(self, line)`
 - Defined: `cli/commands/ai.py:77`
 - Doc: Ask the AI a question with current session context pre-loaded.
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ### do_groq `def do_groq(self, line)`
-- Defined: `cli/commands/ai.py:157`
-- Doc: Send a prompt to the Groq API using the configured ``api_key``.
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+- Defined: `cli/commands/ai.py:146`
+- Doc: Generate a single-line command through the Groq backend.
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ### do_ai_playbook `def do_ai_playbook(self, line)`
-- Defined: `cli/commands/ai.py:183`
+- Defined: `cli/commands/ai.py:178`
 - Doc: Generate an offensive playbook from Nmap CSV + KB + Ollama.
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ### do_ai_toggle `def do_ai_toggle(self, _arg)`
-- Defined: `cli/commands/ai.py:290`
+- Defined: `cli/commands/ai.py:285`
 - Doc: Toggle the in-process AI assistant on or off.
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ### do_llm_budget `def do_llm_budget(self, line)`
-- Defined: `cli/commands/ai.py:307`
+- Defined: `cli/commands/ai.py:302`
 - Doc: Show the LLM daily cost budget, per call token cap, and current spend.
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ## cli/commands/anti_forensics.py
 
@@ -10366,206 +10371,224 @@
 ## cli/wizard.py
 
 ### run `def run(params, save)`
-- Defined: `cli/wizard.py:161`
+- Defined: `cli/wizard.py:168`
 - Doc: Run the interactive setup wizard and return a :class:`WizardResult`.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### run_non_interactive `def run_non_interactive(params, save, values)`
-- Defined: `cli/wizard.py:226`
+- Defined: `cli/wizard.py:233`
 - Doc: Apply configuration without prompts — Docker/CI/headless first runs.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _rotate_default_secrets `def _rotate_default_secrets(params, save)`
-- Defined: `cli/wizard.py:292`
+- Defined: `cli/wizard.py:299`
 - Doc: Replace factory-default C2 credentials with generated values.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_secret_rotation `def _print_secret_rotation(rotated)`
-- Defined: `cli/wizard.py:340`
+- Defined: `cli/wizard.py:347`
 - Doc: Tell the operator which credentials were auto-rotated and why.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_header `def _print_header()`
-- Defined: `cli/wizard.py:356`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:363`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_glossary_panel `def _print_glossary_panel()`
-- Defined: `cli/wizard.py:371`
+- Defined: `cli/wizard.py:378`
 - Doc: Print a short glossary so novices understand the recurring terms.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _spec_long_help `def _spec_long_help(key)`
-- Defined: `cli/wizard.py:395`
+- Defined: `cli/wizard.py:403`
 - Doc: Return the schema's long_help for ``key`` when it exists.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_long_help `def _print_long_help(key)`
-- Defined: `cli/wizard.py:403`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:411`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _collect_values `def _collect_values(params)`
-- Defined: `cli/wizard.py:410`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:418`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_rhost `def _ask_rhost(current)`
-- Defined: `cli/wizard.py:446`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:453`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_lhost `def _ask_lhost(current)`
-- Defined: `cli/wizard.py:473`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:480`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_domain `def _ask_domain(current)`
-- Defined: `cli/wizard.py:504`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:511`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_device `def _ask_device(current)`
-- Defined: `cli/wizard.py:526`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:533`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_os_id `def _ask_os_id(current)`
-- Defined: `cli/wizard.py:552`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:559`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
-### _ask_api_key `def _ask_api_key(current)`
-- Defined: `cli/wizard.py:574`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+### _normalize_provider_answer `def _normalize_provider_answer(raw)`
+- Defined: `cli/wizard.py:581`
+- Doc: Map a wizard answer to a backend id, or None when blank/invalid.
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+### _mask_secret `def _mask_secret(value)`
+- Defined: `cli/wizard.py:602`
+- Doc: Mask a secret for display, keeping only the last four characters.
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+### _ask_llm `def _ask_llm(params)`
+- Defined: `cli/wizard.py:617`
+- Doc: Run the provider-agnostic LLM setup step and return payload updates.
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_wordlists `def _ask_wordlists(params)`
-- Defined: `cli/wizard.py:597`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:688`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_operator_login `def _ask_operator_login(params)`
-- Defined: `cli/wizard.py:629`
+- Defined: `cli/wizard.py:720`
 - Doc: Prompt the operator to register or log in, then optionally configure marketplace.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _wizard_login_flow `def _wizard_login_flow()`
-- Defined: `cli/wizard.py:691`
+- Defined: `cli/wizard.py:782`
 - Doc: Handle the login path in the wizard.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _wizard_register_flow `def _wizard_register_flow()`
-- Defined: `cli/wizard.py:714`
+- Defined: `cli/wizard.py:805`
 - Doc: Handle the register path in the wizard.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ask_marketplace_config `def _ask_marketplace_config()`
-- Defined: `cli/wizard.py:757`
+- Defined: `cli/wizard.py:848`
 - Doc: Optionally launch the interactive marketplace configurator.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _build_readiness `def _build_readiness(params)`
-- Defined: `cli/wizard.py:780`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:871`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_readiness `def _print_readiness(items)`
-- Defined: `cli/wizard.py:801`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:923`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### check_binaries `def check_binaries(specs, which)`
-- Defined: `cli/wizard.py:821`
+- Defined: `cli/wizard.py:943`
 - Doc: Return the presence status of every spec without executing it.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _group_by_category `def _group_by_category(statuses)`
-- Defined: `cli/wizard.py:862`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:984`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_binary_report `def _print_binary_report(statuses)`
-- Defined: `cli/wizard.py:871`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:993`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_next_steps `def _print_next_steps(params)`
-- Defined: `cli/wizard.py:909`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1031`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _print_validation_summary `def _print_validation_summary(params)`
-- Defined: `cli/wizard.py:933`
+- Defined: `cli/wizard.py:1055`
 - Doc: Render schema validation issues for the current payload.
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _detect_lhost `def _detect_lhost()`
-- Defined: `cli/wizard.py:972`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1094`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _detect_device `def _detect_device()`
-- Defined: `cli/wizard.py:994`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1116`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _find_seclists_root `def _find_seclists_root()`
-- Defined: `cli/wizard.py:1007`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1129`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ping `def _ping(ip)`
-- Defined: `cli/wizard.py:1015`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1137`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _prompt `def _prompt(message)`
-- Defined: `cli/wizard.py:1028`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1150`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _ok `def _ok(msg)`
-- Defined: `cli/wizard.py:1035`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1157`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _warn `def _warn(msg)`
-- Defined: `cli/wizard.py:1039`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1161`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _info `def _info(msg)`
-- Defined: `cli/wizard.py:1043`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:1165`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _is_default `def _is_default(value)`
-- Defined: `cli/wizard.py:314`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:321`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _is_weak `def _is_weak(value)`
-- Defined: `cli/wizard.py:317`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:324`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ### _check `def _check(key, label, hint)`
-- Defined: `cli/wizard.py:783`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+- Defined: `cli/wizard.py:874`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+### _check_llm `def _check_llm()`
+- Defined: `cli/wizard.py:883`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
 
 ## core/api_authz.py
 
@@ -11543,38 +11566,38 @@
 ### _log_factory `def _log_factory(name, config)`
 - Defined: `core/logging.py:179`
 - Doc: Create or retrieve a :class:`StructuredLogger` instance.
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### get_logger `def get_logger(name)`
 - Defined: `core/logging.py:230`
 - Doc: Return a cached :class:`StructuredLogger` for *name*.
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### install_json_handler `def install_json_handler(name, config)`
 - Defined: `core/logging.py:250`
 - Doc: Install a JSON-lines file handler on *name*, preserving existing handlers.
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### reconfigure `def reconfigure(config)`
 - Defined: `core/logging.py:299`
 - Doc: Replace the cached configuration globally.
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### __init__ `def __init__(self, redacted_fields)`
 - Defined: `core/logging.py:73`
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### format `def format(self, record)`
 - Defined: `core/logging.py:77`
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### format `def format(self, record)`
 - Defined: `core/logging.py:131`
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ### makeRecord `def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)`
 - Defined: `core/logging.py:147`
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
+- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/tips_engine.py`, `core/config.py`, `core/credential_vault.py`, `core/executor.py`, `core/hardening.py`, `core/safe_exec.py`, `core/scheduler.py`, `core/security.py`, `lazy_sentinel4.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/extensions/short_urls.py`, `lazyc2/extensions/storage.py`, `lazygui/app.py`, `lazygui/config/c2_credentials.py`, `lazygui/config/settings.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/atomic_enricher.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/beacon_history.py`, `modules/bof_registry.py`, `modules/c2_profile.py`, `modules/c2_profile.py`, `modules/c2_profile_engine.py`, `modules/collab_bp.py`, `modules/command_executor.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/config_store.py`, `modules/credential_reuse.py`, `modules/cve_matcher.py`, `modules/cve_matcher.py`, `modules/db.py`, `modules/detection_feed.py`, `modules/detection_oracle.py`, `modules/engagement_hooks.py`, `modules/estorides_importer.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/hash_cracker.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/icmp_server.py`, `modules/integrations/misp_export.py`, `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/integrations/searchsploit.py`, `modules/integrations/searchsploit.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/lazyownerweb.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyhoneypot.py`, `modules/legacy/lazyopenssh77enum2.py`, `modules/legacy/lazyphishingai.py`, `modules/legacy/lazysearch_bot.py`, `modules/legacy/lazysmbrelay.py`, `modules/legacy/lazyssh.py`, `modules/lesson_ingestor.py`, `modules/lilsplunky.py`, `modules/llm_adapter.py`, `modules/llm_client.py`, `modules/logging_config.py`, `modules/mcp_agent_bridge.py`, `modules/metrics.py`, `modules/module_registry.py`, `modules/moe_router.py`, `modules/moe_router.py`, `modules/obs_parser.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/rl_trainer.py`, `modules/session_rag.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/state_manager.py`, `modules/sudo_tiocsti.py`, `modules/threat_model.py`, `modules/toposwarm_bridge.py`, `modules/toposwarm_bridge.py`, `modules/ttp_coverage.py`, `modules/unified_bridge.py`, `modules/unified_dashboard.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/world_model.py`, `modules/world_model.py`, `mutants/core/hardening.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `mutants/tests/test_structured_logging.py`, `skills/aci_planner.py`, `skills/autonomous_daemon.py`, `skills/autonomous_replay.py`, `skills/hive_mind.py`, `skills/lazyown_automapper.py`, `skills/lazyown_campaign.py`, `skills/lazyown_daemon.py`, `skills/lazyown_facts.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/lazyown_policy.py`, `skills/sessions_watcher.py`, `skills/swan_agent.py`, `skills/toposwarm_autonomous.py`, `skills/update_knowledge.py`, `tests/test_logging_config.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`, `tests/test_structured_logging.py`
 
 ## core/network.py
 
@@ -11757,125 +11780,125 @@
 ## core/payload_schema.py
 
 ### _validate_string `def _validate_string(value)`
-- Defined: `core/payload_schema.py:152`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:163`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_int `def _validate_int(value)`
-- Defined: `core/payload_schema.py:158`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:169`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_port `def _validate_port(value)`
-- Defined: `core/payload_schema.py:172`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:183`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_bool `def _validate_bool(value)`
-- Defined: `core/payload_schema.py:182`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:193`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_ip `def _validate_ip(value)`
-- Defined: `core/payload_schema.py:199`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:210`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_hostname `def _validate_hostname(value)`
-- Defined: `core/payload_schema.py:207`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:218`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_url `def _validate_url(value)`
-- Defined: `core/payload_schema.py:219`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:230`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_path `def _validate_path(value)`
-- Defined: `core/payload_schema.py:227`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:238`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_interface `def _validate_interface(value)`
-- Defined: `core/payload_schema.py:233`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:244`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_hex `def _validate_hex(value)`
-- Defined: `core/payload_schema.py:241`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:252`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_os_id `def _validate_os_id(value)`
-- Defined: `core/payload_schema.py:249`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:260`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_json_blob `def _validate_json_blob(value)`
-- Defined: `core/payload_schema.py:255`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:266`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _validate_opaque `def _validate_opaque(_value)`
-- Defined: `core/payload_schema.py:267`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:278`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _coerce_int `def _coerce_int(raw)`
-- Defined: `core/payload_schema.py:288`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:299`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _coerce_bool `def _coerce_bool(raw)`
-- Defined: `core/payload_schema.py:303`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:314`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### _spec `def _spec(name, kind, default, description)`
-- Defined: `core/payload_schema.py:322`
-- Depends on: `cli/commands/enum.py`
+- Defined: `core/payload_schema.py:333`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### field_for `def field_for(key)`
-- Defined: `core/payload_schema.py:1113`
+- Defined: `core/payload_schema.py:1217`
 - Doc: Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### coerce_value `def coerce_value(key, raw)`
-- Defined: `core/payload_schema.py:1118`
+- Defined: `core/payload_schema.py:1222`
 - Doc: Return ``raw`` coerced to the canonical type declared for ``key``.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### validate_value `def validate_value(key, value)`
-- Defined: `core/payload_schema.py:1141`
+- Defined: `core/payload_schema.py:1245`
 - Doc: Validate ``value`` against the schema entry for ``key``.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### validate_payload `def validate_payload(payload)`
-- Defined: `core/payload_schema.py:1215`
+- Defined: `core/payload_schema.py:1319`
 - Doc: Validate an entire payload dictionary and return all issues found.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### format_issue `def format_issue(issue)`
-- Defined: `core/payload_schema.py:1250`
+- Defined: `core/payload_schema.py:1354`
 - Doc: Render a :class:`ValidationIssue` as a single human-readable line.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### default_payload `def default_payload()`
-- Defined: `core/payload_schema.py:1268`
+- Defined: `core/payload_schema.py:1372`
 - Doc: Return a freshly built payload dict populated from the schema defaults.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ### categories `def categories()`
-- Defined: `core/payload_schema.py:1276`
+- Defined: `core/payload_schema.py:1380`
 - Doc: Return schema entries grouped by :attr:`FieldSpec.category`.
-- Depends on: `cli/commands/enum.py`
+- Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_core_config.py`, `mutants/tests/test_payload_schema.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_payload_schema.py`
 
 ## core/process.py
@@ -12226,79 +12249,79 @@
 
 ### load_payload `def load_payload()`
 - Defined: `discord_c2.py:93`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### on_ready `def on_ready()`
 - Defined: `discord_c2.py:99`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### start `def start(ctx)`
 - Defined: `discord_c2.py:103`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### exce_cmd `def exce_cmd(ctx)`
 - Defined: `discord_c2.py:126`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### add_cli `def add_cli(ctx, new_client_id)`
 - Defined: `discord_c2.py:201`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### handle_file `def handle_file(ctx)`
 - Defined: `discord_c2.py:210`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### download_c2 `def download_c2(ctx, client_id, file_name)`
 - Defined: `discord_c2.py:238`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### send_connected_clients `def send_connected_clients(ctx)`
 - Defined: `discord_c2.py:248`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### clients `def clients(ctx)`
 - Defined: `discord_c2.py:264`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### addcli `def addcli(ctx, new_client_id)`
 - Defined: `discord_c2.py:268`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### c2 `def c2(ctx)`
 - Defined: `discord_c2.py:272`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __init__ `def __init__(self)`
 - Defined: `discord_c2.py:28`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### register_failed_attempt `def register_failed_attempt(self, user_id)`
 - Defined: `discord_c2.py:33`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### check_lockout `def check_lockout(self, user_id)`
 - Defined: `discord_c2.py:40`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### check_rate_limit `def check_rate_limit(self, user_id)`
 - Defined: `discord_c2.py:49`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### create_session `def create_session(self, user_id, client_id)`
 - Defined: `discord_c2.py:62`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### validate_session `def validate_session(self, user_id)`
 - Defined: `discord_c2.py:70`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __init__ `def __init__(self, config_dict)`
 - Defined: `discord_c2.py:85`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __getitem__ `def __getitem__(self, key)`
 - Defined: `discord_c2.py:90`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## external/install_external.sh
 
@@ -20428,15 +20451,15 @@ str_cut(char str[], int slice_from, int slice_to)`
 ### retModel `def retModel()`
 - Defined: `modules/colors.py:38`
 - Doc: gemma2-9b-it        Google  8,192   -       -
-- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `static/js/xterm.js`
+- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ### delete_lines `def delete_lines(content, to_delete)`
 - Defined: `modules/colors.py:65`
-- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `static/js/xterm.js`
+- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ### no_html `def no_html(content)`
 - Defined: `modules/colors.py:70`
-- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `static/js/xterm.js`
+- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ## modules/command_executor.py
 
@@ -26583,155 +26606,155 @@ str_cut(char str[], int slice_from, int slice_to)`
 ### _ret_model `def _ret_model()`
 - Defined: `modules/legacy/lazygptcli_unified.py:45`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### truncate_message `def truncate_message(message, max_chars)`
 - Defined: `modules/legacy/lazygptcli_unified.py:53`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _configure_logging `def _configure_logging(debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:57`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _load_knowledge_base `def _load_knowledge_base(file_path)`
 - Defined: `modules/legacy/lazygptcli_unified.py:62`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _save_knowledge_base `def _save_knowledge_base(knowledge_base, file_path)`
 - Defined: `modules/legacy/lazygptcli_unified.py:70`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _add_to_knowledge_base `def _add_to_knowledge_base(prompt, response, file_path)`
 - Defined: `modules/legacy/lazygptcli_unified.py:76`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _get_relevant_knowledge `def _get_relevant_knowledge(prompt, file_path)`
 - Defined: `modules/legacy/lazygptcli_unified.py:82`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _transform_knowledge_base `def _transform_knowledge_base(client, kb_file, improved_file)`
 - Defined: `modules/legacy/lazygptcli_unified.py:95`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _groq_chat `def _groq_chat(client, messages, model, max_tokens)`
 - Defined: `modules/legacy/lazygptcli_unified.py:115`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _load_payload_kv `def _load_payload_kv()`
 - Defined: `modules/legacy/lazygptcli_unified.py:129`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _load_event_config `def _load_event_config()`
 - Defined: `modules/legacy/lazygptcli_unified.py:147`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_oneliner `def _prompt_oneliner(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:159`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_script `def _prompt_script(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:175`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_adversary `def _prompt_adversary(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:190`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_general `def _prompt_general(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:206`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_search `def _prompt_search(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:225`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_vuln `def _prompt_vuln(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:239`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_task `def _prompt_task(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:254`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _prompt_redop `def _prompt_redop(base_prompt, history, knowledge_base)`
 - Defined: `modules/legacy/lazygptcli_unified.py:267`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _process_groq `def _process_groq(client, prompt, debug, prompt_template, kb_file, model)`
 - Defined: `modules/legacy/lazygptcli_unified.py:287`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt `def process_prompt(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:318`
 - Doc: Generate a single-line shell command from a user prompt.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_script `def process_prompt_script(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:323`
 - Doc: Generate a full script from a user prompt.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_adversary `def process_prompt_adversary(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:328`
 - Doc: Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_general `def process_prompt_general(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:333`
 - Doc: General red team assistant with payload.json context and DeepSeek fallback.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_search `def process_prompt_search(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:341`
 - Doc: Research and threat intelligence analysis.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_task `def process_prompt_task(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:346`
 - Doc: Analyze task assessment JSON for completion status and next commands.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_vuln `def process_prompt_vuln(client, prompt, debug, event)`
 - Defined: `modules/legacy/lazygptcli_unified.py:356`
 - Doc: Analyze Nmap output for vulnerabilities and generate penetration test action plan.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### process_prompt_redop `def process_prompt_redop(client, prompt, debug)`
 - Defined: `modules/legacy/lazygptcli_unified.py:382`
 - Doc: Evaluate Red Team operation status from JSON database params.
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ### _deepseek_fallback `def _deepseek_fallback(prompt)`
 - Defined: `modules/legacy/lazygptcli_unified.py:392`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ## modules/legacy/lazyhoneypot.py
 
@@ -27876,10 +27899,89 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## modules/llm_adapter.py
 
 ### safe_groq_client `def safe_groq_client(api_key)`
-- Defined: `modules/llm_adapter.py:35`
+- Defined: `modules/llm_adapter.py:48`
 - Doc: Create a Groq client, returning None when no key is provided.
-- Depends on: `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyphishingai.py`
-- Imported by: `lazyc2.py`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### _configure_logging `def _configure_logging(debug)`
+- Defined: `modules/llm_adapter.py:65`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### _read_prompt_file `def _read_prompt_file(prompt)`
+- Defined: `modules/llm_adapter.py:70`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### _read_error `def _read_error(prompt)`
+- Defined: `modules/llm_adapter.py:78`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### _complete `def _complete(client, full_prompt, model)`
+- Defined: `modules/llm_adapter.py:82`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### _process `def _process(client, prompt, debug, template, config)`
+- Defined: `modules/llm_adapter.py:96`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt `def process_prompt(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:121`
+- Doc: Generate a single-line shell command from a user prompt.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_script `def process_prompt_script(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:135`
+- Doc: Generate a full script from a user prompt.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_adversary `def process_prompt_adversary(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:149`
+- Doc: Answer questions about MITRE ATT&CK techniques and Atomic Red Team.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_general `def process_prompt_general(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:163`
+- Doc: Answer as a general red-team assistant with payload.json context.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_search `def process_prompt_search(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:177`
+- Doc: Perform research and threat-intelligence analysis.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_task `def process_prompt_task(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:191`
+- Doc: Analyze a task-assessment JSON file for completion status.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_vuln `def process_prompt_vuln(client, prompt, debug, event)`
+- Defined: `modules/llm_adapter.py:208`
+- Doc: Analyze Nmap output for vulnerabilities and propose an action plan.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### process_prompt_redop `def process_prompt_redop(client, prompt, debug)`
+- Defined: `modules/llm_adapter.py:239`
+- Doc: Evaluate a red-team operation status from a JSON database file.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
+
+### ask_general `def ask_general(prompt, debug)`
+- Defined: `modules/llm_adapter.py:256`
+- Doc: Answer through the configured LLM backend, regardless of provider.
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
 
 ## modules/llm_client.py
 
@@ -28036,95 +28138,268 @@ str_cut(char str[], int slice_from, int slice_to)`
 
 ## modules/llm_factory.py
 
+### default_model_for `def default_model_for(backend)`
+- Defined: `modules/llm_factory.py:147`
+- Doc: Return the default model identifier for a backend.
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
+### model_config_key `def model_config_key(backend)`
+- Defined: `modules/llm_factory.py:168`
+- Doc: Return the ``payload.json`` key holding a backend's model override.
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
+### api_key_config_key `def api_key_config_key(backend)`
+- Defined: `modules/llm_factory.py:189`
+- Doc: Return the ``payload.json`` key holding a backend's API key slot.
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
+### backend_requires_api_key `def backend_requires_api_key(backend)`
+- Defined: `modules/llm_factory.py:212`
+- Doc: Report whether a backend needs an API key to operate.
+- Depends on: `core/llm_budget.py`, `modules/ai_model.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
 ### load_payload `def load_payload(payload_path)`
-- Defined: `modules/llm_factory.py:123`
+- Defined: `modules/llm_factory.py:230`
 - Doc: Read ``payload.json`` from disk and return it as a dictionary.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _resolve_api_key `def _resolve_api_key(config)`
-- Defined: `modules/llm_factory.py:147`
+- Defined: `modules/llm_factory.py:254`
 - Doc: Return a usable Groq API key or ``None`` when no real key is set.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _resolve_api_key_for_backend `def _resolve_api_key_for_backend(backend, config)`
-- Defined: `modules/llm_factory.py:170`
+- Defined: `modules/llm_factory.py:277`
 - Doc: Return a usable API key for a specific backend or ``None``.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _normalize_backend `def _normalize_backend(backend)`
-- Defined: `modules/llm_factory.py:201`
+- Defined: `modules/llm_factory.py:308`
 - Doc: Validate and normalize a backend identifier.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_groq `def _build_groq(config)`
-- Defined: `modules/llm_factory.py:225`
+- Defined: `modules/llm_factory.py:332`
 - Doc: Instantiate a Groq backend or raise when no API key is available.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_ollama `def _build_ollama(config)`
-- Defined: `modules/llm_factory.py:247`
+- Defined: `modules/llm_factory.py:354`
 - Doc: Instantiate an Ollama backend using configured model and host.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_openai `def _build_openai(config)`
-- Defined: `modules/llm_factory.py:261`
+- Defined: `modules/llm_factory.py:368`
 - Doc: Instantiate an OpenAI backend or raise when no API key is available.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_anthropic `def _build_anthropic(config)`
-- Defined: `modules/llm_factory.py:283`
+- Defined: `modules/llm_factory.py:390`
 - Doc: Instantiate an Anthropic backend or raise when no API key is available.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_deepseek `def _build_deepseek(config)`
-- Defined: `modules/llm_factory.py:305`
+- Defined: `modules/llm_factory.py:412`
 - Doc: Instantiate a DeepSeek backend or raise when no API key is available.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _resolve_model_identifier `def _resolve_model_identifier(backend_identifier, config)`
-- Defined: `modules/llm_factory.py:327`
+- Defined: `modules/llm_factory.py:434`
 - Doc: Return the model identifier the factory would use for a backend.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _wrap_with_budget `def _wrap_with_budget(backend, config, backend_identifier)`
-- Defined: `modules/llm_factory.py:354`
+- Defined: `modules/llm_factory.py:461`
 - Doc: Wrap a concrete backend with the budget proxy.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### get_llm_backend `def get_llm_backend(config, backend)`
-- Defined: `modules/llm_factory.py:392`
+- Defined: `modules/llm_factory.py:499`
 - Doc: Return a concrete :class:`AIModel` selected by configuration.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### _build_backend `def _build_backend(normalized, resolved_config)`
-- Defined: `modules/llm_factory.py:444`
+- Defined: `modules/llm_factory.py:551`
 - Doc: Build the raw backend for a normalized identifier.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### get_llm_backend_raw `def get_llm_backend_raw(config, backend)`
-- Defined: `modules/llm_factory.py:478`
+- Defined: `modules/llm_factory.py:585`
 - Doc: Return a raw :class:`AIModel` without the budget wrapper.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ### try_get_llm_backend `def try_get_llm_backend(config, backend)`
-- Defined: `modules/llm_factory.py:500`
+- Defined: `modules/llm_factory.py:607`
 - Doc: Return a backend or ``None`` if construction fails for any reason.
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
+## modules/llm_prompts.py
+
+### default_project_root `def default_project_root()`
+- Defined: `modules/llm_prompts.py:67`
+- Doc: Return the repository root that owns the LLM prompt configuration.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### resolve_model `def resolve_model(model)`
+- Defined: `modules/llm_prompts.py:76`
+- Doc: Resolve an explicit model or fall back to the randomized Groq model.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### truncate_message `def truncate_message(message, max_chars)`
+- Defined: `modules/llm_prompts.py:95`
+- Doc: Truncate a message with an ellipsis marker when it exceeds the limit.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### render_kb_tail `def render_kb_tail(lines)`
+- Defined: `modules/llm_prompts.py:271`
+- Doc: Join the most recent knowledge lines for embedding into a prompt.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _payload_block `def _payload_block(config)`
+- Defined: `modules/llm_prompts.py:354`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_oneliner `def _prompt_oneliner(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:362`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_script `def _prompt_script(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:378`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_adversary `def _prompt_adversary(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:393`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_general `def _prompt_general(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:409`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_search `def _prompt_search(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:422`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_vuln `def _prompt_vuln(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:436`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_task `def _prompt_task(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:450`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### _prompt_redop `def _prompt_redop(base_prompt, kb_text, config)`
+- Defined: `modules/llm_prompts.py:462`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### from_defaults `def from_defaults(cls, project_root)`
+- Defined: `modules/llm_prompts.py:130`
+- Doc: Build a config rooted at the given project root.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### knowledge_base_path `def knowledge_base_path(self, domain)`
+- Defined: `modules/llm_prompts.py:150`
+- Doc: Return the absolute path for a knowledge-base domain file.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### load_payload_context `def load_payload_context(self)`
+- Defined: `modules/llm_prompts.py:161`
+- Doc: Load the operator context keyed by :data:`PAYLOAD_KEY_ORDER`.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### load_event_tool_output `def load_event_tool_output(self, event_name)`
+- Defined: `modules/llm_prompts.py:176`
+- Doc: Load tool output attached to a named event in event_config.json.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### load_plan_history `def load_plan_history(self)`
+- Defined: `modules/llm_prompts.py:203`
+- Doc: Load the session plan history text if present.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### load_report_context `def load_report_context(self)`
+- Defined: `modules/llm_prompts.py:218`
+- Doc: Load the JSON artefacts consumed by the report template.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### knowledge_store `def knowledge_store(self, domain)`
+- Defined: `modules/llm_prompts.py:238`
+- Doc: Build a knowledge store bound to a domain file.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### render `def render(self, template, base_prompt)`
+- Defined: `modules/llm_prompts.py:249`
+- Doc: Render a named template with shared knowledge and context.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### __init__ `def __init__(self, path)`
+- Defined: `modules/llm_prompts.py:289`
+- Doc: Initialize a store bound to a single JSON file.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### load `def load(self)`
+- Defined: `modules/llm_prompts.py:297`
+- Doc: Load the knowledge-base records from disk.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### save `def save(self, records)`
+- Defined: `modules/llm_prompts.py:312`
+- Doc: Persist a full record list to disk, creating parent directories.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### add `def add(self, prompt, response)`
+- Defined: `modules/llm_prompts.py:324`
+- Doc: Append a prompt/response record to the knowledge base.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
+
+### relevant `def relevant(self, prompt, limit)`
+- Defined: `modules/llm_prompts.py:335`
+- Doc: Return knowledge responses whose text shares keywords with the prompt.
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
 
 ## modules/log_tamper.py
 
@@ -60957,64 +61232,64 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## slack_c2_bot.py
 
 ### capture_shell_output `def capture_shell_output(cmd)`
-- Defined: `slack_c2_bot.py:93`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:92`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### handle_message `def handle_message(event, say, logger)`
-- Defined: `slack_c2_bot.py:111`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:110`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### cmd_addcli `def cmd_addcli(ack, respond, command)`
-- Defined: `slack_c2_bot.py:173`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:172`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### cmd_clients `def cmd_clients(ack, respond, command)`
-- Defined: `slack_c2_bot.py:190`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:189`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### cmd_download `def cmd_download(ack, respond, command)`
-- Defined: `slack_c2_bot.py:203`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:202`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### handle_file `def handle_file(event, say, logger)`
-- Defined: `slack_c2_bot.py:233`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:232`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### mentioned `def mentioned(ack, say, event)`
-- Defined: `slack_c2_bot.py:243`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:242`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### __init__ `def __init__(self)`
-- Defined: `slack_c2_bot.py:29`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:28`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### register_failed_attempt `def register_failed_attempt(self, user_id)`
-- Defined: `slack_c2_bot.py:34`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:33`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### check_lockout `def check_lockout(self, user_id)`
-- Defined: `slack_c2_bot.py:42`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:41`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### check_rate_limit `def check_rate_limit(self, user_id)`
-- Defined: `slack_c2_bot.py:52`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:51`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### create_session `def create_session(self, user_id)`
-- Defined: `slack_c2_bot.py:63`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:62`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### validate_session `def validate_session(self, user_id)`
-- Defined: `slack_c2_bot.py:71`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:70`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### set_client `def set_client(self, user_id, client_id)`
-- Defined: `slack_c2_bot.py:81`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:80`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ### get_client `def get_client(self, user_id)`
-- Defined: `slack_c2_bot.py:85`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+- Defined: `slack_c2_bot.py:84`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ## static/js/bootstrap-4.5.2.min.js
 
@@ -66034,68 +66309,68 @@ str_cut(char str[], int slice_from, int slice_to)`
 
 ### load_payload `def load_payload()`
 - Defined: `telegram_c2.py:86`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### start `def start(update, context)`
 - Defined: `telegram_c2.py:91`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### exce_cmd `def exce_cmd(update, context)`
 - Defined: `telegram_c2.py:115`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### add_cli `def add_cli(update, context)`
 - Defined: `telegram_c2.py:189`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### handle_file `def handle_file(update, context)`
 - Defined: `telegram_c2.py:200`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### download_c2 `def download_c2(update, context)`
 - Defined: `telegram_c2.py:226`
 - Doc: Handle the /download_c2 command to download a file from the C2.
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### send_connected_clients `def send_connected_clients(update, context)`
 - Defined: `telegram_c2.py:264`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### main `def main()`
 - Defined: `telegram_c2.py:278`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __init__ `def __init__(self)`
 - Defined: `telegram_c2.py:19`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### register_failed_attempt `def register_failed_attempt(self, user_id)`
 - Defined: `telegram_c2.py:24`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### check_lockout `def check_lockout(self, user_id)`
 - Defined: `telegram_c2.py:31`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### check_rate_limit `def check_rate_limit(self, user_id)`
 - Defined: `telegram_c2.py:40`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### create_session `def create_session(self, user_id, client_id)`
 - Defined: `telegram_c2.py:53`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### validate_session `def validate_session(self, user_id)`
 - Defined: `telegram_c2.py:62`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __init__ `def __init__(self, config_dict)`
 - Defined: `telegram_c2.py:78`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ### __getitem__ `def __getitem__(self, key)`
 - Defined: `telegram_c2.py:83`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## telegram_hermes.py
 
@@ -67124,6 +67399,60 @@ str_cut(char str[], int slice_from, int slice_to)`
 ### test_config_exposes_params_dict `def test_config_exposes_params_dict(self)`
 - Defined: `tests/test_aes_key_propagation.py:91`
 - Depends on: `core/config.py`
+
+## tests/test_ai_commands_llm.py
+
+### _command_set `def _command_set()`
+- Defined: `tests/test_ai_commands_llm.py:17`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_empty_question_prints_usage `def test_empty_question_prints_usage(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:27`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_question_forwarded_with_session_context `def test_question_forwarded_with_session_context(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:33`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_backend_error_surfaces_as_message `def test_backend_error_surfaces_as_message(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:45`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_unavailable_backend_prints_actionable_error `def test_unavailable_backend_prints_actionable_error(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:54`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_success_completes_oneliner_and_prints `def test_success_completes_oneliner_and_prints(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:66`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_completion_failure_prints_error `def test_completion_failure_prints_error(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:90`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### test_empty_line_falls_back_to_shell_prompt `def test_empty_line_falls_back_to_shell_prompt(self, monkeypatch)`
+- Defined: `tests/test_ai_commands_llm.py:103`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### _raise `def _raise()`
+- Defined: `tests/test_ai_commands_llm.py:57`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### _factory `def _factory()`
+- Defined: `tests/test_ai_commands_llm.py:77`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### complete `def complete(self, system, user)`
+- Defined: `tests/test_ai_commands_llm.py:72`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### complete `def complete(self, system, user)`
+- Defined: `tests/test_ai_commands_llm.py:94`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
+
+### complete `def complete(self, system, user)`
+- Defined: `tests/test_ai_commands_llm.py:107`
+- Depends on: `cli/commands/ai.py`, `modules/llm_factory.py`
 
 ## tests/test_api_authz.py
 
@@ -75919,6 +76248,128 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `tests/test_live_surface.py:116`
 - Depends on: `modules/live_surface.py`
 
+## tests/test_llm_adapter_parity.py
+
+### cfg `def cfg(tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:46`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### patched `def patched(monkeypatch, cfg)`
+- Defined: `tests/test_llm_adapter_parity.py:57`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### _write `def _write(path, text)`
+- Defined: `tests/test_llm_adapter_parity.py:62`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### __init__ `def __init__(self, content)`
+- Defined: `tests/test_llm_adapter_parity.py:24`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### create `def create(self, model, messages, max_tokens)`
+- Defined: `tests/test_llm_adapter_parity.py:30`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### __init__ `def __init__(self, content)`
+- Defined: `tests/test_llm_adapter_parity.py:40`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_direct_variants_report_missing_key `def test_direct_variants_report_missing_key(self, patched, name)`
+- Defined: `tests/test_llm_adapter_parity.py:78`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_file_variants_report_missing_key `def test_file_variants_report_missing_key(self, patched, name, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:83`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_complete_error_handled `def test_complete_error_handled(self, patched)`
+- Defined: `tests/test_llm_adapter_parity.py:91`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_sends_user_message_and_returns_content `def test_sends_user_message_and_returns_content(self, patched)`
+- Defined: `tests/test_llm_adapter_parity.py:97`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_completion_received_single_user_message `def test_completion_received_single_user_message(self, patched)`
+- Defined: `tests/test_llm_adapter_parity.py:102`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_default_max_tokens_applied `def test_default_max_tokens_applied(self, patched)`
+- Defined: `tests/test_llm_adapter_parity.py:109`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_successful_response_is_remembered `def test_successful_response_is_remembered(self, patched, cfg)`
+- Defined: `tests/test_llm_adapter_parity.py:116`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_error_response_not_remembered `def test_error_response_not_remembered(self, patched, cfg)`
+- Defined: `tests/test_llm_adapter_parity.py:124`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_task_reads_file_content `def test_task_reads_file_content(self, patched, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:132`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_task_missing_file_returns_error `def test_task_missing_file_returns_error(self, patched, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:139`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_redop_reads_file_content `def test_redop_reads_file_content(self, patched, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:143`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_appends_event_tool_output `def test_appends_event_tool_output(self, patched, cfg, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:150`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_appends_plan_history `def test_appends_plan_history(self, patched, cfg, tmp_path)`
+- Defined: `tests/test_llm_adapter_parity.py:163`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_groq_family_exports_present `def test_groq_family_exports_present(self)`
+- Defined: `tests/test_llm_adapter_parity.py:174`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_safe_groq_client_none_without_key `def test_safe_groq_client_none_without_key(self)`
+- Defined: `tests/test_llm_adapter_parity.py:188`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### __init__ `def __init__(self, result)`
+- Defined: `tests/test_llm_adapter_parity.py:194`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### complete `def complete(self, system, user)`
+- Defined: `tests/test_llm_adapter_parity.py:199`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_uses_configured_backend `def test_uses_configured_backend(self, patched, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:208`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_receives_system_and_rendered_user `def test_receives_system_and_rendered_user(self, patched, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:215`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_missing_backend_reports_error `def test_missing_backend_reports_error(self, patched, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:225`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_backend_exception_reports_error `def test_backend_exception_reports_error(self, patched, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:232`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_backend_error_string_not_remembered `def test_backend_error_string_not_remembered(self, patched, cfg, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:239`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_successful_answer_remembered `def test_successful_answer_remembered(self, patched, cfg, monkeypatch)`
+- Defined: `tests/test_llm_adapter_parity.py:248`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
+### test_exported `def test_exported(self)`
+- Defined: `tests/test_llm_adapter_parity.py:259`
+- Depends on: `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+
 ## tests/test_llm_budget.py
 
 ### tmp_sessions `def tmp_sessions(tmp_path, monkeypatch)`
@@ -76080,6 +76531,125 @@ str_cut(char str[], int slice_from, int slice_to)`
 
 ### test_ai_fallback_reads_factory_constants `def test_ai_fallback_reads_factory_constants(self)`
 - Defined: `tests/test_llm_contract.py:109`
+
+### test_metadata_helpers_exposed `def test_metadata_helpers_exposed(self)`
+- Defined: `tests/test_llm_contract.py:117`
+
+### test_default_models_match_constants `def test_default_models_match_constants(self)`
+- Defined: `tests/test_llm_contract.py:127`
+
+### test_model_config_keys_match_constants `def test_model_config_keys_match_constants(self)`
+- Defined: `tests/test_llm_contract.py:137`
+
+### test_api_key_slots `def test_api_key_slots(self)`
+- Defined: `tests/test_llm_contract.py:146`
+
+### test_requires_api_key_only_for_cloud `def test_requires_api_key_only_for_cloud(self)`
+- Defined: `tests/test_llm_contract.py:155`
+
+### test_unknown_backend_rejected `def test_unknown_backend_rejected(self)`
+- Defined: `tests/test_llm_contract.py:161`
+
+## tests/test_llm_legacy_isolation.py
+
+### _core_source_files `def _core_source_files()`
+- Defined: `tests/test_llm_legacy_isolation.py:33`
+
+### _imported_targets `def _imported_targets(node)`
+- Defined: `tests/test_llm_legacy_isolation.py:47`
+
+### test_no_core_file_imports_legacy_groq `def test_no_core_file_imports_legacy_groq(self)`
+- Defined: `tests/test_llm_legacy_isolation.py:62`
+
+## tests/test_llm_prompts.py
+
+### _write_json `def _write_json(path, payload)`
+- Defined: `tests/test_llm_prompts.py:23`
+- Depends on: `modules/llm_prompts.py`
+
+### _config `def _config(tmp_path)`
+- Defined: `tests/test_llm_prompts.py:29`
+- Depends on: `modules/llm_prompts.py`
+
+### test_short_message_returned_unchanged `def test_short_message_returned_unchanged(self)`
+- Defined: `tests/test_llm_prompts.py:40`
+- Depends on: `modules/llm_prompts.py`
+
+### test_long_message_truncated_with_ellipsis `def test_long_message_truncated_with_ellipsis(self)`
+- Defined: `tests/test_llm_prompts.py:43`
+- Depends on: `modules/llm_prompts.py`
+
+### test_boundary_length_kept `def test_boundary_length_kept(self)`
+- Defined: `tests/test_llm_prompts.py:48`
+- Depends on: `modules/llm_prompts.py`
+
+### test_load_missing_file_returns_empty `def test_load_missing_file_returns_empty(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:54`
+- Depends on: `modules/llm_prompts.py`
+
+### test_load_malformed_file_returns_empty `def test_load_malformed_file_returns_empty(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:58`
+- Depends on: `modules/llm_prompts.py`
+
+### test_add_and_load_roundtrip `def test_add_and_load_roundtrip(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:63`
+- Depends on: `modules/llm_prompts.py`
+
+### test_relevant_filters_on_keyword `def test_relevant_filters_on_keyword(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:69`
+- Depends on: `modules/llm_prompts.py`
+
+### test_relevant_limits_results `def test_relevant_limits_results(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:76`
+- Depends on: `modules/llm_prompts.py`
+
+### test_from_defaults_points_under_module_parent `def test_from_defaults_points_under_module_parent(self, tmp_path, monkeypatch)`
+- Defined: `tests/test_llm_prompts.py:84`
+- Depends on: `modules/llm_prompts.py`
+
+### test_knowledge_base_path_resolves_names `def test_knowledge_base_path_resolves_names(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:90`
+- Depends on: `modules/llm_prompts.py`
+
+### test_payload_context_defaults_to_empty `def test_payload_context_defaults_to_empty(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:94`
+- Depends on: `modules/llm_prompts.py`
+
+### test_payload_context_reads_values `def test_payload_context_reads_values(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:109`
+- Depends on: `modules/llm_prompts.py`
+
+### test_event_tool_output_empty_when_no_match `def test_event_tool_output_empty_when_no_match(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:116`
+- Depends on: `modules/llm_prompts.py`
+
+### test_event_tool_output_reads_file `def test_event_tool_output_reads_file(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:121`
+- Depends on: `modules/llm_prompts.py`
+
+### test_render_includes_operator_prompt `def test_render_includes_operator_prompt(self, tmp_path, name)`
+- Defined: `tests/test_llm_prompts.py:131`
+- Depends on: `modules/llm_prompts.py`
+
+### test_render_embeds_knowledge_tail `def test_render_embeds_knowledge_tail(self, tmp_path, name)`
+- Defined: `tests/test_llm_prompts.py:137`
+- Depends on: `modules/llm_prompts.py`
+
+### test_general_embeds_payload_rhost `def test_general_embeds_payload_rhost(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:144`
+- Depends on: `modules/llm_prompts.py`
+
+### test_vuln_embeds_payload_rhost `def test_vuln_embeds_payload_rhost(self, tmp_path)`
+- Defined: `tests/test_llm_prompts.py:150`
+- Depends on: `modules/llm_prompts.py`
+
+### test_kb_domains_are_valid_file_names `def test_kb_domains_are_valid_file_names(self)`
+- Defined: `tests/test_llm_prompts.py:158`
+- Depends on: `modules/llm_prompts.py`
+
+### test_all_templates_have_registered_kb_domain `def test_all_templates_have_registered_kb_domain(self)`
+- Defined: `tests/test_llm_prompts.py:164`
+- Depends on: `modules/llm_prompts.py`
 
 ## tests/test_logging_config.py
 
@@ -77469,159 +78039,183 @@ str_cut(char str[], int slice_from, int slice_to)`
 
 ### test_schema_is_not_empty `def test_schema_is_not_empty(self)`
 - Defined: `tests/test_payload_schema.py:42`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_every_spec_has_required_fields `def test_every_spec_has_required_fields(self)`
 - Defined: `tests/test_payload_schema.py:45`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_required_fields_are_documented `def test_required_fields_are_documented(self)`
 - Defined: `tests/test_payload_schema.py:53`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_shipped_payload_keys_are_all_in_schema `def test_shipped_payload_keys_are_all_in_schema(self)`
 - Defined: `tests/test_payload_schema.py:57`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_categories_split_schema `def test_categories_split_schema(self)`
 - Defined: `tests/test_payload_schema.py:65`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_unknown_key_returns_info `def test_unknown_key_returns_info(self)`
 - Defined: `tests/test_payload_schema.py:73`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_required_missing_returns_error `def test_required_missing_returns_error(self)`
 - Defined: `tests/test_payload_schema.py:78`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_optional_missing_returns_none `def test_optional_missing_returns_none(self)`
 - Defined: `tests/test_payload_schema.py:82`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_valid_ip_passes `def test_valid_ip_passes(self)`
 - Defined: `tests/test_payload_schema.py:86`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_invalid_ip_returns_error `def test_invalid_ip_returns_error(self)`
 - Defined: `tests/test_payload_schema.py:89`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_port_string_is_accepted `def test_port_string_is_accepted(self)`
 - Defined: `tests/test_payload_schema.py:95`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_port_out_of_range_is_warning `def test_port_out_of_range_is_warning(self)`
 - Defined: `tests/test_payload_schema.py:98`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_negative_port_warns `def test_negative_port_warns(self)`
 - Defined: `tests/test_payload_schema.py:102`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_os_id_must_be_1_or_2 `def test_os_id_must_be_1_or_2(self)`
 - Defined: `tests/test_payload_schema.py:106`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_url_validates `def test_url_validates(self)`
 - Defined: `tests/test_payload_schema.py:112`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_hex_validates `def test_hex_validates(self)`
 - Defined: `tests/test_payload_schema.py:117`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_allowed_values_enforced `def test_allowed_values_enforced(self)`
 - Defined: `tests/test_payload_schema.py:121`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_hide_code_range `def test_hide_code_range(self)`
 - Defined: `tests/test_payload_schema.py:127`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_port_string_to_int `def test_port_string_to_int(self)`
 - Defined: `tests/test_payload_schema.py:134`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_port_int_passthrough `def test_port_int_passthrough(self)`
 - Defined: `tests/test_payload_schema.py:137`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_port_non_numeric_passthrough `def test_port_non_numeric_passthrough(self)`
 - Defined: `tests/test_payload_schema.py:140`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_bool_truthy_strings `def test_bool_truthy_strings(self)`
 - Defined: `tests/test_payload_schema.py:143`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_bool_falsy_strings `def test_bool_falsy_strings(self)`
 - Defined: `tests/test_payload_schema.py:147`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_bool_passthrough `def test_bool_passthrough(self)`
 - Defined: `tests/test_payload_schema.py:151`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_unknown_key_passthrough `def test_unknown_key_passthrough(self)`
 - Defined: `tests/test_payload_schema.py:155`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_ip_string_unchanged `def test_ip_string_unchanged(self)`
 - Defined: `tests/test_payload_schema.py:158`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_default_payload_passes `def test_default_payload_passes(self)`
 - Defined: `tests/test_payload_schema.py:163`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_missing_required_field_reports_error `def test_missing_required_field_reports_error(self)`
 - Defined: `tests/test_payload_schema.py:168`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_unknown_key_in_payload_is_info `def test_unknown_key_in_payload_is_info(self)`
 - Defined: `tests/test_payload_schema.py:177`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_shipped_payload_has_no_errors `def test_shipped_payload_has_no_errors(self)`
 - Defined: `tests/test_payload_schema.py:184`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_returns_spec_for_known_key `def test_returns_spec_for_known_key(self)`
 - Defined: `tests/test_payload_schema.py:195`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_returns_none_for_unknown_key `def test_returns_none_for_unknown_key(self)`
 - Defined: `tests/test_payload_schema.py:200`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_sensitive_values_redacted `def test_sensitive_values_redacted(self)`
 - Defined: `tests/test_payload_schema.py:205`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_non_sensitive_values_shown `def test_non_sensitive_values_shown(self)`
 - Defined: `tests/test_payload_schema.py:216`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_long_values_truncated `def test_long_values_truncated(self)`
 - Defined: `tests/test_payload_schema.py:226`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_apply_assign_coerces_port_strings `def test_apply_assign_coerces_port_strings(self)`
 - Defined: `tests/test_payload_schema.py:239`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_apply_assign_surfaces_issue_for_bad_ip `def test_apply_assign_surfaces_issue_for_bad_ip(self)`
 - Defined: `tests/test_payload_schema.py:247`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_apply_assign_no_issue_for_valid_value `def test_apply_assign_no_issue_for_valid_value(self)`
 - Defined: `tests/test_payload_schema.py:262`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ### test_apply_assign_keeps_unknown_key_behavior `def test_apply_assign_keeps_unknown_key_behavior(self)`
 - Defined: `tests/test_payload_schema.py:270`
-- Depends on: `cli/assign.py`, `core/payload_schema.py`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_llm_backend_enum_validated `def test_llm_backend_enum_validated(self)`
+- Defined: `tests/test_payload_schema.py:279`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_llm_backend_rejects_unknown `def test_llm_backend_rejects_unknown(self)`
+- Defined: `tests/test_payload_schema.py:292`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_llm_backend_accepts_supported `def test_llm_backend_accepts_supported(self)`
+- Defined: `tests/test_payload_schema.py:295`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_model_slots_registered_with_factory_defaults `def test_model_slots_registered_with_factory_defaults(self)`
+- Defined: `tests/test_payload_schema.py:302`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_provider_key_slots_sensitive `def test_provider_key_slots_sensitive(self)`
+- Defined: `tests/test_payload_schema.py:316`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
+
+### test_ollama_host_registered `def test_ollama_host_registered(self)`
+- Defined: `tests/test_payload_schema.py:322`
+- Depends on: `cli/assign.py`, `core/payload_schema.py`, `modules/llm_factory.py`
 
 ## tests/test_phase1_data_gaps.py
 
@@ -79456,127 +80050,131 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `tests/test_security_hardening_v2.py:25`
 
 ### test_no_os_system_in_ai_module `def test_no_os_system_in_ai_module(self)`
-- Defined: `tests/test_security_hardening_v2.py:41`
+- Defined: `tests/test_security_hardening_v2.py:42`
 - Doc: BDD: Given the ai module source is loaded,
 
-### test_uses_subprocess_run `def test_uses_subprocess_run(self)`
-- Defined: `tests/test_security_hardening_v2.py:47`
+### test_no_subprocess_in_ai_module `def test_no_subprocess_in_ai_module(self)`
+- Defined: `tests/test_security_hardening_v2.py:48`
+- Doc: BDD: Given do_ask/do_groq answer in-process,
+
+### test_no_shell_true_in_ai_module `def test_no_shell_true_in_ai_module(self)`
+- Defined: `tests/test_security_hardening_v2.py:56`
 - Doc: BDD: Given the ai module source is loaded,
 
-### test_api_key_passed_via_env_dict `def test_api_key_passed_via_env_dict(self)`
-- Defined: `tests/test_security_hardening_v2.py:53`
-- Doc: BDD: Given the api_key contains shell metacharacters,
+### test_api_key_never_leaves_factory_path `def test_api_key_never_leaves_factory_path(self)`
+- Defined: `tests/test_security_hardening_v2.py:62`
+- Doc: BDD: Given the api_key must stay inside backend construction,
+
+### test_answers_through_canonical_backend `def test_answers_through_canonical_backend(self)`
+- Defined: `tests/test_security_hardening_v2.py:69`
+- Doc: BDD: Given do_ask/do_groq must use the single source of truth,
 
 ### test_no_fstring_with_api_key_in_command `def test_no_fstring_with_api_key_in_command(self)`
-- Defined: `tests/test_security_hardening_v2.py:59`
+- Defined: `tests/test_security_hardening_v2.py:76`
 - Doc: BDD: Given the source is scanned for f-string command construction,
 
-### test_do_ask_uses_sys_executable `def test_do_ask_uses_sys_executable(self)`
-- Defined: `tests/test_security_hardening_v2.py:71`
-- Doc: BDD: Given do_ask spawns a Python subprocess,
-
 ### test_no_sshpass_minus_p_in_code `def test_no_sshpass_minus_p_in_code(self)`
-- Defined: `tests/test_security_hardening_v2.py:89`
+- Defined: `tests/test_security_hardening_v2.py:100`
 - Doc: BDD: Given the postexp module source is loaded,
 
 ### test_sshpass_uses_e_flag `def test_sshpass_uses_e_flag(self)`
-- Defined: `tests/test_security_hardening_v2.py:106`
+- Defined: `tests/test_security_hardening_v2.py:117`
 - Doc: BDD: Given sshpass is invoked,
 
 ### test_ssppass_env_var_used `def test_ssppass_env_var_used(self)`
-- Defined: `tests/test_security_hardening_v2.py:112`
+- Defined: `tests/test_security_hardening_v2.py:123`
 - Doc: BDD: Given sshpass is invoked,
 
 ### test_sshpass_in_list_form `def test_sshpass_in_list_form(self)`
-- Defined: `tests/test_security_hardening_v2.py:118`
+- Defined: `tests/test_security_hardening_v2.py:129`
 - Doc: BDD: Given sshpass is invoked,
 
 ### test_password_not_in_fstring_command `def test_password_not_in_fstring_command(self)`
-- Defined: `tests/test_security_hardening_v2.py:124`
+- Defined: `tests/test_security_hardening_v2.py:135`
 - Doc: BDD: Given a password contains shell metacharacters,
 
 ### test_allowlist_exists_as_frozenset `def test_allowlist_exists_as_frozenset(self)`
-- Defined: `tests/test_security_hardening_v2.py:152`
+- Defined: `tests/test_security_hardening_v2.py:163`
 - Doc: BDD: Given the lazyc2 module source is loaded,
 
 ### test_max_length_constant_exists `def test_max_length_constant_exists(self)`
-- Defined: `tests/test_security_hardening_v2.py:158`
+- Defined: `tests/test_security_hardening_v2.py:169`
 - Doc: BDD: Given the DNS resolver processes commands,
 
 ### test_allowlist_is_finite_and_reasonable `def test_allowlist_is_finite_and_reasonable(self)`
-- Defined: `tests/test_security_hardening_v2.py:164`
+- Defined: `tests/test_security_hardening_v2.py:175`
 - Doc: BDD: Given the allowlist is defined,
 
 ### test_dns_handler_checks_allowlist `def test_dns_handler_checks_allowlist(self)`
-- Defined: `tests/test_security_hardening_v2.py:176`
+- Defined: `tests/test_security_hardening_v2.py:187`
 - Doc: BDD: Given a DNS query is decoded,
 
 ### test_dns_handler_checks_length `def test_dns_handler_checks_length(self)`
-- Defined: `tests/test_security_hardening_v2.py:182`
+- Defined: `tests/test_security_hardening_v2.py:193`
 - Doc: BDD: Given a DNS query decodes to a very long string,
 
 ### test_dangerous_command_not_in_allowlist `def test_dangerous_command_not_in_allowlist(self)`
-- Defined: `tests/test_security_hardening_v2.py:188`
+- Defined: `tests/test_security_hardening_v2.py:199`
 - Doc: BDD: Given the allowlist is defined,
 
 ### test_do_sys_uses_subprocess `def test_do_sys_uses_subprocess(self)`
-- Defined: `tests/test_security_hardening_v2.py:213`
+- Defined: `tests/test_security_hardening_v2.py:224`
 - Doc: BDD: Given the misc_migrated source is loaded,
 
 ### test_do_sys_captures_output `def test_do_sys_captures_output(self)`
-- Defined: `tests/test_security_hardening_v2.py:231`
+- Defined: `tests/test_security_hardening_v2.py:242`
 - Doc: BDD: Given a command is executed via 'sys',
 
 ### test_no_os_system_in_misc_module_code `def test_no_os_system_in_misc_module_code(self)`
-- Defined: `tests/test_security_hardening_v2.py:248`
+- Defined: `tests/test_security_hardening_v2.py:259`
 - Doc: BDD: Given the misc_migrated module source,
 
 ### test_encrypt_function_exists `def test_encrypt_function_exists(self)`
-- Defined: `tests/test_security_hardening_v2.py:277`
+- Defined: `tests/test_security_hardening_v2.py:288`
 - Doc: BDD: Given the phishing orchestrator source is loaded,
 
 ### test_decrypt_function_exists `def test_decrypt_function_exists(self)`
-- Defined: `tests/test_security_hardening_v2.py:283`
+- Defined: `tests/test_security_hardening_v2.py:294`
 - Doc: BDD: Given encrypted credentials exist on disk,
 
 ### test_hash_function_exists `def test_hash_function_exists(self)`
-- Defined: `tests/test_security_hardening_v2.py:289`
+- Defined: `tests/test_security_hardening_v2.py:300`
 - Doc: BDD: Given credentials are logged,
 
 ### test_record_credentials_encrypts_password `def test_record_credentials_encrypts_password(self)`
-- Defined: `tests/test_security_hardening_v2.py:295`
+- Defined: `tests/test_security_hardening_v2.py:306`
 - Doc: BDD: Given record_credentials is called,
 
 ### test_log_uses_hash_not_plaintext `def test_log_uses_hash_not_plaintext(self)`
-- Defined: `tests/test_security_hardening_v2.py:301`
+- Defined: `tests/test_security_hardening_v2.py:312`
 - Doc: BDD: Given the audit log is written,
 
 ### test_uses_aes_encryption `def test_uses_aes_encryption(self)`
-- Defined: `tests/test_security_hardening_v2.py:307`
+- Defined: `tests/test_security_hardening_v2.py:318`
 - Doc: BDD: Given credentials are encrypted,
 
 ### test_imports_base64_for_encoding `def test_imports_base64_for_encoding(self)`
-- Defined: `tests/test_security_hardening_v2.py:313`
+- Defined: `tests/test_security_hardening_v2.py:324`
 - Doc: BDD: Given encrypted bytes need to be stored as text,
 
 ### test_credential_key_derivation `def test_credential_key_derivation(self)`
-- Defined: `tests/test_security_hardening_v2.py:319`
+- Defined: `tests/test_security_hardening_v2.py:330`
 - Doc: BDD: Given encryption requires a key,
 
 ### test_ai_module_no_os_system `def test_ai_module_no_os_system(self)`
-- Defined: `tests/test_security_hardening_v2.py:335`
+- Defined: `tests/test_security_hardening_v2.py:346`
 - Doc: BDD: Given the AI command module source,
 
 ### test_postexp_no_sshpass_in_fstring_code `def test_postexp_no_sshpass_in_fstring_code(self)`
-- Defined: `tests/test_security_hardening_v2.py:342`
+- Defined: `tests/test_security_hardening_v2.py:353`
 - Doc: BDD: Given the post-exploitation module source,
 
 ### test_dns_resolver_has_allowlist_guard `def test_dns_resolver_has_allowlist_guard(self)`
-- Defined: `tests/test_security_hardening_v2.py:360`
+- Defined: `tests/test_security_hardening_v2.py:371`
 - Doc: BDD: Given the DNS resolver source,
 
 ### test_misc_sys_no_os_system `def test_misc_sys_no_os_system(self)`
-- Defined: `tests/test_security_hardening_v2.py:367`
+- Defined: `tests/test_security_hardening_v2.py:378`
 - Doc: BDD: Given the misc_migrated module source,
 
 ## tests/test_security_hardening_v3.py
@@ -81866,6 +82464,116 @@ str_cut(char str[], int slice_from, int slice_to)`
 
 ### fake_check `def fake_check()`
 - Defined: `tests/test_wizard_binary_check.py:168`
+
+## tests/test_wizard_llm.py
+
+### _scripted_prompt `def _scripted_prompt(answers)`
+- Defined: `tests/test_wizard_llm.py:14`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### _fake `def _fake(message)`
+- Defined: `tests/test_wizard_llm.py:17`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_blank_returns_none `def test_blank_returns_none(self)`
+- Defined: `tests/test_wizard_llm.py:24`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_name_case_insensitive `def test_name_case_insensitive(self)`
+- Defined: `tests/test_wizard_llm.py:28`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_number_selects_backend `def test_number_selects_backend(self)`
+- Defined: `tests/test_wizard_llm.py:32`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_out_of_range_number_returns_none `def test_out_of_range_number_returns_none(self)`
+- Defined: `tests/test_wizard_llm.py:37`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_unknown_name_returns_none `def test_unknown_name_returns_none(self)`
+- Defined: `tests/test_wizard_llm.py:41`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_empty_returns_not_set `def test_empty_returns_not_set(self)`
+- Defined: `tests/test_wizard_llm.py:46`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_long_value_masked_with_tail `def test_long_value_masked_with_tail(self)`
+- Defined: `tests/test_wizard_llm.py:50`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_short_value_never_shown_clear `def test_short_value_never_shown_clear(self)`
+- Defined: `tests/test_wizard_llm.py:53`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_blank_answers_keep_everything `def test_blank_answers_keep_everything(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:60`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_provider_change_by_name `def test_provider_change_by_name(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:65`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_provider_change_by_number `def test_provider_change_by_number(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:70`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_invalid_provider_keeps_current `def test_invalid_provider_keeps_current(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:76`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_model_override_stored_in_provider_slot `def test_model_override_stored_in_provider_slot(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:80`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_ollama_skips_key_prompt `def test_ollama_skips_key_prompt(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:91`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_key_kept_when_blank `def test_key_kept_when_blank(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:104`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_existing_key_prompt_shows_mask `def test_existing_key_prompt_shows_mask(self, monkeypatch)`
+- Defined: `tests/test_wizard_llm.py:108`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### _row `def _row(self, params, label)`
+- Defined: `tests/test_wizard_llm.py:124`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_cloud_with_key_ok `def test_cloud_with_key_ok(self)`
+- Defined: `tests/test_wizard_llm.py:128`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_cloud_without_key_missing `def test_cloud_without_key_missing(self)`
+- Defined: `tests/test_wizard_llm.py:133`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_ollama_keyless_ok `def test_ollama_keyless_ok(self)`
+- Defined: `tests/test_wizard_llm.py:138`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_invalid_backend_missing_with_fix_hint `def test_invalid_backend_missing_with_fix_hint(self)`
+- Defined: `tests/test_wizard_llm.py:143`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_model_shown_in_value `def test_model_shown_in_value(self)`
+- Defined: `tests/test_wizard_llm.py:148`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### test_sensitive_values_masked `def test_sensitive_values_masked(self)`
+- Defined: `tests/test_wizard_llm.py:152`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### _fake `def _fake(message)`
+- Defined: `tests/test_wizard_llm.py:94`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
+
+### _fake `def _fake(message)`
+- Defined: `tests/test_wizard_llm.py:111`
+- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
 
 ## tests/test_world_model_extended.py
 

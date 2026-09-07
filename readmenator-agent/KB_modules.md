@@ -799,7 +799,7 @@
   - `retModel` (function, line 38) `def retModel()`
   - `delete_lines` (function, line 65) `def delete_lines(content, to_delete)`
   - `no_html` (function, line 70) `def no_html(content)`
-- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `static/js/xterm.js`
+- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ## modules/command_executor.py
 - Layer: utility
@@ -2661,9 +2661,23 @@
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `safe_groq_client` (function, line 35) `def safe_groq_client(api_key)`
-- Depends on: `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyphishingai.py`
-- Imported by: `lazyc2.py`
+  - `safe_groq_client` (function, line 48) `def safe_groq_client(api_key)`
+  - `_configure_logging` (function, line 65) `def _configure_logging(debug)`
+  - `_read_prompt_file` (function, line 70) `def _read_prompt_file(prompt)`
+  - `_read_error` (function, line 78) `def _read_error(prompt)`
+  - `_complete` (function, line 82) `def _complete(client, full_prompt, model)`
+  - `_process` (function, line 96) `def _process(client, prompt, debug, template, config)`
+  - `process_prompt` (function, line 121) `def process_prompt(client, prompt, debug)`
+  - `process_prompt_script` (function, line 135) `def process_prompt_script(client, prompt, debug)`
+  - `process_prompt_adversary` (function, line 149) `def process_prompt_adversary(client, prompt, debug)`
+  - `process_prompt_general` (function, line 163) `def process_prompt_general(client, prompt, debug)`
+  - `process_prompt_search` (function, line 177) `def process_prompt_search(client, prompt, debug)`
+  - `process_prompt_task` (function, line 191) `def process_prompt_task(client, prompt, debug)`
+  - `process_prompt_vuln` (function, line 208) `def process_prompt_vuln(client, prompt, debug, event)`
+  - `process_prompt_redop` (function, line 239) `def process_prompt_redop(client, prompt, debug)`
+  - `ask_general` (function, line 256) `def ask_general(prompt, debug)`
+- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
 
 ## modules/llm_client.py
 - Layer: infrastructure
@@ -2723,23 +2737,62 @@
 - Symbols:
   - `LLMBackendUnavailableError` (class, line 115) `class LLMBackendUnavailableError(RuntimeError)`
   - `LLMBackendNotSupportedError` (class, line 119) `class LLMBackendNotSupportedError(ValueError)`
-  - `load_payload` (method, line 123) `def load_payload(payload_path)`
-  - `_resolve_api_key` (method, line 147) `def _resolve_api_key(config)`
-  - `_resolve_api_key_for_backend` (method, line 170) `def _resolve_api_key_for_backend(backend, config)`
-  - `_normalize_backend` (method, line 201) `def _normalize_backend(backend)`
-  - `_build_groq` (method, line 225) `def _build_groq(config)`
-  - `_build_ollama` (method, line 247) `def _build_ollama(config)`
-  - `_build_openai` (method, line 261) `def _build_openai(config)`
-  - `_build_anthropic` (method, line 283) `def _build_anthropic(config)`
-  - `_build_deepseek` (method, line 305) `def _build_deepseek(config)`
-  - `_resolve_model_identifier` (method, line 327) `def _resolve_model_identifier(backend_identifier, config)`
-  - `_wrap_with_budget` (method, line 354) `def _wrap_with_budget(backend, config, backend_identifier)`
-  - `get_llm_backend` (method, line 392) `def get_llm_backend(config, backend)`
-  - `_build_backend` (method, line 444) `def _build_backend(normalized, resolved_config)`
-  - `get_llm_backend_raw` (method, line 478) `def get_llm_backend_raw(config, backend)`
-  - `try_get_llm_backend` (method, line 500) `def try_get_llm_backend(config, backend)`
+  - `default_model_for` (method, line 147) `def default_model_for(backend)`
+  - `model_config_key` (method, line 168) `def model_config_key(backend)`
+  - `api_key_config_key` (method, line 189) `def api_key_config_key(backend)`
+  - `backend_requires_api_key` (method, line 212) `def backend_requires_api_key(backend)`
+  - `load_payload` (method, line 230) `def load_payload(payload_path)`
+  - `_resolve_api_key` (method, line 254) `def _resolve_api_key(config)`
+  - `_resolve_api_key_for_backend` (method, line 277) `def _resolve_api_key_for_backend(backend, config)`
+  - `_normalize_backend` (method, line 308) `def _normalize_backend(backend)`
+  - `_build_groq` (method, line 332) `def _build_groq(config)`
+  - `_build_ollama` (method, line 354) `def _build_ollama(config)`
+  - `_build_openai` (method, line 368) `def _build_openai(config)`
+  - `_build_anthropic` (method, line 390) `def _build_anthropic(config)`
+  - `_build_deepseek` (method, line 412) `def _build_deepseek(config)`
+  - `_resolve_model_identifier` (method, line 434) `def _resolve_model_identifier(backend_identifier, config)`
+  - `_wrap_with_budget` (method, line 461) `def _wrap_with_budget(backend, config, backend_identifier)`
+  - `get_llm_backend` (method, line 499) `def get_llm_backend(config, backend)`
+  - `_build_backend` (method, line 551) `def _build_backend(normalized, resolved_config)`
+  - `get_llm_backend_raw` (method, line 585) `def get_llm_backend_raw(config, backend)`
+  - `try_get_llm_backend` (method, line 607) `def try_get_llm_backend(config, backend)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+
+## modules/llm_prompts.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `default_project_root` (function, line 67) `def default_project_root()`
+  - `resolve_model` (function, line 76) `def resolve_model(model)`
+  - `truncate_message` (function, line 95) `def truncate_message(message, max_chars)`
+  - `LlmPromptConfig` (class, line 111) `class LlmPromptConfig`
+  - `render_kb_tail` (method, line 271) `def render_kb_tail(lines)`
+  - `KnowledgeStore` (class, line 286) `class KnowledgeStore`
+  - `_payload_block` (method, line 354) `def _payload_block(config)`
+  - `_prompt_oneliner` (method, line 362) `def _prompt_oneliner(base_prompt, kb_text, config)`
+  - `_prompt_script` (method, line 378) `def _prompt_script(base_prompt, kb_text, config)`
+  - `_prompt_adversary` (method, line 393) `def _prompt_adversary(base_prompt, kb_text, config)`
+  - `_prompt_general` (method, line 409) `def _prompt_general(base_prompt, kb_text, config)`
+  - `_prompt_search` (method, line 422) `def _prompt_search(base_prompt, kb_text, config)`
+  - `_prompt_vuln` (method, line 436) `def _prompt_vuln(base_prompt, kb_text, config)`
+  - `_prompt_task` (method, line 450) `def _prompt_task(base_prompt, kb_text, config)`
+  - `_prompt_redop` (method, line 462) `def _prompt_redop(base_prompt, kb_text, config)`
+  - `from_defaults` (method, line 130) `def from_defaults(cls, project_root)`
+  - `knowledge_base_path` (method, line 150) `def knowledge_base_path(self, domain)`
+  - `load_payload_context` (method, line 161) `def load_payload_context(self)`
+  - `load_event_tool_output` (method, line 176) `def load_event_tool_output(self, event_name)`
+  - `load_plan_history` (method, line 203) `def load_plan_history(self)`
+  - `load_report_context` (method, line 218) `def load_report_context(self)`
+  - `knowledge_store` (method, line 238) `def knowledge_store(self, domain)`
+  - `render` (method, line 249) `def render(self, template, base_prompt)`
+  - `__init__` (method, line 289) `def __init__(self, path)`
+  - `load` (method, line 297) `def load(self)`
+  - `save` (method, line 312) `def save(self, records)`
+  - `add` (method, line 324) `def add(self, prompt, response)`
+  - `relevant` (method, line 335) `def relevant(self, prompt, limit)`
+- Depends on: `modules/colors.py`
+- Imported by: `cli/commands/ai.py`, `modules/llm_adapter.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`, `tests/test_llm_prompts.py`
 
 ## modules/log_tamper.py
 - Layer: utility

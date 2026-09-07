@@ -46,11 +46,12 @@
 - Symbols:
   - `AiCommandSet` (class, line 70) `class AiCommandSet(LazyOwnCommandSet)`
   - `do_ask` (method, line 77) `def do_ask(self, line)`
-  - `do_groq` (method, line 157) `def do_groq(self, line)`
-  - `do_ai_playbook` (method, line 183) `def do_ai_playbook(self, line)`
-  - `do_ai_toggle` (method, line 290) `def do_ai_toggle(self, _arg)`
-  - `do_llm_budget` (method, line 307) `def do_llm_budget(self, line)`
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_factory.py`, `utils.py`
+  - `do_groq` (method, line 146) `def do_groq(self, line)`
+  - `do_ai_playbook` (method, line 178) `def do_ai_playbook(self, line)`
+  - `do_ai_toggle` (method, line 285) `def do_ai_toggle(self, _arg)`
+  - `do_llm_budget` (method, line 302) `def do_llm_budget(self, line)`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+- Imported by: `tests/test_ai_commands_llm.py`
 
 ## cli/commands/anti_forensics.py
 - Layer: utility

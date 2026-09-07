@@ -132,7 +132,7 @@
 | `cli/toast_bus.py` | - | cli | 33 |
 | `cli/tui_theme.py` | - | cli | 4 |
 | `cli/tutorial.py` | - | cli | 7 |
-| `cli/wizard.py` | - | cli | 42 |
+| `cli/wizard.py` | - | cli | 45 |
 | `core/__init__.py` | - | core | 0 |
 | `core/api_authz.py` | - | core | 31 |
 | `core/command_bridge.py` | - | core | 9 |
@@ -435,10 +435,11 @@
 | `modules/linux_advanced_payloads.py` | - | modules | 17 |
 | `modules/listener_manager.py` | - | modules | 22 |
 | `modules/live_surface.py` | - | modules | 7 |
-| `modules/llm_adapter.py` | - | modules | 1 |
+| `modules/llm_adapter.py` | - | modules | 15 |
 | `modules/llm_client.py` | - | modules | 11 |
 | `modules/llm_evaluator.py` | - | modules | 28 |
-| `modules/llm_factory.py` | - | modules | 17 |
+| `modules/llm_factory.py` | - | modules | 21 |
+| `modules/llm_prompts.py` | - | modules | 28 |
 | `modules/log_tamper.py` | - | modules | 9 |
 | `modules/logging_config.py` | - | modules | 21 |
 | `modules/macos_payloads.py` | - | modules | 16 |
@@ -825,6 +826,7 @@
 | `tests/test_aci_planner.py` | - | - | 95 |
 | `tests/test_addon_creator.py` | - | - | 86 |
 | `tests/test_aes_key_propagation.py` | - | - | 12 |
+| `tests/test_ai_commands_llm.py` | - | - | 18 |
 | `tests/test_api_authz.py` | - | - | 48 |
 | `tests/test_api_key_resolution.py` | - | - | 9 |
 | `tests/test_attack_surface_addons.py` | - | - | 76 |
@@ -902,8 +904,11 @@
 | `tests/test_lesson_ingestor.py` | - | - | 11 |
 | `tests/test_lint_quality.py` | - | - | 5 |
 | `tests/test_live_surface.py` | - | - | 10 |
+| `tests/test_llm_adapter_parity.py` | - | - | 41 |
 | `tests/test_llm_budget.py` | - | - | 27 |
-| `tests/test_llm_contract.py` | - | - | 16 |
+| `tests/test_llm_contract.py` | - | - | 23 |
+| `tests/test_llm_legacy_isolation.py` | - | - | 4 |
+| `tests/test_llm_prompts.py` | - | - | 27 |
 | `tests/test_logging_config.py` | - | - | 5 |
 | `tests/test_mcp_improvements.py` | - | - | 34 |
 | `tests/test_metrics.py` | - | - | 14 |
@@ -920,7 +925,7 @@
 | `tests/test_packaging.py` | - | - | 67 |
 | `tests/test_palette_overlay.py` | - | - | 10 |
 | `tests/test_payload_factory.py` | - | - | 32 |
-| `tests/test_payload_schema.py` | - | - | 46 |
+| `tests/test_payload_schema.py` | - | - | 53 |
 | `tests/test_phase1_data_gaps.py` | - | - | 55 |
 | `tests/test_phase_labels.py` | - | - | 5 |
 | `tests/test_pipeline_engine.py` | - | - | 65 |
@@ -939,7 +944,7 @@
 | `tests/test_scope_guard.py` | - | - | 43 |
 | `tests/test_scope_guard_integration.py` | - | - | 24 |
 | `tests/test_security_hardening.py` | - | - | 36 |
-| `tests/test_security_hardening_v2.py` | - | - | 38 |
+| `tests/test_security_hardening_v2.py` | - | - | 39 |
 | `tests/test_security_hardening_v3.py` | - | - | 64 |
 | `tests/test_security_hardening_v4.py` | - | - | 69 |
 | `tests/test_security_hardening_v5.py` | - | - | 42 |
@@ -964,6 +969,7 @@
 | `tests/test_unified_dashboard.py` | - | - | 18 |
 | `tests/test_vuln_mitigations.py` | - | - | 28 |
 | `tests/test_wizard_binary_check.py` | - | - | 26 |
+| `tests/test_wizard_llm.py` | - | - | 31 |
 | `tests/test_world_model_extended.py` | - | - | 21 |
 | `user_split.sh` | - | root | 0 |
 | `utils.py` | - | root | 124 |

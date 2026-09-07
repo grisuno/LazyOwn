@@ -139,7 +139,7 @@
   - `AESencrypt` (function, line 98) `def AESencrypt(plaintext, key)`
   - `AESdecrypt` (function, line 123) `def AESdecrypt(data, key)`
   - `dropFile` (function, line 154) `def dropFile(key, ciphertext)`
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ## core/dependencies.py
 - Layer: utility

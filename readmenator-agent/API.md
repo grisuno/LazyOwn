@@ -11026,37 +11026,37 @@
 ### generate_salt `def generate_salt(length)`
 - Defined: `core/crypto.py:24`
 - Doc: Generate a cryptographically random salt.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### derive_key `def derive_key(password, salt)`
 - Defined: `core/crypto.py:36`
 - Doc: Derive a Fernet-compatible key from a password using PBKDF2HMAC.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### xor_encrypt_decrypt `def xor_encrypt_decrypt(data, key)`
 - Defined: `core/crypto.py:67`
 - Doc: Return ``bytearray`` produced by XOR-ing each byte of ``data`` with ``key``.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### generate_xor_key `def generate_xor_key(length)`
 - Defined: `core/crypto.py:83`
 - Doc: Generate a random XOR key of the given length as a hex string.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### AESencrypt `def AESencrypt(plaintext, key)`
 - Defined: `core/crypto.py:98`
 - Doc: Encrypt ``plaintext`` with AES-256-GCM using a random nonce.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### AESdecrypt `def AESdecrypt(data, key)`
 - Defined: `core/crypto.py:123`
 - Doc: Decrypt data produced by ``AESencrypt``.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ### dropFile `def dropFile(key, ciphertext)`
 - Defined: `core/crypto.py:154`
 - Doc: Write AES key and ciphertext to ``sessions/cipher.bin`` and ``sessions/key.bin``.
-- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
 
 ## core/dependencies.py
 
@@ -19074,21 +19074,26 @@
 
 ### bootRun `int bootRun()`
 - Defined: `modules/backdoor/backdoor.c:17`
+- Depends on: `modules/backdoor/keylogger.h`
 
 ### str_cut `char *
 str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/backdoor/backdoor.c:47`
+- Depends on: `modules/backdoor/keylogger.h`
 
 ### Shell `void Shell()`
 - Defined: `modules/backdoor/backdoor.c:83`
+- Depends on: `modules/backdoor/keylogger.h`
 
 ### WinMain `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
 - Defined: `modules/backdoor/backdoor.c:124`
+- Depends on: `modules/backdoor/keylogger.h`
 
 ## modules/backdoor/keylogger.h
 
 ### logg `DWORD WINAPI logg(LPVOID lpParam)`
 - Defined: `modules/backdoor/keylogger.h:1`
+- Imported by: `modules/backdoor/backdoor.c`
 
 ## modules/backdoor/server.c
 
@@ -32019,30 +32024,37 @@ str_cut(char str[], int slice_from, int slice_to)`
 ### regs_override_return `static inline void regs_override_return(struct pt_regs *regs, long new_ret)`
 - Defined: `modules/rootkit/rootkit.c:43`
 - Doc: Define regs_override_return function
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### hooked_getdents `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)`
 - Defined: `modules/rootkit/rootkit.c:75`
 - Doc: Hooked getdents function
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### hooked_getdents64 `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)`
 - Defined: `modules/rootkit/rootkit.c:101`
 - Doc: Hooked getdents64 function
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### hooked_read `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)`
 - Defined: `modules/rootkit/rootkit.c:127`
 - Doc: Hooked read function to create a backdoor
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### disable_module_signature_verification `static void disable_module_signature_verification(void)`
 - Defined: `modules/rootkit/rootkit.c:181`
 - Doc: Function to disable module signature verification
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### hook_syscalls `static int __init hook_syscalls(void)`
 - Defined: `modules/rootkit/rootkit.c:195`
 - Doc: Function to hook system calls
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ### unhook_syscalls `static void __exit unhook_syscalls(void)`
 - Defined: `modules/rootkit/rootkit.c:208`
 - Doc: Function to unhook system calls
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ## modules/saas_attacks.py
 

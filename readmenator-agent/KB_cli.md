@@ -25,7 +25,7 @@
 - Symbols:
   - `apply_assign` (function, line 36) `def apply_assign(params, key, value)`
 - Depends on: `core/payload_schema.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `lazyown.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `lazyown.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_cli_assign.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `mutants/tests/test_payload_schema.py`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`
 
 ## cli/auto_crypto.py
 - Layer: utility
@@ -1676,47 +1676,50 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `BinarySpec` (class, line 82) `class BinarySpec`
-  - `BinaryStatus` (class, line 133) `class BinaryStatus`
-  - `ReadinessItem` (class, line 142) `class ReadinessItem`
-  - `WizardResult` (class, line 152) `class WizardResult`
-  - `run` (method, line 161) `def run(params, save)`
-  - `run_non_interactive` (method, line 226) `def run_non_interactive(params, save, values)`
-  - `_rotate_default_secrets` (method, line 292) `def _rotate_default_secrets(params, save)`
-  - `_print_secret_rotation` (method, line 340) `def _print_secret_rotation(rotated)`
-  - `_print_header` (method, line 356) `def _print_header()`
-  - `_print_glossary_panel` (method, line 371) `def _print_glossary_panel()`
-  - `_spec_long_help` (method, line 395) `def _spec_long_help(key)`
-  - `_print_long_help` (method, line 403) `def _print_long_help(key)`
-  - `_collect_values` (method, line 410) `def _collect_values(params)`
-  - `_ask_rhost` (method, line 446) `def _ask_rhost(current)`
-  - `_ask_lhost` (method, line 473) `def _ask_lhost(current)`
-  - `_ask_domain` (method, line 504) `def _ask_domain(current)`
-  - `_ask_device` (method, line 526) `def _ask_device(current)`
-  - `_ask_os_id` (method, line 552) `def _ask_os_id(current)`
-  - `_ask_api_key` (method, line 574) `def _ask_api_key(current)`
-  - `_ask_wordlists` (method, line 597) `def _ask_wordlists(params)`
-  - `_ask_operator_login` (method, line 629) `def _ask_operator_login(params)`
-  - `_wizard_login_flow` (method, line 691) `def _wizard_login_flow()`
-  - `_wizard_register_flow` (method, line 714) `def _wizard_register_flow()`
-  - `_ask_marketplace_config` (method, line 757) `def _ask_marketplace_config()`
-  - `_build_readiness` (method, line 780) `def _build_readiness(params)`
-  - `_print_readiness` (method, line 801) `def _print_readiness(items)`
-  - `check_binaries` (method, line 821) `def check_binaries(specs, which)`
-  - `_group_by_category` (method, line 862) `def _group_by_category(statuses)`
-  - `_print_binary_report` (method, line 871) `def _print_binary_report(statuses)`
-  - `_print_next_steps` (method, line 909) `def _print_next_steps(params)`
-  - `_print_validation_summary` (method, line 933) `def _print_validation_summary(params)`
-  - `_detect_lhost` (method, line 972) `def _detect_lhost()`
-  - `_detect_device` (method, line 994) `def _detect_device()`
-  - `_find_seclists_root` (method, line 1007) `def _find_seclists_root()`
-  - `_ping` (method, line 1015) `def _ping(ip)`
-  - `_prompt` (method, line 1028) `def _prompt(message)`
-  - `_ok` (method, line 1035) `def _ok(msg)`
-  - `_warn` (method, line 1039) `def _warn(msg)`
-  - `_info` (method, line 1043) `def _info(msg)`
-  - `_is_default` (method, line 314) `def _is_default(value)`
-  - `_is_weak` (method, line 317) `def _is_weak(value)`
-  - `_check` (method, line 783) `def _check(key, label, hint)`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`
+  - `BinarySpec` (class, line 89) `class BinarySpec`
+  - `BinaryStatus` (class, line 140) `class BinaryStatus`
+  - `ReadinessItem` (class, line 149) `class ReadinessItem`
+  - `WizardResult` (class, line 159) `class WizardResult`
+  - `run` (method, line 168) `def run(params, save)`
+  - `run_non_interactive` (method, line 233) `def run_non_interactive(params, save, values)`
+  - `_rotate_default_secrets` (method, line 299) `def _rotate_default_secrets(params, save)`
+  - `_print_secret_rotation` (method, line 347) `def _print_secret_rotation(rotated)`
+  - `_print_header` (method, line 363) `def _print_header()`
+  - `_print_glossary_panel` (method, line 378) `def _print_glossary_panel()`
+  - `_spec_long_help` (method, line 403) `def _spec_long_help(key)`
+  - `_print_long_help` (method, line 411) `def _print_long_help(key)`
+  - `_collect_values` (method, line 418) `def _collect_values(params)`
+  - `_ask_rhost` (method, line 453) `def _ask_rhost(current)`
+  - `_ask_lhost` (method, line 480) `def _ask_lhost(current)`
+  - `_ask_domain` (method, line 511) `def _ask_domain(current)`
+  - `_ask_device` (method, line 533) `def _ask_device(current)`
+  - `_ask_os_id` (method, line 559) `def _ask_os_id(current)`
+  - `_normalize_provider_answer` (method, line 581) `def _normalize_provider_answer(raw)`
+  - `_mask_secret` (method, line 602) `def _mask_secret(value)`
+  - `_ask_llm` (method, line 617) `def _ask_llm(params)`
+  - `_ask_wordlists` (method, line 688) `def _ask_wordlists(params)`
+  - `_ask_operator_login` (method, line 720) `def _ask_operator_login(params)`
+  - `_wizard_login_flow` (method, line 782) `def _wizard_login_flow()`
+  - `_wizard_register_flow` (method, line 805) `def _wizard_register_flow()`
+  - `_ask_marketplace_config` (method, line 848) `def _ask_marketplace_config()`
+  - `_build_readiness` (method, line 871) `def _build_readiness(params)`
+  - `_print_readiness` (method, line 923) `def _print_readiness(items)`
+  - `check_binaries` (method, line 943) `def check_binaries(specs, which)`
+  - `_group_by_category` (method, line 984) `def _group_by_category(statuses)`
+  - `_print_binary_report` (method, line 993) `def _print_binary_report(statuses)`
+  - `_print_next_steps` (method, line 1031) `def _print_next_steps(params)`
+  - `_print_validation_summary` (method, line 1055) `def _print_validation_summary(params)`
+  - `_detect_lhost` (method, line 1094) `def _detect_lhost()`
+  - `_detect_device` (method, line 1116) `def _detect_device()`
+  - `_find_seclists_root` (method, line 1129) `def _find_seclists_root()`
+  - `_ping` (method, line 1137) `def _ping(ip)`
+  - `_prompt` (method, line 1150) `def _prompt(message)`
+  - `_ok` (method, line 1157) `def _ok(msg)`
+  - `_warn` (method, line 1161) `def _warn(msg)`
+  - `_info` (method, line 1165) `def _info(msg)`
+  - `_is_default` (method, line 321) `def _is_default(value)`
+  - `_is_weak` (method, line 324) `def _is_weak(value)`
+  - `_check` (method, line 874) `def _check(key, label, hint)`
+  - `_check_llm` (method, line 883) `def _check_llm()`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `mutants/tests/test_doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`

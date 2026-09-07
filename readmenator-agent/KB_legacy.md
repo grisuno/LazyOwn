@@ -228,7 +228,7 @@
   - `process_prompt_redop` (function, line 382) `def process_prompt_redop(client, prompt, debug)`
   - `_deepseek_fallback` (function, line 392) `def _deepseek_fallback(prompt)`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `discord_c2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`, `modules/llm_adapter.py`, `slack_c2_bot.py`, `telegram_c2.py`
+- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
 
 ## modules/legacy/lazyhoneypot.py
 - Layer: utility

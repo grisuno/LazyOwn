@@ -47,7 +47,7 @@
   - `validate_session` (method, line 70) `def validate_session(self, user_id)`
   - `__init__` (method, line 85) `def __init__(self, config_dict)`
   - `__getitem__` (method, line 90) `def __getitem__(self, key)`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## fast_run_as_r00t.sh
 - Layer: utility
@@ -602,23 +602,23 @@
 - Doc: slack_c2_bot_socket.py
 - Language: py
 - Symbols:
-  - `SecureSessionManager` (class, line 28) `class SecureSessionManager`
-  - `capture_shell_output` (method, line 93) `def capture_shell_output(cmd)`
-  - `handle_message` (method, line 111) `def handle_message(event, say, logger)`
-  - `cmd_addcli` (method, line 173) `def cmd_addcli(ack, respond, command)`
-  - `cmd_clients` (method, line 190) `def cmd_clients(ack, respond, command)`
-  - `cmd_download` (method, line 203) `def cmd_download(ack, respond, command)`
-  - `handle_file` (method, line 233) `def handle_file(event, say, logger)`
-  - `mentioned` (method, line 243) `def mentioned(ack, say, event)`
-  - `__init__` (method, line 29) `def __init__(self)`
-  - `register_failed_attempt` (method, line 34) `def register_failed_attempt(self, user_id)`
-  - `check_lockout` (method, line 42) `def check_lockout(self, user_id)`
-  - `check_rate_limit` (method, line 52) `def check_rate_limit(self, user_id)`
-  - `create_session` (method, line 63) `def create_session(self, user_id)`
-  - `validate_session` (method, line 71) `def validate_session(self, user_id)`
-  - `set_client` (method, line 81) `def set_client(self, user_id, client_id)`
-  - `get_client` (method, line 85) `def get_client(self, user_id)`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`, `utils.py`
+  - `SecureSessionManager` (class, line 27) `class SecureSessionManager`
+  - `capture_shell_output` (method, line 92) `def capture_shell_output(cmd)`
+  - `handle_message` (method, line 110) `def handle_message(event, say, logger)`
+  - `cmd_addcli` (method, line 172) `def cmd_addcli(ack, respond, command)`
+  - `cmd_clients` (method, line 189) `def cmd_clients(ack, respond, command)`
+  - `cmd_download` (method, line 202) `def cmd_download(ack, respond, command)`
+  - `handle_file` (method, line 232) `def handle_file(event, say, logger)`
+  - `mentioned` (method, line 242) `def mentioned(ack, say, event)`
+  - `__init__` (method, line 28) `def __init__(self)`
+  - `register_failed_attempt` (method, line 33) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 41) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 51) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 62) `def create_session(self, user_id)`
+  - `validate_session` (method, line 70) `def validate_session(self, user_id)`
+  - `set_client` (method, line 80) `def set_client(self, user_id, client_id)`
+  - `get_client` (method, line 84) `def get_client(self, user_id)`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`, `utils.py`
 
 ## telegram_c2.py
 - Layer: utility
@@ -642,7 +642,7 @@
   - `validate_session` (method, line 62) `def validate_session(self, user_id)`
   - `__init__` (method, line 78) `def __init__(self, config_dict)`
   - `__getitem__` (method, line 83) `def __getitem__(self, key)`
-- Depends on: `core/parsers.py`, `lazyown.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## telegram_hermes.py
 - Layer: utility

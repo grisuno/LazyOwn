@@ -167,7 +167,7 @@ pydantic==2.13.3
 pydantic_core==2.46.3
 pyelftools==0.33
 PyGetWindow==0.0.9
-Pygments==2.20.0
+Pygments==2.21.0
 pykeepass==4.1.1.post1
 PyMsgBox==2.0.1
 PyNaCl==1.6.2

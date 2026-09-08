@@ -10,7 +10,10 @@ README, guides and agent context never contradict each other again:
 - ``aliases``        — keys in cli/aliases.yaml
 - ``addons``         — lazyaddons/*.yaml
 - ``plugins``        — plugins/*.lua
+- ``plugin_files``   — every file in plugins/
+- ``tools``          — tools/*.tool
 - ``playbooks``      — playbooks/*.yaml
+- ``version``        — ``version =`` in pyproject.toml
 
 Usage:
     python3 scripts/sync_doc_stats.py           apply the replacements in place
@@ -63,6 +66,13 @@ REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
     ("README.md", r"exposes \d+ tools", "exposes {mcp_tools} tools"),
     ("README.md", r"exposes \d+ LazyOwn tools", "exposes {mcp_tools} LazyOwn tools"),
     ("README.md", r"MCP Tool Groups \(\d+ tools\)", "MCP Tool Groups ({mcp_tools} tools)"),
+    ("README.md", r"\*\*\d+\+ Attack Commands\*\*", "**{cli_commands} Attack Commands**"),
+    ("README.md", r"provides \d+\+ commands across", "provides {cli_commands} commands across"),
+    ("README.md", r"Full \d+\+ command reference", "Full {cli_commands} command reference"),
+    ("README.md", r"-- \d+\+ YAML addons, \d+ plugins, \d+ tools",
+     "-- {addons} YAML addons, {plugin_files} plugins, {tools} tools"),
+    ("README.md", r"## v\d+\.\d+\.\d+ Highlights", "## v{version} Highlights"),
+    ("README.md", r"Release history \(v0\.0\.1 to v\d+\.\d+\.\d+\)", "Release history (v0.0.1 to v{version})"),
 )
 
 
@@ -79,7 +89,16 @@ def canonical_command_count(root: Path = REPO_ROOT) -> int:
     return int(document["totals"]["unique_commands"])
 
 
-def measure_stats(root: Path = REPO_ROOT) -> dict[str, int]:
+def project_version(root: Path = REPO_ROOT) -> str:
+    """Read the package version from pyproject.toml, ``0.0.0`` when absent."""
+    pyproject = root / "pyproject.toml"
+    if not pyproject.is_file():
+        return "0.0.0"
+    match = re.search(r'^version\s*=\s*"([^"]+)"', pyproject.read_text(encoding="utf-8"), re.M)
+    return match.group(1) if match else "0.0.0"
+
+
+def measure_stats(root: Path = REPO_ROOT) -> dict[str, int | str]:
     """Measure every published count from the live tree.
 
     Args:
@@ -89,6 +108,8 @@ def measure_stats(root: Path = REPO_ROOT) -> dict[str, int]:
     bridge_source = (root / "modules" / "lazyown_bridge.py").read_text(encoding="utf-8")
     aliases = yaml.safe_load((root / "cli" / "aliases.yaml").read_text(encoding="utf-8"))
     cli_commands = canonical_command_count(root)
+    plugins_dir = root / "plugins"
+    tools_dir = root / "tools"
     return {
         "cli_commands": cli_commands,
         "cli_hundreds": (cli_commands // 100) * 100,
@@ -97,16 +118,19 @@ def measure_stats(root: Path = REPO_ROOT) -> dict[str, int]:
         "aliases": len(aliases or {}),
         "addons": len(list((root / "lazyaddons").glob("*.yaml"))),
         "plugins": len(list((root / "plugins").glob("*.lua"))),
+        "plugin_files": len([p for p in plugins_dir.iterdir() if p.is_file()]) if plugins_dir.is_dir() else 0,
+        "tools": len(list(tools_dir.glob("*.tool"))) if tools_dir.is_dir() else 0,
         "playbooks": len(list((root / "playbooks").glob("*.yaml"))),
+        "version": project_version(root),
     }
 
 
-def render(template: str, stats: dict[str, int]) -> str:
+def render(template: str, stats: dict[str, object]) -> str:
     """Format one replacement template with the measured stats."""
     return template.format(**stats)
 
 
-def sync(check: bool, stats: dict[str, int], root: Path = REPO_ROOT) -> list[str]:
+def sync(check: bool, stats: dict[str, object], root: Path = REPO_ROOT) -> list[str]:
     """Apply or verify every replacement; return the list of stale spots.
 
     Args:

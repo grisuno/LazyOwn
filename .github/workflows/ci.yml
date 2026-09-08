@@ -50,6 +50,36 @@ jobs:
         env:
           LAZYOWN_TEST_MODE: "1"
 
+  hygiene:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install pyyaml
+        run: pip install pyyaml
+      - name: Top-tier hygiene audit
+        run: python3 scripts/top_tier_check.py
+      - name: Doc stats in sync
+        run: python3 scripts/sync_doc_stats.py --check
+
+  sbom:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Generate SBOM
+        run: python3 scripts/generate_sbom.py --out sbom.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: sbom
+          path: sbom.json
+
   security:
     needs: lint
     runs-on: ubuntu-latest

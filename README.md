@@ -30,11 +30,11 @@
 LazyOwn comes with ABSOLUTELY NO WARRANTY. This is free software, and you are  welcome to redistribute it under the terms of the GNU General Public License v3.
 See the LICENSE file for details about using this software.
 
- # LazyOwn RedTeam Framework v0.2.158
+ # LazyOwn RedTeam Framework v0.2.161
 
-LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 606+ CLI commands, 126 aliases, 148 MCP tools for AI agents, a multi-operator web C2 dashboard, and 120+ YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
+LazyOwn is a professional red team framework and Command & Control (C2) platform built for penetration testers, red teams, and security researchers. It delivers 741 CLI commands, 126 aliases, 153 MCP tools for AI agents, a multi-operator web C2 dashboard, and 137 YAML/Lua plugin integrations covering the full kill chain across Linux, Windows, macOS, and BSD.
 
-**New in v0.2.158:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
+**New in v0.2.161:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
 
 ## Quickstart in three commands
 
@@ -828,7 +828,7 @@ pinned for reproducible installs:
 
 ## Key Features
 
-1. **606+ Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
+1. **741 Attack Commands**: Full kill-chain coverage across Linux, Windows, macOS, and BSD — recon, enum, exploit, privesc, lateral movement, credential access, C2, exfiltration, and reporting.
 2. **Interactive cmd2 CLI**: Fuzzy autocomplete, neon-box configurable prompt, command palette (`Ctrl+K`), inline reactive hints after every command, and a Textual TUI dashboard.
 3. **Integrated Marketplace**: `yara_marketplace` (10 built-in rules: ransomware, C2, webshells, obfuscation, privesc), `nuclei_marketplace` (500+ templates), `marketplace` for community plugins/addons — all browsable via curses TUI.
 4. **auto_pwn & hunt**: Autonomous exploitation chaining and threat-informed recon — `auto_pwn` walks kill-chain phases automatically, `hunt` executes targeted discovery based on known TTPs.
@@ -893,7 +893,7 @@ pinned for reproducible installs:
 
 ---
 
-## v0.2.158 Highlights
+## v0.2.161 Highlights
 
 ### Unified kill-chain (single source of truth)
 - `modules/killchain.py` computes the phase; every surface (CLI `/killchain`,
@@ -910,7 +910,7 @@ pinned for reproducible installs:
 Browse, search, and install from a unified marketplace TUI:
 - `yara_marketplace list|search|install|info` -- 10 built-in rules (ransomware, C2, webshells, obfuscation, privesc)
 - `nuclei_marketplace list|search|install|info` -- 500+ templates from `~/nuclei-templates`
-- `marketplace list|search|install|update` -- 120+ YAML addons, 56 plugins, 69 tools
+- `marketplace list|search|install|update` -- 137 YAML addons, 57 plugins, 69 tools
 
 ### auto_pwn & hunt
 - `auto_pwn` -- autonomous kill-chain walk from recon to exploitation
@@ -978,7 +978,7 @@ mutmut run  # 122/228 killed, 53.5% kill rate on core/hardening.py
 
 ## Command Capabilities
 
-LazyOwn provides 606+ commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
+LazyOwn provides 741 commands across 13 kill-chain phases, available from both CLI and web C2 dashboard:
 
 | Phase | Highlight Commands |
 |-------|-------------------|
@@ -19152,11 +19152,11 @@ Scrub file timestamps and shell history on the target.
 
 | Document | Contents |
 |----------|----------|
-| [`COMMANDS.md`](COMMANDS.md) | Full 606+ command reference (auto-generated) |
+| [`COMMANDS.md`](COMMANDS.md) | Full 741 command reference (auto-generated) |
 | [`CHEATSHEET.md`](CHEATSHEET.md) | ~50 frequent commands by user goal |
 | [`ESSENTIALS.md`](ESSENTIALS.md) | 18 core commands for 80% of engagements |
 | [`QUICKSTART.md`](QUICKSTART.md) | 5-minute setup and onboarding |
-| [`CHANGELOG.md`](CHANGELOG.md) | Release history (v0.0.1 to v0.2.158) |
+| [`CHANGELOG.md`](CHANGELOG.md) | Release history (v0.0.1 to v0.2.161) |
 | [`COMPARISON.md`](COMPARISON.md) | Honest comparison vs Sliver, Havoc, Mythic, Empire, Caldera, Metasploit |
 | [`specs.md`](specs.md) | Architecture and specifications |
 | [`CLAUDE.md`](CLAUDE.md) | Developer reference |

@@ -20,7 +20,7 @@ import sys
 def _read_line(prompt: str) -> str:
     try:
         return input(prompt).strip()
-    except EOFError:
+    except (EOFError, KeyboardInterrupt, OSError):
         return ""
 
 

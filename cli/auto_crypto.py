@@ -30,11 +30,14 @@ Design contract (SOLID):
 
 from __future__ import annotations
 
+import logging
 import os
 import secrets
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+
+_log = logging.getLogger(__name__)
 
 SALT_FILE: str = ".auto_crypto_salt"
 ENCRYPTED_SUFFIX: str = ".encrypted"
@@ -106,9 +109,12 @@ class AutoCryptoEngine:
         matched_encrypted = False
         for pattern in self._config.protect_globs:
             for path in sessions.glob(pattern):
-                with open(path, "rb") as fh:
-                    header = fh.read(32)
-                if header and header[:4] == b"\x80\x00\x00\x00":
+                try:
+                    with open(path, "rb") as fh:
+                        header = fh.read(32)
+                except OSError:
+                    continue
+                if header and (header.startswith(b"gAAAAA") or header[:4] == b"\x80\x00\x00\x00"):
                     matched_encrypted = True
                     break
             if matched_encrypted:
@@ -149,13 +155,18 @@ class AutoCryptoEngine:
                         data = fh.read()
                     encrypted_data = cipher.encrypt(data)
                     encrypted_path = sessions / f"{path.name}{ENCRYPTED_SUFFIX}"
-                    tmp_path = encrypted_path.with_suffix(".tmp")
+                    tmp_path = encrypted_path.with_name(f"{encrypted_path.name}.{os.getpid()}.tmp")
                     with open(tmp_path, "wb") as fh:
                         fh.write(encrypted_data)
                     tmp_path.replace(encrypted_path)
                     os.remove(path)
                     encrypted_count += 1
-                except Exception:
+                except OSError as exc:
+                    _log.warning("auto_crypto: skipping %s: %s", path, exc)
+                    try:
+                        tmp_path.unlink(missing_ok=True)  # type: ignore[possibly-undefined]
+                    except OSError:
+                        pass
                     continue
 
         return encrypted_count > 0
@@ -191,10 +202,10 @@ class AutoCryptoEngine:
                         continue
                     try:
                         with open(path, "rb") as fh:
-                            header = fh.read(4)
-                        if header == b"\x80\x00\x00\x00":
+                            header = fh.read(8)
+                        if header.startswith(b"gAAAAA") or header[:4] == b"\x80\x00\x00\x00":
                             encrypted_files.append(path)
-                    except Exception:
+                    except OSError:
                         continue
 
         for path in encrypted_files:
@@ -209,14 +220,18 @@ class AutoCryptoEngine:
                     original_path = sessions / original_name
                 else:
                     original_path = path
-                tmp_path = Path(str(original_path) + ".tmp")
+                tmp_path = Path(f"{original_path}.{os.getpid()}.tmp")
                 with open(tmp_path, "wb") as fh:
                     fh.write(decrypted_data)
                 tmp_path.replace(original_path)
                 if path.name.endswith(ENCRYPTED_SUFFIX):
                     os.remove(path)
                 decrypted_count += 1
-            except (InvalidToken, Exception):
+            except InvalidToken:
+                _log.warning("auto_crypto: wrong password or corrupt file %s", path)
+                continue
+            except OSError as exc:
+                _log.warning("auto_crypto: skipping %s: %s", path, exc)
                 continue
 
         return decrypted_count > 0
@@ -231,14 +246,34 @@ class AutoCryptoEngine:
             return None
 
     def _load_or_create_salt(self) -> bytes:
-        if self._salt_path.exists():
+        try:
             raw = self._salt_path.read_bytes()
             if len(raw) >= 16:
                 return raw[:16]
+        except FileNotFoundError:
+            pass
+        except OSError as exc:
+            _log.warning("auto_crypto: cannot read salt: %s", exc)
         salt = secrets.token_bytes(16)
         self._salt_path.parent.mkdir(parents=True, exist_ok=True)
-        self._salt_path.write_bytes(salt)
-        return salt
+        try:
+            fd = os.open(self._salt_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+            try:
+                os.write(fd, salt)
+            finally:
+                os.close(fd)
+            return salt
+        except FileExistsError:
+            try:
+                raw = self._salt_path.read_bytes()
+                if len(raw) >= 16:
+                    return raw[:16]
+            except OSError:
+                pass
+            return salt
+        except OSError as exc:
+            _log.warning("auto_crypto: cannot write salt: %s", exc)
+            return salt
 
     @staticmethod
     def _derive_key(password: str, salt: bytes) -> bytes:

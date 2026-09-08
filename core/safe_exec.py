@@ -29,7 +29,7 @@ log = logging.getLogger("core.safe_exec")
 
 _URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]+$")
 
-_SHELL_META_PATTERN = re.compile(r"[;&|`$(){}!\n\r]")
+_SHELL_META_PATTERN = re.compile(r"[;&|`$(){}!><*?~#`'\"\\\n\r]")
 
 _MAX_COMMAND_LENGTH = 8192
 
@@ -53,6 +53,10 @@ def safe_system(command: str, *, reason: str = "") -> int:
     Only allows pre-defined, non-user-controlled command strings.
     Rejects any command containing shell metacharacters that could
     indicate injection.
+
+    Prefer :func:`safe_run_argv` for any new call site: this helper keeps
+    ``shell=True`` for legacy fixed strings and must never receive
+    interpolated user input.
 
     Args:
         command: A fixed command string (no user interpolation).
@@ -246,7 +250,11 @@ def safe_ip_show(interface: str = "scope global") -> list[dict[str, str]]:
     Returns:
         List of dicts with 'interface' and 'address' keys.
     """
-    argv = ["ip", "a", "show"] + shlex.split(interface)
+    allowed_tokens = {"scope", "global", "up", "-o", "-4", "-6"}
+    parts = shlex.split(interface)
+    if any(part not in allowed_tokens for part in parts):
+        raise CommandInjectionError(f"Unexpected ip filter token: {interface[:80]}")
+    argv = ["ip", "a", "show"] + parts
     try:
         result = safe_run_argv(argv, timeout=5)
     except (FileNotFoundError, subprocess.TimeoutExpired):

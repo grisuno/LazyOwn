@@ -167,10 +167,9 @@ class GraphOverlayState:
         return "link"
 
     def _truncate(self, value: str) -> str:
-        if len(value) <= self.config.summary_max_chars:
-            return value
-        keep = max(1, self.config.summary_max_chars - len(self.config.truncation_suffix))
-        return value[:keep] + self.config.truncation_suffix
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, self.config.summary_max_chars, marker=self.config.truncation_suffix)
 
     def _advisor(self) -> Any | None:
         try:

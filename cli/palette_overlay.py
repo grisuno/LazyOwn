@@ -128,10 +128,9 @@ class PaletteOverlayState:
         return 0.0
 
     def _truncate(self, value: str, max_chars: int) -> str:
-        if len(value) <= max_chars:
-            return value
-        keep = max(1, max_chars - len(self.config.truncation_suffix))
-        return value[:keep] + self.config.truncation_suffix
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, max_chars, marker=self.config.truncation_suffix)
 
 
 def _load_recents() -> tuple[str, ...]:

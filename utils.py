@@ -1030,9 +1030,16 @@ def run(command):
     Additional Notes:
     The function attempts to execute the provided command, capturing its output.
     It also handles common exceptions that may occur during command execution.
+    Secrets in the command line are redacted from console output.
     """
+    import re as _re
+
+    def _redact(text: object) -> str:
+        cleaned = str(text)
+        return _re.sub(r"(?i)(password|passwd|api[_-]?key|secret|token|ssapass)\s*[:=]\s*\S+", r"\1=***", cleaned)
+
     try:
-        print_msg(f"Attempting to execute: {command}")
+        print_msg(f"Attempting to execute: {_redact(command)}")
         from core.safe_subprocess import SafeRunner
         result = SafeRunner().run_shell(
             command,
@@ -1040,18 +1047,18 @@ def run(command):
             reason="legacy utils.run call site; requires opt-in at every invocation",
         )
         if result.returncode != 0:
-            print_error(f"Command failed with exit code {result.returncode}: {command}")
+            print_error(f"Command failed with exit code {result.returncode}: {_redact(command)}")
             return result.stderr or f"exit={result.returncode}"
         print_msg(result.stdout)
         return result.stdout.strip()
     except FileNotFoundError as fnf_error:
-        print_error(f"Command not found: {command}")
+        print_error(f"Command not found: {_redact(command)}")
         return str(fnf_error)
     except subprocess.CalledProcessError as cpe_error:
-        print_error(f"Command failed with exit code {cpe_error.returncode}: {command}")
+        print_error(f"Command failed with exit code {cpe_error.returncode}: {_redact(command)}")
         return str(cpe_error)
     except subprocess.TimeoutExpired as te_error:
-        print_error(f"Command timed out: {command}")
+        print_error(f"Command timed out: {_redact(command)}")
         return str(te_error)
     except Exception as e:
         print_error(f"An unexpected error occurred: {str(e)}")

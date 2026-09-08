@@ -59,6 +59,15 @@ from rich.text import Text
 from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
 from cli.phase_labels import PHASE_LABELS
 
+from cli.engagement_hooks import (
+    ELO_BASE,
+    ELO_FIRST_TIME_BONUS,
+    ELO_NEW_PHASE_BONUS,
+    KARMA_THRESHOLDS,
+    KARMA_TOP,
+    EngagementState,
+)
+
 SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
 
 HINTS_LEVEL_ON = "on"
@@ -100,22 +109,8 @@ VRI_RECENT_REWARDS_WINDOW: int = 20
 
 EXPLORATION_BAR_WIDTH: int = 20
 
-ELO_BASE: int = 5
-ELO_FIRST_TIME_BONUS: int = 25
-ELO_NEW_PHASE_BONUS: int = 50
-
 SEPARATOR_NARROW: int = 40
 SEPARATOR_WIDE: int = 60
-
-KARMA_THRESHOLDS: tuple[tuple[int, str], ...] = (
-    (1000, "Noob"),
-    (2000, "Rookie"),
-    (3000, "Skidy"),
-    (4000, "Hacker"),
-    (5000, "Pro"),
-    (6000, "Elite"),
-)
-KARMA_TOP: str = "Godlike"
 
 COMMAND_NAME_RE: re.Pattern[str] = re.compile(r"^do_[a-z][a-z0-9_]*$")
 
@@ -186,25 +181,6 @@ class TipsConfig:
     hints_level: str = DEFAULT_UI_HINTS
 
     killchain_display: Callable[[], None] | None = None
-
-
-@dataclass
-class EngagementState:
-    """Persisted cross-session engagement metrics."""
-
-    total_commands: int = 0
-    session_commands: int = 0
-    commands_seen: list[str] = field(default_factory=list)
-    phases_entered: list[str] = field(default_factory=list)
-    rewards_given: list[str] = field(default_factory=list)
-    session_curiosity_shown: list[str] = field(default_factory=list)
-    next_reward_at: int = 0
-    session_start_ts: float = field(default_factory=time.time)
-    last_cmd: str = ""
-    elo: int = 0
-    last_karma_name: str = "Noob"
-    elo_session_delta: int = 0
-    badges: list[str] = field(default_factory=list)
 
 
 class TipsEngine:
@@ -999,8 +975,12 @@ class TipsEngine:
 
     def _load_command_index(self) -> dict[str, Any]:
         try:
-            return json.loads(Path(self.config.command_index_path).read_text(encoding="utf-8"))
-        except Exception:
+            from cli.palette import CommandIndexError, load_index
+        except ImportError:
+            return {}
+        try:
+            return load_index(self.config.command_index_path)
+        except (CommandIndexError, OSError, ValueError):
             return {}
 
     def _is_recordable_command(self, cmd: str) -> bool:
@@ -1056,9 +1036,9 @@ class TipsEngine:
 
     @staticmethod
     def _truncate(value: str, max_len: int) -> str:
-        if len(value) <= max_len:
-            return value
-        return value[: max_len - 1] + "\u2026"
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, max_len)
 
     @staticmethod
     def _get_karma_name(elo: int) -> str:
@@ -1265,61 +1245,11 @@ def build_default_tips_config() -> TipsConfig:
     """
     from cli.reactive_hints import _KILL_CHAIN_NEXT, _PHASE_PRIORITY
 
-    high_value_cmds: dict[str, int] = {
-        "lazynmap": 15,
-        "rustscan": 12,
-        "nmap": 12,
-        "gobuster": 8,
-        "ffuf": 8,
-        "feroxbuster": 8,
-        "nikto": 10,
-        "whatweb": 6,
-        "enum4linux": 12,
-        "kerbrute": 20,
-        "crackmapexec": 25,
-        "secretsdump": 35,
-        "evil-winrm": 30,
-        "hashcat": 30,
-        "john": 25,
-        "responder": 30,
-        "mimikatz": 35,
-        "linpeas": 25,
-        "winpeas": 25,
-        "pspy64": 15,
-        "printspoofer": 20,
-        "juicypotato": 20,
-        "sudo_privesc": 20,
-        "whoami_priv": 10,
-        "crystal_ball": 18,
-        "searchsploit": 10,
-        "sqlmap": 20,
-        "burpsuite": 15,
-        "psexec": 25,
-        "chisel": 15,
-        "lazyc2": 20,
-        "phase": 10,
-        "note": 5,
-        "tasks": 5,
-        "sitrep": 5,
-        "ctx": 3,
-        "auto_pwn": 30,
-        "chain": 20,
-        "hunt": 25,
-        "nuclei": 18,
-        "yara_scan": 15,
-    }
+    from cli.engagement_hooks import ELO_HIGH_VALUE_CMDS, ELO_PHASE_BONUS
 
-    phase_bonus: dict[str, int] = {
-        "recon": 5,
-        "enum": 8,
-        "exploit": 25,
-        "cred": 20,
-        "privesc": 30,
-        "lateral": 25,
-        "postexp": 15,
-        "exfil": 20,
-        "c2": 12,
-    }
+    high_value_cmds: dict[str, int] = dict(ELO_HIGH_VALUE_CMDS)
+
+    phase_bonus: dict[str, int] = dict(ELO_PHASE_BONUS)
 
     evidence_hints = True
     try:

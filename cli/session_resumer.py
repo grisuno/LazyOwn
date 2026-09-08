@@ -13,6 +13,8 @@ Design contract:
 from __future__ import annotations
 
 import json
+import logging
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
@@ -94,9 +96,9 @@ class SessionResumer:
             if world_model.exists():
                 try:
                     wm_data = json.loads(world_model.read_text())
-                    phase = wm_data.get("phase", "unknown")
-                except Exception:
-                    pass
+                    phase = str(wm_data.get("phase", "unknown"))
+                except (OSError, ValueError) as exc:
+                    logging.getLogger(__name__).debug("Ignoring corrupt world model %s: %s", world_model, exc)
 
             try:
                 mtime = max(
@@ -128,6 +130,8 @@ class SessionResumer:
         """Render the resume panel and return the selected target IP, or None."""
         summaries = self._discover_targets()
         if not summaries:
+            return None
+        if not sys.stdin.isatty():
             return None
 
         import time
@@ -172,7 +176,7 @@ class SessionResumer:
 
         try:
             choice = input("  Resume which session? [number/Enter]: ").strip()
-        except (EOFError, KeyboardInterrupt):
+        except (EOFError, KeyboardInterrupt, OSError):
             return None
 
         if not choice:

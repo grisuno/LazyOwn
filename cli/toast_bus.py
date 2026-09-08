@@ -299,11 +299,9 @@ class ToastFormatter:
         return self._config.default_role
 
     def _truncate(self, value: str) -> str:
-        limit = self._config.max_line_chars
-        if len(value) <= limit:
-            return value
-        keep = max(1, limit - len(self._config.truncation_suffix))
-        return value[:keep] + self._config.truncation_suffix
+        from core.text_utils import truncate_text
+
+        return truncate_text(value, self._config.max_line_chars, marker=self._config.truncation_suffix)
 
 
 class ToastBus:

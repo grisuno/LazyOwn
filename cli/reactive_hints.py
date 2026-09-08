@@ -276,7 +276,9 @@ def _extract_labels(suggestions: list[dict], limit: int) -> list[str]:
 
 
 def _truncate(value: str, max_len: int) -> str:
-    return value if len(value) <= max_len else value[: max_len - 1] + "…"
+    from core.text_utils import truncate_text
+
+    return truncate_text(value, max_len)
 
 
 def _render(labels: list[str]) -> None:

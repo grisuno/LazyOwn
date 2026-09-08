@@ -334,11 +334,9 @@ class AutoSuggestEngine:
 
 def _truncate(value: str, max_len: int) -> str:
     """Return ``value`` shortened to ``max_len`` characters with an ellipsis."""
-    if max_len <= 3:
-        return value[:max_len]
-    if len(value) <= max_len:
-        return value
-    return value[: max_len - 3] + "..."
+    from core.text_utils import truncate_text
+
+    return truncate_text(value, max_len, marker="...")
 
 
 def format_hint_line(

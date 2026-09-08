@@ -4,8 +4,8 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 245.20)
-- `utils.py` (score: 178.40)
+- `core/logging.py` (score: 249.20)
+- `utils.py` (score: 178.50)
 - `skills/lazyown_mcp.py` (score: 148.10)
 - `cli/commands/_base.py` (score: 144.50)
 - `lazyown.py` (score: 116.20)

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-preset="classic">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Delivery Workflow | Live System Map</title>
+<link href="https://unpkg.com/vis-network@9/styles/vis-network.min.css" rel="stylesheet">
+<script src="https://unpkg.com/vis-network@9/standalone/umd/vis-network.min.js"></script>
+<style>
+:root{--canvas:#020617;--mask:#0f172a;--ink:#ffffff;--muted:#94a3b8;--border:#1e293b;--box:#0f172a;--boxink:#ffffff}
+html[data-theme="light"]{--canvas:#f8fafc;--mask:#ffffff;--ink:#0f172a;--muted:#475569;--border:#e2e8f0;--box:#ffffff;--boxink:#0f172a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+.toolbar{display:flex;gap:8px;align-items:center;padding:10px 14px;background:var(--mask);border-bottom:1px solid var(--border);flex-wrap:wrap}
+.brand{font-weight:700;font-size:14px;letter-spacing:.04em}
+.kind{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em}
+.live{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;border:1px solid var(--border);border-radius:999px;padding:3px 10px}
+.toolbar input{background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;min-width:220px;font:inherit;font-size:12px}
+.toolbar button{background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:inherit;font-size:12px;cursor:pointer;min-height:32px}
+.toolbar button:hover,.toolbar button:focus-visible{border-color:#22d3ee;outline:2px solid #22d3ee;outline-offset:2px}
+.home-link{color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;text-decoration:none;background:var(--canvas)}
+.home-link:hover,.home-link:focus-visible{border-color:#22d3ee;outline:2px solid #22d3ee;outline-offset:2px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 320px;min-height:calc(100vh - 53px)}
+.stage{position:relative;padding:16px;overflow:auto}
+#network{width:100%;height:78vh;min-height:520px;background:var(--canvas);border:1px solid var(--border);border-radius:16px}
+#network:focus-visible{outline:2px solid #22d3ee;outline-offset:3px}
+.symbols{font-size:11px;margin-top:10px;overflow:auto}
+.symbols table{width:100%;border-collapse:collapse}
+.symbols th{text-align:left;color:var(--muted);font-weight:400;border-bottom:1px solid var(--border);padding:3px 4px}
+.symbols td{border-bottom:1px solid var(--border);padding:3px 4px;vertical-align:top}
+.symbols code{font-size:11px}
+.symbols .filedoc{color:var(--muted);margin:0 0 8px;line-height:1.6}
+.symbols .neighbors{color:var(--muted);margin:8px 0 0;line-height:1.6}
+.passport{background:var(--mask);border-left:1px solid var(--border);padding:16px;overflow:auto}
+.passport h2{font-size:13px;margin:0 0 8px}
+.passport .row{font-size:12px;color:var(--muted);margin:6px 0;line-height:1.7}
+.counts{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.chip{border:1px solid var(--border);border-radius:999px;padding:3px 10px;font-size:11px;color:var(--ink);background:transparent;cursor:pointer;font:inherit}
+.views{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}
+.views button{background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:6px 9px;font:inherit;font-size:11px;cursor:pointer}
+.journey{font-size:12px;line-height:1.7}
+.receipt{font-size:11px;color:var(--muted);border:1px solid var(--border);border-radius:8px;padding:8px;margin-top:10px}
+.routebox{display:flex;gap:6px;margin-top:8px}
+.routebox input{flex:1;background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:7px;font:inherit;font-size:12px;min-width:0}
+.routebox button{background:var(--canvas);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font:inherit;font-size:12px;cursor:pointer}
+.present .layout{grid-template-columns:minmax(0,1fr)}
+.present .passport{display:none}
+dialog{background:var(--mask);color:var(--ink);border:1px solid var(--border);border-radius:12px;max-width:520px}
+dialog kbd{border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:11px}
+@media (max-width:960px){.layout{grid-template-columns:minmax(0,1fr)}.passport{border-left:none;border-top:1px solid var(--border)}}
+</style>
+</head>
+<body>
+<header class="toolbar" aria-label="Map controls">
+<span class="brand">System Maps</span>
+<span class="live">Live physics</span>
+<a class="home-link" href="index.html">Gallery</a>
+<span class="kind">workflow | Delivery Workflow</span>
+<input id="search" type="search" placeholder="Search nodes ( / )" aria-label="Search nodes" title="Filter nodes by label or id. Shortcut: /">
+<button type="button" data-action="reach-up" aria-label="Trace upstream reach" title="Show everything that reaches the focused node (authored relationships only)">Upstream</button>
+<button type="button" data-action="reach-down" aria-label="Trace downstream reach" title="Show everything the focused node reaches (authored relationships only)">Downstream</button>
+<button type="button" data-action="lens" aria-label="Compare roles" title="Highlight one semantic role and compare counts; activate again to clear">Lens</button>
+<button type="button" data-action="views-prev" aria-label="Previous chapter" title="Show the previous guided chapter">[</button>
+<button type="button" data-action="views-next" aria-label="Next chapter" title="Show the next guided chapter">]</button>
+<button type="button" data-action="play" aria-label="Play guided story" title="Play all guided chapters in order">Play</button>
+<button type="button" data-action="stabilize" aria-label="Stabilize layout" title="Re-run the physics stabilization">Stabilize</button>
+<button type="button" data-action="physics" aria-label="Toggle physics" title="Freeze or resume the live physics engine">Physics</button>
+<button type="button" data-action="present" aria-label="Enter presentation stage" title="Hide the side panel for presenting">Present</button>
+<button type="button" data-action="style" aria-label="Cycle visual preset" title="Cycle visual preset: classic, flow, blueprint, editorial">Style</button>
+<button type="button" data-action="theme" aria-label="Toggle theme" title="Toggle dark and light themes">Theme</button>
+<button type="button" data-action="export" aria-label="Open export menu" title="Download a PNG snapshot or the typed JSON">Export</button>
+<button type="button" data-action="help" aria-label="Open diagram guide" title="Open the diagram guide with every shortcut">?</button>
+</header>
+<div class="layout">
+<main class="stage">
+<div id="network" tabindex="0" role="application" aria-label="Delivery Workflow live network. Drag nodes to rearrange them."></div>
+</main>
+<aside class="passport" aria-live="polite" aria-label="Semantic passport">
+<h2 id="passport-title">Diagram guide</h2>
+<div class="row" id="passport-meta"></div>
+<div class="views" id="chapters"></div>
+<div class="counts" id="role-counts"></div>
+<div class="row">1. Drag any node; physics settles the rest. 2. Click a node to focus it. 3. Upstream and Downstream trace authored reach. 4. Path probes the exact route between two ids. 5. Play walks the guided chapters. Press ? for every shortcut. This page loads its network engine from a CDN and needs network access.</div>
+<div class="routebox"><input id="route-from" placeholder="route from id" aria-label="Route source" title="Source node id for the route probe"><input id="route-to" placeholder="route to id" aria-label="Route target" title="Target node id for the route probe"><button type="button" data-action="route" aria-label="Probe directed route" title="Highlight the shortest authored directed path">Path</button></div>
+<div class="journey" id="journey"></div>
+<div class="symbols" id="node-symbols"></div>
+<div class="receipt" id="receipt"></div>
+</aside>
+</div>
+<dialog id="guide" aria-label="Diagram guide dialog">
+<h2>Diagram guide</h2>
+<p><kbd>/</kbd> search &middot; <kbd>R</kbd> route probe &middot; <kbd>L</kbd> role lens &middot; <kbd>P</kbd> play &middot; <kbd>[</kbd> <kbd>]</kbd> chapters &middot; <kbd>F</kbd> present &middot; <kbd>S</kbd> style &middot; <kbd>T</kbd> theme &middot; <kbd>E</kbd> export &middot; <kbd>+</kbd> <kbd>-</kbd> <kbd>0</kbd> zoom &middot; <kbd>B</kbd> physics</p>
+<p>Drag nodes freely; Stabilize re-runs the physics engine and Physics freezes it. Reach, routes, lens, and chapters reuse authored relationships only. Deep links restore <code>#focus=id</code>, <code>#focus=id&amp;reach=upstream|downstream</code>, <code>#route=a~b</code>, <code>#lens=role</code>, and <code>#view=id</code>.</p>
+<button type="button" data-action="close-guide" title="Close the diagram guide">Close</button>
+</dialog>
+<dialog id="exports" aria-label="Export dialog">
+<h2>Export</h2>
+<p>PNG captures the live canvas; JSON carries the typed source.</p>
+<button type="button" data-action="export-png" title="Download a PNG snapshot of the live canvas">Download PNG</button>
+<button type="button" data-action="export-json" title="Download the typed JSON behind this diagram">Download typed JSON</button>
+<button type="button" data-action="close-exports" title="Close the export menu">Close</button>
+</dialog>
+<script type="application/json" id="vis-nodes">[{"id": "skills/lazyown_mcp.py", "label": "lazyown_mcp.py", "title": "\u003cb>lazyown_mcp.py\u003c/b>\u003cbr>frontend | presentation | py\u003cbr>symbols: 101 (_ensure_engine, _ensure_bridge, _ensure_state, _ensure_recommender, _ensure_narrator +76 more)", "group": "frontend", "language": "py", "doc": "", "symbols": [{"name": "_ensure_engine", "kind": "function", "line": "70", "signature": "def _ensure_engine()", "doc": ""}, {"name": "_ensure_bridge", "kind": "function", "line": "92", "signature": "def _ensure_bridge()", "doc": ""}, {"name": "_ensure_state", "kind": "function", "line": "110", "signature": "def _ensure_state()", "doc": ""}, {"name": "_ensure_recommender", "kind": "function", "line": "124", "signature": "def _ensure_recommender()", "doc": ""}, {"name": "_ensure_narrator", "kind": "function", "line": "137", "signature": "def _ensure_narrator()", "doc": ""}, {"name": "_ensure_policy", "kind": "function", "line": "151", "signature": "def _ensure_policy()", "doc": ""}, {"name": "_ensure_facts", "kind": "function", "line": "164", "signature": "def _ensure_facts()", "doc": ""}, {"name": "_create_tool_file", "kind": "function", "line": "177", "signature": "def _create_tool_file()", "doc": ""}, {"name": "_ensure_objectives", "kind": "function", "line": "182", "signature": "def _ensure_objectives()", "doc": ""}, {"name": "_ensure_llm", "kind": "function", "line": "214", "signature": "def _ensure_llm()", "doc": ""}, {"name": "_ensure_automapper", "kind": "function", "line": "228", "signature": "def _ensure_automapper()", "doc": ""}, {"name": "_ensure_pdb", "kind": "function", "line": "241", "signature": "def _ensure_pdb()", "doc": ""}, {"name": "_get_pdb", "kind": "function", "line": "251", "signature": "def _get_pdb(_)", "doc": ""}, {"name": "_ensure_hive", "kind": "function", "line": "256", "signature": "def _ensure_hive()", "doc": ""}, {"name": "_ensure_auto", "kind": "function", "line": "296", "signature": "def _ensure_auto()", "doc": ""}, {"name": "_ensure_aci", "kind": "function", "line": "323", "signature": "def _ensure_aci()", "doc": ""}, {"name": "_get_pdb", "kind": "function", "line": "351", "signature": "def _get_pdb(_)", "doc": ""}, {"name": "_get_perm_system", "kind": "function", "line": "370", "signature": "def _get_perm_system()", "doc": "Return PermissionSystem singleton (deny-first rule evaluator)."}, {"name": "_get_hooks", "kind": "function", "line": "382", "signature": "def _get_hooks()", "doc": "Return HookRegistry singleton."}, {"name": "_get_transcript", "kind": "function", "line": "394", "signature": "def _get_transcript()", "doc": "Return active SessionTranscript singleton."}, {"name": "_compact", "kind": "function", "line": "406", "signature": "def _compact(content, tool_name)", "doc": "Apply 5-layer context compaction to a tool result string."}, {"name": "_compact_output_fn", "kind": "function", "line": "414", "signature": "def _compact_output_fn(c, t)", "doc": ""}, {"name": "_get_claudemd", "kind": "function", "line": "419", "signature": "def _get_claudemd()", "doc": "Return ClaudeMdLoader singleton."}, {"name": "_load_category_command_map", "kind": "function", "line": "471", "signature": "def _load_category_command_map()", "doc": "Return the category→command map, merging any user overrides from sessions/."}, {"name": "_load_payload", "kind": "function", "line": "516", "signature": "def _load_payload()", "doc": "Load payload.json, return empty dict on failure."}], "symbolTotal": 101}, {"id": "modules/world_model.py", "label": "world_model.py", "title": "\u003cb>world_model.py\u003c/b>\u003cbr>backend | business_logic | py\u003cbr>symbols: 61 (_derive_crypto_key, _master_password, read_state_dict, write_state_dict, HostState +36 more)", "group": "backend", "language": "py", "doc": "", "symbols": [{"name": "_derive_crypto_key", "kind": "function", "line": "58", "signature": "def _derive_crypto_key(password, salt)", "doc": "Derive a Fernet key from a password and salt (PBKDF2HMAC/SHA256)."}, {"name": "_master_password", "kind": "function", "line": "69", "signature": "def _master_password()", "doc": "Return the shared master password for state-at-rest protection."}, {"name": "read_state_dict", "kind": "function", "line": "74", "signature": "def read_state_dict(path)", "doc": "Read a world-model state dict, transparently decrypting at rest.\n\nPriority:\n    1. Plain ``world_model.json``.\n    2. Auto-encrypted ``world_model.json.encrypted`` (decrypted with\n       ``LAZYOWN_MASTER_PASSWORD`` and the persisted ``.auto_crypto_salt``).\n\nReturns an empty dict when no readable state exists.\n\nArgs:\n    path: Path to the plain state file.\n\nReturns:\n    The decoded JSON document as a dict."}, {"name": "write_state_dict", "kind": "function", "line": "119", "signature": "def write_state_dict(path, data)", "doc": "Atomically write a world-model state dict as plaintext.\n\nWriting always produces a plain file while the operator is working;\nat-rest encryption is applied on application close by\n``modules.auto_crypto.AutoCryptoEngine``.\n\nArgs:\n    path: Destination plain state file path.\n    data: State document to serialise.\n\nReturns:\n    True when the write succeeded, False otherwise."}, {"name": "HostState", "kind": "class", "line": "152", "signature": "class HostState(StrEnum)", "doc": "Ordered engagement states for a single host."}, {"name": "rank", "kind": "method", "line": "161", "signature": "def rank(self)", "doc": ""}, {"name": "can_advance_to", "kind": "method", "line": "164", "signature": "def can_advance_to(self, next_state)", "doc": ""}, {"name": "EngagementPhase", "kind": "class", "line": "168", "signature": "class EngagementPhase(StrEnum)", "doc": "Derived from the aggregate host state across all targets."}, {"name": "ServiceInfo", "kind": "class", "line": "180", "signature": "class ServiceInfo", "doc": ""}, {"name": "CredentialEntry", "kind": "class", "line": "189", "signature": "class CredentialEntry", "doc": ""}, {"name": "VulnerabilityEntry", "kind": "class", "line": "198", "signature": "class VulnerabilityEntry", "doc": ""}, {"name": "EmailEntry", "kind": "class", "line": "207", "signature": "class EmailEntry", "doc": ""}, {"name": "DomainEntry", "kind": "class", "line": "215", "signature": "class DomainEntry", "doc": ""}, {"name": "NetworkRelation", "kind": "class", "line": "223", "signature": "class NetworkRelation", "doc": "A directed, typed relationship between two network nodes.\n\nNode naming convention:\n    host:\u003cip>          — a discovered host\n    user:\u003cusername>    — a user account\n    service:\u003cname>     — a running service (e.g. service:smb)\n    cred:\u003chash>        — a captured credential (first 12 chars)"}, {"name": "NetworkGraph", "kind": "class", "line": "245", "signature": "class NetworkGraph", "doc": "Lightweight directed graph for network topology and lateral movement reasoning.\n\nTracks typed relationships between hosts, users, services, and credentials\nand exposes degree-centrality analysis to identify pivot points without\nrequiring an external graph library.\n\nDesign\n------\n- Single Responsibility : graph structure + centrality only; no I/O\n- Open/Closed           : new relation types added as data, not code\n- Thread-safe           : caller (WorldModel) holds its own RLock\n\nCentrality algorithm\n--------------------\nNormalized degree centrality:\n    C(v) = (in_degree(v) + out_degree(v)) / (2 * (N - 1))\n\nA node with high centrality is reachable by and can reach many others —\nan ideal pivot candidate for lateral movement."}, {"name": "__init__", "kind": "method", "line": "268", "signature": "def __init__(self)", "doc": ""}, {"name": "add_relation", "kind": "method", "line": "275", "signature": "def add_relation(self, relation)", "doc": "Add a directed edge. Duplicate edges accumulate (multi-graph)."}, {"name": "neighbors", "kind": "method", "line": "283", "signature": "def neighbors(self, node)", "doc": "Return nodes reachable from *node* in one outbound hop."}, {"name": "in_degree", "kind": "method", "line": "287", "signature": "def in_degree(self, node)", "doc": "Count edges pointing INTO *node*."}, {"name": "out_degree", "kind": "method", "line": "291", "signature": "def out_degree(self, node)", "doc": "Count edges leaving *node*."}, {"name": "degree_centrality", "kind": "method", "line": "295", "signature": "def degree_centrality(self)", "doc": "Return (node, centrality_score) pairs sorted descending by score.\nScore is normalized to [0.0, 1.0] over all discovered nodes."}, {"name": "pivot_candidates", "kind": "method", "line": "310", "signature": "def pivot_candidates(self, top_k)", "doc": "Return the *top_k* highest-centrality nodes as pivot candidates.\nThe returned list is suitable for injection into an LLM prompt as\nstrategic network context."}, {"name": "to_dict", "kind": "method", "line": "332", "signature": "def to_dict(self)", "doc": ""}, {"name": "from_dict", "kind": "method", "line": "349", "signature": "def from_dict(cls, data)", "doc": ""}, {"name": "HostEntry", "kind": "class", "line": "365", "signature": "class HostEntry", "doc": ""}], "symbolTotal": 61}, {"id": "core/logging.py", "label": "logging.py", "title": "\u003cb>logging.py\u003c/b>\u003cbr>cloud | infrastructure | py\u003cbr>symbols: 12 (StructuredLogConfig, _JsonLineFormatter, __init__, format, _ConsoleFormatter)", "group": "cloud", "language": "py", "doc": "", "symbols": [{"name": "StructuredLogConfig", "kind": "class", "line": "41", "signature": "class StructuredLogConfig", "doc": "Configuration contract for structured logging.\n\nAll log-related settings are centralized here. The framework reads\nthese from ``payload.json`` keys prefixed with ``log_``."}, {"name": "_JsonLineFormatter", "kind": "class", "line": "70", "signature": "class _JsonLineFormatter(Formatter)", "doc": "Format a log record as a single JSON line."}, {"name": "__init__", "kind": "method", "line": "73", "signature": "def __init__(self, redacted_fields)", "doc": ""}, {"name": "format", "kind": "method", "line": "77", "signature": "def format(self, record)", "doc": ""}, {"name": "_ConsoleFormatter", "kind": "class", "line": "120", "signature": "class _ConsoleFormatter(Formatter)", "doc": "ANSI-coloured console formatter matching ``core.console`` style."}, {"name": "format", "kind": "method", "line": "131", "signature": "def format(self, record)", "doc": ""}, {"name": "StructuredLogger", "kind": "class", "line": "138", "signature": "class StructuredLogger(Logger)", "doc": "Logger subclass that accepts ``extra`` kwargs as structured fields.\n\nEvery keyword in ``extra`` is stored on the record and appears as a\ntop-level key in the JSON-lines output. Sensitive fields matching\n``StructuredLogConfig.redacted_fields`` are replaced with ``[REDACTED]``\nbefore serialization."}, {"name": "makeRecord", "kind": "method", "line": "147", "signature": "def makeRecord(self, name, level, fn, lno, msg, args, exc_info, func, extra, sinfo)", "doc": ""}, {"name": "_log_factory", "kind": "method", "line": "179", "signature": "def _log_factory(name, config)", "doc": "Create or retrieve a :class:`StructuredLogger` instance.\n\nArgs:\n    name: The logger name (typically ``__name__``).\n    config: Optional configuration. When ``None``, defaults are used.\n\nReturns:\n    A :class:`StructuredLogger` wired up with console + file handlers."}, {"name": "get_logger", "kind": "method", "line": "230", "signature": "def get_logger(name)", "doc": "Return a cached :class:`StructuredLogger` for *name*.\n\nOn first call the default configuration is applied. Subsequent calls\nwith the same *name* return the same logger instance.\n\nArgs:\n    name: The logger name. Defaults to ``\"lazyown\"``.\n\nReturns:\n    A configured :class:`StructuredLogger`."}, {"name": "install_json_handler", "kind": "method", "line": "250", "signature": "def install_json_handler(name, config)", "doc": "Install a JSON-lines file handler on *name*, preserving existing handlers.\n\nWhen the logger already owns handlers (a custom console sink, a\nlibrary-configured appender) they are left untouched and only the\nJSON file handler is appended. When the logger is cold it receives\nthe standard console plus file wiring from :func:`_log_factory`.\nThe operation is idempotent: a second call with the same name and\nconfiguration adds nothing.\n\nArgs:\n    name: The logger name to wire.\n    config: Optional configuration override, cached for future\n        :func:`get_logger` calls."}, {"name": "reconfigure", "kind": "method", "line": "299", "signature": "def reconfigure(config)", "doc": "Replace the cached configuration globally.\n\nAll future ``get_logger()`` calls will use *config*. Existing\nloggers in the cache are refreshed.\n\nArgs:\n    config: The new configuration to apply."}], "symbolTotal": 12}, {"id": "mutants/tests/test_command_palette.py", "label": "test_command_palette.py", "title": "\u003cb>test_command_palette.py\u003c/b>\u003cbr>external | testing | py\u003cbr>symbols: 237 (PaletteSuiteConfig, repo_root, index_path, lazyown_path, cli_commands_dir +212 more)", "group": "external", "language": "py", "doc": "", "symbols": [{"name": "PaletteSuiteConfig", "kind": "class", "line": "43", "signature": "class PaletteSuiteConfig", "doc": "Centralised constants for the entire palette suite.\n\nEvery literal the suite depends on lives here so adding a new probe\nor moving the index file means editing one location."}, {"name": "repo_root", "kind": "method", "line": "159", "signature": "def repo_root(self)", "doc": "Absolute path to the repository root."}, {"name": "index_path", "kind": "method", "line": "164", "signature": "def index_path(self)", "doc": "Absolute path to the on-disk command index JSON."}, {"name": "lazyown_path", "kind": "method", "line": "169", "signature": "def lazyown_path(self)", "doc": "Absolute path to the legacy ``lazyown.py`` entry point."}, {"name": "cli_commands_dir", "kind": "method", "line": "174", "signature": "def cli_commands_dir(self)", "doc": "Directory holding the modular phase ``CommandSet`` files."}, {"name": "mcp_path", "kind": "method", "line": "179", "signature": "def mcp_path(self)", "doc": "Absolute path to the MCP server entry point."}, {"name": "lazyc2_path", "kind": "method", "line": "184", "signature": "def lazyc2_path(self)", "doc": "Absolute path to the C2 web server entry point."}, {"name": "palette_template_path", "kind": "method", "line": "189", "signature": "def palette_template_path(self)", "doc": "Absolute path to the C2 palette Jinja2 template."}, {"name": "base_template_path", "kind": "method", "line": "194", "signature": "def base_template_path(self)", "doc": "Absolute path to the shared C2 base layout template."}, {"name": "graphify_path", "kind": "method", "line": "199", "signature": "def graphify_path(self)", "doc": "Absolute path to the graphify export consumed by neighbour lookups."}, {"name": "suite_config", "kind": "method", "line": "205", "signature": "def suite_config()", "doc": "Single, immutable configuration shared by every test class."}, {"name": "_ensure_repo_on_path", "kind": "method", "line": "211", "signature": "def _ensure_repo_on_path(suite_config)", "doc": "Make repository top-level packages importable for the suite."}, {"name": "index_document", "kind": "method", "line": "218", "signature": "def index_document(suite_config)", "doc": "The on-disk command-index document, loaded once per session."}, {"name": "_iter_command_modules", "kind": "method", "line": "228", "signature": "def _iter_command_modules(config)", "doc": "Yield every public ``cli/commands/*.py`` module path."}, {"name": "_collect_do_method_names", "kind": "method", "line": "237", "signature": "def _collect_do_method_names(path, prefix)", "doc": "Return every direct ``do_*`` method name in any class in ``path``."}, {"name": "ast_command_names", "kind": "method", "line": "252", "signature": "def ast_command_names(suite_config)", "doc": "Static AST sweep of every operator-visible ``do_*`` name."}, {"name": "_build_synthetic_index", "kind": "method", "line": "261", "signature": "def _build_synthetic_index(config)", "doc": "Construct a small, deterministic in-memory index for behaviour tests.\n\nShape mirrors the schema of the on-disk artefact so every consumer of\nthe production index can be exercised without loading the full\ncatalogue."}, {"name": "synthetic_index", "kind": "method", "line": "367", "signature": "def synthetic_index(suite_config)", "doc": "In-memory index used by parser/query/renderer/completer tests."}, {"name": "_extract_method_body", "kind": "method", "line": "372", "signature": "def _extract_method_body(src, name)", "doc": "Return the textual body of a method defined in ``src``.\n\nArgs:\n    src: Full source text of a Python module.\n    name: Method name to locate.\n\nReturns:\n    The slice between the ``def \u003cname>(...)`` line and the next sibling\n    ``def`` / decorator at the same indentation, or the empty string\n    when the method is missing."}, {"name": "TestCommandIndexInvariants", "kind": "class", "line": "392", "signature": "class TestCommandIndexInvariants", "doc": "Hard guarantees about the on-disk command-index document."}, {"name": "test_schema_version_matches_config", "kind": "method", "line": "395", "signature": "def test_schema_version_matches_config(self, index_document, suite_config)", "doc": "Schema version is pinned and must match the configured expectation."}, {"name": "test_top_level_keys_present", "kind": "method", "line": "401", "signature": "def test_top_level_keys_present(self, index_document, suite_config)", "doc": "Every required top-level key is present in the document."}, {"name": "test_totals_match_command_list", "kind": "method", "line": "406", "signature": "def test_totals_match_command_list(self, index_document)", "doc": "``totals`` is consistent with the underlying command list."}, {"name": "test_required_command_fields", "kind": "method", "line": "415", "signature": "def test_required_command_fields(self, index_document, suite_config)", "doc": "Each command entry exposes the full required field set."}, {"name": "test_phase_buckets_match_commands", "kind": "method", "line": "424", "signature": "def test_phase_buckets_match_commands(self, index_document)", "doc": "``phase_to_commands`` is exactly derivable from ``commands``."}], "symbolTotal": 237}, {"id": "cli/engagement_hooks.py", "label": "engagement_hooks.py", "title": "\u003cb>engagement_hooks.py\u003c/b>\u003cbr>external | utility | py\u003cbr>symbols: 32 (EngagementState, _load_state, _save_state, _load_index, _normalize_command +7 more)", "group": "external", "language": "py", "doc": "", "symbols": [{"name": "EngagementState", "kind": "class", "line": "242", "signature": "class EngagementState", "doc": "Persisted cross-session engagement metrics."}, {"name": "_load_state", "kind": "method", "line": "260", "signature": "def _load_state()", "doc": ""}, {"name": "_save_state", "kind": "method", "line": "280", "signature": "def _save_state(state)", "doc": ""}, {"name": "_load_index", "kind": "method", "line": "290", "signature": "def _load_index()", "doc": ""}, {"name": "_normalize_command", "kind": "method", "line": "301", "signature": "def _normalize_command(cmd)", "doc": "Return ``cmd`` with a single leading ``do_`` prefix."}, {"name": "_is_recordable_command", "kind": "method", "line": "306", "signature": "def _is_recordable_command(cmd)", "doc": "Return ``True`` when ``cmd`` is a syntactically valid command name.\n\nThe engagement telemetry must never score input-line noise: menu\nselections (``1``), quoted script paths, mistyped emails, host names,\nhyphenated or capitalised tokens, or empty input. This conservative\nsyntactic filter rejects all of those.\n\nIt deliberately does **not** consult the static command index: that index\ncan lag behind the live shell, so gating on it would silently drop real\ncommands. The authoritative membership test lives in the shell post-command\nhook, which checks the token against the live registry via\n``get_all_commands()`` before ever calling in. This function is the\nmodule-level safety net for direct callers and historical sanitisation.\n\nArgs:\n    cmd: Candidate command name, with or without the ``do_`` prefix.\n\nReturns:\n    ``True`` when ``cmd`` matches ``^do_[a-z][a-z0-9_]*$`` once normalised."}, {"name": "_sanitize_seen", "kind": "method", "line": "332", "signature": "def _sanitize_seen(names, known)", "doc": "Drop malformed entries left by the pre-gate telemetry bug.\n\nOlder state files accumulated tokens such as ``do_1``, ``do_./DEPLOY.sh``\nand ``do_grisuno@gmail.com`` because every first input token was recorded.\nThis heals persisted state: an entry is kept only when it is syntactically\na command and, when an authoritative ``known`` roster is supplied, is a\nmember of it. Duplicates are collapsed preserving first-seen order.\n\nArgs:\n    names: The persisted ``commands_seen`` list.\n    known: Optional authoritative set of ``do_``-prefixed command names\n        (typically the live shell's ``get_all_commands()``). When ``None``\n        only the syntactic filter is applied so real-but-unindexed\n        commands are never dropped.\n\nReturns:\n    A cleaned, de-duplicated list of command names."}, {"name": "heal_commands_seen", "kind": "method", "line": "365", "signature": "def heal_commands_seen(known)", "doc": "Purge non-command entries from persisted ``commands_seen`` in place.\n\nCalled once at shell startup with the live command roster so historical\npollution that survives the syntactic filter (real-looking but invalid\ntokens such as ``do_against`` or ``do_como``) is removed against ground\ntruth. Idempotent: a clean state file is left untouched.\n\nArgs:\n    known: Authoritative set of ``do_``-prefixed command names, typically\n        ``{f\"do_{c}\" for c in shell.get_all_commands()}``.\n\nReturns:\n    The number of entries removed. Zero when nothing changed or on error."}, {"name": "_next_threshold", "kind": "method", "line": "394", "signature": "def _next_threshold(current)", "doc": "Draw the next reward trigger from a geometric distribution."}, {"name": "_phase_for_cmd", "kind": "method", "line": "400", "signature": "def _phase_for_cmd(cmd, index)", "doc": ""}, {"name": "_commands_in_phase", "kind": "method", "line": "409", "signature": "def _commands_in_phase(phase, index)", "doc": ""}, {"name": "_summary_for_cmd", "kind": "method", "line": "414", "signature": "def _summary_for_cmd(cmd, index)", "doc": ""}, {"name": "_run_curiosity", "kind": "method", "line": "431", "signature": "def _run_curiosity(cmd, state, index)", "doc": "Surface one undiscovered command from the same phase as ``cmd``."}, {"name": "_render_streak", "kind": "method", "line": "459", "signature": "def _render_streak(ctx)", "doc": "Render the streak reward; always succeeds (always renders)."}, {"name": "_render_exploration", "kind": "method", "line": "488", "signature": "def _render_exploration(ctx)", "doc": "Render arsenal exploration progress bar."}, {"name": "_render_phase_badge", "kind": "method", "line": "506", "signature": "def _render_phase_badge(ctx)", "doc": "Render the current kill-chain phase badge; skips when phase unknown."}, {"name": "_render_hidden_feature", "kind": "method", "line": "522", "signature": "def _render_hidden_feature(ctx)", "doc": "Reveal one hidden CLI feature the operator hasn't seen recently."}, {"name": "_render_arsenal_tip", "kind": "method", "line": "536", "signature": "def _render_arsenal_tip(ctx)", "doc": "Render a single arsenal usage tip."}, {"name": "_render_methodology_task", "kind": "method", "line": "544", "signature": "def _render_methodology_task(ctx)", "doc": "Surface one open task that aligns with the current phase.\n\nReads ``sessions/tasks.json`` written by ``tasks add`` / ACI planner.\nReturns False when no pending task exists so the VRI scheduler can pick\nanother reward instead of rendering an empty line."}, {"name": "_render_methodology_objective", "kind": "method", "line": "583", "signature": "def _render_methodology_objective(ctx)", "doc": "Surface one pending objective and a phase-appropriate next command.\n\nReads ``sessions/objectives.jsonl`` (auto-injected objectives from the\nworld model watcher).  Teaches methodology by pairing the objective text\nwith the canonical next command for its phase."}, {"name": "_render_methodology_note", "kind": "method", "line": "630", "signature": "def _render_methodology_note(ctx)", "doc": "Recall the latest operator note and suggest a methodology-aligned command.\n\nReads ``sessions/notes.jsonl`` written by the ``note`` command and pairs\nthe most-recent note with the canonical next command for its recorded\nphase.  Teaches the operator to translate observations into actions."}, {"name": "_fire_vri_reward", "kind": "method", "line": "672", "signature": "def _fire_vri_reward(state, ctx)", "doc": "Pick one VRI reward and render it; retry on no-op rewards.\n\nMethodology rewards may return False when their backing artefact is empty\n(no pending tasks, objectives or notes).  The scheduler then samples a\ndifferent reward instead of printing an empty divider.  After at most\n``_VRI_RETRY_LIMIT`` attempts the streak reward is forced as fallback so\nthe operator always sees something when the schedule fires."}, {"name": "get_karma_name", "kind": "method", "line": "716", "signature": "def get_karma_name(elo)", "doc": "Return karma rank for an ELO score.\n\nMirrors the bracket function ``get_karma_name`` in ``lazyc2.py`` so the\nterminal and the C2 web UI display identical ranks for the same operator.\n\nArgs:\n    elo: Non-negative integer score.\n\nReturns:\n    Human-facing karma label (``Noob`` … ``Godlike``)."}, {"name": "_award_elo", "kind": "method", "line": "734", "signature": "def _award_elo(cmd, first_time, new_phase, current_phase)", "doc": "Compute the ELO delta for executing ``cmd``.\n\nThe reward is the sum of:\n  * ``ELO_BASE`` for any command,\n  * a high-value bonus when ``cmd`` is in ``ELO_HIGH_VALUE_CMDS``,\n  * a phase bonus when ``current_phase`` is in ``ELO_PHASE_BONUS``,\n  * ``ELO_FIRST_TIME_BONUS`` when the operator runs this command for the\n    first time across all sessions,\n  * ``ELO_NEW_PHASE_BONUS`` when the operator enters a phase for the\n    first time across all sessions.\n\nReturns:\n    Positive integer ELO delta to add to the operator's score."}, {"name": "_sync_user_elo", "kind": "method", "line": "760", "signature": "def _sync_user_elo(delta)", "doc": "Patch ``users.json`` so the C2 dashboard reflects terminal activity.\n\nPriority order for identifying the operator:\n1. Logged-in CLI operator (via ``modules.cli_auth.get_current_operator``)\n2. ``c2_user`` field from ``payload.json`` (legacy bridge)\n\nArgs:\n    delta: ELO points to add (non-negative).\n\nReturns:\n    True when the user row was patched and persisted, False otherwise."}], "symbolTotal": 32}]</script>
+<script type="application/json" id="vis-edges">[{"from": "core/logging.py", "to": "mutants/tests/test_command_palette.py", "title": "next", "dashes": true}, {"from": "modules/world_model.py", "to": "core/logging.py", "title": "resolved_imports", "dashes": false}, {"from": "modules/world_model.py", "to": "core/logging.py", "title": "resolved_imports", "dashes": false}, {"from": "mutants/tests/test_command_palette.py", "to": "cli/engagement_hooks.py", "title": "next", "dashes": true}, {"from": "skills/lazyown_mcp.py", "to": "core/logging.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "core/logging.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "modules/world_model.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "modules/world_model.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "modules/world_model.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "modules/world_model.py", "title": "resolved_imports", "dashes": false}, {"from": "skills/lazyown_mcp.py", "to": "modules/world_model.py", "title": "resolved_imports", "dashes": false}]</script>
+<script type="application/json" id="vis-views">[{"id": "primary-path", "title": "Primary path", "focus": ["skills/lazyown_mcp.py", "modules/world_model.py", "core/logging.py", "mutants/tests/test_command_palette.py", "cli/engagement_hooks.py"], "description": "Follow the dominant authored path first."}, {"id": "happy-path", "title": "Happy path", "focus": ["skills/lazyown_mcp.py", "core/logging.py", "cli/engagement_hooks.py"], "description": "Trace the shortest authored route end to end."}, {"id": "hub-focus", "title": "Hub focus", "focus": ["skills/lazyown_mcp.py"], "description": "Inspect the most connected authored hub."}, {"id": "side-branches", "title": "Side branches", "focus": ["core/logging.py", "mutants/tests/test_command_palette.py", "cli/engagement_hooks.py"], "description": "Review supporting detail without losing orientation."}, {"id": "full-map", "title": "Full map", "focus": ["skills/lazyown_mcp.py", "modules/world_model.py", "core/logging.py", "mutants/tests/test_command_palette.py", "cli/engagement_hooks.py"], "description": "Restore the complete authored context."}]</script>
+<script type="application/json" id="vis-meta">{"kind": "workflow", "title": "Delivery Workflow", "nodeCount": 5, "edgeCount": 11, "totalFiles": "972", "neighbors": 8}</script>
+<script type="application/json" id="vis-physics">{"enabled": true, "barnesHut": {"gravitationalConstant": -60000, "centralGravity": 0.15, "springLength": 320, "damping": 0.12}, "stabilization": {"iterations": 250}}</script>
+<script type="application/json" id="vis-roles">{"frontend": "#22d3ee", "backend": "#34d399", "database": "#a78bfa", "cloud": "#fbbf24", "security": "#fb7185", "messagebus": "#fb923c", "external": "#94a3b8"}</script>
+<script>
+(function(){
+"use strict";
+var rawNodes=JSON.parse(document.getElementById("vis-nodes").textContent||"[]");
+var rawEdges=JSON.parse(document.getElementById("vis-edges").textContent||"[]");
+var views=JSON.parse(document.getElementById("vis-views").textContent||"[]");
+var meta=JSON.parse(document.getElementById("vis-meta").textContent||"{}");
+var physics=JSON.parse(document.getElementById("vis-physics").textContent||"{}");
+var roleColors=JSON.parse(document.getElementById("vis-roles").textContent||"{}");
+var root=document.documentElement;
+var container=document.getElementById("network");
+var search=document.getElementById("search");
+var passportTitle=document.getElementById("passport-title");
+var passportMeta=document.getElementById("passport-meta");
+var journey=document.getElementById("journey");
+var receipt=document.getElementById("receipt");
+var chapters=document.getElementById("chapters");
+var roleCounts=document.getElementById("role-counts");
+var nodeSymbols=document.getElementById("node-symbols");
+var guide=document.getElementById("guide");
+var exportsDialog=document.getElementById("exports");
+var state={focus:null,reach:null,lens:null,view:-1,physicsOn:true};
+var reduced=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+function themeBox(){return root.getAttribute("data-theme")==="light"?{box:"#ffffff",ink:"#0f172a"}:{box:"#0f172a",ink:"#ffffff"};}
+function paintNodes(){
+var palette=themeBox();
+var update=rawNodes.map(function(n){
+return {id:n.id,color:{background:palette.box,border:roleColors[n.group]||"#94a3b8",highlight:{background:palette.box,border:roleColors[n.group]||"#94a3b8"}},font:{color:palette.ink,size:13,face:"monospace"}};});
+visNodes.update(update);}
+var visNodes=new vis.DataSet(rawNodes.map(function(n){return {id:n.id,label:n.label,title:n.title,group:n.group,shape:"box"};}));
+var visEdges=new vis.DataSet(rawEdges.map(function(e,index){return {id:"e"+index,from:e.from,to:e.to,title:e.label,arrows:"to",dashes:!!e.dashes,smooth:{type:"dynamic"},color:{opacity:0.7}};}));
+paintNodes();
+var network=new vis.Network(container,{nodes:visNodes,edges:visEdges},{
+physics:physics,
+interaction:{hover:true,navigationButtons:false,keyboard:false},
+nodes:{shape:"box",borderWidth:2,margin:10},
+edges:{arrows:{to:{enabled:true}},smooth:{type:"dynamic"}}});
+if(reduced&&physics.enabled){try{network.stabilize(50);}catch(e){}}
+function outgoing(id){return rawEdges.filter(function(e){return e.from===id;});}
+function incoming(id){return rawEdges.filter(function(e){return e.to===id;});}
+function nodeById(id){for(var i=0;i<rawNodes.length;i++){if(rawNodes[i].id===id){return rawNodes[i];}}return null;}
+function escapeHtml(text){
+return String(text==null?"":text).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function neighborNames(ids){
+var cap=(meta.neighbors||8);
+return ids.slice().sort().slice(0,cap).map(function(id){var n=nodeById(id);return escapeHtml(n?n.label:id);});}
+function renderNodeDetail(node){
+if(!nodeSymbols){return;}
+var ins=incoming(node.id).map(function(e){return e.from;});
+var outs=outgoing(node.id).map(function(e){return e.to;});
+var html="";
+if(node.doc){html+='<p class="filedoc">'+escapeHtml(node.doc)+"</p>";}
+var symbols=node.symbols||[];
+if(symbols.length){
+html+="<table><thead><tr><th>Symbol</th><th>Kind</th><th>Line</th></tr></thead><tbody>";
+symbols.forEach(function(s){
+var docTitle=s.doc?(' title="'+escapeHtml(s.doc)+'"'):"";
+var name="<span"+docTitle+">"+escapeHtml(s.name)+"</span>"+(s.signature?" <code>"+escapeHtml(s.signature)+"</code>":"");
+html+="<tr><td>"+name+"</td><td>"+escapeHtml(s.kind)+"</td><td>"+escapeHtml(s.line)+"</td></tr>";});
+html+="</tbody></table>";
+var hidden=(node.symbolTotal||symbols.length)-symbols.length;
+if(hidden>0){html+='<p class="filedoc">+'+hidden+' more symbols in source.</p>';}}
+else{html+='<p class="filedoc">No symbols extracted.</p>';}
+html+='<p class="neighbors">Imports '+outs.length+(outs.length?": "+neighborNames(outs).join(", "):"")+"</p>";
+html+='<p class="neighbors">Imported by '+ins.length+(ins.length?": "+neighborNames(ins).join(", "):"")+"</p>";
+nodeSymbols.innerHTML=html;}
+function clearNodeDetail(){
+if(nodeSymbols){nodeSymbols.innerHTML="";}
+passportTitle.textContent="Diagram guide";}
+function clearNodeDetailSilent(){
+if(nodeSymbols){nodeSymbols.innerHTML="";}}
+function bfsReach(start,direction){
+var seen={};seen[start]=0;var queue=[start];var order=[start];
+while(queue.length){var current=queue.shift();var nexts=direction==="downstream"?outgoing(current):incoming(current);
+for(var i=0;i<nexts.length;i++){var nid=direction==="downstream"?nexts[i].to:nexts[i].from;
+if(!(nid in seen)){seen[nid]=seen[current]+1;queue.push(nid);order.push(nid);}}}
+return {members:order,hops:seen};}
+function bfsRoute(from,to){
+if(from===to){return [from];}
+var prev={};var seen={};seen[from]=true;var queue=[from];
+while(queue.length){var current=queue.shift();var nexts=outgoing(current);
+for(var i=0;i<nexts.length;i++){var nid=nexts[i].to;
+if(!(nid in seen)){seen[nid]=true;prev[nid]=current;
+if(nid===to){var path=[to];var c=to;while(c!==from){c=prev[c];path.unshift(c);}return path;}
+queue.push(nid);}}}
+return [];}
+function showOnly(allowed){
+var nodeUpdate=rawNodes.map(function(n){return {id:n.id,hidden:!allowed[n.id]};});
+visNodes.update(nodeUpdate);
+var edgeUpdate=rawEdges.map(function(e,index){return {id:"e"+index,hidden:!(allowed[e.from]&&allowed[e.to])};});
+visEdges.update(edgeUpdate);}
+function showAll(){
+var nodeUpdate=rawNodes.map(function(n){return {id:n.id,hidden:false};});
+visNodes.update(nodeUpdate);
+var edgeUpdate=rawEdges.map(function(e,index){return {id:"e"+index,hidden:false};});
+visEdges.update(edgeUpdate);}
+function setHash(value){try{history.replaceState(null,"",value);}catch(e){location.hash=value;}}
+function focusNode(id,reach){
+var node=nodeById(id);if(!node){return;}
+state.focus=id;state.reach=reach||null;
+var allowed={};allowed[id]=true;
+if(state.reach){var found=bfsReach(id,state.reach);found.members.forEach(function(m){allowed[m]=true;});
+var hops=0;for(var k in found.hops){if(found.hops[k]>hops){hops=found.hops[k];}}
+receipt.textContent=(state.reach==="downstream"?"Downstream":"Upstream")+" reach: "+found.members.length+" nodes, "+hops+" max hops. Authored relationships only.";}
+else{receipt.textContent="In: "+incoming(id).length+" | Out: "+outgoing(id).length+" | Views: "+views.length;}
+showOnly(allowed);
+network.selectNodes([id]);
+passportTitle.textContent=node.label;
+passportMeta.textContent=node.id+" | role "+node.group+" | "+(node.language||"")+" | "+(node.symbolTotal||0)+" symbols";
+renderNodeDetail(node);
+var hash="#focus="+encodeURIComponent(id);
+if(state.reach){hash+="&reach="+state.reach;}
+setHash(hash);}
+function probeRoute(){
+var from=document.getElementById("route-from").value.trim();
+var to=document.getElementById("route-to").value.trim();
+if(!from||!to){return;}
+var path=bfsRoute(from,to);
+if(!path.length){journey.textContent="No authored directed route from "+from+" to "+to+".";receipt.textContent="Route probe: 0 links.";return;}
+var allowed={};path.forEach(function(n){allowed[n]=true;});
+showOnly(allowed);
+network.selectNodes(path);
+try{network.fit({nodes:path,animation:reduced?false:{duration:600}});}catch(e){}
+var names=path.map(function(n){var node=nodeById(n);return node?node.label:n;});
+journey.textContent="Journey: "+names.join(" -> ")+" ("+(path.length-1)+" hops).";
+receipt.textContent="Route probe: "+path.length+" nodes, "+(path.length-1)+" links.";
+setHash("#route="+encodeURIComponent(from)+"~"+encodeURIComponent(to));}
+function applyLens(role){
+state.lens=role;
+if(!role){showAll();clearNodeDetail();receipt.textContent="Lens cleared.";setHash("#");return;}
+var counts={};rawNodes.forEach(function(n){counts[n.group]=(counts[n.group]||0)+1;});
+var allowed={};rawNodes.forEach(function(n){if(n.group===role){allowed[n.id]=true;}});
+showOnly(allowed);
+var parts=[];for(var k in counts){parts.push(k+": "+counts[k]);}
+receipt.textContent="Lens "+role+": "+(counts[role]||0)+" of "+rawNodes.length+" nodes. "+parts.join(" | ");
+setHash("#lens="+encodeURIComponent(role));}
+function showView(index){
+if(!views.length){return;}
+state.view=(index+views.length)%views.length;
+var view=views[state.view];
+chapters.querySelectorAll("button").forEach(function(b,i){b.disabled=(i===state.view);});
+passportTitle.textContent=view.title;
+passportMeta.textContent=view.description||"";
+clearNodeDetailSilent();
+if(!view.focus.length){showAll();}
+else{var allowed={};view.focus.forEach(function(n){allowed[n]=true;});showOnly(allowed);network.selectNodes(view.focus);}
+journey.textContent=view.focus.length?("Chapter focus: "+view.focus.join(", ")):"";
+receipt.textContent="Chapter "+(state.view+1)+" of "+views.length+".";
+setHash("#view="+encodeURIComponent(view.id));}
+function renderChapters(){
+chapters.innerHTML="";
+views.forEach(function(view,index){var b=document.createElement("button");b.type="button";b.textContent=view.title;b.setAttribute("aria-label","Show chapter "+view.title);b.setAttribute("title","Focus the "+view.title+" chapter");b.addEventListener("click",function(){showView(index);});chapters.appendChild(b);});}
+function renderRoleCounts(){
+var counts={};rawNodes.forEach(function(n){counts[n.group]=(counts[n.group]||0)+1;});
+roleCounts.innerHTML="";
+Object.keys(counts).sort().forEach(function(role){var s=document.createElement("button");s.type="button";s.className="chip";s.textContent=role+": "+counts[role];s.setAttribute("aria-label","Filter role "+role);s.setAttribute("title","Highlight the "+role+" role");s.addEventListener("click",function(){applyLens(role);});roleCounts.appendChild(s);});}
+function cyclePreset(){
+var presets=["classic","flow","blueprint","editorial"];
+var current=root.getAttribute("data-preset")||"classic";
+root.setAttribute("data-preset",presets[(presets.indexOf(current)+1)%presets.length]);}
+function toggleTheme(){
+var current=root.getAttribute("data-theme")||"dark";
+root.setAttribute("data-theme",current==="dark"?"light":"dark");
+paintNodes();}
+function togglePhysics(){
+state.physicsOn=!state.physicsOn;
+try{network.setOptions({physics:{enabled:state.physicsOn}});}catch(e){}
+receipt.textContent=state.physicsOn?"Physics resumed.":"Physics frozen; nodes stay draggable.";}
+function exportPNG(){
+try{
+var link=document.createElement("a");
+link.href=network.canvas.frame.canvas.toDataURL("image/png");
+link.download="system-map-"+(meta.kind||"map")+".png";
+document.body.appendChild(link);link.click();
+setTimeout(function(){link.remove();},400);
+receipt.textContent="PNG snapshot downloaded.";
+}catch(e){receipt.textContent="PNG export unavailable in this browser.";}}
+function exportJSON(){
+var payload={kind:meta.kind,title:meta.title,nodes:rawNodes,edges:rawEdges,views:views};
+var blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+var link=document.createElement("a");link.href=URL.createObjectURL(blob);link.download="system-map-"+(meta.kind||"map")+".json";document.body.appendChild(link);link.click();
+setTimeout(function(){URL.revokeObjectURL(link.href);link.remove();},400);}
+function readHash(){
+var hash=location.hash||"";
+if(hash.indexOf("#route=")===0){var parts=hash.slice(7).split("~");if(parts.length===2){document.getElementById("route-from").value=decodeURIComponent(parts[0]);document.getElementById("route-to").value=decodeURIComponent(parts[1]);probeRoute();}return;}
+if(hash.indexOf("#lens=")===0){applyLens(decodeURIComponent(hash.slice(6)));return;}
+if(hash.indexOf("#view=")===0){var id=decodeURIComponent(hash.slice(6));for(var i=0;i<views.length;i++){if(views[i].id===id){showView(i);return;}}return;}
+if(hash.indexOf("#focus=")===0){var rest=hash.slice(7).split("&reach=");focusNode(decodeURIComponent(rest[0]),rest[1]?decodeURIComponent(rest[1]):null);return;}}
+network.on("click",function(params){
+if(params.nodes.length>0){focusNode(params.nodes[0]);}});
+network.on("stabilized",function(){receipt.textContent="Physics stabilized: "+rawNodes.length+" nodes placed.";});
+document.querySelectorAll("[data-action]").forEach(function(btn){
+btn.addEventListener("click",function(){
+var action=btn.getAttribute("data-action");
+if(action==="reach-up"&&state.focus){focusNode(state.focus,"upstream");}
+else if(action==="reach-down"&&state.focus){focusNode(state.focus,"downstream");}
+else if(action==="route"){probeRoute();}
+else if(action==="lens"){applyLens(state.lens?null:"backend");}
+else if(action==="views-prev"){showView(state.view-1);}
+else if(action==="views-next"){showView(state.view+1);}
+else if(action==="play"){var i=0;var step=function(){if(i>=views.length){return;}showView(i);i++;if(!reduced){setTimeout(step,1400);}};step();}
+else if(action==="stabilize"){try{network.stabilize();}catch(e){}receipt.textContent="Stabilizing physics...";}
+else if(action==="physics"){togglePhysics();}
+else if(action==="present"){document.body.classList.toggle("present");}
+else if(action==="style"){cyclePreset();}
+else if(action==="theme"){toggleTheme();}
+else if(action==="export"){if(typeof exportsDialog.showModal==="function"){exportsDialog.showModal();}}
+else if(action==="help"){if(typeof guide.showModal==="function"){guide.showModal();}}
+else if(action==="close-guide"){guide.close();}
+else if(action==="close-exports"){exportsDialog.close();}
+else if(action==="export-png"){exportPNG();}
+else if(action==="export-json"){exportJSON();}});});
+search.addEventListener("input",function(){
+var term=search.value.trim().toLowerCase();
+if(!term){showAll();return;}
+var allowed={};rawNodes.forEach(function(n){
+if(n.label.toLowerCase().indexOf(term)>=0||n.id.toLowerCase().indexOf(term)>=0){allowed[n.id]=true;}});
+showOnly(allowed);});
+document.addEventListener("keydown",function(ev){
+if(ev.target&&(ev.target.tagName==="INPUT"||ev.target.tagName==="TEXTAREA")){return;}
+if(ev.key==="/"){ev.preventDefault();search.focus();}
+else if(ev.key==="R"||ev.key==="r"){var f=document.getElementById("route-from");if(f){f.focus();}}
+else if(ev.key==="L"||ev.key==="l"){applyLens(state.lens?null:"backend");}
+else if(ev.key==="P"||ev.key==="p"){showView(state.view+1);}
+else if(ev.key==="["){showView(state.view-1);}
+else if(ev.key==="]"){showView(state.view+1);}
+else if(ev.key==="B"||ev.key==="b"){togglePhysics();}
+else if(ev.key==="F"||ev.key==="f"){document.body.classList.toggle("present");}
+else if(ev.key==="S"||ev.key==="s"){cyclePreset();}
+else if(ev.key==="T"||ev.key==="t"){toggleTheme();}
+else if(ev.key==="E"||ev.key==="e"){if(typeof exportsDialog.showModal==="function"){exportsDialog.showModal();}}
+else if(ev.key==="?"){if(typeof guide.showModal==="function"){guide.showModal();}}
+else if(ev.key==="+"){try{network.zoomIn();}catch(e){}}
+else if(ev.key==="-"){try{network.zoomOut();}catch(e){}}
+else if(ev.key==="0"){try{network.fit();}catch(e){}}});
+passportMeta.textContent=(meta.nodeCount||rawNodes.length)+" of "+(meta.totalFiles||rawNodes.length)+" files | "+(meta.edgeCount||rawEdges.length)+" links | "+views.length+" chapters. Primary scope only; full listing lives in the knowledge base.";
+receipt.textContent="Live physics network. Drag nodes, search, focus, trace reach, probe routes, compare roles, or play chapters.";
+renderChapters();renderRoleCounts();readHash();
+})();
+</script>
+</body>
+</html>

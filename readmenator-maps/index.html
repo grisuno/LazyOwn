@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>LazyOwn | System Maps</title>
+<style>
+:root{--canvas:#020617;--mask:#0f172a;--ink:#ffffff;--muted:#94a3b8;--border:#1e293b}
+html[data-theme="light"]{--canvas:#f8fafc;--mask:#ffffff;--ink:#0f172a;--muted:#475569;--border:#e2e8f0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink);font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+header{padding:28px 20px 18px;max-width:1024px;margin:0 auto}
+header h1{font-size:22px;margin:0 0 8px}
+header p{color:var(--muted);font-size:13px;margin:4px 0}
+.controls{max-width:1024px;margin:0 auto;padding:0 20px 10px;display:flex;gap:8px;flex-wrap:wrap}
+.controls input{background:var(--mask);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:inherit;font-size:12px;min-width:220px}
+.controls button{background:var(--mask);color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font:inherit;font-size:12px;cursor:pointer}
+.grid{max-width:1024px;margin:0 auto;padding:10px 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px}
+.card{background:var(--mask);border:1px solid var(--border);border-radius:14px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.card h2{font-size:15px;margin:0}
+.card p{font-size:12px;color:var(--muted);margin:0;line-height:1.6}
+.card .meta{font-size:11px;color:var(--muted)}
+.card a{margin-top:auto;color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-size:12px;text-decoration:none;text-align:center}
+.card a:hover,.card a:focus-visible{border-color:#22d3ee;outline:2px solid #22d3ee;outline-offset:2px}
+.howto{max-width:1024px;margin:0 auto;padding:0 20px 20px}
+.howto h2{font-size:15px;margin:0 0 8px}
+.howto p{font-size:12px;color:var(--muted);line-height:1.7;margin:0}
+.empty{color:var(--muted);font-size:13px}
+footer{max-width:1024px;margin:0 auto;padding:0 20px 30px;color:var(--muted);font-size:11px}
+</style>
+</head>
+<body>
+<header>
+<h1>LazyOwn | System Maps</h1>
+<p>files: 972 | imports: 140573 | symbols: 20947</p>
+<p>This gallery page works offline. Each map loads its physics engine from a CDN and needs network access.</p>
+</header>
+<div class="controls">
+<input id="filter" type="search" placeholder="Filter diagrams..." aria-label="Filter diagrams">
+<button type="button" id="theme">Theme</button>
+</div>
+<main class="grid" id="gallery">
+<article class="card" data-kind="architecture"><h2>Runtime Architecture</h2><p>Components, services, storage, and boundaries across layers.</p><div class="meta">21 of 972 files in primary scope | 120 links | 5 chapters</div><a href="architecture.html">Open architecture map</a></article>
+<article class="card" data-kind="dataflow"><h2>Data Flow</h2><p>Movement of data from sources through transforms to stores.</p><div class="meta">15 of 972 files in primary scope | 104 links | 5 chapters</div><a href="dataflow.html">Open dataflow map</a></article>
+<article class="card" data-kind="lifecycle"><h2>Change Lifecycle</h2><p>States, transitions, waits, and retry paths of change.</p><div class="meta">17 of 972 files in primary scope | 33 links | 5 chapters</div><a href="lifecycle.html">Open lifecycle map</a></article>
+<article class="card" data-kind="sequence"><h2>Request Sequence</h2><p>Ordered interaction between top participants over time.</p><div class="meta">6 of 972 files in primary scope | 12 links | 5 chapters</div><a href="sequence.html">Open sequence map</a></article>
+<article class="card" data-kind="workflow"><h2>Delivery Workflow</h2><p>Delivery path across lanes from entry to terminal outcomes.</p><div class="meta">5 of 972 files in primary scope | 11 links | 5 chapters</div><a href="workflow.html">Open workflow map</a></article>
+</main>
+<section class="howto">
+<h2>How to read these maps</h2>
+<p>Open any map, then: drag nodes freely while physics settles the rest, search (/) to filter, click a node to focus it with full file documentation, Upstream and Downstream to trace authored reach, Path to probe the exact route between two ids, Lens to compare semantic roles, Play to walk the guided chapters, Stabilize to re-run physics, Theme for dark and light, Export for PNG or typed JSON. Deep links such as #route=a~b restore any reading.</p>
+</section>
+<footer>Generated offline from scanned source topology. Counts reflect authored relationships only.</footer>
+<script>
+(function(){
+"use strict";
+var filter=document.getElementById("filter");
+var theme=document.getElementById("theme");
+var cards=Array.prototype.slice.call(document.querySelectorAll(".card"));
+filter.addEventListener("input",function(){
+var term=filter.value.trim().toLowerCase();
+cards.forEach(function(card){
+var text=(card.textContent||"").toLowerCase();
+card.style.display=(!term||text.indexOf(term)>=0)?"":"none";});});
+theme.addEventListener("click",function(){
+var root=document.documentElement;
+root.setAttribute("data-theme",root.getAttribute("data-theme")==="light"?"dark":"light");});
+})();
+</script>
+</body>
+</html>

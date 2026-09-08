@@ -128,7 +128,7 @@
 | `cli/surface_tui.py` | - | cli | 19 |
 | `cli/themes.py` | - | cli | 3 |
 | `cli/timeline_browser.py` | - | cli | 25 |
-| `cli/tips_engine.py` | - | cli | 60 |
+| `cli/tips_engine.py` | - | cli | 59 |
 | `cli/toast_bus.py` | - | cli | 33 |
 | `cli/tui_theme.py` | - | cli | 4 |
 | `cli/tutorial.py` | - | cli | 7 |
@@ -158,7 +158,8 @@
 | `core/safe_subprocess.py` | - | core | 7 |
 | `core/scheduler.py` | - | core | 17 |
 | `core/security.py` | - | core | 2 |
-| `core/validators.py` | - | core | 4 |
+| `core/text_utils.py` | - | core | 1 |
+| `core/validators.py` | - | core | 7 |
 | `discord_c2.py` | - | root | 21 |
 | `external/install_external.sh` | Nombre del script: download_resources.sh Autor: Gris Iscomeback Correo electróni | misc | 2 |
 | `fast_run_as_r00t.sh` | fast_run_as_r00t.sh — LazyOwn full-stack orchestrator  Speed-run launcher: bring | root | 12 |
@@ -972,4 +973,4 @@
 | `tests/test_wizard_llm.py` | - | - | 31 |
 | `tests/test_world_model_extended.py` | - | - | 21 |
 | `user_split.sh` | - | root | 0 |
-| `utils.py` | - | root | 124 |
+| `utils.py` | - | root | 125 |

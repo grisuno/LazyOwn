@@ -55,6 +55,9 @@ lazysentinel.db
 parquets/session_knowledge.parquet
 persistent_chroma_db/
 sessions/phishing/tracking.db
+modules/sessions/
+sessions/phishing/campaigns/
+sessions/routes_to_templates.json
 prompt.md
 knowledge_base_vuln.json
 graphify-out/cache/

@@ -1,6 +1,6 @@
 # LazyOwn vs Other Open-Source Red Team Frameworks
 
-Honest, side-by-side comparison. Updated 2026-05-17.
+Honest, side-by-side comparison. Updated 2026-09-08.
 
 If you find a row that is inaccurate, open an issue. We will fix it. We would
 rather lose a tick than mislead an operator.

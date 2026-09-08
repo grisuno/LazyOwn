@@ -870,20 +870,20 @@ class ContextResolver:
 
 def _read_network_info() -> dict[str, str]:
     """Return ``{interface: ip}`` for every globally-scoped IPv4 link."""
-    cmd = (
-        "ip a show scope global | "
-        'awk \'/^[0-9]+:/ { sub(/:/,"",$2); iface=$2 } '
-        '/^[[:space:]]*inet / { split($2, a, "/"); print iface " " a[1] }\''
-    )
     try:
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, timeout=1.5)
-    except (FileNotFoundError, subprocess.SubprocessError):
+        from core.safe_exec import safe_ip_show
+    except ImportError:
+        return {}
+    try:
+        entries = safe_ip_show("scope global")
+    except Exception:
         return {}
     info: dict[str, str] = {}
-    for line in (result.stdout or "").splitlines():
-        parts = line.split(maxsplit=1)
-        if len(parts) == 2:
-            info[parts[0]] = parts[1]
+    for entry in entries:
+        iface = entry.get("interface", "")
+        addr = entry.get("address", "")
+        if iface and addr and ":" not in addr:
+            info[iface] = addr
     return info
 
 

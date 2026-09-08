@@ -140,10 +140,9 @@ def _format_size(num_bytes: int) -> str:
 
 def _truncate(text: str, limit: int) -> str:
     """Trim ``text`` to ``limit`` characters with an ellipsis marker."""
-    text = text.strip()
-    if len(text) <= limit:
-        return text
-    return text[: max(0, limit - 1)] + "…"
+    from core.text_utils import truncate_text
+
+    return truncate_text(text.strip(), limit)
 
 
 def _summarize(kind: str, payload: dict[str, Any]) -> str:

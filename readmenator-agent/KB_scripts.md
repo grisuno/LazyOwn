@@ -30,6 +30,16 @@
 - Layer: utility
 - Language: py
 
+## scripts/generate_sbom.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_requirement` (function, line 25) `def parse_requirement(line)`
+  - `collect_components` (function, line 37) `def collect_components(with_ml)`
+  - `project_version` (function, line 68) `def project_version()`
+  - `build_sbom` (function, line 75) `def build_sbom(with_ml)`
+  - `main` (function, line 95) `def main()`
+
 ## scripts/migrate_commandsets.py
 - Layer: utility
 - Language: py
@@ -66,11 +76,27 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `canonical_command_count` (function, line 69) `def canonical_command_count(root)`
-  - `measure_stats` (function, line 82) `def measure_stats(root)`
-  - `render` (function, line 104) `def render(template, stats)`
-  - `sync` (function, line 109) `def sync(check, stats, root)`
-  - `main` (function, line 133) `def main()`
+  - `canonical_command_count` (function, line 79) `def canonical_command_count(root)`
+  - `project_version` (function, line 92) `def project_version(root)`
+  - `measure_stats` (function, line 101) `def measure_stats(root)`
+  - `render` (function, line 128) `def render(template, stats)`
+  - `sync` (function, line 133) `def sync(check, stats, root)`
+  - `main` (function, line 157) `def main()`
+
+## scripts/top_tier_check.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `fail` (function, line 23) `def fail(message)`
+  - `ok` (function, line 28) `def ok(message)`
+  - `count_cli_commands` (function, line 32) `def count_cli_commands()`
+  - `count_mcp_tools` (function, line 43) `def count_mcp_tools()`
+  - `count_addons` (function, line 48) `def count_addons()`
+  - `check_versions` (function, line 52) `def check_versions()`
+  - `check_doc_counts` (function, line 70) `def check_doc_counts(commands, mcp, addons)`
+  - `check_tracked_secrets` (function, line 79) `def check_tracked_secrets()`
+  - `check_release_inputs` (function, line 100) `def check_release_inputs()`
+  - `main` (function, line 108) `def main()`
 
 ## scripts/update_apt_atomic_ids.py
 - Layer: utility

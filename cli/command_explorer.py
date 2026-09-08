@@ -195,10 +195,13 @@ class ExplorerConfig:
 
 def _load_command_index(path: Path | None = None) -> dict[str, Any]:
     """Load the command index JSON. Returns empty dict on failure."""
-    p = path or COMMAND_INDEX_PATH
     try:
-        return json.loads(p.read_text())
-    except Exception:
+        from cli.palette import CommandIndexError, load_index
+    except ImportError:
+        return {}
+    try:
+        return load_index(str(path) if path is not None else None)
+    except (CommandIndexError, OSError, ValueError):
         return {}
 
 

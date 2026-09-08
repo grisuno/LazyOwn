@@ -114,11 +114,9 @@ class PaletteRenderConfig:
             A safe single-line representation; empty string when ``summary``
             is falsy.
         """
-        text = (summary or "").strip()
-        if len(text) <= self.summary_max_chars:
-            return text
-        cutoff = max(0, self.summary_max_chars - len(self.summary_truncation_marker))
-        return text[:cutoff] + self.summary_truncation_marker
+        from core.text_utils import truncate_text
+
+        return truncate_text((summary or "").strip(), self.summary_max_chars, marker=self.summary_truncation_marker)
 
 
 @dataclass(frozen=True)

@@ -289,8 +289,12 @@ def _save_state(state: EngagementState) -> None:
 
 def _load_index() -> dict[str, Any]:
     try:
-        return json.loads(INDEX_PATH.read_text(encoding="utf-8"))
-    except Exception:
+        from cli.palette import CommandIndexError, load_index
+    except ImportError:
+        return {}
+    try:
+        return load_index()
+    except (CommandIndexError, OSError, ValueError):
         return {}
 
 

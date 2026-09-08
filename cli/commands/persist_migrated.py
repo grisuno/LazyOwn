@@ -183,15 +183,25 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             return
 
         # Construct and execute the remmina command
-        remmina_command = f'remmina -c rdp://{username}@{self.params['rhost']}'
+        username = username.strip()
+        if not username or any(ch in username for ch in ";|&$()`{}!><*?~#\\'\"\n\r"):
+            print_error("Error: Invalid username in credentials file.")
+            return
         password = password.replace('\r', '').replace('\n', '').splitlines()[0]
-        print_msg(password)
-        command = f'printf "{password}" | xclip -sel clip'
-        self.cmd(command)
+        from core.hardening import safe_clipboard_copy
 
-        print_msg(f"Executing command: {remmina_command}")
+        if not safe_clipboard_copy(password):
+            print_error("Failed to copy password to clipboard (install xclip or xsel)")
+            return
+        print_msg("Password copied to clipboard; not displayed for safety.")
+        rhost_value = str(self.params['rhost']).strip()
+        print_msg(f"Executing remmina against {rhost_value} as {username}")
         try:
-            subprocess.run(remmina_command, shell=True, check=True)
+            subprocess.run(
+                ["remmina", "-c", f"rdp://{username}@{rhost_value}"],
+                shell=False,
+                check=True,
+            )
         except subprocess.CalledProcessError as e:
             print_error(f"Error executing remmina command: {e}")
         return

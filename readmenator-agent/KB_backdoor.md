@@ -11,12 +11,14 @@ str_cut(char str[], int slice_from, int slice_to)`
   - `Shell` (function, line 83) `void Shell()`
   - `WinMain` (function, line 124) `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
   - `bzero` (macro, line 13)
+- Depends on: `modules/backdoor/keylogger.h`
 
 ## modules/backdoor/keylogger.h
 - Layer: infrastructure
 - Language: h
 - Symbols:
   - `logg` (function, line 1) `DWORD WINAPI logg(LPVOID lpParam)`
+- Imported by: `modules/backdoor/backdoor.c`
 
 ## modules/backdoor/server.c
 - Layer: utility

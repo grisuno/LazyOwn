@@ -203,6 +203,7 @@
   - `LISTENER_PORT` (macro, line 29)
   - `SPECIAL_STRING` (macro, line 31)
   - `SPECIAL_STRING_PORT` (macro, line 34)
+- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ## modules/rootkit/rootkit.mod.c
 - Layer: utility

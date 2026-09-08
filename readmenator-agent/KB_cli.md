@@ -31,19 +31,19 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AutoCryptoConfig` (class, line 45) `class AutoCryptoConfig`
-  - `AutoCryptoEngine` (class, line 74) `class AutoCryptoEngine`
-  - `build_password_provider_from_cli_login` (method, line 250) `def build_password_provider_from_cli_login()`
-  - `__init__` (method, line 82) `def __init__(self, config)`
-  - `enabled` (method, line 87) `def enabled(self)`
-  - `is_encrypted` (method, line 92) `def is_encrypted(self)`
-  - `encrypt_session` (method, line 118) `def encrypt_session(self)`
-  - `decrypt_session` (method, line 163) `def decrypt_session(self)`
-  - `_get_password` (method, line 224) `def _get_password(self)`
-  - `_load_or_create_salt` (method, line 233) `def _load_or_create_salt(self)`
-  - `_derive_key` (method, line 244) `def _derive_key(password, salt)`
-  - `_provider` (method, line 263) `def _provider()`
-- Depends on: `core/crypto.py`, `modules/cli_auth.py`
+  - `AutoCryptoConfig` (class, line 48) `class AutoCryptoConfig`
+  - `AutoCryptoEngine` (class, line 77) `class AutoCryptoEngine`
+  - `build_password_provider_from_cli_login` (method, line 285) `def build_password_provider_from_cli_login()`
+  - `__init__` (method, line 85) `def __init__(self, config)`
+  - `enabled` (method, line 90) `def enabled(self)`
+  - `is_encrypted` (method, line 95) `def is_encrypted(self)`
+  - `encrypt_session` (method, line 124) `def encrypt_session(self)`
+  - `decrypt_session` (method, line 174) `def decrypt_session(self)`
+  - `_get_password` (method, line 239) `def _get_password(self)`
+  - `_load_or_create_salt` (method, line 248) `def _load_or_create_salt(self)`
+  - `_derive_key` (method, line 279) `def _derive_key(password, salt)`
+  - `_provider` (method, line 298) `def _provider()`
+- Depends on: `core/crypto.py`, `core/logging.py`, `modules/cli_auth.py`
 - Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_auto_crypto.py`, `mutants/tests/test_auto_crypto.py`, `mutants/tests/test_auto_crypto.py`, `tests/test_auto_crypto.py`, `tests/test_auto_crypto.py`, `tests/test_auto_crypto.py`
 
 ## cli/autosuggest.py
@@ -58,10 +58,10 @@
   - `GraphProvider` (class, line 189) `class GraphProvider`
   - `AutoSuggestEngine` (class, line 245) `class AutoSuggestEngine`
   - `_truncate` (method, line 335) `def _truncate(value, max_len)`
-  - `format_hint_line` (method, line 344) `def format_hint_line(suggestion)`
-  - `render_hint_line` (method, line 377) `def render_hint_line(engine)`
-  - `_hint_console` (method, line 413) `def _hint_console()`
-  - `build_default_engine` (method, line 429) `def build_default_engine(advisor, chain, phase_priority)`
+  - `format_hint_line` (method, line 342) `def format_hint_line(suggestion)`
+  - `render_hint_line` (method, line 375) `def render_hint_line(engine)`
+  - `_hint_console` (method, line 411) `def _hint_console()`
+  - `build_default_engine` (method, line 427) `def build_default_engine(advisor, chain, phase_priority)`
   - `suggest` (method, line 95) `def suggest(self, context)`
   - `__init__` (method, line 105) `def __init__(self, providers)`
   - `suggest` (method, line 115) `def suggest(self, context)`
@@ -77,7 +77,7 @@
   - `refresh` (method, line 292) `def refresh(self, context)`
   - `accept` (method, line 309) `def accept(self)`
   - `display_text` (method, line 317) `def display_text(self)`
-- Depends on: `core/console.py`
+- Depends on: `core/console.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_autosuggest.py`, `tests/test_autosuggest.py`
 
 ## cli/banner_config.py
@@ -203,7 +203,7 @@
   - `_draw_preview` (method, line 1316) `def _draw_preview(self, stdscr, top, left, width, lines)`
   - `_draw_footer` (method, line 1328) `def _draw_footer(self, stdscr, row_y, left, width)`
   - `_color` (method, line 1342) `def _color(self, pair)`
-- Depends on: `cli/engagement_hooks.py`, `core/parsers.py`, `modules/cli_auth.py`
+- Depends on: `cli/engagement_hooks.py`, `core/parsers.py`, `core/safe_exec.py`, `modules/cli_auth.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_fuzzy_picker.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_fuzzy_picker.py`, `utils.py`
 
 ## cli/chain_mode.py
@@ -349,12 +349,12 @@
 - Symbols:
   - `ExplorerConfig` (class, line 190) `class ExplorerConfig`
   - `_load_command_index` (method, line 196) `def _load_command_index(path)`
-  - `CommandExplorer` (class, line 205) `class CommandExplorer`
-  - `__init__` (method, line 214) `def __init__(self, aliases, params, config)`
-  - `render_goals_overview` (method, line 225) `def render_goals_overview(self)`
-  - `render_goal_commands` (method, line 238) `def render_goal_commands(self, goal_key)`
-  - `render_search` (method, line 258) `def render_search(self, query)`
-- Depends on: `core/console.py`
+  - `CommandExplorer` (class, line 208) `class CommandExplorer`
+  - `__init__` (method, line 217) `def __init__(self, aliases, params, config)`
+  - `render_goals_overview` (method, line 228) `def render_goals_overview(self)`
+  - `render_goal_commands` (method, line 241) `def render_goal_commands(self, goal_key)`
+  - `render_search` (method, line 261) `def render_search(self, query)`
+- Depends on: `cli/palette.py`, `core/console.py`
 - Imported by: `cli/commands/misc_migrated.py`
 
 ## cli/command_form.py
@@ -423,14 +423,14 @@
   - `CommandInfo` (class, line 63) `class CommandInfo`
   - `ContextualHelpConfig` (class, line 79) `class ContextualHelpConfig`
   - `_load_command_index` (method, line 86) `def _load_command_index(path)`
-  - `_build_command_lookup` (method, line 95) `def _build_command_lookup(index)`
-  - `ContextualHelp` (class, line 165) `class ContextualHelp`
-  - `__init__` (method, line 174) `def __init__(self, aliases, params, config)`
-  - `get_command_info` (method, line 186) `def get_command_info(self, name)`
-  - `render_command_help` (method, line 206) `def render_command_help(self, name)`
-  - `render_phase_commands` (method, line 259) `def render_phase_commands(self, phase)`
-  - `render_requirements_status` (method, line 279) `def render_requirements_status(self)`
-- Depends on: `cli/phase_labels.py`, `core/console.py`
+  - `_build_command_lookup` (method, line 98) `def _build_command_lookup(index)`
+  - `ContextualHelp` (class, line 168) `class ContextualHelp`
+  - `__init__` (method, line 177) `def __init__(self, aliases, params, config)`
+  - `get_command_info` (method, line 189) `def get_command_info(self, name)`
+  - `render_command_help` (method, line 209) `def render_command_help(self, name)`
+  - `render_phase_commands` (method, line 262) `def render_phase_commands(self, phase)`
+  - `render_requirements_status` (method, line 282) `def render_requirements_status(self)`
+- Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `tests/test_phase_labels.py`
 
 ## cli/dashboard_tui.py
@@ -514,36 +514,36 @@
   - `_load_state` (method, line 260) `def _load_state()`
   - `_save_state` (method, line 280) `def _save_state(state)`
   - `_load_index` (method, line 290) `def _load_index()`
-  - `_normalize_command` (method, line 297) `def _normalize_command(cmd)`
-  - `_is_recordable_command` (method, line 302) `def _is_recordable_command(cmd)`
-  - `_sanitize_seen` (method, line 328) `def _sanitize_seen(names, known)`
-  - `heal_commands_seen` (method, line 361) `def heal_commands_seen(known)`
-  - `_next_threshold` (method, line 390) `def _next_threshold(current)`
-  - `_phase_for_cmd` (method, line 396) `def _phase_for_cmd(cmd, index)`
-  - `_commands_in_phase` (method, line 405) `def _commands_in_phase(phase, index)`
-  - `_summary_for_cmd` (method, line 410) `def _summary_for_cmd(cmd, index)`
-  - `_run_curiosity` (method, line 427) `def _run_curiosity(cmd, state, index)`
-  - `_render_streak` (method, line 455) `def _render_streak(ctx)`
-  - `_render_exploration` (method, line 484) `def _render_exploration(ctx)`
-  - `_render_phase_badge` (method, line 502) `def _render_phase_badge(ctx)`
-  - `_render_hidden_feature` (method, line 518) `def _render_hidden_feature(ctx)`
-  - `_render_arsenal_tip` (method, line 532) `def _render_arsenal_tip(ctx)`
-  - `_render_methodology_task` (method, line 540) `def _render_methodology_task(ctx)`
-  - `_render_methodology_objective` (method, line 579) `def _render_methodology_objective(ctx)`
-  - `_render_methodology_note` (method, line 626) `def _render_methodology_note(ctx)`
-  - `_fire_vri_reward` (method, line 668) `def _fire_vri_reward(state, ctx)`
-  - `get_karma_name` (method, line 712) `def get_karma_name(elo)`
-  - `_award_elo` (method, line 730) `def _award_elo(cmd, first_time, new_phase, current_phase)`
-  - `_sync_user_elo` (method, line 756) `def _sync_user_elo(delta)`
-  - `_persist_notification` (method, line 824) `def _persist_notification(html)`
-  - `_check_karma_up` (method, line 860) `def _check_karma_up(state)`
-  - `render_engagement_hook` (method, line 894) `def render_engagement_hook(cmd, phase, enabled)`
-  - `get_state_snapshot` (method, line 974) `def get_state_snapshot()`
-  - `_check_badges` (method, line 1003) `def _check_badges(cmd, first_time)`
-  - `_print_badge` (method, line 1050) `def _print_badge(name, description)`
-  - `reset_session` (method, line 1060) `def reset_session()`
-- Depends on: `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`
+  - `_normalize_command` (method, line 301) `def _normalize_command(cmd)`
+  - `_is_recordable_command` (method, line 306) `def _is_recordable_command(cmd)`
+  - `_sanitize_seen` (method, line 332) `def _sanitize_seen(names, known)`
+  - `heal_commands_seen` (method, line 365) `def heal_commands_seen(known)`
+  - `_next_threshold` (method, line 394) `def _next_threshold(current)`
+  - `_phase_for_cmd` (method, line 400) `def _phase_for_cmd(cmd, index)`
+  - `_commands_in_phase` (method, line 409) `def _commands_in_phase(phase, index)`
+  - `_summary_for_cmd` (method, line 414) `def _summary_for_cmd(cmd, index)`
+  - `_run_curiosity` (method, line 431) `def _run_curiosity(cmd, state, index)`
+  - `_render_streak` (method, line 459) `def _render_streak(ctx)`
+  - `_render_exploration` (method, line 488) `def _render_exploration(ctx)`
+  - `_render_phase_badge` (method, line 506) `def _render_phase_badge(ctx)`
+  - `_render_hidden_feature` (method, line 522) `def _render_hidden_feature(ctx)`
+  - `_render_arsenal_tip` (method, line 536) `def _render_arsenal_tip(ctx)`
+  - `_render_methodology_task` (method, line 544) `def _render_methodology_task(ctx)`
+  - `_render_methodology_objective` (method, line 583) `def _render_methodology_objective(ctx)`
+  - `_render_methodology_note` (method, line 630) `def _render_methodology_note(ctx)`
+  - `_fire_vri_reward` (method, line 672) `def _fire_vri_reward(state, ctx)`
+  - `get_karma_name` (method, line 716) `def get_karma_name(elo)`
+  - `_award_elo` (method, line 734) `def _award_elo(cmd, first_time, new_phase, current_phase)`
+  - `_sync_user_elo` (method, line 760) `def _sync_user_elo(delta)`
+  - `_persist_notification` (method, line 828) `def _persist_notification(html)`
+  - `_check_karma_up` (method, line 864) `def _check_karma_up(state)`
+  - `render_engagement_hook` (method, line 898) `def render_engagement_hook(cmd, phase, enabled)`
+  - `get_state_snapshot` (method, line 978) `def get_state_snapshot()`
+  - `_check_badges` (method, line 1007) `def _check_badges(cmd, first_time)`
+  - `_print_badge` (method, line 1054) `def _print_badge(name, description)`
+  - `reset_session` (method, line 1064) `def reset_session()`
+- Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_and_ping.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_command_gate.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## cli/exploit_advisor.py
 - Layer: utility
@@ -743,10 +743,10 @@
   - `GraphOverlayConfig` (class, line 41) `class GraphOverlayConfig`
   - `GraphOverlayItem` (class, line 59) `class GraphOverlayItem`
   - `GraphOverlayState` (class, line 69) `class GraphOverlayState`
-  - `_default_advisor_factory` (method, line 182) `def _default_advisor_factory()`
-  - `build_state` (method, line 193) `def build_state(config, advisor_factory)`
-  - `launch_overlay` (method, line 204) `def launch_overlay(payload, state, runner)`
-  - `_build_app` (method, line 236) `def _build_app(state, theme)`
+  - `_default_advisor_factory` (method, line 181) `def _default_advisor_factory()`
+  - `build_state` (method, line 192) `def build_state(config, advisor_factory)`
+  - `launch_overlay` (method, line 203) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (method, line 235) `def _build_app(state, theme)`
   - `is_available` (method, line 77) `def is_available(self)`
   - `set_focus` (method, line 87) `def set_focus(self, value)`
   - `toggle_view` (method, line 95) `def toggle_view(self)`
@@ -756,16 +756,16 @@
   - `_row` (method, line 147) `def _row(self, payload, badge)`
   - `_edge_badge` (method, line 159) `def _edge_badge(self, edges)`
   - `_truncate` (method, line 169) `def _truncate(self, value)`
-  - `_advisor` (method, line 175) `def _advisor(self)`
-  - `_GraphOverlayApp` (class, line 247) `class _GraphOverlayApp(App)`
-  - `__init__` (method, line 261) `def __init__(self)`
-  - `compose` (method, line 266) `def compose(self)`
-  - `on_mount` (method, line 274) `def on_mount(self)`
-  - `on_input_changed` (method, line 277) `def on_input_changed(self, event)`
-  - `action_toggle_view` (method, line 281) `def action_toggle_view(self)`
-  - `action_close` (method, line 285) `def action_close(self)`
-  - `_refresh` (method, line 288) `def _refresh(self)`
-- Depends on: `cli/commands/containers.py`, `cli/commands/enum.py`, `cli/graph_advisor.py`, `cli/themes.py`
+  - `_advisor` (method, line 174) `def _advisor(self)`
+  - `_GraphOverlayApp` (class, line 246) `class _GraphOverlayApp(App)`
+  - `__init__` (method, line 260) `def __init__(self)`
+  - `compose` (method, line 265) `def compose(self)`
+  - `on_mount` (method, line 273) `def on_mount(self)`
+  - `on_input_changed` (method, line 276) `def on_input_changed(self, event)`
+  - `action_toggle_view` (method, line 280) `def action_toggle_view(self)`
+  - `action_close` (method, line 284) `def action_close(self)`
+  - `_refresh` (method, line 287) `def _refresh(self)`
+- Depends on: `cli/commands/containers.py`, `cli/commands/enum.py`, `cli/graph_advisor.py`, `cli/themes.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `mutants/tests/test_graph_overlay.py`, `tests/test_graph_overlay.py`
 
 ## cli/headless.py
@@ -939,7 +939,7 @@
   - `get` (method, line 114) `def get(name)`
   - `duplicates` (method, line 125) `def duplicates()`
   - `totals` (method, line 130) `def totals()`
-- Imported by: `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyc2.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`
+- Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`
 
 ## cli/palette_command.py
 - Layer: utility
@@ -947,56 +947,56 @@
 - Symbols:
   - `PaletteMode` (class, line 33) `class PaletteMode(Enum)`
   - `PaletteRenderConfig` (class, line 44) `class PaletteRenderConfig`
-  - `PaletteArgs` (class, line 125) `class PaletteArgs`
-  - `PaletteArgumentParser` (class, line 134) `class PaletteArgumentParser`
-  - `PaletteIndexQuery` (class, line 186) `class PaletteIndexQuery`
-  - `PaletteRenderer` (class, line 279) `class PaletteRenderer`
-  - `_filter_phase_rows` (method, line 397) `def _filter_phase_rows(rows, query)`
-  - `_enrich_detail_entry` (method, line 411) `def _enrich_detail_entry(entry)`
-  - `render` (method, line 449) `def render(index, line)`
-  - `PaletteJsonResult` (class, line 489) `class PaletteJsonResult`
-  - `PaletteJsonRenderer` (class, line 516) `class PaletteJsonRenderer`
-  - `render_json` (method, line 568) `def render_json(index, line)`
-  - `PaletteViewConfig` (class, line 607) `class PaletteViewConfig`
-  - `build_palette_view` (method, line 621) `def build_palette_view(index)`
-  - `_enrich_commands_for_view` (method, line 667) `def _enrich_commands_for_view(rows)`
-  - `_ensure_neighbour_keys` (method, line 691) `def _ensure_neighbour_keys(rows)`
-  - `_load_recent_commands` (method, line 714) `def _load_recent_commands()`
-  - `_ordered_phase_ids` (method, line 730) `def _ordered_phase_ids(config, phase_counts)`
-  - `CompletionPosition` (class, line 739) `class CompletionPosition`
-  - `PaletteCompleter` (class, line 746) `class PaletteCompleter`
+  - `PaletteArgs` (class, line 123) `class PaletteArgs`
+  - `PaletteArgumentParser` (class, line 132) `class PaletteArgumentParser`
+  - `PaletteIndexQuery` (class, line 184) `class PaletteIndexQuery`
+  - `PaletteRenderer` (class, line 277) `class PaletteRenderer`
+  - `_filter_phase_rows` (method, line 395) `def _filter_phase_rows(rows, query)`
+  - `_enrich_detail_entry` (method, line 409) `def _enrich_detail_entry(entry)`
+  - `render` (method, line 447) `def render(index, line)`
+  - `PaletteJsonResult` (class, line 487) `class PaletteJsonResult`
+  - `PaletteJsonRenderer` (class, line 514) `class PaletteJsonRenderer`
+  - `render_json` (method, line 566) `def render_json(index, line)`
+  - `PaletteViewConfig` (class, line 605) `class PaletteViewConfig`
+  - `build_palette_view` (method, line 619) `def build_palette_view(index)`
+  - `_enrich_commands_for_view` (method, line 665) `def _enrich_commands_for_view(rows)`
+  - `_ensure_neighbour_keys` (method, line 689) `def _ensure_neighbour_keys(rows)`
+  - `_load_recent_commands` (method, line 712) `def _load_recent_commands()`
+  - `_ordered_phase_ids` (method, line 728) `def _ordered_phase_ids(config, phase_counts)`
+  - `CompletionPosition` (class, line 737) `class CompletionPosition`
+  - `PaletteCompleter` (class, line 744) `class PaletteCompleter`
   - `truncate_summary` (method, line 107) `def truncate_summary(self, summary)`
-  - `__init__` (method, line 151) `def __init__(self, config)`
-  - `parse` (method, line 154) `def parse(self, line)`
-  - `__init__` (method, line 195) `def __init__(self, index)`
-  - `commands` (method, line 199) `def commands(self)`
-  - `phases` (method, line 205) `def phases(self)`
-  - `phase_counts` (method, line 210) `def phase_counts(self)`
-  - `in_phase` (method, line 215) `def in_phase(self, phase)`
-  - `search` (method, line 220) `def search(self, query)`
-  - `detail` (method, line 236) `def detail(self, target)`
-  - `next_phase` (method, line 251) `def next_phase(self, current)`
-  - `__init__` (method, line 287) `def __init__(self, config)`
-  - `render_overview` (method, line 290) `def render_overview(self, phase_counts)`
-  - `render_phase` (method, line 306) `def render_phase(self, phase, rows)`
-  - `render_search` (method, line 314) `def render_search(self, query, rows)`
-  - `render_detail` (method, line 322) `def render_detail(self, entry)`
-  - `render_next` (method, line 362) `def render_next(self, phase, rows)`
-  - `_format_neighbours` (method, line 372) `def _format_neighbours(self, values)`
-  - `_ordered_phases` (method, line 378) `def _ordered_phases(self, phase_counts)`
-  - `_format_name_summary_table` (method, line 385) `def _format_name_summary_table(self, header, rows)`
-  - `to_dict` (method, line 504) `def to_dict(self)`
-  - `__init__` (method, line 524) `def __init__(self, config)`
-  - `render_overview` (method, line 527) `def render_overview(self, phase_counts)`
-  - `render_phase` (method, line 534) `def render_phase(self, phase, query, rows)`
-  - `render_search` (method, line 543) `def render_search(self, query, rows)`
-  - `render_detail` (method, line 551) `def render_detail(self, target, entry)`
-  - `render_next` (method, line 559) `def render_next(self, phase, rows)`
-  - `__init__` (method, line 757) `def __init__(self, config)`
-  - `complete` (method, line 760) `def complete(self, text, line, endidx, index)`
-  - `_tokenise` (method, line 786) `def _tokenise(self, line, endidx)`
-  - `_filter_prefix` (method, line 799) `def _filter_prefix(candidates, text)`
-- Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`
+  - `__init__` (method, line 149) `def __init__(self, config)`
+  - `parse` (method, line 152) `def parse(self, line)`
+  - `__init__` (method, line 193) `def __init__(self, index)`
+  - `commands` (method, line 197) `def commands(self)`
+  - `phases` (method, line 203) `def phases(self)`
+  - `phase_counts` (method, line 208) `def phase_counts(self)`
+  - `in_phase` (method, line 213) `def in_phase(self, phase)`
+  - `search` (method, line 218) `def search(self, query)`
+  - `detail` (method, line 234) `def detail(self, target)`
+  - `next_phase` (method, line 249) `def next_phase(self, current)`
+  - `__init__` (method, line 285) `def __init__(self, config)`
+  - `render_overview` (method, line 288) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 304) `def render_phase(self, phase, rows)`
+  - `render_search` (method, line 312) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 320) `def render_detail(self, entry)`
+  - `render_next` (method, line 360) `def render_next(self, phase, rows)`
+  - `_format_neighbours` (method, line 370) `def _format_neighbours(self, values)`
+  - `_ordered_phases` (method, line 376) `def _ordered_phases(self, phase_counts)`
+  - `_format_name_summary_table` (method, line 383) `def _format_name_summary_table(self, header, rows)`
+  - `to_dict` (method, line 502) `def to_dict(self)`
+  - `__init__` (method, line 522) `def __init__(self, config)`
+  - `render_overview` (method, line 525) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 532) `def render_phase(self, phase, query, rows)`
+  - `render_search` (method, line 541) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 549) `def render_detail(self, target, entry)`
+  - `render_next` (method, line 557) `def render_next(self, phase, rows)`
+  - `__init__` (method, line 755) `def __init__(self, config)`
+  - `complete` (method, line 758) `def complete(self, text, line, endidx, index)`
+  - `_tokenise` (method, line 784) `def _tokenise(self, line, endidx)`
+  - `_filter_prefix` (method, line 797) `def _filter_prefix(candidates, text)`
+- Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `mutants/tests/test_command_palette.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`, `tests/test_command_palette.py`
 
 ## cli/palette_graph.py
@@ -1025,28 +1025,28 @@
   - `PaletteOverlayConfig` (class, line 38) `class PaletteOverlayConfig`
   - `PaletteRow` (class, line 59) `class PaletteRow`
   - `PaletteOverlayState` (class, line 70) `class PaletteOverlayState`
-  - `_load_recents` (method, line 137) `def _load_recents()`
-  - `_load_index` (method, line 152) `def _load_index()`
-  - `build_state` (method, line 163) `def build_state(payload, index, recents, config)`
-  - `launch_overlay` (method, line 189) `def launch_overlay(payload, state, runner)`
-  - `_build_app` (method, line 229) `def _build_app(state, theme)`
+  - `_load_recents` (method, line 136) `def _load_recents()`
+  - `_load_index` (method, line 151) `def _load_index()`
+  - `build_state` (method, line 162) `def build_state(payload, index, recents, config)`
+  - `launch_overlay` (method, line 188) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (method, line 228) `def _build_app(state, theme)`
   - `set_query` (method, line 83) `def set_query(self, value)`
   - `rows` (method, line 87) `def rows(self)`
   - `_score` (method, line 113) `def _score(self, name, summary, needle, is_recent)`
   - `_truncate` (method, line 130) `def _truncate(self, value, max_chars)`
-  - `_PaletteOverlayApp` (class, line 241) `class _PaletteOverlayApp(App)`
-  - `__init__` (method, line 256) `def __init__(self)`
-  - `compose` (method, line 262) `def compose(self)`
-  - `on_mount` (method, line 270) `def on_mount(self)`
-  - `on_input_changed` (method, line 273) `def on_input_changed(self, event)`
-  - `on_input_submitted` (method, line 277) `def on_input_submitted(self, event)`
-  - `on_list_view_selected` (method, line 280) `def on_list_view_selected(self, event)`
-  - `action_cancel` (method, line 283) `def action_cancel(self)`
-  - `action_select_current` (method, line 286) `def action_select_current(self)`
-  - `_commit_from_item` (method, line 293) `def _commit_from_item(self, item)`
-  - `_refresh_rows` (method, line 301) `def _refresh_rows(self)`
-  - `_format_row` (method, line 315) `def _format_row(self, row)`
-- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`
+  - `_PaletteOverlayApp` (class, line 240) `class _PaletteOverlayApp(App)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `compose` (method, line 261) `def compose(self)`
+  - `on_mount` (method, line 269) `def on_mount(self)`
+  - `on_input_changed` (method, line 272) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 276) `def on_input_submitted(self, event)`
+  - `on_list_view_selected` (method, line 279) `def on_list_view_selected(self, event)`
+  - `action_cancel` (method, line 282) `def action_cancel(self)`
+  - `action_select_current` (method, line 285) `def action_select_current(self)`
+  - `_commit_from_item` (method, line 292) `def _commit_from_item(self, item)`
+  - `_refresh_rows` (method, line 300) `def _refresh_rows(self)`
+  - `_format_row` (method, line 314) `def _format_row(self, row)`
+- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `mutants/tests/test_palette_overlay.py`, `tests/test_palette_overlay.py`
 
 ## cli/palette_telemetry.py
@@ -1126,18 +1126,18 @@
   - `_first_token` (function, line 262) `def _first_token(raw)`
   - `_extract_labels` (function, line 267) `def _extract_labels(suggestions, limit)`
   - `_truncate` (function, line 278) `def _truncate(value, max_len)`
-  - `_render` (function, line 282) `def _render(labels)`
-  - `EvidenceHint` (class, line 297) `class EvidenceHint`
-  - `confidence_from_score` (method, line 319) `def confidence_from_score(score)`
-  - `_clean_reason` (method, line 341) `def _clean_reason(reasons)`
-  - `build_evidence_hints` (method, line 360) `def build_evidence_hints(recommendations, limit)`
-  - `render_evidence_hints` (method, line 398) `def render_evidence_hints(hints)`
-  - `build_evidence_hint_lines` (method, line 414) `def build_evidence_hint_lines(hints)`
-  - `read_run_commands` (method, line 441) `def read_run_commands(sessions_dir)`
-  - `_collect_command_hints` (method, line 474) `def _collect_command_hints(cmd, phase, already_run, limit)`
-  - `render_command_hints` (method, line 512) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
-  - `command_hints` (method, line 547) `def command_hints(last_command, phase, sessions_dir, limit)`
-- Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`
+  - `_render` (function, line 284) `def _render(labels)`
+  - `EvidenceHint` (class, line 299) `class EvidenceHint`
+  - `confidence_from_score` (method, line 321) `def confidence_from_score(score)`
+  - `_clean_reason` (method, line 343) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (method, line 362) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (method, line 400) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (method, line 416) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (method, line 443) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (method, line 476) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (method, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (method, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
+- Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
 - Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_evidence_hints.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_reactive_hints.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `mutants/tests/test_reactive_hints_expanded.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`
 
 ## cli/reasoning_stream.py
@@ -1149,10 +1149,11 @@
   - `_format_time` (method, line 127) `def _format_time(ts)`
   - `_format_size` (method, line 134) `def _format_size(num_bytes)`
   - `_truncate` (method, line 141) `def _truncate(text, limit)`
-  - `_summarize` (method, line 149) `def _summarize(kind, payload)`
-  - `_extract_reward` (method, line 176) `def _extract_reward(payload)`
-  - `event_to_entry` (method, line 184) `def event_to_entry(event)`
-  - `latest_reasoning` (method, line 217) `def latest_reasoning(path, limit)`
+  - `_summarize` (method, line 148) `def _summarize(kind, payload)`
+  - `_extract_reward` (method, line 175) `def _extract_reward(payload)`
+  - `event_to_entry` (method, line 183) `def event_to_entry(event)`
+  - `latest_reasoning` (method, line 216) `def latest_reasoning(path, limit)`
+- Depends on: `core/text_utils.py`
 - Imported by: `cli/dashboard_tui.py`, `mutants/tests/test_reasoning_stream.py`, `tests/test_reasoning_stream.py`
 
 ## cli/recommendation.py
@@ -1284,13 +1285,13 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SessionSummary` (class, line 27) `class SessionSummary`
-  - `SessionResumerConfig` (class, line 39) `class SessionResumerConfig`
-  - `SessionResumer` (class, line 49) `class SessionResumer`
-  - `__init__` (method, line 56) `def __init__(self, config)`
-  - `_discover_targets` (method, line 60) `def _discover_targets(self)`
-  - `render_startup_panel` (method, line 127) `def render_startup_panel(self)`
-- Depends on: `core/console.py`
+  - `SessionSummary` (class, line 29) `class SessionSummary`
+  - `SessionResumerConfig` (class, line 41) `class SessionResumerConfig`
+  - `SessionResumer` (class, line 51) `class SessionResumer`
+  - `__init__` (method, line 58) `def __init__(self, config)`
+  - `_discover_targets` (method, line 62) `def _discover_targets(self)`
+  - `render_startup_panel` (method, line 129) `def render_startup_panel(self)`
+- Depends on: `core/console.py`, `core/logging.py`
 - Imported by: `cli/commands/misc_migrated.py`
 
 ## cli/sessions_browser.py
@@ -1544,67 +1545,66 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_noop` (function, line 137) `def _noop()`
-  - `TipsConfig` (class, line 142) `class TipsConfig`
-  - `EngagementState` (class, line 192) `class EngagementState`
-  - `TipsEngine` (class, line 210) `class TipsEngine`
-  - `_render_streak` (method, line 1122) `def _render_streak(ctx, state, config)`
-  - `_render_exploration` (method, line 1143) `def _render_exploration(ctx, state, config)`
-  - `_render_phase_badge` (method, line 1161) `def _render_phase_badge(ctx, state, config)`
-  - `_render_hidden_feature` (method, line 1179) `def _render_hidden_feature(ctx, state, config)`
-  - `_render_arsenal_tip` (method, line 1199) `def _render_arsenal_tip(ctx, state, config)`
-  - `build_default_tips_config` (method, line 1259) `def build_default_tips_config()`
-  - `__init__` (method, line 218) `def __init__(self, config, autosuggest_engine)`
-  - `enabled` (method, line 245) `def enabled(self)`
-  - `set_enabled` (method, line 249) `def set_enabled(self, value)`
-  - `render` (method, line 253) `def render(self, cmd, phase)`
-  - `_maybe_auto_show_killchain` (method, line 296) `def _maybe_auto_show_killchain(self, phase)`
-  - `_resolve_theme` (method, line 324) `def _resolve_theme(self)`
-  - `_flush_suggestions_panel` (method, line 335) `def _flush_suggestions_panel(self)`
-  - `_get_hints_level` (method, line 367) `def _get_hints_level(self)`
-  - `_resolve_phase` (method, line 378) `def _resolve_phase(self, cmd, fallback)`
-  - `_read_world_model_phase` (method, line 401) `def _read_world_model_phase(self)`
-  - `_read_os_id_from_session` (method, line 411) `def _read_os_id_from_session(self)`
-  - `render_session_start` (method, line 431) `def render_session_start(self, phase, os_id)`
-  - `get_state_snapshot` (method, line 463) `def get_state_snapshot(self)`
-  - `reset_session` (method, line 478) `def reset_session(self)`
-  - `heal_commands_seen` (method, line 483) `def heal_commands_seen(self, known)`
-  - `_render_kill_chain_hints` (method, line 498) `def _render_kill_chain_hints(self, cmd, phase)`
-  - `_load_payload` (method, line 515) `def _load_payload(self)`
-  - `_get_rec_engine` (method, line 528) `def _get_rec_engine(self)`
-  - `_compute_evidence_hints` (method, line 552) `def _compute_evidence_hints(self, cmd, phase)`
-  - `_collect_killchain_progress` (method, line 598) `def _collect_killchain_progress(self, current_phase)`
-  - `_maybe_show_full_killchain` (method, line 628) `def _maybe_show_full_killchain(self, cmd)`
-  - `_compute_command_hints` (method, line 639) `def _compute_command_hints(self, cmd, phase)`
-  - `_render_contextual_tip` (method, line 656) `def _render_contextual_tip(self, cmd, phase)`
-  - `_safe_tip_trigger` (method, line 695) `def _safe_tip_trigger(tip, ctx)`
-  - `_run_curiosity_reveal` (method, line 706) `def _run_curiosity_reveal(self, cmd, phase)`
-  - `_commands_in_exploration_phase` (method, line 730) `def _commands_in_exploration_phase(self, phase)`
-  - `_summary_for_exploration_cmd` (method, line 736) `def _summary_for_exploration_cmd(self, cmd)`
-  - `_refresh_autosuggest` (method, line 749) `def _refresh_autosuggest(self, cmd, phase)`
-  - `_render_autosuggest_hint` (method, line 773) `def _render_autosuggest_hint(self, engine)`
-  - `_update_engagement_state` (method, line 790) `def _update_engagement_state(self, cmd, phase)`
-  - `_award_elo` (method, line 831) `def _award_elo(self, cmd, first_time, new_phase, phase)`
-  - `_check_karma_up` (method, line 842) `def _check_karma_up(self)`
-  - `_print_separator` (method, line 859) `def _print_separator(self, width)`
-  - `_check_badges` (method, line 863) `def _check_badges(self, cmd, first_time)`
-  - `_print_badge` (method, line 890) `def _print_badge(self, name, description)`
-  - `_fire_vri_reward` (method, line 900) `def _fire_vri_reward(self, ctx)`
-  - `_pick_weighted` (method, line 930) `def _pick_weighted(rewards, weights)`
-  - `_ensure_state_and_index` (method, line 949) `def _ensure_state_and_index(self)`
-  - `_load_state` (method, line 955) `def _load_state(self)`
-  - `_save_state` (method, line 975) `def _save_state(self)`
-  - `_load_command_index` (method, line 1000) `def _load_command_index(self)`
-  - `_is_recordable_command` (method, line 1006) `def _is_recordable_command(self, cmd)`
-  - `_sanitize_seen` (method, line 1010) `def _sanitize_seen(self, names, known)`
-  - `_read_run_commands` (method, line 1024) `def _read_run_commands(self)`
-  - `_read_recent_commands_for_autosuggest` (method, line 1029) `def _read_recent_commands_for_autosuggest(self, limit)`
-  - `_phase_for_cmd` (method, line 1047) `def _phase_for_cmd(self, cmd)`
-  - `_truncate` (method, line 1058) `def _truncate(value, max_len)`
-  - `_get_karma_name` (method, line 1064) `def _get_karma_name(elo)`
-  - `_next_threshold` (method, line 1070) `def _next_threshold(self, current)`
-  - `_sync_user_elo` (method, line 1074) `def _sync_user_elo(self, delta)`
-- Depends on: `cli/autosuggest.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+  - `_noop` (function, line 132) `def _noop()`
+  - `TipsConfig` (class, line 137) `class TipsConfig`
+  - `TipsEngine` (class, line 186) `class TipsEngine`
+  - `_render_streak` (method, line 1102) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (method, line 1123) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (method, line 1141) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (method, line 1159) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (method, line 1179) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (method, line 1239) `def build_default_tips_config()`
+  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 221) `def enabled(self)`
+  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
+  - `render` (method, line 229) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 343) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 354) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 377) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 387) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 407) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 439) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 454) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 459) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 474) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 491) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 504) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 528) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 574) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 604) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 615) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 632) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 671) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 682) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 706) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 712) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 725) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 749) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 766) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 807) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 818) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 835) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 839) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 866) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 876) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 906) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 925) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 931) `def _load_state(self)`
+  - `_save_state` (method, line 951) `def _save_state(self)`
+  - `_load_command_index` (method, line 976) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 986) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 990) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1004) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1009) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1027) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1038) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1044) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1050) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1054) `def _sync_user_elo(self, delta)`
+- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
 - Imported by: `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_evidence_hints.py`, `mutants/tests/test_killchain_auto_refresh.py`, `mutants/tests/test_tips_engine.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
 
 ## cli/toast_bus.py
@@ -1616,12 +1616,12 @@
   - `ToastState` (class, line 88) `class ToastState`
   - `ToastReader` (class, line 170) `class ToastReader`
   - `ToastFormatter` (class, line 275) `class ToastFormatter`
-  - `ToastBus` (class, line 309) `class ToastBus`
-  - `_is_truthy` (method, line 391) `def _is_truthy(value, config, default)`
-  - `toasts_enabled` (method, line 405) `def toasts_enabled(payload, config)`
-  - `_budget` (method, line 413) `def _budget(payload, config)`
-  - `build_default_bus` (method, line 428) `def build_default_bus(payload, sessions_dir, console)`
-  - `render_toasts` (method, line 493) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ToastBus` (class, line 307) `class ToastBus`
+  - `_is_truthy` (method, line 389) `def _is_truthy(value, config, default)`
+  - `toasts_enabled` (method, line 403) `def toasts_enabled(payload, config)`
+  - `_budget` (method, line 411) `def _budget(payload, config)`
+  - `build_default_bus` (method, line 426) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (method, line 491) `def render_toasts(payload, sessions_dir, console, bus_factory)`
   - `__init__` (method, line 96) `def __init__(self, config, root)`
   - `path` (method, line 111) `def path(self)`
   - `get` (method, line 115) `def get(self, name)`
@@ -1640,11 +1640,11 @@
   - `format` (method, line 283) `def format(self, event)`
   - `_role_for` (method, line 295) `def _role_for(self, severity)`
   - `_truncate` (method, line 301) `def _truncate(self, value)`
-  - `__init__` (method, line 316) `def __init__(self, config, state, reader, formatter, console)`
-  - `collect` (method, line 331) `def collect(self)`
-  - `render` (method, line 343) `def render(self, enabled)`
-  - `mark_all_seen` (method, line 383) `def mark_all_seen(self)`
-- Depends on: `cli/themes.py`, `core/console.py`
+  - `__init__` (method, line 314) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 329) `def collect(self)`
+  - `render` (method, line 341) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 381) `def mark_all_seen(self)`
+- Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
 - Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `mutants/tests/test_toast_bus.py`, `tests/test_toast_bus.py`
 
 ## cli/tui_theme.py

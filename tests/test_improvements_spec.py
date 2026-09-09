@@ -158,12 +158,9 @@ def _build_test_orchestrator(
     hive_factory = (lambda: _FakeQueen()) if hive_available else None
     swan_factory = (lambda api_key: _FakeSwanOrchestrator()) if swan_available else None
     backends = [
-        DaemonBackend(config, factory=daemon_factory) if daemon_available
-        else _UnavailableBackend("daemon"),
-        HiveBackend(config, factory=hive_factory) if hive_available
-        else _UnavailableBackend("hive"),
-        SwanBackend(config, factory=swan_factory) if swan_available
-        else _UnavailableBackend("swan"),
+        DaemonBackend(config, factory=daemon_factory) if daemon_available else _UnavailableBackend("daemon"),
+        HiveBackend(config, factory=hive_factory) if hive_available else _UnavailableBackend("hive"),
+        SwanBackend(config, factory=swan_factory) if swan_available else _UnavailableBackend("swan"),
     ]
     registry = BackendRegistry(backends)
     router = RouterPolicy(config, registry)
@@ -263,9 +260,16 @@ class StatusBarRendererSpec(unittest.TestCase):
         line = self.renderer.render_plain(ctx)
         self.assertNotIn("\x1b", line)
 
-    def test_render_prompt_wraps_ansi_with_readline_markers(self) -> None:
+    def test_render_prompt_defaults_to_raw_ansi_for_prompt_toolkit(self) -> None:
         ctx = StatusContext("t", "recon", "x", "y")
         prompt = self.renderer.render_prompt(ctx, "lazy> ")
+        self.assertNotIn(self.config.readline_open_marker, prompt)
+        self.assertNotIn(self.config.readline_close_marker, prompt)
+        self.assertTrue(prompt.endswith("lazy> "))
+
+    def test_render_prompt_opt_in_readline_mode_wraps_ansi_with_markers(self) -> None:
+        ctx = StatusContext("t", "recon", "x", "y")
+        prompt = self.renderer.render_prompt(ctx, "lazy> ", readline_safe=True)
         self.assertIn(self.config.readline_open_marker, prompt)
         self.assertIn(self.config.readline_close_marker, prompt)
         self.assertTrue(prompt.endswith("lazy> "))
@@ -364,17 +368,13 @@ class StatusBarSourceSpec(unittest.TestCase):
         self.assertEqual(source.collect(), self.config.fallback_target)
 
     def test_phase_prefers_world_model_over_payload(self) -> None:
-        (self.root / self.config.world_model_filename).write_text(
-            json.dumps({"phase": "lateral"}), encoding="utf-8"
-        )
+        (self.root / self.config.world_model_filename).write_text(json.dumps({"phase": "lateral"}), encoding="utf-8")
         source = WorldModelPhaseSource(self.config, self.reader, {"current_phase": "recon"})
         self.assertEqual(source.collect(), "lateral")
 
     def test_finding_prefers_credentials_over_notes(self) -> None:
         (self.root / "credentials_alice.txt").write_text("alice:hunter2\n", encoding="utf-8")
-        (self.root / self.config.notes_filename).write_text(
-            json.dumps({"note": "later"}) + "\n", encoding="utf-8"
-        )
+        (self.root / self.config.notes_filename).write_text(json.dumps({"note": "later"}) + "\n", encoding="utf-8")
         source = SessionFindingSource(self.config, self.reader)
         self.assertTrue(source.collect().startswith("cred:"))
 
@@ -464,11 +464,13 @@ class BackendRegistrySpec(unittest.TestCase):
 
     def test_order_is_preserved(self) -> None:
         cfg = OrchestratorConfig()
-        registry = BackendRegistry([
-            DaemonBackend(cfg, factory=lambda g: _FakeEngagement({})),
-            HiveBackend(cfg, factory=lambda: _FakeQueen()),
-            SwanBackend(cfg, factory=lambda key: _FakeSwanOrchestrator()),
-        ])
+        registry = BackendRegistry(
+            [
+                DaemonBackend(cfg, factory=lambda g: _FakeEngagement({})),
+                HiveBackend(cfg, factory=lambda: _FakeQueen()),
+                SwanBackend(cfg, factory=lambda key: _FakeSwanOrchestrator()),
+            ]
+        )
         self.assertEqual(registry.names, ("daemon", "hive", "swan"))
 
 
@@ -477,11 +479,13 @@ class RouterPolicySpec(unittest.TestCase):
 
     def setUp(self) -> None:
         self.config = OrchestratorConfig()
-        self.registry = BackendRegistry([
-            DaemonBackend(self.config, factory=lambda g: _FakeEngagement({})),
-            HiveBackend(self.config, factory=lambda: _FakeQueen()),
-            SwanBackend(self.config, factory=lambda key: _FakeSwanOrchestrator()),
-        ])
+        self.registry = BackendRegistry(
+            [
+                DaemonBackend(self.config, factory=lambda g: _FakeEngagement({})),
+                HiveBackend(self.config, factory=lambda: _FakeQueen()),
+                SwanBackend(self.config, factory=lambda key: _FakeSwanOrchestrator()),
+            ]
+        )
         self.router = RouterPolicy(self.config, self.registry)
         self.validator = GoalValidator(self.config)
 
@@ -503,7 +507,9 @@ class RouterPolicySpec(unittest.TestCase):
 
     def test_unavailable_explicit_mode_returns_none(self) -> None:
         cfg = OrchestratorConfig()
-        registry = BackendRegistry([_UnavailableBackend("daemon"), _UnavailableBackend("hive"), _UnavailableBackend("swan")])
+        registry = BackendRegistry(
+            [_UnavailableBackend("daemon"), _UnavailableBackend("hive"), _UnavailableBackend("swan")]
+        )
         router = RouterPolicy(cfg, registry)
         goal = GoalValidator(cfg).validate(goal="enum", mode="swan")
         self.assertIsNone(router.choose(goal))
@@ -652,9 +658,7 @@ class ConfigDedupeSpec(unittest.TestCase):
     def test_utils_has_no_class_config(self) -> None:
         utils_path = REPO_ROOT / "utils.py"
         source = utils_path.read_text(encoding="utf-8")
-        offending = [
-            line for line in source.splitlines() if line.strip().startswith("class Config")
-        ]
+        offending = [line for line in source.splitlines() if line.strip().startswith("class Config")]
         self.assertEqual(offending, [], "utils.py must not declare class Config")
 
     def test_core_config_is_canonical(self) -> None:
@@ -724,11 +728,7 @@ class DocstringDisciplineSpec(unittest.TestCase):
         )
 
         def contains_emoji(text: str) -> bool:
-            return any(
-                low <= code_point <= high
-                for code_point in map(ord, text)
-                for low, high in emoji_ranges
-            )
+            return any(low <= code_point <= high for code_point in map(ord, text) for low, high in emoji_ranges)
 
         offenders: list[str] = []
         for relative in (
@@ -811,6 +811,7 @@ class CmdIntegrationRegressionSpec(unittest.TestCase):
         self.assertEqual(len(shell._precmd_hooks), 1)
         hook = shell._precmd_hooks[0]
         from cmd2.plugin import PrecommandData
+
         self.assertEqual(hook.__annotations__.get("data"), PrecommandData)
         self.assertEqual(hook.__annotations__.get("return"), PrecommandData)
 
@@ -859,6 +860,7 @@ class LiveShellBehaviourSpec(unittest.TestCase):
 
     def test_default_prompt_join_is_newline(self) -> None:
         from cli.status_bar import StatusBarConfig
+
         self.assertEqual(StatusBarConfig().prompt_join, "\n")
 
     def test_command_hint_source_returns_kill_chain_verb(self) -> None:

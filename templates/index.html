@@ -233,6 +233,16 @@
             var termSocket = null;
             var termInitialized = false;
 
+            function safeHtml(dirty) {
+                var text = String(dirty === null || dirty === undefined ? '' : dirty);
+                if (typeof DOMPurify !== 'undefined' && DOMPurify.sanitize) {
+                    return DOMPurify.sanitize(text);
+                }
+                var div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
             function initTerminal() {
                 if (termInitialized) {
                     fitAddon.fit();
@@ -444,7 +454,7 @@
 
                     spinner.style.display = 'none';
                     if (data.error) {
-                        outputDiv.innerHTML += `<p style="color: red;">${data.error}</p>`;
+                        outputDiv.innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         term.write('\r\n' + '\x1b[31m' + data.error + '\x1b[0m');
                     } else {
                         toastr('<h1>Command:' + command + "</h1>")
@@ -488,7 +498,7 @@
                         formGeneral_bot(cleanOutputText);
                     }
                     //outputDiv.innerHTML += `<p>${cleanOutputText}</p>`;
-                    outputAtomic.innerHTML += `<p>${cleanOutputText}</p>`;
+                    outputAtomic.innerHTML += `<p>${safeHtml(cleanOutputText)}</p>`;
                 } catch (error) {
 
                 }
@@ -635,7 +645,7 @@
                             try {
                                 const data = JSON.parse(chunk);
                                 if (data.response) {
-                                    responseDiv.innerHTML +=  data.response;
+                                    responseDiv.innerHTML += safeHtml(data.response);
                                 }
                             } catch (e) {
 
@@ -648,7 +658,7 @@
                         try {
                             const data = JSON.parse(buffer);
                             if (data.response) {
-                                responseDiv.innerHTML += data.response;
+                                responseDiv.innerHTML += safeHtml(data.response);
                             }
                         } catch (e) {
 
@@ -691,7 +701,7 @@
                             try {
                                 const data = JSON.parse(chunk);
                                 if (data.response) {
-                                    responseDiv.innerHTML +=  data.response;
+                                    responseDiv.innerHTML += safeHtml(data.response);
                                 }
                             } catch (e) {
 
@@ -704,7 +714,7 @@
                         try {
                             const data = JSON.parse(buffer);
                             if (data.response) {
-                                responseDiv.innerHTML += data.response;
+                                responseDiv.innerHTML += safeHtml(data.response);
                             }
                         } catch (e) {
 
@@ -760,7 +770,7 @@
 
                         var converter = new showdown.Converter();
                         var html = converter.makeHtml(data.response);
-                        document.getElementById('vulnResponse').innerHTML += `<p>${html}</p>`;
+                        document.getElementById('vulnResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                         if (data.response) {
 
 
@@ -770,7 +780,7 @@
                 .catch(error => {
                     spinner.style.display = 'none';
 
-                    document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                    document.getElementById('vulnResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                 });
             }
             function closePopup(self) {
@@ -857,8 +867,8 @@
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('generalResponse').innerHTML += `<p>${html}</p>`;
-                            document.getElementById('outputIA').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('generalResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
+                            document.getElementById('outputIA').innerHTML += `<p>${safeHtml(html)}</p>`;
 
 
                             if (data.response) {
@@ -870,7 +880,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('generalResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
             }
             toastr(bot)
@@ -1500,10 +1510,10 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
-                            document.getElementById('chatbotResponse').innerHTML += `<p>${data.response}</p>`;
+                            document.getElementById('chatbotResponse').innerHTML += `<p>${safeHtml(data.response)}</p>`;
                             if (data.response) {
                                 const userWantsToRun = confirm('Do you want to run the command? \n' + data['response']);
                                 if (userWantsToRun) {
@@ -1524,14 +1534,14 @@
                                         issueCommand(clientChoice, data['response']);
                                     }
                                 }
-                                document.getElementById('chatbotResponse').innerHTML += `<pre>${data.output}</pre>`;
+                                document.getElementById('chatbotResponse').innerHTML += `<pre>${safeHtml(data.output)}</pre>`;
                             }
                         }
                     })
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('chatbotResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     document.getElementById('chatbotInput').value = '';
@@ -1559,11 +1569,11 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('scriptResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('scriptResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('scriptResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1573,7 +1583,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('scriptResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     document.getElementById('scriptInput').value = '';
@@ -1626,12 +1636,12 @@
 
                         if (data.error) {
 
-                            document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('searchResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('searchResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('searchResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
 
@@ -1641,7 +1651,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('searchResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
 
@@ -1668,12 +1678,12 @@
                         spinner.style.display = 'none';
                         if (data.error) {
 
-                            document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('redopResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
 
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('redopResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('redopResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('redopResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1683,7 +1693,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('redopResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
 
@@ -1710,11 +1720,11 @@
 
                         spinner.style.display = 'none';
                         if (data.error) {
-                            document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${data.error}</p>`;
+                            document.getElementById('taskResponse').innerHTML += `<p style="color: red;">${safeHtml(data.error)}</p>`;
                         } else {
                             var converter = new showdown.Converter();
                             var html = converter.makeHtml(data.response);
-                            document.getElementById('taskResponse').innerHTML += `<p>${html}</p>`;
+                            document.getElementById('taskResponse').innerHTML += `<p>${safeHtml(html)}</p>`;
                             if (data.response) {
 
                                 //document.getElementById('taskResponse').innerHTML += `<pre>${data.output}</pre>`;
@@ -1724,7 +1734,7 @@
                     .catch(error => {
                         spinner.style.display = 'none';
 
-                        document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${error.message}</p>`;
+                        document.getElementById('taskResponse').innerHTML += `<p style="color: red;">Error de red: ${safeHtml(error.message)}</p>`;
                     });
 
                     fetchTasks();

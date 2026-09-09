@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import hashlib
 import os
-import re
 import stat
 import tempfile
 from pathlib import Path
@@ -40,6 +39,7 @@ def _read(rel: str) -> str:
 # SDD Contract 1: ICMP tunnel uses authenticated AES-GCM, never ECB
 # ---------------------------------------------------------------------------
 
+
 class TestIcmpAuthenticatedCrypto:
     """CONTRACT: the ICMP C2 tunnel must encrypt with AES-256-GCM and
     authenticate every payload; ECB mode must be gone."""
@@ -58,6 +58,7 @@ class TestIcmpAuthenticatedCrypto:
 
     def test_encrypt_decrypt_roundtrip(self):
         from modules.icmp_server import decrypt_data, encrypt_data
+
         key = hashlib.sha256(b"test-password").digest()
         plaintext = b"whoami"
         ciphertext = encrypt_data(plaintext, key)
@@ -65,6 +66,7 @@ class TestIcmpAuthenticatedCrypto:
 
     def test_tampered_payload_rejected(self):
         from modules.icmp_server import decrypt_data, encrypt_data
+
         key = hashlib.sha256(b"test-password").digest()
         ciphertext = bytearray(encrypt_data(b"whoami", key))
         ciphertext[-1] ^= 0x01
@@ -73,6 +75,7 @@ class TestIcmpAuthenticatedCrypto:
 
     def test_short_payload_rejected(self):
         from modules.icmp_server import decrypt_data
+
         with pytest.raises(ValueError):
             decrypt_data(b"short", hashlib.sha256(b"k").digest())
 
@@ -85,6 +88,7 @@ class TestIcmpAuthenticatedCrypto:
 # ---------------------------------------------------------------------------
 # SDD Contract 2: credential log fingerprint uses keyed HMAC, not salted SHA-256
 # ---------------------------------------------------------------------------
+
 
 class TestCredentialLogHashing:
     """CONTRACT: the audit-log fingerprint of a credential must be a keyed
@@ -101,6 +105,7 @@ class TestCredentialLogHashing:
     def test_fingerprint_is_hmac_of_proper_key(self):
         with patch.dict(os.environ, {"LAZYOWN_SECRET_KEY": "test-key-123"}):
             from modules.phishing_orchestrator import _hash_credential_for_log
+
             digest = _hash_credential_for_log("hunter2")
             assert len(digest) == 16
             assert all(c in "0123456789abcdef" for c in digest)
@@ -109,6 +114,7 @@ class TestCredentialLogHashing:
 # ---------------------------------------------------------------------------
 # SDD Contract 3: Caldera config contains no hardcoded credentials
 # ---------------------------------------------------------------------------
+
 
 class TestCalderaConfigNoHardcodedSecrets:
     """CONTRACT: create_caldera_config must generate every credential and set
@@ -131,6 +137,7 @@ class TestCalderaConfigNoHardcodedSecrets:
 
     def test_functional_generates_no_static_passwords(self):
         from utils import create_caldera_config
+
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, "default.yml")
             create_caldera_config(path)
@@ -143,6 +150,7 @@ class TestCalderaConfigNoHardcodedSecrets:
 # ---------------------------------------------------------------------------
 # SDD Contract 4: password spray never logs credentials in clear text
 # ---------------------------------------------------------------------------
+
 
 class TestSprayNoClearTextPassword:
     """CONTRACT: the ADFS spray function must not print the sprayed password."""
@@ -160,6 +168,7 @@ class TestSprayNoClearTextPassword:
 # ---------------------------------------------------------------------------
 # SDD Contract 5: phishing wizard encrypts captured credentials at rest
 # ---------------------------------------------------------------------------
+
 
 class TestPhishingWizardEncryptsCredentials:
     """CONTRACT: the campaign harvester must encrypt the password before
@@ -183,13 +192,14 @@ class TestPhishingWizardEncryptsCredentials:
 # SDD Contract 6: bootstrap admin password is persisted, not printed
 # ---------------------------------------------------------------------------
 
+
 class TestBootstrapPasswordNotPrinted:
     """CONTRACT: the one-time admin password must be written to an owner-only
     file rather than echoed to the console."""
 
     def test_no_password_print(self):
         source = _read("lazyc2.py")
-        assert 'admin / {one_time_password}' not in source
+        assert "admin / {one_time_password}" not in source
 
     def test_persist_helper_exists(self):
         source = _read("lazyc2.py")
@@ -208,6 +218,7 @@ class TestBootstrapPasswordNotPrinted:
 # SDD Contract 7: network OPSEC pins a secure minimum TLS version
 # ---------------------------------------------------------------------------
 
+
 class TestNetworkOpsecTlsVersion:
     """CONTRACT: TLS inspection must never negotiate below TLS 1.2."""
 
@@ -220,6 +231,7 @@ class TestNetworkOpsecTlsVersion:
 # SDD Contract 8: CSRF cookie client-id is validated, never reflected verbatim
 # ---------------------------------------------------------------------------
 
+
 class TestCsrfCookieInjection:
     """CONTRACT: the CSRF client-id cookie must not reflect arbitrary
     user-supplied values back into a Set-Cookie header."""
@@ -229,8 +241,10 @@ class TestCsrfCookieInjection:
         assert "_SAFE_CLIENT_ID.fullmatch(client_id)" in source
 
     def test_validator_accepts_only_urlsafe_token(self):
-        from lazyc2.blueprints.addons import _SAFE_CLIENT_ID
         import secrets
+
+        from lazyc2.blueprints.addons import _SAFE_CLIENT_ID
+
         assert _SAFE_CLIENT_ID.fullmatch(secrets.token_urlsafe(32)) is not None
         assert _SAFE_CLIENT_ID.fullmatch("value-with-injection\r\nSet-Cookie: evil=1") is None
         assert _SAFE_CLIENT_ID.fullmatch("<script>alert(1)</script>") is None
@@ -240,6 +254,7 @@ class TestCsrfCookieInjection:
 # ---------------------------------------------------------------------------
 # SDD Contract 9: health endpoints never leak exception internals
 # ---------------------------------------------------------------------------
+
 
 class TestHealthEndpointNoExceptionLeak:
     """CONTRACT: health responses must be generic 'error' strings; the raw

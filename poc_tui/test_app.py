@@ -3,16 +3,12 @@
 from __future__ import annotations
 
 import asyncio
-import json
-import os
 import sys
 from pathlib import Path
 
-import pytest
-
 sys.path.insert(0, str(Path(__file__).parent))
 
-from app import DashboardPanel, LazyOwnTUI, OutputPanel, PluginBrowser, ShellBackend
+from app import DashboardPanel, LazyOwnTUI, OutputPanel, ShellBackend
 from textual.widgets import Input, Label, RichLog
 
 REPO_DIR = str(Path(__file__).parent.parent.resolve())
@@ -102,7 +98,6 @@ class TestShellBackend:
 
 
 class TestLazyOwnTUIApp:
-
     def test_app_creates(self) -> None:
         app = LazyOwnTUI(base_dir=REPO_DIR)
         assert app.base_dir == REPO_DIR
@@ -113,6 +108,7 @@ class TestLazyOwnTUIApp:
             async with app.run_test() as pilot:
                 assert app.is_running
             assert not app.is_running
+
         _run_async(_t())
 
     def test_panels_visible(self) -> None:
@@ -123,6 +119,7 @@ class TestLazyOwnTUIApp:
                 assert app.query_one("#output-area").visible
                 assert app.query_one("#sidebar-right").visible
                 assert app.query_one("#cmd-input").visible
+
         _run_async(_t())
 
     def test_input_has_focus(self) -> None:
@@ -132,6 +129,7 @@ class TestLazyOwnTUIApp:
                 await pilot.pause()
                 inp = app.query_one("#cmd-input", Input)
                 assert inp.has_focus
+
         _run_async(_t())
 
     def test_execute_help(self) -> None:
@@ -147,6 +145,7 @@ class TestLazyOwnTUIApp:
                 await pilot.pause()
                 log = app.query_one("#output-log", RichLog)
                 assert len(log.lines) > 0
+
         _run_async(_t())
 
     def test_input_cleared_after_submit(self) -> None:
@@ -159,6 +158,7 @@ class TestLazyOwnTUIApp:
                 await pilot.press("enter")
                 await pilot.pause()
                 assert inp.value == ""
+
         _run_async(_t())
 
     def test_history_up(self) -> None:
@@ -175,6 +175,7 @@ class TestLazyOwnTUIApp:
                 await pilot.pause()
                 await pilot.press("up")
                 assert inp.value == "help"
+
         _run_async(_t())
 
     def test_history_down(self) -> None:
@@ -190,6 +191,7 @@ class TestLazyOwnTUIApp:
                 assert inp.value == "show"
                 await pilot.press("down")
                 assert inp.value == ""
+
         _run_async(_t())
 
     def test_tab_complete(self) -> None:
@@ -201,6 +203,7 @@ class TestLazyOwnTUIApp:
                 inp.value = "exploitgym"
                 await pilot.press("tab")
                 assert inp.value == "exploitgym "
+
         _run_async(_t())
 
     def test_toggle_sidebar(self) -> None:
@@ -215,6 +218,7 @@ class TestLazyOwnTUIApp:
                 assert right.display is False
                 app.action_toggle_sidebar()
                 assert left.display is True
+
         _run_async(_t())
 
     def test_quit(self) -> None:
@@ -224,6 +228,7 @@ class TestLazyOwnTUIApp:
                 app.action_quit()
                 await pilot.pause()
                 assert not app.is_running
+
         _run_async(_t())
 
     def test_backend_ready(self) -> None:
@@ -236,6 +241,7 @@ class TestLazyOwnTUIApp:
                 assert app.backend._shell is not None
                 cmds = app.backend.get_commands()
                 assert len(cmds) > 100
+
         _run_async(_t())
 
     def test_set_updates_dashboard(self) -> None:
@@ -257,6 +263,7 @@ class TestLazyOwnTUIApp:
                 await pilot.pause()
                 lbl = dash.query_one("#dash-rhost", Label)
                 assert "10.10.10.5" in str(lbl.render())
+
         _run_async(_t())
 
     def test_show_command_output_in_log(self) -> None:
@@ -275,10 +282,12 @@ class TestLazyOwnTUIApp:
 
                 # Output must contain actually rendered payload keys,
                 # not empty lines or anti-bug: captured via RichLog.lines
+
         _run_async(_t())
 
     def test_q_is_quit_not_shell_alias(self) -> None:
         """'q' must quit the TUI — never reach the real shell's exit alias."""
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test() as pilot:
@@ -289,10 +298,12 @@ class TestLazyOwnTUIApp:
                 await pilot.press("enter")
                 await pilot.pause()
                 assert not app.is_running
+
         _run_async(_t())
 
     def test_quit_word_not_sent_to_backend(self) -> None:
         """exit/quit/q words must never reach shell.onecmd."""
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test() as pilot:
@@ -301,10 +312,12 @@ class TestLazyOwnTUIApp:
                 for word in ("q", "quit", "exit"):
                     app2 = LazyOwnTUI(base_dir=REPO_DIR)
                     assert word in app2._EXIT_WORDS
+
         _run_async(_t())
 
     def test_commands_queue_serialized(self) -> None:
         """Two fast commands must queue, not race."""
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test() as pilot:
@@ -322,6 +335,7 @@ class TestLazyOwnTUIApp:
                 dash = app.query_one("#sidebar-left", DashboardPanel)
                 lbl = dash.query_one("#dash-domain", Label)
                 assert "queue.local" in str(lbl.render())
+
         _run_async(_t())
 
     def test_focus_returns_after_command(self) -> None:
@@ -338,10 +352,12 @@ class TestLazyOwnTUIApp:
                     if not app._cmd_running:
                         break
                 assert inp.has_focus
+
         _run_async(_t())
 
     def test_output_renders_ansi_codes(self) -> None:
         """append_result converts ANSI escapes to styled text, no markup crash."""
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test() as pilot:
@@ -351,6 +367,7 @@ class TestLazyOwnTUIApp:
                 await pilot.pause()
                 log = app.query_one("#output-log", RichLog)
                 assert len(log.lines) > 0
+
         _run_async(_t())
 
     def test_busy_command_shows_running_indicator(self) -> None:
@@ -369,6 +386,7 @@ class TestLazyOwnTUIApp:
                     if not app._cmd_running:
                         break
                 assert not app._cmd_running
+
         _run_async(_t())
 
     def test_layout_all_panels_render_in_screenshot(self) -> None:
@@ -377,6 +395,7 @@ class TestLazyOwnTUIApp:
         Regression: the previous CSS grid collapsed the center output
         panel to zero width — commands executed but nothing was visible.
         """
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test(size=(100, 30)) as pilot:
@@ -386,10 +405,12 @@ class TestLazyOwnTUIApp:
                 assert "CAMPAIGN" in svg, "left sidebar not rendered"
                 assert "COMMANDS" in svg, "right sidebar not rendered"
                 assert "Starting cmd2 backend" in svg, "output panel not rendered"
+
         _run_async(_t())
 
     def test_command_output_visible_in_screenshot(self) -> None:
         """Run a real command and verify its output text is VISIBLE on screen."""
+
         async def _t():
             app = LazyOwnTUI(base_dir=REPO_DIR)
             async with app.run_test(size=(100, 30)) as pilot:
@@ -408,4 +429,5 @@ class TestLazyOwnTUIApp:
                 assert not app._cmd_running
                 svg = app.export_screenshot().replace("&#160;", " ")
                 assert "99.99.99.99" in svg, "command output not visible on screen"
+
         _run_async(_t())

@@ -1,11 +1,14 @@
 import base64
 
+
 def base64_encode(data):
     return base64.urlsafe_b64encode(data.encode()).decode()
 
+
 def base64_decode(data):
-    padding = '=' * (-len(data) % 4)
+    padding = "=" * (-len(data) % 4)
     return base64.urlsafe_b64decode(data + padding).decode()
+
 
 def caesar_cipher(text, shift):
     result = []
@@ -13,15 +16,17 @@ def caesar_cipher(text, shift):
         if char.isalpha():
             shift_amount = shift % 26
             if char.islower():
-                result.append(chr((ord(char) - ord('a') + shift_amount) % 26 + ord('a')))
+                result.append(chr((ord(char) - ord("a") + shift_amount) % 26 + ord("a")))
             elif char.isupper():
-                result.append(chr((ord(char) - ord('A') + shift_amount) % 26 + ord('A')))
+                result.append(chr((ord(char) - ord("A") + shift_amount) % 26 + ord("A")))
         else:
             result.append(char)
-    return ''.join(result)
+    return "".join(result)
+
 
 def caesar_decipher(text, shift):
     return caesar_cipher(text, -shift)
+
 
 def key_substitution(text, key):
     key_length = len(key)
@@ -29,14 +34,15 @@ def key_substitution(text, key):
     for i, char in enumerate(text):
         if char.isalpha():
             key_char = key[i % key_length]
-            shift_amount = ord(key_char.lower()) - ord('a')
+            shift_amount = ord(key_char.lower()) - ord("a")
             if char.islower():
-                result.append(chr((ord(char) - ord('a') + shift_amount) % 26 + ord('a')))
+                result.append(chr((ord(char) - ord("a") + shift_amount) % 26 + ord("a")))
             elif char.isupper():
-                result.append(chr((ord(char) - ord('A') + shift_amount) % 26 + ord('A')))
+                result.append(chr((ord(char) - ord("A") + shift_amount) % 26 + ord("A")))
         else:
             result.append(char)
-    return ''.join(result)
+    return "".join(result)
+
 
 def key_substitution_reverse(text, key):
     key_length = len(key)
@@ -44,14 +50,15 @@ def key_substitution_reverse(text, key):
     for i, char in enumerate(text):
         if char.isalpha():
             key_char = key[i % key_length]
-            shift_amount = ord(key_char.lower()) - ord('a')
+            shift_amount = ord(key_char.lower()) - ord("a")
             if char.islower():
-                result.append(chr((ord(char) - ord('a') - shift_amount) % 26 + ord('a')))
+                result.append(chr((ord(char) - ord("a") - shift_amount) % 26 + ord("a")))
             elif char.isupper():
-                result.append(chr((ord(char) - ord('A') - shift_amount) % 26 + ord('A')))
+                result.append(chr((ord(char) - ord("A") - shift_amount) % 26 + ord("A")))
         else:
             result.append(char)
-    return ''.join(result)
+    return "".join(result)
+
 
 def encode(data, shift, key):
     if isinstance(data, str):
@@ -64,11 +71,13 @@ def encode(data, shift, key):
     else:
         raise TypeError(f"Data must be a string or a list of strings. Found: {data}")
 
+
 def encode_string(data, shift, key):
     base64_encoded = base64_encode(data)
     caesar_encoded = caesar_cipher(base64_encoded, shift)
     key_encoded = key_substitution(caesar_encoded, key)
     return key_encoded
+
 
 def decode(data, shift, key):
     if isinstance(data, str):
@@ -80,6 +89,7 @@ def decode(data, shift, key):
             raise TypeError(f"All items in the list must be strings. Found: {data}")
     else:
         raise TypeError(f"Data must be a string or a list of strings. Found: {data}")
+
 
 def decode_string(data, shift, key):
     key_decoded = key_substitution_reverse(data, key)

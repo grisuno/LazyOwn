@@ -17,26 +17,19 @@ Covers:
 
 from __future__ import annotations
 
-import hashlib
 import hmac
-import io
-import os
-import sqlite3
-import subprocess
-import sys
 import tempfile
 from pathlib import Path
-from unittest.mock import MagicMock, patch
 
 import pytest
 
-from core.safe_subprocess import SafeRunner, ShellNotAllowedError
+from core.safe_subprocess import SafeRunner
 from modules.db import VALID_TABLES, LazyOwnDB
-
 
 # ---------------------------------------------------------------------------
 # SDD Contract 1: SQL injection via table name is impossible
 # ---------------------------------------------------------------------------
+
 
 class TestSQLInjectionPrevention:
     """CONTRACT: The table parameter in export_csv must be validated against
@@ -87,6 +80,7 @@ class TestSQLInjectionPrevention:
 # SDD Contract 2: LIKE wildcard injection is impossible
 # ---------------------------------------------------------------------------
 
+
 class TestLIKEEscapePrevention:
     """CONTRACT: Special LIKE characters (%, _, \\) in user queries must be
     escaped so an attacker cannot craft patterns that match unintended rows."""
@@ -134,6 +128,7 @@ class TestLIKEEscapePrevention:
 # SDD Contract 3: Timing-attack-resistant authentication
 # ---------------------------------------------------------------------------
 
+
 class TestTimingAttackPrevention:
     """CONTRACT: Credential comparison in check_auth must use constant-time
     comparison (hmac.compare_digest) to prevent timing side-channel attacks."""
@@ -142,7 +137,6 @@ class TestTimingAttackPrevention:
         """BDD: Given two credentials, When check_auth compares them,
         Then hmac.compare_digest must be used (not == operator)."""
         import ast
-        import inspect
 
         lazyc2_path = Path(__file__).parent.parent / "lazyc2.py"
         source = lazyc2_path.read_text(encoding="utf-8")
@@ -178,6 +172,7 @@ class TestTimingAttackPrevention:
 # SDD Contract 4: SafeRunner uses shell=False internally
 # ---------------------------------------------------------------------------
 
+
 class TestSafeRunnerShellFalse:
     """CONTRACT: SafeRunner.run_shell must parse the command with shlex.split
     and execute via subprocess.run(argv, shell=False). It must NOT use
@@ -187,7 +182,6 @@ class TestSafeRunnerShellFalse:
         """BDD: Given SafeRunner.run_shell is called,
         When subprocess.run is invoked, Then shell must be False."""
         import ast
-        import inspect
 
         source_path = Path(__file__).parent.parent / "core" / "safe_subprocess.py"
         source = source_path.read_text(encoding="utf-8")
@@ -195,16 +189,12 @@ class TestSafeRunnerShellFalse:
 
         for node in ast.walk(tree):
             if isinstance(node, ast.Call):
-                if (
-                    isinstance(node.func, ast.Attribute)
-                    and node.func.attr == "run"
-                ):
+                if isinstance(node.func, ast.Attribute) and node.func.attr == "run":
                     for kw in node.keywords:
                         if kw.arg == "shell":
                             if isinstance(kw.value, ast.Constant):
                                 assert kw.value.value is False, (
-                                    "SafeRunner.run_shell must use shell=False, "
-                                    f"found shell={kw.value.value}"
+                                    f"SafeRunner.run_shell must use shell=False, found shell={kw.value.value}"
                                 )
 
     def test_run_shell_with_pipe_character(self):
@@ -235,6 +225,7 @@ class TestSafeRunnerShellFalse:
 # SDD Contract 5: pickle removed from utils.py
 # ---------------------------------------------------------------------------
 
+
 class TestPickleRemoved:
     """CONTRACT: utils.py must not import pickle, as it enables RCE via
     untrusted deserialization."""
@@ -255,6 +246,7 @@ class TestPickleRemoved:
 # SDD Contract 6: Hardcoded secrets in caldera config eliminated
 # ---------------------------------------------------------------------------
 
+
 class TestCalderaConfigSecrets:
     """CONTRACT: create_caldera_config must generate random keys at runtime,
     not use hardcoded values like LAZYOWNBLUEADMIN123."""
@@ -264,24 +256,16 @@ class TestCalderaConfigSecrets:
         When I inspect the generated config, Then no hardcoded API keys appear."""
         utils_path = Path(__file__).parent.parent / "utils.py"
         source = utils_path.read_text(encoding="utf-8")
-        assert "LAZYOWNBLUEADMIN123" not in source, (
-            "Hardcoded API key LAZYOWNBLUEADMIN123 still in utils.py"
-        )
-        assert "LAZYOWNREDADMIN123" not in source, (
-            "Hardcoded API key LAZYOWNREDADMIN123 still in utils.py"
-        )
-        assert "LAZYOWNADMIN123" not in source, (
-            "Hardcoded encryption key LAZYOWNADMIN123 still in utils.py"
-        )
+        assert "LAZYOWNBLUEADMIN123" not in source, "Hardcoded API key LAZYOWNBLUEADMIN123 still in utils.py"
+        assert "LAZYOWNREDADMIN123" not in source, "Hardcoded API key LAZYOWNREDADMIN123 still in utils.py"
+        assert "LAZYOWNADMIN123" not in source, "Hardcoded encryption key LAZYOWNADMIN123 still in utils.py"
 
     def test_caldera_config_uses_secrets_module(self):
         """BDD: Given create_caldera_config source,
         When I check the function body, Then it must import and use secrets."""
         utils_path = Path(__file__).parent.parent / "utils.py"
         source = utils_path.read_text(encoding="utf-8")
-        assert "import secrets" in source, (
-            "create_caldera_config should use secrets module for random key generation"
-        )
+        assert "import secrets" in source, "create_caldera_config should use secrets module for random key generation"
         assert "secrets.token_hex" in source or "secrets.token_urlsafe" in source, (
             "create_caldera_config should use secrets.token_hex or secrets.token_urlsafe"
         )
@@ -290,6 +274,7 @@ class TestCalderaConfigSecrets:
 # ---------------------------------------------------------------------------
 # SDD Contract 7: Duplicate config constants consolidated
 # ---------------------------------------------------------------------------
+
 
 class TestConfigConstantsConsolidation:
     """CONTRACT: Default model names and hosts must be defined in exactly one
@@ -336,6 +321,7 @@ class TestConfigConstantsConsolidation:
 # SDD Contract 8: Credential encryption warning logging
 # ---------------------------------------------------------------------------
 
+
 class TestCredentialEncryptionWarning:
     """CONTRACT: When crypto module is unavailable and credentials are stored
     as plaintext, a WARNING must be logged (not silently ignored)."""
@@ -367,6 +353,7 @@ class TestCredentialEncryptionWarning:
 # SDD Contract 9: OPENSSL_CONF not hardcoded to wrong path
 # ---------------------------------------------------------------------------
 
+
 class TestOpenSSLConf:
     """CONTRACT: OPENSSL_CONF must use setdefault (not overwrite) so system
     default is preserved when the file does not exist."""
@@ -376,9 +363,7 @@ class TestOpenSSLConf:
         When I check the assignment, Then it must use os.environ.setdefault."""
         utils_path = Path(__file__).parent.parent / "utils.py"
         source = utils_path.read_text(encoding="utf-8")
-        assert "os.environ.setdefault" in source, (
-            "OPENSSL_CONF should use os.environ.setdefault, not direct assignment"
-        )
+        assert "os.environ.setdefault" in source, "OPENSSL_CONF should use os.environ.setdefault, not direct assignment"
         assert "os.environ['OPENSSL_CONF'] = " not in source, (
             "OPENSSL_CONF must not be directly assigned (overwrites system default)"
         )
@@ -388,14 +373,13 @@ class TestOpenSSLConf:
 # SDD Contract 10: Timing attack on auth integration test
 # ---------------------------------------------------------------------------
 
+
 class TestAuthTimingIntegration:
     """BDD-style integration test for the full auth flow."""
 
     def test_check_auth_returns_false_for_wrong_credentials(self):
         """BDD: Given wrong username and password,
         When check_auth is called, Then it returns False."""
-        import importlib
-        import sys
 
         lazyc2_path = Path(__file__).parent.parent / "lazyc2.py"
         source = lazyc2_path.read_text(encoding="utf-8")

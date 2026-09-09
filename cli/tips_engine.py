@@ -56,9 +56,6 @@ from rich.console import Console, Group
 from rich.panel import Panel
 from rich.text import Text
 
-from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
-from cli.phase_labels import PHASE_LABELS
-
 from cli.engagement_hooks import (
     ELO_BASE,
     ELO_FIRST_TIME_BONUS,
@@ -67,6 +64,8 @@ from cli.engagement_hooks import (
     KARMA_TOP,
     EngagementState,
 )
+from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
+from cli.phase_labels import PHASE_LABELS
 
 SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
 
@@ -1243,9 +1242,8 @@ def build_default_tips_config() -> TipsConfig:
         A ready-to-use config wired to the static kill-chain tables, ELO
         tables, and tip registries that ship with the framework.
     """
-    from cli.reactive_hints import _KILL_CHAIN_NEXT, _PHASE_PRIORITY
-
     from cli.engagement_hooks import ELO_HIGH_VALUE_CMDS, ELO_PHASE_BONUS
+    from cli.reactive_hints import _KILL_CHAIN_NEXT, _PHASE_PRIORITY
 
     high_value_cmds: dict[str, int] = dict(ELO_HIGH_VALUE_CMDS)
 

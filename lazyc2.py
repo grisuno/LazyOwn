@@ -4,6 +4,7 @@ import dataclasses
 import errno
 import fcntl
 import glob
+import hmac
 import html
 import json
 import logging
@@ -128,8 +129,6 @@ from modules.security_sanitizers import (
 from utils import Config, anti_debug, getprompt, load_payload
 
 _LAZYOWN_SECRET_KEY_ENV = "LAZYOWN_SECRET_KEY"
-
-import hmac
 
 
 anti_debug()

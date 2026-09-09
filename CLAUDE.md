@@ -621,6 +621,54 @@ Full spec, file table, and remaining legacy debt:
 [`docs/llm_prompt_contract.md`](docs/llm_prompt_contract.md).
 
 
+## 16b. Lint contract — `ruff check .` is green (SDD+TDD+BDD gate)
+
+Scope decision (boy-scout, 2026-09-09): `ruff check .` passes with zero
+errors. `mutants/` (mutmut output, generated code) is excluded via
+`extend-exclude` in `pyproject.toml` — generated artifacts are never linted.
+`ruff format --check .` remains red on ~400 pre-existing legacy files; only
+touched files are format-clean. Do NOT reformat `lazyc2.py` (7415-line god
+class, minimal diff only) or other untouched legacy files.
+
+Methodology gate for every lint fix (mandatory order):
+
+1. SDD — inventory findings with `ruff check . --output-format concise`,
+   classify auto-fixable (I001/F401/W292/UP) vs manual (F821/E402/syntax).
+2. TDD — record baseline first: `pytest` result + `ruff` count before edits.
+   Pre-existing failures stay pre-existing; new failures block the change.
+3. BDD — validate after: `ruff check .` zero, `pytest` matches baseline,
+   behavioral spot-check of rewritten modules, one mutation probe
+   (mutant must die: observable behavior changes when code is altered).
+4. Boy-scout — every touched file also gets: English only, docstrings on
+   public symbols, no comments, no emojis, centralized config class
+   (no magic numbers, no hardcoded paths/URLs/timeouts), dead code removed,
+   no `sys.stdout` redirection, `subprocess` list-form with timeouts.
+
+Bugs closed in the 2026-09-09 pass (all F821 were real runtime faults):
+
+- `modules/morse.py` — file did not parse (indentation syntax error across
+  the `__main__` driver). Rewritten to contract: `MorseConfig`,
+  `text_to_morse` / `morse_to_text` / `run_driver`, snake_case API with
+  legacy `textToMorse` / `morseToText` / `reverseMorseCode` aliases kept.
+- `modules/bot.py` — `Path` undefined at runtime; Spanish identifiers and
+  unencoded `open('output.txt', 'w')` with `sys.stdout` hijack. Rewritten:
+  `BotConfig`, `find_new_repos` / `render_repos` / `format_output` / `main`,
+  `buscar_repos_nuevos` alias kept, UTF-8 file writes, request timeout.
+- `modules/command_executor.py` — `sys` undefined in the streaming loop.
+  Fixed with top-level `import sys`.
+- `slack_c2_bot.py` — `config` used three lines before assignment
+  (`NameError` on import). Moved `Config(load_payload())` above use.
+- `poc_tui/app.py` — `except Exception as e` leaked into a `lambda`
+  executed from another thread (`e` is deleted after the except block).
+  Fixed by binding the message as a default argument.
+- `lazyc2.py` — E402 `import hmac` below module code. Moved to top imports.
+
+Validation record 2026-09-09: `ruff check .` → all checks passed.
+`pytest` (hardening v1+v3+v4+v5 + killchain_unified_v2): 179 passed,
+8 failed — identical 8 pre-existing failures as baseline (missing
+`flask_login`/`textual` in env, ICMP/crypto expectation drift), unrelated
+to this change. Mutation probe on `text_to_morse` separator: killed.
+
 ## 16. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import os
-import sys
 from pathlib import Path
 
 
@@ -31,6 +30,7 @@ def main() -> None:
     os.chdir(poc_dir)
 
     from app import main as run_app
+
     run_app()
 
 

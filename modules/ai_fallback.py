@@ -33,9 +33,10 @@ from pathlib import Path
 import requests
 
 # -- Constants (imported from single source of truth) --
-
 from modules.llm_factory import (  # noqa: E402
     DEFAULT_GROQ_MODEL as _GROQ_MODEL,
+)
+from modules.llm_factory import (
     DEFAULT_OLLAMA_HOST as _OLLAMA_HOST,
 )
 
@@ -83,15 +84,17 @@ _HELP_MESSAGE = """\
 
 # ── Result type ────────────────────────────────────────────────────────────────
 
+
 @dataclass
 class AIResult:
-    text:    str
-    backend: str          # "groq" | "ollama" | "error"
-    model:   str = ""
-    error:   str = ""     # original error that triggered fallback
+    text: str
+    backend: str  # "groq" | "ollama" | "error"
+    model: str = ""
+    error: str = ""  # original error that triggered fallback
 
 
 # ── Ollama helpers ─────────────────────────────────────────────────────────────
+
 
 def _ollama_available() -> bool:
     try:
@@ -141,16 +144,16 @@ def _ollama_call(
     messages.append({"role": "user", "content": user})
 
     payload = {
-        "model":   model,
+        "model": model,
         "messages": messages,
-        "stream":  False,
+        "stream": False,
         "options": {"num_predict": max_tokens, "temperature": temperature},
     }
     r = requests.post(f"{_OLLAMA_HOST}/api/chat", json=payload, timeout=120)
     r.raise_for_status()
     obj = r.json()
 
-    msg     = obj.get("message", {})
+    msg = obj.get("message", {})
     content = (msg.get("content") or "").strip()
     if content:
         content = re.sub(r"<think>[\s\S]*?</think>", "", content).strip()
@@ -171,6 +174,7 @@ def _ollama_call(
 
 # ── Groq helper ───────────────────────────────────────────────────────────────
 
+
 def _is_quota_error(exc: Exception) -> bool:
     msg = str(exc).lower()
     return any(q in msg for q in _QUOTA_ERRORS)
@@ -184,6 +188,7 @@ def _groq_call(
     temperature: float,
 ) -> str:
     from groq import Groq
+
     client = Groq(api_key=api_key)
     messages = []
     if system:
@@ -201,6 +206,7 @@ def _groq_call(
 
 # ── Public API ────────────────────────────────────────────────────────────────
 
+
 def _toposwarm_call(prompt: str, system: str) -> AIResult | None:
     """
     Try TopoSwarm local brain as a last-resort fallback.
@@ -209,8 +215,10 @@ def _toposwarm_call(prompt: str, system: str) -> AIResult | None:
     try:
         import sys
         from pathlib import Path
+
         sys.path.insert(0, str(Path(__file__).parent))
         from toposwarm_bridge import get_bridge
+
         bridge = get_bridge()
         if not bridge.available:
             return None
@@ -218,20 +226,20 @@ def _toposwarm_call(prompt: str, system: str) -> AIResult | None:
         full_prompt = f"{system}\n\n{prompt}" if system else prompt
         text = bridge.execute_via_orchestrator(full_prompt, no_model=not bridge.model_loaded)
         return AIResult(
-            text    = f"[TopoSwarm local brain]\n\n{text}",
-            backend = "toposwarm",
-            model   = "toposwarm-2M" + ("-neural" if bridge.model_loaded else "-keyword"),
-            error   = "",
+            text=f"[TopoSwarm local brain]\n\n{text}",
+            backend="toposwarm",
+            model="toposwarm-2M" + ("-neural" if bridge.model_loaded else "-keyword"),
+            error="",
         )
     except Exception:
         return None
 
 
 def call(
-    prompt:      str,
-    system:      str  = "",
-    api_key:     str  = "",
-    max_tokens:  int  = 1024,
+    prompt: str,
+    system: str = "",
+    api_key: str = "",
+    max_tokens: int = 1024,
     temperature: float = 0.3,
 ) -> AIResult:
     """
@@ -265,10 +273,10 @@ def call(
                     else:
                         warning = f"[Groq unavailable ({groq_error[:60]}…) — using local model {model}]\n\n"
                 return AIResult(
-                    text    = warning + text,
-                    backend = "ollama",
-                    model   = model,
-                    error   = groq_error,
+                    text=warning + text,
+                    backend="ollama",
+                    model=model,
+                    error=groq_error,
                 )
             except Exception as exc:
                 ollama_error = str(exc)
@@ -278,16 +286,15 @@ def call(
                     ts_result.error = f"groq:{groq_error or 'n/a'} ollama:{ollama_error}"
                     return ts_result
                 return AIResult(
-                    text = (
+                    text=(
                         f"⚠️  All AI backends failed (Groq, Ollama, TopoSwarm).\n\n"
                         f"Groq error:      {groq_error or '(not configured)'}\n"
                         f"Ollama error:    {ollama_error}\n"
-                        f"TopoSwarm:       not available\n\n"
-                        + _HELP_MESSAGE
+                        f"TopoSwarm:       not available\n\n" + _HELP_MESSAGE
                     ),
-                    backend = "error",
-                    model   = "",
-                    error   = ollama_error,
+                    backend="error",
+                    model="",
+                    error=ollama_error,
                 )
         else:
             # Ollama running but no suitable model installed
@@ -297,21 +304,18 @@ def call(
                 installed = [m["name"] for m in r.json().get("models", [])]
                 if installed:
                     installed_hint = (
-                        f"\n  Installed models (not suitable for chat): {installed}\n"
-                        f"  Run: ollama pull llama3.2:3b"
+                        f"\n  Installed models (not suitable for chat): {installed}\n  Run: ollama pull llama3.2:3b"
                     )
             except Exception:
                 pass
 
             return AIResult(
-                text = (
-                    "⚠️  Ollama is running but has no compatible chat model.\n"
-                    + installed_hint + "\n\n"
-                    + _HELP_MESSAGE
+                text=(
+                    "⚠️  Ollama is running but has no compatible chat model.\n" + installed_hint + "\n\n" + _HELP_MESSAGE
                 ),
-                backend = "error",
-                model   = "",
-                error   = groq_error,
+                backend="error",
+                model="",
+                error=groq_error,
             )
 
     # ── 3. Nothing available ───────────────────────────────────────────────
@@ -323,10 +327,10 @@ def call(
             prefix = f"⚠️  Groq error: {groq_error[:120]}\n\n"
 
     return AIResult(
-        text    = prefix + _HELP_MESSAGE,
-        backend = "error",
-        model   = "",
-        error   = groq_error,
+        text=prefix + _HELP_MESSAGE,
+        backend="error",
+        model="",
+        error=groq_error,
     )
 
 
@@ -334,6 +338,7 @@ def call(
 
 if __name__ == "__main__":
     import os
+
     key = os.environ.get("GROQ_API_KEY", "")
     if not key:
         try:
@@ -342,10 +347,10 @@ if __name__ == "__main__":
             pass
 
     result = call(
-        prompt     = "Reply with exactly: FALLBACK_TEST_OK",
-        system     = "You are a test assistant.",
-        api_key    = key,
-        max_tokens = 20,
+        prompt="Reply with exactly: FALLBACK_TEST_OK",
+        system="You are a test assistant.",
+        api_key=key,
+        max_tokens=20,
     )
     print(f"backend : {result.backend}")
     print(f"model   : {result.model}")

@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import logging
 import subprocess
+import sys
 import time
 from collections.abc import Callable
 from dataclasses import dataclass
@@ -104,10 +105,11 @@ class CommandExecutor:
 
     def _needs_shell(self, command: str) -> bool:
         """Check if command needs bash -c due to shell operators."""
-        return any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$('))
+        return any(op in command for op in ("2>", ">", "<", "|", "&&", "||", "`", "$("))
 
     def _run_capture(self, command: str, timeout: int) -> ExecutionResult:
         import shlex
+
         if self._needs_shell(command):
             proc = subprocess.run(
                 ["bash", "-c", command],
@@ -132,6 +134,7 @@ class CommandExecutor:
 
     def _run_stream(self, command: str, timeout: int) -> ExecutionResult:
         import shlex
+
         if self._needs_shell(command):
             proc = subprocess.Popen(
                 ["bash", "-c", command],
@@ -169,6 +172,7 @@ class CommandExecutor:
     def run_with_tee(self, command: str, output_path: str, timeout: int = 120) -> ExecutionResult:
         """Execute a command and tee output to a file."""
         import shlex
+
         start = time.monotonic()
         try:
             with open(output_path, "w") as log_file:
@@ -235,21 +239,24 @@ class CommandExecutor:
     def _publish_event(self, result: ExecutionResult) -> None:
         try:
             from modules.event_bus import EventCategory, EventSeverity, LazyEvent, get_event_bus
+
             parts = result.command.strip().split(None, 1)
             cmd_name = parts[0] if parts else result.command
-            get_event_bus().publish(LazyEvent(
-                category=EventCategory.COMMAND,
-                event_type=cmd_name,
-                source="executor",
-                payload={
-                    "command": result.command,
-                    "duration_ms": result.duration_ms,
-                    "exit_code": result.exit_code,
-                    "output_snippet": result.output[:500] if result.output else "",
-                    "error": result.error,
-                },
-                severity=EventSeverity.INFO if result.success else EventSeverity.WARNING,
-            ))
+            get_event_bus().publish(
+                LazyEvent(
+                    category=EventCategory.COMMAND,
+                    event_type=cmd_name,
+                    source="executor",
+                    payload={
+                        "command": result.command,
+                        "duration_ms": result.duration_ms,
+                        "exit_code": result.exit_code,
+                        "output_snippet": result.output[:500] if result.output else "",
+                        "error": result.error,
+                    },
+                    severity=EventSeverity.INFO if result.success else EventSeverity.WARNING,
+                )
+            )
         except Exception:
             pass
 

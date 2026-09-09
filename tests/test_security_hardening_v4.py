@@ -20,9 +20,6 @@ Covers:
 from __future__ import annotations
 
 import os
-import re
-import shutil
-import subprocess
 import sys
 import tempfile
 from pathlib import Path
@@ -30,10 +27,10 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-
 # ---------------------------------------------------------------------------
 # SDD Contract 1: core/safe_exec.py — safe_system rejects metacharacters
 # ---------------------------------------------------------------------------
+
 
 class TestSafeSystem:
     """CONTRACT: safe_system must reject commands containing shell
@@ -42,28 +39,32 @@ class TestSafeSystem:
     def test_rejects_semicolon(self):
         """BDD: Given a command with a semicolon, When I call safe_system,
         Then it must raise CommandInjectionError."""
-        from core.safe_exec import safe_system, CommandInjectionError
+        from core.safe_exec import CommandInjectionError, safe_system
+
         with pytest.raises(CommandInjectionError):
             safe_system("ls; rm -rf /")
 
     def test_rejects_pipe(self):
         """BDD: Given a command with a pipe, When I call safe_system,
         Then it must raise CommandInjectionError."""
-        from core.safe_exec import safe_system, CommandInjectionError
+        from core.safe_exec import CommandInjectionError, safe_system
+
         with pytest.raises(CommandInjectionError):
             safe_system("ls | cat")
 
     def test_rejects_backtick(self):
         """BDD: Given a command with backticks, When I call safe_system,
         Then it must raise CommandInjectionError."""
-        from core.safe_exec import safe_system, CommandInjectionError
+        from core.safe_exec import CommandInjectionError, safe_system
+
         with pytest.raises(CommandInjectionError):
             safe_system("ls `whoami`")
 
     def test_rejects_dollar_paren(self):
         """BDD: Given a command with $(...), When I call safe_system,
         Then it must raise CommandInjectionError."""
-        from core.safe_exec import safe_system, CommandInjectionError
+        from core.safe_exec import CommandInjectionError, safe_system
+
         with pytest.raises(CommandInjectionError):
             safe_system("ls $(whoami)")
 
@@ -71,6 +72,7 @@ class TestSafeSystem:
         """BDD: Given an empty command, When I call safe_system,
         Then it must raise ValueError."""
         from core.safe_exec import safe_system
+
         with pytest.raises(ValueError):
             safe_system("")
 
@@ -78,6 +80,7 @@ class TestSafeSystem:
         """BDD: Given a whitespace-only command, When I call safe_system,
         Then it must raise ValueError."""
         from core.safe_exec import safe_system
+
         with pytest.raises(ValueError):
             safe_system("   ")
 
@@ -85,6 +88,7 @@ class TestSafeSystem:
         """BDD: Given a simple command without metacharacters, When I call safe_system,
         Then it must execute successfully."""
         from core.safe_exec import safe_system
+
         rc = safe_system("echo hello", reason="test")
         assert rc == 0
 
@@ -93,6 +97,7 @@ class TestSafeSystem:
 # SDD Contract 2: core/safe_exec.py — safe_run_argv never uses shell
 # ---------------------------------------------------------------------------
 
+
 class TestSafeRunArgv:
     """CONTRACT: safe_run_argv must always use shell=False and reject
     null bytes in arguments."""
@@ -100,7 +105,8 @@ class TestSafeRunArgv:
     def test_rejects_null_byte(self):
         """BDD: Given an argument with a null byte, When I call safe_run_argv,
         Then it must raise CommandInjectionError."""
-        from core.safe_exec import safe_run_argv, CommandInjectionError
+        from core.safe_exec import CommandInjectionError, safe_run_argv
+
         with pytest.raises(CommandInjectionError):
             safe_run_argv(["ls", "test\x00evil"])
 
@@ -108,6 +114,7 @@ class TestSafeRunArgv:
         """BDD: Given an empty argv, When I call safe_run_argv,
         Then it must raise ValueError."""
         from core.safe_exec import safe_run_argv
+
         with pytest.raises(ValueError):
             safe_run_argv([])
 
@@ -115,6 +122,7 @@ class TestSafeRunArgv:
         """BDD: Given a valid command, When I call safe_run_argv,
         Then it must execute without a shell."""
         from core.safe_exec import safe_run_argv
+
         result = safe_run_argv(["echo", "hello"])
         assert result.returncode == 0
         assert "hello" in result.stdout
@@ -124,6 +132,7 @@ class TestSafeRunArgv:
 # SDD Contract 3: core/safe_exec.py — validate_url rejects injection
 # ---------------------------------------------------------------------------
 
+
 class TestValidateUrl:
     """CONTRACT: validate_url must reject URLs containing shell
     metacharacters and non-HTTP schemes."""
@@ -131,21 +140,24 @@ class TestValidateUrl:
     def test_rejects_semicolon_in_url(self):
         """BDD: Given a URL with a semicolon, When I validate it,
         Then it must raise UrlValidationError."""
-        from core.safe_exec import validate_url, UrlValidationError
+        from core.safe_exec import UrlValidationError, validate_url
+
         with pytest.raises(UrlValidationError):
             validate_url("https://evil.com/repo; rm -rf /")
 
     def test_rejects_backtick_in_url(self):
         """BDD: Given a URL with backticks, When I validate it,
         Then it must raise UrlValidationError."""
-        from core.safe_exec import validate_url, UrlValidationError
+        from core.safe_exec import UrlValidationError, validate_url
+
         with pytest.raises(UrlValidationError):
             validate_url("https://evil.com/`whoami`")
 
     def test_rejects_ftp_scheme(self):
         """BDD: Given a URL with ftp scheme, When I validate it,
         Then it must raise UrlValidationError."""
-        from core.safe_exec import validate_url, UrlValidationError
+        from core.safe_exec import UrlValidationError, validate_url
+
         with pytest.raises(UrlValidationError):
             validate_url("ftp://evil.com/repo")
 
@@ -153,13 +165,15 @@ class TestValidateUrl:
         """BDD: Given an empty URL, When I validate it,
         Then it must raise ValueError."""
         from core.safe_exec import validate_url
+
         with pytest.raises(ValueError):
             validate_url("")
 
     def test_rejects_missing_netloc(self):
         """BDD: Given a URL without hostname, When I validate it,
         Then it must raise UrlValidationError."""
-        from core.safe_exec import validate_url, UrlValidationError
+        from core.safe_exec import UrlValidationError, validate_url
+
         with pytest.raises(UrlValidationError):
             validate_url("https://")
 
@@ -167,6 +181,7 @@ class TestValidateUrl:
         """BDD: Given a valid HTTPS URL, When I validate it,
         Then it must return the URL unchanged."""
         from core.safe_exec import validate_url
+
         url = "https://github.com/user/repo.git"
         assert validate_url(url) == url
 
@@ -174,6 +189,7 @@ class TestValidateUrl:
         """BDD: Given a valid HTTP URL, When I validate it,
         Then it must return the URL unchanged."""
         from core.safe_exec import validate_url
+
         url = "http://example.com/repo"
         assert validate_url(url) == url
 
@@ -182,6 +198,7 @@ class TestValidateUrl:
 # SDD Contract 4: safe_git_clone uses subprocess list-form
 # ---------------------------------------------------------------------------
 
+
 class TestSafeGitClone:
     """CONTRACT: safe_git_clone must validate the URL and use
     subprocess list-form, never os.system."""
@@ -189,7 +206,8 @@ class TestSafeGitClone:
     def test_rejects_injection_in_url(self):
         """BDD: Given a URL with shell injection, When I clone,
         Then it must raise UrlValidationError."""
-        from core.safe_exec import safe_git_clone, UrlValidationError
+        from core.safe_exec import UrlValidationError, safe_git_clone
+
         with pytest.raises(UrlValidationError):
             safe_git_clone("https://evil.com/repo; rm -rf /", "/tmp/test")
 
@@ -198,6 +216,7 @@ class TestSafeGitClone:
         """BDD: Given a valid URL, When I clone,
         Then subprocess.run must be called with a list (not shell=True)."""
         from core.safe_exec import safe_git_clone
+
         mock_run.return_value = MagicMock(returncode=0, stdout="", stderr="")
         safe_git_clone("https://github.com/user/repo.git", "/tmp/test")
         args, kwargs = mock_run.call_args
@@ -209,6 +228,7 @@ class TestSafeGitClone:
 # SDD Contract 5: safe_ip_show parses output in Python
 # ---------------------------------------------------------------------------
 
+
 class TestSafeIpShow:
     """CONTRACT: safe_ip_show must parse 'ip a show' output in Python,
     never via shell pipes."""
@@ -217,6 +237,7 @@ class TestSafeIpShow:
         """BDD: Given ip a show output, When I parse it,
         Then I must get a list of dicts with interface and address."""
         from core.safe_exec import safe_ip_show
+
         with patch("core.safe_exec.subprocess.run") as mock_run:
             mock_run.return_value = MagicMock(
                 returncode=0,
@@ -232,6 +253,7 @@ class TestSafeIpShow:
         """BDD: Given ip command is not found, When I parse,
         Then it must return an empty list."""
         from core.safe_exec import safe_ip_show
+
         with patch("core.safe_exec.subprocess.run", side_effect=FileNotFoundError):
             entries = safe_ip_show()
             assert entries == []
@@ -241,13 +263,14 @@ class TestSafeIpShow:
 # SDD Contract 6: poc_tui/plugin_loader.py — URL injection prevented
 # ---------------------------------------------------------------------------
 
+
 class TestPluginLoaderUrlInjection:
     """CONTRACT: The plugin loader must validate git clone URLs and
     reject shell metacharacters."""
 
     def _get_validate_fn(self):
         import importlib
-        import sys
+
         mock_config = MagicMock()
         sys.modules.setdefault("config", mock_config)
         if "poc_tui.plugin_loader" in sys.modules:
@@ -310,6 +333,7 @@ class TestPluginLoaderUrlInjection:
 # SDD Contract 7: modules/morse.py — no os.system calls
 # ---------------------------------------------------------------------------
 
+
 class TestMorseNoOsSystem:
     """CONTRACT: modules/morse.py must not contain any os.system calls."""
 
@@ -331,6 +355,7 @@ class TestMorseNoOsSystem:
 # ---------------------------------------------------------------------------
 # SDD Contract 8: modules/c2_builder.py — no os.system calls
 # ---------------------------------------------------------------------------
+
 
 class TestC2BuilderNoOsSystem:
     """CONTRACT: modules/c2_builder.py must not use os.system for
@@ -363,6 +388,7 @@ class TestC2BuilderNoOsSystem:
 # SDD Contract 9: lazyc2.py execute_command uses shell=False
 # ---------------------------------------------------------------------------
 
+
 class TestExecuteCommandShellFalse:
     """CONTRACT: The execute_command function in lazyc2.py must use
     shell=False with shlex.split."""
@@ -386,6 +412,7 @@ class TestExecuteCommandShellFalse:
 # SDD Contract 10: misc_migrated.py — no os.system for IP display
 # ---------------------------------------------------------------------------
 
+
 class TestMiscMigratedIpDisplay:
     """CONTRACT: The do_ip and do_ipp functions must not use os.system
     or subprocess with shell=True for IP display."""
@@ -408,6 +435,7 @@ class TestMiscMigratedIpDisplay:
 # ---------------------------------------------------------------------------
 # SDD Contract 11: Hardcoded absolute paths eliminated
 # ---------------------------------------------------------------------------
+
 
 class TestNoHardcodedPaths:
     """CONTRACT: Production code must not contain hardcoded absolute paths
@@ -457,6 +485,7 @@ class TestNoHardcodedPaths:
 # SDD Contract 12: conditional_hooks.py — shlex.quote prevents injection
 # ---------------------------------------------------------------------------
 
+
 class TestConditionalHooksInjectionPrevention:
     """CONTRACT: conditional_hooks.py must quote placeholder values
     with shlex.quote before inserting them into shell commands."""
@@ -473,6 +502,7 @@ class TestConditionalHooksInjectionPrevention:
 # SDD Contract 13: safe_exec.py — safe_clear_screen uses tput
 # ---------------------------------------------------------------------------
 
+
 class TestSafeClearScreen:
     """CONTRACT: safe_clear_screen must use tput or ANSI escapes,
     never os.system."""
@@ -480,16 +510,20 @@ class TestSafeClearScreen:
     def test_no_os_system(self):
         """BDD: Given the safe_exec module, When I check safe_clear_screen,
         Then it must not use os.system."""
-        from core.safe_exec import safe_clear_screen
         import inspect
+
+        from core.safe_exec import safe_clear_screen
+
         source = inspect.getsource(safe_clear_screen)
         assert "os.system(" not in source
 
     def test_uses_subprocess(self):
         """BDD: Given the safe_exec module, When I check safe_clear_screen,
         Then it must use subprocess."""
-        from core.safe_exec import safe_clear_screen
         import inspect
+
+        from core.safe_exec import safe_clear_screen
+
         source = inspect.getsource(safe_clear_screen)
         assert "subprocess.run" in source
 
@@ -497,6 +531,7 @@ class TestSafeClearScreen:
 # ---------------------------------------------------------------------------
 # SDD Contract 14: bot.py — no os.system
 # ---------------------------------------------------------------------------
+
 
 class TestBotNoOsSystem:
     """CONTRACT: modules/bot.py must not use os.system."""
@@ -520,6 +555,7 @@ class TestBotNoOsSystem:
 # SDD Contract 15: recon_migrated.py — no os.system for PATH setup
 # ---------------------------------------------------------------------------
 
+
 class TestReconMigratedNoOsSystem:
     """CONTRACT: cli/commands/recon_migrated.py must not use os.system
     for PATH modification."""
@@ -536,6 +572,7 @@ class TestReconMigratedNoOsSystem:
 # SDD Contract 16: core/safe_exec.py — safe_file_read with size limit
 # ---------------------------------------------------------------------------
 
+
 class TestSafeFileRead:
     """CONTRACT: safe_file_read must enforce a size limit to prevent
     memory exhaustion attacks."""
@@ -544,6 +581,7 @@ class TestSafeFileRead:
         """BDD: Given a file exceeding the size limit, When I read it,
         Then it must raise ValueError."""
         from core.safe_exec import safe_file_read
+
         with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write("x" * 100)
             f.flush()
@@ -558,6 +596,7 @@ class TestSafeFileRead:
         """BDD: Given a file within the size limit, When I read it,
         Then it must return the contents."""
         from core.safe_exec import safe_file_read
+
         with tempfile.NamedTemporaryFile(mode="w", suffix=".txt", delete=False) as f:
             f.write("hello world")
             f.flush()
@@ -572,6 +611,7 @@ class TestSafeFileRead:
         """BDD: Given a non-existent file, When I read it,
         Then it must raise FileNotFoundError."""
         from core.safe_exec import safe_file_read
+
         with pytest.raises(FileNotFoundError):
             safe_file_read("/nonexistent/file.txt")
 
@@ -579,6 +619,7 @@ class TestSafeFileRead:
 # ---------------------------------------------------------------------------
 # SDD Contract 17: core/safe_exec.py — safe_find_tool replaces hardcoded paths
 # ---------------------------------------------------------------------------
+
 
 class TestSafeFindTool:
     """CONTRACT: safe_find_tool must use shutil.which to find tools,
@@ -588,6 +629,7 @@ class TestSafeFindTool:
         """BDD: Given a tool on PATH, When I search for it,
         Then it must return the path."""
         from core.safe_exec import safe_find_tool
+
         result = safe_find_tool("python3")
         assert result is not None
         assert os.path.isabs(result)
@@ -596,5 +638,6 @@ class TestSafeFindTool:
         """BDD: Given a tool not on PATH, When I search for it,
         Then it must return None."""
         from core.safe_exec import safe_find_tool
+
         result = safe_find_tool("nonexistent_tool_xyz_12345")
         assert result is None

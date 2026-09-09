@@ -1,98 +1,171 @@
+"""GitHub repository discovery client.
+
+Contract:
+    Single self-contained module that queries the GitHub search API for
+    recently created repositories and renders them to standard output.
+"""
+
+from __future__ import annotations
+
 import subprocess
 import sys
 import time
+from dataclasses import dataclass
+from pathlib import Path
 
 import requests
 
-# === CONFIGURACIÓN ===
-# Usa tu token si lo tienes (opcional, pero recomendado)
-TOKEN = ""  # Deja vacío si no quieres autenticarte
 
-HEADERS = {
-    "Authorization": f"token {TOKEN}",
-    "Accept": "application/vnd.github.v3+json"
-} if TOKEN else {}
+@dataclass(frozen=True)
+class BotConfig:
+    """Centralized configuration for GitHub discovery."""
 
-# === FUNCIÓN: Buscar repos nuevos ===
-def buscar_repos_nuevos(
-    lenguaje="python",
-    dias=1,
-    cantidad=100,
-    orden="desc"
-):
-    # Calcular fecha mínima
-    desde = time.strftime(
-        "%Y-%m-%dT%H:%M:%SZ",
-        time.gmtime(time.time() - dias * 86400)
+    token: str = ""
+    search_url: str = "https://api.github.com/search/repositories"
+    output_filename: str = "output.txt"
+    default_language: str = "python"
+    default_days: int = 1
+    default_count: int = 30
+    max_per_page: int = 100
+    seconds_per_day: int = 86400
+    date_format: str = "%Y-%m-%dT%H:%M:%SZ"
+    format_command: tuple[str, ...] = ("gum", "format")
+    format_timeout_seconds: int = 30
+
+
+CONFIG = BotConfig()
+
+HEADERS = (
+    {
+        "Authorization": f"token {CONFIG.token}",
+        "Accept": "application/vnd.github.v3+json",
+    }
+    if CONFIG.token
+    else {}
+)
+
+
+def find_new_repos(
+    language: str = CONFIG.default_language,
+    days: int = CONFIG.default_days,
+    count: int = CONFIG.max_per_page,
+    order: str = "desc",
+    config: BotConfig = CONFIG,
+) -> list[dict[str, object]]:
+    """Search GitHub for recently created repositories.
+
+    Args:
+        language: Programming language filter.
+        days: Look-back window in days.
+        count: Maximum repositories to request.
+        order: Sort order for creation date.
+        config: Module configuration.
+
+    Returns:
+        Normalized repository summaries.
+    """
+    since = time.strftime(
+        config.date_format,
+        time.gmtime(time.time() - days * config.seconds_per_day),
     )
-
-    # Construir query
-    query = f"created:>={desde} language:{lenguaje}"
-    url = "https://api.github.com/search/repositories"
+    query = f"created:>={since} language:{language}"
     params = {
         "q": query,
         "sort": "created",
-        "order": orden,
-        "per_page": min(cantidad, 100)  # Máximo por página: 100
+        "order": order,
+        "per_page": min(count, config.max_per_page),
     }
-
-    response = requests.get(url, headers=HEADERS, params=params)
-
+    response = requests.get(config.search_url, headers=HEADERS, params=params, timeout=30)
     if response.status_code != 200:
-        print("Error en la API:", response.status_code, response.json())
+        print("GitHub API error:", response.status_code, response.json())
         return []
-
-    data = response.json()
-    repos = data.get("items", [])
-
-    # Extraer solo los campos que te interesan
-    resultado = []
+    repos = response.json().get("items", [])
+    results: list[dict[str, object]] = []
     for repo in repos:
-        info = {
-            "nombre": repo["name"],
-            "owner": repo["owner"]["login"],
-            "url": repo["html_url"],
-            "descripcion": repo["description"] or "No description",
-            "lenguaje": repo["language"],
-            "estrellas": repo["stargazers_count"],
-            "forks": repo["forks_count"],
-            "creado": repo["created_at"],
-            "tamaño_kb": f"{repo['size']} KB",
-            "licencia": repo["license"]["name"] if repo["license"] else "no licence"
-        }
-        resultado.append(info)
+        results.append(
+            {
+                "name": repo["name"],
+                "owner": repo["owner"]["login"],
+                "url": repo["html_url"],
+                "description": repo["description"] or "No description",
+                "language": repo["language"],
+                "stars": repo["stargazers_count"],
+                "forks": repo["forks_count"],
+                "created": repo["created_at"],
+                "size_kb": f"{repo['size']} KB",
+                "license": repo["license"]["name"] if repo["license"] else "No license",
+            }
+        )
+    return results
 
-    return resultado
 
-# === USO: Obtener repos nuevos de Python en las últimas 24h ===
-if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        arg1 = sys.argv[1]
-    else:
-        arg1 = "python"
+def render_repos(repos: list[dict[str, object]], config: BotConfig = CONFIG) -> str:
+    """Render repository summaries to text and persist them to disk.
 
-    print("Searching new repos...\n")
-    repos = buscar_repos_nuevos(lenguaje=arg1, dias=1, cantidad=30)
-    sys.stdout = open('output.txt', 'w')
-    for i, repo in enumerate(repos, 1):
-        print(f"{i}. {repo['nombre']} (@{repo['owner']})")
-        print(f"   🌐 {repo['url']}")
-        print(f"   📝 {repo['descripcion']}")
-        print(f"   💻 Lang: {repo['lenguaje']}")
-        print(f"   ⭐ Stars: {repo['estrellas']} | 🔄 Forks: {repo['forks']}")
-        print(f"   📅 Created: {repo['creado'][:10]} | 📦 Tamaño: {repo['tamaño_kb']}")
-        print(f"   📄 Licence: {repo['licencia']}")
-        print("-" * 60)
-    sys.stdout.close()
-    sys.stdout = sys.__stdout__
+    Args:
+        repos: Normalized repository summaries.
+        config: Module configuration.
+
+    Returns:
+        Rendered text written to the output file.
+    """
+    lines: list[str] = []
+    for index, repo in enumerate(repos, 1):
+        created = str(repo["created"])[:10]
+        lines.append(f"{index}. {repo['name']} (@{repo['owner']})")
+        lines.append(f"   URL: {repo['url']}")
+        lines.append(f"   Description: {repo['description']}")
+        lines.append(f"   Language: {repo['language']}")
+        lines.append(f"   Stars: {repo['stars']} | Forks: {repo['forks']}")
+        lines.append(f"   Created: {created} | Size: {repo['size_kb']}")
+        lines.append(f"   License: {repo['license']}")
+        lines.append("-" * 60)
+    content = "\n".join(lines)
+    Path(config.output_filename).write_text(content, encoding="utf-8")
+    return content
+
+
+def format_output(content: str, config: BotConfig = CONFIG) -> None:
+    """Pipe rendered content through the external formatter when available.
+
+    Args:
+        content: Text to format.
+        config: Module configuration.
+    """
     try:
-        output_content = Path("output.txt").read_text(encoding="utf-8")
         subprocess.run(
-            ["gum", "format"],
-            input=output_content,
+            list(config.format_command),
+            input=content,
             capture_output=True,
             text=True,
-            timeout=30,
+            timeout=config.format_timeout_seconds,
+            check=False,
         )
     except (FileNotFoundError, subprocess.TimeoutExpired, OSError) as exc:
         print(f"Format error: {exc}")
+
+
+def main(config: BotConfig = CONFIG) -> None:
+    """Discover recent repositories and render them.
+
+    Args:
+        config: Module configuration.
+    """
+    language = sys.argv[1] if len(sys.argv) > 1 else config.default_language
+    print("Searching new repos...\n")
+    repos = find_new_repos(
+        language=language,
+        days=config.default_days,
+        count=config.default_count,
+        config=config,
+    )
+    content = render_repos(repos, config)
+    print(content)
+    format_output(content, config)
+
+
+buscar_repos_nuevos = find_new_repos
+
+
+if __name__ == "__main__":
+    main()

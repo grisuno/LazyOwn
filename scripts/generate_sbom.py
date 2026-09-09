@@ -67,25 +67,22 @@ def collect_components(with_ml: bool) -> list[dict]:
 
 def project_version() -> str:
     """Read the package version from pyproject.toml."""
-    match = re.search(r'^version\s*=\s*"([^"]+)"',
-                      (ROOT / "pyproject.toml").read_text(encoding="utf-8"), re.M)
+    match = re.search(r'^version\s*=\s*"([^"]+)"', (ROOT / "pyproject.toml").read_text(encoding="utf-8"), re.M)
     return match.group(1) if match else "0.0.0"
 
 
 def build_sbom(with_ml: bool) -> dict:
     """Assemble the CycloneDX document."""
     components = collect_components(with_ml)
-    digest = hashlib.sha256(
-        json.dumps(components, sort_keys=True).encode("utf-8")).hexdigest()[:12]
+    digest = hashlib.sha256(json.dumps(components, sort_keys=True).encode("utf-8")).hexdigest()[:12]
     return {
         "bomFormat": "CycloneDX",
         "specVersion": "1.5",
         "serialNumber": f"urn:uuid:lazyown-sbom-{digest}",
         "version": 1,
         "metadata": {
-            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-            "component": {"type": "application", "name": "lazyown",
-                          "version": project_version()},
+            "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
+            "component": {"type": "application", "name": "lazyown", "version": project_version()},
             "tools": [{"name": "scripts/generate_sbom.py"}],
         },
         "components": components,
@@ -96,8 +93,7 @@ def main() -> int:
     """CLI entry point."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--out", default="sbom.json", help="output path")
-    parser.add_argument("--with-ml", action="store_true",
-                        help="include requirements-ml.txt")
+    parser.add_argument("--with-ml", action="store_true", help="include requirements-ml.txt")
     args = parser.parse_args()
     document = build_sbom(with_ml=args.with_ml)
     Path(args.out).write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")

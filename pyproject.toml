@@ -120,6 +120,7 @@ extend-exclude = [
     "build",
     "external",
     "modules_ext",
+    "mutants",
     "graphify-out",
     "sessions",
     "parquets",

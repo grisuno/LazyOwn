@@ -13,7 +13,6 @@ import io
 import os
 import sys
 import threading
-import time
 from datetime import datetime
 from pathlib import Path
 from typing import Any
@@ -36,10 +35,10 @@ from textual.widgets import (
     Static,
 )
 
-
 # ---------------------------------------------------------------------------
 # Shell backend — wraps the real LazyOwnShell
 # ---------------------------------------------------------------------------
+
 
 class ShellBackend:
     """Run the real cmd2 LazyOwnShell in-process, capture all output."""
@@ -59,9 +58,11 @@ class ShellBackend:
         sys.argv = [str(Path(self.base_dir) / "lazyown.py")]
         try:
             from lazyown import LazyOwnShell
+
             self._shell_class = LazyOwnShell
         except SystemExit:
             from lazyown import LazyOwnShell
+
             self._shell_class = LazyOwnShell
         finally:
             sys.argv = saved_argv
@@ -133,6 +134,7 @@ class ShellBackend:
 # Custom widgets
 # ---------------------------------------------------------------------------
 
+
 class DashboardPanel(Static):
     """Left sidebar: live campaign state from payload.json."""
 
@@ -173,6 +175,7 @@ class DashboardPanel(Static):
             payload_path = Path(self.base_dir) / "payload.json"
             try:
                 import json
+
                 payload = json.loads(payload_path.read_text())
             except Exception:
                 payload = {}
@@ -187,9 +190,7 @@ class DashboardPanel(Static):
         self.query_one("#dash-domain", Label).update(f"  {domain}")
         self.query_one("#dash-aliases-count", Label).update(f"  {len(aliases)} loaded")
         self.query_one("#dash-cmd-count", Label).update(f"  {cmd_count} cmds")
-        self.query_one("#dash-time", Label).update(
-            datetime.now().strftime("%H:%M:%S")
-        )
+        self.query_one("#dash-time", Label).update(datetime.now().strftime("%H:%M:%S"))
 
 
 class PluginBrowser(Static):
@@ -212,18 +213,12 @@ class PluginBrowser(Static):
             cat = self._guess_category(name, help_text)
             by_cat.setdefault(cat, []).append((name, help_text))
         for cat, cmds in sorted(by_cat.items()):
-            list_view.append(
-                ListItem(Label(f"── {cat} ──"), classes="plugin-category")
-            )
+            list_view.append(ListItem(Label(f"── {cat} ──"), classes="plugin-category"))
             for name, help_text in cmds[:20]:
                 desc = help_text[:50] + "..." if len(help_text) > 50 else help_text
-                list_view.append(
-                    ListItem(Label(f"  {name:28s} {desc}"), classes="plugin-item")
-                )
+                list_view.append(ListItem(Label(f"  {name:28s} {desc}"), classes="plugin-item"))
             if len(cmds) > 20:
-                list_view.append(
-                    ListItem(Label(f"  ... +{len(cmds)-20} more"), classes="plugin-item")
-                )
+                list_view.append(ListItem(Label(f"  ... +{len(cmds) - 20} more"), classes="plugin-item"))
 
     @staticmethod
     def _guess_category(name: str, help_text: str) -> str:
@@ -298,6 +293,7 @@ class OutputPanel(VerticalScroll):
 # ---------------------------------------------------------------------------
 # Main Application
 # ---------------------------------------------------------------------------
+
 
 class LazyOwnTUI(App):
     """Textual frontend for the real LazyOwn cmd2 shell."""
@@ -435,13 +431,12 @@ class LazyOwnTUI(App):
             try:
                 self.backend.start()
                 self.call_from_thread(self._on_backend_ready)
-            except Exception as e:
+            except Exception as exc:
                 import traceback
+
                 tb = traceback.format_exc()
                 try:
-                    self.call_from_thread(
-                        lambda: output.append_error(f"Backend init failed: {e}\n{tb}")
-                    )
+                    self.call_from_thread(lambda msg=f"Backend init failed: {exc}\n{tb}": output.append_error(msg))
                 except Exception:
                     pass
 
@@ -453,10 +448,7 @@ class LazyOwnTUI(App):
         commands = self.backend.get_commands()
         aliases = self.backend.get_aliases()
 
-        output.append_system(
-            f"cmd2 backend ready — {len(commands)} commands, "
-            f"{len(aliases)} aliases loaded"
-        )
+        output.append_system(f"cmd2 backend ready — {len(commands)} commands, {len(aliases)} aliases loaded")
 
         plugin_browser = self.query_one("#sidebar-right", PluginBrowser)
         plugin_browser.update_commands(commands)
@@ -521,6 +513,7 @@ class LazyOwnTUI(App):
                 result = self.backend.run(cmd)
             except Exception as backend_err:
                 import traceback as _tb
+
                 result = f"[backend crash] {backend_err}\n{_tb.format_exc()}"
             try:
                 self.call_from_thread(self._show_result, result)
@@ -636,6 +629,7 @@ class LazyOwnTUI(App):
 # ---------------------------------------------------------------------------
 # Entry point
 # ---------------------------------------------------------------------------
+
 
 def main() -> None:
     import argparse

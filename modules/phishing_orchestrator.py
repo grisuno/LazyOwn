@@ -34,7 +34,6 @@ from __future__ import annotations
 import base64
 import hashlib
 import json
-import os
 import random
 import smtplib
 import ssl
@@ -66,6 +65,7 @@ def _derive_credential_key() -> bytes:
     """
     from core.crypto import derive_key
     from core.hardening import require_encryption_key
+
     try:
         secret = require_encryption_key(
             env_key="LAZYOWN_SECRET_KEY",
@@ -91,6 +91,7 @@ def _encrypt_credential(plaintext: str) -> str:
         Base64-encoded encrypted payload (nonce || ciphertext || tag).
     """
     from core.crypto import AESencrypt
+
     key = _derive_credential_key()
     ciphertext, _ = AESencrypt(plaintext.encode("utf-8"), key)
     return base64.urlsafe_b64encode(ciphertext).decode("ascii")
@@ -106,6 +107,7 @@ def _decrypt_credential(encrypted_b64: str) -> str:
         Decrypted plaintext string.
     """
     from core.crypto import AESdecrypt
+
     key = _derive_credential_key()
     ciphertext = base64.urlsafe_b64decode(encrypted_b64)
     return AESdecrypt(ciphertext, key).decode("utf-8")
@@ -540,7 +542,9 @@ acknowledge these changes.</p>
         try:
             result = subprocess.run(
                 ["curl", "-sL", "-A", "Mozilla/5.0", url],
-                capture_output=True, text=True, timeout=15,
+                capture_output=True,
+                text=True,
+                timeout=15,
             )
             page_id = str(uuid.uuid4())[:8]
             clone_path = SESSIONS_DIR / "phishing_clones" / f"{page_id}.html"
@@ -598,9 +602,7 @@ acknowledge these changes.</p>
         clicks.append({"email": email, "timestamp": time.time()})
         tracking_file.write_text(json.dumps(clicks, indent=2))
 
-    def record_credentials(
-        self, campaign_id: str, email: str, password: str
-    ) -> None:
+    def record_credentials(self, campaign_id: str, email: str, password: str) -> None:
         """Record harvested credentials.
 
         Args:
@@ -619,17 +621,21 @@ acknowledge these changes.</p>
                 creds = json.loads(creds_file.read_text())
             except (json.JSONDecodeError, OSError):
                 creds = []
-        creds.append({
-            "email": email,
-            "password": _encrypt_credential(password),
-            "timestamp": time.time(),
-        })
+        creds.append(
+            {
+                "email": email,
+                "password": _encrypt_credential(password),
+                "timestamp": time.time(),
+            }
+        )
         creds_file.write_text(json.dumps(creds, indent=2))
 
         all_creds = SESSIONS_DIR / "phishing_credentials.txt"
         all_creds.parent.mkdir(parents=True, exist_ok=True)
         with all_creds.open("a") as f:
-            f.write(f"{time.strftime('%Y-%m-%d %H:%M:%S')} | {email} | {_hash_credential_for_log(password)} | {campaign_id}\n")
+            f.write(
+                f"{time.strftime('%Y-%m-%d %H:%M:%S')} | {email} | {_hash_credential_for_log(password)} | {campaign_id}\n"
+            )
 
     # ------------------------------------------------------------------
     # Internal
@@ -752,9 +758,7 @@ acknowledge these changes.</p>
             msg.attach(MIMEText(html_body, "html"))
 
             context = ssl.create_default_context()
-            with smtplib.SMTP(
-                smtp_config["host"], smtp_config["port"], timeout=30
-            ) as server:
+            with smtplib.SMTP(smtp_config["host"], smtp_config["port"], timeout=30) as server:
                 server.starttls(context=context)
                 server.login(smtp_config["email"], smtp_config["password"])
                 server.send_message(msg)

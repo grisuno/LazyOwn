@@ -11,7 +11,6 @@ Covers:
 from __future__ import annotations
 
 import json
-import os
 import sys
 import tempfile
 from pathlib import Path
@@ -62,6 +61,7 @@ class TestKillChainConfig:
 
     def test_engagement_to_cli_covers_all_engagement_phases(self):
         from modules.world_model import EngagementPhase
+
         for ep in EngagementPhase:
             mapped = _DEFAULT_CONFIG.engagement_to_cli.get(ep.value)
             assert mapped is not None, f"Missing mapping for {ep.value}"
@@ -106,8 +106,9 @@ class TestKillChainCurrentPhase:
     @pytest.fixture(autouse=True)
     def _reset_wm_singleton(self):
         import modules.world_model as wm_mod
+
         old_default = wm_mod._default_wm
-        old_path = getattr(wm_mod, '_DEFAULT_PATH', None)
+        old_path = getattr(wm_mod, "_DEFAULT_PATH", None)
         wm_mod._default_wm = None
         yield
         wm_mod._default_wm = old_default
@@ -123,11 +124,13 @@ class TestKillChainCurrentPhase:
 
     def test_reads_from_world_model_host_state(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             from modules.world_model import get_world_model
+
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             wm.advance_host("10.0.0.1", wm_mod.HostState.EXPLOITED)
@@ -136,12 +139,14 @@ class TestKillChainCurrentPhase:
 
     def test_raw_json_override_wins_when_higher_rank(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             path.write_text(json.dumps({"current_phase": "privesc", "phase": "exploit"}))
             from modules.world_model import get_world_model
+
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             wm.advance_host("10.0.0.1", wm_mod.HostState.EXPLOITED)
@@ -150,12 +155,14 @@ class TestKillChainCurrentPhase:
 
     def test_raw_json_override_ignored_when_lower_rank(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             path.write_text(json.dumps({"current_phase": "scan"}))
             from modules.world_model import get_world_model
+
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             wm.advance_host("10.0.0.1", wm_mod.HostState.EXPLOITED)
@@ -164,6 +171,7 @@ class TestKillChainCurrentPhase:
 
     def test_falls_back_to_legacy_phase_key(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
@@ -179,8 +187,9 @@ class TestKillChainAdvancePhase:
     @pytest.fixture(autouse=True)
     def _reset_wm_singleton(self):
         import modules.world_model as wm_mod
+
         old_default = wm_mod._default_wm
-        old_path = getattr(wm_mod, '_DEFAULT_PATH', None)
+        old_path = getattr(wm_mod, "_DEFAULT_PATH", None)
         wm_mod._default_wm = None
         yield
         wm_mod._default_wm = old_default
@@ -189,11 +198,13 @@ class TestKillChainAdvancePhase:
 
     def test_advance_writes_current_phase_and_phase_keys(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             from modules.world_model import get_world_model
+
             get_world_model(path=path)
             result = KillChain.advance_phase("exploit", world_model_path=path)
             assert result is True
@@ -203,11 +214,13 @@ class TestKillChainAdvancePhase:
 
     def test_advance_tracks_completed_phases(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             from modules.world_model import get_world_model
+
             get_world_model(path=path)
             KillChain.advance_phase("recon", world_model_path=path)
             KillChain.advance_phase("exploit", world_model_path=path)
@@ -219,6 +232,7 @@ class TestKillChainAdvancePhase:
 
     def test_advance_invalid_phase_returns_false(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
@@ -228,11 +242,13 @@ class TestKillChainAdvancePhase:
 
     def test_advance_advances_world_model_hosts(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             from modules.world_model import HostState, get_world_model
+
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             result = KillChain.advance_phase("scan", world_model_path=path)
@@ -243,11 +259,13 @@ class TestKillChainAdvancePhase:
 
     def test_advance_does_not_downgrade_cached_world_model_state(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
             from modules.world_model import get_world_model
+
             wm = get_world_model(path=path)
             wm.add_host("10.0.0.1")
             wm.advance_host("10.0.0.1", wm_mod.HostState.OWNED)
@@ -264,8 +282,9 @@ class TestKillChainGetProgress:
     @pytest.fixture(autouse=True)
     def _reset_wm_singleton(self):
         import modules.world_model as wm_mod
+
         old_default = wm_mod._default_wm
-        old_path = getattr(wm_mod, '_DEFAULT_PATH', None)
+        old_path = getattr(wm_mod, "_DEFAULT_PATH", None)
         wm_mod._default_wm = None
         yield
         wm_mod._default_wm = old_default
@@ -274,6 +293,7 @@ class TestKillChainGetProgress:
 
     def test_all_pending_when_nothing_done(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
@@ -286,14 +306,19 @@ class TestKillChainGetProgress:
 
     def test_progress_reflects_completed_and_active(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"
             wm_mod._DEFAULT_PATH = path
-            path.write_text(json.dumps({
-                "current_phase": "exploit",
-                "completed_phases": ["recon", "scan", "enum"],
-            }))
+            path.write_text(
+                json.dumps(
+                    {
+                        "current_phase": "exploit",
+                        "completed_phases": ["recon", "scan", "enum"],
+                    }
+                )
+            )
             progress = KillChain.get_progress(world_model_path=path)
             states = {p.key: p.status for p in progress}
             assert states["recon"] == "done"
@@ -305,6 +330,7 @@ class TestKillChainGetProgress:
 
     def test_progress_has_colors_and_labels(self):
         import modules.world_model as wm_mod
+
         with tempfile.TemporaryDirectory() as d:
             sdir = Path(d)
             path = sdir / "world_model.json"

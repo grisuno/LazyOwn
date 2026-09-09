@@ -15,7 +15,7 @@ import unittest
 from rich.console import Console
 from rich.text import Text
 
-from cli.themes import DEFAULT_THEME_NAME, THEMES, get_theme, theme_from_payload
+from cli.themes import DEFAULT_THEME_NAME, THEME_ORDER, THEMES, get_theme, theme_from_payload
 
 NEW_THEME_NAMES: tuple[str, ...] = (
     "solarized",
@@ -125,6 +125,17 @@ class NewThemeRenderTests(unittest.TestCase):
                 rendered = buffer.getvalue()
                 with self.subTest(theme=name, token=token, color="256"):
                     self.assertIn("\x1b[", rendered)
+
+
+class ThemeOrderTests(unittest.TestCase):
+    def test_order_covers_every_registered_theme_exactly_once(self) -> None:
+        self.assertEqual(sorted(THEME_ORDER), sorted(THEMES))
+        self.assertEqual(len(THEME_ORDER), len(set(THEME_ORDER)))
+
+    def test_order_is_reexported_by_tui_theme_command(self) -> None:
+        from cli import tui_theme
+
+        self.assertIs(tui_theme.THEME_ORDER, THEME_ORDER)
 
 
 if __name__ == "__main__":

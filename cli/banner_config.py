@@ -77,6 +77,8 @@ class BannerConfig:
     fallback_label_battery: str = "PWR"
 
     time_format: str = "%H:%M:%S"
+    readline_start_marker: str = "\x01"
+    readline_end_marker: str = "\x02"
     public_ip_cache_seconds: float = 60.0
     public_ip_timeout_seconds: float = 1.5
     public_ip_endpoint: str = "https://api.ipify.org"
@@ -1348,38 +1350,76 @@ class BannerConfigurator:
             return curses.A_NORMAL
 
 
-def _readline_safe(prompt: str) -> str:
-    """Wrap ANSI escape sequences and newlines for readline compatibility.
+def _readline_safe(prompt: str, config: BannerConfig | None = None) -> str:
+    """Wrap ANSI escape sequences with readline zero-width markers.
 
-    Readline calculates cursor position by counting visible characters.
-    ANSI escape codes and newlines are non-printing but occupy bytes in
-    the prompt string, causing readline to miscalculate the cursor position.
-    This results in extra blank lines between the prompt and the cursor.
+    Readline measures cursor position by counting visible characters, so
+    every non-printing ANSI escape must sit between the SOH/STX markers
+    from :class:`BannerConfig`. Newlines are printable line breaks and
+    are always left bare: wrapping them corrupts multiline redisplay and
+    leaks visible ``^A``/``^B`` glyphs on terminals whose input layer
+    does not interpret readline markers.
 
-    ``\\001`` (SOH) and ``\\002`` (STX) are readline's prompt start/end
-    ignore markers. Everything between them is excluded from the visible
-    width calculation.
+    Args:
+        prompt: Raw ANSI prompt produced by :class:`BannerRenderer`.
+        config: Centralised constants. ``None`` uses defaults.
+
+    Returns:
+        Prompt with ANSI escapes wrapped and newlines untouched.
     """
-    import re
-
+    cfg = config or BannerConfig()
     ansi_re = re.compile(r"(\033\[[0-9;]*m)")
     parts = ansi_re.split(prompt)
-    result = []
+    fenced = []
     for part in parts:
         if ansi_re.match(part):
-            result.append(f"\001{part}\002")
+            fenced.append(f"{cfg.readline_start_marker}{part}{cfg.readline_end_marker}")
         else:
-            result.append(part.replace("\n", "\001\n\002"))
-    return "".join(result)
+            fenced.append(part)
+    return "".join(fenced)
 
 
-def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> str:
+def strip_readline_markers(text: str, config: BannerConfig | None = None) -> str:
+    """Remove readline zero-width markers from prompt text.
+
+    Args:
+        text: Prompt that may contain SOH/STX markers.
+        config: Centralised constants. ``None`` uses defaults.
+
+    Returns:
+        Text without readline markers. ANSI escapes are preserved.
+    """
+    cfg = config or BannerConfig()
+    return text.replace(cfg.readline_start_marker, "").replace(cfg.readline_end_marker, "")
+
+
+def render_prompt(
+    payload: dict | None,
+    config: BannerConfig | None = None,
+    readline_safe: bool = False,
+) -> str:
     """Render the Neon Box prompt from a payload dictionary.
 
     Reads the operator's segment, color and glyph selection from
     ``payload[banner]`` and walks the canonical registry. Segments whose
     underlying value cannot be resolved (no git, no venv, no network) drop
     silently so the prompt never shows empty brackets.
+
+    The shell runs on cmd2 with prompt_toolkit, which parses ANSI
+    natively and renders SOH/STX bytes as visible ``^A``/``^B`` glyphs.
+    Marker fencing therefore defaults to off. Enable it only for
+    genuine GNU-readline consumers, never for the interactive shell.
+
+    Args:
+        payload: Loaded ``payload.json`` mapping. ``None`` uses defaults.
+        config: Centralised constants. ``None`` uses defaults.
+        readline_safe: When ``True`` wrap ANSI escapes with readline
+            zero-width markers for GNU-readline ``input()`` consumption.
+            When ``False`` return the raw ANSI prompt for prompt_toolkit
+            and every direct-display surface.
+
+    Returns:
+        Three-line Neon Box prompt string.
     """
     cfg = config or BannerConfig()
     registry = build_default_registry()
@@ -1388,7 +1428,9 @@ def render_prompt(payload: dict | None, config: BannerConfig | None = None) -> s
     settings = BannerSettings.from_payload(registry, payload, cfg.payload_key, colors, glyphs)
     ctx = ContextResolver(cfg, default_palette()).resolve(payload)
     raw = BannerRenderer(cfg, registry, colors, glyphs).render(settings, ctx)
-    return _readline_safe(raw)
+    if readline_safe:
+        return _readline_safe(raw, cfg)
+    return raw
 
 
 def configure_banner_interactive(
@@ -1450,4 +1492,5 @@ __all__ = [
     "default_palette",
     "render_prompt",
     "strip_ansi",
+    "strip_readline_markers",
 ]

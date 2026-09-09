@@ -22,25 +22,9 @@ from __future__ import annotations
 
 from collections.abc import Callable, MutableMapping, Sequence
 
-from cli.themes import DEFAULT_THEME_NAME, THEMES, get_theme
+from cli.themes import DEFAULT_THEME_NAME, THEME_ORDER, THEMES, get_theme
 
-THEME_ORDER: tuple[str, ...] = (
-    "default",
-    "dim",
-    "bright",
-    "colorblind",
-    "solarized",
-    "monokai",
-    "gruvbox",
-    "high_contrast",
-)
-"""Deterministic ordering for ``cycle`` / ``prev`` / listing.
-
-Order roughly follows contrast and popularity: the four original
-themes first (default/dim/bright/colorblind), then the four
-additions (solarized/monokai/gruvbox/high_contrast). Operators who
-bind ``tui_theme cycle`` to a hotkey get a predictable sequence.
-"""
+__all__ = ["THEME_ORDER", "run"]
 
 
 def _set_theme(payload: MutableMapping[str, object], name: str) -> None:
@@ -145,6 +129,3 @@ def run(
         save(payload)
         return f"theme: {current} -> {verb}"
     return f"unknown theme: {verb!r}. available: {', '.join(THEME_ORDER)}. current: {current}"
-
-
-__all__ = ["THEME_ORDER", "run"]

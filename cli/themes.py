@@ -210,6 +210,15 @@ THEMES: Mapping[str, Theme] = {
 }
 
 
+THEME_ORDER: tuple[str, ...] = tuple(THEMES)
+"""Canonical deterministic ordering for cycle/prev/listing.
+
+Derived from :data:`THEMES` registration order so adding a theme to the
+registry automatically surfaces it in every listing. Consumers must
+import this instead of maintaining a parallel hardcoded tuple.
+"""
+
+
 def get_theme(name: str | None) -> Theme:
     """Return the registered :class:`Theme` for ``name`` with safe fallback.
 
@@ -247,6 +256,7 @@ def theme_from_payload(payload: Mapping[str, object] | None) -> Theme:
 __all__ = [
     "DEFAULT_THEME_NAME",
     "THEMES",
+    "THEME_ORDER",
     "Theme",
     "get_theme",
     "theme_from_payload",

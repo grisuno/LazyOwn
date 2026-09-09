@@ -29,7 +29,7 @@ layer follows strict Dependency Inversion: each module depends on small
 | `palette_command.py` | cmd2 command and Tab-completer for the `palette` verb. |
 | `palette_graph.py` | Graph-backed palette scoring. Merges fuzzy text rank with graph centrality. |
 | `palette_telemetry.py` | Records palette usage to improve future ranking. |
-| `banner_config.py` | Powerlevel10k-style prompt segment wizard. Manages the neon-box prompt configuration stored in `payload.json`. |
+| `banner_config.py` | Powerlevel10k-style prompt segment wizard. Manages the neon-box prompt configuration stored in `payload.json`. Prompt contract: `render_prompt(payload, config, readline_safe)` defaults to raw ANSI because the shell runs on cmd2/prompt_toolkit, which parses ANSI natively and paints SOH/STX bytes as visible `^A`/`^B`. `readline_safe=True` is opt-in for genuine GNU-readline consumers only; it fences ANSI escapes, never newlines. `strip_readline_markers()` restores display text; `strip_ansi()` strips ANSI plus markers. Tests: `tests/test_banner_config.py`, `tests/test_prompt_readline_markers.py`. |
 | `exploit_advisor.py` | Suggests exploits based on discovered service versions. Backed by the parquet knowledge bases. |
 | `engagement_hooks.py` | Pre/post-command hooks that update `sessions/world_model.json` after each command. |
 | `ops_commands.py` | Operational commands loaded as a cmd2 `CommandSet`. |
@@ -93,3 +93,40 @@ Pure helpers (tested independently): `_read_json`, `_read_recent_commands`, `_co
 - **Command index hygiene** — `scripts/build_command_index.py` skips `BaseHTTPRequestHandler` subclasses so exfiltration HTTP verbs (`do_GET`, `do_POST`, `do_OPTIONS`) never surface as operator commands. The goal-oriented discoverability command is `do_command_explorer` (the accidental duplicate `do_explore` was renamed). Tests: `tests/test_command_palette.py`.
 - **Onboarding** — operator identity in `cli/wizard.py` is optional (skip → anonymous); `wizard --quick` auto-detects defaults without prompts; post-wizard next-steps list `doctor` first.
 - **Mutation gate** — `tests/run_mutation_ux_usability.py` reverts each fix above and asserts the matching test kills the mutant.
+
+## Terminal / prompt / TUI / GUI improvement plan
+
+Status: phase 1 applied. Phases 2-4 are scoped work items; each ships under
+SDD+TDD+BDD with a mutation gate before merge.
+
+- **Phase 1 (done)** — Fix `^A`/`^B` leak in the cmd2 prompt. Root cause
+  (corrected after first attempt): the shell runs on cmd2 4.x with
+  prompt_toolkit, which parses ANSI natively and paints SOH/STX bytes as
+  visible glyphs — readline markers are pollution on every prompt path,
+  not just around newlines. Fix: `render_prompt` defaults to raw ANSI
+  (`readline_safe=True` opt-in for genuine GNU-readline consumers only);
+  same treatment for the second marker source,
+  `StatusBarRenderer.render_prompt` / `StatusBarManager.render_prompt`,
+  which prepend ANSI on every precmd hook. Markers centralised in
+  `BannerConfig` / `StatusBarConfig`. Spec: this section. Tests:
+  `tests/test_prompt_readline_markers.py` (8 tests) plus updated
+  `StatusBarRendererSpec`. Validation: byte-level check (`\x01`/`\x02`
+  absent, prompt_toolkit `ANSI()` parses, stripped layout matches the
+  spec); mutants (default `True`, newline fencing) killed.
+- **Phase 2 (done)** — Suggestion dedupe audit: the five-hook unification
+  behind `TipsEngine.render()` via `_unified_tips_hook` was already in
+  place and is kept as the single postcmd path; residual drift fixed:
+  `THEME_ORDER` moved to `cli/themes.py` as the single source of truth
+  (`cli/tui_theme.py` re-exports), so new themes surface in listing and
+  cycle automatically. Tests: `ThemeOrderTests` in
+  `tests/test_tui_themes.py` (order covers `THEMES` exactly once;
+  re-export identity).
+- **Phase 3 (done, GUI/XSS slice)** — `templates/index.html`: central
+  `safeHtml()` helper (DOMPurify with text fallback) now guards every
+  LLM/command/error `innerHTML` sink (`/lazybot`, `/lazyreport`,
+  `/vuln`, general, chatbot, script, search, redop, task, terminal
+  mirror). `/csv_to_html` was already server-escaped. Tests:
+  `tests/test_gui_xss_sinks.py` fails on any raw interpolation.
+- **Phase 4 (open)** — Web GUI follow-ups: CSP header in `lazyc2.py`
+  responses, `trusted_types` policy, and moving remaining inline event
+  handlers out of the template.

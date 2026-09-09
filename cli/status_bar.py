@@ -20,9 +20,10 @@ Design constraints honoured here:
   abstractions, never on ``LazyOwnShell`` or ``cmd2`` directly.
 * No magic numbers / hardcoded paths: every default lives in
   :class:`StatusBarConfig`; runtime overrides come from ``payload.json``.
-* Readline-safe ANSI: colour escapes are wrapped with the GNU readline
-  ``\\001 ... \\002`` markers so column accounting stays correct when the
-  bar is concatenated into ``self.prompt``.
+* Prompt-toolkit native ANSI: colour escapes are emitted raw because the
+  cmd2 shell parses ANSI itself and paints GNU-readline ``\001 ... \002``
+  bytes as visible ``^A``/``^B`` glyphs. Marker fencing is opt-in via
+  ``readline_safe=True`` for genuine readline consumers only.
 """
 
 from __future__ import annotations
@@ -689,35 +690,35 @@ class StatusBarRenderer:
         base_prompt: str,
         color_open: str | None = None,
         color_close: str | None = None,
+        readline_safe: bool = False,
     ) -> str:
         """Return ``base_prompt`` with the status line prefixed.
 
         Args:
             ctx: The context snapshot to render.
-            base_prompt: Existing prompt string (may already contain ANSI
-                wrapped in readline markers).
+            base_prompt: Existing prompt string (may already contain ANSI).
             color_open: Optional ANSI prefix override. When ``None`` the
                 renderer falls back to :attr:`StatusBarConfig.color_open`.
             color_close: Optional ANSI suffix override. When ``None`` the
                 renderer falls back to :attr:`StatusBarConfig.color_close`.
+            readline_safe: When ``True`` wrap inserted ANSI escapes with
+                GNU-readline zero-width markers. Defaults to ``False``
+                because the cmd2/prompt_toolkit shell renders those
+                markers as visible ``^A``/``^B`` glyphs.
 
         Returns:
-            A new prompt string. ANSI sequences inserted here are wrapped
-            with readline markers so the input editor counts columns
-            correctly.
+            A new prompt string with the status line joined above
+            ``base_prompt``.
         """
         body = self.render_plain(ctx)
         if not self._config.color_enabled:
             return f"{body}{self._config.prompt_join}{base_prompt}"
         open_seq = color_open if color_open is not None else self._config.color_open
         close_seq = color_close if color_close is not None else self._config.color_close
-        coloured = (
-            f"{self._config.readline_open_marker}{open_seq}"
-            f"{self._config.readline_close_marker}"
-            f"{body}"
-            f"{self._config.readline_open_marker}{close_seq}"
-            f"{self._config.readline_close_marker}"
-        )
+        if readline_safe:
+            open_seq = f"{self._config.readline_open_marker}{open_seq}{self._config.readline_close_marker}"
+            close_seq = f"{self._config.readline_open_marker}{close_seq}{self._config.readline_close_marker}"
+        coloured = f"{open_seq}{body}{close_seq}"
         return f"{coloured}{self._config.prompt_join}{base_prompt}"
 
     def _sanitise(self, value: str, max_chars: int) -> str:
@@ -807,7 +808,7 @@ class StatusBarManager:
             operators=operators,
         )
 
-    def render_prompt(self, base_prompt: str) -> str:
+    def render_prompt(self, base_prompt: str, readline_safe: bool = False) -> str:
         """Return the prompt with the status line prefixed when enabled.
 
         The active TUI theme is resolved on every call so a live
@@ -817,7 +818,7 @@ class StatusBarManager:
         if not self.enabled:
             return base_prompt
         color_open, color_close = self._resolve_theme_colors()
-        return self._renderer.render_prompt(self.collect_context(), base_prompt, color_open, color_close)
+        return self._renderer.render_prompt(self.collect_context(), base_prompt, color_open, color_close, readline_safe)
 
     def _resolve_theme_colors(self) -> tuple[str | None, str | None]:
         """Return ``(open, close)`` ANSI sequences from the active theme."""

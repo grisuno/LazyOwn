@@ -1,0 +1,20 @@
+name: ShieldCrash
+description: 'Microsoft has failed to properly patch ShieldBreak CVE-2026-69414, under specific conditions it is still possible to trigger the exact same problem that was caused by ShieldBreak. While Microsoft fixed several things to prevent re-exploiting the issue, they missed a spot where ShieldBreak can still be exploited.
+  '
+author: Nightmare_Eclipse
+version: '1.0'
+enabled: true
+params:
+- name: lhost
+  type: string
+  required: true
+  description: lhost target.
+os: windows
+trigger: []
+tool:
+  name: ShieldCrash
+  repo_url: https://git.churchofmalware.org/Nightmare_Eclipse/ShieldCrash.git
+  install_path: external/.exploit/ShieldCrash
+  install_command: git pull
+  execute_command: cat README.md
+category: 04. Post-Exploitation

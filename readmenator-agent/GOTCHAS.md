@@ -7,11 +7,11 @@ These files have the most connections. Changes here have high blast radius.
 - `core/logging.py` (score: 249.20)
 - `utils.py` (score: 178.50)
 - `skills/lazyown_mcp.py` (score: 148.10)
-- `cli/commands/_base.py` (score: 144.50)
+- `cli/commands/_base.py` (score: 144.60)
 - `lazyown.py` (score: 116.20)
 - `lazyc2.py` (score: 114.30)
 - `core/console.py` (score: 104.50)
-- `cli/commands/misc_migrated.py` (score: 100.10)
+- `cli/commands/misc_migrated.py` (score: 102.10)
 - `modules/world_model.py` (score: 84.10)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
 

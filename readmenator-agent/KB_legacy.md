@@ -49,13 +49,13 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `check_sudo` (function, line 26) `def check_sudo()`
-  - `enable_ip_forward` (function, line 34) `def enable_ip_forward()`
-  - `disable_ip_forward` (function, line 37) `def disable_ip_forward()`
-  - `get_local_ip` (function, line 40) `def get_local_ip(ifname)`
-  - `get_mac` (function, line 48) `def get_mac(ip, device, retries, timeout)`
-  - `spoofer` (function, line 68) `def spoofer(target, spoofed, device)`
-  - `main` (function, line 79) `def main()`
+  - `check_sudo` (function, line 27) `def check_sudo()`
+  - `enable_ip_forward` (function, line 35) `def enable_ip_forward()`
+  - `disable_ip_forward` (function, line 38) `def disable_ip_forward()`
+  - `get_local_ip` (function, line 41) `def get_local_ip(ifname)`
+  - `get_mac` (function, line 49) `def get_mac(ip, device, retries, timeout)`
+  - `spoofer` (function, line 69) `def spoofer(target, spoofed, device)`
+  - `main` (function, line 80) `def main()`
 
 ## modules/legacy/lazybinenc.py
 - Layer: utility
@@ -234,21 +234,21 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `parse_args` (function, line 33) `def parse_args()`
-  - `setup_logging` (function, line 51) `def setup_logging(log_file)`
-  - `generate_rsa_key` (function, line 55) `def generate_rsa_key(key_filename)`
-  - `Server` (class, line 59) `class Server(ServerInterface)`
-  - `handle_connection` (method, line 73) `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
-  - `handle_file_download` (method, line 109) `def handle_file_download(command, downloads_dir, downloads_log)`
-  - `log_command` (method, line 123) `def log_command(command, commands_log)`
-  - `log_downloaded_file` (method, line 127) `def log_downloaded_file(filename, url, downloads_log)`
-  - `analyze_traffic` (method, line 131) `def analyze_traffic()`
-  - `alert_admin` (method, line 142) `def alert_admin(message)`
-  - `main` (method, line 160) `def main()`
-  - `__init__` (method, line 60) `def __init__(self)`
-  - `check_channel_request` (method, line 63) `def check_channel_request(self, kind, chanid)`
-  - `check_auth_password` (method, line 68) `def check_auth_password(self, username, password)`
-  - `process_packet` (method, line 132) `def process_packet(packet)`
+  - `parse_args` (function, line 34) `def parse_args()`
+  - `setup_logging` (function, line 52) `def setup_logging(log_file)`
+  - `generate_rsa_key` (function, line 56) `def generate_rsa_key(key_filename)`
+  - `Server` (class, line 60) `class Server(ServerInterface)`
+  - `handle_connection` (method, line 74) `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
+  - `handle_file_download` (method, line 110) `def handle_file_download(command, downloads_dir, downloads_log)`
+  - `log_command` (method, line 128) `def log_command(command, commands_log)`
+  - `log_downloaded_file` (method, line 132) `def log_downloaded_file(filename, url, downloads_log)`
+  - `analyze_traffic` (method, line 136) `def analyze_traffic()`
+  - `alert_admin` (method, line 147) `def alert_admin(message)`
+  - `main` (method, line 165) `def main()`
+  - `__init__` (method, line 61) `def __init__(self)`
+  - `check_channel_request` (method, line 64) `def check_channel_request(self, kind, chanid)`
+  - `check_auth_password` (method, line 69) `def check_auth_password(self, username, password)`
+  - `process_packet` (method, line 137) `def process_packet(packet)`
 - Depends on: `core/logging.py`
 
 ## modules/legacy/lazyhttpreverseshell.py
@@ -344,38 +344,40 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `get_mac` (function, line 12) `def get_mac(ip)`
-  - `spoof` (function, line 18) `def spoof(target_ip, spoof_ip)`
-  - `restore` (function, line 27) `def restore(target_ip, spoof_ip)`
-  - `mitm` (function, line 37) `def mitm(target_ip, gateway_ip)`
-  - `start_sslstrip` (function, line 50) `def start_sslstrip(port)`
-  - `start_tcpdump` (function, line 54) `def start_tcpdump(interface, output_file)`
-  - `setup_monitor_mode` (function, line 58) `def setup_monitor_mode(interface)`
-  - `main` (function, line 65) `def main()`
+  - `get_mac` (function, line 13) `def get_mac(ip)`
+  - `spoof` (function, line 19) `def spoof(target_ip, spoof_ip)`
+  - `restore` (function, line 28) `def restore(target_ip, spoof_ip)`
+  - `mitm` (function, line 38) `def mitm(target_ip, gateway_ip)`
+  - `start_sslstrip` (function, line 51) `def start_sslstrip(port)`
+  - `start_tcpdump` (function, line 55) `def start_tcpdump(interface, output_file)`
+  - `setup_monitor_mode` (function, line 59) `def setup_monitor_mode(interface)`
+  - `main` (function, line 69) `def main()`
 
 ## modules/legacy/lazymitmap.py
 - Layer: utility
 - Language: py
 - Symbols:
-  - `print_header` (function, line 29) `def print_header()`
-  - `run_cmd_write` (function, line 33) `def run_cmd_write(cmd_args, s)`
-  - `write_file` (function, line 47) `def write_file(path, s)`
-  - `append_file` (function, line 51) `def append_file(path, s)`
-  - `create_dir` (function, line 56) `def create_dir(directory)`
-  - `set_permissions` (function, line 61) `def set_permissions(directory, permissions)`
-  - `install_dependencies` (function, line 66) `def install_dependencies()`
-  - `backup_file` (function, line 92) `def backup_file(filepath)`
-  - `restore_file` (function, line 97) `def restore_file(filepath)`
-  - `restart_service` (function, line 105) `def restart_service(service)`
-  - `flush_iptables` (function, line 110) `def flush_iptables()`
-  - `setup_network_manager` (function, line 118) `def setup_network_manager(ap_iface)`
-  - `configure_dnsmasq` (function, line 127) `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)`
-  - `configure_hostapd` (function, line 159) `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)`
-  - `setup_iptables` (function, line 192) `def setup_iptables(ap_iface, ap_ip, net_iface)`
-  - `set_speed_limit` (function, line 205) `def set_speed_limit(ap_iface, speed_up, speed_down)`
-  - `start_services` (function, line 210) `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)`
-  - `cleanup` (function, line 240) `def cleanup()`
-  - `signal_handler` (function, line 249) `def signal_handler(sig, frame)`
+  - `_sudo_run` (function, line 14) `def _sudo_run()`
+  - `_validate_iface` (function, line 19) `def _validate_iface(value, name)`
+  - `print_header` (function, line 45) `def print_header()`
+  - `run_cmd_write` (function, line 49) `def run_cmd_write(cmd_args, s)`
+  - `write_file` (function, line 63) `def write_file(path, s)`
+  - `append_file` (function, line 67) `def append_file(path, s)`
+  - `create_dir` (function, line 72) `def create_dir(directory)`
+  - `set_permissions` (function, line 77) `def set_permissions(directory, permissions)`
+  - `install_dependencies` (function, line 84) `def install_dependencies()`
+  - `backup_file` (function, line 121) `def backup_file(filepath)`
+  - `restore_file` (function, line 128) `def restore_file(filepath)`
+  - `restart_service` (function, line 138) `def restart_service(service)`
+  - `flush_iptables` (function, line 145) `def flush_iptables()`
+  - `setup_network_manager` (function, line 153) `def setup_network_manager(ap_iface)`
+  - `configure_dnsmasq` (function, line 163) `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)`
+  - `configure_hostapd` (function, line 195) `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)`
+  - `setup_iptables` (function, line 228) `def setup_iptables(ap_iface, ap_ip, net_iface)`
+  - `set_speed_limit` (function, line 248) `def set_speed_limit(ap_iface, speed_up, speed_down)`
+  - `start_services` (function, line 254) `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)`
+  - `cleanup` (function, line 315) `def cleanup()`
+  - `signal_handler` (function, line 324) `def signal_handler(sig, frame)`
 
 ## modules/legacy/lazynetbios.py
 - Layer: utility
@@ -516,15 +518,15 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `Config` (class, line 13) `class Config`
-  - `load_payload` (method, line 22) `def load_payload()`
-  - `make_request` (method, line 27) `def make_request(url, retries, timeout)`
-  - `results` (method, line 48) `def results(file)`
-  - `crawl` (method, line 56) `def crawl(url)`
-  - `ffuf` (method, line 65) `def ffuf()`
-  - `analyze_seo` (method, line 75) `def analyze_seo(url)`
-  - `__init__` (method, line 14) `def __init__(self, config_dict)`
-  - `__getitem__` (method, line 19) `def __getitem__(self, key)`
+  - `Config` (class, line 14) `class Config`
+  - `load_payload` (method, line 23) `def load_payload()`
+  - `make_request` (method, line 28) `def make_request(url, retries, timeout)`
+  - `results` (method, line 49) `def results(file)`
+  - `crawl` (method, line 57) `def crawl(url)`
+  - `ffuf` (method, line 66) `def ffuf()`
+  - `analyze_seo` (method, line 76) `def analyze_seo(url)`
+  - `__init__` (method, line 15) `def __init__(self, config_dict)`
+  - `__getitem__` (method, line 20) `def __getitem__(self, key)`
 - Depends on: `modules/colors.py`
 
 ## modules/legacy/lazysmbrelay.py

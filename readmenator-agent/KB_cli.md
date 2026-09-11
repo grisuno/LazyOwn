@@ -85,126 +85,127 @@
 - Language: py
 - Symbols:
   - `BannerConfig` (class, line 59) `class BannerConfig`
-  - `ColorRegistry` (class, line 141) `class ColorRegistry`
-  - `GlyphRegistry` (class, line 189) `class GlyphRegistry`
-  - `SegmentSpec` (class, line 235) `class SegmentSpec`
-  - `ColorPalette` (class, line 248) `class ColorPalette`
-  - `RenderContext` (class, line 266) `class RenderContext`
-  - `_bracketed` (method, line 291) `def _bracketed(label, value, bullet, value_color, ctx, glyphs)`
-  - `_middle` (method, line 305) `def _middle(label, value, value_color, ctx, glyphs)`
-  - `SegmentRenderer` (class, line 312) `class SegmentRenderer(ABC)`
-  - `UserHostSegment` (class, line 323) `class UserHostSegment(SegmentRenderer)`
-  - `IfaceSegment` (class, line 338) `class IfaceSegment(SegmentRenderer)`
-  - `LhostSegment` (class, line 357) `class LhostSegment(SegmentRenderer)`
-  - `RhostSegment` (class, line 374) `class RhostSegment(SegmentRenderer)`
-  - `DomainSegment` (class, line 391) `class DomainSegment(SegmentRenderer)`
-  - `PublicIpSegment` (class, line 408) `class PublicIpSegment(SegmentRenderer)`
-  - `CwdSegment` (class, line 425) `class CwdSegment(SegmentRenderer)`
-  - `GitSegment` (class, line 441) `class GitSegment(SegmentRenderer)`
-  - `VenvSegment` (class, line 463) `class VenvSegment(SegmentRenderer)`
-  - `TimeSegment` (class, line 480) `class TimeSegment(SegmentRenderer)`
-  - `KernelSegment` (class, line 495) `class KernelSegment(SegmentRenderer)`
-  - `VersionSegment` (class, line 512) `class VersionSegment(SegmentRenderer)`
-  - `KarmaSegment` (class, line 529) `class KarmaSegment(SegmentRenderer)`
-  - `BatteryLoadSegment` (class, line 559) `class BatteryLoadSegment(SegmentRenderer)`
-  - `SegmentRegistry` (class, line 576) `class SegmentRegistry`
-  - `build_default_registry` (method, line 602) `def build_default_registry()`
-  - `BannerSettings` (class, line 626) `class BannerSettings`
-  - `ContextResolver` (class, line 732) `class ContextResolver`
-  - `_read_network_info` (method, line 871) `def _read_network_info()`
-  - `_select_iface` (method, line 890) `def _select_iface(network, preferred)`
-  - `_git_branch` (method, line 900) `def _git_branch()`
-  - `_git_dirty` (method, line 912) `def _git_dirty()`
-  - `_venv_name` (method, line 921) `def _venv_name()`
-  - `_battery_or_load` (method, line 927) `def _battery_or_load()`
-  - `default_palette` (method, line 946) `def default_palette()`
-  - `BannerRenderer` (class, line 959) `class BannerRenderer`
-  - `_WizardTab` (class, line 1027) `class _WizardTab`
-  - `BannerConfigurator` (class, line 1035) `class BannerConfigurator`
-  - `_readline_safe` (method, line 1351) `def _readline_safe(prompt)`
-  - `render_prompt` (method, line 1376) `def render_prompt(payload, config)`
-  - `configure_banner_interactive` (method, line 1394) `def configure_banner_interactive(payload, config)`
-  - `banner_summary` (method, line 1414) `def banner_summary(settings, registry)`
-  - `names` (method, line 168) `def names(self)`
-  - `has` (method, line 171) `def has(self, name)`
-  - `resolve` (method, line 174) `def resolve(self, name)`
-  - `cycle` (method, line 177) `def cycle(self, current, direction)`
-  - `default_name` (method, line 185) `def default_name(self)`
-  - `slots` (method, line 210) `def slots(self)`
-  - `choices` (method, line 213) `def choices(self, slot)`
-  - `has` (method, line 216) `def has(self, slot)`
-  - `default` (method, line 219) `def default(self, slot)`
-  - `cycle` (method, line 223) `def cycle(self, slot, current, direction)`
-  - `spec` (method, line 317) `def spec(self)`
-  - `render` (method, line 320) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 334) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 349) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 368) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 385) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 402) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 419) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 436) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 452) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 474) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 491) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 506) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 523) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 540) `def render(self, ctx, cfg, color, glyphs)`
-  - `render` (method, line 570) `def render(self, ctx, cfg, color, glyphs)`
-  - `__init__` (method, line 579) `def __init__(self)`
-  - `register` (method, line 582) `def register(self, segment)`
-  - `get` (method, line 585) `def get(self, segment_id)`
-  - `all` (method, line 588) `def all(self)`
-  - `by_group` (method, line 598) `def by_group(self, group)`
-  - `defaults` (method, line 634) `def defaults(cls, registry, color_registry, glyph_registry)`
-  - `from_payload` (method, line 649) `def from_payload(cls, registry, payload, key, color_registry, glyph_registry)`
-  - `is_enabled` (method, line 683) `def is_enabled(self, segment_id)`
-  - `toggle` (method, line 686) `def toggle(self, segment_id)`
-  - `enable_all` (method, line 692) `def enable_all(self, registry)`
-  - `disable_all` (method, line 695) `def disable_all(self)`
-  - `reset_segments` (method, line 698) `def reset_segments(self, registry)`
-  - `reset_colors` (method, line 701) `def reset_colors(self, registry)`
-  - `reset_color_for` (method, line 704) `def reset_color_for(self, segment_id, registry)`
-  - `reset_glyphs` (method, line 709) `def reset_glyphs(self, glyph_registry)`
-  - `reset_glyph_for` (method, line 712) `def reset_glyph_for(self, slot, glyph_registry)`
-  - `cycle_color` (method, line 716) `def cycle_color(self, segment_id, color_registry, direction)`
-  - `cycle_glyph` (method, line 720) `def cycle_glyph(self, slot, glyph_registry, direction)`
-  - `to_payload_block` (method, line 724) `def to_payload_block(self)`
-  - `__init__` (method, line 739) `def __init__(self, cfg, palette)`
-  - `resolve` (method, line 743) `def resolve(self, payload, network)`
-  - `_public_ip` (method, line 775) `def _public_ip(self, payload)`
-  - `_kernel` (method, line 794) `def _kernel(self)`
-  - `_version` (method, line 806) `def _version(self)`
-  - `_engagement_stats` (method, line 824) `def _engagement_stats()`
-  - `_operator_name` (method, line 857) `def _operator_name()`
-  - `__init__` (method, line 962) `def __init__(self, config, registry, color_registry, glyph_registry)`
-  - `render` (method, line 974) `def render(self, settings, ctx)`
-  - `_merged_glyphs` (method, line 983) `def _merged_glyphs(self, settings)`
-  - `_render_group` (method, line 990) `def _render_group(self, settings, ctx, group, glyphs)`
-  - `_build_top` (method, line 1004) `def _build_top(self, pieces, palette, glyphs)`
-  - `_build_middle` (method, line 1011) `def _build_middle(self, pieces, palette, glyphs)`
-  - `_build_bottom` (method, line 1017) `def _build_bottom(self, palette, glyphs)`
-  - `__init__` (method, line 1045) `def __init__(self, config, registry, color_registry, glyph_registry, renderer, ctx, initial)`
-  - `run` (method, line 1069) `def run(self)`
-  - `_tty_available` (method, line 1080) `def _tty_available()`
-  - `_loop` (method, line 1083) `def _loop(self, stdscr)`
-  - `_cycle_tab` (method, line 1118) `def _cycle_tab(self, direction)`
-  - `_rows_for` (method, line 1122) `def _rows_for(self, tab)`
-  - `_dispatch_action` (method, line 1131) `def _dispatch_action(self, key, rows, cursor)`
-  - `_init_colors` (method, line 1161) `def _init_colors(self)`
-  - `_render` (method, line 1188) `def _render(self, stdscr, rows, cursor)`
-  - `_draw_frame` (method, line 1213) `def _draw_frame(self, stdscr, top, left, height, width)`
-  - `_draw_header` (method, line 1227) `def _draw_header(self, stdscr, top, left, width)`
-  - `_draw_tabs` (method, line 1246) `def _draw_tabs(self, stdscr, row_y, left, width)`
-  - `_draw_segments` (method, line 1263) `def _draw_segments(self, stdscr, top, left, width, rows, cursor)`
-  - `_draw_colors` (method, line 1280) `def _draw_colors(self, stdscr, top, left, width, rows, cursor)`
-  - `_draw_glyphs` (method, line 1293) `def _draw_glyphs(self, stdscr, top, left, width, rows, cursor)`
-  - `_addrow` (method, line 1307) `def _addrow(self, stdscr, row_y, left, width, text, attr)`
-  - `_draw_preview` (method, line 1316) `def _draw_preview(self, stdscr, top, left, width, lines)`
-  - `_draw_footer` (method, line 1328) `def _draw_footer(self, stdscr, row_y, left, width)`
-  - `_color` (method, line 1342) `def _color(self, pair)`
+  - `ColorRegistry` (class, line 143) `class ColorRegistry`
+  - `GlyphRegistry` (class, line 191) `class GlyphRegistry`
+  - `SegmentSpec` (class, line 237) `class SegmentSpec`
+  - `ColorPalette` (class, line 250) `class ColorPalette`
+  - `RenderContext` (class, line 268) `class RenderContext`
+  - `_bracketed` (method, line 293) `def _bracketed(label, value, bullet, value_color, ctx, glyphs)`
+  - `_middle` (method, line 307) `def _middle(label, value, value_color, ctx, glyphs)`
+  - `SegmentRenderer` (class, line 314) `class SegmentRenderer(ABC)`
+  - `UserHostSegment` (class, line 325) `class UserHostSegment(SegmentRenderer)`
+  - `IfaceSegment` (class, line 340) `class IfaceSegment(SegmentRenderer)`
+  - `LhostSegment` (class, line 359) `class LhostSegment(SegmentRenderer)`
+  - `RhostSegment` (class, line 376) `class RhostSegment(SegmentRenderer)`
+  - `DomainSegment` (class, line 393) `class DomainSegment(SegmentRenderer)`
+  - `PublicIpSegment` (class, line 410) `class PublicIpSegment(SegmentRenderer)`
+  - `CwdSegment` (class, line 427) `class CwdSegment(SegmentRenderer)`
+  - `GitSegment` (class, line 443) `class GitSegment(SegmentRenderer)`
+  - `VenvSegment` (class, line 465) `class VenvSegment(SegmentRenderer)`
+  - `TimeSegment` (class, line 482) `class TimeSegment(SegmentRenderer)`
+  - `KernelSegment` (class, line 497) `class KernelSegment(SegmentRenderer)`
+  - `VersionSegment` (class, line 514) `class VersionSegment(SegmentRenderer)`
+  - `KarmaSegment` (class, line 531) `class KarmaSegment(SegmentRenderer)`
+  - `BatteryLoadSegment` (class, line 561) `class BatteryLoadSegment(SegmentRenderer)`
+  - `SegmentRegistry` (class, line 578) `class SegmentRegistry`
+  - `build_default_registry` (method, line 604) `def build_default_registry()`
+  - `BannerSettings` (class, line 628) `class BannerSettings`
+  - `ContextResolver` (class, line 734) `class ContextResolver`
+  - `_read_network_info` (method, line 873) `def _read_network_info()`
+  - `_select_iface` (method, line 892) `def _select_iface(network, preferred)`
+  - `_git_branch` (method, line 902) `def _git_branch()`
+  - `_git_dirty` (method, line 914) `def _git_dirty()`
+  - `_venv_name` (method, line 923) `def _venv_name()`
+  - `_battery_or_load` (method, line 929) `def _battery_or_load()`
+  - `default_palette` (method, line 948) `def default_palette()`
+  - `BannerRenderer` (class, line 961) `class BannerRenderer`
+  - `_WizardTab` (class, line 1029) `class _WizardTab`
+  - `BannerConfigurator` (class, line 1037) `class BannerConfigurator`
+  - `_readline_safe` (method, line 1353) `def _readline_safe(prompt, config)`
+  - `strip_readline_markers` (method, line 1382) `def strip_readline_markers(text, config)`
+  - `render_prompt` (method, line 1396) `def render_prompt(payload, config, readline_safe)`
+  - `configure_banner_interactive` (method, line 1436) `def configure_banner_interactive(payload, config)`
+  - `banner_summary` (method, line 1456) `def banner_summary(settings, registry)`
+  - `names` (method, line 170) `def names(self)`
+  - `has` (method, line 173) `def has(self, name)`
+  - `resolve` (method, line 176) `def resolve(self, name)`
+  - `cycle` (method, line 179) `def cycle(self, current, direction)`
+  - `default_name` (method, line 187) `def default_name(self)`
+  - `slots` (method, line 212) `def slots(self)`
+  - `choices` (method, line 215) `def choices(self, slot)`
+  - `has` (method, line 218) `def has(self, slot)`
+  - `default` (method, line 221) `def default(self, slot)`
+  - `cycle` (method, line 225) `def cycle(self, slot, current, direction)`
+  - `spec` (method, line 319) `def spec(self)`
+  - `render` (method, line 322) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 336) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 351) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 370) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 387) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 404) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 421) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 438) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 454) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 476) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 493) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 508) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 525) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 542) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 572) `def render(self, ctx, cfg, color, glyphs)`
+  - `__init__` (method, line 581) `def __init__(self)`
+  - `register` (method, line 584) `def register(self, segment)`
+  - `get` (method, line 587) `def get(self, segment_id)`
+  - `all` (method, line 590) `def all(self)`
+  - `by_group` (method, line 600) `def by_group(self, group)`
+  - `defaults` (method, line 636) `def defaults(cls, registry, color_registry, glyph_registry)`
+  - `from_payload` (method, line 651) `def from_payload(cls, registry, payload, key, color_registry, glyph_registry)`
+  - `is_enabled` (method, line 685) `def is_enabled(self, segment_id)`
+  - `toggle` (method, line 688) `def toggle(self, segment_id)`
+  - `enable_all` (method, line 694) `def enable_all(self, registry)`
+  - `disable_all` (method, line 697) `def disable_all(self)`
+  - `reset_segments` (method, line 700) `def reset_segments(self, registry)`
+  - `reset_colors` (method, line 703) `def reset_colors(self, registry)`
+  - `reset_color_for` (method, line 706) `def reset_color_for(self, segment_id, registry)`
+  - `reset_glyphs` (method, line 711) `def reset_glyphs(self, glyph_registry)`
+  - `reset_glyph_for` (method, line 714) `def reset_glyph_for(self, slot, glyph_registry)`
+  - `cycle_color` (method, line 718) `def cycle_color(self, segment_id, color_registry, direction)`
+  - `cycle_glyph` (method, line 722) `def cycle_glyph(self, slot, glyph_registry, direction)`
+  - `to_payload_block` (method, line 726) `def to_payload_block(self)`
+  - `__init__` (method, line 741) `def __init__(self, cfg, palette)`
+  - `resolve` (method, line 745) `def resolve(self, payload, network)`
+  - `_public_ip` (method, line 777) `def _public_ip(self, payload)`
+  - `_kernel` (method, line 796) `def _kernel(self)`
+  - `_version` (method, line 808) `def _version(self)`
+  - `_engagement_stats` (method, line 826) `def _engagement_stats()`
+  - `_operator_name` (method, line 859) `def _operator_name()`
+  - `__init__` (method, line 964) `def __init__(self, config, registry, color_registry, glyph_registry)`
+  - `render` (method, line 976) `def render(self, settings, ctx)`
+  - `_merged_glyphs` (method, line 985) `def _merged_glyphs(self, settings)`
+  - `_render_group` (method, line 992) `def _render_group(self, settings, ctx, group, glyphs)`
+  - `_build_top` (method, line 1006) `def _build_top(self, pieces, palette, glyphs)`
+  - `_build_middle` (method, line 1013) `def _build_middle(self, pieces, palette, glyphs)`
+  - `_build_bottom` (method, line 1019) `def _build_bottom(self, palette, glyphs)`
+  - `__init__` (method, line 1047) `def __init__(self, config, registry, color_registry, glyph_registry, renderer, ctx, initial)`
+  - `run` (method, line 1071) `def run(self)`
+  - `_tty_available` (method, line 1082) `def _tty_available()`
+  - `_loop` (method, line 1085) `def _loop(self, stdscr)`
+  - `_cycle_tab` (method, line 1120) `def _cycle_tab(self, direction)`
+  - `_rows_for` (method, line 1124) `def _rows_for(self, tab)`
+  - `_dispatch_action` (method, line 1133) `def _dispatch_action(self, key, rows, cursor)`
+  - `_init_colors` (method, line 1163) `def _init_colors(self)`
+  - `_render` (method, line 1190) `def _render(self, stdscr, rows, cursor)`
+  - `_draw_frame` (method, line 1215) `def _draw_frame(self, stdscr, top, left, height, width)`
+  - `_draw_header` (method, line 1229) `def _draw_header(self, stdscr, top, left, width)`
+  - `_draw_tabs` (method, line 1248) `def _draw_tabs(self, stdscr, row_y, left, width)`
+  - `_draw_segments` (method, line 1265) `def _draw_segments(self, stdscr, top, left, width, rows, cursor)`
+  - `_draw_colors` (method, line 1282) `def _draw_colors(self, stdscr, top, left, width, rows, cursor)`
+  - `_draw_glyphs` (method, line 1295) `def _draw_glyphs(self, stdscr, top, left, width, rows, cursor)`
+  - `_addrow` (method, line 1309) `def _addrow(self, stdscr, row_y, left, width, text, attr)`
+  - `_draw_preview` (method, line 1318) `def _draw_preview(self, stdscr, top, left, width, lines)`
+  - `_draw_footer` (method, line 1330) `def _draw_footer(self, stdscr, row_y, left, width)`
+  - `_color` (method, line 1344) `def _color(self, pair)`
 - Depends on: `cli/engagement_hooks.py`, `core/parsers.py`, `core/safe_exec.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_fuzzy_picker.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_fuzzy_picker.py`, `utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_banner_config.py`, `mutants/tests/test_fuzzy_picker.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_banner_config.py`, `tests/test_fuzzy_picker.py`, `tests/test_prompt_readline_markers.py`, `utils.py`
 
 ## cli/chain_mode.py
 - Layer: utility
@@ -347,13 +348,13 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExplorerConfig` (class, line 190) `class ExplorerConfig`
-  - `_load_command_index` (method, line 196) `def _load_command_index(path)`
-  - `CommandExplorer` (class, line 208) `class CommandExplorer`
-  - `__init__` (method, line 217) `def __init__(self, aliases, params, config)`
-  - `render_goals_overview` (method, line 228) `def render_goals_overview(self)`
-  - `render_goal_commands` (method, line 241) `def render_goal_commands(self, goal_key)`
-  - `render_search` (method, line 261) `def render_search(self, query)`
+  - `ExplorerConfig` (class, line 189) `class ExplorerConfig`
+  - `_load_command_index` (method, line 195) `def _load_command_index(path)`
+  - `CommandExplorer` (class, line 207) `class CommandExplorer`
+  - `__init__` (method, line 216) `def __init__(self, aliases, params, config)`
+  - `render_goals_overview` (method, line 227) `def render_goals_overview(self)`
+  - `render_goal_commands` (method, line 240) `def render_goal_commands(self, goal_key)`
+  - `render_search` (method, line 260) `def render_search(self, query)`
 - Depends on: `cli/palette.py`, `core/console.py`
 - Imported by: `cli/commands/misc_migrated.py`
 
@@ -420,16 +421,16 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CommandInfo` (class, line 63) `class CommandInfo`
-  - `ContextualHelpConfig` (class, line 79) `class ContextualHelpConfig`
-  - `_load_command_index` (method, line 86) `def _load_command_index(path)`
-  - `_build_command_lookup` (method, line 98) `def _build_command_lookup(index)`
-  - `ContextualHelp` (class, line 168) `class ContextualHelp`
-  - `__init__` (method, line 177) `def __init__(self, aliases, params, config)`
-  - `get_command_info` (method, line 189) `def get_command_info(self, name)`
-  - `render_command_help` (method, line 209) `def render_command_help(self, name)`
-  - `render_phase_commands` (method, line 262) `def render_phase_commands(self, phase)`
-  - `render_requirements_status` (method, line 282) `def render_requirements_status(self)`
+  - `CommandInfo` (class, line 62) `class CommandInfo`
+  - `ContextualHelpConfig` (class, line 78) `class ContextualHelpConfig`
+  - `_load_command_index` (method, line 85) `def _load_command_index(path)`
+  - `_build_command_lookup` (method, line 97) `def _build_command_lookup(index)`
+  - `ContextualHelp` (class, line 167) `class ContextualHelp`
+  - `__init__` (method, line 176) `def __init__(self, aliases, params, config)`
+  - `get_command_info` (method, line 188) `def get_command_info(self, name)`
+  - `render_command_help` (method, line 208) `def render_command_help(self, name)`
+  - `render_phase_commands` (method, line 261) `def render_phase_commands(self, phase)`
+  - `render_requirements_status` (method, line 281) `def render_requirements_status(self)`
 - Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
 - Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `tests/test_phase_labels.py`
 
@@ -1359,70 +1360,70 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `StatusBarConfig` (class, line 40) `class StatusBarConfig`
-  - `StatusContext` (class, line 126) `class StatusContext`
-  - `IStatusSource` (class, line 142) `class IStatusSource(Protocol)`
-  - `FileSystemReader` (class, line 150) `class FileSystemReader`
-  - `PayloadTargetSource` (class, line 267) `class PayloadTargetSource`
-  - `WorldModelPhaseSource` (class, line 291) `class WorldModelPhaseSource`
-  - `SessionFindingSource` (class, line 318) `class SessionFindingSource`
-  - `CommandHintSuggestionSource` (class, line 415) `class CommandHintSuggestionSource`
-  - `GraphSuggestionSource` (class, line 507) `class GraphSuggestionSource`
-  - `CollabPresenceSource` (class, line 589) `class CollabPresenceSource`
-  - `StatusBarRenderer` (class, line 655) `class StatusBarRenderer`
-  - `StatusBarManager` (class, line 743) `class StatusBarManager`
-  - `_operator_presence_enabled` (method, line 947) `def _operator_presence_enabled(payload, config)`
-  - `build_default_manager` (method, line 968) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
-  - `from_payload` (method, line 98) `def from_payload(cls, payload)`
-  - `collect` (method, line 145) `def collect(self)`
-  - `__init__` (method, line 159) `def __init__(self, config, root)`
-  - `root` (method, line 178) `def root(self)`
-  - `read_text` (method, line 182) `def read_text(self, relative)`
-  - `read_json` (method, line 203) `def read_json(self, relative)`
-  - `glob_latest` (method, line 221) `def glob_latest(self, pattern)`
-  - `_safe_path` (method, line 246) `def _safe_path(self, relative)`
-  - `_is_within_root` (method, line 252) `def _is_within_root(self, candidate)`
-  - `_has_traversal` (method, line 260) `def _has_traversal(value)`
-  - `__init__` (method, line 270) `def __init__(self, config, payload)`
-  - `collect` (method, line 282) `def collect(self)`
-  - `__init__` (method, line 294) `def __init__(self, config, reader, payload)`
-  - `collect` (method, line 305) `def collect(self)`
-  - `__init__` (method, line 321) `def __init__(self, config, reader)`
-  - `collect` (method, line 326) `def collect(self)`
-  - `_latest_credential` (method, line 334) `def _latest_credential(self)`
-  - `_latest_vuln` (method, line 344) `def _latest_vuln(self)`
-  - `_latest_note` (method, line 357) `def _latest_note(self)`
-  - `_last_line` (method, line 375) `def _last_line(self, path)`
-  - `_summarise_credential` (method, line 388) `def _summarise_credential(self, filename, line)`
-  - `_extract_vuln_items` (method, line 395) `def _extract_vuln_items(self, payload)`
-  - `__init__` (method, line 425) `def __init__(self, config, reader, phase_provider, hint_provider)`
-  - `collect` (method, line 450) `def collect(self)`
-  - `_latest_command` (method, line 475) `def _latest_command(self)`
-  - `_default_provider` (method, line 499) `def _default_provider()`
-  - `__init__` (method, line 510) `def __init__(self, config, reader, advisor_factory)`
-  - `collect` (method, line 529) `def collect(self)`
-  - `_recent_commands` (method, line 550) `def _recent_commands(self)`
-  - `_suggestion_label` (method, line 578) `def _suggestion_label(entry)`
-  - `__init__` (method, line 600) `def __init__(self, config, reader, clock)`
-  - `collect` (method, line 621) `def collect(self)`
-  - `_extract_entries` (method, line 635) `def _extract_entries(payload)`
-  - `_is_active` (method, line 645) `def _is_active(entry, threshold)`
-  - `__init__` (method, line 658) `def __init__(self, config)`
-  - `render_plain` (method, line 663) `def render_plain(self, ctx)`
-  - `render_prompt` (method, line 686) `def render_prompt(self, ctx, base_prompt, color_open, color_close)`
-  - `_sanitise` (method, line 723) `def _sanitise(self, value, max_chars)`
-  - `__init__` (method, line 751) `def __init__(self, config, sources, renderer, payload)`
-  - `enabled` (method, line 782) `def enabled(self)`
-  - `collect_context` (method, line 797) `def collect_context(self)`
-  - `render_prompt` (method, line 810) `def render_prompt(self, base_prompt)`
-  - `_resolve_theme_colors` (method, line 822) `def _resolve_theme_colors(self)`
-  - `render_plain_line` (method, line 832) `def render_plain_line(self, ctx)`
-  - `set_enabled` (method, line 846) `def set_enabled(self, enabled)`
-  - `install` (method, line 856) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
-  - `_build_precmd_hook` (method, line 894) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
-  - `_safe_collect` (method, line 928) `def _safe_collect(self, key)`
-  - `_fallback_for` (method, line 937) `def _fallback_for(self, key)`
-  - `_hook` (method, line 914) `def _hook(data)`
+  - `StatusBarConfig` (class, line 41) `class StatusBarConfig`
+  - `StatusContext` (class, line 127) `class StatusContext`
+  - `IStatusSource` (class, line 143) `class IStatusSource(Protocol)`
+  - `FileSystemReader` (class, line 151) `class FileSystemReader`
+  - `PayloadTargetSource` (class, line 268) `class PayloadTargetSource`
+  - `WorldModelPhaseSource` (class, line 292) `class WorldModelPhaseSource`
+  - `SessionFindingSource` (class, line 319) `class SessionFindingSource`
+  - `CommandHintSuggestionSource` (class, line 416) `class CommandHintSuggestionSource`
+  - `GraphSuggestionSource` (class, line 508) `class GraphSuggestionSource`
+  - `CollabPresenceSource` (class, line 590) `class CollabPresenceSource`
+  - `StatusBarRenderer` (class, line 656) `class StatusBarRenderer`
+  - `StatusBarManager` (class, line 744) `class StatusBarManager`
+  - `_operator_presence_enabled` (method, line 948) `def _operator_presence_enabled(payload, config)`
+  - `build_default_manager` (method, line 969) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
+  - `from_payload` (method, line 99) `def from_payload(cls, payload)`
+  - `collect` (method, line 146) `def collect(self)`
+  - `__init__` (method, line 160) `def __init__(self, config, root)`
+  - `root` (method, line 179) `def root(self)`
+  - `read_text` (method, line 183) `def read_text(self, relative)`
+  - `read_json` (method, line 204) `def read_json(self, relative)`
+  - `glob_latest` (method, line 222) `def glob_latest(self, pattern)`
+  - `_safe_path` (method, line 247) `def _safe_path(self, relative)`
+  - `_is_within_root` (method, line 253) `def _is_within_root(self, candidate)`
+  - `_has_traversal` (method, line 261) `def _has_traversal(value)`
+  - `__init__` (method, line 271) `def __init__(self, config, payload)`
+  - `collect` (method, line 283) `def collect(self)`
+  - `__init__` (method, line 295) `def __init__(self, config, reader, payload)`
+  - `collect` (method, line 306) `def collect(self)`
+  - `__init__` (method, line 322) `def __init__(self, config, reader)`
+  - `collect` (method, line 327) `def collect(self)`
+  - `_latest_credential` (method, line 335) `def _latest_credential(self)`
+  - `_latest_vuln` (method, line 345) `def _latest_vuln(self)`
+  - `_latest_note` (method, line 358) `def _latest_note(self)`
+  - `_last_line` (method, line 376) `def _last_line(self, path)`
+  - `_summarise_credential` (method, line 389) `def _summarise_credential(self, filename, line)`
+  - `_extract_vuln_items` (method, line 396) `def _extract_vuln_items(self, payload)`
+  - `__init__` (method, line 426) `def __init__(self, config, reader, phase_provider, hint_provider)`
+  - `collect` (method, line 451) `def collect(self)`
+  - `_latest_command` (method, line 476) `def _latest_command(self)`
+  - `_default_provider` (method, line 500) `def _default_provider()`
+  - `__init__` (method, line 511) `def __init__(self, config, reader, advisor_factory)`
+  - `collect` (method, line 530) `def collect(self)`
+  - `_recent_commands` (method, line 551) `def _recent_commands(self)`
+  - `_suggestion_label` (method, line 579) `def _suggestion_label(entry)`
+  - `__init__` (method, line 601) `def __init__(self, config, reader, clock)`
+  - `collect` (method, line 622) `def collect(self)`
+  - `_extract_entries` (method, line 636) `def _extract_entries(payload)`
+  - `_is_active` (method, line 646) `def _is_active(entry, threshold)`
+  - `__init__` (method, line 659) `def __init__(self, config)`
+  - `render_plain` (method, line 664) `def render_plain(self, ctx)`
+  - `render_prompt` (method, line 687) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
+  - `_sanitise` (method, line 724) `def _sanitise(self, value, max_chars)`
+  - `__init__` (method, line 752) `def __init__(self, config, sources, renderer, payload)`
+  - `enabled` (method, line 783) `def enabled(self)`
+  - `collect_context` (method, line 798) `def collect_context(self)`
+  - `render_prompt` (method, line 811) `def render_prompt(self, base_prompt, readline_safe)`
+  - `_resolve_theme_colors` (method, line 823) `def _resolve_theme_colors(self)`
+  - `render_plain_line` (method, line 833) `def render_plain_line(self, ctx)`
+  - `set_enabled` (method, line 847) `def set_enabled(self, enabled)`
+  - `install` (method, line 857) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
+  - `_build_precmd_hook` (method, line 895) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
+  - `_safe_collect` (method, line 929) `def _safe_collect(self, key)`
+  - `_fallback_for` (method, line 938) `def _fallback_for(self, key)`
+  - `_hook` (method, line 915) `def _hook(data)`
 - Depends on: `cli/reactive_hints.py`, `cli/themes.py`
 - Imported by: `lazyown.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_improvements_spec.py`, `mutants/tests/test_status_bar_operators.py`, `tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`, `tests/test_improvements_spec.py`, `tests/test_status_bar_operators.py`
 
@@ -1505,8 +1506,8 @@
 - Language: py
 - Symbols:
   - `Theme` (class, line 31) `class Theme`
-  - `get_theme` (method, line 213) `def get_theme(name)`
-  - `theme_from_payload` (method, line 229) `def theme_from_payload(payload)`
+  - `get_theme` (method, line 222) `def get_theme(name)`
+  - `theme_from_payload` (method, line 238) `def theme_from_payload(payload)`
 - Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `mutants/tests/test_themes.py`, `mutants/tests/test_toast_bus.py`, `mutants/tests/test_tui_style.py`, `mutants/tests/test_tui_theme_command.py`, `mutants/tests/test_tui_themes.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 
 ## cli/timeline_browser.py
@@ -1545,65 +1546,65 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_noop` (function, line 132) `def _noop()`
-  - `TipsConfig` (class, line 137) `class TipsConfig`
-  - `TipsEngine` (class, line 186) `class TipsEngine`
-  - `_render_streak` (method, line 1102) `def _render_streak(ctx, state, config)`
-  - `_render_exploration` (method, line 1123) `def _render_exploration(ctx, state, config)`
-  - `_render_phase_badge` (method, line 1141) `def _render_phase_badge(ctx, state, config)`
-  - `_render_hidden_feature` (method, line 1159) `def _render_hidden_feature(ctx, state, config)`
-  - `_render_arsenal_tip` (method, line 1179) `def _render_arsenal_tip(ctx, state, config)`
-  - `build_default_tips_config` (method, line 1239) `def build_default_tips_config()`
-  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
-  - `enabled` (method, line 221) `def enabled(self)`
-  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
-  - `render` (method, line 229) `def render(self, cmd, phase)`
-  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
-  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
-  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
-  - `_get_hints_level` (method, line 343) `def _get_hints_level(self)`
-  - `_resolve_phase` (method, line 354) `def _resolve_phase(self, cmd, fallback)`
-  - `_read_world_model_phase` (method, line 377) `def _read_world_model_phase(self)`
-  - `_read_os_id_from_session` (method, line 387) `def _read_os_id_from_session(self)`
-  - `render_session_start` (method, line 407) `def render_session_start(self, phase, os_id)`
-  - `get_state_snapshot` (method, line 439) `def get_state_snapshot(self)`
-  - `reset_session` (method, line 454) `def reset_session(self)`
-  - `heal_commands_seen` (method, line 459) `def heal_commands_seen(self, known)`
-  - `_render_kill_chain_hints` (method, line 474) `def _render_kill_chain_hints(self, cmd, phase)`
-  - `_load_payload` (method, line 491) `def _load_payload(self)`
-  - `_get_rec_engine` (method, line 504) `def _get_rec_engine(self)`
-  - `_compute_evidence_hints` (method, line 528) `def _compute_evidence_hints(self, cmd, phase)`
-  - `_collect_killchain_progress` (method, line 574) `def _collect_killchain_progress(self, current_phase)`
-  - `_maybe_show_full_killchain` (method, line 604) `def _maybe_show_full_killchain(self, cmd)`
-  - `_compute_command_hints` (method, line 615) `def _compute_command_hints(self, cmd, phase)`
-  - `_render_contextual_tip` (method, line 632) `def _render_contextual_tip(self, cmd, phase)`
-  - `_safe_tip_trigger` (method, line 671) `def _safe_tip_trigger(tip, ctx)`
-  - `_run_curiosity_reveal` (method, line 682) `def _run_curiosity_reveal(self, cmd, phase)`
-  - `_commands_in_exploration_phase` (method, line 706) `def _commands_in_exploration_phase(self, phase)`
-  - `_summary_for_exploration_cmd` (method, line 712) `def _summary_for_exploration_cmd(self, cmd)`
-  - `_refresh_autosuggest` (method, line 725) `def _refresh_autosuggest(self, cmd, phase)`
-  - `_render_autosuggest_hint` (method, line 749) `def _render_autosuggest_hint(self, engine)`
-  - `_update_engagement_state` (method, line 766) `def _update_engagement_state(self, cmd, phase)`
-  - `_award_elo` (method, line 807) `def _award_elo(self, cmd, first_time, new_phase, phase)`
-  - `_check_karma_up` (method, line 818) `def _check_karma_up(self)`
-  - `_print_separator` (method, line 835) `def _print_separator(self, width)`
-  - `_check_badges` (method, line 839) `def _check_badges(self, cmd, first_time)`
-  - `_print_badge` (method, line 866) `def _print_badge(self, name, description)`
-  - `_fire_vri_reward` (method, line 876) `def _fire_vri_reward(self, ctx)`
-  - `_pick_weighted` (method, line 906) `def _pick_weighted(rewards, weights)`
-  - `_ensure_state_and_index` (method, line 925) `def _ensure_state_and_index(self)`
-  - `_load_state` (method, line 931) `def _load_state(self)`
-  - `_save_state` (method, line 951) `def _save_state(self)`
-  - `_load_command_index` (method, line 976) `def _load_command_index(self)`
-  - `_is_recordable_command` (method, line 986) `def _is_recordable_command(self, cmd)`
-  - `_sanitize_seen` (method, line 990) `def _sanitize_seen(self, names, known)`
-  - `_read_run_commands` (method, line 1004) `def _read_run_commands(self)`
-  - `_read_recent_commands_for_autosuggest` (method, line 1009) `def _read_recent_commands_for_autosuggest(self, limit)`
-  - `_phase_for_cmd` (method, line 1027) `def _phase_for_cmd(self, cmd)`
-  - `_truncate` (method, line 1038) `def _truncate(value, max_len)`
-  - `_get_karma_name` (method, line 1044) `def _get_karma_name(elo)`
-  - `_next_threshold` (method, line 1050) `def _next_threshold(self, current)`
-  - `_sync_user_elo` (method, line 1054) `def _sync_user_elo(self, delta)`
+  - `_noop` (function, line 131) `def _noop()`
+  - `TipsConfig` (class, line 136) `class TipsConfig`
+  - `TipsEngine` (class, line 185) `class TipsEngine`
+  - `_render_streak` (method, line 1101) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (method, line 1122) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (method, line 1140) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (method, line 1158) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (method, line 1178) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (method, line 1238) `def build_default_tips_config()`
+  - `__init__` (method, line 193) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 220) `def enabled(self)`
+  - `set_enabled` (method, line 224) `def set_enabled(self, value)`
+  - `render` (method, line 228) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 271) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 299) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 310) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 342) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 353) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 376) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 386) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 406) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 438) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 453) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 458) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 473) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 490) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 503) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 527) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 573) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 603) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 614) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 631) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 670) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 681) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 705) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 711) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 724) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 748) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 765) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 806) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 817) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 834) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 838) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 865) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 875) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 905) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 924) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 930) `def _load_state(self)`
+  - `_save_state` (method, line 950) `def _save_state(self)`
+  - `_load_command_index` (method, line 975) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 985) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 989) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1003) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1008) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1026) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1037) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1043) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1049) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1053) `def _sync_user_elo(self, delta)`
 - Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
 - Imported by: `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_evidence_hints.py`, `mutants/tests/test_killchain_auto_refresh.py`, `mutants/tests/test_tips_engine.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
 
@@ -1651,10 +1652,10 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_set_theme` (function, line 46) `def _set_theme(payload, name)`
-  - `_format_listing` (function, line 61) `def _format_listing(current)`
-  - `_cycle` (function, line 81) `def _cycle(payload, direction)`
-  - `run` (function, line 103) `def run(args, payload, save)`
+  - `_set_theme` (function, line 30) `def _set_theme(payload, name)`
+  - `_format_listing` (function, line 45) `def _format_listing(current)`
+  - `_cycle` (function, line 65) `def _cycle(payload, direction)`
+  - `run` (function, line 87) `def run(args, payload, save)`
 - Depends on: `cli/themes.py`
 - Imported by: `cli/commands/misc_migrated.py`
 

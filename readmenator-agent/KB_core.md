@@ -209,7 +209,7 @@
   - `safe_run` (function, line 96) `def safe_run(command)`
   - `safe_run` (function, line 98) `def safe_run(command)`
   - `safe_run` (function, line 101) `def safe_run(command)`
-  - `run_shell` (function, line 141) `def run_shell(cmd)`
+  - `run_shell` (function, line 149) `def run_shell(cmd)`
 - Depends on: `core/logging.py`
 - Imported by: `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `mutants/tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`, `tests/test_core_executor.py`
 
@@ -413,7 +413,7 @@
   - `wrapper` (function, line 80) `def wrapper(self)`
   - `_drain_stderr` (function, line 217) `def _drain_stderr()`
 - Depends on: `core/console.py`, `core/safe_subprocess.py`, `core/validators.py`
-- Imported by: `core/__init__.py`, `modules/auto_purple.py`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `static/js/vis-network.min.js`, `utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `static/js/vis-network.min.js`, `utils.py`
 
 ## core/prompt.py
 - Layer: utility
@@ -457,14 +457,14 @@
   - `safe_system` (method, line 50) `def safe_system(command)`
   - `safe_run_argv` (method, line 87) `def safe_run_argv(argv)`
   - `safe_run_shell` (method, line 127) `def safe_run_shell(command)`
-  - `safe_clear_screen` (method, line 166) `def safe_clear_screen()`
-  - `validate_url` (method, line 181) `def validate_url(url)`
-  - `safe_git_clone` (method, line 208) `def safe_git_clone(repo_url, target_dir)`
-  - `safe_ip_show` (method, line 242) `def safe_ip_show(interface)`
-  - `safe_find_tool` (method, line 279) `def safe_find_tool(name)`
-  - `safe_file_read` (method, line 295) `def safe_file_read(path)`
+  - `safe_clear_screen` (method, line 173) `def safe_clear_screen()`
+  - `validate_url` (method, line 188) `def validate_url(url)`
+  - `safe_git_clone` (method, line 215) `def safe_git_clone(repo_url, target_dir)`
+  - `safe_ip_show` (method, line 249) `def safe_ip_show(interface)`
+  - `safe_find_tool` (method, line 286) `def safe_find_tool(name)`
+  - `safe_file_read` (method, line 302) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/banner_config.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/pwn.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`
 
 ## core/safe_subprocess.py
 - Layer: business_logic
@@ -529,4 +529,4 @@
   - `check_lport` (function, line 83) `def check_lport(lport)`
   - `check_port` (function, line 93) `def check_port(port, name)`
 - Depends on: `core/console.py`
-- Imported by: `cli/commands/enum.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`
+- Imported by: `cli/commands/enum.py`, `cli/commands/mobile_macos.py`, `cli/commands/mobile_macos.py`, `cli/commands/pwn.py`, `core/__init__.py`, `core/process.py`, `modules/c2_builder.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `mutants/tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `utils.py`

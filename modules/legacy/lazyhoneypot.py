@@ -18,6 +18,7 @@ Descripción: LazyOwn HoneyPot
 
 """
 import argparse
+import subprocess
 import logging
 import os
 import smtplib
@@ -54,7 +55,7 @@ def setup_logging(log_file):
 # Generar la clave RSA si no existe
 def generate_rsa_key(key_filename):
     if not os.path.exists(key_filename):
-        os.system(f'ssh-keygen -t rsa -b 2048 -f {key_filename} -N ""')
+        subprocess.run(["ssh-keygen", "-t", "rsa", "-b", "2048", "-f", key_filename, "-N", ""], shell=False, check=False)
 
 class Server(paramiko.ServerInterface):
     def __init__(self):
@@ -114,7 +115,11 @@ def handle_file_download(command, downloads_dir, downloads_log):
             url = command.split(' ')[2]
 
         filename = url.split('/')[-1]
-        os.system(f"wget {url} -O {downloads_dir}/{filename}")
+        from urllib.parse import urlparse as _urlparse
+        _p = _urlparse(url)
+        if _p.scheme not in ("http", "https") or not _p.netloc:
+            raise ValueError(f"Invalid URL: {url!r}")
+        subprocess.run(["wget", url, "-O", f"{downloads_dir}/{filename}"], shell=False, check=False)
         logging.info(f"File downloaded: {filename}")
         log_downloaded_file(filename, url, downloads_log)
     except Exception as e:

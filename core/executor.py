@@ -99,11 +99,10 @@ def safe_run(command: list[str], *, timeout: int = 300) -> subprocess.CompletedP
 
 
 def safe_run(command: str | list[str], *, timeout: int = 300) -> subprocess.CompletedProcess[str]:
-    """Execute a command via the system shell with logging and timeout.
+    """Execute a command with logging and timeout.
 
-    Intended as a drop-in replacement for :func:`os.system` calls.
-    Uses ``shell=True`` to preserve compatibility with shell-builtin
-    commands (pipes, redirects, env vars) used throughout the codebase.
+    List input uses ``shell=False``. String input keeps ``shell=True``
+    for legacy pipelines and requires caller sanitisation.
 
     Args:
         command: A shell command string or list of argv tokens.
@@ -120,8 +119,8 @@ def safe_run(command: str | list[str], *, timeout: int = 300) -> subprocess.Comp
         subprocess.TimeoutExpired: If the command exceeds *timeout*.
 
     Security:
-        Accepts shell commands intentionally. Callers are responsible for
-        sanitising user-controlled input before passing it here.
+        List form never touches shell. String form intentionally uses
+        shell; callers must sanitise user-controlled input.
         Null-byte injection is rejected.
     """
     timeout = _validate_timeout(timeout)
@@ -129,6 +128,15 @@ def safe_run(command: str | list[str], *, timeout: int = 300) -> subprocess.Comp
 
     log.info("safe_run[%d]: %s", os.getpid(), cmd_str)
 
+    if isinstance(command, list):
+        return subprocess.run(
+            argv,
+            shell=False,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+        )
+    log.warning("safe_run string form uses shell=True: %s", cmd_str[:120])
     return subprocess.run(
         cmd_str,
         shell=True,

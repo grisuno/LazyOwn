@@ -700,10 +700,13 @@ if __name__ == "__main__":
 
         def _local_executor(command: str, host: str) -> str:
             try:
-                r = subprocess.run(
-                    command, shell=True, capture_output=True, text=True, timeout=60
-                    # shell=True required: Atomic Red Team commands use pipes, globs,
-                    # and shell operators (&&, ||, >) that need a shell to parse.
+                from core.safe_exec import safe_run_shell
+
+                r = safe_run_shell(
+                    command,
+                    allow=True,
+                    reason="atomic red team playbook step, pipes/globs allowed",
+                    timeout=60,
                 )
                 return (r.stdout + r.stderr).strip()
             except Exception as exc:

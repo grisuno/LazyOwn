@@ -130,6 +130,7 @@ def safe_run_shell(
     allow: bool = False,
     reason: str = "",
     timeout: float | None = None,
+    cwd: str | None = None,
 ) -> subprocess.CompletedProcess[str]:
     """Execute a command through the shell, gated by policy.
 
@@ -138,6 +139,7 @@ def safe_run_shell(
         allow: Must be True to execute.
         reason: Free-text justification.
         timeout: Optional wall-clock timeout.
+        cwd: Optional working directory, preserves caller behaviour.
 
     Returns:
         CompletedProcess result.
@@ -152,6 +154,10 @@ def safe_run_shell(
         raise ValueError("safe_run_shell requires a non-empty reason")
     if not command or not command.strip():
         raise ValueError("command must not be empty")
+    if "\x00" in command:
+        raise ValueError("command must not contain null bytes")
+    if len(command) > _MAX_COMMAND_LENGTH:
+        raise ValueError(f"command exceeds {_MAX_COMMAND_LENGTH} chars")
     log.debug("safe_run_shell: %s reason=%s", command[:80], reason)
     return subprocess.run(
         command,
@@ -160,6 +166,7 @@ def safe_run_shell(
         text=True,
         timeout=timeout,
         check=False,
+        cwd=cwd,
     )
 
 

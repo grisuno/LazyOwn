@@ -2,6 +2,7 @@ import json
 import os
 import random
 import re
+import subprocess
 import sys
 from time import sleep
 
@@ -133,7 +134,7 @@ def analyze_seo(url):
         print(emails)
         for link in valid_external_links:
             new_url = url + "/" + link
-            os.system(f"python3 modules/lazyseo.py {new_url}")
+            subprocess.Popen(["python3", "modules/lazyseo.py", new_url], shell=False)
         print("\033[91mWarning: Enter your target address such http://example.com\033[0m")
 
     choice = input("   [!] Do you want test Admin paths: (y/n)") or "n"

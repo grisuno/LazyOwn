@@ -29,6 +29,23 @@ from cmd2.exceptions import CommandSetRegistrationError
 SHELL_INJECTION_ATTRIBUTE = "_cmd"
 
 
+def extract_flag(args: list[str], flag: str) -> str | None:
+    """Extract ``--flag <value>`` pair shared by CommandSets.
+
+    Args:
+        args: Tokenised argument list.
+        flag: Flag name to locate.
+
+    Returns:
+        Value following flag, else None.
+    """
+    try:
+        idx = args.index(flag)
+        return args[idx + 1]
+    except (ValueError, IndexError):
+        return None
+
+
 class LazyOwnCommandSet(CommandSet):
     """Base class for every phase ``CommandSet`` defined under ``cli.commands``.
 
@@ -141,4 +158,4 @@ class LazyOwnCommandSet(CommandSet):
             raise AttributeError(name)
 
 
-__all__ = ["LazyOwnCommandSet", "SHELL_INJECTION_ATTRIBUTE"]
+__all__ = ["LazyOwnCommandSet", "SHELL_INJECTION_ATTRIBUTE", "extract_flag"]

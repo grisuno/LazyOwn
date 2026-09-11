@@ -10,7 +10,7 @@ Pending status: inherits from :class:`PendingCommandSet`. Promote to
 
 from __future__ import annotations
 
-import os
+import subprocess
 
 import cmd2
 
@@ -32,7 +32,14 @@ class PostExploitationCommandSet(LazyOwnCommandSet):
     def do_lazywebshell(self, line):
         """Run LazyOwn webshell server on port 8888."""
         print_msg("Running Server in localhost:8888/cgi-bin/lazywebshell.py")
-        os.system("cd modules && python3 -m http.server 8888 --cgi &")
+        proc = subprocess.Popen(
+            ["python3", "-m", "http.server", "8888", "--cgi"],
+            cwd="modules",
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL,
+            shell=False,
+        )
+        print_msg(f"Webshell server started pid={proc.pid} cwd=modules port=8888")
 
     @cmd2.with_category(post_exploitation_category)
     def do_disableav(self, line):

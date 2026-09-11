@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import pathlib
 import fcntl
 import os
 import socket
@@ -32,10 +33,10 @@ def check_sudo():
 check_sudo()
 
 def enable_ip_forward():
-    os.system("echo 1 > /proc/sys/net/ipv4/ip_forward")
+    pathlib.Path('/proc/sys/net/ipv4/ip_forward').write_text('1\n')
 
 def disable_ip_forward():
-    os.system("echo 0 > /proc/sys/net/ipv4/ip_forward")
+    pathlib.Path('/proc/sys/net/ipv4/ip_forward').write_text('0\n')
 
 def get_local_ip(ifname):
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)

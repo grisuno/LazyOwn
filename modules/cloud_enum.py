@@ -436,9 +436,22 @@ class CloudEnumerator:
             pass
 
         try:
+            project_proc = subprocess.run(
+                ["gcloud", "config", "get-value", "project"],
+                capture_output=True,
+                text=True,
+                timeout=15,
+                shell=False,
+            )
+            project = project_proc.stdout.strip()
+            if not project:
+                return data
             proc = subprocess.run(
-                ['gcloud', 'projects', 'get-iam-policy', '$(gcloud config get-value project)', '--format=json'],
-                capture_output=True, text=True, timeout=15, shell=True
+                ["gcloud", "projects", "get-iam-policy", project, "--format=json"],
+                capture_output=True,
+                text=True,
+                timeout=15,
+                shell=False,
             )
             if proc.returncode == 0 and proc.stdout:
                 policy = json.loads(proc.stdout)

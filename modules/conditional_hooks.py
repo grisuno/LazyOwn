@@ -478,14 +478,14 @@ class HookEngine:
         Returns:
             Captured stdout, stderr, or None on failure.
         """
-        import subprocess
+        from core.safe_exec import safe_run_shell
 
         try:
-            result = subprocess.run(
-                command, shell=True, capture_output=True, text=True, timeout=30
-                # shell=True required: hook commands use pipes (|), OR (||),
-                # and shell operators. Placeholder values are sanitized via
-                # shlex.quote() in _resolve_placeholders to prevent injection.
+            result = safe_run_shell(
+                command,
+                allow=True,
+                reason="conditional hook action, pipes allowed, placeholders quoted",
+                timeout=30,
             )
             log.info(
                 "[hook] local command: %s -> exit=%d", command, result.returncode

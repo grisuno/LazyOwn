@@ -6,6 +6,7 @@ exploit_chain, stealth.
 
 from __future__ import annotations
 
+import subprocess
 from pathlib import Path
 
 import cmd2
@@ -348,20 +349,29 @@ class PwnCommandSet(LazyOwnCommandSet):
         lhost = self.params.get("lhost", "")
         lport = self.params.get("lport", "")
 
+        from core.validators import check_lport
+        from utils import check_lhost as _check_lhost
+        from utils import check_rhost as _check_rhost
+
+        if "{rhost}" in command and not _check_rhost(rhost):
+            return
+        if "{lhost}" in command and not _check_lhost(lhost):
+            return
+        if "{lport}" in command and not check_lport(lport):
+            return
+
         resolved_cmd = command.replace("{rhost}", rhost).replace("{lhost}", lhost).replace("{lport}", str(lport))
 
         print_msg(f"[*] Executing: {resolved_cmd[:200]}")
 
-        import subprocess
+        from core.safe_exec import safe_run_shell
 
         try:
-            result = subprocess.run(
+            result = safe_run_shell(
                 resolved_cmd,
-                shell=True,
-                capture_output=True,
-                text=True,
+                allow=True,
+                reason="pwn plugin technique execution, pipes allowed",
                 timeout=30,
-                cwd=str(BASE_DIR),
             )
             output = result.stdout or result.stderr
             print_msg(output[:2000] if output else "(no output)")

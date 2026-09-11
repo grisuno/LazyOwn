@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import pathlib
 import os
 import random
 import subprocess
@@ -57,8 +58,11 @@ def start_tcpdump(interface, output_file):
 
 def setup_monitor_mode(interface):
     print(f"[*] Configurando {interface} en modo monitor")
-    os.system('sudo airmon-ng check kill')
-    os.system(f'sudo airmon-ng start {interface}')
+    import re as _re
+    if not _re.match(r'^[A-Za-z0-9._-]{1,32}$', interface):
+        raise ValueError(f'Invalid interface: {interface!r}')
+    subprocess.run(['sudo','airmon-ng','check','kill'], shell=False, check=False)
+    subprocess.run(['sudo','airmon-ng','start',interface], shell=False, check=False)
     new_interface = f'{interface}mon'
     return new_interface
 
@@ -76,7 +80,7 @@ def main():
     monitor_interface = setup_monitor_mode(args.interface)
 
     # Habilitar el reenvío de paquetes
-    os.system('echo 1 > /proc/sys/net/ipv4/ip_forward')
+    pathlib.Path('/proc/sys/net/ipv4/ip_forward').write_text('1\n')
 
     # Iniciar sslstrip y tcpdump
     start_sslstrip(args.sslstrip_port)

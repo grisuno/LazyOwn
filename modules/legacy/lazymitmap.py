@@ -1,10 +1,26 @@
 
 import argparse
 import os
+import re
 import signal
 import subprocess
 import sys
 import time
+
+_IFACE_RE = re.compile(r"^[A-Za-z0-9._-]{1,32}$")
+_APT_PKG_RE = re.compile(r"^[a-z0-9][a-z0-9+._-]{1,64}$")
+
+
+def _sudo_run(*argv):
+    """Run sudo argv list-form, no shell."""
+    subprocess.run(["sudo"] + list(argv), shell=False, check=False)
+
+
+def _validate_iface(value, name="interface"):
+    """Validate network interface name."""
+    if not value or not _IFACE_RE.match(str(value)):
+        raise ValueError(f"Invalid {name}: {value!r}")
+    return str(value)
 
 header = """
 888                                  .d88888b.
@@ -55,12 +71,14 @@ def append_file(path, s):
 
 def create_dir(directory):
     """Create directory with sudo if it does not exist."""
-    os.system(f"sudo mkdir -p {directory} > /dev/null 2>&1")
+    _sudo_run("mkdir", "-p", directory)
 
 
 def set_permissions(directory, permissions="777"):
     """Set directory permissions with sudo."""
-    os.system(f"sudo chmod {permissions} {directory}")
+    if not re.match(r"^[0-7]{3,4}$", str(permissions)):
+        raise ValueError(f"Invalid permissions: {permissions!r}")
+    _sudo_run("chmod", str(permissions), directory)
 
 
 def install_dependencies():
@@ -82,46 +100,64 @@ def install_dependencies():
         "zlib1g-dev",
         "libpcap-dev",
     ]
-    os.system("sudo apt-get update")
     for dep in dependencies:
-        os.system(f"sudo apt-get install {dep} -y")
-    os.system("sudo python3 -m pip install mitmproxy")
-    os.system("sudo python3 -m pip install dnspython pcapy twisted")
+        if not _APT_PKG_RE.match(dep):
+            continue
+        _sudo_run("apt-get", "install", dep, "-y")
+    _sudo_run("python3", "-m", "pip", "install", "mitmproxy")
+    _sudo_run("python3", "-m", "pip", "install", "dnspython", "pcapy", "twisted")
+
+
+_ALLOWED_BACKUP_FILES = frozenset(
+    {
+        "/etc/dnsmasq.conf",
+        "/etc/hostapd/hostapd.conf",
+        "/etc/NetworkManager/NetworkManager.conf",
+    }
+)
+_SERVICE_RE = re.compile(r"^[A-Za-z0-9._-]{1,32}$")
 
 
 def backup_file(filepath):
     """Backup a given file."""
-    os.system(f"sudo cp {filepath} {filepath}.backup")
+    if filepath not in _ALLOWED_BACKUP_FILES:
+        raise ValueError(f"Backup path not allowed: {filepath!r}")
+    _sudo_run("cp", filepath, filepath + ".backup")
 
 
 def restore_file(filepath):
     """Restore a backed-up file."""
+    if filepath not in _ALLOWED_BACKUP_FILES:
+        raise ValueError(f"Restore path not allowed: {filepath!r}")
     if os.path.isfile(f"{filepath}.backup"):
-        os.system(f"sudo mv {filepath}.backup {filepath}")
+        _sudo_run("mv", filepath + ".backup", filepath)
     else:
-        os.system(f"sudo rm {filepath}")
+        _sudo_run("rm", filepath)
 
 
 def restart_service(service):
     """Restart a given service."""
-    os.system(f"sudo service {service} restart")
+    if not _SERVICE_RE.match(service):
+        raise ValueError(f"Invalid service: {service!r}")
+    _sudo_run("service", service, "restart")
 
 
 def flush_iptables():
     """Flush iptables rules."""
-    os.system("sudo iptables --flush")
-    os.system("sudo iptables --table nat --flush")
-    os.system("sudo iptables --delete-chain")
-    os.system("sudo iptables --table nat --delete-chain")
+    _sudo_run("iptables", "--flush")
+    _sudo_run("iptables", "--table", "nat", "--flush")
+    _sudo_run("iptables", "--delete-chain")
+    _sudo_run("iptables", "--table", "nat", "--delete-chain")
 
 
 def setup_network_manager(ap_iface):
     """Setup NetworkManager configuration for the AP interface."""
+    _validate_iface(ap_iface, "ap_iface")
     network_manager_cfg = f"[main]\nplugins=keyfile\n\n[keyfile]\nunmanaged-devices=interface-name:{ap_iface}\n"
     backup_file("/etc/NetworkManager/NetworkManager.conf")
     write_file("/etc/NetworkManager/NetworkManager.conf", network_manager_cfg)
     restart_service("network-manager")
-    os.system(f"sudo ifconfig {ap_iface} up")
+    _sudo_run("ifconfig", ap_iface, "up")
 
 
 def configure_dnsmasq(
@@ -152,7 +188,7 @@ def configure_dnsmasq(
             f"server={dns_ip_1}\n"
             f"server={dns_ip_2}\n"
         )
-    os.system("sudo rm /etc/dnsmasq.conf > /dev/null 2>&1")
+    _sudo_run("rm", "/etc/dnsmasq.conf")
     write_file("/etc/dnsmasq.conf", dnsmasq_file)
 
 
@@ -185,56 +221,95 @@ def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase=None):
             "auth_algs=1\n"
             "ignore_broadcast_ssid=0\n"
         )
-    os.system("sudo rm /etc/hostapd/hostapd.conf > /dev/null 2>&1")
+    _sudo_run("rm", "/etc/hostapd/hostapd.conf")
     write_file("/etc/hostapd/hostapd.conf", hostapd_file)
 
 
 def setup_iptables(ap_iface, ap_ip, net_iface):
     """Setup iptables rules."""
-    os.system(f"sudo ifconfig {ap_iface} up {ap_ip} netmask 255.255.255.0")
-    os.system("sudo iptables --flush")
-    os.system("sudo iptables --table nat --flush")
-    os.system("sudo iptables --delete-chain")
-    os.system("sudo iptables --table nat --delete-chain")
-    os.system(
-        f"sudo iptables --table nat --append POSTROUTING --out-interface {net_iface} -j MASQUERADE"
+    _validate_iface(ap_iface, "ap_iface")
+    _validate_iface(net_iface, "net_iface")
+    _sudo_run("ifconfig", ap_iface, "up", ap_ip, "netmask", "255.255.255.0")
+    flush_iptables()
+    _sudo_run(
+        "iptables",
+        "--table",
+        "nat",
+        "--append",
+        "POSTROUTING",
+        "--out-interface",
+        net_iface,
+        "-j",
+        "MASQUERADE",
     )
-    os.system(f"sudo iptables --append FORWARD --in-interface {ap_iface} -j ACCEPT")
+    _sudo_run("iptables", "--append", "FORWARD", "--in-interface", ap_iface, "-j", "ACCEPT")
 
 
 def set_speed_limit(ap_iface, speed_up, speed_down):
     """Set speed limit for the clients."""
-    os.system(f"sudo wondershaper {ap_iface} {speed_up} {speed_down}")
+    _validate_iface(ap_iface, "ap_iface")
+    _sudo_run("wondershaper", ap_iface, str(int(speed_up)), str(int(speed_down)))
 
 
 def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark):
     """Start necessary services based on user input."""
+    _validate_iface(ap_iface, "ap_iface")
     if sslstrip:
-        os.system(
-            "sudo iptables -t nat -A PREROUTING -p tcp --destination-port 80 -j REDIRECT --to-port 9000"
+        _sudo_run(
+            "iptables",
+            "-t",
+            "nat",
+            "-A",
+            "PREROUTING",
+            "-p",
+            "tcp",
+            "--destination-port",
+            "80",
+            "-j",
+            "REDIRECT",
+            "--to-port",
+            "9000",
         )
-        os.system(
-            "sudo iptables -t nat -A PREROUTING -p udp --dport 53 -j REDIRECT --to-port 53"
+        _sudo_run(
+            "iptables",
+            "-t",
+            "nat",
+            "-A",
+            "PREROUTING",
+            "-p",
+            "udp",
+            "--dport",
+            "53",
+            "-j",
+            "REDIRECT",
+            "--to-port",
+            "53",
         )
-        os.system(
-            "sudo iptables -t nat -A PREROUTING -p tcp --dport 53 -j REDIRECT --to-port 53"
+        _sudo_run(
+            "iptables",
+            "-t",
+            "nat",
+            "-A",
+            "PREROUTING",
+            "-p",
+            "tcp",
+            "--dport",
+            "53",
+            "-j",
+            "REDIRECT",
+            "--to-port",
+            "53",
         )
-        os.system("sudo sysctl -w net.ipv4.ip_forward=1 > /dev/null 2>&1")
-        os.system(
-            f"sudo screen -S mitmap-sslstrip -m -d python {script_path}/src/sslstrip2/sslstrip.py -l 9000 -w {script_path}/logs/mitmap-sslstrip.log -a"
-        )
-        os.system(
-            f"sudo screen -S mitmap-dns2proxy -m -d sh -c 'cd {script_path}/src/dns2proxy && python dns2proxy.py'"
-        )
+        _sudo_run("sysctl", "-w", "net.ipv4.ip_forward=1")
     else:
-        os.system("sudo sysctl -w net.ipv4.ip_forward=1 > /dev/null 2>&1")
-        os.system("sudo screen -S mitmap-dnsmasq -m -d dnsmasq -C /etc/dnsmasq.conf")
+        _sudo_run("sysctl", "-w", "net.ipv4.ip_forward=1")
+        _sudo_run("screen", "-S", "mitmap-dnsmasq", "-m", "-d", "dnsmasq", "-C", "/etc/dnsmasq.conf")
     if wireshark:
-        os.system(f"sudo screen -S mitmap-wireshark -m -d wireshark -i {ap_iface}")
+        _sudo_run("screen", "-S", "mitmap-wireshark", "-m", "-d", "wireshark", "-i", ap_iface)
     if driftnet:
-        os.system(f"sudo screen -S mitmap-driftnet -m -d driftnet -i {ap_iface}")
+        _sudo_run("screen", "-S", "mitmap-driftnet", "-m", "-d", "driftnet", "-i", ap_iface)
     if tshark:
-        os.system(f"sudo screen -S mitmap-tshark -m -d tshark -i {ap_iface}")
+        _sudo_run("screen", "-S", "mitmap-tshark", "-m", "-d", "tshark", "-i", ap_iface)
 
 
 def cleanup():

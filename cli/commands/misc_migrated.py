@@ -53,6 +53,7 @@ from cli.palette_command import render as _render_palette
 from cli.show import format_payload as _format_payload
 from cli.wizard import run as _run_wizard
 from core.config import save_payload as _save_payload
+from core.process import ensure_tmux_session as _ensure_tmux_session
 from modules.module_registry import ModuleRegistry as _ModuleRegistry
 from modules.module_registry import format_module_detail as _format_module_detail
 from modules.module_registry import format_module_table as _format_module_table
@@ -76,6 +77,9 @@ from utils import (
 )
 
 _PALETTE_RENDER_CONFIG = _PaletteRenderConfig()
+
+_TMUX_SESSION = "lazyown"
+_TMUX_SIZE = 50
 
 
 class MiscMigratedCommandSet(LazyOwnCommandSet):
@@ -2768,9 +2772,13 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             print_error("You must pass the command linke argument")
             return
 
-        result = subprocess.run(
-            line, shell=True, capture_output=True, text=True,
-        )
+        try:
+            result = subprocess.run(
+                line, shell=True, capture_output=True, text=True, timeout=60,
+            )
+        except subprocess.TimeoutExpired:
+            print_error("Command timed out after 60 seconds")
+            return
         if result.stdout:
             print_msg(result.stdout)
         if result.stderr:
@@ -3840,15 +3848,22 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         Note:
             - Ensure that tmux is installed and properly configured on the system.
-            - The method assumes that the session name is defined and accessible in
-            the scope where this method is called.
         """
-        ensure_tmux_session(session_name)
-        size = 50
-        print_msg(f"Open new Windows: {size}")
-        command = f"tmux split-window -v -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
-        print_msg(command)
-        subprocess.run(command, shell=True)
+        _ensure_tmux_session(_TMUX_SESSION)
+        print_msg(f"Open new Windows: {_TMUX_SIZE}")
+        argv = [
+            "tmux",
+            "split-window",
+            "-v",
+            "-t",
+            _TMUX_SESSION,
+            "-p",
+            str(_TMUX_SIZE),
+            "./run",
+            "--no-banner",
+        ]
+        print_msg(" ".join(argv))
+        subprocess.run(argv, shell=False)
 
     @cmd2.with_category("12. Miscellaneous")
     def do_v(self, arg):
@@ -3879,15 +3894,22 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         Note:
             - Ensure that tmux is installed and properly configured on the system.
-            - The method assumes that the session name is defined and accessible in
-            the scope where this method is called.
         """
-        ensure_tmux_session(session_name)
-        size = 50
-        print_msg(f"Open new Windows: {size}")
-        command = f"tmux split-window -h -t {session_name} -p {size} \"bash -c './run --no-banner' C-m\""
-        print_msg(command)
-        subprocess.run(command, shell=True)
+        _ensure_tmux_session(_TMUX_SESSION)
+        print_msg(f"Open new Windows: {_TMUX_SIZE}")
+        argv = [
+            "tmux",
+            "split-window",
+            "-h",
+            "-t",
+            _TMUX_SESSION,
+            "-p",
+            str(_TMUX_SIZE),
+            "./run",
+            "--no-banner",
+        ]
+        print_msg(" ".join(argv))
+        subprocess.run(argv, shell=False)
 
     @cmd2.with_category("12. Miscellaneous")
     def do_hex_to_plaintext(self, line):

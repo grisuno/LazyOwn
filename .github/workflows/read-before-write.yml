@@ -1,0 +1,35 @@
+name: read-before-write
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+
+permissions:
+  contents: read
+  discussions: read
+
+jobs:
+  journal-reference:
+    name: journal reference
+    runs-on: ubuntu-latest
+    steps:
+      - name: Require a journal reference in the pull request body
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_BODY: ${{ github.event.pull_request.body }}
+        run: |
+          set -euo pipefail
+          number="$(printf '%s' "$PR_BODY" | grep -Eo 'Journal:[[:space:]]*#[0-9]+' | grep -Eo '[0-9]+' | head -1 || true)"
+          if [ -z "$number" ]; then
+            echo "::error::The pull request body must cite the engineering journal, for example 'Journal: #12'. Run 'python3 -m scripts.read_journal' and read the recent entries before writing code."
+            exit 1
+          fi
+          if ! gh api graphql \
+            -f query='query($owner:String!,$name:String!,$number:Int!){repository(owner:$owner,name:$name){discussion(number:$number){title}}}' \
+            -f owner="${{ github.repository_owner }}" \
+            -f name="${{ github.event.repository.name }}" \
+            -F number="$number" | grep -q '"title"'; then
+            echo "::error::Journal entry #$number does not exist in this repository."
+            exit 1
+          fi
+          echo "Journal reference #$number verified."

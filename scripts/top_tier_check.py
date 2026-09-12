@@ -71,7 +71,9 @@ def check_doc_counts(commands: int, mcp: int, addons: int) -> None:
     header = "\n".join((ROOT / "README.md").read_text(errors="ignore").splitlines()[:60])
     stale = [n for n in ("606+", "606 ", "148 MCP", "120+ YAML") if n in header]
     if stale:
-        fail(f"README header cites stale counts {stale}; reality: {commands} commands, {mcp} MCP tools, {addons} addons")
+        fail(
+            f"README header cites stale counts {stale}; reality: {commands} commands, {mcp} MCP tools, {addons} addons"
+        )
     else:
         ok(f"README header in sync vs reality {commands}/{mcp}/{addons}")
 
@@ -84,12 +86,18 @@ def check_tracked_secrets() -> None:
     except (OSError, subprocess.SubprocessError) as exc:
         fail(f"git ls-files failed: {exc}")
         return
-    bad_patterns = ("payload.json", "users.json", ".env", ".pem", ".c2_credentials",
-                    "tracking.db", "short_urls.json", "llm_budget.json")
-    bad = [t for t in tracked for p in bad_patterns
-           if p in t and "example" not in t.lower()]
-    fixture_suffixes = ("pass.txt", "site.txt", "credentials.json", "plan.txt",
-                        "routes_to_templates.json")
+    bad_patterns = (
+        "payload.json",
+        "users.json",
+        ".env",
+        ".pem",
+        ".c2_credentials",
+        "tracking.db",
+        "short_urls.json",
+        "llm_budget.json",
+    )
+    bad = [t for t in tracked for p in bad_patterns if p in t and "example" not in t.lower()]
+    fixture_suffixes = ("pass.txt", "site.txt", "credentials.json", "plan.txt", "routes_to_templates.json")
     sensitive = [t for t in bad if not t.lower().endswith(fixture_suffixes)]
     if sensitive:
         fail(f"tracked secrets/session artefacts: {sensitive[:10]}")

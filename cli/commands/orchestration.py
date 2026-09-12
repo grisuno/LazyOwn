@@ -21,7 +21,7 @@ import json
 from dataclasses import dataclass
 from typing import Any
 
-from cmd2 import with_argparser, with_category
+from cmd2 import Cmd2ArgumentParser, with_argparser, with_category
 
 from cli.commands._base import LazyOwnCommandSet
 
@@ -54,9 +54,9 @@ class OrchestrationConfig:
 _CONFIG = OrchestrationConfig()
 
 
-def _build_status_bar_parser() -> argparse.ArgumentParser:
+def _build_status_bar_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``status_bar``."""
-    parser = argparse.ArgumentParser(prog="status_bar")
+    parser = Cmd2ArgumentParser(prog="status_bar")
     parser.add_argument(
         "action",
         nargs="?",
@@ -67,9 +67,9 @@ def _build_status_bar_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_orchestrate_parser() -> argparse.ArgumentParser:
+def _build_orchestrate_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``orchestrate``."""
-    parser = argparse.ArgumentParser(prog="orchestrate")
+    parser = Cmd2ArgumentParser(prog="orchestrate")
     parser.add_argument("goal", help="objective string passed to the chosen backend")
     parser.add_argument(
         "--mode",

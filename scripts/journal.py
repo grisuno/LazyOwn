@@ -28,7 +28,7 @@ GH_TIMEOUT_SECONDS = 60
 
 REPO_QUERY = "query($owner:String!,$name:String!){repository(owner:$owner,name:$name){id}}"
 CATEGORY_QUERY = (
-    "query($owner:String!,$name:String!,$category:String!){"
+    "query($owner:String!,$name:String!){"
     "repository(owner:$owner,name:$name){"
     "discussionCategories(first:50){nodes{id name}}}}"
 )
@@ -173,7 +173,8 @@ class Journal:
         """
         args = ["api", "graphql", "-f", f"query={query}"]
         for key, value in variables.items():
-            args.extend(["-f", f"{key}={value}"])
+            flag = "-F" if isinstance(value, int) and not isinstance(value, bool) else "-f"
+            args.extend([flag, f"{key}={value}"])
         payload = json.loads(self.runner(args))
         if payload.get("errors"):
             raise JournalError("; ".join(error.get("message", "") for error in payload["errors"]))
@@ -193,7 +194,7 @@ class Journal:
         if self._category_id is None:
             data = self._graphql(
                 CATEGORY_QUERY,
-                {"owner": self.config.owner, "name": self.config.name, "category": self.config.category},
+                {"owner": self.config.owner, "name": self.config.name},
             )
             nodes = data["repository"]["discussionCategories"]["nodes"]
             match = next((node for node in nodes if node["name"] == self.config.category), None)

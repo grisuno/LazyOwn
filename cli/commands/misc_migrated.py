@@ -2287,13 +2287,8 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         if not url:
             print_error("url must be assign, use: assign url http://host.ext")
             return
-        cwd = os.getcwd()
-        if line == 'clean':
-            self.custom_prompt = getprompt()
-            self.prompt = f"{self.custom_prompt}"
-        else:
-            self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{YELLOW}[{MAGENTA}{self.params['rhost']}{YELLOW}][{BLUE}{url}{YELLOW}]")
-            self.prompt = f"{self.custom_prompt}"
+        self.refresh_prompt()
+        if line != 'clean':
             from core.hardening import safe_clipboard_copy
             safe_clipboard_copy(self.params.get('rhost', ''))
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")
@@ -2333,20 +2328,10 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that the `self.params['rhost']` is valid by checking it with the `check_rhost` function before updating the prompt.
         """
-        url = self.params['url']
-        rhost = self.params['rhost']
-
         if not check_rhost(self.params['rhost']):
             return
 
-        cwd = os.getcwd()
-
-        if line == 'clean':
-            self.custom_prompt = getprompt()
-            self.prompt = f"{self.custom_prompt}"
-        else:
-            self.custom_prompt = getprompt().replace(']', f" ~{GREEN}{cwd}{YELLOW}]{BRIGHT_YELLOW}[{MAGENTA}{self.params['rhost']}{BRIGHT_YELLOW}][{BRIGHT_BLUE}{url}{BRIGHT_YELLOW}]")
-            self.prompt = f"{self.custom_prompt}"
+        self.refresh_prompt()
 
         return
 

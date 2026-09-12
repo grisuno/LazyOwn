@@ -465,6 +465,30 @@ class TestNoHardcodedPaths:
                     continue
         assert not violations, f"Hardcoded paths found in: {violations}"
 
+    def test_no_home_grisun0_in_configs_and_docs(self):
+        """BDD: Given tracked config and agent docs, When I scan them,
+        Then the operator home path must not appear in a portable checkout."""
+        repo = Path(__file__).parent.parent
+        targets = [
+            repo / "AGENTS.md",
+            repo / "CORE.md",
+            repo / "CLAUDE.md",
+            repo / "cli" / "aliases.yaml",
+        ]
+        targets.extend((repo / "lazyaddons").glob("*.yaml"))
+        targets.extend((repo / "tools").glob("*.tool"))
+        skills = repo / "skills"
+        targets.extend(p for p in skills.rglob("*.md") if "runs" not in p.parts)
+        targets.extend(p for p in skills.rglob("*.sh") if "runs" not in p.parts)
+        violations = []
+        for path in targets:
+            if not path.is_file():
+                continue
+            content = path.read_text(encoding="utf-8", errors="ignore")
+            if "/home/grisun0" in content:
+                violations.append(str(path.relative_to(repo)))
+        assert not violations, f"Hardcoded paths found in: {violations}"
+
     def test_no_root_home_in_anti_forensics(self):
         """BDD: Given the anti_forensics.py module, When I scan for /root/,
         Then it must use Path.home() instead."""

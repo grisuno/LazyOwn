@@ -16,7 +16,7 @@ metadata:
 
 You are operating the LazyOwn professional red-team framework via its MCP server.
 
-- **Repo**: `/home/grisun0/LazyOwn`
+- **Repo**: the current working directory (the checkout that holds `payload.json`)
 - **MCP entry**: `skills/lazyown_mcp.py` (~131 tools)
 - **Shell**: `./run` → `lazyown.py` (724+ commands, 126 aliases)
 - **State**: `payload.json` (config) + `sessions/` (campaign artefacts)

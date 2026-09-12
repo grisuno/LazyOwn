@@ -4,6 +4,11 @@ Durable context for any Claude/agent touching this repo. Source of truth: `lazyo
 
 > **Size budget:** keep this file ≤ 40 KB. Beyond that the prompt cache stops paying off and every assistant invocation pays a tax. `tests/test_claudemd_size.py` enforces the cap; if you need to add a section, trim or move long-form content into a `<dir>/README.md` and link to it from here.
 
+> **Role-routed context:** `AGENTS.md` is the entry point for an agent that
+> modifies this repository. `CORE.md` is the entry point for an agent that
+> consumes LazyOwn as a dependency. This file is the shared contract both
+> reference. Load only the file that matches the role to save context.
+
 ---
 
 ## 0. What LazyOwn is
@@ -18,44 +23,16 @@ Professional red-team / pentest framework:
 
 Each security control is a single contract in its own file. Full specs in `docs/SECURITY_CONTRACTS.md`.
 
-| Contract | Module | Tests |
-|----------|--------|-------|
-| CORS allowlist | `lazyc2/security/cors.py` | `test_cors_policy.py`, `test_cors_behavior.py` |
-| CSRF token gate | `lazyc2/security/csrf.py` | `test_csrf_policy.py`, `test_csrf_behavior.py` |
-| `/api/run` allowlist | `lazyc2/security/command_allowlist.py` | `test_command_allowlist*.py` |
-| HTTPS redirect (PROD) | `lazyc2/security/https_redirect.py` | `test_https_redirect.py` |
-| Trusted proxy parser | `lazyc2/security/trusted_proxy.py` | `test_trusted_proxy.py` |
-| HTML sanitizer (bleach) | `lazyc2/security/html_sanitizer.py` | `test_html_sanitizer.py` |
-| Safe subprocess runner | `core/safe_subprocess.py` | `test_safe_subprocess*.py` |
-| Safe command execution | `core/safe_exec.py` | `test_security_hardening_v4.py` |
-| AES key resolution | `core/config.py` | `test_aes_key_propagation.py` |
-| SQL injection prevention | `modules/db.py` | `test_security_hardening.py` |
-| Timing-safe auth | `lazyc2.py` | `test_security_hardening.py` |
-| LIKE escape prevention | `modules/db.py` | `test_security_hardening.py` |
-| Command injection prevention (AI) | `cli/commands/ai.py` | `test_security_hardening_v2.py` |
-| SSH credential injection prevention | `cli/commands/postexp_migrated.py` | `test_security_hardening_v2.py` |
-| DNS command allowlist | `lazyc2.py` | `test_security_hardening_v2.py` |
-| Safe shell execution | `cli/commands/misc_migrated.py` | `test_security_hardening_v2.py` |
-| Credential encryption at rest | `modules/phishing_orchestrator.py` | `test_security_hardening_v2.py` |
-| URL injection prevention | `poc_tui/plugin_loader.py` | `test_security_hardening_v4.py` |
-| Hardcoded path elimination | `cli/commands/anti_forensics.py`, `modules/c2_builder.py` | `test_security_hardening_v4.py` |
-| Placeholder injection prevention | `modules/conditional_hooks.py` | `test_security_hardening_v4.py` |
-| Secret/AES/file services + validators | `lazyc2/security/{services,validators}.py` | `test_security_lazyc2.py` |
-| Tenant-bound API authorization | `core/api_authz.py` | `test_api_authz.py`, `run_mutation_api_authz.py` |
-| Structured JSON-lines logging | `core/logging.py` | `test_structured_logging.py` |
-| C2 health-check endpoint | `lazyc2/blueprints/api.py` | `test_api_authz.py` (decorator) |
+The contract index, per-file specs, and the hardening sprint history (v1 to
+v5, including the CodeQL batch) live in `docs/SECURITY_CONTRACTS.md`.
+`scripts/check_contract_manifest.py` fails CI when the index drifts from the
+files on disk. Run the hardening suites with:
 
-### Security hardening sprint (SDD+TDD+BDD)
+```sh
+pytest tests/test_security_hardening*.py -v
+```
 
-Applied security fixes with BDD-style tests. Full per-file specs and v4/v5
-detail live in `docs/SECURITY_CONTRACTS.md`.
-Run with: `pytest tests/test_security_hardening.py tests/test_security_hardening_v2.py tests/test_security_hardening_v3.py tests/test_security_hardening_v4.py tests/test_security_hardening_v5.py -v`
-Mutation testing: `mutmut run`.
-
-**v5 — CodeQL batch** (weak crypto / clear-text secrets / TLS / injection).
-Fixed the 11 CodeQL alerts (#895, #867, #864, #865, #863, #862, #861, #851,
-#859, #858, #857). Full contract in `docs/SECURITY_CONTRACTS.md` §9.
-Tests: `tests/test_security_hardening_v5.py`.
+`mutmut run` gates the runtime hardening primitives.
 
 ## 0.2 Non-negotiable: user input is hostile
 
@@ -92,17 +69,11 @@ This pattern MUST be used whenever user input contributes to a filesystem path. 
 
 ### C2 Transport & Evasion contracts
 
-Each module is a single-file contract for one transport or evasion concern. All ship with 94%+ mutation-killed coverage.
-
-| Contract | Module | Tests |
-|----------|--------|-------|
-| Extended malleable C2 (TLS, DNS, SMB, WebSocket) | `modules/c2_profile_engine.py` | `test_c2_profile_engine.py` |
-| BOF catalog, marketplace, registry | `modules/bof_registry.py` | `test_bof_registry.py` |
-| Sleep obfuscation engine (9 techniques) | `modules/sleep_obfuscation.py` | `test_sleep_obfuscation.py` |
-| SOCKS5 proxy spec engine | `modules/socks_proxy.py` | `test_socks_proxy.py` |
-| HTTP malleable profiles (base) | `modules/c2_profile.py` | (built-in CLI) |
-
-Compat: PROD fail-fast on missing C2 keys, DEV warn-and-default. AES key is `payload.json:aes_key` (64 hex) → `self.aes_key` (bytes) + `self.params['aes_key']` (hex). Lazyaddons use `{{aes_key}}` or `{aes_key}` for substitution.
+Each module is a single-file contract for one transport or evasion concern.
+The module and test table lives in `docs/SECURITY_CONTRACTS.md`. Compat:
+PROD fail-fast on missing C2 keys, DEV warn-and-default. AES key is
+`payload.json:aes_key` (64 hex) to `self.aes_key` (bytes) plus
+`self.params['aes_key']` (hex). Lazyaddons use `{{aes_key}}` or `{aes_key}`.
 
 ---
 
@@ -111,7 +82,7 @@ Compat: PROD fail-fast on missing C2 keys, DEV warn-and-default. AES key is `pay
 ```sh
 ./run [--no-banner] [-s] [-p sessions/foo.json] [-c 'cmd']   # cmd2 shell
 bash fast_run_as_r00t.sh --no-attach --vpn 1                 # full stack in tmux 'lazyown_sessions'
-claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+bash scripts/setup_hermes_mcp.sh                           # register MCP, resolves the repo path at runtime
 bash skills/mcp_restart.sh                                   # after editing MCP code
 ```
 
@@ -146,7 +117,7 @@ bash skills/mcp_restart.sh                                   # after editing MCP
 | `cli/commands/` | cmd2 `CommandSet` subpkg, auto-discovered by `cli/registry.py`. |
 | `core/` | Canonical `Config`, crypto, validators, `typing.Protocol` interfaces. No framework imports. |
 | `scripts/` | Build/maintenance: `build_command_index.py`, `patch_playbook_atomic_ids.py`. |
-| `tests/` | 148 files, ~2260 tests. No mocking of C2 or daemon. |
+| `tests/` | 152 files, ~3600 tests. No mocking of C2 or daemon. |
 | `lazyown-docker/` `lazygui/` | Docker + desktop GUI. |
 | `docs/` | GH Pages site — auto-generated by `DEPLOY.sh`, don't edit HTML. |
 | `lazyc2/` | Security validators (`validate_route_path`, `validate_template_name`, `is_safe_template_path`). |
@@ -557,14 +528,9 @@ Three-branch model: `dev` (active), `pp` (staging/QA), `main` (release). Flow: `
 ## 15h. claude_md_orchestrator skill
 
 `skills/claude_md_orchestrator/` implements the SDD+TDD+BDD+Boy Scout
-cycle from this file: it lifts every actionable contract and walks each
-through six stages (specs, red test, green implementation, review,
-documentation, CI/CD), persisting `state.json` after every stage so a
-crash resumes from the last green stage. Invocation:
-`PYTHONPATH=skills python3 -m claude_md_orchestrator.orchestrator
---no-parse --seed C-002`. Tests in `skills/claude_md_orchestrator/tests/`.
-CI hardening (no `|| true` swallowing; ruff/mypy/bandit/pytest on every
-push) pinned by `tests/test_ci_strict.py`.
+cycle, resuming from `state.json` after every stage. Invocation and stage
+detail: `skills/claude_md_orchestrator/README.md`. CI hardening is pinned
+by `tests/test_ci_strict.py`.
 
 ---
 
@@ -644,34 +610,15 @@ Methodology gate for every lint fix (mandatory order):
    (no magic numbers, no hardcoded paths/URLs/timeouts), dead code removed,
    no `sys.stdout` redirection, `subprocess` list-form with timeouts.
 
-Bugs closed in the 2026-09-09 pass (all F821 were real runtime faults):
-
-- `modules/morse.py` — file did not parse (indentation syntax error across
-  the `__main__` driver). Rewritten to contract: `MorseConfig`,
-  `text_to_morse` / `morse_to_text` / `run_driver`, snake_case API with
-  legacy `textToMorse` / `morseToText` / `reverseMorseCode` aliases kept.
-- `modules/bot.py` — `Path` undefined at runtime; Spanish identifiers and
-  unencoded `open('output.txt', 'w')` with `sys.stdout` hijack. Rewritten:
-  `BotConfig`, `find_new_repos` / `render_repos` / `format_output` / `main`,
-  `buscar_repos_nuevos` alias kept, UTF-8 file writes, request timeout.
-- `modules/command_executor.py` — `sys` undefined in the streaming loop.
-  Fixed with top-level `import sys`.
-- `slack_c2_bot.py` — `config` used three lines before assignment
-  (`NameError` on import). Moved `Config(load_payload())` above use.
-- `poc_tui/app.py` — `except Exception as e` leaked into a `lambda`
-  executed from another thread (`e` is deleted after the except block).
-  Fixed by binding the message as a default argument.
-- `lazyc2.py` — E402 `import hmac` below module code. Moved to top imports.
-
-Validation record 2026-09-09: `ruff check .` → all checks passed.
-`pytest` (hardening v1+v3+v4+v5 + killchain_unified_v2): 179 passed,
-8 failed — identical 8 pre-existing failures as baseline (missing
-`flask_login`/`textual` in env, ICMP/crypto expectation drift), unrelated
-to this change. Mutation probe on `text_to_morse` separator: killed.
+Bugs closed in the 2026-09-09 pass and the validation record are archived in
+`docs/lint_contract.md`. The current contract is only this: `ruff check .`
+is green, `ruff format --check` is green on every touched file, and each
+lint fix ships with a probe that kills one mutant.
 
 ## 16. Read next
 
 - `QUICKSTART.md` — start here for a new operator session.
+- `docs/quality_gates.md` — mutation, BDD, contract manifest, journal gates.
 - `README.md` — public feature list (auto-regenerated by `DEPLOY.sh`).
 - `COMMANDS.md` — every CLI command (auto-generated).
 - `UTILS.md` — `utils.py` reference (auto-generated).

@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 import argparse
 import pathlib
-import os
 import random
 import subprocess
 import threading

@@ -14,7 +14,7 @@ from pathlib import Path
 
 MUTATIONS = {
     "tips_engine_missing_auto_pwn_in_killchain": {
-        "file": "cli/tips_engine.py",
+        "file": "cli/engagement_hooks.py",
         "description": "Remove auto_pwn from build_default_tips_config killchain",
         "old": '"auto_pwn": 30,',
         "new": "",
@@ -43,7 +43,7 @@ MUTATIONS = {
         "expected": "The test_default_config must fail",
     },
     "tips_engine_broken_elo_base": {
-        "file": "cli/tips_engine.py",
+        "file": "cli/engagement_hooks.py",
         "description": "Set ELO_BASE to 0 (should break ELO tests)",
         "old": "ELO_BASE: int = 5",
         "new": "ELO_BASE: int = 0",
@@ -57,10 +57,10 @@ MUTATIONS = {
         "expected": "The test_lateral_includes_collab must fail",
     },
     "tips_engine_broken_karma_threshold": {
-        "file": "cli/tips_engine.py",
+        "file": "cli/engagement_hooks.py",
         "description": "Change KARMA_THRESHOLDS to break karma tests",
-        "old": "(1000, 'Noob'),",
-        "new": "(99999, 'Noob'),",
+        "old": '(1000, "Noob"),',
+        "new": '(99999, "Noob"),',
         "expected": "The test_rookie_at_thousand must fail",
     },
 }
@@ -148,13 +148,15 @@ def main():
 
         print("\n" + "=" * 60)
         print(f"Results: {killed} killed, {survived} survived, {errors} skipped")
+        if errors > 0:
+            print(f"WARNING: {errors} mutation target(s) not found — the runner is stale.")
         if survived > 0:
             print(f"WARNING: {survived} mutants survived — improve test coverage.")
-        else:
+        elif errors == 0:
             print("ALL MUTANTS KILLED — Tests are robust.")
         print("=" * 60)
 
-        return 0 if survived == 0 else 1
+        return 0 if (survived == 0 and errors == 0) else 1
 
     finally:
         print("\n[3] Restoring original files...")

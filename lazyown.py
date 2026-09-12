@@ -88,6 +88,8 @@ from cli.wizard import run as _run_wizard
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
+from core.hardening import terminal_env as _terminal_env
+from core.safe_exec import needs_shell as _needs_shell
 from cli.auto_crypto import AutoCryptoEngine as _AutoCryptoEngine
 from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
 from cli.auto_crypto import build_password_provider_from_cli_login as _build_crypto_password_provider
@@ -1376,11 +1378,12 @@ class LazyOwnShell(cmd2.Cmd):
         self.display_toastr(f"Executing... {command}")
         start_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         start_monotonic = time.monotonic()
+        child_env = _terminal_env()
         if NOLOGS:
-            if any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$(')):
-                exit_code = subprocess.call(["bash", "-c", command])
+            if _needs_shell(command):
+                exit_code = subprocess.call(["bash", "-c", command], env=child_env)
             else:
-                exit_code = subprocess.call(shlex.split(command))
+                exit_code = subprocess.call(shlex.split(command), env=child_env)
         else:
             safe_cmd_name = os.path.basename(cmd_name)
             safe_domain = re.sub(r"[^A-Za-z0-9._-]", "_", domain) if domain else "unknown"
@@ -1388,12 +1391,13 @@ class LazyOwnShell(cmd2.Cmd):
                 f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
             )
             with open(path_command, "w") as log_file:
-                if any(op in command for op in ('2>', '>', '<', '|', '&&', '||', '`', '$(')):
+                if _needs_shell(command):
                     proc = subprocess.Popen(
                         ["bash", "-c", command],
                         stdout=subprocess.PIPE,
                         stderr=subprocess.STDOUT,
                         text=True,
+                        env=child_env,
                     )
                 else:
                     proc = subprocess.Popen(
@@ -1401,6 +1405,7 @@ class LazyOwnShell(cmd2.Cmd):
                         stdout=subprocess.PIPE,
                         stderr=subprocess.STDOUT,
                         text=True,
+                        env=child_env,
                     )
                 for line in proc.stdout:
                     sys.stdout.write(line)

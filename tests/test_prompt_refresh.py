@@ -66,3 +66,18 @@ def test_render_prompt_includes_rhost() -> None:
     """The rendered prompt reflects the rhost passed in the payload."""
     prompt = render_prompt({"rhost": "203.0.113.9", "lhost": "10.0.0.1"})
     assert "203.0.113.9" in prompt
+
+
+def test_no_bracket_replace_hack() -> None:
+    """Prompt builders must not inject text after every closing bracket."""
+    source = (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+    assert ".replace(']'" not in source
+    assert '.replace("]",' not in source
+
+
+def test_rhost_commands_use_refresh_prompt() -> None:
+    """do_rhost and do_rrhost must refresh through the shell helper."""
+    source = (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+    for name in ("def do_rhost", "def do_rrhost"):
+        block = source.split(name, 1)[1].split("\n    def ", 1)[0]
+        assert "self.refresh_prompt()" in block, name

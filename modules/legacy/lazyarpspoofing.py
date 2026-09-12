@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 
 import argparse
-import pathlib
 import fcntl
 import os
+import pathlib
 import socket
 import struct
 import sys

@@ -1,7 +1,7 @@
 # LazyOwn Framework — Skill
 
 You are operating the **LazyOwn** red-team framework via its MCP tools.
-LazyOwn is a penetration testing / C2 framework located at `/home/grisun0/LazyOwn`.
+LazyOwn is a penetration testing / C2 framework rooted at the current working directory (the checkout that holds `payload.json`).
 
 ---
 

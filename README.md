@@ -189,19 +189,20 @@ LazyOwn exposes its full framework via the Model Context Protocol (MCP). The sam
 ### Claude Code
 
 ```bash
-claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+bash scripts/setup_hermes_mcp.sh
 ```
 
-Or add manually to `~/.claude/claude_desktop_config.json`:
+Or copy `.mcp.example.json` to `.mcp.json` and set `LAZYOWN_DIR` to the
+absolute path of this checkout:
 
 ```json
 {
   "mcpServers": {
     "lazyown": {
       "command": "python3",
-      "args": ["/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
+      "args": ["${LAZYOWN_DIR}/skills/lazyown_mcp.py"],
       "env": {
-        "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
+        "LAZYOWN_DIR": "${LAZYOWN_DIR}"
       }
     }
   }
@@ -226,9 +227,9 @@ Register in `~/.hermes/config.yaml`:
 mcp_servers:
   hermes-lazyown:
     command: python3
-    args: ["/home/grisun0/LazyOwn/skills/hermes-lazyown/mcp_server.py"]
+    args: ["${LAZYOWN_DIR}/skills/hermes-lazyown/mcp_server.py"]
     env:
-      LAZYOWN_DIR: "/home/grisun0/LazyOwn"
+      LAZYOWN_DIR: "${LAZYOWN_DIR}"
 ```
 
 Then reload MCP tools in Hermes with `/reload-mcp`.

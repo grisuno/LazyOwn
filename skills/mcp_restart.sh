@@ -15,8 +15,10 @@
 set -euo pipefail
 
 PORT="${1:-9871}"
-MCP_SCRIPT="/home/grisun0/LazyOwn/skills/lazyown_mcp.py"
-PYTHON="/home/grisun0/LazyOwn/env/bin/python3"
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+MCP_SCRIPT="${REPO_ROOT}/skills/lazyown_mcp.py"
+PYTHON="${REPO_ROOT}/env/bin/python3"
 [ -x "$PYTHON" ] || PYTHON="python3"
 LOG="/tmp/lazyown_mcp_sse.log"
 

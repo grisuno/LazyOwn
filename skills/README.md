@@ -40,19 +40,20 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 ### 1. Register the MCP server in Claude Code
 
 ```bash
-claude mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+bash scripts/setup_hermes_mcp.sh
 ```
 
-Or add manually to `~/.claude/claude_desktop_config.json`:
+Or copy `.mcp.example.json` to `.mcp.json` and set `LAZYOWN_DIR` to the absolute
+path of this checkout:
 
 ```json
 {
   "mcpServers": {
     "lazyown": {
       "command": "python3",
-      "args": ["/home/grisun0/LazyOwn/skills/lazyown_mcp.py"],
+      "args": ["${LAZYOWN_DIR}/skills/lazyown_mcp.py"],
       "env": {
-        "LAZYOWN_DIR": "/home/grisun0/LazyOwn"
+        "LAZYOWN_DIR": "${LAZYOWN_DIR}"
       }
     }
   }
@@ -65,9 +66,10 @@ Or add manually to `~/.claude/claude_desktop_config.json`:
 bash scripts/setup_hermes_mcp.sh
 ```
 
-Or manually:
+Or manually from the repository root:
+
 ```bash
-hermes mcp add lazyown python3 /home/grisun0/LazyOwn/skills/lazyown_mcp.py
+hermes mcp add lazyown python3 skills/lazyown_mcp.py
 ```
 
 Then restart Hermes or run `/reload-mcp`.

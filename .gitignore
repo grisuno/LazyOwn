@@ -64,3 +64,19 @@ graphify-out/cache/
 graphify-out/.graphify_*
 skills/claude_md_orchestrator/runs/
 graphify-out/
+
+# kernel build artifacts
+*.o
+*.ko
+*.mod
+*.mod.o
+modules.order
+Module.symvers
+**/.*.cmd
+
+# local editor and MCP configuration (copy the .example template)
+opencode.json
+.mcp.json
+
+# mutmut generated workspace
+mutants/

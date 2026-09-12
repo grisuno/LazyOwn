@@ -64,9 +64,9 @@ mcp_servers:
   hermes-lazyown:
     command: python3
     args:
-      - /home/grisun0/LazyOwn/skills/hermes-lazyown/mcp_server.py
+      - ${LAZYOWN_DIR}/skills/hermes-lazyown/mcp_server.py
     env:
-      LAZYOWN_DIR: /home/grisun0/LazyOwn
+      LAZYOWN_DIR: ${LAZYOWN_DIR}
       HERMES_MAX_OUTPUT_LINES: "2000"
       HERMES_CMD_TIMEOUT: "60"
 ```
@@ -75,10 +75,9 @@ Then reload MCP tools in Hermes with `/reload-mcp`.
 
 ## Testing
 
-Run the server standalone for smoke testing:
+Run the server standalone for smoke testing from the repository root:
 
 ```bash
-cd /home/grisun0/LazyOwn
 python3 skills/hermes-lazyown/mcp_server.py
 ```
 

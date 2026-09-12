@@ -161,8 +161,7 @@ class AiCommandSet(LazyOwnCommandSet):
             backend = get_llm_backend(backend=BACKEND_GROQ)
         except LLMBackendUnavailableError as exc:
             print_error(
-                f"groq backend unavailable: {exc}. "
-                f"Get a free key at {GROQ_CONSOLE_URL} then: assign api_key <key>"
+                f"groq backend unavailable: {exc}. Get a free key at {GROQ_CONSOLE_URL} then: assign api_key <key>"
             )
             return
         model = str(self.params.get(CONFIG_KEY_MODEL_GROQ) or DEFAULT_GROQ_MODEL)

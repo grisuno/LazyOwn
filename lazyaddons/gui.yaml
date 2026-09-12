@@ -14,6 +14,6 @@ tool:
   name: gui
   repo_url: https://github.com/grisuno/LazyOwn.git
   install_path: modules/
-  execute_command: cd .. && PYTHONPATH=/home/grisun0/src_note/qt/lazyown/.qtcreator/Python_3_13_7venv/lib/python3.13/site-packages:$PYTHONPATH
+  execute_command: cd .. && PYTHONPATH=${LAZYOWN_QT_SITE_PACKAGES:-}:$PYTHONPATH
     python3 -W ignore -m lazygui
 category: 12. Miscellaneous

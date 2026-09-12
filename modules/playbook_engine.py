@@ -49,7 +49,6 @@ import glob
 import json
 import logging
 import os
-import subprocess
 import sys
 from collections.abc import Callable
 from dataclasses import dataclass, field

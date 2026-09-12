@@ -248,3 +248,16 @@ Files hardened (v4):
 | shell=True eliminated | `modules/dpapi_harvester.py`, `modules/edr_detector.py` |
 | Injection prevention | `modules/conditional_hooks.py` (`shlex.quote`) |
 | Hardcoded paths removed | `telegram_hermes.py`, `modules/c2_builder.py`, `cli/commands/anti_forensics.py`, `cli/commands/persist_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/postexp_migrated.py` |
+
+## C2 transport and evasion contracts
+
+Each module below is a single-file contract for one transport or evasion
+concern. All ship with 94 percent or higher mutation-killed coverage.
+
+| Contract | Module | Tests |
+|----------|--------|-------|
+| Extended malleable C2 (TLS, DNS, SMB, WebSocket) | `modules/c2_profile_engine.py` | `test_c2_profile_engine.py` |
+| BOF catalog, marketplace, registry | `modules/bof_registry.py` | `test_bof_registry.py` |
+| Sleep obfuscation engine (9 techniques) | `modules/sleep_obfuscation.py` | `test_sleep_obfuscation.py` |
+| SOCKS5 proxy spec engine | `modules/socks_proxy.py` | `test_socks_proxy.py` |
+| HTTP malleable profiles (base) | `modules/c2_profile.py` | (built-in CLI) |

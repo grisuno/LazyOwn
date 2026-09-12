@@ -969,6 +969,17 @@ class LazyOwnShell(cmd2.Cmd):
             )
         return self._scripts_cache
 
+    def refresh_prompt(self) -> None:
+        """Recompute the Neon Box prompt from the live payload.
+
+        Call after any payload change a prompt segment renders (``rhost``,
+        ``lhost``, ``domain``) so the operator sees the new value without
+        restarting the shell. ``assign`` and ``config_banner`` both route
+        through this so the prompt and the status-bar hook never disagree.
+        """
+        self.custom_prompt = getprompt()
+        self.prompt = self.custom_prompt
+
     def do_set(self, line) -> None:
         """Set a parameter — the unified ``set``/``assign`` surface.
 

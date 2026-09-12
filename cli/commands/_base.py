@@ -28,6 +28,8 @@ from cmd2.exceptions import CommandSetRegistrationError
 
 SHELL_INJECTION_ATTRIBUTE = "_cmd"
 
+_FORWARDED_WRITES = frozenset({"custom_prompt", "prompt"})
+
 
 def extract_flag(args: list[str], flag: str) -> str | None:
     """Extract ``--flag <value>`` pair shared by CommandSets.
@@ -156,6 +158,27 @@ class LazyOwnCommandSet(CommandSet):
             return getattr(_utils, name)
         except AttributeError:
             raise AttributeError(name)
+
+    def __setattr__(self, name: str, value: Any) -> None:
+        """Forward prompt attribute writes to the bound shell.
+
+        The migrated ``do_*`` methods were written against ``LazyOwnShell``
+        and assign ``self.custom_prompt`` / ``self.prompt`` expecting the
+        shell to hold them. Without forwarding, those writes landed on the
+        CommandSet and the Neon Box prompt never refreshed after ``assign``.
+        Only the two prompt names are forwarded; every other attribute stays
+        on the CommandSet so cmd2 internals remain untouched.
+
+        Args:
+            name: Attribute name being set.
+            value: Attribute value.
+        """
+        if name in _FORWARDED_WRITES:
+            shell = self._resolve_shell()
+            if shell is not None:
+                setattr(shell, name, value)
+                return
+        super().__setattr__(name, value)
 
 
 __all__ = ["LazyOwnCommandSet", "SHELL_INJECTION_ATTRIBUTE", "extract_flag"]

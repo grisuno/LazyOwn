@@ -30,7 +30,7 @@ import shlex
 from pathlib import Path
 
 import defusedxml.ElementTree as ET
-from cmd2 import with_argparser, with_category
+from cmd2 import Cmd2ArgumentParser, with_argparser, with_category
 
 from cli.commands._base import LazyOwnCommandSet
 from core.config import save_payload
@@ -47,9 +47,9 @@ MAX_RAG_TEXT = 300
 MAX_KEYWORD_ROWS = 5
 
 
-def _build_auto_populate_parser() -> argparse.ArgumentParser:
+def _build_auto_populate_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``auto_populate``."""
-    parser = argparse.ArgumentParser(prog="auto_populate")
+    parser = Cmd2ArgumentParser(prog="auto_populate")
     parser.add_argument(
         "target",
         nargs="?",
@@ -64,9 +64,9 @@ def _build_auto_populate_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_facts_show_parser() -> argparse.ArgumentParser:
+def _build_facts_show_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``facts_show``."""
-    parser = argparse.ArgumentParser(prog="facts_show")
+    parser = Cmd2ArgumentParser(prog="facts_show")
     parser.add_argument(
         "target",
         nargs="?",
@@ -81,17 +81,17 @@ def _build_facts_show_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_rag_query_parser() -> argparse.ArgumentParser:
+def _build_rag_query_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``rag_query``."""
-    parser = argparse.ArgumentParser(prog="rag_query")
+    parser = Cmd2ArgumentParser(prog="rag_query")
     parser.add_argument("query", nargs="+", help="free-text query over session artefacts")
     parser.add_argument("-n", type=int, default=5, help="max hits (default 5)")
     return parser
 
 
-def _build_parquet_query_parser() -> argparse.ArgumentParser:
+def _build_parquet_query_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``parquet_query``."""
-    parser = argparse.ArgumentParser(prog="parquet_query")
+    parser = Cmd2ArgumentParser(prog="parquet_query")
     parser.add_argument(
         "--mode",
         choices=("session", "keyword", "context", "stats", "list"),
@@ -108,9 +108,9 @@ def _build_parquet_query_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_threat_model_parser() -> argparse.ArgumentParser:
+def _build_threat_model_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``threat_model``."""
-    parser = argparse.ArgumentParser(prog="threat_model")
+    parser = Cmd2ArgumentParser(prog="threat_model")
     parser.add_argument(
         "action",
         nargs="?",
@@ -121,9 +121,9 @@ def _build_threat_model_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def _build_playbook_run_parser() -> argparse.ArgumentParser:
+def _build_playbook_run_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``playbook_run``."""
-    parser = argparse.ArgumentParser(prog="playbook_run")
+    parser = Cmd2ArgumentParser(prog="playbook_run")
     parser.add_argument(
         "path",
         nargs="?",

@@ -43,6 +43,7 @@ from abc import ABC, abstractmethod
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
 from difflib import SequenceMatcher
+from typing import Any
 
 
 @dataclass(frozen=True)
@@ -283,7 +284,7 @@ class CursesPickerView(PickerView):
             except curses.error:
                 continue
 
-    def _event_loop(self, stdscr: curses._CursesWindow, items: list[PickerItem], initial_query: str) -> str | None:
+    def _event_loop(self, stdscr: curses.window, items: list[PickerItem], initial_query: str) -> str | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -370,7 +371,7 @@ class CursesPickerView(PickerView):
             return max(0, total - visible)
         return offset
 
-    def _layout(self, stdscr: curses._CursesWindow, row_count: int) -> tuple[int, int, int, int]:
+    def _layout(self, stdscr: curses.window, row_count: int) -> tuple[int, int, int, int]:
         max_h, max_w = stdscr.getmaxyx()
         visible = min(max(self._cfg.min_visible_rows, row_count), self._cfg.max_visible_rows)
         height = visible + self._cfg.header_height + self._cfg.footer_height + 2
@@ -382,7 +383,7 @@ class CursesPickerView(PickerView):
         left = 0
         return top, left, height, width
 
-    def _render_empty(self, stdscr: curses._CursesWindow, query: str) -> None:
+    def _render_empty(self, stdscr: curses.window, query: str) -> None:
         top, left, height, width = self._layout(stdscr, 1)
         stdscr.erase()
         self._draw_box(stdscr, top, left, height, width)
@@ -403,7 +404,7 @@ class CursesPickerView(PickerView):
 
     def _render(
         self,
-        stdscr: curses._CursesWindow,
+        stdscr: curses.window,
         ranked: list[ScoredItem],
         query: str,
         cursor_index: int,
@@ -431,7 +432,7 @@ class CursesPickerView(PickerView):
         self._draw_footer(stdscr, top + height - self._cfg.footer_height - 1, left, width)
         stdscr.refresh()
 
-    def _draw_box(self, stdscr: curses._CursesWindow, top: int, left: int, height: int, width: int) -> None:
+    def _draw_box(self, stdscr: curses.window, top: int, left: int, height: int, width: int) -> None:
         attr = self._color(self._cfg.color_pair_border)
         cfg = self._cfg
         horizontal = cfg.glyph_horizontal * (width - 2)
@@ -448,7 +449,7 @@ class CursesPickerView(PickerView):
 
     def _draw_header(
         self,
-        stdscr: curses._CursesWindow,
+        stdscr: curses.window,
         top: int,
         left: int,
         width: int,
@@ -465,7 +466,7 @@ class CursesPickerView(PickerView):
         except curses.error:
             pass
 
-    def _draw_footer(self, stdscr: curses._CursesWindow, row_y: int, left: int, width: int) -> None:
+    def _draw_footer(self, stdscr: curses.window, row_y: int, left: int, width: int) -> None:
         attr = self._color(self._cfg.color_pair_footer)
         try:
             stdscr.addnstr(
@@ -480,7 +481,7 @@ class CursesPickerView(PickerView):
 
     def _draw_item(
         self,
-        stdscr: curses._CursesWindow,
+        stdscr: curses.window,
         row_y: int,
         left: int,
         width: int,
@@ -514,7 +515,7 @@ class CursesPickerView(PickerView):
 
     def _draw_highlighted(
         self,
-        stdscr: curses._CursesWindow,
+        stdscr: curses.window,
         row_y: int,
         start_x: int,
         text: str,
@@ -642,7 +643,7 @@ class ReadlineBridge:
 
 
 def install_fuzzy_completion(
-    shell: object,
+    shell: Any,
     payload: dict | None = None,
     config: PickerConfig | None = None,
 ) -> ReadlineBridge | None:

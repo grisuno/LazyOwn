@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 import argparse
+import contextlib
 import importlib.machinery
 import importlib.util
+import io
 import json
 import logging
 import os
@@ -87,29 +89,17 @@ class LazyOwnShellWrapper:
         try:
             # Para cmd2: usar onecmd_plus_hooks
             if hasattr(self.shell, 'onecmd_plus_hooks'):
-                original_stdout = sys.stdout
-                sys.stdout = captured_output = __import__('io').StringIO()
-
-                try:
+                capture = io.StringIO()
+                with contextlib.redirect_stdout(capture):
                     self.shell.onecmd_plus_hooks(command)
-                    output = captured_output.getvalue()
-                finally:
-                    sys.stdout = original_stdout
-
-                return output or f"Comando '{command}' ejecutado (sin output visible)"
+                return capture.getvalue() or f"Comando '{command}' ejecutado (sin output visible)"
 
             # Fallback para cmd.Cmd estándar
             elif hasattr(self.shell, 'onecmd'):
-                original_stdout = sys.stdout
-                sys.stdout = captured_output = __import__('io').StringIO()
-
-                try:
+                capture = io.StringIO()
+                with contextlib.redirect_stdout(capture):
                     self.shell.onecmd(command)
-                    output = captured_output.getvalue()
-                finally:
-                    sys.stdout = original_stdout
-
-                return output or f"Comando '{command}' ejecutado (sin output visible)"
+                return capture.getvalue() or f"Comando '{command}' ejecutado (sin output visible)"
 
             else:
                 return "Error: CLI no tiene método onecmd disponible"

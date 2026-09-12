@@ -31,10 +31,11 @@ import json
 import logging
 import os
 import sys
+from collections.abc import Mapping
 from dataclasses import dataclass
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 
 @dataclass
@@ -154,8 +155,8 @@ class StructuredLogger(logging.Logger):
         args: Any,
         exc_info: Any,
         func: str | None = None,
-        extra: dict[str, Any] | None = None,
-        sinfo: bool = False,
+        extra: Mapping[str, object] | None = None,
+        sinfo: str | None = None,
     ) -> logging.LogRecord:
         record = super().makeRecord(
             name,
@@ -193,7 +194,7 @@ def _log_factory(
         config = StructuredLogConfig()
 
     logging.setLoggerClass(StructuredLogger)
-    logger = logging.getLogger(name)
+    logger = cast(StructuredLogger, logging.getLogger(name))
     logger.setLevel(config.level)
     logger.propagate = False
     logger.handlers.clear()
@@ -272,7 +273,7 @@ def install_json_handler(
     if not cfg.file_enabled or not cfg.json_output:
         return
     logging.setLoggerClass(StructuredLogger)
-    logger = logging.getLogger(name)
+    logger = cast(StructuredLogger, logging.getLogger(name))
     if not logger.handlers:
         _LOGGER_CACHE[name] = _log_factory(name, cfg)
         return

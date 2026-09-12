@@ -6,8 +6,10 @@ Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación de Argumentos y A
 
 import argparse
 import ast
+import contextlib
 import importlib.util
 import inspect
+import io
 import json
 import logging
 import os
@@ -393,24 +395,18 @@ class LazyOwnShellWrapper:
         result_queue = queue.Queue()
 
         def target():
-            # Capturar stdout dentro del hilo
-            import io
             capture = io.StringIO()
-            original_stdout = sys.stdout
             try:
-                sys.stdout = capture
-                if hasattr(self.shell, 'onecmd_plus_hooks'):
-                    self.shell.onecmd_plus_hooks(command)
-                elif hasattr(self.shell, 'onecmd'):
-                    self.shell.onecmd(command)
-                else:
-                    print("Error: Shell no tiene método onecmd")
-
+                with contextlib.redirect_stdout(capture):
+                    if hasattr(self.shell, 'onecmd_plus_hooks'):
+                        self.shell.onecmd_plus_hooks(command)
+                    elif hasattr(self.shell, 'onecmd'):
+                        self.shell.onecmd(command)
+                    else:
+                        print("Error: shell has no onecmd method")
                 result_queue.put(capture.getvalue())
             except Exception as e:
-                result_queue.put(f"❌ Error en ejecución: {str(e)}")
-            finally:
-                sys.stdout = original_stdout
+                result_queue.put(f"Error executing command: {e}")
 
         # Lanzar hilo
         t = threading.Thread(target=target)

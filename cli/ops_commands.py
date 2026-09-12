@@ -429,7 +429,7 @@ def _read_json(path: str) -> dict[str, Any]:
         return {}
 
 
-def _write_json_atomic(path: str, data: dict[str, Any]) -> None:
+def _write_json_atomic(path: str, data: Any) -> None:
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
     tmp_fd, tmp_path = tempfile.mkstemp(dir=str(target.parent), suffix=".tmp")
@@ -484,7 +484,7 @@ def note_add(text: str, rhost: str = "", phase: str = "") -> None:
         fh.write(json.dumps(entry) + "\n")
 
     _console.print(
-        f"  [bold green]note saved[/]  [{entry['phase'].upper()}] "
+        f"  [bold green]note saved[/]  [{str(entry['phase']).upper()}] "
         f"[dim]{entry['rhost'] or 'no target'}[/]  {text.strip()[:80]}"
     )
 

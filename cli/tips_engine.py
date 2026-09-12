@@ -1079,13 +1079,13 @@ class TipsEngine:
         if not users_path.exists():
             return False
         try:
-            users = json.loads(users_path.read_text(encoding="utf-8"))
+            users: Any = json.loads(users_path.read_text(encoding="utf-8"))
             if not isinstance(users, list):
                 return False
             modified = False
-            for user in users:
-                if isinstance(user, dict) and user.get("username") == target:
-                    user["elo"] = int(user.get("elo", 0)) + int(delta)
+            for record in users:
+                if isinstance(record, dict) and record.get("username") == target:
+                    record["elo"] = int(record.get("elo", 0)) + int(delta)
                     modified = True
                     break
             if not modified:

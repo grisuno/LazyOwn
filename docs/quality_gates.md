@@ -77,3 +77,24 @@ network.
 Every gate returns 0 on success and non-zero on a real failure. CI treats a
 non-zero exit as a blocked change. The gates never swallow a failure with
 `|| true`.
+
+## CI enforcement
+
+The main workflow `.github/workflows/ci.yml` enforces the following, with no
+swallow flags:
+
+| Gate | Command | Contract |
+|------|---------|----------|
+| Ruff | `ruff check .` | zero findings |
+| Rust format | `ruff format --check .` | currently red on legacy files, so only touched files are required to pass |
+| mypy | `mypy --no-site-packages --explicit-package-bases core cli setup.py` | zero errors; `--no-site-packages` keeps third-party stubs from aborting the run |
+| Bandit | `bandit -c pyproject.toml -r . --severity-level high` | zero high findings after the documented skip list |
+| pip-audit | `pip-audit` | zero known vulnerabilities in the installed set |
+| Contract manifest | `python3 scripts/check_contract_manifest.py` | documented contracts exist |
+| Doc stats | `python3 scripts/sync_doc_stats.py --check` | counts match the source |
+
+`tests/test_ci_strict.py` pins the absence of `|| true` and
+`continue-on-error` on the quality steps. The process execution contract
+(`os.system` banned, `sys.stdout` captured with `contextlib`) is pinned by
+`tests/test_no_shell_execution.py` and `tests/run_mutation_no_shell.py`.
+

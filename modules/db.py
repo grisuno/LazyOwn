@@ -318,6 +318,19 @@ class LazyOwnDB:
             r = cur.fetchone()
             return dict(r) if r else None
 
+    def default_workspace(self, name: str = "default") -> int:
+        """Return the id of the named workspace, creating it when absent.
+
+        Args:
+            name: Workspace name. Defaults to ``"default"``.
+        Returns:
+            The workspace row id.
+        """
+        existing = self.workspace_get(name)
+        if existing is not None:
+            return int(existing["id"])
+        return self.workspace_create(name, "auto-created default workspace")
+
     def workspace_delete(self, name: str) -> bool:
         """Delete a workspace and all its data. Returns True if deleted."""
         ws = self.workspace_get(name)

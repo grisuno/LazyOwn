@@ -49,7 +49,6 @@ jobs:
         run: python -m pytest tests/ -x --tb=short --timeout=300 -p no:cacheprovider
         env:
           LAZYOWN_TEST_MODE: "1"
-
   hygiene:
     needs: lint
     runs-on: ubuntu-latest
@@ -92,10 +91,15 @@ jobs:
           python-version: "3.11"
       - name: Install tools
         run: pip install bandit pip-audit
-      - name: Bandit security scan
-        run: bandit -c pyproject.toml -r . -f json -o bandit-report.json || true
+      - name: Bandit security scan (high severity gate)
+        run: bandit -c pyproject.toml -r . --severity-level high -f json -o bandit-report.json
+      - name: Upload bandit report
+        uses: actions/upload-artifact@v4
+        with:
+          name: bandit-report
+          path: bandit-report.json
       - name: pip-audit dependency scan
-        run: pip-audit || true
+        run: pip-audit
 
   mypy:
     needs: lint
@@ -110,5 +114,4 @@ jobs:
           pip install -e ".[dev]"
           pip install types-requests types-PyYAML types-tabulate 2>/dev/null || true
       - name: mypy type check
-        continue-on-error: true
-        run: mypy --config-file pyproject.toml --no-strict-optional --explicit-package-bases core cli setup.py
+        run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli setup.py

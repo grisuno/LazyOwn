@@ -388,7 +388,7 @@ def _build_methodology() -> str:
 
 def _build_remediation(findings: list[dict]) -> str:
     """Build the remediation section."""
-    remediations = {}
+    remediations: dict[str, list[str]] = {}
     for f in findings:
         rem = f.get("remediation", "")
         sev = f.get("severity", "info")
@@ -588,11 +588,12 @@ pre {{ background: #1a202c; color: #e2e8f0; padding: 16px; border-radius: 6px; o
 
 def _format_size(size: int) -> str:
     """Format file size in human-readable format."""
+    value = float(size)
     for unit in ("B", "KB", "MB", "GB"):
-        if size < 1024:
-            return f"{size:.1f} {unit}"
-        size /= 1024
-    return f"{size:.1f} TB"
+        if value < 1024:
+            return f"{value:.1f} {unit}"
+        value /= 1024
+    return f"{value:.1f} TB"
 
 
 def _extract_flag(args: list[str], flag: str) -> str | None:

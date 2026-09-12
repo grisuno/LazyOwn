@@ -90,7 +90,7 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
             if not opts.get("hash"):
                 self._cmd.perror("Golden ticket requires --domain, --sid, --hash")
                 return
-            config = GoldenTicketConfig(
+            golden_config = GoldenTicketConfig(
                 domain=opts.get("domain", ""),
                 domain_sid=opts.get("sid", ""),
                 krbtgt_hash_hex=opts["hash"],
@@ -98,7 +98,7 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
                 user_rid=int(opts.get("rid", 500)),
                 groups=[int(g) for g in opts.get("groups", "513,512,520,518,519").split(",") if g.strip()],
             )
-            result = GoldenTicketForger().forge(config)
+            result = GoldenTicketForger().forge(golden_config)
             self._cmd.poutput("\n[+] Golden Ticket Forged")
             self._cmd.poutput(f"    Domain    : {result['domain']}")
             self._cmd.poutput(f"    User      : {result['username']}")
@@ -110,7 +110,7 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
             if not opts.get("hash"):
                 self._cmd.perror("Diamond ticket requires --domain, --sid, --hash")
                 return
-            config = DiamondTicketConfig(
+            diamond_config = DiamondTicketConfig(
                 domain=opts.get("domain", ""),
                 domain_sid=opts.get("sid", ""),
                 krbtgt_hash_hex=opts["hash"],
@@ -119,7 +119,7 @@ class ActiveDirectoryCommandSet(LazyOwnCommandSet):
                 target_groups=[int(g) for g in opts.get("groups", "512,519").split(",") if g.strip()],
                 extra_sids=opts.get("extra_sids", "").split(",") if opts.get("extra_sids") else [],
             )
-            result = DiamondTicketForger().forge(config)
+            result = DiamondTicketForger().forge(diamond_config)
             self._cmd.poutput("\n[+] Diamond Ticket Forged (PAC Enhanced)")
             self._cmd.poutput(f"    Domain    : {result['domain']}")
             self._cmd.poutput(f"    User      : {result['username']}")

@@ -215,16 +215,16 @@ class TestDNSCommandAllowlist:
 # ---------------------------------------------------------------------------
 
 class TestSafeShellExecution:
-    """CONTRACT: The do_sys command must use subprocess.run with output
-    capture instead of os.system() which discards output and provides
-    no exit code handling."""
+    """CONTRACT: The do_sys command must route through the audited
+    core.safe_exec.safe_run_shell gate with output capture instead of a raw
+    subprocess.run with shell=True."""
 
     SOURCE = _read("cli/commands/misc_migrated.py")
 
-    def test_do_sys_uses_subprocess(self):
+    def test_do_sys_uses_safe_runner(self):
         """BDD: Given the misc_migrated source is loaded,
         When I locate the do_sys method,
-        Then it must use subprocess.run, not os.system."""
+        Then it must use the safe_run_shell gate, not a raw shell."""
         lines = self.SOURCE.split("\n")
         in_do_sys = False
         do_sys_lines = []
@@ -236,7 +236,8 @@ class TestSafeShellExecution:
             elif in_do_sys:
                 do_sys_lines.append(line)
         do_sys_block = "\n".join(do_sys_lines)
-        assert "subprocess.run" in do_sys_block
+        assert "_safe_run_shell" in do_sys_block
+        assert "shell=True" not in do_sys_block
         assert "os.system" not in do_sys_block
 
     def test_do_sys_captures_output(self):
@@ -254,7 +255,8 @@ class TestSafeShellExecution:
             elif in_do_sys:
                 do_sys_lines.append(line)
         do_sys_block = "\n".join(do_sys_lines)
-        assert "capture_output=True" in do_sys_block
+        assert "result.stdout" in do_sys_block
+        assert "result.stderr" in do_sys_block
 
     def test_no_os_system_in_misc_module_code(self):
         """BDD: Given the misc_migrated module source,

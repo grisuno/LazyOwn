@@ -25,7 +25,7 @@ def parse_ip_mac(input_string: str) -> tuple[str | None, str | None]:
     """
     match = re.match(r"IP:\s*\(([\d.]+)\)\s*MAC:\s*([\da-f:]+)", input_string.strip())
     if match:
-        return match.groups()
+        return match.group(1), match.group(2)
     print_error("Error: Input must be in the format 'IP: (192.168.1.222) MAC: ec:c3:02:b0:4c:96'.")
     return None, None
 

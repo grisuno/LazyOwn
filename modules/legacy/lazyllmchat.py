@@ -1,3 +1,4 @@
+import contextlib
 import importlib.util
 import io
 import os
@@ -68,24 +69,22 @@ class LazyOwnShellBridge:
 
         def target():
             capture = io.StringIO()
-            original_stdout = sys.stdout
             original_shell_stdout = getattr(self.shell, "stdout", None)
             original_shell_stderr = getattr(self.shell, "stderr", None)
             try:
-                sys.stdout = capture
-                if original_shell_stdout is not None:
-                    self.shell.stdout = capture
-                if original_shell_stderr is not None:
-                    self.shell.stderr = capture
-                if hasattr(self.shell, "onecmd_plus_hooks"):
-                    self.shell.onecmd_plus_hooks(command)
-                elif hasattr(self.shell, "onecmd"):
-                    self.shell.onecmd(command)
+                with contextlib.redirect_stdout(capture):
+                    if original_shell_stdout is not None:
+                        self.shell.stdout = capture
+                    if original_shell_stderr is not None:
+                        self.shell.stderr = capture
+                    if hasattr(self.shell, "onecmd_plus_hooks"):
+                        self.shell.onecmd_plus_hooks(command)
+                    elif hasattr(self.shell, "onecmd"):
+                        self.shell.onecmd(command)
                 result_queue.put(capture.getvalue())
             except Exception as e:
                 result_queue.put(f"Execution error: {e}")
             finally:
-                sys.stdout = original_stdout
                 if original_shell_stdout is not None:
                     self.shell.stdout = original_shell_stdout
                 if original_shell_stderr is not None:

@@ -9,6 +9,7 @@ Run from LazyOwn root:
 
 from __future__ import annotations
 
+import contextlib
 import io
 import os
 import sys
@@ -88,18 +89,16 @@ class ShellBackend:
             self._output_buffer.truncate(0)
             self._output_buffer.seek(0)
             old_shell_stdout = self._shell.stdout
-            old_sys_stdout = sys.stdout
             try:
                 self._shell.stdout = self._output_buffer
-                sys.stdout = self._output_buffer
-                self._shell.onecmd(cmd)
+                with contextlib.redirect_stdout(self._output_buffer):
+                    self._shell.onecmd(cmd)
             except SystemExit:
                 pass
             except Exception as e:
                 self._output_buffer.write(f"\n[shell error] {e}\n")
             finally:
                 self._shell.stdout = old_shell_stdout
-                sys.stdout = old_sys_stdout
 
             output = self._output_buffer.getvalue()
             return output
@@ -566,12 +565,8 @@ class LazyOwnTUI(App):
             self._dash_timer.stop()
         try:
             quiet = io.StringIO()
-            old_out = sys.stdout
-            sys.stdout = quiet
-            try:
+            with contextlib.redirect_stdout(quiet):
                 self.backend.stop()
-            finally:
-                sys.stdout = old_out
         except Exception:
             pass
         self.exit()

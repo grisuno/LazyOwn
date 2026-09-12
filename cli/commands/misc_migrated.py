@@ -54,6 +54,7 @@ from cli.show import format_payload as _format_payload
 from cli.wizard import run as _run_wizard
 from core.config import save_payload as _save_payload
 from core.process import ensure_tmux_session as _ensure_tmux_session
+from core.safe_exec import safe_run_shell as _safe_run_shell
 from modules.module_registry import ModuleRegistry as _ModuleRegistry
 from modules.module_registry import format_module_detail as _format_module_detail
 from modules.module_registry import format_module_table as _format_module_table
@@ -2750,7 +2751,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
 
         This function allows the user to execute arbitrary shell commands without exiting the LazyOwn shell.
         It checks if a command is provided, prints a message indicating the command being executed, and then
-        runs the command using subprocess.run with output capture.
+        runs the command through the audited safe_run_shell gate with output capture.
 
         Usage:
             sh <command>
@@ -2773,11 +2774,17 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             return
 
         try:
-            result = subprocess.run(
-                line, shell=True, capture_output=True, text=True, timeout=60,
+            result = _safe_run_shell(
+                line,
+                allow=True,
+                reason="operator issued the sh shell command",
+                timeout=60,
             )
         except subprocess.TimeoutExpired:
             print_error("Command timed out after 60 seconds")
+            return
+        except (ValueError, PermissionError) as exc:
+            print_error(f"Command rejected: {exc}")
             return
         if result.stdout:
             print_msg(result.stdout)

@@ -190,18 +190,24 @@ def _read_credential_lines(pattern: str) -> list[str]:
 def _get_recommendations() -> list[dict]:
     """Get next-step recommendations from the recommendation engine."""
     try:
-        from cli.recommendation import RecommendationEngine
+        from cli.recommendation_signals import recommend_with_evidence
 
-        engine = RecommendationEngine()
         payload = _read_json(PAYLOAD_PATH)
         world = _read_json(WORLD_MODEL_PATH)
-        recs = engine.recommend(
-            rhost=payload.get("rhost", ""),
-            phase=world.get("phase", "recon"),
-            os_id=str(payload.get("os_id", "")),
-            services=list(world.get("services", {}).keys()),
+        recs = recommend_with_evidence(
+            payload,
+            sessions_dir=SESSIONS_DIR,
+            phase=str(world.get("phase", "recon")),
+            limit=5,
         )
-        return [{"command": r.command, "confidence": int(r.confidence * 100), "reason": r.reason} for r in recs[:5]]
+        return [
+            {
+                "command": rec.command_preview or rec.action,
+                "confidence": int(rec.score * 100),
+                "reason": "; ".join(rec.reasons) if rec.reasons else rec.action,
+            }
+            for rec in recs
+        ]
     except Exception:
         return []
 
@@ -599,7 +605,7 @@ class LazyOwnDashboard(App):
     def _cycle_phase(self, direction: int) -> None:
         from modules.killchain import KillChain
 
-        phases = list(KillChain.phase_order())
+        phases = list(KillChain.phases())
         current = KillChain.current_phase()
         try:
             idx = phases.index(current)

@@ -6,7 +6,7 @@ sudo escalation, virtualenv activation.
 
 from __future__ import annotations
 
-import importlib
+import importlib.util
 import os
 import shlex
 import shutil

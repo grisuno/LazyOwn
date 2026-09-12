@@ -468,7 +468,7 @@ def render(
     if args.mode is PaletteMode.OVERVIEW:
         return renderer.render_overview(query.phase_counts)
     if args.mode is PaletteMode.PHASE:
-        rows = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
+        rows: list[Any] = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
         return renderer.render_phase(args.phase or "", rows)
     if args.mode is PaletteMode.SEARCH:
         rows = query.search(args.query or "", limit=cfg.search_default_limit)
@@ -586,7 +586,7 @@ def render_json(
     if args.mode is PaletteMode.OVERVIEW:
         return renderer.render_overview(query.phase_counts).to_dict()
     if args.mode is PaletteMode.PHASE:
-        rows = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
+        rows: list[Any] = _filter_phase_rows(query.in_phase(args.phase or ""), args.query)
         return renderer.render_phase(args.phase or "", args.query, rows).to_dict()
     if args.mode is PaletteMode.SEARCH:
         rows = query.search(args.query or "", limit=cfg.search_default_limit)

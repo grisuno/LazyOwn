@@ -6,6 +6,8 @@ conditional hook rules, and multi-operator profiles.
 
 from __future__ import annotations
 
+from typing import Any
+
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
@@ -236,7 +238,7 @@ class AutomationCommandSet(LazyOwnCommandSet):
                 return
 
             username = parts[0]
-            kwargs = {}
+            kwargs: dict[str, Any] = {}
             for kv in parts[1:]:
                 if "=" in kv:
                     k, v = kv.split("=", 1)

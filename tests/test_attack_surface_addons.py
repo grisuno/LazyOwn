@@ -50,11 +50,9 @@ def _yaml_text(path: Path) -> str:
 # Helpers for parametrized fixtures
 # ---------------------------------------------------------------------------
 
-def _all_addon_data():
-    """Yield (name, doc_dict) for every ADDON_FILES entry."""
-    for name, path in ADDON_FILES.items():
-        if path.exists():
-            yield pytest.param(name, _load(path), id=name)
+def _all_addon_data() -> list:
+    """Return (name, doc_dict) parameters for every ADDON_FILES entry."""
+    return [pytest.param(name, _load(path), id=name) for name, path in ADDON_FILES.items() if path.exists()]
 
 
 def _loaded(name: str) -> dict:

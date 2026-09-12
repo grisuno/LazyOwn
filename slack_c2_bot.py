@@ -1,6 +1,6 @@
 # slack_c2_bot_socket.py
+import contextlib
 import io
-import sys
 import time
 
 import requests
@@ -92,17 +92,14 @@ from core.parsers import strip_ansi  # noqa: E402
 session_manager = SecureSessionManager()
 
 
-# Capturar output del shell
 def capture_shell_output(cmd: str) -> str:
-    old_stdout = sys.stdout
-    sys.stdout = captured = io.StringIO()
+    capture = io.StringIO()
     try:
-        shell.onecmd(cmd)
+        with contextlib.redirect_stdout(capture):
+            shell.onecmd(cmd)
     except Exception as e:
         return f"Error: {str(e)}"
-    finally:
-        sys.stdout = old_stdout
-    return captured.getvalue()
+    return capture.getvalue()
 
 
 # === APP DE SLACK (Bolt + Socket Mode) ===

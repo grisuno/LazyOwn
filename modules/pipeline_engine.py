@@ -43,7 +43,9 @@ Security:
 from __future__ import annotations
 
 import builtins
+import contextlib
 import datetime
+import io
 import json
 import logging
 import os
@@ -555,21 +557,16 @@ class LazyOwnStepRunner(IStepRunner):
     def _run_via_onecmd(
         self, command: str, args: str, target: str, timeout_s: int,
     ) -> tuple[str, bool, str]:
-        import io
-        import sys
-
         line = command if not args else f"{command} {args}"
         if target:
             self._onecmd(f"assign rhost {target}")
-        old_stdout = sys.stdout
+        capture = io.StringIO()
         try:
-            sys.stdout = io.StringIO()
-            self._onecmd(line)
-            output = sys.stdout.getvalue()
+            with contextlib.redirect_stdout(capture):
+                self._onecmd(line)
+            output = capture.getvalue()
         except Exception as exc:
             return "", False, str(exc)
-        finally:
-            sys.stdout = old_stdout
         success = _heuristic_success(line, output)
         return output, success, ""
 

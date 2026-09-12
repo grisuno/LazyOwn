@@ -62,9 +62,7 @@ def apply_assign(
     if key not in params:
         return False
     coerced = coerce_value(key, value)
-    if isinstance(coerced, str) and any(
-        ch in coerced for ch in ";|&$()`{}!><*?~#\\'\"\n\r"
-    ):
+    if isinstance(coerced, str) and any(ch in coerced for ch in ";|&$()`{}!><*?~#\\'\"\n\r"):
         if on_issue is not None:
             on_issue(
                 ValidationIssue(

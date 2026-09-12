@@ -1,9 +1,13 @@
-# LazyOwn — Hermes Agent Context
+# LazyOwn - Hermes Agent Context
 
 Project: LazyOwn RedTeam Framework
-Repo: /home/grisun0/LazyOwn
+Repo root: the working directory that holds `payload.json` and `lazyown.py`
 Language: Python 3.11+, Bash
 Domain: penetration testing, red teaming, C2 operations
+
+> **Role routing:** this file is for an agent that modifies the repository.
+> `CORE.md` is for an agent that consumes LazyOwn as a dependency. `CLAUDE.md`
+> is the shared durable contract. Load only the file that matches the role.
 
 ---
 
@@ -105,10 +109,10 @@ Do NOT import `lazyc2` from CLI. Do NOT write to `payload.json` outside `do_assi
 ### Loading this skill
 
 ```bash
-# Option A: install from repo
-hermes skills install /home/grisun0/LazyOwn/skills/lazyown/SKILL.md
+# Option A: install from repo (run from the repository root)
+hermes skills install skills/lazyown/SKILL.md
 
-# Option B: auto-discovered via AGENTS.md when cwd is /home/grisun0/LazyOwn
+# Option B: auto-discovered via AGENTS.md when the cwd is the repository root
 ```
 
 ### The LazyOwn Soul
@@ -124,7 +128,7 @@ Key principles: evidence over assumption, abstraction over mechanics, phase disc
 ### MCP registration
 
 ```bash
-bash /home/grisun0/LazyOwn/scripts/setup_hermes_mcp.sh
+bash scripts/setup_hermes_mcp.sh
 ```
 
 ### Key files Hermes should read
@@ -170,7 +174,7 @@ For the full 153-tool reference see `skills/lazyown.md`.
 
 **LazyOwn shell not responding**: check that `payload.json` exists and has `rhost` set.
 
-**Sessions/ files missing**: verify you are in `/home/grisun0/LazyOwn` and `sessions/` is writable.
+**Sessions/ files missing**: verify you are in the repository root and `sessions/` is writable.
 
 **C2 not starting**: ensure `lhost` and `c2_port` are set in payload.json; check `cert.pem` / `key.pem` exist.
 

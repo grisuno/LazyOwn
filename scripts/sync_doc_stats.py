@@ -69,8 +69,11 @@ REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
     ("README.md", r"\*\*\d+\+ Attack Commands\*\*", "**{cli_commands} Attack Commands**"),
     ("README.md", r"provides \d+\+ commands across", "provides {cli_commands} commands across"),
     ("README.md", r"Full \d+\+ command reference", "Full {cli_commands} command reference"),
-    ("README.md", r"-- \d+\+ YAML addons, \d+ plugins, \d+ tools",
-     "-- {addons} YAML addons, {plugin_files} plugins, {tools} tools"),
+    (
+        "README.md",
+        r"-- \d+\+ YAML addons, \d+ plugins, \d+ tools",
+        "-- {addons} YAML addons, {plugin_files} plugins, {tools} tools",
+    ),
     ("README.md", r"## v\d+\.\d+\.\d+ Highlights", "## v{version} Highlights"),
     ("README.md", r"Release history \(v0\.0\.1 to v\d+\.\d+\.\d+\)", "Release history (v0.0.1 to v{version})"),
 )

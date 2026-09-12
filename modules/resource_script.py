@@ -45,6 +45,8 @@ from collections.abc import Callable
 from datetime import datetime
 from typing import Any
 
+from core.safe_exec import needs_shell
+
 _VAR_RE = re.compile(r"\$\{([^}]+)\}|\$([a-zA-Z_][a-zA-Z0-9_.]*)")
 _COMMENT_RE = re.compile(r"^\s*(#|//|comment\b)", re.IGNORECASE)
 _MACRO_DEF_RE = re.compile(r"^\s*macro\s+(\w+)\s*(.*)", re.IGNORECASE)
@@ -148,11 +150,13 @@ class ScriptContext:
         if self._command_cb:
             self._command_cb(resolved)
         elif resolved.strip():
-            import shlex as _shlex
-            try:
-                parts = _shlex.split(resolved)
-            except ValueError:
-                parts = resolved.split()
+            if needs_shell(resolved):
+                parts = ["bash", "-c", resolved]
+            else:
+                try:
+                    parts = shlex.split(resolved)
+                except ValueError:
+                    parts = resolved.split()
             if parts:
                 subprocess.run(parts, shell=False)
 

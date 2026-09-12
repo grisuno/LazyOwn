@@ -31,6 +31,8 @@ _URL_SAFE_PATTERN = re.compile(r"^https?://[a-zA-Z0-9\-._~:/?#\[\]@!$&'()*+,;=%]
 
 _SHELL_META_PATTERN = re.compile(r"[;&|`$(){}!><*?~#`'\"\\\n\r]")
 
+_SHELL_SYNTAX_PATTERN = re.compile(r"[;|`$(){}*?\[\]~<>\n\r]")
+
 _MAX_COMMAND_LENGTH = 8192
 
 _CLEAR_COMMANDS = {
@@ -45,6 +47,23 @@ class CommandInjectionError(PermissionError):
 
 class UrlValidationError(PermissionError):
     """Raised when a URL contains shell metacharacters."""
+
+
+def needs_shell(command: str) -> bool:
+    """Return True when a command string needs a shell to be interpreted.
+
+    A command that only carries a program and its arguments runs with
+    ``shlex.split`` and ``shell=False``. Redirections, pipes, command
+    chaining, substitutions, globs, and tilde expansion need a shell.
+
+    Args:
+        command: The command string to inspect.
+    Returns:
+        True when the command must run through ``bash -c``.
+    """
+    if "&&" in command:
+        return True
+    return bool(_SHELL_SYNTAX_PATTERN.search(command))
 
 
 def safe_system(command: str, *, reason: str = "") -> int:

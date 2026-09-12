@@ -19,6 +19,7 @@ import base64
 import json
 import os
 import shutil
+import subprocess
 
 import cmd2
 
@@ -119,8 +120,13 @@ def _serve_via_http(shell, binary_name: str, sessions_path: str, lport: int) -> 
         sessions_path: Directory served by the HTTP server.
         lport: Listening port copied from ``payload.json``.
     """
-    del binary_name
-    shell.cmd(f"python3 -m http.server {lport} --directory {sessions_path} &")
+    del shell, binary_name
+    subprocess.Popen(
+        ["python3", "-m", "http.server", str(lport), "--directory", sessions_path],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
 
 
 class PrivilegeEscalationCommandSet(LazyOwnCommandSet):

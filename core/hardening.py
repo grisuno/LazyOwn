@@ -25,7 +25,7 @@ import logging
 import os
 import re
 import subprocess
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from pathlib import Path
 from typing import Any
 
@@ -44,6 +44,27 @@ _PORT_PATTERN = re.compile(r"^(?:\d{1,5}(?:,\d{1,5})*(?:-\d{1,5})?)$")
 
 class SecurityViolation(PermissionError):
     """Raised when a security invariant is violated."""
+
+
+def terminal_env(base: Mapping[str, str] | None = None) -> dict[str, str]:
+    """Return a child environment that keeps ANSI colors on a pipe.
+
+    Tools built on termenv or rich (gum, the LazyNmap script) disable color
+    when their stdout is not a terminal. The framework pipes output so it can
+    tee it to a log, so the child would otherwise lose its colors. Forcing
+    CLICOLOR_FORCE and FORCE_COLOR restores them. An explicit NO_COLOR wins
+    over the forced values.
+
+    Args:
+        base: Base environment. Defaults to ``os.environ``.
+    Returns:
+        A new mapping safe to pass as the ``env`` argument of subprocess.
+    """
+    env = dict(os.environ if base is None else base)
+    if "NO_COLOR" not in env:
+        env.setdefault("CLICOLOR_FORCE", "1")
+        env.setdefault("FORCE_COLOR", "1")
+    return env
 
 
 def safe_subprocess_run(

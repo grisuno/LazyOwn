@@ -221,3 +221,18 @@ Use `assign <key> <value>` from the CLI to set it.
 
 **Command not found after adding YAML** — run `reload_addons` or restart the
 shell.
+
+## GUI addons and the Qt path
+
+The `gui` and `gui2` addons boot the PySide6 operator console from a separate
+Qt virtualenv. Set `LAZYOWN_QT_SITE_PACKAGES` to that environment's
+`site-packages` directory so the addon imports PySide6 without duplicating the
+Qt binaries inside `env/`:
+
+```bash
+export LAZYOWN_QT_SITE_PACKAGES=/path/to/qt-venv/lib/python3.13/site-packages
+```
+
+When the variable is unset the addon runs `python3 -m lazygui` with the
+current environment unchanged, so it still works when PySide6 is installed in
+the active environment.

@@ -7,6 +7,7 @@ runtime.
 | File | Role |
 |------|------|
 | `core_smoke.py` | Import and call the public surfaces documented in `CORE.md`. Fails on the first missing name. |
+| `command_audit.py` | Boot the shell once and audit every registered command: `help` dispatch for all, invalid-flag parser probes for the `@with_argparser` commands. |
 
 ## How it works
 
@@ -20,6 +21,7 @@ Run it from the repository root:
 
 ```bash
 python3 scripts/devtools/core_smoke.py
+python3 scripts/devtools/command_audit.py
 ```
 
 ## Adding a tool

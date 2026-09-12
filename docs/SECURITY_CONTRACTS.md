@@ -261,3 +261,12 @@ concern. All ship with 94 percent or higher mutation-killed coverage.
 | Sleep obfuscation engine (9 techniques) | `modules/sleep_obfuscation.py` | `test_sleep_obfuscation.py` |
 | SOCKS5 proxy spec engine | `modules/socks_proxy.py` | `test_socks_proxy.py` |
 | HTTP malleable profiles (base) | `modules/c2_profile.py` | (built-in CLI) |
+
+## Process execution contract
+
+I ban `os.system` in production code and manual `sys.stdout` reassignment.
+The contract is enforced by `tests/test_no_shell_execution.py`, which parses
+the production tree with `ast`. A string that merely mentions `os.system` (a
+target payload or a docstring) does not count. Only a real call node or a real
+assignment node fails. The mutation gate `tests/run_mutation_no_shell.py`
+reintroduces each pattern and asserts the scanner kills it.

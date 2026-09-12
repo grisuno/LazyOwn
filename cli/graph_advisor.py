@@ -663,7 +663,7 @@ class GraphAdvisor:
 
     @staticmethod
     def _iter_all_edges(index: GraphIndex) -> Iterable[GraphEdge]:
-        seen: set[tuple[str, str]] = set()
+        seen: set[tuple[str, ...]] = set()
         for node in index.nodes():
             for neighbour_id in index.neighbors(node.id):
                 key = tuple(sorted((node.id, neighbour_id)))

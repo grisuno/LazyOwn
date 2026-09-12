@@ -13,6 +13,8 @@ import json
 import subprocess
 import time
 
+import yaml
+
 from cli.commands._base import LazyOwnCommandSet
 from core.config import save_payload as _save_payload
 from cli.aliases import load_aliases as _load_aliases

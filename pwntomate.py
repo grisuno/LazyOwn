@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # This software must not be used by military or secret service organisations.
-# License: TODO
+# License: GPL-3.0-only
 
 import argparse
 import glob
@@ -150,7 +150,7 @@ if args.execute:
         futures = {executor.submit(_run_tool, cmd): cmd for cmd in cmds}
         for future in as_completed(futures):
             result = future.result()
-    os.system("chown 1000:1000 sessions -R")
-    os.system("chmod 755 sessions -R")
+    subprocess.run(["chown", "1000:1000", "sessions", "-R"], check=False)
+    subprocess.run(["chmod", "755", "sessions", "-R"], check=False)
 else:
     print(shellscript)

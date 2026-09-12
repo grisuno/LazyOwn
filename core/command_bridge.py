@@ -6,6 +6,8 @@ executed, reducing import-time overhead for C2 workers.
 
 from __future__ import annotations
 
+import contextlib
+import io
 import threading
 from typing import Any
 
@@ -77,16 +79,10 @@ class CommandBridge:
         try:
             shell = self._ensure_shell()
             with self._lock:
-                import io
-                import sys
-
-                original_stdout = sys.stdout
-                sys.stdout = io.StringIO()
-                try:
+                capture = io.StringIO()
+                with contextlib.redirect_stdout(capture):
                     shell.onecmd(command)
-                    return sys.stdout.getvalue()
-                finally:
-                    sys.stdout = original_stdout
+                return capture.getvalue()
         except Exception as exc:
             return f"CommandBridge error: {exc}"
 

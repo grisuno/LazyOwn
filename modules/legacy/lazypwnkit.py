@@ -78,7 +78,11 @@ def execute_exploit(cmd=None):
 
 def main():
     cmd = None
-    os.system('which pkexec | xargs ls -l')
+    pkexec_path = shutil.which("pkexec")
+    if pkexec_path:
+        listing = subprocess.run(["ls", "-l", pkexec_path], capture_output=True, text=True, check=False)
+        if listing.stdout:
+            print(listing.stdout, end="")
     if len(sys.argv) > 1:
         cmd = sys.argv[1]
     execute_exploit(cmd)

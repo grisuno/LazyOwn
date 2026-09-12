@@ -97,6 +97,7 @@ class BofMarketplaceCommandSet(LazyOwnCommandSet):
         import base64
         import ssl
         import urllib.error
+        import urllib.parse
         import urllib.request
 
         payload = load_payload()

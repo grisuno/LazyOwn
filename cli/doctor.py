@@ -140,7 +140,7 @@ class DoctorReport:
 
 
 def check_python_version(
-    version_info: Sequence[int] = sys.version_info,
+    version_info: Sequence[int] | None = None,
 ) -> CheckResult:
     """Verify the interpreter satisfies :data:`MIN_PYTHON_VERSION`.
 
@@ -152,7 +152,10 @@ def check_python_version(
     Returns:
         A :class:`CheckResult` flagged ``fail`` below the minimum version.
     """
-    major, minor = version_info[0], version_info[1]
+    if version_info is None:
+        major, minor = sys.version_info[0], sys.version_info[1]
+    else:
+        major, minor = version_info[0], version_info[1]
     current = f"{major}.{minor}"
     required = f"{MIN_PYTHON_VERSION[0]}.{MIN_PYTHON_VERSION[1]}"
     if (major, minor) >= MIN_PYTHON_VERSION:

@@ -198,7 +198,7 @@ class NmapXmlReader:
 
         sessions = Path(self.config.sessions_dir)
         if not sessions.is_dir():
-            return []
+            return
         pattern = self.config.nmap_xml_glob
         for path_str in sorted(glob.glob(str(sessions / pattern))):
             path = Path(path_str)
@@ -668,7 +668,7 @@ def resolve_current_os(payload: Mapping[str, object] | None) -> str:
         return explicit.strip().lower()
     legacy = payload.get("os_id")
     try:
-        legacy_int = int(legacy) if legacy is not None else 0
+        legacy_int = int(legacy) if isinstance(legacy, (int, str)) else 0
     except (TypeError, ValueError):
         legacy_int = 0
     return OS_ID_TO_PLATFORM.get(legacy_int, ANY_OS)

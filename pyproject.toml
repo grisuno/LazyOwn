@@ -214,4 +214,13 @@ skips = [
     "B603",
     "B605",
     "B607",
+    # Accepted for a red-team framework. pycryptodome is flagged as the old
+    # pyCrypto (B413); the C2 talks to its own self-signed endpoints (B501);
+    # Kerberos requires MD4, MD5 and RC4 by protocol (B324, B304); the C2
+    # renders bleach-sanitized HTML, so Jinja2 autoescape stays off (B701).
+    "B304",
+    "B324",
+    "B413",
+    "B501",
+    "B701",
 ]

@@ -21,6 +21,7 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 
 from typing import Any
 
+import contextlib
 import cmd2
 import logging
 import sys
@@ -1656,11 +1657,10 @@ class LazyOwnShell(cmd2.Cmd):
         """
         self.output = ""
         try:
-            original_stdout = sys.stdout
-            sys.stdout = io.StringIO()
-            self.onecmd(command)
-            raw_output = sys.stdout.getvalue()
-            sys.stdout = original_stdout
+            capture = io.StringIO()
+            with contextlib.redirect_stdout(capture):
+                self.onecmd(command)
+            raw_output = capture.getvalue()
 
             self.output = raw_output
 

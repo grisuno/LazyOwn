@@ -15,6 +15,7 @@ from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 STRICT_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "test_strict.yml"
+CI_WORKFLOW = REPO_ROOT / ".github" / "workflows" / "ci.yml"
 
 
 def test_strict_workflow_exists() -> None:
@@ -77,3 +78,19 @@ def test_old_swallow_workflow_is_removed() -> None:
     for pattern in forbidden_patterns:
         match = re.search(pattern, text)
         assert match is None, f"forbidden pattern {pattern!r} found in legacy workflow"
+
+
+def test_ci_workflow_has_no_swallowed_quality_gate() -> None:
+    """The main CI workflow must not swallow a quality gate."""
+    text = CI_WORKFLOW.read_text(encoding="utf-8")
+    assert "continue-on-error" not in text, "ci.yml still uses continue-on-error"
+    assert re.search(r"bandit[^\n]*\|\|\s*true", text) is None, "bandit still swallows failures"
+    assert re.search(r"pip-audit[^\n]*\|\|\s*true", text) is None, "pip-audit still swallows failures"
+
+
+def test_ci_workflow_gates_severity_and_types() -> None:
+    """The main CI workflow gates high-severity bandit and typed mypy."""
+    text = CI_WORKFLOW.read_text(encoding="utf-8")
+    assert "--severity-level high" in text, "bandit is not gated on high severity"
+    assert "--no-site-packages" in text, "mypy is not isolated from site-packages"
+    assert re.search(r"run:\s*mypy", text), "mypy step is missing"

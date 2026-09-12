@@ -153,7 +153,7 @@ def _read_line_windows(prompt: str) -> str:
     sys.stdout.flush()
     chars: list[str] = []
     while True:
-        ch = msvcrt.getwch()
+        ch = msvcrt.getwch()  # type: ignore[attr-defined]
         if ch == chr(KEY_ESC):
             raise _ChainEscExit
         if ch == chr(KEY_CTRL_C):

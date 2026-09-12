@@ -90,7 +90,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
         now = datetime.now(UTC).isoformat()
 
         db = LazyOwnDB()
-        status = db.status()
+        status = db.status(db.default_workspace())
 
         session_files: list[str] = []
         if SESSIONS_DIR.exists():
@@ -262,10 +262,11 @@ class CampaignCommandSet(LazyOwnCommandSet):
                                 idx = list(columns).index("id")
                                 values[idx] = None
 
-                            db._cursor(
-                                f"INSERT OR IGNORE INTO {table} ({col_str}) VALUES ({placeholders})",
-                                *values,
-                            )
+                            with db._cursor() as cur:
+                                cur.execute(
+                                    f"INSERT OR IGNORE INTO {table} ({col_str}) VALUES ({placeholders})",
+                                    values,
+                                )
                             imported += 1
 
                     src_conn.close()

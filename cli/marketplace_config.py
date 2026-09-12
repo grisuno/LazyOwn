@@ -399,7 +399,7 @@ class MarketplaceConfigurator:
     def _rows_for_tab(self, tab: str) -> list[AddonInfo]:
         return self._registry.scan(tab)
 
-    def _loop(self, stdscr: curses._CursesWindow) -> MarketplaceSettings | None:
+    def _loop(self, stdscr: curses.window) -> MarketplaceSettings | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -465,7 +465,7 @@ class MarketplaceConfigurator:
         sys.stdout.flush()
         self._registry.rescan(addon.kind)
 
-    def _create_addon(self, stdscr: curses._CursesWindow) -> None:
+    def _create_addon(self, stdscr: curses.window) -> None:
         curses.echo()
         curses.curs_set(1)
         height, width = stdscr.getmaxyx()
@@ -549,7 +549,7 @@ class MarketplaceConfigurator:
             except curses.error:
                 continue
 
-    def _render(self, stdscr: curses._CursesWindow, rows: list[AddonInfo], cursor: int, offset: int) -> None:
+    def _render(self, stdscr: curses.window, rows: list[AddonInfo], cursor: int, offset: int) -> None:
         cfg = self._cfg
         max_y, max_x = stdscr.getmaxyx()
         width = max(cfg.wizard_min_width, min(cfg.wizard_max_width, max_x))

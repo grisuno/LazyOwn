@@ -808,13 +808,13 @@ def _sync_user_elo(delta: int) -> bool:
 
     if not USERS_PATH.exists():
         return False
-    users = json.loads(USERS_PATH.read_text(encoding="utf-8"))
+    users: Any = json.loads(USERS_PATH.read_text(encoding="utf-8"))
     if not isinstance(users, list):
         return False
     modified = False
-    for user in users:
-        if isinstance(user, dict) and user.get("username") == target:
-            user["elo"] = int(user.get("elo", 0)) + int(delta)
+    for record in users:
+        if isinstance(record, dict) and record.get("username") == target:
+            record["elo"] = int(record.get("elo", 0)) + int(delta)
             modified = True
             break
     if not modified:

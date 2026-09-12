@@ -104,7 +104,7 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
 
         try:
             db = LazyOwnDB()
-            db_vulns = db.vuln_list()
+            db_vulns = db.vuln_list(db.default_workspace())
             for v in db_vulns:
                 key = v.get("cve_id") or v.get("name", str(v))
                 if key and key not in seen:

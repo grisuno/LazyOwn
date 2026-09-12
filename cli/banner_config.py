@@ -1082,7 +1082,7 @@ class BannerConfigurator:
     def _tty_available() -> bool:
         return sys.stdin.isatty() and sys.stdout.isatty() and os.environ.get("TERM", "") not in {"", "dumb"}
 
-    def _loop(self, stdscr: curses._CursesWindow) -> BannerSettings | None:
+    def _loop(self, stdscr: curses.window) -> BannerSettings | None:
         curses.curs_set(0)
         stdscr.keypad(True)
         self._init_colors()
@@ -1187,7 +1187,7 @@ class BannerConfigurator:
             except curses.error:
                 continue
 
-    def _render(self, stdscr: curses._CursesWindow, rows: list, cursor: int) -> None:
+    def _render(self, stdscr: curses.window, rows: list, cursor: int) -> None:
         cfg = self._cfg
         max_y, max_x = stdscr.getmaxyx()
         width = max(cfg.wizard_min_width, min(cfg.wizard_max_width, max_x))

@@ -97,10 +97,9 @@ def de_htmlify(data: str) -> str:
     Returns:
         Decoded text.
     """
-    from html.parser import HTMLParser
+    from html import unescape
 
-    parser = HTMLParser()
-    return parser.unescape(data)
+    return unescape(data)
 
 
 def is_exist(file: str) -> bool:

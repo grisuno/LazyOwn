@@ -101,9 +101,7 @@ class SecurityCommandSet(LazyOwnCommandSet):
                         print(f"      - {m}")
                 print(f"    {score.recommendation}\n")
             except Exception as exc:
-                from cli.style import print_error
-
-                print_error(f"OPSEC scoring failed: {exc}")
+                self._cmd.perror(f"OPSEC scoring failed: {exc}")
 
     def do_seal_credentials(self, _line: str) -> None:
         """Encrypt all sensitive values in payload.json using AES-256-GCM.

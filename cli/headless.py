@@ -4,6 +4,7 @@ Provides HeadlessRunner which wraps LazyOwnShell and produces
 structured JSON output suitable for CI/CD and agent-driven ops.
 """
 
+import contextlib
 import io
 import json
 import sys
@@ -104,20 +105,17 @@ class HeadlessRunner:
             "exit_code": EXIT_OK,
             "exit_label": exit_label,
         }
-        old_stdout = sys.stdout
+        capture = io.StringIO()
         try:
-            sys.stdout = io.StringIO()
-            self.shell.onecmd(cmd)
-            captured = sys.stdout.getvalue()
-            result["output"] = captured
+            with contextlib.redirect_stdout(capture):
+                self.shell.onecmd(cmd)
+            result["output"] = capture.getvalue()
             result["success"] = True
         except Exception as exc:
             result["error"] = str(exc)
             result["success"] = False
             if self.exit_code == EXIT_OK:
                 self.exit_code = EXIT_ERROR
-        finally:
-            sys.stdout = old_stdout
 
         result["duration_ms"] = int((time.time() - start) * 1000)
         result["exit_code"] = self.exit_code

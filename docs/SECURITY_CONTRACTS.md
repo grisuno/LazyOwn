@@ -270,3 +270,17 @@ the production tree with `ast`. A string that merely mentions `os.system` (a
 target payload or a docstring) does not count. Only a real call node or a real
 assignment node fails. The mutation gate `tests/run_mutation_no_shell.py`
 reintroduces each pattern and asserts the scanner kills it.
+
+### Shell semantics and colored output
+
+Banning `shell=True` blindly was a category error. The generic runners
+(`LazyOwnShell.cmd`, `core.process.run_command`, `SafeRunner.run_shell`,
+`ResourceScript.run_command`) carry shell command strings, so they need a
+shell. I added `core.safe_exec.needs_shell` to detect redirection, pipes,
+chaining, substitutions, globs, and tilde expansion. When the syntax is
+present the runner uses `["bash", "-c", command]`; otherwise it uses
+`shlex.split` with `shell=False`. `tests/test_shell_semantics.py` pins the
+detection, and `tests/run_mutation_shell_semantics.py` kills a mutant that
+disables it. The same tests pin `core.hardening.terminal_env`, which forces
+`CLICOLOR_FORCE` and `FORCE_COLOR` so piped tools such as gum keep their
+colors while the framework tees output to a log.

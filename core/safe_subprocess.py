@@ -32,6 +32,9 @@ from dataclasses import dataclass
 from datetime import UTC, datetime
 from pathlib import Path
 
+from core.hardening import terminal_env
+from core.safe_exec import needs_shell
+
 
 class ShellNotAllowedError(PermissionError):
     """Raised when a shell invocation is attempted without ``allow=True``."""
@@ -124,7 +127,7 @@ class SafeRunner:
             ShellNotAllowedError: when ``allow`` is not ``True``.
             ValueError: when ``allow`` is ``True`` but ``reason`` is empty.
         """
-        argv = shlex.split(command) if command else []
+        argv = ["bash", "-c", command] if needs_shell(command) else (shlex.split(command) if command else [])
         if not allow:
             self._audit({"allowed": False, "command": command, "reason": reason})
             raise ShellNotAllowedError(
@@ -151,6 +154,7 @@ class SafeRunner:
             text=True,
             timeout=timeout,
             check=False,
+            env=terminal_env(),
         )
         duration = time.monotonic() - start
         self._audit(

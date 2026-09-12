@@ -25,6 +25,8 @@ from core.console import (
     print_msg,
     print_warn,
 )
+from core.hardening import terminal_env
+from core.safe_exec import needs_shell
 from core.safe_subprocess import SafeRunner
 from core.validators import check_rhost
 
@@ -196,7 +198,7 @@ def run_command(command: str, timeout: float | None = None) -> str:
         Combined stdout + stderr output.
     """
     output = ""
-    command_tokens = shlex.split(command)
+    command_tokens = ["bash", "-c", command] if needs_shell(command) else shlex.split(command)
     start_time = time.monotonic()
     exit_code: int | None = None
     process = None
@@ -206,6 +208,7 @@ def run_command(command: str, timeout: float | None = None) -> str:
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE,
             text=True,
+            env=terminal_env(),
         )
     except FileNotFoundError:
         print_error(f"Command not found: {command_tokens[0] if command_tokens else command}")

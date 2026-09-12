@@ -796,6 +796,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
         for issue in issues:
             print_warn(f"{param}: {issue.message}")
 
+        self.refresh_prompt()
         print_msg(f"{YELLOW}{param} assign to {GREEN}{self.params[param]} {RESET}")
 
     @cmd2.with_category("12. Miscellaneous")
@@ -2698,8 +2699,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             settings = BannerSettings.defaults(registry)
             payload["banner"] = settings.to_payload_block()
             _save_payload(payload)
-            self.custom_prompt = getprompt()
-            self.prompt = self.custom_prompt
+            self.refresh_prompt()
             print_msg(f"banner reset to defaults: {_banner_summary(settings, registry)}")
             return
         result = _configure_banner_interactive(payload)
@@ -2708,8 +2708,7 @@ class MiscMigratedCommandSet(LazyOwnCommandSet):
             return
         payload["banner"] = result.to_payload_block()
         _save_payload(payload)
-        self.custom_prompt = getprompt()
-        self.prompt = self.custom_prompt
+        self.refresh_prompt()
         print_msg(f"banner saved: {_banner_summary(result)}")
 
     @cmd2.with_category("12. Miscellaneous")

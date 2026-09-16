@@ -1,0 +1,33 @@
+{
+  "tool": "readmenator",
+  "generated_at": "2026-09-16T20:31:53Z",
+  "project_root": "/home/grisun0/LazyOwn",
+  "files": 845,
+  "symbols": 16912,
+  "imports": 126744,
+  "resolved_imports": 3039,
+  "security_findings": 0,
+  "languages": {
+    "sh": 51,
+    "py": 729,
+    "php": 1,
+    "c": 15,
+    "h": 1,
+    "asm": 1,
+    "cs": 1,
+    "cpp": 1,
+    "lua": 26,
+    "js": 19
+  },
+  "entrypoints": [
+    "lazygui/__main__.py",
+    "poc_tui/__main__.py"
+  ],
+  "start_here": "INDEX.md",
+  "workflow": [
+    "grep -n '<keyword>' INDEX.md",
+    "cat KB_<subsystem>.md",
+    "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"
+  ],
+  "regenerate": "readmenator . --rebuild"
+}

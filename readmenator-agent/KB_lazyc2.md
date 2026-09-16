@@ -46,7 +46,7 @@
   - `load` (method, line 911) `def load(self, name)`
   - `delete` (method, line 934) `def delete(self, name)`
   - `list_all` (method, line 950) `def list_all(self)`
-- Imported by: `lazyc2/blueprints/addons.py`, `mutants/tests/test_addon_creator.py`, `tests/test_addon_creator.py`
+- Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`
 
 ## lazyc2/app_factory.py
 - Layer: presentation

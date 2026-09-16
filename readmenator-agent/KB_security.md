@@ -3,7 +3,7 @@
 ## lazyc2/security/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `mutants/tests/test_security_lazyc2.py`, `tests/test_security_lazyc2.py`
+- Imported by: `tests/test_security_lazyc2.py`
 
 ## lazyc2/security/command_allowlist.py
 - Layer: utility
@@ -18,7 +18,7 @@
   - `check` (method, line 98) `def check(self, command)`
   - `_audit` (method, line 126) `def _audit(self, decision, command)`
 - Depends on: `cli/commands/enum.py`
-- Imported by: `lazyc2.py`, `mutants/tests/test_command_allowlist.py`, `mutants/tests/test_command_allowlist_behavior.py`, `tests/test_command_allowlist.py`, `tests/test_command_allowlist_behavior.py`
+- Imported by: `lazyc2.py`, `tests/test_command_allowlist.py`, `tests/test_command_allowlist_behavior.py`
 
 ## lazyc2/security/constants.py
 - Layer: utility
@@ -44,7 +44,7 @@
   - `_clean` (method, line 175) `def _clean(candidates)`
   - `_dev_fallback_origins` (method, line 185) `def _dev_fallback_origins(self)`
   - `_dev_fallback` (method, line 195) `def _dev_fallback(self)`
-- Imported by: `lazyc2.py`, `mutants/tests/test_cors_behavior.py`, `mutants/tests/test_cors_policy.py`, `mutants/tests/test_cors_socketio_regression.py`, `tests/test_cors_behavior.py`, `tests/test_cors_policy.py`, `tests/test_cors_socketio_regression.py`
+- Imported by: `lazyc2.py`, `tests/test_cors_behavior.py`, `tests/test_cors_policy.py`, `tests/test_cors_socketio_regression.py`
 
 ## lazyc2/security/csrf.py
 - Layer: utility
@@ -61,7 +61,7 @@
   - `is_exempt` (method, line 147) `def is_exempt(self, path)`
   - `extract_token` (method, line 163) `def extract_token(self, request)`
   - `check_request` (method, line 182) `def check_request(self, session_id, request)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `mutants/tests/test_csrf_behavior.py`, `mutants/tests/test_csrf_policy.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_policy.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_policy.py`
 
 ## lazyc2/security/html_sanitizer.py
 - Layer: utility
@@ -70,7 +70,7 @@
   - `_strip_dangerous_blocks` (function, line 62) `def _strip_dangerous_blocks(raw_html)`
   - `sanitize_html` (function, line 78) `def sanitize_html(raw_html, allowed_tags, allowed_attributes)`
 - Depends on: `lazyc2/security/constants.py`
-- Imported by: `lazyc2.py`, `mutants/tests/test_html_sanitizer.py`, `tests/test_html_sanitizer.py`
+- Imported by: `lazyc2.py`, `tests/test_html_sanitizer.py`
 
 ## lazyc2/security/https_redirect.py
 - Layer: presentation
@@ -81,7 +81,7 @@
   - `__init__` (method, line 51) `def __init__(self, env, enabled)`
   - `enabled` (method, line 56) `def enabled(self)`
   - `evaluate` (method, line 60) `def evaluate(self, request)`
-- Imported by: `lazyc2.py`, `mutants/tests/test_https_redirect.py`, `tests/test_https_redirect.py`
+- Imported by: `lazyc2.py`, `tests/test_https_redirect.py`
 
 ## lazyc2/security/services.py
 - Layer: business_logic
@@ -104,7 +104,7 @@
   - `__init__` (method, line 189) `def __init__(self, max_size_bytes)`
   - `validate` (method, line 192) `def validate(self, content_length)`
 - Depends on: `lazyc2/security/constants.py`, `lazyc2/security/validators.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `mutants/tests/test_security_lazyc2.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_lazyc2.py`
 
 ## lazyc2/security/trusted_proxy.py
 - Layer: utility
@@ -115,7 +115,7 @@
   - `trusted_count` (method, line 53) `def trusted_count(self)`
   - `client_ip` (method, line 57) `def client_ip(self, remote_addr, x_forwarded_for)`
   - `is_operator` (method, line 80) `def is_operator(self, ip)`
-- Imported by: `lazyc2.py`, `mutants/tests/test_trusted_proxy.py`, `tests/test_trusted_proxy.py`
+- Imported by: `lazyc2.py`, `tests/test_trusted_proxy.py`
 
 ## lazyc2/security/validators.py
 - Layer: utility
@@ -130,4 +130,4 @@
   - `validate_upload_size` (function, line 133) `def validate_upload_size(content_length)`
   - `validate_file_path_within_base` (function, line 149) `def validate_file_path_within_base(file_path, base_dir)`
 - Depends on: `lazyc2/security/constants.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/security/services.py`, `mutants/tests/test_security_lazyc2.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`

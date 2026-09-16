@@ -162,7 +162,7 @@
   - `__post_init__` (method, line 53) `def __post_init__(self)`
   - `flush_body` (method, line 99) `def flush_body()`
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-- Imported by: `core/parsers.py`, `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
+- Imported by: `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
 
 ## skills/claude_md_orchestrator/reviewer_agent.py
 - Layer: presentation

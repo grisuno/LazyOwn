@@ -115,7 +115,7 @@
   - `_on_selected` (method, line 373) `def _on_selected(nid)`
   - `_on_context_menu` (method, line 376) `def _on_context_menu(nid, pos)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
-- Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `mutants/tests/test_lazygui_graph_widget.py`, `tests/test_lazygui_graph_widget.py`
+- Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
 
 ## lazygui/widgets/status_badge.py
 - Layer: presentation

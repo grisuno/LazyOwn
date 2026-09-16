@@ -25,7 +25,7 @@
   - `delete_addon` (function, line 341) `def delete_addon(name)`
   - `wrapper` (function, line 107) `def wrapper()`
 - Depends on: `lazyc2/addon_creator.py`, `lazyc2/blueprints/session_auth.py`, `lazyc2/extensions/decoy.py`, `lazyc2/security/csrf.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `mutants/tests/test_addon_creator.py`, `tests/test_addon_creator.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_addon_creator.py`, `tests/test_security_hardening_v5.py`
 
 ## lazyc2/blueprints/api.py
 - Layer: presentation

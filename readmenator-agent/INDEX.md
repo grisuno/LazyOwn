@@ -10,14 +10,14 @@
 | `cli/assign.py` | - | cli | 1 |
 | `cli/auto_crypto.py` | - | cli | 12 |
 | `cli/autosuggest.py` | - | cli | 27 |
-| `cli/banner_config.py` | - | cli | 119 |
+| `cli/banner_config.py` | - | cli | 120 |
 | `cli/chain_mode.py` | - | cli | 23 |
 | `cli/cli_enhancements.py` | - | cli | 69 |
 | `cli/command_chain.py` | - | cli | 25 |
 | `cli/command_explorer.py` | - | cli | 7 |
 | `cli/command_form.py` | - | cli | 31 |
 | `cli/commands/__init__.py` | - | commands | 0 |
-| `cli/commands/_base.py` | - | commands | 5 |
+| `cli/commands/_base.py` | - | commands | 7 |
 | `cli/commands/_dormancy.py` | - | commands | 2 |
 | `cli/commands/active_directory.py` | - | commands | 8 |
 | `cli/commands/ai.py` | - | commands | 6 |
@@ -60,7 +60,7 @@
 | `cli/commands/marketplace.py` | - | commands | 13 |
 | `cli/commands/mcp_bridge.py` | - | commands | 20 |
 | `cli/commands/misc_migrated.py` | - | commands | 121 |
-| `cli/commands/mobile_macos.py` | - | commands | 9 |
+| `cli/commands/mobile_macos.py` | - | commands | 10 |
 | `cli/commands/module_manager.py` | - | commands | 7 |
 | `cli/commands/opsec_cleanup.py` | - | commands | 9 |
 | `cli/commands/orchestration.py` | - | commands | 13 |
@@ -144,7 +144,7 @@
 | `core/dependencies.py` | - | core | 23 |
 | `core/errors.py` | - | core | 23 |
 | `core/executor.py` | - | core | 6 |
-| `core/hardening.py` | - | core | 13 |
+| `core/hardening.py` | - | core | 14 |
 | `core/http.py` | - | core | 10 |
 | `core/llm_budget.py` | - | core | 45 |
 | `core/logging.py` | - | core | 12 |
@@ -154,7 +154,7 @@
 | `core/process.py` | - | core | 12 |
 | `core/prompt.py` | - | core | 8 |
 | `core/protocols.py` | - | core | 12 |
-| `core/safe_exec.py` | - | core | 11 |
+| `core/safe_exec.py` | - | core | 12 |
 | `core/safe_subprocess.py` | - | core | 7 |
 | `core/scheduler.py` | - | core | 17 |
 | `core/security.py` | - | core | 2 |
@@ -253,7 +253,7 @@
 | `lazyown-docker/hostdiscover.sh` | - | lazyown-docker | 2 |
 | `lazyown-docker/init.sh` | - | lazyown-docker | 0 |
 | `lazyown-docker/mkdocker.sh` | LazyOwn Dockerizer Script Builds, runs, and manages Docker containers for LazyOw | lazyown-docker | 12 |
-| `lazyown.py` | _*_ coding: utf8 _*_ | root | 122 |
+| `lazyown.py` | _*_ coding: utf8 _*_ | root | 123 |
 | `modules/49803.py` | Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/202 | modules | 3 |
 | `modules/CVE-2018-15133.php` | - | modules | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 |
@@ -265,7 +265,7 @@
 | `modules/ai_exploit_chain.py` | - | modules | 11 |
 | `modules/ai_fallback.py` | - | modules | 8 |
 | `modules/ai_model.py` | - | modules | 32 |
-| `modules/amsi.c` | ¡Gracias a Saad! | modules | 10 |
+| `modules/amsi.c` | ¡Gracias a Saad! | modules | 15 |
 | `modules/amt_auth_bypass.py` | - | modules | 3 |
 | `modules/apt_playbooks.py` | - | modules | 15 |
 | `modules/atomic_enricher.py` | - | modules | 9 |
@@ -273,15 +273,15 @@
 | `modules/auto_purple.py` | - | modules | 40 |
 | `modules/autonomous_exploit_engine.py` | - | modules | 46 |
 | `modules/aws_attacks.py` | - | modules | 11 |
-| `modules/backdoor/backdoor.c` | include <stdio.h> include <stdlib.h> include <unistd.h> include <winsock2.h> inc | backdoor | 5 |
-| `modules/backdoor/keylogger.h` | - | backdoor | 1 |
-| `modules/backdoor/server.c` | include <stdio.h> include <sys/types.h> include <sys/socket.h> include <netinet/ | backdoor | 1 |
+| `modules/backdoor/backdoor.c` | include <stdio.h> include <stdlib.h> include <unistd.h> include <winsock2.h> inc | backdoor | 21 |
+| `modules/backdoor/keylogger.h` | - | backdoor | 4 |
+| `modules/backdoor/server.c` | include <stdio.h> include <sys/types.h> include <sys/socket.h> include <netinet/ | backdoor | 8 |
 | `modules/beacon_config_builder.py` | - | modules | 14 |
 | `modules/beacon_history.py` | - | modules | 7 |
 | `modules/bin2img.py` | - | modules | 2 |
 | `modules/bitm_engine.py` | - | modules | 18 |
 | `modules/bof_registry.py` | - | modules | 43 |
-| `modules/bot.py` | - | modules | 1 |
+| `modules/bot.py` | - | modules | 5 |
 | `modules/c2_builder.py` | - | modules | 13 |
 | `modules/c2_messaging_base.py` | - | modules | 13 |
 | `modules/c2_profile.py` | - | modules | 32 |
@@ -305,7 +305,7 @@
 | `modules/dacl_abuse.py` | - | modules | 15 |
 | `modules/dashboard_bp.py` | - | modules | 13 |
 | `modules/dashboard_engine.py` | - | modules | 16 |
-| `modules/db.py` | - | modules | 34 |
+| `modules/db.py` | - | modules | 35 |
 | `modules/delegation_attacks.py` | - | modules | 12 |
 | `modules/detailed_search.py` | - | modules | 1 |
 | `modules/detection_feed.py` | - | modules | 13 |
@@ -326,7 +326,7 @@
 | `modules/event_consumers.py` | - | modules | 18 |
 | `modules/event_engine.py` | - | modules | 10 |
 | `modules/evilhttprev.sh` | - | modules | 0 |
-| `modules/exp.c` | gcc exp.c -o exp -l mnl -l nftnl -w define _GNU_SOURCE include <arpa/inet.h> inc | modules | 52 |
+| `modules/exp.c` | gcc exp.c -o exp -l mnl -l nftnl -w define _GNU_SOURCE include <arpa/inet.h> inc | modules | 92 |
 | `modules/exploit_chain.py` | - | modules | 19 |
 | `modules/exploit_recommender.py` | - | modules | 16 |
 | `modules/exploitgym_gym.py` | - | modules | 20 |
@@ -411,7 +411,7 @@
 | `modules/legacy/lazylogpoisoning.py` | - | legacy | 3 |
 | `modules/legacy/lazymariadb_rce_cve_2016-662.py` | MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (C | legacy | 3 |
 | `modules/legacy/lazymidm.py` | - | legacy | 8 |
-| `modules/legacy/lazymitmap.py` | - | legacy | 19 |
+| `modules/legacy/lazymitmap.py` | - | legacy | 21 |
 | `modules/legacy/lazynetbios.py` | - | legacy | 7 |
 | `modules/legacy/lazyntlrelayx.py` | - | legacy | 2 |
 | `modules/legacy/lazyopenssh77enum2.py` | CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://lea | legacy | 5 |
@@ -453,8 +453,8 @@
 | `modules/mkcloudflaretunnel.sh` | cloudflare_tunnel.sh - Download cloudflared and create a tunnel to localhost on  | modules | 0 |
 | `modules/module_registry.py` | - | modules | 29 |
 | `modules/moe_router.py` | - | modules | 39 |
-| `modules/morse.py` | - | modules | 0 |
-| `modules/mysql_hookandroot_lib.c` | - | modules | 6 |
+| `modules/morse.py` | - | modules | 7 |
+| `modules/mysql_hookandroot_lib.c` | - | modules | 15 |
 | `modules/network_opsec.py` | - | modules | 12 |
 | `modules/nmap2csv.py` | This file is part of nmaptocsv.  Copyright (C) 2012, 2019 Thomas Debize <tdebize | modules | 44 |
 | `modules/obs_parser.py` | - | modules | 41 |
@@ -477,17 +477,16 @@
 | `modules/redteam_gym.py` | - | modules | 18 |
 | `modules/reflective_dll.py` | - | modules | 27 |
 | `modules/resource_script.py` | - | modules | 21 |
-| `modules/reverse-shell.c` | include <linux/kmod.h> include <linux/module.h> | modules | 2 |
-| `modules/revshell.c` | include <windows.h> | modules | 2 |
+| `modules/reverse-shell.c` | include <linux/kmod.h> include <linux/module.h> | modules | 5 |
+| `modules/revshell.c` | include <windows.h> | modules | 4 |
 | `modules/rich_tui.py` | - | modules | 14 |
 | `modules/rl_trainer.py` | - | modules | 31 |
-| `modules/rootkit/mr.c` | - | rootkit | 31 |
-| `modules/rootkit/mrhyde.c` | - | rootkit | 37 |
-| `modules/rootkit/mrhyde2.c` | - | rootkit | 34 |
-| `modules/rootkit/mrhyde3.c` | - | rootkit | 56 |
+| `modules/rootkit/mr.c` | - | rootkit | 66 |
+| `modules/rootkit/mrhyde.c` | - | rootkit | 56 |
+| `modules/rootkit/mrhyde2.c` | - | rootkit | 53 |
+| `modules/rootkit/mrhyde3.c` | - | rootkit | 85 |
 | `modules/rootkit/rootkit.asm` | - | rootkit | 1 |
-| `modules/rootkit/rootkit.c` | include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> includ | rootkit | 13 |
-| `modules/rootkit/rootkit.mod.c` | include <linux/module.h> define INCLUDE_VERMAGIC include <linux/build-salt.h> in | rootkit | 1 |
+| `modules/rootkit/rootkit.c` | include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> includ | rootkit | 26 |
 | `modules/saas_attacks.py` | - | modules | 15 |
 | `modules/scripts/clean_history.sh.sh` | - | misc | 0 |
 | `modules/search.py` | - | modules | 0 |
@@ -519,160 +518,15 @@
 | `modules/vuln_bot_cli.py` | main.py | modules | 2 |
 | `modules/vulnbot.py` | vulnbot.py | modules | 21 |
 | `modules/websocket_beacon.py` | - | modules | 21 |
-| `modules/win_rootkit/backup.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 15 |
-| `modules/win_rootkit/mrhyde.c` | include <windows.h> include <stdio.h> include <stdlib.h> include <string.h> incl | win_rootkit | 18 |
+| `modules/win_rootkit/backup.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 37 |
+| `modules/win_rootkit/mrhyde.c` | include <windows.h> include <stdio.h> include <stdlib.h> include <string.h> incl | win_rootkit | 32 |
 | `modules/win_rootkit/win_rin3_rootkit.cs` | - | win_rootkit | 10 |
-| `modules/win_rootkit/win_ring3_rootkit.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 24 |
-| `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 9 |
+| `modules/win_rootkit/win_ring3_rootkit.c` | include <stdio.h> include <stdlib.h> include <string.h> include <unistd.h> inclu | win_rootkit | 58 |
+| `modules/win_rootkit/win_ring3_rootkit.cpp` | - | win_rootkit | 18 |
 | `modules/wineconfig.sh` | - | modules | 0 |
 | `modules/world_model.py` | - | modules | 61 |
 | `modules/yaml_generator.py` | yaml_generator.py | modules | 8 |
 | `modules/yara_scanner.py` | - | modules | 16 |
-| `mutants/core/hardening.py` | - | misc | 253 |
-| `mutants/test/config.py` | conftest.py o config.py | - | 2 |
-| `mutants/test/test_commands.py` | test_commands.py | - | 15 |
-| `mutants/testmeneitor.py` | - | misc | 5 |
-| `mutants/tests/__init__.py` | - | - | 0 |
-| `mutants/tests/integration_autonomous_flow.py` | - | - | 1 |
-| `mutants/tests/run_mutation_addon_creator.py` | - | - | 4 |
-| `mutants/tests/run_mutation_api_authz.py` | - | - | 3 |
-| `mutants/tests/run_mutation_killchain.py` | - | - | 4 |
-| `mutants/tests/run_mutation_phase1.py` | - | - | 4 |
-| `mutants/tests/run_mutation_tests.py` | - | - | 4 |
-| `mutants/tests/test_aci_planner.py` | - | - | 95 |
-| `mutants/tests/test_addon_creator.py` | - | - | 86 |
-| `mutants/tests/test_aes_key_propagation.py` | - | - | 12 |
-| `mutants/tests/test_api_authz.py` | - | - | 48 |
-| `mutants/tests/test_attack_surface_addons.py` | - | - | 76 |
-| `mutants/tests/test_auto_crypto.py` | - | - | 13 |
-| `mutants/tests/test_autonomous_replay.py` | - | - | 18 |
-| `mutants/tests/test_autosuggest.py` | - | - | 41 |
-| `mutants/tests/test_banner_config.py` | - | - | 45 |
-| `mutants/tests/test_beacon_config_builder.py` | - | - | 16 |
-| `mutants/tests/test_beacon_history.py` | - | - | 10 |
-| `mutants/tests/test_blacksandbeacon_addon.py` | - | - | 60 |
-| `mutants/tests/test_bof_registry.py` | - | - | 51 |
-| `mutants/tests/test_bridge_catalog_filtered.py` | - | - | 20 |
-| `mutants/tests/test_c2_profile_engine.py` | - | - | 63 |
-| `mutants/tests/test_categories.py` | - | - | 47 |
-| `mutants/tests/test_chain_mode.py` | - | - | 28 |
-| `mutants/tests/test_ci_strict.py` | - | - | 8 |
-| `mutants/tests/test_claudemd_consistency.py` | - | - | 3 |
-| `mutants/tests/test_claudemd_size.py` | - | - | 1 |
-| `mutants/tests/test_cli_assign.py` | - | - | 36 |
-| `mutants/tests/test_cli_command_sets.py` | - | - | 56 |
-| `mutants/tests/test_cli_enhancements.py` | - | - | 50 |
-| `mutants/tests/test_collab_and_onboarding.py` | - | - | 91 |
-| `mutants/tests/test_command_allowlist.py` | - | - | 14 |
-| `mutants/tests/test_command_allowlist_behavior.py` | - | - | 3 |
-| `mutants/tests/test_command_chain.py` | - | - | 24 |
-| `mutants/tests/test_command_form.py` | - | - | 13 |
-| `mutants/tests/test_command_palette.py` | - | - | 237 |
-| `mutants/tests/test_command_set_migration.py` | - | - | 42 |
-| `mutants/tests/test_conditional_hooks_extended.py` | - | - | 17 |
-| `mutants/tests/test_core.py` | - | - | 47 |
-| `mutants/tests/test_core_command_bridge.py` | - | - | 14 |
-| `mutants/tests/test_core_config.py` | - | - | 19 |
-| `mutants/tests/test_core_executor.py` | - | - | 15 |
-| `mutants/tests/test_core_modules.py` | - | - | 94 |
-| `mutants/tests/test_cors_behavior.py` | - | - | 4 |
-| `mutants/tests/test_cors_policy.py` | - | - | 17 |
-| `mutants/tests/test_cors_socketio_regression.py` | - | - | 8 |
-| `mutants/tests/test_credential_vault.py` | - | - | 16 |
-| `mutants/tests/test_credentials_rotation.py` | - | - | 9 |
-| `mutants/tests/test_csrf_behavior.py` | - | - | 6 |
-| `mutants/tests/test_csrf_policy.py` | - | - | 24 |
-| `mutants/tests/test_daemon_control.py` | - | - | 29 |
-| `mutants/tests/test_dashboard_routes.py` | - | - | 29 |
-| `mutants/tests/test_dashboard_tui.py` | - | - | 23 |
-| `mutants/tests/test_db.py` | - | - | 13 |
-| `mutants/tests/test_dependencies.py` | - | - | 35 |
-| `mutants/tests/test_detection_feed.py` | - | - | 19 |
-| `mutants/tests/test_doctor.py` | - | - | 34 |
-| `mutants/tests/test_engage_orchestrator.py` | - | - | 77 |
-| `mutants/tests/test_engagement_and_ping.py` | - | - | 39 |
-| `mutants/tests/test_engagement_command_gate.py` | - | - | 18 |
-| `mutants/tests/test_engagement_elo_and_methodology.py` | - | - | 43 |
-| `mutants/tests/test_evidence_hints.py` | - | - | 35 |
-| `mutants/tests/test_exploitgym_gym.py` | - | - | 27 |
-| `mutants/tests/test_exploration_and_addons.py` | - | - | 36 |
-| `mutants/tests/test_fuzzy_picker.py` | - | - | 25 |
-| `mutants/tests/test_graph_advisor.py` | - | - | 25 |
-| `mutants/tests/test_graph_overlay.py` | - | - | 14 |
-| `mutants/tests/test_hash_cracker.py` | - | - | 22 |
-| `mutants/tests/test_html_sanitizer.py` | - | - | 16 |
-| `mutants/tests/test_https_redirect.py` | - | - | 11 |
-| `mutants/tests/test_improvements_spec.py` | - | - | 159 |
-| `mutants/tests/test_intelligence_engine.py` | - | - | 27 |
-| `mutants/tests/test_killchain.py` | - | - | 9 |
-| `mutants/tests/test_killchain_auto_refresh.py` | - | - | 8 |
-| `mutants/tests/test_killchain_gap_signal.py` | - | - | 20 |
-| `mutants/tests/test_killchain_snapshot.py` | - | - | 12 |
-| `mutants/tests/test_killchain_unified.py` | - | - | 9 |
-| `mutants/tests/test_killchain_unified_v2.py` | - | - | 42 |
-| `mutants/tests/test_lazygui_backend.py` | - | - | 59 |
-| `mutants/tests/test_lazygui_graph_widget.py` | - | - | 51 |
-| `mutants/tests/test_lazygui_models.py` | - | - | 42 |
-| `mutants/tests/test_lazynmap_post.py` | - | - | 16 |
-| `mutants/tests/test_lesson_ingestor.py` | - | - | 11 |
-| `mutants/tests/test_lint_quality.py` | - | - | 5 |
-| `mutants/tests/test_live_surface.py` | - | - | 10 |
-| `mutants/tests/test_llm_budget.py` | - | - | 27 |
-| `mutants/tests/test_mcp_improvements.py` | - | - | 34 |
-| `mutants/tests/test_metrics.py` | - | - | 14 |
-| `mutants/tests/test_metrics_aware_selector.py` | - | - | 24 |
-| `mutants/tests/test_migrate_lazyown_generator.py` | - | - | 6 |
-| `mutants/tests/test_module_registry.py` | - | - | 29 |
-| `mutants/tests/test_moe_rl_swan.py` | - | - | 59 |
-| `mutants/tests/test_moe_router_check_regression.py` | - | - | 6 |
-| `mutants/tests/test_mutation_verification.py` | - | - | 5 |
-| `mutants/tests/test_nuclei_parser.py` | - | - | 21 |
-| `mutants/tests/test_ops_loot_phase.py` | - | - | 22 |
-| `mutants/tests/test_opsec_scorer.py` | - | - | 13 |
-| `mutants/tests/test_packaging.py` | - | - | 67 |
-| `mutants/tests/test_palette_overlay.py` | - | - | 10 |
-| `mutants/tests/test_payload_factory.py` | - | - | 32 |
-| `mutants/tests/test_payload_schema.py` | - | - | 46 |
-| `mutants/tests/test_phase1_data_gaps.py` | - | - | 55 |
-| `mutants/tests/test_pipeline_engine.py` | - | - | 65 |
-| `mutants/tests/test_reactive_engine_semantic.py` | - | - | 13 |
-| `mutants/tests/test_reactive_hints.py` | - | - | 31 |
-| `mutants/tests/test_reactive_hints_expanded.py` | - | - | 27 |
-| `mutants/tests/test_reactive_lateral_data.py` | - | - | 26 |
-| `mutants/tests/test_reasoning_stream.py` | - | - | 13 |
-| `mutants/tests/test_recommendation.py` | - | - | 36 |
-| `mutants/tests/test_recon_plan.py` | - | - | 34 |
-| `mutants/tests/test_report_banners_endpoints.py` | - | - | 32 |
-| `mutants/tests/test_resource_script.py` | - | - | 32 |
-| `mutants/tests/test_safe_subprocess.py` | - | - | 11 |
-| `mutants/tests/test_safe_subprocess_behavior.py` | - | - | 3 |
-| `mutants/tests/test_scope_bound_auto_gate.py` | - | - | 37 |
-| `mutants/tests/test_scope_guard.py` | - | - | 43 |
-| `mutants/tests/test_scope_guard_integration.py` | - | - | 24 |
-| `mutants/tests/test_security_hardening.py` | - | - | 36 |
-| `mutants/tests/test_security_hardening_v2.py` | - | - | 38 |
-| `mutants/tests/test_security_hardening_v3.py` | - | - | 64 |
-| `mutants/tests/test_security_lazyc2.py` | - | - | 58 |
-| `mutants/tests/test_security_sanitizers.py` | - | - | 45 |
-| `mutants/tests/test_sessions_browser.py` | - | - | 8 |
-| `mutants/tests/test_sleep_obfuscation.py` | - | - | 41 |
-| `mutants/tests/test_socks_proxy.py` | - | - | 52 |
-| `mutants/tests/test_status_bar_operators.py` | - | - | 9 |
-| `mutants/tests/test_structured_logging.py` | - | - | 19 |
-| `mutants/tests/test_surface_graph.py` | - | - | 13 |
-| `mutants/tests/test_themes.py` | - | - | 6 |
-| `mutants/tests/test_timeline_browser.py` | - | - | 8 |
-| `mutants/tests/test_tips_engine.py` | - | - | 55 |
-| `mutants/tests/test_toast_bus.py` | - | - | 14 |
-| `mutants/tests/test_trusted_proxy.py` | - | - | 11 |
-| `mutants/tests/test_tui_splash.py` | - | - | 17 |
-| `mutants/tests/test_tui_style.py` | - | - | 8 |
-| `mutants/tests/test_tui_theme_command.py` | - | - | 19 |
-| `mutants/tests/test_tui_themes.py` | - | - | 12 |
-| `mutants/tests/test_unified_dashboard.py` | - | - | 18 |
-| `mutants/tests/test_vuln_mitigations.py` | - | - | 28 |
-| `mutants/tests/test_wizard_binary_check.py` | - | - | 26 |
-| `mutants/tests/test_world_model_extended.py` | - | - | 21 |
 | `plugins/generate_c_reverse_shell.lua` | - | plugins | 2 |
 | `plugins/generate_cleanup_commands.lua` | - | plugins | 1 |
 | `plugins/generate_html_payload.lua` | - | plugins | 1 |
@@ -707,18 +561,27 @@
 | `poc_tui/test_app.py` | - | poc_tui | 56 |
 | `pwntomate.py` | This software must not be used by military or secret service organisations. Lice | root | 2 |
 | `py2elf.sh` | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico: grisisco | root | 0 |
-| `readmeneitor.py` | - | root | 8 |
+| `readmeneitor.py` | - | root | 10 |
 | `run_telegram_hermes.sh` | Launcher for telegram_hermes.py Uses the dedicated venv with python-telegram-bot | root | 0 |
 | `run_topoexploit_agent.sh` | Run TopoExploit against an ExploitGym task using the local model.  Flow: 1. Star | root | 2 |
 | `scripts/__init__.py` | - | scripts | 0 |
 | `scripts/activate_migrations.py` | - | scripts | 7 |
 | `scripts/backfill_addon_os_trigger.py` | - | scripts | 5 |
+| `scripts/check_contract_manifest.py` | - | scripts | 13 |
+| `scripts/devtools/command_audit.py` | - | devtools | 4 |
+| `scripts/devtools/core_smoke.py` | - | devtools | 4 |
 | `scripts/fix_migrated_classes.py` | - | scripts | 0 |
+| `scripts/generate_sbom.py` | - | scripts | 5 |
+| `scripts/journal.py` | - | scripts | 14 |
 | `scripts/migrate_commandsets.py` | - | scripts | 6 |
 | `scripts/migrate_lazyown.py` | - | scripts | 6 |
+| `scripts/mutate.sh` | Mutation gate for LazyOwn.  The gate runs the curated mutation runners under tes | scripts | 3 |
 | `scripts/patch_playbook_atomic_ids.py` | - | scripts | 0 |
+| `scripts/read_journal.py` | - | scripts | 2 |
 | `scripts/setup_hermes_mcp.sh` | setup_hermes_mcp.sh — register LazyOwn MCP server in Hermes Agent config Usage:  | scripts | 0 |
-| `scripts/sync_doc_stats.py` | - | scripts | 5 |
+| `scripts/sync_doc_stats.py` | - | scripts | 6 |
+| `scripts/test_bdd.sh` | Behavior-driven (BDD) suite gate for LazyOwn.  Every BDD scenario lives in a pyt | scripts | 2 |
+| `scripts/top_tier_check.py` | - | scripts | 10 |
 | `scripts/update_apt_atomic_ids.py` | - | scripts | 2 |
 | `scripts/validate_agent_contract.sh` | validate_agent_contract.sh  CI validation of the AGENTS.md branching model and c | scripts | 1 |
 | `setup.py` | - | root | 0 |
@@ -818,10 +681,13 @@
 | `tests/run_mutation_addon_creator.py` | - | - | 4 |
 | `tests/run_mutation_api_authz.py` | - | - | 3 |
 | `tests/run_mutation_c2_route_auth.py` | - | - | 2 |
+| `tests/run_mutation_contract_manifest.py` | - | - | 2 |
 | `tests/run_mutation_killchain.py` | - | - | 4 |
 | `tests/run_mutation_llm.py` | - | - | 4 |
+| `tests/run_mutation_no_shell.py` | - | - | 2 |
 | `tests/run_mutation_opsec.py` | - | - | 4 |
 | `tests/run_mutation_phase1.py` | - | - | 4 |
+| `tests/run_mutation_shell_semantics.py` | - | - | 2 |
 | `tests/run_mutation_tests.py` | - | - | 4 |
 | `tests/run_mutation_ux_usability.py` | - | - | 4 |
 | `tests/test_aci_planner.py` | - | - | 95 |
@@ -844,7 +710,7 @@
 | `tests/test_c2_route_auth.py` | - | - | 5 |
 | `tests/test_categories.py` | - | - | 47 |
 | `tests/test_chain_mode.py` | - | - | 28 |
-| `tests/test_ci_strict.py` | - | - | 8 |
+| `tests/test_ci_strict.py` | - | - | 10 |
 | `tests/test_claudemd_consistency.py` | - | - | 3 |
 | `tests/test_claudemd_size.py` | - | - | 1 |
 | `tests/test_cli_assign.py` | - | - | 36 |
@@ -858,6 +724,7 @@
 | `tests/test_command_palette.py` | - | - | 237 |
 | `tests/test_command_set_migration.py` | - | - | 42 |
 | `tests/test_conditional_hooks_extended.py` | - | - | 17 |
+| `tests/test_contract_manifest.py` | - | - | 4 |
 | `tests/test_core.py` | - | - | 47 |
 | `tests/test_core_command_bridge.py` | - | - | 14 |
 | `tests/test_core_config.py` | - | - | 19 |
@@ -887,11 +754,13 @@
 | `tests/test_fuzzy_picker.py` | - | - | 25 |
 | `tests/test_graph_advisor.py` | - | - | 25 |
 | `tests/test_graph_overlay.py` | - | - | 14 |
+| `tests/test_gui_xss_sinks.py` | - | - | 9 |
 | `tests/test_hash_cracker.py` | - | - | 22 |
 | `tests/test_html_sanitizer.py` | - | - | 16 |
 | `tests/test_https_redirect.py` | - | - | 11 |
-| `tests/test_improvements_spec.py` | - | - | 159 |
+| `tests/test_improvements_spec.py` | - | - | 160 |
 | `tests/test_intelligence_engine.py` | - | - | 27 |
+| `tests/test_journal.py` | - | - | 10 |
 | `tests/test_killchain.py` | - | - | 9 |
 | `tests/test_killchain_auto_refresh.py` | - | - | 8 |
 | `tests/test_killchain_gap_signal.py` | - | - | 20 |
@@ -919,6 +788,7 @@
 | `tests/test_moe_rl_swan.py` | - | - | 59 |
 | `tests/test_moe_router_check_regression.py` | - | - | 6 |
 | `tests/test_mutation_verification.py` | - | - | 5 |
+| `tests/test_no_shell_execution.py` | - | - | 8 |
 | `tests/test_nuclei_parser.py` | - | - | 21 |
 | `tests/test_ops_loot_phase.py` | - | - | 22 |
 | `tests/test_opsec_scorer.py` | - | - | 13 |
@@ -930,6 +800,8 @@
 | `tests/test_phase1_data_gaps.py` | - | - | 55 |
 | `tests/test_phase_labels.py` | - | - | 5 |
 | `tests/test_pipeline_engine.py` | - | - | 65 |
+| `tests/test_prompt_readline_markers.py` | - | - | 8 |
+| `tests/test_prompt_refresh.py` | - | - | 9 |
 | `tests/test_reactive_engine_semantic.py` | - | - | 13 |
 | `tests/test_reactive_hints.py` | - | - | 31 |
 | `tests/test_reactive_hints_expanded.py` | - | - | 27 |
@@ -947,11 +819,12 @@
 | `tests/test_security_hardening.py` | - | - | 36 |
 | `tests/test_security_hardening_v2.py` | - | - | 39 |
 | `tests/test_security_hardening_v3.py` | - | - | 64 |
-| `tests/test_security_hardening_v4.py` | - | - | 69 |
+| `tests/test_security_hardening_v4.py` | - | - | 70 |
 | `tests/test_security_hardening_v5.py` | - | - | 42 |
 | `tests/test_security_lazyc2.py` | - | - | 58 |
 | `tests/test_security_sanitizers.py` | - | - | 45 |
 | `tests/test_sessions_browser.py` | - | - | 8 |
+| `tests/test_shell_semantics.py` | - | - | 10 |
 | `tests/test_sleep_obfuscation.py` | - | - | 41 |
 | `tests/test_socks_proxy.py` | - | - | 52 |
 | `tests/test_status_bar_operators.py` | - | - | 9 |
@@ -966,7 +839,7 @@
 | `tests/test_tui_splash.py` | - | - | 17 |
 | `tests/test_tui_style.py` | - | - | 8 |
 | `tests/test_tui_theme_command.py` | - | - | 19 |
-| `tests/test_tui_themes.py` | - | - | 12 |
+| `tests/test_tui_themes.py` | - | - | 15 |
 | `tests/test_unified_dashboard.py` | - | - | 18 |
 | `tests/test_vuln_mitigations.py` | - | - | 28 |
 | `tests/test_wizard_binary_check.py` | - | - | 26 |

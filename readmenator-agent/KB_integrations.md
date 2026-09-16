@@ -48,7 +48,7 @@
   - `_map_finding` (method, line 437) `def _map_finding(self, finding)`
   - `__init__` (method, line 448) `def __init__(self, data)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 
 ## modules/integrations/nuclei_bridge.py
 - Layer: utility
@@ -108,7 +108,7 @@
   - `_finding_to_dict` (method, line 501) `def _finding_to_dict(finding)`
   - `_summarize` (method, line 514) `def _summarize(findings)`
 - Depends on: `core/logging.py`, `modules/db.py`, `modules/integrations/nuclei_bridge.py`, `modules/world_model.py`
-- Imported by: `modules/intelligence_engine.py`, `mutants/tests/test_nuclei_parser.py`, `tests/test_nuclei_parser.py`
+- Imported by: `modules/intelligence_engine.py`, `tests/test_nuclei_parser.py`
 
 ## modules/integrations/searchsploit.py
 - Layer: utility
@@ -142,4 +142,4 @@
   - `search_service` (method, line 284) `def search_service(self, name, version)`
   - `enrich_findings` (method, line 291) `def enrich_findings(self, findings)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`

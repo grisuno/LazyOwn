@@ -2,11 +2,13 @@
 
 ## core/__init__.py
 - Layer: utility
+- Doc: Core primitives for the LazyOwn framework.  Stable, dependency-light building blocks shared by the CLI (``lazyown.py``),
 - Language: py
 - Depends on: `core/config.py`, `core/console.py`, `core/credentials.py`, `core/crypto.py`, `core/dependencies.py`, `core/errors.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/payload_schema.py`, `core/process.py`, `core/validators.py`
 
 ## core/api_authz.py
 - Layer: presentation
+- Doc: Tenant-bound API authorization for the LazyOwn C2 dashboard.  Provides API-key generation, storage, validation, and rout
 - Language: py
 - Symbols:
   - `ApiAuthzConfig` (class, line 54) `class ApiAuthzConfig`
@@ -44,6 +46,7 @@
 
 ## core/command_bridge.py
 - Layer: utility
+- Doc: Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell.  Lazy-loads the heavy shell infrastructu
 - Language: py
 - Symbols:
   - `CommandBridge` (class, line 15) `class CommandBridge`
@@ -60,6 +63,7 @@
 
 ## core/config.py
 - Layer: infrastructure
+- Doc: Configuration loader and Config wrapper.  ``payload.json`` is the single source of runtime configuration for the entire 
 - Language: py
 - Symbols:
   - `_apply_env_overrides` (function, line 70) `def _apply_env_overrides(payload)`
@@ -84,6 +88,7 @@
 
 ## core/console.py
 - Layer: utility
+- Doc: ANSI color constants and console output helpers.  This module is the single source of truth for terminal styling and the
 - Language: py
 - Symbols:
   - `_sanitize` (function, line 90) `def _sanitize(text)`
@@ -95,6 +100,7 @@
 
 ## core/credential_vault.py
 - Layer: utility
+- Doc: Credential vault — AES-256-GCM encryption for sensitive config values.  Wraps ``core.crypto.AESencrypt``/``AESdecrypt`` 
 - Language: py
 - Symbols:
   - `check_dangerous_defaults` (function, line 63) `def check_dangerous_defaults(payload)`
@@ -110,6 +116,7 @@
 
 ## core/credentials.py
 - Layer: utility
+- Doc: Credential management utilities for the LazyOwn framework.  Extracted from ``utils.py`` — credential file I/O, domain ex
 - Language: py
 - Symbols:
   - `get_credentials` (function, line 17) `def get_credentials(file, ncred)`
@@ -130,6 +137,7 @@
 
 ## core/crypto.py
 - Layer: utility
+- Doc: Symmetric primitives used by the framework.  XOR (legacy), AES-256-GCM, key generation, and file-dropping utilities extr
 - Language: py
 - Symbols:
   - `generate_salt` (function, line 24) `def generate_salt(length)`
@@ -143,6 +151,7 @@
 
 ## core/dependencies.py
 - Layer: utility
+- Doc: Graceful optional-import handling for heavy third-party dependencies.  Historically ``utils.py`` imported every third-pa
 - Language: py
 - Symbols:
   - `MissingDependencyError` (class, line 37) `class MissingDependencyError(ImportError)`
@@ -172,6 +181,7 @@
 
 ## core/errors.py
 - Layer: utility
+- Doc: Error taxonomy for the LazyOwn framework.  Provides a hierarchy of exception classes with error codes, enabling structur
 - Language: py
 - Symbols:
   - `ErrorCode` (class, line 10) `class ErrorCode(IntEnum)`
@@ -202,6 +212,7 @@
 
 ## core/executor.py
 - Layer: utility
+- Doc: Centralised subprocess wrapper for the LazyOwn framework.  Provides safe, logged command execution as a replacement for 
 - Language: py
 - Symbols:
   - `_validate_input` (function, line 41) `def _validate_input(command)`
@@ -215,6 +226,7 @@
 
 ## core/hardening.py
 - Layer: utility
+- Doc: Centralized security hardening utilities for the LazyOwn framework.  Contract: provides safe alternatives to dangerous p
 - Language: py
 - Symbols:
   - `SecurityViolation` (class, line 45) `class SecurityViolation(PermissionError)`
@@ -236,6 +248,7 @@
 
 ## core/http.py
 - Layer: presentation
+- Doc: HTTP and API utilities for the LazyOwn framework.  Extracted from ``utils.py`` — HTTP request builders, exploit/PoC scra
 - Language: py
 - Symbols:
   - `generate_http_req` (function, line 18) `def generate_http_req(host, port, uri, custom_header, cmd)`
@@ -253,6 +266,7 @@
 
 ## core/llm_budget.py
 - Layer: utility
+- Doc: LLM budget cap and per call token counter.  The framework exposes several LLM backed entry points. The framework never e
 - Language: py
 - Symbols:
   - `BudgetExceeded` (class, line 54) `class BudgetExceeded(RuntimeError)`
@@ -304,6 +318,7 @@
 
 ## core/logging.py
 - Layer: infrastructure
+- Doc: Structured JSON-lines logging for the LazyOwn framework.  Replaces the historical ``print_msg`` / ``print_warn`` / ``pri
 - Language: py
 - Symbols:
   - `StructuredLogConfig` (class, line 42) `class StructuredLogConfig`
@@ -322,6 +337,7 @@
 
 ## core/network.py
 - Layer: utility
+- Doc: Network primitives for the LazyOwn framework.  Extracted from ``utils.py`` — ARP spoofing, socket operations, port detec
 - Language: py
 - Symbols:
   - `parse_ip_mac` (function, line 18) `def parse_ip_mac(input_string)`
@@ -337,6 +353,7 @@
 
 ## core/parsers.py
 - Layer: utility
+- Doc: Parsing utilities for the LazyOwn framework.  Extracted from ``utils.py`` — YAML, XML, CSV, HTML, and text parsers used 
 - Language: py
 - Symbols:
   - `strip_ansi` (function, line 21) `def strip_ansi(text)`
@@ -365,6 +382,7 @@
 
 ## core/payload_schema.py
 - Layer: utility
+- Doc: Declarative schema and validation for ``payload.json``.  ``payload.json`` is the single source of runtime configuration 
 - Language: py
 - Symbols:
   - `FieldKind` (class, line 71) `class FieldKind(StrEnum)`
@@ -399,6 +417,7 @@
 
 ## core/process.py
 - Layer: business_logic
+- Doc: Process and subprocess utilities for the LazyOwn framework.  Extracted from ``utils.py`` — command execution, binary/pac
 - Language: py
 - Symbols:
   - `check_go_tool_installed` (function, line 34) `def check_go_tool_installed(tool_name)`
@@ -418,6 +437,7 @@
 
 ## core/prompt.py
 - Layer: utility
+- Doc: Prompt builder for LazyOwn CLI and C2 dashboard banner.  Exposes :func:`getprompt` which returns the coloured status lin
 - Language: py
 - Symbols:
   - `_load_prompt_payload` (function, line 17) `def _load_prompt_payload()`
@@ -433,6 +453,7 @@
 
 ## core/protocols.py
 - Layer: utility
+- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.  These protocols are the contract used
 - Language: py
 - Symbols:
   - `Selector` (class, line 17) `class Selector(Protocol)`
@@ -451,6 +472,7 @@
 
 ## core/safe_exec.py
 - Layer: utility
+- Doc: Centralized safe command execution for the LazyOwn framework.  Contract: replaces all ``os.system()`` and ``subprocess.r
 - Language: py
 - Symbols:
   - `CommandInjectionError` (class, line 44) `class CommandInjectionError(PermissionError)`
@@ -470,6 +492,7 @@
 
 ## core/safe_subprocess.py
 - Layer: business_logic
+- Doc: Safe subprocess runner for the LazyOwn framework.  Contract: this module replaces the legacy ``subprocess.run(..., shell
 - Language: py
 - Symbols:
   - `ShellNotAllowedError` (class, line 39) `class ShellNotAllowedError(PermissionError)`
@@ -484,6 +507,7 @@
 
 ## core/scheduler.py
 - Layer: infrastructure
+- Doc: Centralized task scheduler for the LazyOwn framework.  Uses ``apscheduler`` when available, falling back to a stdlib imp
 - Language: py
 - Symbols:
   - `_TaskInfo` (class, line 41) `class _TaskInfo`
@@ -507,6 +531,7 @@
 
 ## core/security.py
 - Layer: utility
+- Doc: Security helpers for LazyOwn — anti-debug, certificate generation.  Extracted from ``utils.py`` to break the giant monol
 - Language: py
 - Symbols:
   - `anti_debug` (function, line 18) `def anti_debug()`
@@ -515,6 +540,7 @@
 
 ## core/text_utils.py
 - Layer: utility
+- Doc: Shared text helpers for terminal surfaces.  Single source of truth for truncating display strings. Replaces eight near-i
 - Language: py
 - Symbols:
   - `truncate_text` (function, line 10) `def truncate_text(value, max_len, marker)`
@@ -522,6 +548,7 @@
 
 ## core/validators.py
 - Layer: utility
+- Doc: Input validators for runtime configuration values.  These helpers were historically in ``utils.py`` and are imported by 
 - Language: py
 - Symbols:
   - `_rejects_shell_meta` (function, line 19) `def _rejects_shell_meta(value)`

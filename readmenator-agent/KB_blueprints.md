@@ -2,12 +2,14 @@
 
 ## lazyc2/blueprints/__init__.py
 - Layer: utility
+- Doc: Flask Blueprints for lazydown C2.  Each blueprint owns a domain area of the C2 web interface. Registered in :func:`lazyc
 - Language: py
 - Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
 - Imported by: `lazyc2.py`, `lazyc2/app_factory.py`
 
 ## lazyc2/blueprints/addons.py
 - Layer: presentation
+- Doc: LazyAddon creator blueprint for the C2 dashboard.  Exposes the addon lifecycle under ``/addons``: a list page, the guide
 - Language: py
 - Symbols:
   - `init_addons_bp` (function, line 66) `def init_addons_bp(base_dir)`
@@ -29,6 +31,7 @@
 
 ## lazyc2/blueprints/api.py
 - Layer: presentation
+- Doc: API blueprint for the LazyOwn C2 server.  Provides REST endpoints for health checks, command execution, output retrieval
 - Language: py
 - Symbols:
   - `HealthConfig` (class, line 25) `class HealthConfig`
@@ -44,6 +47,7 @@
 
 ## lazyc2/blueprints/auth.py
 - Layer: presentation
+- Doc: Authentication and authorisation blueprint for the LazyOwn C2 server.  Login, logout, registration, MFA setup/verificati
 - Language: py
 - Symbols:
   - `_rbac_available` (function, line 51) `def _rbac_available()`
@@ -70,6 +74,7 @@
 
 ## lazyc2/blueprints/beacon.py
 - Layer: presentation
+- Doc: Beacon communication blueprint for the LazyOwn C2 server.  Handles implant polling, command delivery, result collection,
 - Language: py
 - Symbols:
   - `init_beacon_bp` (function, line 35) `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config, sessions_dir, route_malleable)`
@@ -84,6 +89,7 @@
 
 ## lazyc2/blueprints/operations.py
 - Layer: presentation
+- Doc: Operations blueprint — tasks, CVEs, notes, and event management.  CRUD endpoints for the C2 operator's daily workflow. R
 - Language: py
 - Symbols:
   - `task_detail` (function, line 33) `def task_detail(task_id)`
@@ -104,6 +110,7 @@
 
 ## lazyc2/blueprints/phishing.py
 - Layer: presentation
+- Doc: Phishing blueprint for the LazyOwn C2 server.  Short URL management, phishing campaign tracking, behavioural logging, an
 - Language: py
 - Symbols:
   - `_get_config` (function, line 41) `def _get_config(key, default)`
@@ -118,6 +125,7 @@
 
 ## lazyc2/blueprints/session_auth.py
 - Layer: presentation
+- Doc: Session-based authentication gate for operator dashboard blueprints.  Some dashboard blueprints (tasks, addons, notes) w
 - Language: py
 - Symbols:
   - `require_operator_session` (function, line 20) `def require_operator_session(blueprint, login_endpoint)`

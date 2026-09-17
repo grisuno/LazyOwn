@@ -7,6 +7,7 @@
 
 ## lazyc2/security/command_allowlist.py
 - Layer: utility
+- Doc: Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.  Contract: this module gates arbitrary command execut
 - Language: py
 - Symbols:
   - `CommandRejectionReason` (class, line 36) `class CommandRejectionReason(StrEnum)`
@@ -22,11 +23,13 @@
 
 ## lazyc2/security/constants.py
 - Layer: utility
+- Doc: Security constants and validation patterns for the LazyOwn C2 web layer.  All regex patterns, length limits, and allowli
 - Language: py
 - Imported by: `lazyc2.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/services.py`, `lazyc2/security/validators.py`
 
 ## lazyc2/security/cors.py
 - Layer: utility
+- Doc: CORS origin allowlist policy for the LazyOwn C2 web layer.  Contract: this module owns the single source of truth for wh
 - Language: py
 - Symbols:
   - `CorsConfigError` (class, line 46) `class CorsConfigError(ValueError)`
@@ -48,6 +51,7 @@
 
 ## lazyc2/security/csrf.py
 - Layer: utility
+- Doc: CSRF protection policy for the LazyOwn C2 web layer.  Contract: this module issues per-session tokens that the client mu
 - Language: py
 - Symbols:
   - `CSRFPolicy` (class, line 48) `class CSRFPolicy`
@@ -65,6 +69,7 @@
 
 ## lazyc2/security/html_sanitizer.py
 - Layer: utility
+- Doc: HTML sanitizer backed by ``bleach`` for the LazyOwn C2 web layer.  Contract: this module is the single source of truth f
 - Language: py
 - Symbols:
   - `_strip_dangerous_blocks` (function, line 62) `def _strip_dangerous_blocks(raw_html)`
@@ -74,6 +79,7 @@
 
 ## lazyc2/security/https_redirect.py
 - Layer: presentation
+- Doc: HTTPS redirect policy for the LazyOwn C2 web layer.  Contract: this module produces the response that a Flask ``before_r
 - Language: py
 - Symbols:
   - `RedirectResponse` (class, line 29) `class RedirectResponse`
@@ -85,6 +91,7 @@
 
 ## lazyc2/security/services.py
 - Layer: business_logic
+- Doc: Security services for the LazyOwn C2 web layer.  Services encapsulate stateful security operations such as safe file han
 - Language: py
 - Symbols:
   - `SecretKeyManager` (class, line 19) `class SecretKeyManager`
@@ -108,6 +115,7 @@
 
 ## lazyc2/security/trusted_proxy.py
 - Layer: utility
+- Doc: Trusted proxy resolver for the LazyOwn C2 web layer.  Contract: this module decides what the real client IP is, taking t
 - Language: py
 - Symbols:
   - `TrustedProxyResolver` (class, line 30) `class TrustedProxyResolver`
@@ -119,6 +127,7 @@
 
 ## lazyc2/security/validators.py
 - Layer: utility
+- Doc: Input validators for the LazyOwn C2 web layer.  All validation functions are pure, stateless, and operate only on primit
 - Language: py
 - Symbols:
   - `validate_route_path` (function, line 23) `def validate_route_path(route_path)`

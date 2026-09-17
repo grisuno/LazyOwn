@@ -2,11 +2,13 @@
 
 ## lazygui/widgets/__init__.py
 - Layer: presentation
+- Doc: Reusable widgets.  Each widget is owned by a single concern and accepts the global :class:`AppConstants` plus the active
 - Language: py
 - Depends on: `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/status_badge.py`, `lazygui/widgets/terminal_view.py`
 
 ## lazygui/widgets/beacon_command_modal.py
 - Layer: presentation
+- Doc: Beacon command modal — send commands to beacons and inspect full history.  The modal is the primary operator surface for
 - Language: py
 - Symbols:
   - `_HistoryEntry` (class, line 35) `class _HistoryEntry`
@@ -28,6 +30,7 @@
 
 ## lazygui/widgets/command_palette_list.py
 - Layer: presentation
+- Doc: Result list and action model for the command palette.
 - Language: py
 - Symbols:
   - `CommandPaletteAction` (class, line 16) `class CommandPaletteAction`
@@ -45,6 +48,7 @@
 
 ## lazygui/widgets/event_log_view.py
 - Layer: presentation
+- Doc: Read-only viewer for :class:`EventLog` records.
 - Language: py
 - Symbols:
   - `EventLogView` (class, line 20) `class EventLogView(QTreeWidget)`
@@ -58,6 +62,7 @@
 
 ## lazygui/widgets/filter_bar.py
 - Layer: presentation
+- Doc: Reusable text-filter bar with debounced ``filter_changed`` signal.
 - Language: py
 - Symbols:
   - `FilterBar` (class, line 11) `class FilterBar(QWidget)`
@@ -71,6 +76,7 @@
 
 ## lazygui/widgets/graph_view.py
 - Layer: presentation
+- Doc: Interactive attack topography graph widget.  Renders the C2 beacon graph using Qt Graphics Framework (QGraphicsView). No
 - Language: py
 - Symbols:
   - `_resolve_icon_dir` (function, line 47) `def _resolve_icon_dir()`
@@ -119,6 +125,7 @@
 
 ## lazygui/widgets/status_badge.py
 - Layer: presentation
+- Doc: Compact label that reflects a :class:`BackendStatus` value.
 - Language: py
 - Symbols:
   - `StatusBadge` (class, line 18) `class StatusBadge(QLabel)`
@@ -129,6 +136,7 @@
 
 ## lazygui/widgets/terminal_view.py
 - Layer: presentation
+- Doc: ANSI-aware terminal viewer.  Strips ANSI escape codes and control characters before appending text. Handles cmd2 prompt 
 - Language: py
 - Symbols:
   - `TerminalView` (class, line 33) `class TerminalView(QPlainTextEdit)`

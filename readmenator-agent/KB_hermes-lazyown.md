@@ -2,10 +2,12 @@
 
 ## skills/hermes-lazyown/__init__.py
 - Layer: utility
+- Doc: Hermes-LazyOwn integration package.  Provides a Hermes-native MCP server and supporting modules for the LazyOwn red-team
 - Language: py
 
 ## skills/hermes-lazyown/claudemd_rules.py
 - Layer: business_logic
+- Doc: Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.  Produces instruction snippets that Hermes injects 
 - Language: py
 - Symbols:
   - `RuleSetBuilder` (class, line 15) `class RuleSetBuilder`
@@ -27,6 +29,7 @@
 
 ## skills/hermes-lazyown/config_bridge.py
 - Layer: infrastructure
+- Doc: Configuration bridge: unifies LazyOwn payload.json, environment variables, and fallback defaults into a single read-only
 - Language: py
 - Symbols:
   - `ConfigBridgeError` (class, line 17) `class ConfigBridgeError(Exception)`
@@ -50,6 +53,7 @@
 
 ## skills/hermes-lazyown/constants.py
 - Layer: utility
+- Doc: Central constants for the Hermes-LazyOwn integration layer.  All paths, timeouts, and thresholds are derived from enviro
 - Language: py
 - Symbols:
   - `ConfigKeys` (class, line 12) `class ConfigKeys`
@@ -72,6 +76,7 @@
 
 ## skills/hermes-lazyown/executor.py
 - Layer: utility
+- Doc: LazyOwn command executor for the Hermes-LazyOwn integration.  Wraps subprocess interaction with the LazyOwn CLI in a rob
 - Language: py
 - Symbols:
   - `ExecutionResult` (class, line 21) `class ExecutionResult`
@@ -92,6 +97,7 @@
 
 ## skills/hermes-lazyown/hermes_sync.py
 - Layer: utility
+- Doc: Hermes-native synchronization layer.  Bridges LazyOwn session state with Hermes agent primitives: - todo list sync (Herm
 - Language: py
 - Symbols:
   - `HermesSyncError` (class, line 21) `class HermesSyncError(Exception)`
@@ -113,6 +119,7 @@
 
 ## skills/hermes-lazyown/mcp_server.py
 - Layer: utility
+- Doc: Hermes-native MCP server for LazyOwn.  Provides a compact, namespaced tool surface optimized for Hermes agent context wi
 - Language: py
 - Symbols:
   - `_get_config` (function, line 45) `def _get_config()`
@@ -147,6 +154,7 @@
 
 ## skills/hermes-lazyown/output_compactor.py
 - Layer: utility
+- Doc: Phase-aware output compaction for the Hermes-LazyOwn integration.  Security tools produce verbose output. Hermes context
 - Language: py
 - Symbols:
   - `CompactionResult` (class, line 17) `class CompactionResult`

@@ -2,11 +2,13 @@
 
 ## cli/__init__.py
 - Layer: utility
+- Doc: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`
 - Language: py
 - Depends on: `cli/aliases.py`, `cli/registry.py`
 
 ## cli/aliases.py
 - Layer: utility
+- Doc: Declarative cmd2 alias loader.  Reads ``cli/aliases.yaml`` and substitutes ``{name}`` placeholders against a payload dic
 - Language: py
 - Symbols:
   - `_SafeFormatDict` (class, line 29) `class _SafeFormatDict(dict)`
@@ -21,6 +23,7 @@
 
 ## cli/assign.py
 - Layer: utility
+- Doc: ``assign`` business logic.  Extracted from :class:`LazyOwnShell.do_assign` so the persistence and validation behaviour c
 - Language: py
 - Symbols:
   - `apply_assign` (function, line 36) `def apply_assign(params, key, value)`
@@ -29,6 +32,7 @@
 
 ## cli/auto_crypto.py
 - Layer: utility
+- Doc: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run `
 - Language: py
 - Symbols:
   - `AutoCryptoConfig` (class, line 48) `class AutoCryptoConfig`
@@ -48,6 +52,7 @@
 
 ## cli/autosuggest.py
 - Layer: utility
+- Doc: Ghost-text autosuggest engine for the LazyOwn cmd2 shell.  After every command, the engine consults its provider chain t
 - Language: py
 - Symbols:
   - `SuggestionContext` (class, line 50) `class SuggestionContext`
@@ -82,6 +87,7 @@
 
 ## cli/banner_config.py
 - Layer: infrastructure
+- Doc: Configurable Neon Box banner for the LazyOwn interactive shell.  The module exposes a single, self-contained banner subs
 - Language: py
 - Symbols:
   - `BannerConfig` (class, line 59) `class BannerConfig`
@@ -209,6 +215,7 @@
 
 ## cli/chain_mode.py
 - Layer: utility
+- Doc: Interactive kill-chain chaining coordinator.  This module glues the framework's existing "what next" brains (:class:`cli
 - Language: py
 - Symbols:
   - `_ChainEscExit` (class, line 73) `class _ChainEscExit(Exception)`
@@ -239,6 +246,7 @@
 
 ## cli/cli_enhancements.py
 - Layer: utility
+- Doc: CLI enhancement primitives for the LazyOwn interactive shell.  This module exposes SOLID, framework-agnostic building bl
 - Language: py
 - Symbols:
   - `PayloadProvider` (class, line 40) `class PayloadProvider(Protocol)`
@@ -314,6 +322,7 @@
 
 ## cli/command_chain.py
 - Layer: presentation
+- Doc: Command chain registry: explicit prerequisites and dynamic next steps.  The chain answers two questions for both the hum
 - Language: py
 - Symbols:
   - `ChainConfig` (class, line 123) `class ChainConfig`
@@ -346,6 +355,7 @@
 
 ## cli/command_explorer.py
 - Layer: utility
+- Doc: Interactive command explorer by phase and goal for the LazyOwn shell.  Organizes the 727+ commands into user-friendly ca
 - Language: py
 - Symbols:
   - `ExplorerConfig` (class, line 189) `class ExplorerConfig`
@@ -360,6 +370,7 @@
 
 ## cli/command_form.py
 - Layer: data_access
+- Doc: Textual form-mode launcher for LazyOwn commands.  The form turns any ``do_*`` command into a guided launcher: the operat
 - Language: py
 - Symbols:
   - `FormField` (class, line 37) `class FormField`
@@ -398,6 +409,7 @@
 
 ## cli/config_status.py
 - Layer: infrastructure
+- Doc: Simplified configuration status display for the LazyOwn shell.  Groups payload.json fields by category, shows which are 
 - Language: py
 - Symbols:
   - `ConfigStatusConfig` (class, line 55) `class ConfigStatusConfig`
@@ -411,6 +423,7 @@
 
 ## cli/confirm.py
 - Layer: utility
+- Doc: Shared interactive confirmation helpers with safe non-TTY behaviour.  Every interactive prompt in the CLI should go thro
 - Language: py
 - Symbols:
   - `_read_line` (function, line 20) `def _read_line(prompt)`
@@ -419,6 +432,7 @@
 
 ## cli/contextual_help.py
 - Layer: utility
+- Doc: Contextual help system for the LazyOwn shell.  Extends the default ``cmd2`` help with phase, requirements, examples, and
 - Language: py
 - Symbols:
   - `CommandInfo` (class, line 62) `class CommandInfo`
@@ -436,6 +450,7 @@
 
 ## cli/dashboard_tui.py
 - Layer: presentation
+- Doc: LazyOwn operator dashboard — a full-screen Textual TUI.  Launch from the LazyOwn shell with ``dashboard`` or directly:  
 - Language: py
 - Symbols:
   - `_get_killchain_for_tui` (function, line 51) `def _get_killchain_for_tui()`
@@ -481,6 +496,7 @@
 
 ## cli/doctor.py
 - Layer: utility
+- Doc: Environment health check (preflight doctor) for the LazyOwn framework.  Complements the setup wizard. Where ``wizard`` /
 - Language: py
 - Symbols:
   - `PackageSpec` (class, line 55) `class PackageSpec`
@@ -509,6 +525,7 @@
 
 ## cli/engagement_hooks.py
 - Layer: utility
+- Doc: Curiosity-driven engagement engine for LazyOwn.  Two psychological mechanisms drive operator adoption:  1. Biological Cu
 - Language: py
 - Symbols:
   - `EngagementState` (class, line 242) `class EngagementState`
@@ -548,6 +565,7 @@
 
 ## cli/exploit_advisor.py
 - Layer: utility
+- Doc: Exploit advisor: connects nmap scan results to exploit search and next-step commands.  Two responsibilities: 1. Parse nm
 - Language: py
 - Symbols:
   - `ServiceInfo` (class, line 111) `class ServiceInfo`
@@ -566,6 +584,7 @@
 
 ## cli/exploration.py
 - Layer: utility
+- Doc: Exploration engine: trigger and OS aware addon/tool matching.  This module is the single source of truth for two new ope
 - Language: py
 - Symbols:
   - `ExplorationConfig` (class, line 68) `class ExplorationConfig`
@@ -620,6 +639,7 @@
 
 ## cli/exploration_view.py
 - Layer: presentation
+- Doc: Rich-based renderers for the exploration engine.  Keeps the rendering logic out of :mod:`cli.exploration` so the engine 
 - Language: py
 - Symbols:
   - `render_exploration` (function, line 39) `def render_exploration(console, engine, target, history)`
@@ -633,6 +653,7 @@
 
 ## cli/fuzzy_picker.py
 - Layer: utility
+- Doc: Curses-based fuzzy dropdown picker for the LazyOwn interactive shell.  This module is self-contained: it ships a ``Picke
 - Language: py
 - Symbols:
   - `PickerConfig` (class, line 50) `class PickerConfig`
@@ -680,6 +701,7 @@
 
 ## cli/graph_advisor.py
 - Layer: utility
+- Doc: Graph-aware advisor backed by the graphify knowledge graph.  This module turns the JSON file produced by ``/graphify`` o
 - Language: py
 - Symbols:
   - `GraphAdvisorConfig` (class, line 50) `class GraphAdvisorConfig`
@@ -738,6 +760,7 @@
 
 ## cli/graph_overlay.py
 - Layer: utility
+- Doc: Textual overlay over :mod:`cli.graph_advisor`.  The overlay visualises the same data ``god_nodes`` and ``neighbors`` alr
 - Language: py
 - Symbols:
   - `GraphOverlayView` (class, line 33) `class GraphOverlayView(StrEnum)`
@@ -771,6 +794,7 @@
 
 ## cli/headless.py
 - Layer: utility
+- Doc: Headless / non-interactive runner for automated pipelines.  Provides HeadlessRunner which wraps LazyOwnShell and produce
 - Language: py
 - Symbols:
   - `load_profile` (function, line 31) `def load_profile(path)`
@@ -783,6 +807,7 @@
 
 ## cli/killchain.py
 - Layer: utility
+- Doc: Self-populating kill-chain progress derived from the daemon event stream.  This module exists for backward compatibility
 - Language: py
 - Symbols:
   - `PhaseProgress` (class, line 29) `class PhaseProgress`
@@ -794,6 +819,7 @@
 
 ## cli/lazynmap_post.py
 - Layer: utility
+- Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.  Three artefacts are produced after every successful sca
 - Language: py
 - Symbols:
   - `PostScanConfig` (class, line 57) `class PostScanConfig`
@@ -810,6 +836,7 @@
 
 ## cli/marketplace_config.py
 - Layer: infrastructure
+- Doc: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.  Provides a curses-based TUI mirroring the P
 - Language: py
 - Symbols:
   - `MarketplaceConfig` (class, line 49) `class MarketplaceConfig`
@@ -862,11 +889,13 @@
 
 ## cli/noise_verbs.py
 - Layer: utility
+- Doc: Canonical non-actionable verb registry for post-command surfaces.  The inline hints, the unified tips engine, and the in
 - Language: py
 - Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
 
 ## cli/ops_commands.py
 - Layer: utility
+- Doc: Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans.  All functions are pure (no si
 - Language: py
 - Symbols:
   - `print_ctx` (function, line 74) `def print_ctx(payload, sessions_dir)`
@@ -927,6 +956,7 @@
 
 ## cli/palette.py
 - Layer: utility
+- Doc: Read-only loader for ``cli/command_index.json``.  The CLI palette command, the C2 ``/palette`` endpoint and the MCP ``la
 - Language: py
 - Symbols:
   - `CommandIndexError` (class, line 25) `class CommandIndexError(RuntimeError)`
@@ -944,6 +974,7 @@
 
 ## cli/palette_command.py
 - Layer: utility
+- Doc: Pure logic for the operator-facing ``palette`` command.  The CLI ``do_palette`` method on :class:`LazyOwnShell`, the C2 
 - Language: py
 - Symbols:
   - `PaletteMode` (class, line 33) `class PaletteMode(Enum)`
@@ -1002,6 +1033,7 @@
 
 ## cli/palette_graph.py
 - Layer: utility
+- Doc: Graph-aware neighbour lookups for the operator command palette.  The graphify export at :file:`graphify-out/graph_lazyow
 - Language: py
 - Symbols:
   - `GraphIndexError` (class, line 39) `class GraphIndexError(RuntimeError)`
@@ -1021,6 +1053,7 @@
 
 ## cli/palette_overlay.py
 - Layer: utility
+- Doc: Textual Cmd-K palette overlay for the LazyOwn shell.  The overlay is a modal command launcher: the operator presses a si
 - Language: py
 - Symbols:
   - `PaletteOverlayConfig` (class, line 38) `class PaletteOverlayConfig`
@@ -1052,6 +1085,7 @@
 
 ## cli/palette_telemetry.py
 - Layer: utility
+- Doc: Behavioural telemetry derived from ``sessions/LazyOwn_session_report.csv``.  The CLI logs every executed command to a CS
 - Language: py
 - Symbols:
   - `TelemetryIndexError` (class, line 37) `class TelemetryIndexError(RuntimeError)`
@@ -1072,6 +1106,7 @@
 
 ## cli/phase_labels.py
 - Layer: utility
+- Doc: Canonical human-readable labels for kill-chain command phases.  Single source of truth for the phase display names used 
 - Language: py
 - Symbols:
   - `phase_label` (function, line 29) `def phase_label(phase)`
@@ -1079,6 +1114,7 @@
 
 ## cli/protips.py
 - Layer: utility
+- Doc: Pro tips system for the LazyOwn shell.  Two surfaces: - Session-start tip: one contextual tip printed after the banner w
 - Language: py
 - Symbols:
   - `ProTip` (class, line 58) `class ProTip`
@@ -1099,6 +1135,7 @@
 
 ## cli/purple_tui.py
 - Layer: presentation
+- Doc: Purple Team Dashboard — Textual TUI for engagement monitoring.  Launch from the LazyOwn shell with ``purple_dashboard`` 
 - Language: py
 - Symbols:
   - `_load_score` (function, line 33) `def _load_score()`
@@ -1121,6 +1158,7 @@
 
 ## cli/reactive_hints.py
 - Layer: utility
+- Doc: Non-blocking inline hint renderer for the LazyOwn cmd2 shell.  After each command executes, a single dim line is printed
 - Language: py
 - Symbols:
   - `render_inline_hints` (function, line 220) `def render_inline_hints(advisor, last_command, limit, enabled)`
@@ -1143,6 +1181,7 @@
 
 ## cli/reasoning_stream.py
 - Layer: utility
+- Doc: Operator-facing view over the autonomous daemon decision log.  The autonomous daemon (``skills/autonomous_daemon.py``) a
 - Language: py
 - Symbols:
   - `ReasoningEntry` (class, line 66) `class ReasoningEntry`
@@ -1159,6 +1198,7 @@
 
 ## cli/recommendation.py
 - Layer: utility
+- Doc: Unified next-best-action engine: the single source of truth for "what next".  Before this module the framework carried f
 - Language: py
 - Symbols:
   - `EngineWeights` (class, line 67) `class EngineWeights`
@@ -1187,6 +1227,7 @@
 
 ## cli/recommendation_signals.py
 - Layer: presentation
+- Doc: Concrete :class:`cli.recommendation.RecommendationSignal` adapters.  Each adapter wraps one of the framework's pre-exist
 - Language: py
 - Symbols:
   - `_load_world_model` (function, line 67) `def _load_world_model(sessions_dir)`
@@ -1231,6 +1272,7 @@
 
 ## cli/recon_plan.py
 - Layer: utility
+- Doc: Reconnaissance plan generator built on top of :mod:`cli.exploration`.  After ``do_lazynmap`` finishes scanning a target 
 - Language: py
 - Symbols:
   - `ReconPlanConfig` (class, line 62) `class ReconPlanConfig`
@@ -1256,6 +1298,7 @@
 
 ## cli/registry.py
 - Layer: utility
+- Doc: ``cmd2.CommandSet`` discovery and registration for ``cli.commands``.  Tier 2 introduces ``cli.commands.*`` modules where
 - Language: py
 - Symbols:
   - `iter_command_sets` (function, line 41) `def iter_command_sets(include_pending)`
@@ -1265,6 +1308,7 @@
 
 ## cli/scope_guard.py
 - Layer: utility
+- Doc: Authorization scope guard for offensive command execution.  A red-team framework that reads its target from ``payload.js
 - Language: py
 - Symbols:
   - `ScopeMode` (class, line 69) `class ScopeMode(StrEnum)`
@@ -1284,6 +1328,7 @@
 
 ## cli/session_resumer.py
 - Layer: utility
+- Doc: Session resumer for the LazyOwn shell.  Scans ``sessions/`` for previous engagement data (IP directories, scan files, cr
 - Language: py
 - Symbols:
   - `SessionSummary` (class, line 29) `class SessionSummary`
@@ -1297,6 +1342,7 @@
 
 ## cli/sessions_browser.py
 - Layer: utility
+- Doc: Textual browser for the LazyOwn ``sessions/`` directory.  The browser turns ``sessions/`` into a navigable surface so th
 - Language: py
 - Symbols:
   - `CategorySpec` (class, line 33) `class CategorySpec`
@@ -1335,6 +1381,7 @@
 
 ## cli/show.py
 - Layer: utility
+- Doc: Pretty-print the live payload for the operator.  Tier 2.5 replaces ``do_show``'s unordered, unaligned dump with a stable
 - Language: py
 - Symbols:
   - `format_payload` (function, line 14) `def format_payload(params)`
@@ -1342,6 +1389,7 @@
 
 ## cli/splash.py
 - Layer: utility
+- Doc: Animated splash overlay for the LazyOwn first-run experience.  The splash is rendered with Rich on top of the existing A
 - Language: py
 - Symbols:
   - `SplashConfig` (class, line 37) `class SplashConfig`
@@ -1358,6 +1406,7 @@
 
 ## cli/status_bar.py
 - Layer: presentation
+- Doc: Persistent operator status bar for the LazyOwn cmd2 shell.  The status bar collapses the four pieces of context an opera
 - Language: py
 - Symbols:
   - `StatusBarConfig` (class, line 41) `class StatusBarConfig`
@@ -1429,6 +1478,7 @@
 
 ## cli/style.py
 - Layer: utility
+- Doc: Centralised TUI style tokens for the LazyOwn operator surface.  This module is a thin semantic layer over :mod:`cli.them
 - Language: py
 - Symbols:
   - `style` (function, line 49) `def style(token, theme)`
@@ -1440,6 +1490,7 @@
 
 ## cli/surface_graph.py
 - Layer: utility
+- Doc: Network surface graph reader for the LazyOwn shell.  Mirrors the ``vis.js`` graph rendered by ``templates/index.html`` (
 - Language: py
 - Symbols:
   - `_slug_host` (function, line 73) `def _slug_host(ip)`
@@ -1477,6 +1528,7 @@
 
 ## cli/surface_tui.py
 - Layer: presentation
+- Doc: Terminal renderer for the LazyOwn network surface graph.  This is the TUI counterpart of the ``vis.js`` graph rendered b
 - Language: py
 - Symbols:
   - `TextualNotInstalled` (class, line 61) `class TextualNotInstalled(RuntimeError)`
@@ -1503,6 +1555,7 @@
 
 ## cli/themes.py
 - Layer: utility
+- Doc: Theme registry for the LazyOwn TUI surfaces.  Every Textual overlay (Cmd-K palette, sessions browser, timeline scrubber,
 - Language: py
 - Symbols:
   - `Theme` (class, line 31) `class Theme`
@@ -1512,6 +1565,7 @@
 
 ## cli/timeline_browser.py
 - Layer: utility
+- Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.  The session report is a CSV that every command appends t
 - Language: py
 - Symbols:
   - `TimelineColumn` (class, line 33) `class TimelineColumn`
@@ -1544,6 +1598,7 @@
 
 ## cli/tips_engine.py
 - Layer: presentation
+- Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.  Before this module, the shell 
 - Language: py
 - Symbols:
   - `_noop` (function, line 131) `def _noop()`
@@ -1610,6 +1665,7 @@
 
 ## cli/toast_bus.py
 - Layer: infrastructure
+- Doc: Non-blocking toast notification subsystem for the LazyOwn shell.  After each command the postcmd hook calls :func:`rende
 - Language: py
 - Symbols:
   - `ToastConfig` (class, line 41) `class ToastConfig`
@@ -1650,6 +1706,7 @@
 
 ## cli/tui_theme.py
 - Layer: presentation
+- Doc: Operator-facing ``tui_theme`` command logic.  The cmd2 ``do_tui_theme`` method in ``lazyown.py`` delegates to :func:`run
 - Language: py
 - Symbols:
   - `_set_theme` (function, line 30) `def _set_theme(payload, name)`
@@ -1661,6 +1718,7 @@
 
 ## cli/tutorial.py
 - Layer: utility
+- Doc: Interactive post-install tutorial for the LazyOwn framework.  Guides a new operator through the golden path: ping -> laz
 - Language: py
 - Symbols:
   - `TutorialConfig` (class, line 76) `class TutorialConfig`
@@ -1675,6 +1733,7 @@
 
 ## cli/wizard.py
 - Layer: utility
+- Doc: Guided first-run setup wizard for the LazyOwn framework.  Walks the operator through the minimum viable configuration: r
 - Language: py
 - Symbols:
   - `BinarySpec` (class, line 89) `class BinarySpec`

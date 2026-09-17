@@ -2,6 +2,7 @@
 
 ## skills/aci_planner.py
 - Layer: utility
+- Doc: Autonomous Campaign Intelligence (ACI) Planner =============================================== Decomposes a natural-lang
 - Language: py
 - Symbols:
   - `ACIGoal` (class, line 126) `class ACIGoal`
@@ -51,6 +52,7 @@
 
 ## skills/autonomous_daemon.py
 - Layer: presentation
+- Doc: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon ======================================================
 - Language: py
 - Symbols:
   - `_try_import` (function, line 133) `def _try_import(module, attr)`
@@ -190,6 +192,7 @@
 
 ## skills/autonomous_replay.py
 - Layer: utility
+- Doc: Deterministic replay of past autonomous-daemon runs.  The autonomous daemon (``skills/autonomous_daemon.py``) emits stru
 - Language: py
 - Symbols:
   - `ReplayStep` (class, line 53) `class ReplayStep`
@@ -216,6 +219,7 @@
 
 ## skills/daemon_control.py
 - Layer: utility
+- Doc: Operator steering layer for the LazyOwn autonomous daemon.  The daemon (``skills/autonomous_daemon.py``) reads the contr
 - Language: py
 - Symbols:
   - `PendingAction` (class, line 51) `class PendingAction`
@@ -249,6 +253,7 @@
 
 ## skills/daemon_health.py
 - Layer: utility
+- Doc: Daemon health monitor — watchdog for the autonomous daemon and C2 listeners.  Writes periodic heartbeat timestamps and p
 - Language: py
 - Symbols:
   - `_health_path` (function, line 32) `def _health_path()`
@@ -271,6 +276,7 @@
 
 ## skills/heartbeat.py
 - Layer: utility
+- Doc: LazyOwn Heartbeat ================= Lightweight background process that drives the event engine. Runs the CSV-tail → rul
 - Language: py
 - Symbols:
   - `write_pid` (function, line 51) `def write_pid()`
@@ -282,6 +288,7 @@
 
 ## skills/hive_mind.py
 - Layer: utility
+- Doc: skills/hive_mind.py — LazyOwn Borg Hive Mind ============================================== Multi-agent cognitive archit
 - Language: py
 - Symbols:
   - `_get_embed_model` (function, line 107) `def _get_embed_model()`
@@ -396,6 +403,7 @@
 
 ## skills/lazyown_automapper.py
 - Layer: data_access
+- Doc: LazyOwn MCP Auto-Mapper ======================== Discovers LazyOwn extensions at startup and returns MCP Tool definition
 - Language: py
 - Symbols:
   - `_safe_name` (function, line 66) `def _safe_name(raw)`
@@ -426,6 +434,7 @@
 
 ## skills/lazyown_campaign.py
 - Layer: utility
+- Doc: LazyOwn CampaignStore ===================== Groups multiple targets under a single named penetration-test engagement.  A
 - Language: py
 - Symbols:
   - `_now_iso` (function, line 59) `def _now_iso()`
@@ -459,6 +468,7 @@
 
 ## skills/lazyown_claudemd.py
 - Layer: utility
+- Doc: LazyOwn CLAUDE.md Hierarchical Loader (Claude Code style)  4-level hierarchy (highest → lowest priority): 1. managed  — 
 - Language: py
 - Symbols:
   - `ClaudeMdLoader` (class, line 24) `class ClaudeMdLoader`
@@ -473,6 +483,7 @@
 
 ## skills/lazyown_context.py
 - Layer: utility
+- Doc: LazyOwn Context Compaction Pipeline — 5-layer graduated compression (Claude Code style)  Layers: 1. Budget reduction   —
 - Language: py
 - Symbols:
   - `CompactionResult` (class, line 48) `class CompactionResult`
@@ -490,6 +501,7 @@
 
 ## skills/lazyown_daemon.py
 - Layer: utility
+- Doc: LazyOwn Unified Daemon ====================== Replaces three separate background processes with a single asyncio daemon:
 - Language: py
 - Symbols:
   - `file_watcher_loop` (function, line 142) `def file_watcher_loop(queue)`
@@ -520,6 +532,7 @@
 
 ## skills/lazyown_facts.py
 - Layer: utility
+- Doc: LazyOwn FactStore ================= Structured fact extraction from nmap XML files and pwntomate tool output.  Reads  se
 - Language: py
 - Symbols:
   - `Config` (class, line 34) `class Config`
@@ -606,6 +619,7 @@
 
 ## skills/lazyown_groq_agents.py
 - Layer: presentation
+- Doc: skills/lazyown_groq_agents.py ============================== Translates LazyOwn MCP tools into Groq-native tool-calling 
 - Language: py
 - Symbols:
   - `_load_payload` (function, line 54) `def _load_payload()`
@@ -653,6 +667,7 @@
 
 ## skills/lazyown_hooks.py
 - Layer: utility
+- Doc: LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. Hooks can block execution (return
 - Language: py
 - Symbols:
   - `HookEvent` (class, line 27) `class HookEvent(Enum)`
@@ -674,6 +689,7 @@
 
 ## skills/lazyown_llm.py
 - Layer: utility
+- Doc: LazyOwn LLM Bridge — MCP Edition ================================= Unified satellite-model interface for lazyown_mcp.py.
 - Language: py
 - Symbols:
   - `LLMTool` (class, line 71) `class LLMTool`
@@ -702,6 +718,7 @@
 
 ## skills/lazyown_mcp.py
 - Layer: presentation
+- Doc: LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and Claude web.  Usage: python3 s
 - Language: py
 - Symbols:
   - `_ensure_engine` (function, line 70) `def _ensure_engine()`
@@ -810,6 +827,7 @@
 
 ## skills/lazyown_mcp_helpers.py
 - Layer: utility
+- Doc: LazyOwn MCP helper functions — pure logic, no MCP server imports.  This module hosts the analytical / file-system primit
 - Language: py
 - Symbols:
   - `is_likely_credential` (function, line 37) `def is_likely_credential(value)`
@@ -837,6 +855,7 @@
 
 ## skills/lazyown_mcp_opencode.py
 - Layer: utility
+- Doc: LazyOwn MCP OpenCode bridge.  Curated, short-named MCP server for autonomous OpenCode agents running on local models (e.
 - Language: py
 - Symbols:
   - `list_tools` (function, line 57) `def list_tools()`
@@ -846,6 +865,7 @@
 
 ## skills/lazyown_objective.py
 - Layer: utility
+- Doc: LazyOwn Objective Store ======================= Priority-queue for high-level attack objectives.  Claude Code (the front
 - Language: py
 - Symbols:
   - `Objective` (class, line 105) `class Objective`
@@ -887,6 +907,7 @@
 
 ## skills/lazyown_parquet_db.py
 - Layer: utility
+- Doc: LazyOwn Parquet Knowledge Base ================================ Centralises session history and contextual knowledge in 
 - Language: py
 - Symbols:
   - `_build_cmd2_category_map` (function, line 119) `def _build_cmd2_category_map(lazyown_py)`
@@ -915,6 +936,7 @@
 
 ## skills/lazyown_permissions.py
 - Layer: utility
+- Doc: LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS win over allow rules. Mode
 - Language: py
 - Symbols:
   - `PermissionMode` (class, line 18) `class PermissionMode(Enum)`
@@ -938,6 +960,7 @@
 
 ## skills/lazyown_policy.py
 - Layer: business_logic
+- Doc: LazyOwn Policy Engine ===================== Four-tier cascading outcome classifier with reward-based transition learning
 - Language: py
 - Symbols:
   - `Config` (class, line 54) `class Config`
@@ -1071,6 +1094,7 @@
 
 ## skills/lazyown_session.py
 - Layer: utility
+- Doc: LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. Lines are never modified.
 - Language: py
 - Symbols:
   - `_redact_sensitive` (function, line 32) `def _redact_sensitive(value)`
@@ -1092,6 +1116,7 @@
 
 ## skills/mcp_generated_tools.py
 - Layer: utility
+- Doc: Auto-generated MCP tool handlers from command_index.json.  DO NOT EDIT BY HAND.  Re-generate with: python3 skills/mcp_to
 - Language: py
 - Symbols:
   - `get_generated_tool_definitions` (function, line 659) `def get_generated_tool_definitions()`
@@ -1747,6 +1772,7 @@
 
 ## skills/mcp_tool_generator.py
 - Layer: utility
+- Doc: Auto-generate MCP tool handlers from cli/command_index.json.  Reads the full command catalog, compares against existing 
 - Language: py
 - Symbols:
   - `load_command_index` (function, line 29) `def load_command_index()`
@@ -1761,6 +1787,7 @@
 
 ## skills/sessions_watcher.py
 - Layer: utility
+- Doc: LazyOwn Sessions Watcher ======================== Watchdog daemon over sessions/.  When new or modified files appear, it
 - Language: py
 - Symbols:
   - `_emit` (function, line 118) `def _emit(event_type, severity, suggest, source)`
@@ -1797,6 +1824,7 @@
 
 ## skills/swan_agent.py
 - Layer: utility
+- Doc: skills/swan_agent.py — LazyOwn SWAN Agent ========================================== Scalable Weighted Adaptive Network 
 - Language: py
 - Symbols:
   - `_import_router` (function, line 104) `def _import_router()`
@@ -1848,6 +1876,7 @@
 
 ## skills/toposwarm_autonomous.py
 - Layer: presentation
+- Doc: skills/toposwarm_autonomous.py ================================ TopoSwarm Autonomous Red Team Agent ====================
 - Language: py
 - Symbols:
   - `PentestState` (class, line 126) `class PentestState`
@@ -1869,6 +1898,7 @@
 
 ## skills/unified_orchestrator.py
 - Layer: utility
+- Doc: Unified orchestrator facade collapsing daemon, hive and SWAN into one surface.  The framework historically exposes three
 - Language: py
 - Symbols:
   - `OrchestratorConfig` (class, line 51) `class OrchestratorConfig`
@@ -1935,6 +1965,7 @@
 
 ## skills/update_knowledge.py
 - Layer: utility
+- Doc: LazyOwn Knowledge Refresh ========================== Refreshes the session_knowledge.parquet from the current CSV and op
 - Language: py
 - Symbols:
   - `main` (function, line 40) `def main(argv)`

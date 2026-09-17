@@ -1,9 +1,9 @@
 {
   "tool": "readmenator",
-  "generated_at": "2026-09-16T20:31:53Z",
-  "project_root": "/home/grisun0/LazyOwn",
+  "generated_at": "2026-09-17T04:05:18Z",
+  "project_root": "/tmp/push_LazyOwn_20260917_010128",
   "files": 845,
-  "symbols": 16912,
+  "symbols": 16649,
   "imports": 126744,
   "resolved_imports": 3039,
   "security_findings": 0,
@@ -25,6 +25,7 @@
   ],
   "start_here": "INDEX.md",
   "workflow": [
+    "ls *.md readmenator-*/  # orient: docs first, ignore build noise",
     "grep -n '<keyword>' INDEX.md",
     "cat KB_<subsystem>.md",
     "grep -n '<file>' ARCHITECTURE.md SYMBOLS.md"

@@ -15,6 +15,7 @@
 
 ## banner.py
 - Layer: utility
+- Doc: banner.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Lice
 - Language: py
 - Symbols:
   - `image_to_bash` (function, line 25) `def image_to_bash(image_path, image_res)`
@@ -425,7 +426,7 @@
 
 ## lazyown.py
 - Layer: presentation
-- Doc: _*_ coding: utf8 _*_
+- Doc: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date: 13/08/2024 License: GPL v3  Descr
 - Language: py
 - Symbols:
   - `_ux_debug` (function, line 294) `def _ux_debug(context, exc)`
@@ -570,6 +571,7 @@
 
 ## readmeneitor.py
 - Layer: utility
+- Doc: readmeneitor.py — Automated documentation generator for LazyOwn RedTeam Framework.  Author: Gris Iscomeback Email: grisi
 - Language: py
 - Symbols:
   - `load_command_index` (function, line 74) `def load_command_index(index_path)`
@@ -598,6 +600,7 @@
 
 ## setup.py
 - Layer: infrastructure
+- Doc: Compatibility shim for legacy ``python setup.py`` invocations.  All project metadata and dependencies are declared in ``
 - Language: py
 
 ## slack_c2_bot.py
@@ -649,6 +652,7 @@
 
 ## telegram_hermes.py
 - Layer: utility
+- Doc: telegram_hermes.py LazyOwn Telegram Bot with Hermes Gateway Integration  This bot bridges Telegram to the full LazyOwn f
 - Language: py
 - Symbols:
   - `run_lazyown_command` (function, line 61) `def run_lazyown_command(command, timeout)`
@@ -698,6 +702,7 @@
 
 ## utils.py
 - Layer: utility
+- Doc: utils.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Desc
 - Language: py
 - Symbols:
   - `parse_ip_mac` (function, line 291) `def parse_ip_mac(input_string)`

@@ -2,10 +2,12 @@
 
 ## scripts/__init__.py
 - Layer: utility
+- Doc: Repository-side maintenance scripts.  Modules in this package are entry points for the developer workflow (index generat
 - Language: py
 
 ## scripts/activate_migrations.py
 - Layer: data_access
+- Doc: Activate dormant CommandSet migrations.  Usage: python3 scripts/activate_migrations.py [--dry-run] [--phase <name>]  Sca
 - Language: py
 - Symbols:
   - `MigrationError` (class, line 28) `class MigrationError(Exception)`
@@ -18,6 +20,7 @@
 
 ## scripts/backfill_addon_os_trigger.py
 - Layer: utility
+- Doc: One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon.  This script is idempotent. It scans ``lazyaddons
 - Language: py
 - Symbols:
   - `classify_os` (function, line 104) `def classify_os(filename)`
@@ -28,6 +31,7 @@
 
 ## scripts/check_contract_manifest.py
 - Layer: utility
+- Doc: Verify that documented contracts still exist on disk.  The repository publishes contract tables and public import exampl
 - Language: py
 - Symbols:
   - `ManifestConfig` (class, line 34) `class ManifestConfig`
@@ -51,6 +55,7 @@
 
 ## scripts/generate_sbom.py
 - Layer: utility
+- Doc: Generate a minimal CycloneDX SBOM from the pinned requirements files.  Stdlib only, no network: parses ``requirements.tx
 - Language: py
 - Symbols:
   - `parse_requirement` (function, line 25) `def parse_requirement(line)`
@@ -61,6 +66,7 @@
 
 ## scripts/journal.py
 - Layer: utility
+- Doc: Read-before-you-write journal over GitHub Discussions.  I keep a durable engineering journal in a GitHub Discussion cate
 - Language: py
 - Symbols:
   - `JournalError` (class, line 48) `class JournalError(RuntimeError)`
@@ -81,6 +87,7 @@
 
 ## scripts/migrate_commandsets.py
 - Layer: utility
+- Doc: Merge _migrated.py CommandSet methods into clean phase modules.  Reads each ``*_migrated.py`` file under ``cli/commands/
 - Language: py
 - Symbols:
   - `_extract_method_source` (function, line 38) `def _extract_method_source(source, method_name)`
@@ -92,6 +99,7 @@
 
 ## scripts/migrate_lazyown.py
 - Layer: utility
+- Doc: Staged migration script: extract do_* methods from lazyown.py into cli/commands/.  Usage: python3 scripts/migrate_lazyow
 - Language: py
 - Symbols:
   - `_category_from_decorator` (function, line 70) `def _category_from_decorator(decorator)`
@@ -113,10 +121,12 @@
 
 ## scripts/patch_playbook_atomic_ids.py
 - Layer: utility
+- Doc: Patch APT playbooks: replace placeholder atomic_ids with real technique_ids.  This ensures do_atomic_gen can find real A
 - Language: py
 
 ## scripts/read_journal.py
 - Layer: utility
+- Doc: Print the recent engineering journal before a change is written.  This is the read half of the read-before-you-write loo
 - Language: py
 - Symbols:
   - `_build_parser` (function, line 19) `def _build_parser()`
@@ -128,8 +138,16 @@
 - Doc: setup_hermes_mcp.sh — register LazyOwn MCP server in Hermes Agent config Usage: bash scripts/setup_hermes_mcp.sh [--chec
 - Language: sh
 
+## scripts/smoke_onboarding.sh
+- Layer: infrastructure
+- Doc: Smoke test for the 5-minute onboarding path.
+- Language: sh
+- Symbols:
+  - `check` (function, line 8)
+
 ## scripts/sync_doc_stats.py
 - Layer: utility
+- Doc: Sync documentation numbers with the live codebase — single source of truth.  Counts are measured from the code itself an
 - Language: py
 - Symbols:
   - `canonical_command_count` (function, line 82) `def canonical_command_count(root)`
@@ -149,6 +167,7 @@
 
 ## scripts/top_tier_check.py
 - Layer: utility
+- Doc: Top-tier hygiene audit for LazyOwn.  Fails (exit 1) on any credibility blocker: - version drift between README / pyproje
 - Language: py
 - Symbols:
   - `fail` (function, line 23) `def fail(message)`
@@ -164,6 +183,7 @@
 
 ## scripts/update_apt_atomic_ids.py
 - Layer: utility
+- Doc: Update APT playbooks with real Atomic Red Team test IDs.  Scans the Atomic Red Team repository (already cloned by the us
 - Language: py
 - Symbols:
   - `build_technique_index` (function, line 22) `def build_technique_index(atomics_path)`

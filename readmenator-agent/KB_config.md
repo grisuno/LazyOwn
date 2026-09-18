@@ -2,11 +2,13 @@
 
 ## lazygui/config/__init__.py
 - Layer: presentation
+- Doc: Configuration layer.  Centralises every tunable parameter so the rest of the package never embeds a magic number or a ha
 - Language: py
 - Depends on: `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`
 
 ## lazygui/config/c2_credentials.py
 - Layer: presentation
+- Doc: C2 auto-generated credentials discovery.  ``lazyc2.py`` writes ``.c2_credentials.txt`` at startup containing the auto-ge
 - Language: py
 - Symbols:
   - `C2Credentials` (class, line 24) `class C2Credentials`
@@ -18,6 +20,7 @@
 
 ## lazygui/config/constants.py
 - Layer: presentation
+- Doc: Immutable application constants.  Every numeric or string literal that the GUI relies on lives here. If a value ever nee
 - Language: py
 - Symbols:
   - `WindowConstants` (class, line 18) `class WindowConstants`
@@ -38,6 +41,7 @@
 
 ## lazygui/config/paths.py
 - Layer: presentation
+- Doc: Filesystem layout resolver.  The application stores user-specific data under the platform-appropriate config directory a
 - Language: py
 - Symbols:
   - `AppPaths` (class, line 19) `class AppPaths`
@@ -55,6 +59,7 @@
 
 ## lazygui/config/settings.py
 - Layer: infrastructure
+- Doc: Persisted user settings.  Settings live in a JSON file under :attr:`AppPaths.config_dir`. The class exposes typed access
 - Language: py
 - Symbols:
   - `AppSettings` (class, line 27) `class AppSettings`

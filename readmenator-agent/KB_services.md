@@ -2,11 +2,13 @@
 
 ## lazygui/services/__init__.py
 - Layer: presentation
+- Doc: Service layer.  Defines the domain types the GUI consumes and the backend abstraction that hides whether commands are is
 - Language: py
 - Depends on: `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
 
 ## lazygui/services/backend.py
 - Layer: presentation
+- Doc: Backend abstraction.  Implements the Dependency-Inversion principle for the GUI: panels and windows only depend on :clas
 - Language: py
 - Symbols:
   - `BackendStatus` (class, line 33) `class BackendStatus(StrEnum)`
@@ -34,6 +36,7 @@
 
 ## lazygui/services/event_log.py
 - Layer: presentation
+- Doc: In-memory ring buffer for :class:`EventRecord`.  Centralising log retention here lets every backend feed events in and e
 - Language: py
 - Symbols:
   - `EventLog` (class, line 20) `class EventLog(QObject)`
@@ -48,6 +51,7 @@
 
 ## lazygui/services/factory.py
 - Layer: presentation
+- Doc: Factory for backend instances.  Encapsulates the construction logic so the rest of the GUI never imports a concrete back
 - Language: py
 - Symbols:
   - `BackendFactory` (class, line 24) `class BackendFactory`
@@ -59,6 +63,7 @@
 
 ## lazygui/services/local_backend.py
 - Layer: presentation
+- Doc: Local backend that runs the LazyOwn cmd2 console on a PTY.  This backend fork-execs a shell process inside a PTY so the 
 - Language: py
 - Symbols:
   - `LocalPtyBackend` (class, line 30) `class LocalPtyBackend(Backend)`
@@ -86,6 +91,7 @@
 
 ## lazygui/services/models.py
 - Layer: business_logic
+- Doc: Immutable domain types consumed by the UI.  These dataclasses are deliberately framework-agnostic. They never carry Qt r
 - Language: py
 - Symbols:
   - `BackendKind` (class, line 17) `class BackendKind(StrEnum)`
@@ -108,6 +114,7 @@
 
 ## lazygui/services/teamserver_backend.py
 - Layer: presentation
+- Doc: Teamserver backend with Socket.IO real-time and full HTTP API coverage.  Connects to ``lazyc2.py`` via HTTP REST + Socke
 - Language: py
 - Symbols:
   - `TeamserverCredentials` (class, line 39) `class TeamserverCredentials`

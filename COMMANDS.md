@@ -2596,13 +2596,13 @@ Handle the end-of-file (EOF) condition.
 
 ### `acknowledgearp`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Configures the system to acknowledge ARP requests by setting a kernel parameter.
 
 ### `acknowledgeicmp`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Configures the system to respond to ICMP echo requests by setting a kernel parameter.
 
@@ -2614,7 +2614,7 @@ Add a new alias with support for placeholders like {rhost}, {lhost}, {lport}, et
 
 ### `addhosts`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
 
@@ -2626,7 +2626,7 @@ Prints all configured aliases and their associated commands.
 
 ### `assign`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 assign a parameter value, persist to payload.json and refresh aliases.
 
@@ -2644,13 +2644,13 @@ Show the banner
 
 ### `base64decode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Decodes a Base64 encoded string.
 
 ### `base64encode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Encodes a given string into Base64 format.
 
@@ -2674,7 +2674,7 @@ Browse the command catalog.
 
 ### `chainmode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Toggle interactive kill-chain chaining after every command.
 
@@ -2686,31 +2686,31 @@ Checks for updates by comparing the local version with the remote version.
 
 ### `clean`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Deletes files and directories in the `sessions` directory, excluding specified files and directories.
 
 ### `clock`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Displays the current date and time, and runs a custom shell script.
 
 ### `clone_site`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Clone a website and serve the files in sessions/{url_cloned}.
 
 ### `collab_join`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Print the multi-operator collaboration join URL and SSE endpoint.
 
 ### `command_explorer`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Interactive command explorer organized by goals and phases.
 
@@ -2722,7 +2722,7 @@ Open a Powerlevel10k-style wizard to toggle prompt segments.
 
 ### `config_status`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Show configuration status grouped by category with set/missing indicators.
 
@@ -2740,55 +2740,55 @@ Analyze captured credentials and suggest spray targets.
 
 ### `cron`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Schedules a command to run at a specified time.
 
 ### `ctx`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
 
 ### `ctx_help`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Show contextual help for a command: description, phase, requirements, tips.
 
 ### `daemon_approve`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Approve or veto the daemon's currently-pending action.
 
 ### `daemon_focus`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Restrict the autonomous daemon to a set of focus targets.
 
 ### `daemon_mode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Switch the autonomous daemon between auto, approval and paused modes.
 
 ### `daemon_pause`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Pause the autonomous daemon before its next step.
 
 ### `daemon_resume`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Resume the autonomous daemon (switch mode to auto).
 
 ### `daemon_veto`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/daemon_ctl.py`
 
 Add or clear vetoed command first-tokens for the autonomous daemon.
 
@@ -2866,43 +2866,43 @@ Manage workspaces (list, create, switch, delete).
 
 ### `decode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Decode a string using the specified shift value and substitution key.
 
 ### `doctor`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Preflight environment health check — verify the install is ready.
 
 ### `download_resources`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Downloads resources into the `sessions` directory.
 
 ### `encode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Encodes a string using the specified shift value and substitution key.
 
 ### `encoderpayload`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Applies various obfuscations to a given command line string to create multiple obfuscated versions.
 
 ### `encodewinbase64`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.
 
 ### `engage`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Drive a single target through the full kill-chain in one command.
 
@@ -2926,19 +2926,19 @@ Show exploration coverage and addon/tool suggestions per service.
 
 ### `fixel`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Fixes file permissions and line endings in the project directories.
 
 ### `fixperm`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Fix permissions for LazyOwn shell scripts.
 
 ### `gencert`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Generates a certificate authority (CA), client certificate, and client key.
 
@@ -2950,7 +2950,7 @@ Generate a payload.
 
 ### `getseclist`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Get the SecLists wordlist from GitHub.
 
@@ -2992,19 +2992,19 @@ Open a new window within a tmux session using the LazyOwn RedTeam Framework.
 
 ### `help_phase`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 List all commands for a given kill-chain phase.
 
 ### `help_status`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Show which session requirements are met (rhost, creds, domain, OS).
 
 ### `hex_to_plaintext`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Converts hexadecimal data from a file to plain text.
 
@@ -3046,67 +3046,67 @@ Remove a hook rule by name.
 
 ### `hunt`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Run an autonomous exploitation chain against a target.
 
 ### `ignorearp`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Configures the system to ignore ARP requests by setting a kernel parameter.
 
 ### `ignoreicmp`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Configures the system to ignore ICMP echo requests by setting a kernel parameter.
 
 ### `ip`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Displays IP addresses of network interfaces and copies the IP address from the `tun0` interface to the clipboard.
 
 ### `ip2asn`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Command to get ASN for a given IP address.
 
 ### `ip2hex`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Convert an IPv4 address into its hexadecimal representation.
 
 ### `ipp`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
 
 ### `karma`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Show ELO score, karma rank and exploration progress for this operator.
 
 ### `kick`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
 
 ### `killchain`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Show the unified kill-chain progress and control auto-refresh.
 
 ### `l00t`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Unified loot: show, search, reuse, graph, and mark credentials.
 
@@ -3118,7 +3118,7 @@ Manage local CTF practice labs.
 
 ### `lazyscript`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Executes commands defined in a lazyscript file.
 
@@ -3130,7 +3130,7 @@ Displays a list of useful links and allows the user to select and copy a link to
 
 ### `list`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Lists all available scripts in the modules directory.
 
@@ -3142,7 +3142,7 @@ List all available aliases.
 
 ### `load_session`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Load the session from the sessionLazyOwn.json file and display the status of various parameters.
 
@@ -3172,7 +3172,7 @@ List available LOLBAS (Living Off The Land) techniques from plugins.
 
 ### `loot`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
 
@@ -3202,13 +3202,13 @@ Alias for makerc — record commands to a script.
 
 ### `msfshellcoder`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ### `nano`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Opens or creates the file using line in the sessions directory for editing using nano.
 
@@ -3226,13 +3226,13 @@ Show the Hacker News in the terminal.
 
 ### `next`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Show next-step recommendations or execute the active autosuggest.
 
 ### `note`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Capture a quick operator note attached to the current target and phase.
 
@@ -3340,25 +3340,25 @@ Open the fuzzy Command-K palette overlay.
 
 ### `payload`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Load parameters from a specified payload JSON file.
 
 ### `phase`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Get or set the current kill-chain phase.
 
 ### `pipeline`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Declarative composition layer: run a YAML pipeline of LazyOwn commands.
 
 ### `pivot`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Record a newly discovered pivot target or show the pivot chain.
 
@@ -3382,7 +3382,7 @@ Show the full ranked plan (all candidates) for a target.
 
 ### `pop`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Open a centered popup in the current tmux session to execute a shell command.
 
@@ -3394,13 +3394,13 @@ Show prerequisite commands for a verb (the chain's ``prev`` arrow).
 
 ### `pwd`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Displays the current working directory and lists files, and copies the current directory path to the clipboard.
 
 ### `qa`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Exits the application quickly without confirmation.
 
@@ -3424,13 +3424,13 @@ Run an enhanced resource script.
 
 ### `resume`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Browse previous sessions and load a target from a past engagement.
 
 ### `rhost`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Copies the remote host (self.params['rhost']) to the clipboard and updates the command prompt.
 
@@ -3442,37 +3442,37 @@ Launch the Rich-based live dashboard TUI.
 
 ### `rot`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Apply a ROT (rotation) substitution cipher to the given string.
 
 ### `rotf`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Apply a ROT (rotation) substitution cipher to the given extension.
 
 ### `rrhost`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/nethelpers.py`
 
 Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
 
 ### `run`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Runs a specific LazyOwn script or active module.
 
 ### `scans`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 List nmap scan files in sessions/ with age, size, and open ports.
 
 ### `scope`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Manage the authorized engagement scope and the scope-guard posture.
 
@@ -3484,7 +3484,7 @@ Search for modules by name, description, or author.
 
 ### `sh`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Executes a shell command directly from the LazyOwn interface.
 
@@ -3496,13 +3496,13 @@ Share a finding or credential discovery with the team.
 
 ### `show`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Show params, modules, payloads, or active module options.
 
 ### `sitrep`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Print a unified operational situation report.
 
@@ -3526,19 +3526,19 @@ Suggest next commands by walking the graph from recent activity.
 
 ### `sys`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Executes a shell command directly from the LazyOwn interface.
 
 ### `tab`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/shellsys.py`
 
 Executes the `lazypyautogui.py` script with optional arguments.
 
 ### `tasks`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 View and manage the task queue from sessions/tasks.json.
 
@@ -3556,13 +3556,13 @@ Show active operators and target locks.
 
 ### `tenant`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/session_ops.py`
 
 Manage multi-tenancy: list, switch, or create engagement tenants.
 
 ### `tgrep`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Search across all previous command outputs and session logs.
 
@@ -3598,13 +3598,13 @@ Show details for a single MITRE technique.
 
 ### `tui_theme`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Switch the TUI colour theme used by the splash and styled output.
 
 ### `tutorial`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Interactive tutorial that walks you through the golden path.
 
@@ -3616,13 +3616,13 @@ Release an advisory lock on a target.
 
 ### `urldecode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Decode a URL-encoded string.
 
 ### `urlencode`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/encoding.py`
 
 Encode a string for URL.
 
@@ -3646,7 +3646,7 @@ Show the currently logged-in CLI operator.
 
 ### `wizard`
 
-**Phase:** misc | **Source:** `cli/commands/misc_migrated.py`
+**Phase:** misc | **Source:** `cli/commands/help_ui.py`
 
 Guided first-run setup wizard — configure rhost, lhost, domain, wordlists and more.
 

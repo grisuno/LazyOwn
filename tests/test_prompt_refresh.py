@@ -51,7 +51,7 @@ def test_unrelated_write_stays_local() -> None:
 
 def test_do_assign_calls_refresh_prompt() -> None:
     """do_assign must refresh the prompt after a successful payload write."""
-    source = (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+    source = (REPO_ROOT / "cli" / "commands" / "session_ops.py").read_text(encoding="utf-8")
     block = source.split("def do_assign", 1)[1].split("def do_tenant", 1)[0]
     assert "self.refresh_prompt()" in block
 
@@ -77,7 +77,7 @@ def test_no_bracket_replace_hack() -> None:
 
 def test_rhost_commands_use_refresh_prompt() -> None:
     """do_rhost and do_rrhost must refresh through the shell helper."""
-    source = (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+    source = (REPO_ROOT / "cli" / "commands" / "nethelpers.py").read_text(encoding="utf-8")
     for name in ("def do_rhost", "def do_rrhost"):
         block = source.split(name, 1)[1].split("\n    def ", 1)[0]
         assert "self.refresh_prompt()" in block, name

@@ -2,11 +2,13 @@
 
 ## lazyc2/extensions/__init__.py
 - Layer: infrastructure
+- Doc: Shared C2 extension modules.  Each module is a self-contained set of helpers that the monolithic ``lazyc2.py`` and/or in
 - Language: py
 - Imported by: `lazyc2/app_factory.py`
 
 ## lazyc2/extensions/decoy.py
 - Layer: presentation
+- Doc: Decoy / honeypot page for unauthenticated visitors.  When a request comes from an IP that is not the operator's lhost th
 - Language: py
 - Symbols:
   - `decoy_response` (function, line 12) `def decoy_response()`
@@ -14,6 +16,7 @@
 
 ## lazyc2/extensions/short_urls.py
 - Layer: infrastructure
+- Doc: Short URL management utilities for the C2 phishing module.  Provides load/save/validation helpers for short URL redirect
 - Language: py
 - Symbols:
   - `configure` (function, line 21) `def configure(sessions_phishing_dir)`
@@ -26,6 +29,7 @@
 
 ## lazyc2/extensions/storage.py
 - Layer: data_access
+- Doc: JSON-file storage helpers for the C2 web interface.  Provides load/save helpers for tasks, CVEs, notes, events, notifica
 - Language: py
 - Symbols:
   - `configure` (function, line 18) `def configure(sessions_dir)`
@@ -45,6 +49,7 @@
 
 ## lazyc2/extensions/users.py
 - Layer: infrastructure
+- Doc: User management utilities for the C2 auth module.  Provides load/save helpers for both the legacy JSON user store and th
 - Language: py
 - Symbols:
   - `configure` (function, line 16) `def configure(users_path)`

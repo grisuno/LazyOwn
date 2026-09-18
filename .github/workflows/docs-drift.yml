@@ -1,10 +1,10 @@
 name: docs-drift
 on:
   pull_request:
-    paths: ["cli/commands/**.py", "lazyaddons/**", "tools/**", "COMMANDS.md", "README.md", "skills/lazyown.md"]
+    paths: ["cli/commands/**.py", "utils.py", "lazyown.py", "lazyaddons/**", "tools/**", "COMMANDS.md", "UTILS.md", "README.md", "skills/lazyown.md"]
   push:
     branches: [dev]
-    paths: ["cli/commands/**.py", "lazyaddons/**", "tools/**", "COMMANDS.md", "README.md", "skills/lazyown.md"]
+    paths: ["cli/commands/**.py", "utils.py", "lazyown.py", "lazyaddons/**", "tools/**", "COMMANDS.md", "UTILS.md", "README.md", "skills/lazyown.md"]
 jobs:
   drift:
     runs-on: ubuntu-latest
@@ -14,7 +14,15 @@ jobs:
         with: { python-version: "3.11" }
       - name: Rebuild command index
         run: python3 scripts/build_command_index.py
-      - name: Fail on drift
-        run: git diff --exit-code -- COMMANDS.md || (echo "COMMANDS.md drifted. Run python3 scripts/build_command_index.py" && exit 1)
+      - name: Regenerate commands reference
+        run: python3 readmeneitor.py lazyown.py
+      - name: Regenerate utils reference
+        run: python3 readmeneitor.py utils.py
+      - name: Fail on command index drift
+        run: git diff --exit-code -- cli/command_index.json || (echo "cli/command_index.json drifted. Run python3 scripts/build_command_index.py" && exit 1)
+      - name: Fail on commands reference drift
+        run: git diff --exit-code -- COMMANDS.md docs/COMMANDS.html || (echo "COMMANDS.md drifted. Run python3 readmeneitor.py lazyown.py" && exit 1)
+      - name: Fail on utils reference drift
+        run: git diff --exit-code -- UTILS.md || (echo "UTILS.md drifted. Run python3 readmeneitor.py utils.py" && exit 1)
       - name: Check onboarding smoke
         run: bash scripts/smoke_onboarding.sh

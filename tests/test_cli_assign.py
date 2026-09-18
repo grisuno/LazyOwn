@@ -172,7 +172,7 @@ class TestLazyOwnAssignWiring:
         The monolith split moved these verbs into a phase ``CommandSet``
         while ``complete_assign`` stayed on ``LazyOwnShell``.
         """
-        return (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+        return (REPO_ROOT / "cli" / "commands" / "session_ops.py").read_text(encoding="utf-8")
 
     def test_imports_apply_assign(self, src):
         assert "from cli.assign import apply_assign" in src

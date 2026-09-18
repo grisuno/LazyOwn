@@ -418,16 +418,16 @@ class TestMiscMigratedIpDisplay:
     or subprocess with shell=True for IP display."""
 
     def test_ip_uses_subprocess_list_form(self):
-        """BDD: Given the misc_migrated.py module, When I check IP display,
+        """BDD: Given the nethelpers.py module, When I check IP display,
         Then it must use subprocess with a list (not shell=True)."""
-        misc_path = Path(__file__).parent.parent / "cli" / "commands" / "misc_migrated.py"
+        misc_path = Path(__file__).parent.parent / "cli" / "commands" / "nethelpers.py"
         content = misc_path.read_text(encoding="utf-8")
         assert '["ip"' in content or '["ip", ' in content
 
     def test_no_xclip_shell_true(self):
-        """BDD: Given the misc_migrated.py module, When I check clipboard
+        """BDD: Given the nethelpers.py module, When I check clipboard
         operations, Then xclip must not use shell=True."""
-        misc_path = Path(__file__).parent.parent / "cli" / "commands" / "misc_migrated.py"
+        misc_path = Path(__file__).parent.parent / "cli" / "commands" / "nethelpers.py"
         content = misc_path.read_text(encoding="utf-8")
         assert "xclip -o -sel clip', shell=True" not in content
 

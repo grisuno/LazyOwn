@@ -15,6 +15,7 @@
 
 ## banner.py
 - Layer: utility
+- Doc: banner.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Lice
 - Language: py
 - Symbols:
   - `image_to_bash` (function, line 25) `def image_to_bash(image_path, image_res)`
@@ -425,7 +426,7 @@
 
 ## lazyown.py
 - Layer: presentation
-- Doc: _*_ coding: utf8 _*_
+- Doc: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date: 13/08/2024 License: GPL v3  Descr
 - Language: py
 - Symbols:
   - `_ux_debug` (function, line 294) `def _ux_debug(context, exc)`
@@ -570,6 +571,7 @@
 
 ## readmeneitor.py
 - Layer: utility
+- Doc: readmeneitor.py — Automated documentation generator for LazyOwn RedTeam Framework.  Author: Gris Iscomeback Email: grisi
 - Language: py
 - Symbols:
   - `load_command_index` (function, line 74) `def load_command_index(index_path)`
@@ -598,6 +600,7 @@
 
 ## setup.py
 - Layer: infrastructure
+- Doc: Compatibility shim for legacy ``python setup.py`` invocations.  All project metadata and dependencies are declared in ``
 - Language: py
 
 ## slack_c2_bot.py
@@ -649,6 +652,7 @@
 
 ## telegram_hermes.py
 - Layer: utility
+- Doc: telegram_hermes.py LazyOwn Telegram Bot with Hermes Gateway Integration  This bot bridges Telegram to the full LazyOwn f
 - Language: py
 - Symbols:
   - `run_lazyown_command` (function, line 61) `def run_lazyown_command(command, timeout)`
@@ -698,6 +702,7 @@
 
 ## utils.py
 - Layer: utility
+- Doc: utils.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Desc
 - Language: py
 - Symbols:
   - `parse_ip_mac` (function, line 291) `def parse_ip_mac(input_string)`
@@ -745,85 +750,82 @@
   - `read_payloads` (function, line 1461) `def read_payloads(file_path)`
   - `inject_payloads` (function, line 1482) `def inject_payloads(urls, payload_url, request_timeout)`
   - `prompt` (function, line 1577) `def prompt(label, default)`
-  - `is_lower` (function, line 1584) `def is_lower(char)`
-  - `is_upper` (function, line 1597) `def is_upper(char)`
-  - `is_mixed` (function, line 1610) `def is_mixed(s)`
-  - `add` (function, line 1623) `def add(str_part, delimiter, i)`
-  - `detect_delimiter` (function, line 1640) `def detect_delimiter(foo_bar)`
-  - `transform` (function, line 1659) `def transform(parts, delimiter, casing)`
-  - `handle` (function, line 1689) `def handle(input_str)`
-  - `get_users_dic` (function, line 1718) `def get_users_dic(txt)`
-  - `get_hash` (function, line 1753) `def get_hash(dir)`
-  - `is_digit` (function, line 1793) `def is_digit(the_digit)`
-  - `crack_password` (function, line 1804) `def crack_password(crypttext)`
-  - `get_terminal_size` (function, line 1843) `def get_terminal_size()`
-  - `halp` (function, line 1851) `def halp()`
-  - `ensure_tmux_session` (function, line 1904) `def ensure_tmux_session(session_name)`
-  - `get_xml` (function, line 1952) `def get_xml(directory)`
-  - `get_domain_from_xml` (function, line 1964) `def get_domain_from_xml(xml_file)`
-  - `shellcode_to_sylk` (function, line 1993) `def shellcode_to_sylk(shellcode_path)`
-  - `get_banner` (function, line 2018) `def get_banner(ip, port)`
-  - `list_binaries` (function, line 2034) `def list_binaries(directory)`
-  - `select_binary` (function, line 2053) `def select_binary(binaries)`
-  - `decode` (function, line 2077) `def decode(data)`
-  - `get_command` (function, line 2094) `def get_command(url, lhost)`
-  - `send_command` (function, line 2104) `def send_command(cmd, url, lhost)`
-  - `activate_server` (function, line 2131) `def activate_server(httpd, url, lhost)`
-  - `Spray` (function, line 2141) `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
-  - `ProcessResults` (function, line 2188) `def ProcessResults(results, outfile)`
-  - `generate_index` (function, line 2202) `def generate_index(repo_dir)`
-  - `replace_variables` (function, line 2262) `def replace_variables(command, variables)`
-  - `create_caldera_config` (function, line 2282) `def create_caldera_config(file_path)`
-  - `extract_banners` (function, line 2376) `def extract_banners(xml_file)`
-  - `scrape_news` (function, line 2426) `def scrape_news()`
-  - `display_news` (function, line 2460) `def display_news(titles, links, scores)`
-  - `htmlify` (function, line 2477) `def htmlify(data)`
-  - `de_htmlify` (function, line 2487) `def de_htmlify(data)`
-  - `is_port_in_use` (function, line 2498) `def is_port_in_use(port, host)`
-  - `return_creds` (function, line 2507) `def return_creds()`
-  - `query_arin_ip` (function, line 2520) `def query_arin_ip(ip)`
-  - `get_org` (function, line 2538) `def get_org(data)`
-  - `load_adversary` (function, line 2555) `def load_adversary()`
-  - `replace_placeholders` (function, line 2560) `def replace_placeholders(template, replacements)`
-  - `replace_command_placeholders` (function, line 2575) `def replace_command_placeholders(command, params)`
-  - `parse_nmap_csv` (function, line 2600) `def parse_nmap_csv(csv_path)`
-  - `query_ollama` (function, line 2616) `def query_ollama(prompt, model)`
-  - `preprocess_llm_response` (function, line 2636) `def preprocess_llm_response(response)`
-  - `manual_yaml_extraction` (function, line 2671) `def manual_yaml_extraction(content)`
-  - `create_synthetic_yaml` (function, line 2735) `def create_synthetic_yaml(nmap_services)`
-  - `parse_yaml_response` (function, line 2810) `def parse_yaml_response(content)`
-  - `fix_common_yaml_issues` (function, line 2843) `def fix_common_yaml_issues(yaml_content)`
-  - `aggressive_yaml_fix` (function, line 2882) `def aggressive_yaml_fix(yaml_content)`
-  - `save_playbook` (function, line 2914) `def save_playbook(playbook_data, playbook_name)`
-  - `load_knowledge_base` (function, line 2925) `def load_knowledge_base(knowledge_file)`
-  - `anti_debug` (function, line 2932) `def anti_debug()`
-  - `create_msfshellcoder_parser` (function, line 2940) `def create_msfshellcoder_parser()`
-  - `load_user_aliases` (function, line 2959) `def load_user_aliases()`
-  - `MyServer` (class, line 2972) `class MyServer(HTTPServer)`
-  - `SimpleHTTPRequestHandler` (class, line 2978) `class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)`
-  - `IP2ASN` (class, line 3004) `class IP2ASN`
-  - `VulnerabilityScanner` (class, line 3095) `class VulnerabilityScanner`
-  - `_build_startup_parser` (method, line 3282) `def _build_startup_parser()`
+  - `add` (function, line 1584) `def add(str_part, delimiter, i)`
+  - `detect_delimiter` (function, line 1601) `def detect_delimiter(foo_bar)`
+  - `transform` (function, line 1620) `def transform(parts, delimiter, casing)`
+  - `handle` (function, line 1650) `def handle(input_str)`
+  - `get_users_dic` (function, line 1679) `def get_users_dic(txt)`
+  - `get_hash` (function, line 1714) `def get_hash(dir)`
+  - `is_digit` (function, line 1754) `def is_digit(the_digit)`
+  - `crack_password` (function, line 1765) `def crack_password(crypttext)`
+  - `get_terminal_size` (function, line 1804) `def get_terminal_size()`
+  - `halp` (function, line 1812) `def halp()`
+  - `ensure_tmux_session` (function, line 1865) `def ensure_tmux_session(session_name)`
+  - `get_xml` (function, line 1913) `def get_xml(directory)`
+  - `get_domain_from_xml` (function, line 1925) `def get_domain_from_xml(xml_file)`
+  - `shellcode_to_sylk` (function, line 1954) `def shellcode_to_sylk(shellcode_path)`
+  - `get_banner` (function, line 1979) `def get_banner(ip, port)`
+  - `list_binaries` (function, line 1995) `def list_binaries(directory)`
+  - `select_binary` (function, line 2014) `def select_binary(binaries)`
+  - `decode` (function, line 2038) `def decode(data)`
+  - `get_command` (function, line 2055) `def get_command(url, lhost)`
+  - `send_command` (function, line 2065) `def send_command(cmd, url, lhost)`
+  - `activate_server` (function, line 2092) `def activate_server(httpd, url, lhost)`
+  - `Spray` (function, line 2102) `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)`
+  - `ProcessResults` (function, line 2149) `def ProcessResults(results, outfile)`
+  - `generate_index` (function, line 2163) `def generate_index(repo_dir)`
+  - `replace_variables` (function, line 2223) `def replace_variables(command, variables)`
+  - `create_caldera_config` (function, line 2243) `def create_caldera_config(file_path)`
+  - `extract_banners` (function, line 2337) `def extract_banners(xml_file)`
+  - `scrape_news` (function, line 2387) `def scrape_news()`
+  - `display_news` (function, line 2421) `def display_news(titles, links, scores)`
+  - `htmlify` (function, line 2438) `def htmlify(data)`
+  - `de_htmlify` (function, line 2448) `def de_htmlify(data)`
+  - `is_port_in_use` (function, line 2459) `def is_port_in_use(port, host)`
+  - `return_creds` (function, line 2468) `def return_creds()`
+  - `query_arin_ip` (function, line 2481) `def query_arin_ip(ip)`
+  - `get_org` (function, line 2499) `def get_org(data)`
+  - `load_adversary` (function, line 2516) `def load_adversary()`
+  - `replace_placeholders` (function, line 2521) `def replace_placeholders(template, replacements)`
+  - `replace_command_placeholders` (function, line 2536) `def replace_command_placeholders(command, params)`
+  - `parse_nmap_csv` (function, line 2561) `def parse_nmap_csv(csv_path)`
+  - `query_ollama` (function, line 2577) `def query_ollama(prompt, model)`
+  - `preprocess_llm_response` (function, line 2597) `def preprocess_llm_response(response)`
+  - `manual_yaml_extraction` (function, line 2632) `def manual_yaml_extraction(content)`
+  - `create_synthetic_yaml` (function, line 2696) `def create_synthetic_yaml(nmap_services)`
+  - `parse_yaml_response` (function, line 2771) `def parse_yaml_response(content)`
+  - `fix_common_yaml_issues` (function, line 2804) `def fix_common_yaml_issues(yaml_content)`
+  - `aggressive_yaml_fix` (function, line 2843) `def aggressive_yaml_fix(yaml_content)`
+  - `save_playbook` (function, line 2875) `def save_playbook(playbook_data, playbook_name)`
+  - `load_knowledge_base` (function, line 2886) `def load_knowledge_base(knowledge_file)`
+  - `anti_debug` (function, line 2893) `def anti_debug()`
+  - `create_msfshellcoder_parser` (function, line 2901) `def create_msfshellcoder_parser()`
+  - `load_user_aliases` (function, line 2920) `def load_user_aliases()`
+  - `MyServer` (class, line 2933) `class MyServer(HTTPServer)`
+  - `SimpleHTTPRequestHandler` (class, line 2939) `class SimpleHTTPRequestHandler(BaseHTTPRequestHandler)`
+  - `IP2ASN` (class, line 2965) `class IP2ASN`
+  - `VulnerabilityScanner` (class, line 3056) `class VulnerabilityScanner`
+  - `_build_startup_parser` (method, line 3243) `def _build_startup_parser()`
   - `_redact` (method, line 1037) `def _redact(text)`
   - `send_request` (method, line 1507) `def send_request(raw_url)`
   - `handle_forms` (method, line 1544) `def handle_forms(content, url)`
-  - `replace_match` (method, line 2593) `def replace_match(match)`
-  - `log_request` (method, line 2982) `def log_request(self)`
-  - `log_message` (method, line 2985) `def log_message(self)`
-  - `do_GET` (method, line 2988) `def do_GET(self)`
-  - `__init__` (method, line 3005) `def __init__(self)`
-  - `open_file` (method, line 3010) `def open_file(self, filename)`
-  - `open_reader` (method, line 3015) `def open_reader(self, reader)`
-  - `_parse_file` (method, line 3025) `def _parse_file(self, reader)`
-  - `as_of_ip` (method, line 3055) `def as_of_ip(self, ip)`
-  - `_rec_index_has_ip` (method, line 3061) `def _rec_index_has_ip(self, idx, ip)`
-  - `as_name` (method, line 3070) `def as_name(self, asn)`
-  - `as_country` (method, line 3074) `def as_country(self, asn)`
-  - `__init__` (method, line 3113) `def __init__(self, user_agent, max_workers, sessions_dir, description_language)`
-  - `search_cves` (method, line 3139) `def search_cves(self, service)`
-  - `_enrich_cve` (method, line 3194) `def _enrich_cve(self, cve_info)`
-  - `persist` (method, line 3217) `def persist(self, service, target, cves)`
-  - `pretty_print` (method, line 3254) `def pretty_print(self, cves_details)`
-  - `_cvss_sort_key` (method, line 3267) `def _cvss_sort_key(record)`
+  - `replace_match` (method, line 2554) `def replace_match(match)`
+  - `log_request` (method, line 2943) `def log_request(self)`
+  - `log_message` (method, line 2946) `def log_message(self)`
+  - `do_GET` (method, line 2949) `def do_GET(self)`
+  - `__init__` (method, line 2966) `def __init__(self)`
+  - `open_file` (method, line 2971) `def open_file(self, filename)`
+  - `open_reader` (method, line 2976) `def open_reader(self, reader)`
+  - `_parse_file` (method, line 2986) `def _parse_file(self, reader)`
+  - `as_of_ip` (method, line 3016) `def as_of_ip(self, ip)`
+  - `_rec_index_has_ip` (method, line 3022) `def _rec_index_has_ip(self, idx, ip)`
+  - `as_name` (method, line 3031) `def as_name(self, asn)`
+  - `as_country` (method, line 3035) `def as_country(self, asn)`
+  - `__init__` (method, line 3074) `def __init__(self, user_agent, max_workers, sessions_dir, description_language)`
+  - `search_cves` (method, line 3100) `def search_cves(self, service)`
+  - `_enrich_cve` (method, line 3155) `def _enrich_cve(self, cve_info)`
+  - `persist` (method, line 3178) `def persist(self, service, target, cves)`
+  - `pretty_print` (method, line 3215) `def pretty_print(self, cves_details)`
+  - `_cvss_sort_key` (method, line 3228) `def _cvss_sort_key(record)`
 - Depends on: `cli/banner_config.py`, `core/config.py`, `core/console.py`, `core/crypto.py`, `core/dependencies.py`, `core/parsers.py`, `core/process.py`, `core/safe_subprocess.py`, `core/validators.py`, `modules/backdoor/server.c`, `modules/lazyencoder_decoder.py`, `skills/claude_md_orchestrator/parser.py`
-- Imported by: `banner.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/database.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exfiltration.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/scan_migrated.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyown.py`, `lazyown.py`, `modules/c2_builder.py`, `modules/legacy/lazysmbrelay.py`, `modules/listener_manager.py`, `slack_c2_bot.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_fuzzy_picker.py`, `tests/test_scope_guard.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `banner.py`, `cli/commands/_base.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exfiltration.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/nethelpers.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/scan_migrated.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyown.py`, `lazyown.py`, `modules/c2_builder.py`, `modules/legacy/lazysmbrelay.py`, `modules/listener_manager.py`, `slack_c2_bot.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_api_key_resolution.py`, `tests/test_fuzzy_picker.py`, `tests/test_scope_guard.py`, `tests/test_security_hardening_v5.py`

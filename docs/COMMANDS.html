@@ -2178,12 +2178,12 @@ a default CSS selector.</p>
 <p>Handle the end-of-file (EOF) condition.</p>
 <h3 id="acknowledgearp"><code>acknowledgearp</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Configures the system to acknowledge ARP requests by setting a kernel
 parameter.</p>
 <h3 id="acknowledgeicmp"><code>acknowledgeicmp</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Configures the system to respond to ICMP echo requests by setting a
 kernel parameter.</p>
 <h3 id="addalias"><code>addalias</code></h3>
@@ -2193,7 +2193,7 @@ kernel parameter.</p>
 {lport}, etc.</p>
 <h3 id="addhosts"><code>addhosts</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Adds an entry to the <code>/etc/hosts</code> file, mapping an IP
 address to a domain name.</p>
 <h3 id="aliass"><code>aliass</code></h3>
@@ -2202,7 +2202,7 @@ address to a domain name.</p>
 <p>Prints all configured aliases and their associated commands.</p>
 <h3 id="assign"><code>assign</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>assign a parameter value, persist to payload.json and refresh
 aliases.</p>
 <h3 id="back"><code>back</code></h3>
@@ -2215,11 +2215,11 @@ aliases.</p>
 <p>Show the banner</p>
 <h3 id="base64decode"><code>base64decode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Decodes a Base64 encoded string.</p>
 <h3 id="base64encode"><code>base64encode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Encodes a given string into Base64 format.</p>
 <h3 id="browse"><code>browse</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2235,7 +2235,7 @@ aliases.</p>
 <p>Browse the command catalog.</p>
 <h3 id="chainmode"><code>chainmode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Toggle interactive kill-chain chaining after every command.</p>
 <h3 id="check_update"><code>check_update</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2244,25 +2244,25 @@ aliases.</p>
 version.</p>
 <h3 id="clean"><code>clean</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Deletes files and directories in the <code>sessions</code> directory,
 excluding specified files and directories.</p>
 <h3 id="clock"><code>clock</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Displays the current date and time, and runs a custom shell
 script.</p>
 <h3 id="clone_site"><code>clone_site</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Clone a website and serve the files in sessions/{url_cloned}.</p>
 <h3 id="collab_join"><code>collab_join</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Print the multi-operator collaboration join URL and SSE endpoint.</p>
 <h3 id="command_explorer"><code>command_explorer</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Interactive command explorer organized by goals and phases.</p>
 <h3 id="config_banner"><code>config_banner</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2270,7 +2270,7 @@ script.</p>
 <p>Open a Powerlevel10k-style wizard to toggle prompt segments.</p>
 <h3 id="config_status"><code>config_status</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Show configuration status grouped by category with set/missing
 indicators.</p>
 <h3 id="cred_mark_failed"><code>cred_mark_failed</code></h3>
@@ -2283,42 +2283,42 @@ indicators.</p>
 <p>Analyze captured credentials and suggest spray targets.</p>
 <h3 id="cron"><code>cron</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Schedules a command to run at a specified time.</p>
 <h3 id="ctx"><code>ctx</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Print a single-line operator context: rhost, lhost, domain, phase,
 os, creds.</p>
 <h3 id="ctx_help"><code>ctx_help</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Show contextual help for a command: description, phase, requirements,
 tips.</p>
 <h3 id="daemon_approve"><code>daemon_approve</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Approve or veto the daemon’s currently-pending action.</p>
 <h3 id="daemon_focus"><code>daemon_focus</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Restrict the autonomous daemon to a set of focus targets.</p>
 <h3 id="daemon_mode"><code>daemon_mode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Switch the autonomous daemon between auto, approval and paused
 modes.</p>
 <h3 id="daemon_pause"><code>daemon_pause</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Pause the autonomous daemon before its next step.</p>
 <h3 id="daemon_resume"><code>daemon_resume</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Resume the autonomous daemon (switch mode to auto).</p>
 <h3 id="daemon_veto"><code>daemon_veto</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/daemon_ctl.py</code></p>
 <p>Add or clear vetoed command first-tokens for the autonomous
 daemon.</p>
 <h3 id="dashboard"><code>dashboard</code></h3>
@@ -2371,35 +2371,35 @@ daemon.</p>
 <p>Manage workspaces (list, create, switch, delete).</p>
 <h3 id="decode"><code>decode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Decode a string using the specified shift value and substitution
 key.</p>
 <h3 id="doctor"><code>doctor</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Preflight environment health check — verify the install is ready.</p>
 <h3 id="download_resources"><code>download_resources</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Downloads resources into the <code>sessions</code> directory.</p>
 <h3 id="encode"><code>encode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Encodes a string using the specified shift value and substitution
 key.</p>
 <h3 id="encoderpayload"><code>encoderpayload</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Applies various obfuscations to a given command line string to create
 multiple obfuscated versions.</p>
 <h3 id="encodewinbase64"><code>encodewinbase64</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Encodes a given payload into a Base64 encoded string suitable for
 Windows PowerShell execution.</p>
 <h3 id="engage"><code>engage</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Drive a single target through the full kill-chain in one command.</p>
 <h3 id="exit"><code>exit</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2416,16 +2416,16 @@ tasks.</p>
 <p>Show exploration coverage and addon/tool suggestions per service.</p>
 <h3 id="fixel"><code>fixel</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Fixes file permissions and line endings in the project
 directories.</p>
 <h3 id="fixperm"><code>fixperm</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Fix permissions for LazyOwn shell scripts.</p>
 <h3 id="gencert"><code>gencert</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Generates a certificate authority (CA), client certificate, and
 client key.</p>
 <h3 id="generate"><code>generate</code></h3>
@@ -2434,7 +2434,7 @@ client key.</p>
 <p>Generate a payload.</p>
 <h3 id="getseclist"><code>getseclist</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Get the SecLists wordlist from GitHub.</p>
 <h3 id="god_nodes"><code>god_nodes</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2464,16 +2464,16 @@ RPORT.</p>
 Framework.</p>
 <h3 id="help_phase"><code>help_phase</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>List all commands for a given kill-chain phase.</p>
 <h3 id="help_status"><code>help_status</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Show which session requirements are met (rhost, creds, domain,
 OS).</p>
 <h3 id="hex_to_plaintext"><code>hex_to_plaintext</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Converts hexadecimal data from a file to plain text.</p>
 <h3 id="hooks"><code>hooks</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2502,53 +2502,53 @@ rules.</p>
 <p>Remove a hook rule by name.</p>
 <h3 id="hunt"><code>hunt</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Run an autonomous exploitation chain against a target.</p>
 <h3 id="ignorearp"><code>ignorearp</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Configures the system to ignore ARP requests by setting a kernel
 parameter.</p>
 <h3 id="ignoreicmp"><code>ignoreicmp</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Configures the system to ignore ICMP echo requests by setting a
 kernel parameter.</p>
 <h3 id="ip"><code>ip</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Displays IP addresses of network interfaces and copies the IP address
 from the <code>tun0</code> interface to the clipboard.</p>
 <h3 id="ip2asn"><code>ip2asn</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Command to get ASN for a given IP address.</p>
 <h3 id="ip2hex"><code>ip2hex</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Convert an IPv4 address into its hexadecimal representation.</p>
 <h3 id="ipp"><code>ipp</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Displays IP addresses of network interfaces and prints the IP address
 from the <code>tun0</code> interface.</p>
 <h3 id="karma"><code>karma</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Show ELO score, karma rank and exploration progress for this
 operator.</p>
 <h3 id="kick"><code>kick</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Handles the process of sending a spoofed ARP packet to a specified IP
 address with a given MAC address.</p>
 <h3 id="killchain"><code>killchain</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Show the unified kill-chain progress and control auto-refresh.</p>
 <h3 id="l00t"><code>l00t</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Unified loot: show, search, reuse, graph, and mark credentials.</p>
 <h3 id="lab"><code>lab</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2556,7 +2556,7 @@ address with a given MAC address.</p>
 <p>Manage local CTF practice labs.</p>
 <h3 id="lazyscript"><code>lazyscript</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Executes commands defined in a lazyscript file.</p>
 <h3 id="links"><code>links</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2565,7 +2565,7 @@ address with a given MAC address.</p>
 copy a link to the clipboard.</p>
 <h3 id="list"><code>list</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Lists all available scripts in the modules directory.</p>
 <h3 id="listaliases"><code>listaliases</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2573,7 +2573,7 @@ copy a link to the clipboard.</p>
 <p>List all available aliases.</p>
 <h3 id="load_session"><code>load_session</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Load the session from the sessionLazyOwn.json file and display the
 status of various parameters.</p>
 <h3 id="lock_target"><code>lock_target</code></h3>
@@ -2595,7 +2595,7 @@ status of various parameters.</p>
 plugins.</p>
 <h3 id="loot"><code>loot</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Alias for <code>l00t</code> — unified loot
 (show/search/reuse/graph/mark).</p>
 <h3 id="makerc"><code>makerc</code></h3>
@@ -2616,12 +2616,12 @@ plugins.</p>
 <p>Alias for makerc — record commands to a script.</p>
 <h3 id="msfshellcoder"><code>msfshellcoder</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Generate shellcode in C format using msfvenom for either a custom
 command or a reverse shell payload.</p>
 <h3 id="nano"><code>nano</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Opens or creates the file using line in the sessions directory for
 editing using nano.</p>
 <h3 id="neighbors"><code>neighbors</code></h3>
@@ -2635,11 +2635,11 @@ graph.</p>
 <p>Show the Hacker News in the terminal.</p>
 <h3 id="next"><code>next</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Show next-step recommendations or execute the active autosuggest.</p>
 <h3 id="note"><code>note</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Capture a quick operator note attached to the current target and
 phase.</p>
 <h3 id="notify"><code>notify</code></h3>
@@ -2715,20 +2715,20 @@ phase.</p>
 <p>Open the fuzzy Command-K palette overlay.</p>
 <h3 id="payload"><code>payload</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Load parameters from a specified payload JSON file.</p>
 <h3 id="phase"><code>phase</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Get or set the current kill-chain phase.</p>
 <h3 id="pipeline"><code>pipeline</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Declarative composition layer: run a YAML pipeline of LazyOwn
 commands.</p>
 <h3 id="pivot"><code>pivot</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Record a newly discovered pivot target or show the pivot chain.</p>
 <h3 id="plan"><code>plan</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2744,7 +2744,7 @@ commands.</p>
 <p>Show the full ranked plan (all candidates) for a target.</p>
 <h3 id="pop"><code>pop</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Open a centered popup in the current tmux session to execute a shell
 command.</p>
 <h3 id="prev"><code>prev</code></h3>
@@ -2754,12 +2754,12 @@ command.</p>
 arrow).</p>
 <h3 id="pwd"><code>pwd</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Displays the current working directory and lists files, and copies
 the current directory path to the clipboard.</p>
 <h3 id="qa"><code>qa</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Exits the application quickly without confirmation.</p>
 <h3 id="recommend_next"><code>recommend_next</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2775,12 +2775,12 @@ the current directory path to the clipboard.</p>
 <p>Run an enhanced resource script.</p>
 <h3 id="resume"><code>resume</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Browse previous sessions and load a target from a past
 engagement.</p>
 <h3 id="rhost"><code>rhost</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Copies the remote host (self.params[‘rhost’]) to the clipboard and
 updates the command prompt.</p>
 <h3 id="rich_tui"><code>rich_tui</code></h3>
@@ -2789,29 +2789,29 @@ updates the command prompt.</p>
 <p>Launch the Rich-based live dashboard TUI.</p>
 <h3 id="rot"><code>rot</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Apply a ROT (rotation) substitution cipher to the given string.</p>
 <h3 id="rotf"><code>rotf</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Apply a ROT (rotation) substitution cipher to the given
 extension.</p>
 <h3 id="rrhost"><code>rrhost</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/nethelpers.py</code></p>
 <p>Updates the command prompt to include the remote host
 (self.params[‘rhost’]) and current working directory.</p>
 <h3 id="run"><code>run</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Runs a specific LazyOwn script or active module.</p>
 <h3 id="scans"><code>scans</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>List nmap scan files in sessions/ with age, size, and open ports.</p>
 <h3 id="scope"><code>scope</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Manage the authorized engagement scope and the scope-guard
 posture.</p>
 <h3 id="search"><code>search</code></h3>
@@ -2820,7 +2820,7 @@ posture.</p>
 <p>Search for modules by name, description, or author.</p>
 <h3 id="sh"><code>sh</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Executes a shell command directly from the LazyOwn interface.</p>
 <h3 id="share_finding"><code>share_finding</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2828,11 +2828,11 @@ posture.</p>
 <p>Share a finding or credential discovery with the team.</p>
 <h3 id="show"><code>show</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Show params, modules, payloads, or active module options.</p>
 <h3 id="sitrep"><code>sitrep</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Print a unified operational situation report.</p>
 <h3 id="spool"><code>spool</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2848,16 +2848,16 @@ posture.</p>
 <p>Suggest next commands by walking the graph from recent activity.</p>
 <h3 id="sys"><code>sys</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Executes a shell command directly from the LazyOwn interface.</p>
 <h3 id="tab"><code>tab</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/shellsys.py</code></p>
 <p>Executes the <code>lazypyautogui.py</code> script with optional
 arguments.</p>
 <h3 id="tasks"><code>tasks</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>View and manage the task queue from sessions/tasks.json.</p>
 <h3 id="team_chat"><code>team_chat</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2869,11 +2869,11 @@ arguments.</p>
 <p>Show active operators and target locks.</p>
 <h3 id="tenant"><code>tenant</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/session_ops.py</code></p>
 <p>Manage multi-tenancy: list, switch, or create engagement tenants.</p>
 <h3 id="tgrep"><code>tgrep</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Search across all previous command outputs and session logs.</p>
 <h3 id="timeline_browser"><code>timeline_browser</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2898,11 +2898,11 @@ operations.</p>
 <p>Show details for a single MITRE technique.</p>
 <h3 id="tui_theme"><code>tui_theme</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Switch the TUI colour theme used by the splash and styled output.</p>
 <h3 id="tutorial"><code>tutorial</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Interactive tutorial that walks you through the golden path.</p>
 <h3 id="unlock_target"><code>unlock_target</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2910,11 +2910,11 @@ operations.</p>
 <p>Release an advisory lock on a target.</p>
 <h3 id="urldecode"><code>urldecode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Decode a URL-encoded string.</p>
 <h3 id="urlencode"><code>urlencode</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/encoding.py</code></p>
 <p>Encode a string for URL.</p>
 <h3 id="use"><code>use</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
@@ -2931,7 +2931,7 @@ Framework.</p>
 <p>Show the currently logged-in CLI operator.</p>
 <h3 id="wizard"><code>wizard</code></h3>
 <p><strong>Phase:</strong> misc | <strong>Source:</strong>
-<code>cli/commands/misc_migrated.py</code></p>
+<code>cli/commands/help_ui.py</code></p>
 <p>Guided first-run setup wizard — configure rhost, lhost, domain,
 wordlists and more.</p>
 <h2 id="diagnostics">13. Diagnostics</h2>

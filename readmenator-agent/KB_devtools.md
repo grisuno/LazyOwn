@@ -2,6 +2,7 @@
 
 ## scripts/devtools/command_audit.py
 - Layer: infrastructure
+- Doc: Audit every registered shell command for dispatch and parser errors.  The audit boots the cmd2 shell once, runs ``help``
 - Language: py
 - Symbols:
   - `AuditConfig` (class, line 25) `class AuditConfig`
@@ -12,6 +13,7 @@
 
 ## scripts/devtools/core_smoke.py
 - Layer: utility
+- Doc: Smoke check for the public surfaces documented in CORE.md.  I run this before a release and after a refactor that touche
 - Language: py
 - Symbols:
   - `SmokeConfig` (class, line 20) `class SmokeConfig`

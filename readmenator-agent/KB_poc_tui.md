@@ -2,11 +2,13 @@
 
 ## poc_tui/__main__.py
 - Layer: presentation
+- Doc: Entry point: python3 -m poc_tui
 - Language: py
 - Depends on: `poc_tui/app.py`
 
 ## poc_tui/app.py
 - Layer: presentation
+- Doc: LazyOwn TUI Shell — Proof of Concept.  cmd2 as backend, Textual as frontend. Zero migration needed. All 724+ commands, p
 - Language: py
 - Symbols:
   - `ShellBackend` (class, line 44) `class ShellBackend`
@@ -61,6 +63,7 @@
 
 ## poc_tui/config.py
 - Layer: presentation
+- Doc: Payload.json configuration manager for the TUI shell.
 - Language: py
 - Symbols:
   - `PayloadConfig` (class, line 12) `class PayloadConfig`
@@ -78,6 +81,7 @@
 
 ## poc_tui/plugin_loader.py
 - Layer: presentation
+- Doc: Unified plugin loader — YAML addons, Lua plugins, and .tool files.
 - Language: py
 - Symbols:
   - `PluginSpec` (class, line 28) `class PluginSpec`
@@ -106,6 +110,7 @@
 
 ## poc_tui/run.py
 - Layer: presentation
+- Doc: Convenience launcher that symlinks LazyOwn dirs and starts the TUI.
 - Language: py
 - Symbols:
   - `main` (function, line 9) `def main()`
@@ -113,6 +118,7 @@
 
 ## poc_tui/test_app.py
 - Layer: testing
+- Doc: Pytest tests for LazyOwn TUI Shell POC.
 - Language: py
 - Symbols:
   - `_run_async` (function, line 17) `def _run_async(coro)`

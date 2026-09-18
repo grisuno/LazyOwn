@@ -455,9 +455,10 @@ class TestCollabJoinCLICommand:
         """Text of the module that defines ``do_collab_join``.
 
         The monolith split moved ``do_collab_join`` from ``lazyown.py`` into
-        ``cli/commands/misc_migrated.py``.
+        ``cli/commands/misc_migrated.py`` and later into
+        ``cli/commands/session_ops.py``.
         """
-        return (REPO_ROOT / "cli" / "commands" / "misc_migrated.py").read_text(encoding="utf-8")
+        return (REPO_ROOT / "cli" / "commands" / "session_ops.py").read_text(encoding="utf-8")
 
     def test_collab_join_defined(self, command_src):
         assert "def do_collab_join" in command_src

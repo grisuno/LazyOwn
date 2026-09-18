@@ -2,10 +2,12 @@
 
 ## skills/claude_md_orchestrator/tests/conftest.py
 - Layer: testing
+- Doc: Pytest bootstrap for the claude_md_orchestrator test suite.  The test suite lives next to the package, not inside the pr
 - Language: py
 
 ## skills/claude_md_orchestrator/tests/test_orchestrator.py
 - Layer: testing
+- Doc: Unit tests for the claude_md_orchestrator package.  The tests pin the behavior of every agent. The tests use a temporary
 - Language: py
 - Symbols:
   - `tmp_run_dir` (function, line 46) `def tmp_run_dir(tmp_path)`

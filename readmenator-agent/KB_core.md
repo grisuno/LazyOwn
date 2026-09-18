@@ -2,11 +2,13 @@
 
 ## core/__init__.py
 - Layer: utility
+- Doc: Core primitives for the LazyOwn framework.  Stable, dependency-light building blocks shared by the CLI (``lazyown.py``),
 - Language: py
 - Depends on: `core/config.py`, `core/console.py`, `core/credentials.py`, `core/crypto.py`, `core/dependencies.py`, `core/errors.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/payload_schema.py`, `core/process.py`, `core/validators.py`
 
 ## core/api_authz.py
 - Layer: presentation
+- Doc: Tenant-bound API authorization for the LazyOwn C2 dashboard.  Provides API-key generation, storage, validation, and rout
 - Language: py
 - Symbols:
   - `ApiAuthzConfig` (class, line 54) `class ApiAuthzConfig`
@@ -44,6 +46,7 @@
 
 ## core/command_bridge.py
 - Layer: utility
+- Doc: Lightweight command execution bridge between C2 bots and the LazyOwn CLI shell.  Lazy-loads the heavy shell infrastructu
 - Language: py
 - Symbols:
   - `CommandBridge` (class, line 15) `class CommandBridge`
@@ -60,6 +63,7 @@
 
 ## core/config.py
 - Layer: infrastructure
+- Doc: Configuration loader and Config wrapper.  ``payload.json`` is the single source of runtime configuration for the entire 
 - Language: py
 - Symbols:
   - `_apply_env_overrides` (function, line 70) `def _apply_env_overrides(payload)`
@@ -80,10 +84,11 @@
   - `as_params` (method, line 223) `def as_params(self)`
   - `overridden_keys` (method, line 233) `def overridden_keys(self)`
 - Depends on: `core/logging.py`, `core/payload_schema.py`
-- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/db.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
+- Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/db.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
 
 ## core/console.py
 - Layer: utility
+- Doc: ANSI color constants and console output helpers.  This module is the single source of truth for terminal styling and the
 - Language: py
 - Symbols:
   - `_sanitize` (function, line 90) `def _sanitize(text)`
@@ -91,10 +96,11 @@
   - `print_msg` (function, line 100) `def print_msg(msg)`
   - `print_warn` (function, line 105) `def print_warn(warn)`
   - `print_succ` (function, line 110) `def print_succ(msg)`
-- Imported by: `cli/autosuggest.py`, `cli/command_explorer.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/ops_commands.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `core/__init__.py`, `core/credentials.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/legacy/lazybinenc.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`, `utils.py`
+- Imported by: `cli/autosuggest.py`, `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/security.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/ops_commands.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `core/__init__.py`, `core/credentials.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/legacy/lazybinenc.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`, `utils.py`
 
 ## core/credential_vault.py
 - Layer: utility
+- Doc: Credential vault — AES-256-GCM encryption for sensitive config values.  Wraps ``core.crypto.AESencrypt``/``AESdecrypt`` 
 - Language: py
 - Symbols:
   - `check_dangerous_defaults` (function, line 63) `def check_dangerous_defaults(payload)`
@@ -110,6 +116,7 @@
 
 ## core/credentials.py
 - Layer: utility
+- Doc: Credential management utilities for the LazyOwn framework.  Extracted from ``utils.py`` — credential file I/O, domain ex
 - Language: py
 - Symbols:
   - `get_credentials` (function, line 17) `def get_credentials(file, ncred)`
@@ -130,6 +137,7 @@
 
 ## core/crypto.py
 - Layer: utility
+- Doc: Symmetric primitives used by the framework.  XOR (legacy), AES-256-GCM, key generation, and file-dropping utilities extr
 - Language: py
 - Symbols:
   - `generate_salt` (function, line 24) `def generate_salt(length)`
@@ -143,6 +151,7 @@
 
 ## core/dependencies.py
 - Layer: utility
+- Doc: Graceful optional-import handling for heavy third-party dependencies.  Historically ``utils.py`` imported every third-pa
 - Language: py
 - Symbols:
   - `MissingDependencyError` (class, line 37) `class MissingDependencyError(ImportError)`
@@ -172,6 +181,7 @@
 
 ## core/errors.py
 - Layer: utility
+- Doc: Error taxonomy for the LazyOwn framework.  Provides a hierarchy of exception classes with error codes, enabling structur
 - Language: py
 - Symbols:
   - `ErrorCode` (class, line 10) `class ErrorCode(IntEnum)`
@@ -202,6 +212,7 @@
 
 ## core/executor.py
 - Layer: utility
+- Doc: Centralised subprocess wrapper for the LazyOwn framework.  Provides safe, logged command execution as a replacement for 
 - Language: py
 - Symbols:
   - `_validate_input` (function, line 41) `def _validate_input(command)`
@@ -215,6 +226,7 @@
 
 ## core/hardening.py
 - Layer: utility
+- Doc: Centralized security hardening utilities for the LazyOwn framework.  Contract: provides safe alternatives to dangerous p
 - Language: py
 - Symbols:
   - `SecurityViolation` (class, line 45) `class SecurityViolation(PermissionError)`
@@ -232,10 +244,11 @@
   - `defused_xml_parse` (method, line 311) `def defused_xml_parse(source)`
   - `sanitize_filename` (method, line 333) `def sanitize_filename(filename, max_length)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
 
 ## core/http.py
 - Layer: presentation
+- Doc: HTTP and API utilities for the LazyOwn framework.  Extracted from ``utils.py`` — HTTP request builders, exploit/PoC scra
 - Language: py
 - Symbols:
   - `generate_http_req` (function, line 18) `def generate_http_req(host, port, uri, custom_header, cmd)`
@@ -253,6 +266,7 @@
 
 ## core/llm_budget.py
 - Layer: utility
+- Doc: LLM budget cap and per call token counter.  The framework exposes several LLM backed entry points. The framework never e
 - Language: py
 - Symbols:
   - `BudgetExceeded` (class, line 54) `class BudgetExceeded(RuntimeError)`
@@ -304,6 +318,7 @@
 
 ## core/logging.py
 - Layer: infrastructure
+- Doc: Structured JSON-lines logging for the LazyOwn framework.  Replaces the historical ``print_msg`` / ``print_warn`` / ``pri
 - Language: py
 - Symbols:
   - `StructuredLogConfig` (class, line 42) `class StructuredLogConfig`
@@ -322,6 +337,7 @@
 
 ## core/network.py
 - Layer: utility
+- Doc: Network primitives for the LazyOwn framework.  Extracted from ``utils.py`` — ARP spoofing, socket operations, port detec
 - Language: py
 - Symbols:
   - `parse_ip_mac` (function, line 18) `def parse_ip_mac(input_string)`
@@ -337,6 +353,7 @@
 
 ## core/parsers.py
 - Layer: utility
+- Doc: Parsing utilities for the LazyOwn framework.  Extracted from ``utils.py`` — YAML, XML, CSV, HTML, and text parsers used 
 - Language: py
 - Symbols:
   - `strip_ansi` (function, line 21) `def strip_ansi(text)`
@@ -365,6 +382,7 @@
 
 ## core/payload_schema.py
 - Layer: utility
+- Doc: Declarative schema and validation for ``payload.json``.  ``payload.json`` is the single source of runtime configuration 
 - Language: py
 - Symbols:
   - `FieldKind` (class, line 71) `class FieldKind(StrEnum)`
@@ -399,6 +417,7 @@
 
 ## core/process.py
 - Layer: business_logic
+- Doc: Process and subprocess utilities for the LazyOwn framework.  Extracted from ``utils.py`` — command execution, binary/pac
 - Language: py
 - Symbols:
   - `check_go_tool_installed` (function, line 34) `def check_go_tool_installed(tool_name)`
@@ -418,6 +437,7 @@
 
 ## core/prompt.py
 - Layer: utility
+- Doc: Prompt builder for LazyOwn CLI and C2 dashboard banner.  Exposes :func:`getprompt` which returns the coloured status lin
 - Language: py
 - Symbols:
   - `_load_prompt_payload` (function, line 17) `def _load_prompt_payload()`
@@ -433,6 +453,7 @@
 
 ## core/protocols.py
 - Layer: utility
+- Doc: Stable structural interfaces (PEP 544 ``Protocol``) for high-level orchestration.  These protocols are the contract used
 - Language: py
 - Symbols:
   - `Selector` (class, line 17) `class Selector(Protocol)`
@@ -451,6 +472,7 @@
 
 ## core/safe_exec.py
 - Layer: utility
+- Doc: Centralized safe command execution for the LazyOwn framework.  Contract: replaces all ``os.system()`` and ``subprocess.r
 - Language: py
 - Symbols:
   - `CommandInjectionError` (class, line 44) `class CommandInjectionError(PermissionError)`
@@ -466,10 +488,11 @@
   - `safe_find_tool` (method, line 305) `def safe_find_tool(name)`
   - `safe_file_read` (method, line 321) `def safe_file_read(path)`
 - Depends on: `core/logging.py`
-- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/misc_migrated.py`, `cli/commands/pwn.py`, `cli/commands/shellsys.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/autonomous_exploit_engine.py`, `modules/conditional_hooks.py`, `modules/dns_beacon.py`, `modules/playbook_engine.py`, `modules/resource_script.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_security_hardening_v4.py`, `tests/test_shell_semantics.py`
 
 ## core/safe_subprocess.py
 - Layer: business_logic
+- Doc: Safe subprocess runner for the LazyOwn framework.  Contract: this module replaces the legacy ``subprocess.run(..., shell
 - Language: py
 - Symbols:
   - `ShellNotAllowedError` (class, line 39) `class ShellNotAllowedError(PermissionError)`
@@ -484,6 +507,7 @@
 
 ## core/scheduler.py
 - Layer: infrastructure
+- Doc: Centralized task scheduler for the LazyOwn framework.  Uses ``apscheduler`` when available, falling back to a stdlib imp
 - Language: py
 - Symbols:
   - `_TaskInfo` (class, line 41) `class _TaskInfo`
@@ -507,6 +531,7 @@
 
 ## core/security.py
 - Layer: utility
+- Doc: Security helpers for LazyOwn — anti-debug, certificate generation.  Extracted from ``utils.py`` to break the giant monol
 - Language: py
 - Symbols:
   - `anti_debug` (function, line 18) `def anti_debug()`
@@ -515,6 +540,7 @@
 
 ## core/text_utils.py
 - Layer: utility
+- Doc: Shared text helpers for terminal surfaces.  Single source of truth for truncating display strings. Replaces eight near-i
 - Language: py
 - Symbols:
   - `truncate_text` (function, line 10) `def truncate_text(value, max_len, marker)`
@@ -522,6 +548,7 @@
 
 ## core/validators.py
 - Layer: utility
+- Doc: Input validators for runtime configuration values.  These helpers were historically in ``utils.py`` and are imported by 
 - Language: py
 - Symbols:
   - `_rejects_shell_meta` (function, line 19) `def _rejects_shell_meta(value)`

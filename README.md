@@ -1,14 +1,47 @@
-# LazyOwn
+# LazyOwn — RedTeam Framework with AI agents, Linux BOF beacon, YARA+Nuclei marketplace
 
-![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da) 
+![LazyOwn_Redteam_framework](https://github.com/user-attachments/assets/d713f163-5f4d-433f-befd-6776d43051da)
 
-[![stars](https://img.shields.io/github/stars/grisuno/LazyOwn?style=social)](https://img.shields.io/github/stars/grisuno/LazyOwn?style=social)
-[![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)
-![Python](https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54) ![Shell Script](https://img.shields.io/badge/shell_script-%23121011.svg?style=for-the-badge&logo=gnu-bash&logoColor=white) ![image](https://github.com/user-attachments/assets/961783c2-cd57-4cc2-ab4c-53fde581db79)
- ![image](https://github.com/user-attachments/assets/79052f87-f87c-4b32-a4a2-854113ca3a4c)
-  [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0) ![image](https://github.com/user-attachments/assets/b69f1d31-c075-4713-a44e-a40a034a7407) ![image](https://github.com/user-attachments/assets/df82a669-be0c-4a03-bd98-842a67baaef6) [![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
-![Anurag's GitHub stats](https://github-readme-stats.vercel.app/api?username=grisuno&show_icons=true&show=reviews,discussions_started,discussions_answered,prs_merged,prs_merged_percentage&theme=dracula)
-![image](https://github.com/user-attachments/assets/2e95d6e7-c072-4a16-9c65-29a8548a549b)
+[![stars](https://img.shields.io/github/stars/grisuno/LazyOwn?style=social)](https://github.com/grisuno/LazyOwn/stargazers)
+[![release](https://img.shields.io/github/v/release/grisuno/LazyOwn?include_prereleases&logo=github)](https://github.com/grisuno/LazyOwn/releases)
+[![docker](https://img.shields.io/badge/docker-ghcr.io%2Fgrisuno%2Flazyown-blue?logo=docker)](https://github.com/grisuno/LazyOwn/pkgs/container/lazyown)
+[![ci](https://github.com/grisuno/LazyOwn/actions/workflows/ci.yml/badge.svg)](https://github.com/grisuno/LazyOwn/actions/workflows/ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/grisuno/LazyOwn)
+
+> **741 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
+
+| Try in 60 seconds (no install) | Golden path (every engagement) | One-command auto-pwn |
+|---|---|---|
+| `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `engage 10.10.11.5` |
+
+![golden path demo](assets/demo/golden-path.gif)
+![C2 collab demo](assets/demo/c2-collab.gif)
+![MCP AI demo](assets/demo/mcp-ai.gif)
+
+### More demos
+
+| First 7 commands | Recon loop |
+|---|---|
+| ![first steps](assets/demo/first-steps.gif) | ![recon loop](assets/demo/recon-loop.gif) |
+
+| C2 from CLI | Issue commands to beacons |
+|---|---|
+| ![C2 CLI](assets/demo/c2-cli.gif) | ![issue to C2](assets/demo/issue-c2.gif) |
+
+Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md) (5 min) · 80/20 guide: [`ESSENTIALS.md`](ESSENTIALS.md) · HTB end-to-end: [`docs/examples/htb-lame-walkthrough.md`](docs/examples/htb-lame-walkthrough.md) · Honest comparison: [`COMPARISON.md`](COMPARISON.md)
+
+### Why LazyOwn vs Sliver / Havoc / Mythic / Caldera / Metasploit
+
+| Capability | LazyOwn | Sliver | Havoc | Mythic | Caldera | Metasploit |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|
+| Linux BOF support | yes | no | no | no | no | no |
+| YARA + Nuclei marketplace built-in | yes | no | no | no | no | no |
+| MCP server for AI agents (153 tools) | yes | no | no | no | no | no |
+| LLM operator + multi-agent hive | yes | no | no | no | no | no |
+| Multi-operator C2 + phishing engine | yes | partial | partial | partial | partial | partial |
+
+Full table: [`COMPARISON.md`](COMPARISON.md). Found an error? Open an issue, we fix it.
 
 
 ```sh

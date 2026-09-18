@@ -192,7 +192,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 
 ### Rules for agents
 
-- Start every session on `dev` (`git checkout dev`).
+- Start every session on `dev`, but SYNC it with `main` first: `git fetch origin main dev && git checkout dev && git merge --ff-only origin/main || git merge --no-edit origin/main`. Verify with `git merge-base --is-ancestor origin/main HEAD`. Never work on a stale `dev`.
 - Never commit directly to `main` or `pp`.
 - Feature branches: `feature/<description>` cut from `dev`.
 - Hotfix branches: `hotfix/<description>` cut from `main`, then back-merge to `pp` and `dev`.

@@ -68,7 +68,23 @@ Thank you for contributing to LazyOwn. Together, we can make this project even b
 
 ### Development Setup
 - Follow the instructions in `README.md` and `KNOWLEDGE_BASE.md`
-- Docker is highly recommended for development
+- Docker is highly recommended for development: `docker run -it ghcr.io/grisuno/lazyown:latest`
+- Verify with `bash scripts/smoke_onboarding.sh` before opening a PR
+
+### Marketplace contributions (fastest merge path)
+
+One-command YARA / Nuclei additions are the ideal first PR. Use the
+`marketplace contribution` issue template (`.github/ISSUE_TEMPLATE/marketplace_contribution.yml`).
+Test with `yara_marketplace list` / `nuclei_marketplace list --severity high`
+inside `./run`. Include a reference link, no hardcoded victim IPs.
+
+### CommandSet split contract (recon/scan/postexp/cred)
+
+Each domain keeps two files by design: `cli/commands/<domain>.py` holds the
+curated commands, `cli/commands/<domain>_migrated.py` holds the legacy
+imports (zero `do_*` name overlap, verified). Do not merge them blindly.
+New commands go in the base file. Migrated files shrink only via explicit
+per-command port + test.
 
 ### Special Thanks
 We want to thank **EQSTLab** for their valuable security advisories that help us make LazyOwn more robust.

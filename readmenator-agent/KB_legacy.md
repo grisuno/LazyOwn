@@ -2,6 +2,7 @@
 
 ## modules/legacy/__init__.py
 - Layer: utility
+- Doc: Legacy module shims — deprecated scripts retained for compatibility.  Scripts in this directory are no longer maintained
 - Language: py
 
 ## modules/legacy/lazy_http_bof.py
@@ -27,6 +28,7 @@
 
 ## modules/legacy/lazyaddon_creator.py
 - Layer: utility
+- Doc: lazyaddon_creator.py ==================== Genera automáticamente un addon YAML de LazyOwn a partir de una URL de GitHub.
 - Language: py
 - Symbols:
   - `parse_github_url` (function, line 49) `def parse_github_url(url)`
@@ -67,6 +69,7 @@
 
 ## modules/legacy/lazybotcli.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `encrypt` (function, line 30) `def encrypt(plaintext, key)`
@@ -75,6 +78,7 @@
 
 ## modules/legacy/lazybotnet.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `encrypt` (function, line 46) `def encrypt(plaintext, key)`
@@ -117,6 +121,7 @@
 
 ## modules/legacy/lazydeepseekcli.py
 - Layer: presentation
+- Doc: Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local + lazydeepseekcli_localreport.  Provides strea
 - Language: py
 - Symbols:
   - `truncate_message` (function, line 41) `def truncate_message(message, max_chars)`
@@ -140,6 +145,7 @@
 
 ## modules/legacy/lazydisassebler.py
 - Layer: infrastructure
+- Doc: disassembler.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3  Descr
 - Language: py
 - Symbols:
   - `X64Disassembler` (class, line 24) `class X64Disassembler`
@@ -176,6 +182,7 @@
 
 ## modules/legacy/lazygptcli.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 66) `def signal_handler(sig, frame)`
@@ -196,6 +203,7 @@
 
 ## modules/legacy/lazygptcli_unified.py
 - Layer: utility
+- Doc: Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask + lazygptvulns + lazyredopgpt
 - Language: py
 - Symbols:
   - `_ret_model` (function, line 45) `def _ret_model()`
@@ -232,6 +240,7 @@
 
 ## modules/legacy/lazyhoneypot.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `parse_args` (function, line 34) `def parse_args()`
@@ -381,6 +390,7 @@
 
 ## modules/legacy/lazynetbios.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `check_sudo` (function, line 30) `def check_sudo()`
@@ -412,6 +422,7 @@
 
 ## modules/legacy/lazyphishingai.py
 - Layer: presentation
+- Doc: main.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation Date: 09/06/2024 License: GPL v3  Descr
 - Language: py
 - Symbols:
   - `clean_think` (function, line 28) `def clean_think(texto)`
@@ -489,6 +500,7 @@
 
 ## modules/legacy/lazysearch.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `highlight_term` (function, line 29) `def highlight_term(text, term)`
@@ -497,6 +509,7 @@
 
 ## modules/legacy/lazysearch_bot.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 59) `def signal_handler(sig, frame)`
@@ -544,6 +557,7 @@
 
 ## modules/legacy/lazysniff.py
 - Layer: utility
+- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `check_sudo` (function, line 41) `def check_sudo()`

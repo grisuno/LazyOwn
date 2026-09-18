@@ -6,6 +6,7 @@
 
 ## lazyc2/addon_creator.py
 - Layer: utility
+- Doc: LazyAddon creator contract for the LazyOwn C2 web interface.  Single source of truth for authoring ``lazyaddons/*.yaml``
 - Language: py
 - Symbols:
   - `AddonCreatorConfig` (class, line 71) `class AddonCreatorConfig`
@@ -50,6 +51,7 @@
 
 ## lazyc2/app_factory.py
 - Layer: presentation
+- Doc: Flask application factory for the LazyOwn C2 server.  Consolidates app creation, security policy initialisation, extensi
 - Language: py
 - Symbols:
   - `_load_payload_config` (function, line 33) `def _load_payload_config()`
@@ -65,6 +67,7 @@
 
 ## lazyc2/models.py
 - Layer: presentation
+- Doc: C2 data models extracted from lazyc2.py.  Breaking the circular dependency between lazyc2.py and blueprints.
 - Language: py
 - Symbols:
   - `User` (class, line 16) `class User(UserMixin)`
@@ -73,5 +76,6 @@
 
 ## lazyc2/state.py
 - Layer: utility
+- Doc: Global C2 server state — namespace for shared mutable objects.  Extracted from lazyc2.py to break the circular dependenc
 - Language: py
 - Imported by: `static/js/jquery-3.5.1.slim.min.js`

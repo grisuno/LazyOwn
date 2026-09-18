@@ -219,7 +219,7 @@ class TestSafeShellExecution:
     core.safe_exec.safe_run_shell gate with output capture instead of a raw
     subprocess.run with shell=True."""
 
-    SOURCE = _read("cli/commands/misc_migrated.py")
+    SOURCE = _read("cli/commands/shellsys.py")
 
     def test_do_sys_uses_safe_runner(self):
         """BDD: Given the misc_migrated source is loaded,
@@ -259,21 +259,22 @@ class TestSafeShellExecution:
         assert "result.stderr" in do_sys_block
 
     def test_no_os_system_in_misc_module_code(self):
-        """BDD: Given the misc_migrated module source,
+        """BDD: Given the shell command module sources,
         When I scan for os.system in actual code (not docstrings),
         Then it must not appear in any command execution method."""
-        lines = self.SOURCE.split("\n")
-        in_docstring = False
-        for i, line in enumerate(lines):
-            stripped = line.strip()
-            if stripped.startswith('"""') or stripped.startswith("'''"):
-                if stripped.count('"""') == 1 or stripped.count("'''") == 1:
-                    in_docstring = not in_docstring
-                continue
-            if in_docstring:
-                continue
-            if "os.system(" in line and "def do_" in "".join(lines[max(0, i - 20):i]):
-                pytest.fail(f"os.system in command method at line {i + 1}: {line.strip()}")
+        for module in (self.SOURCE, _read("cli/commands/misc_migrated.py")):
+            lines = module.split("\n")
+            in_docstring = False
+            for i, line in enumerate(lines):
+                stripped = line.strip()
+                if stripped.startswith('"""') or stripped.startswith("'''"):
+                    if stripped.count('"""') == 1 or stripped.count("'''") == 1:
+                        in_docstring = not in_docstring
+                    continue
+                if in_docstring:
+                    continue
+                if "os.system(" in line and "def do_" in "".join(lines[max(0, i - 20):i]):
+                    pytest.fail(f"os.system in command method at line {i + 1}: {line.strip()}")
 
 
 # ---------------------------------------------------------------------------
@@ -378,10 +379,10 @@ class TestNoOsSystemInCriticalPaths:
         assert "not in _DNS_COMMAND_ALLOWLIST" in source
 
     def test_misc_sys_no_os_system(self):
-        """BDD: Given the misc_migrated module source,
+        """BDD: Given the shellsys module source,
         When I locate the do_sys method,
         Then os.system must not be used."""
-        source = _read("cli/commands/misc_migrated.py")
+        source = _read("cli/commands/shellsys.py")
         lines = source.split("\n")
         in_do_sys = False
         for line in lines:

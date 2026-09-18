@@ -2,11 +2,13 @@
 
 ## modules/integrations/__init__.py
 - Layer: utility
+- Doc: LazyOwn integrations — bridges to external platforms and tools.  Public API ---------- - :class:`MISPIntegration` — expo
 - Language: py
 - Depends on: `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/searchsploit.py`
 
 ## modules/integrations/misp_export.py
 - Layer: utility
+- Doc: modules/integrations/misp_export.py ===================================== Exports LazyOwn session findings as MISP-compa
 - Language: py
 - Symbols:
   - `MISPAttribute` (class, line 56) `class MISPAttribute`
@@ -52,6 +54,7 @@
 
 ## modules/integrations/nuclei_bridge.py
 - Layer: utility
+- Doc: modules/integrations/nuclei_bridge.py ======================================= Selects and runs Nuclei templates based on
 - Language: py
 - Symbols:
   - `NucleiTemplate` (class, line 68) `class NucleiTemplate`
@@ -88,6 +91,7 @@
 
 ## modules/integrations/nuclei_parser.py
 - Layer: utility
+- Doc: Nuclei JSON output parser — feeds scan results into DB, WorldModel, and recommender.  Parses nuclei ``-json`` / ``-jsonl
 - Language: py
 - Symbols:
   - `NucleiFinding` (class, line 71) `class NucleiFinding`
@@ -112,6 +116,7 @@
 
 ## modules/integrations/searchsploit.py
 - Layer: utility
+- Doc: modules/integrations/searchsploit.py ====================================== Bridges searchsploit CLI and ExploitDB with 
 - Language: py
 - Symbols:
   - `ExploitEntry` (class, line 60) `class ExploitEntry`

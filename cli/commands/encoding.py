@@ -12,6 +12,17 @@ import base64
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from utils import (
+    copy2clip,
+    decode,
+    encode,
+    get_users_dic,
+    print_error,
+    print_msg,
+    quote,
+    rotate_char,
+    unquote,
+)
 
 __all__ = ["EncodingCommandSet"]
 
@@ -533,19 +544,3 @@ class EncodingCommandSet(LazyOwnCommandSet):
         print_msg(plaintext)
         return
 
-
-import utils as _lazy_utils
-
-for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
-        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
-del _lazy_utils, _lazy_name
-
-
-def __getattr__(name: str):
-    """Fall back to ``utils`` for bare-name references used by migrated commands."""
-    import utils as _utils
-    try:
-        return getattr(_utils, name)
-    except AttributeError:
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None

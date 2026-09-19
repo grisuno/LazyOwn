@@ -6,6 +6,7 @@ detailed error messages without raising exceptions.
 """
 
 from pathlib import Path
+from urllib.parse import urlparse
 
 from lazyc2.security.constants import (
     AES_KEY_SIZE_BYTES,
@@ -168,3 +169,33 @@ def validate_file_path_within_base(file_path: Path, base_dir: Path) -> tuple[boo
         return False, "File path is outside allowed directory"
     except OSError:
         return False, "Invalid file path"
+
+
+def resolve_contained_file_path(raw_url: str, base_dir: Path) -> Path | None:
+    """Resolve a short-URL target to a file path contained in ``base_dir``.
+
+    Accepts ``file://`` URLs and bare filesystem paths. Remote ``http`` /
+    ``https`` targets are not files, so this returns ``None`` for them and
+    the caller falls back to an HTTP redirect. Symlinks are resolved
+    before the containment check, so a link inside the base directory
+    pointing outside is rejected.
+
+    Args:
+        raw_url: Short-URL target as stored in the registry.
+        base_dir: Allowed base directory (sessions directory).
+
+    Returns:
+        Resolved absolute path when contained, else None.
+    """
+    if not raw_url or not isinstance(raw_url, str):
+        return None
+    parsed = urlparse(raw_url)
+    if parsed.scheme in ("http", "https"):
+        return None
+    candidate = Path(parsed.path) if parsed.scheme == "file" else Path(raw_url)
+    if not candidate.is_absolute():
+        candidate = Path.cwd() / candidate
+    is_valid, _ = validate_file_path_within_base(candidate, base_dir)
+    if not is_valid:
+        return None
+    return candidate.resolve()

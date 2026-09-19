@@ -1,5 +1,6 @@
 """Generate LazyOwn demo GIFs without external services."""
 import os
+
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 800, 450

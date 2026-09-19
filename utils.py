@@ -522,38 +522,6 @@ def get_open_ports():
     return tcp_ports, udp_ports
 
 
-def find_credentials(directory):
-    """
-    Searches for potential credentials in files within the specified directory.
-
-    This function uses a regular expression to find possible credentials such as
-    passwords, secrets, API keys, and tokens in files within the given directory.
-    It iterates through all files in the directory and prints any matches found.
-
-    :param directory: The directory to search for files containing credentials.
-    :type directory: str
-    :return: None
-    """
-    regex = re.compile(
-        r"(password|passwd|secret|api_key|token)[\s:=]*[\w\d]{6,}", re.IGNORECASE
-    )
-
-    for root, dirs, files in os.walk(directory):
-        for file in files:
-            try:
-                with open(os.path.join(root, file), "r") as f:
-                    content = f.read()
-                    matches = regex.findall(content)
-                    if matches:
-                        print_msg(
-                            f"Credenciales encontradas en {os.path.join(root, file)}:"
-                        )
-                        for match in matches:
-                            print_msg(f"{match}")
-            except Exception as e:
-                print_error(f"No se pudo leer el archivo {file}: {e}")
-
-
 def rotate_char(c, shift):
     """
     Internal function to rotate characters for ROT cipher.

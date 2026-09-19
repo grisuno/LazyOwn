@@ -66,6 +66,7 @@ from flask_socketio import SocketIO, disconnect, emit
 from jinja2 import Environment, FileSystemLoader
 from watchdog.events import FileSystemEventHandler
 from watchdog.observers import Observer
+from werkzeug.exceptions import HTTPException
 from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 
@@ -88,6 +89,9 @@ from lazyc2.security.services import (
     SecretKeyManager as _SecretKeyManager,
 )
 from lazyc2.security.trusted_proxy import TrustedProxyResolver
+from lazyc2.security.validators import (
+    resolve_contained_file_path as _resolve_contained_file_path,
+)
 from lazyc2.security.validators import (
     validate_file_path_within_base as _validate_file_path_within_base,
 )
@@ -4341,14 +4345,14 @@ def redirect_to_file(short_url):
         logging.info(f"Short URL {short_url} accessed by {client_ip} with {user_agent}")
         parsed_url = urlparse(original_url)
         if parsed_url.scheme == 'file' or not parsed_url.scheme:
-            file_path = parsed_url.path if parsed_url.scheme == 'file' else original_url
-            file_path = os.path.abspath(file_path)
-            if os.path.exists(file_path) and os.path.isfile(file_path):
+            file_path = _resolve_contained_file_path(original_url, Path(SESSIONS_DIR))
+            if file_path is not None and file_path.is_file():
                 return send_file(file_path)
-            else:
-                logging.warning(f"File not found: {file_path}")
-                abort(404)
+            logging.warning("Short URL file target not found or outside sessions dir")
+            abort(404)
         return redirect(original_url)
+    except HTTPException:
+        raise
     except Exception:
         logging.error(f"Error in redirect_to_file: {str('')}")
         return jsonify({'error': f"Internal server error: {str('')}"}), 500

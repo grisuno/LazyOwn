@@ -6,13 +6,14 @@ this set is registered by ``cli.registry``.
 
 from __future__ import annotations
 
-import base64
+import shlex
 
 import cmd2
+from rich.table import Table as _Table
 
-from cli.commands._base import LazyOwnCommandSet
 from cli.aliases import load_aliases as _load_aliases
 from cli.assign import apply_assign as _apply_assign
+from cli.commands._base import LazyOwnCommandSet
 from cli.ops_commands import PHASES as _PHASES
 from cli.ops_commands import print_ctx as _print_ctx
 from cli.ops_commands import print_phase as _print_phase
@@ -20,7 +21,7 @@ from cli.ops_commands import tgrep as _tgrep
 from cli.ops_commands import write_phase as _write_phase
 from cli.wizard import run as _run_wizard
 from core.config import save_payload as _save_payload
-from rich.table import Table as _Table
+from utils import print_error, print_msg, print_warn
 
 __all__ = ["HelpUiCommandSet"]
 
@@ -139,7 +140,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         Available phases: recon, enum, exploit, postexp, persist, privesc,
         cred, lateral, exfil, c2, report, misc.
         """
-        from cli.contextual_help import ContextualHelp, PHASE_LABELS
+        from cli.contextual_help import PHASE_LABELS, ContextualHelp
         ch = ContextualHelp(aliases=self.aliases, params=self.params)
         phase = (line or "").strip().lower()
 
@@ -215,7 +216,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``command_explorer smb_windows`` — show SMB/Windows commands
             ``command_explorer search nmap`` — search commands by keyword
         """
-        from cli.command_explorer import CommandExplorer, GOALS
+        from cli.command_explorer import GOALS, CommandExplorer
         explorer = CommandExplorer(aliases=self.aliases, params=self.params)
         args = (line or "").strip().split()
 
@@ -431,19 +432,3 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         except Exception:
             pass
 
-
-import utils as _lazy_utils
-
-for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
-        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
-del _lazy_utils, _lazy_name
-
-
-def __getattr__(name: str):
-    """Fall back to ``utils`` for bare-name references used by migrated commands."""
-    import utils as _utils
-    try:
-        return getattr(_utils, name)
-    except AttributeError:
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None

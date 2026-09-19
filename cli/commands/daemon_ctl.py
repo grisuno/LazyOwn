@@ -6,11 +6,10 @@ this set is registered by ``cli.registry``.
 
 from __future__ import annotations
 
-import base64
-
 import cmd2
 
 from cli.commands._base import LazyOwnCommandSet
+from utils import print_error, print_msg, print_warn
 
 __all__ = ["DaemonControlCommandSet"]
 
@@ -216,19 +215,3 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         except Exception as exc:
             print_error(f"daemon_approve failed: {exc}")
 
-
-import utils as _lazy_utils
-
-for _lazy_name in dir(_lazy_utils):
-    if not _lazy_name.startswith('_'):
-        globals().setdefault(_lazy_name, getattr(_lazy_utils, _lazy_name))
-del _lazy_utils, _lazy_name
-
-
-def __getattr__(name: str):
-    """Fall back to ``utils`` for bare-name references used by migrated commands."""
-    import utils as _utils
-    try:
-        return getattr(_utils, name)
-    except AttributeError:
-        raise AttributeError(f"module {__name__!r} has no attribute {name!r}") from None

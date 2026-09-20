@@ -228,7 +228,7 @@ typing_extensions==4.16.0
 ua-parser-builtins==202606
 ua-parser==1.0.2
 uc-micro-py==2.0.0
-unicorn==2.1.2
+unicorn==2.1.4
 unicrypto==0.0.12
 unidns==0.0.4
 unix-ar==0.2.1

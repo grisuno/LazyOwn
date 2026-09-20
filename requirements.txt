@@ -163,7 +163,7 @@ PyAutoGUI==0.9.54
 pycparser==3.0
 pycryptodome==3.23.0
 pycryptodomex==3.23.0
-pydantic==2.13.3
+pydantic==2.13.5
 pydantic_core==2.46.3
 pyelftools==0.33
 PyGetWindow==0.0.9

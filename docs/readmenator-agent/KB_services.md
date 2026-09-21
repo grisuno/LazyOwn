@@ -1,0 +1,160 @@
+# Subsystem: services
+
+## lazygui/services/__init__.py
+- Layer: presentation
+- Language: py
+- Depends on: `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
+
+## lazygui/services/backend.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `BackendStatus` (class, line 33) `class BackendStatus(StrEnum)`
+  - `BackendDescriptor` (class, line 44) `class BackendDescriptor`
+  - `Backend` (class, line 52) `class Backend(QObject)`
+  - `__init__` (method, line 81) `def __init__(self, descriptor, parent)`
+  - `descriptor` (method, line 88) `def descriptor(self)`
+  - `status` (method, line 93) `def status(self)`
+  - `_set_status` (method, line 97) `def _set_status(self, new_status)`
+  - `start` (method, line 104) `def start(self)`
+  - `stop` (method, line 108) `def stop(self)`
+  - `send_command` (method, line 112) `def send_command(self, command, target_session)`
+  - `refresh` (method, line 116) `def refresh(self)`
+  - `resize_terminal` (method, line 120) `def resize_terminal(self, columns, rows)`
+  - `feed_terminal_input` (method, line 124) `def feed_terminal_input(self, data)`
+  - `known_sessions` (method, line 128) `def known_sessions(self)`
+  - `known_listeners` (method, line 132) `def known_listeners(self)`
+  - `known_topology` (method, line 136) `def known_topology(self)`
+  - `known_campaigns` (method, line 140) `def known_campaigns(self)`
+  - `request_world_model` (method, line 144) `def request_world_model(self)`
+  - `request_beacon_history` (method, line 157) `def request_beacon_history(self, client_id)`
+  - `request_session_state` (method, line 171) `def request_session_state(self)`
+- Depends on: `cli/commands/enum.py`, `lazygui/services/models.py`
+- Imported by: `lazygui/app.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/main_window.py`, `mutants/tests/test_lazygui_backend.py`, `tests/test_lazygui_backend.py`
+
+## lazygui/services/event_log.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `EventLog` (class, line 20) `class EventLog(QObject)`
+  - `__init__` (method, line 26) `def __init__(self, constants, parent)`
+  - `capacity` (method, line 33) `def capacity(self)`
+  - `append` (method, line 37) `def append(self, record)`
+  - `extend` (method, line 42) `def extend(self, records)`
+  - `clear` (method, line 47) `def clear(self)`
+  - `snapshot` (method, line 52) `def snapshot(self, minimum_level)`
+- Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
+- Imported by: `lazygui/app.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/registry.py`, `lazygui/services/__init__.py`, `lazygui/widgets/event_log_view.py`, `lazygui/windows/main_window.py`
+
+## lazygui/services/factory.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `BackendFactory` (class, line 24) `class BackendFactory`
+  - `create_local` (method, line 30) `def create_local(self, parent)`
+  - `create_teamserver` (method, line 34) `def create_teamserver(self, credentials, parent)`
+  - `create` (method, line 42) `def create(self, kind, parent, credentials)`
+- Depends on: `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/services/backend.py`, `lazygui/services/local_backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
+- Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`
+
+## lazygui/services/local_backend.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `LocalPtyBackend` (class, line 30) `class LocalPtyBackend(Backend)`
+  - `__init__` (method, line 38) `def __init__(self, constants, paths, parent)`
+  - `start` (method, line 62) `def start(self)`
+  - `stop` (method, line 87) `def stop(self)`
+  - `send_command` (method, line 112) `def send_command(self, command, target_session)`
+  - `refresh` (method, line 117) `def refresh(self)`
+  - `resize_terminal` (method, line 121) `def resize_terminal(self, columns, rows)`
+  - `feed_terminal_input` (method, line 127) `def feed_terminal_input(self, data)`
+  - `known_sessions` (method, line 137) `def known_sessions(self)`
+  - `known_listeners` (method, line 141) `def known_listeners(self)`
+  - `_exec_child_process` (method, line 147) `def _exec_child_process(self)`
+  - `_configure_master_fd` (method, line 156) `def _configure_master_fd(self)`
+  - `_install_window_size` (method, line 163) `def _install_window_size(self)`
+  - `_install_read_notifier` (method, line 173) `def _install_read_notifier(self)`
+  - `_install_reaper` (method, line 180) `def _install_reaper(self)`
+  - `_on_master_readable` (method, line 187) `def _on_master_readable(self)`
+  - `_handle_pty_eof` (method, line 215) `def _handle_pty_eof(self)`
+  - `_reap_child` (method, line 220) `def _reap_child(self)`
+  - `_emit_event` (method, line 235) `def _emit_event(self, level, message)`
+  - `announce_local_operator` (method, line 249) `def announce_local_operator(self)`
+- Depends on: `core/logging.py`, `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`
+- Imported by: `lazygui/services/__init__.py`, `lazygui/services/factory.py`
+
+## lazygui/services/models.py
+- Layer: business_logic
+- Language: py
+- Symbols:
+  - `BackendKind` (class, line 17) `class BackendKind(StrEnum)`
+  - `EventLevel` (class, line 24) `class EventLevel(StrEnum)`
+  - `Session` (class, line 49) `class Session`
+  - `Listener` (class, line 64) `class Listener`
+  - `Operator` (class, line 76) `class Operator`
+  - `EventRecord` (class, line 87) `class EventRecord`
+  - `GraphNode` (class, line 102) `class GraphNode`
+  - `GraphEdge` (class, line 115) `class GraphEdge`
+  - `Topology` (class, line 126) `class Topology`
+  - `DashboardPayload` (class, line 139) `class DashboardPayload`
+  - `CampaignSummary` (class, line 151) `class CampaignSummary`
+  - `BeaconResult` (class, line 164) `class BeaconResult`
+  - `numeric` (method, line 34) `def numeric(self)`
+  - `now` (method, line 96) `def now(cls, level, source, message)`
+  - `empty` (method, line 133) `def empty(cls)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `lazygui/app.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/graph_view.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `mutants/tests/test_lazygui_backend.py`, `mutants/tests/test_lazygui_graph_widget.py`, `mutants/tests/test_lazygui_models.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`, `tests/test_lazygui_models.py`
+
+## lazygui/services/teamserver_backend.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `TeamserverCredentials` (class, line 39) `class TeamserverCredentials`
+  - `TeamserverBackend` (class, line 48) `class TeamserverBackend(Backend)`
+  - `__init__` (method, line 51) `def __init__(self, constants, credentials, parent)`
+  - `start` (method, line 80) `def start(self)`
+  - `stop` (method, line 97) `def stop(self)`
+  - `send_command` (method, line 112) `def send_command(self, command, target_session)`
+  - `refresh` (method, line 124) `def refresh(self)`
+  - `resize_terminal` (method, line 139) `def resize_terminal(self, columns, rows)`
+  - `feed_terminal_input` (method, line 151) `def feed_terminal_input(self, data)`
+  - `known_sessions` (method, line 169) `def known_sessions(self)`
+  - `known_listeners` (method, line 173) `def known_listeners(self)`
+  - `known_topology` (method, line 177) `def known_topology(self)`
+  - `known_campaigns` (method, line 181) `def known_campaigns(self)`
+  - `request_beacon_results` (method, line 185) `def request_beacon_results(self, client_id)`
+  - `request_world_model` (method, line 210) `def request_world_model(self)`
+  - `request_beacon_history` (method, line 224) `def request_beacon_history(self, client_id)`
+  - `_poll_beacon_results` (method, line 244) `def _poll_beacon_results(self)`
+  - `_establish_flask_session` (method, line 285) `def _establish_flask_session(self)`
+  - `_build_http_session` (method, line 302) `def _build_http_session(self)`
+  - `_build_url` (method, line 312) `def _build_url(self, path)`
+  - `_http_get_json` (method, line 318) `def _http_get_json(self, path)`
+  - `_http_post_form` (method, line 332) `def _http_post_form(self, path, payload)`
+  - `_post_session_command` (method, line 346) `def _post_session_command(self, command, client_id)`
+  - `_send_command_via_pty` (method, line 357) `def _send_command_via_pty(self, command)`
+  - `_dispatch_terminal_lines` (method, line 378) `def _dispatch_terminal_lines(self, data)`
+  - `_refresh_topology` (method, line 386) `def _refresh_topology(self)`
+  - `_refresh_dashboard` (method, line 396) `def _refresh_dashboard(self)`
+  - `_install_http_polling` (method, line 424) `def _install_http_polling(self)`
+  - `_start_socketio` (method, line 443) `def _start_socketio(self)`
+  - `_stop_socketio` (method, line 522) `def _stop_socketio(self)`
+  - `_update_from_payload` (method, line 532) `def _update_from_payload(self, payload)`
+  - `_update_sessions` (method, line 539) `def _update_sessions(self, payload)`
+  - `_update_listeners` (method, line 579) `def _update_listeners(self, payload)`
+  - `_update_operator` (method, line 610) `def _update_operator(self, payload)`
+  - `_parse_graph_nodes` (method, line 623) `def _parse_graph_nodes(self, payload)`
+  - `_parse_graph_edges` (method, line 647) `def _parse_graph_edges(self, payload)`
+  - `_build_topology_from_payload` (method, line 666) `def _build_topology_from_payload(self, payload)`
+  - `_emit_event` (method, line 774) `def _emit_event(self, level, message)`
+  - `_connect_sio` (method, line 444) `def _connect_sio()`
+  - `_on_pty_connect` (method, line 461) `def _on_pty_connect()`
+  - `_on_pty_output` (method, line 465) `def _on_pty_output(data)`
+  - `_on_terminal_connect` (method, line 471) `def _on_terminal_connect()`
+  - `_on_terminal_response` (method, line 475) `def _on_terminal_response(data)`
+  - `_on_output` (method, line 481) `def _on_output(data)`
+  - `_on_connect` (method, line 487) `def _on_connect()`
+  - `_on_disconnect` (method, line 491) `def _on_disconnect()`
+- Depends on: `core/logging.py`, `lazyc2/blueprints/auth.py`, `lazygui/config/constants.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`
+- Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/windows/connect_dialog.py`, `mutants/tests/test_lazygui_backend.py`, `tests/test_lazygui_backend.py`

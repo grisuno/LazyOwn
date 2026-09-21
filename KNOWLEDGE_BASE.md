@@ -12,7 +12,7 @@
 **Total Files Parsed:** 863 | **Total Symbols Extracted:** 16739 | **Total Imports:** 7867
  | **Resolved Imports:** 3141
 
-<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:c1997ae3 | date:2026-07-18 -->
+<!-- ranking_model: v1.0 | weights: {ppr:0.45,auth:0.2,test:0.15,doc:0.1,fresh:0.1} | alpha:0.85 | commit:05a4468 | date:2026-07-18 -->
 
 
 ## Table of Contents
@@ -218,7 +218,7 @@ Files ranked by composite score for the current query context. The ranking combi
 | 9 | `gen_demo_gifs_extra.py` | 0.2001 | 0.0000 | 0.0006 | 0.00 | 2.00 |
 | 10 | `iptables_portforward.sh` | 0.2000 | 0.0000 | 0.0000 | 0.00 | 2.00 |
 
-**Query anchors:** modules/reflective_dll.py, tests/test_addon_creator.py, skills/claude_md_orchestrator/orchestrator.py, skills/claude_md_orchestrator/bdd_agent.py, tests/test_packaging.py, modules/macos_payloads.py, tests/test_hash_cracker.py
+**Query anchors:** tests/test_hash_cracker.py, modules/macos_payloads.py, tests/test_packaging.py, skills/claude_md_orchestrator/bdd_agent.py, tests/test_addon_creator.py, modules/reflective_dll.py, skills/claude_md_orchestrator/orchestrator.py
 
 **Top result justification paths:**
 
@@ -584,43 +584,43 @@ Taint analysis traces how dangerous imports propagate through the codebase via t
 
 - `banner_config.py` imports `subprocess` (0 hop to `banner_config.py`) [high]
   Path: banner_config.py
-- `banner_config.py` imports `subprocess` (1 hop to `parsers.py`) [high]
-  Path: banner_config.py -> parsers.py
 - `banner_config.py` imports `subprocess` (1 hop to `safe_exec.py`) [high]
   Path: banner_config.py -> safe_exec.py
 - `banner_config.py` imports `subprocess` (1 hop to `cli_auth.py`) [high]
   Path: banner_config.py -> cli_auth.py
 - `banner_config.py` imports `subprocess` (1 hop to `engagement_hooks.py`) [high]
   Path: banner_config.py -> engagement_hooks.py
-- `banner_config.py` imports `subprocess` (2 hops to `console.py`) [high]
-  Path: banner_config.py -> parsers.py -> console.py
+- `banner_config.py` imports `subprocess` (1 hop to `parsers.py`) [high]
+  Path: banner_config.py -> parsers.py
 - `banner_config.py` imports `subprocess` (2 hops to `logging.py`) [high]
   Path: banner_config.py -> safe_exec.py -> logging.py
 - `banner_config.py` imports `subprocess` (2 hops to `lazy_rbac.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py
-- `banner_config.py` imports `subprocess` (2 hops to `config.py`) [high]
-  Path: banner_config.py -> engagement_hooks.py -> config.py
 - `banner_config.py` imports `subprocess` (2 hops to `palette.py`) [high]
   Path: banner_config.py -> engagement_hooks.py -> palette.py
+- `banner_config.py` imports `subprocess` (2 hops to `config.py`) [high]
+  Path: banner_config.py -> engagement_hooks.py -> config.py
+- `banner_config.py` imports `subprocess` (2 hops to `console.py`) [high]
+  Path: banner_config.py -> parsers.py -> console.py
 - `banner_config.py` imports `subprocess` (3 hops to `enum.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py
 - `banner_config.py` imports `subprocess` (3 hops to `payload_schema.py`) [high]
   Path: banner_config.py -> engagement_hooks.py -> config.py -> payload_schema.py
-- `banner_config.py` imports `subprocess` (4 hops to `utils.py`) [high]
-  Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py
-- `banner_config.py` imports `subprocess` (4 hops to `_base.py`) [high]
-  Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> _base.py
 - `banner_config.py` imports `subprocess` (4 hops to `validators.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> validators.py
+- `banner_config.py` imports `subprocess` (4 hops to `_base.py`) [high]
+  Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> _base.py
+- `banner_config.py` imports `subprocess` (4 hops to `utils.py`) [high]
+  Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py
 - `banner_config.py` imports `subprocess` (4 hops to `llm_factory.py`) [high]
   Path: banner_config.py -> engagement_hooks.py -> config.py -> payload_schema.py -> llm_factory.py
-- `banner_config.py` imports `subprocess` (5 hops to `parser.py`) [high]
+- `banner_config.py` imports `subprocess` (5 hops to `lazyencoder_decoder.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py -> ...
 - `banner_config.py` imports `subprocess` (5 hops to `dependencies.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py -> ...
-- `banner_config.py` imports `subprocess` (5 hops to `crypto.py`) [high]
+- `banner_config.py` imports `subprocess` (5 hops to `server.c`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py -> ...
-- `banner_config.py` imports `subprocess` (5 hops to `safe_subprocess.py`) [high]
+- `banner_config.py` imports `subprocess` (5 hops to `banner_config.py`) [high]
   Path: banner_config.py -> cli_auth.py -> lazy_rbac.py -> enum.py -> utils.py -> ...
 
 ---
@@ -736,20 +736,20 @@ Files sorted by how many other files would be affected if they changed. High-imp
 | File | Direct Dependents | Transitive Dependents | Total Impact |
 |------|------------------|----------------------|--------------|
 | `logging.py` | 50 | 0 | 122 |
-| `engagement_hooks.py` | 9 | 50 | 112 |
-| `hardening.py` | 17 | 50 | 104 |
-| `crypto.py` | 9 | 50 | 94 |
+| `cli_auth.py` | 9 | 50 | 110 |
+| `hardening.py` | 17 | 50 | 108 |
+| `engagement_hooks.py` | 9 | 50 | 106 |
 | `models.py` | 11 | 50 | 89 |
 | `config.py` | 10 | 50 | 88 |
-| `validators.py` | 8 | 50 | 83 |
+| `banner_config.py` | 7 | 50 | 85 |
+| `crypto.py` | 9 | 50 | 84 |
 | `_base.py` | 50 | 0 | 82 |
 | `process.py` | 9 | 50 | 82 |
 | `server.c` | 10 | 50 | 82 |
 | `parsers.py` | 8 | 50 | 81 |
 | `safe_subprocess.py` | 6 | 50 | 81 |
 | `lazyencoder_decoder.py` | 5 | 50 | 80 |
-| `banner_config.py` | 7 | 50 | 79 |
-| `parser.py` | 4 | 50 | 79 |
+| `validators.py` | 8 | 50 | 79 |
 
 ---
 

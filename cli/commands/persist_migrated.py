@@ -10,6 +10,7 @@ import os
 import subprocess
 
 from cli.commands._base import LazyOwnCommandSet
+from core.hardening import escape_powershell_single_quoted
 from utils import (
     GREEN,
     RED,
@@ -279,6 +280,8 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         if username == "CHANGE_ME" or password == "CHANGE_ME":
             print_error("backdoor_username and backdoor_password must be set in payload.json")
             return
+        username = escape_powershell_single_quoted(username)
+        password = escape_powershell_single_quoted(password)
 
         command = (
             f"powershell $userExists = Get-LocalUser -Name '{username}' -ErrorAction SilentlyContinue; "

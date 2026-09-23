@@ -33,6 +33,39 @@ log = logging.getLogger("core.hardening")
 
 MAX_SSH_COMMAND_LENGTH = 4096
 MAX_CLIPBOARD_CONTENT_LENGTH = 65536
+SHELL_OPERATOR_CHARS = frozenset([";", "|", "&", "$", "`", "\n", "\r"])
+PROGRAM_NAME_PATTERN = re.compile(r"^[a-zA-Z0-9._/\-][a-zA-Z0-9._/\- ]*$")
+
+
+def reject_option_injection(argv: Sequence[str], *, allow_options: bool = True) -> None:
+    """Reject argument-injection payloads in argv.
+
+    Args:
+        argv: Program and arguments as a sequence.
+        allow_options: When False, reject any argument starting with dash.
+
+    Raises:
+        SecurityViolation: If an injection pattern is detected.
+    """
+    for arg in list(argv)[1:]:
+        if "\0" in arg:
+            raise SecurityViolation("Null byte in argument rejected")
+        if "\n" in arg or "\r" in arg:
+            raise SecurityViolation("Control character in argument rejected")
+        if not allow_options and arg.startswith("-") and arg != "-":
+            raise SecurityViolation("Leading-dash argument rejected")
+
+
+def escape_powershell_single_quoted(value: str) -> str:
+    """Escape a value for embedding in a PowerShell single-quoted string.
+
+    Args:
+        value: Raw value that may contain quotes or metacharacters.
+
+    Returns:
+        Value safe to embed between single quotes in PowerShell.
+    """
+    return str(value).replace("'", "''")
 _SAFE_PATH_PATTERN = re.compile(r"^[a-zA-Z0-9._/\-]+$")
 _NETWORK_CIDR_PATTERN = re.compile(
     r"^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"
@@ -91,9 +124,16 @@ def safe_subprocess_run(
     """
     if not argv:
         raise ValueError("argv must contain at least the program name")
+    program = str(argv[0])
+    if "\0" in program:
+        raise SecurityViolation("Null byte in program name rejected")
+    if "\n" in program or "\r" in program:
+        raise SecurityViolation("Control character in program name rejected")
     for arg in argv:
         if "\0" in arg:
             raise SecurityViolation("Null byte in argument rejected")
+        if "\n" in arg or "\r" in arg:
+            raise SecurityViolation("Control character in argument rejected")
     log.debug("safe_subprocess_run: %s reason=%s", argv[0], reason)
     return subprocess.run(
         list(argv),
@@ -352,6 +392,10 @@ def sanitize_filename(filename: str, max_length: int = 255) -> str:
 
 __all__ = [
     "SecurityViolation",
+    "SHELL_OPERATOR_CHARS",
+    "PROGRAM_NAME_PATTERN",
+    "reject_option_injection",
+    "escape_powershell_single_quoted",
     "safe_subprocess_run",
     "safe_clipboard_copy",
     "build_sshpass_command",

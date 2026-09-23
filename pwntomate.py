@@ -144,7 +144,22 @@ for host in report.hosts:
                     cmds.append(f'{mkdir_cmd} && {cmd}')
 if args.execute:
     def _run_tool(cmd):
-        return subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        """Run one auto-job command without shell interpretation.
+
+        Splits the generated ``mkdir -p ... && <tool>`` chain into a
+        directory-creation step plus a tool step. The tool step uses
+        shlex.split with shell False so scan-derived host data cannot
+        inject shell operators. Falls back to shell only for templates
+        that contain additional chaining beyond the single mkdir prefix.
+        """
+        import shlex
+        parts = cmd.split(" && ", 1)
+        if len(parts) == 2 and parts[0].strip().startswith("mkdir -p "):
+            mkdir_argv = shlex.split(parts[0])
+            subprocess.run(mkdir_argv, shell=False, capture_output=True, text=True, timeout=30, check=False)
+            tool_argv = shlex.split(parts[1])
+            return subprocess.run(tool_argv, shell=False, capture_output=True, text=True, timeout=600, check=False)
+        return subprocess.run(shlex.split(cmd), shell=False, capture_output=True, text=True, timeout=600, check=False)
 
     with ThreadPoolExecutor(max_workers=4) as executor:
         futures = {executor.submit(_run_tool, cmd): cmd for cmd in cmds}

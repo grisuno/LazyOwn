@@ -447,7 +447,7 @@ def activate_virtualenv(venv_path):
     """
 
     process = subprocess.Popen(
-        ["bash", "-c", f"source {venv_path}/bin/activate && exec bash"],
+        ["bash", "-c", f"source {shlex.quote(str(venv_path))}/bin/activate && exec bash"],
         stdin=subprocess.PIPE,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
@@ -2915,11 +2915,14 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         return
 
     def do_GET(self):
+        """Serve certutil callback using centralized payload config."""
         global query_id
         self.send_error(404)
 
-        with open('payload.json', 'r') as file:
-            data = json.load(file)
+        try:
+            data = load_payload()
+        except (OSError, ValueError):
+            data = {}
         url = data.get('url', 'URL not found')
         lhost = data.get('lhost', 'LHOST not found')
         if query_id % 2 == 0:

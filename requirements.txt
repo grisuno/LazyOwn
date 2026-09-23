@@ -256,3 +256,4 @@ zope.deferredimport==6.1.1
 zope.interface==8.4
 zope.proxy==7.2
 zstandard==0.25.0
+joblib

@@ -126,6 +126,8 @@ extend-exclude = [
     "parquets",
     "cli/commands/*_migrated.py",
     "lazyown.py",
+    "contrib/legacy",
+    "modules/legacy",
 ]
 
 [tool.ruff.lint]

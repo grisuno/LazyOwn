@@ -554,15 +554,45 @@ def export_report(df, kpis, okrs, ia_analysis):
     print(f"JSON report exported: {output_path}")
     import shutil
     import subprocess
+
+    from core.hardening import terminal_env
+    vuln_argv = [
+        "python3",
+        "modules/vuln_bot_cli.py",
+        "--file",
+        str(output_path),
+        "--provider",
+        "groq",
+        "--mode",
+        "console",
+    ]
     if shutil.which("gum"):
-        subprocess.run(
-            f"python3 modules/vuln_bot_cli.py --file {output_path} --provider groq --mode console | gum format",
-            shell=True
-        )
+        try:
+            first = subprocess.run(
+                vuln_argv,
+                shell=False,
+                capture_output=True,
+                text=True,
+                timeout=300,
+                env=terminal_env(),
+                check=False,
+            )
+            subprocess.run(
+                ["gum", "format"],
+                input=first.stdout,
+                shell=False,
+                text=True,
+                timeout=60,
+                env=terminal_env(),
+                check=False,
+            )
+        except subprocess.TimeoutExpired:
+            print("Report rendering timed out")
     else:
-        subprocess.run(
-            ["python3", "modules/vuln_bot_cli.py", "--file", output_path, "--provider", "groq", "--mode", "console"]
-        )
+        try:
+            subprocess.run(vuln_argv, shell=False, timeout=300, check=False)
+        except subprocess.TimeoutExpired:
+            print("Report rendering timed out")
 
 
 

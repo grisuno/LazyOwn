@@ -25,6 +25,7 @@ from __future__ import annotations
 
 import json
 import os
+import time
 from collections.abc import Callable, Mapping
 from dataclasses import dataclass, field
 from pathlib import Path
@@ -52,6 +53,8 @@ class ToastConfig:
     enabled_default: bool = True
     max_per_tick_default: int = 5
     max_line_chars: int = 96
+    max_panel_width: int = 120
+    fallback_width: int = 80
     max_offset_value: int = 1_073_741_824
     truthy_strings: tuple[str, ...] = ("1", "true", "yes", "on")
     falsy_strings: tuple[str, ...] = ("0", "false", "no", "off")
@@ -292,6 +295,48 @@ class ToastFormatter:
         text.append(summary, style=self._theme.muted)
         return text
 
+    def format_many(self, events: list[ToastEvent], width: int = 0) -> Any:
+        """Render several events as one Rich renderable.
+
+        This is the shared presentation contract. The cmd2 shell prints the
+        result through a Console; the Textual dashboard embeds the very same
+        renderable in a widget. One formatter, two surfaces, no drift.
+
+        Args:
+            events: Events to render, oldest first.
+            width: Panel width. ``0`` means auto-clamp to the console width.
+
+        Returns:
+            A ``Panel`` for more than one event, a single ``Text`` line for
+            one event, or ``None`` when there is nothing to show.
+        """
+        if not events:
+            return None
+        budget = max(1, self._config.max_per_tick_default)
+        filtered = [e for e in events if e.event_type not in self._config.skip_event_types]
+        to_show = filtered[-budget:]
+        if not to_show:
+            return None
+        lines = [self.format(event) for event in to_show]
+        if len(lines) == 1:
+            return lines[0]
+        border_style = getattr(self._theme, "warning", "yellow")
+        resolved = width or self._console_width()
+        return Panel(
+            Group(*lines),
+            title="[dim]notifications[/dim]",
+            border_style=border_style,
+            padding=(0, 1),
+            width=min(resolved, self._config.max_panel_width),
+        )
+
+    def _console_width(self) -> int:
+        """Return a sane console width when the caller passes none."""
+        try:
+            return int(Console().width)
+        except Exception:
+            return self._config.fallback_width
+
     def _role_for(self, severity: str) -> str:
         lookup = self._config.severity_styles.get(severity.lower())
         if lookup:
@@ -359,24 +404,13 @@ class ToastBus:
             self._state.flush()
             return 0
         budget = max(1, self._config.max_per_tick_default)
-        filtered = [event for event in events if event.event_type not in self._config.skip_event_types]
-        to_show = filtered[-budget:]
-        lines = [self._formatter.format(event) for event in to_show]
-        if len(lines) > 1:
-            border_style = getattr(self._formatter._theme, "warning", "yellow")
-            panel = Panel(
-                Group(*lines),
-                title="[dim]notifications[/dim]",
-                border_style=border_style,
-                padding=(0, 1),
-                width=min(self._console.width, 120),
-            )
-            self._console.print(panel)
-        else:
-            for line in lines:
-                self._console.print(line)
+        renderable = self._formatter.format_many(events, width=self._console.width)
+        shown = 0
+        if renderable is not None:
+            self._console.print(renderable)
+            shown = min(len(events), budget)
         self._state.flush()
-        return len(to_show)
+        return shown
 
     def mark_all_seen(self) -> None:
         """Advance the offset for every configured file to its current size."""
@@ -512,6 +546,117 @@ def render_toasts(
     return bus.render(enabled=True)
 
 
+def emit_toast(
+    message: str,
+    severity: str = "info",
+    event_type: str = "note",
+    sessions_dir: str | None = None,
+    config: ToastConfig | None = None,
+) -> bool:
+    """Append one toast event so the existing render hook displays it.
+
+    The emitter lives beside the reader on purpose: the JSONL schema is
+    owned by this module, so writing an event anywhere else would let the
+    two sides drift. The cmd2 postcmd hook picks the line up on the next
+    command, or immediately via :func:`render_toasts`.
+
+    Args:
+        message: Human-readable one-liner.
+        severity: One of the keys in ``ToastConfig.severity_styles``.
+        event_type: Short label rendered before the message.
+        sessions_dir: Override for the sessions root.
+        config: Optional active configuration.
+
+    Returns:
+        True when the event was appended, False on any write failure.
+    """
+    cfg = config or ToastConfig()
+    root = Path(sessions_dir) if sessions_dir else Path(cfg.sessions_dir)
+    text = str(message or "").strip()
+    if not text:
+        return False
+    record = {
+        "type": str(event_type or "note"),
+        "severity": str(severity or "info").lower(),
+        "ts": time.strftime("%H:%M:%S"),
+        "message": text,
+    }
+    target = root / cfg.event_files[0]
+    try:
+        root.mkdir(parents=True, exist_ok=True)
+        with target.open("a", encoding="utf-8") as handle:
+            handle.write(json.dumps(record, ensure_ascii=False) + "\n")
+        return True
+    except OSError:
+        return False
+
+
+def read_recent_toasts(
+    sessions_dir: str | None = None,
+    limit: int = 5,
+    config: ToastConfig | None = None,
+) -> list[ToastEvent]:
+    """Return the most recent toast events without touching read offsets.
+
+    The dashboard is a read-only mirror. If it consumed events through
+    :meth:`ToastBus.collect` it would advance the shared
+    ``sessions/.toast_state.json`` cursor and the cmd2 shell would never
+    show those events. Tailing the file keeps both surfaces independent.
+
+    Args:
+        sessions_dir: Override for the sessions root.
+        limit: Maximum number of events returned, newest last.
+        config: Optional active configuration.
+
+    Returns:
+        Up to ``limit`` events, oldest first. Empty when the file is
+        missing or unreadable.
+    """
+    cfg = config or ToastConfig()
+    root = Path(sessions_dir) if sessions_dir else Path(cfg.sessions_dir)
+    reader = ToastReader(cfg, root=root)
+    out: list[ToastEvent] = []
+    for name in cfg.event_files:
+        path = root / name
+        if not path.is_file():
+            continue
+        try:
+            with path.open("r", encoding="utf-8", errors="ignore") as handle:
+                tail = handle.readlines()[-max(1, limit) :]
+        except OSError:
+            continue
+        for line in tail:
+            stripped = line.strip()
+            if not stripped:
+                continue
+            event = reader._build_event(stripped, name, 0)
+            if event is not None:
+                out.append(event)
+    return out[-max(1, limit) :]
+
+
+def build_toast_renderable(
+    events: list[ToastEvent],
+    payload: Mapping[str, Any] | None = None,
+    width: int = 0,
+    config: ToastConfig | None = None,
+) -> Any:
+    """Render events with the active theme for any surface.
+
+    Args:
+        events: Events to render.
+        payload: Loaded payload used to resolve the theme.
+        width: Panel width. ``0`` means auto.
+        config: Optional active configuration.
+
+    Returns:
+        A Rich renderable, or ``None`` when there is nothing to show.
+    """
+    cfg = config or ToastConfig()
+    formatter = ToastFormatter(cfg, theme_from_payload(payload))
+    return formatter.format_many(events, width=width)
+
+
 __all__ = [
     "ToastBus",
     "ToastConfig",
@@ -520,6 +665,9 @@ __all__ = [
     "ToastReader",
     "ToastState",
     "build_default_bus",
+    "build_toast_renderable",
+    "emit_toast",
+    "read_recent_toasts",
     "render_toasts",
     "toasts_enabled",
 ]

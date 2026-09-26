@@ -272,12 +272,21 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         param, value = args
         issues: list = []
+        shell = self._resolve_shell() or self
+        try:
+            from cli.config_history import get_shell_history
+            _history = get_shell_history(shell)
+            if not _history._baseline:
+                _history.capture_baseline(dict(self.params))
+        except Exception:
+            _history = None
         updated = _apply_assign(
             self.params,
             param,
             value,
             save=_save_payload,
             on_issue=issues.append,
+            history=_history,
         )
         if not updated:
             print_error(f"Unknown parameter: {param}{RESET}")

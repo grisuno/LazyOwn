@@ -986,7 +986,8 @@ def get_state_snapshot() -> dict[str, Any]:
     Returns:
         Plain dict with keys ``elo``, ``karma_name``, ``commands_seen``,
         ``phases_entered``, ``total_commands``, ``session_commands``,
-        ``elo_session_delta``, ``next_reward_at``, ``badges``.
+        ``session_start_ts``, ``elo_session_delta``, ``next_reward_at``,
+        ``badges``.
     """
     global _state
     if _state is None:
@@ -998,6 +999,7 @@ def get_state_snapshot() -> dict[str, Any]:
         "phases_entered": list(_state.phases_entered),
         "total_commands": _state.total_commands,
         "session_commands": _state.session_commands,
+        "session_start_ts": _state.session_start_ts,
         "elo_session_delta": _state.elo_session_delta,
         "next_reward_at": _state.next_reward_at,
         "badges": list(_state.badges) if hasattr(_state, "badges") and isinstance(_state.badges, list) else [],

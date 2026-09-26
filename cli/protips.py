@@ -23,35 +23,11 @@ from typing import Any
 from rich.console import Console
 from rich.text import Text
 
+from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
+
 _console = Console(highlight=False, soft_wrap=True)
 
-# Commands after which we NEVER show a tip (noise-free zone)
-_SKIP_COMMANDS: frozenset[str] = frozenset(
-    {
-        "help",
-        "?",
-        "exit",
-        "quit",
-        "history",
-        "shell",
-        "dashboard",
-        "sitrep",
-        "ctx",
-        "phase",
-        "note",
-        "l00t",
-        "pivot",
-        "tasks",
-        "scans",
-        "wizard",
-        "palette",
-        "show",
-        "set",
-        "assign",
-        "shortcuts",
-        "_relative_run",
-    }
-)
+_SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
 
 
 @dataclass(frozen=True)
@@ -89,7 +65,11 @@ def _phase_in(ctx: dict, *phases: str) -> bool:
 
 
 def _last_cmd_is(ctx: dict, *cmds: str) -> bool:
-    return ctx.get("last_cmd", "").split()[0] if ctx.get("last_cmd") else "" in cmds
+    """Return True when the last command verb is one of cmds."""
+    raw = str(ctx.get("last_cmd") or "").split()
+    if not raw:
+        return False
+    return raw[0] in cmds
 
 
 def _after(ctx: dict, *cmds: str) -> bool:

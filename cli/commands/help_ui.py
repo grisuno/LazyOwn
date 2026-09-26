@@ -44,9 +44,11 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``wizard``            — start interactive setup
             ``wizard --tutorial`` — extended help text for first-time operators
             ``wizard --check``    — show readiness summary only, no prompts
+            ``wizard --show``     — show current values only, no prompts
+            ``wizard --only=rhost,lhost`` — edit selected fields only
             ``wizard --quick``    — auto-detect defaults without any prompts
             ``wizard --non-interactive [--rhost X] [--lhost Y] [--domain Z]``
-                                  — apply values without prompting (Docker/CI)
+                                   — apply values without prompting (Docker/CI)
 
         Both novice and experienced operators can use this:
         - Novices: step-by-step prompts with clear descriptions; pass
@@ -54,7 +56,9 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         - Experts: press Enter to accept auto-detected values; Ctrl-C to abort.
         """
         tokens = shlex.split(line or "")
-        check_only = "--check" in tokens
+        from cli.wizard_scope import parse_scope as _parse_scope
+        scope = _parse_scope(tokens)
+        check_only = "--check" in tokens or scope.show_only
         tutorial = "--tutorial" in tokens or "-t" in tokens
         non_interactive = "--non-interactive" in tokens
         quick = "--quick" in tokens
@@ -65,6 +69,30 @@ class HelpUiCommandSet(LazyOwnCommandSet):
                 self.aliases.update(_load_aliases(self.params))
             except Exception:
                 pass
+
+        if scope.only:
+            from cli.wizard import (
+                _ask_device as _ask_dev,
+                _ask_domain as _ask_dom,
+                _ask_lhost as _ask_lh,
+                _ask_os_id as _ask_os,
+                _ask_rhost as _ask_rh,
+            )
+            askers = {
+                "rhost": lambda: _ask_rh(self.params.get("rhost"), tutorial=tutorial),
+                "lhost": lambda: _ask_lh(self.params.get("lhost"), tutorial=tutorial),
+                "domain": lambda: _ask_dom(self.params.get("domain"), tutorial=tutorial),
+                "device": lambda: _ask_dev(self.params.get("device"), tutorial=tutorial),
+                "os_id": lambda: _ask_os(self.params.get("os_id", "2"), tutorial=tutorial),
+            }
+            try:
+                for field in scope.only:
+                    value = askers[field]()
+                    if value is not None and value != self.params.get(field):
+                        _save(field, value)
+            except KeyboardInterrupt:
+                print_warn("Wizard cancelled — no changes saved.")
+            return
 
         if check_only:
             from cli.wizard import _build_readiness, _print_readiness, _print_validation_summary

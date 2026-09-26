@@ -40,6 +40,7 @@ def apply_assign(
     *,
     save: SaveFn | None = None,
     on_issue: IssueFn | None = None,
+    history: Any | None = None,
 ) -> bool:
     """Validate, mutate and persist a single payload assignment.
 
@@ -53,6 +54,8 @@ def apply_assign(
         on_issue: Optional callback invoked with the validation issue when
             the value fails the schema for ``key``. Values containing shell
             metacharacters are rejected fail-closed and never persist.
+        history: Optional :class:`cli.config_history.ConfigHistory` that
+            receives a snapshot before mutation so ``undo`` can restore it.
 
     Returns:
         ``True`` if ``key`` existed in ``params`` and was updated;
@@ -76,6 +79,11 @@ def apply_assign(
     issue = validate_value(key, coerced)
     if issue is not None and on_issue is not None:
         on_issue(issue)
+    if history is not None:
+        try:
+            history.push(params)
+        except Exception:
+            pass
     params[key] = coerced
     if save is not None:
         save(params)

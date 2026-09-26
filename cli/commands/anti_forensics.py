@@ -14,7 +14,9 @@ from pathlib import Path
 
 import cmd2
 
-from cli.commands._base import LazyOwnCommandSet
+from cli.commands._base import LazyOwnCommandSet, extract_flag as _extract_flag
+from cli.confirm import confirm as _confirm
+from cli.output_mode import parse_output_flags as _parse_output_flags
 from utils import (
     print_error,
     print_msg,
@@ -36,7 +38,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_wipe_logs(self, line):
         """Clear system log files on the remote target.
 
-        Usage: wipe_logs [--target <ip>] [--user <username>] [--all]
+        Usage: wipe_logs [--target <ip>] [--user <username>] [--all] [--force]
 
         Without --target, prepares local commands for manual execution.
         With --target, executes cleanup via SSH.
@@ -79,6 +81,10 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
+            mode = _parse_output_flags(args)
+            if not mode.force and not _confirm(f"Wipe system logs on {target}? This destroys evidence."):
+                print_warn("Aborted — no commands were run. Retry with --force to skip this prompt.")
+                return
             ssh_cmd = ["ssh", f"{user}@{target}"]
             for cmd in commands:
                 full_args = ssh_cmd + [cmd]
@@ -97,7 +103,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_wipe_timeline(self, line):
         """Scrub file timestamps and shell history on the target.
 
-        Usage: wipe_timeline [--target <ip>] [--user <username>] [--path <dir>]
+        Usage: wipe_timeline [--target <ip>] [--user <username>] [--path <dir>] [--force]
 
         Touches all files under --path with a fixed timestamp to destroy
         forensic timeline analysis. Defaults to common writable paths.
@@ -122,6 +128,10 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
             if not validate_host(target):
                 print_error("Invalid target host")
                 return
+            mode = _parse_output_flags(args)
+            if not mode.force and not _confirm(f"Scrub timestamps on {target} ({path})? This destroys evidence."):
+                print_warn("Aborted — no commands were run. Retry with --force to skip this prompt.")
+                return
             ssh_cmd = ["ssh", f"{user}@{target}"]
             for cmd in commands:
                 full_args = ssh_cmd + [cmd]
@@ -140,20 +150,25 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_shred(self, line):
         """Securely delete files by overwriting before removal.
 
-        Usage: shred <file_path> [--passes <n>] [--target <ip>] [--user <username>]
+        Usage: shred <file_path> [--passes <n>] [--target <ip>] [--user <username>] [--force]
 
         Overwrites the file N times with random data then deletes it.
         Defaults to 7 passes (DoD 5220.22-M standard).
         """
         args = shlex.split(line)
         if not args or args[0].startswith("--"):
-            print_error("Usage: shred <file_path> [--passes <n>] [--target <ip>] [--user <username>]")
+            print_error("Usage: shred <file_path> [--passes <n>] [--target <ip>] [--user <username>] [--force]")
             return
 
         file_path = args[0]
         passes = int(_extract_flag(args, "--passes") or str(SHRED_PASSES))
         target = _extract_flag(args, "--target")
         user = _extract_flag(args, "--user") or "root"
+        mode = _parse_output_flags(args)
+        scope = f"{target}:{file_path}" if target else file_path
+        if not mode.force and not _confirm(f"Securely delete {scope}? This is irreversible."):
+            print_warn("Aborted — file untouched. Retry with --force to skip this prompt.")
+            return
 
         if target:
             if not file_path.startswith("/"):
@@ -190,7 +205,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_wipe_free(self, line):
         """Wipe free disk space to prevent forensic file recovery.
 
-        Usage: wipe_free [--target <ip>] [--user <username>] [--path <mount_point>]
+        Usage: wipe_free [--target <ip>] [--user <username>] [--path <mount_point>] [--force]
 
         Fills free space with random data then removes the filler file.
         Defaults to /tmp if no path is specified on remote targets.
@@ -205,6 +220,10 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
 
             if not validate_host(target):
                 print_error("Invalid target host")
+                return
+            mode = _parse_output_flags(args)
+            if not mode.force and not _confirm(f"Wipe free space on {target} ({path})? This may take a long time."):
+                print_warn("Aborted — no commands were run. Retry with --force to skip this prompt.")
                 return
             ssh_base = ["ssh", f"{user}@{target}"]
             wipe_cmds = [
@@ -223,7 +242,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_clean_ad(self, line):
         """Clear Active Directory event logs and cached Kerberos tickets.
 
-        Usage: clean_ad [--target <dc_ip>] [--user <domain\\user>] [--password <pass>]
+        Usage: clean_ad [--target <dc_ip>] [--user <domain\\user>] [--password <pass>] [--force]
 
         Purges Security, System, and Application event logs on the DC.
         Clears Kerberos ticket cache on the attacker machine.
@@ -251,6 +270,10 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
         print_msg("Local tickets cleared")
 
         if target:
+            mode = _parse_output_flags(args)
+            if not mode.force and not _confirm(f"Clear AD event logs on {target}? This destroys evidence."):
+                print_warn("Aborted — no commands were run. Retry with --force to skip this prompt.")
+                return
             auth = f"{user}%{password}" if (user and password) else ""
             dc_cmds = [
                 "wevtutil cl Security",
@@ -280,7 +303,7 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
     def do_cover_tracks(self, line):
         """Run all anti-forensics operations in sequence.
 
-        Usage: cover_tracks [--target <ip>] [--user <username>] [--password <pass>]
+        Usage: cover_tracks [--target <ip>] [--user <username>] [--password <pass>] [--force]
 
         Executes: wipe_logs -> wipe_timeline -> clean_ad -> wipe_free.
         """
@@ -288,12 +311,19 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
         target = _extract_flag(args, "--target")
         user = _extract_flag(args, "--user") or "root"
         password = _extract_flag(args, "--password") or ""
+        mode = _parse_output_flags(args)
+        force_suffix = " --force" if mode.force else ""
+        if target and not mode.force:
+            if not _confirm(f"Run full cover-tracks against {target}? This destroys all evidence."):
+                print_warn("Aborted — no commands were run. Retry with --force to skip this prompt.")
+                return
+            force_suffix = " --force"
 
         print_msg("=== PHASE 1: Wipe Logs ===")
-        self.do_wipe_logs(f"--target {target} --user {user}" if target else "")
+        self.do_wipe_logs(f"--target {target} --user {user}{force_suffix}" if target else "")
 
         print_msg("\n=== PHASE 2: Wipe Timeline ===")
-        self.do_wipe_timeline(f"--target {target} --user {user}" if target else "")
+        self.do_wipe_timeline(f"--target {target} --user {user}{force_suffix}" if target else "")
 
         print_msg("\n=== PHASE 3: Clean AD Artifacts ===")
         ad_line = ""
@@ -303,21 +333,13 @@ class AntiForensicsCommandSet(LazyOwnCommandSet):
                 ad_line += f" --user {user}"
             if password:
                 ad_line += f" --password {password}"
+            ad_line += force_suffix
         self.do_clean_ad(ad_line)
 
         print_msg("\n=== PHASE 4: Wipe Free Space ===")
-        self.do_wipe_free(f"--target {target} --user {user}" if target else "")
+        self.do_wipe_free(f"--target {target} --user {user}{force_suffix}" if target else "")
 
         print_msg("\nCover tracks complete.")
-
-
-def _extract_flag(args: list[str], flag: str) -> str | None:
-    """Extract a ``--flag <value>`` pair from a list of arguments."""
-    try:
-        idx = args.index(flag)
-        return args[idx + 1]
-    except (ValueError, IndexError):
-        return None
 
 
 __all__ = ["AntiForensicsCommandSet"]

@@ -65,6 +65,8 @@ INFO_PREFIX = "[+]"
 WARN_PREFIX = "[~]"
 SUCCESS_PREFIX = "[*]"
 
+DOCS_BASE_URL = "https://grisuno.github.io/LazyOwn/"
+
 ASCII_ERROR_GLYPH = "[X]"
 ASCII_INFO_GLYPH = "[+]"
 ASCII_WARN_GLYPH = "[!]"
@@ -92,24 +94,67 @@ def _sanitize(text: object) -> str:
     return str(text).translate(TRANSLATION_TABLE)
 
 
+def colors_enabled() -> bool:
+    """Return False when NO_COLOR or ANSI_COLORS_DISABLED is set.
+
+    Returns:
+        True when ANSI escapes may be emitted, False otherwise.
+    """
+    if os.environ.get("NO_COLOR"):
+        return False
+    if os.environ.get("ANSI_COLORS_DISABLED"):
+        return False
+    term = os.environ.get("TERM", "")
+    if term == "dumb":
+        return False
+    return True
+
+
+def _paint(code: str, text: str) -> str:
+    """Wrap text in code unless colors are disabled."""
+    if not colors_enabled():
+        return text
+    return f"{code}{text}{RESET}"
+
+
+def format_line(prefix: str, message: object, glyph: str = "") -> str:
+    """Build a single log line with standard prefix and sanitized message.
+
+    Args:
+        prefix: Short prefix such as ERROR_PREFIX.
+        message: Payload to sanitize and append.
+        glyph: Optional trailing glyph.
+
+    Returns:
+        Formatted single line string.
+    """
+    clean = _sanitize(message)
+    suffix = f" {glyph}" if glyph else ""
+    return f"    {prefix} {clean}{suffix}"
+
+
 def print_error(error: object) -> None:
     """Print a red error message to stdout."""
-    print(f"    {RED}{ERROR_PREFIX}{RED} {_sanitize(error)}{RESET} {ERROR_GLYPH}")
+    line = format_line(ERROR_PREFIX, error, ERROR_GLYPH)
+    print(_paint(RED, line) if colors_enabled() else line)
 
 
 def print_msg(msg: object) -> None:
     """Print a green informational message to stdout."""
-    print(f"    {GREEN}{INFO_PREFIX}{WHITE} {_sanitize(msg)}{RESET} {INFO_GLYPH}")
+    line = format_line(INFO_PREFIX, msg, INFO_GLYPH)
+    print(_paint(GREEN, line) if colors_enabled() else line)
 
 
 def print_warn(warn: object) -> None:
     """Print a magenta/yellow warning message to stdout."""
-    print(f"    {MAGENTA}{WARN_PREFIX}{YELLOW} {_sanitize(warn)}{RESET} {WARN_GLYPH}")
+    line = format_line(WARN_PREFIX, warn, WARN_GLYPH)
+    print(_paint(YELLOW, line) if colors_enabled() else line)
 
 
 def print_succ(msg: object) -> None:
     """Print a bright green success message to stdout."""
-    print(f"    {BRIGHT_GREEN}{SUCCESS_PREFIX}{WHITE} {_sanitize(msg)}{RESET} {SUCCESS_GLYPH}")
+    line = format_line(SUCCESS_PREFIX, msg, SUCCESS_GLYPH)
+    print(_paint(BRIGHT_GREEN, line) if colors_enabled() else line)
 
 
 __all__ = [
@@ -156,6 +201,9 @@ __all__ = [
     "BG_TRUE_COLOR",
     "SURROGATE_CHARS",
     "TRANSLATION_TABLE",
+    "DOCS_BASE_URL",
+    "colors_enabled",
+    "format_line",
     "print_msg",
     "print_warn",
     "print_error",

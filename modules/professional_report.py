@@ -251,6 +251,8 @@ class RedTeamReportGenerator:
         output_format: str = "html",
         client_name: str = "",
         engagement_type: str = "",
+        with_ai: bool = False,
+        ai_backend: str = "auto",
     ) -> str:
         """Generate the report in the specified format.
 
@@ -259,19 +261,28 @@ class RedTeamReportGenerator:
             output_format: One of html, pdf, md, json.
             client_name: Client name for the header.
             engagement_type: Engagement type string.
+            with_ai: When True, draft the executive summary with the LLM
+                backend (Groq/Ollama via ``llm_factory``).
+            ai_backend: Backend id passed to ``llm_factory``.
 
         Returns:
             Path to the generated report.
         """
         data = self.collect_data()
+        data["command_history"] = self.collect_command_history()
+        data["loot_summary"] = self.collect_loot_summary()
         self.classify_findings(data)
 
+        executive_summary = self.generate_executive_summary(
+            data, with_ai=with_ai, ai_backend=ai_backend
+        )
         self._metadata = ReportMetadata(
             client=client_name or "REDACTED",
             engagement_type=engagement_type or "External Penetration Test",
             start_date=datetime.now(UTC).strftime("%Y-%m-%d"),
             end_date=datetime.now(UTC).strftime("%Y-%m-%d"),
             scope=self._extract_scope(data),
+            executive_summary=executive_summary,
         )
 
         out_path = Path(output_dir)
@@ -367,7 +378,9 @@ class RedTeamReportGenerator:
             </div>"""
 
         executive_summary = ""
-        if self._findings:
+        if self._metadata.executive_summary:
+            executive_summary = f"<p>{self._metadata.executive_summary}</p>"
+        elif self._findings:
             criticals = severity_counts["critical"]
             highs = severity_counts["high"]
             exec_lines = [
@@ -815,6 +828,159 @@ class RedTeamReportGenerator:
                     if ip:
                         scope.append(ip)
         return scope
+
+    def collect_command_history(self, max_entries: int = 200) -> list[str]:
+        """Collect operator command history for the engagement timeline.
+
+        Sources: ``LazyOwn_history.dat`` and ``sessions/*.log`` tails.
+
+        Args:
+            max_entries: Maximum history lines to keep.
+
+        Returns:
+            Ordered command history lines.
+        """
+        history: list[str] = []
+        candidates = [BASE_DIR / "LazyOwn_history.dat"]
+        candidates.extend(sorted(SESSIONS_DIR.glob("*.log")))
+        for path in candidates:
+            try:
+                if not path.exists():
+                    continue
+                lines = path.read_text(errors="replace").splitlines()
+                history.extend(line.strip() for line in lines if line.strip())
+            except OSError:
+                continue
+        return history[-max_entries:]
+
+    def collect_loot_summary(self) -> dict[str, Any]:
+        """Summarize exfiltrated loot without embedding sensitive content.
+
+        Scans ``sessions/`` loot artefacts (QuantumVault output, credential
+        files, uploads) counting files and bytes per category. File names
+        are kept, file contents are never included.
+
+        Returns:
+            Dict with counts and total bytes per loot category.
+        """
+        summary: dict[str, Any] = {"categories": {}, "total_files": 0, "total_bytes": 0}
+        loot_patterns = ("*loot*", "*exfil*", "*quantum*", "credentials*.txt", "uploads/*")
+        seen: set[str] = set()
+        for pattern in loot_patterns:
+            for path in SESSIONS_DIR.glob(pattern):
+                try:
+                    if path.is_dir():
+                        for child in path.rglob("*"):
+                            if child.is_file() and str(child) not in seen:
+                                seen.add(str(child))
+                                self._accumulate_loot(summary, child)
+                    elif path.is_file() and str(path) not in seen:
+                        seen.add(str(path))
+                        self._accumulate_loot(summary, path)
+                except OSError:
+                    continue
+        return summary
+
+    def _accumulate_loot(self, summary: dict[str, Any], path: Path) -> None:
+        """Accumulate one loot file into the summary counters.
+
+        Args:
+            summary: Mutable loot summary dict.
+            path: Loot file path.
+        """
+        try:
+            size = path.stat().st_size
+        except OSError:
+            return
+        category = path.parent.name or "sessions"
+        entry = summary["categories"].setdefault(category, {"files": 0, "bytes": 0})
+        entry["files"] += 1
+        entry["bytes"] += size
+        summary["total_files"] += 1
+        summary["total_bytes"] += size
+
+    def generate_executive_summary(
+        self,
+        data: dict[str, Any],
+        with_ai: bool = False,
+        ai_backend: str = "auto",
+    ) -> str:
+        """Build the executive summary in business language.
+
+        Without AI this renders a deterministic template from finding
+        counts, loot stats, and command history depth. With ``with_ai``
+        the same context is sent to the ``llm_factory`` backend
+        (Groq/Ollama) to draft financial-risk prose; any backend failure
+        falls back to the template so reporting never blocks.
+
+        Args:
+            data: Engagement data dict from ``collect_data``.
+            with_ai: Draft prose with the LLM backend.
+            ai_backend: Backend id for ``llm_factory``.
+
+        Returns:
+            Executive summary string.
+        """
+        criticals = sum(1 for f in self._findings if f.severity.lower() == "critical")
+        highs = sum(1 for f in self._findings if f.severity.lower() == "high")
+        loot = data.get("loot_summary", {})
+        history = data.get("command_history", [])
+        template = (
+            f"This engagement produced {len(self._findings)} findings "
+            f"({criticals} Critical, {highs} High) across the agreed scope. "
+            f"Operators executed {len(history)} tracked actions and recovered "
+            f"{loot.get('total_files', 0)} loot artefacts. "
+            "Critical and High findings allow privilege escalation and data "
+            "access comparable to a real attacker; they translate into direct "
+            "financial exposure (incident response, downtime, regulatory "
+            "penalties) and should be remediated within 30 days, Medium "
+            "findings within 90 days."
+        )
+        if not with_ai:
+            return template
+        try:
+            draft = self._ai_draft_summary(data, template, ai_backend)
+            return draft or template
+        except Exception:
+            return template
+
+    def _ai_draft_summary(self, data: dict[str, Any], fallback: str, backend: str) -> str:
+        """Draft the executive summary with the configured LLM backend.
+
+        Args:
+            data: Engagement data dict.
+            fallback: Template text included as grounding context.
+            backend: Backend id for ``llm_factory``.
+
+        Returns:
+            LLM-drafted summary, or empty string on failure.
+        """
+        from modules.llm_factory import get_llm_backend
+
+        findings_brief = "; ".join(
+            f"{f.title} [{f.severity}/{f.cvss_score}]" for f in self._findings[:20]
+        )
+        loot = data.get("loot_summary", {})
+        prompt = (
+            "You are a senior security auditor writing for executives. "
+            "Draft a 150-220 word Executive Summary in business language, "
+            "no jargon, explaining financial and operational risk, with a "
+            "30/60/90-day remediation priority. Grounding context: "
+            f"findings={findings_brief} loot={json.dumps(loot)[:1500]} "
+            f"baseline={fallback}"
+        )
+        try:
+            llm = get_llm_backend(backend=backend)
+            result = llm.complete(prompt)
+            if isinstance(result, str) and result.strip():
+                return result.strip()
+            if isinstance(result, dict):
+                text = str(result.get("text", result.get("response", ""))).strip()
+                if text:
+                    return text
+        except Exception:
+            pass
+        return ""
 
 
 __all__ = [

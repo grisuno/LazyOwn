@@ -27,6 +27,38 @@ SESSIONS_DIR = BASE_DIR / "sessions"
 REPORTS_DIR = SESSIONS_DIR / "reports"
 
 
+def _format_timeline_event(ev: dict) -> tuple[str, str, str]:
+    """Render one engagement event as a (timestamp, type, details) triple.
+
+    Event schemas vary (``ts_iso``/``ts``/``timestamp``,
+    ``event_type``/``type``/``event``); payloads are summarized instead of
+    dumping the raw dict.
+
+    Args:
+        ev: Raw event dict from ``sessions/events.jsonl``.
+
+    Returns:
+        Tuple of display strings.
+    """
+    if not isinstance(ev, dict):
+        return "", "event", str(ev)[:160]
+    ts = str(ev.get("ts_iso") or ev.get("timestamp") or ev.get("ts") or "")
+    etype = str(ev.get("event_type") or ev.get("type") or ev.get("event") or ev.get("category") or "?")
+    payload = ev.get("payload")
+    if isinstance(payload, dict):
+        command = payload.get("command")
+        args = payload.get("args", "")
+        if command:
+            details = f"{command} {args}".strip()
+        else:
+            details = ", ".join(f"{k}={v}" for k, v in list(payload.items())[:3])
+    elif payload is not None:
+        details = str(payload)
+    else:
+        details = str(ev.get("message") or ev.get("description") or ev.get("target") or "")
+    return ts, etype, details
+
+
 def _render_mitre_matrix_html(coverage_data: dict, techniques: list[dict]) -> str:
     """Render a MITRE ATT&CK coverage matrix as an HTML table."""
     if not techniques:
@@ -51,11 +83,11 @@ def _render_mitre_matrix_html(coverage_data: dict, techniques: list[dict]) -> st
 
     tactics_present: dict[str, list[dict]] = {}
     for t in techniques:
-        tactic = t.get("tactic", "unknown")
+        tactic = t.get("tactic", "unknown") or "unknown"
         tactics_present.setdefault(tactic, []).append(t)
 
     rows = []
-    for tactic in tactics_order:
+    for tactic in tactics_order + sorted(set(tactics_present) - set(tactics_order)):
         if tactic not in tactics_present:
             continue
         for tech in tactics_present[tactic]:
@@ -198,7 +230,8 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         """Generate enhanced professional penetration test reports.
 
         Usage:
-            gen_report generate [name]         — full report (HTML + MD + JSON)
+            gen_report generate [name] [--with-ai] [--ai-backend groq|ollama]
+                                                — full report (HTML + MD + JSON)
             gen_report mitre                    — MITRE ATT&CK coverage matrix
             gen_report findings                 — vulnerability findings summary
             gen_report timeline                 — engagement event timeline
@@ -211,6 +244,7 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         Examples:
             gen_report generate
             gen_report generate htb_machine
+            gen_report generate acme --with-ai --ai-backend groq
             gen_report mitre
             gen_report findings
             gen_report timeline
@@ -222,10 +256,17 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
             return
 
         action = args[0].lower()
-        name = args[1] if len(args) > 1 else ""
+        with_ai = "--with-ai" in args
+        backend = "auto"
+        if "--ai-backend" in args:
+            try:
+                backend = args[args.index("--ai-backend") + 1]
+            except IndexError:
+                pass
+        name = next((a for a in args[1:] if not a.startswith("--") and a != backend), "")
 
         if action == "generate":
-            self._report_generate(name)
+            self._report_generate(name, with_ai=with_ai, ai_backend=backend)
         elif action == "mitre":
             self._report_mitre()
         elif action == "findings":
@@ -235,9 +276,34 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
         else:
             print_error(f"Unknown action: {action}. Use generate, mitre, findings, or timeline.")
 
-    def _report_generate(self, name: str):
-        """Generate a unified multi-format report."""
+    def _report_generate(self, name: str, with_ai: bool = False, ai_backend: str = "auto"):
+        """Generate a unified multi-format report.
+
+        Args:
+            name: Engagement name for filenames.
+            with_ai: Draft the executive summary with the LLM backend.
+            ai_backend: Backend id for ``llm_factory``.
+        """
         REPORTS_DIR.mkdir(parents=True, exist_ok=True)
+        ai_summary = ""
+        loot_summary: dict = {"categories": {}, "total_files": 0, "total_bytes": 0}
+        history_depth = 0
+        scope_hosts: list[str] = []
+        try:
+            from modules.professional_report import RedTeamReportGenerator
+
+            generator = RedTeamReportGenerator()
+            data = generator.collect_data()
+            data["command_history"] = generator.collect_command_history()
+            data["loot_summary"] = generator.collect_loot_summary()
+            generator.classify_findings(data)
+            ai_summary = generator.generate_executive_summary(data, with_ai=with_ai, ai_backend=ai_backend)
+            loot_summary = data["loot_summary"]
+            history_depth = len(data["command_history"])
+            scope_hosts = generator._extract_scope(data)
+            print_msg(f"Executive summary ({'AI' if with_ai else 'template'}): {ai_summary[:220]}...")
+        except Exception as exc:
+            print_msg(f"AI summary unavailable, using template: {exc}")
         timestamp = datetime.now(UTC).strftime("%Y%m%d_%H%M%S")
         safe_name = (name or "engagement").replace(" ", "_")
         base_name = f"report_{safe_name}_{timestamp}"
@@ -286,10 +352,27 @@ class EnhancedReportCommandSet(LazyOwnCommandSet):
 
         timeline_html = ""
         for ev in timeline[-20:]:
-            ts = ev.get("timestamp", "")
-            etype = ev.get("type", ev.get("event", "?"))
-            msg = ev.get("message", ev.get("description", str(ev)))
-            timeline_html += f"<tr><td>{ts}</td><td>{etype}</td><td>{str(msg)[:120]}</td></tr>\n"
+            ts, etype, msg = _format_timeline_event(ev)
+            timeline_html += f"<tr><td>{ts}</td><td>{etype}</td><td>{msg[:160]}</td></tr>\n"
+
+        if ai_summary:
+            exec_summary_html = ai_summary
+        else:
+            exec_summary_html = (
+                f"This report documents the findings of a penetration test conducted against {target}. "
+                f"{len(findings)} vulnerabilities were identified across {len(severity_counts)} severity levels. "
+                "The assessment included reconnaissance, service enumeration, vulnerability scanning, exploitation "
+                "attempts, and privilege escalation analysis."
+            )
+
+        overview = [
+            ("Target", target),
+            ("Hosts in scope", ", ".join(scope_hosts) if scope_hosts else target),
+            ("Tracked operator actions", str(history_depth)),
+            ("Timeline events", str(len(timeline))),
+            ("Loot artefacts recovered", str(loot_summary.get("total_files", 0))),
+        ]
+        overview_rows = "".join(f"<tr><td>{k}</td><td>{v}</td></tr>\n" for k, v in overview)
 
         html = f"""<!DOCTYPE html>
 <html lang="en">
@@ -335,11 +418,14 @@ th {{ background: #161b22; color: #8b949e; font-weight: 600; text-transform: upp
 
 <h2>Executive Summary</h2>
 <div class="finding">
-<p>This report documents the findings of a penetration test conducted against {target}.
-{len(findings)} vulnerabilities were identified across {len(severity_counts)} severity levels.
-The assessment included reconnaissance, service enumeration, vulnerability scanning, exploitation
-attempts, and privilege escalation analysis.</p>
+<p>{exec_summary_html}</p>
 </div>
+
+<h2>Environment Overview</h2>
+<table>
+<thead><tr><th>Metric</th><th>Value</th></tr></thead>
+<tbody>{overview_rows}</tbody>
+</table>
 
 <h2>Findings Summary</h2>
 <table>
@@ -385,6 +471,9 @@ Generated by LazyOwn Red Team Framework | This report is confidential.
                 "generated_at": datetime.now(UTC).isoformat(),
                 "finding_count": len(findings),
                 "technique_count": len(techniques),
+                "executive_summary": exec_summary_html,
+                "overview": dict(overview),
+                "loot_summary": loot_summary,
             },
             "findings": findings,
             "mitre_techniques": techniques,
@@ -401,9 +490,16 @@ Generated by LazyOwn Red Team Framework | This report is confidential.
             f"**Operator:** {operator}",
             f"**Findings:** {len(findings)} | **MITRE Techniques:** {len(techniques)}",
             "",
-            "## Findings Summary",
+            "## Executive Summary",
+            "",
+            exec_summary_html,
+            "",
+            "## Environment Overview",
             "",
         ]
+        for k, v in overview:
+            md_lines.append(f"- **{k}:** {v}")
+        md_lines.extend(["", "## Findings Summary", ""])
         for sev, count in severity_counts.items():
             md_lines.append(f"- **{sev.upper()}**: {count}")
         md_lines.append("")
@@ -502,8 +598,6 @@ Generated by LazyOwn Red Team Framework | This report is confidential.
 
         print_msg(f"\nEngagement Timeline ({len(timeline)} events):\n")
         for ev in timeline[-50:]:
-            ts = ev.get("timestamp", "")
-            etype = ev.get("type", ev.get("event", "?"))
-            msg = str(ev.get("message", ev.get("description", "")))[:100]
-            print_msg(f"  {ts:<22} [{etype:<16}] {msg}")
+            ts, etype, msg = _format_timeline_event(ev if isinstance(ev, dict) else {"message": ev})
+            print_msg(f"  {ts:<22} [{etype:<16}] {msg[:100]}")
         print_msg("")

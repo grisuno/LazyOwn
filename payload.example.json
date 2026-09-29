@@ -68,6 +68,7 @@
   "params_file": null,
   "json_data_file": null,
   "enable_cloudflare": true,
+  "c2_fallback_urls": "",
   "exploitdb": "/usr/share/exploitdb/exploits/",
   "dirwordlist": "/usr/share/wordlists/SecLists-master/Discovery/Web-Content/directory-list-2.3-medium.txt",
   "usrwordlist": "/usr/share/wordlists/SecLists-master/Usernames/xato-net-10-million-usernames.txt",

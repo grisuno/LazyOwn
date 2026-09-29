@@ -1,0 +1,21 @@
+services:
+  caddy:
+    image: caddy:2-alpine
+    container_name: lazyown-redirector-filter
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+    environment:
+      - C2_HOST=${C2_HOST:-host.docker.internal}
+      - C2_PORT=${C2_PORT:-4444}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - "8080"
+    restart: unless-stopped
+
+  redirector:
+    image: cloudflare/cloudflared:latest
+    depends_on:
+      - caddy
+    command: tunnel --no-autoupdate --no-tls-verify --url http://caddy:8080
+    restart: unless-stopped

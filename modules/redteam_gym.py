@@ -207,6 +207,74 @@ GYM_CHALLENGE_DEFINITIONS: dict[str, dict[str, Any]] = {
         "success_check": "root without running nmap or masscan",
         "elo_bonus": 600,
     },
+    "first_implant": {
+        "id": "first_implant",
+        "name": "First Implant — Range",
+        "description": "Deploy the Go beacon to ws01 (172.20.0.20) in the ad-mini range and get a callback on the C2.",
+        "scenario": "ad-mini",
+        "objective": "Build the beacon with redirector fallback URLs, deliver it to ws01, and receive a beacon callback.",
+        "difficulty": "easy",
+        "phases": ["c2", "exploit"],
+        "required_techniques": ["implant_deploy", "beacon_callback"],
+        "bonus_techniques": ["redirector_use", "persistence"],
+        "max_points": 1000,
+        "speed_bonus_max": 300,
+        "stealth_bonus_max": 200,
+        "technique_diversity_bonus": 200,
+        "hints": [
+            "lab range start ad-mini, then lab range verify ad-mini to prove root",
+            "Get a root shell: USER backdoor:) / PASS anything on 127.0.0.1:2121, shell lands on 127.0.0.1:6200",
+            "Or login: ssh -p 2222 msfadmin@127.0.0.1 (password msfadmin)",
+            "From the shell, curl the beacon from your C2 (/s/<binary>) and run it",
+            "Check c2_beacons for the callback",
+        ],
+        "success_check": "beacon callback visible in c2_beacons",
+        "elo_bonus": 150,
+    },
+    "lateral_ad": {
+        "id": "lateral_ad",
+        "name": "Lateral Move — Range AD",
+        "description": "From the ws01 implant, enumerate the range DC and move laterally with SMB/WinRM techniques.",
+        "scenario": "ad-mini",
+        "objective": "Enumerate shares/users on 172.20.0.10 and achieve lateral execution to the DC.",
+        "difficulty": "medium",
+        "phases": ["enum", "lateral", "cred"],
+        "required_techniques": ["smb_enum", "lateral_movement"],
+        "bonus_techniques": ["kerberoast", "pth", "bloodhound_enum"],
+        "max_points": 1500,
+        "speed_bonus_max": 400,
+        "stealth_bonus_max": 300,
+        "technique_diversity_bonus": 400,
+        "hints": [
+            "Use the beacon portscan + smbclient against 172.20.0.10",
+            "Look for weakRangeAdmin credentials in shares",
+            "wmiexec/psexec style lateral techniques apply here",
+        ],
+        "success_check": "command execution on the range DC",
+        "elo_bonus": 300,
+    },
+    "vault_exfil": {
+        "id": "vault_exfil",
+        "name": "Vault Exfil — Range",
+        "description": "Use QuantumVault tradecraft from the range implant to stage and exfiltrate a loot bundle.",
+        "scenario": "ad-mini",
+        "objective": "Stage /etc/shadow equivalent loot on ws01 and exfiltrate it through the beacon.",
+        "difficulty": "medium",
+        "phases": ["exfil", "c2"],
+        "required_techniques": ["data_staging", "data_exfil"],
+        "bonus_techniques": ["compression", "encryption", "log_cleanup"],
+        "max_points": 1500,
+        "speed_bonus_max": 400,
+        "stealth_bonus_max": 300,
+        "technique_diversity_bonus": 400,
+        "hints": [
+            "Stage loot under /tmp on ws01 first",
+            "Use the beacon upload/exfil path, not scp",
+            "Clean logs after exfil for the stealth bonus",
+        ],
+        "success_check": "loot bundle received in sessions/uploads",
+        "elo_bonus": 300,
+    },
 }
 
 
@@ -354,12 +422,24 @@ def start_challenge(challenge_id: str) -> dict[str, Any]:
             "hints": chal.get("hints", []),
         },
         "started_at": attempt.started_at,
-        "message": f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target.",
-        "next_steps": [
-            f"lab start {chal['scenario']}",
-            "assign rhost 127.0.0.1",
-            "lazynmap",
-        ],
+        "message": (
+            f"Challenge '{chal['name']}' started. Run 'lab range start ad-mini' to spin up the range."
+            if chal["scenario"] == "ad-mini"
+            else f"Challenge '{chal['name']}' started. Run 'lab start {chal['scenario']}' to spin up the target."
+        ),
+        "next_steps": (
+            [
+                "lab range start ad-mini",
+                "assign rhost <ws01-ip from range start output>",
+                "lazynmap",
+            ]
+            if chal["scenario"] == "ad-mini"
+            else [
+                f"lab start {chal['scenario']}",
+                "assign rhost 127.0.0.1",
+                "lazynmap",
+            ]
+        ),
     }
 
     return result

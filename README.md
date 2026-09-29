@@ -4663,6 +4663,12 @@ Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK tech
 
 (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
 
+### `infra`
+
+**Phase:** c2 | **Source:** `cli/commands/infra.py`
+
+Manage disposable C2 infrastructure: `infra redirector spawn --count 2` (cloudflared quick tunnels behind a Caddy path filter; only fresh URLs are shown, stale ones prune after 24h), `infra redirector list`, `infra redirector kill --all`, `infra deploy --provider local|digitalocean --region nyc1` (ephemeral C2 with automatic TLS), `infra destroy --provider local`, `infra status`. Redirector flow is spawn, then `assign c2_fallback_urls <urls>`, then rebuild the beacon (`c2 linux 2`) so URLs bake in at compile time; the Go toolchain (garble version match, C compiler) is preflighted automatically.
+
 ### `listener`
 
 **Phase:** c2 | **Source:** `cli/commands/command_and_control_migrated.py`
@@ -4784,7 +4790,7 @@ Automates EyeWitness installation and execution without requiring user input.
 
 **Phase:** report | **Source:** `cli/commands/report_enhanced.py`
 
-Generate enhanced professional penetration test reports.
+Generate enhanced professional penetration test reports. Supports `gen_report generate <name> --with-ai --ai-backend groq` for an LLM-drafted executive summary with business-language financial risk.
 
 ### `get_avaible_actions`
 
@@ -5237,7 +5243,7 @@ Fuzzy search the graphify knowledge graph for nodes by label.
 
 **Phase:** misc | **Source:** `cli/commands/redteam_gym.py`
 
-Red Team Gym — gamified pentest training with ELO scoring.
+Red Team Gym — gamified pentest training with ELO scoring. Range challenges: `gym start first_implant`, `gym start lateral_ad`, `gym start vault_exfil` (require `lab range start ad-mini`).
 
 ### `h`
 
@@ -5357,7 +5363,7 @@ Unified loot: show, search, reuse, graph, and mark credentials.
 
 **Phase:** misc | **Source:** `cli/commands/lab.py`
 
-Manage local CTF practice labs.
+Manage local CTF practice labs. Cyber range: `lab range start ad-mini` (isolated vulnerable mini-AD with fake traffic), `lab range stop ad-mini`, `lab range status`.
 
 ### `lazyscript`
 
@@ -9099,6 +9105,12 @@ Generates a playbook that integrates Atomic Red Team tests and MITRE ATT&CK tech
 
 (CVE-2017-7269). Vulnerable using the module iis_webdav_upload_asp of metasploit
 
+### `infra`
+
+**Phase:** c2 | **Source:** `cli/commands/infra.py`
+
+Manage disposable C2 infrastructure: `infra redirector spawn --count 2` (cloudflared quick tunnels behind a Caddy path filter; only fresh URLs are shown, stale ones prune after 24h), `infra redirector list`, `infra redirector kill --all`, `infra deploy --provider local|digitalocean --region nyc1` (ephemeral C2 with automatic TLS), `infra destroy --provider local`, `infra status`. Redirector flow is spawn, then `assign c2_fallback_urls <urls>`, then rebuild the beacon (`c2 linux 2`) so URLs bake in at compile time; the Go toolchain (garble version match, C compiler) is preflighted automatically.
+
 ### `listener`
 
 **Phase:** c2 | **Source:** `cli/commands/command_and_control_migrated.py`
@@ -9220,7 +9232,7 @@ Automates EyeWitness installation and execution without requiring user input.
 
 **Phase:** report | **Source:** `cli/commands/report_enhanced.py`
 
-Generate enhanced professional penetration test reports.
+Generate enhanced professional penetration test reports. Supports `gen_report generate <name> --with-ai --ai-backend groq` for an LLM-drafted executive summary with business-language financial risk.
 
 ### `get_avaible_actions`
 
@@ -9673,7 +9685,7 @@ Fuzzy search the graphify knowledge graph for nodes by label.
 
 **Phase:** misc | **Source:** `cli/commands/redteam_gym.py`
 
-Red Team Gym — gamified pentest training with ELO scoring.
+Red Team Gym — gamified pentest training with ELO scoring. Range challenges: `gym start first_implant`, `gym start lateral_ad`, `gym start vault_exfil` (require `lab range start ad-mini`).
 
 ### `h`
 
@@ -9793,7 +9805,7 @@ Unified loot: show, search, reuse, graph, and mark credentials.
 
 **Phase:** misc | **Source:** `cli/commands/lab.py`
 
-Manage local CTF practice labs.
+Manage local CTF practice labs. Cyber range: `lab range start ad-mini` (isolated vulnerable mini-AD with fake traffic), `lab range stop ad-mini`, `lab range status`.
 
 ### `lazyscript`
 

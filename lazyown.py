@@ -2445,10 +2445,16 @@ class LazyOwnShell(cmd2.Cmd):
         customize its behavior.
 
         Example:
-            >>> shell = LazyOwnShell()
-            >>> shell.cmdloop()  # Exits the command loop
-            GoodBye LazyOwner
+        >>> shell = LazyOwnShell()
+        >>> shell.cmdloop()  # Exits the command loop
+        GoodBye LazyOwner
         """
+        try:
+            from modules.session_cleanup import cleanup_ephemeral_infra
+
+            cleanup_ephemeral_infra()
+        except Exception:
+            pass
         print_warn("GoodBye LazyOwner")
 
     @cmd2.with_category(miscellaneous_category)

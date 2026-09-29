@@ -640,6 +640,14 @@ SCHEMA: dict[str, FieldSpec] = {
             "enable_cloudflare", FieldKind.BOOL, False, "Route C2 traffic through Cloudflare redirector.", category="c2"
         ),
         _spec(
+            "c2_fallback_urls",
+            FieldKind.STRING,
+            "",
+            "Comma-separated disposable redirector URLs injected into the Go beacon fallback list.",
+            example="https://abc.trycloudflare.com,https://xyz.trycloudflare.com",
+            category="c2",
+        ),
+        _spec(
             "sandboxed",
             FieldKind.BOOL,
             False,

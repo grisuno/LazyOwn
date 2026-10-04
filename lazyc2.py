@@ -34,7 +34,6 @@ from threading import Thread
 from urllib.parse import urlparse
 
 import markdown
-import pandas as pd
 import requests
 import validators
 import yagmail
@@ -1589,6 +1588,10 @@ def search_database(term, data_path="parquets/techniques.parquet"):
     """
     Busca un término en un DataFrame, manejando listas, dicts y distintas estructuras.
     """
+    try:
+        import pandas as pd
+    except ImportError:
+        return "\n# Error\n- **Detail**: pandas is not installed (light profile). Install it for parquet search.\n"
     try:
         df = pd.read_parquet(data_path)
     except Exception as e:

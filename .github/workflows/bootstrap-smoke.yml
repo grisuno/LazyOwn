@@ -1,0 +1,37 @@
+name: Bootstrap smoke
+
+on:
+  push:
+    branches: [main, dev, pp]
+    paths:
+      - "bootstrap.sh"
+      - "install.sh"
+      - ".github/workflows/bootstrap-smoke.yml"
+  pull_request:
+    branches: [main, dev, pp]
+    paths:
+      - "bootstrap.sh"
+      - "install.sh"
+
+permissions: {}
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax check
+        run: |
+          bash -n bootstrap.sh
+          bash -n install.sh
+      - name: Bootstrap help
+        run: bash bootstrap.sh --help
+      - name: Install script help
+        run: bash install.sh --help
+      - name: Pipe guard rejects direct curl-pipe of install.sh
+        run: |
+          mkdir -p /tmp/pipeguard && cp install.sh /tmp/pipeguard/
+          if bash /tmp/pipeguard/install.sh; then
+            echo "Expected install.sh to refuse running outside a checkout."
+            exit 1
+          fi

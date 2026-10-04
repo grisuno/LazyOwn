@@ -5,6 +5,9 @@ on:
   push:
     branches: [dev]
     paths: ["cli/commands/**.py", "utils.py", "lazyown.py", "lazyaddons/**", "tools/**", "COMMANDS.md", "UTILS.md", "README.md", "skills/lazyown.md"]
+
+permissions: {}
+
 jobs:
   drift:
     runs-on: ubuntu-latest

@@ -37,6 +37,7 @@ from core.payload_schema import (
     field_for,
     validate_value,
 )
+from core.profiles import is_light as is_light_profile
 from modules.llm_factory import (
     DEFAULT_BACKEND,
     SUPPORTED_BACKENDS,
@@ -438,8 +439,11 @@ def _collect_values(params: dict[str, Any], *, tutorial: bool = False) -> dict[s
     if os_id is not None and str(os_id) != str(params.get("os_id", "2")):
         updates["os_id"] = os_id
 
-    llm_updates = _ask_llm(params, tutorial=tutorial)
-    updates.update(llm_updates)
+    if is_light_profile():
+        _console.print("[dim]Light profile active — skipping the LLM provider step (no AI features).[/]")
+    else:
+        llm_updates = _ask_llm(params, tutorial=tutorial)
+        updates.update(llm_updates)
 
     wordlist_updates = _ask_wordlists(params)
     updates.update(wordlist_updates)

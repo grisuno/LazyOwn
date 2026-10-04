@@ -21,6 +21,23 @@ sudo apt install -y seclists 2>/dev/null || true
 
 ## Step 1 — Clone and install
 
+Fastest path (one-liner: clones into `~/LazyOwn`, installs, then asks whether
+to start a normal `./run` session or the full `fast_run_as_r00t.sh` stack):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
+```
+
+If `~/LazyOwn` already exists, the installer asks whether to update in place, do a clean reinstall (backing up `payload.json` to `/tmp` first), use another directory, or abort. Use `--existing update|clean|abort` to skip the question in scripts.
+
+With install options and a custom directory:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash -s -- --with-tools --dir ~/pentest/LazyOwn
+```
+
+Or step by step:
+
 ```bash
 git clone https://github.com/grisuno/LazyOwn.git
 cd LazyOwn
@@ -173,7 +190,7 @@ Prints the team dashboard URL. Everyone connects to `https://<lhost>:<c2_port>/c
 | `ESSENTIALS.md` | You want the 18 core commands (start here after this doc) |
 | `CHEATSHEET.md` | You know the basics and need the next 40 frequent commands |
 | `skills/lazyown.md` | You are operating via MCP (AI operator) |
-| `COMMANDS.md` | You need the full 741-command reference |
+| `COMMANDS.md` | You need the full 748-command reference |
 | `CLAUDE.md` | You are developing or extending the framework |
 
 ---

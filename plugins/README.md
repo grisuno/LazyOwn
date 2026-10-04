@@ -120,3 +120,19 @@ loading. The lupa runtime logs load-time errors to `sessions/access.log`.
 
 **Parameter missing** — use `assign <key> <value>` from the CLI to set the
 required `payload.json` key.
+
+## Tiers and ratings
+
+Every plugin has a tier: `official` (maintained by the core team),
+`community` (default), or `experimental` (unvetted). Tiers resolve from
+`plugins/tiers.yaml` first, then an optional `tier:` field in the plugin's
+own YAML. Filter the marketplace with `marketplace list --tier official`
+and see the tier in `marketplace info <name>`.
+
+Rate plugins operator-locally (stored in `sessions/plugin_ratings.json`,
+never committed):
+
+```
+(LazyOwn) > marketplace rate amsi_bypass 5
+(LazyOwn) > marketplace ratings
+```

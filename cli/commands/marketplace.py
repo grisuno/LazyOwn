@@ -17,6 +17,16 @@ from cli.marketplace_config import (
     configure_marketplace_interactive,
     marketplace_summary,
 )
+from cli.plugin_tiers import (
+    KNOWN_TIERS,
+    default_store,
+    format_rating,
+    load_tier_manifest,
+    rate_plugin,
+    rating_summary,
+    read_metadata_tier,
+    tier_of,
+)
 from modules.module_registry import ModuleRegistry
 from utils import (
     miscellaneous_category,
@@ -61,6 +71,18 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             return shell._module_registry
         return ModuleRegistry()
 
+    def _tiers(self) -> dict[str, str]:
+        """Load explicit tier overrides from plugins/tiers.yaml."""
+        return load_tier_manifest(PLUGINS_DIR / "tiers.yaml")
+
+    def _ratings_path(self) -> Path:
+        """Return the operator-local ratings store."""
+        return default_store(BASE_DIR)
+
+    def _tier_label(self, name: str, tiers: dict[str, str]) -> str:
+        """Resolve the display tier for an installed name."""
+        return tier_of(name, tiers)
+
     def _installed_plugins(self) -> dict[str, list[str]]:
         """Return dict of category -> list of installed names."""
         installed: dict[str, list[str]] = {
@@ -83,22 +105,26 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         """Discover and install community plugins, addons, and tools.
 
         Usage:
-            marketplace list           — show installed plugins/addons
+            marketplace list [--tier official|community|experimental]
             marketplace search <name>  — search for available plugins
             marketplace install <name> — install a plugin by name
             marketplace update         — refresh community plugin index
             marketplace info <name>    — show details about a plugin
+            marketplace rate <name> <1-5> — rate a plugin (operator-local)
+            marketplace ratings [name] — show recorded ratings
             marketplace config         — interactive enable/disable wizard
 
         Examples:
             marketplace list
+            marketplace list --tier official
             marketplace search c2
             marketplace install phantom2
+            marketplace rate phantom2 5
             marketplace config
         """
         args = line.strip().split()
         if not args:
-            print_msg("Usage: marketplace [list|search|install|update|info|config] [name]")
+            print_msg("Usage: marketplace [list|search|install|update|info|rate|ratings|config] [name]")
             print_msg("Try: marketplace list")
             return
 
@@ -106,7 +132,17 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         name = args[1] if len(args) > 1 else ""
 
         if action == "list":
-            self._mp_list()
+            tier_filter = ""
+            rest = args[1:]
+            for pos, token in enumerate(rest):
+                if token.startswith("--tier="):
+                    tier_filter = token.split("=", 1)[1].lower()
+                elif token == "--tier" and pos + 1 < len(rest):
+                    tier_filter = rest[pos + 1].lower()
+            if tier_filter and tier_filter not in KNOWN_TIERS:
+                print_error(f"Unknown tier: {tier_filter}. Use official, community, or experimental.")
+                return
+            self._mp_list(tier_filter=tier_filter)
         elif action == "search":
             if not name:
                 print_error("Specify a search term. Try: marketplace search c2")
@@ -124,26 +160,39 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
                 print_error("Specify a plugin name. Try: marketplace list")
                 return
             self._mp_info(name)
+        elif action == "rate":
+            if len(args) < 3:
+                print_error("Usage: marketplace rate <name> <1-5>")
+                return
+            self._mp_rate(args[1], args[2])
+        elif action == "ratings":
+            self._mp_ratings(name)
         elif action == "config":
             self._mp_interactive_config()
         else:
-            print_error(f"Unknown action: {action}. Use list, search, install, update, info, or config.")
+            print_error(f"Unknown action: {action}. Use list, search, install, update, info, rate, ratings, or config.")
 
-    def _mp_list(self):
-        """Display installed plugins grouped by category."""
+    def _mp_list(self, tier_filter: str = ""):
+        """Display installed plugins grouped by category, optionally tier-filtered."""
         installed = self._installed_plugins()
-        total = sum(len(v) for v in installed.values())
+        tiers = self._tiers()
 
-        print_msg(f"\nInstalled plugins, addons, and tools ({total} total):\n")
+        print_msg("\nInstalled plugins, addons, and tools:\n")
 
+        total = 0
         for category, names in installed.items():
-            if names:
-                print_msg(f"  [{category}] ({len(names)})")
-                for name in names:
-                    print_msg(f"    - {name}")
+            shown = [n for n in names if not tier_filter or self._tier_label(n, tiers) == tier_filter]
+            if shown:
+                total += len(shown)
+                print_msg(f"  [{category}] ({len(shown)})")
+                for name in shown:
+                    print_msg(f"    - {name}  [{self._tier_label(name, tiers)}]")
 
         if total == 0:
-            print_warn("No plugins installed. Use 'marketplace update && marketplace search' to browse.")
+            if tier_filter:
+                print_warn(f"No {tier_filter} plugins installed.")
+            else:
+                print_warn("No plugins installed. Use 'marketplace update && marketplace search' to browse.")
             return
 
         print_msg("")
@@ -156,6 +205,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         query_lower = query.lower()
         installed = self._installed_plugins()
         registry = self._registry()
+        tiers = self._tiers()
 
         print_msg(f"\nSearching for '{query}' ...\n")
 
@@ -166,7 +216,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
             for name in names:
                 if query_lower in name.lower():
                     found += 1
-                    print_msg(f"    {category}/{name}  (installed)")
+                    print_msg(f"    {category}/{name}  [{self._tier_label(name, tiers)}] (installed)")
 
         try:
             modules = registry.list_all() if hasattr(registry, "list_all") else []
@@ -283,6 +333,7 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
     def _mp_info(self, name: str):
         """Show detailed information about a plugin."""
         installed = self._installed_plugins()
+        tiers = self._tiers()
         found = False
 
         for category, names in installed.items():
@@ -293,8 +344,16 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
                     path = base / f"{name}{ext}"
                     if path.exists():
                         size = path.stat().st_size
+                        tier = self._tier_label(name, tiers)
+                        if ext == ".yaml":
+                            metadata_tier = read_metadata_tier(path)
+                            if metadata_tier:
+                                tier = tier_of(name, tiers, metadata_tier)
+                        average, count = rating_summary(name, self._ratings_path())
                         print_msg(f"\n  Name:     {name}")
                         print_msg(f"  Category: {category}")
+                        print_msg(f"  Tier:     {tier}")
+                        print_msg(f"  Rating:   {format_rating(average, count)}")
                         print_msg(f"  Path:     {path}")
                         print_msg(f"  Size:     {size} bytes ({size / 1024:.1f} KB)")
                         try:
@@ -317,6 +376,40 @@ class MarketplaceCommandSet(LazyOwnCommandSet):
         if not found:
             print_error(f"Plugin '{name}' is not installed.")
             print_msg("Use: marketplace search <name>")
+
+    def _mp_rate(self, name: str, raw_stars: str):
+        """Record an operator rating for a plugin."""
+        try:
+            stars = int(raw_stars)
+        except (TypeError, ValueError):
+            print_error(f"Rating must be an integer from 1 to 5 (got {raw_stars!r}).")
+            return
+        try:
+            average, count = rate_plugin(name, stars, self._ratings_path())
+        except ValueError as exc:
+            print_error(str(exc))
+            return
+        print_msg(f"Rated '{name}' {stars}/5 — now {format_rating(average, count)}.")
+
+    def _mp_ratings(self, name: str):
+        """Show recorded operator ratings, optionally for one plugin."""
+        store = self._ratings_path()
+        if name:
+            average, count = rating_summary(name, store)
+            print_msg(f"  {name}: {format_rating(average, count)}")
+            return
+        installed = self._installed_plugins()
+        shown = 0
+        for category, names in installed.items():
+            rated = [(n, *rating_summary(n, store)) for n in names]
+            rated = [(n, a, c) for n, a, c in rated if c > 0]
+            if rated:
+                print_msg(f"\n  [{category}]")
+                for plugin_name, average, count in sorted(rated):
+                    print_msg(f"    - {plugin_name}: {format_rating(average, count)}")
+                    shown += 1
+        if shown == 0:
+            print_msg("No ratings yet. Use: marketplace rate <name> <1-5>")
 
     def _mp_interactive_config(self):
         """Launch the interactive marketplace configurator (curses TUI)."""

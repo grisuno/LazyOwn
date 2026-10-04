@@ -19,7 +19,7 @@ info:
     | viewer | Read-only: reports, sessions, status |
     | auditor | Read-only + audit logs (compliance) |
 
-  version: "1.0.0"
+  version: "1.1.0"
   contact:
     name: LazyOwn RedTeam
     url: https://github.com/grisuno/LazyOwn
@@ -37,6 +37,126 @@ security:
   - basicAuth: []
 
 paths:
+  /api/v1/health:
+    get:
+      summary: Versioned health check (public)
+      operationId: v1Health
+      tags: [V1]
+      responses:
+        "200":
+          description: Subsystem status and uptime
+          content:
+            application/json:
+              schema:
+                type: object
+
+  /api/v1/targets:
+    get:
+      summary: List in-scope hosts from the campaign database
+      operationId: v1Targets
+      tags: [V1]
+      security:
+        - apiKey: []
+      parameters:
+        - name: workspace
+          in: query
+          schema:
+            type: string
+            default: default
+      responses:
+        "200":
+          description: Workspace hosts with services
+        "401":
+          description: Missing or invalid API key
+        "503":
+          description: Campaign database unavailable
+
+  /api/v1/results:
+    get:
+      summary: Beacon task results (latest per beacon, or one beacon history)
+      operationId: v1Results
+      tags: [V1]
+      security:
+        - apiKey: []
+      parameters:
+        - name: client_id
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Records oldest-first
+        "401":
+          description: Missing or invalid API key
+
+  /api/v1/campaigns:
+    get:
+      summary: Autonomous campaign status (phase + pending objectives)
+      operationId: v1Campaigns
+      tags: [V1]
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Best-effort status from operational state files
+        "401":
+          description: Missing or invalid API key
+
+  /api/v1/webhooks:
+    get:
+      summary: List registered result webhooks
+      operationId: v1WebhooksList
+      tags: [V1]
+      security:
+        - apiKey: []
+      responses:
+        "200":
+          description: Webhook list
+    post:
+      summary: Register a result webhook URL (http/https only)
+      operationId: v1WebhooksRegister
+      tags: [V1]
+      security:
+        - apiKey: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url]
+              properties:
+                url:
+                  type: string
+                events:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        "201":
+          description: Stored entry and index
+        "400":
+          description: Bad URL or events
+
+  /api/v1/webhooks/{index}:
+    delete:
+      summary: Remove a registered webhook by index
+      operationId: v1WebhooksDelete
+      tags: [V1]
+      security:
+        - apiKey: []
+      parameters:
+        - name: index
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Removed entry
+        "404":
+          description: Index not found
+
   /health:
     get:
       summary: Health check endpoint
@@ -380,3 +500,8 @@ components:
       type: http
       scheme: basic
       description: HTTP Basic Auth for API/beacon endpoints. Uses RBAC store for credential validation.
+    apiKey:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: Tenant-bound API key for /api/v1 endpoints (see core/api_authz.py).

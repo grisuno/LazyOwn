@@ -64,24 +64,12 @@ rm -f d2* || true
 python3 readmeneitor.py lazyown.py
 python3 readmeneitor.py utils.py
 
-# Función para actualizar una sección específica
-update_section_md() {
-    local start_comment="$1"
-    local end_comment="$2"
-    local content_file="$3"
-
-    sed -i "/$start_comment/,/$end_comment/{
-        /$start_comment/!{/$end_comment/!d}
-        /$start_comment/r $content_file
-    }" "$README_FILE"
-}
-
 # Actualizar cada sección
-update_section_md "<!-- START UTILS -->" "<!-- END UTILS -->" "$UTILS_FILE"
-update_section_md "<!-- START COMMANDS -->" "<!-- END COMMANDS -->" "$COMMANDS_FILE"
-update_section_md "<!-- START CHANGELOG -->" "<!-- END CHANGELOG -->" "$CHANGELOG_FILE"
+# NOTE: UTILS.md, COMMANDS.md and CHANGELOG.md are maintained as standalone
+# files only. They are intentionally NOT injected into README.md anymore
+# (see docs/: README stays a <500-line index; full references live next to it).
 
-echo "[*] El archivo $README_FILE ha sido actualizado con el contenido de UTILS.md, COMMANDS.md, y CHANGELOG.md."
+echo "[*] Standalone references refreshed: $UTILS_FILE, $COMMANDS_FILE, $CHANGELOG_FILE."
 
 # Crea el readme en html
 pandoc "$README_FILE" -f markdown -t html -s -o README.html --metadata title="README LazyOwn Framework Pentesting t00lz"

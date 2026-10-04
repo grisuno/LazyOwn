@@ -95,6 +95,36 @@ log() {
     fi
 }
 
+spin_run() {
+    local message="$1"
+    shift
+    local log_file
+    log_file="$(mktemp /tmp/lazyown-install-XXXXXX.log)"
+    log info "$message"
+    log info "Detail log: $log_file (run 'tail -f $log_file' in another terminal to watch progress)"
+    "$@" >"$log_file" 2>&1 &
+    local pid=$!
+    if [[ -t 1 ]]; then
+        local frames="|/-\\"
+        local i=0
+        while kill -0 "$pid" 2>/dev/null; do
+            printf '\r[*] working %s' "${frames:$i:1}"
+            i=$(( (i + 1) % 4 ))
+            sleep 0.25
+        done
+        printf '\r%60s\r' ""
+    fi
+    local rc=0
+    wait "$pid" || rc=$?
+    if [[ "$rc" -eq 0 ]]; then
+        log info "$message finished."
+    else
+        log error "$message failed (exit $rc). Last output:"
+        tail -n 25 "$log_file" >&2
+    fi
+    return "$rc"
+}
+
 ensure_gum() {
     if command -v gum >/dev/null 2>&1; then
         return 0
@@ -111,10 +141,10 @@ install_system_packages() {
         log warn "apt-get not found; skipping system packages. Install manually: golang nmap xsltproc moreutils ltrace rlwrap python3-venv gum"
         return 0
     fi
-    sudo apt-get update
-    sudo apt-get install -y golang rlwrap
+    spin_run "Updating apt package lists (may ask for your sudo password)" sudo apt-get update || return 1
+    spin_run "Installing system packages" sudo apt-get install -y golang rlwrap || return 1
     ensure_gum
-    sudo apt-get install -y ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang rlwrap
+    spin_run "Installing remaining system packages" sudo apt-get install -y ltrace python3-xyzservices python3-venv nmap xsltproc moreutils golang rlwrap
 }
 
 install_external_tools() {
@@ -126,7 +156,7 @@ install_external_tools() {
         return 0
     fi
     log info "Installing common external pentest tools (--with-tools)."
-    sudo apt-get install -y \
+    spin_run "Installing external pentest tools" sudo apt-get install -y \
         gobuster ffuf feroxbuster enum4linux seclists responder nikto \
         hydra john hashcat smbclient exploitdb tmux \
         || log warn "Some external tools failed to install; run 'doctor' to audit them."
@@ -152,9 +182,9 @@ install_python_environment() {
         lock_file="$SCRIPT_DIR/requirements-light.txt"
         log info "Light profile: installing shell + C2 + recon core (no analytics/AI stack)."
     fi
-    "$pip" install -r "$lock_file" --resolver=backtrack || {
+    spin_run "Installing Python dependencies from $(basename "$lock_file") (several minutes)" "$pip" install -r "$lock_file" --resolver=backtrack || {
         log warn "Full install failed; installing core packages only..."
-        "$pip" install \
+        spin_run "Installing core Python packages" "$pip" install \
             cmd2 pyyaml requests beautifulsoup4 rich tabulate psutil watchdog \
             defusedxml lupa Pillow textual flask flask-socketio flask-login \
             flask-limiter flask-sock flask-unsign markupsafe jinja2 werkzeug \
@@ -166,7 +196,7 @@ install_python_environment() {
             && log info "Core packages installed successfully."
     }
     if [[ "$WITH_ML" -eq 1 ]]; then
-        "$pip" install -r "$SCRIPT_DIR/requirements-ml.txt" || log warn "ML install failed; non-critical."
+        spin_run "Installing machine-learning dependencies" "$pip" install -r "$SCRIPT_DIR/requirements-ml.txt" || log warn "ML install failed; non-critical."
     else
         log info "Skipping machine-learning dependencies (default; use --with-ml to include)."
     fi
@@ -189,9 +219,9 @@ install_external_storage() {
     local ext_dir="$SCRIPT_DIR/modules_ext/lazyown_infinitestorage"
     if [[ -d "$ext_dir/.git" ]]; then
         log info "LazyOwnInfiniteStorage present; updating."
-        git -C "$ext_dir" pull --ff-only || log warn "Could not update LazyOwnInfiniteStorage."
+        spin_run "Updating LazyOwnInfiniteStorage" git -C "$ext_dir" pull --ff-only || log warn "Could not update LazyOwnInfiniteStorage."
     else
-        git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git "$ext_dir"
+        spin_run "Cloning LazyOwnInfiniteStorage" git clone https://github.com/grisuno/LazyOwnInfiniteStorage.git "$ext_dir"
     fi
     if [[ -f "$ext_dir/install.sh" ]]; then
         chmod +x "$ext_dir/install.sh"
@@ -202,17 +232,17 @@ install_lazyownbt() {
     local bt_dir="$SCRIPT_DIR/external/.exploit/LazyOwnBT"
     if [[ -d "$bt_dir/.git" ]]; then
         log info "LazyOwnBT present; updating."
-        git -C "$bt_dir" pull --ff-only || log warn "Could not update LazyOwnBT."
+        spin_run "Updating LazyOwnBT" git -C "$bt_dir" pull --ff-only || log warn "Could not update LazyOwnBT."
     else
         log info "Cloning LazyOwnBT..."
         mkdir -p "$SCRIPT_DIR/external/.exploit"
-        git clone https://github.com/grisuno/LazyOwnBT.git "$bt_dir" || {
+        spin_run "Cloning LazyOwnBT" git clone https://github.com/grisuno/LazyOwnBT.git "$bt_dir" || {
             log warn "Could not clone LazyOwnBT; purple team features will be unavailable."
             return 0
         }
     fi
     if [[ -f "$bt_dir/requirements.txt" ]]; then
-        "$VENV_DIR/bin/pip" install -r "$bt_dir/requirements.txt" --resolver=backtrack || \
+        spin_run "Installing LazyOwnBT dependencies" "$VENV_DIR/bin/pip" install -r "$bt_dir/requirements.txt" --resolver=backtrack || \
             log warn "LazyOwnBT dependencies had conflicts; install manually if needed."
     fi
     log info "LazyOwnBT installed at $bt_dir"
@@ -276,6 +306,7 @@ PYCHECK
 
 main() {
     log info "[+] Starting the installation."
+    log info "A fresh install takes several minutes. Each step shows a progress log you can tail."
     install_system_packages
     install_external_tools
     install_python_environment

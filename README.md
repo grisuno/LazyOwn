@@ -11,6 +11,12 @@
 
 > **748 CLI commands. Multi-operator C2. 153 MCP tools for AI agents. The only OSS C2 with Linux BOF support + built-in YARA/Nuclei marketplaces.**
 
+## Install in one command
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
+```
+
 | Try in 60 seconds (no install) | Golden path (every engagement) | One-command auto-pwn |
 |---|---|---|
 | `docker run -it ghcr.io/grisuno/lazyown:latest` | `ping > lazynmap > auto_populate > facts_show > recommend_next` | `engage 10.10.11.5` |

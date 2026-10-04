@@ -39,6 +39,7 @@ from cli.wizard import (
     _find_seclists_root,
     check_binaries,
 )
+from core.profiles import specs_for_profile
 
 MIN_PYTHON_VERSION: tuple[int, int] = (3, 10)
 
@@ -374,13 +375,22 @@ def gather_report(root: Path) -> DoctorReport:
         A populated :class:`DoctorReport`.
     """
     report = DoctorReport()
-    report.checks.append(check_python_version())
+    try:
+        specs = specs_for_profile(_REQUIRED_PACKAGES)
+    except ValueError as exc:
+        report.checks.append(check_python_version())
+        report.checks.append(
+            CheckResult("profile", STATUS_WARN, str(exc), hint="Set LAZYOWN_PROFILE to 'light' or 'full'.")
+        )
+        specs = list(_REQUIRED_PACKAGES)
+    else:
+        report.checks.append(check_python_version())
     report.checks.append(check_virtualenv(root=root))
     report.checks.append(check_payload(root))
     report.checks.append(check_certificates(root))
     report.checks.append(check_seclists())
     report.checks.append(check_command_index(root))
-    report.checks.extend(check_packages())
+    report.checks.extend(check_packages(specs))
     report.checks.extend(check_external_tools())
     return report
 

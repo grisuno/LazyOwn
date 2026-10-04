@@ -1,0 +1,10 @@
+# Plugin tier manifest: plugin stem -> tier.
+#
+# Tiers: official (maintained by the core team), community (default for
+# everything not listed here), experimental (unvetted, may break).
+# A `tier:` field inside a plugin's own YAML is honored when the name is
+# not listed here. See cli/plugin_tiers.py for resolution order.
+amsi_bypass: official
+dotnet_reflection: official
+etw_bypass: official
+powershell_obfuscation: official

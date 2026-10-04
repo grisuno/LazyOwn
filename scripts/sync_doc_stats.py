@@ -67,7 +67,12 @@ REPLACEMENTS: tuple[tuple[str, str, str], ...] = (
     ("README.md", r"exposes \d+ LazyOwn tools", "exposes {mcp_tools} LazyOwn tools"),
     ("README.md", r"MCP Tool Groups \(\d+ tools\)", "MCP Tool Groups ({mcp_tools} tools)"),
     ("README.md", r"\*\*\d+\+ Attack Commands\*\*", "**{cli_commands} Attack Commands**"),
+    ("README.md", r"\*\*\d+ Attack Commands\*\*", "**{cli_commands} Attack Commands**"),
+    ("README.md", r"\*\*\d+ CLI commands\.", "**{cli_commands} CLI commands."),
+    ("README.md", r"delivers \d+ CLI commands, \d+ aliases", "delivers {cli_commands} CLI commands, {aliases} aliases"),
     ("README.md", r"provides \d+\+ commands across", "provides {cli_commands} commands across"),
+    ("README.md", r"provides \d+ commands across", "provides {cli_commands} commands across"),
+    ("README.md", r"full \d+-command reference", "full {cli_commands}-command reference"),
     ("README.md", r"Full \d+\+ command reference", "Full {cli_commands} command reference"),
     (
         "README.md",

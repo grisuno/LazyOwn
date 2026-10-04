@@ -11,8 +11,12 @@
 # requirements.txt / requirements-ml.txt. This script never duplicates the list.
 #
 # Usage:
-#   bash install.sh [--with-ml] [--with-ollama] [--with-tools] [--no-ml] [--no-ollama] [--help]
+#   bash install.sh [--profile light|full] [--with-ml] [--with-ollama] [--with-tools] [--no-ml] [--no-ollama] [--help]
 #
+#   --profile <name>  Install profile: full (default, everything in
+#                   requirements.txt) or light (shell + C2 + recon core from
+#                   requirements-light.txt, without the analytics/AI stack).
+#                   Overridable per shell with LAZYOWN_PROFILE=light.
 #   --with-ml       Also install the heavy, platform-specific ML stack
 #                   (torch/CUDA, sklearn ~2 GB). Skipped by default.
 #   --with-ollama   Also install the local Ollama runtime. Skipped by default.
@@ -27,7 +31,17 @@ set -euo pipefail
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+if [[ ! -f "$SCRIPT_DIR/requirements.txt" || ! -f "$SCRIPT_DIR/payload.example.json" ]]; then
+    echo "[!] install.sh must run from a LazyOwn checkout; piping it directly via curl is not supported." >&2
+    echo "[!] Use the bootstrap installer instead:" >&2
+    echo "[!]   curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash" >&2
+    echo "[!] With options:" >&2
+    echo "[!]   curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash -s -- --with-tools --dir ~/LazyOwn" >&2
+    exit 2
+fi
+
 VENV_DIR="$SCRIPT_DIR/env"
+PROFILE="full"
 WITH_ML=0
 WITH_OLLAMA=0
 WITH_TOOLS=0
@@ -36,11 +50,19 @@ usage() {
     grep '^#' "$0" | grep -v '^#!' | sed 's/^# \{0,1\}//'
 }
 
-for arg in "$@"; do
+while [[ "$#" -gt 0 ]]; do
+    arg="$1"
+    shift
     case "$arg" in
         --with-ml) WITH_ML=1 ;;
         --with-ollama) WITH_OLLAMA=1 ;;
         --with-tools) WITH_TOOLS=1 ;;
+        --profile)
+            [[ "$#" -ge 1 ]] || { echo "[!] --profile requires an argument: light or full." >&2; exit 2; }
+            PROFILE="$1"
+            shift
+            ;;
+        --profile=*) PROFILE="${arg#--profile=}" ;;
         --no-ml) WITH_ML=0 ;;
         --no-ollama) WITH_OLLAMA=0 ;;
         -h | --help)
@@ -54,6 +76,14 @@ for arg in "$@"; do
             ;;
     esac
 done
+
+case "$PROFILE" in
+    light | full) ;;
+    *)
+        echo "[!] --profile must be 'light' or 'full' (got '$PROFILE')." >&2
+        exit 2
+        ;;
+esac
 
 log() {
     local level="$1"
@@ -117,7 +147,12 @@ install_python_environment() {
     local pip="$VENV_DIR/bin/pip"
     "$pip" install --upgrade pip setuptools wheel
     mkdir -p "$SCRIPT_DIR/vpn" "$SCRIPT_DIR/banners" "$SCRIPT_DIR/sessions/logs"
-    "$pip" install -r "$SCRIPT_DIR/requirements.txt" --resolver=backtrack || {
+    local lock_file="$SCRIPT_DIR/requirements.txt"
+    if [[ "$PROFILE" == "light" ]]; then
+        lock_file="$SCRIPT_DIR/requirements-light.txt"
+        log info "Light profile: installing shell + C2 + recon core (no analytics/AI stack)."
+    fi
+    "$pip" install -r "$lock_file" --resolver=backtrack || {
         log warn "Full install failed; installing core packages only..."
         "$pip" install \
             cmd2 pyyaml requests beautifulsoup4 rich tabulate psutil watchdog \

@@ -15,7 +15,7 @@ Domain: penetration testing, red teaming, C2 operations
 
 LazyOwn is a professional pentest/red-team framework:
 
-- **CLI** (`lazyown.py`): cmd2 shell with 741 commands and 126 aliases covering the full kill chain.
+- **CLI** (`lazyown.py`): cmd2 shell with 748 commands and 126 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
 - **MCP** (`skills/lazyown_mcp.py`): 153 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
@@ -209,7 +209,7 @@ LazyOwn uses three branches. Autonomous agents (Claude, Groq, SWAN) operate on `
 | `QUICKSTART.md` | ~140 | First-time setup and onboarding |
 | `skills/lazyown/SKILL.md` | ~120 | Hermes skill definition |
 | `skills/lazyown.md` | ~1600 | Complete 153-tool MCP playbook |
-| `COMMANDS.md` | ~1600 | Full 741-command reference (auto-generated) |
+| `COMMANDS.md` | ~1600 | Full 748-command reference (auto-generated) |
 | `CLAUDE.md` | ~540 | Architecture and developer reference |
 
 ---

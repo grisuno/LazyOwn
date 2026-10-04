@@ -6,10 +6,15 @@
 # runs install.sh, then asks whether to launch a normal session (./run)
 # or the full stack as root (fast_run_as_r00t.sh).
 #
-# One-liner:
+# One-liner (download first, then run — immune to pipe stalls and CDN cache):
+#   curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \
+#     && bash /tmp/bootstrap.sh
+#
+# Pipe alternative (same result, single command):
 #   curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
 #
-# With options (use bash -s to forward args through the pipe):
+# With options (append after the script path, or use bash -s through the pipe):
+#   bash /tmp/bootstrap.sh -- --with-tools --dir ~/pentest/LazyOwn
 #   curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash -s -- --with-tools --dir ~/pentest/LazyOwn
 #
 # If the target directory already holds a LazyOwn checkout, the installer
@@ -178,6 +183,10 @@ while [[ "$#" -gt 0 ]]; do
             ASSUME_YES=1
             shift
             ;;
+        --)
+            shift
+            break
+            ;;
         --debug)
             DEBUG=1
             shift
@@ -241,7 +250,7 @@ ASK_ANSWER=""
 ask() {
     printf '%b' "$1"
     if { : < /dev/tty; } >/dev/null 2>&1; then
-        read -r ASK_ANSWER < /dev/tty || ASK_ANSWER=""
+        read -t 120 -r ASK_ANSWER < /dev/tty || ASK_ANSWER=""
     else
         read -r ASK_ANSWER || ASK_ANSWER=""
     fi

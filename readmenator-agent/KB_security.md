@@ -130,13 +130,14 @@
 - Doc: Input validators for the LazyOwn C2 web layer.  All validation functions are pure, stateless, and operate only on primit
 - Language: py
 - Symbols:
-  - `validate_route_path` (function, line 23) `def validate_route_path(route_path)`
-  - `validate_template_name` (function, line 45) `def validate_template_name(template_name)`
-  - `validate_yaml_filename` (function, line 67) `def validate_yaml_filename(filename)`
-  - `validate_request_data` (function, line 85) `def validate_request_data(data)`
-  - `validate_aes_key` (function, line 101) `def validate_aes_key(key)`
-  - `validate_password_length` (function, line 117) `def validate_password_length(password)`
-  - `validate_upload_size` (function, line 133) `def validate_upload_size(content_length)`
-  - `validate_file_path_within_base` (function, line 149) `def validate_file_path_within_base(file_path, base_dir)`
+  - `validate_route_path` (function, line 24) `def validate_route_path(route_path)`
+  - `validate_template_name` (function, line 46) `def validate_template_name(template_name)`
+  - `validate_yaml_filename` (function, line 68) `def validate_yaml_filename(filename)`
+  - `validate_request_data` (function, line 86) `def validate_request_data(data)`
+  - `validate_aes_key` (function, line 102) `def validate_aes_key(key)`
+  - `validate_password_length` (function, line 118) `def validate_password_length(password)`
+  - `validate_upload_size` (function, line 134) `def validate_upload_size(content_length)`
+  - `validate_file_path_within_base` (function, line 150) `def validate_file_path_within_base(file_path, base_dir)`
+  - `resolve_contained_file_path` (function, line 174) `def resolve_contained_file_path(raw_url, base_dir)`
 - Depends on: `lazyc2/security/constants.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`

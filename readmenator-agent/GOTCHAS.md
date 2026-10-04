@@ -4,16 +4,16 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 245.20)
-- `utils.py` (score: 186.20)
-- `cli/commands/_base.py` (score: 166.70)
+- `core/logging.py` (score: 247.20)
+- `utils.py` (score: 190.10)
+- `cli/commands/_base.py` (score: 170.70)
 - `skills/lazyown_mcp.py` (score: 146.10)
-- `lazyown.py` (score: 120.30)
+- `lazyown.py` (score: 122.30)
 - `lazyc2.py` (score: 114.30)
-- `core/console.py` (score: 94.50)
+- `core/console.py` (score: 98.80)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
 - `cli/commands/misc_migrated.py` (score: 75.20)
-- `lazygui/config/constants.py` (score: 67.40)
+- `core/config.py` (score: 67.70)
 
 ## Hotspots (complexity + centrality)
 
@@ -66,5 +66,5 @@ Circular dependencies. Refactor to break the cycle.
 - `cli/commands/exfiltration.py:1449` `do_exfil_http` [UNCHECKED_ALLOC] `file_hash`: Result of allocator stored in `file_hash` is never checked against NULL.
 - `cli/commands/exfiltration.py:1578` `do_stage` [UNCHECKED_ALLOC] `data`: Result of allocator stored in `data` is never checked against NULL.
 - `cli/commands/misc_migrated.py:342` `do_suggest_next` [UNCHECKED_ALLOC] `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
-- `cli/commands/persist_migrated.py:1184` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
+- `cli/commands/persist_migrated.py:1187` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
 - `cli/commands/postexp_migrated.py:2272` `do_aes_pe` [UNCHECKED_ALLOC] `file`: Result of allocator stored in `file` is never checked against NULL.

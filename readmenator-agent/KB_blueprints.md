@@ -4,7 +4,7 @@
 - Layer: utility
 - Doc: Flask Blueprints for lazydown C2.  Each blueprint owns a domain area of the C2 web interface. Registered in :func:`lazyc
 - Language: py
-- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
+- Depends on: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/api.py`, `lazyc2/blueprints/api_v1.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/beacon.py`, `lazyc2/blueprints/operations.py`, `lazyc2/blueprints/phishing.py`
 - Imported by: `lazyc2.py`, `lazyc2/app_factory.py`
 
 ## lazyc2/blueprints/addons.py
@@ -43,7 +43,27 @@
   - `health_tenant` (method, line 157) `def health_tenant()`
   - `guarded` (method, line 146) `def guarded()`
 - Depends on: `core/api_authz.py`, `core/logging.py`
-- Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_security_hardening_v5.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_security_hardening_v5.py`
+
+## lazyc2/blueprints/api_v1.py
+- Layer: presentation
+- Doc: Versioned REST API (``/api/v1``) for the LazyOwn C2 server.  Programmatic interface for SIEM/SOAR integration, custom da
+- Language: py
+- Symbols:
+  - `_sessions_dir` (function, line 38) `def _sessions_dir()`
+  - `_db` (function, line 43) `def _db()`
+  - `_error` (function, line 60) `def _error(message, status)`
+  - `health` (function, line 65) `def health()`
+  - `targets` (function, line 76) `def targets()`
+  - `results` (function, line 108) `def results()`
+  - `campaigns` (function, line 141) `def campaigns()`
+  - `_webhooks_path` (function, line 166) `def _webhooks_path()`
+  - `_read_webhooks` (function, line 170) `def _read_webhooks()`
+  - `webhooks_list` (function, line 180) `def webhooks_list()`
+  - `webhooks_register` (function, line 191) `def webhooks_register()`
+  - `webhooks_delete` (function, line 228) `def webhooks_delete(index)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `lazyc2/blueprints/api.py`, `modules/beacon_history.py`, `modules/db.py`
+- Imported by: `lazyc2/blueprints/__init__.py`, `tests/test_api_v1.py`
 
 ## lazyc2/blueprints/auth.py
 - Layer: presentation

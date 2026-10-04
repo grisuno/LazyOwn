@@ -1,6 +1,6 @@
 # poc_tui
 
-*Community 14 | 4 files | cohesion 0.60*
+*Community 17 | 4 files | cohesion 0.60*
 
 ## Definition
 
@@ -55,7 +55,7 @@ This community groups 4 file(s) rooted at `poc_tui` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 14 <-> 1 (strength 0.9): Extracted import edge crosses communities: poc_tui/app.py imports cli/commands/containers.py.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

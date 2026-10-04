@@ -30,6 +30,7 @@
 #   --run-mode <m>   Launch mode without prompting: normal | fast | none.
 #   --no-run         Do not launch anything after install (same as --run-mode none).
 #   -y, --yes        Non-interactive: assume defaults, skip every prompt.
+#   --debug          Print every executed command (diagnostics for stuck runs).
 #   -h, --help       Show this help and exit.
 #
 # Environment overrides: LAZYOWN_DIR, LAZYOWN_BRANCH, LAZYOWN_REPO, LAZYOWN_BACKUP_DIR, NO_COLOR.
@@ -42,6 +43,7 @@ LAZYOWN_BRANCH="${LAZYOWN_BRANCH:-main}"
 EXISTING_MODE="ask"
 RUN_MODE="ask"
 ASSUME_YES=0
+DEBUG=0
 INSTALL_ARGS=()
 
 if [[ -z "${NO_COLOR:-}" && "${TERM:-dumb}" != "dumb" ]]; then
@@ -176,6 +178,10 @@ while [[ "$#" -gt 0 ]]; do
             ASSUME_YES=1
             shift
             ;;
+        --debug)
+            DEBUG=1
+            shift
+            ;;
         -h | --help)
             usage
             exit 0
@@ -208,16 +214,26 @@ esac
 
 LAZYOWN_DIR="$(expand_tilde "$LAZYOWN_DIR")"
 
+if [[ "$DEBUG" -eq 1 ]]; then
+    log INFO "Debug mode on: printing every command."
+    set -x
+fi
+
 command -v git >/dev/null 2>&1 || fail "git is required. Install it first (Debian/Kali: sudo apt-get install -y git) and retry."
 command -v python3 >/dev/null 2>&1 || fail "python3 is required. Install it first (sudo apt-get install -y python3) and retry."
 command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1 || fail "curl or wget is required. Install one and retry."
 
 log INFO "LazyOwn bootstrap installer working."
-log INFO "Plan: fetch sources into $LAZYOWN_DIR (branch $LAZYOWN_BRANCH), run install.sh, then choose how to launch."
+log INFO "Install target: $LAZYOWN_DIR (branch $LAZYOWN_BRANCH)."
 log INFO "A fresh install takes several minutes. You may be asked for your sudo password."
 
 can_prompt() {
-    [[ "$ASSUME_YES" -eq 0 ]] && { : < /dev/tty; } >/dev/null 2>&1
+    [[ "$ASSUME_YES" -eq 0 ]] || return 1
+    if command -v timeout >/dev/null 2>&1; then
+        timeout 10 bash -c ': < /dev/tty' >/dev/null 2>&1
+    else
+        { : < /dev/tty; } >/dev/null 2>&1
+    fi
 }
 
 ASK_ANSWER=""
@@ -328,8 +344,10 @@ ask_existing_path_action() {
 }
 
 resolve_target_dir() {
+    log INFO "Checking for an existing install at $LAZYOWN_DIR ..."
     while true; do
         if [[ -d "$LAZYOWN_DIR/.git" ]]; then
+            log INFO "Found an existing LazyOwn checkout."
             local action="$EXISTING_MODE"
             if [[ "$action" == "ask" ]]; then
                 if can_prompt; then
@@ -363,6 +381,7 @@ resolve_target_dir() {
                     ;;
             esac
         elif [[ -e "$LAZYOWN_DIR" ]]; then
+            log INFO "Path exists but is not a LazyOwn checkout."
             local action="abort"
             if can_prompt; then
                 action="$(ask_existing_path_action)"
@@ -386,6 +405,7 @@ resolve_target_dir() {
                     ;;
             esac
         else
+            log INFO "No existing install found. Doing a fresh clone."
             clone_fresh
             return 0
         fi

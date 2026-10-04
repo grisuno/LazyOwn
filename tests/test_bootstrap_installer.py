@@ -55,7 +55,7 @@ def _git(args: list[str], cwd: Path) -> None:
 def test_bootstrap_help_lists_options() -> None:
     proc = subprocess.run([BASH, str(BOOTSTRAP), "--help"], capture_output=True, text=True, timeout=30)
     assert proc.returncode == 0
-    for flag in ("--dir", "--branch", "--with-tools", "--profile", "--existing", "--run-mode", "--no-run"):
+    for flag in ("--dir", "--branch", "--with-tools", "--profile", "--existing", "--run-mode", "--no-run", "--debug"):
         assert flag in proc.stdout
 
 
@@ -128,7 +128,24 @@ def test_existing_checkout_abort_changes_nothing(tmp_path: Path) -> None:
     )
     assert proc.returncode == 0
     assert "Aborted" in proc.stdout
+    assert "Checking for an existing install" in proc.stdout
+    assert "Found an existing LazyOwn checkout." in proc.stdout
     assert marker.read_text(encoding="utf-8") == "untouched\n"
+
+
+@needs_git
+@needs_bash
+def test_debug_flag_traces_execution(tmp_path: Path) -> None:
+    _make_stub_repo(tmp_path / "stub")
+    target = tmp_path / "LazyOwn"
+    subprocess.run([GIT, "clone", "-q", f"file://{tmp_path / 'stub'}", str(target)], check=True, timeout=60)
+    proc = _run_bootstrap(
+        ["--debug", "--existing", "abort", "--no-run"],
+        {"LAZYOWN_DIR": str(target), "LAZYOWN_REPO": f"file://{tmp_path / 'stub'}", "TERM": "dumb"},
+        tmp_path,
+    )
+    assert proc.returncode == 0
+    assert "resolve_target_dir" in proc.stderr
 
 
 @needs_git

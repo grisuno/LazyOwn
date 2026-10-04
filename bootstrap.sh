@@ -87,6 +87,36 @@ fail() {
     exit 1
 }
 
+spin_run() {
+    local message="$1"
+    shift
+    local log_file
+    log_file="$(mktemp /tmp/lazyown-bootstrap-XXXXXX.log)"
+    log INFO "$message"
+    log INFO "Detail log: $log_file (run 'tail -f $log_file' in another terminal to watch progress)"
+    "$@" >"$log_file" 2>&1 &
+    local pid=$!
+    if [[ -t 1 ]]; then
+        local frames="|/-\\"
+        local i=0
+        while kill -0 "$pid" 2>/dev/null; do
+            printf '\r%b working %s' "${C_CYAN}[*]${C_RESET}" "${frames:$i:1}"
+            i=$(( (i + 1) % 4 ))
+            sleep 0.25
+        done
+        printf '\r%60s\r' ""
+    fi
+    local rc=0
+    wait "$pid" || rc=$?
+    if [[ "$rc" -eq 0 ]]; then
+        log OK "$message finished."
+    else
+        log ERROR "$message failed (exit $rc). Last output:"
+        tail -n 25 "$log_file" >&2
+    fi
+    return "$rc"
+}
+
 while [[ "$#" -gt 0 ]]; do
     case "$1" in
         --dir)
@@ -182,6 +212,10 @@ command -v git >/dev/null 2>&1 || fail "git is required. Install it first (Debia
 command -v python3 >/dev/null 2>&1 || fail "python3 is required. Install it first (sudo apt-get install -y python3) and retry."
 command -v curl >/dev/null 2>&1 || command -v wget >/dev/null 2>&1 || fail "curl or wget is required. Install one and retry."
 
+log INFO "LazyOwn bootstrap installer working."
+log INFO "Plan: fetch sources into $LAZYOWN_DIR (branch $LAZYOWN_BRANCH), run install.sh, then choose how to launch."
+log INFO "A fresh install takes several minutes. You may be asked for your sudo password."
+
 can_prompt() {
     [[ "$ASSUME_YES" -eq 0 ]] && { : < /dev/tty; } >/dev/null 2>&1
 }
@@ -199,9 +233,11 @@ ask() {
 
 update_checkout() {
     log INFO "Updating existing checkout at $LAZYOWN_DIR (branch $LAZYOWN_BRANCH)."
-    git -C "$LAZYOWN_DIR" fetch origin "$LAZYOWN_BRANCH" || fail "Could not fetch from origin."
+    spin_run "Fetching updates from origin" git -C "$LAZYOWN_DIR" fetch origin "$LAZYOWN_BRANCH" \
+        || fail "Could not fetch from origin."
     git -C "$LAZYOWN_DIR" checkout "$LAZYOWN_BRANCH" || fail "Could not check out $LAZYOWN_BRANCH."
-    git -C "$LAZYOWN_DIR" pull --ff-only origin "$LAZYOWN_BRANCH" || log WARN "Could not fast-forward; keeping local state."
+    spin_run "Fast-forwarding checkout" git -C "$LAZYOWN_DIR" pull --ff-only origin "$LAZYOWN_BRANCH" \
+        || log WARN "Could not fast-forward; keeping local state."
 }
 
 backup_payload() {
@@ -217,8 +253,9 @@ backup_payload() {
 }
 
 clone_fresh() {
-    log INFO "Cloning LazyOwn ($LAZYOWN_BRANCH) into $LAZYOWN_DIR."
-    git clone --branch "$LAZYOWN_BRANCH" --depth 1 "$LAZYOWN_REPO" "$LAZYOWN_DIR" || fail "Clone failed. Check the URL and your network connection."
+    spin_run "Cloning LazyOwn ($LAZYOWN_BRANCH) into $LAZYOWN_DIR" \
+        git clone --branch "$LAZYOWN_BRANCH" --depth 1 "$LAZYOWN_REPO" "$LAZYOWN_DIR" \
+        || fail "Clone failed. Check the URL and your network connection."
 }
 
 clean_checkout() {

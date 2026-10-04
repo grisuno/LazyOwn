@@ -15,9 +15,9 @@
 - Doc: Generate LazyOwn demo GIFs without external services.
 - Language: py
 - Symbols:
-  - `font` (function, line 12) `def font(size)`
-  - `render` (function, line 20) `def render(lines, path, hold)`
-  - `main` (function, line 68) `def main()`
+  - `font` (function, line 13) `def font(size)`
+  - `render` (function, line 21) `def render(lines, path, hold)`
+  - `main` (function, line 69) `def main()`
 - Imported by: `tools/gen_demo_gifs_extra.py`
 
 ## tools/gen_demo_gifs_extra.py

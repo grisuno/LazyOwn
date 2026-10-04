@@ -1,6 +1,6 @@
 # modules
 
-*Community 5 | 6 files | cohesion 0.83*
+*Community 9 | 6 files | cohesion 0.83*
 
 ## Definition
 
@@ -57,7 +57,7 @@ This community groups 6 file(s) rooted at `modules` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 5 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/payload_arsenal.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/payload_arsenal.py imports cli/commands/_base.py.
 
 ## Risks
 

@@ -247,7 +247,7 @@ validators==0.35.0
 virtualenv==21.7.13
 watchdog==6.0.0
 wcwidth==0.6.0
-Werkzeug==3.1.8
+Werkzeug==3.1.9
 wget==3.2
 winacl==0.1.9
 wrapt==2.1.2

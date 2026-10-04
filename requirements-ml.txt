@@ -29,5 +29,5 @@ seaborn==0.13.2
 threadpoolctl==3.6.0
 torch==2.14.0
 torchaudio==2.12.1
-torchvision==0.27.1
+torchvision==0.29.1
 triton==3.7.1

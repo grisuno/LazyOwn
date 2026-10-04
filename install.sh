@@ -182,7 +182,7 @@ install_python_environment() {
         lock_file="$SCRIPT_DIR/requirements-light.txt"
         log info "Light profile: installing shell + C2 + recon core (no analytics/AI stack)."
     fi
-    spin_run "Installing Python dependencies from $(basename "$lock_file") (several minutes)" "$pip" install -r "$lock_file" --resolver=backtrack || {
+    spin_run "Installing Python dependencies from $(basename "$lock_file") (several minutes)" "$pip" install -r "$lock_file" || {
         log warn "Full install failed; installing core packages only..."
         spin_run "Installing core Python packages" "$pip" install \
             cmd2 pyyaml requests beautifulsoup4 rich tabulate psutil watchdog \
@@ -242,7 +242,7 @@ install_lazyownbt() {
         }
     fi
     if [[ -f "$bt_dir/requirements.txt" ]]; then
-        spin_run "Installing LazyOwnBT dependencies" "$VENV_DIR/bin/pip" install -r "$bt_dir/requirements.txt" --resolver=backtrack || \
+        spin_run "Installing LazyOwnBT dependencies" "$VENV_DIR/bin/pip" install -r "$bt_dir/requirements.txt" || \
             log warn "LazyOwnBT dependencies had conflicts; install manually if needed."
     fi
     log info "LazyOwnBT installed at $bt_dir"
@@ -272,7 +272,10 @@ install_encoder_module() {
 }
 
 generate_certificates() {
-    bash "$SCRIPT_DIR/gen_cert.sh"
+    # Self-signed C2 certificates. 127.0.0.1 is only a bootstrap default:
+    # regenerate for the real interface with `bash gen_cert.sh <lhost>`
+    # (see QUICKSTART.md troubleshooting) before exposing the C2 panel.
+    bash "$SCRIPT_DIR/gen_cert.sh" 127.0.0.1 || log warn "Certificate generation failed; run 'bash gen_cert.sh <lhost>' manually."
 }
 
 seed_payload_config() {

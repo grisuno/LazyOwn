@@ -332,7 +332,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
 
         from cli.doctor import fix_report, gather_report, render_report
 
-        root = _Path(__file__).resolve().parent
+        root = _Path(__file__).resolve().parent.parent.parent
         args = line.strip().split()
         auto_yes = "-y" in args or "--yes" in args
         do_fix = "--fix" in args or auto_yes

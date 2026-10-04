@@ -31,14 +31,17 @@ asyauth==0.0.23
 asysocks==0.2.18
 atpublic==7.0.0
 attrs==26.1.0
-autobloody==1.1.0
+# NOTE: bloodyAD/autobloody are intentionally NOT pinned here. Every
+# released bloodyAD (<=2.5.5) requires cryptography==44.0.2, which ships
+# known HIGH CVEs (fixed in cryptography>=48). The secure cryptography
+# pin above wins; AD console tooling stays available on demand via the
+# runtime git-clone path in do_bloodyAD (cli/commands/lateral_migrated.py).
 badauth==0.1.6
 badldap==0.7.6
 bcrypt==5.0.0
 beautifulsoup4==4.13.5
 bidict==0.23.1
 blinker==1.9.0
-bloodyAD==2.5.0
 boolean.py==5.0
 bs4==0.0.2
 BTrees==6.4
@@ -46,7 +49,10 @@ CacheControl==0.14.4
 cachetools==7.0.6
 capstone==6.0.0a7
 certifi==2026.7.22
-certipy-ad==5.0.4
+# NOTE: certipy-ad is intentionally NOT pinned here. It is used only as
+# an external executable (auto-detected, see modules/adcs_attacks.py),
+# and every release requires cryptography~=42, which ships known HIGH
+# CVEs (fixed in cryptography>=48). Install it on demand when needed.
 cffi==2.1.1
 cfgv==3.5.0
 chardet==7.4.3
@@ -159,7 +165,10 @@ psutil==7.2.2
 ptyprocess==0.7.0
 pure_eval==0.2.3
 pwn==1.0
-pwncat-cs==0.5.4
+# NOTE: pwncat-cs is intentionally NOT pinned here. It is used only as
+# an external listener binary (see do_pwncatcs), and every release
+# requires packaging<21, which is incompatible with the modern lock.
+# Install it on demand when needed: pip install pwncat-cs
 pwntools==4.15.0
 py-serializable==2.1.0
 pyasn1==0.6.4
@@ -169,7 +178,7 @@ pycparser==3.0
 pycryptodome==3.23.0
 pycryptodomex==3.23.0
 pydantic==2.13.5
-pydantic_core==2.46.3
+pydantic_core==2.46.5
 pyelftools==0.33
 PyGetWindow==0.0.9
 Pygments==2.21.0
@@ -232,7 +241,7 @@ typing_extensions==4.16.0
 ua-parser-builtins==202606
 ua-parser==1.0.2
 uc-micro-py==2.0.0
-unicorn==2.1.4
+unicorn==2.1.2
 unicrypto==0.0.12
 unidns==0.0.4
 unix-ar==0.2.1

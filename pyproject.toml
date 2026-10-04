@@ -52,7 +52,6 @@ dependencies = [
     "nest_asyncio",
     "rich",
     "flask_socketio",
-    "autobloody",
     "minikerberos",
     "tinydb",
     "msldap",

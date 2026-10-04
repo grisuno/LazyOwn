@@ -25,8 +25,11 @@ Fastest path (one-liner: clones into `~/LazyOwn`, installs, then asks whether
 to start a normal `./run` session or the full `fast_run_as_r00t.sh` stack):
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \
+  && bash /tmp/bootstrap.sh
 ```
+
+(One-command alternative: `curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash`.)
 
 If `~/LazyOwn` already exists, the installer asks whether to update in place, do a clean reinstall (backing up `payload.json` to `/tmp` first), use another directory, or abort. Use `--existing update|clean|abort` to skip the question in scripts.
 

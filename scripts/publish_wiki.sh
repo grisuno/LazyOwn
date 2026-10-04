@@ -64,7 +64,8 @@ write_home() {
 ## Install in one command
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \
+  && bash /tmp/bootstrap.sh
 ```
 
 The installer clones into `~/LazyOwn`, installs dependencies, then asks whether to start a normal `./run` session or the full `fast_run_as_r00t.sh` stack. See [[Installation]] for options.
@@ -94,14 +95,23 @@ write_installation() {
 
 ## One-liner (recommended)
 
+Download first, then run (immune to pipe stalls and CDN cache):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \
+  && bash /tmp/bootstrap.sh
+```
+
+Pipe alternative:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash
 ```
 
-With options (forwarded through the pipe):
+With options:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh | bash -s -- --with-tools --dir ~/pentest/LazyOwn
+bash /tmp/bootstrap.sh -- --with-tools --dir ~/pentest/LazyOwn
 ```
 
 | Option | Effect |

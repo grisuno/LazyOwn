@@ -205,6 +205,18 @@ def test_non_checkout_path_fails_without_tty(tmp_path: Path) -> None:
 
 
 @needs_bash
+def test_install_uses_supported_pip_flags() -> None:
+    """install.sh must not pass pip options removed from modern pip.
+
+    ``--resolver`` was dropped by pip, which turned the pinned lock
+    install into a guaranteed failure (silent fallback to unpinned
+    packages). Caught by a real install run.
+    """
+    text = (REPO_ROOT / "install.sh").read_text(encoding="utf-8")
+    assert "--resolver" not in text
+
+
+@needs_bash
 def test_scripts_are_executable_and_clean() -> None:
     for script in (BOOTSTRAP, INSTALL, REPO_ROOT / "scripts" / "publish_wiki.sh"):
         assert script.is_file()

@@ -200,7 +200,7 @@
   - `stream_generate` (method, line 409) `def stream_generate(self, prompt)`
   - `complete` (method, line 424) `def complete(self, system, user, max_tokens, temperature)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/agent_runner.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_factory.py`, `modules/llm_factory.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
+- Imported by: `contrib/legacy/lazyllmchat.py`, `modules/agent_runner.py`, `modules/llm_factory.py`, `modules/llm_factory.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`
 
 ## modules/amsi.c
 - Layer: utility
@@ -451,7 +451,7 @@
   - `sessions_dir` (method, line 39) `def sessions_dir(self)`
   - `records_path` (method, line 43) `def records_path(self, client_id)`
 - Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
 
 ## modules/bin2img.py
 - Layer: utility
@@ -552,21 +552,29 @@
 - Doc: C2 agent builder with profile-driven compilation and safe templating.  Extracted from ``LazyOwnShell.do_c2`` to reduce t
 - Language: py
 - Symbols:
-  - `_resolve_go_bin` (function, line 43) `def _resolve_go_bin()`
-  - `_ensure_go` (function, line 58) `def _ensure_go(cmd_fn)`
-  - `C2Profile` (class, line 75) `class C2Profile`
-  - `_preflight` (method, line 159) `def _preflight(profile)`
-  - `_render_template` (method, line 168) `def _render_template(content, context)`
-  - `_build_context` (method, line 180) `def _build_context(sessions_dir)`
-  - `C2Builder` (class, line 211) `class C2Builder`
-  - `_replacer` (method, line 172) `def _replacer(match)`
-  - `__init__` (method, line 214) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
-  - `run` (method, line 232) `def run(self, line, choice, use_tunnel)`
-  - `_read` (method, line 418) `def _read(path_)`
-  - `_read_required` (method, line 425) `def _read_required(path_)`
-  - `_write` (method, line 429) `def _write(path_, content)`
+  - `_resolve_go_bin` (function, line 44) `def _resolve_go_bin()`
+  - `_ensure_go` (function, line 59) `def _ensure_go(cmd_fn)`
+  - `C2Profile` (class, line 76) `class C2Profile`
+  - `_preflight` (method, line 160) `def _preflight(profile)`
+  - `_render_template` (method, line 169) `def _render_template(content, context)`
+  - `_resolve_fallback_urls` (method, line 180) `def _resolve_fallback_urls(params)`
+  - `_go_string_list` (method, line 220) `def _go_string_list(urls)`
+  - `_parse_go_version` (method, line 234) `def _parse_go_version(text)`
+  - `_command_output` (method, line 249) `def _command_output(argv, timeout)`
+  - `_go_build_version` (method, line 268) `def _go_build_version(go_bin, target)`
+  - `_garble_matches_toolchain` (method, line 287) `def _garble_matches_toolchain(go_bin, garble_bin)`
+  - `_build_compile_commands` (method, line 310) `def _build_compile_commands(sessions_dir, profile, gocompiler, compile_flags, main_out, main_src, listener_out, listener_src, monitor_out, monitor_src)`
+  - `_build_context` (method, line 361) `def _build_context(sessions_dir)`
+  - `C2Builder` (class, line 392) `class C2Builder`
+  - `_replacer` (method, line 173) `def _replacer(match)`
+  - `__init__` (method, line 395) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
+  - `_ensure_garble_toolchain` (method, line 413) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
+  - `run` (method, line 451) `def run(self, line, choice, use_tunnel)`
+  - `_read` (method, line 639) `def _read(path_)`
+  - `_read_required` (method, line 646) `def _read_required(path_)`
+  - `_write` (method, line 650) `def _write(path_, content)`
 - Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
-- Imported by: `cli/commands/command_and_control_migrated.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`
 
 ## modules/c2_messaging_base.py
 - Layer: utility
@@ -828,7 +836,7 @@
   - `retModel` (function, line 38) `def retModel()`
   - `delete_lines` (function, line 65) `def delete_lines(content, to_delete)`
   - `no_html` (function, line 70) `def no_html(content)`
-- Imported by: `lazyc2.py`, `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli_unified.py`, `modules/legacy/lazyproxy.py`, `modules/legacy/lazyseo.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
+- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ## modules/command_executor.py
 - Layer: utility
@@ -916,21 +924,21 @@
 
 ## modules/config_store.py
 - Layer: data_access
-- Doc: modules/config_store.py ======================== Thread-safe, singleton wrapper around payload.json.  Features -------- 
+- Doc: Thread-safe singleton facade over core.config for payload.json.  Contract: preserves the get_config/set_config/reload_co
 - Language: py
 - Symbols:
-  - `init` (function, line 56) `def init(path, watch)`
-  - `get_config` (function, line 73) `def get_config(key, default)`
-  - `set_config` (function, line 86) `def set_config()`
-  - `set_config_dict` (function, line 100) `def set_config_dict(updates)`
-  - `reload_config` (function, line 110) `def reload_config()`
-  - `stop_watcher` (function, line 116) `def stop_watcher()`
-  - `_ensure_loaded` (function, line 125) `def _ensure_loaded()`
-  - `_load` (function, line 132) `def _load()`
-  - `_persist` (function, line 152) `def _persist()`
-  - `_start_watcher` (function, line 169) `def _start_watcher(interval)`
-  - `_watch_loop` (function, line 174) `def _watch_loop()`
-- Depends on: `core/logging.py`
+  - `init` (function, line 35) `def init(path, watch)`
+  - `get_config` (function, line 52) `def get_config(key, default)`
+  - `set_config` (function, line 65) `def set_config()`
+  - `set_config_dict` (function, line 79) `def set_config_dict(updates)`
+  - `reload_config` (function, line 89) `def reload_config()`
+  - `stop_watcher` (function, line 95) `def stop_watcher()`
+  - `_ensure_loaded` (function, line 104) `def _ensure_loaded()`
+  - `_load` (function, line 111) `def _load()`
+  - `_persist` (function, line 129) `def _persist()`
+  - `_start_watcher` (function, line 141) `def _start_watcher(interval)`
+  - `_watch_loop` (function, line 146) `def _watch_loop()`
+- Depends on: `core/config.py`, `core/logging.py`
 - Imported by: `tests/test_core_modules.py`
 
 ## modules/credential_reuse.py
@@ -1100,7 +1108,7 @@
   - `status` (method, line 733) `def status(self, workspace_id)`
   - `close` (method, line 762) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `lazyown.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
 ## modules/delegation_attacks.py
 - Layer: utility
@@ -2389,7 +2397,7 @@
   - `encode_string` (function, line 75) `def encode_string(data, shift, key)`
   - `decode` (function, line 82) `def decode(data, shift, key)`
   - `decode_string` (function, line 94) `def decode_string(data, shift, key)`
-- Imported by: `modules/legacy/lazycreate_webshell.py`, `modules/legacy/lazylogpoisoning.py`, `modules/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
+- Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
 
 ## modules/lazyevilwimrm.sh
 - Layer: utility
@@ -2773,7 +2781,7 @@
   - `process_prompt_vuln` (function, line 208) `def process_prompt_vuln(client, prompt, debug, event)`
   - `process_prompt_redop` (function, line 239) `def process_prompt_redop(client, prompt, debug)`
   - `ask_general` (function, line 256) `def ask_general(prompt, debug)`
-- Depends on: `core/logging.py`, `modules/legacy/lazydeepseekcli.py`, `modules/legacy/lazyphishingai.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
+- Depends on: `contrib/legacy/lazydeepseekcli.py`, `contrib/legacy/lazyphishingai.py`, `core/logging.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`
 - Imported by: `cli/commands/ai.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `tests/test_llm_adapter_parity.py`
 
 ## modules/llm_client.py
@@ -2793,7 +2801,7 @@
   - `_ask_groq` (method, line 174) `def _ask_groq(self, prompt, model, system, temperature)`
   - `_ask_ollama` (method, line 213) `def _ask_ollama(self, prompt, model)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/legacy/lazyaddon_creator.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`
+- Imported by: `contrib/legacy/lazyaddon_creator.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp.py`
 
 ## modules/llm_evaluator.py
 - Layer: utility
@@ -2857,7 +2865,7 @@
   - `get_llm_backend_raw` (method, line 585) `def get_llm_backend_raw(config, backend)`
   - `try_get_llm_backend` (method, line 607) `def try_get_llm_backend(config, backend)`
 - Depends on: `core/llm_budget.py`, `modules/ai_model.py`
-- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_fallback.py`, `modules/legacy/lazyllmchat.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
+- Imported by: `cli/commands/ai.py`, `cli/wizard.py`, `contrib/legacy/lazyllmchat.py`, `core/payload_schema.py`, `lazyown.py`, `lazyown.py`, `modules/agent_runner.py`, `modules/ai_fallback.py`, `modules/ai_fallback.py`, `modules/llm_adapter.py`, `modules/privesc_predictor.py`, `modules/professional_report.py`, `modules/vuln_agent.py`, `modules/vulnbot.py`, `modules/yaml_generator.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `tests/test_ai_commands_llm.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_llm_adapter_parity.py`, `tests/test_payload_schema.py`, `tests/test_payload_schema.py`, `tests/test_wizard_llm.py`
 
 ## modules/llm_prompts.py
 - Layer: utility
@@ -3752,17 +3760,24 @@
   - `__init__` (method, line 173) `def __init__(self, include_credentials)`
   - `collect_data` (method, line 179) `def collect_data(self)`
   - `classify_findings` (method, line 219) `def classify_findings(self, data)`
-  - `generate` (method, line 248) `def generate(self, output_dir, output_format, client_name, engagement_type)`
-  - `_generate_html` (method, line 293) `def _generate_html(self, out_path, timestamp)`
-  - `_generate_markdown` (method, line 439) `def _generate_markdown(self, out_path, timestamp)`
-  - `_generate_json` (method, line 498) `def _generate_json(self, out_path, timestamp)`
-  - `_html_to_pdf` (method, line 537) `def _html_to_pdf(self, html_path)`
-  - `_classify_services` (method, line 568) `def _classify_services(self, services, hosts)`
-  - `_classify_vulnerabilities` (method, line 623) `def _classify_vulnerabilities(self, vulns, hosts)`
-  - `_classify_credentials` (method, line 665) `def _classify_credentials(self, credentials, hosts)`
-  - `_classify_sessions` (method, line 734) `def _classify_sessions(self, sessions, hosts)`
-  - `_load_json` (method, line 783) `def _load_json(self, filename)`
-  - `_extract_scope` (method, line 800) `def _extract_scope(self, data)`
+  - `generate` (method, line 248) `def generate(self, output_dir, output_format, client_name, engagement_type, with_ai, ai_backend)`
+  - `_generate_html` (method, line 304) `def _generate_html(self, out_path, timestamp)`
+  - `_generate_markdown` (method, line 452) `def _generate_markdown(self, out_path, timestamp)`
+  - `_generate_json` (method, line 511) `def _generate_json(self, out_path, timestamp)`
+  - `_html_to_pdf` (method, line 550) `def _html_to_pdf(self, html_path)`
+  - `_classify_services` (method, line 581) `def _classify_services(self, services, hosts)`
+  - `_classify_vulnerabilities` (method, line 636) `def _classify_vulnerabilities(self, vulns, hosts)`
+  - `_classify_credentials` (method, line 678) `def _classify_credentials(self, credentials, hosts)`
+  - `_classify_sessions` (method, line 747) `def _classify_sessions(self, sessions, hosts)`
+  - `_load_json` (method, line 796) `def _load_json(self, filename)`
+  - `_extract_scope` (method, line 813) `def _extract_scope(self, data)`
+  - `collect_command_history` (method, line 832) `def collect_command_history(self, max_entries)`
+  - `collect_loot_summary` (method, line 856) `def collect_loot_summary(self)`
+  - `_accumulate_loot` (method, line 884) `def _accumulate_loot(self, summary, path)`
+  - `generate_executive_summary` (method, line 902) `def generate_executive_summary(self, data, with_ai, ai_backend)`
+  - `_ai_draft_summary` (method, line 947) `def _ai_draft_summary(self, data, fallback, backend)`
+- Depends on: `modules/llm_factory.py`
+- Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`
 
 ## modules/r.sh
 - Layer: utility
@@ -3839,26 +3854,26 @@
 - Doc: Red Team Gym — gamified pentest training mode.  Integrates with the existing ELO/karma system in :mod:`cli.engagement_ho
 - Language: py
 - Symbols:
-  - `GymAttempt` (class, line 214) `class GymAttempt`
-  - `_ensure_gym_dir` (method, line 230) `def _ensure_gym_dir()`
-  - `_load_leaderboard` (method, line 235) `def _load_leaderboard()`
-  - `_save_leaderboard` (method, line 251) `def _save_leaderboard(board)`
-  - `_get_username` (method, line 262) `def _get_username()`
-  - `list_challenges` (method, line 289) `def list_challenges()`
-  - `start_challenge` (method, line 310) `def start_challenge(challenge_id)`
-  - `submit_challenge` (method, line 368) `def submit_challenge(techniques_used, success)`
-  - `_calc_speed_score` (method, line 453) `def _calc_speed_score(elapsed_seconds, max_bonus)`
-  - `_calc_stealth_score` (method, line 474) `def _calc_stealth_score(techniques, max_bonus)`
-  - `_calc_technique_score` (method, line 490) `def _calc_technique_score(techniques, chal, max_bonus)`
-  - `_update_leaderboard` (method, line 512) `def _update_leaderboard(attempt)`
-  - `_award_gym_elo` (method, line 556) `def _award_gym_elo(username, elo_bonus)`
-  - `_get_rank` (method, line 582) `def _get_rank(username)`
-  - `show_leaderboard` (method, line 599) `def show_leaderboard(top_n)`
-  - `get_active_challenge` (method, line 626) `def get_active_challenge()`
-  - `record_external_attempt` (method, line 656) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
-  - `main` (method, line 710) `def main()`
+  - `GymAttempt` (class, line 282) `class GymAttempt`
+  - `_ensure_gym_dir` (method, line 298) `def _ensure_gym_dir()`
+  - `_load_leaderboard` (method, line 303) `def _load_leaderboard()`
+  - `_save_leaderboard` (method, line 319) `def _save_leaderboard(board)`
+  - `_get_username` (method, line 330) `def _get_username()`
+  - `list_challenges` (method, line 357) `def list_challenges()`
+  - `start_challenge` (method, line 378) `def start_challenge(challenge_id)`
+  - `submit_challenge` (method, line 448) `def submit_challenge(techniques_used, success)`
+  - `_calc_speed_score` (method, line 533) `def _calc_speed_score(elapsed_seconds, max_bonus)`
+  - `_calc_stealth_score` (method, line 554) `def _calc_stealth_score(techniques, max_bonus)`
+  - `_calc_technique_score` (method, line 570) `def _calc_technique_score(techniques, chal, max_bonus)`
+  - `_update_leaderboard` (method, line 592) `def _update_leaderboard(attempt)`
+  - `_award_gym_elo` (method, line 636) `def _award_gym_elo(username, elo_bonus)`
+  - `_get_rank` (method, line 662) `def _get_rank(username)`
+  - `show_leaderboard` (method, line 679) `def show_leaderboard(top_n)`
+  - `get_active_challenge` (method, line 706) `def get_active_challenge()`
+  - `record_external_attempt` (method, line 736) `def record_external_attempt(challenge_id, success, elo_bonus, techniques)`
+  - `main` (method, line 790) `def main()`
 - Depends on: `cli/engagement_hooks.py`, `modules/cli_auth.py`
-- Imported by: `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `modules/exploitgym_gym.py`
+- Imported by: `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `cli/commands/redteam_gym.py`, `modules/exploitgym_gym.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`
 
 ## modules/reflective_dll.py
 - Layer: utility
@@ -4056,6 +4071,18 @@
   - `sanitize` (method, line 429) `def sanitize(self, value)`
   - `_sanitize` (method, line 433) `def _sanitize(self, value, depth)`
 - Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `modules/lazyown_bprfuzzer.py`, `pwntomate.py`, `tests/test_security_sanitizers.py`
+
+## modules/session_cleanup.py
+- Layer: utility
+- Doc: Ephemeral infrastructure cleanup on shell exit.  Stops disposable assets (cyber range stacks, redirector tunnels, stray 
+- Language: py
+- Symbols:
+  - `find_cloudflared_pids` (function, line 28) `def find_cloudflared_pids(ps_output)`
+  - `_run_quiet` (function, line 49) `def _run_quiet(argv, timeout)`
+  - `_compose_down` (function, line 66) `def _compose_down(compose_file, label)`
+  - `stop_cloudflared_processes` (function, line 94) `def stop_cloudflared_processes()`
+  - `cleanup_ephemeral_infra` (function, line 122) `def cleanup_ephemeral_infra()`
+- Imported by: `lazyown.py`, `tests/test_infra_disposable.py`, `tests/test_infra_disposable.py`
 
 ## modules/session_rag.py
 - Layer: utility

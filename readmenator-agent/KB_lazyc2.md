@@ -59,10 +59,10 @@
   - `_load_or_create_secret_key` (function, line 61) `def _load_or_create_secret_key(sessions_dir)`
   - `_make_security_config` (function, line 74) `def _make_security_config(payload)`
   - `create_app` (function, line 88) `def create_app()`
-  - `_handle_404` (function, line 150) `def _handle_404(_error)`
-  - `_handle_405` (function, line 154) `def _handle_405(_error)`
-  - `_handle_exception` (function, line 158) `def _handle_exception(error)`
-  - `_add_security_headers` (function, line 165) `def _add_security_headers(response)`
+  - `_handle_404` (function, line 151) `def _handle_404(_error)`
+  - `_handle_405` (function, line 155) `def _handle_405(_error)`
+  - `_handle_exception` (function, line 159) `def _handle_exception(error)`
+  - `_add_security_headers` (function, line 166) `def _add_security_headers(response)`
 - Depends on: `core/api_authz.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/__init__.py`, `lazyc2/security/services.py`
 
 ## lazyc2/models.py

@@ -1,6 +1,6 @@
 # tests
 
-*Community 9 | 4 files | cohesion 0.75*
+*Community 13 | 4 files | cohesion 0.75*
 
 ## Definition
 
@@ -55,7 +55,7 @@ This community groups 4 file(s) rooted at `tests` with dominant language py (coh
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 9 (strength 0.9): Extracted import edge crosses communities: lazyc2.py imports lazyc2/security/cors.py.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

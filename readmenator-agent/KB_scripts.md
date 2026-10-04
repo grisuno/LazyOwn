@@ -124,6 +124,20 @@
 - Doc: Patch APT playbooks: replace placeholder atomic_ids with real technique_ids.  This ensures do_atomic_gen can find real A
 - Language: py
 
+## scripts/publish_wiki.sh
+- Layer: utility
+- Doc: Publish LazyOwn documentation to the GitHub wiki.  The wiki is a separate git repository (https://github.com/grisuno/Laz
+- Language: sh
+- Symbols:
+  - `log` (function, line 37)
+  - `fail` (function, line 38)
+  - `write_home` (function, line 58)
+  - `write_installation` (function, line 91)
+  - `write_c2_api` (function, line 140)
+  - `write_plugins` (function, line 164)
+  - `write_sidebar` (function, line 178)
+  - `write_footer` (function, line 197)
+
 ## scripts/read_journal.py
 - Layer: utility
 - Doc: Print the recent engineering journal before a change is written.  This is the read half of the read-before-you-write loo
@@ -150,12 +164,12 @@
 - Doc: Sync documentation numbers with the live codebase — single source of truth.  Counts are measured from the code itself an
 - Language: py
 - Symbols:
-  - `canonical_command_count` (function, line 82) `def canonical_command_count(root)`
-  - `project_version` (function, line 95) `def project_version(root)`
-  - `measure_stats` (function, line 104) `def measure_stats(root)`
-  - `render` (function, line 131) `def render(template, stats)`
-  - `sync` (function, line 136) `def sync(check, stats, root)`
-  - `main` (function, line 160) `def main()`
+  - `canonical_command_count` (function, line 87) `def canonical_command_count(root)`
+  - `project_version` (function, line 100) `def project_version(root)`
+  - `measure_stats` (function, line 109) `def measure_stats(root)`
+  - `render` (function, line 136) `def render(template, stats)`
+  - `sync` (function, line 141) `def sync(check, stats, root)`
+  - `main` (function, line 165) `def main()`
 
 ## scripts/test_bdd.sh
 - Layer: testing

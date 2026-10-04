@@ -1,18 +1,18 @@
 # Subsystem: legacy
 
-## modules/legacy/__init__.py
+## contrib/legacy/__init__.py
 - Layer: utility
 - Doc: Legacy module shims — deprecated scripts retained for compatibility.  Scripts in this directory are no longer maintained
 - Language: py
 
-## modules/legacy/lazy_http_bof.py
+## contrib/legacy/lazy_http_bof.py
 - Layer: presentation
 - Language: py
 - Symbols:
   - `genHeader` (function, line 6) `def genHeader(raw)`
   - `exploit` (function, line 29) `def exploit(target, port, payload)`
 
-## modules/legacy/lazy_packet_image_sniffer.py
+## contrib/legacy/lazy_packet_image_sniffer.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -26,7 +26,7 @@
   - `run` (function, line 187) `def run()`
   - `daemonize` (function, line 192) `def daemonize()`
 
-## modules/legacy/lazyaddon_creator.py
+## contrib/legacy/lazyaddon_creator.py
 - Layer: utility
 - Doc: lazyaddon_creator.py ==================== Genera automáticamente un addon YAML de LazyOwn a partir de una URL de GitHub.
 - Language: py
@@ -47,7 +47,7 @@
   - `main` (function, line 357) `def main()`
 - Depends on: `modules/llm_client.py`
 
-## modules/legacy/lazyarpspoofing.py
+## contrib/legacy/lazyarpspoofing.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -59,7 +59,7 @@
   - `spoofer` (function, line 69) `def spoofer(target, spoofed, device)`
   - `main` (function, line 80) `def main()`
 
-## modules/legacy/lazybinenc.py
+## contrib/legacy/lazybinenc.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -67,7 +67,7 @@
   - `main` (function, line 54) `def main()`
 - Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
 
-## modules/legacy/lazybotcli.py
+## contrib/legacy/lazybotcli.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -76,7 +76,7 @@
   - `decrypt` (function, line 36) `def decrypt(ciphertext, key)`
   - `main` (function, line 42) `def main()`
 
-## modules/legacy/lazybotnet.py
+## contrib/legacy/lazybotnet.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -98,7 +98,7 @@
   - `setup_persistence` (method, line 125) `def setup_persistence(self)`
   - `create_shortcut` (method, line 136) `def create_shortcut(self, script_path, shortcut_path)`
 
-## modules/legacy/lazycam.py
+## contrib/legacy/lazycam.py
 - Layer: utility
 - Doc: This code is a portion of frigate Event Video Recorder (fEVR)  Copyright (C) 2021-2022  The Bearded Tek (http://www.bear
 - Language: py
@@ -114,12 +114,12 @@
   - `cla` (method, line 212) `def cla()`
   - `main` (method, line 257) `def main()`
 
-## modules/legacy/lazycreate_webshell.py
+## contrib/legacy/lazycreate_webshell.py
 - Layer: utility
 - Language: py
 - Depends on: `modules/lazyencoder_decoder.py`
 
-## modules/legacy/lazydeepseekcli.py
+## contrib/legacy/lazydeepseekcli.py
 - Layer: presentation
 - Doc: Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local + lazydeepseekcli_localreport.  Provides strea
 - Language: py
@@ -143,7 +143,7 @@
 - Depends on: `core/logging.py`
 - Imported by: `modules/llm_adapter.py`
 
-## modules/legacy/lazydisassebler.py
+## contrib/legacy/lazydisassebler.py
 - Layer: infrastructure
 - Doc: disassembler.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3  Descr
 - Language: py
@@ -157,7 +157,7 @@
   - `get_operand_str` (method, line 212) `def get_operand_str(self, mod, rm, rex, bytes_data, offset)`
   - `disassemble` (method, line 305) `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)`
 
-## modules/legacy/lazyftpsniff.py
+## contrib/legacy/lazyftpsniff.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -167,7 +167,7 @@
   - `sniffer_ftp` (function, line 56) `def sniffer_ftp(pkt)`
   - `main` (function, line 69) `def main()`
 
-## modules/legacy/lazygalazy.py
+## contrib/legacy/lazygalazy.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -180,7 +180,7 @@
   - `rand_word` (method, line 93) `def rand_word(self)`
 - Depends on: `modules/backdoor/server.c`
 
-## modules/legacy/lazygptcli.py
+## contrib/legacy/lazygptcli.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -199,9 +199,9 @@
   - `transform_knowledge_base` (function, line 141) `def transform_knowledge_base(client)`
   - `cleanup_temp_files` (function, line 164) `def cleanup_temp_files()`
   - `main` (function, line 177) `def main()`
-- Depends on: `core/logging.py`, `modules/colors.py`, `modules/legacy/lazygptcli_unified.py`
+- Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
 
-## modules/legacy/lazygptcli_unified.py
+## contrib/legacy/lazygptcli_unified.py
 - Layer: utility
 - Doc: Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask + lazygptvulns + lazyredopgpt
 - Language: py
@@ -236,9 +236,9 @@
   - `process_prompt_redop` (function, line 382) `def process_prompt_redop(client, prompt, debug)`
   - `_deepseek_fallback` (function, line 392) `def _deepseek_fallback(prompt)`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `modules/legacy/lazygptcli.py`, `modules/legacy/lazygptcli.py`
+- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli.py`
 
-## modules/legacy/lazyhoneypot.py
+## contrib/legacy/lazyhoneypot.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -260,7 +260,7 @@
   - `process_packet` (method, line 137) `def process_packet(packet)`
 - Depends on: `core/logging.py`
 
-## modules/legacy/lazyhttpreverseshell.py
+## contrib/legacy/lazyhttpreverseshell.py
 - Layer: presentation
 - Language: py
 - Symbols:
@@ -276,7 +276,7 @@
   - `do_POST` (method, line 65) `def do_POST(self)`
 - Depends on: `modules/backdoor/server.c`
 
-## modules/legacy/lazykeygen.py
+## contrib/legacy/lazykeygen.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -286,7 +286,7 @@
   - `generate_key` (function, line 23) `def generate_key(length)`
   - `main` (function, line 26) `def main()`
 
-## modules/legacy/lazylfi2rce.py
+## contrib/legacy/lazylfi2rce.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -295,7 +295,7 @@
   - `check_rfi_success` (function, line 39) `def check_rfi_success(response_text)`
   - `main` (function, line 43) `def main()`
 
-## modules/legacy/lazyllmchat.py
+## contrib/legacy/lazyllmchat.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -331,7 +331,7 @@
   - `no_history_init` (method, line 38) `def no_history_init(self_)`
 - Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
 
-## modules/legacy/lazylogpoisoning.py
+## contrib/legacy/lazylogpoisoning.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -340,7 +340,7 @@
   - `main` (function, line 53) `def main()`
 - Depends on: `modules/lazyencoder_decoder.py`
 
-## modules/legacy/lazymariadb_rce_cve_2016-662.py
+## contrib/legacy/lazymariadb_rce_cve_2016-662.py
 - Layer: utility
 - Doc: MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (CVE-2016-6662) 0ldSQL_MySQL_RCE_exploit.p
 - Language: py
@@ -349,7 +349,7 @@
   - `errmsg` (function, line 63) `def errmsg(str)`
   - `shutdown` (function, line 67) `def shutdown(code)`
 
-## modules/legacy/lazymidm.py
+## contrib/legacy/lazymidm.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -362,7 +362,7 @@
   - `setup_monitor_mode` (function, line 58) `def setup_monitor_mode(interface)`
   - `main` (function, line 68) `def main()`
 
-## modules/legacy/lazymitmap.py
+## contrib/legacy/lazymitmap.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -388,7 +388,7 @@
   - `cleanup` (function, line 315) `def cleanup()`
   - `signal_handler` (function, line 324) `def signal_handler(sig, frame)`
 
-## modules/legacy/lazynetbios.py
+## contrib/legacy/lazynetbios.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -401,14 +401,14 @@
   - `send_nbns_spoof` (function, line 90) `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)`
   - `generate_ip_range` (function, line 115) `def generate_ip_range(start_ip, end_ip)`
 
-## modules/legacy/lazyntlrelayx.py
+## contrib/legacy/lazyntlrelayx.py
 - Layer: utility
 - Language: py
 - Symbols:
   - `parse_hash_file` (function, line 5) `def parse_hash_file(file_path)`
   - `ntlm_relay` (function, line 52) `def ntlm_relay(target_ip, credentials)`
 
-## modules/legacy/lazyopenssh77enum2.py
+## contrib/legacy/lazyopenssh77enum2.py
 - Layer: utility
 - Doc: CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://leapsecurity.io Credits: Matthew Daley, Jus
 - Language: py
@@ -420,7 +420,7 @@
   - `check_user` (method, line 50) `def check_user(username)`
 - Depends on: `core/logging.py`
 
-## modules/legacy/lazyphishingai.py
+## contrib/legacy/lazyphishingai.py
 - Layer: presentation
 - Doc: main.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation Date: 09/06/2024 License: GPL v3  Descr
 - Language: py
@@ -440,7 +440,7 @@
 - Depends on: `core/logging.py`
 - Imported by: `modules/llm_adapter.py`
 
-## modules/legacy/lazyproxy.py
+## contrib/legacy/lazyproxy.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -455,7 +455,7 @@
   - `start_proxy` (function, line 183) `def start_proxy()`
 - Depends on: `modules/colors.py`
 
-## modules/legacy/lazypwn.py
+## contrib/legacy/lazypwn.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -476,7 +476,7 @@
   - `exploit_with_pwntools` (method, line 170) `def exploit_with_pwntools(self)`
 - Depends on: `cli/commands/pwn.py`
 
-## modules/legacy/lazypwnkit.py
+## contrib/legacy/lazypwnkit.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -486,11 +486,11 @@
   - `execute_exploit` (function, line 37) `def execute_exploit(cmd)`
   - `main` (function, line 79) `def main()`
 
-## modules/legacy/lazypyautogui.py
+## contrib/legacy/lazypyautogui.py
 - Layer: presentation
 - Language: py
 
-## modules/legacy/lazyreversentlmv2.py
+## contrib/legacy/lazyreversentlmv2.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -498,7 +498,7 @@
   - `reverse_shell` (function, line 58) `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)`
 - Depends on: `modules/lazyencoder_decoder.py`
 
-## modules/legacy/lazysearch.py
+## contrib/legacy/lazysearch.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -507,7 +507,7 @@
   - `search_in_parquet` (function, line 32) `def search_in_parquet(term, parquet_files)`
   - `main` (function, line 44) `def main()`
 
-## modules/legacy/lazysearch_bot.py
+## contrib/legacy/lazysearch_bot.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -527,7 +527,7 @@
   - `main` (function, line 158) `def main()`
 - Depends on: `core/logging.py`
 
-## modules/legacy/lazyseo.py
+## contrib/legacy/lazyseo.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -542,7 +542,7 @@
   - `__getitem__` (method, line 20) `def __getitem__(self, key)`
 - Depends on: `modules/colors.py`
 
-## modules/legacy/lazysmbrelay.py
+## contrib/legacy/lazysmbrelay.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -555,7 +555,7 @@
   - `execute_remote_command` (method, line 50) `def execute_remote_command(self)`
 - Depends on: `core/logging.py`, `utils.py`
 
-## modules/legacy/lazysniff.py
+## contrib/legacy/lazysniff.py
 - Layer: utility
 - Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
@@ -572,7 +572,7 @@
   - `parse_arguments` (function, line 188) `def parse_arguments()`
   - `main` (function, line 197) `def main()`
 
-## modules/legacy/lazysqli.py
+## contrib/legacy/lazysqli.py
 - Layer: utility
 - Doc: AUTHOR: jahman EDITED BY grisun0
 - Language: py
@@ -582,14 +582,14 @@
   - `sqli_thread` (function, line 51) `def sqli_thread(url, db, table, col, sql_time, threads)`
   - `main` (function, line 89) `def main(args)`
 
-## modules/legacy/lazyssh.py
+## contrib/legacy/lazyssh.py
 - Layer: utility
 - Language: py
 - Symbols:
   - `execute` (function, line 13) `def execute(hostname, port, command)`
 - Depends on: `core/logging.py`
 
-## modules/legacy/lazyvsftp.py
+## contrib/legacy/lazyvsftp.py
 - Layer: utility
 - Language: py
 - Symbols:
@@ -598,11 +598,11 @@
   - `handle_backdoor` (function, line 61) `def handle_backdoor(s)`
 - Depends on: `cli/commands/pwn.py`
 
-## modules/legacy/lazywerkzeug.py
+## contrib/legacy/lazywerkzeug.py
 - Layer: utility
 - Language: py
 
-## modules/legacy/sql.py
+## contrib/legacy/sql.py
 - Layer: utility
 - Language: py
 - Symbols:

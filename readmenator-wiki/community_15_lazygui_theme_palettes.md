@@ -1,6 +1,6 @@
 # lazygui/theme/palettes
 
-*Community 11 | 7 files | cohesion 0.55*
+*Community 15 | 7 files | cohesion 0.55*
 
 ## Definition
 
@@ -29,8 +29,7 @@ This community groups 7 file(s) rooted at `lazygui/theme/palettes` with dominant
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 11 (strength 0.9): Extracted import edge crosses communities: lazygui/theme/__init__.py imports lazygui/theme/tokens.py.
-- [EXTRACTED] depends_on community 10 <-> 11 (strength 0.9): Extracted import edge crosses communities: lazygui/windows/main_window.py imports lazygui/theme/tokens.py.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

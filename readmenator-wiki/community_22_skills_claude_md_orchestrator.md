@@ -1,6 +1,6 @@
 # skills/claude_md_orchestrator
 
-*Community 19 | 13 files | cohesion 0.85*
+*Community 22 | 13 files | cohesion 0.85*
 
 ## Definition
 
@@ -64,7 +64,7 @@ This community groups 13 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Connections
 
-- [EXTRACTED] depends_on community 4 <-> 19 (strength 0.9): Extracted import edge crosses communities: pwntomate.py imports skills/claude_md_orchestrator/parser.py.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

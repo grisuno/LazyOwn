@@ -24,4 +24,4 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Language: c
 - Symbols:
   - `main` (function, line 10) `int main()`
-- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `modules/legacy/lazygalazy.py`, `modules/legacy/lazyhttpreverseshell.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`
+- Imported by: `cli/commands/dns_exfil.py`, `cli/commands/phishing_wizard.py`, `contrib/legacy/lazygalazy.py`, `contrib/legacy/lazyhttpreverseshell.py`, `lazyc2.py`, `modules/lazyown_bprfuzzer.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/lazyown_mcp.py`, `skills/lazyown_mcp_opencode.py`, `utils.py`

@@ -407,6 +407,22 @@
 - Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/themes.py`
 - Imported by: `tests/test_command_form.py`
 
+## cli/config_history.py
+- Layer: infrastructure
+- Doc: In-memory configuration history with undo and diff.  Assign and set commands mutate payload.json without a safety net. T
+- Language: py
+- Symbols:
+  - `ConfigHistoryConfig` (class, line 16) `class ConfigHistoryConfig`
+  - `ConfigHistory` (class, line 23) `class ConfigHistory`
+  - `get_shell_history` (method, line 81) `def get_shell_history(shell)`
+  - `track_before` (method, line 104) `def track_before(history, state)`
+  - `capture_baseline` (method, line 30) `def capture_baseline(self, state)`
+  - `push` (method, line 38) `def push(self, state)`
+  - `undo` (method, line 48) `def undo(self)`
+  - `diff` (method, line 58) `def diff(self, current)`
+  - `depth` (method, line 76) `def depth(self)`
+- Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/commands/ux.py`
+
 ## cli/config_status.py
 - Layer: infrastructure
 - Doc: Simplified configuration status display for the LazyOwn shell.  Groups payload.json fields by category, shows which are 
@@ -428,7 +444,7 @@
 - Symbols:
   - `_read_line` (function, line 20) `def _read_line(prompt)`
   - `confirm` (function, line 27) `def confirm(question, default, yes_values)`
-- Imported by: `cli/commands/ai.py`, `cli/commands/cloud.py`
+- Imported by: `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/infra.py`
 
 ## cli/contextual_help.py
 - Layer: utility
@@ -448,50 +464,86 @@
 - Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
 - Imported by: `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
 
+## cli/dashboard_layout.py
+- Layer: presentation
+- Doc: Responsive layout decisions for the Textual operator dashboard.  Small terminals crush the fixed three-column layout. Th
+- Language: py
+- Symbols:
+  - `DashboardLayoutConfig` (class, line 14) `class DashboardLayoutConfig`
+  - `layout_mode` (method, line 28) `def layout_mode(width, config)`
+  - `hidden_panels` (method, line 45) `def hidden_panels(mode)`
+- Imported by: `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`
+
 ## cli/dashboard_tui.py
 - Layer: presentation
 - Doc: LazyOwn operator dashboard — a full-screen Textual TUI.  Launch from the LazyOwn shell with ``dashboard`` or directly:  
 - Language: py
 - Symbols:
-  - `_get_killchain_for_tui` (function, line 51) `def _get_killchain_for_tui()`
-  - `_read_json` (function, line 86) `def _read_json(path)`
-  - `_engagement_to_cli_phase` (function, line 94) `def _engagement_to_cli_phase(engagement_phase)`
-  - `_count_lines_in_glob` (function, line 104) `def _count_lines_in_glob(pattern)`
-  - `_read_recent_commands` (function, line 117) `def _read_recent_commands(limit)`
-  - `_graph_hints` (function, line 144) `def _graph_hints(limit)`
-  - `_beacon_count` (function, line 158) `def _beacon_count()`
-  - `_read_credential_lines` (function, line 173) `def _read_credential_lines(pattern)`
-  - `_get_recommendations` (function, line 190) `def _get_recommendations()`
-  - `TargetPanel` (class, line 215) `class TargetPanel(Static)`
-  - `KillChainPanel` (class, line 271) `class KillChainPanel(Static)`
-  - `ConfigPanel` (class, line 303) `class ConfigPanel(Static)`
-  - `CommandsPanel` (class, line 333) `class CommandsPanel(Static)`
-  - `ReasoningPanel` (class, line 368) `class ReasoningPanel(Static)`
-  - `OpsPanel` (class, line 405) `class OpsPanel(Static)`
-  - `HintBar` (class, line 460) `class HintBar(Static)`
-  - `NextStepsPanel` (class, line 481) `class NextStepsPanel(Static)`
-  - `LazyOwnDashboard` (class, line 513) `class LazyOwnDashboard(App)`
-  - `launch` (method, line 647) `def launch(payload_path, sessions_dir)`
-  - `get_selection` (method, line 228) `def get_selection(self, selection)`
-  - `render_content` (method, line 241) `def render_content(self, payload, world)`
-  - `update_data` (method, line 267) `def update_data(self, payload, world)`
-  - `update_data` (method, line 283) `def update_data(self, progress)`
-  - `update_data` (method, line 315) `def update_data(self, payload)`
-  - `update_data` (method, line 345) `def update_data(self, commands)`
-  - `update_data` (method, line 380) `def update_data(self, entries)`
-  - `update_data` (method, line 417) `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
-  - `update_data` (method, line 472) `def update_data(self, hints)`
-  - `update_data` (method, line 493) `def update_data(self, recommendations)`
-  - `__init__` (method, line 564) `def __init__(self, payload_path, sessions_dir)`
-  - `compose` (method, line 574) `def compose(self)`
-  - `on_mount` (method, line 590) `def on_mount(self)`
-  - `action_refresh_data` (method, line 594) `def action_refresh_data(self)`
-  - `action_next_phase` (method, line 597) `def action_next_phase(self)`
-  - `action_prev_phase` (method, line 601) `def action_prev_phase(self)`
-  - `_cycle_phase` (method, line 605) `def _cycle_phase(self, direction)`
-  - `_do_refresh` (method, line 621) `def _do_refresh(self)`
-  - `_write_phase` (method, line 39) `def _write_phase(phase)`
-- Depends on: `cli/commands/containers.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `modules/killchain.py`
+  - `_get_killchain_for_tui` (function, line 55) `def _get_killchain_for_tui()`
+  - `CommandRequested` (class, line 97) `class CommandRequested(Message)`
+  - `PhaseSelected` (class, line 105) `class PhaseSelected(Message)`
+  - `dispatch_command` (method, line 113) `def dispatch_command(command, timeout)`
+  - `_read_json` (method, line 151) `def _read_json(path)`
+  - `_engagement_to_cli_phase` (method, line 159) `def _engagement_to_cli_phase(engagement_phase)`
+  - `_count_lines_in_glob` (method, line 169) `def _count_lines_in_glob(pattern)`
+  - `_read_recent_commands` (method, line 182) `def _read_recent_commands(limit)`
+  - `_graph_hints` (method, line 209) `def _graph_hints(limit)`
+  - `_fallback_hints` (method, line 223) `def _fallback_hints(last_command, limit)`
+  - `_resolve_hints` (method, line 248) `def _resolve_hints(recent, limit)`
+  - `_beacon_count` (method, line 265) `def _beacon_count()`
+  - `_read_credential_lines` (method, line 280) `def _read_credential_lines(pattern)`
+  - `_get_recommendations` (method, line 297) `def _get_recommendations()`
+  - `TargetPanel` (class, line 322) `class TargetPanel(Static)`
+  - `KillChainPanel` (class, line 378) `class KillChainPanel(Static)`
+  - `ConfigPanel` (class, line 431) `class ConfigPanel(Static)`
+  - `CommandsPanel` (class, line 461) `class CommandsPanel(Static)`
+  - `ReasoningPanel` (class, line 496) `class ReasoningPanel(Static)`
+  - `OpsPanel` (class, line 533) `class OpsPanel(Static)`
+  - `HintBar` (class, line 588) `class HintBar(Horizontal)`
+  - `ToastPanel` (class, line 654) `class ToastPanel(Static)`
+  - `OutputPanel` (class, line 694) `class OutputPanel(Log)`
+  - `NextStepsPanel` (class, line 708) `class NextStepsPanel(Static)`
+  - `LazyOwnDashboard` (class, line 740) `class LazyOwnDashboard(App)`
+  - `launch` (method, line 1069) `def launch(payload_path, sessions_dir)`
+  - `__init__` (method, line 100) `def __init__(self, command)`
+  - `__init__` (method, line 108) `def __init__(self, phase)`
+  - `get_selection` (method, line 335) `def get_selection(self, selection)`
+  - `render_content` (method, line 348) `def render_content(self, payload, world)`
+  - `update_data` (method, line 374) `def update_data(self, payload, world)`
+  - `__init__` (method, line 393) `def __init__(self)`
+  - `update_data` (method, line 397) `def update_data(self, progress)`
+  - `on_click` (method, line 418) `def on_click(self, event)`
+  - `update_data` (method, line 443) `def update_data(self, payload)`
+  - `update_data` (method, line 473) `def update_data(self, commands)`
+  - `update_data` (method, line 508) `def update_data(self, entries)`
+  - `update_data` (method, line 545) `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
+  - `__init__` (method, line 611) `def __init__(self)`
+  - `compose` (method, line 616) `def compose(self)`
+  - `update_data` (method, line 620) `def update_data(self, hints)`
+  - `on_button_pressed` (method, line 645) `def on_button_pressed(self, event)`
+  - `update_data` (method, line 672) `def update_data(self, payload, sessions_dir, width)`
+  - `update_data` (method, line 720) `def update_data(self, recommendations)`
+  - `__init__` (method, line 809) `def __init__(self, payload_path, sessions_dir)`
+  - `_apply_layout` (method, line 821) `def _apply_layout(self, mode, hidden_fn)`
+  - `compose` (method, line 838) `def compose(self)`
+  - `on_mount` (method, line 857) `def on_mount(self)`
+  - `on_input_submitted` (method, line 862) `def on_input_submitted(self, event)`
+  - `on_command_requested` (method, line 874) `def on_command_requested(self, event)`
+  - `_execute` (method, line 883) `def _execute(self, command)`
+  - `_apply_command_result` (method, line 896) `def _apply_command_result(self, command, success, output)`
+  - `on_phase_selected` (method, line 914) `def on_phase_selected(self, event)`
+  - `action_refresh_data` (method, line 925) `def action_refresh_data(self)`
+  - `action_toggle_compact` (method, line 928) `def action_toggle_compact(self)`
+  - `_raise_toast` (method, line 940) `def _raise_toast(self, message, severity, event_type)`
+  - `action_screenshot` (method, line 958) `def action_screenshot(self)`
+  - `action_export_snapshot` (method, line 969) `def action_export_snapshot(self)`
+  - `action_next_phase` (method, line 989) `def action_next_phase(self)`
+  - `action_prev_phase` (method, line 993) `def action_prev_phase(self)`
+  - `_cycle_phase` (method, line 997) `def _cycle_phase(self, direction)`
+  - `_do_refresh` (method, line 1013) `def _do_refresh(self)`
+  - `_filter_commands` (method, line 1053) `def _filter_commands(self, commands)`
+  - `_write_phase` (method, line 43) `def _write_phase(phase)`
+- Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
 - Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 
 ## cli/doctor.py
@@ -499,28 +551,28 @@
 - Doc: Environment health check (preflight doctor) for the LazyOwn framework.  Complements the setup wizard. Where ``wizard`` /
 - Language: py
 - Symbols:
-  - `PackageSpec` (class, line 55) `class PackageSpec`
-  - `CheckResult` (class, line 95) `class CheckResult`
-  - `DoctorReport` (class, line 112) `class DoctorReport`
-  - `check_python_version` (method, line 142) `def check_python_version(version_info)`
-  - `check_virtualenv` (method, line 171) `def check_virtualenv()`
-  - `check_packages` (method, line 208) `def check_packages(specs, finder)`
-  - `check_certificates` (method, line 247) `def check_certificates(root)`
-  - `check_payload` (method, line 268) `def check_payload(root)`
-  - `check_seclists` (method, line 288) `def check_seclists(finder)`
-  - `check_command_index` (method, line 312) `def check_command_index(root)`
-  - `check_external_tools` (method, line 342) `def check_external_tools(checker)`
-  - `gather_report` (method, line 367) `def gather_report(root)`
-  - `_status_cell` (method, line 388) `def _status_cell(status)`
-  - `render_report` (method, line 396) `def render_report(report, console)`
-  - `run` (method, line 441) `def run(root, console)`
-  - `fix_report` (method, line 458) `def fix_report(report)`
-  - `_apply_fix` (method, line 515) `def _apply_fix(check, root, venv_pip, console)`
-  - `failures` (method, line 118) `def failures(self)`
-  - `warnings` (method, line 123) `def warnings(self)`
-  - `healthy` (method, line 128) `def healthy(self)`
-  - `overall_status` (method, line 133) `def overall_status(self)`
-- Depends on: `cli/wizard.py`, `core/console.py`
+  - `PackageSpec` (class, line 56) `class PackageSpec`
+  - `CheckResult` (class, line 96) `class CheckResult`
+  - `DoctorReport` (class, line 113) `class DoctorReport`
+  - `check_python_version` (method, line 143) `def check_python_version(version_info)`
+  - `check_virtualenv` (method, line 172) `def check_virtualenv()`
+  - `check_packages` (method, line 209) `def check_packages(specs, finder)`
+  - `check_certificates` (method, line 248) `def check_certificates(root)`
+  - `check_payload` (method, line 269) `def check_payload(root)`
+  - `check_seclists` (method, line 289) `def check_seclists(finder)`
+  - `check_command_index` (method, line 313) `def check_command_index(root)`
+  - `check_external_tools` (method, line 343) `def check_external_tools(checker)`
+  - `gather_report` (method, line 368) `def gather_report(root)`
+  - `_status_cell` (method, line 398) `def _status_cell(status)`
+  - `render_report` (method, line 406) `def render_report(report, console)`
+  - `run` (method, line 451) `def run(root, console)`
+  - `fix_report` (method, line 468) `def fix_report(report)`
+  - `_apply_fix` (method, line 525) `def _apply_fix(check, root, venv_pip, console)`
+  - `failures` (method, line 119) `def failures(self)`
+  - `warnings` (method, line 124) `def warnings(self)`
+  - `healthy` (method, line 129) `def healthy(self)`
+  - `overall_status` (method, line 134) `def overall_status(self)`
+- Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
 - Imported by: `cli/commands/help_ui.py`
 
 ## cli/engagement_hooks.py
@@ -557,11 +609,11 @@
   - `_check_karma_up` (method, line 864) `def _check_karma_up(state)`
   - `render_engagement_hook` (method, line 898) `def render_engagement_hook(cmd, phase, enabled)`
   - `get_state_snapshot` (method, line 978) `def get_state_snapshot()`
-  - `_check_badges` (method, line 1007) `def _check_badges(cmd, first_time)`
-  - `_print_badge` (method, line 1054) `def _print_badge(name, description)`
-  - `reset_session` (method, line 1064) `def reset_session()`
+  - `_check_badges` (method, line 1009) `def _check_badges(cmd, first_time)`
+  - `_print_badge` (method, line 1056) `def _print_badge(name, description)`
+  - `reset_session` (method, line 1066) `def reset_session()`
 - Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## cli/exploit_advisor.py
 - Layer: utility
@@ -651,6 +703,17 @@
 - Depends on: `cli/exploration.py`, `core/console.py`
 - Imported by: `cli/commands/misc_migrated.py`, `tests/test_exploration_and_addons.py`
 
+## cli/fuzzy_match.py
+- Layer: utility
+- Doc: Non-interactive fuzzy matching reusing the picker's scorer.  The curses dropdown in :mod:`cli.fuzzy_picker` already rank
+- Language: py
+- Symbols:
+  - `FuzzyMatchConfig` (class, line 18) `class FuzzyMatchConfig`
+  - `suggest` (method, line 28) `def suggest(query, candidates, limit, config)`
+  - `did_you_mean` (method, line 56) `def did_you_mean(query, candidates)`
+- Depends on: `cli/fuzzy_picker.py`
+- Imported by: `cli/commands/ux.py`
+
 ## cli/fuzzy_picker.py
 - Layer: utility
 - Doc: Curses-based fuzzy dropdown picker for the LazyOwn interactive shell.  This module is self-contained: it ships a ``Picke
@@ -697,7 +760,7 @@
   - `_on_display_matches` (method, line 611) `def _on_display_matches(self, substitution, matches, longest_match_length)`
   - `_strip_ansi` (method, line 632) `def _strip_ansi(cls, value)`
   - `_redraw_prompt` (method, line 636) `def _redraw_prompt()`
-- Imported by: `lazyown.py`, `tests/test_fuzzy_picker.py`
+- Imported by: `cli/fuzzy_match.py`, `lazyown.py`, `tests/test_fuzzy_picker.py`
 
 ## cli/graph_advisor.py
 - Layer: utility
@@ -891,7 +954,7 @@
 - Layer: utility
 - Doc: Canonical non-actionable verb registry for post-command surfaces.  The inline hints, the unified tips engine, and the in
 - Language: py
-- Imported by: `cli/chain_mode.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
+- Imported by: `cli/chain_mode.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
 
 ## cli/ops_commands.py
 - Layer: utility
@@ -953,6 +1016,19 @@
   - `_join` (method, line 900) `def _join(items)`
 - Depends on: `core/console.py`, `modules/killchain.py`, `modules/world_model.py`
 - Imported by: `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
+
+## cli/output_mode.py
+- Layer: utility
+- Doc: Structured output modes and dry-run rendering for CLI commands.  Piped automation needs JSON without ANSI. Operators ski
+- Language: py
+- Symbols:
+  - `OutputModeConfig` (class, line 20) `class OutputModeConfig`
+  - `OutputMode` (class, line 33) `class OutputMode`
+  - `parse_output_flags` (method, line 43) `def parse_output_flags(args, config)`
+  - `strip_ansi` (method, line 65) `def strip_ansi(text)`
+  - `format_output` (method, line 77) `def format_output(data, mode)`
+  - `dry_run_line` (method, line 98) `def dry_run_line(command)`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`, `cli/commands/ux.py`, `cli/commands/ux.py`
 
 ## cli/palette.py
 - Layer: utility
@@ -1112,25 +1188,40 @@
   - `phase_label` (function, line 29) `def phase_label(phase)`
 - Imported by: `cli/contextual_help.py`, `cli/tips_engine.py`, `tests/test_phase_labels.py`
 
+## cli/plugin_tiers.py
+- Layer: infrastructure
+- Doc: Plugin tiers and operator ratings for the marketplace.  Tiers separate what the core team maintains from community contr
+- Language: py
+- Symbols:
+  - `load_tier_manifest` (function, line 35) `def load_tier_manifest(manifest)`
+  - `tier_of` (function, line 61) `def tier_of(name, manifest_tiers, metadata_tier)`
+  - `_load_ratings` (function, line 79) `def _load_ratings(store)`
+  - `rate_plugin` (function, line 98) `def rate_plugin(name, stars, store)`
+  - `rating_summary` (function, line 121) `def rating_summary(name, store)`
+  - `format_rating` (function, line 137) `def format_rating(average, count)`
+  - `default_store` (function, line 144) `def default_store(base_dir)`
+  - `read_metadata_tier` (function, line 149) `def read_metadata_tier(path)`
+- Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/test_plugin_tiers.py`
+
 ## cli/protips.py
 - Layer: utility
 - Doc: Pro tips system for the LazyOwn shell.  Two surfaces: - Session-start tip: one contextual tip printed after the banner w
 - Language: py
 - Symbols:
-  - `ProTip` (class, line 58) `class ProTip`
-  - `_os_linux` (method, line 67) `def _os_linux(ctx)`
-  - `_os_windows` (method, line 71) `def _os_windows(ctx)`
-  - `_has_rhost` (method, line 75) `def _has_rhost(ctx)`
-  - `_has_domain` (method, line 79) `def _has_domain(ctx)`
-  - `_has_api_key` (method, line 83) `def _has_api_key(ctx)`
-  - `_phase_in` (method, line 87) `def _phase_in(ctx)`
-  - `_last_cmd_is` (method, line 91) `def _last_cmd_is(ctx)`
-  - `_after` (method, line 95) `def _after(ctx)`
-  - `get_session_tip` (method, line 321) `def get_session_tip(ctx)`
-  - `render_contextual_tip` (method, line 347) `def render_contextual_tip(last_cmd, ctx)`
-  - `print_session_tip` (method, line 377) `def print_session_tip(ctx)`
-  - `_safe_trigger` (method, line 389) `def _safe_trigger(tip, ctx)`
-- Depends on: `core/console.py`
+  - `ProTip` (class, line 34) `class ProTip`
+  - `_os_linux` (method, line 43) `def _os_linux(ctx)`
+  - `_os_windows` (method, line 47) `def _os_windows(ctx)`
+  - `_has_rhost` (method, line 51) `def _has_rhost(ctx)`
+  - `_has_domain` (method, line 55) `def _has_domain(ctx)`
+  - `_has_api_key` (method, line 59) `def _has_api_key(ctx)`
+  - `_phase_in` (method, line 63) `def _phase_in(ctx)`
+  - `_last_cmd_is` (method, line 67) `def _last_cmd_is(ctx)`
+  - `_after` (method, line 75) `def _after(ctx)`
+  - `get_session_tip` (method, line 301) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (method, line 327) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (method, line 357) `def print_session_tip(ctx)`
+  - `_safe_trigger` (method, line 369) `def _safe_trigger(tip, ctx)`
+- Depends on: `cli/noise_verbs.py`, `core/console.py`
 - Imported by: `lazyown.py`, `lazyown.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`
 
 ## cli/purple_tui.py
@@ -1177,7 +1268,7 @@
   - `render_command_hints` (method, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
   - `command_hints` (method, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
 - Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
-- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`
+- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `cli/tips_engine.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`, `tests/test_reactive_hints_expanded.py`
 
 ## cli/reasoning_stream.py
 - Layer: utility
@@ -1325,6 +1416,23 @@
   - `evaluate` (method, line 262) `def evaluate(self, command, target)`
 - Depends on: `cli/commands/enum.py`
 - Imported by: `lazyown.py`, `lazyown.py`, `lazyown.py`, `lazyown.py`, `tests/test_scope_guard.py`
+
+## cli/session_hud.py
+- Layer: utility
+- Doc: Compact session HUD: the numbers no other command shows.  ``killchain`` already owns the kill-chain view and does it bet
+- Language: py
+- Symbols:
+  - `HudConfig` (class, line 25) `class HudConfig`
+  - `HudSnapshot` (class, line 50) `class HudSnapshot`
+  - `count_lines_in_globs` (method, line 62) `def count_lines_in_globs(root, patterns)`
+  - `count_csv_rows` (method, line 83) `def count_csv_rows(path)`
+  - `format_elapsed` (method, line 100) `def format_elapsed(seconds)`
+  - `phase_bar` (method, line 115) `def phase_bar(phase, width)`
+  - `_engagement_facts` (method, line 135) `def _engagement_facts()`
+  - `build_snapshot` (method, line 155) `def build_snapshot(params, config)`
+  - `render_snapshot` (method, line 180) `def render_snapshot(snapshot, config)`
+- Depends on: `cli/engagement_hooks.py`
+- Imported by: `cli/commands/ux.py`
 
 ## cli/session_resumer.py
 - Layer: utility
@@ -1668,41 +1776,46 @@
 - Doc: Non-blocking toast notification subsystem for the LazyOwn shell.  After each command the postcmd hook calls :func:`rende
 - Language: py
 - Symbols:
-  - `ToastConfig` (class, line 41) `class ToastConfig`
-  - `ToastEvent` (class, line 77) `class ToastEvent`
-  - `ToastState` (class, line 88) `class ToastState`
-  - `ToastReader` (class, line 170) `class ToastReader`
-  - `ToastFormatter` (class, line 275) `class ToastFormatter`
-  - `ToastBus` (class, line 307) `class ToastBus`
-  - `_is_truthy` (method, line 389) `def _is_truthy(value, config, default)`
-  - `toasts_enabled` (method, line 403) `def toasts_enabled(payload, config)`
-  - `_budget` (method, line 411) `def _budget(payload, config)`
-  - `build_default_bus` (method, line 426) `def build_default_bus(payload, sessions_dir, console)`
-  - `render_toasts` (method, line 491) `def render_toasts(payload, sessions_dir, console, bus_factory)`
-  - `__init__` (method, line 96) `def __init__(self, config, root)`
-  - `path` (method, line 111) `def path(self)`
-  - `get` (method, line 115) `def get(self, name)`
-  - `set` (method, line 120) `def set(self, name, offset)`
-  - `reset` (method, line 126) `def reset(self)`
-  - `flush` (method, line 131) `def flush(self)`
-  - `_ensure_loaded` (method, line 149) `def _ensure_loaded(self)`
-  - `__init__` (method, line 173) `def __init__(self, config, root)`
-  - `root` (method, line 184) `def root(self)`
-  - `read_unseen` (method, line 188) `def read_unseen(self, name, start_offset)`
-  - `_parse` (method, line 219) `def _parse(self, text, source, base_offset)`
-  - `_build_event` (method, line 234) `def _build_event(self, line, source, offset)`
-  - `_coerce_str` (method, line 255) `def _coerce_str(value)`
-  - `_summary` (method, line 263) `def _summary(record)`
-  - `__init__` (method, line 278) `def __init__(self, config, theme)`
-  - `format` (method, line 283) `def format(self, event)`
-  - `_role_for` (method, line 295) `def _role_for(self, severity)`
-  - `_truncate` (method, line 301) `def _truncate(self, value)`
-  - `__init__` (method, line 314) `def __init__(self, config, state, reader, formatter, console)`
-  - `collect` (method, line 329) `def collect(self)`
-  - `render` (method, line 341) `def render(self, enabled)`
-  - `mark_all_seen` (method, line 381) `def mark_all_seen(self)`
+  - `ToastConfig` (class, line 42) `class ToastConfig`
+  - `ToastEvent` (class, line 80) `class ToastEvent`
+  - `ToastState` (class, line 91) `class ToastState`
+  - `ToastReader` (class, line 173) `class ToastReader`
+  - `ToastFormatter` (class, line 278) `class ToastFormatter`
+  - `ToastBus` (class, line 352) `class ToastBus`
+  - `_is_truthy` (method, line 423) `def _is_truthy(value, config, default)`
+  - `toasts_enabled` (method, line 437) `def toasts_enabled(payload, config)`
+  - `_budget` (method, line 445) `def _budget(payload, config)`
+  - `build_default_bus` (method, line 460) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (method, line 525) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `emit_toast` (method, line 549) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (method, line 594) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (method, line 638) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 99) `def __init__(self, config, root)`
+  - `path` (method, line 114) `def path(self)`
+  - `get` (method, line 118) `def get(self, name)`
+  - `set` (method, line 123) `def set(self, name, offset)`
+  - `reset` (method, line 129) `def reset(self)`
+  - `flush` (method, line 134) `def flush(self)`
+  - `_ensure_loaded` (method, line 152) `def _ensure_loaded(self)`
+  - `__init__` (method, line 176) `def __init__(self, config, root)`
+  - `root` (method, line 187) `def root(self)`
+  - `read_unseen` (method, line 191) `def read_unseen(self, name, start_offset)`
+  - `_parse` (method, line 222) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 237) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 258) `def _coerce_str(value)`
+  - `_summary` (method, line 266) `def _summary(record)`
+  - `__init__` (method, line 281) `def __init__(self, config, theme)`
+  - `format` (method, line 286) `def format(self, event)`
+  - `format_many` (method, line 298) `def format_many(self, events, width)`
+  - `_console_width` (method, line 333) `def _console_width(self)`
+  - `_role_for` (method, line 340) `def _role_for(self, severity)`
+  - `_truncate` (method, line 346) `def _truncate(self, value)`
+  - `__init__` (method, line 359) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 374) `def collect(self)`
+  - `render` (method, line 386) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 415) `def mark_all_seen(self)`
 - Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
-- Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `tests/test_toast_bus.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_toast_bus.py`
 
 ## cli/tui_theme.py
 - Layer: presentation
@@ -1736,50 +1849,61 @@
 - Doc: Guided first-run setup wizard for the LazyOwn framework.  Walks the operator through the minimum viable configuration: r
 - Language: py
 - Symbols:
-  - `BinarySpec` (class, line 89) `class BinarySpec`
-  - `BinaryStatus` (class, line 140) `class BinaryStatus`
-  - `ReadinessItem` (class, line 149) `class ReadinessItem`
-  - `WizardResult` (class, line 159) `class WizardResult`
-  - `run` (method, line 168) `def run(params, save)`
-  - `run_non_interactive` (method, line 233) `def run_non_interactive(params, save, values)`
-  - `_rotate_default_secrets` (method, line 299) `def _rotate_default_secrets(params, save)`
-  - `_print_secret_rotation` (method, line 347) `def _print_secret_rotation(rotated)`
-  - `_print_header` (method, line 363) `def _print_header()`
-  - `_print_glossary_panel` (method, line 378) `def _print_glossary_panel()`
-  - `_spec_long_help` (method, line 403) `def _spec_long_help(key)`
-  - `_print_long_help` (method, line 411) `def _print_long_help(key)`
-  - `_collect_values` (method, line 418) `def _collect_values(params)`
-  - `_ask_rhost` (method, line 453) `def _ask_rhost(current)`
-  - `_ask_lhost` (method, line 480) `def _ask_lhost(current)`
-  - `_ask_domain` (method, line 511) `def _ask_domain(current)`
-  - `_ask_device` (method, line 533) `def _ask_device(current)`
-  - `_ask_os_id` (method, line 559) `def _ask_os_id(current)`
-  - `_normalize_provider_answer` (method, line 581) `def _normalize_provider_answer(raw)`
-  - `_mask_secret` (method, line 602) `def _mask_secret(value)`
-  - `_ask_llm` (method, line 617) `def _ask_llm(params)`
-  - `_ask_wordlists` (method, line 688) `def _ask_wordlists(params)`
-  - `_ask_operator_login` (method, line 720) `def _ask_operator_login(params)`
-  - `_wizard_login_flow` (method, line 782) `def _wizard_login_flow()`
-  - `_wizard_register_flow` (method, line 805) `def _wizard_register_flow()`
-  - `_ask_marketplace_config` (method, line 848) `def _ask_marketplace_config()`
-  - `_build_readiness` (method, line 871) `def _build_readiness(params)`
-  - `_print_readiness` (method, line 923) `def _print_readiness(items)`
-  - `check_binaries` (method, line 943) `def check_binaries(specs, which)`
-  - `_group_by_category` (method, line 984) `def _group_by_category(statuses)`
-  - `_print_binary_report` (method, line 993) `def _print_binary_report(statuses)`
-  - `_print_next_steps` (method, line 1031) `def _print_next_steps(params)`
-  - `_print_validation_summary` (method, line 1055) `def _print_validation_summary(params)`
-  - `_detect_lhost` (method, line 1094) `def _detect_lhost()`
-  - `_detect_device` (method, line 1116) `def _detect_device()`
-  - `_find_seclists_root` (method, line 1129) `def _find_seclists_root()`
-  - `_ping` (method, line 1137) `def _ping(ip)`
-  - `_prompt` (method, line 1150) `def _prompt(message)`
-  - `_ok` (method, line 1157) `def _ok(msg)`
-  - `_warn` (method, line 1161) `def _warn(msg)`
-  - `_info` (method, line 1165) `def _info(msg)`
-  - `_is_default` (method, line 321) `def _is_default(value)`
-  - `_is_weak` (method, line 324) `def _is_weak(value)`
-  - `_check` (method, line 874) `def _check(key, label, hint)`
-  - `_check_llm` (method, line 883) `def _check_llm()`
-- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
-- Imported by: `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+  - `BinarySpec` (class, line 90) `class BinarySpec`
+  - `BinaryStatus` (class, line 141) `class BinaryStatus`
+  - `ReadinessItem` (class, line 150) `class ReadinessItem`
+  - `WizardResult` (class, line 160) `class WizardResult`
+  - `run` (method, line 169) `def run(params, save)`
+  - `run_non_interactive` (method, line 234) `def run_non_interactive(params, save, values)`
+  - `_rotate_default_secrets` (method, line 300) `def _rotate_default_secrets(params, save)`
+  - `_print_secret_rotation` (method, line 348) `def _print_secret_rotation(rotated)`
+  - `_print_header` (method, line 364) `def _print_header()`
+  - `_print_glossary_panel` (method, line 379) `def _print_glossary_panel()`
+  - `_spec_long_help` (method, line 404) `def _spec_long_help(key)`
+  - `_print_long_help` (method, line 412) `def _print_long_help(key)`
+  - `_collect_values` (method, line 419) `def _collect_values(params)`
+  - `_ask_rhost` (method, line 457) `def _ask_rhost(current)`
+  - `_ask_lhost` (method, line 484) `def _ask_lhost(current)`
+  - `_ask_domain` (method, line 515) `def _ask_domain(current)`
+  - `_ask_device` (method, line 537) `def _ask_device(current)`
+  - `_ask_os_id` (method, line 563) `def _ask_os_id(current)`
+  - `_normalize_provider_answer` (method, line 585) `def _normalize_provider_answer(raw)`
+  - `_mask_secret` (method, line 606) `def _mask_secret(value)`
+  - `_ask_llm` (method, line 621) `def _ask_llm(params)`
+  - `_ask_wordlists` (method, line 692) `def _ask_wordlists(params)`
+  - `_ask_operator_login` (method, line 724) `def _ask_operator_login(params)`
+  - `_wizard_login_flow` (method, line 786) `def _wizard_login_flow()`
+  - `_wizard_register_flow` (method, line 809) `def _wizard_register_flow()`
+  - `_ask_marketplace_config` (method, line 852) `def _ask_marketplace_config()`
+  - `_build_readiness` (method, line 875) `def _build_readiness(params)`
+  - `_print_readiness` (method, line 927) `def _print_readiness(items)`
+  - `check_binaries` (method, line 947) `def check_binaries(specs, which)`
+  - `_group_by_category` (method, line 988) `def _group_by_category(statuses)`
+  - `_print_binary_report` (method, line 997) `def _print_binary_report(statuses)`
+  - `_print_next_steps` (method, line 1035) `def _print_next_steps(params)`
+  - `_print_validation_summary` (method, line 1059) `def _print_validation_summary(params)`
+  - `_detect_lhost` (method, line 1098) `def _detect_lhost()`
+  - `_detect_device` (method, line 1120) `def _detect_device()`
+  - `_find_seclists_root` (method, line 1133) `def _find_seclists_root()`
+  - `_ping` (method, line 1141) `def _ping(ip)`
+  - `_prompt` (method, line 1154) `def _prompt(message)`
+  - `_ok` (method, line 1161) `def _ok(msg)`
+  - `_warn` (method, line 1165) `def _warn(msg)`
+  - `_info` (method, line 1169) `def _info(msg)`
+  - `_is_default` (method, line 322) `def _is_default(value)`
+  - `_is_weak` (method, line 325) `def _is_weak(value)`
+  - `_check` (method, line 878) `def _check(key, label, hint)`
+  - `_check_llm` (method, line 887) `def _check_llm()`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `lazyown.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+## cli/wizard_scope.py
+- Layer: utility
+- Doc: Partial wizard scope: show current state or edit selected fields only.  The full wizard walks eight steps linearly. Oper
+- Language: py
+- Symbols:
+  - `WizardScopeConfig` (class, line 17) `class WizardScopeConfig`
+  - `WizardScope` (class, line 31) `class WizardScope`
+  - `parse_scope` (method, line 38) `def parse_scope(tokens, config)`
+  - `status_rows` (method, line 64) `def status_rows(params)`
+- Imported by: `cli/commands/help_ui.py`

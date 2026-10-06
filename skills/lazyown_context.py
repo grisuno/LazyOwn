@@ -31,6 +31,7 @@ _TOOL_BUDGET: dict[str, int] = {
     "lazyown_hive_recall":     4_000,
     "lazyown_policy_state":    3_000,
     "lazyown_facts_get":       4_000,
+    "lazyown_rea":              10_000,
     "_default":               10_000,
 }
 

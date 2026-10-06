@@ -334,4 +334,3 @@ else
 fi
 
 echo "[*] Cambios enviados al repositorio remoto con la nueva versión $NEW_VERSION."
-# TODO: DELETE ALL SPAGETTI CODE

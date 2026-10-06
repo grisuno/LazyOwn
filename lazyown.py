@@ -25,66 +25,33 @@ import contextlib
 import cmd2
 import logging
 import sys
-from cmd2 import with_argparser, with_argument_list, with_category
+from cmd2 import with_category
 from cmd2.plugin import PostcommandData as _PostcommandData
 
 from cli.aliases import empty_placeholders as _empty_alias_placeholders
 from cli.aliases import REQUIRED_PLACEHOLDERS as _REQUIRED_ALIAS_PLACEHOLDERS
 from cli.aliases import load_aliases as _load_aliases
-from cli.assign import apply_assign as _apply_assign
-from cli.autosuggest import SKIP_TRIGGER_COMMANDS as _AUTOSUGGEST_SKIP
 from cli.autosuggest import SuggestionContext as _SuggestionContext
 from cli.autosuggest import build_default_engine as _build_autosuggest_engine
-from cli.autosuggest import render_hint_line as _render_autosuggest_hint
-from cli.banner_config import banner_summary as _banner_summary
-from cli.banner_config import configure_banner_interactive as _configure_banner_interactive
 from cli.engagement_hooks import heal_commands_seen as _heal_engagement_history
-from cli.engagement_hooks import render_engagement_hook as _render_engagement_hook
 from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.fuzzy_picker import install_fuzzy_completion as _install_fuzzy_completion
 from cli.graph_advisor import GraphAdvisor as _GraphAdvisor
-from cli.graph_advisor import format_god_nodes as _format_god_nodes
-from cli.graph_advisor import format_neighbors as _format_neighbors
-from cli.graph_advisor import format_search_table as _format_search_table
 from cli.ops_commands import PHASES as _PHASES
-from cli.ops_commands import loot_graph as _loot_graph
-from cli.ops_commands import loot_mark as _loot_mark
-from cli.ops_commands import loot_reuse as _loot_reuse
-from cli.ops_commands import loot_search as _loot_search
-from cli.ops_commands import loot_show as _loot_show
-from cli.ops_commands import note_add as _note_add
-from cli.ops_commands import note_list as _note_list
-from cli.ops_commands import pivot_add as _pivot_add
-from cli.ops_commands import pivot_list as _pivot_list
-from cli.ops_commands import print_ctx as _print_ctx
 from cli.ops_commands import print_phase as _print_phase
-from cli.ops_commands import read_phase as _read_phase
-from cli.ops_commands import scans_list as _scans_list
-from cli.ops_commands import sitrep as _sitrep
-from cli.ops_commands import tasks_add as _tasks_add
-from cli.ops_commands import tasks_done as _tasks_done
-from cli.ops_commands import tasks_list as _tasks_list
-from cli.ops_commands import tasks_start as _tasks_start
-from cli.ops_commands import tgrep as _tgrep
-from cli.ops_commands import write_phase as _write_phase
 from cli.palette import CommandIndexError as _CommandIndexError
 from cli.palette import load_index as _load_command_index
 from cli.palette_command import PaletteCompleter as _PaletteCompleter
 from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig
-from cli.palette_command import render as _render_palette
 from cli.protips import print_session_tip as _print_session_tip
-from cli.protips import render_contextual_tip as _render_contextual_tip
 from cli.reactive_hints import _KILL_CHAIN_NEXT as _AUTOSUGGEST_CHAIN
 from cli.reactive_hints import _PHASE_PRIORITY as _AUTOSUGGEST_PHASE_PRIORITY
-from cli.reactive_hints import render_command_hints as _render_command_hints
 from cli.registry import register_command_sets as _register_command_sets
 from cli.scope_guard import ScopeGuard as _ScopeGuard
 from cli.scope_guard import ScopeMode as _ScopeMode
 from cli.scope_guard import build_offensive_commands as _build_offensive_commands
-from cli.show import format_payload as _format_payload
 from cli.status_bar import build_default_manager as _build_status_bar_manager
 from cli.toast_bus import render_toasts as _render_toasts
-from cli.wizard import run as _run_wizard
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
@@ -99,33 +66,21 @@ from cli.chain_mode import LOOP_GUARD_MARGIN as _CHAIN_GUARD_MARGIN
 from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
 from cli.tips_engine import HINTS_LEVEL_ON as _HINTS_LEVEL_ON
 from cli.tips_engine import TipsEngine as _TipsEngine
-from cli.tips_engine import TipsConfig as _TipsConfig
 from cli.tips_engine import UI_HINTS_LEVELS as _UI_HINTS_LEVELS
 from cli.tips_engine import build_default_tips_config as _build_default_tips_config
-from modules.db import LazyOwnDB as _LazyOwnDB
 from modules.event_bus import EventCategory as _EventCategory
 from modules.event_bus import EventSeverity as _EventSeverity
 from modules.event_bus import LazyEvent as _LazyEvent
 from modules.event_bus import get_event_bus as _get_event_bus
-from modules.llm_factory import try_get_llm_backend as _try_get_llm_backend
 from modules.logging_config import configure as _configure_logging
 from modules.logging_config import get_logger as _get_logger
-from modules.metrics import get_recorder as _get_metrics_recorder
-from modules.module_registry import ModuleRegistry as _ModuleRegistry
-from modules.module_registry import format_module_detail as _format_module_detail
-from modules.module_registry import format_module_table as _format_module_table
-from modules.payload_factory import PayloadFactory as _PayloadFactory
-from modules.payload_factory import format_payload_table as _format_payload_table
-from skills.unified_orchestrator import build_default_orchestrator as _build_unified_orchestrator
 from utils import (  # noqa: E402
     BANNER,
-    BG_BLACK,
     BG_RED,
     BLUE,
     BOLD,
     BRIGHT_BLUE,
     BRIGHT_RED,
-    BRIGHT_YELLOW,
     CYAN,
     GREEN,
     HEADLESS,
@@ -136,150 +91,51 @@ from utils import (  # noqa: E402
     RED,
     REQUIRED_KEYS,
     RESET,
-    RPC_C_AUTHN_LEVEL_NONE,
     UNDERLINE,
-    USER_ALIASES_FILE,
     WHITE,
     YELLOW,
-    AESencrypt,
     Config,
     ConnectionError,
     Console,
-    Filter,
-    IObjectExporter,
     LuaRuntime,
-    MemoryStore,
-    MyServer,
     NmapParser,
-    NmapProcess,
     Panel,
-    Path,
-    ProcessResults,
-    PyKeePass,
     RequestException,
-    SimpleHTTPRequestHandler,
-    Spray,
     Text,
-    Timer,
-    activate_server,
     activate_virtualenv,
-    argparse,
-    base64,
-    check_lhost,
-    check_lport,
-    check_rhost,
-    check_sudo,
-    clean_html,
-    clean_output,
-    clean_url,
     command_and_control_category,
-    copy2clip,
-    crack_password,
-    create_arp_packet,
-    create_caldera_config,
-    create_msfshellcoder_parser,
-    create_synthetic_yaml,
-    credential_access_category,
     csv,
     curses,
-    date,
     datetime,
     parse_bool,
-    decode,
-    detect_delimiter,
-    display_news,
-    donut,
-    dropFile,
-    encode,
-    ensure_tmux_session,
     exfiltration_category,
-    exploitation_category,
-    extract,
-    format_openssh_key,
-    format_rsa_key,
-    generate_certificates,
-    generate_emails,
-    generate_http_req,
-    generate_index,
-    generate_random_cve_id,
-    generate_xor_key,
-    get_banner,
-    get_credentials,
-    get_domain,
-    get_hash,
-    get_open_ports,
-    get_org,
-    get_users_dic,
     getprompt,
     glob,
-    handle,
-    inject_payloads,
     io,
     is_binary_present,
-    is_exist,
-    itertools,
     json,
     lateral_movement_category,
-    list_binaries,
-    load_adversary,
     load_payload,
     load_user_aliases,
-    manual_yaml_extraction,
     miscellaneous_category,
     os,
-    parse_ip_mac,
-    parse_nmap_csv,
-    parse_yaml_response,
-    persistence_category,
     post_exploitation_category,
-    preprocess_llm_response,
     print_error,
     print_msg,
-    print_succ,
     print_warn,
-    privilege_escalation_category,
-    product,
-    prompt,
     pwntomate_category,
-    query_arin_ip,
-    quote,
-    random_string,
     re,
     recon_category,
     replace_command_placeholders,
     replace_placeholders,
-    replace_variables,
     reporting_category,
     requests,
-    rotate_char,
-    run,
-    run_command,
-    salida_strace,
-    save_playbook,
     scanning_category,
-    scrape_news,
-    select_binary,
-    send_packet,
-    session_name,
-    shellcode_to_sylk,
     shlex,
-    shutil,
-    socket,
     startup_ns,
-    string,
-    struct,
     subprocess,
     sys,
-    teclado_usuario,
-    tempfile,
-    threading,
     time,
-    timedelta,
-    timezone,
-    transform,
-    transport,
-    unquote,
-    urandom,
     url_download,
     version,
     yaml,
@@ -2295,7 +2151,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         try:
             from core.credential_vault import check_dangerous_defaults
-            from core.credential_vault import seal_payload, seal_value
+            from core.credential_vault import seal_payload
             from core.config import save_payload
             payload = load_payload()
             warnings = check_dangerous_defaults(payload)

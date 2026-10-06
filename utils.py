@@ -2490,6 +2490,10 @@ def replace_placeholders(template, replacements):
     """
     Replace placeholders in a template string with values from a dictionary.
 
+    Single-pass delegation to replace_command_placeholders: substituted
+    values are never re-scanned, so a value that looks like a placeholder
+    stays literal instead of triggering a second substitution.
+
     Parameters:
         template (str): The template string containing placeholders.
         replacements (dict): A dictionary where keys are placeholders and values are replacements.
@@ -2497,9 +2501,7 @@ def replace_placeholders(template, replacements):
     Returns:
         str: The template string with placeholders replaced.
     """
-    for key, value in replacements.items():
-        template = template.replace(f"{{{key}}}", str(value))
-    return template
+    return replace_command_placeholders(template, replacements)
 
 def replace_command_placeholders(command, params):
     """

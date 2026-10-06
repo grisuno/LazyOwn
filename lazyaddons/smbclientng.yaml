@@ -1,0 +1,40 @@
+name: smbclientng
+description: |
+  smbclient-ng - fast, user-friendly SMB share interaction shell (Python).
+
+  Lists shares, browses directories, downloads/uploads files and queries ACLs
+  on SMB servers. Runs non-interactively with -N -C so it fits shell workflows.
+
+  First time (once per operator host): the addon clones the repo on first run
+  and installs it with pip automatically.
+
+  Flow inside LazyOwn:
+    assign rhost 10.10.11.5
+    smbclientng                              # guest share listing on {rhost}
+    smbclientng -C "shares" -H 10.10.11.6    # extra flags are appended as free args
+
+  Authenticated enumeration (binary is global after install, run directly):
+    sys smbclientng -d "LAB" -u "Administrator" -p 'Admin123!' -H 10.10.11.5
+    sys smbclientng --hashes 'aad3b:31d6c...' -u Administrator -H 10.10.11.5 -N -C "shares"
+
+  Requirements: python3 + pip. No Hopper/Ghidra or agent setup needed.
+author: p0dalirius
+version: '1.0'
+enabled: true
+params:
+- name: rhost
+  type: string
+  required: true
+  description: SMB server IP or hostname (payload.json rhost). Set with assign rhost <ip>.
+os: any
+trigger:
+- microsoft-ds
+- netbios-ssn
+module_type: scanner
+tool:
+  name: smbclient-ng
+  repo_url: https://github.com/p0dalirius/smbclient-ng.git
+  install_path: external/.exploit/smbclient-ng
+  install_command: python3 -m pip install . --break-system-packages
+  execute_command: smbclientng -N -C "shares" -H {rhost} --no-pass
+category: 02. Scanning & Enumeration

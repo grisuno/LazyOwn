@@ -17,7 +17,7 @@ LazyOwn is a professional pentest/red-team framework:
 
 - **CLI** (`lazyown.py`): cmd2 shell with 748 commands and 126 aliases covering the full kill chain.
 - **C2** (`lazyc2.py`): Flask + Socket.IO web dashboard, beacon protocol, phishing, multi-operator collaboration.
-- **MCP** (`skills/lazyown_mcp.py`): 153 tools exposing the framework to AI agents.
+- **MCP** (`skills/lazyown_mcp.py`): 154 tools exposing the framework to AI agents.
 - **DB** (`modules/db.py`): SQLite database layer — workspaces, hosts, services, vulns, creds, loot, notes, nmap import.
 - **Module Registry** (`modules/module_registry.py`): Catalog of 120+ modules from lazyaddons, plugins, tools, playbooks — search, use, run workflow.
 - **Payload Factory** (`modules/payload_factory.py`): Native payload generation (reverse shells, PowerShell, shellcode) with format conversion.

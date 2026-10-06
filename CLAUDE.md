@@ -17,7 +17,7 @@ Professional red-team / pentest framework:
 - **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 748 commands + 126 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 121 routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
-- **Skills** (`skills/`): MCP server (153 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
+- **Skills** (`skills/`): MCP server (154 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
 
 ## 0.1 Security contracts
 
@@ -290,7 +290,7 @@ New helpers go here only if shared CLI↔C2. Feature-local helpers → `modules/
 
 ## 8. MCP — `skills/lazyown_mcp.py`
 
-~131 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
+~154 tools. **Never re-implements** CLI/C2 — imports `LazyOwnShell` or composes shell + REST + file reads.
 
 ### Adding a tool — happy path
 1. Functionality must exist as `do_*` / utils helper / C2 endpoint first.

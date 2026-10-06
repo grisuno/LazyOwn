@@ -1,0 +1,48 @@
+name: rea
+description: |
+  REA - Reverse Engineer Anything with agents, from app behavior down to native binaries.
+
+  Agent-driven reverse engineering CLI + MCP server. Inspects native binaries
+  (Mach-O, ELF, PE, .app via Hopper or Ghidra), JavaScript/Electron apps, .NET
+  assemblies and websites. Analysis runs locally, results carry evidence envelope.
+
+  First time (once per operator host):
+    sys rea setup        # configure agents + Hopper/Ghidra paths
+    sys rea doctor       # health check without changing anything
+
+  Flow inside LazyOwn:
+    assign target /path/to/binary
+    rea                              # rea analyze {target} --json
+    rea --provider hopper            # extra flags are appended as free args
+    rea --provider ghidra
+
+  Other subcommands run directly (binary is global after install):
+    sys rea providers --json
+    sys rea capabilities
+    sys rea decompile /path/to/binary 0x1000
+    sys rea search /path/to/binary "offline"
+    sys rea mcp
+
+  Requirements: Node.js 22.19+ or 24.11+ and npm. Hopper (optional, licensed)
+  or Ghidra 12.1.4 + JDK 21 (optional) for deep native analysis.
+author: morluto
+version: '4.0.1'
+enabled: true
+params:
+- name: target
+  type: string
+  required: true
+  description: Path to the binary, .app bundle, .asar or directory to analyze (payload.json target). Set with assign target <path>. Extra CLI flags can be passed as free args.
+- name: file
+  type: string
+  required: false
+  description: Second artifact path for compare workflows (payload.json file).
+os: any
+trigger: []
+tool:
+  name: REA
+  repo_url: https://github.com/morluto/rea.git
+  install_path: external/.exploit/rea
+  install_command: npm install --global rea-agents@4.0.1
+  execute_command: rea analyze {target} --json
+category: 03. Exploitation

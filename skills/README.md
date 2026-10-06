@@ -1,7 +1,7 @@
 # LazyOwn Skills — MCP Integration
 
 Connect Claude Code (and Claude web) to the full LazyOwn framework via the
-Model Context Protocol. The MCP server exposes 131 tools covering the full
+Model Context Protocol. The MCP server exposes 154 tools covering the full
 engagement lifecycle: recon, exploitation, C2, autonomous loops, knowledge
 bases, multi-agent orchestration, and campaign reporting.
 
@@ -18,9 +18,10 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 
 | File | Purpose |
 |------|---------|
-| `lazyown_mcp.py` | MCP server — exposes 95 LazyOwn tools to Claude and Hermes |
+| `lazyown_mcp.py` | MCP server — exposes 154 LazyOwn tools to Claude and Hermes |
 | `lazyown.md` | Claude Code skill / slash-command documentation |
 | `lazyown/` | Hermes Agent skill definition (SKILL.md with frontmatter) |
+| `lazyaddon-creator/` | Skill definition for one-shot `lazyaddons/*.yaml` authoring from a GitHub URL |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `lazyown_objective.py` | Objective queue + soul.md management |
@@ -104,7 +105,7 @@ Claude: [calls lazyown_set_config → lazyown_auto_loop]
 
 ---
 
-## All MCP Tools (131)
+## All MCP Tools (154)
 
 Tools are grouped by function. All names are prefixed `lazyown_`.
 
@@ -213,6 +214,7 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 |------|-------------|
 | `playbook_generate` | Generate a MITRE ATT&CK-grounded playbook from STIX2 technique data and Atomic Red Team tests |
 | `playbook_run` | Execute a playbook YAML against the target step by step (dispatches each step as an MCP command) |
+| `rea` | Reverse-engineer a local binary, app bundle, .asar or JS/Electron tree via the REA CLI (analyze, inspect-artifact, decompile, search, doctor) |
 
 ### Addons, Tools & Plugins
 
@@ -265,7 +267,7 @@ Tools are grouped by function. All names are prefixed `lazyown_`.
 ```
 Claude (frontier model / Borg Queen)
        |
-       | MCP protocol (131 tools)
+       | MCP protocol (154 tools)
        v
 lazyown_mcp.py  ──────────────────────────────────────────────────────┐
   auto_loop                                                            │

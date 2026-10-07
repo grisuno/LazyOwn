@@ -281,6 +281,15 @@ For identifying and reporting the Docker build failures caused by the repo.charm
 
 For two critical security advisories that helped us harden the framework and fix serious vulnerabilities. Their responsible disclosure makes LazyOwn safer for the entire community.
 
+### KitPloit.com
+
+We, the people who dedicate time to LazyOwn, are flattered by that excellent review on Kitploit. Thank you so much, it helps us reach a wider community. [https://kitploit.com/es/tools/github/grisuno/lazyown](https://kitploit.com/es/tools/github/grisuno/lazyown)
+
+### spook.news
+
+Thank you so much, Spooky News members! It's an honor to be recommended by you. Thank you so much! 
+[https://spook.news/members/stipko_news_pv.php?id=65519](https://spook.news/members/stipko_news_pv.php?id=65519)
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

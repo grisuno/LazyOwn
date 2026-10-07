@@ -1,22 +1,22 @@
 # Subsystem: extensions
 
 ## lazyc2/extensions/__init__.py
+- Doc: Shared C2 extension modules.
 - Layer: infrastructure
-- Doc: Shared C2 extension modules.  Each module is a self-contained set of helpers that the monolithic ``lazyc2.py`` and/or in
 - Language: py
 - Imported by: `lazyc2/app_factory.py`
 
 ## lazyc2/extensions/decoy.py
+- Doc: Decoy / honeypot page for unauthenticated visitors.
 - Layer: presentation
-- Doc: Decoy / honeypot page for unauthenticated visitors.  When a request comes from an IP that is not the operator's lhost th
 - Language: py
 - Symbols:
   - `decoy_response` (function, line 12) `def decoy_response()`
 - Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/operations.py`
 
 ## lazyc2/extensions/short_urls.py
+- Doc: Short URL management utilities for the C2 phishing module.
 - Layer: infrastructure
-- Doc: Short URL management utilities for the C2 phishing module.  Provides load/save/validation helpers for short URL redirect
 - Language: py
 - Symbols:
   - `configure` (function, line 21) `def configure(sessions_phishing_dir)`
@@ -28,8 +28,8 @@
 - Imported by: `lazyc2/blueprints/phishing.py`
 
 ## lazyc2/extensions/storage.py
+- Doc: JSON-file storage helpers for the C2 web interface.
 - Layer: data_access
-- Doc: JSON-file storage helpers for the C2 web interface.  Provides load/save helpers for tasks, CVEs, notes, events, notifica
 - Language: py
 - Symbols:
   - `configure` (function, line 18) `def configure(sessions_dir)`
@@ -48,12 +48,12 @@
 - Imported by: `lazyc2/blueprints/operations.py`
 
 ## lazyc2/extensions/users.py
+- Doc: User management utilities for the C2 auth module.
 - Layer: infrastructure
-- Doc: User management utilities for the C2 auth module.  Provides load/save helpers for both the legacy JSON user store and th
 - Language: py
 - Symbols:
   - `configure` (function, line 16) `def configure(users_path)`
   - `load_users` (function, line 26) `def load_users()`
   - `save_users` (function, line 46) `def save_users(users)`
-- Depends on: `lazyc2.py`, `modules/lazy_rbac.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/blueprints/auth.py`
+- Depends on: `lazyc2/__init__.py`, `modules/lazy_rbac.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/auth.py`

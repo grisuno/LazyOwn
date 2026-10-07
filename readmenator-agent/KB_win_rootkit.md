@@ -23,6 +23,7 @@
   - `PASSWORD` (macro, line 24) `#define PASSWORD`
 
 ## modules/win_rootkit/mrhyde.c
+- Doc: RunExperiment: Define the RunExperiment function
 - Layer: utility
 - Language: c
 - Symbols:
@@ -61,6 +62,7 @@
   - `HookCreateFile` (method, line 224)
 
 ## modules/win_rootkit/win_ring3_rootkit.c
+- Doc: initPIDArray: Función para inicializar el arreglo de PIDs
 - Layer: utility
 - Language: c
 - Symbols:

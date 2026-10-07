@@ -1,0 +1,490 @@
+# Subsystem: modules (page 4 of 10)
+Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/evasion_engine.py
+- Doc: Advanced Evasion Engine for LazyOwn C2 operations.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TrafficMorphConfig` (class, line 25) `class TrafficMorphConfig`
+  - `MalleableProfile` (class, line 37) `class MalleableProfile`
+  - `EvasionEngine` (class, line 52) `class EvasionEngine`
+  - `__init__` (method, line 130) `def __init__(self, config)`
+  - `set_config` (method, line 136) `def set_config(self, config)`
+  - `_random_chrome_version` (method, line 139) `def _random_chrome_version(self)`
+  - `_random_firefox_version` (method, line 142) `def _random_firefox_version(self)`
+  - `_random_safari_version` (method, line 145) `def _random_safari_version(self)`
+  - `_generate_ja4_hash` (method, line 148) `def _generate_ja4_hash(self)`
+  - `_generate_user_agent` (method, line 162) `def _generate_user_agent(self, os_family)`
+  - `_generate_headers` (method, line 180) `def _generate_headers(self, user_agent)`
+  - `_pick_uri_pool` (method, line 203) `def _pick_uri_pool(self)`
+  - `_generate_cert_fingerprint` (method, line 211) `def _generate_cert_fingerprint(self)`
+  - `_compute_jitter` (method, line 214) `def _compute_jitter(self)`
+  - `_compute_sleep` (method, line 218) `def _compute_sleep(self)`
+  - `_get_domain_front` (method, line 226) `def _get_domain_front(self)`
+  - `generate_profile` (method, line 238) `def generate_profile(self, os_family)`
+  - `rotate_profile` (method, line 258) `def rotate_profile(self, os_family)`
+  - `get_active_profile` (method, line 263) `def get_active_profile(self)`
+  - `get_beacon_config` (method, line 266) `def get_beacon_config(self)`
+  - `morph_traffic` (method, line 281) `def morph_traffic(self, config)`
+  - `_persist_profile` (method, line 305) `def _persist_profile(self, profile)`
+  - `get_history` (method, line 322) `def get_history(self)`
+  - `profile_to_json` (method, line 337) `def profile_to_json(self, profile)`
+- Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
+
+## modules/evasive_payloads.py
+- Doc: Advanced evasive payload generation with multiple obfuscation strategies.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvasivePayloadGenerator` (class, line 18) `class EvasivePayloadGenerator`
+  - `__init__` (method, line 86) `def __init__(self)`
+  - `_random_var` (method, line 89) `def _random_var(self, length)`
+  - `_random_string` (method, line 95) `def _random_string(self, length)`
+  - `_xor_encode` (method, line 99) `def _xor_encode(self, data, key)`
+  - `_rot13` (method, line 104) `def _rot13(self, data)`
+  - `_gzip_compress` (method, line 116) `def _gzip_compress(self, data)`
+  - `_apply_encoding_chain` (method, line 120) `def _apply_encoding_chain(self, data, chain)`
+  - `generate_powershell_obfuscated` (method, line 140) `def generate_powershell_obfuscated(self, payload, obfuscation_level)`
+  - `generate_javascript_obfuscated` (method, line 182) `def generate_javascript_obfuscated(self, payload)`
+  - `generate_vba_obfuscated` (method, line 201) `def generate_vba_obfuscated(self, payload)`
+  - `generate_linux_evasive` (method, line 218) `def generate_linux_evasive(self, rhost, rport, technique)`
+  - `generate_shellcode_loader_powershell` (method, line 243) `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)`
+  - `generate_lolbas_execution` (method, line 288) `def generate_lolbas_execution(self, payload_url, technique)`
+  - `generate_polymorphic_command` (method, line 338) `def generate_polymorphic_command(self, base_cmd, iterations)`
+  - `list_techniques` (method, line 378) `def list_techniques(self)`
+- Imported by: `cli/commands/evasive_payload.py`
+
+## modules/event_bus.py
+- Doc: UnifiedEventBus — central nervous system connecting all LazyOwn components.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
+  - `EventSeverity` (class, line 73) `class EventSeverity(str, Enum)`
+  - `LazyEvent` (class, line 82) `class LazyEvent`
+  - `Sink` (class, line 132) `class Sink(ABC)`
+  - `JsonlSink` (class, line 142) `class JsonlSink(Sink)`
+  - `CollabBusSink` (class, line 162) `class CollabBusSink(Sink)`
+  - `EngagementSink` (class, line 198) `class EngagementSink(Sink)`
+  - `UnifiedEventBus` (class, line 221) `class UnifiedEventBus`
+  - `get_event_bus` (method, line 569) `def get_event_bus()`
+  - `publish_event` (method, line 574) `def publish_event(category, event_type, source, payload, severity, target, operator)`
+  - `to_dict` (method, line 95) `def to_dict(self)`
+  - `to_json` (method, line 110) `def to_json(self)`
+  - `from_dict` (method, line 114) `def from_dict(cls, d)`
+  - `write` (method, line 136) `def write(self, event)`
+  - `close` (method, line 139) `def close(self)`
+  - `__init__` (method, line 145) `def __init__(self, filepath)`
+  - `write` (method, line 150) `def write(self, event)`
+  - `close` (method, line 158) `def close(self)`
+  - `__init__` (method, line 165) `def __init__(self)`
+  - `_bus` (method, line 169) `def _bus(self)`
+  - `write` (method, line 179) `def write(self, event)`
+  - `close` (method, line 194) `def close(self)`
+  - `write` (method, line 201) `def write(self, event)`
+  - `close` (method, line 217) `def close(self)`
+  - `__init__` (method, line 246) `def __init__(self)`
+  - `_init_sinks` (method, line 264) `def _init_sinks(self)`
+  - `instance` (method, line 278) `def instance(cls)`
+  - `subscriber_count` (method, line 286) `def subscriber_count(self)`
+  - `subscribe` (method, line 295) `def subscribe(self, subscriber_id, callback)`
+  - `subscribe_topic` (method, line 300) `def subscribe_topic(self, subscriber_id, topic, callback)`
+  - `subscribe_async` (method, line 310) `def subscribe_async(self, subscriber_id)`
+  - `unsubscribe` (method, line 322) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 332) `def publish(self, event)`
+  - `drain` (method, line 350) `def drain(self)`
+  - `shutdown` (method, line 368) `def shutdown(self)`
+  - `_dispatch_loop` (method, line 412) `def _dispatch_loop(self)`
+  - `_dispatch_event` (method, line 440) `def _dispatch_event(self, event)`
+  - `_notify_shutdown` (method, line 478) `def _notify_shutdown(self)`
+  - `_match_topic` (method, line 516) `def _match_topic(self, topic, event)`
+  - `history` (method, line 555) `def history(self, n, category)`
+  - `history_since` (method, line 563) `def history_since(self, since_ts)`
+- Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
+
+## modules/event_consumers.py
+- Doc: Event Consumers — reactive layer that makes EventBus events drive real actions.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `_load_payload` (function, line 43) `def _load_payload()`
+  - `_inject_objective` (function, line 54) `def _inject_objective(text, priority, source)`
+  - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
+  - `_update_soul` (function, line 110) `def _update_soul(phase, credentials, access)`
+  - `PhaseTracker` (class, line 146) `class PhaseTracker`
+  - `AutoRecommender` (class, line 198) `class AutoRecommender`
+  - `CredentialReactor` (class, line 269) `class CredentialReactor`
+  - `SoulSync` (class, line 316) `class SoulSync`
+  - `DashboardPusher` (class, line 354) `class DashboardPusher`
+  - `wire_all_consumers` (method, line 375) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (method, line 403) `def unwire_all_consumers(bus)`
+  - `__init__` (method, line 156) `def __init__(self)`
+  - `__call__` (method, line 159) `def __call__(self, event)`
+  - `__init__` (method, line 201) `def __init__(self)`
+  - `__call__` (method, line 204) `def __call__(self, event)`
+  - `__call__` (method, line 279) `def __call__(self, event)`
+  - `__call__` (method, line 319) `def __call__(self, event)`
+  - `__call__` (method, line 357) `def __call__(self, event)`
+- Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
+
+## modules/event_engine.py
+- Doc: LazyOwn Event Engine
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `load_rules` (function, line 98) `def load_rules()`
+  - `save_rules` (function, line 109) `def save_rules(rules)`
+  - `add_rule` (function, line 113) `def add_rule(rule)`
+  - `_read_watermark` (function, line 128) `def _read_watermark()`
+  - `_write_watermark` (function, line 135) `def _write_watermark(offset)`
+  - `_row_matches` (function, line 141) `def _row_matches(row, trigger)`
+  - `_append_event` (function, line 169) `def _append_event(event)`
+  - `process_new_rows` (function, line 176) `def process_new_rows()`
+  - `read_events` (function, line 233) `def read_events(limit, status)`
+  - `ack_event` (function, line 253) `def ack_event(event_id)`
+- Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
+
+## modules/evilhttprev.sh
+- Layer: utility
+- Language: sh
+
+## modules/exp.c
+- Doc: gcc exp.c -o exp -l mnl -l nftnl -w
+- Layer: utility
+- Language: c
+- Symbols:
+  - `keyring_payload` (struct, line 120)
+  - `leak` (struct, line 126)
+  - `fd_uring` (struct, line 131)
+  - `msg` (struct, line 84)
+  - `msg_header` (struct, line 90)
+  - `Msg` (struct, line 100)
+  - `user_rule_t` (struct, line 105)
+  - `nft_trans_phase` (enum, line 77)
+  - `key_serial_t` (type_alias, line 135) `typedef int32_t key_serial_t;`
+  - `add_key` (function, line 147) `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
+  - `keyctl` (function, line 151) `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
+  - `bye` (function, line 155) `void bye(char *info)`
+  - `do_error_exit` (function, line 161) `void do_error_exit(char *info)`
+  - `bye2` (function, line 167) `void bye2(char *info, char *arg)`
+  - `spray_keyring` (function, line 172) `key_serial_t *spray_keyring(uint32_t start, uint32_t spray_size)`
+  - `spray_keyring_list_del_purpose` (function, line 190) `key_serial_t *spray_keyring_list_del_purpose(uint32_t spray_size, uint64_t next, uint64_t prev, u...`
+  - `spray_keyring_list_overwrite_purpose` (function, line 214) `key_serial_t *spray_keyring_list_overwrite_purpose(uint32_t spray_size, uint64_t len, uint64_t of...`
+  - `get_keyring_leak` (function, line 248) `int get_keyring_leak(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `awake_partial_keys` (function, line 271) `void awake_partial_keys(key_serial_t *id_buffer, uint32_t idx)`
+  - `release_keys` (function, line 279) `void release_keys(key_serial_t *id_buffer, uint32_t id_buffer_size)`
+  - `release_partial_keys` (function, line 290) `void release_partial_keys(key_serial_t *id_buffer, int i)`
+  - `unshare_setup` (function, line 297) `void unshare_setup(uid_t uid, gid_t gid)`
+  - `set_stable_table_and_set` (function, line 322) `void set_stable_table_and_set(struct mnl_socket* nl, const char *name)`
+  - `set_trigger_set_and_overwrite` (function, line 385) `void set_trigger_set_and_overwrite(struct mnl_socket* nl, const char *name, const char *set_name)`
+  - `set_cpu_affinity` (function, line 438) `void set_cpu_affinity(int cpu_n, pid_t pid)`
+  - `spray_mqueue` (function, line 448) `void spray_mqueue(mqd_t mqdes, char *msgptr, int spray_size)`
+  - `gather_mqueue` (function, line 463) `int gather_mqueue(mqd_t mqdes, int gather_size)`
+  - `gather_mqueue_nosave` (function, line 485) `int gather_mqueue_nosave(mqd_t mqdes, int gather_size)`
+  - `spray_msg_msg` (function, line 496) `void spray_msg_msg(unsigned int size, unsigned int amount, int qid)`
+  - `io_uring_setup` (function, line 520) `static inline int io_uring_setup(uint32_t entries, struct io_uring_params *p)`
+  - `io_uring_register` (function, line 524) `static inline int io_uring_register(int fd, unsigned int opcode, void *arg, unsigned int nr_args)`
+  - `spray_uring` (function, line 529) `struct fd_uring *spray_uring(uint32_t spray_size, struct fd_uring *fd_buffer)`
+  - `release_uring` (function, line 546) `void release_uring(struct fd_uring *fd_buffer, uint32_t buffer_size)`
+  - `release_partial_uring` (function, line 554) `void release_partial_uring(struct fd_uring *fd_buffer, uint32_t buffer_idx)`
+  - `prepare_root_shell` (function, line 559) `void prepare_root_shell(void)`
+  - `create_dummy_file` (function, line 564) `void create_dummy_file(void)`
+  - `create_priv_file` (function, line 572) `void create_priv_file(void)`
+  - `write_new_modprobe` (function, line 582) `void write_new_modprobe()`
+  - `setup_modprobe_payload` (function, line 601) `void setup_modprobe_payload()`
+  - `userland_T` (function, line 605) `void userland_T(int *sema)`
+  - `sema_up` (function, line 610) `void sema_up(int *sema)`
+  - `sema_down` (function, line 615) `void sema_down(int *sema)`
+  - `main` (function, line 620) `int main(int argc, char ** argv)`
+  - `_GNU_SOURCE` (macro, line 2) `#define _GNU_SOURCE`
+  - `MQUEUE_NUM` (macro, line 49) `#define MQUEUE_NUM`
+  - `INBOUND` (macro, line 52) `#define INBOUND`
+  - `OUTBOUND` (macro, line 53) `#define OUTBOUND`
+  - `DESC_MAX` (macro, line 54) `#define DESC_MAX`
+  - `BUFFER` (macro, line 56) `#define BUFFER`
+  - `NAMELEN` (macro, line 57) `#define NAMELEN`
+  - `ERROR_PREFIX` (macro, line 58) `#define ERROR_PREFIX`
+  - `KEY_DESC_MAX_SIZE` (macro, line 60) `#define KEY_DESC_MAX_SIZE`
+  - `PREFIX_BUF_LEN` (macro, line 62) `#define PREFIX_BUF_LEN`
+  - `RCU_HEAD_LEN` (macro, line 63) `#define RCU_HEAD_LEN`
+  - `SPRAY_KEY_SIZE` (macro, line 65) `#define SPRAY_KEY_SIZE`
+  - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
+  - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
+  - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
+
+## modules/exploit_chain.py
+- Doc: Autonomous exploitation chain engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ServiceInfo` (class, line 29) `class ServiceInfo`
+  - `VulnerabilityMatch` (class, line 41) `class VulnerabilityMatch`
+  - `ExploitResult` (class, line 54) `class ExploitResult`
+  - `ChainResult` (class, line 65) `class ChainResult`
+  - `_compare_versions` (method, line 266) `def _compare_versions(version_a, version_b)`
+  - `ExploitChain` (class, line 289) `class ExploitChain`
+  - `__init__` (method, line 292) `def __init__(self, rhost, rport, lhost, lport, sessions_dir, nmap_xml_path)`
+  - `fingerprint_services` (method, line 311) `def fingerprint_services(self, nmap_output)`
+  - `_discover_xml_files` (method, line 331) `def _discover_xml_files(self)`
+  - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
+  - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
+  - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
+  - `_parse_nmap_text` (method, line 402) `def _parse_nmap_text(self, output)`
+  - `map_vulnerabilities` (method, line 442) `def map_vulnerabilities(self)`
+  - `_add_vuln` (method, line 484) `def _add_vuln(self, service, sig, version)`
+  - `generate_exploit_plan` (method, line 496) `def generate_exploit_plan(self)`
+  - `get_post_exploit_commands` (method, line 514) `def get_post_exploit_commands(self, platform)`
+  - `generate_report` (method, line 526) `def generate_report(self)`
+  - `save_report` (method, line 561) `def save_report(self, path)`
+- Imported by: `cli/commands/exploit_migrated.py`
+
+## modules/exploit_recommender.py
+- Doc: AI-Powered Exploit Recommendation Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExploitMatch` (class, line 35) `class ExploitMatch`
+  - `ExploitRecommender` (class, line 48) `class ExploitRecommender`
+  - `__init__` (method, line 118) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 127) `def set_world_model(self, world_model)`
+  - `set_nvd_api_key` (method, line 130) `def set_nvd_api_key(self, key)`
+  - `_load_exploitdb` (method, line 133) `def _load_exploitdb(self)`
+  - `_extract_cve_ids` (method, line 157) `def _extract_cve_ids(text)`
+  - `_compare_versions` (method, line 161) `def _compare_versions(version, max_vulnerable)`
+  - `_query_nvd` (method, line 171) `def _query_nvd(self, cve_id)`
+  - `_try_nvd` (method, line 214) `def _try_nvd(self, cve_id)`
+  - `_generate_lazyown_commands` (method, line 217) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
+  - `match_services` (method, line 253) `def match_services(self, hosts)`
+  - `recommend` (method, line 346) `def recommend(self, hosts, top_n)`
+  - `persist_recommendations` (method, line 377) `def persist_recommendations(self, matches)`
+  - `format_for_llm` (method, line 397) `def format_for_llm(self, matches, max_items)`
+  - `parse_version` (method, line 24) `def parse_version(v)`
+- Depends on: `lazygui/version.py`, `modules/world_model.py`
+- Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
+
+## modules/exploitgym_gym.py
+- Doc: ExploitGym integration — real-world vulnerability-to-exploit benchmark.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ensure_dir` (function, line 56) `def _ensure_dir()`
+  - `_resolve_root` (function, line 61) `def _resolve_root(params)`
+  - `_read_task_ids` (function, line 75) `def _read_task_ids(root)`
+  - `_detect_domain` (function, line 96) `def _detect_domain(task_id)`
+  - `check_readiness` (function, line 112) `def check_readiness(params)`
+  - `list_tasks` (function, line 176) `def list_tasks(params, domain, limit)`
+  - `_run_streaming` (function, line 204) `def _run_streaming(cmd, cwd, timeout)`
+  - `_ensure_clone` (function, line 230) `def _ensure_clone(root, timeout)`
+  - `setup_harness` (function, line 249) `def setup_harness(params, steps)`
+  - `_env_for_run` (function, line 315) `def _env_for_run(params)`
+  - `pull_task` (function, line 344) `def pull_task(task_id, params, timeout)`
+  - `_run_agent` (function, line 378) `def _run_agent(task_id, model, mitigations, root, params, timeout)`
+  - `run_task` (function, line 423) `def run_task(task_id, params, model, mitigations, timeout)`
+  - `_extract_flag` (function, line 487) `def _extract_flag(output)`
+  - `_load_records` (function, line 500) `def _load_records()`
+  - `_save_records` (function, line 514) `def _save_records(records)`
+  - `_record` (function, line 523) `def _record(task_id, success, elapsed, flag)`
+  - `verify_flag` (function, line 548) `def verify_flag(task_id, params)`
+  - `score_task` (function, line 565) `def score_task(task_id, success, techniques, params)`
+  - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
+- Depends on: `modules/redteam_gym.py`
+- Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
+
+## modules/fast_run_service.sh
+- Doc: LazyOwn service-mode orchestrator.
+- Layer: business_logic
+- Language: sh
+- Symbols:
+  - `log_timestamp` (function, line 69)
+  - `log_info` (function, line 73)
+  - `log_warn` (function, line 77)
+  - `log_error` (function, line 81)
+  - `require_root` (function, line 89)
+  - `require_deps` (function, line 97)
+  - `require_paths` (function, line 113)
+  - `prepare_runtime_dirs` (function, line 126)
+  - `load_config` (function, line 139)
+  - `config_truthy` (function, line 155)
+  - `pid_file_for` (function, line 166)
+  - `log_file_for` (function, line 171)
+  - `read_pid_value` (function, line 176)
+  - `is_pid_alive` (function, line 189)
+  - `is_service_running` (function, line 194)
+  - `write_pid_file` (function, line 201)
+  - `ensure_log_file` (function, line 211)
+  - `spawn_as_target_user` (function, line 228)
+  - `spawn_as_root` (function, line 247)
+  - `terminate_pid_tree` (function, line 264)
+  - `stop_named_service` (function, line 292)
+  - `chown_project_tree` (function, line 310)
+  - `start_chown_watcher` (function, line 315)
+  - `start_lazyc2_service` (function, line 342)
+  - `start_www_service` (function, line 356)
+  - `start_vpn_service` (function, line 363)
+  - `start_discord_service` (function, line 380)
+  - `start_telegram_service` (function, line 390)
+  - `start_cloudflare_service` (function, line 400)
+  - `start_ollama_service` (function, line 410)
+  - `managed_services_in_order` (function, line 429)
+  - `cmd_start` (function, line 445)
+  - `cmd_stop` (function, line 465)
+  - `cmd_restart` (function, line 480)
+  - `cmd_status` (function, line 486)
+  - `cmd_logs` (function, line 505)
+  - `cmd_chown_now` (function, line 521)
+  - `usage` (function, line 528)
+  - `main` (function, line 557)
+
+## modules/forensic_cleaner.py
+- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
+  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
+  - `__init__` (method, line 67) `def __init__(self, config)`
+  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
+  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
+  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
+  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
+  - `amcache_parse` (method, line 244) `def amcache_parse(self)`
+- Imported by: `cli/commands/opsec_cleanup.py`
+
+## modules/gcp_attacks.py
+- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GCPConfig` (class, line 57) `class GCPConfig`
+  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
+  - `__init__` (method, line 90) `def __init__(self, config)`
+  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
+  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
+  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
+  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
+  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
+  - `cloudbuild_abuse` (method, line 223) `def cloudbuild_abuse(self)`
+  - `organization_escalation` (method, line 254) `def organization_escalation(self)`
+  - `summary` (method, line 290) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/generate_tools.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
+
+## modules/gpo_abuse.py
+- Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GPOInfo` (class, line 54) `class GPOInfo`
+  - `GPOAbusePlan` (class, line 83) `class GPOAbusePlan`
+  - `GPOAbuseEngine` (class, line 105) `class GPOAbuseEngine`
+  - `__init__` (method, line 118) `def __init__(self, domain, dc_ip)`
+  - `parse_gpo_list` (method, line 124) `def parse_gpo_list(self, raw_gpo_output)`
+  - `parse_bloodhound_gpos` (method, line 160) `def parse_bloodhound_gpos(self, bloodhound_nodes)`
+  - `plan_scheduled_task` (method, line 182) `def plan_scheduled_task(self, gpo, command, task_name)`
+  - `plan_startup_script` (method, line 208) `def plan_startup_script(self, gpo, script_content, script_name)`
+  - `plan_logon_script` (method, line 238) `def plan_logon_script(self, gpo, command)`
+  - `plan_local_admin_addition` (method, line 266) `def plan_local_admin_addition(self, gpo, username, group)`
+  - `plan_wmi_filter_abuse` (method, line 293) `def plan_wmi_filter_abuse(self, gpo, wmi_query)`
+  - `plan_registry_preference` (method, line 322) `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)`
+  - `plan_service_installation` (method, line 354) `def plan_service_installation(self, gpo, service_name, binary_path)`
+  - `generate_all_plans` (method, line 380) `def generate_all_plans(self, command, username)`
+  - `detect_risky_gpos` (method, line 402) `def detect_risky_gpos(self)`
+  - `summary` (method, line 428) `def summary(self)`
+- Imported by: `cli/commands/active_directory.py`
+
+## modules/gui_askpass.sh
+- Doc: — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this...
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `has` (function, line 22)
+  - `try_zenity` (function, line 24)
+  - `try_yad` (function, line 28)
+  - `try_ssh_askpass` (function, line 33)
+  - `try_kdialog` (function, line 40)
+
+## modules/hash_cracker.py
+- Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CrackResult` (class, line 131) `class CrackResult`
+  - `HashIdentifier` (class, line 144) `class HashIdentifier`
+  - `HashCracker` (class, line 155) `class HashCracker`
+  - `crack_secretsdump_output` (method, line 691) `def crack_secretsdump_output(filepath, wordlist, rhost)`
+  - `__init__` (method, line 168) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
+  - `_resolve_wordlist` (method, line 182) `def _resolve_wordlist(self)`
+  - `identify` (method, line 190) `def identify(self, line)`
+  - `identify_file` (method, line 277) `def identify_file(self, filepath)`
+  - `crack_hash` (method, line 299) `def crack_hash(self, hash_value, hash_type, wordlist)`
+  - `crack_file` (method, line 353) `def crack_file(self, filepath, wordlist, hash_types)`
+  - `import_to_db` (method, line 405) `def import_to_db(self, results, rhost, workspace_name)`
+  - `_crack_hashcat` (method, line 453) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_hashcat` (method, line 496) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
+  - `_crack_john` (method, line 556) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_john` (method, line 604) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
+  - `_parse_hashcat_output` (method, line 667) `def _parse_hashcat_output(stdout, stderr, original)`
+  - `_parse_john_show` (method, line 682) `def _parse_john_show(show_output, original)`
+- Depends on: `core/logging.py`, `modules/db.py`
+- Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
+
+## modules/hive_invoke.py
+- Doc: modules/hive_invoke.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_get_toposwarm` (function, line 49) `def _get_toposwarm()`
+  - `_find_claude` (function, line 112) `def _find_claude()`
+  - `_parse_argv` (function, line 117) `def _parse_argv(argv)`
+  - `_run_print_mode` (function, line 147) `def _run_print_mode(prompt, effort, claude_bin)`
+  - `_run_interactive_mode` (function, line 167) `def _run_interactive_mode(prompt, effort, claude_bin)`
+  - `_run_toposwarm_mode` (function, line 195) `def _run_toposwarm_mode(prompt, effort, bridge)`
+  - `main` (function, line 244) `def main(argv)`
+- Depends on: `modules/toposwarm_bridge.py`
+
+## modules/hostdiscover.sh
+- Layer: utility
+- Language: sh
+- Symbols:
+  - `extract_ips_from_arp` (function, line 21)
+  - `extract_listening_ips_from_netstat` (function, line 26)
+
+## modules/ia_code_analysis.py
+- Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CodeAnalyzer` (class, line 27) `class CodeAnalyzer`
+  - `analyze_with_deepseek` (method, line 63) `def analyze_with_deepseek(code_content, file_path, mode)`
+  - `save_results_to_json` (method, line 119) `def save_results_to_json(results, file_path)`
+  - `start_analysis` (method, line 164) `def start_analysis(code_dir, mode)`
+  - `parse_args` (method, line 172) `def parse_args()`
+  - `__init__` (method, line 31) `def __init__(self, mode)`
+  - `analyze_directory` (method, line 35) `def analyze_directory(self, directory)`
+  - `analyze_code_file` (method, line 47) `def analyze_code_file(self, file_path)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+## modules/ia_logs_analysis.py
+- Doc: Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: GPL v3...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LogFileHandler` (class, line 53) `class LogFileHandler(FileSystemEventHandler)`
+  - `analyze_with_deepseek` (method, line 91) `def analyze_with_deepseek(log_content, mode)`
+  - `start_monitoring` (method, line 143) `def start_monitoring(log_dir, mode)`
+  - `parse_args` (method, line 163) `def parse_args()`
+  - `__init__` (method, line 57) `def __init__(self, mode)`
+  - `on_modified` (method, line 62) `def on_modified(self, event)`
+  - `analyze_log_file` (method, line 73) `def analyze_log_file(self, file_path)`
+- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+
+
+Next: [KB_modules_p5.md](KB_modules_p5.md)

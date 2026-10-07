@@ -1,0 +1,350 @@
+# Subsystem: skills_tests
+
+## skills/tests/__init__.py
+- Layer: testing
+- Language: py
+
+## skills/tests/test_autonomous_daemon.py
+- Doc: skills/tests/test_autonomous_daemon.py — Tests for autonomous_daemon.py (SOLID refactoring)  All...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_patch_paths` (function, line 31) `def _patch_paths(tmp_path)`
+  - `_stop_patchers` (function, line 47) `def _stop_patchers(patchers)`
+  - `TestPTYCommandRunner` (class, line 56) `class TestPTYCommandRunner`
+  - `TestMCPCommandRunner` (class, line 81) `class TestMCPCommandRunner`
+  - `TestCommandRunnerChain` (class, line 123) `class TestCommandRunnerChain`
+  - `TestFallbackSelector` (class, line 185) `class TestFallbackSelector`
+  - `TestParquetSelector` (class, line 223) `class TestParquetSelector`
+  - `TestCascadeStrategy` (class, line 269) `class TestCascadeStrategy`
+  - `TestInjectToTasksJson` (class, line 330) `class TestInjectToTasksJson`
+  - `TestUpdateTaskStatus` (class, line 401) `class TestUpdateTaskStatus`
+  - `TestEmitEvent` (class, line 447) `class TestEmitEvent`
+  - `TestMCPAutonomousInject` (class, line 494) `class TestMCPAutonomousInject`
+  - `TestMCPAutonomousStatus` (class, line 563) `class TestMCPAutonomousStatus`
+  - `TestObjectiveLoopUnit` (class, line 616) `class TestObjectiveLoopUnit`
+  - `test_instantiation` (method, line 59) `def test_instantiation(self)`
+  - `test_name_property` (method, line 65) `def test_name_property(self)`
+  - `test_implements_icommand_runner` (method, line 71) `def test_implements_icommand_runner(self)`
+  - `test_instantiation` (method, line 84) `def test_instantiation(self)`
+  - `test_name_property` (method, line 90) `def test_name_property(self)`
+  - `test_raises_when_import_fails` (method, line 96) `def test_raises_when_import_fails(self)`
+  - `test_delegates_to_mcp_when_available` (method, line 104) `def test_delegates_to_mcp_when_available(self)`
+  - `_make_runner` (method, line 126) `def _make_runner(self, name, result, raises)`
+  - `test_uses_first_runner_when_successful` (method, line 138) `def test_uses_first_runner_when_successful(self)`
+  - `test_falls_back_to_second_on_exception` (method, line 147) `def test_falls_back_to_second_on_exception(self)`
+  - `test_raises_when_all_fail` (method, line 156) `def test_raises_when_all_fail(self)`
+  - `test_name_reflects_all_runners` (method, line 165) `def test_name_reflects_all_runners(self)`
+  - `test_requires_at_least_one_runner` (method, line 174) `def test_requires_at_least_one_runner(self)`
+  - `test_always_returns_decision` (method, line 188) `def test_always_returns_decision(self)`
+  - `test_returns_command_decision_type` (method, line 195) `def test_returns_command_decision_type(self)`
+  - `test_source_is_fallback` (method, line 203) `def test_source_is_fallback(self)`
+  - `test_unknown_phase_returns_decision` (method, line 210) `def test_unknown_phase_returns_decision(self)`
+  - `test_returns_none_when_pdb_unavailable` (method, line 226) `def test_returns_none_when_pdb_unavailable(self)`
+  - `test_returns_candidate_when_pdb_has_history` (method, line 233) `def test_returns_candidate_when_pdb_has_history(self)`
+  - `test_respects_fail_counts` (method, line 249) `def test_respects_fail_counts(self)`
+  - `_make_selector` (method, line 272) `def _make_selector(self, returns)`
+  - `test_returns_first_non_none_result` (method, line 280) `def test_returns_first_non_none_result(self)`
+  - `test_uses_fallback_when_all_none` (method, line 296) `def test_uses_fallback_when_all_none(self)`
+  - `test_passes_context_to_selectors` (method, line 308) `def test_passes_context_to_selectors(self)`
+  - `setup_method` (method, line 333) `def setup_method(self)`
+  - `teardown_method` (method, line 339) `def teardown_method(self)`
+  - `test_creates_file_if_missing` (method, line 343) `def test_creates_file_if_missing(self)`
+  - `test_appends_new_task` (method, line 351) `def test_appends_new_task(self)`
+  - `test_correct_schema` (method, line 362) `def test_correct_schema(self)`
+  - `test_returns_assigned_id` (method, line 379) `def test_returns_assigned_id(self)`
+  - `test_handles_existing_invalid_json` (method, line 387) `def test_handles_existing_invalid_json(self)`
+  - `setup_method` (method, line 404) `def setup_method(self)`
+  - `teardown_method` (method, line 410) `def teardown_method(self)`
+  - `_write_tasks` (method, line 414) `def _write_tasks(self, tasks)`
+  - `test_updates_existing_task` (method, line 418) `def test_updates_existing_task(self)`
+  - `test_ignores_missing_title` (method, line 428) `def test_ignores_missing_title(self)`
+  - `test_returns_false_when_file_missing` (method, line 436) `def test_returns_false_when_file_missing(self)`
+  - `setup_method` (method, line 450) `def setup_method(self)`
+  - `teardown_method` (method, line 456) `def teardown_method(self)`
+  - `test_writes_valid_json_line` (method, line 460) `def test_writes_valid_json_line(self)`
+  - `test_event_has_required_fields` (method, line 471) `def test_event_has_required_fields(self)`
+  - `test_multiple_emits_append_lines` (method, line 480) `def test_multiple_emits_append_lines(self)`
+  - `setup_method` (method, line 497) `def setup_method(self)`
+  - `teardown_method` (method, line 503) `def teardown_method(self)`
+  - `_make_mock_store` (method, line 507) `def _make_mock_store(self)`
+  - `test_injects_to_objective_store_and_tasks_json` (method, line 519) `def test_injects_to_objective_store_and_tasks_json(self)`
+  - `test_returns_json_with_both_ids` (method, line 537) `def test_returns_json_with_both_ids(self)`
+  - `test_returns_error_string_when_store_unavailable` (method, line 551) `def test_returns_error_string_when_store_unavailable(self)`
+  - `setup_method` (method, line 566) `def setup_method(self)`
+  - `teardown_method` (method, line 572) `def teardown_method(self)`
+  - `test_returns_valid_json` (method, line 576) `def test_returns_valid_json(self)`
+  - `test_contains_expected_fields` (method, line 583) `def test_contains_expected_fields(self)`
+  - `test_running_is_false_when_no_daemon` (method, line 592) `def test_running_is_false_when_no_daemon(self)`
+  - `test_merges_status_file_when_present` (method, line 600) `def test_merges_status_file_when_present(self)`
+  - `setup_method` (method, line 623) `def setup_method(self)`
+  - `teardown_method` (method, line 629) `def teardown_method(self)`
+  - `_make_mock_objective` (method, line 633) `def _make_mock_objective(self)`
+  - `test_complete_called_after_successful_execution` (method, line 642) `def test_complete_called_after_successful_execution(self)`
+  - `test_block_called_on_execution_failure` (method, line 702) `def test_block_called_on_execution_failure(self)`
+  - `test_loop_disabled_when_objective_store_missing` (method, line 753) `def test_loop_disabled_when_objective_store_missing(self)`
+  - `_R` (class, line 128) `class _R(ICommandRunner)`
+  - `_S` (class, line 275) `class _S(ICommandSelector)`
+  - `CapturingSelector` (class, line 314) `class CapturingSelector(ICommandSelector)`
+  - `_next_pending` (method, line 655) `def _next_pending()`
+  - `_fake_run_async` (method, line 672) `def _fake_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (method, line 689) `def _run_loop()`
+  - `_next_pending` (method, line 713) `def _next_pending()`
+  - `_failing_run_async` (method, line 725) `def _failing_run_async(objective_id, objective_text, target)`
+  - `_run_loop` (method, line 741) `def _run_loop()`
+  - `_run_loop` (method, line 762) `def _run_loop()`
+  - `name` (method, line 130) `def name(self)`
+  - `run` (method, line 132) `def run(self, command, timeout)`
+  - `select` (method, line 276) `def select(self, target, phase, context)`
+  - `select` (method, line 315) `def select(self, target, phase, context)`
+- Depends on: `skills/autonomous_daemon.py`
+
+## skills/tests/test_facts.py
+- Doc: Tests for lazyown_facts.py — parsers and FactStore.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_config` (function, line 42) `def _make_config(tmp_path)`
+  - `TestCrackMapExecParser` (class, line 61) `class TestCrackMapExecParser`
+  - `TestEnum4linuxParser` (class, line 85) `class TestEnum4linuxParser`
+  - `TestSecretsdumpParser` (class, line 109) `class TestSecretsdumpParser`
+  - `TestKerbruteParser` (class, line 127) `class TestKerbruteParser`
+  - `TestRpcclientParser` (class, line 149) `class TestRpcclientParser`
+  - `TestGobusterParser` (class, line 160) `class TestGobusterParser`
+  - `TestNiktoParser` (class, line 189) `class TestNiktoParser`
+  - `TestNucleiParser` (class, line 211) `class TestNucleiParser`
+  - `TestSslscanParser` (class, line 238) `class TestSslscanParser`
+  - `TestNmapXmlParser` (class, line 268) `class TestNmapXmlParser`
+  - `TestFactStore` (class, line 322) `class TestFactStore`
+  - `test_crackmapexec_parser` (method, line 62) `def test_crackmapexec_parser(self)`
+  - `test_crackmapexec_pwned` (method, line 75) `def test_crackmapexec_pwned(self)`
+  - `test_enum4linux_parser` (method, line 86) `def test_enum4linux_parser(self)`
+  - `test_enum4linux_access_when_results` (method, line 101) `def test_enum4linux_access_when_results(self)`
+  - `test_secretsdump_parser` (method, line 110) `def test_secretsdump_parser(self)`
+  - `test_kerbrute_parser` (method, line 128) `def test_kerbrute_parser(self)`
+  - `test_kerbrute_multiple_users` (method, line 137) `def test_kerbrute_multiple_users(self)`
+  - `test_rpcclient_parser` (method, line 150) `def test_rpcclient_parser(self)`
+  - `test_gobuster_parser_parse_extended` (method, line 161) `def test_gobuster_parser_parse_extended(self)`
+  - `test_gobuster_multiple_paths` (method, line 175) `def test_gobuster_multiple_paths(self)`
+  - `test_nikto_parser_parse_extended` (method, line 190) `def test_nikto_parser_parse_extended(self)`
+  - `test_nikto_cve_line` (method, line 204) `def test_nikto_cve_line(self)`
+  - `test_nuclei_parser_parse_extended` (method, line 212) `def test_nuclei_parser_parse_extended(self)`
+  - `test_nuclei_multiple_severities` (method, line 226) `def test_nuclei_multiple_severities(self)`
+  - `test_sslscan_parser_parse_extended` (method, line 239) `def test_sslscan_parser_parse_extended(self)`
+  - `test_sslscan_dedup` (method, line 253) `def test_sslscan_dedup(self)`
+  - `test_nmap_xml_parse` (method, line 292) `def test_nmap_xml_parse(self, tmp_path)`
+  - `test_nmap_xml_parse_invalid` (method, line 308) `def test_nmap_xml_parse_invalid(self, tmp_path)`
+  - `test_factstore_dedup` (method, line 323) `def test_factstore_dedup(self, tmp_path)`
+  - `test_context_for_command` (method, line 344) `def test_context_for_command(self, tmp_path)`
+  - `test_context_for_unknown_host` (method, line 378) `def test_context_for_unknown_host(self, tmp_path)`
+  - `test_factstore_save_and_reload` (method, line 385) `def test_factstore_save_and_reload(self, tmp_path)`
+  - `test_ingest_xml` (method, line 412) `def test_ingest_xml(self, tmp_path)`
+  - `test_ingest_text_crackmapexec` (method, line 438) `def test_ingest_text_crackmapexec(self, tmp_path)`
+  - `test_dedup_creds` (method, line 453) `def test_dedup_creds(self, tmp_path)`
+- Depends on: `skills/lazyown_facts.py`
+
+## skills/tests/test_harness_e2e.py
+- Doc: End-to-end test for the Claude Code-style harness layer.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `check` (function, line 33) `def check(label, cond, hint)`
+  - `test_permissions` (function, line 46) `def test_permissions(tmp)`
+  - `test_compaction` (function, line 96) `def test_compaction()`
+  - `test_transcript` (function, line 141) `def test_transcript(tmp)`
+  - `test_hooks` (function, line 179) `def test_hooks(tmp)`
+  - `test_claudemd` (function, line 218) `def test_claudemd(tmp)`
+  - `test_auto_compact` (function, line 254) `def test_auto_compact(tmp)`
+  - `test_metrics` (function, line 290) `def test_metrics(tmp)`
+  - `test_integration` (function, line 321) `def test_integration(tmp)`
+  - `main` (function, line 379) `def main()`
+- Depends on: `skills/lazyown_claudemd.py`, `skills/lazyown_context.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_session.py`
+
+## skills/tests/test_hive_mind.py
+- Doc: skills/tests/test_hive_mind.py — Tests for hive_mind.py (SOLID refactoring)  All file I/O uses...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_make_episodic` (function, line 31) `def _make_episodic(tmp_path)`
+  - `_make_semantic` (function, line 37) `def _make_semantic(tmp_path, episodic)`
+  - `_make_hive_memory` (function, line 46) `def _make_hive_memory(tmp_path)`
+  - `TestEpisodicStore` (class, line 67) `class TestEpisodicStore`
+  - `TestSemanticStore` (class, line 148) `class TestSemanticStore`
+  - `TestHiveMemory` (class, line 217) `class TestHiveMemory`
+  - `TestHiveBus` (class, line 285) `class TestHiveBus`
+  - `TestDronePool` (class, line 336) `class TestDronePool`
+  - `TestQueenBrain` (class, line 414) `class TestQueenBrain`
+  - `TestHiveMind` (class, line 493) `class TestHiveMind`
+  - `TestMCPHandlers` (class, line 557) `class TestMCPHandlers`
+  - `TestDroneStateStore` (class, line 645) `class TestDroneStateStore`
+  - `TestDronePoolWithPersistence` (class, line 739) `class TestDronePoolWithPersistence`
+  - `setup_method` (method, line 70) `def setup_method(self)`
+  - `teardown_method` (method, line 74) `def teardown_method(self)`
+  - `test_store_returns_nonempty_id` (method, line 77) `def test_store_returns_nonempty_id(self)`
+  - `test_recall_keyword_found` (method, line 84) `def test_recall_keyword_found(self)`
+  - `test_recall_keyword_not_found` (method, line 92) `def test_recall_keyword_not_found(self)`
+  - `test_recall_fts_multiple_hits` (method, line 99) `def test_recall_fts_multiple_hits(self)`
+  - `test_stats_counts_rows` (method, line 107) `def test_stats_counts_rows(self)`
+  - `test_forget_old_events` (method, line 116) `def test_forget_old_events(self)`
+  - `test_forget_by_topic` (method, line 129) `def test_forget_by_topic(self)`
+  - `setup_method` (method, line 151) `def setup_method(self)`
+  - `teardown_method` (method, line 155) `def teardown_method(self)`
+  - `test_instantiation` (method, line 158) `def test_instantiation(self)`
+  - `test_store_returns_id` (method, line 164) `def test_store_returns_id(self)`
+  - `test_fallback_to_episodic_when_chroma_unavailable` (method, line 173) `def test_fallback_to_episodic_when_chroma_unavailable(self)`
+  - `test_recall_with_mock_chroma` (method, line 185) `def test_recall_with_mock_chroma(self)`
+  - `test_count_returns_zero_when_unavailable` (method, line 205) `def test_count_returns_zero_when_unavailable(self)`
+  - `setup_method` (method, line 220) `def setup_method(self)`
+  - `teardown_method` (method, line 224) `def teardown_method(self)`
+  - `test_store_and_recall` (method, line 227) `def test_store_and_recall(self)`
+  - `test_recall_deduplication` (method, line 235) `def test_recall_deduplication(self)`
+  - `test_stats_contains_expected_keys` (method, line 262) `def test_stats_contains_expected_keys(self)`
+  - `test_forget_delegates_to_episodic` (method, line 270) `def test_forget_delegates_to_episodic(self)`
+  - `setup_method` (method, line 288) `def setup_method(self)`
+  - `test_publish_and_receive` (method, line 292) `def test_publish_and_receive(self)`
+  - `test_broadcast_received_by_everyone` (method, line 303) `def test_broadcast_received_by_everyone(self)`
+  - `test_pending_count_after_publish` (method, line 312) `def test_pending_count_after_publish(self)`
+  - `test_receive_drains_direct_mailbox` (method, line 321) `def test_receive_drains_direct_mailbox(self)`
+  - `setup_method` (method, line 339) `def setup_method(self)`
+  - `teardown_method` (method, line 343) `def teardown_method(self)`
+  - `_make_pool` (method, line 346) `def _make_pool(self)`
+  - `test_spawn_returns_drone_id` (method, line 353) `def test_spawn_returns_drone_id(self)`
+  - `test_get_state_returns_drone_state` (method, line 362) `def test_get_state_returns_drone_state(self)`
+  - `test_get_state_unknown_id_returns_none` (method, line 373) `def test_get_state_unknown_id_returns_none(self)`
+  - `test_list_all_includes_spawned_drone` (method, line 379) `def test_list_all_includes_spawned_drone(self)`
+  - `test_active_count_decrements_when_done` (method, line 388) `def test_active_count_decrements_when_done(self)`
+  - `setup_method` (method, line 417) `def setup_method(self)`
+  - `teardown_method` (method, line 421) `def teardown_method(self)`
+  - `_make_queen` (method, line 424) `def _make_queen(self)`
+  - `test_plan_enum_returns_multiple_tasks` (method, line 431) `def test_plan_enum_returns_multiple_tasks(self)`
+  - `test_plan_exploit_goal` (method, line 439) `def test_plan_exploit_goal(self)`
+  - `test_plan_ad_goal` (method, line 446) `def test_plan_ad_goal(self)`
+  - `test_plan_generic_goal` (method, line 453) `def test_plan_generic_goal(self)`
+  - `test_plan_n_drones_pads_to_requested` (method, line 459) `def test_plan_n_drones_pads_to_requested(self)`
+  - `test_dispatch_returns_drone_ids` (method, line 465) `def test_dispatch_returns_drone_ids(self)`
+  - `test_synthesize_structure` (method, line 474) `def test_synthesize_structure(self)`
+  - `setup_method` (method, line 496) `def setup_method(self)`
+  - `teardown_method` (method, line 500) `def teardown_method(self)`
+  - `_make_hive` (method, line 503) `def _make_hive(self)`
+  - `test_spawn_single_drone` (method, line 517) `def test_spawn_single_drone(self)`
+  - `test_recall_from_memory_after_store` (method, line 525) `def test_recall_from_memory_after_store(self)`
+  - `test_status_contains_expected_fields` (method, line 532) `def test_status_contains_expected_fields(self)`
+  - `test_drone_result_unknown_id` (method, line 540) `def test_drone_result_unknown_id(self)`
+  - `test_forget_returns_int` (method, line 546) `def test_forget_returns_int(self)`
+  - `setup_method` (method, line 560) `def setup_method(self)`
+  - `teardown_method` (method, line 566) `def teardown_method(self)`
+  - `_build_hive_and_patch` (method, line 570) `def _build_hive_and_patch(self)`
+  - `test_mcp_hive_plan_returns_parseable_string` (method, line 590) `def test_mcp_hive_plan_returns_parseable_string(self)`
+  - `test_mcp_hive_status_contains_fields` (method, line 598) `def test_mcp_hive_status_contains_fields(self)`
+  - `test_mcp_hive_recall_no_results` (method, line 607) `def test_mcp_hive_recall_no_results(self)`
+  - `test_mcp_hive_forget_returns_pruned_count` (method, line 613) `def test_mcp_hive_forget_returns_pruned_count(self)`
+  - `test_mcp_hive_spawn_single` (method, line 619) `def test_mcp_hive_spawn_single(self)`
+  - `test_mcp_hive_result_unknown_drone` (method, line 627) `def test_mcp_hive_result_unknown_drone(self)`
+  - `test_mcp_hive_collect_no_ids` (method, line 634) `def test_mcp_hive_collect_no_ids(self)`
+  - `setup_method` (method, line 648) `def setup_method(self)`
+  - `teardown_method` (method, line 652) `def teardown_method(self)`
+  - `_make_store` (method, line 655) `def _make_store(self)`
+  - `_make_state` (method, line 659) `def _make_state(self, status)`
+  - `test_upsert_and_load_all` (method, line 670) `def test_upsert_and_load_all(self)`
+  - `test_upsert_updates_existing` (method, line 679) `def test_upsert_updates_existing(self)`
+  - `test_mark_interrupted_targets_queued_and_running` (method, line 692) `def test_mark_interrupted_targets_queued_and_running(self)`
+  - `test_load_interrupted_returns_only_interrupted` (method, line 707) `def test_load_interrupted_returns_only_interrupted(self)`
+  - `test_delete_older_than_removes_stale` (method, line 720) `def test_delete_older_than_removes_stale(self)`
+  - `test_load_all_empty_db` (method, line 729) `def test_load_all_empty_db(self)`
+  - `setup_method` (method, line 742) `def setup_method(self)`
+  - `teardown_method` (method, line 746) `def teardown_method(self)`
+  - `_make_pool_with_store` (method, line 749) `def _make_pool_with_store(self)`
+  - `test_spawn_persists_initial_state` (method, line 757) `def test_spawn_persists_initial_state(self)`
+  - `test_recover_from_store_marks_interrupted` (method, line 766) `def test_recover_from_store_marks_interrupted(self)`
+  - `test_requeue_interrupted_respawns_drones` (method, line 788) `def test_requeue_interrupted_respawns_drones(self)`
+  - `test_list_all_includes_history` (method, line 803) `def test_list_all_includes_history(self)`
+  - `test_mcp_hive_recover_no_interrupted` (method, line 817) `def test_mcp_hive_recover_no_interrupted(self)`
+  - `_instant_run` (method, line 392) `def _instant_run(self_inner)`
+- Depends on: `skills/hive_mind.py`
+
+## skills/tests/test_mcp_smoke.py
+- Doc: Smoke test for the MCP server: verify all 131 tools are registered.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `check` (function, line 23) `def check(label, cond, hint)`
+  - `test_mcp_module_imports` (function, line 34) `def test_mcp_module_imports()`
+  - `test_mcp_wellknown_symbols` (function, line 46) `def test_mcp_wellknown_symbols(mcp)`
+  - `test_list_tools_returns_tools` (function, line 60) `def test_list_tools_returns_tools(mcp)`
+  - `main` (function, line 90) `def main()`
+- Depends on: `skills/lazyown_mcp.py`
+
+## skills/tests/test_objectives.py
+- Doc: Tests for lazyown_objective.py — ObjectiveStore and SoulUpdater.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_store` (function, line 31) `def _store(tmp_path)`
+  - `_soul_updater` (function, line 36) `def _soul_updater(tmp_path)`
+  - `TestObjectiveStore` (class, line 51) `class TestObjectiveStore`
+  - `TestSoulUpdater` (class, line 213) `class TestSoulUpdater`
+  - `test_inject_basic` (method, line 52) `def test_inject_basic(self, tmp_path)`
+  - `test_dedup` (method, line 62) `def test_dedup(self, tmp_path)`
+  - `test_ttl_expiry` (method, line 74) `def test_ttl_expiry(self, tmp_path)`
+  - `test_next_pending_priority` (method, line 102) `def test_next_pending_priority(self, tmp_path)`
+  - `test_next_pending_fifo_same_priority` (method, line 112) `def test_next_pending_fifo_same_priority(self, tmp_path)`
+  - `test_complete` (method, line 122) `def test_complete(self, tmp_path)`
+  - `test_block` (method, line 132) `def test_block(self, tmp_path)`
+  - `test_inject_invalid_priority_defaults_medium` (method, line 143) `def test_inject_invalid_priority_defaults_medium(self, tmp_path)`
+  - `test_list_pending_empty` (method, line 149) `def test_list_pending_empty(self, tmp_path)`
+  - `test_next_pending_none_when_empty` (method, line 154) `def test_next_pending_none_when_empty(self, tmp_path)`
+  - `test_objectives_persist_on_disk` (method, line 159) `def test_objectives_persist_on_disk(self, tmp_path)`
+  - `test_cleanup_medium_72h_ttl` (method, line 169) `def test_cleanup_medium_72h_ttl(self, tmp_path)`
+  - `test_cleanup_critical_never_expires` (method, line 188) `def test_cleanup_critical_never_expires(self, tmp_path)`
+  - `test_soul_updater_patch_line` (method, line 214) `def test_soul_updater_patch_line(self, tmp_path)`
+  - `test_soul_updater_target_line` (method, line 225) `def test_soul_updater_target_line(self, tmp_path)`
+  - `test_soul_updater_section` (method, line 232) `def test_soul_updater_section(self, tmp_path)`
+  - `test_soul_updater_credentials_hash` (method, line 240) `def test_soul_updater_credentials_hash(self, tmp_path)`
+  - `test_soul_updater_credentials_username_only` (method, line 250) `def test_soul_updater_credentials_username_only(self, tmp_path)`
+  - `test_soul_updater_section_os` (method, line 258) `def test_soul_updater_section_os(self, tmp_path)`
+  - `test_soul_updater_section_access` (method, line 266) `def test_soul_updater_section_access(self, tmp_path)`
+  - `test_soul_updater_vulnerabilities` (method, line 274) `def test_soul_updater_vulnerabilities(self, tmp_path)`
+  - `test_soul_updater_patch_replaces_existing` (method, line 285) `def test_soul_updater_patch_replaces_existing(self, tmp_path)`
+  - `test_soul_updater_empty_creds_noop` (method, line 296) `def test_soul_updater_empty_creds_noop(self, tmp_path)`
+  - `test_soul_updater_appends_new_section` (method, line 304) `def test_soul_updater_appends_new_section(self, tmp_path)`
+- Depends on: `skills/lazyown_objective.py`
+
+## skills/tests/test_parquet_db.py
+- Doc: Tests for lazyown_parquet_db.py — ParquetDB.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_csv` (function, line 49) `def _write_csv(path, rows)`
+  - `_make_db` (function, line 60) `def _make_db(tmp_path)`
+  - `TestParquetDBSync` (class, line 84) `class TestParquetDBSync`
+  - `TestParquetDBAnnotate` (class, line 153) `class TestParquetDBAnnotate`
+  - `TestParquetDBQuerySession` (class, line 249) `class TestParquetDBQuerySession`
+  - `TestParquetDBQueryKnowledge` (class, line 318) `class TestParquetDBQueryKnowledge`
+  - `TestStableId` (class, line 362) `class TestStableId`
+  - `test_sync_from_csv` (method, line 85) `def test_sync_from_csv(self, tmp_path)`
+  - `test_sync_skips_empty_command` (method, line 111) `def test_sync_skips_empty_command(self, tmp_path)`
+  - `test_sync_idempotent` (method, line 122) `def test_sync_idempotent(self, tmp_path)`
+  - `test_schema_cols` (method, line 134) `def test_schema_cols(self, tmp_path)`
+  - `test_sync_missing_csv` (method, line 146) `def test_sync_missing_csv(self, tmp_path)`
+  - `_setup_with_one_row` (method, line 154) `def _setup_with_one_row(self, tmp_path)`
+  - `test_annotate` (method, line 171) `def test_annotate(self, tmp_path)`
+  - `test_annotate_category` (method, line 181) `def test_annotate_category(self, tmp_path)`
+  - `test_annotate_missing_id` (method, line 190) `def test_annotate_missing_id(self, tmp_path)`
+  - `test_annotate_rich_finding_type_credential` (method, line 196) `def test_annotate_rich_finding_type_credential(self, tmp_path)`
+  - `test_annotate_rich_finding_type_vulnerability` (method, line 206) `def test_annotate_rich_finding_type_vulnerability(self, tmp_path)`
+  - `test_annotate_rich_finding_type_hash` (method, line 216) `def test_annotate_rich_finding_type_hash(self, tmp_path)`
+  - `test_annotate_rich_output_snippet_truncated` (method, line 229) `def test_annotate_rich_output_snippet_truncated(self, tmp_path)`
+  - `test_annotate_rich_explicit_finding_type` (method, line 238) `def test_annotate_rich_explicit_finding_type(self, tmp_path)`
+  - `_setup_two_phases` (method, line 250) `def _setup_two_phases(self, tmp_path)`
+  - `test_query_session_filter` (method, line 276) `def test_query_session_filter(self, tmp_path)`
+  - `test_query_session_scanning_filter` (method, line 284) `def test_query_session_scanning_filter(self, tmp_path)`
+  - `test_query_session_no_filter` (method, line 292) `def test_query_session_no_filter(self, tmp_path)`
+  - `test_query_session_empty` (method, line 298) `def test_query_session_empty(self, tmp_path)`
+  - `test_query_session_target_filter` (method, line 304) `def test_query_session_target_filter(self, tmp_path)`
+  - `test_query_knowledge_session_parquet` (method, line 319) `def test_query_knowledge_session_parquet(self, tmp_path)`
+  - `test_query_knowledge_no_match` (method, line 334) `def test_query_knowledge_no_match(self, tmp_path)`
+  - `test_query_knowledge_keyword_binarios` (method, line 351) `def test_query_knowledge_keyword_binarios(self, tmp_path)`
+  - `test_stable_id_deterministic` (method, line 363) `def test_stable_id_deterministic(self)`
+  - `test_stable_id_different_inputs` (method, line 369) `def test_stable_id_different_inputs(self)`
+  - `test_stable_id_length` (method, line 375) `def test_stable_id_length(self)`
+- Depends on: `skills/lazyown_parquet_db.py`

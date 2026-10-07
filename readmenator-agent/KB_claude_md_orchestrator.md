@@ -1,14 +1,14 @@
 # Subsystem: claude_md_orchestrator
 
 ## skills/claude_md_orchestrator/__init__.py
+- Doc: Public API for the claude_md_orchestrator skill.
 - Layer: utility
-- Doc: Public API for the claude_md_orchestrator skill.  The package re-exports the classes and the helper functions the CLI an
 - Language: py
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/orchestrator.py`
 
 ## skills/claude_md_orchestrator/bdd_agent.py
+- Doc: Behavior-Driven Development agent.
 - Layer: utility
-- Doc: Behavior-Driven Development agent.  The agent reads the spec and the failing tests the tdd agent produced. The agent wri
 - Language: py
 - Symbols:
   - `_module_name` (function, line 80) `def _module_name(contract)`
@@ -22,8 +22,8 @@
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
 
 ## skills/claude_md_orchestrator/boy_scout.py
+- Doc: Boy Scout refactor pass.
 - Layer: utility
-- Doc: Boy Scout refactor pass.  The pass runs after the green stage. The pass scans the artifacts the bdd agent produced for t
 - Language: py
 - Symbols:
   - `ScoutReport` (class, line 30) `class ScoutReport`
@@ -34,8 +34,8 @@
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
 
 ## skills/claude_md_orchestrator/cicd_agent.py
+- Doc: CI and CD agent.
 - Layer: utility
-- Doc: CI and CD agent.  The agent cuts a feature branch, stages the artifacts, prepares the CI pipeline, and writes the PR bod
 - Language: py
 - Symbols:
   - `CicdResult` (class, line 70) `class CicdResult`
@@ -48,8 +48,8 @@
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
 
 ## skills/claude_md_orchestrator/config.py
+- Doc: Centralized configuration for the claude_md_orchestrator skill.
 - Layer: infrastructure
-- Doc: Centralized configuration for the claude_md_orchestrator skill.  The orchestrator reads every runtime value from this mo
 - Language: py
 - Symbols:
   - `_repo_root` (function, line 22) `def _repo_root()`
@@ -70,8 +70,8 @@
 - Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
 
 ## skills/claude_md_orchestrator/documentation_agent.py
+- Doc: Documentation agent.
 - Layer: utility
-- Doc: Documentation agent.  The agent writes the user facing documentation for a contract. The output is first person scientif
 - Language: py
 - Symbols:
   - `DocResult` (class, line 28) `class DocResult`
@@ -84,8 +84,8 @@
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
 
 ## skills/claude_md_orchestrator/models.py
+- Doc: Data models for the claude_md_orchestrator skill.
 - Layer: business_logic
-- Doc: Data models for the claude_md_orchestrator skill.  The orchestrator is a pure data pipeline. Every agent reads its input
 - Language: py
 - Symbols:
   - `_now_iso` (function, line 19) `def _now_iso()`
@@ -121,11 +121,11 @@
   - `save` (method, line 464) `def save(self, path)`
   - `load` (method, line 472) `def load(cls, path)`
 - Depends on: `cli/commands/enum.py`
-- Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
+- Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
 
 ## skills/claude_md_orchestrator/orchestrator.py
+- Doc: Orchestrator that wires the agents into a deterministic pipeline.
 - Layer: utility
-- Doc: Orchestrator that wires the agents into a deterministic pipeline.  The orchestrator walks every contract through the sam
 - Language: py
 - Symbols:
   - `CycleSummary` (class, line 34) `class CycleSummary`
@@ -153,8 +153,8 @@
 - Imported by: `skills/claude_md_orchestrator/__init__.py`
 
 ## skills/claude_md_orchestrator/parser.py
+- Doc: Parser that turns a CLAUDE.md into actionable contracts.
 - Layer: utility
-- Doc: Parser that turns a CLAUDE.md into actionable contracts.  The parser is deterministic. It does not call any LLM. It walk
 - Language: py
 - Symbols:
   - `_Section` (class, line 36) `class _Section`
@@ -174,8 +174,8 @@
 - Imported by: `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
 
 ## skills/claude_md_orchestrator/reviewer_agent.py
-- Layer: presentation
-- Doc: Code Reviewer and Quality Assurance agent.  The agent runs the static analyzers the LazyOwn repository already configure
+- Doc: Code Reviewer and Quality Assurance agent.
+- Layer: utility
 - Language: py
 - Symbols:
   - `AnalyzerResult` (class, line 30) `class AnalyzerResult`
@@ -191,8 +191,8 @@
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
 
 ## skills/claude_md_orchestrator/sdd_agent.py
+- Doc: Spec-Driven Development agent.
 - Layer: utility
-- Doc: Spec-Driven Development agent.  The agent lifts a Contract into a Spec. The agent is deterministic so the orchestrator c
 - Language: py
 - Symbols:
   - `SddResult` (class, line 40) `class SddResult`
@@ -204,8 +204,8 @@
 - Depends on: `modules/llm_factory.py`, `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
 
 ## skills/claude_md_orchestrator/tdd_agent.py
+- Doc: Test-Driven Development agent.
 - Layer: utility
-- Doc: Test-Driven Development agent.  The agent lifts a Spec into a pytest module. The cycle halts at red. The agent will not 
 - Language: py
 - Symbols:
   - `_slug` (function, line 79) `def _slug(value)`
@@ -219,8 +219,8 @@
 - Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
 
 ## skills/claude_md_orchestrator/validators.py
+- Doc: DoD validators for every artifact the orchestrator produces.
 - Layer: utility
-- Doc: DoD validators for every artifact the orchestrator produces.  The validators are the single source of truth for the Defi
 - Language: py
 - Symbols:
   - `CheckResult` (class, line 70) `class CheckResult`

@@ -6,8 +6,8 @@
 - Imported by: `tests/test_security_lazyc2.py`
 
 ## lazyc2/security/command_allowlist.py
+- Doc: Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.
 - Layer: utility
-- Doc: Command allowlist policy for the LazyOwn C2 ``/api/run`` endpoint.  Contract: this module gates arbitrary command execut
 - Language: py
 - Symbols:
   - `CommandRejectionReason` (class, line 36) `class CommandRejectionReason(StrEnum)`
@@ -22,14 +22,14 @@
 - Imported by: `lazyc2.py`, `tests/test_command_allowlist.py`, `tests/test_command_allowlist_behavior.py`
 
 ## lazyc2/security/constants.py
+- Doc: Security constants and validation patterns for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: Security constants and validation patterns for the LazyOwn C2 web layer.  All regex patterns, length limits, and allowli
 - Language: py
 - Imported by: `lazyc2.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/services.py`, `lazyc2/security/validators.py`
 
 ## lazyc2/security/cors.py
+- Doc: CORS origin allowlist policy for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: CORS origin allowlist policy for the LazyOwn C2 web layer.  Contract: this module owns the single source of truth for wh
 - Language: py
 - Symbols:
   - `CorsConfigError` (class, line 46) `class CorsConfigError(ValueError)`
@@ -50,8 +50,8 @@
 - Imported by: `lazyc2.py`, `tests/test_cors_behavior.py`, `tests/test_cors_policy.py`, `tests/test_cors_socketio_regression.py`
 
 ## lazyc2/security/csrf.py
+- Doc: CSRF protection policy for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: CSRF protection policy for the LazyOwn C2 web layer.  Contract: this module issues per-session tokens that the client mu
 - Language: py
 - Symbols:
   - `CSRFPolicy` (class, line 48) `class CSRFPolicy`
@@ -68,8 +68,8 @@
 - Imported by: `lazyc2.py`, `lazyc2/blueprints/addons.py`, `tests/test_csrf_behavior.py`, `tests/test_csrf_policy.py`
 
 ## lazyc2/security/html_sanitizer.py
+- Doc: HTML sanitizer backed by ``bleach`` for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: HTML sanitizer backed by ``bleach`` for the LazyOwn C2 web layer.  Contract: this module is the single source of truth f
 - Language: py
 - Symbols:
   - `_strip_dangerous_blocks` (function, line 62) `def _strip_dangerous_blocks(raw_html)`
@@ -78,8 +78,8 @@
 - Imported by: `lazyc2.py`, `tests/test_html_sanitizer.py`
 
 ## lazyc2/security/https_redirect.py
+- Doc: HTTPS redirect policy for the LazyOwn C2 web layer.
 - Layer: presentation
-- Doc: HTTPS redirect policy for the LazyOwn C2 web layer.  Contract: this module produces the response that a Flask ``before_r
 - Language: py
 - Symbols:
   - `RedirectResponse` (class, line 29) `class RedirectResponse`
@@ -90,8 +90,8 @@
 - Imported by: `lazyc2.py`, `tests/test_https_redirect.py`
 
 ## lazyc2/security/services.py
+- Doc: Security services for the LazyOwn C2 web layer.
 - Layer: business_logic
-- Doc: Security services for the LazyOwn C2 web layer.  Services encapsulate stateful security operations such as safe file han
 - Language: py
 - Symbols:
   - `SecretKeyManager` (class, line 19) `class SecretKeyManager`
@@ -111,11 +111,11 @@
   - `__init__` (method, line 189) `def __init__(self, max_size_bytes)`
   - `validate` (method, line 192) `def validate(self, content_length)`
 - Depends on: `lazyc2/security/constants.py`, `lazyc2/security/validators.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_lazyc2.py`
+- Imported by: `lazyc2.py`, `lazyc2/app_factory.py`, `tests/test_security_lazyc2.py`
 
 ## lazyc2/security/trusted_proxy.py
+- Doc: Trusted proxy resolver for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: Trusted proxy resolver for the LazyOwn C2 web layer.  Contract: this module decides what the real client IP is, taking t
 - Language: py
 - Symbols:
   - `TrustedProxyResolver` (class, line 30) `class TrustedProxyResolver`
@@ -126,8 +126,8 @@
 - Imported by: `lazyc2.py`, `tests/test_trusted_proxy.py`
 
 ## lazyc2/security/validators.py
+- Doc: Input validators for the LazyOwn C2 web layer.
 - Layer: utility
-- Doc: Input validators for the LazyOwn C2 web layer.  All validation functions are pure, stateless, and operate only on primit
 - Language: py
 - Symbols:
   - `validate_route_path` (function, line 24) `def validate_route_path(route_path)`
@@ -140,4 +140,4 @@
   - `validate_file_path_within_base` (function, line 150) `def validate_file_path_within_base(file_path, base_dir)`
   - `resolve_contained_file_path` (function, line 174) `def resolve_contained_file_path(raw_url, base_dir)`
 - Depends on: `lazyc2/security/constants.py`
-- Imported by: `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`
+- Imported by: `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`

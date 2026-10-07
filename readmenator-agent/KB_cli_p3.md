@@ -1,0 +1,497 @@
+# Subsystem: cli (page 3 of 4)
+Previous: [KB_cli_p2.md](KB_cli_p2.md)
+
+## cli/ops_commands.py
+- Doc: Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `print_ctx` (function, line 74) `def print_ctx(payload, sessions_dir)`
+  - `tgrep` (function, line 115) `def tgrep(pattern)`
+  - `_search_transcript_jsonl` (function, line 177) `def _search_transcript_jsonl(rx, hits, limit)`
+  - `_search_csv` (function, line 211) `def _search_csv(rx, hits, limit)`
+  - `_search_logs` (function, line 236) `def _search_logs(rx, hits, limit, sessions_dir)`
+  - `_highlight_match` (function, line 265) `def _highlight_match(line, rx)`
+  - `read_phase` (function, line 279) `def read_phase()`
+  - `_phase_rank` (function, line 287) `def _phase_rank(phase)`
+  - `_engagement_phase_to_cli` (function, line 292) `def _engagement_phase_to_cli(phase_value)`
+  - `_cli_phase_to_host_state` (function, line 297) `def _cli_phase_to_host_state(phase)`
+  - `write_phase` (function, line 302) `def write_phase(phase)`
+  - `print_phase` (function, line 317) `def print_phase()`
+  - `_render_progress_bar` (function, line 359) `def _render_progress_bar(ratio)`
+  - `_os_identified` (function, line 366) `def _os_identified(sessions_dir)`
+  - `_glob_count` (function, line 374) `def _glob_count(sessions_dir, pattern)`
+  - `_report_artifact_exists` (function, line 379) `def _report_artifact_exists(sessions_dir)`
+  - `_count_pivots` (function, line 384) `def _count_pivots(sessions_dir)`
+  - `phase_progress` (function, line 392) `def phase_progress(world, sessions_dir)`
+  - `_read_json` (function, line 424) `def _read_json(path)`
+  - `_write_json_atomic` (function, line 432) `def _write_json_atomic(path, data)`
+  - `_count_glob` (function, line 449) `def _count_glob(pattern)`
+  - `note_add` (function, line 467) `def note_add(text, rhost, phase)`
+  - `note_list` (function, line 492) `def note_list(rhost, limit)`
+  - `LootEntry` (class, line 544) `class LootEntry`
+  - `gather_loot` (method, line 570) `def gather_loot(sessions_dir)`
+  - `loot_show` (method, line 613) `def loot_show(sessions_dir)`
+  - `_loot_provenance` (method, line 656) `def _loot_provenance(query, sessions_dir)`
+  - `loot_search` (method, line 685) `def loot_search(query, sessions_dir)`
+  - `_cred_outcomes_for_host` (method, line 730) `def _cred_outcomes_for_host(world, host)`
+  - `_cred_node` (method, line 757) `def _cred_node(value)`
+  - `loot_reuse` (method, line 762) `def loot_reuse(rhost, sessions_dir)`
+  - `loot_graph` (method, line 846) `def loot_graph(sessions_dir)`
+  - `resolve_cred_value` (method, line 916) `def resolve_cred_value(selector, entries)`
+  - `loot_mark` (method, line 944) `def loot_mark(selector, outcome, host, sessions_dir)`
+  - `pivot_add` (method, line 986) `def pivot_add(new_ip, via_ip, note)`
+  - `pivot_list` (method, line 1012) `def pivot_list()`
+  - `_load_tasks` (method, line 1058) `def _load_tasks()`
+  - `_save_tasks` (method, line 1065) `def _save_tasks(tasks)`
+  - `tasks_list` (method, line 1069) `def tasks_list(status_filter, limit)`
+  - `tasks_add` (method, line 1124) `def tasks_add(title, operator)`
+  - `tasks_done` (method, line 1145) `def tasks_done(task_id)`
+  - `tasks_start` (method, line 1165) `def tasks_start(task_id)`
+  - `scans_list` (method, line 1188) `def scans_list(rhost, sessions_dir)`
+  - `sitrep` (method, line 1241) `def sitrep(payload, sessions_dir)`
+  - `_print_next_steps` (method, line 1374) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
+  - `_render_steps` (method, line 1436) `def _render_steps(steps)`
+  - `_read_plan` (method, line 1441) `def _read_plan()`
+  - `_human_age` (method, line 1462) `def _human_age(seconds)`
+  - `_human_size` (method, line 1472) `def _human_size(n)`
+  - `value` (method, line 560) `def value(self)`
+  - `_bucket` (method, line 860) `def _bucket(node)`
+  - `_host_label` (method, line 863) `def _host_label(node)`
+  - `_join` (method, line 900) `def _join(items)`
+- Depends on: `core/console.py`, `modules/killchain.py`, `modules/world_model.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
+
+## cli/output_mode.py
+- Doc: Structured output modes and dry-run rendering for CLI commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `OutputModeConfig` (class, line 20) `class OutputModeConfig`
+  - `OutputMode` (class, line 33) `class OutputMode`
+  - `parse_output_flags` (method, line 43) `def parse_output_flags(args, config)`
+  - `strip_ansi` (method, line 65) `def strip_ansi(text)`
+  - `format_output` (method, line 77) `def format_output(data, mode)`
+  - `dry_run_line` (method, line 98) `def dry_run_line(command)`
+- Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
+
+## cli/palette.py
+- Doc: Read-only loader for ``cli/command_index.json``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandIndexError` (class, line 25) `class CommandIndexError(RuntimeError)`
+  - `load_index` (method, line 30) `def load_index(path)`
+  - `all_commands` (method, line 55) `def all_commands()`
+  - `all_phases` (method, line 72) `def all_phases()`
+  - `all_categories` (method, line 77) `def all_categories()`
+  - `filter_by_phase` (method, line 82) `def filter_by_phase(phase)`
+  - `filter_by_category` (method, line 92) `def filter_by_category(category)`
+  - `search` (method, line 97) `def search(query)`
+  - `get` (method, line 114) `def get(name)`
+  - `duplicates` (method, line 125) `def duplicates()`
+  - `totals` (method, line 130) `def totals()`
+- Imported by: `cli/command_explorer.py`, `cli/command_form.py`, `cli/commands/misc_migrated.py`, `cli/contextual_help.py`, `cli/engagement_hooks.py`, `cli/palette_overlay.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+
+## cli/palette_command.py
+- Doc: Pure logic for the operator-facing ``palette`` command.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PaletteMode` (class, line 33) `class PaletteMode(Enum)`
+  - `PaletteRenderConfig` (class, line 44) `class PaletteRenderConfig`
+  - `PaletteArgs` (class, line 123) `class PaletteArgs`
+  - `PaletteArgumentParser` (class, line 132) `class PaletteArgumentParser`
+  - `PaletteIndexQuery` (class, line 184) `class PaletteIndexQuery`
+  - `PaletteRenderer` (class, line 277) `class PaletteRenderer`
+  - `_filter_phase_rows` (method, line 395) `def _filter_phase_rows(rows, query)`
+  - `_enrich_detail_entry` (method, line 409) `def _enrich_detail_entry(entry)`
+  - `render` (method, line 447) `def render(index, line)`
+  - `PaletteJsonResult` (class, line 487) `class PaletteJsonResult`
+  - `PaletteJsonRenderer` (class, line 514) `class PaletteJsonRenderer`
+  - `render_json` (method, line 566) `def render_json(index, line)`
+  - `PaletteViewConfig` (class, line 605) `class PaletteViewConfig`
+  - `build_palette_view` (method, line 619) `def build_palette_view(index)`
+  - `_enrich_commands_for_view` (method, line 665) `def _enrich_commands_for_view(rows)`
+  - `_ensure_neighbour_keys` (method, line 689) `def _ensure_neighbour_keys(rows)`
+  - `_load_recent_commands` (method, line 712) `def _load_recent_commands()`
+  - `_ordered_phase_ids` (method, line 728) `def _ordered_phase_ids(config, phase_counts)`
+  - `CompletionPosition` (class, line 737) `class CompletionPosition`
+  - `PaletteCompleter` (class, line 744) `class PaletteCompleter`
+  - `truncate_summary` (method, line 107) `def truncate_summary(self, summary)`
+  - `__init__` (method, line 149) `def __init__(self, config)`
+  - `parse` (method, line 152) `def parse(self, line)`
+  - `__init__` (method, line 193) `def __init__(self, index)`
+  - `commands` (method, line 197) `def commands(self)`
+  - `phases` (method, line 203) `def phases(self)`
+  - `phase_counts` (method, line 208) `def phase_counts(self)`
+  - `in_phase` (method, line 213) `def in_phase(self, phase)`
+  - `search` (method, line 218) `def search(self, query)`
+  - `detail` (method, line 234) `def detail(self, target)`
+  - `next_phase` (method, line 249) `def next_phase(self, current)`
+  - `__init__` (method, line 285) `def __init__(self, config)`
+  - `render_overview` (method, line 288) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 304) `def render_phase(self, phase, rows)`
+  - `render_search` (method, line 312) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 320) `def render_detail(self, entry)`
+  - `render_next` (method, line 360) `def render_next(self, phase, rows)`
+  - `_format_neighbours` (method, line 370) `def _format_neighbours(self, values)`
+  - `_ordered_phases` (method, line 376) `def _ordered_phases(self, phase_counts)`
+  - `_format_name_summary_table` (method, line 383) `def _format_name_summary_table(self, header, rows)`
+  - `to_dict` (method, line 502) `def to_dict(self)`
+  - `__init__` (method, line 522) `def __init__(self, config)`
+  - `render_overview` (method, line 525) `def render_overview(self, phase_counts)`
+  - `render_phase` (method, line 532) `def render_phase(self, phase, query, rows)`
+  - `render_search` (method, line 541) `def render_search(self, query, rows)`
+  - `render_detail` (method, line 549) `def render_detail(self, target, entry)`
+  - `render_next` (method, line 557) `def render_next(self, phase, rows)`
+  - `__init__` (method, line 755) `def __init__(self, config)`
+  - `complete` (method, line 758) `def complete(self, text, line, endidx, index)`
+  - `_tokenise` (method, line 784) `def _tokenise(self, line, endidx)`
+  - `_filter_prefix` (method, line 797) `def _filter_prefix(candidates, text)`
+- Depends on: `cli/commands/enum.py`, `cli/palette_graph.py`, `cli/palette_telemetry.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/palette_overlay.py`, `lazyc2.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_palette.py`
+
+## cli/palette_graph.py
+- Doc: Graph-aware neighbour lookups for the operator command palette.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphIndexError` (class, line 39) `class GraphIndexError(RuntimeError)`
+  - `GraphLookupConfig` (class, line 44) `class GraphLookupConfig`
+  - `_looks_like_command_label` (method, line 63) `def _looks_like_command_label(label)`
+  - `_command_name_from_label` (method, line 68) `def _command_name_from_label(label)`
+  - `GraphIndex` (class, line 74) `class GraphIndex`
+  - `_build_adjacency` (method, line 90) `def _build_adjacency(document)`
+  - `load_graph` (method, line 127) `def load_graph(path)`
+  - `safe_load_graph` (method, line 149) `def safe_load_graph(path)`
+  - `_filter_neighbours` (method, line 161) `def _filter_neighbours(neighbours)`
+  - `callees` (method, line 179) `def callees(graph, command_name)`
+  - `related_commands` (method, line 226) `def related_commands(graph, command_name)`
+  - `enrich_detail` (method, line 287) `def enrich_detail(graph, entry)`
+  - `enrich_commands` (method, line 309) `def enrich_commands(graph, rows)`
+- Imported by: `cli/palette_command.py`, `tests/test_command_palette.py`
+
+## cli/palette_overlay.py
+- Doc: Textual Cmd-K palette overlay for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PaletteOverlayConfig` (class, line 38) `class PaletteOverlayConfig`
+  - `PaletteRow` (class, line 59) `class PaletteRow`
+  - `PaletteOverlayState` (class, line 70) `class PaletteOverlayState`
+  - `_load_recents` (method, line 136) `def _load_recents()`
+  - `_load_index` (method, line 151) `def _load_index()`
+  - `build_state` (method, line 162) `def build_state(payload, index, recents, config)`
+  - `launch_overlay` (method, line 188) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (method, line 228) `def _build_app(state, theme)`
+  - `set_query` (method, line 83) `def set_query(self, value)`
+  - `rows` (method, line 87) `def rows(self)`
+  - `_score` (method, line 113) `def _score(self, name, summary, needle, is_recent)`
+  - `_truncate` (method, line 130) `def _truncate(self, value, max_chars)`
+  - `_PaletteOverlayApp` (class, line 240) `class _PaletteOverlayApp(App)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `compose` (method, line 261) `def compose(self)`
+  - `on_mount` (method, line 269) `def on_mount(self)`
+  - `on_input_changed` (method, line 272) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 276) `def on_input_submitted(self, event)`
+  - `on_list_view_selected` (method, line 279) `def on_list_view_selected(self, event)`
+  - `action_cancel` (method, line 282) `def action_cancel(self)`
+  - `action_select_current` (method, line 285) `def action_select_current(self)`
+  - `_commit_from_item` (method, line 292) `def _commit_from_item(self, item)`
+  - `_refresh_rows` (method, line 300) `def _refresh_rows(self)`
+  - `_format_row` (method, line 314) `def _format_row(self, row)`
+- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_telemetry.py`, `cli/themes.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_palette_overlay.py`
+
+## cli/palette_telemetry.py
+- Doc: Behavioural telemetry derived from ``sessions/LazyOwn_session_report.csv``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TelemetryIndexError` (class, line 37) `class TelemetryIndexError(RuntimeError)`
+  - `TelemetryConfig` (class, line 42) `class TelemetryConfig`
+  - `CommandStat` (class, line 61) `class CommandStat`
+  - `TelemetryIndex` (class, line 78) `class TelemetryIndex`
+  - `_normalise_command` (method, line 97) `def _normalise_command(value)`
+  - `_read_csv_rows` (method, line 107) `def _read_csv_rows(path)`
+  - `_build_index` (method, line 123) `def _build_index(rows)`
+  - `load_telemetry` (method, line 186) `def load_telemetry(path)`
+  - `safe_load_telemetry` (method, line 204) `def safe_load_telemetry(path)`
+  - `command_stats` (method, line 216) `def command_stats(telemetry, command_name)`
+  - `runs_after` (method, line 239) `def runs_after(telemetry, command_name)`
+  - `recents` (method, line 259) `def recents(telemetry)`
+  - `enrich_detail` (method, line 275) `def enrich_detail(telemetry, entry)`
+  - `enrich_commands` (method, line 300) `def enrich_commands(telemetry, rows)`
+- Imported by: `cli/palette_command.py`, `cli/palette_overlay.py`, `tests/test_command_palette.py`
+
+## cli/phase_labels.py
+- Doc: Canonical human-readable labels for kill-chain command phases.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `phase_label` (function, line 29) `def phase_label(phase)`
+- Imported by: `cli/contextual_help.py`, `cli/tips_engine.py`, `tests/test_phase_labels.py`
+
+## cli/plugin_tiers.py
+- Doc: Plugin tiers and operator ratings for the marketplace.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `load_tier_manifest` (function, line 35) `def load_tier_manifest(manifest)`
+  - `tier_of` (function, line 61) `def tier_of(name, manifest_tiers, metadata_tier)`
+  - `_load_ratings` (function, line 79) `def _load_ratings(store)`
+  - `rate_plugin` (function, line 98) `def rate_plugin(name, stars, store)`
+  - `rating_summary` (function, line 121) `def rating_summary(name, store)`
+  - `format_rating` (function, line 137) `def format_rating(average, count)`
+  - `default_store` (function, line 144) `def default_store(base_dir)`
+  - `read_metadata_tier` (function, line 149) `def read_metadata_tier(path)`
+- Imported by: `cli/commands/marketplace.py`, `tests/test_input_fuzz.py`, `tests/test_plugin_tiers.py`
+
+## cli/protips.py
+- Doc: Pro tips system for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ProTip` (class, line 34) `class ProTip`
+  - `_os_linux` (method, line 43) `def _os_linux(ctx)`
+  - `_os_windows` (method, line 47) `def _os_windows(ctx)`
+  - `_has_rhost` (method, line 51) `def _has_rhost(ctx)`
+  - `_has_domain` (method, line 55) `def _has_domain(ctx)`
+  - `_has_api_key` (method, line 59) `def _has_api_key(ctx)`
+  - `_phase_in` (method, line 63) `def _phase_in(ctx)`
+  - `_last_cmd_is` (method, line 67) `def _last_cmd_is(ctx)`
+  - `_after` (method, line 75) `def _after(ctx)`
+  - `get_session_tip` (method, line 301) `def get_session_tip(ctx)`
+  - `render_contextual_tip` (method, line 327) `def render_contextual_tip(last_cmd, ctx)`
+  - `print_session_tip` (method, line 357) `def print_session_tip(ctx)`
+  - `_safe_trigger` (method, line 369) `def _safe_trigger(tip, ctx)`
+- Depends on: `cli/noise_verbs.py`, `core/console.py`
+- Imported by: `lazyown.py`, `tests/test_reactive_hints_expanded.py`
+
+## cli/purple_tui.py
+- Doc: Purple Team Dashboard — Textual TUI for engagement monitoring.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_score` (function, line 33) `def _load_score()`
+  - `_load_recent_results` (function, line 42) `def _load_recent_results(n)`
+  - `_dataset_stats` (function, line 56) `def _dataset_stats()`
+  - `_make_bar` (function, line 65) `def _make_bar(value, width)`
+  - `_color_rate` (function, line 70) `def _color_rate(rate)`
+  - `PurpleDashboard` (class, line 79) `class PurpleDashboard(App)`
+  - `launch` (method, line 233) `def launch()`
+  - `compose` (method, line 98) `def compose(self)`
+  - `on_mount` (method, line 108) `def on_mount(self)`
+  - `action_refresh` (method, line 112) `def action_refresh(self)`
+  - `refresh_data` (method, line 115) `def refresh_data(self)`
+  - `_render_score` (method, line 125) `def _render_score(self, score)`
+  - `_render_methods` (method, line 157) `def _render_methods(self, score)`
+  - `_render_actions` (method, line 173) `def _render_actions(self, results)`
+  - `_render_stats` (method, line 205) `def _render_stats(self, score, ds)`
+- Depends on: `cli/commands/containers.py`
+- Imported by: `cli/commands/purple_team.py`
+
+## cli/reactive_hints.py
+- Doc: Non-blocking inline hint renderer for the LazyOwn cmd2 shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `render_inline_hints` (function, line 220) `def render_inline_hints(advisor, last_command, limit, enabled)`
+  - `_first_token` (function, line 262) `def _first_token(raw)`
+  - `_extract_labels` (function, line 267) `def _extract_labels(suggestions, limit)`
+  - `_truncate` (function, line 278) `def _truncate(value, max_len)`
+  - `_render` (function, line 284) `def _render(labels)`
+  - `EvidenceHint` (class, line 299) `class EvidenceHint`
+  - `confidence_from_score` (method, line 321) `def confidence_from_score(score)`
+  - `_clean_reason` (method, line 343) `def _clean_reason(reasons)`
+  - `build_evidence_hints` (method, line 362) `def build_evidence_hints(recommendations, limit)`
+  - `render_evidence_hints` (method, line 400) `def render_evidence_hints(hints)`
+  - `build_evidence_hint_lines` (method, line 416) `def build_evidence_hint_lines(hints)`
+  - `read_run_commands` (method, line 443) `def read_run_commands(sessions_dir)`
+  - `_collect_command_hints` (method, line 476) `def _collect_command_hints(cmd, phase, already_run, limit)`
+  - `render_command_hints` (method, line 514) `def render_command_hints(last_command, phase, sessions_dir, limit, enabled)`
+  - `command_hints` (method, line 549) `def command_hints(last_command, phase, sessions_dir, limit)`
+- Depends on: `cli/graph_advisor.py`, `cli/noise_verbs.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`
+- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/recommendation_signals.py`, `cli/status_bar.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_improvements_spec.py`, `tests/test_reactive_hints.py`, `tests/test_reactive_hints_expanded.py`
+
+## cli/reasoning_stream.py
+- Doc: Operator-facing view over the autonomous daemon decision log.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReasoningEntry` (class, line 66) `class ReasoningEntry`
+  - `read_raw_events` (method, line 91) `def read_raw_events(path, limit)`
+  - `_format_time` (method, line 127) `def _format_time(ts)`
+  - `_format_size` (method, line 134) `def _format_size(num_bytes)`
+  - `_truncate` (method, line 141) `def _truncate(text, limit)`
+  - `_summarize` (method, line 148) `def _summarize(kind, payload)`
+  - `_extract_reward` (method, line 175) `def _extract_reward(payload)`
+  - `event_to_entry` (method, line 183) `def event_to_entry(event)`
+  - `latest_reasoning` (method, line 216) `def latest_reasoning(path, limit)`
+- Depends on: `core/text_utils.py`
+- Imported by: `cli/dashboard_tui.py`, `tests/test_reasoning_stream.py`
+
+## cli/recommendation.py
+- Doc: Unified next-best-action engine: the single source of truth for "what next".
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EngineWeights` (class, line 67) `class EngineWeights`
+  - `RecommendationContext` (class, line 101) `class RecommendationContext`
+  - `Proposal` (class, line 123) `class Proposal`
+  - `Recommendation` (class, line 150) `class Recommendation`
+  - `RecommendationSignal` (class, line 177) `class RecommendationSignal(Protocol)`
+  - `CategoryResolver` (class, line 192) `class CategoryResolver`
+  - `RecommendationEngine` (class, line 232) `class RecommendationEngine`
+  - `_Accumulator` (class, line 362) `class _Accumulator`
+  - `_clamp01` (method, line 400) `def _clamp01(value)`
+  - `_non_negative` (method, line 412) `def _non_negative(value)`
+  - `_load_command_index` (method, line 422) `def _load_command_index(path)`
+  - `propose` (method, line 187) `def propose(self, ctx)`
+  - `__init__` (method, line 201) `def __init__(self, index_path, loader)`
+  - `category_for` (method, line 227) `def category_for(self, action)`
+  - `__init__` (method, line 240) `def __init__(self, signals, resolver, weights)`
+  - `recommend` (method, line 258) `def recommend(self, ctx)`
+  - `_safe_propose` (method, line 280) `def _safe_propose(signal, ctx)`
+  - `_build_category_priors` (method, line 287) `def _build_category_priors(self, collected)`
+  - `_fuse_concrete_actions` (method, line 302) `def _fuse_concrete_actions(self, collected, priors)`
+  - `_category_recommendations` (method, line 331) `def _category_recommendations(self, collected, concrete)`
+  - `add` (method, line 374) `def add(self, source, contribution, proposal)`
+  - `build` (method, line 386) `def build(self)`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
+
+## cli/recommendation_signals.py
+- Doc: Concrete :class:`cli.recommendation.RecommendationSignal` adapters.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_load_world_model` (function, line 67) `def _load_world_model(sessions_dir)`
+  - `_rank_weight` (function, line 90) `def _rank_weight(index, total)`
+  - `GraphSignal` (class, line 110) `class GraphSignal`
+  - `PolicySignal` (class, line 148) `class PolicySignal`
+  - `ReconPlanSignal` (class, line 185) `class ReconPlanSignal`
+  - `KillChainSignal` (class, line 224) `class KillChainSignal`
+  - `read_recent_commands` (method, line 275) `def read_recent_commands(sessions_dir, window)`
+  - `build_context` (method, line 308) `def build_context(payload, sessions_dir, target, limit)`
+  - `PlaybookSignal` (class, line 337) `class PlaybookSignal`
+  - `KillchainGapSignal` (class, line 386) `class KillchainGapSignal`
+  - `GraphTopologySignal` (class, line 531) `class GraphTopologySignal`
+  - `_try_build_playbook_signal` (method, line 638) `def _try_build_playbook_signal()`
+  - `build_default_engine` (method, line 649) `def build_default_engine(payload, sessions_dir, graph_path, command_index_path, weights)`
+  - `recommend_with_evidence` (method, line 705) `def recommend_with_evidence(payload, sessions_dir, target, phase, limit, engine)`
+  - `_try_build_graph_signal` (method, line 742) `def _try_build_graph_signal(graph_path)`
+  - `_try_build_policy_signal` (method, line 756) `def _try_build_policy_signal()`
+  - `_try_build_recon_signal` (method, line 772) `def _try_build_recon_signal(payload)`
+  - `_build_killchain_signal` (method, line 785) `def _build_killchain_signal()`
+  - `__init__` (method, line 115) `def __init__(self, advisor)`
+  - `propose` (method, line 125) `def propose(self, ctx)`
+  - `__init__` (method, line 153) `def __init__(self, policy)`
+  - `propose` (method, line 162) `def propose(self, ctx)`
+  - `__init__` (method, line 190) `def __init__(self, engine, builder)`
+  - `propose` (method, line 200) `def propose(self, ctx)`
+  - `__init__` (method, line 229) `def __init__(self, next_table, phase_table)`
+  - `propose` (method, line 243) `def propose(self, ctx)`
+  - `__init__` (method, line 346) `def __init__(self, playbook_engine)`
+  - `propose` (method, line 355) `def propose(self, ctx)`
+  - `__init__` (method, line 406) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 409) `def propose(self, ctx)`
+  - `_gap_exploited_no_privesc` (method, line 425) `def _gap_exploited_no_privesc(self, hosts)`
+  - `_gap_owned_no_creds` (method, line 465) `def _gap_owned_no_creds(self, hosts, wm_data)`
+  - `_gap_scan_no_enum` (method, line 485) `def _gap_scan_no_enum(self, hosts, recent)`
+  - `_gap_creds_no_lateral` (method, line 507) `def _gap_creds_no_lateral(self, wm_data, hosts)`
+  - `__init__` (method, line 542) `def __init__(self, sessions_dir)`
+  - `propose` (method, line 545) `def propose(self, ctx)`
+  - `_compute_centrality` (method, line 603) `def _compute_centrality(graph_data)`
+- Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+
+## cli/recon_plan.py
+- Doc: Reconnaissance plan generator built on top of :mod:`cli.exploration`.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReconPlanConfig` (class, line 62) `class ReconPlanConfig`
+  - `ReconPlanItem` (class, line 94) `class ReconPlanItem`
+  - `ReconPlan` (class, line 119) `class ReconPlan`
+  - `build_recon_plan` (method, line 144) `def build_recon_plan(target, engine, payload, config, command_index_loader, clock)`
+  - `render_markdown` (method, line 207) `def render_markdown(plan)`
+  - `write_plan` (method, line 257) `def write_plan(plan, sessions_dir, config)`
+  - `render_rich` (method, line 299) `def render_rich(plan, console)`
+  - `_addon_items` (method, line 330) `def _addon_items(addons, services, payload)`
+  - `_tool_items` (method, line 347) `def _tool_items(tools, services, payload)`
+  - `_command_items` (method, line 367) `def _command_items(index, phase, history, limit)`
+  - `_service_for_trigger` (method, line 414) `def _service_for_trigger(trigger, services)`
+  - `_tool_command_preview` (method, line 428) `def _tool_command_preview(tool, payload)`
+  - `_read_tool_command` (method, line 449) `def _read_tool_command(source_path)`
+  - `_payload_target` (method, line 466) `def _payload_target(payload, config)`
+  - `_resolve_phase` (method, line 474) `def _resolve_phase(payload, config)`
+  - `_safe_filename_component` (method, line 486) `def _safe_filename_component(value)`
+  - `_default_command_index_loader` (method, line 494) `def _default_command_index_loader(path)`
+  - `is_empty` (method, line 139) `def is_empty(self)`
+- Depends on: `cli/exploration.py`, `modules/killchain.py`
+- Imported by: `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
+
+## cli/registry.py
+- Doc: ``cmd2.CommandSet`` discovery and registration for ``cli.commands``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `iter_command_sets` (function, line 41) `def iter_command_sets(include_pending)`
+  - `register_command_sets` (function, line 77) `def register_command_sets(shell)`
+- Depends on: `cli/commands/_dormancy.py`
+- Imported by: `cli/__init__.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_improvements_spec.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+
+## cli/scope_guard.py
+- Doc: Authorization scope guard for offensive command execution.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScopeMode` (class, line 69) `class ScopeMode(StrEnum)`
+  - `ScopeDecision` (class, line 104) `class ScopeDecision`
+  - `build_offensive_commands` (method, line 126) `def build_offensive_commands(command_categories)`
+  - `normalize_scope` (method, line 142) `def normalize_scope(entries)`
+  - `_parse_ip` (method, line 174) `def _parse_ip(value)`
+  - `_parse_network` (method, line 181) `def _parse_network(value)`
+  - `_hostname_match` (method, line 188) `def _hostname_match(target, entry)`
+  - `target_in_scope` (method, line 197) `def target_in_scope(target, entries)`
+  - `ScopeGuard` (class, line 233) `class ScopeGuard`
+  - `from_value` (method, line 84) `def from_value(cls, value)`
+  - `__init__` (method, line 242) `def __init__(self, scope_entries, mode, is_offensive)`
+  - `evaluate` (method, line 262) `def evaluate(self, command, target)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `lazyown.py`, `tests/test_scope_guard.py`
+
+## cli/session_hud.py
+- Doc: Compact session HUD: the numbers no other command shows.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `HudConfig` (class, line 25) `class HudConfig`
+  - `HudSnapshot` (class, line 50) `class HudSnapshot`
+  - `count_lines_in_globs` (method, line 62) `def count_lines_in_globs(root, patterns)`
+  - `count_csv_rows` (method, line 83) `def count_csv_rows(path)`
+  - `format_elapsed` (method, line 100) `def format_elapsed(seconds)`
+  - `phase_bar` (method, line 115) `def phase_bar(phase, width)`
+  - `_engagement_facts` (method, line 135) `def _engagement_facts()`
+  - `build_snapshot` (method, line 155) `def build_snapshot(params, config)`
+  - `render_snapshot` (method, line 180) `def render_snapshot(snapshot, config)`
+- Depends on: `cli/engagement_hooks.py`
+- Imported by: `cli/commands/ux.py`
+
+## cli/session_resumer.py
+- Doc: Session resumer for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SessionSummary` (class, line 29) `class SessionSummary`
+  - `SessionResumerConfig` (class, line 41) `class SessionResumerConfig`
+  - `SessionResumer` (class, line 51) `class SessionResumer`
+  - `__init__` (method, line 58) `def __init__(self, config)`
+  - `_discover_targets` (method, line 62) `def _discover_targets(self)`
+  - `render_startup_panel` (method, line 129) `def render_startup_panel(self)`
+- Depends on: `core/console.py`, `core/logging.py`
+- Imported by: `cli/commands/session_ops.py`
+
+
+Next: [KB_cli_p4.md](KB_cli_p4.md)

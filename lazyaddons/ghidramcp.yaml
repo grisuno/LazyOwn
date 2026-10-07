@@ -1,19 +1,18 @@
 name: ghidramcp
 description: |
-  GhidraMCP bridge - MCP server exposing Ghidra decompile/rename/xrefs to LLMs.
-  First time: install Ghidra, add release zip via File Install Extensions, enable
-  GhidraMCPPlugin, then sys pip install -r requirements.txt happens on clone.
-  Flow: open binary in Ghidra, start MCP HTTP server, then assign ghidra_server
-  http://127.0.0.1:8080/ and run ghidramcp. Append --transport sse as free args.
+  GhidraMCP - MCP server exposing Ghidra RE tools (decompile, rename, list methods) to LLMs.
+  First clone auto-installs the Python bridge deps. Then in Ghidra: install GhidraMCP-release-1-4.zip
+  via File -> Install Extensions, enable the plugin, open the target binary. Flow: assign
+  ghidra_server http://127.0.0.1:8080/ then ghidramcp. Extra flags append as free args.
 author: LaurieWired
-version: "1.2"
+version: "1.4"
 enabled: true
 params:
-  - name: ghidra_server
-    type: string
-    required: false
-    default: http://127.0.0.1:8080/
-    description: Ghidra MCP HTTP server URL. Set with assign ghidra_server URL.
+- name: ghidra_server
+  type: string
+  required: false
+  default: http://127.0.0.1:8080/
+  description: URL of the GhidraMCP HTTP server inside Ghidra. Change with assign ghidra_server <url>.
 os: any
 trigger: []
 category: "03. Exploitation"
@@ -22,4 +21,4 @@ tool:
   repo_url: https://github.com/LaurieWired/GhidraMCP.git
   install_path: external/.exploit/GhidraMCP
   install_command: pip install --break-system-packages -r requirements.txt || pip install -r requirements.txt
-  execute_command: python3 bridge_mcp_ghidra.py --ghidra-server {ghidra_server} --transport stdio
+  execute_command: python3 bridge_mcp_ghidra.py --ghidra-server {ghidra_server}

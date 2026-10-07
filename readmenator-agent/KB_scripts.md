@@ -1,13 +1,13 @@
 # Subsystem: scripts
 
 ## scripts/__init__.py
+- Doc: Repository-side maintenance scripts.
 - Layer: utility
-- Doc: Repository-side maintenance scripts.  Modules in this package are entry points for the developer workflow (index generat
 - Language: py
 
 ## scripts/activate_migrations.py
+- Doc: Activate dormant CommandSet migrations.
 - Layer: data_access
-- Doc: Activate dormant CommandSet migrations.  Usage: python3 scripts/activate_migrations.py [--dry-run] [--phase <name>]  Sca
 - Language: py
 - Symbols:
   - `MigrationError` (class, line 28) `class MigrationError(Exception)`
@@ -19,8 +19,8 @@
   - `main` (method, line 88) `def main()`
 
 ## scripts/backfill_addon_os_trigger.py
+- Doc: One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon.
 - Layer: utility
-- Doc: One-shot backfill: add ``os`` and ``trigger`` keys to every lazyaddon.  This script is idempotent. It scans ``lazyaddons
 - Language: py
 - Symbols:
   - `classify_os` (function, line 104) `def classify_os(filename)`
@@ -30,8 +30,8 @@
   - `main` (function, line 175) `def main()`
 
 ## scripts/check_contract_manifest.py
+- Doc: Verify that documented contracts still exist on disk.
 - Layer: utility
-- Doc: Verify that documented contracts still exist on disk.  The repository publishes contract tables and public import exampl
 - Language: py
 - Symbols:
   - `ManifestConfig` (class, line 34) `class ManifestConfig`
@@ -54,8 +54,8 @@
 - Language: py
 
 ## scripts/generate_sbom.py
+- Doc: Generate a minimal CycloneDX SBOM from the pinned requirements files.
 - Layer: utility
-- Doc: Generate a minimal CycloneDX SBOM from the pinned requirements files.  Stdlib only, no network: parses ``requirements.tx
 - Language: py
 - Symbols:
   - `parse_requirement` (function, line 25) `def parse_requirement(line)`
@@ -65,8 +65,8 @@
   - `main` (function, line 92) `def main()`
 
 ## scripts/journal.py
+- Doc: Read-before-you-write journal over GitHub Discussions.
 - Layer: utility
-- Doc: Read-before-you-write journal over GitHub Discussions.  I keep a durable engineering journal in a GitHub Discussion cate
 - Language: py
 - Symbols:
   - `JournalError` (class, line 48) `class JournalError(RuntimeError)`
@@ -86,8 +86,8 @@
 - Imported by: `scripts/read_journal.py`, `tests/test_journal.py`
 
 ## scripts/migrate_commandsets.py
+- Doc: Merge _migrated.py CommandSet methods into clean phase modules.
 - Layer: utility
-- Doc: Merge _migrated.py CommandSet methods into clean phase modules.  Reads each ``*_migrated.py`` file under ``cli/commands/
 - Language: py
 - Symbols:
   - `_extract_method_source` (function, line 38) `def _extract_method_source(source, method_name)`
@@ -98,8 +98,8 @@
   - `main` (function, line 158) `def main()`
 
 ## scripts/migrate_lazyown.py
+- Doc: Staged migration script: extract do_* methods from lazyown.py into cli/commands/.
 - Layer: utility
-- Doc: Staged migration script: extract do_* methods from lazyown.py into cli/commands/.  Usage: python3 scripts/migrate_lazyow
 - Language: py
 - Symbols:
   - `_category_from_decorator` (function, line 70) `def _category_from_decorator(decorator)`
@@ -111,8 +111,8 @@
 - Imported by: `tests/test_migrate_lazyown_generator.py`
 
 ## scripts/mutate.sh
+- Doc: Mutation gate for LazyOwn.
 - Layer: utility
-- Doc: Mutation gate for LazyOwn.  The gate runs the curated mutation runners under tests/. Each runner mutates one production 
 - Language: sh
 - Symbols:
   - `runners` (function, line 29)
@@ -120,27 +120,27 @@
   - `usage` (function, line 40)
 
 ## scripts/patch_playbook_atomic_ids.py
+- Doc: Patch APT playbooks: replace placeholder atomic_ids with real technique_ids.
 - Layer: utility
-- Doc: Patch APT playbooks: replace placeholder atomic_ids with real technique_ids.  This ensures do_atomic_gen can find real A
 - Language: py
 
 ## scripts/publish_wiki.sh
+- Doc: Publish LazyOwn documentation to the GitHub wiki.
 - Layer: utility
-- Doc: Publish LazyOwn documentation to the GitHub wiki.  The wiki is a separate git repository (https://github.com/grisuno/Laz
 - Language: sh
 - Symbols:
   - `log` (function, line 37)
   - `fail` (function, line 38)
   - `write_home` (function, line 58)
-  - `write_installation` (function, line 91)
-  - `write_c2_api` (function, line 140)
-  - `write_plugins` (function, line 164)
-  - `write_sidebar` (function, line 178)
-  - `write_footer` (function, line 197)
+  - `write_installation` (function, line 92)
+  - `write_c2_api` (function, line 150)
+  - `write_plugins` (function, line 174)
+  - `write_sidebar` (function, line 188)
+  - `write_footer` (function, line 207)
 
 ## scripts/read_journal.py
+- Doc: Print the recent engineering journal before a change is written.
 - Layer: utility
-- Doc: Print the recent engineering journal before a change is written.  This is the read half of the read-before-you-write loo
 - Language: py
 - Symbols:
   - `_build_parser` (function, line 19) `def _build_parser()`
@@ -148,20 +148,20 @@
 - Depends on: `scripts/journal.py`
 
 ## scripts/setup_hermes_mcp.sh
+- Doc: — register LazyOwn MCP server in Hermes Agent config Usage: bash scripts/setup_hermes_mcp.sh...
 - Layer: infrastructure
-- Doc: setup_hermes_mcp.sh — register LazyOwn MCP server in Hermes Agent config Usage: bash scripts/setup_hermes_mcp.sh [--chec
 - Language: sh
 
 ## scripts/smoke_onboarding.sh
-- Layer: infrastructure
 - Doc: Smoke test for the 5-minute onboarding path.
+- Layer: utility
 - Language: sh
 - Symbols:
   - `check` (function, line 8)
 
 ## scripts/sync_doc_stats.py
+- Doc: Sync documentation numbers with the live codebase — single source of truth.
 - Layer: utility
-- Doc: Sync documentation numbers with the live codebase — single source of truth.  Counts are measured from the code itself an
 - Language: py
 - Symbols:
   - `canonical_command_count` (function, line 87) `def canonical_command_count(root)`
@@ -172,16 +172,16 @@
   - `main` (function, line 165) `def main()`
 
 ## scripts/test_bdd.sh
+- Doc: Behavior-driven (BDD) suite gate for LazyOwn.
 - Layer: testing
-- Doc: Behavior-driven (BDD) suite gate for LazyOwn.  Every BDD scenario lives in a pytest module whose tests state the Given, 
 - Language: sh
 - Symbols:
   - `bdd_modules` (function, line 33)
   - `changed_tests` (function, line 37)
 
 ## scripts/top_tier_check.py
+- Doc: Top-tier hygiene audit for LazyOwn.
 - Layer: utility
-- Doc: Top-tier hygiene audit for LazyOwn.  Fails (exit 1) on any credibility blocker: - version drift between README / pyproje
 - Language: py
 - Symbols:
   - `fail` (function, line 23) `def fail(message)`
@@ -196,16 +196,16 @@
   - `main` (function, line 116) `def main()`
 
 ## scripts/update_apt_atomic_ids.py
+- Doc: Update APT playbooks with real Atomic Red Team test IDs.
 - Layer: utility
-- Doc: Update APT playbooks with real Atomic Red Team test IDs.  Scans the Atomic Red Team repository (already cloned by the us
 - Language: py
 - Symbols:
   - `build_technique_index` (function, line 22) `def build_technique_index(atomics_path)`
   - `update_playbooks` (function, line 46) `def update_playbooks(index, playbook_dir)`
 
 ## scripts/validate_agent_contract.sh
+- Doc: CI validation of the AGENTS.md branching model and coding standards.
 - Layer: utility
-- Doc: validate_agent_contract.sh  CI validation of the AGENTS.md branching model and coding standards. Called by .github/workf
 - Language: sh
 - Symbols:
   - `check` (function, line 23)

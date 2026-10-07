@@ -8,7 +8,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (89 connections)
+### Q: What does utils.py depend on, and what depends on it? (90 connections)
 
 - Status: unanswered
 
@@ -16,7 +16,7 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: How are the 176 files in 'cli/commands' related to each other?
+### Q: How are the 142 files in 'modules: autonomous_daemon' related to each other?
 
 - Status: unanswered
 

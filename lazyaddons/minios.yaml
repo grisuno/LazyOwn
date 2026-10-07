@@ -1,0 +1,18 @@
+name: minios
+description: |
+  MiniOS 64-bit teaching OS by grisuno. Type minios to pull latest code, rebuild if changed, and boot with KVM (make run-kvm).
+  First time: clone plus make runs once automatically.
+  Flow: minios (extra make targets appended as free args, e.g. minios run-headless).
+  Requirements: Linux operator host with QEMU, KVM, gcc and make.
+author: grisuno
+version: "1.0"
+enabled: true
+os: any
+trigger: []
+category: 12. Miscellaneous
+tool:
+  name: MiniOS
+  repo_url: https://github.com/grisuno/miniOS.git
+  install_path: external/.exploit/miniOS
+  install_command: make sources && make
+  execute_command: git pull --ff-only || true; make sources-update || true; make && make run-kvm

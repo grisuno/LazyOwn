@@ -197,6 +197,12 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
         """
         os_json = []
         rhost = self.params['rhost']
+        shell = self._resolve_shell()
+
+        def _set_exit(code: int) -> None:
+            if shell is not None:
+                shell.exit_code = code
+
         if check_rhost(self.params['rhost']):
             print_msg(f"Try... ping -c 1 {self.params['rhost']} ")
             result = subprocess.run(
@@ -204,6 +210,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
             )
 
             if result.returncode == 0:
+                _set_exit(0)
                 try:
                     ttl_index = result.stdout.find("ttl=")
                     if ttl_index != -1:
@@ -253,6 +260,7 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                     print_error("Could not convert TTL to an integer")
             else:
                 print_error("Ping to host failed")
+                _set_exit(1)
             print_msg(f"Done... ping -c 1 {self.params['rhost']} ")
             with open('sessions/os.json', 'w') as json_file:
                 json.dump(os_json, json_file, indent=4)
@@ -269,6 +277,8 @@ class ReconMigratedCommandSet(LazyOwnCommandSet):
                 except Exception:
                     pass
                 print_msg(f"os_id set to {detected_os_id} ({detected_os_name}) — persisted to payload.json")
+        else:
+            _set_exit(1)
         return
 
     @cmd2.with_category("01. Reconnaissance")

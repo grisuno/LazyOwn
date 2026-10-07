@@ -60,6 +60,16 @@ if [ "$(id -u)" -ne 0 ]; then
     SUDO_KEEPALIVE_PID=$!
 fi
 
+# Best-effort ownership fixup: scans run under sudo leave root-owned files
+# behind, and only root can chown those. Try passwordless sudo first, fall
+# back to a plain call, and stay silent when neither is permitted (non-fatal:
+# the scan artefacts themselves are already written at this point).
+fix_sessions_owner() {
+    sudo -n chown 1000:1000 sessions -R 2>/dev/null || chown 1000:1000 sessions -R 2>/dev/null || true
+    sudo -n chmod 755 sessions -R 2>/dev/null || chmod 755 sessions -R 2>/dev/null || true
+}
+export -f fix_sessions_owner
+
 DIRECTORIO="./sessions"
 ARCHIVO="$DIRECTORIO/nmap-bootstrap.xsl"
 gum log --time rfc822 --level info "Start LazyNmap"
@@ -772,8 +782,7 @@ gum style \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
  "    [*] File generated: $OUTPUT_HTML"
 
-gum spin --spinner dot --title "Chown files to 1000..." -- chown 1000:1000 sessions -R
-gum spin --spinner dot --title "Chmod 755 on sessions..." -- chmod 755 sessions -R
+gum spin --spinner dot --title "Chown files to 1000..." -- bash -c fix_sessions_owner
 
 if [ "$DISCOVER_NETWORK" = true ]; then
 	discover_network
@@ -1519,6 +1528,5 @@ gum style \
 	--foreground 212 --border-foreground 212 --border double \
 	--align center --width 50 --margin "1 2" --padding "2 4" \
 	"    [t] The Execution time was:: $EXECUTION_TIME seconds."
-gum spin --spinner dot --title "Chown files to user 1000..." -- chown 1000:1000 sessions -R
-gum spin --spinner dot --title "Chmod 755 on sessions..." -- chmod 755 sessions -R
+gum spin --spinner dot --title "Chown files to user 1000..." -- bash -c fix_sessions_owner
 gum log --time rfc822 --level info "The End"

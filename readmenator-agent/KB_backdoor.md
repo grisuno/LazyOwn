@@ -13,7 +13,7 @@ str_cut(char str[], int slice_from, int slice_to)`
 - Depends on: `modules/backdoor/keylogger.h`
 
 ## modules/backdoor/keylogger.h
-- Layer: infrastructure
+- Layer: utility
 - Language: h
 - Symbols:
   - `logg` (function, line 1) `DWORD WINAPI logg(LPVOID lpParam)`

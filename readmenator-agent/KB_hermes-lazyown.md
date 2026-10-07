@@ -1,13 +1,13 @@
 # Subsystem: hermes-lazyown
 
 ## skills/hermes-lazyown/__init__.py
+- Doc: Hermes-LazyOwn integration package.
 - Layer: utility
-- Doc: Hermes-LazyOwn integration package.  Provides a Hermes-native MCP server and supporting modules for the LazyOwn red-team
 - Language: py
 
 ## skills/hermes-lazyown/claudemd_rules.py
+- Doc: Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.
 - Layer: business_logic
-- Doc: Dynamic Claude.md rule generator for the Hermes-LazyOwn integration.  Produces instruction snippets that Hermes injects 
 - Language: py
 - Symbols:
   - `RuleSetBuilder` (class, line 15) `class RuleSetBuilder`
@@ -28,8 +28,8 @@
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
 ## skills/hermes-lazyown/config_bridge.py
+- Doc: Configuration bridge: unifies LazyOwn payload.json, environment variables, and fallback defaults...
 - Layer: infrastructure
-- Doc: Configuration bridge: unifies LazyOwn payload.json, environment variables, and fallback defaults into a single read-only
 - Language: py
 - Symbols:
   - `ConfigBridgeError` (class, line 17) `class ConfigBridgeError(Exception)`
@@ -52,8 +52,8 @@
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
 ## skills/hermes-lazyown/constants.py
+- Doc: Central constants for the Hermes-LazyOwn integration layer.
 - Layer: utility
-- Doc: Central constants for the Hermes-LazyOwn integration layer.  All paths, timeouts, and thresholds are derived from enviro
 - Language: py
 - Symbols:
   - `ConfigKeys` (class, line 12) `class ConfigKeys`
@@ -75,8 +75,8 @@
 - Imported by: `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/hermes-lazyown/output_compactor.py`
 
 ## skills/hermes-lazyown/executor.py
+- Doc: LazyOwn command executor for the Hermes-LazyOwn integration.
 - Layer: utility
-- Doc: LazyOwn command executor for the Hermes-LazyOwn integration.  Wraps subprocess interaction with the LazyOwn CLI in a rob
 - Language: py
 - Symbols:
   - `ExecutionResult` (class, line 21) `class ExecutionResult`
@@ -96,8 +96,8 @@
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
 ## skills/hermes-lazyown/hermes_sync.py
+- Doc: Hermes-native synchronization layer.
 - Layer: utility
-- Doc: Hermes-native synchronization layer.  Bridges LazyOwn session state with Hermes agent primitives: - todo list sync (Herm
 - Language: py
 - Symbols:
   - `HermesSyncError` (class, line 21) `class HermesSyncError(Exception)`
@@ -118,8 +118,8 @@
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
 ## skills/hermes-lazyown/mcp_server.py
+- Doc: Hermes-native MCP server for LazyOwn.
 - Layer: utility
-- Doc: Hermes-native MCP server for LazyOwn.  Provides a compact, namespaced tool surface optimized for Hermes agent context wi
 - Language: py
 - Symbols:
   - `_get_config` (function, line 45) `def _get_config()`
@@ -153,8 +153,8 @@
 - Depends on: `modules/backdoor/server.c`, `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/constants.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/output_compactor.py`
 
 ## skills/hermes-lazyown/output_compactor.py
+- Doc: Phase-aware output compaction for the Hermes-LazyOwn integration.
 - Layer: utility
-- Doc: Phase-aware output compaction for the Hermes-LazyOwn integration.  Security tools produce verbose output. Hermes context
 - Language: py
 - Symbols:
   - `CompactionResult` (class, line 17) `class CompactionResult`

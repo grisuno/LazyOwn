@@ -1,8 +1,8 @@
 # Subsystem: devtools
 
 ## scripts/devtools/command_audit.py
-- Layer: infrastructure
-- Doc: Audit every registered shell command for dispatch and parser errors.  The audit boots the cmd2 shell once, runs ``help``
+- Doc: Audit every registered shell command for dispatch and parser errors.
+- Layer: utility
 - Language: py
 - Symbols:
   - `AuditConfig` (class, line 25) `class AuditConfig`
@@ -12,8 +12,8 @@
 - Depends on: `lazyown.py`
 
 ## scripts/devtools/core_smoke.py
+- Doc: Smoke check for the public surfaces documented in CORE.md.
 - Layer: utility
-- Doc: Smoke check for the public surfaces documented in CORE.md.  I run this before a release and after a refactor that touche
 - Language: py
 - Symbols:
   - `SmokeConfig` (class, line 20) `class SmokeConfig`

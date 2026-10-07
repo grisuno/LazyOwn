@@ -1,14 +1,14 @@
 # Subsystem: widgets
 
 ## lazygui/widgets/__init__.py
+- Doc: Reusable widgets.
 - Layer: presentation
-- Doc: Reusable widgets.  Each widget is owned by a single concern and accepts the global :class:`AppConstants` plus the active
 - Language: py
 - Depends on: `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/status_badge.py`, `lazygui/widgets/terminal_view.py`
 
 ## lazygui/widgets/beacon_command_modal.py
+- Doc: Beacon command modal — send commands to beacons and inspect full history.
 - Layer: presentation
-- Doc: Beacon command modal — send commands to beacons and inspect full history.  The modal is the primary operator surface for
 - Language: py
 - Symbols:
   - `_HistoryEntry` (class, line 35) `class _HistoryEntry`
@@ -29,8 +29,8 @@
 - Imported by: `lazygui/windows/main_window.py`
 
 ## lazygui/widgets/command_palette_list.py
-- Layer: presentation
 - Doc: Result list and action model for the command palette.
+- Layer: presentation
 - Language: py
 - Symbols:
   - `CommandPaletteAction` (class, line 16) `class CommandPaletteAction`
@@ -47,8 +47,8 @@
 - Imported by: `lazygui/widgets/__init__.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/widgets/event_log_view.py
-- Layer: presentation
 - Doc: Read-only viewer for :class:`EventLog` records.
+- Layer: presentation
 - Language: py
 - Symbols:
   - `EventLogView` (class, line 20) `class EventLogView(QTreeWidget)`
@@ -61,8 +61,8 @@
 - Imported by: `lazygui/panels/event_log_panel.py`, `lazygui/widgets/__init__.py`
 
 ## lazygui/widgets/filter_bar.py
-- Layer: presentation
 - Doc: Reusable text-filter bar with debounced ``filter_changed`` signal.
+- Layer: presentation
 - Language: py
 - Symbols:
   - `FilterBar` (class, line 11) `class FilterBar(QWidget)`
@@ -75,8 +75,8 @@
 - Imported by: `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/widgets/__init__.py`
 
 ## lazygui/widgets/graph_view.py
+- Doc: Interactive attack topography graph widget.
 - Layer: presentation
-- Doc: Interactive attack topography graph widget.  Renders the C2 beacon graph using Qt Graphics Framework (QGraphicsView). No
 - Language: py
 - Symbols:
   - `_resolve_icon_dir` (function, line 47) `def _resolve_icon_dir()`
@@ -124,8 +124,8 @@
 - Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
 
 ## lazygui/widgets/status_badge.py
-- Layer: presentation
 - Doc: Compact label that reflects a :class:`BackendStatus` value.
+- Layer: presentation
 - Language: py
 - Symbols:
   - `StatusBadge` (class, line 18) `class StatusBadge(QLabel)`
@@ -135,8 +135,8 @@
 - Imported by: `lazygui/widgets/__init__.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/widgets/terminal_view.py
+- Doc: ANSI-aware terminal viewer.
 - Layer: presentation
-- Doc: ANSI-aware terminal viewer.  Strips ANSI escape codes and control characters before appending text. Handles cmd2 prompt 
 - Language: py
 - Symbols:
   - `TerminalView` (class, line 33) `class TerminalView(QPlainTextEdit)`

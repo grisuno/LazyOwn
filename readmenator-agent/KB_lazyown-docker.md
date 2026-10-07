@@ -1,12 +1,12 @@
 # Subsystem: lazyown-docker
 
 ## lazyown-docker/entrypoint.sh
-- Layer: utility
 - Doc: LazyOwn Entrypoint Script Initializes LazyOwn framework in a Docker container with tmux sessions
+- Layer: utility
 - Language: sh
 
 ## lazyown-docker/hostdiscover.sh
-- Layer: infrastructure
+- Layer: utility
 - Language: sh
 - Symbols:
   - `extract_ips_from_arp` (function, line 21)
@@ -15,11 +15,11 @@
 ## lazyown-docker/init.sh
 - Layer: utility
 - Language: sh
-- Imported by: `modules/rootkit/rootkit.c`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/particles.js`, `static/js/quill-2.0.3.js`, `static/js/quill-2.0.3.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `static/js/vis-network.min.js`, `static/js/vis-network.min.js`, `static/js/vis-network.min.js`, `static/js/xterm.js`, `static/js/xterm.js`, `static/js/xterm.js`
+- Imported by: `modules/rootkit/rootkit.c`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/particles.js`, `static/js/quill-2.0.3.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `static/js/xterm.js`
 
 ## lazyown-docker/mkdocker.sh
+- Doc: LazyOwn Dockerizer Script Builds, runs, and manages Docker containers for LazyOwn red teaming...
 - Layer: utility
-- Doc: LazyOwn Dockerizer Script Builds, runs, and manages Docker containers for LazyOwn red teaming framework
 - Language: sh
 - Symbols:
   - `usage` (function, line 23)

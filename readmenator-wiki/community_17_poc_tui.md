@@ -1,57 +1,55 @@
 # poc_tui
 
-*Community 17 | 4 files | cohesion 0.60*
+*Community 17 | 2 files | cohesion 1.00*
 
 ## Definition
 
-This community groups 4 file(s) rooted at `poc_tui` with dominant language py (cohesion 0.60). Central symbols: `DashboardPanel`, `LazyOwnTUI`, `OutputPanel`, `PluginBrowser`, `ShellBackend`, `TestLazyOwnTUIApp`, `TestShellBackend`, `__init__`. Core file: `poc_tui/test_app.py` (56 symbols). Documented purpose: Entry point: python3 -m poc_tui.
+This community groups 2 file(s) rooted at `poc_tui` with dominant language py (cohesion 1.00). Central symbols: `PayloadConfig`, `PluginLoader`, `PluginSpec`, `_LuaAppProxy`, `__contains__`, `__getitem__`, `__init__`, `__post_init__`. Core file: `poc_tui/plugin_loader.py` (22 symbols). Documented purpose: Payload.json configuration manager for the TUI shell..
 
 ## Files
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `poc_tui/__main__.py` | py | presentation | 0 | yes |
-| `poc_tui/app.py` | py | presentation | 47 | yes |
-| `poc_tui/run.py` | py | presentation | 1 | yes |
-| `poc_tui/test_app.py` | py | testing | 56 | yes |
+| `poc_tui/config.py` | py | infrastructure | 11 | yes |
+| `poc_tui/plugin_loader.py` | py | infrastructure | 22 | yes |
 
 ## Key Symbols
 
-- `ShellBackend` (class, `poc_tui/app.py:44`) `class ShellBackend` - Run the real cmd2 LazyOwnShell in-process, capture all output.
-- `__init__` (method, `poc_tui/app.py:47`) `def __init__(self, base_dir)`
-- `import_shell_class` (method, `poc_tui/app.py:53`) `def import_shell_class(self)` - Import LazyOwnShell in the main thread (required for signal handlers).
-- `start` (method, `poc_tui/app.py:71`) `def start(self)` - Instantiate LazyOwnShell (must be called from main thread).
-- `run` (method, `poc_tui/app.py:83`) `def run(self, cmd)` - Execute a command and return its captured output.
-- `get_commands` (method, `poc_tui/app.py:106`) `def get_commands(self)` - Return {command_name: help_text} from the live shell.
-- `get_aliases` (method, `poc_tui/app.py:119`) `def get_aliases(self)`
-- `stop` (method, `poc_tui/app.py:124`) `def stop(self)`
-- `DashboardPanel` (class, `poc_tui/app.py:137`) `class DashboardPanel(Static)` - Left sidebar: live campaign state from payload.json.
-- `__init__` (method, `poc_tui/app.py:140`) `def __init__(self, base_dir)`
-- `compose` (method, `poc_tui/app.py:144`) `def compose(self)`
-- `refresh_data` (method, `poc_tui/app.py:165`) `def refresh_data(self, backend, cmd_count)` - Pull latest state from the LIVE shell params (not stale disk file).
-- `PluginBrowser` (class, `poc_tui/app.py:195`) `class PluginBrowser(Static)` - Right sidebar: command list from the real cmd2 shell.
-- `__init__` (method, `poc_tui/app.py:198`) `def __init__(self)`
-- `compose` (method, `poc_tui/app.py:201`) `def compose(self)`
-- `update_commands` (method, `poc_tui/app.py:207`) `def update_commands(self, commands)`
-- `_guess_category` (method, `poc_tui/app.py:223`) `def _guess_category(name, help_text)`
-- `OutputPanel` (class, `poc_tui/app.py:240`) `class OutputPanel(VerticalScroll)` - Center: accumulative scrollable output log.
-- `__init__` (method, `poc_tui/app.py:248`) `def __init__(self)`
-- `compose` (method, `poc_tui/app.py:252`) `def compose(self)`
-- `_log` (method, `poc_tui/app.py:255`) `def _log(self)`
-- `write_renderable` (method, `poc_tui/app.py:258`) `def write_renderable(self, renderable)` - Write a Rich renderable (no markup parsing applied).
-- `write_markup` (method, `poc_tui/app.py:263`) `def write_markup(self, text)` - Write a trusted internal string with Rich markup.
-- `append_command` (method, `poc_tui/app.py:268`) `def append_command(self, cmd)`
-- `append_result` (method, `poc_tui/app.py:273`) `def append_result(self, text, success)` - Write real shell output, converting ANSI — never markup-parsed.
-- `append_error` (method, `poc_tui/app.py:283`) `def append_error(self, text)` - Write a TUI-side error message (plain, no markup from unsafe text).
-- `append_system` (method, `poc_tui/app.py:287`) `def append_system(self, text)` - Write a TUI-side status message.
-- `LazyOwnTUI` (class, `poc_tui/app.py:297`) `class LazyOwnTUI(App)` - Textual frontend for the real LazyOwn cmd2 shell.
-- `__init__` (method, `poc_tui/app.py:394`) `def __init__(self, base_dir)`
-- `compose` (method, `poc_tui/app.py:405`) `def compose(self)`
+- `PayloadConfig` (class, `poc_tui/config.py:12`) `class PayloadConfig` - Read/write access to payload.json settings.
+- `__post_init__` (method, `poc_tui/config.py:18`) `def __post_init__(self)`
+- `reload` (method, `poc_tui/config.py:21`) `def reload(self)` - Re-read payload.json from disk.
+- `save` (method, `poc_tui/config.py:28`) `def save(self)` - Persist current state back to payload.json.
+- `get` (method, `poc_tui/config.py:35`) `def get(self, key, default)`
+- `set` (method, `poc_tui/config.py:38`) `def set(self, key, value)`
+- `keys` (method, `poc_tui/config.py:41`) `def keys(self)`
+- `items` (method, `poc_tui/config.py:44`) `def items(self)`
+- `__getitem__` (method, `poc_tui/config.py:47`) `def __getitem__(self, key)`
+- `__setitem__` (method, `poc_tui/config.py:50`) `def __setitem__(self, key, value)`
+- `__contains__` (method, `poc_tui/config.py:53`) `def __contains__(self, key)`
+- `PluginSpec` (class, `poc_tui/plugin_loader.py:28`) `class PluginSpec` - Metadata for a single registered command.
+- `_replace_placeholders` (method, `poc_tui/plugin_loader.py:40`) `def _replace_placeholders(command, params)` - Replace {key} tokens in a command string with values from params.
+- `_subst` (method, `poc_tui/plugin_loader.py:43`) `def _subst(match)`
+- `_validate_clone_url` (method, `poc_tui/plugin_loader.py:51`) `def _validate_clone_url(url)` - Validate a git clone URL, rejecting shell metacharacters.
+- `PluginLoader` (class, `poc_tui/plugin_loader.py:73`) `class PluginLoader` - Load and register all plugin types into a command registry.
+- `__init__` (method, `poc_tui/plugin_loader.py:80`) `def __init__(self, config, base_dir)`
+- `_setup_lua` (method, `poc_tui/plugin_loader.py:94`) `def _setup_lua(self)`
+- `_lua_register` (method, `poc_tui/plugin_loader.py:103`) `def _lua_register(self, name, func)` - Bridge: Lua calls register_command(name, fn) -> we wrap it.
+- `wrapper` (method, `poc_tui/plugin_loader.py:106`) `def wrapper(arg)`
+- `_list_files` (method, `poc_tui/plugin_loader.py:120`) `def _list_files(self, directory)`
+- `load_all` (method, `poc_tui/plugin_loader.py:128`) `def load_all(self)` - Load yaml addons, lua plugins, and .tool files. Return specs.
+- `_load_yaml_addons` (method, `poc_tui/plugin_loader.py:137`) `def _load_yaml_addons(self)`
+- `_register_yaml_addon` (method, `poc_tui/plugin_loader.py:150`) `def _register_yaml_addon(self, data)`
+- `wrapper` (method, `poc_tui/plugin_loader.py:161`) `def wrapper(arg)`
+- `_load_lua_plugins` (method, `poc_tui/plugin_loader.py:212`) `def _load_lua_plugins(self)`
+- `_load_tool_files` (method, `poc_tui/plugin_loader.py:237`) `def _load_tool_files(self)`
+- `_register_tool` (method, `poc_tui/plugin_loader.py:250`) `def _register_tool(self, data)`
+- `wrapper` (method, `poc_tui/plugin_loader.py:258`) `def wrapper(arg)`
+- `_LuaAppProxy` (class, `poc_tui/plugin_loader.py:280`) `class _LuaAppProxy` - Minimal proxy exposed to Lua plugins as the global ``app`` object.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 3
-- Cross-boundary resolved imports (EXTRACTED): 3
+- Internal resolved imports (EXTRACTED): 1
+- Cross-boundary resolved imports (EXTRACTED): 0
 
 ## Connections
 
@@ -59,16 +57,14 @@ This community groups 4 file(s) rooted at `poc_tui` with dominant language py (c
 
 ## Risks
 
-- [layer strict] `poc_tui/test_app.py` (testing) -> `poc_tui/app.py` (presentation)
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 
 - What would break if the most connected file in poc_tui changed?
-- Should poc_tui be split, given cohesion 0.60?
+- Should poc_tui be split, given cohesion 1.00?
 
 ## Sources
 
-- `poc_tui/__main__.py`
-- `poc_tui/app.py`
-- `poc_tui/run.py`
-- `poc_tui/test_app.py`
+- `poc_tui/config.py`
+- `poc_tui/plugin_loader.py`

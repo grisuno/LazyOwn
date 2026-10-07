@@ -1,22 +1,22 @@
 # Subsystem: lazygui
 
 ## lazygui/__init__.py
-- Layer: presentation
-- Doc: LazyOwn Operator Console.  A PySide6-based desktop client for the LazyOwn red-team framework. Supports two operating mod
+- Doc: LazyOwn Operator Console.
+- Layer: utility
 - Language: py
 - Depends on: `lazygui/version.py`
 
 ## lazygui/__main__.py
-- Layer: presentation
-- Doc: Entry point for ``python -m lazygui``.  Delegates to :class:`lazygui.app.Application` so command-line invocation and pro
+- Doc: Entry point for ``python -m lazygui``.
+- Layer: utility
 - Language: py
 - Symbols:
   - `main` (function, line 14) `def main()`
 - Depends on: `lazygui/app.py`
 
 ## lazygui/app.py
-- Layer: presentation
-- Doc: Application bootstrap.  Wires the configuration, theme, services and main window together. The :class:`Application` clas
+- Doc: Application bootstrap.
+- Layer: utility
 - Language: py
 - Symbols:
   - `Application` (class, line 33) `class Application`
@@ -37,7 +37,7 @@
 - Imported by: `lazygui/__main__.py`
 
 ## lazygui/version.py
-- Layer: presentation
 - Doc: Single source of truth for the package version string.
+- Layer: utility
 - Language: py
-- Imported by: `lazygui/__init__.py`, `modules/exploit_recommender.py`, `modules/exploit_recommender.py`
+- Imported by: `lazygui/__init__.py`, `modules/exploit_recommender.py`

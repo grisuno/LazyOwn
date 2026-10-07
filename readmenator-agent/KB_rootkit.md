@@ -39,6 +39,7 @@
   - `PATH_MAX` (macro, line 41) `#define PATH_MAX`
 
 ## modules/rootkit/mrhyde.c
+- Doc: original_dirent: define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140...
 - Layer: utility
 - Language: c
 - Symbols:
@@ -82,6 +83,7 @@
   - `FILE_HIDE_PATH` (macro, line 50) `#define FILE_HIDE_PATH`
 
 ## modules/rootkit/mrhyde2.c
+- Doc: original_dirent: define HIDE_DIR ".grisun0" define HIDE_USER "grisun0" define MAX_HIDE_PIDS 140...
 - Layer: utility
 - Language: c
 - Symbols:
@@ -122,6 +124,7 @@
   - `PID_FILE_PATH` (macro, line 47) `#define PID_FILE_PATH`
 
 ## modules/rootkit/mrhyde3.c
+- Doc: io_uring_sq: #define HIDDEN_FILE9 "listener_{line}.sh" #define PATHMRHYDE "mrhyde.so" #define...
 - Layer: utility
 - Language: c
 - Symbols:
@@ -191,8 +194,8 @@
   - `_start` (function, line 4)
 
 ## modules/rootkit/rootkit.c
-- Layer: utility
 - Doc: Define the process name and file name to hide
+- Layer: utility
 - Language: c
 - Symbols:
   - `regs_override_return` (function, line 43) `static inline void regs_override_return(struct pt_regs *regs, long new_ret)`

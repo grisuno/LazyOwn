@@ -4,16 +4,31 @@
 
 These files have the most connections. Changes here have high blast radius.
 
-- `core/logging.py` (score: 247.20)
-- `utils.py` (score: 190.10)
-- `cli/commands/_base.py` (score: 170.70)
-- `skills/lazyown_mcp.py` (score: 146.10)
-- `lazyown.py` (score: 122.30)
-- `lazyc2.py` (score: 114.30)
-- `core/console.py` (score: 98.80)
+- `core/logging.py` (score: 247.20, imported by 123 files)
+- `utils.py` (score: 192.10, imported by 78 files)
+- `cli/commands/_base.py` (score: 170.70, imported by 84 files)
+- `skills/lazyown_mcp.py` (score: 150.50, imported by 8 files)
+- `lazyc2.py` (score: 112.30)
+- `lazyown.py` (score: 110.30, imported by 8 files)
+- `core/console.py` (score: 98.80, imported by 49 files)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
-- `cli/commands/misc_migrated.py` (score: 75.20)
-- `core/config.py` (score: 67.70)
+- `cli/commands/misc_migrated.py` (score: 75.20, imported by 6 files)
+- `core/config.py` (score: 67.70, imported by 31 files)
+
+## Blast Radius (change impact)
+
+Editing these files can break the listed number of dependents. Run their tests after any change.
+
+- `core/logging.py` -- 50 direct, 123 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 116 total dependents
+- `modules/cli_auth.py` -- 9 direct, 116 total dependents
+- `core/validators.py` -- 9 direct, 113 total dependents
+- `core/hardening.py` -- 17 direct, 107 total dependents
+- `core/crypto.py` -- 9 direct, 103 total dependents
+- `core/process.py` -- 9 direct, 92 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 92 total dependents
+- `modules/backdoor/server.c` -- 10 direct, 91 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 91 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -25,8 +40,8 @@ These files have the most connections. Changes here have high blast radius.
 - `skills/mcp_generated_tools.py` -- complexity: 0.9, centrality: 0.0, combined: 0.4
 - `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.5, combined: 0.3
 - `lazyc2.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
-- `tests/test_command_palette.py` -- complexity: 0.3, centrality: 0.0, combined: 0.2
 - `static/js/bootstrap-5.3.0.bundle.min.js` -- complexity: 0.0, centrality: 0.2, combined: 0.1
+- `static/js/jquery-3.5.1.slim.min.js` -- complexity: 0.0, centrality: 0.2, combined: 0.1
 
 ## Dependency Cycles
 
@@ -41,20 +56,20 @@ Circular dependencies. Refactor to break the cycle.
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `skills/autonomous_replay.py` -> `skills/autonomous_daemon.py`
 - `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
-- `lazyc2/blueprints/__init__.py` -> `lazyc2/blueprints/auth.py` -> `lazyc2.py` -> `lazyc2/blueprints/__init__.py`
+- `cli/engagement_hooks.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 
 ## Layer Violations
 
 - `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access): presentation must not import data_access
-- `poc_tui/test_app.py` (testing) -> `poc_tui/app.py` (presentation): testing must not import presentation
-- `skills/lazyown_mcp.py` (presentation) -> `skills/lazyown_automapper.py` (data_access): presentation must not import data_access
-- `skills/lazyown_mcp.py` (presentation) -> `modules/memory_store.py` (data_access): presentation must not import data_access
-- `skills/lazyown_mcp.py` (presentation) -> `modules/memory_store.py` (data_access): presentation must not import data_access
-- `skills/tests/test_autonomous_daemon.py` (testing) -> `skills/autonomous_daemon.py` (presentation): testing must not import presentation
-- `skills/tests/test_autonomous_daemon.py` (testing) -> `skills/autonomous_daemon.py` (presentation): testing must not import presentation
-- `skills/tests/test_autonomous_daemon.py` (testing) -> `skills/autonomous_daemon.py` (presentation): testing must not import presentation
-- `skills/tests/test_autonomous_daemon.py` (testing) -> `skills/autonomous_daemon.py` (presentation): testing must not import presentation
-- `skills/tests/test_autonomous_daemon.py` (testing) -> `skills/autonomous_daemon.py` (presentation): testing must not import presentation
+- `tests/integration_autonomous_flow.py` (testing) -> `modules/moe_router.py` (presentation): testing must not import presentation
+- `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
+- `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation): testing must not import presentation
 
 ## Dataflow Issues (INFERRED, review each lead)
 

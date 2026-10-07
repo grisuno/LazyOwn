@@ -295,6 +295,12 @@ Thank you so much, Spooky News members! It's an honor to be recommended by you. 
 Thank you so much, Vulners! All publicity is good publicity, and we will strive to improve. 
 [https://vulners.com/kitploit/KITPLOIT:TOOLS-GITHUB-GRISUNO-LAZYOWN](https://vulners.com/kitploit/KITPLOIT:TOOLS-GITHUB-GRISUNO-LAZYOWN)
 
+### Bharat Kayth
+
+We love your post bro :D Thank you so much.
+ 
+[https://www.linkedin.com/posts/splog_lazyown-is-a-comprehensive-red-team-framework-share-7445191628039974912-viWM/](https://www.linkedin.com/posts/splog_lazyown-is-a-comprehensive-red-team-framework-share-7445191628039974912-viWM/)
+
 ## Star History
 
 <a href="https://www.star-history.com/#grisuno/LazyOwn&Date">

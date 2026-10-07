@@ -59,6 +59,8 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "bettercap_netrecon",
         "caja",
         "cc",
+        "c2qs",
+        "c2i",
         "chown",
         "cloudflare_tunnel",
         "coerce_plus",
@@ -122,6 +124,7 @@ def _legacy_alias_keys_from_lazyown() -> set[str]:
         "pass",
         "poison",
         "powersploit",
+        "pr",
         "pwnat",
         "py",
         "q",
@@ -186,7 +189,7 @@ class TestAliasYamlIntegrity:
         assert extra == set(), f"YAML introduced unknown aliases: {sorted(extra)}"
 
     def test_yaml_count_is_125(self):
-        assert len(_load_yaml()) == 126
+        assert len(_load_yaml()) == 129
 
     def test_all_values_are_strings(self):
         for name, value in _load_yaml().items():
@@ -279,7 +282,7 @@ class TestAliasLoaderSubstitution:
         from core.config import load_payload
 
         aliases = load_aliases(load_payload(), lazy=False)
-        assert len(aliases) == 126
+        assert len(aliases) == 129
         for name, command in aliases.items():
             assert "{rhost}" not in command, f"unsubstituted placeholder in {name}"
 

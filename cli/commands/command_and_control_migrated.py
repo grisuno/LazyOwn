@@ -434,7 +434,8 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
 
         use_tunnel = False
         choice = None
-        if line:
+        if line and line.strip():
+            args = line.split()
             args = line.split()
             num_args = len(args)
             if num_args >= 1:
@@ -464,8 +465,14 @@ class CommandAndControlMigratedCommandSet(LazyOwnCommandSet):
                 print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
                 return
         else:
-            print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
-            return
+            try:
+                line = input(f"    {CYAN}[?] victim-id (e.g. victim-1): {RESET}").strip()
+            except (EOFError, KeyboardInterrupt):
+                print_warn("c2 cancelled.")
+                return
+            if not line:
+                print_error("You need to specify the victim-id, for example: c2 victim-1. [1 win ps1 | 2 linux | 3 win bat] ")
+                return
 
         builder = C2Builder(
             params=self.params,

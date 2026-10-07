@@ -1,8 +1,8 @@
 # Subsystem: test
 
 ## test/config.py
+- Doc: o config.py
 - Layer: infrastructure
-- Doc: conftest.py o config.py
 - Language: py
 - Symbols:
   - `encrypt_data` (function, line 23) `def encrypt_data(data)`
@@ -10,8 +10,8 @@
 - Imported by: `test/test_commands.py`
 
 ## test/test_commands.py
+- Doc: send_command_via_web: Simula enviar un comando vía interfaz web /issue_command con autenticación...
 - Layer: testing
-- Doc: test_commands.py
 - Language: py
 - Symbols:
   - `send_command_via_web` (function, line 35) `def send_command_via_web(command)`

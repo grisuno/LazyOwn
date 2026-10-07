@@ -1,14 +1,14 @@
 # Subsystem: theme
 
 ## lazygui/theme/__init__.py
-- Layer: presentation
-- Doc: Theme subsystem.  Themes are described by :class:`ThemeTokens` instances. The :class:`QssBuilder` translates tokens into
+- Doc: Theme subsystem.
+- Layer: utility
 - Language: py
 - Depends on: `lazygui/theme/manager.py`, `lazygui/theme/qss_builder.py`, `lazygui/theme/tokens.py`
 
 ## lazygui/theme/manager.py
-- Layer: presentation
-- Doc: Theme registry and runtime application of stylesheets.  The :class:`ThemeManager` holds the available palettes, applies 
+- Doc: Theme registry and runtime application of stylesheets.
+- Layer: utility
 - Language: py
 - Symbols:
   - `ThemeManager` (class, line 26) `class ThemeManager(QObject)`
@@ -25,8 +25,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/theme/__init__.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/theme/qss_builder.py
-- Layer: presentation
-- Doc: Builds a Qt stylesheet string from :class:`ThemeTokens`.  Centralising the QSS template here keeps widgets ignorant of s
+- Doc: Builds a Qt stylesheet string from :class:`ThemeTokens`.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `QssBuilder` (class, line 16) `class QssBuilder`
@@ -36,8 +36,8 @@
 - Imported by: `lazygui/theme/__init__.py`, `lazygui/theme/manager.py`
 
 ## lazygui/theme/tokens.py
-- Layer: presentation
-- Doc: Design tokens describing a single theme.  Tokens are immutable. They cover colours, typography sizes and corner radii. A
+- Doc: Design tokens describing a single theme.
+- Layer: utility
 - Language: py
 - Symbols:
   - `ThemeTokens` (class, line 14) `class ThemeTokens`

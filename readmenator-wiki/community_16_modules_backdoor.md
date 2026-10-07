@@ -11,7 +11,7 @@ This community groups 2 file(s) rooted at `modules/backdoor` with dominant langu
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `modules/backdoor/backdoor.c` | c | utility | 5 | no |
-| `modules/backdoor/keylogger.h` | h | infrastructure | 1 | no |
+| `modules/backdoor/keylogger.h` | h | utility | 1 | no |
 
 ## Key Symbols
 

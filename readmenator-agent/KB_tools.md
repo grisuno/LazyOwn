@@ -1,8 +1,8 @@
 # Subsystem: tools
 
 ## tools/extract_cluster.py
+- Doc: Extract a named cluster of do_* methods from a CommandSet module.
 - Layer: utility
-- Doc: Extract a named cluster of do_* methods from a CommandSet module.  Usage: python3 tools/extract_cluster.py <source.py> <
 - Language: py
 - Symbols:
   - `fragment_name` (function, line 29) `def fragment_name(fragment)`
@@ -11,8 +11,8 @@
   - `main` (function, line 143) `def main()`
 
 ## tools/gen_demo_gifs.py
-- Layer: utility
 - Doc: Generate LazyOwn demo GIFs without external services.
+- Layer: utility
 - Language: py
 - Symbols:
   - `font` (function, line 13) `def font(size)`
@@ -21,8 +21,8 @@
 - Imported by: `tools/gen_demo_gifs_extra.py`
 
 ## tools/gen_demo_gifs_extra.py
+- Doc: Additional LazyOwn demo GIFs.
 - Layer: utility
-- Doc: Additional LazyOwn demo GIFs. Every command verified against source.
 - Language: py
 - Symbols:
   - `main` (function, line 47) `def main()`

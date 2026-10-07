@@ -1,0 +1,487 @@
+# Subsystem: cli (page 2 of 4)
+Previous: [KB_cli.md](KB_cli.md)
+
+## cli/dashboard_tui.py
+- Doc: LazyOwn operator dashboard — a full-screen Textual TUI.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_get_killchain_for_tui` (function, line 55) `def _get_killchain_for_tui()`
+  - `CommandRequested` (class, line 97) `class CommandRequested(Message)`
+  - `PhaseSelected` (class, line 105) `class PhaseSelected(Message)`
+  - `dispatch_command` (method, line 113) `def dispatch_command(command, timeout)`
+  - `_read_json` (method, line 151) `def _read_json(path)`
+  - `_engagement_to_cli_phase` (method, line 159) `def _engagement_to_cli_phase(engagement_phase)`
+  - `_count_lines_in_glob` (method, line 169) `def _count_lines_in_glob(pattern)`
+  - `_read_recent_commands` (method, line 182) `def _read_recent_commands(limit)`
+  - `_graph_hints` (method, line 209) `def _graph_hints(limit)`
+  - `_fallback_hints` (method, line 223) `def _fallback_hints(last_command, limit)`
+  - `_resolve_hints` (method, line 248) `def _resolve_hints(recent, limit)`
+  - `_beacon_count` (method, line 265) `def _beacon_count()`
+  - `_read_credential_lines` (method, line 280) `def _read_credential_lines(pattern)`
+  - `_get_recommendations` (method, line 297) `def _get_recommendations()`
+  - `TargetPanel` (class, line 322) `class TargetPanel(Static)`
+  - `KillChainPanel` (class, line 378) `class KillChainPanel(Static)`
+  - `ConfigPanel` (class, line 431) `class ConfigPanel(Static)`
+  - `CommandsPanel` (class, line 461) `class CommandsPanel(Static)`
+  - `ReasoningPanel` (class, line 496) `class ReasoningPanel(Static)`
+  - `OpsPanel` (class, line 533) `class OpsPanel(Static)`
+  - `HintBar` (class, line 588) `class HintBar(Horizontal)`
+  - `ToastPanel` (class, line 654) `class ToastPanel(Static)`
+  - `OutputPanel` (class, line 694) `class OutputPanel(Log)`
+  - `NextStepsPanel` (class, line 708) `class NextStepsPanel(Static)`
+  - `LazyOwnDashboard` (class, line 740) `class LazyOwnDashboard(App)`
+  - `launch` (method, line 1069) `def launch(payload_path, sessions_dir)`
+  - `__init__` (method, line 100) `def __init__(self, command)`
+  - `__init__` (method, line 108) `def __init__(self, phase)`
+  - `get_selection` (method, line 335) `def get_selection(self, selection)`
+  - `render_content` (method, line 348) `def render_content(self, payload, world)`
+  - `update_data` (method, line 374) `def update_data(self, payload, world)`
+  - `__init__` (method, line 393) `def __init__(self)`
+  - `update_data` (method, line 397) `def update_data(self, progress)`
+  - `on_click` (method, line 418) `def on_click(self, event)`
+  - `update_data` (method, line 443) `def update_data(self, payload)`
+  - `update_data` (method, line 473) `def update_data(self, commands)`
+  - `update_data` (method, line 508) `def update_data(self, entries)`
+  - `update_data` (method, line 545) `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
+  - `__init__` (method, line 611) `def __init__(self)`
+  - `compose` (method, line 616) `def compose(self)`
+  - `update_data` (method, line 620) `def update_data(self, hints)`
+  - `on_button_pressed` (method, line 645) `def on_button_pressed(self, event)`
+  - `update_data` (method, line 672) `def update_data(self, payload, sessions_dir, width)`
+  - `update_data` (method, line 720) `def update_data(self, recommendations)`
+  - `__init__` (method, line 809) `def __init__(self, payload_path, sessions_dir)`
+  - `_apply_layout` (method, line 821) `def _apply_layout(self, mode, hidden_fn)`
+  - `compose` (method, line 838) `def compose(self)`
+  - `on_mount` (method, line 857) `def on_mount(self)`
+  - `on_input_submitted` (method, line 862) `def on_input_submitted(self, event)`
+  - `on_command_requested` (method, line 874) `def on_command_requested(self, event)`
+  - `_execute` (method, line 883) `def _execute(self, command)`
+  - `_apply_command_result` (method, line 896) `def _apply_command_result(self, command, success, output)`
+  - `on_phase_selected` (method, line 914) `def on_phase_selected(self, event)`
+  - `action_refresh_data` (method, line 925) `def action_refresh_data(self)`
+  - `action_toggle_compact` (method, line 928) `def action_toggle_compact(self)`
+  - `_raise_toast` (method, line 940) `def _raise_toast(self, message, severity, event_type)`
+  - `action_screenshot` (method, line 958) `def action_screenshot(self)`
+  - `action_export_snapshot` (method, line 969) `def action_export_snapshot(self)`
+  - `action_next_phase` (method, line 989) `def action_next_phase(self)`
+  - `action_prev_phase` (method, line 993) `def action_prev_phase(self)`
+  - `_cycle_phase` (method, line 997) `def _cycle_phase(self, direction)`
+  - `_do_refresh` (method, line 1013) `def _do_refresh(self)`
+  - `_filter_commands` (method, line 1053) `def _filter_commands(self, commands)`
+  - `_write_phase` (method, line 43) `def _write_phase(phase)`
+- Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
+
+## cli/doctor.py
+- Doc: Environment health check (preflight doctor) for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PackageSpec` (class, line 56) `class PackageSpec`
+  - `CheckResult` (class, line 96) `class CheckResult`
+  - `DoctorReport` (class, line 113) `class DoctorReport`
+  - `check_python_version` (method, line 143) `def check_python_version(version_info)`
+  - `check_virtualenv` (method, line 172) `def check_virtualenv()`
+  - `check_packages` (method, line 209) `def check_packages(specs, finder)`
+  - `check_certificates` (method, line 248) `def check_certificates(root)`
+  - `check_payload` (method, line 269) `def check_payload(root)`
+  - `check_seclists` (method, line 289) `def check_seclists(finder)`
+  - `check_command_index` (method, line 313) `def check_command_index(root)`
+  - `check_external_tools` (method, line 343) `def check_external_tools(checker)`
+  - `gather_report` (method, line 368) `def gather_report(root)`
+  - `_status_cell` (method, line 398) `def _status_cell(status)`
+  - `render_report` (method, line 406) `def render_report(report, console)`
+  - `run` (method, line 451) `def run(root, console)`
+  - `fix_report` (method, line 468) `def fix_report(report)`
+  - `_apply_fix` (method, line 525) `def _apply_fix(check, root, venv_pip, console)`
+  - `failures` (method, line 119) `def failures(self)`
+  - `warnings` (method, line 124) `def warnings(self)`
+  - `healthy` (method, line 129) `def healthy(self)`
+  - `overall_status` (method, line 134) `def overall_status(self)`
+- Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/engagement_hooks.py
+- Doc: Curiosity-driven engagement engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EngagementState` (class, line 242) `class EngagementState`
+  - `_load_state` (method, line 260) `def _load_state()`
+  - `_save_state` (method, line 280) `def _save_state(state)`
+  - `_load_index` (method, line 290) `def _load_index()`
+  - `_normalize_command` (method, line 301) `def _normalize_command(cmd)`
+  - `_is_recordable_command` (method, line 306) `def _is_recordable_command(cmd)`
+  - `_sanitize_seen` (method, line 332) `def _sanitize_seen(names, known)`
+  - `heal_commands_seen` (method, line 365) `def heal_commands_seen(known)`
+  - `_next_threshold` (method, line 394) `def _next_threshold(current)`
+  - `_phase_for_cmd` (method, line 400) `def _phase_for_cmd(cmd, index)`
+  - `_commands_in_phase` (method, line 409) `def _commands_in_phase(phase, index)`
+  - `_summary_for_cmd` (method, line 414) `def _summary_for_cmd(cmd, index)`
+  - `_run_curiosity` (method, line 431) `def _run_curiosity(cmd, state, index)`
+  - `_render_streak` (method, line 459) `def _render_streak(ctx)`
+  - `_render_exploration` (method, line 488) `def _render_exploration(ctx)`
+  - `_render_phase_badge` (method, line 506) `def _render_phase_badge(ctx)`
+  - `_render_hidden_feature` (method, line 522) `def _render_hidden_feature(ctx)`
+  - `_render_arsenal_tip` (method, line 536) `def _render_arsenal_tip(ctx)`
+  - `_render_methodology_task` (method, line 544) `def _render_methodology_task(ctx)`
+  - `_render_methodology_objective` (method, line 583) `def _render_methodology_objective(ctx)`
+  - `_render_methodology_note` (method, line 630) `def _render_methodology_note(ctx)`
+  - `_fire_vri_reward` (method, line 672) `def _fire_vri_reward(state, ctx)`
+  - `get_karma_name` (method, line 716) `def get_karma_name(elo)`
+  - `_award_elo` (method, line 734) `def _award_elo(cmd, first_time, new_phase, current_phase)`
+  - `_sync_user_elo` (method, line 760) `def _sync_user_elo(delta)`
+  - `_persist_notification` (method, line 828) `def _persist_notification(html)`
+  - `_check_karma_up` (method, line 864) `def _check_karma_up(state)`
+  - `render_engagement_hook` (method, line 898) `def render_engagement_hook(cmd, phase, enabled)`
+  - `get_state_snapshot` (method, line 978) `def get_state_snapshot()`
+  - `_check_badges` (method, line 1009) `def _check_badges(cmd, first_time)`
+  - `_print_badge` (method, line 1056) `def _print_badge(name, description)`
+  - `reset_session` (method, line 1066) `def reset_session()`
+- Depends on: `cli/palette.py`, `core/config.py`, `modules/cli_auth.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/banner_config.py`, `cli/commands/help_ui.py`, `cli/session_hud.py`, `cli/tips_engine.py`, `lazyown.py`, `modules/cli_auth.py`, `modules/redteam_gym.py`, `tests/test_engagement_and_ping.py`, `tests/test_engagement_command_gate.py`, `tests/test_engagement_elo_and_methodology.py`
+
+## cli/exploit_advisor.py
+- Doc: Exploit advisor: connects nmap scan results to exploit search and next-step commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ServiceInfo` (class, line 111) `class ServiceInfo`
+  - `ExploitHit` (class, line 144) `class ExploitHit`
+  - `ServiceResult` (class, line 153) `class ServiceResult`
+  - `parse_nmap_xml` (method, line 164) `def parse_nmap_xml(path)`
+  - `find_nmap_xml` (method, line 203) `def find_nmap_xml(rhost, sessions_dir)`
+  - `print_exploit_summary` (method, line 222) `def print_exploit_summary(results, rhost)`
+  - `save_ss_results` (method, line 296) `def save_ss_results(results, rhost, sessions_dir)`
+  - `inject_exploit_tasks` (method, line 338) `def inject_exploit_tasks(results, rhost, tasks_path)`
+  - `search_query` (method, line 122) `def search_query(self)`
+  - `display_name` (method, line 128) `def display_name(self)`
+  - `next_commands` (method, line 132) `def next_commands(self)`
+- Depends on: `core/console.py`
+- Imported by: `cli/commands/recon.py`
+
+## cli/exploration.py
+- Doc: Exploration engine: trigger and OS aware addon/tool matching.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExplorationConfig` (class, line 68) `class ExplorationConfig`
+  - `DiscoveredService` (class, line 87) `class DiscoveredService`
+  - `AddonEntry` (class, line 105) `class AddonEntry`
+  - `ToolEntry` (class, line 119) `class ToolEntry`
+  - `CoverageReport` (class, line 132) `class CoverageReport`
+  - `NmapXmlReader` (class, line 169) `class NmapXmlReader`
+  - `AddonCatalog` (class, line 252) `class AddonCatalog`
+  - `ToolCatalog` (class, line 333) `class ToolCatalog`
+  - `TriggerMatcher` (class, line 410) `class TriggerMatcher`
+  - `HistoryReader` (class, line 470) `class HistoryReader`
+  - `ExplorationEngine` (class, line 502) `class ExplorationEngine`
+  - `resolve_current_os` (method, line 656) `def resolve_current_os(payload)`
+  - `normalise_os` (method, line 677) `def normalise_os(value, default)`
+  - `normalise_trigger` (method, line 690) `def normalise_trigger(value)`
+  - `label` (method, line 98) `def label(self)`
+  - `service_coverage` (method, line 145) `def service_coverage(self)`
+  - `addon_coverage` (method, line 153) `def addon_coverage(self)`
+  - `tool_coverage` (method, line 161) `def tool_coverage(self)`
+  - `__init__` (method, line 176) `def __init__(self, config)`
+  - `discover` (method, line 181) `def discover(self, target)`
+  - `_iter_xml_paths` (method, line 196) `def _iter_xml_paths(self, target)`
+  - `_parse_one` (method, line 210) `def _parse_one(xml_path)`
+  - `__init__` (method, line 264) `def __init__(self, config)`
+  - `load` (method, line 269) `def load(self)`
+  - `_load_with_cache` (method, line 282) `def _load_with_cache(self, path)`
+  - `clear_cache` (method, line 299) `def clear_cache(cls)`
+  - `_parse_one` (method, line 304) `def _parse_one(self, path)`
+  - `__init__` (method, line 344) `def __init__(self, config)`
+  - `load` (method, line 349) `def load(self)`
+  - `_load_with_cache` (method, line 362) `def _load_with_cache(self, path)`
+  - `clear_cache` (method, line 379) `def clear_cache(cls)`
+  - `_parse_one` (method, line 384) `def _parse_one(self, path)`
+  - `__init__` (method, line 413) `def __init__(self, current_os)`
+  - `addons_for_service` (method, line 418) `def addons_for_service(self, service, addons)`
+  - `tools_for_service` (method, line 435) `def tools_for_service(self, service, tools)`
+  - `_os_compatible` (method, line 452) `def _os_compatible(self, candidate_os)`
+  - `_trigger_matches` (method, line 460) `def _trigger_matches(trigger, service_name)`
+  - `__init__` (method, line 473) `def __init__(self, config)`
+  - `executed_commands` (method, line 478) `def executed_commands(self)`
+  - `__init__` (method, line 510) `def __init__(self, config, current_os)`
+  - `services` (method, line 525) `def services(self, target)`
+  - `addons` (method, line 530) `def addons(self)`
+  - `tools` (method, line 535) `def tools(self)`
+  - `history` (method, line 540) `def history(self)`
+  - `suggestions_for_target` (method, line 545) `def suggestions_for_target(self, target)`
+  - `unexplored_addons` (method, line 568) `def unexplored_addons(self, target)`
+  - `unexplored_tools` (method, line 589) `def unexplored_tools(self, target)`
+  - `coverage` (method, line 610) `def coverage(self, target)`
+- Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/exploration_view.py`, `cli/lazynmap_post.py`, `cli/recommendation_signals.py`, `cli/recon_plan.py`, `lazyown.py`, `tests/test_command_chain.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazynmap_post.py`, `tests/test_recon_plan.py`
+
+## cli/exploration_view.py
+- Doc: Rich-based renderers for the exploration engine.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `render_exploration` (function, line 39) `def render_exploration(console, engine, target, history)`
+  - `_render_header` (function, line 71) `def _render_header(console, target, coverage)`
+  - `_render_service_tree` (function, line 93) `def _render_service_tree(console, services, grouped, history)`
+  - `_render_entries` (function, line 140) `def _render_entries(parent, entries, history, style, kind)`
+  - `_render_unexplored` (function, line 161) `def _render_unexplored(console, unexplored_addons, unexplored_tools)`
+  - `_render_coverage_table` (function, line 196) `def _render_coverage_table(console, coverage)`
+- Depends on: `cli/exploration.py`, `core/console.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_exploration_and_addons.py`
+
+## cli/fuzzy_match.py
+- Doc: Non-interactive fuzzy matching reusing the picker's scorer.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FuzzyMatchConfig` (class, line 18) `class FuzzyMatchConfig`
+  - `suggest` (method, line 28) `def suggest(query, candidates, limit, config)`
+  - `did_you_mean` (method, line 56) `def did_you_mean(query, candidates)`
+- Depends on: `cli/fuzzy_picker.py`
+- Imported by: `cli/commands/ux.py`
+
+## cli/fuzzy_picker.py
+- Doc: Curses-based fuzzy dropdown picker for the LazyOwn interactive shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PickerConfig` (class, line 50) `class PickerConfig`
+  - `PickerItem` (class, line 140) `class PickerItem`
+  - `ScoredItem` (class, line 153) `class ScoredItem`
+  - `MatchScorer` (class, line 161) `class MatchScorer`
+  - `PickerView` (class, line 221) `class PickerView(ABC)`
+  - `CursesPickerView` (class, line 234) `class CursesPickerView(PickerView)`
+  - `FuzzyPicker` (class, line 548) `class FuzzyPicker`
+  - `ReadlineBridge` (class, line 580) `class ReadlineBridge`
+  - `install_fuzzy_completion` (method, line 645) `def install_fuzzy_completion(shell, payload, config)`
+  - `from_payload` (method, line 117) `def from_payload(cls, payload)`
+  - `__init__` (method, line 170) `def __init__(self, config)`
+  - `rank` (method, line 173) `def rank(self, items, query)`
+  - `_score` (method, line 190) `def _score(self, haystack, query)`
+  - `_subsequence_positions` (method, line 209) `def _subsequence_positions(haystack, query)`
+  - `run` (method, line 231) `def run(self, items, initial_query)`
+  - `__init__` (method, line 243) `def __init__(self, config, scorer)`
+  - `run` (method, line 247) `def run(self, items, initial_query)`
+  - `_tty_available` (method, line 260) `def _tty_available()`
+  - `_init_colors` (method, line 263) `def _init_colors(self)`
+  - `_event_loop` (method, line 287) `def _event_loop(self, stdscr, items, initial_query)`
+  - `_classify_key` (method, line 337) `def _classify_key(self, key)`
+  - `_visible_rows` (method, line 361) `def _visible_rows(self)`
+  - `_clamp_scroll` (method, line 364) `def _clamp_scroll(self, offset, cursor, total)`
+  - `_layout` (method, line 374) `def _layout(self, stdscr, row_count)`
+  - `_render_empty` (method, line 386) `def _render_empty(self, stdscr, query)`
+  - `_render` (method, line 405) `def _render(self, stdscr, ranked, query, cursor_index, scroll_offset)`
+  - `_draw_box` (method, line 435) `def _draw_box(self, stdscr, top, left, height, width)`
+  - `_draw_header` (method, line 450) `def _draw_header(self, stdscr, top, left, width, query, total, selected)`
+  - `_draw_footer` (method, line 469) `def _draw_footer(self, stdscr, row_y, left, width)`
+  - `_draw_item` (method, line 482) `def _draw_item(self, stdscr, row_y, left, width, scored, selected)`
+  - `_draw_highlighted` (method, line 516) `def _draw_highlighted(self, stdscr, row_y, start_x, text, positions, base_attr, selected)`
+  - `_color` (method, line 539) `def _color(self, pair_id)`
+  - `__init__` (method, line 551) `def __init__(self, config, view_factory)`
+  - `config` (method, line 562) `def config(self)`
+  - `pick` (method, line 565) `def pick(self, items, initial_query)`
+  - `__init__` (method, line 592) `def __init__(self, picker)`
+  - `install` (method, line 595) `def install(self)`
+  - `uninstall` (method, line 603) `def uninstall(self)`
+  - `_on_display_matches` (method, line 611) `def _on_display_matches(self, substitution, matches, longest_match_length)`
+  - `_strip_ansi` (method, line 632) `def _strip_ansi(cls, value)`
+  - `_redraw_prompt` (method, line 636) `def _redraw_prompt()`
+- Imported by: `cli/fuzzy_match.py`, `lazyown.py`, `tests/test_fuzzy_picker.py`
+
+## cli/graph_advisor.py
+- Doc: Graph-aware advisor backed by the graphify knowledge graph.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphAdvisorConfig` (class, line 50) `class GraphAdvisorConfig`
+  - `GraphNode` (class, line 98) `class GraphNode`
+  - `GraphEdge` (class, line 122) `class GraphEdge`
+  - `ScoredNode` (class, line 143) `class ScoredNode`
+  - `GraphLoader` (class, line 151) `class GraphLoader`
+  - `GraphIndex` (class, line 211) `class GraphIndex`
+  - `GraphScorer` (class, line 299) `class GraphScorer`
+  - `GraphAdvisor` (class, line 354) `class GraphAdvisor`
+  - `format_search_table` (method, line 691) `def format_search_table(results)`
+  - `format_neighbors` (method, line 706) `def format_neighbors(result)`
+  - `format_god_nodes` (method, line 724) `def format_god_nodes(results)`
+  - `format_suggestions` (method, line 734) `def format_suggestions(results)`
+  - `to_summary` (method, line 109) `def to_summary(self)`
+  - `to_summary` (method, line 132) `def to_summary(self)`
+  - `__init__` (method, line 156) `def __init__(self, config)`
+  - `resolve_path` (method, line 160) `def resolve_path(self, override)`
+  - `load` (method, line 184) `def load(self, override)`
+  - `clear_cache` (method, line 207) `def clear_cache(cls)`
+  - `__init__` (method, line 214) `def __init__(self, data)`
+  - `_build` (method, line 223) `def _build(self)`
+  - `nodes` (method, line 277) `def nodes(self)`
+  - `get` (method, line 280) `def get(self, node_id)`
+  - `neighbors` (method, line 283) `def neighbors(self, node_id)`
+  - `edges_between` (method, line 286) `def edges_between(self, source, target)`
+  - `community_members` (method, line 289) `def community_members(self, community_id)`
+  - `degree` (method, line 292) `def degree(self, node_id)`
+  - `degree_ranked` (method, line 295) `def degree_ranked(self)`
+  - `__init__` (method, line 304) `def __init__(self, config)`
+  - `rank` (method, line 307) `def rank(self, nodes, query)`
+  - `_best_score` (method, line 319) `def _best_score(self, node, terms, raw_query)`
+  - `_score` (method, line 335) `def _score(self, value, terms, query)`
+  - `_tokens` (method, line 350) `def _tokens(self, query)`
+  - `__init__` (method, line 362) `def __init__(self, config, loader, index, scorer)`
+  - `from_path` (method, line 375) `def from_path(cls, path, config)`
+  - `is_available` (method, line 384) `def is_available(self)`
+  - `reload` (method, line 387) `def reload(self, path)`
+  - `summary` (method, line 396) `def summary(self)`
+  - `_graph_age_days` (method, line 423) `def _graph_age_days(self, path)`
+  - `_classify_health` (method, line 432) `def _classify_health(self, edges_count, age_days)`
+  - `search` (method, line 445) `def search(self, query, limit)`
+  - `neighbors` (method, line 456) `def neighbors(self, node_query, depth, limit)`
+  - `god_nodes` (method, line 505) `def god_nodes(self, limit)`
+  - `suggest_next` (method, line 520) `def suggest_next(self, recent_commands, limit)`
+  - `read_recent_commands` (method, line 566) `def read_recent_commands(self, window)`
+  - `did_you_mean` (method, line 591) `def did_you_mean(self, query, limit)`
+  - `truncate_to_budget` (method, line 605) `def truncate_to_budget(self, payload, budget_tokens)`
+  - `_seed_nodes` (method, line 624) `def _seed_nodes(self, recent_commands)`
+  - `_resolve_query` (method, line 638) `def _resolve_query(self, query)`
+  - `_bfs_distance` (method, line 649) `def _bfs_distance(index, start, max_hops)`
+  - `_iter_all_edges` (method, line 665) `def _iter_all_edges(index)`
+  - `_ensure_index` (method, line 675) `def _ensure_index(self)`
+  - `_missing_reason` (method, line 684) `def _missing_reason(self)`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_graph_advisor.py`
+
+## cli/graph_overlay.py
+- Doc: Textual overlay over :mod:`cli.graph_advisor`.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphOverlayView` (class, line 33) `class GraphOverlayView(StrEnum)`
+  - `GraphOverlayConfig` (class, line 41) `class GraphOverlayConfig`
+  - `GraphOverlayItem` (class, line 59) `class GraphOverlayItem`
+  - `GraphOverlayState` (class, line 69) `class GraphOverlayState`
+  - `_default_advisor_factory` (method, line 181) `def _default_advisor_factory()`
+  - `build_state` (method, line 192) `def build_state(config, advisor_factory)`
+  - `launch_overlay` (method, line 203) `def launch_overlay(payload, state, runner)`
+  - `_build_app` (method, line 235) `def _build_app(state, theme)`
+  - `is_available` (method, line 77) `def is_available(self)`
+  - `set_focus` (method, line 87) `def set_focus(self, value)`
+  - `toggle_view` (method, line 95) `def toggle_view(self)`
+  - `snapshot` (method, line 102) `def snapshot(self)`
+  - `_god_nodes` (method, line 111) `def _god_nodes(self, advisor)`
+  - `_neighbors` (method, line 119) `def _neighbors(self, advisor)`
+  - `_row` (method, line 147) `def _row(self, payload, badge)`
+  - `_edge_badge` (method, line 159) `def _edge_badge(self, edges)`
+  - `_truncate` (method, line 169) `def _truncate(self, value)`
+  - `_advisor` (method, line 174) `def _advisor(self)`
+  - `_GraphOverlayApp` (class, line 246) `class _GraphOverlayApp(App)`
+  - `__init__` (method, line 260) `def __init__(self)`
+  - `compose` (method, line 265) `def compose(self)`
+  - `on_mount` (method, line 273) `def on_mount(self)`
+  - `on_input_changed` (method, line 276) `def on_input_changed(self, event)`
+  - `action_toggle_view` (method, line 280) `def action_toggle_view(self)`
+  - `action_close` (method, line 284) `def action_close(self)`
+  - `_refresh` (method, line 287) `def _refresh(self)`
+- Depends on: `cli/commands/containers.py`, `cli/commands/enum.py`, `cli/graph_advisor.py`, `cli/themes.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_graph_overlay.py`
+
+## cli/headless.py
+- Doc: Headless / non-interactive runner for automated pipelines.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `load_profile` (function, line 31) `def load_profile(path)`
+  - `apply_profile` (function, line 48) `def apply_profile(config, profile)`
+  - `HeadlessRunner` (class, line 62) `class HeadlessRunner`
+  - `__init__` (method, line 72) `def __init__(self, shell, json_output, profile_path)`
+  - `run_command` (method, line 87) `def run_command(self, cmd, timeout)`
+  - `run_chain` (method, line 132) `def run_chain(self, commands)`
+- Imported by: `lazyown.py`
+
+## cli/killchain.py
+- Doc: Self-populating kill-chain progress derived from the daemon event stream.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PhaseProgress` (class, line 29) `class PhaseProgress`
+  - `_phase_from_event` (method, line 48) `def _phase_from_event(event)`
+  - `_detect_current_phase` (method, line 58) `def _detect_current_phase(events, world, phase_keys)`
+  - `compute_killchain` (method, line 83) `def compute_killchain(events, world, phases)`
+- Depends on: `modules/killchain.py`
+- Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
+
+## cli/lazynmap_post.py
+- Doc: Post-scan side effects executed at the tail of ``do_lazynmap``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PostScanConfig` (class, line 57) `class PostScanConfig`
+  - `PostScanResult` (class, line 76) `class PostScanResult`
+  - `run_post_scan` (method, line 94) `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)`
+  - `_enabled` (method, line 164) `def _enabled(payload, cfg)`
+  - `_default_engine_factory` (method, line 180) `def _default_engine_factory(payload, cfg)`
+  - `_update_world_model_phase` (method, line 188) `def _update_world_model_phase(cfg, target, clock_fn)`
+  - `_emit_event` (method, line 213) `def _emit_event(cfg, target, plan, plan_path, clock_fn)`
+  - `_atomic_write_json` (method, line 263) `def _atomic_write_json(path, data, mode)`
+  - `_safe_log` (method, line 291) `def _safe_log(console, message)`
+- Depends on: `cli/exploration.py`, `cli/recon_plan.py`
+- Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py`
+
+## cli/marketplace_config.py
+- Doc: Interactive marketplace manager for LazyOwn lazyaddons, plugins, and tools.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `MarketplaceConfig` (class, line 49) `class MarketplaceConfig`
+  - `AddonInfo` (class, line 124) `class AddonInfo`
+  - `AddonRegistry` (class, line 190) `class AddonRegistry`
+  - `MarketplaceSettings` (class, line 337) `class MarketplaceSettings`
+  - `MarketplaceConfigurator` (class, line 366) `class MarketplaceConfigurator`
+  - `configure_marketplace_interactive` (method, line 739) `def configure_marketplace_interactive(config, start_tab)`
+  - `_build_initial_settings` (method, line 762) `def _build_initial_settings(registry)`
+  - `marketplace_summary` (method, line 772) `def marketplace_summary(registry)`
+  - `from_yaml` (method, line 137) `def from_yaml(cls, path)`
+  - `toggle_enabled` (method, line 157) `def toggle_enabled(self)`
+  - `set_enabled` (method, line 161) `def set_enabled(self, enabled)`
+  - `save_yaml` (method, line 178) `def save_yaml(self, data)`
+  - `__init__` (method, line 213) `def __init__(self)`
+  - `_nuclei_dir` (method, line 216) `def _nuclei_dir(self)`
+  - `scan` (method, line 228) `def scan(self, tab)`
+  - `_scan_yara` (method, line 252) `def _scan_yara(self)`
+  - `_scan_nuclei` (method, line 271) `def _scan_nuclei(self)`
+  - `_parse_yara_meta` (method, line 295) `def _parse_yara_meta(path)`
+  - `_parse_nuclei_info` (method, line 307) `def _parse_nuclei_info(path)`
+  - `rescan` (method, line 322) `def rescan(self, tab)`
+  - `tab_order` (method, line 326) `def tab_order(self)`
+  - `tab_label` (method, line 329) `def tab_label(self, tab)`
+  - `tab_count` (method, line 332) `def tab_count(self, tab)`
+  - `is_enabled` (method, line 342) `def is_enabled(self, kind, name)`
+  - `toggle` (method, line 345) `def toggle(self, addon)`
+  - `enable_all` (method, line 355) `def enable_all(self, addons)`
+  - `disable_all` (method, line 360) `def disable_all(self, addons)`
+  - `__init__` (method, line 369) `def __init__(self, config, registry, initial)`
+  - `run` (method, line 383) `def run(self, start_tab)`
+  - `_tty_available` (method, line 396) `def _tty_available()`
+  - `_rows_for_tab` (method, line 399) `def _rows_for_tab(self, tab)`
+  - `_loop` (method, line 402) `def _loop(self, stdscr)`
+  - `_cycle_tab` (method, line 453) `def _cycle_tab(self, direction)`
+  - `_edit_addon` (method, line 458) `def _edit_addon(self, addon)`
+  - `_create_addon` (method, line 468) `def _create_addon(self, stdscr)`
+  - `_init_colors` (method, line 525) `def _init_colors(self)`
+  - `_render` (method, line 552) `def _render(self, stdscr, rows, cursor, offset)`
+  - `_draw_frame` (method, line 592) `def _draw_frame(self, stdscr, top, left, height, width)`
+  - `_draw_header` (method, line 606) `def _draw_header(self, stdscr, top, left, width)`
+  - `_draw_tabs` (method, line 629) `def _draw_tabs(self, stdscr, row_y, left, width)`
+  - `_draw_column_headers` (method, line 647) `def _draw_column_headers(self, stdscr, row_y, left, width, rows)`
+  - `_draw_row` (method, line 657) `def _draw_row(self, stdscr, row_y, left, width, addon, selected)`
+  - `_draw_preview` (method, line 680) `def _draw_preview(self, stdscr, top, left, width, addon)`
+  - `_draw_summary` (method, line 708) `def _draw_summary(self, stdscr, row_y, left, width, rows)`
+  - `_draw_footer` (method, line 720) `def _draw_footer(self, stdscr, row_y, left, width)`
+  - `_color` (method, line 730) `def _color(self, pair)`
+- Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
+
+## cli/noise_verbs.py
+- Doc: Canonical non-actionable verb registry for post-command surfaces.
+- Layer: utility
+- Language: py
+- Imported by: `cli/chain_mode.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/tips_engine.py`
+
+
+Next: [KB_cli_p3.md](KB_cli_p3.md)

@@ -1,14 +1,14 @@
 # Subsystem: panels
 
 ## lazygui/panels/__init__.py
-- Layer: presentation
-- Doc: Dockable panels assembled from the reusable widgets.  Each panel is a thin :class:`QDockWidget` that owns a single conce
+- Doc: Dockable panels assembled from the reusable widgets.
+- Layer: utility
 - Language: py
 - Depends on: `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`
 
 ## lazygui/panels/base.py
-- Layer: presentation
-- Doc: Common :class:`QDockWidget` base for every panel.  Centralises ``objectName`` assignment (required for ``QMainWindow.sav
+- Doc: Common :class:`QDockWidget` base for every panel.
+- Layer: utility
 - Language: py
 - Symbols:
   - `PanelBase` (class, line 17) `class PanelBase(QDockWidget)`
@@ -19,8 +19,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`
 
 ## lazygui/panels/campaign_panel.py
-- Layer: presentation
-- Doc: Campaign management panel for the operator console.  Displays active campaigns, objectives and playbook execution status
+- Doc: Campaign management panel for the operator console.
+- Layer: utility
 - Language: py
 - Symbols:
   - `CampaignPanel` (class, line 28) `class CampaignPanel(PanelBase)`
@@ -36,8 +36,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/credentials_panel.py
-- Layer: presentation
-- Doc: Credentials and loot panel for the operator console.  Displays captured credentials, hashes, and exfiltrated artefacts f
+- Doc: Credentials and loot panel for the operator console.
+- Layer: utility
 - Language: py
 - Symbols:
   - `CredentialsPanel` (class, line 27) `class CredentialsPanel(PanelBase)`
@@ -49,8 +49,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/cve_panel.py
-- Layer: presentation
-- Doc: CVE tracker panel for the operator console.  Displays known CVEs from the knowledge base with severity filtering and sea
+- Doc: CVE tracker panel for the operator console.
+- Layer: utility
 - Language: py
 - Symbols:
   - `CVEPanel` (class, line 28) `class CVEPanel(PanelBase)`
@@ -64,8 +64,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/event_log_panel.py
-- Layer: presentation
 - Doc: Panel hosting the application-wide event log.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `EventLogPanel` (class, line 24) `class EventLogPanel(PanelBase)`
@@ -75,8 +75,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/graph_panel.py
-- Layer: presentation
-- Doc: Graph panel for Cobalt Strike-style attack topography visualization.  Renders the C2 beacon graph with interactive nodes
+- Doc: Graph panel for Cobalt Strike-style attack topography visualization.
+- Layer: utility
 - Language: py
 - Symbols:
   - `GraphPanel` (class, line 20) `class GraphPanel(PanelBase)`
@@ -90,8 +90,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/history_panel.py
-- Layer: presentation
-- Doc: Command history panel showing beacon command logs.  Reads ``sessions/<client_id>.log`` CSV files and displays command en
+- Doc: Command history panel showing beacon command logs.
+- Layer: utility
 - Language: py
 - Symbols:
   - `HistoryPanel` (class, line 30) `class HistoryPanel(PanelBase)`
@@ -102,8 +102,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/killchain_panel.py
-- Layer: presentation
-- Doc: Kill-chain visualization panel for the operator console.  Displays the current engagement phase and completed phases as 
+- Doc: Kill-chain visualization panel for the operator console.
+- Layer: utility
 - Language: py
 - Symbols:
   - `_get_phases` (function, line 23) `def _get_phases()`
@@ -116,8 +116,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/listeners_panel.py
-- Layer: presentation
 - Doc: Panel that lists the listeners advertised by the backend.
+- Layer: utility
 - Language: py
 - Symbols:
   - `ListenersPanel` (class, line 21) `class ListenersPanel(PanelBase)`
@@ -130,8 +130,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/marketplace_panel.py
-- Layer: presentation
-- Doc: Marketplace panel for YARA rules, Nuclei templates, YAML addons and Lua plugins.  Lists installed items from lazyaddons/
+- Doc: Marketplace panel for YARA rules, Nuclei templates, YAML addons and Lua plugins.
+- Layer: utility
 - Language: py
 - Symbols:
   - `MarketplacePanel` (class, line 29) `class MarketplacePanel(PanelBase)`
@@ -153,8 +153,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/registry.py
-- Layer: presentation
-- Doc: Registry that owns all dock panels.  Centralising panel instances makes the main window straightforward: it asks the reg
+- Doc: Registry that owns all dock panels.
+- Layer: utility
 - Language: py
 - Symbols:
   - `PanelRegistry` (class, line 34) `class PanelRegistry`
@@ -166,8 +166,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/panels/sessions_panel.py
-- Layer: presentation
-- Doc: Panel that lists active sessions reported by the backend.  Supports right-click context menus for beacon interaction: sp
+- Doc: Panel that lists active sessions reported by the backend.
+- Layer: utility
 - Language: py
 - Symbols:
   - `SessionsPanel` (class, line 39) `class SessionsPanel(PanelBase)`
@@ -184,8 +184,8 @@
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
 ## lazygui/panels/terminal_panel.py
-- Layer: presentation
 - Doc: Console panel hosting the :class:`TerminalView` with beacon command support.
+- Layer: utility
 - Language: py
 - Symbols:
   - `TerminalPanel` (class, line 22) `class TerminalPanel(PanelBase)`

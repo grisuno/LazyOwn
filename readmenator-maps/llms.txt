@@ -1,0 +1,79 @@
+# LazyOwn
+
+> Static analysis knowledge base for LazyOwn: 22 communities, 893 files, 8064 imports, 10 languages, 17077 symbols.
+
+Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
+
+## Agent Docs
+
+- [readmenator-agent/INDEX.md](md/readmenator-agent/INDEX.md)
+- [readmenator-agent/GOTCHAS.md](md/readmenator-agent/GOTCHAS.md): These files have the most connections. Changes here have high blast radius.
+- [readmenator-agent/API.md](md/readmenator-agent/API.md): incrementversion (function) DEPLOY.sh:19
+- [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Imported by: lazyc2.py, tests/testcoremodules.py, tests/testdashboardroutes.py
+- [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): encryptdata (function) modules/icmpclient.py:17 def encryptdata(data, key) -- Encrypt bytes with AES-256-GCM returning nonce || ciphertext || tag.
+- [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): ctrlc (function) modules/lazywps.sh:9
+- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/crypto.py, core/hardening.py
+- [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: cli/commands/enum.py, core/logging.py
+- [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): writefile (function) plugins/rundll32sctfromurl.lua:4
+- [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: modules/killchain.py
+- [readmenator-agent/API_p17.md](md/readmenator-agent/API_p17.md): Depends on: core/logging.py, modules/eventengine.py, modules/loggingconfig.py, skills/lazyownfacts.py, skills/lazyownobjective.py
+- [readmenator-agent/API_p18.md](md/readmenator-agent/API_p18.md): Depends on: cli/assign.py, lazygui/services/factory.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p19.md](md/readmenator-agent/API_p19.md): useVertxTimer (function) static/js/html2pdf.bundle.min.js:7458
+- [readmenator-agent/API_p2.md](md/readmenator-agent/API_p2.md): Depends on: cli/commands/base.py, skills/daemoncontrol.py, utils.py
+- [readmenator-agent/API_p20.md](md/readmenator-agent/API_p20.md): Depends on: cli/show.py, core/process.py, lazyown-docker/init.sh
+- [readmenator-agent/API_p3.md](md/readmenator-agent/API_p3.md): Depends on: cli/commands/base.py, utils.py
+- [readmenator-agent/API_p4.md](md/readmenator-agent/API_p4.md): Depends on: cli/exploration.py, cli/reconplan.py
+- [readmenator-agent/API_p5.md](md/readmenator-agent/API_p5.md): checksudo (function) contrib/legacy/lazyarpspoofing.py:27 def checksudo()
+- [readmenator-agent/API_p6.md](md/readmenator-agent/API_p6.md): Depends on: cli/commands/enum.py
+- [readmenator-agent/API_p7.md](md/readmenator-agent/API_p7.md): Depends on: cli/autocrypto.py, cli/palette.py, cli/palettecommand.py, core/hardening.py, core/logging.py, core/parsers.py, lazyc2/blueprints/init.py...
+- [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/logging.py, lazygui/config/constants.py, lazygui/config/paths.py
+- [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: core/logging.py
+- [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): contrib/legacy/lazyllmchat.py -> modules/aimodel.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/lilsplunky.py -> core/console.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): tests/testencodingcommandset.py -> cli/commands/base.py
+- [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): cli/aliases.py -> future, pathlib, string, typing, yaml
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): scripts/fixmigratedclasses.py -> pathlib
+- [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
+- [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
+- [readmenator-agent/KB_backdoor.md](md/readmenator-agent/KB_backdoor.md): bootRun (function, line 18) int bootRun()
+- [readmenator-agent/KB_blueprints.md](md/readmenator-agent/KB_blueprints.md): Doc: Flask Blueprints for lazydown C2.
+- [readmenator-agent/KB_cgi-bin.md](md/readmenator-agent/KB_cgi-bin.md)
+- [readmenator-agent/KB_claude_md_orchestrator.md](md/readmenator-agent/KB_claude_md_orchestrator.md): Doc: Public API for the claudemdorchestrator skill.
+- [readmenator-agent/KB_cli.md](md/readmenator-agent/KB_cli.md): Doc: LazyOwn CLI infrastructure.
+- [readmenator-agent/KB_cli_p2.md](md/readmenator-agent/KB_cli_p2.md): Doc: LazyOwn operator dashboard — a full-screen Textual TUI.
+- [readmenator-agent/KB_cli_p3.md](md/readmenator-agent/KB_cli_p3.md): Doc: Power-user operator commands: ctx, tgrep, phase, note, l00t, pivot, tasks, sitrep, scans.
+- [readmenator-agent/KB_cli_p4.md](md/readmenator-agent/KB_cli_p4.md): Doc: Textual browser for the LazyOwn sessions/ directory.
+- [readmenator-agent/KB_commands.md](md/readmenator-agent/KB_commands.md): Doc: Phase-scoped CommandSet modules.
+- [readmenator-agent/KB_commands_p2.md](md/readmenator-agent/KB_commands_p2.md): Doc: DNS exfiltration and covert channel command set.
+- [readmenator-agent/KB_commands_p3.md](md/readmenator-agent/KB_commands_p3.md): Doc: Module management commands — search, use, back, and active module context.
+- [readmenator-agent/KB_commands_p4.md](md/readmenator-agent/KB_commands_p4.md): Doc: OPSEC and security commands — risk scoring, credential sealing, rotation.
+- [readmenator-agent/KB_config.md](md/readmenator-agent/KB_config.md): Doc: Configuration layer.
+- [readmenator-agent/KB_core.md](md/readmenator-agent/KB_core.md): Doc: Core primitives for the LazyOwn framework.
+- [readmenator-agent/KB_core_p2.md](md/readmenator-agent/KB_core_p2.md): Doc: Stable structural interfaces (PEP 544 Protocol) for high-level orchestration.
+- [readmenator-agent/KB_devtools.md](md/readmenator-agent/KB_devtools.md): Doc: Audit every registered shell command for dispatch and parser errors.
+- [readmenator-agent/KB_extensions.md](md/readmenator-agent/KB_extensions.md): Doc: Shared C2 extension modules.
+- [readmenator-agent/KB_hermes-lazyown.md](md/readmenator-agent/KB_hermes-lazyown.md): Doc: Hermes-LazyOwn integration package.
+- [readmenator-agent/KB_integrations.md](md/readmenator-agent/KB_integrations.md): Doc: LazyOwn integrations — bridges to external platforms and tools.
+- [readmenator-agent/KB_js.md](md/readmenator-agent/KB_js.md): Depends on: cli/assign.py, cli/show.py
+- [readmenator-agent/KB_js_p2.md](md/readmenator-agent/KB_js_p2.md): commonjsRequire (function, line 13)
+- [readmenator-agent/KB_js_p3.md](md/readmenator-agent/KB_js_p3.md): counters (function, line 6725)
+- [readmenator-agent/KB_js_p4.md](md/readmenator-agent/KB_js_p4.md): Doc: as: @license vis.js is dual licensed under both 1.
+- [readmenator-agent/KB_lazyc2.md](md/readmenator-agent/KB_lazyc2.md): Imported by: lazyc2/blueprints/auth.py, lazyc2/extensions/users.py
+- [readmenator-agent/KB_lazygui.md](md/readmenator-agent/KB_lazygui.md): Doc: LazyOwn Operator Console.
+- [readmenator-agent/KB_lazyown-docker.md](md/readmenator-agent/KB_lazyown-docker.md): Doc: LazyOwn Entrypoint Script Initializes LazyOwn framework in a Docker container with tmux sessions
+- [readmenator-agent/KB_legacy.md](md/readmenator-agent/KB_legacy.md): Doc: Legacy module shims — deprecated scripts retained for compatibility.
+
+## Project Docs
+
+- [KNOWLEDGE_BASE.md](md/KNOWLEDGE_BASE.md): Start here: Statistics Dashboard for scope, God Nodes for blast radius, Architecture Reference for per-file API. Agents: prefer readmenator-agent/INDEX.md +...
+- [README.md](md/README.md): !LazyOwnRedteamframework
+- [SECURITY.md](md/SECURITY.md): The following LazyOwn versions currently receive support and security updates:
+
+## Optional
+
+- [Runtime Architecture](architecture.html): Components, services, storage, and boundaries across layers. (interactive HTML)
+- [Data Flow](dataflow.html): Movement of data from sources through transforms to stores. (interactive HTML)
+- [Change Lifecycle](lifecycle.html): States, transitions, waits, and retry paths of change. (interactive HTML)
+- [Request Sequence](sequence.html): Ordered interaction between top participants over time. (interactive HTML)
+- [Delivery Workflow](workflow.html): Delivery path across lanes from entry to terminal outcomes. (interactive HTML)

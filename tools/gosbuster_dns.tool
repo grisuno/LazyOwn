@@ -1,6 +1,6 @@
 {
   "toolname": "gobuster_dns",
-  "command": "gobuster dns -r http{s}://{ip}:{port} -d {domain} -w {dirworlist} -t 200 | tee {outputdir}/gobuster_web.txt",
+  "command": "gobuster dns -d {domain} -w {dirworlist} -t 200 -o {outputdir}/gobuster_dns.txt",
   "trigger": [
     "http",
     "https"

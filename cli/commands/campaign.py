@@ -47,6 +47,7 @@ class CampaignCommandSet(LazyOwnCommandSet):
             campaign export [name]     — package the current campaign
             campaign import <file>     — restore a campaign from a package
             campaign list              — list exported campaign packages
+            campaign status            — show live shared campaign state
 
         Export packages include:
           - SQLite database dump (all workspaces, hosts, services, vulns,
@@ -63,11 +64,12 @@ class CampaignCommandSet(LazyOwnCommandSet):
         """
         args = line.strip().split()
         if not args:
-            print_msg("Usage: campaign [export|import|list] [name|file]")
+            print_msg("Usage: campaign [export|import|list|status] [name|file]")
             print_msg("Examples:")
             print_msg("  campaign export htb_machine")
             print_msg("  campaign import sessions/exports/htb_machine_20260730.zip")
             print_msg("  campaign list")
+            print_msg("  campaign status")
             return
 
         action = args[0].lower()
@@ -82,8 +84,10 @@ class CampaignCommandSet(LazyOwnCommandSet):
             self._campaign_import(arg)
         elif action == "list":
             self._campaign_list()
+        elif action == "status":
+            self._campaign_status()
         else:
-            print_error(f"Unknown action: {action}. Use export, import, or list.")
+            print_error(f"Unknown action: {action}. Use export, import, list, or status.")
 
     def _gather_campaign_manifest(self, name: str) -> dict:
         """Build a manifest describing the current campaign state."""
@@ -332,3 +336,26 @@ class CampaignCommandSet(LazyOwnCommandSet):
             print_msg(f"  {pkg.name:<45} {size_kb:>6.0f} KB  {hosts} hosts  phase={phase}  {mtime}")
         print_msg("")
         print_msg("Use: campaign import <filename>")
+
+    def _campaign_status(self):
+        """Print the live shared campaign state (no export, read-only)."""
+        manifest = self._gather_campaign_manifest(self.params.get("engagement_name", "campaign") or "campaign")
+
+        print_msg(f"\n{'=' * 60}")
+        print_msg(f"  CAMPAIGN STATUS: {manifest.get('name', 'campaign')}")
+        print_msg(f"{'=' * 60}")
+        print_msg(f"  Target      : {self.params.get('rhost', 'N/A')}")
+        print_msg(f"  Domain      : {self.params.get('domain', 'N/A')}")
+        print_msg(f"  Attacker    : {self.params.get('lhost', 'N/A')}:{self.params.get('lport', 'N/A')}")
+        print_msg(f"  Phase       : {manifest.get('world_model_phase', 'unknown')}")
+        print_msg(
+            f"  Hosts: {manifest['host_count']}  "
+            f"Services: {manifest['service_count']}  "
+            f"Vulns: {manifest['vuln_count']}  "
+            f"Creds: {manifest['cred_count']}"
+        )
+        print_msg(f"  Session files: {len(manifest.get('session_files', []))}")
+        print_msg(f"  Exported at : {manifest.get('exported_at', 'now (live view)')}")
+        print_msg(f"{'=' * 60}")
+        print_msg("  Share with team: campaign export <name>  →  campaign import <file>")
+        print_msg("  Operators board: collab_join  →  team_status")

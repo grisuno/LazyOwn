@@ -10,22 +10,21 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3 \
     python3-pip \
     python3-venv \
+    python3-dev \
+    build-essential \
     nmap \
     masscan \
     hydra \
-    nikto \
     john \
     hashcat \
     gobuster \
     dirb \
     sqlmap \
-    enum4linux \
     smbclient \
     smbmap \
-    crackmapexec \
     nbtscan \
     onesixtyone \
-    snmpwalk \
+    snmp \
     whois \
     wget \
     tmux \
@@ -52,10 +51,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-# Copy dependency manifests first for layer caching
-COPY requirements.txt install.sh ./
-RUN bash install.sh 2>/dev/null || \
-    (pip3 install --break-system-packages -r requirements.txt 2>/dev/null || true)
+# Isolated virtualenv on PATH so python3 resolves to it, avoiding the
+# PEP 668 externally-managed-environment conflict of --break-system-packages.
+RUN python3 -m venv /opt/venv
+ENV PATH="/opt/venv/bin:$PATH"
+RUN pip install --upgrade pip setuptools wheel
+
+# Install the light profile (shell + C2 core, no analytics/ML stack) with
+# errors surfaced. Add requirements.txt for the full ML/AI stack if needed.
+COPY requirements-light.txt ./
+RUN pip install --retries 5 --timeout 120 -r requirements-light.txt
 
 # Default entrypoint delegates to lazyown.py
 ENTRYPOINT ["python3", "-W", "ignore", "lazyown.py"]

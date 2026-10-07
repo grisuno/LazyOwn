@@ -1,14 +1,14 @@
 # Subsystem: services
 
 ## lazygui/services/__init__.py
-- Layer: presentation
-- Doc: Service layer.  Defines the domain types the GUI consumes and the backend abstraction that hides whether commands are is
+- Doc: Service layer.
+- Layer: business_logic
 - Language: py
 - Depends on: `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
 
 ## lazygui/services/backend.py
-- Layer: presentation
-- Doc: Backend abstraction.  Implements the Dependency-Inversion principle for the GUI: panels and windows only depend on :clas
+- Doc: Backend abstraction.
+- Layer: business_logic
 - Language: py
 - Symbols:
   - `BackendStatus` (class, line 33) `class BackendStatus(StrEnum)`
@@ -35,8 +35,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`
 
 ## lazygui/services/event_log.py
-- Layer: presentation
-- Doc: In-memory ring buffer for :class:`EventRecord`.  Centralising log retention here lets every backend feed events in and e
+- Doc: In-memory ring buffer for :class:`EventRecord`.
+- Layer: business_logic
 - Language: py
 - Symbols:
   - `EventLog` (class, line 20) `class EventLog(QObject)`
@@ -50,8 +50,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/registry.py`, `lazygui/services/__init__.py`, `lazygui/widgets/event_log_view.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/services/factory.py
-- Layer: presentation
-- Doc: Factory for backend instances.  Encapsulates the construction logic so the rest of the GUI never imports a concrete back
+- Doc: Factory for backend instances.
+- Layer: business_logic
 - Language: py
 - Symbols:
   - `BackendFactory` (class, line 24) `class BackendFactory`
@@ -59,11 +59,11 @@
   - `create_teamserver` (method, line 34) `def create_teamserver(self, credentials, parent)`
   - `create` (method, line 42) `def create(self, kind, parent, credentials)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/services/backend.py`, `lazygui/services/local_backend.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
-- Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/html2pdf.bundle.min.js`
+- Imported by: `lazygui/app.py`, `lazygui/services/__init__.py`, `static/js/html2pdf.bundle.min.js`
 
 ## lazygui/services/local_backend.py
-- Layer: presentation
-- Doc: Local backend that runs the LazyOwn cmd2 console on a PTY.  This backend fork-execs a shell process inside a PTY so the 
+- Doc: Local backend that runs the LazyOwn cmd2 console on a PTY.
+- Layer: business_logic
 - Language: py
 - Symbols:
   - `LocalPtyBackend` (class, line 30) `class LocalPtyBackend(Backend)`
@@ -90,8 +90,8 @@
 - Imported by: `lazygui/services/__init__.py`, `lazygui/services/factory.py`
 
 ## lazygui/services/models.py
+- Doc: Immutable domain types consumed by the UI.
 - Layer: business_logic
-- Doc: Immutable domain types consumed by the UI.  These dataclasses are deliberately framework-agnostic. They never carry Qt r
 - Language: py
 - Symbols:
   - `BackendKind` (class, line 17) `class BackendKind(StrEnum)`
@@ -113,8 +113,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/backend.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/graph_view.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`, `tests/test_lazygui_models.py`
 
 ## lazygui/services/teamserver_backend.py
-- Layer: presentation
-- Doc: Teamserver backend with Socket.IO real-time and full HTTP API coverage.  Connects to ``lazyc2.py`` via HTTP REST + Socke
+- Doc: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
+- Layer: business_logic
 - Language: py
 - Symbols:
   - `TeamserverCredentials` (class, line 39) `class TeamserverCredentials`

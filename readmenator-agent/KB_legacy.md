@@ -1,8 +1,9 @@
-# Subsystem: legacy
+# Subsystem: legacy (page 1 of 2)
+Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
 
 ## contrib/legacy/__init__.py
+- Doc: Legacy module shims — deprecated scripts retained for compatibility.
 - Layer: utility
-- Doc: Legacy module shims — deprecated scripts retained for compatibility.  Scripts in this directory are no longer maintained
 - Language: py
 
 ## contrib/legacy/lazy_http_bof.py
@@ -27,8 +28,8 @@
   - `daemonize` (function, line 192) `def daemonize()`
 
 ## contrib/legacy/lazyaddon_creator.py
+- Doc: parse_github_url: Extrae (owner, repo) de una URL de GitHub.
 - Layer: utility
-- Doc: lazyaddon_creator.py ==================== Genera automáticamente un addon YAML de LazyOwn a partir de una URL de GitHub.
 - Language: py
 - Symbols:
   - `parse_github_url` (function, line 49) `def parse_github_url(url)`
@@ -68,8 +69,8 @@
 - Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
 
 ## contrib/legacy/lazybotcli.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `encrypt` (function, line 30) `def encrypt(plaintext, key)`
@@ -77,8 +78,8 @@
   - `main` (function, line 42) `def main()`
 
 ## contrib/legacy/lazybotnet.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `encrypt` (function, line 46) `def encrypt(plaintext, key)`
@@ -99,8 +100,8 @@
   - `create_shortcut` (method, line 136) `def create_shortcut(self, script_path, shortcut_path)`
 
 ## contrib/legacy/lazycam.py
+- Doc: This code is a portion of frigate Event Video Recorder (fEVR)  Copyright (C) 2021-2022  The...
 - Layer: utility
-- Doc: This code is a portion of frigate Event Video Recorder (fEVR)  Copyright (C) 2021-2022  The Bearded Tek (http://www.bear
 - Language: py
 - Symbols:
   - `RTSPScanner` (class, line 32) `class RTSPScanner`
@@ -120,8 +121,8 @@
 - Depends on: `modules/lazyencoder_decoder.py`
 
 ## contrib/legacy/lazydeepseekcli.py
+- Doc: Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local +...
 - Layer: presentation
-- Doc: Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local + lazydeepseekcli_localreport.  Provides strea
 - Language: py
 - Symbols:
   - `truncate_message` (function, line 41) `def truncate_message(message, max_chars)`
@@ -144,8 +145,8 @@
 - Imported by: `modules/llm_adapter.py`
 
 ## contrib/legacy/lazydisassebler.py
-- Layer: infrastructure
-- Doc: disassembler.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3  Descr
+- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3...
+- Layer: utility
 - Language: py
 - Symbols:
   - `X64Disassembler` (class, line 24) `class X64Disassembler`
@@ -181,8 +182,8 @@
 - Depends on: `modules/backdoor/server.c`
 
 ## contrib/legacy/lazygptcli.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `signal_handler` (function, line 66) `def signal_handler(sig, frame)`
@@ -202,8 +203,8 @@
 - Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
 
 ## contrib/legacy/lazygptcli_unified.py
+- Doc: Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask +...
 - Layer: utility
-- Doc: Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask + lazygptvulns + lazyredopgpt
 - Language: py
 - Symbols:
   - `_ret_model` (function, line 45) `def _ret_model()`
@@ -236,11 +237,11 @@
   - `process_prompt_redop` (function, line 382) `def process_prompt_redop(client, prompt, debug)`
   - `_deepseek_fallback` (function, line 392) `def _deepseek_fallback(prompt)`
 - Depends on: `core/logging.py`, `modules/colors.py`
-- Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli.py`
+- Imported by: `contrib/legacy/lazygptcli.py`
 
 ## contrib/legacy/lazyhoneypot.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `parse_args` (function, line 34) `def parse_args()`
@@ -261,7 +262,7 @@
 - Depends on: `core/logging.py`
 
 ## contrib/legacy/lazyhttpreverseshell.py
-- Layer: presentation
+- Layer: utility
 - Language: py
 - Symbols:
   - `encrypt` (function, line 14) `def encrypt(data)`
@@ -296,6 +297,7 @@
   - `main` (function, line 43) `def main()`
 
 ## contrib/legacy/lazyllmchat.py
+- Doc: _load_model: Load the configured LLM backend through the central factory.
 - Layer: utility
 - Language: py
 - Symbols:
@@ -341,8 +343,8 @@
 - Depends on: `modules/lazyencoder_decoder.py`
 
 ## contrib/legacy/lazymariadb_rce_cve_2016-662.py
+- Doc: MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (CVE-2016-6662)...
 - Layer: utility
-- Doc: MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (CVE-2016-6662) 0ldSQL_MySQL_RCE_exploit.p
 - Language: py
 - Symbols:
   - `info` (function, line 59) `def info(str)`
@@ -363,6 +365,7 @@
   - `main` (function, line 68) `def main()`
 
 ## contrib/legacy/lazymitmap.py
+- Doc: run_cmd_write: Write a file using sudo.
 - Layer: utility
 - Language: py
 - Symbols:
@@ -389,8 +392,8 @@
   - `signal_handler` (function, line 324) `def signal_handler(sig, frame)`
 
 ## contrib/legacy/lazynetbios.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
 - Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
 - Language: py
 - Symbols:
   - `check_sudo` (function, line 30) `def check_sudo()`
@@ -409,8 +412,8 @@
   - `ntlm_relay` (function, line 52) `def ntlm_relay(target_ip, credentials)`
 
 ## contrib/legacy/lazyopenssh77enum2.py
+- Doc: CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://leapsecurity.io...
 - Layer: utility
-- Doc: CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://leapsecurity.io Credits: Matthew Daley, Jus
 - Language: py
 - Symbols:
   - `InvalidUsername` (class, line 14) `class InvalidUsername(Exception)`
@@ -421,8 +424,8 @@
 - Depends on: `core/logging.py`
 
 ## contrib/legacy/lazyphishingai.py
+- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation Date: 09/06/2024...
 - Layer: presentation
-- Doc: main.py  Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation Date: 09/06/2024 License: GPL v3  Descr
 - Language: py
 - Symbols:
   - `clean_think` (function, line 28) `def clean_think(texto)`
@@ -477,6 +480,7 @@
 - Depends on: `cli/commands/pwn.py`
 
 ## contrib/legacy/lazypwnkit.py
+- Doc: rmrf: Elimina recursivamente un directorio y su contenido.
 - Layer: utility
 - Language: py
 - Symbols:
@@ -487,126 +491,8 @@
   - `main` (function, line 79) `def main()`
 
 ## contrib/legacy/lazypyautogui.py
-- Layer: presentation
-- Language: py
-
-## contrib/legacy/lazyreversentlmv2.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `parse_hash_file` (function, line 11) `def parse_hash_file(file_path)`
-  - `reverse_shell` (function, line 58) `def reverse_shell(target_ip, username, domain, lmhash, nthash, callback_ip, callback_port)`
-- Depends on: `modules/lazyencoder_decoder.py`
-
-## contrib/legacy/lazysearch.py
-- Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
-- Language: py
-- Symbols:
-  - `highlight_term` (function, line 29) `def highlight_term(text, term)`
-  - `search_in_parquet` (function, line 32) `def search_in_parquet(term, parquet_files)`
-  - `main` (function, line 44) `def main()`
-
-## contrib/legacy/lazysearch_bot.py
-- Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
-- Language: py
-- Symbols:
-  - `signal_handler` (function, line 59) `def signal_handler(sig, frame)`
-  - `show_help` (function, line 65) `def show_help(message)`
-  - `check_api_key` (function, line 69) `def check_api_key()`
-  - `configure_logging` (function, line 75) `def configure_logging(debug)`
-  - `parse_args` (function, line 79) `def parse_args()`
-  - `create_complex_prompt` (function, line 86) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
-  - `execute_command` (function, line 109) `def execute_command(command)`
-  - `load_knowledge_base` (function, line 112) `def load_knowledge_base(file_path)`
-  - `save_knowledge_base` (function, line 118) `def save_knowledge_base(knowledge_base, file_path)`
-  - `add_to_knowledge_base` (function, line 122) `def add_to_knowledge_base(prompt, command, file_path)`
-  - `get_relevant_knowledge` (function, line 127) `def get_relevant_knowledge(prompt)`
-  - `transform_knowledge_base` (function, line 135) `def transform_knowledge_base(client)`
-  - `main` (function, line 158) `def main()`
-- Depends on: `core/logging.py`
-
-## contrib/legacy/lazyseo.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `Config` (class, line 14) `class Config`
-  - `load_payload` (method, line 23) `def load_payload()`
-  - `make_request` (method, line 28) `def make_request(url, retries, timeout)`
-  - `results` (method, line 49) `def results(file)`
-  - `crawl` (method, line 57) `def crawl(url)`
-  - `ffuf` (method, line 66) `def ffuf()`
-  - `analyze_seo` (method, line 76) `def analyze_seo(url)`
-  - `__init__` (method, line 15) `def __init__(self, config_dict)`
-  - `__getitem__` (method, line 20) `def __getitem__(self, key)`
-- Depends on: `modules/colors.py`
-
-## contrib/legacy/lazysmbrelay.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `check_sudo` (function, line 15) `def check_sudo()`
-  - `start_smb_server` (function, line 27) `def start_smb_server()`
-  - `start_smb_relay` (function, line 35) `def start_smb_relay(target, command)`
-  - `CustomSMBRelayServer` (class, line 41) `class CustomSMBRelayServer(SMBRelayServer)`
-  - `__init__` (method, line 42) `def __init__(self)`
-  - `handleData` (method, line 46) `def handleData(self)`
-  - `execute_remote_command` (method, line 50) `def execute_remote_command(self)`
-- Depends on: `core/logging.py`, `utils.py`
-
-## contrib/legacy/lazysniff.py
-- Layer: utility
-- Doc: main.py  Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación: 09/06/2024 Licenc
-- Language: py
-- Symbols:
-  - `check_sudo` (function, line 41) `def check_sudo()`
-  - `signal_handler` (function, line 50) `def signal_handler(sig, frame)`
-  - `setup_curses` (function, line 57) `def setup_curses()`
-  - `restore_curses` (function, line 66) `def restore_curses(stdscr)`
-  - `show_banner` (function, line 73) `def show_banner(stdscr, banner)`
-  - `process_packet` (function, line 80) `def process_packet(packet, packets, win_top, win_bottom)`
-  - `analyze_packet` (function, line 90) `def analyze_packet(packet)`
-  - `capture_packets` (function, line 112) `def capture_packets(interface, count, filter, pcap_file, packets, win_top, win_bottom)`
-  - `main_curses` (function, line 118) `def main_curses(stdscr, packets, interface, count, filter, pcap_file)`
-  - `parse_arguments` (function, line 188) `def parse_arguments()`
-  - `main` (function, line 197) `def main()`
-
-## contrib/legacy/lazysqli.py
-- Layer: utility
-- Doc: AUTHOR: jahman EDITED BY grisun0
-- Language: py
-- Symbols:
-  - `send_payload` (function, line 13) `def send_payload(payload, url, s, sql_time)`
-  - `sqli_dichotomie` (function, line 30) `def sqli_dichotomie(payload_brute, offset, url, s, sql_time)`
-  - `sqli_thread` (function, line 51) `def sqli_thread(url, db, table, col, sql_time, threads)`
-  - `main` (function, line 89) `def main(args)`
-
-## contrib/legacy/lazyssh.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `execute` (function, line 13) `def execute(hostname, port, command)`
-- Depends on: `core/logging.py`
-
-## contrib/legacy/lazyvsftp.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `connect` (function, line 7) `def connect(host, port)`
-  - `exploit` (function, line 16) `def exploit(host, port)`
-  - `handle_backdoor` (function, line 61) `def handle_backdoor(s)`
-- Depends on: `cli/commands/pwn.py`
-
-## contrib/legacy/lazywerkzeug.py
 - Layer: utility
 - Language: py
 
-## contrib/legacy/sql.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `def_handler` (function, line 8) `def def_handler(sig, frame)`
-  - `getUnicode` (function, line 15) `def getUnicode(sqli)`
-  - `makeRequest` (function, line 22) `def makeRequest(sqli_modified)`
-- Depends on: `cli/commands/pwn.py`
+
+Next: [KB_legacy_p2.md](KB_legacy_p2.md)

@@ -1,14 +1,14 @@
 # Subsystem: config
 
 ## lazygui/config/__init__.py
-- Layer: presentation
-- Doc: Configuration layer.  Centralises every tunable parameter so the rest of the package never embeds a magic number or a ha
+- Doc: Configuration layer.
+- Layer: infrastructure
 - Language: py
 - Depends on: `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`
 
 ## lazygui/config/c2_credentials.py
-- Layer: presentation
-- Doc: C2 auto-generated credentials discovery.  ``lazyc2.py`` writes ``.c2_credentials.txt`` at startup containing the auto-ge
+- Doc: C2 auto-generated credentials discovery.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `C2Credentials` (class, line 24) `class C2Credentials`
@@ -19,8 +19,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/windows/connect_dialog.py`
 
 ## lazygui/config/constants.py
-- Layer: presentation
-- Doc: Immutable application constants.  Every numeric or string literal that the GUI relies on lives here. If a value ever nee
+- Doc: Immutable application constants.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `WindowConstants` (class, line 18) `class WindowConstants`
@@ -37,11 +37,11 @@
   - `CommandPaletteConstants` (class, line 214) `class CommandPaletteConstants`
   - `AppConstants` (class, line 223) `class AppConstants`
   - `panel_labels` (method, line 239) `def panel_labels(self)`
-- Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazygui/theme/qss_builder.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/terminal_view.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`
+- Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/event_log.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/theme/manager.py`, `lazygui/theme/qss_builder.py`, `lazygui/widgets/command_palette_list.py`, `lazygui/widgets/event_log_view.py`, `lazygui/widgets/filter_bar.py`, `lazygui/widgets/graph_view.py`, `lazygui/widgets/terminal_view.py`, `lazygui/windows/command_palette_window.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`, `tests/test_lazygui_graph_widget.py`
 
 ## lazygui/config/paths.py
-- Layer: presentation
-- Doc: Filesystem layout resolver.  The application stores user-specific data under the platform-appropriate config directory a
+- Doc: Filesystem layout resolver.
+- Layer: infrastructure
 - Language: py
 - Symbols:
   - `AppPaths` (class, line 19) `class AppPaths`
@@ -58,8 +58,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/config/settings.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/windows/connect_dialog.py`
 
 ## lazygui/config/settings.py
+- Doc: Persisted user settings.
 - Layer: infrastructure
-- Doc: Persisted user settings.  Settings live in a JSON file under :attr:`AppPaths.config_dir`. The class exposes typed access
 - Language: py
 - Symbols:
   - `AppSettings` (class, line 27) `class AppSettings`

@@ -1,14 +1,14 @@
 # Subsystem: integrations
 
 ## modules/integrations/__init__.py
+- Doc: LazyOwn integrations — bridges to external platforms and tools.
 - Layer: utility
-- Doc: LazyOwn integrations — bridges to external platforms and tools.  Public API ---------- - :class:`MISPIntegration` — expo
 - Language: py
 - Depends on: `modules/integrations/misp_export.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/searchsploit.py`
 
 ## modules/integrations/misp_export.py
+- Doc: modules/integrations/misp_export.py
 - Layer: utility
-- Doc: modules/integrations/misp_export.py ===================================== Exports LazyOwn session findings as MISP-compa
 - Language: py
 - Symbols:
   - `MISPAttribute` (class, line 56) `class MISPAttribute`
@@ -53,8 +53,8 @@
 - Imported by: `modules/integrations/__init__.py`, `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
 
 ## modules/integrations/nuclei_bridge.py
+- Doc: modules/integrations/nuclei_bridge.py
 - Layer: utility
-- Doc: modules/integrations/nuclei_bridge.py ======================================= Selects and runs Nuclei templates based on
 - Language: py
 - Symbols:
   - `NucleiTemplate` (class, line 68) `class NucleiTemplate`
@@ -90,8 +90,8 @@
 - Imported by: `modules/integrations/__init__.py`, `modules/integrations/nuclei_parser.py`, `modules/intelligence_engine.py`
 
 ## modules/integrations/nuclei_parser.py
+- Doc: Nuclei JSON output parser — feeds scan results into DB, WorldModel, and recommender.
 - Layer: utility
-- Doc: Nuclei JSON output parser — feeds scan results into DB, WorldModel, and recommender.  Parses nuclei ``-json`` / ``-jsonl
 - Language: py
 - Symbols:
   - `NucleiFinding` (class, line 71) `class NucleiFinding`
@@ -115,8 +115,8 @@
 - Imported by: `modules/intelligence_engine.py`, `tests/test_nuclei_parser.py`
 
 ## modules/integrations/searchsploit.py
+- Doc: modules/integrations/searchsploit.py
 - Layer: utility
-- Doc: modules/integrations/searchsploit.py ====================================== Bridges searchsploit CLI and ExploitDB with 
 - Language: py
 - Symbols:
   - `ExploitEntry` (class, line 60) `class ExploitEntry`
@@ -147,4 +147,4 @@
   - `search_service` (method, line 284) `def search_service(self, name, version)`
   - `enrich_findings` (method, line 291) `def enrich_findings(self, findings)`
 - Depends on: `core/logging.py`
-- Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`, `tests/test_core_modules.py`
+- Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`

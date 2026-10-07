@@ -1,14 +1,14 @@
 # Subsystem: windows
 
 ## lazygui/windows/__init__.py
-- Layer: presentation
 - Doc: Top-level windows and dialogs.
+- Layer: utility
 - Language: py
 - Depends on: `lazygui/windows/command_palette_window.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/windows/command_palette_window.py
-- Layer: presentation
 - Doc: Frameless palette window invoked by ``Ctrl+K``.
+- Layer: utility
 - Language: py
 - Symbols:
   - `CommandPaletteWindow` (class, line 15) `class CommandPaletteWindow(QWidget)`
@@ -21,8 +21,8 @@
 - Imported by: `lazygui/windows/__init__.py`, `lazygui/windows/main_window.py`
 
 ## lazygui/windows/connect_dialog.py
-- Layer: presentation
-- Doc: Connection dialog for picking a backend.  The dialog lets the operator choose between the local console and a remote tea
+- Doc: Connection dialog for picking a backend.
+- Layer: utility
 - Language: py
 - Symbols:
   - `ConnectionRequest` (class, line 39) `class ConnectionRequest`
@@ -38,8 +38,8 @@
 - Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`
 
 ## lazygui/windows/main_window.py
-- Layer: presentation
-- Doc: Operator console main window.  Composes panels, menus, toolbar, status bar and shortcuts. Owns no business logic of its 
+- Doc: Operator console main window.
+- Layer: utility
 - Language: py
 - Symbols:
   - `MainWindow` (class, line 37) `class MainWindow(QMainWindow)`

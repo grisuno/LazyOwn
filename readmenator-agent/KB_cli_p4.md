@@ -1,0 +1,463 @@
+# Subsystem: cli (page 4 of 4)
+Previous: [KB_cli_p3.md](KB_cli_p3.md)
+
+## cli/sessions_browser.py
+- Doc: Textual browser for the LazyOwn ``sessions/`` directory.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CategorySpec` (class, line 33) `class CategorySpec`
+  - `SessionsBrowserConfig` (class, line 49) `class SessionsBrowserConfig`
+  - `SessionEntry` (class, line 76) `class SessionEntry`
+  - `SessionsIndex` (class, line 85) `class SessionsIndex`
+  - `SessionPreview` (class, line 185) `class SessionPreview`
+  - `SessionsBrowserState` (class, line 225) `class SessionsBrowserState`
+  - `build_state` (method, line 258) `def build_state(payload, sessions_dir, config)`
+  - `launch_browser` (method, line 281) `def launch_browser(payload, state, runner)`
+  - `_build_app` (method, line 314) `def _build_app(state, theme)`
+  - `__init__` (method, line 88) `def __init__(self, config, root)`
+  - `root` (method, line 100) `def root(self)`
+  - `categories` (method, line 104) `def categories(self)`
+  - `_entries_for` (method, line 119) `def _entries_for(self, patterns, spec)`
+  - `_collect_other` (method, line 142) `def _collect_other(self, claimed)`
+  - `_build_entry` (method, line 160) `def _build_entry(self, path, relative, category)`
+  - `_label` (method, line 172) `def _label(self, relative)`
+  - `_relative` (method, line 178) `def _relative(self, path)`
+  - `__init__` (method, line 188) `def __init__(self, config, root)`
+  - `read` (method, line 193) `def read(self, relative)`
+  - `grouped_entries` (method, line 233) `def grouped_entries(self)`
+  - `category_label` (method, line 248) `def category_label(self, identifier)`
+  - `_SessionsBrowserApp` (class, line 325) `class _SessionsBrowserApp(App)`
+  - `__init__` (method, line 340) `def __init__(self)`
+  - `compose` (method, line 346) `def compose(self)`
+  - `on_mount` (method, line 356) `def on_mount(self)`
+  - `on_input_changed` (method, line 359) `def on_input_changed(self, event)`
+  - `on_tree_node_selected` (method, line 363) `def on_tree_node_selected(self, event)`
+  - `action_refresh` (method, line 370) `def action_refresh(self)`
+  - `action_close` (method, line 373) `def action_close(self)`
+  - `_rebuild_tree` (method, line 376) `def _rebuild_tree(self)`
+  - `_show_preview` (method, line 399) `def _show_preview(self, relative)`
+- Depends on: `cli/commands/containers.py`, `cli/themes.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_sessions_browser.py`
+
+## cli/show.py
+- Doc: Pretty-print the live payload for the operator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `format_payload` (function, line 14) `def format_payload(params)`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-4.5.2.min.js`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/quill-2.0.3.js`, `static/js/tippy-6.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_cli_assign.py`
+
+## cli/splash.py
+- Doc: Animated splash overlay for the LazyOwn first-run experience.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SplashConfig` (class, line 37) `class SplashConfig`
+  - `SplashEffect` (class, line 62) `class SplashEffect(Protocol)`
+  - `TypewriterEffect` (class, line 80) `class TypewriterEffect`
+  - `_redraw` (method, line 119) `def _redraw(console, accumulated, caret, tokens)`
+  - `InstantEffect` (class, line 141) `class InstantEffect`
+  - `render_splash` (method, line 166) `def render_splash(console, lines, payload, config, effect_name)`
+  - `render` (method, line 71) `def render(self, console, lines, tokens, config)`
+  - `render` (method, line 90) `def render(self, console, lines, tokens, config)`
+  - `render` (method, line 150) `def render(self, console, lines, tokens, config)`
+- Depends on: `cli/style.py`, `core/console.py`
+- Imported by: `lazyown.py`, `tests/test_tui_splash.py`
+
+## cli/status_bar.py
+- Doc: Persistent operator status bar for the LazyOwn cmd2 shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `StatusBarConfig` (class, line 41) `class StatusBarConfig`
+  - `StatusContext` (class, line 127) `class StatusContext`
+  - `IStatusSource` (class, line 143) `class IStatusSource(Protocol)`
+  - `FileSystemReader` (class, line 151) `class FileSystemReader`
+  - `PayloadTargetSource` (class, line 268) `class PayloadTargetSource`
+  - `WorldModelPhaseSource` (class, line 292) `class WorldModelPhaseSource`
+  - `SessionFindingSource` (class, line 319) `class SessionFindingSource`
+  - `CommandHintSuggestionSource` (class, line 416) `class CommandHintSuggestionSource`
+  - `GraphSuggestionSource` (class, line 508) `class GraphSuggestionSource`
+  - `CollabPresenceSource` (class, line 590) `class CollabPresenceSource`
+  - `StatusBarRenderer` (class, line 656) `class StatusBarRenderer`
+  - `StatusBarManager` (class, line 744) `class StatusBarManager`
+  - `_operator_presence_enabled` (method, line 948) `def _operator_presence_enabled(payload, config)`
+  - `build_default_manager` (method, line 969) `def build_default_manager(payload, sessions_dir, advisor_factory, config)`
+  - `from_payload` (method, line 99) `def from_payload(cls, payload)`
+  - `collect` (method, line 146) `def collect(self)`
+  - `__init__` (method, line 160) `def __init__(self, config, root)`
+  - `root` (method, line 179) `def root(self)`
+  - `read_text` (method, line 183) `def read_text(self, relative)`
+  - `read_json` (method, line 204) `def read_json(self, relative)`
+  - `glob_latest` (method, line 222) `def glob_latest(self, pattern)`
+  - `_safe_path` (method, line 247) `def _safe_path(self, relative)`
+  - `_is_within_root` (method, line 253) `def _is_within_root(self, candidate)`
+  - `_has_traversal` (method, line 261) `def _has_traversal(value)`
+  - `__init__` (method, line 271) `def __init__(self, config, payload)`
+  - `collect` (method, line 283) `def collect(self)`
+  - `__init__` (method, line 295) `def __init__(self, config, reader, payload)`
+  - `collect` (method, line 306) `def collect(self)`
+  - `__init__` (method, line 322) `def __init__(self, config, reader)`
+  - `collect` (method, line 327) `def collect(self)`
+  - `_latest_credential` (method, line 335) `def _latest_credential(self)`
+  - `_latest_vuln` (method, line 345) `def _latest_vuln(self)`
+  - `_latest_note` (method, line 358) `def _latest_note(self)`
+  - `_last_line` (method, line 376) `def _last_line(self, path)`
+  - `_summarise_credential` (method, line 389) `def _summarise_credential(self, filename, line)`
+  - `_extract_vuln_items` (method, line 396) `def _extract_vuln_items(self, payload)`
+  - `__init__` (method, line 426) `def __init__(self, config, reader, phase_provider, hint_provider)`
+  - `collect` (method, line 451) `def collect(self)`
+  - `_latest_command` (method, line 476) `def _latest_command(self)`
+  - `_default_provider` (method, line 500) `def _default_provider()`
+  - `__init__` (method, line 511) `def __init__(self, config, reader, advisor_factory)`
+  - `collect` (method, line 530) `def collect(self)`
+  - `_recent_commands` (method, line 551) `def _recent_commands(self)`
+  - `_suggestion_label` (method, line 579) `def _suggestion_label(entry)`
+  - `__init__` (method, line 601) `def __init__(self, config, reader, clock)`
+  - `collect` (method, line 622) `def collect(self)`
+  - `_extract_entries` (method, line 636) `def _extract_entries(payload)`
+  - `_is_active` (method, line 646) `def _is_active(entry, threshold)`
+  - `__init__` (method, line 659) `def __init__(self, config)`
+  - `render_plain` (method, line 664) `def render_plain(self, ctx)`
+  - `render_prompt` (method, line 687) `def render_prompt(self, ctx, base_prompt, color_open, color_close, readline_safe)`
+  - `_sanitise` (method, line 724) `def _sanitise(self, value, max_chars)`
+  - `__init__` (method, line 752) `def __init__(self, config, sources, renderer, payload)`
+  - `enabled` (method, line 783) `def enabled(self)`
+  - `collect_context` (method, line 798) `def collect_context(self)`
+  - `render_prompt` (method, line 811) `def render_prompt(self, base_prompt, readline_safe)`
+  - `_resolve_theme_colors` (method, line 823) `def _resolve_theme_colors(self)`
+  - `render_plain_line` (method, line 833) `def render_plain_line(self, ctx)`
+  - `set_enabled` (method, line 847) `def set_enabled(self, enabled)`
+  - `install` (method, line 857) `def install(self, shell, base_prompt_attribute, prompt_attribute)`
+  - `_build_precmd_hook` (method, line 895) `def _build_precmd_hook(self, shell, base_prompt, base_prompt_attribute, prompt_attribute)`
+  - `_safe_collect` (method, line 929) `def _safe_collect(self, key)`
+  - `_fallback_for` (method, line 938) `def _fallback_for(self, key)`
+  - `_hook` (method, line 915) `def _hook(data)`
+- Depends on: `cli/reactive_hints.py`, `cli/themes.py`
+- Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status_bar_operators.py`
+
+## cli/style.py
+- Doc: Centralised TUI style tokens for the LazyOwn operator surface.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `style` (function, line 49) `def style(token, theme)`
+  - `active_tokens` (function, line 68) `def active_tokens(payload)`
+  - `paint` (function, line 84) `def paint(text, token, payload)`
+  - `render_prompt` (function, line 98) `def render_prompt(console, segments, payload)`
+- Depends on: `cli/themes.py`
+- Imported by: `cli/splash.py`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+
+## cli/surface_graph.py
+- Doc: Network surface graph reader for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_slug_host` (function, line 73) `def _slug_host(ip)`
+  - `_slug_port` (function, line 78) `def _slug_port(host_id, port, protocol)`
+  - `SurfaceNode` (class, line 85) `class SurfaceNode`
+  - `SurfaceEdge` (class, line 111) `class SurfaceEdge`
+  - `SurfaceGraph` (class, line 124) `class SurfaceGraph`
+  - `SurfaceGraphConfig` (class, line 172) `class SurfaceGraphConfig`
+  - `SurfaceGraphBuilder` (class, line 194) `class SurfaceGraphBuilder`
+  - `build_surface_graph` (method, line 562) `def build_surface_graph(sessions_dir, payload_path)`
+  - `iter_descendants` (method, line 579) `def iter_descendants(graph, root_id)`
+  - `to_dict` (method, line 100) `def to_dict(self)`
+  - `to_dict` (method, line 118) `def to_dict(self)`
+  - `to_dict` (method, line 133) `def to_dict(self)`
+  - `stats` (method, line 144) `def stats(self)`
+  - `children_of` (method, line 151) `def children_of(self, node_id)`
+  - `get` (method, line 163) `def get(self, node_id)`
+  - `__init__` (method, line 197) `def __init__(self, config)`
+  - `build` (method, line 200) `def build(self)`
+  - `_kind_order` (method, line 329) `def _kind_order(kind)`
+  - `_build_c2_node` (method, line 339) `def _build_c2_node(self, local_ips, payload)`
+  - `_discover_local_ips` (method, line 357) `def _discover_local_ips(self)`
+  - `_fallback_local_ips` (method, line 378) `def _fallback_local_ips()`
+  - `_load_payload` (method, line 384) `def _load_payload(self)`
+  - `_read_os_hint` (method, line 397) `def _read_os_hint(self)`
+  - `_read_hostsdiscovery` (method, line 412) `def _read_hostsdiscovery(self, local_ips)`
+  - `_read_scan_discovery` (method, line 429) `def _read_scan_discovery(self, local_ips)`
+  - `_read_implants` (method, line 454) `def _read_implants(self)`
+  - `_read_last_implant_row` (method, line 471) `def _read_last_implant_row(self, path)`
+  - `_parse_implant_row` (method, line 488) `def _parse_implant_row(self, row)`
+  - `_parse_port_scan` (method, line 509) `def _parse_port_scan(self, raw)`
+  - `_is_ipv4` (method, line 545) `def _is_ipv4(value)`
+  - `_client_label` (method, line 551) `def _client_label(client_id, meta)`
+- Imported by: `cli/surface_tui.py`, `tests/test_surface_graph.py`
+
+## cli/surface_tui.py
+- Doc: Terminal renderer for the LazyOwn network surface graph.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TextualNotInstalled` (class, line 61) `class TextualNotInstalled(RuntimeError)`
+  - `render_static` (method, line 65) `def render_static(graph, sessions_dir, payload_path, console)`
+  - `render_json` (method, line 92) `def render_json(graph, sessions_dir, payload_path)`
+  - `launch_tui` (method, line 112) `def launch_tui(sessions_dir, payload_path)`
+  - `_build_rich_tree` (method, line 214) `def _build_rich_tree(graph)`
+  - `_attach_children` (method, line 223) `def _attach_children(parent, graph, parent_id, seen)`
+  - `_styled_label` (method, line 232) `def _styled_label(node)`
+  - `_stats_table` (method, line 241) `def _stats_table(graph)`
+  - `_render_node_detail` (method, line 260) `def _render_node_detail(data)`
+  - `SurfaceExplorer` (class, line 130) `class SurfaceExplorer(App)`
+  - `__init__` (method, line 148) `def __init__(self, sessions_dir, payload_path)`
+  - `compose` (method, line 154) `def compose(self)`
+  - `on_mount` (method, line 161) `def on_mount(self)`
+  - `action_refresh` (method, line 164) `def action_refresh(self)`
+  - `action_expand_all` (method, line 168) `def action_expand_all(self)`
+  - `action_collapse_all` (method, line 172) `def action_collapse_all(self)`
+  - `on_tree_node_selected` (method, line 176) `def on_tree_node_selected(self, event)`
+  - `_reload_graph` (method, line 185) `def _reload_graph(self)`
+  - `_add_children` (method, line 205) `def _add_children(self, parent_node, graph, parent_id)`
+- Depends on: `cli/commands/containers.py`, `cli/surface_graph.py`, `core/console.py`
+- Imported by: `cli/commands/recon_migrated.py`
+
+## cli/themes.py
+- Doc: Theme registry for the LazyOwn TUI surfaces.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `Theme` (class, line 31) `class Theme`
+  - `get_theme` (method, line 222) `def get_theme(name)`
+  - `theme_from_payload` (method, line 238) `def theme_from_payload(payload)`
+- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
+
+## cli/timeline_browser.py
+- Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TimelineColumn` (class, line 33) `class TimelineColumn`
+  - `TimelineConfig` (class, line 43) `class TimelineConfig`
+  - `TimelineEntry` (class, line 65) `class TimelineEntry`
+  - `TimelineReader` (class, line 72) `class TimelineReader`
+  - `TimelineState` (class, line 122) `class TimelineState`
+  - `build_state` (method, line 157) `def build_state(payload, sessions_dir, config)`
+  - `launch_scrubber` (method, line 169) `def launch_scrubber(payload, state, runner)`
+  - `_build_app` (method, line 202) `def _build_app(state, theme)`
+  - `__init__` (method, line 75) `def __init__(self, config, root)`
+  - `root` (method, line 81) `def root(self)`
+  - `read` (method, line 85) `def read(self)`
+  - `_coerce_row` (method, line 103) `def _coerce_row(self, row)`
+  - `reload` (method, line 130) `def reload(self)`
+  - `entries` (method, line 134) `def entries(self)`
+  - `column_value` (method, line 148) `def column_value(self, entry, column)`
+  - `_TimelineBrowserApp` (class, line 213) `class _TimelineBrowserApp(App)`
+  - `__init__` (method, line 228) `def __init__(self)`
+  - `compose` (method, line 234) `def compose(self)`
+  - `on_mount` (method, line 242) `def on_mount(self)`
+  - `on_input_changed` (method, line 249) `def on_input_changed(self, event)`
+  - `on_data_table_row_highlighted` (method, line 253) `def on_data_table_row_highlighted(self, event)`
+  - `action_refresh` (method, line 259) `def action_refresh(self)`
+  - `action_close` (method, line 263) `def action_close(self)`
+  - `_rebuild_rows` (method, line 266) `def _rebuild_rows(self)`
+  - `_refresh_detail` (method, line 278) `def _refresh_detail(self, row_index)`
+- Depends on: `cli/commands/containers.py`, `cli/themes.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
+
+## cli/tips_engine.py
+- Doc: Unified post-command tips engine: single coordination point for all suggestion surfaces.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_noop` (function, line 131) `def _noop()`
+  - `TipsConfig` (class, line 136) `class TipsConfig`
+  - `TipsEngine` (class, line 185) `class TipsEngine`
+  - `_render_streak` (method, line 1101) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (method, line 1122) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (method, line 1140) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (method, line 1158) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (method, line 1178) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (method, line 1238) `def build_default_tips_config()`
+  - `__init__` (method, line 193) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 220) `def enabled(self)`
+  - `set_enabled` (method, line 224) `def set_enabled(self, value)`
+  - `render` (method, line 228) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 271) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 299) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 310) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 342) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 353) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 376) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 386) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 406) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 438) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 453) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 458) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 473) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 490) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 503) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 527) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 573) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 603) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 614) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 631) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 670) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 681) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 705) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 711) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 724) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 748) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 765) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 806) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 817) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 834) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 838) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 865) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 875) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 905) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 924) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 930) `def _load_state(self)`
+  - `_save_state` (method, line 950) `def _save_state(self)`
+  - `_load_command_index` (method, line 975) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 985) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 989) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1003) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1008) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1026) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1037) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1043) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1049) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1053) `def _sync_user_elo(self, delta)`
+- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+- Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
+
+## cli/toast_bus.py
+- Doc: Non-blocking toast notification subsystem for the LazyOwn shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ToastConfig` (class, line 42) `class ToastConfig`
+  - `ToastEvent` (class, line 80) `class ToastEvent`
+  - `ToastState` (class, line 91) `class ToastState`
+  - `ToastReader` (class, line 173) `class ToastReader`
+  - `ToastFormatter` (class, line 278) `class ToastFormatter`
+  - `ToastBus` (class, line 352) `class ToastBus`
+  - `_is_truthy` (method, line 423) `def _is_truthy(value, config, default)`
+  - `toasts_enabled` (method, line 437) `def toasts_enabled(payload, config)`
+  - `_budget` (method, line 445) `def _budget(payload, config)`
+  - `build_default_bus` (method, line 460) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (method, line 525) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `emit_toast` (method, line 549) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (method, line 594) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (method, line 638) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 99) `def __init__(self, config, root)`
+  - `path` (method, line 114) `def path(self)`
+  - `get` (method, line 118) `def get(self, name)`
+  - `set` (method, line 123) `def set(self, name, offset)`
+  - `reset` (method, line 129) `def reset(self)`
+  - `flush` (method, line 134) `def flush(self)`
+  - `_ensure_loaded` (method, line 152) `def _ensure_loaded(self)`
+  - `__init__` (method, line 176) `def __init__(self, config, root)`
+  - `root` (method, line 187) `def root(self)`
+  - `read_unseen` (method, line 191) `def read_unseen(self, name, start_offset)`
+  - `_parse` (method, line 222) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 237) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 258) `def _coerce_str(value)`
+  - `_summary` (method, line 266) `def _summary(record)`
+  - `__init__` (method, line 281) `def __init__(self, config, theme)`
+  - `format` (method, line 286) `def format(self, event)`
+  - `format_many` (method, line 298) `def format_many(self, events, width)`
+  - `_console_width` (method, line 333) `def _console_width(self)`
+  - `_role_for` (method, line 340) `def _role_for(self, severity)`
+  - `_truncate` (method, line 346) `def _truncate(self, value)`
+  - `__init__` (method, line 359) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 374) `def collect(self)`
+  - `render` (method, line 386) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 415) `def mark_all_seen(self)`
+- Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_toast_bus.py`
+
+## cli/tui_theme.py
+- Doc: Operator-facing ``tui_theme`` command logic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_set_theme` (function, line 30) `def _set_theme(payload, name)`
+  - `_format_listing` (function, line 45) `def _format_listing(current)`
+  - `_cycle` (function, line 65) `def _cycle(payload, direction)`
+  - `run` (function, line 87) `def run(args, payload, save)`
+- Depends on: `cli/themes.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/tutorial.py
+- Doc: Interactive post-install tutorial for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `TutorialConfig` (class, line 76) `class TutorialConfig`
+  - `is_done` (method, line 83) `def is_done(config)`
+  - `mark_done` (method, line 89) `def mark_done(config)`
+  - `render_header` (method, line 96) `def render_header()`
+  - `render_phase_table` (method, line 113) `def render_phase_table()`
+  - `run_step` (method, line 128) `def run_step(index, command, description, why, params, command_runner)`
+  - `run` (method, line 185) `def run(params, command_runner)`
+- Depends on: `core/console.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/wizard.py
+- Doc: Guided first-run setup wizard for the LazyOwn framework.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BinarySpec` (class, line 90) `class BinarySpec`
+  - `BinaryStatus` (class, line 141) `class BinaryStatus`
+  - `ReadinessItem` (class, line 150) `class ReadinessItem`
+  - `WizardResult` (class, line 160) `class WizardResult`
+  - `run` (method, line 169) `def run(params, save)`
+  - `run_non_interactive` (method, line 234) `def run_non_interactive(params, save, values)`
+  - `_rotate_default_secrets` (method, line 300) `def _rotate_default_secrets(params, save)`
+  - `_print_secret_rotation` (method, line 348) `def _print_secret_rotation(rotated)`
+  - `_print_header` (method, line 364) `def _print_header()`
+  - `_print_glossary_panel` (method, line 379) `def _print_glossary_panel()`
+  - `_spec_long_help` (method, line 404) `def _spec_long_help(key)`
+  - `_print_long_help` (method, line 412) `def _print_long_help(key)`
+  - `_collect_values` (method, line 419) `def _collect_values(params)`
+  - `_ask_rhost` (method, line 457) `def _ask_rhost(current)`
+  - `_ask_lhost` (method, line 484) `def _ask_lhost(current)`
+  - `_ask_domain` (method, line 515) `def _ask_domain(current)`
+  - `_ask_device` (method, line 537) `def _ask_device(current)`
+  - `_ask_os_id` (method, line 563) `def _ask_os_id(current)`
+  - `_normalize_provider_answer` (method, line 585) `def _normalize_provider_answer(raw)`
+  - `_mask_secret` (method, line 606) `def _mask_secret(value)`
+  - `_ask_llm` (method, line 621) `def _ask_llm(params)`
+  - `_ask_wordlists` (method, line 692) `def _ask_wordlists(params)`
+  - `_ask_operator_login` (method, line 724) `def _ask_operator_login(params)`
+  - `_wizard_login_flow` (method, line 786) `def _wizard_login_flow()`
+  - `_wizard_register_flow` (method, line 809) `def _wizard_register_flow()`
+  - `_ask_marketplace_config` (method, line 852) `def _ask_marketplace_config()`
+  - `_build_readiness` (method, line 875) `def _build_readiness(params)`
+  - `_print_readiness` (method, line 927) `def _print_readiness(items)`
+  - `check_binaries` (method, line 947) `def check_binaries(specs, which)`
+  - `_group_by_category` (method, line 988) `def _group_by_category(statuses)`
+  - `_print_binary_report` (method, line 997) `def _print_binary_report(statuses)`
+  - `_print_next_steps` (method, line 1035) `def _print_next_steps(params)`
+  - `_print_validation_summary` (method, line 1059) `def _print_validation_summary(params)`
+  - `_detect_lhost` (method, line 1098) `def _detect_lhost()`
+  - `_detect_device` (method, line 1120) `def _detect_device()`
+  - `_find_seclists_root` (method, line 1133) `def _find_seclists_root()`
+  - `_ping` (method, line 1141) `def _ping(ip)`
+  - `_prompt` (method, line 1154) `def _prompt(message)`
+  - `_ok` (method, line 1161) `def _ok(msg)`
+  - `_warn` (method, line 1165) `def _warn(msg)`
+  - `_info` (method, line 1169) `def _info(msg)`
+  - `_is_default` (method, line 322) `def _is_default(value)`
+  - `_is_weak` (method, line 325) `def _is_weak(value)`
+  - `_check` (method, line 878) `def _check(key, label, hint)`
+  - `_check_llm` (method, line 887) `def _check_llm()`
+- Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+- Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+
+## cli/wizard_scope.py
+- Doc: Partial wizard scope: show current state or edit selected fields only.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `WizardScopeConfig` (class, line 17) `class WizardScopeConfig`
+  - `WizardScope` (class, line 31) `class WizardScope`
+  - `parse_scope` (method, line 38) `def parse_scope(tokens, config)`
+  - `status_rows` (method, line 64) `def status_rows(params)`
+- Imported by: `cli/commands/help_ui.py`
+

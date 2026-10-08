@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestExtractLabels` | class | `tests/test_reactive_hints.py:88` | `class TestExtractLabels` |
+| `TestFirstToken` | class | `tests/test_reactive_hints.py:57` | `class TestFirstToken` |
+| `TestRenderInlineHints` | class | `tests/test_reactive_hints.py:111` | `class TestRenderInlineHints` |
+| `TestTruncate` | class | `tests/test_reactive_hints.py:71` | `class TestTruncate` |
+| `_FakeAdvisor` | class | `tests/test_reactive_hints.py:29` | `class _FakeAdvisor` |
+| `__init__` | method | `tests/test_reactive_hints.py:32` | `def __init__(self, suggestions)` |
+| `advisor_with_three_hints` | method | `tests/test_reactive_hints.py:42` | `def advisor_with_three_hints()` |
+| `empty_advisor` | method | `tests/test_reactive_hints.py:53` | `def empty_advisor()` |
+| `suggest_next` | method | `tests/test_reactive_hints.py:36` | `def suggest_next(self, recent_commands, limit)` |
+| `test_advisor_called_with_correct_command` | method | `tests/test_reactive_hints.py:137` | `def test_advisor_called_with_correct_command(self, advisor_with_three_hints)` |
+| `test_all_skip_commands_are_skipped` | method | `tests/test_reactive_hints.py:149` | `def test_all_skip_commands_are_skipped(self, advisor_with_three_hints)` |
+| `test_disabled_flag_skips_render` | method | `tests/test_reactive_hints.py:112` | `def test_disabled_flag_skips_render(self, advisor_with_three_hints)` |
+| `test_empty_command_skips_render` | method | `tests/test_reactive_hints.py:122` | `def test_empty_command_skips_render(self, advisor_with_three_hints)` |
+| `test_empty_string` | method | `tests/test_reactive_hints.py:64` | `def test_empty_string(self)` |
+| `test_empty_suggestions_skips_render` | method | `tests/test_reactive_hints.py:127` | `def test_empty_suggestions_skips_render(self, empty_advisor)` |
+| `test_exact_length_unchanged` | method | `tests/test_reactive_hints.py:75` | `def test_exact_length_unchanged(self)` |
+| `test_exception_in_advisor_does_not_propagate` | method | `tests/test_reactive_hints.py:142` | `def test_exception_in_advisor_does_not_propagate(self)` |
+| `test_extracts_first_word` | method | `tests/test_reactive_hints.py:58` | `def test_extracts_first_word(self)` |
 | `test_falls_back_to_id_when_no_label` | method | `tests/test_reactive_hints.py:93` | `def test_falls_back_to_id_when_no_label(self)` |
 | `test_limit_is_passed_to_advisor` | method | `tests/test_reactive_hints.py:155` | `def test_limit_is_passed_to_advisor(self, advisor_with_three_hints)` |
 | `test_long_string_truncated` | method | `tests/test_reactive_hints.py:78` | `def test_long_string_truncated(self)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `TestConditionalHooksInjectionPrevention` | class | `tests/test_security_hardening_v4.py:513` | `class TestConditionalHooksInjectionPrevention` |
 | `TestExecuteCommandShellFalse` | class | `tests/test_security_hardening_v4.py:392` | `class TestExecuteCommandShellFalse` |
 | `TestMiscMigratedIpDisplay` | class | `tests/test_security_hardening_v4.py:416` | `class TestMiscMigratedIpDisplay` |
-| `TestMorseNoOsSystem` | class | `tests/test_security_hardening_v4.py:337` | `class TestMorseNoOsSystem` |
-| `TestNoHardcodedPaths` | class | `tests/test_security_hardening_v4.py:440` | `class TestNoHardcodedPaths` |
-| `TestPluginLoaderUrlInjection` | class | `tests/test_security_hardening_v4.py:267` | `class TestPluginLoaderUrlInjection` |
-| `TestReconMigratedNoOsSystem` | class | `tests/test_security_hardening_v4.py:583` | `class TestReconMigratedNoOsSystem` |
-| `TestSafeClearScreen` | class | `tests/test_security_hardening_v4.py:530` | `class TestSafeClearScreen` |
-| `TestSafeFileRead` | class | `tests/test_security_hardening_v4.py:600` | `class TestSafeFileRead` |
-| `TestSafeFindTool` | class | `tests/test_security_hardening_v4.py:648` | `class TestSafeFindTool` |
-| `TestSafeGitClone` | class | `tests/test_security_hardening_v4.py:202` | `class TestSafeGitClone` |
-| `TestSafeIpShow` | class | `tests/test_security_hardening_v4.py:232` | `class TestSafeIpShow` |
-| `TestSafeRunArgv` | class | `tests/test_security_hardening_v4.py:101` | `class TestSafeRunArgv` |
-| `TestSafeSystem` | class | `tests/test_security_hardening_v4.py:35` | `class TestSafeSystem` |
-| `TestValidateUrl` | class | `tests/test_security_hardening_v4.py:136` | `class TestValidateUrl` |
-| `_get_validate_fn` | method | `tests/test_security_hardening_v4.py:271` | `def _get_validate_fn(self)` |
-| `test_allows_simple_command` | method | `tests/test_security_hardening_v4.py:87` | `def test_allows_simple_command(self)` |
-| `test_allows_valid_http_url` | method | `tests/test_security_hardening_v4.py:188` | `def test_allows_valid_http_url(self)` |
-| `test_allows_valid_https_url` | method | `tests/test_security_hardening_v4.py:180` | `def test_allows_valid_https_url(self)` |
-| `test_executes_without_shell` | method | `tests/test_security_hardening_v4.py:121` | `def test_executes_without_shell(self)` |
-| `test_finds_existing_tool` | method | `tests/test_security_hardening_v4.py:652` | `def test_finds_existing_tool(self)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

@@ -349,30 +349,31 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_getcap` (method, line 97) `def do_getcap(self, line)`
   - `do_launchpad` (method, line 131) `def do_launchpad(self, line)`
   - `do_ping` (method, line 177) `def do_ping(self, line)`
-  - `do_gospider` (method, line 275) `def do_gospider(self, line)`
-  - `do_proxy` (method, line 363) `def do_proxy(self, line)`
-  - `do_ports` (method, line 401) `def do_ports(self, line)`
-  - `do_tcpdump_icmp` (method, line 443) `def do_tcpdump_icmp(self, line)`
-  - `do_tcpdump_capture` (method, line 476) `def do_tcpdump_capture(self, line)`
-  - `do_tshark_analyze` (method, line 517) `def do_tshark_analyze(self, line)`
-  - `do_waybackmachine` (method, line 583) `def do_waybackmachine(self, line)`
-  - `do_sslscan` (method, line 623) `def do_sslscan(self, line)`
-  - `do_graudit` (method, line 664) `def do_graudit(self, line)`
-  - `do_sherlock` (method, line 695) `def do_sherlock(self, line)`
-  - `do_trufflehog` (method, line 736) `def do_trufflehog(self, line)`
-  - `do_apache_users` (method, line 774) `def do_apache_users(self, line)`
-  - `do_trace` (method, line 821) `def do_trace(self, line)`
-  - `do_alterx` (method, line 864) `def do_alterx(self, line)`
-  - `do_windapsearchscrapeusers` (method, line 941) `def do_windapsearchscrapeusers(self, line)`
-  - `do_cve` (method, line 977) `def do_cve(self, line)`
-  - `do_serveralive2` (method, line 1026) `def do_serveralive2(self, line)`
-  - `do_binarycheck` (method, line 1060) `def do_binarycheck(self, line)`
-  - `do_dnstool_py` (method, line 1105) `def do_dnstool_py(self, line)`
-  - `do_metabigor` (method, line 1151) `def do_metabigor(self, line)`
-  - `do_httprobe` (method, line 1227) `def do_httprobe(self, line)`
-  - `do_recon` (method, line 1270) `def do_recon(self, line)`
-  - `do_dnschef` (method, line 1324) `def do_dnschef(self, line)`
-  - `do_ipinfo` (method, line 1359) `def do_ipinfo(self, line)`
+  - `do_gospider` (method, line 285) `def do_gospider(self, line)`
+  - `do_proxy` (method, line 373) `def do_proxy(self, line)`
+  - `do_ports` (method, line 411) `def do_ports(self, line)`
+  - `do_tcpdump_icmp` (method, line 453) `def do_tcpdump_icmp(self, line)`
+  - `do_tcpdump_capture` (method, line 486) `def do_tcpdump_capture(self, line)`
+  - `do_tshark_analyze` (method, line 527) `def do_tshark_analyze(self, line)`
+  - `do_waybackmachine` (method, line 593) `def do_waybackmachine(self, line)`
+  - `do_sslscan` (method, line 633) `def do_sslscan(self, line)`
+  - `do_graudit` (method, line 674) `def do_graudit(self, line)`
+  - `do_sherlock` (method, line 705) `def do_sherlock(self, line)`
+  - `do_trufflehog` (method, line 746) `def do_trufflehog(self, line)`
+  - `do_apache_users` (method, line 784) `def do_apache_users(self, line)`
+  - `do_trace` (method, line 831) `def do_trace(self, line)`
+  - `do_alterx` (method, line 874) `def do_alterx(self, line)`
+  - `do_windapsearchscrapeusers` (method, line 951) `def do_windapsearchscrapeusers(self, line)`
+  - `do_cve` (method, line 987) `def do_cve(self, line)`
+  - `do_serveralive2` (method, line 1036) `def do_serveralive2(self, line)`
+  - `do_binarycheck` (method, line 1070) `def do_binarycheck(self, line)`
+  - `do_dnstool_py` (method, line 1115) `def do_dnstool_py(self, line)`
+  - `do_metabigor` (method, line 1161) `def do_metabigor(self, line)`
+  - `do_httprobe` (method, line 1237) `def do_httprobe(self, line)`
+  - `do_recon` (method, line 1280) `def do_recon(self, line)`
+  - `do_dnschef` (method, line 1334) `def do_dnschef(self, line)`
+  - `do_ipinfo` (method, line 1369) `def do_ipinfo(self, line)`
+  - `_set_exit` (method, line 202) `def _set_exit(code)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `cli/surface_tui.py`, `core/config.py`, `utils.py`
 
 ## cli/commands/redteam_gym.py

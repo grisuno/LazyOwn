@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `CheckResult` | class | `cli/doctor.py:96` | `class CheckResult` |
+| `DoctorReport` | class | `cli/doctor.py:113` | `class DoctorReport` |
+| `PackageSpec` | class | `cli/doctor.py:56` | `class PackageSpec` |
+| `_apply_fix` | method | `cli/doctor.py:525` | `def _apply_fix(check, root, venv_pip, console)` |
 | `_status_cell` | method | `cli/doctor.py:398` | `def _status_cell(status)` |
 | `check_certificates` | method | `cli/doctor.py:248` | `def check_certificates(root)` |
 | `check_command_index` | method | `cli/doctor.py:313` | `def check_command_index(root)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_has_rhost` | method | `cli/protips.py:51` | `def _has_rhost(ctx)` |
 | `_last_cmd_is` | method | `cli/protips.py:67` | `def _last_cmd_is(ctx)` |
 | `_os_linux` | method | `cli/protips.py:43` | `def _os_linux(ctx)` |
-| `_os_windows` | method | `cli/protips.py:47` | `def _os_windows(ctx)` |
-| `_phase_in` | method | `cli/protips.py:63` | `def _phase_in(ctx)` |
-| `_safe_trigger` | method | `cli/protips.py:369` | `def _safe_trigger(tip, ctx)` |
-| `get_session_tip` | method | `cli/protips.py:301` | `def get_session_tip(ctx)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestMorseNoOsSystem` | class | `tests/test_security_hardening_v4.py:337` | `class TestMorseNoOsSystem` |
+| `TestNoHardcodedPaths` | class | `tests/test_security_hardening_v4.py:440` | `class TestNoHardcodedPaths` |
+| `TestPluginLoaderUrlInjection` | class | `tests/test_security_hardening_v4.py:267` | `class TestPluginLoaderUrlInjection` |
+| `TestReconMigratedNoOsSystem` | class | `tests/test_security_hardening_v4.py:583` | `class TestReconMigratedNoOsSystem` |
+| `TestSafeClearScreen` | class | `tests/test_security_hardening_v4.py:530` | `class TestSafeClearScreen` |
+| `TestSafeFileRead` | class | `tests/test_security_hardening_v4.py:600` | `class TestSafeFileRead` |
+| `TestSafeFindTool` | class | `tests/test_security_hardening_v4.py:648` | `class TestSafeFindTool` |
+| `TestSafeGitClone` | class | `tests/test_security_hardening_v4.py:202` | `class TestSafeGitClone` |
+| `TestSafeIpShow` | class | `tests/test_security_hardening_v4.py:232` | `class TestSafeIpShow` |
+| `TestSafeRunArgv` | class | `tests/test_security_hardening_v4.py:101` | `class TestSafeRunArgv` |
+| `TestSafeSystem` | class | `tests/test_security_hardening_v4.py:35` | `class TestSafeSystem` |
+| `TestValidateUrl` | class | `tests/test_security_hardening_v4.py:136` | `class TestValidateUrl` |
+| `_get_validate_fn` | method | `tests/test_security_hardening_v4.py:271` | `def _get_validate_fn(self)` |
+| `test_allows_simple_command` | method | `tests/test_security_hardening_v4.py:87` | `def test_allows_simple_command(self)` |
+| `test_allows_valid_http_url` | method | `tests/test_security_hardening_v4.py:188` | `def test_allows_valid_http_url(self)` |
+| `test_allows_valid_https_url` | method | `tests/test_security_hardening_v4.py:180` | `def test_allows_valid_https_url(self)` |
+| `test_executes_without_shell` | method | `tests/test_security_hardening_v4.py:121` | `def test_executes_without_shell(self)` |
+| `test_finds_existing_tool` | method | `tests/test_security_hardening_v4.py:652` | `def test_finds_existing_tool(self)` |
 | `test_handles_missing_command` | method | `tests/test_security_hardening_v4.py:252` | `def test_handles_missing_command(self)` |
 | `test_ip_uses_subprocess_list_form` | method | `tests/test_security_hardening_v4.py:420` | `def test_ip_uses_subprocess_list_form(self)` |
 | `test_no_home_grisun0_in_configs_and_docs` | method | `tests/test_security_hardening_v4.py:468` | `def test_no_home_grisun0_in_configs_and_docs(self)` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_reader_picks_up_new_events_after_offset` | function | `tests/test_toast_bus.py:190` | `def test_reader_picks_up_new_events_after_offset(tmp_path)` |
 | `test_reader_returns_unseen_events_only` | function | `tests/test_toast_bus.py:67` | `def test_reader_returns_unseen_events_only(tmp_path)` |
 | `test_render_toasts_returns_count` | function | `tests/test_toast_bus.py:168` | `def test_render_toasts_returns_count(tmp_path)` |
-| `test_state_clamps_negative_offsets` | function | `tests/test_toast_bus.py:59` | `def test_state_clamps_negative_offsets(tmp_path)` |
-| `test_state_round_trip` | function | `tests/test_toast_bus.py:49` | `def test_state_round_trip(tmp_path)` |
-| `test_toasts_enabled_default_true` | function | `tests/test_toast_bus.py:160` | `def test_toasts_enabled_default_true()` |
-| `TestIsOperator` | class | `tests/test_trusted_proxy.py:96` | `class TestIsOperator` |
-| `TestNoProxy` | class | `tests/test_trusted_proxy.py:22` | `class TestNoProxy` |
-| `TestTrustedProxy` | class | `tests/test_trusted_proxy.py:40` | `class TestTrustedProxy` |
-| `test_empty_header_falls_back` | method | `tests/test_trusted_proxy.py:82` | `def test_empty_header_falls_back(self)` |
-| `test_insufficient_chain_falls_back` | method | `tests/test_trusted_proxy.py:69` | `def test_insufficient_chain_falls_back(self)` |
-| `test_match` | method | `tests/test_trusted_proxy.py:99` | `def test_match(self)` |
-| `test_no_header_falls_back_to_remote` | method | `tests/test_trusted_proxy.py:35` | `def test_no_header_falls_back_to_remote(self)` |
-| `test_no_match` | method | `tests/test_trusted_proxy.py:106` | `def test_no_match(self)` |
-| `test_remote_addr_returned` | method | `tests/test_trusted_proxy.py:25` | `def test_remote_addr_returned(self)` |
-| `test_single_proxy_returns_leftmost` | method | `tests/test_trusted_proxy.py:43` | `def test_single_proxy_returns_leftmost(self)` |
-| `test_two_proxies_returns_leftmost` | method | `tests/test_trusted_proxy.py:56` | `def test_two_proxies_returns_leftmost(self)` |
-| `SplashDispatchTests` | class | `tests/test_tui_splash.py:81` | `class SplashDispatchTests(TestCase)` |
-| `SplashEdgeCaseTests` | class | `tests/test_tui_splash.py:145` | `class SplashEdgeCaseTests(TestCase)` |
-| `SplashInstantEffectTests` | class | `tests/test_tui_splash.py:30` | `class SplashInstantEffectTests(TestCase)` |
-| `SplashTypewriterEffectTests` | class | `tests/test_tui_splash.py:67` | `class SplashTypewriterEffectTests(TestCase)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `listener_connect` | method | `lazyc2.py:6325` | `def listener_connect()` |
+| `listener_disconnect` | method | `lazyc2.py:6335` | `def listener_disconnect()` |
+| `load_banners` | method | `lazyc2.py:751` | `def load_banners()` |
+| `load_cves` | method | `lazyc2.py:1024` | `def load_cves()` |
 | `load_data` | method | `lazyc2.py:2875` | `def load_data()` |
 | `load_event_config` | method | `lazyc2.py:775` | `def load_event_config()` |
 | `load_implant_config` | method | `lazyc2.py:2180` | `def load_implant_config(implante)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p7.md](SYMBOLS_p7.md)
 | `send_command` | method | `lazygui/services/backend.py:112` | `def send_command(self, command, target_session)` |
 | `start` | method | `lazygui/services/backend.py:104` | `def start(self)` |
 | `status` | method | `lazygui/services/backend.py:93` | `def status(self)` |
-| `stop` | method | `lazygui/services/backend.py:108` | `def stop(self)` |
-| `EventLog` | class | `lazygui/services/event_log.py:20` | `class EventLog(QObject)` |
-| `__init__` | method | `lazygui/services/event_log.py:26` | `def __init__(self, constants, parent)` |
-| `append` | method | `lazygui/services/event_log.py:37` | `def append(self, record)` |
 
 Next: [SYMBOLS_p9.md](SYMBOLS_p9.md)

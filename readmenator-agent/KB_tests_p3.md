@@ -254,59 +254,59 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `_add_repo_root_to_syspath` (function, line 24) `def _add_repo_root_to_syspath()`
   - `_load_yaml` (function, line 29) `def _load_yaml()`
   - `_legacy_alias_keys_from_lazyown` (function, line 34) `def _legacy_alias_keys_from_lazyown()`
-  - `TestAliasYamlIntegrity` (class, line 174) `class TestAliasYamlIntegrity`
-  - `TestAliasLoaderSubstitution` (class, line 205) `class TestAliasLoaderSubstitution`
-  - `TestLazyOwnRefactor` (class, line 294) `class TestLazyOwnRefactor`
-  - `TestCommandSetDiscovery` (class, line 321) `class TestCommandSetDiscovery`
-  - `TestRegisterCommandSets` (class, line 353) `class TestRegisterCommandSets`
-  - `TestLazyOwnStillParses` (class, line 391) `class TestLazyOwnStillParses`
-  - `TestPrivateHelperForwarding` (class, line 396) `class TestPrivateHelperForwarding`
-  - `test_yaml_loads` (method, line 175) `def test_yaml_loads(self)`
-  - `test_yaml_keys_match_legacy_set` (method, line 180) `def test_yaml_keys_match_legacy_set(self)`
-  - `test_yaml_count_is_125` (method, line 188) `def test_yaml_count_is_125(self)`
-  - `test_all_values_are_strings` (method, line 191) `def test_all_values_are_strings(self)`
-  - `test_vuln_alias_carries_ansi_escape` (method, line 195) `def test_vuln_alias_carries_ansi_escape(self)`
-  - `test_ls_is_unchanged` (method, line 198) `def test_ls_is_unchanged(self)`
-  - `test_q_is_exit` (method, line 201) `def test_q_is_exit(self)`
-  - `test_load_aliases_substitutes_payload_values` (method, line 211) `def test_load_aliases_substitutes_payload_values(self)`
-  - `test_missing_keys_substitute_to_empty_string` (method, line 233) `def test_missing_keys_substitute_to_empty_string(self)`
-  - `test_none_values_substitute_to_empty_string` (method, line 240) `def test_none_values_substitute_to_empty_string(self)`
-  - `test_aliases_with_no_placeholders_unchanged` (method, line 246) `def test_aliases_with_no_placeholders_unchanged(self)`
-  - `test_loader_rejects_non_mapping` (method, line 254) `def test_loader_rejects_non_mapping(self, tmp_path)`
-  - `test_loader_rejects_non_string_value` (method, line 262) `def test_loader_rejects_non_string_value(self, tmp_path)`
-  - `test_loader_handles_empty_file` (method, line 270) `def test_loader_handles_empty_file(self, tmp_path)`
-  - `test_real_yaml_loads_with_real_payload` (method, line 277) `def test_real_yaml_loads_with_real_payload(self)`
-  - `test_lazy_default_preserves_placeholders` (method, line 286) `def test_lazy_default_preserves_placeholders(self)`
-  - `lazyown_text` (method, line 296) `def lazyown_text(self)`
-  - `test_no_inline_aliases_dict_with_entries` (method, line 299) `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)`
-  - `test_imports_cli_aliases_loader` (method, line 308) `def test_imports_cli_aliases_loader(self, lazyown_text)`
-  - `test_imports_cli_registry` (method, line 311) `def test_imports_cli_registry(self, lazyown_text)`
-  - `test_init_populates_aliases_at_runtime` (method, line 314) `def test_init_populates_aliases_at_runtime(self, lazyown_text)`
-  - `test_init_registers_command_sets` (method, line 317) `def test_init_registers_command_sets(self, lazyown_text)`
-  - `test_discovery_excludes_underscore_modules` (method, line 322) `def test_discovery_excludes_underscore_modules(self)`
-  - `test_discovers_diagnostics_pilot` (method, line 328) `def test_discovers_diagnostics_pilot(self)`
-  - `test_pilot_commandset_subclasses_base` (method, line 334) `def test_pilot_commandset_subclasses_base(self)`
-  - `test_pilot_commandset_declares_phase` (method, line 340) `def test_pilot_commandset_declares_phase(self)`
-  - `test_pilot_commandset_has_do_methods` (method, line 345) `def test_pilot_commandset_has_do_methods(self)`
-  - `test_registers_on_a_minimal_cmd2_instance` (method, line 354) `def test_registers_on_a_minimal_cmd2_instance(self)`
-  - `test_register_skips_failing_commandset_without_aborting` (method, line 366) `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)`
-  - `test_ast_parse` (method, line 392) `def test_ast_parse(self)`
-  - `_probe_class` (method, line 406) `def _probe_class(self)`
-  - `_shell_class` (method, line 421) `def _shell_class(self)`
-  - `test_private_helper_inert_before_registration` (method, line 434) `def test_private_helper_inert_before_registration(self)`
-  - `test_private_helper_forwards_after_registration` (method, line 439) `def test_private_helper_forwards_after_registration(self)`
-  - `test_dunder_still_refused_after_registration` (method, line 445) `def test_dunder_still_refused_after_registration(self)`
-  - `test_missing_private_raises_not_utils_fallback` (method, line 452) `def test_missing_private_raises_not_utils_fallback(self)`
-  - `_Bare` (class, line 359) `class _Bare(Cmd)`
-  - `_ExplosiveCommandSet` (class, line 371) `class _ExplosiveCommandSet(CommandSet)`
-  - `fake_iter` (method, line 375) `def fake_iter()`
-  - `_Bare` (class, line 383) `class _Bare(Cmd)`
-  - `_Probe` (class, line 411) `class _Probe(LazyOwnCommandSet)`
-  - `_Shell` (class, line 424) `class _Shell(Cmd)`
-  - `__init__` (method, line 372) `def __init__(self)`
-  - `do_probe` (method, line 416) `def do_probe(self, line)`
-  - `__init__` (method, line 425) `def __init__(self)`
-  - `_scope_helper` (method, line 429) `def _scope_helper(self)`
+  - `TestAliasYamlIntegrity` (class, line 177) `class TestAliasYamlIntegrity`
+  - `TestAliasLoaderSubstitution` (class, line 208) `class TestAliasLoaderSubstitution`
+  - `TestLazyOwnRefactor` (class, line 297) `class TestLazyOwnRefactor`
+  - `TestCommandSetDiscovery` (class, line 324) `class TestCommandSetDiscovery`
+  - `TestRegisterCommandSets` (class, line 356) `class TestRegisterCommandSets`
+  - `TestLazyOwnStillParses` (class, line 394) `class TestLazyOwnStillParses`
+  - `TestPrivateHelperForwarding` (class, line 399) `class TestPrivateHelperForwarding`
+  - `test_yaml_loads` (method, line 178) `def test_yaml_loads(self)`
+  - `test_yaml_keys_match_legacy_set` (method, line 183) `def test_yaml_keys_match_legacy_set(self)`
+  - `test_yaml_count_is_125` (method, line 191) `def test_yaml_count_is_125(self)`
+  - `test_all_values_are_strings` (method, line 194) `def test_all_values_are_strings(self)`
+  - `test_vuln_alias_carries_ansi_escape` (method, line 198) `def test_vuln_alias_carries_ansi_escape(self)`
+  - `test_ls_is_unchanged` (method, line 201) `def test_ls_is_unchanged(self)`
+  - `test_q_is_exit` (method, line 204) `def test_q_is_exit(self)`
+  - `test_load_aliases_substitutes_payload_values` (method, line 214) `def test_load_aliases_substitutes_payload_values(self)`
+  - `test_missing_keys_substitute_to_empty_string` (method, line 236) `def test_missing_keys_substitute_to_empty_string(self)`
+  - `test_none_values_substitute_to_empty_string` (method, line 243) `def test_none_values_substitute_to_empty_string(self)`
+  - `test_aliases_with_no_placeholders_unchanged` (method, line 249) `def test_aliases_with_no_placeholders_unchanged(self)`
+  - `test_loader_rejects_non_mapping` (method, line 257) `def test_loader_rejects_non_mapping(self, tmp_path)`
+  - `test_loader_rejects_non_string_value` (method, line 265) `def test_loader_rejects_non_string_value(self, tmp_path)`
+  - `test_loader_handles_empty_file` (method, line 273) `def test_loader_handles_empty_file(self, tmp_path)`
+  - `test_real_yaml_loads_with_real_payload` (method, line 280) `def test_real_yaml_loads_with_real_payload(self)`
+  - `test_lazy_default_preserves_placeholders` (method, line 289) `def test_lazy_default_preserves_placeholders(self)`
+  - `lazyown_text` (method, line 299) `def lazyown_text(self)`
+  - `test_no_inline_aliases_dict_with_entries` (method, line 302) `def test_no_inline_aliases_dict_with_entries(self, lazyown_text)`
+  - `test_imports_cli_aliases_loader` (method, line 311) `def test_imports_cli_aliases_loader(self, lazyown_text)`
+  - `test_imports_cli_registry` (method, line 314) `def test_imports_cli_registry(self, lazyown_text)`
+  - `test_init_populates_aliases_at_runtime` (method, line 317) `def test_init_populates_aliases_at_runtime(self, lazyown_text)`
+  - `test_init_registers_command_sets` (method, line 320) `def test_init_registers_command_sets(self, lazyown_text)`
+  - `test_discovery_excludes_underscore_modules` (method, line 325) `def test_discovery_excludes_underscore_modules(self)`
+  - `test_discovers_diagnostics_pilot` (method, line 331) `def test_discovers_diagnostics_pilot(self)`
+  - `test_pilot_commandset_subclasses_base` (method, line 337) `def test_pilot_commandset_subclasses_base(self)`
+  - `test_pilot_commandset_declares_phase` (method, line 343) `def test_pilot_commandset_declares_phase(self)`
+  - `test_pilot_commandset_has_do_methods` (method, line 348) `def test_pilot_commandset_has_do_methods(self)`
+  - `test_registers_on_a_minimal_cmd2_instance` (method, line 357) `def test_registers_on_a_minimal_cmd2_instance(self)`
+  - `test_register_skips_failing_commandset_without_aborting` (method, line 369) `def test_register_skips_failing_commandset_without_aborting(self, monkeypatch)`
+  - `test_ast_parse` (method, line 395) `def test_ast_parse(self)`
+  - `_probe_class` (method, line 409) `def _probe_class(self)`
+  - `_shell_class` (method, line 424) `def _shell_class(self)`
+  - `test_private_helper_inert_before_registration` (method, line 437) `def test_private_helper_inert_before_registration(self)`
+  - `test_private_helper_forwards_after_registration` (method, line 442) `def test_private_helper_forwards_after_registration(self)`
+  - `test_dunder_still_refused_after_registration` (method, line 448) `def test_dunder_still_refused_after_registration(self)`
+  - `test_missing_private_raises_not_utils_fallback` (method, line 455) `def test_missing_private_raises_not_utils_fallback(self)`
+  - `_Bare` (class, line 362) `class _Bare(Cmd)`
+  - `_ExplosiveCommandSet` (class, line 374) `class _ExplosiveCommandSet(CommandSet)`
+  - `fake_iter` (method, line 378) `def fake_iter()`
+  - `_Bare` (class, line 386) `class _Bare(Cmd)`
+  - `_Probe` (class, line 414) `class _Probe(LazyOwnCommandSet)`
+  - `_Shell` (class, line 427) `class _Shell(Cmd)`
+  - `__init__` (method, line 375) `def __init__(self)`
+  - `do_probe` (method, line 419) `def do_probe(self, line)`
+  - `__init__` (method, line 428) `def __init__(self)`
+  - `_scope_helper` (method, line 432) `def _scope_helper(self)`
 - Depends on: `cli/__init__.py`, `cli/aliases.py`, `cli/commands/_base.py`, `cli/commands/diagnostics.py`, `cli/registry.py`, `core/config.py`
 
 ## tests/test_cli_enhancements.py

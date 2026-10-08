@@ -5,11 +5,11 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 247.20, imported by 123 files)
-- `utils.py` (score: 192.10, imported by 78 files)
-- `cli/commands/_base.py` (score: 170.70, imported by 84 files)
+- `utils.py` (score: 194.10, imported by 79 files)
+- `cli/commands/_base.py` (score: 172.70, imported by 85 files)
 - `skills/lazyown_mcp.py` (score: 150.50, imported by 8 files)
 - `lazyc2.py` (score: 112.30)
-- `lazyown.py` (score: 110.30, imported by 8 files)
+- `lazyown.py` (score: 110.70, imported by 8 files)
 - `core/console.py` (score: 98.80, imported by 49 files)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
 - `cli/commands/misc_migrated.py` (score: 75.20, imported by 6 files)
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 123 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 116 total dependents
-- `modules/cli_auth.py` -- 9 direct, 116 total dependents
-- `core/validators.py` -- 9 direct, 113 total dependents
-- `core/hardening.py` -- 17 direct, 107 total dependents
-- `core/crypto.py` -- 9 direct, 103 total dependents
-- `core/process.py` -- 9 direct, 92 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 92 total dependents
-- `modules/backdoor/server.c` -- 10 direct, 91 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 91 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 115 total dependents
+- `modules/cli_auth.py` -- 9 direct, 115 total dependents
+- `core/validators.py` -- 9 direct, 114 total dependents
+- `core/hardening.py` -- 17 direct, 109 total dependents
+- `core/process.py` -- 9 direct, 94 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 93 total dependents
+- `modules/backdoor/server.c` -- 10 direct, 92 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 92 total dependents
+- `core/crypto.py` -- 9 direct, 91 total dependents
 
 ## Hotspots (complexity + centrality)
 

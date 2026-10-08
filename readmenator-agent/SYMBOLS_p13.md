@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `SilverTicketConfig` | class | `modules/kerberos_tickets.py:36` | `class SilverTicketConfig` |
+| `SilverTicketForger` | class | `modules/kerberos_tickets.py:124` | `class SilverTicketForger` |
+| `SkeletonKeyInjector` | class | `modules/kerberos_tickets.py:565` | `class SkeletonKeyInjector` |
+| `__init__` | method | `modules/kerberos_tickets.py:131` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:272` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:405` | `def __init__(self)` |
+| `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
+| `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
 | `_build_diamond_pac` | method | `modules/kerberos_tickets.py:446` | `def _build_diamond_pac(self, config)` |
 | `_build_enc_ticket_part` | method | `modules/kerberos_tickets.py:206` | `def _build_enc_ticket_part(self, config, start, end, flags, key, etype)` |
 | `_build_golden_enc_part` | method | `modules/kerberos_tickets.py:346` | `def _build_golden_enc_part(self, config, start, end, flags, key)` |
@@ -248,11 +256,12 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `run_masscan_script` | function | `modules/lazymasscan.sh:94` | `` |
 | `cleanup` | function | `modules/lazynmap.sh:29` | `` |
 | `ctrl_c` | function | `modules/lazynmap.sh:38` | `` |
-| `discover_network` | function | `modules/lazynmap.sh:132` | `` |
-| `extract_ports_info` | function | `modules/lazynmap.sh:802` | `` |
-| `nmaptest` | function | `modules/lazynmap.sh:112` | `` |
-| `print_row` | function | `modules/lazynmap.sh:861` | `` |
-| `run_nmap_script` | function | `modules/lazynmap.sh:828` | `` |
+| `discover_network` | function | `modules/lazynmap.sh:142` | `` |
+| `extract_ports_info` | function | `modules/lazynmap.sh:811` | `` |
+| `fix_sessions_owner` | function | `modules/lazynmap.sh:67` | `` |
+| `nmaptest` | function | `modules/lazynmap.sh:122` | `` |
+| `print_row` | function | `modules/lazynmap.sh:870` | `` |
+| `run_nmap_script` | function | `modules/lazynmap.sh:837` | `` |
 | `ProxyHandler` | class | `modules/lazyown_bprfuzzer.py:107` | `class ProxyHandler(BaseHTTPRequestHandler)` |
 | `_handle_request` | method | `modules/lazyown_bprfuzzer.py:114` | `def _handle_request(self, method)` |
 | `_load_security_config` | function | `modules/lazyown_bprfuzzer.py:44` | `def _load_security_config()` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `_resolve_api_key` | method | `modules/llm_factory.py:254` | `def _resolve_api_key(config)` |
 | `_resolve_api_key_for_backend` | method | `modules/llm_factory.py:277` | `def _resolve_api_key_for_backend(backend, config)` |
 | `_resolve_model_identifier` | method | `modules/llm_factory.py:434` | `def _resolve_model_identifier(backend_identifier, config)` |
-| `_wrap_with_budget` | method | `modules/llm_factory.py:461` | `def _wrap_with_budget(backend, config, backend_identifier)` |
-| `api_key_config_key` | method | `modules/llm_factory.py:189` | `def api_key_config_key(backend)` |
-| `backend_requires_api_key` | method | `modules/llm_factory.py:212` | `def backend_requires_api_key(backend)` |
-| `default_model_for` | method | `modules/llm_factory.py:147` | `def default_model_for(backend)` |
-| `get_llm_backend` | method | `modules/llm_factory.py:499` | `def get_llm_backend(config, backend)` |
-| `get_llm_backend_raw` | method | `modules/llm_factory.py:585` | `def get_llm_backend_raw(config, backend)` |
-| `load_payload` | method | `modules/llm_factory.py:230` | `def load_payload(payload_path)` |
-| `model_config_key` | method | `modules/llm_factory.py:168` | `def model_config_key(backend)` |
-| `try_get_llm_backend` | method | `modules/llm_factory.py:607` | `def try_get_llm_backend(config, backend)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

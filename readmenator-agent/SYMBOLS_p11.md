@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `get_executor` | method | `modules/command_executor.py:264` | `def get_executor()` |
+| `instance` | method | `modules/command_executor.py:63` | `def instance(cls)` |
+| `run` | method | `modules/command_executor.py:72` | `def run(self, command, timeout, stream)` |
+| `run_with_tee` | method | `modules/command_executor.py:172` | `def run_with_tee(self, command, output_path, timeout)` |
+| `ComplianceEngine` | class | `modules/compliance.py:468` | `class ComplianceEngine` |
+| `ComplianceFinding` | class | `modules/compliance.py:456` | `class ComplianceFinding` |
+| `EvidenceChain` | class | `modules/compliance.py:192` | `class EvidenceChain` |
+| `EvidenceEntry` | class | `modules/compliance.py:183` | `class EvidenceEntry` |
 | `__init__` | method | `modules/compliance.py:200` | `def __init__(self, sessions_dir)` |
 | `__init__` | method | `modules/compliance.py:471` | `def __init__(self, sessions_dir)` |
 | `_append_to_file` | method | `modules/compliance.py:246` | `def _append_to_file(self, entry)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p10.md](SYMBOLS_p10.md)
 | `write` | method | `modules/event_bus.py:136` | `def write(self, event)` |
 | `write` | method | `modules/event_bus.py:150` | `def write(self, event)` |
 | `write` | method | `modules/event_bus.py:179` | `def write(self, event)` |
-| `write` | method | `modules/event_bus.py:201` | `def write(self, event)` |
-| `AutoRecommender` | class | `modules/event_consumers.py:198` | `class AutoRecommender` |
-| `CredentialReactor` | class | `modules/event_consumers.py:269` | `class CredentialReactor` |
-| `DashboardPusher` | class | `modules/event_consumers.py:354` | `class DashboardPusher` |
-| `PhaseTracker` | class | `modules/event_consumers.py:146` | `class PhaseTracker` |
-| `SoulSync` | class | `modules/event_consumers.py:316` | `class SoulSync` |
-| `__call__` | method | `modules/event_consumers.py:159` | `def __call__(self, event)` |
-| `__call__` | method | `modules/event_consumers.py:204` | `def __call__(self, event)` |
 
 Next: [SYMBOLS_p12.md](SYMBOLS_p12.md)

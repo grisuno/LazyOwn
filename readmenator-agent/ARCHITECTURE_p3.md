@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 
 ## Internal Dependencies (continued)
+- `modules/lesson_ingestor.py` -> `modules/moe_router.py`
+- `modules/lesson_ingestor.py` -> `modules/rl_trainer.py`
 - `modules/lilsplunky.py` -> `core/console.py`
 - `modules/lilsplunky.py` -> `core/logging.py`
 - `modules/lilsplunky.py` -> `modules/logging_config.py`
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)
 - `tests/test_dependencies.py` -> `core/dependencies.py`
 - `tests/test_detection_feed.py` -> `modules/detection_feed.py`
 - `tests/test_detection_feed.py` -> `modules/detection_oracle.py`
-- `tests/test_doctor.py` -> `cli/__init__.py`
-- `tests/test_doctor.py` -> `cli/wizard.py`
 
 Next: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)

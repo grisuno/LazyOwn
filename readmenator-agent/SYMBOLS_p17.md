@@ -3,6 +3,15 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `read_file` | method | `modules/vulnbot.py:88` | `def read_file(path)` |
+| `read_file_content` | method | `modules/vulnbot.py:171` | `def read_file_content(self, file_path)` |
+| `save_knowledge_base` | method | `modules/vulnbot.py:146` | `def save_knowledge_base(self, kb)` |
+| `stream_response` | method | `modules/vulnbot.py:201` | `def stream_response(self, prompt)` |
+| `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
+| `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
+| `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
+| `__init__` | method | `modules/websocket_beacon.py:288` | `def __init__(self, host, port, ssl_context, beacon_callback, task_callback, result_callback)` |
+| `_build_message` | method | `modules/websocket_beacon.py:103` | `def _build_message(self, msg_type, payload)` |
 | `_decrypt` | method | `modules/websocket_beacon.py:97` | `def _decrypt(self, data)` |
 | `_encrypt` | method | `modules/websocket_beacon.py:91` | `def _encrypt(self, data)` |
 | `_handle_connection` | method | `modules/websocket_beacon.py:310` | `def _handle_connection(self, websocket, path)` |
@@ -367,8 +376,9 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
 | `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
 | `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
-| `_build_substitutions` | function | `pwntomate.py:94` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value)` |
-| `_run_tool` | function | `pwntomate.py:146` | `def _run_tool(cmd)` |
+| `_build_substitutions` | function | `pwntomate.py:100` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
+| `_fix_sessions_owner` | function | `pwntomate.py:130` | `def _fix_sessions_owner()` |
+| `_run_tool` | function | `pwntomate.py:187` | `def _run_tool(cmd)` |
 | `build_command_map` | function | `readmeneitor.py:95` | `def build_command_map(index_data)` |
 | `convert_to_html` | function | `readmeneitor.py:332` | `def convert_to_html(md_path, html_path)` |
 | `extract_docstrings_from_dir` | function | `readmeneitor.py:152` | `def extract_docstrings_from_dir(dirpath)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `ACIPlanner` | class | `skills/aci_planner.py:426` | `class ACIPlanner` |
 | `ACIReflector` | class | `skills/aci_planner.py:764` | `class ACIReflector` |
 | `AttackPhase` | class | `skills/aci_planner.py:137` | `class AttackPhase` |
-| `__init__` | method | `skills/aci_planner.py:438` | `def __init__(self, api_key, objectives_file, plan_file)` |
-| `__init__` | method | `skills/aci_planner.py:581` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
-| `__init__` | method | `skills/aci_planner.py:774` | `def __init__(self, lessons_file)` |
-| `_archive_plan` | method | `skills/aci_planner.py:239` | `def _archive_plan(plan, history_file)` |
-| `_build_parser` | method | `skills/aci_planner.py:955` | `def _build_parser()` |
-| `_build_phases_from_llm` | method | `skills/aci_planner.py:486` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
-| `_build_phases_static` | method | `skills/aci_planner.py:511` | `def _build_phases_static(self, goal, phase_filter)` |
-| `_count_blocked` | method | `skills/aci_planner.py:750` | `def _count_blocked(self, plan)` |
-| `_count_objectives_by_status` | method | `skills/aci_planner.py:266` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
-| `_inject_all_objectives` | method | `skills/aci_planner.py:539` | `def _inject_all_objectives(self, plan)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

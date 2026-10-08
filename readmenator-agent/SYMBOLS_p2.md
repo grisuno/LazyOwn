@@ -3,6 +3,7 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_saas_enum` | method | `cli/commands/cloud_attacks.py:470` | `def do_saas_enum(self, line)` |
 | `CollaborationCommandSet` | class | `cli/commands/collaboration.py:20` | `class CollaborationCommandSet(LazyOwnCommandSet)` |
 | `_get_collab` | method | `cli/commands/collaboration.py:26` | `def _get_collab(self)` |
 | `_resolve_target` | method | `cli/commands/collaboration.py:38` | `def _resolve_target(self, target)` |
@@ -19,31 +20,31 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_c2_quickstart` | method | `cli/commands/command_and_control.py:151` | `def do_c2_quickstart(self, _line)` |
 | `do_c2_status` | method | `cli/commands/command_and_control.py:41` | `def do_c2_status(self, _line)` |
 | `CommandAndControlMigratedCommandSet` | class | `cli/commands/command_and_control_migrated.py:37` | `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)` |
-| `_ability_to_step` | method | `cli/commands/command_and_control_migrated.py:2311` | `def _ability_to_step(ability)` |
-| `_api` | method | `cli/commands/command_and_control_migrated.py:534` | `def _api(method, endpoint, payload)` |
-| `_load_ability` | method | `cli/commands/command_and_control_migrated.py:2304` | `def _load_ability(ability_file)` |
-| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:1772` | `def do_apt_playbook(self, line)` |
-| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1548` | `def do_atomic_agent(self, line)` |
-| `do_atomic_gen` | method | `cli/commands/command_and_control_migrated.py:1364` | `def do_atomic_gen(self, line)` |
-| `do_atomic_tests` | method | `cli/commands/command_and_control_migrated.py:1204` | `def do_atomic_tests(self, line)` |
-| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1648` | `def do_attack_plan(self, line)` |
-| `do_automsf` | method | `cli/commands/command_and_control_migrated.py:868` | `def do_automsf(self, line)` |
+| `_ability_to_step` | method | `cli/commands/command_and_control_migrated.py:2318` | `def _ability_to_step(ability)` |
+| `_api` | method | `cli/commands/command_and_control_migrated.py:541` | `def _api(method, endpoint, payload)` |
+| `_load_ability` | method | `cli/commands/command_and_control_migrated.py:2311` | `def _load_ability(ability_file)` |
+| `do_apt_playbook` | method | `cli/commands/command_and_control_migrated.py:1779` | `def do_apt_playbook(self, line)` |
+| `do_atomic_agent` | method | `cli/commands/command_and_control_migrated.py:1555` | `def do_atomic_agent(self, line)` |
+| `do_atomic_gen` | method | `cli/commands/command_and_control_migrated.py:1371` | `def do_atomic_gen(self, line)` |
+| `do_atomic_tests` | method | `cli/commands/command_and_control_migrated.py:1211` | `def do_atomic_tests(self, line)` |
+| `do_attack_plan` | method | `cli/commands/command_and_control_migrated.py:1655` | `def do_attack_plan(self, line)` |
+| `do_automsf` | method | `cli/commands/command_and_control_migrated.py:875` | `def do_automsf(self, line)` |
 | `do_c2` | method | `cli/commands/command_and_control_migrated.py:392` | `def do_c2(self, line)` |
-| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2231` | `def do_caldera(self, line)` |
-| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2372` | `def do_caldera_export(self, line)` |
-| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2280` | `def do_caldera_import(self, line)` |
-| `do_duckyspark` | method | `cli/commands/command_and_control_migrated.py:939` | `def do_duckyspark(self, line)` |
-| `do_emp3r0r` | method | `cli/commands/command_and_control_migrated.py:1140` | `def do_emp3r0r(self, line)` |
-| `do_empire` | method | `cli/commands/command_and_control_migrated.py:818` | `def do_empire(self, line)` |
-| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:1995` | `def do_generate_playbook(self, line)` |
-| `do_iis_webdav_upload_asp` | method | `cli/commands/command_and_control_migrated.py:904` | `def do_iis_webdav_upload_asp(self, line)` |
-| `do_listener` | method | `cli/commands/command_and_control_migrated.py:507` | `def do_listener(self, line)` |
-| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:1892` | `def do_mitre_test(self, line)` |
+| `do_caldera` | method | `cli/commands/command_and_control_migrated.py:2238` | `def do_caldera(self, line)` |
+| `do_caldera_export` | method | `cli/commands/command_and_control_migrated.py:2379` | `def do_caldera_export(self, line)` |
+| `do_caldera_import` | method | `cli/commands/command_and_control_migrated.py:2287` | `def do_caldera_import(self, line)` |
+| `do_duckyspark` | method | `cli/commands/command_and_control_migrated.py:946` | `def do_duckyspark(self, line)` |
+| `do_emp3r0r` | method | `cli/commands/command_and_control_migrated.py:1147` | `def do_emp3r0r(self, line)` |
+| `do_empire` | method | `cli/commands/command_and_control_migrated.py:825` | `def do_empire(self, line)` |
+| `do_generate_playbook` | method | `cli/commands/command_and_control_migrated.py:2002` | `def do_generate_playbook(self, line)` |
+| `do_iis_webdav_upload_asp` | method | `cli/commands/command_and_control_migrated.py:911` | `def do_iis_webdav_upload_asp(self, line)` |
+| `do_listener` | method | `cli/commands/command_and_control_migrated.py:514` | `def do_listener(self, line)` |
+| `do_mitre_test` | method | `cli/commands/command_and_control_migrated.py:1899` | `def do_mitre_test(self, line)` |
 | `do_msf` | method | `cli/commands/command_and_control_migrated.py:42` | `def do_msf(self, line)` |
-| `do_msfrpc` | method | `cli/commands/command_and_control_migrated.py:677` | `def do_msfrpc(self, line)` |
-| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2174` | `def do_my_playbook(self, line)` |
-| `do_sandbox` | method | `cli/commands/command_and_control_migrated.py:635` | `def do_sandbox(self, line)` |
-| `do_sliver_server` | method | `cli/commands/command_and_control_migrated.py:701` | `def do_sliver_server(self, line)` |
+| `do_msfrpc` | method | `cli/commands/command_and_control_migrated.py:684` | `def do_msfrpc(self, line)` |
+| `do_my_playbook` | method | `cli/commands/command_and_control_migrated.py:2181` | `def do_my_playbook(self, line)` |
+| `do_sandbox` | method | `cli/commands/command_and_control_migrated.py:642` | `def do_sandbox(self, line)` |
+| `do_sliver_server` | method | `cli/commands/command_and_control_migrated.py:708` | `def do_sliver_server(self, line)` |
 | `ContainerCommandSet` | class | `cli/commands/containers.py:30` | `class ContainerCommandSet(LazyOwnCommandSet)` |
 | `do_container_detect` | method | `cli/commands/containers.py:334` | `def do_container_detect(self, _line)` |
 | `do_container_escape` | method | `cli/commands/containers.py:169` | `def do_container_escape(self, _line)` |
@@ -121,6 +122,8 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_db_vulns` | method | `cli/commands/database.py:211` | `def do_db_vulns(self, line)` |
 | `do_db_workspace` | method | `cli/commands/database.py:73` | `def do_db_workspace(self, line)` |
 | `shlex_split` | method | `cli/commands/database.py:476` | `def shlex_split(text)` |
+| `DemoCommandSet` | class | `cli/commands/demo.py:22` | `class DemoCommandSet(LazyOwnCommandSet)` |
+| `do_demo` | method | `cli/commands/demo.py:29` | `def do_demo(self, line)` |
 | `DiagnosticsCommandSet` | class | `cli/commands/diagnostics.py:23` | `class DiagnosticsCommandSet(LazyOwnCommandSet)` |
 | `do_lazy_payload_keys` | method | `cli/commands/diagnostics.py:41` | `def do_lazy_payload_keys(self, _statement)` |
 | `do_lazy_runtime` | method | `cli/commands/diagnostics.py:30` | `def do_lazy_runtime(self, _statement)` |
@@ -493,8 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_auditd_disable` | method | `cli/commands/opsec_cleanup.py:445` | `def do_auditd_disable(self, line)` |
 | `do_forensic_clean` | method | `cli/commands/opsec_cleanup.py:162` | `def do_forensic_clean(self, line)` |
 | `do_log_tamper` | method | `cli/commands/opsec_cleanup.py:97` | `def do_log_tamper(self, line)` |
-| `do_memory_clean` | method | `cli/commands/opsec_cleanup.py:288` | `def do_memory_clean(self, line)` |
-| `do_network_opsec` | method | `cli/commands/opsec_cleanup.py:342` | `def do_network_opsec(self, line)` |
-| `do_opsec_score` | method | `cli/commands/opsec_cleanup.py:25` | `def do_opsec_score(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

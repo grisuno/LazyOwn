@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 
 ## Internal Dependencies (continued)
+- `contrib/legacy/lazyhoneypot.py` -> `core/logging.py`
+- `contrib/legacy/lazyhttpreverseshell.py` -> `modules/backdoor/server.c`
 - `contrib/legacy/lazyllmchat.py` -> `modules/ai_model.py`
 - `contrib/legacy/lazyllmchat.py` -> `modules/llm_factory.py`
 - `contrib/legacy/lazylogpoisoning.py` -> `modules/lazyencoder_decoder.py`
@@ -494,7 +496,5 @@ Previous: [ARCHITECTURE.md](ARCHITECTURE.md)
 - `modules/lazyownerweb.py` -> `core/logging.py`
 - `modules/lazyownerweb.py` -> `modules/logging_config.py`
 - `modules/lesson_ingestor.py` -> `core/logging.py`
-- `modules/lesson_ingestor.py` -> `modules/moe_router.py`
-- `modules/lesson_ingestor.py` -> `modules/rl_trainer.py`
 
 Next: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)

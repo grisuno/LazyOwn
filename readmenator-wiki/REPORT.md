@@ -1,6 +1,10 @@
 # Audit Report
 
+<<<<<<< HEAD
+*Project: readmenator_LazyOwn_l8ifvy2k | 2026-10-07 | offline, deterministic*
+=======
 *Project: LazyOwn | 2026-10-08 | offline, deterministic*
+>>>>>>> 72e50545 (new documentation :D)
 
 ## Confidence Trail
 

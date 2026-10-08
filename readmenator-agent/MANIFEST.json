@@ -1,17 +1,10 @@
 {
   "tool": "readmenator",
   "schema_version": 2,
-<<<<<<< HEAD
-  "generated_at": "2026-10-08T00:29:32Z",
-  "project_root": ".",
-  "project_name": "readmenator_LazyOwn_l8ifvy2k",
-  "git_commit": "a8eff8fb28480cdb91e9c0d14a0b68eed9d9597b",
-=======
-  "generated_at": "2026-10-08T22:37:22Z",
+  "generated_at": "2026-10-08T22:53:19Z",
   "project_root": ".",
   "project_name": "LazyOwn",
-  "git_commit": "a68dbb08062c43f94c2ca71f4ab3fcfbdc3dc997",
->>>>>>> 72e50545 (new documentation :D)
+  "git_commit": "f0e78f0b33bbc9a192f986ccd01823fae2daa07e",
   "git_branch": "main",
   "source_fingerprint": "a2a520a39fca37b802ba0aac041217b274b144a835e949461690f403c4382410",
   "freshness_check": "readmenator . fresh  # exit 0 = docs match sources, exit 1 = run: readmenator . --rebuild",
@@ -234,11 +227,7 @@
     {
       "path": "GOTCHAS.md",
       "lines": 85,
-<<<<<<< HEAD
-      "approx_tokens": 1586
-=======
-      "approx_tokens": 1588
->>>>>>> 72e50545 (new documentation :D)
+      "approx_tokens": 1583
     },
     {
       "path": "INDEX.md",
@@ -624,6 +613,11 @@
       "path": "KB_windows.md",
       "lines": 74,
       "approx_tokens": 1212
+    },
+    {
+      "path": "MEMORY.md",
+      "lines": 140,
+      "approx_tokens": 3221
     },
     {
       "path": "SECURITY.md",

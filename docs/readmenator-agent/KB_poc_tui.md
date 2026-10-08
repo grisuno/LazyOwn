@@ -1,0 +1,180 @@
+# Subsystem: poc_tui
+
+## poc_tui/__main__.py
+- Doc: Entry point: python3 -m poc_tui
+- Layer: utility
+- Language: py
+- Depends on: `poc_tui/app.py`
+
+## poc_tui/app.py
+- Doc: LazyOwn TUI Shell — Proof of Concept.  cmd2 as backend, Textual as frontend.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ShellBackend` (class, line 44) `class ShellBackend`
+  - `DashboardPanel` (class, line 137) `class DashboardPanel(Static)`
+  - `PluginBrowser` (class, line 195) `class PluginBrowser(Static)`
+  - `OutputPanel` (class, line 240) `class OutputPanel(VerticalScroll)`
+  - `LazyOwnTUI` (class, line 297) `class LazyOwnTUI(App)`
+  - `main` (method, line 629) `def main()`
+  - `__init__` (method, line 47) `def __init__(self, base_dir)`
+  - `import_shell_class` (method, line 53) `def import_shell_class(self)`
+  - `start` (method, line 71) `def start(self)`
+  - `run` (method, line 83) `def run(self, cmd)`
+  - `get_commands` (method, line 106) `def get_commands(self)`
+  - `get_aliases` (method, line 119) `def get_aliases(self)`
+  - `stop` (method, line 124) `def stop(self)`
+  - `__init__` (method, line 140) `def __init__(self, base_dir)`
+  - `compose` (method, line 144) `def compose(self)`
+  - `refresh_data` (method, line 165) `def refresh_data(self, backend, cmd_count)`
+  - `__init__` (method, line 198) `def __init__(self)`
+  - `compose` (method, line 201) `def compose(self)`
+  - `update_commands` (method, line 207) `def update_commands(self, commands)`
+  - `_guess_category` (method, line 223) `def _guess_category(name, help_text)`
+  - `__init__` (method, line 248) `def __init__(self)`
+  - `compose` (method, line 252) `def compose(self)`
+  - `_log` (method, line 255) `def _log(self)`
+  - `write_renderable` (method, line 258) `def write_renderable(self, renderable)`
+  - `write_markup` (method, line 263) `def write_markup(self, text)`
+  - `append_command` (method, line 268) `def append_command(self, cmd)`
+  - `append_result` (method, line 273) `def append_result(self, text, success)`
+  - `append_error` (method, line 283) `def append_error(self, text)`
+  - `append_system` (method, line 287) `def append_system(self, text)`
+  - `__init__` (method, line 394) `def __init__(self, base_dir)`
+  - `compose` (method, line 405) `def compose(self)`
+  - `on_mount` (method, line 418) `def on_mount(self)`
+  - `_on_backend_ready` (method, line 444) `def _on_backend_ready(self)`
+  - `_auto_refresh_dashboard` (method, line 464) `def _auto_refresh_dashboard(self)`
+  - `execute_command` (method, line 470) `def execute_command(self, cmd_str)`
+  - `_drain_queue` (method, line 495) `def _drain_queue(self)`
+  - `_show_result` (method, line 525) `def _show_result(self, result)`
+  - `action_clear_output` (method, line 539) `def action_clear_output(self)`
+  - `action_tab_complete` (method, line 544) `def action_tab_complete(self)`
+  - `action_toggle_sidebar` (method, line 549) `def action_toggle_sidebar(self)`
+  - `action_refresh_dashboard` (method, line 555) `def action_refresh_dashboard(self)`
+  - `action_quit` (method, line 561) `def action_quit(self)`
+  - `on_command_submitted` (method, line 577) `def on_command_submitted(self, event)`
+  - `on_key` (method, line 586) `def on_key(self, event)`
+  - `_tab_complete` (method, line 605) `def _tab_complete(self, inp)`
+  - `_init_backend` (method, line 429) `def _init_backend()`
+  - `_work` (method, line 510) `def _work()`
+- Depends on: `cli/commands/containers.py`, `lazyown.py`
+- Imported by: `poc_tui/__main__.py`, `poc_tui/run.py`, `poc_tui/test_app.py`
+
+## poc_tui/config.py
+- Doc: Payload.json configuration manager for the TUI shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `PayloadConfig` (class, line 12) `class PayloadConfig`
+  - `__post_init__` (method, line 18) `def __post_init__(self)`
+  - `reload` (method, line 21) `def reload(self)`
+  - `save` (method, line 28) `def save(self)`
+  - `get` (method, line 35) `def get(self, key, default)`
+  - `set` (method, line 38) `def set(self, key, value)`
+  - `keys` (method, line 41) `def keys(self)`
+  - `items` (method, line 44) `def items(self)`
+  - `__getitem__` (method, line 47) `def __getitem__(self, key)`
+  - `__setitem__` (method, line 50) `def __setitem__(self, key, value)`
+  - `__contains__` (method, line 53) `def __contains__(self, key)`
+- Imported by: `poc_tui/plugin_loader.py`
+
+## poc_tui/plugin_loader.py
+- Doc: Unified plugin loader — YAML addons, Lua plugins, and .tool files.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `PluginSpec` (class, line 28) `class PluginSpec`
+  - `_replace_placeholders` (method, line 40) `def _replace_placeholders(command, params)`
+  - `_validate_clone_url` (method, line 51) `def _validate_clone_url(url)`
+  - `PluginLoader` (class, line 73) `class PluginLoader`
+  - `_LuaAppProxy` (class, line 280) `class _LuaAppProxy`
+  - `_subst` (method, line 43) `def _subst(match)`
+  - `__init__` (method, line 80) `def __init__(self, config, base_dir)`
+  - `_setup_lua` (method, line 94) `def _setup_lua(self)`
+  - `_lua_register` (method, line 103) `def _lua_register(self, name, func)`
+  - `_list_files` (method, line 120) `def _list_files(self, directory)`
+  - `load_all` (method, line 128) `def load_all(self)`
+  - `_load_yaml_addons` (method, line 137) `def _load_yaml_addons(self)`
+  - `_register_yaml_addon` (method, line 150) `def _register_yaml_addon(self, data)`
+  - `_load_lua_plugins` (method, line 212) `def _load_lua_plugins(self)`
+  - `_load_tool_files` (method, line 237) `def _load_tool_files(self)`
+  - `_register_tool` (method, line 250) `def _register_tool(self, data)`
+  - `__init__` (method, line 283) `def __init__(self, config)`
+  - `params` (method, line 287) `def params(self)`
+  - `one_cmd` (method, line 290) `def one_cmd(self, cmd)`
+  - `wrapper` (method, line 106) `def wrapper(arg)`
+  - `wrapper` (method, line 161) `def wrapper(arg)`
+  - `wrapper` (method, line 258) `def wrapper(arg)`
+- Depends on: `poc_tui/config.py`
+
+## poc_tui/run.py
+- Doc: Convenience launcher that symlinks LazyOwn dirs and starts the TUI.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `main` (function, line 9) `def main()`
+- Depends on: `poc_tui/app.py`
+
+## poc_tui/test_app.py
+- Doc: Pytest tests for LazyOwn TUI Shell POC.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_run_async` (function, line 17) `def _run_async(coro)`
+  - `_make_backend` (function, line 26) `def _make_backend()`
+  - `TestShellBackend` (class, line 32) `class TestShellBackend`
+  - `TestLazyOwnTUIApp` (class, line 100) `class TestLazyOwnTUIApp`
+  - `test_init_sets_base_dir` (method, line 33) `def test_init_sets_base_dir(self)`
+  - `test_run_before_start` (method, line 37) `def test_run_before_start(self)`
+  - `test_start_and_stop` (method, line 42) `def test_start_and_stop(self)`
+  - `test_run_show` (method, line 48) `def test_run_show(self)`
+  - `test_run_help` (method, line 55) `def test_run_help(self)`
+  - `test_get_commands` (method, line 62) `def test_get_commands(self)`
+  - `test_get_aliases` (method, line 71) `def test_get_aliases(self)`
+  - `test_set_and_show` (method, line 78) `def test_set_and_show(self)`
+  - `test_buffer_cleared` (method, line 86) `def test_buffer_cleared(self)`
+  - `test_app_creates` (method, line 101) `def test_app_creates(self)`
+  - `test_app_starts_stops` (method, line 105) `def test_app_starts_stops(self)`
+  - `test_panels_visible` (method, line 114) `def test_panels_visible(self)`
+  - `test_input_has_focus` (method, line 125) `def test_input_has_focus(self)`
+  - `test_execute_help` (method, line 135) `def test_execute_help(self)`
+  - `test_input_cleared_after_submit` (method, line 151) `def test_input_cleared_after_submit(self)`
+  - `test_history_up` (method, line 164) `def test_history_up(self)`
+  - `test_history_down` (method, line 181) `def test_history_down(self)`
+  - `test_tab_complete` (method, line 197) `def test_tab_complete(self)`
+  - `test_toggle_sidebar` (method, line 209) `def test_toggle_sidebar(self)`
+  - `test_quit` (method, line 224) `def test_quit(self)`
+  - `test_backend_ready` (method, line 234) `def test_backend_ready(self)`
+  - `test_set_updates_dashboard` (method, line 247) `def test_set_updates_dashboard(self)`
+  - `test_show_command_output_in_log` (method, line 269) `def test_show_command_output_in_log(self)`
+  - `test_q_is_quit_not_shell_alias` (method, line 288) `def test_q_is_quit_not_shell_alias(self)`
+  - `test_quit_word_not_sent_to_backend` (method, line 304) `def test_quit_word_not_sent_to_backend(self)`
+  - `test_commands_queue_serialized` (method, line 318) `def test_commands_queue_serialized(self)`
+  - `test_focus_returns_after_command` (method, line 341) `def test_focus_returns_after_command(self)`
+  - `test_output_renders_ansi_codes` (method, line 358) `def test_output_renders_ansi_codes(self)`
+  - `test_busy_command_shows_running_indicator` (method, line 373) `def test_busy_command_shows_running_indicator(self)`
+  - `test_layout_all_panels_render_in_screenshot` (method, line 392) `def test_layout_all_panels_render_in_screenshot(self)`
+  - `test_command_output_visible_in_screenshot` (method, line 411) `def test_command_output_visible_in_screenshot(self)`
+  - `_t` (method, line 106) `def _t()`
+  - `_t` (method, line 115) `def _t()`
+  - `_t` (method, line 126) `def _t()`
+  - `_t` (method, line 136) `def _t()`
+  - `_t` (method, line 152) `def _t()`
+  - `_t` (method, line 165) `def _t()`
+  - `_t` (method, line 182) `def _t()`
+  - `_t` (method, line 198) `def _t()`
+  - `_t` (method, line 210) `def _t()`
+  - `_t` (method, line 225) `def _t()`
+  - `_t` (method, line 235) `def _t()`
+  - `_t` (method, line 248) `def _t()`
+  - `_t` (method, line 270) `def _t()`
+  - `_t` (method, line 291) `def _t()`
+  - `_t` (method, line 307) `def _t()`
+  - `_t` (method, line 321) `def _t()`
+  - `_t` (method, line 342) `def _t()`
+  - `_t` (method, line 361) `def _t()`
+  - `_t` (method, line 374) `def _t()`
+  - `_t` (method, line 399) `def _t()`
+  - `_t` (method, line 414) `def _t()`
+- Depends on: `poc_tui/app.py`

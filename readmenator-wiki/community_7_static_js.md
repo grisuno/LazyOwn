@@ -1,6 +1,6 @@
 # static/js
 
-*Community 8 | 22 files | cohesion 0.54*
+*Community 7 | 22 files | cohesion 0.54*
 
 ## Definition
 
@@ -111,7 +111,7 @@ This community groups 22 file(s) rooted at `static/js` with dominant language js
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/misc_migrated.py imports cli/show.py.
+- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/misc_migrated.py imports cli/show.py.
 
 ## Risks
 

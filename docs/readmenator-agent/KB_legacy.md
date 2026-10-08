@@ -1,0 +1,498 @@
+# Subsystem: legacy (page 1 of 2)
+Pages: [KB_legacy.md](KB_legacy.md), [KB_legacy_p2.md](KB_legacy_p2.md)
+
+## contrib/legacy/__init__.py
+- Doc: Legacy module shims — deprecated scripts retained for compatibility.
+- Layer: utility
+- Language: py
+
+## contrib/legacy/lazy_http_bof.py
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `genHeader` (function, line 6) `def genHeader(raw)`
+  - `exploit` (function, line 29) `def exploit(target, port, payload)`
+
+## contrib/legacy/lazy_packet_image_sniffer.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 23) `def check_sudo()`
+  - `list_interfaces` (function, line 31) `def list_interfaces()`
+  - `choose_interface` (function, line 49) `def choose_interface(interfaces)`
+  - `get_subnet_from_interface` (function, line 61) `def get_subnet_from_interface(interface)`
+  - `get_ip_addresses` (function, line 65) `def get_ip_addresses(interface)`
+  - `handle_packet` (function, line 111) `def handle_packet(packet)`
+  - `save_image` (function, line 161) `def save_image(src_ip, end_idx)`
+  - `run` (function, line 187) `def run()`
+  - `daemonize` (function, line 192) `def daemonize()`
+
+## contrib/legacy/lazyaddon_creator.py
+- Doc: parse_github_url: Extrae (owner, repo) de una URL de GitHub.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_github_url` (function, line 49) `def parse_github_url(url)`
+  - `github_api_get` (function, line 58) `def github_api_get(owner, repo, endpoint)`
+  - `fetch_repo_metadata` (function, line 68) `def fetch_repo_metadata(owner, repo)`
+  - `fetch_readme` (function, line 73) `def fetch_readme(owner, repo)`
+  - `fetch_root_files` (function, line 85) `def fetch_root_files(owner, repo)`
+  - `build_llm_prompt` (function, line 98) `def build_llm_prompt(meta, readme, root_files)`
+  - `extract_json_from_response` (function, line 164) `def extract_json_from_response(text)`
+  - `heuristic_install_command` (function, line 192) `def heuristic_install_command(root_files, language)`
+  - `heuristic_execute_command` (function, line 211) `def heuristic_execute_command(name, root_files, language)`
+  - `heuristic_params` (function, line 245) `def heuristic_params(name, readme, root_files)`
+  - `fallback_yaml_data` (function, line 276) `def fallback_yaml_data(meta, readme, root_files)`
+  - `build_yaml` (function, line 300) `def build_yaml(data, repo_url)`
+  - `save_yaml` (function, line 336) `def save_yaml(addon, output_dir)`
+  - `main` (function, line 357) `def main()`
+- Depends on: `modules/llm_client.py`
+
+## contrib/legacy/lazyarpspoofing.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 27) `def check_sudo()`
+  - `enable_ip_forward` (function, line 35) `def enable_ip_forward()`
+  - `disable_ip_forward` (function, line 38) `def disable_ip_forward()`
+  - `get_local_ip` (function, line 41) `def get_local_ip(ifname)`
+  - `get_mac` (function, line 49) `def get_mac(ip, device, retries, timeout)`
+  - `spoofer` (function, line 69) `def spoofer(target, spoofed, device)`
+  - `main` (function, line 80) `def main()`
+
+## contrib/legacy/lazybinenc.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `generate_key_iv` (function, line 12) `def generate_key_iv(sessions_path)`
+  - `main` (function, line 54) `def main()`
+- Depends on: `cli/commands/pwn.py`, `core/console.py`, `core/prompt.py`
+
+## contrib/legacy/lazybotcli.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `encrypt` (function, line 30) `def encrypt(plaintext, key)`
+  - `decrypt` (function, line 36) `def decrypt(ciphertext, key)`
+  - `main` (function, line 42) `def main()`
+
+## contrib/legacy/lazybotnet.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `encrypt` (function, line 46) `def encrypt(plaintext, key)`
+  - `decrypt` (function, line 52) `def decrypt(ciphertext, key)`
+  - `add_to_botnet` (function, line 58) `def add_to_botnet(ip, port, botnet_file)`
+  - `clean_botnet` (function, line 62) `def clean_botnet(ip, port, botnet_file)`
+  - `send_to_botnet` (function, line 71) `def send_to_botnet(cmd, key, botnet_file)`
+  - `Keylogger` (class, line 89) `class Keylogger`
+  - `handle_client` (method, line 144) `def handle_client(conn, key, botnet_file, log_file)`
+  - `start_server` (method, line 182) `def start_server(host, port, key, botnet_file, log_file)`
+  - `__init__` (method, line 90) `def __init__(self, key, log_file)`
+  - `on_press` (method, line 95) `def on_press(self, key)`
+  - `start` (method, line 106) `def start(self)`
+  - `get_log` (method, line 110) `def get_log(self)`
+  - `save_log` (method, line 113) `def save_log(self)`
+  - `run` (method, line 120) `def run(self)`
+  - `setup_persistence` (method, line 125) `def setup_persistence(self)`
+  - `create_shortcut` (method, line 136) `def create_shortcut(self, script_path, shortcut_path)`
+
+## contrib/legacy/lazycam.py
+- Doc: This code is a portion of frigate Event Video Recorder (fEVR)  Copyright (C) 2021-2022  The...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `RTSPScanner` (class, line 32) `class RTSPScanner`
+  - `__init__` (method, line 33) `def __init__(self, verbose, wspace)`
+  - `run` (method, line 49) `def run(self)`
+  - `resizeImg` (method, line 68) `def resizeImg(self, img, output, height, ratio, fmt)`
+  - `splitCSV` (method, line 77) `def splitCSV(self, csv)`
+  - `scanner` (method, line 83) `def scanner(self)`
+  - `delCameras` (method, line 136) `def delCameras(self)`
+  - `addCameras` (method, line 149) `def addCameras(self)`
+  - `cla` (method, line 212) `def cla()`
+  - `main` (method, line 257) `def main()`
+
+## contrib/legacy/lazycreate_webshell.py
+- Layer: utility
+- Language: py
+- Depends on: `modules/lazyencoder_decoder.py`
+
+## contrib/legacy/lazydeepseekcli.py
+- Doc: Unified Ollama/DeepSeek client for LazyOwn — merges lazydeepseekcli_local +...
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `truncate_message` (function, line 41) `def truncate_message(message, max_chars)`
+  - `configure_logging` (function, line 45) `def configure_logging(debug)`
+  - `_load_payload_kv` (function, line 50) `def _load_payload_kv()`
+  - `_load_report_context` (function, line 68) `def _load_report_context()`
+  - `_prompt_redteam` (function, line 79) `def _prompt_redteam(base_prompt, history, knowledge_base)`
+  - `_prompt_report` (function, line 118) `def _prompt_report(base_prompt, history, knowledge_base)`
+  - `load_knowledge_base` (function, line 167) `def load_knowledge_base(file_path)`
+  - `save_knowledge_base` (function, line 174) `def save_knowledge_base(knowledge_base, file_path)`
+  - `add_to_knowledge_base` (function, line 179) `def add_to_knowledge_base(prompt, command, file_path)`
+  - `get_relevant_knowledge` (function, line 185) `def get_relevant_knowledge(prompt)`
+  - `transform_knowledge_base` (function, line 193) `def transform_knowledge_base(prompt_builder)`
+  - `_ollama_stream` (function, line 223) `def _ollama_stream(prompt_text, mode)`
+  - `process_prompt_local` (function, line 255) `def process_prompt_local(prompt, debug, mode)`
+  - `process_prompt_localreport` (function, line 263) `def process_prompt_localreport(prompt, debug, mode)`
+  - `parse_args` (function, line 271) `def parse_args()`
+  - `generate` (function, line 231) `def generate()`
+- Depends on: `core/logging.py`
+- Imported by: `modules/llm_adapter.py`
+
+## contrib/legacy/lazydisassebler.py
+- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Date: 14/04/2025 Licencia: GPL v3...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `X64Disassembler` (class, line 24) `class X64Disassembler`
+  - `main` (method, line 489) `def main()`
+  - `__init__` (method, line 34) `def __init__(self)`
+  - `read_elf_header` (method, line 79) `def read_elf_header(self, data)`
+  - `parse_modrm` (method, line 135) `def parse_modrm(self, modrm, rex)`
+  - `parse_sib` (method, line 173) `def parse_sib(self, sib, rex)`
+  - `get_operand_str` (method, line 212) `def get_operand_str(self, mod, rm, rex, bytes_data, offset)`
+  - `disassemble` (method, line 305) `def disassemble(self, bytes_data, file_offset, vaddr, size, entry_point)`
+
+## contrib/legacy/lazyftpsniff.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 21) `def check_sudo()`
+  - `signal_handler` (function, line 34) `def signal_handler(sig, frame)`
+  - `parse_arguments` (function, line 42) `def parse_arguments()`
+  - `sniffer_ftp` (function, line 56) `def sniffer_ftp(pkt)`
+  - `main` (function, line 69) `def main()`
+
+## contrib/legacy/lazygalazy.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SamsungKnoxExploitServer` (class, line 8) `class SamsungKnoxExploitServer(BaseHTTPRequestHandler)`
+  - `main` (method, line 97) `def main()`
+  - `do_GET` (method, line 11) `def do_GET(self)`
+  - `apk_bytes` (method, line 33) `def apk_bytes(self)`
+  - `launch_html` (method, line 36) `def launch_html(self)`
+  - `exploit_js` (method, line 49) `def exploit_js(self)`
+  - `rand_word` (method, line 93) `def rand_word(self)`
+- Depends on: `modules/backdoor/server.c`
+
+## contrib/legacy/lazygptcli.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `signal_handler` (function, line 66) `def signal_handler(sig, frame)`
+  - `show_help` (function, line 73) `def show_help(message)`
+  - `check_api_key` (function, line 77) `def check_api_key()`
+  - `configure_logging` (function, line 83) `def configure_logging(debug)`
+  - `parse_args` (function, line 87) `def parse_args()`
+  - `create_complex_prompt` (function, line 94) `def create_complex_prompt(base_prompt, history, knowledge_base, error_message)`
+  - `execute_command` (function, line 108) `def execute_command(command)`
+  - `load_knowledge_base` (function, line 118) `def load_knowledge_base(file_path)`
+  - `save_knowledge_base` (function, line 124) `def save_knowledge_base(knowledge_base, file_path)`
+  - `add_to_knowledge_base` (function, line 128) `def add_to_knowledge_base(prompt, command, file_path)`
+  - `get_relevant_knowledge` (function, line 133) `def get_relevant_knowledge(prompt)`
+  - `transform_knowledge_base` (function, line 141) `def transform_knowledge_base(client)`
+  - `cleanup_temp_files` (function, line 164) `def cleanup_temp_files()`
+  - `main` (function, line 177) `def main()`
+- Depends on: `contrib/legacy/lazygptcli_unified.py`, `core/logging.py`, `modules/colors.py`
+
+## contrib/legacy/lazygptcli_unified.py
+- Doc: Unified Groq LLM client for LazyOwn — merges lazygptcli2/3/4/5 + lazyagentAi + lazygpttask +...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ret_model` (function, line 45) `def _ret_model()`
+  - `truncate_message` (function, line 53) `def truncate_message(message, max_chars)`
+  - `_configure_logging` (function, line 57) `def _configure_logging(debug)`
+  - `_load_knowledge_base` (function, line 62) `def _load_knowledge_base(file_path)`
+  - `_save_knowledge_base` (function, line 70) `def _save_knowledge_base(knowledge_base, file_path)`
+  - `_add_to_knowledge_base` (function, line 76) `def _add_to_knowledge_base(prompt, response, file_path)`
+  - `_get_relevant_knowledge` (function, line 82) `def _get_relevant_knowledge(prompt, file_path)`
+  - `_transform_knowledge_base` (function, line 95) `def _transform_knowledge_base(client, kb_file, improved_file)`
+  - `_groq_chat` (function, line 115) `def _groq_chat(client, messages, model, max_tokens)`
+  - `_load_payload_kv` (function, line 129) `def _load_payload_kv()`
+  - `_load_event_config` (function, line 147) `def _load_event_config()`
+  - `_prompt_oneliner` (function, line 159) `def _prompt_oneliner(base_prompt, history, knowledge_base)`
+  - `_prompt_script` (function, line 175) `def _prompt_script(base_prompt, history, knowledge_base)`
+  - `_prompt_adversary` (function, line 190) `def _prompt_adversary(base_prompt, history, knowledge_base)`
+  - `_prompt_general` (function, line 206) `def _prompt_general(base_prompt, history, knowledge_base)`
+  - `_prompt_search` (function, line 225) `def _prompt_search(base_prompt, history, knowledge_base)`
+  - `_prompt_vuln` (function, line 239) `def _prompt_vuln(base_prompt, history, knowledge_base)`
+  - `_prompt_task` (function, line 254) `def _prompt_task(base_prompt, history, knowledge_base)`
+  - `_prompt_redop` (function, line 267) `def _prompt_redop(base_prompt, history, knowledge_base)`
+  - `_process_groq` (function, line 287) `def _process_groq(client, prompt, debug, prompt_template, kb_file, model)`
+  - `process_prompt` (function, line 318) `def process_prompt(client, prompt, debug)`
+  - `process_prompt_script` (function, line 323) `def process_prompt_script(client, prompt, debug)`
+  - `process_prompt_adversary` (function, line 328) `def process_prompt_adversary(client, prompt, debug)`
+  - `process_prompt_general` (function, line 333) `def process_prompt_general(client, prompt, debug)`
+  - `process_prompt_search` (function, line 341) `def process_prompt_search(client, prompt, debug)`
+  - `process_prompt_task` (function, line 346) `def process_prompt_task(client, prompt, debug)`
+  - `process_prompt_vuln` (function, line 356) `def process_prompt_vuln(client, prompt, debug, event)`
+  - `process_prompt_redop` (function, line 382) `def process_prompt_redop(client, prompt, debug)`
+  - `_deepseek_fallback` (function, line 392) `def _deepseek_fallback(prompt)`
+- Depends on: `core/logging.py`, `modules/colors.py`
+- Imported by: `contrib/legacy/lazygptcli.py`
+
+## contrib/legacy/lazyhoneypot.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_args` (function, line 34) `def parse_args()`
+  - `setup_logging` (function, line 52) `def setup_logging(log_file)`
+  - `generate_rsa_key` (function, line 56) `def generate_rsa_key(key_filename)`
+  - `Server` (class, line 60) `class Server(ServerInterface)`
+  - `handle_connection` (method, line 74) `def handle_connection(client_socket, host_key, commands_log, downloads_log, downloads_dir)`
+  - `handle_file_download` (method, line 110) `def handle_file_download(command, downloads_dir, downloads_log)`
+  - `log_command` (method, line 128) `def log_command(command, commands_log)`
+  - `log_downloaded_file` (method, line 132) `def log_downloaded_file(filename, url, downloads_log)`
+  - `analyze_traffic` (method, line 136) `def analyze_traffic()`
+  - `alert_admin` (method, line 147) `def alert_admin(message)`
+  - `main` (method, line 165) `def main()`
+  - `__init__` (method, line 61) `def __init__(self)`
+  - `check_channel_request` (method, line 64) `def check_channel_request(self, kind, chanid)`
+  - `check_auth_password` (method, line 69) `def check_auth_password(self, username, password)`
+  - `process_packet` (method, line 137) `def process_packet(packet)`
+- Depends on: `core/logging.py`
+
+## contrib/legacy/lazyhttpreverseshell.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `encrypt` (function, line 14) `def encrypt(data)`
+  - `decrypt` (function, line 17) `def decrypt(data)`
+  - `compress` (function, line 20) `def compress(data)`
+  - `decompress` (function, line 23) `def decompress(data)`
+  - `reverse_http_shell_client` (function, line 26) `def reverse_http_shell_client(lhost, rhost, rport)`
+  - `reverse_http_shell_server` (function, line 50) `def reverse_http_shell_server(lhost, lport)`
+  - `parse_arguments` (function, line 88) `def parse_arguments(args)`
+  - `RequestHandler` (class, line 51) `class RequestHandler(BaseHTTPRequestHandler)`
+  - `do_GET` (method, line 52) `def do_GET(self)`
+  - `do_POST` (method, line 65) `def do_POST(self)`
+- Depends on: `modules/backdoor/server.c`
+
+## contrib/legacy/lazykeygen.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `pad` (function, line 8) `def pad(s)`
+  - `encrypt` (function, line 11) `def encrypt(plaintext, key)`
+  - `decrypt` (function, line 17) `def decrypt(ciphertext, key)`
+  - `generate_key` (function, line 23) `def generate_key(length)`
+  - `main` (function, line 26) `def main()`
+
+## contrib/legacy/lazylfi2rce.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `signal_handler` (function, line 29) `def signal_handler(sig, frame)`
+  - `check_lfi_success` (function, line 35) `def check_lfi_success(response_text)`
+  - `check_rfi_success` (function, line 39) `def check_rfi_success(response_text)`
+  - `main` (function, line 43) `def main()`
+
+## contrib/legacy/lazyllmchat.py
+- Doc: _load_model: Load the configured LLM backend through the central factory.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `LazyOwnShellBridge` (class, line 22) `class LazyOwnShellBridge`
+  - `SessionContextProvider` (class, line 104) `class SessionContextProvider`
+  - `PromptBuilder` (class, line 123) `class PromptBuilder`
+  - `LLMEngine` (class, line 163) `class LLMEngine`
+  - `LazyOwnPromptRenderer` (class, line 198) `class LazyOwnPromptRenderer`
+  - `LazyOwnLLMChat` (class, line 234) `class LazyOwnLLMChat`
+  - `main` (method, line 309) `def main()`
+  - `__init__` (method, line 25) `def __init__(self, script_path)`
+  - `_load_shell` (method, line 31) `def _load_shell(self)`
+  - `execute` (method, line 65) `def execute(self, command)`
+  - `__init__` (method, line 105) `def __init__(self, session_path)`
+  - `get_last_lines` (method, line 108) `def get_last_lines(self, count)`
+  - `for_command_analysis` (method, line 133) `def for_command_analysis(command, output, context, history)`
+  - `for_direct_query` (method, line 149) `def for_direct_query(query, context, history)`
+  - `__init__` (method, line 164) `def __init__(self)`
+  - `_load_model` (method, line 170) `def _load_model(self)`
+  - `is_ready` (method, line 179) `def is_ready(self)`
+  - `ask` (method, line 182) `def ask(self, prompt)`
+  - `get_history_text` (method, line 194) `def get_history_text(self)`
+  - `render` (method, line 208) `def render(self)`
+  - `banner` (method, line 223) `def banner(self)`
+  - `__init__` (method, line 235) `def __init__(self)`
+  - `_get_context` (method, line 242) `def _get_context(self)`
+  - `_run_shell_command` (method, line 245) `def _run_shell_command(self, command)`
+  - `_run_system_command` (method, line 251) `def _run_system_command(self, command)`
+  - `_analyze` (method, line 263) `def _analyze(self, command, output)`
+  - `_direct_query` (method, line 273) `def _direct_query(self, query)`
+  - `run` (method, line 280) `def run(self, initial_query)`
+  - `target` (method, line 70) `def target()`
+  - `no_history_init` (method, line 38) `def no_history_init(self_)`
+- Depends on: `modules/ai_model.py`, `modules/llm_factory.py`
+
+## contrib/legacy/lazylogpoisoning.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ensure_http_prefix` (function, line 39) `def ensure_http_prefix(url)`
+  - `signal_handler` (function, line 45) `def signal_handler(sig, frame)`
+  - `main` (function, line 53) `def main()`
+- Depends on: `modules/lazyencoder_decoder.py`
+
+## contrib/legacy/lazymariadb_rce_cve_2016-662.py
+- Doc: MySQL / MariaDB / Percona -  Remote Root Code Execution / PrivEsc PoC Exploit (CVE-2016-6662)...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `info` (function, line 59) `def info(str)`
+  - `errmsg` (function, line 63) `def errmsg(str)`
+  - `shutdown` (function, line 67) `def shutdown(code)`
+
+## contrib/legacy/lazymidm.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `get_mac` (function, line 12) `def get_mac(ip)`
+  - `spoof` (function, line 18) `def spoof(target_ip, spoof_ip)`
+  - `restore` (function, line 27) `def restore(target_ip, spoof_ip)`
+  - `mitm` (function, line 37) `def mitm(target_ip, gateway_ip)`
+  - `start_sslstrip` (function, line 50) `def start_sslstrip(port)`
+  - `start_tcpdump` (function, line 54) `def start_tcpdump(interface, output_file)`
+  - `setup_monitor_mode` (function, line 58) `def setup_monitor_mode(interface)`
+  - `main` (function, line 68) `def main()`
+
+## contrib/legacy/lazymitmap.py
+- Doc: run_cmd_write: Write a file using sudo.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_sudo_run` (function, line 14) `def _sudo_run()`
+  - `_validate_iface` (function, line 19) `def _validate_iface(value, name)`
+  - `print_header` (function, line 45) `def print_header()`
+  - `run_cmd_write` (function, line 49) `def run_cmd_write(cmd_args, s)`
+  - `write_file` (function, line 63) `def write_file(path, s)`
+  - `append_file` (function, line 67) `def append_file(path, s)`
+  - `create_dir` (function, line 72) `def create_dir(directory)`
+  - `set_permissions` (function, line 77) `def set_permissions(directory, permissions)`
+  - `install_dependencies` (function, line 84) `def install_dependencies()`
+  - `backup_file` (function, line 121) `def backup_file(filepath)`
+  - `restore_file` (function, line 128) `def restore_file(filepath)`
+  - `restart_service` (function, line 138) `def restart_service(service)`
+  - `flush_iptables` (function, line 145) `def flush_iptables()`
+  - `setup_network_manager` (function, line 153) `def setup_network_manager(ap_iface)`
+  - `configure_dnsmasq` (function, line 163) `def configure_dnsmasq(ap_iface, ap_ip_range_start, ap_ip_range_end, ap_ip_gateway, dns_ip_1, dns_ip_2, sslstrip)`
+  - `configure_hostapd` (function, line 195) `def configure_hostapd(ap_iface, ssid, channel, wpa_passphrase)`
+  - `setup_iptables` (function, line 228) `def setup_iptables(ap_iface, ap_ip, net_iface)`
+  - `set_speed_limit` (function, line 248) `def set_speed_limit(ap_iface, speed_up, speed_down)`
+  - `start_services` (function, line 254) `def start_services(ap_iface, script_path, sslstrip, wireshark, driftnet, tshark)`
+  - `cleanup` (function, line 315) `def cleanup()`
+  - `signal_handler` (function, line 324) `def signal_handler(sig, frame)`
+
+## contrib/legacy/lazynetbios.py
+- Doc: Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 30) `def check_sudo()`
+  - `signal_handler` (function, line 38) `def signal_handler(sig, frame)`
+  - `scan_netbios` (function, line 45) `def scan_netbios(ip_range)`
+  - `check_arp` (function, line 58) `def check_arp(ip)`
+  - `check_netbios` (function, line 71) `def check_netbios(ip)`
+  - `send_nbns_spoof` (function, line 90) `def send_nbns_spoof(target_ip, target_name, spoof_ip, trans_id)`
+  - `generate_ip_range` (function, line 115) `def generate_ip_range(start_ip, end_ip)`
+
+## contrib/legacy/lazyntlrelayx.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `parse_hash_file` (function, line 5) `def parse_hash_file(file_path)`
+  - `ntlm_relay` (function, line 52) `def ntlm_relay(target_ip, credentials)`
+
+## contrib/legacy/lazyopenssh77enum2.py
+- Doc: CVE-2018-15473 SSH User Enumeration by Leap Security (@LeapSecurity) https://leapsecurity.io...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `InvalidUsername` (class, line 14) `class InvalidUsername(Exception)`
+  - `add_boolean` (method, line 19) `def add_boolean()`
+  - `service_accept` (method, line 30) `def service_accept()`
+  - `invalid_username` (method, line 36) `def invalid_username()`
+  - `check_user` (method, line 50) `def check_user(username)`
+- Depends on: `core/logging.py`
+
+## contrib/legacy/lazyphishingai.py
+- Doc: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation Date: 09/06/2024...
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `clean_think` (function, line 28) `def clean_think(texto)`
+  - `clean_yaml` (function, line 31) `def clean_yaml(texto)`
+  - `truncate_message` (function, line 37) `def truncate_message(message, max_chars)`
+  - `configure_logging` (function, line 42) `def configure_logging(debug)`
+  - `create_complex_prompt` (function, line 46) `def create_complex_prompt(base_prompt, history, knowledge_base)`
+  - `load_knowledge_base` (function, line 101) `def load_knowledge_base(file_path)`
+  - `save_knowledge_base` (function, line 110) `def save_knowledge_base(knowledge_base, file_path)`
+  - `add_to_knowledge_base` (function, line 117) `def add_to_knowledge_base(prompt, command, file_path)`
+  - `get_relevant_knowledge` (function, line 122) `def get_relevant_knowledge(prompt)`
+  - `process_prompt_local_yaml` (function, line 132) `def process_prompt_local_yaml(prompt, debug, mode, output_file)`
+  - `parse_args` (function, line 192) `def parse_args()`
+  - `generate` (function, line 155) `def generate()`
+- Depends on: `core/logging.py`
+- Imported by: `modules/llm_adapter.py`
+
+## contrib/legacy/lazyproxy.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_sudo` (function, line 40) `def check_sudo()`
+  - `signal_handler` (function, line 47) `def signal_handler(sig, frame)`
+  - `hexdump` (function, line 52) `def hexdump(src, length)`
+  - `receive_from` (function, line 63) `def receive_from(connection)`
+  - `request_handler` (function, line 77) `def request_handler(buffer)`
+  - `response_handler` (function, line 82) `def response_handler(buffer)`
+  - `get_ip_from_url` (function, line 87) `def get_ip_from_url(url)`
+  - `handle_request` (function, line 104) `def handle_request(client_socket, address)`
+  - `start_proxy` (function, line 183) `def start_proxy()`
+- Depends on: `modules/colors.py`
+
+## contrib/legacy/lazypwn.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BinaryFinder` (class, line 24) `class BinaryFinder`
+  - `BinaryAttacker` (class, line 70) `class BinaryAttacker`
+  - `main` (method, line 181) `def main()`
+  - `__init__` (method, line 25) `def __init__(self)`
+  - `find_suid_binaries` (method, line 28) `def find_suid_binaries(self)`
+  - `find_capabilities_binaries` (method, line 36) `def find_capabilities_binaries(self)`
+  - `find_executable_binaries` (method, line 44) `def find_executable_binaries(self)`
+  - `find_specific_name_binaries` (method, line 52) `def find_specific_name_binaries(self, names)`
+  - `process_output` (method, line 61) `def process_output(self, output)`
+  - `get_found_binaries` (method, line 67) `def get_found_binaries(self)`
+  - `__init__` (method, line 71) `def __init__(self, binary_path)`
+  - `analyze_with_ltrace` (method, line 76) `def analyze_with_ltrace(self)`
+  - `extract_strings` (method, line 83) `def extract_strings(self)`
+  - `prepare_attack` (method, line 90) `def prepare_attack(self)`
+  - `exploit_with_pwntools` (method, line 170) `def exploit_with_pwntools(self)`
+- Depends on: `cli/commands/pwn.py`
+
+## contrib/legacy/lazypwnkit.py
+- Doc: rmrf: Elimina recursivamente un directorio y su contenido.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `rmrf` (function, line 8) `def rmrf(path)`
+  - `create_exploit_environment` (function, line 13) `def create_exploit_environment()`
+  - `cleanup_exploit_environment` (function, line 31) `def cleanup_exploit_environment()`
+  - `execute_exploit` (function, line 37) `def execute_exploit(cmd)`
+  - `main` (function, line 79) `def main()`
+
+## contrib/legacy/lazypyautogui.py
+- Layer: utility
+- Language: py
+
+
+Next: [KB_legacy_p2.md](KB_legacy_p2.md)

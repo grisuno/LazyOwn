@@ -1,19 +1,26 @@
-# lazyc2/security
+# modules: lazyc2
 
-*Community 3 | 62 files | cohesion 0.52*
+*Community 3 | 77 files | cohesion 0.53*
 
 ## Definition
 
-This community groups 62 file(s) rooted at `tests` with dominant language py (cohesion 0.52). Central symbols: `AESKeyManager`, `AESdecrypt`, `AESencrypt`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`. Core file: `lazyc2.py` (263 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
+This community groups 77 file(s) rooted at `tests` with dominant language py (cohesion 0.53). Central symbols: `AESKeyManager`, `AESdecrypt`, `AESencrypt`, `AddonCreatorConfig`, `AddonDraft`, `AddonStore`, `AddonValidationError`, `AddonValidator`. Core file: `lazyc2.py` (263 symbols). Documented purpose: Automatic encryption of sensitive session data on app open/close.  Before this module the operator had to manually run ``lazyenc.py encrypt`` and ``lazyenc.py d.
 
 ## Files
 
-### `tests` (24 files)
+### `tests` (27 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `tests/test_addon_creator.py` | py | testing | 86 | yes |
 | `tests/test_api_authz.py` | py | testing | 48 | yes |
+
+### `modules` (11 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/beacon_history.py` | py | utility | 7 | yes |
+| `modules/cli_auth.py` | py | utility | 18 | yes |
 
 ### `lazyc2/security` (10 files)
 
@@ -22,59 +29,57 @@ This community groups 62 file(s) rooted at `tests` with dominant language py (co
 | `lazyc2/security/__init__.py` | py | utility | 0 | no |
 | `lazyc2/security/command_allowlist.py` | py | utility | 8 | yes |
 
-### `modules` (8 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/beacon_history.py` | py | utility | 7 | yes |
-| `modules/compliance.py` | py | utility | 25 | yes |
-
-### `lazyc2/blueprints` (6 files)
+### `lazyc2/blueprints` (7 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/blueprints/__init__.py` | py | utility | 0 | yes |
 | `lazyc2/blueprints/addons.py` | py | presentation | 14 | yes |
 
-### `core` (3 files)
+### `cli/commands` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `core/api_authz.py` | py | presentation | 31 | yes |
-| `core/crypto.py` | py | utility | 7 | yes |
+| `cli/commands/campaign.py` | py | utility | 7 | yes |
+| `cli/commands/cli_auth.py` | py | utility | 5 | yes |
 
-### `lazyc2/extensions` (3 files)
+### `lazyc2` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `lazyc2/__init__.py` | py | utility | 0 | no |
+| `lazyc2/addon_creator.py` | py | utility | 38 | yes |
+
+### `lazyc2/extensions` (4 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2/extensions/__init__.py` | py | infrastructure | 0 | yes |
 | `lazyc2/extensions/decoy.py` | py | presentation | 1 | yes |
 
-### `cli/commands` (2 files)
+### `core` (3 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/campaign.py` | py | utility | 6 | yes |
-| `cli/commands/database.py` | py | data_access | 15 | yes |
+| `core/api_authz.py` | py | presentation | 31 | yes |
 
-### `lazyc2` (2 files)
+### `cli` (2 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `lazyc2/addon_creator.py` | py | utility | 38 | yes |
-| `lazyc2/app_factory.py` | py | presentation | 9 | yes |
+| `cli/auto_crypto.py` | py | utility | 12 | yes |
+
+### `static/js` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `static/js/socket.io-4.0.0.min.js` | js | utility | 32 | yes |
 
 ### `.` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
 | `lazyc2.py` | py | presentation | 263 | no |
-
-### `cli` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `cli/auto_crypto.py` | py | utility | 12 | yes |
 
 ### `modules/rootkit` (1 files)
 
@@ -88,7 +93,7 @@ This community groups 62 file(s) rooted at `tests` with dominant language py (co
 |------|----------|-------|---------|-----|
 | `skills/daemon_health.py` | py | utility | 16 | yes |
 
-*... and 42 more files in this community.*
+*... and 57 more files in this community.*
 
 
 ## Key Symbols
@@ -107,43 +112,43 @@ This community groups 62 file(s) rooted at `tests` with dominant language py (co
 - `_provider` (method, `cli/auto_crypto.py:298`) `def _provider()`
 - `CampaignCommandSet` (class, `cli/commands/campaign.py:36`) `class CampaignCommandSet(LazyOwnCommandSet)` - Export and import full campaign packages as portable archives.
 - `do_campaign` (method, `cli/commands/campaign.py:43`) `def do_campaign(self, line)` - Export or import an entire campaign as a portable package.
-- `_gather_campaign_manifest` (method, `cli/commands/campaign.py:88`) `def _gather_campaign_manifest(self, name)` - Build a manifest describing the current campaign state.
-- `_campaign_export` (method, `cli/commands/campaign.py:130`) `def _campaign_export(self, name)` - Package the current campaign into a portable .zip archive.
-- `_campaign_import` (method, `cli/commands/campaign.py:179`) `def _campaign_import(self, package_path)` - Restore a campaign from an exported .zip archive.
-- `_campaign_list` (method, `cli/commands/campaign.py:304`) `def _campaign_list(self)` - List exported campaign packages.
+- `_gather_campaign_manifest` (method, `cli/commands/campaign.py:92`) `def _gather_campaign_manifest(self, name)` - Build a manifest describing the current campaign state.
+- `_campaign_export` (method, `cli/commands/campaign.py:134`) `def _campaign_export(self, name)` - Package the current campaign into a portable .zip archive.
+- `_campaign_import` (method, `cli/commands/campaign.py:183`) `def _campaign_import(self, package_path)` - Restore a campaign from an exported .zip archive.
+- `_campaign_list` (method, `cli/commands/campaign.py:308`) `def _campaign_list(self)` - List exported campaign packages.
+- `_campaign_status` (method, `cli/commands/campaign.py:340`) `def _campaign_status(self)` - Print the live shared campaign state (no export, read-only).
+- `CliAuthCommandSet` (class, `cli/commands/cli_auth.py:27`) `class CliAuthCommandSet(LazyOwnCommandSet)` - CLI operator authentication — login, logout, whoami.
+- `do_login` (method, `cli/commands/cli_auth.py:34`) `def do_login(self, line)` - Authenticate against users.json (same users as lazyc2.py).
+- `do_register` (method, `cli/commands/cli_auth.py:117`) `def do_register(self, line)` - Register a new operator account in users.json.
+- `do_logout` (method, `cli/commands/cli_auth.py:191`) `def do_logout(self, line)` - Log out the current CLI operator and clear the remember-me token.
+- `do_whoami` (method, `cli/commands/cli_auth.py:224`) `def do_whoami(self, line)` - Show the currently logged-in CLI operator.
 - `DatabaseCommandSet` (class, `cli/commands/database.py:24`) `class DatabaseCommandSet(LazyOwnCommandSet)` - Database commands for campaign state management.
 - `_get_db` (method, `cli/commands/database.py:30`) `def _get_db(self)`
 - `_active_workspace` (method, `cli/commands/database.py:38`) `def _active_workspace(self)`
 - `do_db_init` (method, `cli/commands/database.py:55`) `def do_db_init(self, line)` - Initialize the database (creates schema if not exists).
 - `do_db_workspace` (method, `cli/commands/database.py:73`) `def do_db_workspace(self, line)` - Manage workspaces (list, create, switch, delete).
 - `do_db_hosts` (method, `cli/commands/database.py:122`) `def do_db_hosts(self, line)` - List or add hosts in the active workspace.
-- `do_db_services` (method, `cli/commands/database.py:183`) `def do_db_services(self, line)` - List all services in the active workspace.
-- `do_db_vulns` (method, `cli/commands/database.py:211`) `def do_db_vulns(self, line)` - List or add vulnerabilities.
-- `do_db_creds` (method, `cli/commands/database.py:265`) `def do_db_creds(self, line)` - List or add credentials.
-- `do_db_loot` (method, `cli/commands/database.py:309`) `def do_db_loot(self, line)` - List or add loot items.
-- `do_db_notes` (method, `cli/commands/database.py:349`) `def do_db_notes(self, line)` - List or add notes.
-- `do_db_import` (method, `cli/commands/database.py:387`) `def do_db_import(self, line)` - Import scan results into the database.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 137
-- Cross-boundary resolved imports (EXTRACTED): 152
+- Internal resolved imports (EXTRACTED): 259
+- Cross-boundary resolved imports (EXTRACTED): 182
 
 ## Connections
 
 - [EXTRACTED] depends_on community 3 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports core/logging.py.
-- [EXTRACTED] depends_on community 3 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/auto_crypto.py imports modules/cli_auth.py.
-- [EXTRACTED] depends_on community 3 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/campaign.py imports cli/commands/_base.py.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
+- [EXTRACTED] depends_on community 1 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/banner_config.py imports cli/engagement_hooks.py.
+- [EXTRACTED] depends_on community 4 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/engagement_hooks.py.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `core/crypto.py` via `subprocess` (5 hops)
+- [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
+- [cycle] `cli/engagement_hooks.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 - [layer strict] `lazyc2/blueprints/operations.py` (presentation) -> `lazyc2/extensions/storage.py` (data_access)
 - [layer strict] `tests/test_addon_creator.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
-- [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_authz.py` (testing) -> `core/api_authz.py` (presentation)
@@ -156,30 +161,31 @@ This community groups 62 file(s) rooted at `tests` with dominant language py (co
 
 ## Open Questions
 
-- Why do 3 file(s) lack file-level docs (e.g. `lazyc2.py`)? What purpose do they serve?
-- What would break if the most connected file in lazyc2/security changed?
-- Should lazyc2/security be split, given cohesion 0.52?
+- Why do 4 file(s) lack file-level docs (e.g. `lazyc2.py`)? What purpose do they serve?
+- Can the cycle `cli/engagement_hooks.py` -> `modules/cli_auth.py` be broken with an interface?
+- What would break if the most connected file in modules: lazyc2 changed?
+- Should modules: lazyc2 be split, given cohesion 0.53?
 
 ## Sources
 
 - `cli/auto_crypto.py`
 - `cli/commands/campaign.py`
+- `cli/commands/cli_auth.py`
 - `cli/commands/database.py`
+- `cli/commands/redteam_gym.py`
+- `cli/engagement_hooks.py`
 - `core/api_authz.py`
 - `core/crypto.py`
 - `core/protocols.py`
 - `lazyc2.py`
+- `lazyc2/__init__.py`
 - `lazyc2/addon_creator.py`
 - `lazyc2/app_factory.py`
 - `lazyc2/blueprints/__init__.py`
 - `lazyc2/blueprints/addons.py`
 - `lazyc2/blueprints/api.py`
 - `lazyc2/blueprints/api_v1.py`
+- `lazyc2/blueprints/auth.py`
 - `lazyc2/blueprints/operations.py`
 - `lazyc2/blueprints/session_auth.py`
-- `lazyc2/extensions/__init__.py`
-- `lazyc2/extensions/decoy.py`
-- `lazyc2/extensions/storage.py`
-- `lazyc2/security/__init__.py`
-- `lazyc2/security/command_allowlist.py`
-- *... and 42 more*
+- *... and 57 more*

@@ -1,6 +1,6 @@
 # skills/claude_md_orchestrator
 
-*Community 10 | 13 files | cohesion 0.85*
+*Community 9 | 13 files | cohesion 0.85*
 
 ## Definition
 

@@ -1,6 +1,6 @@
 # skills/hermes-lazyown
 
-*Community 9 | 17 files | cohesion 0.64*
+*Community 8 | 17 files | cohesion 0.64*
 
 ## Definition
 
@@ -17,7 +17,7 @@ This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant
 | `modules/backdoor/server.c` | c | utility | 1 | no |
 | `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
 | `modules/security_sanitizers.py` | py | utility | 25 | yes |
-| `pwntomate.py` | py | utility | 2 | yes |
+| `pwntomate.py` | py | utility | 3 | yes |
 | `skills/hermes-lazyown/claudemd_rules.py` | py | business_logic | 14 | yes |
 | `skills/hermes-lazyown/config_bridge.py` | py | infrastructure | 16 | yes |
 | `skills/hermes-lazyown/constants.py` | py | utility | 15 | yes |
@@ -68,8 +68,8 @@ This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 9 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
-- [EXTRACTED] depends_on community 9 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
+- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
+- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
 
 ## Risks
 

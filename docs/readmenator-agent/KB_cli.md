@@ -1,0 +1,480 @@
+# Subsystem: cli (page 1 of 4)
+Pages: [KB_cli.md](KB_cli.md), [KB_cli_p2.md](KB_cli_p2.md), [KB_cli_p3.md](KB_cli_p3.md), [KB_cli_p4.md](KB_cli_p4.md)
+
+## cli/__init__.py
+- Doc: LazyOwn CLI infrastructure.
+- Layer: utility
+- Language: py
+- Depends on: `cli/aliases.py`, `cli/registry.py`
+- Imported by: `tests/test_cli_command_sets.py`, `tests/test_command_palette.py`, `tests/test_doctor.py`, `tests/test_improvements_spec.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`, `tests/test_wizard_binary_check.py`
+
+## cli/aliases.py
+- Doc: Declarative cmd2 alias loader.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_SafeFormatDict` (class, line 29) `class _SafeFormatDict(dict)`
+  - `_substitute` (method, line 42) `def _substitute(template, payload)`
+  - `template_placeholders` (method, line 56) `def template_placeholders(template)`
+  - `empty_placeholders` (method, line 72) `def empty_placeholders(template, context)`
+  - `load_aliases` (method, line 77) `def load_aliases(payload, path, lazy)`
+  - `__missing__` (method, line 32) `def __missing__(self, key)`
+  - `__getitem__` (method, line 35) `def __getitem__(self, key)`
+- Depends on: `core/config.py`
+- Imported by: `cli/__init__.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `lazyown.py`, `tests/test_cli_command_sets.py`, `tests/test_cli_enhancements.py`
+
+## cli/assign.py
+- Doc: ``assign`` business logic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `apply_assign` (function, line 36) `def apply_assign(params, key, value)`
+- Depends on: `core/payload_schema.py`
+- Imported by: `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon_migrated.py`, `cli/commands/session_ops.py`, `static/js/bootstrap-5.3.0.bundle.min.js`, `static/js/chart.min.js`, `static/js/html2pdf.bundle.min.js`, `static/js/popper-2.5.4.min.js`, `static/js/tippy-6.js`, `tests/test_cli_assign.py`, `tests/test_payload_schema.py`
+
+## cli/auto_crypto.py
+- Doc: Automatic encryption of sensitive session data on app open/close.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AutoCryptoConfig` (class, line 48) `class AutoCryptoConfig`
+  - `AutoCryptoEngine` (class, line 77) `class AutoCryptoEngine`
+  - `build_password_provider_from_cli_login` (method, line 285) `def build_password_provider_from_cli_login()`
+  - `__init__` (method, line 85) `def __init__(self, config)`
+  - `enabled` (method, line 90) `def enabled(self)`
+  - `is_encrypted` (method, line 95) `def is_encrypted(self)`
+  - `encrypt_session` (method, line 124) `def encrypt_session(self)`
+  - `decrypt_session` (method, line 174) `def decrypt_session(self)`
+  - `_get_password` (method, line 239) `def _get_password(self)`
+  - `_load_or_create_salt` (method, line 248) `def _load_or_create_salt(self)`
+  - `_derive_key` (method, line 279) `def _derive_key(password, salt)`
+  - `_provider` (method, line 298) `def _provider()`
+- Depends on: `core/crypto.py`, `core/logging.py`, `modules/cli_auth.py`
+- Imported by: `lazyc2.py`, `lazyown.py`, `tests/test_auto_crypto.py`
+
+## cli/autosuggest.py
+- Doc: Ghost-text autosuggest engine for the LazyOwn cmd2 shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SuggestionContext` (class, line 50) `class SuggestionContext`
+  - `Suggestion` (class, line 71) `class Suggestion`
+  - `SuggestionProvider` (class, line 92) `class SuggestionProvider(Protocol)`
+  - `CompositeProvider` (class, line 98) `class CompositeProvider`
+  - `KillChainProvider` (class, line 134) `class KillChainProvider`
+  - `GraphProvider` (class, line 189) `class GraphProvider`
+  - `AutoSuggestEngine` (class, line 245) `class AutoSuggestEngine`
+  - `_truncate` (method, line 335) `def _truncate(value, max_len)`
+  - `format_hint_line` (method, line 342) `def format_hint_line(suggestion)`
+  - `render_hint_line` (method, line 375) `def render_hint_line(engine)`
+  - `_hint_console` (method, line 411) `def _hint_console()`
+  - `build_default_engine` (method, line 427) `def build_default_engine(advisor, chain, phase_priority)`
+  - `suggest` (method, line 95) `def suggest(self, context)`
+  - `__init__` (method, line 105) `def __init__(self, providers)`
+  - `suggest` (method, line 115) `def suggest(self, context)`
+  - `__init__` (method, line 143) `def __init__(self, chain, phase_priority)`
+  - `suggest` (method, line 162) `def suggest(self, context)`
+  - `__init__` (method, line 197) `def __init__(self, advisor)`
+  - `suggest` (method, line 221) `def suggest(self, context)`
+  - `__init__` (method, line 254) `def __init__(self, provider)`
+  - `enabled` (method, line 270) `def enabled(self)`
+  - `set_enabled` (method, line 274) `def set_enabled(self, value)`
+  - `current` (method, line 284) `def current(self)`
+  - `clear` (method, line 288) `def clear(self)`
+  - `refresh` (method, line 292) `def refresh(self, context)`
+  - `accept` (method, line 309) `def accept(self)`
+  - `display_text` (method, line 317) `def display_text(self)`
+- Depends on: `core/console.py`, `core/text_utils.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_autosuggest.py`
+
+## cli/banner_config.py
+- Doc: Configurable Neon Box banner for the LazyOwn interactive shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `BannerConfig` (class, line 59) `class BannerConfig`
+  - `ColorRegistry` (class, line 143) `class ColorRegistry`
+  - `GlyphRegistry` (class, line 191) `class GlyphRegistry`
+  - `SegmentSpec` (class, line 237) `class SegmentSpec`
+  - `ColorPalette` (class, line 250) `class ColorPalette`
+  - `RenderContext` (class, line 268) `class RenderContext`
+  - `_bracketed` (method, line 293) `def _bracketed(label, value, bullet, value_color, ctx, glyphs)`
+  - `_middle` (method, line 307) `def _middle(label, value, value_color, ctx, glyphs)`
+  - `SegmentRenderer` (class, line 314) `class SegmentRenderer(ABC)`
+  - `UserHostSegment` (class, line 325) `class UserHostSegment(SegmentRenderer)`
+  - `IfaceSegment` (class, line 340) `class IfaceSegment(SegmentRenderer)`
+  - `LhostSegment` (class, line 359) `class LhostSegment(SegmentRenderer)`
+  - `RhostSegment` (class, line 376) `class RhostSegment(SegmentRenderer)`
+  - `DomainSegment` (class, line 393) `class DomainSegment(SegmentRenderer)`
+  - `PublicIpSegment` (class, line 410) `class PublicIpSegment(SegmentRenderer)`
+  - `CwdSegment` (class, line 427) `class CwdSegment(SegmentRenderer)`
+  - `GitSegment` (class, line 443) `class GitSegment(SegmentRenderer)`
+  - `VenvSegment` (class, line 465) `class VenvSegment(SegmentRenderer)`
+  - `TimeSegment` (class, line 482) `class TimeSegment(SegmentRenderer)`
+  - `KernelSegment` (class, line 497) `class KernelSegment(SegmentRenderer)`
+  - `VersionSegment` (class, line 514) `class VersionSegment(SegmentRenderer)`
+  - `KarmaSegment` (class, line 531) `class KarmaSegment(SegmentRenderer)`
+  - `BatteryLoadSegment` (class, line 561) `class BatteryLoadSegment(SegmentRenderer)`
+  - `SegmentRegistry` (class, line 578) `class SegmentRegistry`
+  - `build_default_registry` (method, line 604) `def build_default_registry()`
+  - `BannerSettings` (class, line 628) `class BannerSettings`
+  - `ContextResolver` (class, line 734) `class ContextResolver`
+  - `_read_network_info` (method, line 873) `def _read_network_info()`
+  - `_select_iface` (method, line 892) `def _select_iface(network, preferred)`
+  - `_git_branch` (method, line 902) `def _git_branch()`
+  - `_git_dirty` (method, line 914) `def _git_dirty()`
+  - `_venv_name` (method, line 923) `def _venv_name()`
+  - `_battery_or_load` (method, line 929) `def _battery_or_load()`
+  - `default_palette` (method, line 948) `def default_palette()`
+  - `BannerRenderer` (class, line 961) `class BannerRenderer`
+  - `_WizardTab` (class, line 1029) `class _WizardTab`
+  - `BannerConfigurator` (class, line 1037) `class BannerConfigurator`
+  - `_readline_safe` (method, line 1353) `def _readline_safe(prompt, config)`
+  - `strip_readline_markers` (method, line 1382) `def strip_readline_markers(text, config)`
+  - `render_prompt` (method, line 1396) `def render_prompt(payload, config, readline_safe)`
+  - `configure_banner_interactive` (method, line 1436) `def configure_banner_interactive(payload, config)`
+  - `banner_summary` (method, line 1456) `def banner_summary(settings, registry)`
+  - `names` (method, line 170) `def names(self)`
+  - `has` (method, line 173) `def has(self, name)`
+  - `resolve` (method, line 176) `def resolve(self, name)`
+  - `cycle` (method, line 179) `def cycle(self, current, direction)`
+  - `default_name` (method, line 187) `def default_name(self)`
+  - `slots` (method, line 212) `def slots(self)`
+  - `choices` (method, line 215) `def choices(self, slot)`
+  - `has` (method, line 218) `def has(self, slot)`
+  - `default` (method, line 221) `def default(self, slot)`
+  - `cycle` (method, line 225) `def cycle(self, slot, current, direction)`
+  - `spec` (method, line 319) `def spec(self)`
+  - `render` (method, line 322) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 336) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 351) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 370) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 387) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 404) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 421) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 438) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 454) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 476) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 493) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 508) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 525) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 542) `def render(self, ctx, cfg, color, glyphs)`
+  - `render` (method, line 572) `def render(self, ctx, cfg, color, glyphs)`
+  - `__init__` (method, line 581) `def __init__(self)`
+  - `register` (method, line 584) `def register(self, segment)`
+  - `get` (method, line 587) `def get(self, segment_id)`
+  - `all` (method, line 590) `def all(self)`
+  - `by_group` (method, line 600) `def by_group(self, group)`
+  - `defaults` (method, line 636) `def defaults(cls, registry, color_registry, glyph_registry)`
+  - `from_payload` (method, line 651) `def from_payload(cls, registry, payload, key, color_registry, glyph_registry)`
+  - `is_enabled` (method, line 685) `def is_enabled(self, segment_id)`
+  - `toggle` (method, line 688) `def toggle(self, segment_id)`
+  - `enable_all` (method, line 694) `def enable_all(self, registry)`
+  - `disable_all` (method, line 697) `def disable_all(self)`
+  - `reset_segments` (method, line 700) `def reset_segments(self, registry)`
+  - `reset_colors` (method, line 703) `def reset_colors(self, registry)`
+  - `reset_color_for` (method, line 706) `def reset_color_for(self, segment_id, registry)`
+  - `reset_glyphs` (method, line 711) `def reset_glyphs(self, glyph_registry)`
+  - `reset_glyph_for` (method, line 714) `def reset_glyph_for(self, slot, glyph_registry)`
+  - `cycle_color` (method, line 718) `def cycle_color(self, segment_id, color_registry, direction)`
+  - `cycle_glyph` (method, line 722) `def cycle_glyph(self, slot, glyph_registry, direction)`
+  - `to_payload_block` (method, line 726) `def to_payload_block(self)`
+  - `__init__` (method, line 741) `def __init__(self, cfg, palette)`
+  - `resolve` (method, line 745) `def resolve(self, payload, network)`
+  - `_public_ip` (method, line 777) `def _public_ip(self, payload)`
+  - `_kernel` (method, line 796) `def _kernel(self)`
+  - `_version` (method, line 808) `def _version(self)`
+  - `_engagement_stats` (method, line 826) `def _engagement_stats()`
+  - `_operator_name` (method, line 859) `def _operator_name()`
+  - `__init__` (method, line 964) `def __init__(self, config, registry, color_registry, glyph_registry)`
+  - `render` (method, line 976) `def render(self, settings, ctx)`
+  - `_merged_glyphs` (method, line 985) `def _merged_glyphs(self, settings)`
+  - `_render_group` (method, line 992) `def _render_group(self, settings, ctx, group, glyphs)`
+  - `_build_top` (method, line 1006) `def _build_top(self, pieces, palette, glyphs)`
+  - `_build_middle` (method, line 1013) `def _build_middle(self, pieces, palette, glyphs)`
+  - `_build_bottom` (method, line 1019) `def _build_bottom(self, palette, glyphs)`
+  - `__init__` (method, line 1047) `def __init__(self, config, registry, color_registry, glyph_registry, renderer, ctx, initial)`
+  - `run` (method, line 1071) `def run(self)`
+  - `_tty_available` (method, line 1082) `def _tty_available()`
+  - `_loop` (method, line 1085) `def _loop(self, stdscr)`
+  - `_cycle_tab` (method, line 1120) `def _cycle_tab(self, direction)`
+  - `_rows_for` (method, line 1124) `def _rows_for(self, tab)`
+  - `_dispatch_action` (method, line 1133) `def _dispatch_action(self, key, rows, cursor)`
+  - `_init_colors` (method, line 1163) `def _init_colors(self)`
+  - `_render` (method, line 1190) `def _render(self, stdscr, rows, cursor)`
+  - `_draw_frame` (method, line 1215) `def _draw_frame(self, stdscr, top, left, height, width)`
+  - `_draw_header` (method, line 1229) `def _draw_header(self, stdscr, top, left, width)`
+  - `_draw_tabs` (method, line 1248) `def _draw_tabs(self, stdscr, row_y, left, width)`
+  - `_draw_segments` (method, line 1265) `def _draw_segments(self, stdscr, top, left, width, rows, cursor)`
+  - `_draw_colors` (method, line 1282) `def _draw_colors(self, stdscr, top, left, width, rows, cursor)`
+  - `_draw_glyphs` (method, line 1295) `def _draw_glyphs(self, stdscr, top, left, width, rows, cursor)`
+  - `_addrow` (method, line 1309) `def _addrow(self, stdscr, row_y, left, width, text, attr)`
+  - `_draw_preview` (method, line 1318) `def _draw_preview(self, stdscr, top, left, width, lines)`
+  - `_draw_footer` (method, line 1330) `def _draw_footer(self, stdscr, row_y, left, width)`
+  - `_color` (method, line 1344) `def _color(self, pair)`
+- Depends on: `cli/engagement_hooks.py`, `core/parsers.py`, `core/safe_exec.py`, `modules/cli_auth.py`
+- Imported by: `cli/commands/misc_migrated.py`, `tests/test_banner_config.py`, `tests/test_fuzzy_picker.py`, `tests/test_prompt_readline_markers.py`, `tests/test_prompt_refresh.py`, `utils.py`
+
+## cli/chain_mode.py
+- Doc: Interactive kill-chain chaining coordinator.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_ChainEscExit` (class, line 73) `class _ChainEscExit(Exception)`
+  - `_read_line_unix` (method, line 77) `def _read_line_unix(prompt)`
+  - `_read_line_windows` (method, line 136) `def _read_line_windows(prompt)`
+  - `ChainSuggestion` (class, line 183) `class ChainSuggestion`
+  - `ChainOutcome` (class, line 212) `class ChainOutcome`
+  - `ChainModeConfig` (class, line 231) `class ChainModeConfig`
+  - `ChainModeStore` (class, line 242) `class ChainModeStore`
+  - `ChainPromptEngine` (class, line 298) `class ChainPromptEngine`
+  - `from_step` (method, line 191) `def from_step(cls, step)`
+  - `__init__` (method, line 250) `def __init__(self, sessions_dir)`
+  - `load` (method, line 258) `def load(self)`
+  - `save` (method, line 275) `def save(self, enabled)`
+  - `__init__` (method, line 301) `def __init__(self, config, resolver)`
+  - `enabled` (method, line 335) `def enabled(self)`
+  - `steps_run` (method, line 340) `def steps_run(self)`
+  - `set_enabled` (method, line 344) `def set_enabled(self, value, persist)`
+  - `step` (method, line 358) `def step(self, last_cmd, phase)`
+  - `_prompt_loop` (method, line 389) `def _prompt_loop(self, suggestions)`
+  - `_prompt_line` (method, line 428) `def _prompt_line(self)`
+  - `_suggest` (method, line 450) `def _suggest(self, verb, phase)`
+  - `_render_menu` (method, line 468) `def _render_menu(self, verb, suggestions)`
+  - `_run` (method, line 485) `def _run(self, command)`
+  - `_disable` (method, line 491) `def _disable(self, reason)`
+- Depends on: `cli/noise_verbs.py`, `core/logging.py`
+- Imported by: `cli/commands/session_ops.py`, `lazyown.py`, `tests/test_chain_mode.py`
+
+## cli/cli_enhancements.py
+- Doc: CLI enhancement primitives for the LazyOwn interactive shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PayloadProvider` (class, line 40) `class PayloadProvider(Protocol)`
+  - `CommandLister` (class, line 47) `class CommandLister(Protocol)`
+  - `TerminalIO` (class, line 53) `class TerminalIO(Protocol)`
+  - `CommandInfo` (class, line 61) `class CommandInfo`
+  - `FuzzyMatch` (class, line 75) `class FuzzyMatch`
+  - `FuzzyCommandIndex` (class, line 83) `class FuzzyCommandIndex`
+  - `CompletionResult` (class, line 138) `class CompletionResult`
+  - `PayloadAwareCompleter` (class, line 145) `class PayloadAwareCompleter`
+  - `AliasResolver` (class, line 234) `class AliasResolver(ABC)`
+  - `DynamicAliasResolver` (class, line 242) `class DynamicAliasResolver(AliasResolver)`
+  - `HotReloader` (class, line 270) `class HotReloader(ABC)`
+  - `AddonHotReloader` (class, line 280) `class AddonHotReloader(HotReloader)`
+  - `StatusUpdate` (class, line 362) `class StatusUpdate`
+  - `LiveStatusTail` (class, line 371) `class LiveStatusTail`
+  - `TranscriptEntry` (class, line 418) `class TranscriptEntry`
+  - `TranscriptStore` (class, line 427) `class TranscriptStore`
+  - `FormField` (class, line 555) `class FormField`
+  - `FormSpec` (class, line 566) `class FormSpec`
+  - `_DefaultTerminalIO` (class, line 574) `class _DefaultTerminalIO`
+  - `InteractiveForm` (class, line 588) `class InteractiveForm`
+  - `DictPayloadProvider` (class, line 635) `class DictPayloadProvider`
+  - `StaticCommandLister` (class, line 651) `class StaticCommandLister`
+  - `commands_from_cmd2_shell` (method, line 661) `def commands_from_cmd2_shell(shell)`
+  - `_extract_doc` (method, line 696) `def _extract_doc(shell, name)`
+  - `get` (method, line 43) `def get(self, key, default)`
+  - `keys` (method, line 44) `def keys(self)`
+  - `commands` (method, line 50) `def commands(self)`
+  - `prompt` (method, line 56) `def prompt(self, message, default)`
+  - `emit` (method, line 57) `def emit(self, line)`
+  - `__init__` (method, line 91) `def __init__(self, source)`
+  - `search` (method, line 94) `def search(self, query, limit)`
+  - `_score` (method, line 109) `def _score(info, q)`
+  - `__init__` (method, line 164) `def __init__(self, payload, addon_lister, plugin_lister, credential_lister)`
+  - `complete` (method, line 176) `def complete(self, command, partial)`
+  - `_suggest_payload_keys` (method, line 196) `def _suggest_payload_keys(self, partial)`
+  - `_suggest_targets` (method, line 202) `def _suggest_targets(self, partial)`
+  - `_suggest_wordlist_keys` (method, line 213) `def _suggest_wordlist_keys(self, partial)`
+  - `_suggest_addons` (method, line 221) `def _suggest_addons(self, partial)`
+  - `_suggest_plugins` (method, line 224) `def _suggest_plugins(self, partial)`
+  - `_suggest_credentials` (method, line 227) `def _suggest_credentials(self, partial)`
+  - `expand` (method, line 238) `def expand(self, alias_name, raw_template, payload)`
+  - `expand` (method, line 255) `def expand(self, alias_name, raw_template, payload)`
+  - `start` (method, line 274) `def start(self)`
+  - `stop` (method, line 277) `def stop(self)`
+  - `__init__` (method, line 288) `def __init__(self, directories, on_change, tick_seconds)`
+  - `start` (method, line 301) `def start(self)`
+  - `stop` (method, line 313) `def stop(self)`
+  - `poll_once` (method, line 319) `def poll_once(self)`
+  - `_loop` (method, line 336) `def _loop(self)`
+  - `_scan` (method, line 341) `def _scan(self)`
+  - `parse` (method, line 382) `def parse(self, content)`
+  - `__init__` (method, line 437) `def __init__(self, sessions_dir, capacity, max_output_chars)`
+  - `append` (method, line 451) `def append(self, command, output, artefacts)`
+  - `grep` (method, line 465) `def grep(self, pattern, command_filter, limit, case_insensitive)`
+  - `list` (method, line 497) `def list(self, limit)`
+  - `_persist` (method, line 509) `def _persist(self, entry)`
+  - `_load` (method, line 527) `def _load(self)`
+  - `prompt` (method, line 577) `def prompt(self, message, default)`
+  - `emit` (method, line 584) `def emit(self, line)`
+  - `__init__` (method, line 595) `def __init__(self, io)`
+  - `render` (method, line 598) `def render(self, spec, defaults)`
+  - `_field_label` (method, line 619) `def _field_label(field_spec, default)`
+  - `__init__` (method, line 638) `def __init__(self, data)`
+  - `get` (method, line 641) `def get(self, key, default)`
+  - `keys` (method, line 644) `def keys(self)`
+  - `update` (method, line 647) `def update(self, data)`
+  - `__init__` (method, line 654) `def __init__(self, commands)`
+  - `commands` (method, line 657) `def commands(self)`
+  - `_sub` (method, line 256) `def _sub(m)`
+- Imported by: `cli/commands/audit.py`, `lazyown.py`, `tests/test_cli_enhancements.py`
+
+## cli/command_chain.py
+- Doc: Command chain registry: explicit prerequisites and dynamic next steps.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ChainConfig` (class, line 123) `class ChainConfig`
+  - `NextStep` (class, line 132) `class NextStep`
+  - `_normalise` (method, line 145) `def _normalise(name)`
+  - `PrerequisiteRegistry` (class, line 156) `class PrerequisiteRegistry`
+  - `StaticNextRegistry` (class, line 177) `class StaticNextRegistry`
+  - `ServiceNextResolver` (class, line 193) `class ServiceNextResolver`
+  - `DynamicNextResolver` (class, line 219) `class DynamicNextResolver`
+  - `CommandChain` (class, line 335) `class CommandChain`
+  - `to_dict` (method, line 139) `def to_dict(self)`
+  - `__init__` (method, line 159) `def __init__(self, config)`
+  - `prerequisites` (method, line 164) `def prerequisites(self, cmd)`
+  - `missing` (method, line 170) `def missing(self, cmd, history)`
+  - `next_for` (method, line 180) `def next_for(self, cmd)`
+  - `phase_priority` (method, line 186) `def phase_priority(self, phase)`
+  - `__init__` (method, line 196) `def __init__(self, config)`
+  - `followups` (method, line 201) `def followups(self, services)`
+  - `__init__` (method, line 222) `def __init__(self, config, static_registry, service_resolver, exploration_engine)`
+  - `resolve` (method, line 236) `def resolve(self, cmd, params, target, phase, limit)`
+  - `_ensure_engine` (method, line 308) `def _ensure_engine(self, params)`
+  - `_append` (method, line 318) `def _append(steps, seen, name, source, reason, history)`
+  - `__init__` (method, line 338) `def __init__(self, config, prerequisites, next_resolver)`
+  - `prev` (method, line 350) `def prev(self, cmd)`
+  - `missing_prerequisites` (method, line 355) `def missing_prerequisites(self, cmd, history)`
+  - `next` (method, line 360) `def next(self, cmd, params, target, phase, limit)`
+  - `chain` (method, line 372) `def chain(self, cmd, params, target, phase, limit)`
+- Depends on: `cli/exploration.py`, `cli/reactive_hints.py`
+- Imported by: `cli/commands/misc_migrated.py`, `lazyown.py`, `skills/lazyown_mcp.py`, `tests/test_command_chain.py`
+
+## cli/command_explorer.py
+- Doc: Interactive command explorer by phase and goal for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ExplorerConfig` (class, line 189) `class ExplorerConfig`
+  - `_load_command_index` (method, line 195) `def _load_command_index(path)`
+  - `CommandExplorer` (class, line 207) `class CommandExplorer`
+  - `__init__` (method, line 216) `def __init__(self, aliases, params, config)`
+  - `render_goals_overview` (method, line 227) `def render_goals_overview(self)`
+  - `render_goal_commands` (method, line 240) `def render_goal_commands(self, goal_key)`
+  - `render_search` (method, line 260) `def render_search(self, query)`
+- Depends on: `cli/palette.py`, `core/console.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/command_form.py
+- Doc: Textual form-mode launcher for LazyOwn commands.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `FormField` (class, line 37) `class FormField`
+  - `CommandFieldSet` (class, line 48) `class CommandFieldSet`
+  - `CommandFormConfig` (class, line 56) `class CommandFormConfig`
+  - `CommandFormState` (class, line 116) `class CommandFormState`
+  - `_load_index` (method, line 236) `def _load_index()`
+  - `build_state` (method, line 247) `def build_state(command_name, payload, index, config)`
+  - `launch_form` (method, line 262) `def launch_form(command_name, payload, state, runner)`
+  - `_build_app` (method, line 298) `def _build_app(state, theme)`
+  - `__post_init__` (method, line 126) `def __post_init__(self)`
+  - `fields` (method, line 131) `def fields(self)`
+  - `summary` (method, line 139) `def summary(self)`
+  - `set_value` (method, line 150) `def set_value(self, identifier, value)`
+  - `set_extra_args` (method, line 154) `def set_extra_args(self, value)`
+  - `build_command` (method, line 158) `def build_command(self)`
+  - `overrides` (method, line 173) `def overrides(self)`
+  - `verb_line` (method, line 188) `def verb_line(self)`
+  - `is_valid` (method, line 195) `def is_valid(self)`
+  - `_default_for` (method, line 200) `def _default_for(self, field_spec)`
+  - `_payload_str` (method, line 205) `def _payload_str(self, key)`
+  - `_iter_rows` (method, line 213) `def _iter_rows(self)`
+  - `_normalise_command` (method, line 220) `def _normalise_command(name)`
+  - `_verb` (method, line 229) `def _verb(name)`
+  - `_CommandFormApp` (class, line 309) `class _CommandFormApp(App)`
+  - `__init__` (method, line 325) `def __init__(self)`
+  - `compose` (method, line 330) `def compose(self)`
+  - `on_mount` (method, line 348) `def on_mount(self)`
+  - `on_input_changed` (method, line 351) `def on_input_changed(self, event)`
+  - `on_input_submitted` (method, line 360) `def on_input_submitted(self, event)`
+  - `action_submit` (method, line 363) `def action_submit(self)`
+  - `action_cancel` (method, line 366) `def action_cancel(self)`
+  - `_refresh_preview` (method, line 369) `def _refresh_preview(self)`
+- Depends on: `cli/commands/containers.py`, `cli/palette.py`, `cli/themes.py`
+- Imported by: `tests/test_command_form.py`
+
+## cli/config_history.py
+- Doc: In-memory configuration history with undo and diff.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ConfigHistoryConfig` (class, line 16) `class ConfigHistoryConfig`
+  - `ConfigHistory` (class, line 23) `class ConfigHistory`
+  - `get_shell_history` (method, line 81) `def get_shell_history(shell)`
+  - `track_before` (method, line 104) `def track_before(history, state)`
+  - `capture_baseline` (method, line 30) `def capture_baseline(self, state)`
+  - `push` (method, line 38) `def push(self, state)`
+  - `undo` (method, line 48) `def undo(self)`
+  - `diff` (method, line 58) `def diff(self, current)`
+  - `depth` (method, line 76) `def depth(self)`
+- Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
+
+## cli/config_status.py
+- Doc: Simplified configuration status display for the LazyOwn shell.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `ConfigStatusConfig` (class, line 55) `class ConfigStatusConfig`
+  - `ConfigStatus` (class, line 62) `class ConfigStatus`
+  - `__init__` (method, line 70) `def __init__(self, params, config)`
+  - `_field_status` (method, line 78) `def _field_status(self, key, value)`
+  - `render_status` (method, line 89) `def render_status(self)`
+  - `render_quick_check` (method, line 129) `def render_quick_check(self)`
+- Depends on: `core/console.py`
+- Imported by: `cli/commands/help_ui.py`
+
+## cli/confirm.py
+- Doc: Shared interactive confirmation helpers with safe non-TTY behaviour.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_read_line` (function, line 20) `def _read_line(prompt)`
+  - `confirm` (function, line 27) `def confirm(question, default, yes_values)`
+- Imported by: `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/infra.py`
+
+## cli/contextual_help.py
+- Doc: Contextual help system for the LazyOwn shell.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `CommandInfo` (class, line 62) `class CommandInfo`
+  - `ContextualHelpConfig` (class, line 78) `class ContextualHelpConfig`
+  - `_load_command_index` (method, line 85) `def _load_command_index(path)`
+  - `_build_command_lookup` (method, line 97) `def _build_command_lookup(index)`
+  - `ContextualHelp` (class, line 167) `class ContextualHelp`
+  - `__init__` (method, line 176) `def __init__(self, aliases, params, config)`
+  - `get_command_info` (method, line 188) `def get_command_info(self, name)`
+  - `render_command_help` (method, line 208) `def render_command_help(self, name)`
+  - `render_phase_commands` (method, line 261) `def render_phase_commands(self, phase)`
+  - `render_requirements_status` (method, line 281) `def render_requirements_status(self)`
+- Depends on: `cli/palette.py`, `cli/phase_labels.py`, `core/console.py`
+- Imported by: `cli/commands/help_ui.py`, `tests/test_phase_labels.py`
+
+## cli/dashboard_layout.py
+- Doc: Responsive layout decisions for the Textual operator dashboard.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `DashboardLayoutConfig` (class, line 14) `class DashboardLayoutConfig`
+  - `layout_mode` (method, line 28) `def layout_mode(width, config)`
+  - `hidden_panels` (method, line 45) `def hidden_panels(mode)`
+- Imported by: `cli/dashboard_tui.py`
+
+
+Next: [KB_cli_p2.md](KB_cli_p2.md)

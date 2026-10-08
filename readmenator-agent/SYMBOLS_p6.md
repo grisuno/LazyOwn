@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parse_scope` | method | `cli/wizard_scope.py:38` | `def parse_scope(tokens, config)` |
+| `status_rows` | method | `cli/wizard_scope.py:64` | `def status_rows(params)` |
+| `exploit` | function | `contrib/legacy/lazy_http_bof.py:29` | `def exploit(target, port, payload)` |
+| `genHeader` | function | `contrib/legacy/lazy_http_bof.py:6` | `def genHeader(raw)` |
 | `check_sudo` | function | `contrib/legacy/lazy_packet_image_sniffer.py:23` | `def check_sudo()` |
 | `choose_interface` | function | `contrib/legacy/lazy_packet_image_sniffer.py:49` | `def choose_interface(interfaces)` |
 | `daemonize` | function | `contrib/legacy/lazy_packet_image_sniffer.py:192` | `def daemonize()` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `__init__` | method | `core/errors.py:102` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:109` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:116` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:123` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:130` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:137` | `def __init__(self, message, error_code)` |
-| `__str__` | method | `core/errors.py:74` | `def __str__(self)` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

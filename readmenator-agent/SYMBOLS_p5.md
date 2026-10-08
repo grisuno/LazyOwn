@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_os_windows` | method | `cli/protips.py:47` | `def _os_windows(ctx)` |
+| `_phase_in` | method | `cli/protips.py:63` | `def _phase_in(ctx)` |
+| `_safe_trigger` | method | `cli/protips.py:369` | `def _safe_trigger(tip, ctx)` |
+| `get_session_tip` | method | `cli/protips.py:301` | `def get_session_tip(ctx)` |
 | `print_session_tip` | method | `cli/protips.py:357` | `def print_session_tip(ctx)` |
 | `render_contextual_tip` | method | `cli/protips.py:327` | `def render_contextual_tip(last_cmd, ctx)` |
 | `PurpleDashboard` | class | `cli/purple_tui.py:79` | `class PurpleDashboard(App)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `run_non_interactive` | method | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
 | `WizardScope` | class | `cli/wizard_scope.py:31` | `class WizardScope` |
 | `WizardScopeConfig` | class | `cli/wizard_scope.py:17` | `class WizardScopeConfig` |
-| `parse_scope` | method | `cli/wizard_scope.py:38` | `def parse_scope(tokens, config)` |
-| `status_rows` | method | `cli/wizard_scope.py:64` | `def status_rows(params)` |
-| `exploit` | function | `contrib/legacy/lazy_http_bof.py:29` | `def exploit(target, port, payload)` |
-| `genHeader` | function | `contrib/legacy/lazy_http_bof.py:6` | `def genHeader(raw)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

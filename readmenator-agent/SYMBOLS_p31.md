@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_compact_phases_are_in_correct_order` | method | `tests/test_killchain_unified_v2.py:44` | `def test_compact_phases_are_in_correct_order(self)` |
+| `test_compact_progress_returns_string` | method | `tests/test_killchain_unified_v2.py:360` | `def test_compact_progress_returns_string(self)` |
+| `test_engagement_phase_to_cli_maps_all` | method | `tests/test_killchain_unified_v2.py:366` | `def test_engagement_phase_to_cli_maps_all(self)` |
+| `test_engagement_to_cli_covers_all_engagement_phases` | method | `tests/test_killchain_unified_v2.py:62` | `def test_engagement_to_cli_covers_all_engagement_phases(self)` |
+| `test_falls_back_to_legacy_phase_key` | method | `tests/test_killchain_unified_v2.py:172` | `def test_falls_back_to_legacy_phase_key(self)` |
+| `test_get_killchain_returns_class` | method | `tests/test_killchain_unified_v2.py:383` | `def test_get_killchain_returns_class(self)` |
+| `test_is_valid_phase` | method | `tests/test_killchain_unified_v2.py:86` | `def test_is_valid_phase(self)` |
+| `test_phase_index_returns_correct` | method | `tests/test_killchain_unified_v2.py:387` | `def test_phase_index_returns_correct(self)` |
+| `test_phase_index_valid_and_invalid` | method | `tests/test_killchain_unified_v2.py:80` | `def test_phase_index_valid_and_invalid(self)` |
+| `test_phase_status_fields_match_config` | method | `tests/test_killchain_unified_v2.py:402` | `def test_phase_status_fields_match_config(self)` |
 | `test_phase_status_is_immutable` | method | `tests/test_killchain_unified_v2.py:397` | `def test_phase_status_is_immutable(self)` |
 | `test_phases_are_in_correct_kill_chain_order` | method | `tests/test_killchain_unified_v2.py:40` | `def test_phases_are_in_correct_kill_chain_order(self)` |
 | `test_phases_for_display_returns_triples` | method | `tests/test_killchain_unified_v2.py:350` | `def test_phases_for_display_returns_triples(self)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p30.md](SYMBOLS_p30.md)
 | `test_outcome_evaluator_success_reward` | method | `tests/test_moe_rl_swan.py:354` | `def test_outcome_evaluator_success_reward(self)` |
 | `test_performance_bonus_penalises_high_detection` | method | `tests/test_moe_rl_swan.py:159` | `def test_performance_bonus_penalises_high_detection(self, tmp_path)` |
 | `test_performance_bonus_positive_after_success` | method | `tests/test_moe_rl_swan.py:151` | `def test_performance_bonus_positive_after_success(self, tmp_path)` |
-| `test_pivot_candidates_sorted_by_centrality` | method | `tests/test_moe_rl_swan.py:609` | `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)` |
-| `test_record_outcome_updates_ema` | method | `tests/test_moe_rl_swan.py:142` | `def test_record_outcome_updates_ema(self, tmp_path)` |
-| `test_route_returns_expert_or_raises_gracefully` | method | `tests/test_moe_rl_swan.py:120` | `def test_route_returns_expert_or_raises_gracefully(self)` |
-| `test_save_and_reload_persistence` | method | `tests/test_moe_rl_swan.py:298` | `def test_save_and_reload_persistence(self, tmp_path)` |
-| `test_select_action_returns_valid_candidate` | method | `tests/test_moe_rl_swan.py:215` | `def test_select_action_returns_valid_candidate(self)` |
-| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:77` | `def test_singleton_returns_same_instance(self)` |
-| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:113` | `def test_singleton_returns_same_instance(self)` |
-| `test_softmax_deterministic_picks_highest_weight` | method | `tests/test_moe_rl_swan.py:177` | `def test_softmax_deterministic_picks_highest_weight(self)` |
-| `test_status_report_contains_experts` | method | `tests/test_moe_rl_swan.py:169` | `def test_status_report_contains_experts(self)` |
-| `test_swan_result_dataclass_fields` | method | `tests/test_moe_rl_swan.py:322` | `def test_swan_result_dataclass_fields(self)` |
 
 Next: [SYMBOLS_p32.md](SYMBOLS_p32.md)

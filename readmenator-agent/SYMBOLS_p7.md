@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `core/errors.py:123` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:130` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:137` | `def __init__(self, message, error_code)` |
+| `__str__` | method | `core/errors.py:74` | `def __str__(self)` |
 | `to_dict` | method | `core/errors.py:66` | `def to_dict(self)` |
 | `_validate_input` | function | `core/executor.py:41` | `def _validate_input(command)` |
 | `_validate_timeout` | function | `core/executor.py:75` | `def _validate_timeout(timeout)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `list_tools` | method | `lazyc2.py:5246` | `def list_tools()` |
 | `listener` | method | `lazyc2.py:6317` | `def listener()` |
 | `listener_command` | method | `lazyc2.py:6430` | `def listener_command(msg)` |
-| `listener_connect` | method | `lazyc2.py:6325` | `def listener_connect()` |
-| `listener_disconnect` | method | `lazyc2.py:6335` | `def listener_disconnect()` |
-| `load_banners` | method | `lazyc2.py:751` | `def load_banners()` |
-| `load_cves` | method | `lazyc2.py:1024` | `def load_cves()` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

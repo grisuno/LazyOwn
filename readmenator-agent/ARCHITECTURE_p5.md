@@ -41,6 +41,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `cli/commands/crystal_ball.py` -> __future__, cmd2, glob, json, os, re, shlex
 - `cli/commands/daemon_ctl.py` -> __future__, cmd2
 - `cli/commands/database.py` -> __future__, cmd2, os, shlex
+- `cli/commands/demo.py` -> __future__, cmd2
 - `cli/commands/diagnostics.py` -> __future__, cmd2, json, platform, sys
 - `cli/commands/dns_exfil.py` -> __future__, base64, cmd2, gzip, hashlib, json, os, re, shlex, shutil, socket, threading, time
 - `cli/commands/dpapi.py` -> __future__, cmd2, os, shlex
@@ -489,12 +490,11 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `poc_tui/plugin_loader.py` -> __future__, collections.abc, dataclasses, json, lupa, os, pathlib, re, subprocess, typing, yaml
 - `poc_tui/run.py` -> __future__, os, pathlib
 - `poc_tui/test_app.py` -> __future__, asyncio, pathlib, sys, textual.widgets
-- `pwntomate.py` -> argparse, concurrent.futures, glob, json, os, shlex, subprocess, sys
+- `pwntomate.py` -> argparse, concurrent.futures, glob, json, os, re, shlex, subprocess, sys
 - `readmeneitor.py` -> __future__, ast, json, pathlib, subprocess, sys, typing
 - `scripts/activate_migrations.py` -> __future__, ast, pathlib, sys
 - `scripts/backfill_addon_os_trigger.py` -> __future__, pathlib, re, sys
 - `scripts/check_contract_manifest.py` -> __future__, argparse, ast, dataclasses, pathlib, re
 - `scripts/devtools/command_audit.py` -> __future__, argparse, ast, cmd2, contextlib, dataclasses, io, pathlib, sys
-- `scripts/devtools/core_smoke.py` -> __future__, dataclasses, importlib, os, sys, tempfile
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `__init__` | method | `skills/aci_planner.py:438` | `def __init__(self, api_key, objectives_file, plan_file)` |
+| `__init__` | method | `skills/aci_planner.py:581` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
+| `__init__` | method | `skills/aci_planner.py:774` | `def __init__(self, lessons_file)` |
+| `_archive_plan` | method | `skills/aci_planner.py:239` | `def _archive_plan(plan, history_file)` |
+| `_build_parser` | method | `skills/aci_planner.py:955` | `def _build_parser()` |
+| `_build_phases_from_llm` | method | `skills/aci_planner.py:486` | `def _build_phases_from_llm(self, raw, goal, phase_filter)` |
+| `_build_phases_static` | method | `skills/aci_planner.py:511` | `def _build_phases_static(self, goal, phase_filter)` |
+| `_count_blocked` | method | `skills/aci_planner.py:750` | `def _count_blocked(self, plan)` |
+| `_count_objectives_by_status` | method | `skills/aci_planner.py:266` | `def _count_objectives_by_status(obj_ids, objectives_file)` |
+| `_inject_all_objectives` | method | `skills/aci_planner.py:539` | `def _inject_all_objectives(self, plan)` |
 | `_llm_decompose` | method | `skills/aci_planner.py:316` | `def _llm_decompose(goal, api_key)` |
 | `_llm_replan` | method | `skills/aci_planner.py:379` | `def _llm_replan(plan, reason, api_key)` |
 | `_load_payload` | method | `skills/aci_planner.py:248` | `def _load_payload()` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_hermes_delegate_plan` | function | `skills/hermes-lazyown/mcp_server.py:677` | `def _hermes_delegate_plan(arguments)` |
 | `_hermes_rules_generate` | function | `skills/hermes-lazyown/mcp_server.py:659` | `def _hermes_rules_generate(arguments)` |
 | `_intel_facts_show` | function | `skills/hermes-lazyown/mcp_server.py:514` | `def _intel_facts_show(arguments)` |
-| `_intel_recommend_next` | function | `skills/hermes-lazyown/mcp_server.py:548` | `def _intel_recommend_next()` |
-| `_intel_searchsploit` | function | `skills/hermes-lazyown/mcp_server.py:564` | `def _intel_searchsploit(arguments)` |
-| `_try_import_lazyown_module` | function | `skills/hermes-lazyown/mcp_server.py:100` | `def _try_import_lazyown_module(module_name)` |
-| `call_tool` | function | `skills/hermes-lazyown/mcp_server.py:340` | `def call_tool(name, arguments)` |
-| `list_tools` | function | `skills/hermes-lazyown/mcp_server.py:335` | `def list_tools()` |
-| `main` | function | `skills/hermes-lazyown/mcp_server.py:749` | `def main()` |
-| `CompactionResult` | class | `skills/hermes-lazyown/output_compactor.py:17` | `class CompactionResult` |
-| `CompactionStrategy` | class | `skills/hermes-lazyown/output_compactor.py:39` | `class CompactionStrategy(ABC)` |
-| `DefaultCompaction` | class | `skills/hermes-lazyown/output_compactor.py:165` | `class DefaultCompaction(CompactionStrategy)` |
-| `EnumCompaction` | class | `skills/hermes-lazyown/output_compactor.py:83` | `class EnumCompaction(CompactionStrategy)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

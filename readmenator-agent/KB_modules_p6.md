@@ -68,11 +68,12 @@ Previous: [KB_modules_p5.md](KB_modules_p5.md)
 - Language: sh
 - Symbols:
   - `cleanup` (function, line 29)
-  - `nmaptest` (function, line 112)
-  - `discover_network` (function, line 132)
-  - `extract_ports_info` (function, line 802)
-  - `run_nmap_script` (function, line 828)
-  - `print_row` (function, line 861)
+  - `fix_sessions_owner` (function, line 67)
+  - `nmaptest` (function, line 122)
+  - `discover_network` (function, line 142)
+  - `extract_ports_info` (function, line 811)
+  - `run_nmap_script` (function, line 837)
+  - `print_row` (function, line 870)
   - `ctrl_c` (function, line 38)
 
 ## modules/lazyown_bprfuzzer.py

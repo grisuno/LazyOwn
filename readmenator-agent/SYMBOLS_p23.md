@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
+| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
+| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2629` | `` |
+| `I` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `Length` | function | `static/js/html2pdf.bundle.min.js:949` | `` |
+| `Length` | function | `static/js/html2pdf.bundle.min.js:950` | `` |
+| `LineBreaker` | function | `static/js/html2pdf.bundle.min.js:3766` | `` |
+| `LinearGradient` | function | `static/js/html2pdf.bundle.min.js:5094` | `` |
+| `Logger` | function | `static/js/html2pdf.bundle.min.js:843` | `` |
 | `Logger` | function | `static/js/html2pdf.bundle.min.js:844` | `` |
 | `M` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 | `NodeContainer` | function | `static/js/html2pdf.bundle.min.js:4586` | `` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
 | `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
 | `parsePosition` | function | `static/js/html2pdf.bundle.min.js:2330` | `` |
-| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
-| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
-| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
-| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
-| `parseTextBounds` | function | `static/js/html2pdf.bundle.min.js:3921` | `` |
-| `parseTextDecoration` | function | `static/js/html2pdf.bundle.min.js:553` | `` |
-| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
-| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
-| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
-| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

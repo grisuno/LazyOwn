@@ -3,6 +3,9 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_memory_clean` | method | `cli/commands/opsec_cleanup.py:288` | `def do_memory_clean(self, line)` |
+| `do_network_opsec` | method | `cli/commands/opsec_cleanup.py:342` | `def do_network_opsec(self, line)` |
+| `do_opsec_score` | method | `cli/commands/opsec_cleanup.py:25` | `def do_opsec_score(self, line)` |
 | `do_sysmon_disable` | method | `cli/commands/opsec_cleanup.py:468` | `def do_sysmon_disable(self, line)` |
 | `do_timestomp` | method | `cli/commands/opsec_cleanup.py:219` | `def do_timestomp(self, line)` |
 | `OrchestrationCommandSet` | class | `cli/commands/orchestration.py:117` | `class OrchestrationCommandSet(LazyOwnCommandSet)` |
@@ -201,34 +204,35 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_wfuzz` | method | `cli/commands/recon.py:654` | `def do_wfuzz(self, line)` |
 | `do_whatweb` | method | `cli/commands/recon.py:255` | `def do_whatweb(self, line)` |
 | `ReconMigratedCommandSet` | class | `cli/commands/recon_migrated.py:38` | `class ReconMigratedCommandSet(LazyOwnCommandSet)` |
-| `do_alterx` | method | `cli/commands/recon_migrated.py:864` | `def do_alterx(self, line)` |
-| `do_apache_users` | method | `cli/commands/recon_migrated.py:774` | `def do_apache_users(self, line)` |
-| `do_binarycheck` | method | `cli/commands/recon_migrated.py:1060` | `def do_binarycheck(self, line)` |
-| `do_cve` | method | `cli/commands/recon_migrated.py:977` | `def do_cve(self, line)` |
-| `do_dnschef` | method | `cli/commands/recon_migrated.py:1324` | `def do_dnschef(self, line)` |
-| `do_dnstool_py` | method | `cli/commands/recon_migrated.py:1105` | `def do_dnstool_py(self, line)` |
+| `_set_exit` | method | `cli/commands/recon_migrated.py:202` | `def _set_exit(code)` |
+| `do_alterx` | method | `cli/commands/recon_migrated.py:874` | `def do_alterx(self, line)` |
+| `do_apache_users` | method | `cli/commands/recon_migrated.py:784` | `def do_apache_users(self, line)` |
+| `do_binarycheck` | method | `cli/commands/recon_migrated.py:1070` | `def do_binarycheck(self, line)` |
+| `do_cve` | method | `cli/commands/recon_migrated.py:987` | `def do_cve(self, line)` |
+| `do_dnschef` | method | `cli/commands/recon_migrated.py:1334` | `def do_dnschef(self, line)` |
+| `do_dnstool_py` | method | `cli/commands/recon_migrated.py:1115` | `def do_dnstool_py(self, line)` |
 | `do_getcap` | method | `cli/commands/recon_migrated.py:97` | `def do_getcap(self, line)` |
-| `do_gospider` | method | `cli/commands/recon_migrated.py:275` | `def do_gospider(self, line)` |
-| `do_graudit` | method | `cli/commands/recon_migrated.py:664` | `def do_graudit(self, line)` |
-| `do_httprobe` | method | `cli/commands/recon_migrated.py:1227` | `def do_httprobe(self, line)` |
-| `do_ipinfo` | method | `cli/commands/recon_migrated.py:1359` | `def do_ipinfo(self, line)` |
+| `do_gospider` | method | `cli/commands/recon_migrated.py:285` | `def do_gospider(self, line)` |
+| `do_graudit` | method | `cli/commands/recon_migrated.py:674` | `def do_graudit(self, line)` |
+| `do_httprobe` | method | `cli/commands/recon_migrated.py:1237` | `def do_httprobe(self, line)` |
+| `do_ipinfo` | method | `cli/commands/recon_migrated.py:1369` | `def do_ipinfo(self, line)` |
 | `do_launchpad` | method | `cli/commands/recon_migrated.py:131` | `def do_launchpad(self, line)` |
-| `do_metabigor` | method | `cli/commands/recon_migrated.py:1151` | `def do_metabigor(self, line)` |
+| `do_metabigor` | method | `cli/commands/recon_migrated.py:1161` | `def do_metabigor(self, line)` |
 | `do_ping` | method | `cli/commands/recon_migrated.py:177` | `def do_ping(self, line)` |
-| `do_ports` | method | `cli/commands/recon_migrated.py:401` | `def do_ports(self, line)` |
-| `do_proxy` | method | `cli/commands/recon_migrated.py:363` | `def do_proxy(self, line)` |
-| `do_recon` | method | `cli/commands/recon_migrated.py:1270` | `def do_recon(self, line)` |
-| `do_serveralive2` | method | `cli/commands/recon_migrated.py:1026` | `def do_serveralive2(self, line)` |
-| `do_sherlock` | method | `cli/commands/recon_migrated.py:695` | `def do_sherlock(self, line)` |
-| `do_sslscan` | method | `cli/commands/recon_migrated.py:623` | `def do_sslscan(self, line)` |
+| `do_ports` | method | `cli/commands/recon_migrated.py:411` | `def do_ports(self, line)` |
+| `do_proxy` | method | `cli/commands/recon_migrated.py:373` | `def do_proxy(self, line)` |
+| `do_recon` | method | `cli/commands/recon_migrated.py:1280` | `def do_recon(self, line)` |
+| `do_serveralive2` | method | `cli/commands/recon_migrated.py:1036` | `def do_serveralive2(self, line)` |
+| `do_sherlock` | method | `cli/commands/recon_migrated.py:705` | `def do_sherlock(self, line)` |
+| `do_sslscan` | method | `cli/commands/recon_migrated.py:633` | `def do_sslscan(self, line)` |
 | `do_surface` | method | `cli/commands/recon_migrated.py:43` | `def do_surface(self, line)` |
-| `do_tcpdump_capture` | method | `cli/commands/recon_migrated.py:476` | `def do_tcpdump_capture(self, line)` |
-| `do_tcpdump_icmp` | method | `cli/commands/recon_migrated.py:443` | `def do_tcpdump_icmp(self, line)` |
-| `do_trace` | method | `cli/commands/recon_migrated.py:821` | `def do_trace(self, line)` |
-| `do_trufflehog` | method | `cli/commands/recon_migrated.py:736` | `def do_trufflehog(self, line)` |
-| `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:517` | `def do_tshark_analyze(self, line)` |
-| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:583` | `def do_waybackmachine(self, line)` |
-| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:941` | `def do_windapsearchscrapeusers(self, line)` |
+| `do_tcpdump_capture` | method | `cli/commands/recon_migrated.py:486` | `def do_tcpdump_capture(self, line)` |
+| `do_tcpdump_icmp` | method | `cli/commands/recon_migrated.py:453` | `def do_tcpdump_icmp(self, line)` |
+| `do_trace` | method | `cli/commands/recon_migrated.py:831` | `def do_trace(self, line)` |
+| `do_trufflehog` | method | `cli/commands/recon_migrated.py:746` | `def do_trufflehog(self, line)` |
+| `do_tshark_analyze` | method | `cli/commands/recon_migrated.py:527` | `def do_tshark_analyze(self, line)` |
+| `do_waybackmachine` | method | `cli/commands/recon_migrated.py:593` | `def do_waybackmachine(self, line)` |
+| `do_windapsearchscrapeusers` | method | `cli/commands/recon_migrated.py:951` | `def do_windapsearchscrapeusers(self, line)` |
 | `RedTeamGymCommandSet` | class | `cli/commands/redteam_gym.py:32` | `class RedTeamGymCommandSet(LazyOwnCommandSet)` |
 | `_gym_hint` | method | `cli/commands/redteam_gym.py:257` | `def _gym_hint(self)` |
 | `_gym_leaderboard` | method | `cli/commands/redteam_gym.py:223` | `def _gym_leaderboard(self, args)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `update_data` | method | `cli/dashboard_tui.py:620` | `def update_data(self, hints)` |
 | `update_data` | method | `cli/dashboard_tui.py:672` | `def update_data(self, payload, sessions_dir, width)` |
 | `update_data` | method | `cli/dashboard_tui.py:720` | `def update_data(self, recommendations)` |
-| `CheckResult` | class | `cli/doctor.py:96` | `class CheckResult` |
-| `DoctorReport` | class | `cli/doctor.py:113` | `class DoctorReport` |
-| `PackageSpec` | class | `cli/doctor.py:56` | `class PackageSpec` |
-| `_apply_fix` | method | `cli/doctor.py:525` | `def _apply_fix(check, root, venv_pip, console)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

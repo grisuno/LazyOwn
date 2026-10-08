@@ -29,7 +29,7 @@
 <aside id="doc-viewer" class="hidden fixed top-0 right-0 bottom-0 z-[70] w-full max-w-4xl bg-slate-900 border-l border-slate-700 shadow-2xl flex-col" role="dialog" aria-modal="true" aria-labelledby="doc-title">
 <div class="flex items-center gap-3 px-5 py-4 border-b border-slate-700"><h2 id="doc-title" class="flex-1 text-base font-semibold text-white truncate">Document</h2><a id="doc-full" href="#" class="text-sm px-3 py-1.5 rounded-md border border-slate-600 text-slate-300 hover:text-white hover:border-red-500 transition-colors">Open full page</a><button id="doc-close" type="button" class="text-sm px-3 py-1.5 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors">Close</button></div>
 <div id="doc-status" class="px-5 pt-3 text-xs text-slate-500 font-mono">Select a document to load it here. Content loads on demand.</div>
-<div class="flex-1 p-5 pt-3"><iframe id="doc-frame" title="Document viewer" loading="lazy" class="w-full bg-white rounded-lg border border-slate-700" style="height:70vh"></iframe></div>
+<div class="flex-1 p-5 pt-3"><iframe id="doc-frame" title="Document viewer" loading="lazy" sandbox="allow-same-origin" referrerpolicy="no-referrer" class="w-full bg-white rounded-lg border border-slate-700" style="height:70vh"></iframe></div>
 </aside>
 <script>
 (function(){
@@ -41,6 +41,31 @@ var title=document.getElementById("doc-title");
 var full=document.getElementById("doc-full");
 var status=document.getElementById("doc-status");
 var lastFocus=null;
+var allowedHrefs=null;
+function collectAllowedHrefs(){
+var set={};
+document.querySelectorAll('#documentation a[href$=".html"]').forEach(function(a){
+var h=a.getAttribute("href");
+if(typeof h==="string"&&isSafeDocHref(h)){set[h]=true;}
+});
+return set;
+}
+function isSafeDocHref(href){
+if(typeof href!=="string"||href.length===0||href.length>200){return false;}
+if(href.indexOf("\0")!==-1){return false;}
+var lower=href.toLowerCase();
+if(lower.indexOf("javascript:")!==-1||lower.indexOf("data:")!==-1||lower.indexOf("vbscript:")!==-1){return false;}
+if(href.charAt(0)==="#"||href.charAt(0)==="/"||href.charAt(0)==="\\"){return false;}
+if(href.indexOf(":")!==-1||href.indexOf("\\")!==-1||href.indexOf("#")!==-1||href.indexOf("?")!==-1||href.indexOf("&")!==-1||href.indexOf("%")!==-1){return false;}
+if(href.indexOf("..")!==-1||href.charAt(0)==="."){return false;}
+if(!(/^[A-Za-z0-9._\/-]+\.html$/.test(href))){return false;}
+return true;
+}
+function isAllowedHref(href){
+if(!isSafeDocHref(href)){return false;}
+if(!allowedHrefs){allowedHrefs=collectAllowedHrefs();}
+return Object.prototype.hasOwnProperty.call(allowedHrefs,href);
+}
 function closeDoc(){
 if(viewer.classList.contains("hidden")){return;}
 viewer.classList.add("hidden");viewer.classList.remove("flex");
@@ -51,6 +76,7 @@ if(location.hash.indexOf("#doc=")===0){history.replaceState(null,"",location.pat
 if(lastFocus){lastFocus.focus();}
 }
 function openDoc(name,href){
+if(!isAllowedHref(href)){return;}
 lastFocus=document.activeElement;
 title.textContent=name;
 full.setAttribute("href",href);
@@ -76,8 +102,7 @@ scrim.addEventListener("click",closeDoc);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeDoc();}});
 if(location.hash.indexOf("#doc=")===0){
 var target=decodeURIComponent(location.hash.slice(5));
-var match=document.querySelector('#documentation a[href="'+target+'"]');
-if(match){openDoc(target,target);}
+if(isAllowedHref(target)){openDoc(target,target);}
 }
 })();
 </script>

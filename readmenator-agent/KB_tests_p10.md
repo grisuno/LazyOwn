@@ -314,6 +314,20 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_rhost_commands_use_refresh_prompt` (function, line 78) `def test_rhost_commands_use_refresh_prompt()`
 - Depends on: `cli/banner_config.py`, `cli/commands/_base.py`
 
+## tests/test_pwntomate_tools.py
+- Doc: Regression guard for pwntomate tool templates (tools/*.tool).
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_tools` (function, line 47) `def _load_tools()`
+  - `_render` (function, line 57) `def _render(template, domain, tunnel)`
+  - `_would_run` (function, line 83) `def _would_run(template, domain)`
+  - `test_templates_are_valid_json_with_required_keys` (function, line 92) `def test_templates_are_valid_json_with_required_keys()`
+  - `test_placeholders_match_pwntomate_substitutions` (function, line 103) `def test_placeholders_match_pwntomate_substitutions()`
+  - `test_rendered_commands_have_no_empty_host` (function, line 115) `def test_rendered_commands_have_no_empty_host()`
+  - `test_gobuster_templates_use_valid_syntax` (function, line 131) `def test_gobuster_templates_use_valid_syntax()`
+  - `test_no_hardcoded_always_ssl_flag` (function, line 145) `def test_no_hardcoded_always_ssl_flag()`
+
 ## tests/test_rea_mcp.py
 - Doc: Tests for the lazyown_rea MCP tool (REA reverse-engineering skill).
 - Layer: testing
@@ -469,26 +483,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_data_signals_produce_decisions` (method, line 147) `def test_data_signals_produce_decisions(self)`
   - `test_decisions_sorted_by_priority` (method, line 165) `def test_decisions_sorted_by_priority(self)`
 - Depends on: `modules/reactive_engine.py`
-
-## tests/test_reasoning_stream.py
-- Doc: Tests for cli/reasoning_stream.py.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_write_events` (function, line 28) `def _write_events(path, events)`
-  - `test_read_raw_events_missing_file_returns_empty` (function, line 32) `def test_read_raw_events_missing_file_returns_empty(tmp_path)`
-  - `test_read_raw_events_skips_malformed_lines` (function, line 36) `def test_read_raw_events_skips_malformed_lines(tmp_path)`
-  - `test_read_raw_events_honours_limit_tail` (function, line 46) `def test_read_raw_events_honours_limit_tail(tmp_path)`
-  - `test_event_to_entry_step_start_uses_reason_and_source` (function, line 53) `def test_event_to_entry_step_start_uses_reason_and_source()`
-  - `test_event_to_entry_step_done_failure_flips_icon_and_style` (function, line 75) `def test_event_to_entry_step_done_failure_flips_icon_and_style()`
-  - `test_event_to_entry_extracts_reward` (function, line 85) `def test_event_to_entry_extracts_reward()`
-  - `test_event_to_entry_metrics_skip_renders_success_rate` (function, line 95) `def test_event_to_entry_metrics_skip_renders_success_rate()`
-  - `test_event_to_entry_unknown_type_falls_back` (function, line 105) `def test_event_to_entry_unknown_type_falls_back()`
-  - `test_event_to_entry_handles_non_dict_payload` (function, line 111) `def test_event_to_entry_handles_non_dict_payload()`
-  - `test_format_size_threshold` (function, line 117) `def test_format_size_threshold()`
-  - `test_truncate_adds_ellipsis` (function, line 122) `def test_truncate_adds_ellipsis()`
-  - `test_latest_reasoning_end_to_end` (function, line 127) `def test_latest_reasoning_end_to_end(tmp_path)`
-- Depends on: `cli/reasoning_stream.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

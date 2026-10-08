@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_rendered_document_is_canonical` | method | `tests/test_addon_creator.py:266` | `def test_rendered_document_is_canonical(self)` |
+| `test_rendered_yaml_has_no_none_values` | method | `tests/test_addon_creator.py:310` | `def test_rendered_yaml_has_no_none_values(self)` |
+| `test_save_is_atomic_and_leaves_no_temp_files` | method | `tests/test_addon_creator.py:357` | `def test_save_is_atomic_and_leaves_no_temp_files(self, tmp_path)` |
+| `test_save_load_delete_round_trip` | method | `tests/test_addon_creator.py:331` | `def test_save_load_delete_round_trip(self, tmp_path)` |
+| `test_save_overwrites_cleanly` | method | `tests/test_addon_creator.py:363` | `def test_save_overwrites_cleanly(self, tmp_path)` |
+| `test_single_trigger_string_becomes_list` | method | `tests/test_addon_creator.py:516` | `def test_single_trigger_string_becomes_list(self)` |
+| `test_symlink_escape_rejected_on_delete` | method | `tests/test_addon_creator.py:448` | `def test_symlink_escape_rejected_on_delete(self, tmp_path)` |
+| `test_symlink_escape_rejected_on_load` | method | `tests/test_addon_creator.py:438` | `def test_symlink_escape_rejected_on_load(self, tmp_path)` |
+| `test_too_many_params_reports_issue` | method | `tests/test_addon_creator.py:240` | `def test_too_many_params_reports_issue(self)` |
+| `test_tools_creator_template_has_no_broken_js` | method | `tests/test_addon_creator.py:817` | `def test_tools_creator_template_has_no_broken_js(self)` |
 | `test_traversal_install_path_reports_issue` | method | `tests/test_addon_creator.py:198` | `def test_traversal_install_path_reports_issue(self)` |
 | `test_traversal_name_rejected_on_delete` | method | `tests/test_addon_creator.py:352` | `def test_traversal_name_rejected_on_delete(self, tmp_path)` |
 | `test_traversal_name_rejected_on_load` | method | `tests/test_addon_creator.py:347` | `def test_traversal_name_rejected_on_load(self, tmp_path)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `test_replace_placeholders_matches_single_pass_engine` | function | `tests/test_boyscout_contracts.py:123` | `def test_replace_placeholders_matches_single_pass_engine()` |
 | `TestBridgeCatalogToolFunction` | class | `tests/test_bridge_catalog_filtered.py:113` | `class TestBridgeCatalogToolFunction` |
 | `TestCatalogSummaryFiltered` | class | `tests/test_bridge_catalog_filtered.py:31` | `class TestCatalogSummaryFiltered` |
-| `_entries_for` | method | `tests/test_bridge_catalog_filtered.py:47` | `def _entries_for(self, dispatcher, phase, command_name)` |
-| `dispatcher` | function | `tests/test_bridge_catalog_filtered.py:26` | `def dispatcher()` |
-| `test_empty_phase_keeps_all_phases` | method | `tests/test_bridge_catalog_filtered.py:91` | `def test_empty_phase_keeps_all_phases(self, dispatcher)` |
-| `test_no_args_matches_unfiltered_summary` | method | `tests/test_bridge_catalog_filtered.py:32` | `def test_no_args_matches_unfiltered_summary(self, dispatcher)` |
-| `test_no_args_returns_full_catalog_header` | method | `tests/test_bridge_catalog_filtered.py:114` | `def test_no_args_returns_full_catalog_header(self)` |
-| `test_os_filter_shrinks_or_preserves_each_phase` | method | `tests/test_bridge_catalog_filtered.py:73` | `def test_os_filter_shrinks_or_preserves_each_phase(self, dispatcher)` |
-| `test_os_hint_any_is_passthrough` | method | `tests/test_bridge_catalog_filtered.py:102` | `def test_os_hint_any_is_passthrough(self, dispatcher)` |
-| `test_os_hint_linux_excludes_windows_only_entries` | method | `tests/test_bridge_catalog_filtered.py:53` | `def test_os_hint_linux_excludes_windows_only_entries(self, dispatcher)` |
-| `test_os_hint_only_appears_in_header` | method | `tests/test_bridge_catalog_filtered.py:127` | `def test_os_hint_only_appears_in_header(self)` |
-| `test_os_hint_uppercase_normalized` | method | `tests/test_bridge_catalog_filtered.py:107` | `def test_os_hint_uppercase_normalized(self, dispatcher)` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

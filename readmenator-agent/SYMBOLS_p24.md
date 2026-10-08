@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
+| `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
+| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
+| `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
+| `parseTextBounds` | function | `static/js/html2pdf.bundle.min.js:3921` | `` |
+| `parseTextDecoration` | function | `static/js/html2pdf.bundle.min.js:553` | `` |
+| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
+| `parseTextDecorationLine` | function | `static/js/html2pdf.bundle.min.js:531` | `` |
+| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
+| `parseTextDecorationStyle` | function | `static/js/html2pdf.bundle.min.js:539` | `` |
 | `parseTextShadow` | function | `static/js/html2pdf.bundle.min.js:2364` | `` |
 | `parseTextTransform` | function | `static/js/html2pdf.bundle.min.js:2460` | `` |
 | `parseTopRight` | function | `static/js/html2pdf.bundle.min.js:5250` | `` |
@@ -469,16 +479,6 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |

@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_list_tasks_filters_by_domain` | function | `tests/test_exploitgym_gym.py:60` | `def test_list_tasks_filters_by_domain(fake_repo)` |
+| `test_pull_task_success` | function | `tests/test_exploitgym_gym.py:176` | `def test_pull_task_success(fake_repo, monkeypatch)` |
+| `test_run_task_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:168` | `def test_run_task_reports_missing_repo(tmp_path)` |
+| `test_run_task_writes_log_and_records` | function | `tests/test_exploitgym_gym.py:137` | `def test_run_task_writes_log_and_records(fake_repo, tmp_path, monkeypatch)` |
+| `test_score_task_reuses_redteam_pipeline` | function | `tests/test_exploitgym_gym.py:194` | `def test_score_task_reuses_redteam_pipeline(fake_repo, monkeypatch)` |
+| `test_setup_harness_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:218` | `def test_setup_harness_reports_missing_repo(tmp_path, monkeypatch)` |
+| `test_setup_harness_runs_requested_steps` | function | `tests/test_exploitgym_gym.py:227` | `def test_setup_harness_runs_requested_steps(fake_repo, monkeypatch)` |
+| `TestCatalogues` | class | `tests/test_exploration_and_addons.py:206` | `class TestCatalogues` |
+| `TestEngineEndToEnd` | class | `tests/test_exploration_and_addons.py:290` | `class TestEngineEndToEnd` |
+| `TestNmapXmlReader` | class | `tests/test_exploration_and_addons.py:182` | `class TestNmapXmlReader` |
 | `TestNormalisers` | class | `tests/test_exploration_and_addons.py:148` | `class TestNormalisers` |
 | `TestRenderer` | class | `tests/test_exploration_and_addons.py:337` | `class TestRenderer` |
 | `TestResolveCurrentOs` | class | `tests/test_exploration_and_addons.py:316` | `class TestResolveCurrentOs` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_cli_phase_to_host_state_maps_all` | method | `tests/test_killchain_unified_v2.py:375` | `def test_cli_phase_to_host_state_maps_all(self)` |
 | `test_cli_to_host_state_returns_expected` | method | `tests/test_killchain_unified_v2.py:70` | `def test_cli_to_host_state_returns_expected(self)` |
 | `test_compact_phases_and_labels` | method | `tests/test_killchain_unified_v2.py:91` | `def test_compact_phases_and_labels(self)` |
-| `test_compact_phases_are_in_correct_order` | method | `tests/test_killchain_unified_v2.py:44` | `def test_compact_phases_are_in_correct_order(self)` |
-| `test_compact_progress_returns_string` | method | `tests/test_killchain_unified_v2.py:360` | `def test_compact_progress_returns_string(self)` |
-| `test_engagement_phase_to_cli_maps_all` | method | `tests/test_killchain_unified_v2.py:366` | `def test_engagement_phase_to_cli_maps_all(self)` |
-| `test_engagement_to_cli_covers_all_engagement_phases` | method | `tests/test_killchain_unified_v2.py:62` | `def test_engagement_to_cli_covers_all_engagement_phases(self)` |
-| `test_falls_back_to_legacy_phase_key` | method | `tests/test_killchain_unified_v2.py:172` | `def test_falls_back_to_legacy_phase_key(self)` |
-| `test_get_killchain_returns_class` | method | `tests/test_killchain_unified_v2.py:383` | `def test_get_killchain_returns_class(self)` |
-| `test_is_valid_phase` | method | `tests/test_killchain_unified_v2.py:86` | `def test_is_valid_phase(self)` |
-| `test_phase_index_returns_correct` | method | `tests/test_killchain_unified_v2.py:387` | `def test_phase_index_returns_correct(self)` |
-| `test_phase_index_valid_and_invalid` | method | `tests/test_killchain_unified_v2.py:80` | `def test_phase_index_valid_and_invalid(self)` |
-| `test_phase_status_fields_match_config` | method | `tests/test_killchain_unified_v2.py:402` | `def test_phase_status_fields_match_config(self)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

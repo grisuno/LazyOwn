@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `write` | method | `modules/event_bus.py:201` | `def write(self, event)` |
+| `AutoRecommender` | class | `modules/event_consumers.py:198` | `class AutoRecommender` |
+| `CredentialReactor` | class | `modules/event_consumers.py:269` | `class CredentialReactor` |
+| `DashboardPusher` | class | `modules/event_consumers.py:354` | `class DashboardPusher` |
+| `PhaseTracker` | class | `modules/event_consumers.py:146` | `class PhaseTracker` |
+| `SoulSync` | class | `modules/event_consumers.py:316` | `class SoulSync` |
+| `__call__` | method | `modules/event_consumers.py:159` | `def __call__(self, event)` |
+| `__call__` | method | `modules/event_consumers.py:204` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:279` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:319` | `def __call__(self, event)` |
 | `__call__` | method | `modules/event_consumers.py:357` | `def __call__(self, event)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `GoldenTicketConfig` | class | `modules/kerberos_tickets.py:65` | `class GoldenTicketConfig` |
 | `GoldenTicketForger` | class | `modules/kerberos_tickets.py:265` | `class GoldenTicketForger` |
 | `SapphireTicketForger` | class | `modules/kerberos_tickets.py:462` | `class SapphireTicketForger` |
-| `SilverTicketConfig` | class | `modules/kerberos_tickets.py:36` | `class SilverTicketConfig` |
-| `SilverTicketForger` | class | `modules/kerberos_tickets.py:124` | `class SilverTicketForger` |
-| `SkeletonKeyInjector` | class | `modules/kerberos_tickets.py:565` | `class SkeletonKeyInjector` |
-| `__init__` | method | `modules/kerberos_tickets.py:131` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:272` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:405` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_tickets.py:469` | `def __init__(self, kerberos_core)` |
-| `_assemble_tgt` | method | `modules/kerberos_tickets.py:368` | `def _assemble_tgt(self, config, flags, enc_part)` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

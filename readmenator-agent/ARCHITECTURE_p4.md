@@ -2,6 +2,8 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_doctor.py` -> `cli/__init__.py`
+- `tests/test_doctor.py` -> `cli/wizard.py`
 - `tests/test_encoding_command_set.py` -> `cli/commands/_base.py`
 - `tests/test_encoding_command_set.py` -> `cli/commands/_dormancy.py`
 - `tests/test_encoding_command_set.py` -> `cli/commands/encoding.py`

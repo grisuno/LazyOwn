@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_default_values_detected` | method | `tests/test_credential_vault.py:19` | `def test_default_values_detected(self)` |
+| `test_different_key_fails` | method | `tests/test_credential_vault.py:72` | `def test_different_key_fails(self)` |
+| `test_empty_keys_flagged` | method | `tests/test_credential_vault.py:39` | `def test_empty_keys_flagged(self)` |
+| `test_empty_string_passthrough` | method | `tests/test_credential_vault.py:64` | `def test_empty_string_passthrough(self)` |
+| `test_generates_random_values` | method | `tests/test_credential_vault.py:117` | `def test_generates_random_values(self)` |
+| `test_non_sensitive_keys_untouched` | method | `tests/test_credential_vault.py:107` | `def test_non_sensitive_keys_untouched(self)` |
+| `test_payload_roundtrip` | method | `tests/test_credential_vault.py:80` | `def test_payload_roundtrip(self)` |
+| `test_plaintext_passthrough` | method | `tests/test_credential_vault.py:68` | `def test_plaintext_passthrough(self)` |
+| `test_roundtrip` | method | `tests/test_credential_vault.py:57` | `def test_roundtrip(self)` |
+| `test_sensitive_keys_encrypted` | method | `tests/test_credential_vault.py:98` | `def test_sensitive_keys_encrypted(self)` |
 | `_boom` | function | `tests/test_credentials_rotation.py:69` | `def _boom()` |
 | `_boom` | function | `tests/test_credentials_rotation.py:80` | `def _boom()` |
 | `in_tmp_sessions` | function | `tests/test_credentials_rotation.py:32` | `def in_tmp_sessions(tmp_path, monkeypatch)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `test_detect_domain_userspace` | function | `tests/test_exploitgym_gym.py:51` | `def test_detect_domain_userspace(fake_repo)` |
 | `test_extract_flag` | function | `tests/test_exploitgym_gym.py:129` | `def test_extract_flag()` |
 | `test_list_tasks_empty_without_repo` | function | `tests/test_exploitgym_gym.py:77` | `def test_list_tasks_empty_without_repo(tmp_path)` |
-| `test_list_tasks_filters_by_domain` | function | `tests/test_exploitgym_gym.py:60` | `def test_list_tasks_filters_by_domain(fake_repo)` |
-| `test_pull_task_success` | function | `tests/test_exploitgym_gym.py:176` | `def test_pull_task_success(fake_repo, monkeypatch)` |
-| `test_run_task_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:168` | `def test_run_task_reports_missing_repo(tmp_path)` |
-| `test_run_task_writes_log_and_records` | function | `tests/test_exploitgym_gym.py:137` | `def test_run_task_writes_log_and_records(fake_repo, tmp_path, monkeypatch)` |
-| `test_score_task_reuses_redteam_pipeline` | function | `tests/test_exploitgym_gym.py:194` | `def test_score_task_reuses_redteam_pipeline(fake_repo, monkeypatch)` |
-| `test_setup_harness_reports_missing_repo` | function | `tests/test_exploitgym_gym.py:218` | `def test_setup_harness_reports_missing_repo(tmp_path, monkeypatch)` |
-| `test_setup_harness_runs_requested_steps` | function | `tests/test_exploitgym_gym.py:227` | `def test_setup_harness_runs_requested_steps(fake_repo, monkeypatch)` |
-| `TestCatalogues` | class | `tests/test_exploration_and_addons.py:206` | `class TestCatalogues` |
-| `TestEngineEndToEnd` | class | `tests/test_exploration_and_addons.py:290` | `class TestEngineEndToEnd` |
-| `TestNmapXmlReader` | class | `tests/test_exploration_and_addons.py:182` | `class TestNmapXmlReader` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

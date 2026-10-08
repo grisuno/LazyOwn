@@ -1,0 +1,32 @@
+name: mysql_set_role_leftover
+description: |
+  MySQL 26.7.0 SET ROLE leftover lab (Abraxas Labs, CVSS 8.1 High, CWE-269).
+  Loopback docker lab (mysql:26.7.0, 127.0.0.1:18630) proving leftover FILE
+  (INTO OUTFILE as mysqld UID) after SET ROLE ALL EXCEPT with CURRENT_ROLE() NONE.
+  First time: needs docker plus python3 with pymysql and cryptography.
+  Flow: assign rhost 127.0.0.1, assign rport 18630, then run mysql_set_role_leftover.
+  Lab-only, authorized testing. Witness file only, SET ROLE NONE is the control.
+author: abraxas
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: false
+    default: 127.0.0.1
+    description: Lab MySQL host. The lab is loopback-pinned by upstream run.sh.
+  - name: rport
+    type: integer
+    required: false
+    default: 18630
+    description: Lab MySQL port for the set-role-leftover compose stack.
+os: any
+trigger: []
+category: "06. Privilege Escalation"
+module_type: exploit
+tool:
+  name: mysql-set-role-leftover
+  repo_url: https://github.com/abraxas/mysql-set-role-leftover.git
+  install_path: external/.exploit/mysql-set-role-leftover
+  install_command: python3 -m pip install --break-system-packages pymysql cryptography
+  execute_command: python3 mysql-set-role-leftover-Abraxas-Labs.py

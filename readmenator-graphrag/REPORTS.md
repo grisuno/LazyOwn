@@ -174,7 +174,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.0).
 - Hotspot `utils.py`: 121 symbols, 191 connections (score 0.09).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 4 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 9 paths reach this group via subprocess.
+- Taint: 7 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_improvements_spec.py, file:cli/banner_config.py, file:tests/test_security_hardening_v4.py, file:tests/test_categories.py, file:tests/test_cli_command_sets.py, sym:cli/commands/_base.py::LazyOwnCommandSet@51, file:cli/commands/_base.py
 - Rating 5.9/10 = 7 x PageRank share 0.84 + 3 x risk 0.00. Internal imports: 438.
 
@@ -200,7 +200,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.0).
 - `modules/llm_factory.py` ranks 3 by PageRank, 25 importers, 21 symbols: LLM backend factory and selection utilities.
 - Hotspot `tests/test_payload_schema.py`: 53 symbols, 20 connections (score 0.03).
 - Hotspot `cli/wizard.py`: 45 symbols, 39 connections (score 0.03).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 6 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in _run_single_search).
 - Key entities: sym:core/console.py::print_msg@142, sym:core/console.py::print_error@136, sym:core/console.py::print_warn@148, file:tests/test_payload_schema.py, file:cli/wizard.py, file:core/llm_budget.py, file:modules/ai_model.py, file:tests/test_llm_adapter_parity.py
 - Rating 2.8/10 = 7 x PageRank share 0.40 + 3 x risk 0.00. Internal imports: 121.
@@ -284,7 +284,6 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.0).
 - `modules/security_sanitizers.py` ranks 3 by PageRank, 5 importers, 25 symbols: Security sanitizers shared across the LazyOwn framework.
 - Hotspot `tests/test_security_sanitizers.py`: 45 symbols, 8 connections (score 0.03).
 - Hotspot `skills/hermes-lazyown/mcp_server.py`: 28 symbols, 26 connections (score 0.02).
-- Taint: 1 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in main).
 - Key entities: file:tests/test_security_sanitizers.py, file:modules/security_sanitizers.py, file:skills/hermes-lazyown/mcp_server.py, file:cli/commands/phishing_wizard.py, file:skills/hermes-lazyown/output_compactor.py, file:modules/lazyown_bprfuzzer.py, file:skills/hermes-lazyown/constants.py, file:skills/hermes-lazyown/executor.py
 - Rating 0.5/10 = 7 x PageRank share 0.07 + 3 x risk 0.00. Internal imports: 21.
@@ -299,6 +298,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.0).
 - Hotspot `skills/claude_md_orchestrator/models.py`: 32 symbols, 23 connections (score 0.02).
 - Hotspot `skills/claude_md_orchestrator/orchestrator.py`: 21 symbols, 23 connections (score 0.01).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
+- Taint: 1 paths reach this group via subprocess.
 - Key entities: file:skills/claude_md_orchestrator/models.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py, file:skills/claude_md_orchestrator/validators.py, file:skills/claude_md_orchestrator/parser.py, file:skills/claude_md_orchestrator/reviewer_agent.py, file:skills/claude_md_orchestrator/bdd_agent.py, file:skills/claude_md_orchestrator/sdd_agent.py
 - Rating 0.5/10 = 7 x PageRank share 0.07 + 3 x risk 0.00. Internal imports: 33.
 

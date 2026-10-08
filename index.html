@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LazyOwn RedTeam — Centro de Documentación</title>
+    <meta name="description" content="Puerta de entrada a la documentación de LazyOwn: manuales en /docs y mapas automáticos del sistema en /readmenator-maps.">
+    <link rel="icon" href="docs/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+        }
+        .card-glow-red:hover { box-shadow: 0 20px 60px -12px rgba(239,68,68,.45); }
+        .card-glow-cyan:hover { box-shadow: 0 20px 60px -12px rgba(34,211,238,.35); }
+        .grid-bg {
+            background-image: linear-gradient(rgba(51,65,85,.35) 1px, transparent 1px), linear-gradient(90deg, rgba(51,65,85,.35) 1px, transparent 1px);
+            background-size: 44px 44px;
+            mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 40%, transparent 100%);
+        }
+        @media (prefers-reduced-motion: reduce) {
+            * { animation: none !important; transition: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-900">
+<div class="min-h-screen bg-slate-900 text-slate-100 flex flex-col">
+
+    <nav class="bg-slate-900/70 backdrop-blur-md shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <a class="flex-shrink-0 flex items-center group" href="./">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-10 w-10 text-red-500 group-hover:text-red-400 transition-colors"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"></path></svg>
+                        <span class="ml-3 text-2xl font-bold text-white group-hover:text-red-400 transition-colors">LazyOwn RedTeam</span>
+                    </a>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                        <a class="px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-300 hover:bg-slate-700 hover:text-white" href="./docs/">Docs</a>
+                        <a class="px-3 py-2 rounded-md text-sm font-medium transition-colors text-slate-300 hover:bg-slate-700 hover:text-white" href="./readmenator-maps/">System Maps</a>
+                        <a class="px-3 py-2 rounded-md text-sm font-medium transition-colors bg-red-600 text-white" href="./">Hub</a>
+                    </div>
+                </div>
+                <div class="-mr-2 flex md:hidden">
+                    <a href="./docs/" class="px-3 py-2 rounded-md text-sm font-medium bg-slate-800 text-slate-300">Docs</a>
+                    <a href="./readmenator-maps/" class="ml-2 px-3 py-2 rounded-md text-sm font-medium bg-slate-800 text-slate-300">Maps</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="flex-grow">
+        <div class="bg-slate-900 relative overflow-hidden">
+            <div class="absolute inset-0 opacity-10">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute -left-1/4 -top-1/4 w-3/4 h-3/4 text-slate-700 transform rotate-12"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"></path></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="absolute -right-1/4 -bottom-1/4 w-3/4 h-3/4 text-slate-700 transform -rotate-12 opacity-50"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75L22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3l-4.5 16.5"></path></svg>
+            </div>
+            <div class="absolute inset-0 grid-bg opacity-60"></div>
+            <div class="relative max-w-7xl mx-auto py-20 px-4 sm:py-24 sm:px-6 lg:px-8">
+                <div class="text-center">
+                    <p class="text-base text-red-500 font-semibold tracking-wide uppercase">Knowledge Hub</p>
+                    <h1 class="mt-2 text-4xl font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl">
+                        <span class="block">Centro de</span>
+                        <span class="block text-red-500">Documentación</span>
+                    </h1>
+                    <p class="mt-6 max-w-md mx-auto text-lg text-slate-300 sm:text-xl md:mt-8 md:max-w-3xl">Dos universos, una puerta. Elige tu camino: manuales del operador o mapas generados del código.</p>
+                    <p class="mt-4 text-sm text-slate-500 font-mono">./docs/ &nbsp;·&nbsp; ./readmenator-maps/</p>
+                </div>
+
+                <div class="mt-14 grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+
+                    <a href="./docs/" class="group relative bg-slate-800 rounded-lg shadow-xl overflow-hidden flex flex-col h-full transform hover:scale-105 transition-transform duration-300 card-glow-red border border-slate-700 hover:border-red-500">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-red-600 via-red-500 to-orange-400"></div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <div class="flex items-start justify-between">
+                                <div class="p-3 rounded-lg bg-red-600/15 border border-red-500/30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-10 text-red-500"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25"></path></svg>
+                                </div>
+                                <span class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-red-600/20 text-red-400 border border-red-500/40">Manual · Operador</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-white mt-6">Documentación</h2>
+                            <p class="mt-1 text-sm font-mono text-slate-500">./docs/ — index</p>
+                            <p class="mt-3 text-base text-slate-400 flex-grow">Guías de kill-chain, C2, credenciales, exfiltración, lateral, persistencia, reportes y referencia de comandos. La landing clásica del proyecto.</p>
+                            <div class="mt-5 flex flex-wrap gap-2">
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">recon → report</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">C2 + beacons</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">API + CLI</span>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-slate-700/50 flex items-center justify-between">
+                            <span class="text-red-500 group-hover:text-red-400 font-semibold inline-flex items-center">Abrir /docs
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"></path></svg>
+                            </span>
+                            <span class="text-xs text-slate-500 font-mono hidden sm:block">docs/index.html</span>
+                        </div>
+                    </a>
+
+                    <a href="./readmenator-maps/" class="group relative bg-slate-800 rounded-lg shadow-xl overflow-hidden flex flex-col h-full transform hover:scale-105 transition-transform duration-300 card-glow-cyan border border-slate-700 hover:border-cyan-400">
+                        <div class="h-1.5 w-full bg-gradient-to-r from-cyan-400 via-sky-500 to-pink-500"></div>
+                        <div class="p-8 flex-grow flex flex-col">
+                            <div class="flex items-start justify-between">
+                                <div class="p-3 rounded-lg bg-cyan-400/10 border border-cyan-400/30">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 80 64" stroke-width="3" class="w-12 h-10 text-cyan-400" stroke="currentColor"><rect x="8" y="6" width="64" height="12" rx="3"/><rect x="8" y="26" width="28" height="12" rx="3"/><rect x="44" y="26" width="28" height="12" rx="3"/><rect x="8" y="46" width="64" height="12" rx="3"/><path stroke-dasharray="4 4" d="M22 18v8M58 18v8M22 38v8M58 38v8"/></svg>
+                                </div>
+                                <span class="text-xs font-semibold tracking-wider uppercase px-3 py-1 rounded-full bg-cyan-400/10 text-cyan-300 border border-cyan-400/40">Auto · Zero-token</span>
+                            </div>
+                            <h2 class="text-2xl font-bold text-white mt-6">System Maps</h2>
+                            <p class="mt-1 text-sm font-mono text-slate-500">./readmenator-maps/ — index</p>
+                            <p class="mt-3 text-base text-slate-400 flex-grow">Arquitectura, dataflow, secuencia, lifecycle y workflow generados offline desde el código. Video overview + 25 docs renderizados.</p>
+                            <div class="mt-5 flex flex-wrap gap-2">
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">896 files</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">17k symbols</span>
+                                <span class="text-xs px-2.5 py-1 rounded-full bg-slate-700/60 text-slate-300 border border-slate-600">5 mapas</span>
+                            </div>
+                        </div>
+                        <div class="p-6 bg-slate-700/50 flex items-center justify-between">
+                            <span class="text-cyan-300 group-hover:text-cyan-200 font-semibold inline-flex items-center">Abrir /readmenator-maps
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12l-7.5 7.5M21 12H3"></path></svg>
+                            </span>
+                            <span class="text-xs text-slate-500 font-mono hidden sm:block">maps/index.html</span>
+                        </div>
+                    </a>
+
+                </div>
+
+                <div class="mt-10 max-w-5xl mx-auto bg-slate-800/60 border border-slate-700 rounded-lg px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+                    <p class="text-sm text-slate-400 text-center sm:text-left">¿Perdido? <span class="text-slate-200 font-medium">/docs</span> es para operar · <span class="text-slate-200 font-medium">/readmenator-maps</span> es para entender el código.</p>
+                    <div class="flex gap-3">
+                        <a href="./docs/" class="text-sm px-4 py-2 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors font-medium">Ir a Docs</a>
+                        <a href="./readmenator-maps/" class="text-sm px-4 py-2 rounded-md border border-cyan-400/50 text-cyan-300 hover:bg-cyan-400 hover:text-slate-900 transition-colors font-medium">Ir a Maps</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-slate-800 text-slate-400">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+                <div class="space-y-8 xl:col-span-1">
+                    <h2 class="text-2xl font-bold text-red-500">LazyOwn RedTeam</h2>
+                    <p class="text-slate-400 text-base">Securing Your Future Through Adversarial Excellence.</p>
+                </div>
+                <div class="mt-12 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-300 tracking-wider uppercase">Documentación</h3>
+                        <ul role="list" class="mt-4 space-y-4">
+                            <li><a class="text-base text-slate-400 hover:text-red-500 transition-colors" href="./docs/">Docs — index</a></li>
+                            <li><a class="text-base text-slate-400 hover:text-red-500 transition-colors" href="./readmenator-maps/">System Maps — index</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-semibold text-slate-300 tracking-wider uppercase">Contacto</h3>
+                        <ul role="list" class="mt-4 space-y-4">
+                            <li><a href="mailto:grisun0@proton.me" class="text-base text-slate-400 hover:text-red-500 transition-colors">grisun0@proton.me</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 border-t border-slate-700 pt-8">
+                <p class="text-base text-slate-500 xl:text-center">© 2025 LazyOwn RedTeam. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+</div>
+</body>
+</html>

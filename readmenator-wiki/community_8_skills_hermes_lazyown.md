@@ -73,7 +73,6 @@ This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/backdoor/server.c` via `subprocess` (5 hops)
 - [dataflow UNCHECKED_ALLOC] `modules/backdoor/server.c:19` `main` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 
 ## Open Questions

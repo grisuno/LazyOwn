@@ -1,6 +1,10 @@
 # Second Brain
 
+<<<<<<< HEAD
+*Last synthesized: 2026-10-07 | 896 files | 23 concept pages | offline, zero tokens*
+=======
 *Last synthesized: 2026-10-08 | 896 files | 23 concept pages | offline, zero tokens*
+>>>>>>> 72e50545 (new documentation :D)
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
@@ -35,7 +39,7 @@ Open work clusters around documentation (85% file coverage), 0 security findings
 
 ```
 grep -rn '<keyword>' index.md community_*.md
-readmenator query "<question>" --target LazyOwn
+readmenator query "<question>" --target readmenator_LazyOwn_l8ifvy2k
 ```
 
 ## Concept Wiki

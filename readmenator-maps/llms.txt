@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 22 communities, 893 files, 8064 imports, 10 languages, 17077 symbols.
+> Static analysis knowledge base for LazyOwn: 22 communities, 896 files, 8073 imports, 10 languages, 17095 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -29,11 +29,11 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p8.md](md/readmenator-agent/API_p8.md): Depends on: core/logging.py, lazygui/config/constants.py, lazygui/config/paths.py
 - [readmenator-agent/API_p9.md](md/readmenator-agent/API_p9.md): Depends on: core/logging.py
 - [readmenator-agent/ARCHITECTURE.md](md/readmenator-agent/ARCHITECTURE.md): cli/init.py -> cli/aliases.py
-- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): contrib/legacy/lazyllmchat.py -> modules/aimodel.py
-- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/lilsplunky.py -> core/console.py
-- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): tests/testencodingcommandset.py -> cli/commands/base.py
+- [readmenator-agent/ARCHITECTURE_p2.md](md/readmenator-agent/ARCHITECTURE_p2.md): contrib/legacy/lazyhoneypot.py -> core/logging.py
+- [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/lessoningestor.py -> modules/moerouter.py
+- [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): tests/testdoctor.py -> cli/init.py
 - [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): scripts/fixmigratedclasses.py -> pathlib
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): scripts/devtools/coresmoke.py -> future, dataclasses, importlib, os, sys, tempfile
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/KB_backdoor.md](md/readmenator-agent/KB_backdoor.md): bootRun (function, line 18) int bootRun()

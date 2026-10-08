@@ -104,6 +104,7 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 - [EXTRACTED] depends_on community 4 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/ai.py imports modules/killchain.py.
 - [EXTRACTED] depends_on community 6 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/exploit_migrated.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 6 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/pwn.py imports modules/autonomous_exploit_engine.py.
+- [EXTRACTED] depends_on community 2 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/dashboard_tui.py imports cli/killchain.py.
 
 ## Risks
 

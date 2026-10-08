@@ -1,6 +1,26 @@
 # Subsystem: tests (page 11 of 13)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
 
+## tests/test_reasoning_stream.py
+- Doc: Tests for cli/reasoning_stream.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_events` (function, line 28) `def _write_events(path, events)`
+  - `test_read_raw_events_missing_file_returns_empty` (function, line 32) `def test_read_raw_events_missing_file_returns_empty(tmp_path)`
+  - `test_read_raw_events_skips_malformed_lines` (function, line 36) `def test_read_raw_events_skips_malformed_lines(tmp_path)`
+  - `test_read_raw_events_honours_limit_tail` (function, line 46) `def test_read_raw_events_honours_limit_tail(tmp_path)`
+  - `test_event_to_entry_step_start_uses_reason_and_source` (function, line 53) `def test_event_to_entry_step_start_uses_reason_and_source()`
+  - `test_event_to_entry_step_done_failure_flips_icon_and_style` (function, line 75) `def test_event_to_entry_step_done_failure_flips_icon_and_style()`
+  - `test_event_to_entry_extracts_reward` (function, line 85) `def test_event_to_entry_extracts_reward()`
+  - `test_event_to_entry_metrics_skip_renders_success_rate` (function, line 95) `def test_event_to_entry_metrics_skip_renders_success_rate()`
+  - `test_event_to_entry_unknown_type_falls_back` (function, line 105) `def test_event_to_entry_unknown_type_falls_back()`
+  - `test_event_to_entry_handles_non_dict_payload` (function, line 111) `def test_event_to_entry_handles_non_dict_payload()`
+  - `test_format_size_threshold` (function, line 117) `def test_format_size_threshold()`
+  - `test_truncate_adds_ellipsis` (function, line 122) `def test_truncate_adds_ellipsis()`
+  - `test_latest_reasoning_end_to_end` (function, line 127) `def test_latest_reasoning_end_to_end(tmp_path)`
+- Depends on: `cli/reasoning_stream.py`
+
 ## tests/test_recommendation.py
 - Doc: Behaviour tests for the unified recommendation engine and its signals.
 - Layer: testing

@@ -3,6 +3,15 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `INarratorAdapter` | class | `modules/pipeline_engine.py:835` | `class INarratorAdapter(ABC)` |
+| `IStepRunner` | class | `modules/pipeline_engine.py:507` | `class IStepRunner(ABC)` |
+| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:517` | `class LazyOwnStepRunner(IStepRunner)` |
+| `PipelineCycleError` | class | `modules/pipeline_engine.py:99` | `class PipelineCycleError(PipelineError)` |
+| `PipelineEngine` | class | `modules/pipeline_engine.py:894` | `class PipelineEngine` |
+| `PipelineError` | class | `modules/pipeline_engine.py:87` | `class PipelineError(Exception)` |
+| `PipelineLoader` | class | `modules/pipeline_engine.py:598` | `class PipelineLoader` |
+| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:95` | `class PipelineNotFoundError(PipelineError)` |
+| `PipelineRun` | class | `modules/pipeline_engine.py:197` | `class PipelineRun` |
 | `PipelineSchemaError` | class | `modules/pipeline_engine.py:91` | `class PipelineSchemaError(PipelineError)` |
 | `PipelineSpec` | class | `modules/pipeline_engine.py:150` | `class PipelineSpec` |
 | `PipelineStep` | class | `modules/pipeline_engine.py:109` | `class PipelineStep` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p14.md](SYMBOLS_p14.md)
 | `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_USER` |
 | `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:51` | `#define IO_URING_BUFFER_SIZE` |
 | `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:50` | `#define IO_URING_QUEUE_DEPTH` |
-| `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
-| `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
-| `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
-| `_GNU_SOURCE` | macro | `modules/rootkit/mrhyde3.c:7` | `#define _GNU_SOURCE` |
-| `__io_uring_enter` | function | `modules/rootkit/mrhyde3.c:76` | `static inline int __io_uring_enter(int fd, unsigned int to_submit, unsigned int min_complete,    ...` |
-| `__io_uring_register` | function | `modules/rootkit/mrhyde3.c:80` | `static inline int __io_uring_register(int fd, unsigned int opcode, const void *arg, unsigned int ...` |
-| `__io_uring_setup` | function | `modules/rootkit/mrhyde3.c:73` | `static inline int __io_uring_setup(unsigned int entries, struct io_uring_params *p)` |
-| `fopen` | function | `modules/rootkit/mrhyde3.c:407` | `FILE *fopen(const char *pathname, const char *mode)` |
-| `fstat` | function | `modules/rootkit/mrhyde3.c:535` | `int fstat(int fd, struct stat *statbuf)` |
 
 Next: [SYMBOLS_p16.md](SYMBOLS_p16.md)

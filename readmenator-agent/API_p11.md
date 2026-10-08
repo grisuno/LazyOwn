@@ -382,11 +382,12 @@ Imported by: `cli/commands/containers.py`
 ## modules/lazynmap.sh
 - `cleanup` (function) `modules/lazynmap.sh:29`
 - `ctrl_c` (function) `modules/lazynmap.sh:38`
-- `nmaptest` (function) `modules/lazynmap.sh:112`
-- `discover_network` (function) `modules/lazynmap.sh:132`
-- `extract_ports_info` (function) `modules/lazynmap.sh:802`
-- `run_nmap_script` (function) `modules/lazynmap.sh:828`
-- `print_row` (function) `modules/lazynmap.sh:861`
+- `fix_sessions_owner` (function) `modules/lazynmap.sh:67` -- Best-effort ownership fixup: scans run under sudo leave root-owned files behind, and only root can chown those.
+- `nmaptest` (function) `modules/lazynmap.sh:122`
+- `discover_network` (function) `modules/lazynmap.sh:142`
+- `extract_ports_info` (function) `modules/lazynmap.sh:811`
+- `run_nmap_script` (function) `modules/lazynmap.sh:837`
+- `print_row` (function) `modules/lazynmap.sh:870`
 
 ## modules/lazyown_bprfuzzer.py
 Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`

@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_ensure_repo_on_path` | method | `tests/test_command_palette.py:211` | `def _ensure_repo_on_path(suite_config)` |
+| `_entry` | method | `tests/test_command_palette.py:1641` | `def _entry(self, suite_config)` |
+| `_extract_method_body` | method | `tests/test_command_palette.py:392` | `def _extract_method_body(src, name)` |
+| `_iter_command_modules` | method | `tests/test_command_palette.py:228` | `def _iter_command_modules(config)` |
+| `_reset_telemetry_cache` | method | `tests/test_command_palette.py:2001` | `def _reset_telemetry_cache()` |
+| `_tool_declaration_block` | method | `tests/test_command_palette.py:1376` | `def _tool_declaration_block(src, tool_name)` |
+| `_write_synthetic_csv` | method | `tests/test_command_palette.py:1965` | `def _write_synthetic_csv(target)` |
+| `ast_command_names` | method | `tests/test_command_palette.py:272` | `def ast_command_names(suite_config)` |
+| `base_src` | method | `tests/test_command_palette.py:1919` | `def base_src(self, suite_config)` |
+| `base_src` | method | `tests/test_command_palette.py:2224` | `def base_src(self, suite_config)` |
 | `base_template_path` | method | `tests/test_command_palette.py:194` | `def base_template_path(self)` |
 | `blocking_import` | method | `tests/test_command_palette.py:2255` | `def blocking_import(name)` |
 | `cli_commands_dir` | method | `tests/test_command_palette.py:174` | `def cli_commands_dir(self)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `test_api_key_is_longer` | method | `tests/test_credential_vault.py:124` | `def test_api_key_is_longer(self)` |
 | `test_changeme_variants` | method | `tests/test_credential_vault.py:44` | `def test_changeme_variants(self)` |
 | `test_clean_payload_no_warnings` | method | `tests/test_credential_vault.py:24` | `def test_clean_payload_no_warnings(self)` |
-| `test_default_values_detected` | method | `tests/test_credential_vault.py:19` | `def test_default_values_detected(self)` |
-| `test_different_key_fails` | method | `tests/test_credential_vault.py:72` | `def test_different_key_fails(self)` |
-| `test_empty_keys_flagged` | method | `tests/test_credential_vault.py:39` | `def test_empty_keys_flagged(self)` |
-| `test_empty_string_passthrough` | method | `tests/test_credential_vault.py:64` | `def test_empty_string_passthrough(self)` |
-| `test_generates_random_values` | method | `tests/test_credential_vault.py:117` | `def test_generates_random_values(self)` |
-| `test_non_sensitive_keys_untouched` | method | `tests/test_credential_vault.py:107` | `def test_non_sensitive_keys_untouched(self)` |
-| `test_payload_roundtrip` | method | `tests/test_credential_vault.py:80` | `def test_payload_roundtrip(self)` |
-| `test_plaintext_passthrough` | method | `tests/test_credential_vault.py:68` | `def test_plaintext_passthrough(self)` |
-| `test_roundtrip` | method | `tests/test_credential_vault.py:57` | `def test_roundtrip(self)` |
-| `test_sensitive_keys_encrypted` | method | `tests/test_credential_vault.py:98` | `def test_sensitive_keys_encrypted(self)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

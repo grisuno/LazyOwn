@@ -131,6 +131,8 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `cli/commands/database.py` -> `cli/commands/_base.py`
 - `cli/commands/database.py` -> `modules/db.py`
 - `cli/commands/database.py` -> `utils.py`
+- `cli/commands/demo.py` -> `cli/commands/_base.py`
+- `cli/commands/demo.py` -> `utils.py`
 - `cli/commands/diagnostics.py` -> `cli/commands/_base.py`
 - `cli/commands/dns_exfil.py` -> `cli/commands/_base.py`
 - `cli/commands/dns_exfil.py` -> `modules/backdoor/server.c`
@@ -494,7 +496,5 @@ Pages: [ARCHITECTURE.md](ARCHITECTURE.md), [ARCHITECTURE_p2.md](ARCHITECTURE_p2.
 - `contrib/legacy/lazygptcli.py` -> `modules/colors.py`
 - `contrib/legacy/lazygptcli_unified.py` -> `core/logging.py`
 - `contrib/legacy/lazygptcli_unified.py` -> `modules/colors.py`
-- `contrib/legacy/lazyhoneypot.py` -> `core/logging.py`
-- `contrib/legacy/lazyhttpreverseshell.py` -> `modules/backdoor/server.c`
 
 Next: [ARCHITECTURE_p2.md](ARCHITECTURE_p2.md)

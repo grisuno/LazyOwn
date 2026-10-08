@@ -26,6 +26,10 @@ Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
 - `DatabaseCommandSet.do_db_status` (method) `cli/commands/database.py:459` `def do_db_status(self, line)` -- Show entity counts for the active workspace.
 - `DatabaseCommandSet.shlex_split` (method) `cli/commands/database.py:476` `def shlex_split(text)` -- Split text like shlex.split but handle empty strings gracefully.
 
+## cli/commands/demo.py
+Depends on: `cli/commands/_base.py`, `utils.py`
+- `DemoCommandSet.do_demo` (method) `cli/commands/demo.py:29` `def do_demo(self, line)` -- Run the end-to-end demo: MCP registration, session init, recommend, scan.
+
 ## cli/commands/diagnostics.py
 Depends on: `cli/commands/_base.py`
 Imported by: `tests/test_cli_command_sets.py`

@@ -3,6 +3,24 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_state_clamps_negative_offsets` | function | `tests/test_toast_bus.py:59` | `def test_state_clamps_negative_offsets(tmp_path)` |
+| `test_state_round_trip` | function | `tests/test_toast_bus.py:49` | `def test_state_round_trip(tmp_path)` |
+| `test_toasts_enabled_default_true` | function | `tests/test_toast_bus.py:160` | `def test_toasts_enabled_default_true()` |
+| `TestIsOperator` | class | `tests/test_trusted_proxy.py:96` | `class TestIsOperator` |
+| `TestNoProxy` | class | `tests/test_trusted_proxy.py:22` | `class TestNoProxy` |
+| `TestTrustedProxy` | class | `tests/test_trusted_proxy.py:40` | `class TestTrustedProxy` |
+| `test_empty_header_falls_back` | method | `tests/test_trusted_proxy.py:82` | `def test_empty_header_falls_back(self)` |
+| `test_insufficient_chain_falls_back` | method | `tests/test_trusted_proxy.py:69` | `def test_insufficient_chain_falls_back(self)` |
+| `test_match` | method | `tests/test_trusted_proxy.py:99` | `def test_match(self)` |
+| `test_no_header_falls_back_to_remote` | method | `tests/test_trusted_proxy.py:35` | `def test_no_header_falls_back_to_remote(self)` |
+| `test_no_match` | method | `tests/test_trusted_proxy.py:106` | `def test_no_match(self)` |
+| `test_remote_addr_returned` | method | `tests/test_trusted_proxy.py:25` | `def test_remote_addr_returned(self)` |
+| `test_single_proxy_returns_leftmost` | method | `tests/test_trusted_proxy.py:43` | `def test_single_proxy_returns_leftmost(self)` |
+| `test_two_proxies_returns_leftmost` | method | `tests/test_trusted_proxy.py:56` | `def test_two_proxies_returns_leftmost(self)` |
+| `SplashDispatchTests` | class | `tests/test_tui_splash.py:81` | `class SplashDispatchTests(TestCase)` |
+| `SplashEdgeCaseTests` | class | `tests/test_tui_splash.py:145` | `class SplashEdgeCaseTests(TestCase)` |
+| `SplashInstantEffectTests` | class | `tests/test_tui_splash.py:30` | `class SplashInstantEffectTests(TestCase)` |
+| `SplashTypewriterEffectTests` | class | `tests/test_tui_splash.py:67` | `class SplashTypewriterEffectTests(TestCase)` |
 | `_console` | function | `tests/test_tui_splash.py:19` | `def _console()` |
 | `test_empty_lines_is_noop` | method | `tests/test_tui_splash.py:146` | `def test_empty_lines_is_noop(self)` |
 | `test_instant_does_not_block` | method | `tests/test_tui_splash.py:44` | `def test_instant_does_not_block(self)` |

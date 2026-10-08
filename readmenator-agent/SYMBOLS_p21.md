@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_grisun0` | function | `skills/mcp_generated_tools.py:2822` | `def _gen_grisun0(arguments, tool_name, _cmd)` |
+| `_gen_grisun0w` | function | `skills/mcp_generated_tools.py:2830` | `def _gen_grisun0w(arguments, tool_name, _cmd)` |
+| `_gen_groq` | function | `skills/mcp_generated_tools.py:2838` | `def _gen_groq(arguments, tool_name, _cmd)` |
+| `_gen_gtfo` | function | `skills/mcp_generated_tools.py:2846` | `def _gen_gtfo(arguments, tool_name, _cmd)` |
+| `_gen_gym` | function | `skills/mcp_generated_tools.py:2854` | `def _gen_gym(arguments, tool_name, _cmd)` |
+| `_gen_h` | function | `skills/mcp_generated_tools.py:2862` | `def _gen_h(arguments, tool_name, _cmd)` |
+| `_gen_hashcat` | function | `skills/mcp_generated_tools.py:2870` | `def _gen_hashcat(arguments, tool_name, _cmd)` |
+| `_gen_hex2shellcode` | function | `skills/mcp_generated_tools.py:2878` | `def _gen_hex2shellcode(arguments, tool_name, _cmd)` |
+| `_gen_hex_to_plaintext` | function | `skills/mcp_generated_tools.py:2886` | `def _gen_hex_to_plaintext(arguments, tool_name, _cmd)` |
+| `_gen_hooks` | function | `skills/mcp_generated_tools.py:2894` | `def _gen_hooks(arguments, tool_name, _cmd)` |
 | `_gen_hooks_add` | function | `skills/mcp_generated_tools.py:2902` | `def _gen_hooks_add(arguments, tool_name, _cmd)` |
 | `_gen_hooks_enable` | function | `skills/mcp_generated_tools.py:2910` | `def _gen_hooks_enable(arguments, tool_name, _cmd)` |
 | `_gen_hooks_fire` | function | `skills/mcp_generated_tools.py:2918` | `def _gen_hooks_fire(arguments, tool_name, _cmd)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `setup_method` | method | `skills/tests/test_autonomous_daemon.py:450` | `def setup_method(self)` |
 | `setup_method` | method | `skills/tests/test_autonomous_daemon.py:497` | `def setup_method(self)` |
 | `setup_method` | method | `skills/tests/test_autonomous_daemon.py:566` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:623` | `def setup_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:339` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:410` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:456` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:503` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:572` | `def teardown_method(self)` |
-| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:629` | `def teardown_method(self)` |
-| `test_always_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:188` | `def test_always_returns_decision(self)` |
-| `test_appends_new_task` | method | `skills/tests/test_autonomous_daemon.py:351` | `def test_appends_new_task(self)` |
-| `test_block_called_on_execution_failure` | method | `skills/tests/test_autonomous_daemon.py:702` | `def test_block_called_on_execution_failure(self)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

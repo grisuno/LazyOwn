@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_pivot_candidates_sorted_by_centrality` | method | `tests/test_moe_rl_swan.py:609` | `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)` |
+| `test_record_outcome_updates_ema` | method | `tests/test_moe_rl_swan.py:142` | `def test_record_outcome_updates_ema(self, tmp_path)` |
+| `test_route_returns_expert_or_raises_gracefully` | method | `tests/test_moe_rl_swan.py:120` | `def test_route_returns_expert_or_raises_gracefully(self)` |
+| `test_save_and_reload_persistence` | method | `tests/test_moe_rl_swan.py:298` | `def test_save_and_reload_persistence(self, tmp_path)` |
+| `test_select_action_returns_valid_candidate` | method | `tests/test_moe_rl_swan.py:215` | `def test_select_action_returns_valid_candidate(self)` |
+| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:77` | `def test_singleton_returns_same_instance(self)` |
+| `test_singleton_returns_same_instance` | method | `tests/test_moe_rl_swan.py:113` | `def test_singleton_returns_same_instance(self)` |
+| `test_softmax_deterministic_picks_highest_weight` | method | `tests/test_moe_rl_swan.py:177` | `def test_softmax_deterministic_picks_highest_weight(self)` |
+| `test_status_report_contains_experts` | method | `tests/test_moe_rl_swan.py:169` | `def test_status_report_contains_experts(self)` |
+| `test_swan_result_dataclass_fields` | method | `tests/test_moe_rl_swan.py:322` | `def test_swan_result_dataclass_fields(self)` |
 | `test_swan_result_failed_is_not_success` | method | `tests/test_moe_rl_swan.py:344` | `def test_swan_result_failed_is_not_success(self)` |
 | `test_swan_selector_disabled_by_default` | method | `tests/test_moe_rl_swan.py:447` | `def test_swan_selector_disabled_by_default(self)` |
 | `test_swan_selector_phase_mapping_coverage` | method | `tests/test_moe_rl_swan.py:455` | `def test_swan_selector_phase_mapping_coverage(self)` |
@@ -441,6 +451,14 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_rhost_commands_use_refresh_prompt` | function | `tests/test_prompt_refresh.py:78` | `def test_rhost_commands_use_refresh_prompt()` |
 | `test_shell_defines_refresh_prompt` | function | `tests/test_prompt_refresh.py:59` | `def test_shell_defines_refresh_prompt()` |
 | `test_unrelated_write_stays_local` | function | `tests/test_prompt_refresh.py:44` | `def test_unrelated_write_stays_local()` |
+| `_load_tools` | function | `tests/test_pwntomate_tools.py:47` | `def _load_tools()` |
+| `_render` | function | `tests/test_pwntomate_tools.py:57` | `def _render(template, domain, tunnel)` |
+| `_would_run` | function | `tests/test_pwntomate_tools.py:83` | `def _would_run(template, domain)` |
+| `test_gobuster_templates_use_valid_syntax` | function | `tests/test_pwntomate_tools.py:131` | `def test_gobuster_templates_use_valid_syntax()` |
+| `test_no_hardcoded_always_ssl_flag` | function | `tests/test_pwntomate_tools.py:145` | `def test_no_hardcoded_always_ssl_flag()` |
+| `test_placeholders_match_pwntomate_substitutions` | function | `tests/test_pwntomate_tools.py:103` | `def test_placeholders_match_pwntomate_substitutions()` |
+| `test_rendered_commands_have_no_empty_host` | function | `tests/test_pwntomate_tools.py:115` | `def test_rendered_commands_have_no_empty_host()` |
+| `test_templates_are_valid_json_with_required_keys` | function | `tests/test_pwntomate_tools.py:92` | `def test_templates_are_valid_json_with_required_keys()` |
 | `Server` | class | `tests/test_rea_mcp.py:46` | `class Server` |
 | `TextContent` | class | `tests/test_rea_mcp.py:39` | `class TextContent` |
 | `Tool` | class | `tests/test_rea_mcp.py:35` | `class Tool` |
@@ -478,23 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_skips_hits_without_command_prefix` | method | `tests/test_reactive_engine_semantic.py:127` | `def test_skips_hits_without_command_prefix()` |
 | `test_skips_low_score_hits` | method | `tests/test_reactive_engine_semantic.py:90` | `def test_skips_low_score_hits()` |
 | `test_skips_same_command_and_dedupes` | method | `tests/test_reactive_engine_semantic.py:102` | `def test_skips_same_command_and_dedupes()` |
-| `TestExtractLabels` | class | `tests/test_reactive_hints.py:88` | `class TestExtractLabels` |
-| `TestFirstToken` | class | `tests/test_reactive_hints.py:57` | `class TestFirstToken` |
-| `TestRenderInlineHints` | class | `tests/test_reactive_hints.py:111` | `class TestRenderInlineHints` |
-| `TestTruncate` | class | `tests/test_reactive_hints.py:71` | `class TestTruncate` |
-| `_FakeAdvisor` | class | `tests/test_reactive_hints.py:29` | `class _FakeAdvisor` |
-| `__init__` | method | `tests/test_reactive_hints.py:32` | `def __init__(self, suggestions)` |
-| `advisor_with_three_hints` | method | `tests/test_reactive_hints.py:42` | `def advisor_with_three_hints()` |
-| `empty_advisor` | method | `tests/test_reactive_hints.py:53` | `def empty_advisor()` |
-| `suggest_next` | method | `tests/test_reactive_hints.py:36` | `def suggest_next(self, recent_commands, limit)` |
-| `test_advisor_called_with_correct_command` | method | `tests/test_reactive_hints.py:137` | `def test_advisor_called_with_correct_command(self, advisor_with_three_hints)` |
-| `test_all_skip_commands_are_skipped` | method | `tests/test_reactive_hints.py:149` | `def test_all_skip_commands_are_skipped(self, advisor_with_three_hints)` |
-| `test_disabled_flag_skips_render` | method | `tests/test_reactive_hints.py:112` | `def test_disabled_flag_skips_render(self, advisor_with_three_hints)` |
-| `test_empty_command_skips_render` | method | `tests/test_reactive_hints.py:122` | `def test_empty_command_skips_render(self, advisor_with_three_hints)` |
-| `test_empty_string` | method | `tests/test_reactive_hints.py:64` | `def test_empty_string(self)` |
-| `test_empty_suggestions_skips_render` | method | `tests/test_reactive_hints.py:127` | `def test_empty_suggestions_skips_render(self, empty_advisor)` |
-| `test_exact_length_unchanged` | method | `tests/test_reactive_hints.py:75` | `def test_exact_length_unchanged(self)` |
-| `test_exception_in_advisor_does_not_propagate` | method | `tests/test_reactive_hints.py:142` | `def test_exception_in_advisor_does_not_propagate(self)` |
-| `test_extracts_first_word` | method | `tests/test_reactive_hints.py:58` | `def test_extracts_first_word(self)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

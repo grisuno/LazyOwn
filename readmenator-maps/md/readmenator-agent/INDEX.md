@@ -3,6 +3,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `.claude/skills/run-lazyown/driver.sh` | Build and drive LazyOwn inside its Docker sandbox (Debian container). | misc | 0 | 0 |
 | `DEPLOY.sh` | update_section_html: Función para actualizar una sección específica | root | 3 | 0 |
 | `__init__.py` | - | root | 0 | 0 |
 | `banner.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | root | 3 | 0 |
@@ -19,7 +20,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/command_explorer.py` | Interactive command explorer by phase and goal for the LazyOwn shell. | cli | 7 | 1 |
 | `cli/command_form.py` | Textual form-mode launcher for LazyOwn commands. | cli | 31 | 1 |
 | `cli/commands/__init__.py` | Phase-scoped CommandSet modules. | commands | 0 | 1 |
-| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 84 |
+| `cli/commands/_base.py` | Base class for phase-scoped ``CommandSet`` modules. | commands | 7 | 85 |
 | `cli/commands/_dormancy.py` | Dormancy marker for incrementally migrated command sets. | commands | 2 | 9 |
 | `cli/commands/active_directory.py` | Active Directory attack commands — Kerberos, tickets, delegation, DACL, GPO, kerberoasting. | commands | 8 | 0 |
 | `cli/commands/ai.py` | Artificial Intelligence command set. | commands | 6 | 1 |
@@ -31,7 +32,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/commands/bof_registry.py` | BOF marketplace CommandSet — Beacon Object File discovery, install, and execution. | commands | 12 | 0 |
 | `cli/commands/c2_profile.py` | C2 profile CommandSet — extended malleable C2 profiles (TLS, DNS, SMB, WS). | commands | 5 | 0 |
 | `cli/commands/caldera.py` | Caldera-style command set — operation lifecycle, TTP coverage, and planner. | commands | 21 | 0 |
-| `cli/commands/campaign.py` | Campaign export/import commands — portable engagement packages. | commands | 6 | 0 |
+| `cli/commands/campaign.py` | Campaign export/import commands — portable engagement packages. | commands | 7 | 0 |
 | `cli/commands/catalog.py` | Command catalog — browse all registered commands by keyword, phase or category. | commands | 6 | 0 |
 | `cli/commands/cicd.py` | CI/CD Enumeration command set. | commands | 7 | 0 |
 | `cli/commands/cli_auth.py` | CLI authentication command set — login/logout/whoami. | commands | 5 | 0 |
@@ -46,6 +47,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/commands/crystal_ball.py` | Crystal Ball CLI command set — privilege escalation vector prediction. | commands | 5 | 0 |
 | `cli/commands/daemon_ctl.py` | Autonomous daemon control extracted from the miscellaneous cluster. | commands | 7 | 1 |
 | `cli/commands/database.py` | Database commands — workspace isolation, host/service/vuln management, nmap import, export, and... | commands | 15 | 0 |
+| `cli/commands/demo.py` | End-to-end demo command — MCP registration plus the golden path. | commands | 2 | 0 |
 | `cli/commands/diagnostics.py` | Diagnostics CommandSet (Tier 2 pilot). | commands | 3 | 1 |
 | `cli/commands/dns_exfil.py` | DNS exfiltration and covert channel command set. | commands | 12 | 0 |
 | `cli/commands/dpapi.py` | DPAPI credential harvesting command set. | commands | 5 | 0 |
@@ -83,7 +85,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `cli/commands/purple_team.py` | Purple Team CommandSet: closed-loop offensive detection measurement. | commands | 14 | 0 |
 | `cli/commands/pwn.py` | Autonomous exploitation and LOLBAS command set. | commands | 8 | 4 |
 | `cli/commands/recon.py` | Reconnaissance command set. | commands | 14 | 0 |
-| `cli/commands/recon_migrated.py` | recon commands migrated from lazyown.py. | commands | 29 | 0 |
+| `cli/commands/recon_migrated.py` | recon commands migrated from lazyown.py. | commands | 30 | 0 |
 | `cli/commands/redteam_gym.py` | Red Team Gym CLI command set — gamified pentest training. | commands | 8 | 0 |
 | `cli/commands/resource_scripting.py` | Resource script commands — run .ls scripts, record macros, spool output. | commands | 8 | 0 |
 | `cli/commands/scan.py` | Scanning command set. | commands | 17 | 0 |
@@ -318,7 +320,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `lazyown-docker/hostdiscover.sh` | - | lazyown-docker | 2 | 0 |
 | `lazyown-docker/init.sh` | - | lazyown-docker | 0 | 9 |
 | `lazyown-docker/mkdocker.sh` | LazyOwn Dockerizer Script Builds, runs, and manages Docker containers for LazyOwn red teaming... | lazyown-docker | 12 | 0 |
-| `lazyown.py` | lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date... | root | 123 | 8 |
+| `lazyown.py` | lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date... | root | 127 | 8 |
 | `modules/49803.py` | Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit... | modules | 3 | 0 |
 | `modules/CVE-2018-15133.php` | - | modules | 0 | 0 |
 | `modules/CVE-2023-28432.py` | - | modules | 1 | 0 |
@@ -439,7 +441,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/lazylynis.sh` | Verificar si se proporcionó un argumento para el host remoto | modules | 1 | 0 |
 | `modules/lazymasscan.sh` | Nombre del script: lazymasscan.sh Autor: Gris Iscomeback Correo electrónico... | modules | 4 | 0 |
 | `modules/lazymobilerevshell.sh` | Verificar si se pasaron los argumentos de IP y puerto | modules | 0 | 0 |
-| `modules/lazynmap.sh` | Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico... | modules | 7 | 0 |
+| `modules/lazynmap.sh` | Nombre del script: lazynmap.sh Autor: Gris Iscomeback Correo electrónico... | modules | 8 | 0 |
 | `modules/lazyown_bprfuzzer.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 15 | 0 |
 | `modules/lazyown_bridge.py` | modules/lazyown_bridge.py | modules | 43 | 6 |
 | `modules/lazyown_metaextract0r.py` | Autor: Gris Iscomeback Correo electrónico: grisiscomeback[at]gmail[dot]com Fecha de creación... | modules | 9 | 0 |
@@ -494,7 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/privesc_predictor.py` | Crystal Ball — privilege escalation vector prediction engine. | modules | 17 | 1 |
 | `modules/professional_report.py` | Professional Red Team Report Generator. | modules | 22 | 2 |
 | `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
-| `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 7 |
-| `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

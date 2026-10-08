@@ -8,11 +8,11 @@ Log each answered question here so the wiki compounds. Format: question, answer,
 
 - Status: unanswered
 
-### Q: What does utils.py depend on, and what depends on it? (90 connections)
+### Q: What does utils.py depend on, and what depends on it? (91 connections)
 
 - Status: unanswered
 
-### Q: What does _base.py depend on, and what depends on it? (85 connections)
+### Q: What does _base.py depend on, and what depends on it? (86 connections)
 
 - Status: unanswered
 

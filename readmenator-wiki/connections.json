@@ -24,16 +24,8 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 3,
-    "community_b": 7,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/auto_crypto.py imports modules/cli_auth.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
     "community_a": 1,
-    "community_b": 7,
+    "community_b": 3,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/banner_config.py imports cli/engagement_hooks.py.",
     "strength": 0.9,
@@ -80,14 +72,6 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 3,
-    "community_b": 1,
-    "connection_type": "depends_on",
-    "explanation": "Extracted import edge crosses communities: cli/commands/campaign.py imports cli/commands/_base.py.",
-    "strength": 0.9,
-    "confidence": "EXTRACTED"
-  },
-  {
     "community_a": 12,
     "community_b": 1,
     "connection_type": "depends_on",
@@ -97,7 +81,15 @@
   },
   {
     "community_a": 1,
-    "community_b": 9,
+    "community_b": 10,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/commands/command_and_control_migrated.py imports modules/c2_builder.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 1,
+    "community_b": 8,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.",
     "strength": 0.9,
@@ -113,7 +105,7 @@
   },
   {
     "community_a": 4,
-    "community_b": 7,
+    "community_b": 3,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/help_ui.py imports cli/engagement_hooks.py.",
     "strength": 0.9,
@@ -121,7 +113,7 @@
   },
   {
     "community_a": 1,
-    "community_b": 8,
+    "community_b": 7,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/misc_migrated.py imports cli/show.py.",
     "strength": 0.9,
@@ -136,7 +128,7 @@
     "confidence": "EXTRACTED"
   },
   {
-    "community_a": 9,
+    "community_a": 8,
     "community_b": 3,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.",
@@ -156,6 +148,14 @@
     "community_b": 0,
     "connection_type": "depends_on",
     "explanation": "Extracted import edge crosses communities: cli/commands/recon.py imports modules/intelligence_engine.py.",
+    "strength": 0.9,
+    "confidence": "EXTRACTED"
+  },
+  {
+    "community_a": 2,
+    "community_b": 6,
+    "connection_type": "depends_on",
+    "explanation": "Extracted import edge crosses communities: cli/dashboard_tui.py imports cli/killchain.py.",
     "strength": 0.9,
     "confidence": "EXTRACTED"
   }

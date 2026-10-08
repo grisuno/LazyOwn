@@ -3,6 +3,15 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_wrap_with_budget` | method | `modules/llm_factory.py:461` | `def _wrap_with_budget(backend, config, backend_identifier)` |
+| `api_key_config_key` | method | `modules/llm_factory.py:189` | `def api_key_config_key(backend)` |
+| `backend_requires_api_key` | method | `modules/llm_factory.py:212` | `def backend_requires_api_key(backend)` |
+| `default_model_for` | method | `modules/llm_factory.py:147` | `def default_model_for(backend)` |
+| `get_llm_backend` | method | `modules/llm_factory.py:499` | `def get_llm_backend(config, backend)` |
+| `get_llm_backend_raw` | method | `modules/llm_factory.py:585` | `def get_llm_backend_raw(config, backend)` |
+| `load_payload` | method | `modules/llm_factory.py:230` | `def load_payload(payload_path)` |
+| `model_config_key` | method | `modules/llm_factory.py:168` | `def model_config_key(backend)` |
+| `try_get_llm_backend` | method | `modules/llm_factory.py:607` | `def try_get_llm_backend(config, backend)` |
 | `KnowledgeStore` | class | `modules/llm_prompts.py:286` | `class KnowledgeStore` |
 | `LlmPromptConfig` | class | `modules/llm_prompts.py:111` | `class LlmPromptConfig` |
 | `__init__` | method | `modules/llm_prompts.py:289` | `def __init__(self, path)` |
@@ -487,14 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `record_credentials` | method | `modules/phishing_orchestrator.py:605` | `def record_credentials(self, campaign_id, email, password)` |
 | `ConditionEvaluator` | class | `modules/pipeline_engine.py:324` | `class ConditionEvaluator` |
 | `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:855` | `class EngagementNarratorAdapter(INarratorAdapter)` |
-| `INarratorAdapter` | class | `modules/pipeline_engine.py:835` | `class INarratorAdapter(ABC)` |
-| `IStepRunner` | class | `modules/pipeline_engine.py:507` | `class IStepRunner(ABC)` |
-| `LazyOwnStepRunner` | class | `modules/pipeline_engine.py:517` | `class LazyOwnStepRunner(IStepRunner)` |
-| `PipelineCycleError` | class | `modules/pipeline_engine.py:99` | `class PipelineCycleError(PipelineError)` |
-| `PipelineEngine` | class | `modules/pipeline_engine.py:894` | `class PipelineEngine` |
-| `PipelineError` | class | `modules/pipeline_engine.py:87` | `class PipelineError(Exception)` |
-| `PipelineLoader` | class | `modules/pipeline_engine.py:598` | `class PipelineLoader` |
-| `PipelineNotFoundError` | class | `modules/pipeline_engine.py:95` | `class PipelineNotFoundError(PipelineError)` |
-| `PipelineRun` | class | `modules/pipeline_engine.py:197` | `class PipelineRun` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

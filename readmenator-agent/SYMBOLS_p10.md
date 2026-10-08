@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `complete` | method | `modules/ai_model.py:364` | `def complete(self, system, user, max_tokens, temperature)` |
+| `complete` | method | `modules/ai_model.py:424` | `def complete(self, system, user, max_tokens, temperature)` |
+| `generate` | method | `modules/ai_model.py:52` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:134` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:218` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:279` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:338` | `def generate(self, prompt)` |
+| `generate` | method | `modules/ai_model.py:398` | `def generate(self, prompt)` |
 | `groq` | method | `modules/ai_model.py:101` | `def groq(cls)` |
 | `openai` | method | `modules/ai_model.py:108` | `def openai(cls)` |
 | `stream_generate` | method | `modules/ai_model.py:56` | `def stream_generate(self, prompt)` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `_run_capture` | method | `modules/command_executor.py:110` | `def _run_capture(self, command, timeout)` |
 | `_run_stream` | method | `modules/command_executor.py:135` | `def _run_stream(self, command, timeout)` |
 | `add_hook` | method | `modules/command_executor.py:68` | `def add_hook(self, hook)` |
-| `get_executor` | method | `modules/command_executor.py:264` | `def get_executor()` |
-| `instance` | method | `modules/command_executor.py:63` | `def instance(cls)` |
-| `run` | method | `modules/command_executor.py:72` | `def run(self, command, timeout, stream)` |
-| `run_with_tee` | method | `modules/command_executor.py:172` | `def run_with_tee(self, command, output_path, timeout)` |
-| `ComplianceEngine` | class | `modules/compliance.py:468` | `class ComplianceEngine` |
-| `ComplianceFinding` | class | `modules/compliance.py:456` | `class ComplianceFinding` |
-| `EvidenceChain` | class | `modules/compliance.py:192` | `class EvidenceChain` |
-| `EvidenceEntry` | class | `modules/compliance.py:183` | `class EvidenceEntry` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

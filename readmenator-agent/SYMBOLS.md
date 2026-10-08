@@ -459,10 +459,11 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_ttp_rebuild` | method | `cli/commands/caldera.py:299` | `def do_ttp_rebuild(self, line)` |
 | `do_ttp_show` | method | `cli/commands/caldera.py:309` | `def do_ttp_show(self, line)` |
 | `CampaignCommandSet` | class | `cli/commands/campaign.py:36` | `class CampaignCommandSet(LazyOwnCommandSet)` |
-| `_campaign_export` | method | `cli/commands/campaign.py:130` | `def _campaign_export(self, name)` |
-| `_campaign_import` | method | `cli/commands/campaign.py:179` | `def _campaign_import(self, package_path)` |
-| `_campaign_list` | method | `cli/commands/campaign.py:304` | `def _campaign_list(self)` |
-| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:88` | `def _gather_campaign_manifest(self, name)` |
+| `_campaign_export` | method | `cli/commands/campaign.py:134` | `def _campaign_export(self, name)` |
+| `_campaign_import` | method | `cli/commands/campaign.py:183` | `def _campaign_import(self, package_path)` |
+| `_campaign_list` | method | `cli/commands/campaign.py:308` | `def _campaign_list(self)` |
+| `_campaign_status` | method | `cli/commands/campaign.py:340` | `def _campaign_status(self)` |
+| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:92` | `def _gather_campaign_manifest(self, name)` |
 | `do_campaign` | method | `cli/commands/campaign.py:43` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 | `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
@@ -495,6 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_entra_attack` | method | `cli/commands/cloud_attacks.py:23` | `def do_entra_attack(self, line)` |
 | `do_gcp_privesc` | method | `cli/commands/cloud_attacks.py:215` | `def do_gcp_privesc(self, line)` |
 | `do_k8s_attack` | method | `cli/commands/cloud_attacks.py:302` | `def do_k8s_attack(self, line)` |
-| `do_saas_enum` | method | `cli/commands/cloud_attacks.py:470` | `def do_saas_enum(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

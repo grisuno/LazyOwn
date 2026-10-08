@@ -3,6 +3,8 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 7 |
+| `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
 | `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 18 | 3 |
 | `modules/reflective_dll.py` | Reflective DLL loading — load PE from memory without touching disk. | modules | 27 | 0 |
 | `modules/resource_script.py` | Enhanced resource script engine — variables, conditionals, loops, macros. | modules | 21 | 3 |
@@ -90,7 +92,7 @@ Previous: [INDEX.md](INDEX.md)
 | `poc_tui/plugin_loader.py` | Unified plugin loader — YAML addons, Lua plugins, and .tool files. | poc_tui | 22 | 0 |
 | `poc_tui/run.py` | Convenience launcher that symlinks LazyOwn dirs and starts the TUI. | poc_tui | 1 | 0 |
 | `poc_tui/test_app.py` | Pytest tests for LazyOwn TUI Shell POC. | poc_tui | 56 | 0 |
-| `pwntomate.py` | This software must not be used by military or secret service organisations. | root | 2 | 0 |
+| `pwntomate.py` | This software must not be used by military or secret service organisations. | root | 3 | 0 |
 | `py2elf.sh` | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico... | root | 0 | 0 |
 | `readmeneitor.py` | — Automated documentation generator for LazyOwn RedTeam Framework. | root | 10 | 0 |
 | `run_telegram_hermes.sh` | Launcher for telegram_hermes.py Uses the dedicated venv with python-telegram-bot dependencies | root | 0 | 0 |
@@ -350,6 +352,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_profiles.py` | Tests for runtime install profiles (``core.profiles``). | tests | 11 | 0 |
 | `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
 | `tests/test_prompt_refresh.py` | Contract tests for live prompt refresh after a payload change. | tests | 9 | 0 |
+| `tests/test_pwntomate_tools.py` | Regression guard for pwntomate tool templates (tools/*.tool). | tests | 8 | 0 |
 | `tests/test_rea_mcp.py` | Tests for the lazyown_rea MCP tool (REA reverse-engineering skill). | tests | 24 | 0 |
 | `tests/test_reactive_engine_semantic.py` | Tests for the semantic context advisor in ``modules/reactive_engine.py``. | tests | 13 | 0 |
 | `tests/test_reactive_hints.py` | Tests for cli/reactive_hints.py. | tests | 31 | 0 |
@@ -402,5 +405,5 @@ Previous: [INDEX.md](INDEX.md)
 | `tools/gen_demo_gifs.py` | Generate LazyOwn demo GIFs without external services. | tools | 3 | 1 |
 | `tools/gen_demo_gifs_extra.py` | Additional LazyOwn demo GIFs. | tools | 1 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 121 | 78 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 121 | 79 |
 

@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_intel_recommend_next` | function | `skills/hermes-lazyown/mcp_server.py:548` | `def _intel_recommend_next()` |
+| `_intel_searchsploit` | function | `skills/hermes-lazyown/mcp_server.py:564` | `def _intel_searchsploit(arguments)` |
+| `_try_import_lazyown_module` | function | `skills/hermes-lazyown/mcp_server.py:100` | `def _try_import_lazyown_module(module_name)` |
+| `call_tool` | function | `skills/hermes-lazyown/mcp_server.py:340` | `def call_tool(name, arguments)` |
+| `list_tools` | function | `skills/hermes-lazyown/mcp_server.py:335` | `def list_tools()` |
+| `main` | function | `skills/hermes-lazyown/mcp_server.py:749` | `def main()` |
+| `CompactionResult` | class | `skills/hermes-lazyown/output_compactor.py:17` | `class CompactionResult` |
+| `CompactionStrategy` | class | `skills/hermes-lazyown/output_compactor.py:39` | `class CompactionStrategy(ABC)` |
+| `DefaultCompaction` | class | `skills/hermes-lazyown/output_compactor.py:165` | `class DefaultCompaction(CompactionStrategy)` |
+| `EnumCompaction` | class | `skills/hermes-lazyown/output_compactor.py:83` | `class EnumCompaction(CompactionStrategy)` |
 | `ExploitCompaction` | class | `skills/hermes-lazyown/output_compactor.py:114` | `class ExploitCompaction(CompactionStrategy)` |
 | `OutputCompactor` | class | `skills/hermes-lazyown/output_compactor.py:182` | `class OutputCompactor` |
 | `PrivescCompaction` | class | `skills/hermes-lazyown/output_compactor.py:143` | `class PrivescCompaction(CompactionStrategy)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `audit_tasks` | method | `skills/lazyown_mcp_helpers.py:165` | `def audit_tasks(tasks, min_confidence)` |
 | `build_target_context` | method | `skills/lazyown_mcp_helpers.py:395` | `def build_target_context(host, port, sessions_dir, payload, world_model)` |
 | `collect_pwntomate_evidence` | method | `skills/lazyown_mcp_helpers.py:359` | `def collect_pwntomate_evidence(rhost, sessions_dir)` |
-| `diff_snapshot` | method | `skills/lazyown_mcp_helpers.py:756` | `def diff_snapshot(sessions_dir, payload, world_model, tasks)` |
-| `evidence_freshness` | function | `skills/lazyown_mcp_helpers.py:67` | `def evidence_freshness(path, threshold_seconds, now)` |
-| `evidence_grep` | method | `skills/lazyown_mcp_helpers.py:282` | `def evidence_grep(pattern, sessions_dir, scope, max_matches, max_file_bytes, case_insensitive)` |
-| `find_credential_provenance` | method | `skills/lazyown_mcp_helpers.py:196` | `def find_credential_provenance(value, sessions_dir, csv_name)` |
-| `is_likely_credential` | function | `skills/lazyown_mcp_helpers.py:37` | `def is_likely_credential(value)` |
-| `list` | method | `skills/lazyown_mcp_helpers.py:694` | `def list(self, limit)` |
-| `needs_confirmation` | method | `skills/lazyown_mcp_helpers.py:832` | `def needs_confirmation(tool_name, arguments)` |
-| `parse_task_value` | function | `skills/lazyown_mcp_helpers.py:125` | `def parse_task_value(title)` |
-| `preflight_command` | method | `skills/lazyown_mcp_helpers.py:552` | `def preflight_command(command, payload, sessions_dir)` |
-| `status` | method | `skills/lazyown_mcp_helpers.py:689` | `def status(self, job_id)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

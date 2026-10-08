@@ -1,5 +1,10 @@
 # Subsystem: misc
 
+## .claude/skills/run-lazyown/driver.sh
+- Doc: Build and drive LazyOwn inside its Docker sandbox (Debian container).
+- Layer: infrastructure
+- Language: sh
+
 ## deploy/range/ad-mini/traffic-gen.py
 - Doc: Fake network traffic generator for the AD mini range.
 - Layer: utility

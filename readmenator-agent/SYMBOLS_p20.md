@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `diff_snapshot` | method | `skills/lazyown_mcp_helpers.py:756` | `def diff_snapshot(sessions_dir, payload, world_model, tasks)` |
+| `evidence_freshness` | function | `skills/lazyown_mcp_helpers.py:67` | `def evidence_freshness(path, threshold_seconds, now)` |
+| `evidence_grep` | method | `skills/lazyown_mcp_helpers.py:282` | `def evidence_grep(pattern, sessions_dir, scope, max_matches, max_file_bytes, case_insensitive)` |
+| `find_credential_provenance` | method | `skills/lazyown_mcp_helpers.py:196` | `def find_credential_provenance(value, sessions_dir, csv_name)` |
+| `is_likely_credential` | function | `skills/lazyown_mcp_helpers.py:37` | `def is_likely_credential(value)` |
+| `list` | method | `skills/lazyown_mcp_helpers.py:694` | `def list(self, limit)` |
+| `needs_confirmation` | method | `skills/lazyown_mcp_helpers.py:832` | `def needs_confirmation(tool_name, arguments)` |
+| `parse_task_value` | function | `skills/lazyown_mcp_helpers.py:125` | `def parse_task_value(title)` |
+| `preflight_command` | method | `skills/lazyown_mcp_helpers.py:552` | `def preflight_command(command, payload, sessions_dir)` |
+| `status` | method | `skills/lazyown_mcp_helpers.py:689` | `def status(self, job_id)` |
 | `submit` | method | `skills/lazyown_mcp_helpers.py:656` | `def submit(self, command, runner, timeout)` |
 | `take_snapshot` | method | `skills/lazyown_mcp_helpers.py:709` | `def take_snapshot(sessions_dir, payload, world_model, tasks)` |
 | `call_tool` | function | `skills/lazyown_mcp_opencode.py:76` | `def call_tool(name, arguments)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_gen_graudit` | function | `skills/mcp_generated_tools.py:2798` | `def _gen_graudit(arguments, tool_name, _cmd)` |
 | `_gen_greatSCT` | function | `skills/mcp_generated_tools.py:2806` | `def _gen_greatSCT(arguments, tool_name, _cmd)` |
 | `_gen_grep_log` | function | `skills/mcp_generated_tools.py:2814` | `def _gen_grep_log(arguments, tool_name, _cmd)` |
-| `_gen_grisun0` | function | `skills/mcp_generated_tools.py:2822` | `def _gen_grisun0(arguments, tool_name, _cmd)` |
-| `_gen_grisun0w` | function | `skills/mcp_generated_tools.py:2830` | `def _gen_grisun0w(arguments, tool_name, _cmd)` |
-| `_gen_groq` | function | `skills/mcp_generated_tools.py:2838` | `def _gen_groq(arguments, tool_name, _cmd)` |
-| `_gen_gtfo` | function | `skills/mcp_generated_tools.py:2846` | `def _gen_gtfo(arguments, tool_name, _cmd)` |
-| `_gen_gym` | function | `skills/mcp_generated_tools.py:2854` | `def _gen_gym(arguments, tool_name, _cmd)` |
-| `_gen_h` | function | `skills/mcp_generated_tools.py:2862` | `def _gen_h(arguments, tool_name, _cmd)` |
-| `_gen_hashcat` | function | `skills/mcp_generated_tools.py:2870` | `def _gen_hashcat(arguments, tool_name, _cmd)` |
-| `_gen_hex2shellcode` | function | `skills/mcp_generated_tools.py:2878` | `def _gen_hex2shellcode(arguments, tool_name, _cmd)` |
-| `_gen_hex_to_plaintext` | function | `skills/mcp_generated_tools.py:2886` | `def _gen_hex_to_plaintext(arguments, tool_name, _cmd)` |
-| `_gen_hooks` | function | `skills/mcp_generated_tools.py:2894` | `def _gen_hooks(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

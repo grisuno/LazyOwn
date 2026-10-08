@@ -1,10 +1,10 @@
 # orphans
 
-*Community 22 | 205 files | cohesion 0.00*
+*Community 22 | 207 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 205 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: LazyOwn bootstrap installer (one-liner entry point).  Clones the repository into a target directory (default: $HOME/LazyOwn), runs install.sh, then asks whether.
+This community groups 207 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
@@ -14,7 +14,7 @@ This community groups 205 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `modules/49803.py` | py | utility | 3 | yes |
 
-### `tests` (33 files)
+### `tests` (34 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -86,6 +86,12 @@ This community groups 205 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/claude_md_orchestrator/tests/conftest.py` | py | testing | 0 | yes |
 
+### `.claude/skills/run-lazyown` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `.claude/skills/run-lazyown/driver.sh` | sh | infrastructure | 0 | yes |
+
 ### `deploy/range/ad-mini` (1 files)
 
 | File | Language | Layer | Symbols | Doc |
@@ -122,13 +128,7 @@ This community groups 205 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/tests/__init__.py` | py | testing | 0 | no |
 
-### `source` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `source/conf.py` | py | utility | 0 | yes |
-
-*... and 185 more files in this community.*
+*... and 187 more files in this community.*
 
 
 ## Key Symbols
@@ -199,6 +199,7 @@ This community groups 205 file(s) rooted at `modules` with dominant language py 
 
 ## Sources
 
+- `.claude/skills/run-lazyown/driver.sh`
 - `DEPLOY.sh`
 - `__init__.py`
 - `bootstrap.sh`
@@ -218,5 +219,4 @@ This community groups 205 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazymitmap.py`
 - `contrib/legacy/lazynetbios.py`
 - `contrib/legacy/lazyntlrelayx.py`
-- `contrib/legacy/lazypwnkit.py`
-- *... and 185 more*
+- *... and 187 more*

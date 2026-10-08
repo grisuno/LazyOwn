@@ -20,7 +20,7 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `__getattr__` (method, line 110) `def __getattr__(self, name)`
   - `__setattr__` (method, line 162) `def __setattr__(self, name, value)`
 - Depends on: `utils.py`
-- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/_dormancy.py
 - Doc: Dormancy marker for incrementally migrated command sets.
@@ -213,10 +213,11 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Symbols:
   - `CampaignCommandSet` (class, line 36) `class CampaignCommandSet(LazyOwnCommandSet)`
   - `do_campaign` (method, line 43) `def do_campaign(self, line)`
-  - `_gather_campaign_manifest` (method, line 88) `def _gather_campaign_manifest(self, name)`
-  - `_campaign_export` (method, line 130) `def _campaign_export(self, name)`
-  - `_campaign_import` (method, line 179) `def _campaign_import(self, package_path)`
-  - `_campaign_list` (method, line 304) `def _campaign_list(self)`
+  - `_gather_campaign_manifest` (method, line 92) `def _gather_campaign_manifest(self, name)`
+  - `_campaign_export` (method, line 134) `def _campaign_export(self, name)`
+  - `_campaign_import` (method, line 183) `def _campaign_import(self, package_path)`
+  - `_campaign_list` (method, line 308) `def _campaign_list(self)`
+  - `_campaign_status` (method, line 340) `def _campaign_status(self)`
 - Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
 
 ## cli/commands/catalog.py
@@ -324,29 +325,29 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `CommandAndControlMigratedCommandSet` (class, line 37) `class CommandAndControlMigratedCommandSet(LazyOwnCommandSet)`
   - `do_msf` (method, line 42) `def do_msf(self, line)`
   - `do_c2` (method, line 392) `def do_c2(self, line)`
-  - `do_listener` (method, line 507) `def do_listener(self, line)`
-  - `do_sandbox` (method, line 635) `def do_sandbox(self, line)`
-  - `do_msfrpc` (method, line 677) `def do_msfrpc(self, line)`
-  - `do_sliver_server` (method, line 701) `def do_sliver_server(self, line)`
-  - `do_empire` (method, line 818) `def do_empire(self, line)`
-  - `do_automsf` (method, line 868) `def do_automsf(self, line)`
-  - `do_iis_webdav_upload_asp` (method, line 904) `def do_iis_webdav_upload_asp(self, line)`
-  - `do_duckyspark` (method, line 939) `def do_duckyspark(self, line)`
-  - `do_emp3r0r` (method, line 1140) `def do_emp3r0r(self, line)`
-  - `do_atomic_tests` (method, line 1204) `def do_atomic_tests(self, line)`
-  - `do_atomic_gen` (method, line 1364) `def do_atomic_gen(self, line)`
-  - `do_atomic_agent` (method, line 1548) `def do_atomic_agent(self, line)`
-  - `do_attack_plan` (method, line 1648) `def do_attack_plan(self, line)`
-  - `do_apt_playbook` (method, line 1772) `def do_apt_playbook(self, line)`
-  - `do_mitre_test` (method, line 1892) `def do_mitre_test(self, line)`
-  - `do_generate_playbook` (method, line 1995) `def do_generate_playbook(self, line)`
-  - `do_my_playbook` (method, line 2174) `def do_my_playbook(self, line)`
-  - `do_caldera` (method, line 2231) `def do_caldera(self, line)`
-  - `do_caldera_import` (method, line 2280) `def do_caldera_import(self, line)`
-  - `do_caldera_export` (method, line 2372) `def do_caldera_export(self, line)`
-  - `_api` (method, line 534) `def _api(method, endpoint, payload)`
-  - `_load_ability` (method, line 2304) `def _load_ability(ability_file)`
-  - `_ability_to_step` (method, line 2311) `def _ability_to_step(ability)`
+  - `do_listener` (method, line 514) `def do_listener(self, line)`
+  - `do_sandbox` (method, line 642) `def do_sandbox(self, line)`
+  - `do_msfrpc` (method, line 684) `def do_msfrpc(self, line)`
+  - `do_sliver_server` (method, line 708) `def do_sliver_server(self, line)`
+  - `do_empire` (method, line 825) `def do_empire(self, line)`
+  - `do_automsf` (method, line 875) `def do_automsf(self, line)`
+  - `do_iis_webdav_upload_asp` (method, line 911) `def do_iis_webdav_upload_asp(self, line)`
+  - `do_duckyspark` (method, line 946) `def do_duckyspark(self, line)`
+  - `do_emp3r0r` (method, line 1147) `def do_emp3r0r(self, line)`
+  - `do_atomic_tests` (method, line 1211) `def do_atomic_tests(self, line)`
+  - `do_atomic_gen` (method, line 1371) `def do_atomic_gen(self, line)`
+  - `do_atomic_agent` (method, line 1555) `def do_atomic_agent(self, line)`
+  - `do_attack_plan` (method, line 1655) `def do_attack_plan(self, line)`
+  - `do_apt_playbook` (method, line 1779) `def do_apt_playbook(self, line)`
+  - `do_mitre_test` (method, line 1899) `def do_mitre_test(self, line)`
+  - `do_generate_playbook` (method, line 2002) `def do_generate_playbook(self, line)`
+  - `do_my_playbook` (method, line 2181) `def do_my_playbook(self, line)`
+  - `do_caldera` (method, line 2238) `def do_caldera(self, line)`
+  - `do_caldera_import` (method, line 2287) `def do_caldera_import(self, line)`
+  - `do_caldera_export` (method, line 2379) `def do_caldera_export(self, line)`
+  - `_api` (method, line 541) `def _api(method, endpoint, payload)`
+  - `_load_ability` (method, line 2311) `def _load_ability(ability_file)`
+  - `_ability_to_step` (method, line 2318) `def _ability_to_step(ability)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/commands/_base.py`, `core/config.py`, `core/hardening.py`, `modules/apt_playbooks.py`, `modules/c2_builder.py`, `modules/listener_manager.py`, `utils.py`
 
 ## cli/commands/containers.py
@@ -470,6 +471,15 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_db_export` (method, line 425) `def do_db_export(self, line)`
   - `do_db_status` (method, line 459) `def do_db_status(self, line)`
 - Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
+
+## cli/commands/demo.py
+- Doc: End-to-end demo command — MCP registration plus the golden path.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DemoCommandSet` (class, line 22) `class DemoCommandSet(LazyOwnCommandSet)`
+  - `do_demo` (method, line 29) `def do_demo(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/diagnostics.py
 - Doc: Diagnostics CommandSet (Tier 2 pilot).

@@ -3,6 +3,16 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:623` | `def setup_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:339` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:410` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:456` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:503` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:572` | `def teardown_method(self)` |
+| `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:629` | `def teardown_method(self)` |
+| `test_always_returns_decision` | method | `skills/tests/test_autonomous_daemon.py:188` | `def test_always_returns_decision(self)` |
+| `test_appends_new_task` | method | `skills/tests/test_autonomous_daemon.py:351` | `def test_appends_new_task(self)` |
+| `test_block_called_on_execution_failure` | method | `skills/tests/test_autonomous_daemon.py:702` | `def test_block_called_on_execution_failure(self)` |
 | `test_complete_called_after_successful_execution` | method | `skills/tests/test_autonomous_daemon.py:642` | `def test_complete_called_after_successful_execution(self)` |
 | `test_contains_expected_fields` | method | `skills/tests/test_autonomous_daemon.py:583` | `def test_contains_expected_fields(self)` |
 | `test_correct_schema` | method | `skills/tests/test_autonomous_daemon.py:362` | `def test_correct_schema(self)` |
@@ -486,15 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 | `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
 | `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
-| `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
-| `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2629` | `` |
-| `I` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Length` | function | `static/js/html2pdf.bundle.min.js:949` | `` |
-| `Length` | function | `static/js/html2pdf.bundle.min.js:950` | `` |
-| `LineBreaker` | function | `static/js/html2pdf.bundle.min.js:3766` | `` |
-| `LinearGradient` | function | `static/js/html2pdf.bundle.min.js:5094` | `` |
-| `Logger` | function | `static/js/html2pdf.bundle.min.js:843` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

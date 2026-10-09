@@ -1,0 +1,21 @@
+name: download_nuclei_templates
+description: |
+  Downloads the community Nuclei template library into
+  external/.exploit/nuclei-templates (stages clone in tmp, strips every .git
+  trace, replaces destination). Needs git and network. Run with zero args:
+  download_nuclei_templates. Flags append as free args, e.g.
+  download_nuclei_templates --refresh-existing --dest ~/nuclei-templates.
+  Refresh only fast-forwards clean clones of the same remote. Syncs every
+  registered source by default, or pick via --source NAME (repeatable).
+author: LazyOwn RedTeam
+version: "1.0"
+enabled: true
+params: []
+os: any
+trigger: []
+category: "02. Scanning & Enumeration"
+tool:
+  name: Nuclei Templates Downloader
+  repo_url: https://github.com/grisuno/LazyOwn.git
+  install_path: modules/
+  execute_command: python3 nuclei_templates_sync.py

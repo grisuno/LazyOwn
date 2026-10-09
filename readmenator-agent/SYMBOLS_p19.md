@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_core_run_command` | function | `skills/hermes-lazyown/mcp_server.py:468` | `def _core_run_command(arguments)` |
+| `_core_session_init` | function | `skills/hermes-lazyown/mcp_server.py:399` | `def _core_session_init(arguments)` |
+| `_core_set_config` | function | `skills/hermes-lazyown/mcp_server.py:445` | `def _core_set_config(arguments)` |
+| `_desc` | function | `skills/hermes-lazyown/mcp_server.py:119` | `def _desc(base)` |
+| `_get_checkpoint_serializer` | function | `skills/hermes-lazyown/mcp_server.py:68` | `def _get_checkpoint_serializer()` |
+| `_get_compactor` | function | `skills/hermes-lazyown/mcp_server.py:52` | `def _get_compactor()` |
+| `_get_config` | function | `skills/hermes-lazyown/mcp_server.py:45` | `def _get_config()` |
+| `_get_delegation_planner` | function | `skills/hermes-lazyown/mcp_server.py:82` | `def _get_delegation_planner()` |
+| `_get_executor` | function | `skills/hermes-lazyown/mcp_server.py:60` | `def _get_executor()` |
+| `_get_objective_sync` | function | `skills/hermes-lazyown/mcp_server.py:75` | `def _get_objective_sync()` |
+| `_handle_tool` | function | `skills/hermes-lazyown/mcp_server.py:351` | `def _handle_tool(name, arguments)` |
+| `_hermes_checkpoint_read` | function | `skills/hermes-lazyown/mcp_server.py:648` | `def _hermes_checkpoint_read()` |
+| `_hermes_checkpoint_write` | function | `skills/hermes-lazyown/mcp_server.py:638` | `def _hermes_checkpoint_write(arguments)` |
+| `_hermes_delegate_plan` | function | `skills/hermes-lazyown/mcp_server.py:677` | `def _hermes_delegate_plan(arguments)` |
+| `_hermes_rules_generate` | function | `skills/hermes-lazyown/mcp_server.py:659` | `def _hermes_rules_generate(arguments)` |
+| `_intel_facts_show` | function | `skills/hermes-lazyown/mcp_server.py:514` | `def _intel_facts_show(arguments)` |
 | `_intel_recommend_next` | function | `skills/hermes-lazyown/mcp_server.py:548` | `def _intel_recommend_next()` |
 | `_intel_searchsploit` | function | `skills/hermes-lazyown/mcp_server.py:564` | `def _intel_searchsploit(arguments)` |
 | `_try_import_lazyown_module` | function | `skills/hermes-lazyown/mcp_server.py:100` | `def _try_import_lazyown_module(module_name)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_save_crons` | function | `skills/lazyown_mcp.py:10276` | `def _save_crons(entries)` |
 | `_save_payload` | function | `skills/lazyown_mcp.py:532` | `def _save_payload(data)` |
 | `_wait_for_nmap_xml` | function | `skills/lazyown_mcp.py:7922` | `def _wait_for_nmap_xml(tgt, timeout_s)` |
-| `call_tool` | function | `skills/lazyown_mcp.py:5545` | `def call_tool(name, arguments)` |
-| `coerce_value` | function | `skills/lazyown_mcp.py:807` | `def coerce_value(k, v)` |
-| `list_tools` | function | `skills/lazyown_mcp.py:1627` | `def list_tools()` |
-| `main` | function | `skills/lazyown_mcp.py:11252` | `def main()` |
-| `register_handler` | function | `skills/lazyown_mcp.py:586` | `def register_handler(tool_name)` |
-| `substitute_playbook_target` | function | `skills/lazyown_mcp.py:5527` | `def substitute_playbook_target(command, target)` |
-| `text` | function | `skills/lazyown_mcp.py:5555` | `def text(content)` |
-| `JobRecord` | class | `skills/lazyown_mcp_helpers.py:634` | `class JobRecord` |
-| `JobStore` | class | `skills/lazyown_mcp_helpers.py:648` | `class JobStore` |
-| `TaskAudit` | class | `skills/lazyown_mcp_helpers.py:153` | `class TaskAudit` |
-| `__init__` | method | `skills/lazyown_mcp_helpers.py:651` | `def __init__(self, max_jobs)` |
-| `_format_age` | function | `skills/lazyown_mcp_helpers.py:112` | `def _format_age(seconds)` |
-| `_worker` | method | `skills/lazyown_mcp_helpers.py:671` | `def _worker()` |
-| `audit_tasks` | method | `skills/lazyown_mcp_helpers.py:165` | `def audit_tasks(tasks, min_confidence)` |
-| `build_target_context` | method | `skills/lazyown_mcp_helpers.py:395` | `def build_target_context(host, port, sessions_dir, payload, world_model)` |
-| `collect_pwntomate_evidence` | method | `skills/lazyown_mcp_helpers.py:359` | `def collect_pwntomate_evidence(rhost, sessions_dir)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

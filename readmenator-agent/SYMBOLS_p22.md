@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_next_pending` | method | `skills/tests/test_autonomous_daemon.py:713` | `def _next_pending()` |
+| `_patch_paths` | function | `skills/tests/test_autonomous_daemon.py:31` | `def _patch_paths(tmp_path)` |
+| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:689` | `def _run_loop()` |
+| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:741` | `def _run_loop()` |
+| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:762` | `def _run_loop()` |
+| `_stop_patchers` | function | `skills/tests/test_autonomous_daemon.py:47` | `def _stop_patchers(patchers)` |
+| `_write_tasks` | method | `skills/tests/test_autonomous_daemon.py:414` | `def _write_tasks(self, tasks)` |
+| `name` | method | `skills/tests/test_autonomous_daemon.py:130` | `def name(self)` |
+| `run` | method | `skills/tests/test_autonomous_daemon.py:132` | `def run(self, command, timeout)` |
+| `select` | method | `skills/tests/test_autonomous_daemon.py:276` | `def select(self, target, phase, context)` |
+| `select` | method | `skills/tests/test_autonomous_daemon.py:315` | `def select(self, target, phase, context)` |
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:333` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:404` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:450` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:497` | `def setup_method(self)` |
+| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:566` | `def setup_method(self)` |
 | `setup_method` | method | `skills/tests/test_autonomous_daemon.py:623` | `def setup_method(self)` |
 | `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:339` | `def teardown_method(self)` |
 | `teardown_method` | method | `skills/tests/test_autonomous_daemon.py:410` | `def teardown_method(self)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p21.md](SYMBOLS_p21.md)
 | `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
 | `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1070` | `` |
 | `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1071` | `` |
-| `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
-| `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `C` | function | `static/js/html2pdf.bundle.min.js:78` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:599` | `` |
-| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:600` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:295` | `` |
-| `Color` | function | `static/js/html2pdf.bundle.min.js:296` | `` |
-| `D` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `DocumentCloner` | function | `static/js/html2pdf.bundle.min.js:6523` | `` |
-| `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
-| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
 
 Next: [SYMBOLS_p23.md](SYMBOLS_p23.md)

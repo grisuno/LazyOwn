@@ -319,6 +319,22 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `set_version` | method | `modules/nmap2csv.py:272` | `def set_version(self, version)` |
 | `split_grepable_match` | method | `modules/nmap2csv.py:278` | `def split_grepable_match(raw_string)` |
 | `unique_match_from_list` | function | `modules/nmap2csv.py:107` | `def unique_match_from_list(list)` |
+| `build_parser` | function | `modules/nuclei_templates_sync.py:238` | `def build_parser()` |
+| `canonical_dest` | function | `modules/nuclei_templates_sync.py:48` | `def canonical_dest(subdir)` |
+| `clone_templates` | function | `modules/nuclei_templates_sync.py:84` | `def clone_templates(repo, staging)` |
+| `count_templates` | function | `modules/nuclei_templates_sync.py:132` | `def count_templates(tree)` |
+| `ensure_git_available` | function | `modules/nuclei_templates_sync.py:73` | `def ensure_git_available()` |
+| `main` | function | `modules/nuclei_templates_sync.py:339` | `def main(argv)` |
+| `normalize` | function | `modules/nuclei_templates_sync.py:179` | `def normalize(url)` |
+| `refresh_existing_clone` | function | `modules/nuclei_templates_sync.py:188` | `def refresh_existing_clone(path, repo)` |
+| `replace_dest` | function | `modules/nuclei_templates_sync.py:144` | `def replace_dest(src, dest, expected)` |
+| `repo_root` | function | `modules/nuclei_templates_sync.py:39` | `def repo_root()` |
+| `resolve_plan` | function | `modules/nuclei_templates_sync.py:310` | `def resolve_plan(args)` |
+| `run` | function | `modules/nuclei_templates_sync.py:60` | `def run(argv, cwd)` |
+| `same_remote` | function | `modules/nuclei_templates_sync.py:168` | `def same_remote(path, repo)` |
+| `strip_git_traces` | function | `modules/nuclei_templates_sync.py:113` | `def strip_git_traces(tree)` |
+| `sync` | function | `modules/nuclei_templates_sync.py:263` | `def sync(name, repo, dest, refresh_existing, skip_validate)` |
+| `validate_subset` | function | `modules/nuclei_templates_sync.py:209` | `def validate_subset(dest, subset)` |
 | `Extractor` | class | `modules/obs_parser.py:92` | `class Extractor(ABC)` |
 | `Finding` | class | `modules/obs_parser.py:64` | `class Finding` |
 | `FindingType` | class | `modules/obs_parser.py:48` | `class FindingType(StrEnum)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `_derive_credential_key` | function | `modules/phishing_orchestrator.py:57` | `def _derive_credential_key()` |
 | `_encrypt_credential` | function | `modules/phishing_orchestrator.py:84` | `def _encrypt_credential(plaintext)` |
 | `_generate_landing_page` | method | `modules/phishing_orchestrator.py:683` | `def _generate_landing_page(self, template, target_domain, campaign_id)` |
-| `_hash_credential_for_log` | function | `modules/phishing_orchestrator.py:116` | `def _hash_credential_for_log(plaintext)` |
-| `_inject_harvester` | method | `modules/phishing_orchestrator.py:769` | `def _inject_harvester(self, html, page_id)` |
-| `_load_config` | method | `modules/phishing_orchestrator.py:808` | `def _load_config(self)` |
-| `_load_targets_from_file` | method | `modules/phishing_orchestrator.py:644` | `def _load_targets_from_file(self, filepath)` |
-| `_send_email` | method | `modules/phishing_orchestrator.py:735` | `def _send_email(self, to_email, subject, html_body, smtp_config)` |
-| `_setup_harvesting_endpoint` | method | `modules/phishing_orchestrator.py:723` | `def _setup_harvesting_endpoint(self, campaign_id)` |
-| `clone_landing_page` | method | `modules/phishing_orchestrator.py:533` | `def clone_landing_page(self, url)` |
-| `generate_template` | method | `modules/phishing_orchestrator.py:486` | `def generate_template(self, name, target_domain, context)` |
-| `get_instance` | method | `modules/phishing_orchestrator.py:321` | `def get_instance(cls)` |
-| `get_results` | method | `modules/phishing_orchestrator.py:560` | `def get_results(self, campaign_id)` |
-| `launch` | method | `modules/phishing_orchestrator.py:332` | `def launch(self, target_domain, template, mode, targets_file, sender_email, sender_password, smtp_host, smtp_port)` |
-| `profile_targets` | method | `modules/phishing_orchestrator.py:441` | `def profile_targets(self, domain)` |
-| `record_click` | method | `modules/phishing_orchestrator.py:584` | `def record_click(self, campaign_id, email)` |
-| `record_credentials` | method | `modules/phishing_orchestrator.py:605` | `def record_credentials(self, campaign_id, email, password)` |
-| `ConditionEvaluator` | class | `modules/pipeline_engine.py:324` | `class ConditionEvaluator` |
-| `EngagementNarratorAdapter` | class | `modules/pipeline_engine.py:855` | `class EngagementNarratorAdapter(INarratorAdapter)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

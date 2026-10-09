@@ -8,24 +8,24 @@ Imported by: `cli/commands/recon.py`, `lazyown.py`, `tests/test_lazynmap_post.py
 
 ## cli/marketplace_config.py
 Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
-- `AddonInfo.from_yaml` (method) `cli/marketplace_config.py:137` `def from_yaml(cls, path)`
-- `AddonInfo.toggle_enabled` (method) `cli/marketplace_config.py:157` `def toggle_enabled(self)` -- Flip the enabled state on disk.
-- `AddonInfo.set_enabled` (method) `cli/marketplace_config.py:161` `def set_enabled(self, enabled)` -- Set the enabled state and persist to disk.
-- `AddonInfo.save_yaml` (method) `cli/marketplace_config.py:178` `def save_yaml(self, data)` -- Rewrite the YAML file with the given data dictionary.
-- `AddonRegistry.__init__` (method) `cli/marketplace_config.py:213` `def __init__(self)`
-- `AddonRegistry.scan` (method) `cli/marketplace_config.py:228` `def scan(self, tab)`
-- `AddonRegistry.rescan` (method) `cli/marketplace_config.py:322` `def rescan(self, tab)`
-- `AddonRegistry.tab_order` (method) `cli/marketplace_config.py:326` `def tab_order(self)`
-- `AddonRegistry.tab_label` (method) `cli/marketplace_config.py:329` `def tab_label(self, tab)`
-- `AddonRegistry.tab_count` (method) `cli/marketplace_config.py:332` `def tab_count(self, tab)`
-- `MarketplaceSettings.is_enabled` (method) `cli/marketplace_config.py:342` `def is_enabled(self, kind, name)`
-- `MarketplaceSettings.toggle` (method) `cli/marketplace_config.py:345` `def toggle(self, addon)`
-- `MarketplaceSettings.enable_all` (method) `cli/marketplace_config.py:355` `def enable_all(self, addons)`
-- `MarketplaceSettings.disable_all` (method) `cli/marketplace_config.py:360` `def disable_all(self, addons)`
-- `MarketplaceConfigurator.__init__` (method) `cli/marketplace_config.py:369` `def __init__(self, config, registry, initial)`
-- `MarketplaceConfigurator.run` (method) `cli/marketplace_config.py:383` `def run(self, start_tab)`
-- `MarketplaceConfigurator.configure_marketplace_interactive` (method) `cli/marketplace_config.py:739` `def configure_marketplace_interactive(config, start_tab)` -- Open the multi-tab curses wizard for marketplace management.
-- `MarketplaceConfigurator.marketplace_summary` (method) `cli/marketplace_config.py:772` `def marketplace_summary(registry)` -- Return a text summary of enabled/disabled addons across all tabs.
+- `AddonInfo.from_yaml` (method) `cli/marketplace_config.py:144` `def from_yaml(cls, path)`
+- `AddonInfo.toggle_enabled` (method) `cli/marketplace_config.py:164` `def toggle_enabled(self)` -- Flip the enabled state on disk.
+- `AddonInfo.set_enabled` (method) `cli/marketplace_config.py:168` `def set_enabled(self, enabled)` -- Set the enabled state and persist to disk.
+- `AddonInfo.save_yaml` (method) `cli/marketplace_config.py:185` `def save_yaml(self, data)` -- Rewrite the YAML file with the given data dictionary.
+- `AddonRegistry.__init__` (method) `cli/marketplace_config.py:220` `def __init__(self)`
+- `AddonRegistry.scan` (method) `cli/marketplace_config.py:235` `def scan(self, tab)`
+- `AddonRegistry.rescan` (method) `cli/marketplace_config.py:334` `def rescan(self, tab)`
+- `AddonRegistry.tab_order` (method) `cli/marketplace_config.py:338` `def tab_order(self)`
+- `AddonRegistry.tab_label` (method) `cli/marketplace_config.py:341` `def tab_label(self, tab)`
+- `AddonRegistry.tab_count` (method) `cli/marketplace_config.py:344` `def tab_count(self, tab)`
+- `MarketplaceSettings.is_enabled` (method) `cli/marketplace_config.py:354` `def is_enabled(self, kind, name)`
+- `MarketplaceSettings.toggle` (method) `cli/marketplace_config.py:357` `def toggle(self, addon)`
+- `MarketplaceSettings.enable_all` (method) `cli/marketplace_config.py:367` `def enable_all(self, addons)`
+- `MarketplaceSettings.disable_all` (method) `cli/marketplace_config.py:372` `def disable_all(self, addons)`
+- `MarketplaceConfigurator.__init__` (method) `cli/marketplace_config.py:381` `def __init__(self, config, registry, initial)`
+- `MarketplaceConfigurator.run` (method) `cli/marketplace_config.py:395` `def run(self, start_tab)`
+- `MarketplaceConfigurator.configure_marketplace_interactive` (method) `cli/marketplace_config.py:751` `def configure_marketplace_interactive(config, start_tab)` -- Open the multi-tab curses wizard for marketplace management.
+- `MarketplaceConfigurator.marketplace_summary` (method) `cli/marketplace_config.py:784` `def marketplace_summary(registry)` -- Return a text summary of enabled/disabled addons across all tabs.
 
 ## cli/ops_commands.py
 Depends on: `core/console.py`, `modules/killchain.py`, `modules/world_model.py`

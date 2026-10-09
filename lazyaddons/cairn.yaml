@@ -1,0 +1,37 @@
+name: cairn
+description: |
+  Cairn by Oritera. AI state-space search engine for autonomous pentesting,
+  local mode (no Docker, reuses host claude/codex/pi CLIs which must be logged
+  in). Install stages dispatch.yaml and uv. Run ensures cairn serve on :8000,
+  creates a project with origin {target}, then runs the dispatcher. Set scope
+  via assign target 10.10.11.78, then run cairn. Free args go to dispatch,
+  e.g. cairn --once. Server log at sessions/cairn_serve_{target}.log.
+author: Oritera
+version: "1.0"
+enabled: true
+params:
+  - name: target
+    type: string
+    required: true
+    description: Pentest target IP or host used as the project origin.
+os: any
+trigger: []
+category: "16. Artificial Intelligence"
+tool:
+  name: Cairn
+  repo_url: https://github.com/oritera/Cairn.git
+  install_path: external/.exploit/Cairn
+  install_command: >-
+    export PATH="$HOME/.local/bin:$PATH" && command -v uv >/dev/null 2>&1
+    || curl -LsSf https://astral.sh/uv/install.sh | sh && export
+    PATH="$HOME/.local/bin:$PATH" && cp -n dispatch.local.example.yaml
+    dispatch.yaml && uv sync --project cairn || true
+  execute_command: >-
+    export PATH="$HOME/.local/bin:$PATH" && (pgrep -f "cairn serve"
+    >/dev/null 2>&1 || (uv run --project cairn cairn serve >
+    ../../../sessions/cairn_serve_{target}.log 2>&1 & sleep 6)) && curl -fsSL
+    -X POST http://127.0.0.1:8000/projects -H 'Content-Type: application/json'
+    -d '{"title": "LazyOwn {target}", "origin": "Penetration test target
+    {target}", "goal": "Autonomous penetration test: obtain a shell or capture
+    the flag", "bootstrap_enabled": true}' >/dev/null && uv run --project cairn
+    cairn dispatch --config dispatch.yaml

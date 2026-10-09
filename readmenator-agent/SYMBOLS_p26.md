@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
+| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
+| `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
+| `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
+| `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
+| `test_missing_optional_fields_become_empty` | method | `tests/test_addon_creator.py:509` | `def test_missing_optional_fields_become_empty(self)` |
+| `test_name_pattern_rejects_traversal` | method | `tests/test_addon_creator.py:89` | `def test_name_pattern_rejects_traversal(self)` |
+| `test_nested_brace_placeholder_reports_issue` | method | `tests/test_addon_creator.py:180` | `def test_nested_brace_placeholder_reports_issue(self)` |
+| `test_optional_fields_are_dropped` | method | `tests/test_addon_creator.py:295` | `def test_optional_fields_are_dropped(self)` |
+| `test_os_options_cover_mitre_platforms` | method | `tests/test_addon_creator.py:105` | `def test_os_options_cover_mitre_platforms(self)` |
+| `test_param_without_description_reports_issue` | method | `tests/test_addon_creator.py:218` | `def test_param_without_description_reports_issue(self)` |
+| `test_parse_complete_form` | method | `tests/test_addon_creator.py:463` | `def test_parse_complete_form(self)` |
+| `test_patterns_accept_canonical_values` | method | `tests/test_addon_creator.py:96` | `def test_patterns_accept_canonical_values(self)` |
+| `test_payload_placeholders_cover_core_keys` | method | `tests/test_addon_creator.py:111` | `def test_payload_placeholders_cover_core_keys(self)` |
+| `test_post_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:608` | `def test_post_without_csrf_is_rejected(self, tmp_path)` |
+| `test_rendered_addon_passes_cli_schema_contract` | method | `tests/test_addon_creator.py:782` | `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)` |
 | `test_rendered_document_is_canonical` | method | `tests/test_addon_creator.py:266` | `def test_rendered_document_is_canonical(self)` |
 | `test_rendered_yaml_has_no_none_values` | method | `tests/test_addon_creator.py:310` | `def test_rendered_yaml_has_no_none_values(self)` |
 | `test_save_is_atomic_and_leaves_no_temp_files` | method | `tests/test_addon_creator.py:357` | `def test_save_is_atomic_and_leaves_no_temp_files(self, tmp_path)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p25.md](SYMBOLS_p25.md)
 | `test_non_checkout_path_fails_without_tty` | function | `tests/test_bootstrap_installer.py:195` | `def test_non_checkout_path_fails_without_tty(tmp_path)` |
 | `test_scripts_are_executable_and_clean` | function | `tests/test_bootstrap_installer.py:220` | `def test_scripts_are_executable_and_clean()` |
 | `Server` | class | `tests/test_boyscout_contracts.py:85` | `class Server` |
-| `TextContent` | class | `tests/test_boyscout_contracts.py:75` | `class TextContent` |
-| `Tool` | class | `tests/test_boyscout_contracts.py:68` | `class Tool` |
-| `__init__` | method | `tests/test_boyscout_contracts.py:71` | `def __init__(self)` |
-| `__init__` | method | `tests/test_boyscout_contracts.py:78` | `def __init__(self)` |
-| `__init__` | method | `tests/test_boyscout_contracts.py:88` | `def __init__(self)` |
-| `_bound_import_names` | function | `tests/test_boyscout_contracts.py:27` | `def _bound_import_names(tree)` |
-| `_load_mcp_module` | function | `tests/test_boyscout_contracts.py:54` | `def _load_mcp_module()` |
-| `call_tool` | method | `tests/test_boyscout_contracts.py:95` | `def call_tool(self)` |
-| `list_tools` | method | `tests/test_boyscout_contracts.py:91` | `def list_tools(self)` |
-| `test_deploy_has_no_todo_markers` | function | `tests/test_boyscout_contracts.py:147` | `def test_deploy_has_no_todo_markers()` |
-| `test_lazyown_has_no_unused_imports` | function | `tests/test_boyscout_contracts.py:42` | `def test_lazyown_has_no_unused_imports()` |
-| `test_playbook_target_is_shell_quoted` | function | `tests/test_boyscout_contracts.py:114` | `def test_playbook_target_is_shell_quoted()` |
-| `test_replace_placeholders_keeps_brace_values_literal` | function | `tests/test_boyscout_contracts.py:139` | `def test_replace_placeholders_keeps_brace_values_literal()` |
-| `test_replace_placeholders_matches_single_pass_engine` | function | `tests/test_boyscout_contracts.py:123` | `def test_replace_placeholders_matches_single_pass_engine()` |
-| `TestBridgeCatalogToolFunction` | class | `tests/test_bridge_catalog_filtered.py:113` | `class TestBridgeCatalogToolFunction` |
-| `TestCatalogSummaryFiltered` | class | `tests/test_bridge_catalog_filtered.py:31` | `class TestCatalogSummaryFiltered` |
 
 Next: [SYMBOLS_p27.md](SYMBOLS_p27.md)

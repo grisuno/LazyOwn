@@ -2,12 +2,12 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 897 files at commit `5529c6a6037a`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 898 files at commit `9eff3f3416c0`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (372), `modules` (341), `all` (330), `file` (324), `not` (315), `own` (306), `lazy` (303), `cli` (289), `json` (283), `path` (274), `run` (273), `name` (272), `set` (266), `commands` (252), `without` (249)
+- Domain vocabulary (term, files): `command` (373), `modules` (342), `all` (330), `file` (325), `not` (316), `own` (307), `lazy` (304), `cli` (289), `json` (283), `path` (275), `run` (274), `name` (273), `set` (266), `commands` (252), `without` (250)
 - Subsystem `modules: autonomous_daemon`: 142 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 - Subsystem `cli/commands`: 136 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
 - Subsystem `cli`: 89 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
@@ -75,7 +75,7 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 775 files, 15162 symbols; docstrings on 49% of symbols; functions snake_case (99%); types PascalCase (100%); median file 237 lines, max 11290.
+- py: 776 files, 15178 symbols; docstrings on 49% of symbols; functions snake_case (99%); types PascalCase (100%); median file 237 lines, max 11290.
 - sh: 57 files, 198 symbols; docstrings on 41% of symbols; functions snake_case (100%); median file 71 lines, max 1532.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 19 files, 1355 symbols; docstrings on 41% of symbols; functions snake_case (44%); types PascalCase (18%); median file 6 lines, max 9358.

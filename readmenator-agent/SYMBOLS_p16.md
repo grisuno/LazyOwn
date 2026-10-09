@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `FILE_HIDE_PATH` | macro | `modules/rootkit/mrhyde3.c:49` | `#define FILE_HIDE_PATH` |
+| `HIDDEN_DIR` | macro | `modules/rootkit/mrhyde3.c:33` | `#define HIDDEN_DIR` |
+| `HIDDEN_FILE` | macro | `modules/rootkit/mrhyde3.c:34` | `#define HIDDEN_FILE` |
+| `HIDDEN_FILE1` | macro | `modules/rootkit/mrhyde3.c:35` | `#define HIDDEN_FILE1` |
+| `HIDDEN_FILE2` | macro | `modules/rootkit/mrhyde3.c:36` | `#define HIDDEN_FILE2` |
+| `HIDDEN_FILE3` | macro | `modules/rootkit/mrhyde3.c:37` | `#define HIDDEN_FILE3` |
+| `HIDDEN_FILE4` | macro | `modules/rootkit/mrhyde3.c:38` | `#define HIDDEN_FILE4` |
+| `HIDDEN_FILE5` | macro | `modules/rootkit/mrhyde3.c:39` | `#define HIDDEN_FILE5` |
+| `HIDDEN_FILE6` | macro | `modules/rootkit/mrhyde3.c:40` | `#define HIDDEN_FILE6` |
+| `HIDDEN_FILE7` | macro | `modules/rootkit/mrhyde3.c:41` | `#define HIDDEN_FILE7` |
+| `HIDDEN_FILE8` | macro | `modules/rootkit/mrhyde3.c:42` | `#define HIDDEN_FILE8` |
+| `HIDDEN_FILE9` | macro | `modules/rootkit/mrhyde3.c:43` | `#define HIDDEN_FILE9` |
+| `HIDE_DIR` | macro | `modules/rootkit/mrhyde3.c:45` | `#define HIDE_DIR` |
+| `HIDE_USER` | macro | `modules/rootkit/mrhyde3.c:46` | `#define HIDE_USER` |
+| `IO_URING_BUFFER_SIZE` | macro | `modules/rootkit/mrhyde3.c:51` | `#define IO_URING_BUFFER_SIZE` |
+| `IO_URING_QUEUE_DEPTH` | macro | `modules/rootkit/mrhyde3.c:50` | `#define IO_URING_QUEUE_DEPTH` |
 | `MAX_HIDE_PIDS` | macro | `modules/rootkit/mrhyde3.c:47` | `#define MAX_HIDE_PIDS` |
 | `PATHMRHYDE` | macro | `modules/rootkit/mrhyde3.c:44` | `#define PATHMRHYDE` |
 | `PID_FILE_PATH` | macro | `modules/rootkit/mrhyde3.c:48` | `#define PID_FILE_PATH` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p15.md](SYMBOLS_p15.md)
 | `main` | function | `modules/vuln_bot_cli.py:17` | `def main()` |
 | `parse_args` | function | `modules/vuln_bot_cli.py:8` | `def parse_args()` |
 | `VulnBotCLI` | class | `modules/vulnbot.py:28` | `class VulnBotCLI` |
-| `__init__` | method | `modules/vulnbot.py:29` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:107` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:44` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:81` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:59` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:133` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:207` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:155` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | method | `modules/vulnbot.py:93` | `def edit_file(path, content, old_text)` |
-| `generate` | method | `modules/vulnbot.py:135` | `def generate()` |
-| `generate` | method | `modules/vulnbot.py:202` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:150` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | method | `modules/vulnbot.py:84` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:177` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:140` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:185` | `def process_with_context(self, file_path, event)` |
 
 Next: [SYMBOLS_p17.md](SYMBOLS_p17.md)

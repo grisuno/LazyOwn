@@ -1,0 +1,22 @@
+name: cairn_talos
+description: |
+  CAIRN by Cisco-Talos. Metadata-only hunt for AI-backed malware via
+  VirusTotal (prompt templates, provider endpoints, key prefixes, jailbreaks).
+  Install builds a venv and validates the YARA pack. Export VIRUSTOTAL_API_KEY
+  first (secret, never a placeholder). Default hunt: pull python-ai-scripts
+  limit 10. Override via free args, e.g. cairn_talos --filter <slug> --limit 5
+  (last flag wins, slugs at filters). Follow with summary/report/explorer from
+  install_path. DB at data/cairn.sqlite.
+author: Cisco-Talos
+version: "0.1.0"
+enabled: true
+params: []
+os: any
+trigger: []
+category: "02. Scanning & Enumeration"
+tool:
+  name: Talos CAIRN
+  repo_url: https://github.com/Cisco-Talos/Cognitive-Artifact-Intelligence-Research-Network.git
+  install_path: external/.exploit/talos-cairn
+  install_command: python3 -m venv .venv && .venv/bin/pip install -q -e . && cp -n .env.example .env && .venv/bin/cairn validate-rules
+  execute_command: .venv/bin/cairn pull --filter python-ai-scripts --limit 10

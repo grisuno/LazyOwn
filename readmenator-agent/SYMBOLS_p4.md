@@ -262,52 +262,52 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `_safe_log` | method | `cli/lazynmap_post.py:291` | `def _safe_log(console, message)` |
 | `_update_world_model_phase` | method | `cli/lazynmap_post.py:188` | `def _update_world_model_phase(cfg, target, clock_fn)` |
 | `run_post_scan` | method | `cli/lazynmap_post.py:94` | `def run_post_scan(target, payload, console, config, engine_factory, plan_config, clock)` |
-| `AddonInfo` | class | `cli/marketplace_config.py:124` | `class AddonInfo` |
-| `AddonRegistry` | class | `cli/marketplace_config.py:190` | `class AddonRegistry` |
-| `MarketplaceConfig` | class | `cli/marketplace_config.py:49` | `class MarketplaceConfig` |
-| `MarketplaceConfigurator` | class | `cli/marketplace_config.py:366` | `class MarketplaceConfigurator` |
-| `MarketplaceSettings` | class | `cli/marketplace_config.py:337` | `class MarketplaceSettings` |
-| `__init__` | method | `cli/marketplace_config.py:213` | `def __init__(self)` |
-| `__init__` | method | `cli/marketplace_config.py:369` | `def __init__(self, config, registry, initial)` |
-| `_build_initial_settings` | method | `cli/marketplace_config.py:762` | `def _build_initial_settings(registry)` |
-| `_color` | method | `cli/marketplace_config.py:730` | `def _color(self, pair)` |
-| `_create_addon` | method | `cli/marketplace_config.py:468` | `def _create_addon(self, stdscr)` |
-| `_cycle_tab` | method | `cli/marketplace_config.py:453` | `def _cycle_tab(self, direction)` |
-| `_draw_column_headers` | method | `cli/marketplace_config.py:647` | `def _draw_column_headers(self, stdscr, row_y, left, width, rows)` |
-| `_draw_footer` | method | `cli/marketplace_config.py:720` | `def _draw_footer(self, stdscr, row_y, left, width)` |
-| `_draw_frame` | method | `cli/marketplace_config.py:592` | `def _draw_frame(self, stdscr, top, left, height, width)` |
-| `_draw_header` | method | `cli/marketplace_config.py:606` | `def _draw_header(self, stdscr, top, left, width)` |
-| `_draw_preview` | method | `cli/marketplace_config.py:680` | `def _draw_preview(self, stdscr, top, left, width, addon)` |
-| `_draw_row` | method | `cli/marketplace_config.py:657` | `def _draw_row(self, stdscr, row_y, left, width, addon, selected)` |
-| `_draw_summary` | method | `cli/marketplace_config.py:708` | `def _draw_summary(self, stdscr, row_y, left, width, rows)` |
-| `_draw_tabs` | method | `cli/marketplace_config.py:629` | `def _draw_tabs(self, stdscr, row_y, left, width)` |
-| `_edit_addon` | method | `cli/marketplace_config.py:458` | `def _edit_addon(self, addon)` |
-| `_init_colors` | method | `cli/marketplace_config.py:525` | `def _init_colors(self)` |
-| `_loop` | method | `cli/marketplace_config.py:402` | `def _loop(self, stdscr)` |
-| `_nuclei_dir` | method | `cli/marketplace_config.py:216` | `def _nuclei_dir(self)` |
-| `_parse_nuclei_info` | method | `cli/marketplace_config.py:307` | `def _parse_nuclei_info(path)` |
-| `_parse_yara_meta` | method | `cli/marketplace_config.py:295` | `def _parse_yara_meta(path)` |
-| `_render` | method | `cli/marketplace_config.py:552` | `def _render(self, stdscr, rows, cursor, offset)` |
-| `_rows_for_tab` | method | `cli/marketplace_config.py:399` | `def _rows_for_tab(self, tab)` |
-| `_scan_nuclei` | method | `cli/marketplace_config.py:271` | `def _scan_nuclei(self)` |
-| `_scan_yara` | method | `cli/marketplace_config.py:252` | `def _scan_yara(self)` |
-| `_tty_available` | method | `cli/marketplace_config.py:396` | `def _tty_available()` |
-| `configure_marketplace_interactive` | method | `cli/marketplace_config.py:739` | `def configure_marketplace_interactive(config, start_tab)` |
-| `disable_all` | method | `cli/marketplace_config.py:360` | `def disable_all(self, addons)` |
-| `enable_all` | method | `cli/marketplace_config.py:355` | `def enable_all(self, addons)` |
-| `from_yaml` | method | `cli/marketplace_config.py:137` | `def from_yaml(cls, path)` |
-| `is_enabled` | method | `cli/marketplace_config.py:342` | `def is_enabled(self, kind, name)` |
-| `marketplace_summary` | method | `cli/marketplace_config.py:772` | `def marketplace_summary(registry)` |
-| `rescan` | method | `cli/marketplace_config.py:322` | `def rescan(self, tab)` |
-| `run` | method | `cli/marketplace_config.py:383` | `def run(self, start_tab)` |
-| `save_yaml` | method | `cli/marketplace_config.py:178` | `def save_yaml(self, data)` |
-| `scan` | method | `cli/marketplace_config.py:228` | `def scan(self, tab)` |
-| `set_enabled` | method | `cli/marketplace_config.py:161` | `def set_enabled(self, enabled)` |
-| `tab_count` | method | `cli/marketplace_config.py:332` | `def tab_count(self, tab)` |
-| `tab_label` | method | `cli/marketplace_config.py:329` | `def tab_label(self, tab)` |
-| `tab_order` | method | `cli/marketplace_config.py:326` | `def tab_order(self)` |
-| `toggle` | method | `cli/marketplace_config.py:345` | `def toggle(self, addon)` |
-| `toggle_enabled` | method | `cli/marketplace_config.py:157` | `def toggle_enabled(self)` |
+| `AddonInfo` | class | `cli/marketplace_config.py:131` | `class AddonInfo` |
+| `AddonRegistry` | class | `cli/marketplace_config.py:197` | `class AddonRegistry` |
+| `MarketplaceConfig` | class | `cli/marketplace_config.py:56` | `class MarketplaceConfig` |
+| `MarketplaceConfigurator` | class | `cli/marketplace_config.py:378` | `class MarketplaceConfigurator` |
+| `MarketplaceSettings` | class | `cli/marketplace_config.py:349` | `class MarketplaceSettings` |
+| `__init__` | method | `cli/marketplace_config.py:220` | `def __init__(self)` |
+| `__init__` | method | `cli/marketplace_config.py:381` | `def __init__(self, config, registry, initial)` |
+| `_build_initial_settings` | method | `cli/marketplace_config.py:774` | `def _build_initial_settings(registry)` |
+| `_color` | method | `cli/marketplace_config.py:742` | `def _color(self, pair)` |
+| `_create_addon` | method | `cli/marketplace_config.py:480` | `def _create_addon(self, stdscr)` |
+| `_cycle_tab` | method | `cli/marketplace_config.py:465` | `def _cycle_tab(self, direction)` |
+| `_draw_column_headers` | method | `cli/marketplace_config.py:659` | `def _draw_column_headers(self, stdscr, row_y, left, width, rows)` |
+| `_draw_footer` | method | `cli/marketplace_config.py:732` | `def _draw_footer(self, stdscr, row_y, left, width)` |
+| `_draw_frame` | method | `cli/marketplace_config.py:604` | `def _draw_frame(self, stdscr, top, left, height, width)` |
+| `_draw_header` | method | `cli/marketplace_config.py:618` | `def _draw_header(self, stdscr, top, left, width)` |
+| `_draw_preview` | method | `cli/marketplace_config.py:692` | `def _draw_preview(self, stdscr, top, left, width, addon)` |
+| `_draw_row` | method | `cli/marketplace_config.py:669` | `def _draw_row(self, stdscr, row_y, left, width, addon, selected)` |
+| `_draw_summary` | method | `cli/marketplace_config.py:720` | `def _draw_summary(self, stdscr, row_y, left, width, rows)` |
+| `_draw_tabs` | method | `cli/marketplace_config.py:641` | `def _draw_tabs(self, stdscr, row_y, left, width)` |
+| `_edit_addon` | method | `cli/marketplace_config.py:470` | `def _edit_addon(self, addon)` |
+| `_init_colors` | method | `cli/marketplace_config.py:537` | `def _init_colors(self)` |
+| `_loop` | method | `cli/marketplace_config.py:414` | `def _loop(self, stdscr)` |
+| `_nuclei_dir` | method | `cli/marketplace_config.py:223` | `def _nuclei_dir(self)` |
+| `_parse_nuclei_info` | method | `cli/marketplace_config.py:319` | `def _parse_nuclei_info(path)` |
+| `_parse_yara_meta` | method | `cli/marketplace_config.py:307` | `def _parse_yara_meta(path)` |
+| `_render` | method | `cli/marketplace_config.py:564` | `def _render(self, stdscr, rows, cursor, offset)` |
+| `_rows_for_tab` | method | `cli/marketplace_config.py:411` | `def _rows_for_tab(self, tab)` |
+| `_scan_nuclei` | method | `cli/marketplace_config.py:278` | `def _scan_nuclei(self)` |
+| `_scan_yara` | method | `cli/marketplace_config.py:259` | `def _scan_yara(self)` |
+| `_tty_available` | method | `cli/marketplace_config.py:408` | `def _tty_available()` |
+| `configure_marketplace_interactive` | method | `cli/marketplace_config.py:751` | `def configure_marketplace_interactive(config, start_tab)` |
+| `disable_all` | method | `cli/marketplace_config.py:372` | `def disable_all(self, addons)` |
+| `enable_all` | method | `cli/marketplace_config.py:367` | `def enable_all(self, addons)` |
+| `from_yaml` | method | `cli/marketplace_config.py:144` | `def from_yaml(cls, path)` |
+| `is_enabled` | method | `cli/marketplace_config.py:354` | `def is_enabled(self, kind, name)` |
+| `marketplace_summary` | method | `cli/marketplace_config.py:784` | `def marketplace_summary(registry)` |
+| `rescan` | method | `cli/marketplace_config.py:334` | `def rescan(self, tab)` |
+| `run` | method | `cli/marketplace_config.py:395` | `def run(self, start_tab)` |
+| `save_yaml` | method | `cli/marketplace_config.py:185` | `def save_yaml(self, data)` |
+| `scan` | method | `cli/marketplace_config.py:235` | `def scan(self, tab)` |
+| `set_enabled` | method | `cli/marketplace_config.py:168` | `def set_enabled(self, enabled)` |
+| `tab_count` | method | `cli/marketplace_config.py:344` | `def tab_count(self, tab)` |
+| `tab_label` | method | `cli/marketplace_config.py:341` | `def tab_label(self, tab)` |
+| `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
+| `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
+| `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
 | `LootEntry` | class | `cli/ops_commands.py:544` | `class LootEntry` |
 | `_bucket` | method | `cli/ops_commands.py:860` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |

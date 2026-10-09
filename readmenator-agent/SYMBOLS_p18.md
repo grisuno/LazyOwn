@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `check_versions` | function | `scripts/top_tier_check.py:52` | `def check_versions()` |
+| `count_addons` | function | `scripts/top_tier_check.py:48` | `def count_addons()` |
+| `count_cli_commands` | function | `scripts/top_tier_check.py:32` | `def count_cli_commands()` |
+| `count_mcp_tools` | function | `scripts/top_tier_check.py:43` | `def count_mcp_tools()` |
+| `fail` | function | `scripts/top_tier_check.py:23` | `def fail(message)` |
+| `main` | function | `scripts/top_tier_check.py:116` | `def main()` |
+| `ok` | function | `scripts/top_tier_check.py:28` | `def ok(message)` |
+| `build_technique_index` | function | `scripts/update_apt_atomic_ids.py:22` | `def build_technique_index(atomics_path)` |
+| `update_playbooks` | function | `scripts/update_apt_atomic_ids.py:46` | `def update_playbooks(index, playbook_dir)` |
+| `check` | function | `scripts/validate_agent_contract.sh:23` | `` |
+| `ACIEngine` | class | `skills/aci_planner.py:570` | `class ACIEngine` |
+| `ACIGoal` | class | `skills/aci_planner.py:126` | `class ACIGoal` |
+| `ACIPlan` | class | `skills/aci_planner.py:162` | `class ACIPlan` |
+| `ACIPlanner` | class | `skills/aci_planner.py:426` | `class ACIPlanner` |
+| `ACIReflector` | class | `skills/aci_planner.py:764` | `class ACIReflector` |
+| `AttackPhase` | class | `skills/aci_planner.py:137` | `class AttackPhase` |
 | `__init__` | method | `skills/aci_planner.py:438` | `def __init__(self, api_key, objectives_file, plan_file)` |
 | `__init__` | method | `skills/aci_planner.py:581` | `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)` |
 | `__init__` | method | `skills/aci_planner.py:774` | `def __init__(self, lessons_file)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `_c2_status` | function | `skills/hermes-lazyown/mcp_server.py:705` | `def _c2_status()` |
 | `_compact` | function | `skills/hermes-lazyown/mcp_server.py:91` | `def _compact(result, phase, tool_name)` |
 | `_core_command_help` | function | `skills/hermes-lazyown/mcp_server.py:484` | `def _core_command_help(arguments)` |
-| `_core_run_command` | function | `skills/hermes-lazyown/mcp_server.py:468` | `def _core_run_command(arguments)` |
-| `_core_session_init` | function | `skills/hermes-lazyown/mcp_server.py:399` | `def _core_session_init(arguments)` |
-| `_core_set_config` | function | `skills/hermes-lazyown/mcp_server.py:445` | `def _core_set_config(arguments)` |
-| `_desc` | function | `skills/hermes-lazyown/mcp_server.py:119` | `def _desc(base)` |
-| `_get_checkpoint_serializer` | function | `skills/hermes-lazyown/mcp_server.py:68` | `def _get_checkpoint_serializer()` |
-| `_get_compactor` | function | `skills/hermes-lazyown/mcp_server.py:52` | `def _get_compactor()` |
-| `_get_config` | function | `skills/hermes-lazyown/mcp_server.py:45` | `def _get_config()` |
-| `_get_delegation_planner` | function | `skills/hermes-lazyown/mcp_server.py:82` | `def _get_delegation_planner()` |
-| `_get_executor` | function | `skills/hermes-lazyown/mcp_server.py:60` | `def _get_executor()` |
-| `_get_objective_sync` | function | `skills/hermes-lazyown/mcp_server.py:75` | `def _get_objective_sync()` |
-| `_handle_tool` | function | `skills/hermes-lazyown/mcp_server.py:351` | `def _handle_tool(name, arguments)` |
-| `_hermes_checkpoint_read` | function | `skills/hermes-lazyown/mcp_server.py:648` | `def _hermes_checkpoint_read()` |
-| `_hermes_checkpoint_write` | function | `skills/hermes-lazyown/mcp_server.py:638` | `def _hermes_checkpoint_write(arguments)` |
-| `_hermes_delegate_plan` | function | `skills/hermes-lazyown/mcp_server.py:677` | `def _hermes_delegate_plan(arguments)` |
-| `_hermes_rules_generate` | function | `skills/hermes-lazyown/mcp_server.py:659` | `def _hermes_rules_generate(arguments)` |
-| `_intel_facts_show` | function | `skills/hermes-lazyown/mcp_server.py:514` | `def _intel_facts_show(arguments)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

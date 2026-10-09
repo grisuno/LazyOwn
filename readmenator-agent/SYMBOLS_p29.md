@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_wildcard_in_csv_is_dropped` | method | `tests/test_cors_policy.py:31` | `def test_wildcard_in_csv_is_dropped(self)` |
+| `test_wildcard_is_rejected` | method | `tests/test_cors_policy.py:27` | `def test_wildcard_is_rejected(self)` |
+| `TestOriginsForSocketIO` | class | `tests/test_cors_socketio_regression.py:20` | `class TestOriginsForSocketIO` |
+| `test_dev_empty_includes_http_and_https` | method | `tests/test_cors_socketio_regression.py:29` | `def test_dev_empty_includes_http_and_https(self)` |
+| `test_dev_empty_includes_lhost_with_common_ports` | method | `tests/test_cors_socketio_regression.py:23` | `def test_dev_empty_includes_lhost_with_common_ports(self)` |
+| `test_dev_empty_includes_localhost_alias` | method | `tests/test_cors_socketio_regression.py:35` | `def test_dev_empty_includes_localhost_alias(self)` |
+| `test_explicit_origins_deduped` | method | `tests/test_cors_socketio_regression.py:51` | `def test_explicit_origins_deduped(self)` |
+| `test_explicit_origins_kept_with_port_appended` | method | `tests/test_cors_socketio_regression.py:40` | `def test_explicit_origins_kept_with_port_appended(self)` |
+| `test_prod_raises_when_empty` | method | `tests/test_cors_socketio_regression.py:61` | `def test_prod_raises_when_empty(self)` |
+| `test_wildcard_rejected` | method | `tests/test_cors_socketio_regression.py:65` | `def test_wildcard_rejected(self)` |
+| `TestCheckDefaults` | class | `tests/test_credential_vault.py:18` | `class TestCheckDefaults` |
+| `TestSealUnseal` | class | `tests/test_credential_vault.py:56` | `class TestSealUnseal` |
+| `TestSecureDefaults` | class | `tests/test_credential_vault.py:116` | `class TestSecureDefaults` |
+| `test_api_key_is_longer` | method | `tests/test_credential_vault.py:124` | `def test_api_key_is_longer(self)` |
+| `test_changeme_variants` | method | `tests/test_credential_vault.py:44` | `def test_changeme_variants(self)` |
+| `test_clean_payload_no_warnings` | method | `tests/test_credential_vault.py:24` | `def test_clean_payload_no_warnings(self)` |
 | `test_default_values_detected` | method | `tests/test_credential_vault.py:19` | `def test_default_values_detected(self)` |
 | `test_different_key_fails` | method | `tests/test_credential_vault.py:72` | `def test_different_key_fails(self)` |
 | `test_empty_keys_flagged` | method | `tests/test_credential_vault.py:39` | `def test_empty_keys_flagged(self)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p28.md](SYMBOLS_p28.md)
 | `FakeProc` | class | `tests/test_exploitgym_gym.py:179` | `class FakeProc` |
 | `_add_repo_root_to_syspath` | function | `tests/test_exploitgym_gym.py:18` | `def _add_repo_root_to_syspath()` |
 | `_params` | function | `tests/test_exploitgym_gym.py:39` | `def _params(root)` |
-| `fake_record` | method | `tests/test_exploitgym_gym.py:199` | `def fake_record(challenge_id, success, elo_bonus, techniques)` |
-| `fake_repo` | function | `tests/test_exploitgym_gym.py:24` | `def fake_repo(tmp_path)` |
-| `fake_run` | method | `tests/test_exploitgym_gym.py:150` | `def fake_run(cmd, cwd, capture_output, text, timeout, env)` |
-| `fake_run` | method | `tests/test_exploitgym_gym.py:184` | `def fake_run(cmd, cwd, capture_output, text, timeout, env)` |
-| `fake_run_streaming` | method | `tests/test_exploitgym_gym.py:234` | `def fake_run_streaming(cmd, cwd, timeout)` |
-| `fake_which` | function | `tests/test_exploitgym_gym.py:87` | `def fake_which(name)` |
-| `fake_which` | function | `tests/test_exploitgym_gym.py:102` | `def fake_which(name)` |
-| `fake_which` | function | `tests/test_exploitgym_gym.py:118` | `def fake_which(name)` |
-| `test_bridge_catalog_has_exploitgym` | function | `tests/test_exploitgym_gym.py:256` | `def test_bridge_catalog_has_exploitgym()` |
-| `test_check_readiness_missing_docker` | function | `tests/test_exploitgym_gym.py:99` | `def test_check_readiness_missing_docker(fake_repo, monkeypatch)` |
-| `test_check_readiness_missing_keys` | function | `tests/test_exploitgym_gym.py:115` | `def test_check_readiness_missing_keys(fake_repo, monkeypatch)` |
-| `test_check_readiness_ready` | function | `tests/test_exploitgym_gym.py:84` | `def test_check_readiness_ready(fake_repo, monkeypatch)` |
-| `test_command_set_declares_exploitgym` | function | `tests/test_exploitgym_gym.py:249` | `def test_command_set_declares_exploitgym()` |
-| `test_detect_domain_userspace` | function | `tests/test_exploitgym_gym.py:51` | `def test_detect_domain_userspace(fake_repo)` |
-| `test_extract_flag` | function | `tests/test_exploitgym_gym.py:129` | `def test_extract_flag()` |
-| `test_list_tasks_empty_without_repo` | function | `tests/test_exploitgym_gym.py:77` | `def test_list_tasks_empty_without_repo(tmp_path)` |
 
 Next: [SYMBOLS_p30.md](SYMBOLS_p30.md)

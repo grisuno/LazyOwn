@@ -385,6 +385,24 @@ Imported by: `cli/commands/opsec_cleanup.py`
 - `Port.generate_csv` (method) `modules/nmap2csv.py:589` `def generate_csv(fd, results, options)` -- Generate a plain ';' separated csv file with the desired or default attribute format
 - `Port.main` (method) `modules/nmap2csv.py:623` `def main()`
 
+## modules/nuclei_templates_sync.py
+- `repo_root` (function) `modules/nuclei_templates_sync.py:39` `def repo_root()` -- Return the LazyOwn repository root derived from this file location.
+- `canonical_dest` (function) `modules/nuclei_templates_sync.py:48` `def canonical_dest(subdir)` -- Return the canonical marketplace destination for a source.
+- `run` (function) `modules/nuclei_templates_sync.py:60` `def run(argv, cwd)` -- Run a subprocess capturing output as text without raising.
+- `ensure_git_available` (function) `modules/nuclei_templates_sync.py:73` `def ensure_git_available()` -- Abort with a clear message when the git binary is missing.
+- `clone_templates` (function) `modules/nuclei_templates_sync.py:84` `def clone_templates(repo, staging)` -- Shallow-clone the template repository into the staging directory.
+- `strip_git_traces` (function) `modules/nuclei_templates_sync.py:113` `def strip_git_traces(tree)` -- Remove every .git file or directory under the staged tree.
+- `count_templates` (function) `modules/nuclei_templates_sync.py:132` `def count_templates(tree)` -- Count Nuclei template files under a directory tree.
+- `replace_dest` (function) `modules/nuclei_templates_sync.py:144` `def replace_dest(src, dest, expected)` -- Atomically replace the destination with the staged tree contents.
+- `same_remote` (function) `modules/nuclei_templates_sync.py:168` `def same_remote(path, repo)` -- Check whether an existing clone points at the expected remote.
+- `normalize` (function) `modules/nuclei_templates_sync.py:179` `def normalize(url)`
+- `refresh_existing_clone` (function) `modules/nuclei_templates_sync.py:188` `def refresh_existing_clone(path, repo)` -- Fast-forward an existing clean clone of the same remote.
+- `validate_subset` (function) `modules/nuclei_templates_sync.py:209` `def validate_subset(dest, subset)` -- Validate a template subset with the nuclei binary when available.
+- `build_parser` (function) `modules/nuclei_templates_sync.py:238` `def build_parser()` -- Build the command line parser for the sync script.
+- `sync` (function) `modules/nuclei_templates_sync.py:263` `def sync(name, repo, dest, refresh_existing, skip_validate)` -- Clone, clean, and install one template source.
+- `resolve_plan` (function) `modules/nuclei_templates_sync.py:310` `def resolve_plan(args)` -- Resolve the requested sources into (name, repo, dest) work items.
+- `main` (function) `modules/nuclei_templates_sync.py:339` `def main(argv)` -- Entry point for the template sync script.
+
 ## modules/obs_parser.py
 Depends on: `cli/commands/enum.py`, `core/logging.py`
 Imported by: `modules/intelligence_engine.py`, `modules/operation.py`, `modules/planner.py`, `modules/playbook_engine.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/integration_autonomous_flow.py`, `tests/test_core_modules.py`, `tests/test_phase1_data_gaps.py`
@@ -466,29 +484,6 @@ Imported by: `cli/commands/opsec_cleanup.py`, `cli/commands/security.py`, `tests
 - `OpsecScorerV2.should_allow` (method) `modules/opsec_scorer.py:673` `def should_allow(self, command)` -- Quick gating check - returns (allowed, score).
 - `OpsecScorerV2.get_trend` (method) `modules/opsec_scorer.py:686` `def get_trend(self)` -- Analyze OPSEC risk trend over the session.
 - `OpsecScorerV2.score_command` (method) `modules/opsec_scorer.py:780` `def score_command(command, payload, rhost)` -- Convenience function: score a single command without creating a scorer instance.
-
-## modules/payload_factory.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
-- `PayloadTemplate.__init__` (method) `modules/payload_factory.py:218` `def __init__(self, name, platform, arch, description, options)`
-- `PayloadTemplate.generate` (method) `modules/payload_factory.py:233` `def generate(self)` -- Generate the raw payload bytes.
-- `PayloadTemplate.to_dict` (method) `modules/payload_factory.py:237` `def to_dict(self)`
-- `ReverseShellPayload.__init__` (method) `modules/payload_factory.py:250` `def __init__(self)`
-- `ReverseShellPayload.generate` (method) `modules/payload_factory.py:268` `def generate(self)`
-- `WindowsReverseShellPayload.__init__` (method) `modules/payload_factory.py:289` `def __init__(self)`
-- `WindowsReverseShellPayload.generate` (method) `modules/payload_factory.py:301` `def generate(self)`
-- `MsfvenomPayload.__init__` (method) `modules/payload_factory.py:321` `def __init__(self, name, platform, arch)`
-- `MsfvenomPayload.generate` (method) `modules/payload_factory.py:333` `def generate(self)`
-- `ShellcodePayload.__init__` (method) `modules/payload_factory.py:366` `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
-- `ShellcodePayload.generate` (method) `modules/payload_factory.py:389` `def generate(self)` -- Return the shellcode, optionally patching LHOST / LPORT.
-- `DynamicShellcodePayload.__init__` (method) `modules/payload_factory.py:408` `def __init__(self, name, platform, arch, description, builder)`
-- `DynamicShellcodePayload.generate` (method) `modules/payload_factory.py:428` `def generate(self)`
-- `PayloadFactory.__init__` (method) `modules/payload_factory.py:456` `def __init__(self)`
-- `PayloadFactory.register` (method) `modules/payload_factory.py:504` `def register(self, template)` -- Register a custom payload template.
-- `PayloadFactory.list` (method) `modules/payload_factory.py:508` `def list(self, platform)` -- List all registered payloads, optionally filtered by platform.
-- `PayloadFactory.get` (method) `modules/payload_factory.py:517` `def get(self, name)` -- Get a payload template by name.
-- `PayloadFactory.generate` (method) `modules/payload_factory.py:521` `def generate(self, name, format, output)` -- Generate a payload by name.
-- `PayloadFactory.list_formats` (method) `modules/payload_factory.py:665` `def list_formats()` -- List all available output formats.
-- `PayloadFactory.format_payload_table` (method) `modules/payload_factory.py:673` `def format_payload_table(payloads)` -- Format a list of payload dicts as an aligned table.
 
 
 Next: [API_p13.md](API_p13.md)

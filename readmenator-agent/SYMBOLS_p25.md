@@ -18,6 +18,22 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
 | `u` | function | `static/js/vis-network-9.1.2.min.js:48` | `` |
 | `uE` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
 | `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
 | `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
-| `test_malformed_env_entry_reports_issue` | method | `tests/test_addon_creator.py:249` | `def test_malformed_env_entry_reports_issue(self)` |
-| `test_missing_description_reports_issue` | method | `tests/test_addon_creator.py:138` | `def test_missing_description_reports_issue(self)` |
-| `test_missing_directory_lists_empty` | method | `tests/test_addon_creator.py:430` | `def test_missing_directory_lists_empty(self, tmp_path)` |
-| `test_missing_execute_command_reports_issue` | method | `tests/test_addon_creator.py:168` | `def test_missing_execute_command_reports_issue(self)` |
-| `test_missing_name_reports_issue` | method | `tests/test_addon_creator.py:125` | `def test_missing_name_reports_issue(self)` |
-| `test_missing_optional_fields_become_empty` | method | `tests/test_addon_creator.py:509` | `def test_missing_optional_fields_become_empty(self)` |
-| `test_name_pattern_rejects_traversal` | method | `tests/test_addon_creator.py:89` | `def test_name_pattern_rejects_traversal(self)` |
-| `test_nested_brace_placeholder_reports_issue` | method | `tests/test_addon_creator.py:180` | `def test_nested_brace_placeholder_reports_issue(self)` |
-| `test_optional_fields_are_dropped` | method | `tests/test_addon_creator.py:295` | `def test_optional_fields_are_dropped(self)` |
-| `test_os_options_cover_mitre_platforms` | method | `tests/test_addon_creator.py:105` | `def test_os_options_cover_mitre_platforms(self)` |
-| `test_param_without_description_reports_issue` | method | `tests/test_addon_creator.py:218` | `def test_param_without_description_reports_issue(self)` |
-| `test_parse_complete_form` | method | `tests/test_addon_creator.py:463` | `def test_parse_complete_form(self)` |
-| `test_patterns_accept_canonical_values` | method | `tests/test_addon_creator.py:96` | `def test_patterns_accept_canonical_values(self)` |
-| `test_payload_placeholders_cover_core_keys` | method | `tests/test_addon_creator.py:111` | `def test_payload_placeholders_cover_core_keys(self)` |
-| `test_post_without_csrf_is_rejected` | method | `tests/test_addon_creator.py:608` | `def test_post_without_csrf_is_rejected(self, tmp_path)` |
-| `test_rendered_addon_passes_cli_schema_contract` | method | `tests/test_addon_creator.py:782` | `def test_rendered_addon_passes_cli_schema_contract(self, tmp_path)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

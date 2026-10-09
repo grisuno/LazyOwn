@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `call_tool` | function | `skills/lazyown_mcp.py:5545` | `def call_tool(name, arguments)` |
+| `coerce_value` | function | `skills/lazyown_mcp.py:807` | `def coerce_value(k, v)` |
+| `list_tools` | function | `skills/lazyown_mcp.py:1627` | `def list_tools()` |
+| `main` | function | `skills/lazyown_mcp.py:11252` | `def main()` |
+| `register_handler` | function | `skills/lazyown_mcp.py:586` | `def register_handler(tool_name)` |
+| `substitute_playbook_target` | function | `skills/lazyown_mcp.py:5527` | `def substitute_playbook_target(command, target)` |
+| `text` | function | `skills/lazyown_mcp.py:5555` | `def text(content)` |
+| `JobRecord` | class | `skills/lazyown_mcp_helpers.py:634` | `class JobRecord` |
+| `JobStore` | class | `skills/lazyown_mcp_helpers.py:648` | `class JobStore` |
+| `TaskAudit` | class | `skills/lazyown_mcp_helpers.py:153` | `class TaskAudit` |
+| `__init__` | method | `skills/lazyown_mcp_helpers.py:651` | `def __init__(self, max_jobs)` |
+| `_format_age` | function | `skills/lazyown_mcp_helpers.py:112` | `def _format_age(seconds)` |
+| `_worker` | method | `skills/lazyown_mcp_helpers.py:671` | `def _worker()` |
+| `audit_tasks` | method | `skills/lazyown_mcp_helpers.py:165` | `def audit_tasks(tasks, min_confidence)` |
+| `build_target_context` | method | `skills/lazyown_mcp_helpers.py:395` | `def build_target_context(host, port, sessions_dir, payload, world_model)` |
+| `collect_pwntomate_evidence` | method | `skills/lazyown_mcp_helpers.py:359` | `def collect_pwntomate_evidence(rhost, sessions_dir)` |
 | `diff_snapshot` | method | `skills/lazyown_mcp_helpers.py:756` | `def diff_snapshot(sessions_dir, payload, world_model, tasks)` |
 | `evidence_freshness` | function | `skills/lazyown_mcp_helpers.py:67` | `def evidence_freshness(path, threshold_seconds, now)` |
 | `evidence_grep` | method | `skills/lazyown_mcp_helpers.py:282` | `def evidence_grep(pattern, sessions_dir, scope, max_matches, max_file_bytes, case_insensitive)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p19.md](SYMBOLS_p19.md)
 | `_gen_getnthash_py` | function | `skills/mcp_generated_tools.py:2670` | `def _gen_getnthash_py(arguments, tool_name, _cmd)` |
 | `_gen_gets4uticket_py` | function | `skills/mcp_generated_tools.py:2678` | `def _gen_gets4uticket_py(arguments, tool_name, _cmd)` |
 | `_gen_getseclist` | function | `skills/mcp_generated_tools.py:2686` | `def _gen_getseclist(arguments, tool_name, _cmd)` |
-| `_gen_gettgtpkinit_py` | function | `skills/mcp_generated_tools.py:2694` | `def _gen_gettgtpkinit_py(arguments, tool_name, _cmd)` |
-| `_gen_getuserspns` | function | `skills/mcp_generated_tools.py:2702` | `def _gen_getuserspns(arguments, tool_name, _cmd)` |
-| `_gen_gitdumper` | function | `skills/mcp_generated_tools.py:2710` | `def _gen_gitdumper(arguments, tool_name, _cmd)` |
-| `_gen_gitlab_enum` | function | `skills/mcp_generated_tools.py:2718` | `def _gen_gitlab_enum(arguments, tool_name, _cmd)` |
-| `_gen_gmsadumper` | function | `skills/mcp_generated_tools.py:2726` | `def _gen_gmsadumper(arguments, tool_name, _cmd)` |
-| `_gen_gobuster` | function | `skills/mcp_generated_tools.py:2734` | `def _gen_gobuster(arguments, tool_name, _cmd)` |
-| `_gen_god_nodes` | function | `skills/mcp_generated_tools.py:2742` | `def _gen_god_nodes(arguments, tool_name, _cmd)` |
-| `_gen_gospherus` | function | `skills/mcp_generated_tools.py:2750` | `def _gen_gospherus(arguments, tool_name, _cmd)` |
-| `_gen_gospider` | function | `skills/mcp_generated_tools.py:2758` | `def _gen_gospider(arguments, tool_name, _cmd)` |
-| `_gen_gowitness` | function | `skills/mcp_generated_tools.py:2766` | `def _gen_gowitness(arguments, tool_name, _cmd)` |
-| `_gen_gpt` | function | `skills/mcp_generated_tools.py:2774` | `def _gen_gpt(arguments, tool_name, _cmd)` |
-| `_gen_graph` | function | `skills/mcp_generated_tools.py:2782` | `def _gen_graph(arguments, tool_name, _cmd)` |
-| `_gen_graph_overlay` | function | `skills/mcp_generated_tools.py:2790` | `def _gen_graph_overlay(arguments, tool_name, _cmd)` |
-| `_gen_graudit` | function | `skills/mcp_generated_tools.py:2798` | `def _gen_graudit(arguments, tool_name, _cmd)` |
-| `_gen_greatSCT` | function | `skills/mcp_generated_tools.py:2806` | `def _gen_greatSCT(arguments, tool_name, _cmd)` |
-| `_gen_grep_log` | function | `skills/mcp_generated_tools.py:2814` | `def _gen_grep_log(arguments, tool_name, _cmd)` |
 
 Next: [SYMBOLS_p21.md](SYMBOLS_p21.md)

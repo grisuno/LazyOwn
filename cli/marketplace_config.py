@@ -42,6 +42,13 @@ _NUCLEI_CANDIDATES = [
     Path.home() / ".local" / "nuclei-templates",
     BASE_DIR / "external" / ".exploit" / "nuclei-templates",
 ]
+_SEVERITY_RANK = {
+    "critical": 0,
+    "high": 1,
+    "medium": 2,
+    "low": 3,
+    "info": 4,
+}
 EDITOR = os.environ.get("EDITOR", os.environ.get("VISUAL", "vim"))
 
 
@@ -274,16 +281,21 @@ class AddonRegistry:
         if nuc_dir is None:
             self._addons["nuclei"] = addons
             return addons
-        templates = sorted(nuc_dir.glob("**/*.yaml"))[:500]
-        for fpath in templates:
+        indexed: list[tuple[int, str, Path, str, str]] = []
+        for fpath in nuc_dir.glob("**/*.yaml"):
             severity, cve_id = self._parse_nuclei_info(fpath)
-            label = f"{fpath.stem} [{severity}]"
+            rel = fpath.relative_to(nuc_dir).as_posix()
+            indexed.append((_SEVERITY_RANK.get(severity.lower(), 5), rel, fpath, severity, cve_id))
+        indexed.sort(key=lambda item: (item[0], item[1]))
+        for _, rel, fpath, severity, cve_id in indexed:
+            label = f"{rel} [{severity}]"
+            detail = f"CVE: {cve_id} | {rel}" if cve_id else f"{severity} severity | {rel}"
             info = AddonInfo(
-                name=label[:80],
+                name=label[:120],
                 path=fpath,
                 kind="nuclei",
                 enabled=True,
-                description=f"CVE: {cve_id}" if cve_id else f"{severity} severity",
+                description=detail[:160],
                 author="nuclei-templates",
                 version=severity,
             )

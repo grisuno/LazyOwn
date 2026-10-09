@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestPaletteDetailEnrichment` | class | `tests/test_command_palette.py:1638` | `class TestPaletteDetailEnrichment` |
+| `TestPaletteDetailTelemetryRendering` | class | `tests/test_command_palette.py:2135` | `class TestPaletteDetailTelemetryRendering` |
+| `TestPaletteEnrichmentBlend` | class | `tests/test_command_palette.py:2244` | `class TestPaletteEnrichmentBlend` |
+| `TestPaletteEntryPoint` | class | `tests/test_command_palette.py:965` | `class TestPaletteEntryPoint` |
+| `TestPaletteGraphLoader` | class | `tests/test_command_palette.py:1518` | `class TestPaletteGraphLoader` |
+| `TestPaletteIndexQuery` | class | `tests/test_command_palette.py:729` | `class TestPaletteIndexQuery` |
+| `TestPaletteJsonRenderer` | class | `tests/test_command_palette.py:1070` | `class TestPaletteJsonRenderer` |
+| `TestPaletteLoader` | class | `tests/test_command_palette.py:566` | `class TestPaletteLoader` |
+| `TestPaletteNextMode` | class | `tests/test_command_palette.py:1746` | `class TestPaletteNextMode` |
+| `TestPaletteRenderer` | class | `tests/test_command_palette.py:795` | `class TestPaletteRenderer` |
+| `TestPaletteTelemetryLoader` | class | `tests/test_command_palette.py:2010` | `class TestPaletteTelemetryLoader` |
+| `TestPaletteViewBuilder` | class | `tests/test_command_palette.py:1187` | `class TestPaletteViewBuilder` |
+| `_build_synthetic_graph` | method | `tests/test_command_palette.py:1479` | `def _build_synthetic_graph()` |
+| `_build_synthetic_index` | method | `tests/test_command_palette.py:281` | `def _build_synthetic_index(config)` |
+| `_collect_do_method_names` | method | `tests/test_command_palette.py:237` | `def _collect_do_method_names(path, prefix)` |
+| `_dispatcher_branch` | method | `tests/test_command_palette.py:1391` | `def _dispatcher_branch(src, tool_name)` |
 | `_ensure_repo_on_path` | method | `tests/test_command_palette.py:211` | `def _ensure_repo_on_path(suite_config)` |
 | `_entry` | method | `tests/test_command_palette.py:1641` | `def _entry(self, suite_config)` |
 | `_extract_method_body` | method | `tests/test_command_palette.py:392` | `def _extract_method_body(src, name)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p27.md](SYMBOLS_p27.md)
 | `test_origins_for_socketio_dev_fallback` | method | `tests/test_cors_policy.py:119` | `def test_origins_for_socketio_dev_fallback(self)` |
 | `test_prod_empty_allowlist_raises` | method | `tests/test_cors_policy.py:42` | `def test_prod_empty_allowlist_raises(self)` |
 | `test_scheme_mismatch_is_denied` | method | `tests/test_cors_policy.py:101` | `def test_scheme_mismatch_is_denied(self)` |
-| `test_wildcard_in_csv_is_dropped` | method | `tests/test_cors_policy.py:31` | `def test_wildcard_in_csv_is_dropped(self)` |
-| `test_wildcard_is_rejected` | method | `tests/test_cors_policy.py:27` | `def test_wildcard_is_rejected(self)` |
-| `TestOriginsForSocketIO` | class | `tests/test_cors_socketio_regression.py:20` | `class TestOriginsForSocketIO` |
-| `test_dev_empty_includes_http_and_https` | method | `tests/test_cors_socketio_regression.py:29` | `def test_dev_empty_includes_http_and_https(self)` |
-| `test_dev_empty_includes_lhost_with_common_ports` | method | `tests/test_cors_socketio_regression.py:23` | `def test_dev_empty_includes_lhost_with_common_ports(self)` |
-| `test_dev_empty_includes_localhost_alias` | method | `tests/test_cors_socketio_regression.py:35` | `def test_dev_empty_includes_localhost_alias(self)` |
-| `test_explicit_origins_deduped` | method | `tests/test_cors_socketio_regression.py:51` | `def test_explicit_origins_deduped(self)` |
-| `test_explicit_origins_kept_with_port_appended` | method | `tests/test_cors_socketio_regression.py:40` | `def test_explicit_origins_kept_with_port_appended(self)` |
-| `test_prod_raises_when_empty` | method | `tests/test_cors_socketio_regression.py:61` | `def test_prod_raises_when_empty(self)` |
-| `test_wildcard_rejected` | method | `tests/test_cors_socketio_regression.py:65` | `def test_wildcard_rejected(self)` |
-| `TestCheckDefaults` | class | `tests/test_credential_vault.py:18` | `class TestCheckDefaults` |
-| `TestSealUnseal` | class | `tests/test_credential_vault.py:56` | `class TestSealUnseal` |
-| `TestSecureDefaults` | class | `tests/test_credential_vault.py:116` | `class TestSecureDefaults` |
-| `test_api_key_is_longer` | method | `tests/test_credential_vault.py:124` | `def test_api_key_is_longer(self)` |
-| `test_changeme_variants` | method | `tests/test_credential_vault.py:44` | `def test_changeme_variants(self)` |
-| `test_clean_payload_no_warnings` | method | `tests/test_credential_vault.py:24` | `def test_clean_payload_no_warnings(self)` |
 
 Next: [SYMBOLS_p29.md](SYMBOLS_p29.md)

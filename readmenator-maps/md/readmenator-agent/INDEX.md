@@ -481,6 +481,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/mysql_hookandroot_lib.c` | reverse_shell: fork & send a bash shell to the attacker before starting mysqld | modules | 6 | 0 |
 | `modules/network_opsec.py` | Network OPSEC — proxy chain enforcement, canary detection, traffic randomization. | modules | 12 | 1 |
 | `modules/nmap2csv.py` | This file is part of nmaptocsv. | modules | 44 | 0 |
+| `modules/nuclei_templates_sync.py` | Sync community Nuclei template collections into the LazyOwn marketplace. | modules | 16 | 0 |
 | `modules/obs_parser.py` | modules/obs_parser.py | modules | 41 | 9 |
 | `modules/ooficesod0woodo.py` | - | modules | 0 | 0 |
 | `modules/operation.py` | Caldera-style operation lifecycle: create, start, pause, resume, stop, status. | modules | 23 | 1 |
@@ -495,6 +496,5 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `modules/polymorphic_engine.py` | Polymorphic code generation engine — shellcode mutation and obfuscation. | modules | 19 | 1 |
 | `modules/privesc_predictor.py` | Crystal Ball — privilege escalation vector prediction engine. | modules | 17 | 1 |
 | `modules/professional_report.py` | Professional Red Team Report Generator. | modules | 22 | 2 |
-| `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
 
 Next: [INDEX_p2.md](INDEX_p2.md)

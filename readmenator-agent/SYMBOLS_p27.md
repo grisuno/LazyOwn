@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TextContent` | class | `tests/test_boyscout_contracts.py:75` | `class TextContent` |
+| `Tool` | class | `tests/test_boyscout_contracts.py:68` | `class Tool` |
+| `__init__` | method | `tests/test_boyscout_contracts.py:71` | `def __init__(self)` |
+| `__init__` | method | `tests/test_boyscout_contracts.py:78` | `def __init__(self)` |
+| `__init__` | method | `tests/test_boyscout_contracts.py:88` | `def __init__(self)` |
+| `_bound_import_names` | function | `tests/test_boyscout_contracts.py:27` | `def _bound_import_names(tree)` |
+| `_load_mcp_module` | function | `tests/test_boyscout_contracts.py:54` | `def _load_mcp_module()` |
+| `call_tool` | method | `tests/test_boyscout_contracts.py:95` | `def call_tool(self)` |
+| `list_tools` | method | `tests/test_boyscout_contracts.py:91` | `def list_tools(self)` |
+| `test_deploy_has_no_todo_markers` | function | `tests/test_boyscout_contracts.py:147` | `def test_deploy_has_no_todo_markers()` |
+| `test_lazyown_has_no_unused_imports` | function | `tests/test_boyscout_contracts.py:42` | `def test_lazyown_has_no_unused_imports()` |
+| `test_playbook_target_is_shell_quoted` | function | `tests/test_boyscout_contracts.py:114` | `def test_playbook_target_is_shell_quoted()` |
+| `test_replace_placeholders_keeps_brace_values_literal` | function | `tests/test_boyscout_contracts.py:139` | `def test_replace_placeholders_keeps_brace_values_literal()` |
+| `test_replace_placeholders_matches_single_pass_engine` | function | `tests/test_boyscout_contracts.py:123` | `def test_replace_placeholders_matches_single_pass_engine()` |
+| `TestBridgeCatalogToolFunction` | class | `tests/test_bridge_catalog_filtered.py:113` | `class TestBridgeCatalogToolFunction` |
+| `TestCatalogSummaryFiltered` | class | `tests/test_bridge_catalog_filtered.py:31` | `class TestCatalogSummaryFiltered` |
 | `_entries_for` | method | `tests/test_bridge_catalog_filtered.py:47` | `def _entries_for(self, dispatcher, phase, command_name)` |
 | `dispatcher` | function | `tests/test_bridge_catalog_filtered.py:26` | `def dispatcher()` |
 | `test_empty_phase_keeps_all_phases` | method | `tests/test_bridge_catalog_filtered.py:91` | `def test_empty_phase_keeps_all_phases(self, dispatcher)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `TestMcpPaletteWiring` | class | `tests/test_command_palette.py:1333` | `class TestMcpPaletteWiring` |
 | `TestPaletteArgumentParser` | class | `tests/test_command_palette.py:647` | `class TestPaletteArgumentParser` |
 | `TestPaletteCompleter` | class | `tests/test_command_palette.py:879` | `class TestPaletteCompleter` |
-| `TestPaletteDetailEnrichment` | class | `tests/test_command_palette.py:1638` | `class TestPaletteDetailEnrichment` |
-| `TestPaletteDetailTelemetryRendering` | class | `tests/test_command_palette.py:2135` | `class TestPaletteDetailTelemetryRendering` |
-| `TestPaletteEnrichmentBlend` | class | `tests/test_command_palette.py:2244` | `class TestPaletteEnrichmentBlend` |
-| `TestPaletteEntryPoint` | class | `tests/test_command_palette.py:965` | `class TestPaletteEntryPoint` |
-| `TestPaletteGraphLoader` | class | `tests/test_command_palette.py:1518` | `class TestPaletteGraphLoader` |
-| `TestPaletteIndexQuery` | class | `tests/test_command_palette.py:729` | `class TestPaletteIndexQuery` |
-| `TestPaletteJsonRenderer` | class | `tests/test_command_palette.py:1070` | `class TestPaletteJsonRenderer` |
-| `TestPaletteLoader` | class | `tests/test_command_palette.py:566` | `class TestPaletteLoader` |
-| `TestPaletteNextMode` | class | `tests/test_command_palette.py:1746` | `class TestPaletteNextMode` |
-| `TestPaletteRenderer` | class | `tests/test_command_palette.py:795` | `class TestPaletteRenderer` |
-| `TestPaletteTelemetryLoader` | class | `tests/test_command_palette.py:2010` | `class TestPaletteTelemetryLoader` |
-| `TestPaletteViewBuilder` | class | `tests/test_command_palette.py:1187` | `class TestPaletteViewBuilder` |
-| `_build_synthetic_graph` | method | `tests/test_command_palette.py:1479` | `def _build_synthetic_graph()` |
-| `_build_synthetic_index` | method | `tests/test_command_palette.py:281` | `def _build_synthetic_index(config)` |
-| `_collect_do_method_names` | method | `tests/test_command_palette.py:237` | `def _collect_do_method_names(path, prefix)` |
-| `_dispatcher_branch` | method | `tests/test_command_palette.py:1391` | `def _dispatcher_branch(src, tool_name)` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 21 communities, 897 files, 8080 imports, 10 languages, 17103 symbols.
+> Static analysis knowledge base for LazyOwn: 21 communities, 898 files, 8087 imports, 10 languages, 17119 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 
@@ -12,7 +12,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/API_p10.md](md/readmenator-agent/API_p10.md): Imported by: lazyc2.py, tests/testcoremodules.py, tests/testdashboardroutes.py
 - [readmenator-agent/API_p11.md](md/readmenator-agent/API_p11.md): encryptdata (function) modules/icmpclient.py:17 def encryptdata(data, key) -- Encrypt bytes with AES-256-GCM returning nonce || ciphertext || tag.
 - [readmenator-agent/API_p12.md](md/readmenator-agent/API_p12.md): ctrlc (function) modules/lazywps.sh:9
-- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Depends on: core/crypto.py, core/hardening.py
+- [readmenator-agent/API_p13.md](md/readmenator-agent/API_p13.md): Imported by: cli/commands/miscmigrated.py, cli/commands/payloadgeneration.py, cli/commands/sessionops.py, lazyown.py, scripts/devtools/coresmoke.py...
 - [readmenator-agent/API_p14.md](md/readmenator-agent/API_p14.md): Depends on: cli/commands/enum.py, core/logging.py
 - [readmenator-agent/API_p15.md](md/readmenator-agent/API_p15.md): writefile (function) plugins/rundll32sctfromurl.lua:4
 - [readmenator-agent/API_p16.md](md/readmenator-agent/API_p16.md): Depends on: modules/killchain.py
@@ -33,7 +33,7 @@ Generated offline by readmenator (zero LLM tokens). Start with the wiki index fo
 - [readmenator-agent/ARCHITECTURE_p3.md](md/readmenator-agent/ARCHITECTURE_p3.md): modules/lessoningestor.py -> modules/moerouter.py
 - [readmenator-agent/ARCHITECTURE_p4.md](md/readmenator-agent/ARCHITECTURE_p4.md): tests/testdoctor.py -> cli/init.py
 - [readmenator-agent/ARCHITECTURE_p5.md](md/readmenator-agent/ARCHITECTURE_p5.md): cli/aliases.py -> future, pathlib, string, typing, yaml
-- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): scripts/devtools/coresmoke.py -> future, dataclasses, importlib, os, sys, tempfile
+- [readmenator-agent/ARCHITECTURE_p6.md](md/readmenator-agent/ARCHITECTURE_p6.md): scripts/devtools/commandaudit.py -> future, argparse, ast, cmd2, contextlib, dataclasses, io, pathlib, sys
 - [readmenator-agent/CONCEPTS.md](md/readmenator-agent/CONCEPTS.md): Nouns map atomically to file sets (EXTRACTED); verbs aggregate structural edges (INFERRED).
 - [readmenator-agent/INDEX_p2.md](md/readmenator-agent/INDEX_p2.md)
 - [readmenator-agent/KB_backdoor.md](md/readmenator-agent/KB_backdoor.md): bootRun (function, line 18) int bootRun()

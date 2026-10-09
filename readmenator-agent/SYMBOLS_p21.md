@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_gettgtpkinit_py` | function | `skills/mcp_generated_tools.py:2694` | `def _gen_gettgtpkinit_py(arguments, tool_name, _cmd)` |
+| `_gen_getuserspns` | function | `skills/mcp_generated_tools.py:2702` | `def _gen_getuserspns(arguments, tool_name, _cmd)` |
+| `_gen_gitdumper` | function | `skills/mcp_generated_tools.py:2710` | `def _gen_gitdumper(arguments, tool_name, _cmd)` |
+| `_gen_gitlab_enum` | function | `skills/mcp_generated_tools.py:2718` | `def _gen_gitlab_enum(arguments, tool_name, _cmd)` |
+| `_gen_gmsadumper` | function | `skills/mcp_generated_tools.py:2726` | `def _gen_gmsadumper(arguments, tool_name, _cmd)` |
+| `_gen_gobuster` | function | `skills/mcp_generated_tools.py:2734` | `def _gen_gobuster(arguments, tool_name, _cmd)` |
+| `_gen_god_nodes` | function | `skills/mcp_generated_tools.py:2742` | `def _gen_god_nodes(arguments, tool_name, _cmd)` |
+| `_gen_gospherus` | function | `skills/mcp_generated_tools.py:2750` | `def _gen_gospherus(arguments, tool_name, _cmd)` |
+| `_gen_gospider` | function | `skills/mcp_generated_tools.py:2758` | `def _gen_gospider(arguments, tool_name, _cmd)` |
+| `_gen_gowitness` | function | `skills/mcp_generated_tools.py:2766` | `def _gen_gowitness(arguments, tool_name, _cmd)` |
+| `_gen_gpt` | function | `skills/mcp_generated_tools.py:2774` | `def _gen_gpt(arguments, tool_name, _cmd)` |
+| `_gen_graph` | function | `skills/mcp_generated_tools.py:2782` | `def _gen_graph(arguments, tool_name, _cmd)` |
+| `_gen_graph_overlay` | function | `skills/mcp_generated_tools.py:2790` | `def _gen_graph_overlay(arguments, tool_name, _cmd)` |
+| `_gen_graudit` | function | `skills/mcp_generated_tools.py:2798` | `def _gen_graudit(arguments, tool_name, _cmd)` |
+| `_gen_greatSCT` | function | `skills/mcp_generated_tools.py:2806` | `def _gen_greatSCT(arguments, tool_name, _cmd)` |
+| `_gen_grep_log` | function | `skills/mcp_generated_tools.py:2814` | `def _gen_grep_log(arguments, tool_name, _cmd)` |
 | `_gen_grisun0` | function | `skills/mcp_generated_tools.py:2822` | `def _gen_grisun0(arguments, tool_name, _cmd)` |
 | `_gen_grisun0w` | function | `skills/mcp_generated_tools.py:2830` | `def _gen_grisun0w(arguments, tool_name, _cmd)` |
 | `_gen_groq` | function | `skills/mcp_generated_tools.py:2838` | `def _gen_groq(arguments, tool_name, _cmd)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p20.md](SYMBOLS_p20.md)
 | `_make_runner` | method | `skills/tests/test_autonomous_daemon.py:126` | `def _make_runner(self, name, result, raises)` |
 | `_make_selector` | method | `skills/tests/test_autonomous_daemon.py:272` | `def _make_selector(self, returns)` |
 | `_next_pending` | method | `skills/tests/test_autonomous_daemon.py:655` | `def _next_pending()` |
-| `_next_pending` | method | `skills/tests/test_autonomous_daemon.py:713` | `def _next_pending()` |
-| `_patch_paths` | function | `skills/tests/test_autonomous_daemon.py:31` | `def _patch_paths(tmp_path)` |
-| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:689` | `def _run_loop()` |
-| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:741` | `def _run_loop()` |
-| `_run_loop` | method | `skills/tests/test_autonomous_daemon.py:762` | `def _run_loop()` |
-| `_stop_patchers` | function | `skills/tests/test_autonomous_daemon.py:47` | `def _stop_patchers(patchers)` |
-| `_write_tasks` | method | `skills/tests/test_autonomous_daemon.py:414` | `def _write_tasks(self, tasks)` |
-| `name` | method | `skills/tests/test_autonomous_daemon.py:130` | `def name(self)` |
-| `run` | method | `skills/tests/test_autonomous_daemon.py:132` | `def run(self, command, timeout)` |
-| `select` | method | `skills/tests/test_autonomous_daemon.py:276` | `def select(self, target, phase, context)` |
-| `select` | method | `skills/tests/test_autonomous_daemon.py:315` | `def select(self, target, phase, context)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:333` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:404` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:450` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:497` | `def setup_method(self)` |
-| `setup_method` | method | `skills/tests/test_autonomous_daemon.py:566` | `def setup_method(self)` |
 
 Next: [SYMBOLS_p22.md](SYMBOLS_p22.md)

@@ -1,14 +1,14 @@
 # orphans
 
-*Community 21 | 207 files | cohesion 0.00*
+*Community 21 | 208 files | cohesion 0.00*
 
 ## Definition
 
-This community groups 207 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
+This community groups 208 file(s) rooted at `modules` with dominant language py (cohesion 0.00). Central symbols: `AMS1patch_E_ACCESSDENIED`, `AMS1patch_E_HANDLE`, `AMS1patch_E_OUTOFMEMORY`, `AMS1patch_OpenSession_jne`, `AMS1patch_OpenSession_ret`, `AMS1patch_RastaMouse`, `AMS1patch_ScanBuffer_ret`, `ATTACKERS_IP`. Core file: `skills/mcp_generated_tools.py` (645 symbols). Documented purpose: Build and drive LazyOwn inside its Docker sandbox (Debian container).  LazyOwn is a Linux-targeted cmd2 shell; it does not run natively on a non-Linux host (Lin.
 
 ## Files
 
-### `modules` (60 files)
+### `modules` (61 files)
 
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
@@ -128,7 +128,7 @@ This community groups 207 file(s) rooted at `modules` with dominant language py 
 |------|----------|-------|---------|-----|
 | `skills/tests/__init__.py` | py | testing | 0 | no |
 
-*... and 187 more files in this community.*
+*... and 188 more files in this community.*
 
 
 ## Key Symbols
@@ -219,4 +219,4 @@ This community groups 207 file(s) rooted at `modules` with dominant language py 
 - `contrib/legacy/lazymitmap.py`
 - `contrib/legacy/lazynetbios.py`
 - `contrib/legacy/lazyntlrelayx.py`
-- *... and 187 more*
+- *... and 188 more*

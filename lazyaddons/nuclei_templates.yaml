@@ -1,0 +1,27 @@
+name: nuclei_templates
+description: |
+  Nuclei template collection by ProjectDiscovery. Community curated templates
+  for the nuclei engine (cves, exposures, misconfigs). Runs nuclei against
+  target with a bounded high-signal subset. Requires the nuclei binary
+  (installed by the nuclei command). Set scope via assign target
+  example.com, then run nuclei_templates. Extra flags append as free args,
+  e.g. nuclei_templates -severity critical -tags cve. Full corpus via free
+  args: nuclei_templates -t . Output at sessions/nuclei_<target>.txt.
+author: ProjectDiscovery
+version: "1.0"
+enabled: true
+params:
+  - name: target
+    type: string
+    required: true
+    description: Target URL or host to scan with nuclei templates.
+os: any
+trigger:
+  - http
+  - https
+category: "02. Scanning & Enumeration"
+tool:
+  name: Nuclei Templates
+  repo_url: https://github.com/projectdiscovery/nuclei-templates.git
+  install_path: external/.exploit/nuclei-templates
+  execute_command: nuclei -u {target} -t http/cves/ -t network/cves/ -severity critical,high,medium -stats -silent -o ../../../sessions/nuclei_{target}.txt

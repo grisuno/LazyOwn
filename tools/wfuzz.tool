@@ -7,7 +7,7 @@
     "http-mgmt",
     "http-alt"
   ],
-  "active": false,
+  "active": true,
   "category": "02. Scanning & Enumeration",
   "description": "Pwntomate tool: wfuzz_tool \u2014 triggers on ['http', 'https', 'http-mgmt', 'http-alt']"
 }

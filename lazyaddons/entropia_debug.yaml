@@ -1,0 +1,25 @@
+name: entropia_debug
+description: |
+  Runs a staged shellcode .bin under the local entc-debug loader and serves as the
+  Debug Adapter Protocol backend for VS Code F5 and F9, including breakpoints inside
+  inline asm. Build the .bin with entropia using --type=standard and add -g to emit
+  the .dbg sidecar with source-line breadcrumbs before debugging.
+  Usage: entropia_debug | assign entropia_artifact entropia_shellcode.bin
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: windows
+trigger: []
+params:
+  - name: entropia_artifact
+    type: string
+    required: false
+    default: entropia_shellcode.bin
+    description: Staged shellcode filename under sessions/entropia/ produced by entropia with type standard.
+tool:
+  name: entropia_debug
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: ./target/release/entc-debug ../../../sessions/entropia/{entropia_artifact}
+category: "03. Exploitation"

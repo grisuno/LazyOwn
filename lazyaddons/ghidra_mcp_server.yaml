@@ -1,0 +1,46 @@
+name: ghidra_mcp_server
+description: |
+  Ghidra MCP Server by bethington: production-grade bridge exposing 200+ Ghidra RE
+  tools (decompile, rename, typing, structs, batch ops, P-code emulation, live
+  debugger, headless and Docker modes) to AI tools over MCP. Distinct from
+  ghidramcp, which is the minimal LaurieWired bridge with a handful of tools.
+  One-time extension deploy (needs Java 21 plus a local Ghidra install):
+    cd external/.exploit/ghidra-mcp-server
+    python -m tools.setup preflight --ghidra-path <GHIDRA_DIR>
+    python -m tools.setup ensure-prereqs --ghidra-path <GHIDRA_DIR>
+    python -m tools.setup build
+    python -m tools.setup deploy --ghidra-path <GHIDRA_DIR>
+  Then open the target binary in Ghidra and run this addon: it launches the bridge
+  in streamable-http mode. Point any MCP client at the /mcp path on mcp_host and
+  mcp_port (tune via assign ghidra_plugin_url, assign mcp_host, assign mcp_port).
+  Trailing tokens append verbatim to the bridge invocation, so overrides such as
+  --transport stdio work without editing this file.
+  Usage: ghidra_mcp_server | ghidra_mcp_server --transport stdio
+author: bethington
+version: "1.0"
+enabled: true
+os: any
+trigger: []
+params:
+  - name: ghidra_plugin_url
+    type: string
+    required: false
+    default: http://localhost:8089
+    description: URL of the Ghidra-side plugin HTTP endpoint the bridge connects to.
+  - name: mcp_host
+    type: string
+    required: false
+    default: localhost
+    description: Bind host for the bridge streamable-http transport.
+  - name: mcp_port
+    type: string
+    required: false
+    default: "8081"
+    description: Port for the bridge streamable-http transport. MCP clients use the /mcp path on this port.
+tool:
+  name: ghidra_mcp_server
+  repo_url: https://github.com/bethington/ghidra-mcp.git
+  install_path: external/.exploit/ghidra-mcp-server
+  install_command: pip install --break-system-packages -e . || pip install -e .
+  execute_command: GHIDRA_MCP_URL={ghidra_plugin_url} python3 -m bridge_mcp_ghidra --transport streamable-http --mcp-host {mcp_host} --mcp-port {mcp_port}
+category: "03. Exploitation"

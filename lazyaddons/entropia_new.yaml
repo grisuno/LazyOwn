@@ -1,0 +1,31 @@
+name: entropia_new
+description: |
+  Scaffolds a first-program .etpy source under sessions/entropia/src/ (LazyOwn source
+  of truth). Kind bof emits fn go with the Beacon API; kind shellcode emits fn main
+  with a Win32 call. Compile the result with entropia, test it with entropia_test
+  (BOF) or entropia_debug (shellcode), harden it with entropia_opsec.
+  Usage: entropia_new | assign entropia_name demo_ps | assign entropia_kind shellcode
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: any
+trigger: []
+params:
+  - name: entropia_name
+    type: string
+    required: false
+    default: demo_task
+    description: Stem for the new source file written to sessions/entropia/src/ without extension.
+  - name: entropia_kind
+    type: string
+    required: false
+    default: bof
+    description: Template kind bof (fn go with Beacon API) or shellcode (fn main with Win32 call).
+tool:
+  name: entropia_new
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: |-
+    mkdir -p ../../../sessions/entropia/src && if [ "{entropia_kind}" = "shellcode" ] ; then printf '%s\n' 'use_c "winuser.h";' '' > ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '%s \173\n' 'fn main() -> int' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '%s\n' '    User32.MessageBoxA(0, "hello", "entropia", 0);' '    ret 0;' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '\175\n' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; else printf '%s\n' 'use bof;' '' > ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '%s \173\n' 'fn go(args: char*, len: int) -> void' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '%s\n' '    BeaconPrintf(CALLBACK_OUTPUT, "hello from entropia\n");' '    ret;' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; printf '\175\n' >> ../../../sessions/entropia/src/{entropia_name}.etpy ; fi && ls -lh ../../../sessions/entropia/src/{entropia_name}.etpy
+category: "12. Miscellaneous"

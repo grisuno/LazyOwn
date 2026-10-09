@@ -1,0 +1,49 @@
+name: entropia
+description: |
+  Entropia compiler driver. Writes .etpy sources to Windows x86-64 position-independent
+  shellcode (.bin) or Beacon Object Files (.x64.o) with the full OPSEC stack as compiler
+  flags. Artefacts are staged under sessions/entropia/ (LazyOwn source of truth) for
+  delivery through the C2 file endpoint.
+  Placeholders resolve from payload.json via assign/set (e.g. assign entropia_src
+  sessions/entropia/src/demo_task.etpy). Any extra tokens typed after the command are
+  appended verbatim to the entc invocation, so operator flags such as --gc=manual,
+  -g, --type=coff or --opsec=poly,nop_sled work without editing this file.
+  Usage: entropia | entropia --gc=manual -g | assign entropia_type standard
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: windows
+trigger: []
+params:
+  - name: entropia_src
+    type: string
+    required: false
+    default: examples/bof_pslist.etpy
+    description: Source .etpy file relative to the entropia checkout, or a sessions path for operator sources.
+  - name: entropia_type
+    type: string
+    required: false
+    default: bof
+    description: Build kind standard (shellcode .bin), bof (.x64.o) or coff (.obj). Keep output extension in sync.
+  - name: entropia_opsec
+    type: string
+    required: false
+    default: all
+    description: OPSEC list poly, poly=deep, strings_xor, nop_sled, stack_strings, direct_syscalls, indirect_syscalls, hashed_imports, sleep_mask variant, all or none.
+  - name: entropia_seed
+    type: string
+    required: false
+    default: random
+    description: RNG seed driving every randomised pass. Same seed gives byte-identical output.
+  - name: entropia_out
+    type: string
+    required: false
+    default: entropia_bof.x64.o
+    description: Output filename staged under sessions/entropia/. Match the extension to entropia_type.
+tool:
+  name: entropia
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: mkdir -p ../../../sessions/entropia ; ./target/release/entc compile {entropia_src} --type={entropia_type} --opsec={entropia_opsec} --seed={entropia_seed} -o ../../../sessions/entropia/{entropia_out}
+category: "03. Exploitation"

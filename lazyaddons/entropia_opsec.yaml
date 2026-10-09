@@ -1,0 +1,47 @@
+name: entropia_opsec
+description: |
+  Hardened double build proving polymorphic diversity. Compiles one source twice with
+  different seeds, hashes both artefacts and stages them under sessions/entropia/
+  (LazyOwn source of truth). Different seeds must give different bytes while the
+  same seed stays byte-identical; per-build randomisation is what defeats fuzzy-hash
+  matching. Staged filenames assume --type=bof. For single-shot flag experiments use
+  entropia with trailing tokens instead.
+  Usage: entropia_opsec | assign entropia_seed_a random | assign entropia_seed_b random
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: windows
+trigger: []
+params:
+  - name: entropia_src
+    type: string
+    required: false
+    default: examples/bof_pslist.etpy
+    description: Source .etpy file compiled twice with different seeds.
+  - name: entropia_type
+    type: string
+    required: false
+    default: bof
+    description: Build kind shared by both builds. Staged filenames assume bof output.
+  - name: entropia_opsec
+    type: string
+    required: false
+    default: all
+    description: OPSEC list shared by both builds, same values as the entropia compiler driver.
+  - name: entropia_seed_a
+    type: string
+    required: false
+    default: "7"
+    description: RNG seed for the first build. Use random for a fresh polymorphic sample.
+  - name: entropia_seed_b
+    type: string
+    required: false
+    default: "77"
+    description: RNG seed for the second build. Must differ from seed A to show byte diversity.
+tool:
+  name: entropia_opsec
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: mkdir -p ../../../sessions/entropia ; ./target/release/entc compile {entropia_src} --type={entropia_type} --opsec={entropia_opsec} --seed={entropia_seed_a} -o ../../../sessions/entropia/opsec_seed_a.x64.o ; ./target/release/entc compile {entropia_src} --type={entropia_type} --opsec={entropia_opsec} --seed={entropia_seed_b} -o ../../../sessions/entropia/opsec_seed_b.x64.o ; sha256sum ../../../sessions/entropia/opsec_seed_a.x64.o ../../../sessions/entropia/opsec_seed_b.x64.o ; echo "different seeds give different bytes, same seed gives identical bytes"
+category: "03. Exploitation"

@@ -1,0 +1,31 @@
+name: entropia_examples
+description: |
+  Batch-builds the curated reference BOF set (pslist, lsass dump, inject) with the
+  OPSEC stack enabled and stages every artefact under sessions/entropia/ (LazyOwn
+  source of truth). Trailing operator flags are appended to the final build only;
+  use entropia for per-file control and the full examples listing inside the
+  checkout for the remaining sources.
+  Usage: entropia_examples | assign entropia_opsec poly,nop_sled,stack_strings
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: windows
+trigger: []
+params:
+  - name: entropia_opsec
+    type: string
+    required: false
+    default: all
+    description: OPSEC list applied to every batch build, same values as the entropia compiler driver.
+  - name: entropia_seed
+    type: string
+    required: false
+    default: random
+    description: RNG seed shared by every batch build. Same seed gives byte-identical output.
+tool:
+  name: entropia_examples
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: mkdir -p ../../../sessions/entropia ; ./target/release/entc compile examples/bof_pslist.etpy --type=bof --opsec={entropia_opsec} --seed={entropia_seed} -o ../../../sessions/entropia/batch_bof_pslist.x64.o ; ./target/release/entc compile examples/bof_lsass_dump.etpy --type=bof --opsec={entropia_opsec} --seed={entropia_seed} -o ../../../sessions/entropia/batch_bof_lsass_dump.x64.o ; ./target/release/entc compile examples/bof_inject.etpy --type=bof --opsec={entropia_opsec} --seed={entropia_seed} -o ../../../sessions/entropia/batch_bof_inject.x64.o
+category: "03. Exploitation"

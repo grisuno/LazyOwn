@@ -20,6 +20,7 @@ def test_bdd_redirector_spawn_registers_urls() -> None:
     Then both URLs persist in redirector state for beacon builds.
     """
     import json
+
     from cli.commands.infra import InfraCommandSet
 
     fake_logs = "INF + https://aaa.trycloudflare.com\nINF + https://bbb.trycloudflare.com\n"

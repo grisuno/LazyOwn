@@ -1,4 +1,4 @@
-# Subsystem: tests (page 10 of 13)
+# Subsystem: tests (page 10 of 14)
 Previous: [KB_tests_p9.md](KB_tests_p9.md)
 
 ## tests/test_payload_factory.py
@@ -246,6 +246,21 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `narrate` (method, line 354) `def narrate(self, kind, target, message, payload, severity)`
 - Depends on: `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`
 
+## tests/test_placeholder_coverage.py
+- Doc: Placeholder coverage across every registry that resolves ``{tokens}``.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_live_keys` (function, line 40) `def _live_keys()`
+  - `_skill_keys` (function, line 49) `def _skill_keys()`
+  - `test_validator_covers_live_keys` (function, line 57) `def test_validator_covers_live_keys()`
+  - `test_schema_covers_live_keys` (function, line 63) `def test_schema_covers_live_keys()`
+  - `test_skill_documents_validator_keys` (function, line 68) `def test_skill_documents_validator_keys()`
+  - `test_addon_tokens_resolve` (function, line 74) `def test_addon_tokens_resolve()`
+  - `test_addon_tokens_resolve_at_runtime` (function, line 96) `def test_addon_tokens_resolve_at_runtime()`
+  - `test_required_params_exist_live` (function, line 120) `def test_required_params_exist_live()`
+- Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
+
 ## tests/test_plugin_tiers.py
 - Doc: Tests for marketplace plugin tiers and operator ratings.
 - Layer: testing
@@ -450,39 +465,6 @@ Previous: [KB_tests_p9.md](KB_tests_p9.md)
   - `test_after_trigger` (method, line 154) `def test_after_trigger(self)`
   - `test_phase_in_trigger` (method, line 159) `def test_phase_in_trigger(self)`
 - Depends on: `cli/protips.py`, `cli/reactive_hints.py`
-
-## tests/test_reactive_lateral_data.py
-- Doc: Tests for new reactive engine matchers.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestLateralOpportunityMatcher` (class, line 11) `class TestLateralOpportunityMatcher`
-  - `TestDataOfInterestMatcher` (class, line 60) `class TestDataOfInterestMatcher`
-  - `TestReactiveEngineIntegration` (class, line 118) `class TestReactiveEngineIntegration`
-  - `test_kerberos_ticket` (method, line 12) `def test_kerberos_ticket(self)`
-  - `test_rdp_session` (method, line 18) `def test_rdp_session(self)`
-  - `test_smb_admin_share` (method, line 23) `def test_smb_admin_share(self)`
-  - `test_winrm_access` (method, line 28) `def test_winrm_access(self)`
-  - `test_ssh_key` (method, line 33) `def test_ssh_key(self)`
-  - `test_wmi_access` (method, line 38) `def test_wmi_access(self)`
-  - `test_domain_admin` (method, line 43) `def test_domain_admin(self)`
-  - `test_no_match` (method, line 48) `def test_no_match(self)`
-  - `test_confidence` (method, line 53) `def test_confidence(self)`
-  - `test_pii_email` (method, line 61) `def test_pii_email(self)`
-  - `test_pii_ssn` (method, line 66) `def test_pii_ssn(self)`
-  - `test_pii_credit_card` (method, line 71) `def test_pii_credit_card(self)`
-  - `test_secret_api_key` (method, line 76) `def test_secret_api_key(self)`
-  - `test_secret_aws_key` (method, line 81) `def test_secret_aws_key(self)`
-  - `test_secret_private_key` (method, line 86) `def test_secret_private_key(self)`
-  - `test_file_pattern_env` (method, line 91) `def test_file_pattern_env(self)`
-  - `test_file_pattern_config` (method, line 96) `def test_file_pattern_config(self)`
-  - `test_no_match` (method, line 101) `def test_no_match(self)`
-  - `test_confidence_levels` (method, line 106) `def test_confidence_levels(self)`
-  - `_make_engine` (method, line 119) `def _make_engine(self, matchers)`
-  - `test_lateral_signals_produce_decisions` (method, line 130) `def test_lateral_signals_produce_decisions(self)`
-  - `test_data_signals_produce_decisions` (method, line 147) `def test_data_signals_produce_decisions(self)`
-  - `test_decisions_sorted_by_priority` (method, line 165) `def test_decisions_sorted_by_priority(self)`
-- Depends on: `modules/reactive_engine.py`
 
 
 Next: [KB_tests_p11.md](KB_tests_p11.md)

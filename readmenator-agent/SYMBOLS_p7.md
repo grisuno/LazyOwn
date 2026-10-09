@@ -146,13 +146,13 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `_validate_port` | method | `core/payload_schema.py:183` | `def _validate_port(value)` |
 | `_validate_string` | method | `core/payload_schema.py:163` | `def _validate_string(value)` |
 | `_validate_url` | method | `core/payload_schema.py:230` | `def _validate_url(value)` |
-| `categories` | method | `core/payload_schema.py:1388` | `def categories()` |
-| `coerce_value` | method | `core/payload_schema.py:1230` | `def coerce_value(key, raw)` |
-| `default_payload` | method | `core/payload_schema.py:1380` | `def default_payload()` |
-| `field_for` | method | `core/payload_schema.py:1225` | `def field_for(key)` |
-| `format_issue` | method | `core/payload_schema.py:1362` | `def format_issue(issue)` |
-| `validate_payload` | method | `core/payload_schema.py:1327` | `def validate_payload(payload)` |
-| `validate_value` | method | `core/payload_schema.py:1253` | `def validate_value(key, value)` |
+| `categories` | method | `core/payload_schema.py:1490` | `def categories()` |
+| `coerce_value` | method | `core/payload_schema.py:1332` | `def coerce_value(key, raw)` |
+| `default_payload` | method | `core/payload_schema.py:1482` | `def default_payload()` |
+| `field_for` | method | `core/payload_schema.py:1327` | `def field_for(key)` |
+| `format_issue` | method | `core/payload_schema.py:1464` | `def format_issue(issue)` |
+| `validate_payload` | method | `core/payload_schema.py:1429` | `def validate_payload(payload)` |
+| `validate_value` | method | `core/payload_schema.py:1355` | `def validate_value(key, value)` |
 | `_drain_stderr` | function | `core/process.py:220` | `def _drain_stderr()` |
 | `_print_run_command_status` | function | `core/process.py:159` | `def _print_run_command_status(command, elapsed, exit_code)` |
 | `activate_server` | function | `core/process.py:271` | `def activate_server(httpd, url, lhost)` |

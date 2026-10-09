@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_truncates_long_names` | method | `tests/test_security_hardening_v3.py:349` | `def test_truncates_long_names(self)` |
+| `test_uses_e_flag_not_p` | method | `tests/test_security_hardening_v3.py:138` | `def test_uses_e_flag_not_p(self)` |
+| `test_works_with_env_key` | method | `tests/test_security_hardening_v3.py:371` | `def test_works_with_env_key(self)` |
+| `TestBotNoOsSystem` | class | `tests/test_security_hardening_v4.py:560` | `class TestBotNoOsSystem` |
+| `TestC2BuilderNoOsSystem` | class | `tests/test_security_hardening_v4.py:360` | `class TestC2BuilderNoOsSystem` |
+| `TestConditionalHooksInjectionPrevention` | class | `tests/test_security_hardening_v4.py:513` | `class TestConditionalHooksInjectionPrevention` |
+| `TestExecuteCommandShellFalse` | class | `tests/test_security_hardening_v4.py:392` | `class TestExecuteCommandShellFalse` |
+| `TestMiscMigratedIpDisplay` | class | `tests/test_security_hardening_v4.py:416` | `class TestMiscMigratedIpDisplay` |
 | `TestMorseNoOsSystem` | class | `tests/test_security_hardening_v4.py:337` | `class TestMorseNoOsSystem` |
 | `TestNoHardcodedPaths` | class | `tests/test_security_hardening_v4.py:440` | `class TestNoHardcodedPaths` |
 | `TestPluginLoaderUrlInjection` | class | `tests/test_security_hardening_v4.py:267` | `class TestPluginLoaderUrlInjection` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `_append_jsonl` | function | `tests/test_toast_bus.py:42` | `def _append_jsonl(path, records)` |
 | `_write_jsonl` | function | `tests/test_toast_bus.py:34` | `def _write_jsonl(path, records)` |
 | `test_build_default_bus_honours_budget` | function | `tests/test_toast_bus.py:178` | `def test_build_default_bus_honours_budget(tmp_path)` |
-| `test_bus_mark_all_seen_consumes_pending` | function | `tests/test_toast_bus.py:143` | `def test_bus_mark_all_seen_consumes_pending(tmp_path)` |
-| `test_bus_render_disabled_returns_zero` | function | `tests/test_toast_bus.py:130` | `def test_bus_render_disabled_returns_zero(tmp_path)` |
-| `test_bus_render_respects_per_tick_budget` | function | `tests/test_toast_bus.py:109` | `def test_bus_render_respects_per_tick_budget(tmp_path)` |
-| `test_formatter_uses_theme_role_for_severity` | function | `tests/test_toast_bus.py:91` | `def test_formatter_uses_theme_role_for_severity()` |
-| `test_reader_handles_malformed_lines` | function | `tests/test_toast_bus.py:80` | `def test_reader_handles_malformed_lines(tmp_path)` |
-| `test_reader_picks_up_new_events_after_offset` | function | `tests/test_toast_bus.py:190` | `def test_reader_picks_up_new_events_after_offset(tmp_path)` |
-| `test_reader_returns_unseen_events_only` | function | `tests/test_toast_bus.py:67` | `def test_reader_returns_unseen_events_only(tmp_path)` |
-| `test_render_toasts_returns_count` | function | `tests/test_toast_bus.py:168` | `def test_render_toasts_returns_count(tmp_path)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

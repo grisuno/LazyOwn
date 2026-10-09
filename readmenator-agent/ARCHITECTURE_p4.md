@@ -127,6 +127,8 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_phase_labels.py` -> `cli/tips_engine.py`
 - `tests/test_pipeline_engine.py` -> `modules/pipeline_engine.py`
 - `tests/test_pipeline_engine.py` -> `skills/autonomous_daemon.py`
+- `tests/test_placeholder_coverage.py` -> `core/payload_schema.py`
+- `tests/test_placeholder_coverage.py` -> `lazyc2/addon_creator.py`
 - `tests/test_plugin_tiers.py` -> `cli/plugin_tiers.py`
 - `tests/test_profiles.py` -> `core/profiles.py`
 - `tests/test_prompt_readline_markers.py` -> `cli/banner_config.py`

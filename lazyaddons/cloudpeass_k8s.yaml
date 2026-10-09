@@ -1,0 +1,21 @@
+name: cloudpeass_k8s
+description: >
+  K8sPEAS by peass-ng. Effective K8s permissions via SelfSubjectReview and
+  SelfSubjectAccessReview, read-only GETs only. No exec, attach, port-forward
+  or token minting. Auth via kubeconfig context or K8S_TOKEN plus --server
+  (never --token, it leaks in ps). Report at sessions/cloudpeass_k8s_results.json.
+  Free args: --context NAME --kubeconfig FILE --namespace NS (repeatable)
+  --skip-bruteforce --brute-force-permissions --show-all --threads N.
+author: peass-ng
+version: "1.0"
+enabled: true
+os: containers
+trigger: []
+category: "18. Container & Kubernetes"
+module_type: scanner
+tool:
+  name: CloudPEASS K8sPEAS
+  repo_url: https://github.com/peass-ng/CloudPEASS.git
+  install_path: external/.exploit/CloudPEASS
+  install_command: pip install -r requirements.txt
+  execute_command: python3 K8sPEAS.py --no-ask --out-json-path ../../../sessions/cloudpeass_k8s_results.json

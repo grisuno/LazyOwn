@@ -1,5 +1,38 @@
-# Subsystem: tests (page 11 of 13)
+# Subsystem: tests (page 11 of 14)
 Previous: [KB_tests_p10.md](KB_tests_p10.md)
+
+## tests/test_reactive_lateral_data.py
+- Doc: Tests for new reactive engine matchers.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestLateralOpportunityMatcher` (class, line 11) `class TestLateralOpportunityMatcher`
+  - `TestDataOfInterestMatcher` (class, line 60) `class TestDataOfInterestMatcher`
+  - `TestReactiveEngineIntegration` (class, line 118) `class TestReactiveEngineIntegration`
+  - `test_kerberos_ticket` (method, line 12) `def test_kerberos_ticket(self)`
+  - `test_rdp_session` (method, line 18) `def test_rdp_session(self)`
+  - `test_smb_admin_share` (method, line 23) `def test_smb_admin_share(self)`
+  - `test_winrm_access` (method, line 28) `def test_winrm_access(self)`
+  - `test_ssh_key` (method, line 33) `def test_ssh_key(self)`
+  - `test_wmi_access` (method, line 38) `def test_wmi_access(self)`
+  - `test_domain_admin` (method, line 43) `def test_domain_admin(self)`
+  - `test_no_match` (method, line 48) `def test_no_match(self)`
+  - `test_confidence` (method, line 53) `def test_confidence(self)`
+  - `test_pii_email` (method, line 61) `def test_pii_email(self)`
+  - `test_pii_ssn` (method, line 66) `def test_pii_ssn(self)`
+  - `test_pii_credit_card` (method, line 71) `def test_pii_credit_card(self)`
+  - `test_secret_api_key` (method, line 76) `def test_secret_api_key(self)`
+  - `test_secret_aws_key` (method, line 81) `def test_secret_aws_key(self)`
+  - `test_secret_private_key` (method, line 86) `def test_secret_private_key(self)`
+  - `test_file_pattern_env` (method, line 91) `def test_file_pattern_env(self)`
+  - `test_file_pattern_config` (method, line 96) `def test_file_pattern_config(self)`
+  - `test_no_match` (method, line 101) `def test_no_match(self)`
+  - `test_confidence_levels` (method, line 106) `def test_confidence_levels(self)`
+  - `_make_engine` (method, line 119) `def _make_engine(self, matchers)`
+  - `test_lateral_signals_produce_decisions` (method, line 130) `def test_lateral_signals_produce_decisions(self)`
+  - `test_data_signals_produce_decisions` (method, line 147) `def test_data_signals_produce_decisions(self)`
+  - `test_decisions_sorted_by_priority` (method, line 165) `def test_decisions_sorted_by_priority(self)`
+- Depends on: `modules/reactive_engine.py`
 
 ## tests/test_reasoning_stream.py
 - Doc: Tests for cli/reasoning_stream.py.
@@ -422,77 +455,6 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_postexp_no_sshpass_in_fstring_code` (method, line 356) `def test_postexp_no_sshpass_in_fstring_code(self)`
   - `test_dns_resolver_has_allowlist_guard` (method, line 374) `def test_dns_resolver_has_allowlist_guard(self)`
   - `test_misc_sys_no_os_system` (method, line 381) `def test_misc_sys_no_os_system(self)`
-
-## tests/test_security_hardening_v3.py
-- Doc: Security hardening tests — SDD+TDD+BDD for all boy-scout fixes.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `TestSafeSubprocessRun` (class, line 21) `class TestSafeSubprocessRun`
-  - `TestSafeClipboardCopy` (class, line 116) `class TestSafeClipboardCopy`
-  - `TestBuildSshpassCommand` (class, line 134) `class TestBuildSshpassCommand`
-  - `TestSetSshpassEnv` (class, line 159) `class TestSetSshpassEnv`
-  - `TestEscapeHtmlContent` (class, line 182) `class TestEscapeHtmlContent`
-  - `TestSafePathJoin` (class, line 213) `class TestSafePathJoin`
-  - `TestValidateNetworkCidr` (class, line 244) `class TestValidateNetworkCidr`
-  - `TestValidatePortSpec` (class, line 266) `class TestValidatePortSpec`
-  - `TestValidateHost` (class, line 284) `class TestValidateHost`
-  - `TestRequireEncryptionKey` (class, line 305) `class TestRequireEncryptionKey`
-  - `TestSanitizeFilename` (class, line 332) `class TestSanitizeFilename`
-  - `TestPhishingOrchestratorKey` (class, line 356) `class TestPhishingOrchestratorKey`
-  - `TestIcmpServerCommandExecution` (class, line 379) `class TestIcmpServerCommandExecution`
-  - `TestResourceScriptEngine` (class, line 405) `class TestResourceScriptEngine`
-  - `TestPivotingCommands` (class, line 420) `class TestPivotingCommands`
-  - `TestAntiForensicsCommands` (class, line 439) `class TestAntiForensicsCommands`
-  - `test_rejects_empty_argv` (method, line 25) `def test_rejects_empty_argv(self)`
-  - `test_rejects_null_bytes` (method, line 31) `def test_rejects_null_bytes(self)`
-  - `test_runs_command_without_shell` (method, line 37) `def test_runs_command_without_shell(self)`
-  - `test_captures_stderr` (method, line 44) `def test_captures_stderr(self)`
-  - `test_shell_false_enforced` (method, line 51) `def test_shell_false_enforced(self)`
-  - `test_returns_completed_process_fields` (method, line 62) `def test_returns_completed_process_fields(self)`
-  - `test_timeout_passed_through` (method, line 71) `def test_timeout_passed_through(self)`
-  - `test_capture_output_default_true` (method, line 82) `def test_capture_output_default_true(self)`
-  - `test_check_false` (method, line 93) `def test_check_false(self)`
-  - `test_text_mode_enabled` (method, line 104) `def test_text_mode_enabled(self)`
-  - `test_rejects_oversized_content` (method, line 120) `def test_rejects_oversized_content(self)`
-  - `test_returns_false_without_clipboard_tool` (method, line 126) `def test_returns_false_without_clipboard_tool(self)`
-  - `test_uses_e_flag_not_p` (method, line 138) `def test_uses_e_flag_not_p(self)`
-  - `test_rejects_oversized_password` (method, line 146) `def test_rejects_oversized_password(self)`
-  - `test_rejects_null_bytes_in_password` (method, line 152) `def test_rejects_null_bytes_in_password(self)`
-  - `test_sets_ssplash_env` (method, line 163) `def test_sets_ssplash_env(self)`
-  - `test_preserves_existing_env` (method, line 169) `def test_preserves_existing_env(self)`
-  - `test_rejects_null_bytes` (method, line 175) `def test_rejects_null_bytes(self)`
-  - `test_escapes_script_tags` (method, line 186) `def test_escapes_script_tags(self)`
-  - `test_escapes_quotes` (method, line 193) `def test_escapes_quotes(self)`
-  - `test_preserves_safe_content` (method, line 200) `def test_preserves_safe_content(self)`
-  - `test_handles_empty_string` (method, line 206) `def test_handles_empty_string(self)`
-  - `test_allows_safe_paths` (method, line 217) `def test_allows_safe_paths(self, tmp_path)`
-  - `test_blocks_traversal` (method, line 223) `def test_blocks_traversal(self, tmp_path)`
-  - `test_blocks_symlink_escape` (method, line 229) `def test_blocks_symlink_escape(self, tmp_path)`
-  - `test_rejects_empty_path` (method, line 237) `def test_rejects_empty_path(self, tmp_path)`
-  - `test_accepts_valid_cidr` (method, line 248) `def test_accepts_valid_cidr(self)`
-  - `test_rejects_invalid_cidr` (method, line 254) `def test_rejects_invalid_cidr(self)`
-  - `test_rejects_empty` (method, line 260) `def test_rejects_empty(self)`
-  - `test_accepts_valid_ports` (method, line 270) `def test_accepts_valid_ports(self)`
-  - `test_rejects_invalid_ports` (method, line 277) `def test_rejects_invalid_ports(self)`
-  - `test_accepts_valid_ip` (method, line 288) `def test_accepts_valid_ip(self)`
-  - `test_accepts_valid_hostname` (method, line 293) `def test_accepts_valid_hostname(self)`
-  - `test_rejects_invalid` (method, line 298) `def test_rejects_invalid(self)`
-  - `test_raises_without_key` (method, line 309) `def test_raises_without_key(self)`
-  - `test_reads_from_env` (method, line 316) `def test_reads_from_env(self)`
-  - `test_reads_from_file` (method, line 323) `def test_reads_from_file(self, tmp_path)`
-  - `test_removes_dangerous_chars` (method, line 336) `def test_removes_dangerous_chars(self)`
-  - `test_handles_empty` (method, line 343) `def test_handles_empty(self)`
-  - `test_truncates_long_names` (method, line 349) `def test_truncates_long_names(self)`
-  - `test_raises_without_key` (method, line 360) `def test_raises_without_key(self)`
-  - `test_works_with_env_key` (method, line 371) `def test_works_with_env_key(self)`
-  - `test_execute_command_uses_list_form` (method, line 383) `def test_execute_command_uses_list_form(self)`
-  - `test_handles_empty_command` (method, line 392) `def test_handles_empty_command(self)`
-  - `test_handles_invalid_command` (method, line 398) `def test_handles_invalid_command(self)`
-  - `test_run_command_uses_list_form` (method, line 409) `def test_run_command_uses_list_form(self)`
-  - `test_pivoting_module_has_no_shell_true` (method, line 424) `def test_pivoting_module_has_no_shell_true(self)`
-  - `test_anti_forensics_has_no_shell_true` (method, line 443) `def test_anti_forensics_has_no_shell_true(self)`
-- Depends on: `core/hardening.py`, `modules/icmp_server.py`, `modules/phishing_orchestrator.py`, `modules/resource_script.py`
 
 
 Next: [KB_tests_p12.md](KB_tests_p12.md)

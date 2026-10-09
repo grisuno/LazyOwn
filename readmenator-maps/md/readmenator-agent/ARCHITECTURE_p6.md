@@ -220,6 +220,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_phase1_data_gaps.py` -> __future__, json, pathlib, pytest, tempfile
 - `tests/test_phase_labels.py` -> __future__, json, pathlib
 - `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
+- `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
 - `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_profiles.py` -> __future__, pathlib, pytest
 - `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys

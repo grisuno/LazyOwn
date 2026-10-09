@@ -47,7 +47,8 @@ enabled: true                   # Loader defaults to False. Omit this and nothin
 params:                         # Max 20. Every placeholder used MUST be declared here...
   - name: target                # ...MUST match ^[a-z][a-z0-9_]{0,47}$, type string|integer|boolean
     type: string
-    required: true              # required=true MUST exist in payload.json (see Step 4)
+    required: true              # required=true MUST exist in live shell params
+                                # (payload.json or params/*.yaml, see Step 4)
     description: Path to analyze. Max 200 chars, never empty.
 os: any                         # any|linux|windows|macos|network|containers|saas|iaas
 trigger: []                     # nmap service names, or [all]. [] = never auto-suggested.
@@ -64,30 +65,56 @@ tool:
 ## Step 4 — Placeholders (the rule that breaks most addons)
 
 - **Single braces only: `{param}`.** `{{param}}` fails validation and survives substitution visibly.
-- Every `{token}` in `execute_command`, `install_command` or `remote_command` MUST be either a declared `params` entry or a known `payload.json` key.
-- Runtime resolution per param (`lazyown.py` wrapper): value from `payload.json` wins; else the YAML `default:`; else the command **aborts**. So `required: true` without `default:` is only valid when the key already exists in `payload.json`.
-- Operator free args are appended AFTER `execute_command`, so the default command must be complete and useful on its own; design it so appended text is extra flags, never a missing subcommand.
+- **YAML `default:` NEVER substitutes at runtime.** The wrapper (`lazyown.py` via
+  `utils.replace_command_placeholders`) substitutes **exclusively** from live shell
+  params: `payload.json` ∪ `params/*.yaml`. A `{token}` missing there renders
+  **literally** into the executed command; a `required: true` param missing there
+  aborts with a warning before executing. Declaring a param with a `default:` does
+  NOT make it resolve — the default is documentation only.
+- Consequence: every `{token}` in `execute_command`, `install_command`,
+  `remote_command`, `lazycommand`, `upload_file` or `download_file` MUST be either
+  a key from the list below (all present in `payload.json` or `params/extended.yaml`)
+  or a param you register yourself in **all four** places:
+  1. `params/extended.yaml` (runtime value + makes `assign <key>` work; never edit
+     `payload.json` by hand — use `assign` / `lazyown_set_config`),
+  2. `core/payload_schema.py` SCHEMA (type coercion + validation),
+  3. `lazyc2/addon_creator.py` `payload_placeholders` (validator + web creation form),
+  4. this list below (documentation).
+- **Placeholder vs free args** — operator text after the command is appended verbatim
+  AFTER `execute_command` (`cd <install_path> && <execute_command> <free-args>`):
+  - Use a **placeholder** (+ `assign` flow) for stable scope/config reused across runs:
+    region, server URL, scan subcommand, output paths.
+  - Use **free args** for per-run input: targets, profiles, extra flags, repeatable
+    `--resource`/`--namespace`. Works with argparse-style optional flags in any
+    position. Does NOT work for positional subcommands (embed them as placeholders,
+    e.g. `./trivy {trivy_scan_type} … {trivy_target}`), for `;`-chained suite commands
+    (args land on the LAST command only — document "takes no free args"), or for
+    `lazycommand`-only addons (args append to `execute_command`, which they lack).
+  - **Secrets are never placeholders** (visible in `ps`): tokens, secret keys and
+    passwords travel via env vars (`AZURE_ARM_TOKEN`, `K8S_TOKEN`, …) or free args,
+    and the description must say so.
+- The default command must be complete and useful with zero free args.
 
 Known `payload.json` keys (no declaration needed beyond the `params` entry):
 
 ```
-aes_key backdoor_linux_home backdoor_password backdoor_username backdoor_win_home
+aes_key api_key backdoor_linux_home backdoor_password backdoor_username backdoor_win_home
 backdoor_win_service_path baseoutputdir binary_name c2_malleable_route c2_pass c2_port
-c2_user cloud_provider cloud_region data data_file device dirwordlist dnswordlist domain
-email_from email_password email_to email_username enable_c2_implant_debug enable_cloudflare
-enable_operator_presence enable_toasts endip exploitdb ext field file headers headers_file
+c2_user ca_name cloud_prefix cloud_provider cloud_region data data_file dc_ip device dirwordlist dnswordlist domain
+email_from email_password email_to email_username enable_c2_implant_debug enable_chainmode enable_cloudflare
+enable_operator_presence enable_toasts endip exploitdb exploitgym_model exploitgym_path ext field file ghidra_server headers headers_file
 hide_code ip json_data json_data_file lhost listener lport method mode nameserver os_id
 outputdir params params_file pass password path port prompt proxy_port rat_key region
 report_output_path reverse_shell_port rhost rport s scan_type scope scope_enforcement sleep
 sleep_start smtp_port smtp_server spoof_ip start_pass start_user startip subdomain target
-toast_max_per_tick toolname topoexploit_path topoexploit_port tui_theme url url_traffic_1
+target_path template_name toast_max_per_tick toolname topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme url url_traffic_1
 url_traffic_2 url_traffic_3 user user_agent_1 user_agent_2 user_agent_3 user_agent_lin
 user_agent_win username usrwordlist wordlist
 ```
 
 ## Step 5 — Runtime order (design against this, not against wishes)
 
-1. Params resolve from `payload.json` → `default:` → abort.
+1. Placeholders substitute from live shell params ONLY (`payload.json` ∪ `params/*.yaml`); missing keys render literally, except `required: true` params missing from params abort with a warning.
 2. If `install_path` missing: `git clone <repo_url> <install_path>`, then `cd <install_path> && <install_command>`. **Install runs only on fresh clone, never again.** If the binary is missing later, the operator only gets a warning + hint.
 3. Execute: `cd <install_path> && <execute_command> <free-args>`. A missing first token only warns — it never installs.
 4. `upload_file`: comma-separated paths → `upload_c2` each (C2 must be live).
@@ -135,19 +162,18 @@ Categories (MUST match `^\d{2}\. …$`): `01. Reconnaissance`, `02. Scanning & E
 ## Step 9 — One-shot self-check (run before writing)
 
 ```bash
-python3 - <<'EOF'
-import sys, yaml
-d = yaml.safe_load(open('lazyaddons/<name>.yaml'))
-sys.path.insert(0, 'lazyc2')
-from addon_creator import AddonValidator, AddonDraft, AddonCreatorConfig
-issues = AddonValidator(AddonDraft.from_dict(d), AddonCreatorConfig()).validate()
-print('VALID' if not issues else '\n'.join(f'{i.field}: {i.message}' for i in issues))
-EOF
+python3 -m pytest tests/test_placeholder_coverage.py -q
 ```
+
+This locks all of the above across the whole repo: validator allowlist ⊇ live keys,
+schema ⊇ live keys, skill list ⊇ validator, every addon token declared-or-known,
+every enabled-addon token present in live shell params, every `required: true`
+param without `default:` present in live params. If it fails, register the missing
+key in the four places from Step 4 — do not paper over it with a YAML `default:`.
 
 Plus these manual assertions — every one must hold:
 
-1. `enabled: true` present. 2. `name` matches `^[a-z][a-z0-9_]{0,63}$` and file is `lazyaddons/<name>.yaml`. 3. `version` is digits-and-dots. 4. `repo_url` ends with `.git` (unless archetype E, which omits `repo_url` + `install_path`). 5. No `{{`/`}}` anywhere. 6. Every `{token}` is a declared param or a key from the Step 4 list. 7. Every `required: true` param without `default:` exists in `payload.json` — verify with `python3 -c "import json; p=json.load(open('payload.json')); print('target' in p)"`. 8. `execute_command` is the tool's primary usage, complete without free args. 9. No commas inside any single `lazycommand`/`upload_file`/`download_file` entry. 10. `description` documents first-time setup + the `assign <key>` flow. 11. `install_command` is non-interactive and idempotent enough for a fresh clone. 12. `category`/`os`/`trigger` match the Step 8 tables.
+1. `enabled: true` present. 2. `name` matches `^[a-z][a-z0-9_]{0,63}$` and file is `lazyaddons/<name>.yaml`. 3. `version` is digits-and-dots. 4. `repo_url` ends with `.git` (unless archetype E, which omits `repo_url` + `install_path`). 5. No `{{`/`}}` anywhere. 6. Every `{token}` resolves from live shell params (`payload.json` ∪ `params/*.yaml`) — verify with `python3 -c "import json,yaml,glob; live=set(json.load(open('payload.json'))); [live.update((yaml.safe_load(open(f)) or {}).keys()) for f in glob.glob('params/*.yaml')]; print('cloud_region' in live)"`. 7. Every `required: true` param without `default:` exists in live params. 8. `execute_command` is the tool's primary usage, complete without free args. 9. No commas inside any single `lazycommand`/`upload_file`/`download_file` entry. 10. `description` documents first-time setup + the `assign <key>` flow (only for keys that exist) + free-args examples. 11. `install_command` is non-interactive and idempotent enough for a fresh clone. 12. `category`/`os`/`trigger` match the Step 8 tables. 13. No secrets as placeholders — env vars or free args only.
 
 ## Step 10 — Write and register
 

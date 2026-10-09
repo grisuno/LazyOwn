@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_bus_mark_all_seen_consumes_pending` | function | `tests/test_toast_bus.py:143` | `def test_bus_mark_all_seen_consumes_pending(tmp_path)` |
+| `test_bus_render_disabled_returns_zero` | function | `tests/test_toast_bus.py:130` | `def test_bus_render_disabled_returns_zero(tmp_path)` |
+| `test_bus_render_respects_per_tick_budget` | function | `tests/test_toast_bus.py:109` | `def test_bus_render_respects_per_tick_budget(tmp_path)` |
+| `test_formatter_uses_theme_role_for_severity` | function | `tests/test_toast_bus.py:91` | `def test_formatter_uses_theme_role_for_severity()` |
+| `test_reader_handles_malformed_lines` | function | `tests/test_toast_bus.py:80` | `def test_reader_handles_malformed_lines(tmp_path)` |
+| `test_reader_picks_up_new_events_after_offset` | function | `tests/test_toast_bus.py:190` | `def test_reader_picks_up_new_events_after_offset(tmp_path)` |
+| `test_reader_returns_unseen_events_only` | function | `tests/test_toast_bus.py:67` | `def test_reader_returns_unseen_events_only(tmp_path)` |
+| `test_render_toasts_returns_count` | function | `tests/test_toast_bus.py:168` | `def test_render_toasts_returns_count(tmp_path)` |
 | `test_state_clamps_negative_offsets` | function | `tests/test_toast_bus.py:59` | `def test_state_clamps_negative_offsets(tmp_path)` |
 | `test_state_round_trip` | function | `tests/test_toast_bus.py:49` | `def test_state_round_trip(tmp_path)` |
 | `test_toasts_enabled_default_true` | function | `tests/test_toast_bus.py:160` | `def test_toasts_enabled_default_true()` |

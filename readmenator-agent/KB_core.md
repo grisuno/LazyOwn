@@ -424,15 +424,15 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `_coerce_int` (method, line 299) `def _coerce_int(raw)`
   - `_coerce_bool` (method, line 314) `def _coerce_bool(raw)`
   - `_spec` (method, line 333) `def _spec(name, kind, default, description)`
-  - `field_for` (method, line 1225) `def field_for(key)`
-  - `coerce_value` (method, line 1230) `def coerce_value(key, raw)`
-  - `validate_value` (method, line 1253) `def validate_value(key, value)`
-  - `validate_payload` (method, line 1327) `def validate_payload(payload)`
-  - `format_issue` (method, line 1362) `def format_issue(issue)`
-  - `default_payload` (method, line 1380) `def default_payload()`
-  - `categories` (method, line 1388) `def categories()`
+  - `field_for` (method, line 1327) `def field_for(key)`
+  - `coerce_value` (method, line 1332) `def coerce_value(key, raw)`
+  - `validate_value` (method, line 1355) `def validate_value(key, value)`
+  - `validate_payload` (method, line 1429) `def validate_payload(payload)`
+  - `format_issue` (method, line 1464) `def format_issue(issue)`
+  - `default_payload` (method, line 1482) `def default_payload()`
+  - `categories` (method, line 1490) `def categories()`
 - Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
-- Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`
+- Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 
 ## core/process.py
 - Doc: Process and subprocess utilities for the LazyOwn framework.

@@ -1,0 +1,22 @@
+name: cloudpeass_azure
+description: >
+  AzurePEAS by peass-ng. Effective ARM and Entra ID permissions of a compromised
+  principal. Token claims, effective ARM permissions, IAM reconstruction. No
+  writes, never runs commands in workloads. Auth via az login plus free arg
+  --use-az-cli, or AZURE_ARM_TOKEN and AZURE_GRAPH_TOKEN env vars (never CLI
+  args, they leak in ps). Report at sessions/cloudpeass_azure_results.json.
+  Free args: --check-only-these-subs ID --scopes SCOPE_ID --azure-services
+  vm,keyvault,storage --skip-entraid.
+author: peass-ng
+version: "1.0"
+enabled: true
+os: iaas
+trigger: []
+category: "17. Cloud Attacks"
+module_type: scanner
+tool:
+  name: CloudPEASS AzurePEAS
+  repo_url: https://github.com/peass-ng/CloudPEASS.git
+  install_path: external/.exploit/CloudPEASS
+  install_command: pip install -r requirements.txt
+  execute_command: python3 AzurePEAS.py --no-ask --skip-az-cli-fallback --out-json-path ../../../sessions/cloudpeass_azure_results.json

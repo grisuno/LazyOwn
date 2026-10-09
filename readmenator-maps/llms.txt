@@ -1,6 +1,6 @@
 # LazyOwn
 
-> Static analysis knowledge base for LazyOwn: 22 communities, 896 files, 8073 imports, 10 languages, 17095 symbols.
+> Static analysis knowledge base for LazyOwn: 21 communities, 897 files, 8080 imports, 10 languages, 17103 symbols.
 
 Generated offline by readmenator (zero LLM tokens). Start with the wiki index for the big picture, then the agent INDEX for file lookup.
 

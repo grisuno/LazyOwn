@@ -1,0 +1,28 @@
+name: cloudpeass
+description: >
+  CloudPEASS suite by peass-ng. Runs all four privesc enumerators in one shot:
+  AWSPEAS, AzurePEAS, GCPPEAS and K8sPEAS. Read-only APIs; reports at
+  sessions/cloudpeass_<aws|azure|gcp|k8s>_results.json. First run clones and
+  installs requirements. Set region with assign cloud_region (default us-east-1,
+  used by the AWS pass). Creds via env or CLIs; missing creds fail only that
+  pass. Takes no free args (they would land on the K8s pass); use the four
+  single commands to customize flags per provider.
+author: peass-ng
+version: "1.0"
+enabled: true
+os: iaas
+trigger: []
+category: "17. Cloud Attacks"
+module_type: scanner
+params:
+  - name: cloud_region
+    type: string
+    required: false
+    default: us-east-1
+    description: AWS region for the AWSPEAS pass. Set with assign cloud_region.
+tool:
+  name: CloudPEASS Suite
+  repo_url: https://github.com/peass-ng/CloudPEASS.git
+  install_path: external/.exploit/CloudPEASS
+  install_command: pip install -r requirements.txt
+  execute_command: python3 AWSPEAS.py --region {cloud_region} --no-ask --out-json-path ../../../sessions/cloudpeass_aws_results.json; python3 AzurePEAS.py --no-ask --skip-az-cli-fallback --out-json-path ../../../sessions/cloudpeass_azure_results.json; python3 GCPPEAS.py --out-json-path ../../../sessions/cloudpeass_gcp_results.json; python3 K8sPEAS.py --no-ask --out-json-path ../../../sessions/cloudpeass_k8s_results.json; echo "CloudPEASS reports at sessions/cloudpeass_*_results.json"

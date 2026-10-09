@@ -3,6 +3,14 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_advisor_swallows_rag_query_errors` | method | `tests/test_reactive_engine_semantic.py:163` | `def test_advisor_swallows_rag_query_errors()` |
+| `test_emits_priority_five_suggestion` | method | `tests/test_reactive_engine_semantic.py:70` | `def test_emits_priority_five_suggestion()` |
+| `test_engine_uses_semantic_advisor_when_supplied` | method | `tests/test_reactive_engine_semantic.py:139` | `def test_engine_uses_semantic_advisor_when_supplied()` |
+| `test_returns_empty_when_disabled_via_payload` | method | `tests/test_reactive_engine_semantic.py:54` | `def test_returns_empty_when_disabled_via_payload()` |
+| `test_returns_empty_when_rag_unavailable` | method | `tests/test_reactive_engine_semantic.py:46` | `def test_returns_empty_when_rag_unavailable()` |
+| `test_skips_hits_without_command_prefix` | method | `tests/test_reactive_engine_semantic.py:127` | `def test_skips_hits_without_command_prefix()` |
+| `test_skips_low_score_hits` | method | `tests/test_reactive_engine_semantic.py:90` | `def test_skips_low_score_hits()` |
+| `test_skips_same_command_and_dedupes` | method | `tests/test_reactive_engine_semantic.py:102` | `def test_skips_same_command_and_dedupes()` |
 | `TestExtractLabels` | class | `tests/test_reactive_hints.py:88` | `class TestExtractLabels` |
 | `TestFirstToken` | class | `tests/test_reactive_hints.py:57` | `class TestFirstToken` |
 | `TestRenderInlineHints` | class | `tests/test_reactive_hints.py:111` | `class TestRenderInlineHints` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `test_shell_false_enforced` | method | `tests/test_security_hardening_v3.py:51` | `def test_shell_false_enforced(self)` |
 | `test_text_mode_enabled` | method | `tests/test_security_hardening_v3.py:104` | `def test_text_mode_enabled(self)` |
 | `test_timeout_passed_through` | method | `tests/test_security_hardening_v3.py:71` | `def test_timeout_passed_through(self)` |
-| `test_truncates_long_names` | method | `tests/test_security_hardening_v3.py:349` | `def test_truncates_long_names(self)` |
-| `test_uses_e_flag_not_p` | method | `tests/test_security_hardening_v3.py:138` | `def test_uses_e_flag_not_p(self)` |
-| `test_works_with_env_key` | method | `tests/test_security_hardening_v3.py:371` | `def test_works_with_env_key(self)` |
-| `TestBotNoOsSystem` | class | `tests/test_security_hardening_v4.py:560` | `class TestBotNoOsSystem` |
-| `TestC2BuilderNoOsSystem` | class | `tests/test_security_hardening_v4.py:360` | `class TestC2BuilderNoOsSystem` |
-| `TestConditionalHooksInjectionPrevention` | class | `tests/test_security_hardening_v4.py:513` | `class TestConditionalHooksInjectionPrevention` |
-| `TestExecuteCommandShellFalse` | class | `tests/test_security_hardening_v4.py:392` | `class TestExecuteCommandShellFalse` |
-| `TestMiscMigratedIpDisplay` | class | `tests/test_security_hardening_v4.py:416` | `class TestMiscMigratedIpDisplay` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

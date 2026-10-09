@@ -2,20 +2,20 @@
 
 > Cross-session context for agents. Sections 1-6 are regenerated from the source tree with zero LLM tokens: declared rules are quoted verbatim with `file:line`, measured baselines come from the scan. Section 7 is written by agents and humans and is preserved across rebuilds.
 
-Generated from 896 files at commit `f0e78f0b33bb`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
+Generated from 897 files at commit `5529c6a6037a`. Read this first, then `readmenator-wiki/index.md`, then `readmenator . ask "<question>"` for anything specific.
 
 ## 1. Purpose and domain
 
 - What it is: curl -fsSL https://raw.githubusercontent.com/grisuno/LazyOwn/main/bootstrap.sh -o /tmp/bootstrap.sh \ (`README.md:17`)
-- Domain vocabulary (term, files): `command` (371), `modules` (341), `all` (330), `file` (324), `not` (315), `own` (306), `lazy` (303), `cli` (289), `json` (282), `path` (274), `run` (273), `name` (272), `set` (266), `commands` (252), `without` (248)
+- Domain vocabulary (term, files): `command` (372), `modules` (341), `all` (330), `file` (324), `not` (315), `own` (306), `lazy` (303), `cli` (289), `json` (283), `path` (274), `run` (273), `name` (272), `set` (266), `commands` (252), `without` (249)
 - Subsystem `modules: autonomous_daemon`: 142 files, core `skills/autonomous_daemon.py`: skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon
 - Subsystem `cli/commands`: 136 files, core `utils.py`: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024...
 - Subsystem `cli`: 89 files, core `lazyown.py`: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date...
-- Subsystem `modules: lazyc2`: 77 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
+- Subsystem `lazyc2/security`: 63 files, core `lazyc2.py`: is_insecure_credential: Check for weak or default credentials
 - Subsystem `modules: wizard`: 54 files, core `cli/wizard.py`: Guided first-run setup wizard for the LazyOwn framework.
 - Subsystem `lazygui/panels`: 54 files, core `lazygui/services/teamserver_backend.py`: Teamserver backend with Socket.IO real-time and full HTTP API coverage.
 - Subsystem `modules: world_model`: 37 files, core `modules/world_model.py`: modules/world_model.py
-- Subsystem `static/js`: 22 files, core `static/js/html2pdf.bundle.min.js`: o: 3.
+- Subsystem `skills/claude_md_orchestrator`: 30 files, core `skills/claude_md_orchestrator/models.py`: Data models for the claude_md_orchestrator skill.
 - Business rules that the code cannot show live in section 7: record them there.
 
 ## 2. Workflow
@@ -75,11 +75,11 @@ Declared:
 - [About repository security advisories](https://docs.github.com/en/code-security/security-advisories/about-repository-security-advisories) (`SECURITY.md:41`)
 
 Measured baseline:
-- py: 774 files, 15154 symbols; docstrings on 49% of symbols; functions snake_case (99%); types PascalCase (100%); median file 237 lines, max 11290.
+- py: 775 files, 15162 symbols; docstrings on 49% of symbols; functions snake_case (99%); types PascalCase (100%); median file 237 lines, max 11290.
 - sh: 57 files, 198 symbols; docstrings on 41% of symbols; functions snake_case (100%); median file 71 lines, max 1532.
 - lua: 26 files, 45 symbols; docstrings on 0% of symbols; functions snake_case (98%); median file 72 lines, max 261.
 - js: 19 files, 1355 symbols; docstrings on 41% of symbols; functions snake_case (44%); types PascalCase (18%); median file 6 lines, max 9358.
-- Tests: 206 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
+- Tests: 207 files under ., modules, poc_tui; follow the existing naming (e.g. `test_lazyencoder_decoder.py`).
 
 ## 5. Minimum deliverables
 

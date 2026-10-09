@@ -1,0 +1,21 @@
+name: cloudpeass_gcp
+description: >
+  GCPPEAS by peass-ng. Effective GCP permissions via testIamPermissions, resource
+  discovery and IAM policy reads. Transport rejects non-read-only endpoints.
+  Auth via CLOUDSDK_AUTH_ACCESS_TOKEN, GOOGLE_APPLICATION_CREDENTIALS or ADC
+  and workload metadata. Report at sessions/cloudpeass_gcp_results.json.
+  Free args: --project ID --only-specified --resource NAME (repeatable)
+  --sa-credentials-path FILE --group EMAIL --skip-asset-inventory --skip-bruteforce.
+author: peass-ng
+version: "1.0"
+enabled: true
+os: iaas
+trigger: []
+category: "17. Cloud Attacks"
+module_type: scanner
+tool:
+  name: CloudPEASS GCPPEAS
+  repo_url: https://github.com/peass-ng/CloudPEASS.git
+  install_path: external/.exploit/CloudPEASS
+  install_command: pip install -r requirements.txt
+  execute_command: python3 GCPPEAS.py --out-json-path ../../../sessions/cloudpeass_gcp_results.json

@@ -1,0 +1,27 @@
+name: cloudpeass_aws
+description: >
+  AWSPEAS by peass-ng. Read-only enum of a compromised AWS principal: IAM policy
+  reads, SimulatePrincipalPolicy, live read-only probes. Never creates, modifies
+  or invokes anything. Canary-aware, stops safely with --no-ask. Region via assign
+  cloud_region. Auth via boto3 chain or env creds. Report at
+  sessions/cloudpeass_aws_results.json. Free args: --profile NAME --aws-services
+  s3,ec2,lambda --resource-arn ARN --bruteforce-always --skip-bruteforce --threads N.
+author: peass-ng
+version: "1.0"
+enabled: true
+os: iaas
+trigger: []
+category: "17. Cloud Attacks"
+module_type: scanner
+params:
+  - name: cloud_region
+    type: string
+    required: false
+    default: us-east-1
+    description: AWS region for regional probes. Set with assign cloud_region.
+tool:
+  name: CloudPEASS AWSPEAS
+  repo_url: https://github.com/peass-ng/CloudPEASS.git
+  install_path: external/.exploit/CloudPEASS
+  install_command: pip install -r requirements.txt
+  execute_command: python3 AWSPEAS.py --region {cloud_region} --no-ask --out-json-path ../../../sessions/cloudpeass_aws_results.json

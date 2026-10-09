@@ -22,6 +22,7 @@ After registration, restart with `bash skills/mcp_restart.sh` whenever
 | `lazyown.md` | Claude Code skill / slash-command documentation |
 | `lazyown/` | Hermes Agent skill definition (SKILL.md with frontmatter) |
 | `lazyaddon-creator/` | Skill definition for one-shot `lazyaddons/*.yaml` authoring from a GitHub URL |
+| `marketplace-contributor/` | Skill definition for one-shot marketplace contributions from a GitHub URL: YARA rules (`yara_rules/`), Nuclei wrappers (`lazyaddons/` + `tools/*.tool`), pwntomate tools |
 | `lazyown_policy.py` | Reward-based policy engine for the auto_loop; detection-aware reward shaping |
 | `lazyown_facts.py` | Structured fact extraction from nmap XML and tool output |
 | `lazyown_objective.py` | Objective queue + soul.md management |

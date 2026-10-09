@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p34.md](SYMBOLS_p34.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_no_double_count_first_time_plus_new_phase` | method | `tests/test_tips_engine.py:301` | `def test_no_double_count_first_time_plus_new_phase(self, config)` |
+| `test_noob_at_zero` | method | `tests/test_tips_engine.py:388` | `def test_noob_at_zero(self)` |
+| `test_off_suppresses_all_surfaces` | method | `tests/test_tips_engine.py:237` | `def test_off_suppresses_all_surfaces(self, engine)` |
+| `test_on_runs_every_surface` | method | `tests/test_tips_engine.py:257` | `def test_on_runs_every_surface(self, engine)` |
+| `test_ping_not_skipped` | method | `tests/test_tips_engine.py:352` | `def test_ping_not_skipped(self)` |
+| `test_ping_suggests_lazynmap` | method | `tests/test_tips_engine.py:141` | `def test_ping_suggests_lazynmap(self, engine)` |
+| `test_render_skips_disabled_engine` | method | `tests/test_tips_engine.py:132` | `def test_render_skips_disabled_engine(self, config, capsys)` |
+| `test_rookie_at_thousand` | method | `tests/test_tips_engine.py:391` | `def test_rookie_at_thousand(self)` |
+| `test_short_value_untouched` | method | `tests/test_tips_engine.py:376` | `def test_short_value_untouched(self)` |
+| `test_skip_set_contains_common_noise` | method | `tests/test_tips_engine.py:345` | `def test_skip_set_contains_common_noise(self)` |
+| `test_valid_command_names` | method | `tests/test_tips_engine.py:360` | `def test_valid_command_names(self)` |
+| `test_valid_commands_kept` | method | `tests/test_tips_engine.py:321` | `def test_valid_commands_kept(self)` |
+| `tmp_sessions` | function | `tests/test_tips_engine.py:39` | `def tmp_sessions()` |
+| `_append_jsonl` | function | `tests/test_toast_bus.py:42` | `def _append_jsonl(path, records)` |
+| `_write_jsonl` | function | `tests/test_toast_bus.py:34` | `def _write_jsonl(path, records)` |
+| `test_build_default_bus_honours_budget` | function | `tests/test_toast_bus.py:178` | `def test_build_default_bus_honours_budget(tmp_path)` |
 | `test_bus_mark_all_seen_consumes_pending` | function | `tests/test_toast_bus.py:143` | `def test_bus_mark_all_seen_consumes_pending(tmp_path)` |
 | `test_bus_render_disabled_returns_zero` | function | `tests/test_toast_bus.py:130` | `def test_bus_render_disabled_returns_zero(tmp_path)` |
 | `test_bus_render_respects_per_tick_budget` | function | `tests/test_toast_bus.py:109` | `def test_bus_render_respects_per_tick_budget(tmp_path)` |

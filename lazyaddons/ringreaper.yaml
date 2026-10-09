@@ -1,0 +1,29 @@
+name: ringreaper
+description: |
+  RingReaper by MatheuZSecurity. Linux post-exploitation agent evading EDR
+  via io_uring (get/put/ss/ps/privesc/kick/selfdestruct). Install builds the
+  static agent (needs gcc and liburing-dev via apt). Run stages the agent to
+  sessions/ringreaper_agent and starts the listener on {lhost}:{lport} from
+  assign lhost/lport. Deliver the agent to the target manually, then interact
+  with list/use sessions. Takes no free args.
+author: MatheuZSecurity
+version: "2.0"
+enabled: true
+params:
+  - name: lhost
+    type: string
+    required: true
+    description: Operator listener address for server.py bind.
+  - name: lport
+    type: string
+    required: true
+    description: Operator listener port for server.py bind.
+os: linux
+trigger: []
+category: "10. Command & Control"
+tool:
+  name: RingReaper
+  repo_url: https://github.com/MatheuZSecurity/RingReaper.git
+  install_path: external/.exploit/RingReaper
+  install_command: sudo apt install -y liburing-dev gcc make && make
+  execute_command: cp agent ../../../sessions/ringreaper_agent && python3 server.py --ip {lhost} --port {lport}

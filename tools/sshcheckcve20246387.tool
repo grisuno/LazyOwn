@@ -4,7 +4,7 @@
   "trigger": [
     "ssh"
   ],
-  "active": false,
+  "active": true,
   "category": "02. Scanning & Enumeration",
   "description": "Pwntomate tool: sshcheckcve20246387 \u2014 triggers on ['ssh']"
 }

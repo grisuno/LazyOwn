@@ -1,6 +1,6 @@
 # Second Brain
 
-*Last synthesized: 2026-10-08 | 897 files | 22 concept pages | offline, zero tokens*
+*Last synthesized: 2026-10-09 | 898 files | 22 concept pages | offline, zero tokens*
 
 > Raw sources -> readmenator wiki -> links (Karpathy LLM Wiki Pattern, deterministic).
 > Start here, then open one community page. Prefer grep over full reads.
@@ -17,14 +17,14 @@ Open work clusters around documentation (86% file coverage), 0 security findings
 
 | Metric | Value |
 |--------|-------|
-| Files | 897 |
-| Symbols | 17103 |
+| Files | 898 |
+| Symbols | 17119 |
 | Resolved imports | 3204 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 22 |
-| Doc coverage | 86% (767/897 files) |
+| Doc coverage | 86% (768/898 files) |
 | Security findings | 0 |
-| Estimated read cost | ~530672 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~531736 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 7: `lazyc2.py`, `lazyown_mcp.py`, `mcp_generated_tools.py`, `html2pdf.bundle.min.js`, `vis-network-9.1.2.min.js` (+2 more) |
 
 ## Reading Order
@@ -61,7 +61,7 @@ readmenator query "<question>" --target LazyOwn
 - [scripts: migrate_lazyown (2 files, cohesion 1.00)](./community_18_scripts_migrate_lazyown.md)
 - [test (2 files, cohesion 1.00)](./community_19_test.md)
 - [tools (2 files, cohesion 1.00)](./community_20_tools.md)
-- [orphans (207 files, cohesion 0.00)](./community_21_orphans.md)
+- [orphans (208 files, cohesion 0.00)](./community_21_orphans.md)
 
 ## God Nodes
 

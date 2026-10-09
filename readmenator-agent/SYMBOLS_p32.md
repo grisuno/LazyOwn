@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_high_risk_mimikatz` | method | `tests/test_moe_rl_swan.py:44` | `def test_high_risk_mimikatz(self)` |
+| `test_hive_tools_registered_in_mcp` | method | `tests/test_moe_rl_swan.py:638` | `def test_hive_tools_registered_in_mcp(self)` |
+| `test_is_critical_risk_property` | method | `tests/test_moe_rl_swan.py:99` | `def test_is_critical_risk_property(self)` |
+| `test_is_high_risk_property_consistent_with_probability` | method | `tests/test_moe_rl_swan.py:70` | `def test_is_high_risk_property_consistent_with_probability(self)` |
+| `test_llm_selector_disabled_without_env` | method | `tests/test_moe_rl_swan.py:509` | `def test_llm_selector_disabled_without_env(self)` |
+| `test_low_detection_preserves_positive_reward` | method | `tests/test_moe_rl_swan.py:541` | `def test_low_detection_preserves_positive_reward(self)` |
+| `test_low_risk_dns_query` | method | `tests/test_moe_rl_swan.py:37` | `def test_low_risk_dns_query(self)` |
+| `test_mcp_swan_route_returns_valid_json` | method | `tests/test_moe_rl_swan.py:397` | `def test_mcp_swan_route_returns_valid_json(self)` |
+| `test_mcp_swan_status_returns_valid_json` | method | `tests/test_moe_rl_swan.py:410` | `def test_mcp_swan_status_returns_valid_json(self)` |
+| `test_nmap_is_not_high_risk` | method | `tests/test_moe_rl_swan.py:84` | `def test_nmap_is_not_high_risk(self)` |
+| `test_optimistic_init_for_unseen_actions` | method | `tests/test_moe_rl_swan.py:291` | `def test_optimistic_init_for_unseen_actions(self, tmp_path)` |
+| `test_outcome_evaluator_failed_gives_negative_reward` | method | `tests/test_moe_rl_swan.py:368` | `def test_outcome_evaluator_failed_gives_negative_reward(self)` |
+| `test_outcome_evaluator_high_value_category_bonus` | method | `tests/test_moe_rl_swan.py:381` | `def test_outcome_evaluator_high_value_category_bonus(self)` |
+| `test_outcome_evaluator_success_reward` | method | `tests/test_moe_rl_swan.py:354` | `def test_outcome_evaluator_success_reward(self)` |
+| `test_performance_bonus_penalises_high_detection` | method | `tests/test_moe_rl_swan.py:159` | `def test_performance_bonus_penalises_high_detection(self, tmp_path)` |
+| `test_performance_bonus_positive_after_success` | method | `tests/test_moe_rl_swan.py:151` | `def test_performance_bonus_positive_after_success(self, tmp_path)` |
 | `test_pivot_candidates_sorted_by_centrality` | method | `tests/test_moe_rl_swan.py:609` | `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)` |
 | `test_record_outcome_updates_ema` | method | `tests/test_moe_rl_swan.py:142` | `def test_record_outcome_updates_ema(self, tmp_path)` |
 | `test_route_returns_expert_or_raises_gracefully` | method | `tests/test_moe_rl_swan.py:120` | `def test_route_returns_expert_or_raises_gracefully(self)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `call_tool` | method | `tests/test_rea_mcp.py:53` | `def call_tool(self)` |
 | `list_tools` | method | `tests/test_rea_mcp.py:50` | `def list_tools(self)` |
 | `test_analyze_missing_target` | function | `tests/test_rea_mcp.py:169` | `def test_analyze_missing_target(monkeypatch)` |
-| `test_analyze_uses_explicit_target` | function | `tests/test_rea_mcp.py:160` | `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)` |
-| `test_decompile_needs_valid_address` | function | `tests/test_rea_mcp.py:190` | `def test_decompile_needs_valid_address(tmp_path, monkeypatch)` |
-| `test_doctor_argv` | function | `tests/test_rea_mcp.py:115` | `def test_doctor_argv(monkeypatch)` |
-| `test_inspect_artifact_argv` | function | `tests/test_rea_mcp.py:121` | `def test_inspect_artifact_argv(tmp_path, monkeypatch)` |
-| `test_large_output_survives_compaction` | function | `tests/test_rea_mcp.py:138` | `def test_large_output_survives_compaction(tmp_path, monkeypatch)` |
-| `test_list_tools_has_rea` | function | `tests/test_rea_mcp.py:92` | `def test_list_tools_has_rea()` |
-| `test_missing_binary` | function | `tests/test_rea_mcp.py:107` | `def test_missing_binary(monkeypatch)` |
-| `test_provider_flag_appended` | function | `tests/test_rea_mcp.py:219` | `def test_provider_flag_appended(tmp_path, monkeypatch)` |
-| `test_search_needs_query` | function | `tests/test_rea_mcp.py:207` | `def test_search_needs_query(tmp_path, monkeypatch)` |
-| `test_target_flag_injection_rejected` | function | `tests/test_rea_mcp.py:180` | `def test_target_flag_injection_rejected(monkeypatch)` |
-| `test_unknown_action_rejected` | function | `tests/test_rea_mcp.py:101` | `def test_unknown_action_rejected(monkeypatch)` |
-| `_ExplodingRAG` | class | `tests/test_reactive_engine_semantic.py:166` | `class _ExplodingRAG` |
-| `_FakeRAG` | class | `tests/test_reactive_engine_semantic.py:33` | `class _FakeRAG` |
-| `__init__` | method | `tests/test_reactive_engine_semantic.py:36` | `def __init__(self, hits, ready)` |
-| `query` | method | `tests/test_reactive_engine_semantic.py:41` | `def query(self, text, n)` |
-| `query` | method | `tests/test_reactive_engine_semantic.py:169` | `def query(self, text, n)` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

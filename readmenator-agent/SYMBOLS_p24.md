@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
+| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
+| `parseListStyle` | function | `static/js/html2pdf.bundle.min.js:2214` | `` |
+| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
+| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
+| `parseListStyleType` | function | `static/js/html2pdf.bundle.min.js:2100` | `` |
+| `parseMargin` | function | `static/js/html2pdf.bundle.min.js:2254` | `` |
+| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
+| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
+| `parseOverflow` | function | `static/js/html2pdf.bundle.min.js:2275` | `` |
+| `parseOverflowWrap` | function | `static/js/html2pdf.bundle.min.js:2303` | `` |
+| `parsePadding` | function | `static/js/html2pdf.bundle.min.js:1343` | `` |
+| `parsePathForBorder` | function | `static/js/html2pdf.bundle.min.js:1187` | `` |
+| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
+| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
+| `parsePosition` | function | `static/js/html2pdf.bundle.min.js:2330` | `` |
 | `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
 | `parseRadialGradient` | function | `static/js/html2pdf.bundle.min.js:5193` | `` |
 | `parseSideOrCorner` | function | `static/js/html2pdf.bundle.min.js:5254` | `` |
@@ -479,22 +495,6 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

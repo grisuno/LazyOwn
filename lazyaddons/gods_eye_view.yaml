@@ -1,0 +1,21 @@
+name: gods_eye_view
+description: |
+  God's Eye View by Bilawal Sidhu. Live open-source spatial intel on a 3D
+  globe (aircraft, satellites, vessels, CCTV, traffic). Starts keyless on
+  localhost:4173 with Esri/OSM fallback; optional keys via the in-app Provider
+  Settings panel, never placeholders. Install runs npm install. Run checks
+  readiness then starts the dev server; free args reach vite, e.g.
+  gods_eye_view --port 8080. Also ships an MCP server at server/mcp/stdio.js.
+author: Bilawal Sidhu
+version: "0.2.1"
+enabled: true
+params: []
+os: any
+trigger: []
+category: "01. Reconnaissance"
+tool:
+  name: Gods Eye View
+  repo_url: https://github.com/bilawalsidhu/gods-eye-view.git
+  install_path: external/.exploit/gods-eye-view
+  install_command: npm install
+  execute_command: npm run doctor; npm run dev -- --host localhost --port 4173

@@ -341,7 +341,6 @@ def test_range_verify_unknown_profile(capsys) -> None:
 
 def test_gym_range_next_steps() -> None:
     """Range challenges point at range commands, others stay classic."""
-    import json
 
     from modules.redteam_gym import GYM_DIR, start_challenge
 

@@ -26,10 +26,10 @@ from pathlib import Path
 from typing import Any
 
 from rich.text import Text
+from textual import work
 from textual.app import App, ComposeResult
 from textual.containers import Horizontal, Vertical
 from textual.message import Message
-from textual import work
 from textual.widgets import Button, Footer, Header, Input, Log, Static
 
 from cli.killchain import PhaseProgress
@@ -973,7 +973,7 @@ class LazyOwnDashboard(App):
         try:
             payload = _read_json(self._payload_path)
             data = {
-                "exported_at": _dt.datetime.now(_dt.timezone.utc).isoformat(),
+                "exported_at": _dt.datetime.now(_dt.UTC).isoformat(),
                 "payload": {k: payload.get(k) for k in ("rhost", "lhost", "domain")},
                 "recent_commands": _read_recent_commands(),
                 "hints": _graph_hints(),

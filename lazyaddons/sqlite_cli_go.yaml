@@ -1,0 +1,36 @@
+name: sqlite_cli_go
+description: |
+  SQLite 3.53.4 sqlite3 CLI command injection lab (Abraxas Labs, CVSS 7.8 High, CWE-78).
+  Default sqlite3 CLI treats SQL Server `go` and Oracle `/` as statement terminators
+  (line_is_command_terminator rewrites the line to `;`), so the next dot-command
+  (.shell / .output / .read) runs as the operator UID when the victim feeds an
+  attacker script without --safe. --safe still blocks .shell (control holds).
+  Loopback docker lab (127.0.0.1:18920) proving go-then-.shell and slash-then-.shell
+  echo the SQLITE-CLI-GO-WITNESS oracle, plus --safe blocked on both.
+  First time: needs docker only (python3 stdlib, no pip deps).
+  Flow: assign rhost 127.0.0.1, assign rport 18920, then run sqlite_cli_go.
+  Lab-only, authorized testing. Witness string only, --safe is the control.
+author: abraxas
+version: "1.0"
+enabled: true
+params:
+  - name: rhost
+    type: string
+    required: false
+    default: 127.0.0.1
+    description: Lab host. The lab is loopback-pinned by upstream run.sh (127.0.0.1:18920).
+  - name: rport
+    type: integer
+    required: false
+    default: 18920
+    description: Lab port for the sqlite-cli-go compose stack (dummy TCP 127.0.0.1:18920).
+os: any
+trigger: []
+category: "03. Exploitation"
+module_type: exploit
+tool:
+  name: sqlite-cli-go
+  repo_url: https://github.com/abraxas/sqlite-cli-go.git
+  install_path: external/.exploit/sqlite-cli-go
+  install_command: docker compose version
+  execute_command: python3 sqlite-cli-go-Abraxas-Labs.py

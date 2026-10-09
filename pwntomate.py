@@ -203,7 +203,7 @@ if args.execute:
         return subprocess.run(shlex.split(cmd), shell=False, capture_output=True, text=True, timeout=600, check=False)
 
     with ThreadPoolExecutor(max_workers=4) as executor:
-        futures = {executor.submit(_run_tool, cmd): display for cmd, display in zip(cmds, displays)}
+        futures = {executor.submit(_run_tool, cmd): display for cmd, display in zip(cmds, displays, strict=False)}
         for future in as_completed(futures):
             try:
                 result = future.result()

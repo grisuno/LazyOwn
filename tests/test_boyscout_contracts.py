@@ -46,7 +46,7 @@ def test_lazyown_has_no_unused_imports() -> None:
     dead = [
         name
         for name in _bound_import_names(tree)
-        if len(re.findall(r"\b%s\b" % re.escape(name), source)) == 1
+        if len(re.findall(r"\b{}\b".format(re.escape(name)), source)) == 1
     ]
     assert not dead, f"unused imports in lazyown.py: {sorted(set(dead))}"
 

@@ -43,12 +43,12 @@ var status=document.getElementById("doc-status");
 var lastFocus=null;
 var allowedHrefs=null;
 function collectAllowedHrefs(){
-var set={};
+var list=[];
 document.querySelectorAll('#documentation a[href$=".html"]').forEach(function(a){
 var h=a.getAttribute("href");
-if(typeof h==="string"&&isSafeDocHref(h)){set[h]=true;}
+if(isSafeDocHref(h)&&list.indexOf(h)===-1){list.push(h);}
 });
-return set;
+return list;
 }
 function isSafeDocHref(href){
 if(typeof href!=="string"||href.length===0||href.length>200){return false;}
@@ -64,7 +64,7 @@ return true;
 function isAllowedHref(href){
 if(!isSafeDocHref(href)){return false;}
 if(!allowedHrefs){allowedHrefs=collectAllowedHrefs();}
-return Object.prototype.hasOwnProperty.call(allowedHrefs,href);
+return allowedHrefs.indexOf(href)!==-1;
 }
 function closeDoc(){
 if(viewer.classList.contains("hidden")){return;}
@@ -77,16 +77,18 @@ if(lastFocus){lastFocus.focus();}
 }
 function openDoc(name,href){
 if(!isAllowedHref(href)){return;}
+var canonical=allowedHrefs[allowedHrefs.indexOf(href)];
+if(typeof canonical!=="string"||!isSafeDocHref(canonical)){return;}
 lastFocus=document.activeElement;
 title.textContent=name;
-full.setAttribute("href",href);
-status.textContent="Loading "+href+" ...";
+full.setAttribute("href",canonical);
+status.textContent="Loading "+canonical+" ...";
 viewer.classList.remove("hidden");viewer.classList.add("flex");
 scrim.classList.remove("hidden");
 document.getElementById("doc-close").focus();
-frame.setAttribute("src",href);
-history.replaceState(null,"","#doc="+encodeURIComponent(href));
-frame.onload=function(){status.textContent=href+" | loaded on demand";};
+frame.setAttribute("src",canonical);
+history.replaceState(null,"","#doc="+encodeURIComponent(canonical));
+frame.onload=(function(safe){return function(){status.textContent=safe+" | loaded on demand";};})(canonical);
 }
 document.querySelectorAll('#documentation a[href$=".html"]').forEach(function(a){
 a.addEventListener("click",function(ev){
@@ -101,7 +103,10 @@ document.getElementById("doc-close").addEventListener("click",closeDoc);
 scrim.addEventListener("click",closeDoc);
 document.addEventListener("keydown",function(e){if(e.key==="Escape"){closeDoc();}});
 if(location.hash.indexOf("#doc=")===0){
-var target=decodeURIComponent(location.hash.slice(5));
+var raw=location.hash.slice(5);
+if(raw.length>200){raw=raw.slice(0,200);}
+var target="";
+try{target=decodeURIComponent(raw);}catch(e){target="";}
 if(isAllowedHref(target)){openDoc(target,target);}
 }
 })();

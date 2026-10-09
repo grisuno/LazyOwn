@@ -11,13 +11,19 @@
 </head>
 <body>
   <div id="redoc-container"></div>
-  <script src="https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js"></script>
+  <script src="https://cdn.redoc.ly/redoc/v2.5.4/bundles/redoc.standalone.js"></script>
   <script>
-    fetch('openapi.yaml')
-      .then(res => res.text())
-      .then(spec => {
-        Redoc.init(spec, {
-          specUrl: 'openapi.yaml',
+    (function() {
+      var el = document.getElementById('redoc-container');
+      function showError(err) {
+        el.textContent = 'Failed to load API spec (openapi.yaml): ' + err;
+      }
+      if (typeof Redoc === 'undefined' || !Redoc.init) {
+        showError('Redoc library failed to load from CDN.');
+        return;
+      }
+      try {
+        var result = Redoc.init('openapi.yaml', {
           scrollYOffset: 0,
           hideDownloadButton: false,
           expandResponses: '200',
@@ -27,8 +33,14 @@
             colors: { primary: { main: '#00d4aa' } },
             typography: { fontFamily: 'Roboto, sans-serif' }
           }
-        }, document.getElementById('redoc-container'));
-      });
+        }, el);
+        if (result && typeof result.catch === 'function') {
+          result.catch(showError);
+        }
+      } catch (err) {
+        showError(err);
+      }
+    })();
   </script>
 </body>
 </html>

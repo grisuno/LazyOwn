@@ -10,6 +10,12 @@ version: 0.78.0
 enabled: true
 os: any
 trigger: []
+params:
+- name: grype_target
+  type: string
+  required: false
+  default: .
+  description: Scan target as image name, dir PATH or sbom FILE. Change with assign grype_target <target>; extra targets append as free args.
 tool:
   name: Grype
   repo_url: https://github.com/anchore/grype.git
@@ -20,6 +26,7 @@ tool:
     | tar xz -C . grype && chmod +x grype
   execute_command: >
     ./grype
+    {grype_target}
     --output json
     --file ../../../sessions/grype_output.json
     --only-fixed

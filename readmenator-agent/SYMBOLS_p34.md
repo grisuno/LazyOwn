@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_rejects_invalid_cidr` | method | `tests/test_security_hardening_v3.py:254` | `def test_rejects_invalid_cidr(self)` |
+| `test_rejects_invalid_ports` | method | `tests/test_security_hardening_v3.py:277` | `def test_rejects_invalid_ports(self)` |
+| `test_rejects_null_bytes` | method | `tests/test_security_hardening_v3.py:31` | `def test_rejects_null_bytes(self)` |
+| `test_rejects_null_bytes` | method | `tests/test_security_hardening_v3.py:175` | `def test_rejects_null_bytes(self)` |
+| `test_rejects_null_bytes_in_password` | method | `tests/test_security_hardening_v3.py:152` | `def test_rejects_null_bytes_in_password(self)` |
+| `test_rejects_oversized_content` | method | `tests/test_security_hardening_v3.py:120` | `def test_rejects_oversized_content(self)` |
+| `test_rejects_oversized_password` | method | `tests/test_security_hardening_v3.py:146` | `def test_rejects_oversized_password(self)` |
+| `test_removes_dangerous_chars` | method | `tests/test_security_hardening_v3.py:336` | `def test_removes_dangerous_chars(self)` |
+| `test_returns_completed_process_fields` | method | `tests/test_security_hardening_v3.py:62` | `def test_returns_completed_process_fields(self)` |
+| `test_returns_false_without_clipboard_tool` | method | `tests/test_security_hardening_v3.py:126` | `def test_returns_false_without_clipboard_tool(self)` |
+| `test_run_command_uses_list_form` | method | `tests/test_security_hardening_v3.py:409` | `def test_run_command_uses_list_form(self)` |
+| `test_runs_command_without_shell` | method | `tests/test_security_hardening_v3.py:37` | `def test_runs_command_without_shell(self)` |
+| `test_sets_ssplash_env` | method | `tests/test_security_hardening_v3.py:163` | `def test_sets_ssplash_env(self)` |
+| `test_shell_false_enforced` | method | `tests/test_security_hardening_v3.py:51` | `def test_shell_false_enforced(self)` |
+| `test_text_mode_enabled` | method | `tests/test_security_hardening_v3.py:104` | `def test_text_mode_enabled(self)` |
+| `test_timeout_passed_through` | method | `tests/test_security_hardening_v3.py:71` | `def test_timeout_passed_through(self)` |
 | `test_truncates_long_names` | method | `tests/test_security_hardening_v3.py:349` | `def test_truncates_long_names(self)` |
 | `test_uses_e_flag_not_p` | method | `tests/test_security_hardening_v3.py:138` | `def test_uses_e_flag_not_p(self)` |
 | `test_works_with_env_key` | method | `tests/test_security_hardening_v3.py:371` | `def test_works_with_env_key(self)` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p33.md](SYMBOLS_p33.md)
 | `test_new_phase_bonus` | method | `tests/test_tips_engine.py:296` | `def test_new_phase_bonus(self, config)` |
 | `test_next_threshold_increases` | method | `tests/test_tips_engine.py:308` | `def test_next_threshold_increases(self, engine)` |
 | `test_next_threshold_never_less_than_two` | method | `tests/test_tips_engine.py:314` | `def test_next_threshold_never_less_than_two(self, engine)` |
-| `test_no_double_count_first_time_plus_new_phase` | method | `tests/test_tips_engine.py:301` | `def test_no_double_count_first_time_plus_new_phase(self, config)` |
-| `test_noob_at_zero` | method | `tests/test_tips_engine.py:388` | `def test_noob_at_zero(self)` |
-| `test_off_suppresses_all_surfaces` | method | `tests/test_tips_engine.py:237` | `def test_off_suppresses_all_surfaces(self, engine)` |
-| `test_on_runs_every_surface` | method | `tests/test_tips_engine.py:257` | `def test_on_runs_every_surface(self, engine)` |
-| `test_ping_not_skipped` | method | `tests/test_tips_engine.py:352` | `def test_ping_not_skipped(self)` |
-| `test_ping_suggests_lazynmap` | method | `tests/test_tips_engine.py:141` | `def test_ping_suggests_lazynmap(self, engine)` |
-| `test_render_skips_disabled_engine` | method | `tests/test_tips_engine.py:132` | `def test_render_skips_disabled_engine(self, config, capsys)` |
-| `test_rookie_at_thousand` | method | `tests/test_tips_engine.py:391` | `def test_rookie_at_thousand(self)` |
-| `test_short_value_untouched` | method | `tests/test_tips_engine.py:376` | `def test_short_value_untouched(self)` |
-| `test_skip_set_contains_common_noise` | method | `tests/test_tips_engine.py:345` | `def test_skip_set_contains_common_noise(self)` |
-| `test_valid_command_names` | method | `tests/test_tips_engine.py:360` | `def test_valid_command_names(self)` |
-| `test_valid_commands_kept` | method | `tests/test_tips_engine.py:321` | `def test_valid_commands_kept(self)` |
-| `tmp_sessions` | function | `tests/test_tips_engine.py:39` | `def tmp_sessions()` |
-| `_append_jsonl` | function | `tests/test_toast_bus.py:42` | `def _append_jsonl(path, records)` |
-| `_write_jsonl` | function | `tests/test_toast_bus.py:34` | `def _write_jsonl(path, records)` |
-| `test_build_default_bus_honours_budget` | function | `tests/test_toast_bus.py:178` | `def test_build_default_bus_honours_budget(tmp_path)` |
 
 Next: [SYMBOLS_p35.md](SYMBOLS_p35.md)

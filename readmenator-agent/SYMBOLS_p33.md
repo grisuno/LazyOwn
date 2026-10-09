@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `test_analyze_uses_explicit_target` | function | `tests/test_rea_mcp.py:160` | `def test_analyze_uses_explicit_target(tmp_path, monkeypatch)` |
+| `test_decompile_needs_valid_address` | function | `tests/test_rea_mcp.py:190` | `def test_decompile_needs_valid_address(tmp_path, monkeypatch)` |
+| `test_doctor_argv` | function | `tests/test_rea_mcp.py:115` | `def test_doctor_argv(monkeypatch)` |
+| `test_inspect_artifact_argv` | function | `tests/test_rea_mcp.py:121` | `def test_inspect_artifact_argv(tmp_path, monkeypatch)` |
+| `test_large_output_survives_compaction` | function | `tests/test_rea_mcp.py:138` | `def test_large_output_survives_compaction(tmp_path, monkeypatch)` |
+| `test_list_tools_has_rea` | function | `tests/test_rea_mcp.py:92` | `def test_list_tools_has_rea()` |
+| `test_missing_binary` | function | `tests/test_rea_mcp.py:107` | `def test_missing_binary(monkeypatch)` |
+| `test_provider_flag_appended` | function | `tests/test_rea_mcp.py:219` | `def test_provider_flag_appended(tmp_path, monkeypatch)` |
+| `test_search_needs_query` | function | `tests/test_rea_mcp.py:207` | `def test_search_needs_query(tmp_path, monkeypatch)` |
+| `test_target_flag_injection_rejected` | function | `tests/test_rea_mcp.py:180` | `def test_target_flag_injection_rejected(monkeypatch)` |
+| `test_unknown_action_rejected` | function | `tests/test_rea_mcp.py:101` | `def test_unknown_action_rejected(monkeypatch)` |
+| `_ExplodingRAG` | class | `tests/test_reactive_engine_semantic.py:166` | `class _ExplodingRAG` |
+| `_FakeRAG` | class | `tests/test_reactive_engine_semantic.py:33` | `class _FakeRAG` |
+| `__init__` | method | `tests/test_reactive_engine_semantic.py:36` | `def __init__(self, hits, ready)` |
+| `query` | method | `tests/test_reactive_engine_semantic.py:41` | `def query(self, text, n)` |
+| `query` | method | `tests/test_reactive_engine_semantic.py:169` | `def query(self, text, n)` |
 | `test_advisor_swallows_rag_query_errors` | method | `tests/test_reactive_engine_semantic.py:163` | `def test_advisor_swallows_rag_query_errors()` |
 | `test_emits_priority_five_suggestion` | method | `tests/test_reactive_engine_semantic.py:70` | `def test_emits_priority_five_suggestion()` |
 | `test_engine_uses_semantic_advisor_when_supplied` | method | `tests/test_reactive_engine_semantic.py:139` | `def test_engine_uses_semantic_advisor_when_supplied()` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p32.md](SYMBOLS_p32.md)
 | `test_rejects_empty_argv` | method | `tests/test_security_hardening_v3.py:25` | `def test_rejects_empty_argv(self)` |
 | `test_rejects_empty_path` | method | `tests/test_security_hardening_v3.py:237` | `def test_rejects_empty_path(self, tmp_path)` |
 | `test_rejects_invalid` | method | `tests/test_security_hardening_v3.py:298` | `def test_rejects_invalid(self)` |
-| `test_rejects_invalid_cidr` | method | `tests/test_security_hardening_v3.py:254` | `def test_rejects_invalid_cidr(self)` |
-| `test_rejects_invalid_ports` | method | `tests/test_security_hardening_v3.py:277` | `def test_rejects_invalid_ports(self)` |
-| `test_rejects_null_bytes` | method | `tests/test_security_hardening_v3.py:31` | `def test_rejects_null_bytes(self)` |
-| `test_rejects_null_bytes` | method | `tests/test_security_hardening_v3.py:175` | `def test_rejects_null_bytes(self)` |
-| `test_rejects_null_bytes_in_password` | method | `tests/test_security_hardening_v3.py:152` | `def test_rejects_null_bytes_in_password(self)` |
-| `test_rejects_oversized_content` | method | `tests/test_security_hardening_v3.py:120` | `def test_rejects_oversized_content(self)` |
-| `test_rejects_oversized_password` | method | `tests/test_security_hardening_v3.py:146` | `def test_rejects_oversized_password(self)` |
-| `test_removes_dangerous_chars` | method | `tests/test_security_hardening_v3.py:336` | `def test_removes_dangerous_chars(self)` |
-| `test_returns_completed_process_fields` | method | `tests/test_security_hardening_v3.py:62` | `def test_returns_completed_process_fields(self)` |
-| `test_returns_false_without_clipboard_tool` | method | `tests/test_security_hardening_v3.py:126` | `def test_returns_false_without_clipboard_tool(self)` |
-| `test_run_command_uses_list_form` | method | `tests/test_security_hardening_v3.py:409` | `def test_run_command_uses_list_form(self)` |
-| `test_runs_command_without_shell` | method | `tests/test_security_hardening_v3.py:37` | `def test_runs_command_without_shell(self)` |
-| `test_sets_ssplash_env` | method | `tests/test_security_hardening_v3.py:163` | `def test_sets_ssplash_env(self)` |
-| `test_shell_false_enforced` | method | `tests/test_security_hardening_v3.py:51` | `def test_shell_false_enforced(self)` |
-| `test_text_mode_enabled` | method | `tests/test_security_hardening_v3.py:104` | `def test_text_mode_enabled(self)` |
-| `test_timeout_passed_through` | method | `tests/test_security_hardening_v3.py:71` | `def test_timeout_passed_through(self)` |
 
 Next: [SYMBOLS_p34.md](SYMBOLS_p34.md)

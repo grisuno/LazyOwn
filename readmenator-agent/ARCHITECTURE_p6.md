@@ -2,6 +2,7 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## External Imports (continued)
+- `scripts/devtools/command_audit.py` -> __future__, argparse, ast, cmd2, contextlib, dataclasses, io, pathlib, sys
 - `scripts/devtools/core_smoke.py` -> __future__, dataclasses, importlib, os, sys, tempfile
 - `scripts/fix_migrated_classes.py` -> pathlib
 - `scripts/generate_sbom.py` -> __future__, argparse, datetime, hashlib, json, pathlib, re

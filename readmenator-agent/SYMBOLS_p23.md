@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
+| `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
+| `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
+| `C` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `C` | function | `static/js/html2pdf.bundle.min.js:78` | `` |
+| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:599` | `` |
+| `CanvasRenderer` | function | `static/js/html2pdf.bundle.min.js:600` | `` |
+| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
+| `Circle` | function | `static/js/html2pdf.bundle.min.js:4048` | `` |
+| `Color` | function | `static/js/html2pdf.bundle.min.js:295` | `` |
+| `Color` | function | `static/js/html2pdf.bundle.min.js:296` | `` |
+| `D` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `DocumentCloner` | function | `static/js/html2pdf.bundle.min.js:6523` | `` |
+| `E` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7860` | `` |
+| `Enumerator` | function | `static/js/html2pdf.bundle.min.js:7861` | `` |
 | `F` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
 | `FontMetrics` | function | `static/js/html2pdf.bundle.min.js:4936` | `` |
 | `ForeignObjectRenderer` | function | `static/js/html2pdf.bundle.min.js:2628` | `` |
@@ -480,21 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
 | `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
 | `parseLineBreak` | function | `static/js/html2pdf.bundle.min.js:2015` | `` |
-| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
-| `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
-| `parseListStyle` | function | `static/js/html2pdf.bundle.min.js:2214` | `` |
-| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
-| `parseListStylePosition` | function | `static/js/html2pdf.bundle.min.js:2223` | `` |
-| `parseListStyleType` | function | `static/js/html2pdf.bundle.min.js:2100` | `` |
-| `parseMargin` | function | `static/js/html2pdf.bundle.min.js:2254` | `` |
-| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
-| `parseNodeTree` | function | `static/js/html2pdf.bundle.min.js:4845` | `` |
-| `parseOverflow` | function | `static/js/html2pdf.bundle.min.js:2275` | `` |
-| `parseOverflowWrap` | function | `static/js/html2pdf.bundle.min.js:2303` | `` |
-| `parsePadding` | function | `static/js/html2pdf.bundle.min.js:1343` | `` |
-| `parsePathForBorder` | function | `static/js/html2pdf.bundle.min.js:1187` | `` |
-| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
-| `parsePercentageAngle` | function | `static/js/html2pdf.bundle.min.js:5292` | `` |
-| `parsePosition` | function | `static/js/html2pdf.bundle.min.js:2330` | `` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

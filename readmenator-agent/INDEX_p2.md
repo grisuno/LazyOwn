@@ -3,6 +3,7 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/r.sh` | Obtener la versión del kernel actual | modules | 1 | 9 |
 | `modules/reactive_engine.py` | modules/reactive_engine.py | modules | 42 | 7 |
 | `modules/recommender.py` | LazyOwn Smart Command Recommender | modules | 4 | 1 |
 | `modules/redteam_gym.py` | Red Team Gym — gamified pentest training mode. | modules | 18 | 3 |

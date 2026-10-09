@@ -429,52 +429,52 @@ Previous: [KB_cli.md](KB_cli.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `MarketplaceConfig` (class, line 49) `class MarketplaceConfig`
-  - `AddonInfo` (class, line 124) `class AddonInfo`
-  - `AddonRegistry` (class, line 190) `class AddonRegistry`
-  - `MarketplaceSettings` (class, line 337) `class MarketplaceSettings`
-  - `MarketplaceConfigurator` (class, line 366) `class MarketplaceConfigurator`
-  - `configure_marketplace_interactive` (method, line 739) `def configure_marketplace_interactive(config, start_tab)`
-  - `_build_initial_settings` (method, line 762) `def _build_initial_settings(registry)`
-  - `marketplace_summary` (method, line 772) `def marketplace_summary(registry)`
-  - `from_yaml` (method, line 137) `def from_yaml(cls, path)`
-  - `toggle_enabled` (method, line 157) `def toggle_enabled(self)`
-  - `set_enabled` (method, line 161) `def set_enabled(self, enabled)`
-  - `save_yaml` (method, line 178) `def save_yaml(self, data)`
-  - `__init__` (method, line 213) `def __init__(self)`
-  - `_nuclei_dir` (method, line 216) `def _nuclei_dir(self)`
-  - `scan` (method, line 228) `def scan(self, tab)`
-  - `_scan_yara` (method, line 252) `def _scan_yara(self)`
-  - `_scan_nuclei` (method, line 271) `def _scan_nuclei(self)`
-  - `_parse_yara_meta` (method, line 295) `def _parse_yara_meta(path)`
-  - `_parse_nuclei_info` (method, line 307) `def _parse_nuclei_info(path)`
-  - `rescan` (method, line 322) `def rescan(self, tab)`
-  - `tab_order` (method, line 326) `def tab_order(self)`
-  - `tab_label` (method, line 329) `def tab_label(self, tab)`
-  - `tab_count` (method, line 332) `def tab_count(self, tab)`
-  - `is_enabled` (method, line 342) `def is_enabled(self, kind, name)`
-  - `toggle` (method, line 345) `def toggle(self, addon)`
-  - `enable_all` (method, line 355) `def enable_all(self, addons)`
-  - `disable_all` (method, line 360) `def disable_all(self, addons)`
-  - `__init__` (method, line 369) `def __init__(self, config, registry, initial)`
-  - `run` (method, line 383) `def run(self, start_tab)`
-  - `_tty_available` (method, line 396) `def _tty_available()`
-  - `_rows_for_tab` (method, line 399) `def _rows_for_tab(self, tab)`
-  - `_loop` (method, line 402) `def _loop(self, stdscr)`
-  - `_cycle_tab` (method, line 453) `def _cycle_tab(self, direction)`
-  - `_edit_addon` (method, line 458) `def _edit_addon(self, addon)`
-  - `_create_addon` (method, line 468) `def _create_addon(self, stdscr)`
-  - `_init_colors` (method, line 525) `def _init_colors(self)`
-  - `_render` (method, line 552) `def _render(self, stdscr, rows, cursor, offset)`
-  - `_draw_frame` (method, line 592) `def _draw_frame(self, stdscr, top, left, height, width)`
-  - `_draw_header` (method, line 606) `def _draw_header(self, stdscr, top, left, width)`
-  - `_draw_tabs` (method, line 629) `def _draw_tabs(self, stdscr, row_y, left, width)`
-  - `_draw_column_headers` (method, line 647) `def _draw_column_headers(self, stdscr, row_y, left, width, rows)`
-  - `_draw_row` (method, line 657) `def _draw_row(self, stdscr, row_y, left, width, addon, selected)`
-  - `_draw_preview` (method, line 680) `def _draw_preview(self, stdscr, top, left, width, addon)`
-  - `_draw_summary` (method, line 708) `def _draw_summary(self, stdscr, row_y, left, width, rows)`
-  - `_draw_footer` (method, line 720) `def _draw_footer(self, stdscr, row_y, left, width)`
-  - `_color` (method, line 730) `def _color(self, pair)`
+  - `MarketplaceConfig` (class, line 56) `class MarketplaceConfig`
+  - `AddonInfo` (class, line 131) `class AddonInfo`
+  - `AddonRegistry` (class, line 197) `class AddonRegistry`
+  - `MarketplaceSettings` (class, line 349) `class MarketplaceSettings`
+  - `MarketplaceConfigurator` (class, line 378) `class MarketplaceConfigurator`
+  - `configure_marketplace_interactive` (method, line 751) `def configure_marketplace_interactive(config, start_tab)`
+  - `_build_initial_settings` (method, line 774) `def _build_initial_settings(registry)`
+  - `marketplace_summary` (method, line 784) `def marketplace_summary(registry)`
+  - `from_yaml` (method, line 144) `def from_yaml(cls, path)`
+  - `toggle_enabled` (method, line 164) `def toggle_enabled(self)`
+  - `set_enabled` (method, line 168) `def set_enabled(self, enabled)`
+  - `save_yaml` (method, line 185) `def save_yaml(self, data)`
+  - `__init__` (method, line 220) `def __init__(self)`
+  - `_nuclei_dir` (method, line 223) `def _nuclei_dir(self)`
+  - `scan` (method, line 235) `def scan(self, tab)`
+  - `_scan_yara` (method, line 259) `def _scan_yara(self)`
+  - `_scan_nuclei` (method, line 278) `def _scan_nuclei(self)`
+  - `_parse_yara_meta` (method, line 307) `def _parse_yara_meta(path)`
+  - `_parse_nuclei_info` (method, line 319) `def _parse_nuclei_info(path)`
+  - `rescan` (method, line 334) `def rescan(self, tab)`
+  - `tab_order` (method, line 338) `def tab_order(self)`
+  - `tab_label` (method, line 341) `def tab_label(self, tab)`
+  - `tab_count` (method, line 344) `def tab_count(self, tab)`
+  - `is_enabled` (method, line 354) `def is_enabled(self, kind, name)`
+  - `toggle` (method, line 357) `def toggle(self, addon)`
+  - `enable_all` (method, line 367) `def enable_all(self, addons)`
+  - `disable_all` (method, line 372) `def disable_all(self, addons)`
+  - `__init__` (method, line 381) `def __init__(self, config, registry, initial)`
+  - `run` (method, line 395) `def run(self, start_tab)`
+  - `_tty_available` (method, line 408) `def _tty_available()`
+  - `_rows_for_tab` (method, line 411) `def _rows_for_tab(self, tab)`
+  - `_loop` (method, line 414) `def _loop(self, stdscr)`
+  - `_cycle_tab` (method, line 465) `def _cycle_tab(self, direction)`
+  - `_edit_addon` (method, line 470) `def _edit_addon(self, addon)`
+  - `_create_addon` (method, line 480) `def _create_addon(self, stdscr)`
+  - `_init_colors` (method, line 537) `def _init_colors(self)`
+  - `_render` (method, line 564) `def _render(self, stdscr, rows, cursor, offset)`
+  - `_draw_frame` (method, line 604) `def _draw_frame(self, stdscr, top, left, height, width)`
+  - `_draw_header` (method, line 618) `def _draw_header(self, stdscr, top, left, width)`
+  - `_draw_tabs` (method, line 641) `def _draw_tabs(self, stdscr, row_y, left, width)`
+  - `_draw_column_headers` (method, line 659) `def _draw_column_headers(self, stdscr, row_y, left, width, rows)`
+  - `_draw_row` (method, line 669) `def _draw_row(self, stdscr, row_y, left, width, addon, selected)`
+  - `_draw_preview` (method, line 692) `def _draw_preview(self, stdscr, top, left, width, addon)`
+  - `_draw_summary` (method, line 720) `def _draw_summary(self, stdscr, row_y, left, width, rows)`
+  - `_draw_footer` (method, line 732) `def _draw_footer(self, stdscr, row_y, left, width)`
+  - `_color` (method, line 742) `def _color(self, pair)`
 - Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
 
 ## cli/noise_verbs.py

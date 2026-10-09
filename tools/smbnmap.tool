@@ -4,7 +4,7 @@
   "trigger": [
     "microsoft-ds"
   ],
-  "active": false,
+  "active": true,
   "category": "02. Scanning & Enumeration",
   "description": "Pwntomate tool: smbnmap_tool \u2014 triggers on ['microsoft-ds']"
 }

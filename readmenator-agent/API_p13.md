@@ -1,6 +1,29 @@
 # API (page 13 of 20)
 Previous: [API_p12.md](API_p12.md)
 
+## modules/payload_factory.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/payload_generation.py`, `cli/commands/session_ops.py`, `lazyown.py`, `scripts/devtools/core_smoke.py`, `tests/test_payload_factory.py`
+- `PayloadTemplate.__init__` (method) `modules/payload_factory.py:218` `def __init__(self, name, platform, arch, description, options)`
+- `PayloadTemplate.generate` (method) `modules/payload_factory.py:233` `def generate(self)` -- Generate the raw payload bytes.
+- `PayloadTemplate.to_dict` (method) `modules/payload_factory.py:237` `def to_dict(self)`
+- `ReverseShellPayload.__init__` (method) `modules/payload_factory.py:250` `def __init__(self)`
+- `ReverseShellPayload.generate` (method) `modules/payload_factory.py:268` `def generate(self)`
+- `WindowsReverseShellPayload.__init__` (method) `modules/payload_factory.py:289` `def __init__(self)`
+- `WindowsReverseShellPayload.generate` (method) `modules/payload_factory.py:301` `def generate(self)`
+- `MsfvenomPayload.__init__` (method) `modules/payload_factory.py:321` `def __init__(self, name, platform, arch)`
+- `MsfvenomPayload.generate` (method) `modules/payload_factory.py:333` `def generate(self)`
+- `ShellcodePayload.__init__` (method) `modules/payload_factory.py:366` `def __init__(self, name, platform, arch, description, escaped_hex, patcher)`
+- `ShellcodePayload.generate` (method) `modules/payload_factory.py:389` `def generate(self)` -- Return the shellcode, optionally patching LHOST / LPORT.
+- `DynamicShellcodePayload.__init__` (method) `modules/payload_factory.py:408` `def __init__(self, name, platform, arch, description, builder)`
+- `DynamicShellcodePayload.generate` (method) `modules/payload_factory.py:428` `def generate(self)`
+- `PayloadFactory.__init__` (method) `modules/payload_factory.py:456` `def __init__(self)`
+- `PayloadFactory.register` (method) `modules/payload_factory.py:504` `def register(self, template)` -- Register a custom payload template.
+- `PayloadFactory.list` (method) `modules/payload_factory.py:508` `def list(self, platform)` -- List all registered payloads, optionally filtered by platform.
+- `PayloadFactory.get` (method) `modules/payload_factory.py:517` `def get(self, name)` -- Get a payload template by name.
+- `PayloadFactory.generate` (method) `modules/payload_factory.py:521` `def generate(self, name, format, output)` -- Generate a payload by name.
+- `PayloadFactory.list_formats` (method) `modules/payload_factory.py:665` `def list_formats()` -- List all available output formats.
+- `PayloadFactory.format_payload_table` (method) `modules/payload_factory.py:673` `def format_payload_table(payloads)` -- Format a list of payload dicts as an aligned table.
+
 ## modules/phishing_orchestrator.py
 Depends on: `core/crypto.py`, `core/hardening.py`
 Imported by: `cli/commands/phishing_wizard.py`, `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`

@@ -390,6 +390,28 @@ Previous: [KB_modules_p6.md](KB_modules_p6.md)
   - `set_version` (method, line 272) `def set_version(self, version)`
   - `set_script` (method, line 275) `def set_script(self, script)`
 
+## modules/nuclei_templates_sync.py
+- Doc: Sync community Nuclei template collections into the LazyOwn marketplace.
+- Layer: presentation
+- Language: py
+- Symbols:
+  - `repo_root` (function, line 39) `def repo_root()`
+  - `canonical_dest` (function, line 48) `def canonical_dest(subdir)`
+  - `run` (function, line 60) `def run(argv, cwd)`
+  - `ensure_git_available` (function, line 73) `def ensure_git_available()`
+  - `clone_templates` (function, line 84) `def clone_templates(repo, staging)`
+  - `strip_git_traces` (function, line 113) `def strip_git_traces(tree)`
+  - `count_templates` (function, line 132) `def count_templates(tree)`
+  - `replace_dest` (function, line 144) `def replace_dest(src, dest, expected)`
+  - `same_remote` (function, line 168) `def same_remote(path, repo)`
+  - `refresh_existing_clone` (function, line 188) `def refresh_existing_clone(path, repo)`
+  - `validate_subset` (function, line 209) `def validate_subset(dest, subset)`
+  - `build_parser` (function, line 238) `def build_parser()`
+  - `sync` (function, line 263) `def sync(name, repo, dest, refresh_existing, skip_validate)`
+  - `resolve_plan` (function, line 310) `def resolve_plan(args)`
+  - `main` (function, line 339) `def main(argv)`
+  - `normalize` (function, line 179) `def normalize(url)`
+
 ## modules/obs_parser.py
 - Doc: modules/obs_parser.py
 - Layer: utility

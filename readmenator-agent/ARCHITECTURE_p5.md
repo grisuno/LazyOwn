@@ -422,6 +422,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `modules/mysql_hookandroot_lib.c` -> arpa/inet.h, dlfcn.h, fcntl.h, netinet/in.h, stdarg.h, stdio.h, stdlib.h, string.h, sys/socket.h, sys/stat.h, sys/types.h, unistd.h
 - `modules/network_opsec.py` -> __future__, dataclasses, pathlib, random, socket, ssl, typing
 - `modules/nmap2csv.py` -> argparse, csv, re, socket, struct, sys, xml.etree.ElementTree
+- `modules/nuclei_templates_sync.py` -> __future__, argparse, pathlib, shutil, subprocess, sys, tempfile
 - `modules/obs_parser.py` -> __future__, abc, argparse, dataclasses, re, sys, typing
 - `modules/ooficesod0woodo.py` -> uno
 - `modules/operation.py` -> __future__, builtins, collections.abc, dataclasses, datetime, json, pathlib, typing, uuid, yaml
@@ -495,6 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `scripts/activate_migrations.py` -> __future__, ast, pathlib, sys
 - `scripts/backfill_addon_os_trigger.py` -> __future__, pathlib, re, sys
 - `scripts/check_contract_manifest.py` -> __future__, argparse, ast, dataclasses, pathlib, re
-- `scripts/devtools/command_audit.py` -> __future__, argparse, ast, cmd2, contextlib, dataclasses, io, pathlib, sys
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

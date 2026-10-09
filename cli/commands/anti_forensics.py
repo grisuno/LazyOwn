@@ -14,7 +14,8 @@ from pathlib import Path
 
 import cmd2
 
-from cli.commands._base import LazyOwnCommandSet, extract_flag as _extract_flag
+from cli.commands._base import LazyOwnCommandSet
+from cli.commands._base import extract_flag as _extract_flag
 from cli.confirm import confirm as _confirm
 from cli.output_mode import parse_output_flags as _parse_output_flags
 from utils import (

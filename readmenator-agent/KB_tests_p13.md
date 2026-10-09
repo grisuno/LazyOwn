@@ -1,5 +1,106 @@
-# Subsystem: tests (page 13 of 13)
+# Subsystem: tests (page 13 of 14)
 Previous: [KB_tests_p12.md](KB_tests_p12.md)
+
+## tests/test_socks_proxy.py
+- Doc: Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator...
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestSocksProxyConfig` (class, line 33) `class TestSocksProxyConfig`
+  - `TestSocksSession` (class, line 84) `class TestSocksSession`
+  - `TestSocksValidator` (class, line 119) `class TestSocksValidator`
+  - `TestSocksProxyEngine` (class, line 247) `class TestSocksProxyEngine`
+  - `TestSocksReply` (class, line 355) `class TestSocksReply`
+  - `TestSocksEnums` (class, line 369) `class TestSocksEnums`
+  - `test_default_construction` (method, line 34) `def test_default_construction(self)`
+  - `test_serialization_roundtrip` (method, line 42) `def test_serialization_roundtrip(self)`
+  - `test_from_dict_empty` (method, line 73) `def test_from_dict_empty(self)`
+  - `test_from_dict_unknown_auth_method_handled` (method, line 78) `def test_from_dict_unknown_auth_method_handled(self)`
+  - `test_construction_and_defaults` (method, line 85) `def test_construction_and_defaults(self)`
+  - `test_byte_counters` (method, line 97) `def test_byte_counters(self)`
+  - `test_to_dict` (method, line 104) `def test_to_dict(self)`
+  - `test_elapsed_seconds_with_zero_timestamp` (method, line 113) `def test_elapsed_seconds_with_zero_timestamp(self)`
+  - `test_valid_config_passes` (method, line 120) `def test_valid_config_passes(self)`
+  - `test_invalid_bind_address` (method, line 126) `def test_invalid_bind_address(self)`
+  - `test_invalid_bind_port` (method, line 132) `def test_invalid_bind_port(self)`
+  - `test_max_connections_zero` (method, line 138) `def test_max_connections_zero(self)`
+  - `test_session_timeout_too_low` (method, line 144) `def test_session_timeout_too_low(self)`
+  - `test_session_timeout_too_high` (method, line 150) `def test_session_timeout_too_high(self)`
+  - `test_negative_bandwidth` (method, line 156) `def test_negative_bandwidth(self)`
+  - `test_username_password_without_credentials` (method, line 162) `def test_username_password_without_credentials(self)`
+  - `test_no_auth_methods` (method, line 172) `def test_no_auth_methods(self)`
+  - `test_invalid_allowed_ports` (method, line 178) `def test_invalid_allowed_ports(self)`
+  - `test_port_in_both_lists` (method, line 184) `def test_port_in_both_lists(self)`
+  - `test_validate_request_valid_connect` (method, line 190) `def test_validate_request_valid_connect(self)`
+  - `test_validate_request_unsupported_command` (method, line 201) `def test_validate_request_unsupported_command(self)`
+  - `test_validate_request_unsupported_address_type` (method, line 212) `def test_validate_request_unsupported_address_type(self)`
+  - `test_validate_request_invalid_port` (method, line 223) `def test_validate_request_invalid_port(self)`
+  - `test_validate_request_denied_port_ac` (method, line 233) `def test_validate_request_denied_port_ac(self, tmp_path)`
+  - `test_default_engine` (method, line 248) `def test_default_engine(self)`
+  - `test_build_spec` (method, line 253) `def test_build_spec(self)`
+  - `test_create_session` (method, line 260) `def test_create_session(self)`
+  - `test_remove_session` (method, line 267) `def test_remove_session(self)`
+  - `test_remove_nonexistent_session` (method, line 273) `def test_remove_nonexistent_session(self)`
+  - `test_get_session` (method, line 277) `def test_get_session(self)`
+  - `test_get_nonexistent_session` (method, line 284) `def test_get_nonexistent_session(self)`
+  - `test_add_bytes` (method, line 288) `def test_add_bytes(self)`
+  - `test_add_bytes_to_nonexistent` (method, line 296) `def test_add_bytes_to_nonexistent(self)`
+  - `test_max_connections_limit` (method, line 300) `def test_max_connections_limit(self)`
+  - `test_cleanup_expired` (method, line 309) `def test_cleanup_expired(self)`
+  - `test_list_sessions` (method, line 317) `def test_list_sessions(self)`
+  - `test_from_dict` (method, line 326) `def test_from_dict(self)`
+  - `test_from_payload` (method, line 335) `def test_from_payload(self)`
+  - `test_from_payload_empty` (method, line 344) `def test_from_payload_empty(self)`
+  - `test_validate_custom_config` (method, line 348) `def test_validate_custom_config(self)`
+  - `test_succeeded_message` (method, line 356) `def test_succeeded_message(self)`
+  - `test_general_failure_message` (method, line 359) `def test_general_failure_message(self)`
+  - `test_unknown_code_message` (method, line 362) `def test_unknown_code_message(self)`
+  - `test_auth_method_values` (method, line 370) `def test_auth_method_values(self)`
+  - `test_command_values` (method, line 375) `def test_command_values(self)`
+  - `test_address_type_values` (method, line 380) `def test_address_type_values(self)`
+- Depends on: `modules/socks_proxy.py`
+
+## tests/test_status_bar_operators.py
+- Doc: Tests for the operator-presence segment of cli/status_bar.py.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_write_operators` (function, line 28) `def _write_operators(tmp_path, records)`
+  - `test_collab_presence_zero_when_file_missing` (function, line 33) `def test_collab_presence_zero_when_file_missing(tmp_path)`
+  - `test_collab_presence_counts_active_operators` (function, line 41) `def test_collab_presence_counts_active_operators(tmp_path)`
+  - `test_renderer_uses_default_format_when_operators_empty` (function, line 59) `def test_renderer_uses_default_format_when_operators_empty()`
+  - `test_renderer_switches_to_ops_format_when_present` (function, line 70) `def test_renderer_switches_to_ops_format_when_present()`
+  - `test_build_default_manager_skips_operators_by_default` (function, line 86) `def test_build_default_manager_skips_operators_by_default(tmp_path)`
+  - `test_build_default_manager_wires_operators_when_enabled` (function, line 92) `def test_build_default_manager_wires_operators_when_enabled(tmp_path)`
+  - `test_render_prompt_uses_default_theme_when_unspecified` (function, line 99) `def test_render_prompt_uses_default_theme_when_unspecified(tmp_path)`
+  - `test_render_prompt_switches_colour_with_tui_theme` (function, line 107) `def test_render_prompt_switches_colour_with_tui_theme(tmp_path)`
+- Depends on: `cli/status_bar.py`
+
+## tests/test_structured_logging.py
+- Doc: Tests for ``core.logging`` — structured JSON-lines logger.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestStructuredLogConfig` (class, line 13) `class TestStructuredLogConfig`
+  - `TestJsonLineFormatter` (class, line 47) `class TestJsonLineFormatter`
+  - `TestStructuredLogger` (class, line 108) `class TestStructuredLogger`
+  - `TestGetLogger` (class, line 124) `class TestGetLogger`
+  - `TestReconfigure` (class, line 173) `class TestReconfigure`
+  - `TestInstallJsonHandler` (class, line 200) `class TestInstallJsonHandler`
+  - `test_defaults_are_production_ready` (method, line 16) `def test_defaults_are_production_ready(self)`
+  - `test_custom_override_preserves_other_defaults` (method, line 29) `def test_custom_override_preserves_other_defaults(self)`
+  - `test_formats_record_as_valid_json_line` (method, line 50) `def test_formats_record_as_valid_json_line(self)`
+  - `test_redacts_sensitive_extra_fields` (method, line 69) `def test_redacts_sensitive_extra_fields(self)`
+  - `test_includes_exception_traceback_when_present` (method, line 88) `def test_includes_exception_traceback_when_present(self)`
+  - `test_make_records_promote_extra_fields_onto_record` (method, line 111) `def test_make_records_promote_extra_fields_onto_record(self)`
+  - `test_first_call_creates_and_configures_logger` (method, line 127) `def test_first_call_creates_and_configures_logger(self)`
+  - `test_same_name_returns_cached_instance` (method, line 136) `def test_same_name_returns_cached_instance(self)`
+  - `test_writes_json_lines_to_file` (method, line 146) `def test_writes_json_lines_to_file(self, tmp_path)`
+  - `test_reconfigure_resets_cache_and_applies_new_config` (method, line 176) `def test_reconfigure_resets_cache_and_applies_new_config(self, tmp_path)`
+  - `test_cold_logger_gets_console_and_file_wiring` (method, line 203) `def test_cold_logger_gets_console_and_file_wiring(self, tmp_path)`
+  - `test_warm_logger_keeps_custom_handler_and_appends_json_file` (method, line 220) `def test_warm_logger_keeps_custom_handler_and_appends_json_file(self, tmp_path)`
+  - `test_second_install_is_idempotent` (method, line 241) `def test_second_install_is_idempotent(self, tmp_path)`
+- Depends on: `core/logging.py`
 
 ## tests/test_surface_graph.py
 - Doc: Tests for the network surface graph reader.
@@ -367,69 +468,5 @@ Previous: [KB_tests_p12.md](KB_tests_p12.md)
   - `fake_check` (method, line 168) `def fake_check()`
 - Depends on: `cli/__init__.py`
 
-## tests/test_wizard_llm.py
-- Doc: Contract tests for the wizard LLM provider setup step.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_scripted_prompt` (function, line 14) `def _scripted_prompt(answers)`
-  - `TestNormalizeProviderAnswer` (class, line 23) `class TestNormalizeProviderAnswer`
-  - `TestMaskSecret` (class, line 45) `class TestMaskSecret`
-  - `TestAskLlm` (class, line 59) `class TestAskLlm`
-  - `TestReadinessLlm` (class, line 123) `class TestReadinessLlm`
-  - `_fake` (method, line 17) `def _fake(message)`
-  - `test_blank_returns_none` (method, line 24) `def test_blank_returns_none(self)`
-  - `test_name_case_insensitive` (method, line 28) `def test_name_case_insensitive(self)`
-  - `test_number_selects_backend` (method, line 32) `def test_number_selects_backend(self)`
-  - `test_out_of_range_number_returns_none` (method, line 37) `def test_out_of_range_number_returns_none(self)`
-  - `test_unknown_name_returns_none` (method, line 41) `def test_unknown_name_returns_none(self)`
-  - `test_empty_returns_not_set` (method, line 46) `def test_empty_returns_not_set(self)`
-  - `test_long_value_masked_with_tail` (method, line 50) `def test_long_value_masked_with_tail(self)`
-  - `test_short_value_never_shown_clear` (method, line 53) `def test_short_value_never_shown_clear(self)`
-  - `test_blank_answers_keep_everything` (method, line 60) `def test_blank_answers_keep_everything(self, monkeypatch)`
-  - `test_provider_change_by_name` (method, line 65) `def test_provider_change_by_name(self, monkeypatch)`
-  - `test_provider_change_by_number` (method, line 70) `def test_provider_change_by_number(self, monkeypatch)`
-  - `test_invalid_provider_keeps_current` (method, line 76) `def test_invalid_provider_keeps_current(self, monkeypatch)`
-  - `test_model_override_stored_in_provider_slot` (method, line 80) `def test_model_override_stored_in_provider_slot(self, monkeypatch)`
-  - `test_ollama_skips_key_prompt` (method, line 91) `def test_ollama_skips_key_prompt(self, monkeypatch)`
-  - `test_key_kept_when_blank` (method, line 104) `def test_key_kept_when_blank(self, monkeypatch)`
-  - `test_existing_key_prompt_shows_mask` (method, line 108) `def test_existing_key_prompt_shows_mask(self, monkeypatch)`
-  - `_row` (method, line 124) `def _row(self, params, label)`
-  - `test_cloud_with_key_ok` (method, line 128) `def test_cloud_with_key_ok(self)`
-  - `test_cloud_without_key_missing` (method, line 133) `def test_cloud_without_key_missing(self)`
-  - `test_ollama_keyless_ok` (method, line 138) `def test_ollama_keyless_ok(self)`
-  - `test_invalid_backend_missing_with_fix_hint` (method, line 143) `def test_invalid_backend_missing_with_fix_hint(self)`
-  - `test_model_shown_in_value` (method, line 148) `def test_model_shown_in_value(self)`
-  - `test_sensitive_values_masked` (method, line 152) `def test_sensitive_values_masked(self)`
-  - `_fake` (method, line 94) `def _fake(message)`
-  - `_fake` (method, line 111) `def _fake(message)`
-- Depends on: `cli/wizard.py`, `modules/llm_factory.py`
 
-## tests/test_world_model_extended.py
-- Doc: Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `world_model` (function, line 14) `def world_model()`
-  - `TestSetOsHint` (class, line 22) `class TestSetOsHint`
-  - `TestGetHost` (class, line 44) `class TestGetHost`
-  - `TestGetHostsSummary` (class, line 63) `class TestGetHostsSummary`
-  - `TestAdvanceHostEdgeCases` (class, line 76) `class TestAdvanceHostEdgeCases`
-  - `TestGetPhaseAfterStateChanges` (class, line 94) `class TestGetPhaseAfterStateChanges`
-  - `test_set_os_hint_on_new_host` (method, line 24) `def test_set_os_hint_on_new_host(self, world_model)`
-  - `test_set_os_hint_on_existing_host` (method, line 30) `def test_set_os_hint_on_existing_host(self, world_model)`
-  - `test_set_os_hint_empty_string_is_stored` (method, line 37) `def test_set_os_hint_empty_string_is_stored(self, world_model)`
-  - `test_get_host_returns_none_for_unknown` (method, line 46) `def test_get_host_returns_none_for_unknown(self, world_model)`
-  - `test_get_host_returns_entry_for_known` (method, line 49) `def test_get_host_returns_entry_for_known(self, world_model)`
-  - `test_get_host_is_thread_safe` (method, line 55) `def test_get_host_is_thread_safe(self, world_model)`
-  - `test_empty_summary` (method, line 65) `def test_empty_summary(self, world_model)`
-  - `test_populated_summary` (method, line 68) `def test_populated_summary(self, world_model)`
-  - `test_advance_host_skips_on_same_state` (method, line 78) `def test_advance_host_skips_on_same_state(self, world_model)`
-  - `test_advance_host_skips_on_lower_state` (method, line 83) `def test_advance_host_skips_on_lower_state(self, world_model)`
-  - `test_advance_host_to_owned_is_allowed_from_exploited` (method, line 88) `def test_advance_host_to_owned_is_allowed_from_exploited(self, world_model)`
-  - `test_phase_derived_from_host_state` (method, line 96) `def test_phase_derived_from_host_state(self, world_model)`
-  - `test_phase_post_exploitation_on_owned` (method, line 100) `def test_phase_post_exploitation_on_owned(self, world_model)`
-  - `test_phase_complete_when_all_owned` (method, line 105) `def test_phase_complete_when_all_owned(self, world_model)`
-  - `test_phase_recon_when_no_hosts` (method, line 110) `def test_phase_recon_when_no_hosts(self, world_model)`
-- Depends on: `modules/world_model.py`
-
+Next: [KB_tests_p14.md](KB_tests_p14.md)

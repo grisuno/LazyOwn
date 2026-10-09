@@ -119,7 +119,6 @@ This community groups 89 file(s) rooted at `cli` with dominant language py (cohe
 - [EXTRACTED] depends_on community 2 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/__init__.py imports cli/aliases.py.
 - [EXTRACTED] depends_on community 2 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/chain_mode.py imports core/logging.py.
 - [EXTRACTED] depends_on community 4 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/command_explorer.py imports cli/palette.py.
-- [EXTRACTED] depends_on community 2 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/dashboard_tui.py imports cli/killchain.py.
 
 ## Risks
 

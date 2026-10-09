@@ -1,20 +1,9 @@
 name: trivy
 description: >
-  Comprehensive vulnerability scanner for containers, filesystems,
-  git repositories, and Kubernetes.
-
-  Trivy detects CVEs in OS packages (Alpine, Debian, Ubuntu, CentOS, etc.),
-  application dependencies (Python, Node, Java, Go, Ruby, Rust), IaC
-  misconfigurations (Terraform, CloudFormation, K8s, Dockerfile), and
-  exposed secrets in source code.
-
-  Usage:
-    trivy image nginx:latest
-    trivy fs /path/to/project
-    trivy repo https://github.com/org/repo
-    trivy config ./terraform/
-
-  Output is written to sessions/trivy_output.json and displayed in console.
+  Trivy by Aqua. Scanner for containers, filesystems, repos, K8s, IaC and
+  secrets. Set type and target via assign trivy_scan_type image and assign
+  trivy_target nginx:latest, then run trivy. Extra flags append as free args.
+  Output at sessions/trivy_<type>_<target>.json. Offline, no credentials needed.
 
   No cloud credentials required — runs entirely offline with local DB.
 

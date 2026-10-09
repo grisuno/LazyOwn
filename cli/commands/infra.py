@@ -438,7 +438,7 @@ class InfraCommandSet(LazyOwnCommandSet):
         if _binary_present("docker"):
             try:
                 result = _run_capture(["docker", "ps", "--format", "{{.Names}} {{.Status}}"], timeout=15)
-                lazy = [l for l in result.stdout.splitlines() if "lazyown" in l or "caddy" in l or "redirector" in l or "cloudflared" in l]
+                lazy = [line for line in result.stdout.splitlines() if "lazyown" in line or "caddy" in line or "redirector" in line or "cloudflared" in line]
                 if lazy:
                     for line_out in lazy:
                         print_msg(f"  [docker] {line_out}")

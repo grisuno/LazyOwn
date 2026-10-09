@@ -73,9 +73,17 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         if scope.only:
             from cli.wizard import (
                 _ask_device as _ask_dev,
+            )
+            from cli.wizard import (
                 _ask_domain as _ask_dom,
+            )
+            from cli.wizard import (
                 _ask_lhost as _ask_lh,
+            )
+            from cli.wizard import (
                 _ask_os_id as _ask_os,
+            )
+            from cli.wizard import (
                 _ask_rhost as _ask_rh,
             )
             askers = {

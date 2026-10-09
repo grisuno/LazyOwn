@@ -1,0 +1,32 @@
+name: entropia_test
+description: |
+  Runs a staged BOF under the local bof-runner harness, which applies relocations,
+  fills the Beacon API stubs and calls go with packed args. Packed-arg forms are
+  --args raw, --zarg string, --iarg int, --sarg short and --barg blob; pass them via
+  entropia_harness_args or as trailing tokens. The runner executes Win32 APIs, so it
+  only runs on Windows; on Linux use it to validate argument packing after a clean
+  entropia compile. Shellcode .bin files run under entropia_debug instead.
+  Usage: entropia_test | entropia_test --zarg target | assign entropia_artifact batch_bof_pslist.x64.o
+author: EntropyKit
+version: "1.0"
+enabled: true
+os: windows
+trigger: []
+params:
+  - name: entropia_artifact
+    type: string
+    required: false
+    default: entropia_bof.x64.o
+    description: Staged BOF filename under sessions/entropia/ produced by entropia or entropia_examples.
+  - name: entropia_harness_args
+    type: string
+    required: false
+    default: --zarg operator
+    description: Packed args forwarded to bof-runner ahead of any trailing operator tokens.
+tool:
+  name: entropia_test
+  repo_url: https://github.com/entropykit/entropia.git
+  install_path: external/.exploit/entropia
+  install_command: cargo build --release
+  execute_command: ./target/release/bof-runner ../../../sessions/entropia/{entropia_artifact} {entropia_harness_args}
+category: "03. Exploitation"

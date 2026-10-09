@@ -1,4 +1,4 @@
-# Subsystem: tests (page 7 of 13)
+# Subsystem: tests (page 7 of 14)
 Previous: [KB_tests_p6.md](KB_tests_p6.md)
 
 ## tests/test_hash_cracker.py

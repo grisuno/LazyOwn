@@ -1,32 +1,80 @@
-# skills/hermes-lazyown
+# skills/claude_md_orchestrator
 
-*Community 8 | 17 files | cohesion 0.64*
+*Community 7 | 30 files | cohesion 0.77*
 
 ## Definition
 
-This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant language py (cohesion 0.64). Central symbols: `BindAddressResolver`, `CheckpointSerializer`, `CommandRedactor`, `CompactionResult`, `CompactionStrategy`, `ConfigBridge`, `ConfigBridgeError`, `ConfigKeys`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Phishing Wizard command set.  End-to-end phishing campaign wizard with step-by-step interactive flow: target profiling -> template selection -> landing page gen.
+This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.77). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`, `CicleStateFile`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Phishing Wizard command set.  End-to-end phishing campaign wizard with step-by-step interactive flow: target profiling -> template selection -> landing page gen.
 
 ## Files
 
+### `skills/claude_md_orchestrator` (13 files)
+
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/phishing_wizard.py` | py | utility | 17 | yes |
-| `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
-| `contrib/legacy/lazyhttpreverseshell.py` | py | utility | 10 | no |
-| `modules/__init__.py` | py | utility | 0 | no |
-| `modules/backdoor/server.c` | c | utility | 1 | no |
-| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
-| `modules/security_sanitizers.py` | py | utility | 25 | yes |
-| `pwntomate.py` | py | utility | 3 | yes |
+| `skills/claude_md_orchestrator/__init__.py` | py | utility | 0 | yes |
+| `skills/claude_md_orchestrator/bdd_agent.py` | py | utility | 8 | yes |
+| `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
+| `skills/claude_md_orchestrator/cicd_agent.py` | py | utility | 7 | yes |
+| `skills/claude_md_orchestrator/config.py` | py | infrastructure | 15 | yes |
+
+### `skills/hermes-lazyown` (7 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `skills/hermes-lazyown/claudemd_rules.py` | py | business_logic | 14 | yes |
 | `skills/hermes-lazyown/config_bridge.py` | py | infrastructure | 16 | yes |
 | `skills/hermes-lazyown/constants.py` | py | utility | 15 | yes |
 | `skills/hermes-lazyown/executor.py` | py | utility | 13 | yes |
 | `skills/hermes-lazyown/hermes_sync.py` | py | utility | 14 | yes |
-| `skills/hermes-lazyown/mcp_server.py` | py | utility | 28 | yes |
-| `skills/hermes-lazyown/output_compactor.py` | py | utility | 20 | yes |
+
+### `modules` (3 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/__init__.py` | py | utility | 0 | no |
+| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
+| `modules/security_sanitizers.py` | py | utility | 25 | yes |
+
+### `contrib/legacy` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
+| `contrib/legacy/lazyhttpreverseshell.py` | py | utility | 10 | no |
+
+### `.` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `pwntomate.py` | py | utility | 3 | yes |
+
+### `cli/commands` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/phishing_wizard.py` | py | utility | 17 | yes |
+
+### `modules/backdoor` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/backdoor/server.c` | c | utility | 1 | no |
+
+### `skills` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 3 | yes |
+
+### `tests` (1 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `tests/test_security_sanitizers.py` | py | testing | 45 | yes |
+
+*... and 10 more files in this community.*
+
 
 ## Key Symbols
 
@@ -63,23 +111,27 @@ This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 21
-- Cross-boundary resolved imports (EXTRACTED): 15
+- Internal resolved imports (EXTRACTED): 55
+- Cross-boundary resolved imports (EXTRACTED): 18
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 8 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
-- [EXTRACTED] depends_on community 8 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
+- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
+- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
 
 ## Risks
 
+- [taint high] `cli/banner_config.py` -> `modules/backdoor/server.c` via `subprocess` (5 hops)
+- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
+- [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
 - [dataflow UNCHECKED_ALLOC] `modules/backdoor/server.c:19` `main` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 
 ## Open Questions
 
 - Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
-- What would break if the most connected file in skills/hermes-lazyown changed?
-- Should skills/hermes-lazyown be split, given cohesion 0.64?
+- Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
+- What would break if the most connected file in skills/claude_md_orchestrator changed?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.77?
 
 ## Sources
 
@@ -91,12 +143,16 @@ This community groups 17 file(s) rooted at `skills/hermes-lazyown` with dominant
 - `modules/lazyown_bprfuzzer.py`
 - `modules/security_sanitizers.py`
 - `pwntomate.py`
-- `skills/hermes-lazyown/claudemd_rules.py`
-- `skills/hermes-lazyown/config_bridge.py`
-- `skills/hermes-lazyown/constants.py`
-- `skills/hermes-lazyown/executor.py`
-- `skills/hermes-lazyown/hermes_sync.py`
-- `skills/hermes-lazyown/mcp_server.py`
-- `skills/hermes-lazyown/output_compactor.py`
-- `skills/lazyown_mcp_opencode.py`
-- `tests/test_security_sanitizers.py`
+- `skills/claude_md_orchestrator/__init__.py`
+- `skills/claude_md_orchestrator/bdd_agent.py`
+- `skills/claude_md_orchestrator/boy_scout.py`
+- `skills/claude_md_orchestrator/cicd_agent.py`
+- `skills/claude_md_orchestrator/config.py`
+- `skills/claude_md_orchestrator/documentation_agent.py`
+- `skills/claude_md_orchestrator/models.py`
+- `skills/claude_md_orchestrator/orchestrator.py`
+- `skills/claude_md_orchestrator/parser.py`
+- `skills/claude_md_orchestrator/reviewer_agent.py`
+- `skills/claude_md_orchestrator/sdd_agent.py`
+- `skills/claude_md_orchestrator/tdd_agent.py`
+- *... and 10 more*

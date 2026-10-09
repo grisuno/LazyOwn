@@ -1,4 +1,4 @@
-# Subsystem: tests (page 4 of 13)
+# Subsystem: tests (page 4 of 14)
 Previous: [KB_tests_p3.md](KB_tests_p3.md)
 
 ## tests/test_command_chain.py

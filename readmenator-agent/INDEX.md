@@ -214,7 +214,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `core/logging.py` | Structured JSON-lines logging for the LazyOwn framework. | core | 12 | 123 |
 | `core/network.py` | Network primitives for the LazyOwn framework. | core | 8 | 1 |
 | `core/parsers.py` | Parsing utilities for the LazyOwn framework. | core | 21 | 8 |
-| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 9 |
+| `core/payload_schema.py` | Declarative schema and validation for ``payload.json``. | core | 27 | 10 |
 | `core/process.py` | Process and subprocess utilities for the LazyOwn framework. | core | 12 | 9 |
 | `core/profiles.py` | Runtime profiles: ``light`` vs ``full`` installations. | core | 3 | 3 |
 | `core/prompt.py` | Prompt builder for LazyOwn CLI and C2 dashboard banner. | core | 8 | 3 |
@@ -235,7 +235,7 @@ Pages: [INDEX.md](INDEX.md), [INDEX_p2.md](INDEX_p2.md)
 | `lazy_sentinel4.py` | RAGManager: Manages RAG functionality with CAG caching for document processing and querying. | root | 47 | 0 |
 | `lazyc2.py` | is_insecure_credential: Check for weak or default credentials | root | 263 | 0 |
 | `lazyc2/__init__.py` | - | lazyc2 | 0 | 2 |
-| `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 38 | 2 |
+| `lazyc2/addon_creator.py` | LazyAddon creator contract for the LazyOwn C2 web interface. | lazyc2 | 38 | 3 |
 | `lazyc2/app_factory.py` | Flask application factory for the LazyOwn C2 server. | lazyc2 | 9 | 0 |
 | `lazyc2/blueprints/__init__.py` | Flask Blueprints for lazydown C2. | blueprints | 0 | 2 |
 | `lazyc2/blueprints/addons.py` | LazyAddon creator blueprint for the C2 dashboard. | blueprints | 14 | 3 |

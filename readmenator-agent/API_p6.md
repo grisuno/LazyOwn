@@ -133,14 +133,14 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
-Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`
-- `ValidationIssue.field_for` (method) `core/payload_schema.py:1225` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1230` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `ValidationIssue.validate_value` (method) `core/payload_schema.py:1253` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `ValidationIssue.validate_payload` (method) `core/payload_schema.py:1327` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `ValidationIssue.format_issue` (method) `core/payload_schema.py:1362` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `ValidationIssue.default_payload` (method) `core/payload_schema.py:1380` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `ValidationIssue.categories` (method) `core/payload_schema.py:1388` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
+- `ValidationIssue.field_for` (method) `core/payload_schema.py:1327` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1332` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `ValidationIssue.validate_value` (method) `core/payload_schema.py:1355` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `ValidationIssue.validate_payload` (method) `core/payload_schema.py:1429` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `ValidationIssue.format_issue` (method) `core/payload_schema.py:1464` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `ValidationIssue.default_payload` (method) `core/payload_schema.py:1482` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `ValidationIssue.categories` (method) `core/payload_schema.py:1490` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`

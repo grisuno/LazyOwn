@@ -411,6 +411,14 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `test_validate_failure_marks_step_failed` | method | `tests/test_pipeline_engine.py:394` | `def test_validate_failure_marks_step_failed(self, temp_lazyown, silent_engine_kwargs)` |
 | `test_validate_missing_pipeline_errors` | method | `tests/test_pipeline_engine.py:638` | `def test_validate_missing_pipeline_errors(self, temp_lazyown)` |
 | `test_validate_returns_step_list` | method | `tests/test_pipeline_engine.py:628` | `def test_validate_returns_step_list(self, temp_lazyown)` |
+| `_live_keys` | function | `tests/test_placeholder_coverage.py:40` | `def _live_keys()` |
+| `_skill_keys` | function | `tests/test_placeholder_coverage.py:49` | `def _skill_keys()` |
+| `test_addon_tokens_resolve` | function | `tests/test_placeholder_coverage.py:74` | `def test_addon_tokens_resolve()` |
+| `test_addon_tokens_resolve_at_runtime` | function | `tests/test_placeholder_coverage.py:96` | `def test_addon_tokens_resolve_at_runtime()` |
+| `test_required_params_exist_live` | function | `tests/test_placeholder_coverage.py:120` | `def test_required_params_exist_live()` |
+| `test_schema_covers_live_keys` | function | `tests/test_placeholder_coverage.py:63` | `def test_schema_covers_live_keys()` |
+| `test_skill_documents_validator_keys` | function | `tests/test_placeholder_coverage.py:68` | `def test_skill_documents_validator_keys()` |
+| `test_validator_covers_live_keys` | function | `tests/test_placeholder_coverage.py:57` | `def test_validator_covers_live_keys()` |
 | `test_corrupt_store_reads_empty` | function | `tests/test_plugin_tiers.py:79` | `def test_corrupt_store_reads_empty(tmp_path)` |
 | `test_default_tier_is_community` | function | `tests/test_plugin_tiers.py:37` | `def test_default_tier_is_community()` |
 | `test_format_rating` | function | `tests/test_plugin_tiers.py:85` | `def test_format_rating()` |
@@ -488,13 +496,5 @@ Previous: [SYMBOLS_p31.md](SYMBOLS_p31.md)
 | `__init__` | method | `tests/test_reactive_engine_semantic.py:36` | `def __init__(self, hits, ready)` |
 | `query` | method | `tests/test_reactive_engine_semantic.py:41` | `def query(self, text, n)` |
 | `query` | method | `tests/test_reactive_engine_semantic.py:169` | `def query(self, text, n)` |
-| `test_advisor_swallows_rag_query_errors` | method | `tests/test_reactive_engine_semantic.py:163` | `def test_advisor_swallows_rag_query_errors()` |
-| `test_emits_priority_five_suggestion` | method | `tests/test_reactive_engine_semantic.py:70` | `def test_emits_priority_five_suggestion()` |
-| `test_engine_uses_semantic_advisor_when_supplied` | method | `tests/test_reactive_engine_semantic.py:139` | `def test_engine_uses_semantic_advisor_when_supplied()` |
-| `test_returns_empty_when_disabled_via_payload` | method | `tests/test_reactive_engine_semantic.py:54` | `def test_returns_empty_when_disabled_via_payload()` |
-| `test_returns_empty_when_rag_unavailable` | method | `tests/test_reactive_engine_semantic.py:46` | `def test_returns_empty_when_rag_unavailable()` |
-| `test_skips_hits_without_command_prefix` | method | `tests/test_reactive_engine_semantic.py:127` | `def test_skips_hits_without_command_prefix()` |
-| `test_skips_low_score_hits` | method | `tests/test_reactive_engine_semantic.py:90` | `def test_skips_low_score_hits()` |
-| `test_skips_same_command_and_dedupes` | method | `tests/test_reactive_engine_semantic.py:102` | `def test_skips_same_command_and_dedupes()` |
 
 Next: [SYMBOLS_p33.md](SYMBOLS_p33.md)

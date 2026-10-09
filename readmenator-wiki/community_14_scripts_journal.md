@@ -1,6 +1,6 @@
 # scripts: journal
 
-*Community 15 | 3 files | cohesion 1.00*
+*Community 14 | 3 files | cohesion 1.00*
 
 ## Definition
 

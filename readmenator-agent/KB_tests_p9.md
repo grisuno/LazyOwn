@@ -1,4 +1,4 @@
-# Subsystem: tests (page 9 of 13)
+# Subsystem: tests (page 9 of 14)
 Previous: [KB_tests_p8.md](KB_tests_p8.md)
 
 ## tests/test_mcp_improvements.py

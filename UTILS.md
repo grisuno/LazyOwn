@@ -456,4 +456,3 @@ Processes a file to extract and display characters from specific write sequences
 ### `transform`
 
 Transforms a list of string parts based on the chosen casing style.
-

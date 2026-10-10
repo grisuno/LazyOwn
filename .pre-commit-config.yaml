@@ -42,7 +42,7 @@ repos:
     hooks:
       - id: mypy
         args: ['--config-file', 'pyproject.toml', '--no-strict-optional', '--explicit-package-bases', 'core', 'cli']
-        additional_dependencies: ['types-requests', 'types-PyYAML', 'markdown']
+        additional_dependencies: ['types-requests', 'types-PyYAML', 'types-Markdown']
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|env/|lazyown\.py$|lazyc2\.py$|utils\.py$)'
         pass_filenames: false
 

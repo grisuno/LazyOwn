@@ -1456,7 +1456,7 @@ class TestC2PaletteRoute:
     def test_route_renders_palette_template(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """The handler renders the dedicated palette template."""
         body = _extract_method_body(src, suite_config.c2_route_function)
-        assert f"render_template('{suite_config.c2_template_filename}'" in body
+        assert f'render_template("{suite_config.c2_template_filename}"' in body
 
     def test_route_handles_missing_index(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """The handler returns a non-200 status when the index is missing."""

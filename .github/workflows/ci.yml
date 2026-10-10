@@ -51,8 +51,6 @@ jobs:
           pip install -e . --no-deps
       - name: Run tests
         run: python -m pytest tests/ -x --tb=short --timeout=300 -p no:cacheprovider
-        env:
-          LAZYOWN_TEST_MODE: "1"
   hygiene:
     needs: lint
     runs-on: ubuntu-latest

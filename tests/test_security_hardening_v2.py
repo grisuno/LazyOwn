@@ -177,7 +177,7 @@ class TestDNSCommandAllowlist:
         When I inspect its size,
         Then it must contain fewer than 20 entries (principle of least privilege)."""
         match = re.search(
-            r"_DNS_COMMAND_ALLOWLIST = frozenset\(\{(.*?)\}\)",
+            r"_DNS_COMMAND_ALLOWLIST = frozenset\(\s*\{(.*?)\}\)",
             self.SOURCE,
             re.DOTALL,
         )
@@ -202,7 +202,7 @@ class TestDNSCommandAllowlist:
         When I check for dangerous commands,
         Then destructive commands must not be in the allowlist."""
         match = re.search(
-            r"_DNS_COMMAND_ALLOWLIST = frozenset\(\{(.*?)\}\)",
+            r"_DNS_COMMAND_ALLOWLIST = frozenset\(\s*\{(.*?)\}\)",
             self.SOURCE,
             re.DOTALL,
         )

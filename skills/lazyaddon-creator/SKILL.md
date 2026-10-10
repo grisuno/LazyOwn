@@ -99,15 +99,20 @@ Known `payload.json` keys (no declaration needed beyond the `params` entry):
 
 ```
 aes_key api_key backdoor_linux_home backdoor_password backdoor_username backdoor_win_home
-backdoor_win_service_path baseoutputdir binary_name c2_malleable_route c2_pass c2_port
-c2_user ca_name cloud_prefix cloud_provider cloud_region data data_file dc_ip device dirwordlist dnswordlist domain
+backdoor_win_service_path baseoutputdir binary_name c2_decoy_mode c2_fallback_urls c2_malleable_route
+c2_open_registration c2_pass c2_port c2_require_beacon_hmac c2_user ca_name cert_pass cloud_prefix
+cloud_provider cloud_region data data_file dc_ip device dirwordlist dnswordlist domain
 email_from email_password email_to email_username enable_c2_implant_debug enable_chainmode enable_cloudflare
-enable_operator_presence enable_toasts endip exploitdb exploitgym_model exploitgym_path ext field file ghidra_server headers headers_file
-hide_code ip json_data json_data_file lhost listener lport method mode nameserver os_id
-outputdir params params_file pass password path port prompt proxy_port rat_key region
-report_output_path reverse_shell_port rhost rport s scan_type scope scope_enforcement sleep
-sleep_start smtp_port smtp_server spoof_ip start_pass start_user startip subdomain target
-target_path template_name toast_max_per_tick toolname topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme url url_traffic_1
+enable_operator_presence enable_toasts endip entropia_artifact entropia_harness_args entropia_kind entropia_name
+entropia_opsec entropia_out entropia_seed entropia_seed_a entropia_seed_b entropia_src entropia_type
+exploitdb exploitgym_admin_key exploitgym_anthropic_key exploitgym_flag_seed exploitgym_model exploitgym_openai_key
+exploitgym_path exploitgym_server_api_key exploitgym_server_salt ext field file ghidra_plugin_url ghidra_server
+grype_target headers headers_file hide_code ip json_data json_data_file lhost listener lport
+mcp_host mcp_port method mode nameserver os_id outputdir params params_file pass password
+path port prompt proxy_port rat_key region report_output_path reverse_shell_port rhost rport
+s sandboxed scan_type scope scope_enforcement sleep sleep_start smtp_port smtp_server spoof_ip
+start_pass start_user startip subdomain target target_path template_name toast_max_per_tick toolname
+topoexploit_path topoexploit_port trivy_scan_type trivy_target tui_theme ui_hints url url_traffic_1
 url_traffic_2 url_traffic_3 user user_agent_1 user_agent_2 user_agent_3 user_agent_lin
 user_agent_win username usrwordlist wordlist
 ```

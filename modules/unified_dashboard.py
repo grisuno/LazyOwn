@@ -20,6 +20,7 @@ Design (SOLID)
 - Dependency Inversion  : depends on ``DashboardEngine`` interface, not
   concrete implementations of hive/policy/daemon.
 """
+
 from __future__ import annotations
 
 import json
@@ -51,6 +52,7 @@ class UnifiedDashboard:
                 from modules.dashboard_engine import DashboardEngine
                 from modules.exploit_recommender import ExploitRecommender
                 from modules.world_model import WorldModel
+
                 wm = WorldModel(self._sessions_dir / "world_model.json")
                 self._dashboard = DashboardEngine(wm)
                 er = ExploitRecommender(wm)
@@ -64,6 +66,7 @@ class UnifiedDashboard:
         if self._graph is None:
             try:
                 from cli.graph_advisor import GraphAdvisor
+
                 self._graph = GraphAdvisor.from_path()
             except Exception as exc:
                 log.debug("UnifiedDashboard: graph advisor unavailable: %s", exc)
@@ -101,6 +104,7 @@ class UnifiedDashboard:
     def _collect_hive_status(self) -> dict:
         try:
             from hive_mind import get_hive
+
             hive = get_hive()
             return hive.status()
         except Exception as exc:
@@ -110,6 +114,7 @@ class UnifiedDashboard:
     def _collect_policy_status(self) -> dict:
         try:
             from skills.lazyown_policy import get_policy
+
             policy = get_policy()
             return policy.status_report()
         except Exception as exc:
@@ -131,6 +136,7 @@ class UnifiedDashboard:
             return {}
         try:
             from modules.live_surface import build_live_graph
+
             return build_live_graph(wm)
         except Exception as exc:
             log.debug("UnifiedDashboard: live surface unavailable: %s", exc)

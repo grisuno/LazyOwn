@@ -61,10 +61,12 @@ from typing import Any
 
 import yaml
 
-_LAZYOWN_DIR = Path(os.environ.get(
-    "LAZYOWN_DIR",
-    str(Path(__file__).resolve().parent.parent),
-))
+_LAZYOWN_DIR = Path(
+    os.environ.get(
+        "LAZYOWN_DIR",
+        str(Path(__file__).resolve().parent.parent),
+    )
+)
 PIPELINES_DIR = _LAZYOWN_DIR / "pipelines"
 SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 RUNS_DIR = SESSIONS_DIR / "pipelines"
@@ -178,13 +180,13 @@ class StepResult:
     def to_context(self) -> dict[str, Any]:
         """Render the step result as a dict for template lookups."""
         merged: dict[str, Any] = {
-            "command":   self.command,
-            "args":      self.args,
-            "output":    self.output,
-            "success":   self.success,
-            "skipped":   self.skipped,
-            "started":   self.started_ts,
-            "finished":  self.finished_ts,
+            "command": self.command,
+            "args": self.args,
+            "output": self.output,
+            "success": self.success,
+            "skipped": self.skipped,
+            "started": self.started_ts,
+            "finished": self.finished_ts,
         }
         # Derived fields are flattened so {{ previous.has_exploit }} works.
         for key, value in (self.derived or {}).items():
@@ -211,16 +213,16 @@ class PipelineRun:
     def to_dict(self) -> dict[str, Any]:
         """Return a JSON-friendly representation of the full run."""
         return {
-            "run_id":        self.run_id,
-            "pipeline":      self.pipeline,
-            "target":        self.target,
-            "started_ts":    self.started_ts,
-            "finished_ts":   self.finished_ts,
-            "success":       self.success,
-            "error":         self.error,
+            "run_id": self.run_id,
+            "pipeline": self.pipeline,
+            "target": self.target,
+            "started_ts": self.started_ts,
+            "finished_ts": self.finished_ts,
+            "success": self.success,
+            "error": self.error,
             "artifacts_dir": self.artifacts_dir,
-            "nested_runs":   list(self.nested_runs),
-            "steps":         [asdict(s) for s in self.steps],
+            "nested_runs": list(self.nested_runs),
+            "steps": [asdict(s) for s in self.steps],
         }
 
 
@@ -384,9 +386,7 @@ class StepDerivers:
     _registry: dict[str, Callable[[str], dict[str, Any]]] = {}
 
     @classmethod
-    def register(
-        cls, command: str, deriver: Callable[[str], dict[str, Any]]
-    ) -> None:
+    def register(cls, command: str, deriver: Callable[[str], dict[str, Any]]) -> None:
         """Bind a deriver to a top-level command name (case-insensitive)."""
         if not isinstance(command, str) or not command:
             return
@@ -415,10 +415,10 @@ def _derive_ping(output: str) -> dict[str, Any]:
     ttl_match = re.search(r"ttl=(\d+)", text, re.IGNORECASE)
     received = re.search(r"(\d+)\s+received", text, re.IGNORECASE)
     return {
-        "ttl":      int(ttl_match.group(1)) if ttl_match else None,
-        "alive":    bool(ttl_match) or (received and int(received.group(1)) > 0),
+        "ttl": int(ttl_match.group(1)) if ttl_match else None,
+        "alive": bool(ttl_match) or (received and int(received.group(1)) > 0),
         "findings": {
-            "ttl":   int(ttl_match.group(1)) if ttl_match else None,
+            "ttl": int(ttl_match.group(1)) if ttl_match else None,
             "alive": bool(ttl_match),
         },
     }
@@ -430,7 +430,9 @@ def _derive_lazynmap(output: str) -> dict[str, Any]:
     ports: list[int] = []
     services: list[str] = []
     for match in re.finditer(
-        r"^(\d+)/(tcp|udp)\s+open\s+(\S+)", text, re.MULTILINE,
+        r"^(\d+)/(tcp|udp)\s+open\s+(\S+)",
+        text,
+        re.MULTILINE,
     ):
         try:
             ports.append(int(match.group(1)))
@@ -442,7 +444,7 @@ def _derive_lazynmap(output: str) -> dict[str, Any]:
         "has_open_ports": has_open,
         "open_ports_count": len(ports),
         "findings": {
-            "ports":    ports,
+            "ports": ports,
             "services": services,
         },
     }
@@ -509,7 +511,11 @@ class IStepRunner(ABC):
 
     @abstractmethod
     def run(
-        self, command: str, args: str, target: str, timeout_s: int,
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
     ) -> tuple[str, bool, str]:
         """Execute one command. Return (output, success, error_text)."""
 
@@ -533,15 +539,18 @@ class LazyOwnStepRunner(IStepRunner):
         if runner is None and onecmd is None:
             try:
                 from autonomous_daemon import _build_default_runner
+
                 runner = _build_default_runner()
             except Exception as exc:
-                raise PipelineError(
-                    f"could not build default LazyOwn runner: {exc}"
-                )
+                raise PipelineError(f"could not build default LazyOwn runner: {exc}")
         self._runner = runner
 
     def run(
-        self, command: str, args: str, target: str, timeout_s: int,
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
     ) -> tuple[str, bool, str]:
         if self._onecmd is not None:
             return self._run_via_onecmd(command, args, target, timeout_s)
@@ -555,7 +564,11 @@ class LazyOwnStepRunner(IStepRunner):
         return output, success, ""
 
     def _run_via_onecmd(
-        self, command: str, args: str, target: str, timeout_s: int,
+        self,
+        command: str,
+        args: str,
+        target: str,
+        timeout_s: int,
     ) -> tuple[str, bool, str]:
         line = command if not args else f"{command} {args}"
         if target:
@@ -576,12 +589,27 @@ def _heuristic_success(command: str, output: str) -> bool:
         return False
     low = output.lower()
     failure_markers = (
-        "error", "failed", "no such", "command not found",
-        "traceback", "refused", "timed out", "timeout",
+        "error",
+        "failed",
+        "no such",
+        "command not found",
+        "traceback",
+        "refused",
+        "timed out",
+        "timeout",
     )
     success_markers = (
-        "found", "success", "open", "hash", "discovered",
-        "credential", "uid=", "started", "listening", "ttl=", "received",
+        "found",
+        "success",
+        "open",
+        "hash",
+        "discovered",
+        "credential",
+        "uid=",
+        "started",
+        "listening",
+        "ttl=",
+        "received",
     )
     if any(m in low for m in success_markers):
         return True
@@ -637,14 +665,10 @@ class PipelineLoader:
             try:
                 candidate.relative_to(base)
             except ValueError:
-                raise PipelineNotFoundError(
-                    f"pipeline path escapes pipelines dir: {name}"
-                )
+                raise PipelineNotFoundError(f"pipeline path escapes pipelines dir: {name}")
             if candidate.exists():
                 return candidate
-        raise PipelineNotFoundError(
-            f"pipeline {name!r} not found in {self._dir}"
-        )
+        raise PipelineNotFoundError(f"pipeline {name!r} not found in {self._dir}")
 
     def _read(self, path: Path) -> dict[str, Any]:
         try:
@@ -653,9 +677,7 @@ class PipelineLoader:
         except yaml.YAMLError as exc:
             raise PipelineSchemaError(f"invalid YAML in {path.name}: {exc}")
         if not isinstance(data, dict):
-            raise PipelineSchemaError(
-                f"{path.name}: top-level document must be a mapping"
-            )
+            raise PipelineSchemaError(f"{path.name}: top-level document must be a mapping")
         return data
 
     def load(self, name: str) -> PipelineSpec:
@@ -665,7 +687,10 @@ class PipelineLoader:
         return self._validate(raw, name=name, source=path)
 
     def _validate(
-        self, raw: dict[str, Any], name: str, source: Path,
+        self,
+        raw: dict[str, Any],
+        name: str,
+        source: Path,
     ) -> PipelineSpec:
         steps_raw = raw.get("steps", [])
         if not isinstance(steps_raw, list) or not steps_raw:
@@ -675,19 +700,13 @@ class PipelineLoader:
         used_names: set = set()
         for i, item in enumerate(steps_raw):
             if not isinstance(item, dict):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} must be a mapping"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} must be a mapping")
             command = str(item.get("command", "") or "").strip()
             pipeline = str(item.get("pipeline", "") or "").strip()
             if command and pipeline:
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} may not specify both command and pipeline"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} may not specify both command and pipeline")
             if not command and not pipeline:
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} requires command or pipeline"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} requires command or pipeline")
             step_name = str(item.get("name", "") or "").strip()
             if not step_name:
                 step_name = (command or pipeline).split()[0]
@@ -699,35 +718,31 @@ class PipelineLoader:
             used_names.add(step_name)
             on_failure = str(item.get("on_failure", "stop") or "stop").lower()
             if on_failure not in ("stop", "continue", "skip"):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} on_failure must be stop|continue|skip"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} on_failure must be stop|continue|skip")
             timeout_value = item.get("timeout_s", _STEP_TIMEOUT_DEFAULT_S)
             try:
                 timeout_s = max(1, int(timeout_value))
             except (TypeError, ValueError):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} timeout_s must be an integer"
-                )
+                raise PipelineSchemaError(f"{name}: step #{i} timeout_s must be an integer")
             with_inputs = item.get("with_inputs", {}) or {}
             if not isinstance(with_inputs, dict):
-                raise PipelineSchemaError(
-                    f"{name}: step #{i} with_inputs must be a mapping"
+                raise PipelineSchemaError(f"{name}: step #{i} with_inputs must be a mapping")
+            steps.append(
+                PipelineStep(
+                    index=i,
+                    name=step_name,
+                    command=command,
+                    pipeline=pipeline,
+                    args=str(item.get("args", "") or ""),
+                    input_from=str(item.get("input_from", "") or ""),
+                    validate=str(item.get("validate", "") or ""),
+                    condition=str(item.get("condition", "") or ""),
+                    on_success=str(item.get("on_success", "") or ""),
+                    on_failure=on_failure,
+                    timeout_s=timeout_s,
+                    with_inputs=dict(with_inputs),
                 )
-            steps.append(PipelineStep(
-                index=i,
-                name=step_name,
-                command=command,
-                pipeline=pipeline,
-                args=str(item.get("args", "") or ""),
-                input_from=str(item.get("input_from", "") or ""),
-                validate=str(item.get("validate", "") or ""),
-                condition=str(item.get("condition", "") or ""),
-                on_success=str(item.get("on_success", "") or ""),
-                on_failure=on_failure,
-                timeout_s=timeout_s,
-                with_inputs=dict(with_inputs),
-            ))
+            )
 
         declared_name = str(raw.get("name", "") or name).strip()
         if declared_name != name:
@@ -736,9 +751,7 @@ class PipelineLoader:
             # file name. The mismatch is surfaced as info to the operator
             # via the spec.name field, which is the declared value.
             if not _is_valid_pipeline_name(declared_name):
-                raise PipelineSchemaError(
-                    f"{name}: declared name {declared_name!r} is not safe"
-                )
+                raise PipelineSchemaError(f"{name}: declared name {declared_name!r} is not safe")
         return PipelineSpec(
             name=declared_name,
             description=str(raw.get("description", "") or ""),
@@ -859,6 +872,7 @@ class EngagementNarratorAdapter(INarratorAdapter):
         if narrator is None:
             try:
                 from engagement_hooks import get_default_narrator
+
                 narrator = get_default_narrator()
             except Exception:
                 narrator = None
@@ -941,13 +955,9 @@ class PipelineEngine:
         """Execute the pipeline. Returns a fully-populated PipelineRun."""
         stack = tuple(nesting_stack or ())
         if name in stack:
-            raise PipelineCycleError(
-                f"nested pipeline cycle detected: {' -> '.join(stack + (name,))}"
-            )
+            raise PipelineCycleError(f"nested pipeline cycle detected: {' -> '.join(stack + (name,))}")
         if len(stack) >= self._max_nesting:
-            raise PipelineError(
-                f"max nesting depth {self._max_nesting} exceeded at {name}"
-            )
+            raise PipelineError(f"max nesting depth {self._max_nesting} exceeded at {name}")
 
         spec = self._loader.load(name)
         effective_target = target or spec.target or _load_payload().get("rhost", "")
@@ -971,9 +981,9 @@ class PipelineEngine:
             target=effective_target,
             message=f"pipeline {spec.name} run={run_id} steps={len(spec.steps)}",
             payload={
-                "run_id":   run_id,
+                "run_id": run_id,
                 "pipeline": spec.name,
-                "nesting":  list(stack),
+                "nesting": list(stack),
             },
         )
 
@@ -995,7 +1005,8 @@ class PipelineEngine:
                     rendered = resolver.render(step.condition)
                     if not ConditionEvaluator.is_truthy(rendered):
                         result = self._make_skipped(
-                            step, reason=f"condition false: {step.condition}",
+                            step,
+                            reason=f"condition false: {step.condition}",
                         )
                         run.steps.append(result)
                         step_results[step.name] = result
@@ -1028,16 +1039,16 @@ class PipelineEngine:
                     if step.on_failure == "stop":
                         run.success = False
                         detail = result.error or "see step output"
-                        run.error = (
-                            f"step {step.name} failed: {detail}"
-                        )
+                        run.error = f"step {step.name} failed: {detail}"
                         break
                     if step.on_failure == "skip":
                         continue
 
                 if result.success and step.on_success and not result.skipped:
                     hook = self._run_hook(
-                        step.on_success, effective_target, step.timeout_s,
+                        step.on_success,
+                        effective_target,
+                        step.timeout_s,
                     )
                     run.steps.append(hook)
                     self._store.write_step(run_dir, hook)
@@ -1051,14 +1062,11 @@ class PipelineEngine:
             self._narrator.narrate(
                 kind="PIPELINE_DONE",
                 target=effective_target,
-                message=(
-                    f"pipeline {spec.name} run={run_id} success={run.success} "
-                    f"steps={len(run.steps)}"
-                ),
+                message=(f"pipeline {spec.name} run={run_id} success={run.success} steps={len(run.steps)}"),
                 payload={
-                    "run_id":  run_id,
+                    "run_id": run_id,
                     "success": run.success,
-                    "error":   run.error,
+                    "error": run.error,
                 },
                 severity="info" if run.success else "warning",
             )
@@ -1148,9 +1156,9 @@ class PipelineEngine:
         run.nested_runs.append(nested_run.run_id)
         derived = {
             "nested_pipeline": step.pipeline,
-            "nested_run_id":   nested_run.run_id,
-            "nested_success":  nested_run.success,
-            "nested_steps":    len(nested_run.steps),
+            "nested_run_id": nested_run.run_id,
+            "nested_success": nested_run.success,
+            "nested_steps": len(nested_run.steps),
         }
         return StepResult(
             step_index=step.index,
@@ -1168,7 +1176,10 @@ class PipelineEngine:
         )
 
     def _run_hook(
-        self, hook_command: str, target: str, timeout_s: int,
+        self,
+        hook_command: str,
+        target: str,
+        timeout_s: int,
     ) -> StepResult:
         started = _now_iso()
         output, success, error = self._runner.run(
@@ -1221,19 +1232,20 @@ class PipelineEngine:
             previous_ctx = step_results[latest_name].to_context()
         return {
             "previous": previous_ctx,
-            "steps":    {n: r.to_context() for n, r in step_results.items()},
-            "payload":  _load_payload(),
-            "inputs":   dict(current_step.with_inputs),
+            "steps": {n: r.to_context() for n, r in step_results.items()},
+            "payload": _load_payload(),
+            "inputs": dict(current_step.with_inputs),
             "findings": dict(derived_findings),
             "pipeline": {
-                "name":   spec.name,
+                "name": spec.name,
                 "target": target,
             },
         }
 
     @staticmethod
     def _merge_findings(
-        derived_findings: dict[str, Any], result: StepResult,
+        derived_findings: dict[str, Any],
+        result: StepResult,
     ) -> None:
         derived = result.derived or {}
         more = derived.get("findings", {})
@@ -1256,7 +1268,7 @@ class PipelineEngine:
                 target=target,
                 message=f"step {result.step_name} succeeded",
                 payload={
-                    "step":    result.step_name,
+                    "step": result.step_name,
                     "command": result.command,
                     "derived": result.derived,
                 },
@@ -1267,10 +1279,10 @@ class PipelineEngine:
                 target=target,
                 message=f"step {result.step_name} failed: {result.error or 'see output'}",
                 payload={
-                    "step":    result.step_name,
+                    "step": result.step_name,
                     "command": result.command,
-                    "error":   result.error,
-                    "tail":    (result.output or "")[-200:],
+                    "error": result.error,
+                    "tail": (result.output or "")[-200:],
                 },
                 severity="warning",
             )
@@ -1300,7 +1312,9 @@ def get_default_engine(onecmd: Any = None) -> PipelineEngine:
 
 
 def mcp_pipeline_run(
-    name: str, target: str = "", background: bool = False,
+    name: str,
+    target: str = "",
+    background: bool = False,
     onecmd: Any = None,
 ) -> str:
     """Public MCP / CLI entry: run a pipeline.
@@ -1335,30 +1349,35 @@ def mcp_pipeline_run(
             _log.error("pipeline background run failed: %s", exc)
 
     thread = threading.Thread(
-        target=_worker, name=f"pipeline-{run_id}", daemon=True,
+        target=_worker,
+        name=f"pipeline-{run_id}",
+        daemon=True,
     )
     thread.start()
-    return json.dumps({
-        "status":   "started",
-        "run_id":   run_id,
-        "pipeline": name,
-        "message": (
-            "Pipeline started in background. "
-            "Poll progress with lazyown_pipeline_status."
-        ),
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "started",
+            "run_id": run_id,
+            "pipeline": name,
+            "message": ("Pipeline started in background. Poll progress with lazyown_pipeline_status."),
+        },
+        indent=2,
+    )
 
 
 def mcp_pipeline_list() -> str:
     """Return the list of available pipelines under pipelines/."""
     try:
         names = PipelineLoader().list()
-        return json.dumps({
-            "status":    "ok",
-            "count":     len(names),
-            "pipelines": names,
-            "dir":       str(PIPELINES_DIR),
-        }, indent=2)
+        return json.dumps(
+            {
+                "status": "ok",
+                "count": len(names),
+                "pipelines": names,
+                "dir": str(PIPELINES_DIR),
+            },
+            indent=2,
+        )
     except Exception as exc:
         return json.dumps({"status": "error", "message": str(exc)})
 
@@ -1369,24 +1388,27 @@ def mcp_pipeline_validate(name: str) -> str:
         spec = PipelineLoader().load(name)
     except PipelineError as exc:
         return json.dumps({"status": "error", "message": str(exc)})
-    return json.dumps({
-        "status":      "ok",
-        "name":        spec.name,
-        "description": spec.description,
-        "target":      spec.target,
-        "step_count":  len(spec.steps),
-        "steps":       [
-            {
-                "index":      s.index,
-                "name":       s.name,
-                "command":    s.command,
-                "pipeline":   s.pipeline,
-                "condition":  s.condition,
-                "on_failure": s.on_failure,
-            }
-            for s in spec.steps
-        ],
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "ok",
+            "name": spec.name,
+            "description": spec.description,
+            "target": spec.target,
+            "step_count": len(spec.steps),
+            "steps": [
+                {
+                    "index": s.index,
+                    "name": s.name,
+                    "command": s.command,
+                    "pipeline": s.pipeline,
+                    "condition": s.condition,
+                    "on_failure": s.on_failure,
+                }
+                for s in spec.steps
+            ],
+        },
+        indent=2,
+    )
 
 
 def mcp_pipeline_status(last_n: int = 5) -> str:

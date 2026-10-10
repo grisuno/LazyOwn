@@ -256,14 +256,16 @@ class PlaybookLoader:
             detection_hints = phase_data.get("detection_hints", [])
             if isinstance(detection_hints, str):
                 detection_hints = [detection_hints]
-            phases.append(PlaybookTechnique(
-                name=phase_data.get("name", ""),
-                technique_id=phase_data.get("technique_id", ""),
-                technique_name=phase_data.get("technique_name", ""),
-                description=phase_data.get("description", ""),
-                atomic_tests=atomic_tests,
-                detection_hints=list(detection_hints),
-            ))
+            phases.append(
+                PlaybookTechnique(
+                    name=phase_data.get("name", ""),
+                    technique_id=phase_data.get("technique_id", ""),
+                    technique_name=phase_data.get("technique_name", ""),
+                    description=phase_data.get("description", ""),
+                    atomic_tests=atomic_tests,
+                    detection_hints=list(detection_hints),
+                )
+            )
         return PlaybookSpec(
             apt_name=apt_name,
             aliases=list(aliases),
@@ -286,30 +288,36 @@ def _build_pipeline_yaml(playbook: PlaybookSpec, mapper: ITTPMapper, platform: s
     for tech in playbook.phases:
         for test in tech.atomic_tests:
             if test.get("manual"):
-                steps.append({
-                    "name": f"{tech.name}_{tech.technique_id}",
-                    "command": "echo",
-                    "args": f"[MANUAL] {tech.technique_name}: {test.get('name', tech.technique_id)} — {test.get('manual_instructions', 'perform manually')}",
-                    "on_failure": "continue",
-                })
+                steps.append(
+                    {
+                        "name": f"{tech.name}_{tech.technique_id}",
+                        "command": "echo",
+                        "args": f"[MANUAL] {tech.technique_name}: {test.get('name', tech.technique_id)} — {test.get('manual_instructions', 'perform manually')}",
+                        "on_failure": "continue",
+                    }
+                )
                 continue
             command = mapper.resolve(tech.technique_id, test, platform)
             if not command:
                 detection = ", ".join(tech.detection_hints[:1]) if tech.detection_hints else ""
-                steps.append({
-                    "name": f"{tech.name}_{tech.technique_id}",
-                    "command": "echo",
-                    "args": f"[UNMAPPED] {tech.technique_id}: {tech.technique_name}. Hints: {detection}",
-                    "on_failure": "continue",
-                })
+                steps.append(
+                    {
+                        "name": f"{tech.name}_{tech.technique_id}",
+                        "command": "echo",
+                        "args": f"[UNMAPPED] {tech.technique_id}: {tech.technique_name}. Hints: {detection}",
+                        "on_failure": "continue",
+                    }
+                )
                 continue
             args = test.get("args", "")
-            steps.append({
-                "name": f"{tech.name}_{tech.technique_id}",
-                "command": command,
-                "args": str(args),
-                "on_failure": "continue",
-            })
+            steps.append(
+                {
+                    "name": f"{tech.name}_{tech.technique_id}",
+                    "command": command,
+                    "args": str(args),
+                    "on_failure": "continue",
+                }
+            )
     pipeline_name = f"playbook_{playbook.apt_name.lower().replace(' ', '_').replace('-', '_')}"
     safe_name = re.sub(r"[^a-z0-9_]", "_", pipeline_name)[:80]
     doc = {
@@ -390,6 +398,7 @@ class PlaybookEngine:
         pipeline_name = Path(pipeline_path).stem
         try:
             from modules.pipeline_engine import get_default_engine
+
             engine = get_default_engine(onecmd=onecmd)
             run = engine.run(pipeline_name, target=target or "")
             analysis.pipeline_run_id = run.run_id

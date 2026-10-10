@@ -110,9 +110,7 @@ class NetworkOpsecEngine:
             "chain_type": chain_type,
             "proxies": proxies,
             "environment_variables": env_setup,
-            "export_commands": [
-                f"export {k}={v}" for k, v in env_setup.items()
-            ],
+            "export_commands": [f"export {k}={v}" for k, v in env_setup.items()],
             "proxychains_config": self._build_proxychains_config(proxies),
             "test_command": "curl -s --socks5-hostname 127.0.0.1:1080 https://ifconfig.me",
         }
@@ -145,23 +143,27 @@ class NetworkOpsecEngine:
             domain_lower = domain.lower()
             for indicator in self.CANARY_INDICATORS:
                 if indicator in domain_lower:
-                    findings.append({
-                        "type": "canary_domain",
-                        "indicator": indicator,
-                        "domain": domain,
-                        "confidence": "high" if "canarytokens" in domain_lower else "medium",
-                    })
+                    findings.append(
+                        {
+                            "type": "canary_domain",
+                            "indicator": indicator,
+                            "domain": domain,
+                            "confidence": "high" if "canarytokens" in domain_lower else "medium",
+                        }
+                    )
 
         for url in self.config.canary_urls:
             url_lower = url.lower()
             for indicator in self.CANARY_INDICATORS:
                 if indicator in url_lower:
-                    findings.append({
-                        "type": "canary_url",
-                        "indicator": indicator,
-                        "url": url,
-                        "confidence": "high",
-                    })
+                    findings.append(
+                        {
+                            "type": "canary_url",
+                            "indicator": indicator,
+                            "url": url,
+                            "confidence": "high",
+                        }
+                    )
 
         return {
             "canary_tokens_detected": len(findings),
@@ -169,7 +171,8 @@ class NetworkOpsecEngine:
             "risk_action": "ABORT" if len(findings) > 0 else "PROCEED",
             "recommendation": (
                 "Canary tokens detected — abort engagement and verify ROE."
-                if findings else "No canary tokens detected in analyzed domains/URLs."
+                if findings
+                else "No canary tokens detected in analyzed domains/URLs."
             ),
         }
 
@@ -217,7 +220,15 @@ class NetworkOpsecEngine:
                         }
 
                         issuer_cn = results["certificate_info"]["issuer"].get("commonName", "")
-                        ca_indicators = ["zscaler", "palo alto", "bluecoat", "forcepoint", "barracuda", "iboss", "netskope"]
+                        ca_indicators = [
+                            "zscaler",
+                            "palo alto",
+                            "bluecoat",
+                            "forcepoint",
+                            "barracuda",
+                            "iboss",
+                            "netskope",
+                        ]
                         for ca_indicator in ca_indicators:
                             if ca_indicator in issuer_cn.lower():
                                 results["tls_inspected"] = True
@@ -241,10 +252,9 @@ class NetworkOpsecEngine:
         return {
             "provider": self.config.doh_provider,
             "curl_usage": f'curl --doh-url "{self.config.doh_provider}" https://target.com',
-            "python_usage": (
-                "Use dnspython with httpx: "
-                "dns.query.https(q, '{provider}')"
-            ).format(provider=self.config.doh_provider),
+            "python_usage": ("Use dnspython with httpx: dns.query.https(q, '{provider}')").format(
+                provider=self.config.doh_provider
+            ),
             "systemd_resolved": [
                 "echo 'DNSOverTLS=yes' >> /etc/systemd/resolved.conf",
                 f"echo 'DNS={self.config.doh_provider}' >> /etc/systemd/resolved.conf",

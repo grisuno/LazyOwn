@@ -173,9 +173,12 @@ class PhaseTracker:
 
             elif cat_val == "scan" and etype == "service_added":
                 port_info = {
-                    "port": payload.get("port"), "protocol": payload.get("protocol", "tcp"),
-                    "name": payload.get("name", ""), "version": payload.get("version", ""),
-                    "product": payload.get("product", ""), "state": "open",
+                    "port": payload.get("port"),
+                    "protocol": payload.get("protocol", "tcp"),
+                    "name": payload.get("name", ""),
+                    "version": payload.get("version", ""),
+                    "product": payload.get("product", ""),
+                    "state": "open",
                 }
                 if target not in self._seen_services:
                     self._seen_services[target] = []
@@ -302,6 +305,7 @@ class CredentialReactor:
                     continue
                 try:
                     from modules.state_manager import get_state_manager
+
                     sm = get_state_manager()
                     parts = cred_str.split(":", 1)
                     if len(parts) == 2:
@@ -339,7 +343,7 @@ class SoulSync:
             username = payload.get("username", "")
             _update_soul(
                 phase="post_exploitation",
-                credentials=[f"{username}@{payload.get('host','')} ({payload.get('origin','')})"],
+                credentials=[f"{username}@{payload.get('host', '')} ({payload.get('origin', '')})"],
             )
 
         elif cat_val == "beacon" and etype == "beacon_registered":
@@ -357,6 +361,7 @@ class DashboardPusher:
     def __call__(self, event: Any) -> None:
         try:
             from modules.state_manager import get_state_manager
+
             sm = get_state_manager()
             sm.session_snapshot()
         except Exception:
@@ -390,6 +395,7 @@ def wire_all_consumers(bus=None) -> int:
 
     if bus is None:
         from modules.event_bus import get_event_bus
+
         bus = get_event_bus()
 
     for consumer in _CONSUMERS:
@@ -406,6 +412,7 @@ def unwire_all_consumers(bus=None) -> None:
 
     if bus is None:
         from modules.event_bus import get_event_bus
+
         bus = get_event_bus()
 
     for consumer in _CONSUMERS:

@@ -37,6 +37,7 @@ Usage:
     # CLI:
     python3 modules/report_generator.py [--sessions PATH] [--output PATH] [--quiet]
 """
+
 from __future__ import annotations
 
 import json
@@ -84,24 +85,29 @@ class CVSSv3Calculator:
     # CVSS v3.1 metric weight tables
     # ------------------------------------------------------------------
 
-    _AV  = {"N": 0.85, "A": 0.62, "L": 0.55, "P": 0.20}
-    _AC  = {"L": 0.77, "H": 0.44}
-    _PR_UNCHANGED  = {"N": 0.85, "L": 0.62, "H": 0.27}
-    _PR_CHANGED    = {"N": 0.85, "L": 0.68, "H": 0.50}
-    _UI  = {"N": 0.85, "R": 0.62}
+    _AV = {"N": 0.85, "A": 0.62, "L": 0.55, "P": 0.20}
+    _AC = {"L": 0.77, "H": 0.44}
+    _PR_UNCHANGED = {"N": 0.85, "L": 0.62, "H": 0.27}
+    _PR_CHANGED = {"N": 0.85, "L": 0.68, "H": 0.50}
+    _UI = {"N": 0.85, "R": 0.62}
     _CIA = {"N": 0.00, "L": 0.22, "H": 0.56}
 
     # Abbreviated metric value -> canonical abbreviation mapping
-    _AV_MAP  = {
-        "N": "N", "NETWORK": "N",
-        "A": "A", "ADJACENT": "A", "ADJACENT_NETWORK": "A",
-        "L": "L", "LOCAL": "L",
-        "P": "P", "PHYSICAL": "P",
+    _AV_MAP = {
+        "N": "N",
+        "NETWORK": "N",
+        "A": "A",
+        "ADJACENT": "A",
+        "ADJACENT_NETWORK": "A",
+        "L": "L",
+        "LOCAL": "L",
+        "P": "P",
+        "PHYSICAL": "P",
     }
-    _AC_MAP  = {"L": "L", "LOW": "L", "H": "H", "HIGH": "H"}
-    _PR_MAP  = {"N": "N", "NONE": "N", "L": "L", "LOW": "L", "H": "H", "HIGH": "H"}
-    _UI_MAP  = {"N": "N", "NONE": "N", "R": "R", "REQUIRED": "R"}
-    _S_MAP   = {"U": "U", "UNCHANGED": "U", "C": "C", "CHANGED": "C"}
+    _AC_MAP = {"L": "L", "LOW": "L", "H": "H", "HIGH": "H"}
+    _PR_MAP = {"N": "N", "NONE": "N", "L": "L", "LOW": "L", "H": "H", "HIGH": "H"}
+    _UI_MAP = {"N": "N", "NONE": "N", "R": "R", "REQUIRED": "R"}
+    _S_MAP = {"U": "U", "UNCHANGED": "U", "C": "C", "CHANGED": "C"}
     _CIA_MAP = {"N": "N", "NONE": "N", "L": "L", "LOW": "L", "H": "H", "HIGH": "H"}
 
     # ------------------------------------------------------------------
@@ -157,10 +163,10 @@ class CVSSv3Calculator:
         ac = self._AC_MAP.get(attackComplexity.upper(), "L")
         pr = self._PR_MAP.get(privilegesRequired.upper(), "N")
         ui = self._UI_MAP.get(userInteraction.upper(), "N")
-        s  = self._S_MAP.get(scope.upper(), "U")
-        c  = self._CIA_MAP.get(confidentialityImpact.upper(), "N")
-        i  = self._CIA_MAP.get(integrityImpact.upper(), "N")
-        a  = self._CIA_MAP.get(availabilityImpact.upper(), "N")
+        s = self._S_MAP.get(scope.upper(), "U")
+        c = self._CIA_MAP.get(confidentialityImpact.upper(), "N")
+        i = self._CIA_MAP.get(integrityImpact.upper(), "N")
+        a = self._CIA_MAP.get(availabilityImpact.upper(), "N")
         return self._compute(av=av, ac=ac, pr=pr, ui=ui, s=s, c=c, i=i, a=a)
 
     # ------------------------------------------------------------------
@@ -169,19 +175,25 @@ class CVSSv3Calculator:
 
     def _compute(
         self,
-        av: str, ac: str, pr: str, ui: str,
-        s: str, c: str, i: str, a: str,
+        av: str,
+        ac: str,
+        pr: str,
+        ui: str,
+        s: str,
+        c: str,
+        i: str,
+        a: str,
     ) -> tuple[float, str]:
         """Apply the CVSS v3.1 base score formula."""
         scope_changed = s == "C"
 
-        av_val  = self._AV[av]
-        ac_val  = self._AC[ac]
-        pr_val  = (self._PR_CHANGED if scope_changed else self._PR_UNCHANGED)[pr]
-        ui_val  = self._UI[ui]
-        c_val   = self._CIA[c]
-        i_val   = self._CIA[i]
-        a_val   = self._CIA[a]
+        av_val = self._AV[av]
+        ac_val = self._AC[ac]
+        pr_val = (self._PR_CHANGED if scope_changed else self._PR_UNCHANGED)[pr]
+        ui_val = self._UI[ui]
+        c_val = self._CIA[c]
+        i_val = self._CIA[i]
+        a_val = self._CIA[a]
 
         # Exploitability sub-score
         exploitability = 8.22 * av_val * ac_val * pr_val * ui_val
@@ -203,7 +215,7 @@ class CVSSv3Calculator:
             raw = min(raw, 10.0)
 
         base_score = self._roundup(raw)
-        severity   = self._severity(base_score)
+        severity = self._severity(base_score)
         return (base_score, severity)
 
     @staticmethod
@@ -252,8 +264,7 @@ class CVSSv3Calculator:
         missing = required - metrics.keys()
         if missing:
             raise ValueError(
-                f"CVSS vector is missing required metrics: {', '.join(sorted(missing))}. "
-                f"Input was: '{vector_string}'"
+                f"CVSS vector is missing required metrics: {', '.join(sorted(missing))}. Input was: '{vector_string}'"
             )
         return metrics
 
@@ -300,10 +311,7 @@ class DOCXExporter:
             from docx.oxml.ns import qn  # type: ignore  # noqa: F401
             from docx.shared import Pt, RGBColor  # type: ignore  # noqa: F401
         except ImportError:
-            log.warning(
-                "python-docx is not installed; DOCX export skipped. "
-                "Install with: pip install python-docx"
-            )
+            log.warning("python-docx is not installed; DOCX export skipped. Install with: pip install python-docx")
             return None
 
         try:
@@ -369,6 +377,7 @@ class DOCXExporter:
         except Exception:
             # Fallback: Normal style with Courier New
             from docx.shared import Pt  # type: ignore
+
             p = doc.add_paragraph(text)
             for run in p.runs:
                 run.font.name = "Courier New"
@@ -384,8 +393,8 @@ class DOCXExporter:
         pPr = p._p.get_or_add_pPr()
         pBdr = OxmlElement("w:pBdr")
         bottom = OxmlElement("w:bottom")
-        bottom.set(qn("w:val"),   "single")
-        bottom.set(qn("w:sz"),    "6")
+        bottom.set(qn("w:val"), "single")
+        bottom.set(qn("w:sz"), "6")
         bottom.set(qn("w:space"), "1")
         bottom.set(qn("w:color"), "auto")
         pBdr.append(bottom)
@@ -411,8 +420,8 @@ class DOCXExporter:
         hp.text = "CONFIDENTIAL"
         hp.alignment = WD_ALIGN_PARAGRAPH.CENTER
         for run in hp.runs:
-            run.font.bold  = True
-            run.font.size  = Pt(9)
+            run.font.bold = True
+            run.font.size = Pt(9)
             run.font.color.rgb = RGBColor(0xCC, 0x00, 0x00)
 
         # Footer: "Page X" right-aligned using Word field codes
@@ -439,11 +448,12 @@ class DOCXExporter:
         fld_end.set(qn("w:fldCharType"), "end")
         run._r.append(fld_end)
 
-_BASE_DIR     = Path(__file__).parent.parent
+
+_BASE_DIR = Path(__file__).parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
 
 # Module-level singletons for the new capabilities
-_cvss_calc   = CVSSv3Calculator()
+_cvss_calc = CVSSv3Calculator()
 _docx_export = DOCXExporter()
 
 
@@ -514,20 +524,14 @@ class ReportGenerator:
             for fmt in formats:
                 fmt_lower = fmt.lower().strip()
                 if fmt_lower == "md":
-                    md_path = (
-                        Path(output_path).with_suffix(".md")
-                        if output_path
-                        else self.sdir / f"{base_stem}.md"
-                    )
+                    md_path = Path(output_path).with_suffix(".md") if output_path else self.sdir / f"{base_stem}.md"
                     md_path.parent.mkdir(parents=True, exist_ok=True)
                     md_path.write_text(report_md, encoding="utf-8")
                     log.info("Markdown report written to %s", md_path)
                     results.append(md_path)
                 elif fmt_lower == "docx":
                     docx_path = (
-                        Path(output_path).with_suffix(".docx")
-                        if output_path
-                        else self.sdir / f"{base_stem}.docx"
+                        Path(output_path).with_suffix(".docx") if output_path else self.sdir / f"{base_stem}.docx"
                     )
                     written = _docx_export.export(report_md, docx_path)
                     results.append(written)
@@ -547,9 +551,7 @@ class ReportGenerator:
                 # Fallback: write as Markdown with .md extension
                 fallback = out.with_suffix(".md")
                 fallback.write_text(report_md, encoding="utf-8")
-                log.warning(
-                    "DOCX export failed; Markdown fallback written to %s", fallback
-                )
+                log.warning("DOCX export failed; Markdown fallback written to %s", fallback)
                 return fallback
             return written
 
@@ -592,7 +594,7 @@ class ReportGenerator:
             if isinstance(services, dict):
                 svc_list = [f"{port}/{info_s.get('name', '?')}" for port, info_s in services.items()]
             else:
-                svc_list = [f"{s.get('port')}/{s.get('name','?')}" for s in (services or [])]
+                svc_list = [f"{s.get('port')}/{s.get('name', '?')}" for s in (services or [])]
             os_hint = info.get("os_hint", info.get("os", "unknown"))
             lines.append(f"| {ip} | {os_hint} | {', '.join(svc_list) or 'none'} |")
         return "\n".join(lines)
@@ -613,8 +615,8 @@ class ReportGenerator:
         lines = ["## 2. Findings", ""]
         for i, v in enumerate(vulns, 1):
             severity = v.get("severity", "INFO").upper()
-            title    = v.get("title", v.get("name", f"Finding {i}"))
-            desc     = v.get("description", v.get("detail", "No description."))
+            title = v.get("title", v.get("name", f"Finding {i}"))
+            desc = v.get("description", v.get("detail", "No description."))
             evidence = v.get("evidence", v.get("output", ""))
 
             # CVSS v3.1 scoring if a vector or score is present
@@ -627,14 +629,11 @@ class ReportGenerator:
                 try:
                     if re.search(r"AV:", cvss_str, re.IGNORECASE):
                         score, label = _cvss_calc.calculate(cvss_str)
-                        cvss_line = (
-                            f"**CVSS v3.1:** {score} ({label})  \n"
-                            f"**Vector:** `{cvss_str}`  "
-                        )
+                        cvss_line = f"**CVSS v3.1:** {score} ({label})  \n**Vector:** `{cvss_str}`  "
                     else:
                         # Treat as a pre-computed numeric score
                         numeric = float(cvss_str)
-                        label   = CVSSv3Calculator._severity(numeric)
+                        label = CVSSv3Calculator._severity(numeric)
                         cvss_line = f"**CVSS v3.1 Score:** {numeric:.1f} ({label})  "
                 except Exception as exc:
                     log.debug("Could not parse CVSS field '%s': %s", cvss_str, exc)
@@ -673,27 +672,31 @@ class ReportGenerator:
                     for svc in services:
                         name = svc.get("name", "")
                         port = svc.get("port", "")
-                        findings.append(ComplianceFinding(
-                            category="open_port",
-                            host=ip,
-                            port=str(port),
-                            service=name,
-                            description=f"Service {name} detected on {ip}:{port}",
-                            severity="INFO",
-                            operator="system",
-                        ))
+                        findings.append(
+                            ComplianceFinding(
+                                category="open_port",
+                                host=ip,
+                                port=str(port),
+                                service=name,
+                                description=f"Service {name} detected on {ip}:{port}",
+                                severity="INFO",
+                                operator="system",
+                            )
+                        )
 
         events = self._load_jsonl(self.sdir / "events.jsonl")
         for ev in events[-100:]:
-            findings.append(ComplianceFinding(
-                category=ev.get("type", ev.get("event_type", "event")),
-                host=ev.get("host", ev.get("target", "")),
-                port=str(ev.get("port", "")),
-                service=ev.get("service", ""),
-                description=ev.get("message", ev.get("detail", ""))[:120],
-                severity=ev.get("severity", "INFO"),
-                operator=ev.get("operator", "system"),
-            ))
+            findings.append(
+                ComplianceFinding(
+                    category=ev.get("type", ev.get("event_type", "event")),
+                    host=ev.get("host", ev.get("target", "")),
+                    port=str(ev.get("port", "")),
+                    service=ev.get("service", ""),
+                    description=ev.get("message", ev.get("detail", ""))[:120],
+                    severity=ev.get("severity", "INFO"),
+                    operator=ev.get("operator", "system"),
+                )
+            )
 
         report = engine.generate_compliance_report(
             findings=findings,
@@ -740,11 +743,7 @@ class ReportGenerator:
         if not creds:
             return ""
         count = len([line for line in creds.splitlines() if line.strip()])
-        return (
-            "## 3. Credentials Captured\n\n"
-            f"**Total:** {count}\n\n"
-            "```\n" + creds + "\n```"
-        )
+        return f"## 3. Credentials Captured\n\n**Total:** {count}\n\n```\n" + creds + "\n```"
 
     def _section_timeline(self) -> str:
         events = self._load_jsonl(self.sdir / "events.jsonl")
@@ -758,8 +757,8 @@ class ReportGenerator:
             "|-----------|------------|--------|",
         ]
         for ev in events[-60:]:
-            ts     = str(ev.get("timestamp", ev.get("ts", "")))[:19]
-            etype  = ev.get("type", ev.get("event_type", ""))
+            ts = str(ev.get("timestamp", ev.get("ts", "")))[:19]
+            etype = ev.get("type", ev.get("event_type", ""))
             detail = str(ev.get("data", ev.get("detail", ev.get("message", ""))))[:100]
             detail = detail.replace("|", "/")
             lines.append(f"| {ts} | {etype} | {detail} |")
@@ -770,7 +769,7 @@ class ReportGenerator:
         if not objs:
             return ""
 
-        done    = [o for o in objs if o.get("status") in ("done", "completed")]
+        done = [o for o in objs if o.get("status") in ("done", "completed")]
         pending = [o for o in objs if o.get("status") not in ("done", "completed")]
 
         lines = [
@@ -807,16 +806,16 @@ class ReportGenerator:
             return "\n".join(lines)
 
         SERVICE_RECS: dict[str, str] = {
-            "http":  "Perform web application assessment: directory brute-force, auth bypass, injection, misconfigurations.",
+            "http": "Perform web application assessment: directory brute-force, auth bypass, injection, misconfigurations.",
             "https": "Perform web application assessment over TLS: cert validity, HSTS, injection, auth bypass.",
-            "smb":   "Test for null session, EternalBlue (MS17-010), SMB relay, credential brute-force.",
-            "ssh":   "Check for outdated version vulnerabilities, user enumeration, brute-force, weak keys.",
-            "ftp":   "Test anonymous login, brute-force, cleartext credential sniffing.",
-            "ldap":  "Enumerate domain objects, AS-REP roast, Kerberoast, ACL abuse.",
+            "smb": "Test for null session, EternalBlue (MS17-010), SMB relay, credential brute-force.",
+            "ssh": "Check for outdated version vulnerabilities, user enumeration, brute-force, weak keys.",
+            "ftp": "Test anonymous login, brute-force, cleartext credential sniffing.",
+            "ldap": "Enumerate domain objects, AS-REP roast, Kerberoast, ACL abuse.",
             "ldaps": "Enumerate domain objects over LDAPS, AS-REP roast, Kerberoast, ACL abuse.",
             "mssql": "Test sa account, xp_cmdshell, credential stuffing, UNC path injection.",
             "mysql": "Test for blank root password, file read/write via LOAD DATA INFILE.",
-            "rdp":   "Test BlueKeep (CVE-2019-0708), NLA bypass, credential brute-force.",
+            "rdp": "Test BlueKeep (CVE-2019-0708), NLA bypass, credential brute-force.",
             "winrm": "Test credential brute-force; if credentials known, attempt lateral movement.",
         }
 
@@ -840,11 +839,7 @@ class ReportGenerator:
         return "\n".join(lines)
 
     def _footer(self) -> str:
-        return (
-            "---\n\n"
-            "_This report was auto-generated by LazyOwn. "
-            "Review and validate all findings before submission._"
-        )
+        return "---\n\n_This report was auto-generated by LazyOwn. Review and validate all findings before submission._"
 
     # ── Data loaders ──────────────────────────────────────────────────────────
 
@@ -886,19 +881,18 @@ class ReportGenerator:
 if __name__ == "__main__":
     import argparse
     import logging
+
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Report Generator")
-    p.add_argument("--sessions", default=str(_SESSIONS_DIR),
-                   help="Path to sessions directory")
-    p.add_argument("--output",   default=None,
-                   help="Output file path (default: sessions/report_<ts>.md)")
-    p.add_argument("--quiet",    action="store_true")
+    p.add_argument("--sessions", default=str(_SESSIONS_DIR), help="Path to sessions directory")
+    p.add_argument("--output", default=None, help="Output file path (default: sessions/report_<ts>.md)")
+    p.add_argument("--quiet", action="store_true")
     args = p.parse_args()
 
     if args.quiet:
         logging.disable(logging.WARNING)
 
-    rg  = ReportGenerator(sessions_dir=args.sessions)
+    rg = ReportGenerator(sessions_dir=args.sessions)
     out = rg.generate(output_path=args.output)
     print(out)

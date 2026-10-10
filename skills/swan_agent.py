@@ -71,6 +71,7 @@ Usage
     status = swan.status()
     print(status)
 """
+
 from __future__ import annotations
 
 import json
@@ -88,10 +89,10 @@ from typing import Any
 
 # ── Path setup ────────────────────────────────────────────────────────────────
 
-SKILLS_DIR   = Path(__file__).parent
-LAZYOWN_DIR  = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
+SKILLS_DIR = Path(__file__).parent
+LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
-MODULES_DIR  = LAZYOWN_DIR / "modules"
+MODULES_DIR = LAZYOWN_DIR / "modules"
 
 for _p in (str(SKILLS_DIR), str(LAZYOWN_DIR), str(MODULES_DIR)):
     if _p not in sys.path:
@@ -101,19 +102,23 @@ log = logging.getLogger("swan_agent")
 
 # ── Optional lazy imports ─────────────────────────────────────────────────────
 
+
 def _import_router():
     from modules.moe_router import ExpertProfile, get_router  # noqa: PLC0415
+
     return get_router(), ExpertProfile
 
 
 def _import_trainer():
     from modules.rl_trainer import get_trainer  # noqa: PLC0415
+
     return get_trainer()
 
 
 def _import_detection_oracle():
     try:
         from modules.detection_oracle import get_oracle  # noqa: PLC0415
+
         return get_oracle()
     except Exception:
         return None
@@ -126,6 +131,7 @@ def _import_policy():
             OutcomeType,
             infer_category,
         )
+
         return ActionCategory, OutcomeType, infer_category
     except Exception:
         return None, None, None
@@ -141,20 +147,21 @@ class SwanResult:
     """
     Result from a single-expert SWAN execution.
     """
-    task_id:        str
-    task_type:      str
-    goal:           str
-    expert_id:      str
-    backend:        str
-    model:          str
-    output:         str
-    status:         str              # completed | failed | timeout
-    reward:         float   = 0.0
-    detection_prob: float   = 0.0
-    duration_s:     float   = 0.0
-    started_at:     str     = ""
-    state_key:      str     = ""     # RL state used for this task
-    error:          str     = ""
+
+    task_id: str
+    task_type: str
+    goal: str
+    expert_id: str
+    backend: str
+    model: str
+    output: str
+    status: str  # completed | failed | timeout
+    reward: float = 0.0
+    detection_prob: float = 0.0
+    duration_s: float = 0.0
+    started_at: str = ""
+    state_key: str = ""  # RL state used for this task
+    error: str = ""
 
     @property
     def is_success(self) -> bool:
@@ -164,11 +171,12 @@ class SwanResult:
 @dataclass
 class ExpertVote:
     """One expert's contribution to an ensemble."""
-    expert_id:   str
-    output:      str
-    weight:      float       # routing weight at the time of execution
-    status:      str
-    duration_s:  float
+
+    expert_id: str
+    output: str
+    weight: float  # routing weight at the time of execution
+    status: str
+    duration_s: float
 
 
 @dataclass
@@ -176,16 +184,17 @@ class EnsembleResult:
     """
     Aggregated result from multiple experts.
     """
-    task_id:               str
-    task_type:             str
-    goal:                  str
-    votes:                 list[ExpertVote]
-    synthesis:             str        # combined output from synthesizer
-    consensus_confidence:  float      # fraction of experts that agree
-    best_expert_id:        str        # expert with highest weight
-    reward:                float
-    detection_prob:        float
-    duration_s:            float
+
+    task_id: str
+    task_type: str
+    goal: str
+    votes: list[ExpertVote]
+    synthesis: str  # combined output from synthesizer
+    consensus_confidence: float  # fraction of experts that agree
+    best_expert_id: str  # expert with highest weight
+    reward: float
+    detection_prob: float
+    duration_s: float
 
 
 # ---------------------------------------------------------------------------
@@ -285,17 +294,12 @@ class WeightedTextAggregator(IResultAggregator):
         ]
         # Sort by weight descending
         for i, ev in enumerate(sorted(experts, key=lambda e: -e.weight), 1):
-            lines.append(
-                f"Expert {i} [{ev.expert_id}] (weight={ev.weight:.3f}, "
-                f"duration={ev.duration_s:.1f}s):"
-            )
+            lines.append(f"Expert {i} [{ev.expert_id}] (weight={ev.weight:.3f}, duration={ev.duration_s:.1f}s):")
             lines.append(ev.output[:1000])
             lines.append("")
 
         lines.append("[CONSENSUS]")
-        lines.append(
-            "The following recommendations appear in multiple expert responses:"
-        )
+        lines.append("The following recommendations appear in multiple expert responses:")
 
         # Simple consensus: find sentences repeated across outputs (>1 expert)
         all_lines: dict[str, int] = {}
@@ -314,9 +318,7 @@ class WeightedTextAggregator(IResultAggregator):
                 lines.append(f"  ({count}/{len(experts)} experts) {text[:150]}")
         else:
             lines.append("  No common sentences found — outputs are divergent.")
-            lines.append(
-                f"  Highest-weight expert [{experts[0].expert_id}] recommendation:"
-            )
+            lines.append(f"  Highest-weight expert [{experts[0].expert_id}] recommendation:")
             lines.append(f"  {experts[0].output[:300]}")
 
         return "\n".join(lines)
@@ -336,9 +338,14 @@ class ExpertExecutor:
     """
 
     _DEFAULT_TOOLS = [
-        "run_command", "bridge_suggest", "parquet_context",
-        "reactive_suggest", "facts_show", "rag_query",
-        "memory_search", "session_status",
+        "run_command",
+        "bridge_suggest",
+        "parquet_context",
+        "reactive_suggest",
+        "facts_show",
+        "rag_query",
+        "memory_search",
+        "session_status",
     ]
 
     def execute(
@@ -352,22 +359,22 @@ class ExpertExecutor:
         api_key: str = "",
     ) -> SwanResult:
         """Run the expert and return a SwanResult."""
-        task_id    = uuid.uuid4().hex[:8]
+        task_id = uuid.uuid4().hex[:8]
         started_at = time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
-        t0         = time.time()
+        t0 = time.time()
 
         try:
             output = self._invoke(backend, model, goal, task_type, api_key, timeout)
             status = "completed"
-            error  = ""
+            error = ""
         except TimeoutError:
             output = f"[TIMEOUT after {timeout:.0f}s]"
             status = "timeout"
-            error  = "timeout"
+            error = "timeout"
         except Exception as exc:
             output = f"[ERROR] {exc}"
             status = "failed"
-            error  = str(exc)
+            error = str(exc)
             log.warning("ExpertExecutor [%s]: %s", expert_id, exc)
 
         return SwanResult(
@@ -402,38 +409,49 @@ class ExpertExecutor:
             api_key=key if backend == "groq" else None,
             backend=backend,
             max_iterations=8,
-            block=True,           # synchronous — we handle timeout externally
+            block=True,  # synchronous — we handle timeout externally
         )
         return agent_result(agent_id)
 
     @staticmethod
     def _tools_for_task(task_type: str) -> list[str]:
         task_tools: dict[str, list[str]] = {
-            "recon":       ["run_command", "facts_show", "bridge_suggest",
-                            "rag_query", "session_status"],
-            "enum":        ["run_command", "facts_show", "bridge_suggest",
-                            "rag_query", "session_status"],
-            "exploit":     ["run_command", "bridge_suggest", "parquet_context",
-                            "reactive_suggest", "rag_query", "atomic_search"],
-            "credential":  ["run_command", "bridge_suggest", "parquet_context",
-                            "reactive_suggest", "facts_show"],
-            "lateral":     ["run_command", "bridge_suggest", "session_status",
-                            "c2_status", "c2_command", "reactive_suggest"],
-            "privesc":     ["run_command", "bridge_suggest", "parquet_context",
-                            "reactive_suggest", "atomic_search", "searchsploit"],
-            "analyze":     ["run_command", "rag_query", "memory_search",
-                            "reactive_suggest", "threat_model", "facts_show"],
-            "report":      ["rag_query", "threat_model", "facts_show",
-                            "parquet_context", "task_list", "memory_search"],
+            "recon": ["run_command", "facts_show", "bridge_suggest", "rag_query", "session_status"],
+            "enum": ["run_command", "facts_show", "bridge_suggest", "rag_query", "session_status"],
+            "exploit": [
+                "run_command",
+                "bridge_suggest",
+                "parquet_context",
+                "reactive_suggest",
+                "rag_query",
+                "atomic_search",
+            ],
+            "credential": ["run_command", "bridge_suggest", "parquet_context", "reactive_suggest", "facts_show"],
+            "lateral": [
+                "run_command",
+                "bridge_suggest",
+                "session_status",
+                "c2_status",
+                "c2_command",
+                "reactive_suggest",
+            ],
+            "privesc": [
+                "run_command",
+                "bridge_suggest",
+                "parquet_context",
+                "reactive_suggest",
+                "atomic_search",
+                "searchsploit",
+            ],
+            "analyze": ["run_command", "rag_query", "memory_search", "reactive_suggest", "threat_model", "facts_show"],
+            "report": ["rag_query", "threat_model", "facts_show", "parquet_context", "task_list", "memory_search"],
         }
         return task_tools.get(task_type, ExpertExecutor._DEFAULT_TOOLS)
 
     @staticmethod
     def _load_payload_key() -> str:
         try:
-            return json.loads(
-                (LAZYOWN_DIR / "payload.json").read_text()
-            ).get("api_key", "")
+            return json.loads((LAZYOWN_DIR / "payload.json").read_text()).get("api_key", "")
         except Exception:
             return ""
 
@@ -454,8 +472,8 @@ class OutcomeEvaluator:
 
     _OUTCOME_REWARD_MAP: dict[str, int] = {
         "completed": 5,
-        "timeout":   -2,
-        "failed":    -3,
+        "timeout": -2,
+        "failed": -3,
     }
 
     def evaluate(
@@ -481,7 +499,8 @@ class OutcomeEvaluator:
             reward = 0.0
             log.info(
                 "OutcomeEvaluator: reward zeroed for %s (detect=%.0f%%)",
-                task_type, detection_prob * 100,
+                task_type,
+                detection_prob * 100,
             )
 
         return reward, detection_prob
@@ -489,9 +508,7 @@ class OutcomeEvaluator:
     def _base_reward(self, status: str, task_type: str) -> int:
         base = self._OUTCOME_REWARD_MAP.get(status, 0)
         # Boost for high-value categories
-        if status == "completed" and task_type in (
-            "credential", "privesc", "lateral", "intrusion"
-        ):
+        if status == "completed" and task_type in ("credential", "privesc", "lateral", "intrusion"):
             base = int(base * 1.5)
         return base
 
@@ -554,21 +571,21 @@ class SwanOrchestrator(ISwanOrchestrator):
 
     def __init__(
         self,
-        executor:   ExpertExecutor | None   = None,
-        evaluator:  OutcomeEvaluator | None = None,
+        executor: ExpertExecutor | None = None,
+        evaluator: OutcomeEvaluator | None = None,
         aggregator: IResultAggregator | None = None,
-        api_key:    str = "",
+        api_key: str = "",
     ) -> None:
-        self._executor   = executor  or ExpertExecutor()
-        self._evaluator  = evaluator or OutcomeEvaluator()
+        self._executor = executor or ExpertExecutor()
+        self._evaluator = evaluator or OutcomeEvaluator()
         self._aggregator = aggregator or WeightedTextAggregator()
-        self._api_key    = api_key or self._load_key()
-        self._lock       = threading.RLock()
+        self._api_key = api_key or self._load_key()
+        self._lock = threading.RLock()
 
         # Lazy-loaded collaborators
-        self._router:  Any = None
+        self._router: Any = None
         self._trainer: Any = None
-        self._memory:  Any = None
+        self._memory: Any = None
 
     # ── ISwanOrchestrator ─────────────────────────────────────────────────────
 
@@ -589,7 +606,7 @@ class SwanOrchestrator(ISwanOrchestrator):
         5. Evaluates outcome and updates RL + performance store.
         6. Returns SwanResult.
         """
-        router  = self._get_router()
+        router = self._get_router()
         trainer = self._get_trainer()
 
         # Select expert
@@ -598,6 +615,7 @@ class SwanOrchestrator(ISwanOrchestrator):
         except RuntimeError as exc:
             log.warning("SwanOrchestrator: routing failed (%s), using groq fallback", exc)
             from modules.moe_router import ExpertProfile  # noqa: PLC0415
+
             expert = ExpertProfile(
                 expert_id="groq_fallback",
                 backend="groq",
@@ -612,8 +630,8 @@ class SwanOrchestrator(ISwanOrchestrator):
 
         # RL-guided selection from available candidates
         candidates_obj = router.ensemble(task_type, goal, n=4)
-        candidate_ids  = [e.expert_id for e in candidates_obj]
-        selected_id    = trainer.select_action(state_key, candidate_ids)
+        candidate_ids = [e.expert_id for e in candidates_obj]
+        selected_id = trainer.select_action(state_key, candidate_ids)
 
         # Resolve selected expert profile
         selected_expert = next(
@@ -623,8 +641,10 @@ class SwanOrchestrator(ISwanOrchestrator):
 
         log.info(
             "SWAN run: task=%s phase=%s expert=%s model=%s",
-            task_type, engagement_phase,
-            selected_expert.expert_id, selected_expert.model,
+            task_type,
+            engagement_phase,
+            selected_expert.expert_id,
+            selected_expert.model,
         )
 
         # Execute
@@ -641,7 +661,7 @@ class SwanOrchestrator(ISwanOrchestrator):
 
         # Evaluate and update
         reward, detection_prob = self._evaluator.evaluate(result, task_type)
-        result.reward         = reward
+        result.reward = reward
         result.detection_prob = detection_prob
 
         self._post_execution_update(
@@ -650,9 +670,7 @@ class SwanOrchestrator(ISwanOrchestrator):
             reward=reward,
             detection_prob=detection_prob,
             state_key=state_key,
-            next_state=trainer.encode_state(
-                self._next_task_type(task_type), engagement_phase
-            ),
+            next_state=trainer.encode_state(self._next_task_type(task_type), engagement_phase),
             candidate_ids=candidate_ids,
             result=result,
         )
@@ -673,14 +691,12 @@ class SwanOrchestrator(ISwanOrchestrator):
         All experts receive the same goal concurrently. The aggregator then
         produces a synthesis combining their outputs with confidence weighting.
         """
-        router  = self._get_router()
+        router = self._get_router()
         trainer = self._get_trainer()
 
         experts = router.ensemble(task_type, goal, n=n_experts)
         if not experts:
-            raise RuntimeError(
-                f"No available experts for task_type={task_type!r}"
-            )
+            raise RuntimeError(f"No available experts for task_type={task_type!r}")
 
         state_key = trainer.encode_state(task_type, engagement_phase)
         t0 = time.time()
@@ -698,20 +714,25 @@ class SwanOrchestrator(ISwanOrchestrator):
         synthesis, confidence = self._aggregator.aggregate(task_type, goal, votes)
 
         # Evaluate best result and update RL
-        best_vote   = max(votes, key=lambda v: v.weight) if votes else None
+        best_vote = max(votes, key=lambda v: v.weight) if votes else None
         best_reward = 0.0
         best_detect = 0.0
         if best_vote and best_vote.status == "completed":
-            dummy   = SwanResult(
-                task_id="ensemble", task_type=task_type, goal=goal,
-                expert_id=best_vote.expert_id, backend="", model="",
-                output=best_vote.output, status=best_vote.status,
+            dummy = SwanResult(
+                task_id="ensemble",
+                task_type=task_type,
+                goal=goal,
+                expert_id=best_vote.expert_id,
+                backend="",
+                model="",
+                output=best_vote.output,
+                status=best_vote.status,
             )
             best_reward, best_detect = self._evaluator.evaluate(dummy, task_type)
 
         # Update all participating experts
         for vote in votes:
-            vote_reward    = best_reward if vote.status == "completed" else -2.0
+            vote_reward = best_reward if vote.status == "completed" else -2.0
             vote_detection = best_detect
             self._post_execution_update(
                 expert_id=vote.expert_id,
@@ -719,9 +740,7 @@ class SwanOrchestrator(ISwanOrchestrator):
                 reward=vote_reward,
                 detection_prob=vote_detection,
                 state_key=state_key,
-                next_state=trainer.encode_state(
-                    self._next_task_type(task_type), engagement_phase
-                ),
+                next_state=trainer.encode_state(self._next_task_type(task_type), engagement_phase),
                 candidate_ids=[e.expert_id for e in experts],
                 result=None,
             )
@@ -743,12 +762,12 @@ class SwanOrchestrator(ISwanOrchestrator):
 
     def status(self) -> dict:
         """Return a diagnostic snapshot of the SWAN system."""
-        router  = self._get_router()
+        router = self._get_router()
         trainer = self._get_trainer()
-        report  = router.status_report()
-        report["rl_epsilon"]    = round(trainer.epsilon, 4)
-        report["rl_config"]     = {
-            "learning_rate":   trainer._cfg.learning_rate,
+        report = router.status_report()
+        report["rl_epsilon"] = round(trainer.epsilon, 4)
+        report["rl_config"] = {
+            "learning_rate": trainer._cfg.learning_rate,
             "discount_factor": trainer._cfg.discount_factor,
             "detection_lambda": trainer._cfg.detection_lambda,
         }
@@ -783,22 +802,26 @@ class SwanOrchestrator(ISwanOrchestrator):
                 expert = future_map[future]
                 try:
                     result = future.result(timeout=5)
-                    votes.append(ExpertVote(
-                        expert_id=expert.expert_id,
-                        output=result.output,
-                        weight=expert.base_weight,
-                        status=result.status,
-                        duration_s=result.duration_s,
-                    ))
+                    votes.append(
+                        ExpertVote(
+                            expert_id=expert.expert_id,
+                            output=result.output,
+                            weight=expert.base_weight,
+                            status=result.status,
+                            duration_s=result.duration_s,
+                        )
+                    )
                 except Exception as exc:
                     log.warning("Ensemble expert %s failed: %s", expert.expert_id, exc)
-                    votes.append(ExpertVote(
-                        expert_id=expert.expert_id,
-                        output=f"[FAILED] {exc}",
-                        weight=expert.base_weight,
-                        status="failed",
-                        duration_s=0.0,
-                    ))
+                    votes.append(
+                        ExpertVote(
+                            expert_id=expert.expert_id,
+                            output=f"[FAILED] {exc}",
+                            weight=expert.base_weight,
+                            status="failed",
+                            duration_s=0.0,
+                        )
+                    )
         return votes
 
     def _post_execution_update(
@@ -813,7 +836,7 @@ class SwanOrchestrator(ISwanOrchestrator):
         result: SwanResult | None,
     ) -> None:
         """Update MoE performance store, RL Q-table, and hive memory."""
-        router  = self._get_router()
+        router = self._get_router()
         trainer = self._get_trainer()
 
         # 1 — MoE router performance
@@ -856,11 +879,11 @@ class SwanOrchestrator(ISwanOrchestrator):
                 role="architect",
                 event_type="swan_execution",
                 meta={
-                    "expert_id":      result.expert_id,
-                    "task_type":      result.task_type,
-                    "reward":         reward,
+                    "expert_id": result.expert_id,
+                    "task_type": result.task_type,
+                    "reward": reward,
                     "detection_prob": detection_prob,
-                    "status":         result.status,
+                    "status": result.status,
                 },
             )
         except Exception as exc:
@@ -870,13 +893,13 @@ class SwanOrchestrator(ISwanOrchestrator):
     def _next_task_type(task_type: str) -> str:
         """Simple kill-chain progression for next-state encoding."""
         _chain: dict[str, str] = {
-            "recon":       "enum",
-            "enum":        "exploit",
-            "exploit":     "intrusion",
-            "intrusion":   "privesc",
-            "privesc":     "credential",
-            "credential":  "lateral",
-            "lateral":     "privesc",
+            "recon": "enum",
+            "enum": "exploit",
+            "exploit": "intrusion",
+            "intrusion": "privesc",
+            "privesc": "credential",
+            "credential": "lateral",
+            "lateral": "privesc",
         }
         return _chain.get(task_type, "analyze")
 
@@ -897,6 +920,7 @@ class SwanOrchestrator(ISwanOrchestrator):
         if self._memory is None:
             try:
                 from hive_mind import get_hive  # noqa: PLC0415
+
                 self._memory = get_hive()._memory
             except Exception:
                 self._memory = False  # sentinel: tried but unavailable
@@ -908,9 +932,7 @@ class SwanOrchestrator(ISwanOrchestrator):
         if key:
             return key
         try:
-            return json.loads(
-                (LAZYOWN_DIR / "payload.json").read_text()
-            ).get("api_key", "")
+            return json.loads((LAZYOWN_DIR / "payload.json").read_text()).get("api_key", "")
         except Exception:
             return ""
 
@@ -925,19 +947,22 @@ def mcp_swan_run(task_type: str, goal: str, phase: str = "exploitation") -> str:
     Route and execute a task with the best MoE+RL-selected expert.
     Returns the expert's output as a string.
     """
-    swan   = get_swan()
+    swan = get_swan()
     result = swan.run(task_type, goal, engagement_phase=phase)
-    return json.dumps({
-        "task_id":       result.task_id,
-        "expert_id":     result.expert_id,
-        "backend":       result.backend,
-        "model":         result.model,
-        "status":        result.status,
-        "reward":        result.reward,
-        "detection_pct": round(result.detection_prob * 100, 1),
-        "duration_s":    result.duration_s,
-        "output":        result.output[:4000],
-    }, indent=2)
+    return json.dumps(
+        {
+            "task_id": result.task_id,
+            "expert_id": result.expert_id,
+            "backend": result.backend,
+            "model": result.model,
+            "status": result.status,
+            "reward": result.reward,
+            "detection_pct": round(result.detection_prob * 100, 1),
+            "duration_s": result.duration_s,
+            "output": result.output[:4000],
+        },
+        indent=2,
+    )
 
 
 def mcp_swan_ensemble(
@@ -950,25 +975,27 @@ def mcp_swan_ensemble(
     Run top-N experts in parallel and return a synthesized result.
     Higher confidence = more expert agreement.
     """
-    swan   = get_swan()
-    result = swan.ensemble_run(task_type, goal, n_experts=n_experts,
-                               engagement_phase=phase)
-    return json.dumps({
-        "task_id":             result.task_id,
-        "experts_used":        [v.expert_id for v in result.votes],
-        "successful_experts":  sum(1 for v in result.votes if v.status == "completed"),
-        "consensus_pct":       round(result.consensus_confidence * 100, 1),
-        "best_expert":         result.best_expert_id,
-        "reward":              result.reward,
-        "detection_pct":       round(result.detection_prob * 100, 1),
-        "duration_s":          result.duration_s,
-        "synthesis":           result.synthesis[:5000],
-    }, indent=2)
+    swan = get_swan()
+    result = swan.ensemble_run(task_type, goal, n_experts=n_experts, engagement_phase=phase)
+    return json.dumps(
+        {
+            "task_id": result.task_id,
+            "experts_used": [v.expert_id for v in result.votes],
+            "successful_experts": sum(1 for v in result.votes if v.status == "completed"),
+            "consensus_pct": round(result.consensus_confidence * 100, 1),
+            "best_expert": result.best_expert_id,
+            "reward": result.reward,
+            "detection_pct": round(result.detection_prob * 100, 1),
+            "duration_s": result.duration_s,
+            "synthesis": result.synthesis[:5000],
+        },
+        indent=2,
+    )
 
 
 def mcp_swan_status() -> str:
     """Return SWAN system status: expert weights, RL epsilon, performance."""
-    swan   = get_swan()
+    swan = get_swan()
     status = swan.status()
     return json.dumps(status, indent=2)
 
@@ -976,24 +1003,29 @@ def mcp_swan_status() -> str:
 def mcp_swan_route(task_type: str, goal: str = "") -> str:
     """Show which expert would be selected for a task without executing."""
     router, _ = _import_router()
-    experts   = router.ensemble(task_type, goal, n=4)
+    experts = router.ensemble(task_type, goal, n=4)
     rows = []
     for ep in experts:
         bonus = router._store.performance_bonus(ep.expert_id, task_type)
-        adj   = ep.base_weight * (1.0 + bonus)
-        rows.append({
-            "expert_id":       ep.expert_id,
-            "backend":         ep.backend,
-            "model":           ep.model,
-            "base_weight":     ep.base_weight,
-            "adjusted_weight": round(adj, 4),
-            "latency_ms":      ep.latency_ms,
-        })
-    return json.dumps({
-        "task_type": task_type,
-        "goal":      goal[:100],
-        "routing":   rows,
-    }, indent=2)
+        adj = ep.base_weight * (1.0 + bonus)
+        rows.append(
+            {
+                "expert_id": ep.expert_id,
+                "backend": ep.backend,
+                "model": ep.model,
+                "base_weight": ep.base_weight,
+                "adjusted_weight": round(adj, 4),
+                "latency_ms": ep.latency_ms,
+            }
+        )
+    return json.dumps(
+        {
+            "task_type": task_type,
+            "goal": goal[:100],
+            "routing": rows,
+        },
+        indent=2,
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -1022,26 +1054,25 @@ if __name__ == "__main__":
     import argparse
 
     from modules.logging_config import configure
+
     configure(
         level=logging.INFO,
         console=True,
         file=False,
     )
 
-    parser = argparse.ArgumentParser(
-        description="LazyOwn SWAN Agent — Scalable Weighted Adaptive Network"
-    )
+    parser = argparse.ArgumentParser(description="LazyOwn SWAN Agent — Scalable Weighted Adaptive Network")
     sub = parser.add_subparsers(dest="cmd")
 
     p_run = sub.add_parser("run", help="Run a task with the best expert")
     p_run.add_argument("task_type", help="e.g. exploit, recon, credential")
-    p_run.add_argument("goal",      help="Task description")
-    p_run.add_argument("--phase",   default="exploitation")
+    p_run.add_argument("goal", help="Task description")
+    p_run.add_argument("--phase", default="exploitation")
 
     p_ens = sub.add_parser("ensemble", help="Run top-N experts in parallel")
     p_ens.add_argument("task_type")
     p_ens.add_argument("goal")
-    p_ens.add_argument("--n",     type=int, default=3)
+    p_ens.add_argument("--n", type=int, default=3)
     p_ens.add_argument("--phase", default="exploitation")
 
     p_rt = sub.add_parser("route", help="Show routing without executing")

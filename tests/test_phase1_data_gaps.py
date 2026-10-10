@@ -59,8 +59,12 @@ class TestFindingMetadata:
         assert f.metadata == {}
 
     def test_finding_accepts_metadata(self):
-        f = Finding(type=FindingType.SERVICE_VERSION, value="http Apache",
-                    host="10.0.0.1", metadata={"port": 80, "protocol": "tcp"})
+        f = Finding(
+            type=FindingType.SERVICE_VERSION,
+            value="http Apache",
+            host="10.0.0.1",
+            metadata={"port": 80, "protocol": "tcp"},
+        )
         assert f.metadata["port"] == 80
         assert f.metadata["protocol"] == "tcp"
 
@@ -68,9 +72,7 @@ class TestFindingMetadata:
 class TestServiceVersionExtractor:
     def test_port_and_protocol_in_metadata(self):
         ext = _ServiceVersionExtractor()
-        findings = ext.extract(
-            "22/tcp open ssh OpenSSH 8.9p1", host="10.0.0.1"
-        )
+        findings = ext.extract("22/tcp open ssh OpenSSH 8.9p1", host="10.0.0.1")
         assert len(findings) == 1
         assert findings[0].metadata["port"] == 22
         assert findings[0].metadata["protocol"] == "tcp"
@@ -78,11 +80,7 @@ class TestServiceVersionExtractor:
 
     def test_multiple_services_extracted(self):
         ext = _ServiceVersionExtractor()
-        text = (
-            "80/tcp  open  http Apache 2.4.49\n"
-            "443/tcp open  https\n"
-            "3306/tcp open mysql 5.7.42\n"
-        )
+        text = "80/tcp  open  http Apache 2.4.49\n443/tcp open  https\n3306/tcp open mysql 5.7.42\n"
         findings = ext.extract(text, host="10.0.0.1")
         assert len(findings) == 3
         ports = {f.metadata["port"] for f in findings}
@@ -92,9 +90,7 @@ class TestServiceVersionExtractor:
 
     def test_udp_service_captured(self):
         ext = _ServiceVersionExtractor()
-        findings = ext.extract(
-            "161/udp open snmp SNMPv1", host="10.0.0.1"
-        )
+        findings = ext.extract("161/udp open snmp SNMPv1", host="10.0.0.1")
         assert len(findings) == 1
         assert findings[0].metadata["port"] == 161
         assert findings[0].metadata["protocol"] == "udp"
@@ -107,9 +103,7 @@ class TestServiceVersionExtractor:
 class TestEmailExtractor:
     def test_extracts_single_email(self):
         ext = _EmailExtractor()
-        findings = ext.extract(
-            "Contact: admin@domain.com for support", host="10.0.0.1"
-        )
+        findings = ext.extract("Contact: admin@domain.com for support", host="10.0.0.1")
         assert len(findings) == 1
         assert findings[0].value == "admin@domain.com"
         assert findings[0].type == FindingType.EMAIL
@@ -124,9 +118,7 @@ class TestEmailExtractor:
 
     def test_deduplicates_emails(self):
         ext = _EmailExtractor()
-        findings = ext.extract(
-            "admin@test.com repeated admin@test.com", host="10.0.0.1"
-        )
+        findings = ext.extract("admin@test.com repeated admin@test.com", host="10.0.0.1")
         assert len(findings) == 1
 
     def test_ignores_non_email(self):
@@ -138,8 +130,7 @@ class TestEmailExtractor:
 class TestObsParserIncludesEmailExtractor:
     def test_parser_extracts_emails_from_output(self, parser):
         obs = parser.parse(
-            "Info: root@company.com is the admin\n"
-            "80/tcp  open  http\n",
+            "Info: root@company.com is the admin\n80/tcp  open  http\n",
             host="10.0.0.1",
             tool="recon",
         )
@@ -149,8 +140,7 @@ class TestObsParserIncludesEmailExtractor:
 
     def test_parser_still_extracts_service_versions_with_metadata(self, parser):
         obs = parser.parse(
-            "22/tcp open ssh OpenSSH 9.2\n"
-            "80/tcp open http nginx 1.24.0\n",
+            "22/tcp open ssh OpenSSH 9.2\n80/tcp open http nginx 1.24.0\n",
             host="10.0.0.1",
             tool="nmap",
         )
@@ -208,9 +198,9 @@ class TestWorldModelEmailDomain:
 class TestUpdateFromFindings:
     def test_service_version_calls_add_service(self, world_model):
         findings = [
-            _make_finding("service_version", "http Apache 2.4.49",
-                         host="10.0.0.1",
-                         metadata={"port": 80, "protocol": "tcp"}),
+            _make_finding(
+                "service_version", "http Apache 2.4.49", host="10.0.0.1", metadata={"port": 80, "protocol": "tcp"}
+            ),
         ]
         world_model.update_from_findings(findings)
         host = world_model.get_host("10.0.0.1")
@@ -222,9 +212,9 @@ class TestUpdateFromFindings:
 
     def test_service_version_no_longer_adds_note(self, world_model):
         findings = [
-            _make_finding("service_version", "ssh OpenSSH 8.9",
-                         host="10.0.0.1",
-                         metadata={"port": 22, "protocol": "tcp"}),
+            _make_finding(
+                "service_version", "ssh OpenSSH 8.9", host="10.0.0.1", metadata={"port": 22, "protocol": "tcp"}
+            ),
         ]
         world_model.update_from_findings(findings)
         host = world_model.get_host("10.0.0.1")
@@ -389,10 +379,9 @@ class TestGraphTopologySignal:
             GraphTopologySignal,
             RecommendationContext,
         )
+
         signal = GraphTopologySignal(sessions_dir="/nonexistent")
-        ctx = RecommendationContext(
-            target="10.0.0.1", payload={}, recent_commands=[], phase="lateral", limit=5
-        )
+        ctx = RecommendationContext(target="10.0.0.1", payload={}, recent_commands=[], phase="lateral", limit=5)
         proposals = signal.propose(ctx)
         assert proposals == []
 
@@ -402,6 +391,7 @@ class TestGraphTopologySignal:
             GraphTopologySignal,
             RecommendationContext,
         )
+
         sessions = tmp_path / "sessions"
         sessions.mkdir()
         wm_data = {
@@ -424,9 +414,7 @@ class TestGraphTopologySignal:
         }
         (sessions / "world_model.json").write_text(json.dumps(wm_data))
         signal = GraphTopologySignal(sessions_dir=str(sessions))
-        ctx = RecommendationContext(
-            target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5
-        )
+        ctx = RecommendationContext(target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5)
         proposals = signal.propose(ctx)
         assert len(proposals) >= 1
         host_proposal = next((p for p in proposals if "10.10.10.5" in p.action), None)
@@ -439,6 +427,7 @@ class TestGraphTopologySignal:
             GraphTopologySignal,
             RecommendationContext,
         )
+
         sessions = tmp_path / "sessions"
         sessions.mkdir()
         wm_data = {
@@ -454,9 +443,7 @@ class TestGraphTopologySignal:
         }
         (sessions / "world_model.json").write_text(json.dumps(wm_data))
         signal = GraphTopologySignal(sessions_dir=str(sessions))
-        ctx = RecommendationContext(
-            target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5
-        )
+        ctx = RecommendationContext(target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5)
         proposals = signal.propose(ctx)
         cred_proposal = next((p for p in proposals if p.action == "credential_spray"), None)
         assert cred_proposal is not None
@@ -467,12 +454,12 @@ class TestGraphTopologySignal:
             GraphTopologySignal,
             RecommendationContext,
         )
+
         sessions = tmp_path / "sessions"
         sessions.mkdir()
         wm_data = {
             "network_graph": {
-                "nodes": ["host:10.10.10.1", "host:10.10.10.2", "host:10.10.10.3",
-                          "service:smb", "cred:adm:pass"],
+                "nodes": ["host:10.10.10.1", "host:10.10.10.2", "host:10.10.10.3", "service:smb", "cred:adm:pass"],
                 "relations": [
                     {"source": "host:10.10.10.1", "target": "service:smb", "relation": "runs_service"},
                     {"source": "host:10.10.10.1", "target": "cred:adm:pass", "relation": "exposes_credential"},
@@ -483,14 +470,13 @@ class TestGraphTopologySignal:
         }
         (sessions / "world_model.json").write_text(json.dumps(wm_data))
         signal = GraphTopologySignal(sessions_dir=str(sessions))
-        ctx = RecommendationContext(
-            target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5
-        )
+        ctx = RecommendationContext(target="10.10.10.1", payload={}, recent_commands=[], phase="lateral", limit=5)
         proposals = signal.propose(ctx)
         assert len(proposals) >= 1
 
     def test_signals_are_wired_in_build_default_engine(self, tmp_path):
         from cli.recommendation_signals import build_default_engine
+
         sessions = tmp_path / "sessions"
         sessions.mkdir()
         engine = build_default_engine(payload={}, sessions_dir=str(sessions))
@@ -506,6 +492,7 @@ class TestCredentialAwareRetry:
         from modules.autonomous_exploit_engine import (
             AutonomousExploitEngine,
         )
+
         engine = AutonomousExploitEngine()
         engine._results = []
         results = engine.retry_with_credentials("255.255.255.255")
@@ -516,6 +503,7 @@ class TestCredentialAwareRetry:
             AutonomousExploitEngine,
             TargetProfile,
         )
+
         engine = AutonomousExploitEngine()
         profile = TargetProfile(
             ip="10.0.0.1",
@@ -524,17 +512,13 @@ class TestCredentialAwareRetry:
         )
 
         baseline = engine.rank_exploits(profile)
-        ssh_base = next(
-            (c for c in baseline if c.strategy == "brute_force"), None
-        )
+        ssh_base = next((c for c in baseline if c.strategy == "brute_force"), None)
         assert ssh_base is not None
         base_conf = ssh_base.confidence
 
         creds = [{"username": "admin", "password": "secret"}]
         boosted = engine._credential_aware_rank(profile, creds)
-        ssh_boosted = next(
-            (c for c in boosted if c.strategy == "brute_force"), None
-        )
+        ssh_boosted = next((c for c in boosted if c.strategy == "brute_force"), None)
         assert ssh_boosted is not None
         assert ssh_boosted.confidence > base_conf
         assert ssh_boosted.confidence == 1.0
@@ -544,6 +528,7 @@ class TestCredentialAwareRetry:
             AutonomousExploitEngine,
             TargetProfile,
         )
+
         engine = AutonomousExploitEngine()
         profile = TargetProfile(
             ip="10.0.0.1",
@@ -560,6 +545,7 @@ class TestCredentialAwareRetry:
             AutonomousExploitEngine,
             TargetProfile,
         )
+
         engine = AutonomousExploitEngine()
         profile = TargetProfile(
             ip="10.0.0.1",

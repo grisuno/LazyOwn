@@ -44,26 +44,62 @@ COMPLIANCE_FRAMEWORKS: dict[str, dict[str, Any]] = {
         "controls": {
             "reconnaissance": [
                 {"id": "11.2", "title": "External Vulnerability Scans", "desc": "Perform quarterly external ASV scans"},
-                {"id": "11.3", "title": "Internal Vulnerability Scans", "desc": "Perform quarterly internal vulnerability scans"},
+                {
+                    "id": "11.3",
+                    "title": "Internal Vulnerability Scans",
+                    "desc": "Perform quarterly internal vulnerability scans",
+                },
                 {"id": "1.1", "title": "Network Security Controls", "desc": "Define and implement firewall rules"},
             ],
             "enumeration": [
-                {"id": "2.2", "title": "Secure Configuration Standards", "desc": "Apply configuration standards to all system components"},
-                {"id": "6.3", "title": "Security Vulnerabilities", "desc": "Identify and rank new security vulnerabilities"},
+                {
+                    "id": "2.2",
+                    "title": "Secure Configuration Standards",
+                    "desc": "Apply configuration standards to all system components",
+                },
+                {
+                    "id": "6.3",
+                    "title": "Security Vulnerabilities",
+                    "desc": "Identify and rank new security vulnerabilities",
+                },
             ],
             "exploitation": [
-                {"id": "11.4", "title": "Penetration Testing", "desc": "Conduct penetration testing based on industry-accepted approaches"},
-                {"id": "11.4.1", "title": "External Penetration Testing", "desc": "Perform external penetration testing per methodology"},
-                {"id": "11.4.2", "title": "Internal Penetration Testing", "desc": "Perform internal penetration testing per methodology"},
+                {
+                    "id": "11.4",
+                    "title": "Penetration Testing",
+                    "desc": "Conduct penetration testing based on industry-accepted approaches",
+                },
+                {
+                    "id": "11.4.1",
+                    "title": "External Penetration Testing",
+                    "desc": "Perform external penetration testing per methodology",
+                },
+                {
+                    "id": "11.4.2",
+                    "title": "Internal Penetration Testing",
+                    "desc": "Perform internal penetration testing per methodology",
+                },
             ],
             "privilege_escalation": [
                 {"id": "7.1", "title": "Least Privilege", "desc": "Limit access to system components by need-to-know"},
-                {"id": "7.2", "title": "Access Control Systems", "desc": "Establish an access control system for system components"},
+                {
+                    "id": "7.2",
+                    "title": "Access Control Systems",
+                    "desc": "Establish an access control system for system components",
+                },
                 {"id": "8.2", "title": "User Identification", "desc": "Unique ID for each person with access"},
             ],
             "lateral_movement": [
-                {"id": "1.3", "title": "Network Segmentation", "desc": "Prohibit direct public access between Internet and CDE"},
-                {"id": "7.3", "title": "Access Approval", "desc": "Ensure access to CDE is approved by authorized personnel"},
+                {
+                    "id": "1.3",
+                    "title": "Network Segmentation",
+                    "desc": "Prohibit direct public access between Internet and CDE",
+                },
+                {
+                    "id": "7.3",
+                    "title": "Access Approval",
+                    "desc": "Ensure access to CDE is approved by authorized personnel",
+                },
             ],
             "credential_access": [
                 {"id": "8.3", "title": "Strong Authentication", "desc": "Implement MFA for all access into CDE"},
@@ -71,11 +107,19 @@ COMPLIANCE_FRAMEWORKS: dict[str, dict[str, Any]] = {
                 {"id": "3.6", "title": "Key Management", "desc": "Cryptographic key management procedures"},
             ],
             "data_exfil": [
-                {"id": "4.1", "title": "Data Encryption", "desc": "Use strong cryptography to safeguard cardholder data"},
+                {
+                    "id": "4.1",
+                    "title": "Data Encryption",
+                    "desc": "Use strong cryptography to safeguard cardholder data",
+                },
                 {"id": "12.10", "title": "Incident Response", "desc": "Implement an incident response plan"},
             ],
             "general": [
-                {"id": "12.5", "title": "Information Security Policy", "desc": "Maintain an information security policy"},
+                {
+                    "id": "12.5",
+                    "title": "Information Security Policy",
+                    "desc": "Maintain an information security policy",
+                },
                 {"id": "12.6", "title": "Security Awareness", "desc": "Implement a formal security awareness program"},
             ],
         },
@@ -85,36 +129,100 @@ COMPLIANCE_FRAMEWORKS: dict[str, dict[str, Any]] = {
         "url": "https://www.iso.org/standard/27001",
         "controls": {
             "reconnaissance": [
-                {"id": "A.8.8", "title": "Technical Vulnerability Management", "desc": "Information about technical vulnerabilities shall be obtained and evaluated"},
-                {"id": "A.5.8", "title": "Information Security in Project Management", "desc": "Information security shall be integrated into project management"},
+                {
+                    "id": "A.8.8",
+                    "title": "Technical Vulnerability Management",
+                    "desc": "Information about technical vulnerabilities shall be obtained and evaluated",
+                },
+                {
+                    "id": "A.5.8",
+                    "title": "Information Security in Project Management",
+                    "desc": "Information security shall be integrated into project management",
+                },
             ],
             "enumeration": [
-                {"id": "A.8.9", "title": "Configuration Management", "desc": "Secure configurations shall be applied to hardware, software, and services"},
-                {"id": "A.8.2", "title": "Asset Management", "desc": "Assets shall be identified and an inventory maintained"},
+                {
+                    "id": "A.8.9",
+                    "title": "Configuration Management",
+                    "desc": "Secure configurations shall be applied to hardware, software, and services",
+                },
+                {
+                    "id": "A.8.2",
+                    "title": "Asset Management",
+                    "desc": "Assets shall be identified and an inventory maintained",
+                },
             ],
             "exploitation": [
-                {"id": "A.8.7", "title": "Protection Against Malware", "desc": "Protection against malware shall be implemented"},
-                {"id": "A.8.16", "title": "Monitoring Activities", "desc": "Networks, systems, and applications shall be monitored for anomalous behaviour"},
+                {
+                    "id": "A.8.7",
+                    "title": "Protection Against Malware",
+                    "desc": "Protection against malware shall be implemented",
+                },
+                {
+                    "id": "A.8.16",
+                    "title": "Monitoring Activities",
+                    "desc": "Networks, systems, and applications shall be monitored for anomalous behaviour",
+                },
             ],
             "privilege_escalation": [
-                {"id": "A.5.15", "title": "Access Control", "desc": "Access to information and other associated assets shall be controlled"},
-                {"id": "A.5.16", "title": "Identity Management", "desc": "The full lifecycle of identities shall be managed"},
+                {
+                    "id": "A.5.15",
+                    "title": "Access Control",
+                    "desc": "Access to information and other associated assets shall be controlled",
+                },
+                {
+                    "id": "A.5.16",
+                    "title": "Identity Management",
+                    "desc": "The full lifecycle of identities shall be managed",
+                },
             ],
             "lateral_movement": [
-                {"id": "A.8.20", "title": "Network Security", "desc": "Networks and network devices shall be secured, managed and controlled"},
-                {"id": "A.8.22", "title": "Network Segregation", "desc": "Groups of information services, users and information systems shall be segregated on networks"},
+                {
+                    "id": "A.8.20",
+                    "title": "Network Security",
+                    "desc": "Networks and network devices shall be secured, managed and controlled",
+                },
+                {
+                    "id": "A.8.22",
+                    "title": "Network Segregation",
+                    "desc": "Groups of information services, users and information systems shall be segregated on networks",
+                },
             ],
             "credential_access": [
-                {"id": "A.5.17", "title": "Authentication Information", "desc": "Allocation and management of authentication information shall be controlled"},
-                {"id": "A.8.5", "title": "Secure Authentication", "desc": "Secure authentication technologies and procedures shall be implemented"},
+                {
+                    "id": "A.5.17",
+                    "title": "Authentication Information",
+                    "desc": "Allocation and management of authentication information shall be controlled",
+                },
+                {
+                    "id": "A.8.5",
+                    "title": "Secure Authentication",
+                    "desc": "Secure authentication technologies and procedures shall be implemented",
+                },
             ],
             "data_exfil": [
-                {"id": "A.8.24", "title": "Use of Cryptography", "desc": "Rules for the effective use of cryptography shall be defined"},
-                {"id": "A.5.24", "title": "ICT Readiness for Business Continuity", "desc": "ICT readiness shall be planned, implemented, maintained, and tested"},
+                {
+                    "id": "A.8.24",
+                    "title": "Use of Cryptography",
+                    "desc": "Rules for the effective use of cryptography shall be defined",
+                },
+                {
+                    "id": "A.5.24",
+                    "title": "ICT Readiness for Business Continuity",
+                    "desc": "ICT readiness shall be planned, implemented, maintained, and tested",
+                },
             ],
             "general": [
-                {"id": "A.5.1", "title": "Policies for Information Security", "desc": "Information security policy shall be defined and approved by management"},
-                {"id": "A.6.3", "title": "Information Security Awareness and Training", "desc": "Personnel shall receive appropriate awareness education"},
+                {
+                    "id": "A.5.1",
+                    "title": "Policies for Information Security",
+                    "desc": "Information security policy shall be defined and approved by management",
+                },
+                {
+                    "id": "A.6.3",
+                    "title": "Information Security Awareness and Training",
+                    "desc": "Personnel shall receive appropriate awareness education",
+                },
             ],
         },
     },
@@ -123,36 +231,84 @@ COMPLIANCE_FRAMEWORKS: dict[str, dict[str, Any]] = {
         "url": "https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final",
         "controls": {
             "reconnaissance": [
-                {"id": "RA-5", "title": "Vulnerability Monitoring and Scanning", "desc": "Monitor and scan for vulnerabilities in the system"},
+                {
+                    "id": "RA-5",
+                    "title": "Vulnerability Monitoring and Scanning",
+                    "desc": "Monitor and scan for vulnerabilities in the system",
+                },
                 {"id": "CA-8", "title": "Penetration Testing", "desc": "Conduct penetration testing on the system"},
             ],
             "enumeration": [
-                {"id": "CM-6", "title": "Configuration Settings", "desc": "Establish and document configuration settings"},
-                {"id": "CM-8", "title": "System Component Inventory", "desc": "Develop and document an inventory of system components"},
+                {
+                    "id": "CM-6",
+                    "title": "Configuration Settings",
+                    "desc": "Establish and document configuration settings",
+                },
+                {
+                    "id": "CM-8",
+                    "title": "System Component Inventory",
+                    "desc": "Develop and document an inventory of system components",
+                },
             ],
             "exploitation": [
-                {"id": "SI-3", "title": "Malicious Code Protection", "desc": "Implement malicious code protection mechanisms"},
-                {"id": "SI-4", "title": "System Monitoring", "desc": "Monitor the system to detect attacks and indicators of potential attacks"},
+                {
+                    "id": "SI-3",
+                    "title": "Malicious Code Protection",
+                    "desc": "Implement malicious code protection mechanisms",
+                },
+                {
+                    "id": "SI-4",
+                    "title": "System Monitoring",
+                    "desc": "Monitor the system to detect attacks and indicators of potential attacks",
+                },
             ],
             "privilege_escalation": [
                 {"id": "AC-6", "title": "Least Privilege", "desc": "Employ the principle of least privilege"},
-                {"id": "IA-2", "title": "Identification and Authentication", "desc": "Uniquely identify and authenticate users and processes"},
+                {
+                    "id": "IA-2",
+                    "title": "Identification and Authentication",
+                    "desc": "Uniquely identify and authenticate users and processes",
+                },
             ],
             "lateral_movement": [
-                {"id": "AC-4", "title": "Information Flow Enforcement", "desc": "Enforce approved authorizations for controlling the flow of information within the system"},
-                {"id": "SC-7", "title": "Boundary Protection", "desc": "Monitor and control communications at external and internal boundaries"},
+                {
+                    "id": "AC-4",
+                    "title": "Information Flow Enforcement",
+                    "desc": "Enforce approved authorizations for controlling the flow of information within the system",
+                },
+                {
+                    "id": "SC-7",
+                    "title": "Boundary Protection",
+                    "desc": "Monitor and control communications at external and internal boundaries",
+                },
             ],
             "credential_access": [
                 {"id": "IA-5", "title": "Authenticator Management", "desc": "Manage system authenticators"},
-                {"id": "IA-6", "title": "Authentication Feedback", "desc": "Obscure feedback of authentication information during authentication"},
+                {
+                    "id": "IA-6",
+                    "title": "Authentication Feedback",
+                    "desc": "Obscure feedback of authentication information during authentication",
+                },
             ],
             "data_exfil": [
-                {"id": "SC-8", "title": "Transmission Confidentiality and Integrity", "desc": "Protect the confidentiality and integrity of transmitted information"},
+                {
+                    "id": "SC-8",
+                    "title": "Transmission Confidentiality and Integrity",
+                    "desc": "Protect the confidentiality and integrity of transmitted information",
+                },
                 {"id": "IR-4", "title": "Incident Handling", "desc": "Implement an incident handling capability"},
             ],
             "general": [
-                {"id": "AT-2", "title": "Literacy Training and Awareness", "desc": "Provide security literacy training to system users"},
-                {"id": "CA-2", "title": "Control Assessments", "desc": "Assess the controls in the system periodically"},
+                {
+                    "id": "AT-2",
+                    "title": "Literacy Training and Awareness",
+                    "desc": "Provide security literacy training to system users",
+                },
+                {
+                    "id": "CA-2",
+                    "title": "Control Assessments",
+                    "desc": "Assess the controls in the system periodically",
+                },
             ],
         },
     },
@@ -178,6 +334,7 @@ FINDING_CATEGORY_TO_COMPLIANCE_MAP: dict[str, list[str]] = {
 # ═══════════════════════════════════════════════════════════════════════════════
 # Cryptographic Evidence Chain
 # ═══════════════════════════════════════════════════════════════════════════════
+
 
 @dataclass(frozen=True, slots=True)
 class EvidenceEntry:
@@ -283,13 +440,15 @@ class EvidenceChain:
 _FPDF_AVAILABLE = False
 try:
     from fpdf import FPDF
+
     _FPDF_AVAILABLE = True
 except ImportError:
     pass
 
 
-def export_pdf(report_md: str, output_path: str, title: str = "LazyOwn RedTeam Report",
-               classification: str = "CONFIDENTIAL") -> str | None:
+def export_pdf(
+    report_md: str, output_path: str, title: str = "LazyOwn RedTeam Report", classification: str = "CONFIDENTIAL"
+) -> str | None:
     """Export a Markdown report to PDF using fpdf2.
 
     Zero external dependencies beyond fpdf2 (no pandoc, no weasyprint).
@@ -370,8 +529,8 @@ def export_pdf(report_md: str, output_path: str, title: str = "LazyOwn RedTeam R
 # SIEM / Elastic Export
 # ═══════════════════════════════════════════════════════════════════════════════
 
-def export_to_elastic_ndjson(findings: list[dict[str, Any]], output_path: str,
-                              index_prefix: str = "lazyown") -> str:
+
+def export_to_elastic_ndjson(findings: list[dict[str, Any]], output_path: str, index_prefix: str = "lazyown") -> str:
     """Export findings as Elasticsearch NDJSON bulk format.
 
     Produces a newline-delimited JSON file compatible with Elasticsearch _bulk API.
@@ -410,9 +569,13 @@ def export_to_elastic_ndjson(findings: list[dict[str, Any]], output_path: str,
     return str(out)
 
 
-def export_to_cef(findings: list[dict[str, Any]], output_path: str,
-                   vendor: str = "LazyOwn", product: str = "RedTeam",
-                   version: str = "1.0") -> str:
+def export_to_cef(
+    findings: list[dict[str, Any]],
+    output_path: str,
+    vendor: str = "LazyOwn",
+    product: str = "RedTeam",
+    version: str = "1.0",
+) -> str:
     """Export findings in CEF (Common Event Format) for ArcSight/QRadar/Splunk.
 
     CEF:0|<vendor>|<product>|<version>|<signature_id>|<name>|<severity>|<extension>
@@ -452,6 +615,7 @@ def export_to_cef(findings: list[dict[str, Any]], output_path: str,
 # Compliance Engine
 # ═══════════════════════════════════════════════════════════════════════════════
 
+
 @dataclass
 class ComplianceFinding:
     category: str
@@ -473,7 +637,8 @@ class ComplianceEngine:
         self._evidence_chain = EvidenceChain(str(sessions_dir))
 
     def map_findings_to_compliance(
-        self, findings: list[ComplianceFinding],
+        self,
+        findings: list[ComplianceFinding],
         frameworks: list[str] | None = None,
     ) -> dict[str, Any]:
         """Map findings to compliance framework controls.
@@ -510,36 +675,30 @@ class ComplianceEngine:
 
             mapped_control_ids: set = set()
             for finding in findings:
-                categories = FINDING_CATEGORY_TO_COMPLIANCE_MAP.get(
-                    finding.category, ["general"]
-                )
+                categories = FINDING_CATEGORY_TO_COMPLIANCE_MAP.get(finding.category, ["general"])
                 for cat in categories:
                     controls = fw["controls"].get(cat, [])
                     for ctrl in controls:
                         if ctrl["id"] not in mapped_control_ids:
-                            framework_report["controls_mapped"].append({
-                                "control_id": ctrl["id"],
-                                "title": ctrl["title"],
-                                "description": ctrl["desc"],
-                                "finding_evidence": {
-                                    "host": finding.host,
-                                    "service": finding.service,
-                                    "description": finding.description,
-                                    "severity": finding.severity,
-                                    "operator": finding.operator,
-                                },
-                            })
+                            framework_report["controls_mapped"].append(
+                                {
+                                    "control_id": ctrl["id"],
+                                    "title": ctrl["title"],
+                                    "description": ctrl["desc"],
+                                    "finding_evidence": {
+                                        "host": finding.host,
+                                        "service": finding.service,
+                                        "description": finding.description,
+                                        "severity": finding.severity,
+                                        "operator": finding.operator,
+                                    },
+                                }
+                            )
                             mapped_control_ids.add(ctrl["id"])
                             framework_report["findings_mapped"] += 1
 
-            total_controls = sum(
-                len(ctrls) for ctg, ctrls in fw["controls"].items()
-            )
-            coverage_pct = (
-                round(100 * len(mapped_control_ids) / total_controls, 1)
-                if total_controls > 0
-                else 0
-            )
+            total_controls = sum(len(ctrls) for ctg, ctrls in fw["controls"].items())
+            coverage_pct = round(100 * len(mapped_control_ids) / total_controls, 1) if total_controls > 0 else 0
 
             framework_report["controls_covered"] = len(mapped_control_ids)
             framework_report["total_controls"] = total_controls
@@ -627,15 +786,17 @@ class ComplianceEngine:
                 if isinstance(facts, list):
                     for fact in facts:
                         if isinstance(fact, dict):
-                            findings.append(ComplianceFinding(
-                                category=fact.get("type", "general"),
-                                host=fact.get("host", ""),
-                                port=str(fact.get("port", "")),
-                                service=fact.get("service", ""),
-                                description=fact.get("value", ""),
-                                severity="MEDIUM",
-                                operator=fact.get("operator", "system"),
-                            ))
+                            findings.append(
+                                ComplianceFinding(
+                                    category=fact.get("type", "general"),
+                                    host=fact.get("host", ""),
+                                    port=str(fact.get("port", "")),
+                                    service=fact.get("service", ""),
+                                    description=fact.get("value", ""),
+                                    severity="MEDIUM",
+                                    operator=fact.get("operator", "system"),
+                                )
+                            )
             except Exception as exc:
                 log.warning("Failed to load facts: %s", exc)
 
@@ -649,15 +810,17 @@ class ComplianceEngine:
                     try:
                         event = json.loads(line)
                         if isinstance(event, dict):
-                            findings.append(ComplianceFinding(
-                                category=event.get("type", "event"),
-                                host=event.get("host", event.get("target", "")),
-                                port=str(event.get("port", "")),
-                                service=event.get("service", ""),
-                                description=event.get("message", event.get("description", "")),
-                                severity=event.get("severity", "INFO"),
-                                operator=event.get("operator", "system"),
-                            ))
+                            findings.append(
+                                ComplianceFinding(
+                                    category=event.get("type", "event"),
+                                    host=event.get("host", event.get("target", "")),
+                                    port=str(event.get("port", "")),
+                                    service=event.get("service", ""),
+                                    description=event.get("message", event.get("description", "")),
+                                    severity=event.get("severity", "INFO"),
+                                    operator=event.get("operator", "system"),
+                                )
+                            )
                     except json.JSONDecodeError:
                         pass
             except Exception as exc:
@@ -714,7 +877,9 @@ class ComplianceEngine:
             lines.append("## Compliance Framework Coverage")
             for _fw_key, fw_data in frameworks.items():
                 lines.append(f"### {fw_data['name']}")
-                lines.append(f"- Coverage: **{fw_data.get('coverage_pct', 0)}%** ({fw_data.get('controls_covered', 0)}/{fw_data.get('total_controls', 0)} controls)")
+                lines.append(
+                    f"- Coverage: **{fw_data.get('coverage_pct', 0)}%** ({fw_data.get('controls_covered', 0)}/{fw_data.get('total_controls', 0)} controls)"
+                )
                 controls = fw_data.get("controls_mapped", [])
                 if controls:
                     lines.append("  Mapped controls:")

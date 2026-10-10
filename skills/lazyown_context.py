@@ -17,33 +17,34 @@ from dataclasses import dataclass
 
 _TOOL_BUDGET: dict[str, int] = {
     # High-cardinality outputs get smaller budgets
-    "lazyown_session_sitrep":  6_000,
+    "lazyown_session_sitrep": 6_000,
     "lazyown_campaign_sitrep": 5_000,
     "lazyown_heartbeat_status": 3_000,
-    "lazyown_run_command":     8_000,
-    "lazyown_run_api":         4_000,
+    "lazyown_run_command": 8_000,
+    "lazyown_run_api": 4_000,
     "lazyown_read_session_file": 6_000,
-    "lazyown_list_sessions":   3_000,
-    "lazyown_list_modules":    2_000,
-    "lazyown_get_config":      2_000,
-    "lazyown_automap_query":   5_000,
-    "lazyown_pdb_query":       5_000,
-    "lazyown_hive_recall":     4_000,
-    "lazyown_policy_state":    3_000,
-    "lazyown_facts_get":       4_000,
-    "lazyown_rea":              10_000,
-    "_default":               10_000,
+    "lazyown_list_sessions": 3_000,
+    "lazyown_list_modules": 2_000,
+    "lazyown_get_config": 2_000,
+    "lazyown_automap_query": 5_000,
+    "lazyown_pdb_query": 5_000,
+    "lazyown_hive_recall": 4_000,
+    "lazyown_policy_state": 3_000,
+    "lazyown_facts_get": 4_000,
+    "lazyown_rea": 10_000,
+    "_default": 10_000,
 }
 
 # Patterns that add bulk but little signal → stripped in microcompact
 _BOILERPLATE_PATTERNS = [
-    re.compile(r"\[LazyOwn\]\s*[^\n]*\n", re.MULTILINE),   # banners
-    re.compile(r"={40,}\n"),                                  # separator lines
+    re.compile(r"\[LazyOwn\]\s*[^\n]*\n", re.MULTILINE),  # banners
+    re.compile(r"={40,}\n"),  # separator lines
     re.compile(r"─{20,}\n"),
     re.compile(r"\[DEBUG\][^\n]*\n", re.MULTILINE),
     re.compile(r"Press ENTER[^\n]*\n", re.MULTILINE),
     re.compile(r"Use Ctrl\+C[^\n]*\n", re.MULTILINE),
 ]
+
 
 @dataclass
 class CompactionResult:
@@ -55,8 +56,7 @@ class CompactionResult:
 
     def summary(self) -> str:
         pct = 100 * (1 - self.final_len / max(self.original_len, 1))
-        return (f"[compacted {pct:.0f}% via {'+'.join(self.layers_applied)}]"
-                if self.layers_applied else "")
+        return f"[compacted {pct:.0f}% via {'+'.join(self.layers_applied)}]" if self.layers_applied else ""
 
 
 class ContextCompactor:
@@ -89,10 +89,8 @@ class ContextCompactor:
         head = cap * 6 // 10
         tail = cap * 2 // 10
         trimmed = (
-            content[:head]
-            + f"\n\n... [{len(content) - head - tail:,} chars truncated"
-            f" — use lazyown_read_session_file for full output] ...\n\n"
-            + content[-tail:]
+            content[:head] + f"\n\n... [{len(content) - head - tail:,} chars truncated"
+            f" — use lazyown_read_session_file for full output] ...\n\n" + content[-tail:]
         )
         return trimmed, True
 

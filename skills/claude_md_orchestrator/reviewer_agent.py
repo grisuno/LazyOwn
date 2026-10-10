@@ -200,15 +200,9 @@ def run(state, config: Config) -> ReviewReport:
             findings.extend(check_source(text, str(target)))
         elif target.suffix in (".md", ".yaml", ".yml"):
             findings.extend(check_markdown(text, str(target)))
-    blockers = [
-        finding for finding in findings if finding.severity is Severity.BLOCK
-    ]
+    blockers = [finding for finding in findings if finding.severity is Severity.BLOCK]
     if not config.reviewer_strict:
-        blockers = [
-            finding
-            for finding in blockers
-            if finding.rule.startswith("dod.")
-        ]
+        blockers = [finding for finding in blockers if finding.rule.startswith("dod.")]
     approved = not blockers
     summary_lines = [
         f"targets: {len(targets)}",

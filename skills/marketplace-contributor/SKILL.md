@@ -162,8 +162,8 @@ SOURCES = {
     },
     "<name>": {
         "repo": "https://github.com/user/repo.git",
-        "subdir": "<dirname>",          # == external/.exploit/<dirname>
-        "validate_subset": "<dir>",     # relative subset for nuclei -validate
+        "subdir": "<dirname>",  # == external/.exploit/<dirname>
+        "validate_subset": "<dir>",  # relative subset for nuclei -validate
     },
 }
 ```

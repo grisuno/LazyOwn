@@ -98,10 +98,7 @@ def render_advice(key: str, config: ErrorAdviceConfig = DEFAULT_CONFIG) -> str:
         return ""
     detail = str(advice.why)[: config.max_detail_len]
     return (
-        f"[ERROR] {advice.what}\n"
-        f"[INFO] Why: {detail}\n"
-        f"[OK] Fix: {advice.fix}\n"
-        f"[INFO] Docs: {advice.docs_url(config)}"
+        f"[ERROR] {advice.what}\n[INFO] Why: {detail}\n[OK] Fix: {advice.fix}\n[INFO] Docs: {advice.docs_url(config)}"
     )
 
 

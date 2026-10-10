@@ -12,7 +12,7 @@ Docker support for running LazyOwn in an isolated container. Built and tested on
 | File | Purpose |
 |------|---------|
 | `Dockerfile` | Multi-stage build. Builder stage installs system deps (git, go, gcc), creates a Python venv, pins all dependencies via `requirements.txt`. Runtime stage copies the framework + venv and adds runtime tools (nmap, tmux, iproute2, net-tools, parallel). |
-| `docker-compose.yml` | Quick launcher with port mappings, payload volume mount, and environment variables. |  
+| `docker-compose.yml` | Quick launcher with port mappings, payload volume mount, and environment variables. |
 | `entrypoint.sh` | Container startup script. Reads `payload.json`, creates tmux session with panels for C2, recon, VPN, web interface, and optional services (Telegram/Discord bots, DeepSeek, Cloudflare tunnel). |
 | `init.sh` | One-liner to install jq, build image, and run. |
 | `mkdocker.sh` | CLI helper: `./mkdocker.sh build`, `./mkdocker.sh run --vpn 1`, `./mkdocker.sh stop`, `./mkdocker.sh clean`. |

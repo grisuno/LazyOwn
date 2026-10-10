@@ -74,21 +74,19 @@ class AptPlaybook:
     def from_dict(cls, data: dict[str, Any]) -> AptPlaybook:
         phases = []
         for ph in data.get("phases", []):
-            atomic_tests = [
-                AtomicTestRef(**t) for t in ph.get("atomic_tests", [])
-            ]
-            caldera_abilities = [
-                CalderaAbilityRef(**a) for a in ph.get("caldera_abilities", [])
-            ]
-            phases.append(PhaseStep(
-                name=ph.get("name", ""),
-                technique_id=ph.get("technique_id", ""),
-                technique_name=ph.get("technique_name", ""),
-                description=ph.get("description", ""),
-                atomic_tests=atomic_tests,
-                caldera_abilities=caldera_abilities,
-                detection_hints=ph.get("detection_hints", []),
-            ))
+            atomic_tests = [AtomicTestRef(**t) for t in ph.get("atomic_tests", [])]
+            caldera_abilities = [CalderaAbilityRef(**a) for a in ph.get("caldera_abilities", [])]
+            phases.append(
+                PhaseStep(
+                    name=ph.get("name", ""),
+                    technique_id=ph.get("technique_id", ""),
+                    technique_name=ph.get("technique_name", ""),
+                    description=ph.get("description", ""),
+                    atomic_tests=atomic_tests,
+                    caldera_abilities=caldera_abilities,
+                    detection_hints=ph.get("detection_hints", []),
+                )
+            )
         return cls(
             apt_name=data["apt_name"],
             aliases=data.get("aliases", []),
@@ -149,17 +147,21 @@ class AptPlaybookEngine:
         for phase in pb.phases:
             for test in phase.atomic_tests:
                 if test.atomic_id in atomic_map:
-                    found_atomic.append({
-                        "phase": phase.name,
-                        "atomic_id": test.atomic_id,
-                        "name": atomic_map[test.atomic_id],
-                    })
+                    found_atomic.append(
+                        {
+                            "phase": phase.name,
+                            "atomic_id": test.atomic_id,
+                            "name": atomic_map[test.atomic_id],
+                        }
+                    )
                 else:
-                    missing_atomic.append({
-                        "phase": phase.name,
-                        "atomic_id": test.atomic_id,
-                        "name": test.name,
-                    })
+                    missing_atomic.append(
+                        {
+                            "phase": phase.name,
+                            "atomic_id": test.atomic_id,
+                            "name": test.name,
+                        }
+                    )
 
         return {
             "apt_name": pb.apt_name,
@@ -215,13 +217,9 @@ class AptPlaybookEngine:
                     "technique_name": ph.technique_name,
                     "description": ph.description,
                     "atomic_tests": [
-                        {"atomic_id": t.atomic_id, "name": t.name, "manual": t.manual}
-                        for t in ph.atomic_tests
+                        {"atomic_id": t.atomic_id, "name": t.name, "manual": t.manual} for t in ph.atomic_tests
                     ],
-                    "caldera_abilities": [
-                        {"ability_id": a.ability_id, "name": a.name}
-                        for a in ph.caldera_abilities
-                    ],
+                    "caldera_abilities": [{"ability_id": a.ability_id, "name": a.name} for a in ph.caldera_abilities],
                     "detection_hints": ph.detection_hints,
                 }
                 for ph in pb.phases

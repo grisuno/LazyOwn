@@ -180,16 +180,20 @@ class EvasionEngine:
     def _generate_headers(self, user_agent: str) -> dict[str, str]:
         base = {
             "User-Agent": user_agent,
-            "Accept": random.choice([
-                "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
-                "application/json, text/plain, */*",
-                "*/*",
-            ]),
-            "Accept-Language": random.choice([
-                "en-US,en;q=0.9",
-                "en-GB,en;q=0.8,es;q=0.6",
-                "en-US,en;q=0.5",
-            ]),
+            "Accept": random.choice(
+                [
+                    "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+                    "application/json, text/plain, */*",
+                    "*/*",
+                ]
+            ),
+            "Accept-Language": random.choice(
+                [
+                    "en-US,en;q=0.9",
+                    "en-GB,en;q=0.8,es;q=0.6",
+                    "en-US,en;q=0.5",
+                ]
+            ),
             "Accept-Encoding": "gzip, deflate, br",
             "Cache-Control": "no-cache",
             "Connection": "keep-alive",
@@ -197,7 +201,9 @@ class EvasionEngine:
         if random.random() > 0.6:
             base["Referer"] = f"https://www.google.com/search?q={secrets.token_hex(4)}"
         if random.random() > 0.7:
-            base["X-Forwarded-For"] = f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 254)}"
+            base["X-Forwarded-For"] = (
+                f"{random.randint(1, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(1, 254)}"
+            )
         return base
 
     def _pick_uri_pool(self) -> list[str]:

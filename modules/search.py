@@ -17,6 +17,7 @@ Descripción: webscrapper gtofbins
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import csv
 
 import requests
@@ -36,38 +37,38 @@ else:
     exit()
 
 # Parse HTML content with Beautiful Soup
-soup = BeautifulSoup(html_content, 'html.parser')
+soup = BeautifulSoup(html_content, "html.parser")
 
 # Encontrar el contenedor de la tabla
-table_wrapper = soup.find('div', id='bin-table-wrapper')
+table_wrapper = soup.find("div", id="bin-table-wrapper")
 
 # Initialize a list to store the information
 data = []
 
 # Iterate over all table rows
-for row in table_wrapper.find_all('tr'):
-    bin_name = row.find('a', class_='bin-name')
+for row in table_wrapper.find_all("tr"):
+    bin_name = row.find("a", class_="bin-name")
     if bin_name:
         bin_name_text = bin_name.text.strip()
         functions = []
-        for func in row.find_all('li'):
-            function_link = func.find('a')
+        for func in row.find_all("li"):
+            function_link = func.find("a")
             if function_link:
-                function_href = function_link.get('href').strip()
+                function_href = function_link.get("href").strip()
                 function_name = function_link.text.strip()
-                functions.append({'name': function_name, 'href': function_href})
+                functions.append({"name": function_name, "href": function_href})
 
         # Add the information to the data list
-        data.append({'binary': bin_name_text, 'functions': functions})
+        data.append({"binary": bin_name_text, "functions": functions})
 
 # Save the information to a CSV file
 csv_file = "csv/bin_data.csv"
-with open(csv_file, mode='w', newline='') as file:
+with open(csv_file, mode="w", newline="") as file:
     writer = csv.writer(file)
-    writer.writerow(['Binary', 'Function Name', 'Function URL'])
+    writer.writerow(["Binary", "Function Name", "Function URL"])
     for entry in data:
-        binary = entry['binary']
-        for func in entry['functions']:
-            writer.writerow([binary, func['name'], func['href']])
+        binary = entry["binary"]
+        for func in entry["functions"]:
+            writer.writerow([binary, func["name"], func["href"]])
 
 print(f"Data saved to {csv_file}")

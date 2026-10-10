@@ -32,6 +32,7 @@ _watcher_stop: threading.Event = threading.Event()
 
 # ── Public API ─────────────────────────────────────────────────────────────────
 
+
 def init(path: str | Path = _DEFAULT_PATH, watch: bool = False) -> None:
     """
     Initialise the config store (idempotent).
@@ -100,6 +101,7 @@ def stop_watcher() -> None:
 
 
 # ── Internal ───────────────────────────────────────────────────────────────────
+
 
 def _ensure_loaded() -> None:
     """Lazy-load on first access."""

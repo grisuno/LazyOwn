@@ -156,22 +156,43 @@ class OutcomeType(StrEnum):
 _CATEGORY_KEYWORDS: list[tuple[Sequence[str], ActionCategory]] = [
     (
         [
-            "lazynmap", "masscan", "lazywebscan", "gobuster", "dirb",
-            "nikto", "dnsenum", "dnsrecon", "hostdiscover", "shodan", "nmap",
+            "lazynmap",
+            "masscan",
+            "lazywebscan",
+            "gobuster",
+            "dirb",
+            "nikto",
+            "dnsenum",
+            "dnsrecon",
+            "hostdiscover",
+            "shodan",
+            "nmap",
         ],
         ActionCategory.RECON,
     ),
     (
         [
-            "enum_smb", "smbmap", "smbclient", "rpcclient", "enum4linux",
-            "ldapsearch", "ldapdomaindump", "ridenum", "net rpc",
+            "enum_smb",
+            "smbmap",
+            "smbclient",
+            "rpcclient",
+            "enum4linux",
+            "ldapsearch",
+            "ldapdomaindump",
+            "ridenum",
+            "net rpc",
         ],
         ActionCategory.ENUM,
     ),
     (
         [
-            "hydra", "medusa", "john ", "hashcat", "kerbrute",
-            "crackmapexec smb", "crackmapexec -p",
+            "hydra",
+            "medusa",
+            "john ",
+            "hashcat",
+            "kerbrute",
+            "crackmapexec smb",
+            "crackmapexec -p",
         ],
         ActionCategory.BRUTE_FORCE,
     ),
@@ -181,36 +202,62 @@ _CATEGORY_KEYWORDS: list[tuple[Sequence[str], ActionCategory]] = [
     ),
     (
         [
-            "evil-winrm", "psexec", "wmiexec", "smbexec", "atexec",
-            "dcomexec", "ssh ", "telnet ", "ftp ", "winrm",
+            "evil-winrm",
+            "psexec",
+            "wmiexec",
+            "smbexec",
+            "atexec",
+            "dcomexec",
+            "ssh ",
+            "telnet ",
+            "ftp ",
+            "winrm",
         ],
         ActionCategory.INTRUSION,
     ),
     (
         [
-            "linpeas", "winpeas", "sudo -l", "suid", "privesc",
-            "getsystem", "bypassuac", "suid3num",
+            "linpeas",
+            "winpeas",
+            "sudo -l",
+            "suid",
+            "privesc",
+            "getsystem",
+            "bypassuac",
+            "suid3num",
         ],
         ActionCategory.PRIVESC,
     ),
     (
         [
-            "secretsdump", "mimikatz", "hashdump", "lsass",
-            "procdump", "pypykatz", "credential",
+            "secretsdump",
+            "mimikatz",
+            "hashdump",
+            "lsass",
+            "procdump",
+            "pypykatz",
+            "credential",
         ],
         ActionCategory.CREDENTIAL,
     ),
     (
         [
-            "lateral", "pass-the-hash", "pass-the-ticket",
-            "crackmapexec", "impacket",
+            "lateral",
+            "pass-the-hash",
+            "pass-the-ticket",
+            "crackmapexec",
+            "impacket",
         ],
         ActionCategory.LATERAL,
     ),
     (
         [
-            "msfvenom", "generate_reverse_shell", "generate_c_reverse_shell",
-            "generate_stub", "shellcode", "payload",
+            "msfvenom",
+            "generate_reverse_shell",
+            "generate_c_reverse_shell",
+            "generate_stub",
+            "shellcode",
+            "payload",
         ],
         ActionCategory.PAYLOAD,
     ),
@@ -477,9 +524,7 @@ class _OllamaClassifierBase(IOutputClassifier):
 
     def _call_ollama(self, prompt: str) -> dict | None:
         """POST a generate request to Ollama and return the parsed response dict."""
-        payload = json.dumps(
-            {"model": self._model, "prompt": prompt, "stream": False}
-        ).encode()
+        payload = json.dumps({"model": self._model, "prompt": prompt, "stream": False}).encode()
         req = urllib.request.Request(
             self._url,
             data=payload,
@@ -492,9 +537,7 @@ class _OllamaClassifierBase(IOutputClassifier):
         except (urllib.error.URLError, json.JSONDecodeError, OSError):
             return None
 
-    def _parse_response(
-        self, data: dict | None, fallback: ActionCategory
-    ) -> ClassificationResult | None:
+    def _parse_response(self, data: dict | None, fallback: ActionCategory) -> ClassificationResult | None:
         """Extract a ClassificationResult from the raw Ollama response."""
         if data is None:
             return None
@@ -676,10 +719,12 @@ class DetectionRiskAssessor:
         if self._oracle is None:
             try:
                 import sys as _sys
+
                 _base = Path(__file__).parent.parent
                 if str(_base) not in _sys.path:
                     _sys.path.insert(0, str(_base))
                 from modules.detection_oracle import get_oracle  # noqa: PLC0415
+
                 self._oracle = get_oracle()
             except Exception:
                 self._oracle = None
@@ -722,9 +767,7 @@ class RewardCalculator:
     still learn that failed actions carry a negative signal.
     """
 
-    _HIGH_VALUE_CATEGORIES = frozenset(
-        {ActionCategory.INTRUSION, ActionCategory.PRIVESC, ActionCategory.CREDENTIAL}
-    )
+    _HIGH_VALUE_CATEGORIES = frozenset({ActionCategory.INTRUSION, ActionCategory.PRIVESC, ActionCategory.CREDENTIAL})
     _DETECTION_ZERO_THRESHOLD: float = 0.70
 
     def __init__(
@@ -732,10 +775,10 @@ class RewardCalculator:
         cfg: Config,
         risk_assessor: DetectionRiskAssessor | None = None,
     ) -> None:
-        self._table                = cfg.reward_table
-        self._fail_reward          = self._table["any:fail"]
+        self._table = cfg.reward_table
+        self._fail_reward = self._table["any:fail"]
         self._critical_fail_reward = self._table["critical:fail"]
-        self._risk_assessor        = risk_assessor
+        self._risk_assessor = risk_assessor
 
     def calculate(self, category: ActionCategory, outcome: OutcomeType) -> int:
         """
@@ -781,9 +824,7 @@ class RewardCalculator:
         detection_prob = 0.0
 
         if self._risk_assessor is not None and outcome is OutcomeType.SUCCESS:
-            detection_prob = self._risk_assessor.assess_probability(
-                command, args, category.value
-            )
+            detection_prob = self._risk_assessor.assess_probability(command, args, category.value)
             if detection_prob >= self._DETECTION_ZERO_THRESHOLD:
                 logging.getLogger(__name__).info(
                     "Detection risk %.0f%% for %s — zeroing reward (was %+d)",
@@ -1080,9 +1121,7 @@ class PolicyEngine:
                     "source": "default",
                 }
             ]
-        recent_states = [
-            f"{s.category}:{s.outcome}" for s in recent_steps[-self._STATE_WINDOW :]
-        ]
+        recent_states = [f"{s.category}:{s.outcome}" for s in recent_steps[-self._STATE_WINDOW :]]
         current_state = recent_states[-1]
         injected = self._apply_overrides(recent_states)
         data_driven = self._transitions.query(current_state)
@@ -1109,10 +1148,7 @@ class PolicyEngine:
                 recommendations.append(
                     {
                         "category": category,
-                        "reason": (
-                            f"Observed {count}x after '{current_state}' "
-                            f"with {rate:.0%} success rate."
-                        ),
+                        "reason": (f"Observed {count}x after '{current_state}' with {rate:.0%} success rate."),
                         "confidence": rate,
                         "source": "transition_table",
                     }
@@ -1123,9 +1159,7 @@ class PolicyEngine:
 
         return recommendations[: self._top_k]
 
-    def _apply_overrides(
-        self, recent_states: list[str]
-    ) -> list[tuple[str, str, int]]:
+    def _apply_overrides(self, recent_states: list[str]) -> list[tuple[str, str, int]]:
         """Return (category, reason, priority) for every triggered override rule."""
         matched: list[tuple[str, str, int]] = []
         for rule in sorted(_OVERRIDE_RULES, key=lambda r: -r.priority):
@@ -1148,10 +1182,7 @@ class PolicyEngine:
         next_cat = _chain.get(current_cat, "recon")
         return {
             "category": next_cat,
-            "reason": (
-                f"No transition data for '{current_state}' — "
-                "following default kill-chain order."
-            ),
+            "reason": (f"No transition data for '{current_state}' — following default kill-chain order."),
             "confidence": 0.40,
             "source": "default_chain",
         }
@@ -1169,12 +1200,12 @@ class SessionClassificationPipeline:
     """
 
     def __init__(self, cfg: Config, interactive: bool = False) -> None:
-        self._classifier  = CascadeClassifier(cfg, interactive=interactive)
-        risk_assessor     = DetectionRiskAssessor()
+        self._classifier = CascadeClassifier(cfg, interactive=interactive)
+        risk_assessor = DetectionRiskAssessor()
         self._reward_calc = RewardCalculator(cfg, risk_assessor=risk_assessor)
-        self._store       = JSONLEpisodeStore(cfg)
+        self._store = JSONLEpisodeStore(cfg)
         self._transitions = TransitionTable(cfg)
-        self._logger      = logging.getLogger(self.__class__.__name__)
+        self._logger = logging.getLogger(self.__class__.__name__)
 
     def process(
         self,
@@ -1248,11 +1279,7 @@ class PolicyAdvisor:
         episode = self._store.get_episode(target)
         if not episode:
             return None
-        last_state = (
-            f"{episode.steps[-1].category}:{episode.steps[-1].outcome}"
-            if episode.steps
-            else "none"
-        )
+        last_state = f"{episode.steps[-1].category}:{episode.steps[-1].outcome}" if episode.steps else "none"
         return {
             "target": episode.target,
             "total_reward": episode.total_reward,
@@ -1382,12 +1409,12 @@ class FileApprovalSink(IApprovalSink):
     def announce(self, request: ApprovalRequest) -> None:
         record = {
             "approval_id": request.approval_id,
-            "status":      "pending",
-            "target":      request.target,
-            "phase":       request.phase,
-            "command":     request.command,
-            "reason":      request.reason,
-            "created_ts":  request.created_ts,
+            "status": "pending",
+            "target": request.target,
+            "phase": request.phase,
+            "command": request.command,
+            "reason": request.reason,
+            "created_ts": request.created_ts,
         }
         try:
             self._path.parent.mkdir(parents=True, exist_ok=True)
@@ -1447,6 +1474,7 @@ class BroadcastApprovalSink(IApprovalSink):
         if narrator is None:
             try:
                 from engagement_hooks import get_default_narrator as _gdn
+
                 narrator = _gdn()
             except Exception:
                 narrator = None
@@ -1456,15 +1484,12 @@ class BroadcastApprovalSink(IApprovalSink):
             narrator.narrate(
                 kind="APPROVAL_PENDING",
                 target=request.target,
-                message=(
-                    f"awaiting approval for {request.command} "
-                    f"(phase={request.phase}) — {request.reason}"
-                ),
+                message=(f"awaiting approval for {request.command} (phase={request.phase}) — {request.reason}"),
                 payload={
                     "approval_id": request.approval_id,
-                    "phase":       request.phase,
-                    "command":     request.command,
-                    "reason":      request.reason,
+                    "phase": request.phase,
+                    "command": request.command,
+                    "reason": request.reason,
                 },
                 severity="warning",
             )
@@ -1483,10 +1508,7 @@ class StdinApprovalSink(IApprovalSink):
     Falls back to a pending state when no TTY is available or input fails.
     """
 
-    PROMPT = (
-        "[ENGAGE] approval required — type 'y' to approve, 'n' to deny "
-        "(timeout 0 returns pending): "
-    )
+    PROMPT = "[ENGAGE] approval required — type 'y' to approve, 'n' to deny (timeout 0 returns pending): "
 
     def __init__(self, stream: Any = None) -> None:
         self._stream = stream
@@ -1562,21 +1584,23 @@ class CompositeApprovalSink(IApprovalSink):
         return None
 
 
-_GATED_CATEGORIES = frozenset({
-    ActionCategory.EXPLOIT.value,
-    ActionCategory.INTRUSION.value,
-    ActionCategory.PRIVESC.value,
-    ActionCategory.LATERAL.value,
-    ActionCategory.CREDENTIAL.value,
-    ActionCategory.PAYLOAD.value,
-    "exploit",
-    "postexp",
-    "post_exploit",
-    "privesc",
-    "lateral",
-    "cred",
-    "exfil",
-})
+_GATED_CATEGORIES = frozenset(
+    {
+        ActionCategory.EXPLOIT.value,
+        ActionCategory.INTRUSION.value,
+        ActionCategory.PRIVESC.value,
+        ActionCategory.LATERAL.value,
+        ActionCategory.CREDENTIAL.value,
+        ActionCategory.PAYLOAD.value,
+        "exploit",
+        "postexp",
+        "post_exploit",
+        "privesc",
+        "lateral",
+        "cred",
+        "exfil",
+    }
+)
 
 
 class ApprovalGate:
@@ -1615,10 +1639,12 @@ class ApprovalGate:
         poll_timeout_s: float = DEFAULT_POLL_TIMEOUT_S,
         sleep_fn: Any = None,
     ) -> None:
-        self._sink = sink or CompositeApprovalSink([
-            StdinApprovalSink(),
-            BroadcastApprovalSink(),
-        ])
+        self._sink = sink or CompositeApprovalSink(
+            [
+                StdinApprovalSink(),
+                BroadcastApprovalSink(),
+            ]
+        )
         base = Path(__file__).resolve().parent.parent
         self._payload_path = payload_path or (base / "payload.json")
         self._poll_interval_s = max(0.1, float(poll_interval_s))
@@ -1695,6 +1721,7 @@ class ApprovalGate:
 def _default_sleep(seconds: float) -> None:
     """Thin wrapper around time.sleep for ApprovalGate injection in tests."""
     import time as _time
+
     _time.sleep(max(0.0, seconds))
 
 
@@ -1859,9 +1886,7 @@ class ScopeBoundAutoGate:
         """
         payload = self._read_payload()
         entries = _normalize_scope(payload.get(SCOPE_KEY, []))
-        enforcement = str(
-            payload.get(SCOPE_ENFORCEMENT_KEY, ENFORCEMENT_WARN)
-        ).strip().lower()
+        enforcement = str(payload.get(SCOPE_ENFORCEMENT_KEY, ENFORCEMENT_WARN)).strip().lower()
 
         if not entries or enforcement == ENFORCEMENT_OFF:
             return ApprovalOutcome(
@@ -1925,9 +1950,7 @@ class HistoryBootstrapper:
                 from_state = f"{prev.category}:{prev.outcome}"
                 self._transitions.record(from_state, curr.category, curr.outcome)
         total = len(steps)
-        self._logger.info(
-            "Bootstrap complete: %d steps across %d targets.", total, len(grouped)
-        )
+        self._logger.info("Bootstrap complete: %d steps across %d targets.", total, len(grouped))
         return total
 
 
@@ -1936,6 +1959,7 @@ class HistoryBootstrapper:
 
 def _setup_logging(cfg: Config) -> None:
     from modules.logging_config import configure
+
     configure(
         level=getattr(logging, cfg.log_level.upper(), logging.INFO),
         console=True,
@@ -1995,18 +2019,11 @@ def _cmd_report(cfg: Config, _args: argparse.Namespace) -> int:
     col_steps = 7
     col_reward = 9
     col_state = 32
-    header = (
-        f"{'Target':<{col_target}} {'Steps':>{col_steps}} "
-        f"{'Reward':>{col_reward}} {'Last State':<{col_state}}"
-    )
+    header = f"{'Target':<{col_target}} {'Steps':>{col_steps}} {'Reward':>{col_reward}} {'Last State':<{col_state}}"
     print(header)
     print("-" * len(header))
     for ep in sorted(episodes, key=lambda e: -e.total_reward):
-        last = (
-            f"{ep.steps[-1].category}:{ep.steps[-1].outcome}"
-            if ep.steps
-            else "—"
-        )
+        last = f"{ep.steps[-1].category}:{ep.steps[-1].outcome}" if ep.steps else "—"
         print(
             f"{ep.target:<{col_target}} "
             f"{len(ep.steps):>{col_steps}} "
@@ -2040,9 +2057,7 @@ def main() -> int:
     p_analyze.add_argument("--command", required=True, help="LazyOwn command name.")
     p_analyze.add_argument("--args", default="", help="Command arguments.")
     p_analyze.add_argument("--output", default="", help="Shell output to classify.")
-    p_analyze.add_argument(
-        "--exit-code", type=int, default=None, dest="exit_code", help="Shell exit code."
-    )
+    p_analyze.add_argument("--exit-code", type=int, default=None, dest="exit_code", help="Shell exit code.")
     p_analyze.add_argument(
         "--interactive",
         action="store_true",

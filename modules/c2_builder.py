@@ -445,7 +445,9 @@ class C2Builder:
         if str(getattr(profile, "cgo", "0")) == "1":
             cc = getattr(profile, "cc", "") or "gcc"
             if not shutil.which(cc):
-                print_warn(f"C compiler '{cc}' not found but the {profile.goos} profile needs CGO. Install gcc to avoid a build failure.")
+                print_warn(
+                    f"C compiler '{cc}' not found but the {profile.goos} profile needs CGO. Install gcc to avoid a build failure."
+                )
         return gocompiler
 
     def run(self, line: str, choice: str | None, use_tunnel: bool) -> dict[str, Any]:

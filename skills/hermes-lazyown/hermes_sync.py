@@ -42,9 +42,7 @@ class CheckpointSerializer:
             "state": state,
         }
         try:
-            self._checkpoint_file.write_text(
-                json.dumps(payload, indent=2, default=str), encoding="utf-8"
-            )
+            self._checkpoint_file.write_text(json.dumps(payload, indent=2, default=str), encoding="utf-8")
         except OSError as exc:
             raise HermesSyncError(f"Failed to write checkpoint: {exc}") from exc
 
@@ -163,56 +161,72 @@ class DelegationPlanner:
         normalized = service.lower()
 
         if "smb" in normalized or "microsoft-ds" in normalized or port == 445:
-            plans.append({
-                "goal": f"Enumerate SMB shares and users on {rhost}:{port}",
-                "context": f"Target {rhost} port {port} ({service}). Run enum4linux, crackmapexec smb, and list shares.",
-                "toolsets": ["terminal", "file"],
-            })
-            plans.append({
-                "goal": f"Search known exploits for SMB service on {rhost}:{port}",
-                "context": "Search exploitdb and CVE databases for SMB-related vulnerabilities.",
-                "toolsets": ["web", "terminal"],
-            })
+            plans.append(
+                {
+                    "goal": f"Enumerate SMB shares and users on {rhost}:{port}",
+                    "context": f"Target {rhost} port {port} ({service}). Run enum4linux, crackmapexec smb, and list shares.",
+                    "toolsets": ["terminal", "file"],
+                }
+            )
+            plans.append(
+                {
+                    "goal": f"Search known exploits for SMB service on {rhost}:{port}",
+                    "context": "Search exploitdb and CVE databases for SMB-related vulnerabilities.",
+                    "toolsets": ["web", "terminal"],
+                }
+            )
 
         if "http" in normalized or "https" in normalized or port in (80, 443, 8080, 8443):
-            plans.append({
-                "goal": f"Perform web enumeration on {rhost}:{port}",
-                "context": f"Target {rhost}:{port} ({service}). Run whatweb, gobuster, nikto.",
-                "toolsets": ["terminal", "file"],
-            })
-            plans.append({
-                "goal": f"Search known web exploits for {rhost}:{port}",
-                "context": "Identify framework/version and search for CVEs and exploits.",
-                "toolsets": ["web", "terminal"],
-            })
+            plans.append(
+                {
+                    "goal": f"Perform web enumeration on {rhost}:{port}",
+                    "context": f"Target {rhost}:{port} ({service}). Run whatweb, gobuster, nikto.",
+                    "toolsets": ["terminal", "file"],
+                }
+            )
+            plans.append(
+                {
+                    "goal": f"Search known web exploits for {rhost}:{port}",
+                    "context": "Identify framework/version and search for CVEs and exploits.",
+                    "toolsets": ["web", "terminal"],
+                }
+            )
 
         if "ssh" in normalized or port == 22:
-            plans.append({
-                "goal": f"Enumerate SSH on {rhost}:{port}",
-                "context": "Check banner, version, and test key-based or credential auth.",
-                "toolsets": ["terminal", "file"],
-            })
+            plans.append(
+                {
+                    "goal": f"Enumerate SSH on {rhost}:{port}",
+                    "context": "Check banner, version, and test key-based or credential auth.",
+                    "toolsets": ["terminal", "file"],
+                }
+            )
 
         if "ldap" in normalized or port == 389:
-            plans.append({
-                "goal": f"Enumerate LDAP on {rhost}:{port}",
-                "context": "Run ldapdomaindump, search for naming contexts and users.",
-                "toolsets": ["terminal", "file"],
-            })
+            plans.append(
+                {
+                    "goal": f"Enumerate LDAP on {rhost}:{port}",
+                    "context": "Run ldapdomaindump, search for naming contexts and users.",
+                    "toolsets": ["terminal", "file"],
+                }
+            )
 
         if "kerberos" in normalized or port == 88:
-            plans.append({
-                "goal": f"Enumerate Kerberos on {rhost}:{port}",
-                "context": "Run GetNPUsers, kerbrute, and search for AS-REP roastable accounts.",
-                "toolsets": ["terminal", "file"],
-            })
+            plans.append(
+                {
+                    "goal": f"Enumerate Kerberos on {rhost}:{port}",
+                    "context": "Run GetNPUsers, kerbrute, and search for AS-REP roastable accounts.",
+                    "toolsets": ["terminal", "file"],
+                }
+            )
 
         if not plans:
-            plans.append({
-                "goal": f"Enumerate {service} on {rhost}:{port}",
-                "context": f"Generic enumeration for discovered service {service} on port {port}.",
-                "toolsets": ["terminal", "file", "web"],
-            })
+            plans.append(
+                {
+                    "goal": f"Enumerate {service} on {rhost}:{port}",
+                    "context": f"Generic enumeration for discovered service {service} on port {port}.",
+                    "toolsets": ["terminal", "file", "web"],
+                }
+            )
 
         return plans
 
@@ -222,16 +236,20 @@ class DelegationPlanner:
         """
         plans: list[dict[str, Any]] = []
 
-        plans.append({
-            "goal": f"Validate credential on {rhost}",
-            "context": f"Test the found {cred_type} against common services (SSH, SMB, WinRM, LDAP) on {rhost}.",
-            "toolsets": ["terminal", "file"],
-        })
+        plans.append(
+            {
+                "goal": f"Validate credential on {rhost}",
+                "context": f"Test the found {cred_type} against common services (SSH, SMB, WinRM, LDAP) on {rhost}.",
+                "toolsets": ["terminal", "file"],
+            }
+        )
 
-        plans.append({
-            "goal": f"Assess lateral movement potential with new {cred_type}",
-            "context": "Check where else this credential works across the target scope.",
-            "toolsets": ["terminal", "web"],
-        })
+        plans.append(
+            {
+                "goal": f"Assess lateral movement potential with new {cred_type}",
+                "context": "Check where else this credential works across the target scope.",
+                "toolsets": ["terminal", "web"],
+            }
+        )
 
         return plans

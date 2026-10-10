@@ -4549,5 +4549,3 @@ Clear system log files on the remote target.
 **Phase:** uncategorized | **Source:** `cli/commands/anti_forensics.py`
 
 Scrub file timestamps and shell history on the target.
-
-

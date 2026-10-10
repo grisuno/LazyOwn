@@ -45,9 +45,7 @@ def test_shell_false_in_safe_runner() -> None:
     shell_values = [
         keyword.value.value
         for node in ast.walk(tree)
-        if isinstance(node, ast.Call)
-        and isinstance(node.func, ast.Attribute)
-        and node.func.attr == "run"
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "run"
         for keyword in node.keywords
         if keyword.arg == "shell" and isinstance(keyword.value, ast.Constant)
     ]

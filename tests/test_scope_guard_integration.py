@@ -33,6 +33,7 @@ def _make_stub(params, offensive=frozenset(), aliases=None, confirm=False):
     stub._resolve_offensive = lambda name: Shell._resolve_offensive(stub, name)
     stub._scope_confirm = lambda decision: confirm
     from rich.console import Console
+
     stub.console = Console(file=open("/dev/null", "w"))
     return stub
 

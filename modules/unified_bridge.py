@@ -119,6 +119,7 @@ class LazyownBridgeBackend(RouteBackend):
     def available(self) -> bool:
         try:
             from modules.lazyown_bridge import BridgeDispatcher  # noqa: F401
+
             return True
         except ImportError:
             return False
@@ -126,6 +127,7 @@ class LazyownBridgeBackend(RouteBackend):
     def route(self, prompt: str, context: dict[str, Any]) -> RouteResult:
         try:
             from modules.lazyown_bridge import BridgeDispatcher
+
             dispatcher = BridgeDispatcher()
             phase = context.get("phase", "recon")
             services = context.get("services", [])
@@ -143,7 +145,8 @@ class LazyownBridgeBackend(RouteBackend):
         except Exception:
             log.debug("lazyown_bridge routing failed", exc_info=True)
         return RouteResult(
-            prompt=prompt, backend="lazyown_bridge",
+            prompt=prompt,
+            backend="lazyown_bridge",
             error="No matching command found",
         )
 
@@ -154,6 +157,7 @@ class TopoSwarmBackend(RouteBackend):
     def available(self) -> bool:
         try:
             from modules.toposwarm_bridge import TopoSwarmBridge
+
             bridge = TopoSwarmBridge()
             return bridge.available
         except ImportError:
@@ -162,19 +166,21 @@ class TopoSwarmBackend(RouteBackend):
     def route(self, prompt: str, context: dict[str, Any]) -> RouteResult:
         try:
             from modules.toposwarm_bridge import TopoSwarmBridge
+
             bridge = TopoSwarmBridge()
             topo_result = bridge.route(prompt)
             return RouteResult(
                 prompt=prompt,
                 tool=topo_result.tool_name,
-                args=topo_result.args if hasattr(topo_result, 'args') else {},
+                args=topo_result.args if hasattr(topo_result, "args") else {},
                 confidence=topo_result.confidence,
                 backend=f"toposwarm_{topo_result.backend}",
-                explanation=getattr(topo_result, 'explanation', ''),
+                explanation=getattr(topo_result, "explanation", ""),
             )
         except Exception:
             return RouteResult(
-                prompt=prompt, backend="toposwarm",
+                prompt=prompt,
+                backend="toposwarm",
                 error="TopoSwarm routing failed",
             )
 
@@ -225,12 +231,15 @@ class UnifiedBridge:
                 pass
         try:
             from modules.event_bus import EventCategory, LazyEvent, get_event_bus
-            get_event_bus().publish(LazyEvent(
-                category=EventCategory(category),
-                event_type=event_type,
-                source="unified_bridge",
-                payload=payload,
-            ))
+
+            get_event_bus().publish(
+                LazyEvent(
+                    category=EventCategory(category),
+                    event_type=event_type,
+                    source="unified_bridge",
+                    payload=payload,
+                )
+            )
         except Exception:
             pass
 
@@ -262,13 +271,17 @@ class UnifiedBridge:
                 continue
             result = backend.route(prompt, ctx)
             if result.tool or result.command or result.error:
-                self._publish("command", "route_complete", {
-                    "prompt": prompt,
-                    "tool": result.tool,
-                    "command": result.command,
-                    "backend": result.backend,
-                    "confidence": result.confidence,
-                })
+                self._publish(
+                    "command",
+                    "route_complete",
+                    {
+                        "prompt": prompt,
+                        "tool": result.tool,
+                        "command": result.command,
+                        "backend": result.backend,
+                        "confidence": result.confidence,
+                    },
+                )
                 return result
 
         return RouteResult(
@@ -296,6 +309,7 @@ class UnifiedBridge:
         result = DelegateResult(goal=goal)
         try:
             from modules.mcp_agent_bridge import AgentBridgeWorker
+
             agent_id = f"bridge_{int(time.time())}"
             worker = AgentBridgeWorker(
                 agent_id=agent_id,
@@ -318,10 +332,16 @@ class UnifiedBridge:
             else:
                 result.status = "timeout"
 
-            self._publish("command", "agent_delegated", {
-                "goal": goal, "agent_id": agent_id,
-                "backend": backend, "status": result.status,
-            })
+            self._publish(
+                "command",
+                "agent_delegated",
+                {
+                    "goal": goal,
+                    "agent_id": agent_id,
+                    "backend": backend,
+                    "status": result.status,
+                },
+            )
         except ImportError:
             result.error = "mcp_agent_bridge not available"
         except Exception as exc:
@@ -330,14 +350,12 @@ class UnifiedBridge:
         return result
 
     def list_backends(self) -> list[dict[str, Any]]:
-        return [
-            {"name": b.__class__.__name__, "available": b.available()}
-            for b in self._backends
-        ]
+        return [{"name": b.__class__.__name__, "available": b.available()} for b in self._backends]
 
     def _detect_phase(self) -> str:
         try:
             from modules.state_manager import get_state_manager
+
             snap = get_state_manager().session_snapshot()
             return snap.phase
         except Exception:
@@ -346,6 +364,7 @@ class UnifiedBridge:
     def _get_active_target(self) -> str:
         try:
             from modules.state_manager import get_state_manager
+
             snap = get_state_manager().session_snapshot()
             return snap.active_target
         except Exception:

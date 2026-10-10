@@ -17,9 +17,7 @@ import pytest
 REPO_ROOT = Path(__file__).resolve().parent.parent
 LAZYC2 = REPO_ROOT / "lazyc2.py"
 
-_AUTH_DECORATORS = frozenset(
-    {"requires_auth", "requires_auth_or_session", "login_required", "csrf_protect"}
-)
+_AUTH_DECORATORS = frozenset({"requires_auth", "requires_auth_or_session", "login_required", "csrf_protect"})
 
 # Operator-facing routes that must reject anonymous access.
 PROTECTED_ENDPOINTS: frozenset[str] = frozenset(
@@ -110,20 +108,12 @@ def routes():
 
 
 def test_protected_endpoints_require_auth(routes):
-    unprotected = [
-        path
-        for path in PROTECTED_ENDPOINTS
-        if not (routes.get(path, set()) & _AUTH_DECORATORS)
-    ]
+    unprotected = [path for path in PROTECTED_ENDPOINTS if not (routes.get(path, set()) & _AUTH_DECORATORS)]
     assert unprotected == [], f"operator endpoints missing auth: {unprotected}"
 
 
 def test_public_endpoints_stay_open(routes):
-    protected = [
-        path
-        for path in PUBLIC_ENDPOINTS
-        if routes.get(path, set()) & _AUTH_DECORATORS
-    ]
+    protected = [path for path in PUBLIC_ENDPOINTS if routes.get(path, set()) & _AUTH_DECORATORS]
     assert protected == [], f"public endpoints accidentally locked: {protected}"
 
 

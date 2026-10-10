@@ -169,9 +169,7 @@ class TestValidatePayload:
         payload = default_payload()
         del payload["rhost"]
         issues = validate_payload(payload)
-        rhost_errors = [
-            i for i in issues if i.key == "rhost" and i.severity is Severity.ERROR
-        ]
+        rhost_errors = [i for i in issues if i.key == "rhost" and i.severity is Severity.ERROR]
         assert rhost_errors
 
     def test_unknown_key_in_payload_is_info(self):
@@ -185,9 +183,8 @@ class TestValidatePayload:
         payload = json.loads((REPO_ROOT / "payload.json").read_text(encoding="utf-8"))
         issues = validate_payload(payload)
         errors = [i for i in issues if i.severity is Severity.ERROR]
-        assert errors == [], (
-            "Shipped payload.json fails schema validation: "
-            + "; ".join(format_issue(i) for i in errors)
+        assert errors == [], "Shipped payload.json fails schema validation: " + "; ".join(
+            format_issue(i) for i in errors
         )
 
 

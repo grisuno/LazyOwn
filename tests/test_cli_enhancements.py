@@ -34,11 +34,11 @@ from cli.cli_enhancements import (  # noqa: E402
 
 # ── Fuzzy index ─────────────────────────────────────────────────────────────
 
+
 @pytest.fixture
 def fixture_index() -> FuzzyCommandIndex:
     cmds = [
-        CommandInfo("lazynmap", "Full TCP/UDP nmap with vuln scripts.",
-                    aliases=("nmap",)),
+        CommandInfo("lazynmap", "Full TCP/UDP nmap with vuln scripts.", aliases=("nmap",)),
         CommandInfo("gobuster", "Directory brute-force.", aliases=()),
         CommandInfo("ffuf", "HTTP fuzzer.", aliases=("fuzz",)),
         CommandInfo("evil", "evil-winrm session.", aliases=("evil-winrm",)),
@@ -76,6 +76,7 @@ def test_fuzzy_returns_empty_on_garbage(fixture_index):
 
 # ── Payload-aware completer ─────────────────────────────────────────────────
 
+
 def test_completer_set_lists_payload_keys():
     payload = DictPayloadProvider({"rhost": "10.0.0.1", "lhost": "10.0.0.2"})
     c = PayloadAwareCompleter(payload)
@@ -86,11 +87,12 @@ def test_completer_set_lists_payload_keys():
 
 
 def test_completer_target_lists_targets_and_rhost():
-    payload = DictPayloadProvider({
-        "rhost": "10.0.0.1",
-        "targets": [{"ip": "10.0.0.2", "notes": "WS01"},
-                    {"ip": "10.0.0.3", "notes": ""}],
-    })
+    payload = DictPayloadProvider(
+        {
+            "rhost": "10.0.0.1",
+            "targets": [{"ip": "10.0.0.2", "notes": "WS01"}, {"ip": "10.0.0.3", "notes": ""}],
+        }
+    )
     c = PayloadAwareCompleter(payload)
     ips = {s.text for s in c.complete("target", "")}
     assert {"10.0.0.1", "10.0.0.2", "10.0.0.3"} <= ips
@@ -125,6 +127,7 @@ def test_completer_ignores_unknown_command():
 
 
 # ── DynamicAliasResolver ────────────────────────────────────────────────────
+
 
 def test_dynamic_resolver_renders_against_current_payload():
     resolver = DynamicAliasResolver()
@@ -172,6 +175,7 @@ def test_load_aliases_eager_substitutes(tmp_path):
 
 # ── AddonHotReloader ────────────────────────────────────────────────────────
 
+
 def test_hot_reloader_detects_new_file(tmp_path):
     addons = tmp_path / "addons"
     addons.mkdir()
@@ -194,6 +198,7 @@ def test_hot_reloader_detects_modification(tmp_path):
     reloader.poll_once()  # baseline
     fp.write_text("name: y\n")
     import os
+
     new_t = fp.stat().st_mtime + 5
     os.utime(fp, (new_t, new_t))
     changed = reloader.poll_once()
@@ -211,6 +216,7 @@ def test_hot_reloader_ignores_non_addon_files(tmp_path):
 
 
 # ── LiveStatusTail ──────────────────────────────────────────────────────────
+
 
 def test_status_tail_extracts_open_ports():
     raw = dedent("""
@@ -243,6 +249,7 @@ def test_status_tail_no_ports_falls_back_to_stats():
 
 
 # ── TranscriptStore ─────────────────────────────────────────────────────────
+
 
 def test_transcript_grep_matches_recent_output(tmp_path):
     store = TranscriptStore(tmp_path)
@@ -286,6 +293,7 @@ def test_transcript_capacity(tmp_path):
 
 # ── InteractiveForm ─────────────────────────────────────────────────────────
 
+
 class FakeIO:
     def __init__(self, replies: list[str]) -> None:
         self.replies = list(replies)
@@ -304,8 +312,7 @@ def test_form_collects_values_with_defaults():
     spec = FormSpec(
         command="venom",
         fields=(
-            FormField("payload", "msfvenom payload", required=True,
-                      default="windows/x64/meterpreter/reverse_tcp"),
+            FormField("payload", "msfvenom payload", required=True, default="windows/x64/meterpreter/reverse_tcp"),
             FormField("lport", "port", default="4444"),
         ),
     )
@@ -318,10 +325,7 @@ def test_form_collects_values_with_defaults():
 def test_form_options_constraint_falls_back_to_default():
     spec = FormSpec(
         command="x",
-        fields=(
-            FormField("ssl", "use ssl", default="false",
-                      options=("true", "false")),
-        ),
+        fields=(FormField("ssl", "use ssl", default="false", options=("true", "false")),),
     )
     fake = FakeIO(replies=["maybe"])
     out = InteractiveForm(io=fake).render(spec)
@@ -340,6 +344,7 @@ def test_form_required_reprompted():
 
 
 # ── commands_from_cmd2_shell ────────────────────────────────────────────────
+
 
 class _ShellLike:
     aliases = {"nmap": "lazynmap"}
@@ -362,12 +367,12 @@ def test_commands_from_cmd2_shell_extracts_doc_and_aliases():
 
 # ── Audit CommandSet smoke (without full cmd2 boot) ─────────────────────────
 
+
 class _MiniShell:
     """Just enough cmd2 surface to instantiate AuditCommandSet helpers."""
 
     def __init__(self, tmp: Path) -> None:
-        self.params = {"rhost": "10.10.11.5", "domain": "target.htb",
-                       "dirwordlist": "/usr/share/wordlists/dl.txt"}
+        self.params = {"rhost": "10.10.11.5", "domain": "target.htb", "dirwordlist": "/usr/share/wordlists/dl.txt"}
         self.aliases = {"nmap": "lazynmap"}
         self.sessions_dir = str(tmp / "sessions")
         self.lazyaddons_dir = str(tmp / "lazyaddons")

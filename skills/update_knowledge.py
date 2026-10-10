@@ -28,9 +28,9 @@ configure(
 )
 log = get_logger("update_knowledge")
 
-SKILLS_DIR   = Path(__file__).parent
+SKILLS_DIR = Path(__file__).parent
 LAZYOWN_DIR = SKILLS_DIR.parent
-BASE_DIR    = LAZYOWN_DIR
+BASE_DIR = LAZYOWN_DIR
 
 for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
     if _p not in sys.path:
@@ -39,12 +39,11 @@ for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
 
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="LazyOwn Knowledge Refresh")
-    parser.add_argument("--train",    action="store_true",
-                        help="Train RandomForest classifier after sync")
-    parser.add_argument("--min-rows", type=int, default=50,
-                        help="Minimum annotated rows to attempt training (default 50)")
-    parser.add_argument("--quiet",    action="store_true",
-                        help="Suppress informational output")
+    parser.add_argument("--train", action="store_true", help="Train RandomForest classifier after sync")
+    parser.add_argument(
+        "--min-rows", type=int, default=50, help="Minimum annotated rows to attempt training (default 50)"
+    )
+    parser.add_argument("--quiet", action="store_true", help="Suppress informational output")
     args = parser.parse_args(argv)
 
     if args.quiet:
@@ -86,16 +85,15 @@ def main(argv: list[str] | None = None) -> int:
             if "error" in result:
                 log.warning(f"Classifier not trained: {result['error']}")
             else:
-                acc   = result.get("accuracy", 0)
-                n_tr  = result.get("n_train", 0)
-                n_te  = result.get("n_test", 0)
-                path  = result.get("model_path", "")
+                acc = result.get("accuracy", 0)
+                n_tr = result.get("n_train", 0)
+                n_te = result.get("n_test", 0)
+                path = result.get("model_path", "")
                 log.info(f"Classifier ready: accuracy={acc:.2%} train={n_tr} test={n_te}")
                 log.info(f"Model saved: {path}")
                 fi = result.get("feature_importance", {})
                 if fi:
-                    log.info("Feature importance: " +
-                             " | ".join(f"{k}={v:.3f}" for k, v in fi.items()))
+                    log.info("Feature importance: " + " | ".join(f"{k}={v:.3f}" for k, v in fi.items()))
         except Exception as exc:
             log.error(f"Training failed: {exc}")
             return 1

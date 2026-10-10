@@ -21,7 +21,7 @@ import time
 from pathlib import Path
 
 # Resolve project root
-SKILLS_DIR  = Path(__file__).parent
+SKILLS_DIR = Path(__file__).parent
 LAZYOWN_DIR = SKILLS_DIR.parent
 _hp = str(LAZYOWN_DIR / "modules")
 if _hp not in sys.path:
@@ -31,19 +31,21 @@ from event_engine import process_new_rows, read_events  # noqa: E402
 
 try:
     from session_state import refresh as _state_refresh
+
     _STATE_OK = True
 except ImportError:
     _STATE_OK = False
 
 try:
     from timeline_narrator import narrate as _narrate
+
     _NARRATOR_OK = True
 except ImportError:
     _NARRATOR_OK = False
 
 # Refresh session state every N heartbeat cycles (1 cycle = interval seconds)
-_STATE_EVERY   = 3    # refresh state every 3 cycles
-_NARRATE_EVERY = 12   # regenerate timeline every 12 cycles (~1 min at 5s interval)
+_STATE_EVERY = 3  # refresh state every 3 cycles
+_NARRATE_EVERY = 12  # regenerate timeline every 12 cycles (~1 min at 5s interval)
 
 PID_FILE = LAZYOWN_DIR / "sessions" / "heartbeat.pid"
 
@@ -63,7 +65,7 @@ def is_running() -> tuple[bool, int]:
         return False, 0
     try:
         pid = int(PID_FILE.read_text().strip())
-        os.kill(pid, 0)   # signal 0 = existence check
+        os.kill(pid, 0)  # signal 0 = existence check
         return True, pid
     except (ProcessLookupError, ValueError):
         return False, 0
@@ -87,7 +89,7 @@ def run_loop(interval: int, once: bool = False):
                         print(
                             f"  [{ev['severity'].upper()}] {ev['type']}"
                             f" ← {ev['source']['command']} @ {ev['source']['target']}",
-                            flush=True
+                            flush=True,
                         )
             except Exception as e:
                 print(f"[heartbeat] error in engine: {e}", flush=True)
@@ -99,7 +101,7 @@ def run_loop(interval: int, once: bool = False):
                     print(
                         f"[heartbeat] state refreshed — phase={state['phase']} "
                         f"hosts={len(state['hosts'])} pending={state['open_event_count']}",
-                        flush=True
+                        flush=True,
                     )
                 except Exception as e:
                     print(f"[heartbeat] state refresh error: {e}", flush=True)
@@ -124,12 +126,9 @@ def run_loop(interval: int, once: bool = False):
 
 def main():
     parser = argparse.ArgumentParser(description="LazyOwn Heartbeat")
-    parser.add_argument("--interval", type=int, default=5,
-                        help="Poll interval in seconds (default: 5)")
-    parser.add_argument("--once", action="store_true",
-                        help="Run one pass and exit")
-    parser.add_argument("--status", action="store_true",
-                        help="Check if heartbeat is running and exit")
+    parser.add_argument("--interval", type=int, default=5, help="Poll interval in seconds (default: 5)")
+    parser.add_argument("--once", action="store_true", help="Run one pass and exit")
+    parser.add_argument("--status", action="store_true", help="Check if heartbeat is running and exit")
     args = parser.parse_args()
 
     if args.status:

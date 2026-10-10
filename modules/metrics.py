@@ -39,9 +39,7 @@ from datetime import UTC, datetime
 from pathlib import Path
 from threading import Lock
 
-LAZYOWN_DIR: Path = Path(
-    os.environ.get("LAZYOWN_DIR", str(Path(__file__).resolve().parent.parent))
-)
+LAZYOWN_DIR: Path = Path(os.environ.get("LAZYOWN_DIR", str(Path(__file__).resolve().parent.parent)))
 SESSIONS_DIR: Path = LAZYOWN_DIR / "sessions"
 METRICS_FILE: Path = SESSIONS_DIR / "metrics.jsonl"
 
@@ -65,9 +63,7 @@ class MetricsRegistry:
     def __init__(self) -> None:
         """Create an empty registry with its own lock."""
 
-        self._counters: dict[str, dict[str, int]] = defaultdict(
-            lambda: defaultdict(int)
-        )
+        self._counters: dict[str, dict[str, int]] = defaultdict(lambda: defaultdict(int))
         self._lock = Lock()
 
     def inc(
@@ -121,9 +117,9 @@ class MetricsRegistry:
             lines.append(f"# TYPE {name} counter")
             for label_key, value in series.items():
                 if label_key:
-                    lines.append(f'{name}{{{label_key}}} {value}')
+                    lines.append(f"{name}{{{label_key}}} {value}")
                 else:
-                    lines.append(f'{name} {value}')
+                    lines.append(f"{name} {value}")
         return "\n".join(lines)
 
 
@@ -277,9 +273,7 @@ class MetricsAggregator:
 
         reference = now_utc or datetime.now(UTC)
         cutoff_epoch = (
-            reference.timestamp() - window_seconds
-            if window_seconds is not None and window_seconds > 0
-            else None
+            reference.timestamp() - window_seconds if window_seconds is not None and window_seconds > 0 else None
         )
 
         per_command_durations: dict[str, list[int]] = {}
@@ -308,9 +302,7 @@ class MetricsAggregator:
             per_command_total[command] = per_command_total.get(command, 0) + 1
             per_command_durations.setdefault(command, []).append(duration)
             if success:
-                per_command_success[command] = (
-                    per_command_success.get(command, 0) + 1
-                )
+                per_command_success[command] = per_command_success.get(command, 0) + 1
             else:
                 failure_counter[command] = failure_counter.get(command, 0) + 1
             total += 1
@@ -327,18 +319,13 @@ class MetricsAggregator:
                 "p95_duration_ms": cls._percentile(durations, P95_PERCENTILE),
             }
 
-        top_failures = sorted(
-            failure_counter.items(), key=lambda item: item[1], reverse=True
-        )[:TOP_FAILURE_LIMIT]
+        top_failures = sorted(failure_counter.items(), key=lambda item: item[1], reverse=True)[:TOP_FAILURE_LIMIT]
 
         return {
             "total": total,
             "window_seconds": window_seconds,
             "by_command": by_command,
-            "top_failures": [
-                {"command": cmd, "failures": fails}
-                for cmd, fails in top_failures
-            ],
+            "top_failures": [{"command": cmd, "failures": fails} for cmd, fails in top_failures],
         }
 
 
@@ -426,9 +413,7 @@ class MetricsRecorder:
             _log.debug("metrics read error: %s", exc)
         return records
 
-    def summarize(
-        self, window_seconds: int | None = None
-    ) -> dict[str, object]:
+    def summarize(self, window_seconds: int | None = None) -> dict[str, object]:
         """Return aggregate statistics over recorded events.
 
         Args:

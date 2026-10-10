@@ -96,7 +96,7 @@ def test_redirector_caddy_filters_paths() -> None:
     """Redirector Caddyfile only forwards C2 paths and 404s the rest."""
     caddyfile = (BASE_DIR / "deploy" / "redirector" / "Caddyfile").read_text()
     assert "/gmail/*" in caddyfile
-    assert "respond \"Not Found\" 404" in caddyfile
+    assert 'respond "Not Found" 404' in caddyfile
     assert "host.docker.internal" in caddyfile
 
 
@@ -299,7 +299,9 @@ def test_mitre_matrix_keeps_unknown_tactics() -> None:
     """Techniques without a known tactic still render in the matrix."""
     from cli.commands.report_enhanced import _render_mitre_matrix_html
 
-    html = _render_mitre_matrix_html({}, [{"technique_id": "T1003", "name": "Credential Dump", "tactic": "", "status": "tested"}])
+    html = _render_mitre_matrix_html(
+        {}, [{"technique_id": "T1003", "name": "Credential Dump", "tactic": "", "status": "tested"}]
+    )
     assert "T1003" in html
     assert "Credential Dump" in html
 

@@ -53,57 +53,77 @@ from pathlib import Path
 
 # ─── Paths ───────────────────────────────────────────────────────────────────
 
-BASE_DIR         = Path(__file__).parent.parent
-SESSIONS_DIR     = BASE_DIR / "sessions"
-ACI_PLAN_FILE    = SESSIONS_DIR / "aci_plan.json"
+BASE_DIR = Path(__file__).parent.parent
+SESSIONS_DIR = BASE_DIR / "sessions"
+ACI_PLAN_FILE = SESSIONS_DIR / "aci_plan.json"
 ACI_HISTORY_FILE = SESSIONS_DIR / "aci_history.jsonl"
-LESSONS_FILE     = SESSIONS_DIR / "campaign_lessons.jsonl"
-OBJECTIVES_FILE  = SESSIONS_DIR / "objectives.jsonl"
+LESSONS_FILE = SESSIONS_DIR / "campaign_lessons.jsonl"
+OBJECTIVES_FILE = SESSIONS_DIR / "objectives.jsonl"
 
 log = logging.getLogger("aci_planner")
 
 # ─── Constants ───────────────────────────────────────────────────────────────
 
-REPLAN_THRESHOLD        = 3    # blocked objectives in current phase → trigger replan
+REPLAN_THRESHOLD = 3  # blocked objectives in current phase → trigger replan
 MAX_OBJECTIVES_PER_PHASE = 5
-GROQ_API_URL            = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_DEFAULT_MODEL      = "llama-3.3-70b-versatile"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama-3.3-70b-versatile"
 
 # MITRE ATT&CK tactic reference used in static fallback
 MITRE_KILL_CHAIN: list[dict] = [
-    {"tactic": "TA0043", "tactic_name": "Reconnaissance",      "phase": "recon",    "techniques": ["T1595", "T1046", "T1592"]},
-    {"tactic": "TA0042", "tactic_name": "Resource Development", "phase": "setup",    "techniques": ["T1587", "T1583"]},
-    {"tactic": "TA0001", "tactic_name": "Initial Access",       "phase": "exploit",  "techniques": ["T1190", "T1566", "T1133"]},
-    {"tactic": "TA0002", "tactic_name": "Execution",            "phase": "exec",     "techniques": ["T1059", "T1203"]},
-    {"tactic": "TA0004", "tactic_name": "Privilege Escalation", "phase": "privesc",  "techniques": ["T1548", "T1134", "T1055"]},
-    {"tactic": "TA0006", "tactic_name": "Credential Access",    "phase": "cred",     "techniques": ["T1003", "T1558", "T1552"]},
-    {"tactic": "TA0008", "tactic_name": "Lateral Movement",     "phase": "lateral",  "techniques": ["T1021", "T1550", "T1570"]},
-    {"tactic": "TA0010", "tactic_name": "Exfiltration",         "phase": "exfil",    "techniques": ["T1048", "T1041"]},
-    {"tactic": "TA0040", "tactic_name": "Impact",               "phase": "impact",   "techniques": []},
+    {"tactic": "TA0043", "tactic_name": "Reconnaissance", "phase": "recon", "techniques": ["T1595", "T1046", "T1592"]},
+    {"tactic": "TA0042", "tactic_name": "Resource Development", "phase": "setup", "techniques": ["T1587", "T1583"]},
+    {
+        "tactic": "TA0001",
+        "tactic_name": "Initial Access",
+        "phase": "exploit",
+        "techniques": ["T1190", "T1566", "T1133"],
+    },
+    {"tactic": "TA0002", "tactic_name": "Execution", "phase": "exec", "techniques": ["T1059", "T1203"]},
+    {
+        "tactic": "TA0004",
+        "tactic_name": "Privilege Escalation",
+        "phase": "privesc",
+        "techniques": ["T1548", "T1134", "T1055"],
+    },
+    {
+        "tactic": "TA0006",
+        "tactic_name": "Credential Access",
+        "phase": "cred",
+        "techniques": ["T1003", "T1558", "T1552"],
+    },
+    {
+        "tactic": "TA0008",
+        "tactic_name": "Lateral Movement",
+        "phase": "lateral",
+        "techniques": ["T1021", "T1550", "T1570"],
+    },
+    {"tactic": "TA0010", "tactic_name": "Exfiltration", "phase": "exfil", "techniques": ["T1048", "T1041"]},
+    {"tactic": "TA0040", "tactic_name": "Impact", "phase": "impact", "techniques": []},
 ]
 
 # Phase → default objective templates (used when LLM is unavailable)
 PHASE_OBJECTIVE_TEMPLATES: dict[str, list[str]] = {
-    "recon":   [
+    "recon": [
         "Run full port scan against {target} and record open services",
         "Identify OS version and service banners on {target}",
         "Enumerate DNS records for {domain}",
     ],
-    "setup":   [
+    "setup": [
         "Prepare listener on lport and verify C2 connectivity",
     ],
     "exploit": [
         "Identify exploitable vulnerabilities in discovered services on {target}",
         "Attempt initial access using discovered attack surface on {target}",
     ],
-    "exec":    [
+    "exec": [
         "Establish stable shell on {target} and verify execution context",
     ],
     "privesc": [
         "Enumerate local privilege escalation vectors on {target}",
         "Escalate to root/SYSTEM on {target}",
     ],
-    "cred":    [
+    "cred": [
         "Dump credential material from {target} (hashes, tickets, cleartext)",
         "Attempt lateral movement with captured credentials",
     ],
@@ -111,10 +131,10 @@ PHASE_OBJECTIVE_TEMPLATES: dict[str, list[str]] = {
         "Identify adjacent hosts reachable from {target}",
         "Pivot to highest-value asset in scope",
     ],
-    "exfil":   [
+    "exfil": [
         "Document all captured flags, credentials, and evidence from {target}",
     ],
-    "impact":  [
+    "impact": [
         "Generate final engagement report with risk ratings for {target}",
     ],
 }
@@ -142,8 +162,8 @@ class AttackPhase:
     tactic: str
     tactic_name: str
     techniques: list[str]
-    objectives: list[str]          # objective IDs injected into ObjectiveStore
-    status: str = "pending"        # pending / active / done / blocked / skipped
+    objectives: list[str]  # objective IDs injected into ObjectiveStore
+    status: str = "pending"  # pending / active / done / blocked / skipped
     started_at: str | None = None
     completed_at: str | None = None
     block_reason: str = ""
@@ -168,7 +188,7 @@ class ACIPlan:
     scope: list[str]
     created_at: str
     updated_at: str
-    status: str                    # draft / active / replanning / completed / abandoned
+    status: str  # draft / active / replanning / completed / abandoned
     phases: list[AttackPhase]
     replan_count: int = 0
     replan_reasons: list[str] = field(default_factory=list)
@@ -201,8 +221,7 @@ class ACIPlan:
     def from_dict(cls, d: dict) -> ACIPlan:
         """Deserialize from dict."""
         phases = [AttackPhase.from_dict(p) for p in d.get("phases", [])]
-        fields = {k: v for k, v in d.items()
-                  if k in cls.__dataclass_fields__ and k != "phases"}
+        fields = {k: v for k, v in d.items() if k in cls.__dataclass_fields__ and k != "phases"}
         return cls(phases=phases, **fields)
 
 
@@ -324,16 +343,18 @@ def _llm_decompose(goal: ACIGoal, api_key: str) -> list[dict] | None:
         f"Domain: {goal.domain or 'none'}\n"
         f"OS hint: {goal.os_hint}\n"
     )
-    body = json.dumps({
-        "model": GROQ_DEFAULT_MODEL,
-        "messages": [
-            {"role": "system", "content": _DECOMPOSE_SYSTEM},
-            {"role": "user",   "content": prompt},
-        ],
-        "temperature": 0.1,
-        "max_tokens": 2048,
-        "response_format": {"type": "json_object"},
-    }).encode()
+    body = json.dumps(
+        {
+            "model": GROQ_DEFAULT_MODEL,
+            "messages": [
+                {"role": "system", "content": _DECOMPOSE_SYSTEM},
+                {"role": "user", "content": prompt},
+            ],
+            "temperature": 0.1,
+            "max_tokens": 2048,
+            "response_format": {"type": "json_object"},
+        }
+    ).encode()
     req = urllib.request.Request(
         GROQ_API_URL,
         data=body,
@@ -390,16 +411,18 @@ def _llm_replan(plan: ACIPlan, reason: str, api_key: str) -> list[dict] | None:
         f"Blocked/pending phases: {[p.phase for p in remaining]}\n"
         f"Replan count so far: {plan.replan_count}\n"
     )
-    body = json.dumps({
-        "model": GROQ_DEFAULT_MODEL,
-        "messages": [
-            {"role": "system", "content": _REPLAN_SYSTEM},
-            {"role": "user",   "content": context},
-        ],
-        "temperature": 0.15,
-        "max_tokens": 2048,
-        "response_format": {"type": "json_object"},
-    }).encode()
+    body = json.dumps(
+        {
+            "model": GROQ_DEFAULT_MODEL,
+            "messages": [
+                {"role": "system", "content": _REPLAN_SYSTEM},
+                {"role": "user", "content": context},
+            ],
+            "temperature": 0.15,
+            "max_tokens": 2048,
+            "response_format": {"type": "json_object"},
+        }
+    ).encode()
     req = urllib.request.Request(
         GROQ_API_URL,
         data=body,
@@ -861,10 +884,7 @@ def mcp_aci_plan(
         JSON string with plan summary.
     """
     payload = _load_payload()
-    api_key = (
-        os.environ.get("GROQ_API_KEY", "")
-        or payload.get("api_key", "")
-    )
+    api_key = os.environ.get("GROQ_API_KEY", "") or payload.get("api_key", "")
     aci_goal = ACIGoal(
         text=goal,
         target=target or payload.get("rhost", ""),
@@ -939,14 +959,17 @@ def mcp_aci_replan(reason: str = "") -> str:
         return json.dumps({"ok": False, "message": message})
     reflector = ACIReflector(lessons_file=LESSONS_FILE)
     lessons = reflector.reflect(plan)
-    return json.dumps({
-        "ok": True,
-        "plan_id": plan.id,
-        "replan_count": plan.replan_count,
-        "message": message,
-        "lessons_generated": len(lessons),
-        "phases_remaining": sum(1 for p in plan.phases if p.status not in ("done", "skipped")),
-    }, indent=2)
+    return json.dumps(
+        {
+            "ok": True,
+            "plan_id": plan.id,
+            "replan_count": plan.replan_count,
+            "message": message,
+            "lessons_generated": len(lessons),
+            "phases_remaining": sum(1 for p in plan.phases if p.status not in ("done", "skipped")),
+        },
+        indent=2,
+    )
 
 
 # ─── CLI entry point ──────────────────────────────────────────────────────────
@@ -980,19 +1003,22 @@ def _build_parser() -> argparse.ArgumentParser:
 def main(argv: list[str] | None = None) -> int:
     """Entry point for CLI usage."""
     from modules.logging_config import configure
+
     configure(level=logging.WARNING, console=True, file=False)
     parser = _build_parser()
     args = parser.parse_args(argv)
 
     if args.cmd == "plan":
-        print(mcp_aci_plan(
-            goal=args.goal,
-            target=args.target,
-            scope=args.scope,
-            domain=args.domain,
-            os_hint=args.os_hint,
-            phase_filter=args.phases,
-        ))
+        print(
+            mcp_aci_plan(
+                goal=args.goal,
+                target=args.target,
+                scope=args.scope,
+                domain=args.domain,
+                os_hint=args.os_hint,
+                phase_filter=args.phases,
+            )
+        )
         return 0
 
     if args.cmd == "status":

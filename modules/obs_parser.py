@@ -29,6 +29,7 @@ Usage
     for finding in obs.findings:
         print(finding.type, finding.value, finding.confidence)
 """
+
 from __future__ import annotations
 
 import logging
@@ -45,38 +46,39 @@ log = logging.getLogger("obs_parser")
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 class FindingType(StrEnum):
-    IP              = "ip"
-    CREDENTIAL      = "credential"
+    IP = "ip"
+    CREDENTIAL = "credential"
     SERVICE_VERSION = "service_version"
-    PATH            = "path"
-    USERNAME        = "username"
-    HASH            = "hash"
-    CVE             = "cve"
-    DOMAIN          = "domain"
-    EMAIL           = "email"
-    ERROR           = "error"
-    CLOUD_ROLE      = "cloud_role"
-    K8S_RESOURCE    = "k8s_resource"
+    PATH = "path"
+    USERNAME = "username"
+    HASH = "hash"
+    CVE = "cve"
+    DOMAIN = "domain"
+    EMAIL = "email"
+    ERROR = "error"
+    CLOUD_ROLE = "cloud_role"
+    K8S_RESOURCE = "k8s_resource"
 
 
 @dataclass
 class Finding:
-    type:       FindingType
-    value:      str
-    host:       str          = ""
-    confidence: float        = 1.0
-    raw:        str          = ""
-    metadata:   dict[str, Any] = field(default_factory=dict)
+    type: FindingType
+    value: str
+    host: str = ""
+    confidence: float = 1.0
+    raw: str = ""
+    metadata: dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
 class Observation:
-    findings:   list[Finding] = field(default_factory=list)
-    tool:       str           = ""
-    host:       str           = ""
-    raw_output: str           = ""
-    success:    bool          = True
+    findings: list[Finding] = field(default_factory=list)
+    tool: str = ""
+    host: str = ""
+    raw_output: str = ""
+    success: bool = True
 
     def by_type(self, ftype: FindingType) -> list[Finding]:
         return [f for f in self.findings if f.type == ftype]
@@ -88,6 +90,7 @@ class Observation:
 # ---------------------------------------------------------------------------
 # Extractor base and registry
 # ---------------------------------------------------------------------------
+
 
 class Extractor(ABC):
     """Base class for a single finding-type extractor."""
@@ -120,10 +123,11 @@ class _ExtractorRegistry:
 # Concrete extractors
 # ---------------------------------------------------------------------------
 
+
 class _IPExtractor(Extractor):
     _PATTERN = re.compile(
-        r'\b(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}'
-        r'(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\b'
+        r"\b(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"
+        r"(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\b"
     )
     _EXCLUDE = {"0.0.0.0", "255.255.255.255", "127.0.0.1"}
 
@@ -140,17 +144,33 @@ class _IPExtractor(Extractor):
 
 class _CredentialExtractor(Extractor):
     """Matches user:password patterns from tool output."""
+
     _PATTERNS = [
         # crackmapexec / netexec style
-        re.compile(r'(?i)\[\+\]\s+[\w.@-]+\\([\w.@-]+):([\S]+)'),
+        re.compile(r"(?i)\[\+\]\s+[\w.@-]+\\([\w.@-]+):([\S]+)"),
         # secretsdump style
-        re.compile(r'([\w.@-]+):([\w.@-]+):([0-9a-f]{32}):([0-9a-f]{32}):::', re.IGNORECASE),
+        re.compile(r"([\w.@-]+):([\w.@-]+):([0-9a-f]{32}):([0-9a-f]{32}):::", re.IGNORECASE),
         # generic user:pass
-        re.compile(r'\b([\w.@-]{2,30}):([\S]{4,100})\b'),
+        re.compile(r"\b([\w.@-]{2,30}):([\S]{4,100})\b"),
     ]
     _MIN_PASSWORD_LEN = 4
-    _SKIP_WORDS = {"etc", "passwd", "shadow", "group", "var", "tmp", "usr",
-                   "bin", "lib", "sys", "dev", "proc", "run", "opt", "srv"}
+    _SKIP_WORDS = {
+        "etc",
+        "passwd",
+        "shadow",
+        "group",
+        "var",
+        "tmp",
+        "usr",
+        "bin",
+        "lib",
+        "sys",
+        "dev",
+        "proc",
+        "run",
+        "opt",
+        "srv",
+    }
 
     def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
@@ -166,38 +186,40 @@ class _CredentialExtractor(Extractor):
                 cred = f"{username}:{password}"
                 if cred not in seen:
                     seen.add(cred)
-                    results.append(Finding(
-                        FindingType.CREDENTIAL, cred,
-                        host=host, confidence=0.8, raw=m.group()
-                    ))
+                    results.append(Finding(FindingType.CREDENTIAL, cred, host=host, confidence=0.8, raw=m.group()))
         return results
 
 
 class _ServiceVersionExtractor(Extractor):
     """Extracts service name + version from nmap-style output."""
-    _PATTERN = re.compile(
-        r'(\d+)/(tcp|udp)[ \t]+open[ \t]+([\w/-]+)(?:[ \t]+([\w/. -]+))?'
-    )
+
+    _PATTERN = re.compile(r"(\d+)/(tcp|udp)[ \t]+open[ \t]+([\w/-]+)(?:[ \t]+([\w/. -]+))?")
 
     def extract(self, text: str, host: str) -> list[Finding]:
         results: list[Finding] = []
         for m in self._PATTERN.finditer(text):
-            port     = int(m.group(1))
+            port = int(m.group(1))
             protocol = m.group(2)
-            name     = m.group(3).strip()
-            version  = (m.group(4) or "").strip()
-            value    = f"{name} {version}".strip()
-            results.append(Finding(
-                FindingType.SERVICE_VERSION, value,
-                host=host, confidence=0.95, raw=m.group(),
-                metadata={"port": port, "protocol": protocol},
-            ))
+            name = m.group(3).strip()
+            version = (m.group(4) or "").strip()
+            value = f"{name} {version}".strip()
+            results.append(
+                Finding(
+                    FindingType.SERVICE_VERSION,
+                    value,
+                    host=host,
+                    confidence=0.95,
+                    raw=m.group(),
+                    metadata={"port": port, "protocol": protocol},
+                )
+            )
         return results
 
 
 class _PathExtractor(Extractor):
     """Extracts URL paths from gobuster / ffuf / nikto output."""
-    _PATTERN = re.compile(r'(?:Found|Status).*?(\/[\w/._-]{2,100})')
+
+    _PATTERN = re.compile(r"(?:Found|Status).*?(\/[\w/._-]{2,100})")
 
     def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
@@ -212,11 +234,12 @@ class _PathExtractor(Extractor):
 
 class _UsernameExtractor(Extractor):
     """Extracts usernames from enum4linux / kerbrute / rpcclient output."""
+
     _PATTERNS = [
-        re.compile(r'(?i)user:\s*([\w.@-]+)'),
-        re.compile(r'(?i)\[\\+\]\s+([\w.@-]+)\s+is valid'),
-        re.compile(r'(?i)account:\s*([\w.@-]+)'),
-        re.compile(r'RID\s+\d+.*?\\([\w.@-]+)'),
+        re.compile(r"(?i)user:\s*([\w.@-]+)"),
+        re.compile(r"(?i)\[\\+\]\s+([\w.@-]+)\s+is valid"),
+        re.compile(r"(?i)account:\s*([\w.@-]+)"),
+        re.compile(r"RID\s+\d+.*?\\([\w.@-]+)"),
     ]
 
     def extract(self, text: str, host: str) -> list[Finding]:
@@ -227,24 +250,22 @@ class _UsernameExtractor(Extractor):
                 user = m.group(1).strip()
                 if user and user not in seen and len(user) < 64:
                     seen.add(user)
-                    results.append(Finding(
-                        FindingType.USERNAME, user,
-                        host=host, confidence=0.85, raw=m.group()
-                    ))
+                    results.append(Finding(FindingType.USERNAME, user, host=host, confidence=0.85, raw=m.group()))
         return results
 
 
 class _HashExtractor(Extractor):
     """Extracts NTLM and other hashes from tool output."""
+
     _PATTERNS = [
         # NTLM from secretsdump: user:RID:LM:NTLM:::
-        re.compile(r'([\w.@-]+):\d+:[0-9a-f]{32}:([0-9a-f]{32}):::', re.IGNORECASE),
+        re.compile(r"([\w.@-]+):\d+:[0-9a-f]{32}:([0-9a-f]{32}):::", re.IGNORECASE),
         # Standalone 32-char MD5/NTLM
-        re.compile(r'\b([0-9a-f]{32})\b', re.IGNORECASE),
+        re.compile(r"\b([0-9a-f]{32})\b", re.IGNORECASE),
         # SHA-256
-        re.compile(r'\b([0-9a-f]{64})\b', re.IGNORECASE),
+        re.compile(r"\b([0-9a-f]{64})\b", re.IGNORECASE),
         # bcrypt
-        re.compile(r'(\$2[aby]?\$\d+\$[\w./+]{53})'),
+        re.compile(r"(\$2[aby]?\$\d+\$[\w./+]{53})"),
     ]
 
     def extract(self, text: str, host: str) -> list[Finding]:
@@ -255,16 +276,14 @@ class _HashExtractor(Extractor):
                 h = m.group(1) if m.lastindex == 1 else m.group(2)
                 if h and h not in seen:
                     seen.add(h)
-                    results.append(Finding(
-                        FindingType.HASH, h,
-                        host=host, confidence=0.9, raw=m.group()
-                    ))
+                    results.append(Finding(FindingType.HASH, h, host=host, confidence=0.9, raw=m.group()))
         return results
 
 
 class _CVEExtractor(Extractor):
     """Extracts CVE identifiers from any output."""
-    _PATTERN = re.compile(r'\bCVE-\d{4}-\d{4,7}\b', re.IGNORECASE)
+
+    _PATTERN = re.compile(r"\bCVE-\d{4}-\d{4,7}\b", re.IGNORECASE)
 
     def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
@@ -279,9 +298,8 @@ class _CVEExtractor(Extractor):
 
 class _DomainExtractor(Extractor):
     """Extracts hostnames and domain names."""
-    _PATTERN = re.compile(
-        r'\b((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,})\b'
-    )
+
+    _PATTERN = re.compile(r"\b((?:[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?\.)+[a-zA-Z]{2,})\b")
     _SKIP_TLDS = {".py", ".txt", ".log", ".xml", ".json", ".sh", ".md"}
 
     def extract(self, text: str, host: str) -> list[Finding]:
@@ -293,18 +311,14 @@ class _DomainExtractor(Extractor):
                 continue
             if domain not in seen:
                 seen.add(domain)
-                results.append(Finding(
-                    FindingType.DOMAIN, domain,
-                    host=host, confidence=0.7
-                ))
+                results.append(Finding(FindingType.DOMAIN, domain, host=host, confidence=0.7))
         return results
 
 
 class _EmailExtractor(Extractor):
     """Extracts email addresses from tool output."""
-    _PATTERN = re.compile(
-        r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
-    )
+
+    _PATTERN = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b")
 
     def extract(self, text: str, host: str) -> list[Finding]:
         seen: set = set()
@@ -313,19 +327,19 @@ class _EmailExtractor(Extractor):
             email = m.group().lower()
             if email not in seen:
                 seen.add(email)
-                results.append(Finding(
-                    FindingType.EMAIL, email,
-                    host=host, confidence=0.9, raw=m.group()
-                ))
+                results.append(Finding(FindingType.EMAIL, email, host=host, confidence=0.9, raw=m.group()))
         return results
 
 
 class _ErrorExtractor(Extractor):
     """Detects error / failure indicators in output."""
+
     _PATTERNS = [
-        re.compile(r'(?i)(connection refused|timed? out|no route to host|access denied|'
-                   r'permission denied|authentication fail|invalid credential|'
-                   r'host unreachable)'),
+        re.compile(
+            r"(?i)(connection refused|timed? out|no route to host|access denied|"
+            r"permission denied|authentication fail|invalid credential|"
+            r"host unreachable)"
+        ),
     ]
 
     def extract(self, text: str, host: str) -> list[Finding]:
@@ -333,23 +347,21 @@ class _ErrorExtractor(Extractor):
         for pat in self._PATTERNS:
             m = pat.search(text)
             if m:
-                results.append(Finding(
-                    FindingType.ERROR, m.group(1).lower(),
-                    host=host, confidence=0.9, raw=m.group()
-                ))
+                results.append(Finding(FindingType.ERROR, m.group(1).lower(), host=host, confidence=0.9, raw=m.group()))
                 break  # one error marker is enough
         return results
 
 
 class _CloudIdentityExtractor(Extractor):
     """Extracts IAM roles, ARNs, and K8s resources from cloud tool output."""
+
     _PATTERNS = [
         # AWS ARN
-        re.compile(r'arn:aws:iam::\d{12}:[a-zA-Z0-9:/._-]+'),
+        re.compile(r"arn:aws:iam::\d{12}:[a-zA-Z0-9:/._-]+"),
         # Azure Resource ID
-        re.compile(r'/subscriptions/[a-f0-9-]{36}/resourceGroups/[a-zA-Z0-9._-]+'),
+        re.compile(r"/subscriptions/[a-f0-9-]{36}/resourceGroups/[a-zA-Z0-9._-]+"),
         # K8s resources
-        re.compile(r'\b(pod|deployment|service|namespace|secret)/[a-z0-9-]{1,63}\b'),
+        re.compile(r"\b(pod|deployment|service|namespace|secret)/[a-z0-9-]{1,63}\b"),
     ]
 
     def extract(self, text: str, host: str) -> list[Finding]:
@@ -366,10 +378,7 @@ class _CloudIdentityExtractor(Extractor):
                     else:
                         ftype = FindingType.K8S_RESOURCE
 
-                    results.append(Finding(
-                        ftype, val,
-                        host=host, confidence=0.95, raw=m.group()
-                    ))
+                    results.append(Finding(ftype, val, host=host, confidence=0.95, raw=m.group()))
         return results
 
 
@@ -377,19 +386,21 @@ class _CloudIdentityExtractor(Extractor):
 # Success heuristic
 # ---------------------------------------------------------------------------
 
+
 class _SuccessDetector:
     """
     Heuristic: decide whether a tool output represents a successful execution.
     Not a precise classifier — supplements the policy engine rather than replacing it.
     """
+
     _FAILURE_PATTERNS = re.compile(
-        r'(?i)(error|exception|failed|traceback|not found|'
-        r'connection refused|timed? out|no such file)',
+        r"(?i)(error|exception|failed|traceback|not found|"
+        r"connection refused|timed? out|no such file)",
         re.IGNORECASE,
     )
     _SUCCESS_PATTERNS = re.compile(
-        r'(?i)(open|found|success|completed|running|active|'
-        r'listening|authenticated|\[\+\])',
+        r"(?i)(open|found|success|completed|running|active|"
+        r"listening|authenticated|\[\+\])",
         re.IGNORECASE,
     )
 
@@ -408,6 +419,7 @@ class _SuccessDetector:
 # ObsParser
 # ---------------------------------------------------------------------------
 
+
 class ObsParser:
     """
     Parses raw tool output into an Observation containing typed Findings.
@@ -418,7 +430,7 @@ class ObsParser:
 
     def __init__(self) -> None:
         self._registry = _ExtractorRegistry()
-        self._success  = _SuccessDetector()
+        self._success = _SuccessDetector()
         # Register default extractors
         for ext in [
             _ServiceVersionExtractor(),
@@ -453,10 +465,10 @@ class ObsParser:
             return Observation(tool=tool, host=host, raw_output=output, success=False)
 
         findings = self._registry.run_all(output, host)
-        success  = self._success.is_success(output)
+        success = self._success.is_success(output)
 
         # Dedup: same type + value combination
-        seen:   set          = set()
+        seen: set = set()
         unique: list[Finding] = []
         for f in findings:
             key = (f.type, f.value)
@@ -466,14 +478,15 @@ class ObsParser:
 
         log.debug(
             "ObsParser parsed observation: findings=%d success=%s",
-            len(unique), success,
+            len(unique),
+            success,
         )
         return Observation(
-            findings   = unique,
-            tool       = tool,
-            host       = host,
-            raw_output = output,
-            success    = success,
+            findings=unique,
+            tool=tool,
+            host=host,
+            raw_output=output,
+            success=success,
         )
 
 
@@ -505,6 +518,7 @@ if __name__ == "__main__":
     import argparse
     import logging
     import sys
+
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Observation Parser")

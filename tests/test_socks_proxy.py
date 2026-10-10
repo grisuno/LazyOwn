@@ -324,21 +324,25 @@ class TestSocksProxyEngine:
         assert hosts == {"h1", "h2"}
 
     def test_from_dict(self):
-        engine = SocksProxyEngine.from_dict({
-            "bind_address": "0.0.0.0",
-            "bind_port": 1080,
-            "auth_methods": ["NO_AUTH"],
-        })
+        engine = SocksProxyEngine.from_dict(
+            {
+                "bind_address": "0.0.0.0",
+                "bind_port": 1080,
+                "auth_methods": ["NO_AUTH"],
+            }
+        )
         assert engine.config.bind_address == "0.0.0.0"
         assert engine.config.bind_port == 1080
 
     def test_from_payload(self):
-        engine = SocksProxyEngine.from_payload({
-            "socks_proxy": {
-                "bind_address": "127.0.0.1",
-                "bind_port": 9050,
+        engine = SocksProxyEngine.from_payload(
+            {
+                "socks_proxy": {
+                    "bind_address": "127.0.0.1",
+                    "bind_port": 9050,
+                }
             }
-        })
+        )
         assert engine.config.bind_port == 9050
 
     def test_from_payload_empty(self):

@@ -92,9 +92,7 @@ class TestSupportModulesContract:
     def test_llm_client_class_methods_present(self):
         module = _import("modules.llm_client")
         for method in ("ask", "classify", "summarize"):
-            assert callable(getattr(module.LLMClient, method, None)), (
-                f"LLMClient missing method {method}"
-            )
+            assert callable(getattr(module.LLMClient, method, None)), f"LLMClient missing method {method}"
 
     def test_ai_fallback_exposes_public_api(self):
         module = _import("modules.ai_fallback")

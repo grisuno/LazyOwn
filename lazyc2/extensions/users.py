@@ -31,8 +31,10 @@ def load_users() -> list[dict]:
     """
     try:
         from lazyc2 import _RBAC_AVAILABLE
+
         if _RBAC_AVAILABLE:
             from lazyc2 import get_rbac_store
+
             store = get_rbac_store()
             return [u.to_dict() for u in store.load_all()]
     except (ImportError, AttributeError):
@@ -51,9 +53,11 @@ def save_users(users: list[dict]) -> None:
     """
     try:
         from lazyc2 import _RBAC_AVAILABLE
+
         if _RBAC_AVAILABLE:
             from lazyc2 import get_rbac_store
             from modules.lazy_rbac import RBACUser
+
             store = get_rbac_store()
             for u_dict in users:
                 user = RBACUser.from_dict(u_dict)

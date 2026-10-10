@@ -23,6 +23,7 @@ from lazygui.services.backend import Backend
 def _get_phases():
     """Import the unified killchain phase definitions lazily."""
     from modules.killchain import KillChain as _KC
+
     return _KC.phases_for_display()
 
 
@@ -78,9 +79,7 @@ class KillChainPanel(PanelBase):
             phase_widget.setAlignment(Qt.AlignmentFlag.AlignCenter)
             phase_widget.setMinimumWidth(60)
             phase_widget.setFixedHeight(52)
-            phase_widget.setStyleSheet(
-                "border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;"
-            )
+            phase_widget.setStyleSheet("border: 1px solid #30363d; border-radius: 6px; padding: 6px; font-size: 10px;")
             bar_layout.addWidget(phase_widget)
             self._phase_widgets[ph_id] = phase_widget
 
@@ -111,7 +110,7 @@ class KillChainPanel(PanelBase):
         progress = snapshot.get("progress") or []
         current = str(snapshot.get("current_phase", "") or "")
         completed = set()
-        for p in (snapshot.get("completed_phases") or []):
+        for p in snapshot.get("completed_phases") or []:
             completed.add(str(p).strip().lower())
         for item in progress:
             if isinstance(item, dict):

@@ -57,7 +57,9 @@ class CommandPaletteWindow(QWidget):
             event.accept()
             return
         if key == Qt.Key.Key_Down:
-            self._list.setCurrentIndex(self._list.model().index(min(self._list.currentIndex().row() + 1, self._list.model().rowCount() - 1), 0))
+            self._list.setCurrentIndex(
+                self._list.model().index(min(self._list.currentIndex().row() + 1, self._list.model().rowCount() - 1), 0)
+            )
             event.accept()
             return
         if key == Qt.Key.Key_Up:

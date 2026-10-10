@@ -227,9 +227,5 @@ class Application:
         logger.setLevel(logging.INFO)
         if not logger.handlers:
             handler = logging.StreamHandler(sys.stderr)
-            handler.setFormatter(
-                logging.Formatter(
-                    "%(asctime)s %(levelname)s %(name)s: %(message)s"
-                )
-            )
+            handler.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(name)s: %(message)s"))
             logger.addHandler(handler)

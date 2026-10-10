@@ -70,8 +70,7 @@ class ConnectDialog(QDialog):
         title = QLabel("Choose backend", self)
         title.setObjectName("TitleLabel")
         subtitle = QLabel(
-            "Local console runs the cmd2 shell in this process. "
-            "Teamserver connects to a running lazyc2.py instance.",
+            "Local console runs the cmd2 shell in this process. Teamserver connects to a running lazyc2.py instance.",
             self,
         )
         subtitle.setObjectName("SubtitleLabel")

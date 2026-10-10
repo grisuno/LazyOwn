@@ -60,7 +60,9 @@ class SessionsPanel(PanelBase):
         self._filter_text: str = ""
         container = QWidget(self)
         layout = QVBoxLayout(container)
-        self._filter_bar = FilterBar(constants=constants, placeholder_text="Filter by hostname, user, IP...", parent=container)
+        self._filter_bar = FilterBar(
+            constants=constants, placeholder_text="Filter by hostname, user, IP...", parent=container
+        )
         self._tree = QTreeWidget(container)
         self._tree.setColumnCount(len(_SESSION_HEADERS))
         self._tree.setHeaderLabels(list(_SESSION_HEADERS))
@@ -113,8 +115,19 @@ class SessionsPanel(PanelBase):
         """Double-click sets the terminal target to this session."""
         identifier = item.text(_ID_COLUMN)
         self.session_selected.emit(
-            next((s for s in self._sessions if s.identifier == identifier),
-                 Session(identifier=identifier, hostname="", operating_system="", process_id="", user="", ip_addresses="", discovered_ips="", last_command=""))
+            next(
+                (s for s in self._sessions if s.identifier == identifier),
+                Session(
+                    identifier=identifier,
+                    hostname="",
+                    operating_system="",
+                    process_id="",
+                    user="",
+                    ip_addresses="",
+                    discovered_ips="",
+                    last_command="",
+                ),
+            )
         )
 
     def _on_context_menu(self, position) -> None:
@@ -136,7 +149,9 @@ class SessionsPanel(PanelBase):
         shell_action.triggered.connect(lambda: self.session_selected.emit(session))
 
         scan_action = menu.addAction("Port Scan")
-        scan_action.triggered.connect(lambda: self._backend.send_command(f"lazynmap {session.ip_addresses}", target_session=identifier))
+        scan_action.triggered.connect(
+            lambda: self._backend.send_command(f"lazynmap {session.ip_addresses}", target_session=identifier)
+        )
 
         menu.addSeparator()
 

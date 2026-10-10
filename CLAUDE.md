@@ -54,8 +54,9 @@ This is not a guideline. It is the single most important security rule in this c
 ```python
 import os
 
+
 def safe_path(user_input: str, allowed_dir: str, prefix: str = "") -> str:
-    sanitized = ''.join(c for c in str(user_input) if c.isalnum() or c in '-_.')
+    sanitized = "".join(c for c in str(user_input) if c.isalnum() or c in "-_.")
     if not sanitized:
         raise ValueError("Invalid input")
     allowed = os.path.realpath(allowed_dir)

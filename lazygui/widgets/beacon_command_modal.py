@@ -211,9 +211,7 @@ class BeaconCommandModal(QDialog):
         cmd = str(result.command or "")
         text = f"\n=== [{result.client_id}] {cmd} ===\n{result.output}\n=== END ===\n"
         self._output_view.appendPlainText(text)
-        self._history.append(
-            _HistoryEntry(client_id=result.client_id, command=cmd, output=result.output)
-        )
+        self._history.append(_HistoryEntry(client_id=result.client_id, command=cmd, output=result.output))
 
     def open(self) -> None:  # noqa: A003 - Qt API override
         """Populate sessions before showing."""

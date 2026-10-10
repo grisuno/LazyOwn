@@ -114,7 +114,9 @@ def track_interaction(short_url):
         conn.close()
     except Exception:
         logging.exception("Failed to log tracking event")
-    return render_template("tracking_page.html", short_url=short_url, original_url=short_urls[short_url]["original_url"])
+    return render_template(
+        "tracking_page.html", short_url=short_url, original_url=short_urls[short_url]["original_url"]
+    )
 
 
 @redirect_bp.route("/update_short_url/<short_url>", methods=["PUT"])

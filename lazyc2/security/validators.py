@@ -34,9 +34,9 @@ def validate_route_path(route_path: str) -> tuple[bool, str]:
         return False, "Route path is empty"
     if len(route_path) > MAX_ROUTE_PATH_LENGTH:
         return False, f"Route path exceeds {MAX_ROUTE_PATH_LENGTH} characters"
-    if route_path.startswith('.') or route_path.startswith('/'):
+    if route_path.startswith(".") or route_path.startswith("/"):
         return False, "Route path must not start with '.' or '/'"
-    if '..' in route_path:
+    if ".." in route_path:
         return False, "Route path contains path traversal sequence"
     if not ROUTE_PATH_PATTERN.match(route_path):
         return False, "Route path contains invalid characters"
@@ -56,9 +56,9 @@ def validate_template_name(template_name: str) -> tuple[bool, str]:
         return False, "Template name is empty"
     if len(template_name) > MAX_TEMPLATE_NAME_LENGTH:
         return False, f"Template name exceeds {MAX_TEMPLATE_NAME_LENGTH} characters"
-    if not template_name.endswith('.html'):
+    if not template_name.endswith(".html"):
         return False, "Template name must end with '.html'"
-    if '..' in template_name or '/' in template_name or '\\' in template_name:
+    if ".." in template_name or "/" in template_name or "\\" in template_name:
         return False, "Template name contains path separators"
     if not TEMPLATE_NAME_PATTERN.match(template_name):
         return False, "Template name contains invalid characters"
@@ -76,7 +76,7 @@ def validate_yaml_filename(filename: str) -> tuple[bool, str]:
     """
     if not filename:
         return False, "Filename is empty"
-    if '..' in filename or '/' in filename or '\\' in filename:
+    if ".." in filename or "/" in filename or "\\" in filename:
         return False, "Filename contains path separators"
     if not YAML_FILENAME_PATTERN.match(filename):
         return False, "Filename must end with '.yaml' or '.yml'"

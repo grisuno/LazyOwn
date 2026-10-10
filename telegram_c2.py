@@ -23,15 +23,15 @@ class SecureSessionManager:
 
     def register_failed_attempt(self, user_id: int):
         if user_id not in self.failed_attempts:
-            self.failed_attempts[user_id] = {'count': 1, 'timestamp': time.time()}
+            self.failed_attempts[user_id] = {"count": 1, "timestamp": time.time()}
         else:
-            self.failed_attempts[user_id]['count'] += 1
-            self.failed_attempts[user_id]['timestamp'] = time.time()
+            self.failed_attempts[user_id]["count"] += 1
+            self.failed_attempts[user_id]["timestamp"] = time.time()
 
     def check_lockout(self, user_id: int) -> bool:
         attempt = self.failed_attempts.get(user_id)
-        if attempt and attempt['count'] >= MAX_FAILED_ATTEMPTS:
-            if (time.time() - attempt['timestamp']) < 3600:
+        if attempt and attempt["count"] >= MAX_FAILED_ATTEMPTS:
+            if (time.time() - attempt["timestamp"]) < 3600:
                 return True
             else:
                 del self.failed_attempts[user_id]
@@ -52,11 +52,10 @@ class SecureSessionManager:
 
     def create_session(self, user_id: int, client_id: str):
         self.sessions[user_id] = {
-            'user_id': user_id,
-            'client_id': client_id,
-            'session_start': time.time(),
-            'last_activity': time.time()
-
+            "user_id": user_id,
+            "client_id": client_id,
+            "session_start": time.time(),
+            "last_activity": time.time(),
         }
 
     def validate_session(self, user_id: int) -> bool:
@@ -64,15 +63,16 @@ class SecureSessionManager:
         if not session:
             return False
 
-        if (time.time() - session['last_activity']) > SESSION_TIMEOUT:
+        if (time.time() - session["last_activity"]) > SESSION_TIMEOUT:
             del self.sessions[user_id]
             return False
 
-        session['last_activity'] = time.time()
+        session["last_activity"] = time.time()
         return True
 
 
 session_manager = SecureSessionManager()
+
 
 class Config:
     def __init__(self, config_dict):
@@ -83,10 +83,12 @@ class Config:
     def __getitem__(self, key):
         return getattr(self, key, None)
 
+
 def load_payload():
-    with open('payload.json', 'r') as file:
+    with open("payload.json", "r") as file:
         config = json.load(file)
     return config
+
 
 async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
@@ -102,15 +104,14 @@ async def start(update: Update, context: CallbackContext) -> None:
     if context.args[0] == c2_pass:
         session_manager.create_session(user_id, client_id=None)
         await update.message.reply_text(
-            "h1! 1 4m 4 b0t to APT/RedTeaming .\n"
-            "excec a command!\n"
-            "use /start beggin the RedTeam LazyOwnBot."
+            "h1! 1 4m 4 b0t to APT/RedTeaming .\nexcec a command!\nuse /start beggin the RedTeam LazyOwnBot."
         )
         user_games[user_id] = random.randint(1, 100)
 
     else:
         await update.message.reply_text("Enter the secret, Usage: /start <secret>")
         return
+
 
 async def exce_cmd(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
@@ -136,7 +137,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
             commands_history = {}
             os_data = {}
             pid = {}
-            hostname= {}
+            hostname = {}
             ips = {}
             user = {}
             print(update)
@@ -160,18 +161,18 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
                 time.sleep(3)
 
                 if os.path.isfile(csv_file):
-                    with open(csv_file, 'r') as f:
+                    with open(csv_file, "r") as f:
                         reader = csv.DictReader(f)
                         rows = list(reader)
                         if rows:
                             commands_history[client_id] = [rows[-1]]
-                            os_data[client_id] = rows[-1]['os']
-                            pid[client_id] = rows[-1]['pid']
-                            hostname[client_id] = rows[-1]['hostname']
-                            ips[client_id] = rows[-1]['ips']
-                            user[client_id] = rows[-1]['user']
+                            os_data[client_id] = rows[-1]["os"]
+                            pid[client_id] = rows[-1]["pid"]
+                            hostname[client_id] = rows[-1]["hostname"]
+                            ips[client_id] = rows[-1]["ips"]
+                            user[client_id] = rows[-1]["user"]
                             print(commands_history[client_id])
-                            output2 = commands_history[client_id][0]['output']
+                            output2 = commands_history[client_id][0]["output"]
 
         else:
             output = shell.one_cmd(user_guess)
@@ -186,6 +187,7 @@ async def exce_cmd(update: Update, context: CallbackContext) -> None:
     except ValueError:
         await update.message.reply_text("Criptic Error")
 
+
 async def add_cli(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
     if not context.args:
@@ -196,6 +198,7 @@ async def add_cli(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(f"Client ID '{client_id}' Configuring the target...")
     print(client_id)
     print(user_id)
+
 
 async def handle_file(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
@@ -222,6 +225,7 @@ async def handle_file(update: Update, context: CallbackContext) -> None:
     else:
         print("no clients")
         await update.message.reply_text("No client ID set. Use /addcli <client_id> first.")
+
 
 async def download_c2(update: Update, context: CallbackContext) -> None:
     """
@@ -256,10 +260,13 @@ async def download_c2(update: Update, context: CallbackContext) -> None:
         file_name = parts[1]
         output = shell.onecmd(f"download_c2 {clientid} {file_name}")
     else:
-        await update.message.reply_text("Error: Invalid input format. Use '/download_c2 <client_id> <file_name>' or '/download_c2 <file_name>'.")
+        await update.message.reply_text(
+            "Error: Invalid input format. Use '/download_c2 <client_id> <file_name>' or '/download_c2 <file_name>'."
+        )
         return
 
     await update.message.reply_text(f"Download response: {output}")
+
 
 async def send_connected_clients(update: Update, context: CallbackContext):
     try:
@@ -275,6 +282,7 @@ async def send_connected_clients(update: Update, context: CallbackContext):
     except Exception as e:
         await update.message.reply_text(f"Error: {str(e)}")
 
+
 async def main() -> None:
     application = Application.builder().token(telegram_token).build()
     application.add_handler(CommandHandler("start", start))
@@ -287,6 +295,7 @@ async def main() -> None:
 
     await application.run_polling()
 
+
 nest_asyncio.apply()
 config = Config(load_payload())
 telegram_token = config.telegram_token
@@ -298,13 +307,13 @@ lhost = config.lhost
 c2_port = config.c2_port
 c2_pass = config.c2_pass
 shell = LazyOwnShell()
-shell.onecmd('p')
-shell.onecmd('create_session_json')
+shell.onecmd("p")
+shell.onecmd("create_session_json")
 SESSION_TIMEOUT = 1800
 MAX_FAILED_ATTEMPTS = 3
 RATE_LIMIT = 5
 user_games = {}
-client_id = ''
+client_id = ""
 FLASK_API_URL = f"https://{lhost}:{c2_port}/get_connected_clients"
 if __name__ == "__main__":
     if ENTABLEIA:

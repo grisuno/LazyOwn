@@ -52,6 +52,7 @@ class TextualBridge(App):
     def execute_command(self, cmd: str):
         def _run():
             self.shell.onecmd(cmd)
+
         self.run_worker(_run, thread=True)
 ```
 
@@ -74,6 +75,7 @@ class ScanCommands(LazyOwnCommandSet):
     @with_category("02. Scanning")
     def do_nmap(self, args):
         run_command(f"nmap {args}")
+
 
 # NEW: Textual widget + command handler
 class ScanPanel(Static):

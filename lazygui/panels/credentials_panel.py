@@ -128,10 +128,7 @@ class CredentialsPanel(PanelBase):
         self._loot_label.setText(f"Loot ({len(loot)})")
 
     def _copy_selected(self) -> None:
-        selected = (
-            self._creds_list.currentItem()
-            or self._hashes_list.currentItem()
-        )
+        selected = self._creds_list.currentItem() or self._hashes_list.currentItem()
         if selected is None:
             return
         value = selected.data(Qt.ItemDataRole.UserRole) or selected.text()

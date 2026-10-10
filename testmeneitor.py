@@ -6,8 +6,9 @@ import subprocess
 import sys
 import unittest
 
-EXCLUDED_FUNCTIONS = {'__init__', 'default', 'one_cmd', 'qa', 'getseclist'}
+EXCLUDED_FUNCTIONS = {"__init__", "default", "one_cmd", "qa", "getseclist"}
 TIMEOUT = 0.1
+
 
 def extract_functions(script_path):
     with open(script_path, "r") as file:
@@ -24,6 +25,7 @@ def extract_functions(script_path):
             functions.append(func_name)
 
     return functions
+
 
 def run_tests_with_script(script_path, functions):
     spec = importlib.util.spec_from_file_location("module.name", script_path)
@@ -42,17 +44,26 @@ def run_tests_with_script(script_path, functions):
         if callable(func):
             setattr(
                 TestFunctions,
-                f'test_{func_name}',
-                lambda self, func=func, name=func_name: self.assertIsNotNone(func(), f"Function {name} failed.")
+                f"test_{func_name}",
+                lambda self, func=func, name=func_name: self.assertIsNotNone(func(), f"Function {name} failed."),
             )
 
     unittest.TextTestRunner().run(unittest.TestLoader().loadTestsFromTestCase(TestFunctions))
 
+
 def run_command_with_timeout(command, timeout):
-    process = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, preexec_fn=os.setsid)
+    process = subprocess.Popen(
+        command,
+        shell=True,
+        stdin=subprocess.PIPE,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        text=True,
+        preexec_fn=os.setsid,
+    )
 
     try:
-        process.stdin.write('qa\n')
+        process.stdin.write("qa\n")
         process.stdin.flush()
         stdout, stderr = process.communicate(timeout=timeout)
         return process.returncode, stdout, stderr
@@ -64,6 +75,7 @@ def run_command_with_timeout(command, timeout):
             os.killpg(os.getpgid(process.pid), signal.SIGKILL)
         except ProcessLookupError:
             pass
+
 
 def run_tests_with_bash(script_path, functions):
     for func_name in functions:
@@ -86,6 +98,7 @@ def run_tests_with_bash(script_path, functions):
     print(f"[+] Running command: {command}")
     returncode, stdout, stderr = run_command_with_timeout(command, TIMEOUT)
 
+
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: ./testmineitor.py /path/to/script.py")
@@ -99,7 +112,7 @@ if __name__ == "__main__":
 
     functions = extract_functions(script_path)
 
-    if 'lazyown.py' in script_path:
+    if "lazyown.py" in script_path:
         print(f"[+] Running tests using Bash script for {script_path}")
         run_tests_with_bash(script_path, functions)
     else:

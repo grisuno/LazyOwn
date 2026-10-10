@@ -140,6 +140,7 @@ def run_lazyown_command(command: str, timeout: int = 30) -> str:
             pass
         return f"[error] {exc}"
 
+
 # ── Helper: C2 API request ──────────────────────────────────────────────────────
 def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict:
     host = config.get("lhost", "127.0.0.1")
@@ -149,6 +150,7 @@ def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict
     url = f"https://{host}:{port}{path}"
 
     import base64
+
     token = base64.b64encode(f"{user}:{passwd}".encode()).decode()
     headers = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
 
@@ -170,6 +172,7 @@ def c2_request(path: str, method: str = "GET", body: dict | None = None) -> dict
     except Exception as exc:
         return {"_error": str(exc)}
 
+
 # ── Helper: load/save payload ───────────────────────────────────────────────────
 def load_payload() -> dict:
     try:
@@ -177,6 +180,7 @@ def load_payload() -> dict:
             return json.load(f)
     except Exception:
         return {}
+
 
 # ── Secure Session Manager ─────────────────────────────────────────────────────
 class SecureSessionManager:
@@ -206,9 +210,7 @@ class SecureSessionManager:
         if user_id not in self.command_timestamps:
             self.command_timestamps[user_id] = []
 
-        self.command_timestamps[user_id] = [
-            t for t in self.command_timestamps[user_id] if now - t < 60
-        ]
+        self.command_timestamps[user_id] = [t for t in self.command_timestamps[user_id] if now - t < 60]
 
         if len(self.command_timestamps[user_id]) >= RATE_LIMIT:
             return False
@@ -249,13 +251,12 @@ session_manager = SecureSessionManager()
 
 # ── Telegram Handlers ─────────────────────────────────────────────────────────
 
+
 async def start(update: Update, context: CallbackContext) -> None:
     user_id = update.message.from_user.id
 
     if session_manager.check_lockout(user_id):
-        await update.message.reply_text(
-            "[SECURITY] Account locked due to brute-force attempts. Wait 1 hour."
-        )
+        await update.message.reply_text("[SECURITY] Account locked due to brute-force attempts. Wait 1 hour.")
         return
 
     if not context.args:
@@ -321,9 +322,7 @@ async def execute_command(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(f"Executing: {command}")
 
     try:
-        output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: run_lazyown_command(command, timeout=60)
-        )
+        output = await asyncio.get_event_loop().run_in_executor(None, lambda: run_lazyown_command(command, timeout=60))
         output = strip_ansi(output)
 
         # Truncate if too long for Telegram (4096 limit)
@@ -381,7 +380,9 @@ async def config_cmd(update: Update, context: CallbackContext) -> None:
         cfg = load_payload()
         # Mask sensitive keys
         safe = {k: v for k, v in cfg.items() if k not in ("api_key", "c2_pass", "telegram_token")}
-        await update.message.reply_text(f"Current config:\n```\n{json.dumps(safe, indent=2)}\n```", parse_mode="Markdown")
+        await update.message.reply_text(
+            f"Current config:\n```\n{json.dumps(safe, indent=2)}\n```", parse_mode="Markdown"
+        )
         return
 
     if len(context.args) < 2:
@@ -482,10 +483,14 @@ async def c2_command(update: Update, context: CallbackContext) -> None:
     command = " ".join(context.args)
 
     try:
-        result = c2_request("/api/command", method="POST", body={
-            "client_id": client_id,
-            "command": command,
-        })
+        result = c2_request(
+            "/api/command",
+            method="POST",
+            body={
+                "client_id": client_id,
+                "command": command,
+            },
+        )
         if "_error" in result or "error" in result:
             await update.message.reply_text(f"C2 Error: {result}")
             return
@@ -503,10 +508,7 @@ async def run_agent(update: Update, context: CallbackContext) -> None:
         return
 
     if not context.args:
-        await update.message.reply_text(
-            "Usage: /agent <goal>\n"
-            "Example: /agent Enumerate SMB shares on rhost"
-        )
+        await update.message.reply_text("Usage: /agent <goal>\nExample: /agent Enumerate SMB shares on rhost")
         return
 
     goal = " ".join(context.args)
@@ -536,8 +538,7 @@ async def delegate_task_cmd(update: Update, context: CallbackContext) -> None:
 
     if not context.args:
         await update.message.reply_text(
-            "Usage: /delegate <goal>\n"
-            "Delegates to a Hermes subagent for parallel processing."
+            "Usage: /delegate <goal>\nDelegates to a Hermes subagent for parallel processing."
         )
         return
 
@@ -690,18 +691,21 @@ async def handle_file_upload(update: Update, context: CallbackContext) -> None:
 
     if client_id:
         try:
-            result = c2_request("/api/upload", method="POST", body={
-                "client_id": client_id,
-                "file_path": str(file_path),
-            })
+            result = c2_request(
+                "/api/upload",
+                method="POST",
+                body={
+                    "client_id": client_id,
+                    "file_path": str(file_path),
+                },
+            )
             output = result.get("output", result.get("result", "<no response>"))
             await update.message.reply_text(f"Uploaded to implant {client_id}:\n{output}")
         except Exception as exc:
             await update.message.reply_text(f"Upload error: {exc}")
     else:
         await update.message.reply_text(
-            f"File saved locally: {file_path}\n"
-            "No C2 client set. Use /addcli <client_id> to upload to implant."
+            f"File saved locally: {file_path}\nNo C2 client set. Use /addcli <client_id> to upload to implant."
         )
 
 
@@ -735,10 +739,14 @@ async def text_command(update: Update, context: CallbackContext) -> None:
 
         c2_cmd = parts[1]
         try:
-            result = c2_request("/api/command", method="POST", body={
-                "client_id": client_id,
-                "command": c2_cmd,
-            })
+            result = c2_request(
+                "/api/command",
+                method="POST",
+                body={
+                    "client_id": client_id,
+                    "command": c2_cmd,
+                },
+            )
             output = result.get("output", result.get("result", "<no output>"))
             await update.message.reply_text(f"C2 Response:\n```\n{output}\n```", parse_mode="Markdown")
         except Exception as exc:
@@ -749,9 +757,7 @@ async def text_command(update: Update, context: CallbackContext) -> None:
     await update.message.reply_text(f"Executing: {command}")
 
     try:
-        output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: run_lazyown_command(command, timeout=60)
-        )
+        output = await asyncio.get_event_loop().run_in_executor(None, lambda: run_lazyown_command(command, timeout=60))
         output = strip_ansi(output)
 
         if len(output) > 4000:
@@ -804,7 +810,9 @@ if __name__ == "__main__":
     if not telegram_token:
         print("[ERROR] telegram_token not set in payload.json")
         print("Get a token from @BotFather and set it with:")
-        print("  python3 -c \"import json; p=json.load(open('payload.json')); p['telegram_token']='YOUR_TOKEN'; json.dump(p,open('payload.json','w'),indent=2)\"")
+        print(
+            "  python3 -c \"import json; p=json.load(open('payload.json')); p['telegram_token']='YOUR_TOKEN'; json.dump(p,open('payload.json','w'),indent=2)\""
+        )
         sys.exit(1)
 
     print("[INFO] LazyOwn Hermes Bot starting...")

@@ -19,9 +19,7 @@ class User(UserMixin):
         self.username = user_data["username"]
         self.password_hash = user_data["password_hash"]
         self.elo = user_data.get("elo", 0)
-        self.role = user_data.get(
-            "role", ROLE_DEFAULT if _RBAC_AVAILABLE else "operator"
-        )
+        self.role = user_data.get("role", ROLE_DEFAULT if _RBAC_AVAILABLE else "operator")
         self.mfa_enabled = user_data.get("mfa_enabled", False)
         self.mfa_secret = user_data.get("mfa_secret", "")
         self.recovery_codes = user_data.get("recovery_codes", [])

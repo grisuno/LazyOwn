@@ -19,6 +19,7 @@ TEST_LATENCY_TIME = 5
 
 backend = default_backend()
 
+
 # === FUNCIONES DE CIFRADO/DESCIFRADO (iguales al C2) ===
 def encrypt_data(data: bytes) -> str:
     iv = os.urandom(16)
@@ -26,7 +27,8 @@ def encrypt_data(data: bytes) -> str:
     encryptor = cipher.encryptor()
     encrypted_data = encryptor.update(data) + encryptor.finalize()
     combined = iv + encrypted_data
-    return base64.b64encode(combined).decode('utf-8')
+    return base64.b64encode(combined).decode("utf-8")
+
 
 def decrypt_data(b64_data: str) -> str:
     encrypted_data = base64.b64decode(b64_data)
@@ -35,4 +37,4 @@ def decrypt_data(b64_data: str) -> str:
     cipher = Cipher(algorithms.AES(AES_KEY), modes.CFB(iv), backend=backend)
     decryptor = cipher.decryptor()
     decrypted = decryptor.update(ciphertext) + decryptor.finalize()
-    return decrypted.decode('utf-8')
+    return decrypted.decode("utf-8")

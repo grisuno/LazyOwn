@@ -146,6 +146,7 @@ class Backend(QObject):
         try:
             import json
             from pathlib import Path
+
             sessions_dir = Path("sessions")
             wm_path = sessions_dir / "world_model.json"
             if wm_path.exists():
@@ -173,17 +174,20 @@ class Backend(QObject):
         result: dict[str, list] = {"credentials": [], "hashes": [], "loot": []}
         try:
             from pathlib import Path
+
             sessions_dir = Path("sessions")
             for fpath in sorted(sessions_dir.glob("credentials*.txt")):
                 for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
                     line = line.strip()
                     if line and not line.startswith("#"):
                         parts = line.split(":", 2)
-                        result["credentials"].append({
-                            "username": parts[0] if parts else "",
-                            "type": parts[1] if len(parts) > 1 else "password",
-                            "source": fpath.name,
-                        })
+                        result["credentials"].append(
+                            {
+                                "username": parts[0] if parts else "",
+                                "type": parts[1] if len(parts) > 1 else "password",
+                                "source": fpath.name,
+                            }
+                        )
             for fpath in sorted(sessions_dir.glob("hash*")):
                 for line in fpath.read_text(encoding="utf-8", errors="ignore").splitlines():
                     line = line.strip()

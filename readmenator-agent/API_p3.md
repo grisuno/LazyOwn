@@ -1,5 +1,57 @@
-# API (page 3 of 20)
+# API (page 3 of 21)
 Previous: [API_p2.md](API_p2.md)
+
+## cli/commands/postexp.py
+Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
+- `PostExploitationCommandSet.do_lazywebshell` (method) `cli/commands/postexp.py:32` `def do_lazywebshell(self, line)` -- Run LazyOwn webshell server on port 8888.
+- `PostExploitationCommandSet.do_disableav` (method) `cli/commands/postexp.py:45` `def do_disableav(self, line)` -- Create a VBS script to attempt disabling Windows Defender.
+- `PostExploitationCommandSet.do_mimikatzpy` (method) `cli/commands/postexp.py:59` `def do_mimikatzpy(self, line)` -- Run Mimikatz over Python (impacket style).
+- `PostExploitationCommandSet.do_scavenger` (method) `cli/commands/postexp.py:64` `def do_scavenger(self, line)` -- Run the Scavenger post-exploitation data collector.
+- `PostExploitationCommandSet.do_follina` (method) `cli/commands/postexp.py:69` `def do_follina(self, line)` -- Run the Follina (CVE-2022-30190) exploit setup.
+- `PostExploitationCommandSet.do_shellcode` (method) `cli/commands/postexp.py:74` `def do_shellcode(self, line)` -- Generate and manage shellcode.
+- `PostExploitationCommandSet.do_ofuscatorps1` (method) `cli/commands/postexp.py:82` `def do_ofuscatorps1(self, line)` -- Obfuscate a PowerShell script.
+- `PostExploitationCommandSet.do_atomic_lazyown` (method) `cli/commands/postexp.py:87` `def do_atomic_lazyown(self, line)` -- Execute atomic red-team tests via LazyOwn.
+
+## cli/commands/postexp_migrated.py
+Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
+- `PostexpMigratedCommandSet.do_find` (method) `cli/commands/postexp_migrated.py:37` `def do_find(self, line)` -- Automates command execution based on a list of aliases and commands.
+- `PostexpMigratedCommandSet.do_cports` (method) `cli/commands/postexp_migrated.py:533` `def do_cports(self, line)` -- Generates a command to display TCP and UDP ports and copies it to the clipboard.
+- `PostexpMigratedCommandSet.do_rubeus` (method) `cli/commands/postexp_migrated.py:578` `def do_rubeus(self, line)` -- Copies a command to the clipboard for downloading and running Rubeus.
+- `PostexpMigratedCommandSet.do_sessionsshstrace` (method) `cli/commands/postexp_migrated.py:618` `def do_sessionsshstrace(self, line)` -- Attach strace to a running process and log output to a file.
+- `PostexpMigratedCommandSet.do_powershell_cmd_stager` (method) `cli/commands/postexp_migrated.py:669` `def do_powershell_cmd_stager(self, line)` -- Generate and execute a PowerShell command stager to run a .ps1 script.
+- `PostexpMigratedCommandSet.do_shellcode_search` (method) `cli/commands/postexp_migrated.py:706` `def do_shellcode_search(self, line)` -- Search the shell-storm API for shellcodes using the provided keywords.
+- `PostexpMigratedCommandSet.do_shellcode2sylk` (method) `cli/commands/postexp_migrated.py:754` `def do_shellcode2sylk(self, line)` -- Converts shellcode to SYLK format and saves the result to a file.
+- `PostexpMigratedCommandSet.do_pezorsh` (method) `cli/commands/postexp_migrated.py:799` `def do_pezorsh(self, line)` -- Executes the PEzor tool to pack executables or shellcode with custom configurations.
+- `PostexpMigratedCommandSet.do_pip_repo` (method) `cli/commands/postexp_migrated.py:872` `def do_pip_repo(self, line)` -- Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet...
+- `PostexpMigratedCommandSet.do_apt_repo` (method) `cli/commands/postexp_migrated.py:984` `def do_apt_repo(self, line)` -- Creates a comprehensive local APT repository with enhanced dependency resolution.
+- `PostexpMigratedCommandSet.resolve_and_download_dependencies` (method) `cli/commands/postexp_migrated.py:1030` `def resolve_and_download_dependencies(package_name)` -- Recursively resolve and download package dependencies with enhanced checks
+- `PostexpMigratedCommandSet.do_createpayload` (method) `cli/commands/postexp_migrated.py:1233` `def do_createpayload(self, line)` -- Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
+- `PostexpMigratedCommandSet.do_bin2shellcode` (method) `cli/commands/postexp_migrated.py:1285` `def do_bin2shellcode(self, line)` -- Converts a binary file to a shellcode string in C or Nim format.
+- `PostexpMigratedCommandSet.do_exe2bin` (method) `cli/commands/postexp_migrated.py:1375` `def do_exe2bin(self, line)` -- Trasnform file .exe into binary file.
+- `PostexpMigratedCommandSet.do_exe2donutbin` (method) `cli/commands/postexp_migrated.py:1402` `def do_exe2donutbin(self, line)` -- Trasnform file .exe into donut binary file.
+- `PostexpMigratedCommandSet.do_issue_command_to_c2` (method) `cli/commands/postexp_migrated.py:1426` `def do_issue_command_to_c2(self, line)` -- Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use...
+- `PostexpMigratedCommandSet.do_d3monizedshell` (method) `cli/commands/postexp_migrated.py:1450` `def do_d3monizedshell(self, line)` -- Executes the D3m0n1z3dShell tool for persistence in Linux.
+- `PostexpMigratedCommandSet.do_scp` (method) `cli/commands/postexp_migrated.py:1483` `def do_scp(self, line)` -- Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
+- `PostexpMigratedCommandSet.do_apt_proxy` (method) `cli/commands/postexp_migrated.py:1579` `def do_apt_proxy(self, line)` -- Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_pip_proxy` (method) `cli/commands/postexp_migrated.py:1635` `def do_pip_proxy(self, line)` -- Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_internet_proxy` (method) `cli/commands/postexp_migrated.py:1693` `def do_internet_proxy(self, line)` -- Configures the local machine with internet access to act as a proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_shellcode2elf` (method) `cli/commands/postexp_migrated.py:1755` `def do_shellcode2elf(self, line)` -- Convert shellcode into an ELF file and infect it.
+- `PostexpMigratedCommandSet.do_ssh_cmd` (method) `cli/commands/postexp_migrated.py:1837` `def do_ssh_cmd(self, line)` -- Perform Remote Execution Command through SSH using configured start_user.
+- `PostexpMigratedCommandSet.do_service_ssh` (method) `cli/commands/postexp_migrated.py:1866` `def do_service_ssh(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+- `PostexpMigratedCommandSet.do_ofuscatesh` (method) `cli/commands/postexp_migrated.py:1940` `def do_ofuscatesh(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+- `PostexpMigratedCommandSet.do_ofuscate_payload` (method) `cli/commands/postexp_migrated.py:1970` `def do_ofuscate_payload(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+- `PostexpMigratedCommandSet.do_adversary` (method) `cli/commands/postexp_migrated.py:1997` `def do_adversary(self, line)` -- LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
+- `PostexpMigratedCommandSet.do_ofuscate_string` (method) `cli/commands/postexp_migrated.py:2145` `def do_ofuscate_string(self, line)` -- Ofuscate a string into Go code.
+- `PostexpMigratedCommandSet.do_path2hex` (method) `cli/commands/postexp_migrated.py:2187` `def do_path2hex(self, line)` -- Convert a binary path to x64 little-endian hex code for shellcode injection.
+- `PostexpMigratedCommandSet.do_hex2shellcode` (method) `cli/commands/postexp_migrated.py:2234` `def do_hex2shellcode(self, line)` -- Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
+- `PostexpMigratedCommandSet.do_create_synthetic` (method) `cli/commands/postexp_migrated.py:2291` `def do_create_synthetic(self, line)` -- Create a basic synthetic playbook from Nmap CSV when LLM fails.
+- `PostexpMigratedCommandSet.do_extract_yaml` (method) `cli/commands/postexp_migrated.py:2343` `def do_extract_yaml(self, line)` -- Extract YAML from an existing debug file and try to create a playbook.
+- `PostexpMigratedCommandSet.do_convert_remcomsvc_from_file` (method) `cli/commands/postexp_migrated.py:2405` `def do_convert_remcomsvc_from_file(self, arg)` -- Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves...
+- `PostexpMigratedCommandSet.do_adversary_yaml` (method) `cli/commands/postexp_migrated.py:2439` `def do_adversary_yaml(self, line)` -- Execute adversary from YAML in lazyadversaries/*.yaml Syntax: adversary [id] [l|r|n]
+- `PostexpMigratedCommandSet.do_add2find` (method) `cli/commands/postexp_migrated.py:2524` `def do_add2find(self, line)` -- Add a new custom command to the 'find' system, saved in user_commands.json.
+- `PostexpMigratedCommandSet.do_rmfromfind` (method) `cli/commands/postexp_migrated.py:2552` `def do_rmfromfind(self, line)` -- Remove a custom command by index (as shown in 'find').
+- `PostexpMigratedCommandSet.do_aes_pe` (method) `cli/commands/postexp_migrated.py:2581` `def do_aes_pe(self, line)` -- Encrypt with AES and random key to PE EXE file, to usage with loaders.
+- `PostexpMigratedCommandSet.do_yara_scan` (method) `cli/commands/postexp_migrated.py:2610` `def do_yara_scan(self, line)` -- Scan files or directories with YARA rules for malware/IOCs.
 
 ## cli/commands/privilege_escalation.py
 Depends on: `cli/commands/_base.py`, `utils.py`
@@ -31,15 +83,15 @@ Depends on: `cli/commands/_base.py`, `cli/purple_tui.py`, `core/config.py`, `mod
 - `PurpleTeamCommandSet.do_purple_history` (method) `cli/commands/purple_team.py:367` `def do_purple_history(self, args)` -- Show recent purple team action results.
 
 ## cli/commands/pwn.py
-Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
+Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 - `PwnCommandSet.do_auto_pwn` (method) `cli/commands/pwn.py:35` `def do_auto_pwn(self, line)` -- Run the full autonomous exploitation chain against the target.
-- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:99` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
-- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:148` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
-- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:235` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
-- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:292` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
-- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:384` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
-- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:412` `def do_stealth_off(self, line)` -- Disable stealth mode.
+- `PwnCommandSet.do_rich_tui` (method) `cli/commands/pwn.py:108` `def do_rich_tui(self, line)` -- Launch the Rich-based live dashboard TUI.
+- `PwnCommandSet.do_exploit_chain` (method) `cli/commands/pwn.py:157` `def do_exploit_chain(self, line)` -- AI-driven multi-step exploit chaining with fallback strategies.
+- `PwnCommandSet.do_lolbas_list` (method) `cli/commands/pwn.py:244` `def do_lolbas_list(self, line)` -- List available LOLBAS (Living Off The Land) techniques from plugins.
+- `PwnCommandSet.do_lolbas_use` (method) `cli/commands/pwn.py:301` `def do_lolbas_use(self, line)` -- Execute a specific LOLBAS technique.
+- `PwnCommandSet.do_stealth_on` (method) `cli/commands/pwn.py:393` `def do_stealth_on(self, line)` -- Enable stealth mode for subsequent operations.
+- `PwnCommandSet.do_stealth_off` (method) `cli/commands/pwn.py:421` `def do_stealth_off(self, line)` -- Disable stealth mode.
 
 ## cli/commands/recon.py
 Depends on: `cli/commands/_base.py`, `cli/exploit_advisor.py`, `cli/lazynmap_post.py`, `core/console.py`, `modules/intelligence_engine.py`, `utils.py`
@@ -184,7 +236,7 @@ Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/
 - `SecurityCommandSet.complete_crack_hashes` (method) `cli/commands/security.py:276` `def complete_crack_hashes(self, text, line, begidx, endidx)`
 
 ## cli/commands/session_ops.py
-Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`, `utils.py`
+Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
 Imported by: `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:79` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
 - `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:104` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
@@ -201,22 +253,24 @@ Imported by: `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:550` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
 - `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:589` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
 - `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:640` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
-- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:684` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
-- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:735` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
-- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:862` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
-- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:953` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
-- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:985` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
-- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1067` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
-- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1089` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
-- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1127` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
-- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1160` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
-- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1191` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
-- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1240` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
-- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1281` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
-- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1329` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
-- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1341` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
-- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1391` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
-- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1437` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+- `SessionOpsCommandSet.do_frontier` (method) `cli/commands/session_ops.py:684` `def do_frontier(self, line)` -- Preview the planner intents the autonomous loops would run next.
+- `SessionOpsCommandSet.do_traces` (method) `cli/commands/session_ops.py:730` `def do_traces(self, line)` -- Show recent autonomous step traces with evidence and traffic ids.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:811` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:862` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:989` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:1080` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:1112` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1202` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1224` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1262` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1295` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1326` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1375` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1416` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1464` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1476` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1526` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1572` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
@@ -252,6 +306,11 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 - `SupplyChainCommandSet.do_depscan` (method) `cli/commands/supply_chain.py:216` `def do_depscan(self, line)` -- Scan a directory tree for dependency files and flag risks.
 - `SupplyChainCommandSet.is_internal_name` (method) `cli/commands/supply_chain.py:450` `def is_internal_name(name)` -- Check if a package name looks internal/private.
 
+## cli/commands/surface.py
+Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
+- `SurfaceCommandSet.do_scandiscovery` (method) `cli/commands/surface.py:43` `def do_scandiscovery(self, line)` -- Scan every discovery IP with operator confirmation.
+- `SurfaceCommandSet.do_estorides_intel` (method) `cli/commands/surface.py:86` `def do_estorides_intel(self, line)` -- Fuse estorides OSINT entities into the campaign intel graphs.
+
 ## cli/commands/ux.py
 Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 - `UxCommandSet.do_hud` (method) `cli/commands/ux.py:46` `def do_hud(self, line)` -- Session counters: elapsed time, commands run, material captured.
@@ -259,7 +318,7 @@ Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.p
 - `UxCommandSet.do_config_diff` (method) `cli/commands/ux.py:115` `def do_config_diff(self, line)` -- Show what changed since the session started.
 - `UxCommandSet.do_cheat` (method) `cli/commands/ux.py:140` `def do_cheat(self, line)` -- Render a cheatsheet section inside the shell.
 - `UxCommandSet.do_toast` (method) `cli/commands/ux.py:167` `def do_toast(self, line)` -- Raise a toast notification inside the cmd2 shell.
-- `UxCommandSet.do_suggest` (method) `cli/commands/ux.py:235` `def do_suggest(self, line)` -- Fuzzy command suggestion for typos and fragments.
+- `UxCommandSet.do_suggest` (method) `cli/commands/ux.py:261` `def do_suggest(self, line)` -- Fuzzy command suggestion for typos and fragments.
 
 ## cli/config_history.py
 Imported by: `cli/commands/session_ops.py`, `cli/commands/ux.py`
@@ -431,70 +490,6 @@ Imported by: `cli/fuzzy_match.py`, `lazyown.py`, `tests/test_fuzzy_picker.py`
 - `ReadlineBridge.install` (method) `cli/fuzzy_picker.py:595` `def install(self)` -- Wire the picker into ``readline.set_completion_display_matches_hook``.
 - `ReadlineBridge.uninstall` (method) `cli/fuzzy_picker.py:603` `def uninstall(self)` -- Remove the readline display hook installed by :py:meth:`install`.
 - `ReadlineBridge.install_fuzzy_completion` (method) `cli/fuzzy_picker.py:645` `def install_fuzzy_completion(shell, payload, config)` -- Install the fuzzy picker into a cmd2 shell.
-
-## cli/graph_advisor.py
-Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_graph_advisor.py`
-- `GraphNode.to_summary` (method) `cli/graph_advisor.py:109` `def to_summary(self)` -- Return a small, JSON-safe summary suitable for MCP responses.
-- `GraphEdge.to_summary` (method) `cli/graph_advisor.py:132` `def to_summary(self)`
-- `GraphLoader.__init__` (method) `cli/graph_advisor.py:156` `def __init__(self, config)`
-- `GraphLoader.resolve_path` (method) `cli/graph_advisor.py:160` `def resolve_path(self, override)` -- Resolve which graphify JSON file to load.
-- `GraphLoader.load` (method) `cli/graph_advisor.py:184` `def load(self, override)`
-- `GraphLoader.clear_cache` (method) `cli/graph_advisor.py:207` `def clear_cache(cls)`
-- `GraphIndex.__init__` (method) `cli/graph_advisor.py:214` `def __init__(self, data)`
-- `GraphIndex.nodes` (method) `cli/graph_advisor.py:277` `def nodes(self)`
-- `GraphIndex.get` (method) `cli/graph_advisor.py:280` `def get(self, node_id)`
-- `GraphIndex.neighbors` (method) `cli/graph_advisor.py:283` `def neighbors(self, node_id)`
-- `GraphIndex.edges_between` (method) `cli/graph_advisor.py:286` `def edges_between(self, source, target)`
-- `GraphIndex.community_members` (method) `cli/graph_advisor.py:289` `def community_members(self, community_id)`
-- `GraphIndex.degree` (method) `cli/graph_advisor.py:292` `def degree(self, node_id)`
-- `GraphIndex.degree_ranked` (method) `cli/graph_advisor.py:295` `def degree_ranked(self)`
-- `GraphScorer.__init__` (method) `cli/graph_advisor.py:304` `def __init__(self, config)`
-- `GraphScorer.rank` (method) `cli/graph_advisor.py:307` `def rank(self, nodes, query)`
-- `GraphAdvisor.__init__` (method) `cli/graph_advisor.py:362` `def __init__(self, config, loader, index, scorer)`
-- `GraphAdvisor.from_path` (method) `cli/graph_advisor.py:375` `def from_path(cls, path, config)`
-- `GraphAdvisor.is_available` (method) `cli/graph_advisor.py:384` `def is_available(self)`
-- `GraphAdvisor.reload` (method) `cli/graph_advisor.py:387` `def reload(self, path)`
-- `GraphAdvisor.summary` (method) `cli/graph_advisor.py:396` `def summary(self)`
-- `GraphAdvisor.search` (method) `cli/graph_advisor.py:445` `def search(self, query, limit)`
-- `GraphAdvisor.neighbors` (method) `cli/graph_advisor.py:456` `def neighbors(self, node_query, depth, limit)`
-- `GraphAdvisor.god_nodes` (method) `cli/graph_advisor.py:505` `def god_nodes(self, limit)`
-- `GraphAdvisor.suggest_next` (method) `cli/graph_advisor.py:520` `def suggest_next(self, recent_commands, limit)` -- Suggest next commands by walking the graph outward from recent ones.
-- `GraphAdvisor.read_recent_commands` (method) `cli/graph_advisor.py:566` `def read_recent_commands(self, window)` -- Read the last N executed commands from the session transcript.
-- `GraphAdvisor.did_you_mean` (method) `cli/graph_advisor.py:591` `def did_you_mean(self, query, limit)`
-- `GraphAdvisor.truncate_to_budget` (method) `cli/graph_advisor.py:605` `def truncate_to_budget(self, payload, budget_tokens)` -- Trim list fields in-place so the JSON dump fits a token budget.
-- `GraphAdvisor.format_search_table` (method) `cli/graph_advisor.py:691` `def format_search_table(results)` -- Render search results as a fixed-width table for the cmd2 shell.
-- `GraphAdvisor.format_neighbors` (method) `cli/graph_advisor.py:706` `def format_neighbors(result)` -- Render a :py:meth:`GraphAdvisor.neighbors` result as plain text.
-- `GraphAdvisor.format_god_nodes` (method) `cli/graph_advisor.py:724` `def format_god_nodes(results)`
-- `GraphAdvisor.format_suggestions` (method) `cli/graph_advisor.py:734` `def format_suggestions(results)`
-
-## cli/graph_overlay.py
-Depends on: `cli/commands/containers.py`, `cli/commands/enum.py`, `cli/graph_advisor.py`, `cli/themes.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `tests/test_graph_overlay.py`
-- `GraphOverlayState.is_available` (method) `cli/graph_overlay.py:77` `def is_available(self)` -- Return ``True`` when the underlying graph advisor has data.
-- `GraphOverlayState.set_focus` (method) `cli/graph_overlay.py:87` `def set_focus(self, value)` -- Replace the focus query.
-- `GraphOverlayState.toggle_view` (method) `cli/graph_overlay.py:95` `def toggle_view(self)` -- Switch between god-nodes and neighbors-of-focus.
-- `GraphOverlayState.snapshot` (method) `cli/graph_overlay.py:102` `def snapshot(self)` -- Return ``(header, items)`` for the current view.
-- `GraphOverlayState.build_state` (method) `cli/graph_overlay.py:192` `def build_state(config, advisor_factory)` -- Wire the canonical state used by :func:`launch_overlay`.
-- `GraphOverlayState.launch_overlay` (method) `cli/graph_overlay.py:203` `def launch_overlay(payload, state, runner)` -- Open the overlay and return the last-focused node id on exit.
-- `_GraphOverlayApp.__init__` (method) `cli/graph_overlay.py:260` `def __init__(self)`
-- `_GraphOverlayApp.compose` (method) `cli/graph_overlay.py:265` `def compose(self)`
-- `_GraphOverlayApp.on_mount` (method) `cli/graph_overlay.py:273` `def on_mount(self)`
-- `_GraphOverlayApp.on_input_changed` (method) `cli/graph_overlay.py:276` `def on_input_changed(self, event)`
-- `_GraphOverlayApp.action_toggle_view` (method) `cli/graph_overlay.py:280` `def action_toggle_view(self)`
-- `_GraphOverlayApp.action_close` (method) `cli/graph_overlay.py:284` `def action_close(self)`
-
-## cli/headless.py
-Imported by: `lazyown.py`
-- `load_profile` (function) `cli/headless.py:31` `def load_profile(path)` -- Load a YAML profile that overrides payload.json keys.
-- `apply_profile` (function) `cli/headless.py:48` `def apply_profile(config, profile)` -- Merge profile values into config (shallow overlay).
-- `HeadlessRunner.__init__` (method) `cli/headless.py:72` `def __init__(self, shell, json_output, profile_path)`
-- `HeadlessRunner.run_command` (method) `cli/headless.py:87` `def run_command(self, cmd, timeout)` -- Execute a single command, capture output, return structured result.
-- `HeadlessRunner.run_chain` (method) `cli/headless.py:132` `def run_chain(self, commands)` -- Execute multiple commands and emit final summary.
-
-## cli/killchain.py
-Depends on: `modules/killchain.py`
-Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
-- `PhaseProgress.compute_killchain` (method) `cli/killchain.py:83` `def compute_killchain(events, world, phases)` -- Compute kill-chain progress from daemon events and the world model.
 
 
 Next: [API_p4.md](API_p4.md)

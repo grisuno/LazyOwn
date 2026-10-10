@@ -194,3 +194,59 @@ def test_reader_picks_up_new_events_after_offset(tmp_path: Path) -> None:
     _append_jsonl(events_path, [{"type": "b"}])
     events, _ = reader.read_unseen("events.jsonl", offset_after_first)
     assert [event.event_type for event in events] == ["b"]
+
+
+def _toast_event(kind: str, severity: str, summary: str) -> ToastEvent:
+    """Build one toast event for formatter tests."""
+    return ToastEvent(
+        source="events.jsonl",
+        offset=0,
+        event_type=kind,
+        severity=severity,
+        summary=summary,
+        timestamp="2026-10-10T00:00:00Z",
+    )
+
+
+def test_prominent_completion_renders_full_text() -> None:
+    """ENGAGE_DONE keeps its complete message instead of a truncated line."""
+    config = ToastConfig()
+    formatter = ToastFormatter(config, THEMES["default"])
+    long_summary = "engagement dcbb4fa4 finished — 6 steps (5 ran, 1 skipped), shell=False skipped=[recon:lazynmap (scan_already_held)]"
+    assert len(long_summary) > config.max_line_chars
+    event = _toast_event("ENGAGE_DONE", "info", long_summary)
+    assert formatter.is_prominent(event) is True
+    rendered = formatter.format_many([event], width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    flat = " ".join(captured.export_text().split())
+    condensed = flat.replace("│", "").replace(" ", "")
+    assert "engagement dcbb4fa4 finished" in flat
+    assert "skipped=[recon:lazynmap(scan_already_held)]" in condensed
+    assert "..." not in flat
+
+
+def test_prominent_severity_renders_panel() -> None:
+    """Error events render as toastr panels with full text."""
+    config = ToastConfig()
+    formatter = ToastFormatter(config, THEMES["default"])
+    event = _toast_event("STEP_DENIED", "error", "rm -rf / blocked — destructive")
+    assert formatter.is_prominent(event) is True
+    assert formatter.is_prominent(_toast_event("STEP_DONE", "info", "ok")) is False
+    rendered = formatter.format_many([event], width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    assert "rm -rf / blocked — destructive" in captured.export_text()
+
+
+def test_over_budget_events_collapse_into_digest() -> None:
+    """Events beyond the tick budget surface as a digest, never silently."""
+    config = ToastConfig(max_per_tick_default=2)
+    formatter = ToastFormatter(config, THEMES["default"])
+    events = [_toast_event("STEP_DONE", "info", f"line-{i}") for i in range(5)]
+    rendered = formatter.format_many(events, width=100)
+    captured = Console(file=io.StringIO(), width=100, record=True, highlight=False)
+    captured.print(rendered)
+    text = captured.export_text()
+    assert "line-3" in text and "line-4" in text
+    assert "+3 more" in text and "STEP_DONE" in text

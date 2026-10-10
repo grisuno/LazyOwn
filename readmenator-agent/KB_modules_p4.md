@@ -1,5 +1,155 @@
-# Subsystem: modules (page 4 of 10)
+# Subsystem: modules (page 4 of 12)
 Previous: [KB_modules_p3.md](KB_modules_p3.md)
+
+## modules/engagement_hooks.py
+- Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_safe_str` (function, line 78) `def _safe_str(value, maxlen)`
+  - `_load_payload` (function, line 88) `def _load_payload()`
+  - `EngagementEvent` (class, line 101) `class EngagementEvent`
+  - `INotificationSink` (class, line 150) `class INotificationSink(ABC)`
+  - `StreamEventSink` (class, line 167) `class StreamEventSink(INotificationSink)`
+  - `CollabNotificationSink` (class, line 204) `class CollabNotificationSink(INotificationSink)`
+  - `_OutboundHTTPSink` (class, line 242) `class _OutboundHTTPSink(INotificationSink)`
+  - `TelegramNotificationSink` (class, line 278) `class TelegramNotificationSink(_OutboundHTTPSink)`
+  - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
+  - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
+  - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
+  - `_load_seen_beacons` (method, line 444) `def _load_seen_beacons()`
+  - `_save_seen_beacons` (method, line 455) `def _save_seen_beacons(seen)`
+  - `_sanitize_client_id` (method, line 466) `def _sanitize_client_id(client_id)`
+  - `get_default_narrator` (method, line 482) `def get_default_narrator()`
+  - `publish_shell_obtained` (method, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
+  - `append_approval_record` (method, line 564) `def append_approval_record(record)`
+  - `list_pending_approvals` (method, line 575) `def list_pending_approvals()`
+  - `resolve_approval` (method, line 601) `def resolve_approval(approval_id, decision, operator)`
+  - `is_valid_target` (method, line 626) `def is_valid_target(value)`
+  - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
+  - `render_line` (method, line 143) `def render_line(self)`
+  - `name` (method, line 155) `def name(self)`
+  - `deliver` (method, line 159) `def deliver(self, event)`
+  - `name` (method, line 178) `def name(self)`
+  - `deliver` (method, line 181) `def deliver(self, event)`
+  - `name` (method, line 213) `def name(self)`
+  - `deliver` (method, line 216) `def deliver(self, event)`
+  - `name` (method, line 252) `def name(self)`
+  - `_build_request` (method, line 255) `def _build_request(self, event)`
+  - `deliver` (method, line 258) `def deliver(self, event)`
+  - `name` (method, line 288) `def name(self)`
+  - `_build_request` (method, line 291) `def _build_request(self, event)`
+  - `name` (method, line 320) `def name(self)`
+  - `_build_request` (method, line 323) `def _build_request(self, event)`
+  - `__init__` (method, line 349) `def __init__(self, sinks)`
+  - `default` (method, line 354) `def default(cls)`
+  - `add` (method, line 365) `def add(self, sink)`
+  - `deliver` (method, line 370) `def deliver(self, event)`
+  - `__init__` (method, line 393) `def __init__(self, broadcaster)`
+  - `narrate` (method, line 400) `def narrate(self, kind, target, message, payload, severity)`
+  - `_persist` (method, line 417) `def _persist(self, event)`
+- Depends on: `core/logging.py`, `modules/collab_bp.py`
+- Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
+
+## modules/enrich.py
+- Doc: Async target enrichment with scan dedup (LAZY enrich parity).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EnrichResult` (class, line 30) `class EnrichResult`
+  - `scan_files_for` (method, line 40) `def scan_files_for(sessions_dir, target)`
+  - `should_rescan` (method, line 57) `def should_rescan(sessions_dir, target, fresh_sec)`
+  - `resolve_dns` (method, line 73) `def resolve_dns(target, timeout)`
+  - `fetch_http` (method, line 86) `def fetch_http(target, timeout)`
+  - `EnrichEngine` (class, line 100) `class EnrichEngine`
+  - `shared_engine` (method, line 137) `def shared_engine()`
+  - `__init__` (method, line 103) `def __init__(self, max_workers)`
+  - `submit` (method, line 108) `def submit(self, target)`
+  - `_run` (method, line 121) `def _run(self, target)`
+  - `shutdown` (method, line 128) `def shutdown(self, wait)`
+- Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+
+## modules/entra_id_attacks.py
+- Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EntraIDConfig` (class, line 57) `class EntraIDConfig`
+  - `EntraIDAttackEngine` (class, line 81) `class EntraIDAttackEngine`
+  - `__init__` (method, line 92) `def __init__(self, config)`
+  - `device_code_phish` (method, line 96) `def device_code_phish(self, scope)`
+  - `poll_device_code` (method, line 129) `def poll_device_code(self, device_code, interval, timeout)`
+  - `oauth_consent_grant` (method, line 166) `def oauth_consent_grant(self, redirect_uri)`
+  - `service_principal_credential_theft` (method, line 203) `def service_principal_credential_theft(self)`
+  - `managed_identity_abuse` (method, line 235) `def managed_identity_abuse(self, resource)`
+  - `entra_connect_sync_abuse` (method, line 266) `def entra_connect_sync_abuse(self)`
+  - `conditional_access_bypass` (method, line 307) `def conditional_access_bypass(self)`
+  - `enumerate_tenant` (method, line 345) `def enumerate_tenant(self)`
+  - `summary` (method, line 368) `def summary(self)`
+- Imported by: `cli/commands/cloud_attacks.py`
+
+## modules/estorides_fusion.py
+- Doc: Estorides intel fusion: merge OSINT graph entities into campaign graphs.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `estorides_checkout` (function, line 43) `def estorides_checkout()`
+  - `find_export` (function, line 55) `def find_export(sessions_dir)`
+  - `run_export` (function, line 71) `def run_export(sessions_dir, cli_path, timeout_sec)`
+  - `_norm` (function, line 110) `def _norm(value)`
+  - `load_export` (function, line 115) `def load_export(path)`
+  - `_from_raw` (function, line 129) `def _from_raw(document)`
+  - `community_for` (function, line 167) `def community_for(kind, value)`
+  - `merge_estorides` (function, line 174) `def merge_estorides(nodes, edges, est, cap)`
+- Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
+
+## modules/estorides_importer.py
+- Doc: estorides_importer
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
+  - `ImportResult` (class, line 96) `class ImportResult`
+  - `SeedResult` (class, line 128) `class SeedResult`
+  - `extract_seeds_from_world_model` (method, line 143) `def extract_seeds_from_world_model(world_model_path)`
+  - `extract_seeds_from_hosts_file` (method, line 175) `def extract_seeds_from_hosts_file(path)`
+  - `extract_seeds_from_db` (method, line 203) `def extract_seeds_from_db(db_path)`
+  - `extract_seeds_from_scope` (method, line 242) `def extract_seeds_from_scope(scope_entries)`
+  - `run_estorides_discover` (method, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
+  - `run_estorides_run` (method, line 332) `def run_estorides_run(query, out_json, timeout)`
+  - `EstoridesCaseReader` (class, line 385) `class EstoridesCaseReader`
+  - `EstoridesStixParser` (class, line 495) `class EstoridesStixParser`
+  - `ensure_directories` (method, line 579) `def ensure_directories()`
+  - `EstoridesToLazyOwnBridge` (class, line 585) `class EstoridesToLazyOwnBridge`
+  - `FeedbackLoop` (class, line 766) `class FeedbackLoop`
+  - `export_combined_graph` (method, line 912) `def export_combined_graph(output_path)`
+  - `success` (method, line 110) `def success(self)`
+  - `to_dict` (method, line 113) `def to_dict(self)`
+  - `new_assets` (method, line 139) `def new_assets(self)`
+  - `__init__` (method, line 388) `def __init__(self, db_path)`
+  - `available` (method, line 393) `def available(self)`
+  - `_ensure_conn` (method, line 396) `def _ensure_conn(self)`
+  - `list_cases` (method, line 402) `def list_cases(self, limit)`
+  - `get_entities` (method, line 414) `def get_entities(self, case_id, entity_types, limit)`
+  - `get_host_entities` (method, line 469) `def get_host_entities(self, case_id)`
+  - `get_all_entities` (method, line 473) `def get_all_entities(self, case_id)`
+  - `stats` (method, line 476) `def stats(self)`
+  - `close` (method, line 489) `def close(self)`
+  - `__init__` (method, line 511) `def __init__(self, stix_path)`
+  - `available` (method, line 515) `def available(self)`
+  - `parse` (method, line 518) `def parse(self)`
+  - `parse_by_type` (method, line 552) `def parse_by_type(self, entity_types)`
+  - `_extract_value` (method, line 563) `def _extract_value(obj, stix_type)`
+  - `__init__` (method, line 588) `def __init__(self, db_path, config_path)`
+  - `import_entities` (method, line 596) `def import_entities(self, entities, add_to_scope, add_to_db)`
+  - `_import_to_db` (method, line 640) `def _import_to_db(self, imports, result)`
+  - `_import_to_scope` (method, line 686) `def _import_to_scope(self, imports, result)`
+  - `get_combined_surface` (method, line 719) `def get_combined_surface(self)`
+  - `__init__` (method, line 777) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
+  - `run` (method, line 793) `def run(self, seed_methods)`
+  - `_gather_seeds` (method, line 886) `def _gather_seeds(self, methods, seen)`
+- Depends on: `core/logging.py`, `modules/db.py`
+- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
 
 ## modules/evasion_engine.py
 - Doc: Advanced Evasion Engine for LazyOwn C2 operations.
@@ -147,6 +297,23 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `ack_event` (function, line 270) `def ack_event(event_id)`
 - Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
 
+## modules/evidence.py
+- Doc: Content-addressed evidence vault independent of disposable traffic.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `EvidenceConfig` (class, line 20) `class EvidenceConfig`
+  - `hash_bytes` (method, line 37) `def hash_bytes(data)`
+  - `_validate_hash` (method, line 42) `def _validate_hash(value)`
+  - `EvidenceStore` (class, line 54) `class EvidenceStore`
+  - `__init__` (method, line 57) `def __init__(self, base_dir)`
+  - `blob_path` (method, line 65) `def blob_path(self, content_hash)`
+  - `put` (method, line 70) `def put(self, data)`
+  - `get` (method, line 90) `def get(self, content_hash)`
+  - `exists` (method, line 98) `def exists(self, content_hash)`
+  - `garbage_collect` (method, line 105) `def garbage_collect(self, referenced)`
+- Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+
 ## modules/evilhttprev.sh
 - Layer: utility
 - Language: sh
@@ -214,6 +381,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `PHYSMAP_MASK` (macro, line 67) `#define PHYSMAP_MASK`
   - `SPRAY_SIZE` (macro, line 69) `#define SPRAY_SIZE`
   - `SPRAY_NB_ENTRIES` (macro, line 71) `#define SPRAY_NB_ENTRIES`
+- Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
 
 ## modules/exploit_chain.py
 - Doc: Autonomous exploitation chain engine.
@@ -292,199 +460,6 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_run` (function, line 274) `def _run(name, cmd, cwd, timeout)`
 - Depends on: `modules/redteam_gym.py`
 - Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_exploitgym_gym.py`
-
-## modules/fast_run_service.sh
-- Doc: LazyOwn service-mode orchestrator.
-- Layer: business_logic
-- Language: sh
-- Symbols:
-  - `log_timestamp` (function, line 69)
-  - `log_info` (function, line 73)
-  - `log_warn` (function, line 77)
-  - `log_error` (function, line 81)
-  - `require_root` (function, line 89)
-  - `require_deps` (function, line 97)
-  - `require_paths` (function, line 113)
-  - `prepare_runtime_dirs` (function, line 126)
-  - `load_config` (function, line 139)
-  - `config_truthy` (function, line 155)
-  - `pid_file_for` (function, line 166)
-  - `log_file_for` (function, line 171)
-  - `read_pid_value` (function, line 176)
-  - `is_pid_alive` (function, line 189)
-  - `is_service_running` (function, line 194)
-  - `write_pid_file` (function, line 201)
-  - `ensure_log_file` (function, line 211)
-  - `spawn_as_target_user` (function, line 228)
-  - `spawn_as_root` (function, line 247)
-  - `terminate_pid_tree` (function, line 264)
-  - `stop_named_service` (function, line 292)
-  - `chown_project_tree` (function, line 310)
-  - `start_chown_watcher` (function, line 315)
-  - `start_lazyc2_service` (function, line 342)
-  - `start_www_service` (function, line 356)
-  - `start_vpn_service` (function, line 363)
-  - `start_discord_service` (function, line 380)
-  - `start_telegram_service` (function, line 390)
-  - `start_cloudflare_service` (function, line 400)
-  - `start_ollama_service` (function, line 410)
-  - `managed_services_in_order` (function, line 429)
-  - `cmd_start` (function, line 445)
-  - `cmd_stop` (function, line 465)
-  - `cmd_restart` (function, line 480)
-  - `cmd_status` (function, line 486)
-  - `cmd_logs` (function, line 505)
-  - `cmd_chown_now` (function, line 521)
-  - `usage` (function, line 528)
-  - `main` (function, line 557)
-
-## modules/forensic_cleaner.py
-- Doc: Forensic artifact cleaner — Prefetch, Shimcache, Amcache, MFT/USN cleanup.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ForensicCleanerConfig` (class, line 23) `class ForensicCleanerConfig`
-  - `ForensicCleaner` (class, line 57) `class ForensicCleaner`
-  - `__init__` (method, line 67) `def __init__(self, config)`
-  - `windows_cleanup` (method, line 70) `def windows_cleanup(self)`
-  - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
-  - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
-  - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
-  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
-- Imported by: `cli/commands/opsec_cleanup.py`
-
-## modules/gcp_attacks.py
-- Doc: GCP privilege escalation — service account impersonation, Cloud Functions, GCS enumeration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GCPConfig` (class, line 57) `class GCPConfig`
-  - `GCPAttackEngine` (class, line 77) `class GCPAttackEngine`
-  - `__init__` (method, line 90) `def __init__(self, config)`
-  - `enumerate_iam_policy` (method, line 93) `def enumerate_iam_policy(self, resource)`
-  - `service_account_impersonation` (method, line 119) `def service_account_impersonation(self)`
-  - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
-  - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
-  - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
-  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
-  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
-  - `summary` (method, line 297) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/generate_tools.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `extract_cmd2_tools` (function, line 6) `def extract_cmd2_tools(script_path)`
-
-## modules/gpo_abuse.py
-- Doc: GPO abuse module — Group Policy Object manipulation for AD persistence and privilege escalation.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `GPOInfo` (class, line 54) `class GPOInfo`
-  - `GPOAbusePlan` (class, line 83) `class GPOAbusePlan`
-  - `GPOAbuseEngine` (class, line 105) `class GPOAbuseEngine`
-  - `__init__` (method, line 118) `def __init__(self, domain, dc_ip)`
-  - `parse_gpo_list` (method, line 124) `def parse_gpo_list(self, raw_gpo_output)`
-  - `parse_bloodhound_gpos` (method, line 160) `def parse_bloodhound_gpos(self, bloodhound_nodes)`
-  - `plan_scheduled_task` (method, line 182) `def plan_scheduled_task(self, gpo, command, task_name)`
-  - `plan_startup_script` (method, line 208) `def plan_startup_script(self, gpo, script_content, script_name)`
-  - `plan_logon_script` (method, line 238) `def plan_logon_script(self, gpo, command)`
-  - `plan_local_admin_addition` (method, line 266) `def plan_local_admin_addition(self, gpo, username, group)`
-  - `plan_wmi_filter_abuse` (method, line 293) `def plan_wmi_filter_abuse(self, gpo, wmi_query)`
-  - `plan_registry_preference` (method, line 322) `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)`
-  - `plan_service_installation` (method, line 356) `def plan_service_installation(self, gpo, service_name, binary_path)`
-  - `generate_all_plans` (method, line 382) `def generate_all_plans(self, command, username)`
-  - `detect_risky_gpos` (method, line 406) `def detect_risky_gpos(self)`
-  - `summary` (method, line 434) `def summary(self)`
-- Imported by: `cli/commands/active_directory.py`
-
-## modules/gui_askpass.sh
-- Doc: — SUDO_ASKPASS helper for LazyOwn MCP  Used by: sudo -A <script>  (set SUDO_ASKPASS to this...
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `has` (function, line 22)
-  - `try_zenity` (function, line 24)
-  - `try_yad` (function, line 28)
-  - `try_ssh_askpass` (function, line 33)
-  - `try_kdialog` (function, line 40)
-
-## modules/hash_cracker.py
-- Doc: Hash cracking pipeline — John the Ripper and Hashcat integration.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CrackResult` (class, line 131) `class CrackResult`
-  - `HashIdentifier` (class, line 144) `class HashIdentifier`
-  - `HashCracker` (class, line 155) `class HashCracker`
-  - `crack_secretsdump_output` (method, line 699) `def crack_secretsdump_output(filepath, wordlist, rhost)`
-  - `__init__` (method, line 168) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
-  - `_resolve_wordlist` (method, line 182) `def _resolve_wordlist(self)`
-  - `identify` (method, line 190) `def identify(self, line)`
-  - `identify_file` (method, line 277) `def identify_file(self, filepath)`
-  - `crack_hash` (method, line 299) `def crack_hash(self, hash_value, hash_type, wordlist)`
-  - `crack_file` (method, line 353) `def crack_file(self, filepath, wordlist, hash_types)`
-  - `import_to_db` (method, line 409) `def import_to_db(self, results, rhost, workspace_name)`
-  - `_crack_hashcat` (method, line 458) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_hashcat` (method, line 504) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
-  - `_crack_john` (method, line 564) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_john` (method, line 614) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
-  - `_parse_hashcat_output` (method, line 675) `def _parse_hashcat_output(stdout, stderr, original)`
-  - `_parse_john_show` (method, line 690) `def _parse_john_show(show_output, original)`
-- Depends on: `core/logging.py`, `modules/db.py`
-- Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
-
-## modules/hive_invoke.py
-- Doc: modules/hive_invoke.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
-  - `_find_claude` (function, line 115) `def _find_claude()`
-  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
-  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
-  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
-  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
-  - `main` (function, line 255) `def main(argv)`
-- Depends on: `modules/toposwarm_bridge.py`
-
-## modules/hostdiscover.sh
-- Layer: utility
-- Language: sh
-- Symbols:
-  - `extract_ips_from_arp` (function, line 21)
-  - `extract_listening_ips_from_netstat` (function, line 26)
-
-## modules/ia_code_analysis.py
-- Doc: CodeAnalyzer: Analyzes source code in a directory and its subdirectories.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
-  - `analyze_with_deepseek` (method, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
-  - `save_results_to_json` (method, line 123) `def save_results_to_json(results, file_path)`
-  - `start_analysis` (method, line 169) `def start_analysis(code_dir, mode)`
-  - `parse_args` (method, line 178) `def parse_args()`
-  - `__init__` (method, line 33) `def __init__(self, mode)`
-  - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
-  - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-
-## modules/ia_logs_analysis.py
-- Doc: Author: Your Name Email: youremail@example.com Creation Date: 10/06/2024 License: GPL v3...
-- Layer: utility
-- Language: py
-- Symbols:
-  - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
-  - `analyze_with_deepseek` (method, line 94) `def analyze_with_deepseek(log_content, mode)`
-  - `start_monitoring` (method, line 147) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (method, line 168) `def parse_args()`
-  - `__init__` (method, line 59) `def __init__(self, mode)`
-  - `on_modified` (method, line 64) `def on_modified(self, event)`
-  - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
-- Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 
 Next: [KB_modules_p5.md](KB_modules_p5.md)

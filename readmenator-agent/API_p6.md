@@ -1,5 +1,96 @@
-# API (page 6 of 20)
+# API (page 6 of 21)
 Previous: [API_p5.md](API_p5.md)
+
+## core/command_bridge.py
+Depends on: `lazyown.py`
+Imported by: `tests/test_core_command_bridge.py`
+- `CommandBridge.__init__` (method) `core/command_bridge.py:18` `def __init__(self)`
+- `CommandBridge.ready` (method) `core/command_bridge.py:25` `def ready(self)` -- Whether the bridge has been successfully initialized.
+- `CommandBridge.error` (method) `core/command_bridge.py:30` `def error(self)` -- Error message if initialization failed, or None.
+- `CommandBridge.onecmd` (method) `core/command_bridge.py:65` `def onecmd(self, command)` -- Execute a LazyOwn internal command via the shell.
+- `CommandBridge.one_cmd` (method) `core/command_bridge.py:89` `def one_cmd(self, command)` -- Execute a command using the shell's one_cmd method.
+- `CommandBridge.execute` (method) `core/command_bridge.py:110` `def execute(self, command)` -- Alias for one_cmd.
+- `CommandBridge.get_bridge` (method) `core/command_bridge.py:126` `def get_bridge()` -- Get or create the singleton CommandBridge instance.
+
+## core/config.py
+Depends on: `core/logging.py`, `core/payload_schema.py`
+Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
+- `Config.__init__` (method) `core/config.py:208` `def __init__(self, config_dict, sessions_dir)`
+- `Config.as_params` (method) `core/config.py:223` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
+- `Config.overridden_keys` (method) `core/config.py:233` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
+- `Config.resolve_aes_key` (method) `core/config.py:250` `def resolve_aes_key(config_dict)` -- Return a 32-byte AES key derived from config, disk, or randomness.
+- `Config.load_payload` (method) `core/config.py:316` `def load_payload(path)` -- Load and return the JSON payload at ``path``.
+- `Config.load_and_validate` (method) `core/config.py:334` `def load_and_validate(path)` -- Load ``payload.json``, validate against the schema, and return a result dict.
+- `Config.save_payload` (method) `core/config.py:385` `def save_payload(payload, path)` -- Atomically write ``payload`` as pretty-printed JSON to ``path``.
+
+## core/console.py
+Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
+- `colors_enabled` (function) `core/console.py:98` `def colors_enabled()` -- Return False when NO_COLOR or ANSI_COLORS_DISABLED is set.
+- `format_line` (function) `core/console.py:121` `def format_line(prefix, message, glyph)` -- Build a single log line with standard prefix and sanitized message.
+- `print_error` (function) `core/console.py:137` `def print_error(error)` -- Print a red error message to stdout (never raises on broken pipes).
+- `print_msg` (function) `core/console.py:143` `def print_msg(msg)` -- Print a green informational message to stdout (never raises).
+- `print_warn` (function) `core/console.py:149` `def print_warn(warn)` -- Print a magenta/yellow warning message to stdout (never raises).
+- `print_succ` (function) `core/console.py:155` `def print_succ(msg)` -- Print a bright green success message to stdout (never raises).
+- `ensure_blocking_stdio` (function) `core/console.py:161` `def ensure_blocking_stdio()` -- Restore blocking mode on stdio fds inherited as non-blocking.
+- `write_stdout` (function) `core/console.py:180` `def write_stdout(text)` -- Write ``text`` to stdout, tolerating non-blocking or broken pipes.
+
+## core/credential_vault.py
+Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
+Imported by: `cli/commands/security.py`, `lazyown.py`, `tests/test_credential_vault.py`
+- `check_dangerous_defaults` (function) `core/credential_vault.py:63` `def check_dangerous_defaults(payload)` -- Scan payload for unchanged default credential values.
+- `seal_value` (function) `core/credential_vault.py:93` `def seal_value(plaintext, key)` -- Encrypt a single credential value.
+- `unseal_value` (function) `core/credential_vault.py:112` `def unseal_value(sealed, key)` -- Decrypt a sealed credential value.
+- `seal_payload` (function) `core/credential_vault.py:141` `def seal_payload(payload, key)` -- Return a copy of ``payload`` with all sensitive values encrypted.
+- `unseal_payload` (function) `core/credential_vault.py:164` `def unseal_payload(payload, key)` -- Return a copy of ``payload`` with all sealed values decrypted.
+- `rotate_aes_key` (function) `core/credential_vault.py:186` `def rotate_aes_key(payload, current_key)` -- Generate a new AES key, re-encrypt all sealed values under it.
+- `generate_secure_defaults` (function) `core/credential_vault.py:215` `def generate_secure_defaults()` -- Generate cryptographically random default values for sensitive keys.
+
+## core/credentials.py
+Depends on: `core/console.py`
+Imported by: `core/__init__.py`
+- `get_credentials` (function) `core/credentials.py:17` `def get_credentials(file, ncred)` -- Search for credential files and return parsed (user, pass) tuples.
+- `get_domain` (function) `core/credentials.py:67` `def get_domain(url)` -- Extract the domain from a URL.
+- `get_hash` (function) `core/credentials.py:81` `def get_hash(dir)` -- Read and return hash file content from the sessions directory.
+- `get_users_dic` (function) `core/credentials.py:115` `def get_users_dic(txt)` -- Read a user list file.
+- `return_creds` (function) `core/credentials.py:146` `def return_creds()` -- Interactive credential retriever.
+- `generate_emails` (function) `core/credentials.py:160` `def generate_emails(full_name, domain)` -- Generate common email patterns from a full name and domain.
+- `crack_password` (function) `core/credentials.py:183` `def crack_password(crypttext)` -- Attempt to crack a Unix crypt-style password using common formats.
+- `find_ea` (function) `core/credentials.py:220` `def find_ea(keyword)` -- Search for files matching a pattern using ``locate`` or ``find``.
+- `find_ps` (function) `core/credentials.py:249` `def find_ps(keyword)` -- Search for scripts and process-related files.
+- `find_ss` (function) `core/credentials.py:261` `def find_ss(keyword)` -- Search for screenshots and media files.
+- `Spray` (function) `core/credentials.py:273` `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` -- Perform password spraying via SOAP/ADFS.
+- `format_openssh_key` (function) `core/credentials.py:341` `def format_openssh_key(raw_key)` -- Format a raw key string as an OpenSSH public key entry.
+- `format_rsa_key` (function) `core/credentials.py:355` `def format_rsa_key(raw_key)` -- Format a raw RSA key.
+
+## core/crypto.py
+Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `utils.py`
+- `generate_salt` (function) `core/crypto.py:24` `def generate_salt(length)` -- Generate a cryptographically random salt.
+- `derive_key` (function) `core/crypto.py:36` `def derive_key(password, salt)` -- Derive a Fernet-compatible key from a password using PBKDF2HMAC.
+- `xor_encrypt_decrypt` (function) `core/crypto.py:67` `def xor_encrypt_decrypt(data, key)` -- Return ``bytearray`` produced by XOR-ing each byte of ``data`` with ``key``.
+- `generate_xor_key` (function) `core/crypto.py:83` `def generate_xor_key(length)` -- Generate a random XOR key of the given length as a hex string.
+- `AESencrypt` (function) `core/crypto.py:98` `def AESencrypt(plaintext, key)` -- Encrypt ``plaintext`` with AES-256-GCM using a random nonce.
+- `AESdecrypt` (function) `core/crypto.py:123` `def AESdecrypt(data, key)` -- Decrypt data produced by ``AESencrypt``.
+- `dropFile` (function) `core/crypto.py:154` `def dropFile(key, ciphertext)` -- Write AES key and ciphertext to ``sessions/cipher.bin`` and ``sessions/key.bin``.
+
+## core/dependencies.py
+Imported by: `core/__init__.py`, `tests/test_dependencies.py`, `utils.py`
+- `MissingDependencyError.__init__` (method) `core/dependencies.py:45` `def __init__(self, import_name, pip_package, feature)` -- Build a remediation-oriented error message.
+- `_DeferredImport.__init__` (method) `core/dependencies.py:115` `def __init__(self, spec)` -- Store the dependency spec used to build remediation errors.
+- `_DeferredImport.__call__` (method) `core/dependencies.py:136` `def __call__(self)` -- Reject calling a missing dependency.
+- `_DeferredImport.optional_import` (method) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
+- `_DeferredImport.optional_attr` (method) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
+- `DependencyReport.missing` (method) `core/dependencies.py:278` `def missing(self)` -- Return the optional Python dependencies that are not installed.
+- `DependencyReport.ok` (method) `core/dependencies.py:283` `def ok(self)` -- Return ``True`` when every declared dependency is present.
+- `DependencyReport.probe_python_dependency` (method) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
+- `DependencyReport.collect_dependency_report` (method) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
+- `DependencyReport.format_report` (method) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
+- `DependencyReport.main` (method) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
+
+## core/error_advice.py
+Depends on: `core/console.py`
+- `ErrorAdvice.docs_url` (method) `core/error_advice.py:35` `def docs_url(self, config)` -- Return absolute documentation URL for this advice.
+- `ErrorAdvice.get_advice` (method) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
+- `ErrorAdvice.render_advice` (method) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
 
 ## core/errors.py
 Depends on: `cli/commands/enum.py`
@@ -144,7 +235,7 @@ Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_shell_semantics.py`, `utils.py`
+Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_shell_semantics.py`, `utils.py`
 - `check_go_tool_installed` (function) `core/process.py:34` `def check_go_tool_installed(tool_name)` -- Check if a Go tool binary is installed and runnable.
 - `is_binary_present` (function) `core/process.py:54` `def is_binary_present(binary_name)` -- Check whether binary is on ``PATH``.
 - `handle_multiple_rhosts` (function) `core/process.py:68` `def handle_multiple_rhosts(func)` -- Decorator that iterates over a list of remote hosts.
@@ -182,6 +273,15 @@ Imported by: `tests/test_core.py`
 - `MemoryStore.search` (method) `core/protocols.py:58` `def search(self, query, k)`
 - `BridgeCatalog.filter` (method) `core/protocols.py:65` `def filter(self, phase, os_id)` -- Return command entries matching ``phase`` and ``os_id``.
 - `OutcomeEvaluator.evaluate` (method) `core/protocols.py:73` `def evaluate(self, command, output, target, phase)` -- Return a reward in ``[0.0, 1.0]``.
+
+## core/safe_console.py
+Depends on: `core/console.py`
+Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, `modules/loop_progress.py`, `tests/test_safe_console.py`
+- `supports_unicode` (function) `core/safe_console.py:33` `def supports_unicode()` -- Return True when stdout can encode box-drawing glyphs and emoji.
+- `get_console` (function) `core/safe_console.py:42` `def get_console()` -- Build a Rich console with safe color/box defaults.
+- `panel_box` (function) `core/safe_console.py:52` `def panel_box()` -- Return the ROUNDED box on UTF-8 sinks, ASCII otherwise.
+- `milestone_glyph` (function) `core/safe_console.py:57` `def milestone_glyph(state)` -- Glyph for a milestone state: done / active / pending (or other).
+- `progress_bar` (function) `core/safe_console.py:67` `def progress_bar(ratio, width)` -- Fixed-width fill bar, unicode blocks or ASCII hashes.
 
 ## core/safe_exec.py
 Depends on: `core/logging.py`

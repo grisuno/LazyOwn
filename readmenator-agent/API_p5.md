@@ -1,5 +1,98 @@
-# API (page 5 of 20)
+# API (page 5 of 21)
 Previous: [API_p4.md](API_p4.md)
+
+## cli/toast_bus.py
+Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
+- `ToastState.__init__` (method) `cli/toast_bus.py:129` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
+- `ToastState.path` (method) `cli/toast_bus.py:144` `def path(self)` -- Return the resolved state-file path.
+- `ToastState.get` (method) `cli/toast_bus.py:148` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
+- `ToastState.set` (method) `cli/toast_bus.py:153` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
+- `ToastState.reset` (method) `cli/toast_bus.py:159` `def reset(self)` -- Forget every persisted offset (force replay on next read).
+- `ToastState.flush` (method) `cli/toast_bus.py:164` `def flush(self)` -- Persist the current offsets atomically.
+- `ToastReader.__init__` (method) `cli/toast_bus.py:206` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
+- `ToastReader.root` (method) `cli/toast_bus.py:217` `def root(self)` -- Return the resolved events root directory.
+- `ToastReader.read_unseen` (method) `cli/toast_bus.py:221` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
+- `ToastFormatter.__init__` (method) `cli/toast_bus.py:319` `def __init__(self, config, theme)` -- Bind to config and the active theme.
+- `ToastFormatter.format` (method) `cli/toast_bus.py:324` `def format(self, event)` -- Return a single themed line for ``event``.
+- `ToastFormatter.is_prominent` (method) `cli/toast_bus.py:336` `def is_prominent(self, event)` -- Return True when an event deserves a full toastr panel.
+- `ToastFormatter.format_prominent` (method) `cli/toast_bus.py:346` `def format_prominent(self, event)` -- Render an event as a toastr panel with the complete summary.
+- `ToastFormatter.format_ephemeral` (method) `cli/toast_bus.py:363` `def format_ephemeral(self, event)` -- Return a single sonner-style line with severity icon for ``event``.
+- `ToastFormatter.duration_for` (method) `cli/toast_bus.py:391` `def duration_for(self, event)` -- Return the auto-dismiss delay in seconds for ``event``.
+- `ToastFormatter.digest_line` (method) `cli/toast_bus.py:409` `def digest_line(dropped)` -- Summarise over-budget events so none vanish silently.
+- `ToastFormatter.format_many` (method) `cli/toast_bus.py:417` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
+- `ToastBus.__init__` (method) `cli/toast_bus.py:495` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
+- `ToastBus.collect` (method) `cli/toast_bus.py:510` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
+- `ToastBus.render` (method) `cli/toast_bus.py:522` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
+- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:551` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
+- `ToastBus.render_ephemeral` (method) `cli/toast_bus.py:558` `def render_ephemeral(self, enabled, duration)` -- Collect unseen events and print each as an auto-expiring line.
+- `ToastBus.toasts_enabled` (method) `cli/toast_bus.py:656` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
+- `ToastBus.build_default_bus` (method) `cli/toast_bus.py:679` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
+- `ToastBus.render_toasts` (method) `cli/toast_bus.py:708` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
+- `ToastBus.ephemeral_enabled` (method) `cli/toast_bus.py:732` `def ephemeral_enabled(payload, config)` -- Return True when toasts must auto-dismiss like sonner.
+- `ToastBus.render_ephemeral_toasts` (method) `cli/toast_bus.py:748` `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` -- Collect unseen events and print each as an auto-expiring line.
+- `ToastBus.emit_toast` (method) `cli/toast_bus.py:778` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
+- `ToastBus.read_recent_toasts` (method) `cli/toast_bus.py:823` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
+- `ToastBus.build_toast_renderable` (method) `cli/toast_bus.py:867` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
+
+## cli/tui_theme.py
+Depends on: `cli/themes.py`
+Imported by: `cli/commands/help_ui.py`
+- `run` (function) `cli/tui_theme.py:87` `def run(args, payload, save)` -- Execute the ``tui_theme`` command.
+
+## cli/tutorial.py
+Depends on: `core/console.py`
+Imported by: `cli/commands/help_ui.py`
+- `TutorialConfig.is_done` (method) `cli/tutorial.py:83` `def is_done(config)` -- Return True if the tutorial has already been completed.
+- `TutorialConfig.mark_done` (method) `cli/tutorial.py:89` `def mark_done(config)` -- Persist the tutorial completion marker.
+- `TutorialConfig.render_header` (method) `cli/tutorial.py:96` `def render_header()` -- Print the tutorial welcome banner.
+- `TutorialConfig.render_phase_table` (method) `cli/tutorial.py:113` `def render_phase_table()` -- Print the full phase overview before starting.
+- `TutorialConfig.run_step` (method) `cli/tutorial.py:128` `def run_step(index, command, description, why, params, command_runner)` -- Execute one tutorial step and return True if the user wants to continue.
+- `TutorialConfig.run` (method) `cli/tutorial.py:185` `def run(params, command_runner)` -- Run the interactive tutorial.
+
+## cli/wizard.py
+Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
+Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
+- `WizardResult.run` (method) `cli/wizard.py:169` `def run(params, save)` -- Run the interactive setup wizard and return a :class:`WizardResult`.
+- `WizardResult.run_non_interactive` (method) `cli/wizard.py:234` `def run_non_interactive(params, save, values)` -- Apply configuration without prompts — Docker/CI/headless first runs.
+- `WizardResult.check_binaries` (method) `cli/wizard.py:947` `def check_binaries(specs, which)` -- Return the presence status of every spec without executing it.
+
+## cli/wizard_scope.py
+Imported by: `cli/commands/help_ui.py`
+- `WizardScope.parse_scope` (method) `cli/wizard_scope.py:38` `def parse_scope(tokens, config)` -- Parse --show and --only=a,b flags from wizard tokens.
+- `WizardScope.status_rows` (method) `cli/wizard_scope.py:64` `def status_rows(params)` -- Build display rows for the current configuration state.
+
+## contrib/legacy/lazy_http_bof.py
+- `genHeader` (function) `contrib/legacy/lazy_http_bof.py:6` `def genHeader(raw)`
+- `exploit` (function) `contrib/legacy/lazy_http_bof.py:29` `def exploit(target, port, payload)`
+
+## contrib/legacy/lazy_packet_image_sniffer.py
+- `check_sudo` (function) `contrib/legacy/lazy_packet_image_sniffer.py:23` `def check_sudo()`
+- `list_interfaces` (function) `contrib/legacy/lazy_packet_image_sniffer.py:31` `def list_interfaces()`
+- `choose_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:49` `def choose_interface(interfaces)`
+- `get_subnet_from_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:61` `def get_subnet_from_interface(interface)`
+- `get_ip_addresses` (function) `contrib/legacy/lazy_packet_image_sniffer.py:65` `def get_ip_addresses(interface)`
+- `handle_packet` (function) `contrib/legacy/lazy_packet_image_sniffer.py:111` `def handle_packet(packet)`
+- `save_image` (function) `contrib/legacy/lazy_packet_image_sniffer.py:161` `def save_image(src_ip, end_idx)`
+- `run` (function) `contrib/legacy/lazy_packet_image_sniffer.py:187` `def run()`
+- `daemonize` (function) `contrib/legacy/lazy_packet_image_sniffer.py:192` `def daemonize()`
+
+## contrib/legacy/lazyaddon_creator.py
+Depends on: `modules/llm_client.py`
+- `parse_github_url` (function) `contrib/legacy/lazyaddon_creator.py:49` `def parse_github_url(url)` -- Extrae (owner, repo) de una URL de GitHub.
+- `github_api_get` (function) `contrib/legacy/lazyaddon_creator.py:58` `def github_api_get(owner, repo, endpoint)` -- GET a la API pública de GitHub (sin auth, rate-limit 60/hr).
+- `fetch_repo_metadata` (function) `contrib/legacy/lazyaddon_creator.py:68` `def fetch_repo_metadata(owner, repo)` -- Devuelve metadata básica del repo.
+- `fetch_readme` (function) `contrib/legacy/lazyaddon_creator.py:73` `def fetch_readme(owner, repo)` -- Descarga y decodifica el README.
+- `fetch_root_files` (function) `contrib/legacy/lazyaddon_creator.py:85` `def fetch_root_files(owner, repo)` -- Lista nombres de archivos en el directorio raíz.
+- `build_llm_prompt` (function) `contrib/legacy/lazyaddon_creator.py:98` `def build_llm_prompt(meta, readme, root_files)` -- Construye el prompt para el LLM.
+- `extract_json_from_response` (function) `contrib/legacy/lazyaddon_creator.py:164` `def extract_json_from_response(text)` -- Extrae el primer bloque JSON de una respuesta de LLM.
+- `heuristic_install_command` (function) `contrib/legacy/lazyaddon_creator.py:192` `def heuristic_install_command(root_files, language)` -- Infiere un install_command básico a partir de los archivos raíz.
+- `heuristic_execute_command` (function) `contrib/legacy/lazyaddon_creator.py:211` `def heuristic_execute_command(name, root_files, language)` -- Infiere un execute_command básico.
+- `heuristic_params` (function) `contrib/legacy/lazyaddon_creator.py:245` `def heuristic_params(name, readme, root_files)` -- Infiere parámetros comunes basándose en el nombre y README.
+- `fallback_yaml_data` (function) `contrib/legacy/lazyaddon_creator.py:276` `def fallback_yaml_data(meta, readme, root_files)` -- Genera datos de addon usando solo heurísticas locales (sin LLM).
+- `build_yaml` (function) `contrib/legacy/lazyaddon_creator.py:300` `def build_yaml(data, repo_url)` -- Construye la estructura de dict que representa el addon YAML.
+- `save_yaml` (function) `contrib/legacy/lazyaddon_creator.py:336` `def save_yaml(addon, output_dir)` -- Guarda el dict como archivo YAML en output_dir.
+- `main` (function) `contrib/legacy/lazyaddon_creator.py:357` `def main()`
 
 ## contrib/legacy/lazyarpspoofing.py
 - `check_sudo` (function) `contrib/legacy/lazyarpspoofing.py:27` `def check_sudo()`
@@ -393,95 +486,6 @@ Imported by: `lazyc2/app_factory.py`, `lazyc2/blueprints/api.py`, `tests/test_ap
 - `ApiKeyStore.decorator` (method) `core/api_authz.py:405` `def decorator(f)`
 - `ApiKeyStore.decorated` (method) `core/api_authz.py:407` `def decorated()`
 - `ApiKeyStore.create_api_token` (method) `core/api_authz.py:440` `def create_api_token(store, tenant_id, label, permissions, expires_in_days)` -- Create an API key and return the one-time plaintext token.
-
-## core/command_bridge.py
-Depends on: `lazyown.py`
-Imported by: `tests/test_core_command_bridge.py`
-- `CommandBridge.__init__` (method) `core/command_bridge.py:18` `def __init__(self)`
-- `CommandBridge.ready` (method) `core/command_bridge.py:25` `def ready(self)` -- Whether the bridge has been successfully initialized.
-- `CommandBridge.error` (method) `core/command_bridge.py:30` `def error(self)` -- Error message if initialization failed, or None.
-- `CommandBridge.onecmd` (method) `core/command_bridge.py:65` `def onecmd(self, command)` -- Execute a LazyOwn internal command via the shell.
-- `CommandBridge.one_cmd` (method) `core/command_bridge.py:89` `def one_cmd(self, command)` -- Execute a command using the shell's one_cmd method.
-- `CommandBridge.execute` (method) `core/command_bridge.py:110` `def execute(self, command)` -- Alias for one_cmd.
-- `CommandBridge.get_bridge` (method) `core/command_bridge.py:126` `def get_bridge()` -- Get or create the singleton CommandBridge instance.
-
-## core/config.py
-Depends on: `core/logging.py`, `core/payload_schema.py`
-Imported by: `cli/aliases.py`, `cli/commands/bof_registry.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/help_ui.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/purple_team.py`, `cli/commands/recon_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/ux.py`, `cli/engagement_hooks.py`, `core/__init__.py`, `core/credential_vault.py`, `core/prompt.py`, `lazyown.py`, `modules/auto_purple.py`, `modules/beacon_config_builder.py`, `modules/c2_profile_engine.py`, `modules/config_store.py`, `modules/db.py`, `modules/operator_profiles.py`, `modules/opsec_scorer.py`, `modules/reactive_engine.py`, `tests/test_aes_key_propagation.py`, `tests/test_cli_assign.py`, `tests/test_cli_command_sets.py`, `tests/test_core.py`, `tests/test_core_config.py`, `tests/test_improvements_spec.py`, `utils.py`
-- `Config.__init__` (method) `core/config.py:208` `def __init__(self, config_dict, sessions_dir)`
-- `Config.as_params` (method) `core/config.py:223` `def as_params(self)` -- Return a shallow copy of the underlying parameter dictionary.
-- `Config.overridden_keys` (method) `core/config.py:233` `def overridden_keys(self)` -- Return sorted list of keys that were overridden via ``LAZYOWN_*`` env vars.
-- `Config.resolve_aes_key` (method) `core/config.py:250` `def resolve_aes_key(config_dict)` -- Return a 32-byte AES key derived from config, disk, or randomness.
-- `Config.load_payload` (method) `core/config.py:316` `def load_payload(path)` -- Load and return the JSON payload at ``path``.
-- `Config.load_and_validate` (method) `core/config.py:334` `def load_and_validate(path)` -- Load ``payload.json``, validate against the schema, and return a result dict.
-- `Config.save_payload` (method) `core/config.py:385` `def save_payload(payload, path)` -- Atomically write ``payload`` as pretty-printed JSON to ``path``.
-
-## core/console.py
-Imported by: `cli/autosuggest.py`, `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/ops_commands.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
-- `colors_enabled` (function) `core/console.py:97` `def colors_enabled()` -- Return False when NO_COLOR or ANSI_COLORS_DISABLED is set.
-- `format_line` (function) `core/console.py:120` `def format_line(prefix, message, glyph)` -- Build a single log line with standard prefix and sanitized message.
-- `print_error` (function) `core/console.py:136` `def print_error(error)` -- Print a red error message to stdout.
-- `print_msg` (function) `core/console.py:142` `def print_msg(msg)` -- Print a green informational message to stdout.
-- `print_warn` (function) `core/console.py:148` `def print_warn(warn)` -- Print a magenta/yellow warning message to stdout.
-- `print_succ` (function) `core/console.py:154` `def print_succ(msg)` -- Print a bright green success message to stdout.
-
-## core/credential_vault.py
-Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/security.py`, `lazyown.py`, `tests/test_credential_vault.py`
-- `check_dangerous_defaults` (function) `core/credential_vault.py:63` `def check_dangerous_defaults(payload)` -- Scan payload for unchanged default credential values.
-- `seal_value` (function) `core/credential_vault.py:93` `def seal_value(plaintext, key)` -- Encrypt a single credential value.
-- `unseal_value` (function) `core/credential_vault.py:112` `def unseal_value(sealed, key)` -- Decrypt a sealed credential value.
-- `seal_payload` (function) `core/credential_vault.py:141` `def seal_payload(payload, key)` -- Return a copy of ``payload`` with all sensitive values encrypted.
-- `unseal_payload` (function) `core/credential_vault.py:164` `def unseal_payload(payload, key)` -- Return a copy of ``payload`` with all sealed values decrypted.
-- `rotate_aes_key` (function) `core/credential_vault.py:186` `def rotate_aes_key(payload, current_key)` -- Generate a new AES key, re-encrypt all sealed values under it.
-- `generate_secure_defaults` (function) `core/credential_vault.py:215` `def generate_secure_defaults()` -- Generate cryptographically random default values for sensitive keys.
-
-## core/credentials.py
-Depends on: `core/console.py`
-Imported by: `core/__init__.py`
-- `get_credentials` (function) `core/credentials.py:17` `def get_credentials(file, ncred)` -- Search for credential files and return parsed (user, pass) tuples.
-- `get_domain` (function) `core/credentials.py:67` `def get_domain(url)` -- Extract the domain from a URL.
-- `get_hash` (function) `core/credentials.py:81` `def get_hash(dir)` -- Read and return hash file content from the sessions directory.
-- `get_users_dic` (function) `core/credentials.py:115` `def get_users_dic(txt)` -- Read a user list file.
-- `return_creds` (function) `core/credentials.py:146` `def return_creds()` -- Interactive credential retriever.
-- `generate_emails` (function) `core/credentials.py:160` `def generate_emails(full_name, domain)` -- Generate common email patterns from a full name and domain.
-- `crack_password` (function) `core/credentials.py:183` `def crack_password(crypttext)` -- Attempt to crack a Unix crypt-style password using common formats.
-- `find_ea` (function) `core/credentials.py:220` `def find_ea(keyword)` -- Search for files matching a pattern using ``locate`` or ``find``.
-- `find_ps` (function) `core/credentials.py:249` `def find_ps(keyword)` -- Search for scripts and process-related files.
-- `find_ss` (function) `core/credentials.py:261` `def find_ss(keyword)` -- Search for screenshots and media files.
-- `Spray` (function) `core/credentials.py:273` `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` -- Perform password spraying via SOAP/ADFS.
-- `format_openssh_key` (function) `core/credentials.py:341` `def format_openssh_key(raw_key)` -- Format a raw key string as an OpenSSH public key entry.
-- `format_rsa_key` (function) `core/credentials.py:355` `def format_rsa_key(raw_key)` -- Format a raw RSA key.
-
-## core/crypto.py
-Imported by: `cli/auto_crypto.py`, `cli/commands/exfiltration.py`, `core/__init__.py`, `core/credential_vault.py`, `modules/db.py`, `modules/phishing_orchestrator.py`, `modules/rootkit/rootkit.c`, `tests/test_core.py`, `utils.py`
-- `generate_salt` (function) `core/crypto.py:24` `def generate_salt(length)` -- Generate a cryptographically random salt.
-- `derive_key` (function) `core/crypto.py:36` `def derive_key(password, salt)` -- Derive a Fernet-compatible key from a password using PBKDF2HMAC.
-- `xor_encrypt_decrypt` (function) `core/crypto.py:67` `def xor_encrypt_decrypt(data, key)` -- Return ``bytearray`` produced by XOR-ing each byte of ``data`` with ``key``.
-- `generate_xor_key` (function) `core/crypto.py:83` `def generate_xor_key(length)` -- Generate a random XOR key of the given length as a hex string.
-- `AESencrypt` (function) `core/crypto.py:98` `def AESencrypt(plaintext, key)` -- Encrypt ``plaintext`` with AES-256-GCM using a random nonce.
-- `AESdecrypt` (function) `core/crypto.py:123` `def AESdecrypt(data, key)` -- Decrypt data produced by ``AESencrypt``.
-- `dropFile` (function) `core/crypto.py:154` `def dropFile(key, ciphertext)` -- Write AES key and ciphertext to ``sessions/cipher.bin`` and ``sessions/key.bin``.
-
-## core/dependencies.py
-Imported by: `core/__init__.py`, `tests/test_dependencies.py`, `utils.py`
-- `MissingDependencyError.__init__` (method) `core/dependencies.py:45` `def __init__(self, import_name, pip_package, feature)` -- Build a remediation-oriented error message.
-- `_DeferredImport.__init__` (method) `core/dependencies.py:115` `def __init__(self, spec)` -- Store the dependency spec used to build remediation errors.
-- `_DeferredImport.__call__` (method) `core/dependencies.py:136` `def __call__(self)` -- Reject calling a missing dependency.
-- `_DeferredImport.optional_import` (method) `core/dependencies.py:183` `def optional_import(import_name)` -- Import an optional module, returning a deferred proxy when absent.
-- `_DeferredImport.optional_attr` (method) `core/dependencies.py:209` `def optional_attr(import_name, attr)` -- Import an attribute from an optional module, deferring failure.
-- `DependencyReport.missing` (method) `core/dependencies.py:278` `def missing(self)` -- Return the optional Python dependencies that are not installed.
-- `DependencyReport.ok` (method) `core/dependencies.py:283` `def ok(self)` -- Return ``True`` when every declared dependency is present.
-- `DependencyReport.probe_python_dependency` (method) `core/dependencies.py:288` `def probe_python_dependency(spec)` -- Probe a single Python dependency by importing it.
-- `DependencyReport.collect_dependency_report` (method) `core/dependencies.py:312` `def collect_dependency_report()` -- Probe every declared optional Python dependency.
-- `DependencyReport.format_report` (method) `core/dependencies.py:323` `def format_report(report)` -- Render a :class:`DependencyReport` as an aligned, human-readable block.
-- `DependencyReport.main` (method) `core/dependencies.py:368` `def main()` -- Print the optional-dependency report and return a process exit code.
-
-## core/error_advice.py
-Depends on: `core/console.py`
-- `ErrorAdvice.docs_url` (method) `core/error_advice.py:35` `def docs_url(self, config)` -- Return absolute documentation URL for this advice.
-- `ErrorAdvice.get_advice` (method) `core/error_advice.py:74` `def get_advice(key)` -- Return advice for key or None when unknown.
-- `ErrorAdvice.render_advice` (method) `core/error_advice.py:86` `def render_advice(key, config)` -- Render advice as four plain lines with explicit level tags.
 
 
 Next: [API_p6.md](API_p6.md)

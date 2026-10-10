@@ -57,7 +57,7 @@ This community groups 6 file(s) rooted at `modules` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 12 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/payload_arsenal.py imports cli/commands/_base.py.
+- No cross-community bridges recorded. This community is self-contained.
 
 ## Risks
 

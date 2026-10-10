@@ -105,7 +105,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         """Unified loot: show, search, reuse, graph, and mark credentials.
 
         Aggregates every credentials*.txt and hash*.txt in sessions/ into one
-        deduplicated view. Cleartext passwords show green, hashes red.
+        deduplicated view. Clelazyt passwords show green, hashes red.
 
         Subcommands:
             ``l00t``                              — show all captured loot
@@ -681,6 +681,133 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 pass
 
     @cmd2.with_category("12. Miscellaneous")
+    def do_frontier(self, line):
+        """Preview the planner intents the autonomous loops would run next.
+
+        Usage:
+            frontier
+            frontier 192.168.1.10
+
+        Runs the same ``Planner + Frontier`` refill the engage daemon and
+        ``auto_loop`` consume: fact-ranked MITRE techniques for the target,
+        minus tried and creds-gated ones. Nothing is executed; this is the
+        read-only view of the loop's next direction.
+
+        Args:
+            line: Optional target IP. Defaults to the ``rhost`` payload value.
+
+        Returns:
+            None.
+        """
+        target = (line or "").strip() or str(self.params.get("rhost", "") or "").strip()
+        if not target:
+            print_warn("Usage: frontier [target] (or assign rhost first)")
+            return
+        try:
+            from modules.planner import Frontier
+            from modules.planner import Planner
+            from modules.planner import TodoList
+        except Exception as exc:
+            print_error(f"frontier unavailable: {exc}")
+            return
+        try:
+            frontier = Frontier(Planner(), TodoList())
+            intents = frontier.refill(target)
+        except Exception as exc:
+            print_error(f"frontier refill failed: {exc}")
+            return
+        if not intents:
+            print_msg(f"frontier {target}: no new direction (queue empty, world unchanged)")
+            return
+        print_msg(f"frontier {target}: {len(intents)} intents (facts: {frontier._fingerprint or 'none'})")
+        for candidate in intents:
+            print_msg(
+                f"  [{candidate.technique_id}] {candidate.tactic} "
+                f"score={candidate.score:.0f} risk={candidate.risk} :: {candidate.command}"
+            )
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_traces(self, line):
+        """Show recent autonomous step traces with evidence and traffic ids.
+
+        Usage:
+            traces
+            traces lazynmap
+            traces --limit 20
+
+        Tails the autonomous step records both loops settle — first
+        ``sessions/worker_traces.jsonl`` (auto_loop, with evidence hash,
+        traffic exchange and proven goals), falling back to
+        ``sessions/intents.jsonl`` (engage daemon ledger: command, phase,
+        state, reason). Optional substring filters by command.
+
+        Args:
+            line: Optional query substring and ``--limit N``.
+
+        Returns:
+            None.
+        """
+        parts = shlex.split(line or "")
+        limit = 10
+        query = ""
+        index = 0
+        while index < len(parts):
+            token = parts[index]
+            if token == "--limit" and index + 1 < len(parts):
+                try:
+                    limit = max(1, int(parts[index + 1]))
+                except ValueError:
+                    pass
+                index += 2
+                continue
+            if not token.startswith("-"):
+                query = f"{query} {token}".strip() if query else token
+            index += 1
+        shell = self._resolve_shell() or self
+        sessions_dir = Path(getattr(shell, "sessions_dir", "sessions") or "sessions")
+        trace_path = sessions_dir / "worker_traces.jsonl"
+        from_ledger = False
+        if not trace_path.exists():
+            trace_path = sessions_dir / "intents.jsonl"
+            from_ledger = True
+        if not trace_path.exists():
+            print_warn("no traces yet — run auto_loop or engage first")
+            return
+        try:
+            lines = trace_path.read_text(encoding="utf-8", errors="ignore").splitlines()
+        except OSError as exc:
+            print_error(f"traces unreadable: {exc}")
+            return
+        needle = query.lower()
+        matches = [raw for raw in lines if not needle or needle in raw.lower()]
+        if not matches:
+            print_warn(f"no traces matching {query!r}")
+            return
+        for raw in matches[-limit:]:
+            try:
+                record = json.loads(raw)
+            except ValueError:
+                continue
+            if from_ledger:
+                print_msg(
+                    f"  {record.get('command', '?')} [{record.get('phase', '?')}:"
+                    f"{record.get('state', '?')}]"
+                    + (f" reason:{record.get('reason', '')}" if record.get("reason") else "")
+                )
+                continue
+            evidence = str(record.get("evidence", "") or "")[:12]
+            traffic = str(record.get("traffic", "") or "")
+            goals = record.get("goals", []) or []
+            blocked = record.get("blocked", "")
+            status = f"BLOCKED:{blocked}" if blocked else str(record.get("via", ""))
+            print_msg(
+                f"  {record.get('cmd', '?')} [{status}]"
+                + (f" evidence:{evidence}" if evidence else "")
+                + (f" traffic:{traffic}:proof" if traffic else "")
+                + (f" goals:{len(goals)}" if goals else "")
+            )
+
+    @cmd2.with_category("12. Miscellaneous")
     def do_chainmode(self, line):
         """Toggle interactive kill-chain chaining after every command.
 
@@ -1016,9 +1143,17 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             print_msg(f"Profiling target: {target}")
             profile = engine.profile(target)
             if not profile.open_ports:
-                print_warn(f"No open ports discovered for {target} — running lazynmap first.")
-                self.onecmd(f"lazynmap {target}")
-                profile = engine.profile(target)
+                try:
+                    from modules.enrich import should_rescan as _should_rescan
+                    _need = _should_rescan("sessions", target)
+                except Exception:
+                    _need = True
+                if not _need:
+                    print_msg(f"[coverage] fresh scan artefact for {target} — reusing, no rescan.")
+                else:
+                    print_warn(f"No open ports discovered for {target} — running lazynmap first.")
+                    self.onecmd(f"lazynmap {target}")
+                    profile = engine.profile(target)
                 if not profile.open_ports:
                     print_error(f"Still no open ports after scan. Target {target} may be unreachable.")
                     return
@@ -1043,7 +1178,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 return
 
             print_msg(f"Executing up to {max_exploits} exploits...")
-            results = engine.hunt(target, max_exploits=max_exploits)
+            results = engine.hunt(target, max_exploits=max_exploits, profile=profile)
 
             for r in results:
                 status = "SUCCESS" if r.success else "FAILED"

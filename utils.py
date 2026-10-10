@@ -114,10 +114,12 @@ from core.console import (  # noqa: F401
     UNDERLINE,
     WHITE,
     YELLOW,
+    ensure_blocking_stdio,
     print_error,
     print_msg,
     print_succ,
     print_warn,
+    write_stdout,
 )
 from core.crypto import AESencrypt, dropFile, generate_xor_key, xor_encrypt_decrypt  # noqa: F401
 from core.dependencies import optional_attr, optional_import

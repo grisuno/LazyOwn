@@ -124,7 +124,7 @@ PHASE_OBJECTIVE_TEMPLATES: dict[str, list[str]] = {
         "Escalate to root/SYSTEM on {target}",
     ],
     "cred": [
-        "Dump credential material from {target} (hashes, tickets, cleartext)",
+        "Dump credential material from {target} (hashes, tickets, clelazyt)",
         "Attempt lateral movement with captured credentials",
     ],
     "lateral": [

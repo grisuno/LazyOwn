@@ -1,8 +1,72 @@
-# Symbols (page 4 of 35)
+# Symbols (page 4 of 38)
 Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `CommandRequested` | class | `cli/dashboard_tui.py:97` | `class CommandRequested(Message)` |
+| `CommandsPanel` | class | `cli/dashboard_tui.py:460` | `class CommandsPanel(Static)` |
+| `ConfigPanel` | class | `cli/dashboard_tui.py:430` | `class ConfigPanel(Static)` |
+| `HintBar` | class | `cli/dashboard_tui.py:587` | `class HintBar(Horizontal)` |
+| `KillChainPanel` | class | `cli/dashboard_tui.py:378` | `class KillChainPanel(Static)` |
+| `LazyOwnDashboard` | class | `cli/dashboard_tui.py:738` | `class LazyOwnDashboard(App)` |
+| `NextStepsPanel` | class | `cli/dashboard_tui.py:706` | `class NextStepsPanel(Static)` |
+| `OpsPanel` | class | `cli/dashboard_tui.py:532` | `class OpsPanel(Static)` |
+| `OutputPanel` | class | `cli/dashboard_tui.py:693` | `class OutputPanel(Log)` |
+| `PhaseSelected` | class | `cli/dashboard_tui.py:105` | `class PhaseSelected(Message)` |
+| `ReasoningPanel` | class | `cli/dashboard_tui.py:495` | `class ReasoningPanel(Static)` |
+| `TargetPanel` | class | `cli/dashboard_tui.py:322` | `class TargetPanel(Static)` |
+| `ToastPanel` | class | `cli/dashboard_tui.py:653` | `class ToastPanel(Static)` |
+| `__init__` | method | `cli/dashboard_tui.py:100` | `def __init__(self, command)` |
+| `__init__` | method | `cli/dashboard_tui.py:108` | `def __init__(self, phase)` |
+| `__init__` | method | `cli/dashboard_tui.py:393` | `def __init__(self)` |
+| `__init__` | method | `cli/dashboard_tui.py:610` | `def __init__(self)` |
+| `__init__` | method | `cli/dashboard_tui.py:807` | `def __init__(self, payload_path, sessions_dir)` |
+| `_apply_command_result` | method | `cli/dashboard_tui.py:894` | `def _apply_command_result(self, command, success, output)` |
+| `_apply_layout` | method | `cli/dashboard_tui.py:819` | `def _apply_layout(self, mode, hidden_fn)` |
+| `_beacon_count` | method | `cli/dashboard_tui.py:265` | `def _beacon_count()` |
+| `_count_lines_in_glob` | method | `cli/dashboard_tui.py:169` | `def _count_lines_in_glob(pattern)` |
+| `_cycle_phase` | method | `cli/dashboard_tui.py:995` | `def _cycle_phase(self, direction)` |
+| `_do_refresh` | method | `cli/dashboard_tui.py:1011` | `def _do_refresh(self)` |
+| `_engagement_to_cli_phase` | method | `cli/dashboard_tui.py:159` | `def _engagement_to_cli_phase(engagement_phase)` |
+| `_execute` | method | `cli/dashboard_tui.py:881` | `def _execute(self, command)` |
+| `_fallback_hints` | method | `cli/dashboard_tui.py:223` | `def _fallback_hints(last_command, limit)` |
+| `_filter_commands` | method | `cli/dashboard_tui.py:1048` | `def _filter_commands(self, commands)` |
+| `_get_killchain_for_tui` | function | `cli/dashboard_tui.py:55` | `def _get_killchain_for_tui()` |
+| `_get_recommendations` | method | `cli/dashboard_tui.py:297` | `def _get_recommendations()` |
+| `_graph_hints` | method | `cli/dashboard_tui.py:209` | `def _graph_hints(limit)` |
+| `_raise_toast` | method | `cli/dashboard_tui.py:938` | `def _raise_toast(self, message, severity, event_type)` |
+| `_read_credential_lines` | method | `cli/dashboard_tui.py:280` | `def _read_credential_lines(pattern)` |
+| `_read_json` | method | `cli/dashboard_tui.py:151` | `def _read_json(path)` |
+| `_read_recent_commands` | method | `cli/dashboard_tui.py:182` | `def _read_recent_commands(limit)` |
+| `_resolve_hints` | method | `cli/dashboard_tui.py:248` | `def _resolve_hints(recent, limit)` |
+| `_write_phase` | method | `cli/dashboard_tui.py:43` | `def _write_phase(phase)` |
+| `action_export_snapshot` | method | `cli/dashboard_tui.py:967` | `def action_export_snapshot(self)` |
+| `action_next_phase` | method | `cli/dashboard_tui.py:987` | `def action_next_phase(self)` |
+| `action_prev_phase` | method | `cli/dashboard_tui.py:991` | `def action_prev_phase(self)` |
+| `action_refresh_data` | method | `cli/dashboard_tui.py:923` | `def action_refresh_data(self)` |
+| `action_screenshot` | method | `cli/dashboard_tui.py:956` | `def action_screenshot(self)` |
+| `action_toggle_compact` | method | `cli/dashboard_tui.py:926` | `def action_toggle_compact(self)` |
+| `compose` | method | `cli/dashboard_tui.py:615` | `def compose(self)` |
+| `compose` | method | `cli/dashboard_tui.py:836` | `def compose(self)` |
+| `dispatch_command` | method | `cli/dashboard_tui.py:113` | `def dispatch_command(command, timeout)` |
+| `get_selection` | method | `cli/dashboard_tui.py:335` | `def get_selection(self, selection)` |
+| `launch` | method | `cli/dashboard_tui.py:1064` | `def launch(payload_path, sessions_dir)` |
+| `on_button_pressed` | method | `cli/dashboard_tui.py:644` | `def on_button_pressed(self, event)` |
+| `on_click` | method | `cli/dashboard_tui.py:418` | `def on_click(self, event)` |
+| `on_command_requested` | method | `cli/dashboard_tui.py:872` | `def on_command_requested(self, event)` |
+| `on_input_submitted` | method | `cli/dashboard_tui.py:860` | `def on_input_submitted(self, event)` |
+| `on_mount` | method | `cli/dashboard_tui.py:855` | `def on_mount(self)` |
+| `on_phase_selected` | method | `cli/dashboard_tui.py:912` | `def on_phase_selected(self, event)` |
+| `render_content` | method | `cli/dashboard_tui.py:348` | `def render_content(self, payload, world)` |
+| `update_data` | method | `cli/dashboard_tui.py:374` | `def update_data(self, payload, world)` |
+| `update_data` | method | `cli/dashboard_tui.py:397` | `def update_data(self, progress)` |
+| `update_data` | method | `cli/dashboard_tui.py:442` | `def update_data(self, payload)` |
+| `update_data` | method | `cli/dashboard_tui.py:472` | `def update_data(self, commands)` |
+| `update_data` | method | `cli/dashboard_tui.py:507` | `def update_data(self, entries)` |
+| `update_data` | method | `cli/dashboard_tui.py:544` | `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)` |
+| `update_data` | method | `cli/dashboard_tui.py:619` | `def update_data(self, hints)` |
+| `update_data` | method | `cli/dashboard_tui.py:671` | `def update_data(self, payload, sessions_dir, width)` |
+| `update_data` | method | `cli/dashboard_tui.py:718` | `def update_data(self, recommendations)` |
 | `CheckResult` | class | `cli/doctor.py:96` | `class CheckResult` |
 | `DoctorReport` | class | `cli/doctor.py:113` | `class DoctorReport` |
 | `PackageSpec` | class | `cli/doctor.py:56` | `class PackageSpec` |
@@ -308,58 +372,58 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `tab_order` | method | `cli/marketplace_config.py:338` | `def tab_order(self)` |
 | `toggle` | method | `cli/marketplace_config.py:357` | `def toggle(self, addon)` |
 | `toggle_enabled` | method | `cli/marketplace_config.py:164` | `def toggle_enabled(self)` |
-| `LootEntry` | class | `cli/ops_commands.py:544` | `class LootEntry` |
-| `_bucket` | method | `cli/ops_commands.py:860` | `def _bucket(node)` |
+| `LootEntry` | class | `cli/ops_commands.py:545` | `class LootEntry` |
+| `_bucket` | method | `cli/ops_commands.py:861` | `def _bucket(node)` |
 | `_cli_phase_to_host_state` | function | `cli/ops_commands.py:297` | `def _cli_phase_to_host_state(phase)` |
-| `_count_glob` | function | `cli/ops_commands.py:449` | `def _count_glob(pattern)` |
-| `_count_pivots` | function | `cli/ops_commands.py:384` | `def _count_pivots(sessions_dir)` |
-| `_cred_node` | method | `cli/ops_commands.py:757` | `def _cred_node(value)` |
-| `_cred_outcomes_for_host` | method | `cli/ops_commands.py:730` | `def _cred_outcomes_for_host(world, host)` |
+| `_count_glob` | function | `cli/ops_commands.py:450` | `def _count_glob(pattern)` |
+| `_count_pivots` | function | `cli/ops_commands.py:385` | `def _count_pivots(sessions_dir)` |
+| `_cred_node` | method | `cli/ops_commands.py:758` | `def _cred_node(value)` |
+| `_cred_outcomes_for_host` | method | `cli/ops_commands.py:731` | `def _cred_outcomes_for_host(world, host)` |
 | `_engagement_phase_to_cli` | function | `cli/ops_commands.py:292` | `def _engagement_phase_to_cli(phase_value)` |
-| `_glob_count` | function | `cli/ops_commands.py:374` | `def _glob_count(sessions_dir, pattern)` |
+| `_glob_count` | function | `cli/ops_commands.py:375` | `def _glob_count(sessions_dir, pattern)` |
 | `_highlight_match` | function | `cli/ops_commands.py:265` | `def _highlight_match(line, rx)` |
-| `_host_label` | method | `cli/ops_commands.py:863` | `def _host_label(node)` |
-| `_human_age` | method | `cli/ops_commands.py:1462` | `def _human_age(seconds)` |
-| `_human_size` | method | `cli/ops_commands.py:1472` | `def _human_size(n)` |
-| `_join` | method | `cli/ops_commands.py:900` | `def _join(items)` |
-| `_load_tasks` | method | `cli/ops_commands.py:1058` | `def _load_tasks()` |
-| `_loot_provenance` | method | `cli/ops_commands.py:656` | `def _loot_provenance(query, sessions_dir)` |
-| `_os_identified` | function | `cli/ops_commands.py:366` | `def _os_identified(sessions_dir)` |
+| `_host_label` | method | `cli/ops_commands.py:864` | `def _host_label(node)` |
+| `_human_age` | method | `cli/ops_commands.py:1475` | `def _human_age(seconds)` |
+| `_human_size` | method | `cli/ops_commands.py:1485` | `def _human_size(n)` |
+| `_join` | method | `cli/ops_commands.py:901` | `def _join(items)` |
+| `_load_tasks` | method | `cli/ops_commands.py:1059` | `def _load_tasks()` |
+| `_loot_provenance` | method | `cli/ops_commands.py:657` | `def _loot_provenance(query, sessions_dir)` |
+| `_os_identified` | function | `cli/ops_commands.py:367` | `def _os_identified(sessions_dir)` |
 | `_phase_rank` | function | `cli/ops_commands.py:287` | `def _phase_rank(phase)` |
-| `_print_next_steps` | method | `cli/ops_commands.py:1374` | `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)` |
-| `_read_json` | function | `cli/ops_commands.py:424` | `def _read_json(path)` |
-| `_read_plan` | method | `cli/ops_commands.py:1441` | `def _read_plan()` |
+| `_print_next_steps` | method | `cli/ops_commands.py:1387` | `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)` |
+| `_read_json` | function | `cli/ops_commands.py:425` | `def _read_json(path)` |
+| `_read_plan` | method | `cli/ops_commands.py:1454` | `def _read_plan()` |
 | `_render_progress_bar` | function | `cli/ops_commands.py:359` | `def _render_progress_bar(ratio)` |
-| `_render_steps` | method | `cli/ops_commands.py:1436` | `def _render_steps(steps)` |
-| `_report_artifact_exists` | function | `cli/ops_commands.py:379` | `def _report_artifact_exists(sessions_dir)` |
-| `_save_tasks` | method | `cli/ops_commands.py:1065` | `def _save_tasks(tasks)` |
+| `_render_steps` | method | `cli/ops_commands.py:1449` | `def _render_steps(steps)` |
+| `_report_artifact_exists` | function | `cli/ops_commands.py:380` | `def _report_artifact_exists(sessions_dir)` |
+| `_save_tasks` | method | `cli/ops_commands.py:1066` | `def _save_tasks(tasks)` |
 | `_search_csv` | function | `cli/ops_commands.py:211` | `def _search_csv(rx, hits, limit)` |
 | `_search_logs` | function | `cli/ops_commands.py:236` | `def _search_logs(rx, hits, limit, sessions_dir)` |
 | `_search_transcript_jsonl` | function | `cli/ops_commands.py:177` | `def _search_transcript_jsonl(rx, hits, limit)` |
-| `_write_json_atomic` | function | `cli/ops_commands.py:432` | `def _write_json_atomic(path, data)` |
-| `gather_loot` | method | `cli/ops_commands.py:570` | `def gather_loot(sessions_dir)` |
-| `loot_graph` | method | `cli/ops_commands.py:846` | `def loot_graph(sessions_dir)` |
-| `loot_mark` | method | `cli/ops_commands.py:944` | `def loot_mark(selector, outcome, host, sessions_dir)` |
-| `loot_reuse` | method | `cli/ops_commands.py:762` | `def loot_reuse(rhost, sessions_dir)` |
-| `loot_search` | method | `cli/ops_commands.py:685` | `def loot_search(query, sessions_dir)` |
-| `loot_show` | method | `cli/ops_commands.py:613` | `def loot_show(sessions_dir)` |
-| `note_add` | function | `cli/ops_commands.py:467` | `def note_add(text, rhost, phase)` |
-| `note_list` | function | `cli/ops_commands.py:492` | `def note_list(rhost, limit)` |
-| `phase_progress` | function | `cli/ops_commands.py:392` | `def phase_progress(world, sessions_dir)` |
-| `pivot_add` | method | `cli/ops_commands.py:986` | `def pivot_add(new_ip, via_ip, note)` |
-| `pivot_list` | method | `cli/ops_commands.py:1012` | `def pivot_list()` |
+| `_write_json_atomic` | function | `cli/ops_commands.py:433` | `def _write_json_atomic(path, data)` |
+| `gather_loot` | method | `cli/ops_commands.py:571` | `def gather_loot(sessions_dir)` |
+| `loot_graph` | method | `cli/ops_commands.py:847` | `def loot_graph(sessions_dir)` |
+| `loot_mark` | method | `cli/ops_commands.py:945` | `def loot_mark(selector, outcome, host, sessions_dir)` |
+| `loot_reuse` | method | `cli/ops_commands.py:763` | `def loot_reuse(rhost, sessions_dir)` |
+| `loot_search` | method | `cli/ops_commands.py:686` | `def loot_search(query, sessions_dir)` |
+| `loot_show` | method | `cli/ops_commands.py:614` | `def loot_show(sessions_dir)` |
+| `note_add` | function | `cli/ops_commands.py:468` | `def note_add(text, rhost, phase)` |
+| `note_list` | function | `cli/ops_commands.py:493` | `def note_list(rhost, limit)` |
+| `phase_progress` | function | `cli/ops_commands.py:393` | `def phase_progress(world, sessions_dir)` |
+| `pivot_add` | method | `cli/ops_commands.py:987` | `def pivot_add(new_ip, via_ip, note)` |
+| `pivot_list` | method | `cli/ops_commands.py:1013` | `def pivot_list()` |
 | `print_ctx` | function | `cli/ops_commands.py:74` | `def print_ctx(payload, sessions_dir)` |
 | `print_phase` | function | `cli/ops_commands.py:317` | `def print_phase()` |
 | `read_phase` | function | `cli/ops_commands.py:279` | `def read_phase()` |
-| `resolve_cred_value` | method | `cli/ops_commands.py:916` | `def resolve_cred_value(selector, entries)` |
-| `scans_list` | method | `cli/ops_commands.py:1188` | `def scans_list(rhost, sessions_dir)` |
-| `sitrep` | method | `cli/ops_commands.py:1241` | `def sitrep(payload, sessions_dir)` |
-| `tasks_add` | method | `cli/ops_commands.py:1124` | `def tasks_add(title, operator)` |
-| `tasks_done` | method | `cli/ops_commands.py:1145` | `def tasks_done(task_id)` |
-| `tasks_list` | method | `cli/ops_commands.py:1069` | `def tasks_list(status_filter, limit)` |
-| `tasks_start` | method | `cli/ops_commands.py:1165` | `def tasks_start(task_id)` |
+| `resolve_cred_value` | method | `cli/ops_commands.py:917` | `def resolve_cred_value(selector, entries)` |
+| `scans_list` | method | `cli/ops_commands.py:1189` | `def scans_list(rhost, sessions_dir)` |
+| `sitrep` | method | `cli/ops_commands.py:1242` | `def sitrep(payload, sessions_dir)` |
+| `tasks_add` | method | `cli/ops_commands.py:1125` | `def tasks_add(title, operator)` |
+| `tasks_done` | method | `cli/ops_commands.py:1146` | `def tasks_done(task_id)` |
+| `tasks_list` | method | `cli/ops_commands.py:1070` | `def tasks_list(status_filter, limit)` |
+| `tasks_start` | method | `cli/ops_commands.py:1166` | `def tasks_start(task_id)` |
 | `tgrep` | function | `cli/ops_commands.py:115` | `def tgrep(pattern)` |
-| `value` | method | `cli/ops_commands.py:560` | `def value(self)` |
+| `value` | method | `cli/ops_commands.py:561` | `def value(self)` |
 | `write_phase` | function | `cli/ops_commands.py:302` | `def write_phase(phase)` |
 | `OutputMode` | class | `cli/output_mode.py:33` | `class OutputMode` |
 | `OutputModeConfig` | class | `cli/output_mode.py:20` | `class OutputModeConfig` |
@@ -432,69 +496,5 @@ Previous: [SYMBOLS_p3.md](SYMBOLS_p3.md)
 | `GraphIndex` | class | `cli/palette_graph.py:74` | `class GraphIndex` |
 | `GraphIndexError` | class | `cli/palette_graph.py:39` | `class GraphIndexError(RuntimeError)` |
 | `GraphLookupConfig` | class | `cli/palette_graph.py:44` | `class GraphLookupConfig` |
-| `_build_adjacency` | method | `cli/palette_graph.py:90` | `def _build_adjacency(document)` |
-| `_command_name_from_label` | method | `cli/palette_graph.py:68` | `def _command_name_from_label(label)` |
-| `_filter_neighbours` | method | `cli/palette_graph.py:161` | `def _filter_neighbours(neighbours)` |
-| `_looks_like_command_label` | method | `cli/palette_graph.py:63` | `def _looks_like_command_label(label)` |
-| `callees` | method | `cli/palette_graph.py:179` | `def callees(graph, command_name)` |
-| `enrich_commands` | method | `cli/palette_graph.py:309` | `def enrich_commands(graph, rows)` |
-| `enrich_detail` | method | `cli/palette_graph.py:287` | `def enrich_detail(graph, entry)` |
-| `load_graph` | method | `cli/palette_graph.py:127` | `def load_graph(path)` |
-| `related_commands` | method | `cli/palette_graph.py:226` | `def related_commands(graph, command_name)` |
-| `safe_load_graph` | method | `cli/palette_graph.py:149` | `def safe_load_graph(path)` |
-| `PaletteOverlayConfig` | class | `cli/palette_overlay.py:38` | `class PaletteOverlayConfig` |
-| `PaletteOverlayState` | class | `cli/palette_overlay.py:70` | `class PaletteOverlayState` |
-| `PaletteRow` | class | `cli/palette_overlay.py:59` | `class PaletteRow` |
-| `_PaletteOverlayApp` | class | `cli/palette_overlay.py:240` | `class _PaletteOverlayApp(App)` |
-| `__init__` | method | `cli/palette_overlay.py:255` | `def __init__(self)` |
-| `_build_app` | method | `cli/palette_overlay.py:228` | `def _build_app(state, theme)` |
-| `_commit_from_item` | method | `cli/palette_overlay.py:292` | `def _commit_from_item(self, item)` |
-| `_format_row` | method | `cli/palette_overlay.py:314` | `def _format_row(self, row)` |
-| `_load_index` | method | `cli/palette_overlay.py:151` | `def _load_index()` |
-| `_load_recents` | method | `cli/palette_overlay.py:136` | `def _load_recents()` |
-| `_refresh_rows` | method | `cli/palette_overlay.py:300` | `def _refresh_rows(self)` |
-| `_score` | method | `cli/palette_overlay.py:113` | `def _score(self, name, summary, needle, is_recent)` |
-| `_truncate` | method | `cli/palette_overlay.py:130` | `def _truncate(self, value, max_chars)` |
-| `action_cancel` | method | `cli/palette_overlay.py:282` | `def action_cancel(self)` |
-| `action_select_current` | method | `cli/palette_overlay.py:285` | `def action_select_current(self)` |
-| `build_state` | method | `cli/palette_overlay.py:162` | `def build_state(payload, index, recents, config)` |
-| `compose` | method | `cli/palette_overlay.py:261` | `def compose(self)` |
-| `launch_overlay` | method | `cli/palette_overlay.py:188` | `def launch_overlay(payload, state, runner)` |
-| `on_input_changed` | method | `cli/palette_overlay.py:272` | `def on_input_changed(self, event)` |
-| `on_input_submitted` | method | `cli/palette_overlay.py:276` | `def on_input_submitted(self, event)` |
-| `on_list_view_selected` | method | `cli/palette_overlay.py:279` | `def on_list_view_selected(self, event)` |
-| `on_mount` | method | `cli/palette_overlay.py:269` | `def on_mount(self)` |
-| `rows` | method | `cli/palette_overlay.py:87` | `def rows(self)` |
-| `set_query` | method | `cli/palette_overlay.py:83` | `def set_query(self, value)` |
-| `CommandStat` | class | `cli/palette_telemetry.py:61` | `class CommandStat` |
-| `TelemetryConfig` | class | `cli/palette_telemetry.py:42` | `class TelemetryConfig` |
-| `TelemetryIndex` | class | `cli/palette_telemetry.py:78` | `class TelemetryIndex` |
-| `TelemetryIndexError` | class | `cli/palette_telemetry.py:37` | `class TelemetryIndexError(RuntimeError)` |
-| `_build_index` | method | `cli/palette_telemetry.py:123` | `def _build_index(rows)` |
-| `_normalise_command` | method | `cli/palette_telemetry.py:97` | `def _normalise_command(value)` |
-| `_read_csv_rows` | method | `cli/palette_telemetry.py:107` | `def _read_csv_rows(path)` |
-| `command_stats` | method | `cli/palette_telemetry.py:216` | `def command_stats(telemetry, command_name)` |
-| `enrich_commands` | method | `cli/palette_telemetry.py:300` | `def enrich_commands(telemetry, rows)` |
-| `enrich_detail` | method | `cli/palette_telemetry.py:275` | `def enrich_detail(telemetry, entry)` |
-| `load_telemetry` | method | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
-| `recents` | method | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
-| `runs_after` | method | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
-| `safe_load_telemetry` | method | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
-| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
-| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
-| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
-| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
-| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
-| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
-| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
-| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
-| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
-| `ProTip` | class | `cli/protips.py:34` | `class ProTip` |
-| `_after` | method | `cli/protips.py:75` | `def _after(ctx)` |
-| `_has_api_key` | method | `cli/protips.py:59` | `def _has_api_key(ctx)` |
-| `_has_domain` | method | `cli/protips.py:55` | `def _has_domain(ctx)` |
-| `_has_rhost` | method | `cli/protips.py:51` | `def _has_rhost(ctx)` |
-| `_last_cmd_is` | method | `cli/protips.py:67` | `def _last_cmd_is(ctx)` |
-| `_os_linux` | method | `cli/protips.py:43` | `def _os_linux(ctx)` |
 
 Next: [SYMBOLS_p5.md](SYMBOLS_p5.md)

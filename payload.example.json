@@ -110,5 +110,5 @@
     "ghidra_plugin_url": "http://localhost:8089",
     "mcp_host": "localhost",
     "mcp_port": "8081",
-    "grype_target": ".",
+    "grype_target": "."
 }

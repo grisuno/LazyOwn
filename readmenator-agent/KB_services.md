@@ -29,8 +29,8 @@
   - `known_topology` (method, line 136) `def known_topology(self)`
   - `known_campaigns` (method, line 140) `def known_campaigns(self)`
   - `request_world_model` (method, line 144) `def request_world_model(self)`
-  - `request_beacon_history` (method, line 157) `def request_beacon_history(self, client_id)`
-  - `request_session_state` (method, line 171) `def request_session_state(self)`
+  - `request_beacon_history` (method, line 158) `def request_beacon_history(self, client_id)`
+  - `request_session_state` (method, line 172) `def request_session_state(self)`
 - Depends on: `cli/commands/enum.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/app.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/registry.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/__init__.py`, `lazygui/services/factory.py`, `lazygui/services/local_backend.py`, `lazygui/services/teamserver_backend.py`, `lazygui/widgets/beacon_command_modal.py`, `lazygui/widgets/status_badge.py`, `lazygui/windows/main_window.py`, `tests/test_lazygui_backend.py`
 
@@ -133,7 +133,7 @@
   - `request_beacon_results` (method, line 185) `def request_beacon_results(self, client_id)`
   - `request_world_model` (method, line 210) `def request_world_model(self)`
   - `request_beacon_history` (method, line 224) `def request_beacon_history(self, client_id)`
-  - `_poll_beacon_results` (method, line 244) `def _poll_beacon_results(self)`
+  - `_poll_beacon_results` (method, line 242) `def _poll_beacon_results(self)`
   - `_establish_flask_session` (method, line 285) `def _establish_flask_session(self)`
   - `_build_http_session` (method, line 302) `def _build_http_session(self)`
   - `_build_url` (method, line 312) `def _build_url(self, path)`
@@ -146,15 +146,15 @@
   - `_refresh_dashboard` (method, line 396) `def _refresh_dashboard(self)`
   - `_install_http_polling` (method, line 424) `def _install_http_polling(self)`
   - `_start_socketio` (method, line 443) `def _start_socketio(self)`
-  - `_stop_socketio` (method, line 522) `def _stop_socketio(self)`
-  - `_update_from_payload` (method, line 532) `def _update_from_payload(self, payload)`
-  - `_update_sessions` (method, line 539) `def _update_sessions(self, payload)`
-  - `_update_listeners` (method, line 579) `def _update_listeners(self, payload)`
-  - `_update_operator` (method, line 610) `def _update_operator(self, payload)`
-  - `_parse_graph_nodes` (method, line 623) `def _parse_graph_nodes(self, payload)`
-  - `_parse_graph_edges` (method, line 647) `def _parse_graph_edges(self, payload)`
-  - `_build_topology_from_payload` (method, line 666) `def _build_topology_from_payload(self, payload)`
-  - `_emit_event` (method, line 774) `def _emit_event(self, level, message)`
+  - `_stop_socketio` (method, line 520) `def _stop_socketio(self)`
+  - `_update_from_payload` (method, line 530) `def _update_from_payload(self, payload)`
+  - `_update_sessions` (method, line 537) `def _update_sessions(self, payload)`
+  - `_update_listeners` (method, line 577) `def _update_listeners(self, payload)`
+  - `_update_operator` (method, line 608) `def _update_operator(self, payload)`
+  - `_parse_graph_nodes` (method, line 621) `def _parse_graph_nodes(self, payload)`
+  - `_parse_graph_edges` (method, line 645) `def _parse_graph_edges(self, payload)`
+  - `_build_topology_from_payload` (method, line 664) `def _build_topology_from_payload(self, payload)`
+  - `_emit_event` (method, line 780) `def _emit_event(self, level, message)`
   - `_connect_sio` (method, line 444) `def _connect_sio()`
   - `_on_pty_connect` (method, line 461) `def _on_pty_connect()`
   - `_on_pty_output` (method, line 465) `def _on_pty_output(data)`

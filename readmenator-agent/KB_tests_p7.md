@@ -287,13 +287,13 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `test_redirector_stale_threshold` (function, line 272) `def test_redirector_stale_threshold()`
   - `test_format_timeline_event_summarizes_payload` (function, line 279) `def test_format_timeline_event_summarizes_payload()`
   - `test_mitre_matrix_keeps_unknown_tactics` (function, line 298) `def test_mitre_matrix_keeps_unknown_tactics()`
-  - `test_range_backdoor_shell_published` (function, line 307) `def test_range_backdoor_shell_published()`
-  - `test_range_verify_confirms_root` (function, line 316) `def test_range_verify_confirms_root(capsys)`
-  - `test_range_verify_unknown_profile` (function, line 334) `def test_range_verify_unknown_profile(capsys)`
-  - `test_gym_range_next_steps` (function, line 342) `def test_gym_range_next_steps()`
-  - `test_find_cloudflared_pids` (function, line 357) `def test_find_cloudflared_pids()`
-  - `test_compose_down_missing_file` (function, line 373) `def test_compose_down_missing_file()`
-  - `test_payload_schema_has_fallback_slot` (function, line 380) `def test_payload_schema_has_fallback_slot()`
+  - `test_range_backdoor_shell_published` (function, line 309) `def test_range_backdoor_shell_published()`
+  - `test_range_verify_confirms_root` (function, line 318) `def test_range_verify_confirms_root(capsys)`
+  - `test_range_verify_unknown_profile` (function, line 336) `def test_range_verify_unknown_profile(capsys)`
+  - `test_gym_range_next_steps` (function, line 344) `def test_gym_range_next_steps()`
+  - `test_find_cloudflared_pids` (function, line 358) `def test_find_cloudflared_pids()`
+  - `test_compose_down_missing_file` (function, line 374) `def test_compose_down_missing_file()`
+  - `test_payload_schema_has_fallback_slot` (function, line 381) `def test_payload_schema_has_fallback_slot()`
 - Depends on: `cli/commands/infra.py`, `cli/commands/lab.py`, `core/payload_schema.py`, `modules/c2_builder.py`, `modules/professional_report.py`, `modules/redteam_gym.py`, `modules/session_cleanup.py`
 
 ## tests/test_input_fuzz.py
@@ -320,29 +320,29 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `nmap_xml` (function, line 24) `def nmap_xml(tmp_path)`
   - `TestCollection` (class, line 45) `class TestCollection`
   - `TestAnalysis` (class, line 108) `class TestAnalysis`
-  - `TestIntelligenceProduction` (class, line 155) `class TestIntelligenceProduction`
-  - `TestCounterIntelligence` (class, line 170) `class TestCounterIntelligence`
-  - `TestFullCycle` (class, line 191) `class TestFullCycle`
-  - `TestPlaceholderFiltering` (class, line 208) `class TestPlaceholderFiltering`
+  - `TestIntelligenceProduction` (class, line 159) `class TestIntelligenceProduction`
+  - `TestCounterIntelligence` (class, line 178) `class TestCounterIntelligence`
+  - `TestFullCycle` (class, line 198) `class TestFullCycle`
+  - `TestPlaceholderFiltering` (class, line 215) `class TestPlaceholderFiltering`
   - `test_collect_from_scan_services` (method, line 46) `def test_collect_from_scan_services(self, engine, nmap_xml)`
   - `test_collect_from_scan_os` (method, line 56) `def test_collect_from_scan_os(self, engine, nmap_xml)`
   - `test_collect_from_scan_domain` (method, line 63) `def test_collect_from_scan_domain(self, engine, nmap_xml)`
   - `test_collect_from_scan_hosts` (method, line 70) `def test_collect_from_scan_hosts(self, engine, nmap_xml)`
   - `test_collect_from_scan_missing_xml` (method, line 76) `def test_collect_from_scan_missing_xml(self, engine)`
   - `test_collect_from_tool_parses_creds` (method, line 81) `def test_collect_from_tool_parses_creds(self, engine)`
-  - `test_collect_from_tool_filters_placeholders` (method, line 88) `def test_collect_from_tool_filters_placeholders(self, engine)`
-  - `test_collect_from_factstore` (method, line 95) `def test_collect_from_factstore(self, engine, tmp_path)`
+  - `test_collect_from_tool_filters_placeholders` (method, line 86) `def test_collect_from_tool_filters_placeholders(self, engine)`
+  - `test_collect_from_factstore` (method, line 91) `def test_collect_from_factstore(self, engine, tmp_path)`
   - `test_analyze_produces_assessments` (method, line 109) `def test_analyze_produces_assessments(self, engine, nmap_xml)`
   - `test_analyze_maps_apache_cve` (method, line 115) `def test_analyze_maps_apache_cve(self, engine)`
-  - `test_analyze_correlates_creds_to_hosts` (method, line 126) `def test_analyze_correlates_creds_to_hosts(self, engine)`
-  - `test_analyze_ranks_targets` (method, line 139) `def test_analyze_ranks_targets(self, engine)`
-  - `test_produce_intelligence_grades_assessments` (method, line 156) `def test_produce_intelligence_grades_assessments(self, engine)`
-  - `test_credential_exposure_detected` (method, line 171) `def test_credential_exposure_detected(self, engine)`
-  - `test_high_scan_volume_detected` (method, line 181) `def test_high_scan_volume_detected(self, engine)`
-  - `test_run_full_cycle_returns_summary` (method, line 192) `def test_run_full_cycle_returns_summary(self, engine, nmap_xml)`
-  - `test_get_intel_report_structured` (method, line 198) `def test_get_intel_report_structured(self, engine, nmap_xml)`
-  - `test_is_placeholder_detects_change_me` (method, line 209) `def test_is_placeholder_detects_change_me(self, engine)`
-  - `test_is_placeholder_rejects_real_values` (method, line 213) `def test_is_placeholder_rejects_real_values(self, engine)`
+  - `test_analyze_correlates_creds_to_hosts` (method, line 131) `def test_analyze_correlates_creds_to_hosts(self, engine)`
+  - `test_analyze_ranks_targets` (method, line 143) `def test_analyze_ranks_targets(self, engine)`
+  - `test_produce_intelligence_grades_assessments` (method, line 160) `def test_produce_intelligence_grades_assessments(self, engine)`
+  - `test_credential_exposure_detected` (method, line 179) `def test_credential_exposure_detected(self, engine)`
+  - `test_high_scan_volume_detected` (method, line 188) `def test_high_scan_volume_detected(self, engine)`
+  - `test_run_full_cycle_returns_summary` (method, line 199) `def test_run_full_cycle_returns_summary(self, engine, nmap_xml)`
+  - `test_get_intel_report_structured` (method, line 205) `def test_get_intel_report_structured(self, engine, nmap_xml)`
+  - `test_is_placeholder_detects_change_me` (method, line 216) `def test_is_placeholder_detects_change_me(self, engine)`
+  - `test_is_placeholder_rejects_real_values` (method, line 220) `def test_is_placeholder_rejects_real_values(self, engine)`
 - Depends on: `modules/intelligence_engine.py`
 
 ## tests/test_journal.py
@@ -352,12 +352,12 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
 - Symbols:
   - `FakeRunner` (class, line 16) `class FakeRunner`
   - `_success_responses` (method, line 34) `def _success_responses()`
-  - `test_config_from_remote_slug` (method, line 49) `def test_config_from_remote_slug()`
-  - `test_config_rejects_bare_name` (method, line 56) `def test_config_rejects_bare_name()`
-  - `test_post_entry_uses_resolved_ids` (method, line 62) `def test_post_entry_uses_resolved_ids()`
-  - `test_entries_returns_nodes` (method, line 71) `def test_entries_returns_nodes()`
-  - `test_missing_category_raises` (method, line 79) `def test_missing_category_raises()`
-  - `test_graphql_errors_raise` (method, line 91) `def test_graphql_errors_raise()`
+  - `test_config_from_remote_slug` (method, line 51) `def test_config_from_remote_slug()`
+  - `test_config_rejects_bare_name` (method, line 58) `def test_config_rejects_bare_name()`
+  - `test_post_entry_uses_resolved_ids` (method, line 64) `def test_post_entry_uses_resolved_ids()`
+  - `test_entries_returns_nodes` (method, line 73) `def test_entries_returns_nodes()`
+  - `test_missing_category_raises` (method, line 81) `def test_missing_category_raises()`
+  - `test_graphql_errors_raise` (method, line 93) `def test_graphql_errors_raise()`
   - `__init__` (method, line 19) `def __init__(self, responses)`
   - `__call__` (method, line 24) `def __call__(self, args)`
 - Depends on: `scripts/journal.py`
@@ -401,23 +401,23 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
   - `sessions_dir` (function, line 23) `def sessions_dir()`
   - `_write_world_model` (function, line 28) `def _write_world_model(sessions_dir, data)`
   - `TestKillchainGapSignalConstruction` (class, line 32) `class TestKillchainGapSignalConstruction`
-  - `TestGapExploitedNoPrivesc` (class, line 39) `class TestGapExploitedNoPrivesc`
-  - `TestGapOwnedNoCreds` (class, line 75) `class TestGapOwnedNoCreds`
-  - `TestGapScanNoEnum` (class, line 98) `class TestGapScanNoEnum`
-  - `TestGapCredsNoLateral` (class, line 122) `class TestGapCredsNoLateral`
-  - `TestKillchainGapSignalIntegration` (class, line 145) `class TestKillchainGapSignalIntegration`
-  - `test_name_is_gap_source` (method, line 34) `def test_name_is_gap_source(self)`
-  - `test_exploited_linux_recommends_linpeas` (method, line 41) `def test_exploited_linux_recommends_linpeas(self, sessions_dir)`
-  - `test_exploited_windows_recommends_winpeas` (method, line 50) `def test_exploited_windows_recommends_winpeas(self, sessions_dir)`
-  - `test_unscanned_host_no_proposals` (method, line 59) `def test_unscanned_host_no_proposals(self, sessions_dir)`
-  - `test_no_world_model_returns_empty` (method, line 68) `def test_no_world_model_returns_empty(self, sessions_dir)`
-  - `test_owned_no_credentials_recommends_lazydump` (method, line 77) `def test_owned_no_credentials_recommends_lazydump(self, sessions_dir)`
-  - `test_owned_with_credentials_no_proposals` (method, line 87) `def test_owned_with_credentials_no_proposals(self, sessions_dir)`
-  - `test_scanned_no_enum_recommends_gobuster` (method, line 100) `def test_scanned_no_enum_recommends_gobuster(self, sessions_dir)`
-  - `test_scanned_with_enum_recent_no_proposals` (method, line 109) `def test_scanned_with_enum_recent_no_proposals(self, sessions_dir)`
-  - `test_credentials_no_lateral_recommends_crackmapexec` (method, line 124) `def test_credentials_no_lateral_recommends_crackmapexec(self, sessions_dir)`
-  - `test_no_credentials_no_lateral_proposals` (method, line 134) `def test_no_credentials_no_lateral_proposals(self, sessions_dir)`
-  - `test_multiple_gaps_detected_simultaneously` (method, line 147) `def test_multiple_gaps_detected_simultaneously(self, sessions_dir)`
+  - `TestGapExploitedNoPrivesc` (class, line 38) `class TestGapExploitedNoPrivesc`
+  - `TestGapOwnedNoCreds` (class, line 82) `class TestGapOwnedNoCreds`
+  - `TestGapScanNoEnum` (class, line 110) `class TestGapScanNoEnum`
+  - `TestGapCredsNoLateral` (class, line 141) `class TestGapCredsNoLateral`
+  - `TestKillchainGapSignalIntegration` (class, line 169) `class TestKillchainGapSignalIntegration`
+  - `test_name_is_gap_source` (method, line 33) `def test_name_is_gap_source(self)`
+  - `test_exploited_linux_recommends_linpeas` (method, line 39) `def test_exploited_linux_recommends_linpeas(self, sessions_dir)`
+  - `test_exploited_windows_recommends_winpeas` (method, line 51) `def test_exploited_windows_recommends_winpeas(self, sessions_dir)`
+  - `test_unscanned_host_no_proposals` (method, line 63) `def test_unscanned_host_no_proposals(self, sessions_dir)`
+  - `test_no_world_model_returns_empty` (method, line 75) `def test_no_world_model_returns_empty(self, sessions_dir)`
+  - `test_owned_no_credentials_recommends_lazydump` (method, line 83) `def test_owned_no_credentials_recommends_lazydump(self, sessions_dir)`
+  - `test_owned_with_credentials_no_proposals` (method, line 96) `def test_owned_with_credentials_no_proposals(self, sessions_dir)`
+  - `test_scanned_no_enum_recommends_gobuster` (method, line 111) `def test_scanned_no_enum_recommends_gobuster(self, sessions_dir)`
+  - `test_scanned_with_enum_recent_no_proposals` (method, line 123) `def test_scanned_with_enum_recent_no_proposals(self, sessions_dir)`
+  - `test_credentials_no_lateral_recommends_crackmapexec` (method, line 142) `def test_credentials_no_lateral_recommends_crackmapexec(self, sessions_dir)`
+  - `test_no_credentials_no_lateral_proposals` (method, line 155) `def test_no_credentials_no_lateral_proposals(self, sessions_dir)`
+  - `test_multiple_gaps_detected_simultaneously` (method, line 170) `def test_multiple_gaps_detected_simultaneously(self, sessions_dir)`
 - Depends on: `cli/recommendation.py`, `cli/recommendation_signals.py`
 
 ## tests/test_killchain_snapshot.py
@@ -445,14 +445,14 @@ Previous: [KB_tests_p6.md](KB_tests_p6.md)
 - Language: py
 - Symbols:
   - `TestPhaseMapping` (class, line 19) `class TestPhaseMapping`
-  - `TestWritePhaseWithWorldModel` (class, line 48) `class TestWritePhaseWithWorldModel`
-  - `test_engagement_phase_to_cli_maps_all` (method, line 21) `def test_engagement_phase_to_cli_maps_all(self)`
-  - `test_cli_phase_to_host_state_maps_correctly` (method, line 30) `def test_cli_phase_to_host_state_maps_correctly(self)`
-  - `test_phase_rank_returns_correct_index` (method, line 41) `def test_phase_rank_returns_correct_index(self)`
-  - `sessions_dir` (method, line 52) `def sessions_dir(self)`
-  - `test_write_phase_advances_hosts` (method, line 78) `def test_write_phase_advances_hosts(self, sessions_dir)`
-  - `test_write_phase_invalid_returns_false` (method, line 93) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
-  - `test_write_phase_completed_phases_tracks_progress` (method, line 97) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
+  - `TestWritePhaseWithWorldModel` (class, line 47) `class TestWritePhaseWithWorldModel`
+  - `test_engagement_phase_to_cli_maps_all` (method, line 20) `def test_engagement_phase_to_cli_maps_all(self)`
+  - `test_cli_phase_to_host_state_maps_correctly` (method, line 29) `def test_cli_phase_to_host_state_maps_correctly(self)`
+  - `test_phase_rank_returns_correct_index` (method, line 40) `def test_phase_rank_returns_correct_index(self)`
+  - `sessions_dir` (method, line 51) `def sessions_dir(self)`
+  - `test_write_phase_advances_hosts` (method, line 79) `def test_write_phase_advances_hosts(self, sessions_dir)`
+  - `test_write_phase_invalid_returns_false` (method, line 95) `def test_write_phase_invalid_returns_false(self, sessions_dir)`
+  - `test_write_phase_completed_phases_tracks_progress` (method, line 99) `def test_write_phase_completed_phases_tracks_progress(self, sessions_dir)`
 - Depends on: `cli/ops_commands.py`, `modules/world_model.py`
 
 

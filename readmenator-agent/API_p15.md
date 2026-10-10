@@ -78,16 +78,17 @@ Depends on: `poc_tui/app.py`
 - `main` (function) `poc_tui/run.py:9` `def main()`
 
 ## readmeneitor.py
-- `load_command_index` (function) `readmeneitor.py:74` `def load_command_index(index_path)` -- Load and parse the command index JSON file.
-- `build_command_map` (function) `readmeneitor.py:95` `def build_command_map(index_data)` -- Build a lookup dict from command name to its metadata.
-- `extract_docstrings_from_file` (function) `readmeneitor.py:123` `def extract_docstrings_from_file(filepath)` -- Parse a single Python file with AST and extract docstrings of ``do_*`` methods.
-- `extract_docstrings_from_dir` (function) `readmeneitor.py:152` `def extract_docstrings_from_dir(dirpath)` -- Recursively scan a directory for Python files and extract all ``do_*`` docstrings.
-- `group_commands_by_phase` (function) `readmeneitor.py:178` `def group_commands_by_phase(cmd_map)` -- Group command names by their kill-chain phase.
-- `extract_functions_from_file` (function) `readmeneitor.py:200` `def extract_functions_from_file(filepath)` -- Parse a Python file with AST and extract docstrings of public functions.
-- `write_utils_md` (function) `readmeneitor.py:232` `def write_utils_md(functions, output_path)` -- Generate UTILS.md with a helper-function reference for ``utils.py``.
-- `write_commands_md` (function) `readmeneitor.py:266` `def write_commands_md(cmd_map, docstrings, groups, output_path)` -- Generate COMMANDS.md with a table of contents and per-phase command reference.
-- `convert_to_html` (function) `readmeneitor.py:332` `def convert_to_html(md_path, html_path)` -- Convert the generated Markdown file to HTML using pandoc.
-- `main` (function) `readmeneitor.py:364` `def main()` -- Entry point: scan sources, load metadata, and generate reference docs.
+- `normalize_trailing_newline` (function) `readmeneitor.py:74` `def normalize_trailing_newline(output_path)` -- Collapse a generated file tail to exactly one newline.
+- `load_command_index` (function) `readmeneitor.py:83` `def load_command_index(index_path)` -- Load and parse the command index JSON file.
+- `build_command_map` (function) `readmeneitor.py:104` `def build_command_map(index_data)` -- Build a lookup dict from command name to its metadata.
+- `extract_docstrings_from_file` (function) `readmeneitor.py:132` `def extract_docstrings_from_file(filepath)` -- Parse a single Python file with AST and extract docstrings of ``do_*`` methods.
+- `extract_docstrings_from_dir` (function) `readmeneitor.py:161` `def extract_docstrings_from_dir(dirpath)` -- Recursively scan a directory for Python files and extract all ``do_*`` docstrings.
+- `group_commands_by_phase` (function) `readmeneitor.py:187` `def group_commands_by_phase(cmd_map)` -- Group command names by their kill-chain phase.
+- `extract_functions_from_file` (function) `readmeneitor.py:209` `def extract_functions_from_file(filepath)` -- Parse a Python file with AST and extract docstrings of public functions.
+- `write_utils_md` (function) `readmeneitor.py:241` `def write_utils_md(functions, output_path)` -- Generate UTILS.md with a helper-function reference for ``utils.py``.
+- `write_commands_md` (function) `readmeneitor.py:276` `def write_commands_md(cmd_map, docstrings, groups, output_path)` -- Generate COMMANDS.md with a table of contents and per-phase command reference.
+- `convert_to_html` (function) `readmeneitor.py:343` `def convert_to_html(md_path, html_path)` -- Convert the generated Markdown file to HTML using pandoc.
+- `main` (function) `readmeneitor.py:379` `def main()` -- Entry point: scan sources, load metadata, and generate reference docs.
 
 ## run_topoexploit_agent.sh
 - `banner` (function) `run_topoexploit_agent.sh:29`
@@ -199,100 +200,104 @@ Depends on: `scripts/journal.py`
 - `update_playbooks` (function) `scripts/update_apt_atomic_ids.py:46` `def update_playbooks(index, playbook_dir)`
 
 ## scripts/validate_agent_contract.sh
-- `check` (function) `scripts/validate_agent_contract.sh:23`
+- `pass` (function) `scripts/validate_agent_contract.sh:23`
+- `fail` (function) `scripts/validate_agent_contract.sh:27`
+- `check` (function) `scripts/validate_agent_contract.sh:32`
+- `check_no_hardcoded_passwords` (function) `scripts/validate_agent_contract.sh:59` -- -- No hardcoded credentials outside payload.json --- Pentest help-text, doc placeholders (<...>), template vars ({{...
+- `check_no_hardcoded_wordlists` (function) `scripts/validate_agent_contract.sh:74` -- -- No hardcoded wordlist paths outside payload.json --- Help-text examples, docstrings and filesystem hints are...
 
 ## skills/aci_planner.py
 Depends on: `core/logging.py`, `modules/logging_config.py`
 Imported by: `skills/lazyown_mcp.py`, `tests/test_aci_planner.py`
-- `AttackPhase.to_dict` (method) `skills/aci_planner.py:151` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `AttackPhase.from_dict` (method) `skills/aci_planner.py:156` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlan.active_phase` (method) `skills/aci_planner.py:179` `def active_phase(self)` -- Return the first phase that is active or pending.
-- `ACIPlan.completion_pct` (method) `skills/aci_planner.py:187` `def completion_pct(self)` -- Percentage of phases that are done or skipped.
-- `ACIPlan.to_dict` (method) `skills/aci_planner.py:194` `def to_dict(self)` -- Serialize to dict for JSON persistence.
-- `ACIPlan.from_dict` (method) `skills/aci_planner.py:201` `def from_dict(cls, d)` -- Deserialize from dict.
-- `ACIPlanner.__init__` (method) `skills/aci_planner.py:438` `def __init__(self, api_key, objectives_file, plan_file)`
-- `ACIPlanner.plan` (method) `skills/aci_planner.py:448` `def plan(self, goal, phase_filter)` -- Decompose *goal* into an ACIPlan, inject objectives, persist.
-- `ACIEngine.__init__` (method) `skills/aci_planner.py:581` `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
-- `ACIEngine.status` (method) `skills/aci_planner.py:595` `def status(self)` -- Return a structured status dict for the active plan.
-- `ACIEngine.should_replan` (method) `skills/aci_planner.py:635` `def should_replan(self, plan)` -- Return True when the plan is stalled and a replan is warranted.
-- `ACIEngine.replan` (method) `skills/aci_planner.py:648` `def replan(self, reason)` -- Generate a new set of objectives for blocked/remaining phases.
-- `ACIEngine.complete` (method) `skills/aci_planner.py:718` `def complete(self)` -- Mark the active plan as completed and archive it.
-- `ACIReflector.__init__` (method) `skills/aci_planner.py:774` `def __init__(self, lessons_file)`
-- `ACIReflector.reflect` (method) `skills/aci_planner.py:777` `def reflect(self, plan)` -- Analyse *plan* and generate lessons.
-- `ACIReflector.mcp_aci_plan` (method) `skills/aci_planner.py:842` `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` -- Plan an engagement goal and return a JSON summary.
-- `ACIReflector.mcp_aci_status` (method) `skills/aci_planner.py:903` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
-- `ACIReflector.mcp_aci_replan` (method) `skills/aci_planner.py:920` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
-- `ACIReflector.main` (method) `skills/aci_planner.py:980` `def main(argv)` -- Entry point for CLI usage.
+- `AttackPhase.to_dict` (method) `skills/aci_planner.py:171` `def to_dict(self)` -- Serialize to dict for JSON persistence.
+- `AttackPhase.from_dict` (method) `skills/aci_planner.py:176` `def from_dict(cls, d)` -- Deserialize from dict.
+- `ACIPlan.active_phase` (method) `skills/aci_planner.py:199` `def active_phase(self)` -- Return the first phase that is active or pending.
+- `ACIPlan.completion_pct` (method) `skills/aci_planner.py:207` `def completion_pct(self)` -- Percentage of phases that are done or skipped.
+- `ACIPlan.to_dict` (method) `skills/aci_planner.py:214` `def to_dict(self)` -- Serialize to dict for JSON persistence.
+- `ACIPlan.from_dict` (method) `skills/aci_planner.py:221` `def from_dict(cls, d)` -- Deserialize from dict.
+- `ACIPlanner.__init__` (method) `skills/aci_planner.py:461` `def __init__(self, api_key, objectives_file, plan_file)`
+- `ACIPlanner.plan` (method) `skills/aci_planner.py:471` `def plan(self, goal, phase_filter)` -- Decompose *goal* into an ACIPlan, inject objectives, persist.
+- `ACIEngine.__init__` (method) `skills/aci_planner.py:604` `def __init__(self, api_key, plan_file, objectives_file, history_file, replan_threshold)`
+- `ACIEngine.status` (method) `skills/aci_planner.py:618` `def status(self)` -- Return a structured status dict for the active plan.
+- `ACIEngine.should_replan` (method) `skills/aci_planner.py:658` `def should_replan(self, plan)` -- Return True when the plan is stalled and a replan is warranted.
+- `ACIEngine.replan` (method) `skills/aci_planner.py:671` `def replan(self, reason)` -- Generate a new set of objectives for blocked/remaining phases.
+- `ACIEngine.complete` (method) `skills/aci_planner.py:741` `def complete(self)` -- Mark the active plan as completed and archive it.
+- `ACIReflector.__init__` (method) `skills/aci_planner.py:797` `def __init__(self, lessons_file)`
+- `ACIReflector.reflect` (method) `skills/aci_planner.py:800` `def reflect(self, plan)` -- Analyse *plan* and generate lessons.
+- `ACIReflector.mcp_aci_plan` (method) `skills/aci_planner.py:865` `def mcp_aci_plan(goal, target, scope, domain, os_hint, phase_filter)` -- Plan an engagement goal and return a JSON summary.
+- `ACIReflector.mcp_aci_status` (method) `skills/aci_planner.py:923` `def mcp_aci_status()` -- Return live status of the active ACI plan as JSON.
+- `ACIReflector.mcp_aci_replan` (method) `skills/aci_planner.py:940` `def mcp_aci_replan(reason)` -- Force adaptive replanning of the active ACI plan.
+- `ACIReflector.main` (method) `skills/aci_planner.py:1003` `def main(argv)` -- Entry point for CLI usage.
 
 ## skills/autonomous_daemon.py
 Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/event_consumers.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/obs_parser.py`, `modules/pipeline_engine.py`, `modules/reactive_engine.py`, `modules/rl_trainer.py`, `modules/world_model.py`, `skills/daemon_control.py`, `skills/lazyown_llm.py`, `skills/lazyown_mcp.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
 Imported by: `cli/commands/session_ops.py`, `modules/pipeline_engine.py`, `skills/autonomous_replay.py`, `skills/lazyown_mcp.py`, `skills/tests/test_autonomous_daemon.py`, `skills/unified_orchestrator.py`, `tests/test_autonomous_replay.py`, `tests/test_engage_orchestrator.py`, `tests/test_metrics_aware_selector.py`, `tests/test_moe_rl_swan.py`, `tests/test_pipeline_engine.py`, `tests/test_scope_bound_auto_gate.py`
-- `compute_decision_seed` (function) `skills/autonomous_daemon.py:278` `def compute_decision_seed(objective_id, step_n, source)` -- Return a deterministic identifier for a daemon decision.
-- `ICommandRunner.run` (method) `skills/autonomous_daemon.py:309` `def run(self, command, timeout)` -- Execute command within timeout seconds.
-- `ICommandRunner.name` (method) `skills/autonomous_daemon.py:314` `def name(self)` -- Human-readable identifier for this runner.
-- `MCPCommandRunner.name` (method) `skills/autonomous_daemon.py:325` `def name(self)`
-- `MCPCommandRunner.run` (method) `skills/autonomous_daemon.py:328` `def run(self, command, timeout)` -- Try to import and call the MCP runner.
-- `PTYCommandRunner.name` (method) `skills/autonomous_daemon.py:342` `def name(self)`
-- `PTYCommandRunner.run` (method) `skills/autonomous_daemon.py:345` `def run(self, command, timeout)` -- Execute command via PTY.
-- `CommandRunnerChain.__init__` (method) `skills/autonomous_daemon.py:429` `def __init__(self, runners)`
-- `CommandRunnerChain.name` (method) `skills/autonomous_daemon.py:435` `def name(self)`
-- `CommandRunnerChain.run` (method) `skills/autonomous_daemon.py:438` `def run(self, command, timeout)` -- Try each runner in sequence.
-- `ICommandSelector.select` (method) `skills/autonomous_daemon.py:525` `def select(self, target, phase, context)` -- Return a CommandDecision or None if this selector has no suggestion.
-- `ReactiveSelector.__init__` (method) `skills/autonomous_daemon.py:540` `def __init__(self, reactive_engine)`
-- `ReactiveSelector.register_output` (method) `skills/autonomous_daemon.py:544` `def register_output(self, output, command, platform)` -- Feed reactive engine with last command output to generate new decisions.
-- `ReactiveSelector.select` (method) `skills/autonomous_daemon.py:569` `def select(self, target, phase, context)` -- Pop and return the pending reactive decision if present.
-- `ParquetSelector.__init__` (method) `skills/autonomous_daemon.py:584` `def __init__(self, pdb, fail_counts)`
-- `ParquetSelector.select` (method) `skills/autonomous_daemon.py:588` `def select(self, target, phase, context)` -- Return the most-frequent successful command for this phase.
-- `BridgeSelector.__init__` (method) `skills/autonomous_daemon.py:632` `def __init__(self, dispatcher, fail_counts)`
-- `BridgeSelector.select` (method) `skills/autonomous_daemon.py:636` `def select(self, target, phase, context)` -- Return a bridge catalog suggestion for this phase.
+- `compute_decision_seed` (function) `skills/autonomous_daemon.py:272` `def compute_decision_seed(objective_id, step_n, source)` -- Return a deterministic identifier for a daemon decision.
+- `ICommandRunner.run` (method) `skills/autonomous_daemon.py:304` `def run(self, command, timeout)` -- Execute command within timeout seconds.
+- `ICommandRunner.name` (method) `skills/autonomous_daemon.py:309` `def name(self)` -- Human-readable identifier for this runner.
+- `MCPCommandRunner.name` (method) `skills/autonomous_daemon.py:320` `def name(self)`
+- `MCPCommandRunner.run` (method) `skills/autonomous_daemon.py:323` `def run(self, command, timeout)` -- Try to import and call the MCP runner.
+- `PTYCommandRunner.name` (method) `skills/autonomous_daemon.py:338` `def name(self)`
+- `PTYCommandRunner.run` (method) `skills/autonomous_daemon.py:341` `def run(self, command, timeout)` -- Execute command via PTY.
+- `CommandRunnerChain.__init__` (method) `skills/autonomous_daemon.py:425` `def __init__(self, runners)`
+- `CommandRunnerChain.name` (method) `skills/autonomous_daemon.py:431` `def name(self)`
+- `CommandRunnerChain.run` (method) `skills/autonomous_daemon.py:434` `def run(self, command, timeout)` -- Try each runner in sequence.
+- `ICommandSelector.select` (method) `skills/autonomous_daemon.py:522` `def select(self, target, phase, context)` -- Return a CommandDecision or None if this selector has no suggestion.
+- `ReactiveSelector.__init__` (method) `skills/autonomous_daemon.py:537` `def __init__(self, reactive_engine)`
+- `ReactiveSelector.register_output` (method) `skills/autonomous_daemon.py:541` `def register_output(self, output, command, platform)` -- Feed reactive engine with last command output to generate new decisions.
+- `ReactiveSelector.select` (method) `skills/autonomous_daemon.py:568` `def select(self, target, phase, context)` -- Pop and return the pending reactive decision if present.
+- `ParquetSelector.__init__` (method) `skills/autonomous_daemon.py:583` `def __init__(self, pdb, fail_counts)`
+- `ParquetSelector.select` (method) `skills/autonomous_daemon.py:587` `def select(self, target, phase, context)` -- Return the most-frequent successful command for this phase.
+- `BridgeSelector.__init__` (method) `skills/autonomous_daemon.py:629` `def __init__(self, dispatcher, fail_counts)`
+- `BridgeSelector.select` (method) `skills/autonomous_daemon.py:633` `def select(self, target, phase, context)` -- Return a bridge catalog suggestion for this phase.
 - `LLMSelector.select` (method) `skills/autonomous_daemon.py:699` `def select(self, target, phase, context)` -- Return an LLM-suggested command with catalog context, or None if disabled.
-- `SWANSelector.select` (method) `skills/autonomous_daemon.py:796` `def select(self, target, phase, context)` -- Ask the best MoE expert for a command recommendation.
-- `FallbackSelector.select` (method) `skills/autonomous_daemon.py:849` `def select(self, target, phase, context)` -- Return the static fallback command for this phase.
-- `MetricsAwareSelector.__init__` (method) `skills/autonomous_daemon.py:889` `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` -- Initialise the decorator.
-- `MetricsAwareSelector.wrapped` (method) `skills/autonomous_daemon.py:937` `def wrapped(self)` -- Return the underlying selector for introspection in tests.
-- `MetricsAwareSelector.select` (method) `skills/autonomous_daemon.py:1027` `def select(self, target, phase, context)` -- Honour the :class:`ICommandSelector` contract.
-- `CredentialSpraySelector.__init__` (method) `skills/autonomous_daemon.py:1125` `def __init__(self, fail_counts)`
-- `CredentialSpraySelector.select` (method) `skills/autonomous_daemon.py:1129` `def select(self, target, phase, context)` -- Return a spray command when credentials + matching service are available.
-- `CascadeStrategy.__init__` (method) `skills/autonomous_daemon.py:1165` `def __init__(self, selectors)`
-- `CascadeStrategy.next_command` (method) `skills/autonomous_daemon.py:1168` `def next_command(self, target, phase, context)` -- Try each selector in order.
-- `StrategyEngine.__init__` (method) `skills/autonomous_daemon.py:1203` `def __init__(self, runner, selectors)`
-- `StrategyEngine.register_output` (method) `skills/autonomous_daemon.py:1232` `def register_output(self, output, command, platform, success)` -- Feed the reactive selector with the last command output.
-- `StrategyEngine.next_command` (method) `skills/autonomous_daemon.py:1246` `def next_command(self, target, phase, services, os_hint)` -- Select the next command for target/phase using the cascade.
-- `IObjectiveHandler.handle` (method) `skills/autonomous_daemon.py:1280` `def handle(self, objective_id, objective_text, target, context)` -- Execute objective and return a list of step results.
-- `ExecutionEngine.__init__` (method) `skills/autonomous_daemon.py:1302` `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
-- `ExecutionEngine.handle` (method) `skills/autonomous_daemon.py:1318` `def handle(self, objective_id, objective_text, target, context)` -- Synchronous entry point.
-- `ExecutionEngine.run_async` (method) `skills/autonomous_daemon.py:1328` `def run_async(self, objective_id, objective_text, target)` -- Asyncio entry point used by objective_loop.
-- `DroneCoordinator.__init__` (method) `skills/autonomous_daemon.py:2179` `def __init__(self)`
-- `DroneCoordinator.process_findings` (method) `skills/autonomous_daemon.py:2184` `def process_findings(self, findings, target, objective_id, payload_key)` -- Launch drones for relevant findings.
-- `EnginePhaseResult.did_switch` (method) `skills/autonomous_daemon.py:2378` `def did_switch(self)` -- True when the orchestrator used a fallback tool.
-- `IToolFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2387` `def next_tool(self, failed_command, phase, attempt)` -- Return the next candidate command or None when exhausted.
-- `StaticFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2404` `def next_tool(self, failed_command, phase, attempt)`
-- `BridgeFallbackResolver.__init__` (method) `skills/autonomous_daemon.py:2426` `def __init__(self, dispatcher)`
-- `BridgeFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2453` `def next_tool(self, failed_command, phase, attempt)`
-- `_ShellDetector.__init__` (method) `skills/autonomous_daemon.py:2480` `def __init__(self, narrator)`
-- `_ShellDetector.poll` (method) `skills/autonomous_daemon.py:2485` `def poll(self, target)` -- Return the newly-detected client_ids since the previous poll.
-- `_ShellDetector.detect_in_output` (method) `skills/autonomous_daemon.py:2525` `def detect_in_output(self, output, target)` -- Return True when a shell/root-shell signal appears in command output.
-- `EngageOrchestrator.__init__` (method) `skills/autonomous_daemon.py:2564` `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
-- `EngageOrchestrator.engagement_id` (method) `skills/autonomous_daemon.py:2599` `def engagement_id(self)` -- Stable id for this engagement (correlates events in logs).
-- `EngageOrchestrator.run` (method) `skills/autonomous_daemon.py:2603` `def run(self)` -- Drive the full plan against the configured target.
-- `EngageOrchestrator.mcp_engage_target` (method) `skills/autonomous_daemon.py:2920` `def mcp_engage_target(target, max_switches_per_step, detach, auto)` -- Public MCP / CLI entry point for the engage verb.
-- `EngageOrchestrator.mcp_engage_status` (method) `skills/autonomous_daemon.py:2998` `def mcp_engage_status(last_n)` -- Return the last N lines of sessions/engagement.log plus pending approvals.
-- `EngageOrchestrator.mcp_engage_approve` (method) `skills/autonomous_daemon.py:3020` `def mcp_engage_approve(approval_id, decision, operator)` -- Resolve a pending approval. decision must be 'approved' or 'denied'.
-- `EngageOrchestrator.mcp_engage_list_pending` (method) `skills/autonomous_daemon.py:3040` `def mcp_engage_list_pending()` -- List every pending approval awaiting an operator decision.
-- `EngageOrchestrator.cmd_engage` (method) `skills/autonomous_daemon.py:3054` `def cmd_engage(target, max_switches_per_step, detach)` -- CLI helper bound to the `engage <ip>` daemon subcommand.
-- `EngageOrchestrator.objective_loop` (method) `skills/autonomous_daemon.py:3094` `def objective_loop(max_steps, loop)` -- Root autonomous loop: takes pending objectives from objectives.jsonl and executes them without waiting for Claude...
-- `EngageOrchestrator.world_model_watcher` (method) `skills/autonomous_daemon.py:3219` `def world_model_watcher(loop)` -- Watch world_model.json.
-- `EngageOrchestrator.heartbeat_loop` (method) `skills/autonomous_daemon.py:3379` `def heartbeat_loop()` -- Emit heartbeat and write status every HEARTBEAT_S seconds.
-- `EngageOrchestrator.cmd_run` (method) `skills/autonomous_daemon.py:3498` `def cmd_run(max_steps)` -- Run daemon in foreground (debug mode).
-- `EngageOrchestrator.cmd_start` (method) `skills/autonomous_daemon.py:3507` `def cmd_start(max_steps)` -- Fork, detach, and run daemon in background.
-- `EngageOrchestrator.cmd_stop` (method) `skills/autonomous_daemon.py:3537` `def cmd_stop()` -- Send SIGTERM to the running daemon.
-- `EngageOrchestrator.cmd_status` (method) `skills/autonomous_daemon.py:3554` `def cmd_status()` -- Print current daemon status to stdout.
-- `EngageOrchestrator.cmd_inject` (method) `skills/autonomous_daemon.py:3570` `def cmd_inject(text, priority)` -- Inject an objective from the CLI.
-- `EngageOrchestrator.mcp_autonomous_start` (method) `skills/autonomous_daemon.py:3595` `def mcp_autonomous_start(max_steps, backend)` -- Start the autonomous daemon in a background thread (for MCP calls).
-- `EngageOrchestrator.mcp_autonomous_stop` (method) `skills/autonomous_daemon.py:3635` `def mcp_autonomous_stop()` -- Stop the autonomous daemon.
-- `EngageOrchestrator.mcp_autonomous_status` (method) `skills/autonomous_daemon.py:3651` `def mcp_autonomous_status()` -- Current daemon state: objectives, steps, drones, phase.
-- `EngageOrchestrator.mcp_autonomous_inject` (method) `skills/autonomous_daemon.py:3664` `def mcp_autonomous_inject(text, priority, target)` -- Inject an objective into the daemon queue and into sessions/tasks.json.
-- `EngageOrchestrator.mcp_autonomous_events` (method) `skills/autonomous_daemon.py:3699` `def mcp_autonomous_events(last_n)` -- Read the last N events from autonomous_events.jsonl.
+- `SWANSelector.select` (method) `skills/autonomous_daemon.py:792` `def select(self, target, phase, context)` -- Ask the best MoE expert for a command recommendation.
+- `FallbackSelector.select` (method) `skills/autonomous_daemon.py:838` `def select(self, target, phase, context)` -- Return the static fallback command for this phase.
+- `MetricsAwareSelector.__init__` (method) `skills/autonomous_daemon.py:875` `def __init__(self, wrapped, metrics_source, min_success_rate, min_attempts, window_seconds, cache_ttl_s, clock)` -- Initialise the decorator.
+- `MetricsAwareSelector.wrapped` (method) `skills/autonomous_daemon.py:921` `def wrapped(self)` -- Return the underlying selector for introspection in tests.
+- `MetricsAwareSelector.select` (method) `skills/autonomous_daemon.py:1007` `def select(self, target, phase, context)` -- Honour the :class:`ICommandSelector` contract.
+- `CredentialSpraySelector.__init__` (method) `skills/autonomous_daemon.py:1108` `def __init__(self, fail_counts)`
+- `CredentialSpraySelector.select` (method) `skills/autonomous_daemon.py:1112` `def select(self, target, phase, context)` -- Return a spray command when credentials + matching service are available.
+- `CascadeStrategy.__init__` (method) `skills/autonomous_daemon.py:1148` `def __init__(self, selectors)`
+- `CascadeStrategy.next_command` (method) `skills/autonomous_daemon.py:1151` `def next_command(self, target, phase, context)` -- Try each selector in order.
+- `StrategyEngine.__init__` (method) `skills/autonomous_daemon.py:1186` `def __init__(self, runner, selectors)`
+- `StrategyEngine.register_output` (method) `skills/autonomous_daemon.py:1213` `def register_output(self, output, command, platform, success)` -- Feed the reactive selector with the last command output.
+- `StrategyEngine.next_command` (method) `skills/autonomous_daemon.py:1227` `def next_command(self, target, phase, services, os_hint)` -- Select the next command for target/phase using the cascade.
+- `IObjectiveHandler.handle` (method) `skills/autonomous_daemon.py:1261` `def handle(self, objective_id, objective_text, target, context)` -- Execute objective and return a list of step results.
+- `ExecutionEngine.__init__` (method) `skills/autonomous_daemon.py:1283` `def __init__(self, strategy, max_steps, world_model, obs_parser, facts, loop)`
+- `ExecutionEngine.handle` (method) `skills/autonomous_daemon.py:1299` `def handle(self, objective_id, objective_text, target, context)` -- Synchronous entry point.
+- `ExecutionEngine.run_async` (method) `skills/autonomous_daemon.py:1309` `def run_async(self, objective_id, objective_text, target)` -- Asyncio entry point used by objective_loop.
+- `DroneCoordinator.__init__` (method) `skills/autonomous_daemon.py:2260` `def __init__(self)`
+- `DroneCoordinator.process_findings` (method) `skills/autonomous_daemon.py:2265` `def process_findings(self, findings, target, objective_id, payload_key)` -- Launch drones for relevant findings.
+- `EnginePhaseResult.did_switch` (method) `skills/autonomous_daemon.py:2469` `def did_switch(self)` -- True when the orchestrator used a fallback tool.
+- `IToolFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2478` `def next_tool(self, failed_command, phase, attempt)` -- Return the next candidate command or None when exhausted.
+- `StaticFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2495` `def next_tool(self, failed_command, phase, attempt)`
+- `BridgeFallbackResolver.__init__` (method) `skills/autonomous_daemon.py:2517` `def __init__(self, dispatcher)`
+- `BridgeFallbackResolver.next_tool` (method) `skills/autonomous_daemon.py:2542` `def next_tool(self, failed_command, phase, attempt)`
+- `_ShellDetector.__init__` (method) `skills/autonomous_daemon.py:2569` `def __init__(self, narrator)`
+- `_ShellDetector.poll` (method) `skills/autonomous_daemon.py:2574` `def poll(self, target)` -- Return the newly-detected client_ids since the previous poll.
+- `_ShellDetector.detect_in_output` (method) `skills/autonomous_daemon.py:2615` `def detect_in_output(self, output, target)` -- Return True when a shell/root-shell signal appears in command output.
+- `EngageOrchestrator.__init__` (method) `skills/autonomous_daemon.py:2661` `def __init__(self, target, runner, narrator, approval_gate, fallback_resolver, shell_detector, plan...`
+- `EngageOrchestrator.engagement_id` (method) `skills/autonomous_daemon.py:2697` `def engagement_id(self)` -- Stable id for this engagement (correlates events in logs).
+- `EngageOrchestrator.run` (method) `skills/autonomous_daemon.py:2701` `def run(self)` -- Drive the full plan against the configured target.
+- `EngageOrchestrator.mcp_engage_target` (method) `skills/autonomous_daemon.py:3029` `def mcp_engage_target(target, max_switches_per_step, detach, auto)` -- Public MCP / CLI entry point for the engage verb.
+- `EngageOrchestrator.mcp_engage_status` (method) `skills/autonomous_daemon.py:3119` `def mcp_engage_status(last_n)` -- Return the last N lines of sessions/engagement.log plus pending approvals.
+- `EngageOrchestrator.mcp_engage_approve` (method) `skills/autonomous_daemon.py:3145` `def mcp_engage_approve(approval_id, decision, operator)` -- Resolve a pending approval. decision must be 'approved' or 'denied'.
+- `EngageOrchestrator.mcp_engage_list_pending` (method) `skills/autonomous_daemon.py:3170` `def mcp_engage_list_pending()` -- List every pending approval awaiting an operator decision.
+- `EngageOrchestrator.cmd_engage` (method) `skills/autonomous_daemon.py:3188` `def cmd_engage(target, max_switches_per_step, detach)` -- CLI helper bound to the `engage <ip>` daemon subcommand.
+- `EngageOrchestrator.objective_loop` (method) `skills/autonomous_daemon.py:3227` `def objective_loop(max_steps, loop)` -- Root autonomous loop: takes pending objectives from objectives.jsonl and executes them without waiting for Claude...
+- `EngageOrchestrator.world_model_watcher` (method) `skills/autonomous_daemon.py:3350` `def world_model_watcher(loop)` -- Watch world_model.json.
+- `EngageOrchestrator.heartbeat_loop` (method) `skills/autonomous_daemon.py:3535` `def heartbeat_loop()` -- Emit heartbeat and write status every HEARTBEAT_S seconds.
+- `EngageOrchestrator.cmd_run` (method) `skills/autonomous_daemon.py:3662` `def cmd_run(max_steps)` -- Run daemon in foreground (debug mode).
+- `EngageOrchestrator.cmd_start` (method) `skills/autonomous_daemon.py:3671` `def cmd_start(max_steps)` -- Fork, detach, and run daemon in background.
+- `EngageOrchestrator.cmd_stop` (method) `skills/autonomous_daemon.py:3701` `def cmd_stop()` -- Send SIGTERM to the running daemon.
+- `EngageOrchestrator.cmd_status` (method) `skills/autonomous_daemon.py:3718` `def cmd_status()` -- Print current daemon status to stdout.
+- `EngageOrchestrator.cmd_inject` (method) `skills/autonomous_daemon.py:3734` `def cmd_inject(text, priority)` -- Inject an objective from the CLI.
+- `EngageOrchestrator.mcp_autonomous_start` (method) `skills/autonomous_daemon.py:3759` `def mcp_autonomous_start(max_steps, backend)` -- Start the autonomous daemon in a background thread (for MCP calls).
+- `EngageOrchestrator.mcp_autonomous_stop` (method) `skills/autonomous_daemon.py:3801` `def mcp_autonomous_stop()` -- Stop the autonomous daemon.
+- `EngageOrchestrator.mcp_autonomous_status` (method) `skills/autonomous_daemon.py:3817` `def mcp_autonomous_status()` -- Current daemon state: objectives, steps, drones, phase.
+- `EngageOrchestrator.mcp_autonomous_inject` (method) `skills/autonomous_daemon.py:3830` `def mcp_autonomous_inject(text, priority, target)` -- Inject an objective into the daemon queue and into sessions/tasks.json.
+- `EngageOrchestrator.mcp_autonomous_events` (method) `skills/autonomous_daemon.py:3874` `def mcp_autonomous_events(last_n)` -- Read the last N events from autonomous_events.jsonl.
 
 ## skills/autonomous_replay.py
 Depends on: `core/logging.py`, `skills/autonomous_daemon.py`
@@ -303,13 +308,13 @@ Imported by: `skills/lazyown_mcp.py`, `tests/test_autonomous_replay.py`
 - `EventLogReader.read` (method) `skills/autonomous_replay.py:152` `def read(self)` -- Return every event in the log, oldest first.
 - `EventLogReader.slice` (method) `skills/autonomous_replay.py:177` `def slice(self, events, from_event_id, to_event_id)` -- Return the inclusive subrange of *events* by ``id``.
 - `ReplayDispatcher.__init__` (method) `skills/autonomous_replay.py:221` `def __init__(self, reader, seed_fn)` -- Initialise the dispatcher.
-- `ReplayDispatcher.trace` (method) `skills/autonomous_replay.py:338` `def trace(self, from_event_id, to_event_id)` -- Replay the recorded decision sequence without executing it.
-- `ReplayDispatcher.execute` (method) `skills/autonomous_replay.py:372` `def execute(self, from_event_id, to_event_id, runner, timeout)` -- Replay the recorded sequence and re-run each command.
-- `ReplayDispatcher.replay` (method) `skills/autonomous_replay.py:492` `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` -- Convenience entry point used by the MCP tool layer.
+- `ReplayDispatcher.trace` (method) `skills/autonomous_replay.py:325` `def trace(self, from_event_id, to_event_id)` -- Replay the recorded decision sequence without executing it.
+- `ReplayDispatcher.execute` (method) `skills/autonomous_replay.py:357` `def execute(self, from_event_id, to_event_id, runner, timeout)` -- Replay the recorded sequence and re-run each command.
+- `ReplayDispatcher.replay` (method) `skills/autonomous_replay.py:473` `def replay(from_event_id, to_event_id, mode, events_path, runner, timeout)` -- Convenience entry point used by the MCP tool layer.
 
 ## skills/claude_md_orchestrator/bdd_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/tdd_agent.py`, `skills/claude_md_orchestrator/validators.py`
-- `BddResult.run` (method) `skills/claude_md_orchestrator/bdd_agent.py:154` `def run(contract, spec, suite, config)` -- Run the implementation agent for one contract.
+- `BddResult.run` (method) `skills/claude_md_orchestrator/bdd_agent.py:151` `def run(contract, spec, suite, config)` -- Run the implementation agent for one contract.
 
 ## skills/claude_md_orchestrator/boy_scout.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
@@ -322,21 +327,21 @@ Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchest
 
 ## skills/claude_md_orchestrator/config.py
 Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
-- `Config.ensure` (method) `skills/claude_md_orchestrator/config.py:114` `def ensure(self)` -- Create the run subdirectories if they do not exist.
-- `Config.state_path` (method) `skills/claude_md_orchestrator/config.py:124` `def state_path(self)` -- Return the absolute path of the cycle state file.
-- `Config.specs_dir` (method) `skills/claude_md_orchestrator/config.py:128` `def specs_dir(self)` -- Return the absolute path of the spec directory.
-- `Config.tests_dir` (method) `skills/claude_md_orchestrator/config.py:132` `def tests_dir(self)` -- Return the absolute path of the test directory.
-- `Config.src_dir` (method) `skills/claude_md_orchestrator/config.py:136` `def src_dir(self)` -- Return the absolute path of the implementation directory.
-- `Config.review_dir` (method) `skills/claude_md_orchestrator/config.py:140` `def review_dir(self)` -- Return the absolute path of the review directory.
-- `Config.docs_dir` (method) `skills/claude_md_orchestrator/config.py:144` `def docs_dir(self)` -- Return the absolute path of the documentation directory.
-- `Config.logs_dir` (method) `skills/claude_md_orchestrator/config.py:148` `def logs_dir(self)` -- Return the absolute path of the log directory.
-- `Config.log_path` (method) `skills/claude_md_orchestrator/config.py:152` `def log_path(self)` -- Return the absolute path of the JSONL log for the active run.
-- `Config.load_config` (method) `skills/claude_md_orchestrator/config.py:157` `def load_config()` -- Build a Config from environment variables and return it.
-- `Config.resolve_optional` (method) `skills/claude_md_orchestrator/config.py:166` `def resolve_optional(config, key)` -- Return the environment value for a key or None when missing.
+- `Config.ensure` (method) `skills/claude_md_orchestrator/config.py:112` `def ensure(self)` -- Create the run subdirectories if they do not exist.
+- `Config.state_path` (method) `skills/claude_md_orchestrator/config.py:122` `def state_path(self)` -- Return the absolute path of the cycle state file.
+- `Config.specs_dir` (method) `skills/claude_md_orchestrator/config.py:126` `def specs_dir(self)` -- Return the absolute path of the spec directory.
+- `Config.tests_dir` (method) `skills/claude_md_orchestrator/config.py:130` `def tests_dir(self)` -- Return the absolute path of the test directory.
+- `Config.src_dir` (method) `skills/claude_md_orchestrator/config.py:134` `def src_dir(self)` -- Return the absolute path of the implementation directory.
+- `Config.review_dir` (method) `skills/claude_md_orchestrator/config.py:138` `def review_dir(self)` -- Return the absolute path of the review directory.
+- `Config.docs_dir` (method) `skills/claude_md_orchestrator/config.py:142` `def docs_dir(self)` -- Return the absolute path of the documentation directory.
+- `Config.logs_dir` (method) `skills/claude_md_orchestrator/config.py:146` `def logs_dir(self)` -- Return the absolute path of the log directory.
+- `Config.log_path` (method) `skills/claude_md_orchestrator/config.py:150` `def log_path(self)` -- Return the absolute path of the JSONL log for the active run.
+- `Config.load_config` (method) `skills/claude_md_orchestrator/config.py:155` `def load_config()` -- Build a Config from environment variables and return it.
+- `Config.resolve_optional` (method) `skills/claude_md_orchestrator/config.py:164` `def resolve_optional(config, key)` -- Return the environment value for a key or None when missing.
 
 ## skills/claude_md_orchestrator/documentation_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-- `DocResult.run` (method) `skills/claude_md_orchestrator/documentation_agent.py:126` `def run(contract, spec, report, config)` -- Run the documentation agent for one contract.
+- `DocResult.run` (method) `skills/claude_md_orchestrator/documentation_agent.py:123` `def run(contract, spec, report, config)` -- Run the documentation agent for one contract.
 
 ## skills/claude_md_orchestrator/models.py
 Depends on: `cli/commands/enum.py`
@@ -348,43 +353,43 @@ Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orch
 - `Spec.to_dict` (method) `skills/claude_md_orchestrator/models.py:166` `def to_dict(self)` -- Return a JSON friendly view of the spec.
 - `Spec.from_dict` (method) `skills/claude_md_orchestrator/models.py:173` `def from_dict(cls, data)` -- Build a Spec from a JSON friendly dictionary.
 - `Spec.validate` (method) `skills/claude_md_orchestrator/models.py:189` `def validate(self, min_sad_paths)` -- Return the list of DoD violations the spec carries.
-- `TestSuite.to_dict` (method) `skills/claude_md_orchestrator/models.py:238` `def to_dict(self)` -- Return a JSON friendly view of the test suite.
-- `TestSuite.from_dict` (method) `skills/claude_md_orchestrator/models.py:245` `def from_dict(cls, data)` -- Build a TestSuite from a JSON friendly dictionary.
-- `Finding.to_dict` (method) `skills/claude_md_orchestrator/models.py:272` `def to_dict(self)` -- Return a JSON friendly view of the finding.
-- `Finding.from_dict` (method) `skills/claude_md_orchestrator/models.py:282` `def from_dict(cls, data)` -- Build a Finding from a JSON friendly dictionary.
-- `ReviewReport.blockers` (method) `skills/claude_md_orchestrator/models.py:317` `def blockers(self)` -- Return the list of blocker findings.
-- `ReviewReport.to_dict` (method) `skills/claude_md_orchestrator/models.py:321` `def to_dict(self)` -- Return a JSON friendly view of the report.
-- `ReviewReport.from_dict` (method) `skills/claude_md_orchestrator/models.py:335` `def from_dict(cls, data)` -- Build a ReviewReport from a JSON friendly dictionary.
-- `CicleState.to_dict` (method) `skills/claude_md_orchestrator/models.py:385` `def to_dict(self)` -- Return a JSON friendly view of the state.
-- `CicleState.from_dict` (method) `skills/claude_md_orchestrator/models.py:404` `def from_dict(cls, data)` -- Build a CicleState from a JSON friendly dictionary.
-- `CicleStateFile.to_dict` (method) `skills/claude_md_orchestrator/models.py:442` `def to_dict(self)` -- Return a JSON friendly view of the state file.
-- `CicleStateFile.from_dict` (method) `skills/claude_md_orchestrator/models.py:452` `def from_dict(cls, data)` -- Build a CicleStateFile from a JSON friendly dictionary.
-- `CicleStateFile.save` (method) `skills/claude_md_orchestrator/models.py:464` `def save(self, path)` -- Persist the state to disk as pretty JSON.
-- `CicleStateFile.load` (method) `skills/claude_md_orchestrator/models.py:472` `def load(cls, path)` -- Read the state from disk.
-- `CicleStateFile.write_jsonl` (method) `skills/claude_md_orchestrator/models.py:485` `def write_jsonl(path, event)` -- Append a single JSONL event to the log file.
+- `TestSuite.to_dict` (method) `skills/claude_md_orchestrator/models.py:236` `def to_dict(self)` -- Return a JSON friendly view of the test suite.
+- `TestSuite.from_dict` (method) `skills/claude_md_orchestrator/models.py:243` `def from_dict(cls, data)` -- Build a TestSuite from a JSON friendly dictionary.
+- `Finding.to_dict` (method) `skills/claude_md_orchestrator/models.py:270` `def to_dict(self)` -- Return a JSON friendly view of the finding.
+- `Finding.from_dict` (method) `skills/claude_md_orchestrator/models.py:280` `def from_dict(cls, data)` -- Build a Finding from a JSON friendly dictionary.
+- `ReviewReport.blockers` (method) `skills/claude_md_orchestrator/models.py:315` `def blockers(self)` -- Return the list of blocker findings.
+- `ReviewReport.to_dict` (method) `skills/claude_md_orchestrator/models.py:319` `def to_dict(self)` -- Return a JSON friendly view of the report.
+- `ReviewReport.from_dict` (method) `skills/claude_md_orchestrator/models.py:333` `def from_dict(cls, data)` -- Build a ReviewReport from a JSON friendly dictionary.
+- `CicleState.to_dict` (method) `skills/claude_md_orchestrator/models.py:383` `def to_dict(self)` -- Return a JSON friendly view of the state.
+- `CicleState.from_dict` (method) `skills/claude_md_orchestrator/models.py:402` `def from_dict(cls, data)` -- Build a CicleState from a JSON friendly dictionary.
+- `CicleStateFile.to_dict` (method) `skills/claude_md_orchestrator/models.py:440` `def to_dict(self)` -- Return a JSON friendly view of the state file.
+- `CicleStateFile.from_dict` (method) `skills/claude_md_orchestrator/models.py:450` `def from_dict(cls, data)` -- Build a CicleStateFile from a JSON friendly dictionary.
+- `CicleStateFile.save` (method) `skills/claude_md_orchestrator/models.py:459` `def save(self, path)` -- Persist the state to disk as pretty JSON.
+- `CicleStateFile.load` (method) `skills/claude_md_orchestrator/models.py:467` `def load(cls, path)` -- Read the state from disk.
+- `CicleStateFile.write_jsonl` (method) `skills/claude_md_orchestrator/models.py:480` `def write_jsonl(path, event)` -- Append a single JSONL event to the log file.
 
 ## skills/claude_md_orchestrator/orchestrator.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/parser.py`
 Imported by: `skills/claude_md_orchestrator/__init__.py`
-- `CycleSummary.run` (method) `skills/claude_md_orchestrator/orchestrator.py:298` `def run(config, options)` -- Run the orchestrator for the current run directory.
-- `CycleSummary.summary_to_dict` (method) `skills/claude_md_orchestrator/orchestrator.py:329` `def summary_to_dict(summary)` -- Return a JSON friendly view of the summary.
-- `CycleSummary.main` (method) `skills/claude_md_orchestrator/orchestrator.py:416` `def main(argv)` -- Run the orchestrator CLI and return the process exit code.
+- `CycleSummary.run` (method) `skills/claude_md_orchestrator/orchestrator.py:275` `def run(config, options)` -- Run the orchestrator for the current run directory.
+- `CycleSummary.summary_to_dict` (method) `skills/claude_md_orchestrator/orchestrator.py:306` `def summary_to_dict(summary)` -- Return a JSON friendly view of the summary.
+- `CycleSummary.main` (method) `skills/claude_md_orchestrator/orchestrator.py:393` `def main(argv)` -- Run the orchestrator CLI and return the process exit code.
 
 ## skills/claude_md_orchestrator/parser.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
 Imported by: `pwntomate.py`, `skills/claude_md_orchestrator/orchestrator.py`, `static/js/xterm.js`, `utils.py`
-- `_Section.flush_body` (method) `skills/claude_md_orchestrator/parser.py:99` `def flush_body()`
-- `_Section.parse_claude_md` (method) `skills/claude_md_orchestrator/parser.py:171` `def parse_claude_md(path)` -- Parse a CLAUDE.md file and return the list of contracts.
-- `_Section.load_contracts` (method) `skills/claude_md_orchestrator/parser.py:229` `def load_contracts(config, seeds)` -- Return the contracts the orchestrator should process.
+- `_Section.flush_body` (method) `skills/claude_md_orchestrator/parser.py:97` `def flush_body()`
+- `_Section.parse_claude_md` (method) `skills/claude_md_orchestrator/parser.py:167` `def parse_claude_md(path)` -- Parse a CLAUDE.md file and return the list of contracts.
+- `_Section.load_contracts` (method) `skills/claude_md_orchestrator/parser.py:225` `def load_contracts(config, seeds)` -- Return the contracts the orchestrator should process.
 
 ## skills/claude_md_orchestrator/reviewer_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
 - `AnalyzerResult.run` (method) `skills/claude_md_orchestrator/reviewer_agent.py:171` `def run(state, config)` -- Run the reviewer for one contract.
-- `AnalyzerResult.write_report` (method) `skills/claude_md_orchestrator/reviewer_agent.py:231` `def write_report(report, config)` -- Persist the report as JSON inside the run review directory.
+- `AnalyzerResult.write_report` (method) `skills/claude_md_orchestrator/reviewer_agent.py:225` `def write_report(report, config)` -- Persist the report as JSON inside the run review directory.
 
 ## skills/claude_md_orchestrator/sdd_agent.py
 Depends on: `modules/llm_factory.py`, `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
-- `SddResult.run` (method) `skills/claude_md_orchestrator/sdd_agent.py:210` `def run(contract, config)` -- Run the spec agent for one contract.
+- `SddResult.run` (method) `skills/claude_md_orchestrator/sdd_agent.py:204` `def run(contract, config)` -- Run the spec agent for one contract.
 
 ## skills/claude_md_orchestrator/tdd_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`, `skills/claude_md_orchestrator/validators.py`
@@ -395,46 +400,46 @@ Imported by: `skills/claude_md_orchestrator/bdd_agent.py`
 ## skills/claude_md_orchestrator/validators.py
 Depends on: `skills/claude_md_orchestrator/models.py`
 Imported by: `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`
-- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:81` `def passed(self)` -- Return True when the result has no findings.
-- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:85` `def blocks(self)` -- Return the blocker findings only.
-- `CheckResult.find_block_comments` (method) `skills/claude_md_orchestrator/validators.py:90` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
-- `CheckResult.find_inline_comments` (method) `skills/claude_md_orchestrator/validators.py:112` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
-- `CheckResult.check_no_comments` (method) `skills/claude_md_orchestrator/validators.py:129` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
-- `CheckResult.check_no_emoji` (method) `skills/claude_md_orchestrator/validators.py:160` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
-- `CheckResult.check_no_forbidden_markers` (method) `skills/claude_md_orchestrator/validators.py:182` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
-- `CheckResult.check_english_only` (method) `skills/claude_md_orchestrator/validators.py:199` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
-- `CheckResult.check_docstrings` (method) `skills/claude_md_orchestrator/validators.py:223` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
-- `CheckResult.check_no_hardcoded_paths_or_ips` (method) `skills/claude_md_orchestrator/validators.py:265` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
-- `CheckResult.check_magic_numbers` (method) `skills/claude_md_orchestrator/validators.py:299` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
-- `CheckResult.check_source` (method) `skills/claude_md_orchestrator/validators.py:334` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
-- `CheckResult.check_markdown` (method) `skills/claude_md_orchestrator/validators.py:347` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
-- `CheckResult.check_spec` (method) `skills/claude_md_orchestrator/validators.py:356` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
+- `CheckResult.passed` (method) `skills/claude_md_orchestrator/validators.py:76` `def passed(self)` -- Return True when the result has no findings.
+- `CheckResult.blocks` (method) `skills/claude_md_orchestrator/validators.py:80` `def blocks(self)` -- Return the blocker findings only.
+- `CheckResult.find_block_comments` (method) `skills/claude_md_orchestrator/validators.py:85` `def find_block_comments(source)` -- Return the start and end line of every block comment in source.
+- `CheckResult.find_inline_comments` (method) `skills/claude_md_orchestrator/validators.py:107` `def find_inline_comments(source)` -- Return the line numbers of every inline comment in source.
+- `CheckResult.check_no_comments` (method) `skills/claude_md_orchestrator/validators.py:124` `def check_no_comments(source, path)` -- Return a finding for every comment in the source code.
+- `CheckResult.check_no_emoji` (method) `skills/claude_md_orchestrator/validators.py:155` `def check_no_emoji(content, path)` -- Return a finding for every emoji the content carries.
+- `CheckResult.check_no_forbidden_markers` (method) `skills/claude_md_orchestrator/validators.py:177` `def check_no_forbidden_markers(content, path)` -- Return a finding for every TODO, FIXME, XXX, or HACK marker.
+- `CheckResult.check_english_only` (method) `skills/claude_md_orchestrator/validators.py:194` `def check_english_only(source, path)` -- Return a finding for every Spanish hint the source carries.
+- `CheckResult.check_docstrings` (method) `skills/claude_md_orchestrator/validators.py:218` `def check_docstrings(source, path)` -- Return a finding for every public function or class without a docstring.
+- `CheckResult.check_no_hardcoded_paths_or_ips` (method) `skills/claude_md_orchestrator/validators.py:259` `def check_no_hardcoded_paths_or_ips(source, path)` -- Return a finding for every absolute path or IP literal.
+- `CheckResult.check_magic_numbers` (method) `skills/claude_md_orchestrator/validators.py:293` `def check_magic_numbers(source, path, allow)` -- Return a finding for every numeric literal that is not in the allow list.
+- `CheckResult.check_source` (method) `skills/claude_md_orchestrator/validators.py:328` `def check_source(source, path, allow_numbers)` -- Run every source level DoD check and return the findings.
+- `CheckResult.check_markdown` (method) `skills/claude_md_orchestrator/validators.py:341` `def check_markdown(content, path)` -- Run every markdown level DoD check and return the findings.
+- `CheckResult.check_spec` (method) `skills/claude_md_orchestrator/validators.py:350` `def check_spec(spec, min_sad_paths)` -- Run the spec level DoD check and return the findings.
 
 ## skills/daemon_control.py
 Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_daemon_control.py`
-- `PendingAction.is_expired` (method) `skills/daemon_control.py:81` `def is_expired(self, now)` -- Return ``True`` when a still-pending action has exceeded its TTL.
-- `ControlState.to_dict` (method) `skills/daemon_control.py:112` `def to_dict(self)` -- Serialise the state to a plain JSON-ready dict.
-- `ControlState.from_dict` (method) `skills/daemon_control.py:123` `def from_dict(cls, data)` -- Build a state from JSON data, sanitising malformed input.
-- `DaemonControl.__init__` (method) `skills/daemon_control.py:177` `def __init__(self, sessions_dir)` -- Pin the control file to ``<sessions_dir>/daemon_control.json``.
-- `DaemonControl.path` (method) `skills/daemon_control.py:190` `def path(self)` -- Absolute path of the control file on disk.
-- `DaemonControl.load` (method) `skills/daemon_control.py:194` `def load(self)` -- Return the current state or defaults when the file is missing.
-- `DaemonControl.save` (method) `skills/daemon_control.py:207` `def save(self, state)` -- Persist ``state`` atomically.
-- `DaemonControl.set_mode` (method) `skills/daemon_control.py:237` `def set_mode(self, mode)` -- Switch between :data:`MODE_AUTO`, :data:`MODE_APPROVAL`, :data:`MODE_PAUSED`.
-- `DaemonControl.pause` (method) `skills/daemon_control.py:248` `def pause(self)` -- Convenience wrapper for ``set_mode(MODE_PAUSED)``.
-- `DaemonControl.resume` (method) `skills/daemon_control.py:252` `def resume(self)` -- Convenience wrapper for ``set_mode(MODE_AUTO)``.
-- `DaemonControl.require_approval` (method) `skills/daemon_control.py:256` `def require_approval(self)` -- Convenience wrapper for ``set_mode(MODE_APPROVAL)``.
-- `DaemonControl.add_veto` (method) `skills/daemon_control.py:260` `def add_veto(self, command_token)` -- Append a first-token name to the veto list.
-- `DaemonControl.remove_veto` (method) `skills/daemon_control.py:275` `def remove_veto(self, command_token)` -- Remove a previously vetoed command from the list.
-- `DaemonControl.clear_vetoes` (method) `skills/daemon_control.py:283` `def clear_vetoes(self)` -- Remove every entry from the veto list.
-- `DaemonControl.set_focus` (method) `skills/daemon_control.py:290` `def set_focus(self, targets)` -- Replace the focus-target list.
-- `DaemonControl.propose` (method) `skills/daemon_control.py:298` `def propose(self, command)` -- Daemon-side: register a pending action awaiting approval.
-- `DaemonControl.decide` (method) `skills/daemon_control.py:327` `def decide(self, action_id, decision)` -- Operator-side: approve or veto the pending action.
-- `DaemonControl.consume` (method) `skills/daemon_control.py:355` `def consume(self, action_id)` -- Daemon-side: read the final decision and clear the slot.
-- `DaemonControl.is_paused` (method) `skills/daemon_control.py:387` `def is_paused(self)` -- Return ``True`` when the daemon must stop before executing.
-- `DaemonControl.is_vetoed` (method) `skills/daemon_control.py:391` `def is_vetoed(self, command)` -- Return ``True`` when the command's first token is in the veto list.
-- `DaemonControl.target_in_focus` (method) `skills/daemon_control.py:398` `def target_in_focus(self, target)` -- Return ``True`` when no focus is configured or ``target`` is in focus.
-- `DaemonControl.wait_for_decision` (method) `skills/daemon_control.py:406` `def wait_for_decision(control, action)` -- Block until the operator decides or the TTL expires.
-- `DaemonControl.wait_until_unpaused` (method) `skills/daemon_control.py:461` `def wait_until_unpaused(control)` -- Block while the daemon is paused, returning when it resumes.
+- `PendingAction.is_expired` (method) `skills/daemon_control.py:79` `def is_expired(self, now)` -- Return ``True`` when a still-pending action has exceeded its TTL.
+- `ControlState.to_dict` (method) `skills/daemon_control.py:110` `def to_dict(self)` -- Serialise the state to a plain JSON-ready dict.
+- `ControlState.from_dict` (method) `skills/daemon_control.py:121` `def from_dict(cls, data)` -- Build a state from JSON data, sanitising malformed input.
+- `DaemonControl.__init__` (method) `skills/daemon_control.py:171` `def __init__(self, sessions_dir)` -- Pin the control file to ``<sessions_dir>/daemon_control.json``.
+- `DaemonControl.path` (method) `skills/daemon_control.py:184` `def path(self)` -- Absolute path of the control file on disk.
+- `DaemonControl.load` (method) `skills/daemon_control.py:188` `def load(self)` -- Return the current state or defaults when the file is missing.
+- `DaemonControl.save` (method) `skills/daemon_control.py:201` `def save(self, state)` -- Persist ``state`` atomically.
+- `DaemonControl.set_mode` (method) `skills/daemon_control.py:231` `def set_mode(self, mode)` -- Switch between :data:`MODE_AUTO`, :data:`MODE_APPROVAL`, :data:`MODE_PAUSED`.
+- `DaemonControl.pause` (method) `skills/daemon_control.py:240` `def pause(self)` -- Convenience wrapper for ``set_mode(MODE_PAUSED)``.
+- `DaemonControl.resume` (method) `skills/daemon_control.py:244` `def resume(self)` -- Convenience wrapper for ``set_mode(MODE_AUTO)``.
+- `DaemonControl.require_approval` (method) `skills/daemon_control.py:248` `def require_approval(self)` -- Convenience wrapper for ``set_mode(MODE_APPROVAL)``.
+- `DaemonControl.add_veto` (method) `skills/daemon_control.py:252` `def add_veto(self, command_token)` -- Append a first-token name to the veto list.
+- `DaemonControl.remove_veto` (method) `skills/daemon_control.py:267` `def remove_veto(self, command_token)` -- Remove a previously vetoed command from the list.
+- `DaemonControl.clear_vetoes` (method) `skills/daemon_control.py:275` `def clear_vetoes(self)` -- Remove every entry from the veto list.
+- `DaemonControl.set_focus` (method) `skills/daemon_control.py:282` `def set_focus(self, targets)` -- Replace the focus-target list.
+- `DaemonControl.propose` (method) `skills/daemon_control.py:290` `def propose(self, command)` -- Daemon-side: register a pending action awaiting approval.
+- `DaemonControl.decide` (method) `skills/daemon_control.py:317` `def decide(self, action_id, decision)` -- Operator-side: approve or veto the pending action.
+- `DaemonControl.consume` (method) `skills/daemon_control.py:343` `def consume(self, action_id)` -- Daemon-side: read the final decision and clear the slot.
+- `DaemonControl.is_paused` (method) `skills/daemon_control.py:375` `def is_paused(self)` -- Return ``True`` when the daemon must stop before executing.
+- `DaemonControl.is_vetoed` (method) `skills/daemon_control.py:379` `def is_vetoed(self, command)` -- Return ``True`` when the command's first token is in the veto list.
+- `DaemonControl.target_in_focus` (method) `skills/daemon_control.py:386` `def target_in_focus(self, target)` -- Return ``True`` when no focus is configured or ``target`` is in focus.
+- `DaemonControl.wait_for_decision` (method) `skills/daemon_control.py:394` `def wait_for_decision(control, action)` -- Block until the operator decides or the TTL expires.
+- `DaemonControl.wait_until_unpaused` (method) `skills/daemon_control.py:445` `def wait_until_unpaused(control)` -- Block while the daemon is paused, returning when it resumes.
 
 ## skills/daemon_health.py
 Imported by: `lazyc2.py`
@@ -453,23 +458,23 @@ Imported by: `lazyc2.py`
 
 ## skills/heartbeat.py
 Depends on: `modules/event_engine.py`, `modules/session_state.py`, `modules/timeline_narrator.py`
-- `write_pid` (function) `skills/heartbeat.py:51` `def write_pid()`
-- `clear_pid` (function) `skills/heartbeat.py:55` `def clear_pid()`
-- `is_running` (function) `skills/heartbeat.py:60` `def is_running()` -- Return (is_running, pid).
-- `run_loop` (function) `skills/heartbeat.py:72` `def run_loop(interval, once)`
-- `main` (function) `skills/heartbeat.py:125` `def main()`
+- `write_pid` (function) `skills/heartbeat.py:53` `def write_pid()`
+- `clear_pid` (function) `skills/heartbeat.py:57` `def clear_pid()`
+- `is_running` (function) `skills/heartbeat.py:62` `def is_running()` -- Return (is_running, pid).
+- `run_loop` (function) `skills/heartbeat.py:74` `def run_loop(interval, once)`
+- `main` (function) `skills/heartbeat.py:127` `def main()`
 
 ## skills/hermes-lazyown/claudemd_rules.py
 Depends on: `skills/hermes-lazyown/constants.py`
 Imported by: `skills/hermes-lazyown/mcp_server.py`
-- `RuleSetBuilder.__init__` (method) `skills/hermes-lazyown/claudemd_rules.py:25` `def __init__(self)`
-- `RuleSetBuilder.with_phase` (method) `skills/hermes-lazyown/claudemd_rules.py:32` `def with_phase(self, phase)` -- Set the current engagement phase.
-- `RuleSetBuilder.with_target` (method) `skills/hermes-lazyown/claudemd_rules.py:37` `def with_target(self, rhost)` -- Set the active target IP.
-- `RuleSetBuilder.with_services` (method) `skills/hermes-lazyown/claudemd_rules.py:42` `def with_services(self, services)` -- Set discovered services (e.g., ['http:80', 'smb:445']).
-- `RuleSetBuilder.with_creds` (method) `skills/hermes-lazyown/claudemd_rules.py:47` `def with_creds(self, found)` -- Set whether credentials have been discovered.
-- `RuleSetBuilder.with_hermes` (method) `skills/hermes-lazyown/claudemd_rules.py:52` `def with_hermes(self, is_hermes)` -- Set whether running inside a Hermes session.
-- `RuleSetBuilder.build` (method) `skills/hermes-lazyown/claudemd_rules.py:57` `def build(self)` -- Build and return the complete rule set markdown.
-- `RuleSetBuilder.generate_rules` (method) `skills/hermes-lazyown/claudemd_rules.py:174` `def generate_rules(phase, rhost, services, creds_found, is_hermes)` -- Convenience function: build a rule set from parameters.
+- `RuleSetBuilder.__init__` (method) `skills/hermes-lazyown/claudemd_rules.py:24` `def __init__(self)`
+- `RuleSetBuilder.with_phase` (method) `skills/hermes-lazyown/claudemd_rules.py:31` `def with_phase(self, phase)` -- Set the current engagement phase.
+- `RuleSetBuilder.with_target` (method) `skills/hermes-lazyown/claudemd_rules.py:36` `def with_target(self, rhost)` -- Set the active target IP.
+- `RuleSetBuilder.with_services` (method) `skills/hermes-lazyown/claudemd_rules.py:41` `def with_services(self, services)` -- Set discovered services (e.g., ['http:80', 'smb:445']).
+- `RuleSetBuilder.with_creds` (method) `skills/hermes-lazyown/claudemd_rules.py:46` `def with_creds(self, found)` -- Set whether credentials have been discovered.
+- `RuleSetBuilder.with_hermes` (method) `skills/hermes-lazyown/claudemd_rules.py:51` `def with_hermes(self, is_hermes)` -- Set whether running inside a Hermes session.
+- `RuleSetBuilder.build` (method) `skills/hermes-lazyown/claudemd_rules.py:56` `def build(self)` -- Build and return the complete rule set markdown.
+- `RuleSetBuilder.generate_rules` (method) `skills/hermes-lazyown/claudemd_rules.py:185` `def generate_rules(phase, rhost, services, creds_found, is_hermes)` -- Convenience function: build a rule set from parameters.
 
 ## skills/hermes-lazyown/config_bridge.py
 Depends on: `skills/hermes-lazyown/constants.py`

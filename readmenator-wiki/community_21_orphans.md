@@ -182,7 +182,7 @@ This community groups 208 file(s) rooted at `modules` with dominant language py 
 - [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazybotnet.py:188` `start_server` `server`: Result of allocator stored in `server` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `contrib/legacy/lazylfi2rce.py:86` `main` `wordlist`: Result of allocator stored in `wordlist` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/bin2img.py:17` `binario_a_imagen` `img`: Result of allocator stored in `img` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `modules/detailed_search.py:86` `obtener_informacion` `csv_file`: Result of allocator stored in `csv_file` is never checked against NULL.
+- [dataflow UNCHECKED_ALLOC] `modules/detailed_search.py:91` `obtener_informacion` `csv_file`: Result of allocator stored in `csv_file` is never checked against NULL.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:218` `spray_keyring_list_overwrite_purpose` `id_buffer`: Result of allocator stored in `id_buffer` is never checked against NULL.
 - [dataflow DEAD_STORE] `modules/exp.c:274` `awake_partial_keys` `keylen`: `keylen` assigned at line 274 but never read afterwards.
 - [dataflow UNCHECKED_ALLOC] `modules/exp.c:313` `unshare_setup` `temp`: Result of allocator stored in `temp` is never checked against NULL.

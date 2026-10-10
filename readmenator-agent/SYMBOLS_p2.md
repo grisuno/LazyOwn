@@ -101,12 +101,12 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_crystal_ball` | method | `cli/commands/crystal_ball.py:27` | `def do_crystal_ball(self, line)` |
 | `do_privesc_suggest` | method | `cli/commands/crystal_ball.py:110` | `def do_privesc_suggest(self, line)` |
 | `DaemonControlCommandSet` | class | `cli/commands/daemon_ctl.py:17` | `class DaemonControlCommandSet(LazyOwnCommandSet)` |
-| `do_daemon_approve` | method | `cli/commands/daemon_ctl.py:169` | `def do_daemon_approve(self, line)` |
-| `do_daemon_focus` | method | `cli/commands/daemon_ctl.py:136` | `def do_daemon_focus(self, line)` |
+| `do_daemon_approve` | method | `cli/commands/daemon_ctl.py:175` | `def do_daemon_approve(self, line)` |
+| `do_daemon_focus` | method | `cli/commands/daemon_ctl.py:141` | `def do_daemon_focus(self, line)` |
 | `do_daemon_mode` | method | `cli/commands/daemon_ctl.py:24` | `def do_daemon_mode(self, line)` |
-| `do_daemon_pause` | method | `cli/commands/daemon_ctl.py:61` | `def do_daemon_pause(self, line)` |
-| `do_daemon_resume` | method | `cli/commands/daemon_ctl.py:79` | `def do_daemon_resume(self, line)` |
-| `do_daemon_veto` | method | `cli/commands/daemon_ctl.py:93` | `def do_daemon_veto(self, line)` |
+| `do_daemon_pause` | method | `cli/commands/daemon_ctl.py:63` | `def do_daemon_pause(self, line)` |
+| `do_daemon_resume` | method | `cli/commands/daemon_ctl.py:82` | `def do_daemon_resume(self, line)` |
+| `do_daemon_veto` | method | `cli/commands/daemon_ctl.py:97` | `def do_daemon_veto(self, line)` |
 | `DatabaseCommandSet` | class | `cli/commands/database.py:24` | `class DatabaseCommandSet(LazyOwnCommandSet)` |
 | `_active_workspace` | method | `cli/commands/database.py:38` | `def _active_workspace(self)` |
 | `_get_db` | method | `cli/commands/database.py:30` | `def _get_db(self)` |
@@ -155,10 +155,10 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_base64encode` | method | `cli/commands/encoding.py:361` | `def do_base64encode(self, line)` |
 | `do_decode` | method | `cli/commands/encoding.py:135` | `def do_decode(self, line)` |
 | `do_encode` | method | `cli/commands/encoding.py:95` | `def do_encode(self, line)` |
-| `do_encoderpayload` | method | `cli/commands/encoding.py:260` | `def do_encoderpayload(self, line)` |
+| `do_encoderpayload` | method | `cli/commands/encoding.py:259` | `def do_encoderpayload(self, line)` |
 | `do_encodewinbase64` | method | `cli/commands/encoding.py:420` | `def do_encodewinbase64(self, line)` |
-| `do_hex_to_plaintext` | method | `cli/commands/encoding.py:505` | `def do_hex_to_plaintext(self, line)` |
-| `do_ip2hex` | method | `cli/commands/encoding.py:479` | `def do_ip2hex(self, line)` |
+| `do_hex_to_plaintext` | method | `cli/commands/encoding.py:509` | `def do_hex_to_plaintext(self, line)` |
+| `do_ip2hex` | method | `cli/commands/encoding.py:483` | `def do_ip2hex(self, line)` |
 | `do_rot` | method | `cli/commands/encoding.py:173` | `def do_rot(self, line)` |
 | `do_rotf` | method | `cli/commands/encoding.py:213` | `def do_rotf(self, line)` |
 | `do_urldecode` | method | `cli/commands/encoding.py:66` | `def do_urldecode(self, line)` |
@@ -245,58 +245,58 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_ticketer` | method | `cli/commands/exploit.py:178` | `def do_ticketer(self, line)` |
 | `do_wrapper` | method | `cli/commands/exploit.py:150` | `def do_wrapper(self, line)` |
 | `do_www` | method | `cli/commands/exploit.py:192` | `def do_www(self, line)` |
-| `ExploitMigratedCommandSet` | class | `cli/commands/exploit_migrated.py:36` | `class ExploitMigratedCommandSet(LazyOwnCommandSet)` |
-| `cacti_exploit` | method | `cli/commands/exploit_migrated.py:524` | `def cacti_exploit(config_file, host)` |
-| `do_aclpwn_py` | method | `cli/commands/exploit_migrated.py:1591` | `def do_aclpwn_py(self, line)` |
-| `do_adcs_check` | method | `cli/commands/exploit_migrated.py:2534` | `def do_adcs_check(self, line)` |
-| `do_addspn_py` | method | `cli/commands/exploit_migrated.py:1641` | `def do_addspn_py(self, line)` |
-| `do_autoblody` | method | `cli/commands/exploit_migrated.py:1776` | `def do_autoblody(self, line)` |
-| `do_cacti_exploit` | method | `cli/commands/exploit_migrated.py:471` | `def do_cacti_exploit(self, line)` |
-| `do_chain` | method | `cli/commands/exploit_migrated.py:2590` | `def do_chain(self, line)` |
-| `do_cp` | method | `cli/commands/exploit_migrated.py:41` | `def do_cp(self, line)` |
-| `do_createcookie` | method | `cli/commands/exploit_migrated.py:82` | `def do_createcookie(self, line)` |
-| `do_createdll` | method | `cli/commands/exploit_migrated.py:336` | `def do_createdll(self, line)` |
-| `do_digdug` | method | `cli/commands/exploit_migrated.py:2326` | `def do_digdug(self, line)` |
-| `do_downloader` | method | `cli/commands/exploit_migrated.py:865` | `def do_downloader(self, line)` |
-| `do_eternal` | method | `cli/commands/exploit_migrated.py:952` | `def do_eternal(self, line)` |
-| `do_excelntdonut` | method | `cli/commands/exploit_migrated.py:2454` | `def do_excelntdonut(self, line)` |
-| `do_exploit_recommend` | method | `cli/commands/exploit_migrated.py:2685` | `def do_exploit_recommend(self, line)` |
-| `do_filtering` | method | `cli/commands/exploit_migrated.py:2174` | `def do_filtering(self, line)` |
-| `do_gets4uticket_py` | method | `cli/commands/exploit_migrated.py:1544` | `def do_gets4uticket_py(self, line)` |
-| `do_gettgtpkinit_py` | method | `cli/commands/exploit_migrated.py:1493` | `def do_gettgtpkinit_py(self, line)` |
-| `do_greatSCT` | method | `cli/commands/exploit_migrated.py:2042` | `def do_greatSCT(self, line)` |
-| `do_jwt_tool` | method | `cli/commands/exploit_migrated.py:2132` | `def do_jwt_tool(self, line)` |
-| `do_krbrelayx_py` | method | `cli/commands/exploit_migrated.py:1732` | `def do_krbrelayx_py(self, line)` |
-| `do_lfi` | method | `cli/commands/exploit_migrated.py:2000` | `def do_lfi(self, line)` |
-| `do_lol` | method | `cli/commands/exploit_migrated.py:2200` | `def do_lol(self, line)` |
-| `do_ms08_067_netapi` | method | `cli/commands/exploit_migrated.py:1032` | `def do_ms08_067_netapi(self, line)` |
-| `do_ntpdate` | method | `cli/commands/exploit_migrated.py:2510` | `def do_ntpdate(self, line)` |
-| `do_owneredit` | method | `cli/commands/exploit_migrated.py:1447` | `def do_owneredit(self, line)` |
-| `do_padbuster` | method | `cli/commands/exploit_migrated.py:427` | `def do_padbuster(self, line)` |
+| `ExploitMigratedCommandSet` | class | `cli/commands/exploit_migrated.py:37` | `class ExploitMigratedCommandSet(LazyOwnCommandSet)` |
+| `cacti_exploit` | method | `cli/commands/exploit_migrated.py:525` | `def cacti_exploit(config_file, host)` |
+| `do_aclpwn_py` | method | `cli/commands/exploit_migrated.py:1603` | `def do_aclpwn_py(self, line)` |
+| `do_adcs_check` | method | `cli/commands/exploit_migrated.py:2562` | `def do_adcs_check(self, line)` |
+| `do_addspn_py` | method | `cli/commands/exploit_migrated.py:1651` | `def do_addspn_py(self, line)` |
+| `do_autoblody` | method | `cli/commands/exploit_migrated.py:1794` | `def do_autoblody(self, line)` |
+| `do_cacti_exploit` | method | `cli/commands/exploit_migrated.py:472` | `def do_cacti_exploit(self, line)` |
+| `do_chain` | method | `cli/commands/exploit_migrated.py:2621` | `def do_chain(self, line)` |
+| `do_cp` | method | `cli/commands/exploit_migrated.py:42` | `def do_cp(self, line)` |
+| `do_createcookie` | method | `cli/commands/exploit_migrated.py:83` | `def do_createcookie(self, line)` |
+| `do_createdll` | method | `cli/commands/exploit_migrated.py:333` | `def do_createdll(self, line)` |
+| `do_digdug` | method | `cli/commands/exploit_migrated.py:2355` | `def do_digdug(self, line)` |
+| `do_downloader` | method | `cli/commands/exploit_migrated.py:881` | `def do_downloader(self, line)` |
+| `do_eternal` | method | `cli/commands/exploit_migrated.py:961` | `def do_eternal(self, line)` |
+| `do_excelntdonut` | method | `cli/commands/exploit_migrated.py:2482` | `def do_excelntdonut(self, line)` |
+| `do_exploit_recommend` | method | `cli/commands/exploit_migrated.py:2718` | `def do_exploit_recommend(self, line)` |
+| `do_filtering` | method | `cli/commands/exploit_migrated.py:2200` | `def do_filtering(self, line)` |
+| `do_gets4uticket_py` | method | `cli/commands/exploit_migrated.py:1556` | `def do_gets4uticket_py(self, line)` |
+| `do_gettgtpkinit_py` | method | `cli/commands/exploit_migrated.py:1505` | `def do_gettgtpkinit_py(self, line)` |
+| `do_greatSCT` | method | `cli/commands/exploit_migrated.py:2066` | `def do_greatSCT(self, line)` |
+| `do_jwt_tool` | method | `cli/commands/exploit_migrated.py:2156` | `def do_jwt_tool(self, line)` |
+| `do_krbrelayx_py` | method | `cli/commands/exploit_migrated.py:1749` | `def do_krbrelayx_py(self, line)` |
+| `do_lfi` | method | `cli/commands/exploit_migrated.py:2024` | `def do_lfi(self, line)` |
+| `do_lol` | method | `cli/commands/exploit_migrated.py:2226` | `def do_lol(self, line)` |
+| `do_ms08_067_netapi` | method | `cli/commands/exploit_migrated.py:1042` | `def do_ms08_067_netapi(self, line)` |
+| `do_ntpdate` | method | `cli/commands/exploit_migrated.py:2538` | `def do_ntpdate(self, line)` |
+| `do_owneredit` | method | `cli/commands/exploit_migrated.py:1459` | `def do_owneredit(self, line)` |
+| `do_padbuster` | method | `cli/commands/exploit_migrated.py:426` | `def do_padbuster(self, line)` |
 | `do_powerserver` | method | `cli/commands/exploit_migrated.py:619` | `def do_powerserver(self, line)` |
-| `do_printerbug_py` | method | `cli/commands/exploit_migrated.py:1685` | `def do_printerbug_py(self, line)` |
-| `do_py3ttyup` | method | `cli/commands/exploit_migrated.py:128` | `def do_py3ttyup(self, line)` |
-| `do_pyautomate` | method | `cli/commands/exploit_migrated.py:166` | `def do_pyautomate(self, line)` |
-| `do_pyoracle2` | method | `cli/commands/exploit_migrated.py:1918` | `def do_pyoracle2(self, line)` |
-| `do_pywhisker` | method | `cli/commands/exploit_migrated.py:1397` | `def do_pywhisker(self, line)` |
-| `do_rejetto_hfs_exec` | method | `cli/commands/exploit_migrated.py:997` | `def do_rejetto_hfs_exec(self, line)` |
-| `do_seo` | method | `cli/commands/exploit_migrated.py:392` | `def do_seo(self, line)` |
-| `do_sharpshooter` | method | `cli/commands/exploit_migrated.py:719` | `def do_sharpshooter(self, line)` |
-| `do_shellfire` | method | `cli/commands/exploit_migrated.py:761` | `def do_shellfire(self, line)` |
-| `do_shellshock` | method | `cli/commands/exploit_migrated.py:556` | `def do_shellshock(self, line)` |
-| `do_sireprat` | method | `cli/commands/exploit_migrated.py:1224` | `def do_sireprat(self, line)` |
+| `do_printerbug_py` | method | `cli/commands/exploit_migrated.py:1695` | `def do_printerbug_py(self, line)` |
+| `do_py3ttyup` | method | `cli/commands/exploit_migrated.py:127` | `def do_py3ttyup(self, line)` |
+| `do_pyautomate` | method | `cli/commands/exploit_migrated.py:163` | `def do_pyautomate(self, line)` |
+| `do_pyoracle2` | method | `cli/commands/exploit_migrated.py:1942` | `def do_pyoracle2(self, line)` |
+| `do_pywhisker` | method | `cli/commands/exploit_migrated.py:1409` | `def do_pywhisker(self, line)` |
+| `do_rejetto_hfs_exec` | method | `cli/commands/exploit_migrated.py:1005` | `def do_rejetto_hfs_exec(self, line)` |
+| `do_seo` | method | `cli/commands/exploit_migrated.py:391` | `def do_seo(self, line)` |
+| `do_sharpshooter` | method | `cli/commands/exploit_migrated.py:713` | `def do_sharpshooter(self, line)` |
+| `do_shellfire` | method | `cli/commands/exploit_migrated.py:757` | `def do_shellfire(self, line)` |
+| `do_shellshock` | method | `cli/commands/exploit_migrated.py:557` | `def do_shellshock(self, line)` |
+| `do_sireprat` | method | `cli/commands/exploit_migrated.py:1236` | `def do_sireprat(self, line)` |
 | `do_sqli` | method | `cli/commands/exploit_migrated.py:682` | `def do_sqli(self, line)` |
-| `do_sqli_mssql_test` | method | `cli/commands/exploit_migrated.py:1882` | `def do_sqli_mssql_test(self, line)` |
-| `do_sqsh` | method | `cli/commands/exploit_migrated.py:2087` | `def do_sqsh(self, line)` |
-| `do_sshexploit` | method | `cli/commands/exploit_migrated.py:2384` | `def do_sshexploit(self, line)` |
-| `do_template_helper_serializer` | method | `cli/commands/exploit_migrated.py:1109` | `def do_template_helper_serializer(self, line)` |
-| `do_unicode_WAFbypass` | method | `cli/commands/exploit_migrated.py:1828` | `def do_unicode_WAFbypass(self, line)` |
-| `do_upload_bypass` | method | `cli/commands/exploit_migrated.py:1336` | `def do_upload_bypass(self, line)` |
-| `do_utf` | method | `cli/commands/exploit_migrated.py:2287` | `def do_utf(self, line)` |
-| `do_winbase64payload` | method | `cli/commands/exploit_migrated.py:207` | `def do_winbase64payload(self, line)` |
-| `do_xss` | method | `cli/commands/exploit_migrated.py:1067` | `def do_xss(self, line)` |
-| `do_xsstrike` | method | `cli/commands/exploit_migrated.py:1154` | `def do_xsstrike(self, line)` |
-| `setup_handler` | method | `cli/commands/exploit_migrated.py:501` | `def setup_handler(config_file, lhost, lport)` |
+| `do_sqli_mssql_test` | method | `cli/commands/exploit_migrated.py:1904` | `def do_sqli_mssql_test(self, line)` |
+| `do_sqsh` | method | `cli/commands/exploit_migrated.py:2111` | `def do_sqsh(self, line)` |
+| `do_sshexploit` | method | `cli/commands/exploit_migrated.py:2413` | `def do_sshexploit(self, line)` |
+| `do_template_helper_serializer` | method | `cli/commands/exploit_migrated.py:1124` | `def do_template_helper_serializer(self, line)` |
+| `do_unicode_WAFbypass` | method | `cli/commands/exploit_migrated.py:1849` | `def do_unicode_WAFbypass(self, line)` |
+| `do_upload_bypass` | method | `cli/commands/exploit_migrated.py:1348` | `def do_upload_bypass(self, line)` |
+| `do_utf` | method | `cli/commands/exploit_migrated.py:2311` | `def do_utf(self, line)` |
+| `do_winbase64payload` | method | `cli/commands/exploit_migrated.py:204` | `def do_winbase64payload(self, line)` |
+| `do_xss` | method | `cli/commands/exploit_migrated.py:1079` | `def do_xss(self, line)` |
+| `do_xsstrike` | method | `cli/commands/exploit_migrated.py:1168` | `def do_xsstrike(self, line)` |
+| `setup_handler` | method | `cli/commands/exploit_migrated.py:502` | `def setup_handler(config_file, lhost, lport)` |
 | `ExploitGymCommandSet` | class | `cli/commands/exploitgym.py:36` | `class ExploitGymCommandSet(LazyOwnCommandSet)` |
 | `_egym_docs` | method | `cli/commands/exploitgym.py:289` | `def _egym_docs(self, _args)` |
 | `_egym_list` | method | `cli/commands/exploitgym.py:149` | `def _egym_list(self, args)` |
@@ -308,34 +308,34 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `_egym_verify` | method | `cli/commands/exploitgym.py:245` | `def _egym_verify(self, args)` |
 | `do_exploitgym` | method | `cli/commands/exploitgym.py:43` | `def do_exploitgym(self, line)` |
 | `HelpUiCommandSet` | class | `cli/commands/help_ui.py:29` | `class HelpUiCommandSet(LazyOwnCommandSet)` |
-| `_save` | method | `cli/commands/help_ui.py:66` | `def _save(key, value)` |
-| `do_command_explorer` | method | `cli/commands/help_ui.py:235` | `def do_command_explorer(self, line)` |
-| `do_config_status` | method | `cli/commands/help_ui.py:267` | `def do_config_status(self, line)` |
-| `do_ctx` | method | `cli/commands/help_ui.py:223` | `def do_ctx(self, line)` |
-| `do_ctx_help` | method | `cli/commands/help_ui.py:203` | `def do_ctx_help(self, line)` |
-| `do_doctor` | method | `cli/commands/help_ui.py:312` | `def do_doctor(self, line)` |
-| `do_help_phase` | method | `cli/commands/help_ui.py:160` | `def do_help_phase(self, line)` |
-| `do_help_status` | method | `cli/commands/help_ui.py:191` | `def do_help_status(self, line)` |
-| `do_karma` | method | `cli/commands/help_ui.py:347` | `def do_karma(self, line)` |
-| `do_killchain` | method | `cli/commands/help_ui.py:432` | `def do_killchain(self, line)` |
-| `do_phase` | method | `cli/commands/help_ui.py:398` | `def do_phase(self, line)` |
-| `do_tgrep` | method | `cli/commands/help_ui.py:381` | `def do_tgrep(self, line)` |
-| `do_tui_theme` | method | `cli/commands/help_ui.py:287` | `def do_tui_theme(self, line)` |
-| `do_tutorial` | method | `cli/commands/help_ui.py:137` | `def do_tutorial(self, line)` |
+| `_save` | method | `cli/commands/help_ui.py:67` | `def _save(key, value)` |
+| `do_command_explorer` | method | `cli/commands/help_ui.py:254` | `def do_command_explorer(self, line)` |
+| `do_config_status` | method | `cli/commands/help_ui.py:287` | `def do_config_status(self, line)` |
+| `do_ctx` | method | `cli/commands/help_ui.py:242` | `def do_ctx(self, line)` |
+| `do_ctx_help` | method | `cli/commands/help_ui.py:221` | `def do_ctx_help(self, line)` |
+| `do_doctor` | method | `cli/commands/help_ui.py:334` | `def do_doctor(self, line)` |
+| `do_help_phase` | method | `cli/commands/help_ui.py:175` | `def do_help_phase(self, line)` |
+| `do_help_status` | method | `cli/commands/help_ui.py:208` | `def do_help_status(self, line)` |
+| `do_karma` | method | `cli/commands/help_ui.py:369` | `def do_karma(self, line)` |
+| `do_killchain` | method | `cli/commands/help_ui.py:455` | `def do_killchain(self, line)` |
+| `do_phase` | method | `cli/commands/help_ui.py:421` | `def do_phase(self, line)` |
+| `do_tgrep` | method | `cli/commands/help_ui.py:404` | `def do_tgrep(self, line)` |
+| `do_tui_theme` | method | `cli/commands/help_ui.py:308` | `def do_tui_theme(self, line)` |
+| `do_tutorial` | method | `cli/commands/help_ui.py:151` | `def do_tutorial(self, line)` |
 | `do_wizard` | method | `cli/commands/help_ui.py:36` | `def do_wizard(self, line)` |
 | `InfraCommandSet` | class | `cli/commands/infra.py:93` | `class InfraCommandSet(LazyOwnCommandSet)` |
-| `_ask_provider` | method | `cli/commands/infra.py:324` | `def _ask_provider(self)` |
+| `_ask_provider` | method | `cli/commands/infra.py:326` | `def _ask_provider(self)` |
 | `_binary_present` | function | `cli/commands/infra.py:65` | `def _binary_present(name)` |
 | `_c2_port` | method | `cli/commands/infra.py:99` | `def _c2_port(self)` |
-| `_deploy_cloud` | method | `cli/commands/infra.py:362` | `def _deploy_cloud(self, provider, region)` |
-| `_deploy_local` | method | `cli/commands/infra.py:342` | `def _deploy_local(self)` |
-| `_infra_deploy` | method | `cli/commands/infra.py:306` | `def _infra_deploy(self, args)` |
-| `_infra_destroy` | method | `cli/commands/infra.py:402` | `def _infra_destroy(self, args)` |
+| `_deploy_cloud` | method | `cli/commands/infra.py:364` | `def _deploy_cloud(self, provider, region)` |
+| `_deploy_local` | method | `cli/commands/infra.py:344` | `def _deploy_local(self)` |
+| `_infra_deploy` | method | `cli/commands/infra.py:308` | `def _infra_deploy(self, args)` |
+| `_infra_destroy` | method | `cli/commands/infra.py:411` | `def _infra_destroy(self, args)` |
 | `_infra_redirector` | method | `cli/commands/infra.py:170` | `def _infra_redirector(self, args)` |
-| `_infra_status` | method | `cli/commands/infra.py:435` | `def _infra_status(self)` |
+| `_infra_status` | method | `cli/commands/infra.py:447` | `def _infra_status(self)` |
 | `_load_state` | method | `cli/commands/infra.py:110` | `def _load_state(self)` |
 | `_parse_tunnel_urls` | function | `cli/commands/infra.py:77` | `def _parse_tunnel_urls(log_text)` |
-| `_redirector_kill` | method | `cli/commands/infra.py:289` | `def _redirector_kill(self, args)` |
+| `_redirector_kill` | method | `cli/commands/infra.py:291` | `def _redirector_kill(self, args)` |
 | `_redirector_list` | method | `cli/commands/infra.py:262` | `def _redirector_list(self)` |
 | `_redirector_spawn` | method | `cli/commands/infra.py:202` | `def _redirector_spawn(self, count, port)` |
 | `_run_capture` | function | `cli/commands/infra.py:52` | `def _run_capture(argv, timeout)` |
@@ -344,23 +344,23 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `LabCommandSet` | class | `cli/commands/lab.py:81` | `class LabCommandSet(LazyOwnCommandSet)` |
 | `_container_name` | method | `cli/commands/lab.py:114` | `def _container_name(self, scenario)` |
 | `_docker_available` | method | `cli/commands/lab.py:87` | `def _docker_available(self)` |
-| `_ensure_range_secret` | method | `cli/commands/lab.py:455` | `def _ensure_range_secret(self, profile_dir)` |
+| `_ensure_range_secret` | method | `cli/commands/lab.py:459` | `def _ensure_range_secret(self, profile_dir)` |
 | `_lab_list` | method | `cli/commands/lab.py:171` | `def _lab_list(self)` |
 | `_lab_start` | method | `cli/commands/lab.py:185` | `def _lab_start(self, scenario)` |
-| `_lab_status` | method | `cli/commands/lab.py:536` | `def _lab_status(self)` |
+| `_lab_status` | method | `cli/commands/lab.py:548` | `def _lab_status(self)` |
 | `_lab_stop` | method | `cli/commands/lab.py:234` | `def _lab_stop(self, scenario)` |
 | `_range_compose` | method | `cli/commands/lab.py:293` | `def _range_compose(self, profile)` |
-| `_range_container_ip` | method | `cli/commands/lab.py:485` | `def _range_container_ip(self, container)` |
-| `_range_container_state` | method | `cli/commands/lab.py:347` | `def _range_container_state(self, container)` |
+| `_range_container_ip` | method | `cli/commands/lab.py:489` | `def _range_container_ip(self, container)` |
+| `_range_container_state` | method | `cli/commands/lab.py:351` | `def _range_container_state(self, container)` |
 | `_range_dispatch` | method | `cli/commands/lab.py:252` | `def _range_dispatch(self, args)` |
 | `_range_list` | method | `cli/commands/lab.py:284` | `def _range_list(self)` |
 | `_range_start` | method | `cli/commands/lab.py:312` | `def _range_start(self, profile)` |
-| `_range_status` | method | `cli/commands/lab.py:524` | `def _range_status(self)` |
-| `_range_stop` | method | `cli/commands/lab.py:508` | `def _range_stop(self, profile)` |
-| `_range_verify` | method | `cli/commands/lab.py:402` | `def _range_verify(self, profile)` |
-| `_range_wait_healthy` | method | `cli/commands/lab.py:370` | `def _range_wait_healthy(self, compose, timeout)` |
+| `_range_status` | method | `cli/commands/lab.py:536` | `def _range_status(self)` |
+| `_range_stop` | method | `cli/commands/lab.py:518` | `def _range_stop(self, profile)` |
+| `_range_verify` | method | `cli/commands/lab.py:406` | `def _range_verify(self, profile)` |
+| `_range_wait_healthy` | method | `cli/commands/lab.py:374` | `def _range_wait_healthy(self, compose, timeout)` |
 | `_running_containers` | method | `cli/commands/lab.py:100` | `def _running_containers(self)` |
-| `_tcp_reachable` | method | `cli/commands/lab.py:438` | `def _tcp_reachable(host, port, timeout)` |
+| `_tcp_reachable` | method | `cli/commands/lab.py:442` | `def _tcp_reachable(host, port, timeout)` |
 | `do_lab` | method | `cli/commands/lab.py:119` | `def do_lab(self, line)` |
 | `LateralMovementCommandSet` | class | `cli/commands/lateral.py:24` | `class LateralMovementCommandSet(LazyOwnCommandSet)` |
 | `do_chisel` | method | `cli/commands/lateral.py:43` | `def do_chisel(self, line)` |
@@ -482,16 +482,16 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_search` | method | `cli/commands/module_manager.py:71` | `def do_search(self, line)` |
 | `do_use` | method | `cli/commands/module_manager.py:111` | `def do_use(self, line)` |
 | `NetworkHelpersCommandSet` | class | `cli/commands/nethelpers.py:31` | `class NetworkHelpersCommandSet(LazyOwnCommandSet)` |
-| `do_acknowledgearp` | method | `cli/commands/nethelpers.py:411` | `def do_acknowledgearp(self, line)` |
-| `do_acknowledgeicmp` | method | `cli/commands/nethelpers.py:448` | `def do_acknowledgeicmp(self, line)` |
-| `do_addhosts` | method | `cli/commands/nethelpers.py:283` | `def do_addhosts(self, line)` |
-| `do_ignorearp` | method | `cli/commands/nethelpers.py:337` | `def do_ignorearp(self, line)` |
-| `do_ignoreicmp` | method | `cli/commands/nethelpers.py:374` | `def do_ignoreicmp(self, line)` |
+| `do_acknowledgearp` | method | `cli/commands/nethelpers.py:418` | `def do_acknowledgearp(self, line)` |
+| `do_acknowledgeicmp` | method | `cli/commands/nethelpers.py:453` | `def do_acknowledgeicmp(self, line)` |
+| `do_addhosts` | method | `cli/commands/nethelpers.py:295` | `def do_addhosts(self, line)` |
+| `do_ignorearp` | method | `cli/commands/nethelpers.py:348` | `def do_ignorearp(self, line)` |
+| `do_ignoreicmp` | method | `cli/commands/nethelpers.py:383` | `def do_ignoreicmp(self, line)` |
 | `do_ip` | method | `cli/commands/nethelpers.py:38` | `def do_ip(self, line)` |
-| `do_ip2asn` | method | `cli/commands/nethelpers.py:307` | `def do_ip2asn(self, line)` |
-| `do_ipp` | method | `cli/commands/nethelpers.py:114` | `def do_ipp(self, line)` |
-| `do_rhost` | method | `cli/commands/nethelpers.py:190` | `def do_rhost(self, line)` |
-| `do_rrhost` | method | `cli/commands/nethelpers.py:242` | `def do_rrhost(self, line)` |
+| `do_ip2asn` | method | `cli/commands/nethelpers.py:319` | `def do_ip2asn(self, line)` |
+| `do_ipp` | method | `cli/commands/nethelpers.py:120` | `def do_ipp(self, line)` |
+| `do_rhost` | method | `cli/commands/nethelpers.py:201` | `def do_rhost(self, line)` |
+| `do_rrhost` | method | `cli/commands/nethelpers.py:254` | `def do_rrhost(self, line)` |
 | `OpsecCleanupCommandSet` | class | `cli/commands/opsec_cleanup.py:19` | `class OpsecCleanupCommandSet(LazyOwnCommandSet)` |
 | `do_auditd_disable` | method | `cli/commands/opsec_cleanup.py:445` | `def do_auditd_disable(self, line)` |
 | `do_forensic_clean` | method | `cli/commands/opsec_cleanup.py:162` | `def do_forensic_clean(self, line)` |

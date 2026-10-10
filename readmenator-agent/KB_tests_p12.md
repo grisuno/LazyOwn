@@ -337,13 +337,13 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
 - Language: py
 - Symbols:
   - `_populate` (function, line 24) `def _populate(tmp_path)`
-  - `test_index_groups_known_files` (function, line 36) `def test_index_groups_known_files(tmp_path)`
-  - `test_index_other_bucket_contains_unmatched_files` (function, line 49) `def test_index_other_bucket_contains_unmatched_files(tmp_path)`
-  - `test_preview_returns_text_for_text_files` (function, line 58) `def test_preview_returns_text_for_text_files(tmp_path)`
-  - `test_preview_flags_binary_files` (function, line 66) `def test_preview_flags_binary_files(tmp_path)`
-  - `test_preview_rejects_path_traversal` (function, line 73) `def test_preview_rejects_path_traversal(tmp_path)`
-  - `test_state_filter_keeps_matching_entries` (function, line 81) `def test_state_filter_keeps_matching_entries(tmp_path)`
-  - `test_category_label_for_known_identifier` (function, line 91) `def test_category_label_for_known_identifier(tmp_path)`
+  - `test_index_groups_known_files` (function, line 34) `def test_index_groups_known_files(tmp_path)`
+  - `test_index_other_bucket_contains_unmatched_files` (function, line 47) `def test_index_other_bucket_contains_unmatched_files(tmp_path)`
+  - `test_preview_returns_text_for_text_files` (function, line 56) `def test_preview_returns_text_for_text_files(tmp_path)`
+  - `test_preview_flags_binary_files` (function, line 64) `def test_preview_flags_binary_files(tmp_path)`
+  - `test_preview_rejects_path_traversal` (function, line 71) `def test_preview_rejects_path_traversal(tmp_path)`
+  - `test_state_filter_keeps_matching_entries` (function, line 79) `def test_state_filter_keeps_matching_entries(tmp_path)`
+  - `test_category_label_for_known_identifier` (function, line 89) `def test_category_label_for_known_identifier(tmp_path)`
 - Depends on: `cli/sessions_browser.py`
 
 ## tests/test_shell_semantics.py

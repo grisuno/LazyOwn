@@ -45,7 +45,7 @@ This community groups 5 file(s) rooted at `contrib/legacy` with dominant languag
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/lazyencoder_decoder.py` via `subprocess` (5 hops)
+- No scoped security, taint, cycle, or layer risks.
 
 ## Open Questions
 

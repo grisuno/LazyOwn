@@ -4,7 +4,7 @@
 
 ## Definition
 
-This community groups 89 file(s) rooted at `cli` with dominant language py (cohesion 0.56). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicTestRef`, `AuditCommandSet`. Core file: `tests/test_command_palette.py` (237 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
+This community groups 89 file(s) rooted at `cli` with dominant language py (cohesion 0.56). Central symbols: `AddonCatalog`, `AddonEntry`, `AddonHotReloader`, `AliasResolver`, `AptPlaybook`, `AptPlaybookEngine`, `AtomicTestRef`, `AuditCommandSet`. Core file: `tests/test_command_palette.py` (238 symbols). Documented purpose: LazyOwn CLI infrastructure.  Tier 2 introduces a declarative, modular layer above ``lazyown.py``:  - ``cli/aliases.yaml`` and :func:`cli.aliases.load_aliases` p.
 
 ## Files
 
@@ -112,7 +112,7 @@ This community groups 89 file(s) rooted at `cli` with dominant language py (cohe
 ## Internal vs External Edges
 
 - Internal resolved imports (EXTRACTED): 323
-- Cross-boundary resolved imports (EXTRACTED): 170
+- Cross-boundary resolved imports (EXTRACTED): 169
 
 ## Connections
 

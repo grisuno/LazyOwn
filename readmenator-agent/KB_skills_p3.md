@@ -9,129 +9,129 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
   - `Config` (class, line 54) `class Config`
   - `ActionCategory` (class, line 131) `class ActionCategory(StrEnum)`
   - `OutcomeType` (class, line 146) `class OutcomeType(StrEnum)`
-  - `infer_category` (method, line 220) `def infer_category(command, args)`
-  - `ClassificationResult` (class, line 259) `class ClassificationResult`
-  - `StepRecord` (class, line 283) `class StepRecord`
-  - `EpisodeRecord` (class, line 300) `class EpisodeRecord`
-  - `IOutputClassifier` (class, line 325) `class IOutputClassifier(ABC)`
-  - `ExitCodeClassifier` (class, line 342) `class ExitCodeClassifier(IOutputClassifier)`
-  - `HeuristicClassifier` (class, line 387) `class HeuristicClassifier(IOutputClassifier)`
-  - `_OllamaClassifierBase` (class, line 440) `class _OllamaClassifierBase(IOutputClassifier)`
-  - `OllamaSmallClassifier` (class, line 545) `class OllamaSmallClassifier(_OllamaClassifierBase)`
-  - `OllamaLargeClassifier` (class, line 555) `class OllamaLargeClassifier(_OllamaClassifierBase)`
-  - `UserInteractiveClassifier` (class, line 565) `class UserInteractiveClassifier(IOutputClassifier)`
-  - `CascadeClassifier` (class, line 614) `class CascadeClassifier`
-  - `DetectionRiskAssessor` (class, line 658) `class DetectionRiskAssessor`
-  - `RewardCalculator` (class, line 709) `class RewardCalculator`
-  - `CSVSessionReader` (class, line 802) `class CSVSessionReader`
-  - `IEpisodeStore` (class, line 858) `class IEpisodeStore(ABC)`
-  - `JSONLEpisodeStore` (class, line 874) `class JSONLEpisodeStore(IEpisodeStore)`
-  - `TransitionTable` (class, line 938) `class TransitionTable`
-  - `OverrideRule` (class, line 1001) `class OverrideRule`
-  - `PolicyEngine` (class, line 1056) `class PolicyEngine`
-  - `SessionClassificationPipeline` (class, line 1163) `class SessionClassificationPipeline`
-  - `PolicyAdvisor` (class, line 1231) `class PolicyAdvisor`
-  - `LazyOwnPolicyIntegration` (class, line 1267) `class LazyOwnPolicyIntegration`
-  - `ApprovalDecision` (class, line 1299) `class ApprovalDecision(StrEnum)`
-  - `ApprovalRequest` (class, line 1308) `class ApprovalRequest`
-  - `ApprovalOutcome` (class, line 1329) `class ApprovalOutcome`
-  - `IApprovalSink` (class, line 1348) `class IApprovalSink(ABC)`
-  - `FileApprovalSink` (class, line 1365) `class FileApprovalSink(IApprovalSink)`
-  - `BroadcastApprovalSink` (class, line 1428) `class BroadcastApprovalSink(IApprovalSink)`
-  - `StdinApprovalSink` (class, line 1478) `class StdinApprovalSink(IApprovalSink)`
-  - `CompositeApprovalSink` (class, line 1534) `class CompositeApprovalSink(IApprovalSink)`
-  - `ApprovalGate` (class, line 1582) `class ApprovalGate`
-  - `_default_sleep` (method, line 1695) `def _default_sleep(seconds)`
-  - `_load_scope_guard` (method, line 1712) `def _load_scope_guard()`
-  - `_default_in_scope` (method, line 1752) `def _default_in_scope(target, entries)`
-  - `_normalize_scope` (method, line 1773) `def _normalize_scope(entries)`
-  - `ScopeBoundAutoGate` (class, line 1793) `class ScopeBoundAutoGate`
-  - `HistoryBootstrapper` (class, line 1897) `class HistoryBootstrapper`
-  - `_setup_logging` (method, line 1937) `def _setup_logging(cfg)`
-  - `_cmd_bootstrap` (method, line 1946) `def _cmd_bootstrap(cfg, _args)`
-  - `_cmd_analyze` (method, line 1953) `def _cmd_analyze(cfg, args)`
-  - `_cmd_recommend` (method, line 1967) `def _cmd_recommend(cfg, args)`
-  - `_cmd_report` (method, line 1988) `def _cmd_report(cfg, _args)`
-  - `main` (method, line 2019) `def main()`
+  - `infer_category` (method, line 267) `def infer_category(command, args)`
+  - `ClassificationResult` (class, line 306) `class ClassificationResult`
+  - `StepRecord` (class, line 330) `class StepRecord`
+  - `EpisodeRecord` (class, line 347) `class EpisodeRecord`
+  - `IOutputClassifier` (class, line 372) `class IOutputClassifier(ABC)`
+  - `ExitCodeClassifier` (class, line 389) `class ExitCodeClassifier(IOutputClassifier)`
+  - `HeuristicClassifier` (class, line 434) `class HeuristicClassifier(IOutputClassifier)`
+  - `_OllamaClassifierBase` (class, line 487) `class _OllamaClassifierBase(IOutputClassifier)`
+  - `OllamaSmallClassifier` (class, line 588) `class OllamaSmallClassifier(_OllamaClassifierBase)`
+  - `OllamaLargeClassifier` (class, line 598) `class OllamaLargeClassifier(_OllamaClassifierBase)`
+  - `UserInteractiveClassifier` (class, line 608) `class UserInteractiveClassifier(IOutputClassifier)`
+  - `CascadeClassifier` (class, line 657) `class CascadeClassifier`
+  - `DetectionRiskAssessor` (class, line 701) `class DetectionRiskAssessor`
+  - `RewardCalculator` (class, line 754) `class RewardCalculator`
+  - `CSVSessionReader` (class, line 843) `class CSVSessionReader`
+  - `IEpisodeStore` (class, line 899) `class IEpisodeStore(ABC)`
+  - `JSONLEpisodeStore` (class, line 915) `class JSONLEpisodeStore(IEpisodeStore)`
+  - `TransitionTable` (class, line 979) `class TransitionTable`
+  - `OverrideRule` (class, line 1042) `class OverrideRule`
+  - `PolicyEngine` (class, line 1097) `class PolicyEngine`
+  - `SessionClassificationPipeline` (class, line 1194) `class SessionClassificationPipeline`
+  - `PolicyAdvisor` (class, line 1262) `class PolicyAdvisor`
+  - `LazyOwnPolicyIntegration` (class, line 1294) `class LazyOwnPolicyIntegration`
+  - `ApprovalDecision` (class, line 1326) `class ApprovalDecision(StrEnum)`
+  - `ApprovalRequest` (class, line 1335) `class ApprovalRequest`
+  - `ApprovalOutcome` (class, line 1356) `class ApprovalOutcome`
+  - `IApprovalSink` (class, line 1375) `class IApprovalSink(ABC)`
+  - `FileApprovalSink` (class, line 1392) `class FileApprovalSink(IApprovalSink)`
+  - `BroadcastApprovalSink` (class, line 1455) `class BroadcastApprovalSink(IApprovalSink)`
+  - `StdinApprovalSink` (class, line 1503) `class StdinApprovalSink(IApprovalSink)`
+  - `CompositeApprovalSink` (class, line 1556) `class CompositeApprovalSink(IApprovalSink)`
+  - `ApprovalGate` (class, line 1606) `class ApprovalGate`
+  - `_default_sleep` (method, line 1721) `def _default_sleep(seconds)`
+  - `_load_scope_guard` (method, line 1739) `def _load_scope_guard()`
+  - `_default_in_scope` (method, line 1779) `def _default_in_scope(target, entries)`
+  - `_normalize_scope` (method, line 1800) `def _normalize_scope(entries)`
+  - `ScopeBoundAutoGate` (class, line 1820) `class ScopeBoundAutoGate`
+  - `HistoryBootstrapper` (class, line 1922) `class HistoryBootstrapper`
+  - `_setup_logging` (method, line 1960) `def _setup_logging(cfg)`
+  - `_cmd_bootstrap` (method, line 1970) `def _cmd_bootstrap(cfg, _args)`
+  - `_cmd_analyze` (method, line 1977) `def _cmd_analyze(cfg, args)`
+  - `_cmd_recommend` (method, line 1991) `def _cmd_recommend(cfg, args)`
+  - `_cmd_report` (method, line 2012) `def _cmd_report(cfg, _args)`
+  - `main` (method, line 2036) `def main()`
   - `default` (method, line 82) `def default(cls)`
   - `ollama_url` (method, line 123) `def ollama_url(self)`
-  - `unknown` (method, line 270) `def unknown(cls, tier)`
-  - `to_dict` (method, line 310) `def to_dict(self)`
-  - `from_dict` (method, line 315) `def from_dict(cls, d)`
-  - `classify` (method, line 329) `def classify(self, command, args, output, exit_code)`
-  - `classify` (method, line 354) `def classify(self, command, args, output, exit_code)`
-  - `classify` (method, line 397) `def classify(self, command, args, output, exit_code)`
-  - `__init__` (method, line 449) `def __init__(self, cfg, model, tier_name)`
-  - `_build_prompt` (method, line 456) `def _build_prompt(self, command, args, output, exit_code)`
-  - `_call_ollama` (method, line 478) `def _call_ollama(self, prompt)`
-  - `_parse_response` (method, line 495) `def _parse_response(self, data, fallback)`
-  - `classify` (method, line 527) `def classify(self, command, args, output, exit_code)`
-  - `__init__` (method, line 548) `def __init__(self, cfg)`
-  - `__init__` (method, line 558) `def __init__(self, cfg)`
-  - `classify` (method, line 573) `def classify(self, command, args, output, exit_code)`
-  - `__init__` (method, line 623) `def __init__(self, cfg, interactive)`
-  - `classify` (method, line 634) `def classify(self, command, args, output, exit_code)`
-  - `__init__` (method, line 672) `def __init__(self)`
-  - `_get_oracle` (method, line 675) `def _get_oracle(self)`
-  - `assess_probability` (method, line 688) `def assess_probability(self, command, args, category)`
-  - `is_high_risk` (method, line 701) `def is_high_risk(self, command, args, category)`
-  - `__init__` (method, line 730) `def __init__(self, cfg, risk_assessor)`
-  - `calculate` (method, line 740) `def calculate(self, category, outcome)`
-  - `calculate_with_detection` (method, line 755) `def calculate_with_detection(self, category, outcome, command, args)`
-  - `__init__` (method, line 809) `def __init__(self, cfg)`
-  - `read` (method, line 814) `def read(self)`
-  - `append_step` (method, line 862) `def append_step(self, step)`
-  - `load_all` (method, line 866) `def load_all(self)`
-  - `get_episode` (method, line 870) `def get_episode(self, target)`
-  - `__init__` (method, line 882) `def __init__(self, cfg)`
-  - `append_step` (method, line 886) `def append_step(self, step)`
-  - `load_all` (method, line 906) `def load_all(self)`
-  - `get_episode` (method, line 922) `def get_episode(self, target)`
-  - `_write_all` (method, line 929) `def _write_all(self, episodes)`
-  - `__init__` (method, line 946) `def __init__(self, cfg)`
-  - `record` (method, line 952) `def record(self, from_state, to_category, outcome)`
-  - `query` (method, line 962) `def query(self, from_state)`
-  - `_load` (method, line 983) `def _load(self)`
-  - `_save` (method, line 991) `def _save(self)`
-  - `__init__` (method, line 1066) `def __init__(self, cfg, transitions)`
-  - `recommend` (method, line 1070) `def recommend(self, recent_steps)`
-  - `_apply_overrides` (method, line 1126) `def _apply_overrides(self, recent_states)`
-  - `_default_fallback` (method, line 1137) `def _default_fallback(self, current_state)`
-  - `__init__` (method, line 1171) `def __init__(self, cfg, interactive)`
-  - `process` (method, line 1179) `def process(self, target, command, args, output, exit_code, timestamp)`
-  - `__init__` (method, line 1236) `def __init__(self, cfg)`
-  - `advise` (method, line 1241) `def advise(self, target)`
-  - `episode_summary` (method, line 1246) `def episode_summary(self, target)`
-  - `__init__` (method, line 1275) `def __init__(self, cfg)`
-  - `on_command_complete` (method, line 1280) `def on_command_complete(self, target, command, args, output, exit_code)`
-  - `get_recommendations` (method, line 1291) `def get_recommendations(self, target)`
-  - `is_approved` (method, line 1338) `def is_approved(self)`
-  - `is_denied` (method, line 1343) `def is_denied(self)`
-  - `announce` (method, line 1357) `def announce(self, request)`
-  - `resolution_for` (method, line 1361) `def resolution_for(self, approval_id)`
-  - `__init__` (method, line 1373) `def __init__(self, sessions_dir)`
-  - `path` (method, line 1378) `def path(self)`
-  - `announce` (method, line 1382) `def announce(self, request)`
-  - `resolution_for` (method, line 1399) `def resolution_for(self, approval_id)`
-  - `__init__` (method, line 1436) `def __init__(self, narrator, file_sink)`
-  - `announce` (method, line 1444) `def announce(self, request)`
-  - `resolution_for` (method, line 1474) `def resolution_for(self, approval_id)`
-  - `__init__` (method, line 1491) `def __init__(self, stream)`
-  - `_is_interactive` (method, line 1495) `def _is_interactive(self)`
-  - `announce` (method, line 1501) `def announce(self, request)`
-  - `resolution_for` (method, line 1530) `def resolution_for(self, approval_id)`
-  - `__init__` (method, line 1542) `def __init__(self, sinks)`
-  - `announce` (method, line 1547) `def announce(self, request)`
-  - `resolution_for` (method, line 1554) `def resolution_for(self, approval_id)`
-  - `__init__` (method, line 1610) `def __init__(self, sink, payload_path, poll_interval_s, poll_timeout_s, sleep_fn)`
-  - `_auto_approve_enabled` (method, line 1628) `def _auto_approve_enabled(self)`
-  - `_is_gated` (method, line 1638) `def _is_gated(self, phase)`
-  - `request` (method, line 1641) `def request(self, target, phase, command, reason)`
-  - `__init__` (method, line 1823) `def __init__(self, payload_path, in_scope_fn)`
-  - `_read_payload` (method, line 1832) `def _read_payload(self)`
-  - `request` (method, line 1839) `def request(self, target, phase, command, reason)`
-  - `__init__` (method, line 1903) `def __init__(self, cfg)`
-  - `run` (method, line 1909) `def run(self)`
+  - `unknown` (method, line 317) `def unknown(cls, tier)`
+  - `to_dict` (method, line 357) `def to_dict(self)`
+  - `from_dict` (method, line 362) `def from_dict(cls, d)`
+  - `classify` (method, line 376) `def classify(self, command, args, output, exit_code)`
+  - `classify` (method, line 401) `def classify(self, command, args, output, exit_code)`
+  - `classify` (method, line 444) `def classify(self, command, args, output, exit_code)`
+  - `__init__` (method, line 496) `def __init__(self, cfg, model, tier_name)`
+  - `_build_prompt` (method, line 503) `def _build_prompt(self, command, args, output, exit_code)`
+  - `_call_ollama` (method, line 525) `def _call_ollama(self, prompt)`
+  - `_parse_response` (method, line 540) `def _parse_response(self, data, fallback)`
+  - `classify` (method, line 570) `def classify(self, command, args, output, exit_code)`
+  - `__init__` (method, line 591) `def __init__(self, cfg)`
+  - `__init__` (method, line 601) `def __init__(self, cfg)`
+  - `classify` (method, line 616) `def classify(self, command, args, output, exit_code)`
+  - `__init__` (method, line 666) `def __init__(self, cfg, interactive)`
+  - `classify` (method, line 677) `def classify(self, command, args, output, exit_code)`
+  - `__init__` (method, line 715) `def __init__(self)`
+  - `_get_oracle` (method, line 718) `def _get_oracle(self)`
+  - `assess_probability` (method, line 733) `def assess_probability(self, command, args, category)`
+  - `is_high_risk` (method, line 746) `def is_high_risk(self, command, args, category)`
+  - `__init__` (method, line 773) `def __init__(self, cfg, risk_assessor)`
+  - `calculate` (method, line 783) `def calculate(self, category, outcome)`
+  - `calculate_with_detection` (method, line 798) `def calculate_with_detection(self, category, outcome, command, args)`
+  - `__init__` (method, line 850) `def __init__(self, cfg)`
+  - `read` (method, line 855) `def read(self)`
+  - `append_step` (method, line 903) `def append_step(self, step)`
+  - `load_all` (method, line 907) `def load_all(self)`
+  - `get_episode` (method, line 911) `def get_episode(self, target)`
+  - `__init__` (method, line 923) `def __init__(self, cfg)`
+  - `append_step` (method, line 927) `def append_step(self, step)`
+  - `load_all` (method, line 947) `def load_all(self)`
+  - `get_episode` (method, line 963) `def get_episode(self, target)`
+  - `_write_all` (method, line 970) `def _write_all(self, episodes)`
+  - `__init__` (method, line 987) `def __init__(self, cfg)`
+  - `record` (method, line 993) `def record(self, from_state, to_category, outcome)`
+  - `query` (method, line 1003) `def query(self, from_state)`
+  - `_load` (method, line 1024) `def _load(self)`
+  - `_save` (method, line 1032) `def _save(self)`
+  - `__init__` (method, line 1107) `def __init__(self, cfg, transitions)`
+  - `recommend` (method, line 1111) `def recommend(self, recent_steps)`
+  - `_apply_overrides` (method, line 1162) `def _apply_overrides(self, recent_states)`
+  - `_default_fallback` (method, line 1171) `def _default_fallback(self, current_state)`
+  - `__init__` (method, line 1202) `def __init__(self, cfg, interactive)`
+  - `process` (method, line 1210) `def process(self, target, command, args, output, exit_code, timestamp)`
+  - `__init__` (method, line 1267) `def __init__(self, cfg)`
+  - `advise` (method, line 1272) `def advise(self, target)`
+  - `episode_summary` (method, line 1277) `def episode_summary(self, target)`
+  - `__init__` (method, line 1302) `def __init__(self, cfg)`
+  - `on_command_complete` (method, line 1307) `def on_command_complete(self, target, command, args, output, exit_code)`
+  - `get_recommendations` (method, line 1318) `def get_recommendations(self, target)`
+  - `is_approved` (method, line 1365) `def is_approved(self)`
+  - `is_denied` (method, line 1370) `def is_denied(self)`
+  - `announce` (method, line 1384) `def announce(self, request)`
+  - `resolution_for` (method, line 1388) `def resolution_for(self, approval_id)`
+  - `__init__` (method, line 1400) `def __init__(self, sessions_dir)`
+  - `path` (method, line 1405) `def path(self)`
+  - `announce` (method, line 1409) `def announce(self, request)`
+  - `resolution_for` (method, line 1426) `def resolution_for(self, approval_id)`
+  - `__init__` (method, line 1463) `def __init__(self, narrator, file_sink)`
+  - `announce` (method, line 1471) `def announce(self, request)`
+  - `resolution_for` (method, line 1499) `def resolution_for(self, approval_id)`
+  - `__init__` (method, line 1513) `def __init__(self, stream)`
+  - `_is_interactive` (method, line 1517) `def _is_interactive(self)`
+  - `announce` (method, line 1523) `def announce(self, request)`
+  - `resolution_for` (method, line 1552) `def resolution_for(self, approval_id)`
+  - `__init__` (method, line 1564) `def __init__(self, sinks)`
+  - `announce` (method, line 1569) `def announce(self, request)`
+  - `resolution_for` (method, line 1576) `def resolution_for(self, approval_id)`
+  - `__init__` (method, line 1634) `def __init__(self, sink, payload_path, poll_interval_s, poll_timeout_s, sleep_fn)`
+  - `_auto_approve_enabled` (method, line 1654) `def _auto_approve_enabled(self)`
+  - `_is_gated` (method, line 1664) `def _is_gated(self, phase)`
+  - `request` (method, line 1667) `def request(self, target, phase, command, reason)`
+  - `__init__` (method, line 1850) `def __init__(self, payload_path, in_scope_fn)`
+  - `_read_payload` (method, line 1859) `def _read_payload(self)`
+  - `request` (method, line 1866) `def request(self, target, phase, command, reason)`
+  - `__init__` (method, line 1928) `def __init__(self, cfg)`
+  - `run` (method, line 1934) `def run(self)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`
 - Imported by: `cli/recommendation_signals.py`, `modules/unified_dashboard.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `skills/swan_agent.py`, `tests/test_engage_orchestrator.py`, `tests/test_moe_rl_swan.py`, `tests/test_scope_bound_auto_gate.py`
 
@@ -140,20 +140,20 @@ Previous: [KB_skills_p2.md](KB_skills_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_redact_sensitive` (function, line 32) `def _redact_sensitive(value)`
-  - `SessionTranscript` (class, line 56) `class SessionTranscript`
-  - `get_transcript` (method, line 259) `def get_transcript(sessions_dir, session_id)`
-  - `reset_transcript` (method, line 273) `def reset_transcript(sessions_dir, session_id)`
-  - `__init__` (method, line 67) `def __init__(self, sessions_dir, session_id)`
-  - `_init_meta` (method, line 75) `def _init_meta(self)`
-  - `append` (method, line 91) `def append(self, event_type, data)`
-  - `get_recent` (method, line 128) `def get_recent(self, n)`
-  - `get_all` (method, line 146) `def get_all(self)`
-  - `count` (method, line 149) `def count(self)`
-  - `maybe_auto_compact` (method, line 159) `def maybe_auto_compact(self, threshold)`
-  - `add_compact_boundary` (method, line 193) `def add_compact_boundary(self, summary, preserved_uuids)`
-  - `fork` (method, line 209) `def fork(self, new_id)`
-  - `status_text` (method, line 236) `def status_text(self)`
+  - `_redact_sensitive` (function, line 47) `def _redact_sensitive(value)`
+  - `SessionTranscript` (class, line 71) `class SessionTranscript`
+  - `get_transcript` (method, line 281) `def get_transcript(sessions_dir, session_id)`
+  - `reset_transcript` (method, line 294) `def reset_transcript(sessions_dir, session_id)`
+  - `__init__` (method, line 82) `def __init__(self, sessions_dir, session_id)`
+  - `_init_meta` (method, line 90) `def _init_meta(self)`
+  - `append` (method, line 106) `def append(self, event_type, data)`
+  - `get_recent` (method, line 143) `def get_recent(self, n)`
+  - `get_all` (method, line 161) `def get_all(self)`
+  - `count` (method, line 164) `def count(self)`
+  - `maybe_auto_compact` (method, line 174) `def maybe_auto_compact(self, threshold)`
+  - `add_compact_boundary` (method, line 209) `def add_compact_boundary(self, summary, preserved_uuids)`
+  - `fork` (method, line 227) `def fork(self, new_id)`
+  - `status_text` (method, line 257) `def status_text(self)`
 - Depends on: `skills/lazyown_context.py`
 - Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
 

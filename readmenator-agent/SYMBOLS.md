@@ -6,9 +6,9 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `get_commit_type` | function | `DEPLOY.sh:190` | `` |
 | `increment_version` | function | `DEPLOY.sh:19` | `` |
 | `update_section_html` | function | `DEPLOY.sh:86` | `` |
-| `image_to_bash` | function | `banner.py:25` | `def image_to_bash(image_path, image_res)` |
-| `list_png_files` | function | `banner.py:47` | `def list_png_files()` |
-| `main` | function | `banner.py:56` | `def main()` |
+| `image_to_bash` | function | `banner.py:26` | `def image_to_bash(image_path, image_res)` |
+| `list_png_files` | function | `banner.py:50` | `def list_png_files()` |
+| `main` | function | `banner.py:60` | `def main()` |
 | `ask` | function | `bootstrap.sh:250` | `` |
 | `ask_existing_checkout_action` | function | `bootstrap.sh:315` | `` |
 | `ask_existing_path_action` | function | `bootstrap.sh:336` | `` |
@@ -370,13 +370,13 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_ask` | method | `cli/commands/ai.py:77` | `def do_ask(self, line)` |
 | `do_groq` | method | `cli/commands/ai.py:146` | `def do_groq(self, line)` |
 | `do_llm_budget` | method | `cli/commands/ai.py:301` | `def do_llm_budget(self, line)` |
-| `AntiForensicsCommandSet` | class | `cli/commands/anti_forensics.py:31` | `class AntiForensicsCommandSet(LazyOwnCommandSet)` |
-| `do_clean_ad` | method | `cli/commands/anti_forensics.py:242` | `def do_clean_ad(self, line)` |
-| `do_cover_tracks` | method | `cli/commands/anti_forensics.py:303` | `def do_cover_tracks(self, line)` |
-| `do_shred` | method | `cli/commands/anti_forensics.py:150` | `def do_shred(self, line)` |
-| `do_wipe_free` | method | `cli/commands/anti_forensics.py:205` | `def do_wipe_free(self, line)` |
-| `do_wipe_logs` | method | `cli/commands/anti_forensics.py:38` | `def do_wipe_logs(self, line)` |
-| `do_wipe_timeline` | method | `cli/commands/anti_forensics.py:103` | `def do_wipe_timeline(self, line)` |
+| `AntiForensicsCommandSet` | class | `cli/commands/anti_forensics.py:32` | `class AntiForensicsCommandSet(LazyOwnCommandSet)` |
+| `do_clean_ad` | method | `cli/commands/anti_forensics.py:243` | `def do_clean_ad(self, line)` |
+| `do_cover_tracks` | method | `cli/commands/anti_forensics.py:304` | `def do_cover_tracks(self, line)` |
+| `do_shred` | method | `cli/commands/anti_forensics.py:151` | `def do_shred(self, line)` |
+| `do_wipe_free` | method | `cli/commands/anti_forensics.py:206` | `def do_wipe_free(self, line)` |
+| `do_wipe_logs` | method | `cli/commands/anti_forensics.py:39` | `def do_wipe_logs(self, line)` |
+| `do_wipe_timeline` | method | `cli/commands/anti_forensics.py:104` | `def do_wipe_timeline(self, line)` |
 | `AppLockerBypassCommandSet` | class | `cli/commands/applocker_bypass.py:99` | `class AppLockerBypassCommandSet(LazyOwnCommandSet)` |
 | `_get_lh` | method | `cli/commands/applocker_bypass.py:105` | `def _get_lh(self)` |
 | `do_applocker_csc` | method | `cli/commands/applocker_bypass.py:209` | `def do_applocker_csc(self, line)` |

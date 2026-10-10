@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `B` | function | `static/js/html2pdf.bundle.min.js:62` | `` |
+| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
+| `BackgroundSize` | function | `static/js/html2pdf.bundle.min.js:1408` | `` |
+| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1070` | `` |
+| `BezierCurve` | function | `static/js/html2pdf.bundle.min.js:1071` | `` |
 | `Bounds` | function | `static/js/html2pdf.bundle.min.js:1136` | `` |
 | `Break` | function | `static/js/html2pdf.bundle.min.js:3746` | `` |
 | `Break` | function | `static/js/html2pdf.bundle.min.js:3747` | `` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `parseFont` | function | `static/js/html2pdf.bundle.min.js:1970` | `` |
 | `parseFontWeight` | function | `static/js/html2pdf.bundle.min.js:1958` | `` |
 | `parseFontWeight` | function | `static/js/html2pdf.bundle.min.js:1958` | `` |
-| `parseGradient` | function | `static/js/html2pdf.bundle.min.js:5112` | `` |
-| `parseLetterSpacing` | function | `static/js/html2pdf.bundle.min.js:1994` | `` |
-| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
-| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
-| `parseLineBreak` | function | `static/js/html2pdf.bundle.min.js:2015` | `` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

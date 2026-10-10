@@ -1,6 +1,6 @@
 # GraphRAG Community Reports
 
-Entities: 18043 | Relationships: 53960 | Communities: 22 | Themes: 10 | Text units: 17865
+Entities: 18049 | Relationships: 53974 | Communities: 22 | Themes: 10 | Text units: 17871
 
 Query with `readmenator . ask "<question>"` (local: BM25 + Personalized PageRank; global: map-reduce over these reports) or the MCP tool `readmenator.graphrag`.
 
@@ -41,7 +41,7 @@ Theme of 9 communities and 514 files: modules: autonomous_daemon (142 files, rat
 Theme of 5 communities and 161 files: cli/commands (136 files, rating 5.9); contrib/legacy (5 files, rating 0.2); modules: kerberos_core (7 files, rating 0.1); modules: saas_attacks (7 files, rating 0.1); modules: polymorphic_engine (6 files, rating 0.1).
 
 - [cli/commands] `utils.py` ranks 1 by PageRank, 102 importers, 121 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
-- [cli/commands] `cli/commands/_base.py` ranks 2 by PageRank, 89 importers, 7 symbols: Base class for phase-scoped ``CommandSet`` modules.
+- [cli/commands] `cli/commands/_base.py` ranks 2 by PageRank, 90 importers, 7 symbols: Base class for phase-scoped ``CommandSet`` modules.
 - [contrib/legacy] `modules/lazyencoder_decoder.py` ranks 1 by PageRank, 5 importers, 10 symbols.
 - [contrib/legacy] `contrib/legacy/lazycreate_webshell.py` ranks 2 by PageRank, 0 importers, 0 symbols.
 - [modules: kerberos_core] `modules/kerberos_core.py` ranks 1 by PageRank, 2 importers, 35 symbols: Native Kerberos protocol library — AS-REQ, TGS-REQ, ticket parsing, encryption.
@@ -118,7 +118,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.0).
 
 - [test] `test/config.py` ranks 1 by PageRank, 1 importers, 2 symbols: o config.py
 - [test] `test/test_commands.py` ranks 2 by PageRank, 0 importers, 15 symbols: send_command_via_web: Simula enviar un comando vía interfaz web /issue_command con autenticación básica
-- Key entities: file:test/test_commands.py, sym:test/test_commands.py::post_result@56
+- Key entities: file:test/test_commands.py, sym:test/test_commands.py::post_result@59
 - Children: c19
 - Theme rating = highest child community rating.
 
@@ -152,15 +152,15 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 136 files under cli/commands (py 135, js 1), mostly utility. Core file utils.py (PageRank 0.0386, imported by 102 files): Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗... Key abstractions: MyServer, SimpleHTTPRequestHandler, IP2ASN, VulnerabilityScanner, parse_ip_mac, create_arp_packet. Depends on modules: autonomous_daemon (51), modules: world_model (42), cli (38). Used by static/js (75), lazyc2/security (65), modules: wizard (37).
 
 - `utils.py` ranks 1 by PageRank, 102 importers, 121 symbols: Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024 License: GPL v3  Description: This file contains the logic for all functions used in the LazyOwnShell class.  ██╗      █████╗ ███████╗██╗   ██╗...
-- `cli/commands/_base.py` ranks 2 by PageRank, 89 importers, 7 symbols: Base class for phase-scoped ``CommandSet`` modules.
+- `cli/commands/_base.py` ranks 2 by PageRank, 90 importers, 7 symbols: Base class for phase-scoped ``CommandSet`` modules.
 - `core/validators.py` ranks 3 by PageRank, 15 importers, 7 symbols: Input validators for runtime configuration values.
 - Hotspot `tests/test_improvements_spec.py`: 160 symbols, 48 connections (score 0.10).
 - Hotspot `utils.py`: 121 symbols, 191 connections (score 0.09).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 4 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 7 paths reach this group via subprocess.
+- Taint: 8 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_improvements_spec.py, file:cli/banner_config.py, file:tests/test_security_hardening_v4.py, file:tests/test_categories.py, file:tests/test_cli_command_sets.py, sym:cli/commands/_base.py::LazyOwnCommandSet@51, file:cli/commands/_base.py
-- Rating 5.9/10 = 7 x PageRank share 0.84 + 3 x risk 0.00. Internal imports: 438.
+- Rating 5.9/10 = 7 x PageRank share 0.84 + 3 x risk 0.00. Internal imports: 439.
 
 ## unassigned files (`c21`, community, rating 3.2)
 
@@ -183,21 +183,21 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `core/payload_schema.py` ranks 2 by PageRank, 12 importers, 27 symbols: Declarative schema and validation for ``payload.json``.
 - `modules/llm_factory.py` ranks 3 by PageRank, 25 importers, 21 symbols: LLM backend factory and selection utilities.
 - Hotspot `tests/test_payload_schema.py`: 53 symbols, 20 connections (score 0.03).
-- Hotspot `cli/wizard.py`: 45 symbols, 39 connections (score 0.03).
-- Taint: 5 paths reach this group via subprocess.
+- Hotspot `cli/wizard.py`: 45 symbols, 43 connections (score 0.03).
+- Taint: 4 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in _run_single_search).
 - Key entities: sym:core/console.py::print_msg@142, sym:core/console.py::print_error@136, sym:core/console.py::print_warn@148, file:tests/test_payload_schema.py, file:cli/wizard.py, file:core/llm_budget.py, file:modules/ai_model.py, file:tests/test_llm_adapter_parity.py
-- Rating 2.8/10 = 7 x PageRank share 0.40 + 3 x risk 0.00. Internal imports: 121.
+- Rating 2.8/10 = 7 x PageRank share 0.40 + 3 x risk 0.00. Internal imports: 125.
 
 ## cli (`c2`, community, rating 2.7)
 
-89 files under cli (py 88, js 1), mostly utility. Core file cli/themes.py (PageRank 0.0053, imported by 16 files): Theme registry for the LazyOwn TUI surfaces. Key abstractions: Theme, get_theme, theme_from_payload, LazyOwnShell, log_command, default. Depends on cli/commands (28), modules: autonomous_daemon (25), modules: wizard (18). Used by cli/commands (38), modules: autonomous_daemon (12), modules: wizard (10).
+89 files under cli (py 88, js 1), mostly utility. Core file cli/themes.py (PageRank 0.0053, imported by 16 files): Theme registry for the LazyOwn TUI surfaces. Key abstractions: Theme, get_theme, theme_from_payload, LazyOwnShell, log_command, default. Depends on cli/commands (27), modules: autonomous_daemon (25), modules: wizard (18). Used by cli/commands (38), modules: autonomous_daemon (12), modules: wizard (10).
 
 - `cli/themes.py` ranks 1 by PageRank, 16 importers, 3 symbols: Theme registry for the LazyOwn TUI surfaces.
 - `lazyown.py` ranks 2 by PageRank, 9 importers, 127 symbols: lazyown  Author: Gris Iscomeback Email: grisiscomeback at gmail dot com Creation Date: 13/08/2024 License: GPL v3  Description: This file contains the definition of the logic in the LazyOwnShell class  ██╗      █████╗ ███████╗██╗   ██╗...
 - `cli/commands/containers.py` ranks 3 by PageRank, 9 importers, 7 symbols: Container and Kubernetes attack command set.
-- Hotspot `tests/test_command_palette.py`: 237 symbols, 220 connections (score 0.16).
-- Hotspot `lazyown.py`: 127 symbols, 185 connections (score 0.09).
+- Hotspot `tests/test_command_palette.py`: 238 symbols, 220 connections (score 0.16).
+- Hotspot `lazyown.py`: 127 symbols, 183 connections (score 0.09).
 - 1 layer violations, e.g. test_exploration_and_addons.py (testing) -> exploration_view.py (presentation).
 - Taint: 1 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in _emit_event).
@@ -216,7 +216,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - 33 layer violations, e.g. operations.py (presentation) -> storage.py (data_access).
 - Dataflow: 4 INFERRED issues (first: UNCHECKED_ALLOC in _load_or_create_salt).
 - Surprising bridge: addon_creator.py <-> search.py (8 hops across communities).
-- Key entities: file:lazyc2.py, file:tests/test_addon_creator.py, file:tests/test_security_hardening_v3.py, file:tests/test_security_lazyc2.py, file:modules/rootkit/rootkit.c, sym:lazyc2.py::index@2911, file:tests/test_core.py, file:tests/test_security_hardening_v5.py
+- Key entities: file:lazyc2.py, file:tests/test_addon_creator.py, file:tests/test_security_hardening_v3.py, file:tests/test_security_lazyc2.py, file:modules/rootkit/rootkit.c, sym:lazyc2.py::index@2957, file:tests/test_core.py, file:tests/test_security_hardening_v5.py
 - Rating 1.7/10 = 7 x PageRank share 0.24 + 3 x risk 0.00. Internal imports: 138.
 
 ## lazygui/panels (`c5`, community, rating 1.7)
@@ -255,7 +255,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - Hotspot `tests/test_security_sanitizers.py`: 45 symbols, 8 connections (score 0.03).
 - Hotspot `skills/claude_md_orchestrator/models.py`: 32 symbols, 23 connections (score 0.02).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
-- Taint: 1 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in main).
 - Key entities: file:tests/test_security_sanitizers.py, file:skills/claude_md_orchestrator/models.py, file:modules/security_sanitizers.py, file:skills/hermes-lazyown/mcp_server.py, file:cli/commands/phishing_wizard.py, file:skills/hermes-lazyown/output_compactor.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py
 - Rating 1.0/10 = 7 x PageRank share 0.15 + 3 x risk 0.00. Internal imports: 55.
@@ -297,7 +297,6 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `contrib/legacy/lazylogpoisoning.py` ranks 3 by PageRank, 0 importers, 3 symbols.
 - Hotspot `modules/lazyencoder_decoder.py`: 10 symbols, 6 connections (score 0.01).
 - Hotspot `contrib/legacy/lazylogpoisoning.py`: 3 symbols, 7 connections (score 0.00).
-- Taint: 1 paths reach this group via subprocess.
 - Key entities: file:modules/lazyencoder_decoder.py, file:contrib/legacy/lazylogpoisoning.py, file:contrib/legacy/lazyreversentlmv2.py, sym:modules/lazyencoder_decoder.py::decode_string@94, sym:modules/lazyencoder_decoder.py::encode_string@75, sym:modules/lazyencoder_decoder.py::base64_encode@4, sym:modules/lazyencoder_decoder.py::decode@82, sym:modules/lazyencoder_decoder.py::base64_decode@8
 - Rating 0.2/10 = 7 x PageRank share 0.03 + 3 x risk 0.00. Internal imports: 4.
 
@@ -323,7 +322,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `modules/entra_id_attacks.py` ranks 3 by PageRank, 1 importers, 12 symbols: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
 - Hotspot `modules/saas_attacks.py`: 15 symbols, 5 connections (score 0.01).
 - Hotspot `modules/entra_id_attacks.py`: 12 symbols, 7 connections (score 0.01).
-- Key entities: file:modules/saas_attacks.py, file:modules/entra_id_attacks.py, file:modules/aws_attacks.py, file:modules/k8s_attacks.py, file:modules/gcp_attacks.py, file:modules/cross_cloud.py, file:cli/commands/cloud_attacks.py, sym:cli/commands/cloud_attacks.py::do_k8s_attack@302
+- Key entities: file:modules/saas_attacks.py, file:modules/entra_id_attacks.py, file:modules/aws_attacks.py, file:modules/gcp_attacks.py, file:modules/k8s_attacks.py, file:modules/cross_cloud.py, file:cli/commands/cloud_attacks.py, sym:cli/commands/cloud_attacks.py::do_k8s_attack@302
 - Rating 0.1/10 = 7 x PageRank share 0.02 + 3 x risk 0.00. Internal imports: 6.
 
 ## modules: polymorphic_engine (`c12`, community, rating 0.1)
@@ -335,7 +334,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `modules/macos_payloads.py` ranks 3 by PageRank, 2 importers, 16 symbols: macOS payload generation — .app bundles, persistence, TCC bypass, Swift/ObjC.
 - Hotspot `modules/polymorphic_engine.py`: 19 symbols, 11 connections (score 0.01).
 - Hotspot `modules/staged_delivery.py`: 18 symbols, 8 connections (score 0.01).
-- Key entities: sym:modules/dotnet_payload.py::compile@408, file:modules/polymorphic_engine.py, file:modules/linux_advanced_payloads.py, file:modules/macos_payloads.py, file:modules/staged_delivery.py, file:modules/dotnet_payload.py, file:cli/commands/payload_arsenal.py, sym:cli/commands/payload_arsenal.py::do_linux_advanced_payload@401
+- Key entities: sym:modules/dotnet_payload.py::compile@403, file:modules/polymorphic_engine.py, file:modules/linux_advanced_payloads.py, file:modules/macos_payloads.py, file:modules/staged_delivery.py, file:modules/dotnet_payload.py, file:cli/commands/payload_arsenal.py, sym:cli/commands/payload_arsenal.py::do_linux_advanced_payload@401
 - Rating 0.1/10 = 7 x PageRank share 0.01 + 3 x risk 0.00. Internal imports: 8.
 
 ## scripts: journal (`c14`, community, rating 0.1)
@@ -403,7 +402,7 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `test/test_commands.py` ranks 2 by PageRank, 0 importers, 15 symbols: send_command_via_web: Simula enviar un comando vía interfaz web /issue_command con autenticación básica
 - Hotspot `test/test_commands.py`: 15 symbols, 7 connections (score 0.01).
 - Hotspot `test/config.py`: 2 symbols, 5 connections (score 0.00).
-- Key entities: file:test/test_commands.py, sym:test/test_commands.py::post_result@56, sym:test/test_commands.py::send_command_via_web@35, file:test/config.py, sym:test/test_commands.py::test_download@123, sym:test/test_commands.py::test_discover@97, sym:test/test_commands.py::test_migrate@69, sym:test/test_commands.py::test_persistence@160
+- Key entities: file:test/test_commands.py, sym:test/test_commands.py::post_result@59, sym:test/test_commands.py::send_command_via_web@36, file:test/config.py, sym:test/test_commands.py::test_download@138, sym:test/test_commands.py::test_discover@110, sym:test/test_commands.py::test_migrate@79, sym:test/test_commands.py::test_persistence@176
 - Rating 0.0/10 = 7 x PageRank share 0.01 + 3 x risk 0.00. Internal imports: 1.
 
 ## tools (`c20`, community, rating 0.0)
@@ -414,5 +413,5 @@ Theme of 1 communities and 2 files: tools (2 files, rating 0.0).
 - `tools/gen_demo_gifs_extra.py` ranks 2 by PageRank, 0 importers, 1 symbols: Additional LazyOwn demo GIFs.
 - Hotspot `tools/gen_demo_gifs.py`: 3 symbols, 3 connections (score 0.00).
 - Hotspot `tools/gen_demo_gifs_extra.py`: 1 symbols, 4 connections (score 0.00).
-- Key entities: file:tools/gen_demo_gifs.py, file:tools/gen_demo_gifs_extra.py, sym:tools/gen_demo_gifs.py::font@13, sym:tools/gen_demo_gifs.py::render@21, sym:tools/gen_demo_gifs.py::main@69, sym:tools/gen_demo_gifs_extra.py::main@47
+- Key entities: file:tools/gen_demo_gifs.py, file:tools/gen_demo_gifs_extra.py, sym:tools/gen_demo_gifs.py::font@14, sym:tools/gen_demo_gifs.py::render@22, sym:tools/gen_demo_gifs.py::main@70, sym:tools/gen_demo_gifs_extra.py::main@49
 - Rating 0.0/10 = 7 x PageRank share 0.01 + 3 x risk 0.00. Internal imports: 1.

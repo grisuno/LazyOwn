@@ -22,15 +22,15 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Symbols:
   - `NetworkHelpersCommandSet` (class, line 31) `class NetworkHelpersCommandSet(LazyOwnCommandSet)`
   - `do_ip` (method, line 38) `def do_ip(self, line)`
-  - `do_ipp` (method, line 114) `def do_ipp(self, line)`
-  - `do_rhost` (method, line 190) `def do_rhost(self, line)`
-  - `do_rrhost` (method, line 242) `def do_rrhost(self, line)`
-  - `do_addhosts` (method, line 283) `def do_addhosts(self, line)`
-  - `do_ip2asn` (method, line 307) `def do_ip2asn(self, line)`
-  - `do_ignorearp` (method, line 337) `def do_ignorearp(self, line)`
-  - `do_ignoreicmp` (method, line 374) `def do_ignoreicmp(self, line)`
-  - `do_acknowledgearp` (method, line 411) `def do_acknowledgearp(self, line)`
-  - `do_acknowledgeicmp` (method, line 448) `def do_acknowledgeicmp(self, line)`
+  - `do_ipp` (method, line 120) `def do_ipp(self, line)`
+  - `do_rhost` (method, line 201) `def do_rhost(self, line)`
+  - `do_rrhost` (method, line 254) `def do_rrhost(self, line)`
+  - `do_addhosts` (method, line 295) `def do_addhosts(self, line)`
+  - `do_ip2asn` (method, line 319) `def do_ip2asn(self, line)`
+  - `do_ignorearp` (method, line 348) `def do_ignorearp(self, line)`
+  - `do_ignoreicmp` (method, line 383) `def do_ignoreicmp(self, line)`
+  - `do_acknowledgearp` (method, line 418) `def do_acknowledgearp(self, line)`
+  - `do_acknowledgeicmp` (method, line 453) `def do_acknowledgeicmp(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
 - Imported by: `tests/test_nethelpers_command_set.py`
 
@@ -211,45 +211,45 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PostexpMigratedCommandSet` (class, line 31) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_find` (method, line 36) `def do_find(self, line)`
-  - `do_cports` (method, line 305) `def do_cports(self, line)`
-  - `do_rubeus` (method, line 350) `def do_rubeus(self, line)`
-  - `do_sessionsshstrace` (method, line 390) `def do_sessionsshstrace(self, line)`
-  - `do_powershell_cmd_stager` (method, line 441) `def do_powershell_cmd_stager(self, line)`
-  - `do_shellcode_search` (method, line 478) `def do_shellcode_search(self, line)`
-  - `do_shellcode2sylk` (method, line 526) `def do_shellcode2sylk(self, line)`
-  - `do_pezorsh` (method, line 571) `def do_pezorsh(self, line)`
-  - `do_pip_repo` (method, line 642) `def do_pip_repo(self, line)`
-  - `do_apt_repo` (method, line 727) `def do_apt_repo(self, line)`
-  - `do_createpayload` (method, line 925) `def do_createpayload(self, line)`
-  - `do_bin2shellcode` (method, line 975) `def do_bin2shellcode(self, line)`
-  - `do_exe2bin` (method, line 1066) `def do_exe2bin(self, line)`
-  - `do_exe2donutbin` (method, line 1093) `def do_exe2donutbin(self, line)`
-  - `do_issue_command_to_c2` (method, line 1117) `def do_issue_command_to_c2(self, line)`
-  - `do_d3monizedshell` (method, line 1141) `def do_d3monizedshell(self, line)`
-  - `do_scp` (method, line 1174) `def do_scp(self, line)`
-  - `do_apt_proxy` (method, line 1265) `def do_apt_proxy(self, line)`
-  - `do_pip_proxy` (method, line 1322) `def do_pip_proxy(self, line)`
-  - `do_internet_proxy` (method, line 1378) `def do_internet_proxy(self, line)`
-  - `do_shellcode2elf` (method, line 1439) `def do_shellcode2elf(self, line)`
-  - `do_ssh_cmd` (method, line 1522) `def do_ssh_cmd(self, line)`
-  - `do_service_ssh` (method, line 1551) `def do_service_ssh(self, line)`
-  - `do_ofuscatesh` (method, line 1625) `def do_ofuscatesh(self, line)`
-  - `do_ofuscate_payload` (method, line 1655) `def do_ofuscate_payload(self, line)`
-  - `do_adversary` (method, line 1684) `def do_adversary(self, line)`
-  - `do_ofuscate_string` (method, line 1825) `def do_ofuscate_string(self, line)`
-  - `do_path2hex` (method, line 1867) `def do_path2hex(self, line)`
-  - `do_hex2shellcode` (method, line 1914) `def do_hex2shellcode(self, line)`
-  - `do_create_synthetic` (method, line 1971) `def do_create_synthetic(self, line)`
-  - `do_extract_yaml` (method, line 2022) `def do_extract_yaml(self, line)`
-  - `do_convert_remcomsvc_from_file` (method, line 2083) `def do_convert_remcomsvc_from_file(self, arg)`
-  - `do_adversary_yaml` (method, line 2115) `def do_adversary_yaml(self, line)`
-  - `do_add2find` (method, line 2197) `def do_add2find(self, line)`
-  - `do_rmfromfind` (method, line 2225) `def do_rmfromfind(self, line)`
-  - `do_aes_pe` (method, line 2254) `def do_aes_pe(self, line)`
-  - `do_yara_scan` (method, line 2281) `def do_yara_scan(self, line)`
-  - `resolve_and_download_dependencies` (method, line 773) `def resolve_and_download_dependencies(package_name)`
+  - `PostexpMigratedCommandSet` (class, line 32) `class PostexpMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_find` (method, line 37) `def do_find(self, line)`
+  - `do_cports` (method, line 533) `def do_cports(self, line)`
+  - `do_rubeus` (method, line 578) `def do_rubeus(self, line)`
+  - `do_sessionsshstrace` (method, line 618) `def do_sessionsshstrace(self, line)`
+  - `do_powershell_cmd_stager` (method, line 669) `def do_powershell_cmd_stager(self, line)`
+  - `do_shellcode_search` (method, line 706) `def do_shellcode_search(self, line)`
+  - `do_shellcode2sylk` (method, line 754) `def do_shellcode2sylk(self, line)`
+  - `do_pezorsh` (method, line 799) `def do_pezorsh(self, line)`
+  - `do_pip_repo` (method, line 872) `def do_pip_repo(self, line)`
+  - `do_apt_repo` (method, line 984) `def do_apt_repo(self, line)`
+  - `do_createpayload` (method, line 1233) `def do_createpayload(self, line)`
+  - `do_bin2shellcode` (method, line 1285) `def do_bin2shellcode(self, line)`
+  - `do_exe2bin` (method, line 1375) `def do_exe2bin(self, line)`
+  - `do_exe2donutbin` (method, line 1402) `def do_exe2donutbin(self, line)`
+  - `do_issue_command_to_c2` (method, line 1426) `def do_issue_command_to_c2(self, line)`
+  - `do_d3monizedshell` (method, line 1450) `def do_d3monizedshell(self, line)`
+  - `do_scp` (method, line 1483) `def do_scp(self, line)`
+  - `do_apt_proxy` (method, line 1579) `def do_apt_proxy(self, line)`
+  - `do_pip_proxy` (method, line 1635) `def do_pip_proxy(self, line)`
+  - `do_internet_proxy` (method, line 1693) `def do_internet_proxy(self, line)`
+  - `do_shellcode2elf` (method, line 1755) `def do_shellcode2elf(self, line)`
+  - `do_ssh_cmd` (method, line 1837) `def do_ssh_cmd(self, line)`
+  - `do_service_ssh` (method, line 1866) `def do_service_ssh(self, line)`
+  - `do_ofuscatesh` (method, line 1940) `def do_ofuscatesh(self, line)`
+  - `do_ofuscate_payload` (method, line 1970) `def do_ofuscate_payload(self, line)`
+  - `do_adversary` (method, line 1997) `def do_adversary(self, line)`
+  - `do_ofuscate_string` (method, line 2145) `def do_ofuscate_string(self, line)`
+  - `do_path2hex` (method, line 2187) `def do_path2hex(self, line)`
+  - `do_hex2shellcode` (method, line 2234) `def do_hex2shellcode(self, line)`
+  - `do_create_synthetic` (method, line 2291) `def do_create_synthetic(self, line)`
+  - `do_extract_yaml` (method, line 2343) `def do_extract_yaml(self, line)`
+  - `do_convert_remcomsvc_from_file` (method, line 2405) `def do_convert_remcomsvc_from_file(self, arg)`
+  - `do_adversary_yaml` (method, line 2439) `def do_adversary_yaml(self, line)`
+  - `do_add2find` (method, line 2524) `def do_add2find(self, line)`
+  - `do_rmfromfind` (method, line 2552) `def do_rmfromfind(self, line)`
+  - `do_aes_pe` (method, line 2581) `def do_aes_pe(self, line)`
+  - `do_yara_scan` (method, line 2610) `def do_yara_scan(self, line)`
+  - `resolve_and_download_dependencies` (method, line 1030) `def resolve_and_download_dependencies(package_name)`
 - Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
 
 ## cli/commands/privilege_escalation.py
@@ -435,58 +435,58 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ScanMigratedCommandSet` (class, line 28) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_cme` (method, line 33) `def do_cme(self, line)`
-  - `do_ldapdomaindump` (method, line 159) `def do_ldapdomaindump(self, line)`
-  - `do_bloodhound` (method, line 206) `def do_bloodhound(self, line)`
-  - `do_swaks` (method, line 255) `def do_swaks(self, line)`
-  - `do_samrdump` (method, line 300) `def do_samrdump(self, line)`
-  - `do_lynis` (method, line 355) `def do_lynis(self, line)`
-  - `do_snmpcheck` (method, line 384) `def do_snmpcheck(self, line)`
-  - `do_snmpwalk` (method, line 411) `def do_snmpwalk(self, line)`
-  - `do_smtpuserenum` (method, line 438) `def do_smtpuserenum(self, line)`
-  - `do_sessionssh` (method, line 477) `def do_sessionssh(self, line)`
-  - `do_smbattack` (method, line 501) `def do_smbattack(self, line)`
-  - `do_parsero` (method, line 632) `def do_parsero(self, line)`
-  - `do_changeme` (method, line 664) `def do_changeme(self, line)`
-  - `do_enum4linux_ng` (method, line 695) `def do_enum4linux_ng(self, line)`
-  - `do_fuzz` (method, line 733) `def do_fuzz(self, line)`
-  - `do_kerbrute` (method, line 778) `def do_kerbrute(self, line)`
-  - `do_davtest` (method, line 864) `def do_davtest(self, line)`
-  - `do_evil_ssdp` (method, line 906) `def do_evil_ssdp(self, line)`
-  - `do_netexec` (method, line 952) `def do_netexec(self, line)`
-  - `do_allin` (method, line 1172) `def do_allin(self, line)`
-  - `do_windapsearch` (method, line 1245) `def do_windapsearch(self, line)`
-  - `do_ldapsearch` (method, line 1359) `def do_ldapsearch(self, line)`
-  - `do_arjun` (method, line 1411) `def do_arjun(self, line)`
-  - `do_finger_user_enum` (method, line 1476) `def do_finger_user_enum(self, line)`
-  - `do_wpscan` (method, line 1524) `def do_wpscan(self, line)`
-  - `do_loxs` (method, line 1580) `def do_loxs(self, line)`
-  - `do_blazy` (method, line 1624) `def do_blazy(self, line)`
-  - `do_parth` (method, line 1674) `def do_parth(self, line)`
-  - `do_breacher` (method, line 1733) `def do_breacher(self, line)`
-  - `do_openredirex` (method, line 1795) `def do_openredirex(self, line)`
-  - `do_odat` (method, line 1858) `def do_odat(self, line)`
-  - `do_rpcmap_py` (method, line 1971) `def do_rpcmap_py(self, line)`
-  - `do_pykerbrute` (method, line 2015) `def do_pykerbrute(self, line)`
-  - `do_netview` (method, line 2080) `def do_netview(self, line)`
-  - `do_rdp_check_py` (method, line 2144) `def do_rdp_check_py(self, line)`
-  - `do_mqtt_check_py` (method, line 2209) `def do_mqtt_check_py(self, line)`
-  - `do_lookupsid_py` (method, line 2264) `def do_lookupsid_py(self, line)`
-  - `do_lookupsid` (method, line 2335) `def do_lookupsid(self, line)`
-  - `do_certipy_ad` (method, line 2397) `def do_certipy_ad(self, line)`
-  - `do_certipy` (method, line 2462) `def do_certipy(self, line)`
-  - `do_sawks` (method, line 2545) `def do_sawks(self, line)`
-  - `do_ad_ldap_enum` (method, line 2582) `def do_ad_ldap_enum(self, line)`
-  - `do_net_rpc_addmem` (method, line 2636) `def do_net_rpc_addmem(self, line)`
-  - `do_pre2k` (method, line 2682) `def do_pre2k(self, line)`
-  - `do_hound` (method, line 2778) `def do_hound(self, line)`
-  - `find_tgts` (method, line 530) `def find_tgts(subnet)`
-  - `setup_handler` (method, line 551) `def setup_handler(config_file, lhost, lport)`
-  - `conficker_exploit` (method, line 571) `def conficker_exploit(config_file, host, lhost, lport)`
-  - `smb_brute` (method, line 591) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
-  - `install_netexec` (method, line 978) `def install_netexec()`
-  - `install_netexec_pipx` (method, line 983) `def install_netexec_pipx()`
+  - `ScanMigratedCommandSet` (class, line 29) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_cme` (method, line 34) `def do_cme(self, line)`
+  - `do_ldapdomaindump` (method, line 173) `def do_ldapdomaindump(self, line)`
+  - `do_bloodhound` (method, line 215) `def do_bloodhound(self, line)`
+  - `do_swaks` (method, line 264) `def do_swaks(self, line)`
+  - `do_samrdump` (method, line 303) `def do_samrdump(self, line)`
+  - `do_lynis` (method, line 358) `def do_lynis(self, line)`
+  - `do_snmpcheck` (method, line 387) `def do_snmpcheck(self, line)`
+  - `do_snmpwalk` (method, line 414) `def do_snmpwalk(self, line)`
+  - `do_smtpuserenum` (method, line 441) `def do_smtpuserenum(self, line)`
+  - `do_sessionssh` (method, line 480) `def do_sessionssh(self, line)`
+  - `do_smbattack` (method, line 504) `def do_smbattack(self, line)`
+  - `do_parsero` (method, line 640) `def do_parsero(self, line)`
+  - `do_changeme` (method, line 672) `def do_changeme(self, line)`
+  - `do_enum4linux_ng` (method, line 703) `def do_enum4linux_ng(self, line)`
+  - `do_fuzz` (method, line 743) `def do_fuzz(self, line)`
+  - `do_kerbrute` (method, line 788) `def do_kerbrute(self, line)`
+  - `do_davtest` (method, line 874) `def do_davtest(self, line)`
+  - `do_evil_ssdp` (method, line 915) `def do_evil_ssdp(self, line)`
+  - `do_netexec` (method, line 961) `def do_netexec(self, line)`
+  - `do_allin` (method, line 1214) `def do_allin(self, line)`
+  - `do_windapsearch` (method, line 1285) `def do_windapsearch(self, line)`
+  - `do_ldapsearch` (method, line 1413) `def do_ldapsearch(self, line)`
+  - `do_arjun` (method, line 1474) `def do_arjun(self, line)`
+  - `do_finger_user_enum` (method, line 1542) `def do_finger_user_enum(self, line)`
+  - `do_wpscan` (method, line 1588) `def do_wpscan(self, line)`
+  - `do_loxs` (method, line 1651) `def do_loxs(self, line)`
+  - `do_blazy` (method, line 1695) `def do_blazy(self, line)`
+  - `do_parth` (method, line 1744) `def do_parth(self, line)`
+  - `do_breacher` (method, line 1813) `def do_breacher(self, line)`
+  - `do_openredirex` (method, line 1875) `def do_openredirex(self, line)`
+  - `do_odat` (method, line 1943) `def do_odat(self, line)`
+  - `do_rpcmap_py` (method, line 2061) `def do_rpcmap_py(self, line)`
+  - `do_pykerbrute` (method, line 2104) `def do_pykerbrute(self, line)`
+  - `do_netview` (method, line 2174) `def do_netview(self, line)`
+  - `do_rdp_check_py` (method, line 2238) `def do_rdp_check_py(self, line)`
+  - `do_mqtt_check_py` (method, line 2303) `def do_mqtt_check_py(self, line)`
+  - `do_lookupsid_py` (method, line 2358) `def do_lookupsid_py(self, line)`
+  - `do_lookupsid` (method, line 2431) `def do_lookupsid(self, line)`
+  - `do_certipy_ad` (method, line 2493) `def do_certipy_ad(self, line)`
+  - `do_certipy` (method, line 2557) `def do_certipy(self, line)`
+  - `do_sawks` (method, line 2651) `def do_sawks(self, line)`
+  - `do_ad_ldap_enum` (method, line 2688) `def do_ad_ldap_enum(self, line)`
+  - `do_net_rpc_addmem` (method, line 2742) `def do_net_rpc_addmem(self, line)`
+  - `do_pre2k` (method, line 2788) `def do_pre2k(self, line)`
+  - `do_hound` (method, line 2881) `def do_hound(self, line)`
+  - `find_tgts` (method, line 533) `def find_tgts(subnet)`
+  - `setup_handler` (method, line 559) `def setup_handler(config_file, lhost, lport)`
+  - `conficker_exploit` (method, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
+  - `smb_brute` (method, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
+  - `install_netexec` (method, line 988) `def install_netexec()`
+  - `install_netexec_pipx` (method, line 993) `def install_netexec_pipx()`
 - Depends on: `cli/commands/_base.py`, `utils.py`
 
 

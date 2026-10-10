@@ -208,4 +208,8 @@
 - Layer: utility
 - Language: sh
 - Symbols:
-  - `check` (function, line 23)
+  - `pass` (function, line 23)
+  - `fail` (function, line 27)
+  - `check` (function, line 32)
+  - `check_no_hardcoded_passwords` (function, line 59)
+  - `check_no_hardcoded_wordlists` (function, line 74)

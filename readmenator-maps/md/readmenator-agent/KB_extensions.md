@@ -54,6 +54,6 @@
 - Symbols:
   - `configure` (function, line 16) `def configure(users_path)`
   - `load_users` (function, line 26) `def load_users()`
-  - `save_users` (function, line 46) `def save_users(users)`
+  - `save_users` (function, line 48) `def save_users(users)`
 - Depends on: `lazyc2/__init__.py`, `modules/lazy_rbac.py`
 - Imported by: `lazyc2.py`, `lazyc2/blueprints/auth.py`

@@ -88,20 +88,20 @@ This community groups 54 file(s) rooted at `modules` with dominant language py (
 - `_safe_filename` (method, `cli/commands/crystal_ball.py:151`) `def _safe_filename(name)` - Sanitise a string for use as a filename component.
 - `HelpUiCommandSet` (class, `cli/commands/help_ui.py:29`) `class HelpUiCommandSet(LazyOwnCommandSet)` - Help, tutorial and phase guidance.
 - `do_wizard` (method, `cli/commands/help_ui.py:36`) `def do_wizard(self, line)` - Guided first-run setup wizard — configure rhost, lhost, domain, wordlists and more.
-- `_save` (method, `cli/commands/help_ui.py:66`) `def _save(key, value)`
-- `do_tutorial` (method, `cli/commands/help_ui.py:137`) `def do_tutorial(self, line)` - Interactive tutorial that walks you through the golden path.
-- `do_help_phase` (method, `cli/commands/help_ui.py:160`) `def do_help_phase(self, line)` - List all commands for a given kill-chain phase.
-- `do_help_status` (method, `cli/commands/help_ui.py:191`) `def do_help_status(self, line)` - Show which session requirements are met (rhost, creds, domain, OS).
-- `do_ctx_help` (method, `cli/commands/help_ui.py:203`) `def do_ctx_help(self, line)` - Show contextual help for a command: description, phase, requirements, tips.
-- `do_ctx` (method, `cli/commands/help_ui.py:223`) `def do_ctx(self, line)` - Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
-- `do_command_explorer` (method, `cli/commands/help_ui.py:235`) `def do_command_explorer(self, line)` - Interactive command explorer organized by goals and phases.
-- `do_config_status` (method, `cli/commands/help_ui.py:267`) `def do_config_status(self, line)` - Show configuration status grouped by category with set/missing indicators.
-- `do_tui_theme` (method, `cli/commands/help_ui.py:287`) `def do_tui_theme(self, line)` - Switch the TUI colour theme used by the splash and styled output.
-- `do_doctor` (method, `cli/commands/help_ui.py:312`) `def do_doctor(self, line)` - Preflight environment health check — verify the install is ready.
+- `_save` (method, `cli/commands/help_ui.py:67`) `def _save(key, value)`
+- `do_tutorial` (method, `cli/commands/help_ui.py:151`) `def do_tutorial(self, line)` - Interactive tutorial that walks you through the golden path.
+- `do_help_phase` (method, `cli/commands/help_ui.py:175`) `def do_help_phase(self, line)` - List all commands for a given kill-chain phase.
+- `do_help_status` (method, `cli/commands/help_ui.py:208`) `def do_help_status(self, line)` - Show which session requirements are met (rhost, creds, domain, OS).
+- `do_ctx_help` (method, `cli/commands/help_ui.py:221`) `def do_ctx_help(self, line)` - Show contextual help for a command: description, phase, requirements, tips.
+- `do_ctx` (method, `cli/commands/help_ui.py:242`) `def do_ctx(self, line)` - Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
+- `do_command_explorer` (method, `cli/commands/help_ui.py:254`) `def do_command_explorer(self, line)` - Interactive command explorer organized by goals and phases.
+- `do_config_status` (method, `cli/commands/help_ui.py:287`) `def do_config_status(self, line)` - Show configuration status grouped by category with set/missing indicators.
+- `do_tui_theme` (method, `cli/commands/help_ui.py:308`) `def do_tui_theme(self, line)` - Switch the TUI colour theme used by the splash and styled output.
+- `do_doctor` (method, `cli/commands/help_ui.py:334`) `def do_doctor(self, line)` - Preflight environment health check — verify the install is ready.
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 121
+- Internal resolved imports (EXTRACTED): 125
 - Cross-boundary resolved imports (EXTRACTED): 143
 
 ## Connections
@@ -118,7 +118,6 @@ This community groups 54 file(s) rooted at `modules` with dominant language py (
 - [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `modules/llm_factory.py` via `subprocess` (4 hops)
-- [taint high] `cli/banner_config.py` -> `core/dependencies.py` via `subprocess` (5 hops)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)
 - [layer strict] `tests/test_help_ui_command_set.py` (testing) -> `cli/commands/help_ui.py` (presentation)

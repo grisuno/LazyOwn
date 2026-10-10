@@ -5,11 +5,11 @@ Previous: [API.md](API.md)
 Depends on: `cli/commands/_base.py`, `skills/daemon_control.py`, `utils.py`
 Imported by: `tests/test_daemon_ctl_command_set.py`
 - `DaemonControlCommandSet.do_daemon_mode` (method) `cli/commands/daemon_ctl.py:24` `def do_daemon_mode(self, line)` -- Switch the autonomous daemon between auto, approval and paused modes.
-- `DaemonControlCommandSet.do_daemon_pause` (method) `cli/commands/daemon_ctl.py:61` `def do_daemon_pause(self, line)` -- Pause the autonomous daemon before its next step.
-- `DaemonControlCommandSet.do_daemon_resume` (method) `cli/commands/daemon_ctl.py:79` `def do_daemon_resume(self, line)` -- Resume the autonomous daemon (switch mode to auto).
-- `DaemonControlCommandSet.do_daemon_veto` (method) `cli/commands/daemon_ctl.py:93` `def do_daemon_veto(self, line)` -- Add or clear vetoed command first-tokens for the autonomous daemon.
-- `DaemonControlCommandSet.do_daemon_focus` (method) `cli/commands/daemon_ctl.py:136` `def do_daemon_focus(self, line)` -- Restrict the autonomous daemon to a set of focus targets.
-- `DaemonControlCommandSet.do_daemon_approve` (method) `cli/commands/daemon_ctl.py:169` `def do_daemon_approve(self, line)` -- Approve or veto the daemon's currently-pending action.
+- `DaemonControlCommandSet.do_daemon_pause` (method) `cli/commands/daemon_ctl.py:63` `def do_daemon_pause(self, line)` -- Pause the autonomous daemon before its next step.
+- `DaemonControlCommandSet.do_daemon_resume` (method) `cli/commands/daemon_ctl.py:82` `def do_daemon_resume(self, line)` -- Resume the autonomous daemon (switch mode to auto).
+- `DaemonControlCommandSet.do_daemon_veto` (method) `cli/commands/daemon_ctl.py:97` `def do_daemon_veto(self, line)` -- Add or clear vetoed command first-tokens for the autonomous daemon.
+- `DaemonControlCommandSet.do_daemon_focus` (method) `cli/commands/daemon_ctl.py:141` `def do_daemon_focus(self, line)` -- Restrict the autonomous daemon to a set of focus targets.
+- `DaemonControlCommandSet.do_daemon_approve` (method) `cli/commands/daemon_ctl.py:175` `def do_daemon_approve(self, line)` -- Approve or veto the daemon's currently-pending action.
 
 ## cli/commands/database.py
 Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
@@ -68,14 +68,14 @@ Imported by: `tests/test_encoding_command_set.py`
 - `EncodingCommandSet.do_decode` (method) `cli/commands/encoding.py:135` `def do_decode(self, line)` -- Decode a string using the specified shift value and substitution key.
 - `EncodingCommandSet.do_rot` (method) `cli/commands/encoding.py:173` `def do_rot(self, line)` -- Apply a ROT (rotation) substitution cipher to the given string.
 - `EncodingCommandSet.do_rotf` (method) `cli/commands/encoding.py:213` `def do_rotf(self, line)` -- Apply a ROT (rotation) substitution cipher to the given extension.
-- `EncodingCommandSet.do_encoderpayload` (method) `cli/commands/encoding.py:260` `def do_encoderpayload(self, line)` -- Applies various obfuscations to a given command line string to create multiple obfuscated versions.
+- `EncodingCommandSet.do_encoderpayload` (method) `cli/commands/encoding.py:259` `def do_encoderpayload(self, line)` -- Applies various obfuscations to a given command line string to create multiple obfuscated versions.
 - `EncodingCommandSet.double_base64_encode` (method) `cli/commands/encoding.py:281` `def double_base64_encode(cmd)` -- Perform double Base64 encoding on the given command.
 - `EncodingCommandSet.apply_obfuscations` (method) `cli/commands/encoding.py:309` `def apply_obfuscations(cmd)` -- Generate a list of obfuscated commands based on the given input command.
 - `EncodingCommandSet.do_base64encode` (method) `cli/commands/encoding.py:361` `def do_base64encode(self, line)` -- Encodes a given string into Base64 format.
 - `EncodingCommandSet.do_base64decode` (method) `cli/commands/encoding.py:389` `def do_base64decode(self, line)` -- Decodes a Base64 encoded string.
 - `EncodingCommandSet.do_encodewinbase64` (method) `cli/commands/encoding.py:420` `def do_encodewinbase64(self, line)` -- Encodes a given payload into a Base64 encoded string suitable for Windows PowerShell execution.
-- `EncodingCommandSet.do_ip2hex` (method) `cli/commands/encoding.py:479` `def do_ip2hex(self, line)` -- Convert an IPv4 address into its hexadecimal representation.
-- `EncodingCommandSet.do_hex_to_plaintext` (method) `cli/commands/encoding.py:505` `def do_hex_to_plaintext(self, line)` -- Converts hexadecimal data from a file to plain text.
+- `EncodingCommandSet.do_ip2hex` (method) `cli/commands/encoding.py:483` `def do_ip2hex(self, line)` -- Convert an IPv4 address into its hexadecimal representation.
+- `EncodingCommandSet.do_hex_to_plaintext` (method) `cli/commands/encoding.py:509` `def do_hex_to_plaintext(self, line)` -- Converts hexadecimal data from a file to plain text.
 
 ## cli/commands/enum.py
 Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
@@ -151,57 +151,57 @@ Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/exploit_migrated.py
 Depends on: `cli/commands/_base.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
-- `ExploitMigratedCommandSet.do_cp` (method) `cli/commands/exploit_migrated.py:41` `def do_cp(self, line)` -- Copies a file from the ExploitDB directory to the sessions directory.
-- `ExploitMigratedCommandSet.do_createcookie` (method) `cli/commands/exploit_migrated.py:82` `def do_createcookie(self, line)` -- Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
-- `ExploitMigratedCommandSet.do_py3ttyup` (method) `cli/commands/exploit_migrated.py:128` `def do_py3ttyup(self, line)` -- Copies a Python reverse shell command to the clipboard.
-- `ExploitMigratedCommandSet.do_pyautomate` (method) `cli/commands/exploit_migrated.py:166` `def do_pyautomate(self, line)` -- Automates the execution of pwntomate tools on XML configuration files.
-- `ExploitMigratedCommandSet.do_winbase64payload` (method) `cli/commands/exploit_migrated.py:207` `def do_winbase64payload(self, line)` -- Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using...
-- `ExploitMigratedCommandSet.do_createdll` (method) `cli/commands/exploit_migrated.py:336` `def do_createdll(self, line)` -- Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
-- `ExploitMigratedCommandSet.do_seo` (method) `cli/commands/exploit_migrated.py:392` `def do_seo(self, line)` -- Performs a web seo fingerprinting scan using `lazyseo.py`.
-- `ExploitMigratedCommandSet.do_padbuster` (method) `cli/commands/exploit_migrated.py:427` `def do_padbuster(self, line)` -- Execute the PadBuster command for padding oracle attacks.
-- `ExploitMigratedCommandSet.do_cacti_exploit` (method) `cli/commands/exploit_migrated.py:471` `def do_cacti_exploit(self, line)` -- Automates the exploitation of the Cacti version 1.2.26 vulnerability using the multi/http/cacti_package_import_rce...
-- `ExploitMigratedCommandSet.setup_handler` (method) `cli/commands/exploit_migrated.py:501` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler exploit configuration in the provided config file.
-- `ExploitMigratedCommandSet.cacti_exploit` (method) `cli/commands/exploit_migrated.py:524` `def cacti_exploit(config_file, host)` -- Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provided config file.
-- `ExploitMigratedCommandSet.do_shellshock` (method) `cli/commands/exploit_migrated.py:556` `def do_shellshock(self, line)` -- Executes a Shellshock attack against a target.
+- `ExploitMigratedCommandSet.do_cp` (method) `cli/commands/exploit_migrated.py:42` `def do_cp(self, line)` -- Copies a file from the ExploitDB directory to the sessions directory.
+- `ExploitMigratedCommandSet.do_createcookie` (method) `cli/commands/exploit_migrated.py:83` `def do_createcookie(self, line)` -- Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
+- `ExploitMigratedCommandSet.do_py3ttyup` (method) `cli/commands/exploit_migrated.py:127` `def do_py3ttyup(self, line)` -- Copies a Python reverse shell command to the clipboard.
+- `ExploitMigratedCommandSet.do_pyautomate` (method) `cli/commands/exploit_migrated.py:163` `def do_pyautomate(self, line)` -- Automates the execution of pwntomate tools on XML configuration files.
+- `ExploitMigratedCommandSet.do_winbase64payload` (method) `cli/commands/exploit_migrated.py:204` `def do_winbase64payload(self, line)` -- Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or download a file using...
+- `ExploitMigratedCommandSet.do_createdll` (method) `cli/commands/exploit_migrated.py:333` `def do_createdll(self, line)` -- Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
+- `ExploitMigratedCommandSet.do_seo` (method) `cli/commands/exploit_migrated.py:391` `def do_seo(self, line)` -- Performs a web seo fingerprinting scan using `lazyseo.py`.
+- `ExploitMigratedCommandSet.do_padbuster` (method) `cli/commands/exploit_migrated.py:426` `def do_padbuster(self, line)` -- Execute the PadBuster command for padding oracle attacks.
+- `ExploitMigratedCommandSet.do_cacti_exploit` (method) `cli/commands/exploit_migrated.py:472` `def do_cacti_exploit(self, line)` -- Automates the exploitation of the Cacti version 1.2.26 vulnerability using the multi/http/cacti_package_import_rce...
+- `ExploitMigratedCommandSet.setup_handler` (method) `cli/commands/exploit_migrated.py:502` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler exploit configuration in the provided config file.
+- `ExploitMigratedCommandSet.cacti_exploit` (method) `cli/commands/exploit_migrated.py:525` `def cacti_exploit(config_file, host)` -- Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provided config file.
+- `ExploitMigratedCommandSet.do_shellshock` (method) `cli/commands/exploit_migrated.py:557` `def do_shellshock(self, line)` -- Executes a Shellshock attack against a target.
 - `ExploitMigratedCommandSet.do_powerserver` (method) `cli/commands/exploit_migrated.py:619` `def do_powerserver(self, line)` -- This function generates a PowerShell script that retrieves reverse shell over http on a Windows system.
 - `ExploitMigratedCommandSet.do_sqli` (method) `cli/commands/exploit_migrated.py:682` `def do_sqli(self, line)` -- Asks the user for the URL, database, table, and columns, and then executes the Python script 'modules/lazybsqli.py'...
-- `ExploitMigratedCommandSet.do_sharpshooter` (method) `cli/commands/exploit_migrated.py:719` `def do_sharpshooter(self, line)` -- Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
-- `ExploitMigratedCommandSet.do_shellfire` (method) `cli/commands/exploit_migrated.py:761` `def do_shellfire(self, line)` -- Runs Shellfire with various options and allows generating payloads.
-- `ExploitMigratedCommandSet.do_downloader` (method) `cli/commands/exploit_migrated.py:865` `def do_downloader(self, line)` -- Generate a downloader command for files in the sessions directory.
-- `ExploitMigratedCommandSet.do_eternal` (method) `cli/commands/exploit_migrated.py:952` `def do_eternal(self, line)` -- Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
-- `ExploitMigratedCommandSet.do_rejetto_hfs_exec` (method) `cli/commands/exploit_migrated.py:997` `def do_rejetto_hfs_exec(self, line)` -- HttpFileServer version 2.3.
-- `ExploitMigratedCommandSet.do_ms08_067_netapi` (method) `cli/commands/exploit_migrated.py:1032` `def do_ms08_067_netapi(self, line)` -- SMB CVE-2008-4250.
-- `ExploitMigratedCommandSet.do_xss` (method) `cli/commands/exploit_migrated.py:1067` `def do_xss(self, line)` -- Executes the XSS (Cross-Site Scripting) vulnerability testing procedure using user-defined parameters and...
-- `ExploitMigratedCommandSet.do_template_helper_serializer` (method) `cli/commands/exploit_migrated.py:1109` `def do_template_helper_serializer(self, line)` -- Handles the creation and serialization of a template helper.
-- `ExploitMigratedCommandSet.do_xsstrike` (method) `cli/commands/exploit_migrated.py:1154` `def do_xsstrike(self, line)` -- Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
-- `ExploitMigratedCommandSet.do_sireprat` (method) `cli/commands/exploit_migrated.py:1224` `def do_sireprat(self, line)` -- Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
-- `ExploitMigratedCommandSet.do_upload_bypass` (method) `cli/commands/exploit_migrated.py:1336` `def do_upload_bypass(self, line)` -- Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass...
-- `ExploitMigratedCommandSet.do_pywhisker` (method) `cli/commands/exploit_migrated.py:1397` `def do_pywhisker(self, line)` -- Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.
-- `ExploitMigratedCommandSet.do_owneredit` (method) `cli/commands/exploit_migrated.py:1447` `def do_owneredit(self, line)` -- Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
-- `ExploitMigratedCommandSet.do_gettgtpkinit_py` (method) `cli/commands/exploit_migrated.py:1493` `def do_gettgtpkinit_py(self, line)` -- Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.
-- `ExploitMigratedCommandSet.do_gets4uticket_py` (method) `cli/commands/exploit_migrated.py:1544` `def do_gets4uticket_py(self, line)` -- Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.
-- `ExploitMigratedCommandSet.do_aclpwn_py` (method) `cli/commands/exploit_migrated.py:1591` `def do_aclpwn_py(self, line)` -- Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.
-- `ExploitMigratedCommandSet.do_addspn_py` (method) `cli/commands/exploit_migrated.py:1641` `def do_addspn_py(self, line)` -- Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.
-- `ExploitMigratedCommandSet.do_printerbug_py` (method) `cli/commands/exploit_migrated.py:1685` `def do_printerbug_py(self, line)` -- Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.
-- `ExploitMigratedCommandSet.do_krbrelayx_py` (method) `cli/commands/exploit_migrated.py:1732` `def do_krbrelayx_py(self, line)` -- Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.
-- `ExploitMigratedCommandSet.do_autoblody` (method) `cli/commands/exploit_migrated.py:1776` `def do_autoblody(self, line)` -- Executes the autobloody tool for automating Active Directory privilege escalation paths.
-- `ExploitMigratedCommandSet.do_unicode_WAFbypass` (method) `cli/commands/exploit_migrated.py:1828` `def do_unicode_WAFbypass(self, line)` -- We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the following...
-- `ExploitMigratedCommandSet.do_sqli_mssql_test` (method) `cli/commands/exploit_migrated.py:1882` `def do_sqli_mssql_test(self, line)` -- Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
-- `ExploitMigratedCommandSet.do_pyoracle2` (method) `cli/commands/exploit_migrated.py:1918` `def do_pyoracle2(self, line)` -- Executes the pyOracle2 tool for performing padding oracle attacks.
-- `ExploitMigratedCommandSet.do_lfi` (method) `cli/commands/exploit_migrated.py:2000` `def do_lfi(self, line)` -- Exploits a potential Local File Inclusion (LFI) vulnerability by crafting and sending HTTP GET requests to a...
-- `ExploitMigratedCommandSet.do_greatSCT` (method) `cli/commands/exploit_migrated.py:2042` `def do_greatSCT(self, line)` -- Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.
-- `ExploitMigratedCommandSet.do_sqsh` (method) `cli/commands/exploit_migrated.py:2087` `def do_sqsh(self, line)` -- Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.
-- `ExploitMigratedCommandSet.do_jwt_tool` (method) `cli/commands/exploit_migrated.py:2132` `def do_jwt_tool(self, line)` -- Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).
-- `ExploitMigratedCommandSet.do_filtering` (method) `cli/commands/exploit_migrated.py:2174` `def do_filtering(self, line)` -- Applies various filtering techniques to the given command line by modifying each character or word appropriately.
-- `ExploitMigratedCommandSet.do_lol` (method) `cli/commands/exploit_migrated.py:2200` `def do_lol(self, line)` -- Exploits a target by injecting a malicious payload and collecting admin information.
-- `ExploitMigratedCommandSet.do_utf` (method) `cli/commands/exploit_migrated.py:2287` `def do_utf(self, line)` -- Encode a given payload into UTF-16 escape sequences.
-- `ExploitMigratedCommandSet.do_digdug` (method) `cli/commands/exploit_migrated.py:2326` `def do_digdug(self, line)` -- Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings and interactive input...
-- `ExploitMigratedCommandSet.do_sshexploit` (method) `cli/commands/exploit_migrated.py:2384` `def do_sshexploit(self, line)` -- Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
-- `ExploitMigratedCommandSet.do_excelntdonut` (method) `cli/commands/exploit_migrated.py:2454` `def do_excelntdonut(self, line)` -- Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
-- `ExploitMigratedCommandSet.do_ntpdate` (method) `cli/commands/exploit_migrated.py:2510` `def do_ntpdate(self, line)` -- Synchronizes the system clock with a specified NTP server.
-- `ExploitMigratedCommandSet.do_adcs_check` (method) `cli/commands/exploit_migrated.py:2534` `def do_adcs_check(self, line)` -- Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
-- `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2590` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
-- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2685` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
+- `ExploitMigratedCommandSet.do_sharpshooter` (method) `cli/commands/exploit_migrated.py:713` `def do_sharpshooter(self, line)` -- Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source code.
+- `ExploitMigratedCommandSet.do_shellfire` (method) `cli/commands/exploit_migrated.py:757` `def do_shellfire(self, line)` -- Runs Shellfire with various options and allows generating payloads.
+- `ExploitMigratedCommandSet.do_downloader` (method) `cli/commands/exploit_migrated.py:881` `def do_downloader(self, line)` -- Generate a downloader command for files in the sessions directory.
+- `ExploitMigratedCommandSet.do_eternal` (method) `cli/commands/exploit_migrated.py:961` `def do_eternal(self, line)` -- Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+- `ExploitMigratedCommandSet.do_rejetto_hfs_exec` (method) `cli/commands/exploit_migrated.py:1005` `def do_rejetto_hfs_exec(self, line)` -- HttpFileServer version 2.3.
+- `ExploitMigratedCommandSet.do_ms08_067_netapi` (method) `cli/commands/exploit_migrated.py:1042` `def do_ms08_067_netapi(self, line)` -- SMB CVE-2008-4250.
+- `ExploitMigratedCommandSet.do_xss` (method) `cli/commands/exploit_migrated.py:1079` `def do_xss(self, line)` -- Executes the XSS (Cross-Site Scripting) vulnerability testing procedure using user-defined parameters and...
+- `ExploitMigratedCommandSet.do_template_helper_serializer` (method) `cli/commands/exploit_migrated.py:1124` `def do_template_helper_serializer(self, line)` -- Handles the creation and serialization of a template helper.
+- `ExploitMigratedCommandSet.do_xsstrike` (method) `cli/commands/exploit_migrated.py:1168` `def do_xsstrike(self, line)` -- Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
+- `ExploitMigratedCommandSet.do_sireprat` (method) `cli/commands/exploit_migrated.py:1236` `def do_sireprat(self, line)` -- Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows IoT Core device.
+- `ExploitMigratedCommandSet.do_upload_bypass` (method) `cli/commands/exploit_migrated.py:1348` `def do_upload_bypass(self, line)` -- Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file upload bypass...
+- `ExploitMigratedCommandSet.do_pywhisker` (method) `cli/commands/exploit_migrated.py:1409` `def do_pywhisker(self, line)` -- Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user or computer.
+- `ExploitMigratedCommandSet.do_owneredit` (method) `cli/commands/exploit_migrated.py:1459` `def do_owneredit(self, line)` -- Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
+- `ExploitMigratedCommandSet.do_gettgtpkinit_py` (method) `cli/commands/exploit_migrated.py:1505` `def do_gettgtpkinit_py(self, line)` -- Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX or PEM certificate.
+- `ExploitMigratedCommandSet.do_gets4uticket_py` (method) `cli/commands/exploit_migrated.py:1556` `def do_gets4uticket_py(self, line)` -- Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerberos.
+- `ExploitMigratedCommandSet.do_aclpwn_py` (method) `cli/commands/exploit_migrated.py:1603` `def do_aclpwn_py(self, line)` -- Executes the aclpwn.py tool to find and exploit ACL paths for privilege escalation in an Active Directory environment.
+- `ExploitMigratedCommandSet.do_addspn_py` (method) `cli/commands/exploit_migrated.py:1651` `def do_addspn_py(self, line)` -- Executes the addspn.py tool to manage Service Principal Names (SPNs) on Active Directory accounts via LDAP.
+- `ExploitMigratedCommandSet.do_printerbug_py` (method) `cli/commands/exploit_migrated.py:1695` `def do_printerbug_py(self, line)` -- Executes the printerbug.py tool to trigger the SpoolService bug via RPC backconnect.
+- `ExploitMigratedCommandSet.do_krbrelayx_py` (method) `cli/commands/exploit_migrated.py:1749` `def do_krbrelayx_py(self, line)` -- Executes the krbrelayx.py tool for Kerberos relaying or unconstrained delegation abuse.
+- `ExploitMigratedCommandSet.do_autoblody` (method) `cli/commands/exploit_migrated.py:1794` `def do_autoblody(self, line)` -- Executes the autobloody tool for automating Active Directory privilege escalation paths.
+- `ExploitMigratedCommandSet.do_unicode_WAFbypass` (method) `cli/commands/exploit_migrated.py:1849` `def do_unicode_WAFbypass(self, line)` -- We open a Netcat listener on port 443 and attempt to exploit NodeJS deserialization by sending the following...
+- `ExploitMigratedCommandSet.do_sqli_mssql_test` (method) `cli/commands/exploit_migrated.py:1904` `def do_sqli_mssql_test(self, line)` -- Initiates a reverse MSSQL shell by starting an HTTP server to handle incoming connections and exfiltrate data.
+- `ExploitMigratedCommandSet.do_pyoracle2` (method) `cli/commands/exploit_migrated.py:1942` `def do_pyoracle2(self, line)` -- Executes the pyOracle2 tool for performing padding oracle attacks.
+- `ExploitMigratedCommandSet.do_lfi` (method) `cli/commands/exploit_migrated.py:2024` `def do_lfi(self, line)` -- Exploits a potential Local File Inclusion (LFI) vulnerability by crafting and sending HTTP GET requests to a...
+- `ExploitMigratedCommandSet.do_greatSCT` (method) `cli/commands/exploit_migrated.py:2066` `def do_greatSCT(self, line)` -- Executes the GreatSCT tool for generating payloads that bypass antivirus and application whitelisting solutions.
+- `ExploitMigratedCommandSet.do_sqsh` (method) `cli/commands/exploit_migrated.py:2111` `def do_sqsh(self, line)` -- Executes the Impacket sqsh tool for manipulating ownership of Active Directory objects.
+- `ExploitMigratedCommandSet.do_jwt_tool` (method) `cli/commands/exploit_migrated.py:2156` `def do_jwt_tool(self, line)` -- Uses the jwt_tool to analyze, tamper, or exploit JSON Web Tokens (JWTs).
+- `ExploitMigratedCommandSet.do_filtering` (method) `cli/commands/exploit_migrated.py:2200` `def do_filtering(self, line)` -- Applies various filtering techniques to the given command line by modifying each character or word appropriately.
+- `ExploitMigratedCommandSet.do_lol` (method) `cli/commands/exploit_migrated.py:2226` `def do_lol(self, line)` -- Exploits a target by injecting a malicious payload and collecting admin information.
+- `ExploitMigratedCommandSet.do_utf` (method) `cli/commands/exploit_migrated.py:2311` `def do_utf(self, line)` -- Encode a given payload into UTF-16 escape sequences.
+- `ExploitMigratedCommandSet.do_digdug` (method) `cli/commands/exploit_migrated.py:2355` `def do_digdug(self, line)` -- Executes Dig Dug to inflate the size of an executable file, leveraging pre-configured settings and interactive input...
+- `ExploitMigratedCommandSet.do_sshexploit` (method) `cli/commands/exploit_migrated.py:2413` `def do_sshexploit(self, line)` -- Exploits OpenSSH vulnerability CVE-2023-38408 via the PKCS#11 feature of the ssh-agent.
+- `ExploitMigratedCommandSet.do_excelntdonut` (method) `cli/commands/exploit_migrated.py:2482` `def do_excelntdonut(self, line)` -- Generates an Excel 4.0 (XLM) macro from a provided C# source file using EXCELntDonut.
+- `ExploitMigratedCommandSet.do_ntpdate` (method) `cli/commands/exploit_migrated.py:2538` `def do_ntpdate(self, line)` -- Synchronizes the system clock with a specified NTP server.
+- `ExploitMigratedCommandSet.do_adcs_check` (method) `cli/commands/exploit_migrated.py:2562` `def do_adcs_check(self, line)` -- Check Active Directory Certificate Services for ESC1-ESC8 vulnerabilities.
+- `ExploitMigratedCommandSet.do_chain` (method) `cli/commands/exploit_migrated.py:2621` `def do_chain(self, line)` -- Run autonomous exploitation chain: recon -> vuln -> exploit -> post-exploit.
+- `ExploitMigratedCommandSet.do_exploit_recommend` (method) `cli/commands/exploit_migrated.py:2718` `def do_exploit_recommend(self, line)` -- AI-powered exploit recommendation — matches discovered services to CVEs.
 
 ## cli/commands/exploitgym.py
 Depends on: `cli/commands/_base.py`, `modules/exploitgym_gym.py`, `utils.py`
@@ -212,19 +212,19 @@ Imported by: `tests/test_exploitgym_gym.py`
 Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/command_explorer.py`, `cli/commands/_base.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/engagement_hooks.py`, `cli/ops_commands.py`, `cli/tui_theme.py`, `cli/tutorial.py`, `cli/wizard.py`, `cli/wizard_scope.py`, `core/config.py`, `core/console.py`, `modules/world_model.py`, `utils.py`
 Imported by: `tests/test_help_ui_command_set.py`
 - `HelpUiCommandSet.do_wizard` (method) `cli/commands/help_ui.py:36` `def do_wizard(self, line)` -- Guided first-run setup wizard — configure rhost, lhost, domain, wordlists and more.
-- `HelpUiCommandSet.do_tutorial` (method) `cli/commands/help_ui.py:137` `def do_tutorial(self, line)` -- Interactive tutorial that walks you through the golden path.
-- `HelpUiCommandSet.do_help_phase` (method) `cli/commands/help_ui.py:160` `def do_help_phase(self, line)` -- List all commands for a given kill-chain phase.
-- `HelpUiCommandSet.do_help_status` (method) `cli/commands/help_ui.py:191` `def do_help_status(self, line)` -- Show which session requirements are met (rhost, creds, domain, OS).
-- `HelpUiCommandSet.do_ctx_help` (method) `cli/commands/help_ui.py:203` `def do_ctx_help(self, line)` -- Show contextual help for a command: description, phase, requirements, tips.
-- `HelpUiCommandSet.do_ctx` (method) `cli/commands/help_ui.py:223` `def do_ctx(self, line)` -- Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
-- `HelpUiCommandSet.do_command_explorer` (method) `cli/commands/help_ui.py:235` `def do_command_explorer(self, line)` -- Interactive command explorer organized by goals and phases.
-- `HelpUiCommandSet.do_config_status` (method) `cli/commands/help_ui.py:267` `def do_config_status(self, line)` -- Show configuration status grouped by category with set/missing indicators.
-- `HelpUiCommandSet.do_tui_theme` (method) `cli/commands/help_ui.py:287` `def do_tui_theme(self, line)` -- Switch the TUI colour theme used by the splash and styled output.
-- `HelpUiCommandSet.do_doctor` (method) `cli/commands/help_ui.py:312` `def do_doctor(self, line)` -- Preflight environment health check — verify the install is ready.
-- `HelpUiCommandSet.do_karma` (method) `cli/commands/help_ui.py:347` `def do_karma(self, line)` -- Show ELO score, karma rank and exploration progress for this operator.
-- `HelpUiCommandSet.do_tgrep` (method) `cli/commands/help_ui.py:381` `def do_tgrep(self, line)` -- Search across all previous command outputs and session logs.
-- `HelpUiCommandSet.do_phase` (method) `cli/commands/help_ui.py:398` `def do_phase(self, line)` -- Get or set the current kill-chain phase.
-- `HelpUiCommandSet.do_killchain` (method) `cli/commands/help_ui.py:432` `def do_killchain(self, line)` -- Show the unified kill-chain progress and control auto-refresh.
+- `HelpUiCommandSet.do_tutorial` (method) `cli/commands/help_ui.py:151` `def do_tutorial(self, line)` -- Interactive tutorial that walks you through the golden path.
+- `HelpUiCommandSet.do_help_phase` (method) `cli/commands/help_ui.py:175` `def do_help_phase(self, line)` -- List all commands for a given kill-chain phase.
+- `HelpUiCommandSet.do_help_status` (method) `cli/commands/help_ui.py:208` `def do_help_status(self, line)` -- Show which session requirements are met (rhost, creds, domain, OS).
+- `HelpUiCommandSet.do_ctx_help` (method) `cli/commands/help_ui.py:221` `def do_ctx_help(self, line)` -- Show contextual help for a command: description, phase, requirements, tips.
+- `HelpUiCommandSet.do_ctx` (method) `cli/commands/help_ui.py:242` `def do_ctx(self, line)` -- Print a single-line operator context: rhost, lhost, domain, phase, os, creds.
+- `HelpUiCommandSet.do_command_explorer` (method) `cli/commands/help_ui.py:254` `def do_command_explorer(self, line)` -- Interactive command explorer organized by goals and phases.
+- `HelpUiCommandSet.do_config_status` (method) `cli/commands/help_ui.py:287` `def do_config_status(self, line)` -- Show configuration status grouped by category with set/missing indicators.
+- `HelpUiCommandSet.do_tui_theme` (method) `cli/commands/help_ui.py:308` `def do_tui_theme(self, line)` -- Switch the TUI colour theme used by the splash and styled output.
+- `HelpUiCommandSet.do_doctor` (method) `cli/commands/help_ui.py:334` `def do_doctor(self, line)` -- Preflight environment health check — verify the install is ready.
+- `HelpUiCommandSet.do_karma` (method) `cli/commands/help_ui.py:369` `def do_karma(self, line)` -- Show ELO score, karma rank and exploration progress for this operator.
+- `HelpUiCommandSet.do_tgrep` (method) `cli/commands/help_ui.py:404` `def do_tgrep(self, line)` -- Search across all previous command outputs and session logs.
+- `HelpUiCommandSet.do_phase` (method) `cli/commands/help_ui.py:421` `def do_phase(self, line)` -- Get or set the current kill-chain phase.
+- `HelpUiCommandSet.do_killchain` (method) `cli/commands/help_ui.py:455` `def do_killchain(self, line)` -- Show the unified kill-chain progress and control auto-refresh.
 
 ## cli/commands/infra.py
 Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `utils.py`
@@ -341,15 +341,15 @@ Depends on: `cli/commands/_base.py`, `modules/module_registry.py`, `utils.py`
 Depends on: `cli/commands/_base.py`, `core/hardening.py`, `utils.py`
 Imported by: `tests/test_nethelpers_command_set.py`
 - `NetworkHelpersCommandSet.do_ip` (method) `cli/commands/nethelpers.py:38` `def do_ip(self, line)` -- Displays IP addresses of network interfaces and copies the IP address from the `tun0` interface to the clipboard.
-- `NetworkHelpersCommandSet.do_ipp` (method) `cli/commands/nethelpers.py:114` `def do_ipp(self, line)` -- Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
-- `NetworkHelpersCommandSet.do_rhost` (method) `cli/commands/nethelpers.py:190` `def do_rhost(self, line)` -- Copies the remote host (self.params['rhost']) to the clipboard and updates the command prompt.
-- `NetworkHelpersCommandSet.do_rrhost` (method) `cli/commands/nethelpers.py:242` `def do_rrhost(self, line)` -- Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
-- `NetworkHelpersCommandSet.do_addhosts` (method) `cli/commands/nethelpers.py:283` `def do_addhosts(self, line)` -- Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
-- `NetworkHelpersCommandSet.do_ip2asn` (method) `cli/commands/nethelpers.py:307` `def do_ip2asn(self, line)` -- Command to get ASN for a given IP address.
-- `NetworkHelpersCommandSet.do_ignorearp` (method) `cli/commands/nethelpers.py:337` `def do_ignorearp(self, line)` -- Configures the system to ignore ARP requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_ignoreicmp` (method) `cli/commands/nethelpers.py:374` `def do_ignoreicmp(self, line)` -- Configures the system to ignore ICMP echo requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_acknowledgearp` (method) `cli/commands/nethelpers.py:411` `def do_acknowledgearp(self, line)` -- Configures the system to acknowledge ARP requests by setting a kernel parameter.
-- `NetworkHelpersCommandSet.do_acknowledgeicmp` (method) `cli/commands/nethelpers.py:448` `def do_acknowledgeicmp(self, line)` -- Configures the system to respond to ICMP echo requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_ipp` (method) `cli/commands/nethelpers.py:120` `def do_ipp(self, line)` -- Displays IP addresses of network interfaces and prints the IP address from the `tun0` interface.
+- `NetworkHelpersCommandSet.do_rhost` (method) `cli/commands/nethelpers.py:201` `def do_rhost(self, line)` -- Copies the remote host (self.params['rhost']) to the clipboard and updates the command prompt.
+- `NetworkHelpersCommandSet.do_rrhost` (method) `cli/commands/nethelpers.py:254` `def do_rrhost(self, line)` -- Updates the command prompt to include the remote host (self.params['rhost']) and current working directory.
+- `NetworkHelpersCommandSet.do_addhosts` (method) `cli/commands/nethelpers.py:295` `def do_addhosts(self, line)` -- Adds an entry to the `/etc/hosts` file, mapping an IP address to a domain name.
+- `NetworkHelpersCommandSet.do_ip2asn` (method) `cli/commands/nethelpers.py:319` `def do_ip2asn(self, line)` -- Command to get ASN for a given IP address.
+- `NetworkHelpersCommandSet.do_ignorearp` (method) `cli/commands/nethelpers.py:348` `def do_ignorearp(self, line)` -- Configures the system to ignore ARP requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_ignoreicmp` (method) `cli/commands/nethelpers.py:383` `def do_ignoreicmp(self, line)` -- Configures the system to ignore ICMP echo requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_acknowledgearp` (method) `cli/commands/nethelpers.py:418` `def do_acknowledgearp(self, line)` -- Configures the system to acknowledge ARP requests by setting a kernel parameter.
+- `NetworkHelpersCommandSet.do_acknowledgeicmp` (method) `cli/commands/nethelpers.py:453` `def do_acknowledgeicmp(self, line)` -- Configures the system to respond to ICMP echo requests by setting a kernel parameter.
 
 ## cli/commands/opsec_cleanup.py
 Depends on: `cli/commands/_base.py`, `modules/forensic_cleaner.py`, `modules/log_tamper.py`, `modules/memory_cleaner.py`, `modules/network_opsec.py`, `modules/opsec_scorer.py`, `modules/timestomper.py`
@@ -452,44 +452,44 @@ Depends on: `cli/commands/_base.py`, `modules/categories.py`, `utils.py`
 
 ## cli/commands/postexp_migrated.py
 Depends on: `cli/commands/_base.py`, `modules/yara_scanner.py`, `utils.py`
-- `PostexpMigratedCommandSet.do_find` (method) `cli/commands/postexp_migrated.py:36` `def do_find(self, line)` -- Automates command execution based on a list of aliases and commands.
-- `PostexpMigratedCommandSet.do_cports` (method) `cli/commands/postexp_migrated.py:305` `def do_cports(self, line)` -- Generates a command to display TCP and UDP ports and copies it to the clipboard.
-- `PostexpMigratedCommandSet.do_rubeus` (method) `cli/commands/postexp_migrated.py:350` `def do_rubeus(self, line)` -- Copies a command to the clipboard for downloading and running Rubeus.
-- `PostexpMigratedCommandSet.do_sessionsshstrace` (method) `cli/commands/postexp_migrated.py:390` `def do_sessionsshstrace(self, line)` -- Attach strace to a running process and log output to a file.
-- `PostexpMigratedCommandSet.do_powershell_cmd_stager` (method) `cli/commands/postexp_migrated.py:441` `def do_powershell_cmd_stager(self, line)` -- Generate and execute a PowerShell command stager to run a .ps1 script.
-- `PostexpMigratedCommandSet.do_shellcode_search` (method) `cli/commands/postexp_migrated.py:478` `def do_shellcode_search(self, line)` -- Search the shell-storm API for shellcodes using the provided keywords.
-- `PostexpMigratedCommandSet.do_shellcode2sylk` (method) `cli/commands/postexp_migrated.py:526` `def do_shellcode2sylk(self, line)` -- Converts shellcode to SYLK format and saves the result to a file.
-- `PostexpMigratedCommandSet.do_pezorsh` (method) `cli/commands/postexp_migrated.py:571` `def do_pezorsh(self, line)` -- Executes the PEzor tool to pack executables or shellcode with custom configurations.
-- `PostexpMigratedCommandSet.do_pip_repo` (method) `cli/commands/postexp_migrated.py:642` `def do_pip_repo(self, line)` -- Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet...
-- `PostexpMigratedCommandSet.do_apt_repo` (method) `cli/commands/postexp_migrated.py:727` `def do_apt_repo(self, line)` -- Creates a comprehensive local APT repository with enhanced dependency resolution.
-- `PostexpMigratedCommandSet.resolve_and_download_dependencies` (method) `cli/commands/postexp_migrated.py:773` `def resolve_and_download_dependencies(package_name)` -- Recursively resolve and download package dependencies with enhanced checks
-- `PostexpMigratedCommandSet.do_createpayload` (method) `cli/commands/postexp_migrated.py:925` `def do_createpayload(self, line)` -- Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
-- `PostexpMigratedCommandSet.do_bin2shellcode` (method) `cli/commands/postexp_migrated.py:975` `def do_bin2shellcode(self, line)` -- Converts a binary file to a shellcode string in C or Nim format.
-- `PostexpMigratedCommandSet.do_exe2bin` (method) `cli/commands/postexp_migrated.py:1066` `def do_exe2bin(self, line)` -- Trasnform file .exe into binary file.
-- `PostexpMigratedCommandSet.do_exe2donutbin` (method) `cli/commands/postexp_migrated.py:1093` `def do_exe2donutbin(self, line)` -- Trasnform file .exe into donut binary file.
-- `PostexpMigratedCommandSet.do_issue_command_to_c2` (method) `cli/commands/postexp_migrated.py:1117` `def do_issue_command_to_c2(self, line)` -- Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use...
-- `PostexpMigratedCommandSet.do_d3monizedshell` (method) `cli/commands/postexp_migrated.py:1141` `def do_d3monizedshell(self, line)` -- Executes the D3m0n1z3dShell tool for persistence in Linux.
-- `PostexpMigratedCommandSet.do_scp` (method) `cli/commands/postexp_migrated.py:1174` `def do_scp(self, line)` -- Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
-- `PostexpMigratedCommandSet.do_apt_proxy` (method) `cli/commands/postexp_migrated.py:1265` `def do_apt_proxy(self, line)` -- Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
-- `PostexpMigratedCommandSet.do_pip_proxy` (method) `cli/commands/postexp_migrated.py:1322` `def do_pip_proxy(self, line)` -- Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
-- `PostexpMigratedCommandSet.do_internet_proxy` (method) `cli/commands/postexp_migrated.py:1378` `def do_internet_proxy(self, line)` -- Configures the local machine with internet access to act as a proxy for a machine without internet access.
-- `PostexpMigratedCommandSet.do_shellcode2elf` (method) `cli/commands/postexp_migrated.py:1439` `def do_shellcode2elf(self, line)` -- Convert shellcode into an ELF file and infect it.
-- `PostexpMigratedCommandSet.do_ssh_cmd` (method) `cli/commands/postexp_migrated.py:1522` `def do_ssh_cmd(self, line)` -- Perform Remote Execution Command through SSH using configured start_user.
-- `PostexpMigratedCommandSet.do_service_ssh` (method) `cli/commands/postexp_migrated.py:1551` `def do_service_ssh(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
-- `PostexpMigratedCommandSet.do_ofuscatesh` (method) `cli/commands/postexp_migrated.py:1625` `def do_ofuscatesh(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
-- `PostexpMigratedCommandSet.do_ofuscate_payload` (method) `cli/commands/postexp_migrated.py:1655` `def do_ofuscate_payload(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
-- `PostexpMigratedCommandSet.do_adversary` (method) `cli/commands/postexp_migrated.py:1684` `def do_adversary(self, line)` -- LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
-- `PostexpMigratedCommandSet.do_ofuscate_string` (method) `cli/commands/postexp_migrated.py:1825` `def do_ofuscate_string(self, line)` -- Ofuscate a string into Go code.
-- `PostexpMigratedCommandSet.do_path2hex` (method) `cli/commands/postexp_migrated.py:1867` `def do_path2hex(self, line)` -- Convert a binary path to x64 little-endian hex code for shellcode injection.
-- `PostexpMigratedCommandSet.do_hex2shellcode` (method) `cli/commands/postexp_migrated.py:1914` `def do_hex2shellcode(self, line)` -- Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
-- `PostexpMigratedCommandSet.do_create_synthetic` (method) `cli/commands/postexp_migrated.py:1971` `def do_create_synthetic(self, line)` -- Create a basic synthetic playbook from Nmap CSV when LLM fails.
-- `PostexpMigratedCommandSet.do_extract_yaml` (method) `cli/commands/postexp_migrated.py:2022` `def do_extract_yaml(self, line)` -- Extract YAML from an existing debug file and try to create a playbook.
-- `PostexpMigratedCommandSet.do_convert_remcomsvc_from_file` (method) `cli/commands/postexp_migrated.py:2083` `def do_convert_remcomsvc_from_file(self, arg)` -- Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves...
-- `PostexpMigratedCommandSet.do_adversary_yaml` (method) `cli/commands/postexp_migrated.py:2115` `def do_adversary_yaml(self, line)` -- Execute adversary from YAML in lazyadversaries/*.yaml Syntax: adversary [id] [l|r|n]
-- `PostexpMigratedCommandSet.do_add2find` (method) `cli/commands/postexp_migrated.py:2197` `def do_add2find(self, line)` -- Add a new custom command to the 'find' system, saved in user_commands.json.
-- `PostexpMigratedCommandSet.do_rmfromfind` (method) `cli/commands/postexp_migrated.py:2225` `def do_rmfromfind(self, line)` -- Remove a custom command by index (as shown in 'find').
-- `PostexpMigratedCommandSet.do_aes_pe` (method) `cli/commands/postexp_migrated.py:2254` `def do_aes_pe(self, line)` -- Encrypt with AES and random key to PE EXE file, to usage with loaders.
-- `PostexpMigratedCommandSet.do_yara_scan` (method) `cli/commands/postexp_migrated.py:2281` `def do_yara_scan(self, line)` -- Scan files or directories with YARA rules for malware/IOCs.
+- `PostexpMigratedCommandSet.do_find` (method) `cli/commands/postexp_migrated.py:37` `def do_find(self, line)` -- Automates command execution based on a list of aliases and commands.
+- `PostexpMigratedCommandSet.do_cports` (method) `cli/commands/postexp_migrated.py:533` `def do_cports(self, line)` -- Generates a command to display TCP and UDP ports and copies it to the clipboard.
+- `PostexpMigratedCommandSet.do_rubeus` (method) `cli/commands/postexp_migrated.py:578` `def do_rubeus(self, line)` -- Copies a command to the clipboard for downloading and running Rubeus.
+- `PostexpMigratedCommandSet.do_sessionsshstrace` (method) `cli/commands/postexp_migrated.py:618` `def do_sessionsshstrace(self, line)` -- Attach strace to a running process and log output to a file.
+- `PostexpMigratedCommandSet.do_powershell_cmd_stager` (method) `cli/commands/postexp_migrated.py:669` `def do_powershell_cmd_stager(self, line)` -- Generate and execute a PowerShell command stager to run a .ps1 script.
+- `PostexpMigratedCommandSet.do_shellcode_search` (method) `cli/commands/postexp_migrated.py:706` `def do_shellcode_search(self, line)` -- Search the shell-storm API for shellcodes using the provided keywords.
+- `PostexpMigratedCommandSet.do_shellcode2sylk` (method) `cli/commands/postexp_migrated.py:754` `def do_shellcode2sylk(self, line)` -- Converts shellcode to SYLK format and saves the result to a file.
+- `PostexpMigratedCommandSet.do_pezorsh` (method) `cli/commands/postexp_migrated.py:799` `def do_pezorsh(self, line)` -- Executes the PEzor tool to pack executables or shellcode with custom configurations.
+- `PostexpMigratedCommandSet.do_pip_repo` (method) `cli/commands/postexp_migrated.py:872` `def do_pip_repo(self, line)` -- Sets up a local pip repository to serve Python packages for installation on a compromised machine without internet...
+- `PostexpMigratedCommandSet.do_apt_repo` (method) `cli/commands/postexp_migrated.py:984` `def do_apt_repo(self, line)` -- Creates a comprehensive local APT repository with enhanced dependency resolution.
+- `PostexpMigratedCommandSet.resolve_and_download_dependencies` (method) `cli/commands/postexp_migrated.py:1030` `def resolve_and_download_dependencies(package_name)` -- Recursively resolve and download package dependencies with enhanced checks
+- `PostexpMigratedCommandSet.do_createpayload` (method) `cli/commands/postexp_migrated.py:1233` `def do_createpayload(self, line)` -- Generates an obfuscated payload to evade AV detection using the payloadGenerator tool. thanks to smokeme
+- `PostexpMigratedCommandSet.do_bin2shellcode` (method) `cli/commands/postexp_migrated.py:1285` `def do_bin2shellcode(self, line)` -- Converts a binary file to a shellcode string in C or Nim format.
+- `PostexpMigratedCommandSet.do_exe2bin` (method) `cli/commands/postexp_migrated.py:1375` `def do_exe2bin(self, line)` -- Trasnform file .exe into binary file.
+- `PostexpMigratedCommandSet.do_exe2donutbin` (method) `cli/commands/postexp_migrated.py:1402` `def do_exe2donutbin(self, line)` -- Trasnform file .exe into donut binary file.
+- `PostexpMigratedCommandSet.do_issue_command_to_c2` (method) `cli/commands/postexp_migrated.py:1426` `def do_issue_command_to_c2(self, line)` -- Exec command in the client using the C2. download: command you must put the file in sessions/temp_upload or use...
+- `PostexpMigratedCommandSet.do_d3monizedshell` (method) `cli/commands/postexp_migrated.py:1450` `def do_d3monizedshell(self, line)` -- Executes the D3m0n1z3dShell tool for persistence in Linux.
+- `PostexpMigratedCommandSet.do_scp` (method) `cli/commands/postexp_migrated.py:1483` `def do_scp(self, line)` -- Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication.
+- `PostexpMigratedCommandSet.do_apt_proxy` (method) `cli/commands/postexp_migrated.py:1579` `def do_apt_proxy(self, line)` -- Configures the local machine with internet access to act as an APT proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_pip_proxy` (method) `cli/commands/postexp_migrated.py:1635` `def do_pip_proxy(self, line)` -- Configures the local machine with internet access to act as a pip proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_internet_proxy` (method) `cli/commands/postexp_migrated.py:1693` `def do_internet_proxy(self, line)` -- Configures the local machine with internet access to act as a proxy for a machine without internet access.
+- `PostexpMigratedCommandSet.do_shellcode2elf` (method) `cli/commands/postexp_migrated.py:1755` `def do_shellcode2elf(self, line)` -- Convert shellcode into an ELF file and infect it.
+- `PostexpMigratedCommandSet.do_ssh_cmd` (method) `cli/commands/postexp_migrated.py:1837` `def do_ssh_cmd(self, line)` -- Perform Remote Execution Command through SSH using configured start_user.
+- `PostexpMigratedCommandSet.do_service_ssh` (method) `cli/commands/postexp_migrated.py:1866` `def do_service_ssh(self, line)` -- Creates a systemd service file for a specified binary and generates a script to enable and start the service.
+- `PostexpMigratedCommandSet.do_ofuscatesh` (method) `cli/commands/postexp_migrated.py:1940` `def do_ofuscatesh(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+- `PostexpMigratedCommandSet.do_ofuscate_payload` (method) `cli/commands/postexp_migrated.py:1970` `def do_ofuscate_payload(self, line)` -- Obfuscates a shell script by encoding it in Base64 and prepares a command to decode and execute it.
+- `PostexpMigratedCommandSet.do_adversary` (method) `cli/commands/postexp_migrated.py:1997` `def do_adversary(self, line)` -- LazyOwn RedTeam Adversary Emulator, you can configure your own adversaries in adversary.json
+- `PostexpMigratedCommandSet.do_ofuscate_string` (method) `cli/commands/postexp_migrated.py:2145` `def do_ofuscate_string(self, line)` -- Ofuscate a string into Go code.
+- `PostexpMigratedCommandSet.do_path2hex` (method) `cli/commands/postexp_migrated.py:2187` `def do_path2hex(self, line)` -- Convert a binary path to x64 little-endian hex code for shellcode injection.
+- `PostexpMigratedCommandSet.do_hex2shellcode` (method) `cli/commands/postexp_migrated.py:2234` `def do_hex2shellcode(self, line)` -- Convert raw hex payload from msfvenom into NASM-compatible shellcode format.
+- `PostexpMigratedCommandSet.do_create_synthetic` (method) `cli/commands/postexp_migrated.py:2291` `def do_create_synthetic(self, line)` -- Create a basic synthetic playbook from Nmap CSV when LLM fails.
+- `PostexpMigratedCommandSet.do_extract_yaml` (method) `cli/commands/postexp_migrated.py:2343` `def do_extract_yaml(self, line)` -- Extract YAML from an existing debug file and try to create a playbook.
+- `PostexpMigratedCommandSet.do_convert_remcomsvc_from_file` (method) `cli/commands/postexp_migrated.py:2405` `def do_convert_remcomsvc_from_file(self, arg)` -- Converts the Python REMCOMSVC byte string from remcomsvc.py to Golang byte slice format, prints a sample, and saves...
+- `PostexpMigratedCommandSet.do_adversary_yaml` (method) `cli/commands/postexp_migrated.py:2439` `def do_adversary_yaml(self, line)` -- Execute adversary from YAML in lazyadversaries/*.yaml Syntax: adversary [id] [l|r|n]
+- `PostexpMigratedCommandSet.do_add2find` (method) `cli/commands/postexp_migrated.py:2524` `def do_add2find(self, line)` -- Add a new custom command to the 'find' system, saved in user_commands.json.
+- `PostexpMigratedCommandSet.do_rmfromfind` (method) `cli/commands/postexp_migrated.py:2552` `def do_rmfromfind(self, line)` -- Remove a custom command by index (as shown in 'find').
+- `PostexpMigratedCommandSet.do_aes_pe` (method) `cli/commands/postexp_migrated.py:2581` `def do_aes_pe(self, line)` -- Encrypt with AES and random key to PE EXE file, to usage with loaders.
+- `PostexpMigratedCommandSet.do_yara_scan` (method) `cli/commands/postexp_migrated.py:2610` `def do_yara_scan(self, line)` -- Scan files or directories with YARA rules for malware/IOCs.
 
 
 Next: [API_p3.md](API_p3.md)

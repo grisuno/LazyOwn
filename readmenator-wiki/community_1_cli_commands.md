@@ -78,9 +78,9 @@ This community groups 136 file(s) rooted at `cli/commands` with dominant languag
 
 ## Key Symbols
 
-- `image_to_bash` (function, `banner.py:25`) `def image_to_bash(image_path, image_res)`
-- `list_png_files` (function, `banner.py:47`) `def list_png_files()`
-- `main` (function, `banner.py:56`) `def main()`
+- `image_to_bash` (function, `banner.py:26`) `def image_to_bash(image_path, image_res)`
+- `list_png_files` (function, `banner.py:50`) `def list_png_files()`
+- `main` (function, `banner.py:60`) `def main()`
 - `_SafeFormatDict` (class, `cli/aliases.py:29`) `class _SafeFormatDict(dict)` - ``str.format_map`` source that returns ``""`` for missing/None values.
 - `__missing__` (method, `cli/aliases.py:32`) `def __missing__(self, key)`
 - `__getitem__` (method, `cli/aliases.py:35`) `def __getitem__(self, key)`
@@ -111,8 +111,8 @@ This community groups 136 file(s) rooted at `cli/commands` with dominant languag
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 438
-- Cross-boundary resolved imports (EXTRACTED): 451
+- Internal resolved imports (EXTRACTED): 439
+- Cross-boundary resolved imports (EXTRACTED): 450
 
 ## Connections
 
@@ -130,20 +130,20 @@ This community groups 136 file(s) rooted at `cli/commands` with dominant languag
 ## Risks
 
 - [taint high] `cli/banner_config.py` -> `cli/banner_config.py` via `subprocess` (0 hops)
-- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
-- [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/parsers.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/console.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `core/config.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `cli/palette.py` via `subprocess` (2 hops)
+- [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/enum.py` via `subprocess` (3 hops)
 - [taint high] `cli/banner_config.py` -> `core/payload_schema.py` via `subprocess` (3 hops)
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 
 ## Open Questions
 

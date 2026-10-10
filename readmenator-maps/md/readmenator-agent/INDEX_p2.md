@@ -95,7 +95,7 @@ Previous: [INDEX.md](INDEX.md)
 | `poc_tui/test_app.py` | Pytest tests for LazyOwn TUI Shell POC. | poc_tui | 56 | 0 |
 | `pwntomate.py` | This software must not be used by military or secret service organisations. | root | 3 | 0 |
 | `py2elf.sh` | Nombre del script: py2elf.sh Autor: Gris Iscomeback Correo electrónico... | root | 0 | 0 |
-| `readmeneitor.py` | — Automated documentation generator for LazyOwn RedTeam Framework. | root | 10 | 0 |
+| `readmeneitor.py` | — Automated documentation generator for LazyOwn RedTeam Framework. | root | 11 | 0 |
 | `run_telegram_hermes.sh` | Launcher for telegram_hermes.py Uses the dedicated venv with python-telegram-bot dependencies | root | 0 | 0 |
 | `run_topoexploit_agent.sh` | Run TopoExploit against an ExploitGym task using the local model. | root | 2 | 0 |
 | `scripts/__init__.py` | Repository-side maintenance scripts. | scripts | 0 | 0 |
@@ -119,7 +119,7 @@ Previous: [INDEX.md](INDEX.md)
 | `scripts/test_bdd.sh` | Behavior-driven (BDD) suite gate for LazyOwn. | scripts | 2 | 0 |
 | `scripts/top_tier_check.py` | Top-tier hygiene audit for LazyOwn. | scripts | 10 | 0 |
 | `scripts/update_apt_atomic_ids.py` | Update APT playbooks with real Atomic Red Team test IDs. | scripts | 2 | 0 |
-| `scripts/validate_agent_contract.sh` | CI validation of the AGENTS.md branching model and coding standards. | scripts | 1 | 0 |
+| `scripts/validate_agent_contract.sh` | CI validation of the AGENTS.md branching model and coding standards. | scripts | 5 | 0 |
 | `setup.py` | Compatibility shim for legacy ``python setup.py`` invocations. | root | 0 | 0 |
 | `skills/aci_planner.py` | Autonomous Campaign Intelligence (ACI) Planner | skills | 42 | 2 |
 | `skills/autonomous_daemon.py` | skills/autonomous_daemon.py — LazyOwn Autonomous Execution Daemon | skills | 132 | 12 |
@@ -263,7 +263,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_command_allowlist_behavior.py` | BDD behavior scenarios for the command allowlist contract. | tests | 3 | 0 |
 | `tests/test_command_chain.py` | Tests for cli/command_chain.py. | tests | 24 | 0 |
 | `tests/test_command_form.py` | Tests for cli/command_form.py. | tests | 13 | 0 |
-| `tests/test_command_palette.py` | Command palette test suite. | tests | 237 | 0 |
+| `tests/test_command_palette.py` | Command palette test suite. | tests | 238 | 0 |
 | `tests/test_command_set_migration.py` | Tests for the completed migration of ``LazyOwnShell`` commands. | tests | 42 | 0 |
 | `tests/test_conditional_hooks_extended.py` | Tests for extended HookEngine trigger matching. | tests | 17 | 0 |
 | `tests/test_contract_manifest.py` | Tests for the contract manifest drift checker. | tests | 4 | 0 |

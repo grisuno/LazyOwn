@@ -17,19 +17,19 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_generate_ja4_hash` (method, line 148) `def _generate_ja4_hash(self)`
   - `_generate_user_agent` (method, line 162) `def _generate_user_agent(self, os_family)`
   - `_generate_headers` (method, line 180) `def _generate_headers(self, user_agent)`
-  - `_pick_uri_pool` (method, line 203) `def _pick_uri_pool(self)`
-  - `_generate_cert_fingerprint` (method, line 211) `def _generate_cert_fingerprint(self)`
-  - `_compute_jitter` (method, line 214) `def _compute_jitter(self)`
-  - `_compute_sleep` (method, line 218) `def _compute_sleep(self)`
-  - `_get_domain_front` (method, line 226) `def _get_domain_front(self)`
-  - `generate_profile` (method, line 238) `def generate_profile(self, os_family)`
-  - `rotate_profile` (method, line 258) `def rotate_profile(self, os_family)`
-  - `get_active_profile` (method, line 263) `def get_active_profile(self)`
-  - `get_beacon_config` (method, line 266) `def get_beacon_config(self)`
-  - `morph_traffic` (method, line 281) `def morph_traffic(self, config)`
-  - `_persist_profile` (method, line 305) `def _persist_profile(self, profile)`
-  - `get_history` (method, line 322) `def get_history(self)`
-  - `profile_to_json` (method, line 337) `def profile_to_json(self, profile)`
+  - `_pick_uri_pool` (method, line 209) `def _pick_uri_pool(self)`
+  - `_generate_cert_fingerprint` (method, line 217) `def _generate_cert_fingerprint(self)`
+  - `_compute_jitter` (method, line 220) `def _compute_jitter(self)`
+  - `_compute_sleep` (method, line 224) `def _compute_sleep(self)`
+  - `_get_domain_front` (method, line 232) `def _get_domain_front(self)`
+  - `generate_profile` (method, line 244) `def generate_profile(self, os_family)`
+  - `rotate_profile` (method, line 264) `def rotate_profile(self, os_family)`
+  - `get_active_profile` (method, line 269) `def get_active_profile(self)`
+  - `get_beacon_config` (method, line 272) `def get_beacon_config(self)`
+  - `morph_traffic` (method, line 287) `def morph_traffic(self, config)`
+  - `_persist_profile` (method, line 311) `def _persist_profile(self, profile)`
+  - `get_history` (method, line 328) `def get_history(self)`
+  - `profile_to_json` (method, line 343) `def profile_to_json(self, profile)`
 - Imported by: `cli/commands/evasive_payload.py`, `skills/lazyown_mcp.py`
 
 ## modules/evasive_payloads.py
@@ -38,21 +38,21 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Language: py
 - Symbols:
   - `EvasivePayloadGenerator` (class, line 18) `class EvasivePayloadGenerator`
-  - `__init__` (method, line 86) `def __init__(self)`
-  - `_random_var` (method, line 89) `def _random_var(self, length)`
-  - `_random_string` (method, line 95) `def _random_string(self, length)`
-  - `_xor_encode` (method, line 99) `def _xor_encode(self, data, key)`
-  - `_rot13` (method, line 104) `def _rot13(self, data)`
-  - `_gzip_compress` (method, line 116) `def _gzip_compress(self, data)`
-  - `_apply_encoding_chain` (method, line 120) `def _apply_encoding_chain(self, data, chain)`
-  - `generate_powershell_obfuscated` (method, line 140) `def generate_powershell_obfuscated(self, payload, obfuscation_level)`
-  - `generate_javascript_obfuscated` (method, line 182) `def generate_javascript_obfuscated(self, payload)`
-  - `generate_vba_obfuscated` (method, line 201) `def generate_vba_obfuscated(self, payload)`
-  - `generate_linux_evasive` (method, line 218) `def generate_linux_evasive(self, rhost, rport, technique)`
-  - `generate_shellcode_loader_powershell` (method, line 243) `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)`
-  - `generate_lolbas_execution` (method, line 288) `def generate_lolbas_execution(self, payload_url, technique)`
-  - `generate_polymorphic_command` (method, line 338) `def generate_polymorphic_command(self, base_cmd, iterations)`
-  - `list_techniques` (method, line 378) `def list_techniques(self)`
+  - `__init__` (method, line 84) `def __init__(self)`
+  - `_random_var` (method, line 87) `def _random_var(self, length)`
+  - `_random_string` (method, line 93) `def _random_string(self, length)`
+  - `_xor_encode` (method, line 97) `def _xor_encode(self, data, key)`
+  - `_rot13` (method, line 102) `def _rot13(self, data)`
+  - `_gzip_compress` (method, line 114) `def _gzip_compress(self, data)`
+  - `_apply_encoding_chain` (method, line 118) `def _apply_encoding_chain(self, data, chain)`
+  - `generate_powershell_obfuscated` (method, line 138) `def generate_powershell_obfuscated(self, payload, obfuscation_level)`
+  - `generate_javascript_obfuscated` (method, line 178) `def generate_javascript_obfuscated(self, payload)`
+  - `generate_vba_obfuscated` (method, line 197) `def generate_vba_obfuscated(self, payload)`
+  - `generate_linux_evasive` (method, line 214) `def generate_linux_evasive(self, rhost, rport, technique)`
+  - `generate_shellcode_loader_powershell` (method, line 239) `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)`
+  - `generate_lolbas_execution` (method, line 284) `def generate_lolbas_execution(self, payload_url, technique)`
+  - `generate_polymorphic_command` (method, line 334) `def generate_polymorphic_command(self, base_cmd, iterations)`
+  - `list_techniques` (method, line 374) `def list_techniques(self)`
 - Imported by: `cli/commands/evasive_payload.py`
 
 ## modules/event_bus.py
@@ -63,44 +63,44 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `EventCategory` (class, line 47) `class EventCategory(str, Enum)`
   - `EventSeverity` (class, line 73) `class EventSeverity(str, Enum)`
   - `LazyEvent` (class, line 82) `class LazyEvent`
-  - `Sink` (class, line 132) `class Sink(ABC)`
-  - `JsonlSink` (class, line 142) `class JsonlSink(Sink)`
-  - `CollabBusSink` (class, line 162) `class CollabBusSink(Sink)`
-  - `EngagementSink` (class, line 198) `class EngagementSink(Sink)`
-  - `UnifiedEventBus` (class, line 221) `class UnifiedEventBus`
-  - `get_event_bus` (method, line 569) `def get_event_bus()`
-  - `publish_event` (method, line 574) `def publish_event(category, event_type, source, payload, severity, target, operator)`
-  - `to_dict` (method, line 95) `def to_dict(self)`
-  - `to_json` (method, line 110) `def to_json(self)`
-  - `from_dict` (method, line 114) `def from_dict(cls, d)`
-  - `write` (method, line 136) `def write(self, event)`
-  - `close` (method, line 139) `def close(self)`
-  - `__init__` (method, line 145) `def __init__(self, filepath)`
-  - `write` (method, line 150) `def write(self, event)`
-  - `close` (method, line 158) `def close(self)`
-  - `__init__` (method, line 165) `def __init__(self)`
-  - `_bus` (method, line 169) `def _bus(self)`
-  - `write` (method, line 179) `def write(self, event)`
-  - `close` (method, line 194) `def close(self)`
-  - `write` (method, line 201) `def write(self, event)`
-  - `close` (method, line 217) `def close(self)`
-  - `__init__` (method, line 246) `def __init__(self)`
-  - `_init_sinks` (method, line 264) `def _init_sinks(self)`
-  - `instance` (method, line 278) `def instance(cls)`
-  - `subscriber_count` (method, line 286) `def subscriber_count(self)`
-  - `subscribe` (method, line 295) `def subscribe(self, subscriber_id, callback)`
-  - `subscribe_topic` (method, line 300) `def subscribe_topic(self, subscriber_id, topic, callback)`
-  - `subscribe_async` (method, line 310) `def subscribe_async(self, subscriber_id)`
-  - `unsubscribe` (method, line 322) `def unsubscribe(self, subscriber_id)`
-  - `publish` (method, line 332) `def publish(self, event)`
-  - `drain` (method, line 350) `def drain(self)`
-  - `shutdown` (method, line 368) `def shutdown(self)`
-  - `_dispatch_loop` (method, line 412) `def _dispatch_loop(self)`
-  - `_dispatch_event` (method, line 440) `def _dispatch_event(self, event)`
-  - `_notify_shutdown` (method, line 478) `def _notify_shutdown(self)`
-  - `_match_topic` (method, line 516) `def _match_topic(self, topic, event)`
-  - `history` (method, line 555) `def history(self, n, category)`
-  - `history_since` (method, line 563) `def history_since(self, since_ts)`
+  - `Sink` (class, line 133) `class Sink(ABC)`
+  - `JsonlSink` (class, line 143) `class JsonlSink(Sink)`
+  - `CollabBusSink` (class, line 163) `class CollabBusSink(Sink)`
+  - `EngagementSink` (class, line 202) `class EngagementSink(Sink)`
+  - `UnifiedEventBus` (class, line 230) `class UnifiedEventBus`
+  - `get_event_bus` (method, line 570) `def get_event_bus()`
+  - `publish_event` (method, line 575) `def publish_event(category, event_type, source, payload, severity, target, operator)`
+  - `to_dict` (method, line 96) `def to_dict(self)`
+  - `to_json` (method, line 111) `def to_json(self)`
+  - `from_dict` (method, line 115) `def from_dict(cls, d)`
+  - `write` (method, line 137) `def write(self, event)`
+  - `close` (method, line 140) `def close(self)`
+  - `__init__` (method, line 146) `def __init__(self, filepath)`
+  - `write` (method, line 151) `def write(self, event)`
+  - `close` (method, line 159) `def close(self)`
+  - `__init__` (method, line 166) `def __init__(self)`
+  - `_bus` (method, line 170) `def _bus(self)`
+  - `write` (method, line 181) `def write(self, event)`
+  - `close` (method, line 198) `def close(self)`
+  - `write` (method, line 205) `def write(self, event)`
+  - `close` (method, line 226) `def close(self)`
+  - `__init__` (method, line 255) `def __init__(self)`
+  - `_init_sinks` (method, line 273) `def _init_sinks(self)`
+  - `instance` (method, line 287) `def instance(cls)`
+  - `subscriber_count` (method, line 295) `def subscriber_count(self)`
+  - `subscribe` (method, line 300) `def subscribe(self, subscriber_id, callback)`
+  - `subscribe_topic` (method, line 305) `def subscribe_topic(self, subscriber_id, topic, callback)`
+  - `subscribe_async` (method, line 315) `def subscribe_async(self, subscriber_id)`
+  - `unsubscribe` (method, line 327) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 336) `def publish(self, event)`
+  - `drain` (method, line 354) `def drain(self)`
+  - `shutdown` (method, line 372) `def shutdown(self)`
+  - `_dispatch_loop` (method, line 416) `def _dispatch_loop(self)`
+  - `_dispatch_event` (method, line 441) `def _dispatch_event(self, event)`
+  - `_notify_shutdown` (method, line 479) `def _notify_shutdown(self)`
+  - `_match_topic` (method, line 517) `def _match_topic(self, topic, event)`
+  - `history` (method, line 556) `def history(self, n, category)`
+  - `history_since` (method, line 564) `def history_since(self, since_ts)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`, `modules/collab_bp.py`, `modules/engagement_hooks.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `modules/command_executor.py`, `modules/event_consumers.py`, `modules/state_manager.py`, `modules/unified_bridge.py`, `skills/lazyown_mcp.py`
 
@@ -114,19 +114,19 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_update_world_model_host` (function, line 72) `def _update_world_model_host(address, state, services)`
   - `_update_soul` (function, line 110) `def _update_soul(phase, credentials, access)`
   - `PhaseTracker` (class, line 146) `class PhaseTracker`
-  - `AutoRecommender` (class, line 198) `class AutoRecommender`
-  - `CredentialReactor` (class, line 269) `class CredentialReactor`
-  - `SoulSync` (class, line 316) `class SoulSync`
-  - `DashboardPusher` (class, line 354) `class DashboardPusher`
-  - `wire_all_consumers` (method, line 375) `def wire_all_consumers(bus)`
-  - `unwire_all_consumers` (method, line 403) `def unwire_all_consumers(bus)`
+  - `AutoRecommender` (class, line 201) `class AutoRecommender`
+  - `CredentialReactor` (class, line 272) `class CredentialReactor`
+  - `SoulSync` (class, line 320) `class SoulSync`
+  - `DashboardPusher` (class, line 358) `class DashboardPusher`
+  - `wire_all_consumers` (method, line 380) `def wire_all_consumers(bus)`
+  - `unwire_all_consumers` (method, line 409) `def unwire_all_consumers(bus)`
   - `__init__` (method, line 156) `def __init__(self)`
   - `__call__` (method, line 159) `def __call__(self, event)`
-  - `__init__` (method, line 201) `def __init__(self)`
-  - `__call__` (method, line 204) `def __call__(self, event)`
-  - `__call__` (method, line 279) `def __call__(self, event)`
-  - `__call__` (method, line 319) `def __call__(self, event)`
-  - `__call__` (method, line 357) `def __call__(self, event)`
+  - `__init__` (method, line 204) `def __init__(self)`
+  - `__call__` (method, line 207) `def __call__(self, event)`
+  - `__call__` (method, line 282) `def __call__(self, event)`
+  - `__call__` (method, line 323) `def __call__(self, event)`
+  - `__call__` (method, line 361) `def __call__(self, event)`
 - Depends on: `core/logging.py`, `modules/event_bus.py`, `modules/state_manager.py`
 - Imported by: `lazyc2.py`, `lazyown.py`, `skills/autonomous_daemon.py`
 
@@ -135,16 +135,16 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `load_rules` (function, line 98) `def load_rules()`
-  - `save_rules` (function, line 109) `def save_rules(rules)`
-  - `add_rule` (function, line 113) `def add_rule(rule)`
-  - `_read_watermark` (function, line 128) `def _read_watermark()`
-  - `_write_watermark` (function, line 135) `def _write_watermark(offset)`
-  - `_row_matches` (function, line 141) `def _row_matches(row, trigger)`
-  - `_append_event` (function, line 169) `def _append_event(event)`
-  - `process_new_rows` (function, line 176) `def process_new_rows()`
-  - `read_events` (function, line 233) `def read_events(limit, status)`
-  - `ack_event` (function, line 253) `def ack_event(event_id)`
+  - `load_rules` (function, line 99) `def load_rules()`
+  - `save_rules` (function, line 110) `def save_rules(rules)`
+  - `add_rule` (function, line 114) `def add_rule(rule)`
+  - `_read_watermark` (function, line 130) `def _read_watermark()`
+  - `_write_watermark` (function, line 137) `def _write_watermark(offset)`
+  - `_row_matches` (function, line 144) `def _row_matches(row, trigger)`
+  - `_append_event` (function, line 173) `def _append_event(event)`
+  - `process_new_rows` (function, line 181) `def process_new_rows()`
+  - `read_events` (function, line 250) `def read_events(limit, status)`
+  - `ack_event` (function, line 270) `def ack_event(event_id)`
 - Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `skills/lazyown_mcp.py`, `skills/sessions_watcher.py`
 
 ## modules/evilhttprev.sh
@@ -232,13 +232,13 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_parse_all_nmap_xml` (method, line 346) `def _parse_all_nmap_xml(self)`
   - `_is_richer` (method, line 361) `def _is_richer(new_svc, existing)`
   - `_parse_single_xml` (method, line 367) `def _parse_single_xml(self, xml_path)`
-  - `_parse_nmap_text` (method, line 402) `def _parse_nmap_text(self, output)`
-  - `map_vulnerabilities` (method, line 442) `def map_vulnerabilities(self)`
-  - `_add_vuln` (method, line 484) `def _add_vuln(self, service, sig, version)`
-  - `generate_exploit_plan` (method, line 496) `def generate_exploit_plan(self)`
-  - `get_post_exploit_commands` (method, line 514) `def get_post_exploit_commands(self, platform)`
-  - `generate_report` (method, line 526) `def generate_report(self)`
-  - `save_report` (method, line 561) `def save_report(self, path)`
+  - `_parse_nmap_text` (method, line 404) `def _parse_nmap_text(self, output)`
+  - `map_vulnerabilities` (method, line 446) `def map_vulnerabilities(self)`
+  - `_add_vuln` (method, line 485) `def _add_vuln(self, service, sig, version)`
+  - `generate_exploit_plan` (method, line 499) `def generate_exploit_plan(self)`
+  - `get_post_exploit_commands` (method, line 519) `def get_post_exploit_commands(self, platform)`
+  - `generate_report` (method, line 531) `def generate_report(self)`
+  - `save_report` (method, line 566) `def save_report(self, path)`
 - Imported by: `cli/commands/exploit_migrated.py`
 
 ## modules/exploit_recommender.py
@@ -246,22 +246,22 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitMatch` (class, line 35) `class ExploitMatch`
-  - `ExploitRecommender` (class, line 48) `class ExploitRecommender`
-  - `__init__` (method, line 118) `def __init__(self, world_model)`
-  - `set_world_model` (method, line 127) `def set_world_model(self, world_model)`
-  - `set_nvd_api_key` (method, line 130) `def set_nvd_api_key(self, key)`
-  - `_load_exploitdb` (method, line 133) `def _load_exploitdb(self)`
-  - `_extract_cve_ids` (method, line 157) `def _extract_cve_ids(text)`
-  - `_compare_versions` (method, line 161) `def _compare_versions(version, max_vulnerable)`
-  - `_query_nvd` (method, line 171) `def _query_nvd(self, cve_id)`
-  - `_try_nvd` (method, line 214) `def _try_nvd(self, cve_id)`
-  - `_generate_lazyown_commands` (method, line 217) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
-  - `match_services` (method, line 253) `def match_services(self, hosts)`
-  - `recommend` (method, line 346) `def recommend(self, hosts, top_n)`
-  - `persist_recommendations` (method, line 377) `def persist_recommendations(self, matches)`
-  - `format_for_llm` (method, line 397) `def format_for_llm(self, matches, max_items)`
-  - `parse_version` (method, line 24) `def parse_version(v)`
+  - `ExploitMatch` (class, line 37) `class ExploitMatch`
+  - `ExploitRecommender` (class, line 50) `class ExploitRecommender`
+  - `__init__` (method, line 120) `def __init__(self, world_model)`
+  - `set_world_model` (method, line 129) `def set_world_model(self, world_model)`
+  - `set_nvd_api_key` (method, line 132) `def set_nvd_api_key(self, key)`
+  - `_load_exploitdb` (method, line 135) `def _load_exploitdb(self)`
+  - `_extract_cve_ids` (method, line 161) `def _extract_cve_ids(text)`
+  - `_compare_versions` (method, line 165) `def _compare_versions(version, max_vulnerable)`
+  - `_query_nvd` (method, line 175) `def _query_nvd(self, cve_id)`
+  - `_try_nvd` (method, line 211) `def _try_nvd(self, cve_id)`
+  - `_generate_lazyown_commands` (method, line 214) `def _generate_lazyown_commands(self, cve_id, service, host_ip)`
+  - `match_services` (method, line 244) `def match_services(self, hosts)`
+  - `recommend` (method, line 337) `def recommend(self, hosts, top_n)`
+  - `persist_recommendations` (method, line 370) `def persist_recommendations(self, matches)`
+  - `format_for_llm` (method, line 390) `def format_for_llm(self, matches, max_items)`
+  - `parse_version` (method, line 25) `def parse_version(v)`
 - Depends on: `lazygui/version.py`, `modules/world_model.py`
 - Imported by: `cli/commands/exploit_migrated.py`, `cli/commands/pwn.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`
 
@@ -275,9 +275,9 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `_read_task_ids` (function, line 75) `def _read_task_ids(root)`
   - `_detect_domain` (function, line 96) `def _detect_domain(task_id)`
   - `check_readiness` (function, line 112) `def check_readiness(params)`
-  - `list_tasks` (function, line 176) `def list_tasks(params, domain, limit)`
-  - `_run_streaming` (function, line 204) `def _run_streaming(cmd, cwd, timeout)`
-  - `_ensure_clone` (function, line 230) `def _ensure_clone(root, timeout)`
+  - `list_tasks` (function, line 178) `def list_tasks(params, domain, limit)`
+  - `_run_streaming` (function, line 206) `def _run_streaming(cmd, cwd, timeout)`
+  - `_ensure_clone` (function, line 232) `def _ensure_clone(root, timeout)`
   - `setup_harness` (function, line 249) `def setup_harness(params, steps)`
   - `_env_for_run` (function, line 315) `def _env_for_run(params)`
   - `pull_task` (function, line 344) `def pull_task(task_id, params, timeout)`
@@ -350,7 +350,7 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `linux_cleanup` (method, line 165) `def linux_cleanup(self)`
   - `macos_cleanup` (method, line 193) `def macos_cleanup(self)`
   - `windows_prefetch_parse` (method, line 221) `def windows_prefetch_parse(self, prefetch_path)`
-  - `amcache_parse` (method, line 244) `def amcache_parse(self)`
+  - `amcache_parse` (method, line 259) `def amcache_parse(self)`
 - Imported by: `cli/commands/opsec_cleanup.py`
 
 ## modules/gcp_attacks.py
@@ -366,9 +366,9 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `cloud_functions_backdoor` (method, line 144) `def cloud_functions_backdoor(self)`
   - `compute_engine_metadata_exfil` (method, line 173) `def compute_engine_metadata_exfil(self)`
   - `gcs_enumeration` (method, line 194) `def gcs_enumeration(self)`
-  - `cloudbuild_abuse` (method, line 223) `def cloudbuild_abuse(self)`
-  - `organization_escalation` (method, line 254) `def organization_escalation(self)`
-  - `summary` (method, line 290) `def summary(self)`
+  - `cloudbuild_abuse` (method, line 230) `def cloudbuild_abuse(self)`
+  - `organization_escalation` (method, line 261) `def organization_escalation(self)`
+  - `summary` (method, line 297) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/generate_tools.py
@@ -394,10 +394,10 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `plan_local_admin_addition` (method, line 266) `def plan_local_admin_addition(self, gpo, username, group)`
   - `plan_wmi_filter_abuse` (method, line 293) `def plan_wmi_filter_abuse(self, gpo, wmi_query)`
   - `plan_registry_preference` (method, line 322) `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)`
-  - `plan_service_installation` (method, line 354) `def plan_service_installation(self, gpo, service_name, binary_path)`
-  - `generate_all_plans` (method, line 380) `def generate_all_plans(self, command, username)`
-  - `detect_risky_gpos` (method, line 402) `def detect_risky_gpos(self)`
-  - `summary` (method, line 428) `def summary(self)`
+  - `plan_service_installation` (method, line 356) `def plan_service_installation(self, gpo, service_name, binary_path)`
+  - `generate_all_plans` (method, line 382) `def generate_all_plans(self, command, username)`
+  - `detect_risky_gpos` (method, line 406) `def detect_risky_gpos(self)`
+  - `summary` (method, line 434) `def summary(self)`
 - Imported by: `cli/commands/active_directory.py`
 
 ## modules/gui_askpass.sh
@@ -419,20 +419,20 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
   - `CrackResult` (class, line 131) `class CrackResult`
   - `HashIdentifier` (class, line 144) `class HashIdentifier`
   - `HashCracker` (class, line 155) `class HashCracker`
-  - `crack_secretsdump_output` (method, line 691) `def crack_secretsdump_output(filepath, wordlist, rhost)`
+  - `crack_secretsdump_output` (method, line 699) `def crack_secretsdump_output(filepath, wordlist, rhost)`
   - `__init__` (method, line 168) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
   - `_resolve_wordlist` (method, line 182) `def _resolve_wordlist(self)`
   - `identify` (method, line 190) `def identify(self, line)`
   - `identify_file` (method, line 277) `def identify_file(self, filepath)`
   - `crack_hash` (method, line 299) `def crack_hash(self, hash_value, hash_type, wordlist)`
   - `crack_file` (method, line 353) `def crack_file(self, filepath, wordlist, hash_types)`
-  - `import_to_db` (method, line 405) `def import_to_db(self, results, rhost, workspace_name)`
-  - `_crack_hashcat` (method, line 453) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_hashcat` (method, line 496) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
-  - `_crack_john` (method, line 556) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_john` (method, line 604) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
-  - `_parse_hashcat_output` (method, line 667) `def _parse_hashcat_output(stdout, stderr, original)`
-  - `_parse_john_show` (method, line 682) `def _parse_john_show(show_output, original)`
+  - `import_to_db` (method, line 409) `def import_to_db(self, results, rhost, workspace_name)`
+  - `_crack_hashcat` (method, line 458) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_hashcat` (method, line 504) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
+  - `_crack_john` (method, line 564) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_john` (method, line 614) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
+  - `_parse_hashcat_output` (method, line 675) `def _parse_hashcat_output(stdout, stderr, original)`
+  - `_parse_john_show` (method, line 690) `def _parse_john_show(show_output, original)`
 - Depends on: `core/logging.py`, `modules/db.py`
 - Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
 
@@ -441,13 +441,13 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_get_toposwarm` (function, line 49) `def _get_toposwarm()`
-  - `_find_claude` (function, line 112) `def _find_claude()`
-  - `_parse_argv` (function, line 117) `def _parse_argv(argv)`
-  - `_run_print_mode` (function, line 147) `def _run_print_mode(prompt, effort, claude_bin)`
-  - `_run_interactive_mode` (function, line 167) `def _run_interactive_mode(prompt, effort, claude_bin)`
-  - `_run_toposwarm_mode` (function, line 195) `def _run_toposwarm_mode(prompt, effort, bridge)`
-  - `main` (function, line 244) `def main(argv)`
+  - `_get_toposwarm` (function, line 50) `def _get_toposwarm()`
+  - `_find_claude` (function, line 115) `def _find_claude()`
+  - `_parse_argv` (function, line 120) `def _parse_argv(argv)`
+  - `_run_print_mode` (function, line 150) `def _run_print_mode(prompt, effort, claude_bin)`
+  - `_run_interactive_mode` (function, line 172) `def _run_interactive_mode(prompt, effort, claude_bin)`
+  - `_run_toposwarm_mode` (function, line 205) `def _run_toposwarm_mode(prompt, effort, bridge)`
+  - `main` (function, line 255) `def main(argv)`
 - Depends on: `modules/toposwarm_bridge.py`
 
 ## modules/hostdiscover.sh
@@ -462,14 +462,14 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CodeAnalyzer` (class, line 27) `class CodeAnalyzer`
-  - `analyze_with_deepseek` (method, line 63) `def analyze_with_deepseek(code_content, file_path, mode)`
-  - `save_results_to_json` (method, line 119) `def save_results_to_json(results, file_path)`
-  - `start_analysis` (method, line 164) `def start_analysis(code_dir, mode)`
-  - `parse_args` (method, line 172) `def parse_args()`
-  - `__init__` (method, line 31) `def __init__(self, mode)`
-  - `analyze_directory` (method, line 35) `def analyze_directory(self, directory)`
-  - `analyze_code_file` (method, line 47) `def analyze_code_file(self, file_path)`
+  - `CodeAnalyzer` (class, line 28) `class CodeAnalyzer`
+  - `analyze_with_deepseek` (method, line 66) `def analyze_with_deepseek(code_content, file_path, mode)`
+  - `save_results_to_json` (method, line 123) `def save_results_to_json(results, file_path)`
+  - `start_analysis` (method, line 169) `def start_analysis(code_dir, mode)`
+  - `parse_args` (method, line 178) `def parse_args()`
+  - `__init__` (method, line 33) `def __init__(self, mode)`
+  - `analyze_directory` (method, line 37) `def analyze_directory(self, directory)`
+  - `analyze_code_file` (method, line 49) `def analyze_code_file(self, file_path)`
 - Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 ## modules/ia_logs_analysis.py
@@ -477,13 +477,13 @@ Previous: [KB_modules_p3.md](KB_modules_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `LogFileHandler` (class, line 53) `class LogFileHandler(FileSystemEventHandler)`
-  - `analyze_with_deepseek` (method, line 91) `def analyze_with_deepseek(log_content, mode)`
-  - `start_monitoring` (method, line 143) `def start_monitoring(log_dir, mode)`
-  - `parse_args` (method, line 163) `def parse_args()`
-  - `__init__` (method, line 57) `def __init__(self, mode)`
-  - `on_modified` (method, line 62) `def on_modified(self, event)`
-  - `analyze_log_file` (method, line 73) `def analyze_log_file(self, file_path)`
+  - `LogFileHandler` (class, line 54) `class LogFileHandler(FileSystemEventHandler)`
+  - `analyze_with_deepseek` (method, line 94) `def analyze_with_deepseek(log_content, mode)`
+  - `start_monitoring` (method, line 147) `def start_monitoring(log_dir, mode)`
+  - `parse_args` (method, line 168) `def parse_args()`
+  - `__init__` (method, line 59) `def __init__(self, mode)`
+  - `on_modified` (method, line 64) `def on_modified(self, event)`
+  - `analyze_log_file` (method, line 75) `def analyze_log_file(self, file_path)`
 - Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
 
 

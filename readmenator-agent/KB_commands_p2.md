@@ -56,12 +56,12 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_decode` (method, line 135) `def do_decode(self, line)`
   - `do_rot` (method, line 173) `def do_rot(self, line)`
   - `do_rotf` (method, line 213) `def do_rotf(self, line)`
-  - `do_encoderpayload` (method, line 260) `def do_encoderpayload(self, line)`
+  - `do_encoderpayload` (method, line 259) `def do_encoderpayload(self, line)`
   - `do_base64encode` (method, line 361) `def do_base64encode(self, line)`
   - `do_base64decode` (method, line 389) `def do_base64decode(self, line)`
   - `do_encodewinbase64` (method, line 420) `def do_encodewinbase64(self, line)`
-  - `do_ip2hex` (method, line 479) `def do_ip2hex(self, line)`
-  - `do_hex_to_plaintext` (method, line 505) `def do_hex_to_plaintext(self, line)`
+  - `do_ip2hex` (method, line 483) `def do_ip2hex(self, line)`
+  - `do_hex_to_plaintext` (method, line 509) `def do_hex_to_plaintext(self, line)`
   - `double_base64_encode` (method, line 281) `def double_base64_encode(cmd)`
   - `apply_obfuscations` (method, line 309) `def apply_obfuscations(cmd)`
 - Depends on: `cli/commands/_base.py`, `utils.py`
@@ -189,58 +189,58 @@ Previous: [KB_commands.md](KB_commands.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExploitMigratedCommandSet` (class, line 36) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_cp` (method, line 41) `def do_cp(self, line)`
-  - `do_createcookie` (method, line 82) `def do_createcookie(self, line)`
-  - `do_py3ttyup` (method, line 128) `def do_py3ttyup(self, line)`
-  - `do_pyautomate` (method, line 166) `def do_pyautomate(self, line)`
-  - `do_winbase64payload` (method, line 207) `def do_winbase64payload(self, line)`
-  - `do_createdll` (method, line 336) `def do_createdll(self, line)`
-  - `do_seo` (method, line 392) `def do_seo(self, line)`
-  - `do_padbuster` (method, line 427) `def do_padbuster(self, line)`
-  - `do_cacti_exploit` (method, line 471) `def do_cacti_exploit(self, line)`
-  - `do_shellshock` (method, line 556) `def do_shellshock(self, line)`
+  - `ExploitMigratedCommandSet` (class, line 37) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_cp` (method, line 42) `def do_cp(self, line)`
+  - `do_createcookie` (method, line 83) `def do_createcookie(self, line)`
+  - `do_py3ttyup` (method, line 127) `def do_py3ttyup(self, line)`
+  - `do_pyautomate` (method, line 163) `def do_pyautomate(self, line)`
+  - `do_winbase64payload` (method, line 204) `def do_winbase64payload(self, line)`
+  - `do_createdll` (method, line 333) `def do_createdll(self, line)`
+  - `do_seo` (method, line 391) `def do_seo(self, line)`
+  - `do_padbuster` (method, line 426) `def do_padbuster(self, line)`
+  - `do_cacti_exploit` (method, line 472) `def do_cacti_exploit(self, line)`
+  - `do_shellshock` (method, line 557) `def do_shellshock(self, line)`
   - `do_powerserver` (method, line 619) `def do_powerserver(self, line)`
   - `do_sqli` (method, line 682) `def do_sqli(self, line)`
-  - `do_sharpshooter` (method, line 719) `def do_sharpshooter(self, line)`
-  - `do_shellfire` (method, line 761) `def do_shellfire(self, line)`
-  - `do_downloader` (method, line 865) `def do_downloader(self, line)`
-  - `do_eternal` (method, line 952) `def do_eternal(self, line)`
-  - `do_rejetto_hfs_exec` (method, line 997) `def do_rejetto_hfs_exec(self, line)`
-  - `do_ms08_067_netapi` (method, line 1032) `def do_ms08_067_netapi(self, line)`
-  - `do_xss` (method, line 1067) `def do_xss(self, line)`
-  - `do_template_helper_serializer` (method, line 1109) `def do_template_helper_serializer(self, line)`
-  - `do_xsstrike` (method, line 1154) `def do_xsstrike(self, line)`
-  - `do_sireprat` (method, line 1224) `def do_sireprat(self, line)`
-  - `do_upload_bypass` (method, line 1336) `def do_upload_bypass(self, line)`
-  - `do_pywhisker` (method, line 1397) `def do_pywhisker(self, line)`
-  - `do_owneredit` (method, line 1447) `def do_owneredit(self, line)`
-  - `do_gettgtpkinit_py` (method, line 1493) `def do_gettgtpkinit_py(self, line)`
-  - `do_gets4uticket_py` (method, line 1544) `def do_gets4uticket_py(self, line)`
-  - `do_aclpwn_py` (method, line 1591) `def do_aclpwn_py(self, line)`
-  - `do_addspn_py` (method, line 1641) `def do_addspn_py(self, line)`
-  - `do_printerbug_py` (method, line 1685) `def do_printerbug_py(self, line)`
-  - `do_krbrelayx_py` (method, line 1732) `def do_krbrelayx_py(self, line)`
-  - `do_autoblody` (method, line 1776) `def do_autoblody(self, line)`
-  - `do_unicode_WAFbypass` (method, line 1828) `def do_unicode_WAFbypass(self, line)`
-  - `do_sqli_mssql_test` (method, line 1882) `def do_sqli_mssql_test(self, line)`
-  - `do_pyoracle2` (method, line 1918) `def do_pyoracle2(self, line)`
-  - `do_lfi` (method, line 2000) `def do_lfi(self, line)`
-  - `do_greatSCT` (method, line 2042) `def do_greatSCT(self, line)`
-  - `do_sqsh` (method, line 2087) `def do_sqsh(self, line)`
-  - `do_jwt_tool` (method, line 2132) `def do_jwt_tool(self, line)`
-  - `do_filtering` (method, line 2174) `def do_filtering(self, line)`
-  - `do_lol` (method, line 2200) `def do_lol(self, line)`
-  - `do_utf` (method, line 2287) `def do_utf(self, line)`
-  - `do_digdug` (method, line 2326) `def do_digdug(self, line)`
-  - `do_sshexploit` (method, line 2384) `def do_sshexploit(self, line)`
-  - `do_excelntdonut` (method, line 2454) `def do_excelntdonut(self, line)`
-  - `do_ntpdate` (method, line 2510) `def do_ntpdate(self, line)`
-  - `do_adcs_check` (method, line 2534) `def do_adcs_check(self, line)`
-  - `do_chain` (method, line 2590) `def do_chain(self, line)`
-  - `do_exploit_recommend` (method, line 2685) `def do_exploit_recommend(self, line)`
-  - `setup_handler` (method, line 501) `def setup_handler(config_file, lhost, lport)`
-  - `cacti_exploit` (method, line 524) `def cacti_exploit(config_file, host)`
+  - `do_sharpshooter` (method, line 713) `def do_sharpshooter(self, line)`
+  - `do_shellfire` (method, line 757) `def do_shellfire(self, line)`
+  - `do_downloader` (method, line 881) `def do_downloader(self, line)`
+  - `do_eternal` (method, line 961) `def do_eternal(self, line)`
+  - `do_rejetto_hfs_exec` (method, line 1005) `def do_rejetto_hfs_exec(self, line)`
+  - `do_ms08_067_netapi` (method, line 1042) `def do_ms08_067_netapi(self, line)`
+  - `do_xss` (method, line 1079) `def do_xss(self, line)`
+  - `do_template_helper_serializer` (method, line 1124) `def do_template_helper_serializer(self, line)`
+  - `do_xsstrike` (method, line 1168) `def do_xsstrike(self, line)`
+  - `do_sireprat` (method, line 1236) `def do_sireprat(self, line)`
+  - `do_upload_bypass` (method, line 1348) `def do_upload_bypass(self, line)`
+  - `do_pywhisker` (method, line 1409) `def do_pywhisker(self, line)`
+  - `do_owneredit` (method, line 1459) `def do_owneredit(self, line)`
+  - `do_gettgtpkinit_py` (method, line 1505) `def do_gettgtpkinit_py(self, line)`
+  - `do_gets4uticket_py` (method, line 1556) `def do_gets4uticket_py(self, line)`
+  - `do_aclpwn_py` (method, line 1603) `def do_aclpwn_py(self, line)`
+  - `do_addspn_py` (method, line 1651) `def do_addspn_py(self, line)`
+  - `do_printerbug_py` (method, line 1695) `def do_printerbug_py(self, line)`
+  - `do_krbrelayx_py` (method, line 1749) `def do_krbrelayx_py(self, line)`
+  - `do_autoblody` (method, line 1794) `def do_autoblody(self, line)`
+  - `do_unicode_WAFbypass` (method, line 1849) `def do_unicode_WAFbypass(self, line)`
+  - `do_sqli_mssql_test` (method, line 1904) `def do_sqli_mssql_test(self, line)`
+  - `do_pyoracle2` (method, line 1942) `def do_pyoracle2(self, line)`
+  - `do_lfi` (method, line 2024) `def do_lfi(self, line)`
+  - `do_greatSCT` (method, line 2066) `def do_greatSCT(self, line)`
+  - `do_sqsh` (method, line 2111) `def do_sqsh(self, line)`
+  - `do_jwt_tool` (method, line 2156) `def do_jwt_tool(self, line)`
+  - `do_filtering` (method, line 2200) `def do_filtering(self, line)`
+  - `do_lol` (method, line 2226) `def do_lol(self, line)`
+  - `do_utf` (method, line 2311) `def do_utf(self, line)`
+  - `do_digdug` (method, line 2355) `def do_digdug(self, line)`
+  - `do_sshexploit` (method, line 2413) `def do_sshexploit(self, line)`
+  - `do_excelntdonut` (method, line 2482) `def do_excelntdonut(self, line)`
+  - `do_ntpdate` (method, line 2538) `def do_ntpdate(self, line)`
+  - `do_adcs_check` (method, line 2562) `def do_adcs_check(self, line)`
+  - `do_chain` (method, line 2621) `def do_chain(self, line)`
+  - `do_exploit_recommend` (method, line 2718) `def do_exploit_recommend(self, line)`
+  - `setup_handler` (method, line 502) `def setup_handler(config_file, lhost, lport)`
+  - `cacti_exploit` (method, line 525) `def cacti_exploit(config_file, host)`
 - Depends on: `cli/commands/_base.py`, `modules/adcs_attacks.py`, `modules/exploit_chain.py`, `modules/exploit_recommender.py`, `modules/world_model.py`, `utils.py`
 
 ## cli/commands/exploitgym.py
@@ -268,20 +268,20 @@ Previous: [KB_commands.md](KB_commands.md)
 - Symbols:
   - `HelpUiCommandSet` (class, line 29) `class HelpUiCommandSet(LazyOwnCommandSet)`
   - `do_wizard` (method, line 36) `def do_wizard(self, line)`
-  - `do_tutorial` (method, line 137) `def do_tutorial(self, line)`
-  - `do_help_phase` (method, line 160) `def do_help_phase(self, line)`
-  - `do_help_status` (method, line 191) `def do_help_status(self, line)`
-  - `do_ctx_help` (method, line 203) `def do_ctx_help(self, line)`
-  - `do_ctx` (method, line 223) `def do_ctx(self, line)`
-  - `do_command_explorer` (method, line 235) `def do_command_explorer(self, line)`
-  - `do_config_status` (method, line 267) `def do_config_status(self, line)`
-  - `do_tui_theme` (method, line 287) `def do_tui_theme(self, line)`
-  - `do_doctor` (method, line 312) `def do_doctor(self, line)`
-  - `do_karma` (method, line 347) `def do_karma(self, line)`
-  - `do_tgrep` (method, line 381) `def do_tgrep(self, line)`
-  - `do_phase` (method, line 398) `def do_phase(self, line)`
-  - `do_killchain` (method, line 432) `def do_killchain(self, line)`
-  - `_save` (method, line 66) `def _save(key, value)`
+  - `do_tutorial` (method, line 151) `def do_tutorial(self, line)`
+  - `do_help_phase` (method, line 175) `def do_help_phase(self, line)`
+  - `do_help_status` (method, line 208) `def do_help_status(self, line)`
+  - `do_ctx_help` (method, line 221) `def do_ctx_help(self, line)`
+  - `do_ctx` (method, line 242) `def do_ctx(self, line)`
+  - `do_command_explorer` (method, line 254) `def do_command_explorer(self, line)`
+  - `do_config_status` (method, line 287) `def do_config_status(self, line)`
+  - `do_tui_theme` (method, line 308) `def do_tui_theme(self, line)`
+  - `do_doctor` (method, line 334) `def do_doctor(self, line)`
+  - `do_karma` (method, line 369) `def do_karma(self, line)`
+  - `do_tgrep` (method, line 404) `def do_tgrep(self, line)`
+  - `do_phase` (method, line 421) `def do_phase(self, line)`
+  - `do_killchain` (method, line 455) `def do_killchain(self, line)`
+  - `_save` (method, line 67) `def _save(key, value)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/command_explorer.py`, `cli/commands/_base.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/engagement_hooks.py`, `cli/ops_commands.py`, `cli/tui_theme.py`, `cli/tutorial.py`, `cli/wizard.py`, `cli/wizard_scope.py`, `core/config.py`, `core/console.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `tests/test_help_ui_command_set.py`
 
@@ -301,13 +301,13 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_infra_redirector` (method, line 170) `def _infra_redirector(self, args)`
   - `_redirector_spawn` (method, line 202) `def _redirector_spawn(self, count, port)`
   - `_redirector_list` (method, line 262) `def _redirector_list(self)`
-  - `_redirector_kill` (method, line 289) `def _redirector_kill(self, args)`
-  - `_infra_deploy` (method, line 306) `def _infra_deploy(self, args)`
-  - `_ask_provider` (method, line 324) `def _ask_provider(self)`
-  - `_deploy_local` (method, line 342) `def _deploy_local(self)`
-  - `_deploy_cloud` (method, line 362) `def _deploy_cloud(self, provider, region)`
-  - `_infra_destroy` (method, line 402) `def _infra_destroy(self, args)`
-  - `_infra_status` (method, line 435) `def _infra_status(self)`
+  - `_redirector_kill` (method, line 291) `def _redirector_kill(self, args)`
+  - `_infra_deploy` (method, line 308) `def _infra_deploy(self, args)`
+  - `_ask_provider` (method, line 326) `def _ask_provider(self)`
+  - `_deploy_local` (method, line 344) `def _deploy_local(self)`
+  - `_deploy_cloud` (method, line 364) `def _deploy_cloud(self, provider, region)`
+  - `_infra_destroy` (method, line 411) `def _infra_destroy(self, args)`
+  - `_infra_status` (method, line 447) `def _infra_status(self)`
 - Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `utils.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
@@ -328,15 +328,15 @@ Previous: [KB_commands.md](KB_commands.md)
   - `_range_list` (method, line 284) `def _range_list(self)`
   - `_range_compose` (method, line 293) `def _range_compose(self, profile)`
   - `_range_start` (method, line 312) `def _range_start(self, profile)`
-  - `_range_container_state` (method, line 347) `def _range_container_state(self, container)`
-  - `_range_wait_healthy` (method, line 370) `def _range_wait_healthy(self, compose, timeout)`
-  - `_range_verify` (method, line 402) `def _range_verify(self, profile)`
-  - `_tcp_reachable` (method, line 438) `def _tcp_reachable(host, port, timeout)`
-  - `_ensure_range_secret` (method, line 455) `def _ensure_range_secret(self, profile_dir)`
-  - `_range_container_ip` (method, line 485) `def _range_container_ip(self, container)`
-  - `_range_stop` (method, line 508) `def _range_stop(self, profile)`
-  - `_range_status` (method, line 524) `def _range_status(self)`
-  - `_lab_status` (method, line 536) `def _lab_status(self)`
+  - `_range_container_state` (method, line 351) `def _range_container_state(self, container)`
+  - `_range_wait_healthy` (method, line 374) `def _range_wait_healthy(self, compose, timeout)`
+  - `_range_verify` (method, line 406) `def _range_verify(self, profile)`
+  - `_tcp_reachable` (method, line 442) `def _tcp_reachable(host, port, timeout)`
+  - `_ensure_range_secret` (method, line 459) `def _ensure_range_secret(self, profile_dir)`
+  - `_range_container_ip` (method, line 489) `def _range_container_ip(self, container)`
+  - `_range_stop` (method, line 518) `def _range_stop(self, profile)`
+  - `_range_status` (method, line 536) `def _range_status(self)`
+  - `_lab_status` (method, line 548) `def _lab_status(self)`
 - Depends on: `cli/commands/_base.py`, `utils.py`
 - Imported by: `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 

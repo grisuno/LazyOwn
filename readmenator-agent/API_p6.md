@@ -29,19 +29,19 @@ Depends on: `core/logging.py`
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
 - `reject_option_injection` (function) `core/hardening.py:40` `def reject_option_injection(argv)` -- Reject argument-injection payloads in argv.
 - `escape_powershell_single_quoted` (function) `core/hardening.py:59` `def escape_powershell_single_quoted(value)` -- Escape a value for embedding in a PowerShell single-quoted string.
-- `SecurityViolation.terminal_env` (method) `core/hardening.py:82` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
-- `SecurityViolation.safe_subprocess_run` (method) `core/hardening.py:103` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
-- `SecurityViolation.safe_clipboard_copy` (method) `core/hardening.py:148` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
-- `SecurityViolation.build_sshpass_command` (method) `core/hardening.py:187` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
-- `SecurityViolation.set_sshpass_env` (method) `core/hardening.py:216` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
-- `SecurityViolation.escape_html_content` (method) `core/hardening.py:235` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
-- `SecurityViolation.safe_path_join` (method) `core/hardening.py:247` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
-- `SecurityViolation.validate_network_cidr` (method) `core/hardening.py:273` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
-- `SecurityViolation.validate_port_spec` (method) `core/hardening.py:285` `def validate_port_spec(ports)` -- Validate a port specification string.
-- `SecurityViolation.validate_host` (method) `core/hardening.py:301` `def validate_host(host)` -- Validate a hostname or IP address.
-- `SecurityViolation.require_encryption_key` (method) `core/hardening.py:323` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
-- `SecurityViolation.defused_xml_parse` (method) `core/hardening.py:351` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
-- `SecurityViolation.sanitize_filename` (method) `core/hardening.py:373` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
+- `SecurityViolation.terminal_env` (method) `core/hardening.py:84` `def terminal_env(base)` -- Return a child environment that keeps ANSI colors on a pipe.
+- `SecurityViolation.safe_subprocess_run` (method) `core/hardening.py:105` `def safe_subprocess_run(argv)` -- Execute a command via subprocess without shell interpretation.
+- `SecurityViolation.safe_clipboard_copy` (method) `core/hardening.py:150` `def safe_clipboard_copy(content)` -- Copy content to system clipboard without shell interpretation.
+- `SecurityViolation.build_sshpass_command` (method) `core/hardening.py:189` `def build_sshpass_command(password, ssh_args)` -- Build an sshpass command using SSHPASS env var (sshpass -e).
+- `SecurityViolation.set_sshpass_env` (method) `core/hardening.py:218` `def set_sshpass_env(password)` -- Create an environment dict with SSHPASS set for sshpass -e.
+- `SecurityViolation.escape_html_content` (method) `core/hardening.py:237` `def escape_html_content(value)` -- Escape HTML special characters to prevent XSS.
+- `SecurityViolation.safe_path_join` (method) `core/hardening.py:249` `def safe_path_join(base_dir, user_path)` -- Join base_dir and user_path safely, preventing path traversal.
+- `SecurityViolation.validate_network_cidr` (method) `core/hardening.py:275` `def validate_network_cidr(cidr)` -- Validate a network CIDR notation string.
+- `SecurityViolation.validate_port_spec` (method) `core/hardening.py:287` `def validate_port_spec(ports)` -- Validate a port specification string.
+- `SecurityViolation.validate_host` (method) `core/hardening.py:303` `def validate_host(host)` -- Validate a hostname or IP address.
+- `SecurityViolation.require_encryption_key` (method) `core/hardening.py:325` `def require_encryption_key(env_key, secret_file)` -- Require a proper encryption key; never fall back to a static default.
+- `SecurityViolation.defused_xml_parse` (method) `core/hardening.py:353` `def defused_xml_parse(source)` -- Parse XML safely using defusedxml.
+- `SecurityViolation.sanitize_filename` (method) `core/hardening.py:375` `def sanitize_filename(filename, max_length)` -- Sanitize a filename by removing dangerous characters.
 
 ## core/http.py
 Depends on: `core/console.py`
@@ -125,22 +125,22 @@ Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc
 - `aggressive_yaml_fix` (function) `core/parsers.py:256` `def aggressive_yaml_fix(yaml_content)` -- Aggressively fix YAML by normalizing indentation.
 - `create_synthetic_yaml` (function) `core/parsers.py:282` `def create_synthetic_yaml(nmap_services)` -- Build a YAML string from parsed Nmap service data.
 - `parse_yaml_response` (function) `core/parsers.py:305` `def parse_yaml_response(content)` -- Parse a YAML string, trying multiple strategies.
-- `load_adversary` (function) `core/parsers.py:324` `def load_adversary()` -- Load adversary profile from ``adversary.json``.
-- `load_knowledge_base` (function) `core/parsers.py:337` `def load_knowledge_base(knowledge_file)` -- Load the knowledge base JSON file.
-- `load_user_aliases` (function) `core/parsers.py:353` `def load_user_aliases()` -- Load user-defined aliases from ``user_aliases.json``.
-- `list_binaries` (function) `core/parsers.py:367` `def list_binaries(directory)` -- List files in the sessions directory.
-- `select_binary` (function) `core/parsers.py:382` `def select_binary(binaries)` -- Interactive binary selector (fallback).
+- `load_adversary` (function) `core/parsers.py:325` `def load_adversary()` -- Load adversary profile from ``adversary.json``.
+- `load_knowledge_base` (function) `core/parsers.py:338` `def load_knowledge_base(knowledge_file)` -- Load the knowledge base JSON file.
+- `load_user_aliases` (function) `core/parsers.py:354` `def load_user_aliases()` -- Load user-defined aliases from ``user_aliases.json``.
+- `list_binaries` (function) `core/parsers.py:368` `def list_binaries(directory)` -- List files in the sessions directory.
+- `select_binary` (function) `core/parsers.py:383` `def select_binary(binaries)` -- Interactive binary selector (fallback).
 
 ## core/payload_schema.py
 Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
-- `ValidationIssue.field_for` (method) `core/payload_schema.py:1327` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
-- `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1332` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
-- `ValidationIssue.validate_value` (method) `core/payload_schema.py:1355` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
-- `ValidationIssue.validate_payload` (method) `core/payload_schema.py:1429` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
-- `ValidationIssue.format_issue` (method) `core/payload_schema.py:1464` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
-- `ValidationIssue.default_payload` (method) `core/payload_schema.py:1482` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
-- `ValidationIssue.categories` (method) `core/payload_schema.py:1490` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
+- `ValidationIssue.field_for` (method) `core/payload_schema.py:1489` `def field_for(key)` -- Return the :class:`FieldSpec` for ``key`` or ``None`` if it is unknown.
+- `ValidationIssue.coerce_value` (method) `core/payload_schema.py:1494` `def coerce_value(key, raw)` -- Return ``raw`` coerced to the canonical type declared for ``key``.
+- `ValidationIssue.validate_value` (method) `core/payload_schema.py:1517` `def validate_value(key, value)` -- Validate ``value`` against the schema entry for ``key``.
+- `ValidationIssue.validate_payload` (method) `core/payload_schema.py:1591` `def validate_payload(payload)` -- Validate an entire payload dictionary and return all issues found.
+- `ValidationIssue.format_issue` (method) `core/payload_schema.py:1626` `def format_issue(issue)` -- Render a :class:`ValidationIssue` as a single human-readable line.
+- `ValidationIssue.default_payload` (method) `core/payload_schema.py:1644` `def default_payload()` -- Return a freshly built payload dict populated from the schema defaults.
+- `ValidationIssue.categories` (method) `core/payload_schema.py:1652` `def categories()` -- Return schema entries grouped by :attr:`FieldSpec.category`.
 
 ## core/process.py
 Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
@@ -158,9 +158,9 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `c
 
 ## core/profiles.py
 Imported by: `cli/doctor.py`, `cli/wizard.py`, `tests/test_profiles.py`
-- `active_profile` (function) `core/profiles.py:37` `def active_profile()` -- Return the selected runtime profile.
-- `is_light` (function) `core/profiles.py:56` `def is_light()` -- Return ``True`` when the light profile is selected.
-- `specs_for_profile` (function) `core/profiles.py:61` `def specs_for_profile(specs)` -- Filter dependency specs down to the ones the active profile needs.
+- `active_profile` (function) `core/profiles.py:40` `def active_profile()` -- Return the selected runtime profile.
+- `is_light` (function) `core/profiles.py:59` `def is_light()` -- Return ``True`` when the light profile is selected.
+- `specs_for_profile` (function) `core/profiles.py:64` `def specs_for_profile(specs)` -- Filter dependency specs down to the ones the active profile needs.
 
 ## core/prompt.py
 Depends on: `core/config.py`
@@ -244,18 +244,18 @@ Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 - `SecureSessionManager.check_rate_limit` (method) `discord_c2.py:49` `def check_rate_limit(self, user_id)`
 - `SecureSessionManager.create_session` (method) `discord_c2.py:62` `def create_session(self, user_id, client_id)`
 - `SecureSessionManager.validate_session` (method) `discord_c2.py:70` `def validate_session(self, user_id)`
-- `Config.__init__` (method) `discord_c2.py:85` `def __init__(self, config_dict)`
-- `Config.load_payload` (method) `discord_c2.py:93` `def load_payload()`
-- `Config.on_ready` (method) `discord_c2.py:99` `def on_ready()`
-- `Config.start` (method) `discord_c2.py:103` `def start(ctx)`
-- `Config.exce_cmd` (method) `discord_c2.py:126` `def exce_cmd(ctx)`
-- `Config.add_cli` (method) `discord_c2.py:201` `def add_cli(ctx, new_client_id)`
-- `Config.handle_file` (method) `discord_c2.py:210` `def handle_file(ctx)`
-- `Config.download_c2` (method) `discord_c2.py:238` `def download_c2(ctx, client_id, file_name)`
-- `Config.send_connected_clients` (method) `discord_c2.py:248` `def send_connected_clients(ctx)`
-- `Config.clients` (method) `discord_c2.py:264` `def clients(ctx)`
-- `Config.addcli` (method) `discord_c2.py:268` `def addcli(ctx, new_client_id)`
-- `Config.c2` (method) `discord_c2.py:272` `def c2(ctx)`
+- `Config.__init__` (method) `discord_c2.py:87` `def __init__(self, config_dict)`
+- `Config.load_payload` (method) `discord_c2.py:96` `def load_payload()`
+- `Config.on_ready` (method) `discord_c2.py:103` `def on_ready()`
+- `Config.start` (method) `discord_c2.py:108` `def start(ctx)`
+- `Config.exce_cmd` (method) `discord_c2.py:130` `def exce_cmd(ctx)`
+- `Config.add_cli` (method) `discord_c2.py:206` `def add_cli(ctx, new_client_id)`
+- `Config.handle_file` (method) `discord_c2.py:216` `def handle_file(ctx)`
+- `Config.download_c2` (method) `discord_c2.py:245` `def download_c2(ctx, client_id, file_name)`
+- `Config.send_connected_clients` (method) `discord_c2.py:256` `def send_connected_clients(ctx)`
+- `Config.clients` (method) `discord_c2.py:273` `def clients(ctx)`
+- `Config.addcli` (method) `discord_c2.py:278` `def addcli(ctx, new_client_id)`
+- `Config.c2` (method) `discord_c2.py:283` `def c2(ctx)`
 
 ## external/install_external.sh
 - `ctrl_c` (function) `external/install_external.sh:13`
@@ -294,51 +294,51 @@ Depends on: `core/parsers.py`, `lazyown.py`, `modules/llm_adapter.py`
 
 ## key.py
 Depends on: `core/console.py`, `core/prompt.py`
-- `main` (function) `key.py:9` `def main()`
+- `main` (function) `key.py:10` `def main()`
 
 ## lazy_sentinel4.py
 Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `sanitize_content` (function) `lazy_sentinel4.py:46` `def sanitize_content(text)` -- Sanitize text to ensure it's safe for rendering.
-- `RAGManager.__init__` (method) `lazy_sentinel4.py:59` `def __init__(self, model_name, cache_size)`
-- `RAGManager.initialize_cache_table` (method) `lazy_sentinel4.py:71` `def initialize_cache_table(self)`
-- `RAGManager.get_cache_key` (method) `lazy_sentinel4.py:83` `def get_cache_key(self, content)`
-- `RAGManager.load_existing_vectorstore` (method) `lazy_sentinel4.py:86` `def load_existing_vectorstore(self)`
-- `RAGManager.ollama_llm` (method) `lazy_sentinel4.py:99` `def ollama_llm(self, question, context)`
-- `RAGManager.process_file_to_rag` (method) `lazy_sentinel4.py:113` `def process_file_to_rag(self, file_path)`
-- `RAGManager.query_rag` (method) `lazy_sentinel4.py:160` `def query_rag(self, question)`
-- `RAGManager.invalidate_cache` (method) `lazy_sentinel4.py:187` `def invalidate_cache(self, file_path)`
-- `RAGManager.get_knowledge_base_stats` (method) `lazy_sentinel4.py:203` `def get_knowledge_base_stats(self)`
-- `Database.__init__` (method) `lazy_sentinel4.py:226` `def __init__(self, db_path)`
-- `Database.initialize` (method) `lazy_sentinel4.py:230` `def initialize(self)`
-- `Database.execute` (method) `lazy_sentinel4.py:254` `def execute(self, query, params)`
-- `Database.insert` (method) `lazy_sentinel4.py:266` `def insert(self, query, params)`
-- `Alert.__init__` (method) `lazy_sentinel4.py:284` `def __init__(self, alert_type, details, severity)`
-- `Alert.to_dict` (method) `lazy_sentinel4.py:290` `def to_dict(self)`
-- `Alert.save_to_db` (method) `lazy_sentinel4.py:298` `def save_to_db(self, db)`
-- `LazySentinelHandler.__init__` (method) `lazy_sentinel4.py:312` `def __init__(self, lazysentinel)`
-- `LazySentinelHandler.is_text_file` (method) `lazy_sentinel4.py:315` `def is_text_file(self, file_path)`
-- `LazySentinelHandler.on_created` (method) `lazy_sentinel4.py:325` `def on_created(self, event)`
-- `LazySentinelHandler.on_modified` (method) `lazy_sentinel4.py:337` `def on_modified(self, event)`
-- `LazySentinel.__init__` (method) `lazy_sentinel4.py:349` `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)`
-- `LazySentinel.chunk_text` (method) `lazy_sentinel4.py:369` `def chunk_text(self, text, chunk_size)`
-- `LazySentinel.select_relevant_chunk` (method) `lazy_sentinel4.py:372` `def select_relevant_chunk(self, file_content, chunks)`
-- `LazySentinel.parse_deepseek_response` (method) `lazy_sentinel4.py:386` `def parse_deepseek_response(self, response_text)`
-- `LazySentinel.show_popup` (method) `lazy_sentinel4.py:410` `def show_popup(self, file_name, relevant_info, commands, details)`
-- `LazySentinel.process_file` (method) `lazy_sentinel4.py:428` `def process_file(self, file_path)`
-- `LazySentinel.stop` (method) `lazy_sentinel4.py:559` `def stop(self)`
-- `App.__init__` (method) `lazy_sentinel4.py:565` `def __init__(self)`
-- `App.display_toastr` (method) `lazy_sentinel4.py:579` `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` -- Display a toastr-like notification for file processing alerts.
-- `App.postcmd` (method) `lazy_sentinel4.py:605` `def postcmd(self, stop, line)` -- Check the popup queue after each command and display toastr notifications.
-- `App.do_quit` (method) `lazy_sentinel4.py:629` `def do_quit(self, arg)`
-- `App.do_debug` (method) `lazy_sentinel4.py:633` `def do_debug(self, arg)`
-- `App.do_rag_query` (method) `lazy_sentinel4.py:640` `def do_rag_query(self, arg)`
-- `App.do_rag_add` (method) `lazy_sentinel4.py:648` `def do_rag_add(self, arg)`
-- `App.do_rag_status` (method) `lazy_sentinel4.py:663` `def do_rag_status(self, arg)`
-- `App.do_rag_toggle` (method) `lazy_sentinel4.py:670` `def do_rag_toggle(self, arg)`
-- `App.do_rag_bulk_add` (method) `lazy_sentinel4.py:675` `def do_rag_bulk_add(self, arg)`
-- `App.do_rag_search` (method) `lazy_sentinel4.py:694` `def do_rag_search(self, arg)`
-- `App.complete_rag_add` (method) `lazy_sentinel4.py:715` `def complete_rag_add(self, text, line, begidx, endidx)`
-- `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:722` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
+- `sanitize_content` (function) `lazy_sentinel4.py:47` `def sanitize_content(text)` -- Sanitize text to ensure it's safe for rendering.
+- `RAGManager.__init__` (method) `lazy_sentinel4.py:61` `def __init__(self, model_name, cache_size)`
+- `RAGManager.initialize_cache_table` (method) `lazy_sentinel4.py:73` `def initialize_cache_table(self)`
+- `RAGManager.get_cache_key` (method) `lazy_sentinel4.py:85` `def get_cache_key(self, content)`
+- `RAGManager.load_existing_vectorstore` (method) `lazy_sentinel4.py:88` `def load_existing_vectorstore(self)`
+- `RAGManager.ollama_llm` (method) `lazy_sentinel4.py:101` `def ollama_llm(self, question, context)`
+- `RAGManager.process_file_to_rag` (method) `lazy_sentinel4.py:115` `def process_file_to_rag(self, file_path)`
+- `RAGManager.query_rag` (method) `lazy_sentinel4.py:155` `def query_rag(self, question)`
+- `RAGManager.invalidate_cache` (method) `lazy_sentinel4.py:177` `def invalidate_cache(self, file_path)`
+- `RAGManager.get_knowledge_base_stats` (method) `lazy_sentinel4.py:191` `def get_knowledge_base_stats(self)`
+- `Database.__init__` (method) `lazy_sentinel4.py:215` `def __init__(self, db_path)`
+- `Database.initialize` (method) `lazy_sentinel4.py:219` `def initialize(self)`
+- `Database.execute` (method) `lazy_sentinel4.py:243` `def execute(self, query, params)`
+- `Database.insert` (method) `lazy_sentinel4.py:255` `def insert(self, query, params)`
+- `Alert.__init__` (method) `lazy_sentinel4.py:274` `def __init__(self, alert_type, details, severity)`
+- `Alert.to_dict` (method) `lazy_sentinel4.py:280` `def to_dict(self)`
+- `Alert.save_to_db` (method) `lazy_sentinel4.py:288` `def save_to_db(self, db)`
+- `LazySentinelHandler.__init__` (method) `lazy_sentinel4.py:303` `def __init__(self, lazysentinel)`
+- `LazySentinelHandler.is_text_file` (method) `lazy_sentinel4.py:306` `def is_text_file(self, file_path)`
+- `LazySentinelHandler.on_created` (method) `lazy_sentinel4.py:316` `def on_created(self, event)`
+- `LazySentinelHandler.on_modified` (method) `lazy_sentinel4.py:328` `def on_modified(self, event)`
+- `LazySentinel.__init__` (method) `lazy_sentinel4.py:341` `def __init__(self, app, popup_queue, watch_dir, excluded_files, min_file_size)`
+- `LazySentinel.chunk_text` (method) `lazy_sentinel4.py:361` `def chunk_text(self, text, chunk_size)`
+- `LazySentinel.select_relevant_chunk` (method) `lazy_sentinel4.py:364` `def select_relevant_chunk(self, file_content, chunks)`
+- `LazySentinel.parse_deepseek_response` (method) `lazy_sentinel4.py:378` `def parse_deepseek_response(self, response_text)`
+- `LazySentinel.show_popup` (method) `lazy_sentinel4.py:404` `def show_popup(self, file_name, relevant_info, commands, details)`
+- `LazySentinel.process_file` (method) `lazy_sentinel4.py:422` `def process_file(self, file_path)`
+- `LazySentinel.stop` (method) `lazy_sentinel4.py:538` `def stop(self)`
+- `App.__init__` (method) `lazy_sentinel4.py:545` `def __init__(self)`
+- `App.display_toastr` (method) `lazy_sentinel4.py:559` `def display_toastr(self, file_name, relevant_info, commands, details, severity, duration)` -- Display a toastr-like notification for file processing alerts.
+- `App.postcmd` (method) `lazy_sentinel4.py:587` `def postcmd(self, stop, line)` -- Check the popup queue after each command and display toastr notifications.
+- `App.do_quit` (method) `lazy_sentinel4.py:611` `def do_quit(self, arg)`
+- `App.do_debug` (method) `lazy_sentinel4.py:615` `def do_debug(self, arg)`
+- `App.do_rag_query` (method) `lazy_sentinel4.py:624` `def do_rag_query(self, arg)`
+- `App.do_rag_add` (method) `lazy_sentinel4.py:632` `def do_rag_add(self, arg)`
+- `App.do_rag_status` (method) `lazy_sentinel4.py:647` `def do_rag_status(self, arg)`
+- `App.do_rag_toggle` (method) `lazy_sentinel4.py:654` `def do_rag_toggle(self, arg)`
+- `App.do_rag_bulk_add` (method) `lazy_sentinel4.py:659` `def do_rag_bulk_add(self, arg)`
+- `App.do_rag_search` (method) `lazy_sentinel4.py:678` `def do_rag_search(self, arg)`
+- `App.complete_rag_add` (method) `lazy_sentinel4.py:699` `def complete_rag_add(self, text, line, begidx, endidx)`
+- `App.complete_rag_bulk_add` (method) `lazy_sentinel4.py:706` `def complete_rag_bulk_add(self, text, line, begidx, endidx)`
 
 
 Next: [API_p7.md](API_p7.md)

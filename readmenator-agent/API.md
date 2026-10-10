@@ -8,9 +8,9 @@ Pages: [API.md](API.md), [API_p2.md](API_p2.md), [API_p3.md](API_p3.md), [API_p4
 
 ## banner.py
 Depends on: `utils.py`
-- `image_to_bash` (function) `banner.py:25` `def image_to_bash(image_path, image_res)`
-- `list_png_files` (function) `banner.py:47` `def list_png_files()`
-- `main` (function) `banner.py:56` `def main()`
+- `image_to_bash` (function) `banner.py:26` `def image_to_bash(image_path, image_res)`
+- `list_png_files` (function) `banner.py:50` `def list_png_files()`
+- `main` (function) `banner.py:60` `def main()`
 
 ## bootstrap.sh
 - `usage` (function) `bootstrap.sh:70`
@@ -265,12 +265,12 @@ Imported by: `tests/test_ai_commands_llm.py`
 
 ## cli/commands/anti_forensics.py
 Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `cli/output_mode.py`, `core/hardening.py`, `utils.py`
-- `AntiForensicsCommandSet.do_wipe_logs` (method) `cli/commands/anti_forensics.py:38` `def do_wipe_logs(self, line)` -- Clear system log files on the remote target.
-- `AntiForensicsCommandSet.do_wipe_timeline` (method) `cli/commands/anti_forensics.py:103` `def do_wipe_timeline(self, line)` -- Scrub file timestamps and shell history on the target.
-- `AntiForensicsCommandSet.do_shred` (method) `cli/commands/anti_forensics.py:150` `def do_shred(self, line)` -- Securely delete files by overwriting before removal.
-- `AntiForensicsCommandSet.do_wipe_free` (method) `cli/commands/anti_forensics.py:205` `def do_wipe_free(self, line)` -- Wipe free disk space to prevent forensic file recovery.
-- `AntiForensicsCommandSet.do_clean_ad` (method) `cli/commands/anti_forensics.py:242` `def do_clean_ad(self, line)` -- Clear Active Directory event logs and cached Kerberos tickets.
-- `AntiForensicsCommandSet.do_cover_tracks` (method) `cli/commands/anti_forensics.py:303` `def do_cover_tracks(self, line)` -- Run all anti-forensics operations in sequence.
+- `AntiForensicsCommandSet.do_wipe_logs` (method) `cli/commands/anti_forensics.py:39` `def do_wipe_logs(self, line)` -- Clear system log files on the remote target.
+- `AntiForensicsCommandSet.do_wipe_timeline` (method) `cli/commands/anti_forensics.py:104` `def do_wipe_timeline(self, line)` -- Scrub file timestamps and shell history on the target.
+- `AntiForensicsCommandSet.do_shred` (method) `cli/commands/anti_forensics.py:151` `def do_shred(self, line)` -- Securely delete files by overwriting before removal.
+- `AntiForensicsCommandSet.do_wipe_free` (method) `cli/commands/anti_forensics.py:206` `def do_wipe_free(self, line)` -- Wipe free disk space to prevent forensic file recovery.
+- `AntiForensicsCommandSet.do_clean_ad` (method) `cli/commands/anti_forensics.py:243` `def do_clean_ad(self, line)` -- Clear Active Directory event logs and cached Kerberos tickets.
+- `AntiForensicsCommandSet.do_cover_tracks` (method) `cli/commands/anti_forensics.py:304` `def do_cover_tracks(self, line)` -- Run all anti-forensics operations in sequence.
 
 ## cli/commands/applocker_bypass.py
 Depends on: `cli/commands/_base.py`, `utils.py`

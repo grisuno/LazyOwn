@@ -76,11 +76,11 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_route_decorators` (function, line 77) `def _route_decorators()`
-  - `routes` (function, line 108) `def routes()`
-  - `test_protected_endpoints_require_auth` (function, line 112) `def test_protected_endpoints_require_auth(routes)`
-  - `test_public_endpoints_stay_open` (function, line 121) `def test_public_endpoints_stay_open(routes)`
-  - `test_all_protected_endpoints_exist` (function, line 130) `def test_all_protected_endpoints_exist(routes)`
+  - `_route_decorators` (function, line 75) `def _route_decorators()`
+  - `routes` (function, line 106) `def routes()`
+  - `test_protected_endpoints_require_auth` (function, line 110) `def test_protected_endpoints_require_auth(routes)`
+  - `test_public_endpoints_stay_open` (function, line 115) `def test_public_endpoints_stay_open(routes)`
+  - `test_all_protected_endpoints_exist` (function, line 120) `def test_all_protected_endpoints_exist(routes)`
 
 ## tests/test_categories.py
 - Doc: Tests for modules/categories.py — category constants and look-up tables.
@@ -89,9 +89,9 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Symbols:
   - `TestCategoryConstants` (class, line 28) `class TestCategoryConstants`
   - `TestShortToCategory` (class, line 78) `class TestShortToCategory`
-  - `TestCategoryToShort` (class, line 127) `class TestCategoryToShort`
-  - `TestAllCategories` (class, line 153) `class TestAllCategories`
-  - `TestBijectionInvariant` (class, line 171) `class TestBijectionInvariant`
+  - `TestCategoryToShort` (class, line 128) `class TestCategoryToShort`
+  - `TestAllCategories` (class, line 154) `class TestAllCategories`
+  - `TestBijectionInvariant` (class, line 172) `class TestBijectionInvariant`
   - `test_all_recon_values` (method, line 29) `def test_all_recon_values(self)`
   - `test_all_scanning_values` (method, line 32) `def test_all_scanning_values(self)`
   - `test_all_exploitation_values` (method, line 35) `def test_all_exploitation_values(self)`
@@ -123,17 +123,17 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_misc_to_category` (method, line 115) `def test_misc_to_category(self)`
   - `test_ai_to_category` (method, line 118) `def test_ai_to_category(self)`
   - `test_unknown_short_name_raises_key_error` (method, line 121) `def test_unknown_short_name_raises_key_error(self)`
-  - `test_recon_reverse_lookup` (method, line 128) `def test_recon_reverse_lookup(self)`
-  - `test_exploitation_reverse_lookup` (method, line 131) `def test_exploitation_reverse_lookup(self)`
-  - `test_privesc_reverse_lookup` (method, line 134) `def test_privesc_reverse_lookup(self)`
-  - `test_c2_reverse_lookup` (method, line 137) `def test_c2_reverse_lookup(self)`
-  - `test_reverse_lookup_roundtrip` (method, line 140) `def test_reverse_lookup_roundtrip(self)`
-  - `test_reverse_lookup_less_than_or_equal_forward` (method, line 149) `def test_reverse_lookup_less_than_or_equal_forward(self)`
-  - `test_every_short_key_in_all_categories` (method, line 154) `def test_every_short_key_in_all_categories(self)`
-  - `test_all_categories_non_empty` (method, line 160) `def test_all_categories_non_empty(self)`
-  - `test_no_duplicate_all_categories` (method, line 164) `def test_no_duplicate_all_categories(self)`
-  - `test_all_categories_count` (method, line 167) `def test_all_categories_count(self)`
-  - `test_forward_and_reverse_match` (method, line 172) `def test_forward_and_reverse_match(self)`
+  - `test_recon_reverse_lookup` (method, line 129) `def test_recon_reverse_lookup(self)`
+  - `test_exploitation_reverse_lookup` (method, line 132) `def test_exploitation_reverse_lookup(self)`
+  - `test_privesc_reverse_lookup` (method, line 135) `def test_privesc_reverse_lookup(self)`
+  - `test_c2_reverse_lookup` (method, line 138) `def test_c2_reverse_lookup(self)`
+  - `test_reverse_lookup_roundtrip` (method, line 141) `def test_reverse_lookup_roundtrip(self)`
+  - `test_reverse_lookup_less_than_or_equal_forward` (method, line 150) `def test_reverse_lookup_less_than_or_equal_forward(self)`
+  - `test_every_short_key_in_all_categories` (method, line 155) `def test_every_short_key_in_all_categories(self)`
+  - `test_all_categories_non_empty` (method, line 161) `def test_all_categories_non_empty(self)`
+  - `test_no_duplicate_all_categories` (method, line 165) `def test_no_duplicate_all_categories(self)`
+  - `test_all_categories_count` (method, line 168) `def test_all_categories_count(self)`
+  - `test_forward_and_reverse_match` (method, line 173) `def test_forward_and_reverse_match(self)`
 - Depends on: `modules/categories.py`
 
 ## tests/test_chain_mode.py
@@ -230,9 +230,9 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
   - `test_no_ansi_codes` (method, line 156) `def test_no_ansi_codes(self)`
   - `src` (method, line 165) `def src(self)`
   - `migrated_src` (method, line 169) `def migrated_src(self)`
-  - `test_imports_apply_assign` (method, line 177) `def test_imports_apply_assign(self, src)`
-  - `test_imports_save_payload_from_core` (method, line 180) `def test_imports_save_payload_from_core(self, src)`
-  - `test_imports_format_payload` (method, line 183) `def test_imports_format_payload(self, src)`
+  - `test_imports_apply_assign` (method, line 177) `def test_imports_apply_assign(self, migrated_src)`
+  - `test_imports_save_payload_from_core` (method, line 180) `def test_imports_save_payload_from_core(self, migrated_src)`
+  - `test_imports_format_payload` (method, line 183) `def test_imports_format_payload(self, migrated_src)`
   - `test_do_assign_calls_apply_assign` (method, line 186) `def test_do_assign_calls_apply_assign(self, migrated_src)`
   - `test_do_assign_refreshes_aliases` (method, line 191) `def test_do_assign_refreshes_aliases(self, migrated_src)`
   - `test_do_assign_no_longer_directly_mutates_params` (method, line 196) `def test_do_assign_no_longer_directly_mutates_params(self, migrated_src)`
@@ -314,56 +314,56 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `fixture_index` (function, line 38) `def fixture_index()`
+  - `fixture_index` (function, line 39) `def fixture_index()`
   - `test_fuzzy_exact_match_scores_one` (function, line 50) `def test_fuzzy_exact_match_scores_one(fixture_index)`
   - `test_fuzzy_alias_resolves_to_command` (function, line 56) `def test_fuzzy_alias_resolves_to_command(fixture_index)`
   - `test_fuzzy_substring_match` (function, line 62) `def test_fuzzy_substring_match(fixture_index)`
   - `test_fuzzy_empty_query_lists_all` (function, line 67) `def test_fuzzy_empty_query_lists_all(fixture_index)`
   - `test_fuzzy_returns_empty_on_garbage` (function, line 72) `def test_fuzzy_returns_empty_on_garbage(fixture_index)`
-  - `test_completer_set_lists_payload_keys` (function, line 79) `def test_completer_set_lists_payload_keys()`
-  - `test_completer_target_lists_targets_and_rhost` (function, line 88) `def test_completer_target_lists_targets_and_rhost()`
-  - `test_completer_wordlist_keys_only_when_set` (function, line 99) `def test_completer_wordlist_keys_only_when_set()`
-  - `test_completer_addon_lister_used_for_run` (function, line 106) `def test_completer_addon_lister_used_for_run()`
-  - `test_completer_filters_by_partial` (function, line 114) `def test_completer_filters_by_partial()`
-  - `test_completer_ignores_unknown_command` (function, line 121) `def test_completer_ignores_unknown_command()`
-  - `test_dynamic_resolver_renders_against_current_payload` (function, line 129) `def test_dynamic_resolver_renders_against_current_payload()`
-  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 137) `def test_dynamic_resolver_missing_keys_become_empty()`
-  - `test_dynamic_resolver_payload_changes_propagate` (function, line 143) `def test_dynamic_resolver_payload_changes_propagate()`
-  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 152) `def test_dynamic_resolver_passes_through_literal_braces()`
-  - `test_load_aliases_lazy_preserves_placeholders` (function, line 159) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
-  - `test_load_aliases_eager_substitutes` (function, line 166) `def test_load_aliases_eager_substitutes(tmp_path)`
-  - `test_hot_reloader_detects_new_file` (function, line 175) `def test_hot_reloader_detects_new_file(tmp_path)`
-  - `test_hot_reloader_detects_modification` (function, line 187) `def test_hot_reloader_detects_modification(tmp_path)`
-  - `test_hot_reloader_ignores_non_addon_files` (function, line 203) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
-  - `test_status_tail_extracts_open_ports` (function, line 215) `def test_status_tail_extracts_open_ports()`
-  - `test_status_tail_handles_empty` (function, line 231) `def test_status_tail_handles_empty()`
-  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 238) `def test_status_tail_no_ports_falls_back_to_stats()`
-  - `test_transcript_grep_matches_recent_output` (function, line 247) `def test_transcript_grep_matches_recent_output(tmp_path)`
-  - `test_transcript_grep_command_filter` (function, line 255) `def test_transcript_grep_command_filter(tmp_path)`
-  - `test_transcript_grep_invalid_regex` (function, line 263) `def test_transcript_grep_invalid_regex(tmp_path)`
-  - `test_transcript_persists_and_reloads` (function, line 270) `def test_transcript_persists_and_reloads(tmp_path)`
-  - `test_transcript_capacity` (function, line 278) `def test_transcript_capacity(tmp_path)`
-  - `FakeIO` (class, line 289) `class FakeIO`
-  - `test_form_collects_values_with_defaults` (method, line 303) `def test_form_collects_values_with_defaults()`
-  - `test_form_options_constraint_falls_back_to_default` (method, line 318) `def test_form_options_constraint_falls_back_to_default()`
-  - `test_form_required_reprompted` (method, line 332) `def test_form_required_reprompted()`
-  - `_ShellLike` (class, line 344) `class _ShellLike`
-  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (method, line 354) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
-  - `_MiniShell` (class, line 365) `class _MiniShell`
-  - `test_audit_fz_command_emits_results` (method, line 394) `def test_audit_fz_command_emits_results(tmp_path)`
-  - `test_audit_status_tail_reports_no_evidence` (method, line 404) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
-  - `test_audit_grep_log_handles_empty_store` (method, line 414) `def test_audit_grep_log_handles_empty_store(tmp_path)`
-  - `test_audit_form_unknown_lists_known` (method, line 424) `def test_audit_form_unknown_lists_known(tmp_path)`
-  - `__init__` (method, line 290) `def __init__(self, replies)`
-  - `prompt` (method, line 294) `def prompt(self, message, default)`
-  - `emit` (method, line 299) `def emit(self, line)`
-  - `do_lazynmap` (method, line 347) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 350) `def do_gobuster(self, _)`
-  - `__init__` (method, line 368) `def __init__(self, tmp)`
-  - `poutput` (method, line 381) `def poutput(self, msg)`
-  - `get_all_commands` (method, line 384) `def get_all_commands(self)`
-  - `do_lazynmap` (method, line 387) `def do_lazynmap(self, _)`
-  - `do_gobuster` (method, line 390) `def do_gobuster(self, _)`
+  - `test_completer_set_lists_payload_keys` (function, line 80) `def test_completer_set_lists_payload_keys()`
+  - `test_completer_target_lists_targets_and_rhost` (function, line 89) `def test_completer_target_lists_targets_and_rhost()`
+  - `test_completer_wordlist_keys_only_when_set` (function, line 101) `def test_completer_wordlist_keys_only_when_set()`
+  - `test_completer_addon_lister_used_for_run` (function, line 108) `def test_completer_addon_lister_used_for_run()`
+  - `test_completer_filters_by_partial` (function, line 116) `def test_completer_filters_by_partial()`
+  - `test_completer_ignores_unknown_command` (function, line 123) `def test_completer_ignores_unknown_command()`
+  - `test_dynamic_resolver_renders_against_current_payload` (function, line 132) `def test_dynamic_resolver_renders_against_current_payload()`
+  - `test_dynamic_resolver_missing_keys_become_empty` (function, line 140) `def test_dynamic_resolver_missing_keys_become_empty()`
+  - `test_dynamic_resolver_payload_changes_propagate` (function, line 146) `def test_dynamic_resolver_payload_changes_propagate()`
+  - `test_dynamic_resolver_passes_through_literal_braces` (function, line 155) `def test_dynamic_resolver_passes_through_literal_braces()`
+  - `test_load_aliases_lazy_preserves_placeholders` (function, line 162) `def test_load_aliases_lazy_preserves_placeholders(tmp_path)`
+  - `test_load_aliases_eager_substitutes` (function, line 169) `def test_load_aliases_eager_substitutes(tmp_path)`
+  - `test_hot_reloader_detects_new_file` (function, line 179) `def test_hot_reloader_detects_new_file(tmp_path)`
+  - `test_hot_reloader_detects_modification` (function, line 191) `def test_hot_reloader_detects_modification(tmp_path)`
+  - `test_hot_reloader_ignores_non_addon_files` (function, line 208) `def test_hot_reloader_ignores_non_addon_files(tmp_path)`
+  - `test_status_tail_extracts_open_ports` (function, line 221) `def test_status_tail_extracts_open_ports()`
+  - `test_status_tail_handles_empty` (function, line 237) `def test_status_tail_handles_empty()`
+  - `test_status_tail_no_ports_falls_back_to_stats` (function, line 244) `def test_status_tail_no_ports_falls_back_to_stats()`
+  - `test_transcript_grep_matches_recent_output` (function, line 254) `def test_transcript_grep_matches_recent_output(tmp_path)`
+  - `test_transcript_grep_command_filter` (function, line 262) `def test_transcript_grep_command_filter(tmp_path)`
+  - `test_transcript_grep_invalid_regex` (function, line 270) `def test_transcript_grep_invalid_regex(tmp_path)`
+  - `test_transcript_persists_and_reloads` (function, line 277) `def test_transcript_persists_and_reloads(tmp_path)`
+  - `test_transcript_capacity` (function, line 285) `def test_transcript_capacity(tmp_path)`
+  - `FakeIO` (class, line 297) `class FakeIO`
+  - `test_form_collects_values_with_defaults` (method, line 311) `def test_form_collects_values_with_defaults()`
+  - `test_form_options_constraint_falls_back_to_default` (method, line 325) `def test_form_options_constraint_falls_back_to_default()`
+  - `test_form_required_reprompted` (method, line 336) `def test_form_required_reprompted()`
+  - `_ShellLike` (class, line 349) `class _ShellLike`
+  - `test_commands_from_cmd2_shell_extracts_doc_and_aliases` (method, line 359) `def test_commands_from_cmd2_shell_extracts_doc_and_aliases()`
+  - `_MiniShell` (class, line 371) `class _MiniShell`
+  - `test_audit_fz_command_emits_results` (method, line 399) `def test_audit_fz_command_emits_results(tmp_path)`
+  - `test_audit_status_tail_reports_no_evidence` (method, line 409) `def test_audit_status_tail_reports_no_evidence(tmp_path)`
+  - `test_audit_grep_log_handles_empty_store` (method, line 419) `def test_audit_grep_log_handles_empty_store(tmp_path)`
+  - `test_audit_form_unknown_lists_known` (method, line 429) `def test_audit_form_unknown_lists_known(tmp_path)`
+  - `__init__` (method, line 298) `def __init__(self, replies)`
+  - `prompt` (method, line 302) `def prompt(self, message, default)`
+  - `emit` (method, line 307) `def emit(self, line)`
+  - `do_lazynmap` (method, line 352) `def do_lazynmap(self, _)`
+  - `do_gobuster` (method, line 355) `def do_gobuster(self, _)`
+  - `__init__` (method, line 374) `def __init__(self, tmp)`
+  - `poutput` (method, line 386) `def poutput(self, msg)`
+  - `get_all_commands` (method, line 389) `def get_all_commands(self)`
+  - `do_lazynmap` (method, line 392) `def do_lazynmap(self, _)`
+  - `do_gobuster` (method, line 395) `def do_gobuster(self, _)`
 - Depends on: `cli/aliases.py`, `cli/cli_enhancements.py`, `cli/commands/audit.py`
 
 ## tests/test_collab_and_onboarding.py
@@ -371,97 +371,97 @@ Previous: [KB_tests_p2.md](KB_tests_p2.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_make_app` (function, line 32) `def _make_app()`
-  - `_install_test_login` (function, line 53) `def _install_test_login(app)`
-  - `TestQuickstartExists` (class, line 85) `class TestQuickstartExists`
-  - `TestQuickstartContent` (class, line 93) `class TestQuickstartContent`
-  - `TestWizardContract` (class, line 138) `class TestWizardContract`
-  - `TestCollabModuleExists` (class, line 165) `class TestCollabModuleExists`
-  - `TestCollabModuleClasses` (class, line 176) `class TestCollabModuleClasses`
-  - `TestEventBus` (class, line 214) `class TestEventBus`
-  - `TestLockManager` (class, line 268) `class TestLockManager`
-  - `TestOperatorRegistry` (class, line 317) `class TestOperatorRegistry`
-  - `TestCollabFlaskRoutes` (class, line 354) `class TestCollabFlaskRoutes`
-  - `TestCollabTemplate` (class, line 412) `class TestCollabTemplate`
-  - `TestCollabJoinCLICommand` (class, line 452) `class TestCollabJoinCLICommand`
-  - `_TestOperator` (class, line 65) `class _TestOperator(UserMixin)`
-  - `_load_user` (method, line 73) `def _load_user(user_id)`
-  - `_auto_login` (method, line 77) `def _auto_login()`
-  - `test_file_present` (method, line 86) `def test_file_present(self)`
-  - `test_not_empty` (method, line 89) `def test_not_empty(self)`
-  - `text` (method, line 95) `def text(self)`
-  - `test_has_install_section` (method, line 98) `def test_has_install_section(self, text)`
-  - `test_has_wizard_section` (method, line 101) `def test_has_wizard_section(self, text)`
-  - `test_has_recon_step` (method, line 104) `def test_has_recon_step(self, text)`
-  - `test_has_c2_step` (method, line 107) `def test_has_c2_step(self, text)`
-  - `test_has_collab_step` (method, line 110) `def test_has_collab_step(self, text)`
-  - `test_has_troubleshooting` (method, line 113) `def test_has_troubleshooting(self, text)`
-  - `test_mentions_payload_json` (method, line 116) `def test_mentions_payload_json(self, text)`
-  - `test_mentions_sessions` (method, line 119) `def test_mentions_sessions(self, text)`
-  - `test_five_minutes_promise` (method, line 122) `def test_five_minutes_promise(self, text)`
-  - `test_no_hardcoded_ips` (method, line 125) `def test_no_hardcoded_ips(self)`
-  - `test_wizard_module_exists` (method, line 139) `def test_wizard_module_exists(self)`
-  - `test_wizard_has_run_function` (method, line 142) `def test_wizard_has_run_function(self)`
-  - `test_wizard_has_build_readiness` (method, line 147) `def test_wizard_has_build_readiness(self)`
-  - `test_wizard_does_not_import_lazyown` (method, line 152) `def test_wizard_does_not_import_lazyown(self)`
-  - `test_wizard_does_not_import_lazyc2` (method, line 156) `def test_wizard_does_not_import_lazyc2(self)`
-  - `test_module_present` (method, line 166) `def test_module_present(self)`
-  - `test_template_present` (method, line 169) `def test_template_present(self)`
-  - `test_template_not_empty` (method, line 172) `def test_template_not_empty(self)`
-  - `tree` (method, line 178) `def tree(self)`
-  - `test_has_event_bus` (method, line 181) `def test_has_event_bus(self, tree)`
-  - `test_has_lock_manager` (method, line 185) `def test_has_lock_manager(self, tree)`
-  - `test_has_operator_registry` (method, line 189) `def test_has_operator_registry(self, tree)`
-  - `test_has_ui_route` (method, line 193) `def test_has_ui_route(self, tree)`
-  - `test_has_stream_route` (method, line 197) `def test_has_stream_route(self, tree)`
-  - `test_has_publish_route` (method, line 201) `def test_has_publish_route(self)`
-  - `test_has_lock_route` (method, line 205) `def test_has_lock_route(self)`
-  - `bus` (method, line 216) `def bus(self)`
-  - `test_publish_and_receive` (method, line 220) `def test_publish_and_receive(self, bus)`
-  - `test_history_replay_on_subscribe` (method, line 229) `def test_history_replay_on_subscribe(self, bus)`
-  - `test_recent_returns_correct_count` (method, line 239) `def test_recent_returns_correct_count(self, bus)`
-  - `test_reset_clears_history` (method, line 246) `def test_reset_clears_history(self, bus)`
-  - `test_full_queue_drops_stale_subscriber` (method, line 252) `def test_full_queue_drops_stale_subscriber(self, bus)`
-  - `lm` (method, line 270) `def lm(self)`
-  - `test_acquire_grants_first_operator` (method, line 274) `def test_acquire_grants_first_operator(self, lm)`
-  - `test_second_operator_denied` (method, line 277) `def test_second_operator_denied(self, lm)`
-  - `test_same_operator_can_re_acquire` (method, line 281) `def test_same_operator_can_re_acquire(self, lm)`
-  - `test_release_allows_next_operator` (method, line 285) `def test_release_allows_next_operator(self, lm)`
-  - `test_release_by_wrong_operator_fails` (method, line 290) `def test_release_by_wrong_operator_fails(self, lm)`
-  - `test_expired_lock_releases_automatically` (method, line 294) `def test_expired_lock_releases_automatically(self, lm)`
-  - `test_all_locks_returns_list` (method, line 299) `def test_all_locks_returns_list(self, lm)`
-  - `test_reset_clears_all_locks` (method, line 307) `def test_reset_clears_all_locks(self, lm)`
-  - `reg` (method, line 319) `def reg(self)`
-  - `test_join_registers_operator` (method, line 323) `def test_join_registers_operator(self, reg)`
-  - `test_leave_marks_inactive` (method, line 328) `def test_leave_marks_inactive(self, reg)`
-  - `test_multiple_operators` (method, line 334) `def test_multiple_operators(self, reg)`
-  - `test_heartbeat_keeps_alive` (method, line 339) `def test_heartbeat_keeps_alive(self, reg)`
-  - `test_reset_clears_all` (method, line 344) `def test_reset_clears_all(self, reg)`
-  - `client` (method, line 356) `def client(self)`
-  - `test_operators_endpoint_returns_json` (method, line 361) `def test_operators_endpoint_returns_json(self, client)`
-  - `test_locks_endpoint_returns_json` (method, line 368) `def test_locks_endpoint_returns_json(self, client)`
-  - `test_publish_endpoint_accepts_event` (method, line 374) `def test_publish_endpoint_accepts_event(self, client)`
-  - `test_publish_rejects_non_dict_payload` (method, line 380) `def test_publish_rejects_non_dict_payload(self, client)`
-  - `test_lock_endpoint_acquires` (method, line 384) `def test_lock_endpoint_acquires(self, client)`
-  - `test_unlock_endpoint_releases` (method, line 390) `def test_unlock_endpoint_releases(self, client)`
-  - `test_history_endpoint_returns_events` (method, line 396) `def test_history_endpoint_returns_events(self, client)`
-  - `test_lock_missing_target_returns_400` (method, line 403) `def test_lock_missing_target_returns_400(self, client)`
-  - `html` (method, line 414) `def html(self)`
-  - `test_extends_base` (method, line 417) `def test_extends_base(self, html)`
-  - `test_has_sse_connect` (method, line 420) `def test_has_sse_connect(self, html)`
-  - `test_has_operator_list` (method, line 423) `def test_has_operator_list(self, html)`
-  - `test_has_lock_ui` (method, line 426) `def test_has_lock_ui(self, html)`
-  - `test_has_event_log` (method, line 429) `def test_has_event_log(self, html)`
-  - `test_has_chat_input` (method, line 432) `def test_has_chat_input(self, html)`
-  - `test_has_refresh_operators` (method, line 435) `def test_has_refresh_operators(self, html)`
-  - `test_has_join_url_display` (method, line 438) `def test_has_join_url_display(self, html)`
-  - `test_no_hardcoded_ips` (method, line 441) `def test_no_hardcoded_ips(self)`
-  - `command_src` (method, line 454) `def command_src(self)`
-  - `test_collab_join_defined` (method, line 463) `def test_collab_join_defined(self, command_src)`
-  - `test_collab_join_uses_lhost` (method, line 466) `def test_collab_join_uses_lhost(self, command_src)`
-  - `test_collab_join_uses_c2_port` (method, line 469) `def test_collab_join_uses_c2_port(self, command_src)`
-  - `test_collab_join_prints_ui_url` (method, line 472) `def test_collab_join_prints_ui_url(self, command_src)`
-  - `test_collab_join_has_docstring` (method, line 475) `def test_collab_join_has_docstring(self, command_src)`
+  - `_make_app` (function, line 33) `def _make_app()`
+  - `_install_test_login` (function, line 54) `def _install_test_login(app)`
+  - `TestQuickstartExists` (class, line 87) `class TestQuickstartExists`
+  - `TestQuickstartContent` (class, line 95) `class TestQuickstartContent`
+  - `TestWizardContract` (class, line 142) `class TestWizardContract`
+  - `TestCollabModuleExists` (class, line 170) `class TestCollabModuleExists`
+  - `TestCollabModuleClasses` (class, line 181) `class TestCollabModuleClasses`
+  - `TestEventBus` (class, line 220) `class TestEventBus`
+  - `TestLockManager` (class, line 281) `class TestLockManager`
+  - `TestOperatorRegistry` (class, line 332) `class TestOperatorRegistry`
+  - `TestCollabFlaskRoutes` (class, line 371) `class TestCollabFlaskRoutes`
+  - `TestCollabTemplate` (class, line 430) `class TestCollabTemplate`
+  - `TestCollabJoinCLICommand` (class, line 472) `class TestCollabJoinCLICommand`
+  - `_TestOperator` (class, line 66) `class _TestOperator(UserMixin)`
+  - `_load_user` (method, line 74) `def _load_user(user_id)`
+  - `_auto_login` (method, line 78) `def _auto_login()`
+  - `test_file_present` (method, line 88) `def test_file_present(self)`
+  - `test_not_empty` (method, line 91) `def test_not_empty(self)`
+  - `text` (method, line 97) `def text(self)`
+  - `test_has_install_section` (method, line 100) `def test_has_install_section(self, text)`
+  - `test_has_wizard_section` (method, line 103) `def test_has_wizard_section(self, text)`
+  - `test_has_recon_step` (method, line 106) `def test_has_recon_step(self, text)`
+  - `test_has_c2_step` (method, line 109) `def test_has_c2_step(self, text)`
+  - `test_has_collab_step` (method, line 112) `def test_has_collab_step(self, text)`
+  - `test_has_troubleshooting` (method, line 115) `def test_has_troubleshooting(self, text)`
+  - `test_mentions_payload_json` (method, line 118) `def test_mentions_payload_json(self, text)`
+  - `test_mentions_sessions` (method, line 121) `def test_mentions_sessions(self, text)`
+  - `test_five_minutes_promise` (method, line 124) `def test_five_minutes_promise(self, text)`
+  - `test_no_hardcoded_ips` (method, line 127) `def test_no_hardcoded_ips(self)`
+  - `test_wizard_module_exists` (method, line 143) `def test_wizard_module_exists(self)`
+  - `test_wizard_has_run_function` (method, line 146) `def test_wizard_has_run_function(self)`
+  - `test_wizard_has_build_readiness` (method, line 151) `def test_wizard_has_build_readiness(self)`
+  - `test_wizard_does_not_import_lazyown` (method, line 156) `def test_wizard_does_not_import_lazyown(self)`
+  - `test_wizard_does_not_import_lazyc2` (method, line 160) `def test_wizard_does_not_import_lazyc2(self)`
+  - `test_module_present` (method, line 171) `def test_module_present(self)`
+  - `test_template_present` (method, line 174) `def test_template_present(self)`
+  - `test_template_not_empty` (method, line 177) `def test_template_not_empty(self)`
+  - `tree` (method, line 183) `def tree(self)`
+  - `test_has_event_bus` (method, line 186) `def test_has_event_bus(self, tree)`
+  - `test_has_lock_manager` (method, line 190) `def test_has_lock_manager(self, tree)`
+  - `test_has_operator_registry` (method, line 194) `def test_has_operator_registry(self, tree)`
+  - `test_has_ui_route` (method, line 198) `def test_has_ui_route(self, tree)`
+  - `test_has_stream_route` (method, line 202) `def test_has_stream_route(self, tree)`
+  - `test_has_publish_route` (method, line 206) `def test_has_publish_route(self)`
+  - `test_has_lock_route` (method, line 210) `def test_has_lock_route(self)`
+  - `bus` (method, line 222) `def bus(self)`
+  - `test_publish_and_receive` (method, line 227) `def test_publish_and_receive(self, bus)`
+  - `test_history_replay_on_subscribe` (method, line 237) `def test_history_replay_on_subscribe(self, bus)`
+  - `test_recent_returns_correct_count` (method, line 248) `def test_recent_returns_correct_count(self, bus)`
+  - `test_reset_clears_history` (method, line 256) `def test_reset_clears_history(self, bus)`
+  - `test_full_queue_drops_stale_subscriber` (method, line 263) `def test_full_queue_drops_stale_subscriber(self, bus)`
+  - `lm` (method, line 283) `def lm(self)`
+  - `test_acquire_grants_first_operator` (method, line 288) `def test_acquire_grants_first_operator(self, lm)`
+  - `test_second_operator_denied` (method, line 291) `def test_second_operator_denied(self, lm)`
+  - `test_same_operator_can_re_acquire` (method, line 295) `def test_same_operator_can_re_acquire(self, lm)`
+  - `test_release_allows_next_operator` (method, line 299) `def test_release_allows_next_operator(self, lm)`
+  - `test_release_by_wrong_operator_fails` (method, line 304) `def test_release_by_wrong_operator_fails(self, lm)`
+  - `test_expired_lock_releases_automatically` (method, line 308) `def test_expired_lock_releases_automatically(self, lm)`
+  - `test_all_locks_returns_list` (method, line 313) `def test_all_locks_returns_list(self, lm)`
+  - `test_reset_clears_all_locks` (method, line 321) `def test_reset_clears_all_locks(self, lm)`
+  - `reg` (method, line 334) `def reg(self)`
+  - `test_join_registers_operator` (method, line 339) `def test_join_registers_operator(self, reg)`
+  - `test_leave_marks_inactive` (method, line 344) `def test_leave_marks_inactive(self, reg)`
+  - `test_multiple_operators` (method, line 350) `def test_multiple_operators(self, reg)`
+  - `test_heartbeat_keeps_alive` (method, line 355) `def test_heartbeat_keeps_alive(self, reg)`
+  - `test_reset_clears_all` (method, line 360) `def test_reset_clears_all(self, reg)`
+  - `client` (method, line 373) `def client(self)`
+  - `test_operators_endpoint_returns_json` (method, line 378) `def test_operators_endpoint_returns_json(self, client)`
+  - `test_locks_endpoint_returns_json` (method, line 385) `def test_locks_endpoint_returns_json(self, client)`
+  - `test_publish_endpoint_accepts_event` (method, line 391) `def test_publish_endpoint_accepts_event(self, client)`
+  - `test_publish_rejects_non_dict_payload` (method, line 397) `def test_publish_rejects_non_dict_payload(self, client)`
+  - `test_lock_endpoint_acquires` (method, line 401) `def test_lock_endpoint_acquires(self, client)`
+  - `test_unlock_endpoint_releases` (method, line 407) `def test_unlock_endpoint_releases(self, client)`
+  - `test_history_endpoint_returns_events` (method, line 413) `def test_history_endpoint_returns_events(self, client)`
+  - `test_lock_missing_target_returns_400` (method, line 420) `def test_lock_missing_target_returns_400(self, client)`
+  - `html` (method, line 432) `def html(self)`
+  - `test_extends_base` (method, line 435) `def test_extends_base(self, html)`
+  - `test_has_sse_connect` (method, line 438) `def test_has_sse_connect(self, html)`
+  - `test_has_operator_list` (method, line 441) `def test_has_operator_list(self, html)`
+  - `test_has_lock_ui` (method, line 444) `def test_has_lock_ui(self, html)`
+  - `test_has_event_log` (method, line 447) `def test_has_event_log(self, html)`
+  - `test_has_chat_input` (method, line 450) `def test_has_chat_input(self, html)`
+  - `test_has_refresh_operators` (method, line 453) `def test_has_refresh_operators(self, html)`
+  - `test_has_join_url_display` (method, line 456) `def test_has_join_url_display(self, html)`
+  - `test_no_hardcoded_ips` (method, line 459) `def test_no_hardcoded_ips(self)`
+  - `command_src` (method, line 474) `def command_src(self)`
+  - `test_collab_join_defined` (method, line 483) `def test_collab_join_defined(self, command_src)`
+  - `test_collab_join_uses_lhost` (method, line 486) `def test_collab_join_uses_lhost(self, command_src)`
+  - `test_collab_join_uses_c2_port` (method, line 489) `def test_collab_join_uses_c2_port(self, command_src)`
+  - `test_collab_join_prints_ui_url` (method, line 492) `def test_collab_join_prints_ui_url(self, command_src)`
+  - `test_collab_join_has_docstring` (method, line 495) `def test_collab_join_has_docstring(self, command_src)`
 - Depends on: `modules/collab_bp.py`
 
 ## tests/test_command_allowlist.py

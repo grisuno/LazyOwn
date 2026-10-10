@@ -177,7 +177,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_html_sanitizer.py` -> __future__
 - `tests/test_https_redirect.py` -> __future__
 - `tests/test_improvements_spec.py` -> __future__, cmd2, cmd2.plugin, collections.abc, dataclasses, json, pathlib, skills, sys, tempfile, typing, unittest
-- `tests/test_infra_disposable.py` -> __future__, cli.commands.report_enhanced, json, os, pathlib, types, unittest.mock
+- `tests/test_infra_disposable.py` -> __future__, cli.commands.report_enhanced, os, pathlib, types, unittest.mock
 - `tests/test_input_fuzz.py` -> __future__, pathlib, pytest, random, string
 - `tests/test_intelligence_engine.py` -> __future__, json, pathlib, pytest
 - `tests/test_journal.py` -> __future__, json, pytest

@@ -63,36 +63,36 @@ This community groups 37 file(s) rooted at `modules` with dominant language py (
 
 ## Key Symbols
 
-- `ExploitMigratedCommandSet` (class, `cli/commands/exploit_migrated.py:36`) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
-- `do_cp` (method, `cli/commands/exploit_migrated.py:41`) `def do_cp(self, line)` - Copies a file from the ExploitDB directory to the sessions directory.
-- `do_createcookie` (method, `cli/commands/exploit_migrated.py:82`) `def do_createcookie(self, line)` - Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
-- `do_py3ttyup` (method, `cli/commands/exploit_migrated.py:128`) `def do_py3ttyup(self, line)` - Copies a Python reverse shell command to the clipboard.
-- `do_pyautomate` (method, `cli/commands/exploit_migrated.py:166`) `def do_pyautomate(self, line)` - Automates the execution of pwntomate tools on XML configuration files.
-- `do_winbase64payload` (method, `cli/commands/exploit_migrated.py:207`) `def do_winbase64payload(self, line)` - Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or downloa
-- `do_createdll` (method, `cli/commands/exploit_migrated.py:336`) `def do_createdll(self, line)` - Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
-- `do_seo` (method, `cli/commands/exploit_migrated.py:392`) `def do_seo(self, line)` - Performs a web seo fingerprinting scan using `lazyseo.py`.
-- `do_padbuster` (method, `cli/commands/exploit_migrated.py:427`) `def do_padbuster(self, line)` - Execute the PadBuster command for padding oracle attacks.
-- `do_cacti_exploit` (method, `cli/commands/exploit_migrated.py:471`) `def do_cacti_exploit(self, line)` - Automates the exploitation of the Cacti version 1.2.26 vulnerability
-- `setup_handler` (method, `cli/commands/exploit_migrated.py:501`) `def setup_handler(config_file, lhost, lport)` - Sets up a Metasploit multi/handler exploit configuration in the provided config file.
-- `cacti_exploit` (method, `cli/commands/exploit_migrated.py:524`) `def cacti_exploit(config_file, host)` - Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provid
-- `do_shellshock` (method, `cli/commands/exploit_migrated.py:556`) `def do_shellshock(self, line)` - Executes a Shellshock attack against a target.
+- `ExploitMigratedCommandSet` (class, `cli/commands/exploit_migrated.py:37`) `class ExploitMigratedCommandSet(LazyOwnCommandSet)`
+- `do_cp` (method, `cli/commands/exploit_migrated.py:42`) `def do_cp(self, line)` - Copies a file from the ExploitDB directory to the sessions directory.
+- `do_createcookie` (method, `cli/commands/exploit_migrated.py:83`) `def do_createcookie(self, line)` - Creates a `cookie.txt` file in the `sessions` directory with the specified cookie value.
+- `do_py3ttyup` (method, `cli/commands/exploit_migrated.py:127`) `def do_py3ttyup(self, line)` - Copies a Python reverse shell command to the clipboard.
+- `do_pyautomate` (method, `cli/commands/exploit_migrated.py:163`) `def do_pyautomate(self, line)` - Automates the execution of pwntomate tools on XML configuration files.
+- `do_winbase64payload` (method, `cli/commands/exploit_migrated.py:204`) `def do_winbase64payload(self, line)` - Creates a base64 encoded payload specifically for Windows to execute a PowerShell command or downloa
+- `do_createdll` (method, `cli/commands/exploit_migrated.py:333`) `def do_createdll(self, line)` - Create a Windows DLL file using MinGW-w64 or a Blazor DLL for Linux.
+- `do_seo` (method, `cli/commands/exploit_migrated.py:391`) `def do_seo(self, line)` - Performs a web seo fingerprinting scan using `lazyseo.py`.
+- `do_padbuster` (method, `cli/commands/exploit_migrated.py:426`) `def do_padbuster(self, line)` - Execute the PadBuster command for padding oracle attacks.
+- `do_cacti_exploit` (method, `cli/commands/exploit_migrated.py:472`) `def do_cacti_exploit(self, line)` - Automates the exploitation of the Cacti version 1.2.26 vulnerability
+- `setup_handler` (method, `cli/commands/exploit_migrated.py:502`) `def setup_handler(config_file, lhost, lport)` - Sets up a Metasploit multi/handler exploit configuration in the provided config file.
+- `cacti_exploit` (method, `cli/commands/exploit_migrated.py:525`) `def cacti_exploit(config_file, host)` - Configures an exploit for the Cacti Package Import Remote Code Execution vulnerability in the provid
+- `do_shellshock` (method, `cli/commands/exploit_migrated.py:557`) `def do_shellshock(self, line)` - Executes a Shellshock attack against a target.
 - `do_powerserver` (method, `cli/commands/exploit_migrated.py:619`) `def do_powerserver(self, line)` - This function generates a PowerShell script that retrieves reverse shell over http on a Windows syst
 - `do_sqli` (method, `cli/commands/exploit_migrated.py:682`) `def do_sqli(self, line)` - Asks the user for the URL, database, table, and columns, and then executes the Python script
-- `do_sharpshooter` (method, `cli/commands/exploit_migrated.py:719`) `def do_sharpshooter(self, line)` - Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source cod
-- `do_shellfire` (method, `cli/commands/exploit_migrated.py:761`) `def do_shellfire(self, line)` - Runs Shellfire with various options and allows generating payloads.
-- `do_downloader` (method, `cli/commands/exploit_migrated.py:865`) `def do_downloader(self, line)` - Generate a downloader command for files in the sessions directory.
-- `do_eternal` (method, `cli/commands/exploit_migrated.py:952`) `def do_eternal(self, line)` - Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
-- `do_rejetto_hfs_exec` (method, `cli/commands/exploit_migrated.py:997`) `def do_rejetto_hfs_exec(self, line)` - HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
-- `do_ms08_067_netapi` (method, `cli/commands/exploit_migrated.py:1032`) `def do_ms08_067_netapi(self, line)` - SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
-- `do_xss` (method, `cli/commands/exploit_migrated.py:1067`) `def do_xss(self, line)` - Executes the XSS (Cross-Site Scripting) vulnerability testing procedure
-- `do_template_helper_serializer` (method, `cli/commands/exploit_migrated.py:1109`) `def do_template_helper_serializer(self, line)` - Handles the creation and serialization of a template helper.
-- `do_xsstrike` (method, `cli/commands/exploit_migrated.py:1154`) `def do_xsstrike(self, line)` - Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
-- `do_sireprat` (method, `cli/commands/exploit_migrated.py:1224`) `def do_sireprat(self, line)` - Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows
-- `do_upload_bypass` (method, `cli/commands/exploit_migrated.py:1336`) `def do_upload_bypass(self, line)` - Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file
-- `do_pywhisker` (method, `cli/commands/exploit_migrated.py:1397`) `def do_pywhisker(self, line)` - Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user o
-- `do_owneredit` (method, `cli/commands/exploit_migrated.py:1447`) `def do_owneredit(self, line)` - Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
-- `do_gettgtpkinit_py` (method, `cli/commands/exploit_migrated.py:1493`) `def do_gettgtpkinit_py(self, line)` - Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX
-- `do_gets4uticket_py` (method, `cli/commands/exploit_migrated.py:1544`) `def do_gets4uticket_py(self, line)` - Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerbe
+- `do_sharpshooter` (method, `cli/commands/exploit_migrated.py:713`) `def do_sharpshooter(self, line)` - Executes a payload creation framework for the retrieval and execution of arbitrary CSharp source cod
+- `do_shellfire` (method, `cli/commands/exploit_migrated.py:757`) `def do_shellfire(self, line)` - Runs Shellfire with various options and allows generating payloads.
+- `do_downloader` (method, `cli/commands/exploit_migrated.py:881`) `def do_downloader(self, line)` - Generate a downloader command for files in the sessions directory.
+- `do_eternal` (method, `cli/commands/exploit_migrated.py:961`) `def do_eternal(self, line)` - Automates the EternalBlue (MS17-010) exploitation process using Metasploit.
+- `do_rejetto_hfs_exec` (method, `cli/commands/exploit_migrated.py:1005`) `def do_rejetto_hfs_exec(self, line)` - HttpFileServer version 2.3. Vulnerable using the module rejetto_hfs_exec of metasploit
+- `do_ms08_067_netapi` (method, `cli/commands/exploit_migrated.py:1042`) `def do_ms08_067_netapi(self, line)` - SMB CVE-2008-4250. Vulnerable using the module ms08_067_netapi of metasploit
+- `do_xss` (method, `cli/commands/exploit_migrated.py:1079`) `def do_xss(self, line)` - Executes the XSS (Cross-Site Scripting) vulnerability testing procedure
+- `do_template_helper_serializer` (method, `cli/commands/exploit_migrated.py:1124`) `def do_template_helper_serializer(self, line)` - Handles the creation and serialization of a template helper.
+- `do_xsstrike` (method, `cli/commands/exploit_migrated.py:1168`) `def do_xsstrike(self, line)` - Command xsstrike: Installs and runs XSStrike for finding XSS vulnerabilities.
+- `do_sireprat` (method, `cli/commands/exploit_migrated.py:1236`) `def do_sireprat(self, line)` - Command sireprat: Automates the setup and usage of SirepRAT to perform various attacks on a Windows
+- `do_upload_bypass` (method, `cli/commands/exploit_migrated.py:1348`) `def do_upload_bypass(self, line)` - Command upload_bypass: Automates the installation and execution of Upload_Bypass for performing file
+- `do_pywhisker` (method, `cli/commands/exploit_migrated.py:1409`) `def do_pywhisker(self, line)` - Executes the pyWhisker tool for manipulating the msDS-KeyCredentialLink attribute of a target user o
+- `do_owneredit` (method, `cli/commands/exploit_migrated.py:1459`) `def do_owneredit(self, line)` - Executes the Impacket owneredit tool for manipulating ownership of Active Directory objects.
+- `do_gettgtpkinit_py` (method, `cli/commands/exploit_migrated.py:1505`) `def do_gettgtpkinit_py(self, line)` - Executes the gettgtpkinit.py tool from PKINITtools to request a TGT using Kerberos PKINIT with a PFX
+- `do_gets4uticket_py` (method, `cli/commands/exploit_migrated.py:1556`) `def do_gets4uticket_py(self, line)` - Executes the gets4uticket.py tool from PKINITtools to request an S4U2Self service ticket using Kerbe
 
 ## Internal vs External Edges
 

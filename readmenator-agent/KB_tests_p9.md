@@ -6,38 +6,38 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `test_is_likely_credential_classifies` (function, line 72) `def test_is_likely_credential_classifies(value, expect_real, expect_reason)`
-  - `test_is_likely_credential_handles_non_string` (function, line 82) `def test_is_likely_credential_handles_non_string()`
-  - `test_parse_task_value_complete` (function, line 89) `def test_parse_task_value_complete()`
-  - `test_parse_task_value_truncated` (function, line 100) `def test_parse_task_value_truncated()`
-  - `test_parse_task_value_no_payload` (function, line 107) `def test_parse_task_value_no_payload()`
-  - `test_audit_tasks_drops_timestamps_and_urls` (function, line 113) `def test_audit_tasks_drops_timestamps_and_urls()`
-  - `test_audit_tasks_respects_min_confidence` (function, line 143) `def test_audit_tasks_respects_min_confidence()`
-  - `test_evidence_freshness_missing` (function, line 157) `def test_evidence_freshness_missing(tmp_path)`
-  - `test_evidence_freshness_fresh` (function, line 163) `def test_evidence_freshness_fresh(tmp_path)`
-  - `test_evidence_freshness_stale` (function, line 173) `def test_evidence_freshness_stale(tmp_path)`
-  - `_seed_sessions` (function, line 184) `def _seed_sessions(tmp_path)`
-  - `test_build_target_context_filters_by_port` (function, line 197) `def test_build_target_context_filters_by_port(tmp_path)`
-  - `test_build_target_context_no_port_returns_all` (function, line 220) `def test_build_target_context_no_port_returns_all(tmp_path)`
-  - `test_evidence_grep_finds_in_loot_scope` (function, line 228) `def test_evidence_grep_finds_in_loot_scope(tmp_path)`
-  - `test_evidence_grep_invalid_regex` (function, line 239) `def test_evidence_grep_invalid_regex(tmp_path)`
-  - `test_evidence_grep_truncates` (function, line 246) `def test_evidence_grep_truncates(tmp_path)`
-  - `test_preflight_detects_duplicate` (function, line 257) `def test_preflight_detects_duplicate(tmp_path)`
-  - `test_preflight_flags_missing_payload_keys` (function, line 271) `def test_preflight_flags_missing_payload_keys(tmp_path)`
-  - `test_preflight_os_mismatch` (function, line 282) `def test_preflight_os_mismatch(tmp_path)`
+  - `test_is_likely_credential_classifies` (function, line 74) `def test_is_likely_credential_classifies(value, expect_real, expect_reason)`
+  - `test_is_likely_credential_handles_non_string` (function, line 84) `def test_is_likely_credential_handles_non_string()`
+  - `test_parse_task_value_complete` (function, line 92) `def test_parse_task_value_complete()`
+  - `test_parse_task_value_truncated` (function, line 103) `def test_parse_task_value_truncated()`
+  - `test_parse_task_value_no_payload` (function, line 110) `def test_parse_task_value_no_payload()`
+  - `test_audit_tasks_drops_timestamps_and_urls` (function, line 117) `def test_audit_tasks_drops_timestamps_and_urls()`
+  - `test_audit_tasks_respects_min_confidence` (function, line 141) `def test_audit_tasks_respects_min_confidence()`
+  - `test_evidence_freshness_missing` (function, line 154) `def test_evidence_freshness_missing(tmp_path)`
+  - `test_evidence_freshness_fresh` (function, line 160) `def test_evidence_freshness_fresh(tmp_path)`
+  - `test_evidence_freshness_stale` (function, line 170) `def test_evidence_freshness_stale(tmp_path)`
+  - `_seed_sessions` (function, line 182) `def _seed_sessions(tmp_path)`
+  - `test_build_target_context_filters_by_port` (function, line 195) `def test_build_target_context_filters_by_port(tmp_path)`
+  - `test_build_target_context_no_port_returns_all` (function, line 218) `def test_build_target_context_no_port_returns_all(tmp_path)`
+  - `test_evidence_grep_finds_in_loot_scope` (function, line 227) `def test_evidence_grep_finds_in_loot_scope(tmp_path)`
+  - `test_evidence_grep_invalid_regex` (function, line 237) `def test_evidence_grep_invalid_regex(tmp_path)`
+  - `test_evidence_grep_truncates` (function, line 244) `def test_evidence_grep_truncates(tmp_path)`
+  - `test_preflight_detects_duplicate` (function, line 256) `def test_preflight_detects_duplicate(tmp_path)`
+  - `test_preflight_flags_missing_payload_keys` (function, line 270) `def test_preflight_flags_missing_payload_keys(tmp_path)`
+  - `test_preflight_os_mismatch` (function, line 281) `def test_preflight_os_mismatch(tmp_path)`
   - `test_jobstore_runs_command_and_reports_done` (function, line 297) `def test_jobstore_runs_command_and_reports_done()`
   - `test_jobstore_captures_failure` (function, line 317) `def test_jobstore_captures_failure()`
   - `test_jobstore_unknown_id` (function, line 335) `def test_jobstore_unknown_id()`
   - `test_jobstore_list_orders_newest_first` (function, line 340) `def test_jobstore_list_orders_newest_first()`
-  - `test_diff_first_run_reports_first_run` (function, line 352) `def test_diff_first_run_reports_first_run(tmp_path)`
-  - `test_diff_picks_up_changes` (function, line 359) `def test_diff_picks_up_changes(tmp_path)`
-  - `test_confirmation_required_for_destructive_command` (function, line 378) `def test_confirmation_required_for_destructive_command()`
-  - `test_confirmation_skipped_for_benign` (function, line 387) `def test_confirmation_skipped_for_benign()`
-  - `test_confirmation_required_for_destructive_tools` (function, line 391) `def test_confirmation_required_for_destructive_tools()`
-  - `_fresh_mcp_module` (function, line 398) `def _fresh_mcp_module(tmp_path)`
+  - `test_diff_first_run_reports_first_run` (function, line 353) `def test_diff_first_run_reports_first_run(tmp_path)`
+  - `test_diff_picks_up_changes` (function, line 360) `def test_diff_picks_up_changes(tmp_path)`
+  - `test_confirmation_required_for_destructive_command` (function, line 380) `def test_confirmation_required_for_destructive_command()`
+  - `test_confirmation_skipped_for_benign` (function, line 385) `def test_confirmation_skipped_for_benign()`
+  - `test_confirmation_required_for_destructive_tools` (function, line 389) `def test_confirmation_required_for_destructive_tools()`
+  - `_fresh_mcp_module` (function, line 397) `def _fresh_mcp_module(tmp_path)`
   - `test_handler_target_context_via_helper` (function, line 414) `def test_handler_target_context_via_helper(tmp_path)`
   - `test_handler_tasks_cleanup_dry_run` (function, line 421) `def test_handler_tasks_cleanup_dry_run(tmp_path)`
-  - `test_evidence_grep_handler_ignores_binaries` (function, line 440) `def test_evidence_grep_handler_ignores_binaries(tmp_path)`
+  - `test_evidence_grep_handler_ignores_binaries` (function, line 436) `def test_evidence_grep_handler_ignores_binaries(tmp_path)`
   - `runner` (function, line 300) `def runner(cmd, timeout)`
   - `runner` (function, line 320) `def runner(cmd, timeout)`
 - Depends on: `skills/lazyown_mcp.py`, `skills/lazyown_mcp_helpers.py`
@@ -53,14 +53,14 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_recorder_clamps_negative_duration` (function, line 83) `def test_recorder_clamps_negative_duration(tmp_path)`
   - `test_summarize_aggregates_by_command` (function, line 92) `def test_summarize_aggregates_by_command(tmp_path)`
   - `test_summarize_window_filters_old_records` (function, line 124) `def test_summarize_window_filters_old_records(tmp_path)`
-  - `test_tail_returns_newest_first` (function, line 153) `def test_tail_returns_newest_first(tmp_path)`
-  - `test_concurrent_writes_do_not_corrupt` (function, line 163) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
-  - `test_get_recorder_is_singleton` (function, line 195) `def test_get_recorder_is_singleton(tmp_path)`
-  - `test_aggregator_handles_empty_iterable` (function, line 204) `def test_aggregator_handles_empty_iterable()`
-  - `test_aggregator_skips_malformed_records` (function, line 213) `def test_aggregator_skips_malformed_records()`
-  - `test_p95_uses_nearest_rank` (function, line 220) `def test_p95_uses_nearest_rank()`
-  - `test_metric_record_to_dict_roundtrip` (function, line 227) `def test_metric_record_to_dict_roundtrip()`
-  - `worker` (function, line 170) `def worker(tag)`
+  - `test_tail_returns_newest_first` (function, line 163) `def test_tail_returns_newest_first(tmp_path)`
+  - `test_concurrent_writes_do_not_corrupt` (function, line 173) `def test_concurrent_writes_do_not_corrupt(tmp_path)`
+  - `test_get_recorder_is_singleton` (function, line 202) `def test_get_recorder_is_singleton(tmp_path)`
+  - `test_aggregator_handles_empty_iterable` (function, line 211) `def test_aggregator_handles_empty_iterable()`
+  - `test_aggregator_skips_malformed_records` (function, line 220) `def test_aggregator_skips_malformed_records()`
+  - `test_p95_uses_nearest_rank` (function, line 227) `def test_p95_uses_nearest_rank()`
+  - `test_metric_record_to_dict_roundtrip` (function, line 234) `def test_metric_record_to_dict_roundtrip()`
+  - `worker` (function, line 180) `def worker(tag)`
 - Depends on: `modules/metrics.py`
 
 ## tests/test_metrics_aware_selector.py
@@ -72,26 +72,26 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `_StubMetrics` (class, line 54) `class _StubMetrics`
   - `_decision` (method, line 71) `def _decision(command)`
   - `test_passthrough_when_wrapped_returns_none` (method, line 75) `def test_passthrough_when_wrapped_returns_none()`
-  - `test_passthrough_when_insufficient_attempts` (method, line 86) `def test_passthrough_when_insufficient_attempts()`
-  - `test_filters_when_success_rate_below_threshold` (method, line 102) `def test_filters_when_success_rate_below_threshold()`
-  - `test_accepts_when_success_rate_at_threshold` (method, line 117) `def test_accepts_when_success_rate_at_threshold()`
-  - `test_only_filters_named_command_not_whole_decision_object` (method, line 134) `def test_only_filters_named_command_not_whole_decision_object()`
-  - `test_summary_is_cached_within_ttl` (method, line 149) `def test_summary_is_cached_within_ttl()`
-  - `test_summary_forwards_window_seconds` (method, line 177) `def test_summary_forwards_window_seconds()`
-  - `test_zero_window_is_treated_as_unbounded` (method, line 190) `def test_zero_window_is_treated_as_unbounded()`
-  - `test_decorator_degrades_when_metrics_source_unavailable` (method, line 203) `def test_decorator_degrades_when_metrics_source_unavailable()`
-  - `test_wrap_chain_leaves_fallback_unwrapped` (method, line 219) `def test_wrap_chain_leaves_fallback_unwrapped()`
-  - `test_wrap_chain_master_switch_off` (method, line 230) `def test_wrap_chain_master_switch_off()`
-  - `test_wrap_chain_is_idempotent` (method, line 241) `def test_wrap_chain_is_idempotent()`
-  - `test_filtering_emits_skip_event` (method, line 253) `def test_filtering_emits_skip_event(tmp_path, monkeypatch)`
-  - `test_chain_falls_through_to_fallback_when_all_filtered` (method, line 283) `def test_chain_falls_through_to_fallback_when_all_filtered()`
+  - `test_passthrough_when_insufficient_attempts` (method, line 87) `def test_passthrough_when_insufficient_attempts()`
+  - `test_filters_when_success_rate_below_threshold` (method, line 105) `def test_filters_when_success_rate_below_threshold()`
+  - `test_accepts_when_success_rate_at_threshold` (method, line 122) `def test_accepts_when_success_rate_at_threshold()`
+  - `test_only_filters_named_command_not_whole_decision_object` (method, line 141) `def test_only_filters_named_command_not_whole_decision_object()`
+  - `test_summary_is_cached_within_ttl` (method, line 158) `def test_summary_is_cached_within_ttl()`
+  - `test_summary_forwards_window_seconds` (method, line 188) `def test_summary_forwards_window_seconds()`
+  - `test_zero_window_is_treated_as_unbounded` (method, line 201) `def test_zero_window_is_treated_as_unbounded()`
+  - `test_decorator_degrades_when_metrics_source_unavailable` (method, line 214) `def test_decorator_degrades_when_metrics_source_unavailable()`
+  - `test_wrap_chain_leaves_fallback_unwrapped` (method, line 230) `def test_wrap_chain_leaves_fallback_unwrapped()`
+  - `test_wrap_chain_master_switch_off` (method, line 241) `def test_wrap_chain_master_switch_off()`
+  - `test_wrap_chain_is_idempotent` (method, line 253) `def test_wrap_chain_is_idempotent()`
+  - `test_filtering_emits_skip_event` (method, line 265) `def test_filtering_emits_skip_event(tmp_path, monkeypatch)`
+  - `test_chain_falls_through_to_fallback_when_all_filtered` (method, line 298) `def test_chain_falls_through_to_fallback_when_all_filtered()`
   - `__init__` (method, line 40) `def __init__(self, decision)`
   - `select` (method, line 44) `def select(self, target, phase, context)`
   - `__init__` (method, line 57) `def __init__(self, by_command)`
   - `summarize` (method, line 62) `def summarize(self, window_seconds)`
-  - `fake_clock` (method, line 158) `def fake_clock()`
-  - `_BrokenSource` (class, line 206) `class _BrokenSource`
-  - `summarize` (method, line 207) `def summarize(self, window_seconds)`
+  - `fake_clock` (method, line 169) `def fake_clock()`
+  - `_BrokenSource` (class, line 217) `class _BrokenSource`
+  - `summarize` (method, line 218) `def summarize(self, window_seconds)`
 - Depends on: `skills/autonomous_daemon.py`
 
 ## tests/test_migrate_lazyown_generator.py
@@ -148,65 +148,65 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `TestDetectionOracle` (class, line 35) `class TestDetectionOracle`
-  - `TestMoERouter` (class, line 111) `class TestMoERouter`
-  - `TestRLTrainer` (class, line 202) `class TestRLTrainer`
-  - `TestSwanAgent` (class, line 320) `class TestSwanAgent`
-  - `TestAutonomousDaemonSWAN` (class, line 445) `class TestAutonomousDaemonSWAN`
-  - `TestPolicyDetectionAware` (class, line 522) `class TestPolicyDetectionAware`
-  - `TestWorldModelGraph` (class, line 569) `class TestWorldModelGraph`
-  - `TestMCPRegistration` (class, line 626) `class TestMCPRegistration`
-  - `test_low_risk_dns_query` (method, line 37) `def test_low_risk_dns_query(self)`
-  - `test_high_risk_mimikatz` (method, line 44) `def test_high_risk_mimikatz(self)`
-  - `test_critical_risk_combined_credential_tools` (method, line 51) `def test_critical_risk_combined_credential_tools(self)`
-  - `test_assessment_has_required_fields` (method, line 58) `def test_assessment_has_required_fields(self)`
-  - `test_is_high_risk_property_consistent_with_probability` (method, line 70) `def test_is_high_risk_property_consistent_with_probability(self)`
-  - `test_singleton_returns_same_instance` (method, line 77) `def test_singleton_returns_same_instance(self)`
-  - `test_nmap_is_not_high_risk` (method, line 84) `def test_nmap_is_not_high_risk(self)`
-  - `test_evil_winrm_is_high_risk` (method, line 91) `def test_evil_winrm_is_high_risk(self)`
-  - `test_is_critical_risk_property` (method, line 99) `def test_is_critical_risk_property(self)`
-  - `test_singleton_returns_same_instance` (method, line 113) `def test_singleton_returns_same_instance(self)`
-  - `test_route_returns_expert_or_raises_gracefully` (method, line 120) `def test_route_returns_expert_or_raises_gracefully(self)`
-  - `test_ensemble_returns_available_candidates` (method, line 132) `def test_ensemble_returns_available_candidates(self)`
-  - `test_record_outcome_updates_ema` (method, line 142) `def test_record_outcome_updates_ema(self, tmp_path)`
-  - `test_performance_bonus_positive_after_success` (method, line 151) `def test_performance_bonus_positive_after_success(self, tmp_path)`
-  - `test_performance_bonus_penalises_high_detection` (method, line 159) `def test_performance_bonus_penalises_high_detection(self, tmp_path)`
-  - `test_status_report_contains_experts` (method, line 169) `def test_status_report_contains_experts(self)`
-  - `test_softmax_deterministic_picks_highest_weight` (method, line 177) `def test_softmax_deterministic_picks_highest_weight(self)`
-  - `test_encode_state_format` (method, line 204) `def test_encode_state_format(self)`
-  - `test_select_action_returns_valid_candidate` (method, line 215) `def test_select_action_returns_valid_candidate(self)`
-  - `test_update_changes_qvalue` (method, line 224) `def test_update_changes_qvalue(self, tmp_path)`
-  - `test_epsilon_decays_after_update` (method, line 247) `def test_epsilon_decays_after_update(self, tmp_path)`
-  - `test_detection_penalty_lowers_effective_reward` (method, line 259) `def test_detection_penalty_lowers_effective_reward(self, tmp_path)`
-  - `test_optimistic_init_for_unseen_actions` (method, line 291) `def test_optimistic_init_for_unseen_actions(self, tmp_path)`
-  - `test_save_and_reload_persistence` (method, line 298) `def test_save_and_reload_persistence(self, tmp_path)`
-  - `test_swan_result_dataclass_fields` (method, line 322) `def test_swan_result_dataclass_fields(self)`
-  - `test_swan_result_failed_is_not_success` (method, line 344) `def test_swan_result_failed_is_not_success(self)`
-  - `test_outcome_evaluator_success_reward` (method, line 354) `def test_outcome_evaluator_success_reward(self)`
-  - `test_outcome_evaluator_failed_gives_negative_reward` (method, line 368) `def test_outcome_evaluator_failed_gives_negative_reward(self)`
-  - `test_outcome_evaluator_high_value_category_bonus` (method, line 381) `def test_outcome_evaluator_high_value_category_bonus(self)`
-  - `test_mcp_swan_route_returns_valid_json` (method, line 397) `def test_mcp_swan_route_returns_valid_json(self)`
-  - `test_mcp_swan_status_returns_valid_json` (method, line 410) `def test_mcp_swan_status_returns_valid_json(self)`
-  - `test_ensemble_result_dataclass_fields` (method, line 417) `def test_ensemble_result_dataclass_fields(self)`
-  - `test_swan_selector_disabled_by_default` (method, line 447) `def test_swan_selector_disabled_by_default(self)`
-  - `test_swan_selector_phase_mapping_coverage` (method, line 455) `def test_swan_selector_phase_mapping_coverage(self)`
-  - `test_cascade_strategy_contains_swan_selector` (method, line 464) `def test_cascade_strategy_contains_swan_selector(self)`
-  - `test_cascade_strategy_order` (method, line 478) `def test_cascade_strategy_order(self)`
-  - `test_fallback_selector_never_returns_none` (method, line 492) `def test_fallback_selector_never_returns_none(self)`
-  - `test_command_decision_source_label` (method, line 502) `def test_command_decision_source_label(self)`
-  - `test_llm_selector_disabled_without_env` (method, line 509) `def test_llm_selector_disabled_without_env(self)`
-  - `test_detection_above_threshold_zeroes_reward` (method, line 524) `def test_detection_above_threshold_zeroes_reward(self)`
-  - `test_low_detection_preserves_positive_reward` (method, line 541) `def test_low_detection_preserves_positive_reward(self)`
-  - `test_failed_outcome_gives_negative_reward` (method, line 557) `def test_failed_outcome_gives_negative_reward(self)`
-  - `test_add_relation_and_pivot_candidates` (method, line 571) `def test_add_relation_and_pivot_candidates(self, tmp_path)`
-  - `test_graph_snapshot_is_serialisable` (method, line 587) `def test_graph_snapshot_is_serialisable(self, tmp_path)`
-  - `test_auto_relation_on_service_add` (method, line 597) `def test_auto_relation_on_service_add(self, tmp_path)`
-  - `test_pivot_candidates_sorted_by_centrality` (method, line 609) `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)`
-  - `test_swan_tools_registered_in_mcp` (method, line 628) `def test_swan_tools_registered_in_mcp(self)`
-  - `test_hive_tools_registered_in_mcp` (method, line 638) `def test_hive_tools_registered_in_mcp(self)`
-  - `_ep` (method, line 183) `def _ep(eid, w)`
-  - `_make_trainer` (method, line 263) `def _make_trainer(suffix)`
-  - `_result` (method, line 385) `def _result(task_type)`
+  - `TestDetectionOracle` (class, line 37) `class TestDetectionOracle`
+  - `TestMoERouter` (class, line 121) `class TestMoERouter`
+  - `TestRLTrainer` (class, line 223) `class TestRLTrainer`
+  - `TestSwanAgent` (class, line 340) `class TestSwanAgent`
+  - `TestAutonomousDaemonSWAN` (class, line 493) `class TestAutonomousDaemonSWAN`
+  - `TestPolicyDetectionAware` (class, line 571) `class TestPolicyDetectionAware`
+  - `TestWorldModelGraph` (class, line 616) `class TestWorldModelGraph`
+  - `TestMCPRegistration` (class, line 675) `class TestMCPRegistration`
+  - `test_low_risk_dns_query` (method, line 38) `def test_low_risk_dns_query(self)`
+  - `test_high_risk_mimikatz` (method, line 46) `def test_high_risk_mimikatz(self)`
+  - `test_critical_risk_combined_credential_tools` (method, line 54) `def test_critical_risk_combined_credential_tools(self)`
+  - `test_assessment_has_required_fields` (method, line 62) `def test_assessment_has_required_fields(self)`
+  - `test_is_high_risk_property_consistent_with_probability` (method, line 75) `def test_is_high_risk_property_consistent_with_probability(self)`
+  - `test_singleton_returns_same_instance` (method, line 83) `def test_singleton_returns_same_instance(self)`
+  - `test_nmap_is_not_high_risk` (method, line 91) `def test_nmap_is_not_high_risk(self)`
+  - `test_evil_winrm_is_high_risk` (method, line 99) `def test_evil_winrm_is_high_risk(self)`
+  - `test_is_critical_risk_property` (method, line 107) `def test_is_critical_risk_property(self)`
+  - `test_singleton_returns_same_instance` (method, line 122) `def test_singleton_returns_same_instance(self)`
+  - `test_route_returns_expert_or_raises_gracefully` (method, line 130) `def test_route_returns_expert_or_raises_gracefully(self)`
+  - `test_ensemble_returns_available_candidates` (method, line 143) `def test_ensemble_returns_available_candidates(self)`
+  - `test_record_outcome_updates_ema` (method, line 154) `def test_record_outcome_updates_ema(self, tmp_path)`
+  - `test_performance_bonus_positive_after_success` (method, line 164) `def test_performance_bonus_positive_after_success(self, tmp_path)`
+  - `test_performance_bonus_penalises_high_detection` (method, line 173) `def test_performance_bonus_penalises_high_detection(self, tmp_path)`
+  - `test_status_report_contains_experts` (method, line 184) `def test_status_report_contains_experts(self)`
+  - `test_softmax_deterministic_picks_highest_weight` (method, line 193) `def test_softmax_deterministic_picks_highest_weight(self)`
+  - `test_encode_state_format` (method, line 224) `def test_encode_state_format(self)`
+  - `test_select_action_returns_valid_candidate` (method, line 236) `def test_select_action_returns_valid_candidate(self)`
+  - `test_update_changes_qvalue` (method, line 246) `def test_update_changes_qvalue(self, tmp_path)`
+  - `test_epsilon_decays_after_update` (method, line 269) `def test_epsilon_decays_after_update(self, tmp_path)`
+  - `test_detection_penalty_lowers_effective_reward` (method, line 281) `def test_detection_penalty_lowers_effective_reward(self, tmp_path)`
+  - `test_optimistic_init_for_unseen_actions` (method, line 310) `def test_optimistic_init_for_unseen_actions(self, tmp_path)`
+  - `test_save_and_reload_persistence` (method, line 318) `def test_save_and_reload_persistence(self, tmp_path)`
+  - `test_swan_result_dataclass_fields` (method, line 341) `def test_swan_result_dataclass_fields(self)`
+  - `test_swan_result_failed_is_not_success` (method, line 364) `def test_swan_result_failed_is_not_success(self)`
+  - `test_outcome_evaluator_success_reward` (method, line 380) `def test_outcome_evaluator_success_reward(self)`
+  - `test_outcome_evaluator_failed_gives_negative_reward` (method, line 399) `def test_outcome_evaluator_failed_gives_negative_reward(self)`
+  - `test_outcome_evaluator_high_value_category_bonus` (method, line 417) `def test_outcome_evaluator_high_value_category_bonus(self)`
+  - `test_mcp_swan_route_returns_valid_json` (method, line 438) `def test_mcp_swan_route_returns_valid_json(self)`
+  - `test_mcp_swan_status_returns_valid_json` (method, line 452) `def test_mcp_swan_status_returns_valid_json(self)`
+  - `test_ensemble_result_dataclass_fields` (method, line 460) `def test_ensemble_result_dataclass_fields(self)`
+  - `test_swan_selector_disabled_by_default` (method, line 494) `def test_swan_selector_disabled_by_default(self)`
+  - `test_swan_selector_phase_mapping_coverage` (method, line 503) `def test_swan_selector_phase_mapping_coverage(self)`
+  - `test_cascade_strategy_contains_swan_selector` (method, line 511) `def test_cascade_strategy_contains_swan_selector(self)`
+  - `test_cascade_strategy_order` (method, line 525) `def test_cascade_strategy_order(self)`
+  - `test_fallback_selector_never_returns_none` (method, line 539) `def test_fallback_selector_never_returns_none(self)`
+  - `test_command_decision_source_label` (method, line 548) `def test_command_decision_source_label(self)`
+  - `test_llm_selector_disabled_without_env` (method, line 556) `def test_llm_selector_disabled_without_env(self)`
+  - `test_detection_above_threshold_zeroes_reward` (method, line 572) `def test_detection_above_threshold_zeroes_reward(self)`
+  - `test_low_detection_preserves_positive_reward` (method, line 587) `def test_low_detection_preserves_positive_reward(self)`
+  - `test_failed_outcome_gives_negative_reward` (method, line 602) `def test_failed_outcome_gives_negative_reward(self)`
+  - `test_add_relation_and_pivot_candidates` (method, line 617) `def test_add_relation_and_pivot_candidates(self, tmp_path)`
+  - `test_graph_snapshot_is_serialisable` (method, line 634) `def test_graph_snapshot_is_serialisable(self, tmp_path)`
+  - `test_auto_relation_on_service_add` (method, line 645) `def test_auto_relation_on_service_add(self, tmp_path)`
+  - `test_pivot_candidates_sorted_by_centrality` (method, line 656) `def test_pivot_candidates_sorted_by_centrality(self, tmp_path)`
+  - `test_swan_tools_registered_in_mcp` (method, line 676) `def test_swan_tools_registered_in_mcp(self)`
+  - `test_hive_tools_registered_in_mcp` (method, line 685) `def test_hive_tools_registered_in_mcp(self)`
+  - `_ep` (method, line 199) `def _ep(eid, w)`
+  - `_make_trainer` (method, line 285) `def _make_trainer(suffix)`
+  - `_result` (method, line 421) `def _result(task_type)`
 - Depends on: `modules/detection_oracle.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `modules/world_model.py`, `skills/autonomous_daemon.py`, `skills/lazyown_policy.py`, `skills/swan_agent.py`
 
 ## tests/test_moe_router_check_regression.py
@@ -230,8 +230,8 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_sql_injection_blocked` (function, line 19) `def test_sql_injection_blocked()`
   - `test_hmac_compare_digest_used` (function, line 27) `def test_hmac_compare_digest_used()`
   - `test_shell_false_in_safe_runner` (function, line 41) `def test_shell_false_in_safe_runner()`
-  - `test_pickle_removed` (function, line 58) `def test_pickle_removed()`
-  - `test_no_hardcoded_secrets` (function, line 65) `def test_no_hardcoded_secrets()`
+  - `test_pickle_removed` (function, line 56) `def test_pickle_removed()`
+  - `test_no_hardcoded_secrets` (function, line 63) `def test_no_hardcoded_secrets()`
 - Depends on: `modules/db.py`
 
 ## tests/test_nethelpers_command_set.py
@@ -316,9 +316,9 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_loot_mark_rejects_bad_outcome` (function, line 222) `def test_loot_mark_rejects_bad_outcome(tmp_path, capsys)`
   - `test_loot_mark_unknown_credential` (function, line 230) `def test_loot_mark_unknown_credential(tmp_path, capsys)`
   - `test_phase_progress_ranks` (function, line 241) `def test_phase_progress_ranks(tmp_path)`
-  - `test_phase_progress_completed_override` (function, line 257) `def test_phase_progress_completed_override(tmp_path)`
-  - `test_phase_progress_os_owned_report_and_loot` (function, line 273) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
-  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 295) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
+  - `test_phase_progress_completed_override` (function, line 262) `def test_phase_progress_completed_override(tmp_path)`
+  - `test_phase_progress_os_owned_report_and_loot` (function, line 283) `def test_phase_progress_os_owned_report_and_loot(tmp_path)`
+  - `test_link_credential_to_failure_edge_and_roundtrip` (function, line 310) `def test_link_credential_to_failure_edge_and_roundtrip(tmp_path)`
 - Depends on: `cli/ops_commands.py`, `modules/world_model.py`
 
 ## tests/test_opsec_scorer.py
@@ -349,7 +349,7 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `TestSharedRiskMapping` (class, line 29) `class TestSharedRiskMapping`
   - `TestRiskLevelAndGate` (class, line 59) `class TestRiskLevelAndGate`
   - `TestOpsecScorerV2` (class, line 78) `class TestOpsecScorerV2`
-  - `TestBackwardCompatibility` (class, line 138) `class TestBackwardCompatibility`
+  - `TestBackwardCompatibility` (class, line 140) `class TestBackwardCompatibility`
   - `test_risk_buckets_respect_thresholds` (method, line 30) `def test_risk_buckets_respect_thresholds(self)`
   - `test_risk_label_matches_bucket` (method, line 40) `def test_risk_label_matches_bucket(self)`
   - `test_risk_level_matches_bucket` (method, line 46) `def test_risk_level_matches_bucket(self)`
@@ -358,16 +358,16 @@ Previous: [KB_tests_p8.md](KB_tests_p8.md)
   - `test_gate_mapping` (method, line 70) `def test_gate_mapping(self)`
   - `test_assess_returns_gated_score` (method, line 79) `def test_assess_returns_gated_score(self)`
   - `test_mimikatz_is_high_critical` (method, line 87) `def test_mimikatz_is_high_critical(self)`
-  - `test_ping_is_allow` (method, line 97) `def test_ping_is_allow(self)`
-  - `test_should_allow_returns_tuple` (method, line 103) `def test_should_allow_returns_tuple(self)`
-  - `test_trend_insufficient_data` (method, line 109) `def test_trend_insufficient_data(self)`
-  - `test_trend_after_scoring` (method, line 113) `def test_trend_after_scoring(self)`
-  - `test_mitigations_generated` (method, line 121) `def test_mitigations_generated(self)`
-  - `test_alternatives_for_mimikatz` (method, line 126) `def test_alternatives_for_mimikatz(self)`
-  - `test_unknown_command_uses_default_profile` (method, line 131) `def test_unknown_command_uses_default_profile(self)`
-  - `test_v1_score_returns_string_risk` (method, line 139) `def test_v1_score_returns_string_risk(self)`
-  - `test_opsec_context_defaults` (method, line 145) `def test_opsec_context_defaults(self)`
-  - `test_risk_profiles_shared_table_intact` (method, line 152) `def test_risk_profiles_shared_table_intact(self)`
+  - `test_ping_is_allow` (method, line 99) `def test_ping_is_allow(self)`
+  - `test_should_allow_returns_tuple` (method, line 105) `def test_should_allow_returns_tuple(self)`
+  - `test_trend_insufficient_data` (method, line 111) `def test_trend_insufficient_data(self)`
+  - `test_trend_after_scoring` (method, line 115) `def test_trend_after_scoring(self)`
+  - `test_mitigations_generated` (method, line 123) `def test_mitigations_generated(self)`
+  - `test_alternatives_for_mimikatz` (method, line 128) `def test_alternatives_for_mimikatz(self)`
+  - `test_unknown_command_uses_default_profile` (method, line 133) `def test_unknown_command_uses_default_profile(self)`
+  - `test_v1_score_returns_string_risk` (method, line 141) `def test_v1_score_returns_string_risk(self)`
+  - `test_opsec_context_defaults` (method, line 147) `def test_opsec_context_defaults(self)`
+  - `test_risk_profiles_shared_table_intact` (method, line 154) `def test_risk_profiles_shared_table_intact(self)`
 - Depends on: `modules/opsec_scorer.py`
 
 ## tests/test_packaging.py

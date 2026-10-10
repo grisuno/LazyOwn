@@ -2,161 +2,161 @@
 Previous: [KB_skills_p4.md](KB_skills_p4.md)
 
 ## skills/mcp_generated_tools.py (continued)
-  - `_gen_rot` (function, line 4598) `def _gen_rot(arguments, tool_name, _cmd)`
-  - `_gen_rotate_aes` (function, line 4606) `def _gen_rotate_aes(arguments, tool_name, _cmd)`
-  - `_gen_rotf` (function, line 4614) `def _gen_rotf(arguments, tool_name, _cmd)`
-  - `_gen_route` (function, line 4622) `def _gen_route(arguments, tool_name, _cmd)`
-  - `_gen_rpcclient` (function, line 4630) `def _gen_rpcclient(arguments, tool_name, _cmd)`
-  - `_gen_rpcdump` (function, line 4638) `def _gen_rpcdump(arguments, tool_name, _cmd)`
-  - `_gen_rpcmap_py` (function, line 4646) `def _gen_rpcmap_py(arguments, tool_name, _cmd)`
-  - `_gen_rrhost` (function, line 4654) `def _gen_rrhost(arguments, tool_name, _cmd)`
-  - `_gen_rsync` (function, line 4662) `def _gen_rsync(arguments, tool_name, _cmd)`
-  - `_gen_rubeus` (function, line 4670) `def _gen_rubeus(arguments, tool_name, _cmd)`
-  - `_gen_run` (function, line 4678) `def _gen_run(arguments, tool_name, _cmd)`
-  - `_gen_samdump2` (function, line 4686) `def _gen_samdump2(arguments, tool_name, _cmd)`
-  - `_gen_samrdump` (function, line 4694) `def _gen_samrdump(arguments, tool_name, _cmd)`
-  - `_gen_sandbox` (function, line 4702) `def _gen_sandbox(arguments, tool_name, _cmd)`
-  - `_gen_sawks` (function, line 4710) `def _gen_sawks(arguments, tool_name, _cmd)`
-  - `_gen_scans` (function, line 4718) `def _gen_scans(arguments, tool_name, _cmd)`
-  - `_gen_scarecrow` (function, line 4726) `def _gen_scarecrow(arguments, tool_name, _cmd)`
-  - `_gen_scavenger` (function, line 4734) `def _gen_scavenger(arguments, tool_name, _cmd)`
-  - `_gen_scope` (function, line 4742) `def _gen_scope(arguments, tool_name, _cmd)`
-  - `_gen_scp` (function, line 4750) `def _gen_scp(arguments, tool_name, _cmd)`
-  - `_gen_seal_credentials` (function, line 4758) `def _gen_seal_credentials(arguments, tool_name, _cmd)`
-  - `_gen_search` (function, line 4766) `def _gen_search(arguments, tool_name, _cmd)`
-  - `_gen_searchhash` (function, line 4774) `def _gen_searchhash(arguments, tool_name, _cmd)`
-  - `_gen_secretsdump` (function, line 4782) `def _gen_secretsdump(arguments, tool_name, _cmd)`
-  - `_gen_seo` (function, line 4790) `def _gen_seo(arguments, tool_name, _cmd)`
-  - `_gen_serveralive2` (function, line 4798) `def _gen_serveralive2(arguments, tool_name, _cmd)`
-  - `_gen_service` (function, line 4806) `def _gen_service(arguments, tool_name, _cmd)`
-  - `_gen_service_ssh` (function, line 4814) `def _gen_service_ssh(arguments, tool_name, _cmd)`
-  - `_gen_sessionssh` (function, line 4822) `def _gen_sessionssh(arguments, tool_name, _cmd)`
-  - `_gen_sessionsshstrace` (function, line 4830) `def _gen_sessionsshstrace(arguments, tool_name, _cmd)`
-  - `_gen_set` (function, line 4838) `def _gen_set(arguments, tool_name, _cmd)`
-  - `_gen_set_proxychains` (function, line 4846) `def _gen_set_proxychains(arguments, tool_name, _cmd)`
-  - `_gen_setoolKits` (function, line 4854) `def _gen_setoolKits(arguments, tool_name, _cmd)`
-  - `_gen_sh` (function, line 4862) `def _gen_sh(arguments, tool_name, _cmd)`
-  - `_gen_shadowsocks` (function, line 4870) `def _gen_shadowsocks(arguments, tool_name, _cmd)`
-  - `_gen_share_finding` (function, line 4878) `def _gen_share_finding(arguments, tool_name, _cmd)`
-  - `_gen_sharpshooter` (function, line 4886) `def _gen_sharpshooter(arguments, tool_name, _cmd)`
-  - `_gen_shellcode` (function, line 4894) `def _gen_shellcode(arguments, tool_name, _cmd)`
-  - `_gen_shellcode2elf` (function, line 4902) `def _gen_shellcode2elf(arguments, tool_name, _cmd)`
-  - `_gen_shellcode2sylk` (function, line 4910) `def _gen_shellcode2sylk(arguments, tool_name, _cmd)`
-  - `_gen_shellcode_search` (function, line 4918) `def _gen_shellcode_search(arguments, tool_name, _cmd)`
-  - `_gen_shellfire` (function, line 4926) `def _gen_shellfire(arguments, tool_name, _cmd)`
-  - `_gen_shellshock` (function, line 4934) `def _gen_shellshock(arguments, tool_name, _cmd)`
-  - `_gen_sherlock` (function, line 4942) `def _gen_sherlock(arguments, tool_name, _cmd)`
-  - `_gen_show` (function, line 4950) `def _gen_show(arguments, tool_name, _cmd)`
-  - `_gen_shred` (function, line 4958) `def _gen_shred(arguments, tool_name, _cmd)`
-  - `_gen_sireprat` (function, line 4966) `def _gen_sireprat(arguments, tool_name, _cmd)`
-  - `_gen_sitrep` (function, line 4974) `def _gen_sitrep(arguments, tool_name, _cmd)`
-  - `_gen_skipfish` (function, line 4982) `def _gen_skipfish(arguments, tool_name, _cmd)`
-  - `_gen_sliver_server` (function, line 4990) `def _gen_sliver_server(arguments, tool_name, _cmd)`
-  - `_gen_smalldic` (function, line 4998) `def _gen_smalldic(arguments, tool_name, _cmd)`
-  - `_gen_smb_exfil` (function, line 5006) `def _gen_smb_exfil(arguments, tool_name, _cmd)`
-  - `_gen_smbattack` (function, line 5014) `def _gen_smbattack(arguments, tool_name, _cmd)`
-  - `_gen_smbclient` (function, line 5022) `def _gen_smbclient(arguments, tool_name, _cmd)`
-  - `_gen_smbclient_impacket` (function, line 5030) `def _gen_smbclient_impacket(arguments, tool_name, _cmd)`
-  - `_gen_smbclient_py` (function, line 5038) `def _gen_smbclient_py(arguments, tool_name, _cmd)`
-  - `_gen_smbmap` (function, line 5046) `def _gen_smbmap(arguments, tool_name, _cmd)`
-  - `_gen_smbserver` (function, line 5054) `def _gen_smbserver(arguments, tool_name, _cmd)`
-  - `_gen_smtpuserenum` (function, line 5062) `def _gen_smtpuserenum(arguments, tool_name, _cmd)`
-  - `_gen_snmpcheck` (function, line 5070) `def _gen_snmpcheck(arguments, tool_name, _cmd)`
-  - `_gen_snmpwalk` (function, line 5078) `def _gen_snmpwalk(arguments, tool_name, _cmd)`
-  - `_gen_socat` (function, line 5086) `def _gen_socat(arguments, tool_name, _cmd)`
-  - `_gen_spool` (function, line 5094) `def _gen_spool(arguments, tool_name, _cmd)`
-  - `_gen_spraykatz` (function, line 5102) `def _gen_spraykatz(arguments, tool_name, _cmd)`
-  - `_gen_sqli` (function, line 5110) `def _gen_sqli(arguments, tool_name, _cmd)`
-  - `_gen_sqli_mssql_test` (function, line 5118) `def _gen_sqli_mssql_test(arguments, tool_name, _cmd)`
-  - `_gen_sqlmap` (function, line 5126) `def _gen_sqlmap(arguments, tool_name, _cmd)`
-  - `_gen_sqsh` (function, line 5134) `def _gen_sqsh(arguments, tool_name, _cmd)`
-  - `_gen_ss` (function, line 5142) `def _gen_ss(arguments, tool_name, _cmd)`
-  - `_gen_ssh` (function, line 5150) `def _gen_ssh(arguments, tool_name, _cmd)`
-  - `_gen_ssh_cmd` (function, line 5158) `def _gen_ssh_cmd(arguments, tool_name, _cmd)`
-  - `_gen_sshd` (function, line 5166) `def _gen_sshd(arguments, tool_name, _cmd)`
-  - `_gen_sshexploit` (function, line 5174) `def _gen_sshexploit(arguments, tool_name, _cmd)`
-  - `_gen_sshkey` (function, line 5182) `def _gen_sshkey(arguments, tool_name, _cmd)`
-  - `_gen_sslscan` (function, line 5190) `def _gen_sslscan(arguments, tool_name, _cmd)`
-  - `_gen_stage` (function, line 5198) `def _gen_stage(arguments, tool_name, _cmd)`
-  - `_gen_state_snapshot` (function, line 5206) `def _gen_state_snapshot(arguments, tool_name, _cmd)`
-  - `_gen_status_bar` (function, line 5214) `def _gen_status_bar(arguments, tool_name, _cmd)`
-  - `_gen_status_tail` (function, line 5222) `def _gen_status_tail(arguments, tool_name, _cmd)`
-  - `_gen_stealth_off` (function, line 5230) `def _gen_stealth_off(arguments, tool_name, _cmd)`
-  - `_gen_stealth_on` (function, line 5238) `def _gen_stealth_on(arguments, tool_name, _cmd)`
-  - `_gen_stormbreaker` (function, line 5246) `def _gen_stormbreaker(arguments, tool_name, _cmd)`
-  - `_gen_sudo` (function, line 5254) `def _gen_sudo(arguments, tool_name, _cmd)`
-  - `_gen_suggest_next` (function, line 5262) `def _gen_suggest_next(arguments, tool_name, _cmd)`
-  - `_gen_suid_check` (function, line 5270) `def _gen_suid_check(arguments, tool_name, _cmd)`
-  - `_gen_surface` (function, line 5278) `def _gen_surface(arguments, tool_name, _cmd)`
-  - `_gen_swaks` (function, line 5286) `def _gen_swaks(arguments, tool_name, _cmd)`
-  - `_gen_sys` (function, line 5294) `def _gen_sys(arguments, tool_name, _cmd)`
-  - `_gen_tab` (function, line 5302) `def _gen_tab(arguments, tool_name, _cmd)`
-  - `_gen_targetedKerberoas` (function, line 5310) `def _gen_targetedKerberoas(arguments, tool_name, _cmd)`
-  - `_gen_tasks` (function, line 5318) `def _gen_tasks(arguments, tool_name, _cmd)`
-  - `_gen_tcpdump_capture` (function, line 5326) `def _gen_tcpdump_capture(arguments, tool_name, _cmd)`
-  - `_gen_tcpdump_icmp` (function, line 5334) `def _gen_tcpdump_icmp(arguments, tool_name, _cmd)`
-  - `_gen_team_chat` (function, line 5342) `def _gen_team_chat(arguments, tool_name, _cmd)`
-  - `_gen_team_status` (function, line 5350) `def _gen_team_status(arguments, tool_name, _cmd)`
-  - `_gen_template_helper_serializer` (function, line 5358) `def _gen_template_helper_serializer(arguments, tool_name, _cmd)`
-  - `_gen_tenant` (function, line 5366) `def _gen_tenant(arguments, tool_name, _cmd)`
-  - `_gen_tgrep` (function, line 5374) `def _gen_tgrep(arguments, tool_name, _cmd)`
-  - `_gen_ticketer` (function, line 5382) `def _gen_ticketer(arguments, tool_name, _cmd)`
-  - `_gen_timeline_browser` (function, line 5390) `def _gen_timeline_browser(arguments, tool_name, _cmd)`
-  - `_gen_toast_clear` (function, line 5398) `def _gen_toast_clear(arguments, tool_name, _cmd)`
-  - `_gen_toctoc` (function, line 5406) `def _gen_toctoc(arguments, tool_name, _cmd)`
-  - `_gen_tord` (function, line 5414) `def _gen_tord(arguments, tool_name, _cmd)`
-  - `_gen_trace` (function, line 5422) `def _gen_trace(arguments, tool_name, _cmd)`
-  - `_gen_transform` (function, line 5430) `def _gen_transform(arguments, tool_name, _cmd)`
-  - `_gen_trufflehog` (function, line 5438) `def _gen_trufflehog(arguments, tool_name, _cmd)`
-  - `_gen_tshark_analyze` (function, line 5446) `def _gen_tshark_analyze(arguments, tool_name, _cmd)`
-  - `_gen_ttp_matrix` (function, line 5454) `def _gen_ttp_matrix(arguments, tool_name, _cmd)`
-  - `_gen_ttp_rebuild` (function, line 5462) `def _gen_ttp_rebuild(arguments, tool_name, _cmd)`
-  - `_gen_ttp_show` (function, line 5470) `def _gen_ttp_show(arguments, tool_name, _cmd)`
-  - `_gen_tui_theme` (function, line 5478) `def _gen_tui_theme(arguments, tool_name, _cmd)`
-  - `_gen_unicode_WAFbypass` (function, line 5486) `def _gen_unicode_WAFbypass(arguments, tool_name, _cmd)`
-  - `_gen_unlock_target` (function, line 5494) `def _gen_unlock_target(arguments, tool_name, _cmd)`
-  - `_gen_unseal_credentials` (function, line 5502) `def _gen_unseal_credentials(arguments, tool_name, _cmd)`
-  - `_gen_unzip` (function, line 5510) `def _gen_unzip(arguments, tool_name, _cmd)`
-  - `_gen_upload_bypass` (function, line 5518) `def _gen_upload_bypass(arguments, tool_name, _cmd)`
-  - `_gen_upload_c2` (function, line 5526) `def _gen_upload_c2(arguments, tool_name, _cmd)`
-  - `_gen_upload_gofile` (function, line 5534) `def _gen_upload_gofile(arguments, tool_name, _cmd)`
-  - `_gen_urldecode` (function, line 5542) `def _gen_urldecode(arguments, tool_name, _cmd)`
-  - `_gen_urlencode` (function, line 5550) `def _gen_urlencode(arguments, tool_name, _cmd)`
-  - `_gen_use` (function, line 5558) `def _gen_use(arguments, tool_name, _cmd)`
-  - `_gen_username_anarchy` (function, line 5566) `def _gen_username_anarchy(arguments, tool_name, _cmd)`
-  - `_gen_utf` (function, line 5574) `def _gen_utf(arguments, tool_name, _cmd)`
-  - `_gen_v` (function, line 5582) `def _gen_v(arguments, tool_name, _cmd)`
-  - `_gen_veil` (function, line 5590) `def _gen_veil(arguments, tool_name, _cmd)`
-  - `_gen_vpn` (function, line 5598) `def _gen_vpn(arguments, tool_name, _cmd)`
-  - `_gen_vscan` (function, line 5606) `def _gen_vscan(arguments, tool_name, _cmd)`
-  - `_gen_vuln_list` (function, line 5614) `def _gen_vuln_list(arguments, tool_name, _cmd)`
-  - `_gen_vulns` (function, line 5622) `def _gen_vulns(arguments, tool_name, _cmd)`
-  - `_gen_waybackmachine` (function, line 5630) `def _gen_waybackmachine(arguments, tool_name, _cmd)`
-  - `_gen_weevely` (function, line 5638) `def _gen_weevely(arguments, tool_name, _cmd)`
-  - `_gen_weevelygen` (function, line 5646) `def _gen_weevelygen(arguments, tool_name, _cmd)`
-  - `_gen_wfuzz` (function, line 5654) `def _gen_wfuzz(arguments, tool_name, _cmd)`
-  - `_gen_whatweb` (function, line 5662) `def _gen_whatweb(arguments, tool_name, _cmd)`
-  - `_gen_whoami` (function, line 5670) `def _gen_whoami(arguments, tool_name, _cmd)`
-  - `_gen_wifipass` (function, line 5678) `def _gen_wifipass(arguments, tool_name, _cmd)`
-  - `_gen_winbase64payload` (function, line 5686) `def _gen_winbase64payload(arguments, tool_name, _cmd)`
-  - `_gen_windapsearch` (function, line 5694) `def _gen_windapsearch(arguments, tool_name, _cmd)`
-  - `_gen_windapsearchscrapeusers` (function, line 5702) `def _gen_windapsearchscrapeusers(arguments, tool_name, _cmd)`
-  - `_gen_winpeas` (function, line 5710) `def _gen_winpeas(arguments, tool_name, _cmd)`
-  - `_gen_wipe_free` (function, line 5718) `def _gen_wipe_free(arguments, tool_name, _cmd)`
-  - `_gen_wipe_logs` (function, line 5726) `def _gen_wipe_logs(arguments, tool_name, _cmd)`
-  - `_gen_wipe_timeline` (function, line 5734) `def _gen_wipe_timeline(arguments, tool_name, _cmd)`
-  - `_gen_wizard` (function, line 5742) `def _gen_wizard(arguments, tool_name, _cmd)`
-  - `_gen_wmi_lateral` (function, line 5750) `def _gen_wmi_lateral(arguments, tool_name, _cmd)`
-  - `_gen_wmi_persist` (function, line 5758) `def _gen_wmi_persist(arguments, tool_name, _cmd)`
-  - `_gen_wmi_scheduled_task` (function, line 5766) `def _gen_wmi_scheduled_task(arguments, tool_name, _cmd)`
-  - `_gen_wmiexec` (function, line 5774) `def _gen_wmiexec(arguments, tool_name, _cmd)`
-  - `_gen_wmiexecpro` (function, line 5782) `def _gen_wmiexecpro(arguments, tool_name, _cmd)`
-  - `_gen_wpscan` (function, line 5790) `def _gen_wpscan(arguments, tool_name, _cmd)`
-  - `_gen_wrapper` (function, line 5798) `def _gen_wrapper(arguments, tool_name, _cmd)`
-  - `_gen_www` (function, line 5806) `def _gen_www(arguments, tool_name, _cmd)`
-  - `_gen_xss` (function, line 5814) `def _gen_xss(arguments, tool_name, _cmd)`
-  - `_gen_xsstrike` (function, line 5822) `def _gen_xsstrike(arguments, tool_name, _cmd)`
-  - `_gen_yara_scan` (function, line 5830) `def _gen_yara_scan(arguments, tool_name, _cmd)`
+  - `_gen_rot` (function, line 4602) `def _gen_rot(arguments, tool_name, _cmd)`
+  - `_gen_rotate_aes` (function, line 4610) `def _gen_rotate_aes(arguments, tool_name, _cmd)`
+  - `_gen_rotf` (function, line 4618) `def _gen_rotf(arguments, tool_name, _cmd)`
+  - `_gen_route` (function, line 4626) `def _gen_route(arguments, tool_name, _cmd)`
+  - `_gen_rpcclient` (function, line 4634) `def _gen_rpcclient(arguments, tool_name, _cmd)`
+  - `_gen_rpcdump` (function, line 4642) `def _gen_rpcdump(arguments, tool_name, _cmd)`
+  - `_gen_rpcmap_py` (function, line 4650) `def _gen_rpcmap_py(arguments, tool_name, _cmd)`
+  - `_gen_rrhost` (function, line 4658) `def _gen_rrhost(arguments, tool_name, _cmd)`
+  - `_gen_rsync` (function, line 4666) `def _gen_rsync(arguments, tool_name, _cmd)`
+  - `_gen_rubeus` (function, line 4674) `def _gen_rubeus(arguments, tool_name, _cmd)`
+  - `_gen_run` (function, line 4682) `def _gen_run(arguments, tool_name, _cmd)`
+  - `_gen_samdump2` (function, line 4690) `def _gen_samdump2(arguments, tool_name, _cmd)`
+  - `_gen_samrdump` (function, line 4698) `def _gen_samrdump(arguments, tool_name, _cmd)`
+  - `_gen_sandbox` (function, line 4706) `def _gen_sandbox(arguments, tool_name, _cmd)`
+  - `_gen_sawks` (function, line 4714) `def _gen_sawks(arguments, tool_name, _cmd)`
+  - `_gen_scans` (function, line 4722) `def _gen_scans(arguments, tool_name, _cmd)`
+  - `_gen_scarecrow` (function, line 4730) `def _gen_scarecrow(arguments, tool_name, _cmd)`
+  - `_gen_scavenger` (function, line 4738) `def _gen_scavenger(arguments, tool_name, _cmd)`
+  - `_gen_scope` (function, line 4746) `def _gen_scope(arguments, tool_name, _cmd)`
+  - `_gen_scp` (function, line 4754) `def _gen_scp(arguments, tool_name, _cmd)`
+  - `_gen_seal_credentials` (function, line 4762) `def _gen_seal_credentials(arguments, tool_name, _cmd)`
+  - `_gen_search` (function, line 4770) `def _gen_search(arguments, tool_name, _cmd)`
+  - `_gen_searchhash` (function, line 4778) `def _gen_searchhash(arguments, tool_name, _cmd)`
+  - `_gen_secretsdump` (function, line 4786) `def _gen_secretsdump(arguments, tool_name, _cmd)`
+  - `_gen_seo` (function, line 4794) `def _gen_seo(arguments, tool_name, _cmd)`
+  - `_gen_serveralive2` (function, line 4802) `def _gen_serveralive2(arguments, tool_name, _cmd)`
+  - `_gen_service` (function, line 4810) `def _gen_service(arguments, tool_name, _cmd)`
+  - `_gen_service_ssh` (function, line 4818) `def _gen_service_ssh(arguments, tool_name, _cmd)`
+  - `_gen_sessionssh` (function, line 4826) `def _gen_sessionssh(arguments, tool_name, _cmd)`
+  - `_gen_sessionsshstrace` (function, line 4834) `def _gen_sessionsshstrace(arguments, tool_name, _cmd)`
+  - `_gen_set` (function, line 4842) `def _gen_set(arguments, tool_name, _cmd)`
+  - `_gen_set_proxychains` (function, line 4850) `def _gen_set_proxychains(arguments, tool_name, _cmd)`
+  - `_gen_setoolKits` (function, line 4858) `def _gen_setoolKits(arguments, tool_name, _cmd)`
+  - `_gen_sh` (function, line 4866) `def _gen_sh(arguments, tool_name, _cmd)`
+  - `_gen_shadowsocks` (function, line 4874) `def _gen_shadowsocks(arguments, tool_name, _cmd)`
+  - `_gen_share_finding` (function, line 4882) `def _gen_share_finding(arguments, tool_name, _cmd)`
+  - `_gen_sharpshooter` (function, line 4890) `def _gen_sharpshooter(arguments, tool_name, _cmd)`
+  - `_gen_shellcode` (function, line 4898) `def _gen_shellcode(arguments, tool_name, _cmd)`
+  - `_gen_shellcode2elf` (function, line 4906) `def _gen_shellcode2elf(arguments, tool_name, _cmd)`
+  - `_gen_shellcode2sylk` (function, line 4914) `def _gen_shellcode2sylk(arguments, tool_name, _cmd)`
+  - `_gen_shellcode_search` (function, line 4922) `def _gen_shellcode_search(arguments, tool_name, _cmd)`
+  - `_gen_shellfire` (function, line 4930) `def _gen_shellfire(arguments, tool_name, _cmd)`
+  - `_gen_shellshock` (function, line 4938) `def _gen_shellshock(arguments, tool_name, _cmd)`
+  - `_gen_sherlock` (function, line 4946) `def _gen_sherlock(arguments, tool_name, _cmd)`
+  - `_gen_show` (function, line 4954) `def _gen_show(arguments, tool_name, _cmd)`
+  - `_gen_shred` (function, line 4962) `def _gen_shred(arguments, tool_name, _cmd)`
+  - `_gen_sireprat` (function, line 4970) `def _gen_sireprat(arguments, tool_name, _cmd)`
+  - `_gen_sitrep` (function, line 4978) `def _gen_sitrep(arguments, tool_name, _cmd)`
+  - `_gen_skipfish` (function, line 4986) `def _gen_skipfish(arguments, tool_name, _cmd)`
+  - `_gen_sliver_server` (function, line 4994) `def _gen_sliver_server(arguments, tool_name, _cmd)`
+  - `_gen_smalldic` (function, line 5002) `def _gen_smalldic(arguments, tool_name, _cmd)`
+  - `_gen_smb_exfil` (function, line 5010) `def _gen_smb_exfil(arguments, tool_name, _cmd)`
+  - `_gen_smbattack` (function, line 5018) `def _gen_smbattack(arguments, tool_name, _cmd)`
+  - `_gen_smbclient` (function, line 5026) `def _gen_smbclient(arguments, tool_name, _cmd)`
+  - `_gen_smbclient_impacket` (function, line 5034) `def _gen_smbclient_impacket(arguments, tool_name, _cmd)`
+  - `_gen_smbclient_py` (function, line 5042) `def _gen_smbclient_py(arguments, tool_name, _cmd)`
+  - `_gen_smbmap` (function, line 5050) `def _gen_smbmap(arguments, tool_name, _cmd)`
+  - `_gen_smbserver` (function, line 5058) `def _gen_smbserver(arguments, tool_name, _cmd)`
+  - `_gen_smtpuserenum` (function, line 5066) `def _gen_smtpuserenum(arguments, tool_name, _cmd)`
+  - `_gen_snmpcheck` (function, line 5074) `def _gen_snmpcheck(arguments, tool_name, _cmd)`
+  - `_gen_snmpwalk` (function, line 5082) `def _gen_snmpwalk(arguments, tool_name, _cmd)`
+  - `_gen_socat` (function, line 5090) `def _gen_socat(arguments, tool_name, _cmd)`
+  - `_gen_spool` (function, line 5098) `def _gen_spool(arguments, tool_name, _cmd)`
+  - `_gen_spraykatz` (function, line 5106) `def _gen_spraykatz(arguments, tool_name, _cmd)`
+  - `_gen_sqli` (function, line 5114) `def _gen_sqli(arguments, tool_name, _cmd)`
+  - `_gen_sqli_mssql_test` (function, line 5122) `def _gen_sqli_mssql_test(arguments, tool_name, _cmd)`
+  - `_gen_sqlmap` (function, line 5130) `def _gen_sqlmap(arguments, tool_name, _cmd)`
+  - `_gen_sqsh` (function, line 5138) `def _gen_sqsh(arguments, tool_name, _cmd)`
+  - `_gen_ss` (function, line 5146) `def _gen_ss(arguments, tool_name, _cmd)`
+  - `_gen_ssh` (function, line 5154) `def _gen_ssh(arguments, tool_name, _cmd)`
+  - `_gen_ssh_cmd` (function, line 5162) `def _gen_ssh_cmd(arguments, tool_name, _cmd)`
+  - `_gen_sshd` (function, line 5170) `def _gen_sshd(arguments, tool_name, _cmd)`
+  - `_gen_sshexploit` (function, line 5178) `def _gen_sshexploit(arguments, tool_name, _cmd)`
+  - `_gen_sshkey` (function, line 5186) `def _gen_sshkey(arguments, tool_name, _cmd)`
+  - `_gen_sslscan` (function, line 5194) `def _gen_sslscan(arguments, tool_name, _cmd)`
+  - `_gen_stage` (function, line 5202) `def _gen_stage(arguments, tool_name, _cmd)`
+  - `_gen_state_snapshot` (function, line 5210) `def _gen_state_snapshot(arguments, tool_name, _cmd)`
+  - `_gen_status_bar` (function, line 5218) `def _gen_status_bar(arguments, tool_name, _cmd)`
+  - `_gen_status_tail` (function, line 5226) `def _gen_status_tail(arguments, tool_name, _cmd)`
+  - `_gen_stealth_off` (function, line 5234) `def _gen_stealth_off(arguments, tool_name, _cmd)`
+  - `_gen_stealth_on` (function, line 5242) `def _gen_stealth_on(arguments, tool_name, _cmd)`
+  - `_gen_stormbreaker` (function, line 5250) `def _gen_stormbreaker(arguments, tool_name, _cmd)`
+  - `_gen_sudo` (function, line 5258) `def _gen_sudo(arguments, tool_name, _cmd)`
+  - `_gen_suggest_next` (function, line 5266) `def _gen_suggest_next(arguments, tool_name, _cmd)`
+  - `_gen_suid_check` (function, line 5274) `def _gen_suid_check(arguments, tool_name, _cmd)`
+  - `_gen_surface` (function, line 5282) `def _gen_surface(arguments, tool_name, _cmd)`
+  - `_gen_swaks` (function, line 5290) `def _gen_swaks(arguments, tool_name, _cmd)`
+  - `_gen_sys` (function, line 5298) `def _gen_sys(arguments, tool_name, _cmd)`
+  - `_gen_tab` (function, line 5306) `def _gen_tab(arguments, tool_name, _cmd)`
+  - `_gen_targetedKerberoas` (function, line 5314) `def _gen_targetedKerberoas(arguments, tool_name, _cmd)`
+  - `_gen_tasks` (function, line 5322) `def _gen_tasks(arguments, tool_name, _cmd)`
+  - `_gen_tcpdump_capture` (function, line 5330) `def _gen_tcpdump_capture(arguments, tool_name, _cmd)`
+  - `_gen_tcpdump_icmp` (function, line 5338) `def _gen_tcpdump_icmp(arguments, tool_name, _cmd)`
+  - `_gen_team_chat` (function, line 5346) `def _gen_team_chat(arguments, tool_name, _cmd)`
+  - `_gen_team_status` (function, line 5354) `def _gen_team_status(arguments, tool_name, _cmd)`
+  - `_gen_template_helper_serializer` (function, line 5362) `def _gen_template_helper_serializer(arguments, tool_name, _cmd)`
+  - `_gen_tenant` (function, line 5372) `def _gen_tenant(arguments, tool_name, _cmd)`
+  - `_gen_tgrep` (function, line 5380) `def _gen_tgrep(arguments, tool_name, _cmd)`
+  - `_gen_ticketer` (function, line 5388) `def _gen_ticketer(arguments, tool_name, _cmd)`
+  - `_gen_timeline_browser` (function, line 5396) `def _gen_timeline_browser(arguments, tool_name, _cmd)`
+  - `_gen_toast_clear` (function, line 5404) `def _gen_toast_clear(arguments, tool_name, _cmd)`
+  - `_gen_toctoc` (function, line 5412) `def _gen_toctoc(arguments, tool_name, _cmd)`
+  - `_gen_tord` (function, line 5420) `def _gen_tord(arguments, tool_name, _cmd)`
+  - `_gen_trace` (function, line 5428) `def _gen_trace(arguments, tool_name, _cmd)`
+  - `_gen_transform` (function, line 5436) `def _gen_transform(arguments, tool_name, _cmd)`
+  - `_gen_trufflehog` (function, line 5444) `def _gen_trufflehog(arguments, tool_name, _cmd)`
+  - `_gen_tshark_analyze` (function, line 5452) `def _gen_tshark_analyze(arguments, tool_name, _cmd)`
+  - `_gen_ttp_matrix` (function, line 5460) `def _gen_ttp_matrix(arguments, tool_name, _cmd)`
+  - `_gen_ttp_rebuild` (function, line 5468) `def _gen_ttp_rebuild(arguments, tool_name, _cmd)`
+  - `_gen_ttp_show` (function, line 5476) `def _gen_ttp_show(arguments, tool_name, _cmd)`
+  - `_gen_tui_theme` (function, line 5484) `def _gen_tui_theme(arguments, tool_name, _cmd)`
+  - `_gen_unicode_WAFbypass` (function, line 5492) `def _gen_unicode_WAFbypass(arguments, tool_name, _cmd)`
+  - `_gen_unlock_target` (function, line 5500) `def _gen_unlock_target(arguments, tool_name, _cmd)`
+  - `_gen_unseal_credentials` (function, line 5508) `def _gen_unseal_credentials(arguments, tool_name, _cmd)`
+  - `_gen_unzip` (function, line 5516) `def _gen_unzip(arguments, tool_name, _cmd)`
+  - `_gen_upload_bypass` (function, line 5524) `def _gen_upload_bypass(arguments, tool_name, _cmd)`
+  - `_gen_upload_c2` (function, line 5532) `def _gen_upload_c2(arguments, tool_name, _cmd)`
+  - `_gen_upload_gofile` (function, line 5540) `def _gen_upload_gofile(arguments, tool_name, _cmd)`
+  - `_gen_urldecode` (function, line 5548) `def _gen_urldecode(arguments, tool_name, _cmd)`
+  - `_gen_urlencode` (function, line 5556) `def _gen_urlencode(arguments, tool_name, _cmd)`
+  - `_gen_use` (function, line 5564) `def _gen_use(arguments, tool_name, _cmd)`
+  - `_gen_username_anarchy` (function, line 5572) `def _gen_username_anarchy(arguments, tool_name, _cmd)`
+  - `_gen_utf` (function, line 5580) `def _gen_utf(arguments, tool_name, _cmd)`
+  - `_gen_v` (function, line 5588) `def _gen_v(arguments, tool_name, _cmd)`
+  - `_gen_veil` (function, line 5596) `def _gen_veil(arguments, tool_name, _cmd)`
+  - `_gen_vpn` (function, line 5604) `def _gen_vpn(arguments, tool_name, _cmd)`
+  - `_gen_vscan` (function, line 5612) `def _gen_vscan(arguments, tool_name, _cmd)`
+  - `_gen_vuln_list` (function, line 5620) `def _gen_vuln_list(arguments, tool_name, _cmd)`
+  - `_gen_vulns` (function, line 5628) `def _gen_vulns(arguments, tool_name, _cmd)`
+  - `_gen_waybackmachine` (function, line 5636) `def _gen_waybackmachine(arguments, tool_name, _cmd)`
+  - `_gen_weevely` (function, line 5644) `def _gen_weevely(arguments, tool_name, _cmd)`
+  - `_gen_weevelygen` (function, line 5652) `def _gen_weevelygen(arguments, tool_name, _cmd)`
+  - `_gen_wfuzz` (function, line 5660) `def _gen_wfuzz(arguments, tool_name, _cmd)`
+  - `_gen_whatweb` (function, line 5668) `def _gen_whatweb(arguments, tool_name, _cmd)`
+  - `_gen_whoami` (function, line 5676) `def _gen_whoami(arguments, tool_name, _cmd)`
+  - `_gen_wifipass` (function, line 5684) `def _gen_wifipass(arguments, tool_name, _cmd)`
+  - `_gen_winbase64payload` (function, line 5692) `def _gen_winbase64payload(arguments, tool_name, _cmd)`
+  - `_gen_windapsearch` (function, line 5700) `def _gen_windapsearch(arguments, tool_name, _cmd)`
+  - `_gen_windapsearchscrapeusers` (function, line 5708) `def _gen_windapsearchscrapeusers(arguments, tool_name, _cmd)`
+  - `_gen_winpeas` (function, line 5716) `def _gen_winpeas(arguments, tool_name, _cmd)`
+  - `_gen_wipe_free` (function, line 5724) `def _gen_wipe_free(arguments, tool_name, _cmd)`
+  - `_gen_wipe_logs` (function, line 5732) `def _gen_wipe_logs(arguments, tool_name, _cmd)`
+  - `_gen_wipe_timeline` (function, line 5740) `def _gen_wipe_timeline(arguments, tool_name, _cmd)`
+  - `_gen_wizard` (function, line 5748) `def _gen_wizard(arguments, tool_name, _cmd)`
+  - `_gen_wmi_lateral` (function, line 5756) `def _gen_wmi_lateral(arguments, tool_name, _cmd)`
+  - `_gen_wmi_persist` (function, line 5764) `def _gen_wmi_persist(arguments, tool_name, _cmd)`
+  - `_gen_wmi_scheduled_task` (function, line 5772) `def _gen_wmi_scheduled_task(arguments, tool_name, _cmd)`
+  - `_gen_wmiexec` (function, line 5780) `def _gen_wmiexec(arguments, tool_name, _cmd)`
+  - `_gen_wmiexecpro` (function, line 5788) `def _gen_wmiexecpro(arguments, tool_name, _cmd)`
+  - `_gen_wpscan` (function, line 5796) `def _gen_wpscan(arguments, tool_name, _cmd)`
+  - `_gen_wrapper` (function, line 5804) `def _gen_wrapper(arguments, tool_name, _cmd)`
+  - `_gen_www` (function, line 5812) `def _gen_www(arguments, tool_name, _cmd)`
+  - `_gen_xss` (function, line 5820) `def _gen_xss(arguments, tool_name, _cmd)`
+  - `_gen_xsstrike` (function, line 5828) `def _gen_xsstrike(arguments, tool_name, _cmd)`
+  - `_gen_yara_scan` (function, line 5836) `def _gen_yara_scan(arguments, tool_name, _cmd)`
 
 ## skills/mcp_restart.sh
 - Doc: LazyOwn MCP restart helper  Kills ALL lazyown_mcp instances (stdio + SSE) and relaunches the SSE...
@@ -171,36 +171,36 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `load_command_index` (function, line 29) `def load_command_index()`
   - `extract_commands` (function, line 34) `def extract_commands(index)`
   - `extract_existing_handlers` (function, line 55) `def extract_existing_handlers()`
-  - `sanitize_description` (function, line 76) `def sanitize_description(summary, max_len)`
-  - `sanitize_docstring` (function, line 89) `def sanitize_docstring(text)`
-  - `_build_tool_schema` (function, line 95) `def _build_tool_schema(command_param_name)`
-  - `generate_module` (function, line 110) `def generate_module(commands, existing_handlers, limit)`
-  - `verify_coverage` (function, line 247) `def verify_coverage(commands, existing_handlers)`
-  - `main` (function, line 264) `def main()`
+  - `sanitize_description` (function, line 72) `def sanitize_description(summary, max_len)`
+  - `sanitize_docstring` (function, line 85) `def sanitize_docstring(text)`
+  - `_build_tool_schema` (function, line 91) `def _build_tool_schema(command_param_name)`
+  - `generate_module` (function, line 106) `def generate_module(commands, existing_handlers, limit)`
+  - `verify_coverage` (function, line 203) `def verify_coverage(commands, existing_handlers)`
+  - `main` (function, line 220) `def main()`
 
 ## skills/sessions_watcher.py
 - Doc: LazyOwn Sessions Watcher
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_emit` (function, line 118) `def _emit(event_type, severity, suggest, source)`
-  - `_call_ollama` (function, line 136) `def _call_ollama(prompt)`
-  - `_generate_plan_from_nmap` (function, line 149) `def _generate_plan_from_nmap(nmap_path)`
-  - `_minimal_plan_from_nmap` (function, line 170) `def _minimal_plan_from_nmap(content)`
-  - `_handle_nmap_txt` (function, line 198) `def _handle_nmap_txt(path)`
-  - `_handle_nmap_xml` (function, line 223) `def _handle_nmap_xml(path)`
-  - `_handle_tool_output` (function, line 251) `def _handle_tool_output(path)`
-  - `_handle_plan_updated` (function, line 314) `def _handle_plan_updated(path)`
-  - `_extract_target_from_filename` (function, line 327) `def _extract_target_from_filename(name)`
-  - `_dispatch` (function, line 341) `def _dispatch(path)`
-  - `_run_watchdog` (function, line 382) `def _run_watchdog()`
-  - `_run_poll_loop` (function, line 396) `def _run_poll_loop()`
-  - `main` (function, line 424) `def main()`
-  - `_Handler` (class, line 369) `class _Handler(FileSystemEventHandler)`
-  - `_scan` (method, line 400) `def _scan()`
-  - `_append_event` (method, line 91) `def _append_event(ev)`
-  - `on_created` (method, line 370) `def on_created(self, event)`
-  - `on_modified` (method, line 374) `def on_modified(self, event)`
+  - `_emit` (function, line 123) `def _emit(event_type, severity, suggest, source)`
+  - `_call_ollama` (function, line 141) `def _call_ollama(prompt)`
+  - `_generate_plan_from_nmap` (function, line 154) `def _generate_plan_from_nmap(nmap_path)`
+  - `_minimal_plan_from_nmap` (function, line 175) `def _minimal_plan_from_nmap(content)`
+  - `_handle_nmap_txt` (function, line 204) `def _handle_nmap_txt(path)`
+  - `_handle_nmap_xml` (function, line 229) `def _handle_nmap_xml(path)`
+  - `_handle_tool_output` (function, line 257) `def _handle_tool_output(path)`
+  - `_handle_plan_updated` (function, line 318) `def _handle_plan_updated(path)`
+  - `_extract_target_from_filename` (function, line 331) `def _extract_target_from_filename(name)`
+  - `_dispatch` (function, line 346) `def _dispatch(path)`
+  - `_run_watchdog` (function, line 388) `def _run_watchdog()`
+  - `_run_poll_loop` (function, line 402) `def _run_poll_loop()`
+  - `main` (function, line 430) `def main()`
+  - `_Handler` (class, line 375) `class _Handler(FileSystemEventHandler)`
+  - `_scan` (method, line 406) `def _scan()`
+  - `_append_event` (method, line 96) `def _append_event(ev)`
+  - `on_created` (method, line 376) `def on_created(self, event)`
+  - `on_modified` (method, line 380) `def on_modified(self, event)`
 - Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
 - Imported by: `skills/lazyown_daemon.py`
 
@@ -220,50 +220,50 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_import_router` (function, line 104) `def _import_router()`
-  - `_import_trainer` (function, line 109) `def _import_trainer()`
-  - `_import_detection_oracle` (function, line 114) `def _import_detection_oracle()`
-  - `_import_policy` (function, line 122) `def _import_policy()`
-  - `SwanResult` (class, line 140) `class SwanResult`
-  - `ExpertVote` (class, line 165) `class ExpertVote`
-  - `EnsembleResult` (class, line 175) `class EnsembleResult`
-  - `IResultAggregator` (class, line 196) `class IResultAggregator(ABC)`
-  - `ISwanOrchestrator` (class, line 213) `class ISwanOrchestrator(ABC)`
-  - `WeightedTextAggregator` (class, line 243) `class WeightedTextAggregator(IResultAggregator)`
-  - `ExpertExecutor` (class, line 330) `class ExpertExecutor`
-  - `OutcomeEvaluator` (class, line 446) `class OutcomeEvaluator`
-  - `SwanOrchestrator` (class, line 538) `class SwanOrchestrator(ISwanOrchestrator)`
-  - `mcp_swan_run` (method, line 923) `def mcp_swan_run(task_type, goal, phase)`
-  - `mcp_swan_ensemble` (method, line 943) `def mcp_swan_ensemble(task_type, goal, n_experts, phase)`
-  - `mcp_swan_status` (method, line 969) `def mcp_swan_status()`
-  - `mcp_swan_route` (method, line 976) `def mcp_swan_route(task_type, goal)`
-  - `get_swan` (method, line 1007) `def get_swan(api_key)`
-  - `is_success` (method, line 160) `def is_success(self)`
-  - `aggregate` (method, line 200) `def aggregate(self, task_type, goal, votes)`
-  - `run` (method, line 217) `def run(self, task_type, goal, engagement_phase, timeout)`
-  - `ensemble_run` (method, line 227) `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)`
-  - `aggregate` (method, line 255) `def aggregate(self, task_type, goal, votes)`
-  - `_build_synthesis` (method, line 275) `def _build_synthesis(task_type, goal, experts)`
-  - `execute` (method, line 344) `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)`
-  - `_invoke` (method, line 387) `def _invoke(self, backend, model, goal, task_type, api_key, timeout)`
-  - `_tools_for_task` (method, line 410) `def _tools_for_task(task_type)`
-  - `_load_payload_key` (method, line 432) `def _load_payload_key()`
-  - `evaluate` (method, line 461) `def evaluate(self, result, task_type)`
-  - `_base_reward` (method, line 489) `def _base_reward(self, status, task_type)`
-  - `_content_boost` (method, line 499) `def _content_boost(output, base_reward)`
-  - `_detection_prob` (method, line 523) `def _detection_prob(goal, task_type)`
-  - `__init__` (method, line 555) `def __init__(self, executor, evaluator, aggregator, api_key)`
-  - `run` (method, line 575) `def run(self, task_type, goal, engagement_phase, timeout)`
-  - `ensemble_run` (method, line 662) `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)`
-  - `status` (method, line 744) `def status(self)`
-  - `_parallel_execute` (method, line 759) `def _parallel_execute(self, experts, goal, task_type, timeout)`
-  - `_post_execution_update` (method, line 804) `def _post_execution_update(self, expert_id, task_type, reward, detection_prob, state_key, next_state, candidate_ids...`
-  - `_store_to_hive` (method, line 837) `def _store_to_hive(self, result, reward, detection_prob)`
-  - `_next_task_type` (method, line 870) `def _next_task_type(task_type)`
-  - `_get_router` (method, line 885) `def _get_router(self)`
-  - `_get_trainer` (method, line 891) `def _get_trainer(self)`
-  - `_get_hive_memory` (method, line 896) `def _get_hive_memory(self)`
-  - `_load_key` (method, line 906) `def _load_key()`
+  - `_import_router` (function, line 106) `def _import_router()`
+  - `_import_trainer` (function, line 112) `def _import_trainer()`
+  - `_import_detection_oracle` (function, line 118) `def _import_detection_oracle()`
+  - `_import_policy` (function, line 127) `def _import_policy()`
+  - `SwanResult` (class, line 146) `class SwanResult`
+  - `ExpertVote` (class, line 172) `class ExpertVote`
+  - `EnsembleResult` (class, line 183) `class EnsembleResult`
+  - `IResultAggregator` (class, line 205) `class IResultAggregator(ABC)`
+  - `ISwanOrchestrator` (class, line 222) `class ISwanOrchestrator(ABC)`
+  - `WeightedTextAggregator` (class, line 252) `class WeightedTextAggregator(IResultAggregator)`
+  - `ExpertExecutor` (class, line 332) `class ExpertExecutor`
+  - `OutcomeEvaluator` (class, line 464) `class OutcomeEvaluator`
+  - `SwanOrchestrator` (class, line 555) `class SwanOrchestrator(ISwanOrchestrator)`
+  - `mcp_swan_run` (method, line 945) `def mcp_swan_run(task_type, goal, phase)`
+  - `mcp_swan_ensemble` (method, line 968) `def mcp_swan_ensemble(task_type, goal, n_experts, phase)`
+  - `mcp_swan_status` (method, line 996) `def mcp_swan_status()`
+  - `mcp_swan_route` (method, line 1003) `def mcp_swan_route(task_type, goal)`
+  - `get_swan` (method, line 1039) `def get_swan(api_key)`
+  - `is_success` (method, line 167) `def is_success(self)`
+  - `aggregate` (method, line 209) `def aggregate(self, task_type, goal, votes)`
+  - `run` (method, line 226) `def run(self, task_type, goal, engagement_phase, timeout)`
+  - `ensemble_run` (method, line 236) `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)`
+  - `aggregate` (method, line 264) `def aggregate(self, task_type, goal, votes)`
+  - `_build_synthesis` (method, line 284) `def _build_synthesis(task_type, goal, experts)`
+  - `execute` (method, line 351) `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)`
+  - `_invoke` (method, line 394) `def _invoke(self, backend, model, goal, task_type, api_key, timeout)`
+  - `_tools_for_task` (method, line 417) `def _tools_for_task(task_type)`
+  - `_load_payload_key` (method, line 452) `def _load_payload_key()`
+  - `evaluate` (method, line 479) `def evaluate(self, result, task_type)`
+  - `_base_reward` (method, line 508) `def _base_reward(self, status, task_type)`
+  - `_content_boost` (method, line 516) `def _content_boost(output, base_reward)`
+  - `_detection_prob` (method, line 540) `def _detection_prob(goal, task_type)`
+  - `__init__` (method, line 572) `def __init__(self, executor, evaluator, aggregator, api_key)`
+  - `run` (method, line 592) `def run(self, task_type, goal, engagement_phase, timeout)`
+  - `ensemble_run` (method, line 680) `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)`
+  - `status` (method, line 763) `def status(self)`
+  - `_parallel_execute` (method, line 778) `def _parallel_execute(self, experts, goal, task_type, timeout)`
+  - `_post_execution_update` (method, line 827) `def _post_execution_update(self, expert_id, task_type, reward, detection_prob, state_key, next_state, candidate_ids...`
+  - `_store_to_hive` (method, line 860) `def _store_to_hive(self, result, reward, detection_prob)`
+  - `_next_task_type` (method, line 893) `def _next_task_type(task_type)`
+  - `_get_router` (method, line 908) `def _get_router(self)`
+  - `_get_trainer` (method, line 914) `def _get_trainer(self)`
+  - `_get_hive_memory` (method, line 919) `def _get_hive_memory(self)`
+  - `_load_key` (method, line 930) `def _load_key()`
 - Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
 - Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
 
@@ -272,21 +272,21 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `PentestState` (class, line 126) `class PentestState`
-  - `_parse_output` (method, line 177) `def _parse_output(output, state, phase_name)`
-  - `_phase_goals` (method, line 225) `def _phase_goals(phase_idx, state, effort)`
-  - `_enum_goals` (method, line 278) `def _enum_goals(state)`
-  - `AutonomousAgent` (class, line 300) `class AutonomousAgent`
-  - `_load_payload` (method, line 472) `def _load_payload()`
-  - `main` (method, line 482) `def main(argv)`
-  - `add_finding` (method, line 143) `def add_finding(self, phase_name, text)`
-  - `summary` (method, line 147) `def summary(self)`
-  - `to_dict` (method, line 158) `def to_dict(self)`
-  - `__init__` (method, line 301) `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
-  - `_execute_goal` (method, line 336) `def _execute_goal(self, goal, phase_name)`
-  - `_run_phase` (method, line 376) `def _run_phase(self, phase_idx)`
-  - `_save_state` (method, line 409) `def _save_state(self)`
-  - `run` (method, line 427) `def run(self, start_phase)`
+  - `PentestState` (class, line 127) `class PentestState`
+  - `_parse_output` (method, line 181) `def _parse_output(output, state, phase_name)`
+  - `_phase_goals` (method, line 233) `def _phase_goals(phase_idx, state, effort)`
+  - `_enum_goals` (method, line 286) `def _enum_goals(state)`
+  - `AutonomousAgent` (class, line 309) `class AutonomousAgent`
+  - `_load_payload` (method, line 479) `def _load_payload()`
+  - `main` (method, line 489) `def main(argv)`
+  - `add_finding` (method, line 145) `def add_finding(self, phase_name, text)`
+  - `summary` (method, line 149) `def summary(self)`
+  - `to_dict` (method, line 160) `def to_dict(self)`
+  - `__init__` (method, line 310) `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
+  - `_execute_goal` (method, line 347) `def _execute_goal(self, goal, phase_name)`
+  - `_run_phase` (method, line 386) `def _run_phase(self, phase_idx)`
+  - `_save_state` (method, line 418) `def _save_state(self)`
+  - `run` (method, line 432) `def run(self, start_phase)`
 - Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_engine.py`, `modules/toposwarm_bridge.py`
 
 ## skills/unified_orchestrator.py
@@ -302,13 +302,13 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `BackendRegistry` (class, line 300) `class BackendRegistry`
   - `RouterPolicy` (class, line 340) `class RouterPolicy`
   - `DaemonBackend` (class, line 408) `class DaemonBackend`
-  - `HiveBackend` (class, line 542) `class HiveBackend`
-  - `SwanBackend` (class, line 642) `class SwanBackend`
-  - `GoalValidator` (class, line 741) `class GoalValidator`
-  - `UnifiedOrchestrator` (class, line 806) `class UnifiedOrchestrator`
-  - `_new_request_id` (method, line 898) `def _new_request_id()`
-  - `_make_result` (method, line 903) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
-  - `build_default_orchestrator` (method, line 930) `def build_default_orchestrator(payload, sessions_dir)`
+  - `HiveBackend` (class, line 543) `class HiveBackend`
+  - `SwanBackend` (class, line 644) `class SwanBackend`
+  - `GoalValidator` (class, line 744) `class GoalValidator`
+  - `UnifiedOrchestrator` (class, line 809) `class UnifiedOrchestrator`
+  - `_new_request_id` (method, line 901) `def _new_request_id()`
+  - `_make_result` (method, line 906) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
+  - `build_default_orchestrator` (method, line 933) `def build_default_orchestrator(payload, sessions_dir)`
   - `from_payload` (method, line 111) `def from_payload(cls, payload)`
   - `with_defaults` (method, line 156) `def with_defaults(self, config)`
   - `to_dict` (method, line 197) `def to_dict(self)`
@@ -332,27 +332,27 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_target_from_metadata` (method, line 502) `def _target_from_metadata(self, goal)`
   - `_build` (method, line 513) `def _build(self, goal, target)`
   - `_import_class` (method, line 523) `def _import_class()`
-  - `_summarise` (method, line 528) `def _summarise(raw, target)`
-  - `_artefacts` (method, line 536) `def _artefacts(raw)`
-  - `__init__` (method, line 547) `def __init__(self, config, factory)`
-  - `available` (method, line 556) `def available(self)`
-  - `run` (method, line 566) `def run(self, goal)`
-  - `_build` (method, line 614) `def _build(self)`
-  - `_import_factory` (method, line 624) `def _import_factory()`
-  - `_summarise` (method, line 634) `def _summarise(tasks, synthesis)`
-  - `__init__` (method, line 647) `def __init__(self, config, factory)`
-  - `available` (method, line 656) `def available(self)`
-  - `run` (method, line 666) `def run(self, goal)`
-  - `_build` (method, line 708) `def _build(self, api_key)`
-  - `_import_factory` (method, line 715) `def _import_factory()`
-  - `_summarise` (method, line 720) `def _summarise(swan_result)`
-  - `_artefacts` (method, line 730) `def _artefacts(swan_result)`
-  - `__init__` (method, line 749) `def __init__(self, config)`
-  - `validate` (method, line 753) `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
-  - `__init__` (method, line 809) `def __init__(self, config, registry, router, validator, bus)`
-  - `backends` (method, line 825) `def backends(self)`
-  - `execute` (method, line 829) `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
-  - `_emit` (method, line 883) `def _emit(self, result, mode, goal)`
+  - `_summarise` (method, line 529) `def _summarise(raw, target)`
+  - `_artefacts` (method, line 537) `def _artefacts(raw)`
+  - `__init__` (method, line 548) `def __init__(self, config, factory)`
+  - `available` (method, line 557) `def available(self)`
+  - `run` (method, line 567) `def run(self, goal)`
+  - `_build` (method, line 615) `def _build(self)`
+  - `_import_factory` (method, line 625) `def _import_factory()`
+  - `_summarise` (method, line 636) `def _summarise(tasks, synthesis)`
+  - `__init__` (method, line 649) `def __init__(self, config, factory)`
+  - `available` (method, line 658) `def available(self)`
+  - `run` (method, line 668) `def run(self, goal)`
+  - `_build` (method, line 710) `def _build(self, api_key)`
+  - `_import_factory` (method, line 717) `def _import_factory()`
+  - `_summarise` (method, line 723) `def _summarise(swan_result)`
+  - `_artefacts` (method, line 733) `def _artefacts(swan_result)`
+  - `__init__` (method, line 752) `def __init__(self, config)`
+  - `validate` (method, line 756) `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
+  - `__init__` (method, line 812) `def __init__(self, config, registry, router, validator, bus)`
+  - `backends` (method, line 828) `def backends(self)`
+  - `execute` (method, line 832) `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
+  - `_emit` (method, line 886) `def _emit(self, result, mode, goal)`
 - Depends on: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
 

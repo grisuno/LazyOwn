@@ -34,9 +34,9 @@
 - Symbols:
   - `CorsConfigError` (class, line 46) `class CorsConfigError(ValueError)`
   - `CorsPolicy` (class, line 50) `class CorsPolicy`
-  - `_origin_matches` (method, line 199) `def _origin_matches(allowed, candidate)`
-  - `_scheme_of` (method, line 223) `def _scheme_of(origin)`
-  - `_host_of` (method, line 230) `def _host_of(origin)`
+  - `_origin_matches` (method, line 197) `def _origin_matches(allowed, candidate)`
+  - `_scheme_of` (method, line 221) `def _scheme_of(origin)`
+  - `_host_of` (method, line 228) `def _host_of(origin)`
   - `__init__` (method, line 70) `def __init__(self, env, lhost, allowed_origins, c2_port, extra_socketio_ports)`
   - `env` (method, line 85) `def env(self)`
   - `resolve_origins` (method, line 89) `def resolve_origins(self)`
@@ -46,7 +46,7 @@
   - `_collect_candidates` (method, line 166) `def _collect_candidates(self)`
   - `_clean` (method, line 175) `def _clean(candidates)`
   - `_dev_fallback_origins` (method, line 185) `def _dev_fallback_origins(self)`
-  - `_dev_fallback` (method, line 195) `def _dev_fallback(self)`
+  - `_dev_fallback` (method, line 193) `def _dev_fallback(self)`
 - Imported by: `lazyc2.py`, `tests/test_cors_behavior.py`, `tests/test_cors_policy.py`, `tests/test_cors_socketio_regression.py`
 
 ## lazyc2/security/csrf.py

@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 123 total dependents
-- `modules/cli_auth.py` -- 9 direct, 119 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 115 total dependents
-- `core/validators.py` -- 9 direct, 115 total dependents
-- `core/hardening.py` -- 17 direct, 112 total dependents
-- `core/config.py` -- 31 direct, 108 total dependents
-- `core/crypto.py` -- 9 direct, 101 total dependents
-- `core/process.py` -- 9 direct, 93 total dependents
+- `core/validators.py` -- 9 direct, 118 total dependents
+- `modules/cli_auth.py` -- 9 direct, 115 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 110 total dependents
+- `core/crypto.py` -- 9 direct, 105 total dependents
+- `core/hardening.py` -- 17 direct, 103 total dependents
 - `skills/claude_md_orchestrator/models.py` -- 11 direct, 93 total dependents
-- `modules/backdoor/server.c` -- 10 direct, 92 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 92 total dependents
+- `core/safe_subprocess.py` -- 6 direct, 90 total dependents
+- `core/process.py` -- 9 direct, 87 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -73,7 +73,7 @@ Circular dependencies. Refactor to break the cycle.
 
 ## Dataflow Issues (INFERRED, review each lead)
 
-- `banner.py:27` `image_to_bash` [UNCHECKED_ALLOC] `img`: Result of allocator stored in `img` is never checked against NULL.
+- `banner.py:29` `image_to_bash` [UNCHECKED_ALLOC] `img`: Result of allocator stored in `img` is never checked against NULL.
 - `cli/auto_crypto.py:260` `_load_or_create_salt` [UNCHECKED_ALLOC] `fd`: Result of allocator stored in `fd` is never checked against NULL.
 - `cli/commands/dns_exfil.py:117` `do_dns_exfil_listen` [UNCHECKED_ALLOC] `sock`: Result of allocator stored in `sock` is never checked against NULL.
 - `cli/commands/evasive_payload.py:648` `_apply_bypass` [UNCHECKED_ALLOC] `s`: Result of allocator stored in `s` is never checked against NULL.
@@ -82,4 +82,4 @@ Circular dependencies. Refactor to break the cycle.
 - `cli/commands/exfiltration.py:1578` `do_stage` [UNCHECKED_ALLOC] `data`: Result of allocator stored in `data` is never checked against NULL.
 - `cli/commands/misc_migrated.py:342` `do_suggest_next` [UNCHECKED_ALLOC] `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
 - `cli/commands/persist_migrated.py:1187` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
-- `cli/commands/postexp_migrated.py:2272` `do_aes_pe` [UNCHECKED_ALLOC] `file`: Result of allocator stored in `file` is never checked against NULL.
+- `cli/commands/postexp_migrated.py:2599` `do_aes_pe` [UNCHECKED_ALLOC] `file`: Result of allocator stored in `file` is never checked against NULL.

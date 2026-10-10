@@ -46,6 +46,8 @@ dependencies = [
     "pyyaml",
     "bs4",
     "bleach>=6.0.0",
+    "defusedxml",
+    "textual",
     "dnslib",
     "python-telegram-bot",
     "nest_asyncio",

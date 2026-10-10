@@ -89,8 +89,8 @@ class PaletteSuiteConfig:
         "from cli.palette import load_index as _load_command_index",
         "from cli.palette_command import PaletteCompleter as _PaletteCompleter",
         "from cli.palette_command import PaletteRenderConfig as _PaletteRenderConfig",
-        "from cli.palette_command import render as _render_palette",
     )
+    required_migrated_imports: tuple[str, ...] = ("from cli.palette_command import render as _render_palette",)
     expected_lazyown_methods: frozenset[str] = frozenset({"complete_palette"})
     lazyown_shell_class_name: str = "LazyOwnShell"
     palette_command_module: str = "cli/commands/misc_migrated.py"
@@ -1032,6 +1032,11 @@ class TestLazyOwnWiring:
         """Every import that the wiring depends on appears in the file."""
         for line in suite_config.required_lazyown_imports:
             assert line in src, f"missing import: {line}"
+
+    def test_migrated_imports_present(self, palette_src: str, suite_config: PaletteSuiteConfig) -> None:
+        """The migrated ``do_palette`` module keeps its renderer import."""
+        for line in suite_config.required_migrated_imports:
+            assert line in palette_src, f"missing import: {line}"
 
     def test_methods_defined_on_lazyown_shell(self, src: str, suite_config: PaletteSuiteConfig) -> None:
         """``complete_palette`` still belongs to ``LazyOwnShell``."""

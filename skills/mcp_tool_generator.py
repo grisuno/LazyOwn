@@ -62,13 +62,9 @@ def extract_existing_handlers() -> set[str]:
     with open(MCP_FILE) as f:
         content = f.read()
 
-    registered = set(re.findall(
-        r""+r"@register_handler\(\s*['\"]" + r"(lazyown_\w+)" + r"""['\"]\s*\)""", content
-    ))
+    registered = set(re.findall(r"" + r"@register_handler\(\s*['\"]" + r"(lazyown_\w+)" + r"""['\"]\s*\)""", content))
 
-    tool_defs = set(re.findall(
-        r'name\s*=\s*"(lazyown_\w+)"', content
-    ))
+    tool_defs = set(re.findall(r'name\s*=\s*"(lazyown_\w+)"', content))
 
     return registered | tool_defs
 
@@ -82,7 +78,7 @@ def sanitize_description(summary: str, max_len: int = 200) -> str:
     while "  " in cleaned:
         cleaned = cleaned.replace("  ", " ")
     if len(cleaned) > max_len:
-        cleaned = cleaned[:max_len - 3].rsplit(" ", 1)[0] + "..."
+        cleaned = cleaned[: max_len - 3].rsplit(" ", 1)[0] + "..."
     return cleaned
 
 
@@ -133,9 +129,7 @@ def generate_module(
 
     lines: list[str] = []
     lines.append("#!/usr/bin/env python3")
-    lines.append(
-        '"""Auto-generated MCP tool handlers from command_index.json.'
-    )
+    lines.append('"""Auto-generated MCP tool handlers from command_index.json.')
     lines.append("")
     lines.append("DO NOT EDIT BY HAND.  Re-generate with:")
     lines.append("    python3 skills/mcp_tool_generator.py")
@@ -160,12 +154,8 @@ def generate_module(
     lines.append("}")
     lines.append("")
     lines.append("")
-    lines.append(
-        "def get_generated_tool_definitions() -> list:"
-    )
-    lines.append(
-        '    """Return list[types.Tool] entries for all generated tools."""'
-    )
+    lines.append("def get_generated_tool_definitions() -> list:")
+    lines.append('    """Return list[types.Tool] entries for all generated tools."""')
     lines.append("    from mcp import types as _types")
     lines.append("")
     lines.append("    _tools: list = []")
@@ -180,62 +170,28 @@ def generate_module(
     lines.append("    return _tools")
     lines.append("")
     lines.append("")
-    lines.append(
-        "def register_all_generated_handlers("
-    )
-    lines.append(
-        "    register_handler_fn,"
-    )
-    lines.append(
-        "    make_text_fn,"
-    )
-    lines.append(
-        "    run_lazyown_cmd_fn,"
-    )
-    lines.append(
-        ") -> int:"
-    )
-    lines.append(
-        '    """'
-    )
-    lines.append(
-        "    Register every generated handler via *register_handler_fn*."
-    )
+    lines.append("def register_all_generated_handlers(")
+    lines.append("    register_handler_fn,")
+    lines.append("    make_text_fn,")
+    lines.append("    run_lazyown_cmd_fn,")
+    lines.append(") -> int:")
+    lines.append('    """')
+    lines.append("    Register every generated handler via *register_handler_fn*.")
     lines.append("")
-    lines.append(
-        "    Called by lazyown_mcp.py after its infrastructure is ready. "
-        "Returns the count registered."
-    )
-    lines.append(
-        '    """'
-    )
+    lines.append("    Called by lazyown_mcp.py after its infrastructure is ready. Returns the count registered.")
+    lines.append('    """')
     lines.append("    _reg = 0")
     lines.append("")
 
     for tool_name, cmd_name in needs_generation:
         handler_name = tool_name.replace("lazyown_", "_gen_")
-        lines.append(
-            f"    async def {handler_name}"
-            f"(arguments: dict, tool_name: str, "
-            f"_cmd={cmd_name!r}) -> list:"
-        )
-        lines.append(
-            '        cmd = arguments.get("args", "")'
-        )
-        lines.append(
-            "        output = run_lazyown_cmd_fn("
-            'f"{_cmd} {cmd}".strip())'
-        )
-        lines.append(
-            "        return make_text_fn(tool_name, output)"
-        )
+        lines.append(f"    async def {handler_name}(arguments: dict, tool_name: str, _cmd={cmd_name!r}) -> list:")
+        lines.append('        cmd = arguments.get("args", "")')
+        lines.append('        output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())')
+        lines.append("        return make_text_fn(tool_name, output)")
         lines.append("")
-        lines.append(
-            f"    register_handler_fn({tool_name!r})({handler_name})"
-        )
-        lines.append(
-            "    _reg += 1"
-        )
+        lines.append(f"    register_handler_fn({tool_name!r})({handler_name})")
+        lines.append("    _reg += 1")
         lines.append("")
 
     lines.append("    return _reg")
@@ -262,9 +218,7 @@ def verify_coverage(
 
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Auto-generate MCP tool handlers from command_index.json"
-    )
+    parser = argparse.ArgumentParser(description="Auto-generate MCP tool handlers from command_index.json")
     parser.add_argument(
         "--check",
         action="store_true",

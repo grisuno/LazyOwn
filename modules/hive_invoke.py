@@ -35,6 +35,7 @@ Exit codes
   1   Missing prompt or claude binary not found.
   2   Claude returned a non-zero exit code.
 """
+
 from __future__ import annotations
 
 import shutil
@@ -52,10 +53,12 @@ def _get_toposwarm():
         try:
             sys.path.insert(0, str(Path(__file__).parent))
             from toposwarm_bridge import get_bridge
+
             _toposwarm_bridge = get_bridge()
         except ImportError:
             _toposwarm_bridge = False
     return _toposwarm_bridge if _toposwarm_bridge else None
+
 
 # ---------------------------------------------------------------------------
 # Paths
@@ -124,8 +127,8 @@ def _parse_argv(argv: list[str]) -> tuple[bool, str, list[str]]:
     effort      : str    — effort level string (default "high")
     prompt_words: list   — remaining words that form the prompt
     """
-    interactive   = False
-    effort        = "high"
+    interactive = False
+    effort = "high"
     prompt_words: list[str] = []
     i = 0
     while i < len(argv):
@@ -155,8 +158,10 @@ def _run_print_mode(prompt: str, effort: str, claude_bin: str) -> int:
             claude_bin,
             "--print",
             "--dangerously-skip-permissions",
-            "--effort", effort,
-            "--append-system-prompt", _SYSTEM_CONTEXT,
+            "--effort",
+            effort,
+            "--append-system-prompt",
+            _SYSTEM_CONTEXT,
             prompt,
         ],
         cwd=str(_LAZYOWN_DIR),
@@ -173,8 +178,10 @@ def _run_interactive_mode(prompt: str, effort: str, claude_bin: str) -> int:
         [
             claude_bin,
             "--dangerously-skip-permissions",
-            "--effort", effort,
-            "--append-system-prompt", _SYSTEM_CONTEXT,
+            "--effort",
+            effort,
+            "--append-system-prompt",
+            _SYSTEM_CONTEXT,
             prompt,
         ],
         cwd=str(_LAZYOWN_DIR),
@@ -187,8 +194,11 @@ def _run_interactive_mode(prompt: str, effort: str, claude_bin: str) -> int:
 # ---------------------------------------------------------------------------
 
 _TOPOSWARM_TOOLS_THAT_RUN_COMMANDS = {
-    "lazyown_run_command", "lazyown_run_api", "lazyown_c2_command",
-    "lazyown_auto_loop", "lazyown_autonomous_start",
+    "lazyown_run_command",
+    "lazyown_run_api",
+    "lazyown_c2_command",
+    "lazyown_auto_loop",
+    "lazyown_autonomous_start",
 }
 
 
@@ -205,16 +215,17 @@ def _run_toposwarm_mode(prompt: str, effort: str, bridge) -> int:
     it loops up to 5 iterations, feeding each output back as context.
     """
     print("[hive:toposwarm] Claude Code not found — using TopoSwarm local brain")
-    print(f"[hive:toposwarm] model_loaded={bridge.model_loaded}  "
-          f"backend={'neural' if bridge.model_loaded else 'keyword'}")
-    print(f"[hive:toposwarm] Prompt: {prompt[:120]}{'...' if len(prompt)>120 else ''}")
+    print(
+        f"[hive:toposwarm] model_loaded={bridge.model_loaded}  backend={'neural' if bridge.model_loaded else 'keyword'}"
+    )
+    print(f"[hive:toposwarm] Prompt: {prompt[:120]}{'...' if len(prompt) > 120 else ''}")
     print("-" * 72)
 
     max_iters = {"low": 1, "medium": 3, "high": 5, "max": 8}.get(effort, 3)
 
     context = prompt
     for i in range(max_iters):
-        print(f"\n[hive:toposwarm] step {i+1}/{max_iters}")
+        print(f"\n[hive:toposwarm] step {i + 1}/{max_iters}")
         output = bridge.execute_via_orchestrator(context, no_model=not bridge.model_loaded)
         print(output)
 

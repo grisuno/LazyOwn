@@ -145,8 +145,6 @@ def test_scanner_detects_a_synthetic_os_system(tmp_path: Path) -> None:
     calls = [
         node
         for node in ast.walk(tree)
-        if isinstance(node, ast.Call)
-        and isinstance(node.func, ast.Attribute)
-        and node.func.attr == "system"
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute) and node.func.attr == "system"
     ]
     assert len(calls) == 1

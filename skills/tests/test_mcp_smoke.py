@@ -36,6 +36,7 @@ def test_mcp_module_imports() -> None:
     print("\n[1] MCP module import smoke test")
     try:
         import lazyown_mcp
+
         check("module imports without error", True)
         return lazyown_mcp
     except Exception as e:
@@ -62,6 +63,7 @@ def test_list_tools_returns_tools(mcp) -> None:
     print("\n[3] list_tools() returns tool definitions")
     try:
         import asyncio
+
         tools = asyncio.run(mcp.list_tools())
         check("list_tools() returns a list", isinstance(tools, list))
         check(
@@ -94,7 +96,7 @@ def main() -> int:
         test_list_tools_returns_tools(mcp)
 
     total = PASSED + FAILED
-    print(f"\n{'='*40}")
+    print(f"\n{'=' * 40}")
     print(f"Results: {PASSED}/{total} passed")
     if FAILED:
         print("Failures:")

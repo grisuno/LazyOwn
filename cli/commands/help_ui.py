@@ -57,6 +57,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         """
         tokens = shlex.split(line or "")
         from cli.wizard_scope import parse_scope as _parse_scope
+
         scope = _parse_scope(tokens)
         check_only = "--check" in tokens or scope.show_only
         tutorial = "--tutorial" in tokens or "-t" in tokens
@@ -86,6 +87,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             from cli.wizard import (
                 _ask_rhost as _ask_rh,
             )
+
             askers = {
                 "rhost": lambda: _ask_rh(self.params.get("rhost"), tutorial=tutorial),
                 "lhost": lambda: _ask_lh(self.params.get("lhost"), tutorial=tutorial),
@@ -104,6 +106,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
 
         if check_only:
             from cli.wizard import _build_readiness, _print_readiness, _print_validation_summary
+
             items = _build_readiness(self.params)
             _print_readiness(items)
             _print_validation_summary(self.params)
@@ -111,6 +114,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
 
         if non_interactive:
             from cli.wizard import run_non_interactive as _run_wizard_ni
+
             values: dict = {}
             flag_names = ("rhost", "lhost", "domain", "device", "os_id", "api_key")
             for index, token in enumerate(tokens):
@@ -124,6 +128,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
 
         if quick:
             from cli.wizard import run_non_interactive as _run_wizard_ni
+
             _run_wizard_ni(self.params, save=_save, values={})
             print_msg("wizard (quick) auto-detected defaults — run 'doctor' to verify, then 'sitrep'.")
             return
@@ -131,6 +136,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         result = _run_wizard(self.params, save=_save, tutorial=tutorial)
         if result and result.saved:
             from rich.console import Console as _Console
+
             _c = _Console(highlight=False, soft_wrap=True)
             _c.print()
             _c.rule("[bold green]Setup complete — suggested next steps[/]")
@@ -153,6 +159,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``tutorial --force`` — replay even if already completed
         """
         from cli.tutorial import run as _run_tutorial
+
         tokens = shlex.split(line or "")
         force = "--force" in tokens
         try:
@@ -177,6 +184,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         cred, lateral, exfil, c2, report, misc.
         """
         from cli.contextual_help import PHASE_LABELS, ContextualHelp
+
         ch = ContextualHelp(aliases=self.aliases, params=self.params)
         phase = (line or "").strip().lower()
 
@@ -187,6 +195,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             for p, label in PHASE_LABELS.items():
                 table.add_row(p, label)
             from rich.console import Console as _C
+
             _C(highlight=False, soft_wrap=True).print(table)
             return
 
@@ -204,6 +213,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         Usage: ``help_status``
         """
         from cli.contextual_help import ContextualHelp
+
         ch = ContextualHelp(aliases=self.aliases, params=self.params)
         ch.render_requirements_status()
 
@@ -219,6 +229,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``ctx_help evil``         — contextual help for evil-winrm
         """
         from cli.contextual_help import ContextualHelp
+
         cmd_name = (line or "").strip()
         if not cmd_name:
             print_warn("Usage: ctx_help <command>")
@@ -253,6 +264,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``command_explorer search nmap`` — search commands by keyword
         """
         from cli.command_explorer import GOALS, CommandExplorer
+
         explorer = CommandExplorer(aliases=self.aliases, params=self.params)
         args = (line or "").strip().split()
 
@@ -284,6 +296,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``config_status --quick``   — show only missing required fields
         """
         from cli.config_status import ConfigStatus
+
         tokens = shlex.split(line or "")
         status = ConfigStatus(params=self.params)
         if "--quick" in tokens:
@@ -308,6 +321,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
             ``tui_theme reset``    — return to the default theme
         """
         from cli.tui_theme import run as _run_tui_theme
+
         args = (line or "").split()
         try:
             result = _run_tui_theme(args, self.params, _save_payload)
@@ -366,6 +380,7 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         """
         try:
             from cli.engagement_hooks import get_state_snapshot
+
             snap = get_state_snapshot()
         except Exception as exc:
             print_error(f"engagement state unavailable: {exc}")
@@ -457,14 +472,14 @@ class HelpUiCommandSet(LazyOwnCommandSet):
         """
         arg = (line or "").strip()
         if arg.lower().startswith("auto"):
-            self._handle_killchain_auto(arg[len("auto"):])
+            self._handle_killchain_auto(arg[len("auto") :])
             return
         _print_phase()
         try:
             from modules.world_model import get_world_model
+
             wm = get_world_model()
             ctx = wm.to_context_string()
             print(ctx, flush=True)
         except Exception:
             pass
-

@@ -31,9 +31,7 @@ class _FakeCompletions:
         self.model = model
         self.messages = messages
         self.max_tokens = max_tokens
-        return SimpleNamespace(
-            choices=[SimpleNamespace(message=SimpleNamespace(content=self.content))]
-        )
+        return SimpleNamespace(choices=[SimpleNamespace(message=SimpleNamespace(content=self.content))])
 
 
 class _FakeClient:

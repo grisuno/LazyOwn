@@ -35,6 +35,8 @@ COLOR_256 = "\033[38;5;{}m"
 BG_COLOR_256 = "\033[48;5;{}m"
 TRUE_COLOR = "\033[38;2;{};{};{}m"
 BG_TRUE_COLOR = "\033[48;2;{};{};{}m"
+
+
 def retModel():
     """
     gemma2-9b-it	Google	8,192	-	-
@@ -51,7 +53,7 @@ def retModel():
             "2": "llama-3.1-8b-instant",
             "3": "llama3-70b-8192",
             "4": "llama3-8b-8192",
-            "5": "mixtral-8x7b-32768"
+            "5": "mixtral-8x7b-32768",
         }
     ]
     nrand = random.randint(1, 5)
@@ -62,15 +64,17 @@ def retModel():
 
     return model
 
+
 def delete_lines(content, to_delete):
     for line in to_delete:
-        content = content.replace(line, '')
+        content = content.replace(line, "")
     return content
+
 
 def no_html(content):
     soup = BeautifulSoup(content, "html.parser")
     for script_or_style in soup(["script", "style"]):
         script_or_style.decompose()
     content = soup.get_text()
-    content = ' '.join(content.split())
+    content = " ".join(content.split())
     return content

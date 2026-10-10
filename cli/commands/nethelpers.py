@@ -68,7 +68,10 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         try:
             result = subprocess.run(
                 ["ip", "a", "show", "scope", "global"],
-                capture_output=True, text=True, timeout=5, check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
             )
             current_iface = ""
             for line in result.stdout.splitlines():
@@ -86,7 +89,10 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         try:
             result = subprocess.run(
                 ["ip", "a", "show", "tun0"],
-                capture_output=True, text=True, timeout=5, check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
             )
             for line in result.stdout.splitlines():
                 stripped = line.strip()
@@ -99,10 +105,10 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
             clipboard_ip = ""
 
         print_msg(f"IP from tun0 copied to clipboard :) {RESET}")
-        lhost = self.params['lhost']
-        if not check_lhost(self.params['lhost']):
+        lhost = self.params["lhost"]
+        if not check_lhost(self.params["lhost"]):
             return
-        if clipboard_ip and clipboard_ip != self.params['lhost']:
+        if clipboard_ip and clipboard_ip != self.params["lhost"]:
             lhost = clipboard_ip
             self.onecmd(f"assign self.params['lhost'] {clipboard_ip}")
             self.custom_prompt = getprompt()
@@ -144,7 +150,10 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         try:
             result = subprocess.run(
                 ["ip", "a", "show", "scope", "global"],
-                capture_output=True, text=True, timeout=5, check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
             )
             current_iface = ""
             for line in result.stdout.splitlines():
@@ -162,7 +171,10 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         try:
             result = subprocess.run(
                 ["ip", "a", "show", "tun0"],
-                capture_output=True, text=True, timeout=5, check=False,
+                capture_output=True,
+                text=True,
+                timeout=5,
+                check=False,
             )
             ip_address = ""
             for line in result.stdout.splitlines():
@@ -171,16 +183,15 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
                     ip_address = stripped.split()[1].split("/")[0]
                     break
 
-
         except subprocess.CalledProcessError:
             print_error("Error retrieving IP address from tun0.")
 
         # Optionally update self.params['lhost']
-        lhost = self.params['lhost']
-        if ip_address and ip_address != self.params['lhost']:
+        lhost = self.params["lhost"]
+        if ip_address and ip_address != self.params["lhost"]:
             lhost = ip_address
             # Example of how you might set the new self.params['lhost']
-            self.params['lhost'] = self.params['lhost']
+            self.params["lhost"] = self.params["lhost"]
 
             print_msg(f"Updated self.params['lhost'] to {self.params['lhost']}")
 
@@ -224,17 +235,18 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that the `self.params['rhost']` is valid by checking it with the `check_rhost` function before copying it to the clipboard.
         """
-        url   = self.params['url']
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        url = self.params["url"]
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
         if not url:
             print_error("url must be assign, use: assign url http://host.ext")
             return
         self.refresh_prompt()
-        if line != 'clean':
+        if line != "clean":
             from core.hardening import safe_clipboard_copy
-            safe_clipboard_copy(self.params.get('rhost', ''))
+
+            safe_clipboard_copy(self.params.get("rhost", ""))
             print_msg(f"ip from payload: {rhost=}, copied to clipboard :) {RESET}")
         return
 
@@ -272,7 +284,7 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that the `self.params['rhost']` is valid by checking it with the `check_rhost` function before updating the prompt.
         """
-        if not check_rhost(self.params['rhost']):
+        if not check_rhost(self.params["rhost"]):
             return
 
         self.refresh_prompt()
@@ -314,20 +326,19 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
             command = f"curl -o {file} {url}"
             self.cmd(command)
         self.ip2asn.open_file(file)
-        rhost = self.params['rhost']
+        rhost = self.params["rhost"]
 
         if line:
             target = line.strip()
         else:
             print_warn("Usage: ip2asn <IP>")
-            target = self.params['rhost']
+            target = self.params["rhost"]
 
         ip = target
         asn = self.ip2asn.as_of_ip(ip)
         if asn == 0:
             print_warn(f"IP {ip} not found in any ASN records.")
         else:
-
             as_name = self.ip2asn.as_name.get(asn, "Unknown")
             as_country = self.ip2asn.as_country.get(asn, "Unknown")
             print_msg(f"IP {ip} is part of ASN {asn} ({as_name}, {as_country})")
@@ -363,9 +374,7 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
         """
-        print_msg(
-            f"Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}"
-        )
+        print_msg(f"Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}")
         self.cmd("sudo bash -c 'echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore'")
         print_msg(f"    {GREEN}[+] Done.{RESET}")
         return
@@ -400,9 +409,7 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
         """
-        print_msg(
-            f"Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}"
-        )
+        print_msg(f"Try... sudo bash -c 'echo {CYAN}1 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}")
         self.cmd("sudo bash -c 'echo 1 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
         print_msg(f"Done.{RESET}")
         return
@@ -437,9 +444,7 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that you have the necessary permissions to use `sudo` and that the `arp_ignore` parameter can be modified on your system.
         """
-        print_msg(
-            f"Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}"
-        )
+        print_msg(f"Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/conf/all/arp_ignore'{RESET}")
         self.cmd("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/conf/all/arp_ignore'")
         print_msg(f"Done.{RESET}")
         return
@@ -474,10 +479,7 @@ class NetworkHelpersCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that you have the necessary permissions to use `sudo` and that the `icmp_echo_ignore_all` parameter can be modified on your system.
         """
-        print_msg(
-            f"Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}"
-        )
+        print_msg(f"Try... sudo bash -c 'echo {CYAN}0 {RED}> {GREEN}/proc/sys/net/ipv4/icmp_echo_ignore_all'{RESET}")
         self.cmd("sudo bash -c 'echo 0 > /proc/sys/net/ipv4/icmp_echo_ignore_all'")
         print_msg(f"Done.{RESET}")
         return
-

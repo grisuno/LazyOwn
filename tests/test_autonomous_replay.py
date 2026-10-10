@@ -45,11 +45,7 @@ def _event(
     source: str = "fallback",
     seed_override: str = None,
 ) -> dict[str, Any]:
-    seed = (
-        seed_override
-        if seed_override is not None
-        else compute_decision_seed(objective_id, step, source)
-    )
+    seed = seed_override if seed_override is not None else compute_decision_seed(objective_id, step, source)
     return {
         "id": event_id,
         "ts": "2026-06-01T00:00:00+00:00",
@@ -83,11 +79,16 @@ def test_event_log_reader_skips_malformed_lines(tmp_path: Path) -> None:
     """Truncated or invalid JSON lines are skipped silently."""
 
     path = tmp_path / "events.jsonl"
-    path.write_text("\n".join([
-        json.dumps(_event("aa", "obj-1", 0, "ping")),
-        "{not json",
-        json.dumps(_event("bb", "obj-1", 1, "lazynmap")),
-    ]) + "\n")
+    path.write_text(
+        "\n".join(
+            [
+                json.dumps(_event("aa", "obj-1", 0, "ping")),
+                "{not json",
+                json.dumps(_event("bb", "obj-1", 1, "lazynmap")),
+            ]
+        )
+        + "\n"
+    )
     events = EventLogReader(path).read()
     assert [e["id"] for e in events] == ["aa", "bb"]
 
@@ -112,10 +113,13 @@ def test_trace_returns_one_step_per_event(tmp_path: Path) -> None:
     """Trace mode lists each STEP_START in order with no divergences."""
 
     path = tmp_path / "events.jsonl"
-    _write_jsonl(path, [
-        _event("aa", "obj-x", 0, "ping"),
-        _event("bb", "obj-x", 1, "lazynmap"),
-    ])
+    _write_jsonl(
+        path,
+        [
+            _event("aa", "obj-x", 0, "ping"),
+            _event("bb", "obj-x", 1, "lazynmap"),
+        ],
+    )
     report = ReplayDispatcher(reader=EventLogReader(path)).trace()
     assert isinstance(report, ReplayReport)
     assert report.mode == REPLAY_MODE_TRACE
@@ -128,28 +132,31 @@ def test_trace_detects_decision_seed_divergence(tmp_path: Path) -> None:
     """A bad recorded seed produces exactly one divergence entry."""
 
     path = tmp_path / "events.jsonl"
-    _write_jsonl(path, [
-        _event("aa", "obj-x", 0, "ping", seed_override="deadbeefdeadbeef"),
-    ])
+    _write_jsonl(
+        path,
+        [
+            _event("aa", "obj-x", 0, "ping", seed_override="deadbeefdeadbeef"),
+        ],
+    )
     report = ReplayDispatcher(reader=EventLogReader(path)).trace()
     assert len(report.divergences) == 1
     divergence = report.divergences[0]
     assert divergence.field == "decision_seed"
     assert divergence.recorded == "deadbeefdeadbeef"
-    assert (
-        divergence.recomputed
-        == compute_decision_seed("obj-x", 0, "fallback")
-    )
+    assert divergence.recomputed == compute_decision_seed("obj-x", 0, "fallback")
 
 
 def test_execute_runs_commands_through_injected_runner(tmp_path: Path) -> None:
     """Execute mode delegates to the supplied runner and captures output."""
 
     path = tmp_path / "events.jsonl"
-    _write_jsonl(path, [
-        _event("aa", "obj-x", 0, "ping"),
-        _event("bb", "obj-x", 1, "lazynmap"),
-    ])
+    _write_jsonl(
+        path,
+        [
+            _event("aa", "obj-x", 0, "ping"),
+            _event("bb", "obj-x", 1, "lazynmap"),
+        ],
+    )
 
     class _Runner:
         def __init__(self) -> None:
@@ -222,10 +229,13 @@ def test_step_skips_events_without_command(tmp_path: Path) -> None:
         "severity": "info",
         "payload": {"objective_id": "obj"},
     }
-    _write_jsonl(path, [
-        bad,
-        _event("aa", "obj", 0, "ping"),
-    ])
+    _write_jsonl(
+        path,
+        [
+            bad,
+            _event("aa", "obj", 0, "ping"),
+        ],
+    )
     report = ReplayDispatcher(reader=EventLogReader(path)).trace()
     assert [s.command for s in report.steps] == ["ping"]
     assert report.events_seen == 2

@@ -210,6 +210,7 @@ class NucleiParser:
             Number of vulnerabilities imported.
         """
         from modules.db import LazyOwnDB
+
         db = LazyOwnDB()
         ws = db.workspace_get(workspace_name)
         if ws is None:
@@ -274,6 +275,7 @@ class NucleiParser:
         """
         try:
             from modules.world_model import VulnerabilityEntry, WorldModel
+
             wm = WorldModel()
             added = 0
             for finding in findings:
@@ -365,6 +367,7 @@ class NucleiParser:
         cmd.extend(["-jsonl"])
 
         import subprocess
+
         try:
             result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
             output = result.stdout or ""

@@ -8,7 +8,6 @@ Follows the Builder pattern: start from base rules, then layer phase-specific
 and target-specific constraints.
 """
 
-
 from constants import PhaseNames
 
 
@@ -84,41 +83,53 @@ class RuleSetBuilder:
         rules: list[str] = ["", f"### Phase Rules ({self._phase or 'unknown'})", ""]
 
         if self._phase == PhaseNames.RECON:
-            rules.extend([
-                "- Do NOT run exploitation tools during recon.",
-                "- Preserve scan files; do not re-run if sessions/scan_<rhost>.nmap exists.",
-                "- Report open ports, services, and OS guesses only.",
-            ])
+            rules.extend(
+                [
+                    "- Do NOT run exploitation tools during recon.",
+                    "- Preserve scan files; do not re-run if sessions/scan_<rhost>.nmap exists.",
+                    "- Report open ports, services, and OS guesses only.",
+                ]
+            )
         elif self._phase == PhaseNames.ENUM:
-            rules.extend([
-                "- Focus on service-specific enumeration.",
-                "- Compare findings against the world model; highlight deltas.",
-                "- Stop when you have service versions and potential vectors.",
-            ])
+            rules.extend(
+                [
+                    "- Focus on service-specific enumeration.",
+                    "- Compare findings against the world model; highlight deltas.",
+                    "- Stop when you have service versions and potential vectors.",
+                ]
+            )
         elif self._phase == PhaseNames.EXPLOIT:
-            rules.extend([
-                "- Only attempt exploits matching the target service versions.",
-                "- Verify each exploit with searchsploit/cve_search before execution.",
-                "- Report success or failure with the exact error message.",
-            ])
+            rules.extend(
+                [
+                    "- Only attempt exploits matching the target service versions.",
+                    "- Verify each exploit with searchsploit/cve_search before execution.",
+                    "- Report success or failure with the exact error message.",
+                ]
+            )
         elif self._phase == PhaseNames.PRIVESC:
-            rules.extend([
-                "- Run automated privesc scanners (linpeas/winpeas) before manual attempts.",
-                "- Prioritize low-complexity vectors (SUID, sudo, writable paths).",
-                "- Do NOT delete evidence or logs during privesc attempts.",
-            ])
+            rules.extend(
+                [
+                    "- Run automated privesc scanners (linpeas/winpeas) before manual attempts.",
+                    "- Prioritize low-complexity vectors (SUID, sudo, writable paths).",
+                    "- Do NOT delete evidence or logs during privesc attempts.",
+                ]
+            )
         elif self._phase == PhaseNames.CRED:
-            rules.extend([
-                "- Store every found credential in sessions/credentials.txt immediately.",
-                "- Hashcat/john only if GPU/wordlist resources are confirmed available.",
-                "- Test credentials against multiple services before reporting.",
-            ])
+            rules.extend(
+                [
+                    "- Store every found credential in sessions/credentials.txt immediately.",
+                    "- Hashcat/john only if GPU/wordlist resources are confirmed available.",
+                    "- Test credentials against multiple services before reporting.",
+                ]
+            )
         elif self._phase == PhaseNames.LATERAL:
-            rules.extend([
-                "- Use the least-privileged credential that achieves the move.",
-                "- Map the network before pivoting; do not spray blindly.",
-                "- Document each hop and the credential used.",
-            ])
+            rules.extend(
+                [
+                    "- Use the least-privileged credential that achieves the move.",
+                    "- Map the network before pivoting; do not spray blindly.",
+                    "- Document each hop and the credential used.",
+                ]
+            )
         else:
             rules.append("- Follow the kill-chain order: recon -> enum -> exploit -> postexp.")
 

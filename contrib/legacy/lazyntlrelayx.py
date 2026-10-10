@@ -92,4 +92,3 @@ if __name__ == "__main__":
     else:
         print(f"Valid credentials found: {credentials}")
         ntlm_relay(args.target_ip, credentials)
-

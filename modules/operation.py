@@ -34,18 +34,18 @@ import yaml
 
 log = logging.getLogger("operation")
 
-_BASE_DIR     = Path(__file__).parent.parent
-_OPS_DIR      = _BASE_DIR / "sessions" / "operations"
+_BASE_DIR = Path(__file__).parent.parent
+_OPS_DIR = _BASE_DIR / "sessions" / "operations"
 _OPS_DIR.mkdir(parents=True, exist_ok=True)
 
 
 class OperationStatus(StrEnum):
-    PLANNED   = "planned"
-    RUNNING   = "running"
-    PAUSED    = "paused"
+    PLANNED = "planned"
+    RUNNING = "running"
+    PAUSED = "paused"
     COMPLETED = "completed"
-    STOPPED   = "stopped"
-    FAILED    = "failed"
+    STOPPED = "stopped"
+    FAILED = "failed"
 
 
 @dataclass
@@ -163,16 +163,19 @@ class Operation:
 
     def record_facts(self, findings: list[dict[str, Any]]) -> None:
         for f in findings:
-            self.facts_produced.append({
-                "produced_at": datetime.now().isoformat(timespec="seconds"),
-                "step_index": len(self.facts_produced),
-                **f,
-            })
+            self.facts_produced.append(
+                {
+                    "produced_at": datetime.now().isoformat(timespec="seconds"),
+                    "step_index": len(self.facts_produced),
+                    **f,
+                }
+            )
 
 
 # ---------------------------------------------------------------------------
 # Manager
 # ---------------------------------------------------------------------------
+
 
 class OperationManager:
     """Persistent store and executor for Operation objects."""
@@ -242,14 +245,16 @@ class OperationManager:
                     data = yaml.safe_load(f)
                 pb = AptPlaybook.from_dict(data)
                 for i, phase in enumerate(pb.phases):
-                    steps.append(OperationStep(
-                        step_index=i,
-                        name=phase.name or "",
-                        technique_id=phase.technique_id or "",
-                        tactic=phase.name or "",
-                        command="",
-                        description=phase.description or "",
-                    ))
+                    steps.append(
+                        OperationStep(
+                            step_index=i,
+                            name=phase.name or "",
+                            technique_id=phase.technique_id or "",
+                            tactic=phase.name or "",
+                            command="",
+                            description=phase.description or "",
+                        )
+                    )
             except Exception as exc:
                 log.warning("failed to parse playbook yaml: %s", exc)
         else:
@@ -257,14 +262,16 @@ class OperationManager:
             try:
                 pb = engine.derive(op.target, phase=None, apt_name=op.apt_name)
                 for i, st in enumerate(pb.steps):
-                    steps.append(OperationStep(
-                        step_index=i,
-                        name=st.name,
-                        technique_id=st.technique_id,
-                        tactic=st.tactic,
-                        command=st.command,
-                        description=st.description,
-                    ))
+                    steps.append(
+                        OperationStep(
+                            step_index=i,
+                            name=st.name,
+                            technique_id=st.technique_id,
+                            tactic=st.tactic,
+                            command=st.command,
+                            description=st.description,
+                        )
+                    )
             except Exception as exc:
                 log.warning("planner derive failed: %s", exc)
 
@@ -272,8 +279,7 @@ class OperationManager:
         for st in op.steps:
             op.ttp_coverage[st.technique_id] = "pending"
         op.log_event(
-            -1, "plan", "ok",
-            f"planned {len(steps)} steps from {'YAML' if playbook_yaml_path else 'MITRE derive'}"
+            -1, "plan", "ok", f"planned {len(steps)} steps from {'YAML' if playbook_yaml_path else 'MITRE derive'}"
         )
         op.save()
         return op
@@ -300,6 +306,7 @@ class OperationManager:
 
         from modules.obs_parser import get_parser
         from modules.world_model import get_world_model
+
         parser = get_parser()
         wm = get_world_model()
 
@@ -332,7 +339,9 @@ class OperationManager:
                 step.status = "completed"
                 step.finished_at = datetime.now().isoformat(timespec="seconds")
                 op.log_event(
-                    step.step_index, step.name, "completed",
+                    step.step_index,
+                    step.name,
+                    "completed",
                     f"{len(obs.findings)} findings",
                     findings_count=len(obs.findings),
                 )
@@ -341,7 +350,11 @@ class OperationManager:
                 step.error = str(exc)
                 op.ttp_coverage[step.technique_id] = "failed"
                 op.log_event(
-                    step.step_index, step.name, "failed", str(exc)[:120], error=str(exc),
+                    step.step_index,
+                    step.name,
+                    "failed",
+                    str(exc)[:120],
+                    error=str(exc),
                 )
                 op.status = OperationStatus.FAILED.value
             op.save()
@@ -386,9 +399,9 @@ class OperationManager:
         if op is None:
             return {"error": f"operation {op_id} not found"}
         completed = sum(1 for s in op.steps if s.status == "completed")
-        failed    = sum(1 for s in op.steps if s.status == "failed")
-        pending   = sum(1 for s in op.steps if s.status == "pending")
-        running   = sum(1 for s in op.steps if s.status == "running")
+        failed = sum(1 for s in op.steps if s.status == "failed")
+        pending = sum(1 for s in op.steps if s.status == "pending")
+        running = sum(1 for s in op.steps if s.status == "running")
         return {
             "id": op.id,
             "name": op.name,
@@ -433,13 +446,12 @@ class OperationManager:
         for s in op.steps:
             mark = {
                 "completed": "[x]",
-                "failed":    "[!]",
-                "running":   "[*]",
-                "pending":   "[ ]",
+                "failed": "[!]",
+                "running": "[*]",
+                "pending": "[ ]",
             }.get(s.status, "[?]")
             lines.append(
-                f"  {mark} {s.step_index:>3}. [{s.technique_id:<10}] {s.name:<30} "
-                f"({s.findings_count} findings)"
+                f"  {mark} {s.step_index:>3}. [{s.technique_id:<10}] {s.name:<30} ({s.findings_count} findings)"
             )
         lines.append("")
         lines.append(f"TTP coverage ({len(op.ttp_coverage)} techniques):")
@@ -448,7 +460,7 @@ class OperationManager:
         lines.append("")
         lines.append(f"Facts produced: {len(op.facts_produced)}")
         for f in op.facts_produced[:10]:
-            lines.append(f"  {f.get('type','?'):<14} {f.get('value','')}")
+            lines.append(f"  {f.get('type', '?'):<14} {f.get('value', '')}")
         if len(op.facts_produced) > 10:
             lines.append(f"  ... and {len(op.facts_produced) - 10} more")
         lines.append("")

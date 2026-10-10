@@ -111,11 +111,11 @@ def build_banners_html(banners: list | None) -> str:
 
     for banner in banners:
         html += "    <tr>\n"
-        html += f'      <td>{banner.get("hostname", "")}</td>\n'
-        html += f'      <td>{banner.get("port", "")}</td>\n'
-        html += f'      <td>{banner.get("protocol", "")}</td>\n'
-        html += f'      <td>{banner.get("extra", "")}</td>\n'
-        html += f'      <td>{banner.get("service", "")}</td>\n'
+        html += f"      <td>{banner.get('hostname', '')}</td>\n"
+        html += f"      <td>{banner.get('port', '')}</td>\n"
+        html += f"      <td>{banner.get('protocol', '')}</td>\n"
+        html += f"      <td>{banner.get('extra', '')}</td>\n"
+        html += f"      <td>{banner.get('service', '')}</td>\n"
         html += "    </tr>\n"
 
     html += "  </tbody>\n</table>"
@@ -127,12 +127,16 @@ class TestLoadBanners:
 
     def test_dict_format(self, tmp_path: Path):
         path = tmp_path / "banners.json"
-        path.write_text(json.dumps({
-            "banners": [
-                {"hostname": "srv1", "port": 22, "protocol": "tcp", "extra": "", "service": "ssh"},
-                {"hostname": "srv2", "port": 443, "protocol": "tcp", "extra": "nginx", "service": "https"},
-            ]
-        }))
+        path.write_text(
+            json.dumps(
+                {
+                    "banners": [
+                        {"hostname": "srv1", "port": 22, "protocol": "tcp", "extra": "", "service": "ssh"},
+                        {"hostname": "srv2", "port": 443, "protocol": "tcp", "extra": "nginx", "service": "https"},
+                    ]
+                }
+            )
+        )
         result = load_banners(str(path))
         assert isinstance(result, list)
         assert len(result) == 2
@@ -164,9 +168,13 @@ class TestLoadBanners:
 
     def test_flat_list_format(self, tmp_path: Path):
         path = tmp_path / "banners.json"
-        path.write_text(json.dumps([
-            {"hostname": "flat", "port": 8080, "protocol": "tcp", "extra": "", "service": "http"},
-        ]))
+        path.write_text(
+            json.dumps(
+                [
+                    {"hostname": "flat", "port": 8080, "protocol": "tcp", "extra": "", "service": "http"},
+                ]
+            )
+        )
         result = load_banners(str(path))
         assert isinstance(result, list)
         assert len(result) == 1

@@ -230,8 +230,8 @@ class GPOAbuseEngine:
                 "gpupdate /force",
             ],
             cleanup_commands=[
-                f"Remove-Item -Path \"{sysvol_path}\\{script_name}\" -Force",
-                f"Remove-Item -Path \"{sysvol_path}\\scripts.ini\" -Force",
+                f'Remove-Item -Path "{sysvol_path}\\{script_name}" -Force',
+                f'Remove-Item -Path "{sysvol_path}\\scripts.ini" -Force',
             ],
         )
 
@@ -258,8 +258,8 @@ class GPOAbuseEngine:
                 f'Set-Content -Path "{sysvol_path}\\scripts.ini" -Value "[Logon]\\r\\n0CmdLine=logon.bat\\r\\n0Parameters="',
             ],
             cleanup_commands=[
-                f"Remove-Item -Path \"{sysvol_path}\\logon.bat\" -Force",
-                f"Remove-Item -Path \"{sysvol_path}\\scripts.ini\" -Force",
+                f'Remove-Item -Path "{sysvol_path}\\logon.bat" -Force',
+                f'Remove-Item -Path "{sysvol_path}\\scripts.ini" -Force',
             ],
         )
 
@@ -319,7 +319,9 @@ class GPOAbuseEngine:
             ],
         )
 
-    def plan_registry_preference(self, gpo: GPOInfo, registry_path: str, value_name: str, value_data: str, value_type: str = "REG_SZ") -> GPOAbusePlan:
+    def plan_registry_preference(
+        self, gpo: GPOInfo, registry_path: str, value_name: str, value_data: str, value_type: str = "REG_SZ"
+    ) -> GPOAbusePlan:
         """Plan a registry modification via GPO preferences.
 
         Can enable RDP, disable firewall, add autorun entries, etc.
@@ -390,12 +392,14 @@ class GPOAbuseEngine:
         self.abuse_plans = []
 
         for gpo in self.gpos:
-            self.abuse_plans.extend([
-                self.plan_scheduled_task(gpo, command),
-                self.plan_startup_script(gpo, command),
-                self.plan_logon_script(gpo, command),
-                self.plan_local_admin_addition(gpo, username),
-            ])
+            self.abuse_plans.extend(
+                [
+                    self.plan_scheduled_task(gpo, command),
+                    self.plan_startup_script(gpo, command),
+                    self.plan_logon_script(gpo, command),
+                    self.plan_local_admin_addition(gpo, username),
+                ]
+            )
 
         return self.abuse_plans
 
@@ -417,11 +421,13 @@ class GPOAbuseEngine:
                 indicators.append("Missing owner — potential orphaned GPO")
 
             if indicators:
-                findings.append({
-                    "gpo_name": gpo.display_name,
-                    "guid": gpo.guid,
-                    "indicators": indicators,
-                })
+                findings.append(
+                    {
+                        "gpo_name": gpo.display_name,
+                        "guid": gpo.guid,
+                        "indicators": indicators,
+                    }
+                )
 
         return findings
 

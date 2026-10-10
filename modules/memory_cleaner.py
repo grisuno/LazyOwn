@@ -70,67 +70,81 @@ class MemoryCleaner:
         commands: list[str] = []
 
         if self.config.clear_kerberos_tickets:
-            commands.extend([
-                "# Purge all Kerberos tickets",
-                "klist purge",
-                'mimikatz.exe "kerberos::purge" exit',
-                'Invoke-Expression "klist purge"',
-            ])
+            commands.extend(
+                [
+                    "# Purge all Kerberos tickets",
+                    "klist purge",
+                    'mimikatz.exe "kerberos::purge" exit',
+                    'Invoke-Expression "klist purge"',
+                ]
+            )
 
         if self.config.clear_ntlm_cache:
-            commands.extend([
-                "# Clear NTLM credential cache",
-                'mimikatz.exe "sekurlsa::logonpasswords" exit >nul 2>&1',
-                "rundll32.exe keymgr.dll,KRShowKeyMgr",
-                'cmdkey /list | ForEach-Object { if ($_ -match "Target: (.+)") { cmdkey /delete:$($matches[1]) } }',
-            ])
+            commands.extend(
+                [
+                    "# Clear NTLM credential cache",
+                    'mimikatz.exe "sekurlsa::logonpasswords" exit >nul 2>&1',
+                    "rundll32.exe keymgr.dll,KRShowKeyMgr",
+                    'cmdkey /list | ForEach-Object { if ($_ -match "Target: (.+)") { cmdkey /delete:$($matches[1]) } }',
+                ]
+            )
 
         if self.config.clear_clipboard:
-            commands.extend([
-                "# Clear clipboard contents",
-                "[Windows.Forms.Clipboard]::Clear()",
-                'Set-Clipboard -Value $null',
-            ])
+            commands.extend(
+                [
+                    "# Clear clipboard contents",
+                    "[Windows.Forms.Clipboard]::Clear()",
+                    "Set-Clipboard -Value $null",
+                ]
+            )
 
         if self.config.scrub_environment:
-            commands.extend([
-                "# Scrub environment variables with sensitive data",
-                '$env:password = ""',
-                '$env:pass = ""',
-                '$env:token = ""',
-                '$env:cred = ""',
-                '$env:user = ""',
-                '$env:PASSWD = ""',
-                '$env:AWS_ACCESS_KEY_ID = ""',
-                '$env:AWS_SECRET_ACCESS_KEY = ""',
-                '$env:AWS_SESSION_TOKEN = ""',
-            ])
+            commands.extend(
+                [
+                    "# Scrub environment variables with sensitive data",
+                    '$env:password = ""',
+                    '$env:pass = ""',
+                    '$env:token = ""',
+                    '$env:cred = ""',
+                    '$env:user = ""',
+                    '$env:PASSWD = ""',
+                    '$env:AWS_ACCESS_KEY_ID = ""',
+                    '$env:AWS_SECRET_ACCESS_KEY = ""',
+                    '$env:AWS_SESSION_TOKEN = ""',
+                ]
+            )
 
         if self.config.clean_psreadline:
-            commands.extend([
-                "# Clear PowerShell PSReadline history",
-                "[Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory()",
-                "Remove-Item (Get-PSReadlineOption).HistorySavePath -Force",
-            ])
+            commands.extend(
+                [
+                    "# Clear PowerShell PSReadline history",
+                    "[Microsoft.PowerShell.PSConsoleReadLine]::ClearHistory()",
+                    "Remove-Item (Get-PSReadlineOption).HistorySavePath -Force",
+                ]
+            )
 
         if self.config.clear_credentials:
-            commands.extend([
-                "# Clear DPAPI-protected credentials",
-                "vaultcmd /listcreds:\"Windows Credentials\" /all | findstr /i \"Resource\"",
-                "rundll32.exe keymgr.dll, KRShowKeyMgr",
-            ])
+            commands.extend(
+                [
+                    "# Clear DPAPI-protected credentials",
+                    'vaultcmd /listcreds:"Windows Credentials" /all | findstr /i "Resource"',
+                    "rundll32.exe keymgr.dll, KRShowKeyMgr",
+                ]
+            )
 
         if self.config.kill_sensitive_processes:
-            commands.extend([
-                "# Terminate processes that may cache sensitive data",
-                "Stop-Process -Name lsass -Force -ErrorAction SilentlyContinue",
-                "taskkill /f /im winlogon.exe 2>nul",
-            ])
+            commands.extend(
+                [
+                    "# Terminate processes that may cache sensitive data",
+                    "Stop-Process -Name lsass -Force -ErrorAction SilentlyContinue",
+                    "taskkill /f /im winlogon.exe 2>nul",
+                ]
+            )
 
         return {
             "platform": "windows",
             "cleanup_commands": commands,
-            "oneliner": "powershell -C \"" + ";".join(commands).replace("#", "").replace('"', "'") + "\"",
+            "oneliner": 'powershell -C "' + ";".join(commands).replace("#", "").replace('"', "'") + '"',
             "note": "Some commands require elevated privileges (SYSTEM or Administrator)",
         }
 
@@ -143,37 +157,45 @@ class MemoryCleaner:
         commands: list[str] = []
 
         if self.config.scrub_environment:
-            commands.extend([
-                "# Scrub environment variables",
-                'unset PASSWORD PASSWD PASS AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY TOKEN CRED',
-                'unset HISTFILE',
-            ])
+            commands.extend(
+                [
+                    "# Scrub environment variables",
+                    "unset PASSWORD PASSWD PASS AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY TOKEN CRED",
+                    "unset HISTFILE",
+                ]
+            )
 
         if self.config.clear_credentials:
-            commands.extend([
-                "# Clear GNOME keyring",
-                "echo '' | gnome-keyring-daemon --unlock 2>/dev/null",
-                "rm -rf ~/.gnome2/keyrings/*",
-                "# Clear KDE wallet",
-                "rm -rf ~/.kde/share/apps/kwallet/*",
-                "# Clear ssh-agent keys",
-                "ssh-add -D 2>/dev/null",
-            ])
+            commands.extend(
+                [
+                    "# Clear GNOME keyring",
+                    "echo '' | gnome-keyring-daemon --unlock 2>/dev/null",
+                    "rm -rf ~/.gnome2/keyrings/*",
+                    "# Clear KDE wallet",
+                    "rm -rf ~/.kde/share/apps/kwallet/*",
+                    "# Clear ssh-agent keys",
+                    "ssh-add -D 2>/dev/null",
+                ]
+            )
 
         if self.config.clear_clipboard:
-            commands.extend([
-                "# Clear X11 clipboard selections",
-                "echo -n '' | xclip -selection clipboard",
-                "echo -n '' | xclip -selection primary",
-                "echo -n '' | xclip -selection secondary",
-            ])
+            commands.extend(
+                [
+                    "# Clear X11 clipboard selections",
+                    "echo -n '' | xclip -selection clipboard",
+                    "echo -n '' | xclip -selection primary",
+                    "echo -n '' | xclip -selection secondary",
+                ]
+            )
 
         if self.config.clear_kerberos_tickets:
-            commands.extend([
-                "# Purge Kerberos ticket cache",
-                "kdestroy -A 2>/dev/null",
-                "rm -f /tmp/krb5cc_* 2>/dev/null",
-            ])
+            commands.extend(
+                [
+                    "# Purge Kerberos ticket cache",
+                    "kdestroy -A 2>/dev/null",
+                    "rm -f /tmp/krb5cc_* 2>/dev/null",
+                ]
+            )
 
         return {
             "platform": "linux",
@@ -190,32 +212,40 @@ class MemoryCleaner:
         commands: list[str] = []
 
         if self.config.clear_credentials:
-            commands.extend([
-                "# Clear Keychain on logout",
-                "security lock-keychain",
-                "security delete-keychain ~/Library/Keychains/login.keychain-db 2>/dev/null",
-                "# Clear ssh-agent",
-                "ssh-add -D 2>/dev/null",
-                "ssh-add -A 2>/dev/null",
-            ])
+            commands.extend(
+                [
+                    "# Clear Keychain on logout",
+                    "security lock-keychain",
+                    "security delete-keychain ~/Library/Keychains/login.keychain-db 2>/dev/null",
+                    "# Clear ssh-agent",
+                    "ssh-add -D 2>/dev/null",
+                    "ssh-add -A 2>/dev/null",
+                ]
+            )
 
         if self.config.clear_clipboard:
-            commands.extend([
-                "# Clear pasteboard (macOS clipboard)",
-                "pbcopy < /dev/null",
-                "echo -n '' | pbcopy",
-            ])
+            commands.extend(
+                [
+                    "# Clear pasteboard (macOS clipboard)",
+                    "pbcopy < /dev/null",
+                    "echo -n '' | pbcopy",
+                ]
+            )
 
         if self.config.scrub_environment:
-            commands.extend([
-                "unset PASSWORD PASSWD PASS CRED",
-            ])
+            commands.extend(
+                [
+                    "unset PASSWORD PASSWD PASS CRED",
+                ]
+            )
 
         if self.config.clear_kerberos_tickets:
-            commands.extend([
-                "kdestroy",
-                "klist -A 2>/dev/null",
-            ])
+            commands.extend(
+                [
+                    "kdestroy",
+                    "klist -A 2>/dev/null",
+                ]
+            )
 
         return {
             "platform": "macos",

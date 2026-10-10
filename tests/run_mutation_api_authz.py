@@ -42,13 +42,13 @@ _MUTATIONS: dict[str, dict] = {
     },
     "api_authz_skip_rotation_retire": {
         "file": "core/api_authz.py",
-        "line": "            for record in active:\n                record[\"retired_at\"] = now",
-        "mutation": "            for record in active:\n                record[\"retired_at\"] = None",
+        "line": '            for record in active:\n                record["retired_at"] = now',
+        "mutation": '            for record in active:\n                record["retired_at"] = None',
         "test": "tests/test_api_authz.py::TestApiKeyStore::test_old_key_rejected_after_rotation_grace_expires",
     },
     "api_authz_rotation_permissions_from_wrong_record": {
         "file": "core/api_authz.py",
-        "line": "                permissions=frozenset(source.get(\"permissions\", [])),",
+        "line": '                permissions=frozenset(source.get("permissions", [])),',
         "mutation": "                permissions=frozenset(),",
         "test": "tests/test_api_authz.py::TestApiKeyStore::test_rotation_copies_permissions_from_the_rotated_key",
     },
@@ -113,8 +113,9 @@ def run() -> dict:
                 importlib.invalidate_caches()
         print(f"[{i}/{len(_MUTATIONS)}] {name}: {status}")
 
-    print(f"\n=== Results: {results['killed']} killed, {results['survived']} survived, "
-          f"{results['skipped']} skipped ===\n")
+    print(
+        f"\n=== Results: {results['killed']} killed, {results['survived']} survived, {results['skipped']} skipped ===\n"
+    )
     return results
 
 

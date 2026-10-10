@@ -18,6 +18,9 @@ from __future__ import annotations
 
 import os
 from collections.abc import Sequence
+from typing import TypeVar
+
+_SpecT = TypeVar("_SpecT")
 
 PROFILE_LIGHT = "light"
 PROFILE_FULL = "full"
@@ -58,7 +61,7 @@ def is_light() -> bool:
     return active_profile() == PROFILE_LIGHT
 
 
-def specs_for_profile(specs: Sequence[object]) -> list[object]:
+def specs_for_profile(specs: Sequence[_SpecT]) -> list[_SpecT]:
     """Filter dependency specs down to the ones the active profile needs.
 
     Args:

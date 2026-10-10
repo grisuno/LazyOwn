@@ -52,10 +52,12 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
-_LAZYOWN_DIR = Path(os.environ.get(
-    "LAZYOWN_DIR",
-    str(Path(__file__).resolve().parent.parent),
-))
+_LAZYOWN_DIR = Path(
+    os.environ.get(
+        "LAZYOWN_DIR",
+        str(Path(__file__).resolve().parent.parent),
+    )
+)
 _SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
 _PAYLOAD_FILE = _LAZYOWN_DIR / "payload.json"
 
@@ -178,12 +180,12 @@ class StreamEventSink(INotificationSink):
 
     def deliver(self, event: EngagementEvent) -> bool:
         record = {
-            "id":       event.event_id,
-            "ts":       event.ts,
-            "type":     event.kind,
+            "id": event.event_id,
+            "ts": event.ts,
+            "type": event.kind,
             "severity": event.severity,
             "payload": {
-                "target":  event.target,
+                "target": event.target,
                 "message": event.message,
                 **event.payload,
             },
@@ -222,12 +224,12 @@ class CollabNotificationSink(INotificationSink):
                 type="engagement",
                 payload={
                     "event_id": event.event_id,
-                    "kind":     event.kind,
-                    "target":   event.target,
-                    "message":  event.message,
+                    "kind": event.kind,
+                    "target": event.target,
+                    "message": event.message,
                     "severity": event.severity,
-                    "data":     event.payload,
-                    "ts":       event.ts,
+                    "data": event.payload,
+                    "ts": event.ts,
                 },
                 operator="engage_daemon",
             )
@@ -295,10 +297,12 @@ class TelegramNotificationSink(_OutboundHTTPSink):
         if not token or not chat_id:
             return None
         text = f"[{event.kind}] {event.target} — {event.message}"
-        body = json.dumps({
-            "chat_id": chat_id,
-            "text":    text[:3500],
-        }).encode("utf-8")
+        body = json.dumps(
+            {
+                "chat_id": chat_id,
+                "text": text[:3500],
+            }
+        ).encode("utf-8")
         url = f"https://api.telegram.org/bot{token}/sendMessage"
         headers = {"Content-Type": "application/json"}
         return url, body, headers
@@ -349,12 +353,14 @@ class NotificationBroadcaster:
     @classmethod
     def default(cls) -> NotificationBroadcaster:
         """Return a broadcaster with the standard four-sink configuration."""
-        return cls([
-            StreamEventSink(),
-            CollabNotificationSink(),
-            TelegramNotificationSink(),
-            DiscordNotificationSink(),
-        ])
+        return cls(
+            [
+                StreamEventSink(),
+                CollabNotificationSink(),
+                TelegramNotificationSink(),
+                DiscordNotificationSink(),
+            ]
+        )
 
     def add(self, sink: INotificationSink) -> None:
         """Register an additional sink at runtime."""
@@ -412,12 +418,12 @@ class EngagementNarrator:
         line = event.render_line()
         audit = {
             "event_id": event.event_id,
-            "ts":       event.ts,
-            "kind":     event.kind,
-            "target":   event.target,
-            "message":  event.message,
+            "ts": event.ts,
+            "kind": event.kind,
+            "target": event.target,
+            "message": event.message,
             "severity": event.severity,
-            "payload":  event.payload,
+            "payload": event.payload,
         }
         try:
             with self._lock:
@@ -522,10 +528,10 @@ def publish_shell_obtained(
     now_iso = datetime.datetime.now(datetime.UTC).isoformat()
     seen[cid] = {
         "first_seen": now_iso,
-        "ip":         ip_clean,
-        "hostname":   host_clean,
-        "user":       user_clean,
-        "platform":   plat_clean,
+        "ip": ip_clean,
+        "hostname": host_clean,
+        "user": user_clean,
+        "platform": plat_clean,
     }
     _save_seen_beacons(seen)
 
@@ -541,10 +547,10 @@ def publish_shell_obtained(
         message=message,
         payload={
             "client_id": cid,
-            "ip":        ip_clean,
-            "hostname":  host_clean,
-            "user":      user_clean,
-            "platform":  plat_clean,
+            "ip": ip_clean,
+            "hostname": host_clean,
+            "user": user_clean,
+            "platform": plat_clean,
         },
         severity="critical",
     )
@@ -609,8 +615,8 @@ def resolve_approval(approval_id: str, decision: str, operator: str = "") -> boo
         return False
     record = {
         "approval_id": _safe_str(approval_id, 64),
-        "status":      decision,
-        "operator":    _safe_str(operator, 64) or "system",
+        "status": decision,
+        "operator": _safe_str(operator, 64) or "system",
         "resolved_ts": datetime.datetime.now(datetime.UTC).isoformat(),
     }
     append_approval_record(record)

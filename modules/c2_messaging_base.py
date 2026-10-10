@@ -6,8 +6,6 @@ RATE_LIMIT = 5
 SESSION_TIMEOUT = 1800
 
 
-
-
 class SecureSessionManager:
     """Unified session manager for C2 messaging bots.
 
@@ -40,10 +38,10 @@ class SecureSessionManager:
         """Record a failed authentication attempt for a user."""
         now = time.time()
         if user_id not in self.failed_attempts:
-            self.failed_attempts[user_id] = {'count': 1, 'timestamp': now}
+            self.failed_attempts[user_id] = {"count": 1, "timestamp": now}
         else:
-            self.failed_attempts[user_id]['count'] += 1
-            self.failed_attempts[user_id]['timestamp'] = now
+            self.failed_attempts[user_id]["count"] += 1
+            self.failed_attempts[user_id]["timestamp"] = now
 
     def check_lockout(self, user_id: int) -> bool:
         """Check if a user is currently locked out due to failed attempts.
@@ -54,8 +52,8 @@ class SecureSessionManager:
         attempt = self.failed_attempts.get(user_id)
         if not attempt:
             return False
-        if attempt['count'] >= self.max_failed_attempts:
-            if (time.time() - attempt['timestamp']) < self.lockout_duration:
+        if attempt["count"] >= self.max_failed_attempts:
+            if (time.time() - attempt["timestamp"]) < self.lockout_duration:
                 return True
             del self.failed_attempts[user_id]
         return False
@@ -70,9 +68,7 @@ class SecureSessionManager:
         if user_id not in self.command_timestamps:
             self.command_timestamps[user_id] = []
 
-        self.command_timestamps[user_id] = [
-            t for t in self.command_timestamps[user_id] if now - t < 60
-        ]
+        self.command_timestamps[user_id] = [t for t in self.command_timestamps[user_id] if now - t < 60]
 
         if len(self.command_timestamps[user_id]) >= self._rate_limit:
             return False
@@ -84,10 +80,10 @@ class SecureSessionManager:
         """Create a new authenticated session for a user."""
         now = time.time()
         self.sessions[user_id] = {
-            'user_id': user_id,
-            'client_id': client_id,
-            'session_start': now,
-            'last_activity': now,
+            "user_id": user_id,
+            "client_id": client_id,
+            "session_start": now,
+            "last_activity": now,
         }
 
     def validate_session(self, user_id: int) -> bool:
@@ -100,22 +96,22 @@ class SecureSessionManager:
         if not session:
             return False
 
-        if (time.time() - session['last_activity']) > self._session_timeout:
+        if (time.time() - session["last_activity"]) > self._session_timeout:
             del self.sessions[user_id]
             return False
 
-        session['last_activity'] = time.time()
+        session["last_activity"] = time.time()
         return True
 
     def set_client(self, user_id: int, client_id: str) -> None:
         """Assign a target C2 client to a user session."""
         if user_id in self.sessions:
-            self.sessions[user_id]['client_id'] = client_id
+            self.sessions[user_id]["client_id"] = client_id
 
     def get_client(self, user_id: int) -> str | None:
         """Get the target C2 client assigned to a user session."""
         session = self.sessions.get(user_id)
-        return session.get('client_id') if session else None
+        return session.get("client_id") if session else None
 
 
 class PayloadConfigAdapter:

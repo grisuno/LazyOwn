@@ -10,4 +10,3 @@ tmux split-window -v
 tmux send-keys -t $SESSION "bash -c '$COMMAND'" C-m
 tmux select-pane -t 1
 tmux attach -t $SESSION
-

@@ -44,9 +44,7 @@ def test_lazyown_has_no_unused_imports() -> None:
     source = (_ROOT / "lazyown.py").read_text(encoding="utf-8")
     tree = ast.parse(source)
     dead = [
-        name
-        for name in _bound_import_names(tree)
-        if len(re.findall(r"\b{}\b".format(re.escape(name)), source)) == 1
+        name for name in _bound_import_names(tree) if len(re.findall(r"\b{}\b".format(re.escape(name)), source)) == 1
     ]
     assert not dead, f"unused imports in lazyown.py: {sorted(set(dead))}"
 
@@ -97,9 +95,7 @@ def _load_mcp_module():
                 return lambda func: func
 
         server_mod.Server = Server
-        stdio_mod.stdio_server = lambda *args, **kwargs: (_ for _ in ()).throw(
-            RuntimeError("stub stdio server")
-        )
+        stdio_mod.stdio_server = lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("stub stdio server"))
         mcp.types = types_mod
         mcp.server = server_mod
         sys.modules["mcp"] = mcp
@@ -131,9 +127,7 @@ def test_replace_placeholders_matches_single_pass_engine() -> None:
         ("keep {unknown} intact", {"rhost": "10.0.0.5"}),
     ]
     for template, values in cases:
-        assert replace_placeholders(template, values) == replace_command_placeholders(
-            template, values
-        )
+        assert replace_placeholders(template, values) == replace_command_placeholders(template, values)
 
 
 def test_replace_placeholders_keeps_brace_values_literal() -> None:

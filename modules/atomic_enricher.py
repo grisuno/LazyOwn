@@ -31,34 +31,93 @@ log = logging.getLogger(__name__)
 try:
     import numpy as np  # noqa: F401
     import pandas as pd
+
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
 
 PARQUETS_DIR = Path(__file__).parent.parent / "parquets"
-SRC_PARQUET  = PARQUETS_DIR / "techniques.parquet"
-DST_PARQUET  = PARQUETS_DIR / "techniques_enriched.parquet"
+SRC_PARQUET = PARQUETS_DIR / "techniques.parquet"
+DST_PARQUET = PARQUETS_DIR / "techniques_enriched.parquet"
 
 # Words to strip when building keyword_tags
 _STOP = {
-    "a","an","the","and","or","for","with","from","on","in","to","of","by",
-    "using","via","as","at","is","are","be","use","uses","run","runs",
-    "create","creates","set","sets","local","remote","elevated","windows",
-    "linux","macos","freebsd","cloud","aws","azure","gcp","test","atomic",
-    "technique","techniques","method","methods","powershell","cmd","bash","sh",
-    "python","python3","script","scripts","command","commands","file","files",
-    "registry","process","service","system","user","admin","domain",
+    "a",
+    "an",
+    "the",
+    "and",
+    "or",
+    "for",
+    "with",
+    "from",
+    "on",
+    "in",
+    "to",
+    "of",
+    "by",
+    "using",
+    "via",
+    "as",
+    "at",
+    "is",
+    "are",
+    "be",
+    "use",
+    "uses",
+    "run",
+    "runs",
+    "create",
+    "creates",
+    "set",
+    "sets",
+    "local",
+    "remote",
+    "elevated",
+    "windows",
+    "linux",
+    "macos",
+    "freebsd",
+    "cloud",
+    "aws",
+    "azure",
+    "gcp",
+    "test",
+    "atomic",
+    "technique",
+    "techniques",
+    "method",
+    "methods",
+    "powershell",
+    "cmd",
+    "bash",
+    "sh",
+    "python",
+    "python3",
+    "script",
+    "scripts",
+    "command",
+    "commands",
+    "file",
+    "files",
+    "registry",
+    "process",
+    "service",
+    "system",
+    "user",
+    "admin",
+    "domain",
 }
 
 # Scope markers in the technique name
-_SCOPE_RE = re.compile(r'\b(elevated|remote|local)\b', re.IGNORECASE)
+_SCOPE_RE = re.compile(r"\b(elevated|remote|local)\b", re.IGNORECASE)
 
 # Complexity thresholds (number of non-empty lines in command)
 _COMPLEXITY_HIGH = 10
-_COMPLEXITY_MED  = 4
+_COMPLEXITY_MED = 4
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
+
 
 def _parse_platforms(raw: Any) -> list[str]:
     """Convert numpy array / list / string platform field → sorted list."""
@@ -110,6 +169,7 @@ def _tactic_prefix(mitre_id: str) -> str:
 
 # ── main enrichment ───────────────────────────────────────────────────────────
 
+
 def enrich(force: bool = False) -> pd.DataFrame:
     """
     Build enriched parquet.  Skips if DST_PARQUET already exists (use force=True to rebuild).
@@ -129,15 +189,11 @@ def enrich(force: bool = False) -> pd.DataFrame:
     log.info("atomic_enricher: enriching %d rows", len(df))
 
     df["platform_list"] = df["platforms"].apply(_parse_platforms)
-    df["scope"]         = df["name"].apply(_parse_scope)
-    df["has_prereqs"]   = df["prereq_command"].apply(
-        lambda x: bool(x and str(x).strip())
-    )
-    df["complexity"]    = df["command"].apply(_parse_complexity)
+    df["scope"] = df["name"].apply(_parse_scope)
+    df["has_prereqs"] = df["prereq_command"].apply(lambda x: bool(x and str(x).strip()))
+    df["complexity"] = df["command"].apply(_parse_complexity)
     df["tactic_prefix"] = df["mitre_id"].apply(_tactic_prefix)
-    df["keyword_tags"]  = df.apply(
-        lambda r: _parse_keyword_tags(r["name"], r.get("description", "")), axis=1
-    )
+    df["keyword_tags"] = df.apply(lambda r: _parse_keyword_tags(r["name"], r.get("description", "")), axis=1)
 
     PARQUETS_DIR.mkdir(parents=True, exist_ok=True)
     df.to_parquet(DST_PARQUET, index=False)
@@ -171,6 +227,7 @@ def load_enriched() -> pd.DataFrame:
 
 
 # ── quick query helper used by parquet_db ─────────────────────────────────────
+
 
 def query_atomic(
     keyword: str = "",
@@ -214,17 +271,12 @@ def query_atomic(
         mask &= (
             df["name"].str.lower().str.contains(kl, regex=False, na=False)
             | df["description"].str.lower().str.contains(kl, regex=False, na=False)
-            | df["keyword_tags"].apply(
-                lambda tags: any(kl in t for t in (tags or []))
-            )
+            | df["keyword_tags"].apply(lambda tags: any(kl in t for t in (tags or [])))
         )
 
     if mitre_id:
         ml = mitre_id.upper().strip()
-        mask &= (
-            df["mitre_id"].str.upper().str.startswith(ml)
-            | (df["tactic_prefix"].str.upper() == ml)
-        )
+        mask &= df["mitre_id"].str.upper().str.startswith(ml) | (df["tactic_prefix"].str.upper() == ml)
 
     if platform:
         pl = platform.lower()
@@ -245,15 +297,15 @@ def query_atomic(
     results: list[dict[str, Any]] = []
     for _, row in filtered.iterrows():
         entry: dict[str, Any] = {
-            "id":                  row["id"],
-            "name":                row["name"],
-            "mitre_id":            row["mitre_id"],
-            "tactic_prefix":       row["tactic_prefix"],
-            "platform_list":       _to_pylist(row["platform_list"]),
-            "scope":               row["scope"],
-            "complexity":          row["complexity"],
-            "has_prereqs":         bool(row["has_prereqs"]),
-            "keyword_tags":        _to_pylist(row["keyword_tags"]),
+            "id": row["id"],
+            "name": row["name"],
+            "mitre_id": row["mitre_id"],
+            "tactic_prefix": row["tactic_prefix"],
+            "platform_list": _to_pylist(row["platform_list"]),
+            "scope": row["scope"],
+            "complexity": row["complexity"],
+            "has_prereqs": bool(row["has_prereqs"]),
+            "keyword_tags": _to_pylist(row["keyword_tags"]),
             "description_preview": str(row.get("description", ""))[:200],
         }
         if include_command:
@@ -268,24 +320,25 @@ def query_atomic(
 if __name__ == "__main__":
     import argparse
     import sys
+
     sys.path.insert(0, str(Path(__file__).parent))
 
     parser = argparse.ArgumentParser(description="Atomic Red Team technique enricher")
     sub = parser.add_subparsers(dest="cmd")
 
-    sub.add_parser("enrich",  help="Build techniques_enriched.parquet")
+    sub.add_parser("enrich", help="Build techniques_enriched.parquet")
     sub.add_parser("rebuild", help="Force-rebuild even if parquet exists")
 
-    p_q = sub.add_parser("query",  help="Query enriched techniques")
-    p_q.add_argument("--keyword",     default="")
-    p_q.add_argument("--mitre",       default="", dest="mitre_id")
-    p_q.add_argument("--platform",    default="")
-    p_q.add_argument("--scope",       default="", choices=["","local","remote","elevated","any"])
-    p_q.add_argument("--complexity",  default="", choices=["","low","medium","high"])
+    p_q = sub.add_parser("query", help="Query enriched techniques")
+    p_q.add_argument("--keyword", default="")
+    p_q.add_argument("--mitre", default="", dest="mitre_id")
+    p_q.add_argument("--platform", default="")
+    p_q.add_argument("--scope", default="", choices=["", "local", "remote", "elevated", "any"])
+    p_q.add_argument("--complexity", default="", choices=["", "low", "medium", "high"])
     p_q.add_argument("--has-prereqs", action="store_true", default=None, dest="has_prereqs")
-    p_q.add_argument("--no-prereqs",  action="store_false",             dest="has_prereqs")
-    p_q.add_argument("--limit",       type=int, default=10)
-    p_q.add_argument("--command",     action="store_true", dest="include_command")
+    p_q.add_argument("--no-prereqs", action="store_false", dest="has_prereqs")
+    p_q.add_argument("--limit", type=int, default=10)
+    p_q.add_argument("--command", action="store_true", dest="include_command")
 
     sub.add_parser("stats", help="Show enrichment stats")
 
@@ -326,6 +379,7 @@ if __name__ == "__main__":
         print(df["scope"].value_counts().to_string())
         print("\nTop platforms:")
         from collections import Counter
+
         plat_ctr: Counter = Counter()
         for lst in df["platform_list"]:
             for p in _to_pylist(lst):

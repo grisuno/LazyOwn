@@ -19,9 +19,9 @@ import os
 import sys
 from datetime import UTC, datetime
 
-LOG_FORMAT_CONSOLE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(message)s'
-LOG_FORMAT_FILE = '%(asctime)s [%(levelname)-7s] %(name)-20s %(filename)s:%(lineno)d %(message)s'
-LOG_DATE_FORMAT = '%Y-%m-%d %H:%M:%S'
+LOG_FORMAT_CONSOLE = "%(asctime)s [%(levelname)-7s] %(name)-20s %(message)s"
+LOG_FORMAT_FILE = "%(asctime)s [%(levelname)-7s] %(name)-20s %(filename)s:%(lineno)d %(message)s"
+LOG_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
 _CONSOLE_COLORS: dict[int, str] = {
     logging.DEBUG: "\033[36m",
@@ -85,9 +85,7 @@ class JsonFormatter(logging.Formatter):
         return json.dumps(log_entry, ensure_ascii=False)
 
 
-_correlation_id_var: contextvars.ContextVar[str | None] = (
-    contextvars.ContextVar("correlation_id", default=None)
-)
+_correlation_id_var: contextvars.ContextVar[str | None] = contextvars.ContextVar("correlation_id", default=None)
 
 
 class CorrelationFilter(logging.Filter):
@@ -128,9 +126,7 @@ class ResilientRotatingFileHandler(logging.handlers.RotatingFileHandler):
             return
         self._notified = True
         try:
-            sys.stderr.write(
-                "Log file became unwritable — file logging disabled for this session.\n"
-            )
+            sys.stderr.write("Log file became unwritable — file logging disabled for this session.\n")
         except Exception:
             pass
 
@@ -275,7 +271,7 @@ def configure(
         return
 
     _root_level = level
-    _log_dir = log_dir or os.path.join(os.getcwd(), 'sessions', 'logs')
+    _log_dir = log_dir or os.path.join(os.getcwd(), "sessions", "logs")
     _log_dir = _ensure_log_dir_writable(_log_dir)
 
     json_fmt = _use_json_format()
@@ -298,12 +294,15 @@ def configure(
         root_logger.addHandler(console_handler)
 
     if file:
-        date_str = datetime.now().strftime('%Y%m%d_%H%M%S')
-        log_file = os.path.join(_log_dir, f'lazyown_{date_str}.log')
+        date_str = datetime.now().strftime("%Y%m%d_%H%M%S")
+        log_file = os.path.join(_log_dir, f"lazyown_{date_str}.log")
         try:
             os.makedirs(os.path.dirname(log_file), mode=0o755, exist_ok=True)
             file_handler = ResilientRotatingFileHandler(
-                log_file, maxBytes=max_bytes, backupCount=backup_count, delay=True,
+                log_file,
+                maxBytes=max_bytes,
+                backupCount=backup_count,
+                delay=True,
             )
             file_handler.setLevel(level)
             if json_fmt:
@@ -311,7 +310,7 @@ def configure(
             else:
                 file_handler.setFormatter(logging.Formatter(format_file, LOG_DATE_FORMAT))
             root_logger.addHandler(file_handler)
-            logging.getLogger('lazyown.init').info(f'Log file: {log_file}')
+            logging.getLogger("lazyown.init").info(f"Log file: {log_file}")
         except (OSError, PermissionError) as exc:
             print(
                 f"\n    [!] Cannot write log file: {exc}",

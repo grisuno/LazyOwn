@@ -22,9 +22,7 @@ from pathlib import Path
 from .config import Config
 from .models import Contract
 
-CONTRACT_HEADING_PATTERN = re.compile(
-    r"^(?P<hashes>#{1,6})\s+(?P<title>.+)$", re.MULTILINE
-)
+CONTRACT_HEADING_PATTERN = re.compile(r"^(?P<hashes>#{1,6})\s+(?P<title>.+)$", re.MULTILINE)
 CONTRACT_TAG_PATTERN = re.compile(r"\bCONTRACT\b", re.IGNORECASE)
 CONTRACT_ID_PATTERN = re.compile(r"\bC-\d{3,}\b")
 BULLET_PATTERN = re.compile(r"^\s*[-*+]\s+(?P<body>.+)$", re.MULTILINE)
@@ -155,9 +153,7 @@ def _is_actionable(heading: _Section) -> bool:
     if CONTRACT_TAG_PATTERN.search(heading.title):
         return True
     body = heading.body.lower()
-    return ("out of scope" in body and "happy path" in body) or (
-        "trigger" in body and "sad path" in body
-    )
+    return ("out of scope" in body and "happy path" in body) or ("trigger" in body and "sad path" in body)
 
 
 def _flatten_actionable(root: _Section) -> Iterable[_Section]:

@@ -118,7 +118,7 @@ class TestDnsProfile:
 
     def test_build_query_subdomain_hex(self):
         profile = DnsProfile(domain="exfil.local", encoding="hex")
-        sub = profile.build_query_subdomain(b"\xDE\xAD\xBE\xEF")
+        sub = profile.build_query_subdomain(b"\xde\xad\xbe\xef")
         assert "deadbeef" in sub
 
     def test_build_query_subdomain_truncates_to_max_length(self):

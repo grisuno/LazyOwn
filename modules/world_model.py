@@ -60,9 +60,7 @@ def _derive_crypto_key(password: str, salt: bytes) -> bytes:
     from cryptography.hazmat.primitives import hashes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 
-    kdf = PBKDF2HMAC(
-        algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100_000
-    )
+    kdf = PBKDF2HMAC(algorithm=hashes.SHA256(), length=32, salt=salt, iterations=100_000)
     return base64.urlsafe_b64encode(kdf.derive(password.encode()))
 
 
@@ -107,6 +105,7 @@ def read_state_dict(path: str | Path) -> dict:
                 log.warning("world_model: no salt available to decrypt state")
                 return {}
             from cryptography.fernet import Fernet
+
             cipher = Fernet(_derive_crypto_key(password, salt))
             decrypted = cipher.decrypt(encrypted.read_bytes())
             return json.loads(decrypted.decode("utf-8"))
@@ -205,18 +204,18 @@ class VulnerabilityEntry:
 
 @dataclass
 class EmailEntry:
-    address:  str
-    host:     str  = ""
-    context:  str  = ""
-    found_at: str  = field(default_factory=lambda: datetime.now().isoformat())
+    address: str
+    host: str = ""
+    context: str = ""
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
 class DomainEntry:
-    domain:   str
-    host:     str  = ""
-    context:  str  = ""
-    found_at: str  = field(default_factory=lambda: datetime.now().isoformat())
+    domain: str
+    host: str = ""
+    context: str = ""
+    found_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
 
 @dataclass
@@ -442,30 +441,41 @@ class _PhaseDeriver:
 # ---------------------------------------------------------------------------
 
 PHASE_TO_MITRE_TACTICS: dict[EngagementPhase, list[str]] = {
-
-    EngagementPhase.RECON:             ["TA0043 - Reconnaissance"],
-    EngagementPhase.SCANNING:          ["TA0007 - Discovery"],
-    EngagementPhase.ENUMERATION:       ["TA0007 - Discovery", "TA0006 - Credential Access"],
-    EngagementPhase.EXPLOITATION:      ["TA0001 - Initial Access", "TA0002 - Execution"],
-    EngagementPhase.POST_EXPLOITATION: ["TA0004 - Privilege Escalation", "TA0008 - Lateral Movement",
-                                        "TA0010 - Exfiltration", "TA0003 - Persistence"],
-    EngagementPhase.COMPLETE:          ["TA0040 - Impact", "TA0003 - Persistence", "TA0010 - Exfiltration"],
+    EngagementPhase.RECON: ["TA0043 - Reconnaissance"],
+    EngagementPhase.SCANNING: ["TA0007 - Discovery"],
+    EngagementPhase.ENUMERATION: ["TA0007 - Discovery", "TA0006 - Credential Access"],
+    EngagementPhase.EXPLOITATION: ["TA0001 - Initial Access", "TA0002 - Execution"],
+    EngagementPhase.POST_EXPLOITATION: [
+        "TA0004 - Privilege Escalation",
+        "TA0008 - Lateral Movement",
+        "TA0010 - Exfiltration",
+        "TA0003 - Persistence",
+    ],
+    EngagementPhase.COMPLETE: ["TA0040 - Impact", "TA0003 - Persistence", "TA0010 - Exfiltration"],
 }
 
 # Phase → MCP tool names that are most relevant
 PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
     EngagementPhase.RECON: [
-
-        "lazyown_tool_dig_any", "lazyown_tool_dig_reverse",
-        "lazyown_tool_gobuster_dns", "lazyown_tool_dnsrecon_axfr",
-        "entra_attack", "saas_enum", "opsec_score",
+        "lazyown_tool_dig_any",
+        "lazyown_tool_dig_reverse",
+        "lazyown_tool_gobuster_dns",
+        "lazyown_tool_dnsrecon_axfr",
+        "entra_attack",
+        "saas_enum",
+        "opsec_score",
     ],
     EngagementPhase.SCANNING: [
-
-        "lazyown_tool_enum_smb", "lazyown_tool_enum4linux_tool",
-        "lazyown_tool_ffuf_tool", "lazyown_tool_nikto_host",
-        "lazyown_tool_showmount_tool", "lazyown_tool_enum_rpcbind",
-        "aws_privesc", "gcp_privesc", "k8s_attack", "cross_cloud",
+        "lazyown_tool_enum_smb",
+        "lazyown_tool_enum4linux_tool",
+        "lazyown_tool_ffuf_tool",
+        "lazyown_tool_nikto_host",
+        "lazyown_tool_showmount_tool",
+        "lazyown_tool_enum_rpcbind",
+        "aws_privesc",
+        "gcp_privesc",
+        "k8s_attack",
+        "cross_cloud",
     ],
     EngagementPhase.ENUMERATION: [
         "lazyown_tool_ldapsearch_tool",
@@ -473,8 +483,12 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
         "lazyown_tool_kerbrute_tool_user",
         "lazyown_tool_nxc_ldap",
         "lazyown_tool_gobuster_web",
-        "delegation_enum", "delegation_attack", "kerberoast",
-        "dacl_abuse", "gpo_abuse", "adcs_check",
+        "delegation_enum",
+        "delegation_attack",
+        "kerberoast",
+        "dacl_abuse",
+        "gpo_abuse",
+        "adcs_check",
     ],
     EngagementPhase.EXPLOITATION: [
         "lazyown_tool_evil_winrm_tool",
@@ -482,21 +496,39 @@ PHASE_TO_TOOLS: dict[EngagementPhase, list[str]] = {
         "lazyown_tool_kerberoasting_tool",
         "lazyown_tool_asrep_roast",
         "lazyown_plugin_generate_reverse_shell",
-        "kerberos_ticket", "dotnet_payload", "staged_delivery",
-        "polymorphic", "macos_payload", "linux_advanced_payload",
+        "kerberos_ticket",
+        "dotnet_payload",
+        "staged_delivery",
+        "polymorphic",
+        "macos_payload",
+        "linux_advanced_payload",
     ],
     EngagementPhase.POST_EXPLOITATION: [
-
-        "lazyown_c2_command", "lazyown_c2_adversary",
-        "lazyown_tool_bloodhound-python", "lazyown_tool_crackmapexec_smb",
-        "opsec_score", "log_tamper", "forensic_clean",
-        "timestomp", "memory_clean", "network_opsec",
-        "kerberos_ticket", "dacl_abuse", "gpo_abuse",
+        "lazyown_c2_command",
+        "lazyown_c2_adversary",
+        "lazyown_tool_bloodhound-python",
+        "lazyown_tool_crackmapexec_smb",
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
+        "network_opsec",
+        "kerberos_ticket",
+        "dacl_abuse",
+        "gpo_abuse",
     ],
     EngagementPhase.COMPLETE: [
-        "opsec_score", "log_tamper", "forensic_clean",
-        "timestomp", "memory_clean", "network_opsec",
-        "sitrep", "note", "encrypt", "report",
+        "opsec_score",
+        "log_tamper",
+        "forensic_clean",
+        "timestomp",
+        "memory_clean",
+        "network_opsec",
+        "sitrep",
+        "note",
+        "encrypt",
+        "report",
     ],
 }
 
@@ -516,15 +548,15 @@ class WorldModel:
 
     def __init__(self, path: str | Path = _DEFAULT_PATH) -> None:
 
-        self._path:    Path                       = Path(path)
-        self._lock:    threading.RLock             = threading.RLock()
-        self._hosts:   dict[str, HostEntry]       = {}
-        self._creds:   list[CredentialEntry]      = []
-        self._vulns:   list[VulnerabilityEntry]   = []
-        self._emails:  list[EmailEntry]           = []
-        self._domains: list[DomainEntry]          = []
-        self._graph:   NetworkGraph               = NetworkGraph()
-        self._deriver: _PhaseDeriver              = _PhaseDeriver()
+        self._path: Path = Path(path)
+        self._lock: threading.RLock = threading.RLock()
+        self._hosts: dict[str, HostEntry] = {}
+        self._creds: list[CredentialEntry] = []
+        self._vulns: list[VulnerabilityEntry] = []
+        self._emails: list[EmailEntry] = []
+        self._domains: list[DomainEntry] = []
+        self._graph: NetworkGraph = NetworkGraph()
+        self._deriver: _PhaseDeriver = _PhaseDeriver()
         self._passthrough: dict[str, Any] = {}
         self._load()
 
@@ -736,8 +768,8 @@ class WorldModel:
             ftype = getattr(f, "type", "")
             value = getattr(f, "value", "")
 
-            host  = getattr(f, "host",  "")
-            meta  = getattr(f, "metadata", {}) or {}
+            host = getattr(f, "host", "")
+            meta = getattr(f, "metadata", {}) or {}
             if not value:
                 continue
             try:
@@ -944,7 +976,6 @@ class WorldModel:
             phase = self._deriver.derive(self._hosts)
             lines: list[str] = [
                 f"Phase: {phase.value}",
-
                 f"Hosts: {len(self._hosts)}  "
                 f"Credentials: {len(self._creds)}  "
                 f"Vulnerabilities: {len(self._vulns)}  "
@@ -969,7 +1000,6 @@ class WorldModel:
                     sev = f"[{v.severity}]" if v.severity != "UNKNOWN" else ""
                     lines.append(f"  {v.host or 'unknown'} {sev} {v.cve or ''} {v.description[:80]}")
 
-
             if self._emails:
                 lines.append("\nDiscovered emails (latest 5):")
                 for e in self._emails[-5:]:
@@ -980,8 +1010,9 @@ class WorldModel:
                 for d in self._domains[-10:]:
                     lines.append(f"  {d.domain}  host={d.host or 'unknown'}")
 
-            lines.append(f"\nSuggested tools for {phase.value}: "
-                         + ", ".join(self.get_suggested_tools()[:5] or ["(any)"]))
+            lines.append(
+                f"\nSuggested tools for {phase.value}: " + ", ".join(self.get_suggested_tools()[:5] or ["(any)"])
+            )
 
             pivots = self._graph.pivot_candidates(top_k=3)
             if pivots:
@@ -1000,14 +1031,13 @@ class WorldModel:
         self._path.parent.mkdir(parents=True, exist_ok=True)
         try:
             data = {
-
-                "hosts":            {ip: h.to_dict() for ip, h in self._hosts.items()},
-                "credentials":      [vars(c) for c in self._creds],
-                "vulnerabilities":  [vars(v) for v in self._vulns],
-                "emails":           [vars(e) for e in self._emails],
-                "domains":          [vars(d) for d in self._domains],
-                "network_graph":    self._graph.to_dict(),
-                "saved_at":         datetime.now().isoformat(),
+                "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
+                "credentials": [vars(c) for c in self._creds],
+                "vulnerabilities": [vars(v) for v in self._vulns],
+                "emails": [vars(e) for e in self._emails],
+                "domains": [vars(d) for d in self._domains],
+                "network_graph": self._graph.to_dict(),
+                "saved_at": datetime.now().isoformat(),
             }
             if self._passthrough:
                 data.update(self._passthrough)
@@ -1032,8 +1062,14 @@ class WorldModel:
             for key in ("completed_phases", "phase", "current_phase", "notes"):
                 if key in data:
                     self._passthrough[key] = data[key]
-            log.info("WorldModel: loaded %d hosts, %d creds, %d emails, %d domains from %s",
-                     len(self._hosts), len(self._creds), len(self._emails), len(self._domains), self._path)
+            log.info(
+                "WorldModel: loaded %d hosts, %d creds, %d emails, %d domains from %s",
+                len(self._hosts),
+                len(self._creds),
+                len(self._emails),
+                len(self._domains),
+                self._path,
+            )
         except Exception as exc:
             log.warning("WorldModel._load failed: %s — starting fresh", exc)
 
@@ -1074,8 +1110,8 @@ class WorldModel:
                 "hosts": {ip: h.to_dict() for ip, h in self._hosts.items()},
                 "credentials": [vars(c) for c in self._creds],
                 "vulnerabilities": [vars(v) for v in self._vulns],
-                "emails":          [vars(e) for e in self._emails],
-                "domains":         [vars(d) for d in self._domains],
+                "emails": [vars(e) for e in self._emails],
+                "domains": [vars(d) for d in self._domains],
                 "pivot_candidates": self._graph.pivot_candidates(top_k=5),
             }
 
@@ -1107,6 +1143,7 @@ def get_world_model(path: str | Path | None = None) -> WorldModel:
 if __name__ == "__main__":
     import argparse
     import logging
+
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn World Model CLI")

@@ -14,6 +14,7 @@ from typing import Any
 
 try:
     import boto3  # noqa: F401
+
     HAS_BOTO3 = True
 except ImportError:
     HAS_BOTO3 = False
@@ -221,9 +222,16 @@ class AWSAttackEngine:
                 "aws s3api list-objects --bucket BUCKET_NAME --max-items 100",
             ],
             "sensitive_patterns": [
-                "*-terraform-*", "*-tfstate*", "*config*", "*-backup-*",
-                "*-secrets-*", "*credential*", "*password*", "*database*",
-                "*-cloudformation-*", "*-cf-templates-*",
+                "*-terraform-*",
+                "*-tfstate*",
+                "*config*",
+                "*-backup-*",
+                "*-secrets-*",
+                "*credential*",
+                "*password*",
+                "*database*",
+                "*-cloudformation-*",
+                "*-cf-templates-*",
             ],
             "public_access_check": [
                 "curl -s http://BUCKET_NAME.s3.amazonaws.com/",
@@ -254,7 +262,10 @@ class AWSAttackEngine:
                 "Resources": {
                     "PrivescUser": {
                         "Type": "AWS::IAM::User",
-                        "Properties": {"UserName": "cf_privesc_user", "ManagedPolicyArns": AWS_MANAGED_ADMIN_POLICIES[:1]},
+                        "Properties": {
+                            "UserName": "cf_privesc_user",
+                            "ManagedPolicyArns": AWS_MANAGED_ADMIN_POLICIES[:1],
+                        },
                     }
                 }
             },

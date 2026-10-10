@@ -37,11 +37,13 @@ def _success_responses() -> dict[str, dict]:
         "discussionCategories": {
             "data": {"repository": {"discussionCategories": {"nodes": [{"id": "C1", "name": "Show and tell"}]}}}
         },
-        "createDiscussion": {
-            "data": {"createDiscussion": {"discussion": {"number": 7, "url": "u", "title": "t"}}}
-        },
+        "createDiscussion": {"data": {"createDiscussion": {"discussion": {"number": 7, "url": "u", "title": "t"}}}},
         "discussions(first": {
-            "data": {"repository": {"discussions": {"nodes": [{"number": 7, "title": "t", "body": "b", "url": "u", "updatedAt": "now"}]}}}
+            "data": {
+                "repository": {
+                    "discussions": {"nodes": [{"number": 7, "title": "t", "body": "b", "url": "u", "updatedAt": "now"}]}
+                }
+            }
         },
     }
 

@@ -17,6 +17,7 @@ Descripción: LazyOwn Binary find in gtofbins db
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import argparse
 import os
 import platform
@@ -29,9 +30,11 @@ from tabulate import tabulate
 # Initialize colorama
 init(autoreset=True)
 
+
 def highlight_term(text, term):
     """Highlight the search term in the given text."""
     return text.replace(term, f"{Fore.GREEN}{term}{Style.RESET_ALL}")
+
 
 def search_in_parquet(term, parquet_files):
     """Search for a term in the given Parquet files and return matching rows."""
@@ -46,6 +49,7 @@ def search_in_parquet(term, parquet_files):
 
     return result
 
+
 def buscar_binarios(args):
     """Search for binaries with special permissions and generate a results CSV."""
     binarios_encontrados = set()
@@ -54,15 +58,15 @@ def buscar_binarios(args):
     sistema_operativo = platform.system()
     print(f"[+] Sistema operativo detectado: {sistema_operativo}")
 
-    if sistema_operativo == 'Linux':
+    if sistema_operativo == "Linux":
         print("[+] Ejecutando búsqueda de binarios con permisos especiales en Linux...")
         try:
             # Execute the find command for Linux
-            result = subprocess.run(['find', '/', '-perm', '4000', '-ls'], capture_output=True, text=True)
+            result = subprocess.run(["find", "/", "-perm", "4000", "-ls"], capture_output=True, text=True)
             output = result.stdout
 
             # Extract found binaries
-            for line in output.split('\n'):
+            for line in output.split("\n"):
                 if line:
                     parts = line.split()
                     if parts:
@@ -71,7 +75,7 @@ def buscar_binarios(args):
         except Exception as e:
             print(f"[-] Error ejecutando el comando find: {e}")
 
-    elif sistema_operativo == 'Windows':
+    elif sistema_operativo == "Windows":
         print("[+] Ejecutando búsqueda de binarios con permisos especiales en Windows...")
         try:
             # PowerShell script for Windows
@@ -90,11 +94,11 @@ def buscar_binarios(args):
             """
 
             # Execute the PowerShell script
-            result = subprocess.run(['powershell', '-Command', powershell_script], capture_output=True, text=True)
+            result = subprocess.run(["powershell", "-Command", powershell_script], capture_output=True, text=True)
             output = result.stdout
 
             # Extract found binaries
-            for line in output.split('\n'):
+            for line in output.split("\n"):
                 if line:
                     binario = os.path.basename(line.strip())
                     binarios_encontrados.add(binario)
@@ -105,10 +109,10 @@ def buscar_binarios(args):
         print(f"[+] Binarios encontrados: {binarios_encontrados}")
 
         # Filter the main DataFrame with the found binaries
-        df1[df1['Binary'].isin(binarios_encontrados)]
+        df1[df1["Binary"].isin(binarios_encontrados)]
 
         # Generate a CSV with details of the found binaries
-        with open('csv/resultado.csv', 'w') as f:
+        with open("csv/resultado.csv", "w") as f:
             for binario in binarios_encontrados:
                 result = search_in_parquet(binario, args.parquet_files)
                 print(f"[**] Buscando resultados para '{binario}'")
@@ -117,10 +121,10 @@ def buscar_binarios(args):
                     highlighted_result = result_str.applymap(lambda x, _b=binario: highlight_term(x, _b))
 
                     print(f"Resultados encontrados para '{binario}':")
-                    print(tabulate(highlighted_result, headers='keys', tablefmt='psql', showindex=False))
+                    print(tabulate(highlighted_result, headers="keys", tablefmt="psql", showindex=False))
                 else:
                     print(f"No se encontraron resultados para '{binario}'")
-                detalles = df2[df2['Binary'] == binario]
+                detalles = df2[df2["Binary"] == binario]
                 if not detalles.empty:
                     f.write(detalles.to_csv(index=False, header=False))
                     print(f"[+] Detalles del binario '{binario}':")
@@ -128,23 +132,28 @@ def buscar_binarios(args):
     else:
         print("[-] No se encontraron binarios con permisos especiales.")
 
+
 def ejecutar_opciones():
     """Execute options based on the found data."""
-    if not os.path.exists('csv/resultado.csv'):
-        print("[-] No se encontró el archivo 'resultado.csv'. Asegúrese de que la búsqueda de binarios se haya realizado correctamente.")
+    if not os.path.exists("csv/resultado.csv"):
+        print(
+            "[-] No se encontró el archivo 'resultado.csv'. Asegúrese de que la búsqueda de binarios se haya realizado correctamente."
+        )
         return
 
     print("[+] Leyendo resultado de búsqueda de binarios...")
-    df_resultado = pd.read_csv('csv/resultado.csv', header=None, names=['Binary', 'Function Name', 'Function URL', 'Description', 'Example'])
+    df_resultado = pd.read_csv(
+        "csv/resultado.csv", header=None, names=["Binary", "Function Name", "Function URL", "Description", "Example"]
+    )
 
-    for binario in df_resultado['Binary'].unique():
+    for binario in df_resultado["Binary"].unique():
         print(f"[*] Binario encontrado: {binario}")
-        detalles = df_resultado[df_resultado['Binary'] == binario]
+        detalles = df_resultado[df_resultado["Binary"] == binario]
 
         print("Opciones:")
         for i, (_, row) in enumerate(detalles.iterrows(), start=1):
             print(f"{i}. {row['Function Name']} - {row['Description']}")
-        print(f"{i+1}. No hacer nada y salir")
+        print(f"{i + 1}. No hacer nada y salir")
 
         while True:
             opcion = input("Seleccione una opción: ")
@@ -158,13 +167,14 @@ def ejecutar_opciones():
         if opcion <= len(detalles):
             print(f"[+] Ejecutando opción {opcion} para {binario}")
             # Execute the corresponding option
-            print(f"[*] Ejemplo de ejecución:\n{detalles.iloc[opcion-1]['Example']}")
+            print(f"[*] Ejemplo de ejecución:\n{detalles.iloc[opcion - 1]['Example']}")
             # Add code to execute the example if necessary
         else:
             print("[+] Saliendo")
             break
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # Banner
     print("██╗      █████╗ ███████╗██╗   ██╗ ██████╗ ██╗    ██╗███╗   ██╗")
     print("██║     ██╔══██╗╚══███╔╝╚██╗ ██╔╝██╔═══██╗██║    ██║████╗  ██║")
@@ -175,16 +185,21 @@ if __name__ == '__main__':
     print("[*] Iniciando: LazyOwn [;,;]")
 
     parser = argparse.ArgumentParser(description="Buscar en archivos Parquet")
-    parser.add_argument("--parquet_files", nargs='+', default=["binarios.parquet", "detalles.parquet"], help="Lista de archivos Parquet a buscar")
+    parser.add_argument(
+        "--parquet_files",
+        nargs="+",
+        default=["binarios.parquet", "detalles.parquet"],
+        help="Lista de archivos Parquet a buscar",
+    )
     args = parser.parse_args()
 
     # Read CSVs and create DataFrames
-    df1 = pd.read_csv('csv/bin_data.csv')
-    df2 = pd.read_csv('csv/bin_data_relevant.csv')
+    df1 = pd.read_csv("csv/bin_data.csv")
+    df2 = pd.read_csv("csv/bin_data_relevant.csv")
 
     # Save DataFrames as Parquet
-    df1.to_parquet('parquets/binarios.parquet')
-    df2.to_parquet('parquets/detalles.parquet')
+    df1.to_parquet("parquets/binarios.parquet")
+    df2.to_parquet("parquets/detalles.parquet")
 
     buscar_binarios(args)
     ejecutar_opciones()

@@ -40,9 +40,7 @@ def tmp_sessions():
     with tempfile.TemporaryDirectory() as d:
         sessions = Path(d)
         (sessions / "engagement_state.json").write_text("{}")
-        (sessions / "LazyOwn_session_report.csv").write_text(
-            "tool,command\nlazynmap,lazynmap -p 80 10.0.0.1\n"
-        )
+        (sessions / "LazyOwn_session_report.csv").write_text("tool,command\nlazynmap,lazynmap -p 80 10.0.0.1\n")
         yield sessions
 
 

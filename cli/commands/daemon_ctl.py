@@ -43,6 +43,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         if not argument:
             try:
                 from skills.daemon_control import DaemonControl as _DC
+
                 state = _DC(self.sessions_dir).load()
                 print_msg(f"daemon mode: {state.mode}")
             except Exception as exc:
@@ -50,6 +51,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
             return
         try:
             from skills.daemon_control import DaemonControl as _DC
+
             state = _DC(self.sessions_dir).set_mode(argument)
             print_msg(f"daemon mode -> {state.mode}")
         except ValueError as exc:
@@ -70,6 +72,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         """
         try:
             from skills.daemon_control import DaemonControl as _DC
+
             _DC(self.sessions_dir).pause()
             print_msg("daemon paused")
         except Exception as exc:
@@ -84,6 +87,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         """
         try:
             from skills.daemon_control import DaemonControl as _DC
+
             _DC(self.sessions_dir).resume()
             print_msg("daemon resumed (mode=auto)")
         except Exception as exc:
@@ -105,6 +109,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         argument = (line or "").strip()
         try:
             from skills.daemon_control import DaemonControl as _DC
+
             control = _DC(self.sessions_dir)
             if not argument:
                 state = control.load()
@@ -147,6 +152,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
         argument = (line or "").strip()
         try:
             from skills.daemon_control import DaemonControl as _DC
+
             control = _DC(self.sessions_dir)
             if not argument:
                 state = control.load()
@@ -192,6 +198,7 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
             from skills.daemon_control import (
                 DaemonControl as _DC,
             )
+
             control = _DC(self.sessions_dir)
             state = control.load()
             pending = state.pending
@@ -209,9 +216,6 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
             if final is None:
                 print_warn("action no longer pending")
                 return
-            print_msg(
-                f"action {final.action_id} {final.decision} (command={final.command})"
-            )
+            print_msg(f"action {final.action_id} {final.decision} (command={final.command})")
         except Exception as exc:
             print_error(f"daemon_approve failed: {exc}")
-

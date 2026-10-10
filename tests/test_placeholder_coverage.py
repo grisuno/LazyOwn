@@ -80,9 +80,7 @@ def test_addon_tokens_resolve() -> None:
         if not isinstance(data, dict):
             continue
         tool = data.get("tool", {}) or {}
-        declared = {
-            p["name"] for p in (data.get("params") or []) if isinstance(p, dict)
-        }
+        declared = {p["name"] for p in (data.get("params") or []) if isinstance(p, dict)}
         for field in TOOL_FIELDS:
             value = tool.get(field, "")
             if not isinstance(value, str):
@@ -126,10 +124,6 @@ def test_required_params_exist_live() -> None:
         if not isinstance(data, dict):
             continue
         for param in data.get("params") or []:
-            if (
-                param.get("required")
-                and "default" not in param
-                and param["name"] not in live
-            ):
+            if param.get("required") and "default" not in param and param["name"] not in live:
                 offenders.append(f"{path.name}:{{{param['name']}}}")
     assert offenders == []

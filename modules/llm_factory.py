@@ -64,8 +64,7 @@ for _backend_class in (GroqModel, OllamaModel, OpenAIModel, AnthropicModel, Deep
     for _method_name in _REQUIRED_LLM_BACKEND_METHODS:
         if not callable(getattr(_backend_class, _method_name, None)):
             raise RuntimeError(
-                f"{_backend_class.__name__} does not implement "
-                f"core.protocols.LLMBackend.{_method_name}()."
+                f"{_backend_class.__name__} does not implement core.protocols.LLMBackend.{_method_name}()."
             )
 
 
@@ -323,8 +322,7 @@ def _normalize_backend(backend: str | None) -> str:
     candidate = backend.strip().lower()
     if candidate not in SUPPORTED_BACKENDS:
         raise LLMBackendNotSupportedError(
-            f"Unsupported LLM backend '{backend}'. "
-            f"Supported: {', '.join(SUPPORTED_BACKENDS)}"
+            f"Unsupported LLM backend '{backend}'. Supported: {', '.join(SUPPORTED_BACKENDS)}"
         )
     return candidate
 

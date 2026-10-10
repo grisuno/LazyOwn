@@ -43,9 +43,7 @@ class TestBinarySpecRegistry:
 
     def test_every_name_matches_safety_regex(self):
         for spec in wizard._REQUIRED_BINARIES:
-            assert wizard._BINARY_NAME_RE.match(spec.name), (
-                f"Unsafe binary name in registry: {spec.name!r}"
-            )
+            assert wizard._BINARY_NAME_RE.match(spec.name), f"Unsafe binary name in registry: {spec.name!r}"
 
     def test_no_duplicate_binary_names(self):
         names = [s.name for s in wizard._REQUIRED_BINARIES]
@@ -54,23 +52,39 @@ class TestBinarySpecRegistry:
     def test_kill_chain_categories_covered(self):
         categories = {s.category for s in wizard._REQUIRED_BINARIES}
         for required in ("recon", "web", "cred", "smb", "ad", "exploit", "c2"):
-            assert required in categories, (
-                f"missing kill-chain category {required!r} in binary registry"
-            )
+            assert required in categories, f"missing kill-chain category {required!r} in binary registry"
 
 
 class TestBinaryNameRegex:
-    @pytest.mark.parametrize("name", [
-        "nmap", "ffuf", "evil-winrm", "impacket-secretsdump",
-        "feroxbuster", "golang-go", "a.b", "go",
-    ])
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "nmap",
+            "ffuf",
+            "evil-winrm",
+            "impacket-secretsdump",
+            "feroxbuster",
+            "golang-go",
+            "a.b",
+            "go",
+        ],
+    )
     def test_accepts_known_safe_names(self, name):
         assert wizard._BINARY_NAME_RE.match(name)
 
-    @pytest.mark.parametrize("name", [
-        "", "nmap;rm -rf /", "nmap rm", "nmap`whoami`",
-        "n$map", "../nmap", "nmap\n", "a" * 65,
-    ])
+    @pytest.mark.parametrize(
+        "name",
+        [
+            "",
+            "nmap;rm -rf /",
+            "nmap rm",
+            "nmap`whoami`",
+            "n$map",
+            "../nmap",
+            "nmap\n",
+            "a" * 65,
+        ],
+    )
     def test_rejects_unsafe_names(self, name):
         assert wizard._BINARY_NAME_RE.match(name) is None
 
@@ -101,14 +115,13 @@ class TestCheckBinariesContract:
     def test_skips_specs_with_unsafe_names(self):
         unsafe = wizard.BinarySpec("nmap;rm", "recon", "p", "h")
         safe = wizard.BinarySpec("nmap", "recon", "p", "h")
-        result = wizard.check_binaries(
-            specs=(unsafe, safe), which=lambda _n: "/usr/bin/nmap"
-        )
+        result = wizard.check_binaries(specs=(unsafe, safe), which=lambda _n: "/usr/bin/nmap")
         assert len(result) == 1
         assert result[0].spec.name == "nmap"
 
     def test_check_does_not_invoke_subprocess(self, monkeypatch):
         import subprocess
+
         sentinel_calls: list[tuple] = []
 
         def _fail(*args, **kwargs):
@@ -146,9 +159,7 @@ class TestRunIntegratesBinaryCheck:
 
         def fake_check(*_args, **_kwargs):
             captured["called"] = True
-            return [wizard.BinaryStatus(
-                wizard.BinarySpec("nmap", "recon", "p", "h"), True, "/usr/bin/nmap"
-            )]
+            return [wizard.BinaryStatus(wizard.BinarySpec("nmap", "recon", "p", "h"), True, "/usr/bin/nmap")]
 
         monkeypatch.setattr(wizard, "check_binaries", fake_check)
         monkeypatch.setattr(wizard, "_collect_values", lambda *_a, **_k: {})
@@ -167,9 +178,7 @@ class TestRunIntegratesBinaryCheck:
 
         def fake_check(*_args, **_kwargs):
             captured["called"] = True
-            return [wizard.BinaryStatus(
-                wizard.BinarySpec("nmap", "recon", "p", "h"), False
-            )]
+            return [wizard.BinaryStatus(wizard.BinarySpec("nmap", "recon", "p", "h"), False)]
 
         monkeypatch.setattr(wizard, "check_binaries", fake_check)
         monkeypatch.setattr(wizard, "_collect_values", lambda *_a, **_k: {"rhost": "1.2.3.4"})

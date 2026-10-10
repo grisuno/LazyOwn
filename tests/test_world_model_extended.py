@@ -20,7 +20,6 @@ def world_model():
 
 
 class TestSetOsHint:
-
     def test_set_os_hint_on_new_host(self, world_model):
         world_model.set_os_hint("10.0.0.1", "linux")
         host = world_model.get_host("10.0.0.1")
@@ -42,7 +41,6 @@ class TestSetOsHint:
 
 
 class TestGetHost:
-
     def test_get_host_returns_none_for_unknown(self, world_model):
         assert world_model.get_host("10.0.0.99") is None
 
@@ -61,7 +59,6 @@ class TestGetHost:
 
 
 class TestGetHostsSummary:
-
     def test_empty_summary(self, world_model):
         assert world_model.get_hosts_summary() == {}
 
@@ -74,7 +71,6 @@ class TestGetHostsSummary:
 
 
 class TestAdvanceHostEdgeCases:
-
     def test_advance_host_skips_on_same_state(self, world_model):
         world_model.advance_host("10.0.0.1", HostState.SCANNED)
         result = world_model.advance_host("10.0.0.1", HostState.SCANNED)
@@ -92,7 +88,6 @@ class TestAdvanceHostEdgeCases:
 
 
 class TestGetPhaseAfterStateChanges:
-
     def test_phase_derived_from_host_state(self, world_model):
         world_model.advance_host("10.0.0.1", HostState.EXPLOITED)
         assert world_model.get_phase().value == "exploitation"

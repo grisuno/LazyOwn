@@ -215,6 +215,7 @@ def extract_seeds_from_db(db_path: str | None = None) -> list[tuple[str, str]]:
 
     try:
         from modules.db import LazyOwnDB
+
         db = LazyOwnDB(db_path)
         ws_name = os.environ.get("LAZYOWN_WORKSPACE", "default")
         ws = db.workspace_get(ws_name)
@@ -255,7 +256,7 @@ def extract_seeds_from_scope(scope_entries: list[str] | None = None) -> list[tup
 
     seeds: list[tuple[str, str]] = []
     seen: set[str] = set()
-    for entry in (scope_entries or []):
+    for entry in scope_entries or []:
         entry = str(entry).strip()
         if not entry or entry in seen:
             continue
@@ -293,10 +294,14 @@ def run_estorides_discover(
         str(ESTORIDES_CLI),
         "discover",
         seed_value,
-        "--type", seed_type,
-        "--max-depth", str(max_depth),
-        "--max-steps", str(max_steps),
-        "--out-json", out_json,
+        "--type",
+        seed_type,
+        "--max-depth",
+        str(max_depth),
+        "--max-steps",
+        str(max_steps),
+        "--out-json",
+        out_json,
         "--passive-only",
     ]
 
@@ -345,10 +350,13 @@ def run_estorides_run(
         str(ESTORIDES_CLI),
         "run",
         query,
-        "--out-json", out_json,
+        "--out-json",
+        out_json,
         "--passive-only",
-        "--timeout", "15",
-        "--deadline", "45",
+        "--timeout",
+        "15",
+        "--deadline",
+        "45",
     ]
 
     try:
@@ -630,7 +638,9 @@ class EstoridesToLazyOwnBridge:
         return result
 
     def _import_to_db(
-        self, imports: list[tuple[str, str, str]], result: ImportResult,
+        self,
+        imports: list[tuple[str, str, str]],
+        result: ImportResult,
     ) -> None:
         try:
             from modules.db import LazyOwnDB
@@ -674,7 +684,9 @@ class EstoridesToLazyOwnBridge:
             log.error("DB import failed: %s", e)
 
     def _import_to_scope(
-        self, imports: list[tuple[str, str, str]], result: ImportResult,
+        self,
+        imports: list[tuple[str, str, str]],
+        result: ImportResult,
     ) -> None:
         try:
             cfg = {}
@@ -715,6 +727,7 @@ class EstoridesToLazyOwnBridge:
         if os.path.isfile(self.db_path):
             try:
                 from modules.db import LazyOwnDB
+
                 db = LazyOwnDB(self.db_path)
                 ws_name = os.environ.get("LAZYOWN_WORKSPACE", "default")
                 ws = db.workspace_get(ws_name)
@@ -845,7 +858,9 @@ class FeedbackLoop:
 
                 if entities:
                     result = self.bridge.import_entities(
-                        entities, add_to_scope=True, add_to_db=True,
+                        entities,
+                        add_to_scope=True,
+                        add_to_db=True,
                     )
                     iter_result["entities_discovered"] += result.hosts_added
 
@@ -929,9 +944,14 @@ def export_combined_graph(output_path: str | None = None) -> Path | None:
                 nid = f"host:{ip}"
                 if not isinstance(hdata, dict):
                     hdata = {}
-                kg.add_node(nid, type="host", value=ip, source_tool="lazyown",
-                            state=hdata.get("state", "unknown"),
-                            os=hdata.get("os_hint", ""))
+                kg.add_node(
+                    nid,
+                    type="host",
+                    value=ip,
+                    source_tool="lazyown",
+                    state=hdata.get("state", "unknown"),
+                    os=hdata.get("os_hint", ""),
+                )
         except Exception as e:
             log.warning("Failed to load world model: %s", e)
 

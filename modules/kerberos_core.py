@@ -22,6 +22,7 @@ try:
     from cryptography.hazmat.primitives import hmac as crypto_hmac  # noqa: F401
     from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
     from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
+
     HAS_CRYPTO = True
 except ImportError:
     HAS_CRYPTO = False
@@ -30,6 +31,7 @@ try:
     from pyasn1.codec.der import decoder as der_decoder  # noqa: F401
     from pyasn1.codec.der import encoder as der_encoder  # noqa: F401
     from pyasn1.type import namedtype, tag, univ  # noqa: F401
+
     HAS_PYASN1 = True
 except ImportError:
     HAS_PYASN1 = False

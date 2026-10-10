@@ -69,9 +69,9 @@ from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
-SKILLS_DIR   = Path(__file__).parent
-LAZYOWN_DIR  = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
-MODULES_DIR  = LAZYOWN_DIR / "modules"
+SKILLS_DIR = Path(__file__).parent
+LAZYOWN_DIR = Path(os.environ.get("LAZYOWN_DIR", str(SKILLS_DIR.parent)))
+MODULES_DIR = LAZYOWN_DIR / "modules"
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
@@ -81,10 +81,10 @@ for _p in (str(SKILLS_DIR), str(MODULES_DIR)):
 
 # ── State files ────────────────────────────────────────────────────────────────
 
-PID_FILE    = SESSIONS_DIR / "autonomous_daemon.pid"
+PID_FILE = SESSIONS_DIR / "autonomous_daemon.pid"
 STATUS_FILE = SESSIONS_DIR / "autonomous_status.json"
 EVENTS_FILE = SESSIONS_DIR / "autonomous_events.jsonl"
-TASKS_FILE  = SESSIONS_DIR / "tasks.json"
+TASKS_FILE = SESSIONS_DIR / "tasks.json"
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 
@@ -99,36 +99,29 @@ log = get_logger("autonomous_daemon")
 
 # ── Config (env-overridable) ──────────────────────────────────────────────────
 
-OBJ_POLL_S          = float(os.environ.get("AUTO_OBJ_POLL",      "5"))
-WM_POLL_S           = float(os.environ.get("AUTO_WM_POLL",       "8"))
-STEP_TIMEOUT_S      = int(os.environ.get("AUTO_STEP_TIMEOUT",    "60"))
-STEP_DELAY_S        = float(os.environ.get("AUTO_STEP_DELAY",    "3"))
-MAX_STEPS_DEFAULT   = int(os.environ.get("AUTO_MAX_STEPS",       "10"))
-MAX_FAILS_PER_CMD   = int(os.environ.get("AUTO_MAX_FAILS",       "2"))
-HIVE_BACKEND        = os.environ.get("AUTO_HIVE_BACKEND",        "groq")
-HIVE_MAX_ITER       = int(os.environ.get("AUTO_HIVE_MAX_ITER",   "8"))
-HEARTBEAT_S         = float(os.environ.get("AUTO_HEARTBEAT",     "30"))
-BLOCKED_ESCALATE_N  = int(os.environ.get("AUTO_BLOCKED_ESCALATE","2"))
+OBJ_POLL_S = float(os.environ.get("AUTO_OBJ_POLL", "5"))
+WM_POLL_S = float(os.environ.get("AUTO_WM_POLL", "8"))
+STEP_TIMEOUT_S = int(os.environ.get("AUTO_STEP_TIMEOUT", "60"))
+STEP_DELAY_S = float(os.environ.get("AUTO_STEP_DELAY", "3"))
+MAX_STEPS_DEFAULT = int(os.environ.get("AUTO_MAX_STEPS", "10"))
+MAX_FAILS_PER_CMD = int(os.environ.get("AUTO_MAX_FAILS", "2"))
+HIVE_BACKEND = os.environ.get("AUTO_HIVE_BACKEND", "groq")
+HIVE_MAX_ITER = int(os.environ.get("AUTO_HIVE_MAX_ITER", "8"))
+HEARTBEAT_S = float(os.environ.get("AUTO_HEARTBEAT", "30"))
+BLOCKED_ESCALATE_N = int(os.environ.get("AUTO_BLOCKED_ESCALATE", "2"))
 CONTROL_VETO_MAX_RETRIES = int(os.environ.get("AUTO_VETO_RETRIES", "3"))
-CONTROL_APPROVAL_TTL_S   = float(os.environ.get("AUTO_APPROVAL_TTL", "30"))
-CONTROL_PAUSE_POLL_S     = float(os.environ.get("AUTO_PAUSE_POLL", "1"))
-CONTROL_PAUSE_MAX_S      = float(os.environ.get("AUTO_PAUSE_MAX",  "3600"))
+CONTROL_APPROVAL_TTL_S = float(os.environ.get("AUTO_APPROVAL_TTL", "30"))
+CONTROL_PAUSE_POLL_S = float(os.environ.get("AUTO_PAUSE_POLL", "1"))
+CONTROL_PAUSE_MAX_S = float(os.environ.get("AUTO_PAUSE_MAX", "3600"))
 
-METRICS_BIAS_ENABLED     = os.environ.get("AUTO_METRICS_BIAS", "1") not in (
-    "0", "false", "False", "no", "off", ""
-)
-METRICS_BIAS_WINDOW_S    = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
-METRICS_BIAS_MIN_SUCCESS = float(
-    os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25")
-)
-METRICS_BIAS_MIN_ATTEMPTS = int(
-    os.environ.get("AUTO_METRICS_MIN_ATTEMPTS", "3")
-)
-METRICS_BIAS_CACHE_TTL_S = float(
-    os.environ.get("AUTO_METRICS_CACHE_TTL_S", "5")
-)
+METRICS_BIAS_ENABLED = os.environ.get("AUTO_METRICS_BIAS", "1") not in ("0", "false", "False", "no", "off", "")
+METRICS_BIAS_WINDOW_S = int(os.environ.get("AUTO_METRICS_WINDOW_S", "1800"))
+METRICS_BIAS_MIN_SUCCESS = float(os.environ.get("AUTO_METRICS_MIN_SUCCESS", "0.25"))
+METRICS_BIAS_MIN_ATTEMPTS = int(os.environ.get("AUTO_METRICS_MIN_ATTEMPTS", "3"))
+METRICS_BIAS_CACHE_TTL_S = float(os.environ.get("AUTO_METRICS_CACHE_TTL_S", "5"))
 
 # ── Optional imports ──────────────────────────────────────────────────────────
+
 
 def _try_import(module: str, attr: str = ""):
     try:
@@ -138,16 +131,17 @@ def _try_import(module: str, attr: str = ""):
         log.debug("optional import failed %s.%s: %s", module, attr, e)
         return None
 
-_ObjectiveStore = _try_import("lazyown_objective", "ObjectiveStore")
-_PolicyInteg    = _try_import("lazyown_policy",    "LazyOwnPolicyIntegration")
-_FactStore      = _try_import("lazyown_facts",     "FactStore")
-_get_pdb        = _try_import("lazyown_parquet_db","get_pdb")
-_get_dispatcher = _try_import("lazyown_bridge",    "get_dispatcher") if _try_import("lazyown_bridge") else None
-_get_hive       = _try_import("hive_mind",         "get_hive")
 
-_WorldModel     = None
-_ObsParser      = None
-_ReactEngine    = None
+_ObjectiveStore = _try_import("lazyown_objective", "ObjectiveStore")
+_PolicyInteg = _try_import("lazyown_policy", "LazyOwnPolicyIntegration")
+_FactStore = _try_import("lazyown_facts", "FactStore")
+_get_pdb = _try_import("lazyown_parquet_db", "get_pdb")
+_get_dispatcher = _try_import("lazyown_bridge", "get_dispatcher") if _try_import("lazyown_bridge") else None
+_get_hive = _try_import("hive_mind", "get_hive")
+
+_WorldModel = None
+_ObsParser = None
+_ReactEngine = None
 try:
     from obs_parser import ObsParser as _ObsParser  # type: ignore[assignment]
     from reactive_engine import get_engine as _ReactEngine  # type: ignore[assignment]
@@ -185,7 +179,7 @@ except Exception as _control_exc:
 # ─────────────────────────────────────────────────────────────────────────────
 
 _stream_lock = threading.Lock()
-_tasks_lock  = threading.Lock()
+_tasks_lock = threading.Lock()
 
 
 def _update_task_status(title: str, new_status: str) -> bool:
@@ -194,17 +188,15 @@ def _update_task_status(title: str, new_status: str) -> bool:
         try:
             if not TASKS_FILE.exists():
                 return False
-            tasks   = json.loads(TASKS_FILE.read_text(encoding="utf-8"))
+            tasks = json.loads(TASKS_FILE.read_text(encoding="utf-8"))
             changed = False
             for t in tasks:
                 if t.get("title", "")[:80] == title[:80]:
                     t["status"] = new_status
-                    changed     = True
+                    changed = True
                     break
             if changed:
-                TASKS_FILE.write_text(
-                    json.dumps(tasks, indent=4, ensure_ascii=False), encoding="utf-8"
-                )
+                TASKS_FILE.write_text(json.dumps(tasks, indent=4, ensure_ascii=False), encoding="utf-8")
             return changed
         except Exception as exc:
             log.debug("task status update error: %s", exc)
@@ -235,13 +227,15 @@ def _inject_to_tasks_json(
                 tasks = []
 
             new_id = len(tasks)
-            tasks.append({
-                "id":          new_id,
-                "title":       title[:200],
-                "description": description[:1000],
-                "operator":    operator,
-                "status":      status,
-            })
+            tasks.append(
+                {
+                    "id": new_id,
+                    "title": title[:200],
+                    "description": description[:1000],
+                    "operator": operator,
+                    "status": status,
+                }
+            )
             TASKS_FILE.write_text(
                 json.dumps(tasks, indent=4, ensure_ascii=False),
                 encoding="utf-8",
@@ -255,11 +249,11 @@ def _inject_to_tasks_json(
 def _emit(event_type: str, payload: dict[str, Any], severity: str = "info") -> None:
     """Write an event to the JSONL stream. Thread-safe."""
     event = {
-        "id":       uuid.uuid4().hex[:8],
-        "ts":       datetime.datetime.now(datetime.UTC).isoformat(),
-        "type":     event_type,
+        "id": uuid.uuid4().hex[:8],
+        "ts": datetime.datetime.now(datetime.UTC).isoformat(),
+        "type": event_type,
         "severity": severity,
-        "payload":  payload,
+        "payload": payload,
     }
     line = json.dumps(event, ensure_ascii=False, default=str)
     with _stream_lock:
@@ -302,6 +296,7 @@ def compute_decision_seed(objective_id: str, step_n: int, source: str) -> str:
 #             (S — Single Responsibility, D — Dependency Inversion)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 class ICommandRunner(ABC):
     """Contract for executing a LazyOwn shell command."""
 
@@ -328,6 +323,7 @@ class MCPCommandRunner(ICommandRunner):
     def run(self, command: str, timeout: int = STEP_TIMEOUT_S) -> str:
         """Try to import and call the MCP runner. Raises ImportError on failure."""
         from lazyown_mcp import _run_lazyown_command
+
         return _run_lazyown_command(command, timeout)
 
 
@@ -351,15 +347,15 @@ class PTYCommandRunner(ICommandRunner):
         import struct
         import termios
 
-        cmd_input   = (command.strip() + "\nexit\n").encode()
-        run_script  = LAZYOWN_DIR / "run"
+        cmd_input = (command.strip() + "\nexit\n").encode()
+        run_script = LAZYOWN_DIR / "run"
         argv = (
             ["bash", str(run_script)]
             if run_script.is_file()
             else [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")]
         )
 
-        env       = os.environ.copy()
+        env = os.environ.copy()
         env["TERM"] = "xterm-256color"
 
         master_fd, slave_fd = pty.openpty()
@@ -472,49 +468,50 @@ def _run_lazyown(command: str, timeout: int = STEP_TIMEOUT_S) -> str:
 # Static fallback maps: category -> command name, split by OS platform.
 # The OS-specific maps are consulted first; _FALLBACK_MAP is the baseline.
 _FALLBACK_MAP: dict[str, str] = {
-    "recon":       "lazynmap",
-    "enum":        "enum_smb",
+    "recon": "lazynmap",
+    "enum": "enum_smb",
     "brute_force": "crackmapexec",
-    "exploit":     "searchsploit",
-    "intrusion":   "evil-winrm",
-    "privesc":     "linpeas",
-    "credential":  "secretsdump",
-    "lateral":     "crackmapexec",
-    "other":       "list",
+    "exploit": "searchsploit",
+    "intrusion": "evil-winrm",
+    "privesc": "linpeas",
+    "credential": "secretsdump",
+    "lateral": "crackmapexec",
+    "other": "list",
 }
 
 _FALLBACK_MAP_LINUX: dict[str, str] = {
-    "privesc":    "linpeas",
-    "intrusion":  "ssh",
+    "privesc": "linpeas",
+    "intrusion": "ssh",
     "credential": "secretsdump",
 }
 
 _FALLBACK_MAP_WINDOWS: dict[str, str] = {
-    "privesc":    "winpeas",
-    "intrusion":  "evil-winrm",
+    "privesc": "winpeas",
+    "intrusion": "evil-winrm",
     "credential": "secretsdump",
-    "enum":       "enum_smb",
+    "enum": "enum_smb",
 }
 
 # Phase -> applicable categories in priority order
 _PHASE_CATEGORIES: dict[str, list[str]] = {
-    "recon":   ["recon"],
-    "enum":    ["enum", "recon"],
+    "recon": ["recon"],
+    "enum": ["enum", "recon"],
     "exploit": ["exploit", "intrusion", "brute_force"],
     "privesc": ["privesc", "credential"],
     "lateral": ["lateral", "credential"],
-    "report":  ["other"],
+    "report": ["other"],
 }
 
 
 @dataclass
 class CommandDecision:
     """Result of a command selection."""
-    command:  str
-    args:     str = ""
-    source:   str = "fallback"   # reactive|parquet|bridge|llm|fallback
-    reason:   str = ""
-    mitre:    str = ""
+
+    command: str
+    args: str = ""
+    source: str = "fallback"  # reactive|parquet|bridge|llm|fallback
+    reason: str = ""
+    mitre: str = ""
     priority: int = 5
 
 
@@ -538,7 +535,7 @@ class ReactiveSelector(ICommandSelector):
     """
 
     def __init__(self, reactive_engine: Any) -> None:
-        self._engine  = reactive_engine
+        self._engine = reactive_engine
         self._pending: CommandDecision | None = None
 
     def register_output(
@@ -552,7 +549,9 @@ class ReactiveSelector(ICommandSelector):
             return
         try:
             decisions = self._engine.analyse(
-                output=output, command=command, platform=platform,
+                output=output,
+                command=command,
+                platform=platform,
             )
             if decisions:
                 top = decisions[0]
@@ -569,7 +568,7 @@ class ReactiveSelector(ICommandSelector):
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Pop and return the pending reactive decision if present."""
         if self._pending:
-            dec           = self._pending
+            dec = self._pending
             self._pending = None
             return dec
         return None
@@ -582,7 +581,7 @@ class ParquetSelector(ICommandSelector):
     """
 
     def __init__(self, pdb: Any, fail_counts: dict[str, int]) -> None:
-        self._pdb         = pdb
+        self._pdb = pdb
         self._fail_counts = fail_counts
 
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
@@ -602,9 +601,7 @@ class ParquetSelector(ICommandSelector):
         if self._pdb is None:
             return None
         try:
-            rows = self._pdb.query_session(
-                phase=category, target=target, success_only=True, limit=30
-            )
+            rows = self._pdb.query_session(phase=category, target=target, success_only=True, limit=30)
             blacklist = _get_campaign_blacklist()
             # Commands blacklisted under this category or globally
             blocked = set(blacklist.get(category, []) + blacklist.get("any", []))
@@ -630,14 +627,14 @@ class BridgeSelector(ICommandSelector):
     """
 
     def __init__(self, dispatcher: Any, fail_counts: dict[str, int]) -> None:
-        self._dispatcher  = dispatcher
+        self._dispatcher = dispatcher
         self._fail_counts = fail_counts
 
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return a bridge catalog suggestion for this phase."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
-        services   = context.get("services", [])
-        os_hint    = context.get("os_hint", "any")
+        services = context.get("services", [])
+        os_hint = context.get("os_hint", "any")
         for cat in categories:
             cand = self._bridge_candidate(phase, services, cat, os_hint=os_hint)
             if cand:
@@ -651,7 +648,10 @@ class BridgeSelector(ICommandSelector):
             return None
         try:
             result = self._dispatcher.suggest(
-                phase=phase, services=services, tag_hint=tag, os_hint=os_hint,
+                phase=phase,
+                services=services,
+                tag_hint=tag,
+                os_hint=os_hint,
             )
             if result is None:
                 return None
@@ -683,7 +683,7 @@ def _get_phase_command_catalog(phase: str) -> str:
         entries = dispatcher.list_phase(phase)
         if not entries:
             return ""
-        names = [e.command for e in entries[:40]]          # cap at 40
+        names = [e.command for e in entries[:40]]  # cap at 40
         return ", ".join(names)
     except Exception:
         return ""
@@ -705,21 +705,20 @@ class LLMSelector(ICommandSelector):
     def _llm_candidate(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         try:
             from lazyown_llm import LLMBridge
-            payload  = _load_payload()
-            api_key  = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
+
+            payload = _load_payload()
+            api_key = payload.get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
             if not api_key:
                 return None
-            bridge   = LLMBridge(backend="groq", api_key=api_key)
-            catalog  = _get_phase_command_catalog(phase)
+            bridge = LLMBridge(backend="groq", api_key=api_key)
+            catalog = _get_phase_command_catalog(phase)
             services = context.get("services", [])
-            os_hint  = context.get("os_hint", "unknown")
+            os_hint = context.get("os_hint", "unknown")
             has_creds = bool(payload.get("start_pass") or payload.get("start_user"))
 
             # Recent session history for context
             recent_cmds = _read_recent_csv_commands(limit=3)
-            recent_line = (
-                f"Recently executed: {', '.join(recent_cmds)}\n" if recent_cmds else ""
-            )
+            recent_line = f"Recently executed: {', '.join(recent_cmds)}\n" if recent_cmds else ""
 
             # World model context
             wm_line = ""
@@ -730,16 +729,11 @@ class LLMSelector(ICommandSelector):
                     wm_hosts = list(wm.get("hosts", {}).keys())[:3]
                     wm_creds = len(wm.get("credentials", []))
                     wm_vulns = len(wm.get("vulnerabilities", []))
-                    wm_line = (
-                        f"World model: known_hosts={wm_hosts} creds={wm_creds} vulns={wm_vulns}\n"
-                    )
+                    wm_line = f"World model: known_hosts={wm_hosts} creds={wm_creds} vulns={wm_vulns}\n"
                 except Exception:
                     pass
 
-            catalog_line = (
-                f"Available LazyOwn commands for phase '{phase}': {catalog}\n"
-                if catalog else ""
-            )
+            catalog_line = f"Available LazyOwn commands for phase '{phase}': {catalog}\n" if catalog else ""
             goal = (
                 f"{catalog_line}"
                 f"CRITICAL: These are HIGH-LEVEL ABSTRACTIONS. payload.json auto-injects rhost/domain/creds/wordlist. "
@@ -754,8 +748,10 @@ class LLMSelector(ICommandSelector):
             cmd = answer.strip().split()[0] if answer.strip() else None
             if cmd and len(cmd) < 50:
                 return CommandDecision(
-                    command=cmd, source="llm",
-                    reason=f"LLM recommendation (catalog={bool(catalog)})", priority=4,
+                    command=cmd,
+                    source="llm",
+                    reason=f"LLM recommendation (catalog={bool(catalog)})",
+                    priority=4,
                 )
         except Exception as exc:
             log.debug("LLM candidate error: %s", exc)
@@ -779,18 +775,18 @@ class SWANSelector(ICommandSelector):
 
     # Mapping from LazyOwn daemon phase names → SWAN task_type strings
     _PHASE_TO_TASK: dict[str, str] = {
-        "recon":          "recon",
-        "enum":           "recon",
-        "exploit":        "exploit",
-        "postexp":        "privesc",
-        "post_exploit":   "privesc",
-        "cred":           "cred",
-        "lateral":        "lateral",
-        "privesc":        "privesc",
-        "persist":        "lateral",
-        "exfil":          "cred",
-        "c2":             "analyze",
-        "report":         "analyze",
+        "recon": "recon",
+        "enum": "recon",
+        "exploit": "exploit",
+        "postexp": "privesc",
+        "post_exploit": "privesc",
+        "cred": "cred",
+        "lateral": "lateral",
+        "privesc": "privesc",
+        "persist": "lateral",
+        "exfil": "cred",
+        "c2": "analyze",
+        "report": "analyze",
     }
 
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
@@ -799,19 +795,15 @@ class SWANSelector(ICommandSelector):
             return None
         return self._swan_candidate(target, phase, context)
 
-    def _swan_candidate(
-        self, target: str, phase: str, context: dict
-    ) -> CommandDecision | None:
+    def _swan_candidate(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         try:
             from swan_agent import mcp_swan_run as _swan_run  # lazy import
-            services  = context.get("services", [])
-            os_hint   = context.get("os_hint", "unknown")
+
+            services = context.get("services", [])
+            os_hint = context.get("os_hint", "unknown")
             task_type = self._PHASE_TO_TASK.get(phase, "analyze")
-            catalog   = _get_phase_command_catalog(phase)
-            catalog_line = (
-                f"Available LazyOwn commands for phase '{phase}': {catalog}\n"
-                if catalog else ""
-            )
+            catalog = _get_phase_command_catalog(phase)
+            catalog_line = f"Available LazyOwn commands for phase '{phase}': {catalog}\n" if catalog else ""
             goal = (
                 f"{catalog_line}"
                 f"IMPORTANT: These are HIGH-LEVEL ABSTRACTIONS — payload.json auto-injects all parameters. "
@@ -819,7 +811,7 @@ class SWANSelector(ICommandSelector):
                 f"Suggest the best command for phase='{phase}' target='{target}' "
                 f"os={os_hint} services={services[:5]}."
             )
-            raw  = _swan_run(task_type, goal, phase=phase)
+            raw = _swan_run(task_type, goal, phase=phase)
             data = json.loads(raw)
             output = data.get("output", "").strip()
             # Extract first word (command name) from the expert output
@@ -828,10 +820,7 @@ class SWANSelector(ICommandSelector):
                 return CommandDecision(
                     command=cmd,
                     source="swan",
-                    reason=(
-                        f"SWAN expert={data.get('expert_id','?')} "
-                        f"detect={data.get('detection_pct',0):.0f}%"
-                    ),
+                    reason=(f"SWAN expert={data.get('expert_id', '?')} detect={data.get('detection_pct', 0):.0f}%"),
                     priority=3,
                 )
         except Exception as exc:
@@ -849,18 +838,15 @@ class FallbackSelector(ICommandSelector):
     def select(self, target: str, phase: str, context: dict) -> CommandDecision | None:
         """Return the static fallback command for this phase. Never returns None."""
         categories = _PHASE_CATEGORIES.get(phase, ["other"])
-        category   = categories[0]
-        os_hint    = context.get("os_hint", "unknown")
+        category = categories[0]
+        os_hint = context.get("os_hint", "unknown")
 
-        os_map = (
-            _FALLBACK_MAP_WINDOWS if os_hint == "windows"
-            else _FALLBACK_MAP_LINUX if os_hint == "linux"
-            else {}
-        )
+        os_map = _FALLBACK_MAP_WINDOWS if os_hint == "windows" else _FALLBACK_MAP_LINUX if os_hint == "linux" else {}
         cmd = os_map.get(category) or _FALLBACK_MAP.get(category, "list")
 
         return CommandDecision(
-            command=cmd, source="fallback",
+            command=cmd,
+            source="fallback",
             reason=f"static map for {category} (os={os_hint})",
         )
 
@@ -925,9 +911,7 @@ class MetricsAwareSelector(ICommandSelector):
         self._metrics_source_loaded = metrics_source is not None
         self._min_success_rate = float(min_success_rate)
         self._min_attempts = int(min_attempts)
-        self._window_seconds = (
-            int(window_seconds) if int(window_seconds) > 0 else None
-        )
+        self._window_seconds = int(window_seconds) if int(window_seconds) > 0 else None
         self._cache_ttl_s = float(cache_ttl_s)
         self._clock = clock or time.monotonic
         self._cached_summary: dict[str, Any] = {}
@@ -975,11 +959,7 @@ class MetricsAwareSelector(ICommandSelector):
         """
 
         now = float(self._clock())
-        if (
-            self._cached_summary
-            and self._cache_stamp >= 0
-            and now - self._cache_stamp < self._cache_ttl_s
-        ):
+        if self._cached_summary and self._cache_stamp >= 0 and now - self._cache_stamp < self._cache_ttl_s:
             return self._cached_summary
         source = self._resolve_source()
         if source is None:
@@ -1045,17 +1025,20 @@ class MetricsAwareSelector(ICommandSelector):
         if not skip:
             return decision
         try:
-            _emit(self._SKIP_EVENT_TYPE, {
-                "wrapped":      self._wrapped.__class__.__name__,
-                "command":      decision.command,
-                "phase":        phase,
-                "target":       target,
-                "reason":       decision.reason,
-                "stats":        stats or {},
-                "min_success":  self._min_success_rate,
-                "min_attempts": self._min_attempts,
-                "window_s":     self._window_seconds,
-            })
+            _emit(
+                self._SKIP_EVENT_TYPE,
+                {
+                    "wrapped": self._wrapped.__class__.__name__,
+                    "command": decision.command,
+                    "phase": phase,
+                    "target": target,
+                    "reason": decision.reason,
+                    "stats": stats or {},
+                    "min_success": self._min_success_rate,
+                    "min_attempts": self._min_attempts,
+                    "window_s": self._window_seconds,
+                },
+            )
         except Exception as exc:
             log.debug("MetricsAwareSelector emit failed: %s", exc)
         return None
@@ -1110,16 +1093,16 @@ class CredentialSpraySelector(ICommandSelector):
     """
 
     _SERVICE_COMMANDS: dict[str, str] = {
-        "ssh":    "lazyssh",
-        "smb":    "crackmapexec",
-        "winrm":  "evil-winrm",
-        "ftp":    "lazyftp",
-        "http":   "lazyburp",
-        "https":  "lazyburp",
-        "rdp":    "xfreerdp",
-        "mssql":  "mssqlpwner",
-        "mysql":  "mysqldump",
-        "ldap":   "ldapdomaindump",
+        "ssh": "lazyssh",
+        "smb": "crackmapexec",
+        "winrm": "evil-winrm",
+        "ftp": "lazyftp",
+        "http": "lazyburp",
+        "https": "lazyburp",
+        "rdp": "xfreerdp",
+        "mssql": "mssqlpwner",
+        "mysql": "mysqldump",
+        "ldap": "ldapdomaindump",
     }
 
     def __init__(self, fail_counts: dict[str, int]) -> None:
@@ -1131,8 +1114,8 @@ class CredentialSpraySelector(ICommandSelector):
         if phase not in ("exploit", "lateral", "privesc", "cred"):
             return None
         payload = _load_payload()
-        user    = payload.get("start_user", "")
-        passwd  = payload.get("start_pass", "") or payload.get("hash", "")
+        user = payload.get("start_user", "")
+        passwd = payload.get("start_pass", "") or payload.get("hash", "")
         if not user or not passwd:
             return None
         services = context.get("services", [])
@@ -1205,14 +1188,14 @@ class StrategyEngine:
         runner: ICommandRunner,
         selectors: list[ICommandSelector] | None = None,
     ) -> None:
-        self._runner      = runner
+        self._runner = runner
         self._fail_counts: dict[str, int] = {}
         self._reactive_sel: ReactiveSelector | None = None
 
         if selectors is None:
-            pdb        = _get_pdb() if _get_pdb else None
+            pdb = _get_pdb() if _get_pdb else None
             dispatcher = _get_dispatcher() if _get_dispatcher else None
-            reactive   = _ReactEngine() if _ReactEngine else None
+            reactive = _ReactEngine() if _ReactEngine else None
             reactive_sel = ReactiveSelector(reactive)
             self._reactive_sel = reactive_sel
             selectors = [
@@ -1225,9 +1208,7 @@ class StrategyEngine:
                 FallbackSelector(),
             ]
 
-        self._cascade = CascadeStrategy(
-            _wrap_chain_with_metrics_bias(selectors)
-        )
+        self._cascade = CascadeStrategy(_wrap_chain_with_metrics_bias(selectors))
 
     def register_output(
         self,
@@ -1251,9 +1232,7 @@ class StrategyEngine:
         os_hint: str = "unknown",
     ) -> CommandDecision:
         """Select the next command for target/phase using the cascade."""
-        return self._cascade.next_command(
-            target, phase, context={"services": services or [], "os_hint": os_hint}
-        )
+        return self._cascade.next_command(target, phase, context={"services": services or [], "os_hint": os_hint})
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -1261,16 +1240,18 @@ class StrategyEngine:
 #             (O — Open/Closed via protocol)
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 @dataclass
 class StepResult:
     """Result of a single execution step."""
-    step:     int
-    command:  str
-    output:   str
-    success:  bool
-    source:   str
+
+    step: int
+    command: str
+    output: str
+    success: bool
+    source: str
     findings: list[dict] = field(default_factory=list)
-    phase:    str = ""
+    phase: str = ""
 
 
 class IObjectiveHandler(ABC):
@@ -1308,12 +1289,12 @@ class ExecutionEngine(IObjectiveHandler):
         facts: Any = None,
         loop: asyncio.AbstractEventLoop | None = None,
     ) -> None:
-        self._strategy    = strategy
-        self._max_steps   = max_steps
+        self._strategy = strategy
+        self._max_steps = max_steps
         self._world_model = world_model
-        self._obs_parser  = obs_parser
-        self._facts       = facts
-        self._loop        = loop
+        self._obs_parser = obs_parser
+        self._facts = facts
+        self._loop = loop
 
     def handle(
         self,
@@ -1356,6 +1337,7 @@ class ExecutionEngine(IObjectiveHandler):
             loop = asyncio.get_event_loop()
             if loop.is_running():
                 import concurrent.futures
+
                 with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
                     fut = pool.submit(
                         asyncio.run,
@@ -1394,6 +1376,7 @@ class ExecutionEngine(IObjectiveHandler):
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 6 — _run_objective coroutine (kept as module-level for asyncio.gather)
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _load_payload() -> dict:
     """Load payload.json, returning empty dict on any error."""
@@ -1524,13 +1507,13 @@ def _compute_step_reward(
 
     # Phase multiplier: late-phase successes are worth more
     _phase_mult: dict[str, float] = {
-        "recon":   1.0,
-        "enum":    1.2,
+        "recon": 1.0,
+        "enum": 1.2,
         "exploit": 1.5,
         "privesc": 1.8,
         "lateral": 1.6,
-        "cred":    1.7,
-        "exfil":   2.0,
+        "cred": 1.7,
+        "exfil": 2.0,
     }
     score = score * _phase_mult.get(phase, 1.0)
 
@@ -1601,16 +1584,21 @@ async def _run_objective(
     Returns the list of StepResult on completion.
     """
     log.info("[%s] start: %s", objective_id, objective_text[:80])
-    _emit("OBJECTIVE_START", {
-        "id": objective_id, "text": objective_text[:200], "target": target,
-    })
+    _emit(
+        "OBJECTIVE_START",
+        {
+            "id": objective_id,
+            "text": objective_text[:200],
+            "target": target,
+        },
+    )
 
     results: list[StepResult] = []
-    phase:   str              = "recon"
-    services: list[str]       = []
-    _consecutive_list: int    = 0
-    _last_command: str        = ""
-    _prev_cmds: list[str]     = []
+    phase: str = "recon"
+    services: list[str] = []
+    _consecutive_list: int = 0
+    _last_command: str = ""
+    _prev_cmds: list[str] = []
 
     if world_model is not None:
         try:
@@ -1626,11 +1614,14 @@ async def _run_objective(
     # objective log emission so it adds no meaningful latency to the loop.
     detected_os = await _detect_target_os(target, loop)
     log.info("[%s] OS detection: target=%s os=%s", objective_id, target, detected_os)
-    _emit("OS_DETECTED", {
-        "objective_id": objective_id,
-        "target":       target,
-        "os":           detected_os,
-    })
+    _emit(
+        "OS_DETECTED",
+        {
+            "objective_id": objective_id,
+            "target": target,
+            "os": detected_os,
+        },
+    )
 
     if world_model is not None and detected_os != "unknown":
         try:
@@ -1651,12 +1642,12 @@ async def _run_objective(
             _pl = _load_payload()
             if _pl.get("os_id") != _detected_os_id:
                 _pl["os_id"] = _detected_os_id
-                PAYLOAD_FILE.write_text(
-                    json.dumps(_pl, indent=2, ensure_ascii=False), encoding="utf-8"
-                )
+                PAYLOAD_FILE.write_text(json.dumps(_pl, indent=2, ensure_ascii=False), encoding="utf-8")
                 log.info(
                     "[%s] payload.json os_id updated: %s (%s)",
-                    objective_id, _detected_os_id, detected_os,
+                    objective_id,
+                    _detected_os_id,
+                    detected_os,
                 )
         except Exception as _pe:
             log.debug("payload.json os_id update error: %s", _pe)
@@ -1664,16 +1655,16 @@ async def _run_objective(
     # Write sessions/os.json in the same format that do_ping uses so that
     # run_lazynmap's OS-gate reads it and skips the redundant ping probe.
     try:
-        _os_entry = [{
-            "id":    _detected_os_id,
-            "os":    detected_os.capitalize(),
-            "ttl":   64 if detected_os == "linux" else (128 if detected_os == "windows" else "NULL"),
-            "state": "active" if detected_os != "unknown" else "unknown",
-        }]
+        _os_entry = [
+            {
+                "id": _detected_os_id,
+                "os": detected_os.capitalize(),
+                "ttl": 64 if detected_os == "linux" else (128 if detected_os == "windows" else "NULL"),
+                "state": "active" if detected_os != "unknown" else "unknown",
+            }
+        ]
         _os_json_path = SESSIONS_DIR / "os.json"
-        _os_json_path.write_text(
-            json.dumps(_os_entry, indent=4, ensure_ascii=False), encoding="utf-8"
-        )
+        _os_json_path.write_text(json.dumps(_os_entry, indent=4, ensure_ascii=False), encoding="utf-8")
     except Exception as _oe:
         log.debug("sessions/os.json write error: %s", _oe)
 
@@ -1683,21 +1674,27 @@ async def _run_objective(
         if control is not None:
             try:
                 if not control.target_in_focus(target):
-                    _emit("TARGET_OUT_OF_FOCUS", {
-                        "objective_id": objective_id,
-                        "target":       target,
-                        "focus":        control.load().focus_targets,
-                    })
+                    _emit(
+                        "TARGET_OUT_OF_FOCUS",
+                        {
+                            "objective_id": objective_id,
+                            "target": target,
+                            "focus": control.load().focus_targets,
+                        },
+                    )
                     log.info(
                         "  [control] target %s not in focus list — ending objective",
                         target,
                     )
                     break
                 if control.is_paused() and _wait_until_unpaused is not None:
-                    _emit("DAEMON_PAUSED", {
-                        "objective_id": objective_id,
-                        "step":         step_n,
-                    })
+                    _emit(
+                        "DAEMON_PAUSED",
+                        {
+                            "objective_id": objective_id,
+                            "step": step_n,
+                        },
+                    )
                     resumed = await loop.run_in_executor(
                         None,
                         lambda: _wait_until_unpaused(
@@ -1707,62 +1704,77 @@ async def _run_objective(
                         ),
                     )
                     if not resumed:
-                        _emit("DAEMON_PAUSE_TIMEOUT", {
-                            "objective_id": objective_id,
-                            "step":         step_n,
-                            "max_wait_s":   CONTROL_PAUSE_MAX_S,
-                        })
+                        _emit(
+                            "DAEMON_PAUSE_TIMEOUT",
+                            {
+                                "objective_id": objective_id,
+                                "step": step_n,
+                                "max_wait_s": CONTROL_PAUSE_MAX_S,
+                            },
+                        )
                         log.info(
                             "  [control] paused beyond AUTO_PAUSE_MAX (%.0fs) — ending objective",
                             CONTROL_PAUSE_MAX_S,
                         )
                         break
-                    _emit("DAEMON_RESUMED", {
-                        "objective_id": objective_id,
-                        "step":         step_n,
-                    })
+                    _emit(
+                        "DAEMON_RESUMED",
+                        {
+                            "objective_id": objective_id,
+                            "step": step_n,
+                        },
+                    )
             except Exception as _ctl_exc:
                 log.debug("control pre-step error: %s", _ctl_exc)
 
         decision = strategy.next_command(target, phase, services, os_hint=detected_os)
-        command  = decision.command.replace("{rhost}", target).replace("TARGET", target)
+        command = decision.command.replace("{rhost}", target).replace("TARGET", target)
 
         if control is not None:
             try:
                 veto_attempts = 0
-                while (
-                    control.is_vetoed(command)
-                    and veto_attempts < CONTROL_VETO_MAX_RETRIES
-                ):
-                    _emit("COMMAND_VETOED", {
-                        "objective_id": objective_id,
-                        "step":         step_n,
-                        "command":      command,
-                        "attempt":      veto_attempts + 1,
-                    })
+                while control.is_vetoed(command) and veto_attempts < CONTROL_VETO_MAX_RETRIES:
+                    _emit(
+                        "COMMAND_VETOED",
+                        {
+                            "objective_id": objective_id,
+                            "step": step_n,
+                            "command": command,
+                            "attempt": veto_attempts + 1,
+                        },
+                    )
                     log.info(
                         "  [control] %s vetoed (attempt %d/%d) — requesting alternative",
-                        command, veto_attempts + 1, CONTROL_VETO_MAX_RETRIES,
+                        command,
+                        veto_attempts + 1,
+                        CONTROL_VETO_MAX_RETRIES,
                     )
                     alt = strategy.next_command(
-                        target, phase, services, os_hint=detected_os,
+                        target,
+                        phase,
+                        services,
+                        os_hint=detected_os,
                     )
                     alt_cmd = alt.command.replace("{rhost}", target).replace(
-                        "TARGET", target,
+                        "TARGET",
+                        target,
                     )
                     if not alt_cmd or alt_cmd == command:
                         veto_attempts += 1
                         continue
                     decision = alt
-                    command  = alt_cmd
+                    command = alt_cmd
                     veto_attempts += 1
                 if control.is_vetoed(command):
-                    _emit("STEP_SKIPPED", {
-                        "objective_id": objective_id,
-                        "step":         step_n,
-                        "command":      command,
-                        "reason":       "all alternatives vetoed",
-                    })
+                    _emit(
+                        "STEP_SKIPPED",
+                        {
+                            "objective_id": objective_id,
+                            "step": step_n,
+                            "command": command,
+                            "reason": "all alternatives vetoed",
+                        },
+                    )
                     log.info(
                         "  [control] no non-vetoed alternative for step %d — skipping",
                         step_n,
@@ -1781,42 +1793,41 @@ async def _run_objective(
         # Pre-execution detection oracle: swap out critical-risk commands silently
         try:
             from detection_oracle import get_oracle as _pre_get_oracle
-            _pre_assess = _pre_get_oracle().assess(
-                command.split()[0], command, phase
-            )
+
+            _pre_assess = _pre_get_oracle().assess(command.split()[0], command, phase)
             if _pre_assess.is_critical_risk:
                 log.info(
                     "  [oracle] %s critical-risk (%.0f%%) — requesting alternative",
-                    command, _pre_assess.probability * 100,
+                    command,
+                    _pre_assess.probability * 100,
                 )
                 _alt = strategy.next_command(target, phase, services, os_hint=detected_os)
                 _alt_cmd = _alt.command.replace("{rhost}", target).replace("TARGET", target)
                 if _alt_cmd and _alt_cmd != command:
                     decision = _alt
-                    command  = _alt_cmd
-                    full_cmd = (
-                        f"assign rhost {target}\nassign os_id {_detected_os_id}\n{command}"
-                    )
+                    command = _alt_cmd
+                    full_cmd = f"assign rhost {target}\nassign os_id {_detected_os_id}\n{command}"
                     log.info("  [oracle] using %s instead", command)
         except Exception:
             pass
 
-        _emit("STEP_START", {
-            "objective_id":  objective_id,
-            "step":          step_n,
-            "command":       command,
-            "source":        decision.source,
-            "reason":        decision.reason,
-            "decision_seed": compute_decision_seed(
-                objective_id, step_n, decision.source,
-            ),
-        })
+        _emit(
+            "STEP_START",
+            {
+                "objective_id": objective_id,
+                "step": step_n,
+                "command": command,
+                "source": decision.source,
+                "reason": decision.reason,
+                "decision_seed": compute_decision_seed(
+                    objective_id,
+                    step_n,
+                    decision.source,
+                ),
+            },
+        )
 
-        if (
-            control is not None
-            and _wait_for_decision is not None
-            and control.load().mode == _MODE_APPROVAL
-        ):
+        if control is not None and _wait_for_decision is not None and control.load().mode == _MODE_APPROVAL:
             try:
                 pending = control.propose(
                     command,
@@ -1824,44 +1835,65 @@ async def _run_objective(
                     target=target,
                     ttl_seconds=CONTROL_APPROVAL_TTL_S,
                 )
-                _emit("APPROVAL_REQUESTED", {
-                    "objective_id": objective_id,
-                    "step":         step_n,
-                    "action_id":    pending.action_id,
-                    "command":      pending.command,
-                    "reason":       pending.reason,
-                    "target":       pending.target,
-                    "ttl_seconds":  pending.ttl_seconds,
-                })
+                _emit(
+                    "APPROVAL_REQUESTED",
+                    {
+                        "objective_id": objective_id,
+                        "step": step_n,
+                        "action_id": pending.action_id,
+                        "command": pending.command,
+                        "reason": pending.reason,
+                        "target": pending.target,
+                        "ttl_seconds": pending.ttl_seconds,
+                    },
+                )
                 final = await loop.run_in_executor(
-                    None, _wait_for_decision, control, pending,
+                    None,
+                    _wait_for_decision,
+                    control,
+                    pending,
                 )
                 control.consume(pending.action_id)
-                _emit("APPROVAL_DECIDED", {
-                    "objective_id": objective_id,
-                    "step":         step_n,
-                    "action_id":    final.action_id,
-                    "decision":     final.decision,
-                    "operator":     final.operator,
-                })
+                _emit(
+                    "APPROVAL_DECIDED",
+                    {
+                        "objective_id": objective_id,
+                        "step": step_n,
+                        "action_id": final.action_id,
+                        "decision": final.decision,
+                        "operator": final.operator,
+                    },
+                )
                 if final.decision != _DECISION_APPROVED:
                     log.info(
                         "  [control] step %d %s by operator — skipping",
-                        step_n, final.decision,
+                        step_n,
+                        final.decision,
                     )
                     continue
             except Exception as _appr_exc:
                 log.debug("control approval gate error: %s", _appr_exc)
 
         output = await loop.run_in_executor(
-            None, _run_lazyown, full_cmd, STEP_TIMEOUT_S,
+            None,
+            _run_lazyown,
+            full_cmd,
+            STEP_TIMEOUT_S,
         )
 
-        low    = output.lower()
-        failed = any(k in low for k in (
-            "error", "failed", "no such", "command not found",
-            "traceback", "refused", "timeout",
-        )) and not any(k in low for k in ("found", "success", "open", "hash"))
+        low = output.lower()
+        failed = any(
+            k in low
+            for k in (
+                "error",
+                "failed",
+                "no such",
+                "command not found",
+                "traceback",
+                "refused",
+                "timeout",
+            )
+        ) and not any(k in low for k in ("found", "success", "open", "hash"))
         success = not failed
 
         findings: list[dict] = []
@@ -1893,6 +1925,7 @@ async def _run_objective(
                 # so every subsequent command that needs auth has it available.
                 try:
                     from modules.obs_parser import FindingType as _FT
+
                     cred_findings = obs.by_type(_FT.CREDENTIAL)
                     hash_findings = obs.by_type(_FT.HASH)
                     user_findings = obs.by_type(_FT.USERNAME)
@@ -1915,12 +1948,15 @@ async def _run_objective(
                                         _cf.write(f"{top.value}  # host={target} cmd={command}\n")
                                 except Exception:
                                     pass
-                                _emit("CREDENTIAL_FOUND", {
-                                    "objective_id": objective_id,
-                                    "user": parts[0],
-                                    "host": target,
-                                    "source": command,
-                                })
+                                _emit(
+                                    "CREDENTIAL_FOUND",
+                                    {
+                                        "objective_id": objective_id,
+                                        "user": parts[0],
+                                        "host": target,
+                                        "source": command,
+                                    },
+                                )
                         if hash_findings and not _pl.get("hash"):
                             _pl["hash"] = hash_findings[0].value
                             _changed = True
@@ -1946,6 +1982,7 @@ async def _run_objective(
                 if command.split()[0] in ("lazynmap", "nmap", "rustscan", "masscan"):
                     try:
                         import xml.etree.ElementTree as _ET
+
                         _xml_path = SESSIONS_DIR / f"scan_{target}.nmap.xml"
                         if _xml_path.exists():
                             _tree = _ET.parse(str(_xml_path))
@@ -1992,11 +2029,19 @@ async def _run_objective(
         # Advance immediately when evidence warrants it instead of waiting for
         # three repeated commands (the stuck-loop recovery is still the safety net).
         _phase_fwd = [
-            "recon", "enum", "exploit", "postexp", "privesc",
-            "lateral", "cred", "exfil", "c2", "report",
+            "recon",
+            "enum",
+            "exploit",
+            "postexp",
+            "privesc",
+            "lateral",
+            "cred",
+            "exfil",
+            "c2",
+            "report",
         ]
-        _has_root    = any(f.get("type") == "root_shell" for f in findings)
-        _has_cred    = any(f.get("type") in ("credential", "hash") for f in findings)
+        _has_root = any(f.get("type") == "root_shell" for f in findings)
+        _has_cred = any(f.get("type") in ("credential", "hash") for f in findings)
         _has_service = len(services) > 0
         try:
             _cur_idx = _phase_fwd.index(phase)
@@ -2008,23 +2053,36 @@ async def _run_objective(
                 _jump = min(_cur_idx + 2, len(_phase_fwd) - 1)
                 phase = _phase_fwd[_jump]
                 log.info("[%s] PHASE JUMP→%s (root shell found)", objective_id, phase)
-                _emit("PHASE_ADVANCE", {
-                    "objective_id": objective_id, "reason": "root_shell", "phase": phase,
-                })
+                _emit(
+                    "PHASE_ADVANCE",
+                    {
+                        "objective_id": objective_id,
+                        "reason": "root_shell",
+                        "phase": phase,
+                    },
+                )
             elif _has_cred and phase in ("recon", "enum"):
                 phase = "exploit"
                 log.info("[%s] PHASE→exploit (credential found)", objective_id, phase)
-                _emit("PHASE_ADVANCE", {
-                    "objective_id": objective_id, "reason": "credential_found", "phase": phase,
-                })
+                _emit(
+                    "PHASE_ADVANCE",
+                    {
+                        "objective_id": objective_id,
+                        "reason": "credential_found",
+                        "phase": phase,
+                    },
+                )
             elif _has_service and phase == "recon" and len(services) >= 2:
                 phase = "enum"
                 log.info("[%s] PHASE→enum (%d services discovered)", objective_id, len(services))
-                _emit("PHASE_ADVANCE", {
-                    "objective_id": objective_id,
-                    "reason": f"{len(services)}_services_found",
-                    "phase": phase,
-                })
+                _emit(
+                    "PHASE_ADVANCE",
+                    {
+                        "objective_id": objective_id,
+                        "reason": f"{len(services)}_services_found",
+                        "phase": phase,
+                    },
+                )
 
         # ── Stuck-loop recovery ───────────────────────────────────────────────
         # Detect ANY repeated command (not just "list") — if the same command
@@ -2037,16 +2095,32 @@ async def _run_objective(
             _last_command = _cmd_base
 
         if _consecutive_list >= 3:
-            log.warning("[%s] stuck loop detected (%d× '%s') — escalating phase", objective_id, _consecutive_list, _last_command)
-            _emit("STUCK_LOOP", {
-                "objective_id": objective_id,
-                "phase": phase,
-                "repeated_command": _last_command,
-                "consecutive_count": _consecutive_list,
-            })
+            log.warning(
+                "[%s] stuck loop detected (%d× '%s') — escalating phase", objective_id, _consecutive_list, _last_command
+            )
+            _emit(
+                "STUCK_LOOP",
+                {
+                    "objective_id": objective_id,
+                    "phase": phase,
+                    "repeated_command": _last_command,
+                    "consecutive_count": _consecutive_list,
+                },
+            )
             # Try to advance phase via world_model, otherwise hard-advance
-            _phase_order = ["recon", "enum", "exploit", "postexp", "persist", "privesc",
-                            "cred", "lateral", "exfil", "c2", "report"]
+            _phase_order = [
+                "recon",
+                "enum",
+                "exploit",
+                "postexp",
+                "persist",
+                "privesc",
+                "cred",
+                "lateral",
+                "exfil",
+                "c2",
+                "report",
+            ]
             try:
                 _cur_idx = _phase_order.index(phase)
                 if _cur_idx + 1 < len(_phase_order):
@@ -2069,13 +2143,7 @@ async def _run_objective(
         # (never hard-code "windows" as the unknown-platform default).
         if world_model is not None:
             try:
-                wm_os = (
-                    world_model.snapshot()
-                    .get("hosts", {})
-                    .get(target, {})
-                    .get("os_hint", "")
-                    or detected_os
-                )
+                wm_os = world_model.snapshot().get("hosts", {}).get(target, {}).get("os_hint", "") or detected_os
             except Exception:
                 wm_os = detected_os
         else:
@@ -2091,19 +2159,19 @@ async def _run_objective(
         # This runs silently; failures never block execution.
         try:
             from rl_trainer import get_trainer as _get_rl_trainer
+
             _rl = _get_rl_trainer()
             _detect_prob = 0.0
             try:
                 from detection_oracle import get_oracle as _get_oracle
+
                 _detect_prob = _get_oracle().probability(command)
             except Exception:
                 pass
-            _reward_ema  = _compute_step_reward(
-                output, command, phase, success, findings, _prev_cmds
-            )
-            _rl_state    = _rl.encode_state(phase, phase, _reward_ema)
-            _rl_next     = _rl.encode_state(phase, phase, _reward_ema)
-            _raw_reward  = _reward_ema
+            _reward_ema = _compute_step_reward(output, command, phase, success, findings, _prev_cmds)
+            _rl_state = _rl.encode_state(phase, phase, _reward_ema)
+            _rl_next = _rl.encode_state(phase, phase, _reward_ema)
+            _raw_reward = _reward_ema
             _step_reward = _raw_reward
             _rl.update(
                 state=_rl_state,
@@ -2118,54 +2186,67 @@ async def _run_objective(
             log.debug("RL update error: %s", _rl_exc)
 
         sr = StepResult(
-            step=step_n, command=command, output=output,
-            success=success, source=decision.source,
-            findings=findings, phase=phase,
+            step=step_n,
+            command=command,
+            output=output,
+            success=success,
+            source=decision.source,
+            findings=findings,
+            phase=phase,
         )
         results.append(sr)
         _prev_cmds.append(command.strip().split()[0] if command.strip() else "")
 
-        _emit("STEP_DONE", {
-            "objective_id":   objective_id,
-            "step":           step_n,
-            "command":        command,
-            "success":        success,
-            "phase":          phase,
-            "findings_count": len(findings),
-            "reward":         round(_step_reward, REWARD_DISPLAY_PRECISION),
-            "output_snippet": output[:300],
-        }, severity="warning" if not success else "info")
+        _emit(
+            "STEP_DONE",
+            {
+                "objective_id": objective_id,
+                "step": step_n,
+                "command": command,
+                "success": success,
+                "phase": phase,
+                "findings_count": len(findings),
+                "reward": round(_step_reward, REWARD_DISPLAY_PRECISION),
+                "output_snippet": output[:300],
+            },
+            severity="warning" if not success else "info",
+        )
 
         high_value = any(
             getattr(f, "type", "") in ("credential", "hash", "root_shell", "privesc")
-            for f in (
-                obs_parser.parse(output, host=target, tool=command).findings
-                if obs_parser else []
-            )
+            for f in (obs_parser.parse(output, host=target, tool=command).findings if obs_parser else [])
         )
         if high_value:
             log.info("  High-value finding — stopping loop early")
-            _emit("HIGH_VALUE", {
-                "objective_id": objective_id,
-                "step":         step_n,
-                "command":      command,
-            }, severity="critical")
+            _emit(
+                "HIGH_VALUE",
+                {
+                    "objective_id": objective_id,
+                    "step": step_n,
+                    "command": command,
+                },
+                severity="critical",
+            )
             break
 
         await asyncio.sleep(STEP_DELAY_S)
 
-    _emit("OBJECTIVE_DONE", {
-        "id":             objective_id,
-        "steps_run":      len(results),
-        "final_phase":    phase,
-        "findings_total": sum(len(r.findings) for r in results),
-    })
+    _emit(
+        "OBJECTIVE_DONE",
+        {
+            "id": objective_id,
+            "steps_run": len(results),
+            "final_phase": phase,
+            "findings_total": sum(len(r.findings) for r in results),
+        },
+    )
     return results
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 7 — DroneCoordinator
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 class DroneCoordinator:
     """
@@ -2177,9 +2258,9 @@ class DroneCoordinator:
     """
 
     def __init__(self) -> None:
-        self._hive        = _get_hive() if _get_hive else None
+        self._hive = _get_hive() if _get_hive else None
         self._seen_hosts: set = set()
-        self._lock        = threading.Lock()
+        self._lock = threading.Lock()
 
     def process_findings(
         self,
@@ -2195,8 +2276,8 @@ class DroneCoordinator:
         drone_ids: list[str] = []
 
         for f in findings:
-            ftype   = f.get("type", "")
-            value   = f.get("value", "")
+            ftype = f.get("type", "")
+            value = f.get("value", "")
             service = f.get("service", "")
 
             if ftype in ("host", "ip") and value not in self._seen_hosts:
@@ -2204,64 +2285,70 @@ class DroneCoordinator:
                     if value not in self._seen_hosts:
                         self._seen_hosts.add(value)
                 goal = f"Enumerate new host {value} discovered during {objective_id}"
-                did  = self._hive.spawn(
-                    goal=goal, role="recon",
-                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                did = self._hive.spawn(
+                    goal=goal,
+                    role="recon",
+                    backend=HIVE_BACKEND,
+                    max_iterations=HIVE_MAX_ITER,
                 )
                 drone_ids.append(did)
-                _emit("DRONE_SPAWNED", {
-                    "drone_id":     did,
-                    "role":         "recon",
-                    "trigger":      "new_host",
-                    "host":         value,
-                    "objective_id": objective_id,
-                })
+                _emit(
+                    "DRONE_SPAWNED",
+                    {
+                        "drone_id": did,
+                        "role": "recon",
+                        "trigger": "new_host",
+                        "host": value,
+                        "objective_id": objective_id,
+                    },
+                )
 
             elif ftype in ("service_version", "cve") and service:
-                goal = (
-                    f"Exploit {service} on {target} "
-                    f"(context: {objective_id}, finding: {value[:60]})"
-                )
-                did  = self._hive.spawn(
-                    goal=goal, role="exploit",
-                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                goal = f"Exploit {service} on {target} (context: {objective_id}, finding: {value[:60]})"
+                did = self._hive.spawn(
+                    goal=goal,
+                    role="exploit",
+                    backend=HIVE_BACKEND,
+                    max_iterations=HIVE_MAX_ITER,
                 )
                 drone_ids.append(did)
-                _emit("DRONE_SPAWNED", {
-                    "drone_id":     did,
-                    "role":         "exploit",
-                    "trigger":      ftype,
-                    "service":      service,
-                    "value":        str(value)[:80],
-                    "objective_id": objective_id,
-                })
+                _emit(
+                    "DRONE_SPAWNED",
+                    {
+                        "drone_id": did,
+                        "role": "exploit",
+                        "trigger": ftype,
+                        "service": service,
+                        "value": str(value)[:80],
+                        "objective_id": objective_id,
+                    },
+                )
 
             elif ftype in ("credential", "hash"):
-                goal = (
-                    f"Crack and use credential found on {target}: {str(value)[:80]} "
-                    f"(context: {objective_id})"
-                )
-                did  = self._hive.spawn(
-                    goal=goal, role="cred",
-                    backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                goal = f"Crack and use credential found on {target}: {str(value)[:80]} (context: {objective_id})"
+                did = self._hive.spawn(
+                    goal=goal,
+                    role="cred",
+                    backend=HIVE_BACKEND,
+                    max_iterations=HIVE_MAX_ITER,
                 )
                 drone_ids.append(did)
-                _emit("DRONE_SPAWNED", {
-                    "drone_id":     did,
-                    "role":         "cred",
-                    "trigger":      ftype,
-                    "value":        str(value)[:40],
-                    "objective_id": objective_id,
-                })
+                _emit(
+                    "DRONE_SPAWNED",
+                    {
+                        "drone_id": did,
+                        "role": "cred",
+                        "trigger": ftype,
+                        "value": str(value)[:40],
+                        "objective_id": objective_id,
+                    },
+                )
 
         # ── Parallel per-service sweep when multiple open ports on same host ──
         # Group open-port/service_version findings by host, then spawn one
         # targeted exploit drone per service (cap: 3 per host per call).
         if self._hive is not None:
-            _svc_findings = [
-                f for f in findings
-                if f.get("type") in ("open_port", "service_version")
-            ]
+            _svc_findings = [f for f in findings if f.get("type") in ("open_port", "service_version")]
             _host_svcs: dict[str, list[dict]] = {}
             for f in _svc_findings:
                 _h = f.get("host", target) or target
@@ -2277,22 +2364,26 @@ class DroneCoordinator:
                     if not _svc_name:
                         continue
                     _sweep_goal = (
-                        f"Enumerate and exploit {_svc_name} on {_h} "
-                        f"(parallel service sweep — context: {objective_id})"
+                        f"Enumerate and exploit {_svc_name} on {_h} (parallel service sweep — context: {objective_id})"
                     )
                     _did = self._hive.spawn(
-                        goal=_sweep_goal, role="exploit",
-                        backend=HIVE_BACKEND, max_iterations=HIVE_MAX_ITER,
+                        goal=_sweep_goal,
+                        role="exploit",
+                        backend=HIVE_BACKEND,
+                        max_iterations=HIVE_MAX_ITER,
                     )
                     drone_ids.append(_did)
-                    _emit("DRONE_SPAWNED", {
-                        "drone_id":     _did,
-                        "role":         "exploit",
-                        "trigger":      "parallel_service_sweep",
-                        "service":      _svc_name,
-                        "host":         _h,
-                        "objective_id": objective_id,
-                    })
+                    _emit(
+                        "DRONE_SPAWNED",
+                        {
+                            "drone_id": _did,
+                            "role": "exploit",
+                            "trigger": "parallel_service_sweep",
+                            "service": _svc_name,
+                            "host": _h,
+                            "objective_id": objective_id,
+                        },
+                    )
 
         return drone_ids
 
@@ -2327,22 +2418,22 @@ class DroneCoordinator:
 
 _ENGAGE_PHASE_ORDER: tuple[tuple[str, str, str], ...] = (
     # (phase_id, primary_command, narrator_label)
-    ("recon",          "ping",          "ping + OS detection"),
-    ("recon",          "lazynmap",      "nmap full scan"),
-    ("recon",          "auto_populate", "auto-populate payload.json"),
-    ("enum",           "facts_show",    "enumerate services and facts"),
-    ("enum",           "searchsploit",  "exploit candidate search"),
-    ("exploit",        "lazymsfvenom",  "initial access — payload stage"),
+    ("recon", "ping", "ping + OS detection"),
+    ("recon", "lazynmap", "nmap full scan"),
+    ("recon", "auto_populate", "auto-populate payload.json"),
+    ("enum", "facts_show", "enumerate services and facts"),
+    ("enum", "searchsploit", "exploit candidate search"),
+    ("exploit", "lazymsfvenom", "initial access — payload stage"),
 )
 
 
 _TOOL_FALLBACK_MAP: dict[str, tuple[str, ...]] = {
-    "ping":          ("hostdiscover",),
-    "lazynmap":      ("rustscan", "masscan", "nmap"),
+    "ping": ("hostdiscover",),
+    "lazynmap": ("rustscan", "masscan", "nmap"),
     "auto_populate": ("facts_show",),
-    "facts_show":    ("auto_populate",),
-    "searchsploit":  ("nvddb", "exploitalert"),
-    "lazymsfvenom":  ("generate_reverse_shell",),
+    "facts_show": ("auto_populate",),
+    "searchsploit": ("nvddb", "exploitalert"),
+    "lazymsfvenom": ("generate_reverse_shell",),
 }
 
 
@@ -2424,9 +2515,7 @@ class BridgeFallbackResolver(IToolFallbackResolver):
     """
 
     def __init__(self, dispatcher: Any = None) -> None:
-        self._dispatcher = dispatcher if dispatcher is not None else (
-            _get_dispatcher() if _get_dispatcher else None
-        )
+        self._dispatcher = dispatcher if dispatcher is not None else (_get_dispatcher() if _get_dispatcher else None)
         self._static = StaticFallbackResolver()
         self._cache: dict[tuple[str, str], list[str]] = {}
 
@@ -2508,6 +2597,7 @@ class _ShellDetector:
                 new_ids.append(cid)
                 try:
                     from engagement_hooks import publish_shell_obtained as _push
+
                     _push(
                         client_id=cid,
                         primary_ip=str(entry.get("ip") or target or ""),
@@ -2528,9 +2618,16 @@ class _ShellDetector:
             return False
         low = output.lower()
         markers = (
-            "uid=0", "uid=", "root@", "# whoami", "nt authority\\system",
-            "shell open", "meterpreter >", "successfully spawned a shell",
-            "got shell", "reverse shell connection",
+            "uid=0",
+            "uid=",
+            "root@",
+            "# whoami",
+            "nt authority\\system",
+            "shell open",
+            "meterpreter >",
+            "successfully spawned a shell",
+            "got shell",
+            "reverse shell connection",
         )
         if any(m in low for m in markers):
             try:
@@ -2574,6 +2671,7 @@ class EngageOrchestrator:
     ) -> None:
         from engagement_hooks import EngagementNarrator as _Narrator
         from engagement_hooks import is_valid_target as _is_valid_target
+
         if not _is_valid_target(target):
             raise ValueError(f"invalid target: {target!r}")
         self._target = target
@@ -2582,6 +2680,7 @@ class EngageOrchestrator:
         if approval_gate is None:
             try:
                 from lazyown_policy import ApprovalGate as _Gate
+
                 approval_gate = _Gate()
             except Exception:
                 approval_gate = None
@@ -2589,8 +2688,7 @@ class EngageOrchestrator:
         self._fallback = fallback_resolver or BridgeFallbackResolver()
         self._shell = shell_detector or _ShellDetector(self._narrator)
         self._plan = plan or tuple(
-            EnginePhaseStep(phase=p, primary=c, label=_label)
-            for p, c, _label in _ENGAGE_PHASE_ORDER
+            EnginePhaseStep(phase=p, primary=c, label=_label) for p, c, _label in _ENGAGE_PHASE_ORDER
         )
         self._max_switches = max(0, int(max_switches_per_step))
         self._engagement_id = uuid.uuid4().hex[:8]
@@ -2632,15 +2730,17 @@ class EngageOrchestrator:
                 pass
 
             result = self._run_step(step)
-            results.append({
-                "phase":          result.step.phase,
-                "label":          result.step.label,
-                "command":        result.command_used,
-                "switched_from":  result.switched_from,
-                "success":        result.success,
-                "skipped_reason": result.skipped_reason,
-                "output_tail":    (result.output or "")[-400:],
-            })
+            results.append(
+                {
+                    "phase": result.step.phase,
+                    "label": result.step.label,
+                    "command": result.command_used,
+                    "switched_from": result.switched_from,
+                    "success": result.success,
+                    "skipped_reason": result.skipped_reason,
+                    "output_tail": (result.output or "")[-400:],
+                }
+            )
 
             self._shell.poll(target=self._target)
             if self._shell.detect_in_output(result.output, target=self._target):
@@ -2657,23 +2757,20 @@ class EngageOrchestrator:
         self._narrator.narrate(
             kind="ENGAGE_DONE",
             target=self._target,
-            message=(
-                f"engagement {self._engagement_id} finished — "
-                f"{len(results)} steps, shell={shell_obtained}"
-            ),
+            message=(f"engagement {self._engagement_id} finished — {len(results)} steps, shell={shell_obtained}"),
             payload={
-                "engagement_id":  self._engagement_id,
+                "engagement_id": self._engagement_id,
                 "shell_obtained": shell_obtained,
-                "steps":          len(results),
+                "steps": len(results),
             },
             severity="critical" if shell_obtained else "info",
         )
 
         return {
-            "engagement_id":  self._engagement_id,
-            "target":         self._target,
+            "engagement_id": self._engagement_id,
+            "target": self._target,
             "shell_obtained": shell_obtained,
-            "steps":          results,
+            "steps": results,
         }
 
     def _run_step(self, step: EnginePhaseStep) -> EnginePhaseResult:
@@ -2685,8 +2782,8 @@ class EngageOrchestrator:
                 target=self._target,
                 message=f"{step.primary} denied at {step.phase} — {approval.rationale}",
                 payload={
-                    "phase":    step.phase,
-                    "command":  step.primary,
+                    "phase": step.phase,
+                    "command": step.primary,
                     "approval": approval.rationale,
                 },
                 severity="warning",
@@ -2711,9 +2808,9 @@ class EngageOrchestrator:
                 message=f"{step.label} via {command}",
                 payload={
                     "engagement_id": self._engagement_id,
-                    "phase":         step.phase,
-                    "command":       command,
-                    "attempt":       attempt,
+                    "phase": step.phase,
+                    "command": command,
+                    "attempt": attempt,
                 },
             )
             try:
@@ -2729,10 +2826,10 @@ class EngageOrchestrator:
                     target=self._target,
                     message=f"{command} succeeded ({len(output)} bytes)",
                     payload={
-                        "phase":         step.phase,
-                        "command":       command,
+                        "phase": step.phase,
+                        "command": command,
                         "switched_from": switched_from,
-                        "output_size":   len(output),
+                        "output_size": len(output),
                     },
                 )
                 return EnginePhaseResult(
@@ -2748,10 +2845,10 @@ class EngageOrchestrator:
                 target=self._target,
                 message=f"{command} failed — searching fallback",
                 payload={
-                    "phase":   step.phase,
+                    "phase": step.phase,
                     "command": command,
                     "attempt": attempt,
-                    "tail":    output[-200:],
+                    "tail": output[-200:],
                 },
                 severity="warning",
             )
@@ -2796,10 +2893,10 @@ class EngageOrchestrator:
                 target=self._target,
                 message=f"switching {command} -> {next_cmd}",
                 payload={
-                    "phase":     step.phase,
-                    "from":      command,
-                    "to":        next_cmd,
-                    "attempt":   attempt,
+                    "phase": step.phase,
+                    "from": command,
+                    "to": next_cmd,
+                    "attempt": attempt,
                 },
                 severity="warning",
             )
@@ -2834,12 +2931,24 @@ class EngageOrchestrator:
             return False
         low = output.lower()
         failure_markers = (
-            "error", "failed", "no such", "command not found",
-            "traceback", "refused", "timeout",
+            "error",
+            "failed",
+            "no such",
+            "command not found",
+            "traceback",
+            "refused",
+            "timeout",
         )
         success_markers = (
-            "found", "success", "open", "hash", "discovered",
-            "credential", "uid=", "started", "listening",
+            "found",
+            "success",
+            "open",
+            "hash",
+            "discovered",
+            "credential",
+            "uid=",
+            "started",
+            "listening",
         )
         if any(m in low for m in success_markers):
             return True
@@ -2902,8 +3011,8 @@ def _engage_run_sync(
             gate = ScopeBoundAutoGate()
         except Exception as exc:
             log.warning(
-                "auto engage: ScopeBoundAutoGate unavailable (%s); "
-                "falling back to the default approval gate", exc,
+                "auto engage: ScopeBoundAutoGate unavailable (%s); falling back to the default approval gate",
+                exc,
             )
             gate = None
     orch = EngageOrchestrator(
@@ -2946,16 +3055,21 @@ def mcp_engage_target(
     """
     try:
         from engagement_hooks import is_valid_target as _ivt
+
         if not _ivt(target):
-            return json.dumps({
-                "status":  "error",
-                "message": f"invalid target: {target!r}",
-            })
+            return json.dumps(
+                {
+                    "status": "error",
+                    "message": f"invalid target: {target!r}",
+                }
+            )
     except Exception:
-        return json.dumps({
-            "status":  "error",
-            "message": "engagement_hooks module unavailable",
-        })
+        return json.dumps(
+            {
+                "status": "error",
+                "message": "engagement_hooks module unavailable",
+            }
+        )
 
     if not detach:
         try:
@@ -2971,11 +3085,15 @@ def mcp_engage_target(
             _engage_run_sync(target, max_switches_per_step, auto=auto)
         except Exception as exc:
             log.error("engage worker error: %s", exc)
-            _emit("ENGAGE_WORKER_ERROR", {
-                "engagement_id": engagement_id,
-                "target":        target,
-                "error":         str(exc),
-            }, severity="critical")
+            _emit(
+                "ENGAGE_WORKER_ERROR",
+                {
+                    "engagement_id": engagement_id,
+                    "target": target,
+                    "error": str(exc),
+                },
+                severity="critical",
+            )
 
     thread = threading.Thread(
         target=_worker,
@@ -2984,15 +3102,18 @@ def mcp_engage_target(
     )
     thread.start()
 
-    return json.dumps({
-        "status":         "started",
-        "engagement_id":  engagement_id,
-        "target":         target,
-        "message":        (
-            "Engagement started in background. "
-            "Poll progress with lazyown_engage_status or read sessions/engagement.log."
-        ),
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "started",
+            "engagement_id": engagement_id,
+            "target": target,
+            "message": (
+                "Engagement started in background. "
+                "Poll progress with lazyown_engage_status or read sessions/engagement.log."
+            ),
+        },
+        indent=2,
+    )
 
 
 def mcp_engage_status(last_n: int = 20) -> str:
@@ -3009,12 +3130,16 @@ def mcp_engage_status(last_n: int = 20) -> str:
         except Exception as exc:
             return json.dumps({"status": "error", "message": str(exc)})
     pending = list_pending_approvals()
-    return json.dumps({
-        "status":           "ok",
-        "lines":            lines,
-        "pending_approvals": pending,
-        "log_path":         str(ENGAGEMENT_LOG),
-    }, indent=2, default=str)
+    return json.dumps(
+        {
+            "status": "ok",
+            "lines": lines,
+            "pending_approvals": pending,
+            "log_path": str(ENGAGEMENT_LOG),
+        },
+        indent=2,
+        default=str,
+    )
 
 
 def mcp_engage_approve(approval_id: str, decision: str, operator: str = "") -> str:
@@ -3025,16 +3150,21 @@ def mcp_engage_approve(approval_id: str, decision: str, operator: str = "") -> s
         return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
     ok = resolve_approval(approval_id, decision, operator)
     if not ok:
-        return json.dumps({
-            "status":  "error",
-            "message": "invalid approval_id or decision (use approved|denied)",
-        })
-    return json.dumps({
-        "status":      "ok",
-        "approval_id": approval_id,
-        "decision":    decision,
-        "operator":    operator or "system",
-    }, indent=2)
+        return json.dumps(
+            {
+                "status": "error",
+                "message": "invalid approval_id or decision (use approved|denied)",
+            }
+        )
+    return json.dumps(
+        {
+            "status": "ok",
+            "approval_id": approval_id,
+            "decision": decision,
+            "operator": operator or "system",
+        },
+        indent=2,
+    )
 
 
 def mcp_engage_list_pending() -> str:
@@ -3044,11 +3174,15 @@ def mcp_engage_list_pending() -> str:
     except Exception:
         return json.dumps({"status": "error", "message": "engagement_hooks unavailable"})
     pending = list_pending_approvals()
-    return json.dumps({
-        "status":  "ok",
-        "count":   len(pending),
-        "pending": pending,
-    }, indent=2, default=str)
+    return json.dumps(
+        {
+            "status": "ok",
+            "count": len(pending),
+            "pending": pending,
+        },
+        indent=2,
+        default=str,
+    )
 
 
 def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False) -> None:
@@ -3066,14 +3200,14 @@ def cmd_engage(target: str, max_switches_per_step: int = 3, detach: bool = False
 # ─────────────────────────────────────────────────────────────────────────────
 
 _daemon_stats: dict[str, Any] = {
-    "started_at":        None,
-    "objectives_done":   0,
+    "started_at": None,
+    "objectives_done": 0,
     "objectives_failed": 0,
-    "steps_run":         0,
-    "drones_spawned":    0,
-    "events_emitted":    0,
+    "steps_run": 0,
+    "drones_spawned": 0,
+    "events_emitted": 0,
     "current_objective": None,
-    "current_phase":     "idle",
+    "current_phase": "idle",
     "last_objective_ts": None,
 }
 _should_stop = threading.Event()
@@ -3082,14 +3216,13 @@ _should_stop = threading.Event()
 def _write_status() -> None:
     """Persist current daemon stats to STATUS_FILE."""
     try:
-        STATUS_FILE.write_text(
-            json.dumps({**_daemon_stats, "pid": os.getpid()}, indent=2, default=str)
-        )
+        STATUS_FILE.write_text(json.dumps({**_daemon_stats, "pid": os.getpid()}, indent=2, default=str))
     except Exception:
         pass
 
 
 # ── Role 1 — Objective Loop ───────────────────────────────────────────────────
+
 
 async def objective_loop(
     max_steps: int,
@@ -3103,14 +3236,14 @@ async def objective_loop(
         log.error("ObjectiveStore not available — objective_loop disabled")
         return
 
-    store    = _ObjectiveStore()
-    runner   = _build_default_runner()
+    store = _ObjectiveStore()
+    runner = _build_default_runner()
     strategy = StrategyEngine(runner=runner)
-    coord    = DroneCoordinator()
+    coord = DroneCoordinator()
 
     world_model = _WorldModel() if _WorldModel else None
-    obs_parser  = _ObsParser()  if _ObsParser  else None
-    facts       = _FactStore()  if _FactStore   else None
+    obs_parser = _ObsParser() if _ObsParser else None
+    facts = _FactStore() if _FactStore else None
 
     engine = ExecutionEngine(
         strategy=strategy,
@@ -3136,17 +3269,11 @@ async def objective_loop(
             continue
 
         payload = _load_payload()
-        target  = (
-            obj.context.get("target", "")
-            or obj.context.get("rhost", "")
-            or payload.get("rhost", "127.0.0.1")
-        )
+        target = obj.context.get("target", "") or obj.context.get("rhost", "") or payload.get("rhost", "127.0.0.1")
 
         _daemon_stats["current_objective"] = obj.id
-        _daemon_stats["current_phase"]     = "running"
-        _daemon_stats["last_objective_ts"] = datetime.datetime.now(
-            datetime.UTC
-        ).isoformat()
+        _daemon_stats["current_phase"] = "running"
+        _daemon_stats["last_objective_ts"] = datetime.datetime.now(datetime.UTC).isoformat()
         _write_status()
 
         try:
@@ -3170,20 +3297,22 @@ async def objective_loop(
                 pass
             _update_task_status(obj.text, "Blocked")
             _daemon_stats["objectives_failed"] += 1
-            _daemon_stats["current_objective"]  = None
-            _daemon_stats["current_phase"]      = "idle"
+            _daemon_stats["current_objective"] = None
+            _daemon_stats["current_phase"] = "idle"
             _write_status()
             continue
 
         all_findings = [f for r in results for f in r.findings]
-        drone_ids    = coord.process_findings(
-            all_findings, target, obj.id,
+        drone_ids = coord.process_findings(
+            all_findings,
+            target,
+            obj.id,
             payload_key=payload.get("api_key", ""),
         )
 
         if _get_hive:
             try:
-                hive    = _get_hive()
+                hive = _get_hive()
                 summary = (
                     f"[AUTONOMOUS] objective={obj.text[:100]} target={target} "
                     f"steps={len(results)} findings={len(all_findings)}"
@@ -3203,18 +3332,20 @@ async def objective_loop(
             pass
         _update_task_status(obj.text, "Done")
 
-        _daemon_stats["objectives_done"]  += 1
-        _daemon_stats["steps_run"]        += len(results)
-        _daemon_stats["drones_spawned"]   += len(drone_ids)
+        _daemon_stats["objectives_done"] += 1
+        _daemon_stats["steps_run"] += len(results)
+        _daemon_stats["drones_spawned"] += len(drone_ids)
         _daemon_stats["current_objective"] = None
-        _daemon_stats["current_phase"]     = "idle"
+        _daemon_stats["current_phase"] = "idle"
         _write_status()
 
-        log.info("[%s] completed — %d steps, %d findings, %d drones",
-                 obj.id, len(results), len(all_findings), len(drone_ids))
+        log.info(
+            "[%s] completed — %d steps, %d findings, %d drones", obj.id, len(results), len(all_findings), len(drone_ids)
+        )
 
 
 # ── Role 2 — WorldModel Watcher ───────────────────────────────────────────────
+
 
 async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
     """
@@ -3222,7 +3353,7 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
     new service versions are found, or active beacons are detected,
     auto-inject derived objectives.
     """
-    wm_file   = SESSIONS_DIR / "world_model.json"
+    wm_file = SESSIONS_DIR / "world_model.json"
     last_snap: dict = {}
     _seen_service_versions: set = set()
     _seen_beacon_ips: set = set()
@@ -3249,12 +3380,13 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
 
         prev_hosts = set(last_snap.get("hosts", {}).keys())
         curr_hosts = set(snap.get("hosts", {}).keys())
-        new_hosts  = curr_hosts - prev_hosts
+        new_hosts = curr_hosts - prev_hosts
         for host in new_hosts:
             text = f"Enumerate newly discovered host {host}"
             try:
                 obj = store.inject(
-                    text=text, priority="high",
+                    text=text,
+                    priority="high",
                     source="world_model_watcher",
                     context={"target": host},
                 )
@@ -3264,9 +3396,15 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                     operator="world_model_watcher",
                     status="New",
                 )
-                _emit("OBJECTIVE_AUTO_INJECTED", {
-                    "text": text, "trigger": "new_host", "host": host, "task_id": task_id,
-                })
+                _emit(
+                    "OBJECTIVE_AUTO_INJECTED",
+                    {
+                        "text": text,
+                        "trigger": "new_host",
+                        "host": host,
+                        "task_id": task_id,
+                    },
+                )
             except Exception as exc:
                 log.debug("inject error: %s", exc)
 
@@ -3274,13 +3412,14 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         curr_creds = len(snap.get("credentials", []))
         if curr_creds > prev_creds:
             new_count = curr_creds - prev_creds
-            creds     = snap.get("credentials", [])[-new_count:]
+            creds = snap.get("credentials", [])[-new_count:]
             for cred in creds:
                 cred_str = json.dumps(cred)[:80]
-                text     = f"Leverage new credential: {cred_str}"
+                text = f"Leverage new credential: {cred_str}"
                 try:
                     obj = store.inject(
-                        text=text, priority="critical",
+                        text=text,
+                        priority="critical",
                         source="world_model_watcher",
                         context={"credential": cred},
                     )
@@ -3290,9 +3429,15 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                         operator="world_model_watcher",
                         status="New",
                     )
-                    _emit("OBJECTIVE_AUTO_INJECTED", {
-                        "text": text, "trigger": "new_credential", "task_id": task_id,
-                    }, severity="warning")
+                    _emit(
+                        "OBJECTIVE_AUTO_INJECTED",
+                        {
+                            "text": text,
+                            "trigger": "new_credential",
+                            "task_id": task_id,
+                        },
+                        severity="warning",
+                    )
                 except Exception:
                     pass
 
@@ -3305,7 +3450,7 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
         # ── Auto-CVE: inject CVE-search objectives for new service versions ──
         for host, hdata in snap.get("hosts", {}).items():
             for port, svc in hdata.get("services", {}).items():
-                version  = svc.get("version", "")
+                version = svc.get("version", "")
                 svc_name = svc.get("name", "")
                 if not version or not svc_name:
                     continue
@@ -3316,7 +3461,8 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                 text = f"Search CVEs for {svc_name} {version} on {host}:{port}"
                 try:
                     obj = store.inject(
-                        text=text, priority="medium",
+                        text=text,
+                        priority="medium",
                         source="world_model_watcher",
                         context={"target": host, "service": svc_name, "version": version},
                     )
@@ -3326,10 +3472,16 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                         operator="world_model_watcher",
                         status="New",
                     )
-                    _emit("OBJECTIVE_AUTO_INJECTED", {
-                        "text": text, "trigger": "new_service_version",
-                        "host": host, "service": svc_name, "version": version,
-                    })
+                    _emit(
+                        "OBJECTIVE_AUTO_INJECTED",
+                        {
+                            "text": text,
+                            "trigger": "new_service_version",
+                            "host": host,
+                            "service": svc_name,
+                            "version": version,
+                        },
+                    )
                     log.info("WMWatcher: CVE objective injected for %s %s", svc_name, version)
                 except Exception as exc:
                     log.debug("CVE inject error: %s", exc)
@@ -3341,18 +3493,15 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                 beacons = json.loads(beacons_file.read_text())
                 if isinstance(beacons, list):
                     for beacon in beacons:
-                        beacon_ip = (
-                            beacon.get("ip", "")
-                            or beacon.get("host", "")
-                            or beacon.get("client_id", "")
-                        )
+                        beacon_ip = beacon.get("ip", "") or beacon.get("host", "") or beacon.get("client_id", "")
                         if not beacon_ip or beacon_ip in _seen_beacon_ips:
                             continue
                         _seen_beacon_ips.add(beacon_ip)
                         text = f"Post-exploit active C2 beacon on {beacon_ip}"
                         try:
                             obj = store.inject(
-                                text=text, priority="high",
+                                text=text,
+                                priority="high",
                                 source="beacon_watcher",
                                 context={"target": beacon_ip},
                             )
@@ -3362,9 +3511,15 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
                                 operator="beacon_watcher",
                                 status="New",
                             )
-                            _emit("OBJECTIVE_AUTO_INJECTED", {
-                                "text": text, "trigger": "active_beacon", "host": beacon_ip,
-                            }, severity="warning")
+                            _emit(
+                                "OBJECTIVE_AUTO_INJECTED",
+                                {
+                                    "text": text,
+                                    "trigger": "active_beacon",
+                                    "host": beacon_ip,
+                                },
+                                severity="warning",
+                            )
                             log.info("WMWatcher: post-exploit objective for beacon %s", beacon_ip)
                         except Exception as exc:
                             log.debug("beacon inject error: %s", exc)
@@ -3376,6 +3531,7 @@ async def world_model_watcher(loop: asyncio.AbstractEventLoop) -> None:
 
 # ── Role 3 — Heartbeat ────────────────────────────────────────────────────────
 
+
 async def heartbeat_loop() -> None:
     """Emit heartbeat and write status every HEARTBEAT_S seconds."""
     health_file = SESSIONS_DIR / "daemon_health.json"
@@ -3384,45 +3540,54 @@ async def heartbeat_loop() -> None:
     while not _should_stop.is_set():
         await asyncio.sleep(HEARTBEAT_S)
         _daemon_stats["events_emitted"] += 1
-        _emit("HEARTBEAT", {
-            "pid":               os.getpid(),
-            "objectives_done":   _daemon_stats["objectives_done"],
-            "steps_run":         _daemon_stats["steps_run"],
-            "drones_spawned":    _daemon_stats["drones_spawned"],
-            "current_phase":     _daemon_stats["current_phase"],
-            "current_objective": _daemon_stats["current_objective"],
-        })
+        _emit(
+            "HEARTBEAT",
+            {
+                "pid": os.getpid(),
+                "objectives_done": _daemon_stats["objectives_done"],
+                "steps_run": _daemon_stats["steps_run"],
+                "drones_spawned": _daemon_stats["drones_spawned"],
+                "current_phase": _daemon_stats["current_phase"],
+                "current_objective": _daemon_stats["current_objective"],
+            },
+        )
         _write_status()
         try:
-            health_file.write_text(json.dumps({
-                "pid": os.getpid(),
-                "last_heartbeat_ts": time.time(),
-                "uptime_seconds": round(time.time() - _start_time, 1),
-                "cycles_completed": _daemon_stats["events_emitted"],
-                "error_count": _daemon_stats.get("errors", 0),
-                "phase": _daemon_stats["current_phase"],
-            }))
+            health_file.write_text(
+                json.dumps(
+                    {
+                        "pid": os.getpid(),
+                        "last_heartbeat_ts": time.time(),
+                        "uptime_seconds": round(time.time() - _start_time, 1),
+                        "cycles_completed": _daemon_stats["events_emitted"],
+                        "error_count": _daemon_stats.get("errors", 0),
+                        "phase": _daemon_stats["current_phase"],
+                    }
+                )
+            )
         except OSError:
             pass
-        log.info("heartbeat — done=%d steps=%d drones=%d",
-                 _daemon_stats["objectives_done"],
-                 _daemon_stats["steps_run"],
-                 _daemon_stats["drones_spawned"])
+        log.info(
+            "heartbeat — done=%d steps=%d drones=%d",
+            _daemon_stats["objectives_done"],
+            _daemon_stats["steps_run"],
+            _daemon_stats["drones_spawned"],
+        )
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 9 — Main asyncio entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
-    _daemon_stats["started_at"] = datetime.datetime.now(
-        datetime.UTC
-    ).isoformat()
+    _daemon_stats["started_at"] = datetime.datetime.now(datetime.UTC).isoformat()
     _write_status()
 
     try:
         from modules.event_consumers import wire_all_consumers as _wire_consumers
+
         _wire_consumers()
         log.info("Event consumers wired for autonomous daemon")
     except Exception:
@@ -3430,26 +3595,26 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
 
     loop = asyncio.get_event_loop()
 
-    _emit("DAEMON_START", {
-        "pid":         os.getpid(),
-        "max_steps":   max_steps,
-        "hive_backend": HIVE_BACKEND,
-    })
+    _emit(
+        "DAEMON_START",
+        {
+            "pid": os.getpid(),
+            "max_steps": max_steps,
+            "hive_backend": HIVE_BACKEND,
+        },
+    )
 
     tasks = [
-        asyncio.create_task(objective_loop(max_steps, loop),   name="objective_loop"),
-        asyncio.create_task(world_model_watcher(loop),         name="world_model_watcher"),
-        asyncio.create_task(heartbeat_loop(),                  name="heartbeat"),
+        asyncio.create_task(objective_loop(max_steps, loop), name="objective_loop"),
+        asyncio.create_task(world_model_watcher(loop), name="world_model_watcher"),
+        asyncio.create_task(heartbeat_loop(), name="heartbeat"),
     ]
 
-    log.info("LazyOwn autonomous daemon started (pid=%d max_steps=%d)",
-             os.getpid(), max_steps)
+    log.info("LazyOwn autonomous daemon started (pid=%d max_steps=%d)", os.getpid(), max_steps)
 
     ev_loop = asyncio.get_event_loop()
     for sig in (signal.SIGTERM, signal.SIGINT):
-        ev_loop.add_signal_handler(
-            sig, lambda: [_should_stop.set(), *[t.cancel() for t in tasks]]
-        )
+        ev_loop.add_signal_handler(sig, lambda: [_should_stop.set(), *[t.cancel() for t in tasks]])
 
     try:
         await asyncio.gather(*tasks)
@@ -3457,15 +3622,14 @@ async def _main_async(max_steps: int = MAX_STEPS_DEFAULT) -> None:
         log.info("daemon stopped")
     finally:
         _emit("DAEMON_STOP", {"pid": os.getpid()})
-        STATUS_FILE.write_text(
-            json.dumps({"status": "stopped", "pid": os.getpid()}, indent=2)
-        )
+        STATUS_FILE.write_text(json.dumps({"status": "stopped", "pid": os.getpid()}, indent=2))
         _clear_pid()
 
 
 # ─────────────────────────────────────────────────────────────────────────────
 # SECTION 10 — PID management + CLI
 # ─────────────────────────────────────────────────────────────────────────────
+
 
 def _write_pid() -> None:
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
@@ -3572,8 +3736,8 @@ def cmd_inject(text: str, priority: str = "high") -> None:
     if _ObjectiveStore is None:
         print("[auto] ObjectiveStore not available")
         sys.exit(1)
-    store   = _ObjectiveStore()
-    obj     = store.inject(text=text, priority=priority, source="cli")
+    store = _ObjectiveStore()
+    obj = store.inject(text=text, priority=priority, source="cli")
     task_id = _inject_to_tasks_json(
         title=text,
         description=f"Injected by CLI | objective_id={obj.id}",
@@ -3589,7 +3753,7 @@ def cmd_inject(text: str, priority: str = "high") -> None:
 # ─────────────────────────────────────────────────────────────────────────────
 
 _daemon_thread: threading.Thread | None = None
-_daemon_loop:   asyncio.AbstractEventLoop | None = None
+_daemon_loop: asyncio.AbstractEventLoop | None = None
 
 
 def mcp_autonomous_start(
@@ -3600,8 +3764,7 @@ def mcp_autonomous_start(
     global _daemon_thread, _daemon_loop, HIVE_BACKEND
 
     if _daemon_thread and _daemon_thread.is_alive():
-        return json.dumps({"status": "already_running",
-                           "message": "The autonomous daemon is already active"})
+        return json.dumps({"status": "already_running", "message": "The autonomous daemon is already active"})
 
     HIVE_BACKEND = backend
     _should_stop.clear()
@@ -3620,16 +3783,19 @@ def mcp_autonomous_start(
     _daemon_thread.start()
 
     _emit("DAEMON_START_MCP", {"max_steps": max_steps, "backend": backend})
-    return json.dumps({
-        "status":    "started",
-        "max_steps": max_steps,
-        "backend":   backend,
-        "message":   (
-            "Autonomous daemon active. Inject objectives with lazyown_autonomous_inject. "
-            "Monitor with lazyown_autonomous_status. "
-            "Read events in sessions/autonomous_events.jsonl"
-        ),
-    }, indent=2)
+    return json.dumps(
+        {
+            "status": "started",
+            "max_steps": max_steps,
+            "backend": backend,
+            "message": (
+                "Autonomous daemon active. Inject objectives with lazyown_autonomous_inject. "
+                "Monitor with lazyown_autonomous_status. "
+                "Read events in sessions/autonomous_events.jsonl"
+            ),
+        },
+        indent=2,
+    )
 
 
 def mcp_autonomous_stop() -> str:
@@ -3651,7 +3817,7 @@ def mcp_autonomous_stop() -> str:
 def mcp_autonomous_status() -> str:
     """Current daemon state: objectives, steps, drones, phase."""
     alive = bool(_daemon_thread and _daemon_thread.is_alive())
-    data  = {**_daemon_stats, "running": alive}
+    data = {**_daemon_stats, "running": alive}
     if STATUS_FILE.exists():
         try:
             disk = json.loads(STATUS_FILE.read_text())
@@ -3670,8 +3836,8 @@ def mcp_autonomous_inject(
     if _ObjectiveStore is None:
         return "[auto] ObjectiveStore not available"
     store = _ObjectiveStore()
-    ctx   = {"target": target} if target else {}
-    obj   = store.inject(text=text, priority=priority, source="mcp_claude", context=ctx)
+    ctx = {"target": target} if target else {}
+    obj = store.inject(text=text, priority=priority, source="mcp_claude", context=ctx)
 
     task_id = _inject_to_tasks_json(
         title=text,
@@ -3684,16 +3850,25 @@ def mcp_autonomous_inject(
         status="New",
     )
 
-    _emit("OBJECTIVE_INJECTED_MCP", {
-        "id": obj.id, "text": text[:200], "priority": priority, "task_id": task_id,
-    })
-    return json.dumps({
-        "id":       obj.id,
-        "text":     obj.text,
-        "priority": obj.priority,
-        "status":   obj.status,
-        "task_id":  task_id,
-    }, indent=2)
+    _emit(
+        "OBJECTIVE_INJECTED_MCP",
+        {
+            "id": obj.id,
+            "text": text[:200],
+            "priority": priority,
+            "task_id": task_id,
+        },
+    )
+    return json.dumps(
+        {
+            "id": obj.id,
+            "text": obj.text,
+            "priority": obj.priority,
+            "status": obj.status,
+            "task_id": task_id,
+        },
+        indent=2,
+    )
 
 
 def mcp_autonomous_events(last_n: int = 20) -> str:
@@ -3701,8 +3876,8 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
     if not EVENTS_FILE.exists():
         return "No events yet. Start the daemon with lazyown_autonomous_start."
     try:
-        lines  = EVENTS_FILE.read_text(encoding="utf-8", errors="replace").splitlines()
-        last   = lines[-last_n:]
+        lines = EVENTS_FILE.read_text(encoding="utf-8", errors="replace").splitlines()
+        last = lines[-last_n:]
         events = []
         for line in last:
             try:
@@ -3713,7 +3888,7 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
             return "No readable events."
         out = []
         for e in events:
-            ts  = e.get("ts", "")[:19]
+            ts = e.get("ts", "")[:19]
             typ = e.get("type", "?")
             pay = e.get("payload", {})
             out.append(f"[{ts}] {typ}: {json.dumps(pay, default=str)[:120]}")
@@ -3726,6 +3901,7 @@ def mcp_autonomous_events(last_n: int = 20) -> str:
 # SECTION 12 — CLI entry point
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 def _dispatch_pipeline(args: argparse.Namespace) -> None:
     """Daemon-side pipeline subcommand handler.
 
@@ -3736,10 +3912,14 @@ def _dispatch_pipeline(args: argparse.Namespace) -> None:
         sys.path.insert(0, str(MODULES_DIR))
         from pipeline_engine import cmd_pipeline as _pl_cmd
     except Exception as exc:
-        print(json.dumps({
-            "status":  "error",
-            "message": f"pipeline_engine import failed: {exc}",
-        }))
+        print(
+            json.dumps(
+                {
+                    "status": "error",
+                    "message": f"pipeline_engine import failed: {exc}",
+                }
+            )
+        )
         return
     _pl_cmd(
         action=args.action,
@@ -3750,9 +3930,9 @@ def _dispatch_pipeline(args: argparse.Namespace) -> None:
 
 
 _COMMANDS = {
-    "run":    lambda args: cmd_run(int(args.max_steps)),
-    "start":  lambda args: cmd_start(int(args.max_steps)),
-    "stop":   lambda _: cmd_stop(),
+    "run": lambda args: cmd_run(int(args.max_steps)),
+    "start": lambda args: cmd_start(int(args.max_steps)),
+    "stop": lambda _: cmd_stop(),
     "status": lambda _: cmd_status(),
     "inject": lambda args: cmd_inject(args.text, args.priority),
     "engage": lambda args: cmd_engage(
@@ -3774,16 +3954,14 @@ if __name__ == "__main__":
 
     for _cmd in ("run", "start"):
         p = sub.add_parser(_cmd)
-        p.add_argument("--max-steps", default=MAX_STEPS_DEFAULT,
-                       help="Maximum steps per objective")
+        p.add_argument("--max-steps", default=MAX_STEPS_DEFAULT, help="Maximum steps per objective")
 
     sub.add_parser("stop")
     sub.add_parser("status")
 
     p_inj = sub.add_parser("inject")
     p_inj.add_argument("text")
-    p_inj.add_argument("--priority", default="high",
-                       choices=["low", "medium", "high", "critical"])
+    p_inj.add_argument("--priority", default="high", choices=["low", "medium", "high", "critical"])
 
     p_eng = sub.add_parser(
         "engage",
@@ -3813,10 +3991,13 @@ if __name__ == "__main__":
     )
     p_pl.add_argument("name", nargs="?", default="", help="Pipeline name.")
     p_pl.add_argument(
-        "--target", default="", help="Optional target override for pipeline run.",
+        "--target",
+        default="",
+        help="Optional target override for pipeline run.",
     )
     p_pl.add_argument(
-        "--background", action="store_true",
+        "--background",
+        action="store_true",
         help="Detach the pipeline into a background worker thread.",
     )
 

@@ -54,8 +54,13 @@ class TestJsonLineFormatter:
 
         fmt = _JsonLineFormatter()
         record = logging.LogRecord(
-            name="test", level=logging.INFO, pathname=__file__,
-            lineno=1, msg="hello world", args=(), exc_info=None,
+            name="test",
+            level=logging.INFO,
+            pathname=__file__,
+            lineno=1,
+            msg="hello world",
+            args=(),
+            exc_info=None,
         )
         record.component = "test-component"
         record.rhost = "10.0.0.1"
@@ -73,8 +78,13 @@ class TestJsonLineFormatter:
 
         fmt = _JsonLineFormatter(redacted_fields={"password", "token"})
         record = logging.LogRecord(
-            name="test", level=logging.INFO, pathname=__file__,
-            lineno=1, msg="auth", args=(), exc_info=None,
+            name="test",
+            level=logging.INFO,
+            pathname=__file__,
+            lineno=1,
+            msg="auth",
+            args=(),
+            exc_info=None,
         )
         setattr(record, "_extra_password", "s3cr3t")
         setattr(record, "_extra_token", "abc123")
@@ -95,8 +105,12 @@ class TestJsonLineFormatter:
             raise ValueError("boom")
         except ValueError:
             record = logging.LogRecord(
-                name="test", level=logging.ERROR, pathname=__file__,
-                lineno=1, msg="failure", args=(),
+                name="test",
+                level=logging.ERROR,
+                pathname=__file__,
+                lineno=1,
+                msg="failure",
+                args=(),
                 exc_info=sys.exc_info(),
             )
         line = fmt.format(record)
@@ -113,7 +127,13 @@ class TestStructuredLogger:
 
         logger = StructuredLogger("test", level=0)
         record = logger.makeRecord(
-            "test", 20, __file__, 1, "msg", (), None,
+            "test",
+            20,
+            __file__,
+            1,
+            "msg",
+            (),
+            None,
             extra={"phase": "recon", "rhost": "10.0.0.5", "duration_ms": 150},
         )
         assert getattr(record, "phase", None) == "recon"
@@ -215,6 +235,7 @@ class TestInstallJsonHandler:
         kinds = {type(h) for h in log.handlers}
         assert logging.StreamHandler in kinds
         from logging.handlers import RotatingFileHandler
+
         assert RotatingFileHandler in kinds
 
     def test_warm_logger_keeps_custom_handler_and_appends_json_file(self, tmp_path):
@@ -234,9 +255,7 @@ class TestInstallJsonHandler:
         install_json_handler("warm_wire", cfg)
 
         assert custom in logger.handlers
-        assert any(
-            isinstance(h, RotatingFileHandler) for h in logger.handlers
-        )
+        assert any(isinstance(h, RotatingFileHandler) for h in logger.handlers)
 
     def test_second_install_is_idempotent(self, tmp_path):
         from logging.handlers import RotatingFileHandler
@@ -249,14 +268,9 @@ class TestInstallJsonHandler:
         cfg = StructuredLogConfig(log_dir=str(tmp_path), log_filename="once.log")
         install_json_handler("idem_wire", cfg)
         from core.logging import get_logger
+
         log = get_logger("idem_wire")
-        before = sum(
-            1 for h in log.handlers
-            if isinstance(h, RotatingFileHandler)
-        )
+        before = sum(1 for h in log.handlers if isinstance(h, RotatingFileHandler))
         install_json_handler("idem_wire", cfg)
-        after = sum(
-            1 for h in log.handlers
-            if isinstance(h, RotatingFileHandler)
-        )
+        after = sum(1 for h in log.handlers if isinstance(h, RotatingFileHandler))
         assert before == after == 1

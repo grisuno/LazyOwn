@@ -68,7 +68,9 @@ class IntelligenceConfig:
     auto_disseminate: bool = True
     intel_report_path: str = "sessions/intel_report.json"
     placeholder_tokens: tuple[str, ...] = (
-        "CHANGE_ME", "CHANGEME", "YOUR_API_KEY_HERE",
+        "CHANGE_ME",
+        "CHANGEME",
+        "YOUR_API_KEY_HERE",
     )
 
 
@@ -170,10 +172,16 @@ class IntelligenceEngine:
                 if addr_el.get("addrtype") == "ipv4":
                     ip = addr_el.get("addr", "")
                     if ip and ip not in ("0.0.0.0", "127.0.0.1", "255.255.255.255"):
-                        new_facts.append(CollectedFact(
-                            source="nmap", fact_type="host", value=ip, host=target,
-                            confidence=1.0, raw=ET.tostring(addr_el, encoding="unicode")[:200],
-                        ))
+                        new_facts.append(
+                            CollectedFact(
+                                source="nmap",
+                                fact_type="host",
+                                value=ip,
+                                host=target,
+                                confidence=1.0,
+                                raw=ET.tostring(addr_el, encoding="unicode")[:200],
+                            )
+                        )
 
             for port_el in root.iter("port"):
                 state_el = port_el.find("state")
@@ -190,34 +198,52 @@ class IntelligenceEngine:
                 svc_extra = svc_el.get("extrainfo", "")
                 full_version = f"{svc_product} {svc_version} {svc_extra}".strip()
 
-                new_facts.append(CollectedFact(
-                    source="nmap", fact_type="service", value=svc_name,
-                    host=target, port=int(portid), confidence=0.95,
-                    metadata={
-                        "port": int(portid), "protocol": protocol,
-                        "product": svc_product, "version": svc_version,
-                        "full_version": full_version,
-                    },
-                    raw=ET.tostring(port_el, encoding="unicode")[:200],
-                ))
+                new_facts.append(
+                    CollectedFact(
+                        source="nmap",
+                        fact_type="service",
+                        value=svc_name,
+                        host=target,
+                        port=int(portid),
+                        confidence=0.95,
+                        metadata={
+                            "port": int(portid),
+                            "protocol": protocol,
+                            "product": svc_product,
+                            "version": svc_version,
+                            "full_version": full_version,
+                        },
+                        raw=ET.tostring(port_el, encoding="unicode")[:200],
+                    )
+                )
 
             for osmatch in root.iter("osmatch"):
                 os_name = osmatch.get("name", "").lower()
                 if os_name:
-                    new_facts.append(CollectedFact(
-                        source="nmap", fact_type="os", value=os_name,
-                        host=target, confidence=0.8,
-                        metadata={"os_accuracy": osmatch.get("accuracy", "")},
-                    ))
+                    new_facts.append(
+                        CollectedFact(
+                            source="nmap",
+                            fact_type="os",
+                            value=os_name,
+                            host=target,
+                            confidence=0.8,
+                            metadata={"os_accuracy": osmatch.get("accuracy", "")},
+                        )
+                    )
                     break
 
             for hostname_el in root.iter("hostname"):
                 name = hostname_el.get("name", "")
                 if name and "." in name:
-                    new_facts.append(CollectedFact(
-                        source="nmap", fact_type="domain", value=name,
-                        host=target, confidence=0.9,
-                    ))
+                    new_facts.append(
+                        CollectedFact(
+                            source="nmap",
+                            fact_type="domain",
+                            value=name,
+                            host=target,
+                            confidence=0.9,
+                        )
+                    )
                     break
 
         except Exception as exc:
@@ -226,9 +252,7 @@ class IntelligenceEngine:
         self._facts.extend(new_facts)
         return new_facts
 
-    def collect_from_tool(
-        self, output: str, tool: str, host: str = ""
-    ) -> list[CollectedFact]:
+    def collect_from_tool(self, output: str, tool: str, host: str = "") -> list[CollectedFact]:
         """Parse tool output into structured facts using ObsParser.
 
         Args:
@@ -248,15 +272,17 @@ class IntelligenceEngine:
             for finding in obs.findings:
                 if self._is_placeholder(finding.value):
                     continue
-                new_facts.append(CollectedFact(
-                    source=tool,
-                    fact_type=str(finding.type),
-                    value=finding.value,
-                    host=host,
-                    confidence=finding.confidence,
-                    raw=finding.raw[:200],
-                    metadata=finding.metadata or {},
-                ))
+                new_facts.append(
+                    CollectedFact(
+                        source=tool,
+                        fact_type=str(finding.type),
+                        value=finding.value,
+                        host=host,
+                        confidence=finding.confidence,
+                        raw=finding.raw[:200],
+                        metadata=finding.metadata or {},
+                    )
+                )
         except Exception as exc:
             self._warnings.append(f"Tool output parse failed ({tool}): {exc}")
 
@@ -287,11 +313,16 @@ class IntelligenceEngine:
                     val = item.get("value") or item.get("domain") or item.get("url", "")
                     ftype = item.get("type", "osint")
                     if val and not self._is_placeholder(val):
-                        new_facts.append(CollectedFact(
-                            source="estorides", fact_type=ftype, value=str(val),
-                            host=target, confidence=float(item.get("confidence", 0.5)),
-                            metadata=item,
-                        ))
+                        new_facts.append(
+                            CollectedFact(
+                                source="estorides",
+                                fact_type=ftype,
+                                value=str(val),
+                                host=target,
+                                confidence=float(item.get("confidence", 0.5)),
+                                metadata=item,
+                            )
+                        )
         except ImportError:
             self._warnings.append("Estorides importer not available")
         except Exception as exc:
@@ -324,14 +355,16 @@ class IntelligenceEngine:
             findings = parser.parse(output)
             for f in findings if isinstance(findings, list) else [findings]:
                 if isinstance(f, dict):
-                    new_facts.append(CollectedFact(
-                        source="nuclei",
-                        fact_type="vulnerability",
-                        value=f.get("name") or f.get("template_id", ""),
-                        host=target,
-                        confidence=float(f.get("confidence", 0.7)),
-                        metadata=f,
-                    ))
+                    new_facts.append(
+                        CollectedFact(
+                            source="nuclei",
+                            fact_type="vulnerability",
+                            value=f.get("name") or f.get("template_id", ""),
+                            host=target,
+                            confidence=float(f.get("confidence", 0.7)),
+                            metadata=f,
+                        )
+                    )
         except ImportError:
             self._warnings.append("Nuclei bridge not available")
         except Exception as exc:
@@ -361,14 +394,16 @@ class IntelligenceEngine:
             for match in results if isinstance(results, list) else [results]:
                 if isinstance(match, dict):
                     rule_name = match.get("rule", match.get("name", ""))
-                    new_facts.append(CollectedFact(
-                        source="yara",
-                        fact_type="ioc",
-                        value=rule_name,
-                        host=target_path,
-                        confidence=float(match.get("confidence", 0.8)),
-                        metadata=match,
-                    ))
+                    new_facts.append(
+                        CollectedFact(
+                            source="yara",
+                            fact_type="ioc",
+                            value=rule_name,
+                            host=target_path,
+                            confidence=float(match.get("confidence", 0.8)),
+                            metadata=match,
+                        )
+                    )
         except ImportError:
             self._warnings.append("YARA scanner not available")
         except Exception as exc:
@@ -395,26 +430,40 @@ class IntelligenceEngine:
                     continue
                 for svc in host_data.get("services", []):
                     if isinstance(svc, dict):
-                        new_facts.append(CollectedFact(
-                            source="factstore", fact_type="service",
-                            value=svc.get("name", ""), host=host_ip,
-                            port=int(svc.get("port", 0)), confidence=0.9,
-                            metadata=svc,
-                        ))
+                        new_facts.append(
+                            CollectedFact(
+                                source="factstore",
+                                fact_type="service",
+                                value=svc.get("name", ""),
+                                host=host_ip,
+                                port=int(svc.get("port", 0)),
+                                confidence=0.9,
+                                metadata=svc,
+                            )
+                        )
                 if host_data.get("os_hint"):
-                    new_facts.append(CollectedFact(
-                        source="factstore", fact_type="os",
-                        value=host_data["os_hint"], host=host_ip, confidence=0.7,
-                    ))
+                    new_facts.append(
+                        CollectedFact(
+                            source="factstore",
+                            fact_type="os",
+                            value=host_data["os_hint"],
+                            host=host_ip,
+                            confidence=0.7,
+                        )
+                    )
             for cred in data.get("credentials", []):
                 if isinstance(cred, dict) and cred.get("value"):
                     val = str(cred["value"])
                     if not self._is_placeholder(val):
-                        new_facts.append(CollectedFact(
-                            source="factstore", fact_type="credential",
-                            value=val,
-                            host=str(cred.get("host", "")), confidence=0.8,
-                        ))
+                        new_facts.append(
+                            CollectedFact(
+                                source="factstore",
+                                fact_type="credential",
+                                value=val,
+                                host=str(cred.get("host", "")),
+                                confidence=0.8,
+                            )
+                        )
         except Exception as exc:
             self._warnings.append(f"Factstore ingestion failed: {exc}")
 
@@ -451,37 +500,38 @@ class IntelligenceEngine:
             product = sf.metadata.get("product", "")
             version = sf.metadata.get("version", "")
             combo = f"{sf.value} {product} {version}".lower()
-            matched_vulns = [
-                vf for vf in vuln_facts
-                if vf.host == sf.host and vf.value not in seen
-            ]
+            matched_vulns = [vf for vf in vuln_facts if vf.host == sf.host and vf.value not in seen]
             for vf in matched_vulns:
                 seen.add(vf.value)
-                self._assessments.append(IntelligenceAssessment(
-                    subject=f"{sf.host}:{sf.port}/{sf.value}",
-                    category="vulnerable_service",
-                    confidence=min(vf.confidence, sf.confidence),
-                    severity=vf.metadata.get("severity", "MEDIUM"),
-                    mitre_technique=vf.metadata.get("mitre_technique", ""),
-                    source_facts=[sf.value, vf.value],
-                    recommendation=f"Exploit {vf.value} against {sf.host}:{sf.port}",
-                    impact=f"{product} {version} on port {sf.port}",
-                ))
+                self._assessments.append(
+                    IntelligenceAssessment(
+                        subject=f"{sf.host}:{sf.port}/{sf.value}",
+                        category="vulnerable_service",
+                        confidence=min(vf.confidence, sf.confidence),
+                        severity=vf.metadata.get("severity", "MEDIUM"),
+                        mitre_technique=vf.metadata.get("mitre_technique", ""),
+                        source_facts=[sf.value, vf.value],
+                        recommendation=f"Exploit {vf.value} against {sf.host}:{sf.port}",
+                        impact=f"{product} {version} on port {sf.port}",
+                    )
+                )
 
             known_cves = self._match_known_vulns(sf)
             for cve in known_cves:
                 key = f"{sf.host}:{cve}"
                 if key not in seen:
                     seen.add(key)
-                    self._assessments.append(IntelligenceAssessment(
-                        subject=f"{sf.host}:{sf.port}/{sf.value}",
-                        category="potential_vulnerability",
-                        confidence=0.5,
-                        severity="UNKNOWN",
-                        source_facts=[sf.value],
-                        recommendation=f"Verify {cve} against {sf.host}:{sf.port}",
-                        impact=f"{product} {version} may be affected by {cve}",
-                    ))
+                    self._assessments.append(
+                        IntelligenceAssessment(
+                            subject=f"{sf.host}:{sf.port}/{sf.value}",
+                            category="potential_vulnerability",
+                            confidence=0.5,
+                            severity="UNKNOWN",
+                            source_facts=[sf.value],
+                            recommendation=f"Verify {cve} against {sf.host}:{sf.port}",
+                            impact=f"{product} {version} may be affected by {cve}",
+                        )
+                    )
 
     @staticmethod
     def _match_known_vulns(fact: CollectedFact) -> list[str]:
@@ -522,30 +572,34 @@ class IntelligenceEngine:
             for target_ip in host_ips:
                 if target_ip == cred_host:
                     continue
-                self._assessments.append(IntelligenceAssessment(
-                    subject=cf.value[:40],
-                    category="credential_reuse_opportunity",
-                    confidence=0.4,
-                    severity="MEDIUM",
-                    mitre_technique="T1078",
-                    source_facts=[cf.value, target_ip],
-                    recommendation=f"Test {cf.value[:30]} against {target_ip}",
-                    impact="Potential lateral movement via credential reuse",
-                ))
+                self._assessments.append(
+                    IntelligenceAssessment(
+                        subject=cf.value[:40],
+                        category="credential_reuse_opportunity",
+                        confidence=0.4,
+                        severity="MEDIUM",
+                        mitre_technique="T1078",
+                        source_facts=[cf.value, target_ip],
+                        recommendation=f"Test {cf.value[:30]} against {target_ip}",
+                        impact="Potential lateral movement via credential reuse",
+                    )
+                )
 
     def _correlate_domains_to_infrastructure(self) -> None:
         domain_facts = [f for f in self._facts if f.fact_type == "domain"]
         for df in domain_facts:
-            self._assessments.append(IntelligenceAssessment(
-                subject=df.value,
-                category="domain_discovery",
-                confidence=df.confidence,
-                severity="LOW",
-                mitre_technique="T1590",
-                source_facts=[df.value],
-                recommendation=f"Enumerate subdomains of {df.value}",
-                impact="Expanded attack surface via domain enumeration",
-            ))
+            self._assessments.append(
+                IntelligenceAssessment(
+                    subject=df.value,
+                    category="domain_discovery",
+                    confidence=df.confidence,
+                    severity="LOW",
+                    mitre_technique="T1590",
+                    source_facts=[df.value],
+                    recommendation=f"Enumerate subdomains of {df.value}",
+                    impact="Expanded attack surface via domain enumeration",
+                )
+            )
 
     def _rank_targets(self) -> None:
         host_service_count: dict[str, int] = defaultdict(int)
@@ -571,19 +625,21 @@ class IntelligenceEngine:
             )
             if score > 0:
                 sev = "HIGH" if score > 2 else ("MEDIUM" if score > 1 else "LOW")
-                self._assessments.append(IntelligenceAssessment(
-                    subject=host,
-                    category="target_priority",
-                    confidence=min(score / 3, 1.0),
-                    severity=sev,
-                    source_facts=[
-                        f"services={host_service_count.get(host, 0)}",
-                        f"vulns={host_vuln_count.get(host, 0)}",
-                        f"creds={host_cred_count.get(host, 0)}",
-                    ],
-                    recommendation=f"Prioritize {host} for exploitation",
-                    impact=f"Score={score:.1f} based on services, vulns, and credentials",
-                ))
+                self._assessments.append(
+                    IntelligenceAssessment(
+                        subject=host,
+                        category="target_priority",
+                        confidence=min(score / 3, 1.0),
+                        severity=sev,
+                        source_facts=[
+                            f"services={host_service_count.get(host, 0)}",
+                            f"vulns={host_vuln_count.get(host, 0)}",
+                            f"creds={host_cred_count.get(host, 0)}",
+                        ],
+                        recommendation=f"Prioritize {host} for exploitation",
+                        impact=f"Score={score:.1f} based on services, vulns, and credentials",
+                    )
+                )
 
     def _detect_killchain_gaps(self) -> None:
         try:
@@ -593,31 +649,32 @@ class IntelligenceEngine:
             hosts = wm.get_hosts_summary()
             for ip, state in hosts.items():
                 if state == "scanned":
-                    svc_count = sum(
-                        1 for f in self._facts
-                        if f.fact_type == "service" and f.host == ip
-                    )
+                    svc_count = sum(1 for f in self._facts if f.fact_type == "service" and f.host == ip)
                     if svc_count > 0:
-                        self._assessments.append(IntelligenceAssessment(
+                        self._assessments.append(
+                            IntelligenceAssessment(
+                                subject=ip,
+                                category="killchain_gap",
+                                confidence=0.9,
+                                severity="MEDIUM",
+                                source_facts=[f"state={state}", f"services={svc_count}"],
+                                recommendation=f"Enumerate services on {ip} — run gobuster or enum4linux",
+                                impact="Reconnaissance complete but enumeration pending",
+                            )
+                        )
+                elif state == "exploited":
+                    self._assessments.append(
+                        IntelligenceAssessment(
                             subject=ip,
                             category="killchain_gap",
-                            confidence=0.9,
-                            severity="MEDIUM",
-                            source_facts=[f"state={state}", f"services={svc_count}"],
-                            recommendation=f"Enumerate services on {ip} — run gobuster or enum4linux",
-                            impact="Reconnaissance complete but enumeration pending",
-                        ))
-                elif state == "exploited":
-                    self._assessments.append(IntelligenceAssessment(
-                        subject=ip,
-                        category="killchain_gap",
-                        confidence=0.85,
-                        severity="HIGH",
-                        mitre_technique="T1068",
-                        source_facts=[f"state={state}"],
-                        recommendation=f"Escalate privileges on {ip} — run linpeas or winpeas",
-                        impact="Exploitation achieved but privilege escalation pending",
-                    ))
+                            confidence=0.85,
+                            severity="HIGH",
+                            mitre_technique="T1068",
+                            source_facts=[f"state={state}"],
+                            recommendation=f"Escalate privileges on {ip} — run linpeas or winpeas",
+                            impact="Exploitation achieved but privilege escalation pending",
+                        )
+                    )
         except Exception as exc:
             self._warnings.append(f"Killchain gap detection failed: {exc}")
 
@@ -634,13 +691,9 @@ class IntelligenceEngine:
         for assessment in self._assessments:
             if assessment.confidence < self._config.confidence_floor:
                 continue
-            assessment.confidence = min(
-                assessment.confidence, self._config.confidence_ceiling
-            )
+            assessment.confidence = min(assessment.confidence, self._config.confidence_ceiling)
             if not assessment.mitre_technique:
-                assessment.mitre_technique = self._map_category_to_mitre(
-                    assessment.category
-                )
+                assessment.mitre_technique = self._map_category_to_mitre(assessment.category)
         return self._assessments
 
     @staticmethod
@@ -669,33 +722,39 @@ class IntelligenceEngine:
 
         for fact in self._facts:
             if fact.fact_type == "credential":
-                self._counter_findings.append(CounterIntelFinding(
-                    finding_type="credential_exposure",
-                    description=f"Credential {fact.value[:30]} is stored in plaintext logs",
-                    severity="HIGH",
-                    host=fact.host,
-                    detectable_by=["SIEM", "DLP"],
-                    mitigation="Encrypt credentials at rest. Use lazyenc or QuantumVault.",
-                ))
+                self._counter_findings.append(
+                    CounterIntelFinding(
+                        finding_type="credential_exposure",
+                        description=f"Credential {fact.value[:30]} is stored in plaintext logs",
+                        severity="HIGH",
+                        host=fact.host,
+                        detectable_by=["SIEM", "DLP"],
+                        mitigation="Encrypt credentials at rest. Use lazyenc or QuantumVault.",
+                    )
+                )
             elif fact.fact_type == "error":
-                self._counter_findings.append(CounterIntelFinding(
-                    finding_type="tool_error_visible",
-                    description=f"Tool {fact.source} produced visible error: {fact.value[:60]}",
-                    severity="LOW",
-                    host=fact.host,
-                    detectable_by=["SIEM", "IDS"],
-                    mitigation="Use stealth mode. Redirect stderr to /dev/null.",
-                ))
+                self._counter_findings.append(
+                    CounterIntelFinding(
+                        finding_type="tool_error_visible",
+                        description=f"Tool {fact.source} produced visible error: {fact.value[:60]}",
+                        severity="LOW",
+                        host=fact.host,
+                        detectable_by=["SIEM", "IDS"],
+                        mitigation="Use stealth mode. Redirect stderr to /dev/null.",
+                    )
+                )
 
         active_services = [f for f in self._facts if f.fact_type == "service"]
         if len(active_services) > 10:
-            self._counter_findings.append(CounterIntelFinding(
-                finding_type="high_scan_volume",
-                description=f"{len(active_services)} open ports — aggressive scan may trigger IDS",
-                severity="MEDIUM",
-                detectable_by=["IDS", "SIEM", "WAF"],
-                mitigation="Reduce scan rate. Use --min-rate and --max-retries with nmap.",
-            ))
+            self._counter_findings.append(
+                CounterIntelFinding(
+                    finding_type="high_scan_volume",
+                    description=f"{len(active_services)} open ports — aggressive scan may trigger IDS",
+                    severity="MEDIUM",
+                    detectable_by=["IDS", "SIEM", "WAF"],
+                    mitigation="Reduce scan rate. Use --min-rate and --max-retries with nmap.",
+                )
+            )
 
         return self._counter_findings
 
@@ -756,10 +815,7 @@ class IntelligenceEngine:
 
             wm.consume_policy_facts()
 
-            hosts_need_advance = {
-                f.host for f in self._facts
-                if f.fact_type == "service" and f.host
-            }
+            hosts_need_advance = {f.host for f in self._facts if f.fact_type == "service" and f.host}
             for host in hosts_need_advance:
                 current = wm.get_host(host)
                 if current and current.state.rank() < HostState.SCANNED.rank():
@@ -839,16 +895,21 @@ class IntelligenceEngine:
             },
             "assessments": [
                 {
-                    "subject": a.subject, "category": a.category,
-                    "confidence": a.confidence, "severity": a.severity,
-                    "mitre": a.mitre_technique, "recommendation": a.recommendation,
+                    "subject": a.subject,
+                    "category": a.category,
+                    "confidence": a.confidence,
+                    "severity": a.severity,
+                    "mitre": a.mitre_technique,
+                    "recommendation": a.recommendation,
                 }
                 for a in self._assessments
             ],
             "counter_intel": [
                 {
-                    "type": c.finding_type, "description": c.description,
-                    "severity": c.severity, "detectable_by": c.detectable_by,
+                    "type": c.finding_type,
+                    "description": c.description,
+                    "severity": c.severity,
+                    "detectable_by": c.detectable_by,
                     "mitigation": c.mitigation,
                 }
                 for c in self._counter_findings

@@ -32,9 +32,11 @@ Asistente de Pentesting con Modo Agente ACTIVO
 [*] Ejecuta comandos reales desde tu CLI
 """
 
+
 def configure_logging(debug: bool):
     level = logging.DEBUG if debug else logging.INFO
     configure(level=level, console=True, file=False)
+
 
 class LazyOwnShellWrapper:
     """Wrapper robusto para integrar lazyown.py"""
@@ -64,7 +66,7 @@ class LazyOwnShellWrapper:
                 attr = getattr(module, attr_name)
                 if isinstance(attr, type):
                     # Verificar si tiene métodos do_ (cmd2)
-                    if any(m.startswith('do_') for m in dir(attr) if m != 'do_exit'):
+                    if any(m.startswith("do_") for m in dir(attr) if m != "do_exit"):
                         self.shell = attr()
                         logging.info(f"CLI loaded successfully: {attr_name}")
                         break
@@ -75,6 +77,7 @@ class LazyOwnShellWrapper:
         except Exception as e:
             logging.error(f"Error cargando {self.script_path}: {e}")
             import traceback
+
             traceback.print_exc()
         finally:
             # Remover el path temporal si lo añadimos
@@ -88,14 +91,14 @@ class LazyOwnShellWrapper:
 
         try:
             # Para cmd2: usar onecmd_plus_hooks
-            if hasattr(self.shell, 'onecmd_plus_hooks'):
+            if hasattr(self.shell, "onecmd_plus_hooks"):
                 capture = io.StringIO()
                 with contextlib.redirect_stdout(capture):
                     self.shell.onecmd_plus_hooks(command)
                 return capture.getvalue() or f"Comando '{command}' ejecutado (sin output visible)"
 
             # Fallback para cmd.Cmd estándar
-            elif hasattr(self.shell, 'onecmd'):
+            elif hasattr(self.shell, "onecmd"):
                 capture = io.StringIO()
                 with contextlib.redirect_stdout(capture):
                     self.shell.onecmd(command)
@@ -114,13 +117,15 @@ class LazyOwnShellWrapper:
 
         commands = []
         for attr in dir(self.shell):
-            if attr.startswith('do_') and attr != 'do_exit':
+            if attr.startswith("do_") and attr != "do_exit":
                 commands.append(attr[3:])
         return commands
 
+
 class VulnBotCLI:
-    def __init__(self, provider: str = "groq", mode: str = "console",
-                 debug: bool = False, script_path: str = "lazyown.py"):
+    def __init__(
+        self, provider: str = "groq", mode: str = "console", debug: bool = False, script_path: str = "lazyown.py"
+    ):
         self.provider = provider
         self.mode = mode
         self.debug = debug
@@ -197,17 +202,18 @@ REGLAS DE EJECUCIÓN:
             parameters={
                 "command": {
                     "type": "string",
-                    "description": "Comando completo con argumentos (ej: 'nmap -sV -p 80,443 10.10.11.78')"
+                    "description": "Comando completo con argumentos (ej: 'nmap -sV -p 80,443 10.10.11.78')",
                 }
             },
-            required=["command"]
+            required=["command"],
         )
         self.agent.register_tool(run_tool)
 
     def _register_fallback_tools(self):
         def read_file(path: str) -> str:
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, "r", encoding="utf-8") as f:
                 return f.read()
+
         self.agent.register_tool_from_instance(read_file)
 
     def read_file_content(self, file_path: str) -> str:
@@ -249,7 +255,7 @@ REGLAS DE EJECUCIÓN:
         {content[:800]}...
 
 INFORMACIÓN EXTRAÍDA:
-- Tipo de archivo: {file_path.split('.')[-1].upper()}
+- Tipo de archivo: {file_path.split(".")[-1].upper()}
 - IPs/dominios detectados: [extraer del contenido]
 - Servicios detectados: [extraer del contenido]
 
@@ -279,18 +285,19 @@ REGLAS:
     def _stream_response(self, prompt: str) -> Response:
         def generate():
             yield from self.model.stream_generate(prompt)
-        return Response(stream_with_context(generate()), mimetype='text/plain')
+
+        return Response(stream_with_context(generate()), mimetype="text/plain")
 
 
 def parse_args():
-    parser = argparse.ArgumentParser(description='LazyOwn AI Agent')
-    parser.add_argument('--file', '-f', type=str, help='Archivo de entrada (NMAP, CSV, etc.)')
-    parser.add_argument('--provider', '-p', choices=['groq', 'deepseek'], default='groq')
-    parser.add_argument('--mode', '-m', choices=['console', 'web'], default='console')
-    parser.add_argument('--script', '-s', type=str, default='lazyown.py', help='Script de CLI (cmd2)')
-    parser.add_argument('--event', '-e', type=str, help='Evento opcional')
-    parser.add_argument('--interactive', '-i', action='store_true', help='Modo chat interactivo')
-    parser.add_argument('--debug', '-d', action='store_true', help='Modo depuración')
+    parser = argparse.ArgumentParser(description="LazyOwn AI Agent")
+    parser.add_argument("--file", "-f", type=str, help="Archivo de entrada (NMAP, CSV, etc.)")
+    parser.add_argument("--provider", "-p", choices=["groq", "deepseek"], default="groq")
+    parser.add_argument("--mode", "-m", choices=["console", "web"], default="console")
+    parser.add_argument("--script", "-s", type=str, default="lazyown.py", help="Script de CLI (cmd2)")
+    parser.add_argument("--event", "-e", type=str, help="Evento opcional")
+    parser.add_argument("--interactive", "-i", action="store_true", help="Modo chat interactivo")
+    parser.add_argument("--debug", "-d", action="store_true", help="Modo depuración")
     return parser.parse_args()
 
 
@@ -300,7 +307,7 @@ def interactive_mode(bot: VulnBotCLI):
     while True:
         try:
             user_input = input("[Tú] > ").strip()
-            if user_input.lower() in ('salir', 'exit', 'quit'):
+            if user_input.lower() in ("salir", "exit", "quit"):
                 print("¡Hasta luego!")
                 break
             if not user_input:
@@ -319,12 +326,7 @@ def main():
     print(BANNER)
     args = parse_args()
 
-    bot = VulnBotCLI(
-        provider=args.provider,
-        mode=args.mode,
-        debug=args.debug,
-        script_path=args.script
-    )
+    bot = VulnBotCLI(provider=args.provider, mode=args.mode, debug=args.debug, script_path=args.script)
 
     if args.interactive:
         interactive_mode(bot)
@@ -343,9 +345,9 @@ def main():
         response = bot.process_with_context(args.file, event=args.event)
 
         if args.mode == "console":
-            print(f"\n[RESULTADO DEL AGENTE]\n{'='*70}")
+            print(f"\n[RESULTADO DEL AGENTE]\n{'=' * 70}")
             print(response)
-            print('='*70)
+            print("=" * 70)
             bot.add_to_knowledge_base(args.file, response)
         else:
             return response

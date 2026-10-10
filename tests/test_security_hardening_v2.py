@@ -30,6 +30,7 @@ def _read(relpath: str) -> str:
 # SDD Contract 1: AI commands must not pass secrets through shell strings
 # ---------------------------------------------------------------------------
 
+
 class TestAICommandInjectionPrevention:
     """CONTRACT: The do_ask and do_groq methods must NEVER pass api_key or
     user prompts through os.system(), shell string interpolation, or a
@@ -77,10 +78,7 @@ class TestAICommandInjectionPrevention:
         """BDD: Given the source is scanned for f-string command construction,
         When api_key appears in an f-string targeting subprocess,
         Then it must be in the env parameter only."""
-        fstring_lines = [
-            line for line in self.SOURCE.split("\n")
-            if "f\"" in line or "f'" in line
-        ]
+        fstring_lines = [line for line in self.SOURCE.split("\n") if 'f"' in line or "f'" in line]
         for line in fstring_lines:
             if "api_key" in line and ("sshpass" in line or "scp" in line or "&&" in line):
                 pytest.fail(f"api_key in shell f-string: {line.strip()}")
@@ -89,6 +87,7 @@ class TestAICommandInjectionPrevention:
 # ---------------------------------------------------------------------------
 # SDD Contract 2: SSH credentials must never appear in shell command strings
 # ---------------------------------------------------------------------------
+
 
 class TestSSHCredentialInjectionPrevention:
     """CONTRACT: The postexp_migrated module must NEVER pass passwords
@@ -118,7 +117,7 @@ class TestSSHCredentialInjectionPrevention:
         """BDD: Given sshpass is invoked,
         When the command is constructed,
         Then it must use the -e flag for environment-based password."""
-        assert "sshpass\", \"-e\"" in self.SOURCE or "sshpass', '-e'" in self.SOURCE
+        assert 'sshpass", "-e"' in self.SOURCE or "sshpass', '-e'" in self.SOURCE
 
     def test_ssppass_env_var_used(self):
         """BDD: Given sshpass is invoked,
@@ -146,13 +145,14 @@ class TestSSHCredentialInjectionPrevention:
                 continue
             if in_docstring:
                 continue
-            if ("f\"sshpass" in line or "f'sshpass" in line):
+            if 'f"sshpass' in line or "f'sshpass" in line:
                 pytest.fail(f"sshpass in f-string: {line.strip()}")
 
 
 # ---------------------------------------------------------------------------
 # SDD Contract 3: DNS commands must be validated against an allowlist
 # ---------------------------------------------------------------------------
+
 
 class TestDNSCommandAllowlist:
     """CONTRACT: The DNS C2 resolver must validate decoded commands against
@@ -178,7 +178,8 @@ class TestDNSCommandAllowlist:
         Then it must contain fewer than 20 entries (principle of least privilege)."""
         match = re.search(
             r"_DNS_COMMAND_ALLOWLIST = frozenset\(\{(.*?)\}\)",
-            self.SOURCE, re.DOTALL,
+            self.SOURCE,
+            re.DOTALL,
         )
         assert match, "_DNS_COMMAND_ALLOWLIST frozenset not found"
         entries = [e.strip().strip('"').strip("'") for e in match.group(1).split(",") if e.strip()]
@@ -202,7 +203,8 @@ class TestDNSCommandAllowlist:
         Then destructive commands must not be in the allowlist."""
         match = re.search(
             r"_DNS_COMMAND_ALLOWLIST = frozenset\(\{(.*?)\}\)",
-            self.SOURCE, re.DOTALL,
+            self.SOURCE,
+            re.DOTALL,
         )
         assert match
         dangerous = {"rm", "curl", "wget", "dd", "mkfs", "shutdown", "reboot", "halt", "nc", "ncat"}
@@ -213,6 +215,7 @@ class TestDNSCommandAllowlist:
 # ---------------------------------------------------------------------------
 # SDD Contract 4: Shell execution must capture output safely
 # ---------------------------------------------------------------------------
+
 
 class TestSafeShellExecution:
     """CONTRACT: The do_sys command must route through the audited
@@ -273,13 +276,14 @@ class TestSafeShellExecution:
                     continue
                 if in_docstring:
                     continue
-                if "os.system(" in line and "def do_" in "".join(lines[max(0, i - 20):i]):
+                if "os.system(" in line and "def do_" in "".join(lines[max(0, i - 20) : i]):
                     pytest.fail(f"os.system in command method at line {i + 1}: {line.strip()}")
 
 
 # ---------------------------------------------------------------------------
 # SDD Contract 5: Phishing credentials must be encrypted at rest
 # ---------------------------------------------------------------------------
+
 
 class TestCredentialEncryptionAtRest:
     """CONTRACT: Harvested phishing credentials must be encrypted before
@@ -341,6 +345,7 @@ class TestCredentialEncryptionAtRest:
 # SDD Contract 6: No os.system in security-critical paths
 # ---------------------------------------------------------------------------
 
+
 class TestNoOsSystemInCriticalPaths:
     """CONTRACT: Security-critical modules must not use os.system() which
     provides no output capture, no exit code control, and is vulnerable
@@ -368,7 +373,7 @@ class TestNoOsSystemInCriticalPaths:
                 continue
             if in_docstring:
                 continue
-            if "f\"sshpass" in line or "f'sshpass" in line:
+            if 'f"sshpass' in line or "f'sshpass" in line:
                 pytest.fail(f"sshpass in f-string: {line.strip()}")
 
     def test_dns_resolver_has_allowlist_guard(self):

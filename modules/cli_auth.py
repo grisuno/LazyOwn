@@ -127,6 +127,7 @@ def user_exists(username: str) -> bool:
     try:
         from modules.lazy_rbac import _RBAC_AVAILABLE as RBAC
         from modules.lazy_rbac import get_rbac_store
+
         if RBAC:
             store = get_rbac_store()
             return store.find_by_username(username) is not None
@@ -171,9 +172,11 @@ def register(username: str, password: str) -> dict[str, Any]:
 
         if RBAC:
             store = get_rbac_store()
-            role = Role.ADMIN.value if not any(
-                u.role == Role.ADMIN.value for u in store.load_all()
-            ) else Role.OPERATOR.value
+            role = (
+                Role.ADMIN.value
+                if not any(u.role == Role.ADMIN.value for u in store.load_all())
+                else Role.OPERATOR.value
+            )
             store.create_user(
                 username=username,
                 password_hash=generate_password_hash(password),

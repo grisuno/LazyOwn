@@ -24,11 +24,9 @@ from cli.sessions_browser import (  # noqa: E402
 def _populate(tmp_path: Path) -> None:
     (tmp_path / "credentials.txt").write_text("alice:hunter2\n", encoding="utf-8")
     (tmp_path / "hash.txt").write_text("0123abcd\n", encoding="utf-8")
-    (tmp_path / "vulns_10.0.0.1.json").write_text(
-        json.dumps({"cves": ["CVE-2024-0001"]}), encoding="utf-8"
-    )
+    (tmp_path / "vulns_10.0.0.1.json").write_text(json.dumps({"cves": ["CVE-2024-0001"]}), encoding="utf-8")
     (tmp_path / "scan_10.0.0.1.nmap").write_text("nmap output\n", encoding="utf-8")
-    (tmp_path / "notes.jsonl").write_text("{\"text\": \"x\"}\n", encoding="utf-8")
+    (tmp_path / "notes.jsonl").write_text('{"text": "x"}\n', encoding="utf-8")
     (tmp_path / "world_model.json").write_text("{}\n", encoding="utf-8")
     (tmp_path / "unrelated.bin").write_bytes(b"\x00" * 128)
 

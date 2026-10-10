@@ -122,10 +122,10 @@ def _compose_tests(spec: Spec, contract: Contract) -> str:
         body = (
             f"def test_sad_{index:02d}_{slug}():\n"
             f'    """Confirm the sad path handler satisfies the spec.\n\n'
-            f'    Args:\n'
-            f'        None.\n'
-            f'    Returns:\n'
-            f'        None. The test asserts the handler returns the string ``handled``.\n'
+            f"    Args:\n"
+            f"        None.\n"
+            f"    Returns:\n"
+            f"        None. The test asserts the handler returns the string ``handled``.\n"
             f'    """\n'
             f"    module = _load_module()\n"
             f"    assert hasattr(module, 'handle_sad_{index:02d}')\n"
@@ -135,12 +135,12 @@ def _compose_tests(spec: Spec, contract: Contract) -> str:
     if not test_functions:
         test_functions.append(
             "def test_sad_smoke():\n"
-            "    \"\"\"Confirm the implementation module loads.\n\n"
+            '    """Confirm the implementation module loads.\n\n'
             "    Args:\n"
             "        None.\n"
             "    Returns:\n"
             "        None. The test asserts the module is importable.\n"
-            "    \"\"\"\n"
+            '    """\n'
             "    module = _load_module()\n"
             "    assert module is not None\n"
         )

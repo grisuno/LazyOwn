@@ -156,7 +156,7 @@ class TrafficMorpher:
         queries = []
         label_len = random.randint(20, 50)
         for i in range(0, len(encoded), label_len):
-            chunk = encoded[i:i + label_len]
+            chunk = encoded[i : i + label_len]
             session_id = os.urandom(2).hex()
             queries.append(f"{session_id}.{chunk}.{domain}")
         return queries
@@ -294,19 +294,23 @@ export default {{
             "max_retries": 3,
             "headers": self.get_random_http_headers() if protocol in ("https", "websocket") else {},
             "user_agent": ua,
-            "malleable_route": random.choice([
-                "/api/v1/status",
-                "/metrics/health",
-                "/cdn/analytics",
-                "/static/fonts/woff2",
-                "/js/chunk-vendors.js",
-                "/assets/images/bg.jpg",
-            ]),
-            "host_headers": random.choice([
-                "www.googleapis.com",
-                "ajax.googleapis.com",
-                "cdn.jsdelivr.net",
-            ]),
+            "malleable_route": random.choice(
+                [
+                    "/api/v1/status",
+                    "/metrics/health",
+                    "/cdn/analytics",
+                    "/static/fonts/woff2",
+                    "/js/chunk-vendors.js",
+                    "/assets/images/bg.jpg",
+                ]
+            ),
+            "host_headers": random.choice(
+                [
+                    "www.googleapis.com",
+                    "ajax.googleapis.com",
+                    "cdn.jsdelivr.net",
+                ]
+            ),
             "padding": {
                 "min": 64,
                 "max": 1024,
@@ -316,7 +320,9 @@ export default {{
                 "subdomain_prefix": os.urandom(2).hex(),
                 "max_label_len": 50,
                 "domain": random.choice(self.CDN_DOMAINS["cloudflare"]),
-            } if protocol == "dns" else None,
+            }
+            if protocol == "dns"
+            else None,
         }
         return {k: v for k, v in profile.items() if v is not None}
 

@@ -25,6 +25,7 @@ Usage
     python3 modules/integrations/misp_export.py --output sessions/misp_event.json \\
         --misp-url https://misp.example.com --misp-key <API_KEY>
 """
+
 from __future__ import annotations
 
 import argparse
@@ -40,6 +41,7 @@ log = logging.getLogger("misp_export")
 
 try:
     import requests as _requests
+
     _REQUESTS_AVAILABLE = True
 except ImportError:
     _REQUESTS_AVAILABLE = False
@@ -52,9 +54,11 @@ _SESSIONS_DIR = _BASE_DIR / "sessions"
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class MISPAttribute:
     """A single MISP attribute inside an event."""
+
     type: str
     value: str
     category: str = "External analysis"
@@ -65,10 +69,11 @@ class MISPAttribute:
 @dataclass
 class MISPEvent:
     """A complete MISP event ready for JSON serialisation or API push."""
+
     info: str
-    threat_level_id: int = 2          # 1=High, 2=Medium, 3=Low, 4=Undefined
-    analysis: int = 0                  # 0=Initial, 1=Ongoing, 2=Completed
-    distribution: int = 0             # 0=Organisation only
+    threat_level_id: int = 2  # 1=High, 2=Medium, 3=Low, 4=Undefined
+    analysis: int = 0  # 0=Initial, 1=Ongoing, 2=Completed
+    distribution: int = 0  # 0=Organisation only
     attributes: list[MISPAttribute] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
 
@@ -76,6 +81,7 @@ class MISPEvent:
 # ---------------------------------------------------------------------------
 # Abstract mapper
 # ---------------------------------------------------------------------------
+
 
 class FindingMapper(ABC):
     """Maps a single Finding to a MISPAttribute (or None when not applicable)."""
@@ -92,6 +98,7 @@ class FindingMapper(ABC):
 # ---------------------------------------------------------------------------
 # Concrete mappers (one per FindingType, Open/Closed)
 # ---------------------------------------------------------------------------
+
 
 class IPMapper(FindingMapper):
     """Maps IP findings to MISP ip-dst attributes."""
@@ -243,6 +250,7 @@ _DEFAULT_MAPPERS: list[FindingMapper] = [
 # Exporter
 # ---------------------------------------------------------------------------
 
+
 class MISPExporter:
     """
     Reads LazyOwn session artefacts and produces a MISPEvent.
@@ -319,9 +327,7 @@ class MISPExporter:
         log.info("MISP event saved to %s (%d attributes)", out, len(event.attributes))
         return out
 
-    def push_to_misp(
-        self, event: MISPEvent, url: str, api_key: str
-    ) -> bool:
+    def push_to_misp(self, event: MISPEvent, url: str, api_key: str) -> bool:
         """
         HTTP-push the event to a live MISP instance.
 
@@ -472,12 +478,12 @@ def get_exporter() -> MISPExporter:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
     import logging
+
     logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(
-        description="Export LazyOwn session findings as a MISP event"
-    )
+    parser = argparse.ArgumentParser(description="Export LazyOwn session findings as a MISP event")
     parser.add_argument(
         "--sessions",
         metavar="DIR",

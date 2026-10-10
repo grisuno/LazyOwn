@@ -10,4 +10,3 @@ rules:
     message: "Do not hardcode credentials"
     severity: ERROR
     languages: [python, javascript, typescript, java, go]
-

@@ -8,9 +8,12 @@ FROM python:3.11-slim AS builder
 WORKDIR /build
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    python3-dev \
     gcc \
     libffi-dev \
     libssl-dev \
+    libpcap-dev \
     && rm -rf /var/lib/apt/lists/*
 
 COPY requirements.txt .

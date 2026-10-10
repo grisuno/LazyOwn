@@ -179,12 +179,12 @@ class LessonLearned:
     relevant lessons via semantic search.
     """
 
-    campaign_id:   str
+    campaign_id: str
     campaign_name: str
-    topic:         str   # e.g. "privesc", "lateral_movement", "detection_evasion"
-    lesson:        str   # the actionable insight
-    context:       str   # brief context that produced this lesson
-    derived_at:    str   = field(default_factory=_now_iso)
+    topic: str  # e.g. "privesc", "lateral_movement", "detection_evasion"
+    lesson: str  # the actionable insight
+    context: str  # brief context that produced this lesson
+    derived_at: str = field(default_factory=_now_iso)
 
     def to_dict(self) -> dict:
         return asdict(self)
@@ -282,46 +282,49 @@ class EpisodeReflectionEngine:
                     lesson_text = template_fn(milestone)
                 except Exception:
                     lesson_text = f"Milestone '{mtype}' achieved on {milestone.get('host', '?')}."
-                lessons.append(LessonLearned(
-                    campaign_id=campaign.campaign_id,
-                    campaign_name=campaign.name,
-                    topic=topic,
-                    lesson=lesson_text,
-                    context=f"milestone:{mtype} host:{milestone.get('host', '?')}",
-                ))
+                lessons.append(
+                    LessonLearned(
+                        campaign_id=campaign.campaign_id,
+                        campaign_name=campaign.name,
+                        topic=topic,
+                        lesson=lesson_text,
+                        context=f"milestone:{mtype} host:{milestone.get('host', '?')}",
+                    )
+                )
 
         # Aggregate lesson: scope coverage
-        completed_hosts = [
-            h for h, phase in campaign.phase_per_host.items()
-            if phase == "complete"
-        ]
+        completed_hosts = [h for h, phase in campaign.phase_per_host.items() if phase == "complete"]
         if completed_hosts:
-            lessons.append(LessonLearned(
-                campaign_id=campaign.campaign_id,
-                campaign_name=campaign.name,
-                topic="scope_coverage",
-                lesson=(
-                    f"Campaign '{campaign.name}' fully pwned "
-                    f"{len(completed_hosts)}/{len(campaign.scope)} scoped targets: "
-                    f"{', '.join(completed_hosts)}. "
-                    "Review which hosts were never exploited and why."
-                ),
-                context="aggregate:scope_coverage",
-            ))
+            lessons.append(
+                LessonLearned(
+                    campaign_id=campaign.campaign_id,
+                    campaign_name=campaign.name,
+                    topic="scope_coverage",
+                    lesson=(
+                        f"Campaign '{campaign.name}' fully pwned "
+                        f"{len(completed_hosts)}/{len(campaign.scope)} scoped targets: "
+                        f"{', '.join(completed_hosts)}. "
+                        "Review which hosts were never exploited and why."
+                    ),
+                    context="aggregate:scope_coverage",
+                )
+            )
 
         # Duration lesson
         if campaign.started_at and campaign.ended_at:
-            lessons.append(LessonLearned(
-                campaign_id=campaign.campaign_id,
-                campaign_name=campaign.name,
-                topic="campaign_duration",
-                lesson=(
-                    f"Campaign ran from {campaign.started_at} to {campaign.ended_at}. "
-                    f"Total milestones: {len(campaign.milestones)}. "
-                    "Review timeline gaps to identify enumeration bottlenecks."
-                ),
-                context="aggregate:duration",
-            ))
+            lessons.append(
+                LessonLearned(
+                    campaign_id=campaign.campaign_id,
+                    campaign_name=campaign.name,
+                    topic="campaign_duration",
+                    lesson=(
+                        f"Campaign ran from {campaign.started_at} to {campaign.ended_at}. "
+                        f"Total milestones: {len(campaign.milestones)}. "
+                        "Review timeline gaps to identify enumeration bottlenecks."
+                    ),
+                    context="aggregate:duration",
+                )
+            )
 
         self._persist_lessons(lessons)
         return lessons
@@ -331,24 +334,20 @@ class EpisodeReflectionEngine:
         with self._lessons_file.open("a", encoding="utf-8") as fh:
             for lesson in lessons:
                 fh.write(json.dumps(lesson.to_dict()) + "\n")
-        log.info("EpisodeReflectionEngine: %d lessons written to %s",
-                 len(lessons), self._lessons_file)
+        log.info("EpisodeReflectionEngine: %d lessons written to %s", len(lessons), self._lessons_file)
 
         if self._hive_memory is not None:
             for lesson in lessons:
                 try:
                     self._hive_memory.store(
-                        content=(
-                            f"[LESSON] campaign={lesson.campaign_name} "
-                            f"topic={lesson.topic}\n{lesson.lesson}"
-                        ),
+                        content=(f"[LESSON] campaign={lesson.campaign_name} topic={lesson.topic}\n{lesson.lesson}"),
                         agent_id="reflection_engine",
                         role="architect",
                         event_type="lesson_learned",
                         meta={
-                            "campaign_id":   lesson.campaign_id,
+                            "campaign_id": lesson.campaign_id,
                             "campaign_name": lesson.campaign_name,
-                            "topic":         lesson.topic,
+                            "topic": lesson.topic,
                         },
                     )
                 except Exception as exc:
@@ -358,6 +357,7 @@ class EpisodeReflectionEngine:
         # prefer experts that previously succeeded for the same topic.
         try:
             from modules.lesson_ingestor import LessonIngestor
+
             ingestor = LessonIngestor()
             ingested = ingestor.ingest_all(lessons)
             if ingested:
@@ -513,9 +513,7 @@ class CampaignStore:
         self._save(campaign)
         log.info("Phase for %s: %s → %s", host, old, phase)
 
-    def add_milestone(
-        self, host: str, milestone_type: str, notes: str = ""
-    ) -> None:
+    def add_milestone(self, host: str, milestone_type: str, notes: str = "") -> None:
         """Record a milestone achievement for *host*.
 
         Parameters
@@ -594,9 +592,7 @@ class CampaignStore:
             lines.append(f"  Milestones ({len(campaign.milestones)}):")
             for ms in campaign.milestones:
                 note_suffix = f"  # {ms['notes']}" if ms.get("notes") else ""
-                lines.append(
-                    f"    [{ms['timestamp']}] {ms['host']} → {ms['type']}{note_suffix}"
-                )
+                lines.append(f"    [{ms['timestamp']}] {ms['host']} → {ms['type']}{note_suffix}")
         else:
             lines.append("  Milestones: (none recorded)")
 
@@ -616,8 +612,7 @@ class CampaignStore:
         campaign = self.load()
         if campaign is None:
             raise FileNotFoundError(
-                "No campaign file found at {}.  "
-                "Create one with: lazyown_campaign.py new <name>".format(self._file)
+                "No campaign file found at {}.  Create one with: lazyown_campaign.py new <name>".format(self._file)
             )
         return campaign
 

@@ -84,11 +84,14 @@ def restore_files(backups: dict[str, str], base_dir: Path, mutations: dict):
 def run_tests() -> bool:
     result = subprocess.run(
         [
-            sys.executable, "-m", "pytest",
+            sys.executable,
+            "-m",
+            "pytest",
             "tests/test_tips_engine.py",
             "tests/test_auto_crypto.py",
             "tests/test_reactive_hints_expanded.py",
-            "-x", "-q",
+            "-x",
+            "-q",
         ],
         capture_output=True,
         text=True,

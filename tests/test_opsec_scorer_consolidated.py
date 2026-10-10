@@ -85,12 +85,14 @@ class TestOpsecScorerV2:
         assert score.risk_label == score.risk_level.name
 
     def test_mimikatz_is_high_critical(self):
-        scorer = OpsecScorerV2(context=OpsecContext(
-            killchain_phase="credential_access",
-            target_environment="enterprise",
-            edr_detected=True,
-            siem_detected=True,
-        ))
+        scorer = OpsecScorerV2(
+            context=OpsecContext(
+                killchain_phase="credential_access",
+                target_environment="enterprise",
+                edr_detected=True,
+                siem_detected=True,
+            )
+        )
         score = scorer.assess("mimikatz")
         assert score.gate_action in (GateAction.WARN, GateAction.CONFIRM, GateAction.BLOCK)
 

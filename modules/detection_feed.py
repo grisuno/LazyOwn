@@ -20,6 +20,7 @@ Design (SOLID)
 - Dependency Inversion  : :class:`DetectionOracle` depends on the
   ``DetectionFeed`` interface, not a specific source.
 """
+
 from __future__ import annotations
 
 import json
@@ -42,16 +43,16 @@ _FEED_SOURCES: dict[str, str] = {
 
 _CATEGORY_MAP: dict[str, str] = {
     "credential_access": "credential",
-    "lateral_movement":  "lateral",
+    "lateral_movement": "lateral",
     "privilege_escalation": "privesc",
-    "execution":         "exploit",
-    "collection":        "exfil",
+    "execution": "exploit",
+    "collection": "exfil",
     "command_and_control": "c2",
-    "discovery":         "enum",
-    "reconnaissance":    "recon",
-    "persistence":       "persist",
-    "defense_evasion":   "payload",
-    "initial_access":    "intrusion",
+    "discovery": "enum",
+    "reconnaissance": "recon",
+    "persistence": "persist",
+    "defense_evasion": "payload",
+    "initial_access": "intrusion",
 }
 
 _DEFAULT_PROBABILITY: float = 0.50
@@ -154,15 +155,17 @@ class DetectionFeed:
                 continue
 
             rule_id = f"FEED-{abs(hash(title)) % 100000:05d}"
-            rules.append(SigmaRule(
-                rule_id=rule_id,
-                name=title[:100],
-                log_source=log_source,
-                mitre_technique=mitre,
-                base_probability=_DEFAULT_PROBABILITY,
-                keywords=tuple(keywords[:10]),
-                category_tags=tuple(categories),
-            ))
+            rules.append(
+                SigmaRule(
+                    rule_id=rule_id,
+                    name=title[:100],
+                    log_source=log_source,
+                    mitre_technique=mitre,
+                    base_probability=_DEFAULT_PROBABILITY,
+                    keywords=tuple(keywords[:10]),
+                    category_tags=tuple(categories),
+                )
+            )
 
         return rules
 
@@ -226,15 +229,17 @@ class DetectionFeed:
         existing_ids = {r.get("rule_id") for r in cached}
         for rule in rules:
             if rule.rule_id not in existing_ids:
-                cached.append({
-                    "rule_id": rule.rule_id,
-                    "name": rule.name,
-                    "log_source": rule.log_source,
-                    "mitre_technique": rule.mitre_technique,
-                    "base_probability": rule.base_probability,
-                    "keywords": list(rule.keywords),
-                    "category_tags": list(rule.category_tags),
-                })
+                cached.append(
+                    {
+                        "rule_id": rule.rule_id,
+                        "name": rule.name,
+                        "log_source": rule.log_source,
+                        "mitre_technique": rule.mitre_technique,
+                        "base_probability": rule.base_probability,
+                        "keywords": list(rule.keywords),
+                        "category_tags": list(rule.category_tags),
+                    }
+                )
 
         cache_file.write_text(json.dumps(cached, indent=2))
 
@@ -249,15 +254,17 @@ class DetectionFeed:
             return []
         rules: list[SigmaRule] = []
         for entry in data:
-            rules.append(SigmaRule(
-                rule_id=entry["rule_id"],
-                name=entry["name"],
-                log_source=entry["log_source"],
-                mitre_technique=entry["mitre_technique"],
-                base_probability=entry["base_probability"],
-                keywords=tuple(entry["keywords"]),
-                category_tags=tuple(entry["category_tags"]),
-            ))
+            rules.append(
+                SigmaRule(
+                    rule_id=entry["rule_id"],
+                    name=entry["name"],
+                    log_source=entry["log_source"],
+                    mitre_technique=entry["mitre_technique"],
+                    base_probability=entry["base_probability"],
+                    keywords=tuple(entry["keywords"]),
+                    category_tags=tuple(entry["category_tags"]),
+                )
+            )
         return rules
 
     def adjust_from_feedback(self, feedback_file: Path | None = None) -> int:
@@ -307,7 +314,9 @@ class DetectionFeed:
             delta = (accuracy - 0.5) * 0.1
             log.debug(
                 "DetectionFeed: rule %s accuracy=%.2f delta=%+.3f",
-                rule_id, accuracy, delta,
+                rule_id,
+                accuracy,
+                delta,
             )
             adjusted += 1
 

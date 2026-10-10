@@ -278,8 +278,7 @@ class ListenerManager:
                     ssl_context = (cert_path, key_path)
                 else:
                     print_warn(
-                        f"[listener] SSL requested but cert.pem/key.pem not found. "
-                        f"Starting {listener_id} without SSL."
+                        f"[listener] SSL requested but cert.pem/key.pem not found. Starting {listener_id} without SSL."
                     )
 
             from werkzeug.serving import make_server
@@ -315,10 +314,7 @@ class ListenerManager:
             )
             listener._thread = thread
             thread.start()
-            print_msg(
-                f"[listener] {listener_id} started on {bind_address}:{listener.port} "
-                f"(ssl={listener.ssl})"
-            )
+            print_msg(f"[listener] {listener_id} started on {bind_address}:{listener.port} (ssl={listener.ssl})")
             return True
         except Exception as e:
             print_error(f"[listener] Failed to start {listener_id}: {e}")
@@ -360,10 +356,12 @@ class ListenerManager:
         """Return status of all listeners."""
         result = []
         for listener in self.listeners.values():
-            result.append({
-                **listener.to_dict(),
-                "running": listener._server is not None,
-            })
+            result.append(
+                {
+                    **listener.to_dict(),
+                    "running": listener._server is not None,
+                }
+            )
         return result
 
     def get_default_port(self, fallback: int = 4444) -> int:

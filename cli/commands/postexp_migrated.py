@@ -1673,7 +1673,7 @@ class PostexpMigratedCommandSet(LazyOwnCommandSet):
         if not line:
             line = input('payload: ')
 
-        
+
 
         utf8_encoded = line.encode("utf-8")
         base64_encoded = base64.b64encode(utf8_encoded).decode('utf-8')

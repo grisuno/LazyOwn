@@ -49,7 +49,9 @@ LEVEL_HEIGHT = 15 * TILE_SIZE
 
 BACKGROUND = [[SKY] * (LEVEL_WIDTH // TILE_SIZE) for _ in range(LEVEL_HEIGHT // TILE_SIZE)]
 MIDDLEGROUND = [[SKY] * (LEVEL_WIDTH // TILE_SIZE) for _ in range(LEVEL_HEIGHT // TILE_SIZE)]
-FOREGROUND = [[SKY] * (LEVEL_WIDTH // TILE_SIZE) for _ in range(LEVEL_HEIGHT // TILE_SIZE - 1)] + [[GROUND] * (LEVEL_WIDTH // TILE_SIZE)]
+FOREGROUND = [[SKY] * (LEVEL_WIDTH // TILE_SIZE) for _ in range(LEVEL_HEIGHT // TILE_SIZE - 1)] + [
+    [GROUND] * (LEVEL_WIDTH // TILE_SIZE)
+]
 
 
 BACKGROUND[1][5] = SUN
@@ -93,11 +95,12 @@ FRICTION = 600.0
 enemies = [
     {"x": 35 * TILE_SIZE, "vx": -50.0, "type": GOOMBA},
     {"x": 70 * TILE_SIZE, "vx": -30.0, "type": TURTLE},
-    {"x": 90 * TILE_SIZE, "vx": -50.0, "type": GOOMBA}
+    {"x": 90 * TILE_SIZE, "vx": -50.0, "type": GOOMBA},
 ]
 camera_x = 0
 score = 0
 coins = 0
+
 
 def check_collision(x, y, layer=FOREGROUND):
     x_tile = int(x // TILE_SIZE)
@@ -126,7 +129,6 @@ while running:
         if event.type == pygame.KEYDOWN and event.key == pygame.K_q:
             running = False
 
-
     keys = pygame.key.get_pressed()
     if keys[pygame.K_RIGHT]:
         mario_vx = min(mario_vx + ACCEL * dt, MAX_VX * (2 if keys[pygame.K_LALT] else 1))
@@ -140,11 +142,9 @@ while running:
     if keys[pygame.K_SPACE] and abs(mario_y - (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE) < 5:
         mario_vy = JUMP_SPEED
 
-
     mario_vy += GRAVITY * dt
     next_x = mario_x + mario_vx * dt
     next_y = mario_y + mario_vy * dt
-
 
     collision = check_collision(next_x, mario_y)
     if collision == "solid":
@@ -152,7 +152,6 @@ while running:
         mario_x = int(next_x / TILE_SIZE) * TILE_SIZE + (TILE_SIZE if mario_vx < 0 else 0)
     elif collision != "out":
         mario_x = next_x
-
 
     collision = check_collision(mario_x, next_y)
     if collision == "solid":
@@ -165,7 +164,6 @@ while running:
     elif collision != "out":
         mario_y = next_y
 
-
     ground_level = (LEVEL_HEIGHT // TILE_SIZE - 2) * TILE_SIZE
     if mario_y >= ground_level:
         mario_y = ground_level
@@ -173,15 +171,16 @@ while running:
     if mario_x < 0:
         mario_x = 0
 
-
     camera_x = max(0, min(mario_x - SCREEN_WIDTH // 2, LEVEL_WIDTH - SCREEN_WIDTH))
-
 
     for enemy in enemies:
         enemy["x"] += enemy["vx"] * dt
-        if check_collision(enemy["x"], ground_level / TILE_SIZE) == "solid" or enemy["x"] < 0 or enemy["x"] >= LEVEL_WIDTH:
+        if (
+            check_collision(enemy["x"], ground_level / TILE_SIZE) == "solid"
+            or enemy["x"] < 0
+            or enemy["x"] >= LEVEL_WIDTH
+        ):
             enemy["vx"] *= -1
-
 
     screen.fill((135, 206, 235))
     for y in range(LEVEL_HEIGHT // TILE_SIZE):
@@ -196,15 +195,12 @@ while running:
                         text = FONT.render(tile, True, (0, 0, 0))
                         screen.blit(text, (scroll_x, y * TILE_SIZE))
 
-
     screen.blit(FONT.render(MARIO, True, (0, 0, 0)), (mario_x - camera_x, mario_y))
     for enemy in enemies:
         screen.blit(FONT.render(enemy["type"], True, (0, 0, 0)), (enemy["x"] - camera_x, ground_level))
 
-
     score_text = FONT.render(f"Score: {score}  Coins: {coins}", True, (255, 255, 255))
     screen.blit(score_text, (10, 10))
-
 
     for enemy in enemies:
         if abs(mario_x - enemy["x"]) < TILE_SIZE and abs(mario_y - ground_level) < TILE_SIZE:

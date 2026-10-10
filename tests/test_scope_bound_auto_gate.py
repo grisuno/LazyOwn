@@ -111,9 +111,7 @@ class TestScopeBoundAutoGate:
     def test_reads_payload_at_request_time(self, tmp_path):
         from lazyown_policy import ScopeBoundAutoGate
 
-        payload = _write_payload(
-            tmp_path, {"scope": ["10.0.0.0/8"], "scope_enforcement": "warn"}
-        )
+        payload = _write_payload(tmp_path, {"scope": ["10.0.0.0/8"], "scope_enforcement": "warn"})
         gate = ScopeBoundAutoGate(payload_path=payload, in_scope_fn=lambda t, e: False)
         assert gate.request("8.8.8.8", "exploit", "x").is_approved
         payload.write_text(
@@ -144,9 +142,7 @@ class TestScopeBoundAutoGate:
 
         auto = ScopeBoundAutoGate(payload_path=_write_payload(tmp_path, {}))
         assert hasattr(auto, "request")
-        assert ApprovalGate.request.__code__.co_varnames[:5] == (
-            ScopeBoundAutoGate.request.__code__.co_varnames[:5]
-        )
+        assert ApprovalGate.request.__code__.co_varnames[:5] == (ScopeBoundAutoGate.request.__code__.co_varnames[:5])
 
 
 class TestDefaultScopePredicate:
@@ -156,9 +152,7 @@ class TestDefaultScopePredicate:
         from lazyown_policy import ScopeBoundAutoGate
 
         gate = ScopeBoundAutoGate(
-            payload_path=_write_payload(
-                tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"}
-            )
+            payload_path=_write_payload(tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"})
         )
         assert gate.request("10.10.11.5", "exploit", "x").is_approved
         assert gate.request("8.8.8.8", "exploit", "x").is_denied
@@ -179,9 +173,7 @@ class TestDefaultScopePredicate:
             raise RuntimeError("scope predicate exploded")
 
         gate = ScopeBoundAutoGate(
-            payload_path=_write_payload(
-                tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"}
-            ),
+            payload_path=_write_payload(tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"}),
             in_scope_fn=_boom,
         )
         with pytest.raises(RuntimeError):
@@ -206,9 +198,7 @@ class TestAutoEngageWiring:
                 return {"target": self._target, "shell_obtained": False, "steps": []}
 
         monkeypatch.setattr(daemon, "EngageOrchestrator", _SpyOrchestrator)
-        monkeypatch.setattr(
-            daemon, "_maybe_generate_report", lambda: {"generated": True, "path": "sessions/r.md"}
-        )
+        monkeypatch.setattr(daemon, "_maybe_generate_report", lambda: {"generated": True, "path": "sessions/r.md"})
         summary = daemon._engage_run_sync("10.10.11.5", auto=True)
         assert isinstance(captured["gate"], ScopeBoundAutoGate)
         assert summary["report"] == {"generated": True, "path": "sessions/r.md"}
@@ -266,11 +256,10 @@ class TestFailClosedAutonomy:
     def temp_engagement(self, tmp_path):
         sessions_dir = tmp_path / "sessions"
         sessions_dir.mkdir(parents=True)
-        payload_path = _write_payload(
-            tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"}
-        )
+        payload_path = _write_payload(tmp_path, {"scope": ["10.10.11.0/24"], "scope_enforcement": "enforce"})
 
         import engagement_hooks
+
         importlib.reload(engagement_hooks)
         engagement_hooks.ENGAGEMENT_LOG = sessions_dir / "engagement.log"
         engagement_hooks.ENGAGEMENT_AUDIT = sessions_dir / "engagement_audit.jsonl"
@@ -288,9 +277,7 @@ class TestFailClosedAutonomy:
 
         runner = _CountingRunner()
         gate = ScopeBoundAutoGate(payload_path=temp_engagement["payload_path"])
-        orchestrator = EngageOrchestrator(
-            target="8.8.8.8", runner=runner, approval_gate=gate
-        )
+        orchestrator = EngageOrchestrator(target="8.8.8.8", runner=runner, approval_gate=gate)
         summary = orchestrator.run()
 
         assert runner.calls == []
@@ -305,9 +292,7 @@ class TestFailClosedAutonomy:
 
         runner = _CountingRunner()
         gate = ScopeBoundAutoGate(payload_path=temp_engagement["payload_path"])
-        orchestrator = EngageOrchestrator(
-            target="10.10.11.5", runner=runner, approval_gate=gate
-        )
+        orchestrator = EngageOrchestrator(target="10.10.11.5", runner=runner, approval_gate=gate)
         orchestrator.run()
 
         assert runner.calls, "in-scope target must actually execute the plan"

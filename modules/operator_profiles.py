@@ -99,11 +99,19 @@ class OperatorProfileManager:
         try:
             subprocess.run(
                 [
-                    "openssl", "req", "-new", "-x509", "-days", "3650",
+                    "openssl",
+                    "req",
+                    "-new",
+                    "-x509",
+                    "-days",
+                    "3650",
                     "-nodes",
-                    "-subj", "/C=XX/ST=LazyOwn/L=RedTeam/O=LazyOwn/CN=LazyOwn Team CA",
-                    "-keyout", str(_TEAM_CA_KEY),
-                    "-out", str(_TEAM_CA_CERT),
+                    "-subj",
+                    "/C=XX/ST=LazyOwn/L=RedTeam/O=LazyOwn/CN=LazyOwn Team CA",
+                    "-keyout",
+                    str(_TEAM_CA_KEY),
+                    "-out",
+                    str(_TEAM_CA_CERT),
                 ],
                 capture_output=True,
                 check=True,
@@ -136,10 +144,16 @@ class OperatorProfileManager:
         try:
             subprocess.run(
                 [
-                    "openssl", "req", "-new", "-nodes",
-                    "-subj", f"/CN={username}/O=LazyOwn Operator",
-                    "-keyout", str(key_path),
-                    "-out", str(csr_path),
+                    "openssl",
+                    "req",
+                    "-new",
+                    "-nodes",
+                    "-subj",
+                    f"/CN={username}/O=LazyOwn Operator",
+                    "-keyout",
+                    str(key_path),
+                    "-out",
+                    str(csr_path),
                 ],
                 capture_output=True,
                 check=True,
@@ -147,12 +161,21 @@ class OperatorProfileManager:
 
             subprocess.run(
                 [
-                    "openssl", "x509", "-req", "-days", "365",
-                    "-in", str(csr_path),
-                    "-CA", str(_TEAM_CA_CERT),
-                    "-CAkey", str(_TEAM_CA_KEY),
-                    "-set_serial", f"0x{int(datetime.now().timestamp())}",
-                    "-out", str(cert_path),
+                    "openssl",
+                    "x509",
+                    "-req",
+                    "-days",
+                    "365",
+                    "-in",
+                    str(csr_path),
+                    "-CA",
+                    str(_TEAM_CA_CERT),
+                    "-CAkey",
+                    str(_TEAM_CA_KEY),
+                    "-set_serial",
+                    f"0x{int(datetime.now().timestamp())}",
+                    "-out",
+                    str(cert_path),
                 ],
                 capture_output=True,
                 check=True,
@@ -250,9 +273,7 @@ class OperatorProfileManager:
             log.warning("Corrupt profile %s: %s", username, exc)
             return None
 
-    def update_profile(
-        self, username: str, **kwargs: Any
-    ) -> OperatorProfile | None:
+    def update_profile(self, username: str, **kwargs: Any) -> OperatorProfile | None:
         """Update fields on an existing profile."""
         profile = self.load_profile(username)
         if profile is None:
@@ -271,6 +292,7 @@ class OperatorProfileManager:
         if not profile_dir.exists():
             return False
         import shutil
+
         shutil.rmtree(profile_dir)
         log.info("Deleted operator profile: %s", username)
         return True
@@ -310,9 +332,7 @@ class OperatorProfileManager:
             return default
         return profile.attributes.get(key, default)
 
-    def log_action(
-        self, username: str, action: str, details: dict[str, Any] | None = None
-    ) -> None:
+    def log_action(self, username: str, action: str, details: dict[str, Any] | None = None) -> None:
         """Append an audited action to the operator's audit log.
 
         Args:

@@ -16,6 +16,7 @@ Design (SOLID)
 - Interface Segregation : ReactiveEngine exposes only analyse() to callers.
 - Dependency Inversion  : ReactiveEngine depends on AbstractSignalMatcher.
 """
+
 from __future__ import annotations
 
 import logging
@@ -34,9 +35,7 @@ SEMANTIC_OUTPUT_LIMIT: int = 1000
 SEMANTIC_REASON_LIMIT: int = 140
 SEMANTIC_MITRE_TACTIC: str = "T1595"
 SEMANTIC_PRIORITY: int = 5
-SEMANTIC_FILENAME_PATTERN: re.Pattern = re.compile(
-    r"command_(?P<verb>[A-Za-z0-9_\-]+)output"
-)
+SEMANTIC_FILENAME_PATTERN: re.Pattern = re.compile(r"command_(?P<verb>[A-Za-z0-9_\-]+)output")
 SEMANTIC_PAYLOAD_KEY: str = "reactive_semantic_enabled"
 
 
@@ -65,25 +64,28 @@ def _default_config_loader() -> dict[str, Any]:
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class Signal:
     """A detected indicator in command output."""
-    kind: str          # "cred", "av_blocked", "shell_error", "new_host",
-                       # "privesc_hint", "version", "service"
+
+    kind: str  # "cred", "av_blocked", "shell_error", "new_host",
+    # "privesc_hint", "version", "service"
     value: str
     confidence: float  # 0.0-1.0
-    raw_match: str     # the matching substring for audit
+    raw_match: str  # the matching substring for audit
 
 
 @dataclass
 class ReactiveDecision:
     """What the autonomous loop should do next given the signals."""
-    action: str            # "run_command", "escalate_evasion", "switch_tool",
-                           # "record_cred", "add_host", "mark_privesc_done"
-    command: str           # ready-to-run LazyOwn command (may be empty)
+
+    action: str  # "run_command", "escalate_evasion", "switch_tool",
+    # "record_cred", "add_host", "mark_privesc_done"
+    command: str  # ready-to-run LazyOwn command (may be empty)
     reason: str
     mitre_tactic: str = ""
-    priority: int = 5      # 1=critical, 10=low
+    priority: int = 5  # 1=critical, 10=low
     signals: list[Signal] = field(default_factory=list)
 
 
@@ -91,11 +93,10 @@ class ReactiveDecision:
 # Signal matchers
 # ---------------------------------------------------------------------------
 
-class AbstractSignalMatcher(ABC):
 
+class AbstractSignalMatcher(ABC):
     @abstractmethod
-    def match(self, output: str, context: dict) -> list[Signal]:
-        ...
+    def match(self, output: str, context: dict) -> list[Signal]: ...
 
 
 class AVBlockedMatcher(AbstractSignalMatcher):
@@ -106,10 +107,12 @@ class AVBlockedMatcher(AbstractSignalMatcher):
         (r"operation\s+not\s+permitted", "linux_acl"),
         (r"virus\s+detected|malware\s+detected|threat\s+detected", "av_alert"),
         (r"windows\s+defender\s+(blocked|detected|prevented|quarantine)|microsoft\s+antivirus", "defender"),
-        (r"(crowdstrike|carbonblack|sentinelone|cylance|symantec|mcafee|kaspersky)\s+(blocked|detected|prevented|alert)", "edr"),
+        (
+            r"(crowdstrike|carbonblack|sentinelone|cylance|symantec|mcafee|kaspersky)\s+(blocked|detected|prevented|alert)",
+            "edr",
+        ),
         (r"amsi\.dll|amsi\s+bypass\s+blocked|antimalware\s+scan\s+interface\s+(blocked|detected)", "amsi"),
-        (r"execution\s+policy|cannot\s+be\s+loaded\s+because\s+running\s+scripts",
-         "powershell_policy"),
+        (r"execution\s+policy|cannot\s+be\s+loaded\s+because\s+running\s+scripts", "powershell_policy"),
         (r"quarantine|blocked\s+by\s+security|security\s+alert", "quarantine"),
     ]
 
@@ -124,21 +127,20 @@ class AVBlockedMatcher(AbstractSignalMatcher):
 
     def match(self, output: str, context: dict) -> list[Signal]:
         # Strip LazyOwn framework registration noise before matching
-        clean_lines = [
-            ln for ln in output.splitlines()
-            if not any(np in ln.lower() for np in self._NOISE_PATTERNS)
-        ]
+        clean_lines = [ln for ln in output.splitlines() if not any(np in ln.lower() for np in self._NOISE_PATTERNS)]
         lower = "\n".join(clean_lines).lower()
         signals: list[Signal] = []
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
-                signals.append(Signal(
-                    kind="av_blocked",
-                    value=kind,
-                    confidence=0.85,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="av_blocked",
+                        value=kind,
+                        confidence=0.85,
+                        raw_match=m.group(),
+                    )
+                )
         return signals
 
 
@@ -148,9 +150,9 @@ class CredentialFoundMatcher(AbstractSignalMatcher):
     _PATTERNS = [
         r"(?:password|passwd|pwd)\s*[:=]\s*(\S+)",
         r"(?:username|user|login)\s*[:=]\s*(\S+)",
-        r"(\w+):(\$[0-9a-fA-F$./]{20,})",   # shadow hash
+        r"(\w+):(\$[0-9a-fA-F$./]{20,})",  # shadow hash
         r"([a-fA-F0-9]{32}:[a-fA-F0-9]{32})",  # NTLM hash
-        r"(\w+)\s*:\s*([a-fA-F0-9]{64})",       # SHA256-like
+        r"(\w+)\s*:\s*([a-fA-F0-9]{64})",  # SHA256-like
         r"(aad3b435b51404eeaad3b435b51404ee:[a-fA-F0-9]{32})",  # empty LM
     ]
 
@@ -158,12 +160,14 @@ class CredentialFoundMatcher(AbstractSignalMatcher):
         signals: list[Signal] = []
         for pattern in self._PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
-                signals.append(Signal(
-                    kind="cred",
-                    value=m.group()[:120],
-                    confidence=0.7,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="cred",
+                        value=m.group()[:120],
+                        confidence=0.7,
+                        raw_match=m.group(),
+                    )
+                )
         return signals[:10]  # cap to avoid noise
 
 
@@ -191,21 +195,21 @@ class PrivescHintMatcher(AbstractSignalMatcher):
         for pattern, hint in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
-                signals.append(Signal(
-                    kind="privesc_hint",
-                    value=hint,
-                    confidence=0.75,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="privesc_hint",
+                        value=hint,
+                        confidence=0.75,
+                        raw_match=m.group(),
+                    )
+                )
         return signals
 
 
 class NewHostMatcher(AbstractSignalMatcher):
     """Detects new IP addresses in command output."""
 
-    _IP_RE = re.compile(
-        r"\b(?:10|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3}\b"
-    )
+    _IP_RE = re.compile(r"\b(?:10|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3}\b")
 
     def match(self, output: str, context: dict) -> list[Signal]:
         known = set(context.get("known_hosts", []))
@@ -213,12 +217,14 @@ class NewHostMatcher(AbstractSignalMatcher):
         for m in self._IP_RE.finditer(output):
             ip = m.group()
             if ip not in known:
-                signals.append(Signal(
-                    kind="new_host",
-                    value=ip,
-                    confidence=0.6,
-                    raw_match=ip,
-                ))
+                signals.append(
+                    Signal(
+                        kind="new_host",
+                        value=ip,
+                        confidence=0.6,
+                        raw_match=ip,
+                    )
+                )
                 known.add(ip)
         return signals
 
@@ -242,12 +248,14 @@ class ServiceVersionMatcher(AbstractSignalMatcher):
         signals: list[Signal] = []
         for pattern in self._PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
-                signals.append(Signal(
-                    kind="version",
-                    value=m.group(1),
-                    confidence=0.8,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="version",
+                        value=m.group(1),
+                        confidence=0.8,
+                        raw_match=m.group(),
+                    )
+                )
         return signals
 
 
@@ -271,12 +279,14 @@ class ShellErrorMatcher(AbstractSignalMatcher):
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, lower)
             if m:
-                signals.append(Signal(
-                    kind="shell_error",
-                    value=kind,
-                    confidence=0.9,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="shell_error",
+                        value=kind,
+                        confidence=0.9,
+                        raw_match=m.group(),
+                    )
+                )
         return signals[:3]  # only the first few errors
 
 
@@ -299,12 +309,14 @@ class LateralOpportunityMatcher(AbstractSignalMatcher):
         for pattern, kind in self._PATTERNS:
             m = re.search(pattern, output, re.IGNORECASE)
             if m:
-                signals.append(Signal(
-                    kind="lateral_opportunity",
-                    value=kind,
-                    confidence=0.75,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="lateral_opportunity",
+                        value=kind,
+                        confidence=0.75,
+                        raw_match=m.group(),
+                    )
+                )
         return signals
 
 
@@ -338,34 +350,41 @@ class DataOfInterestMatcher(AbstractSignalMatcher):
         signals: list[Signal] = []
         for pattern in self._PII_PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
-                signals.append(Signal(
-                    kind="data_of_interest",
-                    value=f"pii:{m.group()[:50]}",
-                    confidence=0.85,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="data_of_interest",
+                        value=f"pii:{m.group()[:50]}",
+                        confidence=0.85,
+                        raw_match=m.group(),
+                    )
+                )
         for pattern in self._SECRET_PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
-                signals.append(Signal(
-                    kind="data_of_interest",
-                    value=f"secret:{m.group()[:50]}",
-                    confidence=0.90,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="data_of_interest",
+                        value=f"secret:{m.group()[:50]}",
+                        confidence=0.90,
+                        raw_match=m.group(),
+                    )
+                )
         for pattern in self._FILE_PATTERNS:
             for m in re.finditer(pattern, output, re.IGNORECASE):
-                signals.append(Signal(
-                    kind="data_of_interest",
-                    value=f"file:{m.group()[:50]}",
-                    confidence=0.70,
-                    raw_match=m.group(),
-                ))
+                signals.append(
+                    Signal(
+                        kind="data_of_interest",
+                        value=f"file:{m.group()[:50]}",
+                        confidence=0.70,
+                        raw_match=m.group(),
+                    )
+                )
         return signals[:5]
 
 
 # ---------------------------------------------------------------------------
 # Parquet lookup (GTFOBins + LOLBas + Atomic Red Team techniques)
 # ---------------------------------------------------------------------------
+
 
 class ParquetAdvisor:
     """
@@ -375,7 +394,7 @@ class ParquetAdvisor:
 
     def __init__(self, root: Path = _ROOT) -> None:
         self._root = root
-        self._binarios: object | None = None   # DataFrame
+        self._binarios: object | None = None  # DataFrame
         self._lolbas: object | None = None
         self._techniques: object | None = None
         self._loaded = False
@@ -386,6 +405,7 @@ class ParquetAdvisor:
         self._loaded = True
         try:
             import pandas as pd
+
             b = self._root / "parquets" / "binarios.parquet"
             lolbas_path = self._root / "parquets" / "lolbas_index.parquet"
             t = self._root / "parquets" / "techniques.parquet"
@@ -432,13 +452,10 @@ class ParquetAdvisor:
             return []
         try:
             df = self._techniques
-            p_mask = df["platforms"].astype(str).str.lower().str.contains(
-                platform.lower()
-            )
-            k_mask = (
-                df["name"].astype(str).str.lower().str.contains(keyword.lower()) |
-                df["description"].astype(str).str.lower().str.contains(keyword.lower())
-            )
+            p_mask = df["platforms"].astype(str).str.lower().str.contains(platform.lower())
+            k_mask = df["name"].astype(str).str.lower().str.contains(keyword.lower()) | df["description"].astype(
+                str
+            ).str.lower().str.contains(keyword.lower())
             rows = df[p_mask & k_mask].head(3)
             cmds: list[str] = []
             for _, r in rows.iterrows():
@@ -449,7 +466,9 @@ class ParquetAdvisor:
         except Exception as exc:
             _log.debug(
                 "ParquetAdvisor.technique_commands_for(%s, %s) failed: %s",
-                platform, keyword, exc,
+                platform,
+                keyword,
+                exc,
             )
             return []
 
@@ -458,6 +477,7 @@ class ParquetAdvisor:
 # Evasion advisor
 # ---------------------------------------------------------------------------
 
+
 class EvasionAdvisor:
     """
     Maps detected AV/EDR signals to concrete LazyOwn evasion commands.
@@ -465,17 +485,17 @@ class EvasionAdvisor:
     """
 
     _WINDOWS_EVASION = [
-        ("amsi",        "adversary_yaml amsi",         "T1562", "AMSI bypass via amsi.yaml"),
-        ("defender",    "disableav",                   "T1562", "Disable Windows Defender"),
+        ("amsi", "adversary_yaml amsi", "T1562", "AMSI bypass via amsi.yaml"),
+        ("defender", "disableav", "T1562", "Disable Windows Defender"),
         ("powershell_policy", "adversary_yaml persist", "T1562", "Bypass PowerShell execution policy"),
-        ("edr",         "aes_pe",                      "T1027", "AES-encrypt PE for EDR bypass"),
-        ("av_alert",    "ofuscatorps1",                "T1027", "Obfuscate PowerShell payload"),
-        ("quarantine",  "scarecrow",                   "T1027", "ScareCrow EDR bypass"),
-        ("default",     "darkarmour",                  "T1027", "DarkArmour PE crypter"),
+        ("edr", "aes_pe", "T1027", "AES-encrypt PE for EDR bypass"),
+        ("av_alert", "ofuscatorps1", "T1027", "Obfuscate PowerShell payload"),
+        ("quarantine", "scarecrow", "T1027", "ScareCrow EDR bypass"),
+        ("default", "darkarmour", "T1027", "DarkArmour PE crypter"),
     ]
 
     _LINUX_EVASION = [
-        ("default",     "ofuscatesh",                  "T1027", "Obfuscate shell script"),
+        ("default", "ofuscatesh", "T1027", "Obfuscate shell script"),
     ]
 
     # ACL-only signals (kernel permission errors, not AV) — never trigger evasion
@@ -484,10 +504,7 @@ class EvasionAdvisor:
     def suggest(self, signals: list[Signal], platform: str) -> list[ReactiveDecision]:
         # Only real AV/EDR blocks trigger evasion — not generic kernel ACL errors
         # ("operation not permitted" / "access is denied" are normal scan noise)
-        av_signals = [
-            s for s in signals
-            if s.kind == "av_blocked" and s.value not in self._ACL_ONLY_KINDS
-        ]
+        av_signals = [s for s in signals if s.kind == "av_blocked" and s.value not in self._ACL_ONLY_KINDS]
         if not av_signals:
             return []
 
@@ -497,14 +514,16 @@ class EvasionAdvisor:
         for sig in av_signals:
             for av_kind, command, mitre, reason in evasion_map:
                 if av_kind in (sig.value, "default"):
-                    decisions.append(ReactiveDecision(
-                        action="escalate_evasion",
-                        command=command,
-                        reason=f"{reason} (triggered by: {sig.value})",
-                        mitre_tactic=mitre,
-                        priority=1,
-                        signals=[sig],
-                    ))
+                    decisions.append(
+                        ReactiveDecision(
+                            action="escalate_evasion",
+                            command=command,
+                            reason=f"{reason} (triggered by: {sig.value})",
+                            mitre_tactic=mitre,
+                            priority=1,
+                            signals=[sig],
+                        )
+                    )
                     break  # one evasion per signal
 
         return decisions
@@ -513,6 +532,7 @@ class EvasionAdvisor:
 # ---------------------------------------------------------------------------
 # PrivEsc advisor
 # ---------------------------------------------------------------------------
+
 
 class PrivescAdvisor:
     """
@@ -524,22 +544,22 @@ class PrivescAdvisor:
     """
 
     _LINUX_QUICK = [
-        ("sudo_nopasswd",    "adversary_yaml",   "sudo -l && sudo /bin/bash",       "T1548", 1),
-        ("suid_binary",      "find",             "find / -perm -4000 -type f 2>/dev/null", "T1548", 2),
-        ("writable_cron",    "find",             "find /etc/cron* -writable 2>/dev/null",  "T1053", 2),
-        ("polkit",           "lazypwn",          "lazypwn",                         "T1068", 1),
-        ("dirtycow",         "download_exploit", "download_exploit CVE-2016-5195",  "T1068", 2),
-        ("kernel_version",   "nuclei",           "nuclei -u http://127.0.0.1 -t lpe", "T1068", 3),
-        ("default",          "lynis",            "lynis",                           "T1518", 5),
+        ("sudo_nopasswd", "adversary_yaml", "sudo -l && sudo /bin/bash", "T1548", 1),
+        ("suid_binary", "find", "find / -perm -4000 -type f 2>/dev/null", "T1548", 2),
+        ("writable_cron", "find", "find /etc/cron* -writable 2>/dev/null", "T1053", 2),
+        ("polkit", "lazypwn", "lazypwn", "T1068", 1),
+        ("dirtycow", "download_exploit", "download_exploit CVE-2016-5195", "T1068", 2),
+        ("kernel_version", "nuclei", "nuclei -u http://127.0.0.1 -t lpe", "T1068", 3),
+        ("default", "lynis", "lynis", "T1518", 5),
     ]
 
     _WINDOWS_QUICK = [
-        ("token_impersonation", "adversary_yaml",  "adversary_yaml amsi",          "T1134", 1),
-        ("unquoted_service",    "wmiexecpro",       "wmiexecpro",                   "T1574", 2),
-        ("dll_hijack",          "createdll",        "createdll",                    "T1574", 2),
-        ("always_install_elevated", "msfshellcoder", "msfshellcoder",               "T1548", 2),
-        ("cve_match",           "download_exploit", "download_exploit",             "T1068", 3),
-        ("default",             "rubeus",           "rubeus",                       "T1558", 4),
+        ("token_impersonation", "adversary_yaml", "adversary_yaml amsi", "T1134", 1),
+        ("unquoted_service", "wmiexecpro", "wmiexecpro", "T1574", 2),
+        ("dll_hijack", "createdll", "createdll", "T1574", 2),
+        ("always_install_elevated", "msfshellcoder", "msfshellcoder", "T1548", 2),
+        ("cve_match", "download_exploit", "download_exploit", "T1068", 3),
+        ("default", "rubeus", "rubeus", "T1558", 4),
     ]
 
     def suggest(
@@ -557,43 +577,48 @@ class PrivescAdvisor:
         for sig in priv_signals:
             for hint, tool, cmd, mitre, prio in quick_map:
                 if hint == sig.value and hint not in matched:
-                    decisions.append(ReactiveDecision(
-                        action="run_command",
-                        command=cmd,
-                        reason=f"PrivEsc hint '{hint}' detected — running {tool}",
-                        mitre_tactic=mitre,
-                        priority=prio,
-                        signals=[sig],
-                    ))
+                    decisions.append(
+                        ReactiveDecision(
+                            action="run_command",
+                            command=cmd,
+                            reason=f"PrivEsc hint '{hint}' detected — running {tool}",
+                            mitre_tactic=mitre,
+                            priority=prio,
+                            signals=[sig],
+                        )
+                    )
                     matched.add(hint)
                     break
 
         # If no specific hint matched, suggest generic escalation check
         if not decisions and priv_signals:
             default_cmd = "lynis" if platform != "windows" else "rubeus"
-            decisions.append(ReactiveDecision(
-                action="run_command",
-                command=default_cmd,
-                reason="Generic privesc check triggered by output analysis",
-                mitre_tactic="T1518",
-                priority=5,
-                signals=priv_signals[:1],
-            ))
+            decisions.append(
+                ReactiveDecision(
+                    action="run_command",
+                    command=default_cmd,
+                    reason="Generic privesc check triggered by output analysis",
+                    mitre_tactic="T1518",
+                    priority=5,
+                    signals=priv_signals[:1],
+                )
+            )
 
         # GTFOBins enhancement: if a binary name appears in output, suggest abuse
         if parquet:
-            for common_bin in ("python3", "python", "perl", "ruby", "find",
-                               "awk", "nmap", "vim", "less", "tar", "zip"):
+            for common_bin in ("python3", "python", "perl", "ruby", "find", "awk", "nmap", "vim", "less", "tar", "zip"):
                 funcs = parquet.gtfobins_for(common_bin)
                 if "Sudo" in funcs or "SUID" in funcs:
-                    decisions.append(ReactiveDecision(
-                        action="run_command",
-                        command=f"find / -perm -4000 -name {common_bin} 2>/dev/null",
-                        reason=f"GTFOBins: {common_bin} has SUID/Sudo abuse vectors",
-                        mitre_tactic="T1548",
-                        priority=3,
-                        signals=[],
-                    ))
+                    decisions.append(
+                        ReactiveDecision(
+                            action="run_command",
+                            command=f"find / -perm -4000 -name {common_bin} 2>/dev/null",
+                            reason=f"GTFOBins: {common_bin} has SUID/Sudo abuse vectors",
+                            mitre_tactic="T1548",
+                            priority=3,
+                            signals=[],
+                        )
+                    )
                     break
 
         return decisions
@@ -602,6 +627,7 @@ class PrivescAdvisor:
 # ---------------------------------------------------------------------------
 # Semantic context advisor
 # ---------------------------------------------------------------------------
+
 
 class SemanticContextAdvisor:
     """Suggest follow-up commands by semantic similarity to past sessions.
@@ -738,9 +764,7 @@ class SemanticContextAdvisor:
             return []
 
         try:
-            hits = rag.query(
-                output[:SEMANTIC_OUTPUT_LIMIT], n=self._query_limit
-            )
+            hits = rag.query(output[:SEMANTIC_OUTPUT_LIMIT], n=self._query_limit)
         except Exception as exc:
             _log.debug("SemanticContextAdvisor: rag.query failed: %s", exc)
             return []
@@ -757,16 +781,12 @@ class SemanticContextAdvisor:
                 continue
             snippet = (hit.get("text") or "").strip()
             snippet = snippet.replace("\n", " ")[:SEMANTIC_REASON_LIMIT]
-            score_label = (
-                f"{score:.2f}" if isinstance(score, (int, float)) else "n/a"
-            )
+            score_label = f"{score:.2f}" if isinstance(score, (int, float)) else "n/a"
             decisions.append(
                 ReactiveDecision(
                     action="suggest_next",
                     command=verb,
-                    reason=(
-                        f"Similar past output (score={score_label}): {snippet}"
-                    ),
+                    reason=(f"Similar past output (score={score_label}): {snippet}"),
                     mitre_tactic=SEMANTIC_MITRE_TACTIC,
                     priority=SEMANTIC_PRIORITY,
                     signals=[],
@@ -779,6 +799,7 @@ class SemanticContextAdvisor:
 # ---------------------------------------------------------------------------
 # Reactive engine
 # ---------------------------------------------------------------------------
+
 
 class ReactiveEngine:
     """
@@ -836,7 +857,8 @@ class ReactiveEngine:
             except Exception as exc:
                 _log.debug(
                     "reactive_engine: matcher %s failed: %s",
-                    matcher.__class__.__name__, exc,
+                    matcher.__class__.__name__,
+                    exc,
                 )
                 continue
 
@@ -849,76 +871,86 @@ class ReactiveEngine:
         # New credentials found
         cred_signals = [s for s in all_signals if s.kind == "cred"]
         for sig in cred_signals[:3]:
-            decisions.append(ReactiveDecision(
-                action="record_cred",
-                command=f"createcredentials {sig.value[:80]}",
-                reason="Credential found in output — storing in session",
-                mitre_tactic="T1552",
-                priority=2,
-                signals=[sig],
-            ))
+            decisions.append(
+                ReactiveDecision(
+                    action="record_cred",
+                    command=f"createcredentials {sig.value[:80]}",
+                    reason="Credential found in output — storing in session",
+                    mitre_tactic="T1552",
+                    priority=2,
+                    signals=[sig],
+                )
+            )
 
         # New hosts discovered
         host_signals = [s for s in all_signals if s.kind == "new_host"]
         for sig in host_signals[:5]:
-            decisions.append(ReactiveDecision(
-                action="add_host",
-                command=f"assign rhost {sig.value}",
-                reason=f"New internal host {sig.value} detected in output",
-                mitre_tactic="T1018",
-                priority=3,
-                signals=[sig],
-            ))
+            decisions.append(
+                ReactiveDecision(
+                    action="add_host",
+                    command=f"assign rhost {sig.value}",
+                    reason=f"New internal host {sig.value} detected in output",
+                    mitre_tactic="T1018",
+                    priority=3,
+                    signals=[sig],
+                )
+            )
 
         # Connection refused / tool error → suggest switch
         err_signals = [s for s in all_signals if s.kind == "shell_error"]
         for sig in err_signals[:1]:
             if sig.value in ("conn_refused", "no_route"):
-                decisions.append(ReactiveDecision(
-                    action="switch_tool",
-                    command="portdiscover",
-                    reason=f"Connection error ({sig.value}) — re-check reachability",
-                    mitre_tactic="T1046",
-                    priority=4,
-                    signals=[sig],
-                ))
+                decisions.append(
+                    ReactiveDecision(
+                        action="switch_tool",
+                        command="portdiscover",
+                        reason=f"Connection error ({sig.value}) — re-check reachability",
+                        mitre_tactic="T1046",
+                        priority=4,
+                        signals=[sig],
+                    )
+                )
             elif sig.value == "auth_fail":
-                decisions.append(ReactiveDecision(
-                    action="switch_tool",
-                    command="passwordspray",
-                    reason="Authentication failure — try password spray",
-                    mitre_tactic="T1110",
-                    priority=3,
-                    signals=[sig],
-                ))
+                decisions.append(
+                    ReactiveDecision(
+                        action="switch_tool",
+                        command="passwordspray",
+                        reason="Authentication failure — try password spray",
+                        mitre_tactic="T1110",
+                        priority=3,
+                        signals=[sig],
+                    )
+                )
 
         # Lateral movement opportunities
         lateral_signals = [s for s in all_signals if s.kind == "lateral_opportunity"]
         for sig in lateral_signals[:3]:
-            decisions.append(ReactiveDecision(
-                action="run_command",
-                command=f"crackmapexec {sig.value}",
-                reason=f"Lateral movement opportunity: {sig.value}",
-                mitre_tactic="T1570",
-                priority=2,
-                signals=[sig],
-            ))
+            decisions.append(
+                ReactiveDecision(
+                    action="run_command",
+                    command=f"crackmapexec {sig.value}",
+                    reason=f"Lateral movement opportunity: {sig.value}",
+                    mitre_tactic="T1570",
+                    priority=2,
+                    signals=[sig],
+                )
+            )
 
         # Data of interest found
         data_signals = [s for s in all_signals if s.kind == "data_of_interest"]
         for sig in data_signals[:3]:
-            decisions.append(ReactiveDecision(
-                action="run_command",
-                command="exfil",
-                reason=f"Data of interest found: {sig.value}",
-                mitre_tactic="T1030",
-                priority=1,
-                signals=[sig],
-            ))
+            decisions.append(
+                ReactiveDecision(
+                    action="run_command",
+                    command="exfil",
+                    reason=f"Data of interest found: {sig.value}",
+                    mitre_tactic="T1030",
+                    priority=1,
+                    signals=[sig],
+                )
+            )
 
-        decisions.extend(
-            self._semantic.suggest(output, command, platform, ctx)
-        )
+        decisions.extend(self._semantic.suggest(output, command, platform, ctx))
 
         decisions.sort(key=lambda d: d.priority)
         return decisions

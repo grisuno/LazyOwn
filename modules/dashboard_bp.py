@@ -10,6 +10,7 @@ Registration (one line in lazyc2.py after app creation):
 
 Then visit: http://localhost:4444/dashboard/
 """
+
 from __future__ import annotations
 
 import json
@@ -32,6 +33,7 @@ def _require_login():
         return redirect(url_for("login"))
     return None
 
+
 # ---------------------------------------------------------------------------
 # Session file paths
 # ---------------------------------------------------------------------------
@@ -42,28 +44,29 @@ _SESSIONS_DIR = Path(__file__).parent.parent / "sessions"
 # MITRE ATT&CK tactic mapping (from categories.py)
 # ---------------------------------------------------------------------------
 TACTICS = [
-    ("01", "Reconnaissance",       "recon"),
-    ("02", "Scanning & Enum",      "scanning"),
-    ("03", "Exploitation",         "exploit"),
-    ("04", "Post-Exploitation",    "post"),
-    ("05", "Persistence",          "persistence"),
+    ("01", "Reconnaissance", "recon"),
+    ("02", "Scanning & Enum", "scanning"),
+    ("03", "Exploitation", "exploit"),
+    ("04", "Post-Exploitation", "post"),
+    ("05", "Persistence", "persistence"),
     ("06", "Privilege Escalation", "privesc"),
-    ("07", "Credential Access",    "credential"),
-    ("08", "Lateral Movement",     "lateral"),
-    ("09", "Data Exfiltration",    "exfil"),
-    ("10", "C2",                   "c2"),
-    ("11", "Reporting",            "reporting"),
-    ("12", "Miscellaneous",        "misc"),
-    ("13", "Lua Plugins",          "lua"),
-    ("14", "YAML Addons",          "yaml"),
-    ("17", "Adversary Emulation",  "adversary"),
-    ("16", "AI",                   "ai"),
+    ("07", "Credential Access", "credential"),
+    ("08", "Lateral Movement", "lateral"),
+    ("09", "Data Exfiltration", "exfil"),
+    ("10", "C2", "c2"),
+    ("11", "Reporting", "reporting"),
+    ("12", "Miscellaneous", "misc"),
+    ("13", "Lua Plugins", "lua"),
+    ("14", "YAML Addons", "yaml"),
+    ("17", "Adversary Emulation", "adversary"),
+    ("16", "AI", "ai"),
 ]
 
 
 # ---------------------------------------------------------------------------
 # Internal data aggregation
 # ---------------------------------------------------------------------------
+
 
 def _read_jsonl(path: Path, last_n: int = 0) -> list:
     """Read a .jsonl file, optionally returning only the last N lines."""
@@ -119,12 +122,14 @@ def _aggregate_data() -> dict:
     events_raw = _read_jsonl(sessions / "events.jsonl", last_n=20)
     recent_events = []
     for ev in events_raw:
-        recent_events.append({
-            "timestamp": ev.get("timestamp", ev.get("ts", "")),
-            "type":      ev.get("event_type", ev.get("type", "UNKNOWN")),
-            "detail":    ev.get("suggest", ev.get("detail", ev.get("description", ""))),
-            "severity":  ev.get("severity", "info"),
-        })
+        recent_events.append(
+            {
+                "timestamp": ev.get("timestamp", ev.get("ts", "")),
+                "type": ev.get("event_type", ev.get("type", "UNKNOWN")),
+                "detail": ev.get("suggest", ev.get("detail", ev.get("description", ""))),
+                "severity": ev.get("severity", "info"),
+            }
+        )
 
     # -- Tactic event counts for MITRE grid -----------------------------------
     tactic_counts: dict[str, int] = {t[2]: 0 for t in TACTICS}
@@ -148,13 +153,15 @@ def _aggregate_data() -> dict:
         done = bool(obj.get("done", obj.get("completed", obj.get("status", "") == "done")))
         if done:
             objectives_done += 1
-        objectives.append({
-            "id":          obj.get("id", ""),
-            "title":       obj.get("title", obj.get("objective", obj.get("description", ""))),
-            "description": obj.get("description", ""),
-            "done":        done,
-            "priority":    obj.get("priority", "normal"),
-        })
+        objectives.append(
+            {
+                "id": obj.get("id", ""),
+                "title": obj.get("title", obj.get("objective", obj.get("description", ""))),
+                "description": obj.get("description", ""),
+                "done": done,
+                "priority": obj.get("priority", "normal"),
+            }
+        )
 
     # -- Policy facts (hosts) -------------------------------------------------
     raw_facts = _read_json(sessions / "policy_facts.json")
@@ -165,18 +172,22 @@ def _aggregate_data() -> dict:
                 continue
             services_raw = hdata.get("services", {})
             services_list = (
-                list(services_raw.keys()) if isinstance(services_raw, dict)
-                else services_raw if isinstance(services_raw, list)
+                list(services_raw.keys())
+                if isinstance(services_raw, dict)
+                else services_raw
+                if isinstance(services_raw, list)
                 else []
             )
-            hosts.append({
-                "ip":              host_ip,
-                "os":              hdata.get("os_hint", hdata.get("os", "")),
-                "services":        services_list,
-                "service_count":   len(services_list),
-                "credential_count": len(hdata.get("credentials", [])),
-                "vuln_count":      len(hdata.get("vulnerabilities", [])),
-            })
+            hosts.append(
+                {
+                    "ip": host_ip,
+                    "os": hdata.get("os_hint", hdata.get("os", "")),
+                    "services": services_list,
+                    "service_count": len(services_list),
+                    "credential_count": len(hdata.get("credentials", [])),
+                    "vuln_count": len(hdata.get("vulnerabilities", [])),
+                }
+            )
 
     # -- Credentials ----------------------------------------------------------
     cred_count = _count_lines(sessions / "credentials.txt")
@@ -194,18 +205,18 @@ def _aggregate_data() -> dict:
 
     # -- Assemble -------------------------------------------------------------
     return {
-        "generated_at":    datetime.now(tz=UTC).isoformat(),
-        "beacon_count":    beacon_count,
-        "active_beacons":  active_beacons,
+        "generated_at": datetime.now(tz=UTC).isoformat(),
+        "beacon_count": beacon_count,
+        "active_beacons": active_beacons,
         "hosts_discovered": len(hosts),
         "credentials_found": cred_count,
-        "objectives_done":  objectives_done,
+        "objectives_done": objectives_done,
         "objectives_total": len(objectives),
-        "tactic_counts":   tactic_counts,
-        "recent_events":   recent_events,
-        "hosts":           hosts,
-        "objectives":      objectives,
-        "campaign":        campaign,
+        "tactic_counts": tactic_counts,
+        "recent_events": recent_events,
+        "hosts": hosts,
+        "objectives": objectives,
+        "campaign": campaign,
     }
 
 
@@ -762,6 +773,7 @@ a{color:var(--accent);text-decoration:none}
 # Routes
 # ---------------------------------------------------------------------------
 
+
 @dashboard_bp.route("/")
 def dashboard_index():
     """Render the main SOC dashboard HTML page."""
@@ -936,9 +948,13 @@ def _read_timeline() -> list[dict]:
                     duration = record.get("duration_ms") or ""
                     target = record.get("destination_ip") or ""
                     detail = " ".join(
-                        part for part in (f"target={target}" if target else "", f"{duration}ms" if duration else "") if part
+                        part
+                        for part in (f"target={target}" if target else "", f"{duration}ms" if duration else "")
+                        if part
                     )
-                    rows.append({"ts": sortable, "display": display, "kind": "command", "label": command, "detail": detail})
+                    rows.append(
+                        {"ts": sortable, "display": display, "kind": "command", "label": command, "detail": detail}
+                    )
         except OSError:
             pass
     for event in _read_jsonl(_SESSIONS_DIR / "events.jsonl"):

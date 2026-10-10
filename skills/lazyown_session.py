@@ -20,9 +20,24 @@ from datetime import datetime
 from pathlib import Path
 
 _SENSITIVE_KEYS = {
-    "password", "passwd", "secret", "token", "api_key", "apikey",
-    "private_key", "private", "credential", "credentials", "session_token",
-    "auth", "authorization", "cookie", "bearer", "hash", "ntlm", "nthash",
+    "password",
+    "passwd",
+    "secret",
+    "token",
+    "api_key",
+    "apikey",
+    "private_key",
+    "private",
+    "credential",
+    "credentials",
+    "session_token",
+    "auth",
+    "authorization",
+    "cookie",
+    "bearer",
+    "hash",
+    "ntlm",
+    "nthash",
 }
 
 
@@ -181,7 +196,8 @@ class SessionTranscript:
         # Generate template summary using ContextCompactor
         try:
             from lazyown_context import ContextCompactor
-            older = events[last_idx + 1:]
+
+            older = events[last_idx + 1 :]
             summary = ContextCompactor.auto_compact_session(older)
             preserved = [e.get("uuid", "") for e in older]
             return self.add_compact_boundary(summary, preserved)
@@ -190,19 +206,21 @@ class SessionTranscript:
 
     # ── compact boundary ──────────────────────────────────────────────────────
 
-    def add_compact_boundary(self, summary: str,
-                              preserved_uuids: list[str] | None = None) -> str:
+    def add_compact_boundary(self, summary: str, preserved_uuids: list[str] | None = None) -> str:
         """
         Mark a compaction point. The summary replaces older events logically
         but they remain on disk (append-only guarantee).
         """
-        return self.append("compact_boundary", {
-            "summary": summary,
-            "preserved_uuids": preserved_uuids or [],
-            "head_uuid": (preserved_uuids[0] if preserved_uuids else ""),
-            "tail_uuid": (preserved_uuids[-1] if preserved_uuids else ""),
-            "note": "Events before this boundary were summarized. Original lines remain.",
-        })
+        return self.append(
+            "compact_boundary",
+            {
+                "summary": summary,
+                "preserved_uuids": preserved_uuids or [],
+                "head_uuid": (preserved_uuids[0] if preserved_uuids else ""),
+                "tail_uuid": (preserved_uuids[-1] if preserved_uuids else ""),
+                "note": "Events before this boundary were summarized. Original lines remain.",
+            },
+        )
 
     # ── fork ──────────────────────────────────────────────────────────────────
 
@@ -225,10 +243,13 @@ class SessionTranscript:
                 continue  # intentionally drop all permission grants
             new.append(event["type"], event.get("data", {}))
 
-        new.append("system", {
-            "message": f"Forked from {self.session_id}",
-            "permissions_reset": True,
-        })
+        new.append(
+            "system",
+            {
+                "message": f"Forked from {self.session_id}",
+                "permissions_reset": True,
+            },
+        )
         return new
 
     # ── human summary ─────────────────────────────────────────────────────────
@@ -236,10 +257,11 @@ class SessionTranscript:
     def status_text(self) -> str:
         events = self.get_recent(500)
         tool_uses = [e for e in events if e["type"] == "tool_use"]
-        results   = [e for e in events if e["type"] == "tool_result"]
-        compacts  = [e for e in events if e["type"] == "compact_boundary"]
-        denied    = [e for e in events if e["type"] == "permission_decision"
-                     and e.get("data", {}).get("decision") == "deny"]
+        results = [e for e in events if e["type"] == "tool_result"]
+        compacts = [e for e in events if e["type"] == "compact_boundary"]
+        denied = [
+            e for e in events if e["type"] == "permission_decision" and e.get("data", {}).get("decision") == "deny"
+        ]
         return (
             f"Session: {self.session_id}\n"
             f"  Events:         {len(events)}\n"
@@ -256,8 +278,7 @@ class SessionTranscript:
 _active_transcript: SessionTranscript | None = None
 
 
-def get_transcript(sessions_dir: Path | None = None,
-                   session_id: str | None = None) -> SessionTranscript:
+def get_transcript(sessions_dir: Path | None = None, session_id: str | None = None) -> SessionTranscript:
     """
     Return the active transcript singleton.
     On first call, sessions_dir must be provided to initialize it.
@@ -270,8 +291,7 @@ def get_transcript(sessions_dir: Path | None = None,
     return _active_transcript
 
 
-def reset_transcript(sessions_dir: Path,
-                     session_id: str | None = None) -> SessionTranscript:
+def reset_transcript(sessions_dir: Path, session_id: str | None = None) -> SessionTranscript:
     """Force a new transcript (e.g., after fork or session reset)."""
     global _active_transcript
     _active_transcript = SessionTranscript(sessions_dir, session_id)

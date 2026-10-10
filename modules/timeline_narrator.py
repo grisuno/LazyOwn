@@ -22,16 +22,16 @@ import os
 from datetime import datetime
 from pathlib import Path
 
-BASE_DIR       = Path(__file__).parent.parent
-SESSIONS       = BASE_DIR / "sessions"
-EVENTS_FILE    = SESSIONS / "events.jsonl"
-TIMELINE_FILE  = SESSIONS / "timeline.md"
-PAYLOAD_FILE   = BASE_DIR / "payload.json"
+BASE_DIR = Path(__file__).parent.parent
+SESSIONS = BASE_DIR / "sessions"
+EVENTS_FILE = SESSIONS / "events.jsonl"
+TIMELINE_FILE = SESSIONS / "timeline.md"
+PAYLOAD_FILE = BASE_DIR / "payload.json"
 
-_GROQ_MODEL    = "llama-3.3-70b-versatile"
-_MAX_TOKENS    = 1200
-_REFRESH_SECS  = 300   # don't regenerate if file is younger than 5 min
-_MAX_EVENTS    = 60    # cap events sent to Groq to control token cost
+_GROQ_MODEL = "llama-3.3-70b-versatile"
+_MAX_TOKENS = 1200
+_REFRESH_SECS = 300  # don't regenerate if file is younger than 5 min
+_MAX_EVENTS = 60  # cap events sent to Groq to control token cost
 
 
 # ── System prompt ─────────────────────────────────────────────────────────────
@@ -53,6 +53,7 @@ Style rules:
 
 # ── Event loader ──────────────────────────────────────────────────────────────
 
+
 def _load_events(n: int = _MAX_EVENTS) -> list[dict]:
     if not EVENTS_FILE.exists():
         return []
@@ -72,14 +73,15 @@ def _load_events(n: int = _MAX_EVENTS) -> list[dict]:
 
 # ── Event formatter ───────────────────────────────────────────────────────────
 
+
 def _format_events_for_prompt(events: list[dict]) -> str:
     lines = []
     for ev in events:
-        ts      = ev.get("timestamp", "")[:16].replace("T", " ")
-        etype   = ev.get("type", "UNKNOWN")
-        sev     = ev.get("severity", "info").upper()
-        cmd     = ev["source"].get("command", "?") if "source" in ev else "?"
-        target  = ev["source"].get("target", "") if "source" in ev else ""
+        ts = ev.get("timestamp", "")[:16].replace("T", " ")
+        etype = ev.get("type", "UNKNOWN")
+        sev = ev.get("severity", "info").upper()
+        cmd = ev["source"].get("command", "?") if "source" in ev else "?"
+        target = ev["source"].get("target", "") if "source" in ev else ""
         suggest = ev.get("suggest", "")
         lines.append(
             f"[{ts}] [{sev}] {etype} — command={cmd}"
@@ -91,26 +93,24 @@ def _format_events_for_prompt(events: list[dict]) -> str:
 
 # ── AI call with fallback ─────────────────────────────────────────────────────
 
+
 def _call_ai(api_key: str, events_text: str, target: str) -> tuple[str, str]:
     """Returns (narrative_text, backend_used)."""
     from ai_fallback import call as _ai_call
 
-    user_msg = (
-        f"Target: {target or 'unknown'}\n\n"
-        f"Events:\n{events_text}\n\n"
-        "Write the timeline narrative now."
-    )
+    user_msg = f"Target: {target or 'unknown'}\n\nEvents:\n{events_text}\n\nWrite the timeline narrative now."
     result = _ai_call(
-        prompt      = user_msg,
-        system      = _SYSTEM_PROMPT,
-        api_key     = api_key,
-        max_tokens  = _MAX_TOKENS,
-        temperature = 0.5,
+        prompt=user_msg,
+        system=_SYSTEM_PROMPT,
+        api_key=api_key,
+        max_tokens=_MAX_TOKENS,
+        temperature=0.5,
     )
     return result.text, result.backend
 
 
 # ── Timeline writer ───────────────────────────────────────────────────────────
+
 
 def _write_timeline(narrative: str, event_count: int, target: str) -> None:
     now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -125,6 +125,7 @@ def _write_timeline(narrative: str, event_count: int, target: str) -> None:
 
 
 # ── Public API ────────────────────────────────────────────────────────────────
+
 
 def narrate(api_key: str | None = None, force: bool = False) -> str:
     """Generate and return the timeline narrative. Writes timeline.md."""
@@ -149,13 +150,13 @@ def narrate(api_key: str | None = None, force: bool = False) -> str:
     # Load target
     target = ""
     try:
-        cfg    = json.loads(PAYLOAD_FILE.read_text())
+        cfg = json.loads(PAYLOAD_FILE.read_text())
         target = cfg.get("rhost", "") or cfg.get("domain", "")
     except Exception:
         pass
 
-    events       = _load_events()
-    events_text  = _format_events_for_prompt(events)
+    events = _load_events()
+    events_text = _format_events_for_prompt(events)
     narrative, backend = _call_ai(api_key, events_text, target)
     _write_timeline(narrative, len(events), target)
     return TIMELINE_FILE.read_text()

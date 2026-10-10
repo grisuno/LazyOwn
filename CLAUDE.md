@@ -14,7 +14,7 @@ Durable context for any Claude/agent touching this repo. Source of truth: `lazyo
 ## 0. What LazyOwn is
 
 Professional red-team / pentest framework:
-- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 748 commands + 126 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
+- **CLI** (`lazyown.py`): cmd2 shell, ~4,900 LOC, 749 commands + 129 aliases driven by 67 ``CommandSet`` modules under ``cli/commands/``.
 - **C2** (`lazyc2.py`): Flask + Jinja2 + Socket.IO, 121 routes, 55+ templates, malleable HTTP profiles, XOR-stub Go beacon, multi-operator `/collab/`, phishing (SQLite + Groq).
 - **Utils** (`utils.py`): ~138 helpers (config, ANSI, NVD/ExploitAlert/PacketStorm scrapers, ARP, certs).
 - **Skills** (`skills/`): MCP server (154 tools), autonomous daemon, hive-mind, MoE+RL SWAN, parquet KB, policy engine, Groq/Ollama agents.
@@ -637,7 +637,7 @@ and each change ships with a probe that kills one mutant.
 - `UTILS.md` — `utils.py` reference (auto-generated).
 - `CHANGELOG.md` — release history.
 - `skills/lazyown.md` — MCP playbook (mandatory before MCP session).
-- `skills/README.md` — skills architecture + 153 MCP tools.
+- `skills/README.md` — skills architecture + 154 MCP tools.
 - `<dir>/README.md` — every directory; read before editing.
 
 When in doubt: read `payload.json` → `sessions/` → directory's `README.md` → then write code.

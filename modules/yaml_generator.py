@@ -61,7 +61,7 @@ Create a complete, valid YAML addon configuration based on the user's request.
 Use only the following available parameters (from payload.json). Do NOT hardcode values. Use mustache-style {{}} placeholders.
 
 Available parameters:
-{', '.join(available_params)}
+{", ".join(available_params)}
 
 Rules:
 - Output ONLY a single YAML block wrapped in ```yaml ... ```
@@ -137,11 +137,14 @@ tool:
         print(f"[+] YAML generado y guardado en: {filename}")
         return filename
 
+
 def main():
     import argparse
 
     parser = argparse.ArgumentParser(description="Generador de YAMLs para LazyAddons usando IA")
-    parser.add_argument("--request", type=str, help="Descripción de la herramienta a generar (ej: 'Herramienta para explotar Log4j')")
+    parser.add_argument(
+        "--request", type=str, help="Descripción de la herramienta a generar (ej: 'Herramienta para explotar Log4j')"
+    )
     parser.add_argument("--provider", choices=["groq", "deepseek"], default="groq", help="Modelo a usar")
     parser.add_argument("--api-key", type=str, help="API Key (opcional, si no está en env)")
     parser.add_argument("--output", type=str, default="../lazyaddons", help="Directorio de salida")
@@ -150,6 +153,7 @@ def main():
 
     generator = YAMLPromptGenerator(provider=args.provider, api_key=args.api_key)
     generator.create_yaml_addon(user_request=args.request, output_dir=args.output)
+
 
 if __name__ == "__main__":
     main()

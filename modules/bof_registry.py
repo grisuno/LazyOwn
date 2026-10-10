@@ -182,10 +182,7 @@ class BofCatalog:
         if name not in self.entries:
             available = ", ".join(sorted(self.entries.keys())[:20])
             total = len(self.entries)
-            raise KeyError(
-                f"BOF '{name}' not found in catalog ({total} entries). "
-                f"First 20: {available}"
-            )
+            raise KeyError(f"BOF '{name}' not found in catalog ({total} entries). First 20: {available}")
         return self.entries[name]
 
     def search(self, query: str) -> list[BofEntry]:
@@ -535,8 +532,7 @@ class BofValidator:
         actual = BofValidator.compute_sha256(filepath)
         if actual != entry.sha256:
             return False, (
-                f"SHA-256 mismatch for '{entry.name}': "
-                f"expected {entry.sha256[:16]}..., got {actual[:16]}..."
+                f"SHA-256 mismatch for '{entry.name}': expected {entry.sha256[:16]}..., got {actual[:16]}..."
             )
         return True, "hash verified"
 
@@ -768,10 +764,7 @@ class BofMarketplace:
             entry = self._catalog.get(name)
         except KeyError:
             return []
-        return [
-            dep for dep in entry.dependencies
-            if not self._registry.is_installed(dep)
-        ]
+        return [dep for dep in entry.dependencies if not self._registry.is_installed(dep)]
 
     def bulk_install(self, names: list[str]) -> dict[str, dict[str, Any]]:
         """Install multiple BOFs at once.

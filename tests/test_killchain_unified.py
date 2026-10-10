@@ -17,7 +17,6 @@ from cli.ops_commands import (
 
 
 class TestPhaseMapping:
-
     def test_engagement_phase_to_cli_maps_all(self):
         assert _engagement_phase_to_cli("recon") == "recon"
         assert _engagement_phase_to_cli("scanning") == "scan"
@@ -59,9 +58,11 @@ class TestWritePhaseWithWorldModel:
                 backup = original.read_text()
             try:
                 import cli.ops_commands as mod
+
                 old_wm = mod._WORLD_MODEL
                 mod._WORLD_MODEL = str(sdir / "world_model.json")
                 import modules.world_model as wm_mod
+
                 old_default = wm_mod._default_wm
                 wm_mod._default_wm = None
                 wm_mod._DEFAULT_PATH = sdir / "world_model.json"
@@ -78,6 +79,7 @@ class TestWritePhaseWithWorldModel:
     def test_write_phase_advances_hosts(self, sessions_dir):
         import modules.world_model as wm_mod
         from modules.world_model import get_world_model
+
         wm_mod._default_wm = None
         wm_mod._DEFAULT_PATH = sessions_dir / "world_model.json"
         wm = get_world_model()
@@ -96,6 +98,7 @@ class TestWritePhaseWithWorldModel:
 
     def test_write_phase_completed_phases_tracks_progress(self, sessions_dir):
         import modules.world_model as wm_mod
+
         wm_mod._default_wm = None
         wm_mod._DEFAULT_PATH = sessions_dir / "world_model.json"
         result = write_phase("recon")

@@ -22,6 +22,7 @@ Design (SOLID)
 - Dependency Inversion  : depends on ``get_router`` / ``get_trainer``
   factory functions, not concrete classes.
 """
+
 from __future__ import annotations
 
 import json
@@ -40,12 +41,12 @@ _BOOST_DETECTION_PROB: float = 0.0
 
 _LESSON_TO_EXPERT: dict[str, str] = {
     "credential_access": "credential_expert",
-    "lateral_movement":  "lateral_expert",
-    "privesc":           "privesc_expert",
-    "exfiltration":      "exfil_expert",
-    "intrusion":         "exploit_expert",
-    "persistence":       "persist_expert",
-    "scope_coverage":    "recon_expert",
+    "lateral_movement": "lateral_expert",
+    "privesc": "privesc_expert",
+    "exfiltration": "exfil_expert",
+    "intrusion": "exploit_expert",
+    "persistence": "persist_expert",
+    "scope_coverage": "recon_expert",
     "campaign_duration": "recon_expert",
 }
 
@@ -54,12 +55,12 @@ _LESSON_TO_EXPERT: dict[str, str] = {
 class LessonLearned:
     """Minimal representation of a campaign lesson for ingestion."""
 
-    campaign_id:   str
+    campaign_id: str
     campaign_name: str
-    topic:         str
-    lesson:        str
-    context:       str
-    derived_at:    str = ""
+    topic: str
+    lesson: str
+    context: str
+    derived_at: str = ""
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LessonLearned:
@@ -99,6 +100,7 @@ class LessonIngestor:
             return self._router
         try:
             from modules.moe_router import get_router
+
             self._router = get_router()
             return self._router
         except Exception as exc:
@@ -110,6 +112,7 @@ class LessonIngestor:
             return self._trainer
         try:
             from modules.rl_trainer import get_trainer
+
             self._trainer = get_trainer()
             return self._trainer
         except Exception as exc:
@@ -148,7 +151,8 @@ class LessonIngestor:
                 )
                 log.info(
                     "LessonIngestor: boosted MoE performance for %s on topic '%s'",
-                    expert_id, lesson.topic,
+                    expert_id,
+                    lesson.topic,
                 )
                 updated = True
             except Exception as exc:
@@ -169,7 +173,8 @@ class LessonIngestor:
                 trainer.save()
                 log.info(
                     "LessonIngestor: boosted RL Q-value for %s on topic '%s'",
-                    expert_id, lesson.topic,
+                    expert_id,
+                    lesson.topic,
                 )
                 updated = True
             except Exception as exc:

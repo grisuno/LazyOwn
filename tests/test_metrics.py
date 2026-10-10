@@ -130,18 +130,28 @@ def test_summarize_window_filters_old_records(tmp_path: Path) -> None:
 
     path = tmp_path / "metrics.jsonl"
     with path.open("w", encoding="utf-8") as handle:
-        handle.write(json.dumps({
-            "ts": fresh.isoformat(),
-            "command": "nmap",
-            "duration_ms": 200,
-            "success": True,
-        }) + "\n")
-        handle.write(json.dumps({
-            "ts": old.isoformat(),
-            "command": "ping",
-            "duration_ms": 80,
-            "success": True,
-        }) + "\n")
+        handle.write(
+            json.dumps(
+                {
+                    "ts": fresh.isoformat(),
+                    "command": "nmap",
+                    "duration_ms": 200,
+                    "success": True,
+                }
+            )
+            + "\n"
+        )
+        handle.write(
+            json.dumps(
+                {
+                    "ts": old.isoformat(),
+                    "command": "ping",
+                    "duration_ms": 80,
+                    "success": True,
+                }
+            )
+            + "\n"
+        )
 
     recorder = reset_recorder_for_tests(writer=MetricsWriter(path=path))
     summary = recorder.summarize(window_seconds=300)
@@ -177,10 +187,7 @@ def test_concurrent_writes_do_not_corrupt(tmp_path: Path) -> None:
                 exit_code=0,
             )
 
-    threads = [
-        threading.Thread(target=worker, args=(f"t{i}",))
-        for i in range(writers)
-    ]
+    threads = [threading.Thread(target=worker, args=(f"t{i}",)) for i in range(writers)]
     for t in threads:
         t.start()
     for t in threads:

@@ -325,7 +325,9 @@ class LabCommandSet(LazyOwnCommandSet):
         if admin_password:
             print_msg(f"[*] Range Administrator password: {admin_password} (per-deployment, disposable)")
         print_msg(f"Starting range: {profile} ...")
-        result = subprocess.run(["docker", "compose", "-f", str(compose), "up", "-d"], capture_output=True, text=True, check=False)
+        result = subprocess.run(
+            ["docker", "compose", "-f", str(compose), "up", "-d"], capture_output=True, text=True, check=False
+        )
         if result.returncode != 0:
             print_error(f"Failed to start range '{profile}': {(result.stderr or result.stdout)[-1500:]}")
             return
@@ -337,7 +339,9 @@ class LabCommandSet(LazyOwnCommandSet):
         else:
             print_msg("[*] Assign target: inspect ws01 with: docker inspect lazyown-range-ws01")
         print_msg("[*] From THIS host use 127.0.0.1 with mapped ports (internal IPs live inside the range net):")
-        print_msg("    ssh -p 2222 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no msfadmin@127.0.0.1  # pass: msfadmin")
+        print_msg(
+            "    ssh -p 2222 -o HostKeyAlgorithms=+ssh-rsa -o StrictHostKeyChecking=no msfadmin@127.0.0.1  # pass: msfadmin"
+        )
         print_msg("    ftp 127.0.0.1 2121                        # vsftpd 2.3.4, backdoor shell on 6200")
         print_msg("    smbclient -L //127.0.0.1 -P 1445 -N")
         print_msg("    curl http://127.0.0.1:8081/")
@@ -493,7 +497,13 @@ class LabCommandSet(LazyOwnCommandSet):
         """
         try:
             result = subprocess.run(
-                ["docker", "inspect", "--format", "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}", container],
+                [
+                    "docker",
+                    "inspect",
+                    "--format",
+                    "{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}",
+                    container,
+                ],
                 capture_output=True,
                 text=True,
                 timeout=15,
@@ -515,7 +525,9 @@ class LabCommandSet(LazyOwnCommandSet):
         if compose is None:
             return
         print_msg(f"Stopping range: {profile}")
-        result = subprocess.run(["docker", "compose", "-f", str(compose), "down", "-v"], capture_output=True, text=True, check=False)
+        result = subprocess.run(
+            ["docker", "compose", "-f", str(compose), "down", "-v"], capture_output=True, text=True, check=False
+        )
         if result.returncode != 0:
             print_error(f"Failed to stop range '{profile}': {(result.stderr or result.stdout)[-1500:]}")
             return

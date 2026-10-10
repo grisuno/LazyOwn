@@ -66,13 +66,17 @@ class TestApiKey:
         from core.api_authz import ApiKey
 
         expired = ApiKey(
-            key_hash="h1", tenant_id="t1", label="k1",
+            key_hash="h1",
+            tenant_id="t1",
+            label="k1",
             expires_at=time.time() - 1,
         )
         assert expired.is_expired() is True
 
         valid = ApiKey(
-            key_hash="h2", tenant_id="t2", label="k2",
+            key_hash="h2",
+            tenant_id="t2",
+            label="k2",
             expires_at=time.time() + 3600,
         )
         assert valid.is_expired() is False
@@ -84,7 +88,9 @@ class TestApiKey:
         from core.api_authz import ApiKey
 
         key = ApiKey(
-            key_hash="h1", tenant_id="t1", label="k1",
+            key_hash="h1",
+            tenant_id="t1",
+            label="k1",
             permissions=frozenset({"read", "write"}),
         )
         assert key.has_permission("read") is True
@@ -98,9 +104,12 @@ class TestApiKeyStore:
 
     def _make_store(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
-        return ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-        ))
+
+        return ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+            )
+        )
 
     def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path):
         store = self._make_store(tmp_path)
@@ -137,14 +146,16 @@ class TestApiKeyStore:
         key_hash = _hash_secret(plaintext)
         with store._lock:
             records = store._read()
-            records.append({
-                "key_hash": key_hash,
-                "tenant_id": "acme",
-                "label": "expired-bot",
-                "permissions": [],
-                "created_at": time.time(),
-                "expires_at": time.time() - 1,
-            })
+            records.append(
+                {
+                    "key_hash": key_hash,
+                    "tenant_id": "acme",
+                    "label": "expired-bot",
+                    "permissions": [],
+                    "created_at": time.time(),
+                    "expires_at": time.time() - 1,
+                }
+            )
             store._write(records)
         assert store.validate_key(plaintext) is None
 
@@ -214,10 +225,12 @@ class TestApiKeyStore:
     def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
 
-        store = ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-            key_rotation_grace_seconds=0,
-        ))
+        store = ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+                key_rotation_grace_seconds=0,
+            )
+        )
         _, old_token = store.create_key("acme", "short-grace", permissions=frozenset({"read"}))
         new_token = store.rotate_key("short-grace", "acme")
         assert new_token is not None
@@ -227,10 +240,12 @@ class TestApiKeyStore:
     def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
 
-        store = ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-            key_rotation_grace_seconds=0,
-        ))
+        store = ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+                key_rotation_grace_seconds=0,
+            )
+        )
         store.create_key("acme", "k1")
         store.rotate_key("k1", "acme")
         records_before = store._read()
@@ -243,11 +258,13 @@ class TestApiKeyStore:
     def test_rotation_does_not_grow_active_key_count(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
 
-        store = ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-            max_keys_per_tenant=2,
-            key_rotation_grace_seconds=0,
-        ))
+        store = ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+                max_keys_per_tenant=2,
+                key_rotation_grace_seconds=0,
+            )
+        )
         store.create_key("acme", "k1")
         store.create_key("acme", "k2")
         store.rotate_key("k1", "acme")
@@ -274,9 +291,11 @@ class TestRequireApiAuth:
     def _make_app(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
 
-        store = ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-        ))
+        store = ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+            )
+        )
         return store
 
     def _build_client(self, tmp_path, store=None):
@@ -297,10 +316,12 @@ class TestRequireApiAuth:
         @app.route("/g-check")
         @require_api_auth(store=store)
         def g_check():
-            return jsonify({
-                "api_tenant_id": getattr(g, "api_tenant_id", None),
-                "has_api_key_record": getattr(g, "api_key_record", None) is not None,
-            })
+            return jsonify(
+                {
+                    "api_tenant_id": getattr(g, "api_tenant_id", None),
+                    "has_api_key_record": getattr(g, "api_key_record", None) is not None,
+                }
+            )
 
         @app.route("/admin-only")
         @require_api_auth(store=store, permissions=frozenset({"api:admin"}))
@@ -358,9 +379,12 @@ class TestCreateApiToken:
 
     def _make_store(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
-        return ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-        ))
+
+        return ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+            )
+        )
 
     def test_returns_a_validatable_token(self, tmp_path):
         from core.api_authz import create_api_token
@@ -375,7 +399,9 @@ class TestCreateApiToken:
 
         store = self._make_store(tmp_path)
         token = create_api_token(
-            store, "acme", "power-bot",
+            store,
+            "acme",
+            "power-bot",
             permissions=frozenset({"admin", "write"}),
         )
         record = store.validate_key(token)
@@ -399,20 +425,25 @@ class TestEdgeCases:
 
     def _make_store(self, tmp_path):
         from core.api_authz import ApiAuthzConfig, ApiKeyStore
-        return ApiKeyStore(config=ApiAuthzConfig(
-            api_keys_path=str(tmp_path / "api_keys.json"),
-        ))
+
+        return ApiKeyStore(
+            config=ApiAuthzConfig(
+                api_keys_path=str(tmp_path / "api_keys.json"),
+            )
+        )
 
     def test_constant_time_comparison_rejects_wrong_secrets(self):
         import hashlib
 
         from core.api_authz import _verify_secret
+
         real = hashlib.sha256(b"realsecret").hexdigest()
         assert _verify_secret("realsecret", real) is True
         assert _verify_secret("wrong", real) is False
 
     def test_generates_50_unique_tokens_without_collision(self):
         from core.api_authz import _generate_token_bytes
+
         tokens = {_generate_token_bytes() for _ in range(50)}
         assert len(tokens) == 50
 

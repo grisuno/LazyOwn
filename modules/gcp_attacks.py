@@ -214,9 +214,16 @@ class GCPAttackEngine:
                 "gsutil defacl get gs://BUCKET_NAME",
             ],
             "sensitive_patterns": [
-                "*-terraform-*", "*-tfstate*", "*config*", "*-backup-*",
-                "*credential*", "*secret*", "*database*", "*-service-account*",
-                "*cloudbuild*", "*deployment*",
+                "*-terraform-*",
+                "*-tfstate*",
+                "*config*",
+                "*-backup-*",
+                "*credential*",
+                "*secret*",
+                "*database*",
+                "*-service-account*",
+                "*cloudbuild*",
+                "*deployment*",
             ],
         }
 

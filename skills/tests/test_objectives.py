@@ -78,10 +78,7 @@ class TestObjectiveStore:
 
         # Manually backdate the created_at to 48 hours ago
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.UTC)
-            - datetime.timedelta(hours=48)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=48)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -171,10 +168,7 @@ class TestObjectiveStore:
         store = _store(tmp_path)
         obj = store.inject("Medium old task", priority="medium")
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.UTC)
-            - datetime.timedelta(hours=80)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=80)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -190,10 +184,7 @@ class TestObjectiveStore:
         store = _store(tmp_path)
         obj = store.inject("Ancient critical task", priority="critical")
         objs = store._load_all()
-        past = (
-            datetime.datetime.now(datetime.UTC)
-            - datetime.timedelta(hours=1000)
-        ).isoformat()
+        past = (datetime.datetime.now(datetime.UTC) - datetime.timedelta(hours=1000)).isoformat()
         for o in objs:
             if o.id == obj.id:
                 o.created_at = past
@@ -240,9 +231,9 @@ class TestSoulUpdater:
     def test_soul_updater_credentials_hash(self, tmp_path):
         """update_credentials with hash_value → soul.md shows truncated hash with (NTLM) tag."""
         su = _soul_updater(tmp_path)
-        su.update_credentials([
-            {"username": "jsmith", "password": "", "hash_value": "aabbccdd11223344aabbccdd11223344"}
-        ])
+        su.update_credentials(
+            [{"username": "jsmith", "password": "", "hash_value": "aabbccdd11223344aabbccdd11223344"}]
+        )
         content = su._path.read_text()
         assert "jsmith" in content
         assert "NTLM" in content
@@ -274,9 +265,7 @@ class TestSoulUpdater:
     def test_soul_updater_vulnerabilities(self, tmp_path):
         """update_vulnerabilities() → soul.md has Key Vulnerabilities section."""
         su = _soul_updater(tmp_path)
-        su.update_vulnerabilities([
-            {"vuln_id": "CVE-2021-34527", "severity": "critical", "title": "PrintNightmare"}
-        ])
+        su.update_vulnerabilities([{"vuln_id": "CVE-2021-34527", "severity": "critical", "title": "PrintNightmare"}])
         content = su._path.read_text()
         assert "## Key Vulnerabilities" in content
         assert "CVE-2021-34527" in content

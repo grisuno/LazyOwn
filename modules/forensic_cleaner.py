@@ -78,7 +78,7 @@ class ForensicCleaner:
         if self.config.clean_prefetch:
             commands["prefetch"] = [
                 'Remove-Item -Path "C:\\Windows\\Prefetch\\*.pf" -Force -ErrorAction SilentlyContinue',
-                'del /f /q C:\\Windows\\Prefetch\\*.pf 2>nul',
+                "del /f /q C:\\Windows\\Prefetch\\*.pf 2>nul",
                 'reg add "HKLM\\SYSTEM\\CurrentControlSet\\Control\\Session Manager\\Memory Management\\PrefetchParameters" /v EnablePrefetcher /t REG_DWORD /d 0 /f',
             ]
 
@@ -137,14 +137,14 @@ class ForensicCleaner:
 
         if self.config.clean_usn_journal:
             commands["usn_journal"] = [
-                'fsutil usn deletejournal /d C:',
-                'fsutil usn createjournal m=1000 a=1000 C:',
+                "fsutil usn deletejournal /d C:",
+                "fsutil usn createjournal m=1000 a=1000 C:",
             ]
 
         if self.config.clean_mft_records:
             commands["mft_records"] = [
-                'cipher /w:C:\\ 2>nul',
-                'sdelete64.exe -z C:',
+                "cipher /w:C:\\ 2>nul",
+                "sdelete64.exe -z C:",
             ]
 
         verification = []
@@ -235,9 +235,24 @@ class ForensicCleaner:
             ],
             "analysis": "Look for .pf files with names matching your tools. Each file == evidence of execution.",
             "target_tools": [
-                "mimikatz", "psexec", "nc", "powershell", "cmd", "whoami",
-                "net", "netstat", "ipconfig", "wmic", "schtasks", "reg",
-                "bitsadmin", "certutil", "rundll32", "mshta", "cscript", "wscript",
+                "mimikatz",
+                "psexec",
+                "nc",
+                "powershell",
+                "cmd",
+                "whoami",
+                "net",
+                "netstat",
+                "ipconfig",
+                "wmic",
+                "schtasks",
+                "reg",
+                "bitsadmin",
+                "certutil",
+                "rundll32",
+                "mshta",
+                "cscript",
+                "wscript",
             ],
         }
 

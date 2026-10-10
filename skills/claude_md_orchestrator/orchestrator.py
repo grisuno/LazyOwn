@@ -74,14 +74,8 @@ def _persist(state: CicleStateFile, config: Config) -> None:
         config.log_path(),
         {
             "run_id": state.run_id,
-            "contract_id": next(
-                iter(state.contracts), ""
-            ),
-            "stage": (
-                next(iter(state.contracts.values())).stage.value
-                if state.contracts
-                else "pending"
-            ),
+            "contract_id": next(iter(state.contracts), ""),
+            "stage": (next(iter(state.contracts.values())).stage.value if state.contracts else "pending"),
             "timestamp": state.updated_at,
         },
     )
@@ -109,10 +103,7 @@ def _run_spec(state: CicleState, config: Config) -> CicleState:
     blockers = [f for f in result.findings if f.severity is Severity.BLOCK]
     if blockers:
         state.stage = Stage.PENDING
-        raise RuntimeError(
-            f"spec blockers for {state.contract.contract_id}: "
-            + ", ".join(f.message for f in blockers)
-        )
+        raise RuntimeError(f"spec blockers for {state.contract.contract_id}: " + ", ".join(f.message for f in blockers))
     return state
 
 
@@ -127,9 +118,7 @@ def _run_test(state: CicleState, config: Config) -> CicleState:
     state.test_path = result.suite.test_path
     state.stage = Stage.TDD
     if not result.red:
-        raise RuntimeError(
-            f"tdd stage did not reach red for {state.contract.contract_id}"
-        )
+        raise RuntimeError(f"tdd stage did not reach red for {state.contract.contract_id}")
     return state
 
 
@@ -150,9 +139,7 @@ def _run_implementation(state: CicleState, config: Config) -> CicleState:
     state.src_path = result.source_path
     state.stage = Stage.BDD
     if not result.green:
-        raise RuntimeError(
-            f"bdd stage did not reach green for {state.contract.contract_id}"
-        )
+        raise RuntimeError(f"bdd stage did not reach green for {state.contract.contract_id}")
     return state
 
 
@@ -164,10 +151,7 @@ def _run_review(state: CicleState, config: Config) -> CicleState:
     state.stage = Stage.REVIEW
     state.approved = report.approved
     if not report.approved:
-        raise RuntimeError(
-            f"reviewer blocked {state.contract.contract_id}: "
-            + report.summary
-        )
+        raise RuntimeError(f"reviewer blocked {state.contract.contract_id}: " + report.summary)
     return state
 
 
@@ -181,9 +165,7 @@ def _run_documentation(state: CicleState, config: Config) -> CicleState:
     spec = _load_spec(state.spec_path)
     report: ReviewReport | None = None
     if state.review_path is not None and state.review_path.exists():
-        report = ReviewReport.from_dict(
-            json.loads(state.review_path.read_text(encoding="utf-8"))
-        )
+        report = ReviewReport.from_dict(json.loads(state.review_path.read_text(encoding="utf-8")))
     result = documentation_agent.run(state.contract, spec, report, config)
     state.doc_path = result.path
     return state
@@ -211,9 +193,7 @@ def _run_cicd(
     if state.spec_path is None or state.review_path is None:
         raise RuntimeError("spec or review path missing; cannot run cicd agent")
     spec = _load_spec(state.spec_path)
-    report = ReviewReport.from_dict(
-        json.loads(state.review_path.read_text(encoding="utf-8"))
-    )
+    report = ReviewReport.from_dict(json.loads(state.review_path.read_text(encoding="utf-8")))
     if not report.approved:
         raise RuntimeError("review not approved; cicd agent will not ship")
     result = cicd_agent.run(
@@ -230,10 +210,7 @@ def _run_cicd(
     state.stage = Stage.CICD
     state.deployed = result.deployed
     if result.findings:
-        raise RuntimeError(
-            f"cicd blockers for {state.contract.contract_id}: "
-            + ", ".join(result.findings)
-        )
+        raise RuntimeError(f"cicd blockers for {state.contract.contract_id}: " + ", ".join(result.findings))
     return state
 
 
@@ -427,10 +404,7 @@ def main(argv: list[str] | None = None) -> int:
     options = {
         "auto_commit": args.auto_commit,
         "deploy_token": args.deploy_token,
-        "seeds": [
-            {"contract_id": seed, "title": seed, "rationale": "seeded contract"}
-            for seed in args.seed
-        ],
+        "seeds": [{"contract_id": seed, "title": seed, "rationale": "seeded contract"} for seed in args.seed],
     }
     if args.no_parse:
         config.claude_md_path = Path("/dev/null")

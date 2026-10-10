@@ -270,12 +270,14 @@ class TestTeamserverPayloadParsing:
         backend = TeamserverBackend(constants=constants, credentials=creds)
         emitted: list[Operator] = []
         backend.operator_changed.connect(emitted.append)
-        backend._update_operator({
-            "current_user_username": "op1",
-            "is_authenticated": True,
-            "karma_name": "elite",
-            "elo": 2500,
-        })
+        backend._update_operator(
+            {
+                "current_user_username": "op1",
+                "is_authenticated": True,
+                "karma_name": "elite",
+                "elo": 2500,
+            }
+        )
         assert len(emitted) == 1
         assert emitted[0].name == "op1"
         assert emitted[0].elo == 2500
@@ -344,6 +346,7 @@ class TestTopologyBuilderFromPayload:
 
     def make_backend(self):
         from lazygui.config.constants import AppConstants
+
         constants = AppConstants()
         creds = TeamserverCredentials(base_url="https://x", username="u", password="p")
         return TeamserverBackend(constants=constants, credentials=creds)

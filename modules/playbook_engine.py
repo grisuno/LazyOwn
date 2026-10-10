@@ -43,6 +43,7 @@ Usage
     python3 modules/playbook_engine.py derive --target 10.10.11.78 --phase scanning
     python3 modules/playbook_engine.py run    --playbook playbooks/myplan.yaml --dry-run
 """
+
 from __future__ import annotations
 
 import glob
@@ -60,14 +61,12 @@ import yaml
 
 log = logging.getLogger("playbook_engine")
 
-_BASE_DIR      = Path(__file__).parent.parent
-_SESSIONS_DIR  = _BASE_DIR / "sessions"
-_PLAYBOOK_DIR  = _BASE_DIR / "playbooks"
-_ATOMIC_PATH   = _BASE_DIR / "external" / ".exploit" / "atomic-red-team"
-_MITRE_PATH    = _BASE_DIR / "external" / ".exploit" / "mitre"
-_ENTERPRISE_ATTACK_JSON = (
-    _MITRE_PATH / "enterprise-attack" / "enterprise-attack-16.1.json"
-)
+_BASE_DIR = Path(__file__).parent.parent
+_SESSIONS_DIR = _BASE_DIR / "sessions"
+_PLAYBOOK_DIR = _BASE_DIR / "playbooks"
+_ATOMIC_PATH = _BASE_DIR / "external" / ".exploit" / "atomic-red-team"
+_MITRE_PATH = _BASE_DIR / "external" / ".exploit" / "mitre"
+_ENTERPRISE_ATTACK_JSON = _MITRE_PATH / "enterprise-attack" / "enterprise-attack-16.1.json"
 
 
 # ---------------------------------------------------------------------------
@@ -75,13 +74,18 @@ _ENTERPRISE_ATTACK_JSON = (
 # ---------------------------------------------------------------------------
 
 PHASE_TACTIC_MAP: dict[str, list[str]] = {
-    "recon":             ["reconnaissance"],
-    "scanning":          ["discovery"],
-    "enumeration":       ["discovery", "credential-access"],
-    "exploitation":      ["initial-access", "execution"],
-    "post_exploitation": ["privilege-escalation", "lateral-movement",
-                          "credential-access", "collection", "exfiltration"],
-    "complete":          ["impact"],
+    "recon": ["reconnaissance"],
+    "scanning": ["discovery"],
+    "enumeration": ["discovery", "credential-access"],
+    "exploitation": ["initial-access", "execution"],
+    "post_exploitation": [
+        "privilege-escalation",
+        "lateral-movement",
+        "credential-access",
+        "collection",
+        "exfiltration",
+    ],
+    "complete": ["impact"],
 }
 
 # Default platform order when WorldModel has no os_hint
@@ -92,31 +96,32 @@ _DEFAULT_PLATFORM_ORDER = ["linux", "windows", "macos"]
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class PlaybookStep:
-    atomic_id:       str
-    technique_id:    str       # e.g. T1059.001
-    tactic:          str       # e.g. execution
-    name:            str
-    description:     str       = ""
-    command:         str       = ""
-    cleanup_command: str       = ""
-    platform:        str       = "linux"
-    mitre_url:       str       = ""
-    llm_reasoning:   str       = ""
+    atomic_id: str
+    technique_id: str  # e.g. T1059.001
+    tactic: str  # e.g. execution
+    name: str
+    description: str = ""
+    command: str = ""
+    cleanup_command: str = ""
+    platform: str = "linux"
+    mitre_url: str = ""
+    llm_reasoning: str = ""
 
     def to_dict(self) -> dict:
         return {
-            "atomic_id":       self.atomic_id,
-            "technique_id":    self.technique_id,
-            "tactic":          self.tactic,
-            "name":            self.name,
-            "description":     self.description,
-            "command":         self.command,
+            "atomic_id": self.atomic_id,
+            "technique_id": self.technique_id,
+            "tactic": self.tactic,
+            "name": self.name,
+            "description": self.description,
+            "command": self.command,
             "cleanup_command": self.cleanup_command,
-            "platform":        self.platform,
-            "mitre_url":       self.mitre_url,
-            "llm_reasoning":   self.llm_reasoning,
+            "platform": self.platform,
+            "mitre_url": self.mitre_url,
+            "llm_reasoning": self.llm_reasoning,
         }
 
     @classmethod
@@ -126,61 +131,62 @@ class PlaybookStep:
 
 @dataclass
 class Playbook:
-    apt_name:     str
-    description:  str
-    target:       str
-    phase:        str
-    steps:        list[PlaybookStep] = field(default_factory=list)
-    generated_at: str                = field(default_factory=lambda: datetime.now().isoformat())
+    apt_name: str
+    description: str
+    target: str
+    phase: str
+    steps: list[PlaybookStep] = field(default_factory=list)
+    generated_at: str = field(default_factory=lambda: datetime.now().isoformat())
 
     def to_dict(self) -> dict:
         return {
-            "apt_name":     self.apt_name,
-            "description":  self.description,
-            "target":       self.target,
-            "phase":        self.phase,
+            "apt_name": self.apt_name,
+            "description": self.description,
+            "target": self.target,
+            "phase": self.phase,
             "generated_at": self.generated_at,
-            "steps":        [s.to_dict() for s in self.steps],
+            "steps": [s.to_dict() for s in self.steps],
         }
 
     @classmethod
     def from_dict(cls, d: dict) -> Playbook:
         steps = [PlaybookStep.from_dict(s) for s in d.get("steps", [])]
         return cls(
-            apt_name     = d.get("apt_name", ""),
-            description  = d.get("description", ""),
-            target       = d.get("target", ""),
-            phase        = d.get("phase", ""),
-            generated_at = d.get("generated_at", ""),
-            steps        = steps,
+            apt_name=d.get("apt_name", ""),
+            description=d.get("description", ""),
+            target=d.get("target", ""),
+            phase=d.get("phase", ""),
+            generated_at=d.get("generated_at", ""),
+            steps=steps,
         )
 
 
 @dataclass
 class StepResult:
-    step:     PlaybookStep
-    output:   str
-    success:  bool
-    findings: list = field(default_factory=list)   # List[Finding] from obs_parser
+    step: PlaybookStep
+    output: str
+    success: bool
+    findings: list = field(default_factory=list)  # List[Finding] from obs_parser
 
 
 @dataclass
 class PlaybookResult:
-    playbook:          Playbook
-    results:           list[StepResult] = field(default_factory=list)
-    total_steps:       int              = 0
-    successful_steps:  int              = 0
+    playbook: Playbook
+    results: list[StepResult] = field(default_factory=list)
+    total_steps: int = 0
+    successful_steps: int = 0
 
 
 # ---------------------------------------------------------------------------
 # STIX2 loader (optional dependency)
 # ---------------------------------------------------------------------------
 
+
 class _StixLoader:
     """Loads the enterprise ATT&CK STIX2 bundle into a queryable in-memory store."""
 
     def __init__(self, json_path: Path = _ENTERPRISE_ATTACK_JSON) -> None:
-        self._path  = json_path
+        self._path = json_path
         self._store = None
 
     def available(self) -> bool:
@@ -192,6 +198,7 @@ class _StixLoader:
                 return None
             try:
                 from stix2 import Filter, MemoryStore  # noqa: F401
+
                 with self._path.open("r", encoding="utf-8") as fh:
                     data = json.load(fh)
                 self._store = MemoryStore(stix_data=data)
@@ -200,15 +207,14 @@ class _StixLoader:
                 log.warning("STIX2 load failed: %s", exc)
         return self._store
 
-    def techniques_for_tactics(
-        self, tactic_shortnames: list[str], platform: str | None = None
-    ) -> list[dict[str, Any]]:
+    def techniques_for_tactics(self, tactic_shortnames: list[str], platform: str | None = None) -> list[dict[str, Any]]:
         """Return ATT&CK techniques matching the given tactic shortnames."""
         store = self.store()
         if store is None:
             return []
         try:
             from stix2 import Filter
+
             techniques = store.query([Filter("type", "=", "attack-pattern")])
             results = []
             for t in techniques:
@@ -221,18 +227,19 @@ class _StixLoader:
                         continue
                 ext_refs = t.get("external_references", [])
                 tid = next(
-                    (r.get("external_id", "") for r in ext_refs
-                     if r.get("source_name") == "mitre-attack"),
+                    (r.get("external_id", "") for r in ext_refs if r.get("source_name") == "mitre-attack"),
                     "",
                 )
-                results.append({
-                    "id":          t.get("id", ""),
-                    "technique_id": tid,
-                    "name":        t.get("name", ""),
-                    "description": t.get("description", "")[:300],
-                    "tactics":     phases,
-                    "platforms":   [p.lower() for p in t.get("x_mitre_platforms", [])],
-                })
+                results.append(
+                    {
+                        "id": t.get("id", ""),
+                        "technique_id": tid,
+                        "name": t.get("name", ""),
+                        "description": t.get("description", "")[:300],
+                        "tactics": phases,
+                        "platforms": [p.lower() for p in t.get("x_mitre_platforms", [])],
+                    }
+                )
             return results
         except Exception as exc:
             log.warning("STIX2 query failed: %s", exc)
@@ -243,6 +250,7 @@ class _StixLoader:
 # Atomic Red Team index builder
 # ---------------------------------------------------------------------------
 
+
 class _AtomicIndex:
     """
     Indexes Atomic Red Team YAML files by technique ID.
@@ -250,7 +258,7 @@ class _AtomicIndex:
     """
 
     def __init__(self, atomics_path: Path = _ATOMIC_PATH / "atomics") -> None:
-        self._path  = atomics_path
+        self._path = atomics_path
         self._index: dict[str, list[dict]] | None = None
 
     def available(self) -> bool:
@@ -272,15 +280,17 @@ class _AtomicIndex:
                 if not tid:
                     continue
                 for test in data["atomic_tests"]:
-                    index.setdefault(tid, []).append({
-                        "atomic_id":       test.get("auto_generated_guid", ""),
-                        "name":            test.get("name", ""),
-                        "description":     test.get("description", "")[:300],
-                        "platforms":       test.get("supported_platforms", []),
-                        "command":         test.get("executor", {}).get("command", ""),
-                        "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
-                        "technique_id":    tid,
-                    })
+                    index.setdefault(tid, []).append(
+                        {
+                            "atomic_id": test.get("auto_generated_guid", ""),
+                            "name": test.get("name", ""),
+                            "description": test.get("description", "")[:300],
+                            "platforms": test.get("supported_platforms", []),
+                            "command": test.get("executor", {}).get("command", ""),
+                            "cleanup_command": test.get("executor", {}).get("cleanup_command", ""),
+                            "technique_id": tid,
+                        }
+                    )
             except Exception as exc:
                 log.debug("Atomic parse error %s: %s", yaml_file, exc)
         self._index = index
@@ -290,13 +300,13 @@ class _AtomicIndex:
     def tests_for_technique(self, technique_id: str, platform: str = "linux") -> list[dict]:
         idx = self.build()
         candidates = idx.get(technique_id, [])
-        return [t for t in candidates if platform.lower() in
-                [p.lower() for p in t.get("platforms", [])]]
+        return [t for t in candidates if platform.lower() in [p.lower() for p in t.get("platforms", [])]]
 
 
 # ---------------------------------------------------------------------------
 # LLM-based technique selector
 # ---------------------------------------------------------------------------
+
 
 class _TechniqueSelector:
     """
@@ -321,10 +331,11 @@ class _TechniqueSelector:
             return candidates[:top_n]
         try:
             from llm_client import LLMClient
+
             client = LLMClient(api_key=api_key)
             names = "\n".join(
-                f"{i+1}. [{c['technique_id']}] {c['name']}: {c['description'][:80]}"
-                for i, c in enumerate(candidates[:30])   # cap to avoid token overflow
+                f"{i + 1}. [{c['technique_id']}] {c['name']}: {c['description'][:80]}"
+                for i, c in enumerate(candidates[:30])  # cap to avoid token overflow
             )
             prompt = (
                 f"Target: {target}  Phase: {phase}\n\n"
@@ -340,7 +351,8 @@ class _TechniqueSelector:
                 temperature=0.0,
             )
             import re
-            m = re.search(r'\[[\d,\s]+\]', raw)
+
+            m = re.search(r"\[[\d,\s]+\]", raw)
             if m:
                 indices = json.loads(m.group())
                 selected = []
@@ -358,6 +370,7 @@ class _TechniqueSelector:
 # ---------------------------------------------------------------------------
 # PlaybookEngine
 # ---------------------------------------------------------------------------
+
 
 class PlaybookEngine:
     """
@@ -378,12 +391,12 @@ class PlaybookEngine:
         api_key: str = "",
         top_n: int = 5,
     ) -> None:
-        self._wm       = world_model
-        self._parser   = obs_parser
-        self._api_key  = api_key or os.environ.get("GROQ_API_KEY", "")
-        self._top_n    = top_n
-        self._stix     = _StixLoader()
-        self._atomic   = _AtomicIndex()
+        self._wm = world_model
+        self._parser = obs_parser
+        self._api_key = api_key or os.environ.get("GROQ_API_KEY", "")
+        self._top_n = top_n
+        self._stix = _StixLoader()
+        self._atomic = _AtomicIndex()
         self._selector = _TechniqueSelector()
 
     # ── Lazy accessors ────────────────────────────────────────────────────────
@@ -393,6 +406,7 @@ class PlaybookEngine:
             try:
                 sys.path.insert(0, str(Path(__file__).parent))
                 from world_model import get_world_model
+
                 self._wm = get_world_model()
             except Exception:
                 pass
@@ -402,6 +416,7 @@ class PlaybookEngine:
         if self._parser is None:
             try:
                 from obs_parser import get_parser
+
                 self._parser = get_parser()
             except Exception:
                 pass
@@ -449,22 +464,27 @@ class PlaybookEngine:
 
         # Tactics for this phase
         tactics = PHASE_TACTIC_MAP.get(phase, ["discovery"])
-        log.info("Deriving playbook: target=%s phase=%s tactics=%s platform=%s",
-                 target, phase, tactics, platform)
+        log.info("Deriving playbook: target=%s phase=%s tactics=%s platform=%s", target, phase, tactics, platform)
 
         # Query STIX2 for techniques
         if self._stix.available():
             techniques = self._stix.techniques_for_tactics(tactics, platform)
         else:
-            log.warning("STIX2 data not available — run: git clone "
-                        "https://github.com/mitre-attack/attack-stix-data.git "
-                        "external/.exploit/mitre")
+            log.warning(
+                "STIX2 data not available — run: git clone "
+                "https://github.com/mitre-attack/attack-stix-data.git "
+                "external/.exploit/mitre"
+            )
             techniques = []
 
         # LLM-ranked selection
         selected = self._selector.select(
-            techniques, wm_context, target, phase,
-            api_key=self._api_key, top_n=self._top_n * 2,
+            techniques,
+            wm_context,
+            target,
+            phase,
+            api_key=self._api_key,
+            top_n=self._top_n * 2,
         )
 
         # Match to Atomic tests
@@ -476,33 +496,34 @@ class PlaybookEngine:
             atomic_tests = self._atomic.tests_for_technique(tid, platform)
             if not atomic_tests:
                 continue
-            test = atomic_tests[0]   # pick first matching test
+            test = atomic_tests[0]  # pick first matching test
             tactic = tech.get("tactics", [""])[0]
             mitre_url = f"https://attack.mitre.org/techniques/{tid.replace('.', '/')}"
-            steps.append(PlaybookStep(
-                atomic_id       = test["atomic_id"],
-                technique_id    = tid,
-                tactic          = tactic,
-                name            = test["name"],
-                description     = test.get("description", tech.get("description", "")),
-                command         = test.get("command", ""),
-                cleanup_command = test.get("cleanup_command", ""),
-                platform        = platform,
-                mitre_url       = mitre_url,
-            ))
+            steps.append(
+                PlaybookStep(
+                    atomic_id=test["atomic_id"],
+                    technique_id=tid,
+                    tactic=tactic,
+                    name=test["name"],
+                    description=test.get("description", tech.get("description", "")),
+                    command=test.get("command", ""),
+                    cleanup_command=test.get("cleanup_command", ""),
+                    platform=platform,
+                    mitre_url=mitre_url,
+                )
+            )
             if len(steps) >= self._top_n:
                 break
 
         if not steps:
-            log.warning("No Atomic tests found for phase=%s platform=%s — playbook is empty",
-                        phase, platform)
+            log.warning("No Atomic tests found for phase=%s platform=%s — playbook is empty", phase, platform)
 
         return Playbook(
-            apt_name    = apt_name,
-            description = f"Auto-derived playbook for {target} at phase={phase} ({platform})",
-            target      = target,
-            phase       = phase,
-            steps       = steps,
+            apt_name=apt_name,
+            description=f"Auto-derived playbook for {target} at phase={phase} ({platform})",
+            target=target,
+            phase=phase,
+            steps=steps,
         )
 
     def execute(
@@ -522,15 +543,14 @@ class PlaybookEngine:
         """
         result = PlaybookResult(playbook=playbook, total_steps=len(playbook.steps))
         parser = self._obs_parser()
-        wm     = self._world_model()
+        wm = self._world_model()
 
         for step in playbook.steps:
             if not step.command.strip():
                 log.debug("Skipping step %s — no command", step.technique_id)
                 continue
 
-            log.info("Executing step [%s] %s on %s",
-                     step.technique_id, step.name, playbook.target)
+            log.info("Executing step [%s] %s on %s", step.technique_id, step.name, playbook.target)
 
             if dry_run:
                 print(f"[DRY-RUN] [{step.technique_id}] {step.name}")
@@ -538,34 +558,31 @@ class PlaybookEngine:
                 step_result = StepResult(step=step, output="[dry-run]", success=True)
             else:
                 try:
-                    output  = executor(step.command, playbook.target)
+                    output = executor(step.command, playbook.target)
                     success = bool(output and len(output.strip()) > 5)
                 except Exception as exc:
-                    output  = f"[executor error] {exc}"
+                    output = f"[executor error] {exc}"
                     success = False
 
                 # Parse observations and feed back to world model
                 findings = []
                 if parser is not None:
                     try:
-                        obs      = parser.parse(output, host=playbook.target, tool=step.technique_id)
+                        obs = parser.parse(output, host=playbook.target, tool=step.technique_id)
                         findings = obs.findings
-                        success  = obs.success
+                        success = obs.success
                         if wm is not None:
                             wm.update_from_findings(findings)
                     except Exception as exc:
                         log.debug("ObsParser error: %s", exc)
 
-                step_result = StepResult(
-                    step=step, output=output, success=success, findings=findings
-                )
+                step_result = StepResult(step=step, output=output, success=success, findings=findings)
                 if success:
                     result.successful_steps += 1
 
             result.results.append(step_result)
 
-        log.info("Playbook complete: %d/%d steps succeeded",
-                 result.successful_steps, result.total_steps)
+        log.info("Playbook complete: %d/%d steps succeeded", result.successful_steps, result.total_steps)
         return result
 
     # ── Persistence ───────────────────────────────────────────────────────────
@@ -574,12 +591,11 @@ class PlaybookEngine:
         """Persist playbook to YAML (compatible with existing playbooks/ format)."""
         if path is None:
             _PLAYBOOK_DIR.mkdir(parents=True, exist_ok=True)
-            ts   = datetime.now().strftime("%Y%m%d_%H%M%S")
+            ts = datetime.now().strftime("%Y%m%d_%H%M%S")
             path = _PLAYBOOK_DIR / f"{playbook.apt_name}_{ts}.yaml"
         p = Path(path)
         p.parent.mkdir(parents=True, exist_ok=True)
-        p.write_text(yaml.dump(playbook.to_dict(), allow_unicode=True, sort_keys=False),
-                     encoding="utf-8")
+        p.write_text(yaml.dump(playbook.to_dict(), allow_unicode=True, sort_keys=False), encoding="utf-8")
         log.info("Playbook saved to %s", p)
         return p
 
@@ -596,18 +612,20 @@ class PlaybookEngine:
             if isinstance(s, dict) and "technique_id" in s:
                 steps.append(PlaybookStep.from_dict(s))
             elif isinstance(s, dict) and "atomic_id" in s:
-                steps.append(PlaybookStep(
-                    atomic_id    = s["atomic_id"],
-                    technique_id = "",
-                    tactic       = "",
-                    name         = s.get("name", s["atomic_id"]),
-                ))
+                steps.append(
+                    PlaybookStep(
+                        atomic_id=s["atomic_id"],
+                        technique_id="",
+                        tactic="",
+                        name=s.get("name", s["atomic_id"]),
+                    )
+                )
         return Playbook(
-            apt_name    = data.get("apt_name", ""),
-            description = data.get("description", ""),
-            target      = data.get("target", ""),
-            phase       = data.get("phase", ""),
-            steps       = steps,
+            apt_name=data.get("apt_name", ""),
+            description=data.get("description", ""),
+            target=data.get("target", ""),
+            phase=data.get("phase", ""),
+            steps=steps,
         )
 
     def result_summary(self, result: PlaybookResult) -> str:
@@ -621,18 +639,12 @@ class PlaybookEngine:
         ]
         for sr in result.results:
             status = "OK" if sr.success else "FAIL"
-            lines.append(
-                f"[{status}] [{sr.step.technique_id}] {sr.step.name[:60]}  "
-                f"(tactic: {sr.step.tactic})"
-            )
+            lines.append(f"[{status}] [{sr.step.technique_id}] {sr.step.name[:60]}  (tactic: {sr.step.tactic})")
             if sr.findings:
                 types = {}
                 for f in sr.findings:
                     types[f.type] = types.get(f.type, 0) + 1
-                lines.append(
-                    "     findings: "
-                    + ", ".join(f"{v}x {k}" for k, v in types.items())
-                )
+                lines.append("     findings: " + ", ".join(f"{v}x {k}" for k, v in types.items()))
             if not sr.success and sr.output:
                 lines.append(f"     output:   {sr.output[:120]}")
         return "\n".join(lines)
@@ -660,6 +672,7 @@ def get_engine(api_key: str = "") -> PlaybookEngine:
 if __name__ == "__main__":
     import argparse
     import logging
+
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn Playbook Engine")
@@ -667,16 +680,16 @@ if __name__ == "__main__":
 
     # derive
     d = sub.add_parser("derive", help="Generate a playbook from ATT&CK + Atomic")
-    d.add_argument("--target",   required=True)
-    d.add_argument("--phase",    default=None)
+    d.add_argument("--target", required=True)
+    d.add_argument("--phase", default=None)
     d.add_argument("--platform", default=None, choices=["linux", "windows", "macos"])
-    d.add_argument("--top-n",    type=int, default=5)
-    d.add_argument("--save",     action="store_true")
+    d.add_argument("--top-n", type=int, default=5)
+    d.add_argument("--save", action="store_true")
 
     # run
     r = sub.add_parser("run", help="Execute a playbook YAML")
     r.add_argument("--playbook", required=True)
-    r.add_argument("--dry-run",  action="store_true")
+    r.add_argument("--dry-run", action="store_true")
 
     # show
     s = sub.add_parser("show", help="Show a playbook YAML in human-readable form")

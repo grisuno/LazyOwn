@@ -208,7 +208,10 @@ def test_consume_expires_overdue_pending(sessions_dir):
 
 def test_pending_action_is_expired_only_when_still_pending():
     action = PendingAction(
-        action_id="x", command="nmap", proposed_at=0.0, ttl_seconds=1.0,
+        action_id="x",
+        command="nmap",
+        proposed_at=0.0,
+        ttl_seconds=1.0,
         decision=DECISION_APPROVED,
     )
 
@@ -221,7 +224,8 @@ def test_wait_for_decision_returns_approved(sessions_dir):
     control.decide(pending.action_id, DECISION_APPROVED, operator="bob")
 
     final = wait_for_decision(
-        control, pending,
+        control,
+        pending,
         poll_interval=0.0,
         sleep_fn=lambda _seconds: None,
         now_fn=lambda: pending.proposed_at + 0.1,
@@ -235,7 +239,8 @@ def test_wait_for_decision_expires_after_ttl(sessions_dir):
     pending = control.propose("nmap", target="10.0.0.1", ttl_seconds=1.0)
 
     final = wait_for_decision(
-        control, pending,
+        control,
+        pending,
         poll_interval=0.0,
         sleep_fn=lambda _seconds: None,
         now_fn=lambda: pending.proposed_at + 10.0,
@@ -255,7 +260,8 @@ def test_wait_for_decision_polls_until_decided(sessions_dir):
             control.decide(pending.action_id, DECISION_VETOED)
 
     final = wait_for_decision(
-        control, pending,
+        control,
+        pending,
         poll_interval=0.0,
         sleep_fn=_sleep,
         now_fn=lambda: pending.proposed_at + 0.1,

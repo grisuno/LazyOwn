@@ -86,11 +86,13 @@ class TestRouteStatusContract:
         tree = ast.parse(LAZYC2.read_text(encoding="utf-8"))
         for node in ast.walk(tree):
             if isinstance(node, ast.FunctionDef) and node.name == "redirect_to_file":
-                handlers = [
-                    n for n in ast.walk(node) if isinstance(n, ast.ExceptHandler)
-                ]
+                handlers = [n for n in ast.walk(node) if isinstance(n, ast.ExceptHandler)]
                 reraises = any(
-                    (h.type.attr == "HTTPException" if isinstance(h.type, ast.Attribute) else h.type.id == "HTTPException")
+                    (
+                        h.type.attr == "HTTPException"
+                        if isinstance(h.type, ast.Attribute)
+                        else h.type.id == "HTTPException"
+                    )
                     for h in handlers
                     if h.type is not None
                 )

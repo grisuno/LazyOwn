@@ -14,6 +14,7 @@ ICMP_BUFFER_SIZE = 4096
 AES_NONCE_LENGTH = 12
 AES_TAG_LENGTH = 16
 
+
 def encrypt_data(data, key):
     """Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
 
@@ -28,6 +29,7 @@ def encrypt_data(data, key):
     cipher = AES.new(key, AES.MODE_GCM, nonce=nonce)
     ciphertext, tag = cipher.encrypt_and_digest(data)
     return nonce + ciphertext + tag
+
 
 def decrypt_data(data, key):
     """Decrypt bytes produced by ``encrypt_data`` after authenticating them.
@@ -55,8 +57,9 @@ def decrypt_data(data, key):
 def check_sudo():
     if os.geteuid() != 0:
         print("[S] Este script necesita permisos de superusuario. Relanzando con sudo...")
-        args = ['sudo', sys.executable] + sys.argv
-        os.execvpe('sudo', args, os.environ)
+        args = ["sudo", sys.executable] + sys.argv
+        os.execvpe("sudo", args, os.environ)
+
 
 def checksum(source_string):
     sum = 0
@@ -64,16 +67,17 @@ def checksum(source_string):
     for count in range(0, count_to, 2):
         this_val = source_string[count + 1] * 256 + source_string[count]
         sum = sum + this_val
-        sum = sum & 0xffffffff
+        sum = sum & 0xFFFFFFFF
     if count_to < len(source_string):
         sum = sum + source_string[-1]
-        sum = sum & 0xffffffff
-    sum = (sum >> 16) + (sum & 0xffff)
+        sum = sum & 0xFFFFFFFF
+    sum = (sum >> 16) + (sum & 0xFFFF)
     sum = sum + (sum >> 16)
     answer = ~sum
-    answer = answer & 0xffff
-    answer = answer >> 8 | (answer << 8 & 0xff00)
+    answer = answer & 0xFFFF
+    answer = answer >> 8 | (answer << 8 & 0xFF00)
     return answer
+
 
 def send_icmp_packet(dest_addr, data, key):
     try:
@@ -88,9 +92,9 @@ def send_icmp_packet(dest_addr, data, key):
     compressed_data = zlib.compress(data.encode())
     encrypted_data = encrypt_data(compressed_data, key)
 
-    header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, 0, packet_id, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, 0, packet_id, 1)
     my_checksum = checksum(header + encrypted_data)
-    header = struct.pack('bbHHh', ICMP_ECHO_REQUEST, 0, socket.htons(my_checksum), packet_id, 1)
+    header = struct.pack("bbHHh", ICMP_ECHO_REQUEST, 0, socket.htons(my_checksum), packet_id, 1)
     packet = header + encrypted_data
 
     try:
@@ -109,11 +113,12 @@ def send_icmp_packet(dest_addr, data, key):
     finally:
         sock.close()
 
+
 def receive_icmp_reply(sock):
     try:
         reply, addr = sock.recvfrom(ICMP_BUFFER_SIZE)
         icmp_header = reply[20:28]
-        icmp_type, code, checksum, packet_id, sequence = struct.unpack('bbHHh', icmp_header)
+        icmp_type, code, checksum, packet_id, sequence = struct.unpack("bbHHh", icmp_header)
         if icmp_type == 0:  # ICMP echo reply
             encrypted_data = reply[28:]
             return encrypted_data
@@ -121,12 +126,14 @@ def receive_icmp_reply(sock):
         print(f"Error al recibir la respuesta: {str(e)}")
         return None
 
+
 def main():
     import argparse
-    parser = argparse.ArgumentParser(description='Cliente ICMP para enviar comandos.')
-    parser.add_argument('server_ip', help='IP del servidor')
-    parser.add_argument('-i', '--interval', type=float, default=1.0, help='Intervalo entre comandos (segundos)')
-    parser.add_argument('-p', '--password', required=True, help='Contraseña para encriptar los datos')
+
+    parser = argparse.ArgumentParser(description="Cliente ICMP para enviar comandos.")
+    parser.add_argument("server_ip", help="IP del servidor")
+    parser.add_argument("-i", "--interval", type=float, default=1.0, help="Intervalo entre comandos (segundos)")
+    parser.add_argument("-p", "--password", required=True, help="Contraseña para encriptar los datos")
     args = parser.parse_args()
 
     key = hashlib.sha256(args.password.encode()).digest()
@@ -137,12 +144,13 @@ def main():
     try:
         while True:
             command = input("Ingrese el comando a enviar (o 'exit' para salir): ")
-            if command.lower() == 'exit':
+            if command.lower() == "exit":
                 break
             send_icmp_packet(args.server_ip, command, key)
             time.sleep(args.interval)
     except KeyboardInterrupt:
         print("\nPrograma terminado por el usuario.")
+
 
 if __name__ == "__main__":
     check_sudo()

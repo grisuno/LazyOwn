@@ -28,6 +28,7 @@ Usage
               f"{assessment.sigma_names}")
         print(assessment.recommendation)
 """
+
 from __future__ import annotations
 
 import logging
@@ -51,9 +52,9 @@ class SigmaRule:
 
     rule_id: str
     name: str
-    log_source: str           # e.g. "windows/security", "network/firewall"
-    mitre_technique: str      # e.g. "T1003.001"
-    base_probability: float   # inherent detection probability in [0.0, 1.0]
+    log_source: str  # e.g. "windows/security", "network/firewall"
+    mitre_technique: str  # e.g. "T1003.001"
+    base_probability: float  # inherent detection probability in [0.0, 1.0]
     keywords: tuple[str, ...]
     category_tags: tuple[str, ...]  # action category labels that trigger this rule
 
@@ -64,11 +65,11 @@ class DetectionAssessment:
 
     command: str
     action_category: str
-    probability: float               # final score in [0.0, 1.0]
-    triggered_rules: list[str]       # matched rule_ids
-    predicted_log_sources: list[str] # log sources where evidence would appear
-    sigma_names: list[str]           # human-readable rule names
-    recommendation: str              # operator-facing mitigation advice
+    probability: float  # final score in [0.0, 1.0]
+    triggered_rules: list[str]  # matched rule_ids
+    predicted_log_sources: list[str]  # log sources where evidence would appear
+    sigma_names: list[str]  # human-readable rule names
+    recommendation: str  # operator-facing mitigation advice
 
     @property
     def is_high_risk(self) -> bool:
@@ -228,8 +229,7 @@ _SIGMA_RULES: list[SigmaRule] = [
         log_source="windows/security",
         mitre_technique="T1562.001",
         base_probability=0.88,
-        keywords=("amsi", "disableav", "darkarmour", "bypass defender",
-                  "add-mppreference", "set-mppreference"),
+        keywords=("amsi", "disableav", "darkarmour", "bypass defender", "add-mppreference", "set-mppreference"),
         category_tags=("payload",),
     ),
     # ── Brute Force ──────────────────────────────────────────────────────────
@@ -268,8 +268,7 @@ _SIGMA_RULES: list[SigmaRule] = [
         log_source="windows/sysmon",
         mitre_technique="T1055",
         base_probability=0.88,
-        keywords=("process hollow", "inject", "shellcode", "virtualalloc",
-                  "writeprocessmemory"),
+        keywords=("process hollow", "inject", "shellcode", "virtualalloc", "writeprocessmemory"),
         category_tags=("payload", "exploit"),
     ),
 ]
@@ -279,16 +278,16 @@ _SIGMA_RULES: list[SigmaRule] = [
 # ---------------------------------------------------------------------------
 
 _CATEGORY_BASE_PROBABILITY: dict[str, float] = {
-    "recon":       0.20,
-    "enum":        0.30,
+    "recon": 0.20,
+    "enum": 0.30,
     "brute_force": 0.70,
-    "exploit":     0.82,
-    "intrusion":   0.60,
-    "privesc":     0.65,
-    "credential":  0.85,
-    "lateral":     0.75,
-    "payload":     0.80,
-    "other":       0.25,
+    "exploit": 0.82,
+    "intrusion": 0.60,
+    "privesc": 0.65,
+    "credential": 0.85,
+    "lateral": 0.75,
+    "payload": 0.80,
+    "other": 0.25,
 }
 
 # ---------------------------------------------------------------------------
@@ -296,22 +295,17 @@ _CATEGORY_BASE_PROBABILITY: dict[str, float] = {
 # ---------------------------------------------------------------------------
 
 _STEALTH_ADVICE: dict[str, str] = {
-    "credential":  "Consider using DCSync over LDAP instead of direct LSASS access.",
-    "lateral":     "Use native LOLBas tools (e.g. msiexec, regsvr32) to blend with "
-                   "legitimate traffic.",
-    "payload":     "Apply polymorphic encoding and stage payload in memory only; "
-                   "avoid dropping files to disk.",
-    "privesc":     "Prefer service misconfigurations over known-CVE exploits to "
-                   "reduce detection rule hits.",
+    "credential": "Consider using DCSync over LDAP instead of direct LSASS access.",
+    "lateral": "Use native LOLBas tools (e.g. msiexec, regsvr32) to blend with legitimate traffic.",
+    "payload": "Apply polymorphic encoding and stage payload in memory only; avoid dropping files to disk.",
+    "privesc": "Prefer service misconfigurations over known-CVE exploits to reduce detection rule hits.",
     "brute_force": "Use password-spraying with slow intervals (one attempt per 30 min) "
-                   "to stay below lockout and SIEM thresholds.",
-    "exploit":     "Fingerprint the target first and select a PoC that avoids "
-                   "known AV/EDR signatures.",
-    "recon":       "Limit scan rate; use passive OSINT sources before active probing.",
-    "enum":        "Favour read-only LDAP and Kerberos queries over noisy SMB enumeration.",
-    "intrusion":   "Use encrypted channels (SSH, HTTPS-based C2) to reduce cleartext "
-                   "signatures in network logs.",
-    "other":       "Review the detection rules matched and consult the evasion advisor.",
+    "to stay below lockout and SIEM thresholds.",
+    "exploit": "Fingerprint the target first and select a PoC that avoids known AV/EDR signatures.",
+    "recon": "Limit scan rate; use passive OSINT sources before active probing.",
+    "enum": "Favour read-only LDAP and Kerberos queries over noisy SMB enumeration.",
+    "intrusion": "Use encrypted channels (SSH, HTTPS-based C2) to reduce cleartext signatures in network logs.",
+    "other": "Review the detection rules matched and consult the evasion advisor.",
 }
 
 
@@ -352,6 +346,7 @@ class DetectionOracle(IDetectionOracle):
         if self._feed is None:
             try:
                 from modules.detection_feed import get_feed
+
                 self._feed = get_feed()
             except Exception as exc:
                 log.debug("DetectionOracle: feed unavailable: %s", exc)
@@ -456,16 +451,13 @@ class DetectionOracle(IDetectionOracle):
         elif probability < 0.70:
             tier_label = f"Moderate detection risk ({probability:.0%})."
         else:
-            tier_label = (
-                f"High detection risk ({probability:.0%}) — "
-                "consider an evasive alternative."
-            )
+            tier_label = f"High detection risk ({probability:.0%}) — consider an evasive alternative."
 
         category_advice = _STEALTH_ADVICE.get(action_category, _STEALTH_ADVICE["other"])
 
         if matched:
             log_sources = ", ".join(dict.fromkeys(r.log_source for r in matched))
-            techniques  = ", ".join(dict.fromkeys(r.mitre_technique for r in matched))
+            techniques = ", ".join(dict.fromkeys(r.mitre_technique for r in matched))
             return (
                 f"{tier_label} "
                 f"Evidence predicted in: [{log_sources}]. "
@@ -499,19 +491,19 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    parser = argparse.ArgumentParser(
-        description="LazyOwn Detection Oracle — predict detection probability"
-    )
-    parser.add_argument("command",  help="Command name (e.g. mimikatz)")
-    parser.add_argument("args",     help="Command arguments")
+    parser = argparse.ArgumentParser(description="LazyOwn Detection Oracle — predict detection probability")
+    parser.add_argument("command", help="Command name (e.g. mimikatz)")
+    parser.add_argument("args", help="Command arguments")
     parser.add_argument("category", help="Action category (e.g. credential, lateral)")
     cli_args = parser.parse_args()
 
-    oracle     = DetectionOracle()
+    oracle = DetectionOracle()
     assessment = oracle.assess(cli_args.command, cli_args.args, cli_args.category)
 
     print(f"Detection probability : {assessment.probability:.1%}")
-    print(f"Risk level            : {'CRITICAL' if assessment.is_critical_risk else 'HIGH' if assessment.is_high_risk else 'LOW/MODERATE'}")
+    print(
+        f"Risk level            : {'CRITICAL' if assessment.is_critical_risk else 'HIGH' if assessment.is_high_risk else 'LOW/MODERATE'}"
+    )
     print(f"Triggered rules       : {', '.join(assessment.triggered_rules) or '(none)'}")
     print(f"Sigma rule names      : {', '.join(assessment.sigma_names) or '(none)'}")
     print(f"Predicted log sources : {', '.join(assessment.predicted_log_sources) or '(none)'}")

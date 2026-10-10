@@ -47,12 +47,12 @@ from pathlib import Path
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-BASE_DIR     = Path(__file__).parent.parent
+BASE_DIR = Path(__file__).parent.parent
 SESSIONS_DIR = BASE_DIR / "sessions"
-SKILLS_DIR   = Path(__file__).parent
-MODULES_DIR  = BASE_DIR / "modules"
+SKILLS_DIR = Path(__file__).parent
+MODULES_DIR = BASE_DIR / "modules"
 
-PID_FILE    = SESSIONS_DIR / "daemon.pid"
+PID_FILE = SESSIONS_DIR / "daemon.pid"
 STATUS_FILE = SESSIONS_DIR / "daemon_status.json"
 
 # ── sys.path setup ────────────────────────────────────────────────────────────
@@ -77,11 +77,13 @@ log = get_logger("lazyown_daemon")
 # sessions_watcher dispatch functions (re-used directly)
 try:
     import sessions_watcher as _sw
-    _dispatch        = _sw._dispatch
+
+    _dispatch = _sw._dispatch
     _WATCHER_AVAILABLE = True
     try:
         from watchdog.events import FileSystemEventHandler
         from watchdog.observers import Observer
+
         _WATCHDOG_AVAILABLE = True
     except ImportError:
         _WATCHDOG_AVAILABLE = False
@@ -93,9 +95,11 @@ except ImportError:
     def _dispatch(path: Path) -> None:  # type: ignore[misc]
         pass
 
+
 # event_engine process_new_rows
 try:
     from event_engine import _append_event, process_new_rows
+
     _ENGINE_AVAILABLE = True
 except ImportError:
     _ENGINE_AVAILABLE = False
@@ -107,37 +111,41 @@ except ImportError:
     def _append_event(ev: dict) -> None:  # type: ignore[misc]
         pass
 
+
 # optional: session_state and timeline_narrator (from heartbeat.py)
 try:
     from session_state import refresh as _state_refresh
+
     _STATE_OK = True
 except ImportError:
     _STATE_OK = False
 
 try:
     from timeline_narrator import narrate as _narrate
+
     _NARRATOR_OK = True
 except ImportError:
     _NARRATOR_OK = False
 
 # ── Config (env-overridable) ──────────────────────────────────────────────────
 
-ENGINE_INTERVAL_S   = float(os.environ.get("DAEMON_ENGINE_INTERVAL",  "5"))
-WATCHER_POLL_S      = float(os.environ.get("DAEMON_WATCHER_POLL",     "3"))
+ENGINE_INTERVAL_S = float(os.environ.get("DAEMON_ENGINE_INTERVAL", "5"))
+WATCHER_POLL_S = float(os.environ.get("DAEMON_WATCHER_POLL", "3"))
 HEARTBEAT_INTERVAL_S = float(os.environ.get("DAEMON_HEARTBEAT_INTERVAL", "30"))
-STATE_EVERY_N       = int(os.environ.get("DAEMON_STATE_EVERY",  "3"))   # engine cycles
-NARRATE_EVERY_N     = int(os.environ.get("DAEMON_NARRATE_EVERY", "12"))  # engine cycles
+STATE_EVERY_N = int(os.environ.get("DAEMON_STATE_EVERY", "3"))  # engine cycles
+NARRATE_EVERY_N = int(os.environ.get("DAEMON_NARRATE_EVERY", "12"))  # engine cycles
 
 # ── Shared stats (mutated by all coroutines) ──────────────────────────────────
 
 _stats = {
-    "started_at":      None,
+    "started_at": None,
     "files_processed": 0,
-    "events_emitted":  0,
+    "events_emitted": 0,
 }
 
 
 # ── Role 1 — File Watcher ─────────────────────────────────────────────────────
+
 
 async def file_watcher_loop(queue: asyncio.Queue) -> None:
     """Watch sessions/ for new/modified files and dispatch handlers."""
@@ -147,8 +155,7 @@ async def file_watcher_loop(queue: asyncio.Queue) -> None:
         await _watchdog_async(queue)
     else:
         log.info(
-            f"poll-based file watcher active (interval={WATCHER_POLL_S}s) — "
-            "install watchdog for inotify-based watching"
+            f"poll-based file watcher active (interval={WATCHER_POLL_S}s) — install watchdog for inotify-based watching"
         )
         await _poll_watcher_loop(queue)
 
@@ -177,8 +184,7 @@ async def _poll_watcher_loop(queue: asyncio.Queue) -> None:
     while True:
         await asyncio.sleep(WATCHER_POLL_S)
         current = await loop.run_in_executor(None, _scan)
-        changed = [p for p, mt in current.items()
-                   if p not in snapshot or snapshot[p] != mt]
+        changed = [p for p, mt in current.items() if p not in snapshot or snapshot[p] != mt]
         for path_str in changed:
             await queue.put(("FILE", Path(path_str)))
         snapshot = current
@@ -190,9 +196,7 @@ async def _watchdog_async(queue: asyncio.Queue) -> None:
 
     class _Handler(FileSystemEventHandler):  # type: ignore[misc]
         def _push(self, src: str):
-            asyncio.run_coroutine_threadsafe(
-                queue.put(("FILE", Path(src))), loop
-            )
+            asyncio.run_coroutine_threadsafe(queue.put(("FILE", Path(src))), loop)
 
         def on_created(self, event):
             if not event.is_directory:
@@ -232,10 +236,11 @@ async def file_event_consumer(queue: asyncio.Queue) -> None:
 
 # ── Role 2 — Event Engine Poll ────────────────────────────────────────────────
 
+
 async def event_engine_loop() -> None:
     """Tail CSV, match rules, emit events — every ENGINE_INTERVAL_S seconds."""
     cycle = 0
-    loop  = asyncio.get_event_loop()
+    loop = asyncio.get_event_loop()
 
     while True:
         await asyncio.sleep(ENGINE_INTERVAL_S)
@@ -271,6 +276,7 @@ async def event_engine_loop() -> None:
 
 # ── Role 3 — Heartbeat ────────────────────────────────────────────────────────
 
+
 async def heartbeat_loop() -> None:
     """Emit HEARTBEAT event and write daemon_status.json every 30 seconds."""
     import uuid as _uuid
@@ -279,18 +285,15 @@ async def heartbeat_loop() -> None:
         await asyncio.sleep(HEARTBEAT_INTERVAL_S)
 
         started = _stats["started_at"]
-        uptime  = (
-            (datetime.datetime.now(datetime.UTC) - started).total_seconds()
-            if started else 0
-        )
+        uptime = (datetime.datetime.now(datetime.UTC) - started).total_seconds() if started else 0
 
         status = {
-            "pid":             os.getpid(),
-            "uptime_s":        round(uptime, 1),
-            "started_at":      started.isoformat() if started else None,
+            "pid": os.getpid(),
+            "uptime_s": round(uptime, 1),
+            "started_at": started.isoformat() if started else None,
             "files_processed": _stats["files_processed"],
-            "events_emitted":  _stats["events_emitted"],
-            "updated_at":      datetime.datetime.now(datetime.UTC).isoformat(),
+            "events_emitted": _stats["events_emitted"],
+            "updated_at": datetime.datetime.now(datetime.UTC).isoformat(),
         }
 
         try:
@@ -299,14 +302,14 @@ async def heartbeat_loop() -> None:
             log.debug(f"status file write error: {exc}")
 
         hb_event = {
-            "id":        _uuid.uuid4().hex[:8],
+            "id": _uuid.uuid4().hex[:8],
             "timestamp": datetime.datetime.now(datetime.UTC).isoformat(),
-            "type":      "HEARTBEAT",
-            "severity":  "info",
-            "rule_id":   "daemon_heartbeat",
-            "source":    {"pid": os.getpid(), "uptime_s": round(uptime, 1)},
-            "suggest":   "Daemon is alive.",
-            "status":    "pending",
+            "type": "HEARTBEAT",
+            "severity": "info",
+            "rule_id": "daemon_heartbeat",
+            "source": {"pid": os.getpid(), "uptime_s": round(uptime, 1)},
+            "suggest": "Daemon is alive.",
+            "status": "pending",
         }
         try:
             _append_event(hb_event)
@@ -314,8 +317,9 @@ async def heartbeat_loop() -> None:
         except Exception as exc:
             log.debug(f"heartbeat event error: {exc}")
 
-        log.info(f"heartbeat — uptime={round(uptime)}s files={_stats['files_processed']} "
-                 f"events={_stats['events_emitted']}")
+        log.info(
+            f"heartbeat — uptime={round(uptime)}s files={_stats['files_processed']} events={_stats['events_emitted']}"
+        )
 
 
 # ── Role 4 — TopoSwarm keepalive ──────────────────────────────────────────────
@@ -345,7 +349,9 @@ async def toposwarm_keepalive_loop() -> None:
     while True:
         try:
             _toposwarm_proc = await asyncio.create_subprocess_exec(
-                sys.executable, str(orchestrator), "--mcp",
+                sys.executable,
+                str(orchestrator),
+                "--mcp",
                 stdin=asyncio.subprocess.PIPE,
                 stdout=asyncio.subprocess.PIPE,
                 stderr=asyncio.subprocess.PIPE,
@@ -380,6 +386,7 @@ async def toposwarm_keepalive_loop() -> None:
 
 # ── Main asyncio entrypoint ───────────────────────────────────────────────────
 
+
 async def _main_async() -> None:
     _stats["started_at"] = datetime.datetime.now(datetime.UTC)
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
@@ -387,11 +394,11 @@ async def _main_async() -> None:
     queue: asyncio.Queue = asyncio.Queue()
 
     tasks = [
-        asyncio.create_task(file_watcher_loop(queue),       name="file_watcher"),
-        asyncio.create_task(file_event_consumer(queue),     name="file_consumer"),
-        asyncio.create_task(event_engine_loop(),             name="event_engine"),
-        asyncio.create_task(heartbeat_loop(),                name="heartbeat"),
-        asyncio.create_task(toposwarm_keepalive_loop(),      name="toposwarm_keepalive"),
+        asyncio.create_task(file_watcher_loop(queue), name="file_watcher"),
+        asyncio.create_task(file_event_consumer(queue), name="file_consumer"),
+        asyncio.create_task(event_engine_loop(), name="event_engine"),
+        asyncio.create_task(heartbeat_loop(), name="heartbeat"),
+        asyncio.create_task(toposwarm_keepalive_loop(), name="toposwarm_keepalive"),
     ]
 
     log.info(f"LazyOwn daemon started (pid={os.getpid()})")
@@ -410,6 +417,7 @@ async def _main_async() -> None:
 
 
 # ── PID management ────────────────────────────────────────────────────────────
+
 
 def _write_pid() -> None:
     SESSIONS_DIR.mkdir(parents=True, exist_ok=True)
@@ -440,6 +448,7 @@ def _is_running() -> tuple[bool, int]:
 
 
 # ── CLI commands ──────────────────────────────────────────────────────────────
+
 
 def cmd_run() -> None:
     """Run in foreground."""
@@ -523,9 +532,9 @@ def cmd_status() -> None:
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 _COMMANDS = {
-    "run":    cmd_run,
-    "start":  cmd_start,
-    "stop":   cmd_stop,
+    "run": cmd_run,
+    "start": cmd_start,
+    "stop": cmd_stop,
     "status": cmd_status,
 }
 

@@ -66,6 +66,8 @@ def escape_powershell_single_quoted(value: str) -> str:
         Value safe to embed between single quotes in PowerShell.
     """
     return str(value).replace("'", "''")
+
+
 _SAFE_PATH_PATTERN = re.compile(r"^[a-zA-Z0-9._/\-]+$")
 _NETWORK_CIDR_PATTERN = re.compile(
     r"^(?:(?:25[0-5]|2[0-4]\d|[01]?\d\d?)\.){3}"

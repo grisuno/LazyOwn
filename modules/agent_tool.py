@@ -7,26 +7,19 @@ from typing import Any
 class AgentTool:
     """Representa una herramienta ejecutable por el agente"""
 
-    def __init__(self, name: str, description: str, func: Callable,
-                 parameters: dict[str, Any], required: list[str] = None):
+    def __init__(
+        self, name: str, description: str, func: Callable, parameters: dict[str, Any], required: list[str] = None
+    ):
         self.name = name
         self.description = description
         self.func = func
-        self.parameters = {
-            "type": "object",
-            "properties": parameters,
-            "required": required or list(parameters.keys())
-        }
+        self.parameters = {"type": "object", "properties": parameters, "required": required or list(parameters.keys())}
 
     def to_api_format(self) -> dict[str, Any]:
         """Convierte al formato API de LLM (Groq/Ollama)"""
         return {
             "type": "function",
-            "function": {
-                "name": self.name,
-                "description": self.description,
-                "parameters": self.parameters
-            }
+            "function": {"name": self.name, "description": self.description, "parameters": self.parameters},
         }
 
     def execute(self, **kwargs) -> str:

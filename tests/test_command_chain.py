@@ -134,9 +134,7 @@ def test_dynamic_next_resolver_orders_static_before_dynamic() -> None:
 
 
 def test_dynamic_next_resolver_filters_history() -> None:
-    engine = _FakeEngine(
-        services=[_svc("smb", 445)], history={"enum4linux", "gobuster"}
-    )
+    engine = _FakeEngine(services=[_svc("smb", 445)], history={"enum4linux", "gobuster"})
     resolver = DynamicNextResolver(exploration_engine=engine)
     steps = resolver.resolve("lazynmap", limit=10)
     assert all(s.name not in {"enum4linux", "gobuster"} for s in steps)
@@ -153,18 +151,25 @@ def test_dynamic_next_resolver_empty_verb_prefers_phase_priority() -> None:
 
 def test_dynamic_next_resolver_includes_unexplored_addons_and_tools() -> None:
     addon = AddonEntry(
-        name="my_addon", description="", category="14",
-        addon_os="linux", trigger=("http",), repo_url="", enabled=True,
+        name="my_addon",
+        description="",
+        category="14",
+        addon_os="linux",
+        trigger=("http",),
+        repo_url="",
+        enabled=True,
         source_path="lazyaddons/my_addon.yaml",
     )
     tool = ToolEntry(
-        name="my_tool", description="", category="",
-        tool_os="any", trigger=("http",), active=True,
+        name="my_tool",
+        description="",
+        category="",
+        tool_os="any",
+        trigger=("http",),
+        active=True,
         source_path="tools/my_tool.tool",
     )
-    engine = _FakeEngine(
-        services=[_svc("http", 80)], addons=[addon], tools=[tool], history=set()
-    )
+    engine = _FakeEngine(services=[_svc("http", 80)], addons=[addon], tools=[tool], history=set())
     resolver = DynamicNextResolver(exploration_engine=engine)
     steps = resolver.resolve("lazynmap", limit=20)
     sources = {s.source for s in steps}
@@ -190,9 +195,7 @@ def test_dynamic_next_resolver_respects_limit() -> None:
 
 def test_chain_facade_returns_serialisable_view() -> None:
     engine = _FakeEngine(services=[_svc("smb", 445)], history=set())
-    chain = CommandChain(
-        next_resolver=DynamicNextResolver(exploration_engine=engine)
-    )
+    chain = CommandChain(next_resolver=DynamicNextResolver(exploration_engine=engine))
     view = chain.chain("lazynmap", phase="enum")
     assert view["command"] == "lazynmap"
     assert view["prev"] == ["ping"]

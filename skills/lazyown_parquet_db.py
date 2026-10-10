@@ -60,6 +60,7 @@ try:
     import pandas as pd
     import pyarrow  # noqa: F401 as pa
     import pyarrow.parquet  # noqa: F401 as pq
+
     _PANDAS_OK = True
 except ImportError:
     _PANDAS_OK = False
@@ -68,50 +69,76 @@ log = logging.getLogger("parquet_db")
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
-BASE_DIR      = Path(__file__).parent.parent
-PARQUETS_DIR  = BASE_DIR / "parquets"
-SESSIONS_DIR  = BASE_DIR / "sessions"
-CSV_PATH      = SESSIONS_DIR / "LazyOwn_session_report.csv"
-SESSION_PKT   = PARQUETS_DIR / "session_knowledge.parquet"
+BASE_DIR = Path(__file__).parent.parent
+PARQUETS_DIR = BASE_DIR / "parquets"
+SESSIONS_DIR = BASE_DIR / "sessions"
+CSV_PATH = SESSIONS_DIR / "LazyOwn_session_report.csv"
+SESSION_PKT = PARQUETS_DIR / "session_knowledge.parquet"
 
 # ── Cmd2 category → short policy phase mapping ─────────────────────────────────
 
 _CMD2_TO_PHASE: dict[str, str] = {
-    "01. Reconnaissance":       "recon",
+    "01. Reconnaissance": "recon",
     "02. Scanning & Enumeration": "scanning",
-    "03. Exploitation":          "exploit",
-    "04. Post-Exploitation":     "post_exploit",
-    "05. Persistence":           "persistence",
-    "06. Privilege Escalation":  "privesc",
-    "07. Credential Access":     "credential",
-    "08. Lateral Movement":      "lateral",
-    "09. Data Exfiltration":     "exfil",
-    "10. Command & Control":     "c2",
-    "11. Reporting":             "reporting",
-    "12. Miscellaneous":         "other",
-    "13. Lua Plugin":            "other",
-    "14. Yaml Addon.":           "other",
-    "14. Adversary Emulation":       "other",
+    "03. Exploitation": "exploit",
+    "04. Post-Exploitation": "post_exploit",
+    "05. Persistence": "persistence",
+    "06. Privilege Escalation": "privesc",
+    "07. Credential Access": "credential",
+    "08. Lateral Movement": "lateral",
+    "09. Data Exfiltration": "exfil",
+    "10. Command & Control": "c2",
+    "11. Reporting": "reporting",
+    "12. Miscellaneous": "other",
+    "13. Lua Plugin": "other",
+    "14. Yaml Addon.": "other",
+    "14. Adversary Emulation": "other",
 }
 
 # Broad keyword → phase, for commands not decorated or from addons/plugins
 _KEYWORD_PHASE: dict[str, str] = {
-    "nmap": "recon", "lazynmap": "recon", "dig": "recon", "whois": "recon",
-    "host": "recon", "dnsrecon": "recon", "dnsenum": "recon",
-    "enum4linux": "scanning", "smbmap": "scanning", "smbclient": "scanning",
-    "ldapsearch": "scanning", "ldapdomaindump": "scanning",
-    "crackmapexec": "scanning", "nxc": "scanning", "rpcclient": "scanning",
-    "kerbrute": "scanning", "gobuster": "scanning", "ffuf": "scanning",
-    "nikto": "scanning", "dirb": "scanning", "wfuzz": "scanning",
-    "searchsploit": "exploit", "msfconsole": "exploit", "exploit": "exploit",
-    "sqlmap": "exploit", "commix": "exploit",
-    "linpeas": "privesc", "winpeas": "privesc", "privesc": "privesc",
+    "nmap": "recon",
+    "lazynmap": "recon",
+    "dig": "recon",
+    "whois": "recon",
+    "host": "recon",
+    "dnsrecon": "recon",
+    "dnsenum": "recon",
+    "enum4linux": "scanning",
+    "smbmap": "scanning",
+    "smbclient": "scanning",
+    "ldapsearch": "scanning",
+    "ldapdomaindump": "scanning",
+    "crackmapexec": "scanning",
+    "nxc": "scanning",
+    "rpcclient": "scanning",
+    "kerbrute": "scanning",
+    "gobuster": "scanning",
+    "ffuf": "scanning",
+    "nikto": "scanning",
+    "dirb": "scanning",
+    "wfuzz": "scanning",
+    "searchsploit": "exploit",
+    "msfconsole": "exploit",
+    "exploit": "exploit",
+    "sqlmap": "exploit",
+    "commix": "exploit",
+    "linpeas": "privesc",
+    "winpeas": "privesc",
+    "privesc": "privesc",
     "sudo": "privesc",
-    "secretsdump": "credential", "hashdump": "credential", "mimikatz": "credential",
-    "bloodhound": "lateral", "evil-winrm": "lateral", "psexec": "lateral",
+    "secretsdump": "credential",
+    "hashdump": "credential",
+    "mimikatz": "credential",
+    "bloodhound": "lateral",
+    "evil-winrm": "lateral",
+    "psexec": "lateral",
     "impacket": "lateral",
-    "hydra": "credential", "john": "credential", "hashcat": "credential",
-    "wget": "exfil", "curl": "exfil",
+    "hydra": "credential",
+    "john": "credential",
+    "hashcat": "credential",
+    "wget": "exfil",
+    "curl": "exfil",
     "report": "reporting",
 }
 
@@ -136,10 +163,10 @@ def _build_cmd2_category_map(lazyown_py: Path) -> dict[str, str]:
             src,
         ):
             raw_cat = m.group(1).strip("'\" ")
-            cmd     = m.group(2)
+            cmd = m.group(2)
             # raw_cat might be a var name or a literal string
             cat_str = cat_vars.get(raw_cat, raw_cat)
-            phase   = _CMD2_TO_PHASE.get(cat_str, "other")
+            phase = _CMD2_TO_PHASE.get(cat_str, "other")
             result[cmd] = phase
 
     except Exception as exc:
@@ -167,6 +194,7 @@ try:
     from lazyown_policy import (
         RewardCalculator as _RewardCalculator,
     )
+
     _POLICY_OK = True
 except Exception:
     _POLICY_OK = False
@@ -177,21 +205,22 @@ def _classify_row(command: str, args: str, phase_hint: str) -> dict[str, Any]:
     if _POLICY_OK:
         try:
             heuristic = _HeuristicClassifier()
-            result    = heuristic.classify(command, args, args, exit_code=None)
+            result = heuristic.classify(command, args, args, exit_code=None)
             from lazyown_policy import Config as _Cfg  # type: ignore  # noqa: F401
-            cfg    = _Cfg(sessions=SESSIONS_DIR)
-            calc   = _RewardCalculator(cfg)
-            cat    = result.category.value if hasattr(result.category, "value") else str(result.category)
-            out    = result.outcome.value  if hasattr(result.outcome, "value")  else str(result.outcome)
+
+            cfg = _Cfg(sessions=SESSIONS_DIR)
+            calc = _RewardCalculator(cfg)
+            cat = result.category.value if hasattr(result.category, "value") else str(result.category)
+            out = result.outcome.value if hasattr(result.outcome, "value") else str(result.outcome)
             reward = calc.calculate(result.category, result.outcome)
             return {
-                "category":   cat,
-                "success":    result.success,
-                "outcome":    out,
-                "reward":     reward,
+                "category": cat,
+                "success": result.success,
+                "outcome": out,
+                "reward": reward,
                 "confidence": result.confidence,
-                "tier":       result.tier,
-                "reason":     result.reason,
+                "tier": result.tier,
+                "reason": result.reason,
             }
         except Exception:
             pass
@@ -199,13 +228,13 @@ def _classify_row(command: str, args: str, phase_hint: str) -> dict[str, Any]:
     # Fallback: use phase_hint + keyword map
     cat = phase_hint or "other"
     return {
-        "category":   cat,
-        "success":    True,    # unknown → optimistic
-        "outcome":    "unknown",
-        "reward":     0,
+        "category": cat,
+        "success": True,  # unknown → optimistic
+        "outcome": "unknown",
+        "reward": 0,
         "confidence": 0.3,
-        "tier":       "keyword",
-        "reason":     "keyword heuristic (policy engine unavailable)",
+        "tier": "keyword",
+        "reason": "keyword heuristic (policy engine unavailable)",
     }
 
 
@@ -218,47 +247,59 @@ class ParquetDB:
     """
 
     SCHEMA_COLS = [
-        "id", "start", "end", "source_ip", "source_port",
-        "destination_ip", "destination_port", "domain", "subdomain",
-        "url", "pivot_port", "command", "args",
-        "category", "success", "outcome", "reward", "confidence",
-        "tier", "reason",
+        "id",
+        "start",
+        "end",
+        "source_ip",
+        "source_port",
+        "destination_ip",
+        "destination_port",
+        "domain",
+        "subdomain",
+        "url",
+        "pivot_port",
+        "command",
+        "args",
+        "category",
+        "success",
+        "outcome",
+        "reward",
+        "confidence",
+        "tier",
+        "reason",
         # Enriched columns (v2 — added for training dataset quality)
-        "output_snippet",    # first 300 chars of real command output (set by annotate_rich)
-        "finding_type",      # credential / vulnerability / path / hash / user / none
-        "mitre_id",          # MITRE ATT&CK technique ID inferred from category
-        "target_service",    # service name at target port (from FactStore)
-        "target_port",       # port number used (from FactStore)
-        "campaign_id",       # campaign identifier for multi-engagement separation
+        "output_snippet",  # first 300 chars of real command output (set by annotate_rich)
+        "finding_type",  # credential / vulnerability / path / hash / user / none
+        "mitre_id",  # MITRE ATT&CK technique ID inferred from category
+        "target_service",  # service name at target port (from FactStore)
+        "target_port",  # port number used (from FactStore)
+        "campaign_id",  # campaign identifier for multi-engagement separation
     ]
 
     # Mapping from category → most common MITRE ATT&CK tactic/technique ID
     _CATEGORY_MITRE: dict[str, str] = {
-        "recon":        "TA0043",  # Reconnaissance
-        "scanning":     "TA0007",  # Discovery
-        "exploit":      "TA0002",  # Execution
+        "recon": "TA0043",  # Reconnaissance
+        "scanning": "TA0007",  # Discovery
+        "exploit": "TA0002",  # Execution
         "post_exploit": "TA0002",
-        "privesc":      "TA0004",  # Privilege Escalation
-        "credential":   "TA0006",  # Credential Access
-        "lateral":      "TA0008",  # Lateral Movement
-        "persistence":  "TA0003",  # Persistence
-        "exfil":        "TA0010",  # Exfiltration
-        "c2":           "TA0011",  # Command and Control
-        "reporting":    "",
-        "other":        "",
+        "privesc": "TA0004",  # Privilege Escalation
+        "credential": "TA0006",  # Credential Access
+        "lateral": "TA0008",  # Lateral Movement
+        "persistence": "TA0003",  # Persistence
+        "exfil": "TA0010",  # Exfiltration
+        "c2": "TA0011",  # Command and Control
+        "reporting": "",
+        "other": "",
     }
 
     def __init__(self, lazyown_dir: Path = BASE_DIR) -> None:
         if not _PANDAS_OK:
-            raise RuntimeError(
-                "pandas and pyarrow are required. "
-                "Run: pip install pandas pyarrow"
-            )
-        self._root       = lazyown_dir
-        self._parquets   = lazyown_dir / "parquets"
+            raise RuntimeError("pandas and pyarrow are required. Run: pip install pandas pyarrow")
+        self._root = lazyown_dir
+        self._parquets = lazyown_dir / "parquets"
         self._parquets.mkdir(parents=True, exist_ok=True)
         self._session_pkt = self._parquets / "session_knowledge.parquet"
-        self._cmd2_map   = _build_cmd2_category_map(lazyown_dir / "lazyown.py")
+        self._cmd2_map = _build_cmd2_category_map(lazyown_dir / "lazyown.py")
         log.info(f"cmd2 map: {len(self._cmd2_map)} commands mapped")
 
     # ── Session knowledge ─────────────────────────────────────────────────────
@@ -294,13 +335,13 @@ class ParquetDB:
             with csv_path.open(newline="", encoding="utf-8", errors="replace") as fh:
                 reader = csv.DictReader(fh)
                 for raw in reader:
-                    cmd  = (raw.get("command") or "").strip()
+                    cmd = (raw.get("command") or "").strip()
                     if not cmd:
                         continue
-                    args    = (raw.get("args") or "").strip()
+                    args = (raw.get("args") or "").strip()
                     dest_ip = (raw.get("destination_ip") or "").strip()
-                    start   = (raw.get("start") or "").strip()
-                    row_id  = _stable_id(start, cmd, args, dest_ip)
+                    start = (raw.get("start") or "").strip()
+                    row_id = _stable_id(start, cmd, args, dest_ip)
                     if row_id in existing_ids:
                         continue
 
@@ -315,35 +356,37 @@ class ParquetDB:
                     classified = _classify_row(cmd, args, phase_hint)
 
                     cat = classified["category"]
-                    new_rows.append({
-                        "id":               row_id,
-                        "start":            start,
-                        "end":              (raw.get("end") or "").strip(),
-                        "source_ip":        (raw.get("source_ip") or "").strip(),
-                        "source_port":      str(raw.get("source_port") or ""),
-                        "destination_ip":   dest_ip,
-                        "destination_port": str(raw.get("destination_port") or ""),
-                        "domain":           (raw.get("domain") or "").strip(),
-                        "subdomain":        (raw.get("subdomain") or "").strip(),
-                        "url":              (raw.get("url") or "").strip(),
-                        "pivot_port":       (raw.get("pivot_port") or "").strip(),
-                        "command":          cmd,
-                        "args":             args,
-                        "category":         cat,
-                        "success":          classified["success"],
-                        "outcome":          classified["outcome"],
-                        "reward":           int(classified["reward"]),
-                        "confidence":       float(classified["confidence"]),
-                        "tier":             classified["tier"],
-                        "reason":           classified["reason"],
-                        # v2 enriched columns
-                        "output_snippet":   "",
-                        "finding_type":     "none",
-                        "mitre_id":         self._CATEGORY_MITRE.get(cat, ""),
-                        "target_service":   "",
-                        "target_port":      str(raw.get("destination_port") or ""),
-                        "campaign_id":      "",
-                    })
+                    new_rows.append(
+                        {
+                            "id": row_id,
+                            "start": start,
+                            "end": (raw.get("end") or "").strip(),
+                            "source_ip": (raw.get("source_ip") or "").strip(),
+                            "source_port": str(raw.get("source_port") or ""),
+                            "destination_ip": dest_ip,
+                            "destination_port": str(raw.get("destination_port") or ""),
+                            "domain": (raw.get("domain") or "").strip(),
+                            "subdomain": (raw.get("subdomain") or "").strip(),
+                            "url": (raw.get("url") or "").strip(),
+                            "pivot_port": (raw.get("pivot_port") or "").strip(),
+                            "command": cmd,
+                            "args": args,
+                            "category": cat,
+                            "success": classified["success"],
+                            "outcome": classified["outcome"],
+                            "reward": int(classified["reward"]),
+                            "confidence": float(classified["confidence"]),
+                            "tier": classified["tier"],
+                            "reason": classified["reason"],
+                            # v2 enriched columns
+                            "output_snippet": "",
+                            "finding_type": "none",
+                            "mitre_id": self._CATEGORY_MITRE.get(cat, ""),
+                            "target_service": "",
+                            "target_port": str(raw.get("destination_port") or ""),
+                            "campaign_id": "",
+                        }
+                    )
 
         except Exception as exc:
             log.error(f"CSV parse error: {exc}")
@@ -364,7 +407,7 @@ class ParquetDB:
         row_id: str,
         success: bool | None = None,
         category: str | None = None,
-        outcome: str | None  = None,
+        outcome: str | None = None,
     ) -> bool:
         """
         Patch a row in session_knowledge.parquet by its id.
@@ -411,9 +454,7 @@ class ParquetDB:
 
         if success is not None:
             df.loc[mask, "success"] = bool(success)
-            df.loc[mask, "outcome"] = (
-                ("success" if success else "failure") if outcome is None else outcome
-            )
+            df.loc[mask, "outcome"] = ("success" if success else "failure") if outcome is None else outcome
         if category is not None:
             df.loc[mask, "category"] = str(category)
             df.loc[mask, "mitre_id"] = self._CATEGORY_MITRE.get(category, "")
@@ -448,10 +489,10 @@ class ParquetDB:
 
     def query_session(
         self,
-        phase: str | None  = None,
+        phase: str | None = None,
         target: str | None = None,
-        success_only: bool    = False,
-        limit: int            = 20,
+        success_only: bool = False,
+        limit: int = 20,
     ) -> list[dict[str, Any]]:
         """
         Query session_knowledge.parquet.
@@ -520,9 +561,7 @@ class ParquetDB:
             for col in search_cols:
                 if col in df.columns:
                     try:
-                        mask = mask | df[col].astype(str).str.lower().str.contains(
-                            kw_lower, regex=False, na=False
-                        )
+                        mask = mask | df[col].astype(str).str.lower().str.contains(kw_lower, regex=False, na=False)
                     except Exception:
                         pass
 
@@ -568,6 +607,7 @@ class ParquetDB:
         try:
             sys.path.insert(0, str(self._root / "modules"))
             from atomic_enricher import query_atomic as _qa
+
             return _qa(
                 keyword=keyword,
                 mitre_id=mitre_id,
@@ -608,22 +648,22 @@ class ParquetDB:
         }
         """
         # Session data
-        successes = self.query_session(phase=phase, target=target, success_only=True,  limit=limit)
-        failures  = self.query_session(phase=phase, target=target, success_only=False, limit=limit)
-        failures  = [r for r in failures if not r.get("success", True)]
+        successes = self.query_session(phase=phase, target=target, success_only=True, limit=limit)
+        failures = self.query_session(phase=phase, target=target, success_only=False, limit=limit)
+        failures = [r for r in failures if not r.get("success", True)]
 
         # Map phase → keyword for knowledge search
         phase_kw_map: dict[str, str] = {
-            "recon":       "reconnaissance",
-            "scanning":    "enumeration",
-            "exploit":     "exploit",
-            "post_exploit":"post-exploitation",
-            "privesc":     "privilege escalation",
-            "credential":  "credential",
-            "lateral":     "lateral movement",
+            "recon": "reconnaissance",
+            "scanning": "enumeration",
+            "exploit": "exploit",
+            "post_exploit": "post-exploitation",
+            "privesc": "privilege escalation",
+            "credential": "credential",
+            "lateral": "lateral movement",
             "persistence": "persistence",
-            "exfil":       "exfiltration",
-            "c2":          "command control",
+            "exfil": "exfiltration",
+            "c2": "command control",
         }
         kw = phase_kw_map.get(phase, phase)
 
@@ -632,17 +672,15 @@ class ParquetDB:
         try:
             df_bin = pd.read_parquet(self._parquets / "binarios.parquet")
             phase_bins = {
-                "privesc":     ["sudo", "suid"],
-                "credential":  ["file-read", "file-write"],
-                "post_exploit":["reverse-shell", "bind-shell"],
-                "exploit":     ["command", "shell"],
+                "privesc": ["sudo", "suid"],
+                "credential": ["file-read", "file-write"],
+                "post_exploit": ["reverse-shell", "bind-shell"],
+                "exploit": ["command", "shell"],
             }
             fn_kws = phase_bins.get(phase, [kw.split()[0]])
             mask = pd.Series([False] * len(df_bin), index=df_bin.index)
             for fkw in fn_kws:
-                mask = mask | df_bin.apply(
-                    lambda r, _f=fkw: _f.lower() in str(r).lower(), axis=1
-                )
+                mask = mask | df_bin.apply(lambda r, _f=fkw: _f.lower() in str(r).lower(), axis=1)
             gtf = df_bin[mask].head(5).to_dict(orient="records")
         except Exception:
             pass
@@ -651,13 +689,10 @@ class ParquetDB:
         mitre: list[dict] = []
         try:
             df_tech = pd.read_parquet(self._parquets / "techniques.parquet")
-            mask = df_tech["name"].str.lower().str.contains(kw, na=False) | \
-                   df_tech["description"].str.lower().str.contains(kw, na=False)
-            mitre = (
-                df_tech[mask][["mitre_id", "name", "description"]]
-                .head(5)
-                .to_dict(orient="records")
-            )
+            mask = df_tech["name"].str.lower().str.contains(kw, na=False) | df_tech[
+                "description"
+            ].str.lower().str.contains(kw, na=False)
+            mitre = df_tech[mask][["mitre_id", "name", "description"]].head(5).to_dict(orient="records")
         except Exception:
             pass
 
@@ -679,14 +714,14 @@ class ParquetDB:
         )
 
         return {
-            "phase":             phase,
-            "target":            target,
-            "successful_cmds":   [_slim(r) for r in successes],
-            "failed_cmds":       [_slim(r) for r in failures],
+            "phase": phase,
+            "target": target,
+            "successful_cmds": [_slim(r) for r in successes],
+            "failed_cmds": [_slim(r) for r in failures],
             "gtfobins_relevant": gtf,
-            "mitre_techniques":  mitre,
-            "lolbas_relevant":   lolbas,
-            "summary":           summary,
+            "mitre_techniques": mitre,
+            "lolbas_relevant": lolbas,
+            "summary": summary,
         }
 
     # ── Stats ─────────────────────────────────────────────────────────────────
@@ -695,13 +730,13 @@ class ParquetDB:
         df = self._load_session()
         if df.empty:
             return "session_knowledge.parquet: empty — run sync first."
-        total     = len(df)
+        total = len(df)
         success_n = int(df["success"].sum()) if "success" in df.columns else 0
-        by_cat    = df["category"].value_counts().to_dict() if "category" in df.columns else {}
-        cat_str   = "  ".join(f"{k}={v}" for k, v in sorted(by_cat.items()))
+        by_cat = df["category"].value_counts().to_dict() if "category" in df.columns else {}
+        cat_str = "  ".join(f"{k}={v}" for k, v in sorted(by_cat.items()))
         return (
             f"session_knowledge: {total} rows, "
-            f"{success_n} success, {total-success_n} failure/unknown\n"
+            f"{success_n} success, {total - success_n} failure/unknown\n"
             f"  by category: {cat_str}"
         )
 
@@ -737,7 +772,7 @@ class ParquetDB:
         if len(annotated) < min_rows:
             return {
                 "error": f"Only {len(annotated)} annotated rows (need {min_rows}). "
-                         "Run more operations and annotate outcomes first."
+                "Run more operations and annotate outcomes first."
             }
 
         # Feature engineering — no NLP, just category codes
@@ -749,7 +784,7 @@ class ParquetDB:
         )
         annotated["cat_code"] = le_cat.fit_transform(annotated["category"].fillna("other"))
         annotated["reward_f"] = annotated["reward"].fillna(0).astype(float)
-        annotated["conf_f"]   = annotated["confidence"].fillna(0.5).astype(float)
+        annotated["conf_f"] = annotated["confidence"].fillna(0.5).astype(float)
 
         X = annotated[["cmd_code", "cat_code", "reward_f", "conf_f"]].values
         y = annotated["success"].astype(int).values
@@ -757,9 +792,7 @@ class ParquetDB:
         if len(set(y)) < 2:
             return {"error": "All rows have same success value — need both True and False samples."}
 
-        X_train, X_test, y_train, y_test = train_test_split(
-            X, y, test_size=0.2, random_state=42, stratify=y
-        )
+        X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42, stratify=y)
 
         clf = RandomForestClassifier(n_estimators=100, max_depth=8, random_state=42)
         clf.fit(X_train, y_train)
@@ -784,22 +817,26 @@ class ParquetDB:
         with hash_path.open("w", encoding="utf-8") as fh:
             json.dump(
                 {"model_sha256": model_hash, "encoder_sha256": encoder_hash},
-                fh, ensure_ascii=False,
+                fh,
+                ensure_ascii=False,
             )
 
         log.info("classifier saved: model=%s encoders=%s hash=%s", model_path, encoder_path, hash_path)
 
-        importances = dict(zip(
-            ["cmd_code", "cat_code", "reward", "confidence"],
-            clf.feature_importances_.tolist(), strict=False,
-        ))
+        importances = dict(
+            zip(
+                ["cmd_code", "cat_code", "reward", "confidence"],
+                clf.feature_importances_.tolist(),
+                strict=False,
+            )
+        )
         log.info(f"classifier trained: accuracy={accuracy:.2%} n={len(annotated)}")
         return {
-            "accuracy":           f"{accuracy:.2%}",
-            "n_train":            len(X_train),
-            "n_test":             len(X_test),
-            "n_annotated":        len(annotated),
-            "model_path":         str(model_path),
+            "accuracy": f"{accuracy:.2%}",
+            "n_train": len(X_train),
+            "n_test": len(X_test),
+            "n_annotated": len(annotated),
+            "model_path": str(model_path),
             "feature_importance": importances,
         }
 
@@ -852,9 +889,7 @@ class ParquetDB:
             return None
 
 
-def verify_model_integrity(
-    model_path: Path, encoder_path: Path, hash_path: Path
-) -> bool:
+def verify_model_integrity(model_path: Path, encoder_path: Path, hash_path: Path) -> bool:
     """Verify SHA256 integrity of classifier model and encoder files.
 
     Args:
@@ -895,13 +930,13 @@ def verify_model_integrity(
 def _slim(row: dict[str, Any]) -> dict[str, Any]:
     """Return compact view of a session row for MCP context."""
     return {
-        "id":      row.get("id", ""),
-        "start":   row.get("start", ""),
-        "target":  row.get("destination_ip", ""),
+        "id": row.get("id", ""),
+        "start": row.get("start", ""),
+        "target": row.get("destination_ip", ""),
         "command": row.get("command", ""),
-        "args":    (row.get("args") or "")[:80],
+        "args": (row.get("args") or "")[:80],
         "outcome": row.get("outcome", ""),
-        "reason":  row.get("reason", ""),
+        "reason": row.get("reason", ""),
     }
 
 
@@ -922,34 +957,34 @@ def get_pdb(lazyown_dir: Path = BASE_DIR) -> ParquetDB | None:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     import argparse
 
     parser = argparse.ArgumentParser(description="LazyOwn Parquet Knowledge Base")
     sub = parser.add_subparsers(dest="cmd")
 
-    sub.add_parser("sync",  help="Ingest CSV → session_knowledge.parquet")
+    sub.add_parser("sync", help="Ingest CSV → session_knowledge.parquet")
     sub.add_parser("stats", help="Show stats")
-    sub.add_parser("list",  help="List available parquets")
+    sub.add_parser("list", help="List available parquets")
 
     p_tr = sub.add_parser("train", help="Train RandomForest classifier on annotated rows")
-    p_tr.add_argument("--min-rows", type=int, default=50,
-                      help="Minimum annotated rows required (default 50)")
+    p_tr.add_argument("--min-rows", type=int, default=50, help="Minimum annotated rows required (default 50)")
 
     p_q = sub.add_parser("query", help="Query session knowledge")
-    p_q.add_argument("phase",   nargs="?", help="Phase filter (recon, scanning, exploit...)")
+    p_q.add_argument("phase", nargs="?", help="Phase filter (recon, scanning, exploit...)")
     p_q.add_argument("--target", default=None)
     p_q.add_argument("--success", action="store_true")
-    p_q.add_argument("--limit",  type=int, default=10)
+    p_q.add_argument("--limit", type=int, default=10)
     p_q.add_argument("--keyword", default=None, help="Keyword search across parquets")
     p_q.add_argument("--parquet", default=None, help="Target parquet name")
 
     p_a = sub.add_parser("annotate", help="Annotate a row's success/category")
     p_a.add_argument("row_id")
-    p_a.add_argument("--success",  action="store_true",  default=None)
-    p_a.add_argument("--failure",  action="store_true",  default=False)
+    p_a.add_argument("--success", action="store_true", default=None)
+    p_a.add_argument("--failure", action="store_true", default=False)
     p_a.add_argument("--category", default=None)
-    p_a.add_argument("--outcome",  default=None)
+    p_a.add_argument("--outcome", default=None)
 
     p_ctx = sub.add_parser("context", help="Full context for a phase")
     p_ctx.add_argument("phase")
@@ -998,8 +1033,7 @@ def main() -> None:
             success = True
         elif args.failure:
             success = False
-        ok = db.annotate(args.row_id, success=success,
-                         category=args.category, outcome=args.outcome)
+        ok = db.annotate(args.row_id, success=success, category=args.category, outcome=args.outcome)
         print("patched" if ok else "id not found")
 
     elif args.cmd == "context":

@@ -23,10 +23,10 @@ from pathlib import Path
 
 log = logging.getLogger("ttp_coverage")
 
-_BASE_DIR     = Path(__file__).parent.parent
-_OPS_DIR      = _BASE_DIR / "sessions" / "operations"
-_TTP_PATH     = _BASE_DIR / "sessions" / "ttp_coverage.json"
-_APT_DIR      = _BASE_DIR / "playbooks"
+_BASE_DIR = Path(__file__).parent.parent
+_OPS_DIR = _BASE_DIR / "sessions" / "operations"
+_TTP_PATH = _BASE_DIR / "sessions" / "ttp_coverage.json"
+_APT_DIR = _BASE_DIR / "playbooks"
 
 
 # ---------------------------------------------------------------------------
@@ -122,11 +122,14 @@ class TTPCoverage:
         self._save_state()
         return n
 
-    def add(self, technique_id: str, name: str = "", tactic: str = "",
-            status: str = "tested", operation_id: str = "") -> None:
+    def add(
+        self, technique_id: str, name: str = "", tactic: str = "", status: str = "tested", operation_id: str = ""
+    ) -> None:
         if technique_id not in self.rows:
             self.rows[technique_id] = TTPRow(
-                technique_id=technique_id, name=name, tactic=tactic,
+                technique_id=technique_id,
+                name=name,
+                tactic=tactic,
             )
         row = self.rows[technique_id]
         if name:
@@ -166,16 +169,16 @@ class TTPCoverage:
         if not tactic:
             return ["host.found"]
         m = {
-            "reconnaissance":     ["host.found", "ip.discovered"],
-            "discovery":          ["host.found", "service.found"],
-            "initial-access":     ["service.found"],
-            "execution":          ["host.found", "session.created"],
-            "persistence":        ["session.created"],
+            "reconnaissance": ["host.found", "ip.discovered"],
+            "discovery": ["host.found", "service.found"],
+            "initial-access": ["service.found"],
+            "execution": ["host.found", "session.created"],
+            "persistence": ["session.created"],
             "privilege-escalation": ["session.created"],
-            "credential-access":  ["host.found"],
-            "lateral-movement":   ["credential.valid", "session.created"],
-            "collection":         ["session.created"],
-            "exfiltration":       ["file.found"],
+            "credential-access": ["host.found"],
+            "lateral-movement": ["credential.valid", "session.created"],
+            "collection": ["session.created"],
+            "exfiltration": ["file.found"],
             "command-and-control": ["session.created"],
         }
         return m.get(tactic, ["host.found"])
@@ -190,11 +193,11 @@ class TTPCoverage:
             return "No TTP coverage data. Run 'op_plan' and 'op_start' to populate."
 
         status_mark = {
-            "tested":   "[x]",
-            "failed":   "[!]",
-            "blocked":  "[B]",
-            "queued":   "[Q]",
-            "ready":    "[R]",
+            "tested": "[x]",
+            "failed": "[!]",
+            "blocked": "[B]",
+            "queued": "[Q]",
+            "ready": "[R]",
             "untested": "[ ]",
         }
 
@@ -217,10 +220,7 @@ class TTPCoverage:
             lines.append(f"--- {tactic.upper()} ---")
             for row in sorted(groups[tactic], key=lambda r: r.technique_id):
                 mark = status_mark.get(row.status, "[?]")
-                lines.append(
-                    f"  {mark} {row.technique_id:<10} {row.name:<50} "
-                    f"op={','.join(row.operations[:2])}"
-                )
+                lines.append(f"  {mark} {row.technique_id:<10} {row.name:<50} op={','.join(row.operations[:2])}")
         if "unmapped" in groups:
             lines.append("--- UNMAPPED ---")
             for row in sorted(groups["unmapped"], key=lambda r: r.technique_id):

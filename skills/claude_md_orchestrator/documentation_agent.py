@@ -48,10 +48,7 @@ def _format_sad_paths(spec: Spec) -> str:
     """Render the sad paths section as a bullet list."""
     if not spec.sad_paths:
         return "- none documented"
-    return "\n".join(
-        f"- given {sp.condition}, when it triggers, then {sp.expected}"
-        for sp in spec.sad_paths
-    )
+    return "\n".join(f"- given {sp.condition}, when it triggers, then {sp.expected}" for sp in spec.sad_paths)
 
 
 def _format_review(report: ReviewReport | None) -> str:

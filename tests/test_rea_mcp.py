@@ -54,9 +54,7 @@ def _stub_mcp_sdk() -> None:
             return lambda func: func
 
     server_mod.Server = Server
-    stdio_mod.stdio_server = lambda *args, **kwargs: (_ for _ in ()).throw(
-        RuntimeError("stub stdio server")
-    )
+    stdio_mod.stdio_server = lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("stub stdio server"))
     mcp.types = types_mod
     mcp.server = server_mod
     sys.modules["mcp"] = mcp
@@ -118,14 +116,10 @@ def test_doctor_argv(monkeypatch: pytest.MonkeyPatch) -> None:
     assert envelope["returncode"] == 0
 
 
-def test_inspect_artifact_argv(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_inspect_artifact_argv(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "libucnet.so"
     target.write_bytes(b"\x7fELF")
-    envelope = _call(
-        {"action": "inspect-artifact", "target": str(target)}, monkeypatch
-    )
+    envelope = _call({"action": "inspect-artifact", "target": str(target)}, monkeypatch)
     assert envelope["_argv"] == [
         "/usr/bin/rea",
         "inspect-artifact",
@@ -135,9 +129,7 @@ def test_inspect_artifact_argv(
     assert envelope["returncode"] == 0
 
 
-def test_large_output_survives_compaction(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_large_output_survives_compaction(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "libucnet.so"
     target.write_bytes(b"\x7fELF")
     monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
@@ -147,19 +139,13 @@ def test_large_output_survives_compaction(
         return subprocess.CompletedProcess(argv, 0, big, b"")
 
     monkeypatch.setattr(lazyown_mcp.subprocess, "run", _fake_run)
-    out = asyncio.run(
-        lazyown_mcp._h_rea(
-            {"action": "inspect-artifact", "target": str(target)}, "lazyown_rea"
-        )
-    )
+    out = asyncio.run(lazyown_mcp._h_rea({"action": "inspect-artifact", "target": str(target)}, "lazyown_rea"))
     envelope = json.loads(out[0].text)
     assert envelope["truncated"] is True
     assert envelope["output"] in big.decode()
 
 
-def test_analyze_uses_explicit_target(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_analyze_uses_explicit_target(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "sample.elf"
     target.write_bytes(b"\x7fELF")
     envelope = _call({"action": "analyze", "target": str(target)}, monkeypatch)
@@ -169,7 +155,9 @@ def test_analyze_uses_explicit_target(
 def test_analyze_missing_target(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
     monkeypatch.setattr(
-        lazyown_mcp, "_load_payload", lambda: {"target": ""},
+        lazyown_mcp,
+        "_load_payload",
+        lambda: {"target": ""},
     )
     out = asyncio.run(lazyown_mcp._h_rea({"action": "analyze"}, "lazyown_rea"))
     envelope = json.loads(out[0].text)
@@ -179,17 +167,11 @@ def test_analyze_missing_target(monkeypatch: pytest.MonkeyPatch) -> None:
 
 def test_target_flag_injection_rejected(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr(lazyown_mcp.shutil, "which", lambda _: "/usr/bin/rea")
-    out = asyncio.run(
-        lazyown_mcp._h_rea(
-            {"action": "analyze", "target": "--provider hopper"}, "lazyown_rea"
-        )
-    )
+    out = asyncio.run(lazyown_mcp._h_rea({"action": "analyze", "target": "--provider hopper"}, "lazyown_rea"))
     assert "error" in json.loads(out[0].text)
 
 
-def test_decompile_needs_valid_address(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
+def test_decompile_needs_valid_address(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
     target = tmp_path / "sample.elf"
     target.write_bytes(b"\x7fELF")
     bad = _call(

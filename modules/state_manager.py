@@ -137,6 +137,7 @@ class StateManager:
     def db(self) -> Any:
         if self._db is None:
             from modules.db import LazyOwnDB
+
             self._db = LazyOwnDB(str(self._db_path))
             self._ensure_workspace()
         return self._db
@@ -168,12 +169,15 @@ class StateManager:
     def _publish(self, category: str, event_type: str, payload: dict[str, Any]) -> None:
         try:
             from modules.event_bus import EventCategory, LazyEvent, get_event_bus
-            get_event_bus().publish(LazyEvent(
-                category=EventCategory(category),
-                event_type=event_type,
-                source="state_manager",
-                payload=payload,
-            ))
+
+            get_event_bus().publish(
+                LazyEvent(
+                    category=EventCategory(category),
+                    event_type=event_type,
+                    source="state_manager",
+                    payload=payload,
+                )
+            )
         except Exception:
             pass
 
@@ -216,9 +220,16 @@ class StateManager:
     ) -> int:
         with self._lock:
             host_id = self.db.host_add(self.workspace_id, address, mac, hostname, os, state)
-            self._publish("discovery", "host_added", {
-                "address": address, "hostname": hostname, "os": os, "state": state,
-            })
+            self._publish(
+                "discovery",
+                "host_added",
+                {
+                    "address": address,
+                    "hostname": hostname,
+                    "os": os,
+                    "state": state,
+                },
+            )
             self._sync_world_model_cache()
             return host_id
 
@@ -242,12 +253,22 @@ class StateManager:
                 return False
             old_state = host.get("state", "unknown")
             self.db.host_add(
-                self.workspace_id, address, host.get("mac", ""),
-                host.get("hostname", ""), host.get("os", ""), new_state,
+                self.workspace_id,
+                address,
+                host.get("mac", ""),
+                host.get("hostname", ""),
+                host.get("os", ""),
+                new_state,
             )
-            self._publish("phase", "host_advanced", {
-                "address": address, "old_state": old_state, "new_state": new_state,
-            })
+            self._publish(
+                "phase",
+                "host_advanced",
+                {
+                    "address": address,
+                    "old_state": old_state,
+                    "new_state": new_state,
+                },
+            )
             self._sync_world_model_cache()
             return True
 
@@ -280,10 +301,18 @@ class StateManager:
             else:
                 host_id = host["id"]
             svc_id = self.db.service_add(host_id, port, protocol, state, name, product, version)
-            self._publish("scan", "service_added", {
-                "host": host_address, "port": port, "protocol": protocol,
-                "name": name, "product": product, "version": version,
-            })
+            self._publish(
+                "scan",
+                "service_added",
+                {
+                    "host": host_address,
+                    "port": port,
+                    "protocol": protocol,
+                    "name": name,
+                    "product": product,
+                    "version": version,
+                },
+            )
             self._sync_world_model_cache()
             return svc_id
 
@@ -310,12 +339,23 @@ class StateManager:
             if not host:
                 return None
             cred_id = self.db.cred_add(
-                host["id"], username, password, realm, cred_type, origin,
+                host["id"],
+                username,
+                password,
+                realm,
+                cred_type,
+                origin,
             )
-            self._publish("credential", "credential_added", {
-                "host": host_address, "username": username,
-                "type": cred_type, "origin": origin,
-            })
+            self._publish(
+                "credential",
+                "credential_added",
+                {
+                    "host": host_address,
+                    "username": username,
+                    "type": cred_type,
+                    "origin": origin,
+                },
+            )
             self._sync_world_model_cache()
             return cred_id
 
@@ -343,14 +383,22 @@ class StateManager:
             if not host:
                 return None
             vuln_id = self.db.vuln_add(host["id"], name, severity, description, refs)
-            self._publish("vuln", "vulnerability_added", {
-                "host": host_address, "name": name, "severity": severity,
-            })
+            self._publish(
+                "vuln",
+                "vulnerability_added",
+                {
+                    "host": host_address,
+                    "name": name,
+                    "severity": severity,
+                },
+            )
             self._sync_world_model_cache()
             return vuln_id
 
     def list_vulnerabilities(
-        self, host_address: str | None = None, severity: str | None = None,
+        self,
+        host_address: str | None = None,
+        severity: str | None = None,
     ) -> list[dict[str, Any]]:
         with self._lock:
             all_vulns = self.db.vuln_list(self.workspace_id, severity)
@@ -375,11 +423,22 @@ class StateManager:
                 if host:
                     host_id = host["id"]
             loot_id = self.db.loot_add(
-                self.workspace_id, name, loot_type, path, notes, host_id,
+                self.workspace_id,
+                name,
+                loot_type,
+                path,
+                notes,
+                host_id,
             )
-            self._publish("loot", "loot_added", {
-                "name": name, "type": loot_type, "host": host_address,
-            })
+            self._publish(
+                "loot",
+                "loot_added",
+                {
+                    "name": name,
+                    "type": loot_type,
+                    "host": host_address,
+                },
+            )
             return loot_id
 
     def list_loot(self) -> list[dict[str, Any]]:
@@ -389,7 +448,10 @@ class StateManager:
     # ── Notes ──────────────────────────────────────────────────────────────────
 
     def add_note(
-        self, data: str, note_type: str = "general", host_address: str = "",
+        self,
+        data: str,
+        note_type: str = "general",
+        host_address: str = "",
     ) -> int | None:
         with self._lock:
             host_id = None
@@ -398,9 +460,14 @@ class StateManager:
                 if host:
                     host_id = host["id"]
             note_id = self.db.note_add(self.workspace_id, data, note_type, host_id)
-            self._publish("system", "note_added", {
-                "type": note_type, "host": host_address,
-            })
+            self._publish(
+                "system",
+                "note_added",
+                {
+                    "type": note_type,
+                    "host": host_address,
+                },
+            )
             return note_id
 
     def list_notes(self) -> list[dict[str, Any]]:
@@ -412,12 +479,16 @@ class StateManager:
     def import_nmap_xml(self, xml_path: str) -> dict[str, int]:
         with self._lock:
             result = self.db.import_nmap_xml(self.workspace_id, xml_path)
-            self._publish("scan", "nmap_imported", {
-                "xml_path": xml_path,
-                "hosts": result.get("hosts", 0),
-                "services": result.get("services", 0),
-                "os": result.get("os", 0),
-            })
+            self._publish(
+                "scan",
+                "nmap_imported",
+                {
+                    "xml_path": xml_path,
+                    "hosts": result.get("hosts", 0),
+                    "services": result.get("services", 0),
+                    "os": result.get("os", 0),
+                },
+            )
             self._sync_world_model_cache()
             return result
 
@@ -438,7 +509,11 @@ class StateManager:
                 os_hint = host_facts.get("os_hint", "")
                 if os_hint:
                     self.db.host_add(
-                        self.workspace_id, host_ip, "", "", os_hint,
+                        self.workspace_id,
+                        host_ip,
+                        "",
+                        "",
+                        os_hint,
                         host.get("state", "scanned") if host else "scanned",
                     )
                 for svc in host_facts.get("services", []):
@@ -507,13 +582,20 @@ class StateManager:
             cache = {
                 "hosts": hosts_data,
                 "credentials": [
-                    {"value": f"{c.get('username','')}:{c.get('password','')}",
-                     "host": c.get("address", ""), "confirmed": bool(c.get("cracked"))}
+                    {
+                        "value": f"{c.get('username', '')}:{c.get('password', '')}",
+                        "host": c.get("address", ""),
+                        "confirmed": bool(c.get("cracked")),
+                    }
                     for c in all_creds
                 ],
                 "vulnerabilities": [
-                    {"description": v.get("name", ""), "cve": v.get("refs", ""),
-                     "severity": v.get("severity", "unknown"), "host": v.get("address", "")}
+                    {
+                        "description": v.get("name", ""),
+                        "cve": v.get("refs", ""),
+                        "severity": v.get("severity", "unknown"),
+                        "host": v.get("address", ""),
+                    }
                     for v in all_vulns
                 ],
                 "saved_at": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -531,6 +613,7 @@ class StateManager:
         """Return a WorldModel instance populated from DB state."""
         try:
             from world_model import WorldModel
+
             wm = WorldModel(self._sessions_dir)
             db_hosts = self.db.host_list(self.workspace_id)
             for h in db_hosts:
@@ -540,21 +623,26 @@ class StateManager:
                 services = self.db.service_list(h["id"])
                 for s in services:
                     wm.add_service(
-                        h["address"], s["port"],
-                        s.get("name", ""), s.get("version", ""), s.get("protocol", "tcp"),
+                        h["address"],
+                        s["port"],
+                        s.get("name", ""),
+                        s.get("version", ""),
+                        s.get("protocol", "tcp"),
                     )
                 creds = self._cred_list_for_host(h["id"])
                 for c in creds:
                     wm.add_credential(
-                        f"{c.get('username','')}:{c.get('password','')}",
+                        f"{c.get('username', '')}:{c.get('password', '')}",
                         host=h["address"],
                         service=c.get("realm", ""),
                     )
                 vulns = self._vuln_list_for_host(h["id"])
                 for v in vulns:
                     wm.add_vulnerability(
-                        v.get("name", ""), host=h["address"],
-                        cve=v.get("refs", ""), severity=v.get("severity", "unknown"),
+                        v.get("name", ""),
+                        host=h["address"],
+                        cve=v.get("refs", ""),
+                        severity=v.get("severity", "unknown"),
                     )
             return wm
         except ImportError:
@@ -571,15 +659,17 @@ class StateManager:
                 svc_count = len(self.db.service_list(h["id"]))
                 cred_count = len(self._cred_list_for_host(h["id"]))
                 vuln_count = len(self._vuln_list_for_host(h["id"]))
-                hosts.append(HostSummary(
-                    address=h["address"],
-                    hostname=h.get("hostname", ""),
-                    os=h.get("os", ""),
-                    state=h.get("state", "unknown"),
-                    services_count=svc_count,
-                    creds_count=cred_count,
-                    vulns_count=vuln_count,
-                ))
+                hosts.append(
+                    HostSummary(
+                        address=h["address"],
+                        hostname=h.get("hostname", ""),
+                        os=h.get("os", ""),
+                        state=h.get("state", "unknown"),
+                        services_count=svc_count,
+                        creds_count=cred_count,
+                        vulns_count=vuln_count,
+                    )
+                )
             phase = "recon"
             if st.get("creds", 0) > 0:
                 phase = "post_exploit"
@@ -610,39 +700,58 @@ class StateManager:
                 lhost=self._payload.get("lhost", ""),
                 domain=self._payload.get("domain", ""),
                 hosts=hosts,
-                credentials=[{
-                    "host": c.get("address", ""), "username": c.get("username", ""),
-                    "type": c.get("cred_type", ""), "origin": c.get("origin", ""),
-                } for c in all_creds],
-                vulnerabilities=[{
-                    "host": v.get("address", ""), "name": v.get("name", ""),
-                    "severity": v.get("severity", ""),
-                } for v in all_vulns],
+                credentials=[
+                    {
+                        "host": c.get("address", ""),
+                        "username": c.get("username", ""),
+                        "type": c.get("cred_type", ""),
+                        "origin": c.get("origin", ""),
+                    }
+                    for c in all_creds
+                ],
+                vulnerabilities=[
+                    {
+                        "host": v.get("address", ""),
+                        "name": v.get("name", ""),
+                        "severity": v.get("severity", ""),
+                    }
+                    for v in all_vulns
+                ],
                 pending_objectives=pending_obj,
                 total_hosts=st.get("hosts", 0),
                 total_services=st.get("services", 0),
                 total_vulns=st.get("vulns", 0),
                 total_creds=st.get("creds", 0),
             )
-            _save_json(self._session_state_path, {
-                "generated_at": snapshot.generated_at,
-                "phase": snapshot.phase,
-                "active_target": snapshot.active_target,
-                "lhost": snapshot.lhost,
-                "domain": snapshot.domain,
-                "hosts": [{
-                    "address": h.address, "hostname": h.hostname, "os": h.os,
-                    "state": h.state, "services_count": h.services_count,
-                    "creds_count": h.creds_count, "vulns_count": h.vulns_count,
-                } for h in hosts],
-                "credentials": snapshot.credentials,
-                "vulnerabilities": snapshot.vulnerabilities,
-                "pending_objectives": snapshot.pending_objectives,
-                "total_hosts": snapshot.total_hosts,
-                "total_services": snapshot.total_services,
-                "total_vulns": snapshot.total_vulns,
-                "total_creds": snapshot.total_creds,
-            })
+            _save_json(
+                self._session_state_path,
+                {
+                    "generated_at": snapshot.generated_at,
+                    "phase": snapshot.phase,
+                    "active_target": snapshot.active_target,
+                    "lhost": snapshot.lhost,
+                    "domain": snapshot.domain,
+                    "hosts": [
+                        {
+                            "address": h.address,
+                            "hostname": h.hostname,
+                            "os": h.os,
+                            "state": h.state,
+                            "services_count": h.services_count,
+                            "creds_count": h.creds_count,
+                            "vulns_count": h.vulns_count,
+                        }
+                        for h in hosts
+                    ],
+                    "credentials": snapshot.credentials,
+                    "vulnerabilities": snapshot.vulnerabilities,
+                    "pending_objectives": snapshot.pending_objectives,
+                    "total_hosts": snapshot.total_hosts,
+                    "total_services": snapshot.total_services,
+                    "total_vulns": snapshot.total_vulns,
+                    "total_creds": snapshot.total_creds,
+                },
+            )
             return snapshot
 
     def export_csv(self, table: str) -> str:

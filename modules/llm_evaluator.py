@@ -307,9 +307,7 @@ def record_decision(
     expected_outcome: str,
     confidence: float,
 ) -> str:
-    return get_evaluator().record_decision(
-        session_id, thought, action, mitre_tactic, expected_outcome, confidence
-    )
+    return get_evaluator().record_decision(session_id, thought, action, mitre_tactic, expected_outcome, confidence)
 
 
 def record_outcome(
@@ -322,18 +320,10 @@ def record_outcome(
 
 
 def _cli() -> None:
-    parser = argparse.ArgumentParser(
-        description="LLM decision evaluator for the LazyOwn auto_loop."
-    )
-    parser.add_argument(
-        "--report", action="store_true", help="Print quality report"
-    )
-    parser.add_argument(
-        "--session", help="Limit report/export to a specific session ID"
-    )
-    parser.add_argument(
-        "--export", metavar="PATH", help="Export fine-tuning JSONL to PATH"
-    )
+    parser = argparse.ArgumentParser(description="LLM decision evaluator for the LazyOwn auto_loop.")
+    parser.add_argument("--report", action="store_true", help="Print quality report")
+    parser.add_argument("--session", help="Limit report/export to a specific session ID")
+    parser.add_argument("--export", metavar="PATH", help="Export fine-tuning JSONL to PATH")
     args = parser.parse_args()
 
     ev = get_evaluator()

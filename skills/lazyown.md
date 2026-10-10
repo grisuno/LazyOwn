@@ -57,17 +57,17 @@ payload.json  ──► LazyOwn abstract command ──► real underlying tool 
 **Standard workflow (always follow this):**
 ```python
 # 1. Set active target
-lazyown_set_config(key='rhost', value='10.10.11.5')
-lazyown_set_config(key='domain', value='target.htb')
+lazyown_set_config(key="rhost", value="10.10.11.5")
+lazyown_set_config(key="domain", value="target.htb")
 
 # 2. Get FULL guide for current phase — includes commands + payload keys + aliases
-lazyown_phase_guide(phase='recon')
+lazyown_phase_guide(phase="recon")
 
 # 3. Get help for a specific command
-lazyown_command_help(command='lazynmap')
+lazyown_command_help(command="lazynmap")
 
 # 4. Run the abstract command — payload.json injects everything
-lazyown_run_command('lazynmap')   # NOT: nmap -sC -sV -p- 10.10.11.5
+lazyown_run_command("lazynmap")  # NOT: nmap -sC -sV -p- 10.10.11.5
 ```
 
 **Kill chain (11 phases):**
@@ -188,20 +188,20 @@ The shell has **126 aliases** (short forms that map to full commands):
 
 ```python
 # 1. FULL phase guide (RECOMMENDED) — commands + payload keys + aliases + kill-chain position
-lazyown_phase_guide(phase='enum')
-lazyown_phase_guide(phase='enum', os_hint='windows', services=['smb', 'ldap'])
+lazyown_phase_guide(phase="enum")
+lazyown_phase_guide(phase="enum", os_hint="windows", services=["smb", "ldap"])
 
 # 2. Plain command list from bridge catalog (363 commands, 11 phases, MITRE-mapped)
-lazyown_discover_commands(phase='exploit')
+lazyown_discover_commands(phase="exploit")
 
 # 3. Get full help for any specific command
-lazyown_command_help(command='gobuster')
-lazyown_command_help(command='secretsdump')
+lazyown_command_help(command="gobuster")
+lazyown_command_help(command="secretsdump")
 ```
 
 ---
 
-## Core MCP Tools (153)
+## Core MCP Tools (154)
 
 ### Campaign Intelligence (call at shift start)
 
@@ -508,14 +508,14 @@ lazyown_set_config(key="lport", value="4444")
 
 ```python
 # Step 0 — Get full phase guide FIRST (commands + payload keys + aliases)
-lazyown_phase_guide(phase='recon')
+lazyown_phase_guide(phase="recon")
 
 # Step 1 — OS detection (ALWAYS FIRST — determines entire tool chain)
-lazyown_run_command("ping")           # TTL ~64 -> Linux | TTL ~128 -> Windows
+lazyown_run_command("ping")  # TTL ~64 -> Linux | TTL ~128 -> Windows
 
 # Step 2 — Network scan (do NOT kill early, 5-30 min)
-lazyown_run_command("lazynmap")       # → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}
-lazyown_run_command("hosts_discover") # → hostdiscover.sh sweep
+lazyown_run_command("lazynmap")  # → nmap -sC -sV -p- -T4 -Pn --script vuln {rhost}
+lazyown_run_command("hosts_discover")  # → hostdiscover.sh sweep
 
 # Step 3 — Parse findings automatically
 lazyown_facts_show(target="10.10.11.78", refresh=True)
@@ -886,12 +886,12 @@ lazyown_report_update(action="auto_fill")
 lazyown_report_update(
     action="write",
     key="executive_summary_findings",
-    value="Critical: AD domain compromised via Kerberoasting. Domain Admin hash cracked. Full DA access achieved."
+    value="Critical: AD domain compromised via Kerberoasting. Domain Admin hash cracked. Full DA access achieved.",
 )
 lazyown_report_update(
     action="write",
     key="appendix_a_changes",
-    value="1) Created user 'backdoor_svc' on DC01 (removed after test)\n2) Modified ACL on AdminSDHolder (reverted)"
+    value="1) Created user 'backdoor_svc' on DC01 (removed after test)\n2) Modified ACL on AdminSDHolder (reverted)",
 )
 
 # Step 7 — Read what's currently in the report
@@ -926,21 +926,29 @@ This workflow allows the **next operator (human or AI) to pick up exactly where 
 ```python
 # Outgoing operator — before ending shift:
 # 1. Document what was found and what's next
-lazyown_c2_notes(action="append", note="Kerberoasting complete — 3 hashes dumped. WinRM working on 10.10.11.78 as j.fleischman. Next: BloodHound to find DA path.")
+lazyown_c2_notes(
+    action="append",
+    note="Kerberoasting complete — 3 hashes dumped. WinRM working on 10.10.11.78 as j.fleischman. Next: BloodHound to find DA path.",
+)
 # 2. Update task statuses
 lazyown_campaign_tasks(action="update", task_id=2, status="Done")
-lazyown_campaign_tasks(action="add", title="Run BloodHound for DA path", description="Use j.fleischman:J0elTHEM4n1990!", operator="claude_agent")
+lazyown_campaign_tasks(
+    action="add",
+    title="Run BloodHound for DA path",
+    description="Use j.fleischman:J0elTHEM4n1990!",
+    operator="claude_agent",
+)
 # 3. Pre-fill report executive summary
 lazyown_report_update(action="auto_fill")
 # 4. Inject next objectives for the autonomous daemon
 lazyown_autonomous_inject(text="BloodHound collect on VariaType.htb to find DA path", priority="high")
 
 # Incoming operator — start of shift:
-lazyown_campaign_sitrep()          # full picture in one call
-lazyown_c2_notes(action="read")   # read handoff notes
-lazyown_campaign_lessons()         # learned patterns
-lazyown_credentials()              # know what you have
-lazyown_session_state()            # live phase + last commands
+lazyown_campaign_sitrep()  # full picture in one call
+lazyown_c2_notes(action="read")  # read handoff notes
+lazyown_campaign_lessons()  # learned patterns
+lazyown_credentials()  # know what you have
+lazyown_session_state()  # live phase + last commands
 ```
 
 **The autonomous daemon continues working between shifts** — inject objectives and let it run.
@@ -958,7 +966,7 @@ lazyown_hive_spawn(
     n_drones=4,
     roles=["recon", "exploit", "cred", "lateral"],
     backend="groq",
-    wait=False       # non-blocking — returns drone IDs
+    wait=False,  # non-blocking — returns drone IDs
 )
 
 # 3. Poll status
@@ -1054,7 +1062,7 @@ lazyown_atomic_search(mitre_id="T1558")
 lazyown_atomic_search(keyword="credential", platform="windows", complexity="low")
 
 # All tests for a MITRE tactic prefix
-lazyown_atomic_search(mitre_id="T1547")   # all T1547.xxx subtechniques
+lazyown_atomic_search(mitre_id="T1547")  # all T1547.xxx subtechniques
 ```
 
 Returns: technique id, name, MITRE ID, platform list, scope, complexity, prerequisites.
@@ -1134,17 +1142,17 @@ Access via `lazyown_playbook_generate`, `lazyown_threat_model`
 ### Lateral thinking query pattern — use ALL layers before deciding
 ```python
 # START: complete campaign picture
-lazyown_campaign_sitrep()                                                # L3 - all 10 state files
-lazyown_credentials()                                                    # L3 - know what you have
+lazyown_campaign_sitrep()  # L3 - all 10 state files
+lazyown_credentials()  # L3 - know what you have
 
 # KNOWLEDGE: query all knowledge layers
-lazyown_parquet_query(mode="context", phase="privesc", target=rhost)   # L1 - past + GTFOBins + MITRE
-lazyown_searchsploit(query="<service> <version>")                       # L2 - all 9 exploit sources
-lazyown_rag_query(query="<goal or technique>", n=5)                    # L3 - semantic session recall
-lazyown_hive_recall(query="<credential type or technique>", n=5)       # L3 - episodic hive memory
-lazyown_atomic_search(keyword="<technique>", platform="linux")         # L1 - 1690 Atomic Red Team tests
-lazyown_bridge_suggest(phase="privesc", os_hint="linux", sequence=True) # catalog - next 5 commands
-lazyown_campaign_lessons(topic="privesc")                               # L3 - learned patterns
+lazyown_parquet_query(mode="context", phase="privesc", target=rhost)  # L1 - past + GTFOBins + MITRE
+lazyown_searchsploit(query="<service> <version>")  # L2 - all 9 exploit sources
+lazyown_rag_query(query="<goal or technique>", n=5)  # L3 - semantic session recall
+lazyown_hive_recall(query="<credential type or technique>", n=5)  # L3 - episodic hive memory
+lazyown_atomic_search(keyword="<technique>", platform="linux")  # L1 - 1690 Atomic Red Team tests
+lazyown_bridge_suggest(phase="privesc", os_hint="linux", sequence=True)  # catalog - next 5 commands
+lazyown_campaign_lessons(topic="privesc")  # L3 - learned patterns
 
 # SYNTHESIZE with experts
 lazyown_swan_ensemble(task_type="privesc", task="Best privesc path given: <context>", phase="privesc")

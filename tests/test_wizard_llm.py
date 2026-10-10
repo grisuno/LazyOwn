@@ -78,9 +78,7 @@ class TestAskLlm:
         assert wizard._ask_llm({"llm_backend": "groq"}) == {}
 
     def test_model_override_stored_in_provider_slot(self, monkeypatch):
-        monkeypatch.setattr(
-            wizard, "_prompt", _scripted_prompt(["openai", "gpt-4o-mini", "sk-x"])
-        )
+        monkeypatch.setattr(wizard, "_prompt", _scripted_prompt(["openai", "gpt-4o-mini", "sk-x"]))
         updates = wizard._ask_llm({})
         assert updates == {
             "llm_backend": "openai",
@@ -150,9 +148,5 @@ class TestReadinessLlm:
         assert "llama3.2" in row.value
 
     def test_sensitive_values_masked(self):
-        rows = wizard._build_readiness(
-            {"rhost": "1.2.3.4", "llm_backend": "groq", "api_key": "gsk_secretvalue"}
-        )
-        assert "gsk_secretvalue" not in "\n".join(
-            f"{item.label} {item.value}" for item in rows
-        )
+        rows = wizard._build_readiness({"rhost": "1.2.3.4", "llm_backend": "groq", "api_key": "gsk_secretvalue"})
+        assert "gsk_secretvalue" not in "\n".join(f"{item.label} {item.value}" for item in rows)

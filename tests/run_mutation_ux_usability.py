@@ -30,14 +30,14 @@ MUTATIONS = {
         "file": "cli/tips_engine.py",
         "description": "Disable the off-level early return (revert noise reduction).",
         "old": "if self.config.hints_level == HINTS_LEVEL_OFF:",
-        "new": "if self.config.hints_level == \"__never__\":",
+        "new": 'if self.config.hints_level == "__never__":',
         "expected": "test_off_suppresses_all_surfaces MUST fail",
     },
     "minimal_runs_everything": {
         "file": "cli/tips_engine.py",
         "description": "Drop the minimal branch so minimal renders all surfaces.",
         "old": "if self.config.hints_level == HINTS_LEVEL_MINIMAL:",
-        "new": "if self.config.hints_level == \"__never__\":",
+        "new": 'if self.config.hints_level == "__never__":',
         "expected": "test_minimal_runs_autosuggest_only MUST fail",
     },
     "contextual_help_local_phase_labels": {

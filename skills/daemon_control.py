@@ -42,9 +42,7 @@ DECISION_PENDING: str = "pending"
 DECISION_APPROVED: str = "approved"
 DECISION_VETOED: str = "vetoed"
 DECISION_EXPIRED: str = "expired"
-VALID_DECISIONS: frozenset[str] = frozenset(
-    {DECISION_PENDING, DECISION_APPROVED, DECISION_VETOED, DECISION_EXPIRED}
-)
+VALID_DECISIONS: frozenset[str] = frozenset({DECISION_PENDING, DECISION_APPROVED, DECISION_VETOED, DECISION_EXPIRED})
 
 
 @dataclass
@@ -132,11 +130,7 @@ class ControlState:
             if decision not in VALID_DECISIONS:
                 decision = DECISION_PENDING
             ttl_raw = pending_raw.get("ttl_seconds")
-            ttl_seconds = (
-                float(ttl_raw)
-                if ttl_raw is not None
-                else PENDING_TTL_DEFAULT_S
-            )
+            ttl_seconds = float(ttl_raw) if ttl_raw is not None else PENDING_TTL_DEFAULT_S
             pending = PendingAction(
                 action_id=str(pending_raw.get("action_id") or ""),
                 command=str(pending_raw.get("command") or ""),
@@ -237,9 +231,7 @@ class DaemonControl:
     def set_mode(self, mode: str) -> ControlState:
         """Switch between :data:`MODE_AUTO`, :data:`MODE_APPROVAL`, :data:`MODE_PAUSED`."""
         if mode not in VALID_MODES:
-            raise ValueError(
-                f"invalid mode '{mode}', expected one of {sorted(VALID_MODES)}"
-            )
+            raise ValueError(f"invalid mode '{mode}', expected one of {sorted(VALID_MODES)}")
         state = self.load()
         state.mode = mode
         self.save(state)
@@ -315,9 +307,7 @@ class DaemonControl:
             reason=reason,
             target=target,
             proposed_at=time.time(),
-            ttl_seconds=(
-                ttl_seconds if ttl_seconds is not None else PENDING_TTL_DEFAULT_S
-            ),
+            ttl_seconds=(ttl_seconds if ttl_seconds is not None else PENDING_TTL_DEFAULT_S),
         )
         state = self.load()
         state.pending = action
@@ -340,9 +330,7 @@ class DaemonControl:
             ValueError: When ``decision`` is not approved or vetoed.
         """
         if decision not in (DECISION_APPROVED, DECISION_VETOED):
-            raise ValueError(
-                f"invalid decision '{decision}', expected approved or vetoed"
-            )
+            raise ValueError(f"invalid decision '{decision}', expected approved or vetoed")
         state = self.load()
         if state.pending is None or state.pending.action_id != action_id:
             return None
@@ -434,11 +422,7 @@ def wait_for_decision(
     while True:
         state = control.load()
         current = state.pending
-        if (
-            current is not None
-            and current.action_id == action.action_id
-            and current.decision != DECISION_PENDING
-        ):
+        if current is not None and current.action_id == action.action_id and current.decision != DECISION_PENDING:
             return current
         current_time = now_fn()
         if current_time >= deadline:

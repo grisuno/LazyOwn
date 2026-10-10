@@ -266,7 +266,7 @@ _COMMAND_MAP: dict[str, str] = {
     "lazyown_gitlab_enum": "Enumerate a GitLab instance",
     "lazyown_gmsadumper": "Run gMSADumper to read gMSA password blobs visible to the user",
     "lazyown_gobuster": "Uses `gobuster` for directory and virtual host fuzzing based on provided parameters. Supports directory enumeration and virtual host discovery",
-    "lazyown_god_nodes": "Show the most-connected nodes (\"god nodes\") from the graph",
+    "lazyown_god_nodes": 'Show the most-connected nodes ("god nodes") from the graph',
     "lazyown_gospherus": "Command gospherus: Clones and uses the Gopherus tool to generate gopher payloads for various services",
     "lazyown_gospider": "Try gospider for web spidering",
     "lazyown_gowitness": "Run gowitness for web screenshot capture",
@@ -517,7 +517,7 @@ _COMMAND_MAP: dict[str, str] = {
     "lazyown_scarecrow": "Executes ScareCrow with various options for bypassing EDR solutions and executing shellcode",
     "lazyown_scavenger": "Run the Scavenger post-exploitation data collector",
     "lazyown_scope": "Manage the authorized engagement scope and the scope-guard posture",
-    "lazyown_scp": "Copies the local \"sessions\" directory to a remote host using scp, leveraging sshpass for automated authentication",
+    "lazyown_scp": 'Copies the local "sessions" directory to a remote host using scp, leveraging sshpass for automated authentication',
     "lazyown_seal_credentials": "Encrypt all sensitive values in payload.json using AES-256-GCM",
     "lazyown_search": "Search for modules by name, description, or author",
     "lazyown_searchhash": "Helps to find hash types in Hashcat by searching through its help output",
@@ -662,20 +662,22 @@ def get_generated_tool_definitions() -> list:
 
     _tools: list = []
     for _tool, _desc in sorted(_COMMAND_MAP.items()):
-        _tools.append(_types.Tool(
-            name=_tool,
-            description=_desc,
-            inputSchema={
-                "type": "object",
-                "properties": {
-                    "args": {
-                        "type": "string",
-                        "description": "Optional arguments to pass to the command.",
-                        "default": "",
+        _tools.append(
+            _types.Tool(
+                name=_tool,
+                description=_desc,
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "args": {
+                            "type": "string",
+                            "description": "Optional arguments to pass to the command.",
+                            "default": "",
+                        },
                     },
                 },
-            }
-        ))
+            )
+        )
     return _tools
 
 
@@ -691,5148 +693,5152 @@ def register_all_generated_handlers(
     """
     _reg = 0
 
-    async def _gen_EOF(arguments: dict, tool_name: str, _cmd='EOF') -> list:
+    async def _gen_EOF(arguments: dict, tool_name: str, _cmd="EOF") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_EOF')(_gen_EOF)
+    register_handler_fn("lazyown_EOF")(_gen_EOF)
     _reg += 1
 
-    async def _gen_GET(arguments: dict, tool_name: str, _cmd='GET') -> list:
+    async def _gen_GET(arguments: dict, tool_name: str, _cmd="GET") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_GET')(_gen_GET)
+    register_handler_fn("lazyown_GET")(_gen_GET)
     _reg += 1
 
-    async def _gen_OPTIONS(arguments: dict, tool_name: str, _cmd='OPTIONS') -> list:
+    async def _gen_OPTIONS(arguments: dict, tool_name: str, _cmd="OPTIONS") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_OPTIONS')(_gen_OPTIONS)
+    register_handler_fn("lazyown_OPTIONS")(_gen_OPTIONS)
     _reg += 1
 
-    async def _gen_POST(arguments: dict, tool_name: str, _cmd='POST') -> list:
+    async def _gen_POST(arguments: dict, tool_name: str, _cmd="POST") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_POST')(_gen_POST)
+    register_handler_fn("lazyown_POST")(_gen_POST)
     _reg += 1
 
-    async def _gen_acknowledgearp(arguments: dict, tool_name: str, _cmd='acknowledgearp') -> list:
+    async def _gen_acknowledgearp(arguments: dict, tool_name: str, _cmd="acknowledgearp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_acknowledgearp')(_gen_acknowledgearp)
+    register_handler_fn("lazyown_acknowledgearp")(_gen_acknowledgearp)
     _reg += 1
 
-    async def _gen_acknowledgeicmp(arguments: dict, tool_name: str, _cmd='acknowledgeicmp') -> list:
+    async def _gen_acknowledgeicmp(arguments: dict, tool_name: str, _cmd="acknowledgeicmp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_acknowledgeicmp')(_gen_acknowledgeicmp)
+    register_handler_fn("lazyown_acknowledgeicmp")(_gen_acknowledgeicmp)
     _reg += 1
 
-    async def _gen_aclpwn_py(arguments: dict, tool_name: str, _cmd='aclpwn_py') -> list:
+    async def _gen_aclpwn_py(arguments: dict, tool_name: str, _cmd="aclpwn_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_aclpwn_py')(_gen_aclpwn_py)
+    register_handler_fn("lazyown_aclpwn_py")(_gen_aclpwn_py)
     _reg += 1
 
-    async def _gen_ad_ldap_enum(arguments: dict, tool_name: str, _cmd='ad_ldap_enum') -> list:
+    async def _gen_ad_ldap_enum(arguments: dict, tool_name: str, _cmd="ad_ldap_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ad_ldap_enum')(_gen_ad_ldap_enum)
+    register_handler_fn("lazyown_ad_ldap_enum")(_gen_ad_ldap_enum)
     _reg += 1
 
-    async def _gen_adcs_check(arguments: dict, tool_name: str, _cmd='adcs_check') -> list:
+    async def _gen_adcs_check(arguments: dict, tool_name: str, _cmd="adcs_check") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_adcs_check')(_gen_adcs_check)
+    register_handler_fn("lazyown_adcs_check")(_gen_adcs_check)
     _reg += 1
 
-    async def _gen_add2find(arguments: dict, tool_name: str, _cmd='add2find') -> list:
+    async def _gen_add2find(arguments: dict, tool_name: str, _cmd="add2find") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_add2find')(_gen_add2find)
+    register_handler_fn("lazyown_add2find")(_gen_add2find)
     _reg += 1
 
-    async def _gen_addalias(arguments: dict, tool_name: str, _cmd='addalias') -> list:
+    async def _gen_addalias(arguments: dict, tool_name: str, _cmd="addalias") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_addalias')(_gen_addalias)
+    register_handler_fn("lazyown_addalias")(_gen_addalias)
     _reg += 1
 
-    async def _gen_addcli(arguments: dict, tool_name: str, _cmd='addcli') -> list:
+    async def _gen_addcli(arguments: dict, tool_name: str, _cmd="addcli") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_addcli')(_gen_addcli)
+    register_handler_fn("lazyown_addcli")(_gen_addcli)
     _reg += 1
 
-    async def _gen_addhosts(arguments: dict, tool_name: str, _cmd='addhosts') -> list:
+    async def _gen_addhosts(arguments: dict, tool_name: str, _cmd="addhosts") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_addhosts')(_gen_addhosts)
+    register_handler_fn("lazyown_addhosts")(_gen_addhosts)
     _reg += 1
 
-    async def _gen_addspn_py(arguments: dict, tool_name: str, _cmd='addspn_py') -> list:
+    async def _gen_addspn_py(arguments: dict, tool_name: str, _cmd="addspn_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_addspn_py')(_gen_addspn_py)
+    register_handler_fn("lazyown_addspn_py")(_gen_addspn_py)
     _reg += 1
 
-    async def _gen_addusers(arguments: dict, tool_name: str, _cmd='addusers') -> list:
+    async def _gen_addusers(arguments: dict, tool_name: str, _cmd="addusers") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_addusers')(_gen_addusers)
+    register_handler_fn("lazyown_addusers")(_gen_addusers)
     _reg += 1
 
-    async def _gen_adgetpass(arguments: dict, tool_name: str, _cmd='adgetpass') -> list:
+    async def _gen_adgetpass(arguments: dict, tool_name: str, _cmd="adgetpass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_adgetpass')(_gen_adgetpass)
+    register_handler_fn("lazyown_adgetpass")(_gen_adgetpass)
     _reg += 1
 
-    async def _gen_adsso_spray(arguments: dict, tool_name: str, _cmd='adsso_spray') -> list:
+    async def _gen_adsso_spray(arguments: dict, tool_name: str, _cmd="adsso_spray") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_adsso_spray')(_gen_adsso_spray)
+    register_handler_fn("lazyown_adsso_spray")(_gen_adsso_spray)
     _reg += 1
 
-    async def _gen_adversary(arguments: dict, tool_name: str, _cmd='adversary') -> list:
+    async def _gen_adversary(arguments: dict, tool_name: str, _cmd="adversary") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_adversary')(_gen_adversary)
+    register_handler_fn("lazyown_adversary")(_gen_adversary)
     _reg += 1
 
-    async def _gen_adversary_yaml(arguments: dict, tool_name: str, _cmd='adversary_yaml') -> list:
+    async def _gen_adversary_yaml(arguments: dict, tool_name: str, _cmd="adversary_yaml") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_adversary_yaml')(_gen_adversary_yaml)
+    register_handler_fn("lazyown_adversary_yaml")(_gen_adversary_yaml)
     _reg += 1
 
-    async def _gen_aes_pe(arguments: dict, tool_name: str, _cmd='aes_pe') -> list:
+    async def _gen_aes_pe(arguments: dict, tool_name: str, _cmd="aes_pe") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_aes_pe')(_gen_aes_pe)
+    register_handler_fn("lazyown_aes_pe")(_gen_aes_pe)
     _reg += 1
 
-    async def _gen_ai_playbook(arguments: dict, tool_name: str, _cmd='ai_playbook') -> list:
+    async def _gen_ai_playbook(arguments: dict, tool_name: str, _cmd="ai_playbook") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ai_playbook')(_gen_ai_playbook)
+    register_handler_fn("lazyown_ai_playbook")(_gen_ai_playbook)
     _reg += 1
 
-    async def _gen_ai_toggle(arguments: dict, tool_name: str, _cmd='ai_toggle') -> list:
+    async def _gen_ai_toggle(arguments: dict, tool_name: str, _cmd="ai_toggle") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ai_toggle')(_gen_ai_toggle)
+    register_handler_fn("lazyown_ai_toggle")(_gen_ai_toggle)
     _reg += 1
 
-    async def _gen_aliass(arguments: dict, tool_name: str, _cmd='aliass') -> list:
+    async def _gen_aliass(arguments: dict, tool_name: str, _cmd="aliass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_aliass')(_gen_aliass)
+    register_handler_fn("lazyown_aliass")(_gen_aliass)
     _reg += 1
 
-    async def _gen_allin(arguments: dict, tool_name: str, _cmd='allin') -> list:
+    async def _gen_allin(arguments: dict, tool_name: str, _cmd="allin") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_allin')(_gen_allin)
+    register_handler_fn("lazyown_allin")(_gen_allin)
     _reg += 1
 
-    async def _gen_alterx(arguments: dict, tool_name: str, _cmd='alterx') -> list:
+    async def _gen_alterx(arguments: dict, tool_name: str, _cmd="alterx") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_alterx')(_gen_alterx)
+    register_handler_fn("lazyown_alterx")(_gen_alterx)
     _reg += 1
 
-    async def _gen_amass(arguments: dict, tool_name: str, _cmd='amass') -> list:
+    async def _gen_amass(arguments: dict, tool_name: str, _cmd="amass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_amass')(_gen_amass)
+    register_handler_fn("lazyown_amass")(_gen_amass)
     _reg += 1
 
-    async def _gen_android_apk(arguments: dict, tool_name: str, _cmd='android_apk') -> list:
+    async def _gen_android_apk(arguments: dict, tool_name: str, _cmd="android_apk") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_android_apk')(_gen_android_apk)
+    register_handler_fn("lazyown_android_apk")(_gen_android_apk)
     _reg += 1
 
-    async def _gen_android_enum(arguments: dict, tool_name: str, _cmd='android_enum') -> list:
+    async def _gen_android_enum(arguments: dict, tool_name: str, _cmd="android_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_android_enum')(_gen_android_enum)
+    register_handler_fn("lazyown_android_enum")(_gen_android_enum)
     _reg += 1
 
-    async def _gen_apache_users(arguments: dict, tool_name: str, _cmd='apache_users') -> list:
+    async def _gen_apache_users(arguments: dict, tool_name: str, _cmd="apache_users") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_apache_users')(_gen_apache_users)
+    register_handler_fn("lazyown_apache_users")(_gen_apache_users)
     _reg += 1
 
-    async def _gen_applocker_csc(arguments: dict, tool_name: str, _cmd='applocker_csc') -> list:
+    async def _gen_applocker_csc(arguments: dict, tool_name: str, _cmd="applocker_csc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_csc')(_gen_applocker_csc)
+    register_handler_fn("lazyown_applocker_csc")(_gen_applocker_csc)
     _reg += 1
 
-    async def _gen_applocker_installutil(arguments: dict, tool_name: str, _cmd='applocker_installutil') -> list:
+    async def _gen_applocker_installutil(arguments: dict, tool_name: str, _cmd="applocker_installutil") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_installutil')(_gen_applocker_installutil)
+    register_handler_fn("lazyown_applocker_installutil")(_gen_applocker_installutil)
     _reg += 1
 
-    async def _gen_applocker_msbuild(arguments: dict, tool_name: str, _cmd='applocker_msbuild') -> list:
+    async def _gen_applocker_msbuild(arguments: dict, tool_name: str, _cmd="applocker_msbuild") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_msbuild')(_gen_applocker_msbuild)
+    register_handler_fn("lazyown_applocker_msbuild")(_gen_applocker_msbuild)
     _reg += 1
 
-    async def _gen_applocker_mshta(arguments: dict, tool_name: str, _cmd='applocker_mshta') -> list:
+    async def _gen_applocker_mshta(arguments: dict, tool_name: str, _cmd="applocker_mshta") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_mshta')(_gen_applocker_mshta)
+    register_handler_fn("lazyown_applocker_mshta")(_gen_applocker_mshta)
     _reg += 1
 
-    async def _gen_applocker_presentation(arguments: dict, tool_name: str, _cmd='applocker_presentation') -> list:
+    async def _gen_applocker_presentation(arguments: dict, tool_name: str, _cmd="applocker_presentation") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_presentation')(_gen_applocker_presentation)
+    register_handler_fn("lazyown_applocker_presentation")(_gen_applocker_presentation)
     _reg += 1
 
-    async def _gen_applocker_regsvcs(arguments: dict, tool_name: str, _cmd='applocker_regsvcs') -> list:
+    async def _gen_applocker_regsvcs(arguments: dict, tool_name: str, _cmd="applocker_regsvcs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_regsvcs')(_gen_applocker_regsvcs)
+    register_handler_fn("lazyown_applocker_regsvcs")(_gen_applocker_regsvcs)
     _reg += 1
 
-    async def _gen_applocker_rundll32(arguments: dict, tool_name: str, _cmd='applocker_rundll32') -> list:
+    async def _gen_applocker_rundll32(arguments: dict, tool_name: str, _cmd="applocker_rundll32") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_applocker_rundll32')(_gen_applocker_rundll32)
+    register_handler_fn("lazyown_applocker_rundll32")(_gen_applocker_rundll32)
     _reg += 1
 
-    async def _gen_apropos(arguments: dict, tool_name: str, _cmd='apropos') -> list:
+    async def _gen_apropos(arguments: dict, tool_name: str, _cmd="apropos") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_apropos')(_gen_apropos)
+    register_handler_fn("lazyown_apropos")(_gen_apropos)
     _reg += 1
 
-    async def _gen_apt_playbook(arguments: dict, tool_name: str, _cmd='apt_playbook') -> list:
+    async def _gen_apt_playbook(arguments: dict, tool_name: str, _cmd="apt_playbook") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_apt_playbook')(_gen_apt_playbook)
+    register_handler_fn("lazyown_apt_playbook")(_gen_apt_playbook)
     _reg += 1
 
-    async def _gen_apt_proxy(arguments: dict, tool_name: str, _cmd='apt_proxy') -> list:
+    async def _gen_apt_proxy(arguments: dict, tool_name: str, _cmd="apt_proxy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_apt_proxy')(_gen_apt_proxy)
+    register_handler_fn("lazyown_apt_proxy")(_gen_apt_proxy)
     _reg += 1
 
-    async def _gen_apt_repo(arguments: dict, tool_name: str, _cmd='apt_repo') -> list:
+    async def _gen_apt_repo(arguments: dict, tool_name: str, _cmd="apt_repo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_apt_repo')(_gen_apt_repo)
+    register_handler_fn("lazyown_apt_repo")(_gen_apt_repo)
     _reg += 1
 
-    async def _gen_arjun(arguments: dict, tool_name: str, _cmd='arjun') -> list:
+    async def _gen_arjun(arguments: dict, tool_name: str, _cmd="arjun") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_arjun')(_gen_arjun)
+    register_handler_fn("lazyown_arjun")(_gen_arjun)
     _reg += 1
 
-    async def _gen_arpscan(arguments: dict, tool_name: str, _cmd='arpscan') -> list:
+    async def _gen_arpscan(arguments: dict, tool_name: str, _cmd="arpscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_arpscan')(_gen_arpscan)
+    register_handler_fn("lazyown_arpscan")(_gen_arpscan)
     _reg += 1
 
-    async def _gen_ask(arguments: dict, tool_name: str, _cmd='ask') -> list:
+    async def _gen_ask(arguments: dict, tool_name: str, _cmd="ask") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ask')(_gen_ask)
+    register_handler_fn("lazyown_ask")(_gen_ask)
     _reg += 1
 
-    async def _gen_asprevbase64(arguments: dict, tool_name: str, _cmd='asprevbase64') -> list:
+    async def _gen_asprevbase64(arguments: dict, tool_name: str, _cmd="asprevbase64") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_asprevbase64')(_gen_asprevbase64)
+    register_handler_fn("lazyown_asprevbase64")(_gen_asprevbase64)
     _reg += 1
 
-    async def _gen_assign(arguments: dict, tool_name: str, _cmd='assign') -> list:
+    async def _gen_assign(arguments: dict, tool_name: str, _cmd="assign") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_assign')(_gen_assign)
+    register_handler_fn("lazyown_assign")(_gen_assign)
     _reg += 1
 
-    async def _gen_atomic_agent(arguments: dict, tool_name: str, _cmd='atomic_agent') -> list:
+    async def _gen_atomic_agent(arguments: dict, tool_name: str, _cmd="atomic_agent") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_atomic_agent')(_gen_atomic_agent)
+    register_handler_fn("lazyown_atomic_agent")(_gen_atomic_agent)
     _reg += 1
 
-    async def _gen_atomic_gen(arguments: dict, tool_name: str, _cmd='atomic_gen') -> list:
+    async def _gen_atomic_gen(arguments: dict, tool_name: str, _cmd="atomic_gen") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_atomic_gen')(_gen_atomic_gen)
+    register_handler_fn("lazyown_atomic_gen")(_gen_atomic_gen)
     _reg += 1
 
-    async def _gen_atomic_lazyown(arguments: dict, tool_name: str, _cmd='atomic_lazyown') -> list:
+    async def _gen_atomic_lazyown(arguments: dict, tool_name: str, _cmd="atomic_lazyown") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_atomic_lazyown')(_gen_atomic_lazyown)
+    register_handler_fn("lazyown_atomic_lazyown")(_gen_atomic_lazyown)
     _reg += 1
 
-    async def _gen_atomic_tests(arguments: dict, tool_name: str, _cmd='atomic_tests') -> list:
+    async def _gen_atomic_tests(arguments: dict, tool_name: str, _cmd="atomic_tests") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_atomic_tests')(_gen_atomic_tests)
+    register_handler_fn("lazyown_atomic_tests")(_gen_atomic_tests)
     _reg += 1
 
-    async def _gen_attack_plan(arguments: dict, tool_name: str, _cmd='attack_plan') -> list:
+    async def _gen_attack_plan(arguments: dict, tool_name: str, _cmd="attack_plan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_attack_plan')(_gen_attack_plan)
+    register_handler_fn("lazyown_attack_plan")(_gen_attack_plan)
     _reg += 1
 
-    async def _gen_attack_surface(arguments: dict, tool_name: str, _cmd='attack_surface') -> list:
+    async def _gen_attack_surface(arguments: dict, tool_name: str, _cmd="attack_surface") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_attack_surface')(_gen_attack_surface)
+    register_handler_fn("lazyown_attack_surface")(_gen_attack_surface)
     _reg += 1
 
-    async def _gen_audit_complete_keys(arguments: dict, tool_name: str, _cmd='audit_complete_keys') -> list:
+    async def _gen_audit_complete_keys(arguments: dict, tool_name: str, _cmd="audit_complete_keys") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_audit_complete_keys')(_gen_audit_complete_keys)
+    register_handler_fn("lazyown_audit_complete_keys")(_gen_audit_complete_keys)
     _reg += 1
 
-    async def _gen_autoblody(arguments: dict, tool_name: str, _cmd='autoblody') -> list:
+    async def _gen_autoblody(arguments: dict, tool_name: str, _cmd="autoblody") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_autoblody')(_gen_autoblody)
+    register_handler_fn("lazyown_autoblody")(_gen_autoblody)
     _reg += 1
 
-    async def _gen_automsf(arguments: dict, tool_name: str, _cmd='automsf') -> list:
+    async def _gen_automsf(arguments: dict, tool_name: str, _cmd="automsf") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_automsf')(_gen_automsf)
+    register_handler_fn("lazyown_automsf")(_gen_automsf)
     _reg += 1
 
-    async def _gen_autopivot(arguments: dict, tool_name: str, _cmd='autopivot') -> list:
+    async def _gen_autopivot(arguments: dict, tool_name: str, _cmd="autopivot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_autopivot')(_gen_autopivot)
+    register_handler_fn("lazyown_autopivot")(_gen_autopivot)
     _reg += 1
 
-    async def _gen_back(arguments: dict, tool_name: str, _cmd='back') -> list:
+    async def _gen_back(arguments: dict, tool_name: str, _cmd="back") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_back')(_gen_back)
+    register_handler_fn("lazyown_back")(_gen_back)
     _reg += 1
 
-    async def _gen_backdoor_factory(arguments: dict, tool_name: str, _cmd='backdoor_factory') -> list:
+    async def _gen_backdoor_factory(arguments: dict, tool_name: str, _cmd="backdoor_factory") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_backdoor_factory')(_gen_backdoor_factory)
+    register_handler_fn("lazyown_backdoor_factory")(_gen_backdoor_factory)
     _reg += 1
 
-    async def _gen_banner(arguments: dict, tool_name: str, _cmd='banner') -> list:
+    async def _gen_banner(arguments: dict, tool_name: str, _cmd="banner") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_banner')(_gen_banner)
+    register_handler_fn("lazyown_banner")(_gen_banner)
     _reg += 1
 
-    async def _gen_banners(arguments: dict, tool_name: str, _cmd='banners') -> list:
+    async def _gen_banners(arguments: dict, tool_name: str, _cmd="banners") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_banners')(_gen_banners)
+    register_handler_fn("lazyown_banners")(_gen_banners)
     _reg += 1
 
-    async def _gen_base64decode(arguments: dict, tool_name: str, _cmd='base64decode') -> list:
+    async def _gen_base64decode(arguments: dict, tool_name: str, _cmd="base64decode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_base64decode')(_gen_base64decode)
+    register_handler_fn("lazyown_base64decode")(_gen_base64decode)
     _reg += 1
 
-    async def _gen_base64encode(arguments: dict, tool_name: str, _cmd='base64encode') -> list:
+    async def _gen_base64encode(arguments: dict, tool_name: str, _cmd="base64encode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_base64encode')(_gen_base64encode)
+    register_handler_fn("lazyown_base64encode")(_gen_base64encode)
     _reg += 1
 
-    async def _gen_batchnmap(arguments: dict, tool_name: str, _cmd='batchnmap') -> list:
+    async def _gen_batchnmap(arguments: dict, tool_name: str, _cmd="batchnmap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_batchnmap')(_gen_batchnmap)
+    register_handler_fn("lazyown_batchnmap")(_gen_batchnmap)
     _reg += 1
 
-    async def _gen_bbot(arguments: dict, tool_name: str, _cmd='bbot') -> list:
+    async def _gen_bbot(arguments: dict, tool_name: str, _cmd="bbot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_bbot')(_gen_bbot)
+    register_handler_fn("lazyown_bbot")(_gen_bbot)
     _reg += 1
 
-    async def _gen_beaconcfg(arguments: dict, tool_name: str, _cmd='beaconcfg') -> list:
+    async def _gen_beaconcfg(arguments: dict, tool_name: str, _cmd="beaconcfg") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_beaconcfg')(_gen_beaconcfg)
+    register_handler_fn("lazyown_beaconcfg")(_gen_beaconcfg)
     _reg += 1
 
-    async def _gen_bin2shellcode(arguments: dict, tool_name: str, _cmd='bin2shellcode') -> list:
+    async def _gen_bin2shellcode(arguments: dict, tool_name: str, _cmd="bin2shellcode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_bin2shellcode')(_gen_bin2shellcode)
+    register_handler_fn("lazyown_bin2shellcode")(_gen_bin2shellcode)
     _reg += 1
 
-    async def _gen_binarycheck(arguments: dict, tool_name: str, _cmd='binarycheck') -> list:
+    async def _gen_binarycheck(arguments: dict, tool_name: str, _cmd="binarycheck") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_binarycheck')(_gen_binarycheck)
+    register_handler_fn("lazyown_binarycheck")(_gen_binarycheck)
     _reg += 1
 
-    async def _gen_bitm(arguments: dict, tool_name: str, _cmd='bitm') -> list:
+    async def _gen_bitm(arguments: dict, tool_name: str, _cmd="bitm") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_bitm')(_gen_bitm)
+    register_handler_fn("lazyown_bitm")(_gen_bitm)
     _reg += 1
 
-    async def _gen_blazy(arguments: dict, tool_name: str, _cmd='blazy') -> list:
+    async def _gen_blazy(arguments: dict, tool_name: str, _cmd="blazy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_blazy')(_gen_blazy)
+    register_handler_fn("lazyown_blazy")(_gen_blazy)
     _reg += 1
 
-    async def _gen_bloodhound(arguments: dict, tool_name: str, _cmd='bloodhound') -> list:
+    async def _gen_bloodhound(arguments: dict, tool_name: str, _cmd="bloodhound") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_bloodhound')(_gen_bloodhound)
+    register_handler_fn("lazyown_bloodhound")(_gen_bloodhound)
     _reg += 1
 
-    async def _gen_bloodyAD(arguments: dict, tool_name: str, _cmd='bloodyAD') -> list:
+    async def _gen_bloodyAD(arguments: dict, tool_name: str, _cmd="bloodyAD") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_bloodyAD')(_gen_bloodyAD)
+    register_handler_fn("lazyown_bloodyAD")(_gen_bloodyAD)
     _reg += 1
 
-    async def _gen_breacher(arguments: dict, tool_name: str, _cmd='breacher') -> list:
+    async def _gen_breacher(arguments: dict, tool_name: str, _cmd="breacher") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_breacher')(_gen_breacher)
+    register_handler_fn("lazyown_breacher")(_gen_breacher)
     _reg += 1
 
-    async def _gen_browse(arguments: dict, tool_name: str, _cmd='browse') -> list:
+    async def _gen_browse(arguments: dict, tool_name: str, _cmd="browse") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_browse')(_gen_browse)
+    register_handler_fn("lazyown_browse")(_gen_browse)
     _reg += 1
 
-    async def _gen_c2(arguments: dict, tool_name: str, _cmd='c2') -> list:
+    async def _gen_c2(arguments: dict, tool_name: str, _cmd="c2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2')(_gen_c2)
+    register_handler_fn("lazyown_c2")(_gen_c2)
     _reg += 1
 
-    async def _gen_c2_beacon_cmd(arguments: dict, tool_name: str, _cmd='c2_beacon_cmd') -> list:
+    async def _gen_c2_beacon_cmd(arguments: dict, tool_name: str, _cmd="c2_beacon_cmd") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2_beacon_cmd')(_gen_c2_beacon_cmd)
+    register_handler_fn("lazyown_c2_beacon_cmd")(_gen_c2_beacon_cmd)
     _reg += 1
 
-    async def _gen_c2_beacons(arguments: dict, tool_name: str, _cmd='c2_beacons') -> list:
+    async def _gen_c2_beacons(arguments: dict, tool_name: str, _cmd="c2_beacons") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2_beacons')(_gen_c2_beacons)
+    register_handler_fn("lazyown_c2_beacons")(_gen_c2_beacons)
     _reg += 1
 
-    async def _gen_c2_implant(arguments: dict, tool_name: str, _cmd='c2_implant') -> list:
+    async def _gen_c2_implant(arguments: dict, tool_name: str, _cmd="c2_implant") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2_implant')(_gen_c2_implant)
+    register_handler_fn("lazyown_c2_implant")(_gen_c2_implant)
     _reg += 1
 
-    async def _gen_c2_keygen(arguments: dict, tool_name: str, _cmd='c2_keygen') -> list:
+    async def _gen_c2_keygen(arguments: dict, tool_name: str, _cmd="c2_keygen") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2_keygen')(_gen_c2_keygen)
+    register_handler_fn("lazyown_c2_keygen")(_gen_c2_keygen)
     _reg += 1
 
-    async def _gen_c2_quickstart(arguments: dict, tool_name: str, _cmd='c2_quickstart') -> list:
+    async def _gen_c2_quickstart(arguments: dict, tool_name: str, _cmd="c2_quickstart") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2_quickstart')(_gen_c2_quickstart)
+    register_handler_fn("lazyown_c2_quickstart")(_gen_c2_quickstart)
     _reg += 1
 
-    async def _gen_c2asm(arguments: dict, tool_name: str, _cmd='c2asm') -> list:
+    async def _gen_c2asm(arguments: dict, tool_name: str, _cmd="c2asm") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_c2asm')(_gen_c2asm)
+    register_handler_fn("lazyown_c2asm")(_gen_c2asm)
     _reg += 1
 
-    async def _gen_cacti_exploit(arguments: dict, tool_name: str, _cmd='cacti_exploit') -> list:
+    async def _gen_cacti_exploit(arguments: dict, tool_name: str, _cmd="cacti_exploit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cacti_exploit')(_gen_cacti_exploit)
+    register_handler_fn("lazyown_cacti_exploit")(_gen_cacti_exploit)
     _reg += 1
 
-    async def _gen_caldera(arguments: dict, tool_name: str, _cmd='caldera') -> list:
+    async def _gen_caldera(arguments: dict, tool_name: str, _cmd="caldera") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_caldera')(_gen_caldera)
+    register_handler_fn("lazyown_caldera")(_gen_caldera)
     _reg += 1
 
-    async def _gen_caldera_export(arguments: dict, tool_name: str, _cmd='caldera_export') -> list:
+    async def _gen_caldera_export(arguments: dict, tool_name: str, _cmd="caldera_export") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_caldera_export')(_gen_caldera_export)
+    register_handler_fn("lazyown_caldera_export")(_gen_caldera_export)
     _reg += 1
 
-    async def _gen_caldera_import(arguments: dict, tool_name: str, _cmd='caldera_import') -> list:
+    async def _gen_caldera_import(arguments: dict, tool_name: str, _cmd="caldera_import") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_caldera_import')(_gen_caldera_import)
+    register_handler_fn("lazyown_caldera_import")(_gen_caldera_import)
     _reg += 1
 
-    async def _gen_camphish(arguments: dict, tool_name: str, _cmd='camphish') -> list:
+    async def _gen_camphish(arguments: dict, tool_name: str, _cmd="camphish") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_camphish')(_gen_camphish)
+    register_handler_fn("lazyown_camphish")(_gen_camphish)
     _reg += 1
 
-    async def _gen_certipy(arguments: dict, tool_name: str, _cmd='certipy') -> list:
+    async def _gen_certipy(arguments: dict, tool_name: str, _cmd="certipy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_certipy')(_gen_certipy)
+    register_handler_fn("lazyown_certipy")(_gen_certipy)
     _reg += 1
 
-    async def _gen_certipy_ad(arguments: dict, tool_name: str, _cmd='certipy_ad') -> list:
+    async def _gen_certipy_ad(arguments: dict, tool_name: str, _cmd="certipy_ad") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_certipy_ad')(_gen_certipy_ad)
+    register_handler_fn("lazyown_certipy_ad")(_gen_certipy_ad)
     _reg += 1
 
-    async def _gen_cewl(arguments: dict, tool_name: str, _cmd='cewl') -> list:
+    async def _gen_cewl(arguments: dict, tool_name: str, _cmd="cewl") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cewl')(_gen_cewl)
+    register_handler_fn("lazyown_cewl")(_gen_cewl)
     _reg += 1
 
-    async def _gen_chain(arguments: dict, tool_name: str, _cmd='chain') -> list:
+    async def _gen_chain(arguments: dict, tool_name: str, _cmd="chain") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_chain')(_gen_chain)
+    register_handler_fn("lazyown_chain")(_gen_chain)
     _reg += 1
 
-    async def _gen_changeme(arguments: dict, tool_name: str, _cmd='changeme') -> list:
+    async def _gen_changeme(arguments: dict, tool_name: str, _cmd="changeme") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_changeme')(_gen_changeme)
+    register_handler_fn("lazyown_changeme")(_gen_changeme)
     _reg += 1
 
-    async def _gen_check_update(arguments: dict, tool_name: str, _cmd='check_update') -> list:
+    async def _gen_check_update(arguments: dict, tool_name: str, _cmd="check_update") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_check_update')(_gen_check_update)
+    register_handler_fn("lazyown_check_update")(_gen_check_update)
     _reg += 1
 
-    async def _gen_chisel(arguments: dict, tool_name: str, _cmd='chisel') -> list:
+    async def _gen_chisel(arguments: dict, tool_name: str, _cmd="chisel") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_chisel')(_gen_chisel)
+    register_handler_fn("lazyown_chisel")(_gen_chisel)
     _reg += 1
 
-    async def _gen_cicd_scan(arguments: dict, tool_name: str, _cmd='cicd_scan') -> list:
+    async def _gen_cicd_scan(arguments: dict, tool_name: str, _cmd="cicd_scan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cicd_scan')(_gen_cicd_scan)
+    register_handler_fn("lazyown_cicd_scan")(_gen_cicd_scan)
     _reg += 1
 
-    async def _gen_cicd_secrets(arguments: dict, tool_name: str, _cmd='cicd_secrets') -> list:
+    async def _gen_cicd_secrets(arguments: dict, tool_name: str, _cmd="cicd_secrets") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cicd_secrets')(_gen_cicd_secrets)
+    register_handler_fn("lazyown_cicd_secrets")(_gen_cicd_secrets)
     _reg += 1
 
-    async def _gen_clean(arguments: dict, tool_name: str, _cmd='clean') -> list:
+    async def _gen_clean(arguments: dict, tool_name: str, _cmd="clean") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_clean')(_gen_clean)
+    register_handler_fn("lazyown_clean")(_gen_clean)
     _reg += 1
 
-    async def _gen_clean_ad(arguments: dict, tool_name: str, _cmd='clean_ad') -> list:
+    async def _gen_clean_ad(arguments: dict, tool_name: str, _cmd="clean_ad") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_clean_ad')(_gen_clean_ad)
+    register_handler_fn("lazyown_clean_ad")(_gen_clean_ad)
     _reg += 1
 
-    async def _gen_clock(arguments: dict, tool_name: str, _cmd='clock') -> list:
+    async def _gen_clock(arguments: dict, tool_name: str, _cmd="clock") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_clock')(_gen_clock)
+    register_handler_fn("lazyown_clock")(_gen_clock)
     _reg += 1
 
-    async def _gen_clone_site(arguments: dict, tool_name: str, _cmd='clone_site') -> list:
+    async def _gen_clone_site(arguments: dict, tool_name: str, _cmd="clone_site") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_clone_site')(_gen_clone_site)
+    register_handler_fn("lazyown_clone_site")(_gen_clone_site)
     _reg += 1
 
-    async def _gen_cloud_buckets(arguments: dict, tool_name: str, _cmd='cloud_buckets') -> list:
+    async def _gen_cloud_buckets(arguments: dict, tool_name: str, _cmd="cloud_buckets") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cloud_buckets')(_gen_cloud_buckets)
+    register_handler_fn("lazyown_cloud_buckets")(_gen_cloud_buckets)
     _reg += 1
 
-    async def _gen_cloud_enum(arguments: dict, tool_name: str, _cmd='cloud_enum') -> list:
+    async def _gen_cloud_enum(arguments: dict, tool_name: str, _cmd="cloud_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cloud_enum')(_gen_cloud_enum)
+    register_handler_fn("lazyown_cloud_enum")(_gen_cloud_enum)
     _reg += 1
 
-    async def _gen_cloud_iam(arguments: dict, tool_name: str, _cmd='cloud_iam') -> list:
+    async def _gen_cloud_iam(arguments: dict, tool_name: str, _cmd="cloud_iam") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cloud_iam')(_gen_cloud_iam)
+    register_handler_fn("lazyown_cloud_iam")(_gen_cloud_iam)
     _reg += 1
 
-    async def _gen_cloud_metadata(arguments: dict, tool_name: str, _cmd='cloud_metadata') -> list:
+    async def _gen_cloud_metadata(arguments: dict, tool_name: str, _cmd="cloud_metadata") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cloud_metadata')(_gen_cloud_metadata)
+    register_handler_fn("lazyown_cloud_metadata")(_gen_cloud_metadata)
     _reg += 1
 
-    async def _gen_cloud_scan(arguments: dict, tool_name: str, _cmd='cloud_scan') -> list:
+    async def _gen_cloud_scan(arguments: dict, tool_name: str, _cmd="cloud_scan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cloud_scan')(_gen_cloud_scan)
+    register_handler_fn("lazyown_cloud_scan")(_gen_cloud_scan)
     _reg += 1
 
-    async def _gen_cme(arguments: dict, tool_name: str, _cmd='cme') -> list:
+    async def _gen_cme(arguments: dict, tool_name: str, _cmd="cme") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cme')(_gen_cme)
+    register_handler_fn("lazyown_cme")(_gen_cme)
     _reg += 1
 
-    async def _gen_collab_join(arguments: dict, tool_name: str, _cmd='collab_join') -> list:
+    async def _gen_collab_join(arguments: dict, tool_name: str, _cmd="collab_join") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_collab_join')(_gen_collab_join)
+    register_handler_fn("lazyown_collab_join")(_gen_collab_join)
     _reg += 1
 
-    async def _gen_commix(arguments: dict, tool_name: str, _cmd='commix') -> list:
+    async def _gen_commix(arguments: dict, tool_name: str, _cmd="commix") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_commix')(_gen_commix)
+    register_handler_fn("lazyown_commix")(_gen_commix)
     _reg += 1
 
-    async def _gen_config_banner(arguments: dict, tool_name: str, _cmd='config_banner') -> list:
+    async def _gen_config_banner(arguments: dict, tool_name: str, _cmd="config_banner") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_config_banner')(_gen_config_banner)
+    register_handler_fn("lazyown_config_banner")(_gen_config_banner)
     _reg += 1
 
-    async def _gen_conptyshell(arguments: dict, tool_name: str, _cmd='conptyshell') -> list:
+    async def _gen_conptyshell(arguments: dict, tool_name: str, _cmd="conptyshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_conptyshell')(_gen_conptyshell)
+    register_handler_fn("lazyown_conptyshell")(_gen_conptyshell)
     _reg += 1
 
-    async def _gen_container_detect(arguments: dict, tool_name: str, _cmd='container_detect') -> list:
+    async def _gen_container_detect(arguments: dict, tool_name: str, _cmd="container_detect") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_container_detect')(_gen_container_detect)
+    register_handler_fn("lazyown_container_detect")(_gen_container_detect)
     _reg += 1
 
-    async def _gen_container_escape(arguments: dict, tool_name: str, _cmd='container_escape') -> list:
+    async def _gen_container_escape(arguments: dict, tool_name: str, _cmd="container_escape") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_container_escape')(_gen_container_escape)
+    register_handler_fn("lazyown_container_escape")(_gen_container_escape)
     _reg += 1
 
-    async def _gen_convert_remcomsvc_from_file(arguments: dict, tool_name: str, _cmd='convert_remcomsvc_from_file') -> list:
+    async def _gen_convert_remcomsvc_from_file(
+        arguments: dict, tool_name: str, _cmd="convert_remcomsvc_from_file"
+    ) -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_convert_remcomsvc_from_file')(_gen_convert_remcomsvc_from_file)
+    register_handler_fn("lazyown_convert_remcomsvc_from_file")(_gen_convert_remcomsvc_from_file)
     _reg += 1
 
-    async def _gen_cover_tracks(arguments: dict, tool_name: str, _cmd='cover_tracks') -> list:
+    async def _gen_cover_tracks(arguments: dict, tool_name: str, _cmd="cover_tracks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cover_tracks')(_gen_cover_tracks)
+    register_handler_fn("lazyown_cover_tracks")(_gen_cover_tracks)
     _reg += 1
 
-    async def _gen_cp(arguments: dict, tool_name: str, _cmd='cp') -> list:
+    async def _gen_cp(arguments: dict, tool_name: str, _cmd="cp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cp')(_gen_cp)
+    register_handler_fn("lazyown_cp")(_gen_cp)
     _reg += 1
 
-    async def _gen_cports(arguments: dict, tool_name: str, _cmd='cports') -> list:
+    async def _gen_cports(arguments: dict, tool_name: str, _cmd="cports") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cports')(_gen_cports)
+    register_handler_fn("lazyown_cports")(_gen_cports)
     _reg += 1
 
-    async def _gen_crack_cisco_7_password(arguments: dict, tool_name: str, _cmd='crack_cisco_7_password') -> list:
+    async def _gen_crack_cisco_7_password(arguments: dict, tool_name: str, _cmd="crack_cisco_7_password") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_crack_cisco_7_password')(_gen_crack_cisco_7_password)
+    register_handler_fn("lazyown_crack_cisco_7_password")(_gen_crack_cisco_7_password)
     _reg += 1
 
-    async def _gen_crack_hashes(arguments: dict, tool_name: str, _cmd='crack_hashes') -> list:
+    async def _gen_crack_hashes(arguments: dict, tool_name: str, _cmd="crack_hashes") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_crack_hashes')(_gen_crack_hashes)
+    register_handler_fn("lazyown_crack_hashes")(_gen_crack_hashes)
     _reg += 1
 
-    async def _gen_create_session_json(arguments: dict, tool_name: str, _cmd='create_session_json') -> list:
+    async def _gen_create_session_json(arguments: dict, tool_name: str, _cmd="create_session_json") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_create_session_json')(_gen_create_session_json)
+    register_handler_fn("lazyown_create_session_json")(_gen_create_session_json)
     _reg += 1
 
-    async def _gen_create_synthetic(arguments: dict, tool_name: str, _cmd='create_synthetic') -> list:
+    async def _gen_create_synthetic(arguments: dict, tool_name: str, _cmd="create_synthetic") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_create_synthetic')(_gen_create_synthetic)
+    register_handler_fn("lazyown_create_synthetic")(_gen_create_synthetic)
     _reg += 1
 
-    async def _gen_createcookie(arguments: dict, tool_name: str, _cmd='createcookie') -> list:
+    async def _gen_createcookie(arguments: dict, tool_name: str, _cmd="createcookie") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createcookie')(_gen_createcookie)
+    register_handler_fn("lazyown_createcookie")(_gen_createcookie)
     _reg += 1
 
-    async def _gen_createcredentials(arguments: dict, tool_name: str, _cmd='createcredentials') -> list:
+    async def _gen_createcredentials(arguments: dict, tool_name: str, _cmd="createcredentials") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createcredentials')(_gen_createcredentials)
+    register_handler_fn("lazyown_createcredentials")(_gen_createcredentials)
     _reg += 1
 
-    async def _gen_createdll(arguments: dict, tool_name: str, _cmd='createdll') -> list:
+    async def _gen_createdll(arguments: dict, tool_name: str, _cmd="createdll") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createdll')(_gen_createdll)
+    register_handler_fn("lazyown_createdll")(_gen_createdll)
     _reg += 1
 
-    async def _gen_createhash(arguments: dict, tool_name: str, _cmd='createhash') -> list:
+    async def _gen_createhash(arguments: dict, tool_name: str, _cmd="createhash") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createhash')(_gen_createhash)
+    register_handler_fn("lazyown_createhash")(_gen_createhash)
     _reg += 1
 
-    async def _gen_createjsonmachine(arguments: dict, tool_name: str, _cmd='createjsonmachine') -> list:
+    async def _gen_createjsonmachine(arguments: dict, tool_name: str, _cmd="createjsonmachine") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createjsonmachine')(_gen_createjsonmachine)
+    register_handler_fn("lazyown_createjsonmachine")(_gen_createjsonmachine)
     _reg += 1
 
-    async def _gen_createjsonmachine_batch(arguments: dict, tool_name: str, _cmd='createjsonmachine_batch') -> list:
+    async def _gen_createjsonmachine_batch(arguments: dict, tool_name: str, _cmd="createjsonmachine_batch") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createjsonmachine_batch')(_gen_createjsonmachine_batch)
+    register_handler_fn("lazyown_createjsonmachine_batch")(_gen_createjsonmachine_batch)
     _reg += 1
 
-    async def _gen_createmail(arguments: dict, tool_name: str, _cmd='createmail') -> list:
+    async def _gen_createmail(arguments: dict, tool_name: str, _cmd="createmail") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createmail')(_gen_createmail)
+    register_handler_fn("lazyown_createmail")(_gen_createmail)
     _reg += 1
 
-    async def _gen_createpayload(arguments: dict, tool_name: str, _cmd='createpayload') -> list:
+    async def _gen_createpayload(arguments: dict, tool_name: str, _cmd="createpayload") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createpayload')(_gen_createpayload)
+    register_handler_fn("lazyown_createpayload")(_gen_createpayload)
     _reg += 1
 
-    async def _gen_createrevshell(arguments: dict, tool_name: str, _cmd='createrevshell') -> list:
+    async def _gen_createrevshell(arguments: dict, tool_name: str, _cmd="createrevshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createrevshell')(_gen_createrevshell)
+    register_handler_fn("lazyown_createrevshell")(_gen_createrevshell)
     _reg += 1
 
-    async def _gen_createtargets(arguments: dict, tool_name: str, _cmd='createtargets') -> list:
+    async def _gen_createtargets(arguments: dict, tool_name: str, _cmd="createtargets") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createtargets')(_gen_createtargets)
+    register_handler_fn("lazyown_createtargets")(_gen_createtargets)
     _reg += 1
 
-    async def _gen_createusers_and_hashs(arguments: dict, tool_name: str, _cmd='createusers_and_hashs') -> list:
+    async def _gen_createusers_and_hashs(arguments: dict, tool_name: str, _cmd="createusers_and_hashs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createusers_and_hashs')(_gen_createusers_and_hashs)
+    register_handler_fn("lazyown_createusers_and_hashs")(_gen_createusers_and_hashs)
     _reg += 1
 
-    async def _gen_createwebshell(arguments: dict, tool_name: str, _cmd='createwebshell') -> list:
+    async def _gen_createwebshell(arguments: dict, tool_name: str, _cmd="createwebshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createwebshell')(_gen_createwebshell)
+    register_handler_fn("lazyown_createwebshell")(_gen_createwebshell)
     _reg += 1
 
-    async def _gen_createwinrevshell(arguments: dict, tool_name: str, _cmd='createwinrevshell') -> list:
+    async def _gen_createwinrevshell(arguments: dict, tool_name: str, _cmd="createwinrevshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_createwinrevshell')(_gen_createwinrevshell)
+    register_handler_fn("lazyown_createwinrevshell")(_gen_createwinrevshell)
     _reg += 1
 
-    async def _gen_cred(arguments: dict, tool_name: str, _cmd='cred') -> list:
+    async def _gen_cred(arguments: dict, tool_name: str, _cmd="cred") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cred')(_gen_cred)
+    register_handler_fn("lazyown_cred")(_gen_cred)
     _reg += 1
 
-    async def _gen_cred_mark_failed(arguments: dict, tool_name: str, _cmd='cred_mark_failed') -> list:
+    async def _gen_cred_mark_failed(arguments: dict, tool_name: str, _cmd="cred_mark_failed") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cred_mark_failed')(_gen_cred_mark_failed)
+    register_handler_fn("lazyown_cred_mark_failed")(_gen_cred_mark_failed)
     _reg += 1
 
-    async def _gen_cred_reuse(arguments: dict, tool_name: str, _cmd='cred_reuse') -> list:
+    async def _gen_cred_reuse(arguments: dict, tool_name: str, _cmd="cred_reuse") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cred_reuse')(_gen_cred_reuse)
+    register_handler_fn("lazyown_cred_reuse")(_gen_cred_reuse)
     _reg += 1
 
-    async def _gen_creds_py(arguments: dict, tool_name: str, _cmd='creds_py') -> list:
+    async def _gen_creds_py(arguments: dict, tool_name: str, _cmd="creds_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_creds_py')(_gen_creds_py)
+    register_handler_fn("lazyown_creds_py")(_gen_creds_py)
     _reg += 1
 
-    async def _gen_cron(arguments: dict, tool_name: str, _cmd='cron') -> list:
+    async def _gen_cron(arguments: dict, tool_name: str, _cmd="cron") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cron')(_gen_cron)
+    register_handler_fn("lazyown_cron")(_gen_cron)
     _reg += 1
 
-    async def _gen_crunch(arguments: dict, tool_name: str, _cmd='crunch') -> list:
+    async def _gen_crunch(arguments: dict, tool_name: str, _cmd="crunch") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_crunch')(_gen_crunch)
+    register_handler_fn("lazyown_crunch")(_gen_crunch)
     _reg += 1
 
-    async def _gen_crystal_ball(arguments: dict, tool_name: str, _cmd='crystal_ball') -> list:
+    async def _gen_crystal_ball(arguments: dict, tool_name: str, _cmd="crystal_ball") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_crystal_ball')(_gen_crystal_ball)
+    register_handler_fn("lazyown_crystal_ball")(_gen_crystal_ball)
     _reg += 1
 
-    async def _gen_ctx(arguments: dict, tool_name: str, _cmd='ctx') -> list:
+    async def _gen_ctx(arguments: dict, tool_name: str, _cmd="ctx") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ctx')(_gen_ctx)
+    register_handler_fn("lazyown_ctx")(_gen_ctx)
     _reg += 1
 
-    async def _gen_cubespraying(arguments: dict, tool_name: str, _cmd='cubespraying') -> list:
+    async def _gen_cubespraying(arguments: dict, tool_name: str, _cmd="cubespraying") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cubespraying')(_gen_cubespraying)
+    register_handler_fn("lazyown_cubespraying")(_gen_cubespraying)
     _reg += 1
 
-    async def _gen_cve(arguments: dict, tool_name: str, _cmd='cve') -> list:
+    async def _gen_cve(arguments: dict, tool_name: str, _cmd="cve") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_cve')(_gen_cve)
+    register_handler_fn("lazyown_cve")(_gen_cve)
     _reg += 1
 
-    async def _gen_d3monizedshell(arguments: dict, tool_name: str, _cmd='d3monizedshell') -> list:
+    async def _gen_d3monizedshell(arguments: dict, tool_name: str, _cmd="d3monizedshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_d3monizedshell')(_gen_d3monizedshell)
+    register_handler_fn("lazyown_d3monizedshell")(_gen_d3monizedshell)
     _reg += 1
 
-    async def _gen_dacledit(arguments: dict, tool_name: str, _cmd='dacledit') -> list:
+    async def _gen_dacledit(arguments: dict, tool_name: str, _cmd="dacledit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dacledit')(_gen_dacledit)
+    register_handler_fn("lazyown_dacledit")(_gen_dacledit)
     _reg += 1
 
-    async def _gen_darkarmour(arguments: dict, tool_name: str, _cmd='darkarmour') -> list:
+    async def _gen_darkarmour(arguments: dict, tool_name: str, _cmd="darkarmour") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_darkarmour')(_gen_darkarmour)
+    register_handler_fn("lazyown_darkarmour")(_gen_darkarmour)
     _reg += 1
 
-    async def _gen_dashboard(arguments: dict, tool_name: str, _cmd='dashboard') -> list:
+    async def _gen_dashboard(arguments: dict, tool_name: str, _cmd="dashboard") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dashboard')(_gen_dashboard)
+    register_handler_fn("lazyown_dashboard")(_gen_dashboard)
     _reg += 1
 
-    async def _gen_davtest(arguments: dict, tool_name: str, _cmd='davtest') -> list:
+    async def _gen_davtest(arguments: dict, tool_name: str, _cmd="davtest") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_davtest')(_gen_davtest)
+    register_handler_fn("lazyown_davtest")(_gen_davtest)
     _reg += 1
 
-    async def _gen_db_creds(arguments: dict, tool_name: str, _cmd='db_creds') -> list:
+    async def _gen_db_creds(arguments: dict, tool_name: str, _cmd="db_creds") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_creds')(_gen_db_creds)
+    register_handler_fn("lazyown_db_creds")(_gen_db_creds)
     _reg += 1
 
-    async def _gen_db_export(arguments: dict, tool_name: str, _cmd='db_export') -> list:
+    async def _gen_db_export(arguments: dict, tool_name: str, _cmd="db_export") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_export')(_gen_db_export)
+    register_handler_fn("lazyown_db_export")(_gen_db_export)
     _reg += 1
 
-    async def _gen_db_hosts(arguments: dict, tool_name: str, _cmd='db_hosts') -> list:
+    async def _gen_db_hosts(arguments: dict, tool_name: str, _cmd="db_hosts") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_hosts')(_gen_db_hosts)
+    register_handler_fn("lazyown_db_hosts")(_gen_db_hosts)
     _reg += 1
 
-    async def _gen_db_import(arguments: dict, tool_name: str, _cmd='db_import') -> list:
+    async def _gen_db_import(arguments: dict, tool_name: str, _cmd="db_import") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_import')(_gen_db_import)
+    register_handler_fn("lazyown_db_import")(_gen_db_import)
     _reg += 1
 
-    async def _gen_db_init(arguments: dict, tool_name: str, _cmd='db_init') -> list:
+    async def _gen_db_init(arguments: dict, tool_name: str, _cmd="db_init") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_init')(_gen_db_init)
+    register_handler_fn("lazyown_db_init")(_gen_db_init)
     _reg += 1
 
-    async def _gen_db_loot(arguments: dict, tool_name: str, _cmd='db_loot') -> list:
+    async def _gen_db_loot(arguments: dict, tool_name: str, _cmd="db_loot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_loot')(_gen_db_loot)
+    register_handler_fn("lazyown_db_loot")(_gen_db_loot)
     _reg += 1
 
-    async def _gen_db_notes(arguments: dict, tool_name: str, _cmd='db_notes') -> list:
+    async def _gen_db_notes(arguments: dict, tool_name: str, _cmd="db_notes") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_notes')(_gen_db_notes)
+    register_handler_fn("lazyown_db_notes")(_gen_db_notes)
     _reg += 1
 
-    async def _gen_db_services(arguments: dict, tool_name: str, _cmd='db_services') -> list:
+    async def _gen_db_services(arguments: dict, tool_name: str, _cmd="db_services") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_services')(_gen_db_services)
+    register_handler_fn("lazyown_db_services")(_gen_db_services)
     _reg += 1
 
-    async def _gen_db_status(arguments: dict, tool_name: str, _cmd='db_status') -> list:
+    async def _gen_db_status(arguments: dict, tool_name: str, _cmd="db_status") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_status')(_gen_db_status)
+    register_handler_fn("lazyown_db_status")(_gen_db_status)
     _reg += 1
 
-    async def _gen_db_vulns(arguments: dict, tool_name: str, _cmd='db_vulns') -> list:
+    async def _gen_db_vulns(arguments: dict, tool_name: str, _cmd="db_vulns") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_vulns')(_gen_db_vulns)
+    register_handler_fn("lazyown_db_vulns")(_gen_db_vulns)
     _reg += 1
 
-    async def _gen_db_workspace(arguments: dict, tool_name: str, _cmd='db_workspace') -> list:
+    async def _gen_db_workspace(arguments: dict, tool_name: str, _cmd="db_workspace") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_db_workspace')(_gen_db_workspace)
+    register_handler_fn("lazyown_db_workspace")(_gen_db_workspace)
     _reg += 1
 
-    async def _gen_dcomexec(arguments: dict, tool_name: str, _cmd='dcomexec') -> list:
+    async def _gen_dcomexec(arguments: dict, tool_name: str, _cmd="dcomexec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dcomexec')(_gen_dcomexec)
+    register_handler_fn("lazyown_dcomexec")(_gen_dcomexec)
     _reg += 1
 
-    async def _gen_decode(arguments: dict, tool_name: str, _cmd='decode') -> list:
+    async def _gen_decode(arguments: dict, tool_name: str, _cmd="decode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_decode')(_gen_decode)
+    register_handler_fn("lazyown_decode")(_gen_decode)
     _reg += 1
 
-    async def _gen_decrypt(arguments: dict, tool_name: str, _cmd='decrypt') -> list:
+    async def _gen_decrypt(arguments: dict, tool_name: str, _cmd="decrypt") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_decrypt')(_gen_decrypt)
+    register_handler_fn("lazyown_decrypt")(_gen_decrypt)
     _reg += 1
 
-    async def _gen_depconfuse(arguments: dict, tool_name: str, _cmd='depconfuse') -> list:
+    async def _gen_depconfuse(arguments: dict, tool_name: str, _cmd="depconfuse") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_depconfuse')(_gen_depconfuse)
+    register_handler_fn("lazyown_depconfuse")(_gen_depconfuse)
     _reg += 1
 
-    async def _gen_depscan(arguments: dict, tool_name: str, _cmd='depscan') -> list:
+    async def _gen_depscan(arguments: dict, tool_name: str, _cmd="depscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_depscan')(_gen_depscan)
+    register_handler_fn("lazyown_depscan")(_gen_depscan)
     _reg += 1
 
-    async def _gen_detect_edr(arguments: dict, tool_name: str, _cmd='detect_edr') -> list:
+    async def _gen_detect_edr(arguments: dict, tool_name: str, _cmd="detect_edr") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_detect_edr')(_gen_detect_edr)
+    register_handler_fn("lazyown_detect_edr")(_gen_detect_edr)
     _reg += 1
 
-    async def _gen_dig(arguments: dict, tool_name: str, _cmd='dig') -> list:
+    async def _gen_dig(arguments: dict, tool_name: str, _cmd="dig") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dig')(_gen_dig)
+    register_handler_fn("lazyown_dig")(_gen_dig)
     _reg += 1
 
-    async def _gen_digdug(arguments: dict, tool_name: str, _cmd='digdug') -> list:
+    async def _gen_digdug(arguments: dict, tool_name: str, _cmd="digdug") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_digdug')(_gen_digdug)
+    register_handler_fn("lazyown_digdug")(_gen_digdug)
     _reg += 1
 
-    async def _gen_dirsearch(arguments: dict, tool_name: str, _cmd='dirsearch') -> list:
+    async def _gen_dirsearch(arguments: dict, tool_name: str, _cmd="dirsearch") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dirsearch')(_gen_dirsearch)
+    register_handler_fn("lazyown_dirsearch")(_gen_dirsearch)
     _reg += 1
 
-    async def _gen_disableav(arguments: dict, tool_name: str, _cmd='disableav') -> list:
+    async def _gen_disableav(arguments: dict, tool_name: str, _cmd="disableav") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_disableav')(_gen_disableav)
+    register_handler_fn("lazyown_disableav")(_gen_disableav)
     _reg += 1
 
-    async def _gen_dmitry(arguments: dict, tool_name: str, _cmd='dmitry') -> list:
+    async def _gen_dmitry(arguments: dict, tool_name: str, _cmd="dmitry") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dmitry')(_gen_dmitry)
+    register_handler_fn("lazyown_dmitry")(_gen_dmitry)
     _reg += 1
 
-    async def _gen_dns_beacon(arguments: dict, tool_name: str, _cmd='dns_beacon') -> list:
+    async def _gen_dns_beacon(arguments: dict, tool_name: str, _cmd="dns_beacon") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dns_beacon')(_gen_dns_beacon)
+    register_handler_fn("lazyown_dns_beacon")(_gen_dns_beacon)
     _reg += 1
 
-    async def _gen_dns_beacon_status(arguments: dict, tool_name: str, _cmd='dns_beacon_status') -> list:
+    async def _gen_dns_beacon_status(arguments: dict, tool_name: str, _cmd="dns_beacon_status") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dns_beacon_status')(_gen_dns_beacon_status)
+    register_handler_fn("lazyown_dns_beacon_status")(_gen_dns_beacon_status)
     _reg += 1
 
-    async def _gen_dns_exfil_listen(arguments: dict, tool_name: str, _cmd='dns_exfil_listen') -> list:
+    async def _gen_dns_exfil_listen(arguments: dict, tool_name: str, _cmd="dns_exfil_listen") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dns_exfil_listen')(_gen_dns_exfil_listen)
+    register_handler_fn("lazyown_dns_exfil_listen")(_gen_dns_exfil_listen)
     _reg += 1
 
-    async def _gen_dnschef(arguments: dict, tool_name: str, _cmd='dnschef') -> list:
+    async def _gen_dnschef(arguments: dict, tool_name: str, _cmd="dnschef") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dnschef')(_gen_dnschef)
+    register_handler_fn("lazyown_dnschef")(_gen_dnschef)
     _reg += 1
 
-    async def _gen_dnsenum(arguments: dict, tool_name: str, _cmd='dnsenum') -> list:
+    async def _gen_dnsenum(arguments: dict, tool_name: str, _cmd="dnsenum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dnsenum')(_gen_dnsenum)
+    register_handler_fn("lazyown_dnsenum")(_gen_dnsenum)
     _reg += 1
 
-    async def _gen_dnsmap(arguments: dict, tool_name: str, _cmd='dnsmap') -> list:
+    async def _gen_dnsmap(arguments: dict, tool_name: str, _cmd="dnsmap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dnsmap')(_gen_dnsmap)
+    register_handler_fn("lazyown_dnsmap")(_gen_dnsmap)
     _reg += 1
 
-    async def _gen_dnstool_py(arguments: dict, tool_name: str, _cmd='dnstool_py') -> list:
+    async def _gen_dnstool_py(arguments: dict, tool_name: str, _cmd="dnstool_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dnstool_py')(_gen_dnstool_py)
+    register_handler_fn("lazyown_dnstool_py")(_gen_dnstool_py)
     _reg += 1
 
-    async def _gen_docker_enum(arguments: dict, tool_name: str, _cmd='docker_enum') -> list:
+    async def _gen_docker_enum(arguments: dict, tool_name: str, _cmd="docker_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_docker_enum')(_gen_docker_enum)
+    register_handler_fn("lazyown_docker_enum")(_gen_docker_enum)
     _reg += 1
 
-    async def _gen_doctor(arguments: dict, tool_name: str, _cmd='doctor') -> list:
+    async def _gen_doctor(arguments: dict, tool_name: str, _cmd="doctor") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_doctor')(_gen_doctor)
+    register_handler_fn("lazyown_doctor")(_gen_doctor)
     _reg += 1
 
-    async def _gen_dominion(arguments: dict, tool_name: str, _cmd='dominion') -> list:
+    async def _gen_dominion(arguments: dict, tool_name: str, _cmd="dominion") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dominion')(_gen_dominion)
+    register_handler_fn("lazyown_dominion")(_gen_dominion)
     _reg += 1
 
-    async def _gen_download_c2(arguments: dict, tool_name: str, _cmd='download_c2') -> list:
+    async def _gen_download_c2(arguments: dict, tool_name: str, _cmd="download_c2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_download_c2')(_gen_download_c2)
+    register_handler_fn("lazyown_download_c2")(_gen_download_c2)
     _reg += 1
 
-    async def _gen_download_exploit(arguments: dict, tool_name: str, _cmd='download_exploit') -> list:
+    async def _gen_download_exploit(arguments: dict, tool_name: str, _cmd="download_exploit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_download_exploit')(_gen_download_exploit)
+    register_handler_fn("lazyown_download_exploit")(_gen_download_exploit)
     _reg += 1
 
-    async def _gen_download_malwarebazar(arguments: dict, tool_name: str, _cmd='download_malwarebazar') -> list:
+    async def _gen_download_malwarebazar(arguments: dict, tool_name: str, _cmd="download_malwarebazar") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_download_malwarebazar')(_gen_download_malwarebazar)
+    register_handler_fn("lazyown_download_malwarebazar")(_gen_download_malwarebazar)
     _reg += 1
 
-    async def _gen_download_resources(arguments: dict, tool_name: str, _cmd='download_resources') -> list:
+    async def _gen_download_resources(arguments: dict, tool_name: str, _cmd="download_resources") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_download_resources')(_gen_download_resources)
+    register_handler_fn("lazyown_download_resources")(_gen_download_resources)
     _reg += 1
 
-    async def _gen_downloader(arguments: dict, tool_name: str, _cmd='downloader') -> list:
+    async def _gen_downloader(arguments: dict, tool_name: str, _cmd="downloader") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_downloader')(_gen_downloader)
+    register_handler_fn("lazyown_downloader")(_gen_downloader)
     _reg += 1
 
-    async def _gen_dpapi_blob(arguments: dict, tool_name: str, _cmd='dpapi_blob') -> list:
+    async def _gen_dpapi_blob(arguments: dict, tool_name: str, _cmd="dpapi_blob") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dpapi_blob')(_gen_dpapi_blob)
+    register_handler_fn("lazyown_dpapi_blob")(_gen_dpapi_blob)
     _reg += 1
 
-    async def _gen_dpapi_harvest(arguments: dict, tool_name: str, _cmd='dpapi_harvest') -> list:
+    async def _gen_dpapi_harvest(arguments: dict, tool_name: str, _cmd="dpapi_harvest") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dpapi_harvest')(_gen_dpapi_harvest)
+    register_handler_fn("lazyown_dpapi_harvest")(_gen_dpapi_harvest)
     _reg += 1
 
-    async def _gen_dpapi_masterkeys(arguments: dict, tool_name: str, _cmd='dpapi_masterkeys') -> list:
+    async def _gen_dpapi_masterkeys(arguments: dict, tool_name: str, _cmd="dpapi_masterkeys") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dpapi_masterkeys')(_gen_dpapi_masterkeys)
+    register_handler_fn("lazyown_dpapi_masterkeys")(_gen_dpapi_masterkeys)
     _reg += 1
 
-    async def _gen_dploot(arguments: dict, tool_name: str, _cmd='dploot') -> list:
+    async def _gen_dploot(arguments: dict, tool_name: str, _cmd="dploot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dploot')(_gen_dploot)
+    register_handler_fn("lazyown_dploot")(_gen_dploot)
     _reg += 1
 
-    async def _gen_dr0p1t(arguments: dict, tool_name: str, _cmd='dr0p1t') -> list:
+    async def _gen_dr0p1t(arguments: dict, tool_name: str, _cmd="dr0p1t") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_dr0p1t')(_gen_dr0p1t)
+    register_handler_fn("lazyown_dr0p1t")(_gen_dr0p1t)
     _reg += 1
 
-    async def _gen_duckyspark(arguments: dict, tool_name: str, _cmd='duckyspark') -> list:
+    async def _gen_duckyspark(arguments: dict, tool_name: str, _cmd="duckyspark") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_duckyspark')(_gen_duckyspark)
+    register_handler_fn("lazyown_duckyspark")(_gen_duckyspark)
     _reg += 1
 
-    async def _gen_edr_detect(arguments: dict, tool_name: str, _cmd='edr_detect') -> list:
+    async def _gen_edr_detect(arguments: dict, tool_name: str, _cmd="edr_detect") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_edr_detect')(_gen_edr_detect)
+    register_handler_fn("lazyown_edr_detect")(_gen_edr_detect)
     _reg += 1
 
-    async def _gen_edr_profile(arguments: dict, tool_name: str, _cmd='edr_profile') -> list:
+    async def _gen_edr_profile(arguments: dict, tool_name: str, _cmd="edr_profile") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_edr_profile')(_gen_edr_profile)
+    register_handler_fn("lazyown_edr_profile")(_gen_edr_profile)
     _reg += 1
 
-    async def _gen_edr_script(arguments: dict, tool_name: str, _cmd='edr_script') -> list:
+    async def _gen_edr_script(arguments: dict, tool_name: str, _cmd="edr_script") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_edr_script')(_gen_edr_script)
+    register_handler_fn("lazyown_edr_script")(_gen_edr_script)
     _reg += 1
 
-    async def _gen_emp3r0r(arguments: dict, tool_name: str, _cmd='emp3r0r') -> list:
+    async def _gen_emp3r0r(arguments: dict, tool_name: str, _cmd="emp3r0r") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_emp3r0r')(_gen_emp3r0r)
+    register_handler_fn("lazyown_emp3r0r")(_gen_emp3r0r)
     _reg += 1
 
-    async def _gen_empire(arguments: dict, tool_name: str, _cmd='empire') -> list:
+    async def _gen_empire(arguments: dict, tool_name: str, _cmd="empire") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_empire')(_gen_empire)
+    register_handler_fn("lazyown_empire")(_gen_empire)
     _reg += 1
 
-    async def _gen_encode(arguments: dict, tool_name: str, _cmd='encode') -> list:
+    async def _gen_encode(arguments: dict, tool_name: str, _cmd="encode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_encode')(_gen_encode)
+    register_handler_fn("lazyown_encode")(_gen_encode)
     _reg += 1
 
-    async def _gen_encoderpayload(arguments: dict, tool_name: str, _cmd='encoderpayload') -> list:
+    async def _gen_encoderpayload(arguments: dict, tool_name: str, _cmd="encoderpayload") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_encoderpayload')(_gen_encoderpayload)
+    register_handler_fn("lazyown_encoderpayload")(_gen_encoderpayload)
     _reg += 1
 
-    async def _gen_encodewinbase64(arguments: dict, tool_name: str, _cmd='encodewinbase64') -> list:
+    async def _gen_encodewinbase64(arguments: dict, tool_name: str, _cmd="encodewinbase64") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_encodewinbase64')(_gen_encodewinbase64)
+    register_handler_fn("lazyown_encodewinbase64")(_gen_encodewinbase64)
     _reg += 1
 
-    async def _gen_encrypt(arguments: dict, tool_name: str, _cmd='encrypt') -> list:
+    async def _gen_encrypt(arguments: dict, tool_name: str, _cmd="encrypt") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_encrypt')(_gen_encrypt)
+    register_handler_fn("lazyown_encrypt")(_gen_encrypt)
     _reg += 1
 
-    async def _gen_engage(arguments: dict, tool_name: str, _cmd='engage') -> list:
+    async def _gen_engage(arguments: dict, tool_name: str, _cmd="engage") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_engage')(_gen_engage)
+    register_handler_fn("lazyown_engage")(_gen_engage)
     _reg += 1
 
-    async def _gen_enum4linux(arguments: dict, tool_name: str, _cmd='enum4linux') -> list:
+    async def _gen_enum4linux(arguments: dict, tool_name: str, _cmd="enum4linux") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_enum4linux')(_gen_enum4linux)
+    register_handler_fn("lazyown_enum4linux")(_gen_enum4linux)
     _reg += 1
 
-    async def _gen_enum4linux_ng(arguments: dict, tool_name: str, _cmd='enum4linux_ng') -> list:
+    async def _gen_enum4linux_ng(arguments: dict, tool_name: str, _cmd="enum4linux_ng") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_enum4linux_ng')(_gen_enum4linux_ng)
+    register_handler_fn("lazyown_enum4linux_ng")(_gen_enum4linux_ng)
     _reg += 1
 
-    async def _gen_eternal(arguments: dict, tool_name: str, _cmd='eternal') -> list:
+    async def _gen_eternal(arguments: dict, tool_name: str, _cmd="eternal") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_eternal')(_gen_eternal)
+    register_handler_fn("lazyown_eternal")(_gen_eternal)
     _reg += 1
 
-    async def _gen_evasion(arguments: dict, tool_name: str, _cmd='evasion') -> list:
+    async def _gen_evasion(arguments: dict, tool_name: str, _cmd="evasion") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evasion')(_gen_evasion)
+    register_handler_fn("lazyown_evasion")(_gen_evasion)
     _reg += 1
 
-    async def _gen_evasive(arguments: dict, tool_name: str, _cmd='evasive') -> list:
+    async def _gen_evasive(arguments: dict, tool_name: str, _cmd="evasive") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evasive')(_gen_evasive)
+    register_handler_fn("lazyown_evasive")(_gen_evasive)
     _reg += 1
 
-    async def _gen_evasive_payload(arguments: dict, tool_name: str, _cmd='evasive_payload') -> list:
+    async def _gen_evasive_payload(arguments: dict, tool_name: str, _cmd="evasive_payload") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evasive_payload')(_gen_evasive_payload)
+    register_handler_fn("lazyown_evasive_payload")(_gen_evasive_payload)
     _reg += 1
 
-    async def _gen_event_log(arguments: dict, tool_name: str, _cmd='event_log') -> list:
+    async def _gen_event_log(arguments: dict, tool_name: str, _cmd="event_log") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_event_log')(_gen_event_log)
+    register_handler_fn("lazyown_event_log")(_gen_event_log)
     _reg += 1
 
-    async def _gen_evidence(arguments: dict, tool_name: str, _cmd='evidence') -> list:
+    async def _gen_evidence(arguments: dict, tool_name: str, _cmd="evidence") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evidence')(_gen_evidence)
+    register_handler_fn("lazyown_evidence")(_gen_evidence)
     _reg += 1
 
-    async def _gen_evil_ssdp(arguments: dict, tool_name: str, _cmd='evil_ssdp') -> list:
+    async def _gen_evil_ssdp(arguments: dict, tool_name: str, _cmd="evil_ssdp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evil_ssdp')(_gen_evil_ssdp)
+    register_handler_fn("lazyown_evil_ssdp")(_gen_evil_ssdp)
     _reg += 1
 
-    async def _gen_evilwinrm(arguments: dict, tool_name: str, _cmd='evilwinrm') -> list:
+    async def _gen_evilwinrm(arguments: dict, tool_name: str, _cmd="evilwinrm") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_evilwinrm')(_gen_evilwinrm)
+    register_handler_fn("lazyown_evilwinrm")(_gen_evilwinrm)
     _reg += 1
 
-    async def _gen_excelntdonut(arguments: dict, tool_name: str, _cmd='excelntdonut') -> list:
+    async def _gen_excelntdonut(arguments: dict, tool_name: str, _cmd="excelntdonut") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_excelntdonut')(_gen_excelntdonut)
+    register_handler_fn("lazyown_excelntdonut")(_gen_excelntdonut)
     _reg += 1
 
-    async def _gen_exe2bin(arguments: dict, tool_name: str, _cmd='exe2bin') -> list:
+    async def _gen_exe2bin(arguments: dict, tool_name: str, _cmd="exe2bin") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exe2bin')(_gen_exe2bin)
+    register_handler_fn("lazyown_exe2bin")(_gen_exe2bin)
     _reg += 1
 
-    async def _gen_exe2donutbin(arguments: dict, tool_name: str, _cmd='exe2donutbin') -> list:
+    async def _gen_exe2donutbin(arguments: dict, tool_name: str, _cmd="exe2donutbin") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exe2donutbin')(_gen_exe2donutbin)
+    register_handler_fn("lazyown_exe2donutbin")(_gen_exe2donutbin)
     _reg += 1
 
-    async def _gen_exfil_auto(arguments: dict, tool_name: str, _cmd='exfil_auto') -> list:
+    async def _gen_exfil_auto(arguments: dict, tool_name: str, _cmd="exfil_auto") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_auto')(_gen_exfil_auto)
+    register_handler_fn("lazyown_exfil_auto")(_gen_exfil_auto)
     _reg += 1
 
-    async def _gen_exfil_discord(arguments: dict, tool_name: str, _cmd='exfil_discord') -> list:
+    async def _gen_exfil_discord(arguments: dict, tool_name: str, _cmd="exfil_discord") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_discord')(_gen_exfil_discord)
+    register_handler_fn("lazyown_exfil_discord")(_gen_exfil_discord)
     _reg += 1
 
-    async def _gen_exfil_dns(arguments: dict, tool_name: str, _cmd='exfil_dns') -> list:
+    async def _gen_exfil_dns(arguments: dict, tool_name: str, _cmd="exfil_dns") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_dns')(_gen_exfil_dns)
+    register_handler_fn("lazyown_exfil_dns")(_gen_exfil_dns)
     _reg += 1
 
-    async def _gen_exfil_gcs(arguments: dict, tool_name: str, _cmd='exfil_gcs') -> list:
+    async def _gen_exfil_gcs(arguments: dict, tool_name: str, _cmd="exfil_gcs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_gcs')(_gen_exfil_gcs)
+    register_handler_fn("lazyown_exfil_gcs")(_gen_exfil_gcs)
     _reg += 1
 
-    async def _gen_exfil_http(arguments: dict, tool_name: str, _cmd='exfil_http') -> list:
+    async def _gen_exfil_http(arguments: dict, tool_name: str, _cmd="exfil_http") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_http')(_gen_exfil_http)
+    register_handler_fn("lazyown_exfil_http")(_gen_exfil_http)
     _reg += 1
 
-    async def _gen_exfil_s3(arguments: dict, tool_name: str, _cmd='exfil_s3') -> list:
+    async def _gen_exfil_s3(arguments: dict, tool_name: str, _cmd="exfil_s3") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_s3')(_gen_exfil_s3)
+    register_handler_fn("lazyown_exfil_s3")(_gen_exfil_s3)
     _reg += 1
 
-    async def _gen_exfil_start_server(arguments: dict, tool_name: str, _cmd='exfil_start_server') -> list:
+    async def _gen_exfil_start_server(arguments: dict, tool_name: str, _cmd="exfil_start_server") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_start_server')(_gen_exfil_start_server)
+    register_handler_fn("lazyown_exfil_start_server")(_gen_exfil_start_server)
     _reg += 1
 
-    async def _gen_exfil_telegram(arguments: dict, tool_name: str, _cmd='exfil_telegram') -> list:
+    async def _gen_exfil_telegram(arguments: dict, tool_name: str, _cmd="exfil_telegram") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exfil_telegram')(_gen_exfil_telegram)
+    register_handler_fn("lazyown_exfil_telegram")(_gen_exfil_telegram)
     _reg += 1
 
-    async def _gen_exit(arguments: dict, tool_name: str, _cmd='exit') -> list:
+    async def _gen_exit(arguments: dict, tool_name: str, _cmd="exit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_exit')(_gen_exit)
+    register_handler_fn("lazyown_exit")(_gen_exit)
     _reg += 1
 
-    async def _gen_explore(arguments: dict, tool_name: str, _cmd='explore') -> list:
+    async def _gen_explore(arguments: dict, tool_name: str, _cmd="explore") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_explore')(_gen_explore)
+    register_handler_fn("lazyown_explore")(_gen_explore)
     _reg += 1
 
-    async def _gen_extract_ports(arguments: dict, tool_name: str, _cmd='extract_ports') -> list:
+    async def _gen_extract_ports(arguments: dict, tool_name: str, _cmd="extract_ports") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_extract_ports')(_gen_extract_ports)
+    register_handler_fn("lazyown_extract_ports")(_gen_extract_ports)
     _reg += 1
 
-    async def _gen_extract_yaml(arguments: dict, tool_name: str, _cmd='extract_yaml') -> list:
+    async def _gen_extract_yaml(arguments: dict, tool_name: str, _cmd="extract_yaml") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_extract_yaml')(_gen_extract_yaml)
+    register_handler_fn("lazyown_extract_yaml")(_gen_extract_yaml)
     _reg += 1
 
-    async def _gen_eyewitness(arguments: dict, tool_name: str, _cmd='eyewitness') -> list:
+    async def _gen_eyewitness(arguments: dict, tool_name: str, _cmd="eyewitness") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_eyewitness')(_gen_eyewitness)
+    register_handler_fn("lazyown_eyewitness")(_gen_eyewitness)
     _reg += 1
 
-    async def _gen_eyewitness_py(arguments: dict, tool_name: str, _cmd='eyewitness_py') -> list:
+    async def _gen_eyewitness_py(arguments: dict, tool_name: str, _cmd="eyewitness_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_eyewitness_py')(_gen_eyewitness_py)
+    register_handler_fn("lazyown_eyewitness_py")(_gen_eyewitness_py)
     _reg += 1
 
-    async def _gen_feroxbuster(arguments: dict, tool_name: str, _cmd='feroxbuster') -> list:
+    async def _gen_feroxbuster(arguments: dict, tool_name: str, _cmd="feroxbuster") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_feroxbuster')(_gen_feroxbuster)
+    register_handler_fn("lazyown_feroxbuster")(_gen_feroxbuster)
     _reg += 1
 
-    async def _gen_filtering(arguments: dict, tool_name: str, _cmd='filtering') -> list:
+    async def _gen_filtering(arguments: dict, tool_name: str, _cmd="filtering") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_filtering')(_gen_filtering)
+    register_handler_fn("lazyown_filtering")(_gen_filtering)
     _reg += 1
 
-    async def _gen_finalrecon(arguments: dict, tool_name: str, _cmd='finalrecon') -> list:
+    async def _gen_finalrecon(arguments: dict, tool_name: str, _cmd="finalrecon") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_finalrecon')(_gen_finalrecon)
+    register_handler_fn("lazyown_finalrecon")(_gen_finalrecon)
     _reg += 1
 
-    async def _gen_find(arguments: dict, tool_name: str, _cmd='find') -> list:
+    async def _gen_find(arguments: dict, tool_name: str, _cmd="find") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_find')(_gen_find)
+    register_handler_fn("lazyown_find")(_gen_find)
     _reg += 1
 
-    async def _gen_finger_user_enum(arguments: dict, tool_name: str, _cmd='finger_user_enum') -> list:
+    async def _gen_finger_user_enum(arguments: dict, tool_name: str, _cmd="finger_user_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_finger_user_enum')(_gen_finger_user_enum)
+    register_handler_fn("lazyown_finger_user_enum")(_gen_finger_user_enum)
     _reg += 1
 
-    async def _gen_fixel(arguments: dict, tool_name: str, _cmd='fixel') -> list:
+    async def _gen_fixel(arguments: dict, tool_name: str, _cmd="fixel") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_fixel')(_gen_fixel)
+    register_handler_fn("lazyown_fixel")(_gen_fixel)
     _reg += 1
 
-    async def _gen_fixperm(arguments: dict, tool_name: str, _cmd='fixperm') -> list:
+    async def _gen_fixperm(arguments: dict, tool_name: str, _cmd="fixperm") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_fixperm')(_gen_fixperm)
+    register_handler_fn("lazyown_fixperm")(_gen_fixperm)
     _reg += 1
 
-    async def _gen_follina(arguments: dict, tool_name: str, _cmd='follina') -> list:
+    async def _gen_follina(arguments: dict, tool_name: str, _cmd="follina") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_follina')(_gen_follina)
+    register_handler_fn("lazyown_follina")(_gen_follina)
     _reg += 1
 
-    async def _gen_form(arguments: dict, tool_name: str, _cmd='form') -> list:
+    async def _gen_form(arguments: dict, tool_name: str, _cmd="form") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_form')(_gen_form)
+    register_handler_fn("lazyown_form")(_gen_form)
     _reg += 1
 
-    async def _gen_ftp(arguments: dict, tool_name: str, _cmd='ftp') -> list:
+    async def _gen_ftp(arguments: dict, tool_name: str, _cmd="ftp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ftp')(_gen_ftp)
+    register_handler_fn("lazyown_ftp")(_gen_ftp)
     _reg += 1
 
-    async def _gen_fuzz(arguments: dict, tool_name: str, _cmd='fuzz') -> list:
+    async def _gen_fuzz(arguments: dict, tool_name: str, _cmd="fuzz") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_fuzz')(_gen_fuzz)
+    register_handler_fn("lazyown_fuzz")(_gen_fuzz)
     _reg += 1
 
-    async def _gen_fz(arguments: dict, tool_name: str, _cmd='fz') -> list:
+    async def _gen_fz(arguments: dict, tool_name: str, _cmd="fz") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_fz')(_gen_fz)
+    register_handler_fn("lazyown_fz")(_gen_fz)
     _reg += 1
 
-    async def _gen_gencert(arguments: dict, tool_name: str, _cmd='gencert') -> list:
+    async def _gen_gencert(arguments: dict, tool_name: str, _cmd="gencert") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gencert')(_gen_gencert)
+    register_handler_fn("lazyown_gencert")(_gen_gencert)
     _reg += 1
 
-    async def _gen_generate(arguments: dict, tool_name: str, _cmd='generate') -> list:
+    async def _gen_generate(arguments: dict, tool_name: str, _cmd="generate") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_generate')(_gen_generate)
+    register_handler_fn("lazyown_generate")(_gen_generate)
     _reg += 1
 
-    async def _gen_generate_playbook(arguments: dict, tool_name: str, _cmd='generate_playbook') -> list:
+    async def _gen_generate_playbook(arguments: dict, tool_name: str, _cmd="generate_playbook") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_generate_playbook')(_gen_generate_playbook)
+    register_handler_fn("lazyown_generate_playbook")(_gen_generate_playbook)
     _reg += 1
 
-    async def _gen_generate_revshell(arguments: dict, tool_name: str, _cmd='generate_revshell') -> list:
+    async def _gen_generate_revshell(arguments: dict, tool_name: str, _cmd="generate_revshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_generate_revshell')(_gen_generate_revshell)
+    register_handler_fn("lazyown_generate_revshell")(_gen_generate_revshell)
     _reg += 1
 
-    async def _gen_generatedic(arguments: dict, tool_name: str, _cmd='generatedic') -> list:
+    async def _gen_generatedic(arguments: dict, tool_name: str, _cmd="generatedic") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_generatedic')(_gen_generatedic)
+    register_handler_fn("lazyown_generatedic")(_gen_generatedic)
     _reg += 1
 
-    async def _gen_getTGT(arguments: dict, tool_name: str, _cmd='getTGT') -> list:
+    async def _gen_getTGT(arguments: dict, tool_name: str, _cmd="getTGT") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getTGT')(_gen_getTGT)
+    register_handler_fn("lazyown_getTGT")(_gen_getTGT)
     _reg += 1
 
-    async def _gen_get_avaible_actions(arguments: dict, tool_name: str, _cmd='get_avaible_actions') -> list:
+    async def _gen_get_avaible_actions(arguments: dict, tool_name: str, _cmd="get_avaible_actions") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_get_avaible_actions')(_gen_get_avaible_actions)
+    register_handler_fn("lazyown_get_avaible_actions")(_gen_get_avaible_actions)
     _reg += 1
 
-    async def _gen_getadusers(arguments: dict, tool_name: str, _cmd='getadusers') -> list:
+    async def _gen_getadusers(arguments: dict, tool_name: str, _cmd="getadusers") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getadusers')(_gen_getadusers)
+    register_handler_fn("lazyown_getadusers")(_gen_getadusers)
     _reg += 1
 
-    async def _gen_getcap(arguments: dict, tool_name: str, _cmd='getcap') -> list:
+    async def _gen_getcap(arguments: dict, tool_name: str, _cmd="getcap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getcap')(_gen_getcap)
+    register_handler_fn("lazyown_getcap")(_gen_getcap)
     _reg += 1
 
-    async def _gen_getnpusers(arguments: dict, tool_name: str, _cmd='getnpusers') -> list:
+    async def _gen_getnpusers(arguments: dict, tool_name: str, _cmd="getnpusers") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getnpusers')(_gen_getnpusers)
+    register_handler_fn("lazyown_getnpusers")(_gen_getnpusers)
     _reg += 1
 
-    async def _gen_getnthash_py(arguments: dict, tool_name: str, _cmd='getnthash_py') -> list:
+    async def _gen_getnthash_py(arguments: dict, tool_name: str, _cmd="getnthash_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getnthash_py')(_gen_getnthash_py)
+    register_handler_fn("lazyown_getnthash_py")(_gen_getnthash_py)
     _reg += 1
 
-    async def _gen_gets4uticket_py(arguments: dict, tool_name: str, _cmd='gets4uticket_py') -> list:
+    async def _gen_gets4uticket_py(arguments: dict, tool_name: str, _cmd="gets4uticket_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gets4uticket_py')(_gen_gets4uticket_py)
+    register_handler_fn("lazyown_gets4uticket_py")(_gen_gets4uticket_py)
     _reg += 1
 
-    async def _gen_getseclist(arguments: dict, tool_name: str, _cmd='getseclist') -> list:
+    async def _gen_getseclist(arguments: dict, tool_name: str, _cmd="getseclist") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getseclist')(_gen_getseclist)
+    register_handler_fn("lazyown_getseclist")(_gen_getseclist)
     _reg += 1
 
-    async def _gen_gettgtpkinit_py(arguments: dict, tool_name: str, _cmd='gettgtpkinit_py') -> list:
+    async def _gen_gettgtpkinit_py(arguments: dict, tool_name: str, _cmd="gettgtpkinit_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gettgtpkinit_py')(_gen_gettgtpkinit_py)
+    register_handler_fn("lazyown_gettgtpkinit_py")(_gen_gettgtpkinit_py)
     _reg += 1
 
-    async def _gen_getuserspns(arguments: dict, tool_name: str, _cmd='getuserspns') -> list:
+    async def _gen_getuserspns(arguments: dict, tool_name: str, _cmd="getuserspns") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_getuserspns')(_gen_getuserspns)
+    register_handler_fn("lazyown_getuserspns")(_gen_getuserspns)
     _reg += 1
 
-    async def _gen_gitdumper(arguments: dict, tool_name: str, _cmd='gitdumper') -> list:
+    async def _gen_gitdumper(arguments: dict, tool_name: str, _cmd="gitdumper") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gitdumper')(_gen_gitdumper)
+    register_handler_fn("lazyown_gitdumper")(_gen_gitdumper)
     _reg += 1
 
-    async def _gen_gitlab_enum(arguments: dict, tool_name: str, _cmd='gitlab_enum') -> list:
+    async def _gen_gitlab_enum(arguments: dict, tool_name: str, _cmd="gitlab_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gitlab_enum')(_gen_gitlab_enum)
+    register_handler_fn("lazyown_gitlab_enum")(_gen_gitlab_enum)
     _reg += 1
 
-    async def _gen_gmsadumper(arguments: dict, tool_name: str, _cmd='gmsadumper') -> list:
+    async def _gen_gmsadumper(arguments: dict, tool_name: str, _cmd="gmsadumper") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gmsadumper')(_gen_gmsadumper)
+    register_handler_fn("lazyown_gmsadumper")(_gen_gmsadumper)
     _reg += 1
 
-    async def _gen_gobuster(arguments: dict, tool_name: str, _cmd='gobuster') -> list:
+    async def _gen_gobuster(arguments: dict, tool_name: str, _cmd="gobuster") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gobuster')(_gen_gobuster)
+    register_handler_fn("lazyown_gobuster")(_gen_gobuster)
     _reg += 1
 
-    async def _gen_god_nodes(arguments: dict, tool_name: str, _cmd='god_nodes') -> list:
+    async def _gen_god_nodes(arguments: dict, tool_name: str, _cmd="god_nodes") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_god_nodes')(_gen_god_nodes)
+    register_handler_fn("lazyown_god_nodes")(_gen_god_nodes)
     _reg += 1
 
-    async def _gen_gospherus(arguments: dict, tool_name: str, _cmd='gospherus') -> list:
+    async def _gen_gospherus(arguments: dict, tool_name: str, _cmd="gospherus") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gospherus')(_gen_gospherus)
+    register_handler_fn("lazyown_gospherus")(_gen_gospherus)
     _reg += 1
 
-    async def _gen_gospider(arguments: dict, tool_name: str, _cmd='gospider') -> list:
+    async def _gen_gospider(arguments: dict, tool_name: str, _cmd="gospider") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gospider')(_gen_gospider)
+    register_handler_fn("lazyown_gospider")(_gen_gospider)
     _reg += 1
 
-    async def _gen_gowitness(arguments: dict, tool_name: str, _cmd='gowitness') -> list:
+    async def _gen_gowitness(arguments: dict, tool_name: str, _cmd="gowitness") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gowitness')(_gen_gowitness)
+    register_handler_fn("lazyown_gowitness")(_gen_gowitness)
     _reg += 1
 
-    async def _gen_gpt(arguments: dict, tool_name: str, _cmd='gpt') -> list:
+    async def _gen_gpt(arguments: dict, tool_name: str, _cmd="gpt") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gpt')(_gen_gpt)
+    register_handler_fn("lazyown_gpt")(_gen_gpt)
     _reg += 1
 
-    async def _gen_graph(arguments: dict, tool_name: str, _cmd='graph') -> list:
+    async def _gen_graph(arguments: dict, tool_name: str, _cmd="graph") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_graph')(_gen_graph)
+    register_handler_fn("lazyown_graph")(_gen_graph)
     _reg += 1
 
-    async def _gen_graph_overlay(arguments: dict, tool_name: str, _cmd='graph_overlay') -> list:
+    async def _gen_graph_overlay(arguments: dict, tool_name: str, _cmd="graph_overlay") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_graph_overlay')(_gen_graph_overlay)
+    register_handler_fn("lazyown_graph_overlay")(_gen_graph_overlay)
     _reg += 1
 
-    async def _gen_graudit(arguments: dict, tool_name: str, _cmd='graudit') -> list:
+    async def _gen_graudit(arguments: dict, tool_name: str, _cmd="graudit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_graudit')(_gen_graudit)
+    register_handler_fn("lazyown_graudit")(_gen_graudit)
     _reg += 1
 
-    async def _gen_greatSCT(arguments: dict, tool_name: str, _cmd='greatSCT') -> list:
+    async def _gen_greatSCT(arguments: dict, tool_name: str, _cmd="greatSCT") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_greatSCT')(_gen_greatSCT)
+    register_handler_fn("lazyown_greatSCT")(_gen_greatSCT)
     _reg += 1
 
-    async def _gen_grep_log(arguments: dict, tool_name: str, _cmd='grep_log') -> list:
+    async def _gen_grep_log(arguments: dict, tool_name: str, _cmd="grep_log") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_grep_log')(_gen_grep_log)
+    register_handler_fn("lazyown_grep_log")(_gen_grep_log)
     _reg += 1
 
-    async def _gen_grisun0(arguments: dict, tool_name: str, _cmd='grisun0') -> list:
+    async def _gen_grisun0(arguments: dict, tool_name: str, _cmd="grisun0") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_grisun0')(_gen_grisun0)
+    register_handler_fn("lazyown_grisun0")(_gen_grisun0)
     _reg += 1
 
-    async def _gen_grisun0w(arguments: dict, tool_name: str, _cmd='grisun0w') -> list:
+    async def _gen_grisun0w(arguments: dict, tool_name: str, _cmd="grisun0w") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_grisun0w')(_gen_grisun0w)
+    register_handler_fn("lazyown_grisun0w")(_gen_grisun0w)
     _reg += 1
 
-    async def _gen_groq(arguments: dict, tool_name: str, _cmd='groq') -> list:
+    async def _gen_groq(arguments: dict, tool_name: str, _cmd="groq") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_groq')(_gen_groq)
+    register_handler_fn("lazyown_groq")(_gen_groq)
     _reg += 1
 
-    async def _gen_gtfo(arguments: dict, tool_name: str, _cmd='gtfo') -> list:
+    async def _gen_gtfo(arguments: dict, tool_name: str, _cmd="gtfo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gtfo')(_gen_gtfo)
+    register_handler_fn("lazyown_gtfo")(_gen_gtfo)
     _reg += 1
 
-    async def _gen_gym(arguments: dict, tool_name: str, _cmd='gym') -> list:
+    async def _gen_gym(arguments: dict, tool_name: str, _cmd="gym") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_gym')(_gen_gym)
+    register_handler_fn("lazyown_gym")(_gen_gym)
     _reg += 1
 
-    async def _gen_h(arguments: dict, tool_name: str, _cmd='h') -> list:
+    async def _gen_h(arguments: dict, tool_name: str, _cmd="h") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_h')(_gen_h)
+    register_handler_fn("lazyown_h")(_gen_h)
     _reg += 1
 
-    async def _gen_hashcat(arguments: dict, tool_name: str, _cmd='hashcat') -> list:
+    async def _gen_hashcat(arguments: dict, tool_name: str, _cmd="hashcat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hashcat')(_gen_hashcat)
+    register_handler_fn("lazyown_hashcat")(_gen_hashcat)
     _reg += 1
 
-    async def _gen_hex2shellcode(arguments: dict, tool_name: str, _cmd='hex2shellcode') -> list:
+    async def _gen_hex2shellcode(arguments: dict, tool_name: str, _cmd="hex2shellcode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hex2shellcode')(_gen_hex2shellcode)
+    register_handler_fn("lazyown_hex2shellcode")(_gen_hex2shellcode)
     _reg += 1
 
-    async def _gen_hex_to_plaintext(arguments: dict, tool_name: str, _cmd='hex_to_plaintext') -> list:
+    async def _gen_hex_to_plaintext(arguments: dict, tool_name: str, _cmd="hex_to_plaintext") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hex_to_plaintext')(_gen_hex_to_plaintext)
+    register_handler_fn("lazyown_hex_to_plaintext")(_gen_hex_to_plaintext)
     _reg += 1
 
-    async def _gen_hooks(arguments: dict, tool_name: str, _cmd='hooks') -> list:
+    async def _gen_hooks(arguments: dict, tool_name: str, _cmd="hooks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks')(_gen_hooks)
+    register_handler_fn("lazyown_hooks")(_gen_hooks)
     _reg += 1
 
-    async def _gen_hooks_add(arguments: dict, tool_name: str, _cmd='hooks_add') -> list:
+    async def _gen_hooks_add(arguments: dict, tool_name: str, _cmd="hooks_add") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks_add')(_gen_hooks_add)
+    register_handler_fn("lazyown_hooks_add")(_gen_hooks_add)
     _reg += 1
 
-    async def _gen_hooks_enable(arguments: dict, tool_name: str, _cmd='hooks_enable') -> list:
+    async def _gen_hooks_enable(arguments: dict, tool_name: str, _cmd="hooks_enable") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks_enable')(_gen_hooks_enable)
+    register_handler_fn("lazyown_hooks_enable")(_gen_hooks_enable)
     _reg += 1
 
-    async def _gen_hooks_fire(arguments: dict, tool_name: str, _cmd='hooks_fire') -> list:
+    async def _gen_hooks_fire(arguments: dict, tool_name: str, _cmd="hooks_fire") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks_fire')(_gen_hooks_fire)
+    register_handler_fn("lazyown_hooks_fire")(_gen_hooks_fire)
     _reg += 1
 
-    async def _gen_hooks_list(arguments: dict, tool_name: str, _cmd='hooks_list') -> list:
+    async def _gen_hooks_list(arguments: dict, tool_name: str, _cmd="hooks_list") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks_list')(_gen_hooks_list)
+    register_handler_fn("lazyown_hooks_list")(_gen_hooks_list)
     _reg += 1
 
-    async def _gen_hooks_remove(arguments: dict, tool_name: str, _cmd='hooks_remove') -> list:
+    async def _gen_hooks_remove(arguments: dict, tool_name: str, _cmd="hooks_remove") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hooks_remove')(_gen_hooks_remove)
+    register_handler_fn("lazyown_hooks_remove")(_gen_hooks_remove)
     _reg += 1
 
-    async def _gen_hostdiscover(arguments: dict, tool_name: str, _cmd='hostdiscover') -> list:
+    async def _gen_hostdiscover(arguments: dict, tool_name: str, _cmd="hostdiscover") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hostdiscover')(_gen_hostdiscover)
+    register_handler_fn("lazyown_hostdiscover")(_gen_hostdiscover)
     _reg += 1
 
-    async def _gen_hound(arguments: dict, tool_name: str, _cmd='hound') -> list:
+    async def _gen_hound(arguments: dict, tool_name: str, _cmd="hound") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hound')(_gen_hound)
+    register_handler_fn("lazyown_hound")(_gen_hound)
     _reg += 1
 
-    async def _gen_http_exfil_server(arguments: dict, tool_name: str, _cmd='http_exfil_server') -> list:
+    async def _gen_http_exfil_server(arguments: dict, tool_name: str, _cmd="http_exfil_server") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_http_exfil_server')(_gen_http_exfil_server)
+    register_handler_fn("lazyown_http_exfil_server")(_gen_http_exfil_server)
     _reg += 1
 
-    async def _gen_httprobe(arguments: dict, tool_name: str, _cmd='httprobe') -> list:
+    async def _gen_httprobe(arguments: dict, tool_name: str, _cmd="httprobe") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_httprobe')(_gen_httprobe)
+    register_handler_fn("lazyown_httprobe")(_gen_httprobe)
     _reg += 1
 
-    async def _gen_hunt(arguments: dict, tool_name: str, _cmd='hunt') -> list:
+    async def _gen_hunt(arguments: dict, tool_name: str, _cmd="hunt") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hunt')(_gen_hunt)
+    register_handler_fn("lazyown_hunt")(_gen_hunt)
     _reg += 1
 
-    async def _gen_hydra(arguments: dict, tool_name: str, _cmd='hydra') -> list:
+    async def _gen_hydra(arguments: dict, tool_name: str, _cmd="hydra") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_hydra')(_gen_hydra)
+    register_handler_fn("lazyown_hydra")(_gen_hydra)
     _reg += 1
 
-    async def _gen_id_rsa(arguments: dict, tool_name: str, _cmd='id_rsa') -> list:
+    async def _gen_id_rsa(arguments: dict, tool_name: str, _cmd="id_rsa") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_id_rsa')(_gen_id_rsa)
+    register_handler_fn("lazyown_id_rsa")(_gen_id_rsa)
     _reg += 1
 
-    async def _gen_ignorearp(arguments: dict, tool_name: str, _cmd='ignorearp') -> list:
+    async def _gen_ignorearp(arguments: dict, tool_name: str, _cmd="ignorearp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ignorearp')(_gen_ignorearp)
+    register_handler_fn("lazyown_ignorearp")(_gen_ignorearp)
     _reg += 1
 
-    async def _gen_ignoreicmp(arguments: dict, tool_name: str, _cmd='ignoreicmp') -> list:
+    async def _gen_ignoreicmp(arguments: dict, tool_name: str, _cmd="ignoreicmp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ignoreicmp')(_gen_ignoreicmp)
+    register_handler_fn("lazyown_ignoreicmp")(_gen_ignoreicmp)
     _reg += 1
 
-    async def _gen_iis_webdav_upload_asp(arguments: dict, tool_name: str, _cmd='iis_webdav_upload_asp') -> list:
+    async def _gen_iis_webdav_upload_asp(arguments: dict, tool_name: str, _cmd="iis_webdav_upload_asp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_iis_webdav_upload_asp')(_gen_iis_webdav_upload_asp)
+    register_handler_fn("lazyown_iis_webdav_upload_asp")(_gen_iis_webdav_upload_asp)
     _reg += 1
 
-    async def _gen_img2cookie(arguments: dict, tool_name: str, _cmd='img2cookie') -> list:
+    async def _gen_img2cookie(arguments: dict, tool_name: str, _cmd="img2cookie") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_img2cookie')(_gen_img2cookie)
+    register_handler_fn("lazyown_img2cookie")(_gen_img2cookie)
     _reg += 1
 
-    async def _gen_img2vid(arguments: dict, tool_name: str, _cmd='img2vid') -> list:
+    async def _gen_img2vid(arguments: dict, tool_name: str, _cmd="img2vid") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_img2vid')(_gen_img2vid)
+    register_handler_fn("lazyown_img2vid")(_gen_img2vid)
     _reg += 1
 
-    async def _gen_internet_proxy(arguments: dict, tool_name: str, _cmd='internet_proxy') -> list:
+    async def _gen_internet_proxy(arguments: dict, tool_name: str, _cmd="internet_proxy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_internet_proxy')(_gen_internet_proxy)
+    register_handler_fn("lazyown_internet_proxy")(_gen_internet_proxy)
     _reg += 1
 
-    async def _gen_ip(arguments: dict, tool_name: str, _cmd='ip') -> list:
+    async def _gen_ip(arguments: dict, tool_name: str, _cmd="ip") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ip')(_gen_ip)
+    register_handler_fn("lazyown_ip")(_gen_ip)
     _reg += 1
 
-    async def _gen_ip2asn(arguments: dict, tool_name: str, _cmd='ip2asn') -> list:
+    async def _gen_ip2asn(arguments: dict, tool_name: str, _cmd="ip2asn") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ip2asn')(_gen_ip2asn)
+    register_handler_fn("lazyown_ip2asn")(_gen_ip2asn)
     _reg += 1
 
-    async def _gen_ip2hex(arguments: dict, tool_name: str, _cmd='ip2hex') -> list:
+    async def _gen_ip2hex(arguments: dict, tool_name: str, _cmd="ip2hex") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ip2hex')(_gen_ip2hex)
+    register_handler_fn("lazyown_ip2hex")(_gen_ip2hex)
     _reg += 1
 
-    async def _gen_ipinfo(arguments: dict, tool_name: str, _cmd='ipinfo') -> list:
+    async def _gen_ipinfo(arguments: dict, tool_name: str, _cmd="ipinfo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ipinfo')(_gen_ipinfo)
+    register_handler_fn("lazyown_ipinfo")(_gen_ipinfo)
     _reg += 1
 
-    async def _gen_ipp(arguments: dict, tool_name: str, _cmd='ipp') -> list:
+    async def _gen_ipp(arguments: dict, tool_name: str, _cmd="ipp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ipp')(_gen_ipp)
+    register_handler_fn("lazyown_ipp")(_gen_ipp)
     _reg += 1
 
-    async def _gen_issue_command_to_c2(arguments: dict, tool_name: str, _cmd='issue_command_to_c2') -> list:
+    async def _gen_issue_command_to_c2(arguments: dict, tool_name: str, _cmd="issue_command_to_c2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_issue_command_to_c2')(_gen_issue_command_to_c2)
+    register_handler_fn("lazyown_issue_command_to_c2")(_gen_issue_command_to_c2)
     _reg += 1
 
-    async def _gen_ivy(arguments: dict, tool_name: str, _cmd='ivy') -> list:
+    async def _gen_ivy(arguments: dict, tool_name: str, _cmd="ivy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ivy')(_gen_ivy)
+    register_handler_fn("lazyown_ivy")(_gen_ivy)
     _reg += 1
 
-    async def _gen_jenkins_enum(arguments: dict, tool_name: str, _cmd='jenkins_enum') -> list:
+    async def _gen_jenkins_enum(arguments: dict, tool_name: str, _cmd="jenkins_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_jenkins_enum')(_gen_jenkins_enum)
+    register_handler_fn("lazyown_jenkins_enum")(_gen_jenkins_enum)
     _reg += 1
 
-    async def _gen_john2hash(arguments: dict, tool_name: str, _cmd='john2hash') -> list:
+    async def _gen_john2hash(arguments: dict, tool_name: str, _cmd="john2hash") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_john2hash')(_gen_john2hash)
+    register_handler_fn("lazyown_john2hash")(_gen_john2hash)
     _reg += 1
 
-    async def _gen_john2keepas(arguments: dict, tool_name: str, _cmd='john2keepas') -> list:
+    async def _gen_john2keepas(arguments: dict, tool_name: str, _cmd="john2keepas") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_john2keepas')(_gen_john2keepas)
+    register_handler_fn("lazyown_john2keepas")(_gen_john2keepas)
     _reg += 1
 
-    async def _gen_john2zip(arguments: dict, tool_name: str, _cmd='john2zip') -> list:
+    async def _gen_john2zip(arguments: dict, tool_name: str, _cmd="john2zip") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_john2zip')(_gen_john2zip)
+    register_handler_fn("lazyown_john2zip")(_gen_john2zip)
     _reg += 1
 
-    async def _gen_jwt_tool(arguments: dict, tool_name: str, _cmd='jwt_tool') -> list:
+    async def _gen_jwt_tool(arguments: dict, tool_name: str, _cmd="jwt_tool") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_jwt_tool')(_gen_jwt_tool)
+    register_handler_fn("lazyown_jwt_tool")(_gen_jwt_tool)
     _reg += 1
 
-    async def _gen_k8s_enum(arguments: dict, tool_name: str, _cmd='k8s_enum') -> list:
+    async def _gen_k8s_enum(arguments: dict, tool_name: str, _cmd="k8s_enum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_k8s_enum')(_gen_k8s_enum)
+    register_handler_fn("lazyown_k8s_enum")(_gen_k8s_enum)
     _reg += 1
 
-    async def _gen_k8s_pods(arguments: dict, tool_name: str, _cmd='k8s_pods') -> list:
+    async def _gen_k8s_pods(arguments: dict, tool_name: str, _cmd="k8s_pods") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_k8s_pods')(_gen_k8s_pods)
+    register_handler_fn("lazyown_k8s_pods")(_gen_k8s_pods)
     _reg += 1
 
-    async def _gen_k8s_secrets(arguments: dict, tool_name: str, _cmd='k8s_secrets') -> list:
+    async def _gen_k8s_secrets(arguments: dict, tool_name: str, _cmd="k8s_secrets") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_k8s_secrets')(_gen_k8s_secrets)
+    register_handler_fn("lazyown_k8s_secrets")(_gen_k8s_secrets)
     _reg += 1
 
-    async def _gen_karma(arguments: dict, tool_name: str, _cmd='karma') -> list:
+    async def _gen_karma(arguments: dict, tool_name: str, _cmd="karma") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_karma')(_gen_karma)
+    register_handler_fn("lazyown_karma")(_gen_karma)
     _reg += 1
 
-    async def _gen_keepass(arguments: dict, tool_name: str, _cmd='keepass') -> list:
+    async def _gen_keepass(arguments: dict, tool_name: str, _cmd="keepass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_keepass')(_gen_keepass)
+    register_handler_fn("lazyown_keepass")(_gen_keepass)
     _reg += 1
 
-    async def _gen_kerbrute(arguments: dict, tool_name: str, _cmd='kerbrute') -> list:
+    async def _gen_kerbrute(arguments: dict, tool_name: str, _cmd="kerbrute") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_kerbrute')(_gen_kerbrute)
+    register_handler_fn("lazyown_kerbrute")(_gen_kerbrute)
     _reg += 1
 
-    async def _gen_kick(arguments: dict, tool_name: str, _cmd='kick') -> list:
+    async def _gen_kick(arguments: dict, tool_name: str, _cmd="kick") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_kick')(_gen_kick)
+    register_handler_fn("lazyown_kick")(_gen_kick)
     _reg += 1
 
-    async def _gen_knokknok(arguments: dict, tool_name: str, _cmd='knokknok') -> list:
+    async def _gen_knokknok(arguments: dict, tool_name: str, _cmd="knokknok") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_knokknok')(_gen_knokknok)
+    register_handler_fn("lazyown_knokknok")(_gen_knokknok)
     _reg += 1
 
-    async def _gen_krbrelayx_py(arguments: dict, tool_name: str, _cmd='krbrelayx_py') -> list:
+    async def _gen_krbrelayx_py(arguments: dict, tool_name: str, _cmd="krbrelayx_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_krbrelayx_py')(_gen_krbrelayx_py)
+    register_handler_fn("lazyown_krbrelayx_py")(_gen_krbrelayx_py)
     _reg += 1
 
-    async def _gen_kusa(arguments: dict, tool_name: str, _cmd='kusa') -> list:
+    async def _gen_kusa(arguments: dict, tool_name: str, _cmd="kusa") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_kusa')(_gen_kusa)
+    register_handler_fn("lazyown_kusa")(_gen_kusa)
     _reg += 1
 
-    async def _gen_l00t(arguments: dict, tool_name: str, _cmd='l00t') -> list:
+    async def _gen_l00t(arguments: dict, tool_name: str, _cmd="l00t") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_l00t')(_gen_l00t)
+    register_handler_fn("lazyown_l00t")(_gen_l00t)
     _reg += 1
 
-    async def _gen_lab(arguments: dict, tool_name: str, _cmd='lab') -> list:
+    async def _gen_lab(arguments: dict, tool_name: str, _cmd="lab") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lab')(_gen_lab)
+    register_handler_fn("lazyown_lab")(_gen_lab)
     _reg += 1
 
-    async def _gen_lateral_mov_lin(arguments: dict, tool_name: str, _cmd='lateral_mov_lin') -> list:
+    async def _gen_lateral_mov_lin(arguments: dict, tool_name: str, _cmd="lateral_mov_lin") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lateral_mov_lin')(_gen_lateral_mov_lin)
+    register_handler_fn("lazyown_lateral_mov_lin")(_gen_lateral_mov_lin)
     _reg += 1
 
-    async def _gen_launchpad(arguments: dict, tool_name: str, _cmd='launchpad') -> list:
+    async def _gen_launchpad(arguments: dict, tool_name: str, _cmd="launchpad") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_launchpad')(_gen_launchpad)
+    register_handler_fn("lazyown_launchpad")(_gen_launchpad)
     _reg += 1
 
-    async def _gen_lazy_payload_keys(arguments: dict, tool_name: str, _cmd='lazy_payload_keys') -> list:
+    async def _gen_lazy_payload_keys(arguments: dict, tool_name: str, _cmd="lazy_payload_keys") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazy_payload_keys')(_gen_lazy_payload_keys)
+    register_handler_fn("lazyown_lazy_payload_keys")(_gen_lazy_payload_keys)
     _reg += 1
 
-    async def _gen_lazy_runtime(arguments: dict, tool_name: str, _cmd='lazy_runtime') -> list:
+    async def _gen_lazy_runtime(arguments: dict, tool_name: str, _cmd="lazy_runtime") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazy_runtime')(_gen_lazy_runtime)
+    register_handler_fn("lazyown_lazy_runtime")(_gen_lazy_runtime)
     _reg += 1
 
-    async def _gen_lazynmap(arguments: dict, tool_name: str, _cmd='lazynmap') -> list:
+    async def _gen_lazynmap(arguments: dict, tool_name: str, _cmd="lazynmap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazynmap')(_gen_lazynmap)
+    register_handler_fn("lazyown_lazynmap")(_gen_lazynmap)
     _reg += 1
 
-    async def _gen_lazypwn(arguments: dict, tool_name: str, _cmd='lazypwn') -> list:
+    async def _gen_lazypwn(arguments: dict, tool_name: str, _cmd="lazypwn") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazypwn')(_gen_lazypwn)
+    register_handler_fn("lazyown_lazypwn")(_gen_lazypwn)
     _reg += 1
 
-    async def _gen_lazyreport(arguments: dict, tool_name: str, _cmd='lazyreport') -> list:
+    async def _gen_lazyreport(arguments: dict, tool_name: str, _cmd="lazyreport") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazyreport')(_gen_lazyreport)
+    register_handler_fn("lazyown_lazyreport")(_gen_lazyreport)
     _reg += 1
 
-    async def _gen_lazyscript(arguments: dict, tool_name: str, _cmd='lazyscript') -> list:
+    async def _gen_lazyscript(arguments: dict, tool_name: str, _cmd="lazyscript") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazyscript')(_gen_lazyscript)
+    register_handler_fn("lazyown_lazyscript")(_gen_lazyscript)
     _reg += 1
 
-    async def _gen_lazywebshell(arguments: dict, tool_name: str, _cmd='lazywebshell') -> list:
+    async def _gen_lazywebshell(arguments: dict, tool_name: str, _cmd="lazywebshell") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lazywebshell')(_gen_lazywebshell)
+    register_handler_fn("lazyown_lazywebshell")(_gen_lazywebshell)
     _reg += 1
 
-    async def _gen_ldapdomaindump(arguments: dict, tool_name: str, _cmd='ldapdomaindump') -> list:
+    async def _gen_ldapdomaindump(arguments: dict, tool_name: str, _cmd="ldapdomaindump") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ldapdomaindump')(_gen_ldapdomaindump)
+    register_handler_fn("lazyown_ldapdomaindump")(_gen_ldapdomaindump)
     _reg += 1
 
-    async def _gen_ldapsearch(arguments: dict, tool_name: str, _cmd='ldapsearch') -> list:
+    async def _gen_ldapsearch(arguments: dict, tool_name: str, _cmd="ldapsearch") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ldapsearch')(_gen_ldapsearch)
+    register_handler_fn("lazyown_ldapsearch")(_gen_ldapsearch)
     _reg += 1
 
-    async def _gen_les(arguments: dict, tool_name: str, _cmd='les') -> list:
+    async def _gen_les(arguments: dict, tool_name: str, _cmd="les") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_les')(_gen_les)
+    register_handler_fn("lazyown_les")(_gen_les)
     _reg += 1
 
-    async def _gen_lfi(arguments: dict, tool_name: str, _cmd='lfi') -> list:
+    async def _gen_lfi(arguments: dict, tool_name: str, _cmd="lfi") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lfi')(_gen_lfi)
+    register_handler_fn("lazyown_lfi")(_gen_lfi)
     _reg += 1
 
-    async def _gen_ligolo(arguments: dict, tool_name: str, _cmd='ligolo') -> list:
+    async def _gen_ligolo(arguments: dict, tool_name: str, _cmd="ligolo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ligolo')(_gen_ligolo)
+    register_handler_fn("lazyown_ligolo")(_gen_ligolo)
     _reg += 1
 
-    async def _gen_links(arguments: dict, tool_name: str, _cmd='links') -> list:
+    async def _gen_links(arguments: dict, tool_name: str, _cmd="links") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_links')(_gen_links)
+    register_handler_fn("lazyown_links")(_gen_links)
     _reg += 1
 
-    async def _gen_linpeas(arguments: dict, tool_name: str, _cmd='linpeas') -> list:
+    async def _gen_linpeas(arguments: dict, tool_name: str, _cmd="linpeas") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_linpeas')(_gen_linpeas)
+    register_handler_fn("lazyown_linpeas")(_gen_linpeas)
     _reg += 1
 
-    async def _gen_list(arguments: dict, tool_name: str, _cmd='list') -> list:
+    async def _gen_list(arguments: dict, tool_name: str, _cmd="list") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_list')(_gen_list)
+    register_handler_fn("lazyown_list")(_gen_list)
     _reg += 1
 
-    async def _gen_listaliases(arguments: dict, tool_name: str, _cmd='listaliases') -> list:
+    async def _gen_listaliases(arguments: dict, tool_name: str, _cmd="listaliases") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_listaliases')(_gen_listaliases)
+    register_handler_fn("lazyown_listaliases")(_gen_listaliases)
     _reg += 1
 
-    async def _gen_listener(arguments: dict, tool_name: str, _cmd='listener') -> list:
+    async def _gen_listener(arguments: dict, tool_name: str, _cmd="listener") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_listener')(_gen_listener)
+    register_handler_fn("lazyown_listener")(_gen_listener)
     _reg += 1
 
-    async def _gen_listener_go(arguments: dict, tool_name: str, _cmd='listener_go') -> list:
+    async def _gen_listener_go(arguments: dict, tool_name: str, _cmd="listener_go") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_listener_go')(_gen_listener_go)
+    register_handler_fn("lazyown_listener_go")(_gen_listener_go)
     _reg += 1
 
-    async def _gen_listener_py(arguments: dict, tool_name: str, _cmd='listener_py') -> list:
+    async def _gen_listener_py(arguments: dict, tool_name: str, _cmd="listener_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_listener_py')(_gen_listener_py)
+    register_handler_fn("lazyown_listener_py")(_gen_listener_py)
     _reg += 1
 
-    async def _gen_llm_budget(arguments: dict, tool_name: str, _cmd='llm_budget') -> list:
+    async def _gen_llm_budget(arguments: dict, tool_name: str, _cmd="llm_budget") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_llm_budget')(_gen_llm_budget)
+    register_handler_fn("lazyown_llm_budget")(_gen_llm_budget)
     _reg += 1
 
-    async def _gen_load_session(arguments: dict, tool_name: str, _cmd='load_session') -> list:
+    async def _gen_load_session(arguments: dict, tool_name: str, _cmd="load_session") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_load_session')(_gen_load_session)
+    register_handler_fn("lazyown_load_session")(_gen_load_session)
     _reg += 1
 
-    async def _gen_lock_target(arguments: dict, tool_name: str, _cmd='lock_target') -> list:
+    async def _gen_lock_target(arguments: dict, tool_name: str, _cmd="lock_target") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lock_target')(_gen_lock_target)
+    register_handler_fn("lazyown_lock_target")(_gen_lock_target)
     _reg += 1
 
-    async def _gen_login(arguments: dict, tool_name: str, _cmd='login') -> list:
+    async def _gen_login(arguments: dict, tool_name: str, _cmd="login") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_login')(_gen_login)
+    register_handler_fn("lazyown_login")(_gen_login)
     _reg += 1
 
-    async def _gen_logout(arguments: dict, tool_name: str, _cmd='logout') -> list:
+    async def _gen_logout(arguments: dict, tool_name: str, _cmd="logout") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_logout')(_gen_logout)
+    register_handler_fn("lazyown_logout")(_gen_logout)
     _reg += 1
 
-    async def _gen_lol(arguments: dict, tool_name: str, _cmd='lol') -> list:
+    async def _gen_lol(arguments: dict, tool_name: str, _cmd="lol") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lol')(_gen_lol)
+    register_handler_fn("lazyown_lol")(_gen_lol)
     _reg += 1
 
-    async def _gen_lookupsid(arguments: dict, tool_name: str, _cmd='lookupsid') -> list:
+    async def _gen_lookupsid(arguments: dict, tool_name: str, _cmd="lookupsid") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lookupsid')(_gen_lookupsid)
+    register_handler_fn("lazyown_lookupsid")(_gen_lookupsid)
     _reg += 1
 
-    async def _gen_lookupsid_py(arguments: dict, tool_name: str, _cmd='lookupsid_py') -> list:
+    async def _gen_lookupsid_py(arguments: dict, tool_name: str, _cmd="lookupsid_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lookupsid_py')(_gen_lookupsid_py)
+    register_handler_fn("lazyown_lookupsid_py")(_gen_lookupsid_py)
     _reg += 1
 
-    async def _gen_loot(arguments: dict, tool_name: str, _cmd='loot') -> list:
+    async def _gen_loot(arguments: dict, tool_name: str, _cmd="loot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_loot')(_gen_loot)
+    register_handler_fn("lazyown_loot")(_gen_loot)
     _reg += 1
 
-    async def _gen_loxs(arguments: dict, tool_name: str, _cmd='loxs') -> list:
+    async def _gen_loxs(arguments: dict, tool_name: str, _cmd="loxs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_loxs')(_gen_loxs)
+    register_handler_fn("lazyown_loxs")(_gen_loxs)
     _reg += 1
 
-    async def _gen_lynis(arguments: dict, tool_name: str, _cmd='lynis') -> list:
+    async def _gen_lynis(arguments: dict, tool_name: str, _cmd="lynis") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_lynis')(_gen_lynis)
+    register_handler_fn("lazyown_lynis")(_gen_lynis)
     _reg += 1
 
-    async def _gen_macos_keychain(arguments: dict, tool_name: str, _cmd='macos_keychain') -> list:
+    async def _gen_macos_keychain(arguments: dict, tool_name: str, _cmd="macos_keychain") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_macos_keychain')(_gen_macos_keychain)
+    register_handler_fn("lazyown_macos_keychain")(_gen_macos_keychain)
     _reg += 1
 
-    async def _gen_macos_persist(arguments: dict, tool_name: str, _cmd='macos_persist') -> list:
+    async def _gen_macos_persist(arguments: dict, tool_name: str, _cmd="macos_persist") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_macos_persist')(_gen_macos_persist)
+    register_handler_fn("lazyown_macos_persist")(_gen_macos_persist)
     _reg += 1
 
-    async def _gen_macos_tcc(arguments: dict, tool_name: str, _cmd='macos_tcc') -> list:
+    async def _gen_macos_tcc(arguments: dict, tool_name: str, _cmd="macos_tcc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_macos_tcc')(_gen_macos_tcc)
+    register_handler_fn("lazyown_macos_tcc")(_gen_macos_tcc)
     _reg += 1
 
-    async def _gen_magicrecon(arguments: dict, tool_name: str, _cmd='magicrecon') -> list:
+    async def _gen_magicrecon(arguments: dict, tool_name: str, _cmd="magicrecon") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_magicrecon')(_gen_magicrecon)
+    register_handler_fn("lazyown_magicrecon")(_gen_magicrecon)
     _reg += 1
 
-    async def _gen_makerc(arguments: dict, tool_name: str, _cmd='makerc') -> list:
+    async def _gen_makerc(arguments: dict, tool_name: str, _cmd="makerc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_makerc')(_gen_makerc)
+    register_handler_fn("lazyown_makerc")(_gen_makerc)
     _reg += 1
 
-    async def _gen_malwarebazar(arguments: dict, tool_name: str, _cmd='malwarebazar') -> list:
+    async def _gen_malwarebazar(arguments: dict, tool_name: str, _cmd="malwarebazar") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_malwarebazar')(_gen_malwarebazar)
+    register_handler_fn("lazyown_malwarebazar")(_gen_malwarebazar)
     _reg += 1
 
-    async def _gen_marketplace(arguments: dict, tool_name: str, _cmd='marketplace') -> list:
+    async def _gen_marketplace(arguments: dict, tool_name: str, _cmd="marketplace") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_marketplace')(_gen_marketplace)
+    register_handler_fn("lazyown_marketplace")(_gen_marketplace)
     _reg += 1
 
-    async def _gen_marketplace_config(arguments: dict, tool_name: str, _cmd='marketplace_config') -> list:
+    async def _gen_marketplace_config(arguments: dict, tool_name: str, _cmd="marketplace_config") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_marketplace_config')(_gen_marketplace_config)
+    register_handler_fn("lazyown_marketplace_config")(_gen_marketplace_config)
     _reg += 1
 
-    async def _gen_medusa(arguments: dict, tool_name: str, _cmd='medusa') -> list:
+    async def _gen_medusa(arguments: dict, tool_name: str, _cmd="medusa") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_medusa')(_gen_medusa)
+    register_handler_fn("lazyown_medusa")(_gen_medusa)
     _reg += 1
 
-    async def _gen_metabigor(arguments: dict, tool_name: str, _cmd='metabigor') -> list:
+    async def _gen_metabigor(arguments: dict, tool_name: str, _cmd="metabigor") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_metabigor')(_gen_metabigor)
+    register_handler_fn("lazyown_metabigor")(_gen_metabigor)
     _reg += 1
 
-    async def _gen_mfa_bypass(arguments: dict, tool_name: str, _cmd='mfa_bypass') -> list:
+    async def _gen_mfa_bypass(arguments: dict, tool_name: str, _cmd="mfa_bypass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mfa_bypass')(_gen_mfa_bypass)
+    register_handler_fn("lazyown_mfa_bypass")(_gen_mfa_bypass)
     _reg += 1
 
-    async def _gen_mimikatzpy(arguments: dict, tool_name: str, _cmd='mimikatzpy') -> list:
+    async def _gen_mimikatzpy(arguments: dict, tool_name: str, _cmd="mimikatzpy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mimikatzpy')(_gen_mimikatzpy)
+    register_handler_fn("lazyown_mimikatzpy")(_gen_mimikatzpy)
     _reg += 1
 
-    async def _gen_mitre_test(arguments: dict, tool_name: str, _cmd='mitre_test') -> list:
+    async def _gen_mitre_test(arguments: dict, tool_name: str, _cmd="mitre_test") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mitre_test')(_gen_mitre_test)
+    register_handler_fn("lazyown_mitre_test")(_gen_mitre_test)
     _reg += 1
 
-    async def _gen_mkrc(arguments: dict, tool_name: str, _cmd='mkrc') -> list:
+    async def _gen_mkrc(arguments: dict, tool_name: str, _cmd="mkrc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mkrc')(_gen_mkrc)
+    register_handler_fn("lazyown_mkrc")(_gen_mkrc)
     _reg += 1
 
-    async def _gen_morse(arguments: dict, tool_name: str, _cmd='morse') -> list:
+    async def _gen_morse(arguments: dict, tool_name: str, _cmd="morse") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_morse')(_gen_morse)
+    register_handler_fn("lazyown_morse")(_gen_morse)
     _reg += 1
 
-    async def _gen_mqtt_check_py(arguments: dict, tool_name: str, _cmd='mqtt_check_py') -> list:
+    async def _gen_mqtt_check_py(arguments: dict, tool_name: str, _cmd="mqtt_check_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mqtt_check_py')(_gen_mqtt_check_py)
+    register_handler_fn("lazyown_mqtt_check_py")(_gen_mqtt_check_py)
     _reg += 1
 
-    async def _gen_ms08_067_netapi(arguments: dict, tool_name: str, _cmd='ms08_067_netapi') -> list:
+    async def _gen_ms08_067_netapi(arguments: dict, tool_name: str, _cmd="ms08_067_netapi") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ms08_067_netapi')(_gen_ms08_067_netapi)
+    register_handler_fn("lazyown_ms08_067_netapi")(_gen_ms08_067_netapi)
     _reg += 1
 
-    async def _gen_msf(arguments: dict, tool_name: str, _cmd='msf') -> list:
+    async def _gen_msf(arguments: dict, tool_name: str, _cmd="msf") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_msf')(_gen_msf)
+    register_handler_fn("lazyown_msf")(_gen_msf)
     _reg += 1
 
-    async def _gen_msfpc(arguments: dict, tool_name: str, _cmd='msfpc') -> list:
+    async def _gen_msfpc(arguments: dict, tool_name: str, _cmd="msfpc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_msfpc')(_gen_msfpc)
+    register_handler_fn("lazyown_msfpc")(_gen_msfpc)
     _reg += 1
 
-    async def _gen_msfrpc(arguments: dict, tool_name: str, _cmd='msfrpc') -> list:
+    async def _gen_msfrpc(arguments: dict, tool_name: str, _cmd="msfrpc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_msfrpc')(_gen_msfrpc)
+    register_handler_fn("lazyown_msfrpc")(_gen_msfrpc)
     _reg += 1
 
-    async def _gen_msfshellcoder(arguments: dict, tool_name: str, _cmd='msfshellcoder') -> list:
+    async def _gen_msfshellcoder(arguments: dict, tool_name: str, _cmd="msfshellcoder") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_msfshellcoder')(_gen_msfshellcoder)
+    register_handler_fn("lazyown_msfshellcoder")(_gen_msfshellcoder)
     _reg += 1
 
-    async def _gen_mssqlcli(arguments: dict, tool_name: str, _cmd='mssqlcli') -> list:
+    async def _gen_mssqlcli(arguments: dict, tool_name: str, _cmd="mssqlcli") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mssqlcli')(_gen_mssqlcli)
+    register_handler_fn("lazyown_mssqlcli")(_gen_mssqlcli)
     _reg += 1
 
-    async def _gen_mutate_shellcode(arguments: dict, tool_name: str, _cmd='mutate_shellcode') -> list:
+    async def _gen_mutate_shellcode(arguments: dict, tool_name: str, _cmd="mutate_shellcode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_mutate_shellcode')(_gen_mutate_shellcode)
+    register_handler_fn("lazyown_mutate_shellcode")(_gen_mutate_shellcode)
     _reg += 1
 
-    async def _gen_my_playbook(arguments: dict, tool_name: str, _cmd='my_playbook') -> list:
+    async def _gen_my_playbook(arguments: dict, tool_name: str, _cmd="my_playbook") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_my_playbook')(_gen_my_playbook)
+    register_handler_fn("lazyown_my_playbook")(_gen_my_playbook)
     _reg += 1
 
-    async def _gen_name_the_hash(arguments: dict, tool_name: str, _cmd='name_the_hash') -> list:
+    async def _gen_name_the_hash(arguments: dict, tool_name: str, _cmd="name_the_hash") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_name_the_hash')(_gen_name_the_hash)
+    register_handler_fn("lazyown_name_the_hash")(_gen_name_the_hash)
     _reg += 1
 
-    async def _gen_nano(arguments: dict, tool_name: str, _cmd='nano') -> list:
+    async def _gen_nano(arguments: dict, tool_name: str, _cmd="nano") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nano')(_gen_nano)
+    register_handler_fn("lazyown_nano")(_gen_nano)
     _reg += 1
 
-    async def _gen_nbtscan(arguments: dict, tool_name: str, _cmd='nbtscan') -> list:
+    async def _gen_nbtscan(arguments: dict, tool_name: str, _cmd="nbtscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nbtscan')(_gen_nbtscan)
+    register_handler_fn("lazyown_nbtscan")(_gen_nbtscan)
     _reg += 1
 
-    async def _gen_nc(arguments: dict, tool_name: str, _cmd='nc') -> list:
+    async def _gen_nc(arguments: dict, tool_name: str, _cmd="nc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nc')(_gen_nc)
+    register_handler_fn("lazyown_nc")(_gen_nc)
     _reg += 1
 
-    async def _gen_neighbors(arguments: dict, tool_name: str, _cmd='neighbors') -> list:
+    async def _gen_neighbors(arguments: dict, tool_name: str, _cmd="neighbors") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_neighbors')(_gen_neighbors)
+    register_handler_fn("lazyown_neighbors")(_gen_neighbors)
     _reg += 1
 
-    async def _gen_net_rpc_addmem(arguments: dict, tool_name: str, _cmd='net_rpc_addmem') -> list:
+    async def _gen_net_rpc_addmem(arguments: dict, tool_name: str, _cmd="net_rpc_addmem") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_net_rpc_addmem')(_gen_net_rpc_addmem)
+    register_handler_fn("lazyown_net_rpc_addmem")(_gen_net_rpc_addmem)
     _reg += 1
 
-    async def _gen_netexec(arguments: dict, tool_name: str, _cmd='netexec') -> list:
+    async def _gen_netexec(arguments: dict, tool_name: str, _cmd="netexec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_netexec')(_gen_netexec)
+    register_handler_fn("lazyown_netexec")(_gen_netexec)
     _reg += 1
 
-    async def _gen_netview(arguments: dict, tool_name: str, _cmd='netview') -> list:
+    async def _gen_netview(arguments: dict, tool_name: str, _cmd="netview") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_netview')(_gen_netview)
+    register_handler_fn("lazyown_netview")(_gen_netview)
     _reg += 1
 
-    async def _gen_news(arguments: dict, tool_name: str, _cmd='news') -> list:
+    async def _gen_news(arguments: dict, tool_name: str, _cmd="news") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_news')(_gen_news)
+    register_handler_fn("lazyown_news")(_gen_news)
     _reg += 1
 
-    async def _gen_next(arguments: dict, tool_name: str, _cmd='next') -> list:
+    async def _gen_next(arguments: dict, tool_name: str, _cmd="next") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_next')(_gen_next)
+    register_handler_fn("lazyown_next")(_gen_next)
     _reg += 1
 
-    async def _gen_ngrok(arguments: dict, tool_name: str, _cmd='ngrok') -> list:
+    async def _gen_ngrok(arguments: dict, tool_name: str, _cmd="ngrok") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ngrok')(_gen_ngrok)
+    register_handler_fn("lazyown_ngrok")(_gen_ngrok)
     _reg += 1
 
-    async def _gen_nikto(arguments: dict, tool_name: str, _cmd='nikto') -> list:
+    async def _gen_nikto(arguments: dict, tool_name: str, _cmd="nikto") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nikto')(_gen_nikto)
+    register_handler_fn("lazyown_nikto")(_gen_nikto)
     _reg += 1
 
-    async def _gen_nmapscript(arguments: dict, tool_name: str, _cmd='nmapscript') -> list:
+    async def _gen_nmapscript(arguments: dict, tool_name: str, _cmd="nmapscript") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nmapscript')(_gen_nmapscript)
+    register_handler_fn("lazyown_nmapscript")(_gen_nmapscript)
     _reg += 1
 
-    async def _gen_nmapscripthelp(arguments: dict, tool_name: str, _cmd='nmapscripthelp') -> list:
+    async def _gen_nmapscripthelp(arguments: dict, tool_name: str, _cmd="nmapscripthelp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nmapscripthelp')(_gen_nmapscripthelp)
+    register_handler_fn("lazyown_nmapscripthelp")(_gen_nmapscripthelp)
     _reg += 1
 
-    async def _gen_note(arguments: dict, tool_name: str, _cmd='note') -> list:
+    async def _gen_note(arguments: dict, tool_name: str, _cmd="note") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_note')(_gen_note)
+    register_handler_fn("lazyown_note")(_gen_note)
     _reg += 1
 
-    async def _gen_notify(arguments: dict, tool_name: str, _cmd='notify') -> list:
+    async def _gen_notify(arguments: dict, tool_name: str, _cmd="notify") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_notify')(_gen_notify)
+    register_handler_fn("lazyown_notify")(_gen_notify)
     _reg += 1
 
-    async def _gen_ntpdate(arguments: dict, tool_name: str, _cmd='ntpdate') -> list:
+    async def _gen_ntpdate(arguments: dict, tool_name: str, _cmd="ntpdate") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ntpdate')(_gen_ntpdate)
+    register_handler_fn("lazyown_ntpdate")(_gen_ntpdate)
     _reg += 1
 
-    async def _gen_nuclei(arguments: dict, tool_name: str, _cmd='nuclei') -> list:
+    async def _gen_nuclei(arguments: dict, tool_name: str, _cmd="nuclei") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_nuclei')(_gen_nuclei)
+    register_handler_fn("lazyown_nuclei")(_gen_nuclei)
     _reg += 1
 
-    async def _gen_odat(arguments: dict, tool_name: str, _cmd='odat') -> list:
+    async def _gen_odat(arguments: dict, tool_name: str, _cmd="odat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_odat')(_gen_odat)
+    register_handler_fn("lazyown_odat")(_gen_odat)
     _reg += 1
 
-    async def _gen_ofuscate_string(arguments: dict, tool_name: str, _cmd='ofuscate_string') -> list:
+    async def _gen_ofuscate_string(arguments: dict, tool_name: str, _cmd="ofuscate_string") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ofuscate_string')(_gen_ofuscate_string)
+    register_handler_fn("lazyown_ofuscate_string")(_gen_ofuscate_string)
     _reg += 1
 
-    async def _gen_ofuscatesh(arguments: dict, tool_name: str, _cmd='ofuscatesh') -> list:
+    async def _gen_ofuscatesh(arguments: dict, tool_name: str, _cmd="ofuscatesh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ofuscatesh')(_gen_ofuscatesh)
+    register_handler_fn("lazyown_ofuscatesh")(_gen_ofuscatesh)
     _reg += 1
 
-    async def _gen_ofuscatorps1(arguments: dict, tool_name: str, _cmd='ofuscatorps1') -> list:
+    async def _gen_ofuscatorps1(arguments: dict, tool_name: str, _cmd="ofuscatorps1") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ofuscatorps1')(_gen_ofuscatorps1)
+    register_handler_fn("lazyown_ofuscatorps1")(_gen_ofuscatorps1)
     _reg += 1
 
-    async def _gen_op_create(arguments: dict, tool_name: str, _cmd='op_create') -> list:
+    async def _gen_op_create(arguments: dict, tool_name: str, _cmd="op_create") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_create')(_gen_op_create)
+    register_handler_fn("lazyown_op_create")(_gen_op_create)
     _reg += 1
 
-    async def _gen_op_list(arguments: dict, tool_name: str, _cmd='op_list') -> list:
+    async def _gen_op_list(arguments: dict, tool_name: str, _cmd="op_list") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_list')(_gen_op_list)
+    register_handler_fn("lazyown_op_list")(_gen_op_list)
     _reg += 1
 
-    async def _gen_op_pause(arguments: dict, tool_name: str, _cmd='op_pause') -> list:
+    async def _gen_op_pause(arguments: dict, tool_name: str, _cmd="op_pause") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_pause')(_gen_op_pause)
+    register_handler_fn("lazyown_op_pause")(_gen_op_pause)
     _reg += 1
 
-    async def _gen_op_plan(arguments: dict, tool_name: str, _cmd='op_plan') -> list:
+    async def _gen_op_plan(arguments: dict, tool_name: str, _cmd="op_plan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_plan')(_gen_op_plan)
+    register_handler_fn("lazyown_op_plan")(_gen_op_plan)
     _reg += 1
 
-    async def _gen_op_report(arguments: dict, tool_name: str, _cmd='op_report') -> list:
+    async def _gen_op_report(arguments: dict, tool_name: str, _cmd="op_report") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_report')(_gen_op_report)
+    register_handler_fn("lazyown_op_report")(_gen_op_report)
     _reg += 1
 
-    async def _gen_op_resume(arguments: dict, tool_name: str, _cmd='op_resume') -> list:
+    async def _gen_op_resume(arguments: dict, tool_name: str, _cmd="op_resume") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_resume')(_gen_op_resume)
+    register_handler_fn("lazyown_op_resume")(_gen_op_resume)
     _reg += 1
 
-    async def _gen_op_start(arguments: dict, tool_name: str, _cmd='op_start') -> list:
+    async def _gen_op_start(arguments: dict, tool_name: str, _cmd="op_start") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_start')(_gen_op_start)
+    register_handler_fn("lazyown_op_start")(_gen_op_start)
     _reg += 1
 
-    async def _gen_op_status(arguments: dict, tool_name: str, _cmd='op_status') -> list:
+    async def _gen_op_status(arguments: dict, tool_name: str, _cmd="op_status") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_status')(_gen_op_status)
+    register_handler_fn("lazyown_op_status")(_gen_op_status)
     _reg += 1
 
-    async def _gen_op_stop(arguments: dict, tool_name: str, _cmd='op_stop') -> list:
+    async def _gen_op_stop(arguments: dict, tool_name: str, _cmd="op_stop") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_stop')(_gen_op_stop)
+    register_handler_fn("lazyown_op_stop")(_gen_op_stop)
     _reg += 1
 
-    async def _gen_op_timeline(arguments: dict, tool_name: str, _cmd='op_timeline') -> list:
+    async def _gen_op_timeline(arguments: dict, tool_name: str, _cmd="op_timeline") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_op_timeline')(_gen_op_timeline)
+    register_handler_fn("lazyown_op_timeline")(_gen_op_timeline)
     _reg += 1
 
-    async def _gen_openredirex(arguments: dict, tool_name: str, _cmd='openredirex') -> list:
+    async def _gen_openredirex(arguments: dict, tool_name: str, _cmd="openredirex") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_openredirex')(_gen_openredirex)
+    register_handler_fn("lazyown_openredirex")(_gen_openredirex)
     _reg += 1
 
-    async def _gen_openssl_sclient(arguments: dict, tool_name: str, _cmd='openssl_sclient') -> list:
+    async def _gen_openssl_sclient(arguments: dict, tool_name: str, _cmd="openssl_sclient") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_openssl_sclient')(_gen_openssl_sclient)
+    register_handler_fn("lazyown_openssl_sclient")(_gen_openssl_sclient)
     _reg += 1
 
-    async def _gen_operator_create(arguments: dict, tool_name: str, _cmd='operator_create') -> list:
+    async def _gen_operator_create(arguments: dict, tool_name: str, _cmd="operator_create") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_operator_create')(_gen_operator_create)
+    register_handler_fn("lazyown_operator_create")(_gen_operator_create)
     _reg += 1
 
-    async def _gen_operator_delete(arguments: dict, tool_name: str, _cmd='operator_delete') -> list:
+    async def _gen_operator_delete(arguments: dict, tool_name: str, _cmd="operator_delete") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_operator_delete')(_gen_operator_delete)
+    register_handler_fn("lazyown_operator_delete")(_gen_operator_delete)
     _reg += 1
 
-    async def _gen_operator_load(arguments: dict, tool_name: str, _cmd='operator_load') -> list:
+    async def _gen_operator_load(arguments: dict, tool_name: str, _cmd="operator_load") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_operator_load')(_gen_operator_load)
+    register_handler_fn("lazyown_operator_load")(_gen_operator_load)
     _reg += 1
 
-    async def _gen_operators(arguments: dict, tool_name: str, _cmd='operators') -> list:
+    async def _gen_operators(arguments: dict, tool_name: str, _cmd="operators") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_operators')(_gen_operators)
+    register_handler_fn("lazyown_operators")(_gen_operators)
     _reg += 1
 
-    async def _gen_opsec(arguments: dict, tool_name: str, _cmd='opsec') -> list:
+    async def _gen_opsec(arguments: dict, tool_name: str, _cmd="opsec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_opsec')(_gen_opsec)
+    register_handler_fn("lazyown_opsec")(_gen_opsec)
     _reg += 1
 
-    async def _gen_orchestrate(arguments: dict, tool_name: str, _cmd='orchestrate') -> list:
+    async def _gen_orchestrate(arguments: dict, tool_name: str, _cmd="orchestrate") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_orchestrate')(_gen_orchestrate)
+    register_handler_fn("lazyown_orchestrate")(_gen_orchestrate)
     _reg += 1
 
-    async def _gen_osmedeus(arguments: dict, tool_name: str, _cmd='osmedeus') -> list:
+    async def _gen_osmedeus(arguments: dict, tool_name: str, _cmd="osmedeus") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_osmedeus')(_gen_osmedeus)
+    register_handler_fn("lazyown_osmedeus")(_gen_osmedeus)
     _reg += 1
 
-    async def _gen_owneredit(arguments: dict, tool_name: str, _cmd='owneredit') -> list:
+    async def _gen_owneredit(arguments: dict, tool_name: str, _cmd="owneredit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_owneredit')(_gen_owneredit)
+    register_handler_fn("lazyown_owneredit")(_gen_owneredit)
     _reg += 1
 
-    async def _gen_package_squat(arguments: dict, tool_name: str, _cmd='package_squat') -> list:
+    async def _gen_package_squat(arguments: dict, tool_name: str, _cmd="package_squat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_package_squat')(_gen_package_squat)
+    register_handler_fn("lazyown_package_squat")(_gen_package_squat)
     _reg += 1
 
-    async def _gen_padbuster(arguments: dict, tool_name: str, _cmd='padbuster') -> list:
+    async def _gen_padbuster(arguments: dict, tool_name: str, _cmd="padbuster") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_padbuster')(_gen_padbuster)
+    register_handler_fn("lazyown_padbuster")(_gen_padbuster)
     _reg += 1
 
-    async def _gen_palette_k(arguments: dict, tool_name: str, _cmd='palette_k') -> list:
+    async def _gen_palette_k(arguments: dict, tool_name: str, _cmd="palette_k") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_palette_k')(_gen_palette_k)
+    register_handler_fn("lazyown_palette_k")(_gen_palette_k)
     _reg += 1
 
-    async def _gen_paranoid_meterpreter(arguments: dict, tool_name: str, _cmd='paranoid_meterpreter') -> list:
+    async def _gen_paranoid_meterpreter(arguments: dict, tool_name: str, _cmd="paranoid_meterpreter") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_paranoid_meterpreter')(_gen_paranoid_meterpreter)
+    register_handler_fn("lazyown_paranoid_meterpreter")(_gen_paranoid_meterpreter)
     _reg += 1
 
-    async def _gen_parsero(arguments: dict, tool_name: str, _cmd='parsero') -> list:
+    async def _gen_parsero(arguments: dict, tool_name: str, _cmd="parsero") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_parsero')(_gen_parsero)
+    register_handler_fn("lazyown_parsero")(_gen_parsero)
     _reg += 1
 
-    async def _gen_parth(arguments: dict, tool_name: str, _cmd='parth') -> list:
+    async def _gen_parth(arguments: dict, tool_name: str, _cmd="parth") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_parth')(_gen_parth)
+    register_handler_fn("lazyown_parth")(_gen_parth)
     _reg += 1
 
-    async def _gen_passtightvnc(arguments: dict, tool_name: str, _cmd='passtightvnc') -> list:
+    async def _gen_passtightvnc(arguments: dict, tool_name: str, _cmd="passtightvnc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_passtightvnc')(_gen_passtightvnc)
+    register_handler_fn("lazyown_passtightvnc")(_gen_passtightvnc)
     _reg += 1
 
-    async def _gen_passwordspray(arguments: dict, tool_name: str, _cmd='passwordspray') -> list:
+    async def _gen_passwordspray(arguments: dict, tool_name: str, _cmd="passwordspray") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_passwordspray')(_gen_passwordspray)
+    register_handler_fn("lazyown_passwordspray")(_gen_passwordspray)
     _reg += 1
 
-    async def _gen_path2hex(arguments: dict, tool_name: str, _cmd='path2hex') -> list:
+    async def _gen_path2hex(arguments: dict, tool_name: str, _cmd="path2hex") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_path2hex')(_gen_path2hex)
+    register_handler_fn("lazyown_path2hex")(_gen_path2hex)
     _reg += 1
 
-    async def _gen_payload(arguments: dict, tool_name: str, _cmd='payload') -> list:
+    async def _gen_payload(arguments: dict, tool_name: str, _cmd="payload") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_payload')(_gen_payload)
+    register_handler_fn("lazyown_payload")(_gen_payload)
     _reg += 1
 
-    async def _gen_penelope(arguments: dict, tool_name: str, _cmd='penelope') -> list:
+    async def _gen_penelope(arguments: dict, tool_name: str, _cmd="penelope") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_penelope')(_gen_penelope)
+    register_handler_fn("lazyown_penelope")(_gen_penelope)
     _reg += 1
 
-    async def _gen_pentest_report(arguments: dict, tool_name: str, _cmd='pentest_report') -> list:
+    async def _gen_pentest_report(arguments: dict, tool_name: str, _cmd="pentest_report") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pentest_report')(_gen_pentest_report)
+    register_handler_fn("lazyown_pentest_report")(_gen_pentest_report)
     _reg += 1
 
-    async def _gen_pezorsh(arguments: dict, tool_name: str, _cmd='pezorsh') -> list:
+    async def _gen_pezorsh(arguments: dict, tool_name: str, _cmd="pezorsh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pezorsh')(_gen_pezorsh)
+    register_handler_fn("lazyown_pezorsh")(_gen_pezorsh)
     _reg += 1
 
-    async def _gen_phase(arguments: dict, tool_name: str, _cmd='phase') -> list:
+    async def _gen_phase(arguments: dict, tool_name: str, _cmd="phase") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_phase')(_gen_phase)
+    register_handler_fn("lazyown_phase")(_gen_phase)
     _reg += 1
 
-    async def _gen_phish_report(arguments: dict, tool_name: str, _cmd='phish_report') -> list:
+    async def _gen_phish_report(arguments: dict, tool_name: str, _cmd="phish_report") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_phish_report')(_gen_phish_report)
+    register_handler_fn("lazyown_phish_report")(_gen_phish_report)
     _reg += 1
 
-    async def _gen_phish_serve(arguments: dict, tool_name: str, _cmd='phish_serve') -> list:
+    async def _gen_phish_serve(arguments: dict, tool_name: str, _cmd="phish_serve") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_phish_serve')(_gen_phish_serve)
+    register_handler_fn("lazyown_phish_serve")(_gen_phish_serve)
     _reg += 1
 
-    async def _gen_phish_wizard(arguments: dict, tool_name: str, _cmd='phish_wizard') -> list:
+    async def _gen_phish_wizard(arguments: dict, tool_name: str, _cmd="phish_wizard") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_phish_wizard')(_gen_phish_wizard)
+    register_handler_fn("lazyown_phish_wizard")(_gen_phish_wizard)
     _reg += 1
 
-    async def _gen_ping(arguments: dict, tool_name: str, _cmd='ping') -> list:
+    async def _gen_ping(arguments: dict, tool_name: str, _cmd="ping") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ping')(_gen_ping)
+    register_handler_fn("lazyown_ping")(_gen_ping)
     _reg += 1
 
-    async def _gen_pip_proxy(arguments: dict, tool_name: str, _cmd='pip_proxy') -> list:
+    async def _gen_pip_proxy(arguments: dict, tool_name: str, _cmd="pip_proxy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pip_proxy')(_gen_pip_proxy)
+    register_handler_fn("lazyown_pip_proxy")(_gen_pip_proxy)
     _reg += 1
 
-    async def _gen_pip_repo(arguments: dict, tool_name: str, _cmd='pip_repo') -> list:
+    async def _gen_pip_repo(arguments: dict, tool_name: str, _cmd="pip_repo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pip_repo')(_gen_pip_repo)
+    register_handler_fn("lazyown_pip_repo")(_gen_pip_repo)
     _reg += 1
 
-    async def _gen_pipeline(arguments: dict, tool_name: str, _cmd='pipeline') -> list:
+    async def _gen_pipeline(arguments: dict, tool_name: str, _cmd="pipeline") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pipeline')(_gen_pipeline)
+    register_handler_fn("lazyown_pipeline")(_gen_pipeline)
     _reg += 1
 
-    async def _gen_pivot(arguments: dict, tool_name: str, _cmd='pivot') -> list:
+    async def _gen_pivot(arguments: dict, tool_name: str, _cmd="pivot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pivot')(_gen_pivot)
+    register_handler_fn("lazyown_pivot")(_gen_pivot)
     _reg += 1
 
-    async def _gen_pivot_kill(arguments: dict, tool_name: str, _cmd='pivot_kill') -> list:
+    async def _gen_pivot_kill(arguments: dict, tool_name: str, _cmd="pivot_kill") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pivot_kill')(_gen_pivot_kill)
+    register_handler_fn("lazyown_pivot_kill")(_gen_pivot_kill)
     _reg += 1
 
-    async def _gen_pivot_proxy(arguments: dict, tool_name: str, _cmd='pivot_proxy') -> list:
+    async def _gen_pivot_proxy(arguments: dict, tool_name: str, _cmd="pivot_proxy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pivot_proxy')(_gen_pivot_proxy)
+    register_handler_fn("lazyown_pivot_proxy")(_gen_pivot_proxy)
     _reg += 1
 
-    async def _gen_pivot_scan(arguments: dict, tool_name: str, _cmd='pivot_scan') -> list:
+    async def _gen_pivot_scan(arguments: dict, tool_name: str, _cmd="pivot_scan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pivot_scan')(_gen_pivot_scan)
+    register_handler_fn("lazyown_pivot_scan")(_gen_pivot_scan)
     _reg += 1
 
-    async def _gen_plan(arguments: dict, tool_name: str, _cmd='plan') -> list:
+    async def _gen_plan(arguments: dict, tool_name: str, _cmd="plan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_plan')(_gen_plan)
+    register_handler_fn("lazyown_plan")(_gen_plan)
     _reg += 1
 
-    async def _gen_plan_apply(arguments: dict, tool_name: str, _cmd='plan_apply') -> list:
+    async def _gen_plan_apply(arguments: dict, tool_name: str, _cmd="plan_apply") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_plan_apply')(_gen_plan_apply)
+    register_handler_fn("lazyown_plan_apply")(_gen_plan_apply)
     _reg += 1
 
-    async def _gen_plan_detail(arguments: dict, tool_name: str, _cmd='plan_detail') -> list:
+    async def _gen_plan_detail(arguments: dict, tool_name: str, _cmd="plan_detail") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_plan_detail')(_gen_plan_detail)
+    register_handler_fn("lazyown_plan_detail")(_gen_plan_detail)
     _reg += 1
 
-    async def _gen_pop(arguments: dict, tool_name: str, _cmd='pop') -> list:
+    async def _gen_pop(arguments: dict, tool_name: str, _cmd="pop") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pop')(_gen_pop)
+    register_handler_fn("lazyown_pop")(_gen_pop)
     _reg += 1
 
-    async def _gen_portdiscover(arguments: dict, tool_name: str, _cmd='portdiscover') -> list:
+    async def _gen_portdiscover(arguments: dict, tool_name: str, _cmd="portdiscover") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_portdiscover')(_gen_portdiscover)
+    register_handler_fn("lazyown_portdiscover")(_gen_portdiscover)
     _reg += 1
 
-    async def _gen_ports(arguments: dict, tool_name: str, _cmd='ports') -> list:
+    async def _gen_ports(arguments: dict, tool_name: str, _cmd="ports") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ports')(_gen_ports)
+    register_handler_fn("lazyown_ports")(_gen_ports)
     _reg += 1
 
-    async def _gen_portservicediscover(arguments: dict, tool_name: str, _cmd='portservicediscover') -> list:
+    async def _gen_portservicediscover(arguments: dict, tool_name: str, _cmd="portservicediscover") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_portservicediscover')(_gen_portservicediscover)
+    register_handler_fn("lazyown_portservicediscover")(_gen_portservicediscover)
     _reg += 1
 
-    async def _gen_powerserver(arguments: dict, tool_name: str, _cmd='powerserver') -> list:
+    async def _gen_powerserver(arguments: dict, tool_name: str, _cmd="powerserver") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_powerserver')(_gen_powerserver)
+    register_handler_fn("lazyown_powerserver")(_gen_powerserver)
     _reg += 1
 
-    async def _gen_powershell_cmd_stager(arguments: dict, tool_name: str, _cmd='powershell_cmd_stager') -> list:
+    async def _gen_powershell_cmd_stager(arguments: dict, tool_name: str, _cmd="powershell_cmd_stager") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_powershell_cmd_stager')(_gen_powershell_cmd_stager)
+    register_handler_fn("lazyown_powershell_cmd_stager")(_gen_powershell_cmd_stager)
     _reg += 1
 
-    async def _gen_pre2k(arguments: dict, tool_name: str, _cmd='pre2k') -> list:
+    async def _gen_pre2k(arguments: dict, tool_name: str, _cmd="pre2k") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pre2k')(_gen_pre2k)
+    register_handler_fn("lazyown_pre2k")(_gen_pre2k)
     _reg += 1
 
-    async def _gen_prev(arguments: dict, tool_name: str, _cmd='prev') -> list:
+    async def _gen_prev(arguments: dict, tool_name: str, _cmd="prev") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_prev')(_gen_prev)
+    register_handler_fn("lazyown_prev")(_gen_prev)
     _reg += 1
 
-    async def _gen_printerbug_py(arguments: dict, tool_name: str, _cmd='printerbug_py') -> list:
+    async def _gen_printerbug_py(arguments: dict, tool_name: str, _cmd="printerbug_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_printerbug_py')(_gen_printerbug_py)
+    register_handler_fn("lazyown_printerbug_py")(_gen_printerbug_py)
     _reg += 1
 
-    async def _gen_privesc_suggest(arguments: dict, tool_name: str, _cmd='privesc_suggest') -> list:
+    async def _gen_privesc_suggest(arguments: dict, tool_name: str, _cmd="privesc_suggest") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_privesc_suggest')(_gen_privesc_suggest)
+    register_handler_fn("lazyown_privesc_suggest")(_gen_privesc_suggest)
     _reg += 1
 
-    async def _gen_process_scans(arguments: dict, tool_name: str, _cmd='process_scans') -> list:
+    async def _gen_process_scans(arguments: dict, tool_name: str, _cmd="process_scans") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_process_scans')(_gen_process_scans)
+    register_handler_fn("lazyown_process_scans")(_gen_process_scans)
     _reg += 1
 
-    async def _gen_proxy(arguments: dict, tool_name: str, _cmd='proxy') -> list:
+    async def _gen_proxy(arguments: dict, tool_name: str, _cmd="proxy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_proxy')(_gen_proxy)
+    register_handler_fn("lazyown_proxy")(_gen_proxy)
     _reg += 1
 
-    async def _gen_psexec(arguments: dict, tool_name: str, _cmd='psexec') -> list:
+    async def _gen_psexec(arguments: dict, tool_name: str, _cmd="psexec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_psexec')(_gen_psexec)
+    register_handler_fn("lazyown_psexec")(_gen_psexec)
     _reg += 1
 
-    async def _gen_psexec_py(arguments: dict, tool_name: str, _cmd='psexec_py') -> list:
+    async def _gen_psexec_py(arguments: dict, tool_name: str, _cmd="psexec_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_psexec_py')(_gen_psexec_py)
+    register_handler_fn("lazyown_psexec_py")(_gen_psexec_py)
     _reg += 1
 
-    async def _gen_pspy(arguments: dict, tool_name: str, _cmd='pspy') -> list:
+    async def _gen_pspy(arguments: dict, tool_name: str, _cmd="pspy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pspy')(_gen_pspy)
+    register_handler_fn("lazyown_pspy")(_gen_pspy)
     _reg += 1
 
-    async def _gen_pth_net(arguments: dict, tool_name: str, _cmd='pth_net') -> list:
+    async def _gen_pth_net(arguments: dict, tool_name: str, _cmd="pth_net") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pth_net')(_gen_pth_net)
+    register_handler_fn("lazyown_pth_net")(_gen_pth_net)
     _reg += 1
 
-    async def _gen_pup(arguments: dict, tool_name: str, _cmd='pup') -> list:
+    async def _gen_pup(arguments: dict, tool_name: str, _cmd="pup") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pup')(_gen_pup)
+    register_handler_fn("lazyown_pup")(_gen_pup)
     _reg += 1
 
-    async def _gen_pwd(arguments: dict, tool_name: str, _cmd='pwd') -> list:
+    async def _gen_pwd(arguments: dict, tool_name: str, _cmd="pwd") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pwd')(_gen_pwd)
+    register_handler_fn("lazyown_pwd")(_gen_pwd)
     _reg += 1
 
-    async def _gen_pwncat(arguments: dict, tool_name: str, _cmd='pwncat') -> list:
+    async def _gen_pwncat(arguments: dict, tool_name: str, _cmd="pwncat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pwncat')(_gen_pwncat)
+    register_handler_fn("lazyown_pwncat")(_gen_pwncat)
     _reg += 1
 
-    async def _gen_pwncatcs(arguments: dict, tool_name: str, _cmd='pwncatcs') -> list:
+    async def _gen_pwncatcs(arguments: dict, tool_name: str, _cmd="pwncatcs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pwncatcs')(_gen_pwncatcs)
+    register_handler_fn("lazyown_pwncatcs")(_gen_pwncatcs)
     _reg += 1
 
-    async def _gen_py3ttyup(arguments: dict, tool_name: str, _cmd='py3ttyup') -> list:
+    async def _gen_py3ttyup(arguments: dict, tool_name: str, _cmd="py3ttyup") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_py3ttyup')(_gen_py3ttyup)
+    register_handler_fn("lazyown_py3ttyup")(_gen_py3ttyup)
     _reg += 1
 
-    async def _gen_pyautomate(arguments: dict, tool_name: str, _cmd='pyautomate') -> list:
+    async def _gen_pyautomate(arguments: dict, tool_name: str, _cmd="pyautomate") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pyautomate')(_gen_pyautomate)
+    register_handler_fn("lazyown_pyautomate")(_gen_pyautomate)
     _reg += 1
 
-    async def _gen_pykerbrute(arguments: dict, tool_name: str, _cmd='pykerbrute') -> list:
+    async def _gen_pykerbrute(arguments: dict, tool_name: str, _cmd="pykerbrute") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pykerbrute')(_gen_pykerbrute)
+    register_handler_fn("lazyown_pykerbrute")(_gen_pykerbrute)
     _reg += 1
 
-    async def _gen_pyoracle2(arguments: dict, tool_name: str, _cmd='pyoracle2') -> list:
+    async def _gen_pyoracle2(arguments: dict, tool_name: str, _cmd="pyoracle2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pyoracle2')(_gen_pyoracle2)
+    register_handler_fn("lazyown_pyoracle2")(_gen_pyoracle2)
     _reg += 1
 
-    async def _gen_pywhisker(arguments: dict, tool_name: str, _cmd='pywhisker') -> list:
+    async def _gen_pywhisker(arguments: dict, tool_name: str, _cmd="pywhisker") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_pywhisker')(_gen_pywhisker)
+    register_handler_fn("lazyown_pywhisker")(_gen_pywhisker)
     _reg += 1
 
-    async def _gen_qa(arguments: dict, tool_name: str, _cmd='qa') -> list:
+    async def _gen_qa(arguments: dict, tool_name: str, _cmd="qa") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_qa')(_gen_qa)
+    register_handler_fn("lazyown_qa")(_gen_qa)
     _reg += 1
 
-    async def _gen_rdp(arguments: dict, tool_name: str, _cmd='rdp') -> list:
+    async def _gen_rdp(arguments: dict, tool_name: str, _cmd="rdp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rdp')(_gen_rdp)
+    register_handler_fn("lazyown_rdp")(_gen_rdp)
     _reg += 1
 
-    async def _gen_rdp_check_py(arguments: dict, tool_name: str, _cmd='rdp_check_py') -> list:
+    async def _gen_rdp_check_py(arguments: dict, tool_name: str, _cmd="rdp_check_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rdp_check_py')(_gen_rdp_check_py)
+    register_handler_fn("lazyown_rdp_check_py")(_gen_rdp_check_py)
     _reg += 1
 
-    async def _gen_recon(arguments: dict, tool_name: str, _cmd='recon') -> list:
+    async def _gen_recon(arguments: dict, tool_name: str, _cmd="recon") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_recon')(_gen_recon)
+    register_handler_fn("lazyown_recon")(_gen_recon)
     _reg += 1
 
-    async def _gen_refill_password(arguments: dict, tool_name: str, _cmd='refill_password') -> list:
+    async def _gen_refill_password(arguments: dict, tool_name: str, _cmd="refill_password") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_refill_password')(_gen_refill_password)
+    register_handler_fn("lazyown_refill_password")(_gen_refill_password)
     _reg += 1
 
-    async def _gen_reg_py(arguments: dict, tool_name: str, _cmd='reg_py') -> list:
+    async def _gen_reg_py(arguments: dict, tool_name: str, _cmd="reg_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_reg_py')(_gen_reg_py)
+    register_handler_fn("lazyown_reg_py")(_gen_reg_py)
     _reg += 1
 
-    async def _gen_regeorg(arguments: dict, tool_name: str, _cmd='regeorg') -> list:
+    async def _gen_regeorg(arguments: dict, tool_name: str, _cmd="regeorg") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_regeorg')(_gen_regeorg)
+    register_handler_fn("lazyown_regeorg")(_gen_regeorg)
     _reg += 1
 
-    async def _gen_rejetto_hfs_exec(arguments: dict, tool_name: str, _cmd='rejetto_hfs_exec') -> list:
+    async def _gen_rejetto_hfs_exec(arguments: dict, tool_name: str, _cmd="rejetto_hfs_exec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rejetto_hfs_exec')(_gen_rejetto_hfs_exec)
+    register_handler_fn("lazyown_rejetto_hfs_exec")(_gen_rejetto_hfs_exec)
     _reg += 1
 
-    async def _gen_reload_addons(arguments: dict, tool_name: str, _cmd='reload_addons') -> list:
+    async def _gen_reload_addons(arguments: dict, tool_name: str, _cmd="reload_addons") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_reload_addons')(_gen_reload_addons)
+    register_handler_fn("lazyown_reload_addons")(_gen_reload_addons)
     _reg += 1
 
-    async def _gen_report(arguments: dict, tool_name: str, _cmd='report') -> list:
+    async def _gen_report(arguments: dict, tool_name: str, _cmd="report") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_report')(_gen_report)
+    register_handler_fn("lazyown_report")(_gen_report)
     _reg += 1
 
-    async def _gen_resource(arguments: dict, tool_name: str, _cmd='resource') -> list:
+    async def _gen_resource(arguments: dict, tool_name: str, _cmd="resource") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_resource')(_gen_resource)
+    register_handler_fn("lazyown_resource")(_gen_resource)
     _reg += 1
 
-    async def _gen_responder(arguments: dict, tool_name: str, _cmd='responder') -> list:
+    async def _gen_responder(arguments: dict, tool_name: str, _cmd="responder") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_responder')(_gen_responder)
+    register_handler_fn("lazyown_responder")(_gen_responder)
     _reg += 1
 
-    async def _gen_rev(arguments: dict, tool_name: str, _cmd='rev') -> list:
+    async def _gen_rev(arguments: dict, tool_name: str, _cmd="rev") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rev')(_gen_rev)
+    register_handler_fn("lazyown_rev")(_gen_rev)
     _reg += 1
 
-    async def _gen_revwin(arguments: dict, tool_name: str, _cmd='revwin') -> list:
+    async def _gen_revwin(arguments: dict, tool_name: str, _cmd="revwin") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_revwin')(_gen_revwin)
+    register_handler_fn("lazyown_revwin")(_gen_revwin)
     _reg += 1
 
-    async def _gen_rhost(arguments: dict, tool_name: str, _cmd='rhost') -> list:
+    async def _gen_rhost(arguments: dict, tool_name: str, _cmd="rhost") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rhost')(_gen_rhost)
+    register_handler_fn("lazyown_rhost")(_gen_rhost)
     _reg += 1
 
-    async def _gen_rich_tui(arguments: dict, tool_name: str, _cmd='rich_tui') -> list:
+    async def _gen_rich_tui(arguments: dict, tool_name: str, _cmd="rich_tui") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rich_tui')(_gen_rich_tui)
+    register_handler_fn("lazyown_rich_tui")(_gen_rich_tui)
     _reg += 1
 
-    async def _gen_rmfromfind(arguments: dict, tool_name: str, _cmd='rmfromfind') -> list:
+    async def _gen_rmfromfind(arguments: dict, tool_name: str, _cmd="rmfromfind") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rmfromfind')(_gen_rmfromfind)
+    register_handler_fn("lazyown_rmfromfind")(_gen_rmfromfind)
     _reg += 1
 
-    async def _gen_rnc(arguments: dict, tool_name: str, _cmd='rnc') -> list:
+    async def _gen_rnc(arguments: dict, tool_name: str, _cmd="rnc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rnc')(_gen_rnc)
+    register_handler_fn("lazyown_rnc")(_gen_rnc)
     _reg += 1
 
-    async def _gen_rocky(arguments: dict, tool_name: str, _cmd='rocky') -> list:
+    async def _gen_rocky(arguments: dict, tool_name: str, _cmd="rocky") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rocky')(_gen_rocky)
+    register_handler_fn("lazyown_rocky")(_gen_rocky)
     _reg += 1
 
-    async def _gen_rot(arguments: dict, tool_name: str, _cmd='rot') -> list:
+    async def _gen_rot(arguments: dict, tool_name: str, _cmd="rot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rot')(_gen_rot)
+    register_handler_fn("lazyown_rot")(_gen_rot)
     _reg += 1
 
-    async def _gen_rotate_aes(arguments: dict, tool_name: str, _cmd='rotate_aes') -> list:
+    async def _gen_rotate_aes(arguments: dict, tool_name: str, _cmd="rotate_aes") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rotate_aes')(_gen_rotate_aes)
+    register_handler_fn("lazyown_rotate_aes")(_gen_rotate_aes)
     _reg += 1
 
-    async def _gen_rotf(arguments: dict, tool_name: str, _cmd='rotf') -> list:
+    async def _gen_rotf(arguments: dict, tool_name: str, _cmd="rotf") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rotf')(_gen_rotf)
+    register_handler_fn("lazyown_rotf")(_gen_rotf)
     _reg += 1
 
-    async def _gen_route(arguments: dict, tool_name: str, _cmd='route') -> list:
+    async def _gen_route(arguments: dict, tool_name: str, _cmd="route") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_route')(_gen_route)
+    register_handler_fn("lazyown_route")(_gen_route)
     _reg += 1
 
-    async def _gen_rpcclient(arguments: dict, tool_name: str, _cmd='rpcclient') -> list:
+    async def _gen_rpcclient(arguments: dict, tool_name: str, _cmd="rpcclient") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rpcclient')(_gen_rpcclient)
+    register_handler_fn("lazyown_rpcclient")(_gen_rpcclient)
     _reg += 1
 
-    async def _gen_rpcdump(arguments: dict, tool_name: str, _cmd='rpcdump') -> list:
+    async def _gen_rpcdump(arguments: dict, tool_name: str, _cmd="rpcdump") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rpcdump')(_gen_rpcdump)
+    register_handler_fn("lazyown_rpcdump")(_gen_rpcdump)
     _reg += 1
 
-    async def _gen_rpcmap_py(arguments: dict, tool_name: str, _cmd='rpcmap_py') -> list:
+    async def _gen_rpcmap_py(arguments: dict, tool_name: str, _cmd="rpcmap_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rpcmap_py')(_gen_rpcmap_py)
+    register_handler_fn("lazyown_rpcmap_py")(_gen_rpcmap_py)
     _reg += 1
 
-    async def _gen_rrhost(arguments: dict, tool_name: str, _cmd='rrhost') -> list:
+    async def _gen_rrhost(arguments: dict, tool_name: str, _cmd="rrhost") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rrhost')(_gen_rrhost)
+    register_handler_fn("lazyown_rrhost")(_gen_rrhost)
     _reg += 1
 
-    async def _gen_rsync(arguments: dict, tool_name: str, _cmd='rsync') -> list:
+    async def _gen_rsync(arguments: dict, tool_name: str, _cmd="rsync") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rsync')(_gen_rsync)
+    register_handler_fn("lazyown_rsync")(_gen_rsync)
     _reg += 1
 
-    async def _gen_rubeus(arguments: dict, tool_name: str, _cmd='rubeus') -> list:
+    async def _gen_rubeus(arguments: dict, tool_name: str, _cmd="rubeus") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_rubeus')(_gen_rubeus)
+    register_handler_fn("lazyown_rubeus")(_gen_rubeus)
     _reg += 1
 
-    async def _gen_run(arguments: dict, tool_name: str, _cmd='run') -> list:
+    async def _gen_run(arguments: dict, tool_name: str, _cmd="run") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_run')(_gen_run)
+    register_handler_fn("lazyown_run")(_gen_run)
     _reg += 1
 
-    async def _gen_samdump2(arguments: dict, tool_name: str, _cmd='samdump2') -> list:
+    async def _gen_samdump2(arguments: dict, tool_name: str, _cmd="samdump2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_samdump2')(_gen_samdump2)
+    register_handler_fn("lazyown_samdump2")(_gen_samdump2)
     _reg += 1
 
-    async def _gen_samrdump(arguments: dict, tool_name: str, _cmd='samrdump') -> list:
+    async def _gen_samrdump(arguments: dict, tool_name: str, _cmd="samrdump") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_samrdump')(_gen_samrdump)
+    register_handler_fn("lazyown_samrdump")(_gen_samrdump)
     _reg += 1
 
-    async def _gen_sandbox(arguments: dict, tool_name: str, _cmd='sandbox') -> list:
+    async def _gen_sandbox(arguments: dict, tool_name: str, _cmd="sandbox") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sandbox')(_gen_sandbox)
+    register_handler_fn("lazyown_sandbox")(_gen_sandbox)
     _reg += 1
 
-    async def _gen_sawks(arguments: dict, tool_name: str, _cmd='sawks') -> list:
+    async def _gen_sawks(arguments: dict, tool_name: str, _cmd="sawks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sawks')(_gen_sawks)
+    register_handler_fn("lazyown_sawks")(_gen_sawks)
     _reg += 1
 
-    async def _gen_scans(arguments: dict, tool_name: str, _cmd='scans') -> list:
+    async def _gen_scans(arguments: dict, tool_name: str, _cmd="scans") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_scans')(_gen_scans)
+    register_handler_fn("lazyown_scans")(_gen_scans)
     _reg += 1
 
-    async def _gen_scarecrow(arguments: dict, tool_name: str, _cmd='scarecrow') -> list:
+    async def _gen_scarecrow(arguments: dict, tool_name: str, _cmd="scarecrow") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_scarecrow')(_gen_scarecrow)
+    register_handler_fn("lazyown_scarecrow")(_gen_scarecrow)
     _reg += 1
 
-    async def _gen_scavenger(arguments: dict, tool_name: str, _cmd='scavenger') -> list:
+    async def _gen_scavenger(arguments: dict, tool_name: str, _cmd="scavenger") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_scavenger')(_gen_scavenger)
+    register_handler_fn("lazyown_scavenger")(_gen_scavenger)
     _reg += 1
 
-    async def _gen_scope(arguments: dict, tool_name: str, _cmd='scope') -> list:
+    async def _gen_scope(arguments: dict, tool_name: str, _cmd="scope") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_scope')(_gen_scope)
+    register_handler_fn("lazyown_scope")(_gen_scope)
     _reg += 1
 
-    async def _gen_scp(arguments: dict, tool_name: str, _cmd='scp') -> list:
+    async def _gen_scp(arguments: dict, tool_name: str, _cmd="scp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_scp')(_gen_scp)
+    register_handler_fn("lazyown_scp")(_gen_scp)
     _reg += 1
 
-    async def _gen_seal_credentials(arguments: dict, tool_name: str, _cmd='seal_credentials') -> list:
+    async def _gen_seal_credentials(arguments: dict, tool_name: str, _cmd="seal_credentials") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_seal_credentials')(_gen_seal_credentials)
+    register_handler_fn("lazyown_seal_credentials")(_gen_seal_credentials)
     _reg += 1
 
-    async def _gen_search(arguments: dict, tool_name: str, _cmd='search') -> list:
+    async def _gen_search(arguments: dict, tool_name: str, _cmd="search") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_search')(_gen_search)
+    register_handler_fn("lazyown_search")(_gen_search)
     _reg += 1
 
-    async def _gen_searchhash(arguments: dict, tool_name: str, _cmd='searchhash') -> list:
+    async def _gen_searchhash(arguments: dict, tool_name: str, _cmd="searchhash") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_searchhash')(_gen_searchhash)
+    register_handler_fn("lazyown_searchhash")(_gen_searchhash)
     _reg += 1
 
-    async def _gen_secretsdump(arguments: dict, tool_name: str, _cmd='secretsdump') -> list:
+    async def _gen_secretsdump(arguments: dict, tool_name: str, _cmd="secretsdump") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_secretsdump')(_gen_secretsdump)
+    register_handler_fn("lazyown_secretsdump")(_gen_secretsdump)
     _reg += 1
 
-    async def _gen_seo(arguments: dict, tool_name: str, _cmd='seo') -> list:
+    async def _gen_seo(arguments: dict, tool_name: str, _cmd="seo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_seo')(_gen_seo)
+    register_handler_fn("lazyown_seo")(_gen_seo)
     _reg += 1
 
-    async def _gen_serveralive2(arguments: dict, tool_name: str, _cmd='serveralive2') -> list:
+    async def _gen_serveralive2(arguments: dict, tool_name: str, _cmd="serveralive2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_serveralive2')(_gen_serveralive2)
+    register_handler_fn("lazyown_serveralive2")(_gen_serveralive2)
     _reg += 1
 
-    async def _gen_service(arguments: dict, tool_name: str, _cmd='service') -> list:
+    async def _gen_service(arguments: dict, tool_name: str, _cmd="service") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_service')(_gen_service)
+    register_handler_fn("lazyown_service")(_gen_service)
     _reg += 1
 
-    async def _gen_service_ssh(arguments: dict, tool_name: str, _cmd='service_ssh') -> list:
+    async def _gen_service_ssh(arguments: dict, tool_name: str, _cmd="service_ssh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_service_ssh')(_gen_service_ssh)
+    register_handler_fn("lazyown_service_ssh")(_gen_service_ssh)
     _reg += 1
 
-    async def _gen_sessionssh(arguments: dict, tool_name: str, _cmd='sessionssh') -> list:
+    async def _gen_sessionssh(arguments: dict, tool_name: str, _cmd="sessionssh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sessionssh')(_gen_sessionssh)
+    register_handler_fn("lazyown_sessionssh")(_gen_sessionssh)
     _reg += 1
 
-    async def _gen_sessionsshstrace(arguments: dict, tool_name: str, _cmd='sessionsshstrace') -> list:
+    async def _gen_sessionsshstrace(arguments: dict, tool_name: str, _cmd="sessionsshstrace") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sessionsshstrace')(_gen_sessionsshstrace)
+    register_handler_fn("lazyown_sessionsshstrace")(_gen_sessionsshstrace)
     _reg += 1
 
-    async def _gen_set(arguments: dict, tool_name: str, _cmd='set') -> list:
+    async def _gen_set(arguments: dict, tool_name: str, _cmd="set") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_set')(_gen_set)
+    register_handler_fn("lazyown_set")(_gen_set)
     _reg += 1
 
-    async def _gen_set_proxychains(arguments: dict, tool_name: str, _cmd='set_proxychains') -> list:
+    async def _gen_set_proxychains(arguments: dict, tool_name: str, _cmd="set_proxychains") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_set_proxychains')(_gen_set_proxychains)
+    register_handler_fn("lazyown_set_proxychains")(_gen_set_proxychains)
     _reg += 1
 
-    async def _gen_setoolKits(arguments: dict, tool_name: str, _cmd='setoolKits') -> list:
+    async def _gen_setoolKits(arguments: dict, tool_name: str, _cmd="setoolKits") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_setoolKits')(_gen_setoolKits)
+    register_handler_fn("lazyown_setoolKits")(_gen_setoolKits)
     _reg += 1
 
-    async def _gen_sh(arguments: dict, tool_name: str, _cmd='sh') -> list:
+    async def _gen_sh(arguments: dict, tool_name: str, _cmd="sh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sh')(_gen_sh)
+    register_handler_fn("lazyown_sh")(_gen_sh)
     _reg += 1
 
-    async def _gen_shadowsocks(arguments: dict, tool_name: str, _cmd='shadowsocks') -> list:
+    async def _gen_shadowsocks(arguments: dict, tool_name: str, _cmd="shadowsocks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shadowsocks')(_gen_shadowsocks)
+    register_handler_fn("lazyown_shadowsocks")(_gen_shadowsocks)
     _reg += 1
 
-    async def _gen_share_finding(arguments: dict, tool_name: str, _cmd='share_finding') -> list:
+    async def _gen_share_finding(arguments: dict, tool_name: str, _cmd="share_finding") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_share_finding')(_gen_share_finding)
+    register_handler_fn("lazyown_share_finding")(_gen_share_finding)
     _reg += 1
 
-    async def _gen_sharpshooter(arguments: dict, tool_name: str, _cmd='sharpshooter') -> list:
+    async def _gen_sharpshooter(arguments: dict, tool_name: str, _cmd="sharpshooter") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sharpshooter')(_gen_sharpshooter)
+    register_handler_fn("lazyown_sharpshooter")(_gen_sharpshooter)
     _reg += 1
 
-    async def _gen_shellcode(arguments: dict, tool_name: str, _cmd='shellcode') -> list:
+    async def _gen_shellcode(arguments: dict, tool_name: str, _cmd="shellcode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellcode')(_gen_shellcode)
+    register_handler_fn("lazyown_shellcode")(_gen_shellcode)
     _reg += 1
 
-    async def _gen_shellcode2elf(arguments: dict, tool_name: str, _cmd='shellcode2elf') -> list:
+    async def _gen_shellcode2elf(arguments: dict, tool_name: str, _cmd="shellcode2elf") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellcode2elf')(_gen_shellcode2elf)
+    register_handler_fn("lazyown_shellcode2elf")(_gen_shellcode2elf)
     _reg += 1
 
-    async def _gen_shellcode2sylk(arguments: dict, tool_name: str, _cmd='shellcode2sylk') -> list:
+    async def _gen_shellcode2sylk(arguments: dict, tool_name: str, _cmd="shellcode2sylk") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellcode2sylk')(_gen_shellcode2sylk)
+    register_handler_fn("lazyown_shellcode2sylk")(_gen_shellcode2sylk)
     _reg += 1
 
-    async def _gen_shellcode_search(arguments: dict, tool_name: str, _cmd='shellcode_search') -> list:
+    async def _gen_shellcode_search(arguments: dict, tool_name: str, _cmd="shellcode_search") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellcode_search')(_gen_shellcode_search)
+    register_handler_fn("lazyown_shellcode_search")(_gen_shellcode_search)
     _reg += 1
 
-    async def _gen_shellfire(arguments: dict, tool_name: str, _cmd='shellfire') -> list:
+    async def _gen_shellfire(arguments: dict, tool_name: str, _cmd="shellfire") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellfire')(_gen_shellfire)
+    register_handler_fn("lazyown_shellfire")(_gen_shellfire)
     _reg += 1
 
-    async def _gen_shellshock(arguments: dict, tool_name: str, _cmd='shellshock') -> list:
+    async def _gen_shellshock(arguments: dict, tool_name: str, _cmd="shellshock") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shellshock')(_gen_shellshock)
+    register_handler_fn("lazyown_shellshock")(_gen_shellshock)
     _reg += 1
 
-    async def _gen_sherlock(arguments: dict, tool_name: str, _cmd='sherlock') -> list:
+    async def _gen_sherlock(arguments: dict, tool_name: str, _cmd="sherlock") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sherlock')(_gen_sherlock)
+    register_handler_fn("lazyown_sherlock")(_gen_sherlock)
     _reg += 1
 
-    async def _gen_show(arguments: dict, tool_name: str, _cmd='show') -> list:
+    async def _gen_show(arguments: dict, tool_name: str, _cmd="show") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_show')(_gen_show)
+    register_handler_fn("lazyown_show")(_gen_show)
     _reg += 1
 
-    async def _gen_shred(arguments: dict, tool_name: str, _cmd='shred') -> list:
+    async def _gen_shred(arguments: dict, tool_name: str, _cmd="shred") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_shred')(_gen_shred)
+    register_handler_fn("lazyown_shred")(_gen_shred)
     _reg += 1
 
-    async def _gen_sireprat(arguments: dict, tool_name: str, _cmd='sireprat') -> list:
+    async def _gen_sireprat(arguments: dict, tool_name: str, _cmd="sireprat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sireprat')(_gen_sireprat)
+    register_handler_fn("lazyown_sireprat")(_gen_sireprat)
     _reg += 1
 
-    async def _gen_sitrep(arguments: dict, tool_name: str, _cmd='sitrep') -> list:
+    async def _gen_sitrep(arguments: dict, tool_name: str, _cmd="sitrep") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sitrep')(_gen_sitrep)
+    register_handler_fn("lazyown_sitrep")(_gen_sitrep)
     _reg += 1
 
-    async def _gen_skipfish(arguments: dict, tool_name: str, _cmd='skipfish') -> list:
+    async def _gen_skipfish(arguments: dict, tool_name: str, _cmd="skipfish") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_skipfish')(_gen_skipfish)
+    register_handler_fn("lazyown_skipfish")(_gen_skipfish)
     _reg += 1
 
-    async def _gen_sliver_server(arguments: dict, tool_name: str, _cmd='sliver_server') -> list:
+    async def _gen_sliver_server(arguments: dict, tool_name: str, _cmd="sliver_server") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sliver_server')(_gen_sliver_server)
+    register_handler_fn("lazyown_sliver_server")(_gen_sliver_server)
     _reg += 1
 
-    async def _gen_smalldic(arguments: dict, tool_name: str, _cmd='smalldic') -> list:
+    async def _gen_smalldic(arguments: dict, tool_name: str, _cmd="smalldic") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smalldic')(_gen_smalldic)
+    register_handler_fn("lazyown_smalldic")(_gen_smalldic)
     _reg += 1
 
-    async def _gen_smb_exfil(arguments: dict, tool_name: str, _cmd='smb_exfil') -> list:
+    async def _gen_smb_exfil(arguments: dict, tool_name: str, _cmd="smb_exfil") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smb_exfil')(_gen_smb_exfil)
+    register_handler_fn("lazyown_smb_exfil")(_gen_smb_exfil)
     _reg += 1
 
-    async def _gen_smbattack(arguments: dict, tool_name: str, _cmd='smbattack') -> list:
+    async def _gen_smbattack(arguments: dict, tool_name: str, _cmd="smbattack") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbattack')(_gen_smbattack)
+    register_handler_fn("lazyown_smbattack")(_gen_smbattack)
     _reg += 1
 
-    async def _gen_smbclient(arguments: dict, tool_name: str, _cmd='smbclient') -> list:
+    async def _gen_smbclient(arguments: dict, tool_name: str, _cmd="smbclient") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbclient')(_gen_smbclient)
+    register_handler_fn("lazyown_smbclient")(_gen_smbclient)
     _reg += 1
 
-    async def _gen_smbclient_impacket(arguments: dict, tool_name: str, _cmd='smbclient_impacket') -> list:
+    async def _gen_smbclient_impacket(arguments: dict, tool_name: str, _cmd="smbclient_impacket") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbclient_impacket')(_gen_smbclient_impacket)
+    register_handler_fn("lazyown_smbclient_impacket")(_gen_smbclient_impacket)
     _reg += 1
 
-    async def _gen_smbclient_py(arguments: dict, tool_name: str, _cmd='smbclient_py') -> list:
+    async def _gen_smbclient_py(arguments: dict, tool_name: str, _cmd="smbclient_py") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbclient_py')(_gen_smbclient_py)
+    register_handler_fn("lazyown_smbclient_py")(_gen_smbclient_py)
     _reg += 1
 
-    async def _gen_smbmap(arguments: dict, tool_name: str, _cmd='smbmap') -> list:
+    async def _gen_smbmap(arguments: dict, tool_name: str, _cmd="smbmap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbmap')(_gen_smbmap)
+    register_handler_fn("lazyown_smbmap")(_gen_smbmap)
     _reg += 1
 
-    async def _gen_smbserver(arguments: dict, tool_name: str, _cmd='smbserver') -> list:
+    async def _gen_smbserver(arguments: dict, tool_name: str, _cmd="smbserver") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smbserver')(_gen_smbserver)
+    register_handler_fn("lazyown_smbserver")(_gen_smbserver)
     _reg += 1
 
-    async def _gen_smtpuserenum(arguments: dict, tool_name: str, _cmd='smtpuserenum') -> list:
+    async def _gen_smtpuserenum(arguments: dict, tool_name: str, _cmd="smtpuserenum") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_smtpuserenum')(_gen_smtpuserenum)
+    register_handler_fn("lazyown_smtpuserenum")(_gen_smtpuserenum)
     _reg += 1
 
-    async def _gen_snmpcheck(arguments: dict, tool_name: str, _cmd='snmpcheck') -> list:
+    async def _gen_snmpcheck(arguments: dict, tool_name: str, _cmd="snmpcheck") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_snmpcheck')(_gen_snmpcheck)
+    register_handler_fn("lazyown_snmpcheck")(_gen_snmpcheck)
     _reg += 1
 
-    async def _gen_snmpwalk(arguments: dict, tool_name: str, _cmd='snmpwalk') -> list:
+    async def _gen_snmpwalk(arguments: dict, tool_name: str, _cmd="snmpwalk") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_snmpwalk')(_gen_snmpwalk)
+    register_handler_fn("lazyown_snmpwalk")(_gen_snmpwalk)
     _reg += 1
 
-    async def _gen_socat(arguments: dict, tool_name: str, _cmd='socat') -> list:
+    async def _gen_socat(arguments: dict, tool_name: str, _cmd="socat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_socat')(_gen_socat)
+    register_handler_fn("lazyown_socat")(_gen_socat)
     _reg += 1
 
-    async def _gen_spool(arguments: dict, tool_name: str, _cmd='spool') -> list:
+    async def _gen_spool(arguments: dict, tool_name: str, _cmd="spool") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_spool')(_gen_spool)
+    register_handler_fn("lazyown_spool")(_gen_spool)
     _reg += 1
 
-    async def _gen_spraykatz(arguments: dict, tool_name: str, _cmd='spraykatz') -> list:
+    async def _gen_spraykatz(arguments: dict, tool_name: str, _cmd="spraykatz") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_spraykatz')(_gen_spraykatz)
+    register_handler_fn("lazyown_spraykatz")(_gen_spraykatz)
     _reg += 1
 
-    async def _gen_sqli(arguments: dict, tool_name: str, _cmd='sqli') -> list:
+    async def _gen_sqli(arguments: dict, tool_name: str, _cmd="sqli") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sqli')(_gen_sqli)
+    register_handler_fn("lazyown_sqli")(_gen_sqli)
     _reg += 1
 
-    async def _gen_sqli_mssql_test(arguments: dict, tool_name: str, _cmd='sqli_mssql_test') -> list:
+    async def _gen_sqli_mssql_test(arguments: dict, tool_name: str, _cmd="sqli_mssql_test") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sqli_mssql_test')(_gen_sqli_mssql_test)
+    register_handler_fn("lazyown_sqli_mssql_test")(_gen_sqli_mssql_test)
     _reg += 1
 
-    async def _gen_sqlmap(arguments: dict, tool_name: str, _cmd='sqlmap') -> list:
+    async def _gen_sqlmap(arguments: dict, tool_name: str, _cmd="sqlmap") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sqlmap')(_gen_sqlmap)
+    register_handler_fn("lazyown_sqlmap")(_gen_sqlmap)
     _reg += 1
 
-    async def _gen_sqsh(arguments: dict, tool_name: str, _cmd='sqsh') -> list:
+    async def _gen_sqsh(arguments: dict, tool_name: str, _cmd="sqsh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sqsh')(_gen_sqsh)
+    register_handler_fn("lazyown_sqsh")(_gen_sqsh)
     _reg += 1
 
-    async def _gen_ss(arguments: dict, tool_name: str, _cmd='ss') -> list:
+    async def _gen_ss(arguments: dict, tool_name: str, _cmd="ss") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ss')(_gen_ss)
+    register_handler_fn("lazyown_ss")(_gen_ss)
     _reg += 1
 
-    async def _gen_ssh(arguments: dict, tool_name: str, _cmd='ssh') -> list:
+    async def _gen_ssh(arguments: dict, tool_name: str, _cmd="ssh") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ssh')(_gen_ssh)
+    register_handler_fn("lazyown_ssh")(_gen_ssh)
     _reg += 1
 
-    async def _gen_ssh_cmd(arguments: dict, tool_name: str, _cmd='ssh_cmd') -> list:
+    async def _gen_ssh_cmd(arguments: dict, tool_name: str, _cmd="ssh_cmd") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ssh_cmd')(_gen_ssh_cmd)
+    register_handler_fn("lazyown_ssh_cmd")(_gen_ssh_cmd)
     _reg += 1
 
-    async def _gen_sshd(arguments: dict, tool_name: str, _cmd='sshd') -> list:
+    async def _gen_sshd(arguments: dict, tool_name: str, _cmd="sshd") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sshd')(_gen_sshd)
+    register_handler_fn("lazyown_sshd")(_gen_sshd)
     _reg += 1
 
-    async def _gen_sshexploit(arguments: dict, tool_name: str, _cmd='sshexploit') -> list:
+    async def _gen_sshexploit(arguments: dict, tool_name: str, _cmd="sshexploit") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sshexploit')(_gen_sshexploit)
+    register_handler_fn("lazyown_sshexploit")(_gen_sshexploit)
     _reg += 1
 
-    async def _gen_sshkey(arguments: dict, tool_name: str, _cmd='sshkey') -> list:
+    async def _gen_sshkey(arguments: dict, tool_name: str, _cmd="sshkey") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sshkey')(_gen_sshkey)
+    register_handler_fn("lazyown_sshkey")(_gen_sshkey)
     _reg += 1
 
-    async def _gen_sslscan(arguments: dict, tool_name: str, _cmd='sslscan') -> list:
+    async def _gen_sslscan(arguments: dict, tool_name: str, _cmd="sslscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sslscan')(_gen_sslscan)
+    register_handler_fn("lazyown_sslscan")(_gen_sslscan)
     _reg += 1
 
-    async def _gen_stage(arguments: dict, tool_name: str, _cmd='stage') -> list:
+    async def _gen_stage(arguments: dict, tool_name: str, _cmd="stage") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_stage')(_gen_stage)
+    register_handler_fn("lazyown_stage")(_gen_stage)
     _reg += 1
 
-    async def _gen_state_snapshot(arguments: dict, tool_name: str, _cmd='state_snapshot') -> list:
+    async def _gen_state_snapshot(arguments: dict, tool_name: str, _cmd="state_snapshot") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_state_snapshot')(_gen_state_snapshot)
+    register_handler_fn("lazyown_state_snapshot")(_gen_state_snapshot)
     _reg += 1
 
-    async def _gen_status_bar(arguments: dict, tool_name: str, _cmd='status_bar') -> list:
+    async def _gen_status_bar(arguments: dict, tool_name: str, _cmd="status_bar") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_status_bar')(_gen_status_bar)
+    register_handler_fn("lazyown_status_bar")(_gen_status_bar)
     _reg += 1
 
-    async def _gen_status_tail(arguments: dict, tool_name: str, _cmd='status_tail') -> list:
+    async def _gen_status_tail(arguments: dict, tool_name: str, _cmd="status_tail") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_status_tail')(_gen_status_tail)
+    register_handler_fn("lazyown_status_tail")(_gen_status_tail)
     _reg += 1
 
-    async def _gen_stealth_off(arguments: dict, tool_name: str, _cmd='stealth_off') -> list:
+    async def _gen_stealth_off(arguments: dict, tool_name: str, _cmd="stealth_off") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_stealth_off')(_gen_stealth_off)
+    register_handler_fn("lazyown_stealth_off")(_gen_stealth_off)
     _reg += 1
 
-    async def _gen_stealth_on(arguments: dict, tool_name: str, _cmd='stealth_on') -> list:
+    async def _gen_stealth_on(arguments: dict, tool_name: str, _cmd="stealth_on") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_stealth_on')(_gen_stealth_on)
+    register_handler_fn("lazyown_stealth_on")(_gen_stealth_on)
     _reg += 1
 
-    async def _gen_stormbreaker(arguments: dict, tool_name: str, _cmd='stormbreaker') -> list:
+    async def _gen_stormbreaker(arguments: dict, tool_name: str, _cmd="stormbreaker") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_stormbreaker')(_gen_stormbreaker)
+    register_handler_fn("lazyown_stormbreaker")(_gen_stormbreaker)
     _reg += 1
 
-    async def _gen_sudo(arguments: dict, tool_name: str, _cmd='sudo') -> list:
+    async def _gen_sudo(arguments: dict, tool_name: str, _cmd="sudo") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sudo')(_gen_sudo)
+    register_handler_fn("lazyown_sudo")(_gen_sudo)
     _reg += 1
 
-    async def _gen_suggest_next(arguments: dict, tool_name: str, _cmd='suggest_next') -> list:
+    async def _gen_suggest_next(arguments: dict, tool_name: str, _cmd="suggest_next") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_suggest_next')(_gen_suggest_next)
+    register_handler_fn("lazyown_suggest_next")(_gen_suggest_next)
     _reg += 1
 
-    async def _gen_suid_check(arguments: dict, tool_name: str, _cmd='suid_check') -> list:
+    async def _gen_suid_check(arguments: dict, tool_name: str, _cmd="suid_check") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_suid_check')(_gen_suid_check)
+    register_handler_fn("lazyown_suid_check")(_gen_suid_check)
     _reg += 1
 
-    async def _gen_surface(arguments: dict, tool_name: str, _cmd='surface') -> list:
+    async def _gen_surface(arguments: dict, tool_name: str, _cmd="surface") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_surface')(_gen_surface)
+    register_handler_fn("lazyown_surface")(_gen_surface)
     _reg += 1
 
-    async def _gen_swaks(arguments: dict, tool_name: str, _cmd='swaks') -> list:
+    async def _gen_swaks(arguments: dict, tool_name: str, _cmd="swaks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_swaks')(_gen_swaks)
+    register_handler_fn("lazyown_swaks")(_gen_swaks)
     _reg += 1
 
-    async def _gen_sys(arguments: dict, tool_name: str, _cmd='sys') -> list:
+    async def _gen_sys(arguments: dict, tool_name: str, _cmd="sys") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_sys')(_gen_sys)
+    register_handler_fn("lazyown_sys")(_gen_sys)
     _reg += 1
 
-    async def _gen_tab(arguments: dict, tool_name: str, _cmd='tab') -> list:
+    async def _gen_tab(arguments: dict, tool_name: str, _cmd="tab") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tab')(_gen_tab)
+    register_handler_fn("lazyown_tab")(_gen_tab)
     _reg += 1
 
-    async def _gen_targetedKerberoas(arguments: dict, tool_name: str, _cmd='targetedKerberoas') -> list:
+    async def _gen_targetedKerberoas(arguments: dict, tool_name: str, _cmd="targetedKerberoas") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_targetedKerberoas')(_gen_targetedKerberoas)
+    register_handler_fn("lazyown_targetedKerberoas")(_gen_targetedKerberoas)
     _reg += 1
 
-    async def _gen_tasks(arguments: dict, tool_name: str, _cmd='tasks') -> list:
+    async def _gen_tasks(arguments: dict, tool_name: str, _cmd="tasks") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tasks')(_gen_tasks)
+    register_handler_fn("lazyown_tasks")(_gen_tasks)
     _reg += 1
 
-    async def _gen_tcpdump_capture(arguments: dict, tool_name: str, _cmd='tcpdump_capture') -> list:
+    async def _gen_tcpdump_capture(arguments: dict, tool_name: str, _cmd="tcpdump_capture") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tcpdump_capture')(_gen_tcpdump_capture)
+    register_handler_fn("lazyown_tcpdump_capture")(_gen_tcpdump_capture)
     _reg += 1
 
-    async def _gen_tcpdump_icmp(arguments: dict, tool_name: str, _cmd='tcpdump_icmp') -> list:
+    async def _gen_tcpdump_icmp(arguments: dict, tool_name: str, _cmd="tcpdump_icmp") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tcpdump_icmp')(_gen_tcpdump_icmp)
+    register_handler_fn("lazyown_tcpdump_icmp")(_gen_tcpdump_icmp)
     _reg += 1
 
-    async def _gen_team_chat(arguments: dict, tool_name: str, _cmd='team_chat') -> list:
+    async def _gen_team_chat(arguments: dict, tool_name: str, _cmd="team_chat") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_team_chat')(_gen_team_chat)
+    register_handler_fn("lazyown_team_chat")(_gen_team_chat)
     _reg += 1
 
-    async def _gen_team_status(arguments: dict, tool_name: str, _cmd='team_status') -> list:
+    async def _gen_team_status(arguments: dict, tool_name: str, _cmd="team_status") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_team_status')(_gen_team_status)
+    register_handler_fn("lazyown_team_status")(_gen_team_status)
     _reg += 1
 
-    async def _gen_template_helper_serializer(arguments: dict, tool_name: str, _cmd='template_helper_serializer') -> list:
+    async def _gen_template_helper_serializer(
+        arguments: dict, tool_name: str, _cmd="template_helper_serializer"
+    ) -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_template_helper_serializer')(_gen_template_helper_serializer)
+    register_handler_fn("lazyown_template_helper_serializer")(_gen_template_helper_serializer)
     _reg += 1
 
-    async def _gen_tenant(arguments: dict, tool_name: str, _cmd='tenant') -> list:
+    async def _gen_tenant(arguments: dict, tool_name: str, _cmd="tenant") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tenant')(_gen_tenant)
+    register_handler_fn("lazyown_tenant")(_gen_tenant)
     _reg += 1
 
-    async def _gen_tgrep(arguments: dict, tool_name: str, _cmd='tgrep') -> list:
+    async def _gen_tgrep(arguments: dict, tool_name: str, _cmd="tgrep") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tgrep')(_gen_tgrep)
+    register_handler_fn("lazyown_tgrep")(_gen_tgrep)
     _reg += 1
 
-    async def _gen_ticketer(arguments: dict, tool_name: str, _cmd='ticketer') -> list:
+    async def _gen_ticketer(arguments: dict, tool_name: str, _cmd="ticketer") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ticketer')(_gen_ticketer)
+    register_handler_fn("lazyown_ticketer")(_gen_ticketer)
     _reg += 1
 
-    async def _gen_timeline_browser(arguments: dict, tool_name: str, _cmd='timeline_browser') -> list:
+    async def _gen_timeline_browser(arguments: dict, tool_name: str, _cmd="timeline_browser") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_timeline_browser')(_gen_timeline_browser)
+    register_handler_fn("lazyown_timeline_browser")(_gen_timeline_browser)
     _reg += 1
 
-    async def _gen_toast_clear(arguments: dict, tool_name: str, _cmd='toast_clear') -> list:
+    async def _gen_toast_clear(arguments: dict, tool_name: str, _cmd="toast_clear") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_toast_clear')(_gen_toast_clear)
+    register_handler_fn("lazyown_toast_clear")(_gen_toast_clear)
     _reg += 1
 
-    async def _gen_toctoc(arguments: dict, tool_name: str, _cmd='toctoc') -> list:
+    async def _gen_toctoc(arguments: dict, tool_name: str, _cmd="toctoc") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_toctoc')(_gen_toctoc)
+    register_handler_fn("lazyown_toctoc")(_gen_toctoc)
     _reg += 1
 
-    async def _gen_tord(arguments: dict, tool_name: str, _cmd='tord') -> list:
+    async def _gen_tord(arguments: dict, tool_name: str, _cmd="tord") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tord')(_gen_tord)
+    register_handler_fn("lazyown_tord")(_gen_tord)
     _reg += 1
 
-    async def _gen_trace(arguments: dict, tool_name: str, _cmd='trace') -> list:
+    async def _gen_trace(arguments: dict, tool_name: str, _cmd="trace") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_trace')(_gen_trace)
+    register_handler_fn("lazyown_trace")(_gen_trace)
     _reg += 1
 
-    async def _gen_transform(arguments: dict, tool_name: str, _cmd='transform') -> list:
+    async def _gen_transform(arguments: dict, tool_name: str, _cmd="transform") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_transform')(_gen_transform)
+    register_handler_fn("lazyown_transform")(_gen_transform)
     _reg += 1
 
-    async def _gen_trufflehog(arguments: dict, tool_name: str, _cmd='trufflehog') -> list:
+    async def _gen_trufflehog(arguments: dict, tool_name: str, _cmd="trufflehog") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_trufflehog')(_gen_trufflehog)
+    register_handler_fn("lazyown_trufflehog")(_gen_trufflehog)
     _reg += 1
 
-    async def _gen_tshark_analyze(arguments: dict, tool_name: str, _cmd='tshark_analyze') -> list:
+    async def _gen_tshark_analyze(arguments: dict, tool_name: str, _cmd="tshark_analyze") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tshark_analyze')(_gen_tshark_analyze)
+    register_handler_fn("lazyown_tshark_analyze")(_gen_tshark_analyze)
     _reg += 1
 
-    async def _gen_ttp_matrix(arguments: dict, tool_name: str, _cmd='ttp_matrix') -> list:
+    async def _gen_ttp_matrix(arguments: dict, tool_name: str, _cmd="ttp_matrix") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ttp_matrix')(_gen_ttp_matrix)
+    register_handler_fn("lazyown_ttp_matrix")(_gen_ttp_matrix)
     _reg += 1
 
-    async def _gen_ttp_rebuild(arguments: dict, tool_name: str, _cmd='ttp_rebuild') -> list:
+    async def _gen_ttp_rebuild(arguments: dict, tool_name: str, _cmd="ttp_rebuild") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ttp_rebuild')(_gen_ttp_rebuild)
+    register_handler_fn("lazyown_ttp_rebuild")(_gen_ttp_rebuild)
     _reg += 1
 
-    async def _gen_ttp_show(arguments: dict, tool_name: str, _cmd='ttp_show') -> list:
+    async def _gen_ttp_show(arguments: dict, tool_name: str, _cmd="ttp_show") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_ttp_show')(_gen_ttp_show)
+    register_handler_fn("lazyown_ttp_show")(_gen_ttp_show)
     _reg += 1
 
-    async def _gen_tui_theme(arguments: dict, tool_name: str, _cmd='tui_theme') -> list:
+    async def _gen_tui_theme(arguments: dict, tool_name: str, _cmd="tui_theme") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_tui_theme')(_gen_tui_theme)
+    register_handler_fn("lazyown_tui_theme")(_gen_tui_theme)
     _reg += 1
 
-    async def _gen_unicode_WAFbypass(arguments: dict, tool_name: str, _cmd='unicode_WAFbypass') -> list:
+    async def _gen_unicode_WAFbypass(arguments: dict, tool_name: str, _cmd="unicode_WAFbypass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_unicode_WAFbypass')(_gen_unicode_WAFbypass)
+    register_handler_fn("lazyown_unicode_WAFbypass")(_gen_unicode_WAFbypass)
     _reg += 1
 
-    async def _gen_unlock_target(arguments: dict, tool_name: str, _cmd='unlock_target') -> list:
+    async def _gen_unlock_target(arguments: dict, tool_name: str, _cmd="unlock_target") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_unlock_target')(_gen_unlock_target)
+    register_handler_fn("lazyown_unlock_target")(_gen_unlock_target)
     _reg += 1
 
-    async def _gen_unseal_credentials(arguments: dict, tool_name: str, _cmd='unseal_credentials') -> list:
+    async def _gen_unseal_credentials(arguments: dict, tool_name: str, _cmd="unseal_credentials") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_unseal_credentials')(_gen_unseal_credentials)
+    register_handler_fn("lazyown_unseal_credentials")(_gen_unseal_credentials)
     _reg += 1
 
-    async def _gen_unzip(arguments: dict, tool_name: str, _cmd='unzip') -> list:
+    async def _gen_unzip(arguments: dict, tool_name: str, _cmd="unzip") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_unzip')(_gen_unzip)
+    register_handler_fn("lazyown_unzip")(_gen_unzip)
     _reg += 1
 
-    async def _gen_upload_bypass(arguments: dict, tool_name: str, _cmd='upload_bypass') -> list:
+    async def _gen_upload_bypass(arguments: dict, tool_name: str, _cmd="upload_bypass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_upload_bypass')(_gen_upload_bypass)
+    register_handler_fn("lazyown_upload_bypass")(_gen_upload_bypass)
     _reg += 1
 
-    async def _gen_upload_c2(arguments: dict, tool_name: str, _cmd='upload_c2') -> list:
+    async def _gen_upload_c2(arguments: dict, tool_name: str, _cmd="upload_c2") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_upload_c2')(_gen_upload_c2)
+    register_handler_fn("lazyown_upload_c2")(_gen_upload_c2)
     _reg += 1
 
-    async def _gen_upload_gofile(arguments: dict, tool_name: str, _cmd='upload_gofile') -> list:
+    async def _gen_upload_gofile(arguments: dict, tool_name: str, _cmd="upload_gofile") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_upload_gofile')(_gen_upload_gofile)
+    register_handler_fn("lazyown_upload_gofile")(_gen_upload_gofile)
     _reg += 1
 
-    async def _gen_urldecode(arguments: dict, tool_name: str, _cmd='urldecode') -> list:
+    async def _gen_urldecode(arguments: dict, tool_name: str, _cmd="urldecode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_urldecode')(_gen_urldecode)
+    register_handler_fn("lazyown_urldecode")(_gen_urldecode)
     _reg += 1
 
-    async def _gen_urlencode(arguments: dict, tool_name: str, _cmd='urlencode') -> list:
+    async def _gen_urlencode(arguments: dict, tool_name: str, _cmd="urlencode") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_urlencode')(_gen_urlencode)
+    register_handler_fn("lazyown_urlencode")(_gen_urlencode)
     _reg += 1
 
-    async def _gen_use(arguments: dict, tool_name: str, _cmd='use') -> list:
+    async def _gen_use(arguments: dict, tool_name: str, _cmd="use") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_use')(_gen_use)
+    register_handler_fn("lazyown_use")(_gen_use)
     _reg += 1
 
-    async def _gen_username_anarchy(arguments: dict, tool_name: str, _cmd='username_anarchy') -> list:
+    async def _gen_username_anarchy(arguments: dict, tool_name: str, _cmd="username_anarchy") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_username_anarchy')(_gen_username_anarchy)
+    register_handler_fn("lazyown_username_anarchy")(_gen_username_anarchy)
     _reg += 1
 
-    async def _gen_utf(arguments: dict, tool_name: str, _cmd='utf') -> list:
+    async def _gen_utf(arguments: dict, tool_name: str, _cmd="utf") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_utf')(_gen_utf)
+    register_handler_fn("lazyown_utf")(_gen_utf)
     _reg += 1
 
-    async def _gen_v(arguments: dict, tool_name: str, _cmd='v') -> list:
+    async def _gen_v(arguments: dict, tool_name: str, _cmd="v") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_v')(_gen_v)
+    register_handler_fn("lazyown_v")(_gen_v)
     _reg += 1
 
-    async def _gen_veil(arguments: dict, tool_name: str, _cmd='veil') -> list:
+    async def _gen_veil(arguments: dict, tool_name: str, _cmd="veil") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_veil')(_gen_veil)
+    register_handler_fn("lazyown_veil")(_gen_veil)
     _reg += 1
 
-    async def _gen_vpn(arguments: dict, tool_name: str, _cmd='vpn') -> list:
+    async def _gen_vpn(arguments: dict, tool_name: str, _cmd="vpn") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_vpn')(_gen_vpn)
+    register_handler_fn("lazyown_vpn")(_gen_vpn)
     _reg += 1
 
-    async def _gen_vscan(arguments: dict, tool_name: str, _cmd='vscan') -> list:
+    async def _gen_vscan(arguments: dict, tool_name: str, _cmd="vscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_vscan')(_gen_vscan)
+    register_handler_fn("lazyown_vscan")(_gen_vscan)
     _reg += 1
 
-    async def _gen_vuln_list(arguments: dict, tool_name: str, _cmd='vuln_list') -> list:
+    async def _gen_vuln_list(arguments: dict, tool_name: str, _cmd="vuln_list") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_vuln_list')(_gen_vuln_list)
+    register_handler_fn("lazyown_vuln_list")(_gen_vuln_list)
     _reg += 1
 
-    async def _gen_vulns(arguments: dict, tool_name: str, _cmd='vulns') -> list:
+    async def _gen_vulns(arguments: dict, tool_name: str, _cmd="vulns") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_vulns')(_gen_vulns)
+    register_handler_fn("lazyown_vulns")(_gen_vulns)
     _reg += 1
 
-    async def _gen_waybackmachine(arguments: dict, tool_name: str, _cmd='waybackmachine') -> list:
+    async def _gen_waybackmachine(arguments: dict, tool_name: str, _cmd="waybackmachine") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_waybackmachine')(_gen_waybackmachine)
+    register_handler_fn("lazyown_waybackmachine")(_gen_waybackmachine)
     _reg += 1
 
-    async def _gen_weevely(arguments: dict, tool_name: str, _cmd='weevely') -> list:
+    async def _gen_weevely(arguments: dict, tool_name: str, _cmd="weevely") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_weevely')(_gen_weevely)
+    register_handler_fn("lazyown_weevely")(_gen_weevely)
     _reg += 1
 
-    async def _gen_weevelygen(arguments: dict, tool_name: str, _cmd='weevelygen') -> list:
+    async def _gen_weevelygen(arguments: dict, tool_name: str, _cmd="weevelygen") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_weevelygen')(_gen_weevelygen)
+    register_handler_fn("lazyown_weevelygen")(_gen_weevelygen)
     _reg += 1
 
-    async def _gen_wfuzz(arguments: dict, tool_name: str, _cmd='wfuzz') -> list:
+    async def _gen_wfuzz(arguments: dict, tool_name: str, _cmd="wfuzz") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wfuzz')(_gen_wfuzz)
+    register_handler_fn("lazyown_wfuzz")(_gen_wfuzz)
     _reg += 1
 
-    async def _gen_whatweb(arguments: dict, tool_name: str, _cmd='whatweb') -> list:
+    async def _gen_whatweb(arguments: dict, tool_name: str, _cmd="whatweb") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_whatweb')(_gen_whatweb)
+    register_handler_fn("lazyown_whatweb")(_gen_whatweb)
     _reg += 1
 
-    async def _gen_whoami(arguments: dict, tool_name: str, _cmd='whoami') -> list:
+    async def _gen_whoami(arguments: dict, tool_name: str, _cmd="whoami") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_whoami')(_gen_whoami)
+    register_handler_fn("lazyown_whoami")(_gen_whoami)
     _reg += 1
 
-    async def _gen_wifipass(arguments: dict, tool_name: str, _cmd='wifipass') -> list:
+    async def _gen_wifipass(arguments: dict, tool_name: str, _cmd="wifipass") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wifipass')(_gen_wifipass)
+    register_handler_fn("lazyown_wifipass")(_gen_wifipass)
     _reg += 1
 
-    async def _gen_winbase64payload(arguments: dict, tool_name: str, _cmd='winbase64payload') -> list:
+    async def _gen_winbase64payload(arguments: dict, tool_name: str, _cmd="winbase64payload") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_winbase64payload')(_gen_winbase64payload)
+    register_handler_fn("lazyown_winbase64payload")(_gen_winbase64payload)
     _reg += 1
 
-    async def _gen_windapsearch(arguments: dict, tool_name: str, _cmd='windapsearch') -> list:
+    async def _gen_windapsearch(arguments: dict, tool_name: str, _cmd="windapsearch") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_windapsearch')(_gen_windapsearch)
+    register_handler_fn("lazyown_windapsearch")(_gen_windapsearch)
     _reg += 1
 
-    async def _gen_windapsearchscrapeusers(arguments: dict, tool_name: str, _cmd='windapsearchscrapeusers') -> list:
+    async def _gen_windapsearchscrapeusers(arguments: dict, tool_name: str, _cmd="windapsearchscrapeusers") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_windapsearchscrapeusers')(_gen_windapsearchscrapeusers)
+    register_handler_fn("lazyown_windapsearchscrapeusers")(_gen_windapsearchscrapeusers)
     _reg += 1
 
-    async def _gen_winpeas(arguments: dict, tool_name: str, _cmd='winpeas') -> list:
+    async def _gen_winpeas(arguments: dict, tool_name: str, _cmd="winpeas") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_winpeas')(_gen_winpeas)
+    register_handler_fn("lazyown_winpeas")(_gen_winpeas)
     _reg += 1
 
-    async def _gen_wipe_free(arguments: dict, tool_name: str, _cmd='wipe_free') -> list:
+    async def _gen_wipe_free(arguments: dict, tool_name: str, _cmd="wipe_free") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wipe_free')(_gen_wipe_free)
+    register_handler_fn("lazyown_wipe_free")(_gen_wipe_free)
     _reg += 1
 
-    async def _gen_wipe_logs(arguments: dict, tool_name: str, _cmd='wipe_logs') -> list:
+    async def _gen_wipe_logs(arguments: dict, tool_name: str, _cmd="wipe_logs") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wipe_logs')(_gen_wipe_logs)
+    register_handler_fn("lazyown_wipe_logs")(_gen_wipe_logs)
     _reg += 1
 
-    async def _gen_wipe_timeline(arguments: dict, tool_name: str, _cmd='wipe_timeline') -> list:
+    async def _gen_wipe_timeline(arguments: dict, tool_name: str, _cmd="wipe_timeline") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wipe_timeline')(_gen_wipe_timeline)
+    register_handler_fn("lazyown_wipe_timeline")(_gen_wipe_timeline)
     _reg += 1
 
-    async def _gen_wizard(arguments: dict, tool_name: str, _cmd='wizard') -> list:
+    async def _gen_wizard(arguments: dict, tool_name: str, _cmd="wizard") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wizard')(_gen_wizard)
+    register_handler_fn("lazyown_wizard")(_gen_wizard)
     _reg += 1
 
-    async def _gen_wmi_lateral(arguments: dict, tool_name: str, _cmd='wmi_lateral') -> list:
+    async def _gen_wmi_lateral(arguments: dict, tool_name: str, _cmd="wmi_lateral") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wmi_lateral')(_gen_wmi_lateral)
+    register_handler_fn("lazyown_wmi_lateral")(_gen_wmi_lateral)
     _reg += 1
 
-    async def _gen_wmi_persist(arguments: dict, tool_name: str, _cmd='wmi_persist') -> list:
+    async def _gen_wmi_persist(arguments: dict, tool_name: str, _cmd="wmi_persist") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wmi_persist')(_gen_wmi_persist)
+    register_handler_fn("lazyown_wmi_persist")(_gen_wmi_persist)
     _reg += 1
 
-    async def _gen_wmi_scheduled_task(arguments: dict, tool_name: str, _cmd='wmi_scheduled_task') -> list:
+    async def _gen_wmi_scheduled_task(arguments: dict, tool_name: str, _cmd="wmi_scheduled_task") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wmi_scheduled_task')(_gen_wmi_scheduled_task)
+    register_handler_fn("lazyown_wmi_scheduled_task")(_gen_wmi_scheduled_task)
     _reg += 1
 
-    async def _gen_wmiexec(arguments: dict, tool_name: str, _cmd='wmiexec') -> list:
+    async def _gen_wmiexec(arguments: dict, tool_name: str, _cmd="wmiexec") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wmiexec')(_gen_wmiexec)
+    register_handler_fn("lazyown_wmiexec")(_gen_wmiexec)
     _reg += 1
 
-    async def _gen_wmiexecpro(arguments: dict, tool_name: str, _cmd='wmiexecpro') -> list:
+    async def _gen_wmiexecpro(arguments: dict, tool_name: str, _cmd="wmiexecpro") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wmiexecpro')(_gen_wmiexecpro)
+    register_handler_fn("lazyown_wmiexecpro")(_gen_wmiexecpro)
     _reg += 1
 
-    async def _gen_wpscan(arguments: dict, tool_name: str, _cmd='wpscan') -> list:
+    async def _gen_wpscan(arguments: dict, tool_name: str, _cmd="wpscan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wpscan')(_gen_wpscan)
+    register_handler_fn("lazyown_wpscan")(_gen_wpscan)
     _reg += 1
 
-    async def _gen_wrapper(arguments: dict, tool_name: str, _cmd='wrapper') -> list:
+    async def _gen_wrapper(arguments: dict, tool_name: str, _cmd="wrapper") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_wrapper')(_gen_wrapper)
+    register_handler_fn("lazyown_wrapper")(_gen_wrapper)
     _reg += 1
 
-    async def _gen_www(arguments: dict, tool_name: str, _cmd='www') -> list:
+    async def _gen_www(arguments: dict, tool_name: str, _cmd="www") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_www')(_gen_www)
+    register_handler_fn("lazyown_www")(_gen_www)
     _reg += 1
 
-    async def _gen_xss(arguments: dict, tool_name: str, _cmd='xss') -> list:
+    async def _gen_xss(arguments: dict, tool_name: str, _cmd="xss") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_xss')(_gen_xss)
+    register_handler_fn("lazyown_xss")(_gen_xss)
     _reg += 1
 
-    async def _gen_xsstrike(arguments: dict, tool_name: str, _cmd='xsstrike') -> list:
+    async def _gen_xsstrike(arguments: dict, tool_name: str, _cmd="xsstrike") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_xsstrike')(_gen_xsstrike)
+    register_handler_fn("lazyown_xsstrike")(_gen_xsstrike)
     _reg += 1
 
-    async def _gen_yara_scan(arguments: dict, tool_name: str, _cmd='yara_scan') -> list:
+    async def _gen_yara_scan(arguments: dict, tool_name: str, _cmd="yara_scan") -> list:
         cmd = arguments.get("args", "")
         output = run_lazyown_cmd_fn(f"{_cmd} {cmd}".strip())
         return make_text_fn(tool_name, output)
 
-    register_handler_fn('lazyown_yara_scan')(_gen_yara_scan)
+    register_handler_fn("lazyown_yara_scan")(_gen_yara_scan)
     _reg += 1
 
     return _reg

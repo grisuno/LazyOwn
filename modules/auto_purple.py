@@ -23,6 +23,7 @@ Usage
     result = loop.execute_and_measure("mimikatz", "sekurlsa::logonpasswords", "credential")
     print(f"Detected: {result.actually_detected}  Oracle predicted: {result.oracle_prediction:.0%}")
 """
+
 from __future__ import annotations
 
 import csv
@@ -51,9 +52,15 @@ _REPORT_FILE = _PURPLE_DIR / "purple_report.json"
 _BT_LOG_FILE = _PURPLE_DIR / "purple_bt_output.log"
 
 _DATASET_FIELDS = [
-    "timestamp", "command", "args", "category",
-    "oracle_prediction", "actually_detected", "detection_methods",
-    "red_output_hash", "session_id",
+    "timestamp",
+    "command",
+    "args",
+    "category",
+    "oracle_prediction",
+    "actually_detected",
+    "detection_methods",
+    "red_output_hash",
+    "session_id",
 ]
 
 # ---------------------------------------------------------------------------
@@ -64,6 +71,7 @@ _DATASET_FIELDS = [
 @dataclass(frozen=True)
 class DetectionMethod:
     """Describes one LazyOwnBT detection surface."""
+
     name: str
     bt_command: str
     output_parser: str
@@ -123,6 +131,7 @@ _DETECTION_METHODS: list[DetectionMethod] = [
 @dataclass
 class PurpleResult:
     """Result of a single red action measurement."""
+
     command: str
     args: str
     category: str
@@ -155,6 +164,7 @@ class PurpleResult:
 @dataclass(frozen=True)
 class PurpleScore:
     """Aggregated detection score for an engagement."""
+
     total: int
     detected: int
     missed: int
@@ -173,12 +183,18 @@ class IPurpleLoop(ABC):
 
     @abstractmethod
     def execute_and_measure(
-        self, command: str, args: str, category: str,
+        self,
+        command: str,
+        args: str,
+        category: str,
     ) -> PurpleResult: ...
 
     @abstractmethod
     def measure_only(
-        self, command: str, args: str, category: str,
+        self,
+        command: str,
+        args: str,
+        category: str,
     ) -> PurpleResult: ...
 
     @abstractmethod
@@ -313,12 +329,12 @@ def _run_bt_command(bt_path: str, command: str, timeout: int = 30) -> str:
 def _parse_ai_test(output: str, command: str, args: str) -> bool:
     """Parse LazyOwnBT ai_test output. Only True if model says 'malicious'."""
     lower = output.lower()
-    for line in lower.split('\n'):
+    for line in lower.split("\n"):
         line = line.strip()
-        if ('malicioso:' in line or 'malicious:' in line) and 'modelo' not in line and 'model' not in line:
-            if 'no' in line and ('❌' in line or line.endswith(' no')):
+        if ("malicioso:" in line or "malicious:" in line) and "modelo" not in line and "model" not in line:
+            if "no" in line and ("❌" in line or line.endswith(" no")):
                 return False
-            if 'sí' in line or 'si' in line or 'yes' in line:
+            if "sí" in line or "si" in line or "yes" in line:
                 return True
     return False
 
@@ -333,10 +349,20 @@ def _parse_keyword_match(output: str, command: str, args: str) -> bool:
         keywords.extend(a.lower() for a in args.split() if len(a) > 2)
     for kw in keywords:
         if kw in output_lower:
-            if any(marker in output_lower for marker in [
-                "suspicious", "detected", "alert", "malicious",
-                "warning", "anomaly", "threat", "ioc", "flagged",
-            ]):
+            if any(
+                marker in output_lower
+                for marker in [
+                    "suspicious",
+                    "detected",
+                    "alert",
+                    "malicious",
+                    "warning",
+                    "anomaly",
+                    "threat",
+                    "ioc",
+                    "flagged",
+                ]
+            ):
                 return True
     if "no suspicious" in output_lower or "no threats" in output_lower:
         return False
@@ -415,7 +441,10 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
     # -- IPurpleLoop --------------------------------------------------------
 
     def execute_and_measure(
-        self, command: str, args: str, category: str,
+        self,
+        command: str,
+        args: str,
+        category: str,
     ) -> PurpleResult:
         """Execute a red action and measure if LazyOwnBT detects it."""
         from modules.detection_oracle import get_oracle
@@ -455,12 +484,17 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
 
         log.info(
             "PurpleTeamLoop: '%s' detected=%s (methods=%s)",
-            command, detected, detections,
+            command,
+            detected,
+            detections,
         )
         return result
 
     def measure_only(
-        self, command: str, args: str, category: str,
+        self,
+        command: str,
+        args: str,
+        category: str,
     ) -> PurpleResult:
         """Measure without executing — test if BT would detect the command."""
         from modules.detection_oracle import get_oracle
@@ -581,14 +615,16 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
         """Execute a red team command via LazyOwn's run_command."""
         try:
             from core.process import run_command
+
             full_cmd = f"{command} {args}".strip()
 
-            if command == 'lazynmap':
+            if command == "lazynmap":
                 from core.config import load_payload
+
                 params = load_payload()
-                target = params.get('rhost', '127.0.0.1')
-                script = os.path.join(os.getcwd(), 'modules', 'lazynmap.sh')
-                full_cmd = f'bash {script} -t {target}'
+                target = params.get("rhost", "127.0.0.1")
+                script = os.path.join(os.getcwd(), "modules", "lazynmap.sh")
+                full_cmd = f"bash {script} -t {target}"
 
             output = run_command(full_cmd, timeout=120)
             return output if isinstance(output, str) else str(output)
@@ -597,7 +633,9 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
             return f"[error] {exc}"
 
     def _query_blue(
-        self, command: str, args: str,
+        self,
+        command: str,
+        args: str,
     ) -> tuple[dict[str, bool], dict[str, str]]:
         """Query each enabled LazyOwnBT detection method."""
         detections: dict[str, bool] = {}
@@ -628,8 +666,10 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
         try:
             bt_path = os.path.abspath(self._bt_path)
             import sys
+
             sys.path.insert(0, bt_path)
             from lazyownbt.detection import get_engine
+
             engine = get_engine(os.path.join(bt_path, "lazyown.db"))
             alerts = engine.check_command(command, args)
             if alerts:
@@ -647,6 +687,7 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
     def _hash_output(self, output: str) -> str:
         """Hash red output for dataset dedup."""
         import hashlib
+
         return hashlib.sha256(output.encode()).hexdigest()[:16]
 
     def _write_audit(self, result: PurpleResult) -> None:
@@ -690,9 +731,7 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
                 continue
             try:
                 d = json.loads(line)
-                results.append(PurpleResult(**{
-                    k: d[k] for k in PurpleResult.__dataclass_fields__ if k in d
-                }))
+                results.append(PurpleResult(**{k: d[k] for k in PurpleResult.__dataclass_fields__ if k in d}))
             except Exception:
                 continue
         return results
@@ -713,22 +752,13 @@ class PurpleTeamLoop(IPurpleLoop, IPurpleEvaluator):
             "total": total,
             "correct": correct,
             "accuracy": correct / total if total > 0 else 0.0,
-            "underpredicted": sum(
-                1 for r in self._results
-                if r.actually_detected and r.oracle_prediction < 0.3
-            ),
-            "overpredicted": sum(
-                1 for r in self._results
-                if not r.actually_detected and r.oracle_prediction > 0.7
-            ),
+            "underpredicted": sum(1 for r in self._results if r.actually_detected and r.oracle_prediction < 0.3),
+            "overpredicted": sum(1 for r in self._results if not r.actually_detected and r.oracle_prediction > 0.7),
         }
 
     def _get_detection_methods(self) -> list[dict[str, str]]:
         """Return available detection methods for display."""
-        return [
-            {"name": m.name, "description": m.description}
-            for m in _DETECTION_METHODS
-        ]
+        return [{"name": m.name, "description": m.description} for m in _DETECTION_METHODS]
 
 
 # ---------------------------------------------------------------------------
@@ -782,9 +812,7 @@ if __name__ == "__main__":
     import argparse
     import sys
 
-    parser = argparse.ArgumentParser(
-        description="LazyOwn Purple Team — honest detection measurement"
-    )
+    parser = argparse.ArgumentParser(description="LazyOwn Purple Team — honest detection measurement")
     sub = parser.add_subparsers(dest="action")
 
     exec_p = sub.add_parser("exec", help="Execute + measure")

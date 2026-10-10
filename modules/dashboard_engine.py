@@ -23,8 +23,16 @@ from typing import Any
 SESSIONS_DIR = Path(__file__).resolve().parent.parent / "sessions"
 
 _NMAP_PORT_PRIORITY: dict[str, int] = {
-    "http": 1, "https": 2, "ssh": 3, "smb": 4, "rdp": 5,
-    "winrm": 6, "mysql": 7, "ftp": 8, "telnet": 9, "dns": 10,
+    "http": 1,
+    "https": 2,
+    "ssh": 3,
+    "smb": 4,
+    "rdp": 5,
+    "winrm": 6,
+    "mysql": 7,
+    "ftp": 8,
+    "telnet": 9,
+    "dns": 10,
 }
 
 
@@ -62,6 +70,7 @@ def _parse_nmap_xml_services(sessions_dir: Path) -> dict[str, list[dict]]:
     for ip in results:
         results[ip].sort(key=lambda s: _NMAP_PORT_PRIORITY.get(s["name"], 99))
     return results
+
 
 _PHASE_COLORS: dict[str, str] = {
     "unscanned": "white",
@@ -166,9 +175,7 @@ class DashboardEngine:
             for host_ip, host in wm._hosts.items():
                 phase = host.state.value if hasattr(host.state, "value") else str(host.state)
                 stats[f"hosts_{phase}"] = stats.get(f"hosts_{phase}", 0) + 1
-                svc_list = [
-                    f"{s.port}/{s.name}" for s in host.services.values() if s.state == "open"
-                ]
+                svc_list = [f"{s.port}/{s.name}" for s in host.services.values() if s.state == "open"]
 
                 node = {
                     "ip": host_ip,
@@ -180,12 +187,14 @@ class DashboardEngine:
                     "service_count": len(svc_list),
                 }
                 nodes.append(node)
-                edges.append({
-                    "source": "attacker",
-                    "target": host_ip,
-                    "relation": "direct",
-                    "active": True,
-                })
+                edges.append(
+                    {
+                        "source": "attacker",
+                        "target": host_ip,
+                        "relation": "direct",
+                        "active": True,
+                    }
+                )
 
         nmap_services = _parse_nmap_xml_services(self._sessions_dir)
         known_ips = {n["ip"] for n in nodes}
@@ -197,21 +206,25 @@ class DashboardEngine:
                         n["services"] = svc_list
                         n["service_count"] = len(svc_list)
             else:
-                nodes.append({
-                    "ip": ip,
-                    "label": ip,
-                    "phase": "scanned",
-                    "phase_color": _PHASE_COLORS.get("scanned", "blue"),
-                    "services": svc_list,
-                    "os_hint": "",
-                    "service_count": len(svc_list),
-                })
-                edges.append({
-                    "source": "attacker",
-                    "target": ip,
-                    "relation": "direct",
-                    "active": True,
-                })
+                nodes.append(
+                    {
+                        "ip": ip,
+                        "label": ip,
+                        "phase": "scanned",
+                        "phase_color": _PHASE_COLORS.get("scanned", "blue"),
+                        "services": svc_list,
+                        "os_hint": "",
+                        "service_count": len(svc_list),
+                    }
+                )
+                edges.append(
+                    {
+                        "source": "attacker",
+                        "target": ip,
+                        "relation": "direct",
+                        "active": True,
+                    }
+                )
                 stats["hosts_scanned"] = stats.get("hosts_scanned", 0) + 1
 
         if self._exploit_recommender is not None:
@@ -233,13 +246,15 @@ class DashboardEngine:
             try:
                 profile = self._evasion_engine.get_active_profile()
                 if profile:
-                    beacons.append({
-                        "profile_id": profile.profile_id,
-                        "user_agent": profile.user_agent[:50],
-                        "sleep_s": profile.sleep_s,
-                        "jitter_ms": profile.jitter_ms,
-                        "domain_front": profile.domain_front,
-                    })
+                    beacons.append(
+                        {
+                            "profile_id": profile.profile_id,
+                            "user_agent": profile.user_agent[:50],
+                            "sleep_s": profile.sleep_s,
+                            "jitter_ms": profile.jitter_ms,
+                            "domain_front": profile.domain_front,
+                        }
+                    )
                 stats["active_profiles"] = 1 if profile else 0
             except Exception:
                 pass
@@ -366,8 +381,7 @@ class DashboardEngine:
                 prefix = "    +--" if i == len(nodes) - 1 else "    |--"
                 phase_icon = self._phase_icon(node.get("phase", "unscanned"))
                 lines.append(
-                    f"{prefix} [{phase_icon}] {node['ip']} "
-                    f"({node.get('os_hint', '?')}) [{node.get('phase', '?')}]"
+                    f"{prefix} [{phase_icon}] {node['ip']} ({node.get('os_hint', '?')}) [{node.get('phase', '?')}]"
                 )
                 for svc in node.get("services", [])[:3]:
                     lines.append(f"    |    |-- {svc}")

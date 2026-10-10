@@ -119,10 +119,7 @@ def _compose_spec(contract: Contract, min_sad_paths: int) -> Spec:
             "the spec, the test agent writes the tests, the implementation "
             "agent writes the source, the reviewer runs the checks"
         ),
-        observability=(
-            "the operator reads the review report and the cycle log; "
-            "the cycle halts on the first blocker"
-        ),
+        observability=("the operator reads the review report and the cycle log; the cycle halts on the first blocker"),
         out_of_scope=[
             "changes outside the contract scope",
             "deploys without the human gate token",
@@ -138,10 +135,7 @@ def _render_yaml(spec: Spec) -> str:
         "trigger": spec.trigger,
         "inputs": spec.inputs,
         "happy_path": spec.happy_path,
-        "sad_paths": [
-            {"condition": sp.condition, "expected": sp.expected}
-            for sp in spec.sad_paths
-        ],
+        "sad_paths": [{"condition": sp.condition, "expected": sp.expected} for sp in spec.sad_paths],
         "data_flow": spec.data_flow,
         "observability": spec.observability,
         "out_of_scope": spec.out_of_scope,

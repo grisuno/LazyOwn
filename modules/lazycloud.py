@@ -15,6 +15,7 @@ from typing import Any
 
 try:
     import requests
+
     HAS_REQUESTS = True
 except ImportError:
     HAS_REQUESTS = False
@@ -43,12 +44,39 @@ AZURE_STORAGE_URL_TPL = "https://{account}.blob.core.windows.net"
 GCP_STORAGE_URL_TPL = "https://storage.googleapis.com/{bucket}"
 
 COMMON_AWS_BUCKETS = [
-    "production", "staging", "dev", "development", "backup", "backups",
-    "logs", "media", "assets", "static", "public", "private", "admin",
-    "internal", "customer", "users", "data", "database", "db", "config",
-    "terraform", "terraform-state", "cloudformation", "cf-templates",
-    "lambda", "code", "build", "artifacts", "releases", "{prefix}-terraform",
-    "{prefix}-state", "{prefix}-logs", "{prefix}-backups",
+    "production",
+    "staging",
+    "dev",
+    "development",
+    "backup",
+    "backups",
+    "logs",
+    "media",
+    "assets",
+    "static",
+    "public",
+    "private",
+    "admin",
+    "internal",
+    "customer",
+    "users",
+    "data",
+    "database",
+    "db",
+    "config",
+    "terraform",
+    "terraform-state",
+    "cloudformation",
+    "cf-templates",
+    "lambda",
+    "code",
+    "build",
+    "artifacts",
+    "releases",
+    "{prefix}-terraform",
+    "{prefix}-state",
+    "{prefix}-logs",
+    "{prefix}-backups",
 ]
 
 COMMON_GCP_BUCKETS = COMMON_AWS_BUCKETS
@@ -95,6 +123,7 @@ class CloudMetadataHarvester:
         if self.session is None:
             try:
                 import urllib.request
+
                 req = urllib.request.Request(url, headers=headers or {})
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                     return resp.read().decode()
@@ -167,7 +196,10 @@ class CloudMetadataHarvester:
                     findings["metadata"]["raw"] = val
                     break
 
-        identity = self._get(f"{AZURE_URL}/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/", headers=headers)
+        identity = self._get(
+            f"{AZURE_URL}/identity/oauth2/token?api-version=2018-02-01&resource=https://management.azure.com/",
+            headers=headers,
+        )
         if identity:
             findings["metadata"]["managed_identity_token"] = identity
 
@@ -231,6 +263,7 @@ class CloudBucketEnumerator:
         if self.session is None:
             try:
                 import urllib.request
+
                 req = urllib.request.Request(url, method="GET")
                 with urllib.request.urlopen(req, timeout=self.timeout) as resp:
                     return {"status": resp.status, "headers": dict(resp.headers)}
@@ -245,9 +278,7 @@ class CloudBucketEnumerator:
     def enumerate_s3(self, prefix: str, buckets: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate S3 buckets derived from a prefix."""
         findings: list[dict[str, Any]] = []
-        candidates = buckets if buckets else [
-            b.format(prefix=prefix) for b in COMMON_AWS_BUCKETS
-        ]
+        candidates = buckets if buckets else [b.format(prefix=prefix) for b in COMMON_AWS_BUCKETS]
         candidates.append(prefix)
 
         for bucket in set(candidates):
@@ -272,9 +303,7 @@ class CloudBucketEnumerator:
     def enumerate_azure_storage(self, prefix: str, accounts: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate Azure Blob Storage accounts."""
         findings: list[dict[str, Any]] = []
-        candidates = accounts if accounts else [
-            a.format(prefix=prefix) for a in COMMON_AZURE_CONTAINERS
-        ]
+        candidates = accounts if accounts else [a.format(prefix=prefix) for a in COMMON_AZURE_CONTAINERS]
         candidates.append(prefix)
 
         for account in set(candidates):
@@ -292,9 +321,7 @@ class CloudBucketEnumerator:
     def enumerate_gcp_storage(self, prefix: str, buckets: list[str] | None = None) -> list[dict[str, Any]]:
         """Enumerate GCP Storage buckets."""
         findings: list[dict[str, Any]] = []
-        candidates = buckets if buckets else [
-            b.format(prefix=prefix) for b in COMMON_GCP_BUCKETS
-        ]
+        candidates = buckets if buckets else [b.format(prefix=prefix) for b in COMMON_GCP_BUCKETS]
         candidates.append(prefix)
 
         for bucket in set(candidates):
@@ -315,7 +342,9 @@ class CloudBucketEnumerator:
 class CloudIAMEnumerator:
     """Enumerate IAM roles, users, and policies across cloud providers."""
 
-    def enumerate_aws_iam(self, access_key: str = "", secret_key: str = "", session_token: str = "") -> list[dict[str, Any]]:
+    def enumerate_aws_iam(
+        self, access_key: str = "", secret_key: str = "", session_token: str = ""
+    ) -> list[dict[str, Any]]:
         """Enumerate AWS IAM (requires valid credentials)."""
         findings: list[dict[str, Any]] = []
         if not HAS_REQUESTS:
@@ -346,10 +375,12 @@ class CloudIAMEnumerator:
                 "ListPolicies",
                 "GetAccountAuthorizationDetails",
             ]:
-                findings.append({
-                    "action": action,
-                    "status": "requires_custom_sigv4 — use aws_enum for full enumeration",
-                })
+                findings.append(
+                    {
+                        "action": action,
+                        "status": "requires_custom_sigv4 — use aws_enum for full enumeration",
+                    }
+                )
         except Exception:
             pass
 

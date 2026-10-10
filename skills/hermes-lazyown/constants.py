@@ -65,6 +65,7 @@ class PhaseNames:
     """
 
     from modules.killchain import KillChain as _KC
+
     _CANONICAL = _KC.phases()
 
     RECON = "recon"
@@ -81,8 +82,18 @@ class PhaseNames:
     C2 = "c2"
 
     ALL = [
-        RECON, SCAN, ENUM, EXPLOIT, PRIVESC, LATERAL, EXFIL, REPORT,
-        POSTEXP, PERSIST, CRED, C2,
+        RECON,
+        SCAN,
+        ENUM,
+        EXPLOIT,
+        PRIVESC,
+        LATERAL,
+        EXFIL,
+        REPORT,
+        POSTEXP,
+        PERSIST,
+        CRED,
+        C2,
     ]
 
     CANONICAL = list(_CANONICAL)

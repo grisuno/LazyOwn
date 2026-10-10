@@ -18,6 +18,7 @@ Design (SOLID)
 - Interface Segregation : SessionAggregator exposes only what callers need.
 - Dependency Inversion  : SessionAggregator depends on AbstractReader.
 """
+
 from __future__ import annotations
 
 import csv
@@ -33,9 +34,11 @@ from typing import Any
 # Value objects
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ImplantRecord:
     """One row from sessions/{client_id}.log."""
+
     client_id: str
     os: str
     pid: str
@@ -70,6 +73,7 @@ class ImplantRecord:
 @dataclass
 class CampaignTask:
     """One task from sessions/tasks.json."""
+
     id: int
     title: str
     description: str
@@ -80,6 +84,7 @@ class CampaignTask:
 @dataclass
 class SessionSummary:
     """Aggregated view of all active sessions."""
+
     implants: list[ImplantRecord] = field(default_factory=list)
     tasks: list[CampaignTask] = field(default_factory=list)
     discovered_hosts: list[str] = field(default_factory=list)
@@ -118,16 +123,16 @@ class SessionSummary:
 # Abstract reader
 # ---------------------------------------------------------------------------
 
-class AbstractReader(ABC):
 
+class AbstractReader(ABC):
     @abstractmethod
-    def read(self, sessions_dir: Path) -> Any:
-        ...
+    def read(self, sessions_dir: Path) -> Any: ...
 
 
 # ---------------------------------------------------------------------------
 # Concrete readers
 # ---------------------------------------------------------------------------
+
 
 class ImplantCSVReader(AbstractReader):
     """
@@ -136,8 +141,17 @@ class ImplantCSVReader(AbstractReader):
     """
 
     _FIELDS = [
-        "client_id", "os", "pid", "hostname", "ips", "user",
-        "discovered_ips", "result_portscan", "result_pwd", "command", "output",
+        "client_id",
+        "os",
+        "pid",
+        "hostname",
+        "ips",
+        "user",
+        "discovered_ips",
+        "result_portscan",
+        "result_pwd",
+        "command",
+        "output",
     ]
 
     def read(self, sessions_dir: Path) -> list[ImplantRecord]:
@@ -156,19 +170,21 @@ class ImplantCSVReader(AbstractReader):
                         row = {k.strip(): (v or "").strip() for k, v in row.items()}
                         if "client_id" not in row and "os" not in row:
                             continue
-                        records.append(ImplantRecord(
-                            client_id=row.get("client_id", name),
-                            os=row.get("os", ""),
-                            pid=row.get("pid", ""),
-                            hostname=row.get("hostname", ""),
-                            ips=row.get("ips", ""),
-                            user=row.get("user", ""),
-                            discovered_ips=row.get("discovered_ips", ""),
-                            result_portscan=row.get("result_portscan", ""),
-                            result_pwd=row.get("result_pwd", ""),
-                            command=row.get("command", ""),
-                            output=row.get("output", ""),
-                        ))
+                        records.append(
+                            ImplantRecord(
+                                client_id=row.get("client_id", name),
+                                os=row.get("os", ""),
+                                pid=row.get("pid", ""),
+                                hostname=row.get("hostname", ""),
+                                ips=row.get("ips", ""),
+                                user=row.get("user", ""),
+                                discovered_ips=row.get("discovered_ips", ""),
+                                result_portscan=row.get("result_portscan", ""),
+                                result_pwd=row.get("result_pwd", ""),
+                                command=row.get("command", ""),
+                                output=row.get("output", ""),
+                            )
+                        )
             except (OSError, csv.Error):
                 continue
         return records
@@ -224,13 +240,15 @@ class TaskReader(AbstractReader):
             raw = json.loads(path.read_text(encoding="utf-8"))
             tasks: list[CampaignTask] = []
             for item in raw if isinstance(raw, list) else []:
-                tasks.append(CampaignTask(
-                    id=int(item.get("id", 0)),
-                    title=item.get("title", ""),
-                    description=item.get("description", ""),
-                    operator=item.get("operator", ""),
-                    status=item.get("status", "New"),
-                ))
+                tasks.append(
+                    CampaignTask(
+                        id=int(item.get("id", 0)),
+                        title=item.get("title", ""),
+                        description=item.get("description", ""),
+                        operator=item.get("operator", ""),
+                        status=item.get("status", "New"),
+                    )
+                )
             return tasks
         except (json.JSONDecodeError, OSError):
             return []
@@ -242,17 +260,23 @@ class TaskWriter:
     def __init__(self, sessions_dir: Path) -> None:
         self._path = sessions_dir / "tasks.json"
 
-    def append(self, title: str, description: str, operator: str = "agent",
-                status: str = "New") -> CampaignTask:
+    def append(self, title: str, description: str, operator: str = "agent", status: str = "New") -> CampaignTask:
         tasks = TaskReader().read(self._path.parent)
         new_id = max((t.id for t in tasks), default=-1) + 1
-        task = CampaignTask(id=new_id, title=title, description=description,
-                            operator=operator, status=status)
-        raw = [{"id": t.id, "title": t.title, "description": t.description,
-                "operator": t.operator, "status": t.status} for t in tasks]
-        raw.append({"id": task.id, "title": task.title,
-                    "description": task.description,
-                    "operator": task.operator, "status": task.status})
+        task = CampaignTask(id=new_id, title=title, description=description, operator=operator, status=status)
+        raw = [
+            {"id": t.id, "title": t.title, "description": t.description, "operator": t.operator, "status": t.status}
+            for t in tasks
+        ]
+        raw.append(
+            {
+                "id": task.id,
+                "title": task.title,
+                "description": task.description,
+                "operator": task.operator,
+                "status": task.status,
+            }
+        )
         try:
             tmp = str(self._path) + ".tmp"
             Path(tmp).write_text(json.dumps(raw, indent=2), encoding="utf-8")
@@ -266,8 +290,7 @@ class TaskWriter:
         raw = []
         found = False
         for t in tasks:
-            d = {"id": t.id, "title": t.title, "description": t.description,
-                 "operator": t.operator, "status": t.status}
+            d = {"id": t.id, "title": t.title, "description": t.description, "operator": t.operator, "status": t.status}
             if t.id == task_id:
                 d["status"] = status
                 found = True
@@ -285,6 +308,7 @@ class TaskWriter:
 # ---------------------------------------------------------------------------
 # Aggregator
 # ---------------------------------------------------------------------------
+
 
 class SessionAggregator:
     """

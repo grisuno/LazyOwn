@@ -26,6 +26,7 @@ CLI:
     python3 modules/c2_profile.py --list
     python3 modules/c2_profile.py --show stealth
 """
+
 from __future__ import annotations
 
 import logging
@@ -41,8 +42,8 @@ log = logging.getLogger("c2_profile")
 # Paths
 # ---------------------------------------------------------------------------
 
-_BASE_DIR       = Path(__file__).parent.parent
-_PROFILES_DIR   = _BASE_DIR / "sessions" / "c2_profiles"
+_BASE_DIR = Path(__file__).parent.parent
+_PROFILES_DIR = _BASE_DIR / "sessions" / "c2_profiles"
 
 # ---------------------------------------------------------------------------
 # Dataclasses (Single Responsibility: pure data containers)
@@ -53,8 +54,8 @@ _PROFILES_DIR   = _BASE_DIR / "sessions" / "c2_profiles"
 class SleepConfig:
     """Sleep and jitter configuration for a beacon."""
 
-    interval_ms: int       # sleep interval in milliseconds (must be > 0)
-    jitter_pct: int        # jitter percentage 0-50
+    interval_ms: int  # sleep interval in milliseconds (must be > 0)
+    jitter_pct: int  # jitter percentage 0-50
 
 
 @dataclass
@@ -173,9 +174,7 @@ class ProfileValidator:
                 errors.append(f"{direction}.uri_paths must contain at least one URI")
             for k, v in cfg.headers.items():
                 if not isinstance(v, str):
-                    errors.append(
-                        f"{direction}.headers['{k}'] value must be a string, got {type(v).__name__}"
-                    )
+                    errors.append(f"{direction}.headers['{k}'] value must be a string, got {type(v).__name__}")
 
         return errors
 
@@ -203,10 +202,7 @@ class ProfileLoader:
         try:
             import yaml  # type: ignore
         except ImportError as exc:
-            raise ImportError(
-                "PyYAML is required to load YAML profiles. "
-                "Install it with: pip install pyyaml"
-            ) from exc
+            raise ImportError("PyYAML is required to load YAML profiles. Install it with: pip install pyyaml") from exc
 
         p = Path(path)
         if not p.exists():
@@ -218,10 +214,10 @@ class ProfileLoader:
     @staticmethod
     def from_dict(d: dict[str, Any]) -> C2Profile:
         """Construct a C2Profile from a plain Python dictionary."""
-        sleep_raw   = d.get("sleep", {})
-        get_raw     = d.get("http_get", {})
-        post_raw    = d.get("http_post", {})
-        stager_raw  = d.get("stager", {})
+        sleep_raw = d.get("sleep", {})
+        get_raw = d.get("http_get", {})
+        post_raw = d.get("http_post", {})
+        stager_raw = d.get("stager", {})
 
         sleep = SleepConfig(
             interval_ms=int(sleep_raw.get("interval_ms", 60_000)),
@@ -288,10 +284,7 @@ class ProfileLoader:
         try:
             import yaml  # type: ignore
         except ImportError as exc:
-            raise ImportError(
-                "PyYAML is required to save YAML profiles. "
-                "Install it with: pip install pyyaml"
-            ) from exc
+            raise ImportError("PyYAML is required to save YAML profiles. Install it with: pip install pyyaml") from exc
 
         out = Path(path)
         out.parent.mkdir(parents=True, exist_ok=True)
@@ -306,15 +299,10 @@ class ProfileLoader:
 # ---------------------------------------------------------------------------
 
 _BROWSER_UA = (
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
-    "AppleWebKit/537.36 (KHTML, like Gecko) "
-    "Chrome/120.0.0.0 Safari/537.36"
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
 )
 
-_ONEDRIVE_UA = (
-    "Microsoft SkyDriveSync 23.076.0402.0003 ship; "
-    "Windows NT 10.0 (17763)"
-)
+_ONEDRIVE_UA = "Microsoft SkyDriveSync 23.076.0402.0003 ship; Windows NT 10.0 (17763)"
 
 
 def _make_default_profile() -> C2Profile:
@@ -422,10 +410,7 @@ def _make_aggressive_profile() -> C2Profile:
 def _make_debug_profile() -> C2Profile:
     return C2Profile(
         name="debug",
-        description=(
-            "1-second sleep with no jitter; verbose headers for development "
-            "and integration testing."
-        ),
+        description=("1-second sleep with no jitter; verbose headers for development and integration testing."),
         sleep=SleepConfig(interval_ms=1_000, jitter_pct=0),
         http_get=HttpConfig(
             method="GET",
@@ -495,9 +480,7 @@ class ProfileRegistry:
             return self._profiles[name]
         except KeyError:
             available = ", ".join(self.list_names()) or "(none)"
-            raise KeyError(
-                f"Profile '{name}' not found. Available profiles: {available}"
-            )
+            raise KeyError(f"Profile '{name}' not found. Available profiles: {available}")
 
     def list_names(self) -> list[str]:
         """Return a sorted list of all registered profile names."""
@@ -558,8 +541,8 @@ class ProfileApplier:
 
         # Standard cache suppression for C2 traffic masquerading
         response.headers["Cache-Control"] = "no-store, no-cache, must-revalidate"
-        response.headers["Pragma"]        = "no-cache"
-        response.headers["Expires"]       = "0"
+        response.headers["Pragma"] = "no-cache"
+        response.headers["Expires"] = "0"
 
         # Remove headers that leak server identity
         for leak in ("Server", "X-Powered-By"):
@@ -590,15 +573,15 @@ class ProfileApplier:
         it does not expose full header details.
         """
         return {
-            "profile":       profile.name,
-            "sleep_ms":      profile.sleep.interval_ms,
-            "jitter_pct":    profile.sleep.jitter_pct,
-            "get_uris":      profile.http_get.uri_paths,
-            "post_uris":     profile.http_post.uri_paths,
-            "user_agent":    profile.http_get.user_agent,
+            "profile": profile.name,
+            "sleep_ms": profile.sleep.interval_ms,
+            "jitter_pct": profile.sleep.jitter_pct,
+            "get_uris": profile.http_get.uri_paths,
+            "post_uris": profile.http_post.uri_paths,
+            "user_agent": profile.http_get.user_agent,
             "stager_enabled": profile.stager.enabled,
-            "stage_uri":     profile.stager.stage_uri if profile.stager.enabled else None,
-            "max_stage_kb":  profile.stager.max_size_kb,
+            "stage_uri": profile.stager.stage_uri if profile.stager.enabled else None,
+            "max_stage_kb": profile.stager.max_size_kb,
         }
 
 
@@ -652,6 +635,7 @@ if __name__ == "__main__":
     import argparse
     import json as _json
     import logging
+
     logging.basicConfig(level=logging.WARNING)
 
     ap = argparse.ArgumentParser(
@@ -665,10 +649,10 @@ if __name__ == "__main__":
             "  python3 modules/c2_profile.py --validate stealth\n"
         ),
     )
-    ap.add_argument("--list",     action="store_true", help="List all registered profiles")
-    ap.add_argument("--show",     metavar="NAME",      help="Print details for a named profile")
-    ap.add_argument("--validate", metavar="NAME",      help="Validate a named profile and report errors")
-    ap.add_argument("--json",     action="store_true", help="Output --show in JSON format")
+    ap.add_argument("--list", action="store_true", help="List all registered profiles")
+    ap.add_argument("--show", metavar="NAME", help="Print details for a named profile")
+    ap.add_argument("--validate", metavar="NAME", help="Validate a named profile and report errors")
+    ap.add_argument("--json", action="store_true", help="Output --show in JSON format")
     args = ap.parse_args()
 
     reg = get_registry()
@@ -696,8 +680,10 @@ if __name__ == "__main__":
             print(f"GET URIs     : {profile.http_get.uri_paths}")
             print(f"POST URIs    : {profile.http_post.uri_paths}")
             print(f"User-Agent   : {profile.http_get.user_agent}")
-            print(f"Stager       : {'enabled' if profile.stager.enabled else 'disabled'}"
-                  f"  uri={profile.stager.stage_uri}  max={profile.stager.max_size_kb} KB")
+            print(
+                f"Stager       : {'enabled' if profile.stager.enabled else 'disabled'}"
+                f"  uri={profile.stager.stage_uri}  max={profile.stager.max_size_kb} KB"
+            )
             print(f"GET headers  : {profile.http_get.headers}")
             print(f"POST headers : {profile.http_post.headers}")
             print(f"Metadata     : {profile.metadata}")

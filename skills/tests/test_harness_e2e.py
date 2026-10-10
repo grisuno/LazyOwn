@@ -43,6 +43,7 @@ def check(label: str, cond: bool, hint: str = "") -> None:
 
 # ── Test 1: PermissionSystem deny-first ──────────────────────────────────────
 
+
 def test_permissions(tmp: Path) -> None:
     print("\n[1] PermissionSystem — deny-first evaluation")
     from lazyown_permissions import PermissionSystem
@@ -93,6 +94,7 @@ def test_permissions(tmp: Path) -> None:
 
 # ── Test 2: ContextCompactor 5-layer pipeline ────────────────────────────────
 
+
 def test_compaction() -> None:
     print("\n[2] ContextCompactor — 5-layer pipeline")
     from lazyown_context import ContextCompactor
@@ -118,9 +120,8 @@ def test_compaction() -> None:
     # Layer 4: Context collapse (large unique content)
     import random
     import string
-    big_unique = "\n".join(
-        "".join(random.choices(string.ascii_letters, k=80)) for _ in range(300)
-    )
+
+    big_unique = "\n".join("".join(random.choices(string.ascii_letters, k=80)) for _ in range(300))
     r = cc.compact(big_unique, "lazyown_run_command")
     check("collapse activates on large unique content", "collapse" in r.layers_applied)
 
@@ -137,6 +138,7 @@ def test_compaction() -> None:
 
 
 # ── Test 3: SessionTranscript append-only with fork ──────────────────────────
+
 
 def test_transcript(tmp: Path) -> None:
     print("\n[3] SessionTranscript — append-only with fork")
@@ -176,6 +178,7 @@ def test_transcript(tmp: Path) -> None:
 
 # ── Test 4: Hook pipeline ────────────────────────────────────────────────────
 
+
 def test_hooks(tmp: Path) -> None:
     print("\n[4] HookRegistry — pre/post pipeline")
     from lazyown_hooks import HookEvent, build_default_registry
@@ -183,17 +186,23 @@ def test_hooks(tmp: Path) -> None:
     reg = build_default_registry(tmp)
 
     # Sandbox hook blocks dangerous commands
-    ctx = reg.run(HookEvent.PRE_TOOL_USE, {
-        "tool_name": "lazyown_run_command",
-        "arguments": {"command": "rm -rf /"},
-    })
+    ctx = reg.run(
+        HookEvent.PRE_TOOL_USE,
+        {
+            "tool_name": "lazyown_run_command",
+            "arguments": {"command": "rm -rf /"},
+        },
+    )
     check("sandbox hook blocks 'rm -rf /'", ctx.get("_block") is True)
 
     # Safe command passes
-    ctx = reg.run(HookEvent.PRE_TOOL_USE, {
-        "tool_name": "lazyown_run_command",
-        "arguments": {"command": "lazynmap"},
-    })
+    ctx = reg.run(
+        HookEvent.PRE_TOOL_USE,
+        {
+            "tool_name": "lazyown_run_command",
+            "arguments": {"command": "lazynmap"},
+        },
+    )
     check("safe command passes hooks", not ctx.get("_block"))
     check("start_timer_hook sets _start_time", "_start_time" in ctx)
 
@@ -215,6 +224,7 @@ def test_hooks(tmp: Path) -> None:
 
 # ── Test 5: ClaudeMd hierarchy ───────────────────────────────────────────────
 
+
 def test_claudemd(tmp: Path) -> None:
     print("\n[5] ClaudeMdLoader — 4-level hierarchy")
     from lazyown_claudemd import ClaudeMdLoader
@@ -228,9 +238,7 @@ def test_claudemd(tmp: Path) -> None:
     # Create a rule file
     rules_dir = tmp / ".lazyown" / "rules"
     rules_dir.mkdir(parents=True, exist_ok=True)
-    (rules_dir / "no-aggressive-scans.md").write_text(
-        "# No aggressive scans\nDo not use -T5 unless authorized.\n"
-    )
+    (rules_dir / "no-aggressive-scans.md").write_text("# No aggressive scans\nDo not use -T5 unless authorized.\n")
 
     loader = ClaudeMdLoader(tmp)
     files = loader.list_files()
@@ -250,6 +258,7 @@ def test_claudemd(tmp: Path) -> None:
 
 
 # ── Test 6: Auto-compact trigger ─────────────────────────────────────────────
+
 
 def test_auto_compact(tmp: Path) -> None:
     print("\n[6] Auto-compact trigger on transcript")
@@ -287,6 +296,7 @@ def test_auto_compact(tmp: Path) -> None:
 
 # ── Test 7: Defense-in-depth metrics ─────────────────────────────────────────
 
+
 def test_metrics(tmp: Path) -> None:
     print("\n[7] Defense-in-depth metrics aggregation")
     from lazyown_hooks import HookEvent, build_default_registry
@@ -295,8 +305,8 @@ def test_metrics(tmp: Path) -> None:
     ps = PermissionSystem(tmp / "metrics_test")
 
     # Generate evaluations for metrics
-    ps.evaluate("lazyown_get_config", {})              # allow (read-only)
-    ps.evaluate("lazyown_run_command", {"command": "ls"})       # ask
+    ps.evaluate("lazyown_get_config", {})  # allow (read-only)
+    ps.evaluate("lazyown_run_command", {"command": "ls"})  # ask
     ps.evaluate("lazyown_run_command", {"command": "rm -rf /"})  # deny
 
     pm = ps.metrics()
@@ -317,6 +327,7 @@ def test_metrics(tmp: Path) -> None:
 
 
 # ── Test 8: Integration — all systems in concert ─────────────────────────────
+
 
 def test_integration(tmp: Path) -> None:
     print("\n[8] Integration — all 7 systems working together")
@@ -376,6 +387,7 @@ def test_integration(tmp: Path) -> None:
 
 # ── Main ──────────────────────────────────────────────────────────────────────
 
+
 def main() -> int:
     print("═" * 60)
     print(" LazyOwn Harness E2E Test")
@@ -394,6 +406,7 @@ def main() -> int:
             test_integration(tmp)
         except Exception as exc:
             import traceback
+
             print(f"\n!!! Test crashed: {exc}")
             traceback.print_exc()
             return 1

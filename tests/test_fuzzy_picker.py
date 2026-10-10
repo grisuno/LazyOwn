@@ -259,21 +259,18 @@ _LAZYOWN_STRINGS = _collect_runtime_strings()
 )
 def test_lazyown_runtime_strings_preserve_shell_payload(expected_substring):
     matched = any(expected_substring in value for value in _LAZYOWN_STRINGS)
-    assert matched, (
-        f"expected substring not found in any literal after escape cleanup: "
-        f"{expected_substring!r}"
-    )
+    assert matched, f"expected substring not found in any literal after escape cleanup: {expected_substring!r}"
 
 
 def test_lazyown_source_has_no_invalid_escape_warning():
     import warnings
+
     with warnings.catch_warnings(record=True) as captured:
         warnings.simplefilter("always")
         compile(_LAZYOWN_SRC, "lazyown.py", "exec")
     syntax_warnings = [w for w in captured if issubclass(w.category, SyntaxWarning)]
-    assert syntax_warnings == [], (
-        "lazyown.py still emits SyntaxWarning:\n"
-        + "\n".join(str(w.message) for w in syntax_warnings)
+    assert syntax_warnings == [], "lazyown.py still emits SyntaxWarning:\n" + "\n".join(
+        str(w.message) for w in syntax_warnings
     )
 
 
@@ -285,6 +282,7 @@ def test_getprompt_renders_three_lines_and_includes_payload_segments():
 
     from cli.banner_config import GlyphRegistry
     from utils import getprompt
+
     raw = getprompt()
     plain = re.sub(r"\x1b\[[0-9;]*[a-zA-Z]", "", raw)
     plain = plain.replace("\x01", "").replace("\x02", "")

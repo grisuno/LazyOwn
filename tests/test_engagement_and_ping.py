@@ -54,10 +54,12 @@ def _command_location(name: str) -> tuple[str, str]:
 # Engagement hooks
 # ══════════════════════════════════════════════════════════════════════════════
 
+
 class TestEngagementState:
     def test_load_fresh_state_has_zero_commands(self, tmp_path):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import _load_state
+
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -72,6 +74,7 @@ class TestEngagementState:
     def test_save_and_reload_state(self, tmp_path):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import EngagementState, _load_state, _save_state
+
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -87,6 +90,7 @@ class TestEngagementState:
     def test_atomic_write_leaves_no_tmp_file(self, tmp_path):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import EngagementState, _save_state
+
         old = eh.STATE_PATH
         eh.STATE_PATH = tmp_path / "engagement_state.json"
         try:
@@ -101,24 +105,28 @@ class TestEngagementState:
 class TestVRIScheduler:
     def test_next_threshold_always_positive(self):
         from cli.engagement_hooks import _next_threshold
+
         for _ in range(200):
             gap = _next_threshold(0)
             assert gap >= 2, f"gap={gap} must be >= 2"
 
     def test_next_threshold_mean_near_target(self):
         from cli.engagement_hooks import MEAN_INTERVAL, _next_threshold
+
         gaps = [_next_threshold(0) for _ in range(2000)]
         mean = sum(gaps) / len(gaps)
         assert abs(mean - MEAN_INTERVAL) < 2.5, f"mean={mean:.2f} too far from {MEAN_INTERVAL}"
 
     def test_threshold_is_variable_not_constant(self):
         from cli.engagement_hooks import _next_threshold
+
         gaps = {_next_threshold(0) for _ in range(50)}
         assert len(gaps) > 3, "VRI gaps must vary (not fixed interval)"
 
     def test_vri_fires_when_threshold_reached(self, tmp_path, capsys):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import render_engagement_hook, reset_session
+
         old_state_path = eh.STATE_PATH
         old_index_path = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "state.json"
@@ -127,7 +135,7 @@ class TestVRIScheduler:
         eh._index = None
         try:
             reset_session()
-            eh._state.next_reward_at = 2   # force early reward
+            eh._state.next_reward_at = 2  # force early reward
             eh._state.total_commands = 0
             eh._state.commands_seen = []
             eh._state.session_curiosity_shown = []
@@ -144,6 +152,7 @@ class TestVRIScheduler:
     def test_vri_does_not_fire_before_threshold(self, tmp_path, capsys):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import render_engagement_hook, reset_session
+
         old_state_path = eh.STATE_PATH
         old_index_path = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "state.json"
@@ -168,6 +177,7 @@ class TestVRIScheduler:
 class TestCuriosityEngine:
     def _make_state(self, seen=None):
         from cli.engagement_hooks import EngagementState
+
         s = EngagementState()
         s.commands_seen = seen or []
         s.session_curiosity_shown = []
@@ -176,14 +186,12 @@ class TestCuriosityEngine:
     def _minimal_index(self, phase_cmds):
         return {
             "phase_to_commands": phase_cmds,
-            "commands": [
-                {"name": c, "summary": f"summary for {c}"}
-                for cmds in phase_cmds.values() for c in cmds
-            ],
+            "commands": [{"name": c, "summary": f"summary for {c}"} for cmds in phase_cmds.values() for c in cmds],
         }
 
     def test_curiosity_shows_undiscovered_command(self, capsys):
         from cli.engagement_hooks import _run_curiosity
+
         idx = self._minimal_index({"recon": ["do_lazynmap", "do_gobuster", "do_cve"]})
         state = self._make_state(seen=["do_lazynmap"])
         _run_curiosity("lazynmap", state, idx)
@@ -195,13 +203,14 @@ class TestCuriosityEngine:
         import re
 
         from cli.engagement_hooks import _run_curiosity
+
         cmds = [f"do_cmd{i}" for i in range(10)]
         idx = self._minimal_index({"enum": cmds})
         state = self._make_state()
         shown = set()
         for _ in range(8):
             _run_curiosity("cmd0", state, idx)
-            out = re.sub(r'\x1b\[[0-9;]*m', '', capsys.readouterr().out)
+            out = re.sub(r"\x1b\[[0-9;]*m", "", capsys.readouterr().out)
             if "explore:" in out:
                 label = out.split("explore:")[1].strip().split()[0]
                 assert label not in shown, f"Repeated suggestion: {label}"
@@ -209,6 +218,7 @@ class TestCuriosityEngine:
 
     def test_curiosity_silent_when_all_discovered(self, capsys):
         from cli.engagement_hooks import _run_curiosity
+
         cmds = ["do_lazynmap", "do_gobuster"]
         idx = self._minimal_index({"recon": cmds})
         state = self._make_state(seen=cmds)
@@ -219,9 +229,11 @@ class TestCuriosityEngine:
     def test_curiosity_silent_when_disabled(self, capsys):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import render_engagement_hook
+
         old = eh._state
         try:
             from cli.engagement_hooks import EngagementState
+
             eh._state = EngagementState()
             eh._state.next_reward_at = 9999
             render_engagement_hook(cmd="lazynmap", phase="recon", enabled=False)
@@ -232,6 +244,7 @@ class TestCuriosityEngine:
 
     def test_curiosity_silent_for_unknown_phase(self, capsys):
         from cli.engagement_hooks import _run_curiosity
+
         idx = self._minimal_index({"recon": ["do_lazynmap"]})
         state = self._make_state()
         _run_curiosity("nonexistent_cmd_xyz", state, idx)
@@ -241,6 +254,7 @@ class TestCuriosityEngine:
     def test_commands_seen_accumulates_across_calls(self, tmp_path):
         import cli.engagement_hooks as eh
         from cli.engagement_hooks import render_engagement_hook, reset_session
+
         old_state = eh.STATE_PATH
         old_index = eh.INDEX_PATH
         eh.STATE_PATH = tmp_path / "s.json"
@@ -265,6 +279,7 @@ class TestCuriosityEngine:
 # do_ping — os_id fix
 # ══════════════════════════════════════════════════════════════════════════════
 
+
 class TestPingOsId:
     """Verify that TTL→os_id mapping and persistence are correct."""
 
@@ -280,35 +295,35 @@ class TestPingOsId:
     def test_ttl_64_maps_to_os_id_1_linux(self):
         stdout = self._ping_stdout(64)
         ttl_idx = stdout.find("ttl=")
-        ttl = int(stdout[ttl_idx + 4: ttl_idx + 7])
+        ttl = int(stdout[ttl_idx + 4 : ttl_idx + 7])
         os_id = "1" if ttl <= 64 else ("2" if ttl <= 128 else "4")
         assert os_id == "1", "TTL 64 must map to os_id=1 (Linux)"
 
     def test_ttl_128_maps_to_os_id_2_windows(self):
         stdout = self._ping_stdout(128)
         ttl_idx = stdout.find("ttl=")
-        ttl = int(stdout[ttl_idx + 4: ttl_idx + 7])
+        ttl = int(stdout[ttl_idx + 4 : ttl_idx + 7])
         os_id = "1" if ttl <= 64 else ("2" if ttl <= 128 else "4")
         assert os_id == "2", "TTL 128 must map to os_id=2 (Windows)"
 
     def test_ttl_127_maps_to_os_id_2_windows(self):
         stdout = self._ping_stdout(127)
         ttl_idx = stdout.find("ttl=")
-        ttl = int(stdout[ttl_idx + 4: ttl_idx + 7])
+        ttl = int(stdout[ttl_idx + 4 : ttl_idx + 7])
         os_id = "1" if ttl <= 64 else ("2" if ttl <= 128 else "4")
         assert os_id == "2"
 
     def test_ttl_63_maps_to_os_id_1_linux(self):
         stdout = self._ping_stdout(63)
         ttl_idx = stdout.find("ttl=")
-        ttl = int(stdout[ttl_idx + 4: ttl_idx + 7])
+        ttl = int(stdout[ttl_idx + 4 : ttl_idx + 7])
         os_id = "1" if ttl <= 64 else ("2" if ttl <= 128 else "4")
         assert os_id == "1"
 
     def test_ttl_255_maps_to_unknown(self):
         stdout = self._ping_stdout(255)
         ttl_idx = stdout.find("ttl=")
-        ttl = int(stdout[ttl_idx + 4: ttl_idx + 7])
+        ttl = int(stdout[ttl_idx + 4 : ttl_idx + 7])
         os_id = "1" if ttl <= 64 else ("2" if ttl <= 128 else "4")
         assert os_id == "4"
 
@@ -325,13 +340,13 @@ class TestPingOsId:
         fragment, _ = _command_location("do_ping")
         assert "_apply_assign" in fragment, "do_ping must use _apply_assign to persist os_id"
         assert "_save_payload" in fragment, "do_ping must pass _save_payload to persist"
-        assert 'id": \'2\'' not in fragment or "Windows" in fragment, \
-            "os_id=2 must only appear for Windows branch"
+        assert "id\": '2'" not in fragment or "Windows" in fragment, "os_id=2 must only appear for Windows branch"
 
 
 # ══════════════════════════════════════════════════════════════════════════════
 # do_recommend_next — command index layer
 # ══════════════════════════════════════════════════════════════════════════════
+
 
 class TestRecommendNextCommandIndex:
     """Verify the command-index layer in do_recommend_next works without graph."""
@@ -351,14 +366,46 @@ class TestRecommendNextCommandIndex:
     def _build_csv(self, tmp_path, run_cmds):
         p = tmp_path / "session_report.csv"
         with open(p, "w", newline="") as f:
-            w = csv.DictWriter(f, fieldnames=["start","end","source_ip","source_port",
-                "destination_ip","destination_port","domain","subdomain","url",
-                "pivot_port","command","args"])
+            w = csv.DictWriter(
+                f,
+                fieldnames=[
+                    "start",
+                    "end",
+                    "source_ip",
+                    "source_port",
+                    "destination_ip",
+                    "destination_port",
+                    "domain",
+                    "subdomain",
+                    "url",
+                    "pivot_port",
+                    "command",
+                    "args",
+                ],
+            )
             w.writeheader()
             for c in run_cmds:
-                w.writerow({"command": c, **{k: "" for k in ["start","end","source_ip",
-                    "source_port","destination_ip","destination_port","domain",
-                    "subdomain","url","pivot_port","args"]}})
+                w.writerow(
+                    {
+                        "command": c,
+                        **{
+                            k: ""
+                            for k in [
+                                "start",
+                                "end",
+                                "source_ip",
+                                "source_port",
+                                "destination_ip",
+                                "destination_port",
+                                "domain",
+                                "subdomain",
+                                "url",
+                                "pivot_port",
+                                "args",
+                            ]
+                        },
+                    }
+                )
         return p
 
     def test_shows_unrun_commands(self, tmp_path, capsys):
@@ -367,6 +414,7 @@ class TestRecommendNextCommandIndex:
 
         import csv as _csv
         import json as _json
+
         idx = _json.loads(idx_path.read_text())
         ptc = idx["phase_to_commands"]
 
@@ -391,6 +439,7 @@ class TestRecommendNextCommandIndex:
 
         import csv as _csv
         import json as _json
+
         idx = _json.loads(idx_path.read_text())
         seen: set = set()
         with open(csv_path, newline="") as fh:
@@ -410,6 +459,7 @@ class TestRecommendNextCommandIndex:
         self._build_csv(tmp_path, [])
 
         import json as _json
+
         idx = _json.loads(idx_path.read_text())
         candidates = idx["phase_to_commands"].get("enum", [])
 
@@ -427,12 +477,12 @@ class TestRecommendNextCommandIndex:
 
         # Strip docstring before checking — it may mention "graph advisor" in prose
         import ast
+
         try:
             tree = ast.parse(fragment)
             func = next(n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef))
             docstring_end = 0
-            if (func.body and isinstance(func.body[0], ast.Expr)
-                    and isinstance(func.body[0].value, ast.Constant)):
+            if func.body and isinstance(func.body[0], ast.Expr) and isinstance(func.body[0].value, ast.Constant):
                 docstring_end = func.body[0].end_lineno
         except Exception:
             docstring_end = 0
@@ -453,19 +503,20 @@ class TestRecommendNextCommandIndex:
             if "advisor." in stripped and "advisor = " not in stripped:
                 if advisor_defined_at is None or i < advisor_defined_at:
                     pytest.fail(
-                        f"'advisor' used at line {i} before being defined "
-                        f"(defined at {advisor_defined_at}): {stripped}"
+                        f"'advisor' used at line {i} before being defined (defined at {advisor_defined_at}): {stripped}"
                     )
 
     def test_rule_not_used_without_import(self):
         """Rule from rich must be imported if used in do_recommend_next."""
         fragment, src = _command_location("do_recommend_next")
         if "Rule(" in fragment:
-            assert "from rich.rule import Rule" in src or "from rich import" in src, \
+            assert "from rich.rule import Rule" in src or "from rich import" in src, (
                 "Rule is used in do_recommend_next but not imported"
+            )
 
     def test_fallback_message_present(self):
         """When no data: must show a useful fallback, not crash."""
         fragment, _ = _command_location("do_recommend_next")
-        assert "No recommendations" in fragment or "lazynmap" in fragment, \
+        assert "No recommendations" in fragment or "lazynmap" in fragment, (
             "do_recommend_next must have a fallback message"
+        )

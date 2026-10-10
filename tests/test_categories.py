@@ -120,6 +120,7 @@ class TestShortToCategory:
 
     def test_unknown_short_name_raises_key_error(self) -> None:
         import pytest
+
         with pytest.raises(KeyError):
             _ = SHORT_TO_CATEGORY["nonexistent_phase"]
 
@@ -174,10 +175,6 @@ class TestBijectionInvariant:
         for short_name, category_long in SHORT_TO_CATEGORY.items():
             reverse = CATEGORY_TO_SHORT.get(category_long)
             if short_name in dupe_shorts:
-                assert reverse in dupe_shorts, (
-                    f"Mismatch: {short_name} -> {category_long} -> {reverse}"
-                )
+                assert reverse in dupe_shorts, f"Mismatch: {short_name} -> {category_long} -> {reverse}"
             else:
-                assert reverse == short_name, (
-                    f"Mismatch: {short_name} -> {category_long} -> {reverse}"
-                )
+                assert reverse == short_name, f"Mismatch: {short_name} -> {category_long} -> {reverse}"

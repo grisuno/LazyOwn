@@ -242,10 +242,15 @@ def test_phase_progress_ranks(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
     wm_path = sess / "world_model.json"
-    wm_path.write_text(json.dumps({
-        "current_phase": "exploit",
-        "completed_phases": ["recon", "scan", "enum"],
-    }), encoding="utf-8")
+    wm_path.write_text(
+        json.dumps(
+            {
+                "current_phase": "exploit",
+                "completed_phases": ["recon", "scan", "enum"],
+            }
+        ),
+        encoding="utf-8",
+    )
     pp = phase_progress({}, str(sess))
     assert pp["recon"] == 1.0
     assert pp["scan"] == 1.0
@@ -258,11 +263,16 @@ def test_phase_progress_completed_override(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
     wm_path = sess / "world_model.json"
-    wm_path.write_text(json.dumps({
-        "current_phase": "enum",
-        "completed_phases": ["recon", "scan"],
-        "hosts": {},
-    }), encoding="utf-8")
+    wm_path.write_text(
+        json.dumps(
+            {
+                "current_phase": "enum",
+                "completed_phases": ["recon", "scan"],
+                "hosts": {},
+            }
+        ),
+        encoding="utf-8",
+    )
     pp = phase_progress({}, str(sess))
     assert pp["recon"] == 1.0
     assert pp["scan"] == 1.0
@@ -274,11 +284,16 @@ def test_phase_progress_os_owned_report_and_loot(tmp_path):
     sess = tmp_path / "sessions"
     sess.mkdir()
     wm_path = sess / "world_model.json"
-    wm_path.write_text(json.dumps({
-        "current_phase": "lateral",
-        "completed_phases": ["recon", "scan", "enum", "exploit", "privesc"],
-        "hosts": {"a": {"state": "owned", "services": {"22": {}}}},
-    }), encoding="utf-8")
+    wm_path.write_text(
+        json.dumps(
+            {
+                "current_phase": "lateral",
+                "completed_phases": ["recon", "scan", "enum", "exploit", "privesc"],
+                "hosts": {"a": {"state": "owned", "services": {"22": {}}}},
+            }
+        ),
+        encoding="utf-8",
+    )
     (sess / "os.json").write_text(json.dumps([{"state": "active"}]), encoding="utf-8")
     (sess / "report_20260101_000000.md").write_text("# report", encoding="utf-8")
     (sess / "credentials.txt").write_text("admin:pw\n", encoding="utf-8")

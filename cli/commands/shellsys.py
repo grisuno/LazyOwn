@@ -136,9 +136,7 @@ class ShellSysCommandSet(LazyOwnCommandSet):
         Note:
             Ensure that `xclip` is installed on your system for copying to the clipboard to work.
         """
-        print_msg(
-            f'Try echo -e "[\\e[96m`pwd`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"{RESET}'
-        )
+        print_msg(f'Try echo -e "[\\e[96m`pwd`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"{RESET}')
         self.cmd('echo -e "[\\e[96m`pwd`\\e[0m]\\e[34m" && ls && echo -en "\\e[0m"')
         self.cmd("pwd | xclip -sel clip")
         print_msg(f" pwd directory copied to clipboard{RESET}")
@@ -154,13 +152,13 @@ class ShellSysCommandSet(LazyOwnCommandSet):
         :returns: None
         """
         if not line:
-            line = input ("    [!] enter the filename: ") or 'unamed_lazyownfile'
+            line = input("    [!] enter the filename: ") or "unamed_lazyownfile"
         users_file_path = os.path.join("sessions", line)
         print_msg(users_file_path)
         if not os.path.exists(users_file_path):
             print_warn(f"{users_file_path} does not exist. Creating the file.")
             os.makedirs(os.path.dirname(users_file_path), exist_ok=True)
-            with open(users_file_path, 'w'):
+            with open(users_file_path, "w"):
                 pass
 
         print_msg(f"Opening {users_file_path} with nano for editing.")
@@ -197,7 +195,7 @@ class ShellSysCommandSet(LazyOwnCommandSet):
 
         time_str, command = parts
         try:
-            schedule_time = datetime.strptime(time_str, '%H:%M').time()
+            schedule_time = datetime.strptime(time_str, "%H:%M").time()
             now = datetime.now().time()
 
             delta = datetime.combine(date.today(), schedule_time) - datetime.combine(date.today(), now)
@@ -243,8 +241,8 @@ class ShellSysCommandSet(LazyOwnCommandSet):
 
         Note: This function performs a cleanup by removing various files and directories associated with the current session, excluding specified items.
         """
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        rhost = self.params["rhost"]
+        if not check_rhost(self.params["rhost"]):
             return
         if line.startswith("test"):
             self.cmd("sudo rm sessions/test* -rf")
@@ -256,31 +254,31 @@ class ShellSysCommandSet(LazyOwnCommandSet):
             self.cmd("sudo rm sessions/scan* -rf")
             return
         exclusions = [
-            'c',
-            'download_resources.sh',
-            'implant',
-            'ip2asn-v4.tsv.gz',
-            'key.aes',
-            'LazyOwn_session_report.csv',
-            'lin',
-            'logs',
-            'nmap-bootstrap.xsl',
-            'php',
-            'phishing',
-            'payloads.txt',
-            'routes_to_templates.json',
-            'sslscan-singleip.sh',
-            'tasks.json',
-            'temp_uploads',
-            'tor.sh',
-            'users.txt',
-            'uploads',
-            'win',
-            'www.py'
+            "c",
+            "download_resources.sh",
+            "implant",
+            "ip2asn-v4.tsv.gz",
+            "key.aes",
+            "LazyOwn_session_report.csv",
+            "lin",
+            "logs",
+            "nmap-bootstrap.xsl",
+            "php",
+            "phishing",
+            "payloads.txt",
+            "routes_to_templates.json",
+            "sslscan-singleip.sh",
+            "tasks.json",
+            "temp_uploads",
+            "tor.sh",
+            "users.txt",
+            "uploads",
+            "win",
+            "www.py",
         ]
 
         # Path to the sessions directory
-        sessions_dir = 'sessions'
+        sessions_dir = "sessions"
 
         # List all files and directories in the sessions directory
         all_items = os.listdir(sessions_dir)
@@ -387,15 +385,15 @@ class ShellSysCommandSet(LazyOwnCommandSet):
             line (str): The command to execute in the popup. If empty, prompts user input.
         """
         if not line:
-            line = input("    [!] Enter command: ") or 'whoami'
+            line = input("    [!] Enter command: ") or "whoami"
 
-        if 'TMUX' not in os.environ:
+        if "TMUX" not in os.environ:
             self.display_toastr("[!] Error: Not inside a tmux session.", type="error")
             self.display_toastr("    Hint: Run this inside a tmux session (e.g. `v` or `h`).", type="info")
             return
 
         try:
-            subprocess.run(['tmux', 'list-sessions'], check=True, capture_output=True)
+            subprocess.run(["tmux", "list-sessions"], check=True, capture_output=True)
         except (subprocess.CalledProcessError, FileNotFoundError):
             self.display_toastr("    [!] Error: Tmux server not running or tmux not installed.", type="error")
             return
@@ -427,4 +425,3 @@ class ShellSysCommandSet(LazyOwnCommandSet):
         print_msg(command)
         self.cmd(command)
         return
-

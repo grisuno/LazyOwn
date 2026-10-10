@@ -97,9 +97,7 @@ class TestStackTraceSanitisation:
     @pytest.fixture(scope="class")
     def phishingai_src(self, mitigation_config: MitigationSuiteConfig) -> str:
         """The full text of ``modules/lazyphishingai.py``."""
-        return _read_module(
-            mitigation_config, mitigation_config.handler_module_paths["lazyphishingai.py"]
-        )
+        return _read_module(mitigation_config, mitigation_config.handler_module_paths["lazyphishingai.py"])
 
     def test_log_handler_returns_generic_message(self, lazyc2_src: str) -> None:
         """``/log`` no longer returns the raw exception string."""
@@ -150,7 +148,7 @@ class TestStackTraceSanitisation:
 
     def test_phishing_ai_returns_generic_message(self, phishingai_src: str) -> None:
         """The phishing AI module no longer leaks ``str(ex)`` from the API call."""
-        assert "jsonify({\"error\": str(ex)})" not in phishingai_src
+        assert 'jsonify({"error": str(ex)})' not in phishingai_src
         assert "Upstream API communication error" in phishingai_src
 
     def test_no_forbidden_response_substrings_remain(
@@ -238,9 +236,5 @@ class TestMitigationConfigInvariants:
     def test_sentinel_function_exposed(self, mitigation_config: MitigationSuiteConfig) -> None:
         """``sanitize_content`` is importable for behavioural tests."""
         src = _read_module(mitigation_config, mitigation_config.sentinel_path)
-        names = {
-            node.name
-            for node in ast.walk(ast.parse(src))
-            if isinstance(node, ast.FunctionDef)
-        }
+        names = {node.name for node in ast.walk(ast.parse(src)) if isinstance(node, ast.FunctionDef)}
         assert mitigation_config.sentinel_function in names

@@ -20,6 +20,7 @@ import pytest
 @pytest.fixture
 def crypto_module():
     from cli.auto_crypto import AutoCryptoConfig, AutoCryptoEngine
+
     return AutoCryptoConfig, AutoCryptoEngine
 
 
@@ -143,5 +144,6 @@ class TestAutoCryptoEngine:
 class TestPasswordProvider:
     def test_build_provider_returns_callable(self):
         from cli.auto_crypto import build_password_provider_from_cli_login
+
         provider = build_password_provider_from_cli_login()
         assert callable(provider)

@@ -24,6 +24,7 @@ Usage standalone:
   python3 skills/lazyown_groq_agents.py tools
   python3 skills/lazyown_groq_agents.py list
 """
+
 from __future__ import annotations
 
 import json
@@ -40,8 +41,8 @@ from typing import Any
 
 # ── Paths ─────────────────────────────────────────────────────────────────────
 
-SKILLS_DIR   = Path(__file__).parent
-LAZYOWN_DIR  = SKILLS_DIR.parent
+SKILLS_DIR = Path(__file__).parent
+LAZYOWN_DIR = SKILLS_DIR.parent
 SESSIONS_DIR = LAZYOWN_DIR / "sessions"
 PAYLOAD_FILE = LAZYOWN_DIR / "payload.json"
 
@@ -50,6 +51,7 @@ for _p in [str(SKILLS_DIR), str(LAZYOWN_DIR / "modules")]:
         sys.path.insert(0, _p)
 
 # ── Lazy imports (avoid circular dependency with lazyown_mcp.py) ──────────────
+
 
 def _load_payload() -> dict:
     try:
@@ -62,13 +64,16 @@ def _run_cmd(command: str, timeout: int = 60) -> str:
     """Execute a LazyOwn shell command via the MCP helper (lazy import)."""
     try:
         from lazyown_mcp import _run_lazyown_command  # noqa: PLC0415
+
         return _run_lazyown_command(command, timeout)
     except ImportError:
         result = subprocess.run(
             [sys.executable, "-W", "ignore", str(LAZYOWN_DIR / "lazyown.py")],
             input=f"{command}\nexit\n",
-            capture_output=True, text=True,
-            timeout=timeout, cwd=str(LAZYOWN_DIR),
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            cwd=str(LAZYOWN_DIR),
         )
         return (result.stdout + result.stderr).strip()
 
@@ -77,12 +82,14 @@ def _c2_req(path: str, method: str = "GET", body: dict | None = None) -> dict:
     """Forward a request to the LazyOwn C2 REST API (lazy import)."""
     try:
         from lazyown_mcp import _c2_request  # noqa: PLC0415
+
         return _c2_request(path, method=method, body=body)
     except ImportError:
         return {"error": "C2 request unavailable — lazyown_mcp not importable"}
 
 
 # ── Tool implementations (sync, Groq-callable) ────────────────────────────────
+
 
 def _t_run_command(command: str) -> str:
     return _run_cmd(command, timeout=60)
@@ -96,18 +103,18 @@ def _t_bridge_suggest(
 ) -> str:
     try:
         from lazyown_bridge import get_dispatcher  # noqa: PLC0415
+
         svc_list = [s.strip() for s in services.split(",") if s.strip()]
         result = get_dispatcher().suggest(
-            phase=phase, services=svc_list, tag_hint=tag, os_hint=os_hint,
+            phase=phase,
+            services=svc_list,
+            tag_hint=tag,
+            os_hint=os_hint,
         )
         if result is None:
             return f"No command found for phase={phase} services={svc_list} tag={tag}"
         cmd_str, entry = result
-        return (
-            f"Suggested: {cmd_str}\n"
-            f"MITRE:     {entry.mitre_tactic}\n"
-            f"Desc:      {entry.description}"
-        )
+        return f"Suggested: {cmd_str}\nMITRE:     {entry.mitre_tactic}\nDesc:      {entry.description}"
     except Exception as exc:
         return f"[bridge_suggest error] {exc}"
 
@@ -132,33 +139,25 @@ def _t_bridge_catalog(phase: str = "", os_hint: str = "any") -> str:
     """
     try:
         from lazyown_bridge import get_dispatcher  # noqa: PLC0415
+
         dispatcher = get_dispatcher()
         normalized_phase = (phase or "").strip()
         normalized_os = (os_hint or "any").strip().lower() or "any"
         if normalized_phase:
-            summary = dispatcher.catalog_summary_filtered(
-                phase=normalized_phase, os_hint=normalized_os
-            )
+            summary = dispatcher.catalog_summary_filtered(phase=normalized_phase, os_hint=normalized_os)
             filtered_count = sum(len(cmds) for cmds in summary.values())
-            header = (
-                f"Bridge catalog — {filtered_count} commands "
-                f"(phase={normalized_phase}, os={normalized_os})"
-            )
+            header = f"Bridge catalog — {filtered_count} commands (phase={normalized_phase}, os={normalized_os})"
         elif normalized_os != "any":
             summary = dispatcher.catalog_summary_filtered(os_hint=normalized_os)
             filtered_count = sum(len(cmds) for cmds in summary.values())
-            header = (
-                f"Bridge catalog — {filtered_count} commands (os={normalized_os})"
-            )
+            header = f"Bridge catalog — {filtered_count} commands (os={normalized_os})"
         else:
             summary = dispatcher.catalog_summary()
             header = f"Bridge catalog — {dispatcher.catalog_count()} commands"
 
         lines: list[str] = [header, ""]
         if not summary:
-            lines.append(
-                "  (no commands matched the requested phase/os filter)"
-            )
+            lines.append("  (no commands matched the requested phase/os filter)")
             return "\n".join(lines)
         for phase_name, cmds in summary.items():
             preview = ", ".join(cmds[:_BRIDGE_CATALOG_PREVIEW_LIMIT])
@@ -172,6 +171,7 @@ def _t_bridge_catalog(phase: str = "", os_hint: str = "any") -> str:
 def _t_parquet_context(phase: str, target: str = "") -> str:
     try:
         from lazyown_parquet_db import get_pdb  # noqa: PLC0415
+
         pdb = get_pdb()
         if pdb is None:
             return "ParquetDB unavailable."
@@ -198,6 +198,7 @@ def _t_parquet_context(phase: str, target: str = "") -> str:
 def _t_facts_show(target: str = "") -> str:
     try:
         from lazyown_facts import FactStore  # noqa: PLC0415
+
         return FactStore().summary(target or None) or "No facts found."
     except Exception as exc:
         return f"[facts_show error] {exc}"
@@ -206,11 +207,9 @@ def _t_facts_show(target: str = "") -> str:
 def _t_cve_lookup(product: str, version: str = "") -> str:
     try:
         import urllib.request  # noqa: PLC0415
+
         keyword = f"{product} {version}".strip().replace(" ", "+")
-        url = (
-            f"https://services.nvd.nist.gov/rest/json/cves/2.0"
-            f"?keywordSearch={keyword}&resultsPerPage=5"
-        )
+        url = f"https://services.nvd.nist.gov/rest/json/cves/2.0?keywordSearch={keyword}&resultsPerPage=5"
         with urllib.request.urlopen(url, timeout=15) as resp:
             data = json.loads(resp.read())
         items = data.get("vulnerabilities", [])
@@ -220,7 +219,7 @@ def _t_cve_lookup(product: str, version: str = "") -> str:
         for item in items[:5]:
             cve = item.get("cve", {})
             desc = cve.get("descriptions", [{}])[0].get("value", "")[:120]
-            lines.append(f"{cve.get('id','?')}: {desc}")
+            lines.append(f"{cve.get('id', '?')}: {desc}")
         return "\n".join(lines)
     except Exception as exc:
         return f"[cve_lookup error] {exc}"
@@ -229,6 +228,7 @@ def _t_cve_lookup(product: str, version: str = "") -> str:
 def _t_memory_search(query: str) -> str:
     try:
         from lazyown_parquet_db import get_pdb  # noqa: PLC0415
+
         pdb = get_pdb()
         if pdb is None:
             return "Memory unavailable."
@@ -238,14 +238,15 @@ def _t_memory_search(query: str) -> str:
         else:
             rows = pdb.query_session(limit=20)
             q_low = query.lower()
-            rows = [r for r in rows
-                    if q_low in str(r.get("command", "")).lower()
-                    or q_low in str(r.get("outcome", "")).lower()][:5]
+            rows = [
+                r
+                for r in rows
+                if q_low in str(r.get("command", "")).lower() or q_low in str(r.get("outcome", "")).lower()
+            ][:5]
         if not rows:
             return f"No memory matches for '{query}'."
         return "\n".join(
-            f"[{r.get('phase', r.get('category','?'))}] "
-            f"{str(r.get('command','?'))[:30]} -> {r.get('outcome','?')}"
+            f"[{r.get('phase', r.get('category', '?'))}] {str(r.get('command', '?'))[:30]} -> {r.get('outcome', '?')}"
             for r in rows
         )
     except Exception as exc:
@@ -255,20 +256,16 @@ def _t_memory_search(query: str) -> str:
 def _t_session_status() -> str:
     try:
         from session_reader import get_aggregator  # noqa: PLC0415
+
         summary = get_aggregator().aggregate(SESSIONS_DIR)
         lines = [f"Active implants: {len(summary.active_client_ids)}"]
         for cid in summary.active_client_ids[:10]:
             rec = summary.latest_for(cid)
             if rec:
                 priv = "PRIVILEGED" if rec.is_privileged else "user"
-                lines.append(
-                    f"  [{priv}] {cid} | {rec.hostname} | "
-                    f"{rec.platform} | user={rec.user}"
-                )
+                lines.append(f"  [{priv}] {cid} | {rec.hostname} | {rec.platform} | user={rec.user}")
         if summary.discovered_hosts:
-            lines.append(
-                f"Discovered hosts: {', '.join(summary.discovered_hosts[:15])}"
-            )
+            lines.append(f"Discovered hosts: {', '.join(summary.discovered_hosts[:15])}")
         if summary.tasks:
             pending = [t for t in summary.tasks if t.status not in ("Done", "Blocked")]
             lines.append(f"Pending tasks: {len(pending)}")
@@ -301,23 +298,20 @@ def _t_c2_status() -> str:
 
 
 def _t_c2_command(client_id: str, command: str) -> str:
-    data = _c2_req("/api/command", method="POST",
-                   body={"client_id": client_id, "command": command})
+    data = _c2_req("/api/command", method="POST", body={"client_id": client_id, "command": command})
     return json.dumps(data, indent=2)[:1000]
 
 
 def _t_task_list(filter_status: str = "") -> str:
     try:
         from session_reader import TaskReader  # noqa: PLC0415
+
         tasks = TaskReader().read(SESSIONS_DIR)
         if filter_status:
             tasks = [t for t in tasks if t.status.lower() == filter_status.lower()]
         if not tasks:
             return "No tasks found."
-        return "\n".join(
-            f"#{t.id:3d} [{t.status:8s}] {t.title} (op={t.operator})"
-            for t in tasks
-        )
+        return "\n".join(f"#{t.id:3d} [{t.status:8s}] {t.title} (op={t.operator})" for t in tasks)
     except Exception as exc:
         return f"[task_list error] {exc}"
 
@@ -325,8 +319,11 @@ def _t_task_list(filter_status: str = "") -> str:
 def _t_task_add(title: str, description: str = "") -> str:
     try:
         from session_reader import TaskWriter  # noqa: PLC0415
+
         task = TaskWriter(SESSIONS_DIR).append(
-            title=title, description=description, operator="groq_agent",
+            title=title,
+            description=description,
+            operator="groq_agent",
         )
         return f"Task #{task.id} created: [{task.status}] {task.title}"
     except Exception as exc:
@@ -336,6 +333,7 @@ def _t_task_add(title: str, description: str = "") -> str:
 def _t_inject_objective(title: str, description: str = "") -> str:
     try:
         from lazyown_objective import ObjectiveStore  # noqa: PLC0415
+
         store = ObjectiveStore()
         # inject(text, priority, source, notes) — title maps to text, description to notes
         text = f"{title}: {description}".strip(": ") if description else title
@@ -352,17 +350,17 @@ def _t_reactive_suggest(
 ) -> str:
     try:
         from reactive_engine import get_engine  # noqa: PLC0415
+
         decisions = get_engine().analyse(
-            output=output, command=command, platform=platform,
+            output=output,
+            command=command,
+            platform=platform,
         )
         if not decisions:
             return "No reactive signals detected."
         lines = []
         for d in decisions[:5]:
-            lines.append(
-                f"[{d.action:16s}] priority={d.priority}  "
-                f"cmd={d.command}  ({d.reason})"
-            )
+            lines.append(f"[{d.action:16s}] priority={d.priority}  cmd={d.command}  ({d.reason})")
         return "\n".join(lines)
     except Exception as exc:
         return f"[reactive_suggest error] {exc}"
@@ -372,7 +370,9 @@ def _t_searchsploit(query: str) -> str:
     try:
         result = subprocess.run(
             ["searchsploit", "--json", query],
-            capture_output=True, text=True, timeout=15,
+            capture_output=True,
+            text=True,
+            timeout=15,
         )
         if result.returncode != 0 or not result.stdout.strip():
             return result.stderr.strip() or f"searchsploit returned no output for '{query}'."
@@ -380,9 +380,7 @@ def _t_searchsploit(query: str) -> str:
         exploits = data.get("RESULTS_EXPLOIT", [])[:5]
         if not exploits:
             return f"No exploits found for '{query}'."
-        return "\n".join(
-            f"{e.get('EDB-ID','?'):7s}: {e.get('Title','?')}" for e in exploits
-        )
+        return "\n".join(f"{e.get('EDB-ID', '?'):7s}: {e.get('Title', '?')}" for e in exploits)
     except FileNotFoundError:
         return "searchsploit not installed."
     except Exception as exc:
@@ -398,6 +396,7 @@ def _t_rag_query(query: str, n: int = 5) -> str:
     try:
         sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
         from session_rag import get_rag as _get_rag
+
         _rag = _get_rag()
         _rag.index_new()
         hits = _rag.query(query, int(n))
@@ -418,6 +417,7 @@ def _t_threat_model(action: str = "build") -> str:
     try:
         sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
         from threat_model import get_builder as _get_tmb
+
         _tmb = _get_tmb()
         if action == "load":
             model = _tmb.load()
@@ -427,12 +427,12 @@ def _t_threat_model(action: str = "build") -> str:
             model = _tmb.build()
         s = model.get("summary", {})
         return (
-            f"Threat Model: {len(model.get('ttps',[]))} TTPs, "
-            f"{len(model.get('ioc_registry',[]))} IOCs, "
-            f"{len(model.get('detection_rules',[]))} rules, "
-            f"{len(model.get('assets',[]))} assets\n"
-            f"Highest risk: {s.get('highest_risk_asset','')}  "
-            f"Dominant tactic: {s.get('dominant_tactic','')}\n"
+            f"Threat Model: {len(model.get('ttps', []))} TTPs, "
+            f"{len(model.get('ioc_registry', []))} IOCs, "
+            f"{len(model.get('detection_rules', []))} rules, "
+            f"{len(model.get('assets', []))} assets\n"
+            f"Highest risk: {s.get('highest_risk_asset', '')}  "
+            f"Dominant tactic: {s.get('dominant_tactic', '')}\n"
             f"Saved: sessions/reports/threat_model.json"
         )
     except Exception as exc:
@@ -454,6 +454,7 @@ def _t_atomic_search(
         sys.path.insert(0, str(LAZYOWN_DIR / "modules"))
         from atomic_enricher import enrich as _enrich
         from atomic_enricher import query_atomic as _qa
+
         _enrich()
         prereqs: bool | None = None
         if str(has_prereqs).lower() in ("true", "1", "yes"):
@@ -461,17 +462,20 @@ def _t_atomic_search(
         elif str(has_prereqs).lower() in ("false", "0", "no"):
             prereqs = False
         rows = _qa(
-            keyword=keyword, mitre_id=mitre_id, platform=platform,
-            scope=scope, complexity=complexity, has_prereqs=prereqs,
-            limit=int(limit), include_command=bool(include_command),
+            keyword=keyword,
+            mitre_id=mitre_id,
+            platform=platform,
+            scope=scope,
+            complexity=complexity,
+            has_prereqs=prereqs,
+            limit=int(limit),
+            include_command=bool(include_command),
         )
         if not rows:
             return f"No results for filters: keyword={keyword!r} mitre={mitre_id!r} platform={platform!r}"
         lines = [f"{len(rows)} Atomic techniques found:"]
         for r in rows:
-            lines.append(
-                f"  {r['mitre_id']:12s} [{r['complexity']:6s}] {r['name']}"
-            )
+            lines.append(f"  {r['mitre_id']:12s} [{r['complexity']:6s}] {r['name']}")
             lines.append(f"    platforms: {', '.join(r['platform_list'])}  prereqs: {r['has_prereqs']}")
             if include_command and r.get("command_preview"):
                 lines.append(f"    cmd: {r['command_preview'][:100]}")
@@ -487,22 +491,17 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
     "run_command": (
         "Execute any LazyOwn shell command and return its output. "
         "Examples: 'lazynmap', 'set rhost 10.0.0.1', 'linpeas', 'adversary_yaml amsi'.",
-        {"command": {"type": "string",
-                     "description": "LazyOwn command with arguments"}},
+        {"command": {"type": "string", "description": "LazyOwn command with arguments"}},
         _t_run_command,
     ),
     "bridge_suggest": (
         "Get the best LazyOwn command for a kill-chain phase. "
         "Phases: recon, enum, exploit, postexp, cred, lateral, privesc, persist, exfil, c2, report.",
         {
-            "phase":    {"type": "string",
-                         "description": "Kill-chain phase"},
-            "services": {"type": "string",
-                         "description": "Comma-separated detected services (smb,ldap,http)"},
-            "tag":      {"type": "string",
-                         "description": "Technique tag: kerberos, ad, web, smb, etc."},
-            "os_hint":  {"type": "string",
-                         "description": "linux, windows, or any"},
+            "phase": {"type": "string", "description": "Kill-chain phase"},
+            "services": {"type": "string", "description": "Comma-separated detected services (smb,ldap,http)"},
+            "tag": {"type": "string", "description": "Technique tag: kerberos, ad, web, smb, etc."},
+            "os_hint": {"type": "string", "description": "linux, windows, or any"},
         },
         _t_bridge_suggest,
     ),
@@ -512,46 +511,42 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
         "(linux, windows, any). Both are optional and default to the full "
         "catalog.",
         {
-            "phase": {"type": "string",
-                      "description": "Kill-chain phase (recon, enum, exploit, ...) "
-                                     "or empty for all phases"},
-            "os_hint": {"type": "string",
-                        "description": "Target OS filter: linux, windows, or any"},
+            "phase": {
+                "type": "string",
+                "description": "Kill-chain phase (recon, enum, exploit, ...) or empty for all phases",
+            },
+            "os_hint": {"type": "string", "description": "Target OS filter: linux, windows, or any"},
         },
         _t_bridge_catalog,
     ),
     "parquet_context": (
-        "Get phase-aware context from the knowledge base: "
-        "past command successes, GTFOBins, LOLBas, ATT&CK techniques.",
+        "Get phase-aware context from the knowledge base: past command successes, GTFOBins, LOLBas, ATT&CK techniques.",
         {
-            "phase":  {"type": "string",
-                       "description": "Attack phase (recon, enum, exploit, privesc, cred, lateral...)"},
-            "target": {"type": "string",
-                       "description": "Target IP (optional)"},
+            "phase": {
+                "type": "string",
+                "description": "Attack phase (recon, enum, exploit, privesc, cred, lateral...)",
+            },
+            "target": {"type": "string", "description": "Target IP (optional)"},
         },
         _t_parquet_context,
     ),
     "facts_show": (
         "Show structured facts from nmap scans and tool output: "
         "open ports, services, credentials, shares, access level.",
-        {"target": {"type": "string",
-                    "description": "Target IP (empty string = all targets)"}},
+        {"target": {"type": "string", "description": "Target IP (empty string = all targets)"}},
         _t_facts_show,
     ),
     "cve_lookup": (
         "Search NVD for CVEs matching a product name and optional version.",
         {
-            "product": {"type": "string",
-                        "description": "Product name (e.g. 'Apache', 'OpenSSH')"},
-            "version": {"type": "string",
-                        "description": "Version string (e.g. '2.4.49')"},
+            "product": {"type": "string", "description": "Product name (e.g. 'Apache', 'OpenSSH')"},
+            "version": {"type": "string", "description": "Version string (e.g. '2.4.49')"},
         },
         _t_cve_lookup,
     ),
     "memory_search": (
         "Search episodic memory for past command executions relevant to a keyword.",
-        {"query": {"type": "string",
-                   "description": "Search keyword or phrase"}},
+        {"query": {"type": "string", "description": "Search keyword or phrase"}},
         _t_memory_search,
     ),
     "session_status": (
@@ -562,8 +557,7 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
     ),
     "read_session_file": (
         "Read a file from the sessions/ directory.",
-        {"filename": {"type": "string",
-                      "description": "Filename relative to sessions/ (e.g. 'hostsdiscovery.txt')"}},
+        {"filename": {"type": "string", "description": "Filename relative to sessions/ (e.g. 'hostsdiscovery.txt')"}},
         _t_read_session_file,
     ),
     "list_sessions": (
@@ -579,37 +573,34 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
     "c2_command": (
         "Send a command to a specific C2 beacon/implant.",
         {
-            "client_id": {"type": "string",
-                          "description": "Beacon client ID"},
-            "command":   {"type": "string",
-                          "description": "Command: whoami, softenum, exfil, etc."},
+            "client_id": {"type": "string", "description": "Beacon client ID"},
+            "command": {"type": "string", "description": "Command: whoami, softenum, exfil, etc."},
         },
         _t_c2_command,
     ),
     "task_list": (
         "List campaign tasks from sessions/tasks.json.",
-        {"filter_status": {"type": "string",
-                           "description": "Status filter: New, Refined, Started, "
-                                          "Review, Qa, Done, Blocked (empty = all)"}},
+        {
+            "filter_status": {
+                "type": "string",
+                "description": "Status filter: New, Refined, Started, Review, Qa, Done, Blocked (empty = all)",
+            }
+        },
         _t_task_list,
     ),
     "task_add": (
         "Create a new campaign task in sessions/tasks.json.",
         {
-            "title":       {"type": "string",
-                            "description": "Task title"},
-            "description": {"type": "string",
-                            "description": "Task description"},
+            "title": {"type": "string", "description": "Task title"},
+            "description": {"type": "string", "description": "Task description"},
         },
         _t_task_add,
     ),
     "inject_objective": (
         "Inject a high-level attack objective into the objective queue.",
         {
-            "title":       {"type": "string",
-                            "description": "Objective title"},
-            "description": {"type": "string",
-                            "description": "Detailed description"},
+            "title": {"type": "string", "description": "Objective title"},
+            "description": {"type": "string", "description": "Detailed description"},
         },
         _t_inject_objective,
     ),
@@ -617,35 +608,28 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
         "Analyse raw command output and return prioritised reactive decisions: "
         "AV/EDR evasion, privesc hints, credential extraction, new host discovery.",
         {
-            "output":   {"type": "string",
-                         "description": "Raw command output to analyse"},
-            "command":  {"type": "string",
-                         "description": "The command that produced the output"},
-            "platform": {"type": "string",
-                         "description": "Target platform: linux, windows, or unknown"},
+            "output": {"type": "string", "description": "Raw command output to analyse"},
+            "command": {"type": "string", "description": "The command that produced the output"},
+            "platform": {"type": "string", "description": "Target platform: linux, windows, or unknown"},
         },
         _t_reactive_suggest,
     ),
     "searchsploit": (
         "Search public exploits by CVE ID or service/version string.",
-        {"query": {"type": "string",
-                   "description": "CVE ID or product/version (e.g. 'Apache 2.4.49')"}},
+        {"query": {"type": "string", "description": "CVE ID or product/version (e.g. 'Apache 2.4.49')"}},
         _t_searchsploit,
     ),
     "command_help": (
         "Get full documentation for any LazyOwn command.",
-        {"command": {"type": "string",
-                     "description": "LazyOwn command name"}},
+        {"command": {"type": "string", "description": "LazyOwn command name"}},
         _t_command_help,
     ),
     "rag_query": (
         "Semantic search over indexed sessions/ artefacts (logs, scans, credentials, etc.). "
         "Falls back to keyword search when ChromaDB is not installed.",
         {
-            "query": {"type": "string",
-                      "description": "Natural language search query"},
-            "n":     {"type": "integer",
-                      "description": "Number of results (default 5)"},
+            "query": {"type": "string", "description": "Natural language search query"},
+            "n": {"type": "integer", "description": "Number of results (default 5)"},
         },
         _t_rag_query,
     ),
@@ -653,8 +637,7 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
         "Build or load the blue team threat model: assets with risk scores, "
         "MITRE ATT&CK TTPs, IOC registry, and Sigma-lite detection rules. "
         "action: 'build' (default) or 'load'.",
-        {"action": {"type": "string",
-                    "description": "build or load"}},
+        {"action": {"type": "string", "description": "build or load"}},
         _t_threat_model,
     ),
     "atomic_search": (
@@ -662,13 +645,13 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
         "platform (linux/windows/macos), scope (local/remote), complexity (low/medium/high), "
         "or prerequisite availability. Returns name, mitre_id, platform, complexity, tags.",
         {
-            "keyword":         {"type": "string",  "description": "Free-text search"},
-            "mitre_id":        {"type": "string",  "description": "MITRE ID or prefix (T1059, T1548.002)"},
-            "platform":        {"type": "string",  "description": "linux | windows | macos | freebsd"},
-            "scope":           {"type": "string",  "description": "local | remote | elevated | any"},
-            "complexity":      {"type": "string",  "description": "low | medium | high"},
-            "has_prereqs":     {"type": "string",  "description": "true | false"},
-            "limit":           {"type": "integer", "description": "Max results (default 8)"},
+            "keyword": {"type": "string", "description": "Free-text search"},
+            "mitre_id": {"type": "string", "description": "MITRE ID or prefix (T1059, T1548.002)"},
+            "platform": {"type": "string", "description": "linux | windows | macos | freebsd"},
+            "scope": {"type": "string", "description": "local | remote | elevated | any"},
+            "complexity": {"type": "string", "description": "low | medium | high"},
+            "has_prereqs": {"type": "string", "description": "true | false"},
+            "limit": {"type": "integer", "description": "Max results (default 8)"},
             "include_command": {"type": "boolean", "description": "Include command preview"},
         },
         _t_atomic_search,
@@ -678,13 +661,14 @@ REGISTRY: dict[str, tuple[str, dict[str, Any], Callable]] = {
 
 # ── Agent state ────────────────────────────────────────────────────────────────
 
+
 @dataclass
 class _AgentState:
     agent_id: str
     goal: str
     backend: str
     tools_used: list[str]
-    status: str = "queued"       # queued | running | completed | failed
+    status: str = "queued"  # queued | running | completed | failed
     started_at: str = ""
     completed_at: str = ""
     result: str = ""
@@ -711,12 +695,13 @@ def _agent_system_prompt(tool_names: list[str]) -> str:
 
 # ── Agent pool ────────────────────────────────────────────────────────────────
 
+
 class GroqAgentPool:
     """Thread-pool-based manager for concurrent Groq/Ollama agents."""
 
     def __init__(self) -> None:
         self._agents: dict[str, _AgentState] = {}
-        self._lock   = threading.Lock()
+        self._lock = threading.Lock()
 
     def spawn(
         self,
@@ -732,10 +717,13 @@ class GroqAgentPool:
         Spawn a new agent. Returns agent_id immediately.
         If block=True, waits for completion before returning.
         """
-        agent_id  = uuid.uuid4().hex[:8]
-        tools     = tools_filter or list(REGISTRY.keys())
-        state     = _AgentState(
-            agent_id=agent_id, goal=goal, backend=backend, tools_used=tools,
+        agent_id = uuid.uuid4().hex[:8]
+        tools = tools_filter or list(REGISTRY.keys())
+        state = _AgentState(
+            agent_id=agent_id,
+            goal=goal,
+            backend=backend,
+            tools_used=tools,
         )
         with self._lock:
             self._agents[agent_id] = state
@@ -759,15 +747,12 @@ class GroqAgentPool:
         max_iterations: int,
         system_prompt: str,
     ) -> None:
-        state.status     = "running"
+        state.status = "running"
         state.started_at = _now_utc()
         try:
             from lazyown_llm import LLMBridge  # noqa: PLC0415
-            eff_key = (
-                api_key
-                or _load_payload().get("api_key", "")
-                or os.environ.get("GROQ_API_KEY", "")
-            )
+
+            eff_key = api_key or _load_payload().get("api_key", "") or os.environ.get("GROQ_API_KEY", "")
             bridge = LLMBridge(backend=state.backend, api_key=eff_key)
             for name in tools:
                 if name not in REGISTRY:
@@ -775,7 +760,7 @@ class GroqAgentPool:
                 desc, params, func = REGISTRY[name]
                 bridge.register_tool(name, desc, params, func)
 
-            answer       = bridge.ask(
+            answer = bridge.ask(
                 goal=state.goal,
                 max_iterations=max_iterations,
                 system_prompt=system_prompt or _agent_system_prompt(tools),
@@ -783,7 +768,7 @@ class GroqAgentPool:
             state.result = answer
             state.status = "completed"
         except Exception as exc:
-            state.error  = str(exc)
+            state.error = str(exc)
             state.status = "failed"
         finally:
             state.completed_at = _now_utc()
@@ -796,14 +781,14 @@ class GroqAgentPool:
         if s is None:
             return {"error": f"Agent '{agent_id}' not found."}
         return {
-            "agent_id":        s.agent_id,
-            "status":          s.status,
-            "goal":            s.goal,
-            "backend":         s.backend,
+            "agent_id": s.agent_id,
+            "status": s.status,
+            "goal": s.goal,
+            "backend": s.backend,
             "tools_available": len(s.tools_used),
-            "started_at":      s.started_at,
-            "completed_at":    s.completed_at,
-            "error":           s.error or None,
+            "started_at": s.started_at,
+            "completed_at": s.completed_at,
+            "error": s.error or None,
         }
 
     def result(self, agent_id: str) -> str:
@@ -825,10 +810,10 @@ class GroqAgentPool:
         items.sort(key=lambda s: s.started_at or "", reverse=True)
         return [
             {
-                "agent_id":   s.agent_id,
-                "status":     s.status,
-                "goal":       s.goal[:80],
-                "backend":    s.backend,
+                "agent_id": s.agent_id,
+                "status": s.status,
+                "goal": s.goal[:80],
+                "backend": s.backend,
                 "started_at": s.started_at,
             }
             for s in items[:limit]
@@ -860,8 +845,12 @@ def spawn_agent(
 ) -> str:
     """Spawn a new Groq/Ollama agent. Returns agent_id."""
     return get_pool().spawn(
-        goal=goal, tools_filter=tools_filter, api_key=api_key,
-        backend=backend, max_iterations=max_iterations, block=block,
+        goal=goal,
+        tools_filter=tools_filter,
+        api_key=api_key,
+        backend=backend,
+        max_iterations=max_iterations,
+        block=block,
     )
 
 
@@ -879,6 +868,7 @@ def list_agents(limit: int = 20) -> list[dict[str, Any]]:
 
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
+
 def main() -> None:
     import argparse
 
@@ -890,12 +880,10 @@ def main() -> None:
 
     p_sp = sub.add_parser("spawn", help="Spawn a new agent")
     p_sp.add_argument("goal", help="Goal for the agent")
-    p_sp.add_argument("--backend",  default="groq", choices=["groq", "ollama"])
-    p_sp.add_argument("--tools",    default="",
-                      help="Comma-separated tool names (default: all 18)")
+    p_sp.add_argument("--backend", default="groq", choices=["groq", "ollama"])
+    p_sp.add_argument("--tools", default="", help="Comma-separated tool names (default: all 18)")
     p_sp.add_argument("--max-iter", type=int, default=8)
-    p_sp.add_argument("--wait",     action="store_true",
-                      help="Block until agent completes and print result")
+    p_sp.add_argument("--wait", action="store_true", help="Block until agent completes and print result")
 
     p_st = sub.add_parser("status", help="Check agent status")
     p_st.add_argument("agent_id")
@@ -903,7 +891,7 @@ def main() -> None:
     p_rs = sub.add_parser("result", help="Get agent result")
     p_rs.add_argument("agent_id")
 
-    sub.add_parser("list",  help="List all agents")
+    sub.add_parser("list", help="List all agents")
     sub.add_parser("tools", help="List available tools and their schemas")
 
     args = parser.parse_args()
@@ -911,8 +899,10 @@ def main() -> None:
     if args.cmd == "spawn":
         tf = [t.strip() for t in args.tools.split(",") if t.strip()] or None
         aid = spawn_agent(
-            goal=args.goal, tools_filter=tf,
-            backend=args.backend, max_iterations=args.max_iter,
+            goal=args.goal,
+            tools_filter=tf,
+            backend=args.backend,
+            max_iterations=args.max_iter,
             block=args.wait,
         )
         print(f"Agent spawned: {aid}")
@@ -921,6 +911,7 @@ def main() -> None:
 
     elif args.cmd == "status":
         import pprint
+
         pprint.pprint(agent_status(args.agent_id))
 
     elif args.cmd == "result":

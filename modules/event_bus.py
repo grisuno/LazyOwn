@@ -81,6 +81,7 @@ class EventSeverity(str, Enum):  # noqa: UP042
 @dataclass
 class LazyEvent:
     """Universal event envelope for all LazyOwn components."""
+
     category: EventCategory
     event_type: str
     source: str
@@ -170,6 +171,7 @@ class CollabBusSink(Sink):
         if self._collab_bus is None:
             try:
                 from collab_bp import ColabEvent, get_event_bus
+
                 self._collab_bus = get_event_bus()
                 self._ColabEvent = ColabEvent
             except ImportError:
@@ -181,13 +183,15 @@ class CollabBusSink(Sink):
         if bus is None:
             return
         try:
-            bus.publish(self._ColabEvent(
-                type=f"{event.category.value}:{event.event_type}",
-                payload=event.payload,
-                operator=event.operator,
-                ts=event.ts,
-                id=event.id,
-            ))
+            bus.publish(
+                self._ColabEvent(
+                    type=f"{event.category.value}:{event.event_type}",
+                    payload=event.payload,
+                    operator=event.operator,
+                    ts=event.ts,
+                    id=event.id,
+                )
+            )
         except Exception:
             log.debug("CollabBusSink forward failed", exc_info=True)
 
@@ -201,9 +205,14 @@ class EngagementSink(Sink):
     def write(self, event: LazyEvent) -> None:
         try:
             from engagement_hooks import EngagementNarrator
+
             narrator = EngagementNarrator.instance()
-            if event.category in (EventCategory.EXPLOIT, EventCategory.BEACON,
-                                  EventCategory.PRIVESC, EventCategory.CREDENTIAL):
+            if event.category in (
+                EventCategory.EXPLOIT,
+                EventCategory.BEACON,
+                EventCategory.PRIVESC,
+                EventCategory.CREDENTIAL,
+            ):
                 narrator.narrate(
                     event_type=event.event_type,
                     source=event.source,
@@ -286,11 +295,7 @@ class UnifiedEventBus:
     def subscriber_count(self) -> int:
         """Return the number of active subscribers across all registration types."""
         with self._lock:
-            return (
-                len(self._subscribers)
-                + len(self._topic_subscribers)
-                + len(self._async_queues)
-            )
+            return len(self._subscribers) + len(self._topic_subscribers) + len(self._async_queues)
 
     def subscribe(self, subscriber_id: str, callback: Subscriber) -> None:
         """Register a callback for all events."""
@@ -323,8 +328,7 @@ class UnifiedEventBus:
         """Remove all subscriptions for a subscriber."""
         with self._lock:
             self._subscribers.pop(subscriber_id, None)
-            keys_to_remove = [k for k in self._topic_subscribers
-                              if k.startswith(f"{subscriber_id}:")]
+            keys_to_remove = [k for k in self._topic_subscribers if k.startswith(f"{subscriber_id}:")]
             for k in keys_to_remove:
                 self._topic_subscribers.pop(k, None)
             self._async_queues.pop(subscriber_id, None)
@@ -423,10 +427,7 @@ class UnifiedEventBus:
                 continue
 
             try:
-                if (
-                    event.category == EventCategory.SYSTEM
-                    and event.event_type == self._SHUTDOWN_SENTINEL
-                ):
+                if event.category == EventCategory.SYSTEM and event.event_type == self._SHUTDOWN_SENTINEL:
                     self._notify_shutdown()
                     self._dispatch_queue.task_done()
                     break

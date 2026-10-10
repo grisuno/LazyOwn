@@ -34,11 +34,14 @@ class TestScopeMode:
     def test_from_value_passthrough(self):
         assert ScopeMode.from_value(ScopeMode.ENFORCE) is ScopeMode.ENFORCE
 
-    @pytest.mark.parametrize("raw,expected", [
-        ("off", ScopeMode.OFF),
-        ("WARN", ScopeMode.WARN),
-        ("  Enforce  ", ScopeMode.ENFORCE),
-    ])
+    @pytest.mark.parametrize(
+        "raw,expected",
+        [
+            ("off", ScopeMode.OFF),
+            ("WARN", ScopeMode.WARN),
+            ("  Enforce  ", ScopeMode.ENFORCE),
+        ],
+    )
     def test_from_value_strings(self, raw, expected):
         assert ScopeMode.from_value(raw) is expected
 
@@ -194,11 +197,7 @@ class TestOffensiveCategoryDrift:
     def test_categories_exist_in_utils(self):
         import utils
 
-        known = {
-            value
-            for name, value in vars(utils).items()
-            if name.endswith("_category") and isinstance(value, str)
-        }
+        known = {value for name, value in vars(utils).items() if name.endswith("_category") and isinstance(value, str)}
         known.add("14. Adversary Emulation")
         missing = OFFENSIVE_CATEGORIES - known
         assert not missing, f"offensive categories not defined in utils: {missing}"

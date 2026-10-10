@@ -27,10 +27,13 @@ class TestNoProxy:
             trusted_count=0,
             operator_allowlist=("127.0.0.1",),
         )
-        assert resolver.client_ip(
-            remote_addr="127.0.0.1",
-            x_forwarded_for="6.6.6.6",
-        ) == "127.0.0.1"
+        assert (
+            resolver.client_ip(
+                remote_addr="127.0.0.1",
+                x_forwarded_for="6.6.6.6",
+            )
+            == "127.0.0.1"
+        )
 
     def test_no_header_falls_back_to_remote(self) -> None:
         resolver = TrustedProxyResolver(trusted_count=0, operator_allowlist=("127.0.0.1",))

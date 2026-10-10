@@ -20,7 +20,7 @@ MUTATIONS = (
     (
         "needs_shell_always_false",
         SAFE_EXEC,
-        "    if \"&&\" in command:\n        return True\n    return bool(_SHELL_SYNTAX_PATTERN.search(command))",
+        '    if "&&" in command:\n        return True\n    return bool(_SHELL_SYNTAX_PATTERN.search(command))',
         "    return False",
     ),
     (

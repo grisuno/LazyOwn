@@ -12,6 +12,7 @@ from typing import Union
 
 try:
     import yara
+
     HAS_YARA = True
 except ImportError:
     HAS_YARA = False
@@ -44,10 +45,10 @@ class YaraScanner:
     def _load_external_vars(self) -> dict[str, Union[str, int, bool]]:
         """Return external variables for YARA rules."""
         return {
-            'filename': '',
-            'filepath': '',
-            'extension': '',
-            'filetype': '',
+            "filename": "",
+            "filepath": "",
+            "extension": "",
+            "filetype": "",
         }
 
     def compile_all(self) -> bool:
@@ -61,21 +62,21 @@ class YaraScanner:
 
         self.ensure_directory()
         sources: dict[str, str] = {}
-        rule_namespace = 'default'
+        rule_namespace = "default"
 
         for root, _, files in os.walk(self.rules_dir):
             for filename in files:
-                if not filename.endswith(('.yar', '.yara')):
+                if not filename.endswith((".yar", ".yara")):
                     continue
 
                 filepath = os.path.join(root, filename)
                 rel_path = os.path.relpath(filepath, self.rules_dir)
 
-                with open(filepath, 'r', errors='ignore') as f:
+                with open(filepath, "r", errors="ignore") as f:
                     content = f.read()
 
-                namespace = os.path.dirname(rel_path).replace(os.sep, '_') or rule_namespace
-                sources[namespace] = sources.get(namespace, '') + '\n' + content
+                namespace = os.path.dirname(rel_path).replace(os.sep, "_") or rule_namespace
+                sources[namespace] = sources.get(namespace, "") + "\n" + content
                 self.compiled_sources[rel_path] = content
                 self.rule_count += 1
 
@@ -111,18 +112,17 @@ class YaraScanner:
             return []
 
         externals = self._load_external_vars()
-        externals['filename'] = os.path.basename(filepath)
-        externals['filepath'] = filepath
+        externals["filename"] = os.path.basename(filepath)
+        externals["filepath"] = filepath
         _, ext = os.path.splitext(filepath)
-        externals['extension'] = ext.lower()
+        externals["extension"] = ext.lower()
 
         try:
             matches = self._scan_with_timeout(filepath, externals, timeout)
         except yara.TimeoutError:
-            return [{'rule': 'SCAN_TIMEOUT', 'error': True,
-                     'message': f'Scan timed out after {timeout}s'}]
+            return [{"rule": "SCAN_TIMEOUT", "error": True, "message": f"Scan timed out after {timeout}s"}]
         except Exception as e:
-            return [{'rule': 'SCAN_ERROR', 'error': True, 'message': str(e)}]
+            return [{"rule": "SCAN_ERROR", "error": True, "message": str(e)}]
 
         return [self._format_match(m) for m in matches]
 
@@ -169,23 +169,24 @@ class YaraScanner:
             Dict with rule name, namespace, tags, metadata, and matched strings.
         """
         return {
-            'rule': match.rule,
-            'namespace': match.namespace,
-            'tags': list(match.tags),
-            'meta': dict(match.meta) if hasattr(match, 'meta') else {},
-            'strings': [
+            "rule": match.rule,
+            "namespace": match.namespace,
+            "tags": list(match.tags),
+            "meta": dict(match.meta) if hasattr(match, "meta") else {},
+            "strings": [
                 {
-                    'identifier': s.identifier,
-                    'offset': s.instances[0].offset if s.instances else -1,
-                    'data': str(s.instances[0].matched_data)[:200] if s.instances else '',
+                    "identifier": s.identifier,
+                    "offset": s.instances[0].offset if s.instances else -1,
+                    "data": str(s.instances[0].matched_data)[:200] if s.instances else "",
                 }
-                for s in match.strings if s.instances
+                for s in match.strings
+                if s.instances
             ],
         }
 
-    def scan_directory(self, directory: str, recursive: bool = True,
-                       extensions: list[str] | None = None,
-                       max_files: int = 10000) -> list[dict]:
+    def scan_directory(
+        self, directory: str, recursive: bool = True, extensions: list[str] | None = None, max_files: int = 10000
+    ) -> list[dict]:
         """Scan all files in a directory recursively.
 
         Args:
@@ -228,13 +229,15 @@ class YaraScanner:
                     try:
                         file_hash = self._sha256(filepath)
                     except (FileNotFoundError, PermissionError, OSError):
-                        file_hash = 'unavailable'
-                    results.append({
-                        'file': filepath,
-                        'size': file_size,
-                        'sha256': file_hash,
-                        'matches': matches,
-                    })
+                        file_hash = "unavailable"
+                    results.append(
+                        {
+                            "file": filepath,
+                            "size": file_size,
+                            "sha256": file_hash,
+                            "matches": matches,
+                        }
+                    )
 
                 file_count += 1
 
@@ -247,8 +250,8 @@ class YaraScanner:
     def _sha256(filepath: str) -> str:
         """Compute SHA256 hash of a file."""
         sha = hashlib.sha256()
-        with open(filepath, 'rb') as f:
-            for chunk in iter(lambda: f.read(65536), b''):
+        with open(filepath, "rb") as f:
+            for chunk in iter(lambda: f.read(65536), b""):
                 sha.update(chunk)
         return sha.hexdigest()
 
@@ -266,7 +269,7 @@ class YaraScanner:
         filename = f"{name}.yar"
         filepath = os.path.join(self.rules_dir, filename)
 
-        with open(filepath, 'w') as f:
+        with open(filepath, "w") as f:
             f.write(content)
 
         return filepath
@@ -282,13 +285,15 @@ class YaraScanner:
 
         for root, _, files in os.walk(self.rules_dir):
             for filename in files:
-                if filename.endswith(('.yar', '.yara')):
+                if filename.endswith((".yar", ".yara")):
                     filepath = os.path.join(root, filename)
-                    rules.append({
-                        'name': filename,
-                        'path': filepath,
-                        'size': os.path.getsize(filepath),
-                    })
+                    rules.append(
+                        {
+                            "name": filename,
+                            "path": filepath,
+                            "size": os.path.getsize(filepath),
+                        }
+                    )
 
         return rules
 
@@ -300,24 +305,20 @@ class YaraScanner:
         """
         self.ensure_directory()
         repos = [
-            ('YARA-Rules/rules', 'master', 'https://github.com/YARA-Rules/rules/archive/refs/heads/master.zip'),
+            ("YARA-Rules/rules", "master", "https://github.com/YARA-Rules/rules/archive/refs/heads/master.zip"),
         ]
 
         for repo_name, branch, url in repos:
-            target_dir = os.path.join(self.rules_dir, repo_name.replace('/', '_'))
+            target_dir = os.path.join(self.rules_dir, repo_name.replace("/", "_"))
             if os.path.exists(target_dir):
                 continue
 
             try:
+                subprocess.run(["wget", "-q", "-O", f"/tmp/yara_rules_{branch}.zip", url], timeout=120, check=True)
                 subprocess.run(
-                    ['wget', '-q', '-O', f'/tmp/yara_rules_{branch}.zip', url],
-                    timeout=120, check=True
+                    ["unzip", "-qo", f"/tmp/yara_rules_{branch}.zip", "-d", self.rules_dir], timeout=60, check=True
                 )
-                subprocess.run(
-                    ['unzip', '-qo', f'/tmp/yara_rules_{branch}.zip', '-d', self.rules_dir],
-                    timeout=60, check=True
-                )
-                os.remove(f'/tmp/yara_rules_{branch}.zip')
+                os.remove(f"/tmp/yara_rules_{branch}.zip")
             except Exception:
                 continue
 
@@ -335,29 +336,33 @@ class YaraScanner:
             List of matched IOCs.
         """
         results = []
-        hash_iocs = [ioc for ioc in iocs if ioc.get('type') == 'hash']
-        string_iocs = [ioc for ioc in iocs if ioc.get('type') == 'string']
+        hash_iocs = [ioc for ioc in iocs if ioc.get("type") == "hash"]
+        string_iocs = [ioc for ioc in iocs if ioc.get("type") == "string"]
 
         for ioc in hash_iocs:
-            ioc_value = ioc['value'].lower()
-            hash_algo = 'sha256' if len(ioc_value) == 64 else 'sha1' if len(ioc_value) == 40 else 'md5'
+            ioc_value = ioc["value"].lower()
+            hash_algo = "sha256" if len(ioc_value) == 64 else "sha1" if len(ioc_value) == 40 else "md5"
 
             if os.path.isfile(target_path):
-                file_hash = getattr(hashlib, hash_algo)(
-                    open(target_path, 'rb').read()
-                ).hexdigest()
+                file_hash = getattr(hashlib, hash_algo)(open(target_path, "rb").read()).hexdigest()
                 if file_hash.lower() == ioc_value:
-                    results.append({**ioc, 'matched_file': target_path, 'matched_hash': file_hash})
+                    results.append({**ioc, "matched_file": target_path, "matched_hash": file_hash})
 
         for ioc in string_iocs:
-            search_value = ioc['value']
+            search_value = ioc["value"]
             if os.path.isfile(target_path):
-                with open(target_path, 'rb') as f:
+                with open(target_path, "rb") as f:
                     for line_num, line in enumerate(f, 1):
                         if isinstance(search_value, bytes):
                             if search_value in line:
-                                results.append({**ioc, 'matched_file': target_path,
-                                                'line': line_num, 'context': line[:200].decode('latin-1', errors='replace')})
+                                results.append(
+                                    {
+                                        **ioc,
+                                        "matched_file": target_path,
+                                        "line": line_num,
+                                        "context": line[:200].decode("latin-1", errors="replace"),
+                                    }
+                                )
                                 break
 
         return results
@@ -374,7 +379,7 @@ def create_default_rules() -> list[str]:
     created = []
 
     rules = {
-        'webshell_detection': '''
+        "webshell_detection": """
 rule PHP_WebShell_Generic {
     meta:
         description = "Detects common PHP webshell patterns"
@@ -392,8 +397,8 @@ rule PHP_WebShell_Generic {
     condition:
         (filesize < 50KB) and (2 of them)
 }
-''',
-        'cobalt_strike_beacon': '''
+""",
+        "cobalt_strike_beacon": """
 rule CobaltStrike_Beacon_Config {
     meta:
         description = "Detects Cobalt Strike beacon configuration patterns"
@@ -409,8 +414,8 @@ rule CobaltStrike_Beacon_Config {
     condition:
         uint16(0) == 0x5A4D and any of them
 }
-''',
-        'reverse_shell_payload': '''
+""",
+        "reverse_shell_payload": """
 rule ReverseShell_Payload {
     meta:
         description = "Detects common reverse shell payloads"
@@ -429,8 +434,8 @@ rule ReverseShell_Payload {
     condition:
         (filesize < 100KB) and (2 of them)
 }
-''',
-        'credential_theft': '''
+""",
+        "credential_theft": """
 rule CredentialTheft_Tools {
     meta:
         description = "Detects credential theft tools and dumpers"
@@ -450,8 +455,8 @@ rule CredentialTheft_Tools {
     condition:
         any of them
 }
-''',
-        'persistence_mechanism': '''
+""",
+        "persistence_mechanism": """
 rule Windows_Persistence {
     meta:
         description = "Detects Windows persistence mechanisms"
@@ -470,7 +475,7 @@ rule Windows_Persistence {
     condition:
         (filesize < 200KB) and (2 of them)
 }
-''',
+""",
     }
 
     for name, content in rules.items():

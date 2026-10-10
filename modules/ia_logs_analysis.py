@@ -39,22 +39,24 @@ console = Console()
 
 # List of known text-based log files to monitor
 TEXT_LOG_FILES = [
-    "auth.log",          # SSH and authentication logs
-    "syslog",            # General system logs
-    "kern.log",          # Kernel logs
+    "auth.log",  # SSH and authentication logs
+    "syslog",  # General system logs
+    "kern.log",  # Kernel logs
     "nginx/access.log",  # Nginx access logs
-    "nginx/error.log",   # Nginx error logs
-    "apache2/access.log",# Apache access logs
-    "apache2/error.log", # Apache error logs
-    "dpkg.log",          # Package manager logs
-    "boot.log",          # Boot logs
+    "nginx/error.log",  # Nginx error logs
+    "apache2/access.log",  # Apache access logs
+    "apache2/error.log",  # Apache error logs
+    "dpkg.log",  # Package manager logs
+    "boot.log",  # Boot logs
 ]
+
 
 class LogFileHandler(FileSystemEventHandler):
     """
     Handles file system events for log files.
     """
-    def __init__(self, mode='console'):
+
+    def __init__(self, mode="console"):
         super().__init__()
         self.mode = mode
         self.processed_files = set()  # Track processed files to avoid duplicates
@@ -75,20 +77,21 @@ class LogFileHandler(FileSystemEventHandler):
         Analyzes the content of the modified log file.
         """
         try:
-            with open(file_path, 'r') as file:
+            with open(file_path, "r") as file:
                 new_lines = file.readlines()
                 if new_lines:
                     log_content = "".join(new_lines)
                     logging.info(f"New log entries detected in {file_path}:\n{log_content}")
-                    if self.mode == 'console':
+                    if self.mode == "console":
                         console.print(f"New log entries detected in {file_path}:\n{log_content}")
                     analyze_with_deepseek(log_content, self.mode)
         except Exception as e:
             logging.error(f"Error reading log file {file_path}: {e}")
-            if self.mode == 'console':
+            if self.mode == "console":
                 console.print(f"Error reading log file {file_path}")
 
-def analyze_with_deepseek(log_content, mode='console'):
+
+def analyze_with_deepseek(log_content, mode="console"):
     """
     Sends log content to DeepSeek for advanced analysis.
     Returns the model's response in chunks.
@@ -109,10 +112,10 @@ def analyze_with_deepseek(log_content, mode='console'):
                 Log entries:
                 {log_content}
                 """,
-                "stream": True
+                "stream": True,
             },
             timeout=60,
-            stream=True
+            stream=True,
         )
 
         if response.status_code == 200:
@@ -120,15 +123,15 @@ def analyze_with_deepseek(log_content, mode='console'):
             for chunk in response.iter_content(chunk_size=1024):
                 if chunk:
                     try:
-                        json_chunk = json.loads(chunk.decode('utf-8'))
+                        json_chunk = json.loads(chunk.decode("utf-8"))
                         chunk_response = json_chunk.get("response", "")
                         full_response += chunk_response
-                        if mode == 'console':
+                        if mode == "console":
                             console.print(chunk_response, end="")
                     except json.JSONDecodeError as e:
                         logging.error(f"Error decoding JSON: {e}")
 
-            if mode == 'console':
+            if mode == "console":
                 rich_markdown = Markdown(full_response)
                 subprocess.run(["tput", "reset"], capture_output=True, timeout=5, check=False)
                 console.print(rich_markdown)
@@ -140,7 +143,8 @@ def analyze_with_deepseek(log_content, mode='console'):
         logging.error(f"Error in request to DeepSeek: {e}")
         console.print("Error in request to DeepSeek")
 
-def start_monitoring(log_dir='/var/log', mode='console'):
+
+def start_monitoring(log_dir="/var/log", mode="console"):
     """
     Starts monitoring the specified log directory.
     """
@@ -156,15 +160,19 @@ def start_monitoring(log_dir='/var/log', mode='console'):
     except KeyboardInterrupt:
         observer.stop()
         logging.info("Log monitoring stopped by the user.")
-        if mode == 'console':
+        if mode == "console":
             console.print("Log monitoring stopped by the user.")
     observer.join()
 
+
 def parse_args():
-    parser = argparse.ArgumentParser(description='Log Monitor Bot')
-    parser.add_argument('--mode', type=str, choices=['console', 'web'], default='console', help='Output mode: console or web')
-    parser.add_argument('--log-dir', type=str, default='/var/log', help='Directory to monitor for logs')
+    parser = argparse.ArgumentParser(description="Log Monitor Bot")
+    parser.add_argument(
+        "--mode", type=str, choices=["console", "web"], default="console", help="Output mode: console or web"
+    )
+    parser.add_argument("--log-dir", type=str, default="/var/log", help="Directory to monitor for logs")
     return parser.parse_args()
+
 
 if __name__ == "__main__":
     configure(level=logging.INFO, console=True, file=False)

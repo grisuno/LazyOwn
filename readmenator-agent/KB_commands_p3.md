@@ -1,6 +1,94 @@
 # Subsystem: commands (page 3 of 4)
 Previous: [KB_commands_p2.md](KB_commands_p2.md)
 
+## cli/commands/mcp_bridge.py
+- Doc: MCP verb bridge — one command language for operators and agents.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_build_auto_populate_parser` (function, line 50) `def _build_auto_populate_parser()`
+  - `_build_facts_show_parser` (function, line 67) `def _build_facts_show_parser()`
+  - `_build_rag_query_parser` (function, line 84) `def _build_rag_query_parser()`
+  - `_build_parquet_query_parser` (function, line 92) `def _build_parquet_query_parser()`
+  - `_build_threat_model_parser` (function, line 111) `def _build_threat_model_parser()`
+  - `_build_playbook_run_parser` (function, line 124) `def _build_playbook_run_parser()`
+  - `McpBridgeCommandSet` (class, line 138) `class McpBridgeCommandSet(LazyOwnCommandSet)`
+  - `do_auto_populate` (method, line 146) `def do_auto_populate(self, args)`
+  - `do_facts_show` (method, line 253) `def do_facts_show(self, args)`
+  - `do_rag_query` (method, line 278) `def do_rag_query(self, args)`
+  - `do_parquet_query` (method, line 308) `def do_parquet_query(self, args)`
+  - `do_threat_model` (method, line 370) `def do_threat_model(self, args)`
+  - `do_playbook_run` (method, line 423) `def do_playbook_run(self, args)`
+  - `do_auto_loop` (method, line 481) `def do_auto_loop(self, line)`
+  - `do_session_state` (method, line 713) `def do_session_state(self, line)`
+  - `do_campaign_sitrep` (method, line 718) `def do_campaign_sitrep(self, line)`
+  - `do_timeline` (method, line 723) `def do_timeline(self, line)`
+  - `_delegate` (method, line 727) `def _delegate(self, command, line)`
+  - `_refresh_aliases` (method, line 735) `def _refresh_aliases(self)`
+  - `_executor` (method, line 467) `def _executor(command, host)`
+  - `_loop_executor` (method, line 566) `def _loop_executor(cmd)`
+  - `_QueueWriter` (class, line 622) `class _QueueWriter(TextIOBase)`
+  - `_run_orchestrator` (method, line 629) `def _run_orchestrator()`
+  - `write` (method, line 623) `def write(self, data)`
+- Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/config.py`, `core/process.py`, `modules/auto_registry.py`, `modules/intelligence_engine.py`, `modules/lazy_engine.py`, `modules/lazy_loop.py`, `modules/loop_progress.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
+
+## cli/commands/misc_migrated.py
+- Doc: misc commands migrated from lazyown.py.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MiscMigratedCommandSet` (class, line 86) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
+  - `__getattr__` (method, line 1228) `def __getattr__(name)`
+  - `do_notify` (method, line 91) `def do_notify(self, arg)`
+  - `do_EOF` (method, line 110) `def do_EOF(self, line)`
+  - `_handle_killchain_auto` (method, line 152) `def _handle_killchain_auto(self, spec)`
+  - `do_palette` (method, line 190) `def do_palette(self, line)`
+  - `do_graph_search` (method, line 215) `def do_graph_search(self, line)`
+  - `do_neighbors` (method, line 243) `def do_neighbors(self, line)`
+  - `do_god_nodes` (method, line 270) `def do_god_nodes(self, line)`
+  - `do_suggest_next` (method, line 289) `def do_suggest_next(self, line)`
+  - `do_recommend_next` (method, line 415) `def do_recommend_next(self, line)`
+  - `do_explore` (method, line 472) `def do_explore(self, line)`
+  - `do_prev` (method, line 503) `def do_prev(self, line)`
+  - `do_dashboard` (method, line 538) `def do_dashboard(self, line)`
+  - `do_palette_k` (method, line 575) `def do_palette_k(self, line)`
+  - `do_browse` (method, line 604) `def do_browse(self, line)`
+  - `do_timeline_browser` (method, line 626) `def do_timeline_browser(self, line)`
+  - `do_graph_overlay` (method, line 645) `def do_graph_overlay(self, line)`
+  - `do_toast_clear` (method, line 665) `def do_toast_clear(self, line)`
+  - `do_exit` (method, line 691) `def do_exit(self, arg)`
+  - `_persist_chainmode` (method, line 744) `def _persist_chainmode(self, enabled)`
+  - `do_banner` (method, line 768) `def do_banner(self, line)`
+  - `do_config_banner` (method, line 780) `def do_config_banner(self, line)`
+  - `do_aliass` (method, line 839) `def do_aliass(self, line)`
+  - `do_graph` (method, line 875) `def do_graph(self, line)`
+  - `do_h` (method, line 936) `def do_h(self, arg)`
+  - `do_v` (method, line 982) `def do_v(self, arg)`
+  - `do_links` (method, line 1032) `def do_links(self, line)`
+  - `do_news` (method, line 1095) `def do_news(self, line)`
+  - `do_check_update` (method, line 1108) `def do_check_update(self, line)`
+  - `do_addalias` (method, line 1157) `def do_addalias(self, arglist)`
+  - `do_listaliases` (method, line 1206) `def do_listaliases(self, _)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
+- Imported by: `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+
+## cli/commands/mobile_macos.py
+- Doc: Mobile & macOS exploitation command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `MobileMacOSCommandSet` (class, line 96) `class MobileMacOSCommandSet(LazyOwnCommandSet)`
+  - `_extract_flag` (method, line 351) `def _extract_flag(args, flag)`
+  - `_adb_argv` (method, line 361) `def _adb_argv(serial)`
+  - `_is_safe_output_path` (method, line 368) `def _is_safe_output_path(path)`
+  - `is_binary_present` (method, line 374) `def is_binary_present(name)`
+  - `do_android_enum` (method, line 103) `def do_android_enum(self, line)`
+  - `do_android_apk` (method, line 171) `def do_android_apk(self, line)`
+  - `do_macos_persist` (method, line 216) `def do_macos_persist(self, line)`
+  - `do_macos_keychain` (method, line 274) `def do_macos_keychain(self, line)`
+  - `do_macos_tcc` (method, line 323) `def do_macos_tcc(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`
+
 ## cli/commands/module_manager.py
 - Doc: Module management commands — search, use, back, and active module context.
 - Layer: utility
@@ -56,19 +144,21 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Language: py
 - Symbols:
   - `OrchestrationConfig` (class, line 37) `class OrchestrationConfig`
-  - `_build_status_bar_parser` (method, line 57) `def _build_status_bar_parser()`
-  - `_build_orchestrate_parser` (method, line 70) `def _build_orchestrate_parser()`
-  - `OrchestrationCommandSet` (class, line 117) `class OrchestrationCommandSet(LazyOwnCommandSet)`
-  - `do_status_bar` (method, line 125) `def do_status_bar(self, args)`
-  - `do_orchestrate` (method, line 151) `def do_orchestrate(self, args)`
-  - `_resolve_shell` (method, line 177) `def _resolve_shell(self)`
-  - `_status_manager` (method, line 192) `def _status_manager(self)`
-  - `_orchestrator` (method, line 198) `def _orchestrator(self)`
-  - `_status_bar_show` (method, line 204) `def _status_bar_show(self, manager)`
-  - `_status_bar_refresh` (method, line 209) `def _status_bar_refresh(self, manager)`
-  - `_status_bar_toggle` (method, line 219) `def _status_bar_toggle(self, manager, enabled)`
-  - `_format_text` (method, line 228) `def _format_text(result)`
-- Depends on: `cli/commands/_base.py`
+  - `_spinner_hints` (method, line 60) `def _spinner_hints(stop, events_path)`
+  - `run_with_spinner` (method, line 95) `def run_with_spinner(execute)`
+  - `_build_status_bar_parser` (method, line 116) `def _build_status_bar_parser()`
+  - `_build_orchestrate_parser` (method, line 129) `def _build_orchestrate_parser()`
+  - `OrchestrationCommandSet` (class, line 183) `class OrchestrationCommandSet(LazyOwnCommandSet)`
+  - `do_status_bar` (method, line 191) `def do_status_bar(self, args)`
+  - `do_orchestrate` (method, line 217) `def do_orchestrate(self, args)`
+  - `_resolve_shell` (method, line 264) `def _resolve_shell(self)`
+  - `_status_manager` (method, line 279) `def _status_manager(self)`
+  - `_orchestrator` (method, line 285) `def _orchestrator(self)`
+  - `_status_bar_show` (method, line 291) `def _status_bar_show(self, manager)`
+  - `_status_bar_refresh` (method, line 296) `def _status_bar_refresh(self, manager)`
+  - `_status_bar_toggle` (method, line 306) `def _status_bar_toggle(self, manager, enabled)`
+  - `_format_text` (method, line 315) `def _format_text(result)`
+- Depends on: `cli/commands/_base.py`, `cli/reasoning_stream.py`, `core/console.py`
 - Imported by: `tests/test_improvements_spec.py`
 
 ## cli/commands/payload_arsenal.py
@@ -309,13 +399,13 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
 - Symbols:
   - `PwnCommandSet` (class, line 28) `class PwnCommandSet(LazyOwnCommandSet)`
   - `do_auto_pwn` (method, line 35) `def do_auto_pwn(self, line)`
-  - `do_rich_tui` (method, line 99) `def do_rich_tui(self, line)`
-  - `do_exploit_chain` (method, line 148) `def do_exploit_chain(self, line)`
-  - `do_lolbas_list` (method, line 235) `def do_lolbas_list(self, line)`
-  - `do_lolbas_use` (method, line 292) `def do_lolbas_use(self, line)`
-  - `do_stealth_on` (method, line 384) `def do_stealth_on(self, line)`
-  - `do_stealth_off` (method, line 412) `def do_stealth_off(self, line)`
-- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
+  - `do_rich_tui` (method, line 108) `def do_rich_tui(self, line)`
+  - `do_exploit_chain` (method, line 157) `def do_exploit_chain(self, line)`
+  - `do_lolbas_list` (method, line 244) `def do_lolbas_list(self, line)`
+  - `do_lolbas_use` (method, line 301) `def do_lolbas_use(self, line)`
+  - `do_stealth_on` (method, line 393) `def do_stealth_on(self, line)`
+  - `do_stealth_off` (method, line 421) `def do_stealth_off(self, line)`
+- Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `core/validators.py`, `modules/ai_exploit_chain.py`, `modules/autonomous_exploit_engine.py`, `modules/dashboard_engine.py`, `modules/enrich.py`, `modules/exploit_recommender.py`, `modules/rich_tui.py`, `modules/world_model.py`, `utils.py`
 - Imported by: `contrib/legacy/lazybinenc.py`, `contrib/legacy/lazypwn.py`, `contrib/legacy/lazyvsftp.py`, `contrib/legacy/sql.py`
 
 ## cli/commands/recon.py
@@ -405,89 +495,6 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `on_cmd` (method, line 35) `def on_cmd(cmd)`
   - `on_print` (method, line 39) `def on_print(msg)`
 - Depends on: `cli/commands/_base.py`, `modules/resource_script.py`, `utils.py`
-
-## cli/commands/scan.py
-- Doc: Scanning command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ScanCommandSet` (class, line 49) `class ScanCommandSet(LazyOwnCommandSet)`
-  - `do_gobuster` (method, line 56) `def do_gobuster(self, line)`
-  - `do_arpscan` (method, line 129) `def do_arpscan(self, line)`
-  - `do_dirsearch` (method, line 170) `def do_dirsearch(self, line)`
-  - `do_dmitry` (method, line 213) `def do_dmitry(self, line)`
-  - `do_feroxbuster` (method, line 248) `def do_feroxbuster(self, line)`
-  - `do_nmapscript` (method, line 316) `def do_nmapscript(self, line)`
-  - `do_nuclei` (method, line 350) `def do_nuclei(self, line)`
-  - `do_amass` (method, line 392) `def do_amass(self, line)`
-  - `do_bbot` (method, line 422) `def do_bbot(self, line)`
-  - `do_osmedeus` (method, line 473) `def do_osmedeus(self, line)`
-  - `do_magicrecon` (method, line 548) `def do_magicrecon(self, line)`
-  - `do_hostdiscover` (method, line 606) `def do_hostdiscover(self, line)`
-  - `do_portdiscover` (method, line 664) `def do_portdiscover(self, line)`
-  - `do_portservicediscover` (method, line 724) `def do_portservicediscover(self, line)`
-  - `do_skipfish` (method, line 789) `def do_skipfish(self, line)`
-  - `do_vscan` (method, line 839) `def do_vscan(self, line)`
-- Depends on: `cli/commands/_base.py`, `utils.py`
-
-## cli/commands/scan_migrated.py
-- Doc: scan commands migrated from lazyown.py.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ScanMigratedCommandSet` (class, line 29) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
-  - `do_cme` (method, line 34) `def do_cme(self, line)`
-  - `do_ldapdomaindump` (method, line 173) `def do_ldapdomaindump(self, line)`
-  - `do_bloodhound` (method, line 215) `def do_bloodhound(self, line)`
-  - `do_swaks` (method, line 264) `def do_swaks(self, line)`
-  - `do_samrdump` (method, line 303) `def do_samrdump(self, line)`
-  - `do_lynis` (method, line 358) `def do_lynis(self, line)`
-  - `do_snmpcheck` (method, line 387) `def do_snmpcheck(self, line)`
-  - `do_snmpwalk` (method, line 414) `def do_snmpwalk(self, line)`
-  - `do_smtpuserenum` (method, line 441) `def do_smtpuserenum(self, line)`
-  - `do_sessionssh` (method, line 480) `def do_sessionssh(self, line)`
-  - `do_smbattack` (method, line 504) `def do_smbattack(self, line)`
-  - `do_parsero` (method, line 640) `def do_parsero(self, line)`
-  - `do_changeme` (method, line 672) `def do_changeme(self, line)`
-  - `do_enum4linux_ng` (method, line 703) `def do_enum4linux_ng(self, line)`
-  - `do_fuzz` (method, line 743) `def do_fuzz(self, line)`
-  - `do_kerbrute` (method, line 788) `def do_kerbrute(self, line)`
-  - `do_davtest` (method, line 874) `def do_davtest(self, line)`
-  - `do_evil_ssdp` (method, line 915) `def do_evil_ssdp(self, line)`
-  - `do_netexec` (method, line 961) `def do_netexec(self, line)`
-  - `do_allin` (method, line 1214) `def do_allin(self, line)`
-  - `do_windapsearch` (method, line 1285) `def do_windapsearch(self, line)`
-  - `do_ldapsearch` (method, line 1413) `def do_ldapsearch(self, line)`
-  - `do_arjun` (method, line 1474) `def do_arjun(self, line)`
-  - `do_finger_user_enum` (method, line 1542) `def do_finger_user_enum(self, line)`
-  - `do_wpscan` (method, line 1588) `def do_wpscan(self, line)`
-  - `do_loxs` (method, line 1651) `def do_loxs(self, line)`
-  - `do_blazy` (method, line 1695) `def do_blazy(self, line)`
-  - `do_parth` (method, line 1744) `def do_parth(self, line)`
-  - `do_breacher` (method, line 1813) `def do_breacher(self, line)`
-  - `do_openredirex` (method, line 1875) `def do_openredirex(self, line)`
-  - `do_odat` (method, line 1943) `def do_odat(self, line)`
-  - `do_rpcmap_py` (method, line 2061) `def do_rpcmap_py(self, line)`
-  - `do_pykerbrute` (method, line 2104) `def do_pykerbrute(self, line)`
-  - `do_netview` (method, line 2174) `def do_netview(self, line)`
-  - `do_rdp_check_py` (method, line 2238) `def do_rdp_check_py(self, line)`
-  - `do_mqtt_check_py` (method, line 2303) `def do_mqtt_check_py(self, line)`
-  - `do_lookupsid_py` (method, line 2358) `def do_lookupsid_py(self, line)`
-  - `do_lookupsid` (method, line 2431) `def do_lookupsid(self, line)`
-  - `do_certipy_ad` (method, line 2493) `def do_certipy_ad(self, line)`
-  - `do_certipy` (method, line 2557) `def do_certipy(self, line)`
-  - `do_sawks` (method, line 2651) `def do_sawks(self, line)`
-  - `do_ad_ldap_enum` (method, line 2688) `def do_ad_ldap_enum(self, line)`
-  - `do_net_rpc_addmem` (method, line 2742) `def do_net_rpc_addmem(self, line)`
-  - `do_pre2k` (method, line 2788) `def do_pre2k(self, line)`
-  - `do_hound` (method, line 2881) `def do_hound(self, line)`
-  - `find_tgts` (method, line 533) `def find_tgts(subnet)`
-  - `setup_handler` (method, line 559) `def setup_handler(config_file, lhost, lport)`
-  - `conficker_exploit` (method, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
-  - `smb_brute` (method, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
-  - `install_netexec` (method, line 988) `def install_netexec()`
-  - `install_netexec_pipx` (method, line 993) `def install_netexec_pipx()`
-- Depends on: `cli/commands/_base.py`, `utils.py`
 
 
 Next: [KB_commands_p4.md](KB_commands_p4.md)

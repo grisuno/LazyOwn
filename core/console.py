@@ -9,6 +9,7 @@ compatibility with the historical import path ``from utils import print_msg``.
 from __future__ import annotations
 
 import os
+import sys
 
 RESET = "\033[0m"
 BOLD = "\033[1m"
@@ -134,27 +135,79 @@ def format_line(prefix: str, message: object, glyph: str = "") -> str:
 
 
 def print_error(error: object) -> None:
-    """Print a red error message to stdout."""
+    """Print a red error message to stdout (never raises on broken pipes)."""
     line = format_line(ERROR_PREFIX, error, ERROR_GLYPH)
-    print(_paint(RED, line) if colors_enabled() else line)
+    _emit(_paint(RED, line) if colors_enabled() else line)
 
 
 def print_msg(msg: object) -> None:
-    """Print a green informational message to stdout."""
+    """Print a green informational message to stdout (never raises)."""
     line = format_line(INFO_PREFIX, msg, INFO_GLYPH)
-    print(_paint(GREEN, line) if colors_enabled() else line)
+    _emit(_paint(GREEN, line) if colors_enabled() else line)
 
 
 def print_warn(warn: object) -> None:
-    """Print a magenta/yellow warning message to stdout."""
+    """Print a magenta/yellow warning message to stdout (never raises)."""
     line = format_line(WARN_PREFIX, warn, WARN_GLYPH)
-    print(_paint(YELLOW, line) if colors_enabled() else line)
+    _emit(_paint(YELLOW, line) if colors_enabled() else line)
 
 
 def print_succ(msg: object) -> None:
-    """Print a bright green success message to stdout."""
+    """Print a bright green success message to stdout (never raises)."""
     line = format_line(SUCCESS_PREFIX, msg, SUCCESS_GLYPH)
-    print(_paint(BRIGHT_GREEN, line) if colors_enabled() else line)
+    _emit(_paint(BRIGHT_GREEN, line) if colors_enabled() else line)
+
+
+def ensure_blocking_stdio() -> None:
+    """Restore blocking mode on stdio fds inherited as non-blocking.
+
+    Operator shells are sometimes spawned with ``O_NONBLOCK`` set on
+    stdout/stderr (supervisors, pipes, embedded terminals). Any later
+    ``write`` then fails with ``BlockingIOError`` and kills the session.
+    This restores blocking mode best-effort and never raises.
+    """
+    for stream in (sys.stdout, sys.stderr):
+        try:
+            fd = stream.fileno()
+        except (AttributeError, OSError, ValueError):
+            continue
+        try:
+            os.set_blocking(fd, True)
+        except OSError:
+            continue
+
+
+def write_stdout(text: str) -> bool:
+    """Write ``text`` to stdout, tolerating non-blocking or broken pipes.
+
+    On ``BlockingIOError`` the stdio mode is restored to blocking once
+    and the write retried; as a last resort the text goes to stderr and
+    then is dropped. Never raises; returns True when stdout took it.
+    """
+    try:
+        sys.stdout.write(text)
+        sys.stdout.flush()
+        return True
+    except (BlockingIOError, OSError, ValueError):
+        pass
+    try:
+        ensure_blocking_stdio()
+        sys.stdout.write(text)
+        sys.stdout.flush()
+        return True
+    except (BlockingIOError, OSError, ValueError):
+        pass
+    try:
+        sys.stderr.write(text)
+        sys.stderr.flush()
+    except (BlockingIOError, OSError, ValueError):
+        pass
+    return False
+
+
+def _emit(line: str) -> None:
+    """Emit one console line; logging must never crash the operator shell."""
+    write_stdout(line + "\n")
 
 
 __all__ = [
@@ -203,7 +256,9 @@ __all__ = [
     "TRANSLATION_TABLE",
     "DOCS_BASE_URL",
     "colors_enabled",
+    "ensure_blocking_stdio",
     "format_line",
+    "write_stdout",
     "print_msg",
     "print_warn",
     "print_error",

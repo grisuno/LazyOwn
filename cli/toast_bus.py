@@ -25,9 +25,10 @@ from __future__ import annotations
 
 import json
 import os
+import threading
 import time
 from collections.abc import Callable, Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from typing import Any
 
@@ -71,9 +72,38 @@ class ToastConfig:
     )
     default_role: str = "muted"
     truncation_suffix: str = "..."
+    prominent_roles: tuple[str, ...] = ("danger", "warning")
+    prominent_kinds: tuple[str, ...] = ("ENGAGE_DONE",)
+    prominent_max_chars: int = 800
     prefix_glyph: str = ">>"
     file_offset_separator: str = "::"
     skip_event_types: tuple[str, ...] = ()
+    ephemeral_key: str = "toast_ephemeral"
+    ephemeral_default: bool = False
+    ephemeral_durations: Mapping[str, float] = field(
+        default_factory=lambda: {
+            "success": 3.0,
+            "info": 4.0,
+            "warning": 6.0,
+            "error": 8.0,
+            "danger": 8.0,
+            "critical": 8.0,
+            "loading": 0.0,
+        }
+    )
+    ephemeral_default_duration: float = 4.0
+    ephemeral_icons: Mapping[str, str] = field(
+        default_factory=lambda: {
+            "success": "\u2714",
+            "info": "\u2139",
+            "warning": "\u26a0",
+            "error": "\u2716",
+            "danger": "\u2716",
+            "critical": "\u2716",
+            "loading": "\u23f3",
+        }
+    )
+    ephemeral_max_chars: int = 200
 
 
 @dataclass(frozen=True)
@@ -275,6 +305,14 @@ class ToastReader:
         return ""
 
 
+_BORDER_BY_ROLE: dict[str, str] = {
+    "danger": "red",
+    "warning": "yellow",
+    "success": "green",
+    "accent": "blue",
+}
+
+
 class ToastFormatter:
     """Render a :class:`ToastEvent` as a :class:`rich.text.Text` line."""
 
@@ -295,6 +333,87 @@ class ToastFormatter:
         text.append(summary, style=self._theme.muted)
         return text
 
+    def is_prominent(self, event: ToastEvent) -> bool:
+        """Return True when an event deserves a full toastr panel.
+
+        High-severity events and completion summaries are never squeezed
+        into a truncated line: they render with their complete text.
+        """
+        if event.event_type in self._config.prominent_kinds:
+            return True
+        return self._role_for(event.severity) in self._config.prominent_roles
+
+    def format_prominent(self, event: ToastEvent) -> Panel:
+        """Render an event as a toastr panel with the complete summary."""
+        role = self._role_for(event.severity)
+        border = _BORDER_BY_ROLE.get(role, "dim")
+        summary = (event.summary or "(no detail)").strip()
+        limit = max(1, self._config.prominent_max_chars)
+        if len(summary) > limit:
+            summary = summary[:limit] + "… (truncated, see sessions log)"
+        body = Text(summary, style="default")
+        title = f"{event.severity.upper()} · {event.event_type}" if event.event_type else event.severity.upper()
+        return Panel(
+            body,
+            title=f"[bold]{title}[/bold]",
+            border_style=border,
+            padding=(0, 2),
+        )
+
+    def format_ephemeral(self, event: ToastEvent) -> Text:
+        """Return a single sonner-style line with severity icon for ``event``.
+
+        Reuses the severity-to-role table and the active theme, so the
+        ephemeral line never drifts from the persistent panel palette.
+        LAZY renders ``toast.success / error / warning / info`` with one
+        glyph each; this is the terminal equivalent without the ascii box.
+
+        Args:
+            event: Toast event to render.
+
+        Returns:
+            One themed Rich Text line.
+        """
+        role = self._role_for(event.severity)
+        style = getattr(self._theme, role, getattr(self._theme, self._config.default_role))
+        icon = self._config.ephemeral_icons.get(str(event.severity or "").lower(), "\u2139")
+        summary = (event.summary or "(no detail)").strip()
+        limit = max(1, self._config.ephemeral_max_chars)
+        if len(summary) > limit:
+            summary = summary[:limit] + "\u2026"
+        text = Text()
+        text.append(f" {icon} ", style=style)
+        if event.event_type:
+            text.append(f"{event.event_type} ", style=style)
+        text.append(summary, style=self._theme.muted)
+        return text
+
+    def duration_for(self, event: ToastEvent) -> float:
+        """Return the auto-dismiss delay in seconds for ``event``.
+
+        Reuses the per-severity duration table from the config, mirroring
+        the sonner ``duration`` option per toast level. ``0`` means sticky.
+
+        Args:
+            event: Toast event to time.
+
+        Returns:
+            Seconds before the line is erased, ``0`` for sticky.
+        """
+        try:
+            return max(0.0, float(self._config.ephemeral_durations.get(str(event.severity or "").lower(), self._config.ephemeral_default_duration)))
+        except (TypeError, ValueError):
+            return float(self._config.ephemeral_default_duration)
+
+    @staticmethod
+    def digest_line(dropped: list[ToastEvent]) -> str:
+        """Summarise over-budget events so none vanish silently."""
+        counts: dict[str, int] = {}
+        for event in dropped:
+            counts[event.event_type or "event"] = counts.get(event.event_type or "event", 0) + 1
+        parts = [f"{kind}×{num}" if num > 1 else kind for kind, num in counts.items()]
+        return f"… +{len(dropped)} more: {', '.join(parts)}"
+
     def format_many(self, events: list[ToastEvent], width: int = 0) -> Any:
         """Render several events as one Rich renderable.
 
@@ -302,33 +421,50 @@ class ToastFormatter:
         result through a Console; the Textual dashboard embeds the very same
         renderable in a widget. One formatter, two surfaces, no drift.
 
+        Prominent events (high severity, completion summaries) render as
+        individual toastr panels with full text. Remaining lines share the
+        per-tick budget; over-budget ones collapse into a digest line so
+        no unseen notification disappears silently.
+
         Args:
             events: Events to render, oldest first.
             width: Panel width. ``0`` means auto-clamp to the console width.
 
         Returns:
-            A ``Panel`` for more than one event, a single ``Text`` line for
-            one event, or ``None`` when there is nothing to show.
+            A ``Panel``/``Group`` for several items, a single ``Text``
+            line for one plain event, or ``None`` when empty.
         """
         if not events:
             return None
         budget = max(1, self._config.max_per_tick_default)
         filtered = [e for e in events if e.event_type not in self._config.skip_event_types]
-        to_show = filtered[-budget:]
-        if not to_show:
+        if not filtered:
             return None
-        lines = [self.format(event) for event in to_show]
-        if len(lines) == 1:
-            return lines[0]
-        border_style = getattr(self._theme, "warning", "yellow")
-        resolved = width or self._console_width()
-        return Panel(
-            Group(*lines),
-            title="[dim]notifications[/dim]",
-            border_style=border_style,
-            padding=(0, 1),
-            width=min(resolved, self._config.max_panel_width),
-        )
+        prominent = [e for e in filtered if self.is_prominent(e)]
+        normal = [e for e in filtered if not self.is_prominent(e)]
+        to_show = normal[-budget:]
+        dropped = normal[:-budget]
+        renderables: list[Any] = []
+        if len(normal) == 1 and not prominent and not dropped:
+            return self.format(to_show[0])
+        if to_show or dropped:
+            lines = [self.format(event) for event in to_show]
+            if dropped:
+                digest = Text(f"  {self.digest_line(dropped)}", style="dim italic")
+                lines.append(digest)
+            border_style = getattr(self._theme, "warning", "yellow")
+            resolved = width or self._console_width()
+            renderables.append(Panel(
+                Group(*lines),
+                title="[dim]notifications[/dim]",
+                border_style=border_style,
+                padding=(0, 1),
+                width=min(resolved, self._config.max_panel_width),
+            ))
+        renderables.extend(self.format_prominent(event) for event in prominent)
+        if len(renderables) == 1:
+            return renderables[0]
+        return Group(*renderables)
 
     def _console_width(self) -> int:
         """Return a sane console width when the caller passes none."""
@@ -419,6 +555,69 @@ class ToastBus:
             self._state.set(name, end)
         self._state.flush()
 
+    def render_ephemeral(self, enabled: bool = True, duration: float | None = None) -> int:
+        """Collect unseen events and print each as an auto-expiring line.
+
+        This is the sonner port: one themed icon line per event that is
+        erased after its per-severity delay when the output is an
+        interactive TTY. On pipes or dumb terminals the lines stay printed
+        so logs never lose the event. Offsets persist exactly like
+        :meth:`render`, so both paths share the same read cursor.
+
+        Args:
+            enabled: When ``False`` the call is a no-op and returns 0.
+            duration: Forced seconds per toast, or None for per-level
+                defaults from the config. ``0`` means sticky.
+
+        Returns:
+            The number of toasts raised.
+        """
+        if not enabled:
+            return 0
+        events = self.collect()
+        if not events:
+            self._state.flush()
+            return 0
+        budget = max(1, self._config.max_per_tick_default)
+        shown = 0
+        for event in events[-budget:]:
+            delay = max(0.0, float(duration)) if duration is not None else self._formatter.duration_for(event)
+            self._console.print(self._formatter.format_ephemeral(event), soft_wrap=True)
+            shown += 1
+            self._schedule_erase(delay)
+        self._state.flush()
+        return shown
+
+    def _schedule_erase(self, delay: float) -> None:
+        """Erase the last printed line after ``delay`` on interactive TTYs.
+
+        Args:
+            delay: Seconds before erasing. ``0`` or less means sticky.
+        """
+        if delay <= 0:
+            return
+        stream = getattr(self._console, "file", None)
+        if _is_dumb_stream(stream):
+            return
+        timer = threading.Timer(delay, self._erase_lines, args=(stream, 1))
+        timer.daemon = True
+        timer.start()
+
+    @staticmethod
+    def _erase_lines(stream: Any, rows: int) -> None:
+        """Move the cursor up and clear ``rows`` lines.
+
+        Args:
+            stream: Output stream behind the console.
+            rows: Terminal rows to erase.
+        """
+        try:
+            for _ in range(max(1, rows)):
+                stream.write("\x1b[1A\x1b[2K")
+            stream.flush()
+        except Exception:
+            pass
+
 
 def _is_truthy(value: Any, config: ToastConfig, default: bool) -> bool:
     if isinstance(value, bool):
@@ -432,6 +631,26 @@ def _is_truthy(value: Any, config: ToastConfig, default: bool) -> bool:
         if lowered in config.falsy_strings:
             return False
     return default
+
+
+def _is_dumb_stream(stream: Any) -> bool:
+    """Return True when ANSI erase sequences must not be emitted.
+
+    Args:
+        stream: Output stream behind the console.
+
+    Returns:
+        True for pipes, dumb terminals, or ``NO_COLOR``.
+    """
+    if os.environ.get("NO_COLOR"):
+        return True
+    if os.environ.get("TERM") == "dumb":
+        return True
+    isatty = getattr(stream, "isatty", None)
+    try:
+        return not bool(isatty() if callable(isatty) else False)
+    except Exception:
+        return True
 
 
 def toasts_enabled(payload: Mapping[str, Any] | None, config: ToastConfig | None = None) -> bool:
@@ -474,47 +693,11 @@ def build_default_bus(
     """
     config = ToastConfig()
     if sessions_dir is not None and sessions_dir.strip():
-        config = ToastConfig(
-            enabled_key=config.enabled_key,
-            max_per_tick_key=config.max_per_tick_key,
-            sessions_dir=sessions_dir.strip(),
-            state_filename=config.state_filename,
-            event_files=config.event_files,
-            enabled_default=config.enabled_default,
-            max_per_tick_default=_budget(payload, config),
-            max_line_chars=config.max_line_chars,
-            max_offset_value=config.max_offset_value,
-            truthy_strings=config.truthy_strings,
-            falsy_strings=config.falsy_strings,
-            severity_styles=config.severity_styles,
-            default_role=config.default_role,
-            truncation_suffix=config.truncation_suffix,
-            prefix_glyph=config.prefix_glyph,
-            file_offset_separator=config.file_offset_separator,
-            skip_event_types=config.skip_event_types,
-        )
+        config = replace(config, sessions_dir=sessions_dir.strip(), max_per_tick_default=_budget(payload, config))
     else:
         budget = _budget(payload, config)
         if budget != config.max_per_tick_default:
-            config = ToastConfig(
-                enabled_key=config.enabled_key,
-                max_per_tick_key=config.max_per_tick_key,
-                sessions_dir=config.sessions_dir,
-                state_filename=config.state_filename,
-                event_files=config.event_files,
-                enabled_default=config.enabled_default,
-                max_per_tick_default=budget,
-                max_line_chars=config.max_line_chars,
-                max_offset_value=config.max_offset_value,
-                truthy_strings=config.truthy_strings,
-                falsy_strings=config.falsy_strings,
-                severity_styles=config.severity_styles,
-                default_role=config.default_role,
-                truncation_suffix=config.truncation_suffix,
-                prefix_glyph=config.prefix_glyph,
-                file_offset_separator=config.file_offset_separator,
-                skip_event_types=config.skip_event_types,
-            )
+            config = replace(config, max_per_tick_default=budget)
     theme = theme_from_payload(payload)
     state = ToastState(config)
     reader = ToastReader(config)
@@ -544,6 +727,52 @@ def render_toasts(
         return 0
     bus = bus_factory() if bus_factory is not None else build_default_bus(payload, sessions_dir, console)
     return bus.render(enabled=True)
+
+
+def ephemeral_enabled(payload: Mapping[str, Any] | None, config: ToastConfig | None = None) -> bool:
+    """Return True when toasts must auto-dismiss like sonner.
+
+    Args:
+        payload: Loaded ``payload.json``.
+        config: Optional active configuration.
+
+    Returns:
+        Value of the ``toast_ephemeral`` payload flag.
+    """
+    cfg = config or ToastConfig()
+    if payload is None:
+        return cfg.ephemeral_default
+    return _is_truthy(payload.get(cfg.ephemeral_key), cfg, cfg.ephemeral_default)
+
+
+def render_ephemeral_toasts(
+    payload: Mapping[str, Any] | None,
+    sessions_dir: str | None = None,
+    console: Console | None = None,
+    duration: float | None = None,
+    bus_factory: Callable[[], ToastBus] | None = None,
+) -> int:
+    """Collect unseen events and print each as an auto-expiring line.
+
+    Same read cursor and theme as :func:`render_toasts`; only the
+    presentation differs: one sonner-style icon line per event instead of
+    the persistent ascii panel.
+
+    Args:
+        payload: Loaded ``payload.json``.
+        sessions_dir: Optional override for the sessions root.
+        console: Optional pre-built Rich console.
+        duration: Forced seconds per toast, or None for per-level defaults.
+        bus_factory: Optional factory returning a pre-built
+            :class:`ToastBus` (used by tests).
+
+    Returns:
+        Number of toasts raised; ``0`` when disabled or quiet.
+    """
+    if not toasts_enabled(payload):
+        return 0
+    bus = bus_factory() if bus_factory is not None else build_default_bus(payload, sessions_dir, console)
+    return bus.render_ephemeral(enabled=True, duration=duration)
 
 
 def emit_toast(
@@ -667,7 +896,9 @@ __all__ = [
     "build_default_bus",
     "build_toast_renderable",
     "emit_toast",
+    "ephemeral_enabled",
     "read_recent_toasts",
+    "render_ephemeral_toasts",
     "render_toasts",
     "toasts_enabled",
 ]

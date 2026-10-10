@@ -3696,9 +3696,9 @@ def receive_result(client_id):
                         # Re-read the actual client field from data dict
                         _raw_os = str(data.get("client", "")).lower()
                         if "windows" in _raw_os:
-                            _os_id, _os_name = "1", "Windows"
+                            _os_id, _os_name = "2", "Windows"
                         elif "linux" in _raw_os or "unix" in _raw_os:
-                            _os_id, _os_name = "2", "Linux"
+                            _os_id, _os_name = "1", "Linux"
                         else:
                             _os_id, _os_name = "4", "Unknown"
 
@@ -6872,6 +6872,245 @@ def api_surface_live():
     except (OSError, json.JSONDecodeError):
         world = {}
     return jsonify(build_live_graph(world))
+
+
+@app.route("/intel")
+@login_required
+def intel_view():
+    """Render the fused sessions intel graph page (ReadMenator engine).
+
+    Data loads via ``/api/intel_graph`` inside LazyOwn chrome. Defaults to
+    the 2D map with fit-to-view; 3D orbit, clusters, layers, tree and the
+    circular/spherical bundles stay one click away.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``intel.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("intel.html")
+
+
+@app.route("/intel_bundle")
+@login_required
+def intel_bundle_view():
+    """Render the circular/spherical bundle view of the intel graph.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``intel_bundle.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("intel_bundle.html")
+
+
+@app.route("/attack3d")
+@login_required
+def attack3d_view():
+    """Render the C2-centred attack-surface graph (ReadMenator engine).
+
+    Shows the LazyOwn C2 root, implants, discovered machines, open ports,
+    services, findings and objectives fused from every session artefact.
+    The current ``/graph`` and ``/surface`` views stay untouched.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``attack3d.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("attack3d.html")
+
+
+@app.route("/attack_bundle")
+@login_required
+def attack_bundle_view():
+    """Render the circular/spherical bundle view of the attack surface.
+
+    Returns:
+        The decoy response for unauthorized origins, otherwise the
+        ``attack_bundle.html`` explorer embedded in the LazyOwn layout.
+    """
+    response = decoy()
+    if response:
+        return response
+    return render_template("attack_bundle.html")
+
+
+@app.route("/api/intel_graph")
+@login_required
+def api_intel_graph():
+    """Return the fused C2-centred intel graph with precomputed layout.
+
+    Query param ``layout`` selects ``force`` (default, physics runs
+    client-side, no preset positions so every graph fits on screen),
+    ``cluster``, ``radial``, ``dag`` (same, client-side), ``circular`` or
+    ``spherical`` (server-side positions). Legacy ``force2d``/``force3d``
+    still map to ``force``. Every request also refreshes
+    ``sessions/intel_summary.json`` so the autonomous loop planner scores
+    probes from current campaign state.
+
+    Returns:
+        A JSON object with ``nodes``, ``edges``, ``stats``, ``settings``
+        and ``analytics`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.intel_fusion import (
+        assign_layout,
+        build_analytics,
+        build_intel_graph,
+        page_settings,
+        write_summary,
+    )
+
+    layout = (request.args.get("layout", "force") or "force").lower()
+    if layout in ("force2d", "force3d"):
+        layout = "force"
+    if layout not in ("force", "cluster", "radial", "dag", "circular", "spherical"):
+        layout = "force"
+    try:
+        graph = build_intel_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        graph = assign_layout(graph, layout)
+    except Exception:
+        pass
+    try:
+        graph["intel"] = write_summary(graph, SESSIONS_DIR)
+    except Exception:
+        graph["intel"] = {}
+    try:
+        graph["settings"] = page_settings(graph)
+    except Exception:
+        graph["settings"] = {}
+    try:
+        graph["analytics"] = build_analytics(graph, graph.get("intel", {}))
+    except Exception:
+        graph["analytics"] = {}
+    return jsonify(graph)
+
+
+@app.route("/api/intel_bundle")
+@login_required
+def api_intel_bundle():
+    """Return the circular/spherical bundle payload of the intel graph.
+
+    Returns:
+        A JSON object with ``bundle`` (nodes, groups, edges) and
+        ``settings`` keys consumed by ``intel_bundle.html``.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.intel_fusion import (
+        build_bundle_payload,
+        build_intel_graph,
+        bundle_settings,
+    )
+
+    try:
+        graph = build_intel_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        bundle = build_bundle_payload(graph)
+    except Exception:
+        bundle = {"nodes": [], "groups": [], "edges": []}
+    try:
+        settings = bundle_settings(graph)
+    except Exception:
+        settings = {}
+    return jsonify({"bundle": bundle, "settings": settings})
+
+
+@app.route("/api/attack_graph")
+@login_required
+def api_attack_graph():
+    """Return the fused C2-centred attack-surface graph.
+
+    Merges live surface scans (C2, implants, hosts, ports, services) with
+    campaign intel (objectives, findings, tasks, log mentions). Query param
+    ``layout`` accepts ``force`` (default, client-side physics),
+    ``cluster``, ``radial``, ``dag``, ``circular`` and ``spherical``.
+    Every request refreshes ``sessions/intel_summary.json`` so the
+    autonomous loop scores probes from current campaign state.
+
+    Returns:
+        A JSON object with ``nodes``, ``edges``, ``stats``, ``settings``
+        and ``analytics`` keys.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.attack_surface3d import build_attack_graph, refresh_summary
+    from modules.intel_fusion import (
+        assign_layout,
+        build_analytics,
+        page_settings,
+    )
+
+    layout = (request.args.get("layout", "force") or "force").lower()
+    if layout not in ("force", "cluster", "radial", "dag", "circular", "spherical"):
+        layout = "force"
+    try:
+        graph = build_attack_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        graph = assign_layout(graph, layout)
+    except Exception:
+        pass
+    try:
+        graph["intel"] = refresh_summary(graph, SESSIONS_DIR)
+    except Exception:
+        graph["intel"] = {}
+    try:
+        graph["settings"] = page_settings(graph)
+    except Exception:
+        graph["settings"] = {}
+    try:
+        graph["analytics"] = build_analytics(graph, graph.get("intel", {}))
+    except Exception:
+        graph["analytics"] = {}
+    return jsonify(graph)
+
+
+@app.route("/api/attack_bundle")
+@login_required
+def api_attack_bundle():
+    """Return the circular/spherical bundle payload of the attack surface.
+
+    Returns:
+        A JSON object with ``bundle`` (nodes, groups, edges) and
+        ``settings`` keys consumed by ``attack_bundle.html``.
+    """
+    response = decoy()
+    if response:
+        return response
+    from modules.attack_surface3d import build_attack_graph
+    from modules.intel_fusion import build_bundle_payload, bundle_settings
+
+    try:
+        graph = build_attack_graph(SESSIONS_DIR)
+    except Exception:
+        graph = {"nodes": [], "edges": [], "stats": {}}
+    try:
+        bundle = build_bundle_payload(graph)
+    except Exception:
+        bundle = {"nodes": [], "groups": [], "edges": []}
+    try:
+        settings = bundle_settings(graph)
+    except Exception:
+        settings = {}
+    return jsonify({"bundle": bundle, "settings": settings})
 
 
 @app.route("/data")

@@ -417,9 +417,9 @@ def _hint_console() -> Any:
     """
     if _HINT_CONSOLE_CACHE:
         return _HINT_CONSOLE_CACHE[0]
-    from rich.console import Console
+    from core.safe_console import get_console
 
-    console = Console(stderr=False, highlight=False, soft_wrap=True)
+    console = get_console(stderr=False)
     _HINT_CONSOLE_CACHE.append(console)
     return console
 

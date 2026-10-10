@@ -8107,6 +8107,35 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
     # ── auto_loop ─────────────────────────────────────────────────────────────
     elif name == "lazyown_auto_loop":
+        # Single-orchestrator fast path: same LazyEngine as lazy_loop/auto_loop CLI.
+        # Pass {"legacy": True} to force the legacy WorldModel/policy chain below.
+        try:
+            if not bool(arguments.get("legacy", False)):
+                from modules.lazy_engine import LazyEngine as _LazyEngine
+
+                _cfg = _load_payload()
+                _target = (arguments.get("target") or _cfg.get("rhost", "") or "127.0.0.1").strip()
+                _goal = (arguments.get("objective") or arguments.get("goal") or "").strip()
+                if not _goal and _target:
+                    _goal = f"gain initial access on {_target}"
+                _rounds = max(1, min(20, int(arguments.get("max_steps", arguments.get("rounds", 5)))) or 5)
+                _workers = max(1, min(5, int(arguments.get("workers", 2))))
+                _timeout = max(0.0, float(arguments.get("timeout_s", arguments.get("timeout", 0.0)) or 0.0))
+                _eng = _LazyEngine()
+                _summary = _eng.create_task(_goal)
+                _tid = _summary["task_id"]
+                _ensured = _eng.ensure_target(_tid, _target, "mcp auto_loop target") if _target else {}
+                _result = _eng.run(_tid, max_rounds=_rounds, workers=_workers, timeout_sec=_timeout)
+                _ov = _result.get("overview", {})
+                return text(
+                    f"[lazy_loop] task {_tid} [{_result.get('status')}] rounds={_result.get('rounds')} "
+                    f"intents={len(_ov.get('intents', []))} facts={_ov.get('facts', 0)} "
+                    f"findings={_ov.get('findings', 0)} target={_target} asset={(_ensured or {}).get('asset_id', 0)}\n"
+                    f"Inspect: lazy_finding list --task {_tid} / lazy_trace list --task {_tid} / "
+                    f"lazy_report --task {_tid} / lazy_runtime show --task {_tid}"
+                )
+        except Exception as _fast_exc:
+            pass
         _ensure_policy()
         if not _POLICY_AVAILABLE or _policy is None:
             return text("Policy engine unavailable. Run: python3 skills/lazyown_policy.py bootstrap")
@@ -8142,6 +8171,208 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
         _reactive_state: dict[str, str] = {}  # keys: "cmd", "args", "reason", "mitre"
         # Bootstrap log — records the deterministic pre-flight steps
         _bootstrap_log: list[dict] = []
+
+        # ── Cohesive LAZY-parity orchestrator: one gate + one settle ──
+        # Planner/Frontier + goals + constraints + guard + evidence + traffic
+        # + worker-trace live here. Both _execute_step branches call into
+        # these helpers, so tasks.json / policy / reactive / parquet / bridge
+        # / LLM stay a single chain instead of parallel paths. Nothing here
+        # replaces those sources; it orders and settles them LAZY-style.
+        _frontier = None
+        _goal_tracker = None
+        _constraints = None
+        _guard = None
+        _evidence = None
+        _traffic = None
+        _todos_seeded = False
+        _trace_path = SESSIONS_DIR / "worker_traces.jsonl"
+
+        def _ensure_orchestrator() -> None:
+            """Build frontier, goals, constraints, guard, evidence, traffic once."""
+            nonlocal _frontier, _goal_tracker, _constraints, _guard, _evidence, _traffic, _todos_seeded
+            if _constraints is None:
+                try:
+                    from goals import load_constraints as _load_constraints
+
+                    _constraints = _load_constraints(cfg)
+                except Exception:
+                    pass
+            if _guard is None:
+                try:
+                    from intercept import Guard as _Guard
+
+                    _guard = _Guard()
+                except Exception:
+                    pass
+            if _evidence is None:
+                try:
+                    from evidence import EvidenceStore as _EvidenceStore
+
+                    _evidence = _EvidenceStore(SESSIONS_DIR / "evidence")
+                except Exception:
+                    pass
+            if _traffic is None:
+                try:
+                    from traffic_recorder import TrafficRecorder as _TrafficRecorder
+
+                    _traffic = _TrafficRecorder(SESSIONS_DIR / "traffic")
+                except Exception:
+                    pass
+            if _frontier is None:
+                try:
+                    from planner import Frontier as _Frontier
+                    from planner import Planner as _Planner
+                    from planner import TodoList as _TodoList
+
+                    _frontier = _Frontier(_Planner(), _TodoList())
+                except Exception:
+                    _frontier = None
+            if _goal_tracker is None:
+                try:
+                    from goals import GoalTracker as _GoalTracker
+                    from goals import decompose_rule_based as _decompose
+
+                    objective_text = ""
+                    try:
+                        _ensure_objectives()
+                        if _OBJECTIVES_AVAILABLE:
+                            from lazyown_objective import ObjectiveStore as _OS
+
+                            _pending = _OS().peek()
+                            if _pending:
+                                objective_text = str(_pending.get("title", "") or _pending.get("description", ""))
+                    except Exception:
+                        pass
+                    _goal_tracker = _GoalTracker(_decompose(objective_text or f"scan {target} then exploit {target}"))
+                except Exception:
+                    _goal_tracker = None
+            if not _todos_seeded and _frontier is not None:
+                _todos_seeded = True
+                try:
+                    _tasks_path = SESSIONS_DIR / "tasks.json"
+                    if _tasks_path.exists():
+                        _seeded = json.loads(_tasks_path.read_text())
+                        if isinstance(_seeded, list):
+                            for _t in _seeded:
+                                _title = str(_t.get("title", "") or _t.get("command", "")).strip()
+                                if _title:
+                                    _frontier.todos.todo_add(_title)
+                except Exception:
+                    pass
+
+        def _gate_command(cmd: str) -> tuple[bool, str]:
+            """Fail-closed pre-execution gate: constraints, scope, guard rules.
+
+            Returns (allowed, note). Ask verdicts stay fail-closed in the
+            non-interactive loop; the pending approval id is kept in the
+            note so an operator can decide it out of band.
+            """
+            _ensure_orchestrator()
+            full = str(cmd or "")
+            if _constraints is not None:
+                try:
+                    _rule = _constraints.blocked(full)
+                    if _rule:
+                        return False, f"constraint:{_rule}"
+                except Exception:
+                    pass
+            try:
+                from intercept import scope_blocked as _scope_blocked
+
+                _suffix = _scope_blocked(target)
+                if _suffix:
+                    return False, f"scope:{_suffix}"
+            except Exception:
+                pass
+            if _guard is not None:
+                try:
+                    _verdict = _guard.check("run", full)
+                    if _verdict.action == "deny":
+                        return False, f"deny:{_verdict.rule_pattern}"
+                    if _verdict.action == "ask":
+                        return False, f"ask:{_verdict.approval_id}"
+                except Exception:
+                    pass
+            return True, ""
+
+        def _trace_append(record: dict) -> None:
+            """Append one worker-trace record to the append-only log."""
+            try:
+                _trace_path.parent.mkdir(parents=True, exist_ok=True)
+                with _trace_path.open("a", encoding="utf-8") as _fh:
+                    _fh.write(json.dumps(record, ensure_ascii=False) + "\n")
+            except Exception:
+                pass
+
+        def _trace_search(query: str, limit: int = 5) -> list[dict]:
+            """Search past worker traces by substring for process reuse."""
+            out: list[dict] = []
+            try:
+                if not _trace_path.exists():
+                    return out
+                _needle = str(query or "").lower()
+                with _trace_path.open("r", encoding="utf-8", errors="ignore") as _fh:
+                    for _line in _fh:
+                        _line = _line.strip()
+                        if not _line or (_needle and _needle not in _line.lower()):
+                            continue
+                        try:
+                            out.append(json.loads(_line))
+                        except Exception:
+                            continue
+            except Exception:
+                pass
+            return out[-max(1, limit):]
+
+        def _settle_step(cmd: str, output: str, via: str, finding_values: list | None = None) -> dict:
+            """Single LAZY-style settle: evidence, traffic, goals, trace.
+
+            Called by both _execute_step branches so every step leaves the
+            same custody chain regardless of which source chose the command.
+            """
+            _ensure_orchestrator()
+            _note: list[str] = []
+            _evidence_hash = ""
+            if _evidence is not None:
+                try:
+                    _evidence_hash = _evidence.put(str(output or "").encode("utf-8", "replace"))
+                    _note.append(f"evidence:{_evidence_hash[:12]}")
+                except Exception:
+                    pass
+            _traffic_id = ""
+            if _traffic is not None:
+                try:
+                    _ex = _traffic.record("TOOL", f"tool://{target}/{str(cmd or '').split(None, 1)[0] if str(cmd or '').strip() else 'cmd'}", resp_body=str(output or "").encode("utf-8", "replace")[:32768])
+                    _traffic_id = _ex.exchange_id
+                    _note.append(f"traffic:{_traffic_id}:proof")
+                except Exception:
+                    pass
+            if _guard is not None:
+                try:
+                    _guard.observe(str(output or ""), str(cmd or ""))
+                except Exception:
+                    pass
+            _achieved: list[str] = []
+            if _goal_tracker is not None:
+                try:
+                    for _value in finding_values or []:
+                        if _value and _goal_tracker.prove_goal(str(_value)):
+                            _achieved.append(str(_value)[:80])
+                    if _achieved:
+                        _note.append(f"goals:{len(_achieved)}")
+                except Exception:
+                    pass
+            _trace_append({
+                "ts": int(time.time()),
+                "target": target,
+                "cmd": str(cmd or ""),
+                "via": via,
+                "evidence": _evidence_hash,
+                "traffic": _traffic_id,
+                "goals": _achieved,
+                "output_len": len(str(output or "")),
+            })
+            return {"evidence": _evidence_hash, "traffic": _traffic_id, "goals": _achieved, "note": ";".join(_note)}
 
         def _read_os_json() -> dict:
             """Read sessions/os.json and return the first entry or empty dict."""
@@ -8506,6 +8737,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
 
                 full_cmd = f"{t_cmd} {t_args}".strip()
                 print(f"[auto_loop] task '{pending_task.get('title', '?')}' → {full_cmd}", flush=True)
+                _allowed, _gate_note = _gate_command(full_cmd)
+                if not _allowed:
+                    _mark_task_done(pending_task.get("id", ""), "blocked")
+                    _trace_append({
+                        "ts": int(time.time()),
+                        "target": target,
+                        "cmd": full_cmd,
+                        "via": "gate",
+                        "evidence": "",
+                        "traffic": "",
+                        "goals": [],
+                        "output_len": 0,
+                        "blocked": _gate_note,
+                    })
+                    return {
+                        "stop": False,
+                        "step": {
+                            "command": full_cmd,
+                            "category": "blocked",
+                            "outcome": "blocked",
+                            "reward": 0.0,
+                            "confidence": 0.0,
+                            "via": "gate",
+                            "policy_rec": f"task:{pending_task.get('title', '?')}",
+                            "source": "tasks.json",
+                            "gate": _gate_note,
+                        },
+                    }
                 c2_result = _c2_request("/api/run", method="POST", body={"command": full_cmd})
                 if "_error" in c2_result or "error" in c2_result:
                     output = _run_lazyown_command(full_cmd, step_timeout)
@@ -8535,10 +8794,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     except Exception:
                         pass
 
+                _task_values: list[str] = []
                 if _obs_parser is not None and _wm is not None:
                     try:
                         obs = _obs_parser.parse(output, host=target, tool=t_cmd)
                         _wm.update_from_findings(obs.findings)
+                        try:
+                            _task_values = [str(f.value or "") for f in (obs.findings or []) if getattr(f, "value", "")]
+                        except Exception:
+                            _task_values = []
                         from modules.intelligence_engine import get_intelligence_engine
 
                         ie = get_intelligence_engine()
@@ -8593,6 +8857,12 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         pass
 
                 should_stop = stop_on_high and step_rec.outcome == "success" and step_rec.category in high_value_cats
+                _settle = _settle_step(full_cmd, output, via, _task_values)
+                if _frontier is not None:
+                    try:
+                        _frontier.todos.todo_done(str(pending_task.get("title", "")))
+                    except Exception:
+                        pass
                 return {
                     "stop": should_stop,
                     "step": {
@@ -8604,6 +8874,9 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                         "via": via,
                         "policy_rec": f"task:{pending_task.get('title', '?')}",
                         "source": "tasks.json",
+                        "settle": _settle.get("note", ""),
+                        "evidence": _settle.get("evidence", ""),
+                        "traffic": _settle.get("traffic", ""),
                     },
                 }
 
@@ -8622,6 +8895,26 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     top_rec = _rec
                     category = _rec["category"]
                     break
+
+            # ── Frontier intent first (LAZY planner-first, fail-soft) ──
+            # The existing reactive slot is priority 0 in the cascade below,
+            # so a planner intent flows through it with zero restructuring.
+            # tasks.json already seeded the shared todos; refill/pop emits
+            # untried, unblocked intents and empty means no new direction.
+            try:
+                _ensure_orchestrator()
+                if _frontier is not None:
+                    if len(_frontier) == 0:
+                        _frontier.refill(target)
+                    _intent = _frontier.pop()
+                    if _intent is not None and not _reactive_state.get("cmd"):
+                        _intent_cmd = str(getattr(_intent, "command", "") or "").replace("{target}", target).strip()
+                        if _intent_cmd:
+                            _reactive_state["cmd"] = _intent_cmd
+                            _reactive_state["args"] = ""
+                            _reactive_state["reason"] = f"frontier:{getattr(_intent, 'technique_id', '')}"
+            except Exception:
+                pass
 
             # ── Adaptive command selection ────────────────────────────────────
             # Priority: reactive > parquet > bridge catalog > LLM recommender > cat_map
@@ -8752,12 +9045,31 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     from modules.llm_client import LLMClient as _LLMC
 
                     _llm = _LLMC(api_key=_api_key)
-                    _raw_thought = _llm.ask(
-                        _thought_prompt,
-                        provider="groq",
-                        system="You are a penetration testing reasoning engine. Reply only with valid JSON.",
-                        temperature=0.1,
-                    )
+                    _thought_system = "You are a penetration testing reasoning engine. Reply only with valid JSON."
+                    _raw_thought = ""
+                    try:
+                        from modules.llm_pool import LLMPool as _ThoughtPool
+                        from modules.llm_pool import PoolMember as _ThoughtMember
+                        from modules.llm_pool import shared_registry as _thought_registry
+
+                        _thought_pool = _ThoughtPool([
+                            _ThoughtMember("groq", "groq", "groq", rank=10,
+                                           complete=lambda p: _LLMC(api_key=_api_key).ask(
+                                               p, provider="groq",
+                                               system=_thought_system, temperature=0.1)),
+                            _ThoughtMember("ollama", "ollama", "ollama", rank=1,
+                                           complete=lambda p: _LLMC(api_key=_api_key).ask(
+                                               p, provider="ollama",
+                                               system=_thought_system, temperature=0.1)),
+                        ], health=_thought_registry())
+                        _raw_thought = _thought_pool.complete(_thought_prompt)
+                    except Exception:
+                        _raw_thought = _llm.ask(
+                            _thought_prompt,
+                            provider="groq",
+                            system=_thought_system,
+                            temperature=0.1,
+                        )
                     import re as _re
 
                     _jm = _re.search(r"\{.*\}", _raw_thought, _re.DOTALL)
@@ -8769,6 +9081,34 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     pass
 
             full_command = f"{resolved_cmd} {resolved_args}".strip()
+
+            _allowed, _gate_note = _gate_command(full_command)
+            if not _allowed:
+                _trace_append({
+                    "ts": int(time.time()),
+                    "target": target,
+                    "cmd": full_command,
+                    "via": "gate",
+                    "evidence": "",
+                    "traffic": "",
+                    "goals": [],
+                    "output_len": 0,
+                    "blocked": _gate_note,
+                })
+                return {
+                    "stop": False,
+                    "step": {
+                        "command": full_command,
+                        "category": category,
+                        "outcome": "blocked",
+                        "reward": 0.0,
+                        "confidence": 0.0,
+                        "via": "gate",
+                        "policy_rec": top_rec["reason"],
+                        "source": top_rec["source"],
+                        "gate": _gate_note,
+                    },
+                }
 
             # Log classifier success prediction (informational — does not gate execution)
             _pred_prob: float | None = None
@@ -8805,10 +9145,15 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                     pass
 
             # --- Observation parsing + world model update ---
+            _pol_values: list[str] = []
             if _obs_parser is not None and _wm is not None:
                 try:
                     obs = _obs_parser.parse(output, host=target, tool=resolved_cmd)
                     _wm.update_from_findings(obs.findings)
+                    try:
+                        _pol_values = [str(f.value or "") for f in (obs.findings or []) if getattr(f, "value", "")]
+                    except Exception:
+                        _pol_values = []
                     from modules.intelligence_engine import get_intelligence_engine
 
                     ie = get_intelligence_engine()
@@ -8987,6 +9332,10 @@ async def call_tool(name: str, arguments: dict[str, Any]) -> list[types.TextCont
                 step_dict["pwntomate"] = pwntomate_note
             if _reactive_decision_note:
                 step_dict["reactive"] = _reactive_decision_note
+            _settle = _settle_step(full_command, output, via, _pol_values)
+            step_dict["settle"] = _settle.get("note", "")
+            step_dict["evidence"] = _settle.get("evidence", "")
+            step_dict["traffic"] = _settle.get("traffic", "")
             return {"stop": should_stop, "step": step_dict}
 
         # Run the deterministic kill-chain bootstrap before the adaptive loop.

@@ -1,6 +1,30 @@
 # Subsystem: skills (page 3 of 5)
 Previous: [KB_skills_p2.md](KB_skills_p2.md)
 
+## skills/lazyown_permissions.py
+- Doc: LazyOwn Permission System — Deny-First Rule Evaluation (Claude Code style)  Deny rules ALWAYS...
+- Layer: utility
+- Language: py
+- Symbols:
+  - `PermissionMode` (class, line 18) `class PermissionMode(Enum)`
+  - `PermissionRule` (class, line 29) `class PermissionRule`
+  - `PermissionSystem` (class, line 91) `class PermissionSystem`
+  - `to_dict` (method, line 36) `def to_dict(self)`
+  - `__init__` (method, line 103) `def __init__(self, sessions_dir)`
+  - `_load` (method, line 113) `def _load(self)`
+  - `_save` (method, line 124) `def _save(self)`
+  - `_audit` (method, line 132) `def _audit(self, tool, decision, reason, args)`
+  - `add_rule` (method, line 145) `def add_rule(self, tool_pattern, action, condition, description)`
+  - `remove_rule` (method, line 151) `def remove_rule(self, tool_pattern, action)`
+  - `set_mode` (method, line 157) `def set_mode(self, mode)`
+  - `list_rules` (method, line 162) `def list_rules(self)`
+  - `evaluate` (method, line 167) `def evaluate(self, tool_name, arguments)`
+  - `_matches` (method, line 219) `def _matches(self, rule, tool_name, args)`
+  - `metrics` (method, line 237) `def metrics(self)`
+  - `status_text` (method, line 279) `def status_text(self)`
+- Depends on: `cli/commands/enum.py`
+- Imported by: `skills/lazyown_mcp.py`, `skills/tests/test_harness_e2e.py`
+
 ## skills/lazyown_policy.py
 - Doc: LazyOwn Policy Engine
 - Layer: business_logic

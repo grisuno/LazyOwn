@@ -113,6 +113,7 @@ class MarketplacePanel(PanelBase):
         rules: list[dict[str, str]] = []
         try:
             from pathlib import Path
+
             yara_dir = Path("yara_rules")
             if yara_dir.is_dir():
                 for yar_file in sorted(yara_dir.glob("*.yar")):
@@ -128,6 +129,7 @@ class MarketplacePanel(PanelBase):
         templates: list[dict[str, str]] = []
         try:
             from pathlib import Path
+
             for nuclei_dir in (Path("nuclei-templates"), Path.home() / "nuclei-templates"):
                 if not nuclei_dir.is_dir():
                     continue
@@ -142,12 +144,14 @@ class MarketplacePanel(PanelBase):
                                 severity = stripped.split(":", 1)[-1].strip()
                             if stripped.lower().startswith("cve:"):
                                 cve_val = stripped.split(":", 1)[-1].strip()
-                        templates.append({
-                            "name": yaml_file.name,
-                            "severity": severity or "unknown",
-                            "cve": cve_val or "",
-                            "description": yaml_file.relative_to(nuclei_dir).as_posix(),
-                        })
+                        templates.append(
+                            {
+                                "name": yaml_file.name,
+                                "severity": severity or "unknown",
+                                "cve": cve_val or "",
+                                "description": yaml_file.relative_to(nuclei_dir).as_posix(),
+                            }
+                        )
                     except Exception:
                         pass
                 break
@@ -162,23 +166,30 @@ class MarketplacePanel(PanelBase):
             from pathlib import Path
 
             import yaml as _yaml
+
             addons_dir = Path("lazyaddons")
             if addons_dir.is_dir():
                 for yaml_file in sorted(addons_dir.glob("*.yaml")):
                     try:
                         content = _yaml.safe_load(yaml_file.read_text(encoding="utf-8", errors="ignore"))
                         if isinstance(content, Mapping):
-                            addons.append({
-                                "name": yaml_file.stem,
-                                "type": str(content.get("type", content.get("category", "tool"))),
-                                "phase": str(content.get("phase", content.get("kill_chain_phase", ""))),
-                                "description": str(content.get("description", content.get("summary", "")))[:200],
-                                "command": str(content.get("command", content.get("cmd", ""))),
-                            })
+                            addons.append(
+                                {
+                                    "name": yaml_file.stem,
+                                    "type": str(content.get("type", content.get("category", "tool"))),
+                                    "phase": str(content.get("phase", content.get("kill_chain_phase", ""))),
+                                    "description": str(content.get("description", content.get("summary", "")))[:200],
+                                    "command": str(content.get("command", content.get("cmd", ""))),
+                                }
+                            )
                         else:
-                            addons.append({"name": yaml_file.stem, "type": "yaml", "phase": "", "description": "", "command": ""})
+                            addons.append(
+                                {"name": yaml_file.stem, "type": "yaml", "phase": "", "description": "", "command": ""}
+                            )
                     except Exception:
-                        addons.append({"name": yaml_file.stem, "type": "yaml", "phase": "", "description": "", "command": ""})
+                        addons.append(
+                            {"name": yaml_file.stem, "type": "yaml", "phase": "", "description": "", "command": ""}
+                        )
         except Exception:
             pass
         self._addons_data = addons
@@ -188,20 +199,24 @@ class MarketplacePanel(PanelBase):
         plugins: list[dict[str, str]] = []
         try:
             from pathlib import Path
+
             plugins_dir = Path("plugins")
             if plugins_dir.is_dir():
                 for lua_file in sorted(plugins_dir.glob("*.lua")):
                     try:
-                        plugins.append({
-                            "name": lua_file.stem,
-                            "type": "lua",
-                            "description": f"Lua plugin ({lua_file.stat().st_size} bytes)",
-                        })
+                        plugins.append(
+                            {
+                                "name": lua_file.stem,
+                                "type": "lua",
+                                "description": f"Lua plugin ({lua_file.stat().st_size} bytes)",
+                            }
+                        )
                     except Exception:
                         pass
                 for yaml_file in plugins_dir.glob("*.yaml"):
                     try:
                         import yaml as _yaml
+
                         content = _yaml.safe_load(yaml_file.read_text(encoding="utf-8", errors="ignore"))
                         desc = str(content.get("description", ""))[:200] if isinstance(content, Mapping) else ""
                         plugins.append({"name": yaml_file.stem, "type": "yaml", "description": desc})
@@ -216,7 +231,7 @@ class MarketplacePanel(PanelBase):
         self._yara_tree.clear()
         ft = self._filter_input.text().lower().strip()
         for r in self._yara_data:
-            if ft and ft not in f"{r.get('name','')} {r.get('category','')} {r.get('description','')}".lower():
+            if ft and ft not in f"{r.get('name', '')} {r.get('category', '')} {r.get('description', '')}".lower():
                 continue
             QTreeWidgetItem(self._yara_tree, [r["name"], r["category"], r["description"]])
 
@@ -224,7 +239,11 @@ class MarketplacePanel(PanelBase):
         self._nuclei_tree.clear()
         ft = self._filter_input.text().lower().strip()
         for t in self._nuclei_data:
-            if ft and ft not in f"{t.get('name','')} {t.get('severity','')} {t.get('cve','')} {t.get('description','')}".lower():
+            if (
+                ft
+                and ft
+                not in f"{t.get('name', '')} {t.get('severity', '')} {t.get('cve', '')} {t.get('description', '')}".lower()
+            ):
                 continue
             QTreeWidgetItem(self._nuclei_tree, [t["name"], t["severity"], t["cve"], t["description"]])
 
@@ -232,7 +251,11 @@ class MarketplacePanel(PanelBase):
         self._addons_tree.clear()
         ft = self._filter_input.text().lower().strip()
         for a in self._addons_data:
-            if ft and ft not in f"{a.get('name','')} {a.get('type','')} {a.get('phase','')} {a.get('description','')}".lower():
+            if (
+                ft
+                and ft
+                not in f"{a.get('name', '')} {a.get('type', '')} {a.get('phase', '')} {a.get('description', '')}".lower()
+            ):
                 continue
             QTreeWidgetItem(self._addons_tree, [a["name"], a["type"], a["phase"], a["description"]])
 
@@ -240,7 +263,7 @@ class MarketplacePanel(PanelBase):
         self._plugins_tree.clear()
         ft = self._filter_input.text().lower().strip()
         for p in self._plugins_data:
-            if ft and ft not in f"{p.get('name','')} {p.get('type','')} {p.get('description','')}".lower():
+            if ft and ft not in f"{p.get('name', '')} {p.get('type', '')} {p.get('description', '')}".lower():
                 continue
             QTreeWidgetItem(self._plugins_tree, [p["name"], p["type"], p["description"]])
 

@@ -83,9 +83,17 @@ class PanelRegistry:
     def all_panels(self) -> tuple[PanelBase, ...]:
         """Return panels in canonical layout order."""
         return (
-            self.graph, self.sessions, self.listeners, self.killchain,
-            self.credentials, self.marketplace, self.campaign, self.cve,
-            self.history, self.terminal, self.event_log_panel,
+            self.graph,
+            self.sessions,
+            self.listeners,
+            self.killchain,
+            self.credentials,
+            self.marketplace,
+            self.campaign,
+            self.cve,
+            self.history,
+            self.terminal,
+            self.event_log_panel,
         )
 
     def by_identifier(self, identifier: str) -> PanelBase:

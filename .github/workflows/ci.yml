@@ -23,9 +23,9 @@ jobs:
       - name: Install dependencies
         run: pip install "ruff==0.16.8"
       - name: Ruff check
-        run: ruff check core cli modules skills tests lazyown.py lazyc2.py utils.py
+        run: ruff check .
       - name: Ruff format check
-        run: ruff format --check core cli modules skills tests lazyown.py lazyc2.py utils.py
+        run: ruff format --check .
 
   test:
     needs: lint

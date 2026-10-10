@@ -1,4 +1,5 @@
 """Additional LazyOwn demo GIFs. Every command verified against source."""
+
 import os
 import sys
 
@@ -43,6 +44,7 @@ recon_loop = [
     "(LazyOwn) > engage 10.10.11.5  # full chain when you want speed",
     "(LazyOwn) > auto_pwn  # autonomous exploitation",
 ]
+
 
 def main():
     """Render the four extended GIFs."""

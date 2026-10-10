@@ -117,23 +117,28 @@ class CVEPanel(PanelBase):
                     if isinstance(data, list):
                         for item in data[:200]:
                             if isinstance(item, dict):
-                                cves.append({
-                                    "cve": str(item.get("cve", item.get("id", ""))),
-                                    "severity": str(item.get("severity", item.get("cvss_severity", "Unknown"))),
-                                    "score": str(item.get("cvss", item.get("score", ""))),
-                                    "description": str(item.get("description", "")),
-                                })
+                                cves.append(
+                                    {
+                                        "cve": str(item.get("cve", item.get("id", ""))),
+                                        "severity": str(item.get("severity", item.get("cvss_severity", "Unknown"))),
+                                        "score": str(item.get("cvss", item.get("score", ""))),
+                                        "description": str(item.get("description", "")),
+                                    }
+                                )
                 elif cve_file.suffix == ".parquet":
                     try:
                         import pandas as pd
+
                         df = pd.read_parquet(cve_file)
                         for _, row in df.head(200).iterrows():
-                            cves.append({
-                                "cve": str(row.get("cve", row.get("CVE", ""))),
-                                "severity": str(row.get("severity", "Unknown")),
-                                "score": str(row.get("cvss", row.get("score", ""))),
-                                "description": str(row.get("description", "")),
-                            })
+                            cves.append(
+                                {
+                                    "cve": str(row.get("cve", row.get("CVE", ""))),
+                                    "severity": str(row.get("severity", "Unknown")),
+                                    "score": str(row.get("cvss", row.get("score", ""))),
+                                    "description": str(row.get("description", "")),
+                                }
+                            )
                     except Exception:
                         pass
                 self._cve_data = cves
@@ -148,7 +153,7 @@ class CVEPanel(PanelBase):
         severity_filter = self._severity_combo.currentText().lower()
         for cve in self._cve_data:
             if filter_text:
-                haystack = f"{cve.get('cve','')} {cve.get('description','')}".lower()
+                haystack = f"{cve.get('cve', '')} {cve.get('description', '')}".lower()
                 if filter_text not in haystack:
                     continue
             if severity_filter != "all":

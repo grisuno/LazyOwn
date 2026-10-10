@@ -65,6 +65,7 @@ def _load_or_create_secret_key(sessions_dir: str = "sessions") -> str:
         return env_key
     try:
         from lazyc2.security.services import SecretKeyManager
+
         os.makedirs(sessions_dir, exist_ok=True)
         return SecretKeyManager(Path(sessions_dir)).get_or_create()
     except Exception:

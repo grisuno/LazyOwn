@@ -19,7 +19,7 @@ public key d722e294d9be364b65c8e88321015a4c7327a27458c80d11b1dd45ad5b45f210
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix='!', intents=intents)
+bot = commands.Bot(command_prefix="!", intents=intents)
 
 from core.parsers import strip_ansi  # noqa: E402
 
@@ -32,15 +32,15 @@ class SecureSessionManager:
 
     def register_failed_attempt(self, user_id: int):
         if user_id not in self.failed_attempts:
-            self.failed_attempts[user_id] = {'count': 1, 'timestamp': time.time()}
+            self.failed_attempts[user_id] = {"count": 1, "timestamp": time.time()}
         else:
-            self.failed_attempts[user_id]['count'] += 1
-            self.failed_attempts[user_id]['timestamp'] = time.time()
+            self.failed_attempts[user_id]["count"] += 1
+            self.failed_attempts[user_id]["timestamp"] = time.time()
 
     def check_lockout(self, user_id: int) -> bool:
         attempt = self.failed_attempts.get(user_id)
-        if attempt and attempt['count'] >= MAX_FAILED_ATTEMPTS:
-            if (time.time() - attempt['timestamp']) < 3600:
+        if attempt and attempt["count"] >= MAX_FAILED_ATTEMPTS:
+            if (time.time() - attempt["timestamp"]) < 3600:
                 return True
             else:
                 del self.failed_attempts[user_id]
@@ -61,10 +61,10 @@ class SecureSessionManager:
 
     def create_session(self, user_id: int, client_id: str):
         self.sessions[user_id] = {
-            'user_id': user_id,
-            'client_id': client_id,
-            'session_start': time.time(),
-            'last_activity': time.time()
+            "user_id": user_id,
+            "client_id": client_id,
+            "session_start": time.time(),
+            "last_activity": time.time(),
         }
 
     def validate_session(self, user_id: int) -> bool:
@@ -72,14 +72,16 @@ class SecureSessionManager:
         if not session:
             return False
 
-        if (time.time() - session['last_activity']) > SESSION_TIMEOUT:
+        if (time.time() - session["last_activity"]) > SESSION_TIMEOUT:
             del self.sessions[user_id]
             return False
 
-        session['last_activity'] = time.time()
+        session["last_activity"] = time.time()
         return True
 
+
 session_manager = SecureSessionManager()
+
 
 class Config:
     def __init__(self, config_dict):
@@ -90,14 +92,17 @@ class Config:
     def __getitem__(self, key):
         return getattr(self, key, None)
 
+
 def load_payload():
-    with open('payload.json', 'r') as file:
+    with open("payload.json", "r") as file:
         config = json.load(file)
     return config
 
+
 @bot.event
 async def on_ready():
-    print(f'Bot is ready. Logged in as {bot.user}')
+    print(f"Bot is ready. Logged in as {bot.user}")
+
 
 @bot.command()
 async def start(ctx, *, secret: str = None):
@@ -113,14 +118,13 @@ async def start(ctx, *, secret: str = None):
     if secret == c2_pass:
         session_manager.create_session(user_id, client_id=None)
         await ctx.send(
-            "h1! 1 4m 4 b0t to APT/RedTeaming .\n"
-            "excec a command!\n"
-            "use !start beggin the RedTeam LazyOwnBot."
+            "h1! 1 4m 4 b0t to APT/RedTeaming .\nexcec a command!\nuse !start beggin the RedTeam LazyOwnBot."
         )
         user_games[user_id] = random.randint(1, 100)
     else:
         await ctx.send("Enter the secret, Usage: !start <secret>")
         return
+
 
 @bot.command()
 async def exce_cmd(ctx, *, command: str):
@@ -171,18 +175,18 @@ async def exce_cmd(ctx, *, command: str):
                 time.sleep(3)
 
                 if os.path.isfile(csv_file):
-                    with open(csv_file, 'r') as f:
+                    with open(csv_file, "r") as f:
                         reader = csv.DictReader(f)
                         rows = list(reader)
                         if rows:
                             commands_history[client_id] = [rows[-1]]
-                            os_data[client_id] = rows[-1]['os']
-                            pid[client_id] = rows[-1]['pid']
-                            hostname[client_id] = rows[-1]['hostname']
-                            ips[client_id] = rows[-1]['ips']
-                            user[client_id] = rows[-1]['user']
+                            os_data[client_id] = rows[-1]["os"]
+                            pid[client_id] = rows[-1]["pid"]
+                            hostname[client_id] = rows[-1]["hostname"]
+                            ips[client_id] = rows[-1]["ips"]
+                            user[client_id] = rows[-1]["user"]
                             print(commands_history[client_id])
-                            output2 = commands_history[client_id][0]['output']
+                            output2 = commands_history[client_id][0]["output"]
 
         else:
             output = shell.one_cmd(command)
@@ -197,6 +201,7 @@ async def exce_cmd(ctx, *, command: str):
     except ValueError:
         await ctx.send("Criptic Error")
 
+
 @bot.command()
 async def add_cli(ctx, new_client_id: str):
     user_id = ctx.author.id
@@ -205,6 +210,7 @@ async def add_cli(ctx, new_client_id: str):
     await ctx.send(f"Client ID '{client_id}' Configuring the target...")
     print(client_id)
     print(user_id)
+
 
 @bot.command()
 async def handle_file(ctx):
@@ -234,6 +240,7 @@ async def handle_file(ctx):
         print("no clients")
         await ctx.send("No client ID set. Use !addcli <client_id> first.")
 
+
 @bot.command()
 async def download_c2(ctx, client_id: str, file_name: str):
     user_id = ctx.author.id
@@ -243,6 +250,7 @@ async def download_c2(ctx, client_id: str, file_name: str):
 
     output = shell.onecmd(f"download_c2 {client_id} {file_name}")
     await ctx.send(f"Download response: {output}")
+
 
 @bot.command()
 async def send_connected_clients(ctx):
@@ -259,18 +267,22 @@ async def send_connected_clients(ctx):
     except Exception as e:
         await ctx.send(f"Error: {str(e)}")
 
+
 # Register missing commands
 @bot.command()
 async def clients(ctx):
     await send_connected_clients(ctx)
 
+
 @bot.command()
 async def addcli(ctx, new_client_id: str):
     await add_cli(ctx, new_client_id)
 
+
 @bot.command()
 async def c2(ctx, *, command: str):
     await exce_cmd(ctx, command=command)
+
 
 config = Config(load_payload())
 telegram_token = config.telegram_token
@@ -282,13 +294,13 @@ lhost = config.lhost
 c2_port = config.c2_port
 c2_pass = config.c2_pass
 shell = LazyOwnShell()
-shell.onecmd('p')
-shell.onecmd('create_session_json')
+shell.onecmd("p")
+shell.onecmd("create_session_json")
 SESSION_TIMEOUT = 1800
 MAX_FAILED_ATTEMPTS = 3
 RATE_LIMIT = 5
 user_games = {}
-client_id = ''
+client_id = ""
 FLASK_API_URL = f"https://{lhost}:{c2_port}/get_connected_clients"
 
 if __name__ == "__main__":

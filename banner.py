@@ -22,10 +22,12 @@ from utils import get_terminal_size, os, print_error, random, sys
 
 ANSI_COLOR_TEMPLATE = "\033[48;2;{r};{g};{b}m  \033[0m"
 
+
 def image_to_bash(image_path, image_res):
     from PIL import Image
+
     img = Image.open(image_path)
-    img = img.convert('RGB')
+    img = img.convert("RGB")
     width, height = img.size
     aspect_ratio = height / width
     new_width = image_res
@@ -44,38 +46,39 @@ def image_to_bash(image_path, image_res):
             line += f"\033[38;2;{r1};{g1};{b1};48;2;{r2};{g2};{b2}m▀\033[0m"
         print(line)
 
+
 def list_png_files():
-    png_files = [f for f in os.listdir('banners') if f.endswith('.png')]
+    png_files = [f for f in os.listdir("banners") if f.endswith(".png")]
     if not png_files:
         print_error("No PNG files found in the 'banners' directory.")
         sys.exit(1)
 
     selected_image = random.choice(png_files)
-    return os.path.join('banners', selected_image)
+    return os.path.join("banners", selected_image)
+
 
 def main():
 
     rows, columns = get_terminal_size()
     if rows and columns:
-        #Make responsive image ;) feel like frontend
+        # Make responsive image ;) feel like frontend
 
         image_res = int(columns)
     else:
         image_res = 50
 
-    if '-i' in sys.argv or '--image' in sys.argv:
+    if "-i" in sys.argv or "--image" in sys.argv:
         try:
-            if '-i' in sys.argv:
-                image_path = sys.argv[sys.argv.index('-i') + 1]
+            if "-i" in sys.argv:
+                image_path = sys.argv[sys.argv.index("-i") + 1]
             else:
-                image_path = sys.argv[sys.argv.index('--image') + 1]
+                image_path = sys.argv[sys.argv.index("--image") + 1]
         except IndexError:
             print_error("Error: No image path provided after the flag.")
             sys.exit(1)
-    elif '-h' in sys.argv or '--half' in sys.argv:
+    elif "-h" in sys.argv or "--half" in sys.argv:
         image_res = 50
     else:
-
         image_path = list_png_files()
 
     if not os.path.isfile(image_path):
@@ -84,6 +87,6 @@ def main():
 
     image_to_bash(image_path, image_res)
 
-if __name__ == "__main__":
 
+if __name__ == "__main__":
     main()

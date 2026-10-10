@@ -31,6 +31,7 @@ def require_operator_session(
         blueprint: The Flask blueprint to protect.
         login_endpoint: Endpoint name the login redirect targets.
     """
+
     @blueprint.before_request
     def _guard():
         if current_user.is_authenticated:

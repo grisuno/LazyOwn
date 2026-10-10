@@ -118,6 +118,4 @@ class TerminalPanel(PanelBase):
 
     def _on_beacon_result(self, result) -> None:
         """Display beacon command results in the terminal."""
-        self._terminal.append_output(
-            f"\n=== [{result.client_id}] {result.command} ===\n{result.output}\n=== END ===\n"
-        )
+        self._terminal.append_output(f"\n=== [{result.client_id}] {result.command} ===\n{result.output}\n=== END ===\n")

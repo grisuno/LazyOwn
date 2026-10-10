@@ -174,14 +174,14 @@ class TestLazyOwnAssignWiring:
         """
         return (REPO_ROOT / "cli" / "commands" / "session_ops.py").read_text(encoding="utf-8")
 
-    def test_imports_apply_assign(self, src):
-        assert "from cli.assign import apply_assign" in src
+    def test_imports_apply_assign(self, migrated_src):
+        assert "from cli.assign import apply_assign" in migrated_src
 
-    def test_imports_save_payload_from_core(self, src):
-        assert "from core.config import save_payload" in src
+    def test_imports_save_payload_from_core(self, migrated_src):
+        assert "from core.config import save_payload" in migrated_src
 
-    def test_imports_format_payload(self, src):
-        assert "from cli.show import format_payload" in src
+    def test_imports_format_payload(self, migrated_src):
+        assert "from cli.show import format_payload" in migrated_src
 
     def test_do_assign_calls_apply_assign(self, migrated_src):
         body = self._extract_method_body(migrated_src, "do_assign")

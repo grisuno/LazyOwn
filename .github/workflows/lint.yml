@@ -25,9 +25,9 @@ jobs:
           pip install -r requirements.txt
           pip install -r requirements-dev.txt
       - name: ruff check
-        run: ruff check --output-format=github core cli modules skills tests lazyown.py lazyc2.py utils.py
+        run: ruff check --output-format=github .
       - name: ruff format check
-        run: ruff format --check core cli modules skills tests lazyown.py lazyc2.py utils.py
+        run: ruff format --check .
       - name: check command_index.json
         run: python scripts/build_command_index.py --check
       - name: check doc stats

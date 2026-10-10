@@ -71,6 +71,15 @@ PHASE_TITLES: dict[str, str] = {
 }
 
 
+def normalize_trailing_newline(output_path: Path) -> None:
+    """Collapse a generated file tail to exactly one newline.
+
+    Keeps ``end-of-file-fixer`` green on every regeneration.
+    """
+    text = output_path.read_text(encoding="utf-8").rstrip("\n") + "\n"
+    output_path.write_text(text, encoding="utf-8")
+
+
 def load_command_index(index_path: Path) -> dict[str, Any]:
     """Load and parse the command index JSON file.
 
@@ -259,6 +268,7 @@ def write_utils_md(
             first_line, _, _ = docstring.partition("\n")
             fh.write(f"{first_line.strip()}\n\n")
 
+    normalize_trailing_newline(output_path)
     print(f"[+] Wrote {len(functions)} helpers to {output_path}")
     return len(functions)
 
@@ -325,6 +335,7 @@ def write_commands_md(
                     fh.write("No description available.\n\n")
             fh.write("\n")
 
+    normalize_trailing_newline(output_path)
     print(f"[+] Wrote {total_commands} commands to {output_path}")
     return total_commands
 

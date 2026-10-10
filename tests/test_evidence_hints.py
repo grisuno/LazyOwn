@@ -98,9 +98,7 @@ class TestBuildEvidenceHints:
         assert hint.sources == ("gap",)
 
     def test_strips_source_tag_from_reason(self):
-        hints = build_evidence_hints(
-            [_rec("linpeas", 2.0, ("[recon] foothold but no privesc",))], limit=3
-        )
+        hints = build_evidence_hints([_rec("linpeas", 2.0, ("[recon] foothold but no privesc",))], limit=3)
         assert hints[0].reason == "foothold but no privesc"
 
     def test_prefers_command_preview_over_action(self):
@@ -132,9 +130,7 @@ class TestBuildEvidenceHints:
 
 class TestRenderEvidenceHints:
     def test_prints_verb_confidence_and_reason(self, capsys):
-        render_evidence_hints(
-            [EvidenceHint(verb="enum4linux", confidence=62, reason="SMB 445 open", sources=("gap",))]
-        )
+        render_evidence_hints([EvidenceHint(verb="enum4linux", confidence=62, reason="SMB 445 open", sources=("gap",))])
         out = capsys.readouterr().out
         assert "enum4linux" in out
         assert "62%" in out
@@ -167,9 +163,7 @@ def tmp_sessions_with_csv():
     with tempfile.TemporaryDirectory() as d:
         sessions = Path(d)
         (sessions / "engagement_state.json").write_text("{}")
-        (sessions / "LazyOwn_session_report.csv").write_text(
-            "tool,command\nlazynmap,lazynmap -p 80 10.0.0.1\n"
-        )
+        (sessions / "LazyOwn_session_report.csv").write_text("tool,command\nlazynmap,lazynmap -p 80 10.0.0.1\n")
         yield sessions
 
 
@@ -194,9 +188,7 @@ class TestTipsEngineEvidenceWiring:
         assert engine._compute_evidence_hints("lazynmap", "enum") == []
 
     def test_returns_evidence_hints(self, tmp_sessions_with_csv):
-        engine = _engine_with_stub(
-            tmp_sessions_with_csv, [_rec("gobuster", 1.2, ("[gap] web 80 open",), ("gap",))]
-        )
+        engine = _engine_with_stub(tmp_sessions_with_csv, [_rec("gobuster", 1.2, ("[gap] web 80 open",), ("gap",))])
         hints = engine._compute_evidence_hints("lazynmap", "enum")
         assert len(hints) == 1
         assert hints[0].verb == "gobuster"
@@ -214,9 +206,7 @@ class TestTipsEngineEvidenceWiring:
         assert "gobuster" in verbs
 
     def test_render_prefers_evidence_over_bare_names(self, tmp_sessions_with_csv):
-        engine = _engine_with_stub(
-            tmp_sessions_with_csv, [_rec("gobuster", 1.5, ("[gap] web 80 open",), ("gap",))]
-        )
+        engine = _engine_with_stub(tmp_sessions_with_csv, [_rec("gobuster", 1.5, ("[gap] web 80 open",), ("gap",))])
         engine._render_kill_chain_hints("lazynmap", "enum")
         collected = " ".join(str(t) for t in engine._pending_suggestions)
         assert "gobuster" in collected

@@ -283,7 +283,9 @@ class InfraCommandSet(LazyOwnCommandSet):
         print_msg(f"Redirectors ({len(fresh_known)}):")
         for entry in fresh_known:
             age_hours = (now - int(entry.get("created_at", now))) // 3600
-            print_msg(f"  {entry.get('url')} -> 127.0.0.1:{entry.get('port')} [{entry.get('provider')}, {age_hours}h old]")
+            print_msg(
+                f"  {entry.get('url')} -> 127.0.0.1:{entry.get('port')} [{entry.get('provider')}, {age_hours}h old]"
+            )
         print_warn("Quick-tunnel URLs die when their container stops. Rebuild the beacon after every fresh spawn.")
 
     def _redirector_kill(self, args: list[str]) -> None:
@@ -387,7 +389,14 @@ class InfraCommandSet(LazyOwnCommandSet):
                 print_error(f"terraform init failed: {init.stderr[-2000:]}")
                 return
             apply = _run_capture(
-                ["terraform", "-chdir=" + str(tf_dir), "apply", "-auto-approve", "-input=false", f"-var=region={region}"],
+                [
+                    "terraform",
+                    "-chdir=" + str(tf_dir),
+                    "apply",
+                    "-auto-approve",
+                    "-input=false",
+                    f"-var=region={region}",
+                ],
                 timeout=TERRAFORM_TIMEOUT,
             )
         except (subprocess.TimeoutExpired, OSError) as exc:
@@ -423,7 +432,10 @@ class InfraCommandSet(LazyOwnCommandSet):
             print_msg("Destroy cancelled.")
             return
         try:
-            result = _run_capture(["terraform", "-chdir=" + str(tf_dir), "destroy", "-auto-approve", "-input=false"], timeout=TERRAFORM_TIMEOUT)
+            result = _run_capture(
+                ["terraform", "-chdir=" + str(tf_dir), "destroy", "-auto-approve", "-input=false"],
+                timeout=TERRAFORM_TIMEOUT,
+            )
         except (subprocess.TimeoutExpired, OSError) as exc:
             print_error(f"Terraform destroy failed: {exc}")
             return
@@ -438,7 +450,11 @@ class InfraCommandSet(LazyOwnCommandSet):
         if _binary_present("docker"):
             try:
                 result = _run_capture(["docker", "ps", "--format", "{{.Names}} {{.Status}}"], timeout=15)
-                lazy = [line for line in result.stdout.splitlines() if "lazyown" in line or "caddy" in line or "redirector" in line or "cloudflared" in line]
+                lazy = [
+                    line
+                    for line in result.stdout.splitlines()
+                    if "lazyown" in line or "caddy" in line or "redirector" in line or "cloudflared" in line
+                ]
                 if lazy:
                     for line_out in lazy:
                         print_msg(f"  [docker] {line_out}")

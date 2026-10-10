@@ -74,10 +74,10 @@ from typing import Any
 
 # ── Paths ──────────────────────────────────────────────────────────────────────
 
-_SKILLS_DIR   = Path(__file__).resolve().parent
-_LAZYOWN_DIR  = _SKILLS_DIR.parent
+_SKILLS_DIR = Path(__file__).resolve().parent
+_LAZYOWN_DIR = _SKILLS_DIR.parent
 _SESSIONS_DIR = _LAZYOWN_DIR / "sessions"
-_MODULES_DIR  = _LAZYOWN_DIR / "modules"
+_MODULES_DIR = _LAZYOWN_DIR / "modules"
 _PAYLOAD_FILE = _LAZYOWN_DIR / "payload.json"
 
 for _p in [str(_MODULES_DIR), str(_SKILLS_DIR)]:
@@ -93,28 +93,28 @@ logger = get_logger(__name__)
 log = logging.getLogger("toposwarm_auto")
 
 # ANSI colours for terminal output
-_R    = "\033[91m"
-_G    = "\033[92m"
-_Y    = "\033[93m"
-_B    = "\033[94m"
-_M    = "\033[95m"
-_C    = "\033[96m"
-_W    = "\033[97m"
-_X    = "\033[0m"
+_R = "\033[91m"
+_G = "\033[92m"
+_Y = "\033[93m"
+_B = "\033[94m"
+_M = "\033[95m"
+_C = "\033[96m"
+_W = "\033[97m"
+_X = "\033[0m"
 _BOLD = "\033[1m"
 
 
 # ── Phases ─────────────────────────────────────────────────────────────────────
 
 PHASES = [
-    (0, "INIT",    "Initialize session and configure target from payload.json"),
-    (1, "RECON",   "Port scan, OS fingerprint, service detection on {rhost}"),
-    (2, "ENUM",    "Enumerate discovered services on {rhost} in depth"),
-    (3, "VULN",    "Search exploits and analyze CVEs for {rhost} services"),
+    (0, "INIT", "Initialize session and configure target from payload.json"),
+    (1, "RECON", "Port scan, OS fingerprint, service detection on {rhost}"),
+    (2, "ENUM", "Enumerate discovered services on {rhost} in depth"),
+    (3, "VULN", "Search exploits and analyze CVEs for {rhost} services"),
     (4, "EXPLOIT", "Exploit best vulnerability found on {rhost}"),
-    (5, "POST",    "Dump credentials, escalate privileges, establish persistence on {rhost}"),
+    (5, "POST", "Dump credentials, escalate privileges, establish persistence on {rhost}"),
     (6, "LATERAL", "Move laterally using captured credentials"),
-    (7, "REPORT",  "Generate final pentest report and export findings"),
+    (7, "REPORT", "Generate final pentest report and export findings"),
 ]
 
 EFFORT_STEPS = {"low": 2, "med": 3, "medium": 3, "high": 5, "max": 8}
@@ -122,22 +122,24 @@ EFFORT_STEPS = {"low": 2, "med": 3, "medium": 3, "high": 5, "max": 8}
 
 # ── State tracker ──────────────────────────────────────────────────────────────
 
+
 @dataclass
 class PentestState:
     """Tracks everything discovered during the autonomous run."""
-    rhost:        str  = ""
-    lhost:        str  = ""
-    domain:       str  = ""
-    target_os:    str  = "unknown"
-    open_ports:   list[str] = field(default_factory=list)
-    services:     list[str] = field(default_factory=list)
-    credentials:  list[str] = field(default_factory=list)
-    shells:       list[str] = field(default_factory=list)
-    vulns:        list[str] = field(default_factory=list)
-    findings:     list[str] = field(default_factory=list)
-    phase_log:    dict[str, list[str]] = field(default_factory=dict)
-    start_time:   str  = field(default_factory=lambda: datetime.now(UTC).isoformat())
-    phase:        int  = 0
+
+    rhost: str = ""
+    lhost: str = ""
+    domain: str = ""
+    target_os: str = "unknown"
+    open_ports: list[str] = field(default_factory=list)
+    services: list[str] = field(default_factory=list)
+    credentials: list[str] = field(default_factory=list)
+    shells: list[str] = field(default_factory=list)
+    vulns: list[str] = field(default_factory=list)
+    findings: list[str] = field(default_factory=list)
+    phase_log: dict[str, list[str]] = field(default_factory=dict)
+    start_time: str = field(default_factory=lambda: datetime.now(UTC).isoformat())
+    phase: int = 0
     goal_achieved: bool = False
 
     def add_finding(self, phase_name: str, text: str) -> None:
@@ -157,7 +159,8 @@ class PentestState:
 
     def to_dict(self) -> dict[str, Any]:
         return {
-            "rhost": self.rhost, "lhost": self.lhost,
+            "rhost": self.rhost,
+            "lhost": self.lhost,
             "target_os": self.target_os,
             "open_ports": self.open_ports,
             "services": self.services,
@@ -174,6 +177,7 @@ class PentestState:
 
 # ── Output parser ──────────────────────────────────────────────────────────────
 
+
 def _parse_output(output: str, state: PentestState, phase_name: str) -> None:
     """Extract discovered information from tool output and update state."""
     low = output.lower()
@@ -188,8 +192,12 @@ def _parse_output(output: str, state: PentestState, phase_name: str) -> None:
 
     # OS
     for pat, os_name in [
-        (r"windows", "windows"), (r"linux", "linux"), (r"ubuntu", "linux"),
-        (r"debian", "linux"), (r"centos", "linux"), (r"freebsd", "bsd"),
+        (r"windows", "windows"),
+        (r"linux", "linux"),
+        (r"ubuntu", "linux"),
+        (r"debian", "linux"),
+        (r"centos", "linux"),
+        (r"freebsd", "bsd"),
     ]:
         if re.search(pat, low) and state.target_os == "unknown":
             state.target_os = os_name
@@ -197,8 +205,7 @@ def _parse_output(output: str, state: PentestState, phase_name: str) -> None:
 
     # Credentials
     for m in re.finditer(
-        r"(?:username|user|login)[:\s]+(\S+)[,\s]+(?:password|pass|pwd)[:\s]+(\S+)",
-        low, re.IGNORECASE
+        r"(?:username|user|login)[:\s]+(\S+)[,\s]+(?:password|pass|pwd)[:\s]+(\S+)", low, re.IGNORECASE
     ):
         cred = f"{m.group(1)}:{m.group(2)}"
         if cred not in state.credentials:
@@ -222,13 +229,14 @@ def _parse_output(output: str, state: PentestState, phase_name: str) -> None:
 
 # ── Phase goals ────────────────────────────────────────────────────────────────
 
+
 def _phase_goals(phase_idx: int, state: PentestState, effort: str) -> list[str]:
     """Return ordered list of NL goals to attempt in this phase."""
-    rhost  = state.rhost
+    rhost = state.rhost
     domain = state.domain or rhost
     ", ".join(state.open_ports[:6]) or "unknown"
-    svcs   = ", ".join(state.services[:6]) or "unknown services"
-    creds  = state.credentials[0] if state.credentials else ""
+    svcs = ", ".join(state.services[:6]) or "unknown services"
+    creds = state.credentials[0] if state.credentials else ""
 
     goals = {
         0: [
@@ -297,26 +305,28 @@ def _enum_goals(state: PentestState) -> list[str]:
 
 # ── Autonomous agent ───────────────────────────────────────────────────────────
 
+
 class AutonomousAgent:
     def __init__(
         self,
-        state:      PentestState,
-        no_model:   bool = False,
-        verbose:    bool = False,
-        effort:     str  = "high",
-        max_phases: int  = 8,
-        json_out:   Path | None = None,
+        state: PentestState,
+        no_model: bool = False,
+        verbose: bool = False,
+        effort: str = "high",
+        max_phases: int = 8,
+        json_out: Path | None = None,
     ) -> None:
-        self.state      = state
-        self.no_model   = no_model
-        self.verbose    = verbose
-        self.effort     = effort
+        self.state = state
+        self.no_model = no_model
+        self.verbose = verbose
+        self.effort = effort
         self.max_phases = max_phases
-        self.json_out   = json_out
+        self.json_out = json_out
 
         # Lazy-import bridge
         try:
             from toposwarm_bridge import get_bridge
+
             self.bridge = get_bridge()
             if not no_model:
                 self.bridge._try_load()
@@ -327,6 +337,7 @@ class AutonomousAgent:
         # Optional reactive engine for signal parsing
         try:
             from reactive_engine import ReactiveEngine
+
             self.reactive = ReactiveEngine()
         except ImportError:
             self.reactive = None
@@ -336,22 +347,22 @@ class AutonomousAgent:
     def _execute_goal(self, goal: str, phase_name: str) -> str:
         """Route a NL goal and execute it via the orchestrator."""
         routed = self.bridge.route(goal)
-        log.info("  %s→%s %s%s  (conf=%.2f, %s)%s",
-                 _C, _X, routed.tool_name, _X, routed.confidence, routed.backend, _X)
+        log.info("  %s→%s %s%s  (conf=%.2f, %s)%s", _C, _X, routed.tool_name, _X, routed.confidence, routed.backend, _X)
 
-        output = self.bridge.execute_via_orchestrator(
-            goal, no_model=self.no_model
-        )
+        output = self.bridge.execute_via_orchestrator(goal, no_model=self.no_model)
 
         if self.verbose:
-            print(f"\n{_Y}{'─'*60}{_X}")
+            print(f"\n{_Y}{'─' * 60}{_X}")
             print(output[:2000])
-            print(f"{_Y}{'─'*60}{_X}\n")
+            print(f"{_Y}{'─' * 60}{_X}\n")
         else:
             # Print first meaningful line
             first = next(
-                (ln.strip() for ln in output.splitlines() if ln.strip()
-                 and not ln.startswith("2026") and not ln.startswith("INFO")),
+                (
+                    ln.strip()
+                    for ln in output.splitlines()
+                    if ln.strip() and not ln.startswith("2026") and not ln.startswith("INFO")
+                ),
                 output[:120],
             )
             log.info("  └─ %s", first[:120])
@@ -362,10 +373,9 @@ class AutonomousAgent:
         if self.reactive:
             try:
                 decisions = self.reactive.analyse(output)
-                for d in (decisions or []):
+                for d in decisions or []:
                     if d.command:
-                        log.info("  %s[reactive]%s %s → %s",
-                                 _M, _X, d.reason[:60], d.command[:60])
+                        log.info("  %s[reactive]%s %s → %s", _M, _X, d.reason[:60], d.command[:60])
             except Exception:
                 pass
 
@@ -378,9 +388,9 @@ class AutonomousAgent:
         _num, name, desc_tmpl = PHASES[phase_idx]
         desc = desc_tmpl.format(rhost=self.state.rhost)
 
-        print(f"\n{_BOLD}{_B}{'═'*70}{_X}")
+        print(f"\n{_BOLD}{_B}{'═' * 70}{_X}")
         print(f"{_BOLD}{_B}  PHASE {phase_idx}: {name}  —  {desc}{_X}")
-        print(f"{_BOLD}{_B}{'═'*70}{_X}\n")
+        print(f"{_BOLD}{_B}{'═' * 70}{_X}\n")
 
         goals = _phase_goals(phase_idx, self.state, self.effort)
         for i, goal in enumerate(goals, 1):
@@ -396,8 +406,7 @@ class AutonomousAgent:
 
         # Check for early completion signals
         if phase_idx >= 4 and self.state.shells:
-            log.info("%s[!] Shell detected — goal achieved at phase %s!%s",
-                     _G, name, _X)
+            log.info("%s[!] Shell detected — goal achieved at phase %s!%s", _G, name, _X)
             self.state.goal_achieved = True
 
         self.state.phase = phase_idx + 1
@@ -409,31 +418,28 @@ class AutonomousAgent:
     def _save_state(self) -> None:
         state_file = _SESSIONS_DIR / f"toposwarm_state_{self.state.rhost}.json"
         try:
-            state_file.write_text(
-                json.dumps(self.state.to_dict(), indent=2, ensure_ascii=False)
-            )
+            state_file.write_text(json.dumps(self.state.to_dict(), indent=2, ensure_ascii=False))
         except Exception:
             pass
         if self.json_out:
             try:
-                self.json_out.write_text(
-                    json.dumps(self.state.to_dict(), indent=2, ensure_ascii=False)
-                )
+                self.json_out.write_text(json.dumps(self.state.to_dict(), indent=2, ensure_ascii=False))
             except Exception:
                 pass
 
     # ── Main loop ──────────────────────────────────────────────────────────────
 
     def run(self, start_phase: int = 0) -> PentestState:
-        print(f"\n{_BOLD}{_R}{'╔' + '═'*68 + '╗'}{_X}")
-        print(f"{_BOLD}{_R}║  TopoSwarm Autonomous Red Team Agent{' '*31}║{_X}")
+        print(f"\n{_BOLD}{_R}{'╔' + '═' * 68 + '╗'}{_X}")
+        print(f"{_BOLD}{_R}║  TopoSwarm Autonomous Red Team Agent{' ' * 31}║{_X}")
         print(f"{_BOLD}{_R}║  Target: {self.state.rhost:<58}║{_X}")
         print(f"{_BOLD}{_R}║  Model:  {'neural+keyword' if self.bridge.model_loaded else 'keyword-only':<56}║{_X}")
         print(f"{_BOLD}{_R}║  Effort: {self.effort:<58}║{_X}")
-        print(f"{_BOLD}{_R}{'╚' + '═'*68 + '╝'}{_X}\n")
+        print(f"{_BOLD}{_R}{'╚' + '═' * 68 + '╝'}{_X}\n")
 
-        log.info("Starting autonomous run — target=%s  phases=%d  effort=%s",
-                 self.state.rhost, self.max_phases, self.effort)
+        log.info(
+            "Starting autonomous run — target=%s  phases=%d  effort=%s", self.state.rhost, self.max_phases, self.effort
+        )
 
         for phase_idx in range(start_phase, min(self.max_phases, len(PHASES))):
             ok = self._run_phase(phase_idx)
@@ -447,9 +453,9 @@ class AutonomousAgent:
                     self._run_phase(7)
                 break
 
-        print(f"\n{_BOLD}{_G}{'═'*70}{_X}")
+        print(f"\n{_BOLD}{_G}{'═' * 70}{_X}")
         print(f"{_BOLD}{_G}  AUTONOMOUS RUN COMPLETE{_X}")
-        print(f"{_BOLD}{_G}{'═'*70}{_X}")
+        print(f"{_BOLD}{_G}{'═' * 70}{_X}")
         print(self.state.summary())
 
         if self.state.credentials:
@@ -469,6 +475,7 @@ class AutonomousAgent:
 
 # ── CLI ────────────────────────────────────────────────────────────────────────
 
+
 def _load_payload() -> dict[str, Any]:
     """Load payload.json from LazyOwn root."""
     if _PAYLOAD_FILE.exists():
@@ -485,35 +492,34 @@ def main(argv: list[str] | None = None) -> int:
         formatter_class=argparse.RawDescriptionHelpFormatter,
         epilog=__doc__,
     )
-    parser.add_argument("--rhost",      type=str, default="",
-                        help="Target IP (default: from payload.json)")
-    parser.add_argument("--lhost",      type=str, default="",
-                        help="Listener IP (default: from payload.json)")
-    parser.add_argument("--domain",     type=str, default="",
-                        help="Target domain")
-    parser.add_argument("--objective",  type=str,
-                        default="compromise the target and achieve domain admin or root",
-                        help="High-level attack objective")
-    parser.add_argument("--max-phases", type=int, default=8,
-                        help="Max phases to run 0-7 (default: 8=all)")
-    parser.add_argument("--phase",      type=int, default=0,
-                        help="Start at phase N (0=INIT)")
-    parser.add_argument("--effort",     type=str, default="high",
-                        choices=["low", "med", "medium", "high", "max"],
-                        help="Effort level — controls steps per phase")
-    parser.add_argument("--no-model",   action="store_true",
-                        help="Use keyword routing only (no GPU/model needed)")
-    parser.add_argument("--verbose",    action="store_true",
-                        help="Print full tool output")
-    parser.add_argument("--json-out",   type=str, default="",
-                        help="Write structured results to JSON file")
+    parser.add_argument("--rhost", type=str, default="", help="Target IP (default: from payload.json)")
+    parser.add_argument("--lhost", type=str, default="", help="Listener IP (default: from payload.json)")
+    parser.add_argument("--domain", type=str, default="", help="Target domain")
+    parser.add_argument(
+        "--objective",
+        type=str,
+        default="compromise the target and achieve domain admin or root",
+        help="High-level attack objective",
+    )
+    parser.add_argument("--max-phases", type=int, default=8, help="Max phases to run 0-7 (default: 8=all)")
+    parser.add_argument("--phase", type=int, default=0, help="Start at phase N (0=INIT)")
+    parser.add_argument(
+        "--effort",
+        type=str,
+        default="high",
+        choices=["low", "med", "medium", "high", "max"],
+        help="Effort level — controls steps per phase",
+    )
+    parser.add_argument("--no-model", action="store_true", help="Use keyword routing only (no GPU/model needed)")
+    parser.add_argument("--verbose", action="store_true", help="Print full tool output")
+    parser.add_argument("--json-out", type=str, default="", help="Write structured results to JSON file")
 
     args = parser.parse_args(argv)
 
     # Load payload.json defaults
     payload = _load_payload()
-    rhost  = args.rhost  or payload.get("rhost", "")
-    lhost  = args.lhost  or payload.get("lhost", "")
+    rhost = args.rhost or payload.get("rhost", "")
+    lhost = args.lhost or payload.get("lhost", "")
     domain = args.domain or payload.get("domain", "")
 
     if not rhost:
@@ -523,12 +529,12 @@ def main(argv: list[str] | None = None) -> int:
     state = PentestState(rhost=rhost, lhost=lhost, domain=domain)
 
     agent = AutonomousAgent(
-        state      = state,
-        no_model   = args.no_model,
-        verbose    = args.verbose,
-        effort     = args.effort,
-        max_phases = args.max_phases,
-        json_out   = Path(args.json_out) if args.json_out else None,
+        state=state,
+        no_model=args.no_model,
+        verbose=args.verbose,
+        effort=args.effort,
+        max_phases=args.max_phases,
+        json_out=Path(args.json_out) if args.json_out else None,
     )
 
     try:

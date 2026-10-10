@@ -24,6 +24,7 @@ Usage
     python3 modules/integrations/searchsploit.py --cve CVE-2021-41773
     python3 modules/integrations/searchsploit.py --service apache --version 2.4.49
 """
+
 from __future__ import annotations
 
 import argparse
@@ -40,14 +41,12 @@ log = logging.getLogger("searchsploit")
 
 try:
     import requests as _requests
+
     _REQUESTS_AVAILABLE = True
 except ImportError:
     _REQUESTS_AVAILABLE = False
 
-_EXPLOITDB_SEARCH_URL = (
-    "https://www.exploit-db.com/search"
-    "?cve={cve_id}&type=&platform=&format=json"
-)
+_EXPLOITDB_SEARCH_URL = "https://www.exploit-db.com/search?cve={cve_id}&type=&platform=&format=json"
 _RATE_LIMIT_SECONDS = 2.0
 _last_api_call: float = 0.0
 
@@ -56,9 +55,11 @@ _last_api_call: float = 0.0
 # Value object
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class ExploitEntry:
     """Represents a single exploit found in ExploitDB or searchsploit."""
+
     id: str
     title: str
     path: str
@@ -70,6 +71,7 @@ class ExploitEntry:
 # ---------------------------------------------------------------------------
 # Abstract source
 # ---------------------------------------------------------------------------
+
 
 class ExploitSource(ABC):
     """Interface for any exploit lookup back-end."""
@@ -87,6 +89,7 @@ class ExploitSource(ABC):
 # searchsploit CLI back-end
 # ---------------------------------------------------------------------------
 
+
 class SearchsploitCLI(ExploitSource):
     """
     Runs ``searchsploit --json <query>`` and parses the result.
@@ -99,9 +102,7 @@ class SearchsploitCLI(ExploitSource):
     def __init__(self) -> None:
         self._binary: str | None = shutil.which("searchsploit")
         if not self._binary:
-            log.warning(
-                "searchsploit not found in PATH; SearchsploitCLI will return empty lists"
-            )
+            log.warning("searchsploit not found in PATH; SearchsploitCLI will return empty lists")
 
     # -- ExploitSource ---------------------------------------------------------
 
@@ -188,6 +189,7 @@ class SearchsploitCLI(ExploitSource):
 # ExploitDB HTTP API back-end  (fallback)
 # ---------------------------------------------------------------------------
 
+
 class ExploitDBAPI(ExploitSource):
     """
     Queries the ExploitDB search endpoint directly.
@@ -198,9 +200,7 @@ class ExploitDBAPI(ExploitSource):
 
     def __init__(self) -> None:
         if not _REQUESTS_AVAILABLE:
-            log.warning(
-                "requests library not available; ExploitDBAPI will return empty lists"
-            )
+            log.warning("requests library not available; ExploitDBAPI will return empty lists")
 
     # -- ExploitSource ---------------------------------------------------------
 
@@ -234,16 +234,24 @@ class ExploitDBAPI(ExploitSource):
             eid = str(row.get("id") or "")
             title = str(row.get("description") or row.get("title") or "")
             path = str(row.get("download") or row.get("path") or "")
-            exploit_type = str(row.get("type", {}).get("label", "") if isinstance(row.get("type"), dict) else row.get("type", ""))
-            platform = str(row.get("platform", {}).get("label", "") if isinstance(row.get("platform"), dict) else row.get("platform", ""))
-            entries.append(ExploitEntry(
-                id=eid,
-                title=title,
-                path=path,
-                type=exploit_type,
-                platform=platform,
-                cve=cve_id if re.match(r"CVE-\d{4}-\d+", cve_id, re.I) else "",
-            ))
+            exploit_type = str(
+                row.get("type", {}).get("label", "") if isinstance(row.get("type"), dict) else row.get("type", "")
+            )
+            platform = str(
+                row.get("platform", {}).get("label", "")
+                if isinstance(row.get("platform"), dict)
+                else row.get("platform", "")
+            )
+            entries.append(
+                ExploitEntry(
+                    id=eid,
+                    title=title,
+                    path=path,
+                    type=exploit_type,
+                    platform=platform,
+                    cve=cve_id if re.match(r"CVE-\d{4}-\d+", cve_id, re.I) else "",
+                )
+            )
         return entries
 
     @staticmethod
@@ -258,6 +266,7 @@ class ExploitDBAPI(ExploitSource):
 # ---------------------------------------------------------------------------
 # Facade
 # ---------------------------------------------------------------------------
+
 
 class SearchsploitClient:
     """
@@ -343,12 +352,12 @@ def search_service(name: str, version: str = "") -> list[ExploitEntry]:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
     import logging
+
     logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(
-        description="Search ExploitDB via searchsploit or the web API"
-    )
+    parser = argparse.ArgumentParser(description="Search ExploitDB via searchsploit or the web API")
     parser.add_argument("--cve", metavar="CVE_ID", help="Search by CVE id")
     parser.add_argument("--service", metavar="NAME", help="Service name")
     parser.add_argument("--version", metavar="VER", default="", help="Service version")
@@ -368,6 +377,7 @@ def _main() -> None:
 
     if args.as_json:
         import dataclasses
+
         print(json.dumps([dataclasses.asdict(e) for e in entries], indent=2))
     else:
         if not entries:

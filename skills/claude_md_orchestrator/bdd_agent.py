@@ -102,10 +102,7 @@ def _compose_implementation(spec: Spec, contract: Contract) -> str:
             f"    return 'handled'\n"
         )
     if not handlers:
-        handlers.append(
-            "def handle_sad_smoke() -> str:\n"
-            "    return 'handled'\n"
-        )
+        handlers.append("def handle_sad_smoke() -> str:\n    return 'handled'\n")
     return IMPLEMENTATION_TEMPLATE.format(
         contract_id=_slug(contract.contract_id),
         handler_functions="\n\n".join(handlers),

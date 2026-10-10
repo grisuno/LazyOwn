@@ -25,9 +25,11 @@ BANNER = """
 [*] Starting: LazyOwn GPT One Liner CLI Assistant [;,;]
 """
 
+
 class VulnBotCLI:
-    def __init__(self, provider: str = "groq", mode: str = "console",
-                 debug: bool = False, script_path: str = "lazyown.py"):
+    def __init__(
+        self, provider: str = "groq", mode: str = "console", debug: bool = False, script_path: str = "lazyown.py"
+    ):
         self.provider = provider
         self.mode = mode
         self.debug = debug
@@ -87,7 +89,7 @@ class VulnBotCLI:
 
         def read_file(path: str) -> str:
             """Lee contenido de un archivo"""
-            with open(path, 'r', encoding='utf-8') as f:
+            with open(path, "r", encoding="utf-8") as f:
                 return f.read()
 
         def edit_file(path: str, content: str, old_text: str = None) -> str:
@@ -97,7 +99,7 @@ class VulnBotCLI:
                 content = current.replace(old_text, content)
 
             os.makedirs(os.path.dirname(path), exist_ok=True)
-            with open(path, 'w', encoding='utf-8') as f:
+            with open(path, "w", encoding="utf-8") as f:
                 f.write(content)
             return f"Archivo guardado: {path}"
 
@@ -109,6 +111,7 @@ class VulnBotCLI:
         try:
             # Importar dinámicamente
             import importlib.util
+
             spec = importlib.util.spec_from_file_location("external_shell", script_path)
             module = importlib.util.module_from_spec(spec)
             spec.loader.exec_module(module)
@@ -116,13 +119,13 @@ class VulnBotCLI:
             # Buscar clase cmd2 (ajusta el nombre según tu script)
             for attr_name in dir(module):
                 attr = getattr(module, attr_name)
-                if isinstance(attr, type) and 'cmd' in attr.__module__:
+                if isinstance(attr, type) and "cmd" in attr.__module__:
                     try:
                         instance = attr()
                     except (TypeError, ValueError):
                         continue
                     for method_name in dir(instance):
-                        if method_name.startswith('do_') and method_name != 'do_exit':
+                        if method_name.startswith("do_") and method_name != "do_exit":
                             method = getattr(instance, method_name)
                             self.agent.register_tool_from_instance(method)
                     logger.info(f"Tools from {script_path} loaded")
@@ -132,10 +135,12 @@ class VulnBotCLI:
 
     def _stream_agent_response(self, prompt: str) -> Response:
         """Versión streaming para web (simplificada)"""
+
         def generate():
             # En modo web, usamos generación directa sin herramientas
             yield from self.model.stream_generate(prompt)
-        return Response(stream_with_context(generate()), mimetype='text/plain')
+
+        return Response(stream_with_context(generate()), mimetype="text/plain")
 
     def load_knowledge_base(self) -> dict:
         if os.path.exists(self.knowledge_base_file):
@@ -176,7 +181,7 @@ class VulnBotCLI:
 
     def load_event_config(self) -> dict:
         try:
-            with open('event_config.json', 'r') as f:
+            with open("event_config.json", "r") as f:
                 return json.load(f)
         except FileNotFoundError:
             logging.warning("event_config.json no encontrado.")
@@ -202,7 +207,7 @@ class VulnBotCLI:
         def generate():
             yield from self.model.stream_generate(prompt)
 
-        return Response(stream_with_context(generate()), mimetype='text/plain')
+        return Response(stream_with_context(generate()), mimetype="text/plain")
 
     def add_to_knowledge_base(self, prompt: str, response: str):
         kb = self.load_knowledge_base()

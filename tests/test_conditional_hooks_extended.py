@@ -28,7 +28,6 @@ def engine():
 
 
 class TestTriggerMatchContainsSuffix:
-
     def test_command_contains_substring_match(self):
         rule = HookRule(
             name="test",
@@ -63,7 +62,6 @@ class TestTriggerMatchContainsSuffix:
 
 
 class TestTriggerMatchCaseInsensitive:
-
     def test_exact_match_case_insensitive(self):
         rule = HookRule(
             name="test",
@@ -96,7 +94,6 @@ def _match_rule(rule: HookRule, event: str, context: dict) -> bool:
 
 
 class TestDefaultRuleAutoPrivesc:
-
     def test_auto_privesc_linux_rule_exists(self):
         rules = _load_default_rules()
         names = [r["name"] for r in rules]
@@ -120,4 +117,5 @@ class TestDefaultRuleAutoPrivesc:
 
 def _load_default_rules():
     from modules.conditional_hooks import DEFAULT_RULES
+
     return list(DEFAULT_RULES)

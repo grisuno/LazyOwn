@@ -25,14 +25,14 @@ from pathlib import Path
 
 
 class HookEvent(Enum):
-    PRE_TOOL_USE      = "pre_tool_use"
-    POST_TOOL_USE     = "post_tool_use"
+    PRE_TOOL_USE = "pre_tool_use"
+    POST_TOOL_USE = "post_tool_use"
     POST_TOOL_FAILURE = "post_tool_failure"
     PERMISSION_DENIED = "permission_denied"
-    SESSION_START     = "session_start"
-    PRE_COMPACT       = "pre_compact"
-    POST_COMPACT      = "post_compact"
-    AUDIT             = "audit"
+    SESSION_START = "session_start"
+    PRE_COMPACT = "pre_compact"
+    POST_COMPACT = "post_compact"
+    AUDIT = "audit"
 
 
 class HookRegistry:
@@ -47,7 +47,9 @@ class HookRegistry:
     def __init__(self):
         self._hooks: dict[str, list[Callable]] = {}
         self._counts: dict[str, int] = {
-            "runs": 0, "blocks": 0, "errors": 0,
+            "runs": 0,
+            "blocks": 0,
+            "errors": 0,
         }
         self._per_event: dict[str, dict[str, int]] = {}
 
@@ -68,9 +70,7 @@ class HookRegistry:
             except Exception as exc:
                 self._counts["errors"] += 1
                 ev_stats["errors"] += 1
-                context.setdefault("_hook_errors", []).append(
-                    f"{handler.__name__}: {exc}"
-                )
+                context.setdefault("_hook_errors", []).append(f"{handler.__name__}: {exc}")
         if context.get("_block"):
             self._counts["blocks"] += 1
             ev_stats["blocks"] += 1
@@ -105,7 +105,7 @@ def sandbox_hook(context: dict) -> dict:
     """
     context.get("tool_name", "")
     args = context.get("arguments", {})
-    cmd  = args.get("command", "") + args.get("script", "")
+    cmd = args.get("command", "") + args.get("script", "")
 
     if cmd and _DESTRUCTIVE_RE.search(cmd):
         context["_block"] = True
@@ -119,6 +119,7 @@ def rate_limit_hook(context: dict, window: float = 2.0, limit: int = 5) -> dict:
     Protects against runaway agent loops.
     """
     import time
+
     tool = context.get("tool_name", "")
     if not tool.startswith("lazyown_c2_"):
         return context
@@ -144,11 +145,11 @@ def audit_hook(context: dict, audit_path: Path | None = None) -> dict:
         return context
     try:
         entry = {
-            "ts":      datetime.now().isoformat(),
-            "tool":    context.get("tool_name", "?"),
-            "event":   context.get("_event", "audit"),
+            "ts": datetime.now().isoformat(),
+            "tool": context.get("tool_name", "?"),
+            "event": context.get("_event", "audit"),
             "blocked": context.get("_block", False),
-            "args":    str(context.get("arguments", {}))[:200],
+            "args": str(context.get("arguments", {}))[:200],
         }
         with open(audit_path, "a") as f:
             f.write(json.dumps(entry) + "\n")
@@ -163,6 +164,7 @@ def timing_hook(context: dict) -> dict:
     Reads _start_time set by pre_tool_use in the same call.
     """
     import time
+
     start = context.get("_start_time")
     if start is not None:
         elapsed = time.monotonic() - start
@@ -174,11 +176,13 @@ def timing_hook(context: dict) -> dict:
 def start_timer_hook(context: dict) -> dict:
     """PRE_TOOL_USE: record start time for timing_hook."""
     import time
+
     context["_start_time"] = time.monotonic()
     return context
 
 
 # ── Registry factory ──────────────────────────────────────────────────────────
+
 
 def build_default_registry(sessions_dir: Path | None = None) -> HookRegistry:
     """
@@ -200,8 +204,10 @@ def build_default_registry(sessions_dir: Path | None = None) -> HookRegistry:
     # Audit hook (with path bound if sessions_dir given)
     if sessions_dir:
         audit_path = sessions_dir / "tool_audit.jsonl"
+
         def _audit(ctx):
             return audit_hook(ctx, audit_path)
+
         _audit.__name__ = "audit_hook"
         registry.register(HookEvent.AUDIT, _audit)
         registry.register(HookEvent.POST_TOOL_USE, _audit)

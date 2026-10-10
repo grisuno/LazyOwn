@@ -377,12 +377,14 @@ class HashCracker:
             if wl is None:
                 log.warning("No wordlist available for cracking %s hashes", htype)
                 for ident in idents:
-                    results.append(CrackResult(
-                        hash_value=ident.raw,
-                        password="",
-                        hash_type=htype,
-                        format=ident.format,
-                    ))
+                    results.append(
+                        CrackResult(
+                            hash_value=ident.raw,
+                            password="",
+                            hash_type=htype,
+                            format=ident.format,
+                        )
+                    )
                 continue
 
             fmt_info = HASH_PATTERNS.get(htype, {})
@@ -393,12 +395,14 @@ class HashCracker:
                 results.extend(self._crack_batch_john(idents, htype, fmt_info, wl))
             else:
                 for ident in idents:
-                    results.append(CrackResult(
-                        hash_value=ident.raw,
-                        password="",
-                        hash_type=htype,
-                        format=ident.format,
-                    ))
+                    results.append(
+                        CrackResult(
+                            hash_value=ident.raw,
+                            password="",
+                            hash_type=htype,
+                            format=ident.format,
+                        )
+                    )
 
         return results
 
@@ -419,6 +423,7 @@ class HashCracker:
             Number of credentials imported.
         """
         from modules.db import LazyOwnDB
+
         db = LazyOwnDB()
         ws = db.workspace_get(workspace_name)
         if ws is None:
@@ -458,14 +463,17 @@ class HashCracker:
         wordlist: str,
     ) -> CrackResult:
         import tempfile
+
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hash", delete=False)
         try:
             tmp.write(hash_value + "\n")
             tmp.close()
             cmd = [
                 self._hashcat_bin,
-                "-m", str(fmt_info["hashcat_mode"]),
-                "-a", "0",
+                "-m",
+                str(fmt_info["hashcat_mode"]),
+                "-a",
+                "0",
                 tmp.name,
                 wordlist,
                 "--potfile-disable",
@@ -501,6 +509,7 @@ class HashCracker:
         wordlist: str,
     ) -> list[CrackResult]:
         import tempfile
+
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hashes", delete=False)
         try:
             for ident in idents:
@@ -508,14 +517,17 @@ class HashCracker:
             tmp.close()
             cmd = [
                 self._hashcat_bin,
-                "-m", str(fmt_info["hashcat_mode"]),
-                "-a", "0",
+                "-m",
+                str(fmt_info["hashcat_mode"]),
+                "-a",
+                "0",
                 tmp.name,
                 wordlist,
                 "--potfile-disable",
                 "--quiet",
                 "-O",
-                "--outfile-format", "1",
+                "--outfile-format",
+                "1",
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout)
             cracked_map: dict[str, str] = {}
@@ -527,26 +539,22 @@ class HashCracker:
             results: list[CrackResult] = []
             for ident in idents:
                 pw = cracked_map.get(ident.raw.strip(), "")
-                results.append(CrackResult(
-                    hash_value=ident.raw,
-                    password=pw,
-                    hash_type=hash_type,
-                    format=ident.format,
-                    cracked=bool(pw),
-                    cracker="hashcat",
-                ))
+                results.append(
+                    CrackResult(
+                        hash_value=ident.raw,
+                        password=pw,
+                        hash_type=hash_type,
+                        format=ident.format,
+                        cracked=bool(pw),
+                        cracker="hashcat",
+                    )
+                )
             return results
         except subprocess.TimeoutExpired:
-            return [
-                CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format)
-                for ident in idents
-            ]
+            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         except Exception as exc:
             log.debug("hashcat batch error: %s", exc)
-            return [
-                CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format)
-                for ident in idents
-            ]
+            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         finally:
             try:
                 Path(tmp.name).unlink()
@@ -561,6 +569,7 @@ class HashCracker:
         wordlist: str,
     ) -> CrackResult:
         import tempfile
+
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hash", delete=False)
         try:
             tmp.write(hash_value + "\n")
@@ -570,7 +579,8 @@ class HashCracker:
                 f"--format={fmt_info['john_format']}",
                 f"--wordlist={wordlist}",
                 f"--rules={self._rules}",
-                "--max-run-time", str(self._timeout),
+                "--max-run-time",
+                str(self._timeout),
                 tmp.name,
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout + 30)
@@ -609,6 +619,7 @@ class HashCracker:
         wordlist: str,
     ) -> list[CrackResult]:
         import tempfile
+
         tmp = tempfile.NamedTemporaryFile(mode="w", suffix=".hashes", delete=False)
         try:
             for ident in idents:
@@ -619,7 +630,8 @@ class HashCracker:
                 f"--format={fmt_info['john_format']}",
                 f"--wordlist={wordlist}",
                 f"--rules={self._rules}",
-                "--max-run-time", str(self._timeout),
+                "--max-run-time",
+                str(self._timeout),
                 tmp.name,
             ]
             proc = subprocess.run(cmd, capture_output=True, text=True, timeout=self._timeout + 30)
@@ -637,26 +649,22 @@ class HashCracker:
             results: list[CrackResult] = []
             for ident in idents:
                 pw = cracked_map.get(ident.raw.strip().split(":")[0], "")
-                results.append(CrackResult(
-                    hash_value=ident.raw,
-                    password=pw,
-                    hash_type=hash_type,
-                    format=ident.format,
-                    cracked=bool(pw),
-                    cracker="john",
-                ))
+                results.append(
+                    CrackResult(
+                        hash_value=ident.raw,
+                        password=pw,
+                        hash_type=hash_type,
+                        format=ident.format,
+                        cracked=bool(pw),
+                        cracker="john",
+                    )
+                )
             return results
         except subprocess.TimeoutExpired:
-            return [
-                CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format)
-                for ident in idents
-            ]
+            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         except Exception as exc:
             log.debug("john batch error: %s", exc)
-            return [
-                CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format)
-                for ident in idents
-            ]
+            return [CrackResult(h=ident.raw, password="", hash_type=hash_type, format=ident.format) for ident in idents]
         finally:
             try:
                 Path(tmp.name).unlink()

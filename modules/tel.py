@@ -9,7 +9,7 @@ from Crypto.Cipher import AES
 
 def get_machine_id():
     try:
-        with open('/etc/machine-id', 'r') as f:
+        with open("/etc/machine-id", "r") as f:
             machine_id = f.read().strip()
             if machine_id:
                 return machine_id
@@ -19,9 +19,11 @@ def get_machine_id():
     except Exception as e:
         print(f"Error leyendo /etc/machine-id: {e}")
     return None
+
+
 def get_version():
     try:
-        with open('version.json', 'r') as f:
+        with open("version.json", "r") as f:
             data = json.load(f)
             return data.get("version", "no version found")
     except FileNotFoundError:
@@ -30,19 +32,23 @@ def get_version():
         print(f"Error leyendo version.json: {e}")
         return "no version found"
 
+
 def to_numbers(hex_str):
     """Simula la función toNumbers de JavaScript"""
-    return [int(hex_str[i:i+2], 16) for i in range(0, len(hex_str), 2)]
+    return [int(hex_str[i : i + 2], 16) for i in range(0, len(hex_str), 2)]
+
 
 def to_hex(byte_list):
     """Simula la función toHex de JavaScript"""
-    return ''.join(f'{b:02x}' for b in byte_list)
+    return "".join(f"{b:02x}" for b in byte_list)
+
 
 def decrypt_cookie(encrypted, key, iv):
     """Descifra usando AES en modo CBC (como slowAES.decrypt(c,2,a,b))"""
     cipher = AES.new(bytes(key), AES.MODE_CBC, bytes(iv))
     decrypted = cipher.decrypt(bytes(encrypted))
     return decrypted
+
 
 def main():
     """Sistema de telemetría de uso por instalación no invasiva."""
@@ -51,18 +57,11 @@ def main():
     url = "https://lazyown.ct.ws/grisiscomebackeslacumbia.php"
     ua = "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36"
     version = get_version()
-    params = {
-        "id": mi_uuid,
-        "software": "LazyOwn RedTeam Framework",
-        "version": version,
-        "date": fecha_hora_actual
-    }
+    params = {"id": mi_uuid, "software": "LazyOwn RedTeam Framework", "version": version, "date": fecha_hora_actual}
 
     session = requests.Session()
 
-    response = session.get(url, params=params, headers={
-        "User-Agent": ua
-    })
+    response = session.get(url, params=params, headers={"User-Agent": ua})
 
     html = response.text
     match_a = re.search(r'a=toNumbers\("([^"]+)"\)', html)
@@ -85,9 +84,11 @@ def main():
 
     session.cookies.set("__test", cookie_value, path="/")
 
-    final_url = f"{url}?id={params['id']}&software={params['software']}&version={params['version']}&date={params['date']}"
-    session.get(final_url, headers={
-        "User-Agent": ua
-    })
+    final_url = (
+        f"{url}?id={params['id']}&software={params['software']}&version={params['version']}&date={params['date']}"
+    )
+    session.get(final_url, headers={"User-Agent": ua})
+
+
 if __name__ == "__main__":
     main()

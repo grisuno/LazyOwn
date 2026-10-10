@@ -124,7 +124,7 @@ class Timestomper:
             "commands": [
                 "# Clone timestamps from reference file",
                 f'$ref = Get-Item "{reference}"',
-                '$ref.CreationTime, $ref.LastWriteTime, $ref.LastAccessTime',
+                "$ref.CreationTime, $ref.LastWriteTime, $ref.LastAccessTime",
                 "",
                 "# Apply to a single target file:",
                 '# (Get-Item "TARGET.exe").CreationTime = $ref.CreationTime',
@@ -134,14 +134,14 @@ class Timestomper:
                 "# Batch timestomp all files in a directory:",
                 f'$ref = Get-Item "{reference}"',
                 '# Get-ChildItem "C:\\Windows\\Temp\\" -Recurse | ForEach-Object {{',
-                '    $_ | % { $_.CreationTime = $ref.CreationTime }',
-                '    $_ | % { $_.LastWriteTime = $ref.LastWriteTime }',
-                '    $_ | % { $_.LastAccessTime = $ref.LastAccessTime }',
+                "    $_ | % { $_.CreationTime = $ref.CreationTime }",
+                "    $_ | % { $_.LastWriteTime = $ref.LastWriteTime }",
+                "    $_ | % { $_.LastAccessTime = $ref.LastAccessTime }",
                 "}",
                 "",
                 "# Randomize timestamps within a window:",
-                '$window = -7..0',
-                '$randomDay = Get-Random $window',
+                "$window = -7..0",
+                "$randomDay = Get-Random $window",
                 '# (Get-Item "TARGET.exe").CreationTime = $ref.CreationTime.AddDays($randomDay)',
             ],
             "batch_oneliner": (
@@ -213,20 +213,20 @@ int main(int argc, char *argv[]) {{
             "reference_file": reference,
             "commands": [
                 "# Clone timestamps from reference file",
-                f"touch -r \"{reference}\" /path/to/target/file",
+                f'touch -r "{reference}" /path/to/target/file',
                 "",
                 "# Set specific timestamp (YYYYMMDDHHMM.SS):",
                 "touch -t 202301010101.01 /path/to/target",
                 "",
                 "# Batch timestomp directory recursively:",
-                f"find /tmp/staged -type f -exec touch -r \"{reference}\" {{}} \\;",
+                f'find /tmp/staged -type f -exec touch -r "{reference}" {{}} \\;',
                 "",
                 "# Modify only access time (-a) or modification time (-m):",
-                f"touch -a -r \"{reference}\" /target/file",
-                f"touch -m -r \"{reference}\" /target/file",
+                f'touch -a -r "{reference}" /target/file',
+                f'touch -m -r "{reference}" /target/file',
                 "",
                 "# Randomize within a 7-day window:",
-                "DAYS=$((RANDOM % 7)); touch -d \"-${DAYS} days\" -r /etc/hosts /target/file",
+                'DAYS=$((RANDOM % 7)); touch -d "-${DAYS} days" -r /etc/hosts /target/file',
                 "",
                 "# Timestomp with debugfs (bypasses filesystem, requires unmount):",
                 "# debugfs -w /dev/sda1 -R 'set_inode_field /path/to/file mtime 20230101010101'",
@@ -252,11 +252,11 @@ int main(int argc, char *argv[]) {{
             "platform": "macos",
             "reference_file": reference,
             "commands": [
-                f"touch -r \"{reference}\" /path/to/target",
+                f'touch -r "{reference}" /path/to/target',
                 "SetFile -d '01/01/2023 01:01:01' /path/to/target",
                 "SetFile -m '01/01/2023 01:01:01' /path/to/target",
                 "# Batch timestomp:",
-                f"find /tmp/staged -type f -exec touch -r \"{reference}\" {{}} \\;",
+                f'find /tmp/staged -type f -exec touch -r "{reference}" {{}} \\;',
                 "# Remove quarantine extended attribute:",
                 "xattr -d com.apple.quarantine /path/to/target",
                 "xattr -c /path/to/target",
@@ -310,13 +310,15 @@ int main(int argc, char *argv[]) {{
         for path in target_paths:
             try:
                 stat = os.stat(path)
-                results.append({
-                    "path": path,
-                    "size": stat.st_size,
-                    "created": stat.st_ctime,
-                    "modified": stat.st_mtime,
-                    "accessed": stat.st_atime,
-                })
+                results.append(
+                    {
+                        "path": path,
+                        "size": stat.st_size,
+                        "created": stat.st_ctime,
+                        "modified": stat.st_mtime,
+                        "accessed": stat.st_atime,
+                    }
+                )
             except OSError:
                 results.append({"path": path, "error": "File not accessible"})
         return results

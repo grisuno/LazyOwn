@@ -109,7 +109,9 @@ class KerberoastingEngine:
         self._targets: list[KerberoastTarget] = []
         self._extracted_hashes: list[KerberoastHash] = []
 
-    def enumerate_spns(self, ldap_output: str = "", bloodhound_data: list[dict[str, Any]] = None) -> list[KerberoastTarget]:
+    def enumerate_spns(
+        self, ldap_output: str = "", bloodhound_data: list[dict[str, Any]] = None
+    ) -> list[KerberoastTarget]:
         """Enumerate kerberoastable service principals.
 
         Parses LDAP queries or BloodHound data to identify service accounts
@@ -129,7 +131,11 @@ class KerberoastingEngine:
             for node in bloodhound_data:
                 props = node.get("Properties", {}) if isinstance(node.get("Properties"), dict) else {}
                 spns = props.get("serviceprincipalnames", props.get("hasspn", []))
-                if not spns or (isinstance(spns, str) and spns == "false") or (isinstance(spns, list) and len(spns) == 0):
+                if (
+                    not spns
+                    or (isinstance(spns, str) and spns == "false")
+                    or (isinstance(spns, list) and len(spns) == 0)
+                ):
                     continue
 
                 spn_list = spns if isinstance(spns, list) else [spns]
@@ -150,10 +156,12 @@ class KerberoastingEngine:
         if ldap_output:
             for line in ldap_output.split("\n"):
                 if "servicePrincipalName" in line or "sAMAccountName" in line:
-                    self._targets.append(KerberoastTarget(
-                        sam_account_name="unknown",
-                        service_principal_name="unknown",
-                    ))
+                    self._targets.append(
+                        KerberoastTarget(
+                            sam_account_name="unknown",
+                            service_principal_name="unknown",
+                        )
+                    )
 
         self._prioritize_targets()
         return self._targets
@@ -251,23 +259,14 @@ class KerberoastingEngine:
         username = self.username.upper()
 
         if etype == 23:
-            return (
-                f"$krb5tgs${enc_type_val}$*{username}${realm}$"
-                f"{spn}*$PLACEHOLDER_TICKET_BASE64"
-            )
+            return f"$krb5tgs${enc_type_val}$*{username}${realm}${spn}*$PLACEHOLDER_TICKET_BASE64"
         elif etype == 18:
-            return (
-                f"$krb5tgs${enc_type_val}$*{username}${realm}$"
-                f"{spn}*$PLACEHOLDER_TICKET_BASE64"
-            )
+            return f"$krb5tgs${enc_type_val}$*{username}${realm}${spn}*$PLACEHOLDER_TICKET_BASE64"
         return f"$krb5tgs${enc_type_val}$*{username}${realm}${spn}*$PLACEHOLDER"
 
     @staticmethod
     def _hashcat_command(hash_str: str, mode: int) -> str:
-        return (
-            f"hashcat -m {mode} -a 0 --force "
-            f'"{hash_str}" /usr/share/wordlists/rockyou.txt'
-        )
+        return f'hashcat -m {mode} -a 0 --force "{hash_str}" /usr/share/wordlists/rockyou.txt'
 
     def targeted_kerberoast(self, high_value_only: bool = True) -> list[KerberoastHash]:
         """Perform targeted Kerberoasting on enumerated SPNs.
@@ -351,17 +350,21 @@ class KerberoastingEngine:
         if event_log:
             for line in event_log.split("\n"):
                 if "4769" in line and "0x17" in line:
-                    indicators.append({
-                        "event_id": "4769",
-                        "indicator": "RC4-HMAC service ticket request (Kerberoasting)",
-                        "raw_line": line.strip()[:200],
-                    })
+                    indicators.append(
+                        {
+                            "event_id": "4769",
+                            "indicator": "RC4-HMAC service ticket request (Kerberoasting)",
+                            "raw_line": line.strip()[:200],
+                        }
+                    )
                 if "4769" in line and "0x12" in line:
-                    indicators.append({
-                        "event_id": "4769",
-                        "indicator": "AES256 service ticket request (AES Kerberoasting)",
-                        "raw_line": line.strip()[:200],
-                    })
+                    indicators.append(
+                        {
+                            "event_id": "4769",
+                            "indicator": "AES256 service ticket request (AES Kerberoasting)",
+                            "raw_line": line.strip()[:200],
+                        }
+                    )
 
         return {
             "potential_kerberoasting_events": len(indicators),
@@ -407,10 +410,8 @@ class KerberoastingEngine:
             "hashcat_modes": list(set(h.hashcat_mode for h in self._extracted_hashes)),
             "spns": [t.service_principal_name for t in self._targets[:30]],
             "high_value_targets": [
-                t.sam_account_name for t in self._targets
-                if any(
-                    g.lower() in ["domain admins", "enterprise admins", "administrators"]
-                    for g in t.member_of
-                )
+                t.sam_account_name
+                for t in self._targets
+                if any(g.lower() in ["domain admins", "enterprise admins", "administrators"] for g in t.member_of)
             ][:10],
         }

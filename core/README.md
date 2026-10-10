@@ -63,4 +63,3 @@ pandas = optional_import("pandas")  # deferred proxy when missing
 if pandas:  # proxy is falsy
     frame = pandas.DataFrame(rows)
 ```
-

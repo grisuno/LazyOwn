@@ -79,27 +79,27 @@ class TestCollection:
         assert facts == []
 
     def test_collect_from_tool_parses_creds(self, engine):
-        facts = engine.collect_from_tool(
-            "[+] admin:P@ssw0rd!", tool="crackmapexec", host="10.0.0.1"
-        )
+        facts = engine.collect_from_tool("[+] admin:P@ssw0rd!", tool="crackmapexec", host="10.0.0.1")
         creds = [f for f in facts if f.fact_type == "credential"]
         assert len(creds) >= 1
 
     def test_collect_from_tool_filters_placeholders(self, engine):
-        facts = engine.collect_from_tool(
-            "admin:CHANGE_ME please update", tool="manual", host="10.0.0.1"
-        )
+        facts = engine.collect_from_tool("admin:CHANGE_ME please update", tool="manual", host="10.0.0.1")
         creds = [f for f in facts if f.fact_type == "credential"]
         assert len(creds) == 0
 
     def test_collect_from_factstore(self, engine, tmp_path):
         facts_path = tmp_path / "policy_facts.json"
-        facts_path.write_text(json.dumps({
-            "hosts": {"10.1.1.1": {"services": [
-                {"port": 22, "name": "ssh", "version": "OpenSSH", "protocol": "tcp"}
-            ]}},
-            "credentials": [{"value": "admin:realpass", "host": "10.1.1.1"}],
-        }))
+        facts_path.write_text(
+            json.dumps(
+                {
+                    "hosts": {
+                        "10.1.1.1": {"services": [{"port": 22, "name": "ssh", "version": "OpenSSH", "protocol": "tcp"}]}
+                    },
+                    "credentials": [{"value": "admin:realpass", "host": "10.1.1.1"}],
+                }
+            )
+        )
         engine._config = IntelligenceConfig(sessions_dir=tmp_path)
         facts = engine.collect_from_factstore()
         assert len(facts) >= 2
@@ -114,10 +114,15 @@ class TestAnalysis:
 
     def test_analyze_maps_apache_cve(self, engine):
         engine._facts = [
-            CollectedFact(source="nmap", fact_type="service", value="http",
-                          host="10.0.0.1", port=80, confidence=0.95,
-                          metadata={"product": "Apache httpd", "version": "2.4.49",
-                                    "full_version": "Apache httpd 2.4.49"}),
+            CollectedFact(
+                source="nmap",
+                fact_type="service",
+                value="http",
+                host="10.0.0.1",
+                port=80,
+                confidence=0.95,
+                metadata={"product": "Apache httpd", "version": "2.4.49", "full_version": "Apache httpd 2.4.49"},
+            ),
         ]
         assessments = engine.analyze()
         apache = [a for a in assessments if "CVE-2021-41773" in a.recommendation]
@@ -125,12 +130,11 @@ class TestAnalysis:
 
     def test_analyze_correlates_creds_to_hosts(self, engine):
         engine._facts = [
-            CollectedFact(source="nmap", fact_type="host", value="10.0.0.1",
-                          host="10.0.0.1", confidence=1.0),
-            CollectedFact(source="nmap", fact_type="host", value="10.0.0.2",
-                          host="10.0.0.1", confidence=1.0),
-            CollectedFact(source="crackmapexec", fact_type="credential",
-                          value="admin:pass", host="10.0.0.1", confidence=0.9),
+            CollectedFact(source="nmap", fact_type="host", value="10.0.0.1", host="10.0.0.1", confidence=1.0),
+            CollectedFact(source="nmap", fact_type="host", value="10.0.0.2", host="10.0.0.1", confidence=1.0),
+            CollectedFact(
+                source="crackmapexec", fact_type="credential", value="admin:pass", host="10.0.0.1", confidence=0.9
+            ),
         ]
         assessments = engine.analyze()
         reuse = [a for a in assessments if a.category == "credential_reuse_opportunity"]
@@ -138,14 +142,14 @@ class TestAnalysis:
 
     def test_analyze_ranks_targets(self, engine):
         engine._facts = [
-            CollectedFact(source="nmap", fact_type="service", value="ssh",
-                          host="10.0.0.1", port=22, confidence=0.95),
-            CollectedFact(source="nmap", fact_type="service", value="http",
-                          host="10.0.0.1", port=80, confidence=0.95),
-            CollectedFact(source="nuclei", fact_type="vulnerability", value="CVE-2021-41773",
-                          host="10.0.0.1", confidence=0.8),
-            CollectedFact(source="crackmapexec", fact_type="credential",
-                          value="admin:pass", host="10.0.0.1", confidence=0.9),
+            CollectedFact(source="nmap", fact_type="service", value="ssh", host="10.0.0.1", port=22, confidence=0.95),
+            CollectedFact(source="nmap", fact_type="service", value="http", host="10.0.0.1", port=80, confidence=0.95),
+            CollectedFact(
+                source="nuclei", fact_type="vulnerability", value="CVE-2021-41773", host="10.0.0.1", confidence=0.8
+            ),
+            CollectedFact(
+                source="crackmapexec", fact_type="credential", value="admin:pass", host="10.0.0.1", confidence=0.9
+            ),
         ]
         assessments = engine.analyze()
         rankings = [a for a in assessments if a.category == "target_priority"]
@@ -156,12 +160,16 @@ class TestIntelligenceProduction:
     def test_produce_intelligence_grades_assessments(self, engine):
         engine._assessments = [
             IntelligenceAssessment(
-                subject="test", category="vulnerable_service",
-                confidence=0.1, severity="LOW",
+                subject="test",
+                category="vulnerable_service",
+                confidence=0.1,
+                severity="LOW",
             ),
             IntelligenceAssessment(
-                subject="test2", category="vulnerable_service",
-                confidence=0.9, severity="HIGH",
+                subject="test2",
+                category="vulnerable_service",
+                confidence=0.9,
+                severity="HIGH",
             ),
         ]
         engine.produce_intelligence()
@@ -170,8 +178,7 @@ class TestIntelligenceProduction:
 class TestCounterIntelligence:
     def test_credential_exposure_detected(self, engine):
         engine._facts = [
-            CollectedFact(source="crackmapexec", fact_type="credential",
-                          value="admin:P@ssw0rd", host="10.0.0.1"),
+            CollectedFact(source="crackmapexec", fact_type="credential", value="admin:P@ssw0rd", host="10.0.0.1"),
         ]
         findings = engine.produce_counter_intelligence()
         cred_exposures = [c for c in findings if c.finding_type == "credential_exposure"]
@@ -180,8 +187,8 @@ class TestCounterIntelligence:
 
     def test_high_scan_volume_detected(self, engine):
         engine._facts = [
-            CollectedFact(source="nmap", fact_type="service", value=f"svc{i}",
-                          host="10.0.0.1", port=i) for i in range(15)
+            CollectedFact(source="nmap", fact_type="service", value=f"svc{i}", host="10.0.0.1", port=i)
+            for i in range(15)
         ]
         findings = engine.produce_counter_intelligence()
         scans = [c for c in findings if c.finding_type == "high_scan_volume"]

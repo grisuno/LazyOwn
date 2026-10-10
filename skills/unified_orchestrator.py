@@ -522,6 +522,7 @@ class DaemonBackend:
     @staticmethod
     def _import_class() -> Any:
         from skills.autonomous_daemon import EngageOrchestrator  # noqa: PLC0415
+
         return EngageOrchestrator
 
     @staticmethod
@@ -628,6 +629,7 @@ class HiveBackend:
             QueenBrain,
             build_default_hive_memory,
         )
+
         return build_default_hive_memory, HiveBus, DronePool, QueenBrain
 
     @staticmethod
@@ -714,6 +716,7 @@ class SwanBackend:
     @staticmethod
     def _import_factory() -> tuple[Any, Any]:
         from skills.swan_agent import SwanOrchestrator, get_swan  # noqa: PLC0415
+
         return get_swan, SwanOrchestrator
 
     @staticmethod

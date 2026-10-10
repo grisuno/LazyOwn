@@ -17,6 +17,7 @@ Descripción: Gui to search in gtfobins db
 ╚══════╝╚═╝  ╚═╝╚══════╝   ╚═╝    ╚═════╝  ╚══╝╚══╝ ╚═╝  ╚═══╝
 
 """
+
 import os
 import subprocess
 import tkinter as tk
@@ -31,10 +32,10 @@ class AutocompleteEntry(tk.Entry):
         super().__init__(*args, **kwargs)
         self.get_suggestions = get_suggestions_func  # Función que devuelve sugerencias
         self.var = self["textvariable"]
-        if self.var == '':
+        if self.var == "":
             self.var = self["textvariable"] = tk.StringVar()
 
-        self.var.trace_add('write', self.changed)
+        self.var.trace_add("write", self.changed)
         self.bind("<Right>", self.selection)
         self.bind("<Up>", self.move_up)
         self.bind("<Down>", self.move_down)
@@ -42,7 +43,7 @@ class AutocompleteEntry(tk.Entry):
         self.lb_up = False
 
     def changed(self, name, index, mode):
-        if self.var.get() == '':
+        if self.var.get() == "":
             if self.lb_up:
                 self.lb.destroy()
                 self.lb_up = False
@@ -74,10 +75,10 @@ class AutocompleteEntry(tk.Entry):
     def move_up(self, event):
         if self.lb_up:
             if self.lb.curselection() == ():
-                index = '0'
+                index = "0"
             else:
                 index = self.lb.curselection()[0]
-            if index != '0':
+            if index != "0":
                 self.lb.selection_clear(first=index)
                 index = str(int(index) - 1)
                 self.lb.selection_set(first=index)
@@ -86,7 +87,7 @@ class AutocompleteEntry(tk.Entry):
     def move_down(self, event):
         if self.lb_up:
             if self.lb.curselection() == ():
-                index = '0'
+                index = "0"
             else:
                 index = self.lb.curselection()[0]
             if index != tk.END:
@@ -98,6 +99,8 @@ class AutocompleteEntry(tk.Entry):
     def comparison(self, pattern):
         # Método auxiliar para filtrar
         return [w for w in self.get_suggestions(pattern) if w.lower().startswith(pattern.lower())]
+
+
 class LazyOwnGUI(tk.Tk):
     def __init__(self):
         super().__init__()
@@ -105,10 +108,10 @@ class LazyOwnGUI(tk.Tk):
         self.geometry("1366x768")  # Establecer la resolución de la ventana
 
         self.parquet_files = [
-            "../parquets/binarios.parquet",           # GTFOBins - lista básica
-            "../parquets/detalles.parquet",          # GTFOBins - detalles
-            "../parquets/lolbas_index.parquet",      # LOLBAS - índice (puede no tener ejemplo)
-            "../parquets/lolbas_details.parquet"     # LOLBAS - detalles con ejemplos
+            "../parquets/binarios.parquet",  # GTFOBins - lista básica
+            "../parquets/detalles.parquet",  # GTFOBins - detalles
+            "../parquets/lolbas_index.parquet",  # LOLBAS - índice (puede no tener ejemplo)
+            "../parquets/lolbas_details.parquet",  # LOLBAS - detalles con ejemplos
         ]
         self.dataframe = self.load_parquet_files()
         self.create_widgets()
@@ -121,8 +124,8 @@ class LazyOwnGUI(tk.Tk):
         def get_suggestions(term):
             if not term:
                 return []
-            binaries = self.dataframe['Binary'].dropna().astype(str).unique()
-            return [b for b in binaries if b != 'None' and term.lower() in b.lower()]
+            binaries = self.dataframe["Binary"].dropna().astype(str).unique()
+            return [b for b in binaries if b != "None" and term.lower() in b.lower()]
 
         self.search_term_entry = AutocompleteEntry(get_suggestions, self)
         self.search_term_entry.pack(pady=10)
@@ -148,7 +151,9 @@ class LazyOwnGUI(tk.Tk):
         self.result_frame.pack(pady=10, fill=tk.BOTH, expand=True)
 
         # Crear Treeview
-        self.result_tree = ttk.Treeview(self.result_frame, columns=("Binary", "Function Name", "Description", "Example"), show='headings')
+        self.result_tree = ttk.Treeview(
+            self.result_frame, columns=("Binary", "Function Name", "Description", "Example"), show="headings"
+        )
         self.result_tree.heading("Binary", text="Binary")
         self.result_tree.heading("Function Name", text="Function Name")
         self.result_tree.heading("Description", text="Description")
@@ -184,28 +189,29 @@ class LazyOwnGUI(tk.Tk):
                 df = df.replace({np.nan: None})  # Limpiar NaN
 
                 # Mapeo unificado de columnas
-                if 'Function URL' in df.columns and 'Description' not in df.columns:
+                if "Function URL" in df.columns and "Description" not in df.columns:
                     # Es GTFOBins binarios (binarios.parquet)
-                    df = df.rename(columns={'Function Name': 'Function Name'})
-                    df['Description'] = ""
-                    df['Example'] = ""
+                    df = df.rename(columns={"Function Name": "Function Name"})
+                    df["Description"] = ""
+                    df["Example"] = ""
 
-                elif 'Function Name' in df.columns and 'Example' in df.columns:
+                elif "Function Name" in df.columns and "Example" in df.columns:
                     # Es GTFOBins detalles (detalles.parquet) o LOLBAS bien formateado
                     pass  # Ya tiene las columnas clave
 
-                elif 'General Description' in df.columns:
+                elif "General Description" in df.columns:
                     # Es LOLBAS details
-                    df['Description'] = df['General Description'].fillna("") + "\n" + \
-                                    df['Description'].astype(str).replace('None', '')
-                    df['Binary'] = df['Binary'].str.replace(r'\.exe$', '', case=False, regex=True)
+                    df["Description"] = (
+                        df["General Description"].fillna("") + "\n" + df["Description"].astype(str).replace("None", "")
+                    )
+                    df["Binary"] = df["Binary"].str.replace(r"\.exe$", "", case=False, regex=True)
 
-                elif 'URL' in df.columns and 'Functions' in df.columns:
+                elif "URL" in df.columns and "Functions" in df.columns:
                     # Es lolbas_index.parquet (sin detalles)
                     continue  # Ya está cubierto por lolbas_details
 
                 # Asegurarnos de tener las columnas clave
-                required_cols = ['Binary', 'Function Name', 'Description', 'Example']
+                required_cols = ["Binary", "Function Name", "Description", "Example"]
                 for col in required_cols:
                     if col not in df.columns:
                         df[col] = ""
@@ -224,11 +230,11 @@ class LazyOwnGUI(tk.Tk):
         df = pd.concat(dataframes, ignore_index=True)
 
         # Limpiar: quitar filas sin 'Example' útil
-        df = df.dropna(subset=['Example']).reset_index(drop=True)
-        df = df[df['Example'].astype(str).str.strip() != ""].reset_index(drop=True)
+        df = df.dropna(subset=["Example"]).reset_index(drop=True)
+        df = df[df["Example"].astype(str).str.strip() != ""].reset_index(drop=True)
 
         # Unificar nombres de binarios (sin .exe)
-        df['Binary'] = df['Binary'].astype(str).str.replace(r'\.exe$', '', case=False, regex=True)
+        df["Binary"] = df["Binary"].astype(str).str.replace(r"\.exe$", "", case=False, regex=True)
 
         return df
 
@@ -236,8 +242,8 @@ class LazyOwnGUI(tk.Tk):
         if self.dataframe.empty:
             return []
         # Solo tomar los binarios únicos
-        binaries = self.dataframe['Binary'].dropna().unique()
-        return [b for b in binaries if b and b != 'None']
+        binaries = self.dataframe["Binary"].dropna().unique()
+        return [b for b in binaries if b and b != "None"]
 
     def search(self):
         search_term = self.search_term_entry.get()
@@ -254,13 +260,17 @@ class LazyOwnGUI(tk.Tk):
 
         # Insertar resultados en el Treeview
         for _idx, row in result.iterrows():
-            self.result_tree.insert("", "end", values=(row["Binary"], row["Function Name"], row["Description"], row["Example"]))
+            self.result_tree.insert(
+                "", "end", values=(row["Binary"], row["Function Name"], row["Description"], row["Example"])
+            )
 
     def search_in_parquet(self, term):
         if self.dataframe.empty:
             return pd.DataFrame()
 
-        result = self.dataframe[self.dataframe.apply(lambda row: row.astype(str).str.contains(term, case=False).any(), axis=1)]
+        result = self.dataframe[
+            self.dataframe.apply(lambda row: row.astype(str).str.contains(term, case=False).any(), axis=1)
+        ]
         result = result.dropna(subset=["Example"])  # Filtrar las filas donde 'Example' es NaN
 
         return result
@@ -322,12 +332,14 @@ class LazyOwnGUI(tk.Tk):
                 messagebox.showerror("Error", "Todos los campos son obligatorios.")
                 return
 
-            new_data = pd.DataFrame({
-                "Binary": [binary],
-                "Function Name": [function_name],
-                "Description": [description],
-                "Example": [example]
-            })
+            new_data = pd.DataFrame(
+                {
+                    "Binary": [binary],
+                    "Function Name": [function_name],
+                    "Description": [description],
+                    "Example": [example],
+                }
+            )
 
             self.dataframe = pd.concat([self.dataframe, new_data], ignore_index=True)
 
@@ -338,18 +350,20 @@ class LazyOwnGUI(tk.Tk):
             messagebox.showinfo("Éxito", "Nuevo vector de ataque agregado con éxito.")
             new_vector_window.destroy()
 
-        tk.Button(new_vector_window, text="Guardar", command=save_new_vector).grid(row=4, column=1, padx=10, pady=10, sticky=tk.E)
+        tk.Button(new_vector_window, text="Guardar", command=save_new_vector).grid(
+            row=4, column=1, padx=10, pady=10, sticky=tk.E
+        )
 
     def scan_system_for_binaries(self):
         def is_binary(file_path):
             try:
-                result = subprocess.run(['file', '--mime', file_path], capture_output=True)
-                return b'application/x-executable' in result.stdout
+                result = subprocess.run(["file", "--mime", file_path], capture_output=True)
+                return b"application/x-executable" in result.stdout
             except Exception:
                 return False
 
         binaries = []
-        for root, _dirs, files in os.walk('/'):
+        for root, _dirs, files in os.walk("/"):
             for file in files:
                 file_path = os.path.join(root, file)
                 if is_binary(file_path):
@@ -377,6 +391,7 @@ class LazyOwnGUI(tk.Tk):
         if file_path:
             self.dataframe.to_csv(file_path, index=False)
             messagebox.showinfo("Éxito", f"Datos exportados con éxito a {file_path}")
+
 
 if __name__ == "__main__":
     app = LazyOwnGUI()

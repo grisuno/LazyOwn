@@ -81,7 +81,7 @@ def test_reader_handles_malformed_lines(tmp_path: Path) -> None:
     """Non-JSON lines are skipped without raising."""
     config = ToastConfig(sessions_dir=str(tmp_path))
     events_path = tmp_path / "events.jsonl"
-    events_path.write_text("not-json\n{\"type\":\"ok\"}\n", encoding="utf-8")
+    events_path.write_text('not-json\n{"type":"ok"}\n', encoding="utf-8")
     reader = ToastReader(config, root=tmp_path)
     events, _ = reader.read_unseen("events.jsonl", 0)
     assert len(events) == 1
@@ -110,10 +110,7 @@ def test_bus_render_respects_per_tick_budget(tmp_path: Path) -> None:
     """At most ``max_per_tick_default`` events are printed in one call."""
     config = ToastConfig(sessions_dir=str(tmp_path), max_per_tick_default=2)
     events_path = tmp_path / "events.jsonl"
-    records = [
-        {"type": "ev", "severity": "info", "summary": f"line-{i}"}
-        for i in range(5)
-    ]
+    records = [{"type": "ev", "severity": "info", "summary": f"line-{i}"} for i in range(5)]
     _write_jsonl(events_path, records)
     captured = Console(file=io.StringIO(), record=True, highlight=False)
     bus = ToastBus(

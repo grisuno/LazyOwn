@@ -110,9 +110,7 @@ def test_tdd_agent_lands_red(config: Config) -> None:
     spec = sdd_agent.run(contract, config).spec
     result = tdd_agent.run(contract, spec, config)
     assert result.red is True
-    assert result.findings == [] or all(
-        f.severity is not Severity.BLOCK for f in result.findings
-    )
+    assert result.findings == [] or all(f.severity is not Severity.BLOCK for f in result.findings)
 
 
 def test_bdd_agent_lands_green(config: Config) -> None:
@@ -132,7 +130,7 @@ def test_bdd_agent_lands_green(config: Config) -> None:
 
 def test_dod_validators_block_emoji() -> None:
     """The DoD validator flags emoji in source code."""
-    text = "value = '\U0001F600'\n"
+    text = "value = '\U0001f600'\n"
     findings = validators.check_no_emoji(text, "sample.py")
     assert any(f.rule == "dod.no_emoji" for f in findings)
 

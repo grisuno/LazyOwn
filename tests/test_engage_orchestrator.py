@@ -56,6 +56,7 @@ def temp_sessions(tmp_path, monkeypatch):
     import importlib
 
     import engagement_hooks
+
     importlib.reload(engagement_hooks)
     engagement_hooks.ENGAGEMENT_LOG = sessions_dir / "engagement.log"
     engagement_hooks.ENGAGEMENT_AUDIT = sessions_dir / "engagement_audit.jsonl"
@@ -69,11 +70,11 @@ def temp_sessions(tmp_path, monkeypatch):
     yield {
         "sessions_dir": sessions_dir,
         "payload_path": payload_path,
-        "log_file":     engagement_hooks.ENGAGEMENT_LOG,
-        "audit_file":   engagement_hooks.ENGAGEMENT_AUDIT,
-        "approvals":    engagement_hooks.APPROVALS_FILE,
-        "seen_file":    engagement_hooks.SHELL_SEEN_FILE,
-        "events_file":  engagement_hooks.StreamEventSink.EVENTS_FILE,
+        "log_file": engagement_hooks.ENGAGEMENT_LOG,
+        "audit_file": engagement_hooks.ENGAGEMENT_AUDIT,
+        "approvals": engagement_hooks.APPROVALS_FILE,
+        "seen_file": engagement_hooks.SHELL_SEEN_FILE,
+        "events_file": engagement_hooks.StreamEventSink.EVENTS_FILE,
     }
 
 
@@ -111,9 +112,7 @@ class TestEngagementNarrator:
     def test_stream_sink_appends_to_autonomous_events(self, temp_sessions):
         from engagement_hooks import EngagementNarrator, NotificationBroadcaster, StreamEventSink
 
-        narrator = EngagementNarrator(
-            broadcaster=NotificationBroadcaster([StreamEventSink()])
-        )
+        narrator = EngagementNarrator(broadcaster=NotificationBroadcaster([StreamEventSink()]))
         narrator.narrate(kind="PHASE", target="t", message="m")
         assert temp_sessions["events_file"].exists()
         line = temp_sessions["events_file"].read_text().splitlines()[0]
@@ -273,6 +272,7 @@ def policy_module(temp_sessions, monkeypatch):
     import importlib
 
     import lazyown_policy
+
     importlib.reload(lazyown_policy)
     return lazyown_policy
 
@@ -292,9 +292,7 @@ class _RecordingSink:
 
 
 class TestApprovalGate:
-    def test_auto_approve_true_returns_approved_for_gated_phase(
-        self, policy_module, temp_sessions
-    ):
+    def test_auto_approve_true_returns_approved_for_gated_phase(self, policy_module, temp_sessions):
         # payload.json already has auto_approve: true from the fixture.
         gate = policy_module.ApprovalGate(
             sink=_RecordingSink(),
@@ -325,9 +323,7 @@ class TestApprovalGate:
         assert outcome.rationale == "phase not gated"
         assert sink.announced == []
 
-    def test_gated_phase_with_auto_approve_false_polls_sink(
-        self, policy_module, temp_sessions
-    ):
+    def test_gated_phase_with_auto_approve_false_polls_sink(self, policy_module, temp_sessions):
         temp_sessions["payload_path"].write_text(json.dumps({"auto_approve": False}))
         sink = _RecordingSink()
 
@@ -357,9 +353,7 @@ class TestApprovalGate:
         assert outcome.is_approved
         assert len(sink.announced) == 1
 
-    def test_gated_phase_times_out_to_denied(
-        self, policy_module, temp_sessions
-    ):
+    def test_gated_phase_times_out_to_denied(self, policy_module, temp_sessions):
         temp_sessions["payload_path"].write_text(json.dumps({"auto_approve": False}))
         sink = _RecordingSink()
         gate = policy_module.ApprovalGate(
@@ -378,17 +372,13 @@ class TestApprovalGate:
         assert outcome.is_denied
         assert "timeout" in outcome.rationale
 
-    def test_invalid_payload_defaults_to_auto_approve_true(
-        self, policy_module, temp_sessions
-    ):
+    def test_invalid_payload_defaults_to_auto_approve_true(self, policy_module, temp_sessions):
         temp_sessions["payload_path"].write_text("not-json")
         gate = policy_module.ApprovalGate(
             sink=_RecordingSink(),
             payload_path=temp_sessions["payload_path"],
         )
-        outcome = gate.request(
-            target="t", phase="exploit", command="x", reason="r"
-        )
+        outcome = gate.request(target="t", phase="exploit", command="x", reason="r")
         assert outcome.is_approved
 
 
@@ -421,12 +411,17 @@ class TestFileApprovalSink:
         )
         sink.announce(request)
         with sink.path.open("a", encoding="utf-8") as fh:
-            fh.write(json.dumps({
-                "approval_id": "r1",
-                "status":      "approved",
-                "operator":    "alice",
-                "rationale":   "ok",
-            }) + "\n")
+            fh.write(
+                json.dumps(
+                    {
+                        "approval_id": "r1",
+                        "status": "approved",
+                        "operator": "alice",
+                        "rationale": "ok",
+                    }
+                )
+                + "\n"
+            )
         outcome = sink.resolution_for("r1")
         assert outcome is not None
         assert outcome.is_approved
@@ -437,8 +432,12 @@ class TestStdinApprovalSink:
     def test_no_tty_returns_none(self, policy_module):
         sink = policy_module.StdinApprovalSink(stream=io.StringIO())
         request = policy_module.ApprovalRequest(
-            approval_id="x1", target="t", phase="exploit",
-            command="c", reason="r", created_ts="now",
+            approval_id="x1",
+            target="t",
+            phase="exploit",
+            command="c",
+            reason="r",
+            created_ts="now",
         )
         sink.announce(request)  # stdin is not a TTY in pytest
         assert sink.resolution_for("x1") is None
@@ -498,6 +497,7 @@ class _ScriptedRunner:
 class _NoOpGate:
     def request(self, target, phase, command, reason):
         from lazyown_policy import ApprovalDecision, ApprovalOutcome
+
         return ApprovalOutcome(
             decision=ApprovalDecision.APPROVED,
             approval_id="",
@@ -511,6 +511,7 @@ class _RejectingGate:
 
     def request(self, target, phase, command, reason):
         from lazyown_policy import ApprovalDecision, ApprovalOutcome
+
         if phase == self._rejected:
             return ApprovalOutcome(
                 decision=ApprovalDecision.DENIED,
@@ -534,14 +535,16 @@ class TestEngageOrchestrator:
     def test_runs_full_plan_on_success(self, temp_sessions, policy_module):
         from autonomous_daemon import EngageOrchestrator
 
-        runner = _ScriptedRunner({
-            "ping":          "1 packets received open",
-            "lazynmap":      "22/tcp open ssh",
-            "auto_populate": "discovered domain target.htb",
-            "facts_show":    "found service ssh",
-            "searchsploit":  "CVE-2024-1234 found",
-            "lazymsfvenom":  "payload generated success",
-        })
+        runner = _ScriptedRunner(
+            {
+                "ping": "1 packets received open",
+                "lazynmap": "22/tcp open ssh",
+                "auto_populate": "discovered domain target.htb",
+                "facts_show": "found service ssh",
+                "searchsploit": "CVE-2024-1234 found",
+                "lazymsfvenom": "payload generated success",
+            }
+        )
         orch = EngageOrchestrator(
             target="10.10.11.5",
             runner=runner,
@@ -556,15 +559,17 @@ class TestEngageOrchestrator:
     def test_switches_tool_on_failure(self, temp_sessions, policy_module):
         from autonomous_daemon import EngageOrchestrator, StaticFallbackResolver
 
-        runner = _ScriptedRunner({
-            "ping":          "1 packets received open",
-            # lazynmap fails (empty output), rustscan succeeds
-            "rustscan":      "22 open",
-            "auto_populate": "discovered open",
-            "facts_show":    "found facts open",
-            "searchsploit":  "CVE found",
-            "lazymsfvenom":  "payload success",
-        })
+        runner = _ScriptedRunner(
+            {
+                "ping": "1 packets received open",
+                # lazynmap fails (empty output), rustscan succeeds
+                "rustscan": "22 open",
+                "auto_populate": "discovered open",
+                "facts_show": "found facts open",
+                "searchsploit": "CVE found",
+                "lazymsfvenom": "payload success",
+            }
+        )
         orch = EngageOrchestrator(
             target="10.10.11.5",
             runner=runner,
@@ -580,14 +585,16 @@ class TestEngageOrchestrator:
     def test_denied_step_is_skipped(self, temp_sessions, policy_module):
         from autonomous_daemon import EngageOrchestrator
 
-        runner = _ScriptedRunner({
-            "ping":          "1 packets received open",
-            "lazynmap":      "open",
-            "auto_populate": "open",
-            "facts_show":    "found",
-            "searchsploit":  "CVE found",
-            "lazymsfvenom":  "payload success",
-        })
+        runner = _ScriptedRunner(
+            {
+                "ping": "1 packets received open",
+                "lazynmap": "open",
+                "auto_populate": "open",
+                "facts_show": "found",
+                "searchsploit": "CVE found",
+                "lazymsfvenom": "payload success",
+            }
+        )
         orch = EngageOrchestrator(
             target="10.10.11.5",
             runner=runner,
@@ -602,9 +609,11 @@ class TestEngageOrchestrator:
     def test_shell_indicator_stops_loop(self, temp_sessions, policy_module):
         from autonomous_daemon import EngageOrchestrator
 
-        runner = _ScriptedRunner({
-            "ping":          "uid=0(root) shell open got shell",
-        })
+        runner = _ScriptedRunner(
+            {
+                "ping": "uid=0(root) shell open got shell",
+            }
+        )
         orch = EngageOrchestrator(
             target="10.10.11.5",
             runner=runner,
@@ -636,9 +645,7 @@ class TestMcpEntryPoints:
         # Background thread is running; give it a moment to no-op exit.
         time.sleep(0.2)
 
-    def test_engage_status_returns_pending_approvals_structure(
-        self, temp_sessions, policy_module
-    ):
+    def test_engage_status_returns_pending_approvals_structure(self, temp_sessions, policy_module):
         from autonomous_daemon import mcp_engage_status
 
         result = json.loads(mcp_engage_status(last_n=5))
@@ -652,9 +659,7 @@ class TestMcpEntryPoints:
         result = json.loads(mcp_engage_approve("abc", "maybe"))
         assert result["status"] == "error"
 
-    def test_engage_approve_accepts_valid_decision(
-        self, temp_sessions, policy_module
-    ):
+    def test_engage_approve_accepts_valid_decision(self, temp_sessions, policy_module):
         from autonomous_daemon import mcp_engage_approve
 
         result = json.loads(mcp_engage_approve("abc12345", "approved", "alice"))
@@ -673,17 +678,12 @@ class TestWiring:
         engage_module = REPO_ROOT / "cli" / "commands" / "session_ops.py"
         src = engage_module.read_text(encoding="utf-8")
         tree = ast.parse(src)
-        methods = [
-            n.name for n in ast.walk(tree)
-            if isinstance(n, ast.FunctionDef) and n.name == "do_engage"
-        ]
+        methods = [n.name for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "do_engage"]
         assert len(methods) == 1, "do_engage must be defined exactly once"
 
     def test_lazyc2_has_engagement_hook_call(self):
         src = (REPO_ROOT / "lazyc2.py").read_text(encoding="utf-8")
-        assert "publish_shell_obtained" in src, (
-            "lazyc2.py must call publish_shell_obtained on beacon registration"
-        )
+        assert "publish_shell_obtained" in src, "lazyc2.py must call publish_shell_obtained on beacon registration"
 
     def test_mcp_exposes_four_engage_tools(self):
         src = (REPO_ROOT / "skills" / "lazyown_mcp.py").read_text(encoding="utf-8")
@@ -703,9 +703,7 @@ class TestWiring:
     def test_payload_json_auto_approve_key_is_bool_when_present(self):
         cfg = json.loads((REPO_ROOT / "payload.json").read_text(encoding="utf-8"))
         if "auto_approve" in cfg:
-            assert isinstance(cfg["auto_approve"], bool), (
-                "auto_approve must be a JSON boolean when present"
-            )
+            assert isinstance(cfg["auto_approve"], bool), "auto_approve must be a JSON boolean when present"
 
     def test_approval_gate_defaults_to_true_when_key_missing(self, tmp_path):
         import lazyown_policy
@@ -717,14 +715,17 @@ class TestWiring:
             payload_path=payload,
         )
         outcome = gate.request(
-            target="10.0.0.1", phase="exploit",
-            command="msfconsole", reason="test",
+            target="10.0.0.1",
+            phase="exploit",
+            command="msfconsole",
+            reason="test",
         )
         assert outcome.is_approved
         assert outcome.rationale == "auto_approve=true"
 
     def test_engagement_hooks_module_exposes_public_surface(self):
         import engagement_hooks
+
         for name in (
             "EngagementEvent",
             "EngagementNarrator",
@@ -738,6 +739,7 @@ class TestWiring:
 
     def test_policy_module_exposes_approval_surface(self):
         import lazyown_policy
+
         for name in (
             "ApprovalGate",
             "ApprovalDecision",

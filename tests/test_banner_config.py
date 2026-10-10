@@ -52,8 +52,13 @@ def glyph_registry() -> GlyphRegistry:
 def neutral_palette() -> ColorPalette:
     blank = ""
     return ColorPalette(
-        reset=blank, primary=blank, secondary=blank, accent=blank,
-        info=blank, danger=blank, success=blank,
+        reset=blank,
+        primary=blank,
+        secondary=blank,
+        accent=blank,
+        info=blank,
+        danger=blank,
+        success=blank,
     )
 
 
@@ -63,8 +68,19 @@ def neutral_palette() -> ColorPalette:
 def test_registry_lists_every_canonical_segment(registry):
     ids = {s.spec.id for s in registry.all()}
     expected = {
-        "user_host", "iface", "lhost", "rhost", "domain", "public_ip",
-        "cwd", "git", "venv", "time", "kernel", "version", "battery_load",
+        "user_host",
+        "iface",
+        "lhost",
+        "rhost",
+        "domain",
+        "public_ip",
+        "cwd",
+        "git",
+        "venv",
+        "time",
+        "kernel",
+        "version",
+        "battery_load",
     }
     assert expected.issubset(ids)
 
@@ -133,18 +149,27 @@ def test_settings_enable_all_then_disable_all(registry):
 
 def _make_ctx(palette: ColorPalette, **overrides):
     base = dict(
-        user="root", hostname="kali",
-        iface_name="tun0", iface_ip="10.10.14.5",
-        lhost="10.10.14.5", rhost="10.10.11.5",
-        domain="target.htb", cwd="/home/op/work",
-        git_dirty=False, git_branch="main",
-        venv_name="env", now_str="22:14:33",
-        kernel="6.19.14", version="release/0.2.107",
-        public_ip="203.0.113.7", battery_or_load="0.42",
+        user="root",
+        hostname="kali",
+        iface_name="tun0",
+        iface_ip="10.10.14.5",
+        lhost="10.10.14.5",
+        rhost="10.10.11.5",
+        domain="target.htb",
+        cwd="/home/op/work",
+        git_dirty=False,
+        git_branch="main",
+        venv_name="env",
+        now_str="22:14:33",
+        kernel="6.19.14",
+        version="release/0.2.107",
+        public_ip="203.0.113.7",
+        battery_or_load="0.42",
         palette=palette,
     )
     base.update(overrides)
     from cli.banner_config import RenderContext
+
     return RenderContext(**base)
 
 
@@ -256,8 +281,10 @@ def test_context_resolver_public_ip_caches_within_ttl(neutral_palette):
     class _FakeResp:
         def __enter__(self):
             return self
+
         def __exit__(self, *exc):
             return False
+
         def read(self):
             fake_calls["n"] += 1
             return b"198.51.100.4"
@@ -273,8 +300,11 @@ def test_context_resolver_public_ip_caches_within_ttl(neutral_palette):
 # --- configurator wizard (curses) ----------------------------------------
 
 
-def test_configurator_returns_none_in_non_tty_environment(monkeypatch, registry, neutral_palette, color_registry, glyph_registry):
+def test_configurator_returns_none_in_non_tty_environment(
+    monkeypatch, registry, neutral_palette, color_registry, glyph_registry
+):
     from cli.banner_config import BannerConfigurator
+
     cfg = BannerConfig()
     ctx = _make_ctx(neutral_palette)
     renderer = BannerRenderer(cfg, registry, color_registry, glyph_registry)
@@ -387,8 +417,13 @@ def test_settings_reset_color_and_glyph_for_specific_id(registry, color_registry
 
 def test_renderer_emits_chosen_color_for_each_segment(registry, color_registry, glyph_registry, neutral_palette):
     palette = ColorPalette(
-        reset="<R>", primary="<P>", secondary="<S>", accent="<A>",
-        info="<I>", danger="<D>", success="<G>",
+        reset="<R>",
+        primary="<P>",
+        secondary="<S>",
+        accent="<A>",
+        info="<I>",
+        danger="<D>",
+        success="<G>",
     )
     settings = BannerSettings(
         enabled={"user_host"},

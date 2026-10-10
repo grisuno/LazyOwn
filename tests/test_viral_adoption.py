@@ -1,4 +1,5 @@
 """Viral adoption assets: GIFs, smoke script, drift CI, launch kit."""
+
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
@@ -27,7 +28,9 @@ def test_demo_gif_commands_exist_in_source():
     commands = set()
     for path in _glob.glob(str(REPO / "cli" / "commands" / "*.py")):
         tree = ast.parse(open(path).read())
-        commands.update(n.name[3:] for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name.startswith("do_"))
+        commands.update(
+            n.name[3:] for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name.startswith("do_")
+        )
     tree = ast.parse(open(REPO / "lazyown.py").read())
     commands.update(n.name[3:] for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name.startswith("do_"))
     addons = {p.stem for p in (REPO / "lazyaddons").glob("*.yaml")}
@@ -36,15 +39,35 @@ def test_demo_gif_commands_exist_in_source():
         alias_path = REPO / alias_file
         if alias_path.exists():
             import json as _json
+
             aliases.update(_json.loads(alias_path.read_text()).keys())
     known = commands | addons | aliases
     for shown in (
-        "c2_quickstart", "c2_status", "c2_implant", "c2_beacons",
-        "c2_beacon_cmd", "c2_keygen", "issue_command_to_c2", "download_c2",
-        "doctor", "wizard", "assign", "scope", "ping", "lazynmap",
-        "auto_populate", "facts_show", "recommend_next", "gobuster",
-        "hunt", "engage", "auto_pwn", "blacksandbeacon", "collab_join",
-        "campaign", "pentest_report",
+        "c2_quickstart",
+        "c2_status",
+        "c2_implant",
+        "c2_beacons",
+        "c2_beacon_cmd",
+        "c2_keygen",
+        "issue_command_to_c2",
+        "download_c2",
+        "doctor",
+        "wizard",
+        "assign",
+        "scope",
+        "ping",
+        "lazynmap",
+        "auto_populate",
+        "facts_show",
+        "recommend_next",
+        "gobuster",
+        "hunt",
+        "engage",
+        "auto_pwn",
+        "blacksandbeacon",
+        "collab_join",
+        "campaign",
+        "pentest_report",
     ):
         assert shown in known, f"GIF shows unknown command: {shown}"
 

@@ -29,16 +29,16 @@ log = logging.getLogger("llm_client")
 
 # ── Defaults (overridable via env or constructor) ──────────────────────────────
 
-GROQ_API_URL     = "https://api.groq.com/openai/v1/chat/completions"
-GROQ_DEFAULT_MODEL   = "llama3-8b-8192"
-GROQ_FAST_MODEL      = "llama-3.1-8b-instant"
+GROQ_API_URL = "https://api.groq.com/openai/v1/chat/completions"
+GROQ_DEFAULT_MODEL = "llama3-8b-8192"
+GROQ_FAST_MODEL = "llama-3.1-8b-instant"
 
-OLLAMA_HOST      = os.environ.get("OLLAMA_HOST", "127.0.0.1")
-OLLAMA_PORT      = int(os.environ.get("OLLAMA_PORT", "11434"))
+OLLAMA_HOST = os.environ.get("OLLAMA_HOST", "127.0.0.1")
+OLLAMA_PORT = int(os.environ.get("OLLAMA_PORT", "11434"))
 OLLAMA_DEFAULT_MODEL = os.environ.get("OLLAMA_MODEL", "qwen3.5:0.8b")
-OLLAMA_LARGE_MODEL   = os.environ.get("OLLAMA_LARGE_MODEL", "llama3.2")
+OLLAMA_LARGE_MODEL = os.environ.get("OLLAMA_LARGE_MODEL", "llama3.2")
 
-DEFAULT_TIMEOUT  = int(os.environ.get("LLM_TIMEOUT", "90"))
+DEFAULT_TIMEOUT = int(os.environ.get("LLM_TIMEOUT", "90"))
 DEFAULT_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "1024"))
 
 
@@ -68,11 +68,11 @@ class LLMClient:
         timeout: int = DEFAULT_TIMEOUT,
         max_tokens: int = DEFAULT_MAX_TOKENS,
     ) -> None:
-        self.api_key     = api_key or os.environ.get("GROQ_API_KEY", "")
-        self.groq_model  = groq_model
+        self.api_key = api_key or os.environ.get("GROQ_API_KEY", "")
+        self.groq_model = groq_model
         self.ollama_model = ollama_model
-        self.timeout     = timeout
-        self.max_tokens  = max_tokens
+        self.timeout = timeout
+        self.max_tokens = max_tokens
 
     # ── Public API ─────────────────────────────────────────────────────────────
 
@@ -180,20 +180,22 @@ class LLMClient:
     ) -> str:
         if not self.api_key:
             return "[LLM error] GROQ_API_KEY not set."
-        body = json.dumps({
-            "model": model,
-            "messages": [
-                {"role": "system", "content": system},
-                {"role": "user",   "content": prompt},
-            ],
-            "max_tokens":  self.max_tokens,
-            "temperature": temperature,
-        }).encode()
+        body = json.dumps(
+            {
+                "model": model,
+                "messages": [
+                    {"role": "system", "content": system},
+                    {"role": "user", "content": prompt},
+                ],
+                "max_tokens": self.max_tokens,
+                "temperature": temperature,
+            }
+        ).encode()
         req = urllib.request.Request(
             GROQ_API_URL,
             data=body,
             headers={
-                "Content-Type":  "application/json",
+                "Content-Type": "application/json",
                 "Authorization": f"Bearer {self.api_key}",
             },
         )
@@ -211,12 +213,14 @@ class LLMClient:
     # ── Internal: Ollama ───────────────────────────────────────────────────────
 
     def _ask_ollama(self, prompt: str, model: str) -> str:
-        url  = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
-        body = json.dumps({
-            "model":  model,
-            "prompt": prompt,
-            "stream": False,
-        }).encode()
+        url = f"http://{OLLAMA_HOST}:{OLLAMA_PORT}/api/generate"
+        body = json.dumps(
+            {
+                "model": model,
+                "prompt": prompt,
+                "stream": False,
+            }
+        ).encode()
         req = urllib.request.Request(
             url,
             data=body,
@@ -275,9 +279,9 @@ if __name__ == "__main__":
     p = argparse.ArgumentParser(description="LazyOwn LLM Client CLI")
     p.add_argument("prompt", nargs="?", default="", help="Prompt text (or pipe via stdin)")
     p.add_argument("--provider", default="auto", choices=["groq", "ollama", "auto"])
-    p.add_argument("--model",    default=None)
+    p.add_argument("--model", default=None)
     p.add_argument("--classify", action="store_true", help="Run as classifier")
-    p.add_argument("--system",   default="You are a helpful penetration testing assistant.")
+    p.add_argument("--system", default="You are a helpful penetration testing assistant.")
     args = p.parse_args()
 
     prompt_text = args.prompt or sys.stdin.read()

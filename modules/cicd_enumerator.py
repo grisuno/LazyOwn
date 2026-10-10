@@ -72,162 +72,227 @@ class CICDEnumerator:
 
     def _check_jenkins(self):
         jenkins_endpoints = [
-            ("/script", "Script Console", "high",
-             "Jenkins Script Console may be accessible. Allows arbitrary Groovy execution."),
-            ("/configureSecurity/", "Security Configuration", "high",
-             "Jenkins security configuration may be exposed."),
-            ("/credentials/store/system/domain/_/", "Credential Store", "critical",
-             "Jenkins credential store may list stored credentials."),
-            ("/computer/", "Agent List", "medium",
-             "Jenkins build agents enumeration. Check for agent secrets."),
-            ("/api/json", "API Unauthenticated", "high",
-             "Jenkins API may be accessible without authentication."),
-            ("/job/", "Job Enumeration", "medium",
-             "Jenkins jobs may be listable. Check pipeline scripts for secrets."),
-            ("/log/", "System Logs", "high",
-             "Jenkins logs may contain credentials from build output."),
-            ("/userContent/", "User Content", "medium",
-             "Jenkins user content directory. Check for uploaded artifacts."),
-            ("/lastCompletedBuild/consoleText", "Build Console Output", "high",
-             "Fetch build console output for secrets in build logs."),
-            ("/pluginManager/", "Plugin Manager", "low",
-             "Jenkins plugin enumeration for known CVEs."),
+            (
+                "/script",
+                "Script Console",
+                "high",
+                "Jenkins Script Console may be accessible. Allows arbitrary Groovy execution.",
+            ),
+            ("/configureSecurity/", "Security Configuration", "high", "Jenkins security configuration may be exposed."),
+            (
+                "/credentials/store/system/domain/_/",
+                "Credential Store",
+                "critical",
+                "Jenkins credential store may list stored credentials.",
+            ),
+            ("/computer/", "Agent List", "medium", "Jenkins build agents enumeration. Check for agent secrets."),
+            ("/api/json", "API Unauthenticated", "high", "Jenkins API may be accessible without authentication."),
+            ("/job/", "Job Enumeration", "medium", "Jenkins jobs may be listable. Check pipeline scripts for secrets."),
+            ("/log/", "System Logs", "high", "Jenkins logs may contain credentials from build output."),
+            (
+                "/userContent/",
+                "User Content",
+                "medium",
+                "Jenkins user content directory. Check for uploaded artifacts.",
+            ),
+            (
+                "/lastCompletedBuild/consoleText",
+                "Build Console Output",
+                "high",
+                "Fetch build console output for secrets in build logs.",
+            ),
+            ("/pluginManager/", "Plugin Manager", "low", "Jenkins plugin enumeration for known CVEs."),
         ]
 
         for path, name, severity, desc in jenkins_endpoints:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="jenkins",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1190",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="jenkins",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1190",
+                )
+            )
 
     def _check_gitlab(self):
         gitlab_endpoints = [
-            ("/api/v4/projects?visibility=public", "Public Projects", "low",
-             "GitLab public project enumeration via API."),
-            ("/api/v4/projects?private_token=", "API Accessible", "critical",
-             "GitLab API may accept unauthenticated requests."),
-            ("/explore", "Explore Projects", "low",
-             "GitLab explore page may reveal internal projects."),
-            ("/help", "Instance Information", "low",
-             "GitLab instance version and configuration details."),
-            ("/api/v4/version", "Version API", "low",
-             "GitLab version enumeration for CVE matching."),
-            ("/api/v4/ci/lint", "CI Lint API", "high",
-             "GitLab CI lint API may execute arbitrary YAML. Check for exposed CI/CD variables."),
-            ("/api/v4/runners", "Runner Enumeration", "medium",
-             "GitLab runner enumeration may reveal runner tokens."),
-            ("/api/v4/groups", "Group Enumeration", "medium",
-             "GitLab group enumeration."),
-            ("/admin/runners", "Runner Administration", "critical",
-             "GitLab runner admin page. Registration tokens may be exposed."),
-            ("/-/graphql-explorer", "GraphQL Explorer", "medium",
-             "GitLab GraphQL API explorer may be accessible."),
+            (
+                "/api/v4/projects?visibility=public",
+                "Public Projects",
+                "low",
+                "GitLab public project enumeration via API.",
+            ),
+            (
+                "/api/v4/projects?private_token=",
+                "API Accessible",
+                "critical",
+                "GitLab API may accept unauthenticated requests.",
+            ),
+            ("/explore", "Explore Projects", "low", "GitLab explore page may reveal internal projects."),
+            ("/help", "Instance Information", "low", "GitLab instance version and configuration details."),
+            ("/api/v4/version", "Version API", "low", "GitLab version enumeration for CVE matching."),
+            (
+                "/api/v4/ci/lint",
+                "CI Lint API",
+                "high",
+                "GitLab CI lint API may execute arbitrary YAML. Check for exposed CI/CD variables.",
+            ),
+            ("/api/v4/runners", "Runner Enumeration", "medium", "GitLab runner enumeration may reveal runner tokens."),
+            ("/api/v4/groups", "Group Enumeration", "medium", "GitLab group enumeration."),
+            (
+                "/admin/runners",
+                "Runner Administration",
+                "critical",
+                "GitLab runner admin page. Registration tokens may be exposed.",
+            ),
+            ("/-/graphql-explorer", "GraphQL Explorer", "medium", "GitLab GraphQL API explorer may be accessible."),
         ]
 
         for path, name, severity, desc in gitlab_endpoints:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="gitlab",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1190",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="gitlab",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1190",
+                )
+            )
 
         gitlab_ci_secrets = [
-            ('/.gitlab-ci.yml', "CI Pipeline Config", "high",
-             "GitLab CI YAML — check for hardcoded CI/CD variables and secrets."),
-            ("/ci/lint", "Pipeline Lint", "high",
-             "Test pipeline YAML injection and variable leakage."),
+            (
+                "/.gitlab-ci.yml",
+                "CI Pipeline Config",
+                "high",
+                "GitLab CI YAML — check for hardcoded CI/CD variables and secrets.",
+            ),
+            ("/ci/lint", "Pipeline Lint", "high", "Test pipeline YAML injection and variable leakage."),
         ]
         for path, name, severity, desc in gitlab_ci_secrets:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="gitlab_ci",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1552",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="gitlab_ci",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1552",
+                )
+            )
 
     def _check_github_actions(self):
         actions_endpoints = [
-            ("/.github/workflows/", "Workflow Enumeration", "high",
-             "GitHub Actions workflow YAML files. Check for hardcoded secrets, shell injection, and untrusted PR triggers."),
-            ("/actions", "Actions Tab", "medium",
-             "GitHub Actions page. Build logs may leak secrets via printenv."),
-            ("/security/secret-scanning", "Secret Scanning Results", "critical",
-             "GitHub Advanced Security secret scanning findings."),
-            ("/settings/secrets/actions", "Repository Secrets", "critical",
-             "GitHub Actions secrets configuration page."),
-            ("/settings/environments", "Environment Protection Rules", "high",
-             "Check for environments without required reviewers."),
+            (
+                "/.github/workflows/",
+                "Workflow Enumeration",
+                "high",
+                "GitHub Actions workflow YAML files. Check for hardcoded secrets, shell injection, and untrusted PR triggers.",
+            ),
+            ("/actions", "Actions Tab", "medium", "GitHub Actions page. Build logs may leak secrets via printenv."),
+            (
+                "/security/secret-scanning",
+                "Secret Scanning Results",
+                "critical",
+                "GitHub Advanced Security secret scanning findings.",
+            ),
+            (
+                "/settings/secrets/actions",
+                "Repository Secrets",
+                "critical",
+                "GitHub Actions secrets configuration page.",
+            ),
+            (
+                "/settings/environments",
+                "Environment Protection Rules",
+                "high",
+                "Check for environments without required reviewers.",
+            ),
         ]
         for path, name, severity, desc in actions_endpoints:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="github_actions",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1552",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="github_actions",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1552",
+                )
+            )
 
     def _check_azure_devops(self):
         azdo_endpoints = [
-            ("/_apis/projects", "Project Enumeration API", "medium",
-             "Azure DevOps project enumeration via REST API."),
-            ("/_apis/build/definitions", "Build Definitions API", "high",
-             "Build pipeline definitions — check for exposed secrets in YAML."),
-            ("/_apis/distributedtask/variablegroups", "Variable Groups API", "critical",
-             "Library variable groups — may contain secrets in plaintext."),
-            ("/_apis/serviceendpoint/endpoints", "Service Connections API", "critical",
-             "Service connections — subscription, registry, and git credentials."),
-            ("/_settings/agentpools", "Agent Pools", "medium",
-             "Build agent pool configuration."),
+            ("/_apis/projects", "Project Enumeration API", "medium", "Azure DevOps project enumeration via REST API."),
+            (
+                "/_apis/build/definitions",
+                "Build Definitions API",
+                "high",
+                "Build pipeline definitions — check for exposed secrets in YAML.",
+            ),
+            (
+                "/_apis/distributedtask/variablegroups",
+                "Variable Groups API",
+                "critical",
+                "Library variable groups — may contain secrets in plaintext.",
+            ),
+            (
+                "/_apis/serviceendpoint/endpoints",
+                "Service Connections API",
+                "critical",
+                "Service connections — subscription, registry, and git credentials.",
+            ),
+            ("/_settings/agentpools", "Agent Pools", "medium", "Build agent pool configuration."),
         ]
         for path, name, severity, desc in azdo_endpoints:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="azure_devops",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1528",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="azure_devops",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1528",
+                )
+            )
 
     def _check_bitbucket(self):
         bb_endpoints = [
-            ("/rest/api/1.0/projects", "Project Enumeration", "low",
-             "Bitbucket project enumeration via REST API."),
-            ("/rest/api/1.0/projects/~/repos", "Repository Enumeration", "medium",
-             "Bitbucket repository enumeration."),
-            ("/plugins/servlet/ssh/projects", "SSH Key Management", "high",
-             "Bitbucket SSH key configuration."),
-            ("/rest/api/1.0/admin/permissions/users", "User Permissions", "medium",
-             "Bitbucket user permission enumeration."),
-            ("/bitbucket-pipelines.yml", "Pipeline Config", "high",
-             "Bitbucket Pipelines configuration. Check for hardcoded secrets."),
+            ("/rest/api/1.0/projects", "Project Enumeration", "low", "Bitbucket project enumeration via REST API."),
+            ("/rest/api/1.0/projects/~/repos", "Repository Enumeration", "medium", "Bitbucket repository enumeration."),
+            ("/plugins/servlet/ssh/projects", "SSH Key Management", "high", "Bitbucket SSH key configuration."),
+            (
+                "/rest/api/1.0/admin/permissions/users",
+                "User Permissions",
+                "medium",
+                "Bitbucket user permission enumeration.",
+            ),
+            (
+                "/bitbucket-pipelines.yml",
+                "Pipeline Config",
+                "high",
+                "Bitbucket Pipelines configuration. Check for hardcoded secrets.",
+            ),
         ]
         for path, name, severity, desc in bb_endpoints:
             full_url = f"{self.target_url}{path}"
-            self.findings.append(CICDFinding(
-                platform="bitbucket",
-                url=full_url,
-                finding_type=name,
-                severity=severity,
-                description=desc,
-                mitre="T1190",
-            ))
+            self.findings.append(
+                CICDFinding(
+                    platform="bitbucket",
+                    url=full_url,
+                    finding_type=name,
+                    severity=severity,
+                    description=desc,
+                    mitre="T1190",
+                )
+            )
 
     def scan_build_log(self, log_content: str, source: str = "") -> list[dict[str, str]]:
         """Scan a build log for leaked secrets.
@@ -244,12 +309,14 @@ class CICDEnumerator:
             for match in re.finditer(pattern, log_content):
                 value = match.group(0)
                 masked = value[:20] + "..." if len(value) > 20 else value
-                findings.append({
-                    "type": secret_type,
-                    "category": category,
-                    "source": source,
-                    "evidence": masked,
-                })
+                findings.append(
+                    {
+                        "type": secret_type,
+                        "category": category,
+                        "source": source,
+                        "evidence": masked,
+                    }
+                )
         return findings
 
     def generate_ci_attack_matrix(self) -> str:
@@ -326,9 +393,12 @@ class CICDEnumerator:
         output_path = os.path.join(self.sessions_dir, "cicd_findings.json")
         findings_list = [
             {
-                "platform": f.platform, "url": f.url,
-                "type": f.finding_type, "severity": f.severity,
-                "description": f.description, "mitre": f.mitre,
+                "platform": f.platform,
+                "url": f.url,
+                "type": f.finding_type,
+                "severity": f.severity,
+                "description": f.description,
+                "mitre": f.mitre,
             }
             for f in self.findings
         ]

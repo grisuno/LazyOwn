@@ -217,9 +217,7 @@ def find_credential_provenance(
                         return {
                             "source_file": str(fp),
                             "line_no": i,
-                            "captured_at": datetime.fromtimestamp(
-                                st.st_mtime, tz=UTC
-                            ).isoformat(),
+                            "captured_at": datetime.fromtimestamp(st.st_mtime, tz=UTC).isoformat(),
                             "command": "",
                         }
         except OSError:
@@ -273,9 +271,26 @@ _GREP_SCOPES: dict[str, list[str]] = {
 }
 
 _GREP_SKIP_EXT = {
-    ".png", ".jpg", ".jpeg", ".gif", ".pdf", ".ico", ".bin",
-    ".db", ".sqlite", ".pyc", ".tar", ".gz", ".zip", ".kdbx",
-    ".woff", ".woff2", ".ttf", ".eot", ".mp3", ".mp4",
+    ".png",
+    ".jpg",
+    ".jpeg",
+    ".gif",
+    ".pdf",
+    ".ico",
+    ".bin",
+    ".db",
+    ".sqlite",
+    ".pyc",
+    ".tar",
+    ".gz",
+    ".zip",
+    ".kdbx",
+    ".woff",
+    ".woff2",
+    ".ttf",
+    ".eot",
+    ".mp3",
+    ".mp4",
 }
 
 
@@ -331,11 +346,13 @@ def evidence_grep(
                 with fp.open("r", errors="replace") as fh:
                     for i, line in enumerate(fh, start=1):
                         if rx.search(line):
-                            matches.append({
-                                "path": str(fp.relative_to(base)),
-                                "line_no": i,
-                                "line": line.rstrip("\n")[:240],
-                            })
+                            matches.append(
+                                {
+                                    "path": str(fp.relative_to(base)),
+                                    "line_no": i,
+                                    "line": line.rstrip("\n")[:240],
+                                }
+                            )
                             if len(matches) >= max_matches:
                                 truncated = True
                                 break
@@ -380,15 +397,17 @@ def collect_pwntomate_evidence(rhost: str, sessions_dir: Path | str) -> list[dic
                 continue
             newest = max((f.stat().st_mtime for f in files if f.is_file()), default=0)
             age = max(0, int(time.time() - newest)) if newest else 0
-            out.append({
-                "host": rhost,
-                "port": port_dir.name,
-                "tool": tool_dir.name,
-                "files": sum(1 for f in files if f.is_file()),
-                "age_seconds": age,
-                "age_human": _format_age(age),
-                "stale": age > DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
-            })
+            out.append(
+                {
+                    "host": rhost,
+                    "port": port_dir.name,
+                    "tool": tool_dir.name,
+                    "files": sum(1 for f in files if f.is_file()),
+                    "age_seconds": age,
+                    "age_human": _format_age(age),
+                    "stale": age > DEFAULT_FRESHNESS_THRESHOLD_SECONDS,
+                }
+            )
     return out
 
 
@@ -427,12 +446,14 @@ def build_target_context(
                         p_int = int(p_num)
                     except ValueError:
                         continue
-                    open_ports.append({
-                        "port": p_int,
-                        "protocol": "tcp",
-                        "service": parts[2] if len(parts) > 2 else "",
-                        "raw": stripped[:200],
-                    })
+                    open_ports.append(
+                        {
+                            "port": p_int,
+                            "protocol": "tcp",
+                            "service": parts[2] if len(parts) > 2 else "",
+                            "raw": stripped[:200],
+                        }
+                    )
         except OSError:
             pass
 
@@ -447,11 +468,13 @@ def build_target_context(
             continue
         ok, conf, reason = is_likely_credential(str(c.get("value", "")))
         item = dict(c)
-        item.update({
-            "is_likely_credential": ok,
-            "confidence": conf,
-            "classification": reason,
-        })
+        item.update(
+            {
+                "is_likely_credential": ok,
+                "confidence": conf,
+                "classification": reason,
+            }
+        )
         prov = find_credential_provenance(str(c.get("value", "")), base)
         if prov:
             item["provenance"] = prov
@@ -577,7 +600,7 @@ def preflight_command(
     os_required = _OS_REQUIRED.get(base_cmd)
     os_match = True
     if os_required is not None and os_id_int is not None:
-        os_match = (os_required == os_id_int)
+        os_match = os_required == os_id_int
 
     duplicate_artifacts: list[dict[str, Any]] = []
     artifacts = _DUPE_COMMAND_ARTIFACTS.get(base_cmd, [])
@@ -589,30 +612,44 @@ def preflight_command(
                 duplicate_artifacts.append({"path": str(ap), "kind": "dir"})
         else:
             if ap.exists() and ap.stat().st_size > 100:
-                duplicate_artifacts.append({
-                    "path": str(ap),
-                    "kind": "file",
-                    "size": ap.stat().st_size,
-                })
+                duplicate_artifacts.append(
+                    {
+                        "path": str(ap),
+                        "kind": "file",
+                        "size": ap.stat().st_size,
+                    }
+                )
 
     missing_keys: list[str] = []
     cmd_lower = base_cmd.lower()
     for key, triggers in (
-        ("rhost", {"nmap", "lazynmap", "gobuster", "ffuf", "nikto", "evil",
-                   "evil-winrm", "secretsdump", "crackmapexec", "cme",
-                   "responder", "pyautomate", "pwntomate", "linpeas", "winpeas"}),
+        (
+            "rhost",
+            {
+                "nmap",
+                "lazynmap",
+                "gobuster",
+                "ffuf",
+                "nikto",
+                "evil",
+                "evil-winrm",
+                "secretsdump",
+                "crackmapexec",
+                "cme",
+                "responder",
+                "pyautomate",
+                "pwntomate",
+                "linpeas",
+                "winpeas",
+            },
+        ),
         ("domain", {"bloodhound", "windapsearch", "kerbrute", "ldapsearch", "dig"}),
         ("dirwordlist", {"gobuster", "ffuf"}),
     ):
         if cmd_lower in triggers and not payload.get(key):
             missing_keys.append(key)
 
-    ok = (
-        binary_present
-        and os_match
-        and not duplicate_artifacts
-        and not missing_keys
-    )
+    ok = binary_present and os_match and not duplicate_artifacts and not missing_keys
 
     return {
         "command": command,
@@ -629,6 +666,7 @@ def preflight_command(
 
 
 # ── Async job store ──────────────────────────────────────────────────────────
+
 
 @dataclass
 class JobRecord:
@@ -737,9 +775,7 @@ def take_snapshot(
         "taken_at_iso": datetime.now(tz=UTC).isoformat(),
         "payload_keys": sorted(list((payload or {}).keys())),
         "rhost": (payload or {}).get("rhost", ""),
-        "credentials": [
-            str(c.get("value", "")) for c in (world_model or {}).get("credentials", [])
-        ],
+        "credentials": [str(c.get("value", "")) for c in (world_model or {}).get("credentials", [])],
         "task_ids": [t.get("id") for t in (tasks or [])],
         "files": inventory,
     }
@@ -767,13 +803,25 @@ def diff_snapshot(
     base = Path(sessions_dir)
     snap_path = base / SNAPSHOT_FILE_NAME
     if not snap_path.exists():
-        return {"first_run": True, "added_files": [], "modified_files": [],
-                "removed_files": [], "new_credentials": [], "new_task_ids": []}
+        return {
+            "first_run": True,
+            "added_files": [],
+            "modified_files": [],
+            "removed_files": [],
+            "new_credentials": [],
+            "new_task_ids": [],
+        }
     try:
         prev = json.loads(snap_path.read_text())
     except (OSError, json.JSONDecodeError):
-        return {"first_run": True, "added_files": [], "modified_files": [],
-                "removed_files": [], "new_credentials": [], "new_task_ids": []}
+        return {
+            "first_run": True,
+            "added_files": [],
+            "modified_files": [],
+            "removed_files": [],
+            "new_credentials": [],
+            "new_task_ids": [],
+        }
 
     cur_inventory: dict[str, int] = {}
     for fp in base.rglob("*"):
@@ -791,10 +839,7 @@ def diff_snapshot(
     prev_files = prev.get("files", {})
     added = sorted(set(cur_inventory) - set(prev_files))
     removed = sorted(set(prev_files) - set(cur_inventory))
-    modified = sorted(
-        f for f in cur_inventory
-        if f in prev_files and cur_inventory[f] != prev_files[f]
-    )
+    modified = sorted(f for f in cur_inventory if f in prev_files and cur_inventory[f] != prev_files[f])
 
     prev_creds = set(prev.get("credentials", []))
     cur_creds = set(str(c.get("value", "")) for c in (world_model or {}).get("credentials", []))
@@ -802,9 +847,7 @@ def diff_snapshot(
 
     prev_task_ids = set(prev.get("task_ids", []))
     cur_task_ids = set(t.get("id") for t in (tasks or []))
-    new_task_ids = sorted(
-        i for i in (cur_task_ids - prev_task_ids) if i is not None
-    )
+    new_task_ids = sorted(i for i in (cur_task_ids - prev_task_ids) if i is not None)
 
     return {
         "first_run": False,
@@ -834,9 +877,17 @@ def needs_confirmation(tool_name: str, arguments: dict[str, Any]) -> bool:
     if tool_name in DESTRUCTIVE_TOOLS:
         return not bool(arguments.get("confirm"))
     cmd = (arguments.get("command") or "").lower()
-    if cmd and any(k in cmd for k in (
-        "rm -rf", "format c:", "shutdown", "reboot",
-        "exfil", "wipe", "encrypt-file",
-    )):
+    if cmd and any(
+        k in cmd
+        for k in (
+            "rm -rf",
+            "format c:",
+            "shutdown",
+            "reboot",
+            "exfil",
+            "wipe",
+            "encrypt-file",
+        )
+    ):
         return not bool(arguments.get("confirm"))
     return False

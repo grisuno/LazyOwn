@@ -31,7 +31,13 @@ class TestLoadPayload:
         from core.config import load_payload, save_payload
 
         target = tmp_path / "payload.json"
-        original = {"rhost": "192.168.1.1", "lport": 9999, "nested": {"key": [1, 2, 3]}, "lhost": "10.0.0.1", "target_os": "1"}
+        original = {
+            "rhost": "192.168.1.1",
+            "lport": 9999,
+            "nested": {"key": [1, 2, 3]},
+            "lhost": "10.0.0.1",
+            "target_os": "1",
+        }
         save_payload(original, target)
         loaded = load_payload(target)
         assert loaded == original

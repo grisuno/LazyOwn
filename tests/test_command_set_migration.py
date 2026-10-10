@@ -47,8 +47,7 @@ def _discover_migrated_class_names() -> dict[str, str]:
         tree = ast.parse(source)
         for node in tree.body:
             if isinstance(node, ast.ClassDef) and any(
-                base.id == "LazyOwnCommandSet" if isinstance(base, ast.Name) else False
-                for base in node.bases
+                base.id == "LazyOwnCommandSet" if isinstance(base, ast.Name) else False for base in node.bases
             ):
                 mapping[module_name] = node.name
                 break
@@ -57,11 +56,7 @@ def _discover_migrated_class_names() -> dict[str, str]:
 
 def _collect_migrated_modules() -> set[str]:
     """Return the set of ``cli/commands/*.py`` module names (no private files)."""
-    return {
-        p.stem
-        for p in COMMANDS_PACKAGE.glob("*.py")
-        if not p.stem.startswith("_") and p.stem != "__init__"
-    }
+    return {p.stem for p in COMMANDS_PACKAGE.glob("*.py") if not p.stem.startswith("_") and p.stem != "__init__"}
 
 
 def _parse_class(file_path: Path, class_name: str) -> ast.ClassDef:
@@ -168,22 +163,14 @@ class TestDormancyMechanism:
         from cli.commands._dormancy import is_pending
         from cli.registry import iter_command_sets
 
-        dormant = sorted(
-            c.__name__
-            for c in iter_command_sets(include_pending=True)
-            if is_pending(c)
-        )
-        assert dormant == [], (
-            f"Migration is complete; no CommandSet should remain dormant. Found: {dormant}"
-        )
+        dormant = sorted(c.__name__ for c in iter_command_sets(include_pending=True) if is_pending(c))
+        assert dormant == [], f"Migration is complete; no CommandSet should remain dormant. Found: {dormant}"
 
     def test_active_sets_excluded_when_pending_skipped(self) -> None:
         from cli.registry import iter_command_sets
 
         active = {c.__name__ for c in iter_command_sets(include_pending=False)}
-        assert len(active) >= 10, (
-            f"At least 10 active CommandSets expected, found {len(active)}"
-        )
+        assert len(active) >= 10, f"At least 10 active CommandSets expected, found {len(active)}"
 
     def test_register_includes_migrated_sets(self) -> None:
         import cmd2
@@ -196,9 +183,7 @@ class TestDormancyMechanism:
 
         shell = _Bare()
         registered = {c.__class__.__name__ for c in register_command_sets(shell)}
-        assert len(registered) >= 10, (
-            f"At least 10 CommandSets expected, found {len(registered)}"
-        )
+        assert len(registered) >= 10, f"At least 10 CommandSets expected, found {len(registered)}"
 
 
 class TestShellForwarding:
@@ -271,9 +256,7 @@ class TestMigratedSetsStructure:
         return sorted(migrated_modules)
 
     def test_all_modules_discoverable(self, migrated_modules: dict[str, str]) -> None:
-        assert len(migrated_modules) >= 10, (
-            f"Expected at least 10 migrated modules, found {len(migrated_modules)}"
-        )
+        assert len(migrated_modules) >= 10, f"Expected at least 10 migrated modules, found {len(migrated_modules)}"
 
     def test_all_active_and_have_phase(self, migrated_modules: dict[str, str]) -> None:
         from cli.commands._base import LazyOwnCommandSet
@@ -282,18 +265,10 @@ class TestMigratedSetsStructure:
         for module_name, class_name in migrated_modules.items():
             module = __import__(f"cli.commands.{module_name}", fromlist=[class_name])
             cls = getattr(module, class_name)
-            assert issubclass(cls, LazyOwnCommandSet), (
-                f"{class_name} in {module_name} must subclass LazyOwnCommandSet"
-            )
-            assert not is_pending(cls), (
-                f"{class_name} in {module_name} must not be dormant"
-            )
-            assert cls.phase, (
-                f"{class_name} in {module_name} must declare a non-empty phase"
-            )
-            assert cls.category, (
-                f"{class_name} in {module_name} must declare a non-empty category"
-            )
+            assert issubclass(cls, LazyOwnCommandSet), f"{class_name} in {module_name} must subclass LazyOwnCommandSet"
+            assert not is_pending(cls), f"{class_name} in {module_name} must not be dormant"
+            assert cls.phase, f"{class_name} in {module_name} must declare a non-empty phase"
+            assert cls.category, f"{class_name} in {module_name} must declare a non-empty category"
 
     def test_each_module_has_do_methods(self, migrated_modules: dict[str, str]) -> None:
         for module_name, class_name in migrated_modules.items():
@@ -303,9 +278,7 @@ class TestMigratedSetsStructure:
                 for item in class_node.body
                 if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
             }
-            assert migrated_names, (
-                f"{class_name} in {module_name} must define at least one do_* command"
-            )
+            assert migrated_names, f"{class_name} in {module_name} must define at least one do_* command"
 
 
 class TestParityWithLegacyShell:
@@ -313,23 +286,17 @@ class TestParityWithLegacyShell:
         """Only infrastructure methods remain on LazyOwnShell."""
         shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
         legacy_do_methods = {
-            item.name
-            for item in shell.body
-            if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
+            item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
         }
         infrastructure_keepers = {"do_event_log", "do_route", "do_set", "do_state_snapshot"}
         unexpected = legacy_do_methods - infrastructure_keepers
-        assert not unexpected, (
-            f"Unexpected do_* methods still on LazyOwnShell: {sorted(unexpected)}"
-        )
+        assert not unexpected, f"Unexpected do_* methods still on LazyOwnShell: {sorted(unexpected)}"
 
     def test_migrated_methods_not_duplicated_on_shell(self) -> None:
         """Every migrated ``do_*`` method is absent from LazyOwnShell."""
         shell = _parse_class(LAZYOWN_PATH, LEGACY_SHELL_CLASS_NAME)
         shell_do_names = {
-            item.name
-            for item in shell.body
-            if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
+            item.name for item in shell.body if isinstance(item, ast.FunctionDef) and item.name.startswith("do_")
         }
         migrated = _discover_migrated_class_names()
         duplicated: dict[str, list[str]] = {}
@@ -339,9 +306,7 @@ class TestParityWithLegacyShell:
                 if isinstance(item, ast.FunctionDef) and item.name.startswith("do_"):
                     if item.name in shell_do_names:
                         duplicated.setdefault(item.name, []).append(module_name)
-        assert not duplicated, (
-            f"Migrated do_* methods still duplicated on LazyOwnShell: {duplicated}"
-        )
+        assert not duplicated, f"Migrated do_* methods still duplicated on LazyOwnShell: {duplicated}"
 
 
 class TestProductionHygiene:
@@ -355,31 +320,27 @@ class TestProductionHygiene:
             for marker in FORBIDDEN_MARKERS:
                 pattern = rf"(?:^|\s)({re.escape(marker)})(?:\b|:)"
                 offenders = re.findall(pattern, source)
-                assert not offenders, (
-                    f"{module_name}.py contains forbidden marker(s): {offenders}"
-                )
+                assert not offenders, f"{module_name}.py contains forbidden marker(s): {offenders}"
 
     def test_no_emoji(self, module_names: list[str]) -> None:
         EMOJI_PATTERN = re.compile(
-            "[\U0001F600-\U0001F64F"
-            "\U0001F300-\U0001F5FF"
-            "\U0001F680-\U0001F6FF"
-            "\U0001F1E0-\U0001F1FF"
-            "\U0001F900-\U0001F9FF"
-            "\U0001FA00-\U0001FA6F"
-            "\U0001FA70-\U0001FAFF"
-            "\U00002600-\U000027BF"
-            "\U0001F250-\U0001F251"
-            "\U0000FE00-\U0000FE0F"
-            "\U0000200D\U0000FE0F"
+            "[\U0001f600-\U0001f64f"
+            "\U0001f300-\U0001f5ff"
+            "\U0001f680-\U0001f6ff"
+            "\U0001f1e0-\U0001f1ff"
+            "\U0001f900-\U0001f9ff"
+            "\U0001fa00-\U0001fa6f"
+            "\U0001fa70-\U0001faff"
+            "\U00002600-\U000027bf"
+            "\U0001f250-\U0001f251"
+            "\U0000fe00-\U0000fe0f"
+            "\U0000200d\U0000fe0f"
             "]"
         )
         for module_name in module_names:
             source = _module_path(module_name).read_text(encoding="utf-8")
             offenders = EMOJI_PATTERN.findall(source)
-            assert not offenders, (
-                f"{module_name}.py contains emoji characters: {offenders!r}"
-            )
+            assert not offenders, f"{module_name}.py contains emoji characters: {offenders!r}"
 
     def test_every_module_is_parseable(self, module_names: list[str]) -> None:
         for module_name in module_names:

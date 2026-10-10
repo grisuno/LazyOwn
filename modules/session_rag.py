@@ -42,6 +42,7 @@ log = logging.getLogger(__name__)
 try:
     import chromadb
     from chromadb.config import Settings as _ChromaSettings  # noqa: F401
+
     _CHROMA_OK = True
 except ImportError:
     _CHROMA_OK = False
@@ -49,23 +50,29 @@ except ImportError:
 # ---------------------------------------------------------------------------
 # Constants
 # ---------------------------------------------------------------------------
-SESSIONS_DIR         = Path(__file__).parent.parent / "sessions"
-RAG_STATE_FILE       = SESSIONS_DIR / "rag_state.json"
-FALLBACK_INDEX_FILE  = SESSIONS_DIR / "keyword_fallback_index.json"
-CHROMA_DIR           = SESSIONS_DIR / "chromadb"
-CHROMA_VERSION_FILE   = CHROMA_DIR / ".version"
-COLLECTIONS          = {
-    "sessions":  "lazyown_sessions",
+SESSIONS_DIR = Path(__file__).parent.parent / "sessions"
+RAG_STATE_FILE = SESSIONS_DIR / "rag_state.json"
+FALLBACK_INDEX_FILE = SESSIONS_DIR / "keyword_fallback_index.json"
+CHROMA_DIR = SESSIONS_DIR / "chromadb"
+CHROMA_VERSION_FILE = CHROMA_DIR / ".version"
+COLLECTIONS = {
+    "sessions": "lazyown_sessions",
     "knowledge": "lazyown_knowledge",
-    "exploits":  "lazyown_exploits",
+    "exploits": "lazyown_exploits",
 }
-CHUNK_SIZE           = 400
-CHUNK_OVERLAP        = 50
-MAX_FALLBACK_DOCS    = 5000   # ring-buffer cap for keyword fallback
+CHUNK_SIZE = 400
+CHUNK_OVERLAP = 50
+MAX_FALLBACK_DOCS = 5000  # ring-buffer cap for keyword fallback
 
 INDEXABLE_SUFFIXES = {
-    ".log", ".txt", ".csv", ".xml", ".json",
-    ".nmap", ".md", ".html",
+    ".log",
+    ".txt",
+    ".csv",
+    ".xml",
+    ".json",
+    ".nmap",
+    ".md",
+    ".html",
 }
 
 # Files / patterns to skip (too large or binary)
@@ -103,7 +110,7 @@ class _KeywordFallback:
 
     def __init__(self) -> None:
         self._docs: list[dict[str, Any]] = []
-        self._ids: set = set()    # for deduplication
+        self._ids: set = set()  # for deduplication
 
     def load(self, path: Path) -> None:
         """Load index from disk (no-op if file absent or corrupt)."""
@@ -112,7 +119,7 @@ class _KeywordFallback:
         try:
             data = json.loads(path.read_text())
             self._docs = data.get("docs", [])
-            self._ids  = {d["id"] for d in self._docs}
+            self._ids = {d["id"] for d in self._docs}
         except Exception:
             pass
 
@@ -151,7 +158,7 @@ class _KeywordFallback:
 
     def reset(self) -> None:
         self._docs = []
-        self._ids  = set()
+        self._ids = set()
 
 
 # ---------------------------------------------------------------------------
@@ -201,18 +208,15 @@ class SessionRAG:
         try:
             CHROMA_DIR.mkdir(parents=True, exist_ok=True)
             current_version = chromadb.__version__
-            stored_version = (
-                CHROMA_VERSION_FILE.read_text().strip()
-                if CHROMA_VERSION_FILE.exists()
-                else None
-            )
+            stored_version = CHROMA_VERSION_FILE.read_text().strip() if CHROMA_VERSION_FILE.exists() else None
             if stored_version and stored_version != current_version:
                 log.info(
-                    "session_rag: chromadb version changed (%s -> %s), "
-                    "clearing stale database",
-                    stored_version, current_version,
+                    "session_rag: chromadb version changed (%s -> %s), clearing stale database",
+                    stored_version,
+                    current_version,
                 )
                 import shutil
+
                 for item_path in CHROMA_DIR.iterdir():
                     if item_path.is_file():
                         item_path.unlink()
@@ -231,8 +235,9 @@ class SessionRAG:
                     )
             CHROMA_VERSION_FILE.write_text(current_version)
             self._ready = True
-            log.info("session_rag: ChromaDB backend ready with %d collections at %s",
-                     len(self._collections), CHROMA_DIR)
+            log.info(
+                "session_rag: ChromaDB backend ready with %d collections at %s", len(self._collections), CHROMA_DIR
+            )
         except Exception as exc:
             log.warning("session_rag: ChromaDB init failed (%s) — using keyword fallback", exc)
             self._ready = True
@@ -273,10 +278,10 @@ class SessionRAG:
         for i, chunk in enumerate(chunks):
             doc_id = hashlib.md5(f"{rel}:{i}:{chunk[:40]}".encode()).hexdigest()
             meta = {
-                "source":    rel,
-                "chunk":     i,
-                "mtime":     path.stat().st_mtime,
-                "suffix":    path.suffix,
+                "source": rel,
+                "chunk": i,
+                "mtime": path.stat().st_mtime,
+                "suffix": path.suffix,
             }
             if col is not None:
                 try:
@@ -310,7 +315,7 @@ class SessionRAG:
                 self._state.mtimes[rel] = mtime
         if indexed_files:
             self._state.save()
-            if not self._collections:   # keyword fallback — persist to disk
+            if not self._collections:  # keyword fallback — persist to disk
                 self._fallback.save(FALLBACK_INDEX_FILE)
         return {"files": indexed_files, "chunks": indexed_chunks}
 
@@ -334,9 +339,9 @@ class SessionRAG:
         # Map source parquets to specific collection keys
         targets = [
             ("techniques_enriched", ["name", "description", "command", "mitre_id"], "exploits"),
-            ("techniques",          ["name", "description", "mitre_id"],            "knowledge"),
-            ("binarios",            ["name", "description", "type"],                "knowledge"),
-            ("lolbas_index",        ["Name", "Description", "Commands"],            "knowledge"),
+            ("techniques", ["name", "description", "mitre_id"], "knowledge"),
+            ("binarios", ["name", "description", "type"], "knowledge"),
+            ("lolbas_index", ["Name", "Description", "Commands"], "knowledge"),
         ]
 
         indexed_files = 0
@@ -370,14 +375,14 @@ class SessionRAG:
                         parts.append(val)
                 if not parts:
                     continue
-                text    = " | ".join(parts)
-                row_id  = str(row.get("id", row.get("Name", ""))) or hashlib.md5(
-                    f"{stem}:{text[:40]}".encode()
-                ).hexdigest()
+                text = " | ".join(parts)
+                row_id = (
+                    str(row.get("id", row.get("Name", ""))) or hashlib.md5(f"{stem}:{text[:40]}".encode()).hexdigest()
+                )
                 chunks = _chunk_text(text)
                 for i, chunk in enumerate(chunks):
-                    doc_id  = hashlib.md5(f"pq:{stem}:{row_id}:{i}".encode()).hexdigest()
-                    meta    = {"source": f"parquet/{stem}", "chunk": i, "mtime": mtime}
+                    doc_id = hashlib.md5(f"pq:{stem}:{row_id}:{i}".encode()).hexdigest()
+                    meta = {"source": f"parquet/{stem}", "chunk": i, "mtime": mtime}
                     if col is not None:
                         try:
                             col.add(
@@ -424,7 +429,7 @@ class SessionRAG:
         r2 = self.index_parquet_sources(force=True)
 
         return {
-            "files":  r1.get("files", 0) + r2.get("files", 0),
+            "files": r1.get("files", 0) + r2.get("files", 0),
             "chunks": r1.get("chunks", 0) + r2.get("chunks", 0),
         }
 
@@ -450,16 +455,18 @@ class SessionRAG:
                         query_texts=[query_text],
                         n_results=min(n, count),
                     )
-                    docs      = results.get("documents", [[]])[0]
-                    metas     = results.get("metadatas", [[]])[0]
+                    docs = results.get("documents", [[]])[0]
+                    metas = results.get("metadatas", [[]])[0]
                     distances = results.get("distances", [[]])[0]
                     for doc, meta, dist in zip(docs, metas, distances, strict=False):
-                        all_results.append({
-                            "text":   doc,
-                            "source": meta.get("source", ""),
-                            "chunk":  meta.get("chunk", 0),
-                            "score":  round(1.0 - dist, 4),
-                        })
+                        all_results.append(
+                            {
+                                "text": doc,
+                                "source": meta.get("source", ""),
+                                "chunk": meta.get("chunk", 0),
+                                "score": round(1.0 - dist, 4),
+                            }
+                        )
                 except Exception as exc:
                     log.debug("session_rag: ChromaDB query failed for collection (%s)", exc)
 
@@ -471,10 +478,10 @@ class SessionRAG:
         hits = self._fallback.query(query_text, n)
         return [
             {
-                "text":   h["text"],
+                "text": h["text"],
                 "source": h["meta"].get("source", ""),
-                "chunk":  h["meta"].get("chunk", 0),
-                "score":  None,
+                "chunk": h["meta"].get("chunk", 0),
+                "score": None,
             }
             for h in hits
         ]
@@ -485,12 +492,12 @@ class SessionRAG:
         Queries with phase + target + command to retrieve the most relevant session artefacts.
         """
         query = f"phase:{phase} target:{target} command:{cmd} pentest reconnaissance exploitation"
-        hits  = self.query(query, n)
+        hits = self.query(query, n)
         if not hits:
             return ""
         lines = ["[RAG context — relevant session artefacts]"]
         for h in hits:
-            src   = h["source"]
+            src = h["source"]
             score = f" (score={h['score']:.3f})" if h["score"] is not None else ""
             lines.append(f"--- {src}{score} ---")
             lines.append(h["text"].strip()[:300])
@@ -510,12 +517,12 @@ class SessionRAG:
             backend = "keyword_fallback"
             col_stats = {}
         return {
-            "backend":       backend,
+            "backend": backend,
             "indexed_files": indexed,
-            "total_chunks":  total_chunks,
-            "collections":   col_stats,
-            "chroma_ok":     _CHROMA_OK,
-            "state_file":    str(RAG_STATE_FILE),
+            "total_chunks": total_chunks,
+            "collections": col_stats,
+            "chroma_ok": _CHROMA_OK,
+            "state_file": str(RAG_STATE_FILE),
         }
 
 
@@ -540,15 +547,15 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description="LazyOwn Session RAG")
     sub = parser.add_subparsers(dest="cmd")
-    sub.add_parser("index",   help="Incremental index")
+    sub.add_parser("index", help="Incremental index")
     sub.add_parser("reindex", help="Full re-index from scratch")
-    q_p = sub.add_parser("query",  help="Query the index")
-    q_p.add_argument("text",  nargs="+")
-    q_p.add_argument("-n",    type=int, default=5)
-    sub.add_parser("stats",   help="Print stats")
+    q_p = sub.add_parser("query", help="Query the index")
+    q_p.add_argument("text", nargs="+")
+    q_p.add_argument("-n", type=int, default=5)
+    sub.add_parser("stats", help="Print stats")
 
     args = parser.parse_args()
-    rag  = get_rag()
+    rag = get_rag()
 
     if args.cmd == "index":
         r = rag.index_new()

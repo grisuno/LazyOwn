@@ -1,4 +1,5 @@
 """Tests for modules/unified_dashboard.py."""
+
 from __future__ import annotations
 
 import json
@@ -52,9 +53,14 @@ class TestUnifiedSnapshot:
         dash = UnifiedDashboard(sessions_dir=tmp_path)
         snap = dash.build_unified_snapshot()
         expected_keys = {
-            "world_model", "hive_status", "policy_status",
-            "daemon_status", "live_graph", "graph_advice",
-            "dashboard", "timestamp",
+            "world_model",
+            "hive_status",
+            "policy_status",
+            "daemon_status",
+            "live_graph",
+            "graph_advice",
+            "dashboard",
+            "timestamp",
         }
         assert expected_keys.issubset(set(snap.keys()))
 

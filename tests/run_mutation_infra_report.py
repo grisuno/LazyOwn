@@ -31,7 +31,7 @@ MUTATIONS = {
     "go_empty_list_neutered": {
         "file": "modules/c2_builder.py",
         "description": "Drop the empty fallback guard in Go slice rendering",
-        "old": '    if not urls:\n        return \'""\'',
+        "old": "    if not urls:\n        return '\"\"'",
         "new": '    if not urls:\n        return \'"" , ""\'',
         "expected": "test_go_string_list_formats_slice must fail",
     },
@@ -181,7 +181,11 @@ def main() -> int:
 
         print("\n" + "=" * 60)
         print(f"Results: {killed} killed, {survived} survived, {skipped} skipped")
-        print("ALL MUTANTS KILLED — tests are robust." if survived == 0 else "WARNING: mutants survived — improve test coverage.")
+        print(
+            "ALL MUTANTS KILLED — tests are robust."
+            if survived == 0
+            else "WARNING: mutants survived — improve test coverage."
+        )
         print("=" * 60)
         return 0 if survived == 0 else 1
     finally:

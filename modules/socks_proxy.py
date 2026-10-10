@@ -144,6 +144,7 @@ class SocksSession:
     def elapsed_seconds(self) -> float:
         """Return seconds since session creation."""
         import time
+
         return time.monotonic() - self.created_at if self.created_at > 0 else 0.0
 
     def to_dict(self) -> dict[str, Any]:
@@ -183,9 +184,7 @@ class SocksProxyConfig:
 
     bind_address: str = SOCKS_DEFAULT_BIND_ADDRESS
     bind_port: int = SOCKS_DEFAULT_BIND_PORT
-    auth_methods: list[SocksAuthMethod] = field(
-        default_factory=lambda: [SocksAuthMethod.NO_AUTH]
-    )
+    auth_methods: list[SocksAuthMethod] = field(default_factory=lambda: [SocksAuthMethod.NO_AUTH])
     username: str = ""
     password: str = ""
     max_connections: int = SOCKS_DEFAULT_MAX_CONNECTIONS
@@ -261,15 +260,10 @@ class SocksValidator:
         try:
             ipaddress.ip_address(config.bind_address)
         except ValueError:
-            errors.append(
-                f"bind_address '{config.bind_address}' is not a valid IP address"
-            )
+            errors.append(f"bind_address '{config.bind_address}' is not a valid IP address")
 
         if not (SOCKS_MIN_PORT <= config.bind_port <= SOCKS_MAX_PORT):
-            errors.append(
-                f"bind_port {config.bind_port} is outside valid range "
-                f"({SOCKS_MIN_PORT}-{SOCKS_MAX_PORT})"
-            )
+            errors.append(f"bind_port {config.bind_port} is outside valid range ({SOCKS_MIN_PORT}-{SOCKS_MAX_PORT})")
 
         if config.max_connections < 1:
             errors.append("max_connections must be >= 1")
@@ -286,10 +280,7 @@ class SocksValidator:
 
         has_userpass = SocksAuthMethod.USERNAME_PASSWORD in config.auth_methods
         if has_userpass and (not config.username or not config.password):
-            errors.append(
-                "username and password are required when USERNAME_PASSWORD "
-                "authentication is enabled"
-            )
+            errors.append("username and password are required when USERNAME_PASSWORD authentication is enabled")
 
         if not config.auth_methods:
             errors.append("at least one auth_method is required")
@@ -301,9 +292,7 @@ class SocksValidator:
             if not (SOCKS_MIN_PORT <= port <= SOCKS_MAX_PORT):
                 errors.append(f"denied_ports contains invalid port: {port}")
             if port in config.allowed_ports:
-                errors.append(
-                    f"port {port} appears in both allowed_ports and denied_ports"
-                )
+                errors.append(f"port {port} appears in both allowed_ports and denied_ports")
 
         return errors
 
@@ -462,6 +451,7 @@ class SocksProxyEngine:
             else:
                 return None
         import time
+
         now = time.monotonic()
         session = SocksSession(
             session_id=session_id,
@@ -475,7 +465,10 @@ class SocksProxyEngine:
         if self._config.log_connections:
             log.info(
                 "SOCKS session %s -> %s:%d via %s",
-                session_id, target_host, target_port, beacon_client_id,
+                session_id,
+                target_host,
+                target_port,
+                beacon_client_id,
             )
         return session
 
@@ -496,6 +489,7 @@ class SocksProxyEngine:
         if session is None:
             return
         import time
+
         session.bytes_sent += sent
         session.bytes_received += received
         session.last_activity = time.monotonic()
@@ -503,10 +497,10 @@ class SocksProxyEngine:
     def cleanup_expired(self) -> int:
         """Remove sessions that have exceeded the timeout. Returns count removed."""
         import time
+
         now = time.monotonic()
         expired_ids = [
-            sid for sid, s in self._sessions.items()
-            if (now - s.last_activity) > self._config.session_timeout_seconds
+            sid for sid, s in self._sessions.items() if (now - s.last_activity) > self._config.session_timeout_seconds
         ]
         for sid in expired_ids:
             del self._sessions[sid]

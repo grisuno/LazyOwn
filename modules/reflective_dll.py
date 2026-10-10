@@ -479,8 +479,14 @@ class ReflectiveLoader:
     """
 
     __slots__ = (
-        "_parser", "_file_header", "_sections", "_data_dirs",
-        "_imports", "_relocations", "_exports", "_config",
+        "_parser",
+        "_file_header",
+        "_sections",
+        "_data_dirs",
+        "_imports",
+        "_relocations",
+        "_exports",
+        "_config",
     )
 
     def __init__(self, pe_data: bytes, config: ReflectiveLoaderConfig | None = None):
@@ -488,15 +494,11 @@ class ReflectiveLoader:
         self._file_header = self._parser.parse_file_header()
         self._sections = self._parser.parse_sections(self._file_header.number_of_sections)
         self._data_dirs = self._parser.parse_data_directories()
-        self._imports = self._parser.parse_imports(
-            self._data_dirs[IMAGE_DIRECTORY_ENTRY_IMPORT], self._sections
-        )
+        self._imports = self._parser.parse_imports(self._data_dirs[IMAGE_DIRECTORY_ENTRY_IMPORT], self._sections)
         self._relocations = self._parser.parse_relocations(
             self._data_dirs[IMAGE_DIRECTORY_ENTRY_BASERELOC], self._sections
         )
-        self._exports = self._parser.parse_exports(
-            self._data_dirs[IMAGE_DIRECTORY_ENTRY_EXPORT], self._sections
-        )
+        self._exports = self._parser.parse_exports(self._data_dirs[IMAGE_DIRECTORY_ENTRY_EXPORT], self._sections)
         self._config = config or ReflectiveLoaderConfig()
 
     @property
@@ -590,7 +592,7 @@ class ReflectiveLoader:
             C source code string with reflective loader logic.
         """
         pe_b64 = __import__("base64").b64encode(self._parser.raw_data).decode()
-        return f'''\
+        return f"""\
 #include <windows.h>
 
 typedef HMODULE (WINAPI *pLoadLibraryA)(LPCSTR);
@@ -659,7 +661,7 @@ __declspec(dllexport) void ReflectiveLoader(LPVOID lpLoaderParameter) {{
         (BOOL (WINAPI *)(HINSTANCE, DWORD, LPVOID))(base + nt->OptionalHeader.AddressOfEntryPoint);
     DllEntry((HINSTANCE)base, DLL_PROCESS_ATTACH, NULL);
 }}
-'''
+"""
 
     def generate_powershell_stub(self) -> str:
         """Generate PowerShell reflective loader script.
@@ -701,10 +703,7 @@ Invoke-ReflectivePEInjection -PEBytes $bytes
                 }
                 for s in self._sections
             ],
-            "imports": [
-                {"dll": imp.dll_name, "functions": imp.function_names[:20]}
-                for imp in self._imports
-            ],
+            "imports": [{"dll": imp.dll_name, "functions": imp.function_names[:20]} for imp in self._imports],
             "exports": list(self._exports.keys())[:50],
             "relocation_count": len(self._relocations),
         }

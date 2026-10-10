@@ -180,7 +180,16 @@ class TestBeaconResult:
 
     def test_empty_fields_default_to_empty_string(self) -> None:
         result = BeaconResult(client_id="c", output="o", command="c")
-        for attr in ("operating_system", "hostname", "user", "ips", "pid", "discovered_ips", "result_portscan", "result_pwd"):
+        for attr in (
+            "operating_system",
+            "hostname",
+            "user",
+            "ips",
+            "pid",
+            "discovered_ips",
+            "result_portscan",
+            "result_pwd",
+        ):
             assert getattr(result, attr) == ""
 
 
@@ -224,8 +233,13 @@ class TestCampaignSummary:
 
     def test_with_counts(self) -> None:
         c = CampaignSummary(
-            identifier="c2", name="Op Alpha", status="running", playbook="apt29",
-            objectives_total=10, objectives_completed=3, target_count=5,
+            identifier="c2",
+            name="Op Alpha",
+            status="running",
+            playbook="apt29",
+            objectives_total=10,
+            objectives_completed=3,
+            target_count=5,
         )
         assert c.objectives_total == 10
         assert c.objectives_completed == 3
@@ -268,9 +282,14 @@ class TestSessionModel:
 
     def test_construction(self) -> None:
         s = Session(
-            identifier="abc", hostname="web01", operating_system="linux",
-            process_id="1234", user="root", ip_addresses="10.0.0.5",
-            discovered_ips="10.0.0.6", last_command="whoami",
+            identifier="abc",
+            hostname="web01",
+            operating_system="linux",
+            process_id="1234",
+            user="root",
+            ip_addresses="10.0.0.5",
+            discovered_ips="10.0.0.6",
+            last_command="whoami",
         )
         assert s.identifier == "abc"
         assert s.hostname == "web01"

@@ -45,43 +45,37 @@ def test_workflow_exists() -> None:
 
 
 def test_regenerates_command_index(workflow_steps: list[str]) -> None:
-    assert any(
-        _runs_command(step, "python3 scripts/build_command_index.py")
-        for step in workflow_steps
-    ), "workflow must rebuild cli/command_index.json (write mode, not --check)"
+    assert any(_runs_command(step, "python3 scripts/build_command_index.py") for step in workflow_steps), (
+        "workflow must rebuild cli/command_index.json (write mode, not --check)"
+    )
 
 
 def test_regenerates_commands_reference(workflow_steps: list[str]) -> None:
-    assert any(
-        _runs_command(step, "python3 readmeneitor.py lazyown.py")
-        for step in workflow_steps
-    ), "workflow must regenerate COMMANDS.md via readmeneitor.py lazyown.py"
+    assert any(_runs_command(step, "python3 readmeneitor.py lazyown.py") for step in workflow_steps), (
+        "workflow must regenerate COMMANDS.md via readmeneitor.py lazyown.py"
+    )
 
 
 def test_regenerates_utils_reference(workflow_steps: list[str]) -> None:
-    assert any(
-        _runs_command(step, "python3 readmeneitor.py utils.py")
-        for step in workflow_steps
-    ), "workflow must regenerate UTILS.md via readmeneitor.py utils.py"
+    assert any(_runs_command(step, "python3 readmeneitor.py utils.py") for step in workflow_steps), (
+        "workflow must regenerate UTILS.md via readmeneitor.py utils.py"
+    )
 
 
 def test_diffs_command_index(workflow_steps: list[str]) -> None:
-    assert any(
-        "cli/command_index.json" in step and "diff" in step
-        for step in workflow_steps
-    ), "workflow must fail on cli/command_index.json drift"
+    assert any("cli/command_index.json" in step and "diff" in step for step in workflow_steps), (
+        "workflow must fail on cli/command_index.json drift"
+    )
 
 
 def test_diffs_commands_reference(workflow_steps: list[str]) -> None:
-    assert any(
-        "COMMANDS.md" in step and "diff" in step for step in workflow_steps
-    ), "workflow must fail on COMMANDS.md drift"
+    assert any("COMMANDS.md" in step and "diff" in step for step in workflow_steps), (
+        "workflow must fail on COMMANDS.md drift"
+    )
 
 
 def test_diffs_utils_reference(workflow_steps: list[str]) -> None:
-    assert any(
-        "UTILS.md" in step and "diff" in step for step in workflow_steps
-    ), "workflow must fail on UTILS.md drift"
+    assert any("UTILS.md" in step and "diff" in step for step in workflow_steps), "workflow must fail on UTILS.md drift"
 
 
 def test_trigger_watches_generator_inputs(workflow_text: str) -> None:

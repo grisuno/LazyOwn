@@ -20,6 +20,7 @@ Usage:
     # CLI:
     python3 modules/cve_matcher.py --product openssh --version 8.4 [--max 10] [--json]
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -35,13 +36,13 @@ from pathlib import Path
 
 log = logging.getLogger("cve_matcher")
 
-NVD_API_BASE  = "https://services.nvd.nist.gov/rest/json/cves/2.0"
-_CACHE_TTL    = 3600   # seconds
-_RATE_NO_KEY  = 6.1    # seconds between requests without API key
-_RATE_WITH_KEY = 0.7   # seconds between requests with API key
+NVD_API_BASE = "https://services.nvd.nist.gov/rest/json/cves/2.0"
+_CACHE_TTL = 3600  # seconds
+_RATE_NO_KEY = 6.1  # seconds between requests without API key
+_RATE_WITH_KEY = 0.7  # seconds between requests with API key
 
-_BASE_DIR     = Path(__file__).parent.parent
-_CACHE_DIR    = _BASE_DIR / "sessions" / "cve_cache"
+_BASE_DIR = Path(__file__).parent.parent
+_CACHE_DIR = _BASE_DIR / "sessions" / "cve_cache"
 
 _last_request_time: float = 0.0
 
@@ -71,9 +72,9 @@ class CVEMatcher:
         api_key: str = "",
         cache_dir: str | Path | None = None,
     ) -> None:
-        self.api_key   = api_key or os.environ.get("NVD_API_KEY", "")
+        self.api_key = api_key or os.environ.get("NVD_API_KEY", "")
         self.rate_delay = _RATE_WITH_KEY if self.api_key else _RATE_NO_KEY
-        self.cache_dir  = Path(cache_dir) if cache_dir else _CACHE_DIR
+        self.cache_dir = Path(cache_dir) if cache_dir else _CACHE_DIR
         self.cache_dir.mkdir(parents=True, exist_ok=True)
 
     # ── Public API ────────────────────────────────────────────────────────────
@@ -150,36 +151,38 @@ class CVEMatcher:
 
         results: list[CVEResult] = []
         for item in data.get("vulnerabilities", []):
-            cve      = item.get("cve", {})
-            cve_id   = cve.get("id", "")
-            desc     = next(
+            cve = item.get("cve", {})
+            cve_id = cve.get("id", "")
+            desc = next(
                 (d["value"] for d in cve.get("descriptions", []) if d.get("lang") == "en"),
                 "",
             )
-            refs      = [r["url"] for r in cve.get("references", [])[:3]]
+            refs = [r["url"] for r in cve.get("references", [])[:3]]
             published = cve.get("published", "")[:10]
 
             # CVSS: prefer v3.1 > v3.0 > v2
-            metrics  = cve.get("metrics", {})
-            cvss     = 0.0
+            metrics = cve.get("metrics", {})
+            cvss = 0.0
             severity = "UNKNOWN"
             for key in ("cvssMetricV31", "cvssMetricV30", "cvssMetricV2"):
                 bucket = metrics.get(key)
                 if bucket:
-                    m         = bucket[0]
+                    m = bucket[0]
                     cvss_data = m.get("cvssData", {})
-                    cvss      = float(cvss_data.get("baseScore", 0.0))
-                    severity  = cvss_data.get("baseSeverity", m.get("baseSeverity", "UNKNOWN"))
+                    cvss = float(cvss_data.get("baseScore", 0.0))
+                    severity = cvss_data.get("baseSeverity", m.get("baseSeverity", "UNKNOWN"))
                     break
 
-            results.append(CVEResult(
-                id=cve_id,
-                cvss=cvss,
-                severity=severity,
-                description=desc,
-                published=published,
-                references=refs,
-            ))
+            results.append(
+                CVEResult(
+                    id=cve_id,
+                    cvss=cvss,
+                    severity=severity,
+                    description=desc,
+                    published=published,
+                    references=refs,
+                )
+            )
 
         results.sort(key=lambda r: r.cvss, reverse=True)
         self._save_cache(params, results)
@@ -211,13 +214,14 @@ if __name__ == "__main__":
     import argparse
     import logging
     import sys
+
     logging.basicConfig(level=logging.INFO)
 
     p = argparse.ArgumentParser(description="LazyOwn CVE Matcher")
-    p.add_argument("--product",  required=True,          help="Product name (e.g. openssh)")
-    p.add_argument("--version",  default="",             help="Version string (e.g. 8.4)")
-    p.add_argument("--max",      type=int, default=10,   help="Max results (default 10)")
-    p.add_argument("--json",     action="store_true",    help="Output raw JSON")
+    p.add_argument("--product", required=True, help="Product name (e.g. openssh)")
+    p.add_argument("--version", default="", help="Version string (e.g. 8.4)")
+    p.add_argument("--max", type=int, default=10, help="Max results (default 10)")
+    p.add_argument("--json", action="store_true", help="Output raw JSON")
     args = p.parse_args()
 
     matcher = CVEMatcher()

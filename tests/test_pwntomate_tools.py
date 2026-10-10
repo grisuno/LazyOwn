@@ -123,9 +123,7 @@ def test_rendered_commands_have_no_empty_host():
                 assert not _EMPTY_HOST_RE.search(rendered), (
                     f"{stem} (domain={domain!r} tunnel={tunnel!r}): empty URL host in: {rendered[:160]}"
                 )
-                assert not _UNRESOLVED_RE.search(rendered), (
-                    f"{stem}: unresolved placeholder in: {rendered[:160]}"
-                )
+                assert not _UNRESOLVED_RE.search(rendered), f"{stem}: unresolved placeholder in: {rendered[:160]}"
 
 
 def test_gobuster_templates_use_valid_syntax():
@@ -137,14 +135,10 @@ def test_gobuster_templates_use_valid_syntax():
             assert "-d " in command, f"{stem}: gobuster dns needs -d/--domain"
         if "gobuster dir" in command:
             assert "-u " in command, f"{stem}: gobuster dir needs -u URL"
-            assert "https://{domain}" not in command, (
-                f"{stem}: dir URL must not depend on bare {{domain}}"
-            )
+            assert "https://{domain}" not in command, f"{stem}: dir URL must not depend on bare {{domain}}"
 
 
 def test_no_hardcoded_always_ssl_flag():
     """The -ssl flag must be conditional ({ssl_flag}), never hardcoded."""
     for stem, tool in _load_tools().items():
-        assert "-ssl {s}" not in tool["command"], (
-            f"{stem}: use {{ssl_flag}} so plain ports are not forced through SSL"
-        )
+        assert "-ssl {s}" not in tool["command"], f"{stem}: use {{ssl_flag}} so plain ports are not forced through SSL"

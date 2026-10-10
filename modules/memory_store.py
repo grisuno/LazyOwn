@@ -19,6 +19,7 @@ from pathlib import Path
 
 try:
     import numpy as np  # noqa: F401
+
     _NUMPY_AVAILABLE = True
 except ImportError:
     _NUMPY_AVAILABLE = False
@@ -136,8 +137,7 @@ class SQLiteBackend(StorageBackend):
         conn = sqlite3.connect(str(self._db_path), check_same_thread=False)
         conn.execute("PRAGMA journal_mode=WAL")
         conn.execute("PRAGMA foreign_keys=ON")
-        for stmt in (_DDL_MAIN, _DDL_FTS, _DDL_TRIGGER_INSERT,
-                     _DDL_TRIGGER_DELETE, _DDL_TRIGGER_UPDATE):
+        for stmt in (_DDL_MAIN, _DDL_FTS, _DDL_TRIGGER_INSERT, _DDL_TRIGGER_DELETE, _DDL_TRIGGER_UPDATE):
             conn.execute(stmt)
         conn.commit()
         return conn
@@ -222,12 +222,8 @@ class SQLiteBackend(StorageBackend):
     def stats_raw(self) -> dict:
         with self._lock:
             total = self._conn.execute("SELECT COUNT(*) FROM memories").fetchone()[0]
-            hosts = self._conn.execute(
-                "SELECT COUNT(DISTINCT host) FROM memories"
-            ).fetchone()[0]
-            tools = self._conn.execute(
-                "SELECT COUNT(DISTINCT tool) FROM memories"
-            ).fetchone()[0]
+            hosts = self._conn.execute("SELECT COUNT(DISTINCT host) FROM memories").fetchone()[0]
+            tools = self._conn.execute("SELECT COUNT(DISTINCT tool) FROM memories").fetchone()[0]
         return {"total": total, "hosts": hosts, "tools": tools}
 
     def close(self) -> None:
@@ -293,12 +289,8 @@ class MemoryStore:
                 if not e.success:
                     continue
                 record = {
-                    "prompt": (
-                        f"Host: {e.host} Tool: {e.tool} Command: {e.command}"
-                    ),
-                    "completion": (
-                        f"Success: {e.success} Findings: {e.findings_json}"
-                    ),
+                    "prompt": (f"Host: {e.host} Tool: {e.tool} Command: {e.command}"),
+                    "completion": (f"Success: {e.success} Findings: {e.findings_json}"),
                 }
                 fh.write(json.dumps(record, ensure_ascii=False) + "\n")
         return path
@@ -347,9 +339,7 @@ def _print_entries(entries: list[MemoryEntry]) -> None:
 
 
 def _cli() -> None:
-    parser = argparse.ArgumentParser(
-        description="Query the LazyOwn episodic memory store."
-    )
+    parser = argparse.ArgumentParser(description="Query the LazyOwn episodic memory store.")
     parser.add_argument("--query", "-q", help="FTS5 search query")
     parser.add_argument("--host", help="Filter by host")
     parser.add_argument("--service", help="Filter by service name in command/output")

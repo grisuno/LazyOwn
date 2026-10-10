@@ -6,16 +6,16 @@ from PIL import Image
 
 def binario_a_imagen(binario, imagen_input, imagen_output, block_size=4):
     # Lee los datos del archivo binario
-    with open(binario, 'rb') as f:
+    with open(binario, "rb") as f:
         datos = f.read()
 
     # Convierte los datos en una cadena de bits
-    datos_binarios = ''.join(format(byte, '08b') for byte in datos)
-    datos_binarios += '0' * ((8 - len(datos_binarios) % 8) % 8)  # Asegura que la longitud sea múltiplo de 8
+    datos_binarios = "".join(format(byte, "08b") for byte in datos)
+    datos_binarios += "0" * ((8 - len(datos_binarios) % 8) % 8)  # Asegura que la longitud sea múltiplo de 8
 
     # Carga la imagen
     img = Image.open(imagen_input)
-    img = img.convert('RGB')
+    img = img.convert("RGB")
     imagen = np.array(img)
 
     # Incrusta los datos en la imagen usando los bits menos significativos
@@ -40,7 +40,7 @@ def binario_a_imagen(binario, imagen_input, imagen_output, block_size=4):
         for x in range(0, ancho, block_size):
             if datos_idx < len(datos_binarios):
                 bit = int(datos_binarios[datos_idx])
-                redundancia[y:y+block_size, x:x+block_size] = bit * 255
+                redundancia[y : y + block_size, x : x + block_size] = bit * 255
                 datos_idx += 1
 
     # Combina la imagen original con la capa de redundancia
@@ -49,6 +49,7 @@ def binario_a_imagen(binario, imagen_input, imagen_output, block_size=4):
     # Guarda la imagen con el binario incrustado y la capa de redundancia
     img_incrusted = Image.fromarray(imagen_completa)
     img_incrusted.save(imagen_output)
+
 
 def main():
     if len(sys.argv) < 3:
@@ -61,10 +62,11 @@ def main():
     if len(sys.argv) == 4:
         imagen_output = sys.argv[3]
     else:
-        imagen_output = imagen_input.rsplit('.', 1)[0] + '_incrusted.' + imagen_input.rsplit('.', 1)[1]
+        imagen_output = imagen_input.rsplit(".", 1)[0] + "_incrusted." + imagen_input.rsplit(".", 1)[1]
 
     binario_a_imagen(binario, imagen_input, imagen_output)
     print(f"Binario incrustado en la imagen y guardado como {imagen_output}")
+
 
 if __name__ == "__main__":
     main()

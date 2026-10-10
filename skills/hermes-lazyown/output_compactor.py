@@ -30,10 +30,7 @@ class CompactionResult:
         return 1.0 - (self.compacted_lines / self.original_lines)
 
     def __str__(self) -> str:
-        return (
-            f"[{self.original_lines} -> {self.compacted_lines} lines "
-            f"({self.reduction_ratio:.0%})]\n{self.comparted}"
-        )
+        return f"[{self.original_lines} -> {self.compacted_lines} lines ({self.reduction_ratio:.0%})]\n{self.comparted}"
 
 
 class CompactionStrategy(ABC):

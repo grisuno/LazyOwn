@@ -1,4 +1,5 @@
 """Tests for modules/lesson_ingestor.py."""
+
 from __future__ import annotations
 
 import json
@@ -97,13 +98,18 @@ class TestLessonIngestor:
 
     def test_load_from_file(self, tmp_path):
         lessons_file = tmp_path / "lessons.jsonl"
-        lessons_file.write_text(json.dumps({
-            "campaign_id": "c1",
-            "campaign_name": "test",
-            "topic": "credential_access",
-            "lesson": "test lesson",
-            "context": "ctx",
-        }) + "\n")
+        lessons_file.write_text(
+            json.dumps(
+                {
+                    "campaign_id": "c1",
+                    "campaign_name": "test",
+                    "topic": "credential_access",
+                    "lesson": "test lesson",
+                    "context": "ctx",
+                }
+            )
+            + "\n"
+        )
 
         ingestor = LessonIngestor(lessons_file=lessons_file)
         lessons = ingestor._load_from_file()

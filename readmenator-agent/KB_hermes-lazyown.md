@@ -10,20 +10,20 @@
 - Layer: business_logic
 - Language: py
 - Symbols:
-  - `RuleSetBuilder` (class, line 15) `class RuleSetBuilder`
-  - `generate_rules` (method, line 174) `def generate_rules(phase, rhost, services, creds_found, is_hermes)`
-  - `__init__` (method, line 25) `def __init__(self)`
-  - `with_phase` (method, line 32) `def with_phase(self, phase)`
-  - `with_target` (method, line 37) `def with_target(self, rhost)`
-  - `with_services` (method, line 42) `def with_services(self, services)`
-  - `with_creds` (method, line 47) `def with_creds(self, found)`
-  - `with_hermes` (method, line 52) `def with_hermes(self, is_hermes)`
-  - `build` (method, line 57) `def build(self)`
-  - `_base_rules` (method, line 71) `def _base_rules(self)`
-  - `_phase_rules` (method, line 83) `def _phase_rules(self)`
-  - `_service_rules` (method, line 127) `def _service_rules(self)`
-  - `_credential_rules` (method, line 146) `def _credential_rules(self)`
-  - `_hermes_rules` (method, line 159) `def _hermes_rules(self)`
+  - `RuleSetBuilder` (class, line 14) `class RuleSetBuilder`
+  - `generate_rules` (method, line 185) `def generate_rules(phase, rhost, services, creds_found, is_hermes)`
+  - `__init__` (method, line 24) `def __init__(self)`
+  - `with_phase` (method, line 31) `def with_phase(self, phase)`
+  - `with_target` (method, line 36) `def with_target(self, rhost)`
+  - `with_services` (method, line 41) `def with_services(self, services)`
+  - `with_creds` (method, line 46) `def with_creds(self, found)`
+  - `with_hermes` (method, line 51) `def with_hermes(self, is_hermes)`
+  - `build` (method, line 56) `def build(self)`
+  - `_base_rules` (method, line 70) `def _base_rules(self)`
+  - `_phase_rules` (method, line 82) `def _phase_rules(self)`
+  - `_service_rules` (method, line 138) `def _service_rules(self)`
+  - `_credential_rules` (method, line 157) `def _credential_rules(self)`
+  - `_hermes_rules` (method, line 170) `def _hermes_rules(self)`
 - Depends on: `skills/hermes-lazyown/constants.py`
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
@@ -60,17 +60,17 @@
   - `EnvKeys` (class, line 35) `class EnvKeys`
   - `Defaults` (class, line 45) `class Defaults`
   - `PhaseNames` (class, line 59) `class PhaseNames`
-  - `Paths` (class, line 91) `class Paths`
-  - `lazyown_dir` (method, line 95) `def lazyown_dir()`
-  - `payload_file` (method, line 104) `def payload_file()`
-  - `sessions_dir` (method, line 109) `def sessions_dir()`
-  - `scan_file` (method, line 114) `def scan_file(rhost)`
-  - `vulns_file` (method, line 119) `def vulns_file(rhost)`
-  - `world_model_file` (method, line 124) `def world_model_file()`
-  - `objectives_file` (method, line 129) `def objectives_file()`
-  - `tasks_file` (method, line 134) `def tasks_file()`
-  - `soul_file` (method, line 139) `def soul_file()`
-  - `claude_md_file` (method, line 144) `def claude_md_file()`
+  - `Paths` (class, line 102) `class Paths`
+  - `lazyown_dir` (method, line 106) `def lazyown_dir()`
+  - `payload_file` (method, line 115) `def payload_file()`
+  - `sessions_dir` (method, line 120) `def sessions_dir()`
+  - `scan_file` (method, line 125) `def scan_file(rhost)`
+  - `vulns_file` (method, line 130) `def vulns_file(rhost)`
+  - `world_model_file` (method, line 135) `def world_model_file()`
+  - `objectives_file` (method, line 140) `def objectives_file()`
+  - `tasks_file` (method, line 145) `def tasks_file()`
+  - `soul_file` (method, line 150) `def soul_file()`
+  - `claude_md_file` (method, line 155) `def claude_md_file()`
 - Depends on: `modules/killchain.py`
 - Imported by: `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/mcp_server.py`, `skills/hermes-lazyown/output_compactor.py`
 
@@ -90,8 +90,8 @@
   - `execute_batch` (method, line 98) `def execute_batch(self, commands, timeout)`
   - `_run_via_subprocess` (method, line 114) `def _run_via_subprocess(self, command, timeout)`
   - `_run_without_pty` (method, line 149) `def _run_without_pty(self, argv, command, timeout, env)`
-  - `_run_with_pty` (method, line 179) `def _run_with_pty(self, argv, command, timeout, env)`
-  - `_has_pty` (method, line 233) `def _has_pty(self)`
+  - `_run_with_pty` (method, line 177) `def _run_with_pty(self, argv, command, timeout, env)`
+  - `_has_pty` (method, line 229) `def _has_pty(self)`
 - Depends on: `skills/hermes-lazyown/constants.py`
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
@@ -102,18 +102,18 @@
 - Symbols:
   - `HermesSyncError` (class, line 21) `class HermesSyncError(Exception)`
   - `CheckpointSerializer` (class, line 27) `class CheckpointSerializer`
-  - `ObjectiveTodoSync` (class, line 75) `class ObjectiveTodoSync`
-  - `DelegationPlanner` (class, line 147) `class DelegationPlanner`
+  - `ObjectiveTodoSync` (class, line 73) `class ObjectiveTodoSync`
+  - `DelegationPlanner` (class, line 145) `class DelegationPlanner`
   - `__init__` (method, line 33) `def __init__(self, sessions_dir)`
   - `write` (method, line 37) `def write(self, state)`
-  - `read` (method, line 51) `def read(self)`
-  - `clear` (method, line 66) `def clear(self)`
-  - `__init__` (method, line 84) `def __init__(self, objectives_path)`
-  - `pending_objectives` (method, line 87) `def pending_objectives(self)`
-  - `mark_done` (method, line 108) `def mark_done(self, objective_text)`
-  - `inject_objective` (method, line 129) `def inject_objective(self, text, priority, notes)`
-  - `plan_for_service` (method, line 156) `def plan_for_service(self, service, port, rhost)`
-  - `plan_for_credential` (method, line 219) `def plan_for_credential(self, cred_type, value, rhost)`
+  - `read` (method, line 49) `def read(self)`
+  - `clear` (method, line 64) `def clear(self)`
+  - `__init__` (method, line 82) `def __init__(self, objectives_path)`
+  - `pending_objectives` (method, line 85) `def pending_objectives(self)`
+  - `mark_done` (method, line 106) `def mark_done(self, objective_text)`
+  - `inject_objective` (method, line 127) `def inject_objective(self, text, priority, notes)`
+  - `plan_for_service` (method, line 154) `def plan_for_service(self, service, port, rhost)`
+  - `plan_for_credential` (method, line 233) `def plan_for_credential(self, cred_type, value, rhost)`
 - Depends on: `skills/hermes-lazyown/constants.py`
 - Imported by: `skills/hermes-lazyown/mcp_server.py`
 
@@ -128,28 +128,28 @@
   - `_get_checkpoint_serializer` (function, line 68) `def _get_checkpoint_serializer()`
   - `_get_objective_sync` (function, line 75) `def _get_objective_sync()`
   - `_get_delegation_planner` (function, line 82) `def _get_delegation_planner()`
-  - `_compact` (function, line 91) `def _compact(result, phase, tool_name)`
-  - `_try_import_lazyown_module` (function, line 100) `def _try_import_lazyown_module(module_name)`
-  - `_desc` (function, line 119) `def _desc(base)`
-  - `list_tools` (function, line 335) `def list_tools()`
-  - `call_tool` (function, line 340) `def call_tool(name, arguments)`
-  - `_handle_tool` (function, line 351) `def _handle_tool(name, arguments)`
-  - `_core_session_init` (function, line 399) `def _core_session_init(arguments)`
-  - `_core_set_config` (function, line 445) `def _core_set_config(arguments)`
-  - `_core_run_command` (function, line 468) `def _core_run_command(arguments)`
-  - `_core_command_help` (function, line 484) `def _core_command_help(arguments)`
-  - `_intel_facts_show` (function, line 514) `def _intel_facts_show(arguments)`
-  - `_intel_recommend_next` (function, line 548) `def _intel_recommend_next()`
-  - `_intel_searchsploit` (function, line 564) `def _intel_searchsploit(arguments)`
-  - `_auto_loop` (function, line 592) `def _auto_loop(arguments)`
-  - `_auto_inject_objective` (function, line 612) `def _auto_inject_objective(arguments)`
+  - `_compact` (function, line 92) `def _compact(result, phase, tool_name)`
+  - `_try_import_lazyown_module` (function, line 101) `def _try_import_lazyown_module(module_name)`
+  - `_desc` (function, line 120) `def _desc(base)`
+  - `list_tools` (function, line 329) `def list_tools()`
+  - `call_tool` (function, line 334) `def call_tool(name, arguments)`
+  - `_handle_tool` (function, line 346) `def _handle_tool(name, arguments)`
+  - `_core_session_init` (function, line 395) `def _core_session_init(arguments)`
+  - `_core_set_config` (function, line 441) `def _core_set_config(arguments)`
+  - `_core_run_command` (function, line 464) `def _core_run_command(arguments)`
+  - `_core_command_help` (function, line 480) `def _core_command_help(arguments)`
+  - `_intel_facts_show` (function, line 512) `def _intel_facts_show(arguments)`
+  - `_intel_recommend_next` (function, line 546) `def _intel_recommend_next()`
+  - `_intel_searchsploit` (function, line 562) `def _intel_searchsploit(arguments)`
+  - `_auto_loop` (function, line 591) `def _auto_loop(arguments)`
+  - `_auto_inject_objective` (function, line 611) `def _auto_inject_objective(arguments)`
   - `_hermes_checkpoint_write` (function, line 638) `def _hermes_checkpoint_write(arguments)`
   - `_hermes_checkpoint_read` (function, line 648) `def _hermes_checkpoint_read()`
   - `_hermes_rules_generate` (function, line 659) `def _hermes_rules_generate(arguments)`
   - `_hermes_delegate_plan` (function, line 677) `def _hermes_delegate_plan(arguments)`
-  - `_c2_status` (function, line 705) `def _c2_status()`
-  - `_c2_get_beacons` (function, line 726) `def _c2_get_beacons()`
-  - `main` (function, line 749) `def main()`
+  - `_c2_status` (function, line 706) `def _c2_status()`
+  - `_c2_get_beacons` (function, line 727) `def _c2_get_beacons()`
+  - `main` (function, line 751) `def main()`
 - Depends on: `modules/backdoor/server.c`, `skills/hermes-lazyown/claudemd_rules.py`, `skills/hermes-lazyown/config_bridge.py`, `skills/hermes-lazyown/constants.py`, `skills/hermes-lazyown/executor.py`, `skills/hermes-lazyown/hermes_sync.py`, `skills/hermes-lazyown/output_compactor.py`
 
 ## skills/hermes-lazyown/output_compactor.py
@@ -158,24 +158,24 @@
 - Language: py
 - Symbols:
   - `CompactionResult` (class, line 17) `class CompactionResult`
-  - `CompactionStrategy` (class, line 39) `class CompactionStrategy(ABC)`
-  - `ReconCompaction` (class, line 48) `class ReconCompaction(CompactionStrategy)`
-  - `EnumCompaction` (class, line 83) `class EnumCompaction(CompactionStrategy)`
-  - `ExploitCompaction` (class, line 114) `class ExploitCompaction(CompactionStrategy)`
-  - `PrivescCompaction` (class, line 143) `class PrivescCompaction(CompactionStrategy)`
-  - `DefaultCompaction` (class, line 165) `class DefaultCompaction(CompactionStrategy)`
-  - `OutputCompactor` (class, line 182) `class OutputCompactor`
+  - `CompactionStrategy` (class, line 36) `class CompactionStrategy(ABC)`
+  - `ReconCompaction` (class, line 45) `class ReconCompaction(CompactionStrategy)`
+  - `EnumCompaction` (class, line 80) `class EnumCompaction(CompactionStrategy)`
+  - `ExploitCompaction` (class, line 111) `class ExploitCompaction(CompactionStrategy)`
+  - `PrivescCompaction` (class, line 140) `class PrivescCompaction(CompactionStrategy)`
+  - `DefaultCompaction` (class, line 162) `class DefaultCompaction(CompactionStrategy)`
+  - `OutputCompactor` (class, line 179) `class OutputCompactor`
   - `__init__` (method, line 20) `def __init__(self, compacted, original_lines, compacted_lines)`
   - `reduction_ratio` (method, line 26) `def reduction_ratio(self)`
   - `__str__` (method, line 32) `def __str__(self)`
-  - `compact` (method, line 43) `def compact(self, raw_output, tool_name)`
-  - `compact` (method, line 58) `def compact(self, raw_output, tool_name)`
-  - `compact` (method, line 96) `def compact(self, raw_output, tool_name)`
-  - `compact` (method, line 127) `def compact(self, raw_output, tool_name)`
-  - `compact` (method, line 154) `def compact(self, raw_output, tool_name)`
-  - `__init__` (method, line 168) `def __init__(self, max_lines)`
-  - `compact` (method, line 171) `def compact(self, raw_output, tool_name)`
-  - `__init__` (method, line 199) `def __init__(self, default_max_lines)`
-  - `compact` (method, line 203) `def compact(self, raw_output, phase, tool_name)`
+  - `compact` (method, line 40) `def compact(self, raw_output, tool_name)`
+  - `compact` (method, line 55) `def compact(self, raw_output, tool_name)`
+  - `compact` (method, line 93) `def compact(self, raw_output, tool_name)`
+  - `compact` (method, line 124) `def compact(self, raw_output, tool_name)`
+  - `compact` (method, line 151) `def compact(self, raw_output, tool_name)`
+  - `__init__` (method, line 165) `def __init__(self, max_lines)`
+  - `compact` (method, line 168) `def compact(self, raw_output, tool_name)`
+  - `__init__` (method, line 196) `def __init__(self, default_max_lines)`
+  - `compact` (method, line 200) `def compact(self, raw_output, phase, tool_name)`
 - Depends on: `skills/hermes-lazyown/constants.py`
 - Imported by: `skills/hermes-lazyown/mcp_server.py`

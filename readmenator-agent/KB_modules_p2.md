@@ -10,45 +10,45 @@ Previous: [KB_modules.md](KB_modules.md)
   - `BofCategory` (class, line 68) `class BofCategory(str, Enum)`
   - `BofEntry` (class, line 85) `class BofEntry`
   - `BofCatalog` (class, line 157) `class BofCatalog`
-  - `_build_default_catalog` (method, line 268) `def _build_default_catalog()`
-  - `BofValidator` (class, line 509) `class BofValidator`
-  - `BofRegistry` (class, line 556) `class BofRegistry`
-  - `BofMarketplace` (class, line 643) `class BofMarketplace`
+  - `_build_default_catalog` (method, line 265) `def _build_default_catalog()`
+  - `BofValidator` (class, line 506) `class BofValidator`
+  - `BofRegistry` (class, line 552) `class BofRegistry`
+  - `BofMarketplace` (class, line 639) `class BofMarketplace`
   - `to_dict` (method, line 118) `def to_dict(self)`
   - `from_dict` (method, line 137) `def from_dict(cls, raw)`
   - `register` (method, line 167) `def register(self, entry)`
   - `register_many` (method, line 172) `def register_many(self, entries)`
   - `get` (method, line 177) `def get(self, name)`
-  - `search` (method, line 191) `def search(self, query)`
-  - `list_by_category` (method, line 224) `def list_by_category(self, category)`
-  - `list_by_platform` (method, line 228) `def list_by_platform(self, platform)`
-  - `list_all` (method, line 232) `def list_all(self)`
-  - `to_dict` (method, line 236) `def to_dict(self)`
-  - `from_dict` (method, line 244) `def from_dict(cls, raw)`
-  - `load` (method, line 252) `def load(cls, path)`
-  - `save` (method, line 260) `def save(self, path)`
-  - `compute_sha256` (method, line 518) `def compute_sha256(filepath)`
-  - `verify_entry` (method, line 527) `def verify_entry(entry, filepath)`
-  - `validate_args` (method, line 544) `def validate_args(entry, args)`
-  - `__init__` (method, line 563) `def __init__(self, sessions_dir)`
-  - `install_dir` (method, line 569) `def install_dir(self)`
-  - `_load_manifest` (method, line 573) `def _load_manifest(self)`
-  - `_save_manifest` (method, line 584) `def _save_manifest(self, manifest)`
-  - `is_installed` (method, line 589) `def is_installed(self, name)`
-  - `install` (method, line 594) `def install(self, entry)`
-  - `uninstall` (method, line 615) `def uninstall(self, name, remove_files)`
-  - `list_installed` (method, line 632) `def list_installed(self)`
-  - `get_install_info` (method, line 637) `def get_install_info(self, name)`
-  - `__init__` (method, line 655) `def __init__(self, sessions_dir, catalog)`
-  - `catalog` (method, line 666) `def catalog(self)`
-  - `registry` (method, line 671) `def registry(self)`
-  - `search` (method, line 675) `def search(self, query)`
-  - `info` (method, line 694) `def info(self, name)`
-  - `install` (method, line 711) `def install(self, name)`
-  - `uninstall` (method, line 740) `def uninstall(self, name)`
-  - `list_installed` (method, line 753) `def list_installed(self)`
-  - `list_missing_dependencies` (method, line 765) `def list_missing_dependencies(self, name)`
-  - `bulk_install` (method, line 776) `def bulk_install(self, names)`
+  - `search` (method, line 188) `def search(self, query)`
+  - `list_by_category` (method, line 221) `def list_by_category(self, category)`
+  - `list_by_platform` (method, line 225) `def list_by_platform(self, platform)`
+  - `list_all` (method, line 229) `def list_all(self)`
+  - `to_dict` (method, line 233) `def to_dict(self)`
+  - `from_dict` (method, line 241) `def from_dict(cls, raw)`
+  - `load` (method, line 249) `def load(cls, path)`
+  - `save` (method, line 257) `def save(self, path)`
+  - `compute_sha256` (method, line 515) `def compute_sha256(filepath)`
+  - `verify_entry` (method, line 524) `def verify_entry(entry, filepath)`
+  - `validate_args` (method, line 540) `def validate_args(entry, args)`
+  - `__init__` (method, line 559) `def __init__(self, sessions_dir)`
+  - `install_dir` (method, line 565) `def install_dir(self)`
+  - `_load_manifest` (method, line 569) `def _load_manifest(self)`
+  - `_save_manifest` (method, line 580) `def _save_manifest(self, manifest)`
+  - `is_installed` (method, line 585) `def is_installed(self, name)`
+  - `install` (method, line 590) `def install(self, entry)`
+  - `uninstall` (method, line 611) `def uninstall(self, name, remove_files)`
+  - `list_installed` (method, line 628) `def list_installed(self)`
+  - `get_install_info` (method, line 633) `def get_install_info(self, name)`
+  - `__init__` (method, line 651) `def __init__(self, sessions_dir, catalog)`
+  - `catalog` (method, line 662) `def catalog(self)`
+  - `registry` (method, line 667) `def registry(self)`
+  - `search` (method, line 671) `def search(self, query)`
+  - `info` (method, line 690) `def info(self, name)`
+  - `install` (method, line 707) `def install(self, name)`
+  - `uninstall` (method, line 736) `def uninstall(self, name)`
+  - `list_installed` (method, line 749) `def list_installed(self)`
+  - `list_missing_dependencies` (method, line 761) `def list_missing_dependencies(self, name)`
+  - `bulk_install` (method, line 769) `def bulk_install(self, names)`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/bof_registry.py`, `tests/test_bof_registry.py`
 
@@ -85,10 +85,10 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_replacer` (method, line 173) `def _replacer(match)`
   - `__init__` (method, line 395) `def __init__(self, params, sessions_dir, cmd_fn, onecmd_fn, toastr_fn, c2_user, c2_pass)`
   - `_ensure_garble_toolchain` (method, line 413) `def _ensure_garble_toolchain(self, go_bin, garble_bin, gocompiler, profile)`
-  - `run` (method, line 451) `def run(self, line, choice, use_tunnel)`
-  - `_read` (method, line 639) `def _read(path_)`
-  - `_read_required` (method, line 646) `def _read_required(path_)`
-  - `_write` (method, line 650) `def _write(path_, content)`
+  - `run` (method, line 453) `def run(self, line, choice, use_tunnel)`
+  - `_read` (method, line 641) `def _read(path_)`
+  - `_read_required` (method, line 648) `def _read_required(path_)`
+  - `_write` (method, line 652) `def _write(path_, content)`
 - Depends on: `core/validators.py`, `modules/metrics.py`, `utils.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `tests/test_bdd_infra_range_report.py`, `tests/test_infra_disposable.py`
 
@@ -97,57 +97,57 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SecureSessionManager` (class, line 11) `class SecureSessionManager`
-  - `PayloadConfigAdapter` (class, line 121) `class PayloadConfigAdapter`
-  - `__init__` (method, line 24) `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
-  - `register_failed_attempt` (method, line 39) `def register_failed_attempt(self, user_id)`
-  - `check_lockout` (method, line 48) `def check_lockout(self, user_id)`
-  - `check_rate_limit` (method, line 63) `def check_rate_limit(self, user_id)`
-  - `create_session` (method, line 83) `def create_session(self, user_id, client_id)`
-  - `validate_session` (method, line 93) `def validate_session(self, user_id)`
-  - `set_client` (method, line 110) `def set_client(self, user_id, client_id)`
-  - `get_client` (method, line 115) `def get_client(self, user_id)`
-  - `__init__` (method, line 128) `def __init__(self, config_dict)`
-  - `__getitem__` (method, line 133) `def __getitem__(self, key)`
-  - `get` (method, line 136) `def get(self, key, default)`
+  - `SecureSessionManager` (class, line 9) `class SecureSessionManager`
+  - `PayloadConfigAdapter` (class, line 117) `class PayloadConfigAdapter`
+  - `__init__` (method, line 22) `def __init__(self, max_failed_attempts, lockout_duration, rate_limit, session_timeout)`
+  - `register_failed_attempt` (method, line 37) `def register_failed_attempt(self, user_id)`
+  - `check_lockout` (method, line 46) `def check_lockout(self, user_id)`
+  - `check_rate_limit` (method, line 61) `def check_rate_limit(self, user_id)`
+  - `create_session` (method, line 79) `def create_session(self, user_id, client_id)`
+  - `validate_session` (method, line 89) `def validate_session(self, user_id)`
+  - `set_client` (method, line 106) `def set_client(self, user_id, client_id)`
+  - `get_client` (method, line 111) `def get_client(self, user_id)`
+  - `__init__` (method, line 124) `def __init__(self, config_dict)`
+  - `__getitem__` (method, line 129) `def __getitem__(self, key)`
+  - `get` (method, line 132) `def get(self, key, default)`
 
 ## modules/c2_profile.py
 - Doc: modules/c2_profile.py
 - Layer: utility
 - Language: py
 - Symbols:
-  - `SleepConfig` (class, line 53) `class SleepConfig`
-  - `HttpConfig` (class, line 61) `class HttpConfig`
-  - `StagerConfig` (class, line 71) `class StagerConfig`
-  - `C2Profile` (class, line 80) `class C2Profile`
-  - `ProfileValidator` (class, line 154) `class ProfileValidator`
-  - `ProfileLoader` (class, line 188) `class ProfileLoader`
-  - `_make_default_profile` (method, line 320) `def _make_default_profile()`
-  - `_make_stealth_profile` (method, line 351) `def _make_stealth_profile()`
-  - `_make_aggressive_profile` (method, line 397) `def _make_aggressive_profile()`
-  - `_make_debug_profile` (method, line 422) `def _make_debug_profile()`
-  - `ProfileRegistry` (class, line 464) `class ProfileRegistry`
-  - `ProfileApplier` (class, line 537) `class ProfileApplier`
-  - `get_registry` (method, line 612) `def get_registry()`
-  - `get_profile` (method, line 637) `def get_profile(name)`
-  - `list_profiles` (method, line 642) `def list_profiles()`
-  - `jitter_delay` (method, line 100) `def jitter_delay(self)`
-  - `get_uri` (method, line 116) `def get_uri(self, method)`
-  - `build_headers` (method, line 127) `def build_headers(self, method)`
-  - `_config_for` (method, line 143) `def _config_for(self, method)`
-  - `validate` (method, line 161) `def validate(self, profile)`
-  - `from_yaml` (method, line 201) `def from_yaml(path)`
-  - `from_dict` (method, line 219) `def from_dict(d)`
-  - `to_dict` (method, line 258) `def to_dict(profile)`
-  - `save` (method, line 286) `def save(profile, path)`
-  - `__init__` (method, line 472) `def __init__(self)`
-  - `register` (method, line 479) `def register(self, name, profile)`
-  - `get` (method, line 488) `def get(self, name)`
-  - `list_names` (method, line 502) `def list_names(self)`
-  - `load_from_directory` (method, line 510) `def load_from_directory(self, path)`
-  - `apply_to_response` (method, line 546) `def apply_to_response(profile, response)`
-  - `apply_to_session` (method, line 571) `def apply_to_session(profile, session)`
-  - `get_beacon_config` (method, line 584) `def get_beacon_config(profile)`
+  - `SleepConfig` (class, line 54) `class SleepConfig`
+  - `HttpConfig` (class, line 62) `class HttpConfig`
+  - `StagerConfig` (class, line 72) `class StagerConfig`
+  - `C2Profile` (class, line 81) `class C2Profile`
+  - `ProfileValidator` (class, line 155) `class ProfileValidator`
+  - `ProfileLoader` (class, line 187) `class ProfileLoader`
+  - `_make_default_profile` (method, line 308) `def _make_default_profile()`
+  - `_make_stealth_profile` (method, line 339) `def _make_stealth_profile()`
+  - `_make_aggressive_profile` (method, line 385) `def _make_aggressive_profile()`
+  - `_make_debug_profile` (method, line 410) `def _make_debug_profile()`
+  - `ProfileRegistry` (class, line 449) `class ProfileRegistry`
+  - `ProfileApplier` (class, line 520) `class ProfileApplier`
+  - `get_registry` (method, line 595) `def get_registry()`
+  - `get_profile` (method, line 620) `def get_profile(name)`
+  - `list_profiles` (method, line 625) `def list_profiles()`
+  - `jitter_delay` (method, line 101) `def jitter_delay(self)`
+  - `get_uri` (method, line 117) `def get_uri(self, method)`
+  - `build_headers` (method, line 128) `def build_headers(self, method)`
+  - `_config_for` (method, line 144) `def _config_for(self, method)`
+  - `validate` (method, line 162) `def validate(self, profile)`
+  - `from_yaml` (method, line 200) `def from_yaml(path)`
+  - `from_dict` (method, line 215) `def from_dict(d)`
+  - `to_dict` (method, line 254) `def to_dict(profile)`
+  - `save` (method, line 282) `def save(profile, path)`
+  - `__init__` (method, line 457) `def __init__(self)`
+  - `register` (method, line 464) `def register(self, name, profile)`
+  - `get` (method, line 473) `def get(self, name)`
+  - `list_names` (method, line 485) `def list_names(self)`
+  - `load_from_directory` (method, line 493) `def load_from_directory(self, path)`
+  - `apply_to_response` (method, line 529) `def apply_to_response(profile, response)`
+  - `apply_to_session` (method, line 554) `def apply_to_session(profile, session)`
+  - `get_beacon_config` (method, line 567) `def get_beacon_config(profile)`
 - Depends on: `core/logging.py`
 
 ## modules/c2_profile_engine.py
@@ -155,53 +155,53 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `TlsProfile` (class, line 104) `class TlsProfile`
-  - `DnsProfile` (class, line 194) `class DnsProfile`
-  - `SmbProfile` (class, line 278) `class SmbProfile`
-  - `WebSocketProfile` (class, line 338) `class WebSocketProfile`
-  - `TransportType` (class, line 393) `class TransportType(Enum)`
-  - `RotationSlot` (class, line 403) `class RotationSlot`
-  - `ProfileRotator` (class, line 430) `class ProfileRotator`
-  - `ProfileValidator` (class, line 490) `class ProfileValidator`
-  - `ProfileEngine` (class, line 600) `class ProfileEngine`
-  - `get_cipher_suites` (method, line 131) `def get_cipher_suites(self)`
-  - `get_ja3_hash` (method, line 142) `def get_ja3_hash(self)`
-  - `from_dict` (method, line 160) `def from_dict(raw)`
-  - `to_dict` (method, line 177) `def to_dict(self)`
-  - `build_query_subdomain` (method, line 220) `def build_query_subdomain(self, data, packet_id)`
-  - `from_dict` (method, line 250) `def from_dict(raw)`
-  - `to_dict` (method, line 263) `def to_dict(self)`
-  - `from_dict` (method, line 308) `def from_dict(raw)`
-  - `to_dict` (method, line 322) `def to_dict(self)`
-  - `from_dict` (method, line 364) `def from_dict(raw)`
-  - `to_dict` (method, line 378) `def to_dict(self)`
-  - `is_available` (method, line 418) `def is_available(self)`
-  - `touch` (method, line 425) `def touch(self)`
-  - `__init__` (method, line 442) `def __init__(self, slots)`
-  - `current_slot` (method, line 449) `def current_slot(self)`
-  - `transport` (method, line 454) `def transport(self)`
-  - `rotate` (method, line 458) `def rotate(self)`
-  - `list_slots` (method, line 476) `def list_slots(self)`
-  - `validate_tls` (method, line 498) `def validate_tls(profile)`
-  - `validate_dns` (method, line 523) `def validate_dns(profile)`
-  - `validate_smb` (method, line 543) `def validate_smb(profile)`
-  - `validate_websocket` (method, line 565) `def validate_websocket(profile)`
-  - `validate_all` (method, line 580) `def validate_all(self, tls, dns, smb, websocket)`
-  - `__init__` (method, line 616) `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
-  - `tls_profile` (method, line 632) `def tls_profile(self)`
-  - `dns_profile` (method, line 637) `def dns_profile(self)`
-  - `smb_profile` (method, line 642) `def smb_profile(self)`
-  - `websocket_profile` (method, line 647) `def websocket_profile(self)`
-  - `rotator` (method, line 652) `def rotator(self)`
-  - `active_transport` (method, line 657) `def active_transport(self)`
-  - `rotate` (method, line 661) `def rotate(self)`
-  - `validate` (method, line 665) `def validate(self)`
-  - `get_active_profile_dict` (method, line 674) `def get_active_profile_dict(self)`
-  - `get_all_profiles_dict` (method, line 688) `def get_all_profiles_dict(self)`
-  - `_default_slots` (method, line 698) `def _default_slots(self)`
-  - `from_dict` (method, line 738) `def from_dict(cls, raw)`
-  - `from_payload` (method, line 757) `def from_payload(cls, payload)`
-  - `from_config` (method, line 762) `def from_config(cls, config)`
+  - `TlsProfile` (class, line 117) `class TlsProfile`
+  - `DnsProfile` (class, line 205) `class DnsProfile`
+  - `SmbProfile` (class, line 289) `class SmbProfile`
+  - `WebSocketProfile` (class, line 349) `class WebSocketProfile`
+  - `TransportType` (class, line 404) `class TransportType(Enum)`
+  - `RotationSlot` (class, line 414) `class RotationSlot`
+  - `ProfileRotator` (class, line 441) `class ProfileRotator`
+  - `ProfileValidator` (class, line 503) `class ProfileValidator`
+  - `ProfileEngine` (class, line 611) `class ProfileEngine`
+  - `get_cipher_suites` (method, line 144) `def get_cipher_suites(self)`
+  - `get_ja3_hash` (method, line 155) `def get_ja3_hash(self)`
+  - `from_dict` (method, line 173) `def from_dict(raw)`
+  - `to_dict` (method, line 188) `def to_dict(self)`
+  - `build_query_subdomain` (method, line 231) `def build_query_subdomain(self, data, packet_id)`
+  - `from_dict` (method, line 261) `def from_dict(raw)`
+  - `to_dict` (method, line 274) `def to_dict(self)`
+  - `from_dict` (method, line 319) `def from_dict(raw)`
+  - `to_dict` (method, line 333) `def to_dict(self)`
+  - `from_dict` (method, line 375) `def from_dict(raw)`
+  - `to_dict` (method, line 389) `def to_dict(self)`
+  - `is_available` (method, line 429) `def is_available(self)`
+  - `touch` (method, line 436) `def touch(self)`
+  - `__init__` (method, line 453) `def __init__(self, slots)`
+  - `current_slot` (method, line 460) `def current_slot(self)`
+  - `transport` (method, line 465) `def transport(self)`
+  - `rotate` (method, line 469) `def rotate(self)`
+  - `list_slots` (method, line 487) `def list_slots(self)`
+  - `validate_tls` (method, line 511) `def validate_tls(profile)`
+  - `validate_dns` (method, line 536) `def validate_dns(profile)`
+  - `validate_smb` (method, line 556) `def validate_smb(profile)`
+  - `validate_websocket` (method, line 576) `def validate_websocket(profile)`
+  - `validate_all` (method, line 591) `def validate_all(self, tls, dns, smb, websocket)`
+  - `__init__` (method, line 627) `def __init__(self, tls_profile, dns_profile, smb_profile, websocket_profile, rotation_slots)`
+  - `tls_profile` (method, line 643) `def tls_profile(self)`
+  - `dns_profile` (method, line 648) `def dns_profile(self)`
+  - `smb_profile` (method, line 653) `def smb_profile(self)`
+  - `websocket_profile` (method, line 658) `def websocket_profile(self)`
+  - `rotator` (method, line 663) `def rotator(self)`
+  - `active_transport` (method, line 668) `def active_transport(self)`
+  - `rotate` (method, line 672) `def rotate(self)`
+  - `validate` (method, line 676) `def validate(self)`
+  - `get_active_profile_dict` (method, line 685) `def get_active_profile_dict(self)`
+  - `get_all_profiles_dict` (method, line 699) `def get_all_profiles_dict(self)`
+  - `_default_slots` (method, line 709) `def _default_slots(self)`
+  - `from_dict` (method, line 747) `def from_dict(cls, raw)`
+  - `from_payload` (method, line 766) `def from_payload(cls, payload)`
+  - `from_config` (method, line 771) `def from_config(cls, config)`
 - Depends on: `cli/commands/enum.py`, `core/config.py`, `core/logging.py`
 - Imported by: `cli/commands/c2_profile.py`, `modules/beacon_config_builder.py`, `tests/test_c2_profile_engine.py`
 
@@ -230,13 +230,13 @@ Previous: [KB_modules.md](KB_modules.md)
   - `__init__` (method, line 54) `def __init__(self, target_url, sessions_dir)`
   - `scan` (method, line 60) `def scan(self)`
   - `_check_jenkins` (method, line 73) `def _check_jenkins(self)`
-  - `_check_gitlab` (method, line 108) `def _check_gitlab(self)`
-  - `_check_github_actions` (method, line 160) `def _check_github_actions(self)`
-  - `_check_azure_devops` (method, line 184) `def _check_azure_devops(self)`
-  - `_check_bitbucket` (method, line 208) `def _check_bitbucket(self)`
-  - `scan_build_log` (method, line 232) `def scan_build_log(self, log_content, source)`
-  - `generate_ci_attack_matrix` (method, line 255) `def generate_ci_attack_matrix(self)`
-  - `export_findings` (method, line 320) `def export_findings(self)`
+  - `_check_gitlab` (method, line 120) `def _check_gitlab(self)`
+  - `_check_github_actions` (method, line 189) `def _check_github_actions(self)`
+  - `_check_azure_devops` (method, line 230) `def _check_azure_devops(self)`
+  - `_check_bitbucket` (method, line 266) `def _check_bitbucket(self)`
+  - `scan_build_log` (method, line 297) `def scan_build_log(self, log_content, source)`
+  - `generate_ci_attack_matrix` (method, line 322) `def generate_ci_attack_matrix(self)`
+  - `export_findings` (method, line 387) `def export_findings(self)`
 - Imported by: `cli/commands/cicd.py`
 
 ## modules/cli_auth.py
@@ -249,19 +249,19 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_load_payload` (function, line 84) `def _load_payload()`
   - `_save_payload` (function, line 99) `def _save_payload(payload)`
   - `user_exists` (function, line 118) `def user_exists(username)`
-  - `register` (function, line 140) `def register(username, password)`
-  - `verify_password` (function, line 207) `def verify_password(username, password)`
-  - `login` (function, line 233) `def login(username, password, remember)`
-  - `logout` (function, line 286) `def logout()`
-  - `try_auto_login` (function, line 321) `def try_auto_login()`
-  - `whoami` (function, line 359) `def whoami()`
-  - `get_current_operator` (function, line 389) `def get_current_operator()`
-  - `sync_elo_from_session` (function, line 401) `def sync_elo_from_session(elo)`
-  - `_read_cli_session` (function, line 422) `def _read_cli_session()`
-  - `_write_cli_session` (function, line 437) `def _write_cli_session(username, elo, role)`
-  - `_write_cli_session_raw` (function, line 455) `def _write_cli_session_raw(data)`
-  - `_clear_cli_session` (function, line 471) `def _clear_cli_session()`
-  - `needs_login` (function, line 480) `def needs_login()`
+  - `register` (function, line 141) `def register(username, password)`
+  - `verify_password` (function, line 210) `def verify_password(username, password)`
+  - `login` (function, line 236) `def login(username, password, remember)`
+  - `logout` (function, line 289) `def logout()`
+  - `try_auto_login` (function, line 324) `def try_auto_login()`
+  - `whoami` (function, line 362) `def whoami()`
+  - `get_current_operator` (function, line 392) `def get_current_operator()`
+  - `sync_elo_from_session` (function, line 404) `def sync_elo_from_session(elo)`
+  - `_read_cli_session` (function, line 425) `def _read_cli_session()`
+  - `_write_cli_session` (function, line 440) `def _write_cli_session(username, elo, role)`
+  - `_write_cli_session_raw` (function, line 458) `def _write_cli_session_raw(data)`
+  - `_clear_cli_session` (function, line 474) `def _clear_cli_session()`
+  - `needs_login` (function, line 483) `def needs_login()`
 - Depends on: `cli/engagement_hooks.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_engagement_elo_and_methodology.py`
 
@@ -272,21 +272,21 @@ Previous: [KB_modules.md](KB_modules.md)
 - Symbols:
   - `CloudEnumerator` (class, line 23) `class CloudEnumerator`
   - `__init__` (method, line 34) `def __init__(self, provider, session, timeout)`
-  - `detect_provider` (method, line 46) `def detect_provider(self)`
-  - `enumerate_metadata` (method, line 74) `def enumerate_metadata(self)`
-  - `_enumerate_aws_metadata` (method, line 95) `def _enumerate_aws_metadata(self)`
-  - `_enumerate_azure_metadata` (method, line 136) `def _enumerate_azure_metadata(self)`
-  - `_enumerate_gcp_metadata` (method, line 178) `def _enumerate_gcp_metadata(self)`
-  - `enumerate_storage` (method, line 230) `def enumerate_storage(self, target_bucket)`
-  - `_enumerate_s3` (method, line 253) `def _enumerate_s3(self, target_bucket)`
-  - `_enumerate_azure_storage` (method, line 291) `def _enumerate_azure_storage(self, target_bucket)`
-  - `_enumerate_gcs` (method, line 316) `def _enumerate_gcs(self, target_bucket)`
-  - `enumerate_iam` (method, line 336) `def enumerate_iam(self)`
-  - `_enumerate_aws_iam` (method, line 354) `def _enumerate_aws_iam(self)`
-  - `_enumerate_azure_iam` (method, line 388) `def _enumerate_azure_iam(self)`
-  - `_enumerate_gcp_iam` (method, line 424) `def _enumerate_gcp_iam(self)`
-  - `_check_aws_privesc` (method, line 475) `def _check_aws_privesc(data)`
-  - `full_enumeration` (method, line 515) `def full_enumeration(self)`
+  - `detect_provider` (method, line 47) `def detect_provider(self)`
+  - `enumerate_metadata` (method, line 75) `def enumerate_metadata(self)`
+  - `_enumerate_aws_metadata` (method, line 96) `def _enumerate_aws_metadata(self)`
+  - `_enumerate_azure_metadata` (method, line 146) `def _enumerate_azure_metadata(self)`
+  - `_enumerate_gcp_metadata` (method, line 193) `def _enumerate_gcp_metadata(self)`
+  - `enumerate_storage` (method, line 251) `def enumerate_storage(self, target_bucket)`
+  - `_enumerate_s3` (method, line 274) `def _enumerate_s3(self, target_bucket)`
+  - `_enumerate_azure_storage` (method, line 316) `def _enumerate_azure_storage(self, target_bucket)`
+  - `_enumerate_gcs` (method, line 350) `def _enumerate_gcs(self, target_bucket)`
+  - `enumerate_iam` (method, line 372) `def enumerate_iam(self)`
+  - `_enumerate_aws_iam` (method, line 390) `def _enumerate_aws_iam(self)`
+  - `_enumerate_azure_iam` (method, line 421) `def _enumerate_azure_iam(self)`
+  - `_enumerate_gcp_iam` (method, line 477) `def _enumerate_gcp_iam(self)`
+  - `_check_aws_privesc` (method, line 526) `def _check_aws_privesc(data)`
+  - `full_enumeration` (method, line 576) `def full_enumeration(self)`
 - Imported by: `cli/commands/cloud.py`
 
 ## modules/collab_bp.py
@@ -294,55 +294,55 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: presentation
 - Language: py
 - Symbols:
-  - `_authenticated_operator` (function, line 85) `def _authenticated_operator()`
-  - `_check_collab_permission` (function, line 95) `def _check_collab_permission(perm_name)`
-  - `_collab_login_required` (function, line 115) `def _collab_login_required(f)`
-  - `_collab_permission_required` (function, line 129) `def _collab_permission_required(perm_name)`
-  - `ColabEvent` (class, line 151) `class ColabEvent`
-  - `OperatorInfo` (class, line 164) `class OperatorInfo`
-  - `EventBus` (class, line 175) `class EventBus`
-  - `TargetLock` (class, line 235) `class TargetLock`
-  - `LockManager` (class, line 242) `class LockManager`
-  - `OperatorRegistry` (class, line 298) `class OperatorRegistry`
-  - `get_event_bus` (method, line 354) `def get_event_bus()`
-  - `get_lock_manager` (method, line 355) `def get_lock_manager()`
-  - `get_operator_registry` (method, line 356) `def get_operator_registry()`
-  - `publish_event` (method, line 359) `def publish_event(type, payload, operator)`
-  - `collab_ui` (method, line 373) `def collab_ui()`
-  - `stream` (method, line 387) `def stream()`
-  - `operators` (method, line 430) `def operators()`
-  - `publish` (method, line 441) `def publish()`
-  - `lock` (method, line 454) `def lock()`
-  - `unlock` (method, line 473) `def unlock()`
-  - `locks` (method, line 489) `def locks()`
-  - `history` (method, line 501) `def history()`
-  - `decorated` (method, line 118) `def decorated()`
-  - `decorator` (method, line 131) `def decorator(f)`
-  - `to_sse` (method, line 158) `def to_sse(self)`
-  - `__init__` (method, line 184) `def __init__(self)`
-  - `subscribe` (method, line 189) `def subscribe(self, subscriber_id)`
-  - `unsubscribe` (method, line 201) `def unsubscribe(self, subscriber_id)`
-  - `publish` (method, line 205) `def publish(self, event)`
-  - `recent` (method, line 220) `def recent(self, n)`
-  - `reset` (method, line 224) `def reset(self)`
-  - `__init__` (method, line 248) `def __init__(self)`
-  - `acquire` (method, line 252) `def acquire(self, target, operator, ttl_secs)`
-  - `release` (method, line 264) `def release(self, target, operator)`
-  - `status` (method, line 272) `def status(self, target)`
-  - `all_locks` (method, line 277) `def all_locks(self)`
-  - `_expire` (method, line 282) `def _expire(self)`
-  - `reset` (method, line 289) `def reset(self)`
-  - `__init__` (method, line 303) `def __init__(self)`
-  - `join` (method, line 307) `def join(self, name)`
-  - `heartbeat` (method, line 318) `def heartbeat(self, name)`
-  - `leave` (method, line 324) `def leave(self, name)`
-  - `active_operators` (method, line 329) `def active_operators(self)`
-  - `_expire` (method, line 334) `def _expire(self)`
-  - `reset` (method, line 340) `def reset(self)`
-  - `generate` (method, line 398) `def generate()`
-  - `login_required` (method, line 77) `def login_required(f)`
-  - `decorated` (method, line 133) `def decorated()`
-  - `decorated` (method, line 80) `def decorated()`
+  - `_authenticated_operator` (function, line 90) `def _authenticated_operator()`
+  - `_check_collab_permission` (function, line 100) `def _check_collab_permission(perm_name)`
+  - `_collab_login_required` (function, line 120) `def _collab_login_required(f)`
+  - `_collab_permission_required` (function, line 136) `def _collab_permission_required(perm_name)`
+  - `ColabEvent` (class, line 163) `class ColabEvent`
+  - `OperatorInfo` (class, line 176) `class OperatorInfo`
+  - `EventBus` (class, line 188) `class EventBus`
+  - `TargetLock` (class, line 250) `class TargetLock`
+  - `LockManager` (class, line 257) `class LockManager`
+  - `OperatorRegistry` (class, line 314) `class OperatorRegistry`
+  - `get_event_bus` (method, line 370) `def get_event_bus()`
+  - `get_lock_manager` (method, line 374) `def get_lock_manager()`
+  - `get_operator_registry` (method, line 378) `def get_operator_registry()`
+  - `publish_event` (method, line 382) `def publish_event(type, payload, operator)`
+  - `collab_ui` (method, line 396) `def collab_ui()`
+  - `stream` (method, line 411) `def stream()`
+  - `operators` (method, line 458) `def operators()`
+  - `publish` (method, line 470) `def publish()`
+  - `lock` (method, line 483) `def lock()`
+  - `unlock` (method, line 504) `def unlock()`
+  - `locks` (method, line 522) `def locks()`
+  - `history` (method, line 537) `def history()`
+  - `decorated` (method, line 124) `def decorated()`
+  - `decorator` (method, line 139) `def decorator(f)`
+  - `to_sse` (method, line 170) `def to_sse(self)`
+  - `__init__` (method, line 198) `def __init__(self)`
+  - `subscribe` (method, line 203) `def subscribe(self, subscriber_id)`
+  - `unsubscribe` (method, line 215) `def unsubscribe(self, subscriber_id)`
+  - `publish` (method, line 219) `def publish(self, event)`
+  - `recent` (method, line 234) `def recent(self, n)`
+  - `reset` (method, line 238) `def reset(self)`
+  - `__init__` (method, line 263) `def __init__(self)`
+  - `acquire` (method, line 267) `def acquire(self, target, operator, ttl_secs)`
+  - `release` (method, line 279) `def release(self, target, operator)`
+  - `status` (method, line 287) `def status(self, target)`
+  - `all_locks` (method, line 292) `def all_locks(self)`
+  - `_expire` (method, line 297) `def _expire(self)`
+  - `reset` (method, line 304) `def reset(self)`
+  - `__init__` (method, line 319) `def __init__(self)`
+  - `join` (method, line 323) `def join(self, name)`
+  - `heartbeat` (method, line 334) `def heartbeat(self, name)`
+  - `leave` (method, line 340) `def leave(self, name)`
+  - `active_operators` (method, line 345) `def active_operators(self)`
+  - `_expire` (method, line 350) `def _expire(self)`
+  - `reset` (method, line 356) `def reset(self)`
+  - `generate` (method, line 424) `def generate()`
+  - `login_required` (method, line 80) `def login_required(f)`
+  - `decorated` (method, line 141) `def decorated()`
+  - `decorated` (method, line 84) `def decorated()`
 - Depends on: `core/logging.py`, `modules/lazy_rbac.py`
 - Imported by: `cli/commands/collaboration.py`, `lazyc2.py`, `modules/engagement_hooks.py`, `modules/event_bus.py`, `skills/lazyown_mcp.py`, `tests/test_collab_and_onboarding.py`, `tests/test_core_modules.py`
 
@@ -351,9 +351,9 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `retModel` (function, line 38) `def retModel()`
-  - `delete_lines` (function, line 65) `def delete_lines(content, to_delete)`
-  - `no_html` (function, line 70) `def no_html(content)`
+  - `retModel` (function, line 40) `def retModel()`
+  - `delete_lines` (function, line 68) `def delete_lines(content, to_delete)`
+  - `no_html` (function, line 74) `def no_html(content)`
 - Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.py`, `contrib/legacy/lazyproxy.py`, `contrib/legacy/lazyseo.py`, `lazyc2.py`, `modules/llm_prompts.py`, `static/js/xterm.js`
 
 ## modules/command_executor.py
@@ -381,31 +381,31 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `EvidenceEntry` (class, line 183) `class EvidenceEntry`
-  - `EvidenceChain` (class, line 192) `class EvidenceChain`
-  - `export_pdf` (method, line 291) `def export_pdf(report_md, output_path, title, classification)`
-  - `export_to_elastic_ndjson` (method, line 373) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
-  - `export_to_cef` (method, line 413) `def export_to_cef(findings, output_path, vendor, product, version)`
-  - `ComplianceFinding` (class, line 456) `class ComplianceFinding`
-  - `ComplianceEngine` (class, line 468) `class ComplianceEngine`
-  - `__init__` (method, line 200) `def __init__(self, sessions_dir)`
-  - `_load` (method, line 207) `def _load(self)`
-  - `_hash_entry` (method, line 222) `def _hash_entry(self, entry)`
-  - `add_file` (method, line 226) `def add_file(self, filepath, operator, description)`
-  - `_append_to_file` (method, line 246) `def _append_to_file(self, entry)`
-  - `verify` (method, line 253) `def verify(self)`
-  - `get_chain_digest` (method, line 272) `def get_chain_digest(self)`
-  - `to_report` (method, line 275) `def to_report(self)`
-  - `__init__` (method, line 471) `def __init__(self, sessions_dir)`
-  - `map_findings_to_compliance` (method, line 475) `def map_findings_to_compliance(self, findings, frameworks)`
-  - `generate_compliance_report` (method, line 551) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
-  - `_count_by_severity` (method, line 606) `def _count_by_severity(self, findings)`
-  - `_count_by_category` (method, line 613) `def _count_by_category(self, findings)`
-  - `_load_findings` (method, line 620) `def _load_findings(self)`
-  - `export_pdf` (method, line 668) `def export_pdf(self, report, output_path)`
-  - `_format_compliance_report_md` (method, line 672) `def _format_compliance_report_md(self, report)`
-  - `add_evidence` (method, line 736) `def add_evidence(self, filepath, operator, description)`
-  - `verify_evidence_chain` (method, line 739) `def verify_evidence_chain(self)`
+  - `EvidenceEntry` (class, line 340) `class EvidenceEntry`
+  - `EvidenceChain` (class, line 349) `class EvidenceChain`
+  - `export_pdf` (method, line 449) `def export_pdf(report_md, output_path, title, classification)`
+  - `export_to_elastic_ndjson` (method, line 533) `def export_to_elastic_ndjson(findings, output_path, index_prefix)`
+  - `export_to_cef` (method, line 572) `def export_to_cef(findings, output_path, vendor, product, version)`
+  - `ComplianceFinding` (class, line 620) `class ComplianceFinding`
+  - `ComplianceEngine` (class, line 632) `class ComplianceEngine`
+  - `__init__` (method, line 357) `def __init__(self, sessions_dir)`
+  - `_load` (method, line 364) `def _load(self)`
+  - `_hash_entry` (method, line 379) `def _hash_entry(self, entry)`
+  - `add_file` (method, line 383) `def add_file(self, filepath, operator, description)`
+  - `_append_to_file` (method, line 403) `def _append_to_file(self, entry)`
+  - `verify` (method, line 410) `def verify(self)`
+  - `get_chain_digest` (method, line 429) `def get_chain_digest(self)`
+  - `to_report` (method, line 432) `def to_report(self)`
+  - `__init__` (method, line 635) `def __init__(self, sessions_dir)`
+  - `map_findings_to_compliance` (method, line 639) `def map_findings_to_compliance(self, findings, frameworks)`
+  - `generate_compliance_report` (method, line 710) `def generate_compliance_report(self, findings, include_evidence_chain, include_siem_formats)`
+  - `_count_by_severity` (method, line 765) `def _count_by_severity(self, findings)`
+  - `_count_by_category` (method, line 772) `def _count_by_category(self, findings)`
+  - `_load_findings` (method, line 779) `def _load_findings(self)`
+  - `export_pdf` (method, line 831) `def export_pdf(self, report, output_path)`
+  - `_format_compliance_report_md` (method, line 835) `def _format_compliance_report_md(self, report)`
+  - `add_evidence` (method, line 901) `def add_evidence(self, filepath, operator, description)`
+  - `verify_evidence_chain` (method, line 904) `def verify_evidence_chain(self)`
 - Depends on: `core/logging.py`
 - Imported by: `lazyc2.py`
 
@@ -415,28 +415,28 @@ Previous: [KB_modules.md](KB_modules.md)
 - Language: py
 - Symbols:
   - `HookRule` (class, line 45) `class HookRule`
-  - `HookEngine` (class, line 250) `class HookEngine`
-  - `get_hook_engine` (method, line 580) `def get_hook_engine()`
+  - `HookEngine` (class, line 258) `class HookEngine`
+  - `get_hook_engine` (method, line 586) `def get_hook_engine()`
   - `can_fire` (method, line 56) `def can_fire(self, now)`
   - `mark_fired` (method, line 65) `def mark_fired(self)`
   - `to_dict` (method, line 69) `def to_dict(self)`
-  - `__init__` (method, line 262) `def __init__(self)`
-  - `register_action_handler` (method, line 269) `def register_action_handler(self, action_type, handler)`
-  - `set_placeholders` (method, line 278) `def set_placeholders(self, placeholders)`
-  - `load_rules` (method, line 282) `def load_rules(self, path)`
-  - `save_rules` (method, line 314) `def save_rules(self, path)`
-  - `add_rule` (method, line 322) `def add_rule(self, rule_dict)`
-  - `remove_rule` (method, line 337) `def remove_rule(self, name)`
-  - `enable_rule` (method, line 351) `def enable_rule(self, name, enabled)`
-  - `_match_trigger` (method, line 361) `def _match_trigger(self, rule_trigger, event, context)`
-  - `_resolve_placeholders` (method, line 408) `def _resolve_placeholders(self, text, context)`
-  - `_execute_action` (method, line 422) `def _execute_action(self, action, context)`
-  - `_execute_shell_command` (method, line 461) `def _execute_shell_command(self, command, context)`
-  - `_execute_local_command` (method, line 472) `def _execute_local_command(command)`
-  - `_execute_cred_reuse` (method, line 498) `def _execute_cred_reuse(self, context)`
-  - `fire` (method, line 514) `def fire(self, event, context)`
-  - `list_rules` (method, line 565) `def list_rules(self)`
-  - `get_rule` (method, line 569) `def get_rule(self, name)`
+  - `__init__` (method, line 270) `def __init__(self)`
+  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
+  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
+  - `load_rules` (method, line 290) `def load_rules(self, path)`
+  - `save_rules` (method, line 322) `def save_rules(self, path)`
+  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
+  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
+  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
+  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
+  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
+  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
+  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
+  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
+  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
+  - `fire` (method, line 516) `def fire(self, event, context)`
+  - `list_rules` (method, line 571) `def list_rules(self)`
+  - `get_rule` (method, line 575) `def get_rule(self, name)`
 - Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
 - Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
 
@@ -445,17 +445,17 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: data_access
 - Language: py
 - Symbols:
-  - `init` (function, line 35) `def init(path, watch)`
-  - `get_config` (function, line 52) `def get_config(key, default)`
-  - `set_config` (function, line 65) `def set_config()`
-  - `set_config_dict` (function, line 79) `def set_config_dict(updates)`
-  - `reload_config` (function, line 89) `def reload_config()`
-  - `stop_watcher` (function, line 95) `def stop_watcher()`
-  - `_ensure_loaded` (function, line 104) `def _ensure_loaded()`
-  - `_load` (function, line 111) `def _load()`
-  - `_persist` (function, line 129) `def _persist()`
-  - `_start_watcher` (function, line 141) `def _start_watcher(interval)`
-  - `_watch_loop` (function, line 146) `def _watch_loop()`
+  - `init` (function, line 36) `def init(path, watch)`
+  - `get_config` (function, line 53) `def get_config(key, default)`
+  - `set_config` (function, line 66) `def set_config()`
+  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
+  - `reload_config` (function, line 90) `def reload_config()`
+  - `stop_watcher` (function, line 96) `def stop_watcher()`
+  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
+  - `_load` (function, line 113) `def _load()`
+  - `_persist` (function, line 131) `def _persist()`
+  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
+  - `_watch_loop` (function, line 148) `def _watch_loop()`
 - Depends on: `core/config.py`, `core/logging.py`
 - Imported by: `tests/test_core_modules.py`
 
@@ -466,7 +466,7 @@ Previous: [KB_modules.md](KB_modules.md)
 - Symbols:
   - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
   - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
-  - `get_credential_reuse_engine` (method, line 365) `def get_credential_reuse_engine()`
+  - `get_credential_reuse_engine` (method, line 358) `def get_credential_reuse_engine()`
   - `to_dict` (method, line 43) `def to_dict(self)`
   - `__init__` (method, line 80) `def __init__(self)`
   - `_load_cache` (method, line 85) `def _load_cache(self)`
@@ -477,9 +477,9 @@ Previous: [KB_modules.md](KB_modules.md)
   - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
   - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
   - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
-  - `suggest_from_state_manager` (method, line 280) `def suggest_from_state_manager(self, state_manager, limit)`
-  - `suggest_from_world_model` (method, line 310) `def suggest_from_world_model(self, world_model, limit)`
-  - `get_summary` (method, line 343) `def get_summary(self, candidates)`
+  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
+  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
+  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
 

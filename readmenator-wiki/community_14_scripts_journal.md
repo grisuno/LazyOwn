@@ -36,12 +36,12 @@ This community groups 3 file(s) rooted at `scripts` with dominant language py (c
 - `__init__` (method, `tests/test_journal.py:19`) `def __init__(self, responses)` - Store the responses keyed by a fragment of the query string.
 - `__call__` (method, `tests/test_journal.py:24`) `def __call__(self, args)` - Record the call and return the matching payload as JSON.
 - `_success_responses` (method, `tests/test_journal.py:34`) `def _success_responses()`
-- `test_config_from_remote_slug` (method, `tests/test_journal.py:49`) `def test_config_from_remote_slug()` - A repository slug resolves without touching git.
-- `test_config_rejects_bare_name` (method, `tests/test_journal.py:56`) `def test_config_rejects_bare_name()` - A slug without a separator is rejected.
-- `test_post_entry_uses_resolved_ids` (method, `tests/test_journal.py:62`) `def test_post_entry_uses_resolved_ids()` - The create mutation receives the repository and category ids.
-- `test_entries_returns_nodes` (method, `tests/test_journal.py:71`) `def test_entries_returns_nodes()` - Reading returns the discussion nodes.
-- `test_missing_category_raises` (method, `tests/test_journal.py:79`) `def test_missing_category_raises()` - A category that is not present raises instead of silently posting.
-- `test_graphql_errors_raise` (method, `tests/test_journal.py:91`) `def test_graphql_errors_raise()` - A GraphQL error payload raises a JournalError.
+- `test_config_from_remote_slug` (method, `tests/test_journal.py:51`) `def test_config_from_remote_slug()` - A repository slug resolves without touching git.
+- `test_config_rejects_bare_name` (method, `tests/test_journal.py:58`) `def test_config_rejects_bare_name()` - A slug without a separator is rejected.
+- `test_post_entry_uses_resolved_ids` (method, `tests/test_journal.py:64`) `def test_post_entry_uses_resolved_ids()` - The create mutation receives the repository and category ids.
+- `test_entries_returns_nodes` (method, `tests/test_journal.py:73`) `def test_entries_returns_nodes()` - Reading returns the discussion nodes.
+- `test_missing_category_raises` (method, `tests/test_journal.py:81`) `def test_missing_category_raises()` - A category that is not present raises instead of silently posting.
+- `test_graphql_errors_raise` (method, `tests/test_journal.py:93`) `def test_graphql_errors_raise()` - A GraphQL error payload raises a JournalError.
 
 ## Internal vs External Edges
 

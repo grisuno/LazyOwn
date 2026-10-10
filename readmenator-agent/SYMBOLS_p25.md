@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
+| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
@@ -249,70 +254,70 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `__getitem__` | method | `telegram_c2.py:83` | `def __getitem__(self, key)` |
 | `__init__` | method | `telegram_c2.py:19` | `def __init__(self)` |
 | `__init__` | method | `telegram_c2.py:78` | `def __init__(self, config_dict)` |
-| `add_cli` | method | `telegram_c2.py:189` | `def add_cli(update, context)` |
+| `add_cli` | method | `telegram_c2.py:191` | `def add_cli(update, context)` |
 | `check_lockout` | method | `telegram_c2.py:31` | `def check_lockout(self, user_id)` |
 | `check_rate_limit` | method | `telegram_c2.py:40` | `def check_rate_limit(self, user_id)` |
 | `create_session` | method | `telegram_c2.py:53` | `def create_session(self, user_id, client_id)` |
-| `download_c2` | method | `telegram_c2.py:226` | `def download_c2(update, context)` |
-| `exce_cmd` | method | `telegram_c2.py:115` | `def exce_cmd(update, context)` |
-| `handle_file` | method | `telegram_c2.py:200` | `def handle_file(update, context)` |
-| `load_payload` | method | `telegram_c2.py:86` | `def load_payload()` |
-| `main` | method | `telegram_c2.py:278` | `def main()` |
+| `download_c2` | method | `telegram_c2.py:230` | `def download_c2(update, context)` |
+| `exce_cmd` | method | `telegram_c2.py:116` | `def exce_cmd(update, context)` |
+| `handle_file` | method | `telegram_c2.py:203` | `def handle_file(update, context)` |
+| `load_payload` | method | `telegram_c2.py:87` | `def load_payload()` |
+| `main` | method | `telegram_c2.py:286` | `def main()` |
 | `register_failed_attempt` | method | `telegram_c2.py:24` | `def register_failed_attempt(self, user_id)` |
-| `send_connected_clients` | method | `telegram_c2.py:264` | `def send_connected_clients(update, context)` |
-| `start` | method | `telegram_c2.py:91` | `def start(update, context)` |
-| `validate_session` | method | `telegram_c2.py:62` | `def validate_session(self, user_id)` |
-| `SecureSessionManager` | class | `telegram_hermes.py:182` | `class SecureSessionManager` |
-| `__init__` | method | `telegram_hermes.py:183` | `def __init__(self)` |
-| `add_cli` | method | `telegram_hermes.py:421` | `def add_cli(update, context)` |
-| `c2_command` | method | `telegram_hermes.py:463` | `def c2_command(update, context)` |
-| `c2_request` | function | `telegram_hermes.py:144` | `def c2_request(path, method, body)` |
-| `check_lockout` | method | `telegram_hermes.py:195` | `def check_lockout(self, user_id)` |
-| `check_rate_limit` | method | `telegram_hermes.py:204` | `def check_rate_limit(self, user_id)` |
-| `config_cmd` | method | `telegram_hermes.py:374` | `def config_cmd(update, context)` |
-| `create_session` | method | `telegram_hermes.py:219` | `def create_session(self, user_id, client_id)` |
-| `cron_schedule_cmd` | method | `telegram_hermes.py:563` | `def cron_schedule_cmd(update, context)` |
-| `delegate_task_cmd` | method | `telegram_hermes.py:531` | `def delegate_task_cmd(update, context)` |
-| `download_file_cmd` | method | `telegram_hermes.py:646` | `def download_file_cmd(update, context)` |
-| `execute_command` | method | `telegram_hermes.py:305` | `def execute_command(update, context)` |
-| `get_client_id` | method | `telegram_hermes.py:239` | `def get_client_id(self, user_id)` |
-| `handle_file_upload` | method | `telegram_hermes.py:674` | `def handle_file_upload(update, context)` |
-| `help_cmd` | method | `telegram_hermes.py:277` | `def help_cmd(update, context)` |
-| `list_clients` | method | `telegram_hermes.py:436` | `def list_clients(update, context)` |
-| `load_payload` | function | `telegram_hermes.py:174` | `def load_payload()` |
-| `main` | method | `telegram_hermes.py:766` | `def main()` |
-| `register_failed_attempt` | method | `telegram_hermes.py:188` | `def register_failed_attempt(self, user_id)` |
-| `run_agent` | method | `telegram_hermes.py:499` | `def run_agent(update, context)` |
+| `send_connected_clients` | method | `telegram_c2.py:271` | `def send_connected_clients(update, context)` |
+| `start` | method | `telegram_c2.py:93` | `def start(update, context)` |
+| `validate_session` | method | `telegram_c2.py:61` | `def validate_session(self, user_id)` |
+| `SecureSessionManager` | class | `telegram_hermes.py:186` | `class SecureSessionManager` |
+| `__init__` | method | `telegram_hermes.py:187` | `def __init__(self)` |
+| `add_cli` | method | `telegram_hermes.py:422` | `def add_cli(update, context)` |
+| `c2_command` | method | `telegram_hermes.py:464` | `def c2_command(update, context)` |
+| `c2_request` | function | `telegram_hermes.py:145` | `def c2_request(path, method, body)` |
+| `check_lockout` | method | `telegram_hermes.py:199` | `def check_lockout(self, user_id)` |
+| `check_rate_limit` | method | `telegram_hermes.py:208` | `def check_rate_limit(self, user_id)` |
+| `config_cmd` | method | `telegram_hermes.py:373` | `def config_cmd(update, context)` |
+| `create_session` | method | `telegram_hermes.py:221` | `def create_session(self, user_id, client_id)` |
+| `cron_schedule_cmd` | method | `telegram_hermes.py:564` | `def cron_schedule_cmd(update, context)` |
+| `delegate_task_cmd` | method | `telegram_hermes.py:533` | `def delegate_task_cmd(update, context)` |
+| `download_file_cmd` | method | `telegram_hermes.py:647` | `def download_file_cmd(update, context)` |
+| `execute_command` | method | `telegram_hermes.py:306` | `def execute_command(update, context)` |
+| `get_client_id` | method | `telegram_hermes.py:241` | `def get_client_id(self, user_id)` |
+| `handle_file_upload` | method | `telegram_hermes.py:675` | `def handle_file_upload(update, context)` |
+| `help_cmd` | method | `telegram_hermes.py:278` | `def help_cmd(update, context)` |
+| `list_clients` | method | `telegram_hermes.py:437` | `def list_clients(update, context)` |
+| `load_payload` | function | `telegram_hermes.py:177` | `def load_payload()` |
+| `main` | method | `telegram_hermes.py:772` | `def main()` |
+| `register_failed_attempt` | method | `telegram_hermes.py:192` | `def register_failed_attempt(self, user_id)` |
+| `run_agent` | method | `telegram_hermes.py:504` | `def run_agent(update, context)` |
 | `run_lazyown_command` | function | `telegram_hermes.py:61` | `def run_lazyown_command(command, timeout)` |
-| `set_client_id` | method | `telegram_hermes.py:243` | `def set_client_id(self, user_id, client_id)` |
-| `sitrep` | method | `telegram_hermes.py:338` | `def sitrep(update, context)` |
-| `start` | method | `telegram_hermes.py:252` | `def start(update, context)` |
-| `status_cmd` | method | `telegram_hermes.py:596` | `def status_cmd(update, context)` |
-| `stop_daemon_cmd` | method | `telegram_hermes.py:629` | `def stop_daemon_cmd(update, context)` |
-| `text_command` | method | `telegram_hermes.py:708` | `def text_command(update, context)` |
-| `validate_session` | method | `telegram_hermes.py:227` | `def validate_session(self, user_id)` |
-| `decrypt_data` | function | `test/config.py:31` | `def decrypt_data(b64_data)` |
-| `encrypt_data` | function | `test/config.py:23` | `def encrypt_data(data)` |
-| `get_encrypted_command` | function | `test/test_commands.py:49` | `def get_encrypted_command()` |
-| `post_result` | function | `test/test_commands.py:56` | `def post_result(result_data)` |
-| `send_command_via_web` | function | `test/test_commands.py:35` | `def send_command_via_web(command)` |
-| `test_discover` | function | `test/test_commands.py:97` | `def test_discover()` |
-| `test_download` | function | `test/test_commands.py:123` | `def test_download()` |
-| `test_migrate` | function | `test/test_commands.py:69` | `def test_migrate()` |
-| `test_persistence` | function | `test/test_commands.py:160` | `def test_persistence()` |
-| `test_portscan` | function | `test/test_commands.py:87` | `def test_portscan()` |
-| `test_proxy` | function | `test/test_commands.py:107` | `def test_proxy()` |
-| `test_reverse_shell` | function | `test/test_commands.py:187` | `def test_reverse_shell()` |
-| `test_shutdown` | function | `test/test_commands.py:196` | `def test_shutdown()` |
-| `test_simulate` | function | `test/test_commands.py:178` | `def test_simulate()` |
-| `test_softenum` | function | `test/test_commands.py:169` | `def test_softenum()` |
-| `test_uac_bypass` | function | `test/test_commands.py:78` | `def test_uac_bypass()` |
-| `test_upload` | function | `test/test_commands.py:143` | `def test_upload()` |
-| `TestFunctions` | class | `testmeneitor.py:33` | `class TestFunctions(TestCase)` |
-| `extract_functions` | function | `testmeneitor.py:12` | `def extract_functions(script_path)` |
-| `run_command_with_timeout` | function | `testmeneitor.py:51` | `def run_command_with_timeout(command, timeout)` |
-| `run_tests_with_bash` | function | `testmeneitor.py:68` | `def run_tests_with_bash(script_path, functions)` |
-| `run_tests_with_script` | function | `testmeneitor.py:28` | `def run_tests_with_script(script_path, functions)` |
+| `set_client_id` | method | `telegram_hermes.py:245` | `def set_client_id(self, user_id, client_id)` |
+| `sitrep` | method | `telegram_hermes.py:337` | `def sitrep(update, context)` |
+| `start` | method | `telegram_hermes.py:255` | `def start(update, context)` |
+| `status_cmd` | method | `telegram_hermes.py:597` | `def status_cmd(update, context)` |
+| `stop_daemon_cmd` | method | `telegram_hermes.py:630` | `def stop_daemon_cmd(update, context)` |
+| `text_command` | method | `telegram_hermes.py:712` | `def text_command(update, context)` |
+| `validate_session` | method | `telegram_hermes.py:229` | `def validate_session(self, user_id)` |
+| `decrypt_data` | function | `test/config.py:33` | `def decrypt_data(b64_data)` |
+| `encrypt_data` | function | `test/config.py:24` | `def encrypt_data(data)` |
+| `get_encrypted_command` | function | `test/test_commands.py:51` | `def get_encrypted_command()` |
+| `post_result` | function | `test/test_commands.py:59` | `def post_result(result_data)` |
+| `send_command_via_web` | function | `test/test_commands.py:36` | `def send_command_via_web(command)` |
+| `test_discover` | function | `test/test_commands.py:110` | `def test_discover()` |
+| `test_download` | function | `test/test_commands.py:138` | `def test_download()` |
+| `test_migrate` | function | `test/test_commands.py:79` | `def test_migrate()` |
+| `test_persistence` | function | `test/test_commands.py:176` | `def test_persistence()` |
+| `test_portscan` | function | `test/test_commands.py:99` | `def test_portscan()` |
+| `test_proxy` | function | `test/test_commands.py:121` | `def test_proxy()` |
+| `test_reverse_shell` | function | `test/test_commands.py:206` | `def test_reverse_shell()` |
+| `test_shutdown` | function | `test/test_commands.py:216` | `def test_shutdown()` |
+| `test_simulate` | function | `test/test_commands.py:196` | `def test_simulate()` |
+| `test_softenum` | function | `test/test_commands.py:186` | `def test_softenum()` |
+| `test_uac_bypass` | function | `test/test_commands.py:89` | `def test_uac_bypass()` |
+| `test_upload` | function | `test/test_commands.py:159` | `def test_upload()` |
+| `TestFunctions` | class | `testmeneitor.py:35` | `class TestFunctions(TestCase)` |
+| `extract_functions` | function | `testmeneitor.py:13` | `def extract_functions(script_path)` |
+| `run_command_with_timeout` | function | `testmeneitor.py:54` | `def run_command_with_timeout(command, timeout)` |
+| `run_tests_with_bash` | function | `testmeneitor.py:80` | `def run_tests_with_bash(script_path, functions)` |
+| `run_tests_with_script` | function | `testmeneitor.py:30` | `def run_tests_with_script(script_path, functions)` |
 | `_reset_world_model_singleton` | function | `tests/conftest.py:16` | `def _reset_world_model_singleton()` |
 | `test_autonomous_flow_integration` | function | `tests/integration_autonomous_flow.py:15` | `def test_autonomous_flow_integration()` |
 | `backup_files` | function | `tests/run_mutation_addon_creator.py:94` | `def backup_files(mutations, base_dir)` |
@@ -351,108 +356,108 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `_run_tests` | function | `tests/run_mutation_shell_semantics.py:41` | `def _run_tests()` |
 | `main` | function | `tests/run_mutation_shell_semantics.py:53` | `def main()` |
 | `backup_files` | function | `tests/run_mutation_tests.py:69` | `def backup_files(mutations, base_dir)` |
-| `main` | function | `tests/run_mutation_tests.py:100` | `def main()` |
+| `main` | function | `tests/run_mutation_tests.py:103` | `def main()` |
 | `restore_files` | function | `tests/run_mutation_tests.py:78` | `def restore_files(backups, base_dir, mutations)` |
 | `run_tests` | function | `tests/run_mutation_tests.py:84` | `def run_tests()` |
 | `_backups` | function | `tests/run_mutation_ux_usability.py:71` | `def _backups(mutations)` |
 | `_restore` | function | `tests/run_mutation_ux_usability.py:79` | `def _restore(backups, mutations)` |
 | `_run_tests` | function | `tests/run_mutation_ux_usability.py:60` | `def _run_tests()` |
 | `main` | function | `tests/run_mutation_ux_usability.py:84` | `def main()` |
-| `TestACIEngineComplete` | class | `tests/test_aci_planner.py:561` | `class TestACIEngineComplete` |
-| `TestACIEngineReplan` | class | `tests/test_aci_planner.py:488` | `class TestACIEngineReplan` |
-| `TestACIEngineShouldReplan` | class | `tests/test_aci_planner.py:440` | `class TestACIEngineShouldReplan` |
-| `TestACIEngineStatus` | class | `tests/test_aci_planner.py:400` | `class TestACIEngineStatus` |
-| `TestACIGoal` | class | `tests/test_aci_planner.py:100` | `class TestACIGoal` |
-| `TestACIPlan` | class | `tests/test_aci_planner.py:162` | `class TestACIPlan` |
-| `TestACIPlannerLLM` | class | `tests/test_aci_planner.py:325` | `class TestACIPlannerLLM` |
-| `TestACIPlannerStatic` | class | `tests/test_aci_planner.py:226` | `class TestACIPlannerStatic` |
-| `TestACIReflector` | class | `tests/test_aci_planner.py:589` | `class TestACIReflector` |
-| `TestAttackPhase` | class | `tests/test_aci_planner.py:121` | `class TestAttackPhase` |
-| `TestCLI` | class | `tests/test_aci_planner.py:831` | `class TestCLI` |
-| `TestMCPBridges` | class | `tests/test_aci_planner.py:670` | `class TestMCPBridges` |
-| `TestPersistenceHelpers` | class | `tests/test_aci_planner.py:764` | `class TestPersistenceHelpers` |
-| `_llm_response` | method | `tests/test_aci_planner.py:326` | `def _llm_response(self, phases)` |
-| `_make_engine` | function | `tests/test_aci_planner.py:85` | `def _make_engine(tmp_path, api_key)` |
-| `_make_goal` | function | `tests/test_aci_planner.py:32` | `def _make_goal()` |
-| `_make_plan` | method | `tests/test_aci_planner.py:163` | `def _make_plan(self, phase_statuses)` |
-| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:590` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
-| `_make_planner` | function | `tests/test_aci_planner.py:74` | `def _make_planner(tmp_path, api_key)` |
-| `_patched_paths` | function | `tests/test_aci_planner.py:40` | `def _patched_paths(tmp_path)` |
-| `_start_patches` | function | `tests/test_aci_planner.py:53` | `def _start_patches(tmp_path)` |
-| `_stop_patches` | function | `tests/test_aci_planner.py:69` | `def _stop_patches(patchers)` |
-| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:441` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
-| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:205` | `def test_active_phase_none_when_all_done(self)` |
-| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:200` | `def test_active_phase_returns_first_pending_or_active(self)` |
-| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:791` | `def test_archive_plan_appends(self, tmp_path)` |
-| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:562` | `def test_complete_archives_plan(self, tmp_path)` |
-| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:572` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
-| `test_complete_no_plan` | method | `tests/test_aci_planner.py:581` | `def test_complete_no_plan(self, tmp_path)` |
-| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:188` | `def test_completion_pct_all_done(self)` |
-| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:192` | `def test_completion_pct_none_done(self)` |
-| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:196` | `def test_completion_pct_partial(self)` |
-| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:807` | `def test_count_objectives_by_status(self, tmp_path)` |
-| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:823` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
-| `test_defaults` | method | `tests/test_aci_planner.py:111` | `def test_defaults(self)` |
-| `test_fields` | method | `tests/test_aci_planner.py:101` | `def test_fields(self)` |
-| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:239` | `def test_first_phase_is_active(self, tmp_path)` |
-| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:140` | `def test_from_dict_ignores_extra_keys(self)` |
-| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:387` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
-| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:379` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
-| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:360` | `def test_llm_objectives_injected(self, tmp_path)` |
-| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:335` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
-| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:784` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
-| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:779` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
-| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:746` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
-| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:680` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
-| `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:702` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
-| `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:692` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
-| `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:712` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
-| `test_mcp_aci_replan_with_plan` | method | `tests/test_aci_planner.py:722` | `def test_mcp_aci_replan_with_plan(self, tmp_path)` |
-| `test_mcp_aci_status_after_plan` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_status_after_plan(self, tmp_path)` |
-| `test_mcp_aci_status_no_plan` | method | `tests/test_aci_planner.py:671` | `def test_mcp_aci_status_no_plan(self, tmp_path)` |
-| `test_no_subcommand_returns_nonzero` | method | `tests/test_aci_planner.py:868` | `def test_no_subcommand_returns_nonzero(self, tmp_path)` |
-| `test_objective_source_is_aci_planner` | method | `tests/test_aci_planner.py:275` | `def test_objective_source_is_aci_planner(self, tmp_path)` |
-| `test_objectives_contain_target_in_text` | method | `tests/test_aci_planner.py:305` | `def test_objectives_contain_target_in_text(self, tmp_path)` |
-| `test_objectives_ids_match_phase_objectives` | method | `tests/test_aci_planner.py:258` | `def test_objectives_ids_match_phase_objectives(self, tmp_path)` |
-| `test_objectives_injected_into_file` | method | `tests/test_aci_planner.py:250` | `def test_objectives_injected_into_file(self, tmp_path)` |
-| `test_phase_filter_restricts_phases` | method | `tests/test_aci_planner.py:269` | `def test_phase_filter_restricts_phases(self, tmp_path)` |
-| `test_plan_command` | method | `tests/test_aci_planner.py:832` | `def test_plan_command(self, tmp_path)` |
-| `test_plan_creates_file` | method | `tests/test_aci_planner.py:227` | `def test_plan_creates_file(self, tmp_path)` |
-| `test_plan_domain_stored` | method | `tests/test_aci_planner.py:300` | `def test_plan_domain_stored(self, tmp_path)` |
-| `test_plan_has_phases` | method | `tests/test_aci_planner.py:234` | `def test_plan_has_phases(self, tmp_path)` |
-| `test_plan_id_is_unique` | method | `tests/test_aci_planner.py:289` | `def test_plan_id_is_unique(self, tmp_path)` |
-| `test_plan_roundtrip_from_disk` | method | `tests/test_aci_planner.py:312` | `def test_plan_roundtrip_from_disk(self, tmp_path)` |
-| `test_plan_status_is_active` | method | `tests/test_aci_planner.py:284` | `def test_plan_status_is_active(self, tmp_path)` |
-| `test_plan_target_stored` | method | `tests/test_aci_planner.py:295` | `def test_plan_target_stored(self, tmp_path)` |
-| `test_reflect_blocked_phase_generates_lesson` | method | `tests/test_aci_planner.py:617` | `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)` |
-| `test_reflect_command_no_plan` | method | `tests/test_aci_planner.py:873` | `def test_reflect_command_no_plan(self, tmp_path, capsys)` |
-| `test_reflect_done_after_replan_generates_lesson` | method | `tests/test_aci_planner.py:626` | `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)` |
-| `test_reflect_lesson_has_required_fields` | method | `tests/test_aci_planner.py:656` | `def test_reflect_lesson_has_required_fields(self, tmp_path)` |
-| `test_reflect_no_lessons_clean_plan` | method | `tests/test_aci_planner.py:634` | `def test_reflect_no_lessons_clean_plan(self, tmp_path)` |
-| `test_reflect_persists_to_file` | method | `tests/test_aci_planner.py:642` | `def test_reflect_persists_to_file(self, tmp_path)` |
-| `test_replan_command_no_plan` | method | `tests/test_aci_planner.py:855` | `def test_replan_command_no_plan(self, tmp_path, capsys)` |
-| `test_replan_increments_count` | method | `tests/test_aci_planner.py:495` | `def test_replan_increments_count(self, tmp_path)` |
-| `test_replan_injects_new_objectives` | method | `tests/test_aci_planner.py:509` | `def test_replan_injects_new_objectives(self, tmp_path)` |
-| `test_replan_no_plan` | method | `tests/test_aci_planner.py:489` | `def test_replan_no_plan(self, tmp_path)` |
-| `test_replan_records_reason` | method | `tests/test_aci_planner.py:502` | `def test_replan_records_reason(self, tmp_path)` |
-| `test_replan_status_returns_to_active` | method | `tests/test_aci_planner.py:519` | `def test_replan_status_returns_to_active(self, tmp_path)` |
-| `test_replan_twice_counts_two` | method | `tests/test_aci_planner.py:526` | `def test_replan_twice_counts_two(self, tmp_path)` |
-| `test_replan_with_llm` | method | `tests/test_aci_planner.py:534` | `def test_replan_with_llm(self, tmp_path)` |
-| `test_round_trip` | method | `tests/test_aci_planner.py:215` | `def test_round_trip(self)` |
-| `test_save_load_plan_roundtrip` | method | `tests/test_aci_planner.py:765` | `def test_save_load_plan_roundtrip(self, tmp_path)` |
-| `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:455` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
-| `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:475` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
-| `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:451` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
-| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:464` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
-| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:430` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
-| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:842` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
-| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:423` | `def test_status_completion_zero_at_start(self, tmp_path)` |
-| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:416` | `def test_status_has_active_phase(self, tmp_path)` |
-| `test_status_no_plan` | method | `tests/test_aci_planner.py:401` | `def test_status_no_plan(self, tmp_path)` |
-| `test_status_with_plan` | method | `tests/test_aci_planner.py:406` | `def test_status_with_plan(self, tmp_path)` |
-| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:244` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
-| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:209` | `def test_to_dict_has_completion_pct(self)` |
-| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:122` | `def test_to_dict_round_trip(self)` |
+| `TestACIEngineComplete` | class | `tests/test_aci_planner.py:596` | `class TestACIEngineComplete` |
+| `TestACIEngineReplan` | class | `tests/test_aci_planner.py:522` | `class TestACIEngineReplan` |
+| `TestACIEngineShouldReplan` | class | `tests/test_aci_planner.py:462` | `class TestACIEngineShouldReplan` |
+| `TestACIEngineStatus` | class | `tests/test_aci_planner.py:421` | `class TestACIEngineStatus` |
+| `TestACIGoal` | class | `tests/test_aci_planner.py:111` | `class TestACIGoal` |
+| `TestACIPlan` | class | `tests/test_aci_planner.py:177` | `class TestACIPlan` |
+| `TestACIPlannerLLM` | class | `tests/test_aci_planner.py:345` | `class TestACIPlannerLLM` |
+| `TestACIPlannerStatic` | class | `tests/test_aci_planner.py:244` | `class TestACIPlannerStatic` |
+| `TestACIReflector` | class | `tests/test_aci_planner.py:626` | `class TestACIReflector` |
+| `TestAttackPhase` | class | `tests/test_aci_planner.py:134` | `class TestAttackPhase` |
+| `TestCLI` | class | `tests/test_aci_planner.py:914` | `class TestCLI` |
+| `TestMCPBridges` | class | `tests/test_aci_planner.py:723` | `class TestMCPBridges` |
+| `TestPersistenceHelpers` | class | `tests/test_aci_planner.py:829` | `class TestPersistenceHelpers` |
+| `_llm_response` | method | `tests/test_aci_planner.py:346` | `def _llm_response(self, phases)` |
+| `_make_engine` | function | `tests/test_aci_planner.py:94` | `def _make_engine(tmp_path, api_key)` |
+| `_make_goal` | function | `tests/test_aci_planner.py:33` | `def _make_goal()` |
+| `_make_plan` | method | `tests/test_aci_planner.py:178` | `def _make_plan(self, phase_statuses)` |
+| `_make_plan_with_statuses` | method | `tests/test_aci_planner.py:627` | `def _make_plan_with_statuses(self, phase_statuses, replan_count)` |
+| `_make_planner` | function | `tests/test_aci_planner.py:82` | `def _make_planner(tmp_path, api_key)` |
+| `_patched_paths` | function | `tests/test_aci_planner.py:47` | `def _patched_paths(tmp_path)` |
+| `_start_patches` | function | `tests/test_aci_planner.py:60` | `def _start_patches(tmp_path)` |
+| `_stop_patches` | function | `tests/test_aci_planner.py:77` | `def _stop_patches(patchers)` |
+| `_write_objectives_blocked` | method | `tests/test_aci_planner.py:463` | `def _write_objectives_blocked(self, obj_file, obj_ids)` |
+| `test_active_phase_none_when_all_done` | method | `tests/test_aci_planner.py:221` | `def test_active_phase_none_when_all_done(self)` |
+| `test_active_phase_returns_first_pending_or_active` | method | `tests/test_aci_planner.py:216` | `def test_active_phase_returns_first_pending_or_active(self)` |
+| `test_archive_plan_appends` | method | `tests/test_aci_planner.py:859` | `def test_archive_plan_appends(self, tmp_path)` |
+| `test_complete_archives_plan` | method | `tests/test_aci_planner.py:597` | `def test_complete_archives_plan(self, tmp_path)` |
+| `test_complete_marks_plan_as_completed` | method | `tests/test_aci_planner.py:607` | `def test_complete_marks_plan_as_completed(self, tmp_path)` |
+| `test_complete_no_plan` | method | `tests/test_aci_planner.py:617` | `def test_complete_no_plan(self, tmp_path)` |
+| `test_completion_pct_all_done` | method | `tests/test_aci_planner.py:204` | `def test_completion_pct_all_done(self)` |
+| `test_completion_pct_none_done` | method | `tests/test_aci_planner.py:208` | `def test_completion_pct_none_done(self)` |
+| `test_completion_pct_partial` | method | `tests/test_aci_planner.py:212` | `def test_completion_pct_partial(self)` |
+| `test_count_objectives_by_status` | method | `tests/test_aci_planner.py:876` | `def test_count_objectives_by_status(self, tmp_path)` |
+| `test_count_objectives_returns_empty_for_missing_file` | method | `tests/test_aci_planner.py:904` | `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)` |
+| `test_defaults` | method | `tests/test_aci_planner.py:122` | `def test_defaults(self)` |
+| `test_fields` | method | `tests/test_aci_planner.py:112` | `def test_fields(self)` |
+| `test_first_phase_is_active` | method | `tests/test_aci_planner.py:257` | `def test_first_phase_is_active(self, tmp_path)` |
+| `test_from_dict_ignores_extra_keys` | method | `tests/test_aci_planner.py:154` | `def test_from_dict_ignores_extra_keys(self)` |
+| `test_llm_bad_json_falls_back_to_static` | method | `tests/test_aci_planner.py:407` | `def test_llm_bad_json_falls_back_to_static(self, tmp_path)` |
+| `test_llm_failure_falls_back_to_static` | method | `tests/test_aci_planner.py:399` | `def test_llm_failure_falls_back_to_static(self, tmp_path)` |
+| `test_llm_objectives_injected` | method | `tests/test_aci_planner.py:380` | `def test_llm_objectives_injected(self, tmp_path)` |
+| `test_llm_phases_used_when_api_key_set` | method | `tests/test_aci_planner.py:355` | `def test_llm_phases_used_when_api_key_set(self, tmp_path)` |
+| `test_load_plan_returns_none_for_corrupt` | method | `tests/test_aci_planner.py:851` | `def test_load_plan_returns_none_for_corrupt(self, tmp_path)` |
+| `test_load_plan_returns_none_for_missing` | method | `tests/test_aci_planner.py:845` | `def test_load_plan_returns_none_for_missing(self, tmp_path)` |
+| `test_mcp_aci_plan_phase_filter` | method | `tests/test_aci_planner.py:806` | `def test_mcp_aci_plan_phase_filter(self, tmp_path)` |
+| `test_mcp_aci_plan_returns_json` | method | `tests/test_aci_planner.py:734` | `def test_mcp_aci_plan_returns_json(self, tmp_path)` |
+| `test_mcp_aci_plan_static_backend` | method | `tests/test_aci_planner.py:758` | `def test_mcp_aci_plan_static_backend(self, tmp_path)` |
+| `test_mcp_aci_plan_uses_rhost_from_payload` | method | `tests/test_aci_planner.py:747` | `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)` |
+| `test_mcp_aci_replan_no_plan` | method | `tests/test_aci_planner.py:769` | `def test_mcp_aci_replan_no_plan(self, tmp_path)` |
+| `test_mcp_aci_replan_with_plan` | method | `tests/test_aci_planner.py:780` | `def test_mcp_aci_replan_with_plan(self, tmp_path)` |
+| `test_mcp_aci_status_after_plan` | method | `tests/test_aci_planner.py:793` | `def test_mcp_aci_status_after_plan(self, tmp_path)` |
+| `test_mcp_aci_status_no_plan` | method | `tests/test_aci_planner.py:724` | `def test_mcp_aci_status_no_plan(self, tmp_path)` |
+| `test_no_subcommand_returns_nonzero` | method | `tests/test_aci_planner.py:954` | `def test_no_subcommand_returns_nonzero(self, tmp_path)` |
+| `test_objective_source_is_aci_planner` | method | `tests/test_aci_planner.py:293` | `def test_objective_source_is_aci_planner(self, tmp_path)` |
+| `test_objectives_contain_target_in_text` | method | `tests/test_aci_planner.py:323` | `def test_objectives_contain_target_in_text(self, tmp_path)` |
+| `test_objectives_ids_match_phase_objectives` | method | `tests/test_aci_planner.py:276` | `def test_objectives_ids_match_phase_objectives(self, tmp_path)` |
+| `test_objectives_injected_into_file` | method | `tests/test_aci_planner.py:268` | `def test_objectives_injected_into_file(self, tmp_path)` |
+| `test_phase_filter_restricts_phases` | method | `tests/test_aci_planner.py:287` | `def test_phase_filter_restricts_phases(self, tmp_path)` |
+| `test_plan_command` | method | `tests/test_aci_planner.py:915` | `def test_plan_command(self, tmp_path)` |
+| `test_plan_creates_file` | method | `tests/test_aci_planner.py:245` | `def test_plan_creates_file(self, tmp_path)` |
+| `test_plan_domain_stored` | method | `tests/test_aci_planner.py:318` | `def test_plan_domain_stored(self, tmp_path)` |
+| `test_plan_has_phases` | method | `tests/test_aci_planner.py:252` | `def test_plan_has_phases(self, tmp_path)` |
+| `test_plan_id_is_unique` | method | `tests/test_aci_planner.py:307` | `def test_plan_id_is_unique(self, tmp_path)` |
+| `test_plan_roundtrip_from_disk` | method | `tests/test_aci_planner.py:330` | `def test_plan_roundtrip_from_disk(self, tmp_path)` |
+| `test_plan_status_is_active` | method | `tests/test_aci_planner.py:302` | `def test_plan_status_is_active(self, tmp_path)` |
+| `test_plan_target_stored` | method | `tests/test_aci_planner.py:313` | `def test_plan_target_stored(self, tmp_path)` |
+| `test_reflect_blocked_phase_generates_lesson` | method | `tests/test_aci_planner.py:655` | `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)` |
+| `test_reflect_command_no_plan` | method | `tests/test_aci_planner.py:960` | `def test_reflect_command_no_plan(self, tmp_path, capsys)` |
+| `test_reflect_done_after_replan_generates_lesson` | method | `tests/test_aci_planner.py:665` | `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)` |
+| `test_reflect_lesson_has_required_fields` | method | `tests/test_aci_planner.py:698` | `def test_reflect_lesson_has_required_fields(self, tmp_path)` |
+| `test_reflect_no_lessons_clean_plan` | method | `tests/test_aci_planner.py:674` | `def test_reflect_no_lessons_clean_plan(self, tmp_path)` |
+| `test_reflect_persists_to_file` | method | `tests/test_aci_planner.py:683` | `def test_reflect_persists_to_file(self, tmp_path)` |
+| `test_replan_command_no_plan` | method | `tests/test_aci_planner.py:940` | `def test_replan_command_no_plan(self, tmp_path, capsys)` |
+| `test_replan_increments_count` | method | `tests/test_aci_planner.py:529` | `def test_replan_increments_count(self, tmp_path)` |
+| `test_replan_injects_new_objectives` | method | `tests/test_aci_planner.py:543` | `def test_replan_injects_new_objectives(self, tmp_path)` |
+| `test_replan_no_plan` | method | `tests/test_aci_planner.py:523` | `def test_replan_no_plan(self, tmp_path)` |
+| `test_replan_records_reason` | method | `tests/test_aci_planner.py:536` | `def test_replan_records_reason(self, tmp_path)` |
+| `test_replan_status_returns_to_active` | method | `tests/test_aci_planner.py:553` | `def test_replan_status_returns_to_active(self, tmp_path)` |
+| `test_replan_twice_counts_two` | method | `tests/test_aci_planner.py:560` | `def test_replan_twice_counts_two(self, tmp_path)` |
+| `test_replan_with_llm` | method | `tests/test_aci_planner.py:568` | `def test_replan_with_llm(self, tmp_path)` |
+| `test_round_trip` | method | `tests/test_aci_planner.py:231` | `def test_round_trip(self)` |
+| `test_save_load_plan_roundtrip` | method | `tests/test_aci_planner.py:830` | `def test_save_load_plan_roundtrip(self, tmp_path)` |
+| `test_should_replan_false_below_threshold` | method | `tests/test_aci_planner.py:487` | `def test_should_replan_false_below_threshold(self, tmp_path)` |
+| `test_should_replan_false_for_completed_plan` | method | `tests/test_aci_planner.py:507` | `def test_should_replan_false_for_completed_plan(self, tmp_path)` |
+| `test_should_replan_false_when_no_plan` | method | `tests/test_aci_planner.py:483` | `def test_should_replan_false_when_no_plan(self, tmp_path)` |
+| `test_should_replan_true_at_threshold` | method | `tests/test_aci_planner.py:496` | `def test_should_replan_true_at_threshold(self, tmp_path)` |
+| `test_status_blocked_count_zero_at_start` | method | `tests/test_aci_planner.py:451` | `def test_status_blocked_count_zero_at_start(self, tmp_path)` |
+| `test_status_command_no_plan` | method | `tests/test_aci_planner.py:926` | `def test_status_command_no_plan(self, tmp_path, capsys)` |
+| `test_status_completion_zero_at_start` | method | `tests/test_aci_planner.py:444` | `def test_status_completion_zero_at_start(self, tmp_path)` |
+| `test_status_has_active_phase` | method | `tests/test_aci_planner.py:437` | `def test_status_has_active_phase(self, tmp_path)` |
+| `test_status_no_plan` | method | `tests/test_aci_planner.py:422` | `def test_status_no_plan(self, tmp_path)` |
+| `test_status_with_plan` | method | `tests/test_aci_planner.py:427` | `def test_status_with_plan(self, tmp_path)` |
+| `test_subsequent_phases_are_pending` | method | `tests/test_aci_planner.py:262` | `def test_subsequent_phases_are_pending(self, tmp_path)` |
+| `test_to_dict_has_completion_pct` | method | `tests/test_aci_planner.py:225` | `def test_to_dict_has_completion_pct(self)` |
+| `test_to_dict_round_trip` | method | `tests/test_aci_planner.py:135` | `def test_to_dict_round_trip(self)` |
 | `TestAddonStore` | class | `tests/test_addon_creator.py:328` | `class TestAddonStore` |
 | `TestBlueprint` | class | `tests/test_addon_creator.py:587` | `class TestBlueprint` |
 | `TestConfig` | class | `tests/test_addon_creator.py:86` | `class TestConfig` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p24.md](SYMBOLS_p24.md)
 | `test_list_all_skips_broken_files` | method | `tests/test_addon_creator.py:374` | `def test_list_all_skips_broken_files(self, tmp_path)` |
 | `test_list_page_links_by_filename_for_legacy_names` | method | `tests/test_addon_creator.py:760` | `def test_list_page_links_by_filename_for_legacy_names(self, tmp_path)` |
 | `test_list_page_shows_created_addon` | method | `tests/test_addon_creator.py:706` | `def test_list_page_shows_created_addon(self, tmp_path)` |
-| `test_load_accepts_pre_existing_dots_and_hyphens` | method | `tests/test_addon_creator.py:413` | `def test_load_accepts_pre_existing_dots_and_hyphens(self, tmp_path)` |
-| `test_load_accepts_pre_existing_uppercase_names` | method | `tests/test_addon_creator.py:407` | `def test_load_accepts_pre_existing_uppercase_names(self, tmp_path)` |
-| `test_load_missing_raises_file_not_found` | method | `tests/test_addon_creator.py:369` | `def test_load_missing_raises_file_not_found(self, tmp_path)` |
-| `test_load_still_rejects_traversal_through_existing_path` | method | `tests/test_addon_creator.py:419` | `def test_load_still_rejects_traversal_through_existing_path(self, tmp_path)` |
-| `test_malformed_category_reports_issue` | method | `tests/test_addon_creator.py:156` | `def test_malformed_category_reports_issue(self)` |
 
 Next: [SYMBOLS_p26.md](SYMBOLS_p26.md)

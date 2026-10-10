@@ -17,28 +17,28 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `encrypt_data` (function, line 17) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 32) `def decrypt_data(data, key)`
-  - `check_sudo` (function, line 55) `def check_sudo()`
-  - `checksum` (function, line 61) `def checksum(source_string)`
-  - `send_icmp_packet` (function, line 78) `def send_icmp_packet(dest_addr, data, key)`
-  - `receive_icmp_reply` (function, line 112) `def receive_icmp_reply(sock)`
-  - `main` (function, line 124) `def main()`
+  - `encrypt_data` (function, line 18) `def encrypt_data(data, key)`
+  - `decrypt_data` (function, line 34) `def decrypt_data(data, key)`
+  - `check_sudo` (function, line 57) `def check_sudo()`
+  - `checksum` (function, line 64) `def checksum(source_string)`
+  - `send_icmp_packet` (function, line 82) `def send_icmp_packet(dest_addr, data, key)`
+  - `receive_icmp_reply` (function, line 117) `def receive_icmp_reply(sock)`
+  - `main` (function, line 130) `def main()`
 
 ## modules/icmp_server.py
 - Doc: encrypt_data: Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `check_sudo` (function, line 32) `def check_sudo()`
-  - `encrypt_data` (function, line 40) `def encrypt_data(data, key)`
-  - `decrypt_data` (function, line 56) `def decrypt_data(data, key)`
-  - `execute_command` (function, line 77) `def execute_command(command)`
-  - `send_icmp_reply` (function, line 95) `def send_icmp_reply(sock, addr, data, key)`
-  - `checksum` (function, line 114) `def checksum(source_string)`
-  - `handle_packet` (function, line 131) `def handle_packet(packet, addr, key, sock)`
-  - `listen_for_icmp` (function, line 155) `def listen_for_icmp(interface, key)`
-  - `main` (function, line 181) `def main()`
+  - `check_sudo` (function, line 44) `def check_sudo()`
+  - `encrypt_data` (function, line 55) `def encrypt_data(data, key)`
+  - `decrypt_data` (function, line 71) `def decrypt_data(data, key)`
+  - `execute_command` (function, line 93) `def execute_command(command)`
+  - `send_icmp_reply` (function, line 112) `def send_icmp_reply(sock, addr, data, key)`
+  - `checksum` (function, line 132) `def checksum(source_string)`
+  - `handle_packet` (function, line 150) `def handle_packet(packet, addr, key, sock)`
+  - `listen_for_icmp` (function, line 175) `def listen_for_icmp(interface, key)`
+  - `main` (function, line 202) `def main()`
 - Depends on: `core/logging.py`, `modules/logging_config.py`
 - Imported by: `tests/test_security_hardening_v3.py`, `tests/test_security_hardening_v5.py`
 
@@ -47,7 +47,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Language: py
 - Symbols:
   - `imagen_a_binario` (function, line 7) `def imagen_a_binario(imagen_input, binario_output, block_size)`
-  - `main` (function, line 42) `def main()`
+  - `main` (function, line 43) `def main()`
 
 ## modules/intelligence_engine.py
 - Doc: IntelligenceEngine — unified collection→analysis→intelligence pipeline.
@@ -55,32 +55,32 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Language: py
 - Symbols:
   - `IntelligenceConfig` (class, line 57) `class IntelligenceConfig`
-  - `CollectedFact` (class, line 76) `class CollectedFact`
-  - `IntelligenceAssessment` (class, line 91) `class IntelligenceAssessment`
-  - `CounterIntelFinding` (class, line 106) `class CounterIntelFinding`
-  - `IntelligenceEngine` (class, line 117) `class IntelligenceEngine`
-  - `get_intelligence_engine` (method, line 870) `def get_intelligence_engine(config)`
-  - `__init__` (method, line 140) `def __init__(self, config)`
-  - `collect_from_scan` (method, line 151) `def collect_from_scan(self, target)`
-  - `collect_from_tool` (method, line 229) `def collect_from_tool(self, output, tool, host)`
-  - `collect_from_estorides` (method, line 266) `def collect_from_estorides(self, target)`
-  - `collect_from_nuclei` (method, line 303) `def collect_from_nuclei(self, target)`
-  - `collect_from_yara` (method, line 343) `def collect_from_yara(self, target_path)`
-  - `collect_from_factstore` (method, line 380) `def collect_from_factstore(self)`
-  - `analyze` (method, line 428) `def analyze(self)`
-  - `_correlate_services_to_vulns` (method, line 445) `def _correlate_services_to_vulns(self)`
-  - `_match_known_vulns` (method, line 487) `def _match_known_vulns(fact)`
-  - `_correlate_creds_to_hosts` (method, line 515) `def _correlate_creds_to_hosts(self)`
-  - `_correlate_domains_to_infrastructure` (method, line 536) `def _correlate_domains_to_infrastructure(self)`
-  - `_rank_targets` (method, line 550) `def _rank_targets(self)`
-  - `_detect_killchain_gaps` (method, line 588) `def _detect_killchain_gaps(self)`
-  - `produce_intelligence` (method, line 628) `def produce_intelligence(self)`
-  - `_map_category_to_mitre` (method, line 647) `def _map_category_to_mitre(category)`
-  - `produce_counter_intelligence` (method, line 662) `def produce_counter_intelligence(self)`
-  - `disseminate` (method, line 706) `def disseminate(self)`
-  - `run_full_cycle` (method, line 789) `def run_full_cycle(self, target)`
-  - `get_intel_report` (method, line 818) `def get_intel_report(self)`
-  - `_is_placeholder` (method, line 864) `def _is_placeholder(value)`
+  - `CollectedFact` (class, line 78) `class CollectedFact`
+  - `IntelligenceAssessment` (class, line 93) `class IntelligenceAssessment`
+  - `CounterIntelFinding` (class, line 108) `class CounterIntelFinding`
+  - `IntelligenceEngine` (class, line 119) `class IntelligenceEngine`
+  - `get_intelligence_engine` (method, line 931) `def get_intelligence_engine(config)`
+  - `__init__` (method, line 142) `def __init__(self, config)`
+  - `collect_from_scan` (method, line 153) `def collect_from_scan(self, target)`
+  - `collect_from_tool` (method, line 255) `def collect_from_tool(self, output, tool, host)`
+  - `collect_from_estorides` (method, line 292) `def collect_from_estorides(self, target)`
+  - `collect_from_nuclei` (method, line 334) `def collect_from_nuclei(self, target)`
+  - `collect_from_yara` (method, line 376) `def collect_from_yara(self, target_path)`
+  - `collect_from_factstore` (method, line 415) `def collect_from_factstore(self)`
+  - `analyze` (method, line 477) `def analyze(self)`
+  - `_correlate_services_to_vulns` (method, line 494) `def _correlate_services_to_vulns(self)`
+  - `_match_known_vulns` (method, line 537) `def _match_known_vulns(fact)`
+  - `_correlate_creds_to_hosts` (method, line 565) `def _correlate_creds_to_hosts(self)`
+  - `_correlate_domains_to_infrastructure` (method, line 588) `def _correlate_domains_to_infrastructure(self)`
+  - `_rank_targets` (method, line 604) `def _rank_targets(self)`
+  - `_detect_killchain_gaps` (method, line 644) `def _detect_killchain_gaps(self)`
+  - `produce_intelligence` (method, line 685) `def produce_intelligence(self)`
+  - `_map_category_to_mitre` (method, line 700) `def _map_category_to_mitre(category)`
+  - `produce_counter_intelligence` (method, line 715) `def produce_counter_intelligence(self)`
+  - `disseminate` (method, line 765) `def disseminate(self)`
+  - `run_full_cycle` (method, line 845) `def run_full_cycle(self, target)`
+  - `get_intel_report` (method, line 874) `def get_intel_report(self)`
+  - `_is_placeholder` (method, line 925) `def _is_placeholder(value)`
 - Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 - Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
 
@@ -111,9 +111,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `service_account_token_theft` (method, line 173) `def service_account_token_theft(self)`
   - `kubelet_anonymous_auth_abuse` (method, line 198) `def kubelet_anonymous_auth_abuse(self)`
   - `etcd_access_exploitation` (method, line 222) `def etcd_access_exploitation(self)`
-  - `helm_tiller_abuse` (method, line 251) `def helm_tiller_abuse(self)`
-  - `persistence_techniques` (method, line 279) `def persistence_techniques(self)`
-  - `summary` (method, line 319) `def summary(self)`
+  - `helm_tiller_abuse` (method, line 250) `def helm_tiller_abuse(self)`
+  - `persistence_techniques` (method, line 278) `def persistence_techniques(self)`
+  - `summary` (method, line 318) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
 
 ## modules/kerberoasting.py
@@ -126,19 +126,19 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `KerberoastingEngine` (class, line 79) `class KerberoastingEngine`
   - `__init__` (method, line 95) `def __init__(self, domain, dc_ip, username, password, hash)`
   - `enumerate_spns` (method, line 112) `def enumerate_spns(self, ldap_output, bloodhound_data)`
-  - `_prioritize_targets` (method, line 161) `def _prioritize_targets(self)`
-  - `request_tgs_aes_only` (method, line 179) `def request_tgs_aes_only(self, user_spn)`
-  - `request_tgs_rc4` (method, line 200) `def request_tgs_rc4(self, user_spn)`
-  - `request_tgs` (method, line 211) `def request_tgs(self, user_spn, etype)`
-  - `_build_hash_string` (method, line 240) `def _build_hash_string(self, spn, etype)`
-  - `_hashcat_command` (method, line 266) `def _hashcat_command(hash_str, mode)`
-  - `targeted_kerberoast` (method, line 272) `def targeted_kerberoast(self, high_value_only)`
-  - `asreproast_check` (method, line 307) `def asreproast_check(self, usernames)`
-  - `extract_hashes_from_pcap` (method, line 322) `def extract_hashes_from_pcap(self, pcap_path)`
-  - `detect_kerberoasting_activity` (method, line 337) `def detect_kerberoasting_activity(self, event_log)`
-  - `build_hashcat_batch` (method, line 376) `def build_hashcat_batch(self, output_path)`
-  - `summary` (method, line 398) `def summary(self)`
-  - `priority` (method, line 164) `def priority(target)`
+  - `_prioritize_targets` (method, line 169) `def _prioritize_targets(self)`
+  - `request_tgs_aes_only` (method, line 187) `def request_tgs_aes_only(self, user_spn)`
+  - `request_tgs_rc4` (method, line 208) `def request_tgs_rc4(self, user_spn)`
+  - `request_tgs` (method, line 219) `def request_tgs(self, user_spn, etype)`
+  - `_build_hash_string` (method, line 248) `def _build_hash_string(self, spn, etype)`
+  - `_hashcat_command` (method, line 268) `def _hashcat_command(hash_str, mode)`
+  - `targeted_kerberoast` (method, line 271) `def targeted_kerberoast(self, high_value_only)`
+  - `asreproast_check` (method, line 306) `def asreproast_check(self, usernames)`
+  - `extract_hashes_from_pcap` (method, line 321) `def extract_hashes_from_pcap(self, pcap_path)`
+  - `detect_kerberoasting_activity` (method, line 336) `def detect_kerberoasting_activity(self, event_log)`
+  - `build_hashcat_batch` (method, line 379) `def build_hashcat_batch(self, output_path)`
+  - `summary` (method, line 401) `def summary(self)`
+  - `priority` (method, line 172) `def priority(target)`
 - Depends on: `modules/kerberos_core.py`
 - Imported by: `cli/commands/active_directory.py`
 
@@ -147,41 +147,41 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `KerberosPrincipal` (class, line 137) `class KerberosPrincipal`
-  - `EncryptedData` (class, line 155) `class EncryptedData`
-  - `KerberosTicket` (class, line 170) `class KerberosTicket`
-  - `PACSignature` (class, line 211) `class PACSignature`
-  - `PACInfo` (class, line 226) `class PACInfo`
-  - `TGSRequest` (class, line 247) `class TGSRequest`
-  - `KerberosCrypto` (class, line 269) `class KerberosCrypto`
-  - `KerberosCore` (class, line 405) `class KerberosCore`
-  - `KerberosErrorParser` (class, line 681) `class KerberosErrorParser`
-  - `TicketValidator` (class, line 700) `class TicketValidator`
-  - `to_string` (method, line 150) `def to_string(self)`
-  - `has_flag` (method, line 205) `def has_flag(self, flag_name)`
-  - `__init__` (method, line 275) `def __init__(self)`
-  - `derive_aes_key` (method, line 280) `def derive_aes_key(password, salt, etype)`
-  - `derive_rc4_key` (method, line 316) `def derive_rc4_key(password)`
-  - `aes_encrypt` (method, line 327) `def aes_encrypt(self, key, plaintext, usage)`
-  - `aes_decrypt` (method, line 359) `def aes_decrypt(self, key, ciphertext, usage)`
-  - `compute_checksum` (method, line 387) `def compute_checksum(key, data, etype)`
-  - `__init__` (method, line 419) `def __init__(self, domain, dc_host, dc_ip)`
-  - `get_supported_etypes` (method, line 425) `def get_supported_etypes(self)`
-  - `build_as_req` (method, line 433) `def build_as_req(self, username, domain, password, etype)`
-  - `build_tgs_req` (method, line 487) `def build_tgs_req(self, params)`
-  - `parse_as_rep` (method, line 532) `def parse_as_rep(self, as_rep_data, key, etype)`
-  - `parse_tgs_rep` (method, line 548) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
-  - `decrypt_ticket` (method, line 561) `def decrypt_ticket(self, ticket_data, key, etype)`
-  - `parse_pac` (method, line 586) `def parse_pac(self, pac_data)`
-  - `_parse_pac_buffer` (method, line 620) `def _parse_pac_buffer(pac, buf_type, buf_data)`
-  - `_build_pa_enc_timestamp` (method, line 638) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
-  - `_parse_kdc_rep` (method, line 651) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
-  - `_rc4_encrypt` (method, line 665) `def _rc4_encrypt(key, data, usage)`
-  - `_rc4_decrypt` (method, line 674) `def _rc4_decrypt(key, data, usage)`
-  - `parse_error` (method, line 685) `def parse_error(error_data)`
-  - `is_expired` (method, line 704) `def is_expired(endtime, grace_period)`
-  - `validate_flags` (method, line 717) `def validate_flags(ticket, required_flags)`
-  - `validate_pac_checksums` (method, line 733) `def validate_pac_checksums(pac)`
+  - `KerberosPrincipal` (class, line 139) `class KerberosPrincipal`
+  - `EncryptedData` (class, line 157) `class EncryptedData`
+  - `KerberosTicket` (class, line 172) `class KerberosTicket`
+  - `PACSignature` (class, line 213) `class PACSignature`
+  - `PACInfo` (class, line 228) `class PACInfo`
+  - `TGSRequest` (class, line 249) `class TGSRequest`
+  - `KerberosCrypto` (class, line 271) `class KerberosCrypto`
+  - `KerberosCore` (class, line 407) `class KerberosCore`
+  - `KerberosErrorParser` (class, line 683) `class KerberosErrorParser`
+  - `TicketValidator` (class, line 702) `class TicketValidator`
+  - `to_string` (method, line 152) `def to_string(self)`
+  - `has_flag` (method, line 207) `def has_flag(self, flag_name)`
+  - `__init__` (method, line 277) `def __init__(self)`
+  - `derive_aes_key` (method, line 282) `def derive_aes_key(password, salt, etype)`
+  - `derive_rc4_key` (method, line 318) `def derive_rc4_key(password)`
+  - `aes_encrypt` (method, line 329) `def aes_encrypt(self, key, plaintext, usage)`
+  - `aes_decrypt` (method, line 361) `def aes_decrypt(self, key, ciphertext, usage)`
+  - `compute_checksum` (method, line 389) `def compute_checksum(key, data, etype)`
+  - `__init__` (method, line 421) `def __init__(self, domain, dc_host, dc_ip)`
+  - `get_supported_etypes` (method, line 427) `def get_supported_etypes(self)`
+  - `build_as_req` (method, line 435) `def build_as_req(self, username, domain, password, etype)`
+  - `build_tgs_req` (method, line 489) `def build_tgs_req(self, params)`
+  - `parse_as_rep` (method, line 534) `def parse_as_rep(self, as_rep_data, key, etype)`
+  - `parse_tgs_rep` (method, line 550) `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)`
+  - `decrypt_ticket` (method, line 563) `def decrypt_ticket(self, ticket_data, key, etype)`
+  - `parse_pac` (method, line 588) `def parse_pac(self, pac_data)`
+  - `_parse_pac_buffer` (method, line 622) `def _parse_pac_buffer(pac, buf_type, buf_data)`
+  - `_build_pa_enc_timestamp` (method, line 640) `def _build_pa_enc_timestamp(self, key, etype, timestamp)`
+  - `_parse_kdc_rep` (method, line 653) `def _parse_kdc_rep(self, data, key, etype, rep_type)`
+  - `_rc4_encrypt` (method, line 667) `def _rc4_encrypt(key, data, usage)`
+  - `_rc4_decrypt` (method, line 676) `def _rc4_decrypt(key, data, usage)`
+  - `parse_error` (method, line 687) `def parse_error(error_data)`
+  - `is_expired` (method, line 706) `def is_expired(endtime, grace_period)`
+  - `validate_flags` (method, line 719) `def validate_flags(ticket, required_flags)`
+  - `validate_pac_checksums` (method, line 735) `def validate_pac_checksums(pac)`
 - Imported by: `modules/kerberoasting.py`, `modules/kerberos_tickets.py`
 
 ## modules/kerberos_tickets.py
@@ -196,7 +196,7 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `GoldenTicketForger` (class, line 265) `class GoldenTicketForger`
   - `DiamondTicketForger` (class, line 397) `class DiamondTicketForger`
   - `SapphireTicketForger` (class, line 462) `class SapphireTicketForger`
-  - `SkeletonKeyInjector` (class, line 565) `class SkeletonKeyInjector`
+  - `SkeletonKeyInjector` (class, line 567) `class SkeletonKeyInjector`
   - `__init__` (method, line 131) `def __init__(self)`
   - `forge` (method, line 134) `def forge(self, config)`
   - `_resolve_key` (method, line 190) `def _resolve_key(self, config)`
@@ -220,9 +220,9 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `__init__` (method, line 469) `def __init__(self, kerberos_core)`
   - `forge_s4u2self` (method, line 472) `def forge_s4u2self(self, tgt, session_key, target_user, target_service, domain)`
   - `forge_rbcd` (method, line 530) `def forge_rbcd(self, machine_account_hash, target_service, domain, username)`
-  - `detect_skeleton_key` (method, line 576) `def detect_skeleton_key(target_host, domain, dc_ip)`
-  - `inject_command` (method, line 598) `def inject_command(target_host)`
-  - `cleanup_command` (method, line 610) `def cleanup_command()`
+  - `detect_skeleton_key` (method, line 578) `def detect_skeleton_key(target_host, domain, dc_ip)`
+  - `inject_command` (method, line 600) `def inject_command(target_host)`
+  - `cleanup_command` (method, line 612) `def cleanup_command()`
 - Depends on: `modules/kerberos_core.py`
 - Imported by: `cli/commands/active_directory.py`
 
@@ -231,11 +231,11 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_load_phases` (function, line 21) `def _load_phases(sessions)`
-  - `_read_target` (function, line 31) `def _read_target()`
-  - `_build_svg` (function, line 38) `def _build_svg(phases)`
-  - `generate_html` (function, line 67) `def generate_html(target, sessions)`
-  - `generate_svg` (function, line 98) `def generate_svg(target, sessions)`
+  - `_load_phases` (function, line 20) `def _load_phases(sessions)`
+  - `_read_target` (function, line 27) `def _read_target()`
+  - `_build_svg` (function, line 34) `def _build_svg(phases)`
+  - `generate_html` (function, line 69) `def generate_html(target, sessions)`
+  - `generate_svg` (function, line 102) `def generate_svg(target, sessions)`
 - Depends on: `modules/killchain.py`
 - Imported by: `lazyc2.py`
 
@@ -244,27 +244,27 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `KillChainConfig` (class, line 39) `class KillChainConfig`
-  - `PhaseStatus` (class, line 127) `class PhaseStatus`
-  - `KillChain` (class, line 136) `class KillChain`
-  - `get_killchain` (method, line 427) `def get_killchain()`
-  - `world_model_path` (method, line 107) `def world_model_path(self)`
-  - `phase_index` (method, line 111) `def phase_index(self, phase)`
-  - `is_valid_phase` (method, line 118) `def is_valid_phase(self, phase)`
-  - `config` (method, line 145) `def config()`
-  - `phases` (method, line 150) `def phases()`
-  - `phase_labels` (method, line 155) `def phase_labels()`
-  - `phase_colors` (method, line 160) `def phase_colors()`
-  - `phase_rich_colors` (method, line 165) `def phase_rich_colors()`
-  - `engagement_phase_to_cli` (method, line 170) `def engagement_phase_to_cli(engagement_value)`
-  - `cli_phase_to_host_state` (method, line 182) `def cli_phase_to_host_state(phase)`
-  - `current_phase` (method, line 195) `def current_phase(world_model_path)`
-  - `advance_phase` (method, line 242) `def advance_phase(new_phase, world_model_path)`
-  - `get_progress` (method, line 305) `def get_progress(world_model_path)`
-  - `compact_progress` (method, line 348) `def compact_progress(current_phase, phases_entered)`
-  - `phases_for_display` (method, line 368) `def phases_for_display()`
-  - `phase_index` (method, line 379) `def phase_index(phase)`
-  - `snapshot` (method, line 384) `def snapshot(world_model_path)`
+  - `KillChainConfig` (class, line 38) `class KillChainConfig`
+  - `PhaseStatus` (class, line 136) `class PhaseStatus`
+  - `KillChain` (class, line 145) `class KillChain`
+  - `get_killchain` (method, line 440) `def get_killchain()`
+  - `world_model_path` (method, line 116) `def world_model_path(self)`
+  - `phase_index` (method, line 120) `def phase_index(self, phase)`
+  - `is_valid_phase` (method, line 127) `def is_valid_phase(self, phase)`
+  - `config` (method, line 154) `def config()`
+  - `phases` (method, line 159) `def phases()`
+  - `phase_labels` (method, line 164) `def phase_labels()`
+  - `phase_colors` (method, line 169) `def phase_colors()`
+  - `phase_rich_colors` (method, line 174) `def phase_rich_colors()`
+  - `engagement_phase_to_cli` (method, line 179) `def engagement_phase_to_cli(engagement_value)`
+  - `cli_phase_to_host_state` (method, line 191) `def cli_phase_to_host_state(phase)`
+  - `current_phase` (method, line 204) `def current_phase(world_model_path)`
+  - `advance_phase` (method, line 251) `def advance_phase(new_phase, world_model_path)`
+  - `get_progress` (method, line 315) `def get_progress(world_model_path)`
+  - `compact_progress` (method, line 364) `def compact_progress(current_phase, phases_entered)`
+  - `phases_for_display` (method, line 384) `def phases_for_display()`
+  - `phase_index` (method, line 395) `def phase_index(phase)`
+  - `snapshot` (method, line 400) `def snapshot(world_model_path)`
 - Depends on: `core/logging.py`, `modules/world_model.py`
 - Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 
@@ -285,88 +285,88 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
   - `Permission` (class, line 66) `class Permission(Enum)`
   - `_UsersFileUnreadable` (class, line 115) `class _UsersFileUnreadable(Exception)`
   - `RBACUser` (class, line 124) `class RBACUser`
-  - `RBACStore` (class, line 211) `class RBACStore`
-  - `_generate_recovery_codes` (method, line 358) `def _generate_recovery_codes(count)`
-  - `TenantConfig` (class, line 373) `class TenantConfig`
-  - `TenantManager` (class, line 399) `class TenantManager`
-  - `_slugify` (method, line 519) `def _slugify(name)`
-  - `init_rbac_store` (method, line 527) `def init_rbac_store(users_path)`
-  - `init_tenant_manager` (method, line 531) `def init_tenant_manager(payloads_dir, config_path, default_payload)`
-  - `require_role` (method, line 543) `def require_role()`
-  - `require_permission` (method, line 569) `def require_permission()`
-  - `require_mfa` (method, line 600) `def require_mfa(f)`
-  - `_get_rbac_user` (method, line 623) `def _get_rbac_user(flask_user)`
-  - `_get_rbac_store` (method, line 636) `def _get_rbac_store()`
-  - `get_rbac_store` (method, line 643) `def get_rbac_store()`
-  - `set_rbac_store` (method, line 647) `def set_rbac_store(store)`
-  - `get_tenant_manager` (method, line 652) `def get_tenant_manager()`
-  - `set_tenant_manager` (method, line 659) `def set_tenant_manager(tm)`
-  - `check_cli_permission` (method, line 664) `def check_cli_permission(username, permission)`
-  - `get_user_role` (method, line 676) `def get_user_role(username)`
-  - `generate_mfa_qr_url` (method, line 684) `def generate_mfa_qr_url(secret, username)`
-  - `generate_qr_svg` (method, line 693) `def generate_qr_svg(data)`
-  - `_qr_choose_version` (method, line 745) `def _qr_choose_version(data)`
-  - `_qr_ec_codewords` (method, line 753) `def _qr_ec_codewords(version)`
-  - `_qr_encode_alphanumeric` (method, line 758) `def _qr_encode_alphanumeric(data, version)`
-  - `_qr_data_bits_for_version` (method, line 813) `def _qr_data_bits_for_version(version)`
-  - `_qr_blank_matrix` (method, line 824) `def _qr_blank_matrix(version)`
-  - `_qr_place_dark_module` (method, line 833) `def _qr_place_dark_module(matrix, size, version)`
-  - `_qr_add_format_info` (method, line 837) `def _qr_add_format_info(modules, size, ecl_bits, mask)`
-  - `_qr_svg_error` (method, line 861) `def _qr_svg_error(msg)`
-  - `_qr_place_finders` (method, line 870) `def _qr_place_finders(matrix, size)`
-  - `_qr_place_timing` (method, line 880) `def _qr_place_timing(matrix, size)`
-  - `_qr_data_bits_positions` (method, line 886) `def _qr_data_bits_positions(matrix, size)`
-  - `_bits_to_bytes` (method, line 905) `def _bits_to_bytes(bits, data_bits)`
-  - `_reed_solomon_encode` (method, line 916) `def _reed_solomon_encode(data, ec_words)`
-  - `_qr_best_mask` (method, line 952) `def _qr_best_mask(modules, size)`
-  - `_qr_apply_mask` (method, line 965) `def _qr_apply_mask(modules, size, mask)`
-  - `_qr_penalty` (method, line 998) `def _qr_penalty(modules, size)`
-  - `_qr_render_svg` (method, line 1060) `def _qr_render_svg(modules, size, modules_per_pixel)`
+  - `RBACStore` (class, line 210) `class RBACStore`
+  - `_generate_recovery_codes` (method, line 356) `def _generate_recovery_codes(count)`
+  - `TenantConfig` (class, line 368) `class TenantConfig`
+  - `TenantManager` (class, line 394) `class TenantManager`
+  - `_slugify` (method, line 514) `def _slugify(name)`
+  - `init_rbac_store` (method, line 523) `def init_rbac_store(users_path)`
+  - `init_tenant_manager` (method, line 527) `def init_tenant_manager(payloads_dir, config_path, default_payload)`
+  - `require_role` (method, line 539) `def require_role()`
+  - `require_permission` (method, line 565) `def require_permission()`
+  - `require_mfa` (method, line 596) `def require_mfa(f)`
+  - `_get_rbac_user` (method, line 619) `def _get_rbac_user(flask_user)`
+  - `_get_rbac_store` (method, line 632) `def _get_rbac_store()`
+  - `get_rbac_store` (method, line 639) `def get_rbac_store()`
+  - `set_rbac_store` (method, line 643) `def set_rbac_store(store)`
+  - `get_tenant_manager` (method, line 648) `def get_tenant_manager()`
+  - `set_tenant_manager` (method, line 655) `def set_tenant_manager(tm)`
+  - `check_cli_permission` (method, line 660) `def check_cli_permission(username, permission)`
+  - `get_user_role` (method, line 672) `def get_user_role(username)`
+  - `generate_mfa_qr_url` (method, line 680) `def generate_mfa_qr_url(secret, username)`
+  - `generate_qr_svg` (method, line 689) `def generate_qr_svg(data)`
+  - `_qr_choose_version` (method, line 744) `def _qr_choose_version(data)`
+  - `_qr_ec_codewords` (method, line 752) `def _qr_ec_codewords(version)`
+  - `_qr_encode_alphanumeric` (method, line 757) `def _qr_encode_alphanumeric(data, version)`
+  - `_qr_data_bits_for_version` (method, line 812) `def _qr_data_bits_for_version(version)`
+  - `_qr_blank_matrix` (method, line 823) `def _qr_blank_matrix(version)`
+  - `_qr_place_dark_module` (method, line 832) `def _qr_place_dark_module(matrix, size, version)`
+  - `_qr_add_format_info` (method, line 836) `def _qr_add_format_info(modules, size, ecl_bits, mask)`
+  - `_qr_svg_error` (method, line 860) `def _qr_svg_error(msg)`
+  - `_qr_place_finders` (method, line 869) `def _qr_place_finders(matrix, size)`
+  - `_qr_place_timing` (method, line 878) `def _qr_place_timing(matrix, size)`
+  - `_qr_data_bits_positions` (method, line 884) `def _qr_data_bits_positions(matrix, size)`
+  - `_bits_to_bytes` (method, line 903) `def _bits_to_bytes(bits, data_bits)`
+  - `_reed_solomon_encode` (method, line 914) `def _reed_solomon_encode(data, ec_words)`
+  - `_qr_best_mask` (method, line 950) `def _qr_best_mask(modules, size)`
+  - `_qr_apply_mask` (method, line 963) `def _qr_apply_mask(modules, size, mask)`
+  - `_qr_penalty` (method, line 996) `def _qr_penalty(modules, size)`
+  - `_qr_render_svg` (method, line 1058) `def _qr_render_svg(modules, size, modules_per_pixel)`
   - `valid_roles` (method, line 62) `def valid_roles(cls)`
-  - `to_dict` (method, line 135) `def to_dict(self)`
-  - `from_dict` (method, line 139) `def from_dict(cls, data)`
-  - `get_role` (method, line 163) `def get_role(self)`
-  - `has_permission` (method, line 169) `def has_permission(self, permission)`
-  - `can_manage_role` (method, line 173) `def can_manage_role(self, target_role)`
-  - `get_mfa_provisioning_uri` (method, line 181) `def get_mfa_provisioning_uri(self)`
-  - `verify_totp` (method, line 188) `def verify_totp(self, token)`
-  - `verify_recovery_code` (method, line 193) `def verify_recovery_code(self, code)`
-  - `consume_recovery_code` (method, line 201) `def consume_recovery_code(self, code)`
-  - `__init__` (method, line 214) `def __init__(self, users_path)`
-  - `_read_users` (method, line 218) `def _read_users(self)`
-  - `_write_users` (method, line 234) `def _write_users(self, users)`
-  - `load_all` (method, line 247) `def load_all(self)`
-  - `find_by_id` (method, line 251) `def find_by_id(self, user_id)`
-  - `find_by_username` (method, line 257) `def find_by_username(self, username)`
-  - `save` (method, line 263) `def save(self, user)`
-  - `create_user` (method, line 276) `def create_user(self, username, password_hash, role, tenant_id)`
-  - `delete_user` (method, line 297) `def delete_user(self, user_id)`
-  - `update_role` (method, line 306) `def update_role(self, user_id, new_role)`
-  - `enable_mfa` (method, line 316) `def enable_mfa(self, user_id)`
-  - `disable_mfa` (method, line 326) `def disable_mfa(self, user_id)`
-  - `consume_recovery_code` (method, line 336) `def consume_recovery_code(self, user_id, code)`
-  - `ensure_admin` (method, line 345) `def ensure_admin(self, username, password_hash)`
-  - `from_payload` (method, line 382) `def from_payload(cls, tenant_id, name, payload_path)`
-  - `to_dict` (method, line 391) `def to_dict(self)`
-  - `from_dict` (method, line 395) `def from_dict(cls, data)`
-  - `__init__` (method, line 402) `def __init__(self, payloads_dir, config_path, default_payload)`
-  - `_load_config` (method, line 415) `def _load_config(self)`
-  - `_save_config` (method, line 426) `def _save_config(self)`
-  - `list_tenants` (method, line 436) `def list_tenants(self)`
-  - `get_active` (method, line 439) `def get_active(self)`
-  - `get_active_payload_path` (method, line 444) `def get_active_payload_path(self)`
-  - `get_active_sessions_dir` (method, line 450) `def get_active_sessions_dir(self)`
-  - `get_payload_for_tenant` (method, line 456) `def get_payload_for_tenant(self, tenant_id)`
-  - `create_tenant` (method, line 462) `def create_tenant(self, name, base_payload)`
-  - `switch_tenant` (method, line 491) `def switch_tenant(self, tenant_id)`
-  - `delete_tenant` (method, line 500) `def delete_tenant(self, tenant_id)`
-  - `ensure_default_tenant` (method, line 509) `def ensure_default_tenant(self)`
-  - `decorator` (method, line 546) `def decorator(f)`
-  - `decorator` (method, line 572) `def decorator(f)`
-  - `decorated` (method, line 604) `def decorated()`
-  - `gf_mul` (method, line 929) `def gf_mul(a, b)`
-  - `decorated` (method, line 548) `def decorated()`
-  - `decorated` (method, line 574) `def decorated()`
+  - `to_dict` (method, line 136) `def to_dict(self)`
+  - `from_dict` (method, line 140) `def from_dict(cls, data)`
+  - `get_role` (method, line 164) `def get_role(self)`
+  - `has_permission` (method, line 170) `def has_permission(self, permission)`
+  - `can_manage_role` (method, line 174) `def can_manage_role(self, target_role)`
+  - `get_mfa_provisioning_uri` (method, line 182) `def get_mfa_provisioning_uri(self)`
+  - `verify_totp` (method, line 187) `def verify_totp(self, token)`
+  - `verify_recovery_code` (method, line 192) `def verify_recovery_code(self, code)`
+  - `consume_recovery_code` (method, line 200) `def consume_recovery_code(self, code)`
+  - `__init__` (method, line 213) `def __init__(self, users_path)`
+  - `_read_users` (method, line 217) `def _read_users(self)`
+  - `_write_users` (method, line 232) `def _write_users(self, users)`
+  - `load_all` (method, line 245) `def load_all(self)`
+  - `find_by_id` (method, line 249) `def find_by_id(self, user_id)`
+  - `find_by_username` (method, line 255) `def find_by_username(self, username)`
+  - `save` (method, line 261) `def save(self, user)`
+  - `create_user` (method, line 274) `def create_user(self, username, password_hash, role, tenant_id)`
+  - `delete_user` (method, line 295) `def delete_user(self, user_id)`
+  - `update_role` (method, line 304) `def update_role(self, user_id, new_role)`
+  - `enable_mfa` (method, line 314) `def enable_mfa(self, user_id)`
+  - `disable_mfa` (method, line 324) `def disable_mfa(self, user_id)`
+  - `consume_recovery_code` (method, line 334) `def consume_recovery_code(self, user_id, code)`
+  - `ensure_admin` (method, line 343) `def ensure_admin(self, username, password_hash)`
+  - `from_payload` (method, line 377) `def from_payload(cls, tenant_id, name, payload_path)`
+  - `to_dict` (method, line 386) `def to_dict(self)`
+  - `from_dict` (method, line 390) `def from_dict(cls, data)`
+  - `__init__` (method, line 397) `def __init__(self, payloads_dir, config_path, default_payload)`
+  - `_load_config` (method, line 410) `def _load_config(self)`
+  - `_save_config` (method, line 421) `def _save_config(self)`
+  - `list_tenants` (method, line 431) `def list_tenants(self)`
+  - `get_active` (method, line 434) `def get_active(self)`
+  - `get_active_payload_path` (method, line 439) `def get_active_payload_path(self)`
+  - `get_active_sessions_dir` (method, line 445) `def get_active_sessions_dir(self)`
+  - `get_payload_for_tenant` (method, line 451) `def get_payload_for_tenant(self, tenant_id)`
+  - `create_tenant` (method, line 457) `def create_tenant(self, name, base_payload)`
+  - `switch_tenant` (method, line 486) `def switch_tenant(self, tenant_id)`
+  - `delete_tenant` (method, line 495) `def delete_tenant(self, tenant_id)`
+  - `ensure_default_tenant` (method, line 504) `def ensure_default_tenant(self)`
+  - `decorator` (method, line 542) `def decorator(f)`
+  - `decorator` (method, line 568) `def decorator(f)`
+  - `decorated` (method, line 600) `def decorated()`
+  - `gf_mul` (method, line 927) `def gf_mul(a, b)`
+  - `decorated` (method, line 544) `def decorated()`
+  - `decorated` (method, line 570) `def decorated()`
 - Depends on: `cli/commands/enum.py`, `core/logging.py`
 - Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
 
@@ -421,32 +421,32 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CloudResource` (class, line 59) `class CloudResource`
-  - `CloudFinding` (class, line 70) `class CloudFinding`
-  - `CloudMetadataHarvester` (class, line 80) `class CloudMetadataHarvester`
-  - `CloudBucketEnumerator` (class, line 216) `class CloudBucketEnumerator`
-  - `CloudIAMEnumerator` (class, line 315) `class CloudIAMEnumerator`
-  - `CloudScanner` (class, line 359) `class CloudScanner`
-  - `__init__` (method, line 83) `def __init__(self, timeout)`
-  - `session` (method, line 88) `def session(self)`
-  - `_get` (method, line 94) `def _get(self, url, headers)`
-  - `harvest_aws` (method, line 110) `def harvest_aws(self)`
-  - `harvest_azure` (method, line 155) `def harvest_azure(self)`
-  - `harvest_gcp` (method, line 176) `def harvest_gcp(self)`
-  - `harvest_all` (method, line 199) `def harvest_all(self)`
-  - `__init__` (method, line 219) `def __init__(self, timeout)`
-  - `session` (method, line 224) `def session(self)`
-  - `_check_url` (method, line 230) `def _check_url(self, url)`
-  - `enumerate_s3` (method, line 245) `def enumerate_s3(self, prefix, buckets)`
-  - `enumerate_azure_storage` (method, line 272) `def enumerate_azure_storage(self, prefix, accounts)`
-  - `enumerate_gcp_storage` (method, line 292) `def enumerate_gcp_storage(self, prefix, buckets)`
-  - `enumerate_aws_iam` (method, line 318) `def enumerate_aws_iam(self, access_key, secret_key, session_token)`
-  - `__init__` (method, line 362) `def __init__(self, target_domain, timeout)`
-  - `full_scan` (method, line 369) `def full_scan(self, target_prefix, sessions_dir)`
-  - `quick_metadata` (method, line 425) `def quick_metadata(self)`
-  - `quick_buckets` (method, line 429) `def quick_buckets(self, prefix)`
-  - `_aws_sig` (method, line 332) `def _aws_sig(key, msg)`
-  - `_sign` (method, line 335) `def _sign(key, msg)`
+  - `CloudResource` (class, line 87) `class CloudResource`
+  - `CloudFinding` (class, line 98) `class CloudFinding`
+  - `CloudMetadataHarvester` (class, line 108) `class CloudMetadataHarvester`
+  - `CloudBucketEnumerator` (class, line 248) `class CloudBucketEnumerator`
+  - `CloudIAMEnumerator` (class, line 342) `class CloudIAMEnumerator`
+  - `CloudScanner` (class, line 390) `class CloudScanner`
+  - `__init__` (method, line 111) `def __init__(self, timeout)`
+  - `session` (method, line 116) `def session(self)`
+  - `_get` (method, line 122) `def _get(self, url, headers)`
+  - `harvest_aws` (method, line 139) `def harvest_aws(self)`
+  - `harvest_azure` (method, line 184) `def harvest_azure(self)`
+  - `harvest_gcp` (method, line 208) `def harvest_gcp(self)`
+  - `harvest_all` (method, line 231) `def harvest_all(self)`
+  - `__init__` (method, line 251) `def __init__(self, timeout)`
+  - `session` (method, line 256) `def session(self)`
+  - `_check_url` (method, line 262) `def _check_url(self, url)`
+  - `enumerate_s3` (method, line 278) `def enumerate_s3(self, prefix, buckets)`
+  - `enumerate_azure_storage` (method, line 303) `def enumerate_azure_storage(self, prefix, accounts)`
+  - `enumerate_gcp_storage` (method, line 321) `def enumerate_gcp_storage(self, prefix, buckets)`
+  - `enumerate_aws_iam` (method, line 345) `def enumerate_aws_iam(self, access_key, secret_key, session_token)`
+  - `__init__` (method, line 393) `def __init__(self, target_domain, timeout)`
+  - `full_scan` (method, line 400) `def full_scan(self, target_prefix, sessions_dir)`
+  - `quick_metadata` (method, line 456) `def quick_metadata(self)`
+  - `quick_buckets` (method, line 460) `def quick_buckets(self, prefix)`
+  - `_aws_sig` (method, line 361) `def _aws_sig(key, msg)`
+  - `_sign` (method, line 364) `def _sign(key, msg)`
 - Imported by: `cli/commands/cloud.py`
 
 ## modules/lazycurl.sh

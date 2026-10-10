@@ -3,26 +3,26 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `__init__` | method | `modules/vulnbot.py:29` | `def __init__(self, provider, mode, debug, script_path)` |
-| `_load_external_tools` | method | `modules/vulnbot.py:107` | `def _load_external_tools(self, script_path)` |
-| `_load_model` | method | `modules/vulnbot.py:44` | `def _load_model(self)` |
-| `_register_file_tools` | method | `modules/vulnbot.py:81` | `def _register_file_tools(self)` |
-| `_setup_agent` | method | `modules/vulnbot.py:59` | `def _setup_agent(self, script_path)` |
-| `_stream_agent_response` | method | `modules/vulnbot.py:133` | `def _stream_agent_response(self, prompt)` |
-| `add_to_knowledge_base` | method | `modules/vulnbot.py:207` | `def add_to_knowledge_base(self, prompt, response)` |
-| `create_complex_prompt` | method | `modules/vulnbot.py:155` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
-| `edit_file` | method | `modules/vulnbot.py:93` | `def edit_file(path, content, old_text)` |
-| `generate` | method | `modules/vulnbot.py:135` | `def generate()` |
-| `generate` | method | `modules/vulnbot.py:202` | `def generate()` |
-| `get_relevant_knowledge` | method | `modules/vulnbot.py:150` | `def get_relevant_knowledge(self, prompt)` |
-| `list_files` | method | `modules/vulnbot.py:84` | `def list_files(directory)` |
-| `load_event_config` | method | `modules/vulnbot.py:177` | `def load_event_config(self)` |
-| `load_knowledge_base` | method | `modules/vulnbot.py:140` | `def load_knowledge_base(self)` |
-| `process_with_context` | method | `modules/vulnbot.py:185` | `def process_with_context(self, file_path, event)` |
-| `read_file` | method | `modules/vulnbot.py:88` | `def read_file(path)` |
-| `read_file_content` | method | `modules/vulnbot.py:171` | `def read_file_content(self, file_path)` |
-| `save_knowledge_base` | method | `modules/vulnbot.py:146` | `def save_knowledge_base(self, kb)` |
-| `stream_response` | method | `modules/vulnbot.py:201` | `def stream_response(self, prompt)` |
+| `__init__` | method | `modules/vulnbot.py:30` | `def __init__(self, provider, mode, debug, script_path)` |
+| `_load_external_tools` | method | `modules/vulnbot.py:109` | `def _load_external_tools(self, script_path)` |
+| `_load_model` | method | `modules/vulnbot.py:46` | `def _load_model(self)` |
+| `_register_file_tools` | method | `modules/vulnbot.py:83` | `def _register_file_tools(self)` |
+| `_setup_agent` | method | `modules/vulnbot.py:61` | `def _setup_agent(self, script_path)` |
+| `_stream_agent_response` | method | `modules/vulnbot.py:136` | `def _stream_agent_response(self, prompt)` |
+| `add_to_knowledge_base` | method | `modules/vulnbot.py:212` | `def add_to_knowledge_base(self, prompt, response)` |
+| `create_complex_prompt` | method | `modules/vulnbot.py:160` | `def create_complex_prompt(self, base_prompt, history, knowledge)` |
+| `edit_file` | method | `modules/vulnbot.py:95` | `def edit_file(path, content, old_text)` |
+| `generate` | method | `modules/vulnbot.py:139` | `def generate()` |
+| `generate` | method | `modules/vulnbot.py:207` | `def generate()` |
+| `get_relevant_knowledge` | method | `modules/vulnbot.py:155` | `def get_relevant_knowledge(self, prompt)` |
+| `list_files` | method | `modules/vulnbot.py:86` | `def list_files(directory)` |
+| `load_event_config` | method | `modules/vulnbot.py:182` | `def load_event_config(self)` |
+| `load_knowledge_base` | method | `modules/vulnbot.py:145` | `def load_knowledge_base(self)` |
+| `process_with_context` | method | `modules/vulnbot.py:190` | `def process_with_context(self, file_path, event)` |
+| `read_file` | method | `modules/vulnbot.py:90` | `def read_file(path)` |
+| `read_file_content` | method | `modules/vulnbot.py:176` | `def read_file_content(self, file_path)` |
+| `save_knowledge_base` | method | `modules/vulnbot.py:151` | `def save_knowledge_base(self, kb)` |
+| `stream_response` | method | `modules/vulnbot.py:206` | `def stream_response(self, prompt)` |
 | `WebSocketBeacon` | class | `modules/websocket_beacon.py:46` | `class WebSocketBeacon` |
 | `WebSocketC2Handler` | class | `modules/websocket_beacon.py:274` | `class WebSocketC2Handler` |
 | `__init__` | method | `modules/websocket_beacon.py:62` | `def __init__(self, server_url, beacon_id, encryption_key, sleep_seconds, jitter_percent, ssl_verify, proxy)` |
@@ -125,67 +125,67 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `hook_CreateFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:85` | `HANDLE WINAPI hook_CreateFile(CONST char* path, DWORD access, DWORD share, LPSECURITY_ATTRIBUTES ...` |
 | `hook_FindFirstFile` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:75` | `HANDLE WINAPI hook_FindFirstFile(CONST char* path, WIN32_FIND_DATA* find_data)` |
 | `should_hide_pid` | function | `modules/win_rootkit/win_ring3_rootkit.cpp:65` | `int should_hide_pid(const char* pid)` |
-| `CredentialEntry` | class | `modules/world_model.py:189` | `class CredentialEntry` |
-| `DomainEntry` | class | `modules/world_model.py:215` | `class DomainEntry` |
-| `EmailEntry` | class | `modules/world_model.py:207` | `class EmailEntry` |
-| `EngagementPhase` | class | `modules/world_model.py:168` | `class EngagementPhase(StrEnum)` |
-| `HostEntry` | class | `modules/world_model.py:365` | `class HostEntry` |
-| `HostState` | class | `modules/world_model.py:152` | `class HostState(StrEnum)` |
-| `NetworkGraph` | class | `modules/world_model.py:245` | `class NetworkGraph` |
-| `NetworkRelation` | class | `modules/world_model.py:223` | `class NetworkRelation` |
-| `ServiceInfo` | class | `modules/world_model.py:180` | `class ServiceInfo` |
-| `VulnerabilityEntry` | class | `modules/world_model.py:198` | `class VulnerabilityEntry` |
-| `WorldModel` | class | `modules/world_model.py:509` | `class WorldModel` |
-| `_PhaseDeriver` | class | `modules/world_model.py:417` | `class _PhaseDeriver` |
-| `__init__` | method | `modules/world_model.py:268` | `def __init__(self)` |
-| `__init__` | method | `modules/world_model.py:517` | `def __init__(self, path)` |
+| `CredentialEntry` | class | `modules/world_model.py:188` | `class CredentialEntry` |
+| `DomainEntry` | class | `modules/world_model.py:214` | `class DomainEntry` |
+| `EmailEntry` | class | `modules/world_model.py:206` | `class EmailEntry` |
+| `EngagementPhase` | class | `modules/world_model.py:167` | `class EngagementPhase(StrEnum)` |
+| `HostEntry` | class | `modules/world_model.py:364` | `class HostEntry` |
+| `HostState` | class | `modules/world_model.py:151` | `class HostState(StrEnum)` |
+| `NetworkGraph` | class | `modules/world_model.py:244` | `class NetworkGraph` |
+| `NetworkRelation` | class | `modules/world_model.py:222` | `class NetworkRelation` |
+| `ServiceInfo` | class | `modules/world_model.py:179` | `class ServiceInfo` |
+| `VulnerabilityEntry` | class | `modules/world_model.py:197` | `class VulnerabilityEntry` |
+| `WorldModel` | class | `modules/world_model.py:541` | `class WorldModel` |
+| `_PhaseDeriver` | class | `modules/world_model.py:416` | `class _PhaseDeriver` |
+| `__init__` | method | `modules/world_model.py:267` | `def __init__(self)` |
+| `__init__` | method | `modules/world_model.py:549` | `def __init__(self, path)` |
 | `_derive_crypto_key` | function | `modules/world_model.py:58` | `def _derive_crypto_key(password, salt)` |
-| `_load` | method | `modules/world_model.py:1018` | `def _load(self)` |
-| `_master_password` | function | `modules/world_model.py:69` | `def _master_password()` |
-| `_save` | method | `modules/world_model.py:998` | `def _save(self)` |
-| `add_credential` | method | `modules/world_model.py:621` | `def add_credential(self, value, host, service)` |
-| `add_domain` | method | `modules/world_model.py:716` | `def add_domain(self, domain, host, context)` |
-| `add_email` | method | `modules/world_model.py:710` | `def add_email(self, address, host, context)` |
-| `add_host` | method | `modules/world_model.py:533` | `def add_host(self, ip)` |
-| `add_note` | method | `modules/world_model.py:577` | `def add_note(self, ip, note)` |
-| `add_relation` | method | `modules/world_model.py:275` | `def add_relation(self, relation)` |
-| `add_relation` | method | `modules/world_model.py:895` | `def add_relation(self, source, target, relation, weight)` |
-| `add_service` | method | `modules/world_model.py:374` | `def add_service(self, svc)` |
-| `add_service` | method | `modules/world_model.py:560` | `def add_service(self, ip, port, name, version, protocol)` |
-| `add_vulnerability` | method | `modules/world_model.py:704` | `def add_vulnerability(self, description, host, cve, severity)` |
-| `advance` | method | `modules/world_model.py:378` | `def advance(self, new_state)` |
-| `advance_host` | method | `modules/world_model.py:551` | `def advance_host(self, ip, new_state)` |
-| `can_advance_to` | method | `modules/world_model.py:164` | `def can_advance_to(self, next_state)` |
-| `consume_policy_facts` | method | `modules/world_model.py:803` | `def consume_policy_facts(self, facts_path)` |
-| `degree_centrality` | method | `modules/world_model.py:295` | `def degree_centrality(self)` |
-| `derive` | method | `modules/world_model.py:431` | `def derive(self, hosts)` |
-| `from_dict` | method | `modules/world_model.py:349` | `def from_dict(cls, data)` |
-| `from_dict` | method | `modules/world_model.py:398` | `def from_dict(cls, d)` |
-| `get_host` | method | `modules/world_model.py:598` | `def get_host(self, ip)` |
-| `get_hosts_summary` | method | `modules/world_model.py:610` | `def get_hosts_summary(self)` |
-| `get_phase` | method | `modules/world_model.py:931` | `def get_phase(self)` |
-| `get_suggested_tools` | method | `modules/world_model.py:935` | `def get_suggested_tools(self)` |
-| `get_world_model` | method | `modules/world_model.py:1090` | `def get_world_model(path)` |
-| `graph_snapshot` | method | `modules/world_model.py:924` | `def graph_snapshot(self)` |
-| `in_degree` | method | `modules/world_model.py:287` | `def in_degree(self, node)` |
-| `link_credential_to_failure` | method | `modules/world_model.py:674` | `def link_credential_to_failure(self, value, host)` |
-| `link_credential_to_success` | method | `modules/world_model.py:653` | `def link_credential_to_success(self, value, host)` |
-| `neighbors` | method | `modules/world_model.py:283` | `def neighbors(self, node)` |
-| `out_degree` | method | `modules/world_model.py:291` | `def out_degree(self, node)` |
-| `pivot_candidates` | method | `modules/world_model.py:310` | `def pivot_candidates(self, top_k)` |
-| `pivot_candidates` | method | `modules/world_model.py:916` | `def pivot_candidates(self, top_k)` |
-| `rank` | method | `modules/world_model.py:161` | `def rank(self)` |
-| `read_state_dict` | function | `modules/world_model.py:74` | `def read_state_dict(path)` |
-| `reload` | method | `modules/world_model.py:1042` | `def reload(self)` |
-| `reset` | method | `modules/world_model.py:1058` | `def reset(self)` |
-| `reset_host` | method | `modules/world_model.py:541` | `def reset_host(self, ip)` |
-| `set_os_hint` | method | `modules/world_model.py:584` | `def set_os_hint(self, ip, os_hint)` |
-| `snapshot` | method | `modules/world_model.py:1069` | `def snapshot(self)` |
-| `to_context_string` | method | `modules/world_model.py:938` | `def to_context_string(self)` |
-| `to_dict` | method | `modules/world_model.py:332` | `def to_dict(self)` |
-| `to_dict` | method | `modules/world_model.py:386` | `def to_dict(self)` |
-| `update_from_findings` | method | `modules/world_model.py:730` | `def update_from_findings(self, findings)` |
-| `write_state_dict` | function | `modules/world_model.py:119` | `def write_state_dict(path, data)` |
+| `_load` | method | `modules/world_model.py:1048` | `def _load(self)` |
+| `_master_password` | function | `modules/world_model.py:67` | `def _master_password()` |
+| `_save` | method | `modules/world_model.py:1029` | `def _save(self)` |
+| `add_credential` | method | `modules/world_model.py:653` | `def add_credential(self, value, host, service)` |
+| `add_domain` | method | `modules/world_model.py:748` | `def add_domain(self, domain, host, context)` |
+| `add_email` | method | `modules/world_model.py:742` | `def add_email(self, address, host, context)` |
+| `add_host` | method | `modules/world_model.py:565` | `def add_host(self, ip)` |
+| `add_note` | method | `modules/world_model.py:609` | `def add_note(self, ip, note)` |
+| `add_relation` | method | `modules/world_model.py:274` | `def add_relation(self, relation)` |
+| `add_relation` | method | `modules/world_model.py:927` | `def add_relation(self, source, target, relation, weight)` |
+| `add_service` | method | `modules/world_model.py:373` | `def add_service(self, svc)` |
+| `add_service` | method | `modules/world_model.py:592` | `def add_service(self, ip, port, name, version, protocol)` |
+| `add_vulnerability` | method | `modules/world_model.py:736` | `def add_vulnerability(self, description, host, cve, severity)` |
+| `advance` | method | `modules/world_model.py:377` | `def advance(self, new_state)` |
+| `advance_host` | method | `modules/world_model.py:583` | `def advance_host(self, ip, new_state)` |
+| `can_advance_to` | method | `modules/world_model.py:163` | `def can_advance_to(self, next_state)` |
+| `consume_policy_facts` | method | `modules/world_model.py:835` | `def consume_policy_facts(self, facts_path)` |
+| `degree_centrality` | method | `modules/world_model.py:294` | `def degree_centrality(self)` |
+| `derive` | method | `modules/world_model.py:430` | `def derive(self, hosts)` |
+| `from_dict` | method | `modules/world_model.py:348` | `def from_dict(cls, data)` |
+| `from_dict` | method | `modules/world_model.py:397` | `def from_dict(cls, d)` |
+| `get_host` | method | `modules/world_model.py:630` | `def get_host(self, ip)` |
+| `get_hosts_summary` | method | `modules/world_model.py:642` | `def get_hosts_summary(self)` |
+| `get_phase` | method | `modules/world_model.py:963` | `def get_phase(self)` |
+| `get_suggested_tools` | method | `modules/world_model.py:967` | `def get_suggested_tools(self)` |
+| `get_world_model` | method | `modules/world_model.py:1126` | `def get_world_model(path)` |
+| `graph_snapshot` | method | `modules/world_model.py:956` | `def graph_snapshot(self)` |
+| `in_degree` | method | `modules/world_model.py:286` | `def in_degree(self, node)` |
+| `link_credential_to_failure` | method | `modules/world_model.py:706` | `def link_credential_to_failure(self, value, host)` |
+| `link_credential_to_success` | method | `modules/world_model.py:685` | `def link_credential_to_success(self, value, host)` |
+| `neighbors` | method | `modules/world_model.py:282` | `def neighbors(self, node)` |
+| `out_degree` | method | `modules/world_model.py:290` | `def out_degree(self, node)` |
+| `pivot_candidates` | method | `modules/world_model.py:309` | `def pivot_candidates(self, top_k)` |
+| `pivot_candidates` | method | `modules/world_model.py:948` | `def pivot_candidates(self, top_k)` |
+| `rank` | method | `modules/world_model.py:160` | `def rank(self)` |
+| `read_state_dict` | function | `modules/world_model.py:72` | `def read_state_dict(path)` |
+| `reload` | method | `modules/world_model.py:1078` | `def reload(self)` |
+| `reset` | method | `modules/world_model.py:1094` | `def reset(self)` |
+| `reset_host` | method | `modules/world_model.py:573` | `def reset_host(self, ip)` |
+| `set_os_hint` | method | `modules/world_model.py:616` | `def set_os_hint(self, ip, os_hint)` |
+| `snapshot` | method | `modules/world_model.py:1105` | `def snapshot(self)` |
+| `to_context_string` | method | `modules/world_model.py:970` | `def to_context_string(self)` |
+| `to_dict` | method | `modules/world_model.py:331` | `def to_dict(self)` |
+| `to_dict` | method | `modules/world_model.py:385` | `def to_dict(self)` |
+| `update_from_findings` | method | `modules/world_model.py:762` | `def update_from_findings(self, findings)` |
+| `write_state_dict` | function | `modules/world_model.py:118` | `def write_state_dict(path, data)` |
 | `YAMLPromptGenerator` | class | `modules/yaml_generator.py:17` | `class YAMLPromptGenerator` |
 | `__init__` | method | `modules/yaml_generator.py:18` | `def __init__(self, provider, api_key)` |
 | `_load_model` | method | `modules/yaml_generator.py:32` | `def _load_model(self)` |
@@ -193,22 +193,22 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `extract_yaml_from_markdown` | method | `modules/yaml_generator.py:100` | `def extract_yaml_from_markdown(self, text)` |
 | `generate_prompt` | method | `modules/yaml_generator.py:54` | `def generate_prompt(self, user_request)` |
 | `load_payload` | method | `modules/yaml_generator.py:25` | `def load_payload(self)` |
-| `main` | method | `modules/yaml_generator.py:140` | `def main()` |
-| `YaraScanner` | class | `modules/yara_scanner.py:22` | `class YaraScanner` |
-| `__init__` | method | `modules/yara_scanner.py:30` | `def __init__(self, rules_dir, auto_compile)` |
+| `main` | method | `modules/yaml_generator.py:141` | `def main()` |
+| `YaraScanner` | class | `modules/yara_scanner.py:23` | `class YaraScanner` |
+| `__init__` | method | `modules/yara_scanner.py:31` | `def __init__(self, rules_dir, auto_compile)` |
 | `_format_match` | method | `modules/yara_scanner.py:162` | `def _format_match(self, match)` |
-| `_load_external_vars` | method | `modules/yara_scanner.py:44` | `def _load_external_vars(self)` |
+| `_load_external_vars` | method | `modules/yara_scanner.py:45` | `def _load_external_vars(self)` |
 | `_scan_with_timeout` | method | `modules/yara_scanner.py:129` | `def _scan_with_timeout(self, filepath, externals, timeout)` |
-| `_sha256` | method | `modules/yara_scanner.py:247` | `def _sha256(filepath)` |
-| `add_rule` | method | `modules/yara_scanner.py:255` | `def add_rule(self, name, content)` |
-| `compile_all` | method | `modules/yara_scanner.py:53` | `def compile_all(self)` |
-| `create_default_rules` | method | `modules/yara_scanner.py:366` | `def create_default_rules()` |
-| `download_community_rules` | method | `modules/yara_scanner.py:295` | `def download_community_rules(self)` |
-| `ensure_directory` | method | `modules/yara_scanner.py:40` | `def ensure_directory(self)` |
-| `ioc_scan` | method | `modules/yara_scanner.py:327` | `def ioc_scan(self, target_path, iocs)` |
-| `list_rules` | method | `modules/yara_scanner.py:274` | `def list_rules(self)` |
-| `scan_directory` | method | `modules/yara_scanner.py:186` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
-| `scan_file` | method | `modules/yara_scanner.py:97` | `def scan_file(self, filepath, timeout)` |
+| `_sha256` | method | `modules/yara_scanner.py:250` | `def _sha256(filepath)` |
+| `add_rule` | method | `modules/yara_scanner.py:258` | `def add_rule(self, name, content)` |
+| `compile_all` | method | `modules/yara_scanner.py:54` | `def compile_all(self)` |
+| `create_default_rules` | method | `modules/yara_scanner.py:371` | `def create_default_rules()` |
+| `download_community_rules` | method | `modules/yara_scanner.py:300` | `def download_community_rules(self)` |
+| `ensure_directory` | method | `modules/yara_scanner.py:41` | `def ensure_directory(self)` |
+| `ioc_scan` | method | `modules/yara_scanner.py:328` | `def ioc_scan(self, target_path, iocs)` |
+| `list_rules` | method | `modules/yara_scanner.py:277` | `def list_rules(self)` |
+| `scan_directory` | method | `modules/yara_scanner.py:187` | `def scan_directory(self, directory, recursive, extensions, max_files)` |
+| `scan_file` | method | `modules/yara_scanner.py:98` | `def scan_file(self, filepath, timeout)` |
 | `target` | method | `modules/yara_scanner.py:137` | `def target()` |
 | `all` | function | `plugins/generate_c_reverse_shell.lua:108` | `` |
 | `generate_c_reverse_shell` | function | `plugins/generate_c_reverse_shell.lua:1` | `` |
@@ -392,19 +392,20 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `test_start_and_stop` | method | `poc_tui/test_app.py:42` | `def test_start_and_stop(self)` |
 | `test_tab_complete` | method | `poc_tui/test_app.py:197` | `def test_tab_complete(self)` |
 | `test_toggle_sidebar` | method | `poc_tui/test_app.py:209` | `def test_toggle_sidebar(self)` |
-| `_build_substitutions` | function | `pwntomate.py:100` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
-| `_fix_sessions_owner` | function | `pwntomate.py:130` | `def _fix_sessions_owner()` |
-| `_run_tool` | function | `pwntomate.py:187` | `def _run_tool(cmd)` |
-| `build_command_map` | function | `readmeneitor.py:95` | `def build_command_map(index_data)` |
-| `convert_to_html` | function | `readmeneitor.py:332` | `def convert_to_html(md_path, html_path)` |
-| `extract_docstrings_from_dir` | function | `readmeneitor.py:152` | `def extract_docstrings_from_dir(dirpath)` |
-| `extract_docstrings_from_file` | function | `readmeneitor.py:123` | `def extract_docstrings_from_file(filepath)` |
-| `extract_functions_from_file` | function | `readmeneitor.py:200` | `def extract_functions_from_file(filepath)` |
-| `group_commands_by_phase` | function | `readmeneitor.py:178` | `def group_commands_by_phase(cmd_map)` |
-| `load_command_index` | function | `readmeneitor.py:74` | `def load_command_index(index_path)` |
-| `main` | function | `readmeneitor.py:364` | `def main()` |
-| `write_commands_md` | function | `readmeneitor.py:266` | `def write_commands_md(cmd_map, docstrings, groups, output_path)` |
-| `write_utils_md` | function | `readmeneitor.py:232` | `def write_utils_md(functions, output_path)` |
+| `_build_substitutions` | function | `pwntomate.py:113` | `def _build_substitutions(host_addr, port, toolname_value, basedir_value, tunnel)` |
+| `_fix_sessions_owner` | function | `pwntomate.py:143` | `def _fix_sessions_owner()` |
+| `_run_tool` | function | `pwntomate.py:203` | `def _run_tool(cmd)` |
+| `build_command_map` | function | `readmeneitor.py:104` | `def build_command_map(index_data)` |
+| `convert_to_html` | function | `readmeneitor.py:343` | `def convert_to_html(md_path, html_path)` |
+| `extract_docstrings_from_dir` | function | `readmeneitor.py:161` | `def extract_docstrings_from_dir(dirpath)` |
+| `extract_docstrings_from_file` | function | `readmeneitor.py:132` | `def extract_docstrings_from_file(filepath)` |
+| `extract_functions_from_file` | function | `readmeneitor.py:209` | `def extract_functions_from_file(filepath)` |
+| `group_commands_by_phase` | function | `readmeneitor.py:187` | `def group_commands_by_phase(cmd_map)` |
+| `load_command_index` | function | `readmeneitor.py:83` | `def load_command_index(index_path)` |
+| `main` | function | `readmeneitor.py:379` | `def main()` |
+| `normalize_trailing_newline` | function | `readmeneitor.py:74` | `def normalize_trailing_newline(output_path)` |
+| `write_commands_md` | function | `readmeneitor.py:276` | `def write_commands_md(cmd_map, docstrings, groups, output_path)` |
+| `write_utils_md` | function | `readmeneitor.py:241` | `def write_utils_md(functions, output_path)` |
 | `banner` | function | `run_topoexploit_agent.sh:29` | `` |
 | `start_api` | function | `run_topoexploit_agent.sh:38` | `` |
 | `MigrationError` | class | `scripts/activate_migrations.py:28` | `class MigrationError(Exception)` |
@@ -495,6 +496,5 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `changed_tests` | function | `scripts/test_bdd.sh:37` | `` |
 | `check_doc_counts` | function | `scripts/top_tier_check.py:70` | `def check_doc_counts(commands, mcp, addons)` |
 | `check_release_inputs` | function | `scripts/top_tier_check.py:108` | `def check_release_inputs()` |
-| `check_tracked_secrets` | function | `scripts/top_tier_check.py:81` | `def check_tracked_secrets()` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

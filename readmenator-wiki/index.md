@@ -18,13 +18,13 @@ Open work clusters around documentation (86% file coverage), 0 security findings
 | Metric | Value |
 |--------|-------|
 | Files | 898 |
-| Symbols | 17119 |
-| Resolved imports | 3204 |
+| Symbols | 17125 |
+| Resolved imports | 3208 |
 | Languages | asm, c, cpp, cs, h, js, lua, php, py, sh |
 | Communities | 22 |
 | Doc coverage | 86% (768/898 files) |
 | Security findings | 0 |
-| Estimated read cost | ~531736 tokens (chars/4, offline so $0) |
+| Estimated read cost | ~531933 tokens (chars/4, offline so $0) |
 | Large files (>256KB, maybe generated) | 7: `lazyc2.py`, `lazyown_mcp.py`, `mcp_generated_tools.py`, `html2pdf.bundle.min.js`, `vis-network-9.1.2.min.js` (+2 more) |
 
 ## Reading Order

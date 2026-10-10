@@ -99,11 +99,11 @@
 - Symbols:
   - `init_beacon_bp` (function, line 35) `def init_beacon_bp(commands, results, commands_history, connected_clients, encrypt_fn, decrypt_fn, config...`
   - `_fire_hooks` (function, line 72) `def _fire_hooks(event, context)`
-  - `_trigger_cred_reuse` (function, line 88) `def _trigger_cred_reuse(context)`
-  - `send_command` (function, line 108) `def send_command(client_id)`
-  - `receive_result` (function, line 128) `def receive_result(client_id)`
-  - `issue_command` (function, line 214) `def issue_command()`
-  - `_run` (function, line 94) `def _run()`
+  - `_trigger_cred_reuse` (function, line 91) `def _trigger_cred_reuse(context)`
+  - `send_command` (function, line 111) `def send_command(client_id)`
+  - `receive_result` (function, line 131) `def receive_result(client_id)`
+  - `issue_command` (function, line 245) `def issue_command()`
+  - `_run` (function, line 97) `def _run()`
 - Depends on: `core/logging.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
 
@@ -136,10 +136,10 @@
   - `_get_config` (function, line 41) `def _get_config(key, default)`
   - `create_short_url` (function, line 47) `def create_short_url()`
   - `track_interaction` (function, line 87) `def track_interaction(short_url)`
-  - `update_short_url` (function, line 121) `def update_short_url(short_url)`
-  - `redirect_to_file` (function, line 147) `def redirect_to_file(short_url)`
-  - `webserver_report` (function, line 170) `def webserver_report(filename)`
-  - `download_files` (function, line 188) `def download_files(filename)`
+  - `update_short_url` (function, line 123) `def update_short_url(short_url)`
+  - `redirect_to_file` (function, line 149) `def redirect_to_file(short_url)`
+  - `webserver_report` (function, line 172) `def webserver_report(filename)`
+  - `download_files` (function, line 190) `def download_files(filename)`
 - Depends on: `core/logging.py`, `lazyc2/extensions/short_urls.py`, `modules/security_sanitizers.py`, `utils.py`
 - Imported by: `lazyc2/blueprints/__init__.py`
 
@@ -149,5 +149,5 @@
 - Language: py
 - Symbols:
   - `require_operator_session` (function, line 20) `def require_operator_session(blueprint, login_endpoint)`
-  - `_guard` (function, line 35) `def _guard()`
+  - `_guard` (function, line 36) `def _guard()`
 - Imported by: `lazyc2/blueprints/addons.py`, `lazyc2/blueprints/operations.py`

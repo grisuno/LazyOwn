@@ -15,10 +15,10 @@ This community groups 2 file(s) rooted at `tools` with dominant language py (coh
 
 ## Key Symbols
 
-- `font` (function, `tools/gen_demo_gifs.py:13`) `def font(size)` - Resolve a monospace font with stdlib fallback.
-- `render` (function, `tools/gen_demo_gifs.py:21`) `def render(lines, path, hold)` - Render terminal line-by-line frames.
-- `main` (function, `tools/gen_demo_gifs.py:69`) `def main()` - Render the three core GIFs.
-- `main` (function, `tools/gen_demo_gifs_extra.py:47`) `def main()` - Render the four extended GIFs.
+- `font` (function, `tools/gen_demo_gifs.py:14`) `def font(size)` - Resolve a monospace font with stdlib fallback.
+- `render` (function, `tools/gen_demo_gifs.py:22`) `def render(lines, path, hold)` - Render terminal line-by-line frames.
+- `main` (function, `tools/gen_demo_gifs.py:70`) `def main()` - Render the three core GIFs.
+- `main` (function, `tools/gen_demo_gifs_extra.py:49`) `def main()` - Render the four extended GIFs.
 
 ## Internal vs External Edges
 

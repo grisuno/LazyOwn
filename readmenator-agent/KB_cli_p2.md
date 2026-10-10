@@ -22,16 +22,16 @@ Previous: [KB_cli.md](KB_cli.md)
   - `_get_recommendations` (method, line 297) `def _get_recommendations()`
   - `TargetPanel` (class, line 322) `class TargetPanel(Static)`
   - `KillChainPanel` (class, line 378) `class KillChainPanel(Static)`
-  - `ConfigPanel` (class, line 431) `class ConfigPanel(Static)`
-  - `CommandsPanel` (class, line 461) `class CommandsPanel(Static)`
-  - `ReasoningPanel` (class, line 496) `class ReasoningPanel(Static)`
-  - `OpsPanel` (class, line 533) `class OpsPanel(Static)`
-  - `HintBar` (class, line 588) `class HintBar(Horizontal)`
-  - `ToastPanel` (class, line 654) `class ToastPanel(Static)`
-  - `OutputPanel` (class, line 694) `class OutputPanel(Log)`
-  - `NextStepsPanel` (class, line 708) `class NextStepsPanel(Static)`
-  - `LazyOwnDashboard` (class, line 740) `class LazyOwnDashboard(App)`
-  - `launch` (method, line 1069) `def launch(payload_path, sessions_dir)`
+  - `ConfigPanel` (class, line 430) `class ConfigPanel(Static)`
+  - `CommandsPanel` (class, line 460) `class CommandsPanel(Static)`
+  - `ReasoningPanel` (class, line 495) `class ReasoningPanel(Static)`
+  - `OpsPanel` (class, line 532) `class OpsPanel(Static)`
+  - `HintBar` (class, line 587) `class HintBar(Horizontal)`
+  - `ToastPanel` (class, line 653) `class ToastPanel(Static)`
+  - `OutputPanel` (class, line 693) `class OutputPanel(Log)`
+  - `NextStepsPanel` (class, line 706) `class NextStepsPanel(Static)`
+  - `LazyOwnDashboard` (class, line 738) `class LazyOwnDashboard(App)`
+  - `launch` (method, line 1064) `def launch(payload_path, sessions_dir)`
   - `__init__` (method, line 100) `def __init__(self, command)`
   - `__init__` (method, line 108) `def __init__(self, phase)`
   - `get_selection` (method, line 335) `def get_selection(self, selection)`
@@ -40,35 +40,35 @@ Previous: [KB_cli.md](KB_cli.md)
   - `__init__` (method, line 393) `def __init__(self)`
   - `update_data` (method, line 397) `def update_data(self, progress)`
   - `on_click` (method, line 418) `def on_click(self, event)`
-  - `update_data` (method, line 443) `def update_data(self, payload)`
-  - `update_data` (method, line 473) `def update_data(self, commands)`
-  - `update_data` (method, line 508) `def update_data(self, entries)`
-  - `update_data` (method, line 545) `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
-  - `__init__` (method, line 611) `def __init__(self)`
-  - `compose` (method, line 616) `def compose(self)`
-  - `update_data` (method, line 620) `def update_data(self, hints)`
-  - `on_button_pressed` (method, line 645) `def on_button_pressed(self, event)`
-  - `update_data` (method, line 672) `def update_data(self, payload, sessions_dir, width)`
-  - `update_data` (method, line 720) `def update_data(self, recommendations)`
-  - `__init__` (method, line 809) `def __init__(self, payload_path, sessions_dir)`
-  - `_apply_layout` (method, line 821) `def _apply_layout(self, mode, hidden_fn)`
-  - `compose` (method, line 838) `def compose(self)`
-  - `on_mount` (method, line 857) `def on_mount(self)`
-  - `on_input_submitted` (method, line 862) `def on_input_submitted(self, event)`
-  - `on_command_requested` (method, line 874) `def on_command_requested(self, event)`
-  - `_execute` (method, line 883) `def _execute(self, command)`
-  - `_apply_command_result` (method, line 896) `def _apply_command_result(self, command, success, output)`
-  - `on_phase_selected` (method, line 914) `def on_phase_selected(self, event)`
-  - `action_refresh_data` (method, line 925) `def action_refresh_data(self)`
-  - `action_toggle_compact` (method, line 928) `def action_toggle_compact(self)`
-  - `_raise_toast` (method, line 940) `def _raise_toast(self, message, severity, event_type)`
-  - `action_screenshot` (method, line 958) `def action_screenshot(self)`
-  - `action_export_snapshot` (method, line 969) `def action_export_snapshot(self)`
-  - `action_next_phase` (method, line 989) `def action_next_phase(self)`
-  - `action_prev_phase` (method, line 993) `def action_prev_phase(self)`
-  - `_cycle_phase` (method, line 997) `def _cycle_phase(self, direction)`
-  - `_do_refresh` (method, line 1013) `def _do_refresh(self)`
-  - `_filter_commands` (method, line 1053) `def _filter_commands(self, commands)`
+  - `update_data` (method, line 442) `def update_data(self, payload)`
+  - `update_data` (method, line 472) `def update_data(self, commands)`
+  - `update_data` (method, line 507) `def update_data(self, entries)`
+  - `update_data` (method, line 544) `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
+  - `__init__` (method, line 610) `def __init__(self)`
+  - `compose` (method, line 615) `def compose(self)`
+  - `update_data` (method, line 619) `def update_data(self, hints)`
+  - `on_button_pressed` (method, line 644) `def on_button_pressed(self, event)`
+  - `update_data` (method, line 671) `def update_data(self, payload, sessions_dir, width)`
+  - `update_data` (method, line 718) `def update_data(self, recommendations)`
+  - `__init__` (method, line 807) `def __init__(self, payload_path, sessions_dir)`
+  - `_apply_layout` (method, line 819) `def _apply_layout(self, mode, hidden_fn)`
+  - `compose` (method, line 836) `def compose(self)`
+  - `on_mount` (method, line 855) `def on_mount(self)`
+  - `on_input_submitted` (method, line 860) `def on_input_submitted(self, event)`
+  - `on_command_requested` (method, line 872) `def on_command_requested(self, event)`
+  - `_execute` (method, line 881) `def _execute(self, command)`
+  - `_apply_command_result` (method, line 894) `def _apply_command_result(self, command, success, output)`
+  - `on_phase_selected` (method, line 912) `def on_phase_selected(self, event)`
+  - `action_refresh_data` (method, line 923) `def action_refresh_data(self)`
+  - `action_toggle_compact` (method, line 926) `def action_toggle_compact(self)`
+  - `_raise_toast` (method, line 938) `def _raise_toast(self, message, severity, event_type)`
+  - `action_screenshot` (method, line 956) `def action_screenshot(self)`
+  - `action_export_snapshot` (method, line 967) `def action_export_snapshot(self)`
+  - `action_next_phase` (method, line 987) `def action_next_phase(self)`
+  - `action_prev_phase` (method, line 991) `def action_prev_phase(self)`
+  - `_cycle_phase` (method, line 995) `def _cycle_phase(self, direction)`
+  - `_do_refresh` (method, line 1011) `def _do_refresh(self)`
+  - `_filter_commands` (method, line 1048) `def _filter_commands(self, commands)`
   - `_write_phase` (method, line 43) `def _write_phase(phase)`
 - Depends on: `cli/commands/containers.py`, `cli/dashboard_layout.py`, `cli/graph_advisor.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/reactive_hints.py`, `cli/reasoning_stream.py`, `cli/recommendation_signals.py`, `cli/toast_bus.py`, `modules/killchain.py`
 - Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`

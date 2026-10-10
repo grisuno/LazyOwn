@@ -15,8 +15,8 @@
   - `__init__` (method, line 18) `def __init__(self, constants, actions, parent)`
   - `set_actions` (method, line 43) `def set_actions(self, actions)`
   - `keyPressEvent` (method, line 48) `def keyPressEvent(self, event)`
-  - `showEvent` (method, line 69) `def showEvent(self, event)`
-  - `_on_action_invoked` (method, line 75) `def _on_action_invoked(self, action)`
+  - `showEvent` (method, line 71) `def showEvent(self, event)`
+  - `_on_action_invoked` (method, line 77) `def _on_action_invoked(self, action)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/widgets/command_palette_list.py`
 - Imported by: `lazygui/windows/__init__.py`, `lazygui/windows/main_window.py`
 
@@ -28,12 +28,12 @@
   - `ConnectionRequest` (class, line 39) `class ConnectionRequest`
   - `ConnectDialog` (class, line 50) `class ConnectDialog(QDialog)`
   - `__init__` (method, line 53) `def __init__(self, constants, settings, paths, parent)`
-  - `request` (method, line 106) `def request(self)`
-  - `persist_choice` (method, line 121) `def persist_choice(self)`
-  - `_build_local_page` (method, line 136) `def _build_local_page(self)`
-  - `_build_teamserver_page` (method, line 151) `def _build_teamserver_page(self)`
-  - `_restore_last_choice` (method, line 169) `def _restore_last_choice(self)`
-  - `_on_kind_changed` (method, line 187) `def _on_kind_changed(self, index)`
+  - `request` (method, line 105) `def request(self)`
+  - `persist_choice` (method, line 120) `def persist_choice(self)`
+  - `_build_local_page` (method, line 135) `def _build_local_page(self)`
+  - `_build_teamserver_page` (method, line 150) `def _build_teamserver_page(self)`
+  - `_restore_last_choice` (method, line 168) `def _restore_last_choice(self)`
+  - `_on_kind_changed` (method, line 186) `def _on_kind_changed(self, index)`
 - Depends on: `lazygui/config/c2_credentials.py`, `lazygui/config/constants.py`, `lazygui/config/paths.py`, `lazygui/config/settings.py`, `lazygui/services/models.py`, `lazygui/services/teamserver_backend.py`
 - Imported by: `lazygui/app.py`, `lazygui/windows/__init__.py`
 

@@ -4,9 +4,9 @@ Previous: [API_p16.md](API_p16.md)
 ## skills/sessions_watcher.py
 Depends on: `core/logging.py`, `modules/event_engine.py`, `modules/logging_config.py`, `skills/lazyown_facts.py`, `skills/lazyown_objective.py`
 Imported by: `skills/lazyown_daemon.py`
-- `_Handler.on_created` (method) `skills/sessions_watcher.py:370` `def on_created(self, event)`
-- `_Handler.on_modified` (method) `skills/sessions_watcher.py:374` `def on_modified(self, event)`
-- `main` (function) `skills/sessions_watcher.py:424` `def main()`
+- `_Handler.on_created` (method) `skills/sessions_watcher.py:376` `def on_created(self, event)`
+- `_Handler.on_modified` (method) `skills/sessions_watcher.py:380` `def on_modified(self, event)`
+- `main` (function) `skills/sessions_watcher.py:430` `def main()`
 
 ## skills/setup.sh
 - `info` (function) `skills/setup.sh:15`
@@ -18,31 +18,31 @@ Imported by: `skills/lazyown_daemon.py`
 ## skills/swan_agent.py
 Depends on: `core/logging.py`, `modules/detection_oracle.py`, `modules/logging_config.py`, `modules/moe_router.py`, `modules/rl_trainer.py`, `skills/hive_mind.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_policy.py`
 Imported by: `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `skills/unified_orchestrator.py`, `tests/test_moe_rl_swan.py`
-- `SwanResult.is_success` (method) `skills/swan_agent.py:160` `def is_success(self)`
-- `IResultAggregator.aggregate` (method) `skills/swan_agent.py:200` `def aggregate(self, task_type, goal, votes)` -- Return (synthesis_text, consensus_confidence).
-- `ISwanOrchestrator.run` (method) `skills/swan_agent.py:217` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute with the best single expert and return result.
-- `ISwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:227` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `WeightedTextAggregator.aggregate` (method) `skills/swan_agent.py:255` `def aggregate(self, task_type, goal, votes)`
-- `ExpertExecutor.execute` (method) `skills/swan_agent.py:344` `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` -- Run the expert and return a SwanResult.
-- `OutcomeEvaluator.evaluate` (method) `skills/swan_agent.py:461` `def evaluate(self, result, task_type)` -- Return (reward, detection_prob).
-- `SwanOrchestrator.__init__` (method) `skills/swan_agent.py:555` `def __init__(self, executor, evaluator, aggregator, api_key)`
-- `SwanOrchestrator.run` (method) `skills/swan_agent.py:575` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute the task with the best single expert selected by the MoE+RL router.
-- `SwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:662` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
-- `SwanOrchestrator.status` (method) `skills/swan_agent.py:744` `def status(self)` -- Return a diagnostic snapshot of the SWAN system.
-- `SwanOrchestrator.mcp_swan_run` (method) `skills/swan_agent.py:923` `def mcp_swan_run(task_type, goal, phase)` -- Route and execute a task with the best MoE+RL-selected expert.
-- `SwanOrchestrator.mcp_swan_ensemble` (method) `skills/swan_agent.py:943` `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` -- Run top-N experts in parallel and return a synthesized result.
-- `SwanOrchestrator.mcp_swan_status` (method) `skills/swan_agent.py:969` `def mcp_swan_status()` -- Return SWAN system status: expert weights, RL epsilon, performance.
-- `SwanOrchestrator.mcp_swan_route` (method) `skills/swan_agent.py:976` `def mcp_swan_route(task_type, goal)` -- Show which expert would be selected for a task without executing.
-- `SwanOrchestrator.get_swan` (method) `skills/swan_agent.py:1007` `def get_swan(api_key)` -- Return (or create) the module-level singleton SwanOrchestrator.
+- `SwanResult.is_success` (method) `skills/swan_agent.py:167` `def is_success(self)`
+- `IResultAggregator.aggregate` (method) `skills/swan_agent.py:209` `def aggregate(self, task_type, goal, votes)` -- Return (synthesis_text, consensus_confidence).
+- `ISwanOrchestrator.run` (method) `skills/swan_agent.py:226` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute with the best single expert and return result.
+- `ISwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:236` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
+- `WeightedTextAggregator.aggregate` (method) `skills/swan_agent.py:264` `def aggregate(self, task_type, goal, votes)`
+- `ExpertExecutor.execute` (method) `skills/swan_agent.py:351` `def execute(self, expert_id, backend, model, goal, task_type, timeout, api_key)` -- Run the expert and return a SwanResult.
+- `OutcomeEvaluator.evaluate` (method) `skills/swan_agent.py:479` `def evaluate(self, result, task_type)` -- Return (reward, detection_prob).
+- `SwanOrchestrator.__init__` (method) `skills/swan_agent.py:572` `def __init__(self, executor, evaluator, aggregator, api_key)`
+- `SwanOrchestrator.run` (method) `skills/swan_agent.py:592` `def run(self, task_type, goal, engagement_phase, timeout)` -- Execute the task with the best single expert selected by the MoE+RL router.
+- `SwanOrchestrator.ensemble_run` (method) `skills/swan_agent.py:680` `def ensemble_run(self, task_type, goal, n_experts, engagement_phase, timeout)` -- Execute with top-N experts in parallel and synthesize results.
+- `SwanOrchestrator.status` (method) `skills/swan_agent.py:763` `def status(self)` -- Return a diagnostic snapshot of the SWAN system.
+- `SwanOrchestrator.mcp_swan_run` (method) `skills/swan_agent.py:945` `def mcp_swan_run(task_type, goal, phase)` -- Route and execute a task with the best MoE+RL-selected expert.
+- `SwanOrchestrator.mcp_swan_ensemble` (method) `skills/swan_agent.py:968` `def mcp_swan_ensemble(task_type, goal, n_experts, phase)` -- Run top-N experts in parallel and return a synthesized result.
+- `SwanOrchestrator.mcp_swan_status` (method) `skills/swan_agent.py:996` `def mcp_swan_status()` -- Return SWAN system status: expert weights, RL epsilon, performance.
+- `SwanOrchestrator.mcp_swan_route` (method) `skills/swan_agent.py:1003` `def mcp_swan_route(task_type, goal)` -- Show which expert would be selected for a task without executing.
+- `SwanOrchestrator.get_swan` (method) `skills/swan_agent.py:1039` `def get_swan(api_key)` -- Return (or create) the module-level singleton SwanOrchestrator.
 
 ## skills/toposwarm_autonomous.py
 Depends on: `core/logging.py`, `modules/logging_config.py`, `modules/reactive_engine.py`, `modules/toposwarm_bridge.py`
-- `PentestState.add_finding` (method) `skills/toposwarm_autonomous.py:143` `def add_finding(self, phase_name, text)`
-- `PentestState.summary` (method) `skills/toposwarm_autonomous.py:147` `def summary(self)`
-- `PentestState.to_dict` (method) `skills/toposwarm_autonomous.py:158` `def to_dict(self)`
-- `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:301` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
-- `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:427` `def run(self, start_phase)`
-- `AutonomousAgent.main` (method) `skills/toposwarm_autonomous.py:482` `def main(argv)`
+- `PentestState.add_finding` (method) `skills/toposwarm_autonomous.py:145` `def add_finding(self, phase_name, text)`
+- `PentestState.summary` (method) `skills/toposwarm_autonomous.py:149` `def summary(self)`
+- `PentestState.to_dict` (method) `skills/toposwarm_autonomous.py:160` `def to_dict(self)`
+- `AutonomousAgent.__init__` (method) `skills/toposwarm_autonomous.py:310` `def __init__(self, state, no_model, verbose, effort, max_phases, json_out)`
+- `AutonomousAgent.run` (method) `skills/toposwarm_autonomous.py:432` `def run(self, start_phase)`
+- `AutonomousAgent.main` (method) `skills/toposwarm_autonomous.py:489` `def main(argv)`
 
 ## skills/unified_orchestrator.py
 Depends on: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
@@ -65,18 +65,18 @@ Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
 - `DaemonBackend.available` (method) `skills/unified_orchestrator.py:435` `def available(self)` -- Return ``True`` when the underlying engine can be imported.
 - `DaemonBackend.run` (method) `skills/unified_orchestrator.py:445` `def run(self, goal)` -- Execute a single-target kill-chain engagement.
 - `DaemonBackend.effective_target` (method) `skills/unified_orchestrator.py:489` `def effective_target(self, goal)` -- Return the daemon target this backend would use for ``goal``.
-- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:547` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
-- `HiveBackend.available` (method) `skills/unified_orchestrator.py:556` `def available(self)` -- Return ``True`` when the hive engine is importable.
-- `HiveBackend.run` (method) `skills/unified_orchestrator.py:566` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
-- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:647` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
-- `SwanBackend.available` (method) `skills/unified_orchestrator.py:656` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
-- `SwanBackend.run` (method) `skills/unified_orchestrator.py:666` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
-- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:749` `def __init__(self, config)` -- Bind the validator to the active configuration.
-- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:753` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
-- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:809` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
-- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:825` `def backends(self)` -- Return the registered backend names in declaration order.
-- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:829` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
-- `UnifiedOrchestrator.build_default_orchestrator` (method) `skills/unified_orchestrator.py:930` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
+- `HiveBackend.__init__` (method) `skills/unified_orchestrator.py:548` `def __init__(self, config, factory)` -- Bind to config and an optional queen factory.
+- `HiveBackend.available` (method) `skills/unified_orchestrator.py:557` `def available(self)` -- Return ``True`` when the hive engine is importable.
+- `HiveBackend.run` (method) `skills/unified_orchestrator.py:567` `def run(self, goal)` -- Plan, dispatch, collect and synthesise via the hive.
+- `SwanBackend.__init__` (method) `skills/unified_orchestrator.py:649` `def __init__(self, config, factory)` -- Bind to config and an optional orchestrator factory.
+- `SwanBackend.available` (method) `skills/unified_orchestrator.py:658` `def available(self)` -- Return ``True`` when the SWAN engine is importable.
+- `SwanBackend.run` (method) `skills/unified_orchestrator.py:668` `def run(self, goal)` -- Execute a single SWAN task and normalise the result.
+- `GoalValidator.__init__` (method) `skills/unified_orchestrator.py:752` `def __init__(self, config)` -- Bind the validator to the active configuration.
+- `GoalValidator.validate` (method) `skills/unified_orchestrator.py:756` `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Return a normalised goal or raise :class:`ValueError`.
+- `UnifiedOrchestrator.__init__` (method) `skills/unified_orchestrator.py:812` `def __init__(self, config, registry, router, validator, bus)` -- Bind the orchestrator to its collaborators.
+- `UnifiedOrchestrator.backends` (method) `skills/unified_orchestrator.py:828` `def backends(self)` -- Return the registered backend names in declaration order.
+- `UnifiedOrchestrator.execute` (method) `skills/unified_orchestrator.py:832` `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)` -- Validate, route, execute and emit one goal end-to-end.
+- `UnifiedOrchestrator.build_default_orchestrator` (method) `skills/unified_orchestrator.py:933` `def build_default_orchestrator(payload, sessions_dir)` -- Wire the canonical three-backend orchestrator.
 
 ## skills/update_knowledge.py
 Depends on: `core/logging.py`, `modules/logging_config.py`, `skills/lazyown_parquet_db.py`

@@ -248,20 +248,20 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Symbols:
   - `reject_option_injection` (function, line 40) `def reject_option_injection(argv)`
   - `escape_powershell_single_quoted` (function, line 59) `def escape_powershell_single_quoted(value)`
-  - `SecurityViolation` (class, line 78) `class SecurityViolation(PermissionError)`
-  - `terminal_env` (method, line 82) `def terminal_env(base)`
-  - `safe_subprocess_run` (method, line 103) `def safe_subprocess_run(argv)`
-  - `safe_clipboard_copy` (method, line 148) `def safe_clipboard_copy(content)`
-  - `build_sshpass_command` (method, line 187) `def build_sshpass_command(password, ssh_args)`
-  - `set_sshpass_env` (method, line 216) `def set_sshpass_env(password)`
-  - `escape_html_content` (method, line 235) `def escape_html_content(value)`
-  - `safe_path_join` (method, line 247) `def safe_path_join(base_dir, user_path)`
-  - `validate_network_cidr` (method, line 273) `def validate_network_cidr(cidr)`
-  - `validate_port_spec` (method, line 285) `def validate_port_spec(ports)`
-  - `validate_host` (method, line 301) `def validate_host(host)`
-  - `require_encryption_key` (method, line 323) `def require_encryption_key(env_key, secret_file)`
-  - `defused_xml_parse` (method, line 351) `def defused_xml_parse(source)`
-  - `sanitize_filename` (method, line 373) `def sanitize_filename(filename, max_length)`
+  - `SecurityViolation` (class, line 80) `class SecurityViolation(PermissionError)`
+  - `terminal_env` (method, line 84) `def terminal_env(base)`
+  - `safe_subprocess_run` (method, line 105) `def safe_subprocess_run(argv)`
+  - `safe_clipboard_copy` (method, line 150) `def safe_clipboard_copy(content)`
+  - `build_sshpass_command` (method, line 189) `def build_sshpass_command(password, ssh_args)`
+  - `set_sshpass_env` (method, line 218) `def set_sshpass_env(password)`
+  - `escape_html_content` (method, line 237) `def escape_html_content(value)`
+  - `safe_path_join` (method, line 249) `def safe_path_join(base_dir, user_path)`
+  - `validate_network_cidr` (method, line 275) `def validate_network_cidr(cidr)`
+  - `validate_port_spec` (method, line 287) `def validate_port_spec(ports)`
+  - `validate_host` (method, line 303) `def validate_host(host)`
+  - `require_encryption_key` (method, line 325) `def require_encryption_key(env_key, secret_file)`
+  - `defused_xml_parse` (method, line 353) `def defused_xml_parse(source)`
+  - `sanitize_filename` (method, line 375) `def sanitize_filename(filename, max_length)`
 - Depends on: `core/logging.py`
 - Imported by: `cli/commands/anti_forensics.py`, `cli/commands/cloud.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/exfiltration.py`, `cli/commands/lateral_migrated.py`, `cli/commands/nethelpers.py`, `cli/commands/persist_migrated.py`, `cli/commands/pivoting.py`, `core/process.py`, `core/safe_subprocess.py`, `lazyc2.py`, `lazyown.py`, `modules/phishing_orchestrator.py`, `modules/websocket_beacon.py`, `scripts/devtools/core_smoke.py`, `tests/test_security_hardening_v3.py`, `tests/test_shell_semantics.py`
 
@@ -391,11 +391,11 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `aggressive_yaml_fix` (function, line 256) `def aggressive_yaml_fix(yaml_content)`
   - `create_synthetic_yaml` (function, line 282) `def create_synthetic_yaml(nmap_services)`
   - `parse_yaml_response` (function, line 305) `def parse_yaml_response(content)`
-  - `load_adversary` (function, line 324) `def load_adversary()`
-  - `load_knowledge_base` (function, line 337) `def load_knowledge_base(knowledge_file)`
-  - `load_user_aliases` (function, line 353) `def load_user_aliases()`
-  - `list_binaries` (function, line 367) `def list_binaries(directory)`
-  - `select_binary` (function, line 382) `def select_binary(binaries)`
+  - `load_adversary` (function, line 325) `def load_adversary()`
+  - `load_knowledge_base` (function, line 338) `def load_knowledge_base(knowledge_file)`
+  - `load_user_aliases` (function, line 354) `def load_user_aliases()`
+  - `list_binaries` (function, line 368) `def list_binaries(directory)`
+  - `select_binary` (function, line 383) `def select_binary(binaries)`
 - Depends on: `core/console.py`
 - Imported by: `cli/banner_config.py`, `core/__init__.py`, `discord_c2.py`, `lazyc2.py`, `slack_c2_bot.py`, `telegram_c2.py`, `telegram_hermes.py`, `utils.py`
 
@@ -424,13 +424,13 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `_coerce_int` (method, line 299) `def _coerce_int(raw)`
   - `_coerce_bool` (method, line 314) `def _coerce_bool(raw)`
   - `_spec` (method, line 333) `def _spec(name, kind, default, description)`
-  - `field_for` (method, line 1327) `def field_for(key)`
-  - `coerce_value` (method, line 1332) `def coerce_value(key, raw)`
-  - `validate_value` (method, line 1355) `def validate_value(key, value)`
-  - `validate_payload` (method, line 1429) `def validate_payload(payload)`
-  - `format_issue` (method, line 1464) `def format_issue(issue)`
-  - `default_payload` (method, line 1482) `def default_payload()`
-  - `categories` (method, line 1490) `def categories()`
+  - `field_for` (method, line 1489) `def field_for(key)`
+  - `coerce_value` (method, line 1494) `def coerce_value(key, raw)`
+  - `validate_value` (method, line 1517) `def validate_value(key, value)`
+  - `validate_payload` (method, line 1591) `def validate_payload(payload)`
+  - `format_issue` (method, line 1626) `def format_issue(issue)`
+  - `default_payload` (method, line 1644) `def default_payload()`
+  - `categories` (method, line 1652) `def categories()`
 - Depends on: `cli/commands/enum.py`, `modules/llm_factory.py`
 - Imported by: `cli/assign.py`, `cli/wizard.py`, `core/__init__.py`, `core/config.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_core_config.py`, `tests/test_infra_disposable.py`, `tests/test_payload_schema.py`, `tests/test_placeholder_coverage.py`
 
@@ -459,9 +459,9 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `active_profile` (function, line 37) `def active_profile()`
-  - `is_light` (function, line 56) `def is_light()`
-  - `specs_for_profile` (function, line 61) `def specs_for_profile(specs)`
+  - `active_profile` (function, line 40) `def active_profile()`
+  - `is_light` (function, line 59) `def is_light()`
+  - `specs_for_profile` (function, line 64) `def specs_for_profile(specs)`
 - Imported by: `cli/doctor.py`, `cli/wizard.py`, `tests/test_profiles.py`
 
 ## core/prompt.py

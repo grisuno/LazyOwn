@@ -15,23 +15,23 @@ This community groups 2 file(s) rooted at `test` with dominant language py (cohe
 
 ## Key Symbols
 
-- `encrypt_data` (function, `test/config.py:23`) `def encrypt_data(data)`
-- `decrypt_data` (function, `test/config.py:31`) `def decrypt_data(b64_data)`
-- `send_command_via_web` (function, `test/test_commands.py:35`) `def send_command_via_web(command)` - Simula enviar un comando vía interfaz web /issue_command con autenticación básica
-- `get_encrypted_command` (function, `test/test_commands.py:49`) `def get_encrypted_command()` - Obtiene el comando cifrado del endpoint GET
-- `post_result` (function, `test/test_commands.py:56`) `def post_result(result_data)` - Envía el resultado cifrado al C2
-- `test_migrate` (function, `test/test_commands.py:69`) `def test_migrate()`
-- `test_uac_bypass` (function, `test/test_commands.py:78`) `def test_uac_bypass()`
-- `test_portscan` (function, `test/test_commands.py:87`) `def test_portscan()`
-- `test_discover` (function, `test/test_commands.py:97`) `def test_discover()`
-- `test_proxy` (function, `test/test_commands.py:107`) `def test_proxy()`
-- `test_download` (function, `test/test_commands.py:123`) `def test_download()`
-- `test_upload` (function, `test/test_commands.py:143`) `def test_upload()`
-- `test_persistence` (function, `test/test_commands.py:160`) `def test_persistence()`
-- `test_softenum` (function, `test/test_commands.py:169`) `def test_softenum()`
-- `test_simulate` (function, `test/test_commands.py:178`) `def test_simulate()`
-- `test_reverse_shell` (function, `test/test_commands.py:187`) `def test_reverse_shell()`
-- `test_shutdown` (function, `test/test_commands.py:196`) `def test_shutdown()`
+- `encrypt_data` (function, `test/config.py:24`) `def encrypt_data(data)`
+- `decrypt_data` (function, `test/config.py:33`) `def decrypt_data(b64_data)`
+- `send_command_via_web` (function, `test/test_commands.py:36`) `def send_command_via_web(command)` - Simula enviar un comando vía interfaz web /issue_command con autenticación básica
+- `get_encrypted_command` (function, `test/test_commands.py:51`) `def get_encrypted_command()` - Obtiene el comando cifrado del endpoint GET
+- `post_result` (function, `test/test_commands.py:59`) `def post_result(result_data)` - Envía el resultado cifrado al C2
+- `test_migrate` (function, `test/test_commands.py:79`) `def test_migrate()`
+- `test_uac_bypass` (function, `test/test_commands.py:89`) `def test_uac_bypass()`
+- `test_portscan` (function, `test/test_commands.py:99`) `def test_portscan()`
+- `test_discover` (function, `test/test_commands.py:110`) `def test_discover()`
+- `test_proxy` (function, `test/test_commands.py:121`) `def test_proxy()`
+- `test_download` (function, `test/test_commands.py:138`) `def test_download()`
+- `test_upload` (function, `test/test_commands.py:159`) `def test_upload()`
+- `test_persistence` (function, `test/test_commands.py:176`) `def test_persistence()`
+- `test_softenum` (function, `test/test_commands.py:186`) `def test_softenum()`
+- `test_simulate` (function, `test/test_commands.py:196`) `def test_simulate()`
+- `test_reverse_shell` (function, `test/test_commands.py:206`) `def test_reverse_shell()`
+- `test_shutdown` (function, `test/test_commands.py:216`) `def test_shutdown()`
 
 ## Internal vs External Edges
 

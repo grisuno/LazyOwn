@@ -23,8 +23,8 @@
   - `_on_history_clicked` (method, line 196) `def _on_history_clicked(self, item)`
   - `_last_entry` (method, line 201) `def _last_entry(self, index)`
   - `_on_beacon_result` (method, line 209) `def _on_beacon_result(self, result)`
-  - `open` (method, line 218) `def open(self)`
-  - `focus_input` (method, line 229) `def focus_input(self)`
+  - `open` (method, line 216) `def open(self)`
+  - `focus_input` (method, line 227) `def focus_input(self)`
 - Depends on: `lazygui/services/backend.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/windows/main_window.py`
 
@@ -82,44 +82,44 @@
   - `_resolve_icon_dir` (function, line 47) `def _resolve_icon_dir()`
   - `_load_icon` (function, line 63) `def _load_icon(name)`
   - `_icon_for_node` (function, line 81) `def _icon_for_node(node)`
-  - `GraphNodeState` (class, line 131) `class GraphNodeState`
-  - `GraphNodeItem` (class, line 139) `class GraphNodeItem(QGraphicsEllipseItem)`
-  - `GraphEdgeItem` (class, line 284) `class GraphEdgeItem(QGraphicsLineItem)`
-  - `GraphScene` (class, line 333) `class GraphScene(QGraphicsScene)`
-  - `GraphView` (class, line 495) `class GraphView(QGraphicsView)`
-  - `_resolve_node_color` (method, line 571) `def _resolve_node_color(node)`
-  - `_resolve_node_radius` (method, line 580) `def _resolve_node_radius(node)`
-  - `__init__` (method, line 142) `def __init__(self, node, radius, color, pixmap, on_selected, on_context_menu, label_visible, parent)`
-  - `_create_label` (method, line 172) `def _create_label(self)`
-  - `node_data` (method, line 185) `def node_data(self)`
-  - `paint` (method, line 189) `def paint(self, painter, option, widget)`
-  - `mousePressEvent` (method, line 247) `def mousePressEvent(self, event)`
-  - `mouseReleaseEvent` (method, line 258) `def mouseReleaseEvent(self, event)`
-  - `hoverEnterEvent` (method, line 265) `def hoverEnterEvent(self, event)`
-  - `hoverLeaveEvent` (method, line 272) `def hoverLeaveEvent(self, event)`
-  - `itemChange` (method, line 278) `def itemChange(self, change, value)`
-  - `__init__` (method, line 287) `def __init__(self, edge, source_item, target_item, parent)`
-  - `_update_position` (method, line 312) `def _update_position(self)`
-  - `update_position` (method, line 323) `def update_position(self)`
-  - `edge_data` (method, line 328) `def edge_data(self)`
-  - `__init__` (method, line 339) `def __init__(self, constants, parent)`
-  - `set_topology` (method, line 348) `def set_topology(self, topology)`
-  - `_add_node` (method, line 368) `def _add_node(self, node)`
-  - `_add_edge` (method, line 389) `def _add_edge(self, edge)`
-  - `_apply_force_layout` (method, line 398) `def _apply_force_layout(self)`
-  - `step_physics` (method, line 415) `def step_physics(self)`
-  - `selected_node_id` (method, line 487) `def selected_node_id(self)`
-  - `__init__` (method, line 505) `def __init__(self, constants, parent)`
-  - `set_theme_colors` (method, line 523) `def set_theme_colors(self, bg_color, edge_color)`
-  - `set_topology` (method, line 531) `def set_topology(self, topology)`
-  - `_install_physics_timer` (method, line 536) `def _install_physics_timer(self)`
-  - `_tick_physics` (method, line 544) `def _tick_physics(self)`
-  - `wheelEvent` (method, line 547) `def wheelEvent(self, event)`
-  - `selected_node_id` (method, line 557) `def selected_node_id(self)`
-  - `fit_to_content` (method, line 561) `def fit_to_content(self)`
-  - `scene_handle` (method, line 566) `def scene_handle(self)`
-  - `_on_selected` (method, line 373) `def _on_selected(nid)`
-  - `_on_context_menu` (method, line 376) `def _on_context_menu(nid, pos)`
+  - `GraphNodeState` (class, line 132) `class GraphNodeState`
+  - `GraphNodeItem` (class, line 140) `class GraphNodeItem(QGraphicsEllipseItem)`
+  - `GraphEdgeItem` (class, line 285) `class GraphEdgeItem(QGraphicsLineItem)`
+  - `GraphScene` (class, line 334) `class GraphScene(QGraphicsScene)`
+  - `GraphView` (class, line 499) `class GraphView(QGraphicsView)`
+  - `_resolve_node_color` (method, line 575) `def _resolve_node_color(node)`
+  - `_resolve_node_radius` (method, line 584) `def _resolve_node_radius(node)`
+  - `__init__` (method, line 143) `def __init__(self, node, radius, color, pixmap, on_selected, on_context_menu, label_visible, parent)`
+  - `_create_label` (method, line 173) `def _create_label(self)`
+  - `node_data` (method, line 186) `def node_data(self)`
+  - `paint` (method, line 190) `def paint(self, painter, option, widget)`
+  - `mousePressEvent` (method, line 248) `def mousePressEvent(self, event)`
+  - `mouseReleaseEvent` (method, line 259) `def mouseReleaseEvent(self, event)`
+  - `hoverEnterEvent` (method, line 266) `def hoverEnterEvent(self, event)`
+  - `hoverLeaveEvent` (method, line 273) `def hoverLeaveEvent(self, event)`
+  - `itemChange` (method, line 279) `def itemChange(self, change, value)`
+  - `__init__` (method, line 288) `def __init__(self, edge, source_item, target_item, parent)`
+  - `_update_position` (method, line 313) `def _update_position(self)`
+  - `update_position` (method, line 324) `def update_position(self)`
+  - `edge_data` (method, line 329) `def edge_data(self)`
+  - `__init__` (method, line 340) `def __init__(self, constants, parent)`
+  - `set_topology` (method, line 349) `def set_topology(self, topology)`
+  - `_add_node` (method, line 369) `def _add_node(self, node)`
+  - `_add_edge` (method, line 393) `def _add_edge(self, edge)`
+  - `_apply_force_layout` (method, line 402) `def _apply_force_layout(self)`
+  - `step_physics` (method, line 419) `def step_physics(self)`
+  - `selected_node_id` (method, line 491) `def selected_node_id(self)`
+  - `__init__` (method, line 509) `def __init__(self, constants, parent)`
+  - `set_theme_colors` (method, line 527) `def set_theme_colors(self, bg_color, edge_color)`
+  - `set_topology` (method, line 535) `def set_topology(self, topology)`
+  - `_install_physics_timer` (method, line 540) `def _install_physics_timer(self)`
+  - `_tick_physics` (method, line 548) `def _tick_physics(self)`
+  - `wheelEvent` (method, line 551) `def wheelEvent(self, event)`
+  - `selected_node_id` (method, line 561) `def selected_node_id(self)`
+  - `fit_to_content` (method, line 565) `def fit_to_content(self)`
+  - `scene_handle` (method, line 570) `def scene_handle(self)`
+  - `_on_selected` (method, line 374) `def _on_selected(nid)`
+  - `_on_context_menu` (method, line 377) `def _on_context_menu(nid, pos)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/services/models.py`
 - Imported by: `lazygui/panels/graph_panel.py`, `lazygui/widgets/__init__.py`, `tests/test_lazygui_graph_widget.py`
 

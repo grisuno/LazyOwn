@@ -164,7 +164,7 @@ class TestDNSCommandAllowlist:
         """BDD: Given the lazyc2 module source is loaded,
         When I check for the DNS command allowlist,
         Then _DNS_COMMAND_ALLOWLIST must be defined as a frozenset."""
-        assert "_DNS_COMMAND_ALLOWLIST = frozenset({" in self.SOURCE
+        assert "_DNS_COMMAND_ALLOWLIST = frozenset(" in self.SOURCE
 
     def test_max_length_constant_exists(self):
         """BDD: Given the DNS resolver processes commands,

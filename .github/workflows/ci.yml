@@ -90,7 +90,7 @@ jobs:
         with:
           python-version: "3.11"
       - name: Install tools
-        run: pip install bandit pip-audit
+        run: pip install --upgrade pip setuptools bandit pip-audit
       - name: Bandit security scan (high severity gate)
         run: bandit -c pyproject.toml -r . --severity-level high -f json -o bandit-report.json
       - name: Upload bandit report

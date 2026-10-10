@@ -260,9 +260,7 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def sync(
-    name: str, repo: str, dest: Path, refresh_existing: bool, skip_validate: bool
-) -> dict[str, object]:
+def sync(name: str, repo: str, dest: Path, refresh_existing: bool, skip_validate: bool) -> dict[str, object]:
     """Clone, clean, and install one template source.
 
     Args:
@@ -349,8 +347,12 @@ def main(argv: list[str] | None = None) -> int:
     code = 0
     for name, repo, dest in resolve_plan(args):
         summary = sync(name, repo, dest, args.refresh_existing, args.skip_validate)
-        print(f"[{summary['source']}] templates synced: {summary['templates']} from {summary['repo']}@{summary['commit']}")
-        print(f"[{summary['source']}] destination: {summary['dest']} (git traces removed: {summary['git_traces_removed']})")
+        print(
+            f"[{summary['source']}] templates synced: {summary['templates']} from {summary['repo']}@{summary['commit']}"
+        )
+        print(
+            f"[{summary['source']}] destination: {summary['dest']} (git traces removed: {summary['git_traces_removed']})"
+        )
         for path in summary["refreshed"]:
             print(f"[{summary['source']}] refreshed existing clone: {path}")
         if summary["validation"] is True:

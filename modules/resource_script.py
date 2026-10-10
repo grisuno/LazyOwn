@@ -75,6 +75,7 @@ _UNRESOLVED_RE = re.compile(r"^\$\{.+\}$")
 
 class ScriptError(RuntimeError):
     """Raised when a resource script encounters a fatal error."""
+
     ...
 
 
@@ -131,6 +132,7 @@ class ScriptContext:
             if val is None:
                 val = os.environ.get(key, f"${{{key}}}")
             return val
+
         return _VAR_RE.sub(_repl, text)
 
     def print(self, msg: str = "") -> None:
@@ -288,9 +290,7 @@ class ResourceScriptEngine:
             lines = f.readlines()
         self.execute_lines(lines, source=script_path)
 
-    def execute_lines(
-        self, lines: list[str], source: str = "<inline>"
-    ) -> None:
+    def execute_lines(self, lines: list[str], source: str = "<inline>") -> None:
         """Execute a list of script lines.
 
         Args:
@@ -317,9 +317,7 @@ class ResourceScriptEngine:
             except ScriptError:
                 raise
             except Exception as e:
-                raise ScriptError(
-                    f"{source}:{self.ctx._line_number}: {e}"
-                ) from e
+                raise ScriptError(f"{source}:{self.ctx._line_number}: {e}") from e
 
         # Close spool if still open
         if self.ctx.spool_handle and not self.ctx.spool_handle.closed:

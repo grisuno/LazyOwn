@@ -29,6 +29,7 @@ COLLAB_MODULE = REPO_ROOT / "modules" / "collab_bp.py"
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def _make_app():
     """Build a minimal Flask app with collab_bp registered.
 
@@ -82,6 +83,7 @@ def _install_test_login(app):
 # Gap #3 — Onboarding: QUICKSTART.md
 # ---------------------------------------------------------------------------
 
+
 class TestQuickstartExists:
     def test_file_present(self):
         assert QUICKSTART.exists(), "QUICKSTART.md not found"
@@ -124,8 +126,9 @@ class TestQuickstartContent:
 
     def test_no_hardcoded_ips(self):
         import re
+
         text = QUICKSTART.read_text(encoding="utf-8")
-        ips = re.findall(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', text)
+        ips = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
         allowed = {"10.10.11.5", "10.10.14.3", "127.0.0.1"}
         bad = [ip for ip in ips if ip not in allowed]
         assert bad == [], f"Hardcoded IPs in QUICKSTART.md: {bad}"
@@ -134,6 +137,7 @@ class TestQuickstartContent:
 # ---------------------------------------------------------------------------
 # Gap #3 — Onboarding: wizard module contract
 # ---------------------------------------------------------------------------
+
 
 class TestWizardContract:
     def test_wizard_module_exists(self):
@@ -161,6 +165,7 @@ class TestWizardContract:
 # ---------------------------------------------------------------------------
 # Gap #2 — Team server: collab_bp module structure
 # ---------------------------------------------------------------------------
+
 
 class TestCollabModuleExists:
     def test_module_present(self):
@@ -211,14 +216,17 @@ class TestCollabModuleClasses:
 # Gap #2 — Team server: EventBus unit tests
 # ---------------------------------------------------------------------------
 
+
 class TestEventBus:
     @pytest.fixture
     def bus(self):
         from collab_bp import EventBus
+
         return EventBus()
 
     def test_publish_and_receive(self, bus):
         from collab_bp import ColabEvent
+
         q = bus.subscribe("test_sub")
         ev = ColabEvent(type="command", payload={"cmd": "lazynmap"}, operator="alice")
         bus.publish(ev)
@@ -228,6 +236,7 @@ class TestEventBus:
 
     def test_history_replay_on_subscribe(self, bus):
         from collab_bp import ColabEvent
+
         for i in range(5):
             bus.publish(ColabEvent(type="test", payload={"i": i}, operator="sys"))
         q = bus.subscribe("late_sub")
@@ -238,6 +247,7 @@ class TestEventBus:
 
     def test_recent_returns_correct_count(self, bus):
         from collab_bp import ColabEvent
+
         for i in range(10):
             bus.publish(ColabEvent(type="generic", payload={}, operator="x"))
         assert len(bus.recent(5)) == 5
@@ -245,6 +255,7 @@ class TestEventBus:
 
     def test_reset_clears_history(self, bus):
         from collab_bp import ColabEvent
+
         bus.publish(ColabEvent(type="x", payload={}, operator="y"))
         bus.reset()
         assert bus.recent(10) == []
@@ -252,6 +263,7 @@ class TestEventBus:
     def test_full_queue_drops_stale_subscriber(self, bus):
 
         from collab_bp import ColabEvent
+
         bus.subscribe("stale")
         for _ in range(bus._MAX_QUEUE + 10):
             try:
@@ -265,10 +277,12 @@ class TestEventBus:
 # Gap #2 — Team server: LockManager unit tests
 # ---------------------------------------------------------------------------
 
+
 class TestLockManager:
     @pytest.fixture
     def lm(self):
         from collab_bp import LockManager
+
         return LockManager()
 
     def test_acquire_grants_first_operator(self, lm):
@@ -314,10 +328,12 @@ class TestLockManager:
 # Gap #2 — Team server: OperatorRegistry unit tests
 # ---------------------------------------------------------------------------
 
+
 class TestOperatorRegistry:
     @pytest.fixture
     def reg(self):
         from collab_bp import OperatorRegistry
+
         return OperatorRegistry()
 
     def test_join_registers_operator(self, reg):
@@ -350,6 +366,7 @@ class TestOperatorRegistry:
 # ---------------------------------------------------------------------------
 # Gap #2 — Team server: Flask HTTP endpoint tests
 # ---------------------------------------------------------------------------
+
 
 class TestCollabFlaskRoutes:
     @pytest.fixture(scope="class")
@@ -409,6 +426,7 @@ class TestCollabFlaskRoutes:
 # Gap #2 — Team server: collab template content
 # ---------------------------------------------------------------------------
 
+
 class TestCollabTemplate:
     @pytest.fixture(scope="class")
     def html(self) -> str:
@@ -440,14 +458,16 @@ class TestCollabTemplate:
 
     def test_no_hardcoded_ips(self):
         import re
+
         html = COLLAB_TEMPLATE.read_text(encoding="utf-8")
-        ips = re.findall(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', html)
+        ips = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", html)
         assert ips == [], f"Hardcoded IPs in collab.html: {ips}"
 
 
 # ---------------------------------------------------------------------------
 # Gap #3 — collab_join CLI command presence in the migrated command set
 # ---------------------------------------------------------------------------
+
 
 class TestCollabJoinCLICommand:
     @pytest.fixture(scope="class")
@@ -474,5 +494,5 @@ class TestCollabJoinCLICommand:
 
     def test_collab_join_has_docstring(self, command_src):
         idx = command_src.index("def do_collab_join")
-        snippet = command_src[idx: idx + 600]
+        snippet = command_src[idx : idx + 600]
         assert '"""' in snippet

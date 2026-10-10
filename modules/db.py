@@ -190,9 +190,7 @@ class LazyOwnDB:
         self._run_migrations()
 
     def _current_version(self) -> int:
-        cur = self._get_conn().execute(
-            "SELECT MAX(version) FROM schema_version"
-        )
+        cur = self._get_conn().execute("SELECT MAX(version) FROM schema_version")
         row = cur.fetchone()
         return row[0] if row and row[0] is not None else 0
 
@@ -262,13 +260,13 @@ class LazyOwnDB:
         try:
             from core.config import resolve_aes_key
             from core.crypto import AESencrypt
+
             key = resolve_aes_key({}, sessions_dir=Path("sessions"))
             ct, _ = AESencrypt(value.encode("utf-8"), key)
             return ct.hex()
         except ImportError:
             logger.warning(
-                "Crypto module unavailable; credential stored as plaintext. "
-                "Install pycryptodome to enable encryption."
+                "Crypto module unavailable; credential stored as plaintext. Install pycryptodome to enable encryption."
             )
             return value
 
@@ -279,6 +277,7 @@ class LazyOwnDB:
         try:
             from core.config import resolve_aes_key
             from core.crypto import AESdecrypt
+
             key = resolve_aes_key({}, sessions_dir=Path("sessions"))
             ct = bytes.fromhex(value)
             return AESdecrypt(ct, key).decode("utf-8")
@@ -338,12 +337,7 @@ class LazyOwnDB:
             return False
         wid = ws["id"]
         with self._cursor() as cur:
-            host_ids = [
-                r[0]
-                for r in cur.execute(
-                    "SELECT id FROM hosts WHERE workspace_id = ?", (wid,)
-                ).fetchall()
-            ]
+            host_ids = [r[0] for r in cur.execute("SELECT id FROM hosts WHERE workspace_id = ?", (wid,)).fetchall()]
             for hid in host_ids:
                 cur.execute("DELETE FROM services WHERE host_id = ?", (hid,))
                 cur.execute("DELETE FROM vulns WHERE host_id = ?", (hid,))
@@ -660,9 +654,7 @@ class LazyOwnDB:
                     os_name = os_el.get("osgen", "")
                     break
 
-            hid = self.host_add(
-                workspace_id, address, mac=mac, hostname=hostname, os=os_name, state="alive"
-            )
+            hid = self.host_add(workspace_id, address, mac=mac, hostname=hostname, os=os_name, state="alive")
             counts["hosts"] += 1
             if os_name:
                 counts["os"] += 1

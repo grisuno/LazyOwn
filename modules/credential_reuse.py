@@ -256,9 +256,7 @@ class CredentialReuseEngine:
                     continue
 
                 services = (host_services or {}).get(target_host)
-                score = self._score_candidate(
-                    username, password, source_host, target_host, services
-                )
+                score = self._score_candidate(username, password, source_host, target_host, services)
                 if score < 0:
                     continue
 
@@ -333,10 +331,7 @@ class CredentialReuseEngine:
 
         host_services: dict[str, list[dict[str, Any]]] = {}
         for host_ip, entry in world_model._hosts.items():
-            host_services[host_ip] = [
-                {"port": s.port, "name": s.name}
-                for s in entry.services
-            ]
+            host_services[host_ip] = [{"port": s.port, "name": s.name} for s in entry.services]
 
         return self.rank(hosts, creds, host_services, limit)
 
@@ -350,9 +345,7 @@ class CredentialReuseEngine:
 
         for i, c in enumerate(candidates, 1):
             lines.append(
-                f"\n#{i}  score={c.score:.2f}  "
-                f"{c.username}:{c.password}  "
-                f"from {c.source_host} -> {c.target_host}"
+                f"\n#{i}  score={c.score:.2f}  {c.username}:{c.password}  from {c.source_host} -> {c.target_host}"
             )
             lines.append(f"    {c.command}")
 

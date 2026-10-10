@@ -13,21 +13,22 @@ def extract_cmd2_tools(script_path="lazyown.py"):
             if node.name.startswith("do_") and node.name != "do_exit":
                 name = node.name[3:]
                 desc = ast.get_docstring(node) or "No description"
-                tools.append({
-                    "type": "function",
-                    "function": {
-                        "name": name,
-                        "description": desc.strip(),
-                        "parameters": {
-                            "type": "object",
-                            "properties": {
-                                "line": {"type": "string", "description": "Command arguments"}
+                tools.append(
+                    {
+                        "type": "function",
+                        "function": {
+                            "name": name,
+                            "description": desc.strip(),
+                            "parameters": {
+                                "type": "object",
+                                "properties": {"line": {"type": "string", "description": "Command arguments"}},
+                                "required": ["line"],
                             },
-                            "required": ["line"]
-                        }
+                        },
                     }
-                })
+                )
     return tools
+
 
 # Guardar para Ollama
 if __name__ == "__main__":

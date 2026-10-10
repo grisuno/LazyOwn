@@ -1,4 +1,5 @@
 """Tests for modules/detection_feed.py."""
+
 from __future__ import annotations
 
 import json
@@ -67,6 +68,7 @@ class TestSigmaParsing:
 class TestCaching:
     def test_cache_and_load(self, tmp_path):
         from modules.detection_oracle import SigmaRule
+
         feed = DetectionFeed(cache_dir=tmp_path)
         rules = [
             SigmaRule(
@@ -99,11 +101,16 @@ class TestFeedbackAdjustment:
 
     def test_adjust_from_feedback(self, tmp_path):
         fb_file = tmp_path / "feedback.jsonl"
-        fb_file.write_text(json.dumps({
-            "rule_id": "LAZ-001",
-            "detected": True,
-            "actual": True,
-        }) + "\n")
+        fb_file.write_text(
+            json.dumps(
+                {
+                    "rule_id": "LAZ-001",
+                    "detected": True,
+                    "actual": True,
+                }
+            )
+            + "\n"
+        )
         feed = DetectionFeed(cache_dir=tmp_path)
         result = feed.adjust_from_feedback(fb_file)
         assert result == 1

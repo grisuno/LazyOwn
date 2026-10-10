@@ -47,6 +47,7 @@ def temp_lazyown(tmp_path, monkeypatch):
     import importlib
 
     import pipeline_engine
+
     importlib.reload(pipeline_engine)
     pipeline_engine.PIPELINES_DIR = pipelines_dir
     pipeline_engine.RUNS_DIR = sessions_dir
@@ -55,11 +56,11 @@ def temp_lazyown(tmp_path, monkeypatch):
     pipeline_engine._default_engine = None
 
     return {
-        "root":          tmp_path,
+        "root": tmp_path,
         "pipelines_dir": pipelines_dir,
-        "runs_dir":      sessions_dir,
-        "payload_file":  payload_file,
-        "module":        pipeline_engine,
+        "runs_dir": sessions_dir,
+        "payload_file": payload_file,
+        "module": pipeline_engine,
     }
 
 
@@ -79,9 +80,7 @@ class _ScriptedRunner:
         self.calls.append((command, args, target))
         key = command
         output = self._outputs.get(key, "")
-        success = self._successes.get(
-            key, self._heuristic_success(output)
-        )
+        success = self._successes.get(key, self._heuristic_success(output))
         return output, success, ""
 
     @staticmethod
@@ -149,16 +148,19 @@ class TestTemplateResolver:
 
 
 class TestConditionEvaluator:
-    @pytest.mark.parametrize("value,expected", [
-        ("true", True),
-        ("1", True),
-        ("ssh http", True),
-        ("", False),
-        ("false", False),
-        ("0", False),
-        ("[]", False),
-        ("none", False),
-    ])
+    @pytest.mark.parametrize(
+        "value,expected",
+        [
+            ("true", True),
+            ("1", True),
+            ("ssh http", True),
+            ("", False),
+            ("false", False),
+            ("0", False),
+            ("[]", False),
+            ("none", False),
+        ],
+    )
     def test_truthy_table(self, temp_lazyown, value, expected):
         from pipeline_engine import ConditionEvaluator
 
@@ -212,11 +214,7 @@ class TestStepDerivers:
     def test_lazynmap_derives_services(self, temp_lazyown):
         from pipeline_engine import StepDerivers
 
-        nmap_output = (
-            "Starting Nmap\n"
-            "22/tcp open ssh OpenSSH 8.0\n"
-            "80/tcp open http nginx\n"
-        )
+        nmap_output = "Starting Nmap\n22/tcp open ssh OpenSSH 8.0\n80/tcp open http nginx\n"
         derived = StepDerivers.derive("lazynmap", nmap_output)
         assert derived["has_open_ports"] is True
         assert derived["findings"]["services"] == ["ssh", "http"]
@@ -257,10 +255,14 @@ class TestPipelineLoader:
     def test_load_basic_pipeline(self, temp_lazyown):
         from pipeline_engine import PipelineLoader
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p1", {
-            "name": "p1",
-            "steps": [{"command": "ping"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p1",
+            {
+                "name": "p1",
+                "steps": [{"command": "ping"}],
+            },
+        )
         spec = PipelineLoader(temp_lazyown["pipelines_dir"]).load("p1")
         assert spec.name == "p1"
         assert len(spec.steps) == 1
@@ -282,36 +284,53 @@ class TestPipelineLoader:
     def test_both_command_and_pipeline_rejected(self, temp_lazyown):
         from pipeline_engine import PipelineLoader, PipelineSchemaError
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "bad", {
-            "steps": [{"command": "ping", "pipeline": "other"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "bad",
+            {
+                "steps": [{"command": "ping", "pipeline": "other"}],
+            },
+        )
         with pytest.raises(PipelineSchemaError):
             PipelineLoader(temp_lazyown["pipelines_dir"]).load("bad")
 
     def test_neither_command_nor_pipeline_rejected(self, temp_lazyown):
         from pipeline_engine import PipelineLoader, PipelineSchemaError
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "bad", {
-            "steps": [{"args": "-x"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "bad",
+            {
+                "steps": [{"args": "-x"}],
+            },
+        )
         with pytest.raises(PipelineSchemaError):
             PipelineLoader(temp_lazyown["pipelines_dir"]).load("bad")
 
     def test_empty_steps_rejected(self, temp_lazyown):
         from pipeline_engine import PipelineLoader, PipelineSchemaError
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "empty", {
-            "name": "empty", "steps": [],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "empty",
+            {
+                "name": "empty",
+                "steps": [],
+            },
+        )
         with pytest.raises(PipelineSchemaError):
             PipelineLoader(temp_lazyown["pipelines_dir"]).load("empty")
 
     def test_invalid_on_failure_rejected(self, temp_lazyown):
         from pipeline_engine import PipelineLoader, PipelineSchemaError
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "bad", {
-            "steps": [{"command": "ping", "on_failure": "halt"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "bad",
+            {
+                "steps": [{"command": "ping", "on_failure": "halt"}],
+            },
+        )
         with pytest.raises(PipelineSchemaError):
             PipelineLoader(temp_lazyown["pipelines_dir"]).load("bad")
 
@@ -355,29 +374,33 @@ def silent_engine_kwargs(temp_lazyown):
             self.events.append({"kind": kind, "message": message})
 
     return {
-        "loader":         PipelineLoader(temp_lazyown["pipelines_dir"]),
+        "loader": PipelineLoader(temp_lazyown["pipelines_dir"]),
         "artifact_store": RunArtifactStore(temp_lazyown["runs_dir"]),
-        "narrator":       _SilentNarrator(),
+        "narrator": _SilentNarrator(),
     }
 
 
 class TestPipelineEngineExecution:
-    def test_runs_steps_in_order_and_persists_artifacts(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_runs_steps_in_order_and_persists_artifacts(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "name": "p",
-            "steps": [
-                {"command": "ping"},
-                {"command": "lazynmap"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "ping":     "1 received ttl=64",
-            "lazynmap": "22/tcp open ssh",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "name": "p",
+                "steps": [
+                    {"command": "ping"},
+                    {"command": "lazynmap"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "ping": "1 received ttl=64",
+                "lazynmap": "22/tcp open ssh",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("p", target="10.0.0.1")
         assert run.success
@@ -391,21 +414,25 @@ class TestPipelineEngineExecution:
         assert (run_dir / "step_000.json").exists()
         assert (run_dir / "step_001.json").exists()
 
-    def test_validate_failure_marks_step_failed(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_validate_failure_marks_step_failed(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "ping", "validate": "ttl=64", "on_failure": "stop"},
-                {"command": "lazynmap"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "ping":     "no ttl",  # validate fails
-            "lazynmap": "22/tcp open",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "ping", "validate": "ttl=64", "on_failure": "stop"},
+                    {"command": "lazynmap"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "ping": "no ttl",  # validate fails
+                "lazynmap": "22/tcp open",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("p", target="10.0.0.1")
         assert not run.success
@@ -414,23 +441,25 @@ class TestPipelineEngineExecution:
         assert run.steps[0].success is False
         assert "validation failed" in run.steps[0].error
 
-    def test_condition_false_skips_step(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_condition_false_skips_step(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "searchsploit", "name": "search"},
-                {"command": "lazypwn",
-                 "condition": "{{ steps.search.has_exploit }}",
-                 "on_failure": "continue"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "searchsploit": "No exploits found",  # has_exploit is False
-            "lazypwn":      "should not run",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "searchsploit", "name": "search"},
+                    {"command": "lazypwn", "condition": "{{ steps.search.has_exploit }}", "on_failure": "continue"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "searchsploit": "No exploits found",  # has_exploit is False
+                "lazypwn": "should not run",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("p", target="10.0.0.1")
         # Second step skipped
@@ -441,22 +470,25 @@ class TestPipelineEngineExecution:
         invoked = [c[0] for c in runner.calls]
         assert "lazypwn" not in invoked
 
-    def test_condition_true_runs_step(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_condition_true_runs_step(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "searchsploit", "name": "search"},
-                {"command": "lazypwn",
-                 "condition": "{{ steps.search.has_exploit }}"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "searchsploit": "exploit/linux/foo CVE-2024-1",
-            "lazypwn":      "shell opened",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "searchsploit", "name": "search"},
+                    {"command": "lazypwn", "condition": "{{ steps.search.has_exploit }}"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "searchsploit": "exploit/linux/foo CVE-2024-1",
+                "lazypwn": "shell opened",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("p", target="10.0.0.1")
         invoked = [c[0] for c in runner.calls]
@@ -466,34 +498,44 @@ class TestPipelineEngineExecution:
     def test_on_success_hook_runs(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "lazynmap", "on_success": "auto_populate"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "lazynmap":      "22/tcp open ssh",
-            "auto_populate": "domain: x.htb",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "lazynmap", "on_success": "auto_populate"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "lazynmap": "22/tcp open ssh",
+                "auto_populate": "domain: x.htb",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("p", target="10.0.0.1")
         assert any(s.step_name == "on_success:auto_populate" for s in run.steps)
 
-    def test_on_failure_continue_keeps_going(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_on_failure_continue_keeps_going(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "searchsploit", "on_failure": "continue"},
-                {"command": "lazynmap"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "searchsploit": "",  # fails
-            "lazynmap":     "22/tcp open",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "searchsploit", "on_failure": "continue"},
+                    {"command": "lazynmap"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "searchsploit": "",  # fails
+                "lazynmap": "22/tcp open",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         engine.run("p", target="10.0.0.1")
         # Second step still ran
@@ -503,17 +545,22 @@ class TestPipelineEngineExecution:
     def test_input_from_replaces_args(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [
-                {"command": "lazynmap"},
-                {"command": "searchsploit",
-                 "input_from": "{{ previous.findings.services }}"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "lazynmap":     "22/tcp open ssh\n80/tcp open http",
-            "searchsploit": "ok",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [
+                    {"command": "lazynmap"},
+                    {"command": "searchsploit", "input_from": "{{ previous.findings.services }}"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "lazynmap": "22/tcp open ssh\n80/tcp open http",
+                "searchsploit": "ok",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         engine.run("p", target="10.0.0.1")
         # The searchsploit call must have received the resolved args
@@ -528,24 +575,32 @@ class TestPipelineEngineExecution:
 
 
 class TestNestedPipelines:
-    def test_nested_pipeline_runs_and_records_run_id(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_nested_pipeline_runs_and_records_run_id(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "child", {
-            "steps": [{"command": "ping"}],
-        })
-        _write_pipeline(temp_lazyown["pipelines_dir"], "parent", {
-            "steps": [
-                {"pipeline": "child", "name": "recon"},
-                {"command": "lazynmap"},
-            ],
-        })
-        runner = _ScriptedRunner({
-            "ping":     "1 received ttl=64",
-            "lazynmap": "22/tcp open ssh",
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "child",
+            {
+                "steps": [{"command": "ping"}],
+            },
+        )
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "parent",
+            {
+                "steps": [
+                    {"pipeline": "child", "name": "recon"},
+                    {"command": "lazynmap"},
+                ],
+            },
+        )
+        runner = _ScriptedRunner(
+            {
+                "ping": "1 received ttl=64",
+                "lazynmap": "22/tcp open ssh",
+            }
+        )
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("parent", target="10.0.0.1")
         assert run.success
@@ -559,12 +614,20 @@ class TestNestedPipelines:
         from pipeline_engine import PipelineEngine
 
         # parent calls child, child calls parent -> cycle
-        _write_pipeline(temp_lazyown["pipelines_dir"], "parent", {
-            "steps": [{"pipeline": "child", "name": "into_child"}],
-        })
-        _write_pipeline(temp_lazyown["pipelines_dir"], "child", {
-            "steps": [{"pipeline": "parent", "name": "back_to_parent"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "parent",
+            {
+                "steps": [{"pipeline": "child", "name": "into_child"}],
+            },
+        )
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "child",
+            {
+                "steps": [{"pipeline": "parent", "name": "back_to_parent"}],
+            },
+        )
         runner = _ScriptedRunner({})
         engine = PipelineEngine(runner=runner, **silent_engine_kwargs)
         run = engine.run("parent", target="10.0.0.1")
@@ -573,31 +636,41 @@ class TestNestedPipelines:
         assert nested.success is False
         assert "cycle" in nested.error.lower()
 
-    def test_depth_limit_enforced(
-        self, temp_lazyown, silent_engine_kwargs
-    ):
+    def test_depth_limit_enforced(self, temp_lazyown, silent_engine_kwargs):
         from pipeline_engine import PipelineEngine
 
         # Build a chain p1 -> p2 -> p3 with max_nesting=2 so the third
         # level is refused even though no cycle exists.
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p1", {
-            "steps": [{"pipeline": "p2", "name": "to_p2"}],
-        })
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p2", {
-            "steps": [{"pipeline": "p3", "name": "to_p3"}],
-        })
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p3", {
-            "steps": [{"command": "ping"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p1",
+            {
+                "steps": [{"pipeline": "p2", "name": "to_p2"}],
+            },
+        )
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p2",
+            {
+                "steps": [{"pipeline": "p3", "name": "to_p3"}],
+            },
+        )
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p3",
+            {
+                "steps": [{"command": "ping"}],
+            },
+        )
         runner = _ScriptedRunner({"ping": "ttl=64 received"})
         engine = PipelineEngine(
-            runner=runner, max_nesting=2, **silent_engine_kwargs,
+            runner=runner,
+            max_nesting=2,
+            **silent_engine_kwargs,
         )
         run = engine.run("p1", target="10.0.0.1")
         # The p3 invocation must have been refused
-        deep_failure = any(
-            "max nesting depth" in (s.error or "") for s in run.steps
-        )
+        deep_failure = any("max nesting depth" in (s.error or "") for s in run.steps)
         nested = engine.loader.list()
         assert "p3" in nested  # sanity check
         assert deep_failure
@@ -612,9 +685,13 @@ class TestMcpEntryPoints:
     def test_list_returns_json(self, temp_lazyown):
         from pipeline_engine import mcp_pipeline_list
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [{"command": "ping"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [{"command": "ping"}],
+            },
+        )
         result = json.loads(mcp_pipeline_list())
         assert result["status"] == "ok"
         assert "p" in result["pipelines"]
@@ -628,9 +705,13 @@ class TestMcpEntryPoints:
     def test_validate_returns_step_list(self, temp_lazyown):
         from pipeline_engine import mcp_pipeline_validate
 
-        _write_pipeline(temp_lazyown["pipelines_dir"], "p", {
-            "steps": [{"command": "ping"}, {"command": "lazynmap"}],
-        })
+        _write_pipeline(
+            temp_lazyown["pipelines_dir"],
+            "p",
+            {
+                "steps": [{"command": "ping"}, {"command": "lazynmap"}],
+            },
+        )
         result = json.loads(mcp_pipeline_validate("p"))
         assert result["status"] == "ok"
         assert result["step_count"] == 2
@@ -661,10 +742,7 @@ class TestWiring:
         found: list[str] = []
         for path in sources:
             tree = ast.parse(path.read_text(encoding="utf-8"))
-            found.extend(
-                n.name for n in ast.walk(tree)
-                if isinstance(n, ast.FunctionDef) and n.name == "do_pipeline"
-            )
+            found.extend(n.name for n in ast.walk(tree) if isinstance(n, ast.FunctionDef) and n.name == "do_pipeline")
         assert len(found) == 1, f"expected one do_pipeline command, found {found}"
 
     def test_mcp_exposes_four_pipeline_tools(self):
@@ -692,6 +770,7 @@ class TestWiring:
         import importlib
 
         import pipeline_engine
+
         importlib.reload(pipeline_engine)
         # Re-point to the actual repo pipelines/ directory (not tmp).
         pipeline_engine.PIPELINES_DIR = REPO_ROOT / "pipelines"

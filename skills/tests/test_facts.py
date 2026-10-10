@@ -62,9 +62,7 @@ class TestCrackMapExecParser:
     def test_crackmapexec_parser(self):
         """CME output with [+] credential line → extracts CredentialFact."""
         parser = CrackMapExecParser()
-        sample = (
-            "SMB  10.10.11.78  445  DC01  [+] DOMAIN\\Administrator:Password123\n"
-        )
+        sample = "SMB  10.10.11.78  445  DC01  [+] DOMAIN\\Administrator:Password123\n"
         creds, shares, access = parser.parse("10.10.11.78", sample, "cme.txt")
         assert len(creds) >= 1
         found = next((c for c in creds if c.username == "Administrator"), None)
@@ -75,9 +73,7 @@ class TestCrackMapExecParser:
     def test_crackmapexec_pwned(self):
         """Pwn3d! in CME output → AccessFact with level=admin."""
         parser = CrackMapExecParser()
-        sample = (
-            "SMB  10.10.11.78  445  DC01  [+] DOMAIN\\admin:Pass123 (Pwn3d!)\n"
-        )
+        sample = "SMB  10.10.11.78  445  DC01  [+] DOMAIN\\admin:Pass123 (Pwn3d!)\n"
         creds, shares, access = parser.parse("10.10.11.78", sample, "cme.txt")
         assert any(a.level == "admin" for a in access)
 
@@ -110,11 +106,7 @@ class TestSecretsdumpParser:
     def test_secretsdump_parser(self):
         """NTLM hash line → CredentialFact with hash_type=NTLM."""
         parser = SecretsdumpParser()
-        sample = (
-            "DOMAIN\\Administrator:500:"
-            "aad3b435b51404eeaad3b435b51404ee:"
-            "31d6cfe0d16ae931b73c59d7e0c089c0:::\n"
-        )
+        sample = "DOMAIN\\Administrator:500:aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0:::\n"
         creds, shares, access = parser.parse("10.10.11.78", sample, "secretsdump.txt")
         assert len(creds) >= 1
         cred = creds[0]
@@ -136,10 +128,7 @@ class TestKerbruteParser:
 
     def test_kerbrute_multiple_users(self):
         parser = KerbruteParser()
-        sample = (
-            "[+] VALID USERNAME: alice@corp.local\n"
-            "[+] VALID USERNAME: bob@corp.local\n"
-        )
+        sample = "[+] VALID USERNAME: alice@corp.local\n[+] VALID USERNAME: bob@corp.local\n"
         creds, _, _ = parser.parse("10.10.11.5", sample, "kerbrute.txt")
         usernames = [c.username for c in creds]
         assert "alice" in usernames
@@ -162,9 +151,7 @@ class TestGobusterParser:
         """/admin (Status: 200) [Size: 1234] → DiscoveredPath."""
         parser = GobusterFfufParser()
         sample = "/admin                (Status: 200) [Size: 1234]\n"
-        creds, shares, access, vulns, paths = parser.parse_extended(
-            "10.10.11.78", sample, "gobuster.txt", port=80
-        )
+        creds, shares, access, vulns, paths = parser.parse_extended("10.10.11.78", sample, "gobuster.txt", port=80)
         assert len(paths) >= 1
         path = paths[0]
         assert path.path == "/admin"
@@ -191,9 +178,7 @@ class TestNiktoParser:
         """OSVDB nikto line → VulnerabilityFact with severity=medium."""
         parser = NiktoParser()
         sample = "+ OSVDB-3092: /admin/: This might be interesting...\n"
-        creds, shares, access, vulns, paths = parser.parse_extended(
-            "10.10.11.78", sample, "nikto.txt", port=80
-        )
+        creds, shares, access, vulns, paths = parser.parse_extended("10.10.11.78", sample, "nikto.txt", port=80)
         assert len(vulns) >= 1
         vuln = vulns[0]
         assert vuln.vuln_id == "OSVDB-3092"
@@ -213,9 +198,7 @@ class TestNucleiParser:
         """[critical] [CVE-2021-41773] [http] http://host/ → VulnerabilityFact."""
         parser = NucleiParser()
         sample = "[critical] [CVE-2021-41773] [http] http://10.10.11.78/\n"
-        creds, shares, access, vulns, paths = parser.parse_extended(
-            "10.10.11.78", sample, "nuclei.txt", port=80
-        )
+        creds, shares, access, vulns, paths = parser.parse_extended("10.10.11.78", sample, "nuclei.txt", port=80)
         assert len(vulns) >= 1
         vuln = vulns[0]
         assert vuln.vuln_id == "CVE-2021-41773"
@@ -225,10 +208,7 @@ class TestNucleiParser:
 
     def test_nuclei_multiple_severities(self):
         parser = NucleiParser()
-        sample = (
-            "[high] [rce-template] [http] http://target/rce\n"
-            "[info] [tech-detect] [http] http://target/\n"
-        )
+        sample = "[high] [rce-template] [http] http://target/rce\n[info] [tech-detect] [http] http://target/\n"
         _, _, _, vulns, _ = parser.parse_extended("target", sample, "nuclei.txt")
         severities = {v.severity for v in vulns}
         assert "high" in severities
@@ -240,9 +220,7 @@ class TestSslscanParser:
         """TLSv1.0 enabled → VulnerabilityFact with severity=medium."""
         parser = SslscanParser()
         sample = "TLSv1.0 enabled\n"
-        creds, shares, access, vulns, paths = parser.parse_extended(
-            "10.10.11.78", sample, "sslscan.txt", port=443
-        )
+        creds, shares, access, vulns, paths = parser.parse_extended("10.10.11.78", sample, "sslscan.txt", port=443)
         assert len(vulns) >= 1
         vuln = vulns[0]
         assert vuln.severity == "medium"
@@ -439,9 +417,7 @@ class TestFactStore:
         """ingest_text with CME output → credential stored for guessed host IP."""
         cfg = _make_config(tmp_path)
         txt = cfg.sessions_dir / "10.10.11.78_crackmapexec.txt"
-        txt.write_text(
-            "SMB  10.10.11.78  445  DC01  [+] DOMAIN\\testuser:secret123\n"
-        )
+        txt.write_text("SMB  10.10.11.78  445  DC01  [+] DOMAIN\\testuser:secret123\n")
         store = FactStore(cfg)
         count = store.ingest_text(txt, host_hint="10.10.11.78")
         assert count >= 1
@@ -456,9 +432,7 @@ class TestFactStore:
         store = FactStore(cfg)
         ip = "10.10.11.78"
         hf = store._host(ip)
-        cf = CredentialFact(
-            host=ip, username="admin", password="pass", source_file="x.txt"
-        )
+        cf = CredentialFact(host=ip, username="admin", password="pass", source_file="x.txt")
         hf.credentials.append(cf)
         hf.credentials.append(cf)
         store._dedup_creds(hf)

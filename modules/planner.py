@@ -109,9 +109,9 @@ def _gather_facts(world_model=None, obs_parser=None) -> list[str]:
 _REQUIRED_FACTS = {
     "T1595.001": ["host.found"],
     "T1595.002": ["host.found"],
-    "T1046":     ["host.found"],
-    "T1018":     ["host.found", "service.found"],
-    "T1016":     ["service.found"],
+    "T1046": ["host.found"],
+    "T1018": ["host.found", "service.found"],
+    "T1016": ["service.found"],
     "T1021.002": ["service.found", "credential.valid"],
     "T1021.001": ["service.found", "credential.valid"],
     "T1059.001": ["session.created"],
@@ -119,21 +119,21 @@ _REQUIRED_FACTS = {
     "T1003.001": ["session.created"],
     "T1003.002": ["session.created"],
     "T1003.003": ["session.created"],
-    "T1555":     ["session.created"],
+    "T1555": ["session.created"],
     "T1547.001": ["session.created"],
     "T1543.003": ["session.created"],
     "T1136.001": ["session.created"],
-    "T1110":     ["service.found"],
-    "T1078":     ["credential.valid"],
+    "T1110": ["service.found"],
+    "T1078": ["credential.valid"],
     "T1562.001": ["session.created"],
     "T1087.002": ["session.created"],
     "T1087.001": ["session.created"],
-    "T1083":     ["session.created"],
-    "T1082":     ["session.created"],
-    "T1012":     ["session.created"],
-    "T1041":     ["file.found", "session.created"],
-    "T1048":     ["file.found", "session.created"],
-    "T1560":     ["file.found"],
+    "T1083": ["session.created"],
+    "T1082": ["session.created"],
+    "T1012": ["session.created"],
+    "T1041": ["file.found", "session.created"],
+    "T1048": ["file.found", "session.created"],
+    "T1560": ["file.found"],
 }
 
 
@@ -166,21 +166,57 @@ _RISK_PENALTY = {"low": 0, "medium": 20, "high": 40}
 
 
 _FALLBACK_TECHNIQUES = [
-    ("T1595.001", "IP Block Scan",             "reconnaissance",      "nmap -sn {target}/24",                "Discover live hosts on the target subnet"),
-    ("T1046",     "Network Service Scan",      "discovery",           "nmap -sV -p- {target}",               "Enumerate open services and versions"),
-    ("T1018",     "Remote System Discovery",   "discovery",           "net view /domain",                    "Discover remote systems"),
-    ("T1016",     "System Network Config",     "discovery",           "ipconfig /all",                       "Read local network configuration"),
-    ("T1110",     "Brute Force",               "credential-access",   "hydra -L users.txt -P pwds.txt {target} ssh", "Brute-force service credentials"),
-    ("T1021.002", "SMB/Windows Admin Shares",  "lateral-movement",    "smbclient -L //{target} -U admin%pass", "Enumerate SMB shares with valid creds"),
-    ("T1059.001", "PowerShell",                "execution",           "powershell -ep bypass -f shell.ps1",  "Execute PowerShell loader on session"),
-    ("T1059.003", "Windows Command Shell",     "execution",           "cmd /c systeminfo",                   "Run cmd.exe on a session"),
-    ("T1003.001", "LSASS Memory",              "credential-access",   "mimikatz sekurlsa::logonpasswords",   "Dump credentials from LSASS"),
-    ("T1003.002", "Security Account Manager",  "credential-access",   "secretsdump.py LOCAL",                "Dump SAM via Impacket"),
-    ("T1547.001", "Registry Run Keys",         "persistence",         "reg add HKCU\\...\\Run /v evil",      "Persist via registry Run key"),
-    ("T1087.002", "Domain Account",            "discovery",           "net user /domain",                    "Enumerate domain accounts"),
-    ("T1082",     "System Information",        "discovery",           "systeminfo",                          "Read system information"),
-    ("T1562.001", "Disable or Modify Tools",   "defense-evasion",     "sc stop WinDefend",                   "Disable Windows Defender"),
-    ("T1041",     "Exfil Over C2",             "exfiltration",        "powershell -c 'Invoke-WebRequest ...'","Send data over the C2 channel"),
+    (
+        "T1595.001",
+        "IP Block Scan",
+        "reconnaissance",
+        "nmap -sn {target}/24",
+        "Discover live hosts on the target subnet",
+    ),
+    ("T1046", "Network Service Scan", "discovery", "nmap -sV -p- {target}", "Enumerate open services and versions"),
+    ("T1018", "Remote System Discovery", "discovery", "net view /domain", "Discover remote systems"),
+    ("T1016", "System Network Config", "discovery", "ipconfig /all", "Read local network configuration"),
+    (
+        "T1110",
+        "Brute Force",
+        "credential-access",
+        "hydra -L users.txt -P pwds.txt {target} ssh",
+        "Brute-force service credentials",
+    ),
+    (
+        "T1021.002",
+        "SMB/Windows Admin Shares",
+        "lateral-movement",
+        "smbclient -L //{target} -U admin%pass",
+        "Enumerate SMB shares with valid creds",
+    ),
+    (
+        "T1059.001",
+        "PowerShell",
+        "execution",
+        "powershell -ep bypass -f shell.ps1",
+        "Execute PowerShell loader on session",
+    ),
+    ("T1059.003", "Windows Command Shell", "execution", "cmd /c systeminfo", "Run cmd.exe on a session"),
+    (
+        "T1003.001",
+        "LSASS Memory",
+        "credential-access",
+        "mimikatz sekurlsa::logonpasswords",
+        "Dump credentials from LSASS",
+    ),
+    ("T1003.002", "Security Account Manager", "credential-access", "secretsdump.py LOCAL", "Dump SAM via Impacket"),
+    ("T1547.001", "Registry Run Keys", "persistence", "reg add HKCU\\...\\Run /v evil", "Persist via registry Run key"),
+    ("T1087.002", "Domain Account", "discovery", "net user /domain", "Enumerate domain accounts"),
+    ("T1082", "System Information", "discovery", "systeminfo", "Read system information"),
+    ("T1562.001", "Disable or Modify Tools", "defense-evasion", "sc stop WinDefend", "Disable Windows Defender"),
+    (
+        "T1041",
+        "Exfil Over C2",
+        "exfiltration",
+        "powershell -c 'Invoke-WebRequest ...'",
+        "Send data over the C2 channel",
+    ),
 ]
 
 
@@ -242,6 +278,7 @@ class Planner:
         if self._wm_factory is None:
             try:
                 from modules.world_model import get_world_model as _gwm
+
                 self._wm_factory = _gwm
             except Exception:
                 pass
@@ -256,6 +293,7 @@ class Planner:
         if self._parser_factory is None:
             try:
                 from modules.obs_parser import get_parser as _gp
+
                 self._parser_factory = lambda: _gp()
             except Exception:
                 pass
@@ -349,10 +387,10 @@ class Planner:
     ) -> list[PlanCandidate] | None:
         try:
             from llm_client import LLMClient
+
             client = LLMClient(api_key=self._api_key)
             names = "\n".join(
-                f"{i+1}. [{c.technique_id}] {c.name}: score={c.score}"
-                for i, c in enumerate(candidates)
+                f"{i + 1}. [{c.technique_id}] {c.name}: score={c.score}" for i, c in enumerate(candidates)
             )
             prompt = (
                 f"target={target}\nfacts={','.join(facts)}\n\n"
@@ -360,7 +398,7 @@ class Planner:
                 f"Reply with 1 or 2 to pick the better one."
             )
             raw = client.ask(prompt, provider="groq", temperature=0.0)
-            m = re.search(r'\b([12])\b', raw)
+            m = re.search(r"\b([12])\b", raw)
             if m:
                 idx = int(m.group(1)) - 1
                 if 0 <= idx < len(candidates):

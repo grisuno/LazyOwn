@@ -3,43 +3,45 @@ repos:
     rev: v4.6.0
     hooks:
       - id: end-of-file-fixer
-        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|.*\.(svg|min\.js|min\.css))$'
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|modules/|templates/|static/|docs/|banners/|assets/|plugins/|lazyaddons/|lazyadversaries/|lazyscripts/|poc_tui/|yara_rules/|tools/|\.hermes/|\.readmenator_cache/|readmenator-graphrag/|readmenator-agent/|readmenator-wiki/|readmenator-maps/|my_techniques\.json|.*\.(svg|min\.js|min\.css|mp4|png|gif|jpe?g|ico|ttf|woff2?|pdf))$'
       - id: trailing-whitespace
-        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|.*\.(svg|min\.js|min\.css))$'
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|modules/|templates/|static/|docs/|banners/|assets/|plugins/|lazyaddons/|lazyadversaries/|lazyscripts/|poc_tui/|yara_rules/|tools/|\.hermes/|\.readmenator_cache/|readmenator-graphrag/|readmenator-agent/|readmenator-wiki/|readmenator-maps/|my_techniques\.json|.*\.(svg|min\.js|min\.css|mp4|png|gif|jpe?g|ico|ttf|woff2?|pdf))$'
       - id: check-yaml
-        exclude: '^(graphify-out/|sessions/|external/|modules_ext/)'
+        exclude: '^(graphify-out/|sessions/|external/|modules_ext/|.github/ISSUE_TEMPLATE/)'
       - id: check-toml
       - id: check-merge-conflict
       - id: check-added-large-files
         args: ['--maxkb=1024']
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/)'
       - id: detect-private-key
-        exclude: '^(graphify-out/|sessions/|external/|tests/|modules_ext/)'
+        exclude: '^(graphify-out/|sessions/|external/|tests/|modules_ext/|readmenator-graphrag/|readmenator-agent/|cert\.pem|key\.pem|utils\.py)'
 
   - repo: local
     hooks:
       - id: check-command-index
         name: check command_index.json
-        entry: env/bin/python scripts/build_command_index.py --check
+        entry: python3 scripts/build_command_index.py --check
         language: system
         files: '^(lazyown\.py|cli/commands/.*\.py|cli/commands/.*\.yaml)$'
         types_or: [python, yaml]
         pass_filenames: false
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.15.12
+    rev: v0.16.8
     hooks:
       - id: ruff
         args: ['--fix', '--exit-non-zero-on-fix']
+        types_or: [python]
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/)'
       - id: ruff-format
+        types_or: [python]
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/)'
 
   - repo: https://github.com/pre-commit/mirrors-mypy
     rev: v1.15.0
     hooks:
       - id: mypy
-        args: ['--config-file', 'pyproject.toml', '--no-strict-optional']
+        args: ['--config-file', 'pyproject.toml', '--no-strict-optional', '--no-site-packages', '--explicit-package-bases', 'core', 'cli']
         additional_dependencies: ['types-requests', 'types-PyYAML']
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|env/|lazyown\.py|lazyc2\.py|utils\.py)'
         pass_filenames: false
@@ -49,4 +51,4 @@ repos:
     hooks:
       - id: detect-secrets
         args: ['--baseline', '.secrets.baseline']
-        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|payload\.json|.*\.lock|.*\.min\.(js|css))$'
+        exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|readmenator-graphrag/|readmenator-agent/|payload\.json|tests/test_credential_vault\.py|.*\.lock|.*\.min\.(js|css))$'

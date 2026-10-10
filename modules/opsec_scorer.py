@@ -86,7 +86,11 @@ COMMAND_NOISE: dict[str, dict[str, Any]] = {
     "psexec": {"noise": 8, "phase": "lateral_movement", "detectable_by": ["EDR", "windows_event_logs", "SIEM"]},
     "wmiexec": {"noise": 8, "phase": "lateral_movement", "detectable_by": ["EDR", "SIEM"]},
     "evil": {"noise": 6, "phase": "lateral_movement", "detectable_by": ["windows_event_logs"]},
-    "mimikatz": {"noise": 10, "phase": "credential_access", "detectable_by": ["EDR", "AV", "windows_event_logs", "SIEM"]},
+    "mimikatz": {
+        "noise": 10,
+        "phase": "credential_access",
+        "detectable_by": ["EDR", "AV", "windows_event_logs", "SIEM"],
+    },
     "kerberoast": {"noise": 5, "phase": "credential_access", "detectable_by": ["windows_event_logs"]},
     "asreproast": {"noise": 5, "phase": "credential_access", "detectable_by": ["windows_event_logs"]},
     "linpeas": {"noise": 7, "phase": "privesc", "detectable_by": ["EDR", "auditd"]},
@@ -110,7 +114,11 @@ COMMAND_RISK_PROFILES: dict[str, dict[str, Any]] = {
     "ffuf": {"base_noise": 5, "detects": ["WAF", "web_logs"], "phase": "enumeration"},
     "nikto": {"base_noise": 6, "detects": ["WAF", "IDS", "web_logs"], "phase": "enumeration"},
     "nuclei": {"base_noise": 5, "detects": ["WAF", "IDS"], "phase": "scanning"},
-    "mimikatz": {"base_noise": 10, "detects": ["EDR", "AV", "SIEM", "windows_event_logs"], "phase": "credential_access"},
+    "mimikatz": {
+        "base_noise": 10,
+        "detects": ["EDR", "AV", "SIEM", "windows_event_logs"],
+        "phase": "credential_access",
+    },
     "secretsdump": {"base_noise": 9, "detects": ["EDR", "windows_event_logs", "SIEM"], "phase": "credential_access"},
     "psexec": {"base_noise": 8, "detects": ["EDR", "windows_event_logs", "SIEM"], "phase": "lateral_movement"},
     "wmiexec": {"base_noise": 8, "detects": ["EDR", "SIEM"], "phase": "lateral_movement"},
@@ -447,6 +455,7 @@ class OpsecScorer:
         if phase is None:
             try:
                 from modules.killchain import KillChain
+
                 phase = KillChain.current_phase()
             except Exception:
                 phase = self._payload.get("current_phase", "recon")
@@ -476,6 +485,7 @@ class OpsecScorer:
             except Exception:
                 pass
         from modules.db import LazyOwnDB
+
         try:
             db = LazyOwnDB()
             hosts = db.host_search(address=rhost)
@@ -636,11 +646,24 @@ class OpsecScorerV2:
         artifact_mod = min(self.context.artifacts_created // 10, 3)
         uptime_mod = min(self.context.session_uptime_minutes // 60, 4)
 
-        noise_score = max(0, min(10, (
-            base_noise + phase_noise + env_modifier +
-            edr_mod + siem_mod + priv_mod + evasion_mod +
-            artifact_mod + uptime_mod
-        ) // 3))
+        noise_score = max(
+            0,
+            min(
+                10,
+                (
+                    base_noise
+                    + phase_noise
+                    + env_modifier
+                    + edr_mod
+                    + siem_mod
+                    + priv_mod
+                    + evasion_mod
+                    + artifact_mod
+                    + uptime_mod
+                )
+                // 3,
+            ),
+        )
 
         detection_surface = list(profile.get("detects", []))
         if self.context.edr_detected and "EDR" not in detection_surface:
@@ -754,10 +777,18 @@ class OpsecScorerV2:
     def _find_alternatives(cmd: str) -> list[str]:
         alternatives: dict[str, list[str]] = {
             "mimikatz": ["Use procdump + pypykatz", "Use handle duplication + lsass minidump", "Use nanodump (loader)"],
-            "secretsdump": ["Use reg save + pypykatz locally", "Use ntdsutil locally", "Use Volume Shadow Copy + esentutl"],
+            "secretsdump": [
+                "Use reg save + pypykatz locally",
+                "Use ntdsutil locally",
+                "Use Volume Shadow Copy + esentutl",
+            ],
             "psexec": ["Use wmiexec (less detection)", "Use dcomexec", "Use schtasks_exec"],
             "nmap": ["Use masscan (faster, less signature)", "Use zmap (stateless)", "Use lazynmap (custom timing)"],
-            "bloodhound": ["Use SharpHound stealth options", "Use ldapsearch + manual mapping", "Use recon only (no data collection)"],
+            "bloodhound": [
+                "Use SharpHound stealth options",
+                "Use ldapsearch + manual mapping",
+                "Use recon only (no data collection)",
+            ],
         }
         return alternatives.get(cmd, [])
 
@@ -795,6 +826,7 @@ def score_command(
     if payload is None:
         try:
             from core.config import load_payload
+
             payload = load_payload()
         except Exception:
             payload = {}

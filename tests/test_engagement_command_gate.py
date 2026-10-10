@@ -64,6 +64,7 @@ def _restore_paths(saved: dict[str, Path]) -> None:
 
 # ── _is_recordable_command (syntactic layer) ────────────────────────────────────
 
+
 class TestIsRecordableCommand:
     """The syntactic gate that rejects input-line noise."""
 
@@ -75,8 +76,7 @@ class TestIsRecordableCommand:
 
     @pytest.mark.parametrize(
         "cmd",
-        ["1", "5", "./DEPLOY.sh", "grisuno@gmail.com", "CVE-2026", "VariaType.htb",
-         "", "127.0.0.1", "no-priv", "Full"],
+        ["1", "5", "./DEPLOY.sh", "grisuno@gmail.com", "CVE-2026", "VariaType.htb", "", "127.0.0.1", "no-priv", "Full"],
     )
     def test_rejects_syntactic_garbage(self, cmd):
         import cli.engagement_hooks as eh
@@ -101,6 +101,7 @@ class TestIsRecordableCommand:
 
 
 # ── render_engagement_hook rejects syntactic noise ──────────────────────────────
+
 
 class TestHookRejectsNoise:
     """A non-command-shaped token must not touch commands_seen or the ELO."""
@@ -136,14 +137,22 @@ class TestHookRejectsNoise:
 
 # ── _sanitize_seen and _load_state healing ──────────────────────────────────────
 
+
 class TestSanitizeSeen:
     """Historical pollution is healed on load and against a roster."""
 
     def test_syntactic_only_drops_ugly_garbage(self):
         import cli.engagement_hooks as eh
 
-        dirty = ["do_lazynmap", "do_1", "do_./DEPLOY.sh", "do_grisuno@gmail.com",
-                 "do_gobuster", "do_lazynmap", "do_CVE-2026"]
+        dirty = [
+            "do_lazynmap",
+            "do_1",
+            "do_./DEPLOY.sh",
+            "do_grisuno@gmail.com",
+            "do_gobuster",
+            "do_lazynmap",
+            "do_CVE-2026",
+        ]
         assert eh._sanitize_seen(dirty) == ["do_lazynmap", "do_gobuster"]
 
     def test_roster_drops_valid_but_unknown_tokens(self):
@@ -173,6 +182,7 @@ class TestSanitizeSeen:
 
 
 # ── heal_commands_seen (authoritative purge) ────────────────────────────────────
+
 
 class TestHealCommandsSeen:
     """The startup purge removes non-command entries against the live roster."""

@@ -53,12 +53,7 @@ SPANISH_HINTS = (
 
 FORBIDDEN_MARKERS = ("TODO", "FIXME", "XXX", "HACK")
 EMOJI_PATTERN = re.compile(
-    "["
-    "\U0001F300-\U0001FAFF"
-    "\U00002700-\U000027BF"
-    "\U0001F600-\U0001F64F"
-    "\U0001F900-\U0001F9FF"
-    "]+",
+    "[\U0001f300-\U0001faff\U00002700-\U000027bf\U0001f600-\U0001f64f\U0001f900-\U0001f9ff]+",
     flags=re.UNICODE,
 )
 HARDCODED_IPV4 = re.compile(r"\b(?:\d{1,3}\.){3}\d{1,3}\b")
@@ -253,8 +248,7 @@ def check_docstrings(source: str, path: str) -> list[Finding]:
                         severity=Severity.WARN,
                         rule="dod.docstring_sections",
                         message=(
-                            f"{type(node).__name__} '{node.name}' docstring "
-                            "should include Args, Returns, or Raises"
+                            f"{type(node).__name__} '{node.name}' docstring should include Args, Returns, or Raises"
                         ),
                         path=path,
                     )

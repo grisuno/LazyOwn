@@ -100,9 +100,7 @@ def stop_cloudflared_processes() -> int:
     if shutil.which("ps") is None:
         return 0
     try:
-        listing = subprocess.run(
-            ["ps", "-eo", "pid,args"], capture_output=True, text=True, timeout=10, check=False
-        )
+        listing = subprocess.run(["ps", "-eo", "pid,args"], capture_output=True, text=True, timeout=10, check=False)
     except (OSError, subprocess.TimeoutExpired):
         return 0
     if listing.returncode != 0:
@@ -131,7 +129,9 @@ def cleanup_ephemeral_infra() -> dict[str, bool]:
     results: dict[str, bool] = {}
     if RANGE_DIR.exists():
         for compose_file in sorted(RANGE_DIR.glob("*/docker-compose.yml")):
-            results[f"range:{compose_file.parent.name}"] = _compose_down(compose_file, f"range {compose_file.parent.name}")
+            results[f"range:{compose_file.parent.name}"] = _compose_down(
+                compose_file, f"range {compose_file.parent.name}"
+            )
     results["redirector"] = _compose_down(REDIRECTOR_COMPOSE, "redirectors")
     try:
         stopped = stop_cloudflared_processes()

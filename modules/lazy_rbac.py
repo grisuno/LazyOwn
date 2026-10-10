@@ -132,6 +132,7 @@ class RBACUser:
     elo: int = 0
     tenant_id: str = "default"
     must_change_password: bool = False
+
     def to_dict(self) -> dict:
         return asdict(self)
 
@@ -181,9 +182,7 @@ class RBACUser:
     def get_mfa_provisioning_uri(self) -> str:
         if not self.mfa_secret:
             return ""
-        return pyotp.totp.TOTP(self.mfa_secret).provisioning_uri(
-            name=self.username, issuer_name=MFA_ISSUER
-        )
+        return pyotp.totp.TOTP(self.mfa_secret).provisioning_uri(name=self.username, issuer_name=MFA_ISSUER)
 
     def verify_totp(self, token: str) -> bool:
         if not self.mfa_secret or not self.mfa_enabled:
@@ -225,8 +224,7 @@ class RBACStore:
             return []
         except OSError as exc:
             log.warning(
-                "users.json exists but is unreadable (%s); refusing to treat "
-                "it as empty",
+                "users.json exists but is unreadable (%s); refusing to treat it as empty",
                 exc,
             )
             raise _UsersFileUnreadable(exc) from exc
@@ -358,10 +356,7 @@ class RBACStore:
 def _generate_recovery_codes(count: int = RECOVERY_CODES_COUNT) -> list[str]:
     codes = []
     for _ in range(count):
-        code = "-".join(
-            secrets.token_hex(RECOVERY_CODE_LENGTH // 4).upper()[:5]
-            for _ in range(2)
-        )
+        code = "-".join(secrets.token_hex(RECOVERY_CODE_LENGTH // 4).upper()[:5] for _ in range(2))
         codes.append(code)
     return codes
 
@@ -518,6 +513,7 @@ class TenantManager:
 
 def _slugify(name: str) -> str:
     import re
+
     slug = name.lower().strip()
     slug = re.sub(r"[^a-z0-9]+", "_", slug)
     slug = re.sub(r"_+", "_", slug)
@@ -715,9 +711,7 @@ def generate_qr_svg(data: str) -> str:
             modules[pos[0]][pos[1]] = bit_list[bit_idx] if bit_idx < len(bit_list) else 0
             bit_idx += 1
 
-    codewords = _bits_to_bytes(
-        [modules[p[0]][p[1]] for p in data_positions], total_data_bits
-    )
+    codewords = _bits_to_bytes([modules[p[0]][p[1]] for p in data_positions], total_data_bits)
     ec_bytes = _reed_solomon_encode(codewords, ec_words)
     final = codewords + ec_bytes
 
@@ -738,7 +732,12 @@ def generate_qr_svg(data: str) -> str:
 
 
 _QR_CAPACITY_ALPHANUM_L = {
-    1: 25, 2: 47, 3: 77, 4: 114, 5: 154, 6: 195,
+    1: 25,
+    2: 47,
+    3: 77,
+    4: 114,
+    5: 154,
+    6: 195,
 }
 
 
@@ -863,7 +862,7 @@ def _qr_svg_error(msg: str) -> str:
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50">'
         f'<rect width="200" height="50" fill="#fee"/>'
         f'<text x="10" y="30" font-size="12" fill="red">{msg}</text>'
-        f'</svg>'
+        f"</svg>"
     )
 
 
@@ -871,16 +870,15 @@ def _qr_place_finders(matrix, size):
     for r, c in [(0, 0), (0, size - 7), (size - 7, 0)]:
         for i in range(7):
             for j in range(7):
-                matrix[r + i][c + j] = 1 if (
-                    i == 0 or i == 6 or j == 0 or j == 6
-                    or (2 <= i <= 4 and 2 <= j <= 4)
-                ) else 0
+                matrix[r + i][c + j] = (
+                    1 if (i == 0 or i == 6 or j == 0 or j == 6 or (2 <= i <= 4 and 2 <= j <= 4)) else 0
+                )
 
 
 def _qr_place_timing(matrix, size):
     for i in range(8, size - 8):
-        matrix[6][i] = (i % 2 == 0)
-        matrix[i][6] = (i % 2 == 0)
+        matrix[6][i] = i % 2 == 0
+        matrix[i][6] = i % 2 == 0
 
 
 def _qr_data_bits_positions(matrix, size):
@@ -891,7 +889,7 @@ def _qr_data_bits_positions(matrix, size):
     while col > 0:
         if col == 6:
             col -= 1
-        for row in (range(size - 1, -1, -1) if going_up else range(size)):
+        for row in range(size - 1, -1, -1) if going_up else range(size):
             for c in [col, col - 1]:
                 key = (row, c)
                 if key not in done and matrix[row][c] == 0:
@@ -946,7 +944,7 @@ def _reed_solomon_encode(data, ec_words):
             continue
         for j in range(len(generator)):
             msg[i + j] ^= gf_mul(generator[j], factor)
-    return msg[len(data):]
+    return msg[len(data) :]
 
 
 def _qr_best_mask(modules, size):
@@ -1033,20 +1031,20 @@ def _qr_penalty(modules, size):
 
     for r in range(size - 1):
         for c in range(size - 1):
-            vals = [modules[r+i][c+j] for i in range(2) for j in range(2)]
+            vals = [modules[r + i][c + j] for i in range(2) for j in range(2)]
             if all(v not in (-1, 2) for v in vals) and len(set(vals)) == 1:
                 p += 3
 
     for r in range(size):
         for c in range(size - 10):
             pattern = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0]
-            if all(modules[r][c+k] not in (-1, 2) and modules[r][c+k] == pattern[k] for k in range(11)):
+            if all(modules[r][c + k] not in (-1, 2) and modules[r][c + k] == pattern[k] for k in range(11)):
                 p += 40
 
     for c in range(size):
         for r in range(size - 10):
             pattern = [1, 0, 1, 1, 1, 0, 1, 0, 0, 0, 0]
-            if all(modules[r+k][c] not in (-1, 2) and modules[r+k][c] == pattern[k] for k in range(11)):
+            if all(modules[r + k][c] not in (-1, 2) and modules[r + k][c] == pattern[k] for k in range(11)):
                 p += 40
 
     dark = sum(1 for r in range(size) for c in range(size) if modules[r][c] not in (-1, 2) and modules[r][c])
@@ -1063,8 +1061,7 @@ def _qr_render_svg(modules, size, modules_per_pixel=8):
     svg_total = total + quiet * 2
 
     lines = [
-        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_total} {svg_total}" '
-        f'width="250" height="250">',
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {svg_total} {svg_total}" width="250" height="250">',
         f'<rect width="{svg_total}" height="{svg_total}" fill="white"/>',
     ]
 
@@ -1077,8 +1074,7 @@ def _qr_render_svg(modules, size, modules_per_pixel=8):
                 x = quiet + c * modules_per_pixel
                 y = quiet + r * modules_per_pixel
                 lines.append(
-                    f'<rect x="{x}" y="{y}" width="{modules_per_pixel}" '
-                    f'height="{modules_per_pixel}" fill="black"/>'
+                    f'<rect x="{x}" y="{y}" width="{modules_per_pixel}" height="{modules_per_pixel}" fill="black"/>'
                 )
 
     lines.append("</svg>")

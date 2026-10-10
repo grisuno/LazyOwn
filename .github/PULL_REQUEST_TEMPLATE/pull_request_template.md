@@ -9,7 +9,7 @@
 ## Checklist
 
 - [x] Ejecución correcta
-- [x] Documentación actualizada 
+- [x] Documentación actualizada
 - [x] Se agregaron unit test
 - [x] Unit test estan correctos
 

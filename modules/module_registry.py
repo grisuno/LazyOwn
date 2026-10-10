@@ -61,20 +61,57 @@ _MODULE_TYPE_CATEGORY: dict[str, str] = {
 
 
 _SCANNER_KEYWORDS = [
-    "scan", "nmap", "enum", "discover", "recon", "fingerprint",
-    "gobuster", "ffuf", "dirb", "nikto", "nuclei", "whatweb",
+    "scan",
+    "nmap",
+    "enum",
+    "discover",
+    "recon",
+    "fingerprint",
+    "gobuster",
+    "ffuf",
+    "dirb",
+    "nikto",
+    "nuclei",
+    "whatweb",
 ]
 _EXPLOIT_KEYWORDS = [
-    "exploit", "cve", "poc", "rce", "overflow", "injection",
-    "bypass", "shell", "code_exec", "cmd_exec", "sqli", "xss",
+    "exploit",
+    "cve",
+    "poc",
+    "rce",
+    "overflow",
+    "injection",
+    "bypass",
+    "shell",
+    "code_exec",
+    "cmd_exec",
+    "sqli",
+    "xss",
 ]
 _POST_KEYWORDS = [
-    "privesc", "persist", "lateral", "exfil", "pivot", "creds",
-    "impacket", "mimikatz", "bloodhound", "kerberoast", "asreproast",
+    "privesc",
+    "persist",
+    "lateral",
+    "exfil",
+    "pivot",
+    "creds",
+    "impacket",
+    "mimikatz",
+    "bloodhound",
+    "kerberoast",
+    "asreproast",
 ]
 _PAYLOAD_KEYWORDS = [
-    "payload", "shellcode", "stager", "beacon", "implant", "dropper",
-    "loader", "c2", "reverse", "bind",
+    "payload",
+    "shellcode",
+    "stager",
+    "beacon",
+    "implant",
+    "dropper",
+    "loader",
+    "c2",
+    "reverse",
+    "bind",
 ]
 
 
@@ -99,6 +136,7 @@ def _classify_module_source(name: str, source: str) -> str:
 def _extract_docstring_summary(source: str) -> str:
     """Extract the first line of a module's docstring."""
     import ast
+
     try:
         tree = ast.parse(source)
         doc = ast.get_docstring(tree)
@@ -268,11 +306,7 @@ class ModuleRegistry:
             if category and m.category != category:
                 continue
             if q:
-                if (
-                    q in m.name.lower()
-                    or q in m.description.lower()
-                    or q in m.author.lower()
-                ):
+                if q in m.name.lower() or q in m.description.lower() or q in m.author.lower():
                     results.append(m)
             else:
                 results.append(m)
@@ -469,6 +503,7 @@ class ModuleRegistry:
     def _looks_discoverable(source: str) -> bool:
         """Heuristic: a module is discoverable if it defines a runnable entry point."""
         import re
+
         markers = [
             r"def\s+main\s*\(.*\)\s*(?:->.*)?\s*:",
             r"def\s+run\s*\(.*\)\s*(?:->.*)?\s*:",
@@ -574,7 +609,7 @@ def format_module_detail(m: ModuleInfo) -> str:
         lines.append("")
         lines.append("Options:")
         lines.append(f"  {'Name':<20} {'Required':<10} {'Default':<20} {'Description'}")
-        lines.append(f"  {'-'*20} {'-'*10} {'-'*20} {'-'*30}")
+        lines.append(f"  {'-' * 20} {'-' * 10} {'-' * 20} {'-' * 30}")
         for p in m.params:
             pname = p.get("name", "")
             required = "yes" if p.get("required", False) else "no"

@@ -50,6 +50,7 @@ def _yaml_text(path: Path) -> str:
 # Helpers for parametrized fixtures
 # ---------------------------------------------------------------------------
 
+
 def _all_addon_data() -> list:
     """Return (name, doc_dict) parameters for every ADDON_FILES entry."""
     return [pytest.param(name, _load(path), id=name) for name, path in ADDON_FILES.items() if path.exists()]
@@ -62,6 +63,7 @@ def _loaded(name: str) -> dict:
 # ===========================================================================
 # 1.  EXISTENCE & PARSABILITY
 # ===========================================================================
+
 
 class TestAddonExists:
     """Each YAML addon file must exist and be parseable."""
@@ -97,8 +99,9 @@ class TestRequiredFields:
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_description_is_string(self, name: str, addon: dict) -> None:
-        assert isinstance(addon["description"], str) and len(addon["description"]) > 10, \
+        assert isinstance(addon["description"], str) and len(addon["description"]) > 10, (
             f"{name} description too short or missing"
+        )
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_enabled_is_true(self, name: str, addon: dict) -> None:
@@ -144,6 +147,7 @@ class TestToolSection:
 # 4.  PARAM CONTRACTS
 # ===========================================================================
 
+
 class TestParams:
     """Declared params must match what the execute_command template needs."""
 
@@ -172,6 +176,7 @@ class TestParams:
 # 5.  PATH SAFETY  (SDD)
 # ===========================================================================
 
+
 class TestPathSafety:
     """Install paths must not escape the repo root via traversal sequences."""
 
@@ -179,9 +184,7 @@ class TestPathSafety:
     def test_install_path_contained(self, name: str, addon: dict) -> None:
         path = addon["tool"]["install_path"]
         resolved = Path(REPO_ROOT / path).resolve()
-        assert str(resolved).startswith(str(REPO_ROOT)), (
-            f"{name} install_path escapes repo root: {path}"
-        )
+        assert str(resolved).startswith(str(REPO_ROOT)), f"{name} install_path escapes repo root: {path}"
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_install_path_no_dot_dot_prefix(self, name: str, addon: dict) -> None:
@@ -200,13 +203,14 @@ class TestPathSafety:
 # 6.  NO HARDCODED SECRETS  (SDD)
 # ===========================================================================
 
+
 class TestNoHardcodedSecrets:
     """SDD: No IP addresses, port literals, or credential patterns in YAML."""
 
     @pytest.mark.parametrize("name,addon", list(ADDON_FILES.items()), ids=list(ADDON_FILES))
     def test_no_hardcoded_ip(self, name: str, addon: dict) -> None:
         text = _yaml_text(ADDON_FILES[name])
-        ips = re.findall(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', text)
+        ips = re.findall(r"\b(?:\d{1,3}\.){3}\d{1,3}\b", text)
         assert ips == [], f"{name} has hardcoded IPs: {ips}"
 
     @pytest.mark.parametrize("name,addon", list(ADDON_FILES.items()), ids=list(ADDON_FILES))
@@ -226,6 +230,7 @@ class TestNoHardcodedSecrets:
 # 7.  COMMAND TEMPLATE INTEGRITY
 # ===========================================================================
 
+
 class TestCommandTemplates:
     """execute_command must use {param} placeholders instead of hardcoded values."""
 
@@ -241,6 +246,7 @@ class TestCommandTemplates:
 # ===========================================================================
 # 8.  ADDON-SPECIFIC VALIDATION
 # ===========================================================================
+
 
 class TestScoutSuiteSpecific:
     """ScoutSuite is AWS-focused cloud auditing."""
@@ -311,13 +317,13 @@ class TestTrivySpecific:
         assert addon["name"] == "trivy"
 
     def test_os_is_containers(self, addon: dict) -> None:
-        assert addon.get("os", "") in ("containers", "any", "saas"), \
-            "trivy should target containers or any"
+        assert addon.get("os", "") in ("containers", "any", "saas"), "trivy should target containers or any"
 
     def test_has_target_param(self, addon: dict) -> None:
         names = _param_names(addon)
-        assert any(t in names for t in ("target", "trivy_target", "path", "image", "repo")), \
+        assert any(t in names for t in ("target", "trivy_target", "path", "image", "repo")), (
             "trivy needs a target/scan path param"
+        )
 
     def test_triggers_docker(self, addon: dict) -> None:
         triggers = [t.lower() for t in addon.get("trigger", [])]
@@ -336,8 +342,9 @@ class TestGrypeSpecific:
 
     def test_has_target_param(self, addon: dict) -> None:
         names = _param_names(addon)
-        assert any(t in names for t in ("target", "grype_target", "path", "image", "sbom")), \
+        assert any(t in names for t in ("target", "grype_target", "path", "image", "sbom")), (
             "grype needs a target/scan path param"
+        )
 
     def test_description_mentions_vulnerability(self, addon: dict) -> None:
         assert "vulnerability" in addon["description"].lower() or "cve" in addon["description"].lower()
@@ -357,8 +364,9 @@ class TestReportFullSpecific:
         assert "report" in addon["category"].lower()
 
     def test_install_path_is_dot(self, addon: dict) -> None:
-        assert addon["tool"]["install_path"] == ".", \
+        assert addon["tool"]["install_path"] == ".", (
             "report_full uses in-repo report_generator, should use install_path: ."
+        )
 
     def test_execute_calls_report_generator(self, addon: dict) -> None:
         cmd = addon["tool"]["execute_command"]
@@ -372,6 +380,7 @@ class TestReportFullSpecific:
 # 9.  FUZZING — EDGE CASES IN YAML STRUCTURE  (SDD + Fuzzing)
 # ===========================================================================
 
+
 class TestFuzzAddonStructure:
     """Fuzz edge cases: field types, boundary values, missing optional keys."""
 
@@ -381,21 +390,18 @@ class TestFuzzAddonStructure:
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_name_lowercase(self, name: str, addon: dict) -> None:
-        assert addon["name"] == addon["name"].lower(), \
-            f"{name} name should be lowercase for CLI consistency"
+        assert addon["name"] == addon["name"].lower(), f"{name} name should be lowercase for CLI consistency"
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_category_falls_in_known_range(self, name: str, addon: dict) -> None:
         cat = addon.get("category", "")
         prefix = cat.split(".")[0] if "." in cat else ""
-        assert prefix.isdigit() or not prefix, \
-            f"{name} category should start with a number: {cat}"
+        assert prefix.isdigit() or not prefix, f"{name} category should start with a number: {cat}"
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_trigger_is_list_when_present(self, name: str, addon: dict) -> None:
         if "trigger" in addon:
-            assert isinstance(addon["trigger"], list), \
-                f"{name} trigger must be a list"
+            assert isinstance(addon["trigger"], list), f"{name} trigger must be a list"
 
     @pytest.mark.parametrize("name,addon", _all_addon_data())
     def test_os_is_known_value(self, name: str, addon: dict) -> None:
@@ -407,6 +413,7 @@ class TestFuzzAddonStructure:
 # ===========================================================================
 # 10.  RESULT REVIEW — SURFACE SUMMARY
 # ===========================================================================
+
 
 class TestResultReview:
     """Print a human-readable summary of all attack-surface addons for review."""
@@ -422,14 +429,16 @@ class TestResultReview:
             tool = addon.get("tool", {})
             params = ", ".join(_param_names(addon)) or "(none)"
             triggers = ", ".join(addon.get("trigger", [])) or "(none)"
-            rows.append([
-                name,
-                addon.get("os", "any"),
-                addon.get("category", "?").split(".")[0],
-                tool.get("install_path", "?"),
-                params,
-                triggers,
-            ])
+            rows.append(
+                [
+                    name,
+                    addon.get("os", "any"),
+                    addon.get("category", "?").split(".")[0],
+                    tool.get("install_path", "?"),
+                    params,
+                    triggers,
+                ]
+            )
         header = "| Addon | OS | Cat | Install Path | Params | Triggers |"
         sep = "|------|----|-----|--------------|--------|----------|"
         lines = [header, sep] + [f"| {r[0]} | {r[1]} | {r[2]} | {r[3]} | {r[4]} | {r[5]} |" for r in rows]

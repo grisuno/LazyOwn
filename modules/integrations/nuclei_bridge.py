@@ -27,6 +27,7 @@ Usage
     python3 modules/integrations/nuclei_bridge.py --target 10.10.11.78 --cve CVE-2021-41773
     python3 modules/integrations/nuclei_bridge.py --target 10.10.11.78 --service apache --dry-run
 """
+
 from __future__ import annotations
 
 import argparse
@@ -55,6 +56,7 @@ _SEVERITY_ORDER: dict[str, int] = {
 
 try:
     import yaml as _yaml
+
     _YAML_AVAILABLE = True
 except ImportError:
     _YAML_AVAILABLE = False
@@ -64,9 +66,11 @@ except ImportError:
 # Value object
 # ---------------------------------------------------------------------------
 
+
 @dataclass
 class NucleiTemplate:
     """Metadata extracted from a Nuclei template YAML file."""
+
     id: str
     name: str
     severity: str = "info"
@@ -78,6 +82,7 @@ class NucleiTemplate:
 # ---------------------------------------------------------------------------
 # Abstract selector
 # ---------------------------------------------------------------------------
+
 
 class TemplateSelector(ABC):
     """Interface for selecting Nuclei templates given service/CVE context."""
@@ -94,6 +99,7 @@ class TemplateSelector(ABC):
 # ---------------------------------------------------------------------------
 # Local template index
 # ---------------------------------------------------------------------------
+
 
 class LocalTemplateIndex(TemplateSelector):
     """
@@ -269,6 +275,7 @@ class LocalTemplateIndex(TemplateSelector):
 # Nuclei runner
 # ---------------------------------------------------------------------------
 
+
 class NucleiRunner:
     """
     Builds and executes nuclei commands via subprocess.
@@ -378,6 +385,7 @@ class NucleiRunner:
 # Top-level facade
 # ---------------------------------------------------------------------------
 
+
 class NucleiBridge:
     """
     Top-level facade combining TemplateSelector and NucleiRunner.
@@ -444,12 +452,12 @@ def get_bridge() -> NucleiBridge:
 # CLI entry point
 # ---------------------------------------------------------------------------
 
+
 def _main() -> None:
     import logging
+
     logging.basicConfig(level=logging.INFO)
-    parser = argparse.ArgumentParser(
-        description="Select and run Nuclei templates from LazyOwn findings"
-    )
+    parser = argparse.ArgumentParser(description="Select and run Nuclei templates from LazyOwn findings")
     parser.add_argument("--target", metavar="HOST", required=False, help="Scan target")
     parser.add_argument("--cve", metavar="CVE_ID", help="Match templates by CVE id")
     parser.add_argument("--service", metavar="NAME", help="Match templates by service name")

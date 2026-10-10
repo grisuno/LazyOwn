@@ -29,7 +29,7 @@ jobs:
           pip install pip-audit
           pip install -e .
       - name: Audit dependencies
-        run: pip-audit --strict
+        run: pip-audit --strict --exclude lazyown
 
   detect-secrets:
     name: detect-secrets
@@ -62,7 +62,7 @@ jobs:
           with open('pyproject.toml','rb') as f:
               print(tomllib.load(f)['project']['version'])
           ")
-          JSON_VERSION=$(python3 -c "import json; print(json.load(open('version.json'))['version'])")
+          JSON_VERSION=$(python3 -c "import json; v=json.load(open('version.json'))['version']; print(v.split('/')[-1])")
           echo "pyproject.toml: $PYPROJECT_VERSION"
           echo "version.json:   $JSON_VERSION"
           if [ "$PYPROJECT_VERSION" != "$JSON_VERSION" ]; then

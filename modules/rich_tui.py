@@ -108,9 +108,7 @@ class RichDashboard:
         self._running = True
         self._should_stop = False
 
-        self._keyboard_thread = threading.Thread(
-            target=self._keyboard_listener, daemon=True
-        )
+        self._keyboard_thread = threading.Thread(target=self._keyboard_listener, daemon=True)
         self._keyboard_thread.start()
 
         snapshot = self._engine.build_snapshot()
@@ -208,25 +206,15 @@ class RichDashboard:
         text.append(" LAZYOWN LIVE DASHBOARD", style="bold white on dark_blue")
         text.append(f"  {timestamp}  ", style="dim")
         text.append(" | ", style="dim")
-        text.append(
-            f"Hosts: {stats.get('total_hosts', 0):>3}", style="bold cyan"
-        )
+        text.append(f"Hosts: {stats.get('total_hosts', 0):>3}", style="bold cyan")
         text.append(" | ", style="dim")
-        text.append(
-            f"Services: {stats.get('total_services', 0):>3}", style="bold green"
-        )
+        text.append(f"Services: {stats.get('total_services', 0):>3}", style="bold green")
         text.append(" | ", style="dim")
-        text.append(
-            f"Recs: {stats.get('recommendations', 0):>3}", style="bold yellow"
-        )
+        text.append(f"Recs: {stats.get('recommendations', 0):>3}", style="bold yellow")
         text.append(" | ", style="dim")
-        text.append(
-            f"Pivots: {stats.get('active_pivots', 0):>3}", style="bold magenta"
-        )
+        text.append(f"Pivots: {stats.get('active_pivots', 0):>3}", style="bold magenta")
         text.append(" | ", style="dim")
-        text.append(
-            f"Beacons: {stats.get('active_profiles', 0):>3}", style="bold red"
-        )
+        text.append(f"Beacons: {stats.get('active_profiles', 0):>3}", style="bold red")
 
         return Panel(text, box=HEAVY)
 
@@ -263,9 +251,7 @@ class RichDashboard:
             for svc in svc_list[:15]:
                 host_branch.add(Text(svc, style="dim"))
             if len(svc_list) > 15:
-                host_branch.add(
-                    Text(f"... +{len(svc_list) - 15} more", style="dim italic")
-                )
+                host_branch.add(Text(f"... +{len(svc_list) - 15} more", style="dim italic"))
 
         if not nodes:
             tree.add("[dim](no hosts discovered)[/dim]")
@@ -285,8 +271,7 @@ class RichDashboard:
 
         if not recs:
             return Panel(
-                Align.center("[dim]No recommendations available[/dim]",
-                             vertical="middle"),
+                Align.center("[dim]No recommendations available[/dim]", vertical="middle"),
                 title="Exploit Recommendations",
                 border_style="yellow",
                 box=ROUNDED,
@@ -294,9 +279,7 @@ class RichDashboard:
 
         sorted_recs = sorted(
             recs,
-            key=lambda r: _SEVERITY_ORDER.get(
-                r.get("severity", "MEDIUM"), 2
-            ),
+            key=lambda r: _SEVERITY_ORDER.get(r.get("severity", "MEDIUM"), 2),
         )
 
         table = Table(

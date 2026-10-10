@@ -178,9 +178,7 @@ class SleepTechniqueCatalog:
         """Retrieve a technique by name. Raises KeyError if missing."""
         if name not in self._techniques:
             available = ", ".join(sorted(self._techniques.keys()))
-            raise KeyError(
-                f"Sleep technique '{name}' not found. Available: {available}"
-            )
+            raise KeyError(f"Sleep technique '{name}' not found. Available: {available}")
         return self._techniques[name]
 
     def list_all(self) -> list[SleepTechnique]:
@@ -193,10 +191,7 @@ class SleepTechniqueCatalog:
 
     def list_by_platform(self, platform: OsPlatform) -> list[SleepTechnique]:
         """Return techniques supported on a given platform."""
-        return [
-            t for t in self._techniques.values()
-            if platform in t.platforms
-        ]
+        return [t for t in self._techniques.values() if platform in t.platforms]
 
     def list_names(self) -> list[str]:
         """Return sorted list of technique names."""
@@ -257,7 +252,11 @@ def _build_default_catalog() -> SleepTechniqueCatalog:
             risk=TechniqueRisk.MEDIUM,
             params={
                 "spoof_depth": {"type": "int", "default": 16, "description": "Number of frames to spoof"},
-                "use_legitimate_module": {"type": "bool", "default": True, "description": "Use legitimate module addresses"},
+                "use_legitimate_module": {
+                    "type": "bool",
+                    "default": True,
+                    "description": "Use legitimate module addresses",
+                },
             },
         ),
         SleepTechnique(
@@ -275,8 +274,7 @@ def _build_default_catalog() -> SleepTechniqueCatalog:
                 "backup_section": {"type": "str", "default": ".text", "description": "Section to overwrite"},
             },
             stability_note=(
-                "Module stomping is unstable on systems with CFG, CET, or "
-                "hypervisor-based integrity checks."
+                "Module stomping is unstable on systems with CFG, CET, or hypervisor-based integrity checks."
             ),
         ),
         SleepTechnique(
@@ -375,13 +373,9 @@ class SleepTechniqueValidator:
         """
         errors: list[str] = []
         if config.rop_gadget_count < 1 and technique.requires_rop_gadgets:
-            errors.append(
-                f"Technique '{technique.name}' requires rop_gadget_count >= 1"
-            )
+            errors.append(f"Technique '{technique.name}' requires rop_gadget_count >= 1")
         if config.rop_gadget_count > 20:
-            errors.append(
-                "rop_gadget_count > 20 is excessive and likely to cause instability"
-            )
+            errors.append("rop_gadget_count > 20 is excessive and likely to cause instability")
         if config.sleep_delay_ms < 0:
             errors.append("sleep_delay_ms must be >= 0")
         if config.sleep_delay_ms > 60000:

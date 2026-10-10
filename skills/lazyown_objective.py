@@ -47,23 +47,23 @@ from pathlib import Path
 
 # ─── Config ──────────────────────────────────────────────────────────────────
 
-BASE_DIR        = Path(__file__).parent.parent
-SESSIONS_DIR    = BASE_DIR / "sessions"
+BASE_DIR = Path(__file__).parent.parent
+SESSIONS_DIR = BASE_DIR / "sessions"
 OBJECTIVES_FILE = SESSIONS_DIR / "objectives.jsonl"
-PLAN_FILE       = SESSIONS_DIR / "plan.txt"
-SOUL_FILE       = SESSIONS_DIR / "soul.md"
+PLAN_FILE = SESSIONS_DIR / "plan.txt"
+SOUL_FILE = SESSIONS_DIR / "soul.md"
 
-PRIORITY_ORDER  = {"critical": 0, "high": 1, "medium": 2, "low": 3}
-VALID_STATUSES  = {"pending", "in_progress", "done", "blocked", "skipped"}
+PRIORITY_ORDER = {"critical": 0, "high": 1, "medium": 2, "low": 3}
+VALID_STATUSES = {"pending", "in_progress", "done", "blocked", "skipped"}
 VALID_PRIORITIES = set(PRIORITY_ORDER.keys())
 
 # TTL in hours for pending objectives before they are auto-expired.
 # None = never expire.
 OBJECTIVE_TTL_HOURS: dict[str, float | None] = {
     "critical": None,
-    "high":     None,
-    "medium":   72.0,
-    "low":      24.0,
+    "high": None,
+    "medium": 72.0,
+    "low": 24.0,
 }
 
 DEFAULT_SOUL = """\
@@ -316,14 +316,11 @@ def full_context_for_claude(target: str | None = None) -> dict:
     next_obj = pending[0] if pending else None
 
     return {
-        "soul":     soul,
-        "plan":     plan[:4000],
+        "soul": soul,
+        "plan": plan[:4000],
         "next_objective": asdict(next_obj) if next_obj else None,
-        "pending_count":  len(store.list_pending(limit=100)),
-        "pending_preview": [
-            {"id": o.id, "priority": o.priority, "text": o.text[:120]}
-            for o in pending
-        ],
+        "pending_count": len(store.list_pending(limit=100)),
+        "pending_preview": [{"id": o.id, "priority": o.priority, "text": o.text[:120]} for o in pending],
     }
 
 
@@ -413,9 +410,9 @@ class SoulUpdater:
         seen: set = set()
         lines: list[str] = []
         for c in creds[:15]:
-            user   = (c.get("username") or "").strip()
+            user = (c.get("username") or "").strip()
             passwd = (c.get("password") or "").strip()
-            hv     = (c.get("hash_value") or "").strip()
+            hv = (c.get("hash_value") or "").strip()
             if not user:
                 continue
             if user in seen:
@@ -465,8 +462,7 @@ def main() -> None:
 
     p_inj = sub.add_parser("inject", help="Add a new objective")
     p_inj.add_argument("text", help="Objective text")
-    p_inj.add_argument("--priority", default="medium",
-                       choices=list(VALID_PRIORITIES))
+    p_inj.add_argument("--priority", default="medium", choices=list(VALID_PRIORITIES))
     p_inj.add_argument("--source", default="user")
     p_inj.add_argument("--notes", default="")
 

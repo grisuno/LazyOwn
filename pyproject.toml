@@ -94,7 +94,7 @@ ml = [
     "joblib",
 ]
 dev = [
-    "ruff>=0.6.0",
+    "ruff==0.16.8",
     "pytest>=7.0",
     "pytest-cov>=4.0",
     "pytest-timeout>=2.3",
@@ -156,6 +156,7 @@ ignore = [
 # Tier 1: core/ and cli/ have full linting enabled
 # Tier 2: modules/, skills/, plugins/ get security-only ignores
 "modules/*" = ["S"]
+"modules/report_templates.py" = ["S", "UP031"]
 "skills/*" = ["S"]
 "plugins/*" = ["S"]
 # Tier 3: god classes still need broad ignores during refactor

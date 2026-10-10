@@ -54,11 +54,15 @@ def test_returns_empty_when_rag_unavailable() -> None:
 def test_returns_empty_when_disabled_via_payload() -> None:
     """Honour the payload gate exactly once per call."""
 
-    fake = _FakeRAG(hits=[{
-        "text": "fake",
-        "source": "logs/command_lazynmapoutputexample.txt",
-        "score": 0.9,
-    }])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "fake",
+                "source": "logs/command_lazynmapoutputexample.txt",
+                "score": 0.9,
+            }
+        ]
+    )
     advisor = SemanticContextAdvisor(
         rag=fake,
         config_loader=lambda: {SEMANTIC_PAYLOAD_KEY: False},
@@ -70,11 +74,15 @@ def test_returns_empty_when_disabled_via_payload() -> None:
 def test_emits_priority_five_suggestion() -> None:
     """A high-score hit becomes a ``suggest_next`` decision."""
 
-    fake = _FakeRAG(hits=[{
-        "text": "open ports 22, 80, 443 ...",
-        "source": "logs/command_lazynmapoutputtarget.htb.txt",
-        "score": 0.91,
-    }])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "open ports 22, 80, 443 ...",
+                "source": "logs/command_lazynmapoutputtarget.htb.txt",
+                "score": 0.91,
+            }
+        ]
+    )
     advisor = SemanticContextAdvisor(rag=fake)
     decisions = advisor.suggest("similar nmap output", command="ls")
     assert len(decisions) == 1
@@ -90,11 +98,15 @@ def test_emits_priority_five_suggestion() -> None:
 def test_skips_low_score_hits() -> None:
     """Hits below :data:`SEMANTIC_MIN_SCORE` are dropped."""
 
-    fake = _FakeRAG(hits=[{
-        "text": "noise",
-        "source": "logs/command_fakeoutput.txt",
-        "score": SEMANTIC_MIN_SCORE - 0.1,
-    }])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "noise",
+                "source": "logs/command_fakeoutput.txt",
+                "score": SEMANTIC_MIN_SCORE - 0.1,
+            }
+        ]
+    )
     advisor = SemanticContextAdvisor(rag=fake)
     assert advisor.suggest("noise output", command="ls") == []
 
@@ -102,23 +114,25 @@ def test_skips_low_score_hits() -> None:
 def test_skips_same_command_and_dedupes() -> None:
     """Hits pointing back at the current command and duplicates are dropped."""
 
-    fake = _FakeRAG(hits=[
-        {
-            "text": "self",
-            "source": "logs/command_lsoutputt.txt",
-            "score": 0.9,
-        },
-        {
-            "text": "first sibling",
-            "source": "logs/command_psoutputt.txt",
-            "score": 0.9,
-        },
-        {
-            "text": "duplicate",
-            "source": "logs/command_psoutputu.txt",
-            "score": 0.85,
-        },
-    ])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "self",
+                "source": "logs/command_lsoutputt.txt",
+                "score": 0.9,
+            },
+            {
+                "text": "first sibling",
+                "source": "logs/command_psoutputt.txt",
+                "score": 0.9,
+            },
+            {
+                "text": "duplicate",
+                "source": "logs/command_psoutputu.txt",
+                "score": 0.85,
+            },
+        ]
+    )
     advisor = SemanticContextAdvisor(rag=fake)
     decisions = advisor.suggest("dummy", command="ls")
     assert [d.command for d in decisions] == ["ps"]
@@ -127,11 +141,15 @@ def test_skips_same_command_and_dedupes() -> None:
 def test_skips_hits_without_command_prefix() -> None:
     """Sources that do not match the ``command_<verb>output`` pattern are dropped."""
 
-    fake = _FakeRAG(hits=[{
-        "text": "random",
-        "source": "loose_file.txt",
-        "score": 0.9,
-    }])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "random",
+                "source": "loose_file.txt",
+                "score": 0.9,
+            }
+        ]
+    )
     advisor = SemanticContextAdvisor(rag=fake)
     assert advisor.suggest("dummy", command="ls") == []
 
@@ -139,11 +157,15 @@ def test_skips_hits_without_command_prefix() -> None:
 def test_engine_uses_semantic_advisor_when_supplied() -> None:
     """The engine wires the advisor and includes its decisions."""
 
-    fake = _FakeRAG(hits=[{
-        "text": "rich snippet to embed in reason",
-        "source": "logs/command_lazynmapoutputt.txt",
-        "score": 0.72,
-    }])
+    fake = _FakeRAG(
+        hits=[
+            {
+                "text": "rich snippet to embed in reason",
+                "source": "logs/command_lazynmapoutputt.txt",
+                "score": 0.72,
+            }
+        ]
+    )
     advisor = SemanticContextAdvisor(rag=fake)
     engine = ReactiveEngine(semantic=advisor)
     decisions = engine.analyse(

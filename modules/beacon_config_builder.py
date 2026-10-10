@@ -110,9 +110,7 @@ class BeaconConfig:
     xor_key_hex: str = "0x33"
     target_process: str = "svchost.exe"
     stealth_mode: bool = True
-    beacon_scan_ports: list[int] = field(
-        default_factory=lambda: [22, 80, 443, 445, 3389, 8080, 8443]
-    )
+    beacon_scan_ports: list[int] = field(default_factory=lambda: [22, 80, 443, 445, 3389, 8080, 8443])
     reverse_shell_port: int = 5555
     enable_debug: bool = False
 
@@ -270,6 +268,7 @@ class BeaconConfigBuilder:
         if not aes_key_hex:
             try:
                 from core.config import resolve_aes_key
+
                 aes_key_hex = resolve_aes_key(p, sessions_dir="sessions")
             except Exception:
                 aes_key_hex = ""
@@ -330,12 +329,14 @@ class BeaconConfigBuilder:
             return
 
         raw = self._payload
-        engine = ProfileEngine.from_dict({
-            "c2_tls": raw.get("c2_tls", {}),
-            "c2_dns": raw.get("c2_dns", {}),
-            "c2_smb": raw.get("c2_smb", {}),
-            "c2_websocket": raw.get("c2_websocket", {}),
-        })
+        engine = ProfileEngine.from_dict(
+            {
+                "c2_tls": raw.get("c2_tls", {}),
+                "c2_dns": raw.get("c2_dns", {}),
+                "c2_smb": raw.get("c2_smb", {}),
+                "c2_websocket": raw.get("c2_websocket", {}),
+            }
+        )
 
         tls = engine.tls_profile
         config.tls_enabled = tls.enabled
@@ -407,6 +408,7 @@ class BeaconConfigBuilder:
     def from_payload_file(cls, path: str = "payload.json") -> BeaconConfigBuilder:
         """Build a BeaconConfigBuilder by loading payload.json from disk."""
         import json as _json
+
         with open(path, "r") as f:
             return cls(_json.load(f))
 

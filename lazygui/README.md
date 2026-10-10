@@ -104,4 +104,3 @@ QApplication -> Application -> MainWindow
 - `Session`, `Listener`, `Operator`, `EventRecord` (unchanged from v1)
 
 ---
-

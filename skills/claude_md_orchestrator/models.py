@@ -204,9 +204,7 @@ class Spec:
         if not self.happy_path:
             violations.append("spec.happy_path is empty")
         if len(self.sad_paths) < min_sad_paths:
-            violations.append(
-                f"spec.sad_paths has {len(self.sad_paths)} entries, expected at least {min_sad_paths}"
-            )
+            violations.append(f"spec.sad_paths has {len(self.sad_paths)} entries, expected at least {min_sad_paths}")
         for idx, sp in enumerate(self.sad_paths):
             if not sp.condition.strip() or not sp.expected.strip():
                 violations.append(f"spec.sad_paths[{idx}] is incomplete")
@@ -455,10 +453,7 @@ class CicleStateFile:
             run_id=str(data.get("run_id", "current")),
             started_at=str(data.get("started_at", _now_iso())),
             updated_at=str(data.get("updated_at", _now_iso())),
-            contracts={
-                k: CicleState.from_dict(v)
-                for k, v in data.get("contracts", {}).items()
-            },
+            contracts={k: CicleState.from_dict(v) for k, v in data.get("contracts", {}).items()},
         )
 
     def save(self, path: Path) -> None:

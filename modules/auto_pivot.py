@@ -131,6 +131,7 @@ class AutoPivotEngine:
             if pattern.split("/")[0].replace(".0", "") in command_output:
                 discovered.append(pattern)
         import re as _re
+
         ip_pattern = _re.compile(r"\b(?:10|172\.(?:1[6-9]|2\d|3[01])|192\.168)\.\d{1,3}\.\d{1,3}\b")
         private_ips = set(ip_pattern.findall(command_output))
         for ip_addr in private_ips:
@@ -162,6 +163,7 @@ class AutoPivotEngine:
             return None
 
         import secrets as _secrets
+
         chain = PivotChain(
             chain_id=_secrets.token_hex(8),
             nodes=nodes,
@@ -172,9 +174,7 @@ class AutoPivotEngine:
         self._persist_state()
         return chain
 
-    def generate_proxychains_config(
-        self, chain_id: str | None = None
-    ) -> str:
+    def generate_proxychains_config(self, chain_id: str | None = None) -> str:
         nodes: list[PivotNode] = []
         if chain_id and chain_id in self._active_chains:
             nodes = self._active_chains[chain_id].nodes
@@ -203,9 +203,7 @@ class AutoPivotEngine:
     def generate_sshuttle_command(self, node_ip: str, subnet: str) -> str:
         return f"sshuttle -r {node_ip} {subnet}"
 
-    def generate_chisel_command(
-        self, target_ip: str, local_port: int | None = None
-    ) -> tuple[str, str]:
+    def generate_chisel_command(self, target_ip: str, local_port: int | None = None) -> tuple[str, str]:
         lp = local_port or self._next_port()
         server_cmd = f"chisel server -p {lp} --reverse"
         client_cmd = f"chisel client {target_ip}:{lp} R:socks"
@@ -246,14 +244,16 @@ class AutoPivotEngine:
         routes: list[dict[str, Any]] = []
         for node in self._pivot_nodes.values():
             if node.status == "active":
-                routes.append({
-                    "ip": node.ip,
-                    "port": node.pivot_port,
-                    "type": node.socket_type,
-                    "access": node.access_level,
-                    "subnets": node.discovered_subnets,
-                    "route_priority": node.route_priority,
-                })
+                routes.append(
+                    {
+                        "ip": node.ip,
+                        "port": node.pivot_port,
+                        "type": node.socket_type,
+                        "access": node.access_level,
+                        "subnets": node.discovered_subnets,
+                        "route_priority": node.route_priority,
+                    }
+                )
         return sorted(routes, key=lambda r: r["route_priority"], reverse=True)
 
     def get_reachable_hosts(self, node_ip: str | None = None) -> list[str]:
@@ -335,15 +335,10 @@ class AutoPivotEngine:
                 )
                 self._port_counter = max(
                     self._port_counter,
-                    (self._pivot_nodes[ip].pivot_port - self._socks_base_port + 1)
-                    % self._MAX_PORTS,
+                    (self._pivot_nodes[ip].pivot_port - self._socks_base_port + 1) % self._MAX_PORTS,
                 )
             for chain_data in data.get("chains", {}).values():
-                nodes = [
-                    self._pivot_nodes[nip]
-                    for nip in chain_data.get("node_ips", [])
-                    if nip in self._pivot_nodes
-                ]
+                nodes = [self._pivot_nodes[nip] for nip in chain_data.get("node_ips", []) if nip in self._pivot_nodes]
                 self._active_chains[chain_data["chain_id"]] = PivotChain(
                     chain_id=chain_data["chain_id"],
                     nodes=nodes,
@@ -366,15 +361,17 @@ class AutoPivotEngine:
         for subnet in all_subnets:
             gateway_ip = subnet.split("/")[0]
             if gateway_ip not in self._pivot_nodes:
-                suggestions.append({
-                    "target_subnet": subnet,
-                    "via": max(
-                        self._pivot_nodes.values(),
-                        key=lambda n: n.route_priority,
-                        default=None,
-                    ),
-                    "action": "scan_subnet",
-                    "command": f"nmap -sn {subnet}",
-                })
+                suggestions.append(
+                    {
+                        "target_subnet": subnet,
+                        "via": max(
+                            self._pivot_nodes.values(),
+                            key=lambda n: n.route_priority,
+                            default=None,
+                        ),
+                        "action": "scan_subnet",
+                        "command": f"nmap -sn {subnet}",
+                    }
+                )
 
         return suggestions[0] if suggestions else None

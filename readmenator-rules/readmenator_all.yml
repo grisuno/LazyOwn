@@ -18,4 +18,3 @@ rules:
     message: "Use logging module instead of print()"
     severity: INFO
     languages: [python]
-

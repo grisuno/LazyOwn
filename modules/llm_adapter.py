@@ -106,9 +106,7 @@ def _process(
         _configure_logging(True)
     store = config.knowledge_store(TEMPLATE_KB_DOMAINS[template])
     relevant = store.relevant(prompt)
-    full_prompt = truncate_message(
-        config.render(template, prompt, kb_lines=relevant)
-    )
+    full_prompt = truncate_message(config.render(template, prompt, kb_lines=relevant))
     result = _complete(client, full_prompt, TEMPLATE_MODELS.get(template))
     if not result.startswith("Error:"):
         store.add(prompt, result)
@@ -274,9 +272,7 @@ def ask_general(prompt: str, debug: bool = False) -> str:
     if debug:
         _configure_logging(True)
     store = _CONFIG.knowledge_store(TEMPLATE_KB_DOMAINS["general"])
-    full_prompt = truncate_message(
-        _CONFIG.render("general", prompt, kb_lines=store.relevant(prompt))
-    )
+    full_prompt = truncate_message(_CONFIG.render("general", prompt, kb_lines=store.relevant(prompt)))
     backend = try_get_llm_backend()
     if backend is None:
         return (

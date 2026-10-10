@@ -54,6 +54,7 @@ Usage
     # Persist
     trainer.save()
 """
+
 from __future__ import annotations
 
 import json
@@ -68,10 +69,10 @@ from pathlib import Path
 
 log = logging.getLogger("rl_trainer")
 
-_BASE_DIR     = Path(__file__).resolve().parent.parent
+_BASE_DIR = Path(__file__).resolve().parent.parent
 _SESSIONS_DIR = _BASE_DIR / "sessions"
-_QVAL_FILE    = _SESSIONS_DIR / "expert_qvalues.json"
-_EPS_FILE     = _SESSIONS_DIR / "rl_epsilon.json"
+_QVAL_FILE = _SESSIONS_DIR / "expert_qvalues.json"
+_EPS_FILE = _SESSIONS_DIR / "rl_epsilon.json"
 
 
 # ---------------------------------------------------------------------------
@@ -83,13 +84,13 @@ _EPS_FILE     = _SESSIONS_DIR / "rl_epsilon.json"
 class RLConfig:
     """All tunable RL hyperparameters in one place."""
 
-    learning_rate:    float = 0.10   # α — how quickly Q-values update
-    discount_factor:  float = 0.90   # γ — value of future rewards
-    epsilon_start:    float = 0.20   # initial exploration rate
-    epsilon_min:      float = 0.05   # minimum exploration rate
-    epsilon_decay:    float = 0.995  # per-update multiplicative decay
-    optimistic_init:  float = 1.0    # initial Q-value (optimistic → explore all)
-    detection_lambda: float = 0.50   # penalty weight for detection probability
+    learning_rate: float = 0.10  # α — how quickly Q-values update
+    discount_factor: float = 0.90  # γ — value of future rewards
+    epsilon_start: float = 0.20  # initial exploration rate
+    epsilon_min: float = 0.05  # minimum exploration rate
+    epsilon_decay: float = 0.995  # per-update multiplicative decay
+    optimistic_init: float = 1.0  # initial Q-value (optimistic → explore all)
+    detection_lambda: float = 0.50  # penalty weight for detection probability
 
 
 # ---------------------------------------------------------------------------
@@ -122,8 +123,8 @@ class BucketedStateEncoder(IStateEncoder):
     """
 
     _REWARD_BINS: list[tuple[float, str]] = [
-        (0.0,  "low"),
-        (5.0,  "medium"),
+        (0.0, "low"),
+        (5.0, "medium"),
         (10.0, "high"),
     ]
 
@@ -157,9 +158,9 @@ class QValueStore:
         path: Path = _QVAL_FILE,
         optimistic_init: float = 1.0,
     ) -> None:
-        self._path           = path
-        self._lock           = threading.RLock()
-        self._optimistic     = optimistic_init
+        self._path = path
+        self._lock = threading.RLock()
+        self._optimistic = optimistic_init
         self._q: dict[str, dict[str, float]] = {}  # state_key → {expert_id → q_value}
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
@@ -221,10 +222,10 @@ class EpsilonTracker:
         decay: float,
         path: Path = _EPS_FILE,
     ) -> None:
-        self._epsilon  = start
-        self._minimum  = minimum
-        self._decay    = decay
-        self._path     = path
+        self._epsilon = start
+        self._minimum = minimum
+        self._decay = decay
+        self._path = path
         self._path.parent.mkdir(parents=True, exist_ok=True)
         self._load()
 
@@ -287,16 +288,16 @@ class RLTrainer:
         q_store: QValueStore | None = None,
         epsilon_tracker: EpsilonTracker | None = None,
     ) -> None:
-        cfg                  = config or RLConfig()
-        self._cfg            = cfg
-        self._encoder        = state_encoder or BucketedStateEncoder()
-        self._q              = q_store or QValueStore(optimistic_init=cfg.optimistic_init)
-        self._eps            = epsilon_tracker or EpsilonTracker(
+        cfg = config or RLConfig()
+        self._cfg = cfg
+        self._encoder = state_encoder or BucketedStateEncoder()
+        self._q = q_store or QValueStore(optimistic_init=cfg.optimistic_init)
+        self._eps = epsilon_tracker or EpsilonTracker(
             start=cfg.epsilon_start,
             minimum=cfg.epsilon_min,
             decay=cfg.epsilon_decay,
         )
-        self._lock           = threading.RLock()
+        self._lock = threading.RLock()
 
     # ── Public API ────────────────────────────────────────────────────────────
 
@@ -368,20 +369,21 @@ class RLTrainer:
         effective_reward = self._penalize(reward, detection_prob)
 
         with self._lock:
-            old_q     = self._q.get(state, action)
-            max_next  = self._q.max_q(next_state, candidates)
-            new_q     = old_q + self._cfg.learning_rate * (
-                effective_reward
-                + self._cfg.discount_factor * max_next
-                - old_q
-            )
+            old_q = self._q.get(state, action)
+            max_next = self._q.max_q(next_state, candidates)
+            new_q = old_q + self._cfg.learning_rate * (effective_reward + self._cfg.discount_factor * max_next - old_q)
             self._q.set(state, action, round(new_q, 4))
             self._eps.step()
 
         log.info(
             "RL update state=%s action=%s r=%.1f(eff=%.1f) Q:%.3f→%.3f ε=%.3f",
-            state[:30], action, reward, effective_reward,
-            old_q, new_q, self._eps.epsilon,
+            state[:30],
+            action,
+            reward,
+            effective_reward,
+            old_q,
+            new_q,
+            self._eps.epsilon,
         )
 
     def best_expert_for_state(self, state: str, candidates: list[str]) -> str:
@@ -408,7 +410,7 @@ class RLTrainer:
             effective = reward - λ * detection_prob * |reward|
         High detection → effective reward is pulled toward 0.
         """
-        penalty  = self._cfg.detection_lambda * detection_prob * abs(reward)
+        penalty = self._cfg.detection_lambda * detection_prob * abs(reward)
         return reward - penalty
 
 
@@ -437,6 +439,7 @@ def get_trainer(config: RLConfig | None = None) -> RLTrainer:
 if __name__ == "__main__":
     import argparse
     import logging
+
     logging.basicConfig(level=logging.INFO)
 
     parser = argparse.ArgumentParser(description="LazyOwn RL Trainer CLI")
@@ -445,9 +448,9 @@ if __name__ == "__main__":
     p_sel = sub.add_parser("select", help="Select best expert for a state")
     p_sel.add_argument("task_type")
     p_sel.add_argument("phase", nargs="?", default="exploitation")
-    p_sel.add_argument("--candidates", nargs="+",
-                       default=["groq_fast", "groq_powerful",
-                                "groq_deepseek_r1", "ollama_reason"])
+    p_sel.add_argument(
+        "--candidates", nargs="+", default=["groq_fast", "groq_powerful", "groq_deepseek_r1", "ollama_reason"]
+    )
 
     p_upd = sub.add_parser("update", help="Manual Q-learning update")
     p_upd.add_argument("task_type")
@@ -459,26 +462,25 @@ if __name__ == "__main__":
     p_qv = sub.add_parser("qvalues", help="Show Q-values for a state")
     p_qv.add_argument("task_type")
     p_qv.add_argument("phase", nargs="?", default="exploitation")
-    p_qv.add_argument("--candidates", nargs="+",
-                      default=["groq_fast", "groq_powerful",
-                               "groq_deepseek_r1", "ollama_reason"])
+    p_qv.add_argument(
+        "--candidates", nargs="+", default=["groq_fast", "groq_powerful", "groq_deepseek_r1", "ollama_reason"]
+    )
 
     args = parser.parse_args()
     trainer = get_trainer()
 
     if args.cmd == "select":
-        state  = trainer.encode_state(args.task_type, args.phase)
+        state = trainer.encode_state(args.task_type, args.phase)
         choice = trainer.select_action(state, args.candidates)
         print(f"State    : {state}")
         print(f"Epsilon  : {trainer.epsilon:.3f}")
         print(f"Selected : {choice}")
 
     elif args.cmd == "update":
-        state      = trainer.encode_state(args.task_type, args.phase)
+        state = trainer.encode_state(args.task_type, args.phase)
         next_state = trainer.encode_state("privesc", "post_exploitation")
         candidates = ["groq_fast", "groq_powerful", "groq_deepseek_r1", "ollama_reason"]
-        trainer.update(state, args.action, args.reward, next_state,
-                       candidates, args.detection)
+        trainer.update(state, args.action, args.reward, next_state, candidates, args.detection)
         trainer.save()
         print(f"Updated Q({state!r}, {args.action!r})")
         print(f"New epsilon: {trainer.epsilon:.4f}")

@@ -1,4 +1,5 @@
 """Tests for new reactive engine matchers."""
+
 from __future__ import annotations
 
 from modules.reactive_engine import (
@@ -119,6 +120,7 @@ class TestReactiveEngineIntegration:
     def _make_engine(self, matchers):
         """Create a ReactiveEngine with mocked advisors to avoid ChromaDB loading."""
         from unittest.mock import MagicMock
+
         return ReactiveEngine(
             matchers=matchers,
             evasion=MagicMock(),
@@ -134,10 +136,7 @@ class TestReactiveEngineIntegration:
         engine._semantic.suggest.return_value = []
         output = "Found kerberos ticket and RDP session"
         decisions = engine.analyse(output, "test", "linux", {"known_hosts": []})
-        lateral_decisions = [
-            d for d in decisions
-            if any(s.kind == "lateral_opportunity" for s in d.signals)
-        ]
+        lateral_decisions = [d for d in decisions if any(s.kind == "lateral_opportunity" for s in d.signals)]
         assert len(lateral_decisions) >= 1
         for d in lateral_decisions:
             assert d.action == "run_command"
@@ -151,10 +150,7 @@ class TestReactiveEngineIntegration:
         engine._semantic.suggest.return_value = []
         output = "Found api_key=secret123 user@test.com"
         decisions = engine.analyse(output, "test", "linux", {"known_hosts": []})
-        data_decisions = [
-            d for d in decisions
-            if any(s.kind == "data_of_interest" for s in d.signals)
-        ]
+        data_decisions = [d for d in decisions if any(s.kind == "data_of_interest" for s in d.signals)]
         assert len(data_decisions) >= 1
         for d in data_decisions:
             assert d.action == "run_command"

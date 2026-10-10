@@ -147,45 +147,47 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `paint` (function, line 84) `def paint(text, token, payload)`
   - `render_prompt` (function, line 98) `def render_prompt(console, segments, payload)`
 - Depends on: `cli/themes.py`
-- Imported by: `cli/splash.py`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+- Imported by: `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
 
 ## cli/surface_graph.py
 - Doc: Network surface graph reader for the LazyOwn shell.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_slug_host` (function, line 73) `def _slug_host(ip)`
-  - `_slug_port` (function, line 78) `def _slug_port(host_id, port, protocol)`
-  - `SurfaceNode` (class, line 85) `class SurfaceNode`
-  - `SurfaceEdge` (class, line 111) `class SurfaceEdge`
-  - `SurfaceGraph` (class, line 124) `class SurfaceGraph`
-  - `SurfaceGraphConfig` (class, line 172) `class SurfaceGraphConfig`
-  - `SurfaceGraphBuilder` (class, line 194) `class SurfaceGraphBuilder`
-  - `build_surface_graph` (method, line 562) `def build_surface_graph(sessions_dir, payload_path)`
-  - `iter_descendants` (method, line 579) `def iter_descendants(graph, root_id)`
-  - `to_dict` (method, line 100) `def to_dict(self)`
-  - `to_dict` (method, line 118) `def to_dict(self)`
-  - `to_dict` (method, line 133) `def to_dict(self)`
-  - `stats` (method, line 144) `def stats(self)`
-  - `children_of` (method, line 151) `def children_of(self, node_id)`
-  - `get` (method, line 163) `def get(self, node_id)`
-  - `__init__` (method, line 197) `def __init__(self, config)`
-  - `build` (method, line 200) `def build(self)`
-  - `_kind_order` (method, line 329) `def _kind_order(kind)`
-  - `_build_c2_node` (method, line 339) `def _build_c2_node(self, local_ips, payload)`
-  - `_discover_local_ips` (method, line 357) `def _discover_local_ips(self)`
-  - `_fallback_local_ips` (method, line 378) `def _fallback_local_ips()`
-  - `_load_payload` (method, line 384) `def _load_payload(self)`
-  - `_read_os_hint` (method, line 397) `def _read_os_hint(self)`
-  - `_read_hostsdiscovery` (method, line 412) `def _read_hostsdiscovery(self, local_ips)`
-  - `_read_scan_discovery` (method, line 429) `def _read_scan_discovery(self, local_ips)`
-  - `_read_implants` (method, line 454) `def _read_implants(self)`
-  - `_read_last_implant_row` (method, line 471) `def _read_last_implant_row(self, path)`
-  - `_parse_implant_row` (method, line 488) `def _parse_implant_row(self, row)`
-  - `_parse_port_scan` (method, line 509) `def _parse_port_scan(self, raw)`
-  - `_is_ipv4` (method, line 545) `def _is_ipv4(value)`
-  - `_client_label` (method, line 551) `def _client_label(client_id, meta)`
-- Imported by: `cli/surface_tui.py`, `tests/test_surface_graph.py`
+  - `_slug_host` (function, line 75) `def _slug_host(ip)`
+  - `_slug_port` (function, line 80) `def _slug_port(host_id, port, protocol)`
+  - `SurfaceNode` (class, line 87) `class SurfaceNode`
+  - `SurfaceEdge` (class, line 113) `class SurfaceEdge`
+  - `SurfaceGraph` (class, line 126) `class SurfaceGraph`
+  - `SurfaceGraphConfig` (class, line 174) `class SurfaceGraphConfig`
+  - `SurfaceGraphBuilder` (class, line 196) `class SurfaceGraphBuilder`
+  - `build_surface_graph` (method, line 631) `def build_surface_graph(sessions_dir, payload_path)`
+  - `iter_descendants` (method, line 648) `def iter_descendants(graph, root_id)`
+  - `to_dict` (method, line 102) `def to_dict(self)`
+  - `to_dict` (method, line 120) `def to_dict(self)`
+  - `to_dict` (method, line 135) `def to_dict(self)`
+  - `stats` (method, line 146) `def stats(self)`
+  - `children_of` (method, line 153) `def children_of(self, node_id)`
+  - `get` (method, line 165) `def get(self, node_id)`
+  - `__init__` (method, line 199) `def __init__(self, config)`
+  - `build` (method, line 202) `def build(self)`
+  - `_kind_order` (method, line 331) `def _kind_order(kind)`
+  - `_build_c2_node` (method, line 341) `def _build_c2_node(self, local_ips, payload)`
+  - `_discover_local_ips` (method, line 359) `def _discover_local_ips(self)`
+  - `_fallback_local_ips` (method, line 380) `def _fallback_local_ips()`
+  - `_load_payload` (method, line 386) `def _load_payload(self)`
+  - `_read_os_hint` (method, line 399) `def _read_os_hint(self)`
+  - `_read_hostsdiscovery` (method, line 414) `def _read_hostsdiscovery(self, local_ips)`
+  - `_read_scan_discovery` (method, line 436) `def _read_scan_discovery(self, local_ips)`
+  - `_read_scan_csv` (method, line 442) `def _read_scan_csv(self, local_ips)`
+  - `_read_scan_nmap` (method, line 467) `def _read_scan_nmap(self, local_ips)`
+  - `_read_implants` (method, line 523) `def _read_implants(self)`
+  - `_read_last_implant_row` (method, line 540) `def _read_last_implant_row(self, path)`
+  - `_parse_implant_row` (method, line 557) `def _parse_implant_row(self, row)`
+  - `_parse_port_scan` (method, line 578) `def _parse_port_scan(self, raw)`
+  - `_is_ipv4` (method, line 614) `def _is_ipv4(value)`
+  - `_client_label` (method, line 620) `def _client_label(client_id, meta)`
+- Imported by: `cli/surface_tui.py`, `modules/attack_surface3d.py`, `tests/test_surface_graph.py`
 
 ## cli/surface_tui.py
 - Doc: Terminal renderer for the LazyOwn network surface graph.
@@ -222,7 +224,7 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
   - `Theme` (class, line 31) `class Theme`
   - `get_theme` (method, line 222) `def get_theme(name)`
   - `theme_from_payload` (method, line 238) `def theme_from_payload(payload)`
-- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
+- Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 
 ## cli/timeline_browser.py
 - Doc: Textual scrubber over ``sessions/LazyOwn_session_report.csv``.
@@ -262,66 +264,66 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_noop` (function, line 131) `def _noop()`
-  - `TipsConfig` (class, line 136) `class TipsConfig`
-  - `TipsEngine` (class, line 185) `class TipsEngine`
-  - `_render_streak` (method, line 1101) `def _render_streak(ctx, state, config)`
-  - `_render_exploration` (method, line 1122) `def _render_exploration(ctx, state, config)`
-  - `_render_phase_badge` (method, line 1140) `def _render_phase_badge(ctx, state, config)`
-  - `_render_hidden_feature` (method, line 1158) `def _render_hidden_feature(ctx, state, config)`
-  - `_render_arsenal_tip` (method, line 1178) `def _render_arsenal_tip(ctx, state, config)`
-  - `build_default_tips_config` (method, line 1238) `def build_default_tips_config()`
-  - `__init__` (method, line 193) `def __init__(self, config, autosuggest_engine)`
-  - `enabled` (method, line 220) `def enabled(self)`
-  - `set_enabled` (method, line 224) `def set_enabled(self, value)`
-  - `render` (method, line 228) `def render(self, cmd, phase)`
-  - `_maybe_auto_show_killchain` (method, line 271) `def _maybe_auto_show_killchain(self, phase)`
-  - `_resolve_theme` (method, line 299) `def _resolve_theme(self)`
-  - `_flush_suggestions_panel` (method, line 310) `def _flush_suggestions_panel(self)`
-  - `_get_hints_level` (method, line 342) `def _get_hints_level(self)`
-  - `_resolve_phase` (method, line 353) `def _resolve_phase(self, cmd, fallback)`
-  - `_read_world_model_phase` (method, line 376) `def _read_world_model_phase(self)`
-  - `_read_os_id_from_session` (method, line 386) `def _read_os_id_from_session(self)`
-  - `render_session_start` (method, line 406) `def render_session_start(self, phase, os_id)`
-  - `get_state_snapshot` (method, line 438) `def get_state_snapshot(self)`
-  - `reset_session` (method, line 453) `def reset_session(self)`
-  - `heal_commands_seen` (method, line 458) `def heal_commands_seen(self, known)`
-  - `_render_kill_chain_hints` (method, line 473) `def _render_kill_chain_hints(self, cmd, phase)`
-  - `_load_payload` (method, line 490) `def _load_payload(self)`
-  - `_get_rec_engine` (method, line 503) `def _get_rec_engine(self)`
-  - `_compute_evidence_hints` (method, line 527) `def _compute_evidence_hints(self, cmd, phase)`
-  - `_collect_killchain_progress` (method, line 573) `def _collect_killchain_progress(self, current_phase)`
-  - `_maybe_show_full_killchain` (method, line 603) `def _maybe_show_full_killchain(self, cmd)`
-  - `_compute_command_hints` (method, line 614) `def _compute_command_hints(self, cmd, phase)`
-  - `_render_contextual_tip` (method, line 631) `def _render_contextual_tip(self, cmd, phase)`
-  - `_safe_tip_trigger` (method, line 670) `def _safe_tip_trigger(tip, ctx)`
-  - `_run_curiosity_reveal` (method, line 681) `def _run_curiosity_reveal(self, cmd, phase)`
-  - `_commands_in_exploration_phase` (method, line 705) `def _commands_in_exploration_phase(self, phase)`
-  - `_summary_for_exploration_cmd` (method, line 711) `def _summary_for_exploration_cmd(self, cmd)`
-  - `_refresh_autosuggest` (method, line 724) `def _refresh_autosuggest(self, cmd, phase)`
-  - `_render_autosuggest_hint` (method, line 748) `def _render_autosuggest_hint(self, engine)`
-  - `_update_engagement_state` (method, line 765) `def _update_engagement_state(self, cmd, phase)`
-  - `_award_elo` (method, line 806) `def _award_elo(self, cmd, first_time, new_phase, phase)`
-  - `_check_karma_up` (method, line 817) `def _check_karma_up(self)`
-  - `_print_separator` (method, line 834) `def _print_separator(self, width)`
-  - `_check_badges` (method, line 838) `def _check_badges(self, cmd, first_time)`
-  - `_print_badge` (method, line 865) `def _print_badge(self, name, description)`
-  - `_fire_vri_reward` (method, line 875) `def _fire_vri_reward(self, ctx)`
-  - `_pick_weighted` (method, line 905) `def _pick_weighted(rewards, weights)`
-  - `_ensure_state_and_index` (method, line 924) `def _ensure_state_and_index(self)`
-  - `_load_state` (method, line 930) `def _load_state(self)`
-  - `_save_state` (method, line 950) `def _save_state(self)`
-  - `_load_command_index` (method, line 975) `def _load_command_index(self)`
-  - `_is_recordable_command` (method, line 985) `def _is_recordable_command(self, cmd)`
-  - `_sanitize_seen` (method, line 989) `def _sanitize_seen(self, names, known)`
-  - `_read_run_commands` (method, line 1003) `def _read_run_commands(self)`
-  - `_read_recent_commands_for_autosuggest` (method, line 1008) `def _read_recent_commands_for_autosuggest(self, limit)`
-  - `_phase_for_cmd` (method, line 1026) `def _phase_for_cmd(self, cmd)`
-  - `_truncate` (method, line 1037) `def _truncate(value, max_len)`
-  - `_get_karma_name` (method, line 1043) `def _get_karma_name(elo)`
-  - `_next_threshold` (method, line 1049) `def _next_threshold(self, current)`
-  - `_sync_user_elo` (method, line 1053) `def _sync_user_elo(self, delta)`
-- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+  - `_noop` (function, line 132) `def _noop()`
+  - `TipsConfig` (class, line 137) `class TipsConfig`
+  - `TipsEngine` (class, line 186) `class TipsEngine`
+  - `_render_streak` (method, line 1103) `def _render_streak(ctx, state, config)`
+  - `_render_exploration` (method, line 1124) `def _render_exploration(ctx, state, config)`
+  - `_render_phase_badge` (method, line 1142) `def _render_phase_badge(ctx, state, config)`
+  - `_render_hidden_feature` (method, line 1160) `def _render_hidden_feature(ctx, state, config)`
+  - `_render_arsenal_tip` (method, line 1180) `def _render_arsenal_tip(ctx, state, config)`
+  - `build_default_tips_config` (method, line 1240) `def build_default_tips_config()`
+  - `__init__` (method, line 194) `def __init__(self, config, autosuggest_engine)`
+  - `enabled` (method, line 221) `def enabled(self)`
+  - `set_enabled` (method, line 225) `def set_enabled(self, value)`
+  - `render` (method, line 229) `def render(self, cmd, phase)`
+  - `_maybe_auto_show_killchain` (method, line 272) `def _maybe_auto_show_killchain(self, phase)`
+  - `_resolve_theme` (method, line 300) `def _resolve_theme(self)`
+  - `_flush_suggestions_panel` (method, line 311) `def _flush_suggestions_panel(self)`
+  - `_get_hints_level` (method, line 344) `def _get_hints_level(self)`
+  - `_resolve_phase` (method, line 355) `def _resolve_phase(self, cmd, fallback)`
+  - `_read_world_model_phase` (method, line 378) `def _read_world_model_phase(self)`
+  - `_read_os_id_from_session` (method, line 388) `def _read_os_id_from_session(self)`
+  - `render_session_start` (method, line 408) `def render_session_start(self, phase, os_id)`
+  - `get_state_snapshot` (method, line 440) `def get_state_snapshot(self)`
+  - `reset_session` (method, line 455) `def reset_session(self)`
+  - `heal_commands_seen` (method, line 460) `def heal_commands_seen(self, known)`
+  - `_render_kill_chain_hints` (method, line 475) `def _render_kill_chain_hints(self, cmd, phase)`
+  - `_load_payload` (method, line 492) `def _load_payload(self)`
+  - `_get_rec_engine` (method, line 505) `def _get_rec_engine(self)`
+  - `_compute_evidence_hints` (method, line 529) `def _compute_evidence_hints(self, cmd, phase)`
+  - `_collect_killchain_progress` (method, line 575) `def _collect_killchain_progress(self, current_phase)`
+  - `_maybe_show_full_killchain` (method, line 605) `def _maybe_show_full_killchain(self, cmd)`
+  - `_compute_command_hints` (method, line 616) `def _compute_command_hints(self, cmd, phase)`
+  - `_render_contextual_tip` (method, line 633) `def _render_contextual_tip(self, cmd, phase)`
+  - `_safe_tip_trigger` (method, line 672) `def _safe_tip_trigger(tip, ctx)`
+  - `_run_curiosity_reveal` (method, line 683) `def _run_curiosity_reveal(self, cmd, phase)`
+  - `_commands_in_exploration_phase` (method, line 707) `def _commands_in_exploration_phase(self, phase)`
+  - `_summary_for_exploration_cmd` (method, line 713) `def _summary_for_exploration_cmd(self, cmd)`
+  - `_refresh_autosuggest` (method, line 726) `def _refresh_autosuggest(self, cmd, phase)`
+  - `_render_autosuggest_hint` (method, line 750) `def _render_autosuggest_hint(self, engine)`
+  - `_update_engagement_state` (method, line 767) `def _update_engagement_state(self, cmd, phase)`
+  - `_award_elo` (method, line 808) `def _award_elo(self, cmd, first_time, new_phase, phase)`
+  - `_check_karma_up` (method, line 819) `def _check_karma_up(self)`
+  - `_print_separator` (method, line 836) `def _print_separator(self, width)`
+  - `_check_badges` (method, line 840) `def _check_badges(self, cmd, first_time)`
+  - `_print_badge` (method, line 867) `def _print_badge(self, name, description)`
+  - `_fire_vri_reward` (method, line 877) `def _fire_vri_reward(self, ctx)`
+  - `_pick_weighted` (method, line 907) `def _pick_weighted(rewards, weights)`
+  - `_ensure_state_and_index` (method, line 926) `def _ensure_state_and_index(self)`
+  - `_load_state` (method, line 932) `def _load_state(self)`
+  - `_save_state` (method, line 952) `def _save_state(self)`
+  - `_load_command_index` (method, line 977) `def _load_command_index(self)`
+  - `_is_recordable_command` (method, line 987) `def _is_recordable_command(self, cmd)`
+  - `_sanitize_seen` (method, line 991) `def _sanitize_seen(self, names, known)`
+  - `_read_run_commands` (method, line 1005) `def _read_run_commands(self)`
+  - `_read_recent_commands_for_autosuggest` (method, line 1010) `def _read_recent_commands_for_autosuggest(self, limit)`
+  - `_phase_for_cmd` (method, line 1028) `def _phase_for_cmd(self, cmd)`
+  - `_truncate` (method, line 1039) `def _truncate(value, max_len)`
+  - `_get_karma_name` (method, line 1045) `def _get_karma_name(elo)`
+  - `_next_threshold` (method, line 1051) `def _next_threshold(self, current)`
+  - `_sync_user_elo` (method, line 1055) `def _sync_user_elo(self, delta)`
+- Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
 - Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
 
 ## cli/toast_bus.py
@@ -329,46 +331,57 @@ Previous: [KB_cli_p3.md](KB_cli_p3.md)
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `ToastConfig` (class, line 42) `class ToastConfig`
-  - `ToastEvent` (class, line 80) `class ToastEvent`
-  - `ToastState` (class, line 91) `class ToastState`
-  - `ToastReader` (class, line 173) `class ToastReader`
-  - `ToastFormatter` (class, line 278) `class ToastFormatter`
-  - `ToastBus` (class, line 352) `class ToastBus`
-  - `_is_truthy` (method, line 423) `def _is_truthy(value, config, default)`
-  - `toasts_enabled` (method, line 437) `def toasts_enabled(payload, config)`
-  - `_budget` (method, line 445) `def _budget(payload, config)`
-  - `build_default_bus` (method, line 460) `def build_default_bus(payload, sessions_dir, console)`
-  - `render_toasts` (method, line 525) `def render_toasts(payload, sessions_dir, console, bus_factory)`
-  - `emit_toast` (method, line 549) `def emit_toast(message, severity, event_type, sessions_dir, config)`
-  - `read_recent_toasts` (method, line 594) `def read_recent_toasts(sessions_dir, limit, config)`
-  - `build_toast_renderable` (method, line 638) `def build_toast_renderable(events, payload, width, config)`
-  - `__init__` (method, line 99) `def __init__(self, config, root)`
-  - `path` (method, line 114) `def path(self)`
-  - `get` (method, line 118) `def get(self, name)`
-  - `set` (method, line 123) `def set(self, name, offset)`
-  - `reset` (method, line 129) `def reset(self)`
-  - `flush` (method, line 134) `def flush(self)`
-  - `_ensure_loaded` (method, line 152) `def _ensure_loaded(self)`
-  - `__init__` (method, line 176) `def __init__(self, config, root)`
-  - `root` (method, line 187) `def root(self)`
-  - `read_unseen` (method, line 191) `def read_unseen(self, name, start_offset)`
-  - `_parse` (method, line 222) `def _parse(self, text, source, base_offset)`
-  - `_build_event` (method, line 237) `def _build_event(self, line, source, offset)`
-  - `_coerce_str` (method, line 258) `def _coerce_str(value)`
-  - `_summary` (method, line 266) `def _summary(record)`
-  - `__init__` (method, line 281) `def __init__(self, config, theme)`
-  - `format` (method, line 286) `def format(self, event)`
-  - `format_many` (method, line 298) `def format_many(self, events, width)`
-  - `_console_width` (method, line 333) `def _console_width(self)`
-  - `_role_for` (method, line 340) `def _role_for(self, severity)`
-  - `_truncate` (method, line 346) `def _truncate(self, value)`
-  - `__init__` (method, line 359) `def __init__(self, config, state, reader, formatter, console)`
-  - `collect` (method, line 374) `def collect(self)`
-  - `render` (method, line 386) `def render(self, enabled)`
-  - `mark_all_seen` (method, line 415) `def mark_all_seen(self)`
+  - `ToastConfig` (class, line 43) `class ToastConfig`
+  - `ToastEvent` (class, line 110) `class ToastEvent`
+  - `ToastState` (class, line 121) `class ToastState`
+  - `ToastReader` (class, line 203) `class ToastReader`
+  - `ToastFormatter` (class, line 316) `class ToastFormatter`
+  - `ToastBus` (class, line 488) `class ToastBus`
+  - `_is_truthy` (method, line 622) `def _is_truthy(value, config, default)`
+  - `_is_dumb_stream` (method, line 636) `def _is_dumb_stream(stream)`
+  - `toasts_enabled` (method, line 656) `def toasts_enabled(payload, config)`
+  - `_budget` (method, line 664) `def _budget(payload, config)`
+  - `build_default_bus` (method, line 679) `def build_default_bus(payload, sessions_dir, console)`
+  - `render_toasts` (method, line 708) `def render_toasts(payload, sessions_dir, console, bus_factory)`
+  - `ephemeral_enabled` (method, line 732) `def ephemeral_enabled(payload, config)`
+  - `render_ephemeral_toasts` (method, line 748) `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)`
+  - `emit_toast` (method, line 778) `def emit_toast(message, severity, event_type, sessions_dir, config)`
+  - `read_recent_toasts` (method, line 823) `def read_recent_toasts(sessions_dir, limit, config)`
+  - `build_toast_renderable` (method, line 867) `def build_toast_renderable(events, payload, width, config)`
+  - `__init__` (method, line 129) `def __init__(self, config, root)`
+  - `path` (method, line 144) `def path(self)`
+  - `get` (method, line 148) `def get(self, name)`
+  - `set` (method, line 153) `def set(self, name, offset)`
+  - `reset` (method, line 159) `def reset(self)`
+  - `flush` (method, line 164) `def flush(self)`
+  - `_ensure_loaded` (method, line 182) `def _ensure_loaded(self)`
+  - `__init__` (method, line 206) `def __init__(self, config, root)`
+  - `root` (method, line 217) `def root(self)`
+  - `read_unseen` (method, line 221) `def read_unseen(self, name, start_offset)`
+  - `_parse` (method, line 252) `def _parse(self, text, source, base_offset)`
+  - `_build_event` (method, line 267) `def _build_event(self, line, source, offset)`
+  - `_coerce_str` (method, line 288) `def _coerce_str(value)`
+  - `_summary` (method, line 296) `def _summary(record)`
+  - `__init__` (method, line 319) `def __init__(self, config, theme)`
+  - `format` (method, line 324) `def format(self, event)`
+  - `is_prominent` (method, line 336) `def is_prominent(self, event)`
+  - `format_prominent` (method, line 346) `def format_prominent(self, event)`
+  - `format_ephemeral` (method, line 363) `def format_ephemeral(self, event)`
+  - `duration_for` (method, line 391) `def duration_for(self, event)`
+  - `digest_line` (method, line 409) `def digest_line(dropped)`
+  - `format_many` (method, line 417) `def format_many(self, events, width)`
+  - `_console_width` (method, line 469) `def _console_width(self)`
+  - `_role_for` (method, line 476) `def _role_for(self, severity)`
+  - `_truncate` (method, line 482) `def _truncate(self, value)`
+  - `__init__` (method, line 495) `def __init__(self, config, state, reader, formatter, console)`
+  - `collect` (method, line 510) `def collect(self)`
+  - `render` (method, line 522) `def render(self, enabled)`
+  - `mark_all_seen` (method, line 551) `def mark_all_seen(self)`
+  - `render_ephemeral` (method, line 558) `def render_ephemeral(self, enabled, duration)`
+  - `_schedule_erase` (method, line 591) `def _schedule_erase(self, delay)`
+  - `_erase_lines` (method, line 607) `def _erase_lines(stream, rows)`
 - Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_toast_bus.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_lazy_parity.py`, `tests/test_toast_bus.py`
 
 ## cli/tui_theme.py
 - Doc: Operator-facing ``tui_theme`` command logic.

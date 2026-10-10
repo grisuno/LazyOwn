@@ -53,6 +53,65 @@ class OrchestrationConfig:
 
 _CONFIG = OrchestrationConfig()
 
+_SPINNER_POLL_S = 0.4
+_SPINNER_IDLE = "orchestrator routing goal…"
+
+
+def _spinner_hints(stop: object, events_path: str = "sessions/autonomous_events.jsonl") -> None:
+    """Render a live spinner with the newest reasoning line until stopped.
+
+    Runs on a worker thread while the orchestrator blocks. Each poll
+    reads the tail of the autonomous events log so the operator watches
+    what the run is doing instead of silence. Any failure degrades to
+    a static waiting line, never to an exception.
+    """
+    try:
+        import threading as _threading
+        import time as _time
+
+        from rich.console import Console as _Console
+
+        from cli.reasoning_stream import latest_hint as _latest_hint
+
+        console = _Console()
+        hint = _SPINNER_IDLE
+        with console.status(f"[bold yellow]{hint}[/]", spinner="dots"):
+            while not stop.is_set():  # type: ignore[union-attr]
+                try:
+                    fresh = _latest_hint(events_path)
+                    if fresh:
+                        hint = fresh
+                except Exception:
+                    pass
+                try:
+                    console.update(f"[bold yellow]{hint}[/]")
+                except Exception:
+                    pass
+                _time.sleep(_SPINNER_POLL_S)
+    except Exception:
+        return
+
+
+def run_with_spinner(execute: object, *args: object, **kwargs: object) -> object:
+    """Run a blocking orchestrator call with a live reasoning spinner.
+
+    Starts the spinner thread only on interactive terminals; anywhere
+    else the call runs unwrapped so piped JSON output stays clean.
+    """
+    import sys as _sys
+    import threading as _threading
+
+    if not _sys.stdout.isatty():
+        return execute(*args, **kwargs)  # type: ignore[operator]
+    stop = _threading.Event()
+    worker = _threading.Thread(target=_spinner_hints, args=(stop,), daemon=True)
+    worker.start()
+    try:
+        return execute(*args, **kwargs)  # type: ignore[operator]
+    finally:
+        stop.set()
+        worker.join(timeout=2.0)
+
 
 def _build_status_bar_parser() -> Cmd2ArgumentParser:
     """Return the argparse parser used by ``status_bar``."""
@@ -111,6 +170,13 @@ def _build_orchestrate_parser() -> Cmd2ArgumentParser:
         default=_CONFIG.default_output_format,
         help="output rendering: text prints a summary, json prints the full result",
     )
+    parser.add_argument(
+        "--max-steps",
+        dest="max_steps",
+        type=int,
+        default=0,
+        help="daemon backend: max plan steps to run (0 keeps backend default)",
+    )
     return parser
 
 
@@ -160,15 +226,36 @@ class OrchestrationCommandSet(LazyOwnCommandSet):
         if orchestrator is None:
             print("orchestrate: unified orchestrator not installed on this shell")
             return
-        result = orchestrator.execute(
-            goal=args.goal,
-            mode=args.mode,
-            phase=args.phase,
-            task_type=args.task_type,
-            target=args.target,
-            drones=args.drones,
-            timeout=args.timeout,
-        )
+        _meta: dict[str, Any] = {}
+        try:
+            _ms = int(getattr(args, "max_steps", 0) or 0)
+        except (TypeError, ValueError):
+            _ms = 0
+        if _ms > 0:
+            _meta["max_steps"] = _ms
+        if args.format == "json":
+            result = orchestrator.execute(
+                goal=args.goal,
+                mode=args.mode,
+                phase=args.phase,
+                task_type=args.task_type,
+                target=args.target,
+                drones=args.drones,
+                timeout=args.timeout,
+                metadata=_meta,
+            )
+        else:
+            result = run_with_spinner(
+                orchestrator.execute,
+                goal=args.goal,
+                mode=args.mode,
+                phase=args.phase,
+                task_type=args.task_type,
+                target=args.target,
+                drones=args.drones,
+                timeout=args.timeout,
+                metadata=_meta,
+            )
         if args.format == "json":
             print(json.dumps(result.to_dict(), indent=2, ensure_ascii=False))
             return

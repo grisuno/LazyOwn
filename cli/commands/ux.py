@@ -169,23 +169,29 @@ class UxCommandSet(LazyOwnCommandSet):
 
         The shell already renders toasts after every command; this command
         lets you raise one yourself. Use it to flag state changes for
-        yourself or for a teammate tailing the same session.
+        yourself or for a teammate tailing the same session. The persistent
+        ascii panel is the default; ``--live`` renders the same event as a
+        sonner-style auto-expiring line through the shared toast bus.
 
         Usage:
             ``toast <message>``                      — info level
             ``toast <message> --level success``      — success / warn / error
             ``toast <message> --type beacon``        — custom label
             ``toast <message> --now``                — print immediately
+            ``toast <message> --live``               — ephemeral line, auto-erases on TTY
+            ``toast <message> --live --duration 2``  — ephemeral with 2s delay
             ``toast <message> --dry-run``            — show what would be written
         """
         from cli.output_mode import dry_run_line
-        from cli.toast_bus import emit_toast, render_toasts
+        from cli.toast_bus import emit_toast, render_ephemeral_toasts, render_toasts
 
         args = shlex.split(line or "")
         level = "info"
         event_type = "note"
         show_now = False
         dry_run = False
+        live = False
+        duration: float | None = None
         words: list[str] = []
         index = 0
         while index < len(args):
@@ -208,6 +214,23 @@ class UxCommandSet(LazyOwnCommandSet):
                 continue
             if token == "--now":
                 show_now = True
+            elif token == "--live":
+                live = True
+                show_now = True
+            elif token == "--duration" and index + 1 < len(args):
+                try:
+                    duration = max(0.0, float(args[index + 1]))
+                except ValueError:
+                    duration = None
+                index += 2
+                continue
+            elif token.startswith("--duration="):
+                try:
+                    duration = max(0.0, float(token.split("=", 1)[1]))
+                except ValueError:
+                    duration = None
+                index += 1
+                continue
             elif token == "--dry-run":
                 dry_run = True
             elif not token.startswith("-"):
@@ -216,7 +239,7 @@ class UxCommandSet(LazyOwnCommandSet):
 
         message = " ".join(words).strip()
         if not message:
-            print_warn("Usage: toast <message> [--level info|success|warn|error] [--now]")
+            print_warn("Usage: toast <message> [--level info|success|warn|error] [--now] [--live [--duration SECS]]")
             return
         if dry_run:
             print_msg(dry_run_line(f"toast level={level} type={event_type} message={message!r}"))
@@ -227,7 +250,10 @@ class UxCommandSet(LazyOwnCommandSet):
             print_error("Could not write the toast event (sessions dir not writable).")
             return
         if show_now:
-            render_toasts(payload=self.params, sessions_dir=sessions_dir)
+            if live:
+                render_ephemeral_toasts(payload=self.params, sessions_dir=sessions_dir, duration=duration)
+            else:
+                render_toasts(payload=self.params, sessions_dir=sessions_dir)
         else:
             print_msg(f"toast queued [{level}] — it renders after your next command")
 

@@ -69,9 +69,18 @@ class PwnCommandSet(LazyOwnCommandSet):
 
         profile = engine.profile(target)
         if not profile.open_ports:
-            print_warn(f"No open ports discovered for {target} — running lazynmap first.")
-            self.onecmd(f"lazynmap {target}")
-            profile = engine.profile(target)
+            # LAZY coverage parity: never re-scan what sessions/ holds.
+            try:
+                from modules.enrich import should_rescan as _should_rescan
+                _need = _should_rescan("sessions", target)
+            except Exception:
+                _need = True
+            if not _need:
+                print_msg(f"[coverage] fresh scan artefact for {target} — reusing, no rescan.")
+            else:
+                print_warn(f"No open ports discovered for {target} — running lazynmap first.")
+                self.onecmd(f"lazynmap {target}")
+                profile = engine.profile(target)
             if not profile.open_ports:
                 print_error(f"Still no open ports after scan. Target {target} may be unreachable.")
                 return

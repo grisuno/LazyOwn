@@ -62,6 +62,8 @@ from cli.tips_engine import HINTS_LEVEL_ON as _HINTS_LEVEL_ON
 from cli.tips_engine import UI_HINTS_LEVELS as _UI_HINTS_LEVELS
 from cli.tips_engine import TipsEngine as _TipsEngine
 from cli.tips_engine import build_default_tips_config as _build_default_tips_config
+from cli.toast_bus import ephemeral_enabled as _ephemeral_enabled
+from cli.toast_bus import render_ephemeral_toasts as _render_ephemeral_toasts
 from cli.toast_bus import render_toasts as _render_toasts
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
@@ -107,6 +109,7 @@ from utils import (  # noqa: E402
     csv,
     curses,
     datetime,
+    ensure_blocking_stdio,
     exfiltration_category,
     getprompt,
     glob,
@@ -138,6 +141,7 @@ from utils import (  # noqa: E402
     time,
     url_download,
     version,
+    write_stdout,
     yaml,
 )
 
@@ -883,8 +887,11 @@ class LazyOwnShell(cmd2.Cmd):
 
         Reads the ``enable_toasts`` flag from ``self.params`` (default
         True) so operators can disable transient notifications with
-        ``set enable_toasts false`` without restarting. Failures are
-        logged at DEBUG level instead of being silently swallowed.
+        ``set enable_toasts false`` without restarting. When the
+        ``toast_ephemeral`` flag is set the same events render as
+        sonner-style auto-expiring lines instead of the persistent ascii
+        panel. Failures are logged at DEBUG level instead of being
+        silently swallowed.
 
         Args:
             data: cmd2 PostcommandData containing the executed statement.
@@ -896,7 +903,10 @@ class LazyOwnShell(cmd2.Cmd):
             return data
         try:
             sessions_dir = getattr(self, "sessions_dir", "sessions") or "sessions"
-            _render_toasts(payload=self.params, sessions_dir=sessions_dir)
+            if _ephemeral_enabled(payload=self.params):
+                _render_ephemeral_toasts(payload=self.params, sessions_dir=sessions_dir)
+            else:
+                _render_toasts(payload=self.params, sessions_dir=sessions_dir)
         except Exception as exc:
             _get_logger("lazyown.ux").debug("toast hook failed silently: %s", exc, exc_info=True)
         return data
@@ -1275,8 +1285,7 @@ class LazyOwnShell(cmd2.Cmd):
                         env=child_env,
                     )
                 for line in proc.stdout:
-                    sys.stdout.write(line)
-                    sys.stdout.flush()
+                    write_stdout(line)
                     log_file.write(line)
                     log_file.flush()
                 exit_code = proc.wait()
@@ -4892,6 +4901,10 @@ class LazyOwnShell(cmd2.Cmd):
 
 
 def main():
+    try:
+        ensure_blocking_stdio()
+    except Exception:
+        pass
     _debug_enabled = bool(config.get("debug", False))
     _configure_logging(
         level=logging.DEBUG if _debug_enabled else logging.INFO,

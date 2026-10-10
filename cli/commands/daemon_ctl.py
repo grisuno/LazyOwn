@@ -219,3 +219,60 @@ class DaemonControlCommandSet(LazyOwnCommandSet):
             print_msg(f"action {final.action_id} {final.decision} (command={final.command})")
         except Exception as exc:
             print_error(f"daemon_approve failed: {exc}")
+
+    @cmd2.with_category("12. Miscellaneous")
+    def do_gatecheck(self, line):
+        """Dry-run the safety gate against one command line.
+
+        Usage:
+            gatecheck lazynmap 127.0.0.1
+            gatecheck "rm -rf /"
+            gatecheck mimikatz sekurlsa::logonpasswords
+
+        Runs the exact pre-execution chain the autonomous loops use —
+        payload constraints (deny wins), the global scope deny list,
+        then the intercept guard rules — and prints the verdict plus
+        what the loop would do with it. Nothing is executed.
+
+        Args:
+            line: Command line to evaluate.
+
+        Returns:
+            None.
+        """
+        command = (line or "").strip()
+        if len(command) >= 2 and command[0] == command[-1] and command[0] in ("'", '"'):
+            command = command[1:-1].strip()
+        if not command:
+            print_warn("Usage: gatecheck <command line>")
+            return
+        try:
+            from modules.goals import load_constraints
+            from modules.intercept import Guard
+            from modules.intercept import scope_blocked
+        except Exception as exc:
+            print_error(f"gatecheck unavailable: {exc}")
+            return
+        target = str(self.params.get("rhost", "") or "").strip()
+        try:
+            blocked_by = load_constraints(dict(self.params)).blocked(command)
+        except Exception:
+            blocked_by = ""
+        try:
+            scoped = scope_blocked(target) if target else ""
+        except Exception:
+            scoped = ""
+        try:
+            verdict = Guard().check("run", command)
+            action, rule = verdict.action, verdict.rule_pattern
+        except Exception as exc:
+            print_error(f"gatecheck failed: {exc}")
+            return
+        print_msg(f"gatecheck {command!r} (target={target or 'unset'})")
+        print_msg(f"  constraints: {'BLOCKED by ' + blocked_by if blocked_by else 'pass'}")
+        print_msg(f"  scope: {'BLOCKED suffix ' + scoped if scoped else 'pass'}")
+        print_msg(f"  guard: {action.upper()}" + (f" (rule: {rule})" if rule else ""))
+        if blocked_by or scoped or action in ("deny", "ask"):
+            print_msg("  loop effect: step skipped fail-closed (outcome=blocked)")
+        else:
+            print_msg("  loop effect: step executes")

@@ -20,7 +20,7 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `__getattr__` (method, line 110) `def __getattr__(self, name)`
   - `__setattr__` (method, line 162) `def __setattr__(self, name, value)`
 - Depends on: `utils.py`
-- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
+- Imported by: `cli/commands/_dormancy.py`, `cli/commands/active_directory.py`, `cli/commands/ai.py`, `cli/commands/anti_forensics.py`, `cli/commands/applocker_bypass.py`, `cli/commands/audit.py`, `cli/commands/automation.py`, `cli/commands/bitm.py`, `cli/commands/bof_registry.py`, `cli/commands/c2_profile.py`, `cli/commands/caldera.py`, `cli/commands/campaign.py`, `cli/commands/catalog.py`, `cli/commands/cicd.py`, `cli/commands/cli_auth.py`, `cli/commands/cloud.py`, `cli/commands/cloud_attacks.py`, `cli/commands/collaboration.py`, `cli/commands/command_and_control.py`, `cli/commands/command_and_control_migrated.py`, `cli/commands/containers.py`, `cli/commands/cred.py`, `cli/commands/cred_migrated.py`, `cli/commands/crystal_ball.py`, `cli/commands/daemon_ctl.py`, `cli/commands/database.py`, `cli/commands/demo.py`, `cli/commands/diagnostics.py`, `cli/commands/dns_exfil.py`, `cli/commands/dpapi.py`, `cli/commands/edr_detect.py`, `cli/commands/encoding.py`, `cli/commands/enum.py`, `cli/commands/estorides.py`, `cli/commands/evasive_payload.py`, `cli/commands/exfiltration.py`, `cli/commands/exploit.py`, `cli/commands/exploit_migrated.py`, `cli/commands/exploitgym.py`, `cli/commands/help_ui.py`, `cli/commands/infra.py`, `cli/commands/lab.py`, `cli/commands/lateral.py`, `cli/commands/lateral_migrated.py`, `cli/commands/lazyops.py`, `cli/commands/marketplace.py`, `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `cli/commands/module_manager.py`, `cli/commands/nethelpers.py`, `cli/commands/opsec_cleanup.py`, `cli/commands/orchestration.py`, `cli/commands/payload_arsenal.py`, `cli/commands/payload_generation.py`, `cli/commands/persist.py`, `cli/commands/persist_migrated.py`, `cli/commands/phishing_wizard.py`, `cli/commands/pivoting.py`, `cli/commands/postexp.py`, `cli/commands/postexp_migrated.py`, `cli/commands/privilege_escalation.py`, `cli/commands/purple_team.py`, `cli/commands/pwn.py`, `cli/commands/recon.py`, `cli/commands/recon_migrated.py`, `cli/commands/redteam_gym.py`, `cli/commands/resource_scripting.py`, `cli/commands/scan.py`, `cli/commands/scan_migrated.py`, `cli/commands/security.py`, `cli/commands/session_ops.py`, `cli/commands/shellsys.py`, `cli/commands/sleep_obfuscation.py`, `cli/commands/socks_proxy.py`, `cli/commands/supply_chain.py`, `cli/commands/surface.py`, `cli/commands/ux.py`, `tests/test_cli_command_sets.py`, `tests/test_command_set_migration.py`, `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_prompt_refresh.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
 
 ## cli/commands/_dormancy.py
 - Doc: Dormancy marker for incrementally migrated command sets.
@@ -52,13 +52,15 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AiCommandSet` (class, line 70) `class AiCommandSet(LazyOwnCommandSet)`
-  - `do_ask` (method, line 77) `def do_ask(self, line)`
-  - `do_groq` (method, line 146) `def do_groq(self, line)`
-  - `do_ai_playbook` (method, line 177) `def do_ai_playbook(self, line)`
-  - `do_ai_toggle` (method, line 284) `def do_ai_toggle(self, _arg)`
-  - `do_llm_budget` (method, line 301) `def do_llm_budget(self, line)`
-- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_prompts.py`, `utils.py`
+  - `AiCommandSet` (class, line 71) `class AiCommandSet(LazyOwnCommandSet)`
+  - `do_ask` (method, line 78) `def do_ask(self, line)`
+  - `do_groq` (method, line 166) `def do_groq(self, line)`
+  - `do_poolcheck` (method, line 197) `def do_poolcheck(self, line)`
+  - `do_ai_playbook` (method, line 254) `def do_ai_playbook(self, line)`
+  - `do_ai_toggle` (method, line 361) `def do_ai_toggle(self, _arg)`
+  - `do_llm_budget` (method, line 378) `def do_llm_budget(self, line)`
+  - `_serve` (method, line 223) `def _serve(member_id, backend_name, text)`
+- Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `core/llm_budget.py`, `modules/killchain.py`, `modules/llm_adapter.py`, `modules/llm_factory.py`, `modules/llm_pool.py`, `modules/llm_prompts.py`, `modules/sidequestion.py`, `utils.py`
 - Imported by: `tests/test_ai_commands_llm.py`
 
 ## cli/commands/anti_forensics.py
@@ -447,7 +449,8 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
   - `do_daemon_veto` (method, line 97) `def do_daemon_veto(self, line)`
   - `do_daemon_focus` (method, line 141) `def do_daemon_focus(self, line)`
   - `do_daemon_approve` (method, line 175) `def do_daemon_approve(self, line)`
-- Depends on: `cli/commands/_base.py`, `skills/daemon_control.py`, `utils.py`
+  - `do_gatecheck` (method, line 224) `def do_gatecheck(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/goals.py`, `modules/intercept.py`, `skills/daemon_control.py`, `utils.py`
 - Imported by: `tests/test_daemon_ctl_command_set.py`
 
 ## cli/commands/database.py
@@ -455,22 +458,23 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: data_access
 - Language: py
 - Symbols:
-  - `DatabaseCommandSet` (class, line 24) `class DatabaseCommandSet(LazyOwnCommandSet)`
-  - `shlex_split` (method, line 476) `def shlex_split(text)`
-  - `_get_db` (method, line 30) `def _get_db(self)`
-  - `_active_workspace` (method, line 38) `def _active_workspace(self)`
-  - `do_db_init` (method, line 55) `def do_db_init(self, line)`
-  - `do_db_workspace` (method, line 73) `def do_db_workspace(self, line)`
-  - `do_db_hosts` (method, line 122) `def do_db_hosts(self, line)`
-  - `do_db_services` (method, line 183) `def do_db_services(self, line)`
-  - `do_db_vulns` (method, line 211) `def do_db_vulns(self, line)`
-  - `do_db_creds` (method, line 265) `def do_db_creds(self, line)`
-  - `do_db_loot` (method, line 309) `def do_db_loot(self, line)`
-  - `do_db_notes` (method, line 349) `def do_db_notes(self, line)`
-  - `do_db_import` (method, line 387) `def do_db_import(self, line)`
-  - `do_db_export` (method, line 425) `def do_db_export(self, line)`
-  - `do_db_status` (method, line 459) `def do_db_status(self, line)`
-- Depends on: `cli/commands/_base.py`, `modules/db.py`, `utils.py`
+  - `DatabaseCommandSet` (class, line 27) `class DatabaseCommandSet(LazyOwnCommandSet)`
+  - `shlex_split` (method, line 562) `def shlex_split(text)`
+  - `_get_db` (method, line 33) `def _get_db(self)`
+  - `_active_workspace` (method, line 41) `def _active_workspace(self)`
+  - `do_db_init` (method, line 58) `def do_db_init(self, line)`
+  - `do_db_workspace` (method, line 76) `def do_db_workspace(self, line)`
+  - `do_db_hosts` (method, line 125) `def do_db_hosts(self, line)`
+  - `do_db_services` (method, line 186) `def do_db_services(self, line)`
+  - `do_db_vulns` (method, line 214) `def do_db_vulns(self, line)`
+  - `do_retest` (method, line 268) `def do_retest(self, line)`
+  - `do_db_creds` (method, line 351) `def do_db_creds(self, line)`
+  - `do_db_loot` (method, line 395) `def do_db_loot(self, line)`
+  - `do_db_notes` (method, line 435) `def do_db_notes(self, line)`
+  - `do_db_import` (method, line 473) `def do_db_import(self, line)`
+  - `do_db_export` (method, line 511) `def do_db_export(self, line)`
+  - `do_db_status` (method, line 545) `def do_db_status(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/db.py`, `modules/finding_lifecycle.py`, `skills/autonomous_daemon.py`, `utils.py`
 
 ## cli/commands/demo.py
 - Doc: End-to-end demo command — MCP registration plus the golden path.
@@ -487,8 +491,8 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Language: py
 - Symbols:
   - `DiagnosticsCommandSet` (class, line 23) `class DiagnosticsCommandSet(LazyOwnCommandSet)`
-  - `do_lazy_runtime` (method, line 30) `def do_lazy_runtime(self, _statement)`
-  - `do_lazy_payload_keys` (method, line 41) `def do_lazy_payload_keys(self, _statement)`
+  - `do_sys_runtime` (method, line 30) `def do_sys_runtime(self, _statement)`
+  - `do_sys_payload_keys` (method, line 41) `def do_sys_payload_keys(self, _statement)`
 - Depends on: `cli/commands/_base.py`
 - Imported by: `tests/test_cli_command_sets.py`
 

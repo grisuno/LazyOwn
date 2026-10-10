@@ -1,8 +1,167 @@
-# Symbols (page 12 of 35)
+# Symbols (page 12 of 38)
 Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `name` | method | `modules/engagement_hooks.py:252` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:288` | `def name(self)` |
+| `name` | method | `modules/engagement_hooks.py:320` | `def name(self)` |
+| `narrate` | method | `modules/engagement_hooks.py:400` | `def narrate(self, kind, target, message, payload, severity)` |
+| `now` | method | `modules/engagement_hooks.py:124` | `def now(cls, kind, target, message, payload, severity)` |
+| `publish_shell_obtained` | method | `modules/engagement_hooks.py:491` | `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)` |
+| `render_line` | method | `modules/engagement_hooks.py:143` | `def render_line(self)` |
+| `resolve_approval` | method | `modules/engagement_hooks.py:601` | `def resolve_approval(approval_id, decision, operator)` |
+| `EnrichEngine` | class | `modules/enrich.py:100` | `class EnrichEngine` |
+| `EnrichResult` | class | `modules/enrich.py:30` | `class EnrichResult` |
+| `__init__` | method | `modules/enrich.py:103` | `def __init__(self, max_workers)` |
+| `_run` | method | `modules/enrich.py:121` | `def _run(self, target)` |
+| `fetch_http` | method | `modules/enrich.py:86` | `def fetch_http(target, timeout)` |
+| `resolve_dns` | method | `modules/enrich.py:73` | `def resolve_dns(target, timeout)` |
+| `scan_files_for` | method | `modules/enrich.py:40` | `def scan_files_for(sessions_dir, target)` |
+| `shared_engine` | method | `modules/enrich.py:137` | `def shared_engine()` |
+| `should_rescan` | method | `modules/enrich.py:57` | `def should_rescan(sessions_dir, target, fresh_sec)` |
+| `shutdown` | method | `modules/enrich.py:128` | `def shutdown(self, wait)` |
+| `submit` | method | `modules/enrich.py:108` | `def submit(self, target)` |
+| `EntraIDAttackEngine` | class | `modules/entra_id_attacks.py:81` | `class EntraIDAttackEngine` |
+| `EntraIDConfig` | class | `modules/entra_id_attacks.py:57` | `class EntraIDConfig` |
+| `__init__` | method | `modules/entra_id_attacks.py:92` | `def __init__(self, config)` |
+| `conditional_access_bypass` | method | `modules/entra_id_attacks.py:307` | `def conditional_access_bypass(self)` |
+| `device_code_phish` | method | `modules/entra_id_attacks.py:96` | `def device_code_phish(self, scope)` |
+| `entra_connect_sync_abuse` | method | `modules/entra_id_attacks.py:266` | `def entra_connect_sync_abuse(self)` |
+| `enumerate_tenant` | method | `modules/entra_id_attacks.py:345` | `def enumerate_tenant(self)` |
+| `managed_identity_abuse` | method | `modules/entra_id_attacks.py:235` | `def managed_identity_abuse(self, resource)` |
+| `oauth_consent_grant` | method | `modules/entra_id_attacks.py:166` | `def oauth_consent_grant(self, redirect_uri)` |
+| `poll_device_code` | method | `modules/entra_id_attacks.py:129` | `def poll_device_code(self, device_code, interval, timeout)` |
+| `service_principal_credential_theft` | method | `modules/entra_id_attacks.py:203` | `def service_principal_credential_theft(self)` |
+| `summary` | method | `modules/entra_id_attacks.py:368` | `def summary(self)` |
+| `_from_raw` | function | `modules/estorides_fusion.py:129` | `def _from_raw(document)` |
+| `_norm` | function | `modules/estorides_fusion.py:110` | `def _norm(value)` |
+| `community_for` | function | `modules/estorides_fusion.py:167` | `def community_for(kind, value)` |
+| `estorides_checkout` | function | `modules/estorides_fusion.py:43` | `def estorides_checkout()` |
+| `find_export` | function | `modules/estorides_fusion.py:55` | `def find_export(sessions_dir)` |
+| `load_export` | function | `modules/estorides_fusion.py:115` | `def load_export(path)` |
+| `merge_estorides` | function | `modules/estorides_fusion.py:174` | `def merge_estorides(nodes, edges, est, cap)` |
+| `run_export` | function | `modules/estorides_fusion.py:71` | `def run_export(sessions_dir, cli_path, timeout_sec)` |
+| `EstoridesCaseReader` | class | `modules/estorides_importer.py:385` | `class EstoridesCaseReader` |
+| `EstoridesEntity` | class | `modules/estorides_importer.py:84` | `class EstoridesEntity` |
+| `EstoridesStixParser` | class | `modules/estorides_importer.py:495` | `class EstoridesStixParser` |
+| `EstoridesToLazyOwnBridge` | class | `modules/estorides_importer.py:585` | `class EstoridesToLazyOwnBridge` |
+| `FeedbackLoop` | class | `modules/estorides_importer.py:766` | `class FeedbackLoop` |
+| `ImportResult` | class | `modules/estorides_importer.py:96` | `class ImportResult` |
+| `SeedResult` | class | `modules/estorides_importer.py:128` | `class SeedResult` |
+| `__init__` | method | `modules/estorides_importer.py:388` | `def __init__(self, db_path)` |
+| `__init__` | method | `modules/estorides_importer.py:511` | `def __init__(self, stix_path)` |
+| `__init__` | method | `modules/estorides_importer.py:588` | `def __init__(self, db_path, config_path)` |
+| `__init__` | method | `modules/estorides_importer.py:777` | `def __init__(self, max_iterations, max_depth, max_steps, timeout)` |
+| `_ensure_conn` | method | `modules/estorides_importer.py:396` | `def _ensure_conn(self)` |
+| `_extract_value` | method | `modules/estorides_importer.py:563` | `def _extract_value(obj, stix_type)` |
+| `_gather_seeds` | method | `modules/estorides_importer.py:886` | `def _gather_seeds(self, methods, seen)` |
+| `_import_to_db` | method | `modules/estorides_importer.py:640` | `def _import_to_db(self, imports, result)` |
+| `_import_to_scope` | method | `modules/estorides_importer.py:686` | `def _import_to_scope(self, imports, result)` |
+| `available` | method | `modules/estorides_importer.py:393` | `def available(self)` |
+| `available` | method | `modules/estorides_importer.py:515` | `def available(self)` |
+| `close` | method | `modules/estorides_importer.py:489` | `def close(self)` |
+| `ensure_directories` | method | `modules/estorides_importer.py:579` | `def ensure_directories()` |
+| `export_combined_graph` | method | `modules/estorides_importer.py:912` | `def export_combined_graph(output_path)` |
+| `extract_seeds_from_db` | method | `modules/estorides_importer.py:203` | `def extract_seeds_from_db(db_path)` |
+| `extract_seeds_from_hosts_file` | method | `modules/estorides_importer.py:175` | `def extract_seeds_from_hosts_file(path)` |
+| `extract_seeds_from_scope` | method | `modules/estorides_importer.py:242` | `def extract_seeds_from_scope(scope_entries)` |
+| `extract_seeds_from_world_model` | method | `modules/estorides_importer.py:143` | `def extract_seeds_from_world_model(world_model_path)` |
+| `get_all_entities` | method | `modules/estorides_importer.py:473` | `def get_all_entities(self, case_id)` |
+| `get_combined_surface` | method | `modules/estorides_importer.py:719` | `def get_combined_surface(self)` |
+| `get_entities` | method | `modules/estorides_importer.py:414` | `def get_entities(self, case_id, entity_types, limit)` |
+| `get_host_entities` | method | `modules/estorides_importer.py:469` | `def get_host_entities(self, case_id)` |
+| `import_entities` | method | `modules/estorides_importer.py:596` | `def import_entities(self, entities, add_to_scope, add_to_db)` |
+| `list_cases` | method | `modules/estorides_importer.py:402` | `def list_cases(self, limit)` |
+| `new_assets` | method | `modules/estorides_importer.py:139` | `def new_assets(self)` |
+| `parse` | method | `modules/estorides_importer.py:518` | `def parse(self)` |
+| `parse_by_type` | method | `modules/estorides_importer.py:552` | `def parse_by_type(self, entity_types)` |
+| `run` | method | `modules/estorides_importer.py:793` | `def run(self, seed_methods)` |
+| `run_estorides_discover` | method | `modules/estorides_importer.py:272` | `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)` |
+| `run_estorides_run` | method | `modules/estorides_importer.py:332` | `def run_estorides_run(query, out_json, timeout)` |
+| `stats` | method | `modules/estorides_importer.py:476` | `def stats(self)` |
+| `success` | method | `modules/estorides_importer.py:110` | `def success(self)` |
+| `to_dict` | method | `modules/estorides_importer.py:113` | `def to_dict(self)` |
+| `EvasionEngine` | class | `modules/evasion_engine.py:52` | `class EvasionEngine` |
+| `MalleableProfile` | class | `modules/evasion_engine.py:37` | `class MalleableProfile` |
+| `TrafficMorphConfig` | class | `modules/evasion_engine.py:25` | `class TrafficMorphConfig` |
+| `__init__` | method | `modules/evasion_engine.py:130` | `def __init__(self, config)` |
+| `_compute_jitter` | method | `modules/evasion_engine.py:220` | `def _compute_jitter(self)` |
+| `_compute_sleep` | method | `modules/evasion_engine.py:224` | `def _compute_sleep(self)` |
+| `_generate_cert_fingerprint` | method | `modules/evasion_engine.py:217` | `def _generate_cert_fingerprint(self)` |
+| `_generate_headers` | method | `modules/evasion_engine.py:180` | `def _generate_headers(self, user_agent)` |
+| `_generate_ja4_hash` | method | `modules/evasion_engine.py:148` | `def _generate_ja4_hash(self)` |
+| `_generate_user_agent` | method | `modules/evasion_engine.py:162` | `def _generate_user_agent(self, os_family)` |
+| `_get_domain_front` | method | `modules/evasion_engine.py:232` | `def _get_domain_front(self)` |
+| `_persist_profile` | method | `modules/evasion_engine.py:311` | `def _persist_profile(self, profile)` |
+| `_pick_uri_pool` | method | `modules/evasion_engine.py:209` | `def _pick_uri_pool(self)` |
+| `_random_chrome_version` | method | `modules/evasion_engine.py:139` | `def _random_chrome_version(self)` |
+| `_random_firefox_version` | method | `modules/evasion_engine.py:142` | `def _random_firefox_version(self)` |
+| `_random_safari_version` | method | `modules/evasion_engine.py:145` | `def _random_safari_version(self)` |
+| `generate_profile` | method | `modules/evasion_engine.py:244` | `def generate_profile(self, os_family)` |
+| `get_active_profile` | method | `modules/evasion_engine.py:269` | `def get_active_profile(self)` |
+| `get_beacon_config` | method | `modules/evasion_engine.py:272` | `def get_beacon_config(self)` |
+| `get_history` | method | `modules/evasion_engine.py:328` | `def get_history(self)` |
+| `morph_traffic` | method | `modules/evasion_engine.py:287` | `def morph_traffic(self, config)` |
+| `profile_to_json` | method | `modules/evasion_engine.py:343` | `def profile_to_json(self, profile)` |
+| `rotate_profile` | method | `modules/evasion_engine.py:264` | `def rotate_profile(self, os_family)` |
+| `set_config` | method | `modules/evasion_engine.py:136` | `def set_config(self, config)` |
+| `EvasivePayloadGenerator` | class | `modules/evasive_payloads.py:18` | `class EvasivePayloadGenerator` |
+| `__init__` | method | `modules/evasive_payloads.py:84` | `def __init__(self)` |
+| `_apply_encoding_chain` | method | `modules/evasive_payloads.py:118` | `def _apply_encoding_chain(self, data, chain)` |
+| `_gzip_compress` | method | `modules/evasive_payloads.py:114` | `def _gzip_compress(self, data)` |
+| `_random_string` | method | `modules/evasive_payloads.py:93` | `def _random_string(self, length)` |
+| `_random_var` | method | `modules/evasive_payloads.py:87` | `def _random_var(self, length)` |
+| `_rot13` | method | `modules/evasive_payloads.py:102` | `def _rot13(self, data)` |
+| `_xor_encode` | method | `modules/evasive_payloads.py:97` | `def _xor_encode(self, data, key)` |
+| `generate_javascript_obfuscated` | method | `modules/evasive_payloads.py:178` | `def generate_javascript_obfuscated(self, payload)` |
+| `generate_linux_evasive` | method | `modules/evasive_payloads.py:214` | `def generate_linux_evasive(self, rhost, rport, technique)` |
+| `generate_lolbas_execution` | method | `modules/evasive_payloads.py:284` | `def generate_lolbas_execution(self, payload_url, technique)` |
+| `generate_polymorphic_command` | method | `modules/evasive_payloads.py:334` | `def generate_polymorphic_command(self, base_cmd, iterations)` |
+| `generate_powershell_obfuscated` | method | `modules/evasive_payloads.py:138` | `def generate_powershell_obfuscated(self, payload, obfuscation_level)` |
+| `generate_shellcode_loader_powershell` | method | `modules/evasive_payloads.py:239` | `def generate_shellcode_loader_powershell(self, shellcode_b64, injection_technique)` |
+| `generate_vba_obfuscated` | method | `modules/evasive_payloads.py:197` | `def generate_vba_obfuscated(self, payload)` |
+| `list_techniques` | method | `modules/evasive_payloads.py:374` | `def list_techniques(self)` |
+| `CollabBusSink` | class | `modules/event_bus.py:163` | `class CollabBusSink(Sink)` |
+| `EngagementSink` | class | `modules/event_bus.py:202` | `class EngagementSink(Sink)` |
+| `EventCategory` | class | `modules/event_bus.py:47` | `class EventCategory(str, Enum)` |
+| `EventSeverity` | class | `modules/event_bus.py:73` | `class EventSeverity(str, Enum)` |
+| `JsonlSink` | class | `modules/event_bus.py:143` | `class JsonlSink(Sink)` |
+| `LazyEvent` | class | `modules/event_bus.py:82` | `class LazyEvent` |
+| `Sink` | class | `modules/event_bus.py:133` | `class Sink(ABC)` |
+| `UnifiedEventBus` | class | `modules/event_bus.py:230` | `class UnifiedEventBus` |
+| `__init__` | method | `modules/event_bus.py:146` | `def __init__(self, filepath)` |
+| `__init__` | method | `modules/event_bus.py:166` | `def __init__(self)` |
+| `__init__` | method | `modules/event_bus.py:255` | `def __init__(self)` |
+| `_bus` | method | `modules/event_bus.py:170` | `def _bus(self)` |
+| `_dispatch_event` | method | `modules/event_bus.py:441` | `def _dispatch_event(self, event)` |
+| `_dispatch_loop` | method | `modules/event_bus.py:416` | `def _dispatch_loop(self)` |
+| `_init_sinks` | method | `modules/event_bus.py:273` | `def _init_sinks(self)` |
+| `_match_topic` | method | `modules/event_bus.py:517` | `def _match_topic(self, topic, event)` |
+| `_notify_shutdown` | method | `modules/event_bus.py:479` | `def _notify_shutdown(self)` |
+| `close` | method | `modules/event_bus.py:140` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:159` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:198` | `def close(self)` |
+| `close` | method | `modules/event_bus.py:226` | `def close(self)` |
+| `drain` | method | `modules/event_bus.py:354` | `def drain(self)` |
+| `from_dict` | method | `modules/event_bus.py:115` | `def from_dict(cls, d)` |
+| `get_event_bus` | method | `modules/event_bus.py:570` | `def get_event_bus()` |
+| `history` | method | `modules/event_bus.py:556` | `def history(self, n, category)` |
+| `history_since` | method | `modules/event_bus.py:564` | `def history_since(self, since_ts)` |
+| `instance` | method | `modules/event_bus.py:287` | `def instance(cls)` |
+| `publish` | method | `modules/event_bus.py:336` | `def publish(self, event)` |
+| `publish_event` | method | `modules/event_bus.py:575` | `def publish_event(category, event_type, source, payload, severity, target, operator)` |
+| `shutdown` | method | `modules/event_bus.py:372` | `def shutdown(self)` |
+| `subscribe` | method | `modules/event_bus.py:300` | `def subscribe(self, subscriber_id, callback)` |
+| `subscribe_async` | method | `modules/event_bus.py:315` | `def subscribe_async(self, subscriber_id)` |
+| `subscribe_topic` | method | `modules/event_bus.py:305` | `def subscribe_topic(self, subscriber_id, topic, callback)` |
+| `subscriber_count` | method | `modules/event_bus.py:295` | `def subscriber_count(self)` |
+| `to_dict` | method | `modules/event_bus.py:96` | `def to_dict(self)` |
+| `to_json` | method | `modules/event_bus.py:111` | `def to_json(self)` |
+| `unsubscribe` | method | `modules/event_bus.py:327` | `def unsubscribe(self, subscriber_id)` |
+| `write` | method | `modules/event_bus.py:137` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:151` | `def write(self, event)` |
+| `write` | method | `modules/event_bus.py:181` | `def write(self, event)` |
 | `write` | method | `modules/event_bus.py:205` | `def write(self, event)` |
 | `AutoRecommender` | class | `modules/event_consumers.py:201` | `class AutoRecommender` |
 | `CredentialReactor` | class | `modules/event_consumers.py:272` | `class CredentialReactor` |
@@ -32,6 +191,16 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `process_new_rows` | function | `modules/event_engine.py:181` | `def process_new_rows()` |
 | `read_events` | function | `modules/event_engine.py:250` | `def read_events(limit, status)` |
 | `save_rules` | function | `modules/event_engine.py:110` | `def save_rules(rules)` |
+| `EvidenceConfig` | class | `modules/evidence.py:20` | `class EvidenceConfig` |
+| `EvidenceStore` | class | `modules/evidence.py:54` | `class EvidenceStore` |
+| `__init__` | method | `modules/evidence.py:57` | `def __init__(self, base_dir)` |
+| `_validate_hash` | method | `modules/evidence.py:42` | `def _validate_hash(value)` |
+| `blob_path` | method | `modules/evidence.py:65` | `def blob_path(self, content_hash)` |
+| `exists` | method | `modules/evidence.py:98` | `def exists(self, content_hash)` |
+| `garbage_collect` | method | `modules/evidence.py:105` | `def garbage_collect(self, referenced)` |
+| `get` | method | `modules/evidence.py:90` | `def get(self, content_hash)` |
+| `hash_bytes` | method | `modules/evidence.py:37` | `def hash_bytes(data)` |
+| `put` | method | `modules/evidence.py:70` | `def put(self, data)` |
 | `BUFFER` | macro | `modules/exp.c:56` | `#define BUFFER` |
 | `DESC_MAX` | macro | `modules/exp.c:54` | `#define DESC_MAX` |
 | `ERROR_PREFIX` | macro | `modules/exp.c:58` | `#define ERROR_PREFIX` |
@@ -184,6 +353,16 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `terminate_pid_tree` | function | `modules/fast_run_service.sh:264` | `` |
 | `usage` | function | `modules/fast_run_service.sh:528` | `` |
 | `write_pid_file` | function | `modules/fast_run_service.sh:201` | `` |
+| `_load` | function | `modules/finding_lifecycle.py:39` | `def _load(sessions_dir)` |
+| `_save` | function | `modules/finding_lifecycle.py:52` | `def _save(sessions_dir, data)` |
+| `_store_path` | function | `modules/finding_lifecycle.py:34` | `def _store_path(sessions_dir)` |
+| `add_dead_end` | function | `modules/finding_lifecycle.py:98` | `def add_dead_end(kind, value, reason, sessions_dir)` |
+| `apply_confirmation` | function | `modules/finding_lifecycle.py:153` | `def apply_confirmation(nodes, sessions_dir)` |
+| `confirm` | function | `modules/finding_lifecycle.py:60` | `def confirm(finding_id, evidence, sessions_dir, by)` |
+| `is_dead_end` | function | `modules/finding_lifecycle.py:112` | `def is_dead_end(kind, value, sessions_dir)` |
+| `reject` | function | `modules/finding_lifecycle.py:86` | `def reject(finding_id, reason, sessions_dir, by)` |
+| `resolve` | function | `modules/finding_lifecycle.py:127` | `def resolve(node, sessions_dir)` |
+| `suppressed_values` | function | `modules/finding_lifecycle.py:120` | `def suppressed_values(sessions_dir)` |
 | `ForensicCleaner` | class | `modules/forensic_cleaner.py:57` | `class ForensicCleaner` |
 | `ForensicCleanerConfig` | class | `modules/forensic_cleaner.py:23` | `class ForensicCleanerConfig` |
 | `__init__` | method | `modules/forensic_cleaner.py:67` | `def __init__(self, config)` |
@@ -204,6 +383,19 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `service_account_impersonation` | method | `modules/gcp_attacks.py:119` | `def service_account_impersonation(self)` |
 | `summary` | method | `modules/gcp_attacks.py:297` | `def summary(self)` |
 | `extract_cmd2_tools` | function | `modules/generate_tools.py:6` | `def extract_cmd2_tools(script_path)` |
+| `GoalSpec` | class | `modules/goals.py:20` | `class GoalSpec` |
+| `GoalTracker` | class | `modules/goals.py:117` | `class GoalTracker` |
+| `TaskConstraints` | class | `modules/goals.py:29` | `class TaskConstraints` |
+| `__init__` | method | `modules/goals.py:120` | `def __init__(self, goals)` |
+| `all_achieved` | method | `modules/goals.py:148` | `def all_achieved(self)` |
+| `blocked` | method | `modules/goals.py:35` | `def blocked(self, command)` |
+| `constraint_block_text` | method | `modules/goals.py:103` | `def constraint_block_text(constraints)` |
+| `decompose_rule_based` | method | `modules/goals.py:63` | `def decompose_rule_based(objective_text, max_goals)` |
+| `goal_met` | method | `modules/goals.py:140` | `def goal_met(self, opt_in)` |
+| `goals` | method | `modules/goals.py:125` | `def goals(self)` |
+| `load_constraints` | method | `modules/goals.py:83` | `def load_constraints(payload)` |
+| `open_goals` | method | `modules/goals.py:152` | `def open_goals(self)` |
+| `prove_goal` | method | `modules/goals.py:129` | `def prove_goal(self, goal_text, evidence)` |
 | `GPOAbuseEngine` | class | `modules/gpo_abuse.py:105` | `class GPOAbuseEngine` |
 | `GPOAbusePlan` | class | `modules/gpo_abuse.py:83` | `class GPOAbusePlan` |
 | `GPOInfo` | class | `modules/gpo_abuse.py:54` | `class GPOInfo` |
@@ -304,197 +496,5 @@ Previous: [SYMBOLS_p11.md](SYMBOLS_p11.md)
 | `_detect_type` | method | `modules/integrations/misp_export.py:211` | `def _detect_type(value)` |
 | `_dict_to_findings` | method | `modules/integrations/misp_export.py:403` | `def _dict_to_findings(data)` |
 | `_is_credential` | method | `modules/integrations/misp_export.py:138` | `def _is_credential(finding)` |
-| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
-| `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
-| `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
-| `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
-| `_is_service` | method | `modules/integrations/misp_export.py:233` | `def _is_service(finding)` |
-| `_load_events` | method | `modules/integrations/misp_export.py:383` | `def _load_events(self, sdir)` |
-| `_load_findings` | method | `modules/integrations/misp_export.py:365` | `def _load_findings(self, sdir)` |
-| `_load_policy_facts` | method | `modules/integrations/misp_export.py:372` | `def _load_policy_facts(self, sdir)` |
-| `_main` | method | `modules/integrations/misp_export.py:482` | `def _main()` |
-| `_map_finding` | method | `modules/integrations/misp_export.py:443` | `def _map_finding(self, finding)` |
-| `export_session` | method | `modules/integrations/misp_export.py:268` | `def export_session(self, sessions_dir, target)` |
-| `get_exporter` | method | `modules/integrations/misp_export.py:469` | `def get_exporter()` |
-| `map` | method | `modules/integrations/misp_export.py:90` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:106` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:126` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:146` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:166` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:192` | `def map(self, finding)` |
-| `map` | method | `modules/integrations/misp_export.py:221` | `def map(self, finding)` |
-| `push_to_misp` | method | `modules/integrations/misp_export.py:330` | `def push_to_misp(self, event, url, api_key)` |
-| `save` | method | `modules/integrations/misp_export.py:322` | `def save(self, event, path)` |
-| `to_json` | method | `modules/integrations/misp_export.py:299` | `def to_json(self, event)` |
-| `LocalTemplateIndex` | class | `modules/integrations/nuclei_bridge.py:104` | `class LocalTemplateIndex(TemplateSelector)` |
-| `NucleiBridge` | class | `modules/integrations/nuclei_bridge.py:389` | `class NucleiBridge` |
-| `NucleiRunner` | class | `modules/integrations/nuclei_bridge.py:279` | `class NucleiRunner` |
-| `NucleiTemplate` | class | `modules/integrations/nuclei_bridge.py:71` | `class NucleiTemplate` |
-| `TemplateSelector` | class | `modules/integrations/nuclei_bridge.py:87` | `class TemplateSelector(ABC)` |
-| `_F` | class | `modules/integrations/nuclei_bridge.py:483` | `class _F` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:114` | `def __init__(self, templates_dir)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:288` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:396` | `def __init__(self, selector, runner)` |
-| `__init__` | method | `modules/integrations/nuclei_bridge.py:484` | `def __init__(self, ftype, value)` |
-| `_build_command` | method | `modules/integrations/nuclei_bridge.py:343` | `def _build_command(self, target, templates, output_dir)` |
-| `_ensure_built` | method | `modules/integrations/nuclei_bridge.py:158` | `def _ensure_built(self)` |
-| `_extract_context` | method | `modules/integrations/nuclei_bridge.py:370` | `def _extract_context(findings)` |
-| `_extract_cve_from_tags` | method | `modules/integrations/nuclei_bridge.py:246` | `def _extract_cve_from_tags(tags)` |
-| `_extract_cve_from_text` | method | `modules/integrations/nuclei_bridge.py:253` | `def _extract_cve_from_text(text)` |
-| `_main` | method | `modules/integrations/nuclei_bridge.py:456` | `def _main()` |
-| `_matches` | method | `modules/integrations/nuclei_bridge.py:258` | `def _matches(tmpl, service_lower, cve_upper)` |
-| `_normalise_tags` | method | `modules/integrations/nuclei_bridge.py:238` | `def _normalise_tags(raw)` |
-| `_parse_regex` | method | `modules/integrations/nuclei_bridge.py:201` | `def _parse_regex(self, text, path)` |
-| `_parse_template` | method | `modules/integrations/nuclei_bridge.py:162` | `def _parse_template(self, path)` |
-| `_parse_yaml` | method | `modules/integrations/nuclei_bridge.py:172` | `def _parse_yaml(self, text, path)` |
-| `build` | method | `modules/integrations/nuclei_bridge.py:141` | `def build(self)` |
-| `get_bridge` | method | `modules/integrations/nuclei_bridge.py:443` | `def get_bridge()` |
-| `list_templates` | method | `modules/integrations/nuclei_bridge.py:427` | `def list_templates(self, services, cves)` |
-| `run` | method | `modules/integrations/nuclei_bridge.py:293` | `def run(self, target, templates, output_dir)` |
-| `run_for_findings` | method | `modules/integrations/nuclei_bridge.py:326` | `def run_for_findings(self, target, findings, output_dir, selector)` |
-| `scan` | method | `modules/integrations/nuclei_bridge.py:404` | `def scan(self, target, findings, dry_run)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:91` | `def select(self, services, cves)` |
-| `select` | method | `modules/integrations/nuclei_bridge.py:121` | `def select(self, services, cves)` |
-| `NucleiFinding` | class | `modules/integrations/nuclei_parser.py:71` | `class NucleiFinding` |
-| `NucleiParser` | class | `modules/integrations/nuclei_parser.py:99` | `class NucleiParser` |
-| `__init__` | method | `modules/integrations/nuclei_parser.py:109` | `def __init__(self, sessions_dir)` |
-| `_finding_to_dict` | method | `modules/integrations/nuclei_parser.py:504` | `def _finding_to_dict(finding)` |
-| `_parse_json_obj` | method | `modules/integrations/nuclei_parser.py:412` | `def _parse_json_obj(self, obj)` |
-| `_parse_line` | method | `modules/integrations/nuclei_parser.py:393` | `def _parse_line(self, line)` |
-| `_recommend_for_finding` | method | `modules/integrations/nuclei_parser.py:468` | `def _recommend_for_finding(self, finding, rhost)` |
-| `_summarize` | method | `modules/integrations/nuclei_parser.py:517` | `def _summarize(findings)` |
-| `enrich_world_model` | method | `modules/integrations/nuclei_parser.py:262` | `def enrich_world_model(self, findings, rhost)` |
-| `exploit_probability` | method | `modules/integrations/nuclei_parser.py:95` | `def exploit_probability(self)` |
-| `generate_recommendations` | method | `modules/integrations/nuclei_parser.py:300` | `def generate_recommendations(self, findings, rhost)` |
-| `import_to_db` | method | `modules/integrations/nuclei_parser.py:196` | `def import_to_db(self, findings, rhost, workspace_name)` |
-| `mitre_tactic` | method | `modules/integrations/nuclei_parser.py:87` | `def mitre_tactic(self)` |
-| `parse_file` | method | `modules/integrations/nuclei_parser.py:177` | `def parse_file(self, filepath)` |
-| `parse_json` | method | `modules/integrations/nuclei_parser.py:134` | `def parse_json(self, json_text)` |
-| `parse_text` | method | `modules/integrations/nuclei_parser.py:115` | `def parse_text(self, text)` |
-| `scan_and_import` | method | `modules/integrations/nuclei_parser.py:328` | `def scan_and_import(self, target, templates, services, cves, workspace_name)` |
-| `ExploitDBAPI` | class | `modules/integrations/searchsploit.py:193` | `class ExploitDBAPI(ExploitSource)` |
-| `ExploitEntry` | class | `modules/integrations/searchsploit.py:60` | `class ExploitEntry` |
-| `ExploitSource` | class | `modules/integrations/searchsploit.py:76` | `class ExploitSource(ABC)` |
-| `SearchsploitCLI` | class | `modules/integrations/searchsploit.py:93` | `class SearchsploitCLI(ExploitSource)` |
-| `SearchsploitClient` | class | `modules/integrations/searchsploit.py:271` | `class SearchsploitClient` |
-| `__init__` | method | `modules/integrations/searchsploit.py:102` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/searchsploit.py:201` | `def __init__(self)` |
-| `__init__` | method | `modules/integrations/searchsploit.py:278` | `def __init__(self, primary, fallback)` |
-| `_extract_cve` | method | `modules/integrations/searchsploit.py:183` | `def _extract_cve(text)` |
-| `_main` | method | `modules/integrations/searchsploit.py:356` | `def _main()` |
-| `_parse` | method | `modules/integrations/searchsploit.py:133` | `def _parse(self, raw)` |
-| `_query` | method | `modules/integrations/searchsploit.py:218` | `def _query(self, cve_id)` |
-| `_rate_limit` | method | `modules/integrations/searchsploit.py:258` | `def _rate_limit()` |
-| `_row_to_entry` | method | `modules/integrations/searchsploit.py:162` | `def _row_to_entry(self, row)` |
-| `_run` | method | `modules/integrations/searchsploit.py:118` | `def _run(self, query)` |
-| `enrich_findings` | method | `modules/integrations/searchsploit.py:300` | `def enrich_findings(self, findings)` |
-| `get_client` | method | `modules/integrations/searchsploit.py:333` | `def get_client()` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:80` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:109` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:207` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:286` | `def search_cve(self, cve_id)` |
-| `search_cve` | method | `modules/integrations/searchsploit.py:341` | `def search_cve(cve_id)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:84` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:112` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:210` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:293` | `def search_service(self, name, version)` |
-| `search_service` | method | `modules/integrations/searchsploit.py:346` | `def search_service(name, version)` |
-| `CollectedFact` | class | `modules/intelligence_engine.py:78` | `class CollectedFact` |
-| `CounterIntelFinding` | class | `modules/intelligence_engine.py:108` | `class CounterIntelFinding` |
-| `IntelligenceAssessment` | class | `modules/intelligence_engine.py:93` | `class IntelligenceAssessment` |
-| `IntelligenceConfig` | class | `modules/intelligence_engine.py:57` | `class IntelligenceConfig` |
-| `IntelligenceEngine` | class | `modules/intelligence_engine.py:119` | `class IntelligenceEngine` |
-| `__init__` | method | `modules/intelligence_engine.py:142` | `def __init__(self, config)` |
-| `_correlate_creds_to_hosts` | method | `modules/intelligence_engine.py:565` | `def _correlate_creds_to_hosts(self)` |
-| `_correlate_domains_to_infrastructure` | method | `modules/intelligence_engine.py:588` | `def _correlate_domains_to_infrastructure(self)` |
-| `_correlate_services_to_vulns` | method | `modules/intelligence_engine.py:494` | `def _correlate_services_to_vulns(self)` |
-| `_detect_killchain_gaps` | method | `modules/intelligence_engine.py:644` | `def _detect_killchain_gaps(self)` |
-| `_is_placeholder` | method | `modules/intelligence_engine.py:925` | `def _is_placeholder(value)` |
-| `_map_category_to_mitre` | method | `modules/intelligence_engine.py:700` | `def _map_category_to_mitre(category)` |
-| `_match_known_vulns` | method | `modules/intelligence_engine.py:537` | `def _match_known_vulns(fact)` |
-| `_rank_targets` | method | `modules/intelligence_engine.py:604` | `def _rank_targets(self)` |
-| `analyze` | method | `modules/intelligence_engine.py:477` | `def analyze(self)` |
-| `collect_from_estorides` | method | `modules/intelligence_engine.py:292` | `def collect_from_estorides(self, target)` |
-| `collect_from_factstore` | method | `modules/intelligence_engine.py:415` | `def collect_from_factstore(self)` |
-| `collect_from_nuclei` | method | `modules/intelligence_engine.py:334` | `def collect_from_nuclei(self, target)` |
-| `collect_from_scan` | method | `modules/intelligence_engine.py:153` | `def collect_from_scan(self, target)` |
-| `collect_from_tool` | method | `modules/intelligence_engine.py:255` | `def collect_from_tool(self, output, tool, host)` |
-| `collect_from_yara` | method | `modules/intelligence_engine.py:376` | `def collect_from_yara(self, target_path)` |
-| `disseminate` | method | `modules/intelligence_engine.py:765` | `def disseminate(self)` |
-| `get_intel_report` | method | `modules/intelligence_engine.py:874` | `def get_intel_report(self)` |
-| `get_intelligence_engine` | method | `modules/intelligence_engine.py:931` | `def get_intelligence_engine(config)` |
-| `produce_counter_intelligence` | method | `modules/intelligence_engine.py:715` | `def produce_counter_intelligence(self)` |
-| `produce_intelligence` | method | `modules/intelligence_engine.py:685` | `def produce_intelligence(self)` |
-| `run_full_cycle` | method | `modules/intelligence_engine.py:845` | `def run_full_cycle(self, target)` |
-| `display_usage` | function | `modules/iptables_portforward.sh:29` | `` |
-| `K8SAttackEngine` | class | `modules/k8s_attacks.py:77` | `class K8SAttackEngine` |
-| `K8sConfig` | class | `modules/k8s_attacks.py:57` | `class K8sConfig` |
-| `__init__` | method | `modules/k8s_attacks.py:87` | `def __init__(self, config)` |
-| `enumerate_rbac` | method | `modules/k8s_attacks.py:90` | `def enumerate_rbac(self)` |
-| `etcd_access_exploitation` | method | `modules/k8s_attacks.py:222` | `def etcd_access_exploitation(self)` |
-| `helm_tiller_abuse` | method | `modules/k8s_attacks.py:250` | `def helm_tiller_abuse(self)` |
-| `kubelet_anonymous_auth_abuse` | method | `modules/k8s_attacks.py:198` | `def kubelet_anonymous_auth_abuse(self)` |
-| `persistence_techniques` | method | `modules/k8s_attacks.py:278` | `def persistence_techniques(self)` |
-| `privileged_pod_escape` | method | `modules/k8s_attacks.py:118` | `def privileged_pod_escape(self)` |
-| `service_account_token_theft` | method | `modules/k8s_attacks.py:173` | `def service_account_token_theft(self)` |
-| `summary` | method | `modules/k8s_attacks.py:318` | `def summary(self)` |
-| `KerberoastHash` | class | `modules/kerberoasting.py:59` | `class KerberoastHash` |
-| `KerberoastTarget` | class | `modules/kerberoasting.py:38` | `class KerberoastTarget` |
-| `KerberoastingEngine` | class | `modules/kerberoasting.py:79` | `class KerberoastingEngine` |
-| `__init__` | method | `modules/kerberoasting.py:95` | `def __init__(self, domain, dc_ip, username, password, hash)` |
-| `_build_hash_string` | method | `modules/kerberoasting.py:248` | `def _build_hash_string(self, spn, etype)` |
-| `_hashcat_command` | method | `modules/kerberoasting.py:268` | `def _hashcat_command(hash_str, mode)` |
-| `_prioritize_targets` | method | `modules/kerberoasting.py:169` | `def _prioritize_targets(self)` |
-| `asreproast_check` | method | `modules/kerberoasting.py:306` | `def asreproast_check(self, usernames)` |
-| `build_hashcat_batch` | method | `modules/kerberoasting.py:379` | `def build_hashcat_batch(self, output_path)` |
-| `detect_kerberoasting_activity` | method | `modules/kerberoasting.py:336` | `def detect_kerberoasting_activity(self, event_log)` |
-| `enumerate_spns` | method | `modules/kerberoasting.py:112` | `def enumerate_spns(self, ldap_output, bloodhound_data)` |
-| `extract_hashes_from_pcap` | method | `modules/kerberoasting.py:321` | `def extract_hashes_from_pcap(self, pcap_path)` |
-| `priority` | method | `modules/kerberoasting.py:172` | `def priority(target)` |
-| `request_tgs` | method | `modules/kerberoasting.py:219` | `def request_tgs(self, user_spn, etype)` |
-| `request_tgs_aes_only` | method | `modules/kerberoasting.py:187` | `def request_tgs_aes_only(self, user_spn)` |
-| `request_tgs_rc4` | method | `modules/kerberoasting.py:208` | `def request_tgs_rc4(self, user_spn)` |
-| `summary` | method | `modules/kerberoasting.py:401` | `def summary(self)` |
-| `targeted_kerberoast` | method | `modules/kerberoasting.py:271` | `def targeted_kerberoast(self, high_value_only)` |
-| `EncryptedData` | class | `modules/kerberos_core.py:157` | `class EncryptedData` |
-| `KerberosCore` | class | `modules/kerberos_core.py:407` | `class KerberosCore` |
-| `KerberosCrypto` | class | `modules/kerberos_core.py:271` | `class KerberosCrypto` |
-| `KerberosErrorParser` | class | `modules/kerberos_core.py:683` | `class KerberosErrorParser` |
-| `KerberosPrincipal` | class | `modules/kerberos_core.py:139` | `class KerberosPrincipal` |
-| `KerberosTicket` | class | `modules/kerberos_core.py:172` | `class KerberosTicket` |
-| `PACInfo` | class | `modules/kerberos_core.py:228` | `class PACInfo` |
-| `PACSignature` | class | `modules/kerberos_core.py:213` | `class PACSignature` |
-| `TGSRequest` | class | `modules/kerberos_core.py:249` | `class TGSRequest` |
-| `TicketValidator` | class | `modules/kerberos_core.py:702` | `class TicketValidator` |
-| `__init__` | method | `modules/kerberos_core.py:277` | `def __init__(self)` |
-| `__init__` | method | `modules/kerberos_core.py:421` | `def __init__(self, domain, dc_host, dc_ip)` |
-| `_build_pa_enc_timestamp` | method | `modules/kerberos_core.py:640` | `def _build_pa_enc_timestamp(self, key, etype, timestamp)` |
-| `_parse_kdc_rep` | method | `modules/kerberos_core.py:653` | `def _parse_kdc_rep(self, data, key, etype, rep_type)` |
-| `_parse_pac_buffer` | method | `modules/kerberos_core.py:622` | `def _parse_pac_buffer(pac, buf_type, buf_data)` |
-| `_rc4_decrypt` | method | `modules/kerberos_core.py:676` | `def _rc4_decrypt(key, data, usage)` |
-| `_rc4_encrypt` | method | `modules/kerberos_core.py:667` | `def _rc4_encrypt(key, data, usage)` |
-| `aes_decrypt` | method | `modules/kerberos_core.py:361` | `def aes_decrypt(self, key, ciphertext, usage)` |
-| `aes_encrypt` | method | `modules/kerberos_core.py:329` | `def aes_encrypt(self, key, plaintext, usage)` |
-| `build_as_req` | method | `modules/kerberos_core.py:435` | `def build_as_req(self, username, domain, password, etype)` |
-| `build_tgs_req` | method | `modules/kerberos_core.py:489` | `def build_tgs_req(self, params)` |
-| `compute_checksum` | method | `modules/kerberos_core.py:389` | `def compute_checksum(key, data, etype)` |
-| `decrypt_ticket` | method | `modules/kerberos_core.py:563` | `def decrypt_ticket(self, ticket_data, key, etype)` |
-| `derive_aes_key` | method | `modules/kerberos_core.py:282` | `def derive_aes_key(password, salt, etype)` |
-| `derive_rc4_key` | method | `modules/kerberos_core.py:318` | `def derive_rc4_key(password)` |
-| `get_supported_etypes` | method | `modules/kerberos_core.py:427` | `def get_supported_etypes(self)` |
-| `has_flag` | method | `modules/kerberos_core.py:207` | `def has_flag(self, flag_name)` |
-| `is_expired` | method | `modules/kerberos_core.py:706` | `def is_expired(endtime, grace_period)` |
-| `parse_as_rep` | method | `modules/kerberos_core.py:534` | `def parse_as_rep(self, as_rep_data, key, etype)` |
-| `parse_error` | method | `modules/kerberos_core.py:687` | `def parse_error(error_data)` |
-| `parse_pac` | method | `modules/kerberos_core.py:588` | `def parse_pac(self, pac_data)` |
-| `parse_tgs_rep` | method | `modules/kerberos_core.py:550` | `def parse_tgs_rep(self, tgs_rep_data, session_key, etype)` |
-| `to_string` | method | `modules/kerberos_core.py:152` | `def to_string(self)` |
-| `validate_flags` | method | `modules/kerberos_core.py:719` | `def validate_flags(ticket, required_flags)` |
-| `validate_pac_checksums` | method | `modules/kerberos_core.py:735` | `def validate_pac_checksums(pac)` |
-| `DiamondTicketConfig` | class | `modules/kerberos_tickets.py:94` | `class DiamondTicketConfig` |
-| `DiamondTicketForger` | class | `modules/kerberos_tickets.py:397` | `class DiamondTicketForger` |
-| `GoldenTicketConfig` | class | `modules/kerberos_tickets.py:65` | `class GoldenTicketConfig` |
-| `GoldenTicketForger` | class | `modules/kerberos_tickets.py:265` | `class GoldenTicketForger` |
-| `SapphireTicketForger` | class | `modules/kerberos_tickets.py:462` | `class SapphireTicketForger` |
 
 Next: [SYMBOLS_p13.md](SYMBOLS_p13.md)

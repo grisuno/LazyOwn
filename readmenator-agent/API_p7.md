@@ -1,8 +1,8 @@
-# API (page 7 of 20)
+# API (page 7 of 21)
 Previous: [API_p6.md](API_p6.md)
 
 ## lazyc2.py
-Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
+Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
 - `is_insecure_credential` (function) `lazyc2.py:187` `def is_insecure_credential(user, pwd)` -- Check for weak or default credentials
 - `_JsonLogFormatter.format` (method) `lazyc2.py:427` `def format(self, record)`
 - `_JsonLogFormatter.ensure_sessions_dir` (method) `lazyc2.py:454` `def ensure_sessions_dir()` -- Ensure the sessions directory exists with safe permissions.
@@ -204,24 +204,32 @@ Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `c
 - `User.surface` (method) `lazyc2.py:6833` `def surface()`
 - `User.surface_live` (method) `lazyc2.py:6839` `def surface_live()` -- Render the live attack-surface graph page.
 - `User.api_surface_live` (method) `lazyc2.py:6854` `def api_surface_live()` -- Return the live attack-surface graph derived from the world model.
-- `User.get_data` (method) `lazyc2.py:6879` `def get_data()`
-- `User.upload_zip_file` (method) `lazyc2.py:6888` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
-- `User.list_campaigns` (method) `lazyc2.py:6946` `def list_campaigns()`
-- `User.create_campaign` (method) `lazyc2.py:6959` `def create_campaign()`
-- `User.lazyphishingai` (method) `lazyc2.py:7037` `def lazyphishingai()`
-- `User.track_pixel` (method) `lazyc2.py:7053` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
-- `User.campaign_report` (method) `lazyc2.py:7075` `def campaign_report(campaign_id)`
-- `User.orchestrate_campaign` (method) `lazyc2.py:7157` `def orchestrate_campaign(campaign_id)`
-- `User.create_multivector_campaign` (method) `lazyc2.py:7204` `def create_multivector_campaign()`
-- `User.serve_landing_page` (method) `lazyc2.py:7356` `def serve_landing_page(campaign_id, short_url)`
-- `User.health_check` (method) `lazyc2.py:7381` `def health_check()` -- Basic health and readiness endpoint.
-- `User.metrics_exposition` (method) `lazyc2.py:7420` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
-- `User.api_dashboard` (method) `lazyc2.py:7427` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
-- `User.api_listeners` (method) `lazyc2.py:7497` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
-- `User.api_listeners_create` (method) `lazyc2.py:7504` `def api_listeners_create()` -- Create a new listener.
-- `User.api_listeners_start` (method) `lazyc2.py:7520` `def api_listeners_start(listener_id)` -- Start an existing listener.
-- `User.api_listeners_stop` (method) `lazyc2.py:7528` `def api_listeners_stop(listener_id)` -- Stop a running listener.
-- `User.api_listeners_delete` (method) `lazyc2.py:7536` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
+- `User.intel_view` (method) `lazyc2.py:6879` `def intel_view()` -- Render the fused sessions intel graph page (ReadMenator engine).
+- `User.intel_bundle_view` (method) `lazyc2.py:6898` `def intel_bundle_view()` -- Render the circular/spherical bundle view of the intel graph.
+- `User.attack3d_view` (method) `lazyc2.py:6913` `def attack3d_view()` -- Render the C2-centred attack-surface graph (ReadMenator engine).
+- `User.attack_bundle_view` (method) `lazyc2.py:6932` `def attack_bundle_view()` -- Render the circular/spherical bundle view of the attack surface.
+- `User.api_intel_graph` (method) `lazyc2.py:6947` `def api_intel_graph()` -- Return the fused C2-centred intel graph with precomputed layout.
+- `User.api_intel_bundle` (method) `lazyc2.py:7003` `def api_intel_bundle()` -- Return the circular/spherical bundle payload of the intel graph.
+- `User.api_attack_graph` (method) `lazyc2.py:7036` `def api_attack_graph()` -- Return the fused C2-centred attack-surface graph.
+- `User.api_attack_bundle` (method) `lazyc2.py:7088` `def api_attack_bundle()` -- Return the circular/spherical bundle payload of the attack surface.
+- `User.get_data` (method) `lazyc2.py:7118` `def get_data()`
+- `User.upload_zip_file` (method) `lazyc2.py:7127` `def upload_zip_file()` -- Handles the file upload, processes the BloodHound ZIP, and prepares data for visualization.
+- `User.list_campaigns` (method) `lazyc2.py:7185` `def list_campaigns()`
+- `User.create_campaign` (method) `lazyc2.py:7198` `def create_campaign()`
+- `User.lazyphishingai` (method) `lazyc2.py:7276` `def lazyphishingai()`
+- `User.track_pixel` (method) `lazyc2.py:7292` `def track_pixel(campaign_id, email)` -- Píxel de seguimiento para registrar aperturas.
+- `User.campaign_report` (method) `lazyc2.py:7314` `def campaign_report(campaign_id)`
+- `User.orchestrate_campaign` (method) `lazyc2.py:7396` `def orchestrate_campaign(campaign_id)`
+- `User.create_multivector_campaign` (method) `lazyc2.py:7443` `def create_multivector_campaign()`
+- `User.serve_landing_page` (method) `lazyc2.py:7595` `def serve_landing_page(campaign_id, short_url)`
+- `User.health_check` (method) `lazyc2.py:7620` `def health_check()` -- Basic health and readiness endpoint.
+- `User.metrics_exposition` (method) `lazyc2.py:7659` `def metrics_exposition()` -- Prometheus-compatible metrics endpoint.
+- `User.api_dashboard` (method) `lazyc2.py:7666` `def api_dashboard()` -- Aggregated JSON dashboard: beacons, campaign, events, facts summary.
+- `User.api_listeners` (method) `lazyc2.py:7736` `def api_listeners()` -- List all configured C2 listeners and their runtime status.
+- `User.api_listeners_create` (method) `lazyc2.py:7743` `def api_listeners_create()` -- Create a new listener.
+- `User.api_listeners_start` (method) `lazyc2.py:7759` `def api_listeners_start(listener_id)` -- Start an existing listener.
+- `User.api_listeners_stop` (method) `lazyc2.py:7767` `def api_listeners_stop(listener_id)` -- Stop a running listener.
+- `User.api_listeners_delete` (method) `lazyc2.py:7775` `def api_listeners_delete(listener_id)` -- Remove a listener configuration.
 
 ## lazyc2/addon_creator.py
 Imported by: `lazyc2/blueprints/addons.py`, `tests/test_addon_creator.py`, `tests/test_placeholder_coverage.py`

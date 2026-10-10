@@ -58,7 +58,7 @@ This community groups 7 file(s) rooted at `modules` with dominant language py (c
 
 ## Connections
 
-- [EXTRACTED] depends_on community 10 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
+- [EXTRACTED] depends_on community 10 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/active_directory.py imports cli/commands/_base.py.
 
 ## Risks
 

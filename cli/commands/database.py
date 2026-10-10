@@ -21,6 +21,9 @@ from utils import (
 )
 
 
+RETEST_TIMEOUT_S = 120
+
+
 class DatabaseCommandSet(LazyOwnCommandSet):
     """Database commands for campaign state management."""
 
@@ -256,6 +259,89 @@ class DatabaseCommandSet(LazyOwnCommandSet):
             return
 
         print_error("Usage: db_vulns [-a <host_id> <name>] [-s <severity>]")
+
+    # ------------------------------------------------------------------
+    # retest
+    # ------------------------------------------------------------------
+
+    @cmd2.with_category(miscellaneous_category)
+    def do_retest(self, line):
+        """Re-verify a finding in an isolated session (LAZY retester).
+
+        Usage:
+            retest <finding_id> [command]   — re-run PoC or command away
+            from the live session, then record reproducible / fixed /
+            inconclusive. Only a fixed conclusion flips status.
+
+        The verification runs through a fresh runner process carrying a
+        retest session id, so the live world model is never touched.
+        """
+        import os as _os
+
+        args = shlex_split(line)
+        if not args:
+            print_error("Usage: retest <finding_id> [command]")
+            return
+        try:
+            finding_id = str(int(args[0]))
+        except ValueError:
+            print_error("finding_id must be a number.")
+            return
+        db = self._get_db()
+        wid = self._active_workspace()
+        if wid is None:
+            return
+        row = next((v for v in db.vuln_list(wid)
+                    if str(v.get("id", "")) == finding_id), None)
+        if row is None:
+            print_error(f"Unknown finding: {finding_id}")
+            return
+        command = " ".join(args[1:]).strip()
+        if not command:
+            description = str(row.get("description", ""))
+            if "\nPoC: " in description:
+                command = description.split("\nPoC: ", 1)[1].splitlines()[0].strip()
+        if not command:
+            print_error("No PoC stored for this finding — pass a command explicitly.")
+            return
+        try:
+            from modules.finding_lifecycle import classify_retest as _classify
+            from modules.finding_lifecycle import has_running_retest as _busy
+            from modules.finding_lifecycle import request_retest as _open
+            from modules.finding_lifecycle import resolve_retest as _close
+        except ImportError as exc:
+            print_error(f"Finding lifecycle unavailable: {exc}")
+            return
+        if _busy(finding_id):
+            print_error(f"Retest already running for finding {finding_id}.")
+            return
+        retest = _open(db, finding_id)
+        try:
+            from skills.autonomous_daemon import _build_default_runner as _runner_factory
+            runner = _runner_factory()
+        except ImportError as exc:
+            print_error(f"Isolated runner unavailable: {exc}")
+            return
+        session_id = f"retest-{retest.retest_id}"
+        previous = _os.environ.get("LAZYOWN_RETEST_SESSION")
+        _os.environ["LAZYOWN_RETEST_SESSION"] = session_id
+        try:
+            output = runner.run(command, timeout=RETEST_TIMEOUT_S)
+        except Exception as exc:
+            output = f"[retest runner error] {exc}"
+        finally:
+            if previous is None:
+                _os.environ.pop("LAZYOWN_RETEST_SESSION", None)
+            else:
+                _os.environ["LAZYOWN_RETEST_SESSION"] = previous
+        conclusion = _classify(str(row.get("name", "")), output)
+        try:
+            done = _close(db, retest.retest_id, conclusion,
+                          evidence=output[-2000:])
+        except (KeyError, ValueError) as exc:
+            print_error(f"Retest resolve failed: {exc}")
+            return
+        print_msg(f"retest {session_id}: finding {finding_id} -> {done.conclusion}")
 
     # ------------------------------------------------------------------
     # db_creds

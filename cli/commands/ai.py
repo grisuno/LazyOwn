@@ -20,6 +20,7 @@ from cli.commands._base import LazyOwnCommandSet
 from modules.llm_adapter import ask_general
 from modules.llm_factory import (
     BACKEND_GROQ,
+    BACKEND_OLLAMA,
     CONFIG_KEY_MODEL_GROQ,
     CONFIG_KEY_MODEL_OLLAMA,
     DEFAULT_GROQ_MODEL,
@@ -87,6 +88,8 @@ class AiCommandSet(LazyOwnCommandSet):
             ``ask what are the best privesc paths for this Linux host?``
             ``ask what services look exploitable on this target?``
             ``ask how do I exploit SMB signing disabled?``
+            ``ask snapshot <question>`` answers from a frozen context
+            snapshot without touching session state.
 
         Args:
             line: Free-form question forwarded to the LLM.
@@ -98,6 +101,12 @@ class AiCommandSet(LazyOwnCommandSet):
         if not question:
             print_error("Usage: ask <question>")
             return
+        isolated = question.lower().startswith("snapshot ")
+        if isolated:
+            question = question[len("snapshot "):].strip()
+            if not question:
+                print_error("Usage: ask snapshot <question>")
+                return
         rhost = self.params.get("rhost") or UNKNOWN_LABEL
         lhost = self.params.get("lhost") or UNKNOWN_LABEL
         os_id = str(self.params.get("os_id", "?"))
@@ -139,6 +148,17 @@ class AiCommandSet(LazyOwnCommandSet):
             f"Recent commands: {', '.join(recent_commands) or NONE_LABEL}\n"
         )
         full_prompt = f"Session context:\n{context}\n\nOperator question: {question}"
+        if isolated:
+            from modules.sidequestion import SideQuestionService
+
+            service = SideQuestionService(
+                answer_fn=lambda _snap, _q: ask_general(
+                    f"Frozen context:\n{_snap}\n\nOperator question: {_q}"))
+            snapshot = service.capture(str(rhost), context)
+            answered = service.ask(snapshot.snapshot_id, question)
+            print_msg(f"Isolated answer (snapshot {snapshot.snapshot_id}):")
+            print_msg(answered.answer)
+            return
         print_msg(f"Asking AI with session context ({len(recent_commands)} recent commands)...")
         print_msg(ask_general(full_prompt))
 
@@ -172,6 +192,63 @@ class AiCommandSet(LazyOwnCommandSet):
             print_msg(backend.complete(DEFAULT_SYSTEM_PROMPT, full_prompt))
         except Exception as exc:
             print_error(f"groq request failed: {exc}")
+
+    @cmd2.with_category(ai_category)
+    def do_poolcheck(self, line):
+        """Prove the LLM failover pool order with one live prompt.
+
+        Usage:
+            poolcheck
+            poolcheck "Reply with exactly: READY"
+
+        Sends one prompt through ``modules.llm_pool`` (groq rank 10, then
+        ollama rank 1, shared health registry) and prints which member
+        answered. Kill groq (bad key, offline) and rerun to watch the
+        failover happen instead of taking it on faith.
+
+        Args:
+            line: Optional prompt. Defaults to a one-word probe.
+
+        Returns:
+            None.
+        """
+        from modules.llm_pool import LLMPool
+        from modules.llm_pool import PoolExhausted
+        from modules.llm_pool import PoolMember
+        from modules.llm_pool import shared_registry
+
+        prompt = (line or "").strip() or "Reply with exactly: POOL_OK"
+        served: list[str] = []
+
+        def _serve(member_id: str, backend_name: str, text: str) -> str:
+            served.append(member_id)
+            backend = get_llm_backend(backend=backend_name)
+            try:
+                return backend.complete(DEFAULT_SYSTEM_PROMPT, text, 512, 0.1)
+            except TypeError:
+                return backend.complete(DEFAULT_SYSTEM_PROMPT, text)
+
+        try:
+            pool = LLMPool([
+                PoolMember("groq", "groq", "groq", rank=10,
+                           complete=lambda p: _serve("groq", BACKEND_GROQ, p)),
+                PoolMember("ollama", "ollama", "ollama", rank=1,
+                           complete=lambda p: _serve("ollama", BACKEND_OLLAMA, p)),
+            ], health=shared_registry())
+        except Exception as exc:
+            print_error(f"poolcheck unavailable: {exc}")
+            return
+        print_msg(f"pool order: {' -> '.join(m.member_id for m in pool.members)}")
+        try:
+            answer = pool.complete(prompt)
+        except PoolExhausted as exc:
+            print_error(f"pool exhausted (tried: {' -> '.join(served) or 'none'}): {exc}")
+            return
+        except Exception as exc:
+            print_error(f"poolcheck failed: {exc}")
+            return
+        print_msg(f"answered by: {served[-1] if served else 'unknown'} (tried: {' -> '.join(served)})")
+        print_msg(f"answer: {str(answer).strip()[:200]}")
 
     @cmd2.with_category(ai_category)
     def do_ai_playbook(self, line):

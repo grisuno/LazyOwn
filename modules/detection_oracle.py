@@ -304,7 +304,7 @@ _STEALTH_ADVICE: dict[str, str] = {
     "exploit": "Fingerprint the target first and select a PoC that avoids known AV/EDR signatures.",
     "recon": "Limit scan rate; use passive OSINT sources before active probing.",
     "enum": "Favour read-only LDAP and Kerberos queries over noisy SMB enumeration.",
-    "intrusion": "Use encrypted channels (SSH, HTTPS-based C2) to reduce cleartext signatures in network logs.",
+    "intrusion": "Use encrypted channels (SSH, HTTPS-based C2) to reduce clelazyt signatures in network logs.",
     "other": "Review the detection rules matched and consult the evasion advisor.",
 }
 

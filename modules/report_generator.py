@@ -810,7 +810,7 @@ class ReportGenerator:
             "https": "Perform web application assessment over TLS: cert validity, HSTS, injection, auth bypass.",
             "smb": "Test for null session, EternalBlue (MS17-010), SMB relay, credential brute-force.",
             "ssh": "Check for outdated version vulnerabilities, user enumeration, brute-force, weak keys.",
-            "ftp": "Test anonymous login, brute-force, cleartext credential sniffing.",
+            "ftp": "Test anonymous login, brute-force, clelazyt credential sniffing.",
             "ldap": "Enumerate domain objects, AS-REP roast, Kerberoast, ACL abuse.",
             "ldaps": "Enumerate domain objects over LDAPS, AS-REP roast, Kerberoast, ACL abuse.",
             "mssql": "Test sa account, xp_cmdshell, credential stuffing, UNC path injection.",

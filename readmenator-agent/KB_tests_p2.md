@@ -1,5 +1,43 @@
-# Subsystem: tests (page 2 of 14)
+# Subsystem: tests (page 2 of 15)
 Previous: [KB_tests.md](KB_tests.md)
+
+## tests/test_asset_gate.py
+- Doc: Asset gate + un-nerfed outputs + IntelGraph CSP regression tests.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `gate_env` (function, line 18) `def gate_env(tmp_path, monkeypatch)`
+  - `test_gate_exact_and_fuzzy_match` (function, line 25) `def test_gate_exact_and_fuzzy_match(gate_env)`
+  - `test_gate_cidr_match` (function, line 36) `def test_gate_cidr_match(gate_env)`
+  - `test_gate_task_allow_is_closed_whitelist` (function, line 43) `def test_gate_task_allow_is_closed_whitelist(gate_env)`
+  - `test_gate_blocks_asset_insert` (function, line 57) `def test_gate_blocks_asset_insert(gate_env)`
+  - `test_lazy_gate_surface` (function, line 66) `def test_lazy_gate_surface()`
+  - `test_traffic_clear` (function, line 75) `def test_traffic_clear(gate_env)`
+  - `test_intel_template_uses_vendored_libs` (function, line 83) `def test_intel_template_uses_vendored_libs()`
+  - `test_intel_template_embedded_in_lazyown_chrome` (function, line 94) `def test_intel_template_embedded_in_lazyown_chrome()`
+  - `test_intel_template_maps_edges_to_links` (function, line 106) `def test_intel_template_maps_edges_to_links()`
+  - `test_intel_template_readmenator_grade` (function, line 114) `def test_intel_template_readmenator_grade()`
+  - `test_intel_nodes_carry_community` (function, line 126) `def test_intel_nodes_carry_community()`
+  - `test_intel_payload_readmenator_shape` (function, line 136) `def test_intel_payload_readmenator_shape()`
+  - `test_compact_unfolded_cap_and_flag` (function, line 157) `def test_compact_unfolded_cap_and_flag(gate_env)`
+  - `test_digest_overview_expandable` (function, line 174) `def test_digest_overview_expandable(gate_env)`
+  - `test_hot_facts_never_truncated` (function, line 194) `def test_hot_facts_never_truncated(gate_env)`
+- Depends on: `cli/commands/lazyops.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`
+
+## tests/test_attack_surface3d.py
+- Doc: Attack-surface 3D module: surface+intel fusion + embedded pages.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_fixture_sessions` (function, line 24) `def _fixture_sessions(tmp_path)`
+  - `test_attack_fuses_surface_and_intel` (function, line 47) `def test_attack_fuses_surface_and_intel(tmp_path)`
+  - `test_attack_payload_readmenator_shape` (function, line 59) `def test_attack_payload_readmenator_shape(tmp_path)`
+  - `test_attack_bundle_payload` (function, line 72) `def test_attack_bundle_payload(tmp_path)`
+  - `test_attack_summary_feeds_loop` (function, line 93) `def test_attack_summary_feeds_loop(tmp_path)`
+  - `test_attack_pages_embedded_and_wired` (function, line 109) `def test_attack_pages_embedded_and_wired()`
+  - `test_attack_menu_entry_and_routes` (function, line 129) `def test_attack_menu_entry_and_routes()`
+  - `test_new_endpoints_require_login_and_decoy` (function, line 144) `def test_new_endpoints_require_login_and_decoy()`
+- Depends on: `modules/attack_surface3d.py`, `modules/intel_fusion.py`
 
 ## tests/test_attack_surface_addons.py
 - Doc: tests/test_attack_surface_addons.py  BDD: Validate cloud, supply-chain, and web attack-surface...
@@ -102,6 +140,51 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_salt_is_persisted` (method, line 122) `def test_salt_is_persisted(self, crypto_module, tmp_sessions)`
   - `test_build_provider_returns_callable` (method, line 145) `def test_build_provider_returns_callable(self)`
 - Depends on: `cli/auto_crypto.py`
+
+## tests/test_auto_registry.py
+- Doc: Auto-verb registry: loop-ready automation commands.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_registry_covers_auto_family` (function, line 25) `def test_registry_covers_auto_family()`
+  - `test_build_command_binds_target` (function, line 35) `def test_build_command_binds_target()`
+  - `test_is_shell_verb_matches_first_token` (function, line 44) `def test_is_shell_verb_matches_first_token()`
+  - `test_verbs_for_matches_keywords` (function, line 52) `def test_verbs_for_matches_keywords()`
+  - `test_propose_and_translate_roundtrip` (function, line 60) `def test_propose_and_translate_roundtrip()`
+  - `_FakeShell` (class, line 70) `class _FakeShell`
+  - `_HangingShell` (class, line 83) `class _HangingShell`
+  - `test_execute_shell_verb_captures_output` (method, line 93) `def test_execute_shell_verb_captures_output()`
+  - `test_execute_shell_verb_rejects_non_verbs` (method, line 101) `def test_execute_shell_verb_rejects_non_verbs()`
+  - `test_execute_shell_verb_timeout_never_hangs` (method, line 109) `def test_execute_shell_verb_timeout_never_hangs()`
+  - `test_execute_shell_verb_without_shell` (method, line 115) `def test_execute_shell_verb_without_shell()`
+  - `__init__` (method, line 73) `def __init__(self, output)`
+  - `onecmd_plus_hooks` (method, line 77) `def onecmd_plus_hooks(self, command)`
+  - `onecmd` (method, line 86) `def onecmd(self, command)`
+- Depends on: `modules/auto_registry.py`
+
+## tests/test_autonomous_ops.py
+- Doc: BDD scoped tests for integrated autonomous operations C04-C10.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `test_c04_dedup_anchor_coverage` (function, line 11) `def test_c04_dedup_anchor_coverage()`
+  - `test_c04_mirror_to_campaign_db` (function, line 26) `def test_c04_mirror_to_campaign_db(tmp_path)`
+  - `test_c05_frontier_emits_once_then_empty` (function, line 43) `def test_c05_frontier_emits_once_then_empty()`
+  - `test_c05_todo_blocks_lateral_until_creds` (function, line 58) `def test_c05_todo_blocks_lateral_until_creds()`
+  - `test_c06_finding_lifecycle_on_campaign_db` (function, line 70) `def test_c06_finding_lifecycle_on_campaign_db(tmp_path)`
+  - `test_c07_pool_failover_and_exhaustion` (function, line 98) `def test_c07_pool_failover_and_exhaustion()`
+  - `test_c08_notify_filter_and_redact` (function, line 116) `def test_c08_notify_filter_and_redact()`
+  - `test_c09_side_question_isolated` (function, line 128) `def test_c09_side_question_isolated()`
+  - `test_c10_verify_rejects_bad_checksum` (function, line 143) `def test_c10_verify_rejects_bad_checksum(tmp_path)`
+  - `test_c10_rollback_restores_previous` (function, line 159) `def test_c10_rollback_restores_previous(tmp_path)`
+  - `test_i2_shared_registry_survives_rebuilds` (function, line 171) `def test_i2_shared_registry_survives_rebuilds()`
+  - `test_i2_pool_hard_trips_on_auth_errors` (function, line 186) `def test_i2_pool_hard_trips_on_auth_errors()`
+  - `test_i3_classify_retest_verdicts` (function, line 194) `def test_i3_classify_retest_verdicts()`
+  - `test_i3_retest_bumps_evidence_version` (function, line 203) `def test_i3_retest_bumps_evidence_version(tmp_path)`
+  - `test_i4_shared_engine_cooldown` (function, line 224) `def test_i4_shared_engine_cooldown()`
+  - `test_i4_should_rescan_honours_fresh_scans` (function, line 232) `def test_i4_should_rescan_honours_fresh_scans(tmp_path)`
+  - `boom` (function, line 101) `def boom(_prompt)`
+- Depends on: `modules/__init__.py`, `modules/asset_graph.py`, `modules/db.py`, `modules/enrich.py`, `modules/finding_lifecycle.py`, `modules/llm_pool.py`, `modules/notify.py`, `modules/planner.py`, `modules/selfupdate.py`, `modules/sidequestion.py`, `modules/world_model.py`
 
 ## tests/test_autonomous_replay.py
 - Doc: Tests for ``skills/autonomous_replay.py``.
@@ -403,75 +486,6 @@ Previous: [KB_tests.md](KB_tests.md)
   - `test_platform_values` (method, line 360) `def test_platform_values(self)`
   - `test_category_values` (method, line 364) `def test_category_values(self)`
 - Depends on: `modules/bof_registry.py`
-
-## tests/test_bootstrap_installer.py
-- Doc: Integration tests for the installer scripts (no network, no apt).
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_run_bootstrap` (function, line 29) `def _run_bootstrap(args, env, cwd)`
-  - `_git` (function, line 44) `def _git(args, cwd)`
-  - `test_bootstrap_help_lists_options` (function, line 55) `def test_bootstrap_help_lists_options()`
-  - `test_bootstrap_rejects_unknown_flag` (function, line 63) `def test_bootstrap_rejects_unknown_flag()`
-  - `test_bootstrap_rejects_bad_modes` (function, line 75) `def test_bootstrap_rejects_bad_modes()`
-  - `test_install_pipe_guard` (function, line 88) `def test_install_pipe_guard(tmp_path)`
-  - `_make_stub_repo` (function, line 105) `def _make_stub_repo(path)`
-  - `test_existing_checkout_abort_changes_nothing` (function, line 118) `def test_existing_checkout_abort_changes_nothing(tmp_path)`
-  - `test_debug_flag_traces_execution` (function, line 138) `def test_debug_flag_traces_execution(tmp_path)`
-  - `test_existing_checkout_update_reinstalls` (function, line 153) `def test_existing_checkout_update_reinstalls(tmp_path)`
-  - `test_existing_checkout_clean_backs_up_payload` (function, line 170) `def test_existing_checkout_clean_backs_up_payload(tmp_path)`
-  - `test_non_checkout_path_fails_without_tty` (function, line 195) `def test_non_checkout_path_fails_without_tty(tmp_path)`
-  - `test_install_uses_supported_pip_flags` (function, line 208) `def test_install_uses_supported_pip_flags()`
-  - `test_scripts_are_executable_and_clean` (function, line 220) `def test_scripts_are_executable_and_clean()`
-
-## tests/test_boyscout_contracts.py
-- Doc: Boy-scout contracts for critical shared surfaces.
-- Layer: testing
-- Language: py
-- Symbols:
-  - `_bound_import_names` (function, line 27) `def _bound_import_names(tree)`
-  - `test_lazyown_has_no_unused_imports` (function, line 42) `def test_lazyown_has_no_unused_imports()`
-  - `_load_mcp_module` (function, line 52) `def _load_mcp_module()`
-  - `test_playbook_target_is_shell_quoted` (function, line 110) `def test_playbook_target_is_shell_quoted()`
-  - `test_replace_placeholders_matches_single_pass_engine` (function, line 119) `def test_replace_placeholders_matches_single_pass_engine()`
-  - `test_replace_placeholders_keeps_brace_values_literal` (function, line 133) `def test_replace_placeholders_keeps_brace_values_literal()`
-  - `test_deploy_has_no_todo_markers` (function, line 141) `def test_deploy_has_no_todo_markers()`
-  - `Tool` (class, line 66) `class Tool`
-  - `TextContent` (class, line 73) `class TextContent`
-  - `Server` (class, line 83) `class Server`
-  - `__init__` (method, line 69) `def __init__(self)`
-  - `__init__` (method, line 76) `def __init__(self)`
-  - `__init__` (method, line 86) `def __init__(self)`
-  - `list_tools` (method, line 89) `def list_tools(self)`
-  - `call_tool` (method, line 93) `def call_tool(self)`
-- Depends on: `skills/lazyown_mcp.py`, `utils.py`
-
-## tests/test_bridge_catalog_filtered.py
-- Doc: tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``...
-- Layer: testing
-- Language: py
-- Symbols:
-  - `dispatcher` (function, line 26) `def dispatcher()`
-  - `TestCatalogSummaryFiltered` (class, line 32) `class TestCatalogSummaryFiltered`
-  - `TestBridgeCatalogToolFunction` (class, line 111) `class TestBridgeCatalogToolFunction`
-  - `test_no_args_matches_unfiltered_summary` (method, line 33) `def test_no_args_matches_unfiltered_summary(self, dispatcher)`
-  - `test_phase_arg_restricts_to_one_phase` (method, line 38) `def test_phase_arg_restricts_to_one_phase(self, dispatcher)`
-  - `test_phase_arg_accepts_world_model_alias` (method, line 43) `def test_phase_arg_accepts_world_model_alias(self, dispatcher)`
-  - `_entries_for` (method, line 48) `def _entries_for(self, dispatcher, phase, command_name)`
-  - `test_os_hint_linux_excludes_windows_only_entries` (method, line 51) `def test_os_hint_linux_excludes_windows_only_entries(self, dispatcher)`
-  - `test_os_hint_windows_excludes_linux_only_entries` (method, line 61) `def test_os_hint_windows_excludes_linux_only_entries(self, dispatcher)`
-  - `test_os_filter_shrinks_or_preserves_each_phase` (method, line 71) `def test_os_filter_shrinks_or_preserves_each_phase(self, dispatcher)`
-  - `test_phase_plus_os_combines_both_filters` (method, line 81) `def test_phase_plus_os_combines_both_filters(self, dispatcher)`
-  - `test_empty_phase_keeps_all_phases` (method, line 89) `def test_empty_phase_keeps_all_phases(self, dispatcher)`
-  - `test_phase_drops_smaller_than_unfiltered_total` (method, line 94) `def test_phase_drops_smaller_than_unfiltered_total(self, dispatcher)`
-  - `test_os_hint_any_is_passthrough` (method, line 100) `def test_os_hint_any_is_passthrough(self, dispatcher)`
-  - `test_os_hint_uppercase_normalized` (method, line 105) `def test_os_hint_uppercase_normalized(self, dispatcher)`
-  - `test_no_args_returns_full_catalog_header` (method, line 112) `def test_no_args_returns_full_catalog_header(self)`
-  - `test_phase_arg_appears_in_header` (method, line 120) `def test_phase_arg_appears_in_header(self)`
-  - `test_os_hint_only_appears_in_header` (method, line 127) `def test_os_hint_only_appears_in_header(self)`
-  - `test_unknown_phase_returns_friendly_no_match` (method, line 134) `def test_unknown_phase_returns_friendly_no_match(self)`
-  - `test_registry_exposes_optional_phase_and_os` (method, line 140) `def test_registry_exposes_optional_phase_and_os(self)`
-- Depends on: `modules/lazyown_bridge.py`, `skills/lazyown_groq_agents.py`
 
 
 Next: [KB_tests_p3.md](KB_tests_p3.md)

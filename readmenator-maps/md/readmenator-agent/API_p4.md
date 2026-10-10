@@ -1,5 +1,69 @@
-# API (page 4 of 20)
+# API (page 4 of 21)
 Previous: [API_p3.md](API_p3.md)
+
+## cli/graph_advisor.py
+Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/graph_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `lazyown.py`, `modules/unified_dashboard.py`, `skills/lazyown_mcp.py`, `tests/test_graph_advisor.py`
+- `GraphNode.to_summary` (method) `cli/graph_advisor.py:109` `def to_summary(self)` -- Return a small, JSON-safe summary suitable for MCP responses.
+- `GraphEdge.to_summary` (method) `cli/graph_advisor.py:132` `def to_summary(self)`
+- `GraphLoader.__init__` (method) `cli/graph_advisor.py:156` `def __init__(self, config)`
+- `GraphLoader.resolve_path` (method) `cli/graph_advisor.py:160` `def resolve_path(self, override)` -- Resolve which graphify JSON file to load.
+- `GraphLoader.load` (method) `cli/graph_advisor.py:184` `def load(self, override)`
+- `GraphLoader.clear_cache` (method) `cli/graph_advisor.py:207` `def clear_cache(cls)`
+- `GraphIndex.__init__` (method) `cli/graph_advisor.py:214` `def __init__(self, data)`
+- `GraphIndex.nodes` (method) `cli/graph_advisor.py:277` `def nodes(self)`
+- `GraphIndex.get` (method) `cli/graph_advisor.py:280` `def get(self, node_id)`
+- `GraphIndex.neighbors` (method) `cli/graph_advisor.py:283` `def neighbors(self, node_id)`
+- `GraphIndex.edges_between` (method) `cli/graph_advisor.py:286` `def edges_between(self, source, target)`
+- `GraphIndex.community_members` (method) `cli/graph_advisor.py:289` `def community_members(self, community_id)`
+- `GraphIndex.degree` (method) `cli/graph_advisor.py:292` `def degree(self, node_id)`
+- `GraphIndex.degree_ranked` (method) `cli/graph_advisor.py:295` `def degree_ranked(self)`
+- `GraphScorer.__init__` (method) `cli/graph_advisor.py:304` `def __init__(self, config)`
+- `GraphScorer.rank` (method) `cli/graph_advisor.py:307` `def rank(self, nodes, query)`
+- `GraphAdvisor.__init__` (method) `cli/graph_advisor.py:362` `def __init__(self, config, loader, index, scorer)`
+- `GraphAdvisor.from_path` (method) `cli/graph_advisor.py:375` `def from_path(cls, path, config)`
+- `GraphAdvisor.is_available` (method) `cli/graph_advisor.py:384` `def is_available(self)`
+- `GraphAdvisor.reload` (method) `cli/graph_advisor.py:387` `def reload(self, path)`
+- `GraphAdvisor.summary` (method) `cli/graph_advisor.py:396` `def summary(self)`
+- `GraphAdvisor.search` (method) `cli/graph_advisor.py:445` `def search(self, query, limit)`
+- `GraphAdvisor.neighbors` (method) `cli/graph_advisor.py:456` `def neighbors(self, node_query, depth, limit)`
+- `GraphAdvisor.god_nodes` (method) `cli/graph_advisor.py:505` `def god_nodes(self, limit)`
+- `GraphAdvisor.suggest_next` (method) `cli/graph_advisor.py:520` `def suggest_next(self, recent_commands, limit)` -- Suggest next commands by walking the graph outward from recent ones.
+- `GraphAdvisor.read_recent_commands` (method) `cli/graph_advisor.py:566` `def read_recent_commands(self, window)` -- Read the last N executed commands from the session transcript.
+- `GraphAdvisor.did_you_mean` (method) `cli/graph_advisor.py:591` `def did_you_mean(self, query, limit)`
+- `GraphAdvisor.truncate_to_budget` (method) `cli/graph_advisor.py:605` `def truncate_to_budget(self, payload, budget_tokens)` -- Trim list fields in-place so the JSON dump fits a token budget.
+- `GraphAdvisor.format_search_table` (method) `cli/graph_advisor.py:691` `def format_search_table(results)` -- Render search results as a fixed-width table for the cmd2 shell.
+- `GraphAdvisor.format_neighbors` (method) `cli/graph_advisor.py:706` `def format_neighbors(result)` -- Render a :py:meth:`GraphAdvisor.neighbors` result as plain text.
+- `GraphAdvisor.format_god_nodes` (method) `cli/graph_advisor.py:724` `def format_god_nodes(results)`
+- `GraphAdvisor.format_suggestions` (method) `cli/graph_advisor.py:734` `def format_suggestions(results)`
+
+## cli/graph_overlay.py
+Depends on: `cli/commands/containers.py`, `cli/commands/enum.py`, `cli/graph_advisor.py`, `cli/themes.py`, `core/text_utils.py`
+Imported by: `cli/commands/misc_migrated.py`, `tests/test_graph_overlay.py`
+- `GraphOverlayState.is_available` (method) `cli/graph_overlay.py:77` `def is_available(self)` -- Return ``True`` when the underlying graph advisor has data.
+- `GraphOverlayState.set_focus` (method) `cli/graph_overlay.py:87` `def set_focus(self, value)` -- Replace the focus query.
+- `GraphOverlayState.toggle_view` (method) `cli/graph_overlay.py:95` `def toggle_view(self)` -- Switch between god-nodes and neighbors-of-focus.
+- `GraphOverlayState.snapshot` (method) `cli/graph_overlay.py:102` `def snapshot(self)` -- Return ``(header, items)`` for the current view.
+- `GraphOverlayState.build_state` (method) `cli/graph_overlay.py:192` `def build_state(config, advisor_factory)` -- Wire the canonical state used by :func:`launch_overlay`.
+- `GraphOverlayState.launch_overlay` (method) `cli/graph_overlay.py:203` `def launch_overlay(payload, state, runner)` -- Open the overlay and return the last-focused node id on exit.
+- `_GraphOverlayApp.__init__` (method) `cli/graph_overlay.py:260` `def __init__(self)`
+- `_GraphOverlayApp.compose` (method) `cli/graph_overlay.py:265` `def compose(self)`
+- `_GraphOverlayApp.on_mount` (method) `cli/graph_overlay.py:273` `def on_mount(self)`
+- `_GraphOverlayApp.on_input_changed` (method) `cli/graph_overlay.py:276` `def on_input_changed(self, event)`
+- `_GraphOverlayApp.action_toggle_view` (method) `cli/graph_overlay.py:280` `def action_toggle_view(self)`
+- `_GraphOverlayApp.action_close` (method) `cli/graph_overlay.py:284` `def action_close(self)`
+
+## cli/headless.py
+Imported by: `lazyown.py`
+- `load_profile` (function) `cli/headless.py:31` `def load_profile(path)` -- Load a YAML profile that overrides payload.json keys.
+- `apply_profile` (function) `cli/headless.py:48` `def apply_profile(config, profile)` -- Merge profile values into config (shallow overlay).
+- `HeadlessRunner.__init__` (method) `cli/headless.py:72` `def __init__(self, shell, json_output, profile_path)`
+- `HeadlessRunner.run_command` (method) `cli/headless.py:87` `def run_command(self, cmd, timeout)` -- Execute a single command, capture output, return structured result.
+- `HeadlessRunner.run_chain` (method) `cli/headless.py:132` `def run_chain(self, commands)` -- Execute multiple commands and emit final summary.
+
+## cli/killchain.py
+Depends on: `modules/killchain.py`
+Imported by: `cli/dashboard_tui.py`, `tests/test_killchain.py`
+- `PhaseProgress.compute_killchain` (method) `cli/killchain.py:83` `def compute_killchain(events, world, phases)` -- Compute kill-chain progress from daemon events and the world model.
 
 ## cli/lazynmap_post.py
 Depends on: `cli/exploration.py`, `cli/recon_plan.py`
@@ -28,32 +92,32 @@ Imported by: `cli/commands/marketplace.py`, `cli/wizard.py`
 - `MarketplaceConfigurator.marketplace_summary` (method) `cli/marketplace_config.py:784` `def marketplace_summary(registry)` -- Return a text summary of enabled/disabled addons across all tabs.
 
 ## cli/ops_commands.py
-Depends on: `core/console.py`, `modules/killchain.py`, `modules/world_model.py`
+Depends on: `core/safe_console.py`, `modules/killchain.py`, `modules/world_model.py`
 Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
 - `print_ctx` (function) `cli/ops_commands.py:74` `def print_ctx(payload, sessions_dir)` -- Print a single-line operator context summary.
 - `tgrep` (function) `cli/ops_commands.py:115` `def tgrep(pattern)` -- Search past command outputs and session logs for ``pattern``.
 - `read_phase` (function) `cli/ops_commands.py:279` `def read_phase()` -- Return the current kill-chain phase from the unified killchain module.
 - `write_phase` (function) `cli/ops_commands.py:302` `def write_phase(phase)` -- Set the current kill-chain phase via the unified killchain module.
 - `print_phase` (function) `cli/ops_commands.py:317` `def print_phase()` -- Print the current phase and the full kill-chain progress bar.
-- `phase_progress` (function) `cli/ops_commands.py:392` `def phase_progress(world, sessions_dir)` -- Return per-phase completion ratios from the unified kill-chain progress.
-- `note_add` (function) `cli/ops_commands.py:467` `def note_add(text, rhost, phase)` -- Append a timestamped operator note to sessions/notes.jsonl.
-- `note_list` (function) `cli/ops_commands.py:492` `def note_list(rhost, limit)` -- Print recent operator notes, optionally filtered by rhost.
-- `LootEntry.value` (method) `cli/ops_commands.py:560` `def value(self)` -- Return the canonical ``user:secret`` credential value.
-- `LootEntry.gather_loot` (method) `cli/ops_commands.py:570` `def gather_loot(sessions_dir)` -- Parse every credentials*.txt and hash*.txt under ``sessions_dir``.
-- `LootEntry.loot_show` (method) `cli/ops_commands.py:613` `def loot_show(sessions_dir)` -- Print a unified table of all captured credentials and hashes.
-- `LootEntry.loot_search` (method) `cli/ops_commands.py:685` `def loot_search(query, sessions_dir)` -- Search captured loot for ``query`` across users and secrets.
-- `LootEntry.loot_reuse` (method) `cli/ops_commands.py:762` `def loot_reuse(rhost, sessions_dir)` -- Suggest captured credentials worth trying against ``rhost``.
-- `LootEntry.loot_graph` (method) `cli/ops_commands.py:846` `def loot_graph(sessions_dir)` -- Render the credential-centric view of the network graph.
-- `LootEntry.resolve_cred_value` (method) `cli/ops_commands.py:916` `def resolve_cred_value(selector, entries)` -- Resolve a user/secret ``selector`` to a canonical credential value.
-- `LootEntry.loot_mark` (method) `cli/ops_commands.py:944` `def loot_mark(selector, outcome, host, sessions_dir)` -- Record that a credential worked or was rejected against ``host``.
-- `LootEntry.pivot_add` (method) `cli/ops_commands.py:986` `def pivot_add(new_ip, via_ip, note)` -- Record a newly discovered pivot target.
-- `LootEntry.pivot_list` (method) `cli/ops_commands.py:1012` `def pivot_list()` -- Print the pivot chain discovered so far.
-- `LootEntry.tasks_list` (method) `cli/ops_commands.py:1069` `def tasks_list(status_filter, limit)` -- Print tasks from sessions/tasks.json.
-- `LootEntry.tasks_add` (method) `cli/ops_commands.py:1124` `def tasks_add(title, operator)` -- Append a new task to sessions/tasks.json.
-- `LootEntry.tasks_done` (method) `cli/ops_commands.py:1145` `def tasks_done(task_id)` -- Mark a task as Done.
-- `LootEntry.tasks_start` (method) `cli/ops_commands.py:1165` `def tasks_start(task_id)` -- Mark a task as Started.
-- `LootEntry.scans_list` (method) `cli/ops_commands.py:1188` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
-- `LootEntry.sitrep` (method) `cli/ops_commands.py:1241` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
+- `phase_progress` (function) `cli/ops_commands.py:393` `def phase_progress(world, sessions_dir)` -- Return per-phase completion ratios from the unified kill-chain progress.
+- `note_add` (function) `cli/ops_commands.py:468` `def note_add(text, rhost, phase)` -- Append a timestamped operator note to sessions/notes.jsonl.
+- `note_list` (function) `cli/ops_commands.py:493` `def note_list(rhost, limit)` -- Print recent operator notes, optionally filtered by rhost.
+- `LootEntry.value` (method) `cli/ops_commands.py:561` `def value(self)` -- Return the canonical ``user:secret`` credential value.
+- `LootEntry.gather_loot` (method) `cli/ops_commands.py:571` `def gather_loot(sessions_dir)` -- Parse every credentials*.txt and hash*.txt under ``sessions_dir``.
+- `LootEntry.loot_show` (method) `cli/ops_commands.py:614` `def loot_show(sessions_dir)` -- Print a unified table of all captured credentials and hashes.
+- `LootEntry.loot_search` (method) `cli/ops_commands.py:686` `def loot_search(query, sessions_dir)` -- Search captured loot for ``query`` across users and secrets.
+- `LootEntry.loot_reuse` (method) `cli/ops_commands.py:763` `def loot_reuse(rhost, sessions_dir)` -- Suggest captured credentials worth trying against ``rhost``.
+- `LootEntry.loot_graph` (method) `cli/ops_commands.py:847` `def loot_graph(sessions_dir)` -- Render the credential-centric view of the network graph.
+- `LootEntry.resolve_cred_value` (method) `cli/ops_commands.py:917` `def resolve_cred_value(selector, entries)` -- Resolve a user/secret ``selector`` to a canonical credential value.
+- `LootEntry.loot_mark` (method) `cli/ops_commands.py:945` `def loot_mark(selector, outcome, host, sessions_dir)` -- Record that a credential worked or was rejected against ``host``.
+- `LootEntry.pivot_add` (method) `cli/ops_commands.py:987` `def pivot_add(new_ip, via_ip, note)` -- Record a newly discovered pivot target.
+- `LootEntry.pivot_list` (method) `cli/ops_commands.py:1013` `def pivot_list()` -- Print the pivot chain discovered so far.
+- `LootEntry.tasks_list` (method) `cli/ops_commands.py:1070` `def tasks_list(status_filter, limit)` -- Print tasks from sessions/tasks.json.
+- `LootEntry.tasks_add` (method) `cli/ops_commands.py:1125` `def tasks_add(title, operator)` -- Append a new task to sessions/tasks.json.
+- `LootEntry.tasks_done` (method) `cli/ops_commands.py:1146` `def tasks_done(task_id)` -- Mark a task as Done.
+- `LootEntry.tasks_start` (method) `cli/ops_commands.py:1166` `def tasks_start(task_id)` -- Mark a task as Started.
+- `LootEntry.scans_list` (method) `cli/ops_commands.py:1189` `def scans_list(rhost, sessions_dir)` -- List nmap scan files in sessions/, optionally filtered by rhost.
+- `LootEntry.sitrep` (method) `cli/ops_commands.py:1242` `def sitrep(payload, sessions_dir)` -- Print a unified operational situation report.
 
 ## cli/output_mode.py
 Imported by: `cli/commands/anti_forensics.py`, `cli/commands/ux.py`
@@ -187,10 +251,11 @@ Imported by: `cli/command_chain.py`, `cli/commands/misc_migrated.py`, `cli/dashb
 
 ## cli/reasoning_stream.py
 Depends on: `core/text_utils.py`
-Imported by: `cli/dashboard_tui.py`, `tests/test_reasoning_stream.py`
+Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
 - `ReasoningEntry.read_raw_events` (method) `cli/reasoning_stream.py:91` `def read_raw_events(path, limit)` -- Return the last ``limit`` well-formed events from the JSONL log.
 - `ReasoningEntry.event_to_entry` (method) `cli/reasoning_stream.py:183` `def event_to_entry(event)` -- Convert a raw daemon event into a :class:`ReasoningEntry`.
 - `ReasoningEntry.latest_reasoning` (method) `cli/reasoning_stream.py:216` `def latest_reasoning(path, limit)` -- Return the most recent daemon decisions as reasoning entries.
+- `ReasoningEntry.latest_hint` (method) `cli/reasoning_stream.py:229` `def latest_hint(events_path)` -- Return the newest human-readable reasoning line for spinners.
 
 ## cli/recommendation.py
 Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_gap_signal.py`, `tests/test_recommendation.py`
@@ -204,7 +269,7 @@ Imported by: `cli/commands/misc_migrated.py`, `cli/recommendation_signals.py`, `
 
 ## cli/recommendation_signals.py
 Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `skills/lazyown_policy.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 - `GraphSignal.__init__` (method) `cli/recommendation_signals.py:115` `def __init__(self, advisor)` -- Store the graph advisor facade.
 - `GraphSignal.propose` (method) `cli/recommendation_signals.py:125` `def propose(self, ctx)` -- Return graph-adjacent command proposals for ``ctx``.
 - `PolicySignal.__init__` (method) `cli/recommendation_signals.py:153` `def __init__(self, policy)` -- Store the policy integration facade.
@@ -333,24 +398,24 @@ Imported by: `lazyown.py`, `tests/test_improvements_spec.py`, `tests/test_status
 
 ## cli/style.py
 Depends on: `cli/themes.py`
-Imported by: `cli/splash.py`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
+Imported by: `cli/splash.py`, `static/js/force-graph-1.43.5.min.js`, `static/js/jquery-3.5.1.slim.min.js`, `static/js/showdown-2.1.0.min.js`
 - `style` (function) `cli/style.py:49` `def style(token, theme)` -- Return the Rich style string for a semantic token.
 - `active_tokens` (function) `cli/style.py:68` `def active_tokens(payload)` -- Resolve every :data:`TOKEN_KEYS` entry for the payload's theme.
 - `paint` (function) `cli/style.py:84` `def paint(text, token, payload)` -- Render ``text`` with the style of ``token`` for the active theme.
 - `render_prompt` (function) `cli/style.py:98` `def render_prompt(console, segments, payload)` -- Print a themed prompt line composed of ``(text, token)`` pairs.
 
 ## cli/surface_graph.py
-Imported by: `cli/surface_tui.py`, `tests/test_surface_graph.py`
-- `SurfaceNode.to_dict` (method) `cli/surface_graph.py:100` `def to_dict(self)` -- Return a JSON-serialisable view of the node.
-- `SurfaceEdge.to_dict` (method) `cli/surface_graph.py:118` `def to_dict(self)` -- Return a JSON-serialisable view of the edge.
-- `SurfaceGraph.to_dict` (method) `cli/surface_graph.py:133` `def to_dict(self)` -- Return a JSON-serialisable view (mirrors the web UI payload).
-- `SurfaceGraph.stats` (method) `cli/surface_graph.py:144` `def stats(self)` -- Return per-kind node counts plus edge count.
-- `SurfaceGraph.children_of` (method) `cli/surface_graph.py:151` `def children_of(self, node_id)` -- Return nodes that ``node_id`` points to via an outgoing edge.
-- `SurfaceGraph.get` (method) `cli/surface_graph.py:163` `def get(self, node_id)` -- Return the node with ``node_id`` or ``None``.
-- `SurfaceGraphBuilder.__init__` (method) `cli/surface_graph.py:197` `def __init__(self, config)`
-- `SurfaceGraphBuilder.build` (method) `cli/surface_graph.py:200` `def build(self)` -- Read every session artefact and return the assembled graph.
-- `SurfaceGraphBuilder.build_surface_graph` (method) `cli/surface_graph.py:562` `def build_surface_graph(sessions_dir, payload_path)` -- Convenience factory: build a graph from on-disk artefacts.
-- `SurfaceGraphBuilder.iter_descendants` (method) `cli/surface_graph.py:579` `def iter_descendants(graph, root_id)` -- Yield every node reachable from ``root_id`` via outgoing edges.
+Imported by: `cli/surface_tui.py`, `modules/attack_surface3d.py`, `tests/test_surface_graph.py`
+- `SurfaceNode.to_dict` (method) `cli/surface_graph.py:102` `def to_dict(self)` -- Return a JSON-serialisable view of the node.
+- `SurfaceEdge.to_dict` (method) `cli/surface_graph.py:120` `def to_dict(self)` -- Return a JSON-serialisable view of the edge.
+- `SurfaceGraph.to_dict` (method) `cli/surface_graph.py:135` `def to_dict(self)` -- Return a JSON-serialisable view (mirrors the web UI payload).
+- `SurfaceGraph.stats` (method) `cli/surface_graph.py:146` `def stats(self)` -- Return per-kind node counts plus edge count.
+- `SurfaceGraph.children_of` (method) `cli/surface_graph.py:153` `def children_of(self, node_id)` -- Return nodes that ``node_id`` points to via an outgoing edge.
+- `SurfaceGraph.get` (method) `cli/surface_graph.py:165` `def get(self, node_id)` -- Return the node with ``node_id`` or ``None``.
+- `SurfaceGraphBuilder.__init__` (method) `cli/surface_graph.py:199` `def __init__(self, config)`
+- `SurfaceGraphBuilder.build` (method) `cli/surface_graph.py:202` `def build(self)` -- Read every session artefact and return the assembled graph.
+- `SurfaceGraphBuilder.build_surface_graph` (method) `cli/surface_graph.py:631` `def build_surface_graph(sessions_dir, payload_path)` -- Convenience factory: build a graph from on-disk artefacts.
+- `SurfaceGraphBuilder.iter_descendants` (method) `cli/surface_graph.py:648` `def iter_descendants(graph, root_id)` -- Yield every node reachable from ``root_id`` via outgoing edges.
 
 ## cli/surface_tui.py
 Depends on: `cli/commands/containers.py`, `cli/surface_graph.py`, `core/console.py`
@@ -367,7 +432,7 @@ Imported by: `cli/commands/recon_migrated.py`
 - `SurfaceExplorer.on_tree_node_selected` (method) `cli/surface_tui.py:176` `def on_tree_node_selected(self, event)`
 
 ## cli/themes.py
-Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
+Imported by: `cli/command_form.py`, `cli/graph_overlay.py`, `cli/palette_overlay.py`, `cli/sessions_browser.py`, `cli/status_bar.py`, `cli/style.py`, `cli/timeline_browser.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tui_theme.py`, `tests/test_lazy_parity.py`, `tests/test_themes.py`, `tests/test_toast_bus.py`, `tests/test_tui_style.py`, `tests/test_tui_theme_command.py`, `tests/test_tui_themes.py`
 - `Theme.get_theme` (method) `cli/themes.py:222` `def get_theme(name)` -- Return the registered :class:`Theme` for ``name`` with safe fallback.
 - `Theme.theme_from_payload` (method) `cli/themes.py:238` `def theme_from_payload(payload)` -- Return the theme selected by ``payload["tui_theme"]``.
 
@@ -391,102 +456,17 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_timeline_browser.py`
 - `_TimelineBrowserApp.action_close` (method) `cli/timeline_browser.py:263` `def action_close(self)`
 
 ## cli/tips_engine.py
-Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
+Depends on: `cli/autosuggest.py`, `cli/engagement_hooks.py`, `cli/noise_verbs.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/phase_labels.py`, `cli/reactive_hints.py`, `cli/recommendation_signals.py`, `cli/themes.py`, `core/console.py`, `core/logging.py`, `core/safe_console.py`, `core/text_utils.py`, `modules/cli_auth.py`, `modules/killchain.py`, `modules/lazy_rbac.py`
 Imported by: `lazyown.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_auto_refresh.py`, `tests/test_phase_labels.py`, `tests/test_tips_engine.py`
-- `TipsEngine.__init__` (method) `cli/tips_engine.py:193` `def __init__(self, config, autosuggest_engine)` -- Wire the engine with its configuration and optional autosuggest handle.
-- `TipsEngine.enabled` (method) `cli/tips_engine.py:220` `def enabled(self)` -- Whether the engine renders any output.
-- `TipsEngine.set_enabled` (method) `cli/tips_engine.py:224` `def set_enabled(self, value)` -- Toggle rendering without dropping state.
-- `TipsEngine.render` (method) `cli/tips_engine.py:228` `def render(self, cmd, phase)` -- Run all surfaces for the given command.
-- `TipsEngine.render_session_start` (method) `cli/tips_engine.py:406` `def render_session_start(self, phase, os_id)` -- Print a single tip at session start (once per boot).
-- `TipsEngine.get_state_snapshot` (method) `cli/tips_engine.py:438` `def get_state_snapshot(self)` -- Return a read-only snapshot of current engagement state.
-- `TipsEngine.reset_session` (method) `cli/tips_engine.py:453` `def reset_session(self)` -- Reset session counters without clearing cross-session progress.
-- `TipsEngine.heal_commands_seen` (method) `cli/tips_engine.py:458` `def heal_commands_seen(self, known)` -- Purge non-command entries from persisted ``commands_seen``.
-- `TipsEngine.build_default_tips_config` (method) `cli/tips_engine.py:1238` `def build_default_tips_config()` -- Build a :class:`TipsConfig` populated from the live framework tables.
-
-## cli/toast_bus.py
-Depends on: `cli/themes.py`, `core/console.py`, `core/text_utils.py`
-Imported by: `cli/commands/misc_migrated.py`, `cli/commands/ux.py`, `cli/dashboard_tui.py`, `lazyown.py`, `tests/test_toast_bus.py`
-- `ToastState.__init__` (method) `cli/toast_bus.py:99` `def __init__(self, config, root)` -- Bind to config and resolve the on-disk state path.
-- `ToastState.path` (method) `cli/toast_bus.py:114` `def path(self)` -- Return the resolved state-file path.
-- `ToastState.get` (method) `cli/toast_bus.py:118` `def get(self, name)` -- Return the persisted offset for ``name`` or 0.
-- `ToastState.set` (method) `cli/toast_bus.py:123` `def set(self, name, offset)` -- Record ``offset`` for ``name`` in memory.
-- `ToastState.reset` (method) `cli/toast_bus.py:129` `def reset(self)` -- Forget every persisted offset (force replay on next read).
-- `ToastState.flush` (method) `cli/toast_bus.py:134` `def flush(self)` -- Persist the current offsets atomically.
-- `ToastReader.__init__` (method) `cli/toast_bus.py:176` `def __init__(self, config, root)` -- Bind to config and resolve the events root directory.
-- `ToastReader.root` (method) `cli/toast_bus.py:187` `def root(self)` -- Return the resolved events root directory.
-- `ToastReader.read_unseen` (method) `cli/toast_bus.py:191` `def read_unseen(self, name, start_offset)` -- Return events emitted past ``start_offset`` plus the new end offset.
-- `ToastFormatter.__init__` (method) `cli/toast_bus.py:281` `def __init__(self, config, theme)` -- Bind to config and the active theme.
-- `ToastFormatter.format` (method) `cli/toast_bus.py:286` `def format(self, event)` -- Return a single themed line for ``event``.
-- `ToastFormatter.format_many` (method) `cli/toast_bus.py:298` `def format_many(self, events, width)` -- Render several events as one Rich renderable.
-- `ToastBus.__init__` (method) `cli/toast_bus.py:359` `def __init__(self, config, state, reader, formatter, console)` -- Bind every collaborator.
-- `ToastBus.collect` (method) `cli/toast_bus.py:374` `def collect(self)` -- Return every unseen event across :attr:`ToastConfig.event_files`.
-- `ToastBus.render` (method) `cli/toast_bus.py:386` `def render(self, enabled)` -- Collect, render and persist offsets in a single call.
-- `ToastBus.mark_all_seen` (method) `cli/toast_bus.py:415` `def mark_all_seen(self)` -- Advance the offset for every configured file to its current size.
-- `ToastBus.toasts_enabled` (method) `cli/toast_bus.py:437` `def toasts_enabled(payload, config)` -- Return ``True`` when toast rendering is permitted.
-- `ToastBus.build_default_bus` (method) `cli/toast_bus.py:460` `def build_default_bus(payload, sessions_dir, console)` -- Wire the canonical bus used by the shell postcmd hook.
-- `ToastBus.render_toasts` (method) `cli/toast_bus.py:525` `def render_toasts(payload, sessions_dir, console, bus_factory)` -- One-shot helper used by the cmd2 postcmd hook.
-- `ToastBus.emit_toast` (method) `cli/toast_bus.py:549` `def emit_toast(message, severity, event_type, sessions_dir, config)` -- Append one toast event so the existing render hook displays it.
-- `ToastBus.read_recent_toasts` (method) `cli/toast_bus.py:594` `def read_recent_toasts(sessions_dir, limit, config)` -- Return the most recent toast events without touching read offsets.
-- `ToastBus.build_toast_renderable` (method) `cli/toast_bus.py:638` `def build_toast_renderable(events, payload, width, config)` -- Render events with the active theme for any surface.
-
-## cli/tui_theme.py
-Depends on: `cli/themes.py`
-Imported by: `cli/commands/help_ui.py`
-- `run` (function) `cli/tui_theme.py:87` `def run(args, payload, save)` -- Execute the ``tui_theme`` command.
-
-## cli/tutorial.py
-Depends on: `core/console.py`
-Imported by: `cli/commands/help_ui.py`
-- `TutorialConfig.is_done` (method) `cli/tutorial.py:83` `def is_done(config)` -- Return True if the tutorial has already been completed.
-- `TutorialConfig.mark_done` (method) `cli/tutorial.py:89` `def mark_done(config)` -- Persist the tutorial completion marker.
-- `TutorialConfig.render_header` (method) `cli/tutorial.py:96` `def render_header()` -- Print the tutorial welcome banner.
-- `TutorialConfig.render_phase_table` (method) `cli/tutorial.py:113` `def render_phase_table()` -- Print the full phase overview before starting.
-- `TutorialConfig.run_step` (method) `cli/tutorial.py:128` `def run_step(index, command, description, why, params, command_runner)` -- Execute one tutorial step and return True if the user wants to continue.
-- `TutorialConfig.run` (method) `cli/tutorial.py:185` `def run(params, command_runner)` -- Run the interactive tutorial.
-
-## cli/wizard.py
-Depends on: `cli/marketplace_config.py`, `core/console.py`, `core/payload_schema.py`, `core/profiles.py`, `modules/cli_auth.py`, `modules/llm_factory.py`
-Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/doctor.py`, `tests/test_doctor.py`, `tests/test_wizard_llm.py`
-- `WizardResult.run` (method) `cli/wizard.py:169` `def run(params, save)` -- Run the interactive setup wizard and return a :class:`WizardResult`.
-- `WizardResult.run_non_interactive` (method) `cli/wizard.py:234` `def run_non_interactive(params, save, values)` -- Apply configuration without prompts — Docker/CI/headless first runs.
-- `WizardResult.check_binaries` (method) `cli/wizard.py:947` `def check_binaries(specs, which)` -- Return the presence status of every spec without executing it.
-
-## cli/wizard_scope.py
-Imported by: `cli/commands/help_ui.py`
-- `WizardScope.parse_scope` (method) `cli/wizard_scope.py:38` `def parse_scope(tokens, config)` -- Parse --show and --only=a,b flags from wizard tokens.
-- `WizardScope.status_rows` (method) `cli/wizard_scope.py:64` `def status_rows(params)` -- Build display rows for the current configuration state.
-
-## contrib/legacy/lazy_http_bof.py
-- `genHeader` (function) `contrib/legacy/lazy_http_bof.py:6` `def genHeader(raw)`
-- `exploit` (function) `contrib/legacy/lazy_http_bof.py:29` `def exploit(target, port, payload)`
-
-## contrib/legacy/lazy_packet_image_sniffer.py
-- `check_sudo` (function) `contrib/legacy/lazy_packet_image_sniffer.py:23` `def check_sudo()`
-- `list_interfaces` (function) `contrib/legacy/lazy_packet_image_sniffer.py:31` `def list_interfaces()`
-- `choose_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:49` `def choose_interface(interfaces)`
-- `get_subnet_from_interface` (function) `contrib/legacy/lazy_packet_image_sniffer.py:61` `def get_subnet_from_interface(interface)`
-- `get_ip_addresses` (function) `contrib/legacy/lazy_packet_image_sniffer.py:65` `def get_ip_addresses(interface)`
-- `handle_packet` (function) `contrib/legacy/lazy_packet_image_sniffer.py:111` `def handle_packet(packet)`
-- `save_image` (function) `contrib/legacy/lazy_packet_image_sniffer.py:161` `def save_image(src_ip, end_idx)`
-- `run` (function) `contrib/legacy/lazy_packet_image_sniffer.py:187` `def run()`
-- `daemonize` (function) `contrib/legacy/lazy_packet_image_sniffer.py:192` `def daemonize()`
-
-## contrib/legacy/lazyaddon_creator.py
-Depends on: `modules/llm_client.py`
-- `parse_github_url` (function) `contrib/legacy/lazyaddon_creator.py:49` `def parse_github_url(url)` -- Extrae (owner, repo) de una URL de GitHub.
-- `github_api_get` (function) `contrib/legacy/lazyaddon_creator.py:58` `def github_api_get(owner, repo, endpoint)` -- GET a la API pública de GitHub (sin auth, rate-limit 60/hr).
-- `fetch_repo_metadata` (function) `contrib/legacy/lazyaddon_creator.py:68` `def fetch_repo_metadata(owner, repo)` -- Devuelve metadata básica del repo.
-- `fetch_readme` (function) `contrib/legacy/lazyaddon_creator.py:73` `def fetch_readme(owner, repo)` -- Descarga y decodifica el README.
-- `fetch_root_files` (function) `contrib/legacy/lazyaddon_creator.py:85` `def fetch_root_files(owner, repo)` -- Lista nombres de archivos en el directorio raíz.
-- `build_llm_prompt` (function) `contrib/legacy/lazyaddon_creator.py:98` `def build_llm_prompt(meta, readme, root_files)` -- Construye el prompt para el LLM.
-- `extract_json_from_response` (function) `contrib/legacy/lazyaddon_creator.py:164` `def extract_json_from_response(text)` -- Extrae el primer bloque JSON de una respuesta de LLM.
-- `heuristic_install_command` (function) `contrib/legacy/lazyaddon_creator.py:192` `def heuristic_install_command(root_files, language)` -- Infiere un install_command básico a partir de los archivos raíz.
-- `heuristic_execute_command` (function) `contrib/legacy/lazyaddon_creator.py:211` `def heuristic_execute_command(name, root_files, language)` -- Infiere un execute_command básico.
-- `heuristic_params` (function) `contrib/legacy/lazyaddon_creator.py:245` `def heuristic_params(name, readme, root_files)` -- Infiere parámetros comunes basándose en el nombre y README.
-- `fallback_yaml_data` (function) `contrib/legacy/lazyaddon_creator.py:276` `def fallback_yaml_data(meta, readme, root_files)` -- Genera datos de addon usando solo heurísticas locales (sin LLM).
-- `build_yaml` (function) `contrib/legacy/lazyaddon_creator.py:300` `def build_yaml(data, repo_url)` -- Construye la estructura de dict que representa el addon YAML.
-- `save_yaml` (function) `contrib/legacy/lazyaddon_creator.py:336` `def save_yaml(addon, output_dir)` -- Guarda el dict como archivo YAML en output_dir.
-- `main` (function) `contrib/legacy/lazyaddon_creator.py:357` `def main()`
+- `TipsEngine.__init__` (method) `cli/tips_engine.py:194` `def __init__(self, config, autosuggest_engine)` -- Wire the engine with its configuration and optional autosuggest handle.
+- `TipsEngine.enabled` (method) `cli/tips_engine.py:221` `def enabled(self)` -- Whether the engine renders any output.
+- `TipsEngine.set_enabled` (method) `cli/tips_engine.py:225` `def set_enabled(self, value)` -- Toggle rendering without dropping state.
+- `TipsEngine.render` (method) `cli/tips_engine.py:229` `def render(self, cmd, phase)` -- Run all surfaces for the given command.
+- `TipsEngine.render_session_start` (method) `cli/tips_engine.py:408` `def render_session_start(self, phase, os_id)` -- Print a single tip at session start (once per boot).
+- `TipsEngine.get_state_snapshot` (method) `cli/tips_engine.py:440` `def get_state_snapshot(self)` -- Return a read-only snapshot of current engagement state.
+- `TipsEngine.reset_session` (method) `cli/tips_engine.py:455` `def reset_session(self)` -- Reset session counters without clearing cross-session progress.
+- `TipsEngine.heal_commands_seen` (method) `cli/tips_engine.py:460` `def heal_commands_seen(self, known)` -- Purge non-command entries from persisted ``commands_seen``.
+- `TipsEngine.build_default_tips_config` (method) `cli/tips_engine.py:1240` `def build_default_tips_config()` -- Build a :class:`TipsConfig` populated from the live framework tables.
 
 
 Next: [API_p5.md](API_p5.md)

@@ -1,8 +1,72 @@
-# Symbols (page 5 of 35)
+# Symbols (page 5 of 38)
 Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_build_adjacency` | method | `cli/palette_graph.py:90` | `def _build_adjacency(document)` |
+| `_command_name_from_label` | method | `cli/palette_graph.py:68` | `def _command_name_from_label(label)` |
+| `_filter_neighbours` | method | `cli/palette_graph.py:161` | `def _filter_neighbours(neighbours)` |
+| `_looks_like_command_label` | method | `cli/palette_graph.py:63` | `def _looks_like_command_label(label)` |
+| `callees` | method | `cli/palette_graph.py:179` | `def callees(graph, command_name)` |
+| `enrich_commands` | method | `cli/palette_graph.py:309` | `def enrich_commands(graph, rows)` |
+| `enrich_detail` | method | `cli/palette_graph.py:287` | `def enrich_detail(graph, entry)` |
+| `load_graph` | method | `cli/palette_graph.py:127` | `def load_graph(path)` |
+| `related_commands` | method | `cli/palette_graph.py:226` | `def related_commands(graph, command_name)` |
+| `safe_load_graph` | method | `cli/palette_graph.py:149` | `def safe_load_graph(path)` |
+| `PaletteOverlayConfig` | class | `cli/palette_overlay.py:38` | `class PaletteOverlayConfig` |
+| `PaletteOverlayState` | class | `cli/palette_overlay.py:70` | `class PaletteOverlayState` |
+| `PaletteRow` | class | `cli/palette_overlay.py:59` | `class PaletteRow` |
+| `_PaletteOverlayApp` | class | `cli/palette_overlay.py:240` | `class _PaletteOverlayApp(App)` |
+| `__init__` | method | `cli/palette_overlay.py:255` | `def __init__(self)` |
+| `_build_app` | method | `cli/palette_overlay.py:228` | `def _build_app(state, theme)` |
+| `_commit_from_item` | method | `cli/palette_overlay.py:292` | `def _commit_from_item(self, item)` |
+| `_format_row` | method | `cli/palette_overlay.py:314` | `def _format_row(self, row)` |
+| `_load_index` | method | `cli/palette_overlay.py:151` | `def _load_index()` |
+| `_load_recents` | method | `cli/palette_overlay.py:136` | `def _load_recents()` |
+| `_refresh_rows` | method | `cli/palette_overlay.py:300` | `def _refresh_rows(self)` |
+| `_score` | method | `cli/palette_overlay.py:113` | `def _score(self, name, summary, needle, is_recent)` |
+| `_truncate` | method | `cli/palette_overlay.py:130` | `def _truncate(self, value, max_chars)` |
+| `action_cancel` | method | `cli/palette_overlay.py:282` | `def action_cancel(self)` |
+| `action_select_current` | method | `cli/palette_overlay.py:285` | `def action_select_current(self)` |
+| `build_state` | method | `cli/palette_overlay.py:162` | `def build_state(payload, index, recents, config)` |
+| `compose` | method | `cli/palette_overlay.py:261` | `def compose(self)` |
+| `launch_overlay` | method | `cli/palette_overlay.py:188` | `def launch_overlay(payload, state, runner)` |
+| `on_input_changed` | method | `cli/palette_overlay.py:272` | `def on_input_changed(self, event)` |
+| `on_input_submitted` | method | `cli/palette_overlay.py:276` | `def on_input_submitted(self, event)` |
+| `on_list_view_selected` | method | `cli/palette_overlay.py:279` | `def on_list_view_selected(self, event)` |
+| `on_mount` | method | `cli/palette_overlay.py:269` | `def on_mount(self)` |
+| `rows` | method | `cli/palette_overlay.py:87` | `def rows(self)` |
+| `set_query` | method | `cli/palette_overlay.py:83` | `def set_query(self, value)` |
+| `CommandStat` | class | `cli/palette_telemetry.py:61` | `class CommandStat` |
+| `TelemetryConfig` | class | `cli/palette_telemetry.py:42` | `class TelemetryConfig` |
+| `TelemetryIndex` | class | `cli/palette_telemetry.py:78` | `class TelemetryIndex` |
+| `TelemetryIndexError` | class | `cli/palette_telemetry.py:37` | `class TelemetryIndexError(RuntimeError)` |
+| `_build_index` | method | `cli/palette_telemetry.py:123` | `def _build_index(rows)` |
+| `_normalise_command` | method | `cli/palette_telemetry.py:97` | `def _normalise_command(value)` |
+| `_read_csv_rows` | method | `cli/palette_telemetry.py:107` | `def _read_csv_rows(path)` |
+| `command_stats` | method | `cli/palette_telemetry.py:216` | `def command_stats(telemetry, command_name)` |
+| `enrich_commands` | method | `cli/palette_telemetry.py:300` | `def enrich_commands(telemetry, rows)` |
+| `enrich_detail` | method | `cli/palette_telemetry.py:275` | `def enrich_detail(telemetry, entry)` |
+| `load_telemetry` | method | `cli/palette_telemetry.py:186` | `def load_telemetry(path)` |
+| `recents` | method | `cli/palette_telemetry.py:259` | `def recents(telemetry)` |
+| `runs_after` | method | `cli/palette_telemetry.py:239` | `def runs_after(telemetry, command_name)` |
+| `safe_load_telemetry` | method | `cli/palette_telemetry.py:204` | `def safe_load_telemetry(path)` |
+| `phase_label` | function | `cli/phase_labels.py:29` | `def phase_label(phase)` |
+| `_load_ratings` | function | `cli/plugin_tiers.py:79` | `def _load_ratings(store)` |
+| `default_store` | function | `cli/plugin_tiers.py:144` | `def default_store(base_dir)` |
+| `format_rating` | function | `cli/plugin_tiers.py:137` | `def format_rating(average, count)` |
+| `load_tier_manifest` | function | `cli/plugin_tiers.py:35` | `def load_tier_manifest(manifest)` |
+| `rate_plugin` | function | `cli/plugin_tiers.py:98` | `def rate_plugin(name, stars, store)` |
+| `rating_summary` | function | `cli/plugin_tiers.py:121` | `def rating_summary(name, store)` |
+| `read_metadata_tier` | function | `cli/plugin_tiers.py:149` | `def read_metadata_tier(path)` |
+| `tier_of` | function | `cli/plugin_tiers.py:61` | `def tier_of(name, manifest_tiers, metadata_tier)` |
+| `ProTip` | class | `cli/protips.py:34` | `class ProTip` |
+| `_after` | method | `cli/protips.py:75` | `def _after(ctx)` |
+| `_has_api_key` | method | `cli/protips.py:59` | `def _has_api_key(ctx)` |
+| `_has_domain` | method | `cli/protips.py:55` | `def _has_domain(ctx)` |
+| `_has_rhost` | method | `cli/protips.py:51` | `def _has_rhost(ctx)` |
+| `_last_cmd_is` | method | `cli/protips.py:67` | `def _last_cmd_is(ctx)` |
+| `_os_linux` | method | `cli/protips.py:43` | `def _os_linux(ctx)` |
 | `_os_windows` | method | `cli/protips.py:47` | `def _os_windows(ctx)` |
 | `_phase_in` | method | `cli/protips.py:63` | `def _phase_in(ctx)` |
 | `_safe_trigger` | method | `cli/protips.py:369` | `def _safe_trigger(tip, ctx)` |
@@ -46,6 +110,7 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `_summarize` | method | `cli/reasoning_stream.py:148` | `def _summarize(kind, payload)` |
 | `_truncate` | method | `cli/reasoning_stream.py:141` | `def _truncate(text, limit)` |
 | `event_to_entry` | method | `cli/reasoning_stream.py:183` | `def event_to_entry(event)` |
+| `latest_hint` | method | `cli/reasoning_stream.py:229` | `def latest_hint(events_path)` |
 | `latest_reasoning` | method | `cli/reasoning_stream.py:216` | `def latest_reasoning(path, limit)` |
 | `read_raw_events` | method | `cli/reasoning_stream.py:91` | `def read_raw_events(path, limit)` |
 | `CategoryResolver` | class | `cli/recommendation.py:192` | `class CategoryResolver` |
@@ -263,37 +328,39 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `paint` | function | `cli/style.py:84` | `def paint(text, token, payload)` |
 | `render_prompt` | function | `cli/style.py:98` | `def render_prompt(console, segments, payload)` |
 | `style` | function | `cli/style.py:49` | `def style(token, theme)` |
-| `SurfaceEdge` | class | `cli/surface_graph.py:111` | `class SurfaceEdge` |
-| `SurfaceGraph` | class | `cli/surface_graph.py:124` | `class SurfaceGraph` |
-| `SurfaceGraphBuilder` | class | `cli/surface_graph.py:194` | `class SurfaceGraphBuilder` |
-| `SurfaceGraphConfig` | class | `cli/surface_graph.py:172` | `class SurfaceGraphConfig` |
-| `SurfaceNode` | class | `cli/surface_graph.py:85` | `class SurfaceNode` |
-| `__init__` | method | `cli/surface_graph.py:197` | `def __init__(self, config)` |
-| `_build_c2_node` | method | `cli/surface_graph.py:339` | `def _build_c2_node(self, local_ips, payload)` |
-| `_client_label` | method | `cli/surface_graph.py:551` | `def _client_label(client_id, meta)` |
-| `_discover_local_ips` | method | `cli/surface_graph.py:357` | `def _discover_local_ips(self)` |
-| `_fallback_local_ips` | method | `cli/surface_graph.py:378` | `def _fallback_local_ips()` |
-| `_is_ipv4` | method | `cli/surface_graph.py:545` | `def _is_ipv4(value)` |
-| `_kind_order` | method | `cli/surface_graph.py:329` | `def _kind_order(kind)` |
-| `_load_payload` | method | `cli/surface_graph.py:384` | `def _load_payload(self)` |
-| `_parse_implant_row` | method | `cli/surface_graph.py:488` | `def _parse_implant_row(self, row)` |
-| `_parse_port_scan` | method | `cli/surface_graph.py:509` | `def _parse_port_scan(self, raw)` |
-| `_read_hostsdiscovery` | method | `cli/surface_graph.py:412` | `def _read_hostsdiscovery(self, local_ips)` |
-| `_read_implants` | method | `cli/surface_graph.py:454` | `def _read_implants(self)` |
-| `_read_last_implant_row` | method | `cli/surface_graph.py:471` | `def _read_last_implant_row(self, path)` |
-| `_read_os_hint` | method | `cli/surface_graph.py:397` | `def _read_os_hint(self)` |
-| `_read_scan_discovery` | method | `cli/surface_graph.py:429` | `def _read_scan_discovery(self, local_ips)` |
-| `_slug_host` | function | `cli/surface_graph.py:73` | `def _slug_host(ip)` |
-| `_slug_port` | function | `cli/surface_graph.py:78` | `def _slug_port(host_id, port, protocol)` |
-| `build` | method | `cli/surface_graph.py:200` | `def build(self)` |
-| `build_surface_graph` | method | `cli/surface_graph.py:562` | `def build_surface_graph(sessions_dir, payload_path)` |
-| `children_of` | method | `cli/surface_graph.py:151` | `def children_of(self, node_id)` |
-| `get` | method | `cli/surface_graph.py:163` | `def get(self, node_id)` |
-| `iter_descendants` | method | `cli/surface_graph.py:579` | `def iter_descendants(graph, root_id)` |
-| `stats` | method | `cli/surface_graph.py:144` | `def stats(self)` |
-| `to_dict` | method | `cli/surface_graph.py:100` | `def to_dict(self)` |
-| `to_dict` | method | `cli/surface_graph.py:118` | `def to_dict(self)` |
-| `to_dict` | method | `cli/surface_graph.py:133` | `def to_dict(self)` |
+| `SurfaceEdge` | class | `cli/surface_graph.py:113` | `class SurfaceEdge` |
+| `SurfaceGraph` | class | `cli/surface_graph.py:126` | `class SurfaceGraph` |
+| `SurfaceGraphBuilder` | class | `cli/surface_graph.py:196` | `class SurfaceGraphBuilder` |
+| `SurfaceGraphConfig` | class | `cli/surface_graph.py:174` | `class SurfaceGraphConfig` |
+| `SurfaceNode` | class | `cli/surface_graph.py:87` | `class SurfaceNode` |
+| `__init__` | method | `cli/surface_graph.py:199` | `def __init__(self, config)` |
+| `_build_c2_node` | method | `cli/surface_graph.py:341` | `def _build_c2_node(self, local_ips, payload)` |
+| `_client_label` | method | `cli/surface_graph.py:620` | `def _client_label(client_id, meta)` |
+| `_discover_local_ips` | method | `cli/surface_graph.py:359` | `def _discover_local_ips(self)` |
+| `_fallback_local_ips` | method | `cli/surface_graph.py:380` | `def _fallback_local_ips()` |
+| `_is_ipv4` | method | `cli/surface_graph.py:614` | `def _is_ipv4(value)` |
+| `_kind_order` | method | `cli/surface_graph.py:331` | `def _kind_order(kind)` |
+| `_load_payload` | method | `cli/surface_graph.py:386` | `def _load_payload(self)` |
+| `_parse_implant_row` | method | `cli/surface_graph.py:557` | `def _parse_implant_row(self, row)` |
+| `_parse_port_scan` | method | `cli/surface_graph.py:578` | `def _parse_port_scan(self, raw)` |
+| `_read_hostsdiscovery` | method | `cli/surface_graph.py:414` | `def _read_hostsdiscovery(self, local_ips)` |
+| `_read_implants` | method | `cli/surface_graph.py:523` | `def _read_implants(self)` |
+| `_read_last_implant_row` | method | `cli/surface_graph.py:540` | `def _read_last_implant_row(self, path)` |
+| `_read_os_hint` | method | `cli/surface_graph.py:399` | `def _read_os_hint(self)` |
+| `_read_scan_csv` | method | `cli/surface_graph.py:442` | `def _read_scan_csv(self, local_ips)` |
+| `_read_scan_discovery` | method | `cli/surface_graph.py:436` | `def _read_scan_discovery(self, local_ips)` |
+| `_read_scan_nmap` | method | `cli/surface_graph.py:467` | `def _read_scan_nmap(self, local_ips)` |
+| `_slug_host` | function | `cli/surface_graph.py:75` | `def _slug_host(ip)` |
+| `_slug_port` | function | `cli/surface_graph.py:80` | `def _slug_port(host_id, port, protocol)` |
+| `build` | method | `cli/surface_graph.py:202` | `def build(self)` |
+| `build_surface_graph` | method | `cli/surface_graph.py:631` | `def build_surface_graph(sessions_dir, payload_path)` |
+| `children_of` | method | `cli/surface_graph.py:153` | `def children_of(self, node_id)` |
+| `get` | method | `cli/surface_graph.py:165` | `def get(self, node_id)` |
+| `iter_descendants` | method | `cli/surface_graph.py:648` | `def iter_descendants(graph, root_id)` |
+| `stats` | method | `cli/surface_graph.py:146` | `def stats(self)` |
+| `to_dict` | method | `cli/surface_graph.py:102` | `def to_dict(self)` |
+| `to_dict` | method | `cli/surface_graph.py:120` | `def to_dict(self)` |
+| `to_dict` | method | `cli/surface_graph.py:135` | `def to_dict(self)` |
 | `SurfaceExplorer` | class | `cli/surface_tui.py:130` | `class SurfaceExplorer(App)` |
 | `TextualNotInstalled` | class | `cli/surface_tui.py:61` | `class TextualNotInstalled(RuntimeError)` |
 | `__init__` | method | `cli/surface_tui.py:148` | `def __init__(self, sessions_dir, payload_path)` |
@@ -341,160 +408,93 @@ Previous: [SYMBOLS_p4.md](SYMBOLS_p4.md)
 | `read` | method | `cli/timeline_browser.py:85` | `def read(self)` |
 | `reload` | method | `cli/timeline_browser.py:130` | `def reload(self)` |
 | `root` | method | `cli/timeline_browser.py:81` | `def root(self)` |
-| `TipsConfig` | class | `cli/tips_engine.py:136` | `class TipsConfig` |
-| `TipsEngine` | class | `cli/tips_engine.py:185` | `class TipsEngine` |
-| `__init__` | method | `cli/tips_engine.py:193` | `def __init__(self, config, autosuggest_engine)` |
-| `_award_elo` | method | `cli/tips_engine.py:806` | `def _award_elo(self, cmd, first_time, new_phase, phase)` |
-| `_check_badges` | method | `cli/tips_engine.py:838` | `def _check_badges(self, cmd, first_time)` |
-| `_check_karma_up` | method | `cli/tips_engine.py:817` | `def _check_karma_up(self)` |
-| `_collect_killchain_progress` | method | `cli/tips_engine.py:573` | `def _collect_killchain_progress(self, current_phase)` |
-| `_commands_in_exploration_phase` | method | `cli/tips_engine.py:705` | `def _commands_in_exploration_phase(self, phase)` |
-| `_compute_command_hints` | method | `cli/tips_engine.py:614` | `def _compute_command_hints(self, cmd, phase)` |
-| `_compute_evidence_hints` | method | `cli/tips_engine.py:527` | `def _compute_evidence_hints(self, cmd, phase)` |
-| `_ensure_state_and_index` | method | `cli/tips_engine.py:924` | `def _ensure_state_and_index(self)` |
-| `_fire_vri_reward` | method | `cli/tips_engine.py:875` | `def _fire_vri_reward(self, ctx)` |
-| `_flush_suggestions_panel` | method | `cli/tips_engine.py:310` | `def _flush_suggestions_panel(self)` |
-| `_get_hints_level` | method | `cli/tips_engine.py:342` | `def _get_hints_level(self)` |
-| `_get_karma_name` | method | `cli/tips_engine.py:1043` | `def _get_karma_name(elo)` |
-| `_get_rec_engine` | method | `cli/tips_engine.py:503` | `def _get_rec_engine(self)` |
-| `_is_recordable_command` | method | `cli/tips_engine.py:985` | `def _is_recordable_command(self, cmd)` |
-| `_load_command_index` | method | `cli/tips_engine.py:975` | `def _load_command_index(self)` |
-| `_load_payload` | method | `cli/tips_engine.py:490` | `def _load_payload(self)` |
-| `_load_state` | method | `cli/tips_engine.py:930` | `def _load_state(self)` |
-| `_maybe_auto_show_killchain` | method | `cli/tips_engine.py:271` | `def _maybe_auto_show_killchain(self, phase)` |
-| `_maybe_show_full_killchain` | method | `cli/tips_engine.py:603` | `def _maybe_show_full_killchain(self, cmd)` |
-| `_next_threshold` | method | `cli/tips_engine.py:1049` | `def _next_threshold(self, current)` |
-| `_noop` | function | `cli/tips_engine.py:131` | `def _noop()` |
-| `_phase_for_cmd` | method | `cli/tips_engine.py:1026` | `def _phase_for_cmd(self, cmd)` |
-| `_pick_weighted` | method | `cli/tips_engine.py:905` | `def _pick_weighted(rewards, weights)` |
-| `_print_badge` | method | `cli/tips_engine.py:865` | `def _print_badge(self, name, description)` |
-| `_print_separator` | method | `cli/tips_engine.py:834` | `def _print_separator(self, width)` |
-| `_read_os_id_from_session` | method | `cli/tips_engine.py:386` | `def _read_os_id_from_session(self)` |
-| `_read_recent_commands_for_autosuggest` | method | `cli/tips_engine.py:1008` | `def _read_recent_commands_for_autosuggest(self, limit)` |
-| `_read_run_commands` | method | `cli/tips_engine.py:1003` | `def _read_run_commands(self)` |
-| `_read_world_model_phase` | method | `cli/tips_engine.py:376` | `def _read_world_model_phase(self)` |
-| `_refresh_autosuggest` | method | `cli/tips_engine.py:724` | `def _refresh_autosuggest(self, cmd, phase)` |
-| `_render_arsenal_tip` | method | `cli/tips_engine.py:1178` | `def _render_arsenal_tip(ctx, state, config)` |
-| `_render_autosuggest_hint` | method | `cli/tips_engine.py:748` | `def _render_autosuggest_hint(self, engine)` |
-| `_render_contextual_tip` | method | `cli/tips_engine.py:631` | `def _render_contextual_tip(self, cmd, phase)` |
-| `_render_exploration` | method | `cli/tips_engine.py:1122` | `def _render_exploration(ctx, state, config)` |
-| `_render_hidden_feature` | method | `cli/tips_engine.py:1158` | `def _render_hidden_feature(ctx, state, config)` |
-| `_render_kill_chain_hints` | method | `cli/tips_engine.py:473` | `def _render_kill_chain_hints(self, cmd, phase)` |
-| `_render_phase_badge` | method | `cli/tips_engine.py:1140` | `def _render_phase_badge(ctx, state, config)` |
-| `_render_streak` | method | `cli/tips_engine.py:1101` | `def _render_streak(ctx, state, config)` |
-| `_resolve_phase` | method | `cli/tips_engine.py:353` | `def _resolve_phase(self, cmd, fallback)` |
-| `_resolve_theme` | method | `cli/tips_engine.py:299` | `def _resolve_theme(self)` |
-| `_run_curiosity_reveal` | method | `cli/tips_engine.py:681` | `def _run_curiosity_reveal(self, cmd, phase)` |
-| `_safe_tip_trigger` | method | `cli/tips_engine.py:670` | `def _safe_tip_trigger(tip, ctx)` |
-| `_sanitize_seen` | method | `cli/tips_engine.py:989` | `def _sanitize_seen(self, names, known)` |
-| `_save_state` | method | `cli/tips_engine.py:950` | `def _save_state(self)` |
-| `_summary_for_exploration_cmd` | method | `cli/tips_engine.py:711` | `def _summary_for_exploration_cmd(self, cmd)` |
-| `_sync_user_elo` | method | `cli/tips_engine.py:1053` | `def _sync_user_elo(self, delta)` |
-| `_truncate` | method | `cli/tips_engine.py:1037` | `def _truncate(value, max_len)` |
-| `_update_engagement_state` | method | `cli/tips_engine.py:765` | `def _update_engagement_state(self, cmd, phase)` |
-| `build_default_tips_config` | method | `cli/tips_engine.py:1238` | `def build_default_tips_config()` |
-| `enabled` | method | `cli/tips_engine.py:220` | `def enabled(self)` |
-| `get_state_snapshot` | method | `cli/tips_engine.py:438` | `def get_state_snapshot(self)` |
-| `heal_commands_seen` | method | `cli/tips_engine.py:458` | `def heal_commands_seen(self, known)` |
-| `render` | method | `cli/tips_engine.py:228` | `def render(self, cmd, phase)` |
-| `render_session_start` | method | `cli/tips_engine.py:406` | `def render_session_start(self, phase, os_id)` |
-| `reset_session` | method | `cli/tips_engine.py:453` | `def reset_session(self)` |
-| `set_enabled` | method | `cli/tips_engine.py:224` | `def set_enabled(self, value)` |
-| `ToastBus` | class | `cli/toast_bus.py:352` | `class ToastBus` |
-| `ToastConfig` | class | `cli/toast_bus.py:42` | `class ToastConfig` |
-| `ToastEvent` | class | `cli/toast_bus.py:80` | `class ToastEvent` |
-| `ToastFormatter` | class | `cli/toast_bus.py:278` | `class ToastFormatter` |
-| `ToastReader` | class | `cli/toast_bus.py:173` | `class ToastReader` |
-| `ToastState` | class | `cli/toast_bus.py:91` | `class ToastState` |
-| `__init__` | method | `cli/toast_bus.py:99` | `def __init__(self, config, root)` |
-| `__init__` | method | `cli/toast_bus.py:176` | `def __init__(self, config, root)` |
-| `__init__` | method | `cli/toast_bus.py:281` | `def __init__(self, config, theme)` |
-| `__init__` | method | `cli/toast_bus.py:359` | `def __init__(self, config, state, reader, formatter, console)` |
-| `_budget` | method | `cli/toast_bus.py:445` | `def _budget(payload, config)` |
-| `_build_event` | method | `cli/toast_bus.py:237` | `def _build_event(self, line, source, offset)` |
-| `_coerce_str` | method | `cli/toast_bus.py:258` | `def _coerce_str(value)` |
-| `_console_width` | method | `cli/toast_bus.py:333` | `def _console_width(self)` |
-| `_ensure_loaded` | method | `cli/toast_bus.py:152` | `def _ensure_loaded(self)` |
-| `_is_truthy` | method | `cli/toast_bus.py:423` | `def _is_truthy(value, config, default)` |
-| `_parse` | method | `cli/toast_bus.py:222` | `def _parse(self, text, source, base_offset)` |
-| `_role_for` | method | `cli/toast_bus.py:340` | `def _role_for(self, severity)` |
-| `_summary` | method | `cli/toast_bus.py:266` | `def _summary(record)` |
-| `_truncate` | method | `cli/toast_bus.py:346` | `def _truncate(self, value)` |
-| `build_default_bus` | method | `cli/toast_bus.py:460` | `def build_default_bus(payload, sessions_dir, console)` |
-| `build_toast_renderable` | method | `cli/toast_bus.py:638` | `def build_toast_renderable(events, payload, width, config)` |
-| `collect` | method | `cli/toast_bus.py:374` | `def collect(self)` |
-| `emit_toast` | method | `cli/toast_bus.py:549` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
-| `flush` | method | `cli/toast_bus.py:134` | `def flush(self)` |
-| `format` | method | `cli/toast_bus.py:286` | `def format(self, event)` |
-| `format_many` | method | `cli/toast_bus.py:298` | `def format_many(self, events, width)` |
-| `get` | method | `cli/toast_bus.py:118` | `def get(self, name)` |
-| `mark_all_seen` | method | `cli/toast_bus.py:415` | `def mark_all_seen(self)` |
-| `path` | method | `cli/toast_bus.py:114` | `def path(self)` |
-| `read_recent_toasts` | method | `cli/toast_bus.py:594` | `def read_recent_toasts(sessions_dir, limit, config)` |
-| `read_unseen` | method | `cli/toast_bus.py:191` | `def read_unseen(self, name, start_offset)` |
-| `render` | method | `cli/toast_bus.py:386` | `def render(self, enabled)` |
-| `render_toasts` | method | `cli/toast_bus.py:525` | `def render_toasts(payload, sessions_dir, console, bus_factory)` |
-| `reset` | method | `cli/toast_bus.py:129` | `def reset(self)` |
-| `root` | method | `cli/toast_bus.py:187` | `def root(self)` |
-| `set` | method | `cli/toast_bus.py:123` | `def set(self, name, offset)` |
-| `toasts_enabled` | method | `cli/toast_bus.py:437` | `def toasts_enabled(payload, config)` |
-| `_cycle` | function | `cli/tui_theme.py:65` | `def _cycle(payload, direction)` |
-| `_format_listing` | function | `cli/tui_theme.py:45` | `def _format_listing(current)` |
-| `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
-| `run` | function | `cli/tui_theme.py:87` | `def run(args, payload, save)` |
-| `TutorialConfig` | class | `cli/tutorial.py:76` | `class TutorialConfig` |
-| `is_done` | method | `cli/tutorial.py:83` | `def is_done(config)` |
-| `mark_done` | method | `cli/tutorial.py:89` | `def mark_done(config)` |
-| `render_header` | method | `cli/tutorial.py:96` | `def render_header()` |
-| `render_phase_table` | method | `cli/tutorial.py:113` | `def render_phase_table()` |
-| `run` | method | `cli/tutorial.py:185` | `def run(params, command_runner)` |
-| `run_step` | method | `cli/tutorial.py:128` | `def run_step(index, command, description, why, params, command_runner)` |
-| `BinarySpec` | class | `cli/wizard.py:90` | `class BinarySpec` |
-| `BinaryStatus` | class | `cli/wizard.py:141` | `class BinaryStatus` |
-| `ReadinessItem` | class | `cli/wizard.py:150` | `class ReadinessItem` |
-| `WizardResult` | class | `cli/wizard.py:160` | `class WizardResult` |
-| `_ask_device` | method | `cli/wizard.py:537` | `def _ask_device(current)` |
-| `_ask_domain` | method | `cli/wizard.py:515` | `def _ask_domain(current)` |
-| `_ask_lhost` | method | `cli/wizard.py:484` | `def _ask_lhost(current)` |
-| `_ask_llm` | method | `cli/wizard.py:621` | `def _ask_llm(params)` |
-| `_ask_marketplace_config` | method | `cli/wizard.py:852` | `def _ask_marketplace_config()` |
-| `_ask_operator_login` | method | `cli/wizard.py:724` | `def _ask_operator_login(params)` |
-| `_ask_os_id` | method | `cli/wizard.py:563` | `def _ask_os_id(current)` |
-| `_ask_rhost` | method | `cli/wizard.py:457` | `def _ask_rhost(current)` |
-| `_ask_wordlists` | method | `cli/wizard.py:692` | `def _ask_wordlists(params)` |
-| `_build_readiness` | method | `cli/wizard.py:875` | `def _build_readiness(params)` |
-| `_check` | method | `cli/wizard.py:878` | `def _check(key, label, hint)` |
-| `_check_llm` | method | `cli/wizard.py:887` | `def _check_llm()` |
-| `_collect_values` | method | `cli/wizard.py:419` | `def _collect_values(params)` |
-| `_detect_device` | method | `cli/wizard.py:1120` | `def _detect_device()` |
-| `_detect_lhost` | method | `cli/wizard.py:1098` | `def _detect_lhost()` |
-| `_find_seclists_root` | method | `cli/wizard.py:1133` | `def _find_seclists_root()` |
-| `_group_by_category` | method | `cli/wizard.py:988` | `def _group_by_category(statuses)` |
-| `_info` | method | `cli/wizard.py:1169` | `def _info(msg)` |
-| `_is_default` | method | `cli/wizard.py:322` | `def _is_default(value)` |
-| `_is_weak` | method | `cli/wizard.py:325` | `def _is_weak(value)` |
-| `_mask_secret` | method | `cli/wizard.py:606` | `def _mask_secret(value)` |
-| `_normalize_provider_answer` | method | `cli/wizard.py:585` | `def _normalize_provider_answer(raw)` |
-| `_ok` | method | `cli/wizard.py:1161` | `def _ok(msg)` |
-| `_ping` | method | `cli/wizard.py:1141` | `def _ping(ip)` |
-| `_print_binary_report` | method | `cli/wizard.py:997` | `def _print_binary_report(statuses)` |
-| `_print_glossary_panel` | method | `cli/wizard.py:379` | `def _print_glossary_panel()` |
-| `_print_header` | method | `cli/wizard.py:364` | `def _print_header()` |
-| `_print_long_help` | method | `cli/wizard.py:412` | `def _print_long_help(key)` |
-| `_print_next_steps` | method | `cli/wizard.py:1035` | `def _print_next_steps(params)` |
-| `_print_readiness` | method | `cli/wizard.py:927` | `def _print_readiness(items)` |
-| `_print_secret_rotation` | method | `cli/wizard.py:348` | `def _print_secret_rotation(rotated)` |
-| `_print_validation_summary` | method | `cli/wizard.py:1059` | `def _print_validation_summary(params)` |
-| `_prompt` | method | `cli/wizard.py:1154` | `def _prompt(message)` |
-| `_rotate_default_secrets` | method | `cli/wizard.py:300` | `def _rotate_default_secrets(params, save)` |
-| `_spec_long_help` | method | `cli/wizard.py:404` | `def _spec_long_help(key)` |
-| `_warn` | method | `cli/wizard.py:1165` | `def _warn(msg)` |
-| `_wizard_login_flow` | method | `cli/wizard.py:786` | `def _wizard_login_flow()` |
-| `_wizard_register_flow` | method | `cli/wizard.py:809` | `def _wizard_register_flow()` |
-| `check_binaries` | method | `cli/wizard.py:947` | `def check_binaries(specs, which)` |
-| `run` | method | `cli/wizard.py:169` | `def run(params, save)` |
-| `run_non_interactive` | method | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
-| `WizardScope` | class | `cli/wizard_scope.py:31` | `class WizardScope` |
-| `WizardScopeConfig` | class | `cli/wizard_scope.py:17` | `class WizardScopeConfig` |
+| `TipsConfig` | class | `cli/tips_engine.py:137` | `class TipsConfig` |
+| `TipsEngine` | class | `cli/tips_engine.py:186` | `class TipsEngine` |
+| `__init__` | method | `cli/tips_engine.py:194` | `def __init__(self, config, autosuggest_engine)` |
+| `_award_elo` | method | `cli/tips_engine.py:808` | `def _award_elo(self, cmd, first_time, new_phase, phase)` |
+| `_check_badges` | method | `cli/tips_engine.py:840` | `def _check_badges(self, cmd, first_time)` |
+| `_check_karma_up` | method | `cli/tips_engine.py:819` | `def _check_karma_up(self)` |
+| `_collect_killchain_progress` | method | `cli/tips_engine.py:575` | `def _collect_killchain_progress(self, current_phase)` |
+| `_commands_in_exploration_phase` | method | `cli/tips_engine.py:707` | `def _commands_in_exploration_phase(self, phase)` |
+| `_compute_command_hints` | method | `cli/tips_engine.py:616` | `def _compute_command_hints(self, cmd, phase)` |
+| `_compute_evidence_hints` | method | `cli/tips_engine.py:529` | `def _compute_evidence_hints(self, cmd, phase)` |
+| `_ensure_state_and_index` | method | `cli/tips_engine.py:926` | `def _ensure_state_and_index(self)` |
+| `_fire_vri_reward` | method | `cli/tips_engine.py:877` | `def _fire_vri_reward(self, ctx)` |
+| `_flush_suggestions_panel` | method | `cli/tips_engine.py:311` | `def _flush_suggestions_panel(self)` |
+| `_get_hints_level` | method | `cli/tips_engine.py:344` | `def _get_hints_level(self)` |
+| `_get_karma_name` | method | `cli/tips_engine.py:1045` | `def _get_karma_name(elo)` |
+| `_get_rec_engine` | method | `cli/tips_engine.py:505` | `def _get_rec_engine(self)` |
+| `_is_recordable_command` | method | `cli/tips_engine.py:987` | `def _is_recordable_command(self, cmd)` |
+| `_load_command_index` | method | `cli/tips_engine.py:977` | `def _load_command_index(self)` |
+| `_load_payload` | method | `cli/tips_engine.py:492` | `def _load_payload(self)` |
+| `_load_state` | method | `cli/tips_engine.py:932` | `def _load_state(self)` |
+| `_maybe_auto_show_killchain` | method | `cli/tips_engine.py:272` | `def _maybe_auto_show_killchain(self, phase)` |
+| `_maybe_show_full_killchain` | method | `cli/tips_engine.py:605` | `def _maybe_show_full_killchain(self, cmd)` |
+| `_next_threshold` | method | `cli/tips_engine.py:1051` | `def _next_threshold(self, current)` |
+| `_noop` | function | `cli/tips_engine.py:132` | `def _noop()` |
+| `_phase_for_cmd` | method | `cli/tips_engine.py:1028` | `def _phase_for_cmd(self, cmd)` |
+| `_pick_weighted` | method | `cli/tips_engine.py:907` | `def _pick_weighted(rewards, weights)` |
+| `_print_badge` | method | `cli/tips_engine.py:867` | `def _print_badge(self, name, description)` |
+| `_print_separator` | method | `cli/tips_engine.py:836` | `def _print_separator(self, width)` |
+| `_read_os_id_from_session` | method | `cli/tips_engine.py:388` | `def _read_os_id_from_session(self)` |
+| `_read_recent_commands_for_autosuggest` | method | `cli/tips_engine.py:1010` | `def _read_recent_commands_for_autosuggest(self, limit)` |
+| `_read_run_commands` | method | `cli/tips_engine.py:1005` | `def _read_run_commands(self)` |
+| `_read_world_model_phase` | method | `cli/tips_engine.py:378` | `def _read_world_model_phase(self)` |
+| `_refresh_autosuggest` | method | `cli/tips_engine.py:726` | `def _refresh_autosuggest(self, cmd, phase)` |
+| `_render_arsenal_tip` | method | `cli/tips_engine.py:1180` | `def _render_arsenal_tip(ctx, state, config)` |
+| `_render_autosuggest_hint` | method | `cli/tips_engine.py:750` | `def _render_autosuggest_hint(self, engine)` |
+| `_render_contextual_tip` | method | `cli/tips_engine.py:633` | `def _render_contextual_tip(self, cmd, phase)` |
+| `_render_exploration` | method | `cli/tips_engine.py:1124` | `def _render_exploration(ctx, state, config)` |
+| `_render_hidden_feature` | method | `cli/tips_engine.py:1160` | `def _render_hidden_feature(ctx, state, config)` |
+| `_render_kill_chain_hints` | method | `cli/tips_engine.py:475` | `def _render_kill_chain_hints(self, cmd, phase)` |
+| `_render_phase_badge` | method | `cli/tips_engine.py:1142` | `def _render_phase_badge(ctx, state, config)` |
+| `_render_streak` | method | `cli/tips_engine.py:1103` | `def _render_streak(ctx, state, config)` |
+| `_resolve_phase` | method | `cli/tips_engine.py:355` | `def _resolve_phase(self, cmd, fallback)` |
+| `_resolve_theme` | method | `cli/tips_engine.py:300` | `def _resolve_theme(self)` |
+| `_run_curiosity_reveal` | method | `cli/tips_engine.py:683` | `def _run_curiosity_reveal(self, cmd, phase)` |
+| `_safe_tip_trigger` | method | `cli/tips_engine.py:672` | `def _safe_tip_trigger(tip, ctx)` |
+| `_sanitize_seen` | method | `cli/tips_engine.py:991` | `def _sanitize_seen(self, names, known)` |
+| `_save_state` | method | `cli/tips_engine.py:952` | `def _save_state(self)` |
+| `_summary_for_exploration_cmd` | method | `cli/tips_engine.py:713` | `def _summary_for_exploration_cmd(self, cmd)` |
+| `_sync_user_elo` | method | `cli/tips_engine.py:1055` | `def _sync_user_elo(self, delta)` |
+| `_truncate` | method | `cli/tips_engine.py:1039` | `def _truncate(value, max_len)` |
+| `_update_engagement_state` | method | `cli/tips_engine.py:767` | `def _update_engagement_state(self, cmd, phase)` |
+| `build_default_tips_config` | method | `cli/tips_engine.py:1240` | `def build_default_tips_config()` |
+| `enabled` | method | `cli/tips_engine.py:221` | `def enabled(self)` |
+| `get_state_snapshot` | method | `cli/tips_engine.py:440` | `def get_state_snapshot(self)` |
+| `heal_commands_seen` | method | `cli/tips_engine.py:460` | `def heal_commands_seen(self, known)` |
+| `render` | method | `cli/tips_engine.py:229` | `def render(self, cmd, phase)` |
+| `render_session_start` | method | `cli/tips_engine.py:408` | `def render_session_start(self, phase, os_id)` |
+| `reset_session` | method | `cli/tips_engine.py:455` | `def reset_session(self)` |
+| `set_enabled` | method | `cli/tips_engine.py:225` | `def set_enabled(self, value)` |
+| `ToastBus` | class | `cli/toast_bus.py:488` | `class ToastBus` |
+| `ToastConfig` | class | `cli/toast_bus.py:43` | `class ToastConfig` |
+| `ToastEvent` | class | `cli/toast_bus.py:110` | `class ToastEvent` |
+| `ToastFormatter` | class | `cli/toast_bus.py:316` | `class ToastFormatter` |
+| `ToastReader` | class | `cli/toast_bus.py:203` | `class ToastReader` |
+| `ToastState` | class | `cli/toast_bus.py:121` | `class ToastState` |
+| `__init__` | method | `cli/toast_bus.py:129` | `def __init__(self, config, root)` |
+| `__init__` | method | `cli/toast_bus.py:206` | `def __init__(self, config, root)` |
+| `__init__` | method | `cli/toast_bus.py:319` | `def __init__(self, config, theme)` |
+| `__init__` | method | `cli/toast_bus.py:495` | `def __init__(self, config, state, reader, formatter, console)` |
+| `_budget` | method | `cli/toast_bus.py:664` | `def _budget(payload, config)` |
+| `_build_event` | method | `cli/toast_bus.py:267` | `def _build_event(self, line, source, offset)` |
+| `_coerce_str` | method | `cli/toast_bus.py:288` | `def _coerce_str(value)` |
+| `_console_width` | method | `cli/toast_bus.py:469` | `def _console_width(self)` |
+| `_ensure_loaded` | method | `cli/toast_bus.py:182` | `def _ensure_loaded(self)` |
+| `_erase_lines` | method | `cli/toast_bus.py:607` | `def _erase_lines(stream, rows)` |
+| `_is_dumb_stream` | method | `cli/toast_bus.py:636` | `def _is_dumb_stream(stream)` |
+| `_is_truthy` | method | `cli/toast_bus.py:622` | `def _is_truthy(value, config, default)` |
+| `_parse` | method | `cli/toast_bus.py:252` | `def _parse(self, text, source, base_offset)` |
+| `_role_for` | method | `cli/toast_bus.py:476` | `def _role_for(self, severity)` |
+| `_schedule_erase` | method | `cli/toast_bus.py:591` | `def _schedule_erase(self, delay)` |
+| `_summary` | method | `cli/toast_bus.py:296` | `def _summary(record)` |
+| `_truncate` | method | `cli/toast_bus.py:482` | `def _truncate(self, value)` |
+| `build_default_bus` | method | `cli/toast_bus.py:679` | `def build_default_bus(payload, sessions_dir, console)` |
+| `build_toast_renderable` | method | `cli/toast_bus.py:867` | `def build_toast_renderable(events, payload, width, config)` |
+| `collect` | method | `cli/toast_bus.py:510` | `def collect(self)` |
+| `digest_line` | method | `cli/toast_bus.py:409` | `def digest_line(dropped)` |
+| `duration_for` | method | `cli/toast_bus.py:391` | `def duration_for(self, event)` |
+| `emit_toast` | method | `cli/toast_bus.py:778` | `def emit_toast(message, severity, event_type, sessions_dir, config)` |
 
 Next: [SYMBOLS_p6.md](SYMBOLS_p6.md)

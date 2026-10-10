@@ -1,10 +1,10 @@
 # skills/claude_md_orchestrator
 
-*Community 7 | 30 files | cohesion 0.77*
+*Community 7 | 28 files | cohesion 0.75*
 
 ## Definition
 
-This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.77). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`, `CicleStateFile`. Core file: `tests/test_security_sanitizers.py` (45 symbols). Documented purpose: Phishing Wizard command set.  End-to-end phishing campaign wizard with step-by-step interactive flow: target profiling -> template selection -> landing page gen.
+This community groups 28 file(s) rooted at `skills/claude_md_orchestrator` with dominant language py (cohesion 0.75). Central symbols: `AnalyzerResult`, `BddResult`, `BindAddressResolver`, `CheckResult`, `CheckpointSerializer`, `CicdResult`, `CicleState`, `CicleStateFile`. Core file: `skills/claude_md_orchestrator/models.py` (32 symbols). Documented purpose: Phishing Wizard command set.  End-to-end phishing campaign wizard with step-by-step interactive flow: target profiling -> template selection -> landing page gen.
 
 ## Files
 
@@ -17,6 +17,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/claude_md_orchestrator/boy_scout.py` | py | utility | 5 | yes |
 | `skills/claude_md_orchestrator/cicd_agent.py` | py | utility | 7 | yes |
 | `skills/claude_md_orchestrator/config.py` | py | infrastructure | 15 | yes |
+| `skills/claude_md_orchestrator/documentation_agent.py` | py | utility | 7 | yes |
 
 ### `skills/hermes-lazyown` (7 files)
 
@@ -27,14 +28,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 | `skills/hermes-lazyown/constants.py` | py | utility | 15 | yes |
 | `skills/hermes-lazyown/executor.py` | py | utility | 13 | yes |
 | `skills/hermes-lazyown/hermes_sync.py` | py | utility | 14 | yes |
-
-### `modules` (3 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `modules/__init__.py` | py | utility | 0 | no |
-| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
-| `modules/security_sanitizers.py` | py | utility | 25 | yes |
+| `skills/hermes-lazyown/mcp_server.py` | py | utility | 28 | yes |
 
 ### `contrib/legacy` (2 files)
 
@@ -42,6 +36,13 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 |------|----------|-------|---------|-----|
 | `contrib/legacy/lazygalazy.py` | py | utility | 7 | no |
 | `contrib/legacy/lazyhttpreverseshell.py` | py | utility | 10 | no |
+
+### `modules` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `modules/lazyown_bprfuzzer.py` | py | utility | 15 | yes |
+| `modules/security_sanitizers.py` | py | utility | 25 | yes |
 
 ### `.` (1 files)
 
@@ -67,13 +68,7 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 |------|----------|-------|---------|-----|
 | `skills/lazyown_mcp_opencode.py` | py | utility | 3 | yes |
 
-### `tests` (1 files)
-
-| File | Language | Layer | Symbols | Doc |
-|------|----------|-------|---------|-----|
-| `tests/test_security_sanitizers.py` | py | testing | 45 | yes |
-
-*... and 10 more files in this community.*
+*... and 8 more files in this community.*
 
 
 ## Key Symbols
@@ -111,17 +106,15 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 55
-- Cross-boundary resolved imports (EXTRACTED): 18
+- Internal resolved imports (EXTRACTED): 53
+- Cross-boundary resolved imports (EXTRACTED): 19
 
 ## Connections
 
-- [EXTRACTED] depends_on community 1 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
-- [EXTRACTED] depends_on community 7 <-> 3 (strength 0.9): Extracted import edge crosses communities: cli/commands/phishing_wizard.py imports modules/phishing_orchestrator.py.
+- [EXTRACTED] depends_on community 0 <-> 7 (strength 0.9): Extracted import edge crosses communities: cli/commands/dns_exfil.py imports modules/backdoor/server.c.
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `modules/backdoor/server.c` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `skills/claude_md_orchestrator/parser.py` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `utils.py`
@@ -129,17 +122,16 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 
 ## Open Questions
 
-- Why do 4 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
+- Why do 3 file(s) lack file-level docs (e.g. `contrib/legacy/lazygalazy.py`)? What purpose do they serve?
 - Can the cycle `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` be broken with an interface?
 - What would break if the most connected file in skills/claude_md_orchestrator changed?
-- Should skills/claude_md_orchestrator be split, given cohesion 0.77?
+- Should skills/claude_md_orchestrator be split, given cohesion 0.75?
 
 ## Sources
 
 - `cli/commands/phishing_wizard.py`
 - `contrib/legacy/lazygalazy.py`
 - `contrib/legacy/lazyhttpreverseshell.py`
-- `modules/__init__.py`
 - `modules/backdoor/server.c`
 - `modules/lazyown_bprfuzzer.py`
 - `modules/security_sanitizers.py`
@@ -156,4 +148,5 @@ This community groups 30 file(s) rooted at `skills/claude_md_orchestrator` with 
 - `skills/claude_md_orchestrator/reviewer_agent.py`
 - `skills/claude_md_orchestrator/sdd_agent.py`
 - `skills/claude_md_orchestrator/tdd_agent.py`
-- *... and 10 more*
+- `skills/claude_md_orchestrator/validators.py`
+- *... and 8 more*

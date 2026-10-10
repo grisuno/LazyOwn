@@ -78,7 +78,7 @@ Perform an authorized penetration test against the configured target (rhost).
 3. Exploit / Intrusion — gain initial foothold
 4. PrivEsc — elevate to root/SYSTEM
 5. Lateral Movement — move to adjacent hosts if in scope
-6. Credential Harvest — dump hashes, tickets, cleartext
+6. Credential Harvest — dump hashes, tickets, clelazyt
 7. Report — document all findings with evidence
 
 ## Hard Stops (always require human confirmation)
@@ -283,6 +283,35 @@ class ObjectiveStore:
             for o in pending:
                 lines.append(f"  [{o.priority:8s}] [{o.id}] {o.text[:80]}")
         return "\n".join(lines)
+
+
+_SPLIT_PATTERNS: tuple[str, ...] = (
+    r"\band then\b",
+    r"\bfollowed by\b",
+    r"\bthen\b",
+    r";",
+)
+
+
+def decompose_goal(goal_text: str, target: str = "") -> list[str]:
+    """Split a compound goal into discrete verifiable objectives.
+
+    Rule-based fallback so goal nodes always exist: reconnaissance
+    clauses stay informational, everything else becomes an
+    independently completable objective with the target attached.
+    Returns the input unchanged when no split markers are present.
+    """
+    text = str(goal_text or "").strip()
+    if not text:
+        return []
+    pattern = "|".join(_SPLIT_PATTERNS)
+    parts = [p.strip(" .") for p in re.split(pattern, text, flags=re.IGNORECASE)]
+    parts = [p for p in parts if p]
+    if len(parts) <= 1:
+        return [text]
+    scope = f" on {target}" if target else ""
+    return [f"{part}{scope}" if target.lower() not in part.lower() else part
+            for part in parts]
 
 
 # ─── Soul helpers ─────────────────────────────────────────────────────────────

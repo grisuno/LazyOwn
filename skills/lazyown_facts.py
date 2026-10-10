@@ -336,7 +336,7 @@ class SecretsdumpParser(ITextOutputParser):
     _NTLM_RE = re.compile(
         r"(?P<domain>\S+)\\(?P<user>[^:]+):(?P<rid>\d+):(?P<lm>[0-9a-fA-F]{32}):(?P<nt>[0-9a-fA-F]{32}):::"
     )
-    _CLEARTEXT_RE = re.compile(r"(?P<domain>\S+)\\(?P<user>[^:]+):\w+:(?P<pass>.+)")
+    _CLELAZYT_RE = re.compile(r"(?P<domain>\S+)\\(?P<user>[^:]+):\w+:(?P<pass>.+)")
 
     def can_parse(self, filename: str, content: str) -> bool:
         return "secretsdump" in filename.lower() or (

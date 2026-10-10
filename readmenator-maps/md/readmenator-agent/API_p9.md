@@ -1,4 +1,4 @@
-# API (page 9 of 20)
+# API (page 9 of 21)
 Previous: [API_p8.md](API_p8.md)
 
 ## modules/ai_model.py
@@ -57,12 +57,35 @@ Imported by: `cli/commands/command_and_control_migrated.py`, `cli/recommendation
 - `AptPlaybookEngine.generate_attack_plan` (method) `modules/apt_playbooks.py:189` `def generate_attack_plan(self, pb, output_path)` -- Generate a legacy ``attack_plan.yaml`` from an enriched APT playbook.
 - `AptPlaybookEngine.report_json` (method) `modules/apt_playbooks.py:204` `def report_json(self, pb, output_path)` -- Write a structured JSON report of the playbook for the operator.
 
+## modules/asset_graph.py
+Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+- `GraphConfig.asset_key` (method) `modules/asset_graph.py:28` `def asset_key(asset_type, value, parent_key)` -- Compute the stable deduplication key for an asset.
+- `AssetGraph.__init__` (method) `modules/asset_graph.py:73` `def __init__(self, config)` -- Initialize empty graphs and anchor indexes.
+- `AssetGraph.upsert_asset` (method) `modules/asset_graph.py:82` `def upsert_asset(self, asset_type, value, parent_key, company)` -- Insert or refresh an asset and return the canonical node.
+- `AssetGraph.add_node` (method) `modules/asset_graph.py:108` `def add_node(self, task_id, kind, text, parent_id, payload)` -- Append an exploration node to a task chain.
+- `AssetGraph.add_fact` (method) `modules/asset_graph.py:123` `def add_fact(self, task_id, text, parent_id, payload)` -- Append a fact node to a task chain.
+- `AssetGraph.add_finding` (method) `modules/asset_graph.py:128` `def add_finding(self, task_id, text, parent_id, payload)` -- Append a finding node to a task chain.
+- `AssetGraph.anchor` (method) `modules/asset_graph.py:133` `def anchor(self, exploration_id, key)` -- Link an exploration node to an asset key.
+- `AssetGraph.assets_for_node` (method) `modules/asset_graph.py:145` `def assets_for_node(self, exploration_id)` -- List assets anchored to one exploration node.
+- `AssetGraph.nodes_for_asset` (method) `modules/asset_graph.py:151` `def nodes_for_asset(self, key)` -- List exploration nodes anchored to one asset.
+- `AssetGraph.coverage` (method) `modules/asset_graph.py:157` `def coverage(self, task_id)` -- Report tested versus total assets for a task.
+- `AssetGraph.mirror_to_campaign` (method) `modules/asset_graph.py:170` `def mirror_to_campaign(self, db, world_model, workspace_id)` -- Mirror graph assets into the campaign database and world model.
+- `AssetGraph.coverage_for` (method) `modules/asset_graph.py:214` `def coverage_for(db, workspace_id, scope)` -- Report tested scope assets versus total scope from the campaign db.
+
 ## modules/atomic_enricher.py
 Depends on: `core/logging.py`
 Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`
 - `enrich` (function) `modules/atomic_enricher.py:173` `def enrich(force)` -- Build enriched parquet.
 - `load_enriched` (function) `modules/atomic_enricher.py:215` `def load_enriched()` -- Load enriched parquet, building it first if it doesn't exist.
 - `query_atomic` (function) `modules/atomic_enricher.py:232` `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)` -- Structured query over the enriched Atomic Red Team technique catalogue.
+
+## modules/attack_surface3d.py
+Depends on: `cli/surface_graph.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
+Imported by: `cli/commands/surface.py`, `lazyc2.py`, `tests/test_attack_surface3d.py`
+- `build_attack_graph` (function) `modules/attack_surface3d.py:147` `def build_attack_graph(sessions_dir, payload_path, est_cap)` -- Fuse surface scans with campaign intel into one C2-centred graph.
+- `add_edge` (function) `modules/attack_surface3d.py:155` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation between known nodes.
+- `tag` (function) `modules/attack_surface3d.py:166` `def tag(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `refresh_summary` (function) `modules/attack_surface3d.py:460` `def refresh_summary(graph, sessions_dir)` -- Score exposure into intel_summary.json for the autonomous loop.
 
 ## modules/auto_pivot.py
 Imported by: `modules/autonomous_exploit_engine.py`, `skills/lazyown_mcp.py`
@@ -107,21 +130,31 @@ Imported by: `cli/commands/purple_team.py`
 - `PurpleTeamLoop.get_loop` (method) `modules/auto_purple.py:772` `def get_loop(bt_path, detection_delay, methods, auto_feedback)` -- Return (or create) the module-level PurpleTeamLoop singleton.
 - `PurpleTeamLoop.load_config_from_payload` (method) `modules/auto_purple.py:790` `def load_config_from_payload(params)` -- Extract purple_team config from payload.json params dict.
 
+## modules/auto_registry.py
+Imported by: `cli/commands/mcp_bridge.py`, `modules/lazy_loop.py`, `tests/test_auto_registry.py`
+- `AutoVerb.verbs` (method) `modules/auto_registry.py:98` `def verbs()` -- Return every canonical automation verb name.
+- `AutoVerb.is_shell_verb` (method) `modules/auto_registry.py:103` `def is_shell_verb(token)` -- Return True when ``token`` names a loop-routable shell verb.
+- `AutoVerb.build_command` (method) `modules/auto_registry.py:109` `def build_command(verb, target)` -- Build the shell command line for ``verb`` bound to ``target``.
+- `AutoVerb.verbs_for` (method) `modules/auto_registry.py:120` `def verbs_for(text)` -- Return verbs whose keywords appear in ``text`` (goal/intent/finding).
+- `AutoVerb.propose_intents` (method) `modules/auto_registry.py:127` `def propose_intents(goal, target, finding_texts)` -- Propose ``auto <verb>`` intent summaries for planner candidates.
+- `AutoVerb.steps_for` (method) `modules/auto_registry.py:139` `def steps_for(text, target)` -- Translate an intent summary into shell command lines, or None.
+- `ShellResult.execute_shell_verb` (method) `modules/auto_registry.py:169` `def execute_shell_verb(shell, command, timeout_sec)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
+
 ## modules/autonomous_exploit_engine.py
 Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
 - `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:113` `def __init__(self)`
 - `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:133` `def get_instance(cls)`
-- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:144` `def hunt(self, target, max_exploits)` -- Execute a full autonomous exploitation chain against a target.
-- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:181` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
-- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:325` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
-- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:386` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
-- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:409` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1645` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:1960` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2390` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2516` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2580` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
+- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:144` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.
+- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:183` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
+- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:327` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
+- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:388` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
+- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:411` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1647` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:1962` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2392` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2518` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2582` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -450,50 +483,6 @@ Imported by: `tests/test_core_modules.py`
 - `set_config_dict` (function) `modules/config_store.py:80` `def set_config_dict(updates)` -- Bulk-update from a dict and persist to disk.
 - `reload_config` (function) `modules/config_store.py:90` `def reload_config()` -- Force reload from disk (discards in-memory changes).
 - `stop_watcher` (function) `modules/config_store.py:96` `def stop_watcher()` -- Stop the file-watcher background thread (if running).
-
-## modules/credential_reuse.py
-Depends on: `core/logging.py`
-Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
-- `ReuseCandidate.to_dict` (method) `modules/credential_reuse.py:43` `def to_dict(self)`
-- `CredentialReuseEngine.__init__` (method) `modules/credential_reuse.py:80` `def __init__(self)`
-- `CredentialReuseEngine.mark_failed` (method) `modules/credential_reuse.py:107` `def mark_failed(self, username, password, host)` -- Record that a credential did NOT work against a host.
-- `CredentialReuseEngine.mark_confirmed` (method) `modules/credential_reuse.py:112` `def mark_confirmed(self, username, password, host)` -- Record that a credential worked against a host.
-- `CredentialReuseEngine.rank` (method) `modules/credential_reuse.py:226` `def rank(self, hosts, creds, host_services, limit)` -- Score all (cred, host) pairs and return top candidates.
-- `CredentialReuseEngine.suggest_from_state_manager` (method) `modules/credential_reuse.py:278` `def suggest_from_state_manager(self, state_manager, limit)` -- Convenience: rank creds using hosts and creds from StateManager.
-- `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
-- `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
-- `CredentialReuseEngine.get_credential_reuse_engine` (method) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
-
-## modules/cross_cloud.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
-- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
-- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
-- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
-- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
-- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
-- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
-- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
-
-## modules/cve_matcher.py
-Depends on: `core/logging.py`
-Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
-- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
-- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
-- `CVEMatcher.get_matcher` (method) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
-- `CVEMatcher.search` (method) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
-
-## modules/dacl_abuse.py
-Imported by: `cli/commands/active_directory.py`
-- `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
-- `DACLAbuseEngine.parse_bloodhound_acls` (method) `modules/dacl_abuse.py:143` `def parse_bloodhound_acls(self, edges)` -- Parse BloodHound edge data to extract exploitable ACLs.
-- `DACLAbuseEngine.parse_raw_aces` (method) `modules/dacl_abuse.py:182` `def parse_raw_aces(self, raw_nthashes)` -- Parse raw ACE data from ntSecurityDescriptor parsing.
-- `DACLAbuseEngine.compute_attack_chains` (method) `modules/dacl_abuse.py:224` `def compute_attack_chains(self)` -- Generate exploitation plans for all discovered ACL targets.
-- `DACLAbuseEngine.adminsdholder_abuse_plan` (method) `modules/dacl_abuse.py:291` `def adminsdholder_abuse_plan(self, target_sid)` -- Generate an AdminSDHolder abuse plan.
-- `DACLAbuseEngine.dcsync_rights_assignment_plan` (method) `modules/dacl_abuse.py:318` `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` -- Generate a DCSync rights assignment plan.
-- `DACLAbuseEngine.owner_takeover_plan` (method) `modules/dacl_abuse.py:348` `def owner_takeover_plan(self, target_dn, attacker_sid)` -- Generate an ownership takeover plan.
-- `DACLAbuseEngine.summary` (method) `modules/dacl_abuse.py:418` `def summary(self)` -- Return a summary of all DACL/SACL abuse findings.
 
 
 Next: [API_p10.md](API_p10.md)

@@ -465,7 +465,7 @@ class ParquetDB:
             # Infer finding_type from output if not supplied
             if not finding_type:
                 out_lower = output.lower()
-                if any(k in out_lower for k in ("password", "passwd", "cleartext")):
+                if any(k in out_lower for k in ("password", "passwd", "clelazyt")):
                     finding_type = "credential"
                 elif any(k in out_lower for k in ("cve-", "osvdb-", "vulnerability")):
                     finding_type = "vulnerability"

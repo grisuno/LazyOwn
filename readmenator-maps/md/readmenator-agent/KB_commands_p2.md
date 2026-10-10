@@ -84,7 +84,7 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_enum4linux` (method, line 528) `def do_enum4linux(self, line)`
   - `do_rpcclient` (method, line 558) `def do_rpcclient(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/validators.py`, `utils.py`
-- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
+- Imported by: `cli/graph_overlay.py`, `cli/palette_command.py`, `cli/scope_guard.py`, `core/errors.py`, `core/payload_schema.py`, `lazyc2/security/command_allowlist.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `modules/bof_registry.py`, `modules/c2_profile_engine.py`, `modules/event_bus.py`, `modules/intercept.py`, `modules/lazy_rbac.py`, `modules/obs_parser.py`, `modules/operation.py`, `modules/opsec_scorer.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`, `modules/world_model.py`, `skills/claude_md_orchestrator/models.py`, `skills/lazyown_hooks.py`, `skills/lazyown_permissions.py`, `skills/lazyown_policy.py`
 
 ## cli/commands/estorides.py
 - Doc: Estorides integration commands — bidirectional feedback loop with passive OSINT.
@@ -386,6 +386,63 @@ Previous: [KB_commands.md](KB_commands.md)
   - `install_wmiexecpro` (method, line 1070) `def install_wmiexecpro()`
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/domain_dominance.py`, `utils.py`
 
+## cli/commands/lazyops.py
+- Doc: Lazy autonomous loop commands (single orchestrator, lazy_* surface).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_engine` (function, line 26) `def _engine()`
+  - `LazyCommandSet` (class, line 33) `class LazyCommandSet(LazyOwnCommandSet)`
+  - `_task_id` (method, line 39) `def _task_id(self, args)`
+  - `_require_task` (method, line 52) `def _require_task(self, args)`
+  - `_free_text` (method, line 60) `def _free_text(args)`
+  - `do_lazy_task` (method, line 76) `def do_lazy_task(self, line)`
+  - `do_lazy_graph` (method, line 118) `def do_lazy_graph(self, line)`
+  - `do_lazy_planner` (method, line 137) `def do_lazy_planner(self, line)`
+  - `do_lazy_frontier` (method, line 156) `def do_lazy_frontier(self, line)`
+  - `do_lazy_worker` (method, line 168) `def do_lazy_worker(self, line)`
+  - `do_lazy_trace` (method, line 197) `def do_lazy_trace(self, line)`
+  - `do_lazy_hint` (method, line 227) `def do_lazy_hint(self, line)`
+  - `do_lazy_intent` (method, line 239) `def do_lazy_intent(self, line)`
+  - `do_lazy_goal` (method, line 263) `def do_lazy_goal(self, line)`
+  - `do_lazy_constraint` (method, line 298) `def do_lazy_constraint(self, line)`
+  - `do_lazy_scope` (method, line 316) `def do_lazy_scope(self, line)`
+  - `do_lazy_todo` (method, line 334) `def do_lazy_todo(self, line)`
+  - `do_lazy_asset` (method, line 356) `def do_lazy_asset(self, line)`
+  - `do_lazy_enrich` (method, line 389) `def do_lazy_enrich(self, line)`
+  - `do_lazy_traffic` (method, line 401) `def do_lazy_traffic(self, line)`
+  - `do_lazy_guard` (method, line 442) `def do_lazy_guard(self, line)`
+  - `do_lazy_finding` (method, line 486) `def do_lazy_finding(self, line)`
+  - `do_lazy_retest` (method, line 541) `def do_lazy_retest(self, line)`
+  - `do_lazy_steer` (method, line 560) `def do_lazy_steer(self, line)`
+  - `do_lazy_kill` (method, line 572) `def do_lazy_kill(self, line)`
+  - `do_lazy_pause` (method, line 584) `def do_lazy_pause(self, line)`
+  - `do_lazy_resume` (method, line 594) `def do_lazy_resume(self, line)`
+  - `do_lazy_report` (method, line 604) `def do_lazy_report(self, line)`
+  - `do_lazy_runtime` (method, line 661) `def do_lazy_runtime(self, line)`
+  - `do_lazy_payload_keys` (method, line 691) `def do_lazy_payload_keys(self, line)`
+  - `do_lazy_fact` (method, line 703) `def do_lazy_fact(self, line)`
+  - `do_lazy_node` (method, line 732) `def do_lazy_node(self, line)`
+  - `do_lazy_evidence` (method, line 752) `def do_lazy_evidence(self, line)`
+  - `do_lazy_ask` (method, line 779) `def do_lazy_ask(self, line)`
+  - `do_lazy_company` (method, line 793) `def do_lazy_company(self, line)`
+  - `do_lazy_tool` (method, line 815) `def do_lazy_tool(self, line)`
+  - `do_lazy_notify` (method, line 834) `def do_lazy_notify(self, line)`
+  - `do_lazy_trigger` (method, line 858) `def do_lazy_trigger(self, line)`
+  - `do_lazy_llm` (method, line 886) `def do_lazy_llm(self, line)`
+  - `do_lazy_compact` (method, line 923) `def do_lazy_compact(self, line)`
+  - `do_lazy_status` (method, line 983) `def do_lazy_status(self, line)`
+  - `do_lazy_overview` (method, line 1005) `def do_lazy_overview(self, line)`
+  - `do_lazy_archive` (method, line 1010) `def do_lazy_archive(self, line)`
+  - `do_lazy_template` (method, line 1040) `def do_lazy_template(self, line)`
+  - `do_lazy_category` (method, line 1068) `def do_lazy_category(self, line)`
+  - `do_lazy_chat` (method, line 1088) `def do_lazy_chat(self, line)`
+  - `do_lazy_scheduler` (method, line 1115) `def do_lazy_scheduler(self, line)`
+  - `do_lazy_gate` (method, line 1139) `def do_lazy_gate(self, line)`
+  - `do_lazy_loop` (method, line 1184) `def do_lazy_loop(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/lazy_engine.py`, `utils.py`
+- Imported by: `tests/test_asset_gate.py`, `tests/test_lazy_engine.py`
+
 ## cli/commands/marketplace.py
 - Doc: Plugin/addon marketplace commands.
 - Layer: utility
@@ -410,90 +467,6 @@ Previous: [KB_commands.md](KB_commands.md)
   - `do_marketplace_config` (method, line 426) `def do_marketplace_config(self, line)`
   - `_mp_toggle_addon` (method, line 468) `def _mp_toggle_addon(self, name, enable_state)`
 - Depends on: `cli/commands/_base.py`, `cli/marketplace_config.py`, `cli/plugin_tiers.py`, `modules/module_registry.py`, `utils.py`
-
-## cli/commands/mcp_bridge.py
-- Doc: MCP verb bridge — one command language for operators and agents.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `_build_auto_populate_parser` (function, line 50) `def _build_auto_populate_parser()`
-  - `_build_facts_show_parser` (function, line 67) `def _build_facts_show_parser()`
-  - `_build_rag_query_parser` (function, line 84) `def _build_rag_query_parser()`
-  - `_build_parquet_query_parser` (function, line 92) `def _build_parquet_query_parser()`
-  - `_build_threat_model_parser` (function, line 111) `def _build_threat_model_parser()`
-  - `_build_playbook_run_parser` (function, line 124) `def _build_playbook_run_parser()`
-  - `McpBridgeCommandSet` (class, line 138) `class McpBridgeCommandSet(LazyOwnCommandSet)`
-  - `do_auto_populate` (method, line 146) `def do_auto_populate(self, args)`
-  - `do_facts_show` (method, line 253) `def do_facts_show(self, args)`
-  - `do_rag_query` (method, line 278) `def do_rag_query(self, args)`
-  - `do_parquet_query` (method, line 308) `def do_parquet_query(self, args)`
-  - `do_threat_model` (method, line 370) `def do_threat_model(self, args)`
-  - `do_playbook_run` (method, line 423) `def do_playbook_run(self, args)`
-  - `do_auto_loop` (method, line 481) `def do_auto_loop(self, line)`
-  - `do_session_state` (method, line 499) `def do_session_state(self, line)`
-  - `do_campaign_sitrep` (method, line 504) `def do_campaign_sitrep(self, line)`
-  - `do_timeline` (method, line 509) `def do_timeline(self, line)`
-  - `_delegate` (method, line 513) `def _delegate(self, command, line)`
-  - `_refresh_aliases` (method, line 521) `def _refresh_aliases(self)`
-  - `_executor` (method, line 467) `def _executor(command, host)`
-- Depends on: `cli/aliases.py`, `cli/commands/_base.py`, `core/config.py`, `modules/intelligence_engine.py`, `modules/playbook_engine.py`, `modules/session_rag.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_facts.py`, `skills/lazyown_parquet_db.py`, `utils.py`
-
-## cli/commands/misc_migrated.py
-- Doc: misc commands migrated from lazyown.py.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MiscMigratedCommandSet` (class, line 86) `class MiscMigratedCommandSet(LazyOwnCommandSet)`
-  - `__getattr__` (method, line 1228) `def __getattr__(name)`
-  - `do_notify` (method, line 91) `def do_notify(self, arg)`
-  - `do_EOF` (method, line 110) `def do_EOF(self, line)`
-  - `_handle_killchain_auto` (method, line 152) `def _handle_killchain_auto(self, spec)`
-  - `do_palette` (method, line 190) `def do_palette(self, line)`
-  - `do_graph_search` (method, line 215) `def do_graph_search(self, line)`
-  - `do_neighbors` (method, line 243) `def do_neighbors(self, line)`
-  - `do_god_nodes` (method, line 270) `def do_god_nodes(self, line)`
-  - `do_suggest_next` (method, line 289) `def do_suggest_next(self, line)`
-  - `do_recommend_next` (method, line 415) `def do_recommend_next(self, line)`
-  - `do_explore` (method, line 472) `def do_explore(self, line)`
-  - `do_prev` (method, line 503) `def do_prev(self, line)`
-  - `do_dashboard` (method, line 538) `def do_dashboard(self, line)`
-  - `do_palette_k` (method, line 575) `def do_palette_k(self, line)`
-  - `do_browse` (method, line 604) `def do_browse(self, line)`
-  - `do_timeline_browser` (method, line 626) `def do_timeline_browser(self, line)`
-  - `do_graph_overlay` (method, line 645) `def do_graph_overlay(self, line)`
-  - `do_toast_clear` (method, line 665) `def do_toast_clear(self, line)`
-  - `do_exit` (method, line 691) `def do_exit(self, arg)`
-  - `_persist_chainmode` (method, line 744) `def _persist_chainmode(self, enabled)`
-  - `do_banner` (method, line 768) `def do_banner(self, line)`
-  - `do_config_banner` (method, line 780) `def do_config_banner(self, line)`
-  - `do_aliass` (method, line 839) `def do_aliass(self, line)`
-  - `do_graph` (method, line 875) `def do_graph(self, line)`
-  - `do_h` (method, line 936) `def do_h(self, arg)`
-  - `do_v` (method, line 982) `def do_v(self, arg)`
-  - `do_links` (method, line 1032) `def do_links(self, line)`
-  - `do_news` (method, line 1095) `def do_news(self, line)`
-  - `do_check_update` (method, line 1108) `def do_check_update(self, line)`
-  - `do_addalias` (method, line 1157) `def do_addalias(self, arglist)`
-  - `do_listaliases` (method, line 1206) `def do_listaliases(self, _)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/banner_config.py`, `cli/command_chain.py`, `cli/commands/_base.py`, `cli/dashboard_tui.py`, `cli/exploration.py`, `cli/exploration_view.py`, `cli/graph_advisor.py`, `cli/graph_overlay.py`, `cli/ops_commands.py`, `cli/palette.py`, `cli/palette_command.py`, `cli/palette_overlay.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recommendation_signals.py`, `cli/sessions_browser.py`, `cli/show.py`, `cli/timeline_browser.py`, `cli/toast_bus.py`, `cli/wizard.py`, `core/config.py`, `core/console.py`, `core/process.py`, `core/safe_exec.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `utils.py`
-- Imported by: `tests/test_daemon_ctl_command_set.py`, `tests/test_encoding_command_set.py`, `tests/test_help_ui_command_set.py`, `tests/test_nethelpers_command_set.py`, `tests/test_session_ops_command_set.py`, `tests/test_shellsys_command_set.py`
-
-## cli/commands/mobile_macos.py
-- Doc: Mobile & macOS exploitation command set.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `MobileMacOSCommandSet` (class, line 96) `class MobileMacOSCommandSet(LazyOwnCommandSet)`
-  - `_extract_flag` (method, line 351) `def _extract_flag(args, flag)`
-  - `_adb_argv` (method, line 361) `def _adb_argv(serial)`
-  - `_is_safe_output_path` (method, line 368) `def _is_safe_output_path(path)`
-  - `is_binary_present` (method, line 374) `def is_binary_present(name)`
-  - `do_android_enum` (method, line 103) `def do_android_enum(self, line)`
-  - `do_android_apk` (method, line 171) `def do_android_apk(self, line)`
-  - `do_macos_persist` (method, line 216) `def do_macos_persist(self, line)`
-  - `do_macos_keychain` (method, line 274) `def do_macos_keychain(self, line)`
-  - `do_macos_tcc` (method, line 323) `def do_macos_tcc(self, line)`
-- Depends on: `cli/commands/_base.py`, `core/process.py`, `core/validators.py`, `utils.py`
 
 
 Next: [KB_commands_p3.md](KB_commands_p3.md)

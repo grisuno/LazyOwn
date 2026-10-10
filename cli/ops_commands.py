@@ -19,13 +19,13 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
-from rich.console import Console
 from rich.table import Table
 from rich.text import Text
 
+from core.safe_console import get_console, milestone_glyph, progress_bar
 from modules.killchain import KillChain as _KC
 
-_console = Console(highlight=False, soft_wrap=True)
+_console = get_console()
 
 PHASES: tuple[str, ...] = _KC.phases()
 _PHASE_COLORS: dict[str, str] = _KC.phase_rich_colors()
@@ -332,13 +332,13 @@ def print_phase() -> None:
         status = status_map.get(phase, "pending")
         if status == "done":
             style = "bold green"
-            icon = "✔"
+            icon = milestone_glyph("done")
         elif status == "active":
             style = f"bold {_PHASE_COLORS.get(phase, 'white')}"
-            icon = "▶"
+            icon = milestone_glyph("active")
         else:
             style = "dim white"
-            icon = "○"
+            icon = milestone_glyph("pending")
         t.append(f"{icon}{phase}", style=style)
         if i < len(PHASES) - 1:
             t.append("  ", style="dim")
@@ -358,9 +358,10 @@ def print_phase() -> None:
 
 def _render_progress_bar(ratio: float) -> str:
     """Return a fixed-width filled/empty block bar for ``ratio`` in [0, 1]."""
-    clamped = max(0.0, min(1.0, ratio))
-    filled = int(round(clamped * _PROGRESS_BAR_WIDTH))
-    return "█" * filled + "░" * (_PROGRESS_BAR_WIDTH - filled)
+    try:
+        return progress_bar(float(ratio))
+    except (TypeError, ValueError):
+        return progress_bar(0.0)
 
 
 def _os_identified(sessions_dir: str) -> bool:
@@ -546,7 +547,7 @@ class LootEntry:
 
     Attributes:
         source: Basename of the file the entry was read from.
-        kind: ``cleartext`` for credentials*.txt, ``hash`` for hash*.txt.
+        kind: ``clelazyt`` for credentials*.txt, ``hash`` for hash*.txt.
         user: Username portion (text before the first colon), full length.
         secret: Password or hash portion (text after the first colon).
     """
@@ -582,7 +583,7 @@ def gather_loot(sessions_dir: str = "sessions") -> list[LootEntry]:
     """
     entries: list[LootEntry] = []
     for pattern, kind in (
-        (f"{sessions_dir}/credentials*.txt", "cleartext"),
+        (f"{sessions_dir}/credentials*.txt", "clelazyt"),
         (f"{sessions_dir}/hash*.txt", "hash"),
     ):
         for fpath in sorted(glob.glob(pattern)):
@@ -640,7 +641,7 @@ def loot_show(sessions_dir: str = "sessions") -> None:
         dup_style = "dim" if key in seen else ""
         seen.add(key)
         secret_cell = Text(secret)
-        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
+        secret_cell.stylize("bold green" if entry.kind == "clelazyt" else "bold red")
         if dup_style:
             secret_cell.stylize("dim")
         table.add_row(
@@ -714,7 +715,7 @@ def loot_search(query: str, sessions_dir: str = "sessions") -> None:
 
     for entry in hits:
         secret_cell = Text(entry.secret[:_LOOT_SECRET_MAX])
-        secret_cell.stylize("bold green" if entry.kind == "cleartext" else "bold red")
+        secret_cell.stylize("bold green" if entry.kind == "clelazyt" else "bold red")
         table.add_row(entry.source, entry.kind, entry.user[:_LOOT_USER_MAX], secret_cell)
 
     _console.print(table)
@@ -763,7 +764,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
     """Suggest captured credentials worth trying against ``rhost``.
 
     Ranks credentials that have not yet been rejected by the target, favouring
-    cleartext over hashes and credentials already confirmed elsewhere, and
+    clelazyt over hashes and credentials already confirmed elsewhere, and
     prints ready-to-run authentication hints.
 
     Args:
@@ -797,7 +798,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
         if node in rejected_here:
             continue
         status = ""
-        score = 1.0 if entry.kind == "cleartext" else 0.5
+        score = 1.0 if entry.kind == "clelazyt" else 0.5
         if node in worked_here:
             status = "already works here"
             score += 2.0
@@ -825,7 +826,7 @@ def loot_reuse(rhost: str, sessions_dir: str = "sessions") -> None:
     table.add_column("Try", no_wrap=False)
 
     for _score, entry, status in ranked:
-        if entry.kind == "cleartext":
+        if entry.kind == "clelazyt":
             secret_style = "bold green"
             hint = f"nxc smb {rhost} -u '{entry.user}' -p '{entry.secret}'"
         else:
@@ -1355,6 +1356,18 @@ def sitrep(payload: dict[str, Any], sessions_dir: str = "sessions") -> None:
     # Plan row
     if plan_snippet:
         _console.print(f"  [bold]Plan[/]          [dim]{plan_snippet}[/]")
+
+    # Approvals row (operator gate for autonomous steps)
+    try:
+        _control_raw = json.loads(Path(f"{sessions_dir}/daemon_control.json").read_text(encoding="utf-8"))
+        _pending = _control_raw.get("pending")
+    except (OSError, ValueError):
+        _pending = None
+    if _pending:
+        _console.print(
+            f"  [bold]Approvals[/]     [bold yellow]1 pending[/]  "
+            f"[dim]{str(_pending.get('command', ''))[:60]}[/]"
+        )
 
     # What's next
     _console.print()

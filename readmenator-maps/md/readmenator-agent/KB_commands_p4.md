@@ -1,6 +1,89 @@
 # Subsystem: commands (page 4 of 4)
 Previous: [KB_commands_p3.md](KB_commands_p3.md)
 
+## cli/commands/scan.py
+- Doc: Scanning command set.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScanCommandSet` (class, line 49) `class ScanCommandSet(LazyOwnCommandSet)`
+  - `do_gobuster` (method, line 56) `def do_gobuster(self, line)`
+  - `do_arpscan` (method, line 129) `def do_arpscan(self, line)`
+  - `do_dirsearch` (method, line 170) `def do_dirsearch(self, line)`
+  - `do_dmitry` (method, line 213) `def do_dmitry(self, line)`
+  - `do_feroxbuster` (method, line 248) `def do_feroxbuster(self, line)`
+  - `do_nmapscript` (method, line 316) `def do_nmapscript(self, line)`
+  - `do_nuclei` (method, line 350) `def do_nuclei(self, line)`
+  - `do_amass` (method, line 392) `def do_amass(self, line)`
+  - `do_bbot` (method, line 422) `def do_bbot(self, line)`
+  - `do_osmedeus` (method, line 473) `def do_osmedeus(self, line)`
+  - `do_magicrecon` (method, line 548) `def do_magicrecon(self, line)`
+  - `do_hostdiscover` (method, line 606) `def do_hostdiscover(self, line)`
+  - `do_portdiscover` (method, line 664) `def do_portdiscover(self, line)`
+  - `do_portservicediscover` (method, line 724) `def do_portservicediscover(self, line)`
+  - `do_skipfish` (method, line 789) `def do_skipfish(self, line)`
+  - `do_vscan` (method, line 839) `def do_vscan(self, line)`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
+## cli/commands/scan_migrated.py
+- Doc: scan commands migrated from lazyown.py.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ScanMigratedCommandSet` (class, line 29) `class ScanMigratedCommandSet(LazyOwnCommandSet)`
+  - `do_cme` (method, line 34) `def do_cme(self, line)`
+  - `do_ldapdomaindump` (method, line 173) `def do_ldapdomaindump(self, line)`
+  - `do_bloodhound` (method, line 215) `def do_bloodhound(self, line)`
+  - `do_swaks` (method, line 264) `def do_swaks(self, line)`
+  - `do_samrdump` (method, line 303) `def do_samrdump(self, line)`
+  - `do_lynis` (method, line 358) `def do_lynis(self, line)`
+  - `do_snmpcheck` (method, line 387) `def do_snmpcheck(self, line)`
+  - `do_snmpwalk` (method, line 414) `def do_snmpwalk(self, line)`
+  - `do_smtpuserenum` (method, line 441) `def do_smtpuserenum(self, line)`
+  - `do_sessionssh` (method, line 480) `def do_sessionssh(self, line)`
+  - `do_smbattack` (method, line 504) `def do_smbattack(self, line)`
+  - `do_parsero` (method, line 640) `def do_parsero(self, line)`
+  - `do_changeme` (method, line 672) `def do_changeme(self, line)`
+  - `do_enum4linux_ng` (method, line 703) `def do_enum4linux_ng(self, line)`
+  - `do_fuzz` (method, line 743) `def do_fuzz(self, line)`
+  - `do_kerbrute` (method, line 788) `def do_kerbrute(self, line)`
+  - `do_davtest` (method, line 874) `def do_davtest(self, line)`
+  - `do_evil_ssdp` (method, line 915) `def do_evil_ssdp(self, line)`
+  - `do_netexec` (method, line 961) `def do_netexec(self, line)`
+  - `do_allin` (method, line 1214) `def do_allin(self, line)`
+  - `do_windapsearch` (method, line 1285) `def do_windapsearch(self, line)`
+  - `do_ldapsearch` (method, line 1413) `def do_ldapsearch(self, line)`
+  - `do_arjun` (method, line 1474) `def do_arjun(self, line)`
+  - `do_finger_user_enum` (method, line 1542) `def do_finger_user_enum(self, line)`
+  - `do_wpscan` (method, line 1588) `def do_wpscan(self, line)`
+  - `do_loxs` (method, line 1651) `def do_loxs(self, line)`
+  - `do_blazy` (method, line 1695) `def do_blazy(self, line)`
+  - `do_parth` (method, line 1744) `def do_parth(self, line)`
+  - `do_breacher` (method, line 1813) `def do_breacher(self, line)`
+  - `do_openredirex` (method, line 1875) `def do_openredirex(self, line)`
+  - `do_odat` (method, line 1943) `def do_odat(self, line)`
+  - `do_rpcmap_py` (method, line 2061) `def do_rpcmap_py(self, line)`
+  - `do_pykerbrute` (method, line 2104) `def do_pykerbrute(self, line)`
+  - `do_netview` (method, line 2174) `def do_netview(self, line)`
+  - `do_rdp_check_py` (method, line 2238) `def do_rdp_check_py(self, line)`
+  - `do_mqtt_check_py` (method, line 2303) `def do_mqtt_check_py(self, line)`
+  - `do_lookupsid_py` (method, line 2358) `def do_lookupsid_py(self, line)`
+  - `do_lookupsid` (method, line 2431) `def do_lookupsid(self, line)`
+  - `do_certipy_ad` (method, line 2493) `def do_certipy_ad(self, line)`
+  - `do_certipy` (method, line 2557) `def do_certipy(self, line)`
+  - `do_sawks` (method, line 2651) `def do_sawks(self, line)`
+  - `do_ad_ldap_enum` (method, line 2688) `def do_ad_ldap_enum(self, line)`
+  - `do_net_rpc_addmem` (method, line 2742) `def do_net_rpc_addmem(self, line)`
+  - `do_pre2k` (method, line 2788) `def do_pre2k(self, line)`
+  - `do_hound` (method, line 2881) `def do_hound(self, line)`
+  - `find_tgts` (method, line 533) `def find_tgts(subnet)`
+  - `setup_handler` (method, line 559) `def setup_handler(config_file, lhost, lport)`
+  - `conficker_exploit` (method, line 579) `def conficker_exploit(config_file, host, lhost, lport)`
+  - `smb_brute` (method, line 599) `def smb_brute(config_file, host, passwd_file, lhost, lport)`
+  - `install_netexec` (method, line 988) `def install_netexec()`
+  - `install_netexec_pipx` (method, line 993) `def install_netexec_pipx()`
+- Depends on: `cli/commands/_base.py`, `utils.py`
+
 ## cli/commands/security.py
 - Doc: OPSEC and security commands — risk scoring, credential sealing, rotation.
 - Layer: utility
@@ -37,25 +120,27 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_run` (method, line 550) `def do_run(self, line)`
   - `do_payload` (method, line 589) `def do_payload(self, line)`
   - `do_next` (method, line 640) `def do_next(self, line)`
-  - `do_chainmode` (method, line 684) `def do_chainmode(self, line)`
-  - `do_engage` (method, line 735) `def do_engage(self, line)`
-  - `do_pipeline` (method, line 862) `def do_pipeline(self, line)`
-  - `do_lazyscript` (method, line 953) `def do_lazyscript(self, line)`
-  - `do_hunt` (method, line 985) `def do_hunt(self, line)`
-  - `do_resume` (method, line 1067) `def do_resume(self, line)`
-  - `do_getseclist` (method, line 1089) `def do_getseclist(self, line)`
-  - `do_download_resources` (method, line 1127) `def do_download_resources(self, line)`
-  - `do_collab_join` (method, line 1160) `def do_collab_join(self, line)`
-  - `do_kick` (method, line 1191) `def do_kick(self, line)`
-  - `do_qa` (method, line 1240) `def do_qa(self, line)`
-  - `do_clock` (method, line 1281) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1329) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1341) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1391) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1437) `def do_msfshellcoder(self, line)`
-  - `_flag_value` (method, line 799) `def _flag_value(flag_name)`
-  - `_flag_value` (method, line 911) `def _flag_value(flag_name)`
-- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`, `utils.py`
+  - `do_frontier` (method, line 684) `def do_frontier(self, line)`
+  - `do_traces` (method, line 730) `def do_traces(self, line)`
+  - `do_chainmode` (method, line 811) `def do_chainmode(self, line)`
+  - `do_engage` (method, line 862) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 989) `def do_pipeline(self, line)`
+  - `do_lazyscript` (method, line 1080) `def do_lazyscript(self, line)`
+  - `do_hunt` (method, line 1112) `def do_hunt(self, line)`
+  - `do_resume` (method, line 1202) `def do_resume(self, line)`
+  - `do_getseclist` (method, line 1224) `def do_getseclist(self, line)`
+  - `do_download_resources` (method, line 1262) `def do_download_resources(self, line)`
+  - `do_collab_join` (method, line 1295) `def do_collab_join(self, line)`
+  - `do_kick` (method, line 1326) `def do_kick(self, line)`
+  - `do_qa` (method, line 1375) `def do_qa(self, line)`
+  - `do_clock` (method, line 1416) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1464) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1476) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1526) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1572) `def do_msfshellcoder(self, line)`
+  - `_flag_value` (method, line 926) `def _flag_value(flag_name)`
+  - `_flag_value` (method, line 1038) `def _flag_value(flag_name)`
+- Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/enrich.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `modules/planner.py`, `skills/autonomous_daemon.py`, `utils.py`
 - Imported by: `tests/test_session_ops_command_set.py`
 
 ## cli/commands/shellsys.py
@@ -120,6 +205,16 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_depscan` (method, line 216) `def do_depscan(self, line)`
 - Depends on: `cli/commands/_base.py`, `utils.py`
 
+## cli/commands/surface.py
+- Doc: Attack-surface operations: confirmed discovery scans, estorides fusion.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `SurfaceCommandSet` (class, line 36) `class SurfaceCommandSet(LazyOwnCommandSet)`
+  - `do_scandiscovery` (method, line 43) `def do_scandiscovery(self, line)`
+  - `do_estorides_intel` (method, line 86) `def do_estorides_intel(self, line)`
+- Depends on: `cli/commands/_base.py`, `modules/attack_surface3d.py`, `modules/estorides_fusion.py`, `modules/surface_ops.py`, `utils.py`
+
 ## cli/commands/ux.py
 - Doc: Usability commands: hud, undo, config_diff, cheat, suggest.
 - Layer: utility
@@ -131,8 +226,8 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_config_diff` (method, line 115) `def do_config_diff(self, line)`
   - `do_cheat` (method, line 140) `def do_cheat(self, line)`
   - `do_toast` (method, line 167) `def do_toast(self, line)`
-  - `do_suggest` (method, line 235) `def do_suggest(self, line)`
-  - `_candidate_commands` (method, line 255) `def _candidate_commands(self)`
-  - `_find_cheat_section` (method, line 272) `def _find_cheat_section(query)`
+  - `do_suggest` (method, line 261) `def do_suggest(self, line)`
+  - `_candidate_commands` (method, line 281) `def _candidate_commands(self)`
+  - `_find_cheat_section` (method, line 298) `def _find_cheat_section(query)`
 - Depends on: `cli/commands/_base.py`, `cli/config_history.py`, `cli/fuzzy_match.py`, `cli/output_mode.py`, `cli/session_hud.py`, `cli/toast_bus.py`, `core/config.py`, `core/console.py`, `utils.py`
 

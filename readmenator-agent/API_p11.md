@@ -1,5 +1,121 @@
-# API (page 11 of 20)
+# API (page 11 of 21)
 Previous: [API_p10.md](API_p10.md)
+
+## modules/finding_lifecycle.py
+Depends on: `modules/osint_enrich.py`
+Imported by: `cli/commands/database.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`, `tests/test_finding_lifecycle.py`
+- `confirm` (function) `modules/finding_lifecycle.py:60` `def confirm(finding_id, evidence, sessions_dir, by)` -- Mark a finding confirmed with linked evidence (CAIRN seed-add).
+- `reject` (function) `modules/finding_lifecycle.py:86` `def reject(finding_id, reason, sessions_dir, by)` -- Mark a finding rejected (disproven lead, CAIRN dead-end discipline).
+- `add_dead_end` (function) `modules/finding_lifecycle.py:98` `def add_dead_end(kind, value, reason, sessions_dir)` -- Suppress a value campaign-wide with a labeled reason (dead_end_hashes).
+- `is_dead_end` (function) `modules/finding_lifecycle.py:112` `def is_dead_end(kind, value, sessions_dir)` -- Return True when a kind/value pair sits on the suppression list.
+- `suppressed_values` (function) `modules/finding_lifecycle.py:120` `def suppressed_values(sessions_dir)` -- Return every suppressed value for text-level filtering by the loop.
+- `resolve` (function) `modules/finding_lifecycle.py:127` `def resolve(node, sessions_dir)` -- Resolve a finding node's confirmation state.
+- `apply_confirmation` (function) `modules/finding_lifecycle.py:153` `def apply_confirmation(nodes, sessions_dir)` -- Stamp ``confirmation``/``status`` on every finding node in place.
+
+## modules/forensic_cleaner.py
+Imported by: `cli/commands/opsec_cleanup.py`
+- `ForensicCleaner.__init__` (method) `modules/forensic_cleaner.py:67` `def __init__(self, config)`
+- `ForensicCleaner.windows_cleanup` (method) `modules/forensic_cleaner.py:70` `def windows_cleanup(self)` -- Generate Windows forensic artifact cleanup commands.
+- `ForensicCleaner.linux_cleanup` (method) `modules/forensic_cleaner.py:165` `def linux_cleanup(self)` -- Generate Linux forensic artifact cleanup commands.
+- `ForensicCleaner.macos_cleanup` (method) `modules/forensic_cleaner.py:193` `def macos_cleanup(self)` -- Generate macOS forensic artifact cleanup commands.
+- `ForensicCleaner.windows_prefetch_parse` (method) `modules/forensic_cleaner.py:221` `def windows_prefetch_parse(self, prefetch_path)` -- Parse Prefetch files to identify what the attacker should clean.
+- `ForensicCleaner.amcache_parse` (method) `modules/forensic_cleaner.py:259` `def amcache_parse(self)` -- Parse Amcache registry entries for evidence of execution.
+
+## modules/gcp_attacks.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `GCPAttackEngine.__init__` (method) `modules/gcp_attacks.py:90` `def __init__(self, config)`
+- `GCPAttackEngine.enumerate_iam_policy` (method) `modules/gcp_attacks.py:93` `def enumerate_iam_policy(self, resource)` -- Enumerate IAM policies for projects, folders, or organizations.
+- `GCPAttackEngine.service_account_impersonation` (method) `modules/gcp_attacks.py:119` `def service_account_impersonation(self)` -- Exploit service account impersonation for privilege escalation.
+- `GCPAttackEngine.cloud_functions_backdoor` (method) `modules/gcp_attacks.py:144` `def cloud_functions_backdoor(self)` -- Backdoor Cloud Functions for privilege escalation.
+- `GCPAttackEngine.compute_engine_metadata_exfil` (method) `modules/gcp_attacks.py:173` `def compute_engine_metadata_exfil(self)` -- Exfiltrate GCE instance metadata and service account tokens.
+- `GCPAttackEngine.gcs_enumeration` (method) `modules/gcp_attacks.py:194` `def gcs_enumeration(self)` -- Enumerate Cloud Storage buckets for sensitive data.
+- `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
+- `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
+- `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
+
+## modules/generate_tools.py
+- `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
+
+## modules/goals.py
+Imported by: `cli/commands/daemon_ctl.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_lazy_parity.py`
+- `TaskConstraints.blocked` (method) `modules/goals.py:35` `def blocked(self, command)` -- Return the blocking constraint or empty string.
+- `TaskConstraints.decompose_rule_based` (method) `modules/goals.py:63` `def decompose_rule_based(objective_text, max_goals)` -- Split objective text into goal specs without an LLM (deterministic).
+- `TaskConstraints.load_constraints` (method) `modules/goals.py:83` `def load_constraints(payload)` -- Build constraints from payload config (deny wins, LAZY parity).
+- `TaskConstraints.constraint_block_text` (method) `modules/goals.py:103` `def constraint_block_text(constraints)` -- Render the constraint block injected at max priority (LAZY parity).
+- `GoalTracker.__init__` (method) `modules/goals.py:120` `def __init__(self, goals)` -- Bind to an initial goal list.
+- `GoalTracker.goals` (method) `modules/goals.py:125` `def goals(self)` -- Return a copy of tracked goals.
+- `GoalTracker.prove_goal` (method) `modules/goals.py:129` `def prove_goal(self, goal_text, evidence)` -- Mark one goal achieved from evidence; return True when found.
+- `GoalTracker.goal_met` (method) `modules/goals.py:140` `def goal_met(self, opt_in)` -- End the whole task; requires explicit opt-in (default unbound).
+- `GoalTracker.all_achieved` (method) `modules/goals.py:148` `def all_achieved(self)` -- Return True when every goal is achieved.
+- `GoalTracker.open_goals` (method) `modules/goals.py:152` `def open_goals(self)` -- Return goals still open.
+
+## modules/gpo_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
+- `GPOAbuseEngine.parse_gpo_list` (method) `modules/gpo_abuse.py:124` `def parse_gpo_list(self, raw_gpo_output)` -- Parse Get-GPO or ldapsearch output for GPO information.
+- `GPOAbuseEngine.parse_bloodhound_gpos` (method) `modules/gpo_abuse.py:160` `def parse_bloodhound_gpos(self, bloodhound_nodes)` -- Parse BloodHound GPO nodes for abusable policies.
+- `GPOAbuseEngine.plan_scheduled_task` (method) `modules/gpo_abuse.py:182` `def plan_scheduled_task(self, gpo, command, task_name)` -- Plan a GPO-backed scheduled task for immediate code execution.
+- `GPOAbuseEngine.plan_startup_script` (method) `modules/gpo_abuse.py:208` `def plan_startup_script(self, gpo, script_content, script_name)` -- Plan a GPO startup script for persistence via SYSVOL.
+- `GPOAbuseEngine.plan_logon_script` (method) `modules/gpo_abuse.py:238` `def plan_logon_script(self, gpo, command)` -- Plan a GPO user logon script for user-triggered code execution.
+- `GPOAbuseEngine.plan_local_admin_addition` (method) `modules/gpo_abuse.py:266` `def plan_local_admin_addition(self, gpo, username, group)` -- Plan adding a user to the local Administrators group via GPO preferences.
+- `GPOAbuseEngine.plan_wmi_filter_abuse` (method) `modules/gpo_abuse.py:293` `def plan_wmi_filter_abuse(self, gpo, wmi_query)` -- Plan WMI filter abuse for targeted GPO scope control.
+- `GPOAbuseEngine.plan_registry_preference` (method) `modules/gpo_abuse.py:322` `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` -- Plan a registry modification via GPO preferences.
+- `GPOAbuseEngine.plan_service_installation` (method) `modules/gpo_abuse.py:356` `def plan_service_installation(self, gpo, service_name, binary_path)` -- Plan a service installation via GPO for SYSTEM-level persistence.
+- `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
+- `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
+- `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
+
+## modules/gui_askpass.sh
+- `has` (function) `modules/gui_askpass.sh:22` -- ── helpers ───────────────────────────────────────────────────────────────────
+- `try_zenity` (function) `modules/gui_askpass.sh:24`
+- `try_yad` (function) `modules/gui_askpass.sh:28`
+- `try_ssh_askpass` (function) `modules/gui_askpass.sh:33`
+- `try_kdialog` (function) `modules/gui_askpass.sh:40`
+
+## modules/hash_cracker.py
+Depends on: `core/logging.py`, `modules/db.py`
+Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
+- `HashCracker.__init__` (method) `modules/hash_cracker.py:168` `def __init__(self, wordlist, rules, use_hashcat, timeout)`
+- `HashCracker.identify` (method) `modules/hash_cracker.py:190` `def identify(self, line)` -- Identify the hash type of a single line.
+- `HashCracker.identify_file` (method) `modules/hash_cracker.py:277` `def identify_file(self, filepath)` -- Parse a hash file and group hashes by type.
+- `HashCracker.crack_hash` (method) `modules/hash_cracker.py:299` `def crack_hash(self, hash_value, hash_type, wordlist)` -- Attempt to crack a single hash.
+- `HashCracker.crack_file` (method) `modules/hash_cracker.py:353` `def crack_file(self, filepath, wordlist, hash_types)` -- Crack all hashes in a file.
+- `HashCracker.import_to_db` (method) `modules/hash_cracker.py:409` `def import_to_db(self, results, rhost, workspace_name)` -- Import cracked results into the LazyOwnDB credentials table.
+- `HashCracker.crack_secretsdump_output` (method) `modules/hash_cracker.py:699` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
+
+## modules/hive_invoke.py
+Depends on: `modules/toposwarm_bridge.py`
+- `main` (function) `modules/hive_invoke.py:255` `def main(argv)`
+
+## modules/hostdiscover.sh
+- `extract_ips_from_arp` (function) `modules/hostdiscover.sh:21`
+- `extract_listening_ips_from_netstat` (function) `modules/hostdiscover.sh:26`
+
+## modules/ia_code_analysis.py
+Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+- `CodeAnalyzer.__init__` (method) `modules/ia_code_analysis.py:33` `def __init__(self, mode)`
+- `CodeAnalyzer.analyze_directory` (method) `modules/ia_code_analysis.py:37` `def analyze_directory(self, directory)` -- Recursively analyzes all source code files in the specified directory.
+- `CodeAnalyzer.analyze_code_file` (method) `modules/ia_code_analysis.py:49` `def analyze_code_file(self, file_path)` -- Analyzes the content of the source code file.
+- `CodeAnalyzer.analyze_with_deepseek` (method) `modules/ia_code_analysis.py:66` `def analyze_with_deepseek(code_content, file_path, mode)` -- Sends the code content to DeepSeek for analysis.
+- `CodeAnalyzer.save_results_to_json` (method) `modules/ia_code_analysis.py:123` `def save_results_to_json(results, file_path)` -- Saves the analysis results to JSON files.
+- `CodeAnalyzer.start_analysis` (method) `modules/ia_code_analysis.py:169` `def start_analysis(code_dir, mode)` -- Starts the analysis of the specified code directory.
+- `CodeAnalyzer.parse_args` (method) `modules/ia_code_analysis.py:178` `def parse_args()`
+
+## modules/ia_logs_analysis.py
+Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+- `LogFileHandler.__init__` (method) `modules/ia_logs_analysis.py:59` `def __init__(self, mode)`
+- `LogFileHandler.on_modified` (method) `modules/ia_logs_analysis.py:64` `def on_modified(self, event)` -- Triggered when a log file is modified.
+- `LogFileHandler.analyze_log_file` (method) `modules/ia_logs_analysis.py:75` `def analyze_log_file(self, file_path)` -- Analyzes the content of the modified log file.
+- `LogFileHandler.analyze_with_deepseek` (method) `modules/ia_logs_analysis.py:94` `def analyze_with_deepseek(log_content, mode)` -- Sends log content to DeepSeek for advanced analysis.
+- `LogFileHandler.start_monitoring` (method) `modules/ia_logs_analysis.py:147` `def start_monitoring(log_dir, mode)` -- Starts monitoring the specified log directory.
+- `LogFileHandler.parse_args` (method) `modules/ia_logs_analysis.py:168` `def parse_args()`
+
+## modules/ia_network_analysis.py
+Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
+- `analyze_with_deepseek` (function) `modules/ia_network_analysis.py:39` `def analyze_with_deepseek(packet_info, mode)` -- Envía la información del paquete a DeepSeek para análisis avanzado.
+- `packet_callback` (function) `modules/ia_network_analysis.py:91` `def packet_callback(packet, mode)` -- Callback para procesar cada paquete capturado.
+- `start_monitoring` (function) `modules/ia_network_analysis.py:130` `def start_monitoring(interface, timeout, mode)` -- Inicia el monitoreo del tráfico de red.
+- `parse_args` (function) `modules/ia_network_analysis.py:154` `def parse_args()`
 
 ## modules/icmp_client.py
 - `encrypt_data` (function) `modules/icmp_client.py:18` `def encrypt_data(data, key)` -- Encrypt bytes with AES-256-GCM returning ``nonce || ciphertext || tag``.
@@ -94,6 +210,22 @@ Imported by: `modules/integrations/__init__.py`, `tests/test_core_modules.py`
 - `SearchsploitClient.search_cve` (method) `modules/integrations/searchsploit.py:341` `def search_cve(cve_id)` -- Module-level convenience: search by CVE id.
 - `SearchsploitClient.search_service` (method) `modules/integrations/searchsploit.py:346` `def search_service(name, version)` -- Module-level convenience: search by service name and version.
 
+## modules/intel_fusion.py
+Depends on: `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`
+Imported by: `lazyc2.py`, `modules/attack_surface3d.py`, `tests/test_asset_gate.py`, `tests/test_attack_surface3d.py`, `tests/test_intel_fusion.py`
+- `node_id` (function) `modules/intel_fusion.py:106` `def node_id(kind, value)` -- Deterministic node id from kind + normalized value.
+- `build_intel_graph` (function) `modules/intel_fusion.py:176` `def build_intel_graph(sessions_dir, est_cap)` -- Fuse all session artefacts into one C2-centred intel graph.
+- `add_node` (function) `modules/intel_fusion.py:183` `def add_node(kind, value, label)` -- Insert node or merge extra fields into the existing one.
+- `add_edge` (function) `modules/intel_fusion.py:197` `def add_edge(src, dst, kind, evidence, weight)` -- Append one provenance-tagged relation.
+- `tag_source` (function) `modules/intel_fusion.py:205` `def tag_source(nid, source)` -- Record a corroborating artefact on a node, deduped.
+- `group_colors` (function) `modules/intel_fusion.py:512` `def group_colors(graph)` -- Stable colors for layer/language groupings (ReadMenator contract).
+- `page_settings` (function) `modules/intel_fusion.py:528` `def page_settings(graph)` -- Explorer page settings with ReadMenator physics sizes (exact values).
+- `build_analytics` (function) `modules/intel_fusion.py:585` `def build_analytics(graph, summary)` -- Side-panel analytics (attribution funnel + intel summary).
+- `build_bundle_payload` (function) `modules/intel_fusion.py:659` `def build_bundle_payload(graph)` -- Derive the circular/spherical bundle payload from a fused graph.
+- `bundle_settings` (function) `modules/intel_fusion.py:769` `def bundle_settings(graph)` -- Bundle page settings with ReadMenator sizes (exact values).
+- `assign_layout` (function) `modules/intel_fusion.py:800` `def assign_layout(graph, mode)` -- Attach x/y/z for radial/spherical modes; force modes stay free.
+- `write_summary` (function) `modules/intel_fusion.py:865` `def write_summary(graph, sessions_dir)` -- Score host exposure and suggest intents for the autonomous planner.
+
 ## modules/intelligence_engine.py
 Depends on: `core/logging.py`, `modules/estorides_importer.py`, `modules/integrations/nuclei_bridge.py`, `modules/integrations/nuclei_parser.py`, `modules/obs_parser.py`, `modules/world_model.py`, `modules/yara_scanner.py`
 Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazyown_mcp.py`, `tests/test_intelligence_engine.py`
@@ -111,6 +243,29 @@ Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/recon.py`, `skills/lazy
 - `IntelligenceEngine.run_full_cycle` (method) `modules/intelligence_engine.py:845` `def run_full_cycle(self, target)` -- Execute the complete intelligence cycle for a target.
 - `IntelligenceEngine.get_intel_report` (method) `modules/intelligence_engine.py:874` `def get_intel_report(self)` -- Produce a structured JSON intelligence report.
 - `IntelligenceEngine.get_intelligence_engine` (method) `modules/intelligence_engine.py:931` `def get_intelligence_engine(config)` -- Return the module-level singleton IntelligenceEngine.
+
+## modules/intercept.py
+Depends on: `cli/commands/enum.py`
+Imported by: `cli/commands/daemon_ctl.py`, `modules/lazy_loop.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_gates.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- `InterceptRule.matches` (method) `modules/intercept.py:68` `def matches(self, tool, command)` -- Return True when this rule matches the tool call surface.
+- `InterceptVerdict.builtin_rules` (method) `modules/intercept.py:101` `def builtin_rules()` -- Return the default destructive and exfiltration guard rules.
+- `InterceptVerdict.scope_blocked` (method) `modules/intercept.py:131` `def scope_blocked(target)` -- Return the matching global scope suffix or empty (LAZY parity).
+- `InterceptVerdict.observe_post_tool` (method) `modules/intercept.py:144` `def observe_post_tool(output)` -- Classify post-execution output (LAZY Guard.postToolUse parity).
+- `Interceptor.__init__` (method) `modules/intercept.py:157` `def __init__(self, rules, ask_timeout_sec, timeout_action)` -- Initialize with rules sorted by descending priority.
+- `Interceptor.rules` (method) `modules/intercept.py:172` `def rules(self)` -- Return a copy of the active rule list.
+- `Interceptor.add_rule` (method) `modules/intercept.py:177` `def add_rule(self, rule)` -- Add a rule and keep priority ordering.
+- `Interceptor.remove_rule` (method) `modules/intercept.py:183` `def remove_rule(self, pattern)` -- Remove the first rule matching pattern text.
+- `Interceptor.evaluate` (method) `modules/intercept.py:192` `def evaluate(self, tool, command)` -- Evaluate a tool call and return the verdict.
+- `Interceptor.decide` (method) `modules/intercept.py:220` `def decide(self, approval_id, decision)` -- Resolve a pending approval with approve or deny.
+- `Interceptor.pending_approvals` (method) `modules/intercept.py:234` `def pending_approvals(self)` -- List unresolved approvals, expiring timed-out ones per policy.
+- `Interceptor.approval_status` (method) `modules/intercept.py:249` `def approval_status(self, approval_id)` -- Fetch a single approval record by id.
+- `Guard.__init__` (method) `modules/intercept.py:258` `def __init__(self, interceptor)` -- Initialize audit log with an optional interceptor.
+- `Guard.interceptor` (method) `modules/intercept.py:266` `def interceptor(self)` -- Expose the underlying interceptor.
+- `Guard.check` (method) `modules/intercept.py:270` `def check(self, tool, command)` -- Audit the call then evaluate intercept rules (trace id kept).
+- `Guard.observe` (method) `modules/intercept.py:282` `def observe(self, output, source)` -- Classify output and attribute blocked/error counters.
+- `Guard.record_failure` (method) `modules/intercept.py:291` `def record_failure(self, source)` -- Attribute a post-execution failure to a source.
+- `Guard.audit_log` (method) `modules/intercept.py:296` `def audit_log(self, limit)` -- Return the most recent audit entries.
+- `Guard.attribution` (method) `modules/intercept.py:301` `def attribution(self)` -- Return failure attribution counters.
 
 ## modules/iptables_portforward.sh
 - `display_usage` (function) `modules/iptables_portforward.sh:29`
@@ -190,7 +345,7 @@ Imported by: `lazyc2.py`
 
 ## modules/killchain.py
 Depends on: `core/logging.py`, `modules/world_model.py`
-Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
+Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `cli/ops_commands.py`, `cli/recon_plan.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazygui/panels/killchain_panel.py`, `modules/kill_chain_viz.py`, `modules/lazyown_bridge.py`, `modules/opsec_scorer.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/hermes-lazyown/constants.py`, `skills/lazyown_mcp.py`, `tests/test_killchain_snapshot.py`, `tests/test_killchain_unified_v2.py`
 - `KillChainConfig.world_model_path` (method) `modules/killchain.py:116` `def world_model_path(self)` -- Return the resolved path to world_model.json.
 - `KillChainConfig.phase_index` (method) `modules/killchain.py:120` `def phase_index(self, phase)` -- Return the positional index of a canonical phase in the kill chain.
 - `KillChainConfig.is_valid_phase` (method) `modules/killchain.py:127` `def is_valid_phase(self, phase)` -- Return True when ``phase`` is a recognised canonical phase.
@@ -214,287 +369,29 @@ Imported by: `cli/commands/ai.py`, `cli/dashboard_tui.py`, `cli/killchain.py`, `
 - `ReverseShellApp.build` (method) `modules/kivi.py:12` `def build(self)`
 - `ReverseShellApp.connect_to_server` (method) `modules/kivi.py:27` `def connect_to_server(self, instance)`
 
-## modules/lazy_rbac.py
-Depends on: `cli/commands/enum.py`, `core/logging.py`
-Imported by: `cli/commands/session_ops.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `lazyc2.py`, `lazyc2/blueprints/auth.py`, `lazyc2/extensions/users.py`, `lazyc2/models.py`, `modules/cli_auth.py`, `modules/collab_bp.py`
-- `Role.valid_roles` (method) `modules/lazy_rbac.py:62` `def valid_roles(cls)`
-- `RBACUser.to_dict` (method) `modules/lazy_rbac.py:136` `def to_dict(self)`
-- `RBACUser.from_dict` (method) `modules/lazy_rbac.py:140` `def from_dict(cls, data)`
-- `RBACUser.get_role` (method) `modules/lazy_rbac.py:164` `def get_role(self)`
-- `RBACUser.has_permission` (method) `modules/lazy_rbac.py:170` `def has_permission(self, permission)`
-- `RBACUser.can_manage_role` (method) `modules/lazy_rbac.py:174` `def can_manage_role(self, target_role)` -- Check if this user can assign/manage the given role.
-- `RBACUser.get_mfa_provisioning_uri` (method) `modules/lazy_rbac.py:182` `def get_mfa_provisioning_uri(self)`
-- `RBACUser.verify_totp` (method) `modules/lazy_rbac.py:187` `def verify_totp(self, token)`
-- `RBACUser.verify_recovery_code` (method) `modules/lazy_rbac.py:192` `def verify_recovery_code(self, code)`
-- `RBACUser.consume_recovery_code` (method) `modules/lazy_rbac.py:200` `def consume_recovery_code(self, code)`
-- `RBACStore.__init__` (method) `modules/lazy_rbac.py:213` `def __init__(self, users_path)`
-- `RBACStore.load_all` (method) `modules/lazy_rbac.py:245` `def load_all(self)`
-- `RBACStore.find_by_id` (method) `modules/lazy_rbac.py:249` `def find_by_id(self, user_id)`
-- `RBACStore.find_by_username` (method) `modules/lazy_rbac.py:255` `def find_by_username(self, username)`
-- `RBACStore.save` (method) `modules/lazy_rbac.py:261` `def save(self, user)`
-- `RBACStore.create_user` (method) `modules/lazy_rbac.py:274` `def create_user(self, username, password_hash, role, tenant_id)`
-- `RBACStore.delete_user` (method) `modules/lazy_rbac.py:295` `def delete_user(self, user_id)`
-- `RBACStore.update_role` (method) `modules/lazy_rbac.py:304` `def update_role(self, user_id, new_role)`
-- `RBACStore.enable_mfa` (method) `modules/lazy_rbac.py:314` `def enable_mfa(self, user_id)`
-- `RBACStore.disable_mfa` (method) `modules/lazy_rbac.py:324` `def disable_mfa(self, user_id)`
-- `RBACStore.consume_recovery_code` (method) `modules/lazy_rbac.py:334` `def consume_recovery_code(self, user_id, code)`
-- `RBACStore.ensure_admin` (method) `modules/lazy_rbac.py:343` `def ensure_admin(self, username, password_hash)` -- Ensure at least one admin exists, creating one if needed.
-- `TenantConfig.from_payload` (method) `modules/lazy_rbac.py:377` `def from_payload(cls, tenant_id, name, payload_path)`
-- `TenantConfig.to_dict` (method) `modules/lazy_rbac.py:386` `def to_dict(self)`
-- `TenantConfig.from_dict` (method) `modules/lazy_rbac.py:390` `def from_dict(cls, data)`
-- `TenantManager.__init__` (method) `modules/lazy_rbac.py:397` `def __init__(self, payloads_dir, config_path, default_payload)`
-- `TenantManager.list_tenants` (method) `modules/lazy_rbac.py:431` `def list_tenants(self)`
-- `TenantManager.get_active` (method) `modules/lazy_rbac.py:434` `def get_active(self)`
-- `TenantManager.get_active_payload_path` (method) `modules/lazy_rbac.py:439` `def get_active_payload_path(self)`
-- `TenantManager.get_active_sessions_dir` (method) `modules/lazy_rbac.py:445` `def get_active_sessions_dir(self)`
-- `TenantManager.get_payload_for_tenant` (method) `modules/lazy_rbac.py:451` `def get_payload_for_tenant(self, tenant_id)`
-- `TenantManager.create_tenant` (method) `modules/lazy_rbac.py:457` `def create_tenant(self, name, base_payload)`
-- `TenantManager.switch_tenant` (method) `modules/lazy_rbac.py:486` `def switch_tenant(self, tenant_id)`
-- `TenantManager.delete_tenant` (method) `modules/lazy_rbac.py:495` `def delete_tenant(self, tenant_id)`
-- `TenantManager.ensure_default_tenant` (method) `modules/lazy_rbac.py:504` `def ensure_default_tenant(self)`
-- `TenantManager.init_rbac_store` (method) `modules/lazy_rbac.py:523` `def init_rbac_store(users_path)`
-- `TenantManager.init_tenant_manager` (method) `modules/lazy_rbac.py:527` `def init_tenant_manager(payloads_dir, config_path, default_payload)`
-- `TenantManager.require_role` (method) `modules/lazy_rbac.py:539` `def require_role()` -- Flask decorator: require one of the given roles.
-- `TenantManager.decorator` (method) `modules/lazy_rbac.py:542` `def decorator(f)`
-- `TenantManager.decorated` (method) `modules/lazy_rbac.py:544` `def decorated()`
-- `TenantManager.require_permission` (method) `modules/lazy_rbac.py:565` `def require_permission()` -- Flask decorator: require specific permissions.
-- `TenantManager.decorator` (method) `modules/lazy_rbac.py:568` `def decorator(f)`
-- `TenantManager.decorated` (method) `modules/lazy_rbac.py:570` `def decorated()`
-- `TenantManager.require_mfa` (method) `modules/lazy_rbac.py:596` `def require_mfa(f)` -- Decorator that enforces MFA before accessing protected routes.
-- `TenantManager.decorated` (method) `modules/lazy_rbac.py:600` `def decorated()`
-- `TenantManager.get_rbac_store` (method) `modules/lazy_rbac.py:639` `def get_rbac_store()`
-- `TenantManager.set_rbac_store` (method) `modules/lazy_rbac.py:643` `def set_rbac_store(store)`
-- `TenantManager.get_tenant_manager` (method) `modules/lazy_rbac.py:648` `def get_tenant_manager()`
-- `TenantManager.set_tenant_manager` (method) `modules/lazy_rbac.py:655` `def set_tenant_manager(tm)`
-- `TenantManager.check_cli_permission` (method) `modules/lazy_rbac.py:660` `def check_cli_permission(username, permission)` -- Check if a CLI user has the given permission.
-- `TenantManager.get_user_role` (method) `modules/lazy_rbac.py:672` `def get_user_role(username)`
-- `TenantManager.generate_mfa_qr_url` (method) `modules/lazy_rbac.py:680` `def generate_mfa_qr_url(secret, username)` -- Generate a QR code data URI for MFA setup (local, no external API).
-- `TenantManager.generate_qr_svg` (method) `modules/lazy_rbac.py:689` `def generate_qr_svg(data)` -- Generate an SVG QR code image from text data.
-- `TenantManager.gf_mul` (method) `modules/lazy_rbac.py:927` `def gf_mul(a, b)`
-
-## modules/lazyatack.sh
-- `mostrar_ayuda` (function) `modules/lazyatack.sh:21` -- Función para mostrar ayuda
-- `validar_ip` (function) `modules/lazyatack.sh:33` -- Función para validar una dirección IP
-- `validar_url` (function) `modules/lazyatack.sh:49` -- Función para validar URL
-- `descargar_seclists` (function) `modules/lazyatack.sh:107` -- Función para descargar y extraer SecLists
-- `escanear_puertos` (function) `modules/lazyatack.sh:115` -- Función para ejecutar escaneo de puertos con nmap
-- `escanear_puertos_especificos` (function) `modules/lazyatack.sh:121` -- Función para escanear puertos específicos
-- `enumerar_http` (function) `modules/lazyatack.sh:127` -- Función para enumerar servicios HTTP
-- `iniciar_servidor_http` (function) `modules/lazyatack.sh:133` -- Función para iniciar servidor HTTP con Python
-- `configurar_netcat` (function) `modules/lazyatack.sh:139` -- Función para configurar netcat
-- `enviar_archivo_netcat` (function) `modules/lazyatack.sh:145` -- Función para enviar archivo mediante bash a netcat
-- `verificar_conectividad` (function) `modules/lazyatack.sh:151` -- Función para verificar conectividad con ping y tcpdump
-- `verificar_curl` (function) `modules/lazyatack.sh:158` -- Función para verificar conectividad con curl
-- `configurar_shell_reversa` (function) `modules/lazyatack.sh:165` -- Función para configurar una shell reversa
-- `escuchar_shell` (function) `modules/lazyatack.sh:171` -- Función para escuchar shell con netcat
-- `monitorear_procesos` (function) `modules/lazyatack.sh:177` -- Función para monitorear procesos
-- `ejecutar_wfuzz` (function) `modules/lazyatack.sh:188` -- Función para ejecutar wfuzz
-- `comprobar_sudo` (function) `modules/lazyatack.sh:194` -- Función para comprobar permisos sudo
-- `explotar_lfi` (function) `modules/lazyatack.sh:200` -- Función para explotar LFI
-- `configurar_tty` (function) `modules/lazyatack.sh:206` -- Función para configurar TTY
-- `eliminar_archivos` (function) `modules/lazyatack.sh:217` -- Función para eliminar archivos de forma segura
-- `obtener_root_shell` (function) `modules/lazyatack.sh:223` -- Función para obtener root shell mediante Docker
-- `enumerar_suid` (function) `modules/lazyatack.sh:230` -- Función para enumerar archivos con SUID
-- `listar_timers` (function) `modules/lazyatack.sh:236` -- Función para listar timers de systemd
-- `comprobar_rutas` (function) `modules/lazyatack.sh:242` -- Función para comprobar rutas de comandos
-- `abusar_tar` (function) `modules/lazyatack.sh:248` -- Función para abusar de tar
-- `enumerar_puertos` (function) `modules/lazyatack.sh:254` -- Función para enumerar puertos abiertos
-- `eliminar_contenedores_docker` (function) `modules/lazyatack.sh:260` -- Función para eliminar contenedores Docker
-- `escanear_red` (function) `modules/lazyatack.sh:266` -- Función para escanear red
-- `menu_servidor` (function) `modules/lazyatack.sh:272` -- Función para mostrar menú en modo servidor
-- `menu_cliente` (function) `modules/lazyatack.sh:307` -- Función para mostrar menú en modo cliente
-
-## modules/lazycloud.py
-Imported by: `cli/commands/cloud.py`
-- `CloudMetadataHarvester.__init__` (method) `modules/lazycloud.py:111` `def __init__(self, timeout)`
-- `CloudMetadataHarvester.session` (method) `modules/lazycloud.py:116` `def session(self)`
-- `CloudMetadataHarvester.harvest_aws` (method) `modules/lazycloud.py:139` `def harvest_aws(self)` -- Harvest AWS EC2 instance metadata (IMDSv2 capable).
-- `CloudMetadataHarvester.harvest_azure` (method) `modules/lazycloud.py:184` `def harvest_azure(self)` -- Harvest Azure instance metadata.
-- `CloudMetadataHarvester.harvest_gcp` (method) `modules/lazycloud.py:208` `def harvest_gcp(self)` -- Harvest GCP instance metadata.
-- `CloudMetadataHarvester.harvest_all` (method) `modules/lazycloud.py:231` `def harvest_all(self)` -- Try all three cloud providers sequentially.
-- `CloudBucketEnumerator.__init__` (method) `modules/lazycloud.py:251` `def __init__(self, timeout)`
-- `CloudBucketEnumerator.session` (method) `modules/lazycloud.py:256` `def session(self)`
-- `CloudBucketEnumerator.enumerate_s3` (method) `modules/lazycloud.py:278` `def enumerate_s3(self, prefix, buckets)` -- Enumerate S3 buckets derived from a prefix.
-- `CloudBucketEnumerator.enumerate_azure_storage` (method) `modules/lazycloud.py:303` `def enumerate_azure_storage(self, prefix, accounts)` -- Enumerate Azure Blob Storage accounts.
-- `CloudBucketEnumerator.enumerate_gcp_storage` (method) `modules/lazycloud.py:321` `def enumerate_gcp_storage(self, prefix, buckets)` -- Enumerate GCP Storage buckets.
-- `CloudIAMEnumerator.enumerate_aws_iam` (method) `modules/lazycloud.py:345` `def enumerate_aws_iam(self, access_key, secret_key, session_token)` -- Enumerate AWS IAM (requires valid credentials).
-- `CloudScanner.__init__` (method) `modules/lazycloud.py:393` `def __init__(self, target_domain, timeout)`
-- `CloudScanner.full_scan` (method) `modules/lazycloud.py:400` `def full_scan(self, target_prefix, sessions_dir)` -- Perform a comprehensive cloud security scan.
-- `CloudScanner.quick_metadata` (method) `modules/lazycloud.py:456` `def quick_metadata(self)` -- Fast metadata-only harvest (no bucket enumeration).
-- `CloudScanner.quick_buckets` (method) `modules/lazycloud.py:460` `def quick_buckets(self, prefix)` -- Fast S3-only bucket check.
-
-## modules/lazycurl.sh
-- `ctrl_c` (function) `modules/lazycurl.sh:23`
-- `show_help` (function) `modules/lazycurl.sh:29` -- Función para mostrar la ayuda
-- `execute_curl` (function) `modules/lazycurl.sh:52` -- Función para ejecutar el comando CURL
-
-## modules/lazyencoder_decoder.py
-Imported by: `contrib/legacy/lazycreate_webshell.py`, `contrib/legacy/lazylogpoisoning.py`, `contrib/legacy/lazyreversentlmv2.py`, `modules/test_lazyencoder_decoder.py`, `utils.py`
-- `base64_encode` (function) `modules/lazyencoder_decoder.py:4` `def base64_encode(data)`
-- `base64_decode` (function) `modules/lazyencoder_decoder.py:8` `def base64_decode(data)`
-- `caesar_cipher` (function) `modules/lazyencoder_decoder.py:13` `def caesar_cipher(text, shift)`
-- `caesar_decipher` (function) `modules/lazyencoder_decoder.py:27` `def caesar_decipher(text, shift)`
-- `key_substitution` (function) `modules/lazyencoder_decoder.py:31` `def key_substitution(text, key)`
-- `key_substitution_reverse` (function) `modules/lazyencoder_decoder.py:47` `def key_substitution_reverse(text, key)`
-- `encode` (function) `modules/lazyencoder_decoder.py:63` `def encode(data, shift, key)`
-- `encode_string` (function) `modules/lazyencoder_decoder.py:75` `def encode_string(data, shift, key)`
-- `decode` (function) `modules/lazyencoder_decoder.py:82` `def decode(data, shift, key)`
-- `decode_string` (function) `modules/lazyencoder_decoder.py:94` `def decode_string(data, shift, key)`
-
-## modules/lazyevilwimrm.sh
-- `execute_evil_winrm` (function) `modules/lazyevilwimrm.sh:14` -- Función para ejecutar evil-winrm y verificar la salida
-
-## modules/lazyk8s.py
-Imported by: `cli/commands/containers.py`
-- `DockerEnumerator.__init__` (method) `modules/lazyk8s.py:44` `def __init__(self, socket_path)`
-- `DockerEnumerator.is_socket_accessible` (method) `modules/lazyk8s.py:47` `def is_socket_accessible(self)` -- Check if the Docker socket is readable/writable.
-- `DockerEnumerator.list_containers` (method) `modules/lazyk8s.py:70` `def list_containers(self)` -- List all containers with extended information.
-- `DockerEnumerator.list_images` (method) `modules/lazyk8s.py:94` `def list_images(self)` -- List all Docker images.
-- `DockerEnumerator.inspect_container` (method) `modules/lazyk8s.py:118` `def inspect_container(self, container_id)` -- Get detailed configuration of a container (privileged, mounts, capabilities).
-- `DockerEnumerator.check_privileged_containers` (method) `modules/lazyk8s.py:137` `def check_privileged_containers(self)` -- Find containers running with --privileged flag.
-- `DockerEnumerator.check_sensitive_mounts` (method) `modules/lazyk8s.py:162` `def check_sensitive_mounts(self)` -- Find containers with sensitive host path mounts.
-- `DockerEnumerator.check_docker_socket_mount` (method) `modules/lazyk8s.py:196` `def check_docker_socket_mount(self)` -- Find containers with the Docker socket mounted (escape vector).
-- `DockerEnumerator.check_capabilities` (method) `modules/lazyk8s.py:217` `def check_capabilities(self)` -- Find containers with dangerous Linux capabilities.
-- `DockerEnumerator.full_check` (method) `modules/lazyk8s.py:250` `def full_check(self)` -- Execute all Docker security checks and return aggregated results.
-- `K8sEnumerator.__init__` (method) `modules/lazyk8s.py:267` `def __init__(self, kubeconfig, token, api_server)`
-- `K8sEnumerator.list_pods` (method) `modules/lazyk8s.py:366` `def list_pods(self, namespace)` -- List pods in all namespaces or a specific namespace.
-- `K8sEnumerator.list_namespaces` (method) `modules/lazyk8s.py:390` `def list_namespaces(self)` -- List all namespaces.
-- `K8sEnumerator.list_secrets` (method) `modules/lazyk8s.py:410` `def list_secrets(self, namespace)` -- List secrets (without decoding values by default).
-- `K8sEnumerator.list_service_accounts` (method) `modules/lazyk8s.py:462` `def list_service_accounts(self, namespace)` -- List service accounts and their attached roles.
-- `K8sEnumerator.check_rbac` (method) `modules/lazyk8s.py:498` `def check_rbac(self)` -- Check current user's RBAC permissions.
-- `K8sEnumerator.check_pod_escape_vectors` (method) `modules/lazyk8s.py:530` `def check_pod_escape_vectors(self)` -- Check for pod escape vectors in the current pod.
-- `K8sEnumerator.full_check` (method) `modules/lazyk8s.py:582` `def full_check(self, sessions_dir)` -- Execute all Kubernetes security checks.
-- `ContainerEscapeTechniques.detect_current_environment` (method) `modules/lazyk8s.py:684` `def detect_current_environment()` -- Detect if running inside a container and identify escape opportunities.
-- `ContainerRuntimeDetector.detect_runtime` (method) `modules/lazyk8s.py:803` `def detect_runtime()` -- Detect container runtime from multiple indicators.
-- `ContainerRuntimeDetector.detect_mounts` (method) `modules/lazyk8s.py:874` `def detect_mounts()` -- Detect dangerous mounts in the current container.
-- `ContainerRuntimeDetector.detect_dangerous_capabilities` (method) `modules/lazyk8s.py:921` `def detect_dangerous_capabilities()` -- Detect dangerous Linux capabilities in the current container.
-- `ContainerRuntimeDetector.auto_detect_all` (method) `modules/lazyk8s.py:992` `def auto_detect_all()` -- Run comprehensive container escape auto-detection.
-
-## modules/lazylynis.sh
-- `check_sudo` (function) `modules/lazylynis.sh:32` -- Función para verificar y relanzar con sudo si es necesario
-
-## modules/lazymasscan.sh
-- `ctrl_c` (function) `modules/lazymasscan.sh:20`
-- `extract_ports_info` (function) `modules/lazymasscan.sh:74`
-- `run_masscan_script` (function) `modules/lazymasscan.sh:94`
-- `print_row` (function) `modules/lazymasscan.sh:117`
-
-## modules/lazynmap.sh
-- `cleanup` (function) `modules/lazynmap.sh:29`
-- `ctrl_c` (function) `modules/lazynmap.sh:38`
-- `fix_sessions_owner` (function) `modules/lazynmap.sh:67` -- Best-effort ownership fixup: scans run under sudo leave root-owned files behind, and only root can chown those.
-- `nmaptest` (function) `modules/lazynmap.sh:122`
-- `discover_network` (function) `modules/lazynmap.sh:142`
-- `extract_ports_info` (function) `modules/lazynmap.sh:811`
-- `run_nmap_script` (function) `modules/lazynmap.sh:837`
-- `print_row` (function) `modules/lazynmap.sh:870`
-
-## modules/lazyown_bprfuzzer.py
-Depends on: `modules/backdoor/server.c`, `modules/security_sanitizers.py`
-- `load_headers_from_file` (function) `modules/lazyown_bprfuzzer.py:93` `def load_headers_from_file(file_path)`
-- `load_data_from_file` (function) `modules/lazyown_bprfuzzer.py:99` `def load_data_from_file(file_path)`
-- `signal_handler` (function) `modules/lazyown_bprfuzzer.py:105` `def signal_handler(sig, frame)`
-- `ProxyHandler.do_GET` (method) `modules/lazyown_bprfuzzer.py:115` `def do_GET(self)`
-- `ProxyHandler.do_POST` (method) `modules/lazyown_bprfuzzer.py:118` `def do_POST(self)`
-- `ProxyHandler.run_proxy` (method) `modules/lazyown_bprfuzzer.py:162` `def run_proxy(port)`
-- `ProxyHandler.edit_file_with_nano` (method) `modules/lazyown_bprfuzzer.py:169` `def edit_file_with_nano(content)`
-- `ProxyHandler.send_request` (method) `modules/lazyown_bprfuzzer.py:179` `def send_request(url, method, headers, params, data, json_data, proxies, hide_code)` -- Envía una solicitud HTTP y devuelve la respuesta.
-- `ProxyHandler.repeater` (method) `modules/lazyown_bprfuzzer.py:203` `def repeater(url, method, headers, params, data, json_data, proxies, hide_code)` -- Funcionalidad de Repeater que permite enviar solicitudes múltiples veces con posibilidad de modificación.
-- `ProxyHandler.lazyfuzz` (method) `modules/lazyown_bprfuzzer.py:233` `def lazyfuzz(url, method, headers, params, data, json_data, proxies, wordlist_path, hide_code)` -- Funcionalidad de fuzzing que reemplaza LAZYFUZZ con palabras de una wordlist.
-- `ProxyHandler.parse_arguments` (method) `modules/lazyown_bprfuzzer.py:278` `def parse_arguments()` -- Parsear los argumentos de la línea de comandos.
-- `ProxyHandler.main` (method) `modules/lazyown_bprfuzzer.py:302` `def main()`
-
-## modules/lazyown_bridge.py
-Depends on: `modules/killchain.py`
-Imported by: `modules/unified_bridge.py`, `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `tests/test_bridge_catalog_filtered.py`, `tests/test_core_modules.py`, `tests/test_exploitgym_gym.py`
-- `CatalogEntry.build_command` (method) `modules/lazyown_bridge.py:63` `def build_command(self, target, port, user, password, domain, url, wordlist, lhost, lport)` -- Return 'command [args]' with known values substituted.
-- `CatalogEntry.matches_service` (method) `modules/lazyown_bridge.py:94` `def matches_service(self, services)`
-- `CatalogEntry.matches_os` (method) `modules/lazyown_bridge.py:104` `def matches_os(self, os_hint)`
-- `CommandCatalog.__init__` (method) `modules/lazyown_bridge.py:118` `def __init__(self)`
-- `CommandCatalog.by_phase` (method) `modules/lazyown_bridge.py:3946` `def by_phase(self, phase)`
-- `CommandCatalog.by_mitre` (method) `modules/lazyown_bridge.py:3952` `def by_mitre(self, technique_id)`
-- `CommandCatalog.by_service` (method) `modules/lazyown_bridge.py:3956` `def by_service(self, service_name)`
-- `CommandCatalog.by_tag` (method) `modules/lazyown_bridge.py:3960` `def by_tag(self, tag)`
-- `CommandCatalog.by_os` (method) `modules/lazyown_bridge.py:3963` `def by_os(self, os_hint)`
-- `CommandCatalog.all_phases` (method) `modules/lazyown_bridge.py:3966` `def all_phases(self)`
-- `CommandCatalog.get` (method) `modules/lazyown_bridge.py:3969` `def get(self, command)`
-- `CommandCatalog.count` (method) `modules/lazyown_bridge.py:3975` `def count(self)`
-- `AbstractSelector.select` (method) `modules/lazyown_bridge.py:3986` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-- `ServiceAwareSelector.select` (method) `modules/lazyown_bridge.py:4005` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-- `MitreAlignedSelector.__init__` (method) `modules/lazyown_bridge.py:4045` `def __init__(self, technique_id)`
-- `MitreAlignedSelector.select` (method) `modules/lazyown_bridge.py:4049` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-- `TagSelector.__init__` (method) `modules/lazyown_bridge.py:4074` `def __init__(self, tag)`
-- `TagSelector.select` (method) `modules/lazyown_bridge.py:4078` `def select(self, catalog, phase, services, has_creds, excluded, os_hint)`
-- `ContextEnricher.enrich` (method) `modules/lazyown_bridge.py:4106` `def enrich(self, entry, target, world_snapshot)`
-- `PhaseMapper.canonical_kill_chain_order` (method) `modules/lazyown_bridge.py:4204` `def canonical_kill_chain_order()` -- Return the canonical 8-phase order from KillChain (single source of truth).
-- `PhaseMapper.to_bridge_phase` (method) `modules/lazyown_bridge.py:4210` `def to_bridge_phase(self, wm_phase)`
-- `PhaseMapper.kill_chain_order` (method) `modules/lazyown_bridge.py:4223` `def kill_chain_order(self)` -- Ordered list of bridge phases following the kill chain.
-- `BridgeDispatcher.__init__` (method) `modules/lazyown_bridge.py:4239` `def __init__(self, catalog, selector, enricher, phase_mapper)`
-- `BridgeDispatcher.suggest` (method) `modules/lazyown_bridge.py:4251` `def suggest(self, phase, target, services, has_creds, excluded, world_snapshot, mitre_hint, tag_hint, os_hint)` -- Return (command_string, entry) or None.
-- `BridgeDispatcher.suggest_sequence` (method) `modules/lazyown_bridge.py:4296` `def suggest_sequence(self, phase, target, services, has_creds, excluded, world_snapshot, limit)` -- Return up to `limit` non-excluded suggestions for the phase.
-- `BridgeDispatcher.suggest_for_wm_phase` (method) `modules/lazyown_bridge.py:4325` `def suggest_for_wm_phase(self, wm_phase_value, target, services, has_creds, excluded, world_snapshot)`
-- `BridgeDispatcher.list_phase` (method) `modules/lazyown_bridge.py:4343` `def list_phase(self, phase)`
-- `BridgeDispatcher.all_phases` (method) `modules/lazyown_bridge.py:4347` `def all_phases(self)`
-- `BridgeDispatcher.catalog_summary` (method) `modules/lazyown_bridge.py:4350` `def catalog_summary(self)`
-- `BridgeDispatcher.catalog_summary_filtered` (method) `modules/lazyown_bridge.py:4358` `def catalog_summary_filtered(self, phase, os_hint)` -- Return a kill-chain summary restricted to a phase and target OS.
-- `BridgeDispatcher.catalog_count` (method) `modules/lazyown_bridge.py:4395` `def catalog_count(self)`
-- `BridgeDispatcher.phase_kill_chain` (method) `modules/lazyown_bridge.py:4398` `def phase_kill_chain(self)`
-- `BridgeDispatcher.get_dispatcher` (method) `modules/lazyown_bridge.py:4409` `def get_dispatcher()`
-
-## modules/lazyown_metaextract0r.py
-- `signal_handler` (function) `modules/lazyown_metaextract0r.py:42` `def signal_handler(sig, frame)`
-- `extract_pdf_metadata` (function) `modules/lazyown_metaextract0r.py:51` `def extract_pdf_metadata(file_path)`
-- `extract_docx_metadata` (function) `modules/lazyown_metaextract0r.py:62` `def extract_docx_metadata(file_path)`
-- `extract_ole_metadata` (function) `modules/lazyown_metaextract0r.py:73` `def extract_ole_metadata(file_path)`
-- `extract_image_metadata` (function) `modules/lazyown_metaextract0r.py:85` `def extract_image_metadata(file_path)`
-- `extract_metadata` (function) `modules/lazyown_metaextract0r.py:96` `def extract_metadata(file_path)`
-- `find_and_extract_metadata` (function) `modules/lazyown_metaextract0r.py:109` `def find_and_extract_metadata(directory, output_file)`
-- `parse_arguments` (function) `modules/lazyown_metaextract0r.py:130` `def parse_arguments()` -- Parse command-line arguments.
-- `main` (function) `modules/lazyown_metaextract0r.py:140` `def main()`
-
-## modules/lazyown_parquet_tool.py
-- `highlight_term` (function) `modules/lazyown_parquet_tool.py:34` `def highlight_term(text, term)` -- Highlight the search term in the given text.
-- `search_in_parquet` (function) `modules/lazyown_parquet_tool.py:39` `def search_in_parquet(term, parquet_files)` -- Search for a term in the given Parquet files and return matching rows.
-- `buscar_binarios` (function) `modules/lazyown_parquet_tool.py:53` `def buscar_binarios(args)` -- Search for binaries with special permissions and generate a results CSV.
-- `ejecutar_opciones` (function) `modules/lazyown_parquet_tool.py:136` `def ejecutar_opciones()` -- Execute options based on the found data.
-
-## modules/lazyownclient.py
-- `signal_handler` (function) `modules/lazyownclient.py:34` `def signal_handler(sig, frame)`
-- `pad` (function) `modules/lazyownclient.py:51` `def pad(s)`
-- `encrypt` (function) `modules/lazyownclient.py:55` `def encrypt(plaintext, key)`
-- `decrypt` (function) `modules/lazyownclient.py:62` `def decrypt(ciphertext, key)`
-- `handle_command` (function) `modules/lazyownclient.py:69` `def handle_command(cmd, key)`
-- `main` (function) `modules/lazyownclient.py:198` `def main()`
-
-## modules/lazyownerweb.py
-Depends on: `core/logging.py`, `modules/logging_config.py`
-- `send_request` (function) `modules/lazyownerweb.py:36` `def send_request(url, params, method)`
-- `test_injection` (function) `modules/lazyownerweb.py:49` `def test_injection(url, payloads, param_name, detection_strings, method)`
-- `main` (function) `modules/lazyownerweb.py:59` `def main()`
-
-## modules/lazyownserver.py
-- `signal_handler` (function) `modules/lazyownserver.py:34` `def signal_handler(sig, frame)`
-- `pad` (function) `modules/lazyownserver.py:42` `def pad(s)`
-- `encrypt` (function) `modules/lazyownserver.py:46` `def encrypt(plaintext, key)`
-- `decrypt` (function) `modules/lazyownserver.py:53` `def decrypt(ciphertext, key)`
-- `handle_client` (function) `modules/lazyownserver.py:60` `def handle_client(conn, addr, key)`
-- `main` (function) `modules/lazyownserver.py:97` `def main()`
-
-## modules/lazypsexec.sh
-- `execute_psexec` (function) `modules/lazypsexec.sh:15` -- Función para ejecutar psexec y verificar la salida
-
-## modules/lazyreverse_shell.sh
-- `mostrar_ayuda` (function) `modules/lazyreverse_shell.sh:21` -- Función para mostrar ayuda
-- `validar_ip` (function) `modules/lazyreverse_shell.sh:31` -- Validar dirección IP
-
-## modules/lazyvpnshield.sh
-- `ctrl_c` (function) `modules/lazyvpnshield.sh:11`
-- `check_sudo` (function) `modules/lazyvpnshield.sh:16`
-- `save_current_rules` (function) `modules/lazyvpnshield.sh:29`
-- `show_current_rules` (function) `modules/lazyvpnshield.sh:37`
-- `apply_vpn_rules` (function) `modules/lazyvpnshield.sh:45`
-- `undo_and_restore_rules` (function) `modules/lazyvpnshield.sh:86`
-- `main` (function) `modules/lazyvpnshield.sh:113`
+## modules/lazy_contracts.py
+- `IFrontier.pending` (method) `modules/lazy_contracts.py:17` `def pending(self)` -- Return pending intents ordered by priority.
+- `IFrontier.claim_next` (method) `modules/lazy_contracts.py:21` `def claim_next(self)` -- Atomically claim highest-priority intent or None.
+- `IFrontier.release` (method) `modules/lazy_contracts.py:25` `def release(self, node_id, state)` -- Return a running intent to a new state.
+- `IPlanner.plan` (method) `modules/lazy_contracts.py:33` `def plan(self, triggers)` -- Emit 0..N intents from current situation.
+- `IWorker.execute` (method) `modules/lazy_contracts.py:41` `def execute(self, intent, executor)` -- Run intent to completion and write facts back.
+- `IGuard.check` (method) `modules/lazy_contracts.py:49` `def check(self, tool, command)` -- Return allow/ask/deny decision and audit it.
+- `IEnricher.enrich` (method) `modules/lazy_contracts.py:57` `def enrich(self, value)` -- Enrich one asset synchronously.
+- `IRetester.retest` (method) `modules/lazy_contracts.py:65` `def retest(self, finding_id, executor)` -- Return verdict for one finding.
+- `ICompactor.compact` (method) `modules/lazy_contracts.py:73` `def compact(self, threshold)` -- Digest cold facts beyond threshold.
+- `IBudget.check` (method) `modules/lazy_contracts.py:81` `def check(self, task_id)` -- Return ok/exceeded decision with reason.
+- `IBudget.record_toolcall` (method) `modules/lazy_contracts.py:85` `def record_toolcall(self, task_id, intent_id)` -- Count one executed tool call.
+- `IRuntime.heartbeat` (method) `modules/lazy_contracts.py:93` `def heartbeat(self, task_id)` -- Return live runtime snapshot.
+- `IRuntime.abort` (method) `modules/lazy_contracts.py:97` `def abort(self, task_id, cause, detail)` -- Stamp abort cause like typed AbortCause.
+- `IFinding.report` (method) `modules/lazy_contracts.py:105` `def report(self, name, summary, poc, severity, vulnclass, intent_id, asset_ids, traffic_refs)` -- Register a deduplicated finding with severity and evidence.
+- `IFinding.set_status` (method) `modules/lazy_contracts.py:112` `def set_status(self, finding_id, status)` -- Transition finding disposition.
+- `IFinding.ranked` (method) `modules/lazy_contracts.py:116` `def ranked(self)` -- Return findings critical-first.
+- `INotifier.emit` (method) `modules/lazy_contracts.py:124` `def emit(self, task_id, event, data)` -- Fan out one event; returns deliveries.
+- `ITrigger.add` (method) `modules/lazy_contracts.py:132` `def add(self, kind, arg, every_sec)` -- Register a trigger.
+- `ITrigger.due` (method) `modules/lazy_contracts.py:136` `def due(self, task_id, graph, activity)` -- Evaluate and fire due triggers.
+- `ILlmPool.complete` (method) `modules/lazy_contracts.py:144` `def complete(self, prompt, max_tokens)` -- Fail over across members and return text or empty string.
+- `IToolCatalog.bindings` (method) `modules/lazy_contracts.py:152` `def bindings(self, agent)` -- Return bindings for one agent or the whole table.
+- `IToolCatalog.bind` (method) `modules/lazy_contracts.py:156` `def bind(self, agent, tool)` -- Opt a tool into an agent lane.
 
 
 Next: [API_p12.md](API_p12.md)

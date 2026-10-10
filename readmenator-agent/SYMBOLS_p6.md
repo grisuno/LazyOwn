@@ -1,8 +1,86 @@
-# Symbols (page 6 of 35)
+# Symbols (page 6 of 38)
 Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ephemeral_enabled` | method | `cli/toast_bus.py:732` | `def ephemeral_enabled(payload, config)` |
+| `flush` | method | `cli/toast_bus.py:164` | `def flush(self)` |
+| `format` | method | `cli/toast_bus.py:324` | `def format(self, event)` |
+| `format_ephemeral` | method | `cli/toast_bus.py:363` | `def format_ephemeral(self, event)` |
+| `format_many` | method | `cli/toast_bus.py:417` | `def format_many(self, events, width)` |
+| `format_prominent` | method | `cli/toast_bus.py:346` | `def format_prominent(self, event)` |
+| `get` | method | `cli/toast_bus.py:148` | `def get(self, name)` |
+| `is_prominent` | method | `cli/toast_bus.py:336` | `def is_prominent(self, event)` |
+| `mark_all_seen` | method | `cli/toast_bus.py:551` | `def mark_all_seen(self)` |
+| `path` | method | `cli/toast_bus.py:144` | `def path(self)` |
+| `read_recent_toasts` | method | `cli/toast_bus.py:823` | `def read_recent_toasts(sessions_dir, limit, config)` |
+| `read_unseen` | method | `cli/toast_bus.py:221` | `def read_unseen(self, name, start_offset)` |
+| `render` | method | `cli/toast_bus.py:522` | `def render(self, enabled)` |
+| `render_ephemeral` | method | `cli/toast_bus.py:558` | `def render_ephemeral(self, enabled, duration)` |
+| `render_ephemeral_toasts` | method | `cli/toast_bus.py:748` | `def render_ephemeral_toasts(payload, sessions_dir, console, duration, bus_factory)` |
+| `render_toasts` | method | `cli/toast_bus.py:708` | `def render_toasts(payload, sessions_dir, console, bus_factory)` |
+| `reset` | method | `cli/toast_bus.py:159` | `def reset(self)` |
+| `root` | method | `cli/toast_bus.py:217` | `def root(self)` |
+| `set` | method | `cli/toast_bus.py:153` | `def set(self, name, offset)` |
+| `toasts_enabled` | method | `cli/toast_bus.py:656` | `def toasts_enabled(payload, config)` |
+| `_cycle` | function | `cli/tui_theme.py:65` | `def _cycle(payload, direction)` |
+| `_format_listing` | function | `cli/tui_theme.py:45` | `def _format_listing(current)` |
+| `_set_theme` | function | `cli/tui_theme.py:30` | `def _set_theme(payload, name)` |
+| `run` | function | `cli/tui_theme.py:87` | `def run(args, payload, save)` |
+| `TutorialConfig` | class | `cli/tutorial.py:76` | `class TutorialConfig` |
+| `is_done` | method | `cli/tutorial.py:83` | `def is_done(config)` |
+| `mark_done` | method | `cli/tutorial.py:89` | `def mark_done(config)` |
+| `render_header` | method | `cli/tutorial.py:96` | `def render_header()` |
+| `render_phase_table` | method | `cli/tutorial.py:113` | `def render_phase_table()` |
+| `run` | method | `cli/tutorial.py:185` | `def run(params, command_runner)` |
+| `run_step` | method | `cli/tutorial.py:128` | `def run_step(index, command, description, why, params, command_runner)` |
+| `BinarySpec` | class | `cli/wizard.py:90` | `class BinarySpec` |
+| `BinaryStatus` | class | `cli/wizard.py:141` | `class BinaryStatus` |
+| `ReadinessItem` | class | `cli/wizard.py:150` | `class ReadinessItem` |
+| `WizardResult` | class | `cli/wizard.py:160` | `class WizardResult` |
+| `_ask_device` | method | `cli/wizard.py:537` | `def _ask_device(current)` |
+| `_ask_domain` | method | `cli/wizard.py:515` | `def _ask_domain(current)` |
+| `_ask_lhost` | method | `cli/wizard.py:484` | `def _ask_lhost(current)` |
+| `_ask_llm` | method | `cli/wizard.py:621` | `def _ask_llm(params)` |
+| `_ask_marketplace_config` | method | `cli/wizard.py:852` | `def _ask_marketplace_config()` |
+| `_ask_operator_login` | method | `cli/wizard.py:724` | `def _ask_operator_login(params)` |
+| `_ask_os_id` | method | `cli/wizard.py:563` | `def _ask_os_id(current)` |
+| `_ask_rhost` | method | `cli/wizard.py:457` | `def _ask_rhost(current)` |
+| `_ask_wordlists` | method | `cli/wizard.py:692` | `def _ask_wordlists(params)` |
+| `_build_readiness` | method | `cli/wizard.py:875` | `def _build_readiness(params)` |
+| `_check` | method | `cli/wizard.py:878` | `def _check(key, label, hint)` |
+| `_check_llm` | method | `cli/wizard.py:887` | `def _check_llm()` |
+| `_collect_values` | method | `cli/wizard.py:419` | `def _collect_values(params)` |
+| `_detect_device` | method | `cli/wizard.py:1120` | `def _detect_device()` |
+| `_detect_lhost` | method | `cli/wizard.py:1098` | `def _detect_lhost()` |
+| `_find_seclists_root` | method | `cli/wizard.py:1133` | `def _find_seclists_root()` |
+| `_group_by_category` | method | `cli/wizard.py:988` | `def _group_by_category(statuses)` |
+| `_info` | method | `cli/wizard.py:1169` | `def _info(msg)` |
+| `_is_default` | method | `cli/wizard.py:322` | `def _is_default(value)` |
+| `_is_weak` | method | `cli/wizard.py:325` | `def _is_weak(value)` |
+| `_mask_secret` | method | `cli/wizard.py:606` | `def _mask_secret(value)` |
+| `_normalize_provider_answer` | method | `cli/wizard.py:585` | `def _normalize_provider_answer(raw)` |
+| `_ok` | method | `cli/wizard.py:1161` | `def _ok(msg)` |
+| `_ping` | method | `cli/wizard.py:1141` | `def _ping(ip)` |
+| `_print_binary_report` | method | `cli/wizard.py:997` | `def _print_binary_report(statuses)` |
+| `_print_glossary_panel` | method | `cli/wizard.py:379` | `def _print_glossary_panel()` |
+| `_print_header` | method | `cli/wizard.py:364` | `def _print_header()` |
+| `_print_long_help` | method | `cli/wizard.py:412` | `def _print_long_help(key)` |
+| `_print_next_steps` | method | `cli/wizard.py:1035` | `def _print_next_steps(params)` |
+| `_print_readiness` | method | `cli/wizard.py:927` | `def _print_readiness(items)` |
+| `_print_secret_rotation` | method | `cli/wizard.py:348` | `def _print_secret_rotation(rotated)` |
+| `_print_validation_summary` | method | `cli/wizard.py:1059` | `def _print_validation_summary(params)` |
+| `_prompt` | method | `cli/wizard.py:1154` | `def _prompt(message)` |
+| `_rotate_default_secrets` | method | `cli/wizard.py:300` | `def _rotate_default_secrets(params, save)` |
+| `_spec_long_help` | method | `cli/wizard.py:404` | `def _spec_long_help(key)` |
+| `_warn` | method | `cli/wizard.py:1165` | `def _warn(msg)` |
+| `_wizard_login_flow` | method | `cli/wizard.py:786` | `def _wizard_login_flow()` |
+| `_wizard_register_flow` | method | `cli/wizard.py:809` | `def _wizard_register_flow()` |
+| `check_binaries` | method | `cli/wizard.py:947` | `def check_binaries(specs, which)` |
+| `run` | method | `cli/wizard.py:169` | `def run(params, save)` |
+| `run_non_interactive` | method | `cli/wizard.py:234` | `def run_non_interactive(params, save, values)` |
+| `WizardScope` | class | `cli/wizard_scope.py:31` | `class WizardScope` |
+| `WizardScopeConfig` | class | `cli/wizard_scope.py:17` | `class WizardScopeConfig` |
 | `parse_scope` | method | `cli/wizard_scope.py:38` | `def parse_scope(tokens, config)` |
 | `status_rows` | method | `cli/wizard_scope.py:64` | `def status_rows(params)` |
 | `exploit` | function | `contrib/legacy/lazy_http_bof.py:29` | `def exploit(target, port, payload)` |
@@ -414,87 +492,9 @@ Previous: [SYMBOLS_p5.md](SYMBOLS_p5.md)
 | `overridden_keys` | method | `core/config.py:233` | `def overridden_keys(self)` |
 | `resolve_aes_key` | method | `core/config.py:250` | `def resolve_aes_key(config_dict)` |
 | `save_payload` | method | `core/config.py:385` | `def save_payload(payload, path)` |
-| `_paint` | function | `core/console.py:113` | `def _paint(code, text)` |
-| `_sanitize` | function | `core/console.py:92` | `def _sanitize(text)` |
-| `colors_enabled` | function | `core/console.py:97` | `def colors_enabled()` |
-| `format_line` | function | `core/console.py:120` | `def format_line(prefix, message, glyph)` |
-| `print_error` | function | `core/console.py:136` | `def print_error(error)` |
-| `print_msg` | function | `core/console.py:142` | `def print_msg(msg)` |
-| `print_succ` | function | `core/console.py:154` | `def print_succ(msg)` |
-| `print_warn` | function | `core/console.py:148` | `def print_warn(warn)` |
-| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
-| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
-| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
-| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
-| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
-| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
-| `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
-| `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
-| `Spray` | function | `core/credentials.py:273` | `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` |
-| `crack_password` | function | `core/credentials.py:183` | `def crack_password(crypttext)` |
-| `find_ea` | function | `core/credentials.py:220` | `def find_ea(keyword)` |
-| `find_ps` | function | `core/credentials.py:249` | `def find_ps(keyword)` |
-| `find_ss` | function | `core/credentials.py:261` | `def find_ss(keyword)` |
-| `format_openssh_key` | function | `core/credentials.py:341` | `def format_openssh_key(raw_key)` |
-| `format_rsa_key` | function | `core/credentials.py:355` | `def format_rsa_key(raw_key)` |
-| `generate_emails` | function | `core/credentials.py:160` | `def generate_emails(full_name, domain)` |
-| `get_credentials` | function | `core/credentials.py:17` | `def get_credentials(file, ncred)` |
-| `get_domain` | function | `core/credentials.py:67` | `def get_domain(url)` |
-| `get_hash` | function | `core/credentials.py:81` | `def get_hash(dir)` |
-| `get_users_dic` | function | `core/credentials.py:115` | `def get_users_dic(txt)` |
-| `return_creds` | function | `core/credentials.py:146` | `def return_creds()` |
-| `AESdecrypt` | function | `core/crypto.py:123` | `def AESdecrypt(data, key)` |
-| `AESencrypt` | function | `core/crypto.py:98` | `def AESencrypt(plaintext, key)` |
-| `derive_key` | function | `core/crypto.py:36` | `def derive_key(password, salt)` |
-| `dropFile` | function | `core/crypto.py:154` | `def dropFile(key, ciphertext)` |
-| `generate_salt` | function | `core/crypto.py:24` | `def generate_salt(length)` |
-| `generate_xor_key` | function | `core/crypto.py:83` | `def generate_xor_key(length)` |
-| `xor_encrypt_decrypt` | function | `core/crypto.py:67` | `def xor_encrypt_decrypt(data, key)` |
-| `DependencyReport` | class | `core/dependencies.py:268` | `class DependencyReport` |
-| `DependencySpec` | class | `core/dependencies.py:66` | `class DependencySpec` |
-| `DependencyStatus` | class | `core/dependencies.py:253` | `class DependencyStatus` |
-| `MissingDependencyError` | class | `core/dependencies.py:37` | `class MissingDependencyError(ImportError)` |
-| `_DeferredImport` | class | `core/dependencies.py:101` | `class _DeferredImport` |
-| `__bool__` | method | `core/dependencies.py:152` | `def __bool__(self)` |
-| `__call__` | method | `core/dependencies.py:136` | `def __call__(self)` |
-| `__getattr__` | method | `core/dependencies.py:132` | `def __getattr__(self, _name)` |
-| `__getitem__` | method | `core/dependencies.py:140` | `def __getitem__(self, _key)` |
-| `__init__` | method | `core/dependencies.py:45` | `def __init__(self, import_name, pip_package, feature)` |
-| `__init__` | method | `core/dependencies.py:115` | `def __init__(self, spec)` |
-| `__iter__` | method | `core/dependencies.py:144` | `def __iter__(self)` |
-| `__len__` | method | `core/dependencies.py:148` | `def __len__(self)` |
-| `_raise` | method | `core/dependencies.py:123` | `def _raise(self)` |
-| `_spec_for` | method | `core/dependencies.py:157` | `def _spec_for(import_name, pip_package, feature)` |
-| `collect_dependency_report` | method | `core/dependencies.py:312` | `def collect_dependency_report()` |
-| `format_report` | method | `core/dependencies.py:323` | `def format_report(report)` |
-| `main` | method | `core/dependencies.py:368` | `def main()` |
-| `missing` | method | `core/dependencies.py:278` | `def missing(self)` |
-| `ok` | method | `core/dependencies.py:283` | `def ok(self)` |
-| `optional_attr` | method | `core/dependencies.py:209` | `def optional_attr(import_name, attr)` |
-| `optional_import` | method | `core/dependencies.py:183` | `def optional_import(import_name)` |
-| `probe_python_dependency` | method | `core/dependencies.py:288` | `def probe_python_dependency(spec)` |
-| `ErrorAdvice` | class | `core/error_advice.py:27` | `class ErrorAdvice` |
-| `ErrorAdviceConfig` | class | `core/error_advice.py:16` | `class ErrorAdviceConfig` |
-| `docs_url` | method | `core/error_advice.py:35` | `def docs_url(self, config)` |
-| `get_advice` | method | `core/error_advice.py:74` | `def get_advice(key)` |
-| `render_advice` | method | `core/error_advice.py:86` | `def render_advice(key, config)` |
-| `AuthError` | class | `core/errors.py:92` | `class AuthError(LazyOwnError)` |
-| `ConfigError` | class | `core/errors.py:78` | `class ConfigError(LazyOwnError)` |
-| `DatabaseError` | class | `core/errors.py:113` | `class DatabaseError(LazyOwnError)` |
-| `ErrorCode` | class | `core/errors.py:10` | `class ErrorCode(IntEnum)` |
-| `LazyOwnError` | class | `core/errors.py:58` | `class LazyOwnError(Exception)` |
-| `NetworkError` | class | `core/errors.py:120` | `class NetworkError(LazyOwnError)` |
-| `PayloadError` | class | `core/errors.py:106` | `class PayloadError(LazyOwnError)` |
-| `PermissionError` | class | `core/errors.py:127` | `class PermissionError(LazyOwnError)` |
-| `TargetError` | class | `core/errors.py:85` | `class TargetError(LazyOwnError)` |
-| `ToolError` | class | `core/errors.py:99` | `class ToolError(LazyOwnError)` |
-| `ValidationError` | class | `core/errors.py:134` | `class ValidationError(LazyOwnError)` |
-| `__init__` | method | `core/errors.py:61` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:81` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:88` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:95` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:102` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:109` | `def __init__(self, message, error_code)` |
-| `__init__` | method | `core/errors.py:116` | `def __init__(self, message, error_code)` |
+| `_emit` | function | `core/console.py:208` | `def _emit(line)` |
+| `_paint` | function | `core/console.py:114` | `def _paint(code, text)` |
+| `_sanitize` | function | `core/console.py:93` | `def _sanitize(text)` |
+| `colors_enabled` | function | `core/console.py:98` | `def colors_enabled()` |
 
 Next: [SYMBOLS_p7.md](SYMBOLS_p7.md)

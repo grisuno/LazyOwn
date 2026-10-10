@@ -626,6 +626,79 @@ def try_get_llm_backend(
         return None
 
 
+def complete(model: str, prompt: str, max_tokens: int = 800) -> str:
+    """Complete a prompt through one model spec; raise when unanswered.
+
+    The ``model`` spec accepts an optional ``backend:`` prefix selecting
+    the leg: ``groq:``, ``ollama:``, ``auto:`` (groq first, then ollama)
+    or ``toposwarm:`` (local agentic router, keyless). A bare model name
+    resolves through the ``auto`` chain. Empty prompt returns empty
+    string; any backend outage raises so pool callers can fail over to
+    the next leg and finally to the heuristic path.
+
+    Args:
+        model: Model spec, optionally prefixed with backend.
+        prompt: User prompt text.
+        max_tokens: Response token cap.
+
+    Returns:
+        Response text, never empty on success.
+
+    Raises:
+        RuntimeError: When no leg answers.
+    """
+    if not (prompt or "").strip():
+        return ""
+    spec = (model or "auto").strip()
+    provider = "auto"
+    name: str | None = None
+    if ":" in spec:
+        head, tail = spec.split(":", 1)
+        if head.strip().lower() in ("groq", "ollama", "auto", "toposwarm"):
+            provider = head.strip().lower()
+            name = tail.strip() or None
+        else:
+            name = spec
+    else:
+        name = spec if spec.lower() != "auto" else None
+    if provider == "toposwarm":
+        try:
+            from pathlib import Path as _Path
+            import sys as _sys
+
+            _sys.path.insert(0, str(_Path(__file__).parent))
+            from toposwarm_bridge import get_bridge as _get_bridge
+
+            bridge = _get_bridge()
+            if not bridge.available:
+                raise RuntimeError("toposwarm bridge unavailable")
+            text = str(bridge.execute_via_orchestrator(
+                prompt[:6000], no_model=not bridge.model_loaded) or "")
+            if not text.strip():
+                raise RuntimeError("toposwarm returned empty reply")
+            return text
+        except RuntimeError:
+            raise
+        except Exception as exc:
+            raise RuntimeError(f"toposwarm leg failed: {exc}") from exc
+    try:
+        from modules.llm_client import LLMClient as _Client
+    except ImportError as exc:
+        raise RuntimeError(f"llm client unavailable: {exc}") from exc
+    try:
+        text = str(_Client().ask(prompt[:6000], provider=provider,
+                                 model=name, max_tokens=max_tokens) or "")
+    except TypeError:
+        text = str(_Client().ask(prompt[:6000], provider=provider,
+                                 model=name) or "")
+    if not text.strip():
+        raise RuntimeError(f"{provider} leg returned empty reply")
+    lowered = text.lower()
+    if ("all ai backends failed" in lowered or "no ai backend available" in lowered):
+        raise RuntimeError(f"{provider} leg unavailable")
+    return text
+
+
 __all__ = [
     "BACKEND_ANTHROPIC",
     "BACKEND_AUTO",
@@ -660,6 +733,7 @@ __all__ = [
     "SUPPORTED_BACKENDS",
     "api_key_config_key",
     "backend_requires_api_key",
+    "complete",
     "default_model_for",
     "model_config_key",
     "get_llm_backend",

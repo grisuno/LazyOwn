@@ -1,26 +1,85 @@
-# Symbols (page 3 of 35)
+# Symbols (page 3 of 38)
 Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `do_banner` | method | `cli/commands/misc_migrated.py:768` | `def do_banner(self, line)` |
+| `do_browse` | method | `cli/commands/misc_migrated.py:604` | `def do_browse(self, line)` |
+| `do_check_update` | method | `cli/commands/misc_migrated.py:1108` | `def do_check_update(self, line)` |
+| `do_config_banner` | method | `cli/commands/misc_migrated.py:780` | `def do_config_banner(self, line)` |
+| `do_dashboard` | method | `cli/commands/misc_migrated.py:538` | `def do_dashboard(self, line)` |
+| `do_exit` | method | `cli/commands/misc_migrated.py:691` | `def do_exit(self, arg)` |
+| `do_explore` | method | `cli/commands/misc_migrated.py:472` | `def do_explore(self, line)` |
+| `do_god_nodes` | method | `cli/commands/misc_migrated.py:270` | `def do_god_nodes(self, line)` |
+| `do_graph` | method | `cli/commands/misc_migrated.py:875` | `def do_graph(self, line)` |
+| `do_graph_overlay` | method | `cli/commands/misc_migrated.py:645` | `def do_graph_overlay(self, line)` |
+| `do_graph_search` | method | `cli/commands/misc_migrated.py:215` | `def do_graph_search(self, line)` |
+| `do_h` | method | `cli/commands/misc_migrated.py:936` | `def do_h(self, arg)` |
+| `do_links` | method | `cli/commands/misc_migrated.py:1032` | `def do_links(self, line)` |
+| `do_listaliases` | method | `cli/commands/misc_migrated.py:1206` | `def do_listaliases(self, _)` |
+| `do_neighbors` | method | `cli/commands/misc_migrated.py:243` | `def do_neighbors(self, line)` |
+| `do_news` | method | `cli/commands/misc_migrated.py:1095` | `def do_news(self, line)` |
+| `do_notify` | method | `cli/commands/misc_migrated.py:91` | `def do_notify(self, arg)` |
+| `do_palette` | method | `cli/commands/misc_migrated.py:190` | `def do_palette(self, line)` |
+| `do_palette_k` | method | `cli/commands/misc_migrated.py:575` | `def do_palette_k(self, line)` |
+| `do_prev` | method | `cli/commands/misc_migrated.py:503` | `def do_prev(self, line)` |
+| `do_recommend_next` | method | `cli/commands/misc_migrated.py:415` | `def do_recommend_next(self, line)` |
+| `do_suggest_next` | method | `cli/commands/misc_migrated.py:289` | `def do_suggest_next(self, line)` |
+| `do_timeline_browser` | method | `cli/commands/misc_migrated.py:626` | `def do_timeline_browser(self, line)` |
+| `do_toast_clear` | method | `cli/commands/misc_migrated.py:665` | `def do_toast_clear(self, line)` |
+| `do_v` | method | `cli/commands/misc_migrated.py:982` | `def do_v(self, arg)` |
+| `MobileMacOSCommandSet` | class | `cli/commands/mobile_macos.py:96` | `class MobileMacOSCommandSet(LazyOwnCommandSet)` |
+| `_adb_argv` | method | `cli/commands/mobile_macos.py:361` | `def _adb_argv(serial)` |
+| `_extract_flag` | method | `cli/commands/mobile_macos.py:351` | `def _extract_flag(args, flag)` |
+| `_is_safe_output_path` | method | `cli/commands/mobile_macos.py:368` | `def _is_safe_output_path(path)` |
+| `do_android_apk` | method | `cli/commands/mobile_macos.py:171` | `def do_android_apk(self, line)` |
+| `do_android_enum` | method | `cli/commands/mobile_macos.py:103` | `def do_android_enum(self, line)` |
+| `do_macos_keychain` | method | `cli/commands/mobile_macos.py:274` | `def do_macos_keychain(self, line)` |
+| `do_macos_persist` | method | `cli/commands/mobile_macos.py:216` | `def do_macos_persist(self, line)` |
+| `do_macos_tcc` | method | `cli/commands/mobile_macos.py:323` | `def do_macos_tcc(self, line)` |
+| `is_binary_present` | method | `cli/commands/mobile_macos.py:374` | `def is_binary_present(name)` |
+| `ModuleManagerCommandSet` | class | `cli/commands/module_manager.py:36` | `class ModuleManagerCommandSet(LazyOwnCommandSet)` |
+| `_get_active_module` | method | `cli/commands/module_manager.py:50` | `def _get_active_module(self)` |
+| `_get_active_options` | method | `cli/commands/module_manager.py:56` | `def _get_active_options(self)` |
+| `_get_registry` | method | `cli/commands/module_manager.py:42` | `def _get_registry(self)` |
+| `do_back` | method | `cli/commands/module_manager.py:162` | `def do_back(self, line)` |
+| `do_search` | method | `cli/commands/module_manager.py:71` | `def do_search(self, line)` |
+| `do_use` | method | `cli/commands/module_manager.py:111` | `def do_use(self, line)` |
+| `NetworkHelpersCommandSet` | class | `cli/commands/nethelpers.py:31` | `class NetworkHelpersCommandSet(LazyOwnCommandSet)` |
+| `do_acknowledgearp` | method | `cli/commands/nethelpers.py:418` | `def do_acknowledgearp(self, line)` |
+| `do_acknowledgeicmp` | method | `cli/commands/nethelpers.py:453` | `def do_acknowledgeicmp(self, line)` |
+| `do_addhosts` | method | `cli/commands/nethelpers.py:295` | `def do_addhosts(self, line)` |
+| `do_ignorearp` | method | `cli/commands/nethelpers.py:348` | `def do_ignorearp(self, line)` |
+| `do_ignoreicmp` | method | `cli/commands/nethelpers.py:383` | `def do_ignoreicmp(self, line)` |
+| `do_ip` | method | `cli/commands/nethelpers.py:38` | `def do_ip(self, line)` |
+| `do_ip2asn` | method | `cli/commands/nethelpers.py:319` | `def do_ip2asn(self, line)` |
+| `do_ipp` | method | `cli/commands/nethelpers.py:120` | `def do_ipp(self, line)` |
+| `do_rhost` | method | `cli/commands/nethelpers.py:201` | `def do_rhost(self, line)` |
+| `do_rrhost` | method | `cli/commands/nethelpers.py:254` | `def do_rrhost(self, line)` |
+| `OpsecCleanupCommandSet` | class | `cli/commands/opsec_cleanup.py:19` | `class OpsecCleanupCommandSet(LazyOwnCommandSet)` |
+| `do_auditd_disable` | method | `cli/commands/opsec_cleanup.py:445` | `def do_auditd_disable(self, line)` |
+| `do_forensic_clean` | method | `cli/commands/opsec_cleanup.py:162` | `def do_forensic_clean(self, line)` |
+| `do_log_tamper` | method | `cli/commands/opsec_cleanup.py:97` | `def do_log_tamper(self, line)` |
 | `do_memory_clean` | method | `cli/commands/opsec_cleanup.py:288` | `def do_memory_clean(self, line)` |
 | `do_network_opsec` | method | `cli/commands/opsec_cleanup.py:342` | `def do_network_opsec(self, line)` |
 | `do_opsec_score` | method | `cli/commands/opsec_cleanup.py:25` | `def do_opsec_score(self, line)` |
 | `do_sysmon_disable` | method | `cli/commands/opsec_cleanup.py:468` | `def do_sysmon_disable(self, line)` |
 | `do_timestomp` | method | `cli/commands/opsec_cleanup.py:219` | `def do_timestomp(self, line)` |
-| `OrchestrationCommandSet` | class | `cli/commands/orchestration.py:117` | `class OrchestrationCommandSet(LazyOwnCommandSet)` |
+| `OrchestrationCommandSet` | class | `cli/commands/orchestration.py:183` | `class OrchestrationCommandSet(LazyOwnCommandSet)` |
 | `OrchestrationConfig` | class | `cli/commands/orchestration.py:37` | `class OrchestrationConfig` |
-| `_build_orchestrate_parser` | method | `cli/commands/orchestration.py:70` | `def _build_orchestrate_parser()` |
-| `_build_status_bar_parser` | method | `cli/commands/orchestration.py:57` | `def _build_status_bar_parser()` |
-| `_format_text` | method | `cli/commands/orchestration.py:228` | `def _format_text(result)` |
-| `_orchestrator` | method | `cli/commands/orchestration.py:198` | `def _orchestrator(self)` |
-| `_resolve_shell` | method | `cli/commands/orchestration.py:177` | `def _resolve_shell(self)` |
-| `_status_bar_refresh` | method | `cli/commands/orchestration.py:209` | `def _status_bar_refresh(self, manager)` |
-| `_status_bar_show` | method | `cli/commands/orchestration.py:204` | `def _status_bar_show(self, manager)` |
-| `_status_bar_toggle` | method | `cli/commands/orchestration.py:219` | `def _status_bar_toggle(self, manager, enabled)` |
-| `_status_manager` | method | `cli/commands/orchestration.py:192` | `def _status_manager(self)` |
-| `do_orchestrate` | method | `cli/commands/orchestration.py:151` | `def do_orchestrate(self, args)` |
-| `do_status_bar` | method | `cli/commands/orchestration.py:125` | `def do_status_bar(self, args)` |
+| `_build_orchestrate_parser` | method | `cli/commands/orchestration.py:129` | `def _build_orchestrate_parser()` |
+| `_build_status_bar_parser` | method | `cli/commands/orchestration.py:116` | `def _build_status_bar_parser()` |
+| `_format_text` | method | `cli/commands/orchestration.py:315` | `def _format_text(result)` |
+| `_orchestrator` | method | `cli/commands/orchestration.py:285` | `def _orchestrator(self)` |
+| `_resolve_shell` | method | `cli/commands/orchestration.py:264` | `def _resolve_shell(self)` |
+| `_spinner_hints` | method | `cli/commands/orchestration.py:60` | `def _spinner_hints(stop, events_path)` |
+| `_status_bar_refresh` | method | `cli/commands/orchestration.py:296` | `def _status_bar_refresh(self, manager)` |
+| `_status_bar_show` | method | `cli/commands/orchestration.py:291` | `def _status_bar_show(self, manager)` |
+| `_status_bar_toggle` | method | `cli/commands/orchestration.py:306` | `def _status_bar_toggle(self, manager, enabled)` |
+| `_status_manager` | method | `cli/commands/orchestration.py:279` | `def _status_manager(self)` |
+| `do_orchestrate` | method | `cli/commands/orchestration.py:217` | `def do_orchestrate(self, args)` |
+| `do_status_bar` | method | `cli/commands/orchestration.py:191` | `def do_status_bar(self, args)` |
+| `run_with_spinner` | method | `cli/commands/orchestration.py:95` | `def run_with_spinner(execute)` |
 | `PayloadArsenalCommandSet` | class | `cli/commands/payload_arsenal.py:23` | `class PayloadArsenalCommandSet(LazyOwnCommandSet)` |
 | `do_arsenal_show` | method | `cli/commands/payload_arsenal.py:114` | `def do_arsenal_show(self, line)` |
 | `do_dotnet_payload` | method | `cli/commands/payload_arsenal.py:29` | `def do_dotnet_payload(self, line)` |
@@ -183,12 +242,12 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_purple_test` | method | `cli/commands/purple_team.py:203` | `def do_purple_test(self, args)` |
 | `PwnCommandSet` | class | `cli/commands/pwn.py:28` | `class PwnCommandSet(LazyOwnCommandSet)` |
 | `do_auto_pwn` | method | `cli/commands/pwn.py:35` | `def do_auto_pwn(self, line)` |
-| `do_exploit_chain` | method | `cli/commands/pwn.py:148` | `def do_exploit_chain(self, line)` |
-| `do_lolbas_list` | method | `cli/commands/pwn.py:235` | `def do_lolbas_list(self, line)` |
-| `do_lolbas_use` | method | `cli/commands/pwn.py:292` | `def do_lolbas_use(self, line)` |
-| `do_rich_tui` | method | `cli/commands/pwn.py:99` | `def do_rich_tui(self, line)` |
-| `do_stealth_off` | method | `cli/commands/pwn.py:412` | `def do_stealth_off(self, line)` |
-| `do_stealth_on` | method | `cli/commands/pwn.py:384` | `def do_stealth_on(self, line)` |
+| `do_exploit_chain` | method | `cli/commands/pwn.py:157` | `def do_exploit_chain(self, line)` |
+| `do_lolbas_list` | method | `cli/commands/pwn.py:244` | `def do_lolbas_list(self, line)` |
+| `do_lolbas_use` | method | `cli/commands/pwn.py:301` | `def do_lolbas_use(self, line)` |
+| `do_rich_tui` | method | `cli/commands/pwn.py:108` | `def do_rich_tui(self, line)` |
+| `do_stealth_off` | method | `cli/commands/pwn.py:421` | `def do_stealth_off(self, line)` |
+| `do_stealth_on` | method | `cli/commands/pwn.py:393` | `def do_stealth_on(self, line)` |
 | `ReconCommandSet` | class | `cli/commands/recon.py:40` | `class ReconCommandSet(LazyOwnCommandSet)` |
 | `_run_single_search` | method | `cli/commands/recon.py:521` | `def _run_single_search(query)` |
 | `do_batchnmap` | method | `cli/commands/recon.py:47` | `def do_batchnmap(self, line)` |
@@ -327,32 +386,33 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_seal_credentials` | method | `cli/commands/security.py:106` | `def do_seal_credentials(self, _line)` |
 | `do_unseal_credentials` | method | `cli/commands/security.py:150` | `def do_unseal_credentials(self, _line)` |
 | `SessionOpsCommandSet` | class | `cli/commands/session_ops.py:72` | `class SessionOpsCommandSet(LazyOwnCommandSet)` |
-| `_flag_value` | method | `cli/commands/session_ops.py:799` | `def _flag_value(flag_name)` |
-| `_flag_value` | method | `cli/commands/session_ops.py:911` | `def _flag_value(flag_name)` |
+| `_flag_value` | method | `cli/commands/session_ops.py:926` | `def _flag_value(flag_name)` |
+| `_flag_value` | method | `cli/commands/session_ops.py:1038` | `def _flag_value(flag_name)` |
 | `do_assign` | method | `cli/commands/session_ops.py:253` | `def do_assign(self, line)` |
-| `do_chainmode` | method | `cli/commands/session_ops.py:684` | `def do_chainmode(self, line)` |
-| `do_clock` | method | `cli/commands/session_ops.py:1281` | `def do_clock(self, line)` |
-| `do_clone_site` | method | `cli/commands/session_ops.py:1391` | `def do_clone_site(self, line)` |
-| `do_collab_join` | method | `cli/commands/session_ops.py:1160` | `def do_collab_join(self, line)` |
-| `do_download_resources` | method | `cli/commands/session_ops.py:1127` | `def do_download_resources(self, line)` |
-| `do_engage` | method | `cli/commands/session_ops.py:735` | `def do_engage(self, line)` |
-| `do_gencert` | method | `cli/commands/session_ops.py:1329` | `def do_gencert(self, line)` |
-| `do_getseclist` | method | `cli/commands/session_ops.py:1089` | `def do_getseclist(self, line)` |
-| `do_hunt` | method | `cli/commands/session_ops.py:985` | `def do_hunt(self, line)` |
-| `do_kick` | method | `cli/commands/session_ops.py:1191` | `def do_kick(self, line)` |
+| `do_chainmode` | method | `cli/commands/session_ops.py:811` | `def do_chainmode(self, line)` |
+| `do_clock` | method | `cli/commands/session_ops.py:1416` | `def do_clock(self, line)` |
+| `do_clone_site` | method | `cli/commands/session_ops.py:1526` | `def do_clone_site(self, line)` |
+| `do_collab_join` | method | `cli/commands/session_ops.py:1295` | `def do_collab_join(self, line)` |
+| `do_download_resources` | method | `cli/commands/session_ops.py:1262` | `def do_download_resources(self, line)` |
+| `do_engage` | method | `cli/commands/session_ops.py:862` | `def do_engage(self, line)` |
+| `do_frontier` | method | `cli/commands/session_ops.py:684` | `def do_frontier(self, line)` |
+| `do_gencert` | method | `cli/commands/session_ops.py:1464` | `def do_gencert(self, line)` |
+| `do_getseclist` | method | `cli/commands/session_ops.py:1224` | `def do_getseclist(self, line)` |
+| `do_hunt` | method | `cli/commands/session_ops.py:1112` | `def do_hunt(self, line)` |
+| `do_kick` | method | `cli/commands/session_ops.py:1326` | `def do_kick(self, line)` |
 | `do_l00t` | method | `cli/commands/session_ops.py:104` | `def do_l00t(self, line)` |
-| `do_lazyscript` | method | `cli/commands/session_ops.py:953` | `def do_lazyscript(self, line)` |
+| `do_lazyscript` | method | `cli/commands/session_ops.py:1080` | `def do_lazyscript(self, line)` |
 | `do_list` | method | `cli/commands/session_ops.py:521` | `def do_list(self, line)` |
-| `do_load_session` | method | `cli/commands/session_ops.py:1341` | `def do_load_session(self, line)` |
+| `do_load_session` | method | `cli/commands/session_ops.py:1476` | `def do_load_session(self, line)` |
 | `do_loot` | method | `cli/commands/session_ops.py:153` | `def do_loot(self, line)` |
-| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1437` | `def do_msfshellcoder(self, line)` |
+| `do_msfshellcoder` | method | `cli/commands/session_ops.py:1572` | `def do_msfshellcoder(self, line)` |
 | `do_next` | method | `cli/commands/session_ops.py:640` | `def do_next(self, line)` |
 | `do_note` | method | `cli/commands/session_ops.py:79` | `def do_note(self, line)` |
 | `do_payload` | method | `cli/commands/session_ops.py:589` | `def do_payload(self, line)` |
-| `do_pipeline` | method | `cli/commands/session_ops.py:862` | `def do_pipeline(self, line)` |
+| `do_pipeline` | method | `cli/commands/session_ops.py:989` | `def do_pipeline(self, line)` |
 | `do_pivot` | method | `cli/commands/session_ops.py:161` | `def do_pivot(self, line)` |
-| `do_qa` | method | `cli/commands/session_ops.py:1240` | `def do_qa(self, line)` |
-| `do_resume` | method | `cli/commands/session_ops.py:1067` | `def do_resume(self, line)` |
+| `do_qa` | method | `cli/commands/session_ops.py:1375` | `def do_qa(self, line)` |
+| `do_resume` | method | `cli/commands/session_ops.py:1202` | `def do_resume(self, line)` |
 | `do_run` | method | `cli/commands/session_ops.py:550` | `def do_run(self, line)` |
 | `do_scans` | method | `cli/commands/session_ops.py:219` | `def do_scans(self, line)` |
 | `do_scope` | method | `cli/commands/session_ops.py:379` | `def do_scope(self, line)` |
@@ -360,6 +420,7 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_sitrep` | method | `cli/commands/session_ops.py:236` | `def do_sitrep(self, line)` |
 | `do_tasks` | method | `cli/commands/session_ops.py:186` | `def do_tasks(self, line)` |
 | `do_tenant` | method | `cli/commands/session_ops.py:306` | `def do_tenant(self, line)` |
+| `do_traces` | method | `cli/commands/session_ops.py:730` | `def do_traces(self, line)` |
 | `ShellSysCommandSet` | class | `cli/commands/shellsys.py:23` | `class ShellSysCommandSet(LazyOwnCommandSet)` |
 | `do_clean` | method | `cli/commands/shellsys.py:216` | `def do_clean(self, line)` |
 | `do_cron` | method | `cli/commands/shellsys.py:170` | `def do_cron(self, line)` |
@@ -393,13 +454,16 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_depscan` | method | `cli/commands/supply_chain.py:216` | `def do_depscan(self, line)` |
 | `do_package_squat` | method | `cli/commands/supply_chain.py:140` | `def do_package_squat(self, line)` |
 | `is_internal_name` | method | `cli/commands/supply_chain.py:450` | `def is_internal_name(name)` |
+| `SurfaceCommandSet` | class | `cli/commands/surface.py:36` | `class SurfaceCommandSet(LazyOwnCommandSet)` |
+| `do_estorides_intel` | method | `cli/commands/surface.py:86` | `def do_estorides_intel(self, line)` |
+| `do_scandiscovery` | method | `cli/commands/surface.py:43` | `def do_scandiscovery(self, line)` |
 | `UxCommandSet` | class | `cli/commands/ux.py:39` | `class UxCommandSet(LazyOwnCommandSet)` |
-| `_candidate_commands` | method | `cli/commands/ux.py:255` | `def _candidate_commands(self)` |
-| `_find_cheat_section` | method | `cli/commands/ux.py:272` | `def _find_cheat_section(query)` |
+| `_candidate_commands` | method | `cli/commands/ux.py:281` | `def _candidate_commands(self)` |
+| `_find_cheat_section` | method | `cli/commands/ux.py:298` | `def _find_cheat_section(query)` |
 | `do_cheat` | method | `cli/commands/ux.py:140` | `def do_cheat(self, line)` |
 | `do_config_diff` | method | `cli/commands/ux.py:115` | `def do_config_diff(self, line)` |
 | `do_hud` | method | `cli/commands/ux.py:46` | `def do_hud(self, line)` |
-| `do_suggest` | method | `cli/commands/ux.py:235` | `def do_suggest(self, line)` |
+| `do_suggest` | method | `cli/commands/ux.py:261` | `def do_suggest(self, line)` |
 | `do_toast` | method | `cli/commands/ux.py:167` | `def do_toast(self, line)` |
 | `do_undo` | method | `cli/commands/ux.py:85` | `def do_undo(self, line)` |
 | `ConfigHistory` | class | `cli/config_history.py:23` | `class ConfigHistory` |
@@ -432,69 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `DashboardLayoutConfig` | class | `cli/dashboard_layout.py:14` | `class DashboardLayoutConfig` |
 | `hidden_panels` | method | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
 | `layout_mode` | method | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
-| `CommandRequested` | class | `cli/dashboard_tui.py:97` | `class CommandRequested(Message)` |
-| `CommandsPanel` | class | `cli/dashboard_tui.py:460` | `class CommandsPanel(Static)` |
-| `ConfigPanel` | class | `cli/dashboard_tui.py:430` | `class ConfigPanel(Static)` |
-| `HintBar` | class | `cli/dashboard_tui.py:587` | `class HintBar(Horizontal)` |
-| `KillChainPanel` | class | `cli/dashboard_tui.py:378` | `class KillChainPanel(Static)` |
-| `LazyOwnDashboard` | class | `cli/dashboard_tui.py:738` | `class LazyOwnDashboard(App)` |
-| `NextStepsPanel` | class | `cli/dashboard_tui.py:706` | `class NextStepsPanel(Static)` |
-| `OpsPanel` | class | `cli/dashboard_tui.py:532` | `class OpsPanel(Static)` |
-| `OutputPanel` | class | `cli/dashboard_tui.py:693` | `class OutputPanel(Log)` |
-| `PhaseSelected` | class | `cli/dashboard_tui.py:105` | `class PhaseSelected(Message)` |
-| `ReasoningPanel` | class | `cli/dashboard_tui.py:495` | `class ReasoningPanel(Static)` |
-| `TargetPanel` | class | `cli/dashboard_tui.py:322` | `class TargetPanel(Static)` |
-| `ToastPanel` | class | `cli/dashboard_tui.py:653` | `class ToastPanel(Static)` |
-| `__init__` | method | `cli/dashboard_tui.py:100` | `def __init__(self, command)` |
-| `__init__` | method | `cli/dashboard_tui.py:108` | `def __init__(self, phase)` |
-| `__init__` | method | `cli/dashboard_tui.py:393` | `def __init__(self)` |
-| `__init__` | method | `cli/dashboard_tui.py:610` | `def __init__(self)` |
-| `__init__` | method | `cli/dashboard_tui.py:807` | `def __init__(self, payload_path, sessions_dir)` |
-| `_apply_command_result` | method | `cli/dashboard_tui.py:894` | `def _apply_command_result(self, command, success, output)` |
-| `_apply_layout` | method | `cli/dashboard_tui.py:819` | `def _apply_layout(self, mode, hidden_fn)` |
-| `_beacon_count` | method | `cli/dashboard_tui.py:265` | `def _beacon_count()` |
-| `_count_lines_in_glob` | method | `cli/dashboard_tui.py:169` | `def _count_lines_in_glob(pattern)` |
-| `_cycle_phase` | method | `cli/dashboard_tui.py:995` | `def _cycle_phase(self, direction)` |
-| `_do_refresh` | method | `cli/dashboard_tui.py:1011` | `def _do_refresh(self)` |
-| `_engagement_to_cli_phase` | method | `cli/dashboard_tui.py:159` | `def _engagement_to_cli_phase(engagement_phase)` |
-| `_execute` | method | `cli/dashboard_tui.py:881` | `def _execute(self, command)` |
-| `_fallback_hints` | method | `cli/dashboard_tui.py:223` | `def _fallback_hints(last_command, limit)` |
-| `_filter_commands` | method | `cli/dashboard_tui.py:1048` | `def _filter_commands(self, commands)` |
-| `_get_killchain_for_tui` | function | `cli/dashboard_tui.py:55` | `def _get_killchain_for_tui()` |
-| `_get_recommendations` | method | `cli/dashboard_tui.py:297` | `def _get_recommendations()` |
-| `_graph_hints` | method | `cli/dashboard_tui.py:209` | `def _graph_hints(limit)` |
-| `_raise_toast` | method | `cli/dashboard_tui.py:938` | `def _raise_toast(self, message, severity, event_type)` |
-| `_read_credential_lines` | method | `cli/dashboard_tui.py:280` | `def _read_credential_lines(pattern)` |
-| `_read_json` | method | `cli/dashboard_tui.py:151` | `def _read_json(path)` |
-| `_read_recent_commands` | method | `cli/dashboard_tui.py:182` | `def _read_recent_commands(limit)` |
-| `_resolve_hints` | method | `cli/dashboard_tui.py:248` | `def _resolve_hints(recent, limit)` |
-| `_write_phase` | method | `cli/dashboard_tui.py:43` | `def _write_phase(phase)` |
-| `action_export_snapshot` | method | `cli/dashboard_tui.py:967` | `def action_export_snapshot(self)` |
-| `action_next_phase` | method | `cli/dashboard_tui.py:987` | `def action_next_phase(self)` |
-| `action_prev_phase` | method | `cli/dashboard_tui.py:991` | `def action_prev_phase(self)` |
-| `action_refresh_data` | method | `cli/dashboard_tui.py:923` | `def action_refresh_data(self)` |
-| `action_screenshot` | method | `cli/dashboard_tui.py:956` | `def action_screenshot(self)` |
-| `action_toggle_compact` | method | `cli/dashboard_tui.py:926` | `def action_toggle_compact(self)` |
-| `compose` | method | `cli/dashboard_tui.py:615` | `def compose(self)` |
-| `compose` | method | `cli/dashboard_tui.py:836` | `def compose(self)` |
-| `dispatch_command` | method | `cli/dashboard_tui.py:113` | `def dispatch_command(command, timeout)` |
-| `get_selection` | method | `cli/dashboard_tui.py:335` | `def get_selection(self, selection)` |
-| `launch` | method | `cli/dashboard_tui.py:1064` | `def launch(payload_path, sessions_dir)` |
-| `on_button_pressed` | method | `cli/dashboard_tui.py:644` | `def on_button_pressed(self, event)` |
-| `on_click` | method | `cli/dashboard_tui.py:418` | `def on_click(self, event)` |
-| `on_command_requested` | method | `cli/dashboard_tui.py:872` | `def on_command_requested(self, event)` |
-| `on_input_submitted` | method | `cli/dashboard_tui.py:860` | `def on_input_submitted(self, event)` |
-| `on_mount` | method | `cli/dashboard_tui.py:855` | `def on_mount(self)` |
-| `on_phase_selected` | method | `cli/dashboard_tui.py:912` | `def on_phase_selected(self, event)` |
-| `render_content` | method | `cli/dashboard_tui.py:348` | `def render_content(self, payload, world)` |
-| `update_data` | method | `cli/dashboard_tui.py:374` | `def update_data(self, payload, world)` |
-| `update_data` | method | `cli/dashboard_tui.py:397` | `def update_data(self, progress)` |
-| `update_data` | method | `cli/dashboard_tui.py:442` | `def update_data(self, payload)` |
-| `update_data` | method | `cli/dashboard_tui.py:472` | `def update_data(self, commands)` |
-| `update_data` | method | `cli/dashboard_tui.py:507` | `def update_data(self, entries)` |
-| `update_data` | method | `cli/dashboard_tui.py:544` | `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)` |
-| `update_data` | method | `cli/dashboard_tui.py:619` | `def update_data(self, hints)` |
-| `update_data` | method | `cli/dashboard_tui.py:671` | `def update_data(self, payload, sessions_dir, width)` |
-| `update_data` | method | `cli/dashboard_tui.py:718` | `def update_data(self, recommendations)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

@@ -66,6 +66,7 @@ from cli.engagement_hooks import (
 )
 from cli.noise_verbs import BASE_NOISE_VERBS, TIPS_EXTRA_VERBS
 from cli.phase_labels import PHASE_LABELS
+from core.safe_console import get_console, panel_box
 
 SKIP_COMMANDS: frozenset[str] = BASE_NOISE_VERBS | TIPS_EXTRA_VERBS
 
@@ -123,7 +124,7 @@ STREAK_LABELS: tuple[tuple[tuple[int, int], str], ...] = (
 )
 STREAK_DEFAULT_LABEL: str = "going strong"
 
-_AUX_CONSOLE: Console = Console(stderr=False, highlight=False, soft_wrap=True)
+_AUX_CONSOLE: Console = get_console(stderr=False)
 
 _log = logging.getLogger(__name__)
 
@@ -206,7 +207,7 @@ class TipsEngine:
         self._autosuggest = autosuggest_engine
         self._state: EngagementState | None = None
         self._index: dict[str, Any] | None = None
-        self._console: Console = Console(stderr=False, highlight=False, soft_wrap=True)
+        self._console: Console = get_console(stderr=False)
         self._last_tip_shown: str = ""
         self._session_tip_idx: int = -1
         self._killchain_counter: int = 0
@@ -332,6 +333,7 @@ class TipsEngine:
             content,
             title="[dim]suggestions[/dim]",
             border_style=getattr(theme, "border", "cyan"),
+            box=panel_box(),
             padding=(1, 2),
             width=min(self._console.width, 120),
         )

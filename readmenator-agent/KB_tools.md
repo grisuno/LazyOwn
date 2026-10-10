@@ -1,5 +1,13 @@
 # Subsystem: tools
 
+## tools/contract_check.py
+- Doc: Contract conformance checker for single-file LAZY port modules.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `check_file` (function, line 19) `def check_file(path)`
+  - `main` (function, line 46) `def main(argv)`
+
 ## tools/extract_cluster.py
 - Doc: Extract a named cluster of do_* methods from a CommandSet module.
 - Layer: utility

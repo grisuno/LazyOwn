@@ -410,24 +410,32 @@ Pages: [KB_root.md](KB_root.md), [KB_root_p2.md](KB_root_p2.md)
   - `surface` (method, line 6833) `def surface()`
   - `surface_live` (method, line 6839) `def surface_live()`
   - `api_surface_live` (method, line 6854) `def api_surface_live()`
-  - `get_data` (method, line 6879) `def get_data()`
-  - `upload_zip_file` (method, line 6888) `def upload_zip_file()`
-  - `list_campaigns` (method, line 6946) `def list_campaigns()`
-  - `create_campaign` (method, line 6959) `def create_campaign()`
-  - `lazyphishingai` (method, line 7037) `def lazyphishingai()`
-  - `track_pixel` (method, line 7053) `def track_pixel(campaign_id, email)`
-  - `campaign_report` (method, line 7075) `def campaign_report(campaign_id)`
-  - `orchestrate_campaign` (method, line 7157) `def orchestrate_campaign(campaign_id)`
-  - `create_multivector_campaign` (method, line 7204) `def create_multivector_campaign()`
-  - `serve_landing_page` (method, line 7356) `def serve_landing_page(campaign_id, short_url)`
-  - `health_check` (method, line 7381) `def health_check()`
-  - `metrics_exposition` (method, line 7420) `def metrics_exposition()`
-  - `api_dashboard` (method, line 7427) `def api_dashboard()`
-  - `api_listeners` (method, line 7497) `def api_listeners()`
-  - `api_listeners_create` (method, line 7504) `def api_listeners_create()`
-  - `api_listeners_start` (method, line 7520) `def api_listeners_start(listener_id)`
-  - `api_listeners_stop` (method, line 7528) `def api_listeners_stop(listener_id)`
-  - `api_listeners_delete` (method, line 7536) `def api_listeners_delete(listener_id)`
+  - `intel_view` (method, line 6879) `def intel_view()`
+  - `intel_bundle_view` (method, line 6898) `def intel_bundle_view()`
+  - `attack3d_view` (method, line 6913) `def attack3d_view()`
+  - `attack_bundle_view` (method, line 6932) `def attack_bundle_view()`
+  - `api_intel_graph` (method, line 6947) `def api_intel_graph()`
+  - `api_intel_bundle` (method, line 7003) `def api_intel_bundle()`
+  - `api_attack_graph` (method, line 7036) `def api_attack_graph()`
+  - `api_attack_bundle` (method, line 7088) `def api_attack_bundle()`
+  - `get_data` (method, line 7118) `def get_data()`
+  - `upload_zip_file` (method, line 7127) `def upload_zip_file()`
+  - `list_campaigns` (method, line 7185) `def list_campaigns()`
+  - `create_campaign` (method, line 7198) `def create_campaign()`
+  - `lazyphishingai` (method, line 7276) `def lazyphishingai()`
+  - `track_pixel` (method, line 7292) `def track_pixel(campaign_id, email)`
+  - `campaign_report` (method, line 7314) `def campaign_report(campaign_id)`
+  - `orchestrate_campaign` (method, line 7396) `def orchestrate_campaign(campaign_id)`
+  - `create_multivector_campaign` (method, line 7443) `def create_multivector_campaign()`
+  - `serve_landing_page` (method, line 7595) `def serve_landing_page(campaign_id, short_url)`
+  - `health_check` (method, line 7620) `def health_check()`
+  - `metrics_exposition` (method, line 7659) `def metrics_exposition()`
+  - `api_dashboard` (method, line 7666) `def api_dashboard()`
+  - `api_listeners` (method, line 7736) `def api_listeners()`
+  - `api_listeners_create` (method, line 7743) `def api_listeners_create()`
+  - `api_listeners_start` (method, line 7759) `def api_listeners_start(listener_id)`
+  - `api_listeners_stop` (method, line 7767) `def api_listeners_stop(listener_id)`
+  - `api_listeners_delete` (method, line 7775) `def api_listeners_delete(listener_id)`
   - `format` (method, line 427) `def format(self, record)`
   - `on_any_event` (method, line 713) `def on_any_event(event)`
   - `decorated` (method, line 1365) `def decorated()`
@@ -447,7 +455,7 @@ Pages: [KB_root.md](KB_root.md), [KB_root_p2.md](KB_root_p2.md)
   - `_ingest_beacon` (method, line 3656) `def _ingest_beacon(_ips, _host, _cmd, _out, _user)`
   - `_queue_beacon_cmd` (method, line 3516) `def _queue_beacon_cmd(action, ctx)`
   - `_bg_cred_reuse` (method, line 3623) `def _bg_cred_reuse(_ip)`
-- Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
+- Depends on: `cli/auto_crypto.py`, `cli/palette.py`, `cli/palette_command.py`, `core/hardening.py`, `core/logging.py`, `core/parsers.py`, `lazyc2/blueprints/__init__.py`, `lazyc2/extensions/users.py`, `lazyc2/security/command_allowlist.py`, `lazyc2/security/constants.py`, `lazyc2/security/cors.py`, `lazyc2/security/csrf.py`, `lazyc2/security/html_sanitizer.py`, `lazyc2/security/https_redirect.py`, `lazyc2/security/services.py`, `lazyc2/security/trusted_proxy.py`, `lazyc2/security/validators.py`, `lazyown.py`, `modules/attack_surface3d.py`, `modules/backdoor/server.c`, `modules/beacon_history.py`, `modules/collab_bp.py`, `modules/colors.py`, `modules/compliance.py`, `modules/conditional_hooks.py`, `modules/credential_reuse.py`, `modules/dashboard_bp.py`, `modules/event_bus.py`, `modules/event_consumers.py`, `modules/event_engine.py`, `modules/intel_fusion.py`, `modules/kill_chain_viz.py`, `modules/killchain.py`, `modules/lazy_rbac.py`, `modules/listener_manager.py`, `modules/live_surface.py`, `modules/llm_adapter.py`, `modules/logging_config.py`, `modules/metrics.py`, `modules/security_sanitizers.py`, `modules/state_manager.py`, `modules/world_model.py`, `skills/daemon_health.py`, `skills/lazyown_facts.py`, `utils.py`
 
 
 Next: [KB_root_p2.md](KB_root_p2.md)

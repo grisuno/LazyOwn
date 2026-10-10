@@ -1,5 +1,74 @@
-# Subsystem: modules (page 2 of 10)
+# Subsystem: modules (page 2 of 12)
 Previous: [KB_modules.md](KB_modules.md)
+
+## modules/beacon_config_builder.py
+- Doc: Beacon configuration builder — wires profile engines into beacon compile-time config.
+- Layer: infrastructure
+- Language: py
+- Symbols:
+  - `BeaconConfig` (class, line 44) `class BeaconConfig`
+  - `BeaconConfigBuilder` (class, line 237) `class BeaconConfigBuilder`
+  - `generate_bof_execution_command` (method, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
+  - `to_gen_beacon_args` (method, line 117) `def to_gen_beacon_args(self)`
+  - `to_go_implant_vars` (method, line 137) `def to_go_implant_vars(self)`
+  - `to_config_json` (method, line 160) `def to_config_json(self)`
+  - `to_dict` (method, line 185) `def to_dict(self)`
+  - `__init__` (method, line 245) `def __init__(self, payload)`
+  - `build` (method, line 248) `def build(self, name)`
+  - `_inject_profile_engine` (method, line 318) `def _inject_profile_engine(self, config)`
+  - `_inject_sleep_engine` (method, line 366) `def _inject_sleep_engine(self, config)`
+  - `_inject_socks_engine` (method, line 385) `def _inject_socks_engine(self, config)`
+  - `from_payload` (method, line 403) `def from_payload(cls, payload)`
+  - `from_payload_file` (method, line 408) `def from_payload_file(cls, path)`
+- Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
+- Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
+
+## modules/beacon_history.py
+- Doc: Persistent beacon command/result history storage.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
+  - `sanitize_client_id` (method, line 70) `def sanitize_client_id(client_id)`
+  - `append_record` (method, line 82) `def append_record(record, config)`
+  - `read_records` (method, line 116) `def read_records(client_id, config)`
+  - `records_path` (method, line 145) `def records_path(client_id, config)`
+  - `sessions_dir` (method, line 39) `def sessions_dir(self)`
+  - `records_path` (method, line 43) `def records_path(self, client_id)`
+- Depends on: `core/logging.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
+
+## modules/bin2img.py
+- Layer: utility
+- Language: py
+- Symbols:
+  - `binario_a_imagen` (function, line 7) `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
+  - `main` (function, line 54) `def main()`
+
+## modules/bitm_engine.py
+- Doc: Browser-in-the-Middle (BitM) attack engine.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `BitMState` (class, line 85) `class BitMState`
+  - `_ensure_bitm_dir` (method, line 103) `def _ensure_bitm_dir()`
+  - `_save_state` (method, line 108) `def _save_state(state)`
+  - `_load_state` (method, line 134) `def _load_state()`
+  - `_build_js_payload` (method, line 151) `def _build_js_payload(payload_name, lhost, lport)`
+  - `_check_tool` (method, line 168) `def _check_tool(tool)`
+  - `_recommend_method` (method, line 180) `def _recommend_method()`
+  - `_get_default_interface` (method, line 195) `def _get_default_interface()`
+  - `_get_gateway_ip` (method, line 234) `def _get_gateway_ip()`
+  - `bitm_start` (method, line 257) `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)`
+  - `_start_bettercap` (method, line 354) `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `_start_arpspoof` (method, line 413) `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
+  - `bitm_stop` (method, line 481) `def bitm_stop()`
+  - `bitm_status` (method, line 539) `def bitm_status()`
+  - `bitm_inject` (method, line 572) `def bitm_inject(payload_name)`
+  - `bitm_harvest_stats` (method, line 607) `def bitm_harvest_stats()`
+  - `bitm_cleanup` (method, line 642) `def bitm_cleanup()`
+  - `main` (method, line 661) `def main()`
+- Imported by: `cli/commands/bitm.py`
 
 ## modules/bof_registry.py
 - Doc: Beacon Object File (BOF) registry and marketplace for LazyOwn.
@@ -408,80 +477,6 @@ Previous: [KB_modules.md](KB_modules.md)
   - `verify_evidence_chain` (method, line 904) `def verify_evidence_chain(self)`
 - Depends on: `core/logging.py`
 - Imported by: `lazyc2.py`
-
-## modules/conditional_hooks.py
-- Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
-- Layer: utility
-- Language: py
-- Symbols:
-  - `HookRule` (class, line 45) `class HookRule`
-  - `HookEngine` (class, line 258) `class HookEngine`
-  - `get_hook_engine` (method, line 586) `def get_hook_engine()`
-  - `can_fire` (method, line 56) `def can_fire(self, now)`
-  - `mark_fired` (method, line 65) `def mark_fired(self)`
-  - `to_dict` (method, line 69) `def to_dict(self)`
-  - `__init__` (method, line 270) `def __init__(self)`
-  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
-  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
-  - `load_rules` (method, line 290) `def load_rules(self, path)`
-  - `save_rules` (method, line 322) `def save_rules(self, path)`
-  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
-  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
-  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
-  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
-  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
-  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
-  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
-  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
-  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
-  - `fire` (method, line 516) `def fire(self, event, context)`
-  - `list_rules` (method, line 571) `def list_rules(self)`
-  - `get_rule` (method, line 575) `def get_rule(self, name)`
-- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
-
-## modules/config_store.py
-- Doc: Thread-safe singleton facade over core.config for payload.json.
-- Layer: data_access
-- Language: py
-- Symbols:
-  - `init` (function, line 36) `def init(path, watch)`
-  - `get_config` (function, line 53) `def get_config(key, default)`
-  - `set_config` (function, line 66) `def set_config()`
-  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
-  - `reload_config` (function, line 90) `def reload_config()`
-  - `stop_watcher` (function, line 96) `def stop_watcher()`
-  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
-  - `_load` (function, line 113) `def _load()`
-  - `_persist` (function, line 131) `def _persist()`
-  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
-  - `_watch_loop` (function, line 148) `def _watch_loop()`
-- Depends on: `core/config.py`, `core/logging.py`
-- Imported by: `tests/test_core_modules.py`
-
-## modules/credential_reuse.py
-- Doc: Credential Reuse Engine for LazyOwn.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
-  - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
-  - `get_credential_reuse_engine` (method, line 358) `def get_credential_reuse_engine()`
-  - `to_dict` (method, line 43) `def to_dict(self)`
-  - `__init__` (method, line 80) `def __init__(self)`
-  - `_load_cache` (method, line 85) `def _load_cache(self)`
-  - `_save_cache` (method, line 95) `def _save_cache(self)`
-  - `mark_failed` (method, line 107) `def mark_failed(self, username, password, host)`
-  - `mark_confirmed` (method, line 112) `def mark_confirmed(self, username, password, host)`
-  - `_subnet_distance` (method, line 118) `def _subnet_distance(self, ip_a, ip_b)`
-  - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
-  - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
-  - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
-  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
-  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
-  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
-- Depends on: `core/logging.py`
-- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
 
 
 Next: [KB_modules_p3.md](KB_modules_p3.md)

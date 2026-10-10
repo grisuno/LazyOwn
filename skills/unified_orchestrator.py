@@ -514,10 +514,22 @@ class DaemonBackend:
         if self._factory is not None:
             return self._factory(replace(goal, target=target))
         EngageOrchestrator = self._import_class()
-        return EngageOrchestrator(
+        engine = EngageOrchestrator(
             target=target,
             max_switches_per_step=self._config.daemon_default_max_switches,
         )
+        # LAZY-style max_steps: truncate the fixed kill-chain plan when the
+        # caller supplied metadata max_steps (orchestrate --max-steps).
+        try:
+            _ms = int((goal.metadata or {}).get("max_steps", 0) or 0)
+        except (TypeError, ValueError):
+            _ms = 0
+        if _ms > 0:
+            try:
+                engine._plan = tuple(engine._plan[:max(1, _ms)])
+            except Exception:
+                pass
+        return engine
 
     @staticmethod
     def _import_class() -> Any:
@@ -527,16 +539,66 @@ class DaemonBackend:
 
     @staticmethod
     def _summarise(raw: Any, target: str) -> str:
-        if isinstance(raw, dict):
-            flag = raw.get("flag") or raw.get("status") or raw.get("engagement_id")
-            if flag:
-                return f"daemon engaged {target}: {flag}"
-        return f"daemon engaged {target}"
+        if not isinstance(raw, dict):
+            return f"daemon engaged {target}"
+        engagement_id = str(raw.get("engagement_id", "") or "")
+        steps = raw.get("steps")
+        if not isinstance(steps, list) or not steps:
+            flag = raw.get("flag") or raw.get("status") or engagement_id
+            return f"daemon engaged {target}: {flag}" if flag else f"daemon engaged {target}"
+        try:
+            from modules.engage_summary import next_actions as _next
+            from modules.engage_summary import render_text as _render
+            from modules.engage_summary import write_report as _persist
+            shell = bool(raw.get("shell_obtained"))
+            text = _render(engagement_id, target, shell, steps)
+            report_path = _persist(engagement_id, target, shell, steps)
+            upcoming = _next(target)
+            if upcoming:
+                rendered = [f"  next: {item['action']}" +
+                            (f" — `{item['command']}`" if item.get("command") else "")
+                            for item in upcoming[:3]]
+                text += "\n" + "\n".join(rendered)
+            return text + f"\n  report: {report_path}"
+        except Exception:
+            lines = [f"daemon engaged {target}: {engagement_id}"]
+            for idx, step in enumerate(steps, 1):
+                if not isinstance(step, dict):
+                    continue
+                phase = step.get("phase", "?")
+                label = step.get("label", "")
+                command = step.get("command", "")
+                skipped = step.get("skipped_reason", "")
+                success = step.get("success", False)
+                if skipped:
+                    mark, detail = "SKIP", skipped
+                elif success:
+                    mark, detail = "ok", "success"
+                else:
+                    mark, detail = "FAIL", (step.get("output_tail", "") or "")[-80:]
+                title = f"{label}:" if label else ""
+                lines.append(f"  {idx}. [{mark}] {phase} {title} {command} ({detail})".rstrip())
+            lines.append(f"  shell={'YES' if raw.get('shell_obtained') else 'no'} steps={len(steps)}")
+            return "\n".join(lines)
 
     @staticmethod
     def _artefacts(raw: Any) -> dict[str, Any]:
         if isinstance(raw, dict):
-            return {k: v for k, v in raw.items() if isinstance(k, str)}
+            kept: dict[str, Any] = {}
+            for key, value in raw.items():
+                if not isinstance(key, str):
+                    continue
+                if key == "steps" and isinstance(value, list):
+                    kept[key] = [
+                        {k: s.get(k, "") for k in
+                         ("phase", "label", "command", "success",
+                          "skipped_reason", "switched_from", "evidence",
+                          "output_tail")}
+                        for s in value if isinstance(s, dict)
+                    ]
+                elif isinstance(value, (str, int, float, bool)):
+                    kept[key] = value
+            return kept
         return {}
 
 

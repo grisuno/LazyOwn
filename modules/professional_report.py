@@ -600,8 +600,8 @@ class RedTeamReportGenerator:
         host_ips = [h.get("ip", h.get("address", "")) for h in hosts if isinstance(h, dict)]
 
         insecure_ports = {
-            21: "FTP — cleartext authentication",
-            23: "Telnet — cleartext authentication",
+            21: "FTP — clelazyt authentication",
+            23: "Telnet — clelazyt authentication",
             25: "SMTP — potential open relay",
             139: "NetBIOS — legacy protocol",
             445: "SMB — potential null session",

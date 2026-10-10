@@ -46,7 +46,9 @@ from pathlib import Path
 from typing import Any
 
 HOSTSDISCOVERY_FILENAME: str = "hostsdiscovery.txt"
-SCAN_DISCOVERY_GLOB: str = "scan_discovery*.csv"
+HOSTSDISCOVERY_GLOBS: tuple[str, ...] = ("hostsdiscovery.txt", "hosts_*_discovery.txt")
+SCAN_DISCOVERY_GLOB: str = "scan_*.csv"
+SCAN_NMAP_GLOB: str = "scan_*.nmap"
 SCAN_DISCOVERY_DELIMITER: str = ";"
 IMPLANT_LOG_SUFFIX: str = ".log"
 IMPLANT_HEADER_REQUIRED: frozenset[str] = frozenset({"client_id", "os", "ips", "discovered_ips", "result_portscan"})
@@ -410,23 +412,34 @@ class SurfaceGraphBuilder:
         return ""
 
     def _read_hostsdiscovery(self, local_ips: list[str]) -> list[str]:
-        path = Path(self._cfg.sessions_dir) / HOSTSDISCOVERY_FILENAME
-        if not path.exists():
-            return []
+        """Collect discovery IPs from every hosts discovery file."""
         out: list[str] = []
-        try:
-            with path.open("r", encoding="utf-8") as fh:
-                for line in fh:
-                    ip = line.strip()
-                    if not ip or ip in local_ips or not self._is_ipv4(ip):
-                        continue
-                    if ip not in out:
-                        out.append(ip)
-        except OSError:
-            return []
+        sessions_dir = Path(self._cfg.sessions_dir)
+        paths = [sessions_dir / name for name in (HOSTSDISCOVERY_FILENAME,)]
+        for pattern in HOSTSDISCOVERY_GLOBS[1:]:
+            paths.extend(sorted(sessions_dir.glob(pattern)))
+        for path in paths:
+            if not path.is_file():
+                continue
+            try:
+                with path.open("r", encoding="utf-8", errors="ignore") as fh:
+                    for line in fh:
+                        ip = line.strip()
+                        if not ip or ip in local_ips or not self._is_ipv4(ip):
+                            continue
+                        if ip not in out:
+                            out.append(ip)
+            except OSError:
+                continue
         return out
 
     def _read_scan_discovery(self, local_ips: list[str]) -> list[dict[str, str]]:
+        """Collect port records from every scan CSV plus nmap normal output."""
+        records = self._read_scan_csv(local_ips)
+        records.extend(self._read_scan_nmap(local_ips))
+        return records
+
+    def _read_scan_csv(self, local_ips: list[str]) -> list[dict[str, str]]:
         pattern = os.path.join(self._cfg.sessions_dir, SCAN_DISCOVERY_GLOB)
         records: list[dict[str, str]] = []
         for csv_path in sorted(glob.glob(pattern)):
@@ -448,6 +461,62 @@ class SurfaceGraphBuilder:
                             continue
                         records.append(record)
             except (OSError, csv.Error):
+                continue
+        return records
+
+    def _read_scan_nmap(self, local_ips: list[str]) -> list[dict[str, str]]:
+        """Parse nmap normal output (``-oN``) for hosts and open ports.
+
+        Reads ``Nmap scan report for <ip|name (ip)>`` headers plus the
+        ``PORT STATE SERVICE`` table, keeping ``open`` rows only. Output
+        records share the CSV shape (ip/port/protocol/service/version).
+        """
+        pattern = os.path.join(self._cfg.sessions_dir, SCAN_NMAP_GLOB)
+        records: list[dict[str, str]] = []
+        report_re = re.compile(r"^Nmap scan report for\s+(.+?)\s*$")
+        ip_re = re.compile(r"\((\d{1,3}(?:\.\d{1,3}){3})\)")
+        for nmap_path in sorted(glob.glob(pattern)):
+            try:
+                with open(nmap_path, encoding="utf-8", errors="ignore") as fh:
+                    current_ip = ""
+                    in_table = False
+                    for raw in fh:
+                        line = raw.rstrip("\n")
+                        match = report_re.match(line)
+                        if match:
+                            target = match.group(1)
+                            found = ip_re.search(target)
+                            candidate = found.group(1) if found else target.strip()
+                            current_ip = candidate if self._is_ipv4(candidate) else ""
+                            in_table = False
+                            continue
+                        if line.startswith("PORT"):
+                            in_table = bool(current_ip)
+                            continue
+                        if not in_table or not current_ip:
+                            continue
+                        if not line or line[0] in ("|", "#"):
+                            in_table = False
+                            continue
+                        parts = line.split()
+                        if len(parts) < 3:
+                            continue
+                        port_proto, state = parts[0], parts[1].lower()
+                        if state != "open" or "/" not in port_proto:
+                            continue
+                        port, _, proto = port_proto.partition("/")
+                        if not port.isdigit():
+                            continue
+                        if current_ip in local_ips:
+                            continue
+                        records.append({
+                            "ip": current_ip,
+                            "port": port,
+                            "protocol": proto.lower() or "tcp",
+                            "service": parts[2],
+                            "version": " ".join(parts[3:]),
+                        })
+            except OSError:
                 continue
         return records
 

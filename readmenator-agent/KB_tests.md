@@ -1,5 +1,5 @@
-# Subsystem: tests (page 1 of 14)
-Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md)
+# Subsystem: tests (page 1 of 15)
+Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p3.md](KB_tests_p3.md), [KB_tests_p4.md](KB_tests_p4.md), [KB_tests_p5.md](KB_tests_p5.md), [KB_tests_p6.md](KB_tests_p6.md), [KB_tests_p7.md](KB_tests_p7.md), [KB_tests_p8.md](KB_tests_p8.md), [KB_tests_p9.md](KB_tests_p9.md), [KB_tests_p10.md](KB_tests_p10.md), [KB_tests_p11.md](KB_tests_p11.md), [KB_tests_p12.md](KB_tests_p12.md), [KB_tests_p13.md](KB_tests_p13.md), [KB_tests_p14.md](KB_tests_p14.md), [KB_tests_p15.md](KB_tests_p15.md)
 
 ## tests/__init__.py
 - Layer: testing
@@ -39,6 +39,16 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `_apply_mutation` (function, line 64) `def _apply_mutation(source, data)`
   - `_run_mutation_subprocess` (function, line 71) `def _run_mutation_subprocess(test)`
   - `run` (function, line 83) `def run()`
+
+## tests/run_mutation_autonomous_ops.py
+- Doc: Manual mutation runner for the LAZY port contracts.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `backup_files` (function, line 59) `def backup_files(mutations, base_dir)`
+  - `restore_files` (function, line 69) `def restore_files(backups, base_dir, mutations)`
+  - `run_tests` (function, line 76) `def run_tests()`
+  - `main` (function, line 87) `def main()`
 
 ## tests/run_mutation_c2_route_auth.py
 - Doc: Mutation gate for C2 route-level auth boundaries.

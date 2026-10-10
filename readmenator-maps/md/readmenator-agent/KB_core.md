@@ -93,15 +93,18 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_sanitize` (function, line 92) `def _sanitize(text)`
-  - `colors_enabled` (function, line 97) `def colors_enabled()`
-  - `_paint` (function, line 113) `def _paint(code, text)`
-  - `format_line` (function, line 120) `def format_line(prefix, message, glyph)`
-  - `print_error` (function, line 136) `def print_error(error)`
-  - `print_msg` (function, line 142) `def print_msg(msg)`
-  - `print_warn` (function, line 148) `def print_warn(warn)`
-  - `print_succ` (function, line 154) `def print_succ(msg)`
-- Imported by: `cli/autosuggest.py`, `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/ops_commands.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
+  - `_sanitize` (function, line 93) `def _sanitize(text)`
+  - `colors_enabled` (function, line 98) `def colors_enabled()`
+  - `_paint` (function, line 114) `def _paint(code, text)`
+  - `format_line` (function, line 121) `def format_line(prefix, message, glyph)`
+  - `print_error` (function, line 137) `def print_error(error)`
+  - `print_msg` (function, line 143) `def print_msg(msg)`
+  - `print_warn` (function, line 149) `def print_warn(warn)`
+  - `print_succ` (function, line 155) `def print_succ(msg)`
+  - `ensure_blocking_stdio` (function, line 161) `def ensure_blocking_stdio()`
+  - `write_stdout` (function, line 180) `def write_stdout(text)`
+  - `_emit` (function, line 208) `def _emit(line)`
+- Imported by: `cli/command_explorer.py`, `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/orchestration.py`, `cli/commands/recon.py`, `cli/commands/security.py`, `cli/commands/ux.py`, `cli/config_status.py`, `cli/contextual_help.py`, `cli/doctor.py`, `cli/exploit_advisor.py`, `cli/exploration_view.py`, `cli/protips.py`, `cli/reactive_hints.py`, `cli/session_resumer.py`, `cli/splash.py`, `cli/surface_tui.py`, `cli/tips_engine.py`, `cli/toast_bus.py`, `cli/tutorial.py`, `cli/wizard.py`, `contrib/legacy/lazybinenc.py`, `core/__init__.py`, `core/credentials.py`, `core/error_advice.py`, `core/http.py`, `core/network.py`, `core/parsers.py`, `core/process.py`, `core/safe_console.py`, `core/validators.py`, `key.py`, `lazy_sentinel4.py`, `lazyown.py`, `modules/apt_playbooks.py`, `modules/ia_code_analysis.py`, `modules/ia_logs_analysis.py`, `modules/ia_network_analysis.py`, `modules/lilsplunky.py`, `modules/privesc_predictor.py`, `modules/rich_tui.py`, `tests/test_console_stdio.py`, `tests/test_core.py`, `tests/test_exploration_and_addons.py`, `tests/test_lazy_parity.py`, `tests/test_loop_progress.py`, `tests/test_scope_guard_integration.py`, `tests/test_toast_bus.py`, `tests/test_tui_splash.py`, `tests/test_tui_style.py`, `tests/test_tui_themes.py`, `utils.py`
 
 ## core/credential_vault.py
 - Doc: Credential vault — AES-256-GCM encryption for sensitive config values.
@@ -452,7 +455,7 @@ Pages: [KB_core.md](KB_core.md), [KB_core_p2.md](KB_core_p2.md)
   - `wrapper` (function, line 82) `def wrapper(self)`
   - `_drain_stderr` (function, line 220) `def _drain_stderr()`
 - Depends on: `core/console.py`, `core/hardening.py`, `core/safe_exec.py`, `core/safe_subprocess.py`, `core/validators.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_shell_semantics.py`, `utils.py`
+- Imported by: `cli/commands/mcp_bridge.py`, `cli/commands/misc_migrated.py`, `cli/commands/mobile_macos.py`, `core/__init__.py`, `modules/auto_purple.py`, `modules/lazy_loop.py`, `static/js/particles.js`, `static/js/vis-network-9.1.2.min.js`, `static/js/vis-network.min.js`, `tests/test_shell_semantics.py`, `utils.py`
 
 ## core/profiles.py
 - Doc: Runtime profiles: ``light`` vs ``full`` installations.

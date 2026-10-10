@@ -1,5 +1,79 @@
-# Subsystem: modules (page 3 of 10)
+# Subsystem: modules (page 3 of 12)
 Previous: [KB_modules_p2.md](KB_modules_p2.md)
+
+## modules/conditional_hooks.py
+- Doc: Conditional Hooks System for LazyOwn (Mythic-style triggers).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `HookRule` (class, line 45) `class HookRule`
+  - `HookEngine` (class, line 258) `class HookEngine`
+  - `get_hook_engine` (method, line 586) `def get_hook_engine()`
+  - `can_fire` (method, line 56) `def can_fire(self, now)`
+  - `mark_fired` (method, line 65) `def mark_fired(self)`
+  - `to_dict` (method, line 69) `def to_dict(self)`
+  - `__init__` (method, line 270) `def __init__(self)`
+  - `register_action_handler` (method, line 277) `def register_action_handler(self, action_type, handler)`
+  - `set_placeholders` (method, line 286) `def set_placeholders(self, placeholders)`
+  - `load_rules` (method, line 290) `def load_rules(self, path)`
+  - `save_rules` (method, line 322) `def save_rules(self, path)`
+  - `add_rule` (method, line 330) `def add_rule(self, rule_dict)`
+  - `remove_rule` (method, line 345) `def remove_rule(self, name)`
+  - `enable_rule` (method, line 359) `def enable_rule(self, name, enabled)`
+  - `_match_trigger` (method, line 369) `def _match_trigger(self, rule_trigger, event, context)`
+  - `_resolve_placeholders` (method, line 414) `def _resolve_placeholders(self, text, context)`
+  - `_execute_action` (method, line 428) `def _execute_action(self, action, context)`
+  - `_execute_shell_command` (method, line 467) `def _execute_shell_command(self, command, context)`
+  - `_execute_local_command` (method, line 476) `def _execute_local_command(command)`
+  - `_execute_cred_reuse` (method, line 500) `def _execute_cred_reuse(self, context)`
+  - `fire` (method, line 516) `def fire(self, event, context)`
+  - `list_rules` (method, line 571) `def list_rules(self)`
+  - `get_rule` (method, line 575) `def get_rule(self, name)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/credential_reuse.py`, `modules/state_manager.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `tests/test_conditional_hooks_extended.py`
+
+## modules/config_store.py
+- Doc: Thread-safe singleton facade over core.config for payload.json.
+- Layer: data_access
+- Language: py
+- Symbols:
+  - `init` (function, line 36) `def init(path, watch)`
+  - `get_config` (function, line 53) `def get_config(key, default)`
+  - `set_config` (function, line 66) `def set_config()`
+  - `set_config_dict` (function, line 80) `def set_config_dict(updates)`
+  - `reload_config` (function, line 90) `def reload_config()`
+  - `stop_watcher` (function, line 96) `def stop_watcher()`
+  - `_ensure_loaded` (function, line 106) `def _ensure_loaded()`
+  - `_load` (function, line 113) `def _load()`
+  - `_persist` (function, line 131) `def _persist()`
+  - `_start_watcher` (function, line 143) `def _start_watcher(interval)`
+  - `_watch_loop` (function, line 148) `def _watch_loop()`
+- Depends on: `core/config.py`, `core/logging.py`
+- Imported by: `tests/test_core_modules.py`
+
+## modules/credential_reuse.py
+- Doc: Credential Reuse Engine for LazyOwn.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ReuseCandidate` (class, line 32) `class ReuseCandidate`
+  - `CredentialReuseEngine` (class, line 55) `class CredentialReuseEngine`
+  - `get_credential_reuse_engine` (method, line 358) `def get_credential_reuse_engine()`
+  - `to_dict` (method, line 43) `def to_dict(self)`
+  - `__init__` (method, line 80) `def __init__(self)`
+  - `_load_cache` (method, line 85) `def _load_cache(self)`
+  - `_save_cache` (method, line 95) `def _save_cache(self)`
+  - `mark_failed` (method, line 107) `def mark_failed(self, username, password, host)`
+  - `mark_confirmed` (method, line 112) `def mark_confirmed(self, username, password, host)`
+  - `_subnet_distance` (method, line 118) `def _subnet_distance(self, ip_a, ip_b)`
+  - `_score_candidate` (method, line 144) `def _score_candidate(self, username, password, source_host, target_host, target_services)`
+  - `_build_command` (method, line 196) `def _build_command(self, username, password, host, target_services)`
+  - `rank` (method, line 226) `def rank(self, hosts, creds, host_services, limit)`
+  - `suggest_from_state_manager` (method, line 278) `def suggest_from_state_manager(self, state_manager, limit)`
+  - `suggest_from_world_model` (method, line 308) `def suggest_from_world_model(self, world_model, limit)`
+  - `get_summary` (method, line 338) `def get_summary(self, candidates)`
+- Depends on: `core/logging.py`
+- Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
 
 ## modules/cross_cloud.py
 - Doc: Cross-cloud identity paths — multi-cloud identity federation abuse.
@@ -144,7 +218,7 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `status` (method, line 725) `def status(self, workspace_id)`
   - `close` (method, line 754) `def close(self)`
 - Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+- Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 
 ## modules/delegation_attacks.py
 - Doc: Active Directory delegation enumeration and abuse.
@@ -361,122 +435,21 @@ Previous: [KB_modules_p2.md](KB_modules_p2.md)
   - `move_white_pawns` (function, line 61)
   - `move_black_pawns` (function, line 78)
 
-## modules/engagement_hooks.py
-- Doc: modules/engagement_hooks.py — Engagement narration and notification fabric
+## modules/engage_summary.py
+- Doc: Rich per-step engagement summaries from evidence and sessions artefacts.
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_safe_str` (function, line 78) `def _safe_str(value, maxlen)`
-  - `_load_payload` (function, line 88) `def _load_payload()`
-  - `EngagementEvent` (class, line 101) `class EngagementEvent`
-  - `INotificationSink` (class, line 150) `class INotificationSink(ABC)`
-  - `StreamEventSink` (class, line 167) `class StreamEventSink(INotificationSink)`
-  - `CollabNotificationSink` (class, line 204) `class CollabNotificationSink(INotificationSink)`
-  - `_OutboundHTTPSink` (class, line 242) `class _OutboundHTTPSink(INotificationSink)`
-  - `TelegramNotificationSink` (class, line 278) `class TelegramNotificationSink(_OutboundHTTPSink)`
-  - `DiscordNotificationSink` (class, line 311) `class DiscordNotificationSink(_OutboundHTTPSink)`
-  - `NotificationBroadcaster` (class, line 336) `class NotificationBroadcaster`
-  - `EngagementNarrator` (class, line 382) `class EngagementNarrator`
-  - `_load_seen_beacons` (method, line 444) `def _load_seen_beacons()`
-  - `_save_seen_beacons` (method, line 455) `def _save_seen_beacons(seen)`
-  - `_sanitize_client_id` (method, line 466) `def _sanitize_client_id(client_id)`
-  - `get_default_narrator` (method, line 482) `def get_default_narrator()`
-  - `publish_shell_obtained` (method, line 491) `def publish_shell_obtained(client_id, primary_ip, hostname, user, platform, narrator)`
-  - `append_approval_record` (method, line 564) `def append_approval_record(record)`
-  - `list_pending_approvals` (method, line 575) `def list_pending_approvals()`
-  - `resolve_approval` (method, line 601) `def resolve_approval(approval_id, decision, operator)`
-  - `is_valid_target` (method, line 626) `def is_valid_target(value)`
-  - `now` (method, line 124) `def now(cls, kind, target, message, payload, severity)`
-  - `render_line` (method, line 143) `def render_line(self)`
-  - `name` (method, line 155) `def name(self)`
-  - `deliver` (method, line 159) `def deliver(self, event)`
-  - `name` (method, line 178) `def name(self)`
-  - `deliver` (method, line 181) `def deliver(self, event)`
-  - `name` (method, line 213) `def name(self)`
-  - `deliver` (method, line 216) `def deliver(self, event)`
-  - `name` (method, line 252) `def name(self)`
-  - `_build_request` (method, line 255) `def _build_request(self, event)`
-  - `deliver` (method, line 258) `def deliver(self, event)`
-  - `name` (method, line 288) `def name(self)`
-  - `_build_request` (method, line 291) `def _build_request(self, event)`
-  - `name` (method, line 320) `def name(self)`
-  - `_build_request` (method, line 323) `def _build_request(self, event)`
-  - `__init__` (method, line 349) `def __init__(self, sinks)`
-  - `default` (method, line 354) `def default(cls)`
-  - `add` (method, line 365) `def add(self, sink)`
-  - `deliver` (method, line 370) `def deliver(self, event)`
-  - `__init__` (method, line 393) `def __init__(self, broadcaster)`
-  - `narrate` (method, line 400) `def narrate(self, kind, target, message, payload, severity)`
-  - `_persist` (method, line 417) `def _persist(self, event)`
-- Depends on: `core/logging.py`, `modules/collab_bp.py`
-- Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
-
-## modules/entra_id_attacks.py
-- Doc: Azure AD / Entra ID attack module — Graph API abuse, OAuth consent grants, device code phishing.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EntraIDConfig` (class, line 57) `class EntraIDConfig`
-  - `EntraIDAttackEngine` (class, line 81) `class EntraIDAttackEngine`
-  - `__init__` (method, line 92) `def __init__(self, config)`
-  - `device_code_phish` (method, line 96) `def device_code_phish(self, scope)`
-  - `poll_device_code` (method, line 129) `def poll_device_code(self, device_code, interval, timeout)`
-  - `oauth_consent_grant` (method, line 166) `def oauth_consent_grant(self, redirect_uri)`
-  - `service_principal_credential_theft` (method, line 203) `def service_principal_credential_theft(self)`
-  - `managed_identity_abuse` (method, line 235) `def managed_identity_abuse(self, resource)`
-  - `entra_connect_sync_abuse` (method, line 266) `def entra_connect_sync_abuse(self)`
-  - `conditional_access_bypass` (method, line 307) `def conditional_access_bypass(self)`
-  - `enumerate_tenant` (method, line 345) `def enumerate_tenant(self)`
-  - `summary` (method, line 368) `def summary(self)`
-- Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/estorides_importer.py
-- Doc: estorides_importer
-- Layer: utility
-- Language: py
-- Symbols:
-  - `EstoridesEntity` (class, line 84) `class EstoridesEntity`
-  - `ImportResult` (class, line 96) `class ImportResult`
-  - `SeedResult` (class, line 128) `class SeedResult`
-  - `extract_seeds_from_world_model` (method, line 143) `def extract_seeds_from_world_model(world_model_path)`
-  - `extract_seeds_from_hosts_file` (method, line 175) `def extract_seeds_from_hosts_file(path)`
-  - `extract_seeds_from_db` (method, line 203) `def extract_seeds_from_db(db_path)`
-  - `extract_seeds_from_scope` (method, line 242) `def extract_seeds_from_scope(scope_entries)`
-  - `run_estorides_discover` (method, line 272) `def run_estorides_discover(seed_type, seed_value, max_depth, max_steps, out_json, timeout)`
-  - `run_estorides_run` (method, line 332) `def run_estorides_run(query, out_json, timeout)`
-  - `EstoridesCaseReader` (class, line 385) `class EstoridesCaseReader`
-  - `EstoridesStixParser` (class, line 495) `class EstoridesStixParser`
-  - `ensure_directories` (method, line 579) `def ensure_directories()`
-  - `EstoridesToLazyOwnBridge` (class, line 585) `class EstoridesToLazyOwnBridge`
-  - `FeedbackLoop` (class, line 766) `class FeedbackLoop`
-  - `export_combined_graph` (method, line 912) `def export_combined_graph(output_path)`
-  - `success` (method, line 110) `def success(self)`
-  - `to_dict` (method, line 113) `def to_dict(self)`
-  - `new_assets` (method, line 139) `def new_assets(self)`
-  - `__init__` (method, line 388) `def __init__(self, db_path)`
-  - `available` (method, line 393) `def available(self)`
-  - `_ensure_conn` (method, line 396) `def _ensure_conn(self)`
-  - `list_cases` (method, line 402) `def list_cases(self, limit)`
-  - `get_entities` (method, line 414) `def get_entities(self, case_id, entity_types, limit)`
-  - `get_host_entities` (method, line 469) `def get_host_entities(self, case_id)`
-  - `get_all_entities` (method, line 473) `def get_all_entities(self, case_id)`
-  - `stats` (method, line 476) `def stats(self)`
-  - `close` (method, line 489) `def close(self)`
-  - `__init__` (method, line 511) `def __init__(self, stix_path)`
-  - `available` (method, line 515) `def available(self)`
-  - `parse` (method, line 518) `def parse(self)`
-  - `parse_by_type` (method, line 552) `def parse_by_type(self, entity_types)`
-  - `_extract_value` (method, line 563) `def _extract_value(obj, stix_type)`
-  - `__init__` (method, line 588) `def __init__(self, db_path, config_path)`
-  - `import_entities` (method, line 596) `def import_entities(self, entities, add_to_scope, add_to_db)`
-  - `_import_to_db` (method, line 640) `def _import_to_db(self, imports, result)`
-  - `_import_to_scope` (method, line 686) `def _import_to_scope(self, imports, result)`
-  - `get_combined_surface` (method, line 719) `def get_combined_surface(self)`
-  - `__init__` (method, line 777) `def __init__(self, max_iterations, max_depth, max_steps, timeout)`
-  - `run` (method, line 793) `def run(self, seed_methods)`
-  - `_gather_seeds` (method, line 886) `def _gather_seeds(self, methods, seen)`
-- Depends on: `core/logging.py`, `modules/db.py`
-- Imported by: `cli/commands/estorides.py`, `modules/intelligence_engine.py`
+  - `marker_lines` (function, line 35) `def marker_lines(text, limit)`
+  - `full_output` (function, line 51) `def full_output(step, sessions_dir)`
+  - `held_scan_ports` (function, line 64) `def held_scan_ports(target, sessions_dir)`
+  - `detail_for` (function, line 98) `def detail_for(tool, text, target, sessions_dir)`
+  - `next_actions` (function, line 150) `def next_actions(target, sessions_dir, limit)`
+  - `render_text` (function, line 175) `def render_text(engagement_id, target, shell, steps, sessions_dir)`
+  - `render_markdown` (function, line 210) `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)`
+  - `write_report` (function, line 247) `def write_report(engagement_id, target, shell, steps, sessions_dir)`
+- Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
+- Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
 
 
 Next: [KB_modules_p4.md](KB_modules_p4.md)

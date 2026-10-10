@@ -304,3 +304,34 @@ PRs from `dev` -> `pp` require human approval.
 - **Kubernetes**: `deploy/k8s/lazyown-c2.yaml` for C2 deployment
 - **Lab**: `lab start metasploitable` spins up Docker-based practice targets
 - **Marketplace**: `marketplace install <plugin>` from community index
+
+---
+
+## 13. Autonomous Operations
+
+I integrated ten autonomous-operation contracts into the existing
+flows. The binding specification lives in
+`specs/autonomous_ops.md` and I treat it as truth. Each contract owns
+one file under `modules/` plus exactly one integration point. There
+is no parallel namespace: findings live in the campaign `vulns`
+table, assets mirror into campaign hosts, the planner frontier drives
+`_run_objective`, and approvals flow through the existing operator
+gate.
+
+| Contract | File | Integrated at |
+|----------|------|---------------|
+| Safety gate | `modules/intercept.py` | `_run_objective` pre-execution |
+| Step transcript | `modules/traffic_recorder.py` | daemon step loop, `sessions/` |
+| Evidence vault | `modules/evidence.py` | finding write-back, `sessions/` |
+| Asset graph | `modules/asset_graph.py` | `mirror_to_campaign` to db/world |
+| Frontier and todos | `modules/planner.py` | `_run_objective` selection |
+| Finding lifecycle | `modules/finding_lifecycle.py` | campaign `vulns`, retests log |
+| Provider pool | `modules/llm_pool.py` | daemon `LLMSelector` failover |
+| Notifier | `modules/notify.py` | high-value findings journal |
+| Isolated questions | `modules/sidequestion.py` | `ask snapshot` |
+| Verified updates | `modules/selfupdate.py` | library for the future `update` verb |
+
+I left `CLAUDE.md` untouched because it sits 25 bytes under its 40 KB
+budget. Quickstart: run the daemon as usual; the gate, frontier and
+proven-stop work inside the existing `orchestrate` and `auto_loop`
+verbs with no new commands to learn.

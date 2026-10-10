@@ -1,5 +1,5 @@
-# Subsystem: modules (page 1 of 10)
-Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md)
+# Subsystem: modules (page 1 of 12)
+Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB_modules_p3.md](KB_modules_p3.md), [KB_modules_p4.md](KB_modules_p4.md), [KB_modules_p5.md](KB_modules_p5.md), [KB_modules_p6.md](KB_modules_p6.md), [KB_modules_p7.md](KB_modules_p7.md), [KB_modules_p8.md](KB_modules_p8.md), [KB_modules_p9.md](KB_modules_p9.md), [KB_modules_p10.md](KB_modules_p10.md), [KB_modules_p11.md](KB_modules_p11.md), [KB_modules_p12.md](KB_modules_p12.md)
 
 ## modules/49803.py
 - Doc: Exploit Title: OpenPLC 3 - Remote Code Execution (Authenticated) Date: 25/04/2021 Exploit...
@@ -52,7 +52,7 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 ## modules/__init__.py
 - Layer: utility
 - Language: py
-- Imported by: `tests/test_security_sanitizers.py`
+- Imported by: `tests/test_autonomous_ops.py`, `tests/test_safety_gates.py`, `tests/test_security_sanitizers.py`
 
 ## modules/adcs_attacks.py
 - Doc: Active Directory Certificate Services (AD CS) attack module.
@@ -252,6 +252,30 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Depends on: `core/console.py`
 - Imported by: `cli/commands/command_and_control_migrated.py`, `cli/recommendation_signals.py`, `modules/operation.py`
 
+## modules/asset_graph.py
+- Doc: Global asset truth store joined to per-task exploration chains.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `GraphConfig` (class, line 17) `class GraphConfig`
+  - `asset_key` (method, line 28) `def asset_key(asset_type, value, parent_key)`
+  - `AssetNode` (class, line 36) `class AssetNode`
+  - `ExplorationNode` (class, line 50) `class ExplorationNode`
+  - `Anchor` (class, line 63) `class Anchor`
+  - `AssetGraph` (class, line 70) `class AssetGraph`
+  - `coverage_for` (method, line 214) `def coverage_for(db, workspace_id, scope)`
+  - `__init__` (method, line 73) `def __init__(self, config)`
+  - `upsert_asset` (method, line 82) `def upsert_asset(self, asset_type, value, parent_key, company)`
+  - `add_node` (method, line 108) `def add_node(self, task_id, kind, text, parent_id, payload)`
+  - `add_fact` (method, line 123) `def add_fact(self, task_id, text, parent_id, payload)`
+  - `add_finding` (method, line 128) `def add_finding(self, task_id, text, parent_id, payload)`
+  - `anchor` (method, line 133) `def anchor(self, exploration_id, key)`
+  - `assets_for_node` (method, line 145) `def assets_for_node(self, exploration_id)`
+  - `nodes_for_asset` (method, line 151) `def nodes_for_asset(self, key)`
+  - `coverage` (method, line 157) `def coverage(self, task_id)`
+  - `mirror_to_campaign` (method, line 170) `def mirror_to_campaign(self, db, world_model, workspace_id)`
+- Imported by: `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+
 ## modules/atomic_enricher.py
 - Doc: — Enrich techniques.parquet with structured derived columns.
 - Layer: utility
@@ -268,6 +292,25 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `query_atomic` (function, line 232) `def query_atomic(keyword, mitre_id, platform, scope, has_prereqs, complexity, limit, include_command)`
 - Depends on: `core/logging.py`
 - Imported by: `skills/lazyown_groq_agents.py`, `skills/lazyown_mcp.py`, `skills/lazyown_parquet_db.py`, `tests/test_core_modules.py`
+
+## modules/attack_surface3d.py
+- Doc: Attack-surface 3D intel module: C2-centred campaign graph.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `_family_color` (function, line 100) `def _family_color(name)`
+  - `_pagerank` (function, line 111) `def _pagerank(ids, pairs, alpha, max_iter, tol)`
+  - `_host_of` (function, line 141) `def _host_of(node)`
+  - `build_attack_graph` (function, line 147) `def build_attack_graph(sessions_dir, payload_path, est_cap)`
+  - `_intel_id_map` (function, line 315) `def _intel_id_map(intel, key_to_id)`
+  - `_doc` (function, line 327) `def _doc(node)`
+  - `_symbols` (function, line 346) `def _symbols(node)`
+  - `_enrich` (function, line 365) `def _enrich(nodes, edges)`
+  - `refresh_summary` (function, line 460) `def refresh_summary(graph, sessions_dir)`
+  - `add_edge` (function, line 155) `def add_edge(src, dst, kind, evidence, weight)`
+  - `tag` (function, line 166) `def tag(nid, source)`
+- Depends on: `cli/surface_graph.py`, `modules/estorides_fusion.py`, `modules/finding_lifecycle.py`, `modules/intel_fusion.py`
+- Imported by: `cli/commands/surface.py`, `lazyc2.py`, `tests/test_attack_surface3d.py`
 
 ## modules/auto_pivot.py
 - Doc: Auto-Pivoting Engine for LazyOwn.
@@ -347,6 +390,23 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
 - Depends on: `core/config.py`, `core/logging.py`, `core/process.py`, `modules/detection_oracle.py`
 - Imported by: `cli/commands/purple_team.py`
 
+## modules/auto_registry.py
+- Doc: Registry of loop-ready automation verbs (the ``auto_*`` family).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `AutoVerb` (class, line 29) `class AutoVerb`
+  - `verbs` (method, line 98) `def verbs()`
+  - `is_shell_verb` (method, line 103) `def is_shell_verb(token)`
+  - `build_command` (method, line 109) `def build_command(verb, target)`
+  - `verbs_for` (method, line 120) `def verbs_for(text)`
+  - `propose_intents` (method, line 127) `def propose_intents(goal, target, finding_texts)`
+  - `steps_for` (method, line 139) `def steps_for(text, target)`
+  - `ShellResult` (class, line 162) `class ShellResult`
+  - `execute_shell_verb` (method, line 169) `def execute_shell_verb(shell, command, timeout_sec)`
+  - `_target` (method, line 184) `def _target()`
+- Imported by: `cli/commands/mcp_bridge.py`, `modules/lazy_loop.py`, `tests/test_auto_registry.py`
+
 ## modules/autonomous_exploit_engine.py
 - Doc: Autonomous Exploitation Engine — AI-powered self-adapting exploit chainer.
 - Layer: utility
@@ -358,46 +418,46 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `AutonomousExploitEngine` (class, line 100) `class AutonomousExploitEngine`
   - `__init__` (method, line 113) `def __init__(self)`
   - `get_instance` (method, line 133) `def get_instance(cls)`
-  - `hunt` (method, line 144) `def hunt(self, target, max_exploits)`
-  - `retry_with_credentials` (method, line 181) `def retry_with_credentials(self, target, credentials)`
-  - `_credential_aware_rank` (method, line 238) `def _credential_aware_rank(self, profile, credentials)`
-  - `_filter_placeholder_creds` (method, line 281) `def _filter_placeholder_creds(credentials)`
-  - `profile` (method, line 325) `def profile(self, target)`
-  - `rank_exploits` (method, line 386) `def rank_exploits(self, profile)`
-  - `execute_candidate` (method, line 409) `def execute_candidate(self, candidate, profile)`
-  - `_match_exploit_db` (method, line 451) `def _match_exploit_db(self, service, product, version)`
-  - `_heuristic_match` (method, line 489) `def _heuristic_match(self, service, product, version)`
-  - `_match_by_port` (method, line 959) `def _match_by_port(self, port, os_type)`
-  - `_scorer` (method, line 1016) `def _scorer(self, exploit, service, product, version)`
-  - `_run_exploit` (method, line 1056) `def _run_exploit(self, candidate, profile)`
-  - `_resolve_port` (method, line 1085) `def _resolve_port(self, candidate, profile)`
-  - `_build_command_chain` (method, line 1102) `def _build_command_chain(self, candidate, profile)`
-  - `_check_success` (method, line 1234) `def _check_success(self, output, candidate)`
-  - `_detect_shell` (method, line 1327) `def _detect_shell(self, output)`
-  - `_determine_access_level` (method, line 1355) `def _determine_access_level(self, ip, credentials)`
-  - `_register_session` (method, line 1385) `def _register_session(self, ip, output)`
-  - `_load_payload_config` (method, line 1413) `def _load_payload_config(self)`
-  - `_load_world_model` (method, line 1424) `def _load_world_model(self, target)`
-  - `_detect_os_from_payload` (method, line 1521) `def _detect_os_from_payload(self)`
-  - `_load_from_nmap_xml` (method, line 1539) `def _load_from_nmap_xml(self, target)`
-  - `_get_os_type` (method, line 1618) `def _get_os_type(self, profile)`
-  - `_apply_stealth_delay` (method, line 1634) `def _apply_stealth_delay(self)`
-  - `scan_vulnerabilities` (method, line 1645) `def scan_vulnerabilities(self, profile)`
-  - `_parse_nse_output` (method, line 1671) `def _parse_nse_output(self, target_ip)`
-  - `_extract_cves_from_text` (method, line 1706) `def _extract_cves_from_text(self, text)`
-  - `_match_service_banners` (method, line 1754) `def _match_service_banners(self, profile)`
-  - `_check_known_cves` (method, line 1934) `def _check_known_cves(self, profile)`
-  - `chain_privesc` (method, line 1960) `def chain_privesc(self, profile, session_id)`
-  - `_run_linux_privesc_checks` (method, line 1988) `def _run_linux_privesc_checks(self, profile, session_id)`
-  - `_run_windows_privesc_checks` (method, line 2057) `def _run_windows_privesc_checks(self, profile, session_id)`
-  - `_match_privesc_techniques` (method, line 2100) `def _match_privesc_techniques(self, findings, os_type)`
-  - `_execute_privesc` (method, line 2290) `def _execute_privesc(self, technique, profile, session_id)`
-  - `trigger_pivot` (method, line 2390) `def trigger_pivot(self, profile, session_id)`
-  - `_discover_internal_interfaces` (method, line 2455) `def _discover_internal_interfaces(self, profile)`
-  - `enable_stealth` (method, line 2516) `def enable_stealth(self, stealth_level)`
-  - `_get_stealth_scan_flags` (method, line 2561) `def _get_stealth_scan_flags(self)`
-  - `full_auto_pwn` (method, line 2580) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
-  - `_is_placeholder` (method, line 296) `def _is_placeholder(value)`
+  - `hunt` (method, line 144) `def hunt(self, target, max_exploits, profile)`
+  - `retry_with_credentials` (method, line 183) `def retry_with_credentials(self, target, credentials)`
+  - `_credential_aware_rank` (method, line 240) `def _credential_aware_rank(self, profile, credentials)`
+  - `_filter_placeholder_creds` (method, line 283) `def _filter_placeholder_creds(credentials)`
+  - `profile` (method, line 327) `def profile(self, target)`
+  - `rank_exploits` (method, line 388) `def rank_exploits(self, profile)`
+  - `execute_candidate` (method, line 411) `def execute_candidate(self, candidate, profile)`
+  - `_match_exploit_db` (method, line 453) `def _match_exploit_db(self, service, product, version)`
+  - `_heuristic_match` (method, line 491) `def _heuristic_match(self, service, product, version)`
+  - `_match_by_port` (method, line 961) `def _match_by_port(self, port, os_type)`
+  - `_scorer` (method, line 1018) `def _scorer(self, exploit, service, product, version)`
+  - `_run_exploit` (method, line 1058) `def _run_exploit(self, candidate, profile)`
+  - `_resolve_port` (method, line 1087) `def _resolve_port(self, candidate, profile)`
+  - `_build_command_chain` (method, line 1104) `def _build_command_chain(self, candidate, profile)`
+  - `_check_success` (method, line 1236) `def _check_success(self, output, candidate)`
+  - `_detect_shell` (method, line 1329) `def _detect_shell(self, output)`
+  - `_determine_access_level` (method, line 1357) `def _determine_access_level(self, ip, credentials)`
+  - `_register_session` (method, line 1387) `def _register_session(self, ip, output)`
+  - `_load_payload_config` (method, line 1415) `def _load_payload_config(self)`
+  - `_load_world_model` (method, line 1426) `def _load_world_model(self, target)`
+  - `_detect_os_from_payload` (method, line 1523) `def _detect_os_from_payload(self)`
+  - `_load_from_nmap_xml` (method, line 1541) `def _load_from_nmap_xml(self, target)`
+  - `_get_os_type` (method, line 1620) `def _get_os_type(self, profile)`
+  - `_apply_stealth_delay` (method, line 1636) `def _apply_stealth_delay(self)`
+  - `scan_vulnerabilities` (method, line 1647) `def scan_vulnerabilities(self, profile)`
+  - `_parse_nse_output` (method, line 1673) `def _parse_nse_output(self, target_ip)`
+  - `_extract_cves_from_text` (method, line 1708) `def _extract_cves_from_text(self, text)`
+  - `_match_service_banners` (method, line 1756) `def _match_service_banners(self, profile)`
+  - `_check_known_cves` (method, line 1936) `def _check_known_cves(self, profile)`
+  - `chain_privesc` (method, line 1962) `def chain_privesc(self, profile, session_id)`
+  - `_run_linux_privesc_checks` (method, line 1990) `def _run_linux_privesc_checks(self, profile, session_id)`
+  - `_run_windows_privesc_checks` (method, line 2059) `def _run_windows_privesc_checks(self, profile, session_id)`
+  - `_match_privesc_techniques` (method, line 2102) `def _match_privesc_techniques(self, findings, os_type)`
+  - `_execute_privesc` (method, line 2292) `def _execute_privesc(self, technique, profile, session_id)`
+  - `trigger_pivot` (method, line 2392) `def trigger_pivot(self, profile, session_id)`
+  - `_discover_internal_interfaces` (method, line 2457) `def _discover_internal_interfaces(self, profile)`
+  - `enable_stealth` (method, line 2518) `def enable_stealth(self, stealth_level)`
+  - `_get_stealth_scan_flags` (method, line 2563) `def _get_stealth_scan_flags(self)`
+  - `full_auto_pwn` (method, line 2582) `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)`
+  - `_is_placeholder` (method, line 298) `def _is_placeholder(value)`
 - Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 - Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
 
@@ -418,75 +478,6 @@ Pages: [KB_modules.md](KB_modules.md), [KB_modules_p2.md](KB_modules_p2.md), [KB
   - `ec2_ssm_session_abuse` (method, line 274) `def ec2_ssm_session_abuse(self)`
   - `summary` (method, line 293) `def summary(self)`
 - Imported by: `cli/commands/cloud_attacks.py`
-
-## modules/beacon_config_builder.py
-- Doc: Beacon configuration builder — wires profile engines into beacon compile-time config.
-- Layer: infrastructure
-- Language: py
-- Symbols:
-  - `BeaconConfig` (class, line 44) `class BeaconConfig`
-  - `BeaconConfigBuilder` (class, line 237) `class BeaconConfigBuilder`
-  - `generate_bof_execution_command` (method, line 416) `def generate_bof_execution_command(bof_name, c2_url, client_id, args, bofs_dir)`
-  - `to_gen_beacon_args` (method, line 117) `def to_gen_beacon_args(self)`
-  - `to_go_implant_vars` (method, line 137) `def to_go_implant_vars(self)`
-  - `to_config_json` (method, line 160) `def to_config_json(self)`
-  - `to_dict` (method, line 185) `def to_dict(self)`
-  - `__init__` (method, line 245) `def __init__(self, payload)`
-  - `build` (method, line 248) `def build(self, name)`
-  - `_inject_profile_engine` (method, line 318) `def _inject_profile_engine(self, config)`
-  - `_inject_sleep_engine` (method, line 366) `def _inject_sleep_engine(self, config)`
-  - `_inject_socks_engine` (method, line 385) `def _inject_socks_engine(self, config)`
-  - `from_payload` (method, line 403) `def from_payload(cls, payload)`
-  - `from_payload_file` (method, line 408) `def from_payload_file(cls, path)`
-- Depends on: `core/config.py`, `core/logging.py`, `modules/c2_profile_engine.py`, `modules/sleep_obfuscation.py`, `modules/socks_proxy.py`
-- Imported by: `cli/commands/bof_registry.py`, `tests/test_beacon_config_builder.py`
-
-## modules/beacon_history.py
-- Doc: Persistent beacon command/result history storage.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `BeaconHistoryConfig` (class, line 28) `class BeaconHistoryConfig`
-  - `sanitize_client_id` (method, line 70) `def sanitize_client_id(client_id)`
-  - `append_record` (method, line 82) `def append_record(record, config)`
-  - `read_records` (method, line 116) `def read_records(client_id, config)`
-  - `records_path` (method, line 145) `def records_path(client_id, config)`
-  - `sessions_dir` (method, line 39) `def sessions_dir(self)`
-  - `records_path` (method, line 43) `def records_path(self, client_id)`
-- Depends on: `core/logging.py`
-- Imported by: `lazyc2.py`, `lazyc2/blueprints/api_v1.py`, `tests/test_api_v1.py`, `tests/test_beacon_history.py`, `tests/test_security_lazyc2.py`
-
-## modules/bin2img.py
-- Layer: utility
-- Language: py
-- Symbols:
-  - `binario_a_imagen` (function, line 7) `def binario_a_imagen(binario, imagen_input, imagen_output, block_size)`
-  - `main` (function, line 54) `def main()`
-
-## modules/bitm_engine.py
-- Doc: Browser-in-the-Middle (BitM) attack engine.
-- Layer: utility
-- Language: py
-- Symbols:
-  - `BitMState` (class, line 85) `class BitMState`
-  - `_ensure_bitm_dir` (method, line 103) `def _ensure_bitm_dir()`
-  - `_save_state` (method, line 108) `def _save_state(state)`
-  - `_load_state` (method, line 134) `def _load_state()`
-  - `_build_js_payload` (method, line 151) `def _build_js_payload(payload_name, lhost, lport)`
-  - `_check_tool` (method, line 168) `def _check_tool(tool)`
-  - `_recommend_method` (method, line 180) `def _recommend_method()`
-  - `_get_default_interface` (method, line 195) `def _get_default_interface()`
-  - `_get_gateway_ip` (method, line 234) `def _get_gateway_ip()`
-  - `bitm_start` (method, line 257) `def bitm_start(target_ip, gateway_ip, interface, lhost, lport, method, payloads)`
-  - `_start_bettercap` (method, line 354) `def _start_bettercap(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
-  - `_start_arpspoof` (method, line 413) `def _start_arpspoof(target_ip, gateway_ip, interface, lhost, lport, js_payload, harvest_path)`
-  - `bitm_stop` (method, line 481) `def bitm_stop()`
-  - `bitm_status` (method, line 539) `def bitm_status()`
-  - `bitm_inject` (method, line 572) `def bitm_inject(payload_name)`
-  - `bitm_harvest_stats` (method, line 607) `def bitm_harvest_stats()`
-  - `bitm_cleanup` (method, line 642) `def bitm_cleanup()`
-  - `main` (method, line 661) `def main()`
-- Imported by: `cli/commands/bitm.py`
 
 
 Next: [KB_modules_p2.md](KB_modules_p2.md)

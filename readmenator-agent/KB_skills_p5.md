@@ -302,13 +302,13 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `BackendRegistry` (class, line 300) `class BackendRegistry`
   - `RouterPolicy` (class, line 340) `class RouterPolicy`
   - `DaemonBackend` (class, line 408) `class DaemonBackend`
-  - `HiveBackend` (class, line 543) `class HiveBackend`
-  - `SwanBackend` (class, line 644) `class SwanBackend`
-  - `GoalValidator` (class, line 744) `class GoalValidator`
-  - `UnifiedOrchestrator` (class, line 809) `class UnifiedOrchestrator`
-  - `_new_request_id` (method, line 901) `def _new_request_id()`
-  - `_make_result` (method, line 906) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
-  - `build_default_orchestrator` (method, line 933) `def build_default_orchestrator(payload, sessions_dir)`
+  - `HiveBackend` (class, line 605) `class HiveBackend`
+  - `SwanBackend` (class, line 706) `class SwanBackend`
+  - `GoalValidator` (class, line 806) `class GoalValidator`
+  - `UnifiedOrchestrator` (class, line 871) `class UnifiedOrchestrator`
+  - `_new_request_id` (method, line 963) `def _new_request_id()`
+  - `_make_result` (method, line 968) `def _make_result(request_id, backend, status, summary, artefacts, events, duration, raw)`
+  - `build_default_orchestrator` (method, line 995) `def build_default_orchestrator(payload, sessions_dir)`
   - `from_payload` (method, line 111) `def from_payload(cls, payload)`
   - `with_defaults` (method, line 156) `def with_defaults(self, config)`
   - `to_dict` (method, line 197) `def to_dict(self)`
@@ -331,29 +331,29 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `effective_target` (method, line 489) `def effective_target(self, goal)`
   - `_target_from_metadata` (method, line 502) `def _target_from_metadata(self, goal)`
   - `_build` (method, line 513) `def _build(self, goal, target)`
-  - `_import_class` (method, line 523) `def _import_class()`
-  - `_summarise` (method, line 529) `def _summarise(raw, target)`
-  - `_artefacts` (method, line 537) `def _artefacts(raw)`
-  - `__init__` (method, line 548) `def __init__(self, config, factory)`
-  - `available` (method, line 557) `def available(self)`
-  - `run` (method, line 567) `def run(self, goal)`
-  - `_build` (method, line 615) `def _build(self)`
-  - `_import_factory` (method, line 625) `def _import_factory()`
-  - `_summarise` (method, line 636) `def _summarise(tasks, synthesis)`
-  - `__init__` (method, line 649) `def __init__(self, config, factory)`
-  - `available` (method, line 658) `def available(self)`
-  - `run` (method, line 668) `def run(self, goal)`
-  - `_build` (method, line 710) `def _build(self, api_key)`
-  - `_import_factory` (method, line 717) `def _import_factory()`
-  - `_summarise` (method, line 723) `def _summarise(swan_result)`
-  - `_artefacts` (method, line 733) `def _artefacts(swan_result)`
-  - `__init__` (method, line 752) `def __init__(self, config)`
-  - `validate` (method, line 756) `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
-  - `__init__` (method, line 812) `def __init__(self, config, registry, router, validator, bus)`
-  - `backends` (method, line 828) `def backends(self)`
-  - `execute` (method, line 832) `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
-  - `_emit` (method, line 886) `def _emit(self, result, mode, goal)`
-- Depends on: `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
+  - `_import_class` (method, line 535) `def _import_class()`
+  - `_summarise` (method, line 541) `def _summarise(raw, target)`
+  - `_artefacts` (method, line 585) `def _artefacts(raw)`
+  - `__init__` (method, line 610) `def __init__(self, config, factory)`
+  - `available` (method, line 619) `def available(self)`
+  - `run` (method, line 629) `def run(self, goal)`
+  - `_build` (method, line 677) `def _build(self)`
+  - `_import_factory` (method, line 687) `def _import_factory()`
+  - `_summarise` (method, line 698) `def _summarise(tasks, synthesis)`
+  - `__init__` (method, line 711) `def __init__(self, config, factory)`
+  - `available` (method, line 720) `def available(self)`
+  - `run` (method, line 730) `def run(self, goal)`
+  - `_build` (method, line 772) `def _build(self, api_key)`
+  - `_import_factory` (method, line 779) `def _import_factory()`
+  - `_summarise` (method, line 785) `def _summarise(swan_result)`
+  - `_artefacts` (method, line 795) `def _artefacts(swan_result)`
+  - `__init__` (method, line 814) `def __init__(self, config)`
+  - `validate` (method, line 818) `def validate(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
+  - `__init__` (method, line 874) `def __init__(self, config, registry, router, validator, bus)`
+  - `backends` (method, line 890) `def backends(self)`
+  - `execute` (method, line 894) `def execute(self, goal, mode, phase, task_type, target, drones, timeout, api_key, metadata)`
+  - `_emit` (method, line 948) `def _emit(self, result, mode, goal)`
+- Depends on: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/hive_mind.py`, `skills/swan_agent.py`
 - Imported by: `lazyown.py`, `tests/test_improvements_spec.py`
 
 ## skills/update_knowledge.py

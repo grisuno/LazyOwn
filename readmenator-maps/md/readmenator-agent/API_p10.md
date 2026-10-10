@@ -1,5 +1,49 @@
-# API (page 10 of 20)
+# API (page 10 of 21)
 Previous: [API_p9.md](API_p9.md)
+
+## modules/credential_reuse.py
+Depends on: `core/logging.py`
+Imported by: `cli/commands/automation.py`, `lazyc2.py`, `lazyc2/blueprints/beacon.py`, `modules/conditional_hooks.py`
+- `ReuseCandidate.to_dict` (method) `modules/credential_reuse.py:43` `def to_dict(self)`
+- `CredentialReuseEngine.__init__` (method) `modules/credential_reuse.py:80` `def __init__(self)`
+- `CredentialReuseEngine.mark_failed` (method) `modules/credential_reuse.py:107` `def mark_failed(self, username, password, host)` -- Record that a credential did NOT work against a host.
+- `CredentialReuseEngine.mark_confirmed` (method) `modules/credential_reuse.py:112` `def mark_confirmed(self, username, password, host)` -- Record that a credential worked against a host.
+- `CredentialReuseEngine.rank` (method) `modules/credential_reuse.py:226` `def rank(self, hosts, creds, host_services, limit)` -- Score all (cred, host) pairs and return top candidates.
+- `CredentialReuseEngine.suggest_from_state_manager` (method) `modules/credential_reuse.py:278` `def suggest_from_state_manager(self, state_manager, limit)` -- Convenience: rank creds using hosts and creds from StateManager.
+- `CredentialReuseEngine.suggest_from_world_model` (method) `modules/credential_reuse.py:308` `def suggest_from_world_model(self, world_model, limit)` -- Convenience: rank creds using hosts and creds from WorldModel.
+- `CredentialReuseEngine.get_summary` (method) `modules/credential_reuse.py:338` `def get_summary(self, candidates)` -- Format candidates as a human-readable summary string.
+- `CredentialReuseEngine.get_credential_reuse_engine` (method) `modules/credential_reuse.py:358` `def get_credential_reuse_engine()` -- Return the singleton :class:`CredentialReuseEngine`.
+
+## modules/cross_cloud.py
+Imported by: `cli/commands/cloud_attacks.py`
+- `CrossCloudAttackEngine.__init__` (method) `modules/cross_cloud.py:64` `def __init__(self, config)`
+- `CrossCloudAttackEngine.azure_saml_to_aws` (method) `modules/cross_cloud.py:67` `def azure_saml_to_aws(self)` -- Abuse Azure AD SAML federation to gain AWS access.
+- `CrossCloudAttackEngine.gcp_oidc_to_azure` (method) `modules/cross_cloud.py:104` `def gcp_oidc_to_azure(self)` -- Abuse GCP OIDC federation to gain Azure access.
+- `CrossCloudAttackEngine.aws_oidc_to_gcp` (method) `modules/cross_cloud.py:133` `def aws_oidc_to_gcp(self)` -- Abuse AWS OIDC federation to gain GCP access.
+- `CrossCloudAttackEngine.multi_cloud_imds_harvesting` (method) `modules/cross_cloud.py:167` `def multi_cloud_imds_harvesting(self)` -- Harvest metadata from all cloud providers simultaneously.
+- `CrossCloudAttackEngine.entra_id_to_gcp_workforce_federation` (method) `modules/cross_cloud.py:204` `def entra_id_to_gcp_workforce_federation(self)` -- Exploit Entra ID to GCP workforce identity federation.
+- `CrossCloudAttackEngine.detect_cross_cloud_federation` (method) `modules/cross_cloud.py:234` `def detect_cross_cloud_federation(self)` -- Detect cross-cloud federation configurations for attack surface mapping.
+- `CrossCloudAttackEngine.summary` (method) `modules/cross_cloud.py:258` `def summary(self)`
+
+## modules/cve_matcher.py
+Depends on: `core/logging.py`
+Imported by: `skills/lazyown_mcp.py`, `tests/test_core_modules.py`
+- `CVEMatcher.__init__` (method) `modules/cve_matcher.py:70` `def __init__(self, api_key, cache_dir)`
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:82` `def search(self)` -- Search CVEs by product / version keywords.
+- `CVEMatcher.search_by_cpe` (method) `modules/cve_matcher.py:89` `def search_by_cpe(self, cpe_name, max_results)` -- Search CVEs by CPE 2.3 string.
+- `CVEMatcher.get_matcher` (method) `modules/cve_matcher.py:198` `def get_matcher()` -- Return (or create) the module-level singleton CVEMatcher.
+- `CVEMatcher.search` (method) `modules/cve_matcher.py:206` `def search(product, version, max_results)` -- Module-level convenience wrapper.
+
+## modules/dacl_abuse.py
+Imported by: `cli/commands/active_directory.py`
+- `DACLAbuseEngine.__init__` (method) `modules/dacl_abuse.py:136` `def __init__(self, domain, domain_sid, acl_data)`
+- `DACLAbuseEngine.parse_bloodhound_acls` (method) `modules/dacl_abuse.py:143` `def parse_bloodhound_acls(self, edges)` -- Parse BloodHound edge data to extract exploitable ACLs.
+- `DACLAbuseEngine.parse_raw_aces` (method) `modules/dacl_abuse.py:182` `def parse_raw_aces(self, raw_nthashes)` -- Parse raw ACE data from ntSecurityDescriptor parsing.
+- `DACLAbuseEngine.compute_attack_chains` (method) `modules/dacl_abuse.py:224` `def compute_attack_chains(self)` -- Generate exploitation plans for all discovered ACL targets.
+- `DACLAbuseEngine.adminsdholder_abuse_plan` (method) `modules/dacl_abuse.py:291` `def adminsdholder_abuse_plan(self, target_sid)` -- Generate an AdminSDHolder abuse plan.
+- `DACLAbuseEngine.dcsync_rights_assignment_plan` (method) `modules/dacl_abuse.py:318` `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` -- Generate a DCSync rights assignment plan.
+- `DACLAbuseEngine.owner_takeover_plan` (method) `modules/dacl_abuse.py:348` `def owner_takeover_plan(self, target_dn, attacker_sid)` -- Generate an ownership takeover plan.
+- `DACLAbuseEngine.summary` (method) `modules/dacl_abuse.py:418` `def summary(self)` -- Return a summary of all DACL/SACL abuse findings.
 
 ## modules/dashboard_bp.py
 Imported by: `lazyc2.py`, `tests/test_core_modules.py`, `tests/test_dashboard_routes.py`
@@ -24,7 +68,7 @@ Imported by: `cli/commands/pwn.py`, `modules/rich_tui.py`, `modules/unified_dash
 
 ## modules/db.py
 Depends on: `core/config.py`, `core/crypto.py`, `core/logging.py`
-Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
+Imported by: `cli/commands/campaign.py`, `cli/commands/collaboration.py`, `cli/commands/database.py`, `lazyc2/blueprints/api_v1.py`, `modules/autonomous_exploit_engine.py`, `modules/estorides_importer.py`, `modules/hash_cracker.py`, `modules/integrations/nuclei_parser.py`, `modules/opsec_scorer.py`, `modules/state_manager.py`, `scripts/devtools/core_smoke.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_api_v1.py`, `tests/test_autonomous_ops.py`, `tests/test_daemon_loop.py`, `tests/test_db.py`, `tests/test_mutation_verification.py`, `tests/test_security_hardening.py`
 - `LazyOwnDB.__init__` (method) `modules/db.py:159` `def __init__(self, db_path)`
 - `LazyOwnDB.db_path` (method) `modules/db.py:182` `def db_path(self)` -- Path to the SQLite database file.
 - `LazyOwnDB.migration_status` (method) `modules/db.py:222` `def migration_status(self)` -- Return the current and latest migration versions.
@@ -144,6 +188,18 @@ Imported by: `cli/commands/edr_detect.py`
 - `move_white_pawns` (function) `modules/eegg.sh:61` -- Movimiento de peones blancos y negros
 - `move_black_pawns` (function) `modules/eegg.sh:78`
 
+## modules/engage_summary.py
+Depends on: `cli/recommendation_signals.py`, `modules/enrich.py`, `modules/evidence.py`
+Imported by: `skills/unified_orchestrator.py`, `tests/test_engage_summary.py`
+- `marker_lines` (function) `modules/engage_summary.py:35` `def marker_lines(text, limit)` -- Extract real log lines (``[+] ... [+]``) dropping panels and bars.
+- `full_output` (function) `modules/engage_summary.py:51` `def full_output(step, sessions_dir)` -- Return the full step output from evidence, falling back to the tail.
+- `held_scan_ports` (function) `modules/engage_summary.py:64` `def held_scan_ports(target, sessions_dir)` -- Parse held scan XMLs for open ports.
+- `detail_for` (function) `modules/engage_summary.py:98` `def detail_for(tool, text, target, sessions_dir)` -- Extract the key facts from one step output for the summary.
+- `next_actions` (function) `modules/engage_summary.py:150` `def next_actions(target, sessions_dir, limit)` -- Rank next actions via the unified recommendation engine.
+- `render_text` (function) `modules/engage_summary.py:175` `def render_text(engagement_id, target, shell, steps, sessions_dir)` -- Render the console summary with per-step detail lines.
+- `render_markdown` (function) `modules/engage_summary.py:210` `def render_markdown(engagement_id, target, shell, steps, next_list, sessions_dir)` -- Render the persisted per-engagement report.
+- `write_report` (function) `modules/engage_summary.py:247` `def write_report(engagement_id, target, shell, steps, sessions_dir)` -- Persist the engagement report; return its relative path.
+
 ## modules/engagement_hooks.py
 Depends on: `core/logging.py`, `modules/collab_bp.py`
 Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
@@ -172,6 +228,17 @@ Imported by: `modules/event_bus.py`, `modules/pipeline_engine.py`
 - `EngagementNarrator.resolve_approval` (method) `modules/engagement_hooks.py:601` `def resolve_approval(approval_id, decision, operator)` -- Append a resolution record for the given approval_id.
 - `EngagementNarrator.is_valid_target` (method) `modules/engagement_hooks.py:626` `def is_valid_target(value)` -- Validate that value is a dotted-quad IPv4 or a safe hostname token.
 
+## modules/enrich.py
+Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `tests/test_autonomous_ops.py`
+- `EnrichResult.scan_files_for` (method) `modules/enrich.py:40` `def scan_files_for(sessions_dir, target)` -- Return existing scan artefacts for a target.
+- `EnrichResult.should_rescan` (method) `modules/enrich.py:57` `def should_rescan(sessions_dir, target, fresh_sec)` -- Return True when no fresh scan artefact exists for target.
+- `EnrichResult.resolve_dns` (method) `modules/enrich.py:73` `def resolve_dns(target, timeout)` -- Resolve A/AAAA for a target with a bounded timeout.
+- `EnrichResult.fetch_http` (method) `modules/enrich.py:86` `def fetch_http(target, timeout)` -- Fetch HTTP headers for a target without following credentials.
+- `EnrichEngine.__init__` (method) `modules/enrich.py:103` `def __init__(self, max_workers)` -- Create the pool and cooldown index.
+- `EnrichEngine.submit` (method) `modules/enrich.py:108` `def submit(self, target)` -- Queue DNS+HTTP enrichment unless inside cooldown.
+- `EnrichEngine.shutdown` (method) `modules/enrich.py:128` `def shutdown(self, wait)` -- Shut the pool down without blocking the loop by default.
+- `EnrichEngine.shared_engine` (method) `modules/enrich.py:137` `def shared_engine()` -- Return the process-wide enrichment engine (LAZY parity).
+
 ## modules/entra_id_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
 - `EntraIDAttackEngine.__init__` (method) `modules/entra_id_attacks.py:92` `def __init__(self, config)`
@@ -184,6 +251,15 @@ Imported by: `cli/commands/cloud_attacks.py`
 - `EntraIDAttackEngine.conditional_access_bypass` (method) `modules/entra_id_attacks.py:307` `def conditional_access_bypass(self)` -- Techniques for bypassing Entra ID Conditional Access policies.
 - `EntraIDAttackEngine.enumerate_tenant` (method) `modules/entra_id_attacks.py:345` `def enumerate_tenant(self)` -- Enumerate tenant information via Graph API.
 - `EntraIDAttackEngine.summary` (method) `modules/entra_id_attacks.py:368` `def summary(self)`
+
+## modules/estorides_fusion.py
+Imported by: `cli/commands/surface.py`, `modules/attack_surface3d.py`, `modules/intel_fusion.py`, `tests/test_estorides_fusion.py`
+- `estorides_checkout` (function) `modules/estorides_fusion.py:43` `def estorides_checkout()` -- Locate the estorides working copy (addon install or dev path).
+- `find_export` (function) `modules/estorides_fusion.py:55` `def find_export(sessions_dir)` -- Find an estorides export, preferring the LazyOwn vocabulary file.
+- `run_export` (function) `modules/estorides_fusion.py:71` `def run_export(sessions_dir, cli_path, timeout_sec)` -- Run ``estorides_cli.py graph --export lazyown`` into sessions/.
+- `load_export` (function) `modules/estorides_fusion.py:115` `def load_export(path)` -- Load an export in either vocabulary into nodes/edges lists.
+- `community_for` (function) `modules/estorides_fusion.py:167` `def community_for(kind, value)` -- Assign a campaign community to a fused entity.
+- `merge_estorides` (function) `modules/estorides_fusion.py:174` `def merge_estorides(nodes, edges, est, cap)` -- Fuse estorides entities into graph nodes/edges in place.
 
 ## modules/estorides_importer.py
 Depends on: `core/logging.py`, `modules/db.py`
@@ -294,7 +370,18 @@ Imported by: `lazyc2.py`, `skills/heartbeat.py`, `skills/lazyown_daemon.py`, `sk
 - `read_events` (function) `modules/event_engine.py:250` `def read_events(limit, status)` -- Return up to `limit` events matching `status` (pending/processed/all).
 - `ack_event` (function) `modules/event_engine.py:270` `def ack_event(event_id)` -- Mark an event as processed.
 
+## modules/evidence.py
+Imported by: `modules/engage_summary.py`, `skills/autonomous_daemon.py`, `skills/lazyown_mcp.py`, `tests/test_engage_summary.py`, `tests/test_lazy_parity.py`, `tests/test_safety_gates.py`
+- `EvidenceConfig.hash_bytes` (method) `modules/evidence.py:37` `def hash_bytes(data)` -- Return the lowercase hex SHA-256 of data.
+- `EvidenceStore.__init__` (method) `modules/evidence.py:57` `def __init__(self, base_dir)` -- Create vault directories.
+- `EvidenceStore.blob_path` (method) `modules/evidence.py:65` `def blob_path(self, content_hash)` -- Resolve the canonical path for a validated hash.
+- `EvidenceStore.put` (method) `modules/evidence.py:70` `def put(self, data)` -- Atomically store bytes and return their SHA-256 hash.
+- `EvidenceStore.get` (method) `modules/evidence.py:90` `def get(self, content_hash)` -- Read and verify blob bytes for a hash.
+- `EvidenceStore.exists` (method) `modules/evidence.py:98` `def exists(self, content_hash)` -- Return True when the blob exists on disk.
+- `EvidenceStore.garbage_collect` (method) `modules/evidence.py:105` `def garbage_collect(self, referenced)` -- Remove unreferenced blobs older than the grace period.
+
 ## modules/exp.c
+Imported by: `static/js/3d-force-graph-1.73.4.min.js`, `static/js/force-graph-1.43.5.min.js`
 - `add_key` (function) `modules/exp.c:147` `static inline key_serial_t add_key(const char *type, const char *description, const void *payload...`
 - `keyctl` (function) `modules/exp.c:151` `static inline long keyctl(int operation, unsigned long arg2, unsigned long arg3, unsigned long ar...`
 - `bye` (function) `modules/exp.c:155` `void bye(char *info)`
@@ -403,98 +490,6 @@ Imported by: `cli/commands/exploitgym.py`, `skills/lazyown_mcp.py`, `tests/test_
 - `cmd_chown_now` (function) `modules/fast_run_service.sh:521`
 - `usage` (function) `modules/fast_run_service.sh:528`
 - `main` (function) `modules/fast_run_service.sh:557` -- # # Entry point. require_root re-executes under sudo and never returns there; # the case-arm dispatch is reached...
-
-## modules/forensic_cleaner.py
-Imported by: `cli/commands/opsec_cleanup.py`
-- `ForensicCleaner.__init__` (method) `modules/forensic_cleaner.py:67` `def __init__(self, config)`
-- `ForensicCleaner.windows_cleanup` (method) `modules/forensic_cleaner.py:70` `def windows_cleanup(self)` -- Generate Windows forensic artifact cleanup commands.
-- `ForensicCleaner.linux_cleanup` (method) `modules/forensic_cleaner.py:165` `def linux_cleanup(self)` -- Generate Linux forensic artifact cleanup commands.
-- `ForensicCleaner.macos_cleanup` (method) `modules/forensic_cleaner.py:193` `def macos_cleanup(self)` -- Generate macOS forensic artifact cleanup commands.
-- `ForensicCleaner.windows_prefetch_parse` (method) `modules/forensic_cleaner.py:221` `def windows_prefetch_parse(self, prefetch_path)` -- Parse Prefetch files to identify what the attacker should clean.
-- `ForensicCleaner.amcache_parse` (method) `modules/forensic_cleaner.py:259` `def amcache_parse(self)` -- Parse Amcache registry entries for evidence of execution.
-
-## modules/gcp_attacks.py
-Imported by: `cli/commands/cloud_attacks.py`
-- `GCPAttackEngine.__init__` (method) `modules/gcp_attacks.py:90` `def __init__(self, config)`
-- `GCPAttackEngine.enumerate_iam_policy` (method) `modules/gcp_attacks.py:93` `def enumerate_iam_policy(self, resource)` -- Enumerate IAM policies for projects, folders, or organizations.
-- `GCPAttackEngine.service_account_impersonation` (method) `modules/gcp_attacks.py:119` `def service_account_impersonation(self)` -- Exploit service account impersonation for privilege escalation.
-- `GCPAttackEngine.cloud_functions_backdoor` (method) `modules/gcp_attacks.py:144` `def cloud_functions_backdoor(self)` -- Backdoor Cloud Functions for privilege escalation.
-- `GCPAttackEngine.compute_engine_metadata_exfil` (method) `modules/gcp_attacks.py:173` `def compute_engine_metadata_exfil(self)` -- Exfiltrate GCE instance metadata and service account tokens.
-- `GCPAttackEngine.gcs_enumeration` (method) `modules/gcp_attacks.py:194` `def gcs_enumeration(self)` -- Enumerate Cloud Storage buckets for sensitive data.
-- `GCPAttackEngine.cloudbuild_abuse` (method) `modules/gcp_attacks.py:230` `def cloudbuild_abuse(self)` -- Abuse Cloud Build for privilege escalation.
-- `GCPAttackEngine.organization_escalation` (method) `modules/gcp_attacks.py:261` `def organization_escalation(self)` -- Escalate from project-level to organization-level access.
-- `GCPAttackEngine.summary` (method) `modules/gcp_attacks.py:297` `def summary(self)`
-
-## modules/generate_tools.py
-- `extract_cmd2_tools` (function) `modules/generate_tools.py:6` `def extract_cmd2_tools(script_path)`
-
-## modules/gpo_abuse.py
-Imported by: `cli/commands/active_directory.py`
-- `GPOAbuseEngine.__init__` (method) `modules/gpo_abuse.py:118` `def __init__(self, domain, dc_ip)`
-- `GPOAbuseEngine.parse_gpo_list` (method) `modules/gpo_abuse.py:124` `def parse_gpo_list(self, raw_gpo_output)` -- Parse Get-GPO or ldapsearch output for GPO information.
-- `GPOAbuseEngine.parse_bloodhound_gpos` (method) `modules/gpo_abuse.py:160` `def parse_bloodhound_gpos(self, bloodhound_nodes)` -- Parse BloodHound GPO nodes for abusable policies.
-- `GPOAbuseEngine.plan_scheduled_task` (method) `modules/gpo_abuse.py:182` `def plan_scheduled_task(self, gpo, command, task_name)` -- Plan a GPO-backed scheduled task for immediate code execution.
-- `GPOAbuseEngine.plan_startup_script` (method) `modules/gpo_abuse.py:208` `def plan_startup_script(self, gpo, script_content, script_name)` -- Plan a GPO startup script for persistence via SYSVOL.
-- `GPOAbuseEngine.plan_logon_script` (method) `modules/gpo_abuse.py:238` `def plan_logon_script(self, gpo, command)` -- Plan a GPO user logon script for user-triggered code execution.
-- `GPOAbuseEngine.plan_local_admin_addition` (method) `modules/gpo_abuse.py:266` `def plan_local_admin_addition(self, gpo, username, group)` -- Plan adding a user to the local Administrators group via GPO preferences.
-- `GPOAbuseEngine.plan_wmi_filter_abuse` (method) `modules/gpo_abuse.py:293` `def plan_wmi_filter_abuse(self, gpo, wmi_query)` -- Plan WMI filter abuse for targeted GPO scope control.
-- `GPOAbuseEngine.plan_registry_preference` (method) `modules/gpo_abuse.py:322` `def plan_registry_preference(self, gpo, registry_path, value_name, value_data, value_type)` -- Plan a registry modification via GPO preferences.
-- `GPOAbuseEngine.plan_service_installation` (method) `modules/gpo_abuse.py:356` `def plan_service_installation(self, gpo, service_name, binary_path)` -- Plan a service installation via GPO for SYSTEM-level persistence.
-- `GPOAbuseEngine.generate_all_plans` (method) `modules/gpo_abuse.py:382` `def generate_all_plans(self, command, username)` -- Generate all abuse plans for the discovered GPOs.
-- `GPOAbuseEngine.detect_risky_gpos` (method) `modules/gpo_abuse.py:406` `def detect_risky_gpos(self)` -- Identify GPOs with risky configurations for post-compromise cleanup.
-- `GPOAbuseEngine.summary` (method) `modules/gpo_abuse.py:434` `def summary(self)` -- Return a summary of GPO abuse capabilities.
-
-## modules/gui_askpass.sh
-- `has` (function) `modules/gui_askpass.sh:22` -- ── helpers ───────────────────────────────────────────────────────────────────
-- `try_zenity` (function) `modules/gui_askpass.sh:24`
-- `try_yad` (function) `modules/gui_askpass.sh:28`
-- `try_ssh_askpass` (function) `modules/gui_askpass.sh:33`
-- `try_kdialog` (function) `modules/gui_askpass.sh:40`
-
-## modules/hash_cracker.py
-Depends on: `core/logging.py`, `modules/db.py`
-Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
-- `HashCracker.__init__` (method) `modules/hash_cracker.py:168` `def __init__(self, wordlist, rules, use_hashcat, timeout)`
-- `HashCracker.identify` (method) `modules/hash_cracker.py:190` `def identify(self, line)` -- Identify the hash type of a single line.
-- `HashCracker.identify_file` (method) `modules/hash_cracker.py:277` `def identify_file(self, filepath)` -- Parse a hash file and group hashes by type.
-- `HashCracker.crack_hash` (method) `modules/hash_cracker.py:299` `def crack_hash(self, hash_value, hash_type, wordlist)` -- Attempt to crack a single hash.
-- `HashCracker.crack_file` (method) `modules/hash_cracker.py:353` `def crack_file(self, filepath, wordlist, hash_types)` -- Crack all hashes in a file.
-- `HashCracker.import_to_db` (method) `modules/hash_cracker.py:409` `def import_to_db(self, results, rhost, workspace_name)` -- Import cracked results into the LazyOwnDB credentials table.
-- `HashCracker.crack_secretsdump_output` (method) `modules/hash_cracker.py:699` `def crack_secretsdump_output(filepath, wordlist, rhost)` -- Convenience function: crack a secretsdump output file and import results.
-
-## modules/hive_invoke.py
-Depends on: `modules/toposwarm_bridge.py`
-- `main` (function) `modules/hive_invoke.py:255` `def main(argv)`
-
-## modules/hostdiscover.sh
-- `extract_ips_from_arp` (function) `modules/hostdiscover.sh:21`
-- `extract_listening_ips_from_netstat` (function) `modules/hostdiscover.sh:26`
-
-## modules/ia_code_analysis.py
-Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `CodeAnalyzer.__init__` (method) `modules/ia_code_analysis.py:33` `def __init__(self, mode)`
-- `CodeAnalyzer.analyze_directory` (method) `modules/ia_code_analysis.py:37` `def analyze_directory(self, directory)` -- Recursively analyzes all source code files in the specified directory.
-- `CodeAnalyzer.analyze_code_file` (method) `modules/ia_code_analysis.py:49` `def analyze_code_file(self, file_path)` -- Analyzes the content of the source code file.
-- `CodeAnalyzer.analyze_with_deepseek` (method) `modules/ia_code_analysis.py:66` `def analyze_with_deepseek(code_content, file_path, mode)` -- Sends the code content to DeepSeek for analysis.
-- `CodeAnalyzer.save_results_to_json` (method) `modules/ia_code_analysis.py:123` `def save_results_to_json(results, file_path)` -- Saves the analysis results to JSON files.
-- `CodeAnalyzer.start_analysis` (method) `modules/ia_code_analysis.py:169` `def start_analysis(code_dir, mode)` -- Starts the analysis of the specified code directory.
-- `CodeAnalyzer.parse_args` (method) `modules/ia_code_analysis.py:178` `def parse_args()`
-
-## modules/ia_logs_analysis.py
-Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `LogFileHandler.__init__` (method) `modules/ia_logs_analysis.py:59` `def __init__(self, mode)`
-- `LogFileHandler.on_modified` (method) `modules/ia_logs_analysis.py:64` `def on_modified(self, event)` -- Triggered when a log file is modified.
-- `LogFileHandler.analyze_log_file` (method) `modules/ia_logs_analysis.py:75` `def analyze_log_file(self, file_path)` -- Analyzes the content of the modified log file.
-- `LogFileHandler.analyze_with_deepseek` (method) `modules/ia_logs_analysis.py:94` `def analyze_with_deepseek(log_content, mode)` -- Sends log content to DeepSeek for advanced analysis.
-- `LogFileHandler.start_monitoring` (method) `modules/ia_logs_analysis.py:147` `def start_monitoring(log_dir, mode)` -- Starts monitoring the specified log directory.
-- `LogFileHandler.parse_args` (method) `modules/ia_logs_analysis.py:168` `def parse_args()`
-
-## modules/ia_network_analysis.py
-Depends on: `core/console.py`, `core/logging.py`, `modules/logging_config.py`
-- `analyze_with_deepseek` (function) `modules/ia_network_analysis.py:39` `def analyze_with_deepseek(packet_info, mode)` -- Envía la información del paquete a DeepSeek para análisis avanzado.
-- `packet_callback` (function) `modules/ia_network_analysis.py:91` `def packet_callback(packet, mode)` -- Callback para procesar cada paquete capturado.
-- `start_monitoring` (function) `modules/ia_network_analysis.py:130` `def start_monitoring(interface, timeout, mode)` -- Inicia el monitoreo del tráfico de red.
-- `parse_args` (function) `modules/ia_network_analysis.py:154` `def parse_args()`
 
 
 Next: [API_p11.md](API_p11.md)

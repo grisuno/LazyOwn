@@ -133,7 +133,7 @@ bash skills/mcp_restart.sh                                   # after editing MCP
 
 Loaded by `core.config.load_payload()`, wrapped by `class Config` (`core/config.py`). Every component reads here. **Nothing hardcoded; nothing duplicated; if reused → goes here.**
 
-Typed shape lives in `core/payload_schema.py` (`SCHEMA`): every well-known key has a `FieldSpec` (kind, default, description, example, sensitive flag, required flag). Use `validate_payload(data)` for non-fatal issue reports, `validate_value(key, value)` for single-field checks and `coerce_value(key, raw)` for safe casts (`"5555"` → `5555` for ports, `"true"` → `True` for bools). Adding a new well-known key means adding the `FieldSpec` here — the wizard, the `assign` command and the readiness report pick it up automatically.
+Typed shape lives in `core/payload_schema.py` (`SCHEMA`): every well-known key has a `FieldSpec` (kind, default, description, example, sensitive/required flags). Use `validate_payload(data)`, `validate_value(key, value)`, `coerce_value(key, raw)`. New keys are picked up automatically by the wizard, `assign` and the readiness report.
 
 Critical keys:
 
@@ -149,15 +149,10 @@ Critical keys:
 | `sleep`, `sleep_start` | Beacon jitter + auto-loop bootstrap delay |
 | `api_key` | Groq (used by `report.py`, AI agents) |
 | `enable_telegram_c2`/`discord_c2`/`ia`/`deepseek`/`cloudflare`/`run_in_memory`/`c2_implant_debug`/`c2_debug` | Feature flags |
-| `llm_backend` | LLM selection: `"auto"` (Groq when API key is set, else Ollama), `"groq"`, or `"ollama"` |
-| `llm_model_groq` | Model identifier passed to the Groq API (default `llama-3.3-70b-versatile`) |
-| `llm_model_ollama` | Model identifier passed to the Ollama API (default `deepseek-r1:1.5b`) |
-| `ollama_host` | Base URL of the Ollama daemon (default `http://localhost:11434`) |
-| `llm_daily_budget_usd` | Daily cost cap the LLM budget proxy enforces (default `1.0`) |
-| `llm_per_call_token_cap` | Per call input token cap the proxy enforces (default `8000`) |
-| `llm_budget_enabled` | When `false` the proxy passes calls through without recording (default `true`) |
-| `llm_reset_at_utc` | UTC time the ledger rolls over (default `00:00`) |
-| `llm_model_prices` | Per model price table expressed in United States dollars per million tokens |
+| `llm_backend` | LLM selection: `"auto"` (Groq when API key set, else Ollama), `"groq"`, `"ollama"` |
+| `llm_model_groq` / `llm_model_ollama` | Model IDs (defaults `llama-3.3-70b-versatile` / `deepseek-r1:1.5b`) |
+| `ollama_host` | Ollama base URL (default `http://localhost:11434`) |
+| `llm_daily_budget_usd` / `llm_per_call_token_cap` / `llm_budget_enabled` / `llm_reset_at_utc` / `llm_model_prices` | Budget proxy caps and ledger (`1.0` / `8000` / `true` / `00:00` / USD-per-MTok table) |
 | `c2_daily_limit`, `c2_hour_limit`, `c2_login_limit` | flask-limiter strings |
 | `targets` | Multi-target list (status, ports, tags, notes) |
 | `scope` | Authorized engagement scope: list of CIDR/IP/hostname entries (`*.` wildcards). Empty = scope guard dormant |

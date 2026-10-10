@@ -121,57 +121,57 @@ Depends on: `cli/commands/_base.py`, `utils.py`
 
 ## cli/commands/scan_migrated.py
 Depends on: `cli/commands/_base.py`, `utils.py`
-- `ScanMigratedCommandSet.do_cme` (method) `cli/commands/scan_migrated.py:33` `def do_cme(self, line)` -- Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.
-- `ScanMigratedCommandSet.do_ldapdomaindump` (method) `cli/commands/scan_migrated.py:159` `def do_ldapdomaindump(self, line)` -- Dumps LDAP information using `ldapdomaindump` with credentials from a file.
-- `ScanMigratedCommandSet.do_bloodhound` (method) `cli/commands/scan_migrated.py:206` `def do_bloodhound(self, line)` -- Perform LDAP enumeration using bloodhound-python with credentials from a file.
-- `ScanMigratedCommandSet.do_swaks` (method) `cli/commands/scan_migrated.py:255` `def do_swaks(self, line)` -- Sends an email using `swaks` (Swiss Army Knife for SMTP).
-- `ScanMigratedCommandSet.do_samrdump` (method) `cli/commands/scan_migrated.py:300` `def do_samrdump(self, line)` -- Run `impacket-samrdump` to dump SAM data from specified ports.
-- `ScanMigratedCommandSet.do_lynis` (method) `cli/commands/scan_migrated.py:355` `def do_lynis(self, line)` -- Performs a Lynis audit on the specified remote system.
-- `ScanMigratedCommandSet.do_snmpcheck` (method) `cli/commands/scan_migrated.py:384` `def do_snmpcheck(self, line)` -- Performs an SNMP check on the specified target host.
-- `ScanMigratedCommandSet.do_snmpwalk` (method) `cli/commands/scan_migrated.py:411` `def do_snmpwalk(self, line)` -- Performs an SNMP check on the specified target host.
-- `ScanMigratedCommandSet.do_smtpuserenum` (method) `cli/commands/scan_migrated.py:438` `def do_smtpuserenum(self, line)` -- Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
-- `ScanMigratedCommandSet.do_sessionssh` (method) `cli/commands/scan_migrated.py:477` `def do_sessionssh(self, line)` -- Execute a command to list active SSH connections.
-- `ScanMigratedCommandSet.do_smbattack` (method) `cli/commands/scan_migrated.py:501` `def do_smbattack(self, line)` -- Scans for hosts with SMB service open on port 445 in the specified target network.
-- `ScanMigratedCommandSet.find_tgts` (method) `cli/commands/scan_migrated.py:530` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
-- `ScanMigratedCommandSet.setup_handler` (method) `cli/commands/scan_migrated.py:551` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
-- `ScanMigratedCommandSet.conficker_exploit` (method) `cli/commands/scan_migrated.py:571` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
-- `ScanMigratedCommandSet.smb_brute` (method) `cli/commands/scan_migrated.py:591` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
-- `ScanMigratedCommandSet.do_parsero` (method) `cli/commands/scan_migrated.py:632` `def do_parsero(self, line)` -- Executes a parsero scan on a specified target URL or host.
-- `ScanMigratedCommandSet.do_changeme` (method) `cli/commands/scan_migrated.py:664` `def do_changeme(self, line)` -- Executes a changeme scan on a specified target URL or host.
-- `ScanMigratedCommandSet.do_enum4linux_ng` (method) `cli/commands/scan_migrated.py:695` `def do_enum4linux_ng(self, line)` -- Performs enumeration of information from a target system using `enum4linux-ng`.
-- `ScanMigratedCommandSet.do_fuzz` (method) `cli/commands/scan_migrated.py:733` `def do_fuzz(self, line)` -- Executes a web server fuzzing script with user-provided parameters.
-- `ScanMigratedCommandSet.do_kerbrute` (method) `cli/commands/scan_migrated.py:778` `def do_kerbrute(self, line)` -- Executes the Kerbrute tool to enumerate user accounts against a specified target self.params['domain'] controller.
-- `ScanMigratedCommandSet.do_davtest` (method) `cli/commands/scan_migrated.py:864` `def do_davtest(self, line)` -- Tests WebDAV server configurations using `davtest`.
-- `ScanMigratedCommandSet.do_evil_ssdp` (method) `cli/commands/scan_migrated.py:906` `def do_evil_ssdp(self, line)` -- Runs evil-ssdp with various options and user-selected templates.
-- `ScanMigratedCommandSet.do_netexec` (method) `cli/commands/scan_migrated.py:952` `def do_netexec(self, line)` -- Executes netexec with various options for network protocol operations.
-- `ScanMigratedCommandSet.install_netexec` (method) `cli/commands/scan_migrated.py:978` `def install_netexec()`
-- `ScanMigratedCommandSet.install_netexec_pipx` (method) `cli/commands/scan_migrated.py:983` `def install_netexec_pipx()`
-- `ScanMigratedCommandSet.do_allin` (method) `cli/commands/scan_migrated.py:1172` `def do_allin(self, line)` -- Execute the AlliN.py tool with various scan modes and parameters.
-- `ScanMigratedCommandSet.do_windapsearch` (method) `cli/commands/scan_migrated.py:1245` `def do_windapsearch(self, line)` -- Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
-- `ScanMigratedCommandSet.do_ldapsearch` (method) `cli/commands/scan_migrated.py:1359` `def do_ldapsearch(self, line)` -- Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.
-- `ScanMigratedCommandSet.do_arjun` (method) `cli/commands/scan_migrated.py:1411` `def do_arjun(self, line)` -- Executes an Arjun scan on the specified URL for parameter discovery.
-- `ScanMigratedCommandSet.do_finger_user_enum` (method) `cli/commands/scan_migrated.py:1476` `def do_finger_user_enum(self, line)` -- Executes the `finger-user-enum` tool for enumerating users on the target host.
-- `ScanMigratedCommandSet.do_wpscan` (method) `cli/commands/scan_migrated.py:1524` `def do_wpscan(self, line)` -- Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.
-- `ScanMigratedCommandSet.do_loxs` (method) `cli/commands/scan_migrated.py:1580` `def do_loxs(self, line)` -- Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
-- `ScanMigratedCommandSet.do_blazy` (method) `cli/commands/scan_migrated.py:1624` `def do_blazy(self, line)` -- Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
-- `ScanMigratedCommandSet.do_parth` (method) `cli/commands/scan_migrated.py:1674` `def do_parth(self, line)` -- Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
-- `ScanMigratedCommandSet.do_breacher` (method) `cli/commands/scan_migrated.py:1733` `def do_breacher(self, line)` -- Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
-- `ScanMigratedCommandSet.do_openredirex` (method) `cli/commands/scan_migrated.py:1795` `def do_openredirex(self, line)` -- Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
-- `ScanMigratedCommandSet.do_odat` (method) `cli/commands/scan_migrated.py:1858` `def do_odat(self, line)` -- Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
-- `ScanMigratedCommandSet.do_rpcmap_py` (method) `cli/commands/scan_migrated.py:1971` `def do_rpcmap_py(self, line)` -- Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
-- `ScanMigratedCommandSet.do_pykerbrute` (method) `cli/commands/scan_migrated.py:2015` `def do_pykerbrute(self, line)` -- Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory...
-- `ScanMigratedCommandSet.do_netview` (method) `cli/commands/scan_migrated.py:2080` `def do_netview(self, line)` -- Executes the Impacket netview tool to list network shares on a specified target.
-- `ScanMigratedCommandSet.do_rdp_check_py` (method) `cli/commands/scan_migrated.py:2144` `def do_rdp_check_py(self, line)` -- Executes the RDP check tool to verify credentials or hash-based authentication on a target system.
-- `ScanMigratedCommandSet.do_mqtt_check_py` (method) `cli/commands/scan_migrated.py:2209` `def do_mqtt_check_py(self, line)` -- Executes the MQTT check tool to verify credentials on a target system with optional SSL.
-- `ScanMigratedCommandSet.do_lookupsid_py` (method) `cli/commands/scan_migrated.py:2264` `def do_lookupsid_py(self, line)` -- Executes the LookupSID tool to perform SID enumeration on a target system.
-- `ScanMigratedCommandSet.do_lookupsid` (method) `cli/commands/scan_migrated.py:2335` `def do_lookupsid(self, line)` -- Executes the Impacket lookupsid tool to enumerate SIDs on a target system.
-- `ScanMigratedCommandSet.do_certipy_ad` (method) `cli/commands/scan_migrated.py:2397` `def do_certipy_ad(self, line)` -- Run certipy-ad against Active Directory Certificate Services.
-- `ScanMigratedCommandSet.do_certipy` (method) `cli/commands/scan_migrated.py:2462` `def do_certipy(self, line)` -- Executes the Certipy tool to interact with Active Directory Certificate Services.
-- `ScanMigratedCommandSet.do_sawks` (method) `cli/commands/scan_migrated.py:2545` `def do_sawks(self, line)` -- Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
-- `ScanMigratedCommandSet.do_ad_ldap_enum` (method) `cli/commands/scan_migrated.py:2582` `def do_ad_ldap_enum(self, line)` -- Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) through LDAP, collecting...
-- `ScanMigratedCommandSet.do_net_rpc_addmem` (method) `cli/commands/scan_migrated.py:2636` `def do_net_rpc_addmem(self, line)` -- Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
-- `ScanMigratedCommandSet.do_pre2k` (method) `cli/commands/scan_migrated.py:2682` `def do_pre2k(self, line)` -- Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list...
-- `ScanMigratedCommandSet.do_hound` (method) `cli/commands/scan_migrated.py:2778` `def do_hound(self, line)` -- Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
+- `ScanMigratedCommandSet.do_cme` (method) `cli/commands/scan_migrated.py:34` `def do_cme(self, line)` -- Execute CrackMapExec (CME) for SMB enumeration and authentication attempts against a target.
+- `ScanMigratedCommandSet.do_ldapdomaindump` (method) `cli/commands/scan_migrated.py:173` `def do_ldapdomaindump(self, line)` -- Dumps LDAP information using `ldapdomaindump` with credentials from a file.
+- `ScanMigratedCommandSet.do_bloodhound` (method) `cli/commands/scan_migrated.py:215` `def do_bloodhound(self, line)` -- Perform LDAP enumeration using bloodhound-python with credentials from a file.
+- `ScanMigratedCommandSet.do_swaks` (method) `cli/commands/scan_migrated.py:264` `def do_swaks(self, line)` -- Sends an email using `swaks` (Swiss Army Knife for SMTP).
+- `ScanMigratedCommandSet.do_samrdump` (method) `cli/commands/scan_migrated.py:303` `def do_samrdump(self, line)` -- Run `impacket-samrdump` to dump SAM data from specified ports.
+- `ScanMigratedCommandSet.do_lynis` (method) `cli/commands/scan_migrated.py:358` `def do_lynis(self, line)` -- Performs a Lynis audit on the specified remote system.
+- `ScanMigratedCommandSet.do_snmpcheck` (method) `cli/commands/scan_migrated.py:387` `def do_snmpcheck(self, line)` -- Performs an SNMP check on the specified target host.
+- `ScanMigratedCommandSet.do_snmpwalk` (method) `cli/commands/scan_migrated.py:414` `def do_snmpwalk(self, line)` -- Performs an SNMP check on the specified target host.
+- `ScanMigratedCommandSet.do_smtpuserenum` (method) `cli/commands/scan_migrated.py:441` `def do_smtpuserenum(self, line)` -- Enumerates SMTP users using the `smtp-user-enum` tool with the VRFY method.
+- `ScanMigratedCommandSet.do_sessionssh` (method) `cli/commands/scan_migrated.py:480` `def do_sessionssh(self, line)` -- Execute a command to list active SSH connections.
+- `ScanMigratedCommandSet.do_smbattack` (method) `cli/commands/scan_migrated.py:504` `def do_smbattack(self, line)` -- Scans for hosts with SMB service open on port 445 in the specified target network.
+- `ScanMigratedCommandSet.find_tgts` (method) `cli/commands/scan_migrated.py:533` `def find_tgts(subnet)` -- Finds and returns a list of target hosts with port 445 open in the specified subnet.
+- `ScanMigratedCommandSet.setup_handler` (method) `cli/commands/scan_migrated.py:559` `def setup_handler(config_file, lhost, lport)` -- Sets up a Metasploit multi/handler configuration in the given config file.
+- `ScanMigratedCommandSet.conficker_exploit` (method) `cli/commands/scan_migrated.py:579` `def conficker_exploit(config_file, host, lhost, lport)` -- Configures and writes a Metasploit exploit for the Conficker vulnerability to the given config file.
+- `ScanMigratedCommandSet.smb_brute` (method) `cli/commands/scan_migrated.py:599` `def smb_brute(config_file, host, passwd_file, lhost, lport)` -- Configures and writes a Metasploit SMB brute force exploit for the given host to the provided config file.
+- `ScanMigratedCommandSet.do_parsero` (method) `cli/commands/scan_migrated.py:640` `def do_parsero(self, line)` -- Executes a parsero scan on a specified target URL or host.
+- `ScanMigratedCommandSet.do_changeme` (method) `cli/commands/scan_migrated.py:672` `def do_changeme(self, line)` -- Executes a changeme scan on a specified target URL or host.
+- `ScanMigratedCommandSet.do_enum4linux_ng` (method) `cli/commands/scan_migrated.py:703` `def do_enum4linux_ng(self, line)` -- Performs enumeration of information from a target system using `enum4linux-ng`.
+- `ScanMigratedCommandSet.do_fuzz` (method) `cli/commands/scan_migrated.py:743` `def do_fuzz(self, line)` -- Executes a web server fuzzing script with user-provided parameters.
+- `ScanMigratedCommandSet.do_kerbrute` (method) `cli/commands/scan_migrated.py:788` `def do_kerbrute(self, line)` -- Executes the Kerbrute tool to enumerate user accounts against a specified target self.params['domain'] controller.
+- `ScanMigratedCommandSet.do_davtest` (method) `cli/commands/scan_migrated.py:874` `def do_davtest(self, line)` -- Tests WebDAV server configurations using `davtest`.
+- `ScanMigratedCommandSet.do_evil_ssdp` (method) `cli/commands/scan_migrated.py:915` `def do_evil_ssdp(self, line)` -- Runs evil-ssdp with various options and user-selected templates.
+- `ScanMigratedCommandSet.do_netexec` (method) `cli/commands/scan_migrated.py:961` `def do_netexec(self, line)` -- Executes netexec with various options for network protocol operations.
+- `ScanMigratedCommandSet.install_netexec` (method) `cli/commands/scan_migrated.py:988` `def install_netexec()`
+- `ScanMigratedCommandSet.install_netexec_pipx` (method) `cli/commands/scan_migrated.py:993` `def install_netexec_pipx()`
+- `ScanMigratedCommandSet.do_allin` (method) `cli/commands/scan_migrated.py:1214` `def do_allin(self, line)` -- Execute the AlliN.py tool with various scan modes and parameters.
+- `ScanMigratedCommandSet.do_windapsearch` (method) `cli/commands/scan_migrated.py:1285` `def do_windapsearch(self, line)` -- Execute the windapsearch tool to perform Active Directory Domain enumeration through LDAP queries.
+- `ScanMigratedCommandSet.do_ldapsearch` (method) `cli/commands/scan_migrated.py:1413` `def do_ldapsearch(self, line)` -- Executes an LDAP search against a target remote host (self.params['rhost']) and saves the results.
+- `ScanMigratedCommandSet.do_arjun` (method) `cli/commands/scan_migrated.py:1474` `def do_arjun(self, line)` -- Executes an Arjun scan on the specified URL for parameter discovery.
+- `ScanMigratedCommandSet.do_finger_user_enum` (method) `cli/commands/scan_migrated.py:1542` `def do_finger_user_enum(self, line)` -- Executes the `finger-user-enum` tool for enumerating users on the target host.
+- `ScanMigratedCommandSet.do_wpscan` (method) `cli/commands/scan_migrated.py:1588` `def do_wpscan(self, line)` -- Command wpscan: Installs and runs WPScan to perform WordPress vulnerability scanning.
+- `ScanMigratedCommandSet.do_loxs` (method) `cli/commands/scan_migrated.py:1651` `def do_loxs(self, line)` -- Command loxs: Installs and runs Loxs for multi-vulnerability web application scanning.
+- `ScanMigratedCommandSet.do_blazy` (method) `cli/commands/scan_migrated.py:1695` `def do_blazy(self, line)` -- Command blazy: Installs and runs blazy for multi-vulnerability web application scanning.
+- `ScanMigratedCommandSet.do_parth` (method) `cli/commands/scan_migrated.py:1744` `def do_parth(self, line)` -- Command parth: Installs and runs Parth for discovering vulnerable URLs and parameters.
+- `ScanMigratedCommandSet.do_breacher` (method) `cli/commands/scan_migrated.py:1813` `def do_breacher(self, line)` -- Command breacher: Installs and runs Breacher for finding admin login pages and EAR vulnerabilities.
+- `ScanMigratedCommandSet.do_openredirex` (method) `cli/commands/scan_migrated.py:1875` `def do_openredirex(self, line)` -- Command openredirex: Clones, installs, and runs OpenRedirex for testing open redirection vulnerabilities.
+- `ScanMigratedCommandSet.do_odat` (method) `cli/commands/scan_migrated.py:1943` `def do_odat(self, line)` -- Command odat: Runs the ODAT sidguesser module to guess Oracle SIDs on a target Oracle database.
+- `ScanMigratedCommandSet.do_rpcmap_py` (method) `cli/commands/scan_migrated.py:2061` `def do_rpcmap_py(self, line)` -- Command rpcmap_py: Executes rpcmap.py commands to enumerate MSRPC interfaces.
+- `ScanMigratedCommandSet.do_pykerbrute` (method) `cli/commands/scan_migrated.py:2104` `def do_pykerbrute(self, line)` -- Command pykerbrute: Automates the installation and execution of PyKerbrute for bruteforcing Active Directory...
+- `ScanMigratedCommandSet.do_netview` (method) `cli/commands/scan_migrated.py:2174` `def do_netview(self, line)` -- Executes the Impacket netview tool to list network shares on a specified target.
+- `ScanMigratedCommandSet.do_rdp_check_py` (method) `cli/commands/scan_migrated.py:2238` `def do_rdp_check_py(self, line)` -- Executes the RDP check tool to verify credentials or hash-based authentication on a target system.
+- `ScanMigratedCommandSet.do_mqtt_check_py` (method) `cli/commands/scan_migrated.py:2303` `def do_mqtt_check_py(self, line)` -- Executes the MQTT check tool to verify credentials on a target system with optional SSL.
+- `ScanMigratedCommandSet.do_lookupsid_py` (method) `cli/commands/scan_migrated.py:2358` `def do_lookupsid_py(self, line)` -- Executes the LookupSID tool to perform SID enumeration on a target system.
+- `ScanMigratedCommandSet.do_lookupsid` (method) `cli/commands/scan_migrated.py:2431` `def do_lookupsid(self, line)` -- Executes the Impacket lookupsid tool to enumerate SIDs on a target system.
+- `ScanMigratedCommandSet.do_certipy_ad` (method) `cli/commands/scan_migrated.py:2493` `def do_certipy_ad(self, line)` -- Run certipy-ad against Active Directory Certificate Services.
+- `ScanMigratedCommandSet.do_certipy` (method) `cli/commands/scan_migrated.py:2557` `def do_certipy(self, line)` -- Executes the Certipy tool to interact with Active Directory Certificate Services.
+- `ScanMigratedCommandSet.do_sawks` (method) `cli/commands/scan_migrated.py:2651` `def do_sawks(self, line)` -- Executes the Swaks (Swiss Army Knife for SMTP) tool to send test emails for phishing simulations.
+- `ScanMigratedCommandSet.do_ad_ldap_enum` (method) `cli/commands/scan_migrated.py:2688` `def do_ad_ldap_enum(self, line)` -- Executes ad-ldap-enum to enumerate Active Directory objects (users, groups, computers) through LDAP, collecting...
+- `ScanMigratedCommandSet.do_net_rpc_addmem` (method) `cli/commands/scan_migrated.py:2742` `def do_net_rpc_addmem(self, line)` -- Executes the net rpc group addmem command to add a user to a specified group in Active Directory.
+- `ScanMigratedCommandSet.do_pre2k` (method) `cli/commands/scan_migrated.py:2788` `def do_pre2k(self, line)` -- Executes the pre2k tool to query the self.params['domain'] for pre-Windows 2000 machine accounts or to pass a list...
+- `ScanMigratedCommandSet.do_hound` (method) `cli/commands/scan_migrated.py:2881` `def do_hound(self, line)` -- Executes the hound tool for Hound is a simple and light tool for information gathering and capture exact GPS coordinates
 
 ## cli/commands/security.py
 Depends on: `cli/commands/_base.py`, `core/config.py`, `core/console.py`, `core/credential_vault.py`, `modules/hash_cracker.py`, `modules/opsec_scorer.py`
@@ -188,35 +188,35 @@ Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_
 Imported by: `tests/test_session_ops_command_set.py`
 - `SessionOpsCommandSet.do_note` (method) `cli/commands/session_ops.py:79` `def do_note(self, line)` -- Capture a quick operator note attached to the current target and phase.
 - `SessionOpsCommandSet.do_l00t` (method) `cli/commands/session_ops.py:104` `def do_l00t(self, line)` -- Unified loot: show, search, reuse, graph, and mark credentials.
-- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:155` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
-- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:163` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
-- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:188` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
-- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:221` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
-- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:238` `def do_sitrep(self, line)` -- Print a unified operational situation report.
-- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:255` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
-- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:307` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
-- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:380` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
-- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:446` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
-- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:520` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
-- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:555` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
-- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:594` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
-- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:645` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
-- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:689` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
-- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:740` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
-- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:868` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
-- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:961` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
-- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:993` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
-- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1074` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
-- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1094` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
-- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1132` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
-- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1165` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
-- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1196` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
-- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1243` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
-- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1284` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
-- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1332` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
-- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1344` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
-- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1395` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
-- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1439` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
+- `SessionOpsCommandSet.do_loot` (method) `cli/commands/session_ops.py:153` `def do_loot(self, line)` -- Alias for ``l00t`` — unified loot (show/search/reuse/graph/mark).
+- `SessionOpsCommandSet.do_pivot` (method) `cli/commands/session_ops.py:161` `def do_pivot(self, line)` -- Record a newly discovered pivot target or show the pivot chain.
+- `SessionOpsCommandSet.do_tasks` (method) `cli/commands/session_ops.py:186` `def do_tasks(self, line)` -- View and manage the task queue from sessions/tasks.json.
+- `SessionOpsCommandSet.do_scans` (method) `cli/commands/session_ops.py:219` `def do_scans(self, line)` -- List nmap scan files in sessions/ with age, size, and open ports.
+- `SessionOpsCommandSet.do_sitrep` (method) `cli/commands/session_ops.py:236` `def do_sitrep(self, line)` -- Print a unified operational situation report.
+- `SessionOpsCommandSet.do_assign` (method) `cli/commands/session_ops.py:253` `def do_assign(self, line)` -- assign a parameter value, persist to payload.json and refresh aliases.
+- `SessionOpsCommandSet.do_tenant` (method) `cli/commands/session_ops.py:306` `def do_tenant(self, line)` -- Manage multi-tenancy: list, switch, or create engagement tenants.
+- `SessionOpsCommandSet.do_scope` (method) `cli/commands/session_ops.py:379` `def do_scope(self, line)` -- Manage the authorized engagement scope and the scope-guard posture.
+- `SessionOpsCommandSet.do_show` (method) `cli/commands/session_ops.py:445` `def do_show(self, line)` -- Show params, modules, payloads, or active module options.
+- `SessionOpsCommandSet.do_list` (method) `cli/commands/session_ops.py:521` `def do_list(self, line)` -- Lists all available scripts in the modules directory.
+- `SessionOpsCommandSet.do_run` (method) `cli/commands/session_ops.py:550` `def do_run(self, line)` -- Runs a specific LazyOwn script or active module.
+- `SessionOpsCommandSet.do_payload` (method) `cli/commands/session_ops.py:589` `def do_payload(self, line)` -- Load parameters from a specified payload JSON file.
+- `SessionOpsCommandSet.do_next` (method) `cli/commands/session_ops.py:640` `def do_next(self, line)` -- Show next-step recommendations or execute the active autosuggest.
+- `SessionOpsCommandSet.do_chainmode` (method) `cli/commands/session_ops.py:684` `def do_chainmode(self, line)` -- Toggle interactive kill-chain chaining after every command.
+- `SessionOpsCommandSet.do_engage` (method) `cli/commands/session_ops.py:735` `def do_engage(self, line)` -- Drive a single target through the full kill-chain in one command.
+- `SessionOpsCommandSet.do_pipeline` (method) `cli/commands/session_ops.py:862` `def do_pipeline(self, line)` -- Declarative composition layer: run a YAML pipeline of LazyOwn commands.
+- `SessionOpsCommandSet.do_lazyscript` (method) `cli/commands/session_ops.py:953` `def do_lazyscript(self, line)` -- Executes commands defined in a lazyscript file.
+- `SessionOpsCommandSet.do_hunt` (method) `cli/commands/session_ops.py:985` `def do_hunt(self, line)` -- Run an autonomous exploitation chain against a target.
+- `SessionOpsCommandSet.do_resume` (method) `cli/commands/session_ops.py:1067` `def do_resume(self, line)` -- Browse previous sessions and load a target from a past engagement.
+- `SessionOpsCommandSet.do_getseclist` (method) `cli/commands/session_ops.py:1089` `def do_getseclist(self, line)` -- Get the SecLists wordlist from GitHub.
+- `SessionOpsCommandSet.do_download_resources` (method) `cli/commands/session_ops.py:1127` `def do_download_resources(self, line)` -- Downloads resources into the `sessions` directory.
+- `SessionOpsCommandSet.do_collab_join` (method) `cli/commands/session_ops.py:1160` `def do_collab_join(self, line)` -- Print the multi-operator collaboration join URL and SSE endpoint.
+- `SessionOpsCommandSet.do_kick` (method) `cli/commands/session_ops.py:1191` `def do_kick(self, line)` -- Handles the process of sending a spoofed ARP packet to a specified IP address with a given MAC address.
+- `SessionOpsCommandSet.do_qa` (method) `cli/commands/session_ops.py:1240` `def do_qa(self, line)` -- Exits the application quickly without confirmation.
+- `SessionOpsCommandSet.do_clock` (method) `cli/commands/session_ops.py:1281` `def do_clock(self, line)` -- Displays the current date and time, and runs a custom shell script.
+- `SessionOpsCommandSet.do_gencert` (method) `cli/commands/session_ops.py:1329` `def do_gencert(self, line)` -- Generates a certificate authority (CA), client certificate, and client key.
+- `SessionOpsCommandSet.do_load_session` (method) `cli/commands/session_ops.py:1341` `def do_load_session(self, line)` -- Load the session from the sessionLazyOwn.json file and display the status of various parameters.
+- `SessionOpsCommandSet.do_clone_site` (method) `cli/commands/session_ops.py:1391` `def do_clone_site(self, line)` -- Clone a website and serve the files in sessions/{url_cloned}.
+- `SessionOpsCommandSet.do_msfshellcoder` (method) `cli/commands/session_ops.py:1437` `def do_msfshellcoder(self, line)` -- Generate shellcode in C format using msfvenom for either a custom command or a reverse shell payload.
 
 ## cli/commands/shellsys.py
 Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
@@ -224,14 +224,14 @@ Imported by: `tests/test_shellsys_command_set.py`
 - `ShellSysCommandSet.do_sh` (method) `cli/commands/shellsys.py:30` `def do_sh(self, line)` -- Executes a shell command directly from the LazyOwn interface.
 - `ShellSysCommandSet.do_sys` (method) `cli/commands/shellsys.py:62` `def do_sys(self, line)` -- Executes a shell command directly from the LazyOwn interface.
 - `ShellSysCommandSet.do_pwd` (method) `cli/commands/shellsys.py:110` `def do_pwd(self, line)` -- Displays the current working directory and lists files, and copies the current directory path to the clipboard.
-- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:148` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
-- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:172` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
-- `ShellSysCommandSet.lazyrun_command` (method) `cli/commands/shellsys.py:207` `def lazyrun_command()`
-- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:218` `def do_clean(self, line)` -- Deletes files and directories in the `sessions` directory, excluding specified files and directories.
-- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:305` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
-- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:338` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
-- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:371` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
-- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:408` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
+- `ShellSysCommandSet.do_nano` (method) `cli/commands/shellsys.py:146` `def do_nano(self, line)` -- Opens or creates the file using line in the sessions directory for editing using nano.
+- `ShellSysCommandSet.do_cron` (method) `cli/commands/shellsys.py:170` `def do_cron(self, line)` -- Schedules a command to run at a specified time.
+- `ShellSysCommandSet.lazyrun_command` (method) `cli/commands/shellsys.py:205` `def lazyrun_command()`
+- `ShellSysCommandSet.do_clean` (method) `cli/commands/shellsys.py:216` `def do_clean(self, line)` -- Deletes files and directories in the `sessions` directory, excluding specified files and directories.
+- `ShellSysCommandSet.do_fixperm` (method) `cli/commands/shellsys.py:303` `def do_fixperm(self, line)` -- Fix permissions for LazyOwn shell scripts.
+- `ShellSysCommandSet.do_fixel` (method) `cli/commands/shellsys.py:336` `def do_fixel(self, line)` -- Fixes file permissions and line endings in the project directories.
+- `ShellSysCommandSet.do_pop` (method) `cli/commands/shellsys.py:369` `def do_pop(self, line)` -- Open a centered popup in the current tmux session to execute a shell command.
+- `ShellSysCommandSet.do_tab` (method) `cli/commands/shellsys.py:406` `def do_tab(self, line)` -- Executes the `lazypyautogui.py` script with optional arguments.
 
 ## cli/commands/sleep_obfuscation.py
 Depends on: `cli/commands/_base.py`, `modules/sleep_obfuscation.py`, `utils.py`
@@ -308,29 +308,29 @@ Imported by: `cli/commands/misc_migrated.py`, `tests/test_dashboard_tui.py`
 - `KillChainPanel.__init__` (method) `cli/dashboard_tui.py:393` `def __init__(self)`
 - `KillChainPanel.update_data` (method) `cli/dashboard_tui.py:397` `def update_data(self, progress)` -- Render kill-chain progress.
 - `KillChainPanel.on_click` (method) `cli/dashboard_tui.py:418` `def on_click(self, event)` -- Select the phase whose row was clicked.
-- `ConfigPanel.update_data` (method) `cli/dashboard_tui.py:443` `def update_data(self, payload)`
-- `CommandsPanel.update_data` (method) `cli/dashboard_tui.py:473` `def update_data(self, commands)`
-- `ReasoningPanel.update_data` (method) `cli/dashboard_tui.py:508` `def update_data(self, entries)` -- Render the most recent daemon decisions, newest first.
-- `OpsPanel.update_data` (method) `cli/dashboard_tui.py:545` `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
-- `HintBar.__init__` (method) `cli/dashboard_tui.py:611` `def __init__(self)`
-- `HintBar.compose` (method) `cli/dashboard_tui.py:616` `def compose(self)`
-- `HintBar.update_data` (method) `cli/dashboard_tui.py:620` `def update_data(self, hints)` -- Replace the hint buttons with one button per suggestion.
-- `HintBar.on_button_pressed` (method) `cli/dashboard_tui.py:645` `def on_button_pressed(self, event)` -- Run the clicked suggestion as if it had been typed.
-- `ToastPanel.update_data` (method) `cli/dashboard_tui.py:672` `def update_data(self, payload, sessions_dir, width)` -- Render the latest notifications for the active theme.
-- `NextStepsPanel.update_data` (method) `cli/dashboard_tui.py:720` `def update_data(self, recommendations)`
-- `LazyOwnDashboard.__init__` (method) `cli/dashboard_tui.py:809` `def __init__(self, payload_path, sessions_dir)`
-- `LazyOwnDashboard.compose` (method) `cli/dashboard_tui.py:838` `def compose(self)`
-- `LazyOwnDashboard.on_mount` (method) `cli/dashboard_tui.py:857` `def on_mount(self)`
-- `LazyOwnDashboard.on_input_submitted` (method) `cli/dashboard_tui.py:862` `def on_input_submitted(self, event)` -- Run the typed command and clear the input.
-- `LazyOwnDashboard.on_command_requested` (method) `cli/dashboard_tui.py:874` `def on_command_requested(self, event)` -- Dispatch a command in a worker so the UI never blocks.
-- `LazyOwnDashboard.on_phase_selected` (method) `cli/dashboard_tui.py:914` `def on_phase_selected(self, event)` -- Filter the center panel to a phase chosen by clicking the kill chain.
-- `LazyOwnDashboard.action_refresh_data` (method) `cli/dashboard_tui.py:925` `def action_refresh_data(self)`
-- `LazyOwnDashboard.action_toggle_compact` (method) `cli/dashboard_tui.py:928` `def action_toggle_compact(self)` -- Toggle the compact single-column layout for narrow terminals.
-- `LazyOwnDashboard.action_screenshot` (method) `cli/dashboard_tui.py:958` `def action_screenshot(self)` -- Save an SVG screenshot next to the sessions directory.
-- `LazyOwnDashboard.action_export_snapshot` (method) `cli/dashboard_tui.py:969` `def action_export_snapshot(self)` -- Export the current dashboard data as JSON for automation.
-- `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:989` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
-- `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:993` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
-- `LazyOwnDashboard.launch` (method) `cli/dashboard_tui.py:1069` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
+- `ConfigPanel.update_data` (method) `cli/dashboard_tui.py:442` `def update_data(self, payload)`
+- `CommandsPanel.update_data` (method) `cli/dashboard_tui.py:472` `def update_data(self, commands)`
+- `ReasoningPanel.update_data` (method) `cli/dashboard_tui.py:507` `def update_data(self, entries)` -- Render the most recent daemon decisions, newest first.
+- `OpsPanel.update_data` (method) `cli/dashboard_tui.py:544` `def update_data(self, world, tasks, creds, hashes, beacons, cred_lines)`
+- `HintBar.__init__` (method) `cli/dashboard_tui.py:610` `def __init__(self)`
+- `HintBar.compose` (method) `cli/dashboard_tui.py:615` `def compose(self)`
+- `HintBar.update_data` (method) `cli/dashboard_tui.py:619` `def update_data(self, hints)` -- Replace the hint buttons with one button per suggestion.
+- `HintBar.on_button_pressed` (method) `cli/dashboard_tui.py:644` `def on_button_pressed(self, event)` -- Run the clicked suggestion as if it had been typed.
+- `ToastPanel.update_data` (method) `cli/dashboard_tui.py:671` `def update_data(self, payload, sessions_dir, width)` -- Render the latest notifications for the active theme.
+- `NextStepsPanel.update_data` (method) `cli/dashboard_tui.py:718` `def update_data(self, recommendations)`
+- `LazyOwnDashboard.__init__` (method) `cli/dashboard_tui.py:807` `def __init__(self, payload_path, sessions_dir)`
+- `LazyOwnDashboard.compose` (method) `cli/dashboard_tui.py:836` `def compose(self)`
+- `LazyOwnDashboard.on_mount` (method) `cli/dashboard_tui.py:855` `def on_mount(self)`
+- `LazyOwnDashboard.on_input_submitted` (method) `cli/dashboard_tui.py:860` `def on_input_submitted(self, event)` -- Run the typed command and clear the input.
+- `LazyOwnDashboard.on_command_requested` (method) `cli/dashboard_tui.py:872` `def on_command_requested(self, event)` -- Dispatch a command in a worker so the UI never blocks.
+- `LazyOwnDashboard.on_phase_selected` (method) `cli/dashboard_tui.py:912` `def on_phase_selected(self, event)` -- Filter the center panel to a phase chosen by clicking the kill chain.
+- `LazyOwnDashboard.action_refresh_data` (method) `cli/dashboard_tui.py:923` `def action_refresh_data(self)`
+- `LazyOwnDashboard.action_toggle_compact` (method) `cli/dashboard_tui.py:926` `def action_toggle_compact(self)` -- Toggle the compact single-column layout for narrow terminals.
+- `LazyOwnDashboard.action_screenshot` (method) `cli/dashboard_tui.py:956` `def action_screenshot(self)` -- Save an SVG screenshot next to the sessions directory.
+- `LazyOwnDashboard.action_export_snapshot` (method) `cli/dashboard_tui.py:967` `def action_export_snapshot(self)` -- Export the current dashboard data as JSON for automation.
+- `LazyOwnDashboard.action_next_phase` (method) `cli/dashboard_tui.py:987` `def action_next_phase(self)` -- Advance to the next kill-chain phase and refresh the display.
+- `LazyOwnDashboard.action_prev_phase` (method) `cli/dashboard_tui.py:991` `def action_prev_phase(self)` -- Step back to the previous kill-chain phase.
+- `LazyOwnDashboard.launch` (method) `cli/dashboard_tui.py:1064` `def launch(payload_path, sessions_dir)` -- Launch the dashboard and block until the user quits.
 
 ## cli/doctor.py
 Depends on: `cli/wizard.py`, `core/console.py`, `core/profiles.py`

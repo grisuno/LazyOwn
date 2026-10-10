@@ -24,37 +24,37 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `SessionOpsCommandSet` (class, line 72) `class SessionOpsCommandSet(LazyOwnCommandSet)`
   - `do_note` (method, line 79) `def do_note(self, line)`
   - `do_l00t` (method, line 104) `def do_l00t(self, line)`
-  - `do_loot` (method, line 155) `def do_loot(self, line)`
-  - `do_pivot` (method, line 163) `def do_pivot(self, line)`
-  - `do_tasks` (method, line 188) `def do_tasks(self, line)`
-  - `do_scans` (method, line 221) `def do_scans(self, line)`
-  - `do_sitrep` (method, line 238) `def do_sitrep(self, line)`
-  - `do_assign` (method, line 255) `def do_assign(self, line)`
-  - `do_tenant` (method, line 307) `def do_tenant(self, line)`
-  - `do_scope` (method, line 380) `def do_scope(self, line)`
-  - `do_show` (method, line 446) `def do_show(self, line)`
-  - `do_list` (method, line 520) `def do_list(self, line)`
-  - `do_run` (method, line 555) `def do_run(self, line)`
-  - `do_payload` (method, line 594) `def do_payload(self, line)`
-  - `do_next` (method, line 645) `def do_next(self, line)`
-  - `do_chainmode` (method, line 689) `def do_chainmode(self, line)`
-  - `do_engage` (method, line 740) `def do_engage(self, line)`
-  - `do_pipeline` (method, line 868) `def do_pipeline(self, line)`
-  - `do_lazyscript` (method, line 961) `def do_lazyscript(self, line)`
-  - `do_hunt` (method, line 993) `def do_hunt(self, line)`
-  - `do_resume` (method, line 1074) `def do_resume(self, line)`
-  - `do_getseclist` (method, line 1094) `def do_getseclist(self, line)`
-  - `do_download_resources` (method, line 1132) `def do_download_resources(self, line)`
-  - `do_collab_join` (method, line 1165) `def do_collab_join(self, line)`
-  - `do_kick` (method, line 1196) `def do_kick(self, line)`
-  - `do_qa` (method, line 1243) `def do_qa(self, line)`
-  - `do_clock` (method, line 1284) `def do_clock(self, line)`
-  - `do_gencert` (method, line 1332) `def do_gencert(self, line)`
-  - `do_load_session` (method, line 1344) `def do_load_session(self, line)`
-  - `do_clone_site` (method, line 1395) `def do_clone_site(self, line)`
-  - `do_msfshellcoder` (method, line 1439) `def do_msfshellcoder(self, line)`
-  - `_flag_value` (method, line 804) `def _flag_value(flag_name)`
-  - `_flag_value` (method, line 919) `def _flag_value(flag_name)`
+  - `do_loot` (method, line 153) `def do_loot(self, line)`
+  - `do_pivot` (method, line 161) `def do_pivot(self, line)`
+  - `do_tasks` (method, line 186) `def do_tasks(self, line)`
+  - `do_scans` (method, line 219) `def do_scans(self, line)`
+  - `do_sitrep` (method, line 236) `def do_sitrep(self, line)`
+  - `do_assign` (method, line 253) `def do_assign(self, line)`
+  - `do_tenant` (method, line 306) `def do_tenant(self, line)`
+  - `do_scope` (method, line 379) `def do_scope(self, line)`
+  - `do_show` (method, line 445) `def do_show(self, line)`
+  - `do_list` (method, line 521) `def do_list(self, line)`
+  - `do_run` (method, line 550) `def do_run(self, line)`
+  - `do_payload` (method, line 589) `def do_payload(self, line)`
+  - `do_next` (method, line 640) `def do_next(self, line)`
+  - `do_chainmode` (method, line 684) `def do_chainmode(self, line)`
+  - `do_engage` (method, line 735) `def do_engage(self, line)`
+  - `do_pipeline` (method, line 862) `def do_pipeline(self, line)`
+  - `do_lazyscript` (method, line 953) `def do_lazyscript(self, line)`
+  - `do_hunt` (method, line 985) `def do_hunt(self, line)`
+  - `do_resume` (method, line 1067) `def do_resume(self, line)`
+  - `do_getseclist` (method, line 1089) `def do_getseclist(self, line)`
+  - `do_download_resources` (method, line 1127) `def do_download_resources(self, line)`
+  - `do_collab_join` (method, line 1160) `def do_collab_join(self, line)`
+  - `do_kick` (method, line 1191) `def do_kick(self, line)`
+  - `do_qa` (method, line 1240) `def do_qa(self, line)`
+  - `do_clock` (method, line 1281) `def do_clock(self, line)`
+  - `do_gencert` (method, line 1329) `def do_gencert(self, line)`
+  - `do_load_session` (method, line 1341) `def do_load_session(self, line)`
+  - `do_clone_site` (method, line 1391) `def do_clone_site(self, line)`
+  - `do_msfshellcoder` (method, line 1437) `def do_msfshellcoder(self, line)`
+  - `_flag_value` (method, line 799) `def _flag_value(flag_name)`
+  - `_flag_value` (method, line 911) `def _flag_value(flag_name)`
 - Depends on: `cli/aliases.py`, `cli/assign.py`, `cli/autosuggest.py`, `cli/chain_mode.py`, `cli/commands/_base.py`, `cli/config_history.py`, `cli/ops_commands.py`, `cli/session_resumer.py`, `cli/show.py`, `core/config.py`, `modules/autonomous_exploit_engine.py`, `modules/lazy_rbac.py`, `modules/module_registry.py`, `modules/payload_factory.py`, `modules/pipeline_engine.py`, `skills/autonomous_daemon.py`, `utils.py`
 - Imported by: `tests/test_session_ops_command_set.py`
 
@@ -67,14 +67,14 @@ Previous: [KB_commands_p3.md](KB_commands_p3.md)
   - `do_sh` (method, line 30) `def do_sh(self, line)`
   - `do_sys` (method, line 62) `def do_sys(self, line)`
   - `do_pwd` (method, line 110) `def do_pwd(self, line)`
-  - `do_nano` (method, line 148) `def do_nano(self, line)`
-  - `do_cron` (method, line 172) `def do_cron(self, line)`
-  - `do_clean` (method, line 218) `def do_clean(self, line)`
-  - `do_fixperm` (method, line 305) `def do_fixperm(self, line)`
-  - `do_fixel` (method, line 338) `def do_fixel(self, line)`
-  - `do_pop` (method, line 371) `def do_pop(self, line)`
-  - `do_tab` (method, line 408) `def do_tab(self, line)`
-  - `lazyrun_command` (method, line 207) `def lazyrun_command()`
+  - `do_nano` (method, line 146) `def do_nano(self, line)`
+  - `do_cron` (method, line 170) `def do_cron(self, line)`
+  - `do_clean` (method, line 216) `def do_clean(self, line)`
+  - `do_fixperm` (method, line 303) `def do_fixperm(self, line)`
+  - `do_fixel` (method, line 336) `def do_fixel(self, line)`
+  - `do_pop` (method, line 369) `def do_pop(self, line)`
+  - `do_tab` (method, line 406) `def do_tab(self, line)`
+  - `lazyrun_command` (method, line 205) `def lazyrun_command()`
 - Depends on: `cli/commands/_base.py`, `core/safe_exec.py`, `utils.py`
 - Imported by: `tests/test_shellsys_command_set.py`
 

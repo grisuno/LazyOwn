@@ -3,6 +3,11 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `parseGradient` | function | `static/js/html2pdf.bundle.min.js:5112` | `` |
+| `parseLetterSpacing` | function | `static/js/html2pdf.bundle.min.js:1994` | `` |
+| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
+| `parseLine` | function | `static/js/html2pdf.bundle.min.js:519` | `` |
+| `parseLineBreak` | function | `static/js/html2pdf.bundle.min.js:2015` | `` |
 | `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
 | `parseLinearGradient` | function | `static/js/html2pdf.bundle.min.js:5178` | `` |
 | `parseListStyle` | function | `static/js/html2pdf.bundle.min.js:2214` | `` |
@@ -491,10 +496,5 @@ Previous: [SYMBOLS_p23.md](SYMBOLS_p23.md)
 | `qx` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 | `rO` | function | `static/js/vis-network-9.1.2.min.js:47` | `` |
 | `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `s` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `sk` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `su` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:26` | `` |
-| `t` | function | `static/js/vis-network-9.1.2.min.js:33` | `` |
 
 Next: [SYMBOLS_p25.md](SYMBOLS_p25.md)

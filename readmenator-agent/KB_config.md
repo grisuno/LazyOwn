@@ -74,11 +74,11 @@
   - `last_teamserver_url` (method, line 84) `def last_teamserver_url(self)`
   - `last_teamserver_url` (method, line 94) `def last_teamserver_url(self, value)`
   - `last_operator_name` (method, line 98) `def last_operator_name(self)`
-  - `last_operator_name` (method, line 103) `def last_operator_name(self, value)`
-  - `last_teamserver_password` (method, line 107) `def last_teamserver_password(self)`
-  - `last_teamserver_password` (method, line 112) `def last_teamserver_password(self, value)`
-  - `c2_credentials_loaded` (method, line 116) `def c2_credentials_loaded(self)`
-  - `c2_credentials_loaded` (method, line 121) `def c2_credentials_loaded(self, value)`
-  - `snapshot` (method, line 124) `def snapshot(self)`
+  - `last_operator_name` (method, line 107) `def last_operator_name(self, value)`
+  - `last_teamserver_password` (method, line 111) `def last_teamserver_password(self)`
+  - `last_teamserver_password` (method, line 116) `def last_teamserver_password(self, value)`
+  - `c2_credentials_loaded` (method, line 120) `def c2_credentials_loaded(self)`
+  - `c2_credentials_loaded` (method, line 125) `def c2_credentials_loaded(self, value)`
+  - `snapshot` (method, line 128) `def snapshot(self)`
 - Depends on: `core/logging.py`, `lazygui/config/constants.py`, `lazygui/config/paths.py`
 - Imported by: `lazygui/app.py`, `lazygui/config/__init__.py`, `lazygui/theme/manager.py`, `lazygui/windows/connect_dialog.py`, `lazygui/windows/main_window.py`

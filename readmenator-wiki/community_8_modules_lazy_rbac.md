@@ -90,15 +90,15 @@ This community groups 23 file(s) rooted at `modules` with dominant language py (
 - `_range_list` (method, `cli/commands/lab.py:284`) `def _range_list(self)` - Display available cyber range profiles.
 - `_range_compose` (method, `cli/commands/lab.py:293`) `def _range_compose(self, profile)` - Resolve the compose file for a range profile.
 - `_range_start` (method, `cli/commands/lab.py:312`) `def _range_start(self, profile)` - Start a cyber range profile via Docker Compose.
-- `_range_container_state` (method, `cli/commands/lab.py:347`) `def _range_container_state(self, container)` - Read a container's lifecycle state.
-- `_range_wait_healthy` (method, `cli/commands/lab.py:370`) `def _range_wait_healthy(self, compose, timeout)` - Wait for range containers to run and probe host-side ports.
-- `_range_verify` (method, `cli/commands/lab.py:402`) `def _range_verify(self, profile)` - Prove the range is exploitable by firing a real exploit.
-- `_tcp_reachable` (method, `cli/commands/lab.py:438`) `def _tcp_reachable(host, port, timeout)` - Probe one TCP port from this host.
-- `_ensure_range_secret` (method, `cli/commands/lab.py:455`) `def _ensure_range_secret(self, profile_dir)` - Generate the DC admin secret file when missing.
-- `_range_container_ip` (method, `cli/commands/lab.py:485`) `def _range_container_ip(self, container)` - Resolve a range container's IP on its compose network.
-- `_range_stop` (method, `cli/commands/lab.py:508`) `def _range_stop(self, profile)` - Stop a cyber range profile.
-- `_range_status` (method, `cli/commands/lab.py:524`) `def _range_status(self)` - Show range container status.
-- `_lab_status` (method, `cli/commands/lab.py:536`) `def _lab_status(self)` - Show currently running lab containers.
+- `_range_container_state` (method, `cli/commands/lab.py:351`) `def _range_container_state(self, container)` - Read a container's lifecycle state.
+- `_range_wait_healthy` (method, `cli/commands/lab.py:374`) `def _range_wait_healthy(self, compose, timeout)` - Wait for range containers to run and probe host-side ports.
+- `_range_verify` (method, `cli/commands/lab.py:406`) `def _range_verify(self, profile)` - Prove the range is exploitable by firing a real exploit.
+- `_tcp_reachable` (method, `cli/commands/lab.py:442`) `def _tcp_reachable(host, port, timeout)` - Probe one TCP port from this host.
+- `_ensure_range_secret` (method, `cli/commands/lab.py:459`) `def _ensure_range_secret(self, profile_dir)` - Generate the DC admin secret file when missing.
+- `_range_container_ip` (method, `cli/commands/lab.py:489`) `def _range_container_ip(self, container)` - Resolve a range container's IP on its compose network.
+- `_range_stop` (method, `cli/commands/lab.py:518`) `def _range_stop(self, profile)` - Stop a cyber range profile.
+- `_range_status` (method, `cli/commands/lab.py:536`) `def _range_status(self)` - Show range container status.
+- `_lab_status` (method, `cli/commands/lab.py:548`) `def _lab_status(self)` - Show currently running lab containers.
 - `RedTeamGymCommandSet` (class, `cli/commands/redteam_gym.py:32`) `class RedTeamGymCommandSet(LazyOwnCommandSet)` - Red Team Gym — scored pentest challenges with leaderboards.
 - `do_gym` (method, `cli/commands/redteam_gym.py:39`) `def do_gym(self, line)` - Red Team Gym — gamified pentest training with ELO scoring.
 - `_gym_list` (method, `cli/commands/redteam_gym.py:83`) `def _gym_list(self)` - Display all available gym challenges.
@@ -117,8 +117,8 @@ This community groups 23 file(s) rooted at `modules` with dominant language py (
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/cli_auth.py` via `subprocess` (1 hops)
+- [taint high] `cli/banner_config.py` -> `cli/engagement_hooks.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `modules/lazy_rbac.py` via `subprocess` (2 hops)
 - [cycle] `cli/engagement_hooks.py` -> `modules/cli_auth.py` -> `cli/engagement_hooks.py`
 

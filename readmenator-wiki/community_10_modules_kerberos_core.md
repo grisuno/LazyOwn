@@ -35,21 +35,21 @@ This community groups 7 file(s) rooted at `modules` with dominant language py (c
 - `parse_bloodhound_acls` (method, `modules/dacl_abuse.py:143`) `def parse_bloodhound_acls(self, edges)` - Parse BloodHound edge data to extract exploitable ACLs.
 - `parse_raw_aces` (method, `modules/dacl_abuse.py:182`) `def parse_raw_aces(self, raw_nthashes)` - Parse raw ACE data from ntSecurityDescriptor parsing.
 - `compute_attack_chains` (method, `modules/dacl_abuse.py:224`) `def compute_attack_chains(self)` - Generate exploitation plans for all discovered ACL targets.
-- `adminsdholder_abuse_plan` (method, `modules/dacl_abuse.py:289`) `def adminsdholder_abuse_plan(self, target_sid)` - Generate an AdminSDHolder abuse plan.
-- `dcsync_rights_assignment_plan` (method, `modules/dacl_abuse.py:316`) `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` - Generate a DCSync rights assignment plan.
-- `owner_takeover_plan` (method, `modules/dacl_abuse.py:346`) `def owner_takeover_plan(self, target_dn, attacker_sid)` - Generate an ownership takeover plan.
-- `_is_dangerous_ace` (method, `modules/dacl_abuse.py:377`) `def _is_dangerous_ace(ace)`
-- `_calculate_severity` (method, `modules/dacl_abuse.py:382`) `def _calculate_severity(target)`
-- `_guess_object_type` (method, `modules/dacl_abuse.py:395`) `def _guess_object_type(dn)`
-- `_extract_cn` (method, `modules/dacl_abuse.py:412`) `def _extract_cn(dn)`
-- `summary` (method, `modules/dacl_abuse.py:416`) `def summary(self)` - Return a summary of all DACL/SACL abuse findings.
+- `adminsdholder_abuse_plan` (method, `modules/dacl_abuse.py:291`) `def adminsdholder_abuse_plan(self, target_sid)` - Generate an AdminSDHolder abuse plan.
+- `dcsync_rights_assignment_plan` (method, `modules/dacl_abuse.py:318`) `def dcsync_rights_assignment_plan(self, target_sid, domain_dn)` - Generate a DCSync rights assignment plan.
+- `owner_takeover_plan` (method, `modules/dacl_abuse.py:348`) `def owner_takeover_plan(self, target_dn, attacker_sid)` - Generate an ownership takeover plan.
+- `_is_dangerous_ace` (method, `modules/dacl_abuse.py:379`) `def _is_dangerous_ace(ace)`
+- `_calculate_severity` (method, `modules/dacl_abuse.py:384`) `def _calculate_severity(target)`
+- `_guess_object_type` (method, `modules/dacl_abuse.py:397`) `def _guess_object_type(dn)`
+- `_extract_cn` (method, `modules/dacl_abuse.py:414`) `def _extract_cn(dn)`
+- `summary` (method, `modules/dacl_abuse.py:418`) `def summary(self)` - Return a summary of all DACL/SACL abuse findings.
 - `DelegationTarget` (class, `modules/delegation_attacks.py:32`) `class DelegationTarget` - A delegation-enabled account or computer.
 - `DelegationAttackPath` (class, `modules/delegation_attacks.py:63`) `class DelegationAttackPath` - A delegation-based attack path from source to target.
 - `DelegationEnumerator` (class, `modules/delegation_attacks.py:85`) `class DelegationEnumerator` - Enumerate Kerberos delegation configurations from Active Directory.
 - `__init__` (method, `modules/delegation_attacks.py:98`) `def __init__(self, domain, raw_ldap_output)`
 - `enumerate_from_uac_flags` (method, `modules/delegation_attacks.py:104`) `def enumerate_from_uac_flags(self, accounts)` - Enumerate delegation targets from parsed account data.
-- `parse_bloodhound_output` (method, `modules/delegation_attacks.py:149`) `def parse_bloodhound_output(self, bloodhound_json)` - Parse BloodHound JSON output for delegation data.
-- `find_unconstrained_targets` (method, `modules/delegation_attacks.py:179`) `def find_unconstrained_targets(self)` - Return all accounts with unconstrained delegation enabled.
+- `parse_bloodhound_output` (method, `modules/delegation_attacks.py:151`) `def parse_bloodhound_output(self, bloodhound_json)` - Parse BloodHound JSON output for delegation data.
+- `find_unconstrained_targets` (method, `modules/delegation_attacks.py:181`) `def find_unconstrained_targets(self)` - Return all accounts with unconstrained delegation enabled.
 
 ## Internal vs External Edges
 

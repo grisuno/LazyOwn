@@ -28,100 +28,100 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `test_obs_parser_nmap` (function, line 14) `def test_obs_parser_nmap()`
-  - `test_obs_parser_empty` (function, line 26) `def test_obs_parser_empty()`
-  - `test_obs_parser_error` (function, line 32) `def test_obs_parser_error()`
-  - `test_world_model_basic` (function, line 38) `def test_world_model_basic(tmp_path)`
-  - `test_world_model_persistence` (function, line 46) `def test_world_model_persistence(tmp_path)`
-  - `test_world_model_from_findings` (function, line 55) `def test_world_model_from_findings()`
-  - `test_playbook_engine_derive_save_load` (function, line 64) `def test_playbook_engine_derive_save_load(tmp_path)`
-  - `test_playbook_engine_execute` (function, line 73) `def test_playbook_engine_execute()`
-  - `test_cve_matcher` (function, line 85) `def test_cve_matcher()`
-  - `test_cvss_critical` (function, line 92) `def test_cvss_critical()`
-  - `test_cvss_medium` (function, line 98) `def test_cvss_medium()`
-  - `test_cvss_from_nvd` (function, line 103) `def test_cvss_from_nvd()`
-  - `test_report_with_data` (function, line 109) `def test_report_with_data(tmp_path)`
-  - `test_report_empty` (function, line 121) `def test_report_empty(tmp_path)`
-  - `test_memory_remember_recall` (function, line 129) `def test_memory_remember_recall(tmp_path)`
-  - `test_memory_by_host` (function, line 137) `def test_memory_by_host(tmp_path)`
-  - `test_memory_export` (function, line 145) `def test_memory_export(tmp_path)`
-  - `test_llm_evaluator` (function, line 158) `def test_llm_evaluator(tmp_path)`
-  - `test_llm_evaluator_report` (function, line 167) `def test_llm_evaluator_report(tmp_path)`
-  - `test_llm_evaluator_empty` (function, line 177) `def test_llm_evaluator_empty(tmp_path)`
-  - `test_searchsploit_graceful` (function, line 183) `def test_searchsploit_graceful()`
-  - `test_searchsploit_client` (function, line 188) `def test_searchsploit_client()`
-  - `test_misp_export` (function, line 195) `def test_misp_export(tmp_path)`
-  - `test_dashboard_endpoints` (function, line 213) `def test_dashboard_endpoints()`
-  - `test_collab_endpoints` (function, line 242) `def test_collab_endpoints()`
-  - `test_c2_profile_builtins` (function, line 260) `def test_c2_profile_builtins()`
-  - `test_c2_profile_jitter` (function, line 269) `def test_c2_profile_jitter()`
-  - `test_c2_profile_save_load` (function, line 275) `def test_c2_profile_save_load(tmp_path)`
-  - `test_config_store` (function, line 284) `def test_config_store(tmp_path)`
-  - `test_mcp_tools_registered` (function, line 303) `def test_mcp_tools_registered()`
-  - `test_bridge_catalog_phases` (function, line 317) `def test_bridge_catalog_phases()`
-  - `test_bridge_by_phase` (function, line 328) `def test_bridge_by_phase()`
-  - `test_bridge_service_match` (function, line 337) `def test_bridge_service_match()`
-  - `test_bridge_build_command` (function, line 345) `def test_bridge_build_command()`
-  - `test_bridge_suggest` (function, line 360) `def test_bridge_suggest()`
-  - `test_bridge_suggest_with_services` (function, line 370) `def test_bridge_suggest_with_services()`
-  - `test_bridge_suggest_excluded` (function, line 379) `def test_bridge_suggest_excluded()`
-  - `test_bridge_list_all_phases` (function, line 390) `def test_bridge_list_all_phases()`
-  - `test_bridge_phase_mapper` (function, line 400) `def test_bridge_phase_mapper()`
-  - `test_bridge_full_catalog_count` (function, line 413) `def test_bridge_full_catalog_count()`
-  - `test_bridge_all_phases_populated` (function, line 419) `def test_bridge_all_phases_populated()`
-  - `test_bridge_suggest_sequence` (function, line 428) `def test_bridge_suggest_sequence()`
-  - `test_bridge_tag_selector` (function, line 438) `def test_bridge_tag_selector()`
-  - `test_bridge_suggest_kerberos_phase` (function, line 447) `def test_bridge_suggest_kerberos_phase()`
-  - `test_bridge_suggest_windows_os` (function, line 456) `def test_bridge_suggest_windows_os()`
-  - `test_bridge_suggest_linux_os` (function, line 465) `def test_bridge_suggest_linux_os()`
-  - `test_bridge_catalog_summary_has_all_phases` (function, line 474) `def test_bridge_catalog_summary_has_all_phases()`
-  - `test_session_reader_empty` (function, line 487) `def test_session_reader_empty(tmp_path)`
-  - `test_session_reader_implant_csv` (function, line 497) `def test_session_reader_implant_csv(tmp_path)`
-  - `test_session_reader_privileged_sessions` (function, line 513) `def test_session_reader_privileged_sessions(tmp_path)`
-  - `test_session_reader_tasks` (function, line 533) `def test_session_reader_tasks(tmp_path)`
-  - `test_session_reader_discovered_hosts` (function, line 548) `def test_session_reader_discovered_hosts(tmp_path)`
-  - `test_session_reader_skips_non_implant_logs` (function, line 556) `def test_session_reader_skips_non_implant_logs(tmp_path)`
-  - `test_reactive_engine_av_detection` (function, line 568) `def test_reactive_engine_av_detection()`
-  - `test_reactive_engine_privesc_sudo` (function, line 582) `def test_reactive_engine_privesc_sudo()`
-  - `test_reactive_engine_credential_found` (function, line 592) `def test_reactive_engine_credential_found()`
-  - `test_reactive_engine_new_host` (function, line 600) `def test_reactive_engine_new_host()`
-  - `test_reactive_engine_shell_error` (function, line 608) `def test_reactive_engine_shell_error()`
-  - `test_reactive_engine_no_signal` (function, line 616) `def test_reactive_engine_no_signal()`
-  - `test_reactive_engine_priority_ordering` (function, line 626) `def test_reactive_engine_priority_ordering()`
-  - `test_session_rag_init` (function, line 641) `def test_session_rag_init()`
-  - `test_session_rag_stats` (function, line 647) `def test_session_rag_stats()`
-  - `test_session_rag_chunk_text` (function, line 657) `def test_session_rag_chunk_text()`
-  - `test_session_rag_index_new` (function, line 667) `def test_session_rag_index_new()`
-  - `test_session_rag_query_returns_list` (function, line 676) `def test_session_rag_query_returns_list()`
-  - `test_session_rag_context_for_step` (function, line 686) `def test_session_rag_context_for_step()`
-  - `test_threat_model_builder_init` (function, line 697) `def test_threat_model_builder_init()`
-  - `test_threat_model_build` (function, line 703) `def test_threat_model_build()`
-  - `test_threat_model_summary_fields` (function, line 715) `def test_threat_model_summary_fields()`
-  - `test_threat_model_ttps_have_required_fields` (function, line 726) `def test_threat_model_ttps_have_required_fields()`
-  - `test_threat_model_detection_rules_structure` (function, line 738) `def test_threat_model_detection_rules_structure()`
-  - `test_threat_model_load_after_build` (function, line 750) `def test_threat_model_load_after_build()`
-  - `test_threat_model_ioc_types` (function, line 759) `def test_threat_model_ioc_types()`
-  - `test_session_rag_fallback_persistence` (function, line 769) `def test_session_rag_fallback_persistence(tmp_path)`
-  - `test_session_rag_fallback_dedup` (function, line 788) `def test_session_rag_fallback_dedup()`
-  - `test_session_rag_fallback_ring_buffer` (function, line 797) `def test_session_rag_fallback_ring_buffer()`
-  - `test_threat_model_has_purple_team` (function, line 817) `def test_threat_model_has_purple_team()`
-  - `test_threat_model_purple_team_structure` (function, line 825) `def test_threat_model_purple_team_structure()`
-  - `test_threat_model_purple_gaps_sorted_first` (function, line 840) `def test_threat_model_purple_gaps_sorted_first()`
-  - `test_threat_model_purple_coverage_field` (function, line 856) `def test_threat_model_purple_coverage_field()`
-  - `test_atomic_enricher_builds` (function, line 870) `def test_atomic_enricher_builds()`
-  - `test_atomic_enricher_complexity_values` (function, line 885) `def test_atomic_enricher_complexity_values()`
-  - `test_atomic_enricher_scope_values` (function, line 893) `def test_atomic_enricher_scope_values()`
-  - `test_atomic_query_keyword` (function, line 901) `def test_atomic_query_keyword()`
-  - `test_atomic_query_mitre_prefix` (function, line 915) `def test_atomic_query_mitre_prefix()`
-  - `test_atomic_query_platform_filter` (function, line 924) `def test_atomic_query_platform_filter()`
-  - `test_atomic_query_no_prereqs` (function, line 934) `def test_atomic_query_no_prereqs()`
-  - `test_atomic_query_include_command` (function, line 943) `def test_atomic_query_include_command()`
-  - `test_atomic_query_empty_returns_list` (function, line 953) `def test_atomic_query_empty_returns_list()`
-  - `test_parquet_db_query_atomic` (function, line 963) `def test_parquet_db_query_atomic()`
-  - `test_session_rag_index_parquet_sources` (function, line 972) `def test_session_rag_index_parquet_sources()`
-  - `_User` (class, line 218) `class _User(UserMixin)`
-  - `load_user` (method, line 228) `def load_user(user_id)`
-  - `__init__` (method, line 219) `def __init__(self, uid)`
+  - `test_obs_parser_nmap` (function, line 16) `def test_obs_parser_nmap()`
+  - `test_obs_parser_empty` (function, line 31) `def test_obs_parser_empty()`
+  - `test_obs_parser_error` (function, line 39) `def test_obs_parser_error()`
+  - `test_world_model_basic` (function, line 47) `def test_world_model_basic(tmp_path)`
+  - `test_world_model_persistence` (function, line 57) `def test_world_model_persistence(tmp_path)`
+  - `test_world_model_from_findings` (function, line 68) `def test_world_model_from_findings()`
+  - `test_playbook_engine_derive_save_load` (function, line 79) `def test_playbook_engine_derive_save_load(tmp_path)`
+  - `test_playbook_engine_execute` (function, line 90) `def test_playbook_engine_execute()`
+  - `test_cve_matcher` (function, line 115) `def test_cve_matcher()`
+  - `test_cvss_critical` (function, line 124) `def test_cvss_critical()`
+  - `test_cvss_medium` (function, line 132) `def test_cvss_medium()`
+  - `test_cvss_from_nvd` (function, line 139) `def test_cvss_from_nvd()`
+  - `test_report_with_data` (function, line 148) `def test_report_with_data(tmp_path)`
+  - `test_report_empty` (function, line 170) `def test_report_empty(tmp_path)`
+  - `test_memory_remember_recall` (function, line 180) `def test_memory_remember_recall(tmp_path)`
+  - `test_memory_by_host` (function, line 190) `def test_memory_by_host(tmp_path)`
+  - `test_memory_export` (function, line 200) `def test_memory_export(tmp_path)`
+  - `test_llm_evaluator` (function, line 215) `def test_llm_evaluator(tmp_path)`
+  - `test_llm_evaluator_report` (function, line 226) `def test_llm_evaluator_report(tmp_path)`
+  - `test_llm_evaluator_empty` (function, line 238) `def test_llm_evaluator_empty(tmp_path)`
+  - `test_searchsploit_graceful` (function, line 246) `def test_searchsploit_graceful()`
+  - `test_searchsploit_client` (function, line 253) `def test_searchsploit_client()`
+  - `test_misp_export` (function, line 262) `def test_misp_export(tmp_path)`
+  - `test_dashboard_endpoints` (function, line 290) `def test_dashboard_endpoints()`
+  - `test_collab_endpoints` (function, line 320) `def test_collab_endpoints()`
+  - `test_c2_profile_builtins` (function, line 340) `def test_c2_profile_builtins()`
+  - `test_c2_profile_jitter` (function, line 351) `def test_c2_profile_jitter()`
+  - `test_c2_profile_save_load` (function, line 359) `def test_c2_profile_save_load(tmp_path)`
+  - `test_config_store` (function, line 370) `def test_config_store(tmp_path)`
+  - `test_mcp_tools_registered` (function, line 391) `def test_mcp_tools_registered()`
+  - `test_bridge_catalog_phases` (function, line 417) `def test_bridge_catalog_phases()`
+  - `test_bridge_by_phase` (function, line 429) `def test_bridge_by_phase()`
+  - `test_bridge_service_match` (function, line 439) `def test_bridge_service_match()`
+  - `test_bridge_build_command` (function, line 448) `def test_bridge_build_command()`
+  - `test_bridge_suggest` (function, line 464) `def test_bridge_suggest()`
+  - `test_bridge_suggest_with_services` (function, line 475) `def test_bridge_suggest_with_services()`
+  - `test_bridge_suggest_excluded` (function, line 485) `def test_bridge_suggest_excluded()`
+  - `test_bridge_list_all_phases` (function, line 497) `def test_bridge_list_all_phases()`
+  - `test_bridge_phase_mapper` (function, line 508) `def test_bridge_phase_mapper()`
+  - `test_bridge_full_catalog_count` (function, line 522) `def test_bridge_full_catalog_count()`
+  - `test_bridge_all_phases_populated` (function, line 529) `def test_bridge_all_phases_populated()`
+  - `test_bridge_suggest_sequence` (function, line 550) `def test_bridge_suggest_sequence()`
+  - `test_bridge_tag_selector` (function, line 561) `def test_bridge_tag_selector()`
+  - `test_bridge_suggest_kerberos_phase` (function, line 571) `def test_bridge_suggest_kerberos_phase()`
+  - `test_bridge_suggest_windows_os` (function, line 579) `def test_bridge_suggest_windows_os()`
+  - `test_bridge_suggest_linux_os` (function, line 589) `def test_bridge_suggest_linux_os()`
+  - `test_bridge_catalog_summary_has_all_phases` (function, line 599) `def test_bridge_catalog_summary_has_all_phases()`
+  - `test_session_reader_empty` (function, line 614) `def test_session_reader_empty(tmp_path)`
+  - `test_session_reader_implant_csv` (function, line 625) `def test_session_reader_implant_csv(tmp_path)`
+  - `test_session_reader_privileged_sessions` (function, line 642) `def test_session_reader_privileged_sessions(tmp_path)`
+  - `test_session_reader_tasks` (function, line 663) `def test_session_reader_tasks(tmp_path)`
+  - `test_session_reader_discovered_hosts` (function, line 679) `def test_session_reader_discovered_hosts(tmp_path)`
+  - `test_session_reader_skips_non_implant_logs` (function, line 688) `def test_session_reader_skips_non_implant_logs(tmp_path)`
+  - `test_reactive_engine_av_detection` (function, line 702) `def test_reactive_engine_av_detection()`
+  - `test_reactive_engine_privesc_sudo` (function, line 717) `def test_reactive_engine_privesc_sudo()`
+  - `test_reactive_engine_credential_found` (function, line 728) `def test_reactive_engine_credential_found()`
+  - `test_reactive_engine_new_host` (function, line 737) `def test_reactive_engine_new_host()`
+  - `test_reactive_engine_shell_error` (function, line 746) `def test_reactive_engine_shell_error()`
+  - `test_reactive_engine_no_signal` (function, line 755) `def test_reactive_engine_no_signal()`
+  - `test_reactive_engine_priority_ordering` (function, line 766) `def test_reactive_engine_priority_ordering()`
+  - `test_session_rag_init` (function, line 778) `def test_session_rag_init()`
+  - `test_session_rag_stats` (function, line 785) `def test_session_rag_stats()`
+  - `test_session_rag_chunk_text` (function, line 796) `def test_session_rag_chunk_text()`
+  - `test_session_rag_index_new` (function, line 807) `def test_session_rag_index_new()`
+  - `test_session_rag_query_returns_list` (function, line 817) `def test_session_rag_query_returns_list()`
+  - `test_session_rag_context_for_step` (function, line 828) `def test_session_rag_context_for_step()`
+  - `test_threat_model_builder_init` (function, line 840) `def test_threat_model_builder_init()`
+  - `test_threat_model_build` (function, line 847) `def test_threat_model_build()`
+  - `test_threat_model_summary_fields` (function, line 860) `def test_threat_model_summary_fields()`
+  - `test_threat_model_ttps_have_required_fields` (function, line 872) `def test_threat_model_ttps_have_required_fields()`
+  - `test_threat_model_detection_rules_structure` (function, line 885) `def test_threat_model_detection_rules_structure()`
+  - `test_threat_model_load_after_build` (function, line 898) `def test_threat_model_load_after_build()`
+  - `test_threat_model_ioc_types` (function, line 908) `def test_threat_model_ioc_types()`
+  - `test_session_rag_fallback_persistence` (function, line 919) `def test_session_rag_fallback_persistence(tmp_path)`
+  - `test_session_rag_fallback_dedup` (function, line 939) `def test_session_rag_fallback_dedup()`
+  - `test_session_rag_fallback_ring_buffer` (function, line 949) `def test_session_rag_fallback_ring_buffer()`
+  - `test_threat_model_has_purple_team` (function, line 971) `def test_threat_model_has_purple_team()`
+  - `test_threat_model_purple_team_structure` (function, line 980) `def test_threat_model_purple_team_structure()`
+  - `test_threat_model_purple_gaps_sorted_first` (function, line 996) `def test_threat_model_purple_gaps_sorted_first()`
+  - `test_threat_model_purple_coverage_field` (function, line 1013) `def test_threat_model_purple_coverage_field()`
+  - `test_atomic_enricher_builds` (function, line 1028) `def test_atomic_enricher_builds()`
+  - `test_atomic_enricher_complexity_values` (function, line 1045) `def test_atomic_enricher_complexity_values()`
+  - `test_atomic_enricher_scope_values` (function, line 1055) `def test_atomic_enricher_scope_values()`
+  - `test_atomic_query_keyword` (function, line 1065) `def test_atomic_query_keyword()`
+  - `test_atomic_query_mitre_prefix` (function, line 1081) `def test_atomic_query_mitre_prefix()`
+  - `test_atomic_query_platform_filter` (function, line 1092) `def test_atomic_query_platform_filter()`
+  - `test_atomic_query_no_prereqs` (function, line 1104) `def test_atomic_query_no_prereqs()`
+  - `test_atomic_query_include_command` (function, line 1115) `def test_atomic_query_include_command()`
+  - `test_atomic_query_empty_returns_list` (function, line 1127) `def test_atomic_query_empty_returns_list()`
+  - `test_parquet_db_query_atomic` (function, line 1139) `def test_parquet_db_query_atomic()`
+  - `test_session_rag_index_parquet_sources` (function, line 1150) `def test_session_rag_index_parquet_sources()`
+  - `_User` (class, line 295) `class _User(UserMixin)`
+  - `load_user` (method, line 305) `def load_user(user_id)`
+  - `__init__` (method, line 296) `def __init__(self, uid)`
 - Depends on: `modules/atomic_enricher.py`, `modules/collab_bp.py`, `modules/config_store.py`, `modules/cve_matcher.py`, `modules/dashboard_bp.py`, `modules/integrations/misp_export.py`, `modules/integrations/searchsploit.py`, `modules/lazyown_bridge.py`, `modules/llm_evaluator.py`, `modules/memory_store.py`, `modules/obs_parser.py`, `modules/playbook_engine.py`, `modules/reactive_engine.py`, `modules/session_rag.py`, `modules/session_reader.py`, `modules/threat_model.py`, `modules/world_model.py`, `skills/lazyown_parquet_db.py`
 
 ## tests/test_cors_behavior.py
@@ -278,19 +278,19 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `test_decide_with_unknown_id_returns_none` (function, line 191) `def test_decide_with_unknown_id_returns_none(sessions_dir)`
   - `test_consume_expires_overdue_pending` (function, line 198) `def test_consume_expires_overdue_pending(sessions_dir)`
   - `test_pending_action_is_expired_only_when_still_pending` (function, line 209) `def test_pending_action_is_expired_only_when_still_pending()`
-  - `test_wait_for_decision_returns_approved` (function, line 218) `def test_wait_for_decision_returns_approved(sessions_dir)`
-  - `test_wait_for_decision_expires_after_ttl` (function, line 233) `def test_wait_for_decision_expires_after_ttl(sessions_dir)`
-  - `test_wait_for_decision_polls_until_decided` (function, line 247) `def test_wait_for_decision_polls_until_decided(sessions_dir)`
-  - `test_wait_until_unpaused_returns_true_when_already_running` (function, line 268) `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)`
-  - `test_wait_until_unpaused_returns_false_after_max_wait` (function, line 282) `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)`
-  - `test_wait_until_unpaused_returns_true_after_resume` (function, line 304) `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)`
-  - `test_save_writes_atomic_file_with_restricted_mode` (function, line 325) `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)`
-  - `test_load_returns_defaults_on_invalid_json` (function, line 336) `def test_load_returns_defaults_on_invalid_json(sessions_dir)`
-  - `test_concurrent_save_serialised_by_lock` (function, line 346) `def test_concurrent_save_serialised_by_lock(sessions_dir)`
-  - `_sleep` (function, line 252) `def _sleep(_seconds)`
-  - `_now` (function, line 287) `def _now()`
-  - `_sleep` (function, line 290) `def _sleep(_seconds)`
-  - `_sleep` (function, line 309) `def _sleep(_seconds)`
+  - `test_wait_for_decision_returns_approved` (function, line 221) `def test_wait_for_decision_returns_approved(sessions_dir)`
+  - `test_wait_for_decision_expires_after_ttl` (function, line 237) `def test_wait_for_decision_expires_after_ttl(sessions_dir)`
+  - `test_wait_for_decision_polls_until_decided` (function, line 252) `def test_wait_for_decision_polls_until_decided(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_when_already_running` (function, line 274) `def test_wait_until_unpaused_returns_true_when_already_running(sessions_dir)`
+  - `test_wait_until_unpaused_returns_false_after_max_wait` (function, line 288) `def test_wait_until_unpaused_returns_false_after_max_wait(sessions_dir)`
+  - `test_wait_until_unpaused_returns_true_after_resume` (function, line 310) `def test_wait_until_unpaused_returns_true_after_resume(sessions_dir)`
+  - `test_save_writes_atomic_file_with_restricted_mode` (function, line 331) `def test_save_writes_atomic_file_with_restricted_mode(sessions_dir)`
+  - `test_load_returns_defaults_on_invalid_json` (function, line 342) `def test_load_returns_defaults_on_invalid_json(sessions_dir)`
+  - `test_concurrent_save_serialised_by_lock` (function, line 352) `def test_concurrent_save_serialised_by_lock(sessions_dir)`
+  - `_sleep` (function, line 257) `def _sleep(_seconds)`
+  - `_now` (function, line 293) `def _now()`
+  - `_sleep` (function, line 296) `def _sleep(_seconds)`
+  - `_sleep` (function, line 315) `def _sleep(_seconds)`
 - Depends on: `skills/daemon_control.py`
 
 ## tests/test_daemon_ctl_command_set.py
@@ -314,35 +314,35 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_TestUser` (class, line 15) `class _TestUser(UserMixin)`
-  - `client` (method, line 21) `def client(tmp_path)`
-  - `_write_credentials_file` (method, line 44) `def _write_credentials_file(sessions_dir, filename, lines)`
-  - `_write_hashes_file` (method, line 48) `def _write_hashes_file(sessions_dir, filename, lines)`
-  - `_write_loot_file` (method, line 52) `def _write_loot_file(sessions_dir, rel_path, content)`
-  - `_write_csv_report` (method, line 59) `def _write_csv_report(sessions_dir, rows)`
-  - `_write_events_jsonl` (method, line 68) `def _write_events_jsonl(sessions_dir, events)`
-  - `TestLootRoute` (class, line 74) `class TestLootRoute`
-  - `TestTimelineRoute` (class, line 163) `class TestTimelineRoute`
-  - `TestDashboardIndexRoute` (class, line 308) `class TestDashboardIndexRoute`
-  - `__init__` (method, line 16) `def __init__(self, user_id)`
-  - `load_user` (method, line 33) `def load_user(user_id)`
-  - `test_loot_route_returns_200_with_data` (method, line 77) `def test_loot_route_returns_200_with_data(self, client)`
-  - `test_loot_empty_returns_200` (method, line 98) `def test_loot_empty_returns_200(self, client)`
-  - `test_loot_skips_comment_lines` (method, line 108) `def test_loot_skips_comment_lines(self, client)`
-  - `test_loot_respects_max_entries` (method, line 131) `def test_loot_respects_max_entries(self, client)`
-  - `test_loot_multiple_credential_files` (method, line 148) `def test_loot_multiple_credential_files(self, client)`
-  - `test_timeline_route_returns_200_with_data` (method, line 166) `def test_timeline_route_returns_200_with_data(self, client)`
-  - `test_timeline_empty_returns_200` (method, line 187) `def test_timeline_empty_returns_200(self, client)`
-  - `test_timeline_sorted_newest_first` (method, line 195) `def test_timeline_sorted_newest_first(self, client)`
-  - `test_timeline_handles_csv_tool_column` (method, line 212) `def test_timeline_handles_csv_tool_column(self, client)`
-  - `test_timeline_csv_without_timestamp` (method, line 221) `def test_timeline_csv_without_timestamp(self, client)`
-  - `test_timeline_respects_max_rows` (method, line 235) `def test_timeline_respects_max_rows(self, client)`
-  - `test_timeline_normalizes_iso_timestamps` (method, line 254) `def test_timeline_normalizes_iso_timestamps(self, client)`
-  - `test_timeline_only_events_no_csv` (method, line 267) `def test_timeline_only_events_no_csv(self, client)`
-  - `test_timeline_only_csv_no_events` (method, line 280) `def test_timeline_only_csv_no_events(self, client)`
-  - `test_timeline_handles_malformed_jsonl` (method, line 292) `def test_timeline_handles_malformed_jsonl(self, client)`
-  - `test_dashboard_index_returns_200` (method, line 311) `def test_dashboard_index_returns_200(self, client)`
-  - `test_dashboard_api_data_returns_json` (method, line 318) `def test_dashboard_api_data_returns_json(self, client)`
+  - `_TestUser` (class, line 16) `class _TestUser(UserMixin)`
+  - `client` (method, line 22) `def client(tmp_path)`
+  - `_write_credentials_file` (method, line 45) `def _write_credentials_file(sessions_dir, filename, lines)`
+  - `_write_hashes_file` (method, line 49) `def _write_hashes_file(sessions_dir, filename, lines)`
+  - `_write_loot_file` (method, line 53) `def _write_loot_file(sessions_dir, rel_path, content)`
+  - `_write_csv_report` (method, line 60) `def _write_csv_report(sessions_dir, rows)`
+  - `_write_events_jsonl` (method, line 69) `def _write_events_jsonl(sessions_dir, events)`
+  - `TestLootRoute` (class, line 75) `class TestLootRoute`
+  - `TestTimelineRoute` (class, line 180) `class TestTimelineRoute`
+  - `TestDashboardIndexRoute` (class, line 391) `class TestDashboardIndexRoute`
+  - `__init__` (method, line 17) `def __init__(self, user_id)`
+  - `load_user` (method, line 34) `def load_user(user_id)`
+  - `test_loot_route_returns_200_with_data` (method, line 78) `def test_loot_route_returns_200_with_data(self, client)`
+  - `test_loot_empty_returns_200` (method, line 107) `def test_loot_empty_returns_200(self, client)`
+  - `test_loot_skips_comment_lines` (method, line 117) `def test_loot_skips_comment_lines(self, client)`
+  - `test_loot_respects_max_entries` (method, line 148) `def test_loot_respects_max_entries(self, client)`
+  - `test_loot_multiple_credential_files` (method, line 165) `def test_loot_multiple_credential_files(self, client)`
+  - `test_timeline_route_returns_200_with_data` (method, line 183) `def test_timeline_route_returns_200_with_data(self, client)`
+  - `test_timeline_empty_returns_200` (method, line 230) `def test_timeline_empty_returns_200(self, client)`
+  - `test_timeline_sorted_newest_first` (method, line 238) `def test_timeline_sorted_newest_first(self, client)`
+  - `test_timeline_handles_csv_tool_column` (method, line 266) `def test_timeline_handles_csv_tool_column(self, client)`
+  - `test_timeline_csv_without_timestamp` (method, line 278) `def test_timeline_csv_without_timestamp(self, client)`
+  - `test_timeline_respects_max_rows` (method, line 296) `def test_timeline_respects_max_rows(self, client)`
+  - `test_timeline_normalizes_iso_timestamps` (method, line 318) `def test_timeline_normalizes_iso_timestamps(self, client)`
+  - `test_timeline_only_events_no_csv` (method, line 339) `def test_timeline_only_events_no_csv(self, client)`
+  - `test_timeline_only_csv_no_events` (method, line 360) `def test_timeline_only_csv_no_events(self, client)`
+  - `test_timeline_handles_malformed_jsonl` (method, line 375) `def test_timeline_handles_malformed_jsonl(self, client)`
+  - `test_dashboard_index_returns_200` (method, line 394) `def test_dashboard_index_returns_200(self, client)`
+  - `test_dashboard_api_data_returns_json` (method, line 401) `def test_dashboard_api_data_returns_json(self, client)`
 - Depends on: `modules/dashboard_bp.py`
 
 ## tests/test_dashboard_tui.py
@@ -442,25 +442,25 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
 - Layer: testing
 - Language: py
 - Symbols:
-  - `TestDetectionFeedInit` (class, line 13) `class TestDetectionFeedInit`
-  - `TestSigmaParsing` (class, line 26) `class TestSigmaParsing`
-  - `TestCaching` (class, line 67) `class TestCaching`
-  - `TestFeedbackAdjustment` (class, line 94) `class TestFeedbackAdjustment`
-  - `TestCategoryMap` (class, line 112) `class TestCategoryMap`
-  - `test_default_init` (method, line 14) `def test_default_init(self, tmp_path)`
-  - `test_custom_sources` (method, line 19) `def test_custom_sources(self, tmp_path)`
-  - `test_extract_log_source` (method, line 27) `def test_extract_log_source(self, tmp_path)`
-  - `test_extract_log_source_minimal` (method, line 32) `def test_extract_log_source_minimal(self, tmp_path)`
-  - `test_extract_mitre` (method, line 37) `def test_extract_mitre(self, tmp_path)`
-  - `test_extract_mitre_none` (method, line 42) `def test_extract_mitre_none(self, tmp_path)`
-  - `test_extract_keywords` (method, line 47) `def test_extract_keywords(self, tmp_path)`
-  - `test_extract_categories` (method, line 60) `def test_extract_categories(self, tmp_path)`
-  - `test_cache_and_load` (method, line 68) `def test_cache_and_load(self, tmp_path)`
-  - `test_load_cached_missing` (method, line 88) `def test_load_cached_missing(self, tmp_path)`
-  - `test_adjust_from_feedback_no_file` (method, line 95) `def test_adjust_from_feedback_no_file(self, tmp_path)`
-  - `test_adjust_from_feedback` (method, line 100) `def test_adjust_from_feedback(self, tmp_path)`
-  - `test_category_mappings` (method, line 113) `def test_category_mappings(self)`
-  - `test_default_probability` (method, line 120) `def test_default_probability(self)`
+  - `TestDetectionFeedInit` (class, line 14) `class TestDetectionFeedInit`
+  - `TestSigmaParsing` (class, line 27) `class TestSigmaParsing`
+  - `TestCaching` (class, line 68) `class TestCaching`
+  - `TestFeedbackAdjustment` (class, line 96) `class TestFeedbackAdjustment`
+  - `TestCategoryMap` (class, line 119) `class TestCategoryMap`
+  - `test_default_init` (method, line 15) `def test_default_init(self, tmp_path)`
+  - `test_custom_sources` (method, line 20) `def test_custom_sources(self, tmp_path)`
+  - `test_extract_log_source` (method, line 28) `def test_extract_log_source(self, tmp_path)`
+  - `test_extract_log_source_minimal` (method, line 33) `def test_extract_log_source_minimal(self, tmp_path)`
+  - `test_extract_mitre` (method, line 38) `def test_extract_mitre(self, tmp_path)`
+  - `test_extract_mitre_none` (method, line 43) `def test_extract_mitre_none(self, tmp_path)`
+  - `test_extract_keywords` (method, line 48) `def test_extract_keywords(self, tmp_path)`
+  - `test_extract_categories` (method, line 61) `def test_extract_categories(self, tmp_path)`
+  - `test_cache_and_load` (method, line 69) `def test_cache_and_load(self, tmp_path)`
+  - `test_load_cached_missing` (method, line 90) `def test_load_cached_missing(self, tmp_path)`
+  - `test_adjust_from_feedback_no_file` (method, line 97) `def test_adjust_from_feedback_no_file(self, tmp_path)`
+  - `test_adjust_from_feedback` (method, line 102) `def test_adjust_from_feedback(self, tmp_path)`
+  - `test_category_mappings` (method, line 120) `def test_category_mappings(self)`
+  - `test_default_probability` (method, line 127) `def test_default_probability(self)`
 - Depends on: `modules/detection_feed.py`, `modules/detection_oracle.py`
 
 ## tests/test_docs_drift_contract.py
@@ -473,12 +473,12 @@ Previous: [KB_tests_p4.md](KB_tests_p4.md)
   - `_runs_command` (function, line 38) `def _runs_command(step, command)`
   - `test_workflow_exists` (function, line 43) `def test_workflow_exists()`
   - `test_regenerates_command_index` (function, line 47) `def test_regenerates_command_index(workflow_steps)`
-  - `test_regenerates_commands_reference` (function, line 54) `def test_regenerates_commands_reference(workflow_steps)`
-  - `test_regenerates_utils_reference` (function, line 61) `def test_regenerates_utils_reference(workflow_steps)`
-  - `test_diffs_command_index` (function, line 68) `def test_diffs_command_index(workflow_steps)`
-  - `test_diffs_commands_reference` (function, line 75) `def test_diffs_commands_reference(workflow_steps)`
-  - `test_diffs_utils_reference` (function, line 81) `def test_diffs_utils_reference(workflow_steps)`
-  - `test_trigger_watches_generator_inputs` (function, line 87) `def test_trigger_watches_generator_inputs(workflow_text)`
+  - `test_regenerates_commands_reference` (function, line 53) `def test_regenerates_commands_reference(workflow_steps)`
+  - `test_regenerates_utils_reference` (function, line 59) `def test_regenerates_utils_reference(workflow_steps)`
+  - `test_diffs_command_index` (function, line 65) `def test_diffs_command_index(workflow_steps)`
+  - `test_diffs_commands_reference` (function, line 71) `def test_diffs_commands_reference(workflow_steps)`
+  - `test_diffs_utils_reference` (function, line 77) `def test_diffs_utils_reference(workflow_steps)`
+  - `test_trigger_watches_generator_inputs` (function, line 81) `def test_trigger_watches_generator_inputs(workflow_text)`
 
 
 Next: [KB_tests_p6.md](KB_tests_p6.md)

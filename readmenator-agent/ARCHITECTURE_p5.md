@@ -208,7 +208,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `core/parsers.py` -> __future__, csv, defusedxml, html, json, os, re, typing, yaml
 - `core/payload_schema.py` -> __future__, collections.abc, dataclasses, json, re, typing
 - `core/process.py` -> __future__, collections.abc, importlib.util, os, shlex, shutil, subprocess, sys, threading, time, typing
-- `core/profiles.py` -> __future__, collections.abc, os
+- `core/profiles.py` -> __future__, collections.abc, os, typing
 - `core/prompt.py` -> __future__, netifaces, os, pathlib, platform, socket, subprocess, time
 - `core/protocols.py` -> __future__, typing
 - `core/safe_exec.py` -> __future__, collections.abc, pathlib, re, shlex, shutil, subprocess, sys, urllib.parse

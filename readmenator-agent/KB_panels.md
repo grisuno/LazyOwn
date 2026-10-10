@@ -56,10 +56,10 @@
   - `CVEPanel` (class, line 28) `class CVEPanel(PanelBase)`
   - `__init__` (method, line 31) `def __init__(self, constants, backend, parent)`
   - `_refresh` (method, line 102) `def _refresh(self)`
-  - `_populate_tree` (method, line 145) `def _populate_tree(self)`
-  - `_request_lookup` (method, line 160) `def _request_lookup(self)`
-  - `_request_search_exploits` (method, line 166) `def _request_search_exploits(self)`
-  - `cve_count` (method, line 173) `def cve_count(self)`
+  - `_populate_tree` (method, line 150) `def _populate_tree(self)`
+  - `_request_lookup` (method, line 165) `def _request_lookup(self)`
+  - `_request_search_exploits` (method, line 171) `def _request_search_exploits(self)`
+  - `cve_count` (method, line 178) `def cve_count(self)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/panels/base.py`, `lazygui/services/backend.py`
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
@@ -107,11 +107,11 @@
 - Language: py
 - Symbols:
   - `_get_phases` (function, line 23) `def _get_phases()`
-  - `KillChainPanel` (class, line 34) `class KillChainPanel(PanelBase)`
-  - `__init__` (method, line 37) `def __init__(self, constants, backend, parent)`
-  - `_build_ui` (method, line 61) `def _build_ui(self)`
-  - `_refresh` (method, line 97) `def _refresh(self)`
-  - `_apply_visuals` (method, line 129) `def _apply_visuals(self)`
+  - `KillChainPanel` (class, line 35) `class KillChainPanel(PanelBase)`
+  - `__init__` (method, line 38) `def __init__(self, constants, backend, parent)`
+  - `_build_ui` (method, line 62) `def _build_ui(self)`
+  - `_refresh` (method, line 96) `def _refresh(self)`
+  - `_apply_visuals` (method, line 128) `def _apply_visuals(self)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/panels/base.py`, `lazygui/services/backend.py`, `modules/killchain.py`
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
@@ -139,16 +139,16 @@
   - `_make_tree` (method, line 94) `def _make_tree(headers)`
   - `_refresh` (method, line 106) `def _refresh(self)`
   - `_fetch_yara_rules` (method, line 112) `def _fetch_yara_rules(self)`
-  - `_fetch_nuclei_templates` (method, line 127) `def _fetch_nuclei_templates(self)`
-  - `_fetch_addons` (method, line 159) `def _fetch_addons(self)`
-  - `_fetch_plugins` (method, line 187) `def _fetch_plugins(self)`
-  - `_populate_yara_tree` (method, line 215) `def _populate_yara_tree(self)`
-  - `_populate_nuclei_tree` (method, line 223) `def _populate_nuclei_tree(self)`
-  - `_populate_addons_tree` (method, line 231) `def _populate_addons_tree(self)`
-  - `_populate_plugins_tree` (method, line 239) `def _populate_plugins_tree(self)`
-  - `_apply_filter` (method, line 247) `def _apply_filter(self)`
-  - `_show_selected_info` (method, line 253) `def _show_selected_info(self)`
-  - `_run_selected` (method, line 264) `def _run_selected(self)`
+  - `_fetch_nuclei_templates` (method, line 128) `def _fetch_nuclei_templates(self)`
+  - `_fetch_addons` (method, line 163) `def _fetch_addons(self)`
+  - `_fetch_plugins` (method, line 198) `def _fetch_plugins(self)`
+  - `_populate_yara_tree` (method, line 230) `def _populate_yara_tree(self)`
+  - `_populate_nuclei_tree` (method, line 238) `def _populate_nuclei_tree(self)`
+  - `_populate_addons_tree` (method, line 250) `def _populate_addons_tree(self)`
+  - `_populate_plugins_tree` (method, line 262) `def _populate_plugins_tree(self)`
+  - `_apply_filter` (method, line 270) `def _apply_filter(self)`
+  - `_show_selected_info` (method, line 276) `def _show_selected_info(self)`
+  - `_run_selected` (method, line 287) `def _run_selected(self)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/panels/base.py`, `lazygui/services/backend.py`
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 
@@ -160,8 +160,8 @@
   - `PanelRegistry` (class, line 34) `class PanelRegistry`
   - `build` (method, line 53) `def build(cls, constants, backend, event_log, parent)`
   - `all_panels` (method, line 83) `def all_panels(self)`
-  - `by_identifier` (method, line 91) `def by_identifier(self, identifier)`
-  - `__iter__` (method, line 98) `def __iter__(self)`
+  - `by_identifier` (method, line 99) `def by_identifier(self, identifier)`
+  - `__iter__` (method, line 106) `def __iter__(self)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/panels/base.py`, `lazygui/panels/campaign_panel.py`, `lazygui/panels/credentials_panel.py`, `lazygui/panels/cve_panel.py`, `lazygui/panels/event_log_panel.py`, `lazygui/panels/graph_panel.py`, `lazygui/panels/history_panel.py`, `lazygui/panels/killchain_panel.py`, `lazygui/panels/listeners_panel.py`, `lazygui/panels/marketplace_panel.py`, `lazygui/panels/sessions_panel.py`, `lazygui/panels/terminal_panel.py`, `lazygui/services/backend.py`, `lazygui/services/event_log.py`
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/windows/main_window.py`
 
@@ -172,14 +172,14 @@
 - Symbols:
   - `SessionsPanel` (class, line 39) `class SessionsPanel(PanelBase)`
   - `__init__` (method, line 45) `def __init__(self, constants, backend, parent)`
-  - `_refresh_initial` (method, line 85) `def _refresh_initial(self)`
-  - `_on_sessions_changed` (method, line 91) `def _on_sessions_changed(self, sessions)`
-  - `_on_filter_changed` (method, line 96) `def _on_filter_changed(self, text)`
-  - `_on_selection_changed` (method, line 101) `def _on_selection_changed(self)`
-  - `_on_item_double_clicked` (method, line 112) `def _on_item_double_clicked(self, item)`
-  - `_on_context_menu` (method, line 120) `def _on_context_menu(self, position)`
-  - `_populate_visible` (method, line 167) `def _populate_visible(self)`
-  - `_matches_filter` (method, line 187) `def _matches_filter(self, session)`
+  - `_refresh_initial` (method, line 87) `def _refresh_initial(self)`
+  - `_on_sessions_changed` (method, line 93) `def _on_sessions_changed(self, sessions)`
+  - `_on_filter_changed` (method, line 98) `def _on_filter_changed(self, text)`
+  - `_on_selection_changed` (method, line 103) `def _on_selection_changed(self)`
+  - `_on_item_double_clicked` (method, line 114) `def _on_item_double_clicked(self, item)`
+  - `_on_context_menu` (method, line 133) `def _on_context_menu(self, position)`
+  - `_populate_visible` (method, line 182) `def _populate_visible(self)`
+  - `_matches_filter` (method, line 202) `def _matches_filter(self, session)`
 - Depends on: `lazygui/config/constants.py`, `lazygui/panels/base.py`, `lazygui/services/backend.py`, `lazygui/services/models.py`, `lazygui/widgets/filter_bar.py`
 - Imported by: `lazygui/panels/__init__.py`, `lazygui/panels/registry.py`
 

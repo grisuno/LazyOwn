@@ -66,13 +66,13 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Layer: utility
 - Language: py
 - Symbols:
-  - `AntiForensicsCommandSet` (class, line 31) `class AntiForensicsCommandSet(LazyOwnCommandSet)`
-  - `do_wipe_logs` (method, line 38) `def do_wipe_logs(self, line)`
-  - `do_wipe_timeline` (method, line 103) `def do_wipe_timeline(self, line)`
-  - `do_shred` (method, line 150) `def do_shred(self, line)`
-  - `do_wipe_free` (method, line 205) `def do_wipe_free(self, line)`
-  - `do_clean_ad` (method, line 242) `def do_clean_ad(self, line)`
-  - `do_cover_tracks` (method, line 303) `def do_cover_tracks(self, line)`
+  - `AntiForensicsCommandSet` (class, line 32) `class AntiForensicsCommandSet(LazyOwnCommandSet)`
+  - `do_wipe_logs` (method, line 39) `def do_wipe_logs(self, line)`
+  - `do_wipe_timeline` (method, line 104) `def do_wipe_timeline(self, line)`
+  - `do_shred` (method, line 151) `def do_shred(self, line)`
+  - `do_wipe_free` (method, line 206) `def do_wipe_free(self, line)`
+  - `do_clean_ad` (method, line 243) `def do_clean_ad(self, line)`
+  - `do_cover_tracks` (method, line 304) `def do_cover_tracks(self, line)`
 - Depends on: `cli/commands/_base.py`, `cli/confirm.py`, `cli/output_mode.py`, `core/hardening.py`, `utils.py`
 
 ## cli/commands/applocker_bypass.py
@@ -442,11 +442,11 @@ Pages: [KB_commands.md](KB_commands.md), [KB_commands_p2.md](KB_commands_p2.md),
 - Symbols:
   - `DaemonControlCommandSet` (class, line 17) `class DaemonControlCommandSet(LazyOwnCommandSet)`
   - `do_daemon_mode` (method, line 24) `def do_daemon_mode(self, line)`
-  - `do_daemon_pause` (method, line 61) `def do_daemon_pause(self, line)`
-  - `do_daemon_resume` (method, line 79) `def do_daemon_resume(self, line)`
-  - `do_daemon_veto` (method, line 93) `def do_daemon_veto(self, line)`
-  - `do_daemon_focus` (method, line 136) `def do_daemon_focus(self, line)`
-  - `do_daemon_approve` (method, line 169) `def do_daemon_approve(self, line)`
+  - `do_daemon_pause` (method, line 63) `def do_daemon_pause(self, line)`
+  - `do_daemon_resume` (method, line 82) `def do_daemon_resume(self, line)`
+  - `do_daemon_veto` (method, line 97) `def do_daemon_veto(self, line)`
+  - `do_daemon_focus` (method, line 141) `def do_daemon_focus(self, line)`
+  - `do_daemon_approve` (method, line 175) `def do_daemon_approve(self, line)`
 - Depends on: `cli/commands/_base.py`, `skills/daemon_control.py`, `utils.py`
 - Imported by: `tests/test_daemon_ctl_command_set.py`
 

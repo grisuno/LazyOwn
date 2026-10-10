@@ -130,7 +130,7 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
   - `backup_files` (function, line 69) `def backup_files(mutations, base_dir)`
   - `restore_files` (function, line 78) `def restore_files(backups, base_dir, mutations)`
   - `run_tests` (function, line 84) `def run_tests()`
-  - `main` (function, line 100) `def main()`
+  - `main` (function, line 103) `def main()`
 
 ## tests/run_mutation_ux_usability.py
 - Doc: Mutation testing runner for the UX usability contracts.
@@ -147,101 +147,101 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Layer: testing
 - Language: py
 - Symbols:
-  - `_make_goal` (function, line 32) `def _make_goal()`
-  - `_patched_paths` (function, line 40) `def _patched_paths(tmp_path)`
-  - `_start_patches` (function, line 53) `def _start_patches(tmp_path)`
-  - `_stop_patches` (function, line 69) `def _stop_patches(patchers)`
-  - `_make_planner` (function, line 74) `def _make_planner(tmp_path, api_key)`
-  - `_make_engine` (function, line 85) `def _make_engine(tmp_path, api_key)`
-  - `TestACIGoal` (class, line 100) `class TestACIGoal`
-  - `TestAttackPhase` (class, line 121) `class TestAttackPhase`
-  - `TestACIPlan` (class, line 162) `class TestACIPlan`
-  - `TestACIPlannerStatic` (class, line 226) `class TestACIPlannerStatic`
-  - `TestACIPlannerLLM` (class, line 325) `class TestACIPlannerLLM`
-  - `TestACIEngineStatus` (class, line 400) `class TestACIEngineStatus`
-  - `TestACIEngineShouldReplan` (class, line 440) `class TestACIEngineShouldReplan`
-  - `TestACIEngineReplan` (class, line 488) `class TestACIEngineReplan`
-  - `TestACIEngineComplete` (class, line 561) `class TestACIEngineComplete`
-  - `TestACIReflector` (class, line 589) `class TestACIReflector`
-  - `TestMCPBridges` (class, line 670) `class TestMCPBridges`
-  - `TestPersistenceHelpers` (class, line 764) `class TestPersistenceHelpers`
-  - `TestCLI` (class, line 831) `class TestCLI`
-  - `test_fields` (method, line 101) `def test_fields(self)`
-  - `test_defaults` (method, line 111) `def test_defaults(self)`
-  - `test_to_dict_round_trip` (method, line 122) `def test_to_dict_round_trip(self)`
-  - `test_from_dict_ignores_extra_keys` (method, line 140) `def test_from_dict_ignores_extra_keys(self)`
-  - `_make_plan` (method, line 163) `def _make_plan(self, phase_statuses)`
-  - `test_completion_pct_all_done` (method, line 188) `def test_completion_pct_all_done(self)`
-  - `test_completion_pct_none_done` (method, line 192) `def test_completion_pct_none_done(self)`
-  - `test_completion_pct_partial` (method, line 196) `def test_completion_pct_partial(self)`
-  - `test_active_phase_returns_first_pending_or_active` (method, line 200) `def test_active_phase_returns_first_pending_or_active(self)`
-  - `test_active_phase_none_when_all_done` (method, line 205) `def test_active_phase_none_when_all_done(self)`
-  - `test_to_dict_has_completion_pct` (method, line 209) `def test_to_dict_has_completion_pct(self)`
-  - `test_round_trip` (method, line 215) `def test_round_trip(self)`
-  - `test_plan_creates_file` (method, line 227) `def test_plan_creates_file(self, tmp_path)`
-  - `test_plan_has_phases` (method, line 234) `def test_plan_has_phases(self, tmp_path)`
-  - `test_first_phase_is_active` (method, line 239) `def test_first_phase_is_active(self, tmp_path)`
-  - `test_subsequent_phases_are_pending` (method, line 244) `def test_subsequent_phases_are_pending(self, tmp_path)`
-  - `test_objectives_injected_into_file` (method, line 250) `def test_objectives_injected_into_file(self, tmp_path)`
-  - `test_objectives_ids_match_phase_objectives` (method, line 258) `def test_objectives_ids_match_phase_objectives(self, tmp_path)`
-  - `test_phase_filter_restricts_phases` (method, line 269) `def test_phase_filter_restricts_phases(self, tmp_path)`
-  - `test_objective_source_is_aci_planner` (method, line 275) `def test_objective_source_is_aci_planner(self, tmp_path)`
-  - `test_plan_status_is_active` (method, line 284) `def test_plan_status_is_active(self, tmp_path)`
-  - `test_plan_id_is_unique` (method, line 289) `def test_plan_id_is_unique(self, tmp_path)`
-  - `test_plan_target_stored` (method, line 295) `def test_plan_target_stored(self, tmp_path)`
-  - `test_plan_domain_stored` (method, line 300) `def test_plan_domain_stored(self, tmp_path)`
-  - `test_objectives_contain_target_in_text` (method, line 305) `def test_objectives_contain_target_in_text(self, tmp_path)`
-  - `test_plan_roundtrip_from_disk` (method, line 312) `def test_plan_roundtrip_from_disk(self, tmp_path)`
-  - `_llm_response` (method, line 326) `def _llm_response(self, phases)`
-  - `test_llm_phases_used_when_api_key_set` (method, line 335) `def test_llm_phases_used_when_api_key_set(self, tmp_path)`
-  - `test_llm_objectives_injected` (method, line 360) `def test_llm_objectives_injected(self, tmp_path)`
-  - `test_llm_failure_falls_back_to_static` (method, line 379) `def test_llm_failure_falls_back_to_static(self, tmp_path)`
-  - `test_llm_bad_json_falls_back_to_static` (method, line 387) `def test_llm_bad_json_falls_back_to_static(self, tmp_path)`
-  - `test_status_no_plan` (method, line 401) `def test_status_no_plan(self, tmp_path)`
-  - `test_status_with_plan` (method, line 406) `def test_status_with_plan(self, tmp_path)`
-  - `test_status_has_active_phase` (method, line 416) `def test_status_has_active_phase(self, tmp_path)`
-  - `test_status_completion_zero_at_start` (method, line 423) `def test_status_completion_zero_at_start(self, tmp_path)`
-  - `test_status_blocked_count_zero_at_start` (method, line 430) `def test_status_blocked_count_zero_at_start(self, tmp_path)`
-  - `_write_objectives_blocked` (method, line 441) `def _write_objectives_blocked(self, obj_file, obj_ids)`
-  - `test_should_replan_false_when_no_plan` (method, line 451) `def test_should_replan_false_when_no_plan(self, tmp_path)`
-  - `test_should_replan_false_below_threshold` (method, line 455) `def test_should_replan_false_below_threshold(self, tmp_path)`
-  - `test_should_replan_true_at_threshold` (method, line 464) `def test_should_replan_true_at_threshold(self, tmp_path)`
-  - `test_should_replan_false_for_completed_plan` (method, line 475) `def test_should_replan_false_for_completed_plan(self, tmp_path)`
-  - `test_replan_no_plan` (method, line 489) `def test_replan_no_plan(self, tmp_path)`
-  - `test_replan_increments_count` (method, line 495) `def test_replan_increments_count(self, tmp_path)`
-  - `test_replan_records_reason` (method, line 502) `def test_replan_records_reason(self, tmp_path)`
-  - `test_replan_injects_new_objectives` (method, line 509) `def test_replan_injects_new_objectives(self, tmp_path)`
-  - `test_replan_status_returns_to_active` (method, line 519) `def test_replan_status_returns_to_active(self, tmp_path)`
-  - `test_replan_twice_counts_two` (method, line 526) `def test_replan_twice_counts_two(self, tmp_path)`
-  - `test_replan_with_llm` (method, line 534) `def test_replan_with_llm(self, tmp_path)`
-  - `test_complete_archives_plan` (method, line 562) `def test_complete_archives_plan(self, tmp_path)`
-  - `test_complete_marks_plan_as_completed` (method, line 572) `def test_complete_marks_plan_as_completed(self, tmp_path)`
-  - `test_complete_no_plan` (method, line 581) `def test_complete_no_plan(self, tmp_path)`
-  - `_make_plan_with_statuses` (method, line 590) `def _make_plan_with_statuses(self, phase_statuses, replan_count)`
-  - `test_reflect_blocked_phase_generates_lesson` (method, line 617) `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)`
-  - `test_reflect_done_after_replan_generates_lesson` (method, line 626) `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)`
-  - `test_reflect_no_lessons_clean_plan` (method, line 634) `def test_reflect_no_lessons_clean_plan(self, tmp_path)`
-  - `test_reflect_persists_to_file` (method, line 642) `def test_reflect_persists_to_file(self, tmp_path)`
-  - `test_reflect_lesson_has_required_fields` (method, line 656) `def test_reflect_lesson_has_required_fields(self, tmp_path)`
-  - `test_mcp_aci_status_no_plan` (method, line 671) `def test_mcp_aci_status_no_plan(self, tmp_path)`
-  - `test_mcp_aci_plan_returns_json` (method, line 680) `def test_mcp_aci_plan_returns_json(self, tmp_path)`
-  - `test_mcp_aci_plan_uses_rhost_from_payload` (method, line 692) `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)`
-  - `test_mcp_aci_plan_static_backend` (method, line 702) `def test_mcp_aci_plan_static_backend(self, tmp_path)`
-  - `test_mcp_aci_replan_no_plan` (method, line 712) `def test_mcp_aci_replan_no_plan(self, tmp_path)`
-  - `test_mcp_aci_replan_with_plan` (method, line 722) `def test_mcp_aci_replan_with_plan(self, tmp_path)`
-  - `test_mcp_aci_status_after_plan` (method, line 734) `def test_mcp_aci_status_after_plan(self, tmp_path)`
-  - `test_mcp_aci_plan_phase_filter` (method, line 746) `def test_mcp_aci_plan_phase_filter(self, tmp_path)`
-  - `test_save_load_plan_roundtrip` (method, line 765) `def test_save_load_plan_roundtrip(self, tmp_path)`
-  - `test_load_plan_returns_none_for_missing` (method, line 779) `def test_load_plan_returns_none_for_missing(self, tmp_path)`
-  - `test_load_plan_returns_none_for_corrupt` (method, line 784) `def test_load_plan_returns_none_for_corrupt(self, tmp_path)`
-  - `test_archive_plan_appends` (method, line 791) `def test_archive_plan_appends(self, tmp_path)`
-  - `test_count_objectives_by_status` (method, line 807) `def test_count_objectives_by_status(self, tmp_path)`
-  - `test_count_objectives_returns_empty_for_missing_file` (method, line 823) `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)`
-  - `test_plan_command` (method, line 832) `def test_plan_command(self, tmp_path)`
-  - `test_status_command_no_plan` (method, line 842) `def test_status_command_no_plan(self, tmp_path, capsys)`
-  - `test_replan_command_no_plan` (method, line 855) `def test_replan_command_no_plan(self, tmp_path, capsys)`
-  - `test_no_subcommand_returns_nonzero` (method, line 868) `def test_no_subcommand_returns_nonzero(self, tmp_path)`
-  - `test_reflect_command_no_plan` (method, line 873) `def test_reflect_command_no_plan(self, tmp_path, capsys)`
+  - `_make_goal` (function, line 33) `def _make_goal()`
+  - `_patched_paths` (function, line 47) `def _patched_paths(tmp_path)`
+  - `_start_patches` (function, line 60) `def _start_patches(tmp_path)`
+  - `_stop_patches` (function, line 77) `def _stop_patches(patchers)`
+  - `_make_planner` (function, line 82) `def _make_planner(tmp_path, api_key)`
+  - `_make_engine` (function, line 94) `def _make_engine(tmp_path, api_key)`
+  - `TestACIGoal` (class, line 111) `class TestACIGoal`
+  - `TestAttackPhase` (class, line 134) `class TestAttackPhase`
+  - `TestACIPlan` (class, line 177) `class TestACIPlan`
+  - `TestACIPlannerStatic` (class, line 244) `class TestACIPlannerStatic`
+  - `TestACIPlannerLLM` (class, line 345) `class TestACIPlannerLLM`
+  - `TestACIEngineStatus` (class, line 421) `class TestACIEngineStatus`
+  - `TestACIEngineShouldReplan` (class, line 462) `class TestACIEngineShouldReplan`
+  - `TestACIEngineReplan` (class, line 522) `class TestACIEngineReplan`
+  - `TestACIEngineComplete` (class, line 596) `class TestACIEngineComplete`
+  - `TestACIReflector` (class, line 626) `class TestACIReflector`
+  - `TestMCPBridges` (class, line 723) `class TestMCPBridges`
+  - `TestPersistenceHelpers` (class, line 829) `class TestPersistenceHelpers`
+  - `TestCLI` (class, line 914) `class TestCLI`
+  - `test_fields` (method, line 112) `def test_fields(self)`
+  - `test_defaults` (method, line 122) `def test_defaults(self)`
+  - `test_to_dict_round_trip` (method, line 135) `def test_to_dict_round_trip(self)`
+  - `test_from_dict_ignores_extra_keys` (method, line 154) `def test_from_dict_ignores_extra_keys(self)`
+  - `_make_plan` (method, line 178) `def _make_plan(self, phase_statuses)`
+  - `test_completion_pct_all_done` (method, line 204) `def test_completion_pct_all_done(self)`
+  - `test_completion_pct_none_done` (method, line 208) `def test_completion_pct_none_done(self)`
+  - `test_completion_pct_partial` (method, line 212) `def test_completion_pct_partial(self)`
+  - `test_active_phase_returns_first_pending_or_active` (method, line 216) `def test_active_phase_returns_first_pending_or_active(self)`
+  - `test_active_phase_none_when_all_done` (method, line 221) `def test_active_phase_none_when_all_done(self)`
+  - `test_to_dict_has_completion_pct` (method, line 225) `def test_to_dict_has_completion_pct(self)`
+  - `test_round_trip` (method, line 231) `def test_round_trip(self)`
+  - `test_plan_creates_file` (method, line 245) `def test_plan_creates_file(self, tmp_path)`
+  - `test_plan_has_phases` (method, line 252) `def test_plan_has_phases(self, tmp_path)`
+  - `test_first_phase_is_active` (method, line 257) `def test_first_phase_is_active(self, tmp_path)`
+  - `test_subsequent_phases_are_pending` (method, line 262) `def test_subsequent_phases_are_pending(self, tmp_path)`
+  - `test_objectives_injected_into_file` (method, line 268) `def test_objectives_injected_into_file(self, tmp_path)`
+  - `test_objectives_ids_match_phase_objectives` (method, line 276) `def test_objectives_ids_match_phase_objectives(self, tmp_path)`
+  - `test_phase_filter_restricts_phases` (method, line 287) `def test_phase_filter_restricts_phases(self, tmp_path)`
+  - `test_objective_source_is_aci_planner` (method, line 293) `def test_objective_source_is_aci_planner(self, tmp_path)`
+  - `test_plan_status_is_active` (method, line 302) `def test_plan_status_is_active(self, tmp_path)`
+  - `test_plan_id_is_unique` (method, line 307) `def test_plan_id_is_unique(self, tmp_path)`
+  - `test_plan_target_stored` (method, line 313) `def test_plan_target_stored(self, tmp_path)`
+  - `test_plan_domain_stored` (method, line 318) `def test_plan_domain_stored(self, tmp_path)`
+  - `test_objectives_contain_target_in_text` (method, line 323) `def test_objectives_contain_target_in_text(self, tmp_path)`
+  - `test_plan_roundtrip_from_disk` (method, line 330) `def test_plan_roundtrip_from_disk(self, tmp_path)`
+  - `_llm_response` (method, line 346) `def _llm_response(self, phases)`
+  - `test_llm_phases_used_when_api_key_set` (method, line 355) `def test_llm_phases_used_when_api_key_set(self, tmp_path)`
+  - `test_llm_objectives_injected` (method, line 380) `def test_llm_objectives_injected(self, tmp_path)`
+  - `test_llm_failure_falls_back_to_static` (method, line 399) `def test_llm_failure_falls_back_to_static(self, tmp_path)`
+  - `test_llm_bad_json_falls_back_to_static` (method, line 407) `def test_llm_bad_json_falls_back_to_static(self, tmp_path)`
+  - `test_status_no_plan` (method, line 422) `def test_status_no_plan(self, tmp_path)`
+  - `test_status_with_plan` (method, line 427) `def test_status_with_plan(self, tmp_path)`
+  - `test_status_has_active_phase` (method, line 437) `def test_status_has_active_phase(self, tmp_path)`
+  - `test_status_completion_zero_at_start` (method, line 444) `def test_status_completion_zero_at_start(self, tmp_path)`
+  - `test_status_blocked_count_zero_at_start` (method, line 451) `def test_status_blocked_count_zero_at_start(self, tmp_path)`
+  - `_write_objectives_blocked` (method, line 463) `def _write_objectives_blocked(self, obj_file, obj_ids)`
+  - `test_should_replan_false_when_no_plan` (method, line 483) `def test_should_replan_false_when_no_plan(self, tmp_path)`
+  - `test_should_replan_false_below_threshold` (method, line 487) `def test_should_replan_false_below_threshold(self, tmp_path)`
+  - `test_should_replan_true_at_threshold` (method, line 496) `def test_should_replan_true_at_threshold(self, tmp_path)`
+  - `test_should_replan_false_for_completed_plan` (method, line 507) `def test_should_replan_false_for_completed_plan(self, tmp_path)`
+  - `test_replan_no_plan` (method, line 523) `def test_replan_no_plan(self, tmp_path)`
+  - `test_replan_increments_count` (method, line 529) `def test_replan_increments_count(self, tmp_path)`
+  - `test_replan_records_reason` (method, line 536) `def test_replan_records_reason(self, tmp_path)`
+  - `test_replan_injects_new_objectives` (method, line 543) `def test_replan_injects_new_objectives(self, tmp_path)`
+  - `test_replan_status_returns_to_active` (method, line 553) `def test_replan_status_returns_to_active(self, tmp_path)`
+  - `test_replan_twice_counts_two` (method, line 560) `def test_replan_twice_counts_two(self, tmp_path)`
+  - `test_replan_with_llm` (method, line 568) `def test_replan_with_llm(self, tmp_path)`
+  - `test_complete_archives_plan` (method, line 597) `def test_complete_archives_plan(self, tmp_path)`
+  - `test_complete_marks_plan_as_completed` (method, line 607) `def test_complete_marks_plan_as_completed(self, tmp_path)`
+  - `test_complete_no_plan` (method, line 617) `def test_complete_no_plan(self, tmp_path)`
+  - `_make_plan_with_statuses` (method, line 627) `def _make_plan_with_statuses(self, phase_statuses, replan_count)`
+  - `test_reflect_blocked_phase_generates_lesson` (method, line 655) `def test_reflect_blocked_phase_generates_lesson(self, tmp_path)`
+  - `test_reflect_done_after_replan_generates_lesson` (method, line 665) `def test_reflect_done_after_replan_generates_lesson(self, tmp_path)`
+  - `test_reflect_no_lessons_clean_plan` (method, line 674) `def test_reflect_no_lessons_clean_plan(self, tmp_path)`
+  - `test_reflect_persists_to_file` (method, line 683) `def test_reflect_persists_to_file(self, tmp_path)`
+  - `test_reflect_lesson_has_required_fields` (method, line 698) `def test_reflect_lesson_has_required_fields(self, tmp_path)`
+  - `test_mcp_aci_status_no_plan` (method, line 724) `def test_mcp_aci_status_no_plan(self, tmp_path)`
+  - `test_mcp_aci_plan_returns_json` (method, line 734) `def test_mcp_aci_plan_returns_json(self, tmp_path)`
+  - `test_mcp_aci_plan_uses_rhost_from_payload` (method, line 747) `def test_mcp_aci_plan_uses_rhost_from_payload(self, tmp_path)`
+  - `test_mcp_aci_plan_static_backend` (method, line 758) `def test_mcp_aci_plan_static_backend(self, tmp_path)`
+  - `test_mcp_aci_replan_no_plan` (method, line 769) `def test_mcp_aci_replan_no_plan(self, tmp_path)`
+  - `test_mcp_aci_replan_with_plan` (method, line 780) `def test_mcp_aci_replan_with_plan(self, tmp_path)`
+  - `test_mcp_aci_status_after_plan` (method, line 793) `def test_mcp_aci_status_after_plan(self, tmp_path)`
+  - `test_mcp_aci_plan_phase_filter` (method, line 806) `def test_mcp_aci_plan_phase_filter(self, tmp_path)`
+  - `test_save_load_plan_roundtrip` (method, line 830) `def test_save_load_plan_roundtrip(self, tmp_path)`
+  - `test_load_plan_returns_none_for_missing` (method, line 845) `def test_load_plan_returns_none_for_missing(self, tmp_path)`
+  - `test_load_plan_returns_none_for_corrupt` (method, line 851) `def test_load_plan_returns_none_for_corrupt(self, tmp_path)`
+  - `test_archive_plan_appends` (method, line 859) `def test_archive_plan_appends(self, tmp_path)`
+  - `test_count_objectives_by_status` (method, line 876) `def test_count_objectives_by_status(self, tmp_path)`
+  - `test_count_objectives_returns_empty_for_missing_file` (method, line 904) `def test_count_objectives_returns_empty_for_missing_file(self, tmp_path)`
+  - `test_plan_command` (method, line 915) `def test_plan_command(self, tmp_path)`
+  - `test_status_command_no_plan` (method, line 926) `def test_status_command_no_plan(self, tmp_path, capsys)`
+  - `test_replan_command_no_plan` (method, line 940) `def test_replan_command_no_plan(self, tmp_path, capsys)`
+  - `test_no_subcommand_returns_nonzero` (method, line 954) `def test_no_subcommand_returns_nonzero(self, tmp_path)`
+  - `test_reflect_command_no_plan` (method, line 960) `def test_reflect_command_no_plan(self, tmp_path, capsys)`
 - Depends on: `skills/aci_planner.py`
 
 ## tests/test_addon_creator.py
@@ -388,52 +388,52 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Symbols:
   - `TestApiAuthzConfig` (class, line 21) `class TestApiAuthzConfig`
   - `TestApiKey` (class, line 45) `class TestApiKey`
-  - `TestApiKeyStore` (class, line 96) `class TestApiKeyStore`
-  - `TestRequireApiAuth` (class, line 271) `class TestRequireApiAuth`
-  - `TestCreateApiToken` (class, line 356) `class TestCreateApiToken`
-  - `TestEdgeCases` (class, line 397) `class TestEdgeCases`
+  - `TestApiKeyStore` (class, line 102) `class TestApiKeyStore`
+  - `TestRequireApiAuth` (class, line 288) `class TestRequireApiAuth`
+  - `TestCreateApiToken` (class, line 377) `class TestCreateApiToken`
+  - `TestEdgeCases` (class, line 423) `class TestEdgeCases`
   - `test_defaults_are_secure_by_default` (method, line 24) `def test_defaults_are_secure_by_default(self)`
   - `test_custom_overrides_preserve_typed_semantics` (method, line 32) `def test_custom_overrides_preserve_typed_semantics(self)`
   - `test_serialization_roundtrip_preserves_all_fields` (method, line 48) `def test_serialization_roundtrip_preserves_all_fields(self)`
   - `test_detects_expiration_correctly` (method, line 65) `def test_detects_expiration_correctly(self)`
-  - `test_checks_permissions_with_set_operations` (method, line 83) `def test_checks_permissions_with_set_operations(self)`
-  - `_make_store` (method, line 99) `def _make_store(self, tmp_path)`
-  - `test_creates_and_lists_keys_scoped_by_tenant` (method, line 105) `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)`
-  - `test_validates_a_known_key_and_returns_record` (method, line 116) `def test_validates_a_known_key_and_returns_record(self, tmp_path)`
-  - `test_rejects_unknown_key_returning_none` (method, line 124) `def test_rejects_unknown_key_returning_none(self, tmp_path)`
-  - `test_rejects_empty_plaintext_key` (method, line 128) `def test_rejects_empty_plaintext_key(self, tmp_path)`
-  - `test_rejects_expired_key` (method, line 132) `def test_rejects_expired_key(self, tmp_path)`
-  - `test_updates_last_used_on_successful_validation` (method, line 151) `def test_updates_last_used_on_successful_validation(self, tmp_path)`
-  - `test_revokes_key_preventing_future_validation` (method, line 162) `def test_revokes_key_preventing_future_validation(self, tmp_path)`
-  - `test_revocation_is_idempotent` (method, line 168) `def test_revocation_is_idempotent(self, tmp_path)`
-  - `test_enforces_max_keys_per_tenant_raises_value_error` (method, line 172) `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)`
-  - `test_rotates_key_preserving_tenant_label_and_permissions` (method, line 185) `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)`
-  - `test_rotation_copies_permissions_from_the_rotated_key` (method, line 195) `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)`
-  - `test_old_key_stays_valid_during_rotation_grace` (method, line 206) `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)`
-  - `test_old_key_rejected_after_rotation_grace_expires` (method, line 214) `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)`
-  - `test_retired_keys_are_pruned_after_grace_expires` (method, line 227) `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)`
-  - `test_rotation_does_not_grow_active_key_count` (method, line 243) `def test_rotation_does_not_grow_active_key_count(self, tmp_path)`
-  - `test_never_stores_plaintext_token_on_disk` (method, line 258) `def test_never_stores_plaintext_token_on_disk(self, tmp_path)`
-  - `_make_app` (method, line 274) `def _make_app(self, tmp_path)`
-  - `_build_client` (method, line 282) `def _build_client(self, tmp_path, store)`
-  - `test_allows_valid_key_in_bearer_header` (method, line 312) `def test_allows_valid_key_in_bearer_header(self, tmp_path)`
-  - `test_allows_valid_key_in_x_api_key_header` (method, line 319) `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)`
-  - `test_allows_valid_key_in_query_param` (method, line 325) `def test_allows_valid_key_in_query_param(self, tmp_path)`
-  - `test_rejects_missing_key_with_401` (method, line 331) `def test_rejects_missing_key_with_401(self, tmp_path)`
-  - `test_rejects_invalid_key_with_401` (method, line 336) `def test_rejects_invalid_key_with_401(self, tmp_path)`
-  - `test_rejects_key_with_insufficient_permissions_with_403` (method, line 341) `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)`
-  - `test_sets_g_variables_with_api_key_context_on_success` (method, line 347) `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)`
-  - `_make_store` (method, line 359) `def _make_store(self, tmp_path)`
-  - `test_returns_a_validatable_token` (method, line 365) `def test_returns_a_validatable_token(self, tmp_path)`
-  - `test_stores_permissions_on_the_key_record` (method, line 373) `def test_stores_permissions_on_the_key_record(self, tmp_path)`
-  - `test_sets_expiration_when_days_are_provided` (method, line 386) `def test_sets_expiration_when_days_are_provided(self, tmp_path)`
-  - `_make_store` (method, line 400) `def _make_store(self, tmp_path)`
-  - `test_constant_time_comparison_rejects_wrong_secrets` (method, line 406) `def test_constant_time_comparison_rejects_wrong_secrets(self)`
-  - `test_generates_50_unique_tokens_without_collision` (method, line 414) `def test_generates_50_unique_tokens_without_collision(self)`
-  - `test_atomic_write_leaves_no_tmp_files` (method, line 419) `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)`
-  - `secure` (method, line 294) `def secure()`
-  - `g_check` (method, line 299) `def g_check()`
-  - `admin_only` (method, line 307) `def admin_only()`
+  - `test_checks_permissions_with_set_operations` (method, line 87) `def test_checks_permissions_with_set_operations(self)`
+  - `_make_store` (method, line 105) `def _make_store(self, tmp_path)`
+  - `test_creates_and_lists_keys_scoped_by_tenant` (method, line 114) `def test_creates_and_lists_keys_scoped_by_tenant(self, tmp_path)`
+  - `test_validates_a_known_key_and_returns_record` (method, line 125) `def test_validates_a_known_key_and_returns_record(self, tmp_path)`
+  - `test_rejects_unknown_key_returning_none` (method, line 133) `def test_rejects_unknown_key_returning_none(self, tmp_path)`
+  - `test_rejects_empty_plaintext_key` (method, line 137) `def test_rejects_empty_plaintext_key(self, tmp_path)`
+  - `test_rejects_expired_key` (method, line 141) `def test_rejects_expired_key(self, tmp_path)`
+  - `test_updates_last_used_on_successful_validation` (method, line 162) `def test_updates_last_used_on_successful_validation(self, tmp_path)`
+  - `test_revokes_key_preventing_future_validation` (method, line 173) `def test_revokes_key_preventing_future_validation(self, tmp_path)`
+  - `test_revocation_is_idempotent` (method, line 179) `def test_revocation_is_idempotent(self, tmp_path)`
+  - `test_enforces_max_keys_per_tenant_raises_value_error` (method, line 183) `def test_enforces_max_keys_per_tenant_raises_value_error(self, tmp_path)`
+  - `test_rotates_key_preserving_tenant_label_and_permissions` (method, line 196) `def test_rotates_key_preserving_tenant_label_and_permissions(self, tmp_path)`
+  - `test_rotation_copies_permissions_from_the_rotated_key` (method, line 206) `def test_rotation_copies_permissions_from_the_rotated_key(self, tmp_path)`
+  - `test_old_key_stays_valid_during_rotation_grace` (method, line 217) `def test_old_key_stays_valid_during_rotation_grace(self, tmp_path)`
+  - `test_old_key_rejected_after_rotation_grace_expires` (method, line 225) `def test_old_key_rejected_after_rotation_grace_expires(self, tmp_path)`
+  - `test_retired_keys_are_pruned_after_grace_expires` (method, line 240) `def test_retired_keys_are_pruned_after_grace_expires(self, tmp_path)`
+  - `test_rotation_does_not_grow_active_key_count` (method, line 258) `def test_rotation_does_not_grow_active_key_count(self, tmp_path)`
+  - `test_never_stores_plaintext_token_on_disk` (method, line 275) `def test_never_stores_plaintext_token_on_disk(self, tmp_path)`
+  - `_make_app` (method, line 291) `def _make_app(self, tmp_path)`
+  - `_build_client` (method, line 301) `def _build_client(self, tmp_path, store)`
+  - `test_allows_valid_key_in_bearer_header` (method, line 333) `def test_allows_valid_key_in_bearer_header(self, tmp_path)`
+  - `test_allows_valid_key_in_x_api_key_header` (method, line 340) `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)`
+  - `test_allows_valid_key_in_query_param` (method, line 346) `def test_allows_valid_key_in_query_param(self, tmp_path)`
+  - `test_rejects_missing_key_with_401` (method, line 352) `def test_rejects_missing_key_with_401(self, tmp_path)`
+  - `test_rejects_invalid_key_with_401` (method, line 357) `def test_rejects_invalid_key_with_401(self, tmp_path)`
+  - `test_rejects_key_with_insufficient_permissions_with_403` (method, line 362) `def test_rejects_key_with_insufficient_permissions_with_403(self, tmp_path)`
+  - `test_sets_g_variables_with_api_key_context_on_success` (method, line 368) `def test_sets_g_variables_with_api_key_context_on_success(self, tmp_path)`
+  - `_make_store` (method, line 380) `def _make_store(self, tmp_path)`
+  - `test_returns_a_validatable_token` (method, line 389) `def test_returns_a_validatable_token(self, tmp_path)`
+  - `test_stores_permissions_on_the_key_record` (method, line 397) `def test_stores_permissions_on_the_key_record(self, tmp_path)`
+  - `test_sets_expiration_when_days_are_provided` (method, line 412) `def test_sets_expiration_when_days_are_provided(self, tmp_path)`
+  - `_make_store` (method, line 426) `def _make_store(self, tmp_path)`
+  - `test_constant_time_comparison_rejects_wrong_secrets` (method, line 435) `def test_constant_time_comparison_rejects_wrong_secrets(self)`
+  - `test_generates_50_unique_tokens_without_collision` (method, line 444) `def test_generates_50_unique_tokens_without_collision(self)`
+  - `test_atomic_write_leaves_no_tmp_files` (method, line 450) `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)`
+  - `secure` (method, line 313) `def secure()`
+  - `g_check` (method, line 318) `def g_check()`
+  - `admin_only` (method, line 328) `def admin_only()`
 - Depends on: `core/api_authz.py`
 
 ## tests/test_api_key_resolution.py
@@ -442,14 +442,14 @@ Pages: [KB_tests.md](KB_tests.md), [KB_tests_p2.md](KB_tests_p2.md), [KB_tests_p
 - Language: py
 - Symbols:
   - `TestApiKeyWiredIntoParams` (class, line 21) `class TestApiKeyWiredIntoParams`
-  - `TestReplaceCommandPlaceholders` (class, line 41) `class TestReplaceCommandPlaceholders`
+  - `TestReplaceCommandPlaceholders` (class, line 39) `class TestReplaceCommandPlaceholders`
   - `test_params_api_key_is_not_hardcoded_none` (method, line 22) `def test_params_api_key_is_not_hardcoded_none(self)`
-  - `test_params_api_key_binds_config_attr` (method, line 29) `def test_params_api_key_binds_config_attr(self)`
-  - `test_class_attribute_api_key_reads_payload` (method, line 36) `def test_class_attribute_api_key_reads_payload(self)`
-  - `test_double_brace_substitution` (method, line 42) `def test_double_brace_substitution(self)`
-  - `test_single_brace_substitution` (method, line 49) `def test_single_brace_substitution(self)`
-  - `test_mixed_braces_in_one_command` (method, line 58) `def test_mixed_braces_in_one_command(self)`
-  - `test_missing_key_left_intact` (method, line 67) `def test_missing_key_left_intact(self)`
+  - `test_params_api_key_binds_config_attr` (method, line 28) `def test_params_api_key_binds_config_attr(self)`
+  - `test_class_attribute_api_key_reads_payload` (method, line 34) `def test_class_attribute_api_key_reads_payload(self)`
+  - `test_double_brace_substitution` (method, line 40) `def test_double_brace_substitution(self)`
+  - `test_single_brace_substitution` (method, line 47) `def test_single_brace_substitution(self)`
+  - `test_mixed_braces_in_one_command` (method, line 56) `def test_mixed_braces_in_one_command(self)`
+  - `test_missing_key_left_intact` (method, line 63) `def test_missing_key_left_intact(self)`
 - Depends on: `utils.py`
 
 ## tests/test_api_v1.py

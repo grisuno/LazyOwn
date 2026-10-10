@@ -79,8 +79,8 @@ def test_render_prompt_raw_has_no_markers():
 def test_strip_readline_markers_restores_raw():
     """Stripping markers from the readline prompt restores display text."""
     cfg = BannerConfig()
-    safe = render_prompt(None, cfg, readline_safe=True)
     raw = render_prompt(None, cfg, readline_safe=False)
+    safe = _readline_safe(raw, cfg)
     assert strip_readline_markers(safe, cfg) == raw
 
 

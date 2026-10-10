@@ -180,10 +180,10 @@ class TestSentinelRegexSafety:
 
     def _extract_sanitise_pattern(self, src: str) -> str:
         """Return the printable-ASCII pattern wired into ``sanitize_content``."""
-        match = re.search(r"re\.sub\(r'(\[\^[^']+)', ' ', text\)", src)
+        match = re.search(r"re\.sub\(r(['\"])(\[[^'\"]+)\1, (['\"]) \3, text\)", src)
         if match is None:
             pytest.fail("sanitize_content pattern not found in lazy_sentinel4.py")
-        return match.group(1)
+        return match.group(2)
 
     def test_no_redundant_character_range_in_sanitise(self, src: str) -> None:
         """The simplified character class is what landed."""

@@ -76,6 +76,12 @@ LazyOwn is a professional red team framework and Command & Control (C2) platform
 
 **New in v0.2.161:** integrated marketplace with YARA rules + Nuclei templates, `auto_pwn` autonomous exploitation, `hunt` command for threat-informed recon, post-command tips engine, automatic session data encryption, gamified ELO/badges, and 7 new APT playbooks.
 
+I also integrated autonomous-operation contracts into the existing
+flows (safety gate and planner frontier inside the daemon loop,
+provider failover, evidence vault, db-backed finding retests).
+I verify them through the usual verbs. Full contract:
+`specs/autonomous_ops.md`.
+
 ## Quickstart in three commands
 
 New here? This is the whole on-ramp. Full walkthrough: [`QUICKSTART.md`](QUICKSTART.md).

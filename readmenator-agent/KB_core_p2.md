@@ -20,6 +20,19 @@ Previous: [KB_core.md](KB_core.md)
   - `evaluate` (method, line 73) `def evaluate(self, command, output, target, phase)`
 - Imported by: `tests/test_core.py`
 
+## core/safe_console.py
+- Doc: Terminal-safe Rich console factory.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `supports_unicode` (function, line 33) `def supports_unicode()`
+  - `get_console` (function, line 42) `def get_console()`
+  - `panel_box` (function, line 52) `def panel_box()`
+  - `milestone_glyph` (function, line 57) `def milestone_glyph(state)`
+  - `progress_bar` (function, line 67) `def progress_bar(ratio, width)`
+- Depends on: `core/console.py`
+- Imported by: `cli/autosuggest.py`, `cli/ops_commands.py`, `cli/tips_engine.py`, `modules/loop_progress.py`, `tests/test_safe_console.py`
+
 ## core/safe_exec.py
 - Doc: Centralized safe command execution for the LazyOwn framework.
 - Layer: utility

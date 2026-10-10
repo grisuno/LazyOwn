@@ -1,8 +1,89 @@
-# Symbols (page 7 of 35)
+# Symbols (page 7 of 38)
 Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `ensure_blocking_stdio` | function | `core/console.py:161` | `def ensure_blocking_stdio()` |
+| `format_line` | function | `core/console.py:121` | `def format_line(prefix, message, glyph)` |
+| `print_error` | function | `core/console.py:137` | `def print_error(error)` |
+| `print_msg` | function | `core/console.py:143` | `def print_msg(msg)` |
+| `print_succ` | function | `core/console.py:155` | `def print_succ(msg)` |
+| `print_warn` | function | `core/console.py:149` | `def print_warn(warn)` |
+| `write_stdout` | function | `core/console.py:180` | `def write_stdout(text)` |
+| `_get_aes_key` | function | `core/credential_vault.py:79` | `def _get_aes_key(payload)` |
+| `check_dangerous_defaults` | function | `core/credential_vault.py:63` | `def check_dangerous_defaults(payload)` |
+| `generate_secure_defaults` | function | `core/credential_vault.py:215` | `def generate_secure_defaults()` |
+| `rotate_aes_key` | function | `core/credential_vault.py:186` | `def rotate_aes_key(payload, current_key)` |
+| `seal_payload` | function | `core/credential_vault.py:141` | `def seal_payload(payload, key)` |
+| `seal_value` | function | `core/credential_vault.py:93` | `def seal_value(plaintext, key)` |
+| `unseal_payload` | function | `core/credential_vault.py:164` | `def unseal_payload(payload, key)` |
+| `unseal_value` | function | `core/credential_vault.py:112` | `def unseal_value(sealed, key)` |
+| `Spray` | function | `core/credentials.py:273` | `def Spray(domain, users, password, target_url, wait, verbose, more_verbose)` |
+| `crack_password` | function | `core/credentials.py:183` | `def crack_password(crypttext)` |
+| `find_ea` | function | `core/credentials.py:220` | `def find_ea(keyword)` |
+| `find_ps` | function | `core/credentials.py:249` | `def find_ps(keyword)` |
+| `find_ss` | function | `core/credentials.py:261` | `def find_ss(keyword)` |
+| `format_openssh_key` | function | `core/credentials.py:341` | `def format_openssh_key(raw_key)` |
+| `format_rsa_key` | function | `core/credentials.py:355` | `def format_rsa_key(raw_key)` |
+| `generate_emails` | function | `core/credentials.py:160` | `def generate_emails(full_name, domain)` |
+| `get_credentials` | function | `core/credentials.py:17` | `def get_credentials(file, ncred)` |
+| `get_domain` | function | `core/credentials.py:67` | `def get_domain(url)` |
+| `get_hash` | function | `core/credentials.py:81` | `def get_hash(dir)` |
+| `get_users_dic` | function | `core/credentials.py:115` | `def get_users_dic(txt)` |
+| `return_creds` | function | `core/credentials.py:146` | `def return_creds()` |
+| `AESdecrypt` | function | `core/crypto.py:123` | `def AESdecrypt(data, key)` |
+| `AESencrypt` | function | `core/crypto.py:98` | `def AESencrypt(plaintext, key)` |
+| `derive_key` | function | `core/crypto.py:36` | `def derive_key(password, salt)` |
+| `dropFile` | function | `core/crypto.py:154` | `def dropFile(key, ciphertext)` |
+| `generate_salt` | function | `core/crypto.py:24` | `def generate_salt(length)` |
+| `generate_xor_key` | function | `core/crypto.py:83` | `def generate_xor_key(length)` |
+| `xor_encrypt_decrypt` | function | `core/crypto.py:67` | `def xor_encrypt_decrypt(data, key)` |
+| `DependencyReport` | class | `core/dependencies.py:268` | `class DependencyReport` |
+| `DependencySpec` | class | `core/dependencies.py:66` | `class DependencySpec` |
+| `DependencyStatus` | class | `core/dependencies.py:253` | `class DependencyStatus` |
+| `MissingDependencyError` | class | `core/dependencies.py:37` | `class MissingDependencyError(ImportError)` |
+| `_DeferredImport` | class | `core/dependencies.py:101` | `class _DeferredImport` |
+| `__bool__` | method | `core/dependencies.py:152` | `def __bool__(self)` |
+| `__call__` | method | `core/dependencies.py:136` | `def __call__(self)` |
+| `__getattr__` | method | `core/dependencies.py:132` | `def __getattr__(self, _name)` |
+| `__getitem__` | method | `core/dependencies.py:140` | `def __getitem__(self, _key)` |
+| `__init__` | method | `core/dependencies.py:45` | `def __init__(self, import_name, pip_package, feature)` |
+| `__init__` | method | `core/dependencies.py:115` | `def __init__(self, spec)` |
+| `__iter__` | method | `core/dependencies.py:144` | `def __iter__(self)` |
+| `__len__` | method | `core/dependencies.py:148` | `def __len__(self)` |
+| `_raise` | method | `core/dependencies.py:123` | `def _raise(self)` |
+| `_spec_for` | method | `core/dependencies.py:157` | `def _spec_for(import_name, pip_package, feature)` |
+| `collect_dependency_report` | method | `core/dependencies.py:312` | `def collect_dependency_report()` |
+| `format_report` | method | `core/dependencies.py:323` | `def format_report(report)` |
+| `main` | method | `core/dependencies.py:368` | `def main()` |
+| `missing` | method | `core/dependencies.py:278` | `def missing(self)` |
+| `ok` | method | `core/dependencies.py:283` | `def ok(self)` |
+| `optional_attr` | method | `core/dependencies.py:209` | `def optional_attr(import_name, attr)` |
+| `optional_import` | method | `core/dependencies.py:183` | `def optional_import(import_name)` |
+| `probe_python_dependency` | method | `core/dependencies.py:288` | `def probe_python_dependency(spec)` |
+| `ErrorAdvice` | class | `core/error_advice.py:27` | `class ErrorAdvice` |
+| `ErrorAdviceConfig` | class | `core/error_advice.py:16` | `class ErrorAdviceConfig` |
+| `docs_url` | method | `core/error_advice.py:35` | `def docs_url(self, config)` |
+| `get_advice` | method | `core/error_advice.py:74` | `def get_advice(key)` |
+| `render_advice` | method | `core/error_advice.py:86` | `def render_advice(key, config)` |
+| `AuthError` | class | `core/errors.py:92` | `class AuthError(LazyOwnError)` |
+| `ConfigError` | class | `core/errors.py:78` | `class ConfigError(LazyOwnError)` |
+| `DatabaseError` | class | `core/errors.py:113` | `class DatabaseError(LazyOwnError)` |
+| `ErrorCode` | class | `core/errors.py:10` | `class ErrorCode(IntEnum)` |
+| `LazyOwnError` | class | `core/errors.py:58` | `class LazyOwnError(Exception)` |
+| `NetworkError` | class | `core/errors.py:120` | `class NetworkError(LazyOwnError)` |
+| `PayloadError` | class | `core/errors.py:106` | `class PayloadError(LazyOwnError)` |
+| `PermissionError` | class | `core/errors.py:127` | `class PermissionError(LazyOwnError)` |
+| `TargetError` | class | `core/errors.py:85` | `class TargetError(LazyOwnError)` |
+| `ToolError` | class | `core/errors.py:99` | `class ToolError(LazyOwnError)` |
+| `ValidationError` | class | `core/errors.py:134` | `class ValidationError(LazyOwnError)` |
+| `__init__` | method | `core/errors.py:61` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:81` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:88` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:95` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:102` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:109` | `def __init__(self, message, error_code)` |
+| `__init__` | method | `core/errors.py:116` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:123` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:130` | `def __init__(self, message, error_code)` |
 | `__init__` | method | `core/errors.py:137` | `def __init__(self, message, error_code)` |
@@ -188,6 +269,11 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `put` | method | `core/protocols.py:54` | `def put(self, key, value)` |
 | `search` | method | `core/protocols.py:58` | `def search(self, query, k)` |
 | `suggest` | method | `core/protocols.py:27` | `def suggest(self, target, phase, context)` |
+| `get_console` | function | `core/safe_console.py:42` | `def get_console()` |
+| `milestone_glyph` | function | `core/safe_console.py:57` | `def milestone_glyph(state)` |
+| `panel_box` | function | `core/safe_console.py:52` | `def panel_box()` |
+| `progress_bar` | function | `core/safe_console.py:67` | `def progress_bar(ratio, width)` |
+| `supports_unicode` | function | `core/safe_console.py:33` | `def supports_unicode()` |
 | `CommandInjectionError` | class | `core/safe_exec.py:44` | `class CommandInjectionError(PermissionError)` |
 | `UrlValidationError` | class | `core/safe_exec.py:48` | `class UrlValidationError(PermissionError)` |
 | `needs_shell` | method | `core/safe_exec.py:52` | `def needs_shell(command)` |
@@ -394,107 +480,21 @@ Previous: [SYMBOLS_p6.md](SYMBOLS_p6.md)
 | `aicmd_view` | method | `lazyc2.py:5326` | `def aicmd_view()` |
 | `analyze_behavioral_data` | method | `lazyc2.py:2341` | `def analyze_behavioral_data(behavioral_events)` |
 | `analyze_campaign_progress` | method | `lazyc2.py:2369` | `def analyze_campaign_progress(campaign_id, events)` |
+| `api_attack_bundle` | method | `lazyc2.py:7088` | `def api_attack_bundle()` |
+| `api_attack_graph` | method | `lazyc2.py:7036` | `def api_attack_graph()` |
 | `api_beacon_results` | method | `lazyc2.py:6388` | `def api_beacon_results(client_id)` |
-| `api_dashboard` | method | `lazyc2.py:7427` | `def api_dashboard()` |
+| `api_dashboard` | method | `lazyc2.py:7666` | `def api_dashboard()` |
 | `api_data` | method | `lazyc2.py:4216` | `def api_data()` |
+| `api_intel_bundle` | method | `lazyc2.py:7003` | `def api_intel_bundle()` |
+| `api_intel_graph` | method | `lazyc2.py:6947` | `def api_intel_graph()` |
 | `api_killchain` | method | `lazyc2.py:6357` | `def api_killchain()` |
-| `api_listeners` | method | `lazyc2.py:7497` | `def api_listeners()` |
-| `api_listeners_create` | method | `lazyc2.py:7504` | `def api_listeners_create()` |
-| `api_listeners_delete` | method | `lazyc2.py:7536` | `def api_listeners_delete(listener_id)` |
-| `api_listeners_start` | method | `lazyc2.py:7520` | `def api_listeners_start(listener_id)` |
-| `api_listeners_stop` | method | `lazyc2.py:7528` | `def api_listeners_stop(listener_id)` |
+| `api_listeners` | method | `lazyc2.py:7736` | `def api_listeners()` |
+| `api_listeners_create` | method | `lazyc2.py:7743` | `def api_listeners_create()` |
+| `api_listeners_delete` | method | `lazyc2.py:7775` | `def api_listeners_delete(listener_id)` |
+| `api_listeners_start` | method | `lazyc2.py:7759` | `def api_listeners_start(listener_id)` |
+| `api_listeners_stop` | method | `lazyc2.py:7767` | `def api_listeners_stop(listener_id)` |
 | `api_surface_live` | method | `lazyc2.py:6854` | `def api_surface_live()` |
-| `aumentar_elo` | method | `lazyc2.py:1095` | `def aumentar_elo(user_id, cantidad)` |
-| `aumentar_elo_route` | method | `lazyc2.py:6010` | `def aumentar_elo_route(user_id)` |
-| `authenticate` | method | `lazyc2.py:1346` | `def authenticate()` |
-| `banners` | method | `lazyc2.py:6026` | `def banners()` |
-| `campaign_report` | method | `lazyc2.py:7075` | `def campaign_report(campaign_id)` |
-| `capture_audio` | method | `lazyc2.py:6815` | `def capture_audio()` |
-| `capture_image` | method | `lazyc2.py:6789` | `def capture_image()` |
-| `change_password` | method | `lazyc2.py:5944` | `def change_password()` |
-| `chatbot` | method | `lazyc2.py:4778` | `def chatbot()` |
-| `check_auth` | method | `lazyc2.py:1331` | `def check_auth(username, password)` |
-| `clean_expired_tokens` | method | `lazyc2.py:593` | `def clean_expired_tokens()` |
-| `clean_json` | method | `lazyc2.py:601` | `def clean_json(text)` |
-| `compliance_add_evidence` | method | `lazyc2.py:6186` | `def compliance_add_evidence()` |
-| `compliance_dashboard` | method | `lazyc2.py:6135` | `def compliance_dashboard()` |
-| `compliance_export` | method | `lazyc2.py:6236` | `def compliance_export(format)` |
-| `compliance_report` | method | `lazyc2.py:6157` | `def compliance_report()` |
-| `compliance_verify_evidence` | method | `lazyc2.py:6222` | `def compliance_verify_evidence()` |
-| `connect` | method | `lazyc2.py:6488` | `def connect()` |
-| `create_campaign` | method | `lazyc2.py:6959` | `def create_campaign()` |
-| `create_cves` | method | `lazyc2.py:1047` | `def create_cves()` |
-| `create_multivector_campaign` | method | `lazyc2.py:7204` | `def create_multivector_campaign()` |
-| `create_report` | method | `lazyc2.py:1066` | `def create_report()` |
-| `create_route` | method | `lazyc2.py:3972` | `def create_route()` |
-| `create_short_url` | method | `lazyc2.py:4378` | `def create_short_url()` |
-| `create_tool` | method | `lazyc2.py:5393` | `def create_tool()` |
-| `csrf_protect` | method | `lazyc2.py:1387` | `def csrf_protect(view)` |
-| `csv_to_html` | method | `lazyc2.py:4932` | `def csv_to_html()` |
-| `cve` | method | `lazyc2.py:5135` | `def cve(cve_id)` |
-| `cves` | method | `lazyc2.py:5109` | `def cves()` |
-| `datetime_now_iso` | method | `lazyc2.py:1201` | `def datetime_now_iso()` |
-| `decorated` | method | `lazyc2.py:1365` | `def decorated()` |
-| `decorated` | method | `lazyc2.py:1378` | `def decorated()` |
-| `decoy` | method | `lazyc2.py:1899` | `def decoy()` |
-| `decrypt_data` | method | `lazyc2.py:1946` | `def decrypt_data(encrypted_data, is_file)` |
-| `delete_tool` | method | `lazyc2.py:5499` | `def delete_tool(toolname)` |
-| `download_file` | method | `lazyc2.py:3843` | `def download_file()` |
-| `download_files` | method | `lazyc2.py:4506` | `def download_files(filename)` |
-| `dynamic_route` | method | `lazyc2.py:4041` | `def dynamic_route(route_path, data)` |
-| `edit_cve` | method | `lazyc2.py:5150` | `def edit_cve(cve_id)` |
-| `edit_event` | method | `lazyc2.py:5249` | `def edit_event(event_name)` |
-| `edit_notes` | method | `lazyc2.py:5184` | `def edit_notes()` |
-| `edit_task` | method | `lazyc2.py:5075` | `def edit_task(task_id)` |
-| `encrypt_data` | method | `lazyc2.py:1937` | `def encrypt_data(data)` |
-| `ensure_sessions_dir` | method | `lazyc2.py:454` | `def ensure_sessions_dir()` |
-| `escape_js` | method | `lazyc2.py:1131` | `def escape_js(s)` |
-| `escape_js_string` | method | `lazyc2.py:1319` | `def escape_js_string(value)` |
-| `execute_command` | method | `lazyc2.py:1682` | `def execute_command(command)` |
-| `extract_attack_vectors` | method | `lazyc2.py:838` | `def extract_attack_vectors(nodes, edges)` |
-| `favicon` | method | `lazyc2.py:4155` | `def favicon()` |
-| `format` | method | `lazyc2.py:427` | `def format(self, record)` |
-| `fromjson` | method | `lazyc2.py:755` | `def fromjson(value)` |
-| `generalbot` | method | `lazyc2.py:4916` | `def generalbot()` |
-| `get_client_ip` | method | `lazyc2.py:2109` | `def get_client_ip()` |
-| `get_config` | method | `lazyc2.py:6770` | `def get_config()` |
-| `get_connected_clients` | method | `lazyc2.py:6107` | `def get_connected_clients()` |
-| `get_data` | method | `lazyc2.py:6879` | `def get_data()` |
-| `get_discovered_hosts` | method | `lazyc2.py:1982` | `def get_discovered_hosts()` |
-| `get_event_config` | method | `lazyc2.py:5284` | `def get_event_config()` |
-| `get_event_config_view` | method | `lazyc2.py:5291` | `def get_event_config_view()` |
-| `get_events` | method | `lazyc2.py:5351` | `def get_events()` |
-| `get_karma_name` | method | `lazyc2.py:738` | `def get_karma_name(elo)` |
-| `get_local_ip_addresses` | method | `lazyc2.py:2032` | `def get_local_ip_addresses()` |
-| `get_notes` | method | `lazyc2.py:5202` | `def get_notes()` |
-| `get_output` | method | `lazyc2.py:4669` | `def get_output()` |
-| `get_request_details` | method | `lazyc2.py:2118` | `def get_request_details()` |
-| `get_results` | method | `lazyc2.py:4705` | `def get_results()` |
-| `get_safe_file_path` | method | `lazyc2.py:2271` | `def get_safe_file_path(user_path)` |
-| `get_tasks` | method | `lazyc2.py:5055` | `def get_tasks()` |
-| `graph` | method | `lazyc2.py:5031` | `def graph()` |
-| `handle_client` | method | `lazyc2.py:1880` | `def handle_client(client_socket, remote_host, remote_port)` |
-| `handle_input` | method | `lazyc2.py:6585` | `def handle_input(data)` |
-| `health_check` | method | `lazyc2.py:7381` | `def health_check()` |
-| `implants_check` | method | `lazyc2.py:821` | `def implants_check()` |
-| `index` | method | `lazyc2.py:2957` | `def index()` |
-| `internal_server_error` | method | `lazyc2.py:6761` | `def internal_server_error(e)` |
-| `is_binary` | method | `lazyc2.py:552` | `def is_binary(safe_filename)` |
-| `is_insecure_credential` | function | `lazyc2.py:187` | `def is_insecure_credential(user, pwd)` |
-| `is_safe_template_path` | method | `lazyc2.py:512` | `def is_safe_template_path(template_path, template_name)` |
-| `is_valid_data` | method | `lazyc2.py:4065` | `def is_valid_data(data)` |
-| `is_valid_route_path` | method | `lazyc2.py:4058` | `def is_valid_route_path(route_path)` |
-| `is_valid_template_name` | method | `lazyc2.py:4075` | `def is_valid_template_name(template_name)` |
-| `is_valid_url` | method | `lazyc2.py:2263` | `def is_valid_url(url)` |
-| `issue_command` | method | `lazyc2.py:3792` | `def issue_command()` |
-| `killchain_view` | method | `lazyc2.py:6327` | `def killchain_view()` |
-| `lazybot` | method | `lazyc2.py:6118` | `def lazybot()` |
-| `lazyphishingai` | method | `lazyc2.py:7037` | `def lazyphishingai()` |
-| `lazyreport` | method | `lazyc2.py:6266` | `def lazyreport()` |
-| `lazyreport_view` | method | `lazyc2.py:6321` | `def lazyreport_view()` |
-| `list_campaigns` | method | `lazyc2.py:6946` | `def list_campaigns()` |
-| `list_tools` | method | `lazyc2.py:5383` | `def list_tools()` |
-| `listener` | method | `lazyc2.py:6497` | `def listener()` |
-| `listener_command` | method | `lazyc2.py:6609` | `def listener_command(msg)` |
+| `attack3d_view` | method | `lazyc2.py:6913` | `def attack3d_view()` |
+| `attack_bundle_view` | method | `lazyc2.py:6932` | `def attack_bundle_view()` |
 
 Next: [SYMBOLS_p8.md](SYMBOLS_p8.md)

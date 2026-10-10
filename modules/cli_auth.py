@@ -147,7 +147,7 @@ def register(username: str, password: str) -> dict[str, Any]:
 
     Args:
         username: Desired username.
-        password: Cleartext password.
+        password: Clelazyt password.
 
     Returns:
         Dict with ``success``, ``username``, ``role`` keys.

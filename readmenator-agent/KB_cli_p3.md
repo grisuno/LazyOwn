@@ -19,47 +19,47 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `write_phase` (function, line 302) `def write_phase(phase)`
   - `print_phase` (function, line 317) `def print_phase()`
   - `_render_progress_bar` (function, line 359) `def _render_progress_bar(ratio)`
-  - `_os_identified` (function, line 366) `def _os_identified(sessions_dir)`
-  - `_glob_count` (function, line 374) `def _glob_count(sessions_dir, pattern)`
-  - `_report_artifact_exists` (function, line 379) `def _report_artifact_exists(sessions_dir)`
-  - `_count_pivots` (function, line 384) `def _count_pivots(sessions_dir)`
-  - `phase_progress` (function, line 392) `def phase_progress(world, sessions_dir)`
-  - `_read_json` (function, line 424) `def _read_json(path)`
-  - `_write_json_atomic` (function, line 432) `def _write_json_atomic(path, data)`
-  - `_count_glob` (function, line 449) `def _count_glob(pattern)`
-  - `note_add` (function, line 467) `def note_add(text, rhost, phase)`
-  - `note_list` (function, line 492) `def note_list(rhost, limit)`
-  - `LootEntry` (class, line 544) `class LootEntry`
-  - `gather_loot` (method, line 570) `def gather_loot(sessions_dir)`
-  - `loot_show` (method, line 613) `def loot_show(sessions_dir)`
-  - `_loot_provenance` (method, line 656) `def _loot_provenance(query, sessions_dir)`
-  - `loot_search` (method, line 685) `def loot_search(query, sessions_dir)`
-  - `_cred_outcomes_for_host` (method, line 730) `def _cred_outcomes_for_host(world, host)`
-  - `_cred_node` (method, line 757) `def _cred_node(value)`
-  - `loot_reuse` (method, line 762) `def loot_reuse(rhost, sessions_dir)`
-  - `loot_graph` (method, line 846) `def loot_graph(sessions_dir)`
-  - `resolve_cred_value` (method, line 916) `def resolve_cred_value(selector, entries)`
-  - `loot_mark` (method, line 944) `def loot_mark(selector, outcome, host, sessions_dir)`
-  - `pivot_add` (method, line 986) `def pivot_add(new_ip, via_ip, note)`
-  - `pivot_list` (method, line 1012) `def pivot_list()`
-  - `_load_tasks` (method, line 1058) `def _load_tasks()`
-  - `_save_tasks` (method, line 1065) `def _save_tasks(tasks)`
-  - `tasks_list` (method, line 1069) `def tasks_list(status_filter, limit)`
-  - `tasks_add` (method, line 1124) `def tasks_add(title, operator)`
-  - `tasks_done` (method, line 1145) `def tasks_done(task_id)`
-  - `tasks_start` (method, line 1165) `def tasks_start(task_id)`
-  - `scans_list` (method, line 1188) `def scans_list(rhost, sessions_dir)`
-  - `sitrep` (method, line 1241) `def sitrep(payload, sessions_dir)`
-  - `_print_next_steps` (method, line 1374) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
-  - `_render_steps` (method, line 1436) `def _render_steps(steps)`
-  - `_read_plan` (method, line 1441) `def _read_plan()`
-  - `_human_age` (method, line 1462) `def _human_age(seconds)`
-  - `_human_size` (method, line 1472) `def _human_size(n)`
-  - `value` (method, line 560) `def value(self)`
-  - `_bucket` (method, line 860) `def _bucket(node)`
-  - `_host_label` (method, line 863) `def _host_label(node)`
-  - `_join` (method, line 900) `def _join(items)`
-- Depends on: `core/console.py`, `modules/killchain.py`, `modules/world_model.py`
+  - `_os_identified` (function, line 367) `def _os_identified(sessions_dir)`
+  - `_glob_count` (function, line 375) `def _glob_count(sessions_dir, pattern)`
+  - `_report_artifact_exists` (function, line 380) `def _report_artifact_exists(sessions_dir)`
+  - `_count_pivots` (function, line 385) `def _count_pivots(sessions_dir)`
+  - `phase_progress` (function, line 393) `def phase_progress(world, sessions_dir)`
+  - `_read_json` (function, line 425) `def _read_json(path)`
+  - `_write_json_atomic` (function, line 433) `def _write_json_atomic(path, data)`
+  - `_count_glob` (function, line 450) `def _count_glob(pattern)`
+  - `note_add` (function, line 468) `def note_add(text, rhost, phase)`
+  - `note_list` (function, line 493) `def note_list(rhost, limit)`
+  - `LootEntry` (class, line 545) `class LootEntry`
+  - `gather_loot` (method, line 571) `def gather_loot(sessions_dir)`
+  - `loot_show` (method, line 614) `def loot_show(sessions_dir)`
+  - `_loot_provenance` (method, line 657) `def _loot_provenance(query, sessions_dir)`
+  - `loot_search` (method, line 686) `def loot_search(query, sessions_dir)`
+  - `_cred_outcomes_for_host` (method, line 731) `def _cred_outcomes_for_host(world, host)`
+  - `_cred_node` (method, line 758) `def _cred_node(value)`
+  - `loot_reuse` (method, line 763) `def loot_reuse(rhost, sessions_dir)`
+  - `loot_graph` (method, line 847) `def loot_graph(sessions_dir)`
+  - `resolve_cred_value` (method, line 917) `def resolve_cred_value(selector, entries)`
+  - `loot_mark` (method, line 945) `def loot_mark(selector, outcome, host, sessions_dir)`
+  - `pivot_add` (method, line 987) `def pivot_add(new_ip, via_ip, note)`
+  - `pivot_list` (method, line 1013) `def pivot_list()`
+  - `_load_tasks` (method, line 1059) `def _load_tasks()`
+  - `_save_tasks` (method, line 1066) `def _save_tasks(tasks)`
+  - `tasks_list` (method, line 1070) `def tasks_list(status_filter, limit)`
+  - `tasks_add` (method, line 1125) `def tasks_add(title, operator)`
+  - `tasks_done` (method, line 1146) `def tasks_done(task_id)`
+  - `tasks_start` (method, line 1166) `def tasks_start(task_id)`
+  - `scans_list` (method, line 1189) `def scans_list(rhost, sessions_dir)`
+  - `sitrep` (method, line 1242) `def sitrep(payload, sessions_dir)`
+  - `_print_next_steps` (method, line 1387) `def _print_next_steps(rhost, phase, has_scan, cred_count, n_tasks_new, n_hosts)`
+  - `_render_steps` (method, line 1449) `def _render_steps(steps)`
+  - `_read_plan` (method, line 1454) `def _read_plan()`
+  - `_human_age` (method, line 1475) `def _human_age(seconds)`
+  - `_human_size` (method, line 1485) `def _human_size(n)`
+  - `value` (method, line 561) `def value(self)`
+  - `_bucket` (method, line 861) `def _bucket(node)`
+  - `_host_label` (method, line 864) `def _host_label(node)`
+  - `_join` (method, line 901) `def _join(items)`
+- Depends on: `core/safe_console.py`, `modules/killchain.py`, `modules/world_model.py`
 - Imported by: `cli/commands/help_ui.py`, `cli/commands/misc_migrated.py`, `cli/commands/session_ops.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `lazyown.py`, `tests/test_killchain_unified.py`, `tests/test_ops_loot_phase.py`
 
 ## cli/output_mode.py
@@ -329,8 +329,9 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `_extract_reward` (method, line 175) `def _extract_reward(payload)`
   - `event_to_entry` (method, line 183) `def event_to_entry(event)`
   - `latest_reasoning` (method, line 216) `def latest_reasoning(path, limit)`
+  - `latest_hint` (method, line 229) `def latest_hint(events_path)`
 - Depends on: `core/text_utils.py`
-- Imported by: `cli/dashboard_tui.py`, `tests/test_reasoning_stream.py`
+- Imported by: `cli/commands/orchestration.py`, `cli/dashboard_tui.py`, `tests/test_engage_gates.py`, `tests/test_reasoning_stream.py`
 
 ## cli/recommendation.py
 - Doc: Unified next-best-action engine: the single source of truth for "what next".
@@ -404,7 +405,7 @@ Previous: [KB_cli_p2.md](KB_cli_p2.md)
   - `propose` (method, line 545) `def propose(self, ctx)`
   - `_compute_centrality` (method, line 603) `def _compute_centrality(graph_data)`
 - Depends on: `cli/exploration.py`, `cli/graph_advisor.py`, `cli/reactive_hints.py`, `cli/recommendation.py`, `cli/recon_plan.py`, `core/logging.py`, `modules/apt_playbooks.py`, `skills/lazyown_policy.py`
-- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
+- Imported by: `cli/commands/misc_migrated.py`, `cli/dashboard_tui.py`, `cli/tips_engine.py`, `modules/engage_summary.py`, `skills/lazyown_mcp.py`, `tests/test_evidence_hints.py`, `tests/test_killchain_gap_signal.py`, `tests/test_phase1_data_gaps.py`, `tests/test_recommendation.py`
 
 ## cli/recon_plan.py
 - Doc: Reconnaissance plan generator built on top of :mod:`cli.exploration`.

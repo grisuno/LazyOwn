@@ -52,6 +52,8 @@ class PlanCandidate:
 
 @dataclass
 class PlanResult:
+    """Ranked planning outcome for one target."""
+
     target: str
     candidates: list[PlanCandidate]
     chosen: PlanCandidate | None
@@ -442,12 +444,130 @@ class Planner:
 
 
 def get_planner(api_key: str = "") -> Planner:
+    """Return a fact-based planner with an optional LLM tie-break key."""
     return Planner(api_key=api_key)
+
+
+@dataclass
+class TodoItem:
+    """One serial step in a multi-step chain with named requirements."""
+
+    name: str
+    done: bool = False
+    requires: list[str] = field(default_factory=list)
+
+
+class TodoList:
+    """Dependency-safe todo sequence shared across planner wake-ups.
+
+    The planner records a serial exploit chain once (for example
+    credential capture before lateral movement) and the engine only
+    emits the step whose requirements are already satisfied.
+    """
+
+    def __init__(self) -> None:
+        """Initialize an empty todo sequence."""
+        self._items: list[TodoItem] = []
+
+    def todo_add(self, name: str, requires: list[str] | None = None) -> TodoItem:
+        """Append a step and return it."""
+        item = TodoItem(name=str(name), requires=list(requires or []))
+        self._items.append(item)
+        return item
+
+    def todo_done(self, name: str) -> bool:
+        """Mark a step done when its requirements hold."""
+        known = {i.name for i in self._items if i.done}
+        for item in self._items:
+            if item.name == str(name):
+                if all(r in known for r in item.requires):
+                    item.done = True
+                    return True
+                return False
+        return False
+
+    def next_ready(self) -> TodoItem | None:
+        """Return the first pending step whose requirements hold."""
+        done = {i.name for i in self._items if i.done}
+        for item in self._items:
+            if not item.done and all(r in done for r in item.requires):
+                return item
+        return None
+
+    def blocks(self, tactic: str) -> bool:
+        """Return True when a tactic must wait for an unfinished chain."""
+        normalized = str(tactic or "").lower()
+        if "lateral" not in normalized:
+            return False
+        return any(i.name == "creds" and not i.done for i in self._items)
+
+
+class Frontier:
+    """Per-target intent queue fed by planner wake-ups.
+
+    Each wake-up emits zero or more untried intents. Most wake-ups emit
+    zero, which tells the engine there is no new direction and it should
+    stop instead of re-running fallbacks. A facts fingerprint detects
+    whether the world changed since the last wake-up.
+    """
+
+    def __init__(self, planner: Planner, todos: TodoList | None = None) -> None:
+        """Bind the frontier to a planner and an optional todo list."""
+        self._planner = planner
+        self._todos = todos or TodoList()
+        self._queue: list[PlanCandidate] = []
+        self._tried: set[str] = set()
+        self._fingerprint: str = ""
+
+    @property
+    def todos(self) -> TodoList:
+        """Expose the shared todo list."""
+        return self._todos
+
+    @property
+    def tried(self) -> set[str]:
+        """Return the tried technique identifiers."""
+        return set(self._tried)
+
+    def refill(self, target: str, max_intents: int = 4) -> list[PlanCandidate]:
+        """Plan fresh intents, keeping only untried and unblocked ones."""
+        try:
+            result = self._planner.plan(target, max_candidates=max(8, max_intents * 2))
+        except Exception:
+            return []
+        fresh: list[PlanCandidate] = []
+        for candidate in result.candidates:
+            if candidate.technique_id in self._tried:
+                continue
+            if self._todos.blocks(candidate.tactic):
+                continue
+            fresh.append(candidate)
+            if len(fresh) >= max(1, max_intents):
+                break
+        self._queue.extend(fresh)
+        self._fingerprint = "|".join(sorted(result.facts_observed))
+        return fresh
+
+    def pop(self) -> PlanCandidate | None:
+        """Claim the oldest queued intent and mark its technique tried."""
+        if not self._queue:
+            return None
+        candidate = self._queue.pop(0)
+        if candidate.technique_id:
+            self._tried.add(candidate.technique_id)
+        return candidate
+
+    def __len__(self) -> int:
+        """Return the queued intent count."""
+        return len(self._queue)
 
 
 __all__ = [
     "Planner",
     "PlanCandidate",
     "PlanResult",
+    "Frontier",
+    "TodoList",
+    "TodoItem",
     "get_planner",
 ]

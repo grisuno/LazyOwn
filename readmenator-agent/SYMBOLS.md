@@ -1,5 +1,5 @@
-# Symbols (page 1 of 35)
-Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md)
+# Symbols (page 1 of 38)
+Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md](SYMBOLS_p3.md), [SYMBOLS_p4.md](SYMBOLS_p4.md), [SYMBOLS_p5.md](SYMBOLS_p5.md), [SYMBOLS_p6.md](SYMBOLS_p6.md), [SYMBOLS_p7.md](SYMBOLS_p7.md), [SYMBOLS_p8.md](SYMBOLS_p8.md), [SYMBOLS_p9.md](SYMBOLS_p9.md), [SYMBOLS_p10.md](SYMBOLS_p10.md), [SYMBOLS_p11.md](SYMBOLS_p11.md), [SYMBOLS_p12.md](SYMBOLS_p12.md), [SYMBOLS_p13.md](SYMBOLS_p13.md), [SYMBOLS_p14.md](SYMBOLS_p14.md), [SYMBOLS_p15.md](SYMBOLS_p15.md), [SYMBOLS_p16.md](SYMBOLS_p16.md), [SYMBOLS_p17.md](SYMBOLS_p17.md), [SYMBOLS_p18.md](SYMBOLS_p18.md), [SYMBOLS_p19.md](SYMBOLS_p19.md), [SYMBOLS_p20.md](SYMBOLS_p20.md), [SYMBOLS_p21.md](SYMBOLS_p21.md), [SYMBOLS_p22.md](SYMBOLS_p22.md), [SYMBOLS_p23.md](SYMBOLS_p23.md), [SYMBOLS_p24.md](SYMBOLS_p24.md), [SYMBOLS_p25.md](SYMBOLS_p25.md), [SYMBOLS_p26.md](SYMBOLS_p26.md), [SYMBOLS_p27.md](SYMBOLS_p27.md), [SYMBOLS_p28.md](SYMBOLS_p28.md), [SYMBOLS_p29.md](SYMBOLS_p29.md), [SYMBOLS_p30.md](SYMBOLS_p30.md), [SYMBOLS_p31.md](SYMBOLS_p31.md), [SYMBOLS_p32.md](SYMBOLS_p32.md), [SYMBOLS_p33.md](SYMBOLS_p33.md), [SYMBOLS_p34.md](SYMBOLS_p34.md), [SYMBOLS_p35.md](SYMBOLS_p35.md), [SYMBOLS_p36.md](SYMBOLS_p36.md), [SYMBOLS_p37.md](SYMBOLS_p37.md), [SYMBOLS_p38.md](SYMBOLS_p38.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
@@ -364,12 +364,14 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_gpo_abuse` | method | `cli/commands/active_directory.py:233` | `def do_gpo_abuse(self, line)` |
 | `do_kerberoast` | method | `cli/commands/active_directory.py:277` | `def do_kerberoast(self, line)` |
 | `do_kerberos_ticket` | method | `cli/commands/active_directory.py:24` | `def do_kerberos_ticket(self, line)` |
-| `AiCommandSet` | class | `cli/commands/ai.py:70` | `class AiCommandSet(LazyOwnCommandSet)` |
-| `do_ai_playbook` | method | `cli/commands/ai.py:177` | `def do_ai_playbook(self, line)` |
-| `do_ai_toggle` | method | `cli/commands/ai.py:284` | `def do_ai_toggle(self, _arg)` |
-| `do_ask` | method | `cli/commands/ai.py:77` | `def do_ask(self, line)` |
-| `do_groq` | method | `cli/commands/ai.py:146` | `def do_groq(self, line)` |
-| `do_llm_budget` | method | `cli/commands/ai.py:301` | `def do_llm_budget(self, line)` |
+| `AiCommandSet` | class | `cli/commands/ai.py:71` | `class AiCommandSet(LazyOwnCommandSet)` |
+| `_serve` | method | `cli/commands/ai.py:223` | `def _serve(member_id, backend_name, text)` |
+| `do_ai_playbook` | method | `cli/commands/ai.py:254` | `def do_ai_playbook(self, line)` |
+| `do_ai_toggle` | method | `cli/commands/ai.py:361` | `def do_ai_toggle(self, _arg)` |
+| `do_ask` | method | `cli/commands/ai.py:78` | `def do_ask(self, line)` |
+| `do_groq` | method | `cli/commands/ai.py:166` | `def do_groq(self, line)` |
+| `do_llm_budget` | method | `cli/commands/ai.py:378` | `def do_llm_budget(self, line)` |
+| `do_poolcheck` | method | `cli/commands/ai.py:197` | `def do_poolcheck(self, line)` |
 | `AntiForensicsCommandSet` | class | `cli/commands/anti_forensics.py:32` | `class AntiForensicsCommandSet(LazyOwnCommandSet)` |
 | `do_clean_ad` | method | `cli/commands/anti_forensics.py:243` | `def do_clean_ad(self, line)` |
 | `do_cover_tracks` | method | `cli/commands/anti_forensics.py:304` | `def do_cover_tracks(self, line)` |
@@ -494,7 +496,5 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_aws_privesc` | method | `cli/commands/cloud_attacks.py:125` | `def do_aws_privesc(self, line)` |
 | `do_cross_cloud` | method | `cli/commands/cloud_attacks.py:387` | `def do_cross_cloud(self, line)` |
 | `do_entra_attack` | method | `cli/commands/cloud_attacks.py:23` | `def do_entra_attack(self, line)` |
-| `do_gcp_privesc` | method | `cli/commands/cloud_attacks.py:215` | `def do_gcp_privesc(self, line)` |
-| `do_k8s_attack` | method | `cli/commands/cloud_attacks.py:302` | `def do_k8s_attack(self, line)` |
 
 Next: [SYMBOLS_p2.md](SYMBOLS_p2.md)

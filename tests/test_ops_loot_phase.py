@@ -56,21 +56,21 @@ def test_gather_loot_parses_kinds_and_skips_noise(tmp_path):
     _seed_loot(sess)
     entries = gather_loot(str(sess))
     assert [(e.user, e.kind) for e in entries] == [
-        ("admin", "cleartext"),
-        ("svc_sql", "cleartext"),
+        ("admin", "clelazyt"),
+        ("svc_sql", "clelazyt"),
         ("administrator", "hash"),
     ]
 
 
 def test_loot_entry_value():
-    assert LootEntry("f", "cleartext", "admin", "pw").value == "admin:pw"
-    assert LootEntry("f", "cleartext", "lonely", "").value == "lonely"
+    assert LootEntry("f", "clelazyt", "admin", "pw").value == "admin:pw"
+    assert LootEntry("f", "clelazyt", "lonely", "").value == "lonely"
 
 
 def test_resolve_cred_value_precedence():
     entries = [
-        LootEntry("f", "cleartext", "admin", "pw1"),
-        LootEntry("f", "cleartext", "service-admin", "pw2"),
+        LootEntry("f", "clelazyt", "admin", "pw1"),
+        LootEntry("f", "clelazyt", "service-admin", "pw2"),
     ]
     assert resolve_cred_value("admin", entries) == "admin:pw1"
     assert resolve_cred_value("admin:pw1", entries) == "admin:pw1"

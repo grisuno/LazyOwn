@@ -5,43 +5,43 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 247.20, imported by 123 files)
-- `utils.py` (score: 194.10, imported by 79 files)
-- `cli/commands/_base.py` (score: 172.70, imported by 85 files)
-- `skills/lazyown_mcp.py` (score: 150.50, imported by 8 files)
-- `lazyc2.py` (score: 112.30)
+- `utils.py` (score: 198.10, imported by 81 files)
+- `cli/commands/_base.py` (score: 176.70, imported by 87 files)
+- `skills/lazyown_mcp.py` (score: 165.00, imported by 8 files)
+- `lazyc2.py` (score: 117.10)
 - `lazyown.py` (score: 110.70, imported by 8 files)
-- `core/console.py` (score: 98.80, imported by 49 files)
+- `core/console.py` (score: 105.10, imported by 52 files)
+- `skills/autonomous_daemon.py` (score: 98.80, imported by 15 files)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
 - `cli/commands/misc_migrated.py` (score: 75.20, imported by 6 files)
-- `core/config.py` (score: 67.70, imported by 31 files)
 
 ## Blast Radius (change impact)
 
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 123 total dependents
-- `core/validators.py` -- 9 direct, 118 total dependents
-- `modules/cli_auth.py` -- 9 direct, 115 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 110 total dependents
-- `core/crypto.py` -- 9 direct, 105 total dependents
-- `core/hardening.py` -- 17 direct, 103 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 93 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 92 total dependents
-- `core/safe_subprocess.py` -- 6 direct, 90 total dependents
-- `core/process.py` -- 9 direct, 87 total dependents
+- `modules/cli_auth.py` -- 9 direct, 117 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 112 total dependents
+- `core/crypto.py` -- 9 direct, 108 total dependents
+- `core/hardening.py` -- 17 direct, 105 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 95 total dependents
+- `core/process.py` -- 11 direct, 94 total dependents
+- `modules/backdoor/server.c` -- 10 direct, 94 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 94 total dependents
+- `core/parsers.py` -- 8 direct, 90 total dependents
 
 ## Hotspots (complexity + centrality)
 
-- `static/js/html2pdf.bundle.min.js` -- complexity: 1.0, centrality: 1.0, combined: 1.0
-- `static/js/vis-network-9.1.2.min.js` -- complexity: 0.2, centrality: 0.8, combined: 0.6
-- `static/js/vis-network.min.js` -- complexity: 0.2, centrality: 0.8, combined: 0.6
-- `static/js/xterm.js` -- complexity: 0.1, centrality: 0.6, combined: 0.4
-- `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.6, combined: 0.4
+- `static/js/html2pdf.bundle.min.js` -- complexity: 1.0, centrality: 0.7, combined: 0.8
+- `static/js/3d-force-graph-1.73.4.min.js` -- complexity: 0.3, centrality: 1.0, combined: 0.7
+- `static/js/vis-network-9.1.2.min.js` -- complexity: 0.2, centrality: 0.6, combined: 0.4
+- `static/js/vis-network.min.js` -- complexity: 0.2, centrality: 0.6, combined: 0.4
 - `skills/mcp_generated_tools.py` -- complexity: 0.9, centrality: 0.0, combined: 0.4
-- `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.5, combined: 0.3
+- `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
+- `static/js/xterm.js` -- complexity: 0.1, centrality: 0.4, combined: 0.3
+- `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.3, combined: 0.2
+- `static/js/force-graph-1.43.5.min.js` -- complexity: 0.0, centrality: 0.3, combined: 0.2
 - `lazyc2.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
-- `static/js/bootstrap-5.3.0.bundle.min.js` -- complexity: 0.0, centrality: 0.2, combined: 0.1
-- `static/js/jquery-3.5.1.slim.min.js` -- complexity: 0.0, centrality: 0.2, combined: 0.1
 
 ## Dependency Cycles
 

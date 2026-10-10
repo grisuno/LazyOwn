@@ -126,7 +126,7 @@ class TeamserverBackend(Backend):
         try:
             payload = self._http_get_json(self._constants.network.api_data_path)
         except Exception as exc:
-            status_code = getattr(exc, 'response', None)
+            status_code = getattr(exc, "response", None)
             status_text = f"HTTP {status_code.status_code}" if status_code is not None else str(exc)
             self._emit_event(EventLevel.WARNING, f"Teamserver poll failed: {status_text}")
             self._set_status(BackendStatus.DEGRADED)
@@ -232,9 +232,7 @@ class TeamserverBackend(Backend):
         """
         safe_id = "".join(c for c in str(client_id) if c.isalnum() or c in "-_")
         try:
-            payload = self._http_get_json(
-                f"{self._constants.network.api_beacon_results_path}/{safe_id}"
-            )
+            payload = self._http_get_json(f"{self._constants.network.api_beacon_results_path}/{safe_id}")
             records = payload.get("records", []) if isinstance(payload, Mapping) else []
             return [r for r in records if isinstance(r, Mapping)]
         except Exception as exc:
@@ -256,7 +254,9 @@ class TeamserverBackend(Backend):
         for client_id, result_data in payload.items():
             if not isinstance(result_data, Mapping):
                 continue
-            cached = self._last_results_state.get(client_id, {}) if isinstance(self._last_results_state, Mapping) else {}
+            cached = (
+                self._last_results_state.get(client_id, {}) if isinstance(self._last_results_state, Mapping) else {}
+            )
             current_command = str(result_data.get("command", ""))
             if cached.get("command") == current_command and cached.get("output") == str(result_data.get("output", "")):
                 continue
@@ -493,14 +493,12 @@ class TeamserverBackend(Backend):
 
             try:
                 import base64
+
                 auth_b64 = base64.b64encode(
                     f"{self._credentials.username}:{self._credentials.password}".encode()
                 ).decode()
                 auth_header = f"Basic {auth_b64}"
-                cookie_header = "; ".join(
-                    f"{key}={value}"
-                    for key, value in self._http.cookies.get_dict().items()
-                )
+                cookie_header = "; ".join(f"{key}={value}" for key, value in self._http.cookies.get_dict().items())
                 connect_headers = {"Authorization": auth_header}
                 if cookie_header:
                     connect_headers["Cookie"] = cookie_header
@@ -718,13 +716,15 @@ class TeamserverBackend(Backend):
             if client_user:
                 label_parts.append(f"@{client_user}")
 
-            nodes.append(GraphNode(
-                identifier=cid,
-                label=" ".join(label_parts),
-                node_type="beacon",
-                color=node_color,
-                metadata={"os": client_os, "hostname": client_hostname, "ips": client_ips, "user": client_user},
-            ))
+            nodes.append(
+                GraphNode(
+                    identifier=cid,
+                    label=" ".join(label_parts),
+                    node_type="beacon",
+                    color=node_color,
+                    metadata={"os": client_os, "hostname": client_hostname, "ips": client_ips, "user": client_user},
+                )
+            )
             edges.append(GraphEdge(source_id="c2", target_id=cid, label="HTTPS", edge_type="c2"))
 
             for dip in client_discovered.split(","):
@@ -735,7 +735,9 @@ class TeamserverBackend(Backend):
                 if host_id not in host_seen:
                     host_seen.add(host_id)
                     nodes.append(GraphNode(identifier=host_id, label=dip, node_type="host", color="#d2991d"))
-                edges.append(GraphEdge(source_id=cid, target_id=host_id, label="discovered", edge_type="host", color="#d2991d"))
+                edges.append(
+                    GraphEdge(source_id=cid, target_id=host_id, label="discovered", edge_type="host", color="#d2991d")
+                )
 
             port_to_host: dict[str, list[str]] = {}
             for port_str in client_ports.split(","):
@@ -753,7 +755,9 @@ class TeamserverBackend(Backend):
                 for port in ports:
                     port_id = f"port-{host_id}-{port}"
                     nodes.append(GraphNode(identifier=port_id, label=port, node_type="port", color="#8b949e"))
-                    edges.append(GraphEdge(source_id=host_id, target_id=port_id, label=port, edge_type="port", color="#8b949e"))
+                    edges.append(
+                        GraphEdge(source_id=host_id, target_id=port_id, label=port, edge_type="port", color="#8b949e")
+                    )
 
         connected_hosts: list[str] = list(payload.get("connected_hosts", []) or [])
         for host_ip in connected_hosts:
@@ -764,7 +768,9 @@ class TeamserverBackend(Backend):
             if host_id not in host_seen:
                 host_seen.add(host_id)
                 nodes.append(GraphNode(identifier=host_id, label=host_ip, node_type="host", color="#d2991d"))
-                edges.append(GraphEdge(source_id="c2", target_id=host_id, label="known", edge_type="host", color="#484f58"))
+                edges.append(
+                    GraphEdge(source_id="c2", target_id=host_id, label="known", edge_type="host", color="#484f58")
+                )
 
         new_topology = Topology(nodes=tuple(nodes), edges=tuple(edges))
         if new_topology != self._topology:

@@ -33,7 +33,7 @@ jobs:
       - name: Collect tests
         run: pytest --collect-only -q
       - name: Run ruff
-        run: ruff check core cli modules skills tests lazyown.py lazyc2.py utils.py
+        run: ruff check .
       - name: Run mypy
         run: mypy --config-file pyproject.toml --no-strict-optional --no-site-packages --explicit-package-bases core cli
       - name: Run bandit

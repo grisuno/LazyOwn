@@ -59,7 +59,7 @@ def collect_methods(source_text: str, wanted: set[str]) -> list[str]:
                 start = item.lineno - 1
                 for dec in item.decorator_list:
                     start = min(start, dec.lineno - 1)
-                found.append("\n".join(src_lines[start:item.end_lineno]))
+                found.append("\n".join(src_lines[start : item.end_lineno]))
     return found
 
 
@@ -115,9 +115,7 @@ class {target_class}(_PendingBase):
     chunks = []
     for method in methods:
         dedented = textwrap.dedent(method)
-        indented = "\n".join(
-            "    " + line if line.strip() else "" for line in dedented.splitlines()
-        )
+        indented = "\n".join("    " + line if line.strip() else "" for line in dedented.splitlines())
         chunks.append(indented)
     footer = '''
 

@@ -16,13 +16,13 @@ from PySide6.QtWidgets import QPlainTextEdit, QWidget
 from lazygui.config.constants import AppConstants
 
 _ANSI_ESCAPE = re.compile(
-    r"\x1b"                         # ESC
+    r"\x1b"  # ESC
     r"(?:"
-    r"\[[0-9;?]*[ -/]*[@-~]"       # CSI: ESC [ params... letter
+    r"\[[0-9;?]*[ -/]*[@-~]"  # CSI: ESC [ params... letter
     r"|\][^\x07\x1b]*(?:\x07|\x1b\\)"  # OSC: ESC ] ... BEL or ST
-    r"|[()][AB012]"                 # charset select
-    r"|[#>78=]"                     # keyboard/mode changes
-    r"|[DP\]X^_]"                   # other single-char ESC sequences
+    r"|[()][AB012]"  # charset select
+    r"|[#>78=]"  # keyboard/mode changes
+    r"|[DP\]X^_]"  # other single-char ESC sequences
     r")"
 )
 _CTRL_CHARS = re.compile(r"[\x00-\x08\x0b\x0c\x0e-\x1f\x7f]")

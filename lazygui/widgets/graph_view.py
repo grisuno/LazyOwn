@@ -95,6 +95,7 @@ def _icon_for_node(node: GraphNode) -> QPixmap | None:
         return _load_icon("port.png")
     return _load_icon("client.png")
 
+
 _NODE_RADIUS_C2: float = 32.0
 _NODE_RADIUS_BEACON: float = 24.0
 _NODE_RADIUS_HOST: float = 16.0
@@ -377,7 +378,10 @@ class GraphScene(QGraphicsScene):
             self.node_context_menu.emit(nid, pos)
 
         item = GraphNodeItem(
-            node, radius, color, pixmap=pixmap,
+            node,
+            radius,
+            color,
+            pixmap=pixmap,
             on_selected=_on_selected,
             on_context_menu=_on_context_menu,
             label_visible=True,

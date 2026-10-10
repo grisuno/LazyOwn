@@ -43,15 +43,17 @@ DEEPSEEK_API_URL = "http://localhost:11434/api/generate"
 DEEPSEEK_MODEL = "deepseek-r1:1.5b"
 KNOWLEDGE_BASE_DIR = "./persistent_chroma_db"
 
+
 def sanitize_content(text: str) -> str:
     """Sanitize text to ensure it's safe for rendering."""
-    text = text.replace('\r', '')
-    text = re.sub(r'```.*?```', lambda m: m.group(0), text, flags=re.DOTALL)
-    text = re.sub(r'`.*?`', lambda m: m.group(0), text)
-    text = re.sub(r'(\[.*?\]\(.*?\))', lambda m: m.group(0), text)
-    text = re.sub(r'[^\x20-\x7E\n\t]', ' ', text)
-    text = re.sub(r'\s+', ' ', text).strip()
+    text = text.replace("\r", "")
+    text = re.sub(r"```.*?```", lambda m: m.group(0), text, flags=re.DOTALL)
+    text = re.sub(r"`.*?`", lambda m: m.group(0), text)
+    text = re.sub(r"(\[.*?\]\(.*?\))", lambda m: m.group(0), text)
+    text = re.sub(r"[^\x20-\x7E\n\t]", " ", text)
+    text = re.sub(r"\s+", " ", text).strip()
     return text
+
 
 class RAGManager:
     """Manages RAG functionality with CAG caching for document processing and querying."""
@@ -81,7 +83,7 @@ class RAGManager:
         logging.info("Initialized RAG cache table")
 
     def get_cache_key(self, content: str) -> str:
-        return hashlib.sha256(content.encode('utf-8')).hexdigest()
+        return hashlib.sha256(content.encode("utf-8")).hexdigest()
 
     def load_existing_vectorstore(self):
         try:
@@ -113,12 +115,10 @@ class RAGManager:
     def process_file_to_rag(self, file_path: Path) -> bool:
         try:
             file_extension = file_path.suffix.lower()
-            text_splitter = RecursiveCharacterTextSplitter(
-                chunk_size=500, chunk_overlap=100
-            )
-            if file_extension == '.pdf':
+            text_splitter = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100)
+            if file_extension == ".pdf":
                 loader = PyMuPDFLoader(str(file_path))
-            elif file_extension in ['.txt', '.md', '.log', '', '.yaml', '.csv', '.json', '.nmap']:
+            elif file_extension in [".txt", ".md", ".log", "", ".yaml", ".csv", ".json", ".nmap"]:
                 loader = TextLoader(str(file_path))
             else:
                 logging.warning(f"Unsupported file type for RAG: {file_extension}")
@@ -135,17 +135,12 @@ class RAGManager:
                         INSERT OR REPLACE INTO rag_cache (cache_key, cache_type, value, timestamp)
                         VALUES (?, ?, ?, ?)
                     """
-                    self.db.execute(query, (
-                        cache_key,
-                        "embedding",
-                        json.dumps(embedding),
-                        datetime.datetime.now().isoformat()
-                    ))
+                    self.db.execute(
+                        query, (cache_key, "embedding", json.dumps(embedding), datetime.datetime.now().isoformat())
+                    )
             if self.vectorstore is None:
                 self.vectorstore = Chroma.from_documents(
-                    documents=chunks,
-                    embedding=self.embeddings,
-                    persist_directory=self.persist_dir
+                    documents=chunks, embedding=self.embeddings, persist_directory=self.persist_dir
                 )
                 self.retriever = self.vectorstore.as_retriever()
             else:
@@ -173,12 +168,7 @@ class RAGManager:
                 INSERT OR REPLACE INTO rag_cache (cache_key, cache_type, value, timestamp)
                 VALUES (?, ?, ?, ?)
             """
-            self.db.execute(query, (
-                query_key,
-                "query",
-                response,
-                datetime.datetime.now().isoformat()
-            ))
+            self.db.execute(query, (query_key, "query", response, datetime.datetime.now().isoformat()))
             return response
         except Exception as e:
             logging.error(f"Error querying RAG: {e}")
@@ -186,11 +176,9 @@ class RAGManager:
 
     def invalidate_cache(self, file_path: Path):
         try:
-            with file_path.open('r', encoding='utf-8') as f:
+            with file_path.open("r", encoding="utf-8") as f:
                 content = f.read()
-            chunks = RecursiveCharacterTextSplitter(
-                chunk_size=500, chunk_overlap=100
-            ).split_text(content)
+            chunks = RecursiveCharacterTextSplitter(chunk_size=500, chunk_overlap=100).split_text(content)
             for chunk in chunks:
                 cache_key = self.get_cache_key(chunk)
                 if cache_key in self.embedding_cache:
@@ -206,21 +194,22 @@ class RAGManager:
                 "status": "No knowledge base",
                 "document_count": 0,
                 "embedding_cache_size": len(self.embedding_cache),
-                "query_cache_size": len(self.query_cache)
+                "query_cache_size": len(self.query_cache),
             }
         try:
             collection = self.vectorstore._collection
-            count = collection.count() if hasattr(collection, 'count') else 0
+            count = collection.count() if hasattr(collection, "count") else 0
             return {
                 "status": "Active",
                 "document_count": count,
                 "persist_dir": self.persist_dir,
                 "embedding_cache_size": len(self.embedding_cache),
-                "query_cache_size": len(self.query_cache)
+                "query_cache_size": len(self.query_cache),
             }
         except Exception as e:
             logging.error(f"Error getting knowledge base stats: {e}")
             return {"status": "Error", "error": str(e)}
+
 
 class Database:
     def __init__(self, db_path: str):
@@ -235,7 +224,7 @@ class Database:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
                 cursor = conn.cursor()
-                cursor.execute('''
+                cursor.execute("""
                     CREATE TABLE IF NOT EXISTS alerts (
                         id INTEGER PRIMARY KEY,
                         type TEXT NOT NULL,
@@ -243,7 +232,7 @@ class Database:
                         severity TEXT NOT NULL,
                         timestamp DATETIME NOT NULL
                     )
-                ''')
+                """)
                 conn.commit()
             logging.info(f"Base de datos inicializada correctamente en {self.db_path}")
         except sqlite3.Error as e:
@@ -278,6 +267,7 @@ class Database:
                 pass
             return None
 
+
 class Alert:
     SEVERITY_LEVELS = ["info", "low", "medium", "high", "critical"]
 
@@ -292,7 +282,7 @@ class Alert:
             "type": self.alert_type,
             "details": self.details,
             "severity": self.severity,
-            "timestamp": self.timestamp
+            "timestamp": self.timestamp,
         }
 
     def save_to_db(self, db: Database) -> int | None:
@@ -308,17 +298,18 @@ class Alert:
             logging.error(f"No se pudo guardar la alerta '{self.alert_type}' en la DB.")
         return alert_id
 
+
 class LazySentinelHandler(FileSystemEventHandler):
     def __init__(self, lazysentinel):
         self.lazysentinel = lazysentinel
 
     def is_text_file(self, file_path: Path) -> bool:
-        text_extensions = ['.txt', '.md', '.log', '.py', '.c', '.asm', '.go', '.pdf', '']
+        text_extensions = [".txt", ".md", ".log", ".py", ".c", ".asm", ".go", ".pdf", ""]
         if file_path.suffix.lower() in text_extensions:
             return True
         try:
-            with file_path.open('rb') as f:
-                return b'\x00' not in f.read(1024)
+            with file_path.open("rb") as f:
+                return b"\x00" not in f.read(1024)
         except Exception:
             return False
 
@@ -345,12 +336,13 @@ class LazySentinelHandler(FileSystemEventHandler):
             logging.info(f"File modified: {file_path}, scheduling processing")
             self.lazysentinel.process_file(file_path)
 
+
 class LazySentinel:
     def __init__(self, app, popup_queue, watch_dir="sessions", excluded_files=None, min_file_size=10):
         self.app = app
         self.popup_queue = popup_queue
         self.watch_dir = Path(watch_dir)
-        self.excluded_files = excluded_files or ['COMMANDS.md']
+        self.excluded_files = excluded_files or ["COMMANDS.md"]
         self.min_file_size = min_file_size
         self.observer = Observer()
         self.handler = LazySentinelHandler(self)
@@ -367,16 +359,16 @@ class LazySentinel:
         self.observer.start()
 
     def chunk_text(self, text, chunk_size):
-        return [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+        return [text[i : i + chunk_size] for i in range(0, len(text), chunk_size)]
 
     def select_relevant_chunk(self, file_content, chunks):
         if not chunks:
             return ""
-        file_words = set(re.findall(r'\w+', file_content.lower()))
+        file_words = set(re.findall(r"\w+", file_content.lower()))
         best_chunk = chunks[0]
         max_overlap = 0
         for chunk in chunks:
-            chunk_words = set(re.findall(r'\w+', chunk.lower()))
+            chunk_words = set(re.findall(r"\w+", chunk.lower()))
             overlap = len(file_words & chunk_words)
             if overlap > max_overlap:
                 max_overlap = overlap
@@ -384,17 +376,19 @@ class LazySentinel:
         return best_chunk
 
     def parse_deepseek_response(self, response_text: str) -> dict:
-        result = {
-            "relevant_info": "No info extracted.",
-            "commands": [],
-            "details": "No additional details."
-        }
+        result = {"relevant_info": "No info extracted.", "commands": [], "details": "No additional details."}
         if not response_text.strip():
             logging.warning("Empty DeepSeek response")
             return result
-        relevant_info_match = re.search(r'(?:Relevant Information|Summary|Info):?\s*(.*?)(?=\n(?:Suggested Commands|Commands|Details|$))', response_text, re.DOTALL | re.IGNORECASE)
-        commands_match = re.search(r'(?:Suggested Commands|Commands):?\s*(.*?)(?=\n(?:Details|$))', response_text, re.DOTALL | re.IGNORECASE)
-        details_match = re.search(r'(?:Details|Additional Context):?\s*(.*)', response_text, re.DOTALL | re.IGNORECASE)
+        relevant_info_match = re.search(
+            r"(?:Relevant Information|Summary|Info):?\s*(.*?)(?=\n(?:Suggested Commands|Commands|Details|$))",
+            response_text,
+            re.DOTALL | re.IGNORECASE,
+        )
+        commands_match = re.search(
+            r"(?:Suggested Commands|Commands):?\s*(.*?)(?=\n(?:Details|$))", response_text, re.DOTALL | re.IGNORECASE
+        )
+        details_match = re.search(r"(?:Details|Additional Context):?\s*(.*)", response_text, re.DOTALL | re.IGNORECASE)
         if relevant_info_match:
             result["relevant_info"] = relevant_info_match.group(1).strip()
         elif response_text.strip():
@@ -402,7 +396,7 @@ class LazySentinel:
         if commands_match:
             commands_text = commands_match.group(1).strip()
             if commands_text.lower() != "none":
-                result["commands"] = [cmd.strip() for cmd in commands_text.replace('\n', ',').split(',') if cmd.strip()]
+                result["commands"] = [cmd.strip() for cmd in commands_text.replace("\n", ",").split(",") if cmd.strip()]
         if details_match:
             result["details"] = details_match.group(1).strip()
         return result
@@ -430,11 +424,11 @@ class LazySentinel:
         try:
             mtime = file_path.stat().st_mtime
             current_time = time.time()
-            file_info = self.processed_files.get(str(file_path), {'mtime': 0, 'last_processed': 0})
-            if file_info['mtime'] >= mtime and current_time - file_info['last_processed'] < 2:
+            file_info = self.processed_files.get(str(file_path), {"mtime": 0, "last_processed": 0})
+            if file_info["mtime"] >= mtime and current_time - file_info["last_processed"] < 2:
                 logging.info(f"File {file_path} recently processed, skipping")
                 return
-            self.processed_files[str(file_path)] = {'mtime': mtime, 'last_processed': current_time}
+            self.processed_files[str(file_path)] = {"mtime": mtime, "last_processed": current_time}
             self.rag_manager.invalidate_cache(file_path)
         except FileNotFoundError:
             logging.warning(f"File {file_path} not found, possibly deleted")
@@ -451,19 +445,18 @@ class LazySentinel:
             logging.info(f"File {file_path} too small or inaccessible, skipping.")
             return
         try:
-            with file_path.open('r', encoding='utf-8') as f:
+            with file_path.open("r", encoding="utf-8") as f:
                 content = f.read()
             logging.info(f"Processing file: {file_path}, size: {file_path.stat().st_size} bytes")
             if self.auto_rag_enabled:
                 self.rag_manager.process_file_to_rag(file_path)
             knowledge_base = ""
             if self.commands_md.exists():
-                with self.commands_md.open('r', encoding='utf-8') as f:
+                with self.commands_md.open("r", encoding="utf-8") as f:
                     commands_content = f.read()
                 chunks = self.chunk_text(commands_content, self.chunk_size)
                 knowledge_base = self.select_relevant_chunk(content, chunks)
-            prompt = (
-                f"""
+            prompt = f"""
                 You are a helpful assistant. Analyze the provided file content and extract relevant information like passwords or usernames.
                 Use the COMMANDS.md knowledge base to suggest relevant cmd2 commands.
                 Respond with plain text in this format:
@@ -475,18 +468,11 @@ class LazySentinel:
                 COMMANDS.md knowledge base (partial):
                 {knowledge_base}
                 """
-            )
             if len(prompt) > self.max_tokens * 4:
-                prompt = prompt[:self.max_tokens * 4 - 100] + "..."
+                prompt = prompt[: self.max_tokens * 4 - 100] + "..."
                 logging.warning(f"Prompt truncated for {file_path} to fit token limit.")
             response = requests.post(
-                DEEPSEEK_API_URL,
-                json={
-                    "model": self.model,
-                    "prompt": prompt,
-                    "stream": False
-                },
-                timeout=600
+                DEEPSEEK_API_URL, json={"model": self.model, "prompt": prompt, "stream": False}, timeout=600
             )
             if response.status_code == 200:
                 try:
@@ -498,9 +484,9 @@ class LazySentinel:
                         logging.warning(f"Empty DeepSeek response for {file_path}")
                         full_response = "No response from DeepSeek."
                     result = self.parse_deepseek_response(final_answer)
-                    relevant_info = result.get('relevant_info', 'No info extracted.')
-                    commands = result.get('commands', [])
-                    details = result.get('details', 'No additional details.')
+                    relevant_info = result.get("relevant_info", "No info extracted.")
+                    commands = result.get("commands", [])
+                    details = result.get("details", "No additional details.")
                     self.show_popup(file_path.name, relevant_info, commands, details)
                     logging.info(f"Processed {file_path}: {result}")
                     alert = Alert(
@@ -509,25 +495,23 @@ class LazySentinel:
                             "file_path": str(file_path),
                             "relevant_info": relevant_info,
                             "commands": commands,
-                            "details": details
+                            "details": details,
                         },
-                        severity="info"
+                        severity="info",
                     )
                     alert.save_to_db(self.db)
                 except (KeyError, ValueError) as e:
-                    logging.error(f"Error processing DeepSeek response for {file_path}: {e}, Raw response: {json_response}")
+                    logging.error(
+                        f"Error processing DeepSeek response for {file_path}: {e}, Raw response: {json_response}"
+                    )
                     relevant_info = "Failed to process DeepSeek response."
                     commands = []
                     details = f"Error: {str(e)}. Raw response: {json_response.get('response', 'No response')}"
                     self.show_popup(file_path.name, relevant_info, commands, details)
                     alert = Alert(
                         alert_type="processing_error",
-                        details={
-                            "file_path": str(file_path),
-                            "error": str(e),
-                            "raw_response": str(json_response)
-                        },
-                        severity="medium"
+                        details={"file_path": str(file_path), "error": str(e), "raw_response": str(json_response)},
+                        severity="medium",
                     )
                     alert.save_to_db(self.db)
             else:
@@ -538,21 +522,16 @@ class LazySentinel:
                     details={
                         "file_path": str(file_path),
                         "status_code": response.status_code,
-                        "response_text": response.text
+                        "response_text": response.text,
                     },
-                    severity="high"
+                    severity="high",
                 )
                 alert.save_to_db(self.db)
         except Exception as e:
             logging.error(f"Error processing {file_path}: {e}")
             self.app.poutput(f"Error processing {file_path}: {str(e)}")
             alert = Alert(
-                alert_type="general_error",
-                details={
-                    "file_path": str(file_path),
-                    "error": str(e)
-                },
-                severity="medium"
+                alert_type="general_error", details={"file_path": str(file_path), "error": str(e)}, severity="medium"
             )
             alert.save_to_db(self.db)
 
@@ -560,6 +539,7 @@ class LazySentinel:
         self.observer.stop()
         self.observer.join()
         logging.info("LazySentinel stopped.")
+
 
 class App(cmd2.Cmd):
     def __init__(self):
@@ -572,18 +552,20 @@ class App(cmd2.Cmd):
             app=self,
             popup_queue=self.popup_queue,
             watch_dir="sessions",
-            excluded_files=['COMMANDS.md', '.gitignore'],
-            min_file_size=10
+            excluded_files=["COMMANDS.md", ".gitignore"],
+            min_file_size=10,
         )
 
-    def display_toastr(self, file_name: str, relevant_info: str, commands: str, details: str, severity: str = "info", duration: int = 3):
+    def display_toastr(
+        self, file_name: str, relevant_info: str, commands: str, details: str, severity: str = "info", duration: int = 3
+    ):
         """Display a toastr-like notification for file processing alerts."""
         styles = {
             "info": {"border_style": "blue", "text_style": "bold blue"},
             "low": {"border_style": "cyan", "text_style": "bold cyan"},
             "medium": {"border_style": "yellow", "text_style": "bold yellow"},
             "high": {"border_style": "red", "text_style": "bold red"},
-            "critical": {"border_style": "magenta", "text_style": "bold magenta"}
+            "critical": {"border_style": "magenta", "text_style": "bold magenta"},
         }
         style = styles.get(severity.lower(), styles["info"])
         content = (
@@ -597,7 +579,7 @@ class App(cmd2.Cmd):
             border_style=style["border_style"],
             width=60,
             padding=(1, 2),
-            height=10
+            height=10,
         )
         with Live(panel, console=self.console, auto_refresh=False, transient=True):
             time.sleep(duration)
@@ -635,7 +617,9 @@ class App(cmd2.Cmd):
         self.poutput(f"Processed files: {list(self.sentinel.processed_files.keys())}")
         alerts = self.sentinel.db.execute("SELECT * FROM alerts ORDER BY timestamp DESC LIMIT 5")
         for alert in alerts:
-            self.poutput(f"Alert: {alert['type']}, Severity: {alert['severity']}, Details: {json.loads(alert['details'])}")
+            self.poutput(
+                f"Alert: {alert['type']}, Severity: {alert['severity']}, Details: {json.loads(alert['details'])}"
+            )
 
     def do_rag_query(self, arg):
         if not arg.strip():
@@ -707,7 +691,7 @@ class App(cmd2.Cmd):
             for i, doc in enumerate(docs[:5], 1):
                 self.poutput(f"\n{i}. Content preview:")
                 self.poutput(f"   {doc.page_content[:200]}...")
-                if hasattr(doc, 'metadata') and doc.metadata:
+                if hasattr(doc, "metadata") and doc.metadata:
                     self.poutput(f"   Source: {doc.metadata.get('source', 'Unknown')}")
         except Exception as e:
             self.poutput(f"Error searching knowledge base: {e}")
@@ -726,7 +710,8 @@ class App(cmd2.Cmd):
                 dirs.append(str(path))
         return [d for d in dirs if d.startswith(text)]
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     configure(level=logging.INFO, console=True, file=False)
     app = App()
     app.poutput("LazySentinel with RAG and CAG capabilities initialized.")

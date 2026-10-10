@@ -71,7 +71,8 @@ def _pinned_names(path: Path) -> dict[str, str]:
         line = line.strip()
         if "==" in line and not line.startswith("#"):
             name, _, version = line.partition("==")
-            pins[name.strip().lower()] = version.strip()
+            version = version.split(";")[0].strip()
+            pins[name.strip().lower()] = version
     return pins
 
 

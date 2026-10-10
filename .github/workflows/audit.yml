@@ -29,7 +29,7 @@ jobs:
           pip install pip-audit
           pip install -e .
       - name: Audit dependencies
-        run: pip-audit --strict --skip-editable
+        run: pip-audit --strict -r requirements.txt -r requirements-dev.txt
 
   detect-secrets:
     name: detect-secrets

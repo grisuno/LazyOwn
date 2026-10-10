@@ -313,7 +313,8 @@ def parse_yaml_response(content: str) -> dict[str, Any] | None:
     """
     for fixer in (lambda c: c, fix_common_yaml_issues, aggressive_yaml_fix, manual_yaml_extraction):
         try:
-            result = yaml.safe_load(fixer(content))
+            fixed = fixer(content)
+            result = fixed if isinstance(fixed, dict) else yaml.safe_load(fixed)
             if isinstance(result, dict):
                 return result
         except (yaml.YAMLError, AttributeError):

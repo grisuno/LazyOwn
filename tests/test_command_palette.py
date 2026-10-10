@@ -109,7 +109,7 @@ class PaletteSuiteConfig:
         "from cli.palette import load_index as _palette_load_index",
         "from cli.palette_command import build_palette_view as _palette_build_view",
     )
-    c2_route_decorator: str = "@app.route('/palette', methods=['GET'])"
+    c2_route_decorator: str = '@app.route("/palette", methods=["GET"])'
     c2_route_function: str = "palette_view"
     c2_template_filename: str = "palette.html"
     c2_template_required_markers: tuple[str, ...] = (
@@ -133,7 +133,7 @@ class PaletteSuiteConfig:
         "cmd-runs",
         "cmdk-section",
     )
-    api_palette_route_decorator: str = "@app.route('/api/palette', methods=['GET'])"
+    api_palette_route_decorator: str = '@app.route("/api/palette", methods=["GET"])'
     api_palette_route_function: str = "palette_api"
     api_palette_rate_limit_marker: str = "@limiter.limit(_PALETTE_API_RATE_LIMIT)"
     api_palette_rate_limit_constant: str = "_PALETTE_API_RATE_LIMIT"

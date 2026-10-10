@@ -7,7 +7,7 @@ repos:
       - id: trailing-whitespace
         exclude: '^(graphify-out/|sessions/|parquets/|external/|modules_ext/|modules/|templates/|static/|docs/|banners/|assets/|plugins/|lazyaddons/|lazyadversaries/|lazyscripts/|poc_tui/|yara_rules/|tools/|\.hermes/|\.readmenator_cache/|readmenator-graphrag/|readmenator-agent/|readmenator-wiki/|readmenator-maps/|my_techniques\.json$|.*\.(svg|min\.js|min\.css|mp4|png|gif|jpe?g|ico|ttf|woff2?|pdf)$)'
       - id: check-yaml
-        exclude: '^(graphify-out/|sessions/|external/|modules_ext/|.github/ISSUE_TEMPLATE/|readmenator-rules/|templates/)'
+        exclude: '^(graphify-out/|sessions/|external/|modules_ext/|deploy/|.github/ISSUE_TEMPLATE/|readmenator-rules/|templates/)'
       - id: check-toml
       - id: check-merge-conflict
       - id: check-added-large-files

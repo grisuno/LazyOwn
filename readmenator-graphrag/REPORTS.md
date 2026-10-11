@@ -159,7 +159,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `tests/test_security_hardening_v3.py`: 64 symbols, 107 connections (score 0.04).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 6 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 5 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_categories.py, file:tests/test_security_hardening_v3.py, file:cli/cli_enhancements.py, sym:cli/commands/_base.py::LazyOwnCommandSet@52, file:tests/test_cli_command_sets.py, file:cli/commands/_base.py, file:cli/commands/misc_migrated.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 374.
 
@@ -174,7 +174,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `tests/test_collab_and_onboarding.py`: 91 symbols, 29 connections (score 0.05).
 - Dependency cycle: autonomous_daemon.py -> lazyown_mcp.py -> pipeline_engine.py -> autonomous_daemon.py.
 - 11 layer violations, e.g. test_api_v1.py (testing) -> api_authz.py (presentation).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 2 paths reach this group via subprocess.
 - Key entities: file:lazyown.py, file:tests/test_collab_and_onboarding.py, file:core/logging.py, file:modules/pipeline_engine.py, file:tests/test_security_hardening_v4.py, file:tests/test_pipeline_engine.py, file:modules/rootkit/rootkit.c, file:modules/collab_bp.py
 - Rating 6.0/10 = 7 x PageRank share 0.86 + 3 x risk 0.00. Internal imports: 277.
 
@@ -189,7 +189,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `skills/lazyown_mcp.py`: 125 symbols, 416 connections (score 0.10).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 17 layer violations, e.g. integration_autonomous_flow.py (testing) -> moe_router.py (presentation).
-- Taint: 2 paths reach this group via subprocess.
+- Taint: 1 paths reach this group via subprocess.
 - Key entities: file:skills/lazyown_mcp.py, file:tests/test_improvements_spec.py, file:skills/autonomous_daemon.py, file:skills/lazyown_policy.py, file:skills/hive_mind.py, file:tests/test_core_modules.py, file:skills/tests/test_autonomous_daemon.py, file:skills/tests/test_hive_mind.py
 - Rating 5.1/10 = 7 x PageRank share 0.73 + 3 x risk 0.00. Internal imports: 639.
 
@@ -215,7 +215,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - `modules/logging_config.py` ranks 3 by PageRank, 37 importers, 21 symbols: Centralized logging configuration for the LazyOwn framework.
 - Hotspot `tests/test_aci_planner.py`: 95 symbols, 85 connections (score 0.06).
 - Hotspot `lazy_sentinel4.py`: 47 symbols, 31 connections (score 0.03).
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Dataflow: 1 INFERRED issues (first: UNCHECKED_ALLOC in _run_single_search).
 - Key entities: sym:core/console.py::print_msg@143, sym:core/console.py::print_error@137, sym:core/console.py::print_warn@149, file:tests/test_aci_planner.py, file:lazy_sentinel4.py, file:cli/wizard.py, file:core/llm_budget.py, file:modules/logging_config.py
 - Rating 3.4/10 = 7 x PageRank share 0.49 + 3 x risk 0.00. Internal imports: 185.
@@ -299,7 +299,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `cli/banner_config.py`: 120 symbols, 34 connections (score 0.07).
 - Hotspot `tests/test_engagement_elo_and_methodology.py`: 43 symbols, 79 connections (score 0.03).
 - Dependency cycle: engagement_hooks.py -> cli_auth.py -> engagement_hooks.py.
-- Taint: 3 paths reach this group via subprocess.
+- Taint: 4 paths reach this group via subprocess.
 - Key entities: file:cli/banner_config.py, file:tests/test_engagement_and_ping.py, file:cli/fuzzy_picker.py, file:tests/test_engagement_elo_and_methodology.py, file:cli/engagement_hooks.py, file:tests/test_banner_config.py, file:modules/cli_auth.py, file:tests/test_fuzzy_picker.py
 - Rating 1.0/10 = 7 x PageRank share 0.14 + 3 x risk 0.00. Internal imports: 106.
 
@@ -313,6 +313,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `static/js/xterm.js`: 62 symbols, 3833 connections (score 0.30).
 - Hotspot `skills/claude_md_orchestrator/models.py`: 32 symbols, 23 connections (score 0.02).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
+- Taint: 1 paths reach this group via subprocess.
 - Dataflow: 3 INFERRED issues (first: UNCHECKED_ALLOC in handle_request).
 - Key entities: file:skills/claude_md_orchestrator/models.py, file:static/js/xterm.js, file:contrib/legacy/lazygptcli_unified.py, file:skills/claude_md_orchestrator/config.py, file:skills/claude_md_orchestrator/orchestrator.py, file:skills/claude_md_orchestrator/validators.py, file:skills/claude_md_orchestrator/parser.py, file:contrib/legacy/lazygptcli.py
 - Rating 0.9/10 = 7 x PageRank share 0.13 + 3 x risk 0.00. Internal imports: 41.

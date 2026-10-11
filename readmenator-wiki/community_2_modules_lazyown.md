@@ -140,8 +140,6 @@ This community groups 70 file(s) rooted at `modules` with dominant language py (
 
 - [taint high] `cli/banner_config.py` -> `core/safe_exec.py` via `subprocess` (1 hops)
 - [taint high] `cli/banner_config.py` -> `core/logging.py` via `subprocess` (2 hops)
-- [taint high] `cli/banner_config.py` -> `modules/toposwarm_bridge.py` via `subprocess` (5 hops)
-- [taint high] `cli/banner_config.py` -> `core/crypto.py` via `subprocess` (5 hops)
 - [cycle] `skills/autonomous_daemon.py` -> `skills/lazyown_mcp.py` -> `modules/pipeline_engine.py` -> `skills/autonomous_daemon.py`
 - [layer strict] `tests/test_api_v1.py` (testing) -> `core/api_authz.py` (presentation)
 - [layer strict] `tests/test_api_v1.py` (testing) -> `lazyc2/blueprints/api_v1.py` (presentation)
@@ -153,6 +151,8 @@ This community groups 70 file(s) rooted at `modules` with dominant language py (
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
 - [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [layer strict] `tests/test_collab_and_onboarding.py` (testing) -> `modules/collab_bp.py` (presentation)
+- [layer strict] `tests/test_core_modules.py` (testing) -> `modules/collab_bp.py` (presentation)
 
 ## Open Questions
 

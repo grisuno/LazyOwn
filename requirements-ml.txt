@@ -9,7 +9,7 @@ cuda-pathfinder==1.5.4
 cuda-toolkit==13.4.2
 joblib==1.6.0
 nvidia-cublas==13.6.0.2
-nvidia-cuda-cupti==13.0.85
+nvidia-cuda-cupti==13.4.92
 nvidia-cuda-nvrtc==13.4.59
 nvidia-cuda-runtime==13.0.96
 nvidia-cudnn-cu13==9.19.0.56

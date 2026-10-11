@@ -3,6 +3,10 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_persist_chainmode` | method | `cli/commands/misc_migrated.py:744` | `def _persist_chainmode(self, enabled)` |
+| `do_EOF` | method | `cli/commands/misc_migrated.py:110` | `def do_EOF(self, line)` |
+| `do_addalias` | method | `cli/commands/misc_migrated.py:1157` | `def do_addalias(self, arglist)` |
+| `do_aliass` | method | `cli/commands/misc_migrated.py:839` | `def do_aliass(self, line)` |
 | `do_banner` | method | `cli/commands/misc_migrated.py:768` | `def do_banner(self, line)` |
 | `do_browse` | method | `cli/commands/misc_migrated.py:604` | `def do_browse(self, line)` |
 | `do_check_update` | method | `cli/commands/misc_migrated.py:1108` | `def do_check_update(self, line)` |
@@ -102,30 +106,30 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `do_wmi_persist` | method | `cli/commands/persist.py:112` | `def do_wmi_persist(self, line)` |
 | `do_wmi_scheduled_task` | method | `cli/commands/persist.py:209` | `def do_wmi_scheduled_task(self, line)` |
 | `PersistMigratedCommandSet` | class | `cli/commands/persist_migrated.py:28` | `class PersistMigratedCommandSet(LazyOwnCommandSet)` |
-| `do_asprevbase64` | method | `cli/commands/persist_migrated.py:301` | `def do_asprevbase64(self, line)` |
-| `do_backdoor_factory` | method | `cli/commands/persist_migrated.py:425` | `def do_backdoor_factory(self, line)` |
-| `do_beaconcfg` | method | `cli/commands/persist_migrated.py:1427` | `def do_beaconcfg(self, line)` |
-| `do_darkarmour` | method | `cli/commands/persist_migrated.py:1094` | `def do_darkarmour(self, line)` |
-| `do_dr0p1t` | method | `cli/commands/persist_migrated.py:910` | `def do_dr0p1t(self, line)` |
+| `do_asprevbase64` | method | `cli/commands/persist_migrated.py:300` | `def do_asprevbase64(self, line)` |
+| `do_backdoor_factory` | method | `cli/commands/persist_migrated.py:424` | `def do_backdoor_factory(self, line)` |
+| `do_beaconcfg` | method | `cli/commands/persist_migrated.py:1426` | `def do_beaconcfg(self, line)` |
+| `do_darkarmour` | method | `cli/commands/persist_migrated.py:1093` | `def do_darkarmour(self, line)` |
+| `do_dr0p1t` | method | `cli/commands/persist_migrated.py:909` | `def do_dr0p1t(self, line)` |
 | `do_ftp` | method | `cli/commands/persist_migrated.py:77` | `def do_ftp(self, line)` |
-| `do_generate_revshell` | method | `cli/commands/persist_migrated.py:844` | `def do_generate_revshell(self, line)` |
-| `do_grisun0` | method | `cli/commands/persist_migrated.py:211` | `def do_grisun0(self, line)` |
-| `do_grisun0w` | method | `cli/commands/persist_migrated.py:257` | `def do_grisun0w(self, line)` |
-| `do_ivy` | method | `cli/commands/persist_migrated.py:552` | `def do_ivy(self, line)` |
-| `do_knokknok` | method | `cli/commands/persist_migrated.py:1162` | `def do_knokknok(self, line)` |
-| `do_listener_go` | method | `cli/commands/persist_migrated.py:1197` | `def do_listener_go(self, line)` |
-| `do_listener_py` | method | `cli/commands/persist_migrated.py:1264` | `def do_listener_py(self, line)` |
-| `do_msfpc` | method | `cli/commands/persist_migrated.py:471` | `def do_msfpc(self, line)` |
-| `do_paranoid_meterpreter` | method | `cli/commands/persist_migrated.py:973` | `def do_paranoid_meterpreter(self, line)` |
+| `do_generate_revshell` | method | `cli/commands/persist_migrated.py:843` | `def do_generate_revshell(self, line)` |
+| `do_grisun0` | method | `cli/commands/persist_migrated.py:210` | `def do_grisun0(self, line)` |
+| `do_grisun0w` | method | `cli/commands/persist_migrated.py:256` | `def do_grisun0w(self, line)` |
+| `do_ivy` | method | `cli/commands/persist_migrated.py:551` | `def do_ivy(self, line)` |
+| `do_knokknok` | method | `cli/commands/persist_migrated.py:1161` | `def do_knokknok(self, line)` |
+| `do_listener_go` | method | `cli/commands/persist_migrated.py:1196` | `def do_listener_go(self, line)` |
+| `do_listener_py` | method | `cli/commands/persist_migrated.py:1263` | `def do_listener_py(self, line)` |
+| `do_msfpc` | method | `cli/commands/persist_migrated.py:470` | `def do_msfpc(self, line)` |
+| `do_paranoid_meterpreter` | method | `cli/commands/persist_migrated.py:972` | `def do_paranoid_meterpreter(self, line)` |
 | `do_pwncat` | method | `cli/commands/persist_migrated.py:33` | `def do_pwncat(self, line)` |
 | `do_rdp` | method | `cli/commands/persist_migrated.py:136` | `def do_rdp(self, line)` |
-| `do_scarecrow` | method | `cli/commands/persist_migrated.py:726` | `def do_scarecrow(self, line)` |
-| `do_service` | method | `cli/commands/persist_migrated.py:1331` | `def do_service(self, line)` |
-| `do_setoolKits` | method | `cli/commands/persist_migrated.py:1061` | `def do_setoolKits(self, line)` |
-| `do_toctoc` | method | `cli/commands/persist_migrated.py:1404` | `def do_toctoc(self, line)` |
-| `do_veil` | method | `cli/commands/persist_migrated.py:652` | `def do_veil(self, line)` |
-| `do_weevely` | method | `cli/commands/persist_migrated.py:379` | `def do_weevely(self, line)` |
-| `do_weevelygen` | method | `cli/commands/persist_migrated.py:339` | `def do_weevelygen(self, line)` |
+| `do_scarecrow` | method | `cli/commands/persist_migrated.py:725` | `def do_scarecrow(self, line)` |
+| `do_service` | method | `cli/commands/persist_migrated.py:1330` | `def do_service(self, line)` |
+| `do_setoolKits` | method | `cli/commands/persist_migrated.py:1060` | `def do_setoolKits(self, line)` |
+| `do_toctoc` | method | `cli/commands/persist_migrated.py:1403` | `def do_toctoc(self, line)` |
+| `do_veil` | method | `cli/commands/persist_migrated.py:651` | `def do_veil(self, line)` |
+| `do_weevely` | method | `cli/commands/persist_migrated.py:378` | `def do_weevely(self, line)` |
+| `do_weevelygen` | method | `cli/commands/persist_migrated.py:338` | `def do_weevelygen(self, line)` |
 | `PhishingHandler` | class | `cli/commands/phishing_wizard.py:388` | `class PhishingHandler(BaseHTTPRequestHandler)` |
 | `PhishingWizardCommandSet` | class | `cli/commands/phishing_wizard.py:183` | `class PhishingWizardCommandSet(LazyOwnCommandSet)` |
 | `_ensure_session_key` | method | `cli/commands/phishing_wizard.py:551` | `def _ensure_session_key()` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS_p2.md](SYMBOLS_p2.md)
 | `get_command_info` | method | `cli/contextual_help.py:188` | `def get_command_info(self, name)` |
 | `render_command_help` | method | `cli/contextual_help.py:208` | `def render_command_help(self, name)` |
 | `render_phase_commands` | method | `cli/contextual_help.py:261` | `def render_phase_commands(self, phase)` |
-| `render_requirements_status` | method | `cli/contextual_help.py:281` | `def render_requirements_status(self)` |
-| `DashboardLayoutConfig` | class | `cli/dashboard_layout.py:14` | `class DashboardLayoutConfig` |
-| `hidden_panels` | method | `cli/dashboard_layout.py:45` | `def hidden_panels(mode)` |
-| `layout_mode` | method | `cli/dashboard_layout.py:28` | `def layout_mode(width, config)` |
 
 Next: [SYMBOLS_p4.md](SYMBOLS_p4.md)

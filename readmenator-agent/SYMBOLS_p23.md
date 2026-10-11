@@ -3,6 +3,22 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `_gen_smalldic` | function | `skills/mcp_generated_tools.py:5002` | `def _gen_smalldic(arguments, tool_name, _cmd)` |
+| `_gen_smb_exfil` | function | `skills/mcp_generated_tools.py:5010` | `def _gen_smb_exfil(arguments, tool_name, _cmd)` |
+| `_gen_smbattack` | function | `skills/mcp_generated_tools.py:5018` | `def _gen_smbattack(arguments, tool_name, _cmd)` |
+| `_gen_smbclient` | function | `skills/mcp_generated_tools.py:5026` | `def _gen_smbclient(arguments, tool_name, _cmd)` |
+| `_gen_smbclient_impacket` | function | `skills/mcp_generated_tools.py:5034` | `def _gen_smbclient_impacket(arguments, tool_name, _cmd)` |
+| `_gen_smbclient_py` | function | `skills/mcp_generated_tools.py:5042` | `def _gen_smbclient_py(arguments, tool_name, _cmd)` |
+| `_gen_smbmap` | function | `skills/mcp_generated_tools.py:5050` | `def _gen_smbmap(arguments, tool_name, _cmd)` |
+| `_gen_smbserver` | function | `skills/mcp_generated_tools.py:5058` | `def _gen_smbserver(arguments, tool_name, _cmd)` |
+| `_gen_smtpuserenum` | function | `skills/mcp_generated_tools.py:5066` | `def _gen_smtpuserenum(arguments, tool_name, _cmd)` |
+| `_gen_snmpcheck` | function | `skills/mcp_generated_tools.py:5074` | `def _gen_snmpcheck(arguments, tool_name, _cmd)` |
+| `_gen_snmpwalk` | function | `skills/mcp_generated_tools.py:5082` | `def _gen_snmpwalk(arguments, tool_name, _cmd)` |
+| `_gen_socat` | function | `skills/mcp_generated_tools.py:5090` | `def _gen_socat(arguments, tool_name, _cmd)` |
+| `_gen_spool` | function | `skills/mcp_generated_tools.py:5098` | `def _gen_spool(arguments, tool_name, _cmd)` |
+| `_gen_spraykatz` | function | `skills/mcp_generated_tools.py:5106` | `def _gen_spraykatz(arguments, tool_name, _cmd)` |
+| `_gen_sqli` | function | `skills/mcp_generated_tools.py:5114` | `def _gen_sqli(arguments, tool_name, _cmd)` |
+| `_gen_sqli_mssql_test` | function | `skills/mcp_generated_tools.py:5122` | `def _gen_sqli_mssql_test(arguments, tool_name, _cmd)` |
 | `_gen_sqlmap` | function | `skills/mcp_generated_tools.py:5130` | `def _gen_sqlmap(arguments, tool_name, _cmd)` |
 | `_gen_sqsh` | function | `skills/mcp_generated_tools.py:5138` | `def _gen_sqsh(arguments, tool_name, _cmd)` |
 | `_gen_ss` | function | `skills/mcp_generated_tools.py:5146` | `def _gen_ss(arguments, tool_name, _cmd)` |
@@ -94,6 +110,7 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `_gen_yara_scan` | function | `skills/mcp_generated_tools.py:5836` | `def _gen_yara_scan(arguments, tool_name, _cmd)` |
 | `get_generated_tool_definitions` | function | `skills/mcp_generated_tools.py:659` | `def get_generated_tool_definitions()` |
 | `register_all_generated_handlers` | function | `skills/mcp_generated_tools.py:684` | `def register_all_generated_handlers(register_handler_fn, make_text_fn, run_lazyown_cmd_fn)` |
+| `ensure_optional` | function | `skills/mcp_lazy.py:18` | `def ensure_optional(namespace, flag, loader)` |
 | `_build_tool_schema` | function | `skills/mcp_tool_generator.py:91` | `def _build_tool_schema(command_param_name)` |
 | `extract_commands` | function | `skills/mcp_tool_generator.py:34` | `def extract_commands(index)` |
 | `extract_existing_handlers` | function | `skills/mcp_tool_generator.py:55` | `def extract_existing_handlers()` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p22.md](SYMBOLS_p22.md)
 | `add_finding` | method | `skills/toposwarm_autonomous.py:145` | `def add_finding(self, phase_name, text)` |
 | `main` | method | `skills/toposwarm_autonomous.py:489` | `def main(argv)` |
 | `run` | method | `skills/toposwarm_autonomous.py:432` | `def run(self, start_phase)` |
-| `summary` | method | `skills/toposwarm_autonomous.py:149` | `def summary(self)` |
-| `to_dict` | method | `skills/toposwarm_autonomous.py:160` | `def to_dict(self)` |
-| `BackendRegistry` | class | `skills/unified_orchestrator.py:300` | `class BackendRegistry` |
-| `DaemonBackend` | class | `skills/unified_orchestrator.py:408` | `class DaemonBackend` |
-| `EventBus` | class | `skills/unified_orchestrator.py:224` | `class EventBus` |
-| `GoalValidator` | class | `skills/unified_orchestrator.py:806` | `class GoalValidator` |
-| `HiveBackend` | class | `skills/unified_orchestrator.py:605` | `class HiveBackend` |
-| `IOrchestratorBackend` | class | `skills/unified_orchestrator.py:210` | `class IOrchestratorBackend(Protocol)` |
-| `OrchestratorConfig` | class | `skills/unified_orchestrator.py:51` | `class OrchestratorConfig` |
-| `OrchestratorGoal` | class | `skills/unified_orchestrator.py:143` | `class OrchestratorGoal` |
-| `OrchestratorResult` | class | `skills/unified_orchestrator.py:174` | `class OrchestratorResult` |
-| `RouterPolicy` | class | `skills/unified_orchestrator.py:340` | `class RouterPolicy` |
-| `SwanBackend` | class | `skills/unified_orchestrator.py:706` | `class SwanBackend` |
-| `UnifiedOrchestrator` | class | `skills/unified_orchestrator.py:871` | `class UnifiedOrchestrator` |
-| `__init__` | method | `skills/unified_orchestrator.py:233` | `def __init__(self, config, root)` |
-| `__init__` | method | `skills/unified_orchestrator.py:303` | `def __init__(self, backends)` |
-| `__init__` | method | `skills/unified_orchestrator.py:347` | `def __init__(self, config, registry)` |
 
 Next: [SYMBOLS_p24.md](SYMBOLS_p24.md)

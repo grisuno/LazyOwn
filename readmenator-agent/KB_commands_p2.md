@@ -1,6 +1,17 @@
 # Subsystem: commands (page 2 of 4)
 Previous: [KB_commands.md](KB_commands.md)
 
+## cli/commands/diagnostics.py
+- Doc: Diagnostics CommandSet (Tier 2 pilot).
+- Layer: utility
+- Language: py
+- Symbols:
+  - `DiagnosticsCommandSet` (class, line 23) `class DiagnosticsCommandSet(LazyOwnCommandSet)`
+  - `do_sys_runtime` (method, line 30) `def do_sys_runtime(self, _statement)`
+  - `do_sys_payload_keys` (method, line 41) `def do_sys_payload_keys(self, _statement)`
+- Depends on: `cli/commands/_base.py`
+- Imported by: `tests/test_cli_command_sets.py`
+
 ## cli/commands/dns_exfil.py
 - Doc: DNS exfiltration and covert channel command set.
 - Layer: utility

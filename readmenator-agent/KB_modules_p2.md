@@ -313,26 +313,26 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `_load_users` (function, line 33) `def _load_users()`
-  - `_save_users` (function, line 51) `def _save_users(users)`
-  - `_load_payload` (function, line 84) `def _load_payload()`
-  - `_save_payload` (function, line 99) `def _save_payload(payload)`
-  - `user_exists` (function, line 118) `def user_exists(username)`
-  - `register` (function, line 141) `def register(username, password)`
-  - `verify_password` (function, line 210) `def verify_password(username, password)`
-  - `login` (function, line 236) `def login(username, password, remember)`
-  - `logout` (function, line 289) `def logout()`
-  - `try_auto_login` (function, line 324) `def try_auto_login()`
-  - `whoami` (function, line 362) `def whoami()`
-  - `get_current_operator` (function, line 392) `def get_current_operator()`
-  - `sync_elo_from_session` (function, line 404) `def sync_elo_from_session(elo)`
-  - `_read_cli_session` (function, line 425) `def _read_cli_session()`
-  - `_write_cli_session` (function, line 440) `def _write_cli_session(username, elo, role)`
-  - `_write_cli_session_raw` (function, line 458) `def _write_cli_session_raw(data)`
-  - `_clear_cli_session` (function, line 474) `def _clear_cli_session()`
-  - `needs_login` (function, line 483) `def needs_login()`
-- Depends on: `cli/engagement_hooks.py`, `modules/lazy_rbac.py`
-- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_engagement_elo_and_methodology.py`
+  - `_load_users` (function, line 34) `def _load_users()`
+  - `_save_users` (function, line 52) `def _save_users(users)`
+  - `_load_payload` (function, line 85) `def _load_payload()`
+  - `_save_payload` (function, line 100) `def _save_payload(payload)`
+  - `user_exists` (function, line 122) `def user_exists(username)`
+  - `register` (function, line 145) `def register(username, password)`
+  - `verify_password` (function, line 214) `def verify_password(username, password)`
+  - `login` (function, line 240) `def login(username, password, remember)`
+  - `logout` (function, line 293) `def logout()`
+  - `try_auto_login` (function, line 328) `def try_auto_login()`
+  - `whoami` (function, line 366) `def whoami()`
+  - `get_current_operator` (function, line 396) `def get_current_operator()`
+  - `sync_elo_from_session` (function, line 408) `def sync_elo_from_session(elo)`
+  - `_read_cli_session` (function, line 429) `def _read_cli_session()`
+  - `_write_cli_session` (function, line 444) `def _write_cli_session(username, elo, role)`
+  - `_write_cli_session_raw` (function, line 462) `def _write_cli_session_raw(data)`
+  - `_clear_cli_session` (function, line 478) `def _clear_cli_session()`
+  - `needs_login` (function, line 487) `def needs_login()`
+- Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+- Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
 
 ## modules/cloud_enum.py
 - Doc: Native cloud enumeration modules for AWS, Azure, and GCP.
@@ -430,20 +430,25 @@ Previous: [KB_modules.md](KB_modules.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `ExecutionResult` (class, line 38) `class ExecutionResult`
-  - `CommandExecutor` (class, line 47) `class CommandExecutor`
-  - `get_executor` (method, line 264) `def get_executor()`
-  - `__init__` (method, line 59) `def __init__(self)`
-  - `instance` (method, line 63) `def instance(cls)`
-  - `add_hook` (method, line 68) `def add_hook(self, hook)`
-  - `run` (method, line 72) `def run(self, command, timeout, stream)`
-  - `_needs_shell` (method, line 106) `def _needs_shell(self, command)`
-  - `_run_capture` (method, line 110) `def _run_capture(self, command, timeout)`
-  - `_run_stream` (method, line 135) `def _run_stream(self, command, timeout)`
-  - `run_with_tee` (method, line 172) `def run_with_tee(self, command, output_path, timeout)`
-  - `_fire_hooks` (method, line 232) `def _fire_hooks(self, result)`
-  - `_publish_event` (method, line 239) `def _publish_event(self, result)`
-- Depends on: `core/logging.py`, `modules/event_bus.py`
+  - `ExecutionResult` (class, line 42) `class ExecutionResult`
+  - `CommandExecutor` (class, line 51) `class CommandExecutor`
+  - `get_executor` (method, line 351) `def get_executor()`
+  - `__init__` (method, line 63) `def __init__(self)`
+  - `instance` (method, line 67) `def instance(cls)`
+  - `add_hook` (method, line 72) `def add_hook(self, hook)`
+  - `run` (method, line 76) `def run(self, command, timeout, stream)`
+  - `_needs_shell` (method, line 110) `def _needs_shell(self, command)`
+  - `_argv` (method, line 118) `def _argv(self, command)`
+  - `run_passthrough` (method, line 124) `def run_passthrough(self, command, env)`
+  - `run_tee` (method, line 139) `def run_tee(self, command)`
+  - `_default_writer` (method, line 216) `def _default_writer(line)`
+  - `_run_capture` (method, line 221) `def _run_capture(self, command, timeout)`
+  - `_run_stream` (method, line 246) `def _run_stream(self, command, timeout)`
+  - `run_with_tee` (method, line 283) `def run_with_tee(self, command, output_path, timeout)`
+  - `_fire_hooks` (method, line 319) `def _fire_hooks(self, result)`
+  - `_publish_event` (method, line 326) `def _publish_event(self, result)`
+- Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/event_bus.py`
+- Imported by: `lazyown.py`, `tests/test_executor_kernel.py`
 
 ## modules/compliance.py
 - Doc: modules/compliance.py

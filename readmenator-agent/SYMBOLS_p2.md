@@ -64,39 +64,39 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_medusa` | method | `cli/commands/cred.py:59` | `def do_medusa(self, line)` |
 | `do_spraykatz` | method | `cli/commands/cred.py:98` | `def do_spraykatz(self, line)` |
 | `do_sshkey` | method | `cli/commands/cred.py:87` | `def do_sshkey(self, line)` |
-| `CredMigratedCommandSet` | class | `cli/commands/cred_migrated.py:29` | `class CredMigratedCommandSet(LazyOwnCommandSet)` |
-| `_rotate_existing_credentials` | method | `cli/commands/cred_migrated.py:33` | `def _rotate_existing_credentials(self, credentials_file_path)` |
-| `alternate_case` | method | `cli/commands/cred_migrated.py:551` | `def alternate_case(s)` |
-| `do_addusers` | method | `cli/commands/cred_migrated.py:705` | `def do_addusers(self, line)` |
-| `do_adsso_spray` | method | `cli/commands/cred_migrated.py:1276` | `def do_adsso_spray(self, line)` |
-| `do_crack_cisco_7_password` | method | `cli/commands/cred_migrated.py:1016` | `def do_crack_cisco_7_password(self, line)` |
-| `do_createcredentials` | method | `cli/commands/cred_migrated.py:115` | `def do_createcredentials(self, line)` |
-| `do_createhash` | method | `cli/commands/cred_migrated.py:61` | `def do_createhash(self, line)` |
-| `do_createmail` | method | `cli/commands/cred_migrated.py:625` | `def do_createmail(self, line)` |
-| `do_createusers_and_hashs` | method | `cli/commands/cred_migrated.py:1161` | `def do_createusers_and_hashs(self, line)` |
-| `do_cred` | method | `cli/commands/cred_migrated.py:163` | `def do_cred(self, line)` |
-| `do_cubespraying` | method | `cli/commands/cred_migrated.py:1038` | `def do_cubespraying(self, line)` |
-| `do_dacledit` | method | `cli/commands/cred_migrated.py:290` | `def do_dacledit(self, line)` |
-| `do_generatedic` | method | `cli/commands/cred_migrated.py:360` | `def do_generatedic(self, line)` |
-| `do_john2keepas` | method | `cli/commands/cred_migrated.py:903` | `def do_john2keepas(self, line)` |
-| `do_john2zip` | method | `cli/commands/cred_migrated.py:1100` | `def do_john2zip(self, line)` |
-| `do_keepass` | method | `cli/commands/cred_migrated.py:952` | `def do_keepass(self, line)` |
-| `do_passtightvnc` | method | `cli/commands/cred_migrated.py:727` | `def do_passtightvnc(self, line)` |
-| `do_passwordspray` | method | `cli/commands/cred_migrated.py:673` | `def do_passwordspray(self, line)` |
-| `do_refill_password` | method | `cli/commands/cred_migrated.py:1204` | `def do_refill_password(self, line)` |
-| `do_rocky` | method | `cli/commands/cred_migrated.py:1240` | `def do_rocky(self, line)` |
-| `do_searchhash` | method | `cli/commands/cred_migrated.py:216` | `def do_searchhash(self, line)` |
-| `do_smalldic` | method | `cli/commands/cred_migrated.py:252` | `def do_smalldic(self, list)` |
-| `do_transform` | method | `cli/commands/cred_migrated.py:774` | `def do_transform(self, line)` |
-| `do_username_anarchy` | method | `cli/commands/cred_migrated.py:802` | `def do_username_anarchy(self, line)` |
-| `double_combo` | method | `cli/commands/cred_migrated.py:408` | `def double_combo(name, characters, file, total, flag)` |
-| `expand_regex` | method | `cli/commands/cred_migrated.py:567` | `def expand_regex(regex)` |
-| `fifth_combo` | method | `cli/commands/cred_migrated.py:483` | `def fifth_combo(name, characters, file, total, flag)` |
-| `fourth_combo` | method | `cli/commands/cred_migrated.py:457` | `def fourth_combo(name, characters, file, total, flag)` |
-| `intercalate_combo` | method | `cli/commands/cred_migrated.py:535` | `def intercalate_combo(name, characters, file, total, flag)` |
-| `single_combo` | method | `cli/commands/cred_migrated.py:385` | `def single_combo(name, characters, file, total, flag)` |
-| `sixth_combo` | method | `cli/commands/cred_migrated.py:510` | `def sixth_combo(name, characters, file, total, flag)` |
-| `triple_combo` | method | `cli/commands/cred_migrated.py:432` | `def triple_combo(name, characters, file, total, flag)` |
+| `CredMigratedCommandSet` | class | `cli/commands/cred_migrated.py:30` | `class CredMigratedCommandSet(LazyOwnCommandSet)` |
+| `_rotate_existing_credentials` | method | `cli/commands/cred_migrated.py:34` | `def _rotate_existing_credentials(self, credentials_file_path)` |
+| `alternate_case` | method | `cli/commands/cred_migrated.py:552` | `def alternate_case(s)` |
+| `do_addusers` | method | `cli/commands/cred_migrated.py:706` | `def do_addusers(self, line)` |
+| `do_adsso_spray` | method | `cli/commands/cred_migrated.py:1277` | `def do_adsso_spray(self, line)` |
+| `do_crack_cisco_7_password` | method | `cli/commands/cred_migrated.py:1017` | `def do_crack_cisco_7_password(self, line)` |
+| `do_createcredentials` | method | `cli/commands/cred_migrated.py:116` | `def do_createcredentials(self, line)` |
+| `do_createhash` | method | `cli/commands/cred_migrated.py:62` | `def do_createhash(self, line)` |
+| `do_createmail` | method | `cli/commands/cred_migrated.py:626` | `def do_createmail(self, line)` |
+| `do_createusers_and_hashs` | method | `cli/commands/cred_migrated.py:1162` | `def do_createusers_and_hashs(self, line)` |
+| `do_cred` | method | `cli/commands/cred_migrated.py:164` | `def do_cred(self, line)` |
+| `do_cubespraying` | method | `cli/commands/cred_migrated.py:1039` | `def do_cubespraying(self, line)` |
+| `do_dacledit` | method | `cli/commands/cred_migrated.py:291` | `def do_dacledit(self, line)` |
+| `do_generatedic` | method | `cli/commands/cred_migrated.py:361` | `def do_generatedic(self, line)` |
+| `do_john2keepas` | method | `cli/commands/cred_migrated.py:904` | `def do_john2keepas(self, line)` |
+| `do_john2zip` | method | `cli/commands/cred_migrated.py:1101` | `def do_john2zip(self, line)` |
+| `do_keepass` | method | `cli/commands/cred_migrated.py:953` | `def do_keepass(self, line)` |
+| `do_passtightvnc` | method | `cli/commands/cred_migrated.py:728` | `def do_passtightvnc(self, line)` |
+| `do_passwordspray` | method | `cli/commands/cred_migrated.py:674` | `def do_passwordspray(self, line)` |
+| `do_refill_password` | method | `cli/commands/cred_migrated.py:1205` | `def do_refill_password(self, line)` |
+| `do_rocky` | method | `cli/commands/cred_migrated.py:1241` | `def do_rocky(self, line)` |
+| `do_searchhash` | method | `cli/commands/cred_migrated.py:217` | `def do_searchhash(self, line)` |
+| `do_smalldic` | method | `cli/commands/cred_migrated.py:253` | `def do_smalldic(self, list)` |
+| `do_transform` | method | `cli/commands/cred_migrated.py:775` | `def do_transform(self, line)` |
+| `do_username_anarchy` | method | `cli/commands/cred_migrated.py:803` | `def do_username_anarchy(self, line)` |
+| `double_combo` | method | `cli/commands/cred_migrated.py:409` | `def double_combo(name, characters, file, total, flag)` |
+| `expand_regex` | method | `cli/commands/cred_migrated.py:568` | `def expand_regex(regex)` |
+| `fifth_combo` | method | `cli/commands/cred_migrated.py:484` | `def fifth_combo(name, characters, file, total, flag)` |
+| `fourth_combo` | method | `cli/commands/cred_migrated.py:458` | `def fourth_combo(name, characters, file, total, flag)` |
+| `intercalate_combo` | method | `cli/commands/cred_migrated.py:536` | `def intercalate_combo(name, characters, file, total, flag)` |
+| `single_combo` | method | `cli/commands/cred_migrated.py:386` | `def single_combo(name, characters, file, total, flag)` |
+| `sixth_combo` | method | `cli/commands/cred_migrated.py:511` | `def sixth_combo(name, characters, file, total, flag)` |
+| `triple_combo` | method | `cli/commands/cred_migrated.py:433` | `def triple_combo(name, characters, file, total, flag)` |
 | `CrystalBallCommandSet` | class | `cli/commands/crystal_ball.py:20` | `class CrystalBallCommandSet(LazyOwnCommandSet)` |
 | `_auto_detect_enum_file` | method | `cli/commands/crystal_ball.py:119` | `def _auto_detect_enum_file()` |
 | `_safe_filename` | method | `cli/commands/crystal_ball.py:151` | `def _safe_filename(name)` |
@@ -126,6 +126,10 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `do_db_workspace` | method | `cli/commands/database.py:76` | `def do_db_workspace(self, line)` |
 | `do_retest` | method | `cli/commands/database.py:268` | `def do_retest(self, line)` |
 | `shlex_split` | method | `cli/commands/database.py:562` | `def shlex_split(text)` |
+| `DefaultsCommandSet` | class | `cli/commands/defaults.py:38` | `class DefaultsCommandSet(LazyOwnCommandSet)` |
+| `_set` | method | `cli/commands/defaults.py:77` | `def _set(self, name, value)` |
+| `_show` | method | `cli/commands/defaults.py:60` | `def _show(self, section)` |
+| `do_defaults` | method | `cli/commands/defaults.py:45` | `def do_defaults(self, line)` |
 | `DemoCommandSet` | class | `cli/commands/demo.py:22` | `class DemoCommandSet(LazyOwnCommandSet)` |
 | `do_demo` | method | `cli/commands/demo.py:29` | `def do_demo(self, line)` |
 | `DiagnosticsCommandSet` | class | `cli/commands/diagnostics.py:23` | `class DiagnosticsCommandSet(LazyOwnCommandSet)` |
@@ -492,9 +496,5 @@ Previous: [SYMBOLS.md](SYMBOLS.md)
 | `MiscMigratedCommandSet` | class | `cli/commands/misc_migrated.py:86` | `class MiscMigratedCommandSet(LazyOwnCommandSet)` |
 | `__getattr__` | method | `cli/commands/misc_migrated.py:1228` | `def __getattr__(name)` |
 | `_handle_killchain_auto` | method | `cli/commands/misc_migrated.py:152` | `def _handle_killchain_auto(self, spec)` |
-| `_persist_chainmode` | method | `cli/commands/misc_migrated.py:744` | `def _persist_chainmode(self, enabled)` |
-| `do_EOF` | method | `cli/commands/misc_migrated.py:110` | `def do_EOF(self, line)` |
-| `do_addalias` | method | `cli/commands/misc_migrated.py:1157` | `def do_addalias(self, arglist)` |
-| `do_aliass` | method | `cli/commands/misc_migrated.py:839` | `def do_aliass(self, line)` |
 
 Next: [SYMBOLS_p3.md](SYMBOLS_p3.md)

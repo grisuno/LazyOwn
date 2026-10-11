@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `edit_goal` | method | `modules/lazy_loop.py:3139` | `def edit_goal(self, task_id, goal_id, text)` |
 | `emit` | method | `modules/lazy_loop.py:620` | `def emit(self, worker, kind, text, intent_id)` |
 | `emit` | method | `modules/lazy_loop.py:2457` | `def emit(self, task_id, event, data)` |
 | `enrich_asset` | method | `modules/lazy_loop.py:1520` | `def enrich_asset(value)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p13.md](SYMBOLS_p13.md)
 | `safe_groq_client` | function | `modules/llm_adapter.py:48` | `def safe_groq_client(api_key)` |
 | `LLMClient` | class | `modules/llm_client.py:45` | `class LLMClient` |
 | `__init__` | method | `modules/llm_client.py:63` | `def __init__(self, api_key, groq_model, ollama_model, timeout, max_tokens)` |
+| `_ask_groq` | method | `modules/llm_client.py:174` | `def _ask_groq(self, prompt, model, system, temperature)` |
 
 Next: [SYMBOLS_p15.md](SYMBOLS_p15.md)

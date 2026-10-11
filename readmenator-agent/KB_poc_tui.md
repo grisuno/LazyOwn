@@ -84,28 +84,28 @@
 - Layer: infrastructure
 - Language: py
 - Symbols:
-  - `PluginSpec` (class, line 28) `class PluginSpec`
-  - `_replace_placeholders` (method, line 40) `def _replace_placeholders(command, params)`
-  - `_validate_clone_url` (method, line 51) `def _validate_clone_url(url)`
-  - `PluginLoader` (class, line 73) `class PluginLoader`
-  - `_LuaAppProxy` (class, line 280) `class _LuaAppProxy`
-  - `_subst` (method, line 43) `def _subst(match)`
-  - `__init__` (method, line 80) `def __init__(self, config, base_dir)`
-  - `_setup_lua` (method, line 94) `def _setup_lua(self)`
-  - `_lua_register` (method, line 103) `def _lua_register(self, name, func)`
-  - `_list_files` (method, line 120) `def _list_files(self, directory)`
-  - `load_all` (method, line 128) `def load_all(self)`
-  - `_load_yaml_addons` (method, line 137) `def _load_yaml_addons(self)`
-  - `_register_yaml_addon` (method, line 150) `def _register_yaml_addon(self, data)`
-  - `_load_lua_plugins` (method, line 212) `def _load_lua_plugins(self)`
-  - `_load_tool_files` (method, line 237) `def _load_tool_files(self)`
-  - `_register_tool` (method, line 250) `def _register_tool(self, data)`
-  - `__init__` (method, line 283) `def __init__(self, config)`
-  - `params` (method, line 287) `def params(self)`
-  - `one_cmd` (method, line 290) `def one_cmd(self, cmd)`
-  - `wrapper` (method, line 106) `def wrapper(arg)`
-  - `wrapper` (method, line 161) `def wrapper(arg)`
-  - `wrapper` (method, line 258) `def wrapper(arg)`
+  - `PluginSpec` (class, line 29) `class PluginSpec`
+  - `_replace_placeholders` (method, line 41) `def _replace_placeholders(command, params)`
+  - `_validate_clone_url` (method, line 62) `def _validate_clone_url(url)`
+  - `PluginLoader` (class, line 84) `class PluginLoader`
+  - `_LuaAppProxy` (class, line 291) `class _LuaAppProxy`
+  - `_subst` (method, line 52) `def _subst(match)`
+  - `__init__` (method, line 91) `def __init__(self, config, base_dir)`
+  - `_setup_lua` (method, line 105) `def _setup_lua(self)`
+  - `_lua_register` (method, line 114) `def _lua_register(self, name, func)`
+  - `_list_files` (method, line 131) `def _list_files(self, directory)`
+  - `load_all` (method, line 139) `def load_all(self)`
+  - `_load_yaml_addons` (method, line 148) `def _load_yaml_addons(self)`
+  - `_register_yaml_addon` (method, line 161) `def _register_yaml_addon(self, data)`
+  - `_load_lua_plugins` (method, line 223) `def _load_lua_plugins(self)`
+  - `_load_tool_files` (method, line 248) `def _load_tool_files(self)`
+  - `_register_tool` (method, line 261) `def _register_tool(self, data)`
+  - `__init__` (method, line 294) `def __init__(self, config)`
+  - `params` (method, line 298) `def params(self)`
+  - `one_cmd` (method, line 301) `def one_cmd(self, cmd)`
+  - `wrapper` (method, line 117) `def wrapper(arg)`
+  - `wrapper` (method, line 172) `def wrapper(arg)`
+  - `wrapper` (method, line 269) `def wrapper(arg)`
 - Depends on: `poc_tui/config.py`
 
 ## poc_tui/run.py

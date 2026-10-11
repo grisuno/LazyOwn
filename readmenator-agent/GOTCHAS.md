@@ -5,12 +5,12 @@
 These files have the most connections. Changes here have high blast radius.
 
 - `core/logging.py` (score: 247.20, imported by 123 files)
-- `utils.py` (score: 198.10, imported by 81 files)
-- `cli/commands/_base.py` (score: 176.70, imported by 87 files)
-- `skills/lazyown_mcp.py` (score: 165.00, imported by 8 files)
-- `lazyc2.py` (score: 117.10)
-- `lazyown.py` (score: 110.70, imported by 8 files)
-- `core/console.py` (score: 105.10, imported by 52 files)
+- `utils.py` (score: 202.10, imported by 83 files)
+- `cli/commands/_base.py` (score: 180.70, imported by 88 files)
+- `skills/lazyown_mcp.py` (score: 168.50, imported by 8 files)
+- `lazyc2.py` (score: 117.70)
+- `lazyown.py` (score: 112.70, imported by 8 files)
+- `core/console.py` (score: 101.10, imported by 50 files)
 - `skills/autonomous_daemon.py` (score: 98.80, imported by 15 files)
 - `static/js/html2pdf.bundle.min.js` (score: 75.50)
 - `cli/commands/misc_migrated.py` (score: 75.20, imported by 6 files)
@@ -20,15 +20,15 @@ These files have the most connections. Changes here have high blast radius.
 Editing these files can break the listed number of dependents. Run their tests after any change.
 
 - `core/logging.py` -- 50 direct, 123 total dependents
-- `modules/cli_auth.py` -- 9 direct, 117 total dependents
-- `cli/engagement_hooks.py` -- 10 direct, 112 total dependents
-- `core/crypto.py` -- 9 direct, 108 total dependents
-- `core/hardening.py` -- 17 direct, 105 total dependents
-- `skills/claude_md_orchestrator/models.py` -- 11 direct, 95 total dependents
-- `core/process.py` -- 11 direct, 94 total dependents
-- `modules/backdoor/server.c` -- 10 direct, 94 total dependents
-- `skills/claude_md_orchestrator/config.py` -- 10 direct, 94 total dependents
-- `core/parsers.py` -- 8 direct, 90 total dependents
+- `modules/cli_auth.py` -- 10 direct, 122 total dependents
+- `core/validators.py` -- 12 direct, 120 total dependents
+- `cli/engagement_hooks.py` -- 10 direct, 118 total dependents
+- `core/hardening.py` -- 18 direct, 108 total dependents
+- `core/process.py` -- 11 direct, 101 total dependents
+- `skills/claude_md_orchestrator/models.py` -- 11 direct, 97 total dependents
+- `skills/claude_md_orchestrator/config.py` -- 10 direct, 96 total dependents
+- `core/parsers.py` -- 9 direct, 94 total dependents
+- `cli/banner_config.py` -- 6 direct, 93 total dependents
 
 ## Hotspots (complexity + centrality)
 
@@ -40,8 +40,8 @@ Editing these files can break the listed number of dependents. Run their tests a
 - `static/js/quill-2.0.3.js` -- complexity: 0.2, centrality: 0.4, combined: 0.3
 - `static/js/xterm.js` -- complexity: 0.1, centrality: 0.4, combined: 0.3
 - `static/js/chart.min.js` -- complexity: 0.1, centrality: 0.3, combined: 0.2
-- `static/js/force-graph-1.43.5.min.js` -- complexity: 0.0, centrality: 0.3, combined: 0.2
 - `lazyc2.py` -- complexity: 0.4, centrality: 0.0, combined: 0.2
+- `static/js/force-graph-1.43.5.min.js` -- complexity: 0.0, centrality: 0.3, combined: 0.2
 
 ## Dependency Cycles
 
@@ -81,5 +81,5 @@ Circular dependencies. Refactor to break the cycle.
 - `cli/commands/exfiltration.py:1449` `do_exfil_http` [UNCHECKED_ALLOC] `file_hash`: Result of allocator stored in `file_hash` is never checked against NULL.
 - `cli/commands/exfiltration.py:1578` `do_stage` [UNCHECKED_ALLOC] `data`: Result of allocator stored in `data` is never checked against NULL.
 - `cli/commands/misc_migrated.py:342` `do_suggest_next` [UNCHECKED_ALLOC] `_idx`: Result of allocator stored in `_idx` is never checked against NULL.
-- `cli/commands/persist_migrated.py:1187` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
+- `cli/commands/persist_migrated.py:1186` `do_knokknok` [UNCHECKED_ALLOC] `client_socket`: Result of allocator stored in `client_socket` is never checked against NULL.
 - `cli/commands/postexp_migrated.py:2599` `do_aes_pe` [UNCHECKED_ALLOC] `file`: Result of allocator stored in `file` is never checked against NULL.

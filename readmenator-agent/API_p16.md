@@ -152,14 +152,14 @@ Imported by: `poc_tui/plugin_loader.py`
 
 ## poc_tui/plugin_loader.py
 Depends on: `poc_tui/config.py`
-- `PluginLoader.__init__` (method) `poc_tui/plugin_loader.py:80` `def __init__(self, config, base_dir)`
-- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:106` `def wrapper(arg)`
-- `PluginLoader.load_all` (method) `poc_tui/plugin_loader.py:128` `def load_all(self)` -- Load yaml addons, lua plugins, and .tool files.
-- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:161` `def wrapper(arg)`
-- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:258` `def wrapper(arg)`
-- `_LuaAppProxy.__init__` (method) `poc_tui/plugin_loader.py:283` `def __init__(self, config)`
-- `_LuaAppProxy.params` (method) `poc_tui/plugin_loader.py:287` `def params(self)`
-- `_LuaAppProxy.one_cmd` (method) `poc_tui/plugin_loader.py:290` `def one_cmd(self, cmd)`
+- `PluginLoader.__init__` (method) `poc_tui/plugin_loader.py:91` `def __init__(self, config, base_dir)`
+- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:117` `def wrapper(arg)`
+- `PluginLoader.load_all` (method) `poc_tui/plugin_loader.py:139` `def load_all(self)` -- Load yaml addons, lua plugins, and .tool files.
+- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:172` `def wrapper(arg)`
+- `PluginLoader.wrapper` (method) `poc_tui/plugin_loader.py:269` `def wrapper(arg)`
+- `_LuaAppProxy.__init__` (method) `poc_tui/plugin_loader.py:294` `def __init__(self, config)`
+- `_LuaAppProxy.params` (method) `poc_tui/plugin_loader.py:298` `def params(self)`
+- `_LuaAppProxy.one_cmd` (method) `poc_tui/plugin_loader.py:301` `def one_cmd(self, cmd)`
 
 ## poc_tui/run.py
 Depends on: `poc_tui/app.py`
@@ -411,7 +411,7 @@ Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchest
 
 ## skills/claude_md_orchestrator/cicd_agent.py
 Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
-- `CicdResult.run` (method) `skills/claude_md_orchestrator/cicd_agent.py:176` `def run(contract, spec, report, config)` -- Run the CI and CD agent for one contract.
+- `CicdResult.run` (method) `skills/claude_md_orchestrator/cicd_agent.py:177` `def run(contract, spec, report, config)` -- Run the CI and CD agent for one contract.
 
 ## skills/claude_md_orchestrator/config.py
 Imported by: `skills/claude_md_orchestrator/__init__.py`, `skills/claude_md_orchestrator/bdd_agent.py`, `skills/claude_md_orchestrator/boy_scout.py`, `skills/claude_md_orchestrator/cicd_agent.py`, `skills/claude_md_orchestrator/documentation_agent.py`, `skills/claude_md_orchestrator/orchestrator.py`, `skills/claude_md_orchestrator/parser.py`, `skills/claude_md_orchestrator/reviewer_agent.py`, `skills/claude_md_orchestrator/sdd_agent.py`, `skills/claude_md_orchestrator/tdd_agent.py`

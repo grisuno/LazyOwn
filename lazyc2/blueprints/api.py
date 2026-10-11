@@ -14,7 +14,7 @@ import time
 from dataclasses import dataclass
 from typing import Any
 
-from flask import Blueprint, current_app, g, jsonify
+from flask import Blueprint, current_app, g, jsonify, request
 
 api_bp = Blueprint("api", __name__, url_prefix="/api")
 
@@ -169,3 +169,79 @@ def health_tenant():
     base = _health_status()
     base["tenant_id"] = tenant_id
     return jsonify(base)
+
+
+_DEFAULT_OVERRIDES = {
+    "wordlist": "wordlist",
+    "lport": "lport",
+    "rport": "rport",
+}
+
+
+@api_bp.route("/defaults", methods=["GET"])
+def get_defaults():
+    """Return build-time defaults alongside live payload values.
+
+    Mirrors the ``defaults show`` CLI command for the web GUI.
+
+    Returns:
+        200 with ``{"defaults": {...}, "live": {...}}``.
+    """
+    from core.defaults import load_defaults
+
+    try:
+        doc = load_defaults()
+    except (FileNotFoundError, ValueError) as exc:
+        return jsonify({"error": f"Cannot load defaults: {exc}"}), 500
+    live = {}
+    try:
+        from core.config import load_payload
+
+        payload = load_payload()
+        for name in _DEFAULT_OVERRIDES:
+            live[name] = payload.get(_DEFAULT_OVERRIDES[name])
+    except Exception:
+        pass
+    return jsonify({"defaults": doc, "live": live})
+
+
+@api_bp.route("/defaults", methods=["POST"])
+@require_api_auth_with_store
+def set_default():
+    """Persist a per-engagement override for a build default.
+
+    Mirrors ``defaults set <name> <value>`` for the web GUI. Only
+    ``wordlist``, ``lport`` and ``rport`` are overridable, and values
+    land in ``payload.json`` through the canonical writer; the TOML
+    file is never rewritten.
+
+    Returns:
+        200 with the stored ``{name, value}``. 400 on bad input,
+        401/403 on auth failures.
+    """
+    data = request.get_json(silent=True) or {}
+    name = str(data.get("name", "")).strip()
+    value = data.get("value")
+    key = _DEFAULT_OVERRIDES.get(name)
+    if key is None:
+        return jsonify({"error": f"Unknown default: {name}"}), 400
+    if name == "wordlist":
+        if not isinstance(value, str) or not value or "\x00" in value or len(value) > 1024:
+            return jsonify({"error": "Invalid wordlist path"}), 400
+    else:
+        try:
+            value = int(value)
+        except (TypeError, ValueError):
+            return jsonify({"error": f"{name} must be an integer port"}), 400
+        if not 1 <= value <= 65535:
+            return jsonify({"error": f"{name} must be between 1 and 65535"}), 400
+    try:
+        from core.config import load_payload, save_payload
+
+        payload = load_payload()
+        payload[key] = value
+        save_payload(payload)
+    except Exception as exc:
+        logger.warning("Failed to persist default override: %s", exc)
+        return jsonify({"error": "Could not persist override"}), 500
+    return jsonify({"name": name, "value": value})

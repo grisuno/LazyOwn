@@ -162,24 +162,24 @@ Previous: [KB_modules_p4.md](KB_modules_p4.md)
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CrackResult` (class, line 131) `class CrackResult`
-  - `HashIdentifier` (class, line 144) `class HashIdentifier`
-  - `HashCracker` (class, line 155) `class HashCracker`
-  - `crack_secretsdump_output` (method, line 699) `def crack_secretsdump_output(filepath, wordlist, rhost)`
-  - `__init__` (method, line 168) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
-  - `_resolve_wordlist` (method, line 182) `def _resolve_wordlist(self)`
-  - `identify` (method, line 190) `def identify(self, line)`
-  - `identify_file` (method, line 277) `def identify_file(self, filepath)`
-  - `crack_hash` (method, line 299) `def crack_hash(self, hash_value, hash_type, wordlist)`
-  - `crack_file` (method, line 353) `def crack_file(self, filepath, wordlist, hash_types)`
-  - `import_to_db` (method, line 409) `def import_to_db(self, results, rhost, workspace_name)`
-  - `_crack_hashcat` (method, line 458) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_hashcat` (method, line 504) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
-  - `_crack_john` (method, line 564) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
-  - `_crack_batch_john` (method, line 614) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
-  - `_parse_hashcat_output` (method, line 675) `def _parse_hashcat_output(stdout, stderr, original)`
-  - `_parse_john_show` (method, line 690) `def _parse_john_show(show_output, original)`
-- Depends on: `core/logging.py`, `modules/db.py`
+  - `CrackResult` (class, line 127) `class CrackResult`
+  - `HashIdentifier` (class, line 140) `class HashIdentifier`
+  - `HashCracker` (class, line 151) `class HashCracker`
+  - `crack_secretsdump_output` (method, line 695) `def crack_secretsdump_output(filepath, wordlist, rhost)`
+  - `__init__` (method, line 164) `def __init__(self, wordlist, rules, use_hashcat, timeout)`
+  - `_resolve_wordlist` (method, line 178) `def _resolve_wordlist(self)`
+  - `identify` (method, line 186) `def identify(self, line)`
+  - `identify_file` (method, line 273) `def identify_file(self, filepath)`
+  - `crack_hash` (method, line 295) `def crack_hash(self, hash_value, hash_type, wordlist)`
+  - `crack_file` (method, line 349) `def crack_file(self, filepath, wordlist, hash_types)`
+  - `import_to_db` (method, line 405) `def import_to_db(self, results, rhost, workspace_name)`
+  - `_crack_hashcat` (method, line 454) `def _crack_hashcat(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_hashcat` (method, line 500) `def _crack_batch_hashcat(self, idents, hash_type, fmt_info, wordlist)`
+  - `_crack_john` (method, line 560) `def _crack_john(self, hash_value, hash_type, fmt_info, wordlist)`
+  - `_crack_batch_john` (method, line 610) `def _crack_batch_john(self, idents, hash_type, fmt_info, wordlist)`
+  - `_parse_hashcat_output` (method, line 671) `def _parse_hashcat_output(stdout, stderr, original)`
+  - `_parse_john_show` (method, line 686) `def _parse_john_show(show_output, original)`
+- Depends on: `core/defaults.py`, `core/logging.py`, `modules/db.py`
 - Imported by: `cli/commands/security.py`, `tests/test_hash_cracker.py`
 
 ## modules/hive_invoke.py

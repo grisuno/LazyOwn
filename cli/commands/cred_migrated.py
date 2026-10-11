@@ -13,6 +13,7 @@ import subprocess
 import time
 
 from cli.commands._base import LazyOwnCommandSet
+from core.defaults import rockyou_wordlist
 from utils import (
     CYAN,
     GREEN,
@@ -1144,7 +1145,7 @@ class CredMigratedCommandSet(LazyOwnCommandSet):
             print_error(f"Error executing command: {str(e)}")
             return
 
-        wordlist_path = "/usr/share/wordlists/rockyou.txt"
+        wordlist_path = self.params.get("wordlist") or rockyou_wordlist()
         john_command = f"sudo john {hash_file_path} -w={wordlist_path} --fork=4"
         try:
             print_msg(john_command)

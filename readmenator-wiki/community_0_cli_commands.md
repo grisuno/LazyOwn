@@ -134,9 +134,10 @@ This community groups 118 file(s) rooted at `cli/commands` with dominant languag
 
 ## Risks
 
-- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `core/validators.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `utils.py` via `subprocess` (4 hops)
 - [taint high] `cli/banner_config.py` -> `cli/commands/_base.py` via `subprocess` (4 hops)
+- [taint high] `cli/banner_config.py` -> `core/host_policy.py` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `core/safe_subprocess.py` via `subprocess` (5 hops)
 - [taint high] `cli/banner_config.py` -> `modules/backdoor/server.c` via `subprocess` (5 hops)
 - [cycle] `utils.py` -> `skills/claude_md_orchestrator/parser.py` -> `skills/claude_md_orchestrator/models.py` -> `cli/commands/enum.py` -> `cli/commands/_base.py` -> `utils.py`
@@ -148,7 +149,6 @@ This community groups 118 file(s) rooted at `cli/commands` with dominant languag
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/addons.py` (presentation)
 - [layer strict] `tests/test_security_hardening_v5.py` (testing) -> `lazyc2/blueprints/api.py` (presentation)
 - [dataflow UNCHECKED_ALLOC] `banner.py:29` `image_to_bash` `img`: Result of allocator stored in `img` is never checked against NULL.
-- [dataflow UNCHECKED_ALLOC] `cli/commands/dns_exfil.py:117` `do_dns_exfil_listen` `sock`: Result of allocator stored in `sock` is never checked against NULL.
 
 ## Open Questions
 

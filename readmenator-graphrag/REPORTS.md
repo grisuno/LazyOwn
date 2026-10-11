@@ -159,7 +159,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `tests/test_security_hardening_v3.py`: 64 symbols, 107 connections (score 0.04).
 - Dependency cycle: utils.py -> parser.py -> models.py -> enum.py -> _base.py -> utils.py.
 - 6 layer violations, e.g. test_help_ui_command_set.py (testing) -> help_ui.py (presentation).
-- Taint: 5 paths reach this group via subprocess.
+- Taint: 6 paths reach this group via subprocess.
 - Key entities: file:utils.py, file:tests/test_categories.py, file:tests/test_security_hardening_v3.py, file:cli/cli_enhancements.py, sym:cli/commands/_base.py::LazyOwnCommandSet@52, file:tests/test_cli_command_sets.py, file:cli/commands/_base.py, file:cli/commands/misc_migrated.py
 - Rating 7.0/10 = 7 x PageRank share 1.00 + 3 x risk 0.00. Internal imports: 374.
 
@@ -299,7 +299,7 @@ Theme of 1 communities and 2 files: test (2 files, rating 0.1).
 - Hotspot `cli/banner_config.py`: 120 symbols, 34 connections (score 0.07).
 - Hotspot `tests/test_engagement_elo_and_methodology.py`: 43 symbols, 79 connections (score 0.03).
 - Dependency cycle: engagement_hooks.py -> cli_auth.py -> engagement_hooks.py.
-- Taint: 4 paths reach this group via subprocess.
+- Taint: 3 paths reach this group via subprocess.
 - Key entities: file:cli/banner_config.py, file:tests/test_engagement_and_ping.py, file:cli/fuzzy_picker.py, file:tests/test_engagement_elo_and_methodology.py, file:cli/engagement_hooks.py, file:tests/test_banner_config.py, file:modules/cli_auth.py, file:tests/test_fuzzy_picker.py
 - Rating 1.0/10 = 7 x PageRank share 0.14 + 3 x risk 0.00. Internal imports: 106.
 

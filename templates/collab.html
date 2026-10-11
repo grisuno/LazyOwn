@@ -90,6 +90,10 @@ const C2_HOST = "{{ c2_host }}";
 let evCount   = 0;
 let es        = null;
 
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({"&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"}[c]));
+}
+
 function ts(epoch) {
   const d = new Date(epoch * 1000);
   return d.toTimeString().slice(0,8);
@@ -100,7 +104,7 @@ function addEvent(ev) {
   const div = document.createElement("div");
   div.className = `ev ${ev.type}`;
   const payload = JSON.stringify(ev.payload).slice(0, 120);
-  div.innerHTML = `<span class="ts">${ts(ev.ts)}</span> <span class="op">${ev.operator}</span> <strong>${ev.type}</strong> ${payload}`;
+  div.innerHTML = `<span class="ts">${ts(ev.ts)}</span> <span class="op">${esc(ev.operator)}</span> <strong>${esc(ev.type)}</strong> ${esc(payload)}`;
   log.prepend(div);
   if (log.children.length > 300) log.lastElementChild.remove();
   evCount++;
@@ -136,7 +140,7 @@ function refreshOperators() {
         return;
       }
       el.innerHTML = d.operators.map(o =>
-        `<div class="op-badge"><span class="op-dot"></span>${o.name}</div>`
+        `<div class="op-badge"><span class="op-dot"></span>${esc(o.name)}</div>`
       ).join("");
     }).catch(() => {});
 }
@@ -152,7 +156,7 @@ function refreshLocks() {
       }
       el.innerHTML = d.locks.map(l => {
         const mine = l.operator === MY_OP ? "mine" : "";
-        return `<div class="lock-item ${mine}"><span>${l.target}</span><span style="color:#aaa">${l.operator}</span></div>`;
+        return `<div class="lock-item ${mine}"><span>${esc(l.target)}</span><span style="color:#aaa">${esc(l.operator)}</span></div>`;
       }).join("");
     }).catch(() => {});
 }

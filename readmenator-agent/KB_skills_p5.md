@@ -158,6 +158,14 @@ Previous: [KB_skills_p4.md](KB_skills_p4.md)
   - `_gen_xsstrike` (function, line 5828) `def _gen_xsstrike(arguments, tool_name, _cmd)`
   - `_gen_yara_scan` (function, line 5836) `def _gen_yara_scan(arguments, tool_name, _cmd)`
 
+## skills/mcp_lazy.py
+- Doc: Single helper behind every lazy optional import of the MCP server.
+- Layer: utility
+- Language: py
+- Symbols:
+  - `ensure_optional` (function, line 18) `def ensure_optional(namespace, flag, loader)`
+- Imported by: `skills/lazyown_mcp.py`, `tests/test_mcp_lazy.py`
+
 ## skills/mcp_restart.sh
 - Doc: LazyOwn MCP restart helper  Kills ALL lazyown_mcp instances (stdio + SSE) and relaunches the SSE...
 - Layer: presentation

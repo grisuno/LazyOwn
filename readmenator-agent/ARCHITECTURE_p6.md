@@ -2,6 +2,9 @@
 Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 
 ## External Imports (continued)
+- `modules/toposwarm_bridge.py` -> __future__, collections, dataclasses, importlib.util, json, os, pathlib, re, subprocess, sys, torch, torch.nn.functional, typing, uuid
+- `modules/traffic_morpher.py` -> __future__, base64, hashlib, os, random, struct, time, typing
+- `modules/traffic_recorder.py` -> __future__, dataclasses, hashlib, json, pathlib, sqlite3, threading, time, urllib.parse
 - `modules/ttp_coverage.py` -> __future__, collections, dataclasses, datetime, json, pathlib
 - `modules/unified_bridge.py` -> __future__, abc, collections.abc, dataclasses, json, pathlib, time, typing
 - `modules/unified_dashboard.py` -> __future__, datetime, json, pathlib, typing
@@ -20,7 +23,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `modules/yara_scanner.py` -> datetime, hashlib, os, subprocess, threading, typing, yara
 - `poc_tui/app.py` -> __future__, argparse, contextlib, datetime, io, json, os, pathlib, rich.text, sys, textual, textual.app, textual.binding, textual.reactive, textual.timer, textual.widgets, threading, traceback, typing
 - `poc_tui/config.py` -> __future__, dataclasses, json, pathlib, typing
-- `poc_tui/plugin_loader.py` -> __future__, collections.abc, dataclasses, json, lupa, os, pathlib, re, subprocess, typing, yaml
+- `poc_tui/plugin_loader.py` -> __future__, collections.abc, dataclasses, json, lupa, os, pathlib, re, shlex, subprocess, typing, yaml
 - `poc_tui/run.py` -> __future__, os, pathlib
 - `poc_tui/test_app.py` -> __future__, asyncio, pathlib, sys, textual.widgets
 - `pwntomate.py` -> argparse, concurrent.futures, glob, json, os, re, shlex, subprocess, sys
@@ -47,7 +50,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `skills/claude_md_orchestrator/__init__.py` -> __future__
 - `skills/claude_md_orchestrator/bdd_agent.py` -> __future__, dataclasses, pathlib, subprocess, sys, time
 - `skills/claude_md_orchestrator/boy_scout.py` -> __future__, dataclasses, pathlib, re
-- `skills/claude_md_orchestrator/cicd_agent.py` -> __future__, dataclasses, pathlib, re, subprocess
+- `skills/claude_md_orchestrator/cicd_agent.py` -> __future__, dataclasses, hmac, pathlib, re, subprocess
 - `skills/claude_md_orchestrator/config.py` -> __future__, dataclasses, os, pathlib
 - `skills/claude_md_orchestrator/documentation_agent.py` -> __future__, dataclasses, pathlib
 - `skills/claude_md_orchestrator/models.py` -> __future__, dataclasses, datetime, json, pathlib, typing
@@ -57,7 +60,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `skills/claude_md_orchestrator/sdd_agent.py` -> __future__, dataclasses, json, pathlib, re, typing, yaml
 - `skills/claude_md_orchestrator/tdd_agent.py` -> __future__, dataclasses, pathlib, subprocess, sys, time
 - `skills/claude_md_orchestrator/tests/conftest.py` -> __future__, pathlib, sys
-- `skills/claude_md_orchestrator/tests/test_orchestrator.py` -> __future__, claude_md_orchestrator, json, pathlib, pytest, sys
+- `skills/claude_md_orchestrator/tests/test_orchestrator.py` -> __future__, ast, claude_md_orchestrator, json, pathlib, pytest, sys
 - `skills/claude_md_orchestrator/validators.py` -> __future__, ast, collections.abc, dataclasses, io, re, tokenize
 - `skills/daemon_control.py` -> __future__, collections.abc, dataclasses, json, os, pathlib, tempfile, threading, time, typing, uuid
 - `skills/daemon_health.py` -> __future__, datetime, json, os, pathlib, threading, time
@@ -87,6 +90,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `skills/lazyown_policy.py` -> __future__, abc, argparse, collections.abc, csv, dataclasses, datetime, engagement_hooks, importlib.util, json, pathlib, re, sys, time, types, typing, urllib.error, urllib.request, uuid
 - `skills/lazyown_session.py` -> datetime, json, os, pathlib, stat, uuid
 - `skills/mcp_generated_tools.py` -> __future__, mcp
+- `skills/mcp_lazy.py` -> __future__, typing
 - `skills/mcp_tool_generator.py` -> argparse, json, pathlib, re, sys, textwrap, typing
 - `skills/sessions_watcher.py` -> __future__, collections, datetime, json, os, pathlib, re, sys, time, urllib.error, urllib.request, uuid, watchdog.events, watchdog.observers
 - `skills/swan_agent.py` -> __future__, abc, argparse, concurrent.futures, dataclasses, json, os, pathlib, sys, threading, time, typing, uuid
@@ -153,12 +157,15 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_bridge_catalog_filtered.py` -> __future__, pathlib, pytest, sys
 - `tests/test_c2_profile_engine.py` -> __future__, pytest
 - `tests/test_c2_route_auth.py` -> __future__, ast, pathlib, pytest
+- `tests/test_c2_shell_lazy.py` -> __future__, ast, pathlib
+- `tests/test_campaign_import_safety.py` -> __future__, ast, pathlib, sqlite3, zipfile
 - `tests/test_categories.py` -> __future__, pytest
 - `tests/test_chain_mode.py` -> __future__, json, pathlib, pytest, sys, tempfile
 - `tests/test_ci_strict.py` -> __future__, pathlib, re
 - `tests/test_claudemd_consistency.py` -> __future__, pathlib, pytest, re
 - `tests/test_claudemd_size.py` -> __future__, pathlib
 - `tests/test_cli_assign.py` -> __future__, json, pathlib, pytest, re, shlex, sys
+- `tests/test_cli_auth_remember.py` -> __future__, ast, json, pathlib, pytest
 - `tests/test_cli_command_sets.py` -> __future__, ast, cmd2, pathlib, pytest, re, sys, yaml
 - `tests/test_cli_enhancements.py` -> __future__, os, pathlib, pytest, sys, textwrap
 - `tests/test_collab_and_onboarding.py` -> __future__, ast, flask, flask_login, json, pathlib, pytest, re, sys, time
@@ -174,6 +181,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_core.py` -> __future__, ast, importlib, json, pathlib, pytest, subprocess, sys
 - `tests/test_core_command_bridge.py` -> __future__, pathlib, pytest, sys, threading
 - `tests/test_core_config.py` -> __future__, json, pathlib, pytest, sys
+- `tests/test_core_defaults.py` -> __future__, ast, pathlib, pytest
 - `tests/test_core_executor.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_core_modules.py` -> ast, c2_profile, flask, flask_login, json, pathlib, report_generator, sys
 - `tests/test_cors_behavior.py` -> __future__, pytest
@@ -202,6 +210,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_engagement_elo_and_methodology.py` -> __future__, json, pathlib, pytest, sys
 - `tests/test_estorides_fusion.py` -> __future__, importlib.util, json, pathlib, sys
 - `tests/test_evidence_hints.py` -> __future__, pathlib, pytest, tempfile, types
+- `tests/test_executor_kernel.py` -> __future__, ast, pathlib, subprocess
 - `tests/test_exploitgym_gym.py` -> __future__, pathlib, pytest, sys
 - `tests/test_exploration_and_addons.py` -> __future__, io, json, os, pathlib, pytest, textwrap, time, yaml
 - `tests/test_finding_lifecycle.py` -> __future__, pathlib, sys
@@ -211,6 +220,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_gui_xss_sinks.py` -> __future__, pathlib, re, sys, unittest
 - `tests/test_hash_cracker.py` -> __future__
 - `tests/test_help_ui_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
+- `tests/test_host_policy.py` -> __future__
 - `tests/test_html_sanitizer.py` -> __future__
 - `tests/test_https_redirect.py` -> __future__
 - `tests/test_improvements_spec.py` -> __future__, cmd2, cmd2.plugin, collections.abc, dataclasses, json, pathlib, skills, sys, tempfile, typing, unittest
@@ -231,6 +241,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_lazygui_graph_widget.py` -> PySide6.QtCore, PySide6.QtGui, PySide6.QtWidgets, __future__, pytest
 - `tests/test_lazygui_models.py` -> __future__, datetime, pytest
 - `tests/test_lazynmap_post.py` -> __future__, dataclasses, json, pathlib, tempfile, textwrap, unittest
+- `tests/test_legacy_shims.py` -> __future__, pathlib, re
 - `tests/test_lesson_ingestor.py` -> __future__, json, unittest.mock
 - `tests/test_lint_quality.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_live_surface.py` -> __future__, pathlib, sys
@@ -241,7 +252,9 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_llm_prompts.py` -> __future__, json, pytest
 - `tests/test_logging_config.py` -> __future__, logging.handlers, pathlib, sys
 - `tests/test_loop_progress.py` -> __future__, io, pathlib, sys
+- `tests/test_mcp_dispatch.py` -> __future__, ast, pathlib, re
 - `tests/test_mcp_improvements.py` -> __future__, importlib, json, os, pathlib, pytest, sys, time
+- `tests/test_mcp_lazy.py` -> __future__, ast, pathlib, sys
 - `tests/test_metrics.py` -> __future__, datetime, json, pathlib, pytest, sys, threading
 - `tests/test_metrics_aware_selector.py` -> __future__, json, pathlib, skills, sys, typing
 - `tests/test_migrate_lazyown_generator.py` -> __future__, ast
@@ -263,6 +276,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_phase_labels.py` -> __future__, json, pathlib
 - `tests/test_pipeline_engine.py` -> __future__, ast, importlib, json, pathlib, pytest, sys, yaml
 - `tests/test_placeholder_coverage.py` -> __future__, json, pathlib, re, yaml
+- `tests/test_plugin_loader_safety.py` -> __future__, ast, pathlib, re
 - `tests/test_plugin_tiers.py` -> __future__, pathlib, pytest, yaml
 - `tests/test_profiles.py` -> __future__, pathlib, pytest
 - `tests/test_prompt_readline_markers.py` -> __future__, pathlib, sys
@@ -277,6 +291,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_recommendation.py` -> __future__, pathlib, pytest
 - `tests/test_recon_plan.py` -> __future__, collections.abc, dataclasses, json, pathlib, tempfile, textwrap, typing, unittest
 - `tests/test_report_banners_endpoints.py` -> __future__, json, os, pathlib
+- `tests/test_require_guards.py` -> __future__
 - `tests/test_resource_script.py` -> __future__, pytest
 - `tests/test_safe_console.py` -> __future__, io, pathlib, rich, sys
 - `tests/test_safe_subprocess.py` -> __future__, json, pathlib, pytest, sys
@@ -297,6 +312,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_shell_semantics.py` -> __future__
 - `tests/test_shellsys_command_set.py` -> __future__, ast, dataclasses, pathlib, pytest, sys
 - `tests/test_short_url_file_containment.py` -> __future__, ast, pathlib, pytest
+- `tests/test_single_implementation.py` -> __future__
 - `tests/test_sleep_obfuscation.py` -> __future__, pytest
 - `tests/test_socks_proxy.py` -> __future__
 - `tests/test_status_bar_operators.py` -> __future__, json, pathlib, sys
@@ -318,6 +334,7 @@ Previous: [ARCHITECTURE_p5.md](ARCHITECTURE_p5.md)
 - `tests/test_wizard_binary_check.py` -> __future__, pathlib, pytest, subprocess, sys
 - `tests/test_wizard_llm.py` -> __future__
 - `tests/test_world_model_extended.py` -> __future__, pathlib, pytest, tempfile
+- `tests/test_xss_sanitization.py` -> __future__, pathlib, re
 - `tools/contract_check.py` -> __future__, ast, pathlib, sys
 - `tools/extract_cluster.py` -> __future__, ast, pathlib, sys, textwrap
 - `tools/gen_demo_gifs.py` -> PIL, os

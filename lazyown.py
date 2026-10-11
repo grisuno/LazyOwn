@@ -68,8 +68,9 @@ from cli.toast_bus import render_toasts as _render_toasts
 from core.config import load_and_validate as _load_and_validate
 from core.config import load_payload as _load_payload
 from core.config import save_payload as _save_payload
+from core.defaults import default_lport as _default_lport
+from core.defaults import default_rport as _default_rport
 from core.hardening import terminal_env as _terminal_env
-from core.safe_exec import needs_shell as _needs_shell
 from modules.event_bus import EventCategory as _EventCategory
 from modules.event_bus import EventSeverity as _EventSeverity
 from modules.event_bus import LazyEvent as _LazyEvent
@@ -505,8 +506,8 @@ class LazyOwnShell(cmd2.Cmd):
             "lhost": lhost,
             "scope": LazyOwnShell.scope,
             "scope_enforcement": LazyOwnShell.scope_enforcement,
-            "rport": 1337,
-            "lport": 1337,
+            "rport": _default_rport(),
+            "lport": _default_lport(),
             "sleep": 6,
             "file": "file.ext",
             "sleep_start": 207,
@@ -1258,37 +1259,21 @@ class LazyOwnShell(cmd2.Cmd):
         start_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         start_monotonic = time.monotonic()
         child_env = _terminal_env()
+        from modules.command_executor import get_executor as _get_executor
+
+        _executor = _get_executor()
         if NOLOGS:
-            if _needs_shell(command):
-                exit_code = subprocess.call(["bash", "-c", command], env=child_env)
-            else:
-                exit_code = subprocess.call(shlex.split(command), env=child_env)
+            exit_code = _executor.run_passthrough(command, env=child_env)
         else:
             safe_cmd_name = os.path.basename(cmd_name)
             safe_domain = re.sub(r"[^A-Za-z0-9._-]", "_", domain) if domain else "unknown"
             path_command = f"{path}/sessions/logs/command_{safe_cmd_name}output{safe_domain}.txt"
-            with open(path_command, "w") as log_file:
-                if _needs_shell(command):
-                    proc = subprocess.Popen(
-                        ["bash", "-c", command],
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        env=child_env,
-                    )
-                else:
-                    proc = subprocess.Popen(
-                        shlex.split(command),
-                        stdout=subprocess.PIPE,
-                        stderr=subprocess.STDOUT,
-                        text=True,
-                        env=child_env,
-                    )
-                for line in proc.stdout:
-                    write_stdout(line)
-                    log_file.write(line)
-                    log_file.flush()
-                exit_code = proc.wait()
+            exit_code = _executor.run_tee(
+                command,
+                env=child_env,
+                writer=write_stdout,
+                log_file=path_command,
+            ).exit_code
         duration_ms = int((time.monotonic() - start_monotonic) * 1000)
         end_wall = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         self.logcsv(

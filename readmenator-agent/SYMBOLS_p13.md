@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `_is_cve` | method | `modules/integrations/misp_export.py:158` | `def _is_cve(finding)` |
 | `_is_domain` | method | `modules/integrations/misp_export.py:178` | `def _is_domain(finding)` |
 | `_is_hash` | method | `modules/integrations/misp_export.py:206` | `def _is_hash(finding)` |
 | `_is_ip` | method | `modules/integrations/misp_export.py:118` | `def _is_ip(finding)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p12.md](SYMBOLS_p12.md)
 | `delete_goal` | method | `modules/lazy_loop.py:3151` | `def delete_goal(self, task_id, goal_id)` |
 | `digest_overview` | method | `modules/lazy_loop.py:2242` | `def digest_overview(self)` |
 | `due` | method | `modules/lazy_loop.py:2539` | `def due(self, task_id, graph, activity)` |
+| `edit_goal` | method | `modules/lazy_loop.py:3139` | `def edit_goal(self, task_id, goal_id, text)` |
 
 Next: [SYMBOLS_p14.md](SYMBOLS_p14.md)

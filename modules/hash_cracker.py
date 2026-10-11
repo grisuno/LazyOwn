@@ -29,6 +29,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from core.defaults import common_wordlists
+
 log = logging.getLogger("hash_cracker")
 
 HASH_PATTERNS: dict[str, dict[str, Any]] = {
@@ -118,13 +120,7 @@ HASH_PATTERNS: dict[str, dict[str, Any]] = {
     },
 }
 
-COMMON_WORDLISTS: list[str] = [
-    "/usr/share/wordlists/rockyou.txt",
-    "/usr/share/wordlists/rockyou.txt.gz",
-    "/usr/share/seclists/Passwords/Common-Credentials/10-million-password-list-top-1000000.txt",
-    "/usr/share/seclists/Passwords/Leaked-Databases/rockyou.txt",
-    "/usr/share/wordlists/fasttrack.txt",
-]
+COMMON_WORDLISTS: list[str] = common_wordlists()
 
 
 @dataclass

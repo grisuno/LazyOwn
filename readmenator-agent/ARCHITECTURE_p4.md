@@ -2,6 +2,22 @@
 Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 
 ## Internal Dependencies (continued)
+- `tests/test_api_v1.py` -> `modules/beacon_history.py`
+- `tests/test_api_v1.py` -> `modules/db.py`
+- `tests/test_asset_gate.py` -> `cli/commands/lazyops.py`
+- `tests/test_asset_gate.py` -> `modules/intel_fusion.py`
+- `tests/test_asset_gate.py` -> `modules/lazy_loop.py`
+- `tests/test_attack_surface3d.py` -> `modules/attack_surface3d.py`
+- `tests/test_attack_surface3d.py` -> `modules/intel_fusion.py`
+- `tests/test_auto_crypto.py` -> `cli/auto_crypto.py`
+- `tests/test_auto_registry.py` -> `modules/auto_registry.py`
+- `tests/test_autonomous_ops.py` -> `modules/__init__.py`
+- `tests/test_autonomous_ops.py` -> `modules/asset_graph.py`
+- `tests/test_autonomous_ops.py` -> `modules/db.py`
+- `tests/test_autonomous_ops.py` -> `modules/enrich.py`
+- `tests/test_autonomous_ops.py` -> `modules/finding_lifecycle.py`
+- `tests/test_autonomous_ops.py` -> `modules/llm_pool.py`
+- `tests/test_autonomous_ops.py` -> `modules/notify.py`
 - `tests/test_autonomous_ops.py` -> `modules/planner.py`
 - `tests/test_autonomous_ops.py` -> `modules/selfupdate.py`
 - `tests/test_autonomous_ops.py` -> `modules/sidequestion.py`
@@ -22,11 +38,13 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_bridge_catalog_filtered.py` -> `modules/lazyown_bridge.py`
 - `tests/test_bridge_catalog_filtered.py` -> `skills/lazyown_groq_agents.py`
 - `tests/test_c2_profile_engine.py` -> `modules/c2_profile_engine.py`
+- `tests/test_campaign_import_safety.py` -> `core/safe_import.py`
 - `tests/test_categories.py` -> `modules/categories.py`
 - `tests/test_chain_mode.py` -> `cli/chain_mode.py`
 - `tests/test_cli_assign.py` -> `cli/assign.py`
 - `tests/test_cli_assign.py` -> `cli/show.py`
 - `tests/test_cli_assign.py` -> `core/config.py`
+- `tests/test_cli_auth_remember.py` -> `modules/cli_auth.py`
 - `tests/test_cli_command_sets.py` -> `cli/__init__.py`
 - `tests/test_cli_command_sets.py` -> `cli/aliases.py`
 - `tests/test_cli_command_sets.py` -> `cli/commands/_base.py`
@@ -61,6 +79,9 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_core_command_bridge.py` -> `core/command_bridge.py`
 - `tests/test_core_config.py` -> `core/config.py`
 - `tests/test_core_config.py` -> `core/payload_schema.py`
+- `tests/test_core_defaults.py` -> `core/__init__.py`
+- `tests/test_core_defaults.py` -> `core/payload_schema.py`
+- `tests/test_core_defaults.py` -> `lazyc2/blueprints/api.py`
 - `tests/test_core_executor.py` -> `core/executor.py`
 - `tests/test_core_modules.py` -> `modules/atomic_enricher.py`
 - `tests/test_core_modules.py` -> `modules/collab_bp.py`
@@ -129,6 +150,8 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_evidence_hints.py` -> `cli/reactive_hints.py`
 - `tests/test_evidence_hints.py` -> `cli/recommendation_signals.py`
 - `tests/test_evidence_hints.py` -> `cli/tips_engine.py`
+- `tests/test_executor_kernel.py` -> `core/safe_exec.py`
+- `tests/test_executor_kernel.py` -> `modules/command_executor.py`
 - `tests/test_exploitgym_gym.py` -> `cli/commands/exploitgym.py`
 - `tests/test_exploitgym_gym.py` -> `modules/exploitgym_gym.py`
 - `tests/test_exploitgym_gym.py` -> `modules/lazyown_bridge.py`
@@ -148,6 +171,9 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_help_ui_command_set.py` -> `cli/commands/help_ui.py`
 - `tests/test_help_ui_command_set.py` -> `cli/commands/misc_migrated.py`
 - `tests/test_help_ui_command_set.py` -> `cli/registry.py`
+- `tests/test_host_policy.py` -> `core/hardening.py`
+- `tests/test_host_policy.py` -> `core/host_policy.py`
+- `tests/test_host_policy.py` -> `core/validators.py`
 - `tests/test_html_sanitizer.py` -> `lazyc2/security/html_sanitizer.py`
 - `tests/test_https_redirect.py` -> `lazyc2/security/https_redirect.py`
 - `tests/test_improvements_spec.py` -> `cli/__init__.py`
@@ -220,6 +246,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_loop_progress.py` -> `modules/loop_progress.py`
 - `tests/test_mcp_improvements.py` -> `skills/lazyown_mcp.py`
 - `tests/test_mcp_improvements.py` -> `skills/lazyown_mcp_helpers.py`
+- `tests/test_mcp_lazy.py` -> `skills/mcp_lazy.py`
 - `tests/test_metrics.py` -> `modules/metrics.py`
 - `tests/test_metrics_aware_selector.py` -> `skills/autonomous_daemon.py`
 - `tests/test_migrate_lazyown_generator.py` -> `scripts/migrate_lazyown.py`
@@ -275,6 +302,7 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_recommendation.py` -> `cli/recommendation_signals.py`
 - `tests/test_recon_plan.py` -> `cli/exploration.py`
 - `tests/test_recon_plan.py` -> `cli/recon_plan.py`
+- `tests/test_require_guards.py` -> `core/validators.py`
 - `tests/test_resource_script.py` -> `modules/resource_script.py`
 - `tests/test_safe_console.py` -> `core/safe_console.py`
 - `tests/test_safe_subprocess.py` -> `core/safe_subprocess.py`
@@ -324,6 +352,9 @@ Previous: [ARCHITECTURE_p3.md](ARCHITECTURE_p3.md)
 - `tests/test_shellsys_command_set.py` -> `cli/commands/shellsys.py`
 - `tests/test_shellsys_command_set.py` -> `cli/registry.py`
 - `tests/test_short_url_file_containment.py` -> `lazyc2/security/validators.py`
+- `tests/test_single_implementation.py` -> `core/__init__.py`
+- `tests/test_single_implementation.py` -> `core/parsers.py`
+- `tests/test_single_implementation.py` -> `utils.py`
 - `tests/test_sleep_obfuscation.py` -> `modules/sleep_obfuscation.py`
 - `tests/test_socks_proxy.py` -> `modules/socks_proxy.py`
 - `tests/test_status_bar_operators.py` -> `cli/status_bar.py`

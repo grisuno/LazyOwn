@@ -3,11 +3,6 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `scan_system_for_binaries` | method | `modules/LazyOwnExplorer.py:357` | `def scan_system_for_binaries(self)` |
-| `search` | method | `modules/LazyOwnExplorer.py:248` | `def search(self)` |
-| `search_in_parquet` | method | `modules/LazyOwnExplorer.py:267` | `def search_in_parquet(self, term)` |
-| `selection` | method | `modules/LazyOwnExplorer.py:68` | `def selection(self, event)` |
-| `show_row_details` | method | `modules/LazyOwnExplorer.py:283` | `def show_row_details(self, row)` |
 | `show_scan_results` | method | `modules/LazyOwnExplorer.py:374` | `def show_scan_results(self, binaries)` |
 | `ADCSCertipyWrapper` | class | `modules/adcs_attacks.py:69` | `class ADCSCertipyWrapper` |
 | `CertificateTemplate` | class | `modules/adcs_attacks.py:14` | `class CertificateTemplate` |
@@ -251,52 +246,52 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `steps_for` | method | `modules/auto_registry.py:139` | `def steps_for(text, target)` |
 | `verbs` | method | `modules/auto_registry.py:98` | `def verbs()` |
 | `verbs_for` | method | `modules/auto_registry.py:120` | `def verbs_for(text)` |
-| `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:100` | `class AutonomousExploitEngine` |
-| `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:73` | `class ExploitCandidate` |
-| `ExploitResult` | class | `modules/autonomous_exploit_engine.py:88` | `class ExploitResult` |
-| `TargetProfile` | class | `modules/autonomous_exploit_engine.py:58` | `class TargetProfile` |
-| `__init__` | method | `modules/autonomous_exploit_engine.py:113` | `def __init__(self)` |
-| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1636` | `def _apply_stealth_delay(self)` |
-| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1104` | `def _build_command_chain(self, candidate, profile)` |
-| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:1936` | `def _check_known_cves(self, profile)` |
-| `_check_success` | method | `modules/autonomous_exploit_engine.py:1236` | `def _check_success(self, output, candidate)` |
-| `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:240` | `def _credential_aware_rank(self, profile, credentials)` |
-| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1523` | `def _detect_os_from_payload(self)` |
-| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1329` | `def _detect_shell(self, output)` |
-| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1357` | `def _determine_access_level(self, ip, credentials)` |
-| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2457` | `def _discover_internal_interfaces(self, profile)` |
-| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2292` | `def _execute_privesc(self, technique, profile, session_id)` |
-| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1708` | `def _extract_cves_from_text(self, text)` |
-| `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:283` | `def _filter_placeholder_creds(credentials)` |
-| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1620` | `def _get_os_type(self, profile)` |
-| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2563` | `def _get_stealth_scan_flags(self)` |
-| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:491` | `def _heuristic_match(self, service, product, version)` |
-| `_is_placeholder` | method | `modules/autonomous_exploit_engine.py:298` | `def _is_placeholder(value)` |
-| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1541` | `def _load_from_nmap_xml(self, target)` |
-| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1415` | `def _load_payload_config(self)` |
-| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1426` | `def _load_world_model(self, target)` |
-| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:961` | `def _match_by_port(self, port, os_type)` |
-| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:453` | `def _match_exploit_db(self, service, product, version)` |
-| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2102` | `def _match_privesc_techniques(self, findings, os_type)` |
-| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1756` | `def _match_service_banners(self, profile)` |
-| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1673` | `def _parse_nse_output(self, target_ip)` |
-| `_register_session` | method | `modules/autonomous_exploit_engine.py:1387` | `def _register_session(self, ip, output)` |
-| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1087` | `def _resolve_port(self, candidate, profile)` |
-| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1058` | `def _run_exploit(self, candidate, profile)` |
-| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:1990` | `def _run_linux_privesc_checks(self, profile, session_id)` |
-| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2059` | `def _run_windows_privesc_checks(self, profile, session_id)` |
-| `_scorer` | method | `modules/autonomous_exploit_engine.py:1018` | `def _scorer(self, exploit, service, product, version)` |
-| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:1962` | `def chain_privesc(self, profile, session_id)` |
-| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2518` | `def enable_stealth(self, stealth_level)` |
-| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:411` | `def execute_candidate(self, candidate, profile)` |
-| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2582` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
-| `get_instance` | method | `modules/autonomous_exploit_engine.py:133` | `def get_instance(cls)` |
-| `hunt` | method | `modules/autonomous_exploit_engine.py:144` | `def hunt(self, target, max_exploits, profile)` |
-| `profile` | method | `modules/autonomous_exploit_engine.py:327` | `def profile(self, target)` |
-| `rank_exploits` | method | `modules/autonomous_exploit_engine.py:388` | `def rank_exploits(self, profile)` |
-| `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:183` | `def retry_with_credentials(self, target, credentials)` |
-| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1647` | `def scan_vulnerabilities(self, profile)` |
-| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2392` | `def trigger_pivot(self, profile, session_id)` |
+| `AutonomousExploitEngine` | class | `modules/autonomous_exploit_engine.py:101` | `class AutonomousExploitEngine` |
+| `ExploitCandidate` | class | `modules/autonomous_exploit_engine.py:74` | `class ExploitCandidate` |
+| `ExploitResult` | class | `modules/autonomous_exploit_engine.py:89` | `class ExploitResult` |
+| `TargetProfile` | class | `modules/autonomous_exploit_engine.py:59` | `class TargetProfile` |
+| `__init__` | method | `modules/autonomous_exploit_engine.py:114` | `def __init__(self)` |
+| `_apply_stealth_delay` | method | `modules/autonomous_exploit_engine.py:1637` | `def _apply_stealth_delay(self)` |
+| `_build_command_chain` | method | `modules/autonomous_exploit_engine.py:1105` | `def _build_command_chain(self, candidate, profile)` |
+| `_check_known_cves` | method | `modules/autonomous_exploit_engine.py:1937` | `def _check_known_cves(self, profile)` |
+| `_check_success` | method | `modules/autonomous_exploit_engine.py:1237` | `def _check_success(self, output, candidate)` |
+| `_credential_aware_rank` | method | `modules/autonomous_exploit_engine.py:241` | `def _credential_aware_rank(self, profile, credentials)` |
+| `_detect_os_from_payload` | method | `modules/autonomous_exploit_engine.py:1524` | `def _detect_os_from_payload(self)` |
+| `_detect_shell` | method | `modules/autonomous_exploit_engine.py:1330` | `def _detect_shell(self, output)` |
+| `_determine_access_level` | method | `modules/autonomous_exploit_engine.py:1358` | `def _determine_access_level(self, ip, credentials)` |
+| `_discover_internal_interfaces` | method | `modules/autonomous_exploit_engine.py:2458` | `def _discover_internal_interfaces(self, profile)` |
+| `_execute_privesc` | method | `modules/autonomous_exploit_engine.py:2293` | `def _execute_privesc(self, technique, profile, session_id)` |
+| `_extract_cves_from_text` | method | `modules/autonomous_exploit_engine.py:1709` | `def _extract_cves_from_text(self, text)` |
+| `_filter_placeholder_creds` | method | `modules/autonomous_exploit_engine.py:284` | `def _filter_placeholder_creds(credentials)` |
+| `_get_os_type` | method | `modules/autonomous_exploit_engine.py:1621` | `def _get_os_type(self, profile)` |
+| `_get_stealth_scan_flags` | method | `modules/autonomous_exploit_engine.py:2564` | `def _get_stealth_scan_flags(self)` |
+| `_heuristic_match` | method | `modules/autonomous_exploit_engine.py:492` | `def _heuristic_match(self, service, product, version)` |
+| `_is_placeholder` | method | `modules/autonomous_exploit_engine.py:299` | `def _is_placeholder(value)` |
+| `_load_from_nmap_xml` | method | `modules/autonomous_exploit_engine.py:1542` | `def _load_from_nmap_xml(self, target)` |
+| `_load_payload_config` | method | `modules/autonomous_exploit_engine.py:1416` | `def _load_payload_config(self)` |
+| `_load_world_model` | method | `modules/autonomous_exploit_engine.py:1427` | `def _load_world_model(self, target)` |
+| `_match_by_port` | method | `modules/autonomous_exploit_engine.py:962` | `def _match_by_port(self, port, os_type)` |
+| `_match_exploit_db` | method | `modules/autonomous_exploit_engine.py:454` | `def _match_exploit_db(self, service, product, version)` |
+| `_match_privesc_techniques` | method | `modules/autonomous_exploit_engine.py:2103` | `def _match_privesc_techniques(self, findings, os_type)` |
+| `_match_service_banners` | method | `modules/autonomous_exploit_engine.py:1757` | `def _match_service_banners(self, profile)` |
+| `_parse_nse_output` | method | `modules/autonomous_exploit_engine.py:1674` | `def _parse_nse_output(self, target_ip)` |
+| `_register_session` | method | `modules/autonomous_exploit_engine.py:1388` | `def _register_session(self, ip, output)` |
+| `_resolve_port` | method | `modules/autonomous_exploit_engine.py:1088` | `def _resolve_port(self, candidate, profile)` |
+| `_run_exploit` | method | `modules/autonomous_exploit_engine.py:1059` | `def _run_exploit(self, candidate, profile)` |
+| `_run_linux_privesc_checks` | method | `modules/autonomous_exploit_engine.py:1991` | `def _run_linux_privesc_checks(self, profile, session_id)` |
+| `_run_windows_privesc_checks` | method | `modules/autonomous_exploit_engine.py:2060` | `def _run_windows_privesc_checks(self, profile, session_id)` |
+| `_scorer` | method | `modules/autonomous_exploit_engine.py:1019` | `def _scorer(self, exploit, service, product, version)` |
+| `chain_privesc` | method | `modules/autonomous_exploit_engine.py:1963` | `def chain_privesc(self, profile, session_id)` |
+| `enable_stealth` | method | `modules/autonomous_exploit_engine.py:2519` | `def enable_stealth(self, stealth_level)` |
+| `execute_candidate` | method | `modules/autonomous_exploit_engine.py:412` | `def execute_candidate(self, candidate, profile)` |
+| `full_auto_pwn` | method | `modules/autonomous_exploit_engine.py:2583` | `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` |
+| `get_instance` | method | `modules/autonomous_exploit_engine.py:134` | `def get_instance(cls)` |
+| `hunt` | method | `modules/autonomous_exploit_engine.py:145` | `def hunt(self, target, max_exploits, profile)` |
+| `profile` | method | `modules/autonomous_exploit_engine.py:328` | `def profile(self, target)` |
+| `rank_exploits` | method | `modules/autonomous_exploit_engine.py:389` | `def rank_exploits(self, profile)` |
+| `retry_with_credentials` | method | `modules/autonomous_exploit_engine.py:184` | `def retry_with_credentials(self, target, credentials)` |
+| `scan_vulnerabilities` | method | `modules/autonomous_exploit_engine.py:1648` | `def scan_vulnerabilities(self, profile)` |
+| `trigger_pivot` | method | `modules/autonomous_exploit_engine.py:2393` | `def trigger_pivot(self, profile, session_id)` |
 | `AWSAttackEngine` | class | `modules/aws_attacks.py:80` | `class AWSAttackEngine` |
 | `AWSConfig` | class | `modules/aws_attacks.py:58` | `class AWSConfig` |
 | `__init__` | method | `modules/aws_attacks.py:91` | `def __init__(self, config)` |
@@ -496,5 +491,10 @@ Previous: [SYMBOLS_p9.md](SYMBOLS_p9.md)
 | `get_active_profile_dict` | method | `modules/c2_profile_engine.py:685` | `def get_active_profile_dict(self)` |
 | `get_all_profiles_dict` | method | `modules/c2_profile_engine.py:699` | `def get_all_profiles_dict(self)` |
 | `get_cipher_suites` | method | `modules/c2_profile_engine.py:144` | `def get_cipher_suites(self)` |
+| `get_ja3_hash` | method | `modules/c2_profile_engine.py:155` | `def get_ja3_hash(self)` |
+| `is_available` | method | `modules/c2_profile_engine.py:429` | `def is_available(self)` |
+| `list_slots` | method | `modules/c2_profile_engine.py:487` | `def list_slots(self)` |
+| `rotate` | method | `modules/c2_profile_engine.py:469` | `def rotate(self)` |
+| `rotate` | method | `modules/c2_profile_engine.py:672` | `def rotate(self)` |
 
 Next: [SYMBOLS_p11.md](SYMBOLS_p11.md)

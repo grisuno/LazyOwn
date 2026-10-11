@@ -123,6 +123,18 @@ Previous: [KB_tests_p11.md](KB_tests_p11.md)
   - `test_invalid_json` (method, line 357) `def test_invalid_json(self, tmp_path)`
   - `test_list_json` (method, line 362) `def test_list_json(self, tmp_path)`
 
+## tests/test_require_guards.py
+- Doc: Single-call requirement guards for CommandSet methods.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `TestRequireGuards` (class, line 21) `class TestRequireGuards`
+  - `test_present_valid_values_pass` (method, line 22) `def test_present_valid_values_pass(self, capsys)`
+  - `test_missing_keys_fail_closed_without_keyerror` (method, line 29) `def test_missing_keys_fail_closed_without_keyerror(self, capsys)`
+  - `test_invalid_values_rejected` (method, line 35) `def test_invalid_values_rejected(self, capsys)`
+  - `test_equivalent_to_checkers_on_present_values` (method, line 41) `def test_equivalent_to_checkers_on_present_values(self, capsys)`
+- Depends on: `core/validators.py`
+
 ## tests/test_resource_script.py
 - Doc: Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine.
 - Layer: testing

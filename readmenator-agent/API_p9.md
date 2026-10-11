@@ -141,20 +141,20 @@ Imported by: `cli/commands/mcp_bridge.py`, `modules/lazy_loop.py`, `tests/test_a
 - `ShellResult.execute_shell_verb` (method) `modules/auto_registry.py:169` `def execute_shell_verb(shell, command, timeout_sec)` -- Run a LazyOwn shell verb capturing stdout, with a hard timeout.
 
 ## modules/autonomous_exploit_engine.py
-Depends on: `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
+Depends on: `core/defaults.py`, `core/safe_exec.py`, `modules/auto_pivot.py`, `modules/db.py`
 Imported by: `cli/commands/pwn.py`, `cli/commands/session_ops.py`, `modules/ai_exploit_chain.py`, `skills/lazyown_mcp.py`, `tests/test_phase1_data_gaps.py`
-- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:113` `def __init__(self)`
-- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:133` `def get_instance(cls)`
-- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:144` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.
-- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:183` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
-- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:327` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
-- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:388` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
-- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:411` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
-- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1647` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
-- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:1962` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
-- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2392` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
-- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2518` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
-- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2582` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
+- `AutonomousExploitEngine.__init__` (method) `modules/autonomous_exploit_engine.py:114` `def __init__(self)`
+- `AutonomousExploitEngine.get_instance` (method) `modules/autonomous_exploit_engine.py:134` `def get_instance(cls)`
+- `AutonomousExploitEngine.hunt` (method) `modules/autonomous_exploit_engine.py:145` `def hunt(self, target, max_exploits, profile)` -- Execute a full autonomous exploitation chain against a target.
+- `AutonomousExploitEngine.retry_with_credentials` (method) `modules/autonomous_exploit_engine.py:184` `def retry_with_credentials(self, target, credentials)` -- Re-execute exploit chain using captured credentials.
+- `AutonomousExploitEngine.profile` (method) `modules/autonomous_exploit_engine.py:328` `def profile(self, target)` -- Build a TargetProfile from existing recon data.
+- `AutonomousExploitEngine.rank_exploits` (method) `modules/autonomous_exploit_engine.py:389` `def rank_exploits(self, profile)` -- Rank exploit candidates by confidence for a given profile.
+- `AutonomousExploitEngine.execute_candidate` (method) `modules/autonomous_exploit_engine.py:412` `def execute_candidate(self, candidate, profile)` -- Execute a single exploit candidate and return the result.
+- `AutonomousExploitEngine.scan_vulnerabilities` (method) `modules/autonomous_exploit_engine.py:1648` `def scan_vulnerabilities(self, profile)` -- Scan for vulnerabilities using NSE output and heuristic version matching.
+- `AutonomousExploitEngine.chain_privesc` (method) `modules/autonomous_exploit_engine.py:1963` `def chain_privesc(self, profile, session_id)` -- Run privilege escalation checks and attempt escalation techniques.
+- `AutonomousExploitEngine.trigger_pivot` (method) `modules/autonomous_exploit_engine.py:2393` `def trigger_pivot(self, profile, session_id)` -- Discover internal interfaces and trigger auto-pivoting through a compromised host.
+- `AutonomousExploitEngine.enable_stealth` (method) `modules/autonomous_exploit_engine.py:2519` `def enable_stealth(self, stealth_level)` -- Configure the engine's stealth level for evasion.
+- `AutonomousExploitEngine.full_auto_pwn` (method) `modules/autonomous_exploit_engine.py:2583` `def full_auto_pwn(cls, target, enable_pivot, enable_privesc, stealth)` -- Execute the full autonomous exploit chain against a target.
 
 ## modules/aws_attacks.py
 Imported by: `cli/commands/cloud_attacks.py`
@@ -359,18 +359,18 @@ Imported by: `cli/commands/cicd.py`
 - `CICDEnumerator.export_findings` (method) `modules/cicd_enumerator.py:387` `def export_findings(self)` -- Export CI/CD findings to a JSON file.
 
 ## modules/cli_auth.py
-Depends on: `cli/engagement_hooks.py`, `modules/lazy_rbac.py`
-Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_engagement_elo_and_methodology.py`
-- `user_exists` (function) `modules/cli_auth.py:118` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
-- `register` (function) `modules/cli_auth.py:141` `def register(username, password)` -- Register a new operator in users.json.
-- `verify_password` (function) `modules/cli_auth.py:210` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
-- `login` (function) `modules/cli_auth.py:236` `def login(username, password, remember)` -- Authenticate a CLI operator and optionally persist a remember-me token.
-- `logout` (function) `modules/cli_auth.py:289` `def logout()` -- Log out the current CLI operator and clear the remember-me token.
-- `try_auto_login` (function) `modules/cli_auth.py:324` `def try_auto_login()` -- Attempt auto-login using the remember-me token from payload.json.
-- `whoami` (function) `modules/cli_auth.py:362` `def whoami()` -- Return the currently logged-in CLI operator's identity.
-- `get_current_operator` (function) `modules/cli_auth.py:392` `def get_current_operator()` -- Return the current operator username, or None if not logged in.
-- `sync_elo_from_session` (function) `modules/cli_auth.py:404` `def sync_elo_from_session(elo)` -- Update the CLI session ELO from engagement state.
-- `needs_login` (function) `modules/cli_auth.py:483` `def needs_login()` -- Check if the current session has a logged-in operator.
+Depends on: `cli/engagement_hooks.py`, `core/config.py`, `modules/lazy_rbac.py`
+Imported by: `cli/auto_crypto.py`, `cli/banner_config.py`, `cli/commands/cli_auth.py`, `cli/engagement_hooks.py`, `cli/tips_engine.py`, `cli/wizard.py`, `lazyown.py`, `modules/redteam_gym.py`, `tests/test_cli_auth_remember.py`, `tests/test_engagement_elo_and_methodology.py`
+- `user_exists` (function) `modules/cli_auth.py:122` `def user_exists(username)` -- Check if a username already exists in users.json or RBAC store.
+- `register` (function) `modules/cli_auth.py:145` `def register(username, password)` -- Register a new operator in users.json.
+- `verify_password` (function) `modules/cli_auth.py:214` `def verify_password(username, password)` -- Verify a username/password against users.json using werkzeug.
+- `login` (function) `modules/cli_auth.py:240` `def login(username, password, remember)` -- Authenticate a CLI operator and optionally persist a remember-me token.
+- `logout` (function) `modules/cli_auth.py:293` `def logout()` -- Log out the current CLI operator and clear the remember-me token.
+- `try_auto_login` (function) `modules/cli_auth.py:328` `def try_auto_login()` -- Attempt auto-login using the remember-me token from payload.json.
+- `whoami` (function) `modules/cli_auth.py:366` `def whoami()` -- Return the currently logged-in CLI operator's identity.
+- `get_current_operator` (function) `modules/cli_auth.py:396` `def get_current_operator()` -- Return the current operator username, or None if not logged in.
+- `sync_elo_from_session` (function) `modules/cli_auth.py:408` `def sync_elo_from_session(elo)` -- Update the CLI session ELO from engagement state.
+- `needs_login` (function) `modules/cli_auth.py:487` `def needs_login()` -- Check if the current session has a logged-in operator.
 
 ## modules/cloud_enum.py
 Imported by: `cli/commands/cloud.py`
@@ -429,13 +429,16 @@ Imported by: `contrib/legacy/lazygptcli.py`, `contrib/legacy/lazygptcli_unified.
 - `no_html` (function) `modules/colors.py:74` `def no_html(content)`
 
 ## modules/command_executor.py
-Depends on: `core/logging.py`, `modules/event_bus.py`
-- `CommandExecutor.__init__` (method) `modules/command_executor.py:59` `def __init__(self)`
-- `CommandExecutor.instance` (method) `modules/command_executor.py:63` `def instance(cls)`
-- `CommandExecutor.add_hook` (method) `modules/command_executor.py:68` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
-- `CommandExecutor.run` (method) `modules/command_executor.py:72` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
-- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:172` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
-- `CommandExecutor.get_executor` (method) `modules/command_executor.py:264` `def get_executor()`
+Depends on: `core/logging.py`, `core/safe_exec.py`, `modules/event_bus.py`
+Imported by: `lazyown.py`, `tests/test_executor_kernel.py`
+- `CommandExecutor.__init__` (method) `modules/command_executor.py:63` `def __init__(self)`
+- `CommandExecutor.instance` (method) `modules/command_executor.py:67` `def instance(cls)`
+- `CommandExecutor.add_hook` (method) `modules/command_executor.py:72` `def add_hook(self, hook)` -- Register a post-execution hook (e.g., for StateManager or metrics).
+- `CommandExecutor.run` (method) `modules/command_executor.py:76` `def run(self, command, timeout, stream)` -- Execute a shell command and return the result.
+- `CommandExecutor.run_passthrough` (method) `modules/command_executor.py:124` `def run_passthrough(self, command, env)` -- Run a command with stdio inherited, returning its exit code.
+- `CommandExecutor.run_tee` (method) `modules/command_executor.py:139` `def run_tee(self, command)` -- Run a command teeing raw output bytes to a writer and a log file.
+- `CommandExecutor.run_with_tee` (method) `modules/command_executor.py:283` `def run_with_tee(self, command, output_path, timeout)` -- Execute a command and tee output to a file.
+- `CommandExecutor.get_executor` (method) `modules/command_executor.py:351` `def get_executor()`
 
 ## modules/compliance.py
 Depends on: `core/logging.py`

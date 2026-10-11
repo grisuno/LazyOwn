@@ -140,4 +140,4 @@
   - `validate_file_path_within_base` (function, line 150) `def validate_file_path_within_base(file_path, base_dir)`
   - `resolve_contained_file_path` (function, line 174) `def resolve_contained_file_path(raw_url, base_dir)`
 - Depends on: `lazyc2/security/constants.py`
-- Imported by: `lazyc2.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`
+- Imported by: `lazyc2.py`, `lazyc2/blueprints/phishing.py`, `lazyc2/security/services.py`, `tests/test_security_lazyc2.py`, `tests/test_short_url_file_containment.py`

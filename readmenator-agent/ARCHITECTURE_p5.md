@@ -41,6 +41,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `cli/commands/crystal_ball.py` -> __future__, cmd2, glob, json, os, re, shlex
 - `cli/commands/daemon_ctl.py` -> __future__, cmd2
 - `cli/commands/database.py` -> __future__, cmd2, os, shlex
+- `cli/commands/defaults.py` -> __future__, cmd2, os, shlex
 - `cli/commands/demo.py` -> __future__, cmd2
 - `cli/commands/diagnostics.py` -> __future__, cmd2, json, platform, sys
 - `cli/commands/dns_exfil.py` -> __future__, base64, cmd2, gzip, hashlib, json, os, re, shlex, shutil, socket, threading, time
@@ -197,17 +198,18 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `core/config.py` -> __future__, datetime, json, os, pathlib, re, shutil, tempfile, typing
 - `core/console.py` -> __future__, os, sys
 - `core/credential_vault.py` -> __future__, base64, os, pathlib, secrets, typing
-- `core/credentials.py` -> __future__, crypt, glob, os, re, requests, subprocess, time, typing
 - `core/crypto.py` -> Crypto.Cipher, __future__, base64, cryptography.hazmat.primitives, cryptography.hazmat.primitives.kdf.pbkdf2, hashlib, os, random, secrets, typing
+- `core/defaults.py` -> __future__, pathlib, tomllib, typing
 - `core/dependencies.py` -> __future__, dataclasses, importlib, typing
 - `core/error_advice.py` -> __future__, dataclasses
 - `core/executor.py` -> __future__, os, shlex, subprocess, typing
 - `core/hardening.py` -> __future__, collections.abc, defusedxml.ElementTree, html, os, pathlib, re, subprocess, typing
+- `core/host_policy.py` -> __future__, ipaddress, re
 - `core/http.py` -> __future__, bs4, json, requests, requests.exceptions, typing
 - `core/llm_budget.py` -> __future__, collections.abc, dataclasses, datetime, json, os, pathlib, tiktoken, typing
 - `core/logging.py` -> __future__, collections.abc, dataclasses, json, logging.handlers, os, pathlib, sys, traceback, typing
 - `core/network.py` -> __future__, binascii, netifaces, re, socket, struct, typing
-- `core/parsers.py` -> __future__, csv, defusedxml, html, json, os, re, typing, yaml
+- `core/parsers.py` -> __future__, re
 - `core/payload_schema.py` -> __future__, collections.abc, dataclasses, json, re, typing
 - `core/process.py` -> __future__, collections.abc, importlib.util, os, shlex, shutil, subprocess, sys, threading, time, typing
 - `core/profiles.py` -> __future__, collections.abc, os, typing
@@ -215,11 +217,12 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `core/protocols.py` -> __future__, typing
 - `core/safe_console.py` -> __future__, rich, sys
 - `core/safe_exec.py` -> __future__, collections.abc, pathlib, re, shlex, shutil, subprocess, sys, urllib.parse
+- `core/safe_import.py` -> __future__, pathlib, re, zipfile
 - `core/safe_subprocess.py` -> __future__, collections.abc, dataclasses, datetime, json, pathlib, shlex, subprocess, time
 - `core/scheduler.py` -> __future__, apscheduler.schedulers.background, collections.abc, dataclasses, sched, threading, time, typing
 - `core/security.py` -> __future__, ctypes, os, pathlib, subprocess
 - `core/text_utils.py` -> __future__
-- `core/validators.py` -> __future__, ipaddress, typing
+- `core/validators.py` -> __future__, typing
 - `deploy/range/ad-mini/traffic-gen.py` -> __future__, random, socket, time
 - `discord_c2.py` -> csv, discord, discord.ext, json, os, random, requests, time
 - `key.py` -> os, time
@@ -233,7 +236,7 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `lazyc2/blueprints/auth.py` -> __future__, flask, flask_login, pyotp, werkzeug.security
 - `lazyc2/blueprints/beacon.py` -> __future__, flask, json, threading, typing
 - `lazyc2/blueprints/operations.py` -> __future__, flask, json, markdown
-- `lazyc2/blueprints/phishing.py` -> __future__, datetime, flask, os, secrets, sqlite3, urllib.parse
+- `lazyc2/blueprints/phishing.py` -> __future__, datetime, flask, os, pathlib, secrets, sqlite3, urllib.parse
 - `lazyc2/blueprints/session_auth.py` -> __future__, flask, flask_login
 - `lazyc2/extensions/decoy.py` -> __future__, flask
 - `lazyc2/extensions/short_urls.py` -> __future__, json, os, urllib.parse, validators
@@ -330,11 +333,11 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `modules/c2_profile_engine.py` -> __future__, base64, dataclasses, hashlib, pathlib, random, re, time, typing
 - `modules/cgi-bin/lazywebshell.py` -> cgi, subprocess
 - `modules/cicd_enumerator.py` -> __future__, dataclasses, json, os, re
-- `modules/cli_auth.py` -> __future__, json, os, pathlib, secrets, time, typing, werkzeug.security
+- `modules/cli_auth.py` -> __future__, hmac, json, os, pathlib, secrets, time, typing, werkzeug.security
 - `modules/cloud_enum.py` -> json, requests, subprocess, typing
 - `modules/collab_bp.py` -> __future__, dataclasses, flask, flask_login, functools, json, queue, threading, time, uuid
 - `modules/colors.py` -> bs4, random
-- `modules/command_executor.py` -> __future__, collections.abc, dataclasses, pathlib, shlex, subprocess, sys, time
+- `modules/command_executor.py` -> __future__, collections.abc, dataclasses, pathlib, select, shlex, subprocess, sys, time
 - `modules/compliance.py` -> __future__, dataclasses, datetime, fpdf, hashlib, json, pathlib, time, typing
 - `modules/conditional_hooks.py` -> __future__, collections.abc, dataclasses, json, pathlib, shlex, threading, time, typing
 - `modules/config_store.py` -> __future__, copy, pathlib, threading, typing
@@ -493,8 +496,5 @@ Previous: [ARCHITECTURE_p4.md](ARCHITECTURE_p4.md)
 - `modules/timestomper.py` -> __future__, dataclasses, os, pathlib, random, typing
 - `modules/tool_extractor.py` -> ast
 - `modules/toolset.py` -> __future__, dataclasses, shlex
-- `modules/toposwarm_bridge.py` -> __future__, collections, dataclasses, importlib.util, json, os, pathlib, re, subprocess, sys, torch, torch.nn.functional, typing, uuid
-- `modules/traffic_morpher.py` -> __future__, base64, hashlib, os, random, struct, time, typing
-- `modules/traffic_recorder.py` -> __future__, dataclasses, hashlib, json, pathlib, sqlite3, threading, time, urllib.parse
 
 Next: [ARCHITECTURE_p6.md](ARCHITECTURE_p6.md)

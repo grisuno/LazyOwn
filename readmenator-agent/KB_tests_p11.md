@@ -222,6 +222,19 @@ Previous: [KB_tests_p10.md](KB_tests_p10.md)
   - `test_required_params_exist_live` (function, line 118) `def test_required_params_exist_live()`
 - Depends on: `core/payload_schema.py`, `lazyc2/addon_creator.py`
 
+## tests/test_plugin_loader_safety.py
+- Doc: Marketplace placeholder substitution must be shell-safe.
+- Layer: testing
+- Language: py
+- Symbols:
+  - `_load_fn` (function, line 23) `def _load_fn()`
+  - `TestPlaceholderQuoting` (class, line 38) `class TestPlaceholderQuoting`
+  - `test_plain_values_pass_through` (method, line 39) `def test_plain_values_pass_through(self)`
+  - `test_injection_neutralized` (method, line 43) `def test_injection_neutralized(self)`
+  - `test_command_substitution_neutralized` (method, line 48) `def test_command_substitution_neutralized(self)`
+  - `test_missing_key_left_verbatim` (method, line 53) `def test_missing_key_left_verbatim(self)`
+  - `test_uses_shlex_quote` (method, line 57) `def test_uses_shlex_quote(self)`
+
 ## tests/test_plugin_tiers.py
 - Doc: Tests for marketplace plugin tiers and operator ratings.
 - Layer: testing

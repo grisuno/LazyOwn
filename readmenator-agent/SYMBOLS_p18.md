@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `resolve` | method | `modules/toolset.py:72` | `def resolve(agent, tool_key)` |
 | `validate_shell` | method | `modules/toolset.py:128` | `def validate_shell(role, command)` |
 | `OnlineFeedbackLoop` | class | `modules/toposwarm_bridge.py:273` | `class OnlineFeedbackLoop` |
 | `RoutedCall` | class | `modules/toposwarm_bridge.py:71` | `class RoutedCall` |
@@ -475,26 +474,27 @@ Previous: [SYMBOLS_p17.md](SYMBOLS_p17.md)
 | `reload` | method | `poc_tui/config.py:21` | `def reload(self)` |
 | `save` | method | `poc_tui/config.py:28` | `def save(self)` |
 | `set` | method | `poc_tui/config.py:38` | `def set(self, key, value)` |
-| `PluginLoader` | class | `poc_tui/plugin_loader.py:73` | `class PluginLoader` |
-| `PluginSpec` | class | `poc_tui/plugin_loader.py:28` | `class PluginSpec` |
-| `_LuaAppProxy` | class | `poc_tui/plugin_loader.py:280` | `class _LuaAppProxy` |
-| `__init__` | method | `poc_tui/plugin_loader.py:80` | `def __init__(self, config, base_dir)` |
-| `__init__` | method | `poc_tui/plugin_loader.py:283` | `def __init__(self, config)` |
-| `_list_files` | method | `poc_tui/plugin_loader.py:120` | `def _list_files(self, directory)` |
-| `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:212` | `def _load_lua_plugins(self)` |
-| `_load_tool_files` | method | `poc_tui/plugin_loader.py:237` | `def _load_tool_files(self)` |
-| `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:137` | `def _load_yaml_addons(self)` |
-| `_lua_register` | method | `poc_tui/plugin_loader.py:103` | `def _lua_register(self, name, func)` |
-| `_register_tool` | method | `poc_tui/plugin_loader.py:250` | `def _register_tool(self, data)` |
-| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:150` | `def _register_yaml_addon(self, data)` |
-| `_replace_placeholders` | method | `poc_tui/plugin_loader.py:40` | `def _replace_placeholders(command, params)` |
-| `_setup_lua` | method | `poc_tui/plugin_loader.py:94` | `def _setup_lua(self)` |
-| `_subst` | method | `poc_tui/plugin_loader.py:43` | `def _subst(match)` |
-| `_validate_clone_url` | method | `poc_tui/plugin_loader.py:51` | `def _validate_clone_url(url)` |
-| `load_all` | method | `poc_tui/plugin_loader.py:128` | `def load_all(self)` |
-| `one_cmd` | method | `poc_tui/plugin_loader.py:290` | `def one_cmd(self, cmd)` |
-| `params` | method | `poc_tui/plugin_loader.py:287` | `def params(self)` |
-| `wrapper` | method | `poc_tui/plugin_loader.py:106` | `def wrapper(arg)` |
-| `wrapper` | method | `poc_tui/plugin_loader.py:161` | `def wrapper(arg)` |
+| `PluginLoader` | class | `poc_tui/plugin_loader.py:84` | `class PluginLoader` |
+| `PluginSpec` | class | `poc_tui/plugin_loader.py:29` | `class PluginSpec` |
+| `_LuaAppProxy` | class | `poc_tui/plugin_loader.py:291` | `class _LuaAppProxy` |
+| `__init__` | method | `poc_tui/plugin_loader.py:91` | `def __init__(self, config, base_dir)` |
+| `__init__` | method | `poc_tui/plugin_loader.py:294` | `def __init__(self, config)` |
+| `_list_files` | method | `poc_tui/plugin_loader.py:131` | `def _list_files(self, directory)` |
+| `_load_lua_plugins` | method | `poc_tui/plugin_loader.py:223` | `def _load_lua_plugins(self)` |
+| `_load_tool_files` | method | `poc_tui/plugin_loader.py:248` | `def _load_tool_files(self)` |
+| `_load_yaml_addons` | method | `poc_tui/plugin_loader.py:148` | `def _load_yaml_addons(self)` |
+| `_lua_register` | method | `poc_tui/plugin_loader.py:114` | `def _lua_register(self, name, func)` |
+| `_register_tool` | method | `poc_tui/plugin_loader.py:261` | `def _register_tool(self, data)` |
+| `_register_yaml_addon` | method | `poc_tui/plugin_loader.py:161` | `def _register_yaml_addon(self, data)` |
+| `_replace_placeholders` | method | `poc_tui/plugin_loader.py:41` | `def _replace_placeholders(command, params)` |
+| `_setup_lua` | method | `poc_tui/plugin_loader.py:105` | `def _setup_lua(self)` |
+| `_subst` | method | `poc_tui/plugin_loader.py:52` | `def _subst(match)` |
+| `_validate_clone_url` | method | `poc_tui/plugin_loader.py:62` | `def _validate_clone_url(url)` |
+| `load_all` | method | `poc_tui/plugin_loader.py:139` | `def load_all(self)` |
+| `one_cmd` | method | `poc_tui/plugin_loader.py:301` | `def one_cmd(self, cmd)` |
+| `params` | method | `poc_tui/plugin_loader.py:298` | `def params(self)` |
+| `wrapper` | method | `poc_tui/plugin_loader.py:117` | `def wrapper(arg)` |
+| `wrapper` | method | `poc_tui/plugin_loader.py:172` | `def wrapper(arg)` |
+| `wrapper` | method | `poc_tui/plugin_loader.py:269` | `def wrapper(arg)` |
 
 Next: [SYMBOLS_p19.md](SYMBOLS_p19.md)

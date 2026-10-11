@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `encode_state` | method | `modules/rl_trainer.py:304` | `def encode_state(self, task_type, engagement_phase, recent_reward_ema)` |
 | `epsilon` | method | `modules/rl_trainer.py:233` | `def epsilon(self)` |
 | `epsilon` | method | `modules/rl_trainer.py:402` | `def epsilon(self)` |
 | `get` | method | `modules/rl_trainer.py:168` | `def get(self, state, action)` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p16.md](SYMBOLS_p16.md)
 | `ToolSeed` | class | `modules/toolset.py:27` | `class ToolSeed` |
 | `builtin_seeds` | method | `modules/toolset.py:35` | `def builtin_seeds()` |
 | `extract_tool` | method | `modules/toolset.py:105` | `def extract_tool(command)` |
+| `resolve` | method | `modules/toolset.py:72` | `def resolve(agent, tool_key)` |
 
 Next: [SYMBOLS_p18.md](SYMBOLS_p18.md)

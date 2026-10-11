@@ -347,13 +347,13 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `set_value` | method | `cli/command_form.py:150` | `def set_value(self, identifier, value)` |
 | `summary` | method | `cli/command_form.py:139` | `def summary(self)` |
 | `verb_line` | method | `cli/command_form.py:188` | `def verb_line(self)` |
-| `LazyOwnCommandSet` | class | `cli/commands/_base.py:51` | `class LazyOwnCommandSet(CommandSet)` |
-| `__getattr__` | method | `cli/commands/_base.py:110` | `def __getattr__(self, name)` |
-| `__setattr__` | method | `cli/commands/_base.py:162` | `def __setattr__(self, name, value)` |
-| `_resolve_shell` | method | `cli/commands/_base.py:65` | `def _resolve_shell(self)` |
-| `extract_flag` | function | `cli/commands/_base.py:34` | `def extract_flag(args, flag)` |
-| `params` | method | `cli/commands/_base.py:86` | `def params(self)` |
-| `payload` | method | `cli/commands/_base.py:97` | `def payload(self)` |
+| `LazyOwnCommandSet` | class | `cli/commands/_base.py:52` | `class LazyOwnCommandSet(CommandSet)` |
+| `__getattr__` | method | `cli/commands/_base.py:111` | `def __getattr__(self, name)` |
+| `__setattr__` | method | `cli/commands/_base.py:163` | `def __setattr__(self, name, value)` |
+| `_resolve_shell` | method | `cli/commands/_base.py:66` | `def _resolve_shell(self)` |
+| `extract_flag` | function | `cli/commands/_base.py:35` | `def extract_flag(args, flag)` |
+| `params` | method | `cli/commands/_base.py:87` | `def params(self)` |
+| `payload` | method | `cli/commands/_base.py:98` | `def payload(self)` |
 | `PendingCommandSet` | class | `cli/commands/_dormancy.py:30` | `class PendingCommandSet(LazyOwnCommandSet)` |
 | `is_pending` | method | `cli/commands/_dormancy.py:52` | `def is_pending(cs_class)` |
 | `ActiveDirectoryCommandSet` | class | `cli/commands/active_directory.py:18` | `class ActiveDirectoryCommandSet(LazyOwnCommandSet)` |
@@ -460,13 +460,13 @@ Pages: [SYMBOLS.md](SYMBOLS.md), [SYMBOLS_p2.md](SYMBOLS_p2.md), [SYMBOLS_p3.md]
 | `do_ttp_matrix` | method | `cli/commands/caldera.py:290` | `def do_ttp_matrix(self, line)` |
 | `do_ttp_rebuild` | method | `cli/commands/caldera.py:299` | `def do_ttp_rebuild(self, line)` |
 | `do_ttp_show` | method | `cli/commands/caldera.py:309` | `def do_ttp_show(self, line)` |
-| `CampaignCommandSet` | class | `cli/commands/campaign.py:36` | `class CampaignCommandSet(LazyOwnCommandSet)` |
-| `_campaign_export` | method | `cli/commands/campaign.py:134` | `def _campaign_export(self, name)` |
-| `_campaign_import` | method | `cli/commands/campaign.py:183` | `def _campaign_import(self, package_path)` |
+| `CampaignCommandSet` | class | `cli/commands/campaign.py:37` | `class CampaignCommandSet(LazyOwnCommandSet)` |
+| `_campaign_export` | method | `cli/commands/campaign.py:135` | `def _campaign_export(self, name)` |
+| `_campaign_import` | method | `cli/commands/campaign.py:184` | `def _campaign_import(self, package_path)` |
 | `_campaign_list` | method | `cli/commands/campaign.py:308` | `def _campaign_list(self)` |
 | `_campaign_status` | method | `cli/commands/campaign.py:340` | `def _campaign_status(self)` |
-| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:92` | `def _gather_campaign_manifest(self, name)` |
-| `do_campaign` | method | `cli/commands/campaign.py:43` | `def do_campaign(self, line)` |
+| `_gather_campaign_manifest` | method | `cli/commands/campaign.py:93` | `def _gather_campaign_manifest(self, name)` |
+| `do_campaign` | method | `cli/commands/campaign.py:44` | `def do_campaign(self, line)` |
 | `CatalogCommandSet` | class | `cli/commands/catalog.py:19` | `class CatalogCommandSet(LazyOwnCommandSet)` |
 | `_filter_commands` | method | `cli/commands/catalog.py:88` | `def _filter_commands(self, commands, keyword)` |
 | `_index` | method | `cli/commands/catalog.py:25` | `def _index(self)` |

@@ -3,6 +3,58 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `TestBaseTemplateOverlay` | class | `tests/test_command_palette.py:1920` | `class TestBaseTemplateOverlay` |
+| `TestBaseTemplateOverlayTelemetry` | class | `tests/test_command_palette.py:2225` | `class TestBaseTemplateOverlayTelemetry` |
+| `TestC2PaletteApiRateLimit` | class | `tests/test_command_palette.py:2198` | `class TestC2PaletteApiRateLimit` |
+| `TestC2PaletteApiRoute` | class | `tests/test_command_palette.py:1873` | `class TestC2PaletteApiRoute` |
+| `TestC2PaletteRoute` | class | `tests/test_command_palette.py:1405` | `class TestC2PaletteRoute` |
+| `TestCommandIndexInvariants` | class | `tests/test_command_palette.py:412` | `class TestCommandIndexInvariants` |
+| `TestGeneratorDeterminism` | class | `tests/test_command_palette.py:505` | `class TestGeneratorDeterminism` |
+| `TestGeneratorHelpers` | class | `tests/test_command_palette.py:524` | `class TestGeneratorHelpers` |
+| `TestKnownLegacyDuplicates` | class | `tests/test_command_palette.py:473` | `class TestKnownLegacyDuplicates` |
+| `TestLazyOwnWiring` | class | `tests/test_command_palette.py:1014` | `class TestLazyOwnWiring` |
+| `TestMcpPaletteDescription` | class | `tests/test_command_palette.py:1952` | `class TestMcpPaletteDescription` |
+| `TestMcpPaletteWiring` | class | `tests/test_command_palette.py:1338` | `class TestMcpPaletteWiring` |
+| `TestPaletteArgumentParser` | class | `tests/test_command_palette.py:647` | `class TestPaletteArgumentParser` |
+| `TestPaletteCompleter` | class | `tests/test_command_palette.py:879` | `class TestPaletteCompleter` |
+| `TestPaletteDetailEnrichment` | class | `tests/test_command_palette.py:1643` | `class TestPaletteDetailEnrichment` |
+| `TestPaletteDetailTelemetryRendering` | class | `tests/test_command_palette.py:2140` | `class TestPaletteDetailTelemetryRendering` |
+| `TestPaletteEnrichmentBlend` | class | `tests/test_command_palette.py:2249` | `class TestPaletteEnrichmentBlend` |
+| `TestPaletteEntryPoint` | class | `tests/test_command_palette.py:965` | `class TestPaletteEntryPoint` |
+| `TestPaletteGraphLoader` | class | `tests/test_command_palette.py:1523` | `class TestPaletteGraphLoader` |
+| `TestPaletteIndexQuery` | class | `tests/test_command_palette.py:729` | `class TestPaletteIndexQuery` |
+| `TestPaletteJsonRenderer` | class | `tests/test_command_palette.py:1075` | `class TestPaletteJsonRenderer` |
+| `TestPaletteLoader` | class | `tests/test_command_palette.py:566` | `class TestPaletteLoader` |
+| `TestPaletteNextMode` | class | `tests/test_command_palette.py:1751` | `class TestPaletteNextMode` |
+| `TestPaletteRenderer` | class | `tests/test_command_palette.py:795` | `class TestPaletteRenderer` |
+| `TestPaletteTelemetryLoader` | class | `tests/test_command_palette.py:2015` | `class TestPaletteTelemetryLoader` |
+| `TestPaletteViewBuilder` | class | `tests/test_command_palette.py:1192` | `class TestPaletteViewBuilder` |
+| `_build_synthetic_graph` | method | `tests/test_command_palette.py:1484` | `def _build_synthetic_graph()` |
+| `_build_synthetic_index` | method | `tests/test_command_palette.py:281` | `def _build_synthetic_index(config)` |
+| `_collect_do_method_names` | method | `tests/test_command_palette.py:237` | `def _collect_do_method_names(path, prefix)` |
+| `_dispatcher_branch` | method | `tests/test_command_palette.py:1396` | `def _dispatcher_branch(src, tool_name)` |
+| `_ensure_repo_on_path` | method | `tests/test_command_palette.py:211` | `def _ensure_repo_on_path(suite_config)` |
+| `_entry` | method | `tests/test_command_palette.py:1646` | `def _entry(self, suite_config)` |
+| `_extract_method_body` | method | `tests/test_command_palette.py:392` | `def _extract_method_body(src, name)` |
+| `_iter_command_modules` | method | `tests/test_command_palette.py:228` | `def _iter_command_modules(config)` |
+| `_reset_telemetry_cache` | method | `tests/test_command_palette.py:2006` | `def _reset_telemetry_cache()` |
+| `_tool_declaration_block` | method | `tests/test_command_palette.py:1381` | `def _tool_declaration_block(src, tool_name)` |
+| `_write_synthetic_csv` | method | `tests/test_command_palette.py:1970` | `def _write_synthetic_csv(target)` |
+| `ast_command_names` | method | `tests/test_command_palette.py:272` | `def ast_command_names(suite_config)` |
+| `base_src` | method | `tests/test_command_palette.py:1924` | `def base_src(self, suite_config)` |
+| `base_src` | method | `tests/test_command_palette.py:2229` | `def base_src(self, suite_config)` |
+| `base_template_path` | method | `tests/test_command_palette.py:194` | `def base_template_path(self)` |
+| `blocking_import` | method | `tests/test_command_palette.py:2260` | `def blocking_import(name)` |
+| `cli_commands_dir` | method | `tests/test_command_palette.py:174` | `def cli_commands_dir(self)` |
+| `completer` | method | `tests/test_command_palette.py:883` | `def completer(self)` |
+| `graphify_path` | method | `tests/test_command_palette.py:199` | `def graphify_path(self)` |
+| `index_document` | method | `tests/test_command_palette.py:218` | `def index_document(suite_config)` |
+| `index_path` | method | `tests/test_command_palette.py:164` | `def index_path(self)` |
+| `lazyc2_path` | method | `tests/test_command_palette.py:184` | `def lazyc2_path(self)` |
+| `lazyown_path` | method | `tests/test_command_palette.py:169` | `def lazyown_path(self)` |
+| `mcp_path` | method | `tests/test_command_palette.py:179` | `def mcp_path(self)` |
+| `palette_src` | method | `tests/test_command_palette.py:1023` | `def palette_src(self, suite_config)` |
+| `palette_template_path` | method | `tests/test_command_palette.py:189` | `def palette_template_path(self)` |
 | `parser` | method | `tests/test_command_palette.py:651` | `def parser(self)` |
 | `parser` | method | `tests/test_command_palette.py:1755` | `def parser(self)` |
 | `query` | method | `tests/test_command_palette.py:733` | `def query(self, synthetic_index)` |
@@ -345,6 +397,26 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_returns_validation_results_dict` | method | `tests/test_core_config.py:152` | `def test_returns_validation_results_dict(self, tmp_path)` |
 | `test_roundtrips_values_correctly` | method | `tests/test_core_config.py:29` | `def test_roundtrips_values_correctly(self, tmp_path)` |
 | `test_unknown_key_returns_none` | method | `tests/test_core_config.py:118` | `def test_unknown_key_returns_none(self)` |
+| `TestCallSitesMigrated` | class | `tests/test_core_defaults.py:50` | `class TestCallSitesMigrated` |
+| `TestGuiFunctional` | class | `tests/test_core_defaults.py:117` | `class TestGuiFunctional` |
+| `TestLoader` | class | `tests/test_core_defaults.py:28` | `class TestLoader` |
+| `TestWizardAndGui` | class | `tests/test_core_defaults.py:84` | `class TestWizardAndGui` |
+| `_fresh_cache` | function | `tests/test_core_defaults.py:22` | `def _fresh_cache()` |
+| `client` | method | `tests/test_core_defaults.py:119` | `def client(self, tmp_path, monkeypatch)` |
+| `test_get_defaults` | method | `tests/test_core_defaults.py:130` | `def test_get_defaults(self, client)` |
+| `test_get_fallback` | method | `tests/test_core_defaults.py:45` | `def test_get_fallback(self)` |
+| `test_gui_never_rewrites_toml` | method | `tests/test_core_defaults.py:110` | `def test_gui_never_rewrites_toml(self)` |
+| `test_gui_routes_exist` | method | `tests/test_core_defaults.py:104` | `def test_gui_routes_exist(self)` |
+| `test_helpers_imported` | method | `tests/test_core_defaults.py:78` | `def test_helpers_imported(self)` |
+| `test_missing_file_fails_closed` | method | `tests/test_core_defaults.py:41` | `def test_missing_file_fails_closed(self, tmp_path)` |
+| `test_no_hardcoded_default_lport` | method | `tests/test_core_defaults.py:68` | `def test_no_hardcoded_default_lport(self)` |
+| `test_no_hardcoded_rockyou_in_logic` | method | `tests/test_core_defaults.py:58` | `def test_no_hardcoded_rockyou_in_logic(self)` |
+| `test_overrides_map_to_schema_keys` | method | `tests/test_core_defaults.py:96` | `def test_overrides_map_to_schema_keys(self)` |
+| `test_post_defaults_rejects_bad_port` | method | `tests/test_core_defaults.py:141` | `def test_post_defaults_rejects_bad_port(self, client)` |
+| `test_post_defaults_rejects_unknown` | method | `tests/test_core_defaults.py:137` | `def test_post_defaults_rejects_unknown(self, client)` |
+| `test_sections_present` | method | `tests/test_core_defaults.py:29` | `def test_sections_present(self)` |
+| `test_typed_helpers` | method | `tests/test_core_defaults.py:33` | `def test_typed_helpers(self)` |
+| `test_wizard_command_exists` | method | `tests/test_core_defaults.py:85` | `def test_wizard_command_exists(self)` |
 | `TestRunShell` | class | `tests/test_core_executor.py:84` | `class TestRunShell` |
 | `TestSafeRun` | class | `tests/test_core_executor.py:15` | `class TestSafeRun` |
 | `test_bad_type_raises_type_error` | method | `tests/test_core_executor.py:69` | `def test_bad_type_raises_type_error(self)` |
@@ -424,77 +496,5 @@ Previous: [SYMBOLS_p29.md](SYMBOLS_p29.md)
 | `test_report_with_data` | function | `tests/test_core_modules.py:148` | `def test_report_with_data(tmp_path)` |
 | `test_searchsploit_client` | function | `tests/test_core_modules.py:253` | `def test_searchsploit_client()` |
 | `test_searchsploit_graceful` | function | `tests/test_core_modules.py:246` | `def test_searchsploit_graceful()` |
-| `test_session_rag_chunk_text` | function | `tests/test_core_modules.py:796` | `def test_session_rag_chunk_text()` |
-| `test_session_rag_context_for_step` | function | `tests/test_core_modules.py:828` | `def test_session_rag_context_for_step()` |
-| `test_session_rag_fallback_dedup` | function | `tests/test_core_modules.py:939` | `def test_session_rag_fallback_dedup()` |
-| `test_session_rag_fallback_persistence` | function | `tests/test_core_modules.py:919` | `def test_session_rag_fallback_persistence(tmp_path)` |
-| `test_session_rag_fallback_ring_buffer` | function | `tests/test_core_modules.py:949` | `def test_session_rag_fallback_ring_buffer()` |
-| `test_session_rag_index_new` | function | `tests/test_core_modules.py:807` | `def test_session_rag_index_new()` |
-| `test_session_rag_index_parquet_sources` | function | `tests/test_core_modules.py:1150` | `def test_session_rag_index_parquet_sources()` |
-| `test_session_rag_init` | function | `tests/test_core_modules.py:778` | `def test_session_rag_init()` |
-| `test_session_rag_query_returns_list` | function | `tests/test_core_modules.py:817` | `def test_session_rag_query_returns_list()` |
-| `test_session_rag_stats` | function | `tests/test_core_modules.py:785` | `def test_session_rag_stats()` |
-| `test_session_reader_discovered_hosts` | function | `tests/test_core_modules.py:679` | `def test_session_reader_discovered_hosts(tmp_path)` |
-| `test_session_reader_empty` | function | `tests/test_core_modules.py:614` | `def test_session_reader_empty(tmp_path)` |
-| `test_session_reader_implant_csv` | function | `tests/test_core_modules.py:625` | `def test_session_reader_implant_csv(tmp_path)` |
-| `test_session_reader_privileged_sessions` | function | `tests/test_core_modules.py:642` | `def test_session_reader_privileged_sessions(tmp_path)` |
-| `test_session_reader_skips_non_implant_logs` | function | `tests/test_core_modules.py:688` | `def test_session_reader_skips_non_implant_logs(tmp_path)` |
-| `test_session_reader_tasks` | function | `tests/test_core_modules.py:663` | `def test_session_reader_tasks(tmp_path)` |
-| `test_threat_model_build` | function | `tests/test_core_modules.py:847` | `def test_threat_model_build()` |
-| `test_threat_model_builder_init` | function | `tests/test_core_modules.py:840` | `def test_threat_model_builder_init()` |
-| `test_threat_model_detection_rules_structure` | function | `tests/test_core_modules.py:885` | `def test_threat_model_detection_rules_structure()` |
-| `test_threat_model_has_purple_team` | function | `tests/test_core_modules.py:971` | `def test_threat_model_has_purple_team()` |
-| `test_threat_model_ioc_types` | function | `tests/test_core_modules.py:908` | `def test_threat_model_ioc_types()` |
-| `test_threat_model_load_after_build` | function | `tests/test_core_modules.py:898` | `def test_threat_model_load_after_build()` |
-| `test_threat_model_purple_coverage_field` | function | `tests/test_core_modules.py:1013` | `def test_threat_model_purple_coverage_field()` |
-| `test_threat_model_purple_gaps_sorted_first` | function | `tests/test_core_modules.py:996` | `def test_threat_model_purple_gaps_sorted_first()` |
-| `test_threat_model_purple_team_structure` | function | `tests/test_core_modules.py:980` | `def test_threat_model_purple_team_structure()` |
-| `test_threat_model_summary_fields` | function | `tests/test_core_modules.py:860` | `def test_threat_model_summary_fields()` |
-| `test_threat_model_ttps_have_required_fields` | function | `tests/test_core_modules.py:872` | `def test_threat_model_ttps_have_required_fields()` |
-| `test_world_model_basic` | function | `tests/test_core_modules.py:47` | `def test_world_model_basic(tmp_path)` |
-| `test_world_model_from_findings` | function | `tests/test_core_modules.py:68` | `def test_world_model_from_findings()` |
-| `test_world_model_persistence` | function | `tests/test_core_modules.py:57` | `def test_world_model_persistence(tmp_path)` |
-| `test_given_empty_in_dev_when_resolving_then_falls_back_to_lhost` | function | `tests/test_cors_behavior.py:23` | `def test_given_empty_in_dev_when_resolving_then_falls_back_to_lhost()` |
-| `test_given_matching_origin_when_handshake_then_allowed` | function | `tests/test_cors_behavior.py:41` | `def test_given_matching_origin_when_handshake_then_allowed()` |
-| `test_given_unknown_origin_when_handshake_then_denied` | function | `tests/test_cors_behavior.py:31` | `def test_given_unknown_origin_when_handshake_then_denied()` |
-| `test_given_wildcard_in_prod_when_resolving_then_raises` | function | `tests/test_cors_behavior.py:16` | `def test_given_wildcard_in_prod_when_resolving_then_raises()` |
-| `TestFlaskSocketIOIntegration` | class | `tests/test_cors_policy.py:106` | `class TestFlaskSocketIOIntegration` |
-| `TestIsAllowed` | class | `tests/test_cors_policy.py:78` | `class TestIsAllowed` |
-| `TestResolveOrigins` | class | `tests/test_cors_policy.py:24` | `class TestResolveOrigins` |
-| `test_csv_is_split_and_trimmed` | method | `tests/test_cors_policy.py:52` | `def test_csv_is_split_and_trimmed(self)` |
-| `test_dev_empty_allowlist_falls_back_to_lhost` | method | `tests/test_cors_policy.py:46` | `def test_dev_empty_allowlist_falls_back_to_lhost(self)` |
-| `test_empty_entries_in_csv_are_skipped` | method | `tests/test_cors_policy.py:69` | `def test_empty_entries_in_csv_are_skipped(self)` |
-| `test_empty_origin_is_denied` | method | `tests/test_cors_policy.py:89` | `def test_empty_origin_is_denied(self)` |
-| `test_exact_match_is_allowed` | method | `tests/test_cors_policy.py:81` | `def test_exact_match_is_allowed(self)` |
-| `test_hostname_match_ignores_port` | method | `tests/test_cors_policy.py:93` | `def test_hostname_match_ignores_port(self)` |
-| `test_list_input_is_preserved` | method | `tests/test_cors_policy.py:61` | `def test_list_input_is_preserved(self)` |
-| `test_non_matching_origin_is_denied` | method | `tests/test_cors_policy.py:85` | `def test_non_matching_origin_is_denied(self)` |
-| `test_origins_for_socketio` | method | `tests/test_cors_policy.py:109` | `def test_origins_for_socketio(self)` |
-| `test_origins_for_socketio_dev_fallback` | method | `tests/test_cors_policy.py:119` | `def test_origins_for_socketio_dev_fallback(self)` |
-| `test_prod_empty_allowlist_raises` | method | `tests/test_cors_policy.py:42` | `def test_prod_empty_allowlist_raises(self)` |
-| `test_scheme_mismatch_is_denied` | method | `tests/test_cors_policy.py:101` | `def test_scheme_mismatch_is_denied(self)` |
-| `test_wildcard_in_csv_is_dropped` | method | `tests/test_cors_policy.py:31` | `def test_wildcard_in_csv_is_dropped(self)` |
-| `test_wildcard_is_rejected` | method | `tests/test_cors_policy.py:27` | `def test_wildcard_is_rejected(self)` |
-| `TestOriginsForSocketIO` | class | `tests/test_cors_socketio_regression.py:20` | `class TestOriginsForSocketIO` |
-| `test_dev_empty_includes_http_and_https` | method | `tests/test_cors_socketio_regression.py:29` | `def test_dev_empty_includes_http_and_https(self)` |
-| `test_dev_empty_includes_lhost_with_common_ports` | method | `tests/test_cors_socketio_regression.py:23` | `def test_dev_empty_includes_lhost_with_common_ports(self)` |
-| `test_dev_empty_includes_localhost_alias` | method | `tests/test_cors_socketio_regression.py:35` | `def test_dev_empty_includes_localhost_alias(self)` |
-| `test_explicit_origins_deduped` | method | `tests/test_cors_socketio_regression.py:51` | `def test_explicit_origins_deduped(self)` |
-| `test_explicit_origins_kept_with_port_appended` | method | `tests/test_cors_socketio_regression.py:40` | `def test_explicit_origins_kept_with_port_appended(self)` |
-| `test_prod_raises_when_empty` | method | `tests/test_cors_socketio_regression.py:61` | `def test_prod_raises_when_empty(self)` |
-| `test_wildcard_rejected` | method | `tests/test_cors_socketio_regression.py:65` | `def test_wildcard_rejected(self)` |
-| `TestCheckDefaults` | class | `tests/test_credential_vault.py:18` | `class TestCheckDefaults` |
-| `TestSealUnseal` | class | `tests/test_credential_vault.py:56` | `class TestSealUnseal` |
-| `TestSecureDefaults` | class | `tests/test_credential_vault.py:116` | `class TestSecureDefaults` |
-| `test_api_key_is_longer` | method | `tests/test_credential_vault.py:124` | `def test_api_key_is_longer(self)` |
-| `test_changeme_variants` | method | `tests/test_credential_vault.py:44` | `def test_changeme_variants(self)` |
-| `test_clean_payload_no_warnings` | method | `tests/test_credential_vault.py:24` | `def test_clean_payload_no_warnings(self)` |
-| `test_default_values_detected` | method | `tests/test_credential_vault.py:19` | `def test_default_values_detected(self)` |
-| `test_different_key_fails` | method | `tests/test_credential_vault.py:72` | `def test_different_key_fails(self)` |
-| `test_empty_keys_flagged` | method | `tests/test_credential_vault.py:39` | `def test_empty_keys_flagged(self)` |
-| `test_empty_string_passthrough` | method | `tests/test_credential_vault.py:64` | `def test_empty_string_passthrough(self)` |
-| `test_generates_random_values` | method | `tests/test_credential_vault.py:117` | `def test_generates_random_values(self)` |
-| `test_non_sensitive_keys_untouched` | method | `tests/test_credential_vault.py:107` | `def test_non_sensitive_keys_untouched(self)` |
-| `test_payload_roundtrip` | method | `tests/test_credential_vault.py:80` | `def test_payload_roundtrip(self)` |
 
 Next: [SYMBOLS_p31.md](SYMBOLS_p31.md)

@@ -3,7 +3,6 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
-| `wrapper` | method | `poc_tui/plugin_loader.py:258` | `def wrapper(arg)` |
 | `main` | function | `poc_tui/run.py:9` | `def main()` |
 | `TestLazyOwnTUIApp` | class | `poc_tui/test_app.py:100` | `class TestLazyOwnTUIApp` |
 | `TestShellBackend` | class | `poc_tui/test_app.py:32` | `class TestShellBackend` |
@@ -402,13 +401,13 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_render_proposal` | method | `skills/claude_md_orchestrator/boy_scout.py:73` | `def _render_proposal(contract, findings)` |
 | `run` | method | `skills/claude_md_orchestrator/boy_scout.py:90` | `def run(state, config)` |
 | `write_report` | method | `skills/claude_md_orchestrator/boy_scout.py:110` | `def write_report(report, config)` |
-| `CicdResult` | class | `skills/claude_md_orchestrator/cicd_agent.py:70` | `class CicdResult` |
-| `_ensure_branch` | method | `skills/claude_md_orchestrator/cicd_agent.py:107` | `def _ensure_branch(contract, config)` |
-| `_git` | method | `skills/claude_md_orchestrator/cicd_agent.py:96` | `def _git()` |
-| `_render_pipeline` | method | `skills/claude_md_orchestrator/cicd_agent.py:133` | `def _render_pipeline(contract, spec, config)` |
-| `_render_pr_body` | method | `skills/claude_md_orchestrator/cicd_agent.py:143` | `def _render_pr_body(contract, spec, report)` |
-| `_slug` | method | `skills/claude_md_orchestrator/cicd_agent.py:90` | `def _slug(contract)` |
-| `run` | method | `skills/claude_md_orchestrator/cicd_agent.py:176` | `def run(contract, spec, report, config)` |
+| `CicdResult` | class | `skills/claude_md_orchestrator/cicd_agent.py:71` | `class CicdResult` |
+| `_ensure_branch` | method | `skills/claude_md_orchestrator/cicd_agent.py:108` | `def _ensure_branch(contract, config)` |
+| `_git` | method | `skills/claude_md_orchestrator/cicd_agent.py:97` | `def _git()` |
+| `_render_pipeline` | method | `skills/claude_md_orchestrator/cicd_agent.py:134` | `def _render_pipeline(contract, spec, config)` |
+| `_render_pr_body` | method | `skills/claude_md_orchestrator/cicd_agent.py:144` | `def _render_pr_body(contract, spec, report)` |
+| `_slug` | method | `skills/claude_md_orchestrator/cicd_agent.py:91` | `def _slug(contract)` |
+| `run` | method | `skills/claude_md_orchestrator/cicd_agent.py:177` | `def run(contract, spec, report, config)` |
 | `Config` | class | `skills/claude_md_orchestrator/config.py:67` | `class Config` |
 | `_default_claude_md` | function | `skills/claude_md_orchestrator/config.py:52` | `def _default_claude_md()` |
 | `_default_run_dir` | function | `skills/claude_md_orchestrator/config.py:37` | `def _default_run_dir()` |
@@ -496,5 +495,6 @@ Previous: [SYMBOLS_p18.md](SYMBOLS_p18.md)
 | `_walk_sections` | method | `skills/claude_md_orchestrator/parser.py:85` | `def _walk_sections(lines)` |
 | `flush_body` | method | `skills/claude_md_orchestrator/parser.py:97` | `def flush_body()` |
 | `load_contracts` | method | `skills/claude_md_orchestrator/parser.py:225` | `def load_contracts(config, seeds)` |
+| `parse_claude_md` | method | `skills/claude_md_orchestrator/parser.py:167` | `def parse_claude_md(path)` |
 
 Next: [SYMBOLS_p20.md](SYMBOLS_p20.md)

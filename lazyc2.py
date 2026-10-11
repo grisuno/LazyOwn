@@ -103,7 +103,6 @@ from lazyc2.security.validators import (
 from lazyc2.security.validators import (
     validate_template_name as _validate_template_name,
 )
-from lazyown import LazyOwnShell
 from modules.colors import retModel
 from modules.listener_manager import ListenerManager
 from modules.live_surface import build_live_graph
@@ -2547,11 +2546,81 @@ ALLOWED_DIRECTORY = BASE_DIR
 MODEL = retModel()
 
 
-shell = LazyOwnShell()
+_shell_instance = None
+_shell_lock = threading.Lock()
 
-shell.stdout = StringIO()
-shell.onecmd("p")
-shell.onecmd("create_session_json")
+
+def _init_shell():
+    """Create the shared CLI shell on first use (double-checked lock).
+
+    The import of ``lazyown`` stays inside this function so importing
+    this module never pulls the CLI tree. The boot sequence matches
+    the historic eager startup: StringIO stdout plus the ``p`` and
+    ``create_session_json`` commands.
+
+    Returns:
+        The shared LazyOwnShell instance.
+    """
+    global _shell_instance
+    if _shell_instance is not None:
+        return _shell_instance
+    with _shell_lock:
+        if _shell_instance is not None:
+            return _shell_instance
+        from lazyown import LazyOwnShell
+
+        created = LazyOwnShell()
+        created.stdout = StringIO()
+        created.onecmd("p")
+        created.onecmd("create_session_json")
+        _shell_instance = created
+        return _shell_instance
+
+
+def __getattr__(name):
+    """Serve the lazily created ``shell`` attribute (PEP 562).
+
+    Only used when this file is imported as a module. When executed
+    as a script, in-module reads go through the ``shell`` proxy below.
+
+    Args:
+        name: Requested module attribute name.
+
+    Returns:
+        The shared shell for ``shell``.
+
+    Raises:
+        AttributeError: For any other missing attribute.
+    """
+    if name == "shell":
+        return _init_shell()
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+class _LazyShellProxy:
+    """Stand-in for the shared CLI shell until first real use.
+
+    Attribute reads and writes forward to the lazily created shell,
+    so every existing ``shell.*`` call site works unchanged while
+    module load no longer builds the CLI tree.
+    """
+
+    def _target(self):
+        """Return the shared shell, creating it on first use."""
+        return _init_shell()
+
+    def __getattr__(self, name):
+        """Forward attribute reads to the shared shell."""
+        return getattr(self._target(), name)
+
+    def __setattr__(self, name, value):
+        """Forward attribute writes to the shared shell."""
+        setattr(self._target(), name, value)
+
+
+shell = _LazyShellProxy()
+
+
 JSON_FILE_PATH_REPORT = "static/body_report.json"
 implants = {"implants": []}
 commands = {}

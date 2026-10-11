@@ -3,6 +3,9 @@ Previous: [INDEX.md](INDEX.md)
 
 | File | Purpose | Subsystem | Symbols | Used by |
 |------|---------|-----------|---------|---------|
+| `modules/mkcloudflaretunnel.sh` | Download cloudflared and create a tunnel to localhost on a specified port. | modules | 0 | 0 |
+| `modules/module_registry.py` | Unified module registry for LazyOwn — catalog, search, use/run workflow. | modules | 29 | 6 |
+| `modules/moe_router.py` | modules/moe_router.py | modules | 39 | 5 |
 | `modules/morse.py` | Morse code conversion service with interactive driver. | modules | 7 | 0 |
 | `modules/mysql_hookandroot_lib.c` | reverse_shell: fork & send a bash shell to the attacker before starting mysqld | modules | 6 | 0 |
 | `modules/network_opsec.py` | Network OPSEC — proxy chain enforcement, canary detection, traffic randomization. | modules | 12 | 1 |
@@ -163,7 +166,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/claude_md_orchestrator/sdd_agent.py` | Spec-Driven Development agent. | claude_md_orchestrator | 6 | 0 |
 | `skills/claude_md_orchestrator/tdd_agent.py` | Test-Driven Development agent. | claude_md_orchestrator | 7 | 1 |
 | `skills/claude_md_orchestrator/tests/conftest.py` | Pytest bootstrap for the claude_md_orchestrator test suite. | skills_claude_md_orchestrator_tests | 0 | 0 |
-| `skills/claude_md_orchestrator/tests/test_orchestrator.py` | Unit tests for the claude_md_orchestrator package. | skills_claude_md_orchestrator_tests | 18 | 0 |
+| `skills/claude_md_orchestrator/tests/test_orchestrator.py` | Unit tests for the claude_md_orchestrator package. | skills_claude_md_orchestrator_tests | 20 | 0 |
 | `skills/claude_md_orchestrator/validators.py` | DoD validators for every artifact the orchestrator produces. | claude_md_orchestrator | 15 | 5 |
 | `skills/daemon_control.py` | Operator steering layer for the LazyOwn autonomous daemon. | skills | 27 | 4 |
 | `skills/daemon_health.py` | Daemon health monitor — watchdog for the autonomous daemon and C2 listeners. | skills | 16 | 1 |
@@ -186,7 +189,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_groq_agents.py` | skills/lazyown_groq_agents.py | skills | 40 | 4 |
 | `skills/lazyown_hooks.py` | LazyOwn Hook Pipeline (Claude Code style)  8 lifecycle events with chainable handlers. | skills | 14 | 2 |
 | `skills/lazyown_llm.py` | LazyOwn LLM Bridge — MCP Edition | skills | 21 | 4 |
-| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 110 | 8 |
+| `skills/lazyown_mcp.py` | LazyOwn MCP Server Exposes LazyOwn framework capabilities as MCP tools for Claude Code and... | skills | 125 | 8 |
 | `skills/lazyown_mcp_helpers.py` | LazyOwn MCP helper functions — pure logic, no MCP server imports. | skills | 21 | 2 |
 | `skills/lazyown_mcp_opencode.py` | LazyOwn MCP OpenCode bridge. | skills | 3 | 0 |
 | `skills/lazyown_objective.py` | LazyOwn Objective Store | skills | 36 | 7 |
@@ -195,6 +198,7 @@ Previous: [INDEX.md](INDEX.md)
 | `skills/lazyown_policy.py` | LazyOwn Policy Engine | skills | 126 | 9 |
 | `skills/lazyown_session.py` | LazyOwn Append-Only Session Transcripts (Claude Code style)  All writes are append-only JSONL. | skills | 14 | 2 |
 | `skills/mcp_generated_tools.py` | Auto-generated MCP tool handlers from command_index.json. | skills | 645 | 0 |
+| `skills/mcp_lazy.py` | Single helper behind every lazy optional import of the MCP server. | skills | 1 | 2 |
 | `skills/mcp_restart.sh` | LazyOwn MCP restart helper  Kills ALL lazyown_mcp instances (stdio + SSE) and relaunches the SSE... | skills | 0 | 0 |
 | `skills/mcp_tool_generator.py` | Auto-generate MCP tool handlers from cli/command_index.json. | skills | 9 | 0 |
 | `skills/sessions_watcher.py` | LazyOwn Sessions Watcher | skills | 18 | 1 |
@@ -283,12 +287,15 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_bridge_catalog_filtered.py` | tests/test_bridge_catalog_filtered.py  Tests for ``BridgeDispatcher.catalog_summary_filtered``... | tests | 20 | 0 |
 | `tests/test_c2_profile_engine.py` | Tests for modules/c2_profile_engine.py — TlsProfile, DnsProfile, SmbProfile, WebSocketProfile... | tests | 63 | 0 |
 | `tests/test_c2_route_auth.py` | Guard the C2 route-level auth boundaries. | tests | 5 | 0 |
+| `tests/test_c2_shell_lazy.py` | The C2 must not build the CLI shell at module load. | tests | 14 | 0 |
+| `tests/test_campaign_import_safety.py` | Campaign import trust boundaries hold against hostile packages. | tests | 14 | 0 |
 | `tests/test_categories.py` | Tests for modules/categories.py — category constants and look-up tables. | tests | 47 | 0 |
 | `tests/test_chain_mode.py` | Tests for cli/chain_mode.py. | tests | 28 | 0 |
 | `tests/test_ci_strict.py` | Contract tests for the strict CI workflow. | tests | 10 | 0 |
 | `tests/test_claudemd_consistency.py` | Guard against drift between CLAUDE.md numeric claims and reality. | tests | 3 | 0 |
 | `tests/test_claudemd_size.py` | Enforce a hard cap on ``CLAUDE.md`` size. | tests | 1 | 0 |
 | `tests/test_cli_assign.py` | ``do_assign`` / ``do_show`` behaviour and shell wiring tests. | tests | 36 | 0 |
+| `tests/test_cli_auth_remember.py` | Remember-me token comparison must be timing-safe. | tests | 7 | 0 |
 | `tests/test_cli_command_sets.py` | ``cli`` package declarativeness and ``CommandSet`` registration tests. | tests | 56 | 0 |
 | `tests/test_cli_enhancements.py` | Tests for cli/cli_enhancements.py and the audit CommandSet. | tests | 50 | 0 |
 | `tests/test_collab_and_onboarding.py` | tests/test_collab_and_onboarding.py  Tests for: - Gap #2 (team server): collab_bp UI route, SSE... | tests | 91 | 0 |
@@ -304,6 +311,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_core.py` | ``core`` package and ``utils`` re-export tests. | tests | 47 | 0 |
 | `tests/test_core_command_bridge.py` | Tests for core.command_bridge — CommandBridge lazy shell facade. | tests | 14 | 0 |
 | `tests/test_core_config.py` | Tests for core.config — Config wrapper, load_payload, save_payload, load_and_validate. | tests | 19 | 0 |
+| `tests/test_core_defaults.py` | Build-time defaults are data, not literals. | tests | 20 | 0 |
 | `tests/test_core_executor.py` | Tests for core.executor — safe_run and run_shell subprocess wrappers. | tests | 15 | 0 |
 | `tests/test_core_modules.py` | tests/test_core_modules.py Integration test suite for LazyOwn core modules. | tests | 94 | 0 |
 | `tests/test_cors_behavior.py` | BDD behavior scenarios for the CORS policy contract. | tests | 4 | 0 |
@@ -332,6 +340,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_engagement_elo_and_methodology.py` | Tests for the ELO + karma + methodology extensions of cli/engagement_hooks.py. | tests | 43 | 0 |
 | `tests/test_estorides_fusion.py` | Estorides OSINT fusion: load, merge, surface readers. | tests | 12 | 0 |
 | `tests/test_evidence_hints.py` | Tests for evidence-backed inline hints. | tests | 35 | 0 |
+| `tests/test_executor_kernel.py` | Single execution kernel shared by every command runner. | tests | 15 | 0 |
 | `tests/test_exploitgym_gym.py` | Tests for the ExploitGym integration module. | tests | 27 | 0 |
 | `tests/test_exploration_and_addons.py` | tests/test_exploration_and_addons.py  Coverage for the new exploration engine and addon schema... | tests | 36 | 0 |
 | `tests/test_finding_lifecycle.py` | Finding confirmation lifecycle + keyless OSINT enrichment. | tests | 10 | 0 |
@@ -341,6 +350,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_gui_xss_sinks.py` | Regression gate for XSS sinks in the C2 dashboard template. | tests | 9 | 0 |
 | `tests/test_hash_cracker.py` | Tests for modules/hash_cracker.py | tests | 22 | 0 |
 | `tests/test_help_ui_command_set.py` | Help/UI command set extraction tests. | tests | 9 | 0 |
+| `tests/test_host_policy.py` | Single host-validation policy shared by CLI gates and hardening. | tests | 9 | 0 |
 | `tests/test_html_sanitizer.py` | TDD tests for the bleach-based HTML sanitizer contract. | tests | 16 | 0 |
 | `tests/test_https_redirect.py` | TDD tests for the HTTPS redirect contract. | tests | 11 | 0 |
 | `tests/test_improvements_spec.py` | Spec-driven validation of the three priority improvements. | tests | 160 | 0 |
@@ -361,6 +371,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_lazygui_graph_widget.py` | Tests for lazygui graph widget contracts. | tests | 51 | 0 |
 | `tests/test_lazygui_models.py` | Tests for lazygui domain models. | tests | 42 | 0 |
 | `tests/test_lazynmap_post.py` | Spec coverage for :mod:`cli.lazynmap_post`. | tests | 16 | 0 |
+| `tests/test_legacy_shims.py` | Legacy shim contract plus referenced-script existence. | tests | 5 | 0 |
 | `tests/test_lesson_ingestor.py` | Tests for modules/lesson_ingestor.py. | tests | 11 | 0 |
 | `tests/test_lint_quality.py` | Lint quality gate. | tests | 5 | 0 |
 | `tests/test_live_surface.py` | Tests for modules/live_surface.py. | tests | 10 | 0 |
@@ -371,7 +382,9 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_llm_prompts.py` | Contract tests for :mod:`modules.llm_prompts`. | tests | 27 | 0 |
 | `tests/test_logging_config.py` | Tests for ``modules.logging_config`` — resilient file logging. | tests | 5 | 0 |
 | `tests/test_loop_progress.py` | Loop milestone panel: inferred stage states stay honest. | tests | 10 | 0 |
+| `tests/test_mcp_dispatch.py` | call_tool dispatches through the handler registry. | tests | 6 | 0 |
 | `tests/test_mcp_improvements.py` | Tests for the high/medium/low impact MCP improvements. | tests | 34 | 0 |
+| `tests/test_mcp_lazy.py` | Contract for the unified MCP lazy-import helper. | tests | 11 | 0 |
 | `tests/test_metrics.py` | Tests for ``modules/metrics.py``. | tests | 14 | 0 |
 | `tests/test_metrics_aware_selector.py` | Tests for ``MetricsAwareSelector`` in ``skills/autonomous_daemon.py``. | tests | 24 | 0 |
 | `tests/test_migrate_lazyown_generator.py` | Regression guard for the ``cli/commands`` migration generator. | tests | 6 | 0 |
@@ -393,6 +406,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_phase_labels.py` | Tests for cli.phase_labels — canonical phase display labels contract. | tests | 5 | 0 |
 | `tests/test_pipeline_engine.py` | tests/test_pipeline_engine.py  Coverage for Pillar 3 (declarative pipelines)... | tests | 65 | 0 |
 | `tests/test_placeholder_coverage.py` | Placeholder coverage across every registry that resolves ``{tokens}``. | tests | 8 | 0 |
+| `tests/test_plugin_loader_safety.py` | Marketplace placeholder substitution must be shell-safe. | tests | 7 | 0 |
 | `tests/test_plugin_tiers.py` | Tests for marketplace plugin tiers and operator ratings. | tests | 12 | 0 |
 | `tests/test_profiles.py` | Tests for runtime install profiles (``core.profiles``). | tests | 11 | 0 |
 | `tests/test_prompt_readline_markers.py` | Regression tests for readline marker handling in the Neon Box prompt. | tests | 8 | 0 |
@@ -407,6 +421,7 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_recommendation.py` | Behaviour tests for the unified recommendation engine and its signals. | tests | 36 | 0 |
 | `tests/test_recon_plan.py` | Spec coverage for :mod:`cli.recon_plan`. | tests | 34 | 0 |
 | `tests/test_report_banners_endpoints.py` | Tests for /report and /banners endpoints error handling. | tests | 32 | 0 |
+| `tests/test_require_guards.py` | Single-call requirement guards for CommandSet methods. | tests | 5 | 0 |
 | `tests/test_resource_script.py` | Tests for modules/resource_script.py — ScriptContext and ResourceScriptEngine. | tests | 32 | 0 |
 | `tests/test_safe_console.py` | Terminal-safe console: colors and glyphs degrade, never leak. | tests | 4 | 0 |
 | `tests/test_safe_subprocess.py` | TDD tests for the safe subprocess runner contract. | tests | 11 | 0 |
@@ -426,7 +441,8 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_sessions_browser.py` | Tests for cli/sessions_browser.py. | tests | 8 | 0 |
 | `tests/test_shell_semantics.py` | Contract tests for shell-semantics detection and colored child output. | tests | 10 | 0 |
 | `tests/test_shellsys_command_set.py` | Shell/sys command set extraction tests. | tests | 9 | 0 |
-| `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 14 | 0 |
+| `tests/test_short_url_file_containment.py` | Containment contract for short-URL file serving. | tests | 16 | 0 |
+| `tests/test_single_implementation.py` | Single-implementation rule for extracted helpers. | tests | 5 | 0 |
 | `tests/test_sleep_obfuscation.py` | Tests for modules/sleep_obfuscation.py — SleepTechnique, SleepObfuscationConfig... | tests | 41 | 0 |
 | `tests/test_socks_proxy.py` | Tests for modules/socks_proxy.py — SocksProxyConfig, SocksSession, SocksValidator... | tests | 52 | 0 |
 | `tests/test_status_bar_operators.py` | Tests for the operator-presence segment of cli/status_bar.py. | tests | 9 | 0 |
@@ -448,10 +464,11 @@ Previous: [INDEX.md](INDEX.md)
 | `tests/test_wizard_binary_check.py` | tests/test_wizard_binary_check.py  Tests for the wizard binary-readiness check added to... | tests | 26 | 0 |
 | `tests/test_wizard_llm.py` | Contract tests for the wizard LLM provider setup step. | tests | 31 | 0 |
 | `tests/test_world_model_extended.py` | Tests for extended WorldModel methods: set_os_hint, get_host, get_hosts_summary. | tests | 21 | 0 |
+| `tests/test_xss_sanitization.py` | Untrusted data rendered into the DOM must be neutralized. | tests | 8 | 0 |
 | `tools/contract_check.py` | Contract conformance checker for single-file LAZY port modules. | tools | 2 | 0 |
 | `tools/extract_cluster.py` | Extract a named cluster of do_* methods from a CommandSet module. | tools | 4 | 0 |
 | `tools/gen_demo_gifs.py` | Generate LazyOwn demo GIFs without external services. | tools | 3 | 1 |
 | `tools/gen_demo_gifs_extra.py` | Additional LazyOwn demo GIFs. | tools | 1 | 0 |
 | `user_split.sh` | - | root | 0 | 0 |
-| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 121 | 81 |
+| `utils.py` | Author: Gris Iscomeback Email: grisiscomeback[at]gmail[dot]com Creation date: 09/06/2024... | root | 121 | 83 |
 

@@ -12,6 +12,7 @@ the username and stored both in ``payload.json`` and per-user in
 
 from __future__ import annotations
 
+import hmac
 import json
 import os
 import secrets
@@ -97,19 +98,22 @@ def _load_payload() -> dict:
 
 
 def _save_payload(payload: dict) -> bool:
-    """Atomically write payload.json.
+    """Atomically write payload.json via the canonical config writer.
+
+    Delegates to :func:`core.config.save_payload` so remember-me
+    updates get the same crash-safe write and config-change audit as
+    every other payload mutation.
 
     Args:
         payload: Payload dict to persist.
 
     Returns:
-        True on success.
+        True on success, False on any error.
     """
     try:
-        tmp = PAYLOAD_PATH.with_suffix(".tmp")
-        with open(tmp, "w") as f:
-            json.dump(payload, f, indent=2)
-        os.replace(tmp, PAYLOAD_PATH)
+        from core.config import save_payload as _canonical_save
+
+        _canonical_save(payload, str(PAYLOAD_PATH))
         return True
     except Exception:
         return False
@@ -343,7 +347,7 @@ def try_auto_login() -> dict[str, Any]:
     for user in users:
         if isinstance(user, dict) and user.get("username") == username:
             stored_token = user.get("cli_remember_token")
-            if stored_token and stored_token == token:
+            if stored_token and hmac.compare_digest(str(stored_token), str(token)):
                 _write_cli_session(
                     username,
                     user.get("elo", 0),

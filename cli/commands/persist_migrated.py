@@ -9,7 +9,7 @@ import cmd2
 import os
 import subprocess
 
-from cli.commands._base import LazyOwnCommandSet
+from cli.commands._base import LazyOwnCommandSet, require_rhost
 from core.hardening import escape_powershell_single_quoted
 from utils import (
     GREEN,
@@ -103,9 +103,9 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
         Note: Ensure `sshpass` is installed on your system for password-based SSH authentication. If `sshpass` is not available, you may need to install it or use an alternative method for SSH authentication.
         """
 
-        rhost = self.params['rhost']
-        if not check_rhost(self.params['rhost']):
+        if not require_rhost(self.params):
             return
+        rhost = self.params['rhost']
 
 
         credentials_file = "./sessions/credentials.txt"
@@ -177,11 +177,10 @@ class PersistMigratedCommandSet(LazyOwnCommandSet):
             print_error("Error: Invalid credentials format in the file.")
             return
 
-        rhost = self.params['rhost']
-
-        if not check_rhost(self.params['rhost']):
+        if not require_rhost(self.params):
             print_error("Error: Invalid or undefined self.params['rhost'].")
             return
+        rhost = self.params['rhost']
 
         # Construct and execute the remmina command
         username = username.strip()

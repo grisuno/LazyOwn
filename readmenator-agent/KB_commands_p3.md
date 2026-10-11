@@ -212,27 +212,27 @@ Previous: [KB_commands_p2.md](KB_commands_p2.md)
   - `do_pwncat` (method, line 33) `def do_pwncat(self, line)`
   - `do_ftp` (method, line 77) `def do_ftp(self, line)`
   - `do_rdp` (method, line 136) `def do_rdp(self, line)`
-  - `do_grisun0` (method, line 211) `def do_grisun0(self, line)`
-  - `do_grisun0w` (method, line 257) `def do_grisun0w(self, line)`
-  - `do_asprevbase64` (method, line 301) `def do_asprevbase64(self, line)`
-  - `do_weevelygen` (method, line 339) `def do_weevelygen(self, line)`
-  - `do_weevely` (method, line 379) `def do_weevely(self, line)`
-  - `do_backdoor_factory` (method, line 425) `def do_backdoor_factory(self, line)`
-  - `do_msfpc` (method, line 471) `def do_msfpc(self, line)`
-  - `do_ivy` (method, line 552) `def do_ivy(self, line)`
-  - `do_veil` (method, line 652) `def do_veil(self, line)`
-  - `do_scarecrow` (method, line 726) `def do_scarecrow(self, line)`
-  - `do_generate_revshell` (method, line 844) `def do_generate_revshell(self, line)`
-  - `do_dr0p1t` (method, line 910) `def do_dr0p1t(self, line)`
-  - `do_paranoid_meterpreter` (method, line 973) `def do_paranoid_meterpreter(self, line)`
-  - `do_setoolKits` (method, line 1061) `def do_setoolKits(self, line)`
-  - `do_darkarmour` (method, line 1094) `def do_darkarmour(self, line)`
-  - `do_knokknok` (method, line 1162) `def do_knokknok(self, line)`
-  - `do_listener_go` (method, line 1197) `def do_listener_go(self, line)`
-  - `do_listener_py` (method, line 1264) `def do_listener_py(self, line)`
-  - `do_service` (method, line 1331) `def do_service(self, line)`
-  - `do_toctoc` (method, line 1404) `def do_toctoc(self, line)`
-  - `do_beaconcfg` (method, line 1427) `def do_beaconcfg(self, line)`
+  - `do_grisun0` (method, line 210) `def do_grisun0(self, line)`
+  - `do_grisun0w` (method, line 256) `def do_grisun0w(self, line)`
+  - `do_asprevbase64` (method, line 300) `def do_asprevbase64(self, line)`
+  - `do_weevelygen` (method, line 338) `def do_weevelygen(self, line)`
+  - `do_weevely` (method, line 378) `def do_weevely(self, line)`
+  - `do_backdoor_factory` (method, line 424) `def do_backdoor_factory(self, line)`
+  - `do_msfpc` (method, line 470) `def do_msfpc(self, line)`
+  - `do_ivy` (method, line 551) `def do_ivy(self, line)`
+  - `do_veil` (method, line 651) `def do_veil(self, line)`
+  - `do_scarecrow` (method, line 725) `def do_scarecrow(self, line)`
+  - `do_generate_revshell` (method, line 843) `def do_generate_revshell(self, line)`
+  - `do_dr0p1t` (method, line 909) `def do_dr0p1t(self, line)`
+  - `do_paranoid_meterpreter` (method, line 972) `def do_paranoid_meterpreter(self, line)`
+  - `do_setoolKits` (method, line 1060) `def do_setoolKits(self, line)`
+  - `do_darkarmour` (method, line 1093) `def do_darkarmour(self, line)`
+  - `do_knokknok` (method, line 1161) `def do_knokknok(self, line)`
+  - `do_listener_go` (method, line 1196) `def do_listener_go(self, line)`
+  - `do_listener_py` (method, line 1263) `def do_listener_py(self, line)`
+  - `do_service` (method, line 1330) `def do_service(self, line)`
+  - `do_toctoc` (method, line 1403) `def do_toctoc(self, line)`
+  - `do_beaconcfg` (method, line 1426) `def do_beaconcfg(self, line)`
 - Depends on: `cli/commands/_base.py`, `core/hardening.py`, `modules/traffic_morpher.py`, `utils.py`
 
 ## cli/commands/phishing_wizard.py

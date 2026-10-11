@@ -1,19 +1,17 @@
 # modules: lazy_loop
 
-*Community 9 | 20 files | cohesion 0.49*
+*Community 9 | 25 files | cohesion 0.51*
 
 ## Definition
 
-This community groups 20 file(s) rooted at `modules` with dominant language py (cohesion 0.49). Central symbols: `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `ColdCompactor`, `CompanyScope`. Core file: `modules/lazy_loop.py` (263 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
+This community groups 25 file(s) rooted at `modules` with dominant language py (cohesion 0.51). Central symbols: `ActivityLog`, `AssetGate`, `AssetGraph`, `AssetNode`, `AutoVerb`, `Budget`, `ColdCompactor`, `CompanyScope`. Core file: `modules/lazy_loop.py` (263 symbols). Documented purpose: Database commands — workspace isolation, host/service/vuln management, nmap import, export, and status reporting.  Mirrors the Metasploit ``db_*`` workflow. The.
 
 ## Files
 
+### `modules` (10 files)
+
 | File | Language | Layer | Symbols | Doc |
 |------|----------|-------|---------|-----|
-| `cli/commands/database.py` | py | data_access | 16 | yes |
-| `cli/commands/lazyops.py` | py | utility | 49 | yes |
-| `cli/commands/mcp_bridge.py` | py | utility | 24 | yes |
-| `cli/commands/surface.py` | py | utility | 3 | yes |
 | `modules/attack_surface3d.py` | py | utility | 11 | yes |
 | `modules/auto_registry.py` | py | utility | 10 | yes |
 | `modules/estorides_fusion.py` | py | utility | 8 | yes |
@@ -21,8 +19,11 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 | `modules/intel_fusion.py` | py | utility | 23 | yes |
 | `modules/lazy_engine.py` | py | utility | 1 | yes |
 | `modules/lazy_loop.py` | py | utility | 263 | yes |
-| `modules/osint_enrich.py` | py | utility | 13 | yes |
-| `modules/surface_ops.py` | py | utility | 4 | yes |
+
+### `tests` (9 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
 | `tests/test_asset_gate.py` | py | testing | 16 | yes |
 | `tests/test_attack_surface3d.py` | py | testing | 8 | yes |
 | `tests/test_auto_registry.py` | py | testing | 14 | yes |
@@ -30,6 +31,25 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 | `tests/test_finding_lifecycle.py` | py | testing | 10 | yes |
 | `tests/test_intel_fusion.py` | py | testing | 7 | yes |
 | `tests/test_lazy_engine.py` | py | testing | 9 | yes |
+
+### `cli/commands` (4 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/commands/database.py` | py | data_access | 16 | yes |
+| `cli/commands/lazyops.py` | py | utility | 49 | yes |
+| `cli/commands/mcp_bridge.py` | py | utility | 24 | yes |
+| `cli/commands/surface.py` | py | utility | 3 | yes |
+
+### `cli` (2 files)
+
+| File | Language | Layer | Symbols | Doc |
+|------|----------|-------|---------|-----|
+| `cli/surface_graph.py` | py | utility | 33 | yes |
+| `cli/surface_tui.py` | py | utility | 19 | yes |
+
+*... and 5 more files in this community.*
+
 
 ## Key Symbols
 
@@ -66,16 +86,14 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 
 ## Internal vs External Edges
 
-- Internal resolved imports (EXTRACTED): 88
-- Cross-boundary resolved imports (EXTRACTED): 40
+- Internal resolved imports (EXTRACTED): 94
+- Cross-boundary resolved imports (EXTRACTED): 47
 
 ## Connections
 
 - [EXTRACTED] depends_on community 9 <-> 0 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports cli/commands/_base.py.
 - [EXTRACTED] depends_on community 9 <-> 2 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports modules/db.py.
 - [EXTRACTED] depends_on community 9 <-> 1 (strength 0.9): Extracted import edge crosses communities: cli/commands/database.py imports skills/autonomous_daemon.py.
-- [EXTRACTED] depends_on community 9 <-> 6 (strength 0.9): Extracted import edge crosses communities: cli/commands/mcp_bridge.py imports modules/world_model.py.
-- [EXTRACTED] depends_on community 9 <-> 4 (strength 0.9): Extracted import edge crosses communities: cli/commands/mcp_bridge.py imports modules/loop_progress.py.
 
 ## Risks
 
@@ -84,7 +102,7 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 ## Open Questions
 
 - What would break if the most connected file in modules: lazy_loop changed?
-- Should modules: lazy_loop be split, given cohesion 0.49?
+- Should modules: lazy_loop be split, given cohesion 0.51?
 
 ## Sources
 
@@ -92,6 +110,8 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 - `cli/commands/lazyops.py`
 - `cli/commands/mcp_bridge.py`
 - `cli/commands/surface.py`
+- `cli/surface_graph.py`
+- `cli/surface_tui.py`
 - `modules/attack_surface3d.py`
 - `modules/auto_registry.py`
 - `modules/estorides_fusion.py`
@@ -99,12 +119,11 @@ This community groups 20 file(s) rooted at `modules` with dominant language py (
 - `modules/intel_fusion.py`
 - `modules/lazy_engine.py`
 - `modules/lazy_loop.py`
+- `modules/loop_progress.py`
 - `modules/osint_enrich.py`
 - `modules/surface_ops.py`
 - `tests/test_asset_gate.py`
 - `tests/test_attack_surface3d.py`
 - `tests/test_auto_registry.py`
 - `tests/test_estorides_fusion.py`
-- `tests/test_finding_lifecycle.py`
-- `tests/test_intel_fusion.py`
-- `tests/test_lazy_engine.py`
+- *... and 5 more*

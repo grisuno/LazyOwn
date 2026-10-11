@@ -38,13 +38,13 @@
 - Layer: utility
 - Language: py
 - Symbols:
-  - `CicdResult` (class, line 70) `class CicdResult`
-  - `_slug` (method, line 90) `def _slug(contract)`
-  - `_git` (method, line 96) `def _git()`
-  - `_ensure_branch` (method, line 107) `def _ensure_branch(contract, config)`
-  - `_render_pipeline` (method, line 133) `def _render_pipeline(contract, spec, config)`
-  - `_render_pr_body` (method, line 143) `def _render_pr_body(contract, spec, report)`
-  - `run` (method, line 176) `def run(contract, spec, report, config)`
+  - `CicdResult` (class, line 71) `class CicdResult`
+  - `_slug` (method, line 91) `def _slug(contract)`
+  - `_git` (method, line 97) `def _git()`
+  - `_ensure_branch` (method, line 108) `def _ensure_branch(contract, config)`
+  - `_render_pipeline` (method, line 134) `def _render_pipeline(contract, spec, config)`
+  - `_render_pr_body` (method, line 144) `def _render_pr_body(contract, spec, report)`
+  - `run` (method, line 177) `def run(contract, spec, report, config)`
 - Depends on: `skills/claude_md_orchestrator/config.py`, `skills/claude_md_orchestrator/models.py`
 
 ## skills/claude_md_orchestrator/config.py

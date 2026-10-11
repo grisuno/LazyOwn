@@ -3,6 +3,23 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 
 | Symbol | Kind | File:Line | Signature |
 |--------|------|-----------|-----------|
+| `dE` | function | `static/js/vis-network.min.js:33` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `did` | class | `static/js/vis-network.min.js:48` | `` |
+| `dk` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:33` | `` |
+| `does` | function | `static/js/vis-network.min.js:48` | `` |
+| `dx` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:33` | `` |
+| `e` | function | `static/js/vis-network.min.js:48` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `f` | function | `static/js/vis-network.min.js:33` | `` |
+| `fO` | function | `static/js/vis-network.min.js:48` | `` |
+| `fk` | function | `static/js/vis-network.min.js:33` | `` |
+| `g` | function | `static/js/vis-network.min.js:26` | `` |
 | `g` | function | `static/js/vis-network.min.js:33` | `` |
 | `g` | function | `static/js/vis-network.min.js:33` | `` |
 | `g` | function | `static/js/vis-network.min.js:48` | `` |
@@ -479,22 +496,5 @@ Previous: [SYMBOLS_p26.md](SYMBOLS_p26.md)
 | `TestApiAuthzConfig` | class | `tests/test_api_authz.py:21` | `class TestApiAuthzConfig` |
 | `TestApiKey` | class | `tests/test_api_authz.py:45` | `class TestApiKey` |
 | `TestApiKeyStore` | class | `tests/test_api_authz.py:102` | `class TestApiKeyStore` |
-| `TestCreateApiToken` | class | `tests/test_api_authz.py:377` | `class TestCreateApiToken` |
-| `TestEdgeCases` | class | `tests/test_api_authz.py:423` | `class TestEdgeCases` |
-| `TestRequireApiAuth` | class | `tests/test_api_authz.py:288` | `class TestRequireApiAuth` |
-| `_build_client` | method | `tests/test_api_authz.py:301` | `def _build_client(self, tmp_path, store)` |
-| `_make_app` | method | `tests/test_api_authz.py:291` | `def _make_app(self, tmp_path)` |
-| `_make_store` | method | `tests/test_api_authz.py:105` | `def _make_store(self, tmp_path)` |
-| `_make_store` | method | `tests/test_api_authz.py:380` | `def _make_store(self, tmp_path)` |
-| `_make_store` | method | `tests/test_api_authz.py:426` | `def _make_store(self, tmp_path)` |
-| `admin_only` | method | `tests/test_api_authz.py:328` | `def admin_only()` |
-| `g_check` | method | `tests/test_api_authz.py:318` | `def g_check()` |
-| `secure` | method | `tests/test_api_authz.py:313` | `def secure()` |
-| `test_allows_valid_key_in_bearer_header` | method | `tests/test_api_authz.py:333` | `def test_allows_valid_key_in_bearer_header(self, tmp_path)` |
-| `test_allows_valid_key_in_query_param` | method | `tests/test_api_authz.py:346` | `def test_allows_valid_key_in_query_param(self, tmp_path)` |
-| `test_allows_valid_key_in_x_api_key_header` | method | `tests/test_api_authz.py:340` | `def test_allows_valid_key_in_x_api_key_header(self, tmp_path)` |
-| `test_atomic_write_leaves_no_tmp_files` | method | `tests/test_api_authz.py:450` | `def test_atomic_write_leaves_no_tmp_files(self, tmp_path)` |
-| `test_checks_permissions_with_set_operations` | method | `tests/test_api_authz.py:87` | `def test_checks_permissions_with_set_operations(self)` |
-| `test_constant_time_comparison_rejects_wrong_secrets` | method | `tests/test_api_authz.py:435` | `def test_constant_time_comparison_rejects_wrong_secrets(self)` |
 
 Next: [SYMBOLS_p28.md](SYMBOLS_p28.md)

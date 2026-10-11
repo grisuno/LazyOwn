@@ -26,7 +26,7 @@ argcomplete==3.7.2
 argon2-cffi-bindings==25.1.0
 argon2-cffi==25.1.0
 asn1crypto==1.5.1
-asttokens==3.0.1
+asttokens==3.0.2
 asyauth==0.0.23
 asysocks==0.2.18
 atpublic==7.0.0
